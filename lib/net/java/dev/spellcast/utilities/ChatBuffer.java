@@ -41,6 +41,7 @@ package net.java.dev.spellcast.utilities;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -85,6 +86,7 @@ public class ChatBuffer
 	// which is incremented only on updates that completely rewrite the display.  Any update
 	// with an outdated sequence number is simply ignored.
 
+	private File logFile;
 	private PrintWriter logWriter;
 
 	protected static final HashMap<String, PrintWriter> ACTIVE_LOG_FILES = new HashMap<String, PrintWriter>();
@@ -150,12 +152,14 @@ public class ChatBuffer
 
 		if ( ChatBuffer.ACTIVE_LOG_FILES.containsKey( filename ) )
 		{
+			this.logFile = f;
 			this.logWriter = ChatBuffer.ACTIVE_LOG_FILES.get( filename );
 		}
 		else
 		{
 			boolean shouldAppend = f.exists();
-			this.logWriter = new PrintWriter( DataUtilities.getOutputStream( f, shouldAppend ), true );
+			this.logFile = f;
+			this.logWriter = new PrintWriter( DataUtilities.getOutputStream( f, shouldAppend ), true , StandardCharsets.UTF_8 );
 
 			ChatBuffer.ACTIVE_LOG_FILES.put( filename, this.logWriter );
 
@@ -216,6 +220,10 @@ public class ChatBuffer
 		this.content.setLength( 0 );
 
 		SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
+	}
+
+	public File getLogFile() {
+		return this.logFile;
 	}
 
 	/**
