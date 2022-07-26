@@ -1,6 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
 import static internal.helpers.Preference.isSetTo;
 import static internal.helpers.Quest.isStep;
@@ -13,6 +16,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -144,6 +148,36 @@ class ChoiceControlTest {
           assertThat("glacierOfJerksBoss", isSetTo(monster));
           assertThat(Quest.GLACIER, isStep(3));
         }
+      }
+    }
+  }
+
+  @Nested
+  class ColdMedicineCabinet {
+    @ParameterizedTest
+    @CsvSource({"ice_crown, 0", "frozen_jeans, 1", "ice_wrap, 2"})
+    void seeingEquipmentCorrectsTotalTakenToday(String itemSlug, int impliedEquipmentTaken) {
+      var cleanups = new Cleanups(setProperty("_coldMedicineEquipmentTaken", -1));
+
+      try (cleanups) {
+        var urlString = "choice.php?forceoption=0";
+        var responseText = html("request/test_choice_cmc_" + itemSlug + ".html");
+        var request = new GenericRequest(urlString);
+        request.responseText = responseText;
+        ChoiceManager.preChoice(request);
+        request.processResponse();
+
+        assertThat("_coldMedicineEquipmentTaken", isSetTo(impliedEquipmentTaken));
+      }
+    }
+
+    @Test
+    void takingEquipmentIncrementsCounter() {
+      var cleanups =
+          new Cleanups(setProperty("_coldMedicineEquipmentTaken", 0), withPostChoice1(1455, 1));
+
+      try (cleanups) {
+        assertThat("_coldMedicineEquipmentTaken", isSetTo(1));
       }
     }
   }

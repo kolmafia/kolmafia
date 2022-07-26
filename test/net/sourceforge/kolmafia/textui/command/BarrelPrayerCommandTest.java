@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -120,5 +121,7 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
       assertPostRequest(requests.get(0), "/da.php", "barrelshrine=1");
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1100&option=4");
     }
+
+    ChoiceManager.reset();
   }
 }
