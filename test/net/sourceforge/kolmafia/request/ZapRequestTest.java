@@ -14,12 +14,6 @@ import org.junit.jupiter.api.Test;
 
 public class ZapRequestTest {
   @Test
-  public void buildsARequestWithNull() {
-    var zapRequest = new ZapRequest(null);
-    assertNotNull(zapRequest);
-  }
-
-  @Test
   public void buildsARequestWithUnzappableAndNoWand() {
     AdventureResult accord = ItemPool.get(ItemPool.HERMIT_PERMIT);
     var zapRequest = new ZapRequest(accord);
