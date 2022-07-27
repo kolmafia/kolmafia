@@ -8,6 +8,7 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
@@ -15,7 +16,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -223,9 +223,10 @@ public class ModifiersTest {
     public void squintAffectsUmbrella() {
       var cleanups =
           new Cleanups(
-              Player.withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"),
-              Player.withProperty("umbrellaState", "bucket style"),
+              withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"),
+              withProperty("umbrellaState", "bucket style"),
               withEffect("Steely-Eyed Squint"));
+
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
@@ -646,7 +647,7 @@ public class ModifiersTest {
           new Cleanups(
               withClass(AscensionClass.DISCO_BANDIT),
               withStats(100, 100, 150),
-              Player.withEquipped(EquipmentManager.ACCESSORY1, "moxie magnet"));
+              withEquipped(EquipmentManager.ACCESSORY1, "moxie magnet"));
       try (cleanups) {
         // Buffed MOX = Base MOX + mod(MOX) + ceiling(Base MOX * mod(MOX_PCT)/100.0)
         // Base MP = Buffed MUS
@@ -712,8 +713,8 @@ public class ModifiersTest {
           new Cleanups(
               withPath(Path.GELATINOUS_NOOB),
               withFamiliar(FamiliarPool.EMO_SQUID),
-              Player.withProperty("latteModifier", ""),
-              Player.withEquipped(EquipmentManager.OFFHAND, "latte lovers member's mug"));
+              withProperty("latteModifier", ""),
+              withEquipped(EquipmentManager.OFFHAND, "latte lovers member's mug"));
       try (cleanups) {
         FamiliarData familiar = KoLCharacter.getFamiliar();
         familiar.setExperience(400);
@@ -778,7 +779,7 @@ public class ModifiersTest {
       assertEquals(2, evaluated.get(Modifiers.FAMILIAR_EXP));
       assertEquals(4, evaluated.get(Modifiers.MUS_EXPERIENCE));
 
-      var cleanups = new Cleanups(Player.withProperty("_voteModifier", setting));
+      var cleanups = new Cleanups(withProperty("_voteModifier", setting));
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers current = KoLCharacter.getCurrentModifiers();

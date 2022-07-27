@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -11,7 +12,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -41,7 +41,7 @@ class UseItemRequestTest {
     void successfulMilkUsageSetsPreferences() {
       var cleanups =
           new Cleanups(
-              Player.withItem(ItemPool.MILK_OF_MAGNESIUM),
+              withItem(ItemPool.MILK_OF_MAGNESIUM),
               withProperty("_milkOfMagnesiumUsed", false),
               withProperty("milkOfMagnesiumActive", false),
               // Wiki claims that this message is indeed "You stomach ..."
@@ -60,7 +60,7 @@ class UseItemRequestTest {
     void unsuccessfulMilkUsageSetsPreference() {
       var cleanups =
           new Cleanups(
-              Player.withItem(ItemPool.MILK_OF_MAGNESIUM),
+              withItem(ItemPool.MILK_OF_MAGNESIUM),
               withProperty("_milkOfMagnesiumUsed", false),
               withNextResponse(200, "it was pretty hard on the old gullet."));
       try (cleanups) {
@@ -74,8 +74,7 @@ class UseItemRequestTest {
     void milkPreferencePreventsWastedServerHit() {
       var cleanups =
           new Cleanups(
-              Player.withItem(ItemPool.MILK_OF_MAGNESIUM),
-              withProperty("_milkOfMagnesiumUsed", true));
+              withItem(ItemPool.MILK_OF_MAGNESIUM), withProperty("_milkOfMagnesiumUsed", true));
       try (cleanups) {
         Preferences.setBoolean("_milkOfMagnesiumUsed", true);
 
@@ -139,8 +138,7 @@ class UseItemRequestTest {
     void incrementsPrefWhenPartsUsed() {
       var cleanups =
           new Cleanups(
-              Player.withProperty("homemadeRobotUpgrades", 2),
-              withFamiliar(FamiliarPool.HOMEMADE_ROBOT));
+              withProperty("homemadeRobotUpgrades", 2), withFamiliar(FamiliarPool.HOMEMADE_ROBOT));
 
       try (cleanups) {
         var fam = KoLCharacter.getFamiliar();
@@ -161,8 +159,7 @@ class UseItemRequestTest {
     void detectMaxedOutHomemadeRobot() {
       var cleanups =
           new Cleanups(
-              Player.withProperty("homemadeRobotUpgrades", 2),
-              withFamiliar(FamiliarPool.HOMEMADE_ROBOT));
+              withProperty("homemadeRobotUpgrades", 2), withFamiliar(FamiliarPool.HOMEMADE_ROBOT));
 
       try (cleanups) {
         var fam = KoLCharacter.getFamiliar();

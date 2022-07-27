@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSign;
 import static internal.matchers.Preference.isSetTo;
@@ -19,7 +21,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -618,7 +619,7 @@ class EncounterManagerTest {
       })
   void ringOfTeleportationTypeDoesNotTrackGoal(int slot) {
     var mocked = mockStatic(GoalManager.class, Mockito.CALLS_REAL_METHODS);
-    var cleanups = Player.withEquipped(slot, "ring of teleportation");
+    var cleanups = withEquipped(slot, "ring of teleportation");
     try (mocked;
         cleanups) {
       EncounterManager.registerEncounter("Drawn Onward", "Combat", "");
@@ -628,24 +629,28 @@ class EncounterManagerTest {
 
   @Test
   void handlesCapmCaronchEncounter() {
-    Player.withItem(ItemPool.CARONCH_DENTURES);
-    Player.withItem(ItemPool.FRATHOUSE_BLUEPRINTS);
+    var cleanups =
+        new Cleanups(withItem(ItemPool.CARONCH_DENTURES), withItem(ItemPool.FRATHOUSE_BLUEPRINTS));
 
-    EncounterManager.registerEncounter(
-        "Step Up to the Table, Put the Ball in Play", "Noncombat", "");
+    try (cleanups) {
+      EncounterManager.registerEncounter(
+          "Step Up to the Table, Put the Ball in Play", "Noncombat", "");
 
-    assertThat(InventoryManager.getCount(ItemPool.CARONCH_DENTURES), equalTo(0));
-    assertThat(InventoryManager.getCount(ItemPool.FRATHOUSE_BLUEPRINTS), equalTo(0));
-    assertThat(QuestDatabase.Quest.PIRATE, isStep(4));
+      assertThat(InventoryManager.getCount(ItemPool.CARONCH_DENTURES), equalTo(0));
+      assertThat(InventoryManager.getCount(ItemPool.FRATHOUSE_BLUEPRINTS), equalTo(0));
+      assertThat(QuestDatabase.Quest.PIRATE, isStep(4));
+    }
   }
 
   @Test
   void handlesGrandmaSeaMonkeyUnlockEncounter() {
-    Player.withItem(ItemPool.GRANDMAS_MAP);
+    var cleanups = withItem(ItemPool.GRANDMAS_MAP);
 
-    EncounterManager.registerEncounter("Granny, Does Your Dogfish Bite?", "Noncombat", "");
+    try (cleanups) {
+      EncounterManager.registerEncounter("Granny, Does Your Dogfish Bite?", "Noncombat", "");
 
-    assertThat(InventoryManager.getCount(ItemPool.GRANDMAS_MAP), equalTo(0));
+      assertThat(InventoryManager.getCount(ItemPool.GRANDMAS_MAP), equalTo(0));
+    }
   }
 
   @Test

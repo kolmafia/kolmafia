@@ -13,7 +13,6 @@ import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
-import static internal.helpers.Player.withMysticalty;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -514,7 +514,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectBaseMysticality() {
-    var cleanups = new Cleanups(withMysticalty(3, 50));
+    var cleanups = new Cleanups(Player.withMysticality(3, 50));
     try (cleanups) {
       var exp = new ModifierExpression("basemys", "Base mysticality");
       assertThat(exp.eval(), is(3.0));

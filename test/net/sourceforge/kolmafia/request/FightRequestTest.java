@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -12,7 +14,6 @@ import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -632,7 +633,7 @@ public class FightRequestTest {
     public void canTrackCosmicBowlingBallBanishInAnapests() {
       var cleanups =
           new Cleanups(
-              Player.withItem(ItemPool.COSMIC_BOWLING_BALL),
+              withItem(ItemPool.COSMIC_BOWLING_BALL),
               withAnapest(),
               withNextMonster("Marcus Macurgeon"));
 
@@ -702,8 +703,7 @@ public class FightRequestTest {
   public void canTrackDesignerSweatpants(String responseHtml, int sweatChange) {
     var cleanups =
         new Cleanups(
-            Player.withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
-            Player.withProperty("sweat", 10));
+            withEquipped(EquipmentManager.PANTS, "designer sweatpants"), withProperty("sweat", 10));
 
     try (cleanups) {
       parseCombatData(responseHtml);
@@ -717,8 +717,8 @@ public class FightRequestTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.CORNBEEFADON),
-            Player.withEquipped(EquipmentManager.FAMILIAR, "Snow Suit"),
-            Player.withProperty("_snowSuitCount", count));
+            withEquipped(EquipmentManager.FAMILIAR, "Snow Suit"),
+            withProperty("_snowSuitCount", count));
 
     try (cleanups) {
       // Calculate initial Familiar Weight Modifier
@@ -740,8 +740,7 @@ public class FightRequestTest {
   @Test
   public void canDetectPottedPlantWIns() {
     RequestLoggerOutput.startStream();
-    var cleanups =
-        new Cleanups(Player.withEquipped(EquipmentManager.OFFHAND, "carnivorous potted plant"));
+    var cleanups = new Cleanups(withEquipped(EquipmentManager.OFFHAND, "carnivorous potted plant"));
     try (cleanups) {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
@@ -755,8 +754,8 @@ public class FightRequestTest {
     public void canTrackXandOCounter() {
       var cleanups =
           new Cleanups(
-              Player.withProperty("xoSkeleltonXProgress", 8),
-              Player.withProperty("xoSkeleltonOProgress", 3),
+              withProperty("xoSkeleltonXProgress", 8),
+              withProperty("xoSkeleltonOProgress", 3),
               withFamiliar(FamiliarPool.XO_SKELETON));
 
       try (cleanups) {
@@ -770,7 +769,7 @@ public class FightRequestTest {
 
     @Test
     public void canTrackHugsAndKissesSuccess() {
-      var cleanups = new Cleanups(Player.withProperty("_xoHugsUsed", 0));
+      var cleanups = new Cleanups(withProperty("_xoHugsUsed", 0));
 
       try (cleanups) {
         String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
@@ -784,7 +783,7 @@ public class FightRequestTest {
 
     @Test
     public void canTrackHugsAndKissesFailure() {
-      var cleanups = new Cleanups(Player.withProperty("_xoHugsUsed", 3));
+      var cleanups = new Cleanups(withProperty("_xoHugsUsed", 3));
 
       try (cleanups) {
         String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
@@ -803,7 +802,7 @@ public class FightRequestTest {
     public void notesIncreaseVintnerCharge() {
       var cleanups =
           new Cleanups(
-              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), Player.withProperty("vintnerCharge", 0));
+              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 0));
       try (cleanups) {
         parseCombatData("request/test_fight_vintner_makes_notes.html");
         assertThat("vintnerCharge", isSetTo(1));
@@ -815,7 +814,7 @@ public class FightRequestTest {
     public void wineDropCorrectsVintnerCharge() {
       var cleanups =
           new Cleanups(
-              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), Player.withProperty("vintnerCharge", 11));
+              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 11));
       try (cleanups) {
         parseCombatData("request/test_fight_vintner_drops_wine.html");
         assertThat("vintnerCharge", isSetTo(13));
@@ -828,7 +827,7 @@ public class FightRequestTest {
     public void waitingCorrectsVintnerCharge(String dialog) {
       var cleanups =
           new Cleanups(
-              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), Player.withProperty("vintnerCharge", 9));
+              withFamiliar(FamiliarPool.VAMPIRE_VINTNER), withProperty("vintnerCharge", 9));
       try (cleanups) {
         parseCombatData("request/test_fight_vintner_" + dialog + ".html");
         assertThat("vintnerCharge", isSetTo(13));
@@ -841,7 +840,7 @@ public class FightRequestTest {
   class SummonHoboUnderling {
     @Test
     public void canTrackSummoningHoboUnderling() {
-      var cleanups = new Cleanups(Player.withProperty("_hoboUnderlingSummons", 0));
+      var cleanups = new Cleanups(withProperty("_hoboUnderlingSummons", 0));
 
       try (cleanups) {
         String urlString = "fight.php?action=skill&whichskill=7052";
@@ -925,7 +924,7 @@ public class FightRequestTest {
     public void canTrackLoveBugDrops(
         String responseHtml, String property, int delta, boolean daily) {
       var cleanups =
-          new Cleanups(withProperty("lovebugsUnlocked", true), Player.withProperty(property, 0));
+          new Cleanups(withProperty("lovebugsUnlocked", true), withProperty(property, 0));
 
       try (cleanups) {
         parseCombatData(responseHtml);
@@ -949,7 +948,7 @@ public class FightRequestTest {
       "Gausie's Grotto, ?"
     })
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
-      var cleanups = Player.withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
+      var cleanups = withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
       try (cleanups) {
         KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure(adventureName);
         // Any old non-free fight from our fixtures
@@ -961,7 +960,7 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "xxxxx", "xxxxxxxxxxxxxxxxxxx"})
     public void canRecoverUndersizedProp(String pref) {
-      var cleanups = Player.withProperty("lastCombatEnvironments", pref);
+      var cleanups = withProperty("lastCombatEnvironments", pref);
       try (cleanups) {
         KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("The Oasis");
         // Any old non-free fight from our fixtures
@@ -972,7 +971,7 @@ public class FightRequestTest {
 
     @Test
     public void doesNotCountFreeFights() {
-      var cleanups = Player.withProperty("lastCombatEnvironments", "ioioioioioioioioioio");
+      var cleanups = withProperty("lastCombatEnvironments", "ioioioioioioioioioio");
       try (cleanups) {
         KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("Hobopolis Town Square");
         // Any old free fight from our fixtures

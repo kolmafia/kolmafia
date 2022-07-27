@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
@@ -11,7 +12,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -265,7 +265,7 @@ class BanishManagerTest {
     KoLCharacter.setCurrentRun(176);
     var cleanups =
         new Cleanups(
-            Player.withProperty(
+            withProperty(
                 "banishedMonsters",
                 "biker:ice house:273:pygmy janitor:snokebomb:161:pygmy headhunter:Bowl a Curveball:161:pygmy witch accountant:Throw Latte on Opponent:165:pygmy witch accountant:Spring-Loaded Front Bumper:172:coaltergeist:KGB tranquilizer dart:176"));
 

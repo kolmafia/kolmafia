@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -10,7 +11,6 @@ import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -77,7 +77,7 @@ public class MayoMinderCommandTest extends AbstractCommandTestBase {
   @Test
   void canSetMinder() {
     var cleanups =
-        new Cleanups(withWorkshedItem(ItemPool.MAYO_CLINIC), Player.withItem(ItemPool.MAYO_MINDER));
+        new Cleanups(withWorkshedItem(ItemPool.MAYO_CLINIC), withItem(ItemPool.MAYO_MINDER));
 
     try (cleanups) {
       execute("mayostat");

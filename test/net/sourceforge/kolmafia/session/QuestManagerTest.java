@@ -3,8 +3,10 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.hasIntegerValue;
 import static internal.matchers.Preference.isSetTo;
@@ -18,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -327,7 +328,7 @@ public class QuestManagerTest {
   @Test
   void canDetectDesertProgressWithNoBonuses() {
     String responseText = html("request/test_desert_exploration_no_bonuses.html");
-    var cleanups = new Cleanups(Player.withProperty("desertExploration", 20));
+    var cleanups = new Cleanups(withProperty("desertExploration", 20));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -342,8 +343,8 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_compass.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("desertExploration", 20),
-            Player.withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
+            withProperty("desertExploration", 20),
+            withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -358,8 +359,8 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_knife.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("desertExploration", 20),
-            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"),
+            withProperty("desertExploration", 20),
+            withEquipped(EquipmentManager.WEAPON, "survival knife"),
             withEffect("Ultrahydrated"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -375,9 +376,9 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_compass_knife.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("desertExploration", 20),
-            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"),
-            Player.withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
+            withProperty("desertExploration", 20),
+            withEquipped(EquipmentManager.WEAPON, "survival knife"),
+            withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
             withEffect("Ultrahydrated"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -393,7 +394,7 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("desertExploration", 20), withFamiliar(FamiliarPool.MELODRAMEDARY));
+            withProperty("desertExploration", 20), withFamiliar(FamiliarPool.MELODRAMEDARY));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -408,9 +409,9 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel_compass.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("desertExploration", 20),
+            withProperty("desertExploration", 20),
             withFamiliar(FamiliarPool.MELODRAMEDARY),
-            Player.withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
+            withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -425,9 +426,9 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel_knife.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("desertExploration", 20),
+            withProperty("desertExploration", 20),
             withFamiliar(FamiliarPool.MELODRAMEDARY),
-            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"),
+            withEquipped(EquipmentManager.WEAPON, "survival knife"),
             withEffect("Ultrahydrated"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -443,10 +444,10 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel_compass_knife.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("desertExploration", 20),
+            withProperty("desertExploration", 20),
             withFamiliar(FamiliarPool.MELODRAMEDARY),
-            Player.withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
-            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"),
+            withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
+            withEquipped(EquipmentManager.WEAPON, "survival knife"),
             withEffect("Ultrahydrated"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -462,9 +463,9 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel_knife_unhydrated.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("desertExploration", 20),
+            withProperty("desertExploration", 20),
             withFamiliar(FamiliarPool.MELODRAMEDARY),
-            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"));
+            withEquipped(EquipmentManager.WEAPON, "survival knife"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -833,7 +834,7 @@ public class QuestManagerTest {
 
   @Test
   public void canTrackOilPeakProgressWearingDressPants() {
-    Player.withEquipped(EquipmentManager.PANTS, "dress pants");
+    withEquipped(EquipmentManager.PANTS, "dress pants");
     String responseText = html("request/test_fight_oil_tycoon.html");
     QuestManager.updateQuestData(responseText, "oil tycoon");
     assertThat("oilPeakProgress", isSetTo(285.3f));
@@ -1001,9 +1002,9 @@ public class QuestManagerTest {
     String html = html("request/test_stankara_drones.html");
     var cleanups =
         new Cleanups(
-            Player.withProperty("questL11Shen", "step2"),
+            withProperty("questL11Shen", "step2"),
             withFamiliar(FamiliarPool.GREY_GOOSE),
-            Player.withProperty("gooseDronesRemaining", 1));
+            withProperty("gooseDronesRemaining", 1));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Batrat and Ratbat Burrow");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.BATRAT);

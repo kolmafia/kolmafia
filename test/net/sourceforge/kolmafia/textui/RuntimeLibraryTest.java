@@ -2,14 +2,15 @@ package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -80,7 +81,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void zapWandAvailable() {
-    final var cleanups = new Cleanups(Player.withItem("marble wand"));
+    final var cleanups = new Cleanups(withItem("marble wand"));
 
     try (cleanups) {
       String output = execute("get_zap_wand()");
@@ -163,8 +164,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void canGuessCabinet() {
       var cleanups =
-          new Cleanups(
-              Player.withProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"), withFight());
+          new Cleanups(withProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"), withFight());
 
       try (cleanups) {
         String output = execute("expected_cold_medicine_cabinet()");
@@ -185,8 +185,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void canGuessCabinetWithUnknownPill() {
       var cleanups =
-          new Cleanups(
-              Player.withProperty("lastCombatEnvironments", "????????????????????"), withFight());
+          new Cleanups(withProperty("lastCombatEnvironments", "????????????????????"), withFight());
 
       try (cleanups) {
         String output = execute("expected_cold_medicine_cabinet()");

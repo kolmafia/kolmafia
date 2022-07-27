@@ -4,7 +4,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -177,7 +178,7 @@ public class FamiliarDataTest {
   public void homemadeRobotWeightCalculationIgnoresExp(Integer upgrades, Integer weight) {
     var fam = new FamiliarData(FamiliarPool.HOMEMADE_ROBOT);
 
-    var cleanups = new Cleanups(Player.withProperty("homemadeRobotUpgrades", upgrades));
+    var cleanups = new Cleanups(withProperty("homemadeRobotUpgrades", upgrades));
     try (cleanups) {
       // This experience should be ignored
       fam.setExperience(69);
@@ -267,7 +268,7 @@ public class FamiliarDataTest {
               withClass(AscensionClass.ACCORDION_THIEF),
               withStats(basemuscle, basemysticality, basemoxie),
               withSkill("Amphibian Sympathy"),
-              Player.withEquipped(EquipmentManager.HAT, "Daylight Shavings Helmet"));
+              withEquipped(EquipmentManager.HAT, "Daylight Shavings Helmet"));
 
       try (cleanups) {
         ApiRequest.parseStatus(JSON);
@@ -306,7 +307,7 @@ public class FamiliarDataTest {
       Cleanups cleanups =
           new Cleanups(
               withPath(Path.NONE),
-              Player.withEquipped(EquipmentManager.HAT, "Daylight Shavings Helmet"),
+              withEquipped(EquipmentManager.HAT, "Daylight Shavings Helmet"),
               withSkill("Amphibian Sympathy"),
               withEffect("Cute Vision"),
               withEffect("Empathy"),

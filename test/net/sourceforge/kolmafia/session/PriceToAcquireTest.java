@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -10,7 +12,6 @@ import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -634,9 +635,9 @@ public class PriceToAcquireTest {
       Cleanups cleanups =
           new Cleanups(
               mockedMallPrices,
-              Player.withItem("tenderizing hammer"),
+              withItem("tenderizing hammer"),
               withAdventuresLeft(10),
-              Player.withProperty("valueOfAdventure", 500));
+              withProperty("valueOfAdventure", 500));
       try (cleanups) {
         // We will be testing with no items in inventory.
         // Therefore, we will need to purchase everything from mall or NPCs.

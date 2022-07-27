@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isFinished;
@@ -12,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -138,7 +138,7 @@ public class ResultProcessorTest {
     var cleanups =
         new Cleanups(
             withQuestProgress(QuestDatabase.Quest.CLUMSINESS, 1),
-            Player.withProperty("clumsinessGroveBoss", "something"));
+            withProperty("clumsinessGroveBoss", "something"));
 
     try (cleanups) {
       ResultProcessor.processResult(true, CLUMSINESS_STONES[stone]);
@@ -154,7 +154,7 @@ public class ResultProcessorTest {
     var cleanups =
         new Cleanups(
             withQuestProgress(QuestDatabase.Quest.CLUMSINESS, 3),
-            Player.withProperty("clumsinessGroveBoss", "something"),
+            withProperty("clumsinessGroveBoss", "something"),
             withItem(CLUMSINESS_STONES[(stone + 1) % 2]));
 
     try (cleanups) {
@@ -175,7 +175,7 @@ public class ResultProcessorTest {
     var cleanups =
         new Cleanups(
             withQuestProgress(QuestDatabase.Quest.GLACIER, 1),
-            Player.withProperty("glacierOfJerksBoss", "something"));
+            withProperty("glacierOfJerksBoss", "something"));
 
     try (cleanups) {
       ResultProcessor.processResult(true, GLACIER_STONES[stone]);
@@ -191,7 +191,7 @@ public class ResultProcessorTest {
     var cleanups =
         new Cleanups(
             withQuestProgress(QuestDatabase.Quest.GLACIER, 3),
-            Player.withProperty("glacierOfJerksBoss", "something"),
+            withProperty("glacierOfJerksBoss", "something"),
             withItem(GLACIER_STONES[(stone + 1) % 2]));
 
     try (cleanups) {
@@ -212,7 +212,7 @@ public class ResultProcessorTest {
     var cleanups =
         new Cleanups(
             withQuestProgress(QuestDatabase.Quest.MAELSTROM, 1),
-            Player.withProperty("maelstromOfLoversBoss", "something"));
+            withProperty("maelstromOfLoversBoss", "something"));
 
     try (cleanups) {
       ResultProcessor.processResult(true, MAELSTROM_STONES[stone]);
@@ -228,7 +228,7 @@ public class ResultProcessorTest {
     var cleanups =
         new Cleanups(
             withQuestProgress(QuestDatabase.Quest.MAELSTROM, 3),
-            Player.withProperty("maelstromOfLoversBoss", "something"),
+            withProperty("maelstromOfLoversBoss", "something"),
             withItem(MAELSTROM_STONES[(stone + 1) % 2]));
 
     try (cleanups) {

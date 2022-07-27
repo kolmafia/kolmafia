@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withItem;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -8,7 +9,6 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -42,8 +42,7 @@ class SuburbanDisRequestTest {
   @Test
   void processResultsDealsWithStonesFromDifferentZones() {
     var cleanups =
-        new Cleanups(
-            Player.withItem(ItemPool.VANITY_STONE), Player.withItem(ItemPool.LECHEROUS_STONE));
+        new Cleanups(withItem(ItemPool.VANITY_STONE), withItem(ItemPool.LECHEROUS_STONE));
 
     try (cleanups) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.FINISHED);
@@ -62,8 +61,7 @@ class SuburbanDisRequestTest {
   @Test
   void processResultsDealsWithPartialQuestStatus() {
     var cleanups =
-        new Cleanups(
-            Player.withItem(ItemPool.VANITY_STONE), Player.withItem(ItemPool.LECHEROUS_STONE));
+        new Cleanups(withItem(ItemPool.VANITY_STONE), withItem(ItemPool.LECHEROUS_STONE));
 
     try (cleanups) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, "step3");
@@ -81,9 +79,7 @@ class SuburbanDisRequestTest {
 
   @Test
   void processResultsDealsWithStonesFromSameZone() {
-    var cleanups =
-        new Cleanups(
-            Player.withItem(ItemPool.FURIOUS_STONE), Player.withItem(ItemPool.VANITY_STONE));
+    var cleanups = new Cleanups(withItem(ItemPool.FURIOUS_STONE), withItem(ItemPool.VANITY_STONE));
 
     try (cleanups) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.FINISHED);

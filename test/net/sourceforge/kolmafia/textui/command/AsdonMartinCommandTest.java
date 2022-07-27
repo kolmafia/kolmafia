@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -12,7 +13,6 @@ import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -201,8 +201,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   @Test
   void fuelValidSendsRequest() {
     var cleanups =
-        new Cleanups(
-            withWorkshedItem(ItemPool.ASDON_MARTIN), Player.withItem("loaf of soda bread", 10));
+        new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withItem("loaf of soda bread", 10));
 
     try (cleanups) {
       execute("fuel 10 soda bread");
@@ -217,8 +216,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   @Test
   void fuelZeroDoesNotSendRequest() {
     var cleanups =
-        new Cleanups(
-            withWorkshedItem(ItemPool.ASDON_MARTIN), Player.withItem("loaf of soda bread", 10));
+        new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withItem("loaf of soda bread", 10));
 
     try (cleanups) {
       execute("fuel 0 soda bread");

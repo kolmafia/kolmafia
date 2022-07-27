@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -9,7 +10,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +52,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void requireWandToZap() {
-    var cleanups = Player.withItem("bugbear beanie");
+    var cleanups = withItem("bugbear beanie");
 
     try (cleanups) {
       execute("bugbear beanie");
@@ -64,8 +64,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void zapSimpleItem() {
-    var cleanups =
-        new Cleanups(Player.withItem("hexagonal wand"), Player.withItem("bugbear beanie"));
+    var cleanups = new Cleanups(withItem("hexagonal wand"), withItem("bugbear beanie"));
 
     try (cleanups) {
       execute("bugbear beanie");
@@ -78,8 +77,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void zapNoItems() {
-    var cleanups =
-        new Cleanups(Player.withItem("hexagonal wand"), Player.withItem("bugbear beanie"));
+    var cleanups = new Cleanups(withItem("hexagonal wand"), withItem("bugbear beanie"));
 
     try (cleanups) {
       execute("0 bugbear beanie");
@@ -93,9 +91,9 @@ public class ZapCommandTest extends AbstractCommandTestBase {
   public void zapManyItems() {
     var cleanups =
         new Cleanups(
-            Player.withItem("hexagonal wand"),
-            Player.withItem("bugbear beanie"),
-            Player.withItem("cursed swash buckle", 2));
+            withItem("hexagonal wand"),
+            withItem("bugbear beanie"),
+            withItem("cursed swash buckle", 2));
 
     try (cleanups) {
       execute("1 bugbear beanie, 2 cursed swash buckle");

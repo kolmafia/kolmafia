@@ -1,14 +1,15 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
+import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -64,7 +65,7 @@ class ChoiceControlTest {
       ItemPool.FURIOUS_STONE + ", The Bat in the Spats",
     })
     public void testOfYourMettleSetsNextBoss(String stoneId, String monster) {
-      var cleanups = new Cleanups(Player.withItem(Integer.parseInt(stoneId)));
+      var cleanups = new Cleanups(withItem(Integer.parseInt(stoneId)));
 
       try (cleanups) {
         var choice = withPostChoice2(563, 1);
@@ -101,7 +102,7 @@ class ChoiceControlTest {
       ItemPool.LECHEROUS_STONE + ", Thug 1 and Thug 2",
     })
     public void choiceToBeMadeSetsNextBoss(String stoneId, String monster) {
-      var cleanups = new Cleanups(Player.withItem(Integer.parseInt(stoneId)));
+      var cleanups = new Cleanups(withItem(Integer.parseInt(stoneId)));
 
       try (cleanups) {
         var choice = withPostChoice2(566, 1);
@@ -138,7 +139,7 @@ class ChoiceControlTest {
       ItemPool.AVARICE_STONE + ", The Large-Bellied Snitch",
     })
     public void oneMoreDemonToSlaySetsBoss(String stoneId, String monster) {
-      var cleanups = new Cleanups(Player.withItem(Integer.parseInt(stoneId)));
+      var cleanups = new Cleanups(withItem(Integer.parseInt(stoneId)));
 
       try (cleanups) {
         var choice = withPostChoice2(569, 1);
@@ -155,7 +156,7 @@ class ChoiceControlTest {
     @ParameterizedTest
     @CsvSource({"ice_crown, 0", "frozen_jeans, 1", "ice_wrap, 2"})
     void seeingEquipmentCorrectsTotalTakenToday(String itemSlug, int impliedEquipmentTaken) {
-      var cleanups = new Cleanups(Player.withProperty("_coldMedicineEquipmentTaken", -1));
+      var cleanups = new Cleanups(withProperty("_coldMedicineEquipmentTaken", -1));
 
       try (cleanups) {
         var urlString = "choice.php?forceoption=0";
@@ -172,8 +173,7 @@ class ChoiceControlTest {
     @Test
     void takingEquipmentIncrementsCounter() {
       var cleanups =
-          new Cleanups(
-              Player.withProperty("_coldMedicineEquipmentTaken", 0), withPostChoice1(1455, 1));
+          new Cleanups(withProperty("_coldMedicineEquipmentTaken", 0), withPostChoice1(1455, 1));
 
       try (cleanups) {
         assertThat("_coldMedicineEquipmentTaken", isSetTo(1));

@@ -3,13 +3,14 @@ package net.sourceforge.kolmafia.swingui.panel;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withHardcore;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -39,7 +40,7 @@ public class DailyDeedsPanelTest {
     @Test
     public void hardcoreNoItomsHasOnlyTentacle() {
       var ff = new FreeFightsDaily();
-      var cleanups = Player.withHardcore();
+      var cleanups = withHardcore();
       try (cleanups) {
         ff.update();
         assertThat(ff.getText(), is("<html>Fights: tentacle</html>"));
@@ -109,7 +110,7 @@ public class DailyDeedsPanelTest {
       var ff = new FreeFightsDaily();
       var cleanups =
           new Cleanups(
-              withClass(AscensionClass.SEAL_CLUBBER), Player.withItem(ItemPool.INFERNAL_SEAL_CLAW));
+              withClass(AscensionClass.SEAL_CLUBBER), withItem(ItemPool.INFERNAL_SEAL_CLAW));
       try (cleanups) {
         ff.update();
         assertThat(ff.getText(), containsString("0/10 seals"));
@@ -173,7 +174,7 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsLynyrd() {
       var ff = new FreeFightsDaily();
-      var cleanups = new Cleanups(Player.withItem(ItemPool.LYNYRD_SNARE));
+      var cleanups = new Cleanups(withItem(ItemPool.LYNYRD_SNARE));
       try (cleanups) {
         ff.update();
         assertThat(ff.getText(), containsString("0/3 lynyrd"));
@@ -183,7 +184,7 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsKramco() {
       var ff = new FreeFightsDaily();
-      var cleanups = new Cleanups(Player.withItem(ItemPool.SAUSAGE_O_MATIC));
+      var cleanups = new Cleanups(withItem(ItemPool.SAUSAGE_O_MATIC));
       try (cleanups) {
         ff.update();
         assertThat(ff.getText(), containsString("0 sausage goblin"));
@@ -193,7 +194,7 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsGlitchMonster() {
       var ff = new FreeFightsDaily();
-      var cleanups = new Cleanups(Player.withItem(ItemPool.GLITCH_ITEM));
+      var cleanups = new Cleanups(withItem(ItemPool.GLITCH_ITEM));
       try (cleanups) {
         ff.update();
         assertThat(ff.getText(), containsString("%monster%"));
@@ -225,7 +226,7 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsVoid() {
       var ff = new FreeFightsDaily();
-      var cleanups = new Cleanups(Player.withItem(ItemPool.CURSED_MAGNIFYING_GLASS));
+      var cleanups = new Cleanups(withItem(ItemPool.CURSED_MAGNIFYING_GLASS));
       try (cleanups) {
         ff.update();
         assertThat(ff.getText(), containsString("0/5 void"));

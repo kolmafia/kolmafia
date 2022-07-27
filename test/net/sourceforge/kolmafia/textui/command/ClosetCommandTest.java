@@ -3,6 +3,10 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
+import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withMeatInCloset;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -12,7 +16,6 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import internal.listeners.FakeListener;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -44,7 +47,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
   @Test
   void lessThanFourChars() {
     String output;
-    var cleanups = Player.withItemInCloset("seal tooth");
+    var cleanups = withItemInCloset("seal tooth");
 
     try (cleanups) {
       output = execute("ls");
@@ -60,7 +63,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
     @Test
     public void listsCloset() {
       String output;
-      var cleanups = Player.withItemInCloset("seal tooth");
+      var cleanups = withItemInCloset("seal tooth");
 
       try (cleanups) {
         output = execute("");
@@ -74,9 +77,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
     @Test
     public void listsClosetWithFilter() {
       String output;
-      var cleanups =
-          new Cleanups(
-              Player.withItemInCloset("seal tooth"), Player.withItemInCloset("disco mask"));
+      var cleanups = new Cleanups(withItemInCloset("seal tooth"), withItemInCloset("disco mask"));
 
       try (cleanups) {
         output = execute("list seal");
@@ -93,7 +94,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
   class Empty {
     @Test
     public void emptiesCloset() {
-      var cleanups = Player.withItemInCloset("seal tooth");
+      var cleanups = withItemInCloset("seal tooth");
 
       try (cleanups) {
         execute("empty");
@@ -110,7 +111,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
   class Put {
     @Test
     public void storesSealToothInCloset() {
-      var cleanups = Player.withItem("seal tooth");
+      var cleanups = withItem("seal tooth");
 
       try (cleanups) {
         execute("put 1 seal tooth");
@@ -125,7 +126,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesManyItemsInCloset() {
-      var cleanups = new Cleanups(Player.withItem("seal tooth"), Player.withItem("helmet turtle"));
+      var cleanups = new Cleanups(withItem("seal tooth"), withItem("helmet turtle"));
 
       try (cleanups) {
         execute("put 1 seal tooth, 1 helmet turtle");
@@ -152,7 +153,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotStoreZeroItemsInCloset() {
-      var cleanups = Player.withItem("seal tooth");
+      var cleanups = withItem("seal tooth");
 
       try (cleanups) {
         execute("put 0 seal tooth");
@@ -165,7 +166,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesMeatInCloset() {
-      var cleanups = Player.withMeat(100);
+      var cleanups = withMeat(100);
 
       try (cleanups) {
         execute("put 100 meat");
@@ -180,7 +181,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesMoreThanIntMaxMeatInCloset() {
-      var cleanups = Player.withMeat(3_000_000_000L);
+      var cleanups = withMeat(3_000_000_000L);
 
       try (cleanups) {
         execute("put 3000000000 meat");
@@ -197,7 +198,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotStoreZeroMeatInCloset() {
-      var cleanups = Player.withMeat(100);
+      var cleanups = withMeat(100);
 
       try (cleanups) {
         execute("put 0 meat");
@@ -213,7 +214,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
   class Take {
     @Test
     public void takesSealToothFromCloset() {
-      var cleanups = Player.withItemInCloset("seal tooth");
+      var cleanups = withItemInCloset("seal tooth");
 
       try (cleanups) {
         execute("take 1 seal tooth");
@@ -228,7 +229,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotTakeZeroItemsFromCloset() {
-      var cleanups = Player.withItemInCloset("seal tooth");
+      var cleanups = withItemInCloset("seal tooth");
 
       try (cleanups) {
         execute("take 0 seal tooth");
@@ -241,7 +242,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void takesMeatFromCloset() {
-      var cleanups = Player.withMeatInCloset(100);
+      var cleanups = withMeatInCloset(100);
 
       try (cleanups) {
         execute("take 100 meat");
@@ -256,7 +257,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotTakeZeroMeatFromCloset() {
-      var cleanups = Player.withMeatInCloset(100);
+      var cleanups = withMeatInCloset(100);
 
       try (cleanups) {
         execute("take 0 meat");
@@ -270,7 +271,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void firesHatListenerIfItemIsHat() {
-    var cleanups = Player.withItem("disco mask");
+    var cleanups = withItem("disco mask");
     var listener = new FakeListener();
     PreferenceListenerRegistry.registerPreferenceListener("(hats)", listener);
 

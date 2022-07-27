@@ -14,7 +14,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -107,7 +106,7 @@ class DailyLimitDatabaseTest {
       SkillPool.REPLACE_ENEMY + ", 7",
     })
     void canGetUsesRemainingForPowerfulGloveSkills(int skillId, int remaining) {
-      var cleanups = new Cleanups(Player.withProperty("_powerfulGloveBatteryPowerUsed", 30));
+      var cleanups = new Cleanups(withProperty("_powerfulGloveBatteryPowerUsed", 30));
 
       try (cleanups) {
         var limit = DailyLimitType.CAST.getDailyLimit(skillId);
@@ -178,7 +177,7 @@ class DailyLimitDatabaseTest {
       "2, 2", "5, 5", "9, 5",
     })
     void canSetDailyUsesForRegularEntries(int value, int result) {
-      var cleanups = new Cleanups(Player.withProperty("_jerksHealthMagazinesUsed", 0));
+      var cleanups = new Cleanups(withProperty("_jerksHealthMagazinesUsed", 0));
 
       try (cleanups) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
@@ -190,7 +189,7 @@ class DailyLimitDatabaseTest {
 
     @Test
     void canSetMaxUsesForRegularEntries() {
-      var cleanups = new Cleanups(Player.withProperty("_jerksHealthMagazinesUsed", 0));
+      var cleanups = new Cleanups(withProperty("_jerksHealthMagazinesUsed", 0));
 
       try (cleanups) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);

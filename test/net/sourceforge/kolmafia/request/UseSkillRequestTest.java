@@ -9,6 +9,7 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -94,8 +95,8 @@ class UseSkillRequestTest {
 
     var cleanups =
         new Cleanups(
-            Player.withProperty("tomeSummons", 0),
-            Player.withProperty("_stickerSummons", 0),
+            withProperty("tomeSummons", 0),
+            withProperty("_stickerSummons", 0),
             withInteractivity(false),
             withNextResponse(200, "You may only use three Tome summonings each day"));
 
@@ -117,8 +118,8 @@ class UseSkillRequestTest {
 
     var cleanups =
         new Cleanups(
-            Player.withProperty("tomeSummons", 0),
-            Player.withProperty("_stickerSummons", 0),
+            withProperty("tomeSummons", 0),
+            withProperty("_stickerSummons", 0),
             withInteractivity(true),
             withNextResponse(200, "You may only use three Tome summonings each day"));
 

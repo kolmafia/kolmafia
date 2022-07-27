@@ -165,6 +165,50 @@ public class Player {
   }
 
   /**
+   * Puts the given item into the player's storage
+   *
+   * @param itemName Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInStorage(final String itemName) {
+    return withItemInStorage(itemName, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's storage
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInStorage(final String itemName, final int count) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInStorage(itemId, count);
+  }
+
+  /**
+   * Puts the given item into the player's storage
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInStorage(final int itemId) {
+    return withItemInStorage(itemId, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's storage
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInStorage(final int itemId, final int count) {
+    AdventureResult item = ItemPool.get(itemId, count);
+    return addToList(item, KoLConstants.storage);
+  }
+
+  /**
    * Puts the given item into the player's clan stash
    *
    * @param itemName Item to give
@@ -370,7 +414,7 @@ public class Player {
   }
 
   /**
-   * Gives player (effectively) infinite turns of an event
+   * Gives player (effectively) infinite turns of an effect
    *
    * @param effectName Effect to add intrinsicly
    * @return Removes effect
@@ -465,8 +509,8 @@ public class Player {
    * @param mysticality Desired mysticality
    * @return Resets mysticality to zero
    */
-  public static Cleanups withMysticalty(final int mysticality) {
-    return withMysticalty(mysticality, mysticality);
+  public static Cleanups withMysticality(final int mysticality) {
+    return withMysticality(mysticality, mysticality);
   }
 
   /**
@@ -476,7 +520,7 @@ public class Player {
    * @param buffedMysticality Buffed mysticality value
    * @return Resets mysticality to zero
    */
-  public static Cleanups withMysticalty(int mysticality, int buffedMysticality) {
+  public static Cleanups withMysticality(int mysticality, int buffedMysticality) {
     KoLCharacter.setMysticality(buffedMysticality, (long) mysticality * mysticality);
     KoLCharacter.recalculateAdjustments();
     return new Cleanups(() -> KoLCharacter.setMysticality(0, 0));
@@ -490,7 +534,7 @@ public class Player {
    * @return Resets mysticality to zero
    */
   public static Cleanups withMysticalityAtLeast(final int mysticality) {
-    return withMysticalty(Math.max(mysticality, KoLCharacter.getBaseMysticality()));
+    return withMysticality(Math.max(mysticality, KoLCharacter.getBaseMysticality()));
   }
 
   /**
