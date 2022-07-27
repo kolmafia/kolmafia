@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -50,7 +51,7 @@ public class Player {
    * @param itemName Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(int slot, String itemName) {
+  public static Cleanups withEquipped(final int slot, final String itemName) {
     return withEquipped(slot, AdventureResult.tallyItem(itemName));
   }
 
@@ -61,7 +62,7 @@ public class Player {
    * @param itemId Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(int slot, int itemId) {
+  public static Cleanups withEquipped(final int slot, final int itemId) {
     return withEquipped(slot, ItemPool.get(itemId));
   }
 
@@ -71,7 +72,7 @@ public class Player {
    * @param slot Slot to unequip
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withUnequipped(int slot) {
+  public static Cleanups withUnequipped(final int slot) {
     return withEquipped(slot, (String) null);
   }
 
@@ -82,7 +83,7 @@ public class Player {
    * @param item Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(int slot, AdventureResult item) {
+  public static Cleanups withEquipped(final int slot, final AdventureResult item) {
     var old = EquipmentManager.getEquipment(slot);
     EquipmentManager.setEquipment(slot, item.getItemId() == -1 ? EquipmentRequest.UNEQUIP : item);
     return new Cleanups(() -> EquipmentManager.setEquipment(slot, old));
@@ -94,7 +95,7 @@ public class Player {
    * @param itemName Item to give
    * @return Restores the number of this item to the old value
    */
-  public static Cleanups withItem(String itemName) {
+  public static Cleanups withItem(final String itemName) {
     return withItem(itemName, 1);
   }
 
@@ -105,7 +106,7 @@ public class Player {
    * @param count Quantity of item to give
    * @return Restores the number of this item to the old value
    */
-  public static Cleanups withItem(String itemName, int count) {
+  public static Cleanups withItem(final String itemName, final int count) {
     int itemId = ItemDatabase.getItemId(itemName, count, false);
     return withItem(ItemPool.get(itemId, count));
   }
@@ -116,7 +117,7 @@ public class Player {
    * @param itemId Item to give
    * @return Restores the number of this item to the old value
    */
-  public static Cleanups withItem(int itemId) {
+  public static Cleanups withItem(final int itemId) {
     return withItem(itemId, 1);
   }
 
@@ -127,7 +128,7 @@ public class Player {
    * @param count Quantity of item to give
    * @return Restores the number of this item to the old value
    */
-  public static Cleanups withItem(int itemId, int count) {
+  public static Cleanups withItem(final int itemId, final int count) {
     return withItem(ItemPool.get(itemId, count));
   }
 
@@ -137,7 +138,7 @@ public class Player {
    * @param item Item to give
    * @return Restores the number of this item to the old value
    */
-  public static Cleanups withItem(AdventureResult item) {
+  public static Cleanups withItem(final AdventureResult item) {
     return addToList(item, KoLConstants.inventory);
   }
 
@@ -231,7 +232,7 @@ public class Player {
     return addToList(item, ClanManager.getStash());
   }
 
-  private static Cleanups addToList(AdventureResult item, List<AdventureResult> list) {
+  private static Cleanups addToList(final AdventureResult item, final List<AdventureResult> list) {
     var old = item.getCount(list);
     AdventureResult.addResultToList(list, item);
 
@@ -248,7 +249,7 @@ public class Player {
    * @param meat Amount of meat to have
    * @return Restores the meat to the previous amount
    */
-  public static Cleanups withMeat(long meat) {
+  public static Cleanups withMeat(final long meat) {
     var old = KoLCharacter.getAvailableMeat();
     KoLCharacter.setAvailableMeat(meat);
     return new Cleanups(() -> KoLCharacter.setAvailableMeat(old));
@@ -260,7 +261,7 @@ public class Player {
    * @param meat Amount of meat to have in closet
    * @return Restores the meat to the previous amount
    */
-  public static Cleanups withMeatInCloset(long meat) {
+  public static Cleanups withMeatInCloset(final long meat) {
     var old = KoLCharacter.getClosetMeat();
     KoLCharacter.setClosetMeat(meat);
     return new Cleanups(() -> KoLCharacter.setClosetMeat(old));
@@ -272,7 +273,7 @@ public class Player {
    * @param itemName Name of the item
    * @return Removes item from player's inventory and resets stats
    */
-  public static Cleanups withEquippableItem(String itemName) {
+  public static Cleanups withEquippableItem(final String itemName) {
     return withEquippableItem(itemName, 1);
   }
 
@@ -283,7 +284,7 @@ public class Player {
    * @param count Number of items
    * @return Removes item from player's inventory and resets stats
    */
-  public static Cleanups withEquippableItem(String itemName, int count) {
+  public static Cleanups withEquippableItem(final String itemName, final int count) {
     return withEquippableItem(AdventureResult.tallyItem(itemName, count, true));
   }
 
@@ -293,7 +294,7 @@ public class Player {
    * @param item Item to add
    * @return Removes item from player's inventory and resets stats
    */
-  public static Cleanups withEquippableItem(AdventureResult item) {
+  public static Cleanups withEquippableItem(final AdventureResult item) {
     var cleanups = new Cleanups();
     cleanups.add(withItem(item));
 
@@ -317,7 +318,7 @@ public class Player {
    * @param familiarId Familiar to add
    * @return Removes familiar from the terrarium
    */
-  public static Cleanups withFamiliarInTerrarium(int familiarId) {
+  public static Cleanups withFamiliarInTerrarium(final int familiarId) {
     var familiar = FamiliarData.registerFamiliar(familiarId, 0);
     KoLCharacter.addFamiliar(familiar);
     return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
@@ -329,7 +330,7 @@ public class Player {
    * @param familiarId Familiar to take
    * @return Reset current familiar
    */
-  public static Cleanups withFamiliar(int familiarId) {
+  public static Cleanups withFamiliar(final int familiarId) {
     return withFamiliar(familiarId, 0);
   }
 
@@ -337,10 +338,10 @@ public class Player {
    * Takes familiar as player's current familiar
    *
    * @param familiarId Familiar to take
-   * @param familiarId Experience for familiar to have
+   * @param experience Experience for familiar to have
    * @return Reset current familiar
    */
-  public static Cleanups withFamiliar(int familiarId, int experience) {
+  public static Cleanups withFamiliar(final int familiarId, final int experience) {
     var old = KoLCharacter.getFamiliar();
     KoLCharacter.setFamiliar(FamiliarData.registerFamiliar(familiarId, experience));
     return new Cleanups(() -> KoLCharacter.setFamiliar(old));
@@ -397,7 +398,7 @@ public class Player {
    * @param turns Turns of effect to give
    * @return Removes effect
    */
-  public static Cleanups withEffect(String effectName, int turns) {
+  public static Cleanups withEffect(final String effectName, final int turns) {
     var effect = EffectPool.get(EffectDatabase.getEffectId(effectName), turns);
     KoLConstants.activeEffects.add(effect);
     return new Cleanups(() -> KoLConstants.activeEffects.remove(effect));
@@ -409,7 +410,7 @@ public class Player {
    * @param effectName Effect to add
    * @return Removes effect
    */
-  public static Cleanups withEffect(String effectName) {
+  public static Cleanups withEffect(final String effectName) {
     return withEffect(effectName, 1);
   }
 
@@ -419,7 +420,7 @@ public class Player {
    * @param effectName Effect to add intrinsicly
    * @return Removes effect
    */
-  public static Cleanups withIntrinsicEffect(String effectName) {
+  public static Cleanups withIntrinsicEffect(final String effectName) {
     return withEffect(effectName, Integer.MAX_VALUE);
   }
 
@@ -429,7 +430,7 @@ public class Player {
    * @param skillName Skill to add
    * @return Removes the skill
    */
-  public static Cleanups withSkill(String skillName) {
+  public static Cleanups withSkill(final String skillName) {
     KoLCharacter.addAvailableSkill(skillName);
     return new Cleanups(() -> KoLCharacter.removeAvailableSkill(skillName));
   }
@@ -440,7 +441,7 @@ public class Player {
    * @param skillId Skill to add
    * @return Removes the skill
    */
-  public static Cleanups withSkill(int skillId) {
+  public static Cleanups withSkill(final int skillId) {
     KoLCharacter.addAvailableSkill(skillId);
     return new Cleanups(() -> KoLCharacter.removeAvailableSkill(skillId));
   }
@@ -453,7 +454,7 @@ public class Player {
    * @param moxie Moxie mainstat
    * @return Resets stats to zero
    */
-  public static Cleanups withStats(int muscle, int mysticality, int moxie) {
+  public static Cleanups withStats(final int muscle, final int mysticality, final int moxie) {
     KoLCharacter.setStatPoints(
         muscle,
         (long) muscle * muscle,
@@ -520,7 +521,7 @@ public class Player {
    * @param buffedMysticality Buffed mysticality value
    * @return Resets mysticality to zero
    */
-  public static Cleanups withMysticality(int mysticality, int buffedMysticality) {
+  public static Cleanups withMysticality(final int mysticality, final int buffedMysticality) {
     KoLCharacter.setMysticality(buffedMysticality, (long) mysticality * mysticality);
     KoLCharacter.recalculateAdjustments();
     return new Cleanups(() -> KoLCharacter.setMysticality(0, 0));
@@ -543,7 +544,7 @@ public class Player {
    * @param moxie Desired moxie
    * @return Resets moxie to zero
    */
-  public static Cleanups withMoxie(int moxie) {
+  public static Cleanups withMoxie(final int moxie) {
     return withMoxie(moxie, moxie);
   }
 
@@ -554,7 +555,7 @@ public class Player {
    * @param buffedMoxie Buffed moxie value
    * @return Resets moxie to zero
    */
-  public static Cleanups withMoxie(int moxie, int buffedMoxie) {
+  public static Cleanups withMoxie(final int moxie, final int buffedMoxie) {
     KoLCharacter.setMoxie(buffedMoxie, (long) moxie * moxie);
     KoLCharacter.recalculateAdjustments();
     return new Cleanups(() -> KoLCharacter.setMoxie(0, 0));
@@ -578,7 +579,7 @@ public class Player {
    * @param level Required level
    * @return Resets level to zero
    */
-  public static Cleanups withLevel(int level) {
+  public static Cleanups withLevel(final int level) {
     int substats = (int) Math.pow(level, 2) - level * 2 + 5;
     return withStats(substats, substats, substats);
   }
@@ -591,7 +592,7 @@ public class Player {
    * @param base Desired base maximum HP
    * @return Resets these values to zero
    */
-  public static Cleanups withHP(long current, long maximum, long base) {
+  public static Cleanups withHP(final long current, final long maximum, final long base) {
     KoLCharacter.setHP(current, maximum, base);
     KoLCharacter.recalculateAdjustments();
     return new Cleanups(
@@ -609,7 +610,7 @@ public class Player {
    * @param base Desired base maximum MP
    * @return Resets these values to zero
    */
-  public static Cleanups withMP(long current, long maximum, long base) {
+  public static Cleanups withMP(final long current, final long maximum, final long base) {
     KoLCharacter.setMP(current, maximum, base);
     KoLCharacter.recalculateAdjustments();
     return new Cleanups(
@@ -625,7 +626,7 @@ public class Player {
    * @param adventures Desired adventures remaining
    * @return Resets remaining adventures to previous value
    */
-  public static Cleanups withAdventuresLeft(int adventures) {
+  public static Cleanups withAdventuresLeft(final int adventures) {
     var old = KoLCharacter.getAdventuresLeft();
     KoLCharacter.setAdventuresLeft(adventures);
     return new Cleanups(() -> KoLCharacter.setAdventuresLeft(old));
@@ -637,7 +638,7 @@ public class Player {
    * @param ascensions Desired ascensions
    * @return Resets ascensions to previous value
    */
-  public static Cleanups withAscensions(int ascensions) {
+  public static Cleanups withAscensions(final int ascensions) {
     var old = KoLCharacter.getAscensions();
     KoLCharacter.setAscensions(ascensions);
     return new Cleanups(() -> KoLCharacter.setAscensions(old));
@@ -649,7 +650,7 @@ public class Player {
    * @param fullness Desired fullness
    * @return Resets fullness to previous value
    */
-  public static Cleanups withFullness(int fullness) {
+  public static Cleanups withFullness(final int fullness) {
     var old = KoLCharacter.getFullness();
     KoLCharacter.setFullness(fullness);
     return new Cleanups(() -> KoLCharacter.setFullness(old));
@@ -661,7 +662,7 @@ public class Player {
    * @param inebriety Desired inebriety
    * @return Resets inebriety to previous value
    */
-  public static Cleanups withInebriety(int inebriety) {
+  public static Cleanups withInebriety(final int inebriety) {
     var old = KoLCharacter.getInebriety();
     KoLCharacter.setInebriety(inebriety);
     return new Cleanups(() -> KoLCharacter.setInebriety(old));
@@ -673,7 +674,7 @@ public class Player {
    * @param ascensionClass Desired class
    * @return Resets the class to the previous value
    */
-  public static Cleanups withClass(AscensionClass ascensionClass) {
+  public static Cleanups withClass(final AscensionClass ascensionClass) {
     var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
     return new Cleanups(() -> KoLCharacter.setAscensionClass(old));
@@ -685,7 +686,7 @@ public class Player {
    * @param sign Desired sign
    * @return Resets the sign to the previous value
    */
-  public static Cleanups withSign(String sign) {
+  public static Cleanups withSign(final String sign) {
     var old = KoLCharacter.getSign();
     KoLCharacter.setSign(sign);
     return new Cleanups(() -> KoLCharacter.setSign(old));
@@ -697,7 +698,7 @@ public class Player {
    * @param sign Desired sign
    * @return Resets the sign to the previous value
    */
-  public static Cleanups withSign(ZodiacSign sign) {
+  public static Cleanups withSign(final ZodiacSign sign) {
     var old = KoLCharacter.getSign();
     KoLCharacter.setSign(sign);
     return new Cleanups(() -> KoLCharacter.setSign(old));
@@ -709,7 +710,7 @@ public class Player {
    * @param path Desired path
    * @return Resets the path to the previous value
    */
-  public static Cleanups withPath(Path path) {
+  public static Cleanups withPath(final Path path) {
     var old = KoLCharacter.getPath();
     KoLCharacter.setPath(path);
     return new Cleanups(() -> KoLCharacter.setPath(old));
@@ -721,7 +722,7 @@ public class Player {
    * @param location Desired location
    * @return Resets the location to the previous value
    */
-  public static Cleanups withLocation(String location) {
+  public static Cleanups withLocation(final String location) {
     var old = AdventureDatabase.getAdventure(Modifiers.currentLocation);
     Modifiers.setLocation(AdventureDatabase.getAdventure(location));
     return new Cleanups(() -> Modifiers.setLocation(old));
@@ -743,7 +744,7 @@ public class Player {
    * @param monster Monster to set
    * @return Restores to previous value
    */
-  public static Cleanups withNextMonster(MonsterData monster) {
+  public static Cleanups withNextMonster(final MonsterData monster) {
     var previousMonster = MonsterStatusTracker.getLastMonster();
     MonsterStatusTracker.setNextMonster(monster);
     return new Cleanups(() -> MonsterStatusTracker.setNextMonster(previousMonster));
@@ -755,7 +756,7 @@ public class Player {
    * @param monsterName Monster to set
    * @return Restores to previous value
    */
-  public static Cleanups withNextMonster(String monsterName) {
+  public static Cleanups withNextMonster(final String monsterName) {
     return withNextMonster(MonsterDatabase.findMonster(monsterName));
   }
 
@@ -765,7 +766,7 @@ public class Player {
    * @param cal Day to set
    * @return Restores to using the real day
    */
-  public static Cleanups withDay(Calendar cal) {
+  public static Cleanups withDay(final Calendar cal) {
     var mocked = mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS);
 
     mocked.when(HolidayDatabase::getDate).thenReturn(cal.getTime());
@@ -781,7 +782,7 @@ public class Player {
    * @param absorbs Number of absorbs to use
    * @return Restores to the old value
    */
-  public static Cleanups withUsedAbsorbs(int absorbs) {
+  public static Cleanups withUsedAbsorbs(final int absorbs) {
     var old = KoLCharacter.getAbsorbs();
     KoLCharacter.setAbsorbs(absorbs);
     return new Cleanups(() -> KoLCharacter.setAbsorbs(old));
@@ -802,7 +803,7 @@ public class Player {
    * @param hardcore Hardcore or not
    * @return Restores previous value
    */
-  public static Cleanups withHardcore(boolean hardcore) {
+  public static Cleanups withHardcore(final boolean hardcore) {
     var wasHardcore = KoLCharacter.isHardcore();
     KoLCharacter.setHardcore(hardcore);
     return new Cleanups(() -> KoLCharacter.setHardcore(wasHardcore));
@@ -814,7 +815,7 @@ public class Player {
    * @param itemId Item to add
    * @return Removes the item
    */
-  public static Cleanups withCampgroundItem(int itemId) {
+  public static Cleanups withCampgroundItem(final int itemId) {
     CampgroundRequest.setCampgroundItem(itemId, 1);
     return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(itemId, 1)));
   }
@@ -825,7 +826,7 @@ public class Player {
    * @param itemId Item to set
    * @return Removes workshed item
    */
-  public static Cleanups withWorkshedItem(int itemId) {
+  public static Cleanups withWorkshedItem(final int itemId) {
     CampgroundRequest.setCurrentWorkshedItem(itemId);
     return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
   }
@@ -852,7 +853,7 @@ public class Player {
    * @param value Value to set
    * @return Restores the previous value of the property
    */
-  public static Cleanups withProperty(String key, int value) {
+  public static Cleanups withProperty(final String key, final int value) {
     var oldValue = Preferences.getInteger(key);
     Preferences.setInteger(key, value);
     return new Cleanups(() -> Preferences.setInteger(key, oldValue));
@@ -865,7 +866,7 @@ public class Player {
    * @param value Value to set
    * @return Restores the previous value of the property
    */
-  public static Cleanups withProperty(String key, String value) {
+  public static Cleanups withProperty(final String key, final String value) {
     var oldValue = Preferences.getString(key);
     Preferences.setString(key, value);
     return new Cleanups(() -> Preferences.setString(key, oldValue));
@@ -878,7 +879,7 @@ public class Player {
    * @param value Value to set
    * @return Restores the previous value of the property
    */
-  public static Cleanups withProperty(String key, Boolean value) {
+  public static Cleanups withProperty(final String key, final boolean value) {
     var oldValue = Preferences.getBoolean(key);
     Preferences.setBoolean(key, value);
     return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
@@ -891,7 +892,7 @@ public class Player {
    * @param value Value for quest property
    * @return Restores previous value
    */
-  public static Cleanups withQuestProgress(QuestDatabase.Quest quest, String value) {
+  public static Cleanups withQuestProgress(final QuestDatabase.Quest quest, final String value) {
     var oldValue = QuestDatabase.getQuest(quest);
     QuestDatabase.setQuest(quest, value);
     return new Cleanups(() -> QuestDatabase.setQuest(quest, oldValue));
@@ -904,7 +905,7 @@ public class Player {
    * @param step Step to set
    * @return Restores previous value
    */
-  public static Cleanups withQuestProgress(QuestDatabase.Quest quest, int step) {
+  public static Cleanups withQuestProgress(final QuestDatabase.Quest quest, final int step) {
     return withQuestProgress(quest, "step" + step);
   }
 
@@ -916,7 +917,7 @@ public class Player {
    * @param response Response text to fake
    * @return Cleans up so this response is not given again
    */
-  public static Cleanups withNextResponse(int code, String response) {
+  public static Cleanups withNextResponse(final int code, final String response) {
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
@@ -939,7 +940,8 @@ public class Player {
    * @param responseText Response to fake
    * @return Restores last choice and last decision
    */
-  public static Cleanups withPostChoice1(int choice, int decision, String responseText) {
+  public static Cleanups withPostChoice1(
+      final int choice, final int decision, final String responseText) {
     ChoiceManager.lastChoice = choice;
     ChoiceManager.lastDecision = decision;
     var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
@@ -960,7 +962,7 @@ public class Player {
    * @param decision Decision to set
    * @return Restores last choice and last decision
    */
-  public static Cleanups withPostChoice1(int choice, int decision) {
+  public static Cleanups withPostChoice1(final int choice, final int decision) {
     return withPostChoice1(choice, decision, "");
   }
 
@@ -972,7 +974,8 @@ public class Player {
    * @param responseText Response to fake
    * @return Restores last choice and last decision
    */
-  public static Cleanups withPostChoice2(int choice, int decision, String responseText) {
+  public static Cleanups withPostChoice2(
+      final int choice, final int decision, final String responseText) {
     ChoiceManager.lastChoice = choice;
     ChoiceManager.lastDecision = decision;
     var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
@@ -993,7 +996,7 @@ public class Player {
    * @param decision Decision number
    * @return Restores previous value
    */
-  public static Cleanups withPostChoice2(int choice, int decision) {
+  public static Cleanups withPostChoice2(final int choice, final int decision) {
     return withPostChoice2(choice, decision, "");
   }
 
@@ -1006,10 +1009,7 @@ public class Player {
   public static Cleanups withLastLocationName(final String lastLocationName) {
     var old = KoLAdventure.lastLocationName;
     KoLAdventure.lastLocationName = lastLocationName;
-    return new Cleanups(
-        () -> {
-          KoLAdventure.lastLocationName = old;
-        });
+    return new Cleanups(() -> KoLAdventure.lastLocationName = old);
   }
 
   /**
@@ -1031,10 +1031,7 @@ public class Player {
   public static Cleanups withMultiFight() {
     var old = FightRequest.inMultiFight;
     FightRequest.inMultiFight = true;
-    return new Cleanups(
-        () -> {
-          FightRequest.inMultiFight = old;
-        });
+    return new Cleanups(() -> FightRequest.inMultiFight = old);
   }
 
   /**
@@ -1069,10 +1066,7 @@ public class Player {
   public static Cleanups withItemMonster(final String itemMonster) {
     var old = GenericRequest.itemMonster;
     GenericRequest.itemMonster = itemMonster;
-    return new Cleanups(
-        () -> {
-          GenericRequest.itemMonster = old;
-        });
+    return new Cleanups(() -> GenericRequest.itemMonster = old);
   }
 
   /**
@@ -1081,7 +1075,7 @@ public class Player {
    * @param canInteract Whether the player can interact
    * @return Restores to previous value
    */
-  public static Cleanups withInteractivity(boolean canInteract) {
+  public static Cleanups withInteractivity(final boolean canInteract) {
     var old = CharPaneRequest.canInteract();
     CharPaneRequest.setCanInteract(canInteract);
     return new Cleanups(() -> CharPaneRequest.setCanInteract(old));
@@ -1093,7 +1087,7 @@ public class Player {
    * @param restricted Whether the player is standard restricted
    * @return Restores to previous value
    */
-  public static Cleanups withRestricted(boolean restricted) {
+  public static Cleanups withRestricted(final boolean restricted) {
     var old = KoLCharacter.getRestricted();
     KoLCharacter.setRestricted(restricted);
     return new Cleanups(() -> KoLCharacter.setRestricted(old));
@@ -1127,7 +1121,7 @@ public class Player {
    * @param continuationState State to set
    * @return Restores previous continuation state
    */
-  public static Cleanups withContinuationState(final KoLConstants.MafiaState continuationState) {
+  public static Cleanups withContinuationState(final MafiaState continuationState) {
     var old = StaticEntity.getContinuationState();
     StaticEntity.setContinuationState(continuationState);
     return new Cleanups(() -> StaticEntity.setContinuationState(old));
@@ -1139,7 +1133,7 @@ public class Player {
    * @return Restores previous state
    */
   public static Cleanups withContinuationState() {
-    return withContinuationState(KoLConstants.MafiaState.CONTINUE);
+    return withContinuationState(MafiaState.CONTINUE);
   }
 
   /**
