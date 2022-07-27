@@ -10853,10 +10853,10 @@
 10825	Doc's Smartifying Wine	747053412	rxwine.gif	drink	t,d	10	bottles of Doc's Smartifying Wine
 10826	Doc's Limbering Wine	975820765	rxwine.gif	drink	t,d	10	bottles of Doc's Limbering Wine
 10827	Doc's Medical-Grade Wine	237098811	rxwine.gif	drink	t,d	10	bottles of Doc's Medical-Grade Wine
-10828	Homebodyl&trade;	972999798	pill3.gif	spleen, multiple	t,d	10
-10829	Extrovermectin&trade;	411068914	stimpill.gif	spleen, multiple	t,d	10
-10830	Breathitin&trade;	910011561	pill2.gif	spleen, multiple	t,d	10
-10831	Fleshazole&trade;	711958772	meatpill.gif	spleen, multiple	t,d	10
+10828	Homebodyl&trade;	972999798	pill3.gif	spleen, usable	t,d	10
+10829	Extrovermectin&trade;	411068914	stimpill.gif	spleen, usable	t,d	10
+10830	Breathitin&trade;	910011561	pill2.gif	spleen, usable	t,d	10
+10831	Fleshazole&trade;	711958772	meatpill.gif	spleen, usable	t,d	10
 10832	anti-burn cream	912342957	creamtube.gif	potion, usable	t,d	10
 10833	anti-freeze cream	866330910	creamtube.gif	potion, usable	t,d	10
 10834	anti-goosebump cream	287944320	creamtube.gif	potion, usable	t,d	10
@@ -10926,16 +10926,16 @@
 10899	unbreakable umbrella	712482724	unbrella7.gif	offhand		0
 10900	MayDay&trade; contract	536141141	maydaycontract.gif	usable	t	0
 10901	MayDay&trade; supply package	553211944	maydaypackage.gif	usable	q	0
-10902	emergency glowstick	177725411	maydayglowstick.gif	potion, usable	t,d	10
+10902	emergency glowstick	177725411	maydayglowstick.gif	potion, multiple	t,d	10
 10903	survival knife	486525726	maydayknife.gif	weapon	q	0
 10904	crank-powered radio on a lanyard	165573911	maydayradio.gif	accessory	q	0
 10905	headlamp	847104238	maydayheadlamp.gif	hat	q	0
 10906	thermal blanket	341518349	maydayblanket.gif	container	q	0
 10907	atlas of local maps	489238716	maydayatlas.gif	accessory	q	0
-10908	spare battery	133495777	maydaybattery.gif	potion, usable	t,d	10
+10908	spare battery	133495777	maydaybattery.gif	potion, multiple	t,d	10
 10909	space blanket	459795439	maydayblanket2.gif	none	t,d	5000
-10910	single-use dust mask	181045054	maydaymask.gif	potion, usable	t,d	10
-10911	gaffer's tape	975019349	maydaytape.gif	potion, usable	t,d	10
+10910	single-use dust mask	181045054	maydaymask.gif	potion, multiple	t,d	10
+10911	gaffer's tape	975019349	maydaytape.gif	potion, multiple	t,d	10
 10912	20-lb can of rice and beans	612048631	maydaycan.gif	food	t,d	10
 10913	bar of freeze-dried water	860292955	maydaywater.gif	food	t,d	10
 10914	expired MRE	120160347	maydaymre.gif	food	t,d	10
@@ -10950,8 +10950,8 @@
 10923	fire-roasted lake trout	836425101	fishy2.gif	food	t,d	10
 10924	guilty sprout	221701193	guiltysprout.gif	food	t,d	15
 10925	mother's necklace	820724023	necklace_mom.gif	accessory	t,d	1000
-10926	trampled ticket stub	589658698	stompstub.gif	potion, usable	t,d	15
-10927	savings bond	479848689	bondcert.gif	potion, usable	t,d	10
+10926	trampled ticket stub	589658698	stompstub.gif	potion, multiple	t,d	15
+10927	savings bond	479848689	bondcert.gif	potion, multiple	t,d	10
 10928	designer sweatpants (new old stock)	115000176	sweats_box.gif	usable	t	0
 10929	designer sweatpants	800334855	sweats.gif	pants		0
 10930	sweat-ade	858239579	sweatade.gif	spleen, usable	t	0

@@ -251,10 +251,16 @@ public class DataTypes {
 
   public static final Value parseIntValue(final String name, final boolean returnDefault) {
     try {
-      return name.equals("false")
-          ? ZERO_VALUE
-          : name.equals("true") ? ONE_VALUE : new Value(StringUtilities.parseLong(name));
+      // Expected input is the string representation of an integer
+      return new Value(StringUtilities.parseLong(name));
     } catch (NumberFormatException e) {
+      // Allow names of booleans to represent the usual integer value
+      if (name.equals("false")) {
+        return ZERO_VALUE;
+      }
+      if (name.equals("true")) {
+        return ONE_VALUE;
+      }
       return returnDefault ? DataTypes.ZERO_VALUE : null;
     }
   }
