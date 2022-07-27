@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Player.withEffect;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +40,7 @@ public class ModiferTraceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void matchDisplaysExtantModifiers() {
-    var cleanups = Player.addEffect("Fat Leon's Phat Loot Lyric");
+    var cleanups = withEffect("Fat Leon's Phat Loot Lyric");
 
     try (cleanups) {
       String output = execute("item drop");

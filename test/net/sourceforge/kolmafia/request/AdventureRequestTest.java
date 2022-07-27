@@ -40,10 +40,13 @@ public class AdventureRequestTest {
 
   @Test
   public void underwaterZonesCostOneAdventureWithFishy() {
-    AdventureRequest request = new AdventureRequest("The Ice Hole", "adventure.php", "457");
-    addEffect("Fishy");
-    KoLCharacter.recalculateAdjustments();
-    assertEquals(1, request.getAdventuresUsed());
+    var cleanups = withEffect("Fishy");
+
+    try (cleanups) {
+      AdventureRequest request = new AdventureRequest("The Ice Hole", "adventure.php", "457");
+      KoLCharacter.recalculateAdjustments();
+      assertEquals(1, request.getAdventuresUsed());
+    }
   }
 
   @Test

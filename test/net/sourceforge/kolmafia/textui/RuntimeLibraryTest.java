@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Player.setupFakeResponse;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -81,7 +81,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void zapWandAvailable() {
-    final var cleanups = new Cleanups(addItem("marble wand"));
+    final var cleanups = new Cleanups(withItem("marble wand"));
 
     try (cleanups) {
       String output = execute("get_zap_wand()");
@@ -96,7 +96,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     // don't try to visit the fireworks shop
     Preferences.setBoolean("_fireworksShop", true);
 
-    var cleanups = setupFakeResponse(200, html("request/test_clan_floundry.html"));
+    var cleanups = withNextResponse(200, html("request/test_clan_floundry.html"));
 
     try (cleanups) {
       String output = execute("get_fishing_locations()");
@@ -122,7 +122,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void canVisitCabinet() {
       var cleanups =
-          new Cleanups(setupFakeResponse(200, html("request/test_choice_cmc_frozen_jeans.html")));
+          new Cleanups(withNextResponse(200, html("request/test_choice_cmc_frozen_jeans.html")));
 
       try (cleanups) {
         String output = execute("expected_cold_medicine_cabinet()");
@@ -142,7 +142,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canHandleUnexpectedCabinetResponse() {
-      var cleanups = new Cleanups(setupFakeResponse(200, "huh?"));
+      var cleanups = new Cleanups(withNextResponse(200, "huh?"));
 
       try (cleanups) {
         String output = execute("expected_cold_medicine_cabinet()");
@@ -164,7 +164,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void canGuessCabinet() {
       var cleanups =
-          new Cleanups(setProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"), withFight());
+          new Cleanups(withProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"), withFight());
 
       try (cleanups) {
         String output = execute("expected_cold_medicine_cabinet()");
@@ -185,7 +185,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     @Test
     void canGuessCabinetWithUnknownPill() {
       var cleanups =
-          new Cleanups(setProperty("lastCombatEnvironments", "????????????????????"), withFight());
+          new Cleanups(withProperty("lastCombatEnvironments", "????????????????????"), withFight());
 
       try (cleanups) {
         String output = execute("expected_cold_medicine_cabinet()");

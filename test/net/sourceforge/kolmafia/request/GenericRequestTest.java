@@ -2,10 +2,12 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
-import static internal.helpers.Preference.isSetTo;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -24,20 +26,26 @@ public class GenericRequestTest {
 
   @Test
   public void hallowienerVolcoinoNotPickedUpByLuckyGoldRing() {
-    assertEquals("", Preferences.getString("lastEncounter"));
-    equip(EquipmentManager.ACCESSORY1, "lucky gold ring");
-    assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
+            withProperty("lastEnccounter", ""));
 
-    KoLAdventure.setLastAdventure("The Bubblin' Caldera");
+    try (cleanups) {
+      assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
 
-    GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
-    request.setHasResult(true);
-    request.responseText = html("request/test_adventure_hallowiener_volcoino_lucky_gold_ring.html");
+      KoLAdventure.setLastAdventure("The Bubblin' Caldera");
 
-    request.processResponse();
+      GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
+      request.setHasResult(true);
+      request.responseText =
+          html("request/test_adventure_hallowiener_volcoino_lucky_gold_ring.html");
 
-    assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
-    assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+      request.processResponse();
+
+      assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
+      assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    }
   }
 
   @Test

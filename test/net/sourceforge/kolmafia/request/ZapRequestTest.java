@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,32 +14,47 @@ import org.junit.jupiter.api.Test;
 
 public class ZapRequestTest {
   @Test
-  public void itShouldBuildARequestUnderSeveralCases() {
-    // with null
-    ZapRequest zapRequest = new ZapRequest(null);
-    assertNotNull(zapRequest);
-    // with unzappable item but no wand
+  public void buildsARequestWithUnzappableAndNoWand() {
     AdventureResult accord = ItemPool.get(ItemPool.HERMIT_PERMIT);
-    zapRequest = new ZapRequest(accord);
+    var zapRequest = new ZapRequest(accord);
     assertNotNull(zapRequest);
-    // with Zappable item (baconstone) but no wand
+  }
+
+  @Test
+  public void buildsARequestWithZappableButNoWand() {
     AdventureResult bacon = ItemPool.get(ItemPool.BACONSTONE);
-    zapRequest = new ZapRequest(bacon);
+    var zapRequest = new ZapRequest(bacon);
     assertNotNull(zapRequest);
-    // get a wand so can zap
-    addItem("pine wand");
-    zapRequest = new ZapRequest(accord);
-    assertNotNull(zapRequest);
-    zapRequest = new ZapRequest(bacon);
-    assertNotNull(zapRequest);
+  }
+
+  @Test
+  public void buildsARequestWithUnzappableAndWand() {
+    var cleanups = withItem("pine wand");
+
+    try (cleanups) {
+      AdventureResult accord = ItemPool.get(ItemPool.HERMIT_PERMIT);
+      var zapRequest = new ZapRequest(accord);
+      assertNotNull(zapRequest);
+    }
+  }
+
+  @Test
+  public void buildsARequestWithZappableAndWand() {
+    var cleanups = withItem("pine wand");
+
+    try (cleanups) {
+      AdventureResult bacon = ItemPool.get(ItemPool.BACONSTONE);
+      var zapRequest = new ZapRequest(bacon);
+      assertNotNull(zapRequest);
+    }
   }
 
   @Test
   public void itShouldHaveOtherZapData() {
     // Zap baconstone with wand. both in inventory
     AdventureResult bacon = ItemPool.get(ItemPool.BACONSTONE);
-    addItem("pine wand");
-    addItem("baconstone");
+    withItem("pine wand");
+    withItem("baconstone");
     LockableListModel<AdventureResult> items = ZapRequest.getZappableItems();
     assertThat(items, hasItem(bacon));
     List<String> zapGroup = ZapRequest.getZapGroup(ItemPool.BACONSTONE);
@@ -53,8 +68,8 @@ public class ZapRequestTest {
   @Test
   public void shouldTrimZappableItemsIfRequested() {
     Preferences.setBoolean("relayTrimsZapList", true);
-    addItem("baconstone");
-    addItem("hermit permit");
+    withItem("baconstone");
+    withItem("hermit permit");
     AdventureResult baconstone = ItemPool.get(ItemPool.BACONSTONE);
     assertThat(ZapRequest.getZappableItems(), hasItem(baconstone));
   }

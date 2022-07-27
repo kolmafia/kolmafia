@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -59,7 +59,7 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveShrine() {
-    var cleanups = setProperty("barrelShrineUnlocked", false);
+    var cleanups = withProperty("barrelShrineUnlocked", false);
 
     try (cleanups) {
       String output = execute("buff");
@@ -72,7 +72,8 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
   @Test
   void mustNotHavePrayed() {
     var cleanups =
-        new Cleanups(setProperty("barrelShrineUnlocked", true), setProperty("_barrelPrayer", true));
+        new Cleanups(
+            withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", true));
 
     try (cleanups) {
       String output = execute("buff");
@@ -94,9 +95,9 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
   void mustNotHavePrayedForItemThisAscension(String preference, String prayer) {
     var cleanups =
         new Cleanups(
-            setProperty("barrelShrineUnlocked", true),
-            setProperty("_barrelPrayer", false),
-            setProperty(preference, true));
+            withProperty("barrelShrineUnlocked", true),
+            withProperty("_barrelPrayer", false),
+            withProperty(preference, true));
 
     try (cleanups) {
       String output = execute(prayer);
@@ -110,7 +111,7 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
   void canPray() {
     var cleanups =
         new Cleanups(
-            setProperty("barrelShrineUnlocked", true), setProperty("_barrelPrayer", false));
+            withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", false));
 
     try (cleanups) {
       execute("buff");

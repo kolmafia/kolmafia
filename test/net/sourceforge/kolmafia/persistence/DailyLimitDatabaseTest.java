@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static internal.helpers.Player.canInteract;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Preference.isSetTo;
+import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase.assertErrorState;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
@@ -106,7 +106,7 @@ class DailyLimitDatabaseTest {
       SkillPool.REPLACE_ENEMY + ", 7",
     })
     void canGetUsesRemainingForPowerfulGloveSkills(int skillId, int remaining) {
-      var cleanups = new Cleanups(setProperty("_powerfulGloveBatteryPowerUsed", 30));
+      var cleanups = new Cleanups(withProperty("_powerfulGloveBatteryPowerUsed", 30));
 
       try (cleanups) {
         var limit = DailyLimitType.CAST.getDailyLimit(skillId);
@@ -134,7 +134,7 @@ class DailyLimitDatabaseTest {
       // Summon Stickers
       var limit = DailyLimitType.CAST.getDailyLimit(7214);
 
-      var cleanups = canInteract(interactive);
+      var cleanups = withInteractivity(interactive);
       try (cleanups) {
         assertThat(limit.getUses(), equalTo(interactive ? 1 : 2));
       }
@@ -177,7 +177,7 @@ class DailyLimitDatabaseTest {
       "2, 2", "5, 5", "9, 5",
     })
     void canSetDailyUsesForRegularEntries(int value, int result) {
-      var cleanups = new Cleanups(setProperty("_jerksHealthMagazinesUsed", 0));
+      var cleanups = new Cleanups(withProperty("_jerksHealthMagazinesUsed", 0));
 
       try (cleanups) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
@@ -189,7 +189,7 @@ class DailyLimitDatabaseTest {
 
     @Test
     void canSetMaxUsesForRegularEntries() {
-      var cleanups = new Cleanups(setProperty("_jerksHealthMagazinesUsed", 0));
+      var cleanups = new Cleanups(withProperty("_jerksHealthMagazinesUsed", 0));
 
       try (cleanups) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
@@ -202,7 +202,7 @@ class DailyLimitDatabaseTest {
     @ParameterizedTest
     @CsvSource({"1, true", "2, true", "0, false", "-10, false"})
     void canSetDailyUsesForBooleanEntries(int value, boolean result) {
-      var cleanups = new Cleanups(setProperty("_jingleBellUsed", false));
+      var cleanups = new Cleanups(withProperty("_jingleBellUsed", false));
 
       try (cleanups) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JINGLE_BELL);
@@ -214,7 +214,7 @@ class DailyLimitDatabaseTest {
 
     @Test
     void canSetMaxUsesForBooleanEntries() {
-      var cleanups = new Cleanups(setProperty("_jingleBellUsed", false));
+      var cleanups = new Cleanups(withProperty("_jingleBellUsed", false));
 
       try (cleanups) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JINGLE_BELL);

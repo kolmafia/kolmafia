@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static internal.helpers.Player.isClass;
+import static internal.helpers.Player.withClass;
 import static org.junit.jupiter.api.Assertions.*;
 
 import net.sourceforge.kolmafia.AscensionClass;
@@ -26,7 +26,7 @@ public class SkillDatabaseTest {
 
   @Test
   public void thrallsLastTenTurnsWhenNotPasta() {
-    var cleanups = isClass(AscensionClass.ACCORDION_THIEF);
+    var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
     try (cleanups) {
       // Bind Lasagmbie
       assertEquals(SkillDatabase.getEffectDuration(3037), 10);
@@ -35,7 +35,7 @@ public class SkillDatabaseTest {
 
   @Test
   public void thrallsLastZeroTurnsWhenPasta() {
-    var cleanups = isClass(AscensionClass.PASTAMANCER);
+    var cleanups = withClass(AscensionClass.PASTAMANCER);
     try (cleanups) {
       // Bind Lasagmbie
       assertEquals(SkillDatabase.getEffectDuration(3037), 0);

@@ -24,7 +24,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustBeInNoob() {
-    var cleanups = inPath(Path.NONE);
+    var cleanups = withPath(Path.NONE);
     try (cleanups) {
       String output = execute("1 helmet turtle");
       assertThat(output, containsString("not in a Gelatinous Noob"));
@@ -34,7 +34,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyItem() {
-    var cleanups = inPath(Path.GELATINOUS_NOOB);
+    var cleanups = withPath(Path.GELATINOUS_NOOB);
     try (cleanups) {
       String output = execute("");
 
@@ -45,7 +45,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveAbsorbs() {
-    var cleanups = new Cleanups(inPath(Path.GELATINOUS_NOOB), usedAbsorbs(100));
+    var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB), withUsedAbsorbs(100));
     try (cleanups) {
       String output = execute("1 helmet turtle");
 
@@ -56,7 +56,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidItem() {
-    var cleanups = new Cleanups(inPath(Path.GELATINOUS_NOOB));
+    var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB));
     try (cleanups) {
       String output = execute("invalid item");
 
@@ -67,7 +67,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveItem() {
-    var cleanups = new Cleanups(inPath(Path.GELATINOUS_NOOB));
+    var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB));
     try (cleanups) {
       String output = execute("1 dirty bottlecap");
 
@@ -78,7 +78,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canAbsorbItems() {
-    var cleanups = new Cleanups(inPath(Path.GELATINOUS_NOOB), addItem("Half a Purse", 15));
+    var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB), withItem("Half a Purse", 15));
     try (cleanups) {
       String output = execute("15 Half a Purse");
 

@@ -1,13 +1,13 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.addEffect;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.inPath;
-import static internal.helpers.Player.isSign;
-import static internal.helpers.Preference.isSetTo;
-import static internal.helpers.Quest.isStep;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withSign;
+import static internal.matchers.Preference.isSetTo;
+import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -182,7 +182,7 @@ class EncounterManagerTest {
 
   @Test
   void canRecogniseBadmoonAutostopInBadmoon() {
-    var cleanups = isSign(ZodiacSign.BAD_MOON);
+    var cleanups = withSign(ZodiacSign.BAD_MOON);
     try (cleanups) {
       boolean actual = EncounterManager.isAutoStop("Getting Hammered");
 
@@ -544,7 +544,7 @@ class EncounterManagerTest {
   void rainManMonsterIgnoresSpecialMonsters() {
     String html = html("request/test_fight_rainman_monster.html");
 
-    var cleanups = inPath(AscensionPath.Path.HEAVY_RAINS);
+    var cleanups = withPath(AscensionPath.Path.HEAVY_RAINS);
 
     try (cleanups) {
       EncounterManager.registerEncounter("Knob Goblin Embezzler", "Combat", html);
@@ -587,7 +587,8 @@ class EncounterManagerTest {
   void badMoonTypeRecognized() {
     var goalManager = mockStatic(GoalManager.class, Mockito.CALLS_REAL_METHODS);
     var badMoonManager = mockStatic(BadMoonManager.class, Mockito.CALLS_REAL_METHODS);
-    var cleanups = new Cleanups(inPath(AscensionPath.Path.BAD_MOON), isSign(ZodiacSign.BAD_MOON));
+    var cleanups =
+        new Cleanups(withPath(AscensionPath.Path.BAD_MOON), withSign(ZodiacSign.BAD_MOON));
     try (goalManager;
         badMoonManager;
         cleanups) {
@@ -601,7 +602,7 @@ class EncounterManagerTest {
   @Test
   void teleportisisTypeDoesNotTrackGoal() {
     var mocked = mockStatic(GoalManager.class, Mockito.CALLS_REAL_METHODS);
-    var cleanups = addEffect("Teleportitis");
+    var cleanups = withEffect("Teleportitis");
     try (mocked;
         cleanups) {
       EncounterManager.registerEncounter("Drawn Onward", "Combat", "");
@@ -618,7 +619,7 @@ class EncounterManagerTest {
       })
   void ringOfTeleportationTypeDoesNotTrackGoal(int slot) {
     var mocked = mockStatic(GoalManager.class, Mockito.CALLS_REAL_METHODS);
-    var cleanups = equip(slot, "ring of teleportation");
+    var cleanups = withEquipped(slot, "ring of teleportation");
     try (mocked;
         cleanups) {
       EncounterManager.registerEncounter("Drawn Onward", "Combat", "");
@@ -628,24 +629,28 @@ class EncounterManagerTest {
 
   @Test
   void handlesCapmCaronchEncounter() {
-    addItem(ItemPool.CARONCH_DENTURES);
-    addItem(ItemPool.FRATHOUSE_BLUEPRINTS);
+    var cleanups =
+        new Cleanups(withItem(ItemPool.CARONCH_DENTURES), withItem(ItemPool.FRATHOUSE_BLUEPRINTS));
 
-    EncounterManager.registerEncounter(
-        "Step Up to the Table, Put the Ball in Play", "Noncombat", "");
+    try (cleanups) {
+      EncounterManager.registerEncounter(
+          "Step Up to the Table, Put the Ball in Play", "Noncombat", "");
 
-    assertThat(InventoryManager.getCount(ItemPool.CARONCH_DENTURES), equalTo(0));
-    assertThat(InventoryManager.getCount(ItemPool.FRATHOUSE_BLUEPRINTS), equalTo(0));
-    assertThat(QuestDatabase.Quest.PIRATE, isStep(4));
+      assertThat(InventoryManager.getCount(ItemPool.CARONCH_DENTURES), equalTo(0));
+      assertThat(InventoryManager.getCount(ItemPool.FRATHOUSE_BLUEPRINTS), equalTo(0));
+      assertThat(QuestDatabase.Quest.PIRATE, isStep(4));
+    }
   }
 
   @Test
   void handlesGrandmaSeaMonkeyUnlockEncounter() {
-    addItem(ItemPool.GRANDMAS_MAP);
+    var cleanups = withItem(ItemPool.GRANDMAS_MAP);
 
-    EncounterManager.registerEncounter("Granny, Does Your Dogfish Bite?", "Noncombat", "");
+    try (cleanups) {
+      EncounterManager.registerEncounter("Granny, Does Your Dogfish Bite?", "Noncombat", "");
 
-    assertThat(InventoryManager.getCount(ItemPool.GRANDMAS_MAP), equalTo(0));
+      assertThat(InventoryManager.getCount(ItemPool.GRANDMAS_MAP), equalTo(0));
+    }
   }
 
   @Test

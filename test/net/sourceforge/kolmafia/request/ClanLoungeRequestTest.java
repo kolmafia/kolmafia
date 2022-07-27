@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.setupFakeResponse;
-import static internal.helpers.Preference.isSetTo;
+import static internal.helpers.Player.withNextResponse;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -25,7 +25,7 @@ public class ClanLoungeRequestTest {
     assertThat("_floundryCarpLocation", isSetTo(""));
 
     ClanLoungeRequest req = new ClanLoungeRequest(ClanLoungeRequest.FLOUNDRY);
-    var cleanups = setupFakeResponse(200, html("request/test_clan_floundry.html"));
+    var cleanups = withNextResponse(200, html("request/test_clan_floundry.html"));
     try (cleanups) {
       req.run();
     }

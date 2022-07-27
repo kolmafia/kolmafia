@@ -2,13 +2,14 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withMeat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void sellsSealTooth() {
-    var cleanups = Player.addItem("seal tooth", 5);
+    var cleanups = withItem("seal tooth", 5);
 
     try (cleanups) {
       execute("1 seal tooth");
@@ -43,7 +44,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void sellsManyItems() {
-    var cleanups = new Cleanups(Player.addItem("seal tooth"), Player.addItem("helmet turtle"));
+    var cleanups = new Cleanups(withItem("seal tooth"), withItem("helmet turtle"));
 
     try (cleanups) {
       execute("1 seal tooth, 1 helmet turtle");
@@ -69,7 +70,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void doesNotSellZeroItems() {
-    var cleanups = Player.addItem("seal tooth");
+    var cleanups = withItem("seal tooth");
 
     try (cleanups) {
       execute("0 seal tooth");
@@ -82,7 +83,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void doesNotSellMeat() {
-    var cleanups = Player.setMeat(100);
+    var cleanups = withMeat(100);
 
     try (cleanups) {
       execute("50 meat");
@@ -95,7 +96,7 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void sellsAllButOneItem() {
-    var cleanups = Player.addItem("seal tooth", 5);
+    var cleanups = withItem("seal tooth", 5);
 
     try (cleanups) {
       execute("-1 seal tooth");

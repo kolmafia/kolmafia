@@ -4,14 +4,14 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.canInteract;
-import static internal.helpers.Player.canUse;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.isClass;
-import static internal.helpers.Player.isLevel;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Player.setupFakeResponse;
-import static internal.helpers.Preference.isSetTo;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -54,7 +54,7 @@ class UseSkillRequestTest {
 
     UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
 
-    var cleanups = setupFakeResponse(200, "You don't have enough mana to cast that skill.");
+    var cleanups = withNextResponse(200, "You don't have enough mana to cast that skill.");
 
     try (cleanups) {
       req.run();
@@ -76,7 +76,7 @@ class UseSkillRequestTest {
     UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
 
     var cleanups =
-        setupFakeResponse(
+        withNextResponse(
             200,
             "You bless your friend, targetPlayer, with the ability to experience a safari adventure.");
 
@@ -95,10 +95,10 @@ class UseSkillRequestTest {
 
     var cleanups =
         new Cleanups(
-            setProperty("tomeSummons", 0),
-            setProperty("_stickerSummons", 0),
-            canInteract(false),
-            setupFakeResponse(200, "You may only use three Tome summonings each day"));
+            withProperty("tomeSummons", 0),
+            withProperty("_stickerSummons", 0),
+            withInteractivity(false),
+            withNextResponse(200, "You may only use three Tome summonings each day"));
 
     try (cleanups) {
       UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.STICKER);
@@ -118,10 +118,10 @@ class UseSkillRequestTest {
 
     var cleanups =
         new Cleanups(
-            setProperty("tomeSummons", 0),
-            setProperty("_stickerSummons", 0),
-            canInteract(true),
-            setupFakeResponse(200, "You may only use three Tome summonings each day"));
+            withProperty("tomeSummons", 0),
+            withProperty("_stickerSummons", 0),
+            withInteractivity(true),
+            withNextResponse(200, "You may only use three Tome summonings each day"));
 
     try (cleanups) {
       UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.STICKER);
@@ -144,7 +144,7 @@ class UseSkillRequestTest {
   void canOnlyCastBenettonsInRightState(String className, int level, boolean canCast) {
     var ascensionClass = AscensionClass.find(className);
 
-    var cleanups = new Cleanups(isClass(ascensionClass), isLevel(level));
+    var cleanups = new Cleanups(withClass(ascensionClass), withLevel(level));
 
     try (cleanups) {
       var skill = UseSkillRequest.getInstance(SkillPool.BENETTONS);
@@ -178,7 +178,7 @@ class UseSkillRequestTest {
 
     @Test
     void wearDesignerSweatpantsForCastingSweatSkills() {
-      var cleanups = new Cleanups(canUse("designer sweatpants"));
+      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
@@ -196,7 +196,7 @@ class UseSkillRequestTest {
 
     @Test
     void doNotEquipDesignerSweatpantsForSkillIfAlreadyWearing() {
-      var cleanups = new Cleanups(equip(EquipmentManager.PANTS, "designer sweatpants"));
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.PANTS, "designer sweatpants"));
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {

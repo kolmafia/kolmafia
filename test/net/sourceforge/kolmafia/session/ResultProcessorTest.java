@@ -1,12 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.isDay;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Player.setQuest;
-import static internal.helpers.Preference.isSetTo;
-import static internal.helpers.Quest.isFinished;
-import static internal.helpers.Quest.isStep;
+import static internal.helpers.Player.withDay;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
+import static internal.matchers.Preference.isSetTo;
+import static internal.matchers.Quest.isFinished;
+import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -45,7 +45,7 @@ public class ResultProcessorTest {
     HolidayDatabase.guessPhaseStep();
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
     // This was an Oyster Egg Day.
-    final var cleanups = isDay(new GregorianCalendar(2022, 0, 29, 12, 0));
+    final var cleanups = withDay(new GregorianCalendar(2022, 0, 29, 12, 0));
     try (cleanups) {
       ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
     }
@@ -55,7 +55,7 @@ public class ResultProcessorTest {
   public void obtainOysterEggOnWrongDay() {
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
     // This was not an Oyster Egg Day.
-    final var cleanups = isDay(new GregorianCalendar(2022, 0, 30, 12, 0));
+    final var cleanups = withDay(new GregorianCalendar(2022, 0, 30, 12, 0));
     try (cleanups) {
       ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
       assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
@@ -65,7 +65,7 @@ public class ResultProcessorTest {
   @Test
   public void obtainOysterEggWithoutBasket() {
     // This was an Oyster Egg Day.
-    final var cleanups = isDay(new GregorianCalendar(2022, 0, 29, 12, 0));
+    final var cleanups = withDay(new GregorianCalendar(2022, 0, 29, 12, 0));
     try (cleanups) {
       ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
       assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
@@ -75,7 +75,7 @@ public class ResultProcessorTest {
   @Test
   public void obtainOysterEggOnWrongDayAndWithoutBasket() {
     // This was not an Oyster Egg Day.
-    final var cleanups = isDay(new GregorianCalendar(2022, 0, 30, 12, 0));
+    final var cleanups = withDay(new GregorianCalendar(2022, 0, 30, 12, 0));
     try (cleanups) {
       ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
       assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
@@ -137,8 +137,8 @@ public class ResultProcessorTest {
   public void gettingFirstClumsinessStone(int stone) {
     var cleanups =
         new Cleanups(
-            setQuest(QuestDatabase.Quest.CLUMSINESS, 1),
-            setProperty("clumsinessGroveBoss", "something"));
+            withQuestProgress(QuestDatabase.Quest.CLUMSINESS, 1),
+            withProperty("clumsinessGroveBoss", "something"));
 
     try (cleanups) {
       ResultProcessor.processResult(true, CLUMSINESS_STONES[stone]);
@@ -153,9 +153,9 @@ public class ResultProcessorTest {
   public void gettingSecondClumsinessStone(int stone) {
     var cleanups =
         new Cleanups(
-            setQuest(QuestDatabase.Quest.CLUMSINESS, 3),
-            setProperty("clumsinessGroveBoss", "something"),
-            addItem(CLUMSINESS_STONES[(stone + 1) % 2]));
+            withQuestProgress(QuestDatabase.Quest.CLUMSINESS, 3),
+            withProperty("clumsinessGroveBoss", "something"),
+            withItem(CLUMSINESS_STONES[(stone + 1) % 2]));
 
     try (cleanups) {
       ResultProcessor.processResult(true, CLUMSINESS_STONES[stone]);
@@ -174,8 +174,8 @@ public class ResultProcessorTest {
   public void gettingFirstGlacierStone(int stone) {
     var cleanups =
         new Cleanups(
-            setQuest(QuestDatabase.Quest.GLACIER, 1),
-            setProperty("glacierOfJerksBoss", "something"));
+            withQuestProgress(QuestDatabase.Quest.GLACIER, 1),
+            withProperty("glacierOfJerksBoss", "something"));
 
     try (cleanups) {
       ResultProcessor.processResult(true, GLACIER_STONES[stone]);
@@ -190,9 +190,9 @@ public class ResultProcessorTest {
   public void gettingSecondGlacierStone(int stone) {
     var cleanups =
         new Cleanups(
-            setQuest(QuestDatabase.Quest.GLACIER, 3),
-            setProperty("glacierOfJerksBoss", "something"),
-            addItem(GLACIER_STONES[(stone + 1) % 2]));
+            withQuestProgress(QuestDatabase.Quest.GLACIER, 3),
+            withProperty("glacierOfJerksBoss", "something"),
+            withItem(GLACIER_STONES[(stone + 1) % 2]));
 
     try (cleanups) {
       ResultProcessor.processResult(true, GLACIER_STONES[stone]);
@@ -211,8 +211,8 @@ public class ResultProcessorTest {
   public void gettingFirstMaelstromStone(int stone) {
     var cleanups =
         new Cleanups(
-            setQuest(QuestDatabase.Quest.MAELSTROM, 1),
-            setProperty("maelstromOfLoversBoss", "something"));
+            withQuestProgress(QuestDatabase.Quest.MAELSTROM, 1),
+            withProperty("maelstromOfLoversBoss", "something"));
 
     try (cleanups) {
       ResultProcessor.processResult(true, MAELSTROM_STONES[stone]);
@@ -227,9 +227,9 @@ public class ResultProcessorTest {
   public void gettingSecondMaelstromStone(int stone) {
     var cleanups =
         new Cleanups(
-            setQuest(QuestDatabase.Quest.MAELSTROM, 3),
-            setProperty("maelstromOfLoversBoss", "something"),
-            addItem(MAELSTROM_STONES[(stone + 1) % 2]));
+            withQuestProgress(QuestDatabase.Quest.MAELSTROM, 3),
+            withProperty("maelstromOfLoversBoss", "something"),
+            withItem(MAELSTROM_STONES[(stone + 1) % 2]));
 
     try (cleanups) {
       ResultProcessor.processResult(true, MAELSTROM_STONES[stone]);

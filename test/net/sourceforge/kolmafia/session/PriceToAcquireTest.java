@@ -1,9 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.isSign;
-import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSign;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -635,9 +635,9 @@ public class PriceToAcquireTest {
       Cleanups cleanups =
           new Cleanups(
               mockedMallPrices,
-              addItem("tenderizing hammer"),
+              withItem("tenderizing hammer"),
               withAdventuresLeft(10),
-              setProperty("valueOfAdventure", 500));
+              withProperty("valueOfAdventure", 500));
       try (cleanups) {
         // We will be testing with no items in inventory.
         // Therefore, we will need to purchase everything from mall or NPCs.
@@ -667,7 +667,7 @@ public class PriceToAcquireTest {
       // Don't mock permitted methods; account for skills, conditions, valueOfAdventure
 
       Cleanups cleanups =
-          new Cleanups(mockedMallPrices, isSign(ZodiacSign.MONGOOSE), withAdventuresLeft(0));
+          new Cleanups(mockedMallPrices, withSign(ZodiacSign.MONGOOSE), withAdventuresLeft(0));
       try (cleanups) {
         // We will be testing with no items in inventory.
         // Therefore, we will need to purchase everything from mall or NPCs.

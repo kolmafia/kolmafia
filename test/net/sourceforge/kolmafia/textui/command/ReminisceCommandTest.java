@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasItem;
@@ -45,7 +45,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   void cannotFightMoreThanThree() {
     Preferences.setString("_locketMonstersFought", "1,3,5");
     LocketManager.parseFoughtMonsters();
-    var cleanups = addItem("combat lover's locket");
+    var cleanups = withItem("combat lover's locket");
     try (cleanups) {
       String output = execute("Black Crayon Penguin");
       assertThat(output, containsString("You can only"));
@@ -55,7 +55,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustReminisceSomething() {
-    var cleanups = addItem("combat lover's locket");
+    var cleanups = withItem("combat lover's locket");
     try (cleanups) {
       String output = execute("");
 
@@ -67,7 +67,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   @Test
   void mustReminisceAValidMonster() {
     LocketManager.parseFoughtMonsters();
-    var cleanups = addItem("combat lover's locket");
+    var cleanups = withItem("combat lover's locket");
     try (cleanups) {
       String output = execute("monster that does not exist purple monkey dishwasher");
 
@@ -80,7 +80,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   void cannotFightSameMonsterTwice() {
     Preferences.setString("_locketMonstersFought", "1");
     LocketManager.parseFoughtMonsters();
-    var cleanups = addItem("combat lover's locket");
+    var cleanups = withItem("combat lover's locket");
     try (cleanups) {
       String output = execute("1");
 
@@ -92,7 +92,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   @Test
   void cannotFightMonsterNotInLocket() {
     assertThat(LocketManager.getMonsters(), not(hasItem(1)));
-    var cleanups = addItem("combat lover's locket");
+    var cleanups = withItem("combat lover's locket");
     try (cleanups) {
       String output = execute("1");
 
@@ -104,7 +104,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   @Test
   void parsesMonsterById() {
     LocketManager.rememberMonster(1);
-    var cleanups = addItem("combat lover's locket");
+    var cleanups = withItem("combat lover's locket");
     try (cleanups) {
       String output = execute("1", true);
 
@@ -116,7 +116,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
   @Test
   void parsesMonsterByName() {
     LocketManager.rememberMonster(1);
-    var cleanups = addItem("combat lover's locket");
+    var cleanups = withItem("combat lover's locket");
     try (cleanups) {
       String output = execute("spooky vampire", true);
 

@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.swingui;
 
-import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -84,7 +84,7 @@ public class OptionsFrameTest {
       JCheckBox box = checkbox.getCheckBox();
       assertFalse(box.isSelected());
 
-      var cleanups = new Cleanups(setProperty(pref, true));
+      var cleanups = new Cleanups(withProperty(pref, true));
       try (cleanups) {
         assertTrue(box.isSelected());
       }
@@ -102,7 +102,7 @@ public class OptionsFrameTest {
       PreferenceCheckBox checkbox = (PreferenceCheckBox) components[0];
       JCheckBox box = checkbox.getCheckBox();
 
-      var cleanups = new Cleanups(setProperty(pref, false));
+      var cleanups = new Cleanups(withProperty(pref, false));
       try (cleanups) {
         assertFalse(box.isSelected());
         assertFalse(Preferences.getBoolean(pref));
@@ -162,7 +162,7 @@ public class OptionsFrameTest {
       JTextField field = textfield.getTextField();
       assertEquals("0", field.getText());
 
-      var cleanups = new Cleanups(setProperty(pref, 10));
+      var cleanups = new Cleanups(withProperty(pref, 10));
       try (cleanups) {
         assertEquals("10", field.getText());
       }
@@ -181,7 +181,7 @@ public class OptionsFrameTest {
       JTextField field = textfield.getTextField();
       assertEquals("0", field.getText());
 
-      var cleanups = new Cleanups(setProperty(pref, 10));
+      var cleanups = new Cleanups(withProperty(pref, 10));
       try (cleanups) {
         assertEquals("10", field.getText());
         field.setText("20");
@@ -235,7 +235,7 @@ public class OptionsFrameTest {
       SmartButtonGroup group = buttongroup.getButtonGroup();
       assertEquals(0, group.getSelectedIndex());
 
-      var cleanups = new Cleanups(setProperty(pref, 1));
+      var cleanups = new Cleanups(withProperty(pref, 1));
       try (cleanups) {
         assertEquals(1, group.getSelectedIndex());
       }
@@ -255,7 +255,7 @@ public class OptionsFrameTest {
       AbstractButton[] buttons =
           Collections.list(group.getElements()).toArray(new AbstractButton[0]);
 
-      var cleanups = new Cleanups(setProperty(pref, 1));
+      var cleanups = new Cleanups(withProperty(pref, 1));
       try (cleanups) {
         assertEquals(1, group.getSelectedIndex());
         group.setSelectedIndex(2);

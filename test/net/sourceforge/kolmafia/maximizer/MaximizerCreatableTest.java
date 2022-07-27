@@ -3,11 +3,11 @@ package net.sourceforge.kolmafia.maximizer;
 import static internal.helpers.Maximizer.*;
 import static internal.helpers.Player.*;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,38 +31,49 @@ public class MaximizerCreatableTest {
 
   @Test
   public void buyBestUtensil() {
-    setStats(100, 100, 100);
-    maximizeCreatable("spell dmg");
-    recommendedSlotIs(EquipmentManager.WEAPON, "obsidian nutcracker");
+    var cleanups = withStats(100, 100, 100);
+
+    try (cleanups) {
+      maximizeCreatable("spell dmg");
+      recommendedSlotIs(EquipmentManager.WEAPON, "obsidian nutcracker");
+    }
   }
 
   @Test
   public void canPasteAsshat() {
-    addItem("bum cheek", 2);
-    addItem("meat paste", 1);
-    ConcoctionDatabase.refreshConcoctions();
-    maximizeCreatable("sleaze dmg");
-    recommendedSlotIs(EquipmentManager.HAT, "asshat");
+    var cleanups = new Cleanups(withItem("bum cheek", 2), withItem("meat paste", 1));
+
+    try (cleanups) {
+      ConcoctionDatabase.refreshConcoctions();
+      maximizeCreatable("sleaze dmg");
+      recommendedSlotIs(EquipmentManager.HAT, "asshat");
+    }
   }
 
   @Test
   public void canOnlyBuyOneSphygmayomanometer() {
-    CampgroundRequest.setCurrentWorkshedItem(ItemPool.MAYO_CLINIC);
-    setStats(100, 100, 100);
-    maximizeCreatable("muscle");
-    recommends("sphygmayomanometer");
-    recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY2);
-    recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY3);
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.MAYO_CLINIC), withStats(100, 100, 100));
+
+    try (cleanups) {
+      maximizeCreatable("muscle");
+      recommends("sphygmayomanometer");
+      recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY2);
+      recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY3);
+    }
   }
 
   @Test
   public void canOnlyBuyOneOversizedSparkler() {
-    addSkill("Double-Fisted Skull Smashing");
-    Preferences.setBoolean("_fireworksShop", true);
-    ConcoctionDatabase.refreshConcoctions();
-    maximizeCreatable("item drop");
-    recommendedSlotIs(EquipmentManager.WEAPON, "oversized sparkler");
-    recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+    var cleanups =
+        new Cleanups(
+            withSkill("Double-Fisted Skull Smashing"), withProperty("_fireworksShop", true));
+
+    try (cleanups) {
+      ConcoctionDatabase.refreshConcoctions();
+      maximizeCreatable("item drop");
+      recommendedSlotIs(EquipmentManager.WEAPON, "oversized sparkler");
+      recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+    }
   }
 
   @Test

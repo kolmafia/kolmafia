@@ -2,10 +2,11 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.canUse;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.setFamiliar;
-import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withUnequipped;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -38,7 +39,7 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
 
   @Test
   void showsCurrentValue() {
-    var cleanups = new Cleanups(setProperty("snowsuit", "eyebrows"));
+    var cleanups = new Cleanups(withProperty("snowsuit", "eyebrows"));
 
     try (cleanups) {
       String output = execute("");
@@ -59,10 +60,10 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
   void equipsSnowsuitIfNotEquipped() {
     var cleanups =
         new Cleanups(
-            canUse("Snow Suit"),
-            setFamiliar(FamiliarPool.CRAB),
-            equip(EquipmentManager.FAMILIAR, null),
-            setProperty("snowsuit", "smirk"));
+            withEquippableItem("Snow Suit"),
+            withFamiliar(FamiliarPool.CRAB),
+            withUnequipped(EquipmentManager.FAMILIAR),
+            withProperty("snowsuit", "smirk"));
 
     try (cleanups) {
       String output = execute("smirk");
@@ -79,10 +80,10 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
   void doesNothingIfAlreadySet() {
     var cleanups =
         new Cleanups(
-            canUse("Snow Suit"),
-            setFamiliar(FamiliarPool.CRAB),
-            equip(EquipmentManager.FAMILIAR, "Snow Suit"),
-            setProperty("snowsuit", "goatee"));
+            withEquippableItem("Snow Suit"),
+            withFamiliar(FamiliarPool.CRAB),
+            withEquipped(EquipmentManager.FAMILIAR, "Snow Suit"),
+            withProperty("snowsuit", "goatee"));
 
     try (cleanups) {
       String output = execute("goatee");
@@ -103,10 +104,10 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
   void successFullyhangesDecoration(int decision, String decoration) {
     var cleanups =
         new Cleanups(
-            canUse("Snow Suit"),
-            setFamiliar(FamiliarPool.CRAB),
-            equip(EquipmentManager.FAMILIAR, "Snow Suit"),
-            setProperty("snowsuit", ""));
+            withEquippableItem("Snow Suit"),
+            withFamiliar(FamiliarPool.CRAB),
+            withEquipped(EquipmentManager.FAMILIAR, "Snow Suit"),
+            withProperty("snowsuit", ""));
 
     try (cleanups) {
       String output = execute(decoration);

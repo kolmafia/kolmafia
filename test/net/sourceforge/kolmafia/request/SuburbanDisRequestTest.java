@@ -1,10 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.countItem;
-import static internal.helpers.Quest.isStep;
+import static internal.helpers.Player.withItem;
+import static internal.matchers.Item.isInInventory;
+import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
@@ -40,7 +41,8 @@ class SuburbanDisRequestTest {
 
   @Test
   void processResultsDealsWithStonesFromDifferentZones() {
-    var cleanups = new Cleanups(addItem(ItemPool.VANITY_STONE), addItem(ItemPool.LECHEROUS_STONE));
+    var cleanups =
+        new Cleanups(withItem(ItemPool.VANITY_STONE), withItem(ItemPool.LECHEROUS_STONE));
 
     try (cleanups) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.FINISHED);
@@ -51,14 +53,15 @@ class SuburbanDisRequestTest {
 
       assertThat(Quest.CLUMSINESS, isStep("step2"));
       assertThat(Quest.MAELSTROM, isStep("step2"));
-      assertEquals(0, countItem(ItemPool.VANITY_STONE));
-      assertEquals(0, countItem(ItemPool.LECHEROUS_STONE));
+      assertThat(ItemPool.VANITY_STONE, not(isInInventory()));
+      assertThat(ItemPool.LECHEROUS_STONE, not(isInInventory()));
     }
   }
 
   @Test
   void processResultsDealsWithPartialQuestStatus() {
-    var cleanups = new Cleanups(addItem(ItemPool.VANITY_STONE), addItem(ItemPool.LECHEROUS_STONE));
+    var cleanups =
+        new Cleanups(withItem(ItemPool.VANITY_STONE), withItem(ItemPool.LECHEROUS_STONE));
 
     try (cleanups) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, "step3");
@@ -69,14 +72,14 @@ class SuburbanDisRequestTest {
 
       assertThat(Quest.CLUMSINESS, isStep("step1"));
       assertThat(Quest.MAELSTROM, isStep("step2"));
-      assertEquals(0, countItem(ItemPool.VANITY_STONE));
-      assertEquals(0, countItem(ItemPool.LECHEROUS_STONE));
+      assertThat(ItemPool.VANITY_STONE, not(isInInventory()));
+      assertThat(ItemPool.LECHEROUS_STONE, not(isInInventory()));
     }
   }
 
   @Test
   void processResultsDealsWithStonesFromSameZone() {
-    var cleanups = new Cleanups(addItem(ItemPool.FURIOUS_STONE), addItem(ItemPool.VANITY_STONE));
+    var cleanups = new Cleanups(withItem(ItemPool.FURIOUS_STONE), withItem(ItemPool.VANITY_STONE));
 
     try (cleanups) {
       QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.FINISHED);
@@ -85,8 +88,8 @@ class SuburbanDisRequestTest {
       differentZones.processResults();
 
       assertThat(Quest.CLUMSINESS, isStep("unstarted"));
-      assertEquals(0, countItem(ItemPool.FURIOUS_STONE));
-      assertEquals(0, countItem(ItemPool.VANITY_STONE));
+      assertThat(ItemPool.FURIOUS_STONE, not(isInInventory()));
+      assertThat(ItemPool.VANITY_STONE, not(isInInventory()));
     }
   }
 

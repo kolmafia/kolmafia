@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.withItem;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -63,7 +63,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void warnAgainstUnknownInput() {
-    var cleanups = new Cleanups(addItem("backup camera"));
+    var cleanups = new Cleanups(withItem("backup camera"));
 
     try (cleanups) {
       String output = execute("rverser");
@@ -77,7 +77,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void canChangeMode() {
-    var cleanups = new Cleanups(addItem("backup camera"));
+    var cleanups = new Cleanups(withItem("backup camera"));
 
     try (cleanups) {
       execute("init");
@@ -94,7 +94,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
   @ValueSource(strings = {"off", "disable"})
   public void canDisableReverser(String disable) {
     // But... why?
-    var cleanups = new Cleanups(addItem("backup camera"));
+    var cleanups = new Cleanups(withItem("backup camera"));
 
     try (cleanups) {
       execute("reverser " + disable);
@@ -110,7 +110,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @ValueSource(strings = {"", "enable"})
   public void canEnableReverser(String enable) {
-    var cleanups = new Cleanups(addItem("backup camera"));
+    var cleanups = new Cleanups(withItem("backup camera"));
 
     try (cleanups) {
       String output = execute("reverser " + enable);

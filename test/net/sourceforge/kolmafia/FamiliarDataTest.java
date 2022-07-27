@@ -2,13 +2,13 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
-import static internal.helpers.Player.addEffect;
-import static internal.helpers.Player.addSkill;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.inPath;
-import static internal.helpers.Player.isClass;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Player.setStats;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -61,7 +61,7 @@ public class FamiliarDataTest {
 
   @Test
   void familiarReportsModifiedWeightIncludingFidoxene() {
-    var cleanups = addEffect("Fidoxene");
+    var cleanups = withEffect("Fidoxene");
 
     try (cleanups) {
       var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 0);
@@ -72,7 +72,7 @@ public class FamiliarDataTest {
 
   @Test
   void familiarReportsModifiedWeightCorrectlyDespiteFidoxene() {
-    var cleanups = addEffect("Fidoxene");
+    var cleanups = withEffect("Fidoxene");
 
     try (cleanups) {
       var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 400);
@@ -83,7 +83,7 @@ public class FamiliarDataTest {
 
   @Test
   void fidoxeneWorksWithNonstandardMaxBaseWeightFamiliars() {
-    var cleanups = addEffect("Fidoxene");
+    var cleanups = withEffect("Fidoxene");
 
     try (cleanups) {
       var familiar = FamiliarData.registerFamiliar(FamiliarPool.STOCKING_MIMIC, 900);
@@ -178,7 +178,7 @@ public class FamiliarDataTest {
   public void homemadeRobotWeightCalculationIgnoresExp(Integer upgrades, Integer weight) {
     var fam = new FamiliarData(FamiliarPool.HOMEMADE_ROBOT);
 
-    var cleanups = new Cleanups(setProperty("homemadeRobotUpgrades", upgrades));
+    var cleanups = new Cleanups(withProperty("homemadeRobotUpgrades", upgrades));
     try (cleanups) {
       // This experience should be ignored
       fam.setExperience(69);
@@ -223,10 +223,10 @@ public class FamiliarDataTest {
 
       Cleanups cleanups =
           new Cleanups(
-              inPath(Path.QUANTUM),
-              isClass(AscensionClass.ACCORDION_THIEF),
-              setStats(basemuscle, basemysticality, basemoxie),
-              addSkill("Amphibian Sympathy"));
+              withPath(Path.QUANTUM),
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withStats(basemuscle, basemysticality, basemoxie),
+              withSkill("Amphibian Sympathy"));
 
       try (cleanups) {
         ApiRequest.parseStatus(JSON);
@@ -264,11 +264,11 @@ public class FamiliarDataTest {
 
       Cleanups cleanups =
           new Cleanups(
-              inPath(Path.QUANTUM),
-              isClass(AscensionClass.ACCORDION_THIEF),
-              setStats(basemuscle, basemysticality, basemoxie),
-              addSkill("Amphibian Sympathy"),
-              equip(EquipmentManager.HAT, "Daylight Shavings Helmet"));
+              withPath(Path.QUANTUM),
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withStats(basemuscle, basemysticality, basemoxie),
+              withSkill("Amphibian Sympathy"),
+              withEquipped(EquipmentManager.HAT, "Daylight Shavings Helmet"));
 
       try (cleanups) {
         ApiRequest.parseStatus(JSON);
@@ -306,12 +306,12 @@ public class FamiliarDataTest {
 
       Cleanups cleanups =
           new Cleanups(
-              inPath(Path.NONE),
-              equip(EquipmentManager.HAT, "Daylight Shavings Helmet"),
-              addSkill("Amphibian Sympathy"),
-              addEffect("Cute Vision"),
-              addEffect("Empathy"),
-              addEffect("Leash of Linguini"));
+              withPath(Path.NONE),
+              withEquipped(EquipmentManager.HAT, "Daylight Shavings Helmet"),
+              withSkill("Amphibian Sympathy"),
+              withEffect("Cute Vision"),
+              withEffect("Empathy"),
+              withEffect("Leash of Linguini"));
 
       try (cleanups) {
         // Register all familiars from the terrarium

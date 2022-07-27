@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.canUse;
-import static internal.helpers.Player.equip;
+import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -28,7 +28,7 @@ class NPCPurchaseRequestTest {
 
   @Test
   public void priceDiscountedByTravoltanTrousers() {
-    var cleanups = new Cleanups(equip(EquipmentManager.PANTS, "Travoltan trousers"));
+    var cleanups = new Cleanups(withEquipped(EquipmentManager.PANTS, "Travoltan trousers"));
     try (cleanups) {
       var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
       assertThat(req.getPrice(), equalTo(66));
@@ -37,7 +37,7 @@ class NPCPurchaseRequestTest {
 
   @Test
   public void priceDiscountedBySweatpants() {
-    var cleanups = new Cleanups(equip(EquipmentManager.PANTS, "designer sweatpants"));
+    var cleanups = new Cleanups(withEquipped(EquipmentManager.PANTS, "designer sweatpants"));
     try (cleanups) {
       var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
       assertThat(req.getPrice(), equalTo(66));
@@ -46,7 +46,7 @@ class NPCPurchaseRequestTest {
 
   @Test
   public void equipsTrousersIfNecessary() {
-    var cleanups = new Cleanups(canUse("designer sweatpants"));
+    var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
 
     try (cleanups) {
       var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);

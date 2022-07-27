@@ -3,8 +3,8 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.fakeClientBuilder;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.isSign;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -29,7 +29,7 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void completesQuest() {
-    var cleanups = new Cleanups(isSign(ZodiacSign.VOLE));
+    var cleanups = new Cleanups(withSign(ZodiacSign.VOLE));
     try (cleanups) {
       String output = execute("");
 
@@ -49,7 +49,7 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canUntinkerItems() {
-    var cleanups = new Cleanups(addItem("badass belt", 1));
+    var cleanups = new Cleanups(withItem("badass belt", 1));
     setFakeResponse("You acquire <b>skull of the Bonerdagon</b>");
     try (cleanups) {
       String output = execute("badass belt");
@@ -68,7 +68,7 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canUntinkerManyItems() {
-    var cleanups = new Cleanups(addItem("badass belt", 5));
+    var cleanups = new Cleanups(withItem("badass belt", 5));
     setFakeResponse("You acquire <b>skull of the Bonerdagon</b>");
     try (cleanups) {
       String output = execute("4 badass belt");
@@ -87,7 +87,7 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void noRequestForUntinkerNoItems() {
-    var cleanups = new Cleanups(addItem("badass belt", 1));
+    var cleanups = new Cleanups(withItem("badass belt", 1));
     try (cleanups) {
       execute("0 badass belt");
 

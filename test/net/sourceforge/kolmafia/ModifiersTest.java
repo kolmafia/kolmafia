@@ -1,15 +1,15 @@
 package net.sourceforge.kolmafia;
 
-import static internal.helpers.Player.addEffect;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.inPath;
-import static internal.helpers.Player.isClass;
-import static internal.helpers.Player.isDay;
-import static internal.helpers.Player.setFamiliar;
-import static internal.helpers.Player.setHP;
-import static internal.helpers.Player.setMP;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Player.setStats;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withDay;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withMP;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
@@ -42,7 +42,7 @@ public class ModifiersTest {
   @Test
   public void patriotShieldClassModifiers() {
     // Wide-reaching unit test for getModifiers
-    var cleanup = isClass(AscensionClass.AVATAR_OF_JARLSBERG);
+    var cleanup = withClass(AscensionClass.AVATAR_OF_JARLSBERG);
     try (cleanup) {
       Modifiers mods = Modifiers.getModifiers("Item", "Patriot Shield");
 
@@ -70,7 +70,7 @@ public class ModifiersTest {
   @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7})
   public void tuesdayRubyModifiers(int dotw) {
     // Wide-reaching unit test for getModifiers
-    var cleanup = isDay(new GregorianCalendar(2017, Calendar.JANUARY, dotw));
+    var cleanup = withDay(new GregorianCalendar(2017, Calendar.JANUARY, dotw));
     try (cleanup) {
       Modifiers mods = Modifiers.getModifiers("Item", "Tuesday's Ruby");
 
@@ -167,7 +167,7 @@ public class ModifiersTest {
     FamiliarPool.SCARECROW + ", " + Modifiers.PANTSDROP,
   })
   public void getsRightModifiersNakedHatrack(int famId, int mod) {
-    var cleanups = new Cleanups(setFamiliar(famId));
+    var cleanups = new Cleanups(withFamiliar(famId));
 
     try (cleanups) {
       Modifiers familiarMods = new Modifiers();
@@ -185,7 +185,7 @@ public class ModifiersTest {
   class Fixodene {
     @Test
     void fixodeneConsideredInFamiliarModifiers() {
-      var cleanups = addEffect("Fidoxene");
+      var cleanups = withEffect("Fidoxene");
 
       try (cleanups) {
         Modifiers familiarMods = new Modifiers();
@@ -199,7 +199,7 @@ public class ModifiersTest {
 
     @Test
     void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
-      var cleanups = addEffect("Fidoxene");
+      var cleanups = withEffect("Fidoxene");
 
       try (cleanups) {
         Modifiers familiarMods = new Modifiers();
@@ -223,9 +223,10 @@ public class ModifiersTest {
     public void squintAffectsUmbrella() {
       var cleanups =
           new Cleanups(
-              equip(EquipmentManager.OFFHAND, "unbreakable umbrella"),
-              setProperty("umbrellaState", "bucket style"),
-              addEffect("Steely-Eyed Squint"));
+              withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"),
+              withProperty("umbrellaState", "bucket style"),
+              withEffect("Steely-Eyed Squint"));
+
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
@@ -244,7 +245,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesSealClubberMaximumHP() {
-      var cleanups = new Cleanups(isClass(AscensionClass.SEAL_CLUBBER), setStats(100, 100, 100));
+      var cleanups = new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withStats(100, 100, 100));
       try (cleanups) {
         // Buffed MUS = Base MUS + mod(MUS) + ceiling(Base MUS * mod(MUS_PCT)/100.0)
         // Base HP = Buffed MUS + 3
@@ -284,7 +285,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesPastamancerMaximumHP() {
-      var cleanups = new Cleanups(isClass(AscensionClass.PASTAMANCER), setStats(100, 100, 100));
+      var cleanups = new Cleanups(withClass(AscensionClass.PASTAMANCER), withStats(100, 100, 100));
       try (cleanups) {
         // Buffed MUS = Base MUS + mod(MUS) + ceiling(Base MUS * mod(MUS_PCT)/100.0)
         // Base HP = Buffed MUS + 3
@@ -324,7 +325,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesVampyreMaximumHP() {
-      var cleanups = new Cleanups(isClass(AscensionClass.VAMPYRE), setStats(100, 100, 100));
+      var cleanups = new Cleanups(withClass(AscensionClass.VAMPYRE), withStats(100, 100, 100));
       try (cleanups) {
         // Base HP = Base MUS
         // Buffed HP = max(Base MUS, Base HP + mod(HP))
@@ -362,7 +363,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesYouRobotMaximumHP() {
-      var cleanups = new Cleanups(inPath(Path.YOU_ROBOT), setStats(100, 100, 100));
+      var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withStats(100, 100, 100));
       try (cleanups) {
         // Base HP = 30
         // Buffed HP = Base HP + mod(HP)
@@ -402,7 +403,7 @@ public class ModifiersTest {
     public void correctlyCalculatesGreyYouMaximumHP() {
       var cleanups =
           new Cleanups(
-              isClass(AscensionClass.GREY_GOO), setStats(100, 100, 100), setHP(176, 176, 176));
+              withClass(AscensionClass.GREY_GOO), withStats(100, 100, 100), withHP(176, 176, 176));
       try (cleanups) {
         // Base HP = (starting value + absorptions + currently worn equipment)
         // Buffed HP = Base HP - currently worn equipment + mod(HP)
@@ -442,10 +443,10 @@ public class ModifiersTest {
     public void correctlySpeculatesGreyYouMaximumHP() {
       var cleanups =
           new Cleanups(
-              isClass(AscensionClass.GREY_GOO),
-              setStats(100, 100, 100),
-              setHP(216, 216, 216),
-              equip(EquipmentManager.HAT, ItemPool.REINFORCED_BEADED_HEADBAND));
+              withClass(AscensionClass.GREY_GOO),
+              withStats(100, 100, 100),
+              withHP(216, 216, 216),
+              withEquipped(EquipmentManager.HAT, ItemPool.REINFORCED_BEADED_HEADBAND));
       try (cleanups) {
         // Base HP = (starting value + absorptions + currently worn equipment)
         // Buffed HP = Base HP - currently worn equipment + mod(HP)
@@ -483,7 +484,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesSaucerorMaximumMP() {
-      var cleanups = new Cleanups(isClass(AscensionClass.SAUCEROR), setStats(100, 100, 100));
+      var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withStats(100, 100, 100));
       try (cleanups) {
         // Buffed MYS = Base MYS + mod(MYS) + ceiling(Base MYS * mod(MYS_PCT)/100.0)
         // Base MP = Buffed MYS
@@ -524,7 +525,7 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesTurtleTamerMaximumMP() {
-      var cleanups = new Cleanups(isClass(AscensionClass.TURTLE_TAMER), setStats(100, 100, 100));
+      var cleanups = new Cleanups(withClass(AscensionClass.TURTLE_TAMER), withStats(100, 100, 100));
       try (cleanups) {
         // Buffed MYS = Base MYS + mod(MYS) + ceiling(Base MYS * mod(MYS_PCT)/100.0)
         // Base MP = Buffed MYS
@@ -567,7 +568,7 @@ public class ModifiersTest {
     public void correctlyCalculatesGreyYouMaximumMP() {
       var cleanups =
           new Cleanups(
-              isClass(AscensionClass.GREY_GOO), setStats(100, 100, 100), setMP(126, 126, 126));
+              withClass(AscensionClass.GREY_GOO), withStats(100, 100, 100), withMP(126, 126, 126));
       try (cleanups) {
         // Base MP = (starting value + absorptions + currently worn equipment)
         // Buffed MP = Base MP - currently worn equipment + mod(HP)
@@ -608,10 +609,10 @@ public class ModifiersTest {
     public void correctlySpeculatesGreyYouMaximumMP() {
       var cleanups =
           new Cleanups(
-              isClass(AscensionClass.GREY_GOO),
-              setStats(100, 100, 100),
-              setMP(126, 126, 126),
-              equip(EquipmentManager.HAT, ItemPool.BEER_HELMET));
+              withClass(AscensionClass.GREY_GOO),
+              withStats(100, 100, 100),
+              withMP(126, 126, 126),
+              withEquipped(EquipmentManager.HAT, ItemPool.BEER_HELMET));
       try (cleanups) {
         // Base MP = (starting value + absorptions + currently worn equipment)
         // Buffed MP = Base MP - currently worn equipment + mod(MP)
@@ -644,9 +645,9 @@ public class ModifiersTest {
       // moxie magnet: Moxie Controls MP
       var cleanups =
           new Cleanups(
-              isClass(AscensionClass.DISCO_BANDIT),
-              setStats(100, 100, 150),
-              equip(EquipmentManager.ACCESSORY1, "moxie magnet"));
+              withClass(AscensionClass.DISCO_BANDIT),
+              withStats(100, 100, 150),
+              withEquipped(EquipmentManager.ACCESSORY1, "moxie magnet"));
       try (cleanups) {
         // Buffed MOX = Base MOX + mod(MOX) + ceiling(Base MOX * mod(MOX_PCT)/100.0)
         // Base MP = Buffed MUS
@@ -710,10 +711,10 @@ public class ModifiersTest {
     public void noobUnderstandsLatteEnchantments() {
       var cleanups =
           new Cleanups(
-              inPath(Path.GELATINOUS_NOOB),
-              setFamiliar(FamiliarPool.EMO_SQUID),
-              setProperty("latteModifier", ""),
-              equip(EquipmentManager.OFFHAND, "latte lovers member's mug"));
+              withPath(Path.GELATINOUS_NOOB),
+              withFamiliar(FamiliarPool.EMO_SQUID),
+              withProperty("latteModifier", ""),
+              withEquipped(EquipmentManager.OFFHAND, "latte lovers member's mug"));
       try (cleanups) {
         FamiliarData familiar = KoLCharacter.getFamiliar();
         familiar.setExperience(400);
@@ -778,7 +779,7 @@ public class ModifiersTest {
       assertEquals(2, evaluated.get(Modifiers.FAMILIAR_EXP));
       assertEquals(4, evaluated.get(Modifiers.MUS_EXPERIENCE));
 
-      var cleanups = new Cleanups(setProperty("_voteModifier", setting));
+      var cleanups = new Cleanups(withProperty("_voteModifier", setting));
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers current = KoLCharacter.getCurrentModifiers();

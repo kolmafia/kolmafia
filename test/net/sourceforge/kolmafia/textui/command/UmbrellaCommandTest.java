@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.canUse;
+import static internal.helpers.Player.withEquippableItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
@@ -41,7 +41,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyState() {
-    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
     try (cleanups) {
       String output = execute("");
 
@@ -52,7 +52,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyValidState() {
-    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
     try (cleanups) {
       String output = execute("the bourgeoisie");
 
@@ -77,7 +77,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @EnumSource(UmbrellaMode.class)
   void canChooseStateByShorthand(UmbrellaMode mode) {
-    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
     try (cleanups) {
       assertChoseState(mode.getShorthand(), mode);
     }
@@ -86,7 +86,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @EnumSource(UmbrellaMode.class)
   void canChooseStateByName(UmbrellaMode mode) {
-    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
     try (cleanups) {
       assertChoseState(mode.getName(), mode);
     }
@@ -94,7 +94,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canChooseStateWithTwirling() {
-    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    var cleanups = new Cleanups(withEquippableItem("unbreakable umbrella"));
     try (cleanups) {
       assertChoseState("twirling", UmbrellaMode.TWIRL);
     }

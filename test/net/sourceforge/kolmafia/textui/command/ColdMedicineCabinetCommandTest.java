@@ -3,16 +3,16 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.setMoxie;
-import static internal.helpers.Player.setMuscle;
-import static internal.helpers.Player.setMysticality;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Player.setWorkshed;
-import static internal.helpers.Player.setupFakeResponse;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withMoxie;
+import static internal.helpers.Player.withMuscle;
+import static internal.helpers.Player.withMysticality;
+import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
@@ -46,7 +46,7 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doNotCheckWithNoWorkshedItem() {
-    var cleanups = new Cleanups(setWorkshed(-1));
+    var cleanups = new Cleanups(withWorkshedItem(-1));
 
     try (cleanups) {
       String output = execute("");
@@ -56,7 +56,7 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doNotCheckWithWrongWorkshedItem() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.DIABOLIC_PIZZA_CUBE));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.DIABOLIC_PIZZA_CUBE));
 
     try (cleanups) {
       String output = execute("");
@@ -67,7 +67,7 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
   @Test
   void errorsWithInvalidParameter() {
     var cleanups =
-        new Cleanups(setWorkshed(ItemPool.COLD_MEDICINE_CABINET), withContinuationState());
+        new Cleanups(withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET), withContinuationState());
 
     try (cleanups) {
       var output = execute("beans");
@@ -80,7 +80,8 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
   void handlesAllConsultsUsed() {
     var cleanups =
         new Cleanups(
-            setWorkshed(ItemPool.COLD_MEDICINE_CABINET), setProperty("_coldMedicineConsults", 5));
+            withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+            withProperty("_coldMedicineConsults", 5));
 
     try (cleanups) {
       var output = execute("");
@@ -105,9 +106,9 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       void showsRightEquipmentForNumberTaken(int taken, String itemName) {
         var cleanups =
             new Cleanups(
-                setProperty("_coldMedicineEquipmentTaken", taken),
-                setProperty("_nextColdMedicineConsult", 1),
-                setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+                withProperty("_coldMedicineEquipmentTaken", taken),
+                withProperty("_nextColdMedicineConsult", 1),
+                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
                 withTurnsPlayed(0));
         try (cleanups) {
           String output = execute("");
@@ -137,11 +138,11 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       void showsRightWineForStatBuff(int mus, int mys, int mox, String itemName) {
         var cleanups =
             new Cleanups(
-                setMuscle(1, mus),
-                setMysticality(1, mys),
-                setMoxie(1, mox),
-                setProperty("_nextColdMedicineConsult", 1),
-                setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+                withMuscle(1, mus),
+                withMysticality(1, mys),
+                withMoxie(1, mox),
+                withProperty("_nextColdMedicineConsult", 1),
+                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
                 withTurnsPlayed(0));
 
         try (cleanups) {
@@ -157,9 +158,9 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
         var cleanups =
             new Cleanups(
                 withFight(),
-                setProperty("_nextColdMedicineConsult", 0),
+                withProperty("_nextColdMedicineConsult", 0),
                 withTurnsPlayed(1),
-                setWorkshed(ItemPool.COLD_MEDICINE_CABINET));
+                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET));
         try (cleanups) {
           String output = execute("");
           assertThat(output, containsString("Your next equipment should be"));
@@ -171,9 +172,9 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
         var cleanups =
             new Cleanups(
                 withHandlingChoice(),
-                setProperty("_nextColdMedicineConsult", 0),
+                withProperty("_nextColdMedicineConsult", 0),
                 withTurnsPlayed(1),
-                setWorkshed(ItemPool.COLD_MEDICINE_CABINET));
+                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET));
         try (cleanups) {
           String output = execute("");
           assertThat(output, containsString("Your next equipment should be"));
@@ -199,9 +200,9 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       void showsRightPillForRightMajority(String environment, String pill) {
         var cleanups =
             new Cleanups(
-                setProperty("lastCombatEnvironments", environment.repeat(11) + "x".repeat(9)),
-                setProperty("_nextColdMedicineConsult", 1),
-                setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+                withProperty("lastCombatEnvironments", environment.repeat(11) + "x".repeat(9)),
+                withProperty("_nextColdMedicineConsult", 1),
+                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
                 withTurnsPlayed(0));
 
         try (cleanups) {
@@ -218,9 +219,9 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       void showsFleshazoleForNoOverallMajority() {
         var cleanups =
             new Cleanups(
-                setProperty("lastCombatEnvironments", "iiiiiioooooouuuuuuio"),
-                setProperty("_nextColdMedicineConsult", 1),
-                setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+                withProperty("lastCombatEnvironments", "iiiiiioooooouuuuuuio"),
+                withProperty("_nextColdMedicineConsult", 1),
+                withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
                 withTurnsPlayed(0));
 
         try (cleanups) {
@@ -244,9 +245,9 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
     void canCheckCabinet() {
       var cleanups =
           new Cleanups(
-              setupFakeResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
-              setProperty("_nextColdMedicineConsult", 0),
-              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
+              withProperty("_nextColdMedicineConsult", 0),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(1));
 
       try (cleanups) {
@@ -264,9 +265,9 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
     void canHandleBogusCabinetResponse() {
       var cleanups =
           new Cleanups(
-              setupFakeResponse(200, "unknown"),
-              setProperty("_nextColdMedicineConsult", 0),
-              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withNextResponse(200, "unknown"),
+              withProperty("_nextColdMedicineConsult", 0),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(1),
               withContinuationState());
 
@@ -295,10 +296,10 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
     void cannotCollectIfNoMoreConsults() {
       var cleanups =
           new Cleanups(
-              setProperty("_nextColdMedicineConsult", 0),
-              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_nextColdMedicineConsult", 0),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(1),
-              setProperty("_coldMedicineConsults", 5),
+              withProperty("_coldMedicineConsults", 5),
               withContinuationState());
 
       try (cleanups) {
@@ -313,10 +314,10 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
     void cannotCollectIfNoConsultReady() {
       var cleanups =
           new Cleanups(
-              setProperty("_nextColdMedicineConsult", 5),
-              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_nextColdMedicineConsult", 5),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(0),
-              setProperty("_coldMedicineConsults", 2),
+              withProperty("_coldMedicineConsults", 2),
               withContinuationState());
 
       try (cleanups) {
@@ -340,10 +341,10 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
     void canCollectItem(String command, int decision) {
       var cleanups =
           new Cleanups(
-              setProperty("_nextColdMedicineConsult", 0),
-              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_nextColdMedicineConsult", 0),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(5),
-              setProperty("_coldMedicineConsults", 2),
+              withProperty("_coldMedicineConsults", 2),
               withContinuationState(),
               withHandlingChoice(false));
 

@@ -1,12 +1,12 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.isClass;
-import static internal.helpers.Player.setFamiliar;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Player.setupFakeResponse;
-import static internal.helpers.Preference.isSetTo;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -41,11 +41,11 @@ class UseItemRequestTest {
     void successfulMilkUsageSetsPreferences() {
       var cleanups =
           new Cleanups(
-              addItem(ItemPool.MILK_OF_MAGNESIUM),
-              setProperty("_milkOfMagnesiumUsed", false),
-              setProperty("milkOfMagnesiumActive", false),
+              withItem(ItemPool.MILK_OF_MAGNESIUM),
+              withProperty("_milkOfMagnesiumUsed", false),
+              withProperty("milkOfMagnesiumActive", false),
               // Wiki claims that this message is indeed "You stomach ..."
-              setupFakeResponse(200, "You stomach immediately begins to churn"));
+              withNextResponse(200, "You stomach immediately begins to churn"));
 
       try (cleanups) {
         var req = getUseMilkRequest();
@@ -60,9 +60,9 @@ class UseItemRequestTest {
     void unsuccessfulMilkUsageSetsPreference() {
       var cleanups =
           new Cleanups(
-              addItem(ItemPool.MILK_OF_MAGNESIUM),
-              setProperty("_milkOfMagnesiumUsed", false),
-              setupFakeResponse(200, "it was pretty hard on the old gullet."));
+              withItem(ItemPool.MILK_OF_MAGNESIUM),
+              withProperty("_milkOfMagnesiumUsed", false),
+              withNextResponse(200, "it was pretty hard on the old gullet."));
       try (cleanups) {
         UseItemRequest req = getUseMilkRequest();
         req.run();
@@ -74,7 +74,7 @@ class UseItemRequestTest {
     void milkPreferencePreventsWastedServerHit() {
       var cleanups =
           new Cleanups(
-              addItem(ItemPool.MILK_OF_MAGNESIUM), setProperty("_milkOfMagnesiumUsed", true));
+              withItem(ItemPool.MILK_OF_MAGNESIUM), withProperty("_milkOfMagnesiumUsed", true));
       try (cleanups) {
         Preferences.setBoolean("_milkOfMagnesiumUsed", true);
 
@@ -90,7 +90,7 @@ class UseItemRequestTest {
   class GreyYou {
     @Test
     void allConsumablesAreMaxUseOneInGreyYou() {
-      var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
       try (cleanups) {
         assertThat(UseItemRequest.maximumUses(ItemPool.GRAPEFRUIT), equalTo(1));
@@ -102,7 +102,7 @@ class UseItemRequestTest {
     @Test
     void greyYouGivesWarningOnGcliWhenAlreadyAbsorbed() {
       // Lemon
-      var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
       try (cleanups) {
         var req = UseItemRequest.getInstance(332);
@@ -119,7 +119,7 @@ class UseItemRequestTest {
     @Test
     void greyYouGivesNoWarningWhenAbsorbed() {
       // Lemon
-      var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
       try (cleanups) {
         var req = UseItemRequest.getInstance(332);
@@ -138,7 +138,7 @@ class UseItemRequestTest {
     void incrementsPrefWhenPartsUsed() {
       var cleanups =
           new Cleanups(
-              setProperty("homemadeRobotUpgrades", 2), setFamiliar(FamiliarPool.HOMEMADE_ROBOT));
+              withProperty("homemadeRobotUpgrades", 2), withFamiliar(FamiliarPool.HOMEMADE_ROBOT));
 
       try (cleanups) {
         var fam = KoLCharacter.getFamiliar();
@@ -159,7 +159,7 @@ class UseItemRequestTest {
     void detectMaxedOutHomemadeRobot() {
       var cleanups =
           new Cleanups(
-              setProperty("homemadeRobotUpgrades", 2), setFamiliar(FamiliarPool.HOMEMADE_ROBOT));
+              withProperty("homemadeRobotUpgrades", 2), withFamiliar(FamiliarPool.HOMEMADE_ROBOT));
 
       try (cleanups) {
         var fam = KoLCharacter.getFamiliar();
