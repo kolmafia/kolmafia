@@ -945,7 +945,7 @@
 7416	Sweat Flood	waves.gif	5	0	0
 7417	Sweat Spray	sprayup.gif	5	0	0
 7418	Make Sweat-Ade	sweatade.gif	1	0	0
-7419	Drench Yourself in Sweat	sebashield.gif	3	0	0
+7419	Drench Yourself in Sweat	sebashield.gif	3	0	5
 7420	Sip Some Sweat	waterglass.gif	2	0	0
 7421	Sweat Sip	waterglass.gif	5	0	0
 
