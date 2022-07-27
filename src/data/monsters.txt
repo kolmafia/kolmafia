@@ -1002,7 +1002,7 @@ Flaming Samurai	206	samurai.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -
 giant bee	612	giantbee.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
 Giant Desktop Globe	279	globe.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
 giant fried egg	606	friedegg.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: slime Article: a
-Ice Cube	207	icecube.gif	NOCOPY NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: an
+Ice Cube	207	icecube.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: an
 malevolent crop circle	603	cropcircle.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
 possessed pipe-organ	607	organ.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
 Pretty Fly	203	fly.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: beast Article: a
