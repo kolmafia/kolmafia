@@ -8,6 +8,7 @@ import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
+import static internal.helpers.Player.withMysticality;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
@@ -20,7 +21,6 @@ import static org.hamcrest.Matchers.startsWith;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -139,7 +139,7 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
         var cleanups =
             new Cleanups(
                 withMuscle(1, mus),
-                Player.withMysticality(1, mys),
+                withMysticality(1, mys),
                 withMoxie(1, mox),
                 withProperty("_nextColdMedicineConsult", 1),
                 withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),

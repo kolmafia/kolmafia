@@ -910,14 +910,15 @@ public class Player {
   }
 
   /**
-   * Sets next response when the FakeHttpClientBuilder is active Note that for some reason setting
-   * the response seems to wipe out getRequests() at the moment
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
    *
    * @param code Status code to fake
    * @param response Response text to fake
    * @return Cleans up so this response is not given again
    */
   public static Cleanups withNextResponse(final int code, final String response) {
+    var old = HttpUtilities.getClientBuilder();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
@@ -927,7 +928,7 @@ public class Player {
     return new Cleanups(
         () -> {
           GenericRequest.sessionId = null;
-          HttpUtilities.setClientBuilder(FakeHttpClientBuilder::new);
+          HttpUtilities.setClientBuilder(() -> old);
           GenericRequest.resetClient();
         });
   }

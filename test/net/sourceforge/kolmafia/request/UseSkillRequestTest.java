@@ -6,6 +6,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withNextResponse;
@@ -19,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -196,8 +196,7 @@ class UseSkillRequestTest {
 
     @Test
     void doNotEquipDesignerSweatpantsForSkillIfAlreadyWearing() {
-      var cleanups =
-          new Cleanups(Player.withEquipped(EquipmentManager.PANTS, "designer sweatpants"));
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.PANTS, "designer sweatpants"));
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
