@@ -292,36 +292,42 @@ public class YouRobotManagerTest {
   @Test
   public void canDiscoverStatbotCostOnVisit() {
     String urlString = "choice.php?forceoption=0";
-    String responseText = html("request/test_scrapheap_visit_statbot.html");
+    String html = html("request/test_scrapheap_visit_statbot.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1447;
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+
     assertEquals(0, Preferences.getInteger("statbotUses"));
-    YouRobotManager.visitChoice(request);
+    request.processResponse();
     assertEquals(10, Preferences.getInteger("statbotUses"));
   }
 
   @Test
   public void canDiscoverStatbotCostOnActivation() {
     String urlString = "choice.php?pwd&whichchoice=1447&option=3";
-    String responseText = html("request/test_scrapheap_activate_statbot.html");
+    String html = html("request/test_scrapheap_activate_statbot.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1447;
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+
     assertEquals(0, Preferences.getInteger("statbotUses"));
-    YouRobotManager.postChoice1(responseText, request);
+    request.processResponse();
     assertEquals(11, Preferences.getInteger("statbotUses"));
   }
 
   @Test
   public void canDiscoverStatbotCostOnFailedActivation() {
     String urlString = "choice.php?pwd&whichchoice=1447&option=3";
-    String responseText = html("request/test_scrapheap_activate_statbot_fails.html");
+    String html = html("request/test_scrapheap_activate_statbot_fails.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1447;
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+
     assertEquals(0, Preferences.getInteger("statbotUses"));
-    YouRobotManager.postChoice1(responseText, request);
+    request.processResponse();
     assertEquals(24, Preferences.getInteger("statbotUses"));
   }
 
@@ -391,19 +397,21 @@ public class YouRobotManagerTest {
 
     // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
     String urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7";
-    String responseText = html("request/test_scrapheap_add_skill.html");
+    String html = html("request/test_scrapheap_add_skill.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.postChoice1(urlString, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(70, KoLCharacter.getYouRobotScraps());
 
     urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_resist";
-    responseText = html("request/test_scrapheap_cpu_upgrade.html");
+    html = html("request/test_scrapheap_cpu_upgrade.html");
     request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.postChoice1(urlString, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(60, KoLCharacter.getYouRobotEnergy());
   }
 
@@ -417,41 +425,45 @@ public class YouRobotManagerTest {
 
     // Look at Top Attachments
     String urlString = "choice.php?whichchoice=1445&show=top";
-    String responseText = html("request/test_scrapheap_show_top.html");
+    String html = html("request/test_scrapheap_show_top.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.visitChoice(request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(4, Preferences.getInteger("youRobotTop"));
 
     // Install Pea Shooter, learn Shoot Pea
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
-    responseText = html("request/test_scrapheap_add_skill.html");
+    html = html("request/test_scrapheap_add_skill.html");
     request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.postChoice1(urlString, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(1, Preferences.getInteger("youRobotTop"));
     assertTrue(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
 
     // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7";
-    responseText = html("request/test_scrapheap_add_skill_lose_skill.html");
+    html = html("request/test_scrapheap_add_skill_lose_skill.html");
     request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.postChoice1(urlString, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(7, Preferences.getInteger("youRobotTop"));
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
     assertTrue(KoLCharacter.hasCombatSkill(SkillPool.TESLA_BLAST));
 
     // Install Solar Panel, lost Tesla Blast
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=3";
-    responseText = html("request/test_scrapheap_lose_skill.html");
+    html = html("request/test_scrapheap_lose_skill.html");
     request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.postChoice1(urlString, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(3, Preferences.getInteger("youRobotTop"));
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.TESLA_BLAST));
   }
@@ -460,11 +472,12 @@ public class YouRobotManagerTest {
   public void willUnequipWhenSwapOutEquipPart() {
     // Look at Top Attachments
     String urlString = "choice.php?whichchoice=1445&show=top";
-    String responseText = html("request/test_scrapheap_show_top.html");
+    String html = html("request/test_scrapheap_show_top.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.visitChoice(request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(4, Preferences.getInteger("youRobotTop"));
 
     // That is a Mannequin Head, which allows you to equip hats.
@@ -477,11 +490,12 @@ public class YouRobotManagerTest {
 
     // Install Pea Shooter
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
-    responseText = html("request/test_scrapheap_add_skill.html");
+    html = html("request/test_scrapheap_add_skill.html");
     request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.postChoice1(urlString, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
 
     // Verify that we are no longer wearing a hat
     assertEquals(EquipmentRequest.UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.HAT));
@@ -491,11 +505,12 @@ public class YouRobotManagerTest {
   public void willUnsetFamiliarWhenUnequipBirdCage() {
     // Look at Top Attachments
     String urlString = "choice.php?whichchoice=1445&show=top";
-    String responseText = html("request/test_scrapheap_show_top_bird_cage.html");
+    String html = html("request/test_scrapheap_show_top_bird_cage.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.visitChoice(request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(2, Preferences.getInteger("youRobotTop"));
 
     // That is a Bird Cage, which allows you to equip familiars.
@@ -508,11 +523,12 @@ public class YouRobotManagerTest {
 
     // Install Mannequin Head
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=4";
-    responseText = html("request/test_scrapheap_unequip_bird_cage.html");
+    html = html("request/test_scrapheap_unequip_bird_cage.html");
     request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.postChoice1(urlString, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(4, Preferences.getInteger("youRobotTop"));
 
     // Verify that we no longer have our familiar
@@ -523,11 +539,12 @@ public class YouRobotManagerTest {
   public void willAddCPUUpgrades() {
     // Look at CPU Upgrades
     String urlString = "choice.php?whichchoice=1445&show=cpus";
-    String responseText = html("request/test_scrapheap_show_cpus.html");
+    String html = html("request/test_scrapheap_show_cpus.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.visitChoice(request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
 
     String[] keywords = Preferences.getString("youRobotCPUUpgrades").split(",");
     Set<String> cpus = new HashSet<>(Arrays.asList(keywords));
@@ -542,11 +559,12 @@ public class YouRobotManagerTest {
 
     // Buy a CPU Upgrade
     urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_resist";
-    responseText = html("request/test_scrapheap_cpu_upgrade.html");
+    html = html("request/test_scrapheap_cpu_upgrade.html");
     request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.postChoice1(urlString, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
 
     keywords = Preferences.getString("youRobotCPUUpgrades").split(",");
     cpus = new HashSet<>(Arrays.asList(keywords));
@@ -586,11 +604,12 @@ public class YouRobotManagerTest {
 
     // Look at CPU Upgrades
     String urlString = "choice.php?whichchoice=1445&show=cpus";
-    String responseText = html("request/test_scrapheap_show_cpus.html");
+    String html = html("request/test_scrapheap_show_cpus.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1445;
-    YouRobotManager.visitChoice(request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
 
     // Verify that our listener fired
     assertEquals(1, potionListener.getCalls());
@@ -661,20 +680,23 @@ public class YouRobotManagerTest {
     KoLCharacter.setYouRobotEnergy(100);
 
     String urlString = "choice.php?forceoption=0";
-    String responseText = html("request/test_scrapheap_visit_statbot.html");
+    String html = html("request/test_scrapheap_visit_statbot.html");
     GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1447;
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+
     assertEquals(0, Preferences.getInteger("statbotUses"));
-    YouRobotManager.visitChoice(request);
+    request.processResponse();
     assertEquals(10, Preferences.getInteger("statbotUses"));
 
     urlString = "choice.php?pwd&whichchoice=1447&option=1";
-    responseText = html("request/test_scrapheap_activate_statbot.html");
+    html = html("request/test_scrapheap_activate_statbot.html");
     request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1447;
-    YouRobotManager.postChoice1(responseText, request);
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
     assertEquals(11, Preferences.getInteger("statbotUses"));
     assertEquals(100 - 20, KoLCharacter.getYouRobotEnergy());
   }

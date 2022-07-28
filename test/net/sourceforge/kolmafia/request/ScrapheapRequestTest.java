@@ -12,6 +12,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class ScrapheapRequestTest {
 
@@ -68,30 +70,20 @@ public class ScrapheapRequestTest {
     assertEquals(cost + 10, Preferences.getInteger("_chronolithNextCost"));
   }
 
-  @Test
-  public void parseCPUUpgrades() {
-    String html = html("request/test_scrapheap_cpu_upgrades.html");
+  @ParameterizedTest
+  @CsvSource({
+    "request/test_scrapheap_cpu_upgrades.html, robot_muscle:robot_mysticality:robot_moxie:robot_meat:robot_hp1:robot_regen:robot_resist:robot_items:robot_shirt:robot_energy:robot_potions:robot_hp2"
+  })
+  public void parseCPUUpgrades(String path, String upgrades) {
+    String html = html(path);
 
-    var req = new GenericRequest("choice.php?whichchoice=1445&show=cpus");
-    req.responseText = html;
-    ChoiceManager.visitChoice(req);
+    var request = new GenericRequest("choice.php?whichchoice=1445&show=cpus");
+    request.setHasResult(true);
+    request.responseText = html;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
 
-    var expected =
-        new String[] {
-          "robot_muscle",
-          "robot_mysticality",
-          "robot_moxie",
-          "robot_meat",
-          "robot_hp1",
-          "robot_regen",
-          "robot_resist",
-          "robot_items",
-          "robot_shirt",
-          "robot_energy",
-          "robot_potions",
-          "robot_hp2"
-        };
-
+    var expected = upgrades.split(":");
     var actual = Preferences.getString("youRobotCPUUpgrades").split(",");
 
     assertThat(actual, arrayContainingInAnyOrder(expected));
