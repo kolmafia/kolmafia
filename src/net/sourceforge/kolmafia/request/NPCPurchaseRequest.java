@@ -163,9 +163,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     return DISCOUNT_TROUSERS.contains(EquipmentManager.getEquipment(EquipmentManager.PANTS));
   }
 
-  private static AdventureResult ownTrousers() {
+  private static AdventureResult getEquippableTrousers() {
     return DISCOUNT_TROUSERS.stream()
         .filter(KoLConstants.inventory::contains)
+        .filter(EquipmentManager::canEquip)
         .findFirst()
         .orElse(null);
   }
@@ -273,7 +274,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     // purchase, but only if auto-recovery isn't running.
 
     if (!usingTrousers()) {
-      var trousers = ownTrousers();
+      var trousers = getEquippableTrousers();
       if (trousers != null) {
         (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
       }
