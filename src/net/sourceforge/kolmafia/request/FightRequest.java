@@ -6309,7 +6309,10 @@ public class FightRequest extends GenericRequest {
           ||
           // Mr. Cheeng's spectacles
           str.contains("You see a weird thing out of the corner of your eye, and you grab it")
-          || str.contains("You think you see a weird thing out of the corner of your eye")) {
+          || str.contains("You think you see a weird thing out of the corner of your eye")
+          ||
+          // Can of mixed everything
+          str.contains("Something falls out of your can of mixed everything.")) {
         FightRequest.logText(str, status);
       }
 
