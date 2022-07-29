@@ -2141,7 +2141,7 @@ public abstract class ChoiceManager {
    * Determine if a request to choice.php showed that we weren't actually in a choice adventure
    *
    * @param request Completed request to check
-   * @return Whether KoL indicated that the player was not actually in a choice adventure
+   * @return If the player was trying to respond to a choice but was not in a choice adventure
    */
   public static boolean bogusChoice(final GenericRequest request) {
     if (!ChoiceManager.handlingChoice

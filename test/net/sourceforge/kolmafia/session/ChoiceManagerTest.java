@@ -88,7 +88,20 @@ public class ChoiceManagerTest {
 
   @Nested
   class BogusChoices {
-    // "Whoops!" testing handled in GenericRequestTest.detectsBogusChoices
+    @Test
+    public void returnsFalseWithNormalChoice() {
+      var cleanup = new Cleanups(withHandlingChoice());
+
+      try (cleanup) {
+        var request = new GenericRequest("choice.php?whichchoice=1");
+        request.responseText = "Some normal choice text";
+
+        assertThat(ChoiceManager.bogusChoice(request), is(false));
+      }
+    }
+
+    // "Whoops!" testing (i.e. where it returns true) handled in
+    // GenericRequestTest.detectsBogusChoices
 
     @Test
     public void returnsFalseWithNonChoiceRequest() {
