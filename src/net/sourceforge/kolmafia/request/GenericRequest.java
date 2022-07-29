@@ -2159,8 +2159,7 @@ public class GenericRequest implements Runnable {
     }
 
     // Check that we are actually handling a choice
-    if (ChoiceManager.handlingChoice
-        && this.responseText.contains("Whoops!  You're not actually in a choice adventure.")) {
+    if (ChoiceManager.bogusChoice(this)) {
       return;
     }
 
