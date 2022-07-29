@@ -82,10 +82,15 @@ public class GenericRequestTest {
 
   @Test
   public void doesNotProcessPostChoiceWhenNotInChoice() {
-    var cleanup = new Cleanups(withNextResponse(200, html("request/test_choice_whoops.html")), withProperty("_shrubDecorated"));
+    var cleanup =
+        new Cleanups(
+            withNextResponse(200, html("request/test_choice_whoops.html")),
+            withProperty("_shrubDecorated"));
 
     try (cleanup) {
-      new GenericRequest("choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2").run();
+      new GenericRequest(
+              "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2")
+          .run();
 
       assertThat("_shrubDecorated", isSetTo(false));
     }
