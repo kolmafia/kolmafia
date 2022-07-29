@@ -1,8 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withHandlingChoice;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import internal.helpers.Cleanups;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -12,6 +16,7 @@ import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class ChoiceManagerTest {
@@ -79,5 +84,48 @@ public class ChoiceManagerTest {
     // specialChoiceDecision1(int choice, String decision, int stepCount, String responseText)
     option = ChoiceManager.specialChoiceDecision1(choice, "", 0, responseText);
     assertEquals("3", option);
+  }
+
+  @Nested
+  class BogusChoices {
+    @Test
+    public void returnsFalseWithNormalChoice() {
+      var cleanup = new Cleanups(withHandlingChoice());
+
+      try (cleanup) {
+        var request = new GenericRequest("choice.php?whichchoice=1");
+        request.responseText = "Some normal choice text";
+
+        assertThat(ChoiceManager.bogusChoice(request), is(false));
+      }
+    }
+
+    // "Whoops!" testing (i.e. where it returns true) handled in
+    // GenericRequestTest.detectsBogusChoices
+
+    @Test
+    public void returnsFalseWithNonChoiceRequest() {
+      var cleanup = new Cleanups(withHandlingChoice());
+
+      try (cleanup) {
+        var request = new GenericRequest("adventure.php?snarfblat=100");
+        request.responseText = "";
+
+        assertThat(ChoiceManager.bogusChoice(request), is(false));
+      }
+    }
+
+    @Test
+    public void returnsFalseWithNonExecutedRequest() {
+      var cleanup = new Cleanups(withHandlingChoice());
+
+      try (cleanup) {
+        var request =
+            new GenericRequest(
+                "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2");
+
+        assertThat(ChoiceManager.bogusChoice(request), is(false));
+      }
+    }
   }
 }

@@ -2158,6 +2158,11 @@ public class GenericRequest implements Runnable {
       GenericRequest.isRatQuest = false;
     }
 
+    // Check that we are actually handling a choice
+    if (ChoiceManager.bogusChoice(this)) {
+      return;
+    }
+
     if (ChoiceManager.handlingChoice) {
       // Handle choices BEFORE registering Encounter
       ChoiceManager.postChoice0(urlString, this);

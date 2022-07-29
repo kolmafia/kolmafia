@@ -4,12 +4,15 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,5 +81,23 @@ public class GenericRequestTest {
     req.processResponse();
 
     assertThat("sweat", isSetTo(expectedSweat));
+  }
+
+  @Test
+  public void detectsBogusChoices() {
+    var cleanup =
+        new Cleanups(
+            withNextResponse(200, html("request/test_choice_whoops.html")),
+            withProperty("_shrubDecorated"),
+            withContinuationState());
+
+    try (cleanup) {
+      new GenericRequest(
+              "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2")
+          .run();
+
+      assertThat(StaticEntity.getContinuationState(), equalTo(KoLConstants.MafiaState.ABORT));
+      assertThat("_shrubDecorated", isSetTo(false));
+    }
   }
 }
