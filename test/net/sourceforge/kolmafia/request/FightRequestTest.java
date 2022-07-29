@@ -738,13 +738,27 @@ public class FightRequestTest {
   }
 
   @Test
-  public void canDetectPottedPlantWIns() {
+  public void canDetectPottedPlantWins() {
     RequestLoggerOutput.startStream();
     var cleanups = new Cleanups(withEquipped(EquipmentManager.OFFHAND, "carnivorous potted plant"));
     try (cleanups) {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
+    }
+  }
+
+  @Test
+  public void canDetectCanOfMixedEverythingDrops() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withEquipped(EquipmentManager.OFFHAND, "can of mixed everything"));
+    try (cleanups) {
+      parseCombatData("request/test_fight_can_of_mixed_everything.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(
+          text,
+          containsString(
+              "Something falls out of your can of mixed everything.\nYou acquire an item: ice-cold Willer"));
     }
   }
 
