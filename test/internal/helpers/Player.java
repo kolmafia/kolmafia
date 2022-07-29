@@ -847,6 +847,17 @@ public class Player {
   }
 
   /**
+   * Does nothing, but ensures the given property is reverted as part of cleanup
+   *
+   * @param key Key of property
+   * @return Restores the previous value of the property
+   */
+  public static Cleanups withProperty(final String key) {
+    var current = Preferences.getString(key);
+    return withProperty(key, current);
+  }
+
+  /**
    * Sets a property for the user
    *
    * @param key Key of property
