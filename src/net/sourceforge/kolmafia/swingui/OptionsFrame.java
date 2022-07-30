@@ -1270,6 +1270,13 @@ public class OptionsFrame extends GenericFrame {
 
       this.queue(
           new PreferenceCheckBox("gitUpdateOnLogin", "Update installed Git projects on login"));
+      String tip =
+          "<html>Turning this option on will show the associated message that the author<br>"
+              + "provided to describe changes in the new version.  This includes things<br>"
+              + "like bug fixes, new features, etc.</html>";
+      this.queue(
+          new PreferenceCheckBox(
+              "gitShowCommitMessages", "Show commit messages after update", tip));
 
       /*
        * End Basic Options
@@ -1285,7 +1292,7 @@ public class OptionsFrame extends GenericFrame {
        * Advanced Options
        */
 
-      String tip =
+      tip =
           "<html>A script may declare dependencies - i.e. other scripts that should be installed<br>"
               + "along with it.  Those dependencies can declare their own dependencies, and<br>so forth.<br>"
               + "<br>"

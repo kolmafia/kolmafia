@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,8 +28,10 @@ import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.BranchTrackingStatus;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
@@ -121,7 +124,10 @@ public class GitManager extends ScriptManager {
       var repo = git.getRepository();
       AbstractTreeIterator currTree;
       AbstractTreeIterator incomingTree;
+      ObjectId currCommit;
+      ObjectId incomingCommit;
       try {
+        currCommit = getCurrentCommit(repo);
         currTree = getCurrentCommitTree(repo);
       } catch (IOException e) {
         KoLmafia.updateDisplay(
@@ -145,6 +151,7 @@ public class GitManager extends ScriptManager {
       }
 
       try {
+        incomingCommit = getCurrentCommit(repo);
         incomingTree = getCurrentCommitTree(repo);
       } catch (IOException e) {
         KoLmafia.updateDisplay(
@@ -168,6 +175,11 @@ public class GitManager extends ScriptManager {
         return;
       }
 
+      if (diffs.size() == 0) {
+        RequestLogger.printLine("No changes");
+        return;
+      }
+
       boolean checkDependencies = false;
 
       for (var diff : diffs) {
@@ -187,6 +199,10 @@ public class GitManager extends ScriptManager {
         if (DEPENDENCIES.equals(diff.getNewPath())) {
           checkDependencies = true;
         }
+      }
+
+      if (Preferences.getBoolean("gitShowCommitMessages")) {
+        printCommitMessages(git, currCommit, incomingCommit, folder);
       }
 
       if (checkDependencies) {
@@ -220,12 +236,61 @@ public class GitManager extends ScriptManager {
     }
   }
 
+  /** Get the current commit. */
+  private static ObjectId getCurrentCommit(Repository repo) throws IOException {
+    return repo.resolve("HEAD");
+  }
+
   /** Get the current commit as an AbstractTreeIterator, as required by DiffCommand. */
   private static AbstractTreeIterator getCurrentCommitTree(Repository repo) throws IOException {
     var currId = repo.resolve("HEAD^{tree}");
     var treeIterator = new CanonicalTreeParser();
     treeIterator.reset(repo.newObjectReader(), currId);
     return treeIterator;
+  }
+
+  /** Print commit messages from since to until */
+  private static void printCommitMessages(Git git, ObjectId since, ObjectId until, String folder) {
+    Iterable<RevCommit> commits;
+    try {
+      commits = git.log().addRange(since, until).call();
+    } catch (IOException | GitAPIException e) {
+      KoLmafia.updateDisplay(
+          MafiaState.CONTINUE, "Failed to get commit messages for " + folder + ": " + e);
+      return;
+    }
+
+    for (var commit : commits) {
+      var author = commit.getAuthorIdent();
+      var datetime = getCommitDate(commit, author);
+      var date = formatCommitDate(datetime);
+      var message = commit.getFullMessage();
+
+      RequestLogger.printLine("<b>commit " + ObjectId.toString(commit) + "</b>");
+      RequestLogger.printLine("Author: " + getAuthor(author).replace("<", "&lt;"));
+      RequestLogger.printLine("Date:   " + date);
+      RequestLogger.printLine("<p style=\"text-indent:2em\">" + message + "</p>");
+      RequestLogger.printLine("<br>");
+    }
+  }
+
+  /** Get a commit date with the author's time zone */
+  private static ZonedDateTime getCommitDate(RevCommit commit, PersonIdent author) {
+    return ZonedDateTime.ofInstant(
+        Instant.ofEpochSecond(commit.getCommitTime()), author.getZoneId());
+  }
+
+  /** Format a commit date as it appears in the logs */
+  public static String formatCommitDate(ZonedDateTime datetime) {
+    // use format that is similar to what 'git show' gives, ex:
+    // Date: Sat Jul 16 11:40:35 2022 +0100
+    var fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy z");
+    return fmt.format(datetime);
+  }
+
+  /** Get a commit author for display */
+  private static String getAuthor(PersonIdent author) {
+    return author.getName() + " <" + author.getEmailAddress() + ">";
   }
 
   /** Return all installed git projects */
@@ -382,17 +447,10 @@ public class GitManager extends ScriptManager {
       var rw = new RevWalk(repo);
       var commit = rw.parseCommit(lastCommitId);
       var author = commit.getAuthorIdent();
-      var datetime =
-          ZonedDateTime.ofInstant(
-              Instant.ofEpochSecond(commit.getCommitTime()), author.getZoneId());
+      var datetime = getCommitDate(commit, author);
 
       return Optional.of(
-          new GitInfo(
-              url,
-              branch,
-              ObjectId.toString(lastCommitId),
-              author.getName() + " <" + author.getEmailAddress() + ">",
-              datetime));
+          new GitInfo(url, branch, ObjectId.toString(lastCommitId), getAuthor(author), datetime));
     } catch (IOException e) {
       // all or nothing
       return Optional.empty();

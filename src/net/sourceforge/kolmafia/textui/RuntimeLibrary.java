@@ -9,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -8746,10 +8745,7 @@ public abstract class RuntimeLibrary {
     // lastChangedAuthor
     rec.aset(3, new Value(info.lastChangedAuthor()), interpreter);
     // lastChangedDate
-    // use format that is similar to what 'git show' gives, ex:
-    // Date: Sat Jul 16 11:40:35 2022 +0100
-    var fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy z");
-    var date = fmt.format(info.lastChangedDate());
+    var date = GitManager.formatCommitDate(info.lastChangedDate());
     rec.aset(4, new Value(date), interpreter);
 
     return rec;
