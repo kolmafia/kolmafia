@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class MeteoroidRequest extends CreateItemRequest {
   public MeteoroidRequest(final Concoction conc) {
@@ -49,21 +48,10 @@ public class MeteoroidRequest extends CreateItemRequest {
 
     GenericRequest useRequest = new GenericRequest("inv_use.php");
     useRequest.addFormField("whichitem", String.valueOf(ItemPool.METAL_METEOROID));
-    useRequest.run();
 
     for (int i = 0; i < count; ++i) {
+      useRequest.run();
       super.run();
-    }
-
-    // If you still have unused metal meteoroids, you are still in the choice.
-    // If you folded your last one, you are no longer in the choice.
-    // You can walk away from the choice, so we don't really need to exit it.
-
-    if (InventoryManager.getCount(ItemPool.METAL_METEOROID) > 0) {
-      GenericRequest closeRequest = new GenericRequest("choice.php");
-      closeRequest.addFormField("whichchoice", "1264");
-      closeRequest.addFormField("option", "7");
-      closeRequest.run();
     }
   }
 
