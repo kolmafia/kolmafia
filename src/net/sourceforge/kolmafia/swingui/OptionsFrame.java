@@ -370,13 +370,13 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           this.newTextArea(
               """
-	      Configure the behavior of Mafia's Script menu.
+        Configure the behavior of Mafia's Script menu.
 
-	      If you set the script MRU length to a value greater than zero, that many of your most recently run scripts will be displayed.
+        If you set the script MRU length to a value greater than zero, that many of your most recently run scripts will be displayed.
 
-	      If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
+        If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
 
-	      If you select neither option, no scripts will be displayed."""));
+        If you select neither option, no scripts will be displayed."""));
 
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
@@ -1187,9 +1187,9 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           this.newTextArea(
               """
-	      Configure the behavior of Mafia's built-in SVN client here.
+        Configure the behavior of Mafia's built-in SVN client here.
 
-	      With SVN you can seamlessly install community-created scripts and have them automatically update."""));
+        With SVN you can seamlessly install community-created scripts and have them automatically update."""));
 
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
@@ -1257,9 +1257,9 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           this.newTextArea(
               """
-	      Configure the behavior of Mafia's built-in git client here.
+        Configure the behavior of Mafia's built-in git client here.
 
-	      With git you can seamlessly install community-created scripts and have them automatically update."""));
+        With git you can seamlessly install community-created scripts and have them automatically update."""));
 
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
