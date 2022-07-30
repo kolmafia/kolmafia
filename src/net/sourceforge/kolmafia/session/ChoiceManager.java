@@ -2143,15 +2143,19 @@ public abstract class ChoiceManager {
    * @param request Completed request to check
    * @return If the player was trying to respond to a choice but was not in a choice adventure
    */
-  public static boolean bogusChoice(final GenericRequest request) {
+  public static boolean bogusChoice(final String urlString, final GenericRequest request) {
     if (!ChoiceManager.handlingChoice
-        || !request.getURLString().startsWith("choice.php")
+        || !urlString.startsWith("choice.php")
         || request.responseText == null) {
       return false;
     }
 
     if (request.responseText.contains("Whoops!  You're not actually in a choice adventure.")) {
-      KoLmafia.updateDisplay(MafiaState.ABORT, "Whoops! You're not actually in a choice adventure");
+      // Allow a script to simply attempt to visit choice.php.
+      if (!urlString.equals("choice.php")) {
+        KoLmafia.updateDisplay(
+            MafiaState.ABORT, "Whoops! You're not actually in a choice adventure");
+      }
       ChoiceManager.handlingChoice = false;
       return true;
     }

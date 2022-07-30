@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withHandlingChoice;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -10,6 +12,8 @@ import internal.helpers.Cleanups;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -93,10 +97,11 @@ public class ChoiceManagerTest {
       var cleanup = new Cleanups(withHandlingChoice());
 
       try (cleanup) {
-        var request = new GenericRequest("choice.php?whichchoice=1");
+        String urlString = "choice.php?whichchoice=1";
+        var request = new GenericRequest(urlString);
         request.responseText = "Some normal choice text";
 
-        assertThat(ChoiceManager.bogusChoice(request), is(false));
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
       }
     }
 
@@ -108,10 +113,11 @@ public class ChoiceManagerTest {
       var cleanup = new Cleanups(withHandlingChoice());
 
       try (cleanup) {
-        var request = new GenericRequest("adventure.php?snarfblat=100");
+        String urlString = "adventure.php?snarfblat=100";
+        var request = new GenericRequest(urlString);
         request.responseText = "";
 
-        assertThat(ChoiceManager.bogusChoice(request), is(false));
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
       }
     }
 
@@ -120,11 +126,39 @@ public class ChoiceManagerTest {
       var cleanup = new Cleanups(withHandlingChoice());
 
       try (cleanup) {
-        var request =
-            new GenericRequest(
-                "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2");
+        String urlString =
+            "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2";
+        var request = new GenericRequest(urlString);
 
-        assertThat(ChoiceManager.bogusChoice(request), is(false));
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
+      }
+    }
+
+    @Test
+    public void returnsTrueWithAbortState() {
+      var cleanup = new Cleanups(withHandlingChoice(), withContinuationState());
+
+      try (cleanup) {
+        String urlString = "choice.php?whichchoice=1234&pwd&option=1";
+        var request = new GenericRequest(urlString);
+        request.responseText = "Whoops!  You're not actually in a choice adventure.";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
+      }
+    }
+
+    @Test
+    public void returnsTrueWithoutAbortState() {
+      var cleanup = new Cleanups(withHandlingChoice(), withContinuationState());
+
+      try (cleanup) {
+        String urlString = "choice.php";
+        var request = new GenericRequest(urlString);
+        request.responseText = "Whoops!  You're not actually in a choice adventure.";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
       }
     }
   }

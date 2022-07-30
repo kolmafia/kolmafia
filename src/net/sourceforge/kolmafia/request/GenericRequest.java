@@ -2159,7 +2159,7 @@ public class GenericRequest implements Runnable {
     }
 
     // Check that we are actually handling a choice
-    if (ChoiceManager.bogusChoice(this)) {
+    if (ChoiceManager.bogusChoice(urlString, this)) {
       return;
     }
 

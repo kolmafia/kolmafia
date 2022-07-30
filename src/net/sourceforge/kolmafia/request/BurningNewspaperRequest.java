@@ -30,28 +30,27 @@ public class BurningNewspaperRequest extends CreateItemRequest {
 
   @Override
   public void run() {
+    int count = this.getQuantityNeeded();
+    if (count == 0) {
+      return;
+    }
+
     // Attempt to retrieve the ingredients
     if (!this.makeIngredients()) {
       return;
     }
 
-    int count = this.getQuantityNeeded();
     String name = this.getName();
 
     KoLmafia.updateDisplay("Creating " + count + " " + name + "...");
 
     GenericRequest useRequest = new GenericRequest("inv_use.php");
     useRequest.addFormField("whichitem", String.valueOf(ItemPool.BURNING_NEWSPAPER));
-    useRequest.run();
 
     for (int i = 0; i < count; ++i) {
+      useRequest.run();
       super.run();
     }
-
-    GenericRequest closeRequest = new GenericRequest("choice.php");
-    closeRequest.addFormField("whichchoice", "1277");
-    closeRequest.addFormField("option", "6");
-    closeRequest.run();
   }
 
   public static final boolean registerRequest(final String urlString) {
