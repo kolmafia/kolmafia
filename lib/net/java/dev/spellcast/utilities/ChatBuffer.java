@@ -136,8 +136,16 @@ public class ChatBuffer
 	 * Sets the log file used to actively record messages that are being stored in the buffer.
 	 */
 
-	public void setLogFile( final File f )
-	{
+	public void setLogFile( final File f ) {
+		// If the new file is null but the existing file is not null
+		// We should treat this as a log writer close request
+		if (f == null && this.logFile != null) {
+			this.logWriter.close();
+			this.logWriter = null;
+			this.logFile = null;
+			return;
+		}
+
 		if ( f == null || this.title == null )
 		{
 			return;
@@ -148,6 +156,14 @@ public class ChatBuffer
 		if ( filename == null || this.title == null )
 		{
 			return;
+		}
+
+		// If the existing file is not null and would be using a different log writer
+		if (this.logFile != null && ChatBuffer.ACTIVE_LOG_FILES.get(filename) != this.logWriter) {
+			// Close the existing log writer to prevent a resource leak
+			this.logWriter.close();
+			this.logWriter = null;
+			this.logFile = null;
 		}
 
 		if ( ChatBuffer.ACTIVE_LOG_FILES.containsKey( filename ) )

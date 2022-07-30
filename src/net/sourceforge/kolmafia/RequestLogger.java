@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.io.File;
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +22,6 @@ public class RequestLogger extends NullStream {
   public static final RequestLogger INSTANCE = new RequestLogger();
 
   private static PrintStream outputStream = KoLmafiaTUI.outputStream;
-  private static PrintStream mirrorStream = NullStream.INSTANCE;
 
   private static PrintStream sessionStream = NullStream.INSTANCE;
   private static PrintStream debugStream = NullStream.INSTANCE;
@@ -110,7 +110,6 @@ public class RequestLogger extends NullStream {
     RequestLogger.previousUpdateString = message;
 
     RequestLogger.outputStream.println(message);
-    RequestLogger.mirrorStream.println(message);
     RequestLogger.debugStream.println(message);
 
     if (StaticEntity.backtraceTrigger != null && message.contains(StaticEntity.backtraceTrigger)) {
@@ -211,13 +210,11 @@ public class RequestLogger extends NullStream {
   }
 
   public static final void openMirror(final String location) {
-    RequestLogger.mirrorStream =
-        RequestLogger.openStream(location, RequestLogger.mirrorStream, true);
+    KoLConstants.commandBuffer.setLogFile(new File(KoLConstants.ROOT_LOCATION, location));
   }
 
   public static final void closeMirror() {
-    RequestLogger.closeStream(RequestLogger.mirrorStream);
-    RequestLogger.mirrorStream = NullStream.INSTANCE;
+    KoLConstants.commandBuffer.setLogFile(null);
   }
 
   public static final PrintStream getSessionStream() {
