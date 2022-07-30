@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -96,7 +96,7 @@ public class GenericRequestTest {
               "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2")
           .run();
 
-      assertThat(StaticEntity.getContinuationState(), equalTo(KoLConstants.MafiaState.ABORT));
+      assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
       assertThat("_shrubDecorated", isSetTo(false));
     }
   }
