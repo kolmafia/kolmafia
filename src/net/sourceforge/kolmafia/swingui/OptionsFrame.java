@@ -1271,6 +1271,36 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           new PreferenceCheckBox("gitUpdateOnLogin", "Update installed Git projects on login"));
 
+      /*
+       * End Basic Options
+       */
+
+      this.queue(Box.createVerticalStrut(10));
+      JLabel label = new JLabel("Advanced options:");
+      this.queue(label);
+      this.queue(this.newSeparator(label));
+      this.queue(Box.createVerticalStrut(5));
+
+      /*
+       * Advanced Options
+       */
+
+      String tip =
+          "<html>A script may declare dependencies - i.e. other scripts that should be installed<br>"
+              + "along with it.  Those dependencies can declare their own dependencies, and<br>so forth.<br>"
+              + "<br>"
+              + "Users who want complete control over what they are installing can turn this off,<br>"
+              + "but should make sure to manually install dependencies or scripts may<br>malfunction.";
+      this.queue(
+          new PreferenceCheckBox(
+              "gitInstallDependencies",
+              "Automatically install dependencies for git projects",
+              tip));
+
+      /*
+       * End Advanced Options
+       */
+
       this.makeLayout();
     }
   }

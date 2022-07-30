@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.ScriptManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import org.eclipse.jgit.api.Git;
@@ -345,7 +346,6 @@ public class GitManager extends ScriptManager {
     }
     var deps = root.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {
-      KoLmafia.updateDisplay("Installing dependencies");
       installDependencies(deps);
     }
   }
@@ -498,6 +498,9 @@ public class GitManager extends ScriptManager {
   }
 
   private static void installDependencies(Path dependencies) {
+    if (!Preferences.getBoolean("gitInstallDependencies")) return;
+
+    KoLmafia.updateDisplay("Installing dependencies");
     List<String> potentials;
     try {
       potentials = Files.readAllLines(dependencies);
