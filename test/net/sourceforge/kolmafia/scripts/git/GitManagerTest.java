@@ -2,11 +2,13 @@ package net.sourceforge.kolmafia.scripts.git;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.CliCaller;
+import internal.helpers.Player;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -45,8 +47,7 @@ public class GitManagerTest {
 
     @AfterAll
     public static void removeRepo() {
-      String output = CliCaller.callCli("git", "delete " + id);
-      assertThat(output, containsString("Project " + id + " removed"));
+      removeGitIfExists(id);
       assertFalse(Files.exists(Paths.get("git", id)));
       assertFalse(Files.exists(Paths.get("scripts", "1.ash")));
     }
@@ -135,15 +136,9 @@ public class GitManagerTest {
 
     @AfterAll
     public static void removeRepo() {
-      String remove = id;
-      String output = CliCaller.callCli("git", "delete " + remove);
-      assertThat(output, containsString("Project " + remove + " removed"));
-      remove = id + "-git";
-      output = CliCaller.callCli("git", "delete " + remove);
-      assertThat(output, containsString("Project " + remove + " removed"));
-      remove = "midgleyc-mafia-script-install-test-branches-test-deps-svn";
-      output = CliCaller.callCli("svn", "delete " + remove);
-      assertThat(output, containsString("Project uninstalled." + remove));
+      removeGitIfExists(id);
+      removeGitIfExists(id + "-git");
+      removeSvnIfExists("midgleyc-mafia-script-install-test-branches-test-deps-svn");
     }
 
     @Test
@@ -159,11 +154,30 @@ public class GitManagerTest {
       CliCaller.callCli("git", "delete " + dep);
 
       // sync
-      CliCaller.callCli("git", "sync");
+      String output = CliCaller.callCli("git", "sync");
+      assertThat(output, containsString("Installing dependencies"));
+
+      // files should return
+      output = CliCaller.callCli("git", "list");
+      assertThat(output, containsString(dep));
+    }
+
+    @Test
+    public void preferenceFalseIgnoresDependencies() {
+      String dep = id + "-git";
+      // delete script files
+      CliCaller.callCli("git", "delete " + dep);
+
+      // sync
+      var cleanups = Player.withProperty("gitInstallDependencies", false);
+      try (cleanups) {
+        String output = CliCaller.callCli("git", "sync");
+        assertThat(output, not(containsString("Installing dependencies")));
+      }
 
       // files should return
       String output = CliCaller.callCli("git", "list");
-      assertThat(output, containsString(dep));
+      assertThat(output, not(containsString(dep)));
     }
   }
 
@@ -184,12 +198,8 @@ public class GitManagerTest {
 
     @AfterAll
     public static void removeRepo() {
-      String remove = id;
-      String output = CliCaller.callCli("git", "delete " + remove);
-      assertThat(output, containsString("Project " + remove + " removed"));
-      remove = "midgleyc-mafia-script-install-test-test-deps-git";
-      output = CliCaller.callCli("git", "delete " + remove);
-      assertThat(output, containsString("Project " + remove + " removed"));
+      removeGitIfExists(id);
+      removeGitIfExists("midgleyc-mafia-script-install-test-test-deps-git");
     }
 
     @Test
@@ -201,6 +211,20 @@ public class GitManagerTest {
     @Test
     public void didNotInstallFilesRelativeToRoot() {
       assertFalse(Files.exists(Paths.get("scripts", "1-root.ash")));
+    }
+  }
+
+  private static void removeGitIfExists(String remove) {
+    if (Files.exists(Paths.get("git", remove))) {
+      String output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+    }
+  }
+
+  private static void removeSvnIfExists(String remove) {
+    if (Files.exists(Paths.get("svn", remove))) {
+      String output = CliCaller.callCli("svn", "delete " + remove);
+      assertThat(output, containsString("Project uninstalled." + remove));
     }
   }
 }
