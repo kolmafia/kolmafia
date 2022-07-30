@@ -2146,6 +2146,7 @@ public abstract class ChoiceManager {
   public static boolean bogusChoice(final GenericRequest request) {
     if (!ChoiceManager.handlingChoice
         || !request.getURLString().startsWith("choice.php")
+        || "choice.php".equals(request.getURLString())
         || request.responseText == null) {
       return false;
     }

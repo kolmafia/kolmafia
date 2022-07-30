@@ -127,5 +127,17 @@ public class ChoiceManagerTest {
         assertThat(ChoiceManager.bogusChoice(request), is(false));
       }
     }
+
+    @Test
+    public void returnsFalseGoingToExactlyChoicePhp() {
+      var cleanup = new Cleanups(withHandlingChoice());
+
+      try (cleanup) {
+        var request = new GenericRequest("choice.php");
+        request.responseText = "Whoops!  You're not actually in a choice adventure.";
+
+        assertThat(ChoiceManager.bogusChoice(request), is(false));
+      }
+    }
   }
 }
