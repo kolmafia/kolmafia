@@ -93,10 +93,11 @@ public class ChoiceManagerTest {
       var cleanup = new Cleanups(withHandlingChoice());
 
       try (cleanup) {
-        var request = new GenericRequest("choice.php?whichchoice=1");
+        String urlString = "choice.php?whichchoice=1";
+        var request = new GenericRequest(urlString);
         request.responseText = "Some normal choice text";
 
-        assertThat(ChoiceManager.bogusChoice(request), is(false));
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
       }
     }
 
@@ -108,10 +109,11 @@ public class ChoiceManagerTest {
       var cleanup = new Cleanups(withHandlingChoice());
 
       try (cleanup) {
-        var request = new GenericRequest("adventure.php?snarfblat=100");
+        String urlString = "adventure.php?snarfblat=100";
+        var request = new GenericRequest(urlString);
         request.responseText = "";
 
-        assertThat(ChoiceManager.bogusChoice(request), is(false));
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
       }
     }
 
@@ -120,11 +122,11 @@ public class ChoiceManagerTest {
       var cleanup = new Cleanups(withHandlingChoice());
 
       try (cleanup) {
-        var request =
-            new GenericRequest(
-                "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2");
+        String urlString =
+            "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2";
+        var request = new GenericRequest(urlString);
 
-        assertThat(ChoiceManager.bogusChoice(request), is(false));
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
       }
     }
   }
