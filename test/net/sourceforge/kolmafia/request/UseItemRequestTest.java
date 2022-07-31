@@ -10,6 +10,7 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -19,6 +20,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -174,6 +176,23 @@ class UseItemRequestTest {
         assertThat("homemadeRobotUpgrades", isSetTo(9));
         assertThat(fam.getWeight(), equalTo(100));
       }
+    }
+  }
+
+  @Test
+  void setsBigBookPreference() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL),
+            withProperty("_bookOfEverySkillUsed", false));
+
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL);
+      req.responseText = html("request/test_use_big_book_of_every_skill.html");
+      req.processResults();
+
+      assertThat("_bookOfEverySkillUsed", isSetTo(true));
+      assertTrue(KoLCharacter.hasSkill(SkillPool.ANTIPHON));
     }
   }
 }
