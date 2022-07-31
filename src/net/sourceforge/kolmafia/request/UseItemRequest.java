@@ -5855,6 +5855,10 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL:
         Preferences.setBoolean("_bookOfEverySkillUsed", true);
+        // You turn to a random page, hold your breath, and read up on a new skill!
+        if (responseText.contains("turn to a random page")) {
+          ResponseTextParser.learnSkillFromResponse(responseText);
+        }
         return;
     }
 
