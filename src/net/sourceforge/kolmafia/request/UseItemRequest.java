@@ -5852,6 +5852,10 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         break;
+
+      case ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL:
+        Preferences.setBoolean("_bookOfEverySkillUsed", true);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
