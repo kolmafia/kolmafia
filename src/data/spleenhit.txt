@@ -47,7 +47,7 @@ bottle of extra-strength melodramamine	3	1	good	0	0	0	0	50 Emotion Sickness (+ M
 bottle of melodramamine	1	1	good	0	0	0	0	5 Emotion Sickness (+ Meat and Items underwater)
 bottle of ultravitamins	1	6	awesome	0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
 Breathetastic&trade; Premium Canned Air	5	13	EPIC	20-25	60-70	60-70	60-70
-Breathitin&trade;	2	1	crappy	0	0	0	0	Next 10 outdoor fights are free
+Breathitin&trade;	2	1	crappy	0	0	0	0	Next 5 outdoor fights are free
 brilliant oyster egg	1	5	EPIC	0	0	50-60	0	20 Eggstraordinary Brilliance (+5 mys stats/fight)
 bug paste	4	4	good	5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoning opponent)
 can of Red Minotaur	3	1	crappy	0	0	0	0	+1 PvP fight, 5 Wings
