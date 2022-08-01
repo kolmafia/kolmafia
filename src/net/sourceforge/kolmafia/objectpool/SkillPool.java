@@ -164,7 +164,8 @@ public class SkillPool {
   public static final int SUCKERPUNCH = 5021;
   public static final int THATS_NOT_A_KNIFE = 5028;
   public static final int ACQUIRE_RHINESTONES = 5041;
-  public static final int BLOOD_bLADE = 5042;
+  public static final int BLOOD_BLADE = 5042;
+  public static final int ANTIPHON = 6003;
   public static final int ODE_TO_BOOZE = 6014;
   public static final int DIRGE_OF_DREADFULNESS = 6018;
   public static final int GEMELLIS_MARCH_OF_TESTERY = 6019;
