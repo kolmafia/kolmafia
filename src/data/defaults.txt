@@ -1560,6 +1560,7 @@ user	_birdsSoughtToday	0
 user	_bittycar
 user	_blankoutUsed	false
 user	_bonersSummoned	false
+user	_bookOfEverySkillUsed	false
 user	_boomBoxFights	9
 user	_boomBoxSongsLeft	11
 user	_bootStomps	0
