@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
@@ -12,6 +11,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class MirrorCommandTest extends AbstractCommandTestBase {
@@ -50,7 +50,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
   @Test
   public void testMirrorWritesHTML() {
     // Open the mirror
-    execute("chats/test_writes_html");
+    execute("chats/test_writes_html.html");
 
     // When `> ` is used as a prefix, the RequestLogger will colorize it assuming its a command
     // input.
@@ -78,14 +78,11 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Close the mirror
     execute("");
 
-    // The first test, we're checking that CommandBuffer has no file
-    assertNull(KoLConstants.commandBuffer.getLogFile());
-
-    // The second test, write to the command buffer again
+    // Write to the command buffer again
     RequestLogger.printLine("Should not be seen");
 
     // Now read the log and verify that it was not written
-    String mirrorOutput = getMirrorLog("test_mirror_closes.html");
+    String mirrorOutput = getMirrorLog("test_mirror_closes.txt");
 
     // Test that the second line is not in the output
     assertFalse(mirrorOutput.contains("Should not be seen"));
@@ -107,21 +104,20 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Close the mirror
     execute("");
 
-    // Assert that mirror_1 only contains Mirror 1 Log
-    assertTrue(getMirrorLog("mirror_1.html").contains("Mirror 1 Log"));
-    assertFalse(getMirrorLog("mirror_2.html").contains("Mirror 1 Log"));
+    // Behavior is that if the mirror has already been opened, that it will stay opened and the new
+    // mirror requests are effectively ignored.
 
-    // Assert that mirror_2 only contains Mirror 2 Log
-    assertFalse(getMirrorLog("mirror_2.html").contains("Mirror 1 Log"));
-    assertTrue(getMirrorLog("mirror_2.html").contains("Mirror 2 Log"));
+    // Assert that mirror_1 only contains both messages
+    assertTrue(getMirrorLog("mirror_1.txt").contains("Mirror 1 Log"));
+    assertTrue(getMirrorLog("mirror_1.txt").contains("Mirror 2 Log"));
+
+    // Assert that mirror_2 contains neither messages
+    assertFalse(getMirrorLog("mirror_2.txt").contains("Mirror 1 Log"));
+    assertFalse(getMirrorLog("mirror_2.txt").contains("Mirror 2 Log"));
   }
 
-  @CsvSource({
-    "file,file.html",
-    "file.html,file.html",
-    "file.txt,file.txt",
-    "file.csv,file.csv.html"
-  })
+  @ParameterizedTest
+  @CsvSource({"file,file.txt", "file.html,file.html", "file.txt,file.txt", "file.csv,file.csv.txt"})
   public void testMirrorFileNames(String mirrorName, String fileName) {
     execute("chats/" + mirrorName);
 

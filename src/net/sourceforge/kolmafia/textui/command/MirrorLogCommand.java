@@ -5,7 +5,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 public class MirrorLogCommand extends AbstractCommand {
   public MirrorLogCommand() {
-    this.usage = " [<filename>] - stop [or start] gCLI logging to an additional file.";
+    this.usage = " [<filename>] - stop [or start] logging to an additional file.";
   }
 
   @Override
@@ -21,7 +21,7 @@ public class MirrorLogCommand extends AbstractCommand {
       KoLmafia.updateDisplay("Mirror stream closed.");
     } else {
       if (!parameters.endsWith(".txt") && !parameters.endsWith(".html")) {
-        parameters += ".html";
+        parameters += ".txt";
       }
 
       RequestLogger.openMirror(parameters);
