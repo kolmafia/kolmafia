@@ -50,7 +50,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
   @Test
   public void testMirrorWritesHTML() {
     // Open the mirror
-    execute("chats/test_writes_html.html");
+    execute("chats/test_writes_html.txt");
 
     // When `> ` is used as a prefix, the RequestLogger will colorize it assuming its a command
     // input.
@@ -62,7 +62,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Close the mirror
     execute("");
 
-    String mirrorOutput = getMirrorLog("test_writes_html.html");
+    String mirrorOutput = getMirrorLog("test_writes_html.txt");
 
     assertTrue(mirrorOutput.contains("<font color=olive>> Fake command input</font><br>"));
     assertTrue(mirrorOutput.contains("Raw Line<br>"));
