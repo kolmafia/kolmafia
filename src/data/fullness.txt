@@ -85,7 +85,7 @@ blue velvet cake	3	1	crappy	3	0	0	0
 blueberry muffin	1	1	awesome	4-5	150	150	150	25 All Blued Up (+60% Meat Drop, 2-3 MP Regen, 5-10 HP Regen)
 blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
 blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)
-bone broth	1	1	awesome	0	0	0	0	Unspaded
+bone broth	1	1	awesome	4-5	40-50	0	0	1-2 loose teeth, 3-4 skeleton bones
 bone meal	2	6	awesome	7-9	12-20	12-20	12-20
 boring spaghetti	4	5	good	10-14	0	20-25	0
 Boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
@@ -98,7 +98,7 @@ bowl of eyeballs	2	1	awesome	7-9	0	10-20	0	30 Your Eyes are Peeled! (+25% item d
 bowl of fishysoisse	6	8	awesome	27-29	48-74	67-70	52-70
 bowl of lucky charms	1	1	crappy	1	0	6-9	0	50% chance of leprechaun hatchling
 bowl of maggots	2	1	EPIC	10-12	10-20	0	0
-bowl of mernudo	3	1	good	0	0	0	0	Unspaded 30 Sea Guts
+bowl of mernudo	3	1	good	9	0	0	0
 bowl of mummy guts	2	1	awesome	7-9	0	0	10-20	30 Guts Feeling (+50% meat drop)
 bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
 bowl of prescription candy	1	1	awesome	0	0	0	0	Unspaded
@@ -341,7 +341,7 @@ fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
 fire-roasted lake trout	1	1	good	3	0	5-10	0
 fire crackers	1	1	good	3	5-15	5-15	5-15	20 Fire Cracked (+20 Experience)
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
-fishcake	1	1	awesome	0	0	0	0	Unspaded
+fishcake	1	1	awesome	4-5	0	0	40-50	3 fish scales
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55	LASAGNA
@@ -416,7 +416,7 @@ government cheese	2	1	decent	2-4	5-10	0	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
-green and red bean	1	1	good	0	0	0	0	Unspaded
+green and red bean	1	1	good	3	0	0	0
 green bean casserole	2	1	awesome	8-10	0	10-20	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Fullness 80 Gummibrain (+100 Myst)
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
@@ -427,7 +427,7 @@ Grimdrop Chow Mein	4	5		6-11	0	0	0
 Grimgerbread House	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
 guffin	3	1	awesome	11-13	0	0	0
-guilty sprout	1	8	good	0	0	0	0	Unspaded
+guilty sprout	1	8	good	2-3	200-250	200-250	200-250
 gumdrop chow mein	5	1		9-17	0	0	0	10 Sugar Rush
 gunky chicken	2	5	good	4-6	15-30	0	0	lose 5-10 HP, 20 Gunky Dory (+50 HP, +4-10 HP regen)
 gunpowder burrito	2	1	good	0	0	0	0	+3 PvP fights
@@ -622,7 +622,7 @@ nut-shaped Crimbo cookie	2	1	awesome	7-11	0	0	0	20 Nut-Rition (+100% all stats)
 nutty organic salad	3	11	awesome	12-15	0	31-40	0	SALAD
 occult jelly donut	1	4	awesome	3-5	0	40-60	0	30 Filled With Magic (+100% spell dmg)
 oily golden mushroom	0	1	crappy	0	0	0	0	Inedible
-ojo de pez burrito	3	1	good	0	0	0	0	Unspaded 30 Fish-Eye View
+ojo de pez burrito	3	1	good	9	0	0	0
 old chum	2	13	good	4-6	5-10	5-10	5-10	10 Fishy
 oldcake	1	1	good	3-4	0	0	0
 olive	1	1	crappy	1	0	0	0

@@ -801,8 +801,11 @@ public class BreakfastManager {
     FamiliarData currentFam = KoLCharacter.getFamiliar();
 
     FamiliarManager.changeFamiliar(jellyfish, false);
+    // Force automation to take option 1
+    Preferences.setInteger("choiceAdventure1219", 1);
+    // This will redirect to choice.php?forceoption=0 which will make
+    // ChoiceManager automate the choice through option 1
     RequestThread.postRequest(new PlaceRequest("thesea", "thesea_left2", false));
-    RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1219&option=1"));
     FamiliarManager.changeFamiliar(currentFam);
 
     KoLmafia.forceContinue();
