@@ -74,9 +74,6 @@ public class RequestLogger extends NullStream {
     buffer.setLength(0);
     SkillDatabase.generateSkillList(buffer, true);
     KoLConstants.commandBuffer.append(buffer.toString());
-    // As we specifically asked printLine to ignore buffer, we write it here to ensure mirror has a
-    // record.
-    RequestLogger.mirrorStream.println(buffer);
   }
 
   public static final void printList(final List<?> printing) {
@@ -113,6 +110,9 @@ public class RequestLogger extends NullStream {
     RequestLogger.previousUpdateString = message;
 
     RequestLogger.outputStream.println(message);
+    if (!addToBuffer) {
+      RequestLogger.mirrorStream.println(message);
+    }
     RequestLogger.debugStream.println(message);
 
     if (StaticEntity.backtraceTrigger != null && message.contains(StaticEntity.backtraceTrigger)) {
@@ -173,8 +173,8 @@ public class RequestLogger extends NullStream {
 
     colorBuffer.append(KoLConstants.LINE_BREAK);
     KoLConstants.commandBuffer.append(colorBuffer.toString());
+    RequestLogger.mirrorStream.println(colorBuffer.toString());
     RelayServer.addStatusMessage(colorBuffer.toString());
-    RequestLogger.mirrorStream.println(colorBuffer);
   }
 
   public static final PrintStream openStream(
