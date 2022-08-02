@@ -117,7 +117,14 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
   }
 
   @ParameterizedTest
-  @CsvSource({"file,file.txt", "file.html,file.html", "file.txt,file.txt", "file.csv,file.csv.txt"})
+  // @CsvSource({"file,file.txt", "file.html,file.html", "file.txt,file.txt",
+  // "file.csv,file.csv.txt"})
+  @CsvSource({
+    "file,file.txt",
+    "file.html,file.html.txt",
+    "file.txt,file.txt",
+    "file.csv,file.csv.txt"
+  })
   public void testMirrorFileNames(String mirrorName, String fileName) {
     execute("chats/" + mirrorName);
 
