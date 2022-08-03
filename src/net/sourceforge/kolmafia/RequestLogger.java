@@ -108,11 +108,7 @@ public class RequestLogger extends NullStream {
     }
 
     RequestLogger.previousUpdateString = message;
-
     RequestLogger.outputStream.println(message);
-    if (!addToBuffer) {
-      RequestLogger.mirrorStream.println(message);
-    }
     RequestLogger.debugStream.println(message);
 
     if (StaticEntity.backtraceTrigger != null && message.contains(StaticEntity.backtraceTrigger)) {
@@ -120,6 +116,7 @@ public class RequestLogger extends NullStream {
     }
 
     if (!addToBuffer) {
+      RequestLogger.mirrorStream.println(message);
       return;
     }
 
