@@ -28,7 +28,7 @@ public class AdventurePool {
   public static final String ROULETTE_TABLES_ID = "70";
   public static final int POKER_ROOM = 71;
   public static final String PIXEL_REALM_ID = "73";
-  public static final String ORC_CHASM_ID = "80";
+  public static final String VALLEY_OF_ROF_LM_FAO_ID = "80";
   public static final int AIRSHIP = 81;
   public static final String AIRSHIP_ID = "81";
   public static final String HOLE_IN_THE_SKY_ID = "83";
@@ -45,6 +45,7 @@ public class AdventurePool {
   public static final int WHITEYS_GROVE = 100;
   public static final String WHITEYS_GROVE_ID = "100";
   public static final int KNOB_SHAFT = 101;
+  public static final String KNOB_SHAFT_ID = "101";
   public static final int ICY_PEAK = 110;
   public static final String ICY_PEAK_ID = "110";
   public static final String SLEAZY_BACK_ALLEY_ID = "112";
@@ -90,10 +91,16 @@ public class AdventurePool {
   public static final int CONVENTION_HALL_LOBBY = 218;
   public static final int OUTSIDE_THE_CLUB = 219;
   public static final int ISLAND_BARRACKS = 220;
+  public static final String GREATER_THAN_SIGN_ID = "226";
   public static final int BARROOM_BRAWL = 233;
   public static final String BARROOM_BRAWL_ID = "233";
   public static final int NOOB_CAVE = 240;
+  public static final int LAUGH_FLOOR = 242;
+  public static final String LAUGH_FLOOR_ID = "242";
+  public static final int INFERNAL_RACKETS_BACKSTAGE = 243;
+  public static final String INFERNAL_RACKETS_BACKSTAGE_ID = "243";
   public static final int PANDAMONIUM_SLUMS = 248;
+  public static final String PANDAMONIUM_SLUMS_ID = "248";
   public static final int COBB_BARRACKS = 257;
   public static final int COBB_HAREM = 259;
   public static final int DEFILED_ALCOVE = 261;
