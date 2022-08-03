@@ -380,6 +380,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestFinished(Quest.FRIAR);
     }
 
+    // The Temporal Rift zones have multiple requirements
+    if (this.zone.equals("Rift")) {
+      boolean ascended = KoLCharacter.getAscensions() > 0;
+      int level = KoLCharacter.getLevel();
+      boolean keyed = QuestDatabase.isQuestLaterThan(Quest.EGO, QuestDatabase.STARTED);
+      return ascended && level >= 4 && level <= 5 && keyed;
+    }
+
     if (this.adventureId.equals(AdventurePool.LOWER_CHAMBER_ID)) {
       return Preferences.getBoolean("lowerChamberUnlock");
     }
