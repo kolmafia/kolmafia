@@ -375,6 +375,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
     }
 
+    // The Pandamonium zones are available if you have completed the Friars quest
+    if (this.zone.equals("Pandamonium")) {
+      return QuestDatabase.isQuestFinished(Quest.FRIAR);
+    }
+
     if (this.adventureId.equals(AdventurePool.LOWER_CHAMBER_ID)) {
       return Preferences.getBoolean("lowerChamberUnlock");
     }
@@ -475,13 +480,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // The Dungeons of Doom are only available if you've finished the quest
     if (this.adventureId.equals(AdventurePool.DUNGEON_OF_DOOM_ID)) {
       return QuestLogRequest.isDungeonOfDoomAvailable();
-    }
-
-    // The Pandamonium zones are available if you have completed the Friars quest
-    if (this.adventureId.equals(AdventurePool.PANDAMONIUM_SLUMS_ID)
-        || this.adventureId.equals(AdventurePool.LAUGH_FLOOR_ID)
-        || this.adventureId.equals(AdventurePool.INFERNAL_RACKETS_BACKSTAGE_ID)) {
-      return QuestDatabase.isQuestFinished(Quest.FRIAR);
     }
 
     // The Valley of Rof L'm Fao is available if you have completed the Highlands quest
