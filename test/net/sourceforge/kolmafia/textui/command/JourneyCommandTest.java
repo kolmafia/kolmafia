@@ -143,7 +143,8 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
             withClass(AscensionClass.ACCORDION_THIEF),
             withSign(ZodiacSign.VOLE),
             withPath(Path.JOURNEYMAN),
-            withSkill("Advanced Saucecrafting"));
+            withSkill("Advanced Saucecrafting"),
+            withProperty("questL09Topping", "finished"));
 
     try (cleanups) {
       String output = execute("find advanced sauce");

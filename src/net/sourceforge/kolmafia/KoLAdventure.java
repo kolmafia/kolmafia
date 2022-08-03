@@ -375,6 +375,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
     }
 
+    // The Pandamonium zones are available if you have completed the Friars quest
+    if (this.zone.equals("Pandamonium")) {
+      return QuestDatabase.isQuestFinished(Quest.FRIAR);
+    }
+
+    // The Temporal Rift zones have multiple requirements
+    if (this.zone.equals("Rift")) {
+      boolean ascended = KoLCharacter.getAscensions() > 0;
+      int level = KoLCharacter.getLevel();
+      boolean keyed = QuestDatabase.isQuestLaterThan(Quest.EGO, QuestDatabase.STARTED);
+      return ascended && level >= 4 && level <= 5 && keyed;
+    }
+
     if (this.adventureId.equals(AdventurePool.LOWER_CHAMBER_ID)) {
       return Preferences.getBoolean("lowerChamberUnlock");
     }
@@ -466,9 +479,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               && InventoryManager.hasItem(ItemPool.DINGY_PLANKS));
     }
 
-    // The dungeons of doom are only available if you've finished the quest
+    // The Enormous Greater-Than Sign is available if your base mainstate is at
+    // least 45 and you have not yet unlocked the Dungeon of Doom
+    if (this.adventureId.equals(AdventurePool.GREATER_THAN_SIGN_ID)) {
+      return (KoLCharacter.getBaseMainstat() >= 45) && !QuestLogRequest.isDungeonOfDoomAvailable();
+    }
+
+    // The Dungeons of Doom are only available if you've finished the quest
     if (this.adventureId.equals(AdventurePool.DUNGEON_OF_DOOM_ID)) {
       return QuestLogRequest.isDungeonOfDoomAvailable();
+    }
+
+    // The Valley of Rof L'm Fao is available if you have completed the Highlands quest
+    if (this.adventureId.equals(AdventurePool.VALLEY_OF_ROF_LM_FAO_ID)) {
+      return QuestDatabase.isQuestFinished(Quest.TOPPING);
     }
 
     // The Castle Basement is unlocked provided the player has the S.O.C.K
@@ -1179,7 +1203,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         }
 
         if (this.request.getAdventuresUsed() == 1
-            && !this.adventureId.equals(AdventurePool.ORC_CHASM_ID)
+            && !this.adventureId.equals(AdventurePool.VALLEY_OF_ROF_LM_FAO_ID)
             && !KoLCharacter.getFamiliar().isCombatFamiliar()) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "A dictionary would be useless there.");
           return;
