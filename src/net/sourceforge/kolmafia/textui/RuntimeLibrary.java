@@ -1579,6 +1579,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.SLOT_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.FAMILIAR_TYPE};
+    functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.FAMILIAR_TYPE, DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
+
     params = new Type[] {DataTypes.SLOT_TYPE};
     functions.add(new LibraryFunction("equipped_item", DataTypes.ITEM_TYPE, params));
 
@@ -6484,10 +6490,32 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value equip(ScriptRuntime controller, final Value arg1, final Value arg2) {
-    boolean slotThenItem = arg1.getType().equals(DataTypes.SLOT_TYPE);
+    boolean destinationThenItem = !arg1.getType().equals(DataTypes.ITEM_TYPE);
 
-    String slot = slotThenItem ? arg1.toString() : arg2.toString();
-    Value item = slotThenItem ? arg2 : arg1;
+    Value destination = destinationThenItem ? arg1 : arg2;
+    Value item = destinationThenItem ? arg2 : arg1;
+
+    // If we're trying to equip an item to a familiar...
+    if (destination.getType().equals(DataTypes.FAMILIAR_TYPE)) {
+      var familiar = new FamiliarData((int) destination.intValue());
+      if (KoLCharacter.getFamiliar().equals(familiar)) {
+        // ...which is our current familiar, just use the "familiar" slot
+        destination = new Value("familiar");
+      } else {
+        // ...otherwise check if we can equip it...
+        var it = ItemPool.get((int) item.intValue());
+
+        if (!familiar.canEquip(it)) {
+          return DataTypes.FALSE_VALUE;
+        }
+
+        // ...and fire a request to do so.
+        RequestThread.postRequest(new FamiliarRequest(familiar, it));
+        return RuntimeLibrary.continueValue();
+      }
+    }
+
+    var slot = destination.toString();
 
     if (item.equals(DataTypes.ITEM_INIT)) {
       KoLmafiaCLI.DEFAULT_SHELL.executeCommand("unequip", slot);
