@@ -1,6 +1,12 @@
 package net.sourceforge.kolmafia.objectpool;
 
 public class AdventurePool {
+  public static final String LOWER_CHAMBER_ID = "pyramid_state";
+  public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
+  public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
+  public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
+  public static final String SHROUDED_PEAK_ID = "cloudypeak2";
+
   public static final int DEGRASSI_KNOLL = 18;
   public static final int FUN_HOUSE = 20;
   public static final int TOWER_RUINS = 22;
@@ -87,7 +93,6 @@ public class AdventurePool {
   public static final int MAELSTROM_OF_LOVERS = 278;
   public static final int GLACIER_OF_JERKS = 279;
   public static final int HIDDEN_TEMPLE = 280;
-  public static final String SHROUDED_PEAK_ID = "cloudypeak2";
   public static final int ABOO_PEAK = 296;
   public static final int OIL_PEAK = 298;
   public static final int CASTLE_BASEMENT = 322;
@@ -189,10 +194,6 @@ public class AdventurePool {
   public static final int THE_DRIPPING_TREES = 542;
   public static final int YOUR_MUSHROOM_GARDEN = 543;
   public static final int THE_DRIPPING_HALL = 544;
-  public static final String LOWER_CHAMBER_ID = "pyramid_state";
-  public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
-  public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
-  public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
   public static final int SITE_ALPHA_DORMITORY = 554;
   public static final int SITE_ALPHA_GREENHOUSE = 555;
 

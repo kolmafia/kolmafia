@@ -2116,7 +2116,7 @@ public class EquipmentManager {
   }
 
   public static final boolean addOutfitConditions(final KoLAdventure adventure) {
-    int outfitId = EquipmentDatabase.getOutfitId(adventure);
+    int outfitId = adventure.getOutfitId();
     if (outfitId <= 0) {
       return false;
     }

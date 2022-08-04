@@ -39,11 +39,8 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
@@ -354,50 +351,45 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   // Validation part 1:
   //
-  // Determine if you are locked out of reaching a zone or location by
-  // level, quest progress quest items, or other things that a
-  // betweenBattleScript can't solve for you, like using a daypass,
-  // donning an outfit, or getting an effect. After we've given that
-  // script a chance to run, part 2 of validation might be able to do
-  // some of those things anyway.
+  // Determine if you are locked out of reaching a zone or location by level,
+  // quest progress quest items, or other things that a betweenBattleScript
+  // can't solve for you, like using a daypass, donning an outfit, or getting
+  // an effect. After we've given that script a chance to run, part 2 of
+  // validation might be able to do some of those things anyway.
   //
   // this.isValidAdventure will be false if there is nothing you can do
   // to go to this location at this time, or true, otherwise
+
+  private void validate1() {
+    this.isValidAdventure = this.isCurrentlyAccessible();
+  }
 
   public boolean isCurrentlyAccessible() {
     if (Limitmode.limitAdventure(this)) {
       return false;
     }
 
-    if (this.zone.equals("Lab")) {
-      return InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
+    // First check non-adventure.php zones.
+
+    // Level 3 quest
+    if (this.formSource.equals("cellar.php")) {
+      // *** Validate Tavern Quest
+      return true;
     }
 
-    if (this.zone.equals("MoxSign")) {
-      return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
+    // Level 5 quest boss
+    if (this.formSource.equals("cobbsknob.php")) {
+      return QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
+          && !QuestDatabase.isQuestFinished(Quest.GOBLIN);
     }
 
-    if (this.zone.equals("Little Canadia")) {
-      return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
+    // Level 7 quest boss
+    if (this.formSource.equals("cyrpt.php")) {
+      // *** Validate Bonerdagon
+      return true;
     }
 
-    // The Pandamonium zones are available if you have completed the Friars quest
-    if (this.zone.equals("Pandamonium")) {
-      return QuestDatabase.isQuestFinished(Quest.FRIAR);
-    }
-
-    // The Temporal Rift zones have multiple requirements
-    if (this.zone.equals("Rift")) {
-      boolean ascended = KoLCharacter.getAscensions() > 0;
-      int level = KoLCharacter.getLevel();
-      boolean keyed = QuestDatabase.isQuestLaterThan(Quest.EGO, QuestDatabase.STARTED);
-      return ascended && level >= 4 && level <= 5 && keyed;
-    }
-
-    if (this.adventureId.equals(AdventurePool.LOWER_CHAMBER_ID)) {
-      return Preferences.getBoolean("lowerChamberUnlock");
-    }
-
+    // Level 8 quest boss
     if (this.adventureId.equals(AdventurePool.SHROUDED_PEAK_ID)) {
       if (QuestDatabase.isQuestFinished(Quest.TRAPPER)) {
         return false;
@@ -409,10 +401,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
     }
 
+    // Level 11 quest boss -> Lord Spookyraven
     if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
       return QuestDatabase.isQuestLaterThan(Quest.MANOR, "step2");
     }
 
+    // Level 11 quest boss -> Ed
+    if (this.adventureId.equals(AdventurePool.LOWER_CHAMBER_ID)) {
+      return Preferences.getBoolean("lowerChamberUnlock");
+    }
+
+    // Special events
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
       return Preferences.getBoolean("eldritchFissureAvailable");
     }
@@ -421,52 +420,236 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return Preferences.getBoolean("eldritchHorrorAvailable");
     }
 
-    if (this.formSource.equals("cobbsknob.php")) {
-      return QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
-          && !QuestDatabase.isQuestFinished(Quest.GOBLIN);
-    }
-
     // Only look at adventure.php locations below this.
     // Further validation for other adventures happens in part2
     if (!this.formSource.contains("adventure.php")) {
       return true;
     }
 
-    if (this.zone.equals("Tammy's Offshore Platform")) {
-      return false;
+    if (this.zone.equals("Woods")) {
+      // Woods unlocked by first Council Quest
+    }
+
+    // Level 4 quest
+    if (this.zone.equals("BatHole")) {
+      String progress = Preferences.getString(Quest.BAT.getPref());
+      if (progress.equals(QuestDatabase.UNSTARTED)) {
+        return false;
+      }
+      switch (this.adventureNumber) {
+        case AdventurePool.BAT_HOLE_ENTRYWAY:
+        case AdventurePool.GUANO_JUNCTION:
+          return true;
+        case AdventurePool.BATRAT:
+        case AdventurePool.BEANBAT:
+        case AdventurePool.BOSSBAT:
+          {
+            int sonarsUsed =
+                switch (progress) {
+                  case QuestDatabase.STARTED -> 0;
+                  case "step1" -> 1;
+                  case "step2" -> 2;
+                  default -> 3;
+                };
+
+            int sonarsForLocation =
+                switch (this.adventureNumber) {
+                  case AdventurePool.BATRAT -> 1;
+                  case AdventurePool.BEANBAT -> 2;
+                  default -> 3;
+                };
+
+            if (sonarsUsed >= sonarsForLocation) {
+              return true;
+            }
+
+            int sonarsToUse = sonarsForLocation - sonarsUsed;
+
+            return InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
+          }
+      }
+    }
+
+    // Level 5 quest
+    if (this.zone.equals("Knob")) {}
+
+    if (this.zone.equals("Lab")) {
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
     }
 
     if (this.zone.equals("Menagerie")) {
       return InventoryManager.hasItem(ItemPool.get(ItemPool.MENAGERIE_KEY, 1));
     }
 
+    // Level 6 quest
+    if (this.zone.equals("Friars")) {}
+
+    // The Pandamonium zones are available if you have completed the Friars quest
+    if (this.zone.equals("Pandamonium")) {
+      return QuestDatabase.isQuestFinished(Quest.FRIAR);
+    }
+
+    // Level 7 quest
+    if (this.zone.equals("Cyrpt")) {
+      // adventure=264	The Defiled Nook
+      // adventure=262	The Defiled Cranny
+      // adventure=261	The Defiled Alcove
+      // adventure=263	The Defiled Niche
+      // *** Validate
+      return true;
+    }
+
+    // The VERY Unquiet Garves are available if you have completed the Cyrpt quest
     if (this.adventureNumber == AdventurePool.VERY_UNQUIET_GARVES) {
       return QuestDatabase.isQuestFinished(Quest.CYRPT);
+    }
+
+    // Level 8 quest
+    if (this.zone.equals("McLarge")) {
+      return switch (this.adventureNumber) {
+        case AdventurePool.ITZNOTYERZITZ_MINE, AdventurePool.GOATLET -> QuestDatabase
+            .isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
+        case AdventurePool.NINJA_SNOWMEN, AdventurePool.EXTREME_SLOPE -> QuestDatabase
+            .isQuestLaterThan(Quest.TRAPPER, "step1");
+        case AdventurePool.ICY_PEAK -> QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4");
+        case AdventurePool.MINE_OFFICE -> QuestDatabase.isQuestLaterThan(
+            Quest.FACTORY, QuestDatabase.UNSTARTED);
+        default -> false;
+      };
+    }
+
+    // Level 9 quest
+    if (this.zone.equals("Highlands")) {
+      return QuestDatabase.isQuestLaterThan(Quest.TOPPING, QuestDatabase.STARTED);
+    }
+
+    // Level 10 quest
+    if (this.zone.equals("Beanstalk")) {
+      switch (this.adventureNumber) {
+        case AdventurePool.AIRSHIP:
+          // The beanstalk is unlocked when the player has planted a
+          // beanstalk -- but, the bean needs to be planted first.
+          // We will plant in validate2, if necessary
+          return !KoLCharacter.isKingdomOfExploathing() && KoLCharacter.getLevel() >= 10;
+        case AdventurePool.CASTLE_BASEMENT:
+          // The Castle Basement is unlocked provided the player has the S.O.C.K
+          // (legacy: rowboats give access but are no longer creatable)
+          return InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
+              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
+              || KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.CASTLE_GROUND:
+          return Preferences.getInteger("lastCastleGroundUnlock") == KoLCharacter.getAscensions();
+        case AdventurePool.CASTLE_TOP:
+          return Preferences.getInteger("lastCastleTopUnlock") == KoLCharacter.getAscensions();
+        case AdventurePool.HOLE_IN_THE_SKY:
+          // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
+          // (legacy: rowboats give access but are no longer creatable)
+          return KoLCharacter.isKingdomOfExploathing()
+              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
+              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
+      }
+    }
+
+    // Level 11 quest
+    if (this.adventureNumber == AdventurePool.PALINDOME) {
+      AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
+      return KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
+    }
+
+    if (this.adventureNumber == AdventurePool.MIDDLE_CHAMBER) {
+      return Preferences.getBoolean("middleChamberUnlock");
+    }
+
+    // Level 12 quest
+
+    // Spookyraven Manor quests:
+    //
+    // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
+    // Quest.SPOOKYRAVEN_DANCE		Lady Spookyraven
+    // Quest.MANOR			Level 11 Quest
+    if (this.zone.equals("Manor0")) {
+      switch (this.adventureNumber) {
+        case AdventurePool.HAUNTED_BOILER_ROOM:
+        case AdventurePool.HAUNTED_LAUNDRY_ROOM:
+        case AdventurePool.HAUNTED_WINE_CELLAR:
+          return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.UNSTARTED);
+      }
+      return false;
+    }
+
+    if (this.zone.equals("Manor1")) {
+      switch (this.adventureNumber) {
+        case AdventurePool.HAUNTED_KITCHEN:
+        case AdventurePool.HAUNTED_CONSERVATORY:
+          return QuestDatabase.isQuestLaterThan(
+              Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
+        case AdventurePool.HAUNTED_LIBRARY:
+          return InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
+        case AdventurePool.HAUNTED_BILLIARDS_ROOM:
+          return InventoryManager.hasItem(ItemPool.BILLIARDS_KEY);
+      }
+      return true;
+    }
+
+    if (this.zone.equals("Manor2")) {
+      switch (this.adventureNumber) {
+        case AdventurePool.HAUNTED_BATHROOM:
+        case AdventurePool.HAUNTED_BEDROOM:
+        case AdventurePool.HAUNTED_GALLERY:
+          return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
+        case AdventurePool.HAUNTED_BALLROOM:
+          return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
+      }
+      return true;
+    }
+
+    if (this.zone.equals("Manor3")) {
+      switch (this.adventureNumber) {
+        case AdventurePool.HAUNTED_LABORATORY:
+        case AdventurePool.HAUNTED_NURSERY:
+        case AdventurePool.HAUNTED_STORAGE_ROOM:
+          return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
+      }
+      return true;
+    }
+
+    // The Temporal Rift zones have multiple requirements
+    if (this.zone.equals("Rift")) {
+      boolean ascended = KoLCharacter.getAscensions() > 0;
+      int level = KoLCharacter.getLevel();
+      boolean keyed = QuestDatabase.isQuestLaterThan(Quest.EGO, QuestDatabase.STARTED);
+      return ascended && level >= 4 && level <= 5 && keyed;
     }
 
     if (this.zone.equals("Degrassi Knoll")) {
       return KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
     }
 
-    if (this.adventureNumber == AdventurePool.BUGBEAR_PEN) {
-      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
-          && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
-          && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
+    if (this.zone.equals("MusSign")) {
+      if (KoLCharacter.getSignZone() != ZodiacZone.KNOLL) {
+        return false;
+      }
+
+      if (this.adventureNumber == AdventurePool.BUGBEAR_PEN) {
+        return QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
+            && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
+      }
+
+      if (this.adventureNumber == AdventurePool.SPOOKY_GRAVY_BURROW) {
+        return QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
+      }
+
+      if (this.adventureNumber == AdventurePool.POST_QUEST_BUGBEAR_PEN) {
+        return QuestDatabase.isQuestFinished(Quest.BUGBEAR);
+      }
     }
 
-    if (this.adventureNumber == AdventurePool.SPOOKY_GRAVY_BURROW) {
-      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
-          && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
+    if (this.zone.equals("Little Canadia")) {
+      return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
     }
 
-    if (this.adventureNumber == AdventurePool.POST_QUEST_BUGBEAR_PEN) {
-      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
-          && QuestDatabase.isQuestFinished(Quest.BUGBEAR);
-    }
-
-    if (this.adventureNumber == AdventurePool.PALINDOME) {
-      AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
-      return KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
+    if (this.zone.equals("MoxSign")) {
+      return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
     }
 
     if (this.adventureNumber == AdventurePool.HIDDEN_TEMPLE) {
@@ -484,6 +667,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Island")) {
+      // We will use dingy planks + dinghy plans if you have them in validate2
+      // There are other ways to get to the island.
       return KoLCharacter.mysteriousIslandAccessible()
           || (InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
               && InventoryManager.hasItem(ItemPool.DINGY_PLANKS));
@@ -496,10 +681,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
       boolean haveOutfit = EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP);
       boolean haveFledges = InventoryManager.hasItem(ItemPool.PIRATE_FLEDGES);
-      if (!haveOutfit || !haveFledges) {
+      if (!haveOutfit && !haveFledges) {
         return false;
       }
       // Distinguish between Barrrney's Barrr, F'c'l'e, Poop Deck, Belowdecks
+      // *** Validate different zones
       return true;
     }
 
@@ -519,51 +705,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestFinished(Quest.TOPPING);
     }
 
-    // The Castle Basement is unlocked provided the player has the S.O.C.K
-    // (legacy: rowboats give access but are no longer creatable)
-    if (this.adventureNumber == AdventurePool.CASTLE_BASEMENT) {
-      return InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
-          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
-          || KoLCharacter.isKingdomOfExploathing();
-    }
-
-    if (this.adventureNumber == AdventurePool.CASTLE_GROUND) {
-      return Preferences.getInteger("lastCastleGroundUnlock") == KoLCharacter.getAscensions();
-    }
-
-    if (this.adventureNumber == AdventurePool.CASTLE_TOP) {
-      return Preferences.getInteger("lastCastleTopUnlock") == KoLCharacter.getAscensions();
-    }
-
-    // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
-    // (legacy: rowboats give access but are no longer creatable)
-
-    if (this.adventureNumber == AdventurePool.HOLE_IN_THE_SKY) {
-      return KoLCharacter.isKingdomOfExploathing()
-          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
-          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
-    }
-
-    // The beanstalk is unlocked when the player has planted a
-    // beanstalk -- but, the bean needs to be planted first.
-
-    if (this.adventureNumber == AdventurePool.AIRSHIP) {
-      if (KoLCharacter.isKingdomOfExploathing()) {
-        return false;
-      }
-
-      // If the character is not at least level 10, they have
-      // no chance to get to the beanstalk
-      if (KoLCharacter.getLevel() < 10) {
-        return false;
-      }
-
-      // Give the betweenAdventureScript a chance to get an
-      // enchanted bean, if necessary
-      // *** I am not convinced. But this is legacy behavior.
-      return true;
-    }
-
     if (this.adventureNumber == AdventurePool.TOWER_RUINS) {
       if (QuestDatabase.getQuest(Quest.EGO).equals("step2")) {
         // We've received Fernswarthy's key but have not yet ventured into the
@@ -574,137 +715,39 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
-    if (this.adventureNumber == AdventurePool.HAUNTED_KITCHEN
-        || this.adventureNumber == AdventurePool.HAUNTED_CONSERVATORY) {
-      // Haunted Kitchen & Conservatory
-      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
-    }
-
-    if (this.adventureNumber == AdventurePool.HAUNTED_LIBRARY) {
-      // Haunted Library
-      return InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
-    }
-
-    if (this.adventureNumber == AdventurePool.HAUNTED_BILLIARDS_ROOM) {
-      // Haunted Billiards Room
-      return InventoryManager.hasItem(ItemPool.BILLIARDS_KEY);
-    }
-
-    if (this.adventureNumber == AdventurePool.HAUNTED_BATHROOM
-        || this.adventureNumber == AdventurePool.HAUNTED_BEDROOM
-        || this.adventureNumber == AdventurePool.HAUNTED_GALLERY) {
-      // Haunted Bathroom, Bedroom & Gallery
-      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
-    }
-
-    if (this.adventureNumber == AdventurePool.HAUNTED_BALLROOM) {
-      // Haunted Ballroom
-      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
-    }
-
-    if (this.adventureNumber == AdventurePool.HAUNTED_LABORATORY
-        || this.adventureNumber == AdventurePool.HAUNTED_NURSERY
-        || this.adventureNumber == AdventurePool.HAUNTED_STORAGE_ROOM) {
-      // Haunted Lab, Nursery & Storage Room
-      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
-    }
-
-    if (this.adventureNumber == AdventurePool.MIDDLE_CHAMBER) {
-      return Preferences.getBoolean("middleChamberUnlock");
-    }
-
-    if (this.adventureNumber == AdventurePool.BATRAT
-        || this.adventureNumber == AdventurePool.BEANBAT
-        || this.adventureNumber == AdventurePool.BOSSBAT) {
-      int sonarsUsed =
-          Preferences.getString(Quest.BAT.getPref()).equals(QuestDatabase.STARTED)
-              ? 0
-              : Preferences.getString(Quest.BAT.getPref()).equals("step1")
-                  ? 1
-                  : Preferences.getString(Quest.BAT.getPref()).equals("step2") ? 2 : 3;
-
-      int sonarsForLocation =
-          this.adventureNumber == AdventurePool.BATRAT
-              ? 1
-              : this.adventureNumber == AdventurePool.BEANBAT ? 2 : 3;
-
-      if (sonarsUsed >= sonarsForLocation) {
-        return true;
-      }
-
-      int sonarsToUse = sonarsForLocation - sonarsUsed;
-
-      return InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
-    }
-
     if (this.adventureNumber == AdventurePool.WHITEYS_GROVE) {
       return QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
           || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
           || KoLCharacter.isEd();
     }
 
-    if (this.zone.equals("McLarge")) {
-      if (this.adventureNumber == AdventurePool.MINE_OFFICE) {
-        return QuestDatabase.isQuestLaterThan(Quest.FACTORY, QuestDatabase.UNSTARTED);
-      }
-
-      if (this.adventureNumber == AdventurePool.ITZNOTYERZITZ_MINE
-          || this.adventureNumber == AdventurePool.GOATLET) {
-        return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
-      }
-
-      if (this.adventureNumber == AdventurePool.NINJA_SNOWMEN
-          || this.adventureNumber == AdventurePool.EXTREME_SLOPE) {
-        return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step1");
-      }
-
-      if (this.adventureNumber == AdventurePool.ICY_PEAK) {
-        return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4");
-      }
-      return false;
-    }
-
-    if (this.zone.equals("Highlands")) {
-      return QuestDatabase.isQuestLaterThan(Quest.TOPPING, QuestDatabase.STARTED);
-    }
-
     if (this.adventureNumber == AdventurePool.THE_DRIPPING_HALL) {
       return Preferences.getBoolean("drippingHallUnlocked");
     }
 
-    if (this.adventureNumber == AdventurePool.EDGE_OF_THE_SWAMP) {
-      return QuestDatabase.isQuestLaterThan(Quest.SWAMP, "unstarted");
+    if (this.zone.equals("Le Marais D&egrave;gueulasse")) {
+      if (!QuestDatabase.isQuestLaterThan(Quest.SWAMP, QuestDatabase.UNSTARTED)) {
+        return false;
+      }
+      return switch (this.adventureNumber) {
+        case AdventurePool.EDGE_OF_THE_SWAMP -> true;
+        case AdventurePool.DARK_AND_SPOOKY_SWAMP -> Preferences.getBoolean("maraisDarkUnlock");
+        case AdventurePool.CORPSE_BOG -> Preferences.getBoolean("maraisCorpseUnlock");
+        case AdventurePool.RUINED_WIZARDS_TOWER -> Preferences.getBoolean("maraisWizardUnlock");
+        case AdventurePool.WILDLIFE_SANCTUARRRRRGH -> Preferences.getBoolean(
+            "maraisWildlifeUnlock");
+        case AdventurePool.WEIRD_SWAMP_VILLAGE -> Preferences.getBoolean("maraisVillageUnlock");
+        case AdventurePool.SWAMP_BEAVER_TERRITORY -> Preferences.getBoolean("maraisBeaverUnlock");
+        default -> true;
+      };
     }
 
-    if (this.adventureNumber == AdventurePool.DARK_AND_SPOOKY_SWAMP) {
-      return Preferences.getBoolean("maraisDarkUnlock");
-    }
-
-    if (this.adventureNumber == AdventurePool.CORPSE_BOG) {
-      return Preferences.getBoolean("maraisCorpseUnlock");
-    }
-
-    if (this.adventureNumber == AdventurePool.RUINED_WIZARDS_TOWER) {
-      return Preferences.getBoolean("maraisWizardUnlock");
-    }
-
-    if (this.adventureNumber == AdventurePool.WILDLIFE_SANCTUARRRRRGH) {
-      return Preferences.getBoolean("maraisWildlifeUnlock");
-    }
-
-    if (this.adventureNumber == AdventurePool.WEIRD_SWAMP_VILLAGE) {
-      return Preferences.getBoolean("maraisVillageUnlock");
-    }
-
-    if (this.adventureNumber == AdventurePool.SWAMP_BEAVER_TERRITORY) {
-      return Preferences.getBoolean("maraisBeaverUnlock");
+    // Obsolete zones
+    if (this.zone.equals("Tammy's Offshore Platform")) {
+      return false;
     }
 
     return true;
-  }
-
-  private void validate1() {
-    this.isValidAdventure = this.isCurrentlyAccessible();
   }
 
   // Validation part 2:
@@ -717,47 +760,53 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // If we can't, log error and set this.isValidAdventure to false.
 
   private void validate2() {
+    this.isValidAdventure = this.prepareToAdventure();
+  }
+
+  public boolean prepareToAdventure() {
     // If we get here, this.isValidAdventure is true.
 
     if (this.zone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need
       // to be Half-Astral or have access to an astral mushroom.
       // The betweenBattleScript could have arranged that.
-      if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.HALF_ASTRAL))
-          && !InventoryManager.hasItem(ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1))) {
-        this.isValidAdventure = false;
-        return;
+
+      AdventureResult effect = EffectPool.get(EffectPool.HALF_ASTRAL);
+      AdventureResult mushroom = ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
+
+      if (!KoLConstants.activeEffects.contains(effect) && !InventoryManager.hasItem(mushroom)) {
+        return false;
       }
 
-      // Set the appropriate choice option to take desired trip
-      if (this.adventureNumber == AdventurePool.BAD_TRIP) {
-        Preferences.setString("choiceAdventure71", "1");
-      } else if (this.adventureNumber == AdventurePool.MEDIOCRE_TRIP) {
-        Preferences.setString("choiceAdventure71", "2");
-      } else {
-        Preferences.setString("choiceAdventure71", "3");
+      String option =
+          switch (this.adventureNumber) {
+            case AdventurePool.BAD_TRIP -> "1";
+            case AdventurePool.MEDIOCRE_TRIP -> "2";
+            case AdventurePool.GREAT_TRIP -> "3";
+            default -> null;
+          };
+      if (option == null) {
+        // This should not happen
+        return false;
       }
+      Preferences.setString("choiceAdventure71", option);
 
       // To take a trip to the Astral Plane, you either need
       // to be Half-Astral or have access to an astral mushroom.
 
-      AdventureResult effect = EffectPool.get(EffectPool.HALF_ASTRAL);
       if (KoLConstants.activeEffects.contains(effect)) {
-        return;
+        return true;
       }
 
-      AdventureResult mushroom = ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
       if (!InventoryManager.retrieveItem(mushroom)) {
         // This shouldn't fail.
-        this.isValidAdventure = false;
-        return;
+        return false;
       }
 
       RequestThread.postRequest(UseItemRequest.getInstance(mushroom));
 
       // This shouldn't fail.
-      this.isValidAdventure = KoLConstants.activeEffects.contains(effect);
-      return;
+      return KoLConstants.activeEffects.contains(effect);
     }
 
     // Fighting the Goblin King requires effects
@@ -769,14 +818,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             && InventoryManager.retrieveItem(ItemPool.KNOB_GOBLIN_PERFUME)) {
           RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.KNOB_GOBLIN_PERFUME));
         }
-        this.isValidAdventure = KoLConstants.activeEffects.contains(KoLAdventure.PERFUME);
-        return;
+        return KoLConstants.activeEffects.contains(KoLAdventure.PERFUME);
       }
 
       if (EquipmentManager.isWearingOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
         // Elite Guard
-        this.isValidAdventure = InventoryManager.retrieveItem(ItemPool.KNOB_CAKE);
-        return;
+        return InventoryManager.retrieveItem(ItemPool.KNOB_CAKE);
       }
 
       // If we are in Beecore, we had to adventure to get the effect.
@@ -791,7 +838,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         if (!KoLConstants.activeEffects.contains(KoLAdventure.PERFUME)) {
           RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.KNOB_GOBLIN_PERFUME));
         }
-        return;
+        return true;
       }
 
       if (EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT)
@@ -799,11 +846,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // We have the elite guard uniform and have made a cake.
         SpecialOutfit outfit = EquipmentDatabase.getOutfit(OutfitPool.KNOB_ELITE_OUTFIT);
         RequestThread.postRequest(new EquipmentRequest(outfit));
-        return;
+        return true;
       }
 
-      this.isValidAdventure = false;
-      return;
+      return false;
     }
 
     if (this.formSource.equals("dwarffactory.php")
@@ -811,8 +857,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       int id1 = OutfitPool.MINING_OUTFIT;
       int id2 = OutfitPool.DWARVISH_UNIFORM;
 
-      if (EquipmentManager.isWearingOutfit(id1) || !EquipmentManager.isWearingOutfit(id2)) {
-        return;
+      if (EquipmentManager.isWearingOutfit(id1) || EquipmentManager.isWearingOutfit(id2)) {
+        return true;
       }
 
       SpecialOutfit outfit =
@@ -821,31 +867,29 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               : EquipmentManager.hasOutfit(id2) ? EquipmentDatabase.getOutfit(id2) : null;
 
       if (outfit == null) {
-        this.isValidAdventure = false;
-        return;
+        return false;
       }
 
       RequestThread.postRequest(new EquipmentRequest(outfit));
-      return;
+      return true;
     }
 
     // Disguise zones require outfits
     if (this.adventureNumber != AdventurePool.COLA_BATTLEFIELD
         && (this.adventureName.contains("Disguise") || this.adventureName.contains("Uniform"))) {
-      int outfitId = EquipmentDatabase.getOutfitId(this);
+      int outfitId = this.getOutfitId();
 
       if (outfitId == 0 || EquipmentManager.isWearingOutfit(outfitId)) {
-        return;
+        return true;
       }
 
       SpecialOutfit outfit = EquipmentDatabase.getOutfit(outfitId);
       if (!EquipmentManager.retrieveOutfit(outfit)) {
-        this.isValidAdventure = false;
-        return;
+        return false;
       }
 
       RequestThread.postRequest(new EquipmentRequest(outfit));
-      return;
+      return true;
     }
 
     // If the person has a continuum transfunctioner, then find
@@ -866,7 +910,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!KoLCharacter.hasEquipped(transfunctioner)) {
         RequestThread.postRequest(new EquipmentRequest(transfunctioner));
       }
-      return;
+      return true;
     }
 
     if (this.adventureNumber == AdventurePool.PALINDOME) {
@@ -876,12 +920,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // This will pick an empty slot, or accessory1, if all are full
         RequestThread.postRequest(new EquipmentRequest(talisman));
       }
+      return true;
     }
 
     if (this.adventureNumber == AdventurePool.HOBOPOLIS_SEWERS) {
       // Don't auto-adventure unprepared in Hobopolis sewers
       if (!Preferences.getBoolean("requireSewerTestItems")) {
-        return;
+        return true;
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.GATORSKIN_UMBRELLA, 1))
@@ -890,7 +935,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           && InventoryManager.retrieveItem(ItemPool.OOZE_O)
           && InventoryManager.retrieveItem(ItemPool.DUMPLINGS)
           && InventoryManager.retrieveItem(ItemPool.OIL_OF_OILINESS, 3)) {
-        return;
+        return true;
       }
 
       StringBuilder message = new StringBuilder();
@@ -915,85 +960,84 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       KoLmafia.updateDisplay(MafiaState.ERROR, message.toString());
-      this.isValidAdventure = false;
-      return;
+      return false;
     }
 
     if (this.adventureId.equals(AdventurePool.SHROUDED_PEAK_ID)) {
-      if (KoLCharacter.getElementalResistanceLevels(Element.COLD) < 5) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You need more cold protection");
-        this.isValidAdventure = false;
+      if (KoLCharacter.getElementalResistanceLevels(Element.COLD) >= 5) {
+        return true;
       }
-      return;
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You need more cold protection");
+      return false;
     }
 
     if (this.adventureNumber == AdventurePool.ICY_PEAK) {
-      if (KoLCharacter.getElementalResistanceLevels(Element.COLD) < 1) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You need more cold protection");
-        this.isValidAdventure = false;
+      if (KoLCharacter.getElementalResistanceLevels(Element.COLD) >= 1) {
+        return true;
       }
-      return;
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You need more cold protection");
+      return false;
     }
 
     if (this.adventureNumber == AdventurePool.AIRSHIP) {
       if (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)) {
-        return;
+        return true;
       }
 
       if (!InventoryManager.retrieveItem(ItemPool.ENCHANTED_BEAN)) {
-        this.isValidAdventure = false;
-        return;
+        return false;
       }
 
       // Use the enchanted bean by clicking on the coffee grounds.
       RequestThread.postRequest(new PlaceRequest("plains", "garbage_grounds"));
-      return;
+      return true;
     }
 
     // The casino is unlocked if you have a casino pass in inventory.
-
     if (this.zone.equals("Casino")) {
-      this.isValidAdventure = InventoryManager.retrieveItem(ItemPool.CASINO_PASS);
-      return;
+      return InventoryManager.retrieveItem(ItemPool.CASINO_PASS);
     }
 
     if (this.zone.equals("Island")) {
       if (KoLCharacter.mysteriousIslandAccessible()) {
-        return;
+        return true;
       }
 
       // There are other ways to get there, subsumed in the above
       // If we got here, we have the plans and planks
       RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.DINGHY_PLANS));
-      return;
+      return true;
     }
 
     if (this.adventureNumber == AdventurePool.GUANO_JUNCTION) {
-      if (KoLCharacter.getElementalResistanceLevels(Element.STENCH) < 1) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't stand the stench");
-        this.isValidAdventure = false;
+      if (KoLCharacter.getElementalResistanceLevels(Element.STENCH) >= 1) {
+        return true;
       }
-      return;
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You can't stand the stench");
+      this.isValidAdventure = false;
+      return false;
     }
 
     if (this.adventureNumber == AdventurePool.BATRAT
         || this.adventureNumber == AdventurePool.BEANBAT
         || this.adventureNumber == AdventurePool.BOSSBAT) {
       int sonarsUsed =
-          Preferences.getString(Quest.BAT.getPref()).equals(QuestDatabase.STARTED)
-              ? 0
-              : Preferences.getString(Quest.BAT.getPref()).equals("step1")
-                  ? 1
-                  : Preferences.getString(Quest.BAT.getPref()).equals("step2") ? 2 : 3;
+          switch (Preferences.getString(Quest.BAT.getPref())) {
+            case QuestDatabase.STARTED -> 0;
+            case "step1" -> 1;
+            case "step2" -> 2;
+            default -> 3;
+          };
 
       int sonarsForLocation =
-          this.adventureNumber == AdventurePool.BATRAT
-              ? 1
-              : this.adventureNumber == AdventurePool.BEANBAT ? 2 : 3;
+          switch (this.adventureNumber) {
+            case AdventurePool.BATRAT -> 1;
+            case AdventurePool.BEANBAT -> 2;
+            default -> 3;
+          };
 
       if (sonarsUsed >= sonarsForLocation) {
-        this.isValidAdventure = true;
-        return;
+        return true;
       }
 
       int sonarsToUse = sonarsForLocation - sonarsUsed;
@@ -1001,17 +1045,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           UseItemRequest.getInstance(ItemPool.get(ItemPool.SONAR, sonarsToUse)));
       sonarsUsed += sonarsToUse;
 
-      this.isValidAdventure = (sonarsUsed >= sonarsForLocation);
-
-      return;
+      return (sonarsUsed >= sonarsForLocation);
     }
 
     if (this.zone.equals("The Drip")) {
       AdventureResult harness = ItemPool.get(ItemPool.DRIP_HARNESS, 1);
       if (!InventoryManager.hasItem(harness)) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You need a Drip harness to go there");
-        this.isValidAdventure = false;
-        return;
+        return false;
       }
 
       if (!KoLCharacter.hasEquipped(harness)) {
@@ -1019,8 +1060,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(new EquipmentRequest(harness));
       }
 
-      this.isValidAdventure = true;
-      return;
+      return true;
     }
 
     // The following are all things you can get day passes for.
@@ -1038,8 +1078,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                 || Preferences.getBoolean("_coldAirportToday");
       }
 
-      this.isValidAdventure = unlocked;
-      return;
+      return unlocked;
     }
 
     if (this.zone.equals("That 70s Volcano")) {
@@ -1053,8 +1092,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                 || Preferences.getBoolean("_hotAirportToday");
       }
 
-      this.isValidAdventure = unlocked;
-      return;
+      return unlocked;
     }
 
     if (this.zone.equals("Spring Break Beach")) {
@@ -1069,8 +1107,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                 || Preferences.getBoolean("_sleazeAirportToday");
       }
 
-      this.isValidAdventure = unlocked;
-      return;
+      return unlocked;
     }
 
     if (this.zone.equals("Conspiracy Island")) {
@@ -1086,8 +1123,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                 || Preferences.getBoolean("_spookyAirportToday");
       }
 
-      this.isValidAdventure = unlocked;
-      return;
+      return unlocked;
     }
 
     if (this.zone.equals("Dinseylandfill")) {
@@ -1103,14 +1139,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                 || Preferences.getBoolean("_stenchAirportToday");
       }
 
-      this.isValidAdventure = unlocked;
-      return;
+      return unlocked;
     }
 
     if (this.adventureNumber == AdventurePool.SPACEGATE) {
       if (KoLCharacter.isKingdomOfExploathing()) {
-        this.isValidAdventure = false;
-        return;
+        return false;
       }
 
       boolean unlocked =
@@ -1121,8 +1155,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         unlocked = Preferences.getBoolean("_spacegateToday");
       }
 
-      this.isValidAdventure = unlocked;
-      return;
+      return unlocked;
     }
 
     if (this.zone.equals("Gingerbread City")) {
@@ -1135,33 +1168,53 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         unlocked = Preferences.getBoolean("_gingerbreadCityToday");
       }
 
-      this.isValidAdventure = unlocked;
-      return;
+      return unlocked;
     }
+
+    return true;
   }
 
-  private static boolean getEnchantedBean() {
-    // Do we have an enchanted bean? Can we get one easily?
-    if (InventoryManager.hasItem(ItemPool.ENCHANTED_BEAN)) {
-      return true;
+  public int getOutfitId() {
+    switch (this.adventureNumber) {
+      case AdventurePool.COBB_BARRACKS:
+        return OutfitPool.KNOB_ELITE_OUTFIT;
+
+      case AdventurePool.COBB_HAREM:
+        return OutfitPool.HAREM_OUTFIT;
+
+      case AdventurePool.ITZNOTYERZITZ_MINE:
+        return OutfitPool.MINING_OUTFIT;
+
+      case AdventurePool.EXTREME_SLOPE:
+        return OutfitPool.EXTREME_COLD_WEATHER_GEAR;
+
+      case AdventurePool.HIPPY_CAMP:
+      case AdventurePool.HIPPY_CAMP_DISGUISED:
+        return OutfitPool.HIPPY_OUTFIT;
+
+      case AdventurePool.FRAT_HOUSE:
+      case AdventurePool.FRAT_HOUSE_DISGUISED:
+        return OutfitPool.FRAT_OUTFIT;
+
+      case AdventurePool.PIRATE_COVE:
+        return OutfitPool.SWASHBUCKLING_GETUP;
+
+        // Choose the uniform randomly
+      case AdventurePool.COLA_BATTLEFIELD:
+        return KoLConstants.RNG.nextInt(2) == 0
+            ? OutfitPool.CLOACA_UNIFORM
+            : OutfitPool.DYSPEPSI_UNIFORM;
+
+      case AdventurePool.CLOACA_BATTLEFIELD:
+        return OutfitPool.CLOACA_UNIFORM;
+
+      case AdventurePool.DYSPEPSI_BATTLEFIELD:
+        return OutfitPool.DYSPEPSI_UNIFORM;
+
+        // No outfit existed for this area
+      default:
+        return -1;
     }
-
-    // No. We can adventure for one. Ask the user if this is OK.
-    if (StaticEntity.isGUIRequired()
-        && GenericFrame.instanceExists()
-        && !InputFieldUtilities.confirm(
-            "KoLmafia thinks you haven't planted an enchanted bean yet.	Would you like to have KoLmafia automatically adventure to obtain one?")) {
-      return false;
-    }
-
-    // The user said "do it". So, do it!
-
-    KoLAdventure sideTripLocation = AdventureDatabase.getAdventure("Beanbat Chamber");
-    AdventureResult sideTripItem = ItemPool.get(ItemPool.ENCHANTED_BEAN, 1);
-
-    GoalManager.makeSideTrip(sideTripLocation, sideTripItem);
-
-    return !KoLmafia.refusesContinue();
   }
 
   /**
