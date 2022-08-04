@@ -74,6 +74,7 @@ public class RequestLogger extends NullStream {
     buffer.setLength(0);
     SkillDatabase.generateSkillList(buffer, true);
     KoLConstants.commandBuffer.append(buffer.toString());
+    RequestLogger.mirrorStream.println(buffer.toString());
   }
 
   public static final void printList(final List<?> printing) {
