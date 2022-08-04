@@ -50,8 +50,10 @@ public class AdventurePool {
   public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
   public static final int HAIKU_DUNGEON = 138;
   public static final int HIPPY_UNIFORM_BATTLEFIELD = 140;
+  public static final int BARRRNEYS_BARRR = 157;
   public static final int FCLE = 158;
   public static final int POOP_DECK = 159;
+  public static final int BELOWDECKS = 160;
   public static final int YULETIDE = 163;
   public static final int HOBOPOLIS_SEWERS = 166;
   public static final int HOBOPOLIS_TOWN_SQUARE = 167;
@@ -80,7 +82,9 @@ public class AdventurePool {
   public static final int INFERNAL_RACKETS_BACKSTAGE = 243;
   public static final int PANDAMONIUM_SLUMS = 248;
   public static final int COBB_BARRACKS = 257;
+  public static final int COBB_KITCHEN = 258;
   public static final int COBB_HAREM = 259;
+  public static final int COBB_TREASURY = 260;
   public static final int DEFILED_ALCOVE = 261;
   public static final int DEFILED_CRANNY = 262;
   public static final int DEFILED_NICHE = 263;
@@ -127,6 +131,7 @@ public class AdventurePool {
   public static final int ARID_DESERT = 364;
   public static final int WARBEAR_FORTRESS_LEVEL_THREE = 368;
   public static final int YE_OLDE_MEDIEVALE_VILLAGEE = 380;
+  public static final int COPPERHEAD_CLUB = 383;
   public static final int ZEPPELIN_PROTESTORS = 384;
   public static final int RED_ZEPPELIN = 385;
   public static final int PALINDOME = 386;
@@ -165,6 +170,7 @@ public class AdventurePool {
   public static final int THE_BEEHIVE = 432;
   public static final int THE_CRASHED_UFO = 433;
   public static final int THE_CITY_OF_GOOOOLD = 434;
+  public static final int PANDAMONIUM = 438;
   public static final int BARF_MOUNTAIN = 442;
   public static final int GARBAGE_BARGES = 443;
   public static final int TOXIC_TEACUPS = 444;
@@ -191,6 +197,9 @@ public class AdventurePool {
   public static final int CHEERLESS_SPIRE_3 = 499;
   public static final int NEVERENDING_PARTY = 528;
   public static final int EXPLOADED_BATTLEFIELD = 533;
+  public static final int DARK_ELBOW_OF_THE_WOODS = 539;
+  public static final int DARK_HEART_OF_THE_WOODS = 540;
+  public static final int DARK_NECK_OF_THE_WOODS = 541;
   public static final int THE_DRIPPING_TREES = 542;
   public static final int YOUR_MUSHROOM_GARDEN = 543;
   public static final int THE_DRIPPING_HALL = 544;

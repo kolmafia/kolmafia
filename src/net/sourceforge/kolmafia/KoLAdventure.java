@@ -395,7 +395,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
 
-      String trapper = Preferences.getString(Quest.TRAPPER.getPref());
+      String trapper = QuestDatabase.getQuest(Quest.TRAPPER);
       return trapper.equals("step3")
           || trapper.equals("step4")
           || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
@@ -432,7 +432,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 4 quest
     if (this.zone.equals("BatHole")) {
-      String progress = Preferences.getString(Quest.BAT.getPref());
+      String progress = QuestDatabase.getQuest(Quest.BAT);
       if (progress.equals(QuestDatabase.UNSTARTED)) {
         return false;
       }
@@ -471,7 +471,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // Level 5 quest
-    if (this.zone.equals("Knob")) {}
+    if (this.zone.equals("Knob")) {
+      return switch (this.adventureNumber) {
+        case AdventurePool.OUTSKIRTS_OF_THE_KNOB -> true;
+          // *** Knob opened
+        case AdventurePool.COBB_BARRACKS,
+            AdventurePool.COBB_KITCHEN,
+            AdventurePool.COBB_HAREM,
+            AdventurePool.COBB_TREASURY -> true;
+        default -> false;
+      };
+    }
 
     if (this.zone.equals("Lab")) {
       return InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
@@ -482,7 +492,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // Level 6 quest
-    if (this.zone.equals("Friars")) {}
+    if (this.zone.equals("Friars")) {
+      return switch (this.adventureNumber) {
+          // Quest.FRIARS started but not finished
+        case AdventurePool.DARK_ELBOW_OF_THE_WOODS,
+            AdventurePool.DARK_HEART_OF_THE_WOODS,
+            AdventurePool.DARK_NECK_OF_THE_WOODS -> true;
+          // Ed the Undying only
+        case AdventurePool.PANDAMONIUM -> false;
+        default -> false;
+      };
+    }
 
     // The Pandamonium zones are available if you have completed the Friars quest
     if (this.zone.equals("Pandamonium")) {
@@ -551,31 +571,135 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // Level 11 quest
+
+    // QuestDatabase.setQuestIfBetter(Quest.DESERT, QuestDatabase.STARTED);
+    // QuestDatabase.setQuestIfBetter(Quest.MANOR, QuestDatabase.STARTED);
+    // QuestDatabase.setQuestIfBetter(Quest.SHEN, QuestDatabase.STARTED);
+    // QuestDatabase.setQuestIfBetter(Quest.RON, QuestDatabase.STARTED);
+
+    if (this.zone.equals("Manor0")) {
+      return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.UNSTARTED);
+    }
+
+    if (this.adventureNumber == AdventurePool.COPPERHEAD_CLUB) {
+      return QuestDatabase.isQuestLaterThan(Quest.SHEN, QuestDatabase.UNSTARTED);
+    }
+
+    if (this.zone.equals("The Red Zeppelin's Mooring")) {
+      return switch (this.adventureNumber) {
+        case AdventurePool.ZEPPELIN_PROTESTORS -> QuestDatabase.isQuestLaterThan(
+            Quest.RON, QuestDatabase.UNSTARTED);
+        case AdventurePool.RED_ZEPPELIN -> QuestDatabase.isQuestLaterThan(Quest.RON, "step1");
+        default -> false;
+      };
+    }
+
     if (this.adventureNumber == AdventurePool.PALINDOME) {
       AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
       return KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
     }
 
-    if (this.adventureNumber == AdventurePool.MIDDLE_CHAMBER) {
-      return Preferences.getBoolean("middleChamberUnlock");
+    if (this.adventureNumber == AdventurePool.WHITEYS_GROVE) {
+      return QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
+          || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
+          || KoLCharacter.isEd();
+    }
+
+    if (this.zone.equals("HiddenCity")) {
+      // *** Hidden Temple cleared
+      // HiddenCity	adventure=341	Env: indoor Stat: 135	The Hidden Apartment Building
+      // HiddenCity	adventure=342	Env: indoor Stat: 140	The Hidden Hospital
+      // HiddenCity	adventure=343	Env: indoor Stat: 135	The Hidden Office Building
+      // HiddenCity	adventure=344	Env: indoor Stat: 125	The Hidden Bowling Alley
+      // HiddenCity	adventure=345	Env: outdoor Stat: 125	The Hidden Park
+      // HiddenCity	adventure=346	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
+      // HiddenCity	adventure=347	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
+      // HiddenCity	adventure=348	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northeast)
+      // HiddenCity	adventure=349	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southeast)
+      // HiddenCity	adventure=350	Env: outdoor Stat: 140 nowander	A Massive Ziggurat
+    }
+
+    if (this.zone.equals("Beach")) {
+      // Open if can get to beach
+      // Beach	adventure=355	Env: indoor Stat: 0 nowander	The Shore, Inc. Travel Agency
+      // Beach	adventure=45	Env: outdoor Stat: 10	South of the Border	+1 donkey flipbook
+      // Open after diary read
+      // Beach	adventure=364	Env: outdoor Stat: 120	The Arid, Extra-Dry Desert	15 worm-riding manual
+      // Open after 10 desert exploration
+      // Beach	adventure=122	Env: outdoor Stat: 135	The Oasis	1 stone rose, 1 drum machine
+      // Open with "Tropical Contact High"
+      // Beach	adventure=446	Env: outdoor Stat: 0	Kokomo Resort
+    }
+
+    if (this.zone.equals("Pyramid")) {
+      if (!QuestDatabase.isQuestLaterThan(Quest.PYRAMID, QuestDatabase.UNSTARTED)) {
+        return false;
+      }
+      return switch (this.adventureNumber) {
+        case AdventurePool.UPPER_CHAMBER -> true;
+        case AdventurePool.MIDDLE_CHAMBER -> Preferences.getBoolean("middleChamberUnlock");
+        default -> false;
+      };
     }
 
     // Level 12 quest
+    if (this.zone.equals("IsleWar")) {
+      if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
+        return false;
+      }
+      // IsleWar	adventure=132	Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
+      // IsleWar	adventure=140	Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
+      // IsleWar	adventure=135	Env: indoor Stat: 0	Wartime Frat House
+      // IsleWar	adventure=134	Env: indoor Stat: 165	Wartime Frat House (Hippy Disguise)
+      // IsleWar	adventure=133	Env: indoor Stat: 0	Wartime Hippy Camp
+      // IsleWar	adventure=131	Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)
+
+      // IsleWar	adventure=136	Env: outdoor Stat: 170	Sonofa Beach
+      // IsleWar	adventure=126	Env: outdoor Stat: 165	The Themthar Hills
+    }
+
+    if (this.zone.equals("Farm")) {
+      if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
+        return false;
+      }
+      // Farm	adventure=137	Env: indoor Stat: 165	McMillicancuddy's Barn
+      // Farm	adventure=141	Env: outdoor Stat: 170	McMillicancuddy's Pond
+      // Farm	adventure=142	Env: outdoor Stat: 170	McMillicancuddy's Back 40
+      // Farm	adventure=143	Env: outdoor Stat: 170	McMillicancuddy's Other Back 40
+      // Farm	adventure=144	Env: outdoor Stat: 170	McMillicancuddy's Granary
+      // Farm	adventure=145	Env: outdoor Stat: 170	McMillicancuddy's Bog
+      // Farm	adventure=146	Env: outdoor Stat: 170	McMillicancuddy's Family Plot
+      // Farm	adventure=147	Env: outdoor Stat: 170	McMillicancuddy's Shady Thicket
+    }
+
+    if (this.zone.equals("Orchard")) {
+      if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
+        return false;
+      }
+      // Orchard	adventure=127	Env: underground Stat: 165	The Hatching Chamber
+      // Orchard	adventure=128	Env: underground Stat: 165	The Feeding Chamber
+      // Orchard	adventure=129	Env: underground Stat: 165	The Royal Guard Chamber
+      // Orchard	adventure=130	Env: underground Stat: 170	The Filthworm Queen's Chamber
+    }
+
+    if (this.zone.equals("Orchard")) {
+      if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
+        return false;
+      }
+      // Junkyard	adventure=182	Env: outdoor Stat: 170	Next to that Barrel with Something Burning in
+      // it
+      // Junkyard	adventure=183	Env: outdoor Stat: 170	Near an Abandoned Refrigerator
+      // Junkyard	adventure=184	Env: outdoor Stat: 170	Over Where the Old Tires Are
+      // Junkyard	adventure=185	Env: outdoor Stat: 170	Out by that Rusted-Out Car
+    }
+
+    // Island	adventure=154	Env: outdoor Stat: 170	Post-War Junkyard
+    // Island	adventure=155	Env: outdoor Stat: 170	McMillicancuddy's Farm
 
     // Spookyraven Manor quests:
     //
     // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
     // Quest.SPOOKYRAVEN_DANCE		Lady Spookyraven
-    // Quest.MANOR			Level 11 Quest
-    if (this.zone.equals("Manor0")) {
-      switch (this.adventureNumber) {
-        case AdventurePool.HAUNTED_BOILER_ROOM:
-        case AdventurePool.HAUNTED_LAUNDRY_ROOM:
-        case AdventurePool.HAUNTED_WINE_CELLAR:
-          return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.UNSTARTED);
-      }
-      return false;
-    }
 
     if (this.zone.equals("Manor1")) {
       switch (this.adventureNumber) {
@@ -648,6 +772,24 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
     }
 
+    if (this.zone.equals("Le Marais D&egrave;gueulasse")) {
+      // This is in Little Canadia
+      if (!QuestDatabase.isQuestLaterThan(Quest.SWAMP, QuestDatabase.UNSTARTED)) {
+        return false;
+      }
+      return switch (this.adventureNumber) {
+        case AdventurePool.EDGE_OF_THE_SWAMP -> true;
+        case AdventurePool.DARK_AND_SPOOKY_SWAMP -> Preferences.getBoolean("maraisDarkUnlock");
+        case AdventurePool.CORPSE_BOG -> Preferences.getBoolean("maraisCorpseUnlock");
+        case AdventurePool.RUINED_WIZARDS_TOWER -> Preferences.getBoolean("maraisWizardUnlock");
+        case AdventurePool.WILDLIFE_SANCTUARRRRRGH -> Preferences.getBoolean(
+            "maraisWildlifeUnlock");
+        case AdventurePool.WEIRD_SWAMP_VILLAGE -> Preferences.getBoolean("maraisVillageUnlock");
+        case AdventurePool.SWAMP_BEAVER_TERRITORY -> Preferences.getBoolean("maraisBeaverUnlock");
+        default -> true;
+      };
+    }
+
     if (this.zone.equals("MoxSign")) {
       return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
     }
@@ -684,9 +826,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!haveOutfit && !haveFledges) {
         return false;
       }
-      // Distinguish between Barrrney's Barrr, F'c'l'e, Poop Deck, Belowdecks
-      // *** Validate different zones
-      return true;
+      // *** Distinguish between areas
+      return switch (this.adventureNumber) {
+        case AdventurePool.BARRRNEYS_BARRR -> true;
+        case AdventurePool.FCLE -> true;
+        case AdventurePool.POOP_DECK -> true;
+        case AdventurePool.BELOWDECKS -> true;
+        default -> false;
+      };
     }
 
     // The Enormous Greater-Than Sign is available if your base mainstate is at
@@ -715,37 +862,49 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
-    if (this.adventureNumber == AdventurePool.WHITEYS_GROVE) {
-      return QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
-          || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
-          || KoLCharacter.isEd();
-    }
-
-    if (this.adventureNumber == AdventurePool.THE_DRIPPING_HALL) {
-      return Preferences.getBoolean("drippingHallUnlocked");
-    }
-
-    if (this.zone.equals("Le Marais D&egrave;gueulasse")) {
-      if (!QuestDatabase.isQuestLaterThan(Quest.SWAMP, QuestDatabase.UNSTARTED)) {
-        return false;
-      }
+    if (this.zone.equals("The Drip")) {
       return switch (this.adventureNumber) {
-        case AdventurePool.EDGE_OF_THE_SWAMP -> true;
-        case AdventurePool.DARK_AND_SPOOKY_SWAMP -> Preferences.getBoolean("maraisDarkUnlock");
-        case AdventurePool.CORPSE_BOG -> Preferences.getBoolean("maraisCorpseUnlock");
-        case AdventurePool.RUINED_WIZARDS_TOWER -> Preferences.getBoolean("maraisWizardUnlock");
-        case AdventurePool.WILDLIFE_SANCTUARRRRRGH -> Preferences.getBoolean(
-            "maraisWildlifeUnlock");
-        case AdventurePool.WEIRD_SWAMP_VILLAGE -> Preferences.getBoolean("maraisVillageUnlock");
-        case AdventurePool.SWAMP_BEAVER_TERRITORY -> Preferences.getBoolean("maraisBeaverUnlock");
+        case AdventurePool.THE_DRIPPING_HALL -> Preferences.getBoolean("drippingHallUnlocked");
         default -> true;
       };
+    }
+
+    // Item-generated zones. They all come from IOTMs and therefore may be
+    // affected by Standard restrictions.
+    // ***
+
+    if (this.zone.equals("The Sea")) {
+      // The Sea	adventure=186	Env: underwater Stat: 310	The Briny Deeps
+      // The Sea	adventure=187	Env: underwater Stat: 375	The Brinier Deepers
+      // The Sea	adventure=189	Env: underwater Stat: 400	The Briniest Deepests
+      // The Sea	adventure=190	Env: underwater Stat: 400	An Octopus's Garden
+      // The Sea	adventure=191	Env: underwater Stat: 540	The Wreck of the Edgar Fitzsimmons
+      // The Sea	adventure=194	Env: underwater	Madness Reef
+      // The Sea	adventure=198	Env: underwater Stat: 650	The Mer-Kin Outpost
+      // The Sea	adventure=188	Env: underwater Stat: 410	The Skate Park
+      // The Sea	adventure=195	Env: underwater Stat: 480	The Marinara Trench
+      // The Sea	adventure=196	Env: underwater Stat: 450	Anemone Mine
+      // The Sea	adventure=197	Env: underwater Stat: 480	The Dive Bar
+      // The Sea	adventure=199	Env: underwater Stat: 585	The Coral Corral
+      // The Sea	adventure=207	Env: underwater	Mer-kin Elementary School
+      // The Sea	adventure=208	Env: underwater	Mer-kin Library
+      // The Sea	adventure=209	Env: underwater	Mer-kin Gymnasium
+      // The Sea	adventure=210	Env: underwater	Mer-kin Colosseum
+      // The Sea	adventure=337	Env: underwater Stat: 600	The Caliginous Abyss
+      // The Sea	mining=3	Env: none Stat: 0	Anemone Mine (Mining)
     }
 
     // Obsolete zones
     if (this.zone.equals("Tammy's Offshore Platform")) {
       return false;
     }
+
+    // The following zones depend on your clan, your permissions, and current
+    // current state of your clan dungeons. We're not going to touch them here.
+    //
+    // Clan Basement
+    // Hobopolis
+    // Dreadsylvania
 
     return true;
   }
@@ -1014,7 +1173,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return true;
       }
       KoLmafia.updateDisplay(MafiaState.ERROR, "You can't stand the stench");
-      this.isValidAdventure = false;
       return false;
     }
 
@@ -1022,7 +1180,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         || this.adventureNumber == AdventurePool.BEANBAT
         || this.adventureNumber == AdventurePool.BOSSBAT) {
       int sonarsUsed =
-          switch (Preferences.getString(Quest.BAT.getPref())) {
+          switch (QuestDatabase.getQuest(Quest.BAT)) {
             case QuestDatabase.STARTED -> 0;
             case "step1" -> 1;
             case "step2" -> 2;
