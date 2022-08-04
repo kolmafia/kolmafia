@@ -74,6 +74,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private boolean isValidAdventure = false;
   private boolean hasWanderers = false;
   private final String zone, parentZone, adventureId, formSource, adventureName, environment;
+  private final int adventureNumber;
   private final int recommendedStat, waterLevel;
   private final String normalString, lowercaseString, parentZoneDescription;
 
@@ -107,6 +108,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       final String adventureName) {
     this.formSource = formSource;
     this.adventureId = adventureId;
+    this.adventureNumber =
+        StringUtilities.isNumeric(adventureId) ? StringUtilities.parseInt(adventureId) : 0;
 
     this.zone = zone;
     this.adventureName = adventureName;
@@ -241,16 +244,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.adventureId;
   }
 
+  public int getAdventureNumber() {
+    return this.adventureNumber;
+  }
+
   public int getSnarfblat() {
     if (!this.getFormSource().equals("adventure.php")) {
       return -1;
     }
 
-    try {
-      return Integer.parseInt(this.adventureId);
-    } catch (NumberFormatException e) {
-      return -1;
-    }
+    return this.adventureNumber;
   }
 
   public AreaCombatData getAreaSummary() {
@@ -434,7 +437,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return InventoryManager.hasItem(ItemPool.get(ItemPool.MENAGERIE_KEY, 1));
     }
 
-    if (this.adventureId.equals(AdventurePool.VERY_UNQUIET_GARVES_ID)) {
+    if (this.adventureNumber == AdventurePool.VERY_UNQUIET_GARVES) {
       return QuestDatabase.isQuestFinished(Quest.CYRPT);
     }
 
@@ -442,28 +445,28 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
     }
 
-    if (this.adventureId.equals(AdventurePool.BUGBEAR_PEN_ID)) {
+    if (this.adventureNumber == AdventurePool.BUGBEAR_PEN) {
       return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
           && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
           && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
     }
 
-    if (this.adventureId.equals(AdventurePool.SPOOKY_GRAVY_BURROW_ID)) {
+    if (this.adventureNumber == AdventurePool.SPOOKY_GRAVY_BURROW) {
       return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
           && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
     }
 
-    if (this.adventureId.equals(AdventurePool.POST_QUEST_BUGBEAR_PEN)) {
+    if (this.adventureNumber == AdventurePool.POST_QUEST_BUGBEAR_PEN) {
       return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
           && QuestDatabase.isQuestFinished(Quest.BUGBEAR);
     }
 
-    if (this.adventureId.equals(AdventurePool.PALINDOME_ID)) {
+    if (this.adventureNumber == AdventurePool.PALINDOME) {
       AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
       return KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
     }
 
-    if (this.adventureId.equals(AdventurePool.HIDDEN_TEMPLE_ID)) {
+    if (this.adventureNumber == AdventurePool.HIDDEN_TEMPLE) {
       if (KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked()) {
         return true;
       }
@@ -473,48 +476,66 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLCharacter.getTempleUnlocked();
     }
 
+    if (this.adventureNumber == AdventurePool.PIRATE_COVE) {
+      return KoLCharacter.mysteriousIslandAccessible() && !KoLCharacter.islandWarInProgress();
+    }
+
     if (this.zone.equals("Island")) {
       return KoLCharacter.mysteriousIslandAccessible()
           || (InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
               && InventoryManager.hasItem(ItemPool.DINGY_PLANKS));
     }
 
+    // Pirate Ship
+    if (this.zone.equals("Pirate")) {
+      if (!KoLCharacter.mysteriousIslandAccessible() || KoLCharacter.islandWarInProgress()) {
+        return false;
+      }
+      boolean haveOutfit = EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP);
+      boolean haveFledges = InventoryManager.hasItem(ItemPool.PIRATE_FLEDGES);
+      if (!haveOutfit || !haveFledges) {
+        return false;
+      }
+      // Distinguish between Barrrney's Barrr, F'c'l'e, Poop Deck, Belowdecks
+      return true;
+    }
+
     // The Enormous Greater-Than Sign is available if your base mainstate is at
     // least 45 and you have not yet unlocked the Dungeon of Doom
-    if (this.adventureId.equals(AdventurePool.GREATER_THAN_SIGN_ID)) {
+    if (this.adventureNumber == AdventurePool.GREATER_THAN_SIGN) {
       return (KoLCharacter.getBaseMainstat() >= 45) && !QuestLogRequest.isDungeonOfDoomAvailable();
     }
 
     // The Dungeons of Doom are only available if you've finished the quest
-    if (this.adventureId.equals(AdventurePool.DUNGEON_OF_DOOM_ID)) {
+    if (this.adventureNumber == AdventurePool.DUNGEON_OF_DOOM) {
       return QuestLogRequest.isDungeonOfDoomAvailable();
     }
 
     // The Valley of Rof L'm Fao is available if you have completed the Highlands quest
-    if (this.adventureId.equals(AdventurePool.VALLEY_OF_ROF_LM_FAO_ID)) {
+    if (this.adventureNumber == AdventurePool.VALLEY_OF_ROF_LM_FAO) {
       return QuestDatabase.isQuestFinished(Quest.TOPPING);
     }
 
     // The Castle Basement is unlocked provided the player has the S.O.C.K
     // (legacy: rowboats give access but are no longer creatable)
-    if (this.adventureId.equals(AdventurePool.CASTLE_BASEMENT_ID)) {
+    if (this.adventureNumber == AdventurePool.CASTLE_BASEMENT) {
       return InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
           || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
           || KoLCharacter.isKingdomOfExploathing();
     }
 
-    if (this.adventureId.equals(AdventurePool.CASTLE_GROUND_ID)) {
+    if (this.adventureNumber == AdventurePool.CASTLE_GROUND) {
       return Preferences.getInteger("lastCastleGroundUnlock") == KoLCharacter.getAscensions();
     }
 
-    if (this.adventureId.equals(AdventurePool.CASTLE_TOP_ID)) {
+    if (this.adventureNumber == AdventurePool.CASTLE_TOP) {
       return Preferences.getInteger("lastCastleTopUnlock") == KoLCharacter.getAscensions();
     }
 
     // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
     // (legacy: rowboats give access but are no longer creatable)
 
-    if (this.adventureId.equals(AdventurePool.HOLE_IN_THE_SKY_ID)) {
+    if (this.adventureNumber == AdventurePool.HOLE_IN_THE_SKY) {
       return KoLCharacter.isKingdomOfExploathing()
           || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
           || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
@@ -523,7 +544,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // The beanstalk is unlocked when the player has planted a
     // beanstalk -- but, the bean needs to be planted first.
 
-    if (this.adventureId.equals(AdventurePool.AIRSHIP_ID)) {
+    if (this.adventureNumber == AdventurePool.AIRSHIP) {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return false;
       }
@@ -540,7 +561,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    if (this.adventureId.equals(AdventurePool.TOWER_RUINS_ID)) {
+    if (this.adventureNumber == AdventurePool.TOWER_RUINS) {
       if (QuestDatabase.getQuest(Quest.EGO).equals("step2")) {
         // We've received Fernswarthy's key but have not yet ventured into the
         // ruins of Fernswarthy's Tower. Take a look.
@@ -550,48 +571,48 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
-    if (this.adventureId.equals(AdventurePool.HAUNTED_KITCHEN_ID)
-        || this.adventureId.equals(AdventurePool.HAUNTED_CONSERVATORY_ID)) {
+    if (this.adventureNumber == AdventurePool.HAUNTED_KITCHEN
+        || this.adventureNumber == AdventurePool.HAUNTED_CONSERVATORY) {
       // Haunted Kitchen & Conservatory
       return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
     }
 
-    if (this.adventureId.equals(AdventurePool.HAUNTED_LIBRARY_ID)) {
+    if (this.adventureNumber == AdventurePool.HAUNTED_LIBRARY) {
       // Haunted Library
       return InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
     }
 
-    if (this.adventureId.equals(AdventurePool.HAUNTED_BILLIARDS_ROOM_ID)) {
+    if (this.adventureNumber == AdventurePool.HAUNTED_BILLIARDS_ROOM) {
       // Haunted Billiards Room
       return InventoryManager.hasItem(ItemPool.BILLIARDS_KEY);
     }
 
-    if (this.adventureId.equals(AdventurePool.HAUNTED_BATHROOM_ID)
-        || this.adventureId.equals(AdventurePool.HAUNTED_BEDROOM_ID)
-        || this.adventureId.equals(AdventurePool.HAUNTED_GALLERY_ID)) {
+    if (this.adventureNumber == AdventurePool.HAUNTED_BATHROOM
+        || this.adventureNumber == AdventurePool.HAUNTED_BEDROOM
+        || this.adventureNumber == AdventurePool.HAUNTED_GALLERY) {
       // Haunted Bathroom, Bedroom & Gallery
       return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
     }
 
-    if (this.adventureId.equals(AdventurePool.HAUNTED_BALLROOM_ID)) {
+    if (this.adventureNumber == AdventurePool.HAUNTED_BALLROOM) {
       // Haunted Ballroom
       return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
     }
 
-    if (this.adventureId.equals(AdventurePool.HAUNTED_LABORATORY_ID)
-        || this.adventureId.equals(AdventurePool.HAUNTED_NURSERY_ID)
-        || this.adventureId.equals(AdventurePool.HAUNTED_STORAGE_ROOM_ID)) {
+    if (this.adventureNumber == AdventurePool.HAUNTED_LABORATORY
+        || this.adventureNumber == AdventurePool.HAUNTED_NURSERY
+        || this.adventureNumber == AdventurePool.HAUNTED_STORAGE_ROOM) {
       // Haunted Lab, Nursery & Storage Room
       return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
     }
 
-    if (this.adventureId.equals(AdventurePool.MIDDLE_CHAMBER_ID)) {
+    if (this.adventureNumber == AdventurePool.MIDDLE_CHAMBER) {
       return Preferences.getBoolean("middleChamberUnlock");
     }
 
-    if (this.adventureId.equals(AdventurePool.BATRAT_ID)
-        || this.adventureId.equals(AdventurePool.BEANBAT_ID)
-        || this.adventureId.equals(AdventurePool.BOSSBAT_ID)) {
+    if (this.adventureNumber == AdventurePool.BATRAT
+        || this.adventureNumber == AdventurePool.BEANBAT
+        || this.adventureNumber == AdventurePool.BOSSBAT) {
       int sonarsUsed =
           Preferences.getString(Quest.BAT.getPref()).equals(QuestDatabase.STARTED)
               ? 0
@@ -600,9 +621,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                   : Preferences.getString(Quest.BAT.getPref()).equals("step2") ? 2 : 3;
 
       int sonarsForLocation =
-          this.adventureId.equals(AdventurePool.BATRAT_ID)
+          this.adventureNumber == AdventurePool.BATRAT
               ? 1
-              : this.adventureId.equals(AdventurePool.BEANBAT_ID) ? 2 : 3;
+              : this.adventureNumber == AdventurePool.BEANBAT ? 2 : 3;
 
       if (sonarsUsed >= sonarsForLocation) {
         return true;
@@ -613,28 +634,28 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
     }
 
-    if (this.adventureId.equals(AdventurePool.WHITEYS_GROVE_ID)) {
+    if (this.adventureNumber == AdventurePool.WHITEYS_GROVE) {
       return QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
           || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
           || KoLCharacter.isEd();
     }
 
     if (this.zone.equals("McLarge")) {
-      if (this.adventureId.equals(AdventurePool.MINE_OFFICE_ID)) {
+      if (this.adventureNumber == AdventurePool.MINE_OFFICE) {
         return QuestDatabase.isQuestLaterThan(Quest.FACTORY, QuestDatabase.UNSTARTED);
       }
 
-      if (this.adventureId.equals(AdventurePool.ITZNOTYERZITZ_MINE_ID)
-          || this.adventureId.equals(AdventurePool.GOATLET_ID)) {
+      if (this.adventureNumber == AdventurePool.ITZNOTYERZITZ_MINE
+          || this.adventureNumber == AdventurePool.GOATLET) {
         return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
       }
 
-      if (this.adventureId.equals(AdventurePool.NINJA_SNOWMEN_ID)
-          || this.adventureId.equals(AdventurePool.EXTREME_SLOPE_ID)) {
+      if (this.adventureNumber == AdventurePool.NINJA_SNOWMEN
+          || this.adventureNumber == AdventurePool.EXTREME_SLOPE) {
         return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step1");
       }
 
-      if (this.adventureId.equals(AdventurePool.ICY_PEAK_ID)) {
+      if (this.adventureNumber == AdventurePool.ICY_PEAK) {
         return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4");
       }
       return false;
@@ -644,35 +665,35 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.TOPPING, QuestDatabase.STARTED);
     }
 
-    if (this.adventureId.equals(AdventurePool.THE_DRIPPING_HALL_ID)) {
+    if (this.adventureNumber == AdventurePool.THE_DRIPPING_HALL) {
       return Preferences.getBoolean("drippingHallUnlocked");
     }
 
-    if (this.adventureId.equals(AdventurePool.EDGE_OF_THE_SWAMP_ID)) {
+    if (this.adventureNumber == AdventurePool.EDGE_OF_THE_SWAMP) {
       return QuestDatabase.isQuestLaterThan(Quest.SWAMP, "unstarted");
     }
 
-    if (this.adventureId.equals(AdventurePool.DARK_AND_SPOOKY_SWAMP_ID)) {
+    if (this.adventureNumber == AdventurePool.DARK_AND_SPOOKY_SWAMP) {
       return Preferences.getBoolean("maraisDarkUnlock");
     }
 
-    if (this.adventureId.equals(AdventurePool.CORPSE_BOG_ID)) {
+    if (this.adventureNumber == AdventurePool.CORPSE_BOG) {
       return Preferences.getBoolean("maraisCorpseUnlock");
     }
 
-    if (this.adventureId.equals(AdventurePool.RUINED_WIZARDS_TOWER_ID)) {
+    if (this.adventureNumber == AdventurePool.RUINED_WIZARDS_TOWER) {
       return Preferences.getBoolean("maraisWizardUnlock");
     }
 
-    if (this.adventureId.equals(AdventurePool.WILDLIFE_SANCTUARRRRRGH_ID)) {
+    if (this.adventureNumber == AdventurePool.WILDLIFE_SANCTUARRRRRGH) {
       return Preferences.getBoolean("maraisWildlifeUnlock");
     }
 
-    if (this.adventureId.equals(AdventurePool.WEIRD_SWAMP_VILLAGE_ID)) {
+    if (this.adventureNumber == AdventurePool.WEIRD_SWAMP_VILLAGE) {
       return Preferences.getBoolean("maraisVillageUnlock");
     }
 
-    if (this.adventureId.equals(AdventurePool.SWAMP_BEAVER_TERRITORY_ID)) {
+    if (this.adventureNumber == AdventurePool.SWAMP_BEAVER_TERRITORY) {
       return Preferences.getBoolean("maraisBeaverUnlock");
     }
 
@@ -706,9 +727,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // Set the appropriate choice option to take desired trip
-      if (this.adventureId.equals(AdventurePool.BAD_TRIP_ID)) {
+      if (this.adventureNumber == AdventurePool.BAD_TRIP) {
         Preferences.setString("choiceAdventure71", "1");
-      } else if (this.adventureId.equals(AdventurePool.MEDIOCRE_TRIP_ID)) {
+      } else if (this.adventureNumber == AdventurePool.MEDIOCRE_TRIP) {
         Preferences.setString("choiceAdventure71", "2");
       } else {
         Preferences.setString("choiceAdventure71", "3");
@@ -783,7 +804,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.formSource.equals("dwarffactory.php")
-        || this.adventureId.equals(AdventurePool.MINE_OFFICE_ID)) {
+        || this.adventureNumber == AdventurePool.MINE_OFFICE) {
       int id1 = OutfitPool.MINING_OUTFIT;
       int id2 = OutfitPool.DWARVISH_UNIFORM;
 
@@ -806,7 +827,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // Disguise zones require outfits
-    if (!this.adventureId.equals(AdventurePool.COLA_BATTLEFIELD_ID)
+    if (this.adventureNumber != AdventurePool.COLA_BATTLEFIELD
         && (this.adventureName.contains("Disguise") || this.adventureName.contains("Uniform"))) {
       int outfitId = EquipmentDatabase.getOutfitId(this);
 
@@ -828,8 +849,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // some way of equipping it.  If they do not have one, then
     // acquire one then try to equip it.
 
-    if (this.adventureId.equals(AdventurePool.PIXEL_REALM_ID)
-        || this.zone.equals("Vanya's Castle")) {
+    if (this.adventureNumber == AdventurePool.PIXEL_REALM || this.zone.equals("Vanya's Castle")) {
       AdventureResult transfunctioner = ItemPool.get(ItemPool.TRANSFUNCTIONER, 1);
       if (!InventoryManager.hasItem(transfunctioner)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
@@ -846,7 +866,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
-    if (this.adventureId.equals(AdventurePool.PALINDOME_ID)) {
+    if (this.adventureNumber == AdventurePool.PALINDOME) {
       AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
 
       if (!KoLCharacter.hasEquipped(talisman)) {
@@ -855,7 +875,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
     }
 
-    if (this.adventureId.equals(AdventurePool.HOBOPOLIS_SEWERS_ID)) {
+    if (this.adventureNumber == AdventurePool.HOBOPOLIS_SEWERS) {
       // Don't auto-adventure unprepared in Hobopolis sewers
       if (!Preferences.getBoolean("requireSewerTestItems")) {
         return;
@@ -904,7 +924,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
-    if (this.adventureId.equals(AdventurePool.ICY_PEAK_ID)) {
+    if (this.adventureNumber == AdventurePool.ICY_PEAK) {
       if (KoLCharacter.getElementalResistanceLevels(Element.COLD) < 1) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You need more cold protection");
         this.isValidAdventure = false;
@@ -912,7 +932,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
-    if (this.adventureId.equals(AdventurePool.AIRSHIP_ID)) {
+    if (this.adventureNumber == AdventurePool.AIRSHIP) {
       if (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)) {
         return;
       }
@@ -945,7 +965,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
-    if (this.adventureId.equals(AdventurePool.GUANO_JUNCTION_ID)) {
+    if (this.adventureNumber == AdventurePool.GUANO_JUNCTION) {
       if (KoLCharacter.getElementalResistanceLevels(Element.STENCH) < 1) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't stand the stench");
         this.isValidAdventure = false;
@@ -953,9 +973,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
-    if (this.adventureId.equals(AdventurePool.BATRAT_ID)
-        || this.adventureId.equals(AdventurePool.BEANBAT_ID)
-        || this.adventureId.equals(AdventurePool.BOSSBAT_ID)) {
+    if (this.adventureNumber == AdventurePool.BATRAT
+        || this.adventureNumber == AdventurePool.BEANBAT
+        || this.adventureNumber == AdventurePool.BOSSBAT) {
       int sonarsUsed =
           Preferences.getString(Quest.BAT.getPref()).equals(QuestDatabase.STARTED)
               ? 0
@@ -964,9 +984,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                   : Preferences.getString(Quest.BAT.getPref()).equals("step2") ? 2 : 3;
 
       int sonarsForLocation =
-          this.adventureId.equals(AdventurePool.BATRAT_ID)
+          this.adventureNumber == AdventurePool.BATRAT
               ? 1
-              : this.adventureId.equals(AdventurePool.BEANBAT_ID) ? 2 : 3;
+              : this.adventureNumber == AdventurePool.BEANBAT ? 2 : 3;
 
       if (sonarsUsed >= sonarsForLocation) {
         this.isValidAdventure = true;
@@ -1084,7 +1104,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
-    if (this.adventureId.equals(AdventurePool.SPACEGATE_ID)) {
+    if (this.adventureNumber == AdventurePool.SPACEGATE) {
       if (KoLCharacter.isKingdomOfExploathing()) {
         this.isValidAdventure = false;
         return;
@@ -1180,7 +1200,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // The Shore costs Meat to visit
-    if (this.getAdventureId().equals(AdventurePool.THE_SHORE_ID)
+    if (this.adventureNumber == AdventurePool.THE_SHORE
         && KoLCharacter.getAvailableMeat() < (KoLCharacter.inFistcore() ? 5 : 500)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Insufficient funds for a shore vacation.");
       return;
@@ -1203,7 +1223,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         }
 
         if (this.request.getAdventuresUsed() == 1
-            && !this.adventureId.equals(AdventurePool.VALLEY_OF_ROF_LM_FAO_ID)
+            && this.adventureNumber != AdventurePool.VALLEY_OF_ROF_LM_FAO
             && !KoLCharacter.getFamiliar().isCombatFamiliar()) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "A dictionary would be useless there.");
           return;
@@ -1344,6 +1364,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     String adventureId = adventure.adventureId;
+    int adventureNumber = adventure.adventureNumber;
     String adventureName = adventure.adventureName;
     String adventureURL = adventure.formSource;
 
@@ -1354,16 +1375,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // If you were able to access some hidden city areas you must have unlocked them so update quest
     // status
-    if (adventureId.equals(AdventurePool.HIDDEN_APARTMENT_ID)
+    if (adventureNumber == AdventurePool.HIDDEN_APARTMENT
         && Preferences.getInteger("hiddenApartmentProgress") == 0) {
       Preferences.setInteger("hiddenApartmentProgress", 1);
-    } else if (adventureId.equals(AdventurePool.HIDDEN_HOSPITAL_ID)
+    } else if (adventureNumber == AdventurePool.HIDDEN_HOSPITAL
         && Preferences.getInteger("hiddenHospitalProgress") == 0) {
       Preferences.setInteger("hiddenHospitalProgress", 1);
-    } else if (adventureId.equals(AdventurePool.HIDDEN_OFFICE_ID)
+    } else if (adventureNumber == AdventurePool.HIDDEN_OFFICE
         && Preferences.getInteger("hiddenOfficeProgress") == 0) {
       Preferences.setInteger("hiddenOfficeProgress", 1);
-    } else if (adventureId.equals(AdventurePool.HIDDEN_BOWLING_ALLEY_ID)
+    } else if (adventureNumber == AdventurePool.HIDDEN_BOWLING_ALLEY
         && Preferences.getInteger("hiddenBowlingAlleyProgress") == 0) {
       Preferences.setInteger("hiddenBowlingAlleyProgress", 1);
     }

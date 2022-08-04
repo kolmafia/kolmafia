@@ -34,7 +34,7 @@ public class SeaMerkinRequest extends GenericRequest {
     }
   }
 
-  private static final String COLOSSEUM = "snarfblat=" + AdventurePool.MERKIN_COLOSSEUM_ID;
+  private static final String COLOSSEUM = "snarfblat=" + AdventurePool.MERKIN_COLOSSEUM;
 
   public static final void parseColosseumResponse(
       final String urlString, final String responseText) {

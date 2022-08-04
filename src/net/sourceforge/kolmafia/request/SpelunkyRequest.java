@@ -1135,7 +1135,7 @@ public class SpelunkyRequest extends GenericRequest {
     if (mines) {
       buffer.append("<tr>");
       buffer.append("<td>");
-      buffer.append(spelunkyLocationLink("The Mines", AdventurePool.THE_MINES_ID, confirm));
+      buffer.append(spelunkyLocationLink("The Mines", AdventurePool.THE_MINES, confirm));
       buffer.append("</td><td>");
       if (phase == 1) {
         buffer.append("gain 20 gold");
@@ -1183,7 +1183,7 @@ public class SpelunkyRequest extends GenericRequest {
     if (jungle) {
       buffer.append("<tr>");
       buffer.append("<td>");
-      buffer.append(spelunkyLocationLink("The Jungle", AdventurePool.THE_JUNGLE_ID, confirm));
+      buffer.append(spelunkyLocationLink("The Jungle", AdventurePool.THE_JUNGLE, confirm));
       buffer.append("</td><td>");
       if (phase == 1) {
         buffer.append("A Shop");
@@ -1239,7 +1239,7 @@ public class SpelunkyRequest extends GenericRequest {
     if (iceCaves) {
       buffer.append("<tr>");
       buffer.append("<td>");
-      buffer.append(spelunkyLocationLink("The Ice Caves", AdventurePool.THE_ICE_CAVES_ID, confirm));
+      buffer.append(spelunkyLocationLink("The Ice Caves", AdventurePool.THE_ICE_CAVES, confirm));
       buffer.append("</td><td>");
       if (phase == 1) {
         buffer.append("A Shop");
@@ -1272,7 +1272,7 @@ public class SpelunkyRequest extends GenericRequest {
       buffer.append("<tr>");
       buffer.append("<td>");
       buffer.append(
-          spelunkyLocationLink("The Temple Ruins", AdventurePool.THE_TEMPLE_RUINS_ID, confirm));
+          spelunkyLocationLink("The Temple Ruins", AdventurePool.THE_TEMPLE_RUINS, confirm));
       buffer.append("</td><td>");
       if (phase == 1) {
         buffer.append("A Crate");
@@ -1313,7 +1313,7 @@ public class SpelunkyRequest extends GenericRequest {
     if (snakePit) {
       buffer.append("<tr>");
       buffer.append("<td>");
-      buffer.append(spelunkyLocationLink("The Snake Pit", AdventurePool.THE_SNAKE_PIT_ID, confirm));
+      buffer.append(spelunkyLocationLink("The Snake Pit", AdventurePool.THE_SNAKE_PIT, confirm));
       buffer.append("</td><td>");
       buffer.append("A Crate");
       buffer.append("</td>");
@@ -1324,7 +1324,7 @@ public class SpelunkyRequest extends GenericRequest {
       buffer.append("<tr>");
       buffer.append("<td>");
       buffer.append(
-          spelunkyLocationLink("The Spider Hole", AdventurePool.THE_SPIDER_HOLE_ID, confirm));
+          spelunkyLocationLink("The Spider Hole", AdventurePool.THE_SPIDER_HOLE, confirm));
       buffer.append("</td><td>");
       buffer.append("gain 15-20 gold");
       String divider = "<br>";
@@ -1346,7 +1346,7 @@ public class SpelunkyRequest extends GenericRequest {
       buffer.append("<td>");
       buffer.append(
           spelunkyLocationLink(
-              "The Ancient Burial Ground", AdventurePool.THE_ANCIENT_BURIAL_GROUND_ID, confirm));
+              "The Ancient Burial Ground", AdventurePool.THE_ANCIENT_BURIAL_GROUND, confirm));
       buffer.append("</td><td>");
       buffer.append("gain 20-25 gold or a buddy");
       String divider = "<br>";
@@ -1369,7 +1369,7 @@ public class SpelunkyRequest extends GenericRequest {
     if (beehive) {
       buffer.append("<tr>");
       buffer.append("<td>");
-      buffer.append(spelunkyLocationLink("The Beehive", AdventurePool.THE_BEEHIVE_ID, confirm));
+      buffer.append(spelunkyLocationLink("The Beehive", AdventurePool.THE_BEEHIVE, confirm));
       buffer.append("</td><td>");
       buffer.append("A Crate");
       buffer.append("</td>");
@@ -1380,7 +1380,7 @@ public class SpelunkyRequest extends GenericRequest {
       buffer.append("<tr>");
       buffer.append("<td>");
       buffer.append(
-          spelunkyLocationLink("The Crashed U.F.O.", AdventurePool.THE_CRASHED_UFO_ID, confirm));
+          spelunkyLocationLink("The Crashed U.F.O.", AdventurePool.THE_CRASHED_UFO, confirm));
       buffer.append("</td><td>");
       buffer.append("A Crate");
       buffer.append("</td>");
@@ -1391,8 +1391,7 @@ public class SpelunkyRequest extends GenericRequest {
       buffer.append("<tr>");
       buffer.append("<td>");
       buffer.append(
-          spelunkyLocationLink(
-              "The City of Goooold", AdventurePool.THE_CITY_OF_GOOOOLD_ID, confirm));
+          spelunkyLocationLink("The City of Goooold", AdventurePool.THE_CITY_OF_GOOOOLD, confirm));
       buffer.append("</td><td>");
       String divider = "";
       if (keys > 0) {
@@ -1420,7 +1419,7 @@ public class SpelunkyRequest extends GenericRequest {
     return item.getCount(KoLConstants.inventory) > 0 || InventoryManager.getEquippedCount(item) > 0;
   }
 
-  private static String spelunkyLocationLink(String name, final String id, final String confirm) {
+  private static String spelunkyLocationLink(String name, final int id, final String confirm) {
     return "<a href=\"adventure.php?snarfblat="
         + id
         + "&"

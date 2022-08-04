@@ -57,6 +57,7 @@ Beach	Beach	Desert Beach
 Pyramid	Beach	Ancient Buried Pyramid
 
 Island	Island	Mysterious Island
+Pirate	Island	Pirate Ship
 
 IsleWar	IsleWar	Island War Quest
 Farm	IsleWar	McMillicancuddy's Farm

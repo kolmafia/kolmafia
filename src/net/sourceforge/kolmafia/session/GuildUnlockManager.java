@@ -59,26 +59,26 @@ public class GuildUnlockManager {
     Stat stat = KoLCharacter.mainStat();
 
     String locationName;
-    String snarfblat;
+    int snarfblat;
     String choice;
     AdventureResult item;
 
     switch (stat) {
       case MUSCLE:
         locationName = "Outskirts of The Knob";
-        snarfblat = AdventurePool.OUTSKIRTS_OF_THE_KNOB_ID;
+        snarfblat = AdventurePool.OUTSKIRTS_OF_THE_KNOB;
         choice = "543";
         item = ItemPool.get(ItemPool.BIG_KNOB_SAUSAGE, 1);
         break;
       case MYSTICALITY:
         locationName = "Haunted Pantry";
-        snarfblat = AdventurePool.HAUNTED_PANTRY_ID;
+        snarfblat = AdventurePool.HAUNTED_PANTRY;
         choice = "544";
         item = ItemPool.get(ItemPool.EXORCISED_SANDWICH, 1);
         break;
       case MOXIE:
         locationName = "Sleazy Back Alley";
-        snarfblat = AdventurePool.SLEAZY_BACK_ALLEY_ID;
+        snarfblat = AdventurePool.SLEAZY_BACK_ALLEY;
         choice = "542";
         item = EquipmentManager.getEquipment(EquipmentManager.PANTS);
         if (item == EquipmentRequest.UNEQUIP) {
@@ -92,7 +92,7 @@ public class GuildUnlockManager {
     }
 
     // Make an adventure request
-    AdventureRequest request = new AdventureRequest(locationName, "adventure.php", snarfblat);
+    AdventureRequest request = new AdventureRequest(locationName, snarfblat);
 
     // Remember how many of the goal item we already have
     int initialCount = item.getCount(KoLConstants.inventory);
