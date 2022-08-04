@@ -1297,7 +1297,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_id() {
-      return this.content != null ? ((KoLAdventure) this.content).getSnarfblat() : -1;
+      return this.content != null ? ((KoLAdventure) this.content).getAdventureNumber() : -1;
     }
 
     public boolean get_nocombats() {

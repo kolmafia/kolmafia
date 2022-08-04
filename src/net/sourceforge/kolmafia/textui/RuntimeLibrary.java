@@ -3306,7 +3306,7 @@ public abstract class RuntimeLibrary {
     }
 
     if (value.getType().equals(DataTypes.LOCATION_TYPE)) {
-      return new Value(((KoLAdventure) value.content).getSnarfblat());
+      return new Value(((KoLAdventure) value.content).getAdventureNumber());
     }
 
     return new Value(value.intValue());

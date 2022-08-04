@@ -108,8 +108,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       final String adventureName) {
     this.formSource = formSource;
     this.adventureId = adventureId;
-    this.adventureNumber =
-        StringUtilities.isNumeric(adventureId) ? StringUtilities.parseInt(adventureId) : 0;
+    this.adventureNumber = this.getSnarfblat();
 
     this.zone = zone;
     this.adventureName = adventureName;
@@ -248,12 +247,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.adventureNumber;
   }
 
-  public int getSnarfblat() {
+  private int getSnarfblat() {
     if (!this.getFormSource().equals("adventure.php")) {
       return -1;
     }
 
-    return this.adventureNumber;
+    try {
+      return Integer.parseInt(this.adventureId);
+    } catch (NumberFormatException e) {
+      return -1;
+    }
   }
 
   public AreaCombatData getAreaSummary() {
