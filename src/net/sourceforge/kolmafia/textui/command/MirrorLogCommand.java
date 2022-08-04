@@ -24,7 +24,6 @@ public class MirrorLogCommand extends AbstractCommand {
           && !((parameters.endsWith(".html") || parameters.endsWith(".htm")))) {
         parameters += ".txt";
       }
-
       RequestLogger.openMirror(parameters);
     }
   }
