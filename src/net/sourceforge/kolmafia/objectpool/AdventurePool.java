@@ -47,7 +47,9 @@ public class AdventurePool {
   public static final int OUTSKIRTS_OF_THE_KNOB = 114;
   public static final int OASIS = 122;
   public static final int THEMTHAR_HILLS = 126;
+  public static final int WARTIME_FRAT_HOUSE_DISGUISED = 131;
   public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
+  public static final int WARTIME_HIPPY_CAMP_DISGUISED = 134;
   public static final int HAIKU_DUNGEON = 138;
   public static final int HIPPY_UNIFORM_BATTLEFIELD = 140;
   public static final int BARRRNEYS_BARRR = 157;

@@ -1334,44 +1334,30 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public int getOutfitId() {
     switch (this.adventureNumber) {
-      case AdventurePool.COBB_BARRACKS:
-        return OutfitPool.KNOB_ELITE_OUTFIT;
-
-      case AdventurePool.COBB_HAREM:
-        return OutfitPool.HAREM_OUTFIT;
-
-      case AdventurePool.ITZNOTYERZITZ_MINE:
-        return OutfitPool.MINING_OUTFIT;
-
-      case AdventurePool.EXTREME_SLOPE:
-        return OutfitPool.EXTREME_COLD_WEATHER_GEAR;
-
-      case AdventurePool.HIPPY_CAMP:
-      case AdventurePool.HIPPY_CAMP_DISGUISED:
-        return OutfitPool.HIPPY_OUTFIT;
-
-      case AdventurePool.FRAT_HOUSE:
       case AdventurePool.FRAT_HOUSE_DISGUISED:
         return OutfitPool.FRAT_OUTFIT;
-
-      case AdventurePool.PIRATE_COVE:
-        return OutfitPool.SWASHBUCKLING_GETUP;
-
-        // Choose the uniform randomly
-      case AdventurePool.COLA_BATTLEFIELD:
-        return KoLConstants.RNG.nextInt(2) == 0
-            ? OutfitPool.CLOACA_UNIFORM
-            : OutfitPool.DYSPEPSI_UNIFORM;
-
+      case AdventurePool.HIPPY_CAMP_DISGUISED:
+        return OutfitPool.HIPPY_OUTFIT;
+      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED:
+        // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
+        return EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
+            ? OutfitPool.WAR_HIPPY_OUTFIT
+            : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
+      case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED:
+        // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
+        return EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)
+            ? OutfitPool.WAR_FRAT_OUTFIT
+            : EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT) ? OutfitPool.FRAT_OUTFIT : 0;
       case AdventurePool.CLOACA_BATTLEFIELD:
         return OutfitPool.CLOACA_UNIFORM;
-
       case AdventurePool.DYSPEPSI_BATTLEFIELD:
         return OutfitPool.DYSPEPSI_UNIFORM;
-
-        // No outfit existed for this area
+      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
+        return OutfitPool.WAR_FRAT_OUTFIT;
+      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
+        return OutfitPool.WAR_HIPPY_OUTFIT;
       default:
-        return -1;
+        return 0;
     }
   }
 

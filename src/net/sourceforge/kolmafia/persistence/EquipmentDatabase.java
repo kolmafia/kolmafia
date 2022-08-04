@@ -15,6 +15,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
@@ -22,8 +23,10 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -883,5 +886,50 @@ public class EquipmentDatabase {
   public static final SpecialOutfit getAvailableOutfit(final int id) {
     SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get(id);
     return EquipmentManager.getOutfits().contains(outfit) ? outfit : null;
+  }
+
+  public static final int getOutfitId(final KoLAdventure adventure) {
+    int adventureId = adventure.getAdventureNumber();
+
+    switch (adventureId) {
+      case AdventurePool.COBB_BARRACKS:
+        return OutfitPool.KNOB_ELITE_OUTFIT;
+
+      case AdventurePool.COBB_HAREM:
+        return OutfitPool.HAREM_OUTFIT;
+
+      case AdventurePool.ITZNOTYERZITZ_MINE:
+        return OutfitPool.MINING_OUTFIT;
+
+      case AdventurePool.EXTREME_SLOPE:
+        return OutfitPool.EXTREME_COLD_WEATHER_GEAR;
+
+      case AdventurePool.HIPPY_CAMP:
+      case AdventurePool.HIPPY_CAMP_DISGUISED:
+        return OutfitPool.HIPPY_OUTFIT;
+
+      case AdventurePool.FRAT_HOUSE:
+      case AdventurePool.FRAT_HOUSE_DISGUISED:
+        return OutfitPool.FRAT_OUTFIT;
+
+      case AdventurePool.PIRATE_COVE:
+        return OutfitPool.SWASHBUCKLING_GETUP;
+
+        // Choose the uniform randomly
+      case AdventurePool.COLA_BATTLEFIELD:
+        return KoLConstants.RNG.nextInt(2) == 0
+            ? OutfitPool.CLOACA_UNIFORM
+            : OutfitPool.DYSPEPSI_UNIFORM;
+
+      case AdventurePool.CLOACA_BATTLEFIELD:
+        return OutfitPool.CLOACA_UNIFORM;
+
+      case AdventurePool.DYSPEPSI_BATTLEFIELD:
+        return OutfitPool.DYSPEPSI_UNIFORM;
+
+        // No outfit existed for this area
+      default:
+        return -1;
+    }
   }
 }
