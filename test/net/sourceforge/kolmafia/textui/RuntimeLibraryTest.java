@@ -1,23 +1,30 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
@@ -200,6 +207,82 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                 pill => none
                 potion => none
                 """));
+      }
+    }
+  }
+
+  @Nested
+  class Equip {
+    @Test
+    void canEquipItem() {
+      var cleanups = new Cleanups(withEquippableItem("crowbar"));
+
+      try (cleanups) {
+        String output = execute("equip($item[crowbar])");
+        assertThat(output, endsWith("Returned: true\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canEquipItemToSlot(final boolean switched) {
+      var cleanups = new Cleanups(withEquippableItem("crowbar"), withFamiliar(FamiliarPool.HAND));
+
+      var a = "$item[crowbar]";
+      var b = "$slot[familiar]";
+      var command = "equip(" + (switched ? a : b) + ", " + (switched ? b : a) + ")";
+
+      try (cleanups) {
+        String output = execute(command);
+        assertThat(output, endsWith("Returned: true\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canEquipItemToFamiliarInTerrarium(final boolean switched) {
+      var cleanups =
+          new Cleanups(withItem("lead necklace"), withFamiliarInTerrarium(FamiliarPool.BADGER));
+
+      var a = "$item[lead necklace]";
+      var b = "$familiar[Astral Badger]";
+      var command = "equip(" + (switched ? a : b) + ", " + (switched ? b : a) + ")";
+
+      try (cleanups) {
+        String output = execute(command);
+        assertThat(output, endsWith("Returned: true\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canEquipItemToCurrentFamiliar(final boolean switched) {
+      var cleanups = new Cleanups(withItem("lead necklace"), withFamiliar(FamiliarPool.BADGER));
+
+      var a = "$item[lead necklace]";
+      var b = "$familiar[Astral Badger]";
+      var command = "equip(" + (switched ? a : b) + ", " + (switched ? b : a) + ")";
+
+      try (cleanups) {
+        String output = execute(command);
+        assertThat(output, endsWith("Returned: true\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void cannotEquipUnequippableItemToFamiliarInTerrarium(final boolean switched) {
+      var cleanups =
+          new Cleanups(
+              withItem("gatorskin umbrella"), withFamiliarInTerrarium(FamiliarPool.BADGER));
+
+      var a = "$item[gatorskin umbrella]";
+      var b = "$familiar[Astral Badger]";
+      var command = "equip(" + (switched ? a : b) + ", " + (switched ? b : a) + ")";
+
+      try (cleanups) {
+        String output = execute(command);
+        assertThat(output, endsWith("Returned: false\n"));
       }
     }
   }

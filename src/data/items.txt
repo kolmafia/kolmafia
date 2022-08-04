@@ -10955,3 +10955,5 @@
 10928	designer sweatpants (new old stock)	115000176	sweats_box.gif	usable	t	0
 10929	designer sweatpants	800334855	sweats.gif	pants		0
 10930	sweat-ade	858239579	sweatade.gif	spleen, usable	t	0
+10931	unopened tiny stillsuit	250424223	stillsuit_box.gif	usable	t	0
+10932	tiny stillsuit	957101431	stillsuit.gif	familiar		0
