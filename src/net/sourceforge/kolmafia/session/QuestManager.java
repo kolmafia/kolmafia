@@ -1375,7 +1375,7 @@ public class QuestManager {
       ResultProcessor.removeItem(ItemPool.MOSQUITO_LARVA);
     }
     QuestDatabase.handleCouncilText(responseText);
-    if (QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, QuestDatabase.UNSTARTED)) {
+    if (QuestDatabase.isQuestStarted(Quest.MACGUFFIN)) {
       QuestDatabase.setQuestIfBetter(Quest.BLACK, QuestDatabase.STARTED);
     }
   }
@@ -1641,7 +1641,7 @@ public class QuestManager {
     } else if (monsterName.equals("E.V.E., the robot zombie")) {
       QuestDatabase.setQuestProgress(Quest.EVE, "step1");
     } else if (monsterName.equals("writing desk")) {
-      if (QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED)
+      if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)
           && !InventoryManager.hasItem(ItemPool.SPOOKYRAVEN_NECKLACE)
           && !QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)) {
         Preferences.increment("writingDesksDefeated", 1, 5, false);
@@ -2001,7 +2001,7 @@ public class QuestManager {
         break;
 
       case AdventurePool.GARBAGE_BARGES:
-        if (QuestDatabase.isQuestLaterThan(Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED)) {
+        if (QuestDatabase.isQuestStarted(Quest.SOCIAL_JUSTICE_I)) {
           Preferences.increment("dinseySocialJusticeIProgress", 1);
         } else if (responseText.contains("probably not embarrassingly sexist anymore")) {
           Preferences.setInteger("dinseySocialJusticeIProgress", 15);

@@ -344,11 +344,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
   }
 
-  /**
-   * Checks the map location of the given zone. This is to ensure that KoLmafia arms any needed
-   * flags (such as for the beanstalk).
-   */
-
   // Validation part 1:
   //
   // Determine if you are locked out of reaching a zone or location by level,
@@ -391,11 +386,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 8 quest boss
     if (this.adventureId.equals(AdventurePool.SHROUDED_PEAK_ID)) {
-      if (QuestDatabase.isQuestFinished(Quest.TRAPPER)) {
+      String trapper = QuestDatabase.getQuest(Quest.TRAPPER);
+      if (trapper.equals(QuestDatabase.FINISHED)) {
         return false;
       }
 
-      String trapper = QuestDatabase.getQuest(Quest.TRAPPER);
       return trapper.equals("step3")
           || trapper.equals("step4")
           || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
@@ -411,6 +406,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return Preferences.getBoolean("lowerChamberUnlock");
     }
 
+    // Fernswarthy's Basement
+    if (this.formSource.equals("basement.php")) {
+      // *** Validate Fernswarthy's Basement
+      return true;
+    }
+
     // Special events
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
       return Preferences.getBoolean("eldritchFissureAvailable");
@@ -422,12 +423,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Only look at adventure.php locations below this.
     // Further validation for other adventures happens in part2
-    if (!this.formSource.contains("adventure.php")) {
+    if (!this.formSource.startsWith("adventure.php")) {
       return true;
     }
 
     if (this.zone.equals("Woods")) {
       // Woods unlocked by first Council Quest
+      // *** Validate
     }
 
     // Level 4 quest
@@ -472,6 +474,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 5 quest
     if (this.zone.equals("Knob")) {
+      // *** Validate
       return switch (this.adventureNumber) {
         case AdventurePool.OUTSKIRTS_OF_THE_KNOB -> true;
           // *** Knob opened
@@ -493,6 +496,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 6 quest
     if (this.zone.equals("Friars")) {
+      // *** Validate
       return switch (this.adventureNumber) {
           // Quest.FRIARS started but not finished
         case AdventurePool.DARK_ELBOW_OF_THE_WOODS,
@@ -511,11 +515,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 7 quest
     if (this.zone.equals("Cyrpt")) {
+      // *** Validate
       // adventure=264	The Defiled Nook
       // adventure=262	The Defiled Cranny
       // adventure=261	The Defiled Alcove
       // adventure=263	The Defiled Niche
-      // *** Validate
       return true;
     }
 
@@ -614,6 +618,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // Visit the distant woods and take a look.
+      // *** Why do we do this?
       RequestThread.postRequest(new GenericRequest("woods"));
       return KoLCharacter.getTempleUnlocked();
     }
@@ -684,14 +689,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
         return false;
       }
-      // IsleWar	adventure=132	Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
-      // IsleWar	adventure=140	Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
       // IsleWar	adventure=135	Env: indoor Stat: 0	Wartime Frat House
       // IsleWar	adventure=134	Env: indoor Stat: 165	Wartime Frat House (Hippy Disguise)
       // IsleWar	adventure=133	Env: indoor Stat: 0	Wartime Hippy Camp
       // IsleWar	adventure=131	Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)
 
-      // IsleWar	adventure=136	Env: outdoor Stat: 170	Sonofa Beach
+      // IsleWar	adventure=132	Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
+      // IsleWar	adventure=140	Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
+
+      // Only available during the war. After the war, you can visit the Nunnery.
       // IsleWar	adventure=126	Env: outdoor Stat: 165	The Themthar Hills
     }
 
@@ -719,7 +725,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Orchard	adventure=130	Env: underground Stat: 170	The Filthworm Queen's Chamber
     }
 
-    if (this.zone.equals("Orchard")) {
+    if (this.zone.equals("Junkyard")) {
       if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
         return false;
       }
@@ -730,6 +736,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Junkyard	adventure=185	Env: outdoor Stat: 170	Out by that Rusted-Out Car
     }
 
+    if (this.adventureNumber == AdventurePool.SONOFA_BEACH) {
+      // Sonofa Beach is available during the war as a sidequest and also
+      // after the war, whether or not it was used as such.
+      return QuestDatabase.isQuestStarted(Quest.ISLAND_WAR);
+    }
+
+    // Island	adventure=136	Env: outdoor Stat: 170	Sonofa Beach
     // Island	adventure=154	Env: outdoor Stat: 170	Post-War Junkyard
     // Island	adventure=155	Env: outdoor Stat: 170	McMillicancuddy's Farm
 
@@ -737,6 +750,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     //
     // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
     // Quest.SPOOKYRAVEN_DANCE		Lady Spookyraven
+    // Quest.SPOOKYRAVEN_BABIES		Lady Spookyraven
 
     if (this.zone.equals("Manor1")) {
       switch (this.adventureNumber) {
@@ -830,16 +844,45 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
     }
 
-    if (this.adventureNumber == AdventurePool.PIRATE_COVE) {
-      return KoLCharacter.mysteriousIslandAccessible() && !KoLCharacter.islandWarInProgress();
-    }
-
     if (this.zone.equals("Island")) {
-      // We will use dingy planks + dinghy plans if you have them in validate2
-      // There are other ways to get to the island.
-      return KoLCharacter.mysteriousIslandAccessible()
-          || (InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
-              && InventoryManager.hasItem(ItemPool.DINGY_PLANKS));
+      // There are several ways to get to the island.
+      if (!KoLCharacter.mysteriousIslandAccessible()) {
+        // validate2 will use dingy planks + dinghy plans if you have them
+        if (!InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
+            || !InventoryManager.hasItem(ItemPool.DINGY_PLANKS)) {
+          return false;
+        }
+      }
+
+      // We have a way to get to the island.  Access to individual zones
+      // depends on quest state and outfits
+
+      switch (this.adventureNumber) {
+        case AdventurePool.PIRATE_COVE:
+          // You cannot visit the pirates during the war
+          return !KoLCharacter.islandWarInProgress();
+        case AdventurePool.HIPPY_CAMP:
+        case AdventurePool.HIPPY_CAMP_DISGUISED:
+          // You can visit the hippy camp before or after the war
+          // *** unless it has been bombed into the stone age.
+          return !KoLCharacter.islandWarInProgress();
+        case AdventurePool.FRAT_HOUSE:
+        case AdventurePool.FRAT_HOUSE_DISGUISED:
+          // You can visit the frat house before or after the war
+          // *** unless it has been bombed into the stone age.
+          return !KoLCharacter.islandWarInProgress();
+        case AdventurePool.BOMBED_HIPPY_CAMP:
+          // *** validate
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
+        case AdventurePool.BOMBED_FRAT_HOUSE:
+          // *** validate
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
+        case AdventurePool.THE_JUNKYARD:
+        case AdventurePool.MCMILLICANCUDDYS_FARM:
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
+      }
+
+      return false;
     }
 
     // Pirate Ship
@@ -897,9 +940,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Item-generated zones. They all come from IOTMs and therefore may be
     // affected by Standard restrictions.
-    // ***
+    // *** Validate
 
     if (this.zone.equals("The Sea")) {
+      // *** Validate
       // The Sea	adventure=186	Env: underwater Stat: 310	The Briny Deeps
       // The Sea	adventure=187	Env: underwater Stat: 375	The Brinier Deepers
       // The Sea	adventure=189	Env: underwater Stat: 400	The Briniest Deepests
@@ -925,8 +969,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return false;
     }
 
-    // The following zones depend on your clan, your permissions, and current
-    // current state of your clan dungeons. We're not going to touch them here.
+    // The following zones depend on your clan, your permissions, and the
+    // current state of clan dungeons. We're not going to touch them here.
     //
     // Clan Basement
     // Hobopolis

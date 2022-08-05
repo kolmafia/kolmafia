@@ -145,14 +145,14 @@ public class QuestLogRequest extends GenericRequest {
     }
 
     // Some quests vanish when completed but can be inferred by the presence of a new one
-    if (QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED)) {
-      QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
-    }
-    if (QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_BABIES, QuestDatabase.UNSTARTED)) {
-      QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
-    }
-    if (QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.UNSTARTED)) {
+    if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_DANCE)) {
       QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
+    }
+    if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_BABIES)) {
+      QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+    }
+    if (QuestDatabase.isQuestStarted(Quest.MANOR)) {
+      QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
     }
     if (QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, "step1")) {
       QuestDatabase.setQuestProgress(Quest.BLACK, QuestDatabase.FINISHED);
@@ -163,7 +163,7 @@ public class QuestLogRequest extends GenericRequest {
       QuestDatabase.setQuestProgress(Quest.BUSINESS, QuestDatabase.FINISHED);
       QuestDatabase.setQuestProgress(Quest.SPARE, QuestDatabase.FINISHED);
     }
-    if (QuestDatabase.isQuestLaterThan(Quest.PYRAMID, QuestDatabase.UNSTARTED)) {
+    if (QuestDatabase.isQuestStarted(Quest.PYRAMID)) {
       QuestDatabase.setQuestProgress(Quest.DESERT, QuestDatabase.FINISHED);
     }
 
@@ -172,8 +172,7 @@ public class QuestLogRequest extends GenericRequest {
         || QuestDatabase.isQuestFinished(Quest.MEATCAR)) {
       KoLCharacter.setDesertBeachAvailable();
     }
-    if (QuestDatabase.isQuestLaterThan(Quest.PIRATE, QuestDatabase.UNSTARTED)
-        || QuestDatabase.isQuestFinished(Quest.HIPPY)) {
+    if (QuestDatabase.isQuestStarted(Quest.PIRATE) || QuestDatabase.isQuestFinished(Quest.HIPPY)) {
       Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
     }
     if (QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)) {

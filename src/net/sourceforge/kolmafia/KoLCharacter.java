@@ -3705,7 +3705,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean islandWarInProgress() {
-    return QuestDatabase.isQuestLaterThan(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED)
+    return QuestDatabase.isQuestStarted(Quest.ISLAND_WAR)
         && !QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
   }
 
