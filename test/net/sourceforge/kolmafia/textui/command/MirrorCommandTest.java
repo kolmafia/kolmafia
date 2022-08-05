@@ -2,8 +2,6 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.Player.withSkill;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.io.BufferedReader;
@@ -69,8 +67,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
 
     String mirrorOutput = getMirrorLog("test_writes_html.html");
 
-    assertTrue(mirrorOutput.contains("<font color=olive>> Fake command input</font><br>"));
-    assertTrue(mirrorOutput.contains("Raw Line<br>"));
+    assertEquals(" <font color=olive>> Fake command input</font><br>\nRaw Line<br>", mirrorOutput);
   }
 
   @Test
@@ -90,7 +87,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     String mirrorOutput = getMirrorLog("test_mirror_closes.txt");
 
     // Test that the second line is not in the output
-    assertFalse(mirrorOutput.contains("Should not be seen"));
+    assertEquals("Some input<br>", mirrorOutput);
   }
 
   @Test
@@ -129,8 +126,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
 
       // Test that the output matches the expected html
       assertEquals(
-          "<u><b>Uncategorized</b></u><br><a onClick=\"javascript:skill(2);\">Chronic Indigestion</a><br><a onClick=\"javascript:skill(1);"
-              + "\">Liver of Steel</a><br>",
+          "<u><b>Uncategorized</b></u><br><a onClick=\"javascript:skill(2);\">Chronic Indigestion</a><br><a onClick=\"javascript:skill(1);\">Liver of Steel</a><br>",
           mirrorOutput);
     }
   }
@@ -155,12 +151,10 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // mirror requests are effectively ignored.
 
     // Assert that mirror_1 only contains both messages
-    assertTrue(getMirrorLog("mirror_1.txt").contains("Mirror 1 Log"));
-    assertTrue(getMirrorLog("mirror_1.txt").contains("Mirror 2 Log"));
+    assertEquals("Mirror 1 Log<br>\nMirror 2 Log<br>", getMirrorLog("mirror_1.txt"));
 
     // Assert that mirror_2 contains neither messages
-    assertFalse(getMirrorLog("mirror_2.txt").contains("Mirror 1 Log"));
-    assertFalse(getMirrorLog("mirror_2.txt").contains("Mirror 2 Log"));
+    assertEquals("", getMirrorLog("mirror_2.txt"));
   }
 
   @ParameterizedTest
@@ -168,7 +162,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     "file,file.txt",
     "file.html,file.html",
     "file.htm,file.htm",
-    "file.txt,file.txt",
+    "file1.txt,file1.txt",
     "file.csv,file.csv.txt"
   })
   public void testMirrorFileNames(String mirrorName, String fileName) {
@@ -178,6 +172,6 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
 
     execute("");
 
-    assertTrue(getMirrorLog(fileName).contains("Filler Line"));
+    assertEquals("Filler Line<br>", getMirrorLog(fileName));
   }
 }
