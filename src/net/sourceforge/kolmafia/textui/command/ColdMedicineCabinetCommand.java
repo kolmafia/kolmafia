@@ -1,12 +1,10 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -37,6 +35,17 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
           Map.entry('u', ItemPool.get(ItemPool.BREATHITIN)),
           Map.entry('x', ItemPool.get(ItemPool.FLESHAZOLE)));
 
+  private static final Map<Character, String> LOCATION_STRINGS =
+      Map.ofEntries(
+          Map.entry('i', " turns in an indoor location"),
+          Map.entry('o', " turns in an outdoor location"),
+          Map.entry('u', " turns in an underground location"),
+          Map.entry('x', " turns anywhere")); // this needs extra stuff
+
+  private static Stream<Character> getCharacters() {
+    return Preferences.getString("lastCombatEnvironments").chars().mapToObj(i -> (char) i);
+  }
+
   private static AdventureResult guessNextEquipment() {
     return switch (Preferences.getInteger("_coldMedicineEquipmentTaken")) {
       case 0 -> ItemPool.get("ice crown", 1);
@@ -52,9 +61,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
    *     counts
    */
   private static Map<Character, Integer> getCounts() {
-    return Preferences.getString("lastCombatEnvironments")
-        .chars()
-        .mapToObj(i -> (char) i)
+    return getCharacters()
         .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(i -> 1)));
   }
 
@@ -240,7 +247,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     } else {
       output.append(formatItemList(cabinet, guessing));
     }
-
+    output.append(turnsRequiredForMajorities());
     RequestLogger.printLine(output.toString());
   }
 
@@ -282,5 +289,55 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
         KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Parameter not recognised");
       }
     }
+  }
+
+  private static StringBuilder turnsRequiredForMajorities() {
+    var counts = getCounts();
+    var output = new StringBuilder();
+    var actualTurnsForMajority = populateNaiveTurnsForMajorityMap(counts, output);
+    var lastEnvironments = getCharacters().toArray(Character[]::new);
+    var lastEnvironmentIndex = lastEnvironments.length - 1;
+    var keys = new ArrayList<>(actualTurnsForMajority.keySet());
+    for (int i = lastEnvironmentIndex; i > -1; i--) {
+      var last = lastEnvironments[i];
+      for (int j = keys.size() - 1; j > -1; j--) {
+        var key = keys.get(j);
+        if (key == last) {
+          actualTurnsForMajority.put(last, actualTurnsForMajority.get(last) + 1);
+          continue;
+        }
+        if (actualTurnsForMajority.get(key) == lastEnvironmentIndex - i) {
+          output
+              .append("For ")
+              .append(PILLS.get(key))
+              .append(", spend ")
+              .append(actualTurnsForMajority.get(key))
+              .append(LOCATION_STRINGS.get(key));
+          keys.remove(j);
+          if (keys.size() <1) return output;
+        }
+      }
+    }
+    return output;
+  }
+
+  private static Map<Character, Integer> populateNaiveTurnsForMajorityMap(
+      Map<Character, Integer> counts, StringBuilder output) {
+    var naiveTurnsForMajority = new HashMap<Character, Integer>();
+    for (char c : counts.keySet()) {
+      var turnsForMajority = 11 - counts.get(c);
+      if (turnsForMajority < 1) continue;
+      naiveTurnsForMajority.put(c, turnsForMajority);
+    }
+    for (char c : PILLS.keySet()) {
+      if (c != 'x' && naiveTurnsForMajority.get(c) == null) {
+        output
+            .append("Your next ")
+            .append(PILLS.get(c))
+            .append(" pill requires a minimum of 11")
+            .append(LOCATION_STRINGS.get(c));
+      }
+    }
+    return naiveTurnsForMajority;
   }
 }
