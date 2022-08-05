@@ -44,9 +44,8 @@ public class PreferenceCheckBox extends JPanel implements Listener {
   }
 
   private void makeLayout(String message) {
+    this.box.setText(message);
     this.add(this.box);
-    JLabel label = new JLabel(message);
-    this.add(label);
 
     if (tooltip != null) {
       this.addToolTip(tooltip);
