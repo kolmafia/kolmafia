@@ -572,14 +572,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 11 quest
 
-    // QuestDatabase.setQuestIfBetter(Quest.DESERT, QuestDatabase.STARTED);
-    // QuestDatabase.setQuestIfBetter(Quest.MANOR, QuestDatabase.STARTED);
-    // QuestDatabase.setQuestIfBetter(Quest.SHEN, QuestDatabase.STARTED);
-    // QuestDatabase.setQuestIfBetter(Quest.RON, QuestDatabase.STARTED);
+    if (this.adventureNumber == AdventurePool.BLACK_FOREST) {
+      return QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, QuestDatabase.UNSTARTED);
+    }
+
+    // *** Lord Spookyraven
 
     if (this.zone.equals("Manor0")) {
       return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.UNSTARTED);
     }
+
+    // *** Doctor Awkward
 
     if (this.adventureNumber == AdventurePool.COPPERHEAD_CLUB) {
       return QuestDatabase.isQuestLaterThan(Quest.SHEN, QuestDatabase.UNSTARTED);
@@ -600,35 +603,75 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.adventureNumber == AdventurePool.WHITEYS_GROVE) {
-      return QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
+      return QuestDatabase.isQuestLaterThan(Quest.CITADEL, QuestDatabase.UNSTARTED)
           || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
           || KoLCharacter.isEd();
     }
 
-    if (this.zone.equals("HiddenCity")) {
-      // *** Hidden Temple cleared
-      // HiddenCity	adventure=341	Env: indoor Stat: 135	The Hidden Apartment Building
-      // HiddenCity	adventure=342	Env: indoor Stat: 140	The Hidden Hospital
-      // HiddenCity	adventure=343	Env: indoor Stat: 135	The Hidden Office Building
-      // HiddenCity	adventure=344	Env: indoor Stat: 125	The Hidden Bowling Alley
-      // HiddenCity	adventure=345	Env: outdoor Stat: 125	The Hidden Park
-      // HiddenCity	adventure=346	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
-      // HiddenCity	adventure=347	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
-      // HiddenCity	adventure=348	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northeast)
-      // HiddenCity	adventure=349	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southeast)
-      // HiddenCity	adventure=350	Env: outdoor Stat: 140 nowander	A Massive Ziggurat
+    // *** Protector Spectre
+
+    if (this.adventureNumber == AdventurePool.HIDDEN_TEMPLE) {
+      if (KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked()) {
+        return true;
+      }
+
+      // Visit the distant woods and take a look.
+      RequestThread.postRequest(new GenericRequest("woods"));
+      return KoLCharacter.getTempleUnlocked();
     }
 
+    if (this.zone.equals("HiddenCity")) {
+      if (!QuestDatabase.isQuestLaterThan(Quest.WORSHIP, "step2")) {
+        return false;
+      }
+      return switch (this.adventureNumber) {
+        case AdventurePool.HIDDEN_PARK -> true;
+        case AdventurePool.NW_SHRINE -> true;
+        case AdventurePool.SW_SHRINE -> true;
+        case AdventurePool.NE_SHRINE -> true;
+        case AdventurePool.SE_SHRINE -> true;
+        case AdventurePool.ZIGGURAT -> true;
+        case AdventurePool.HIDDEN_APARTMENT -> QuestDatabase.isQuestLaterThan(
+            Quest.CURSES, QuestDatabase.UNSTARTED);
+        case AdventurePool.HIDDEN_HOSPITAL -> QuestDatabase.isQuestLaterThan(
+            Quest.DOCTOR, QuestDatabase.UNSTARTED);
+        case AdventurePool.HIDDEN_OFFICE -> QuestDatabase.isQuestLaterThan(
+            Quest.BUSINESS, QuestDatabase.UNSTARTED);
+        case AdventurePool.HIDDEN_BOWLING_ALLEY -> QuestDatabase.isQuestLaterThan(
+            Quest.SPARE, QuestDatabase.UNSTARTED);
+        default -> false;
+      };
+    }
+
+    // *** Ed the Undying
+
     if (this.zone.equals("Beach")) {
-      // Open if can get to beach
-      // Beach	adventure=355	Env: indoor Stat: 0 nowander	The Shore, Inc. Travel Agency
-      // Beach	adventure=45	Env: outdoor Stat: 10	South of the Border	+1 donkey flipbook
-      // Open after diary read
-      // Beach	adventure=364	Env: outdoor Stat: 120	The Arid, Extra-Dry Desert	15 worm-riding manual
-      // Open after 10 desert exploration
-      // Beach	adventure=122	Env: outdoor Stat: 135	The Oasis	1 stone rose, 1 drum machine
-      // Open with "Tropical Contact High"
-      // Beach	adventure=446	Env: outdoor Stat: 0	Kokomo Resort
+      if (!KoLCharacter.desertBeachAccessible()) {
+        return false;
+      }
+      switch (this.adventureNumber) {
+        case AdventurePool.THE_SHORE:
+        case AdventurePool.SOUTH_OF_THE_BORDER:
+          return true;
+        case AdventurePool.ARID_DESERT:
+          // Open after diary read
+          return QuestDatabase.isQuestLaterThan(Quest.DESERT, QuestDatabase.UNSTARTED);
+        case AdventurePool.OASIS:
+          if (!QuestDatabase.isQuestLaterThan(Quest.DESERT, QuestDatabase.UNSTARTED)) {
+            return false;
+          }
+          // Open after 1 desert exploration
+          if (Preferences.getInteger("desertExploration") > 0) {
+            return true;
+          }
+          // Legacy: what about accounts who did desert before we tracked it?
+          return QuestDatabase.isQuestFinished(Quest.DESERT);
+        case AdventurePool.KOKOMO_RESORT:
+          // Open with "Tropical Contact High"
+          return KoLConstants.activeEffects.contains(
+              EffectPool.get(EffectPool.TROPICAL_CONTACT_HIGH));
+      }
+      return false;
     }
 
     if (this.zone.equals("Pyramid")) {
@@ -792,16 +835,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("MoxSign")) {
       return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
-    }
-
-    if (this.adventureNumber == AdventurePool.HIDDEN_TEMPLE) {
-      if (KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked()) {
-        return true;
-      }
-
-      // Visit the distant woods and take a look.
-      RequestThread.postRequest(new GenericRequest("woods"));
-      return KoLCharacter.getTempleUnlocked();
     }
 
     if (this.adventureNumber == AdventurePool.PIRATE_COVE) {

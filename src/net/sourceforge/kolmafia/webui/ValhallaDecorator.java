@@ -257,7 +257,7 @@ public class ValhallaDecorator {
     }
 
     if (InventoryManager.hasItem(ItemPool.RAT_WHISKER)
-        && Preferences.getString(Quest.ARTIST.getPref()).equals(QuestDatabase.FINISHED)) {
+        && QuestDatabase.isQuestFinished(Quest.ARTIST)) {
       buffer.append(
           "<nobr><a href=\"place.php?whichplace=town_wrong&action=townwrong_artist_quest&subaction=whiskers\">");
       buffer.append("trade in rat whiskers for meat</a></nobr><br>");

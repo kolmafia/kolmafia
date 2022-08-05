@@ -19,6 +19,7 @@ public class AdventurePool {
   public static final int BEANBAT = 33;
   public static final int BOSSBAT = 34;
   public static final int DUNGEON_OF_DOOM = 39;
+  public static final int SOUTH_OF_THE_BORDER = 45;
   public static final int BUGBEAR_PEN = 47;
   public static final int SPOOKY_GRAVY_BURROW = 48;
   public static final int POST_QUEST_BUGBEAR_PEN = 49;
@@ -177,6 +178,7 @@ public class AdventurePool {
   public static final int GARBAGE_BARGES = 443;
   public static final int TOXIC_TEACUPS = 444;
   public static final int LIQUID_WASTE_SLUICE = 445;
+  public static final int KOKOMO_RESORT = 446;
   public static final int SMOOCH_ARMY_HQ = 448;
   public static final int VELVET_GOLD_MINE = 449;
   public static final int LAVACO_LAMP_FACTORY = 450;
