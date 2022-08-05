@@ -299,9 +299,9 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     final var lastEnvironmentIndex = lastEnvironments.length - 1;
     final var keys = new ArrayList<>(actualTurnsForMajority.keySet());
     for (int i = lastEnvironmentIndex; i > -1; i--) {
-      var last = lastEnvironments[i];
+      final var last = lastEnvironments[i];
       for (int j = keys.size() - 1; j > -1; j--) {
-        var key = keys.get(j);
+        final var key = keys.get(j);
         if (key == last) {
           actualTurnsForMajority.put(last, actualTurnsForMajority.get(last) + 1);
           continue;
