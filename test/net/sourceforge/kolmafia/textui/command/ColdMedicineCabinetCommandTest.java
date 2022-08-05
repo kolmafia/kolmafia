@@ -363,7 +363,8 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
   @Test
   void ShowCorrectNumberOfTurnsForMajority() {
-    var cleanups = new Cleanups(
+    var cleanups =
+        new Cleanups(
             withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
             withProperty("lastCombatEnvironments", "iiiiiioooooouuuuuuio"),
             withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),

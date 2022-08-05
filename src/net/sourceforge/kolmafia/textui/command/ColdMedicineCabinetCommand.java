@@ -292,12 +292,12 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
   }
 
   private static StringBuilder turnsRequiredForMajorities() {
-    var counts = getCounts();
-    var output = new StringBuilder();
-    var actualTurnsForMajority = populateNaiveTurnsForMajorityMap(counts, output);
-    var lastEnvironments = getCharacters().toArray(Character[]::new);
-    var lastEnvironmentIndex = lastEnvironments.length - 1;
-    var keys = new ArrayList<>(actualTurnsForMajority.keySet());
+    final var counts = getCounts();
+    final var output = new StringBuilder();
+    final var actualTurnsForMajority = populateNaiveTurnsForMajorityMap(counts, output);
+    final var lastEnvironments = getCharacters().toArray(Character[]::new);
+    final var lastEnvironmentIndex = lastEnvironments.length - 1;
+    final var keys = new ArrayList<>(actualTurnsForMajority.keySet());
     for (int i = lastEnvironmentIndex; i > -1; i--) {
       var last = lastEnvironments[i];
       for (int j = keys.size() - 1; j > -1; j--) {
@@ -314,7 +314,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
               .append(actualTurnsForMajority.get(key))
               .append(LOCATION_STRINGS.get(key));
           keys.remove(j);
-          if (keys.size() <1) return output;
+          if (keys.size() < 1) return output;
         }
       }
     }
@@ -323,7 +323,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
 
   private static Map<Character, Integer> populateNaiveTurnsForMajorityMap(
       Map<Character, Integer> counts, StringBuilder output) {
-    var naiveTurnsForMajority = new HashMap<Character, Integer>();
+    final var naiveTurnsForMajority = new HashMap<Character, Integer>();
     for (char c : counts.keySet()) {
       var turnsForMajority = 11 - counts.get(c);
       if (turnsForMajority < 1) continue;
