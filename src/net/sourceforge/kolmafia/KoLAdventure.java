@@ -496,14 +496,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 6 quest
     if (this.zone.equals("Friars")) {
-      // *** Validate
       return switch (this.adventureNumber) {
-          // Quest.FRIARS started but not finished
+          // Quest.FRIAR started but not finished
         case AdventurePool.DARK_ELBOW_OF_THE_WOODS,
             AdventurePool.DARK_HEART_OF_THE_WOODS,
-            AdventurePool.DARK_NECK_OF_THE_WOODS -> true;
+            AdventurePool.DARK_NECK_OF_THE_WOODS -> QuestDatabase.isQuestStarted(Quest.FRIAR)
+            && !QuestDatabase.isQuestFinished(Quest.FRIAR);
           // Ed the Undying only
-        case AdventurePool.PANDAMONIUM -> false;
+        case AdventurePool.PANDAMONIUM -> KoLCharacter.isEd();
         default -> false;
       };
     }
@@ -515,12 +515,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 7 quest
     if (this.zone.equals("Cyrpt")) {
-      // *** Validate
-      // adventure=264	The Defiled Nook
-      // adventure=262	The Defiled Cranny
-      // adventure=261	The Defiled Alcove
-      // adventure=263	The Defiled Niche
-      return true;
+      if (!QuestDatabase.isQuestStarted(Quest.CYRPT)) {
+        return false;
+      }
+      return switch (this.adventureNumber) {
+        case AdventurePool.DEFILED_ALCOVE -> Preferences.getInteger("cyrptAlcoveEvilness") > 0;
+        case AdventurePool.DEFILED_CRANNY -> Preferences.getInteger("cyrptCrannyEvilness") > 0;
+        case AdventurePool.DEFILED_NICHE -> Preferences.getInteger("cyrptNicheEvilness") > 0;
+        case AdventurePool.DEFILED_NOOK -> Preferences.getInteger("cyrptNookEvilness") > 0;
+        default -> false;
+      };
     }
 
     // The VERY Unquiet Garves are available if you have completed the Cyrpt quest
@@ -689,51 +693,50 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
         return false;
       }
-      // IsleWar	adventure=135	Env: indoor Stat: 0	Wartime Frat House
-      // IsleWar	adventure=134	Env: indoor Stat: 165	Wartime Frat House (Hippy Disguise)
-      // IsleWar	adventure=133	Env: indoor Stat: 0	Wartime Hippy Camp
-      // IsleWar	adventure=131	Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)
+      // IsleWar	adventure=135	Wartime Frat House
+      // IsleWar	adventure=134	Wartime Frat House (Hippy Disguise)
+      // IsleWar	adventure=133	Wartime Hippy Camp
+      // IsleWar	adventure=131	Wartime Hippy Camp (Frat Disguise)
 
-      // IsleWar	adventure=132	Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
-      // IsleWar	adventure=140	Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
+      // IsleWar	adventure=132	The Battlefield (Frat Uniform)
+      // IsleWar	adventure=140	The Battlefield (Hippy Uniform)
 
       // Only available during the war. After the war, you can visit the Nunnery.
-      // IsleWar	adventure=126	Env: outdoor Stat: 165	The Themthar Hills
+      // IsleWar	adventure=126	The Themthar Hills
     }
 
     if (this.zone.equals("Farm")) {
       if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
         return false;
       }
-      // Farm	adventure=137	Env: indoor Stat: 165	McMillicancuddy's Barn
-      // Farm	adventure=141	Env: outdoor Stat: 170	McMillicancuddy's Pond
-      // Farm	adventure=142	Env: outdoor Stat: 170	McMillicancuddy's Back 40
-      // Farm	adventure=143	Env: outdoor Stat: 170	McMillicancuddy's Other Back 40
-      // Farm	adventure=144	Env: outdoor Stat: 170	McMillicancuddy's Granary
-      // Farm	adventure=145	Env: outdoor Stat: 170	McMillicancuddy's Bog
-      // Farm	adventure=146	Env: outdoor Stat: 170	McMillicancuddy's Family Plot
-      // Farm	adventure=147	Env: outdoor Stat: 170	McMillicancuddy's Shady Thicket
+      // Farm	adventure=137	McMillicancuddy's Barn
+      // Farm	adventure=141	McMillicancuddy's Pond
+      // Farm	adventure=142	McMillicancuddy's Back 40
+      // Farm	adventure=143	McMillicancuddy's Other Back 40
+      // Farm	adventure=144	McMillicancuddy's Granary
+      // Farm	adventure=145	McMillicancuddy's Bog
+      // Farm	adventure=146	McMillicancuddy's Family Plot
+      // Farm	adventure=147	McMillicancuddy's Shady Thicket
     }
 
     if (this.zone.equals("Orchard")) {
       if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
         return false;
       }
-      // Orchard	adventure=127	Env: underground Stat: 165	The Hatching Chamber
-      // Orchard	adventure=128	Env: underground Stat: 165	The Feeding Chamber
-      // Orchard	adventure=129	Env: underground Stat: 165	The Royal Guard Chamber
-      // Orchard	adventure=130	Env: underground Stat: 170	The Filthworm Queen's Chamber
+      // Orchard	adventure=127	The Hatching Chamber
+      // Orchard	adventure=128	The Feeding Chamber
+      // Orchard	adventure=129	The Royal Guard Chamber
+      // Orchard	adventure=130	The Filthworm Queen's Chamber
     }
 
     if (this.zone.equals("Junkyard")) {
       if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
         return false;
       }
-      // Junkyard	adventure=182	Env: outdoor Stat: 170	Next to that Barrel with Something Burning in
-      // it
-      // Junkyard	adventure=183	Env: outdoor Stat: 170	Near an Abandoned Refrigerator
-      // Junkyard	adventure=184	Env: outdoor Stat: 170	Over Where the Old Tires Are
-      // Junkyard	adventure=185	Env: outdoor Stat: 170	Out by that Rusted-Out Car
+      // Junkyard	adventure=182	Next to that Barrel with Something Burning in it
+      // Junkyard	adventure=183	Near an Abandoned Refrigerator
+      // Junkyard	adventure=184	Over Where the Old Tires Are
+      // Junkyard	adventure=185	Out by that Rusted-Out Car
     }
 
     if (this.adventureNumber == AdventurePool.SONOFA_BEACH) {
@@ -786,6 +789,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
       return true;
     }
+
+    // Nemesis Quest
+    // ***
+
+    // Plains	adventure=20	The "Fun" House
+    // Nemesis Cave	adventure=452	The Fungal Nethers
+    // Volcano	adventure=214	The Broodling Grounds
+    // Volcano	adventure=215	The Outer Compound
+    // Volcano	adventure=217	The Temple Portico
+    // Volcano	adventure=218	Convention Hall Lobby
+    // Volcano	adventure=219	Outside the Club
+    // Volcano	adventure=220	The Island Barracks
+    // Volcano	adventure=221	The Nemesis' Lair
 
     // The Temporal Rift zones have multiple requirements
     if (this.zone.equals("Rift")) {
@@ -905,15 +921,24 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
-    // The Enormous Greater-Than Sign is available if your base mainstate is at
-    // least 45 and you have not yet unlocked the Dungeon of Doom
-    if (this.adventureNumber == AdventurePool.GREATER_THAN_SIGN) {
-      return (KoLCharacter.getBaseMainstat() >= 45) && !QuestLogRequest.isDungeonOfDoomAvailable();
-    }
-
-    // The Dungeons of Doom are only available if you've finished the quest
-    if (this.adventureNumber == AdventurePool.DUNGEON_OF_DOOM) {
-      return QuestLogRequest.isDungeonOfDoomAvailable();
+    if (this.zone.equals("Dungeon")) {
+      return switch (this.adventureNumber) {
+          // The Enormous Greater-Than Sign is available if your base
+          // mainstate is at least 45 and you have not yet unlocked
+          // the Dungeon of Doom
+        case AdventurePool.GREATER_THAN_SIGN -> (KoLCharacter.getBaseMainstat() >= 45)
+            && !QuestLogRequest.isDungeonOfDoomAvailable();
+          // The Dungeons of Doom are only available if you've finished the quest
+        case AdventurePool.DUNGEON_OF_DOOM -> QuestLogRequest.isDungeonOfDoomAvailable();
+          // If you have a GameInformPowerDailyPro walkthru in inventory, you
+          // have (or had) access to The GameInformPowerDailyPro Dungeon.
+          // *** Do we track your progress?
+        case AdventurePool.VIDEO_GAME_LEVEL_1,
+            AdventurePool.VIDEO_GAME_LEVEL_2,
+            AdventurePool.VIDEO_GAME_LEVEL_3 -> InventoryManager.hasItem(
+            ItemPool.get(ItemPool.GAMEPRO_WALKTHRU));
+        default -> true;
+      };
     }
 
     // The Valley of Rof L'm Fao is available if you have completed the Highlands quest
@@ -944,28 +969,29 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("The Sea")) {
       // *** Validate
-      // The Sea	adventure=186	Env: underwater Stat: 310	The Briny Deeps
-      // The Sea	adventure=187	Env: underwater Stat: 375	The Brinier Deepers
-      // The Sea	adventure=189	Env: underwater Stat: 400	The Briniest Deepests
-      // The Sea	adventure=190	Env: underwater Stat: 400	An Octopus's Garden
-      // The Sea	adventure=191	Env: underwater Stat: 540	The Wreck of the Edgar Fitzsimmons
-      // The Sea	adventure=194	Env: underwater	Madness Reef
-      // The Sea	adventure=198	Env: underwater Stat: 650	The Mer-Kin Outpost
-      // The Sea	adventure=188	Env: underwater Stat: 410	The Skate Park
-      // The Sea	adventure=195	Env: underwater Stat: 480	The Marinara Trench
-      // The Sea	adventure=196	Env: underwater Stat: 450	Anemone Mine
-      // The Sea	adventure=197	Env: underwater Stat: 480	The Dive Bar
-      // The Sea	adventure=199	Env: underwater Stat: 585	The Coral Corral
-      // The Sea	adventure=207	Env: underwater	Mer-kin Elementary School
-      // The Sea	adventure=208	Env: underwater	Mer-kin Library
-      // The Sea	adventure=209	Env: underwater	Mer-kin Gymnasium
-      // The Sea	adventure=210	Env: underwater	Mer-kin Colosseum
-      // The Sea	adventure=337	Env: underwater Stat: 600	The Caliginous Abyss
-      // The Sea	mining=3	Env: none Stat: 0	Anemone Mine (Mining)
+      // The Sea	adventure=186	The Briny Deeps
+      // The Sea	adventure=187	The Brinier Deepers
+      // The Sea	adventure=189	The Briniest Deepests
+      // The Sea	adventure=190	An Octopus's Garden
+      // The Sea	adventure=191	The Wreck of the Edgar Fitzsimmons
+      // The Sea	adventure=194	Madness Reef
+      // The Sea	adventure=198	The Mer-Kin Outpost
+      // The Sea	adventure=188	The Skate Park
+      // The Sea	adventure=195	The Marinara Trench
+      // The Sea	adventure=196	Anemone Mine
+      // The Sea	adventure=197	The Dive Bar
+      // The Sea	adventure=199	The Coral Corral
+      // The Sea	adventure=207	Mer-kin Elementary School
+      // The Sea	adventure=208	Mer-kin Library
+      // The Sea	adventure=209	Mer-kin Gymnasium
+      // The Sea	adventure=210	Mer-kin Colosseum
+      // The Sea	adventure=337	The Caliginous Abyss
+      // The Sea	mining=3	Anemone Mine (Mining)
     }
 
-    // Obsolete zones
-    if (this.zone.equals("Tammy's Offshore Platform")) {
+    // There are lots of zones from past events (including Crimbo) that are no
+    // longer available. AdventureDatabase maintains a handy Set of all such.
+    if (AdventureDatabase.removedAdventure(this)) {
       return false;
     }
 
