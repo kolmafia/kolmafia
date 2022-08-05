@@ -12,6 +12,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,6 +25,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
   }
 
   @BeforeEach
+  @AfterEach
   public void stopMirrorLogging() {
     execute("");
   }
