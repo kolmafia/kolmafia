@@ -532,8 +532,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.NINJA_SNOWMEN, AdventurePool.EXTREME_SLOPE -> QuestDatabase
             .isQuestLaterThan(Quest.TRAPPER, "step1");
         case AdventurePool.ICY_PEAK -> QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4");
-        case AdventurePool.MINE_OFFICE -> QuestDatabase.isQuestLaterThan(
-            Quest.FACTORY, QuestDatabase.UNSTARTED);
+        case AdventurePool.MINE_OFFICE -> QuestDatabase.isQuestStarted(Quest.FACTORY);
         default -> false;
       };
     }
@@ -573,25 +572,24 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Level 11 quest
 
     if (this.adventureNumber == AdventurePool.BLACK_FOREST) {
-      return QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, QuestDatabase.UNSTARTED);
+      return QuestDatabase.isQuestStarted(Quest.MACGUFFIN);
     }
 
     // *** Lord Spookyraven
 
     if (this.zone.equals("Manor0")) {
-      return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.UNSTARTED);
+      return QuestDatabase.isQuestStarted(Quest.MANOR);
     }
 
     // *** Doctor Awkward
 
     if (this.adventureNumber == AdventurePool.COPPERHEAD_CLUB) {
-      return QuestDatabase.isQuestLaterThan(Quest.SHEN, QuestDatabase.UNSTARTED);
+      return QuestDatabase.isQuestStarted(Quest.SHEN);
     }
 
     if (this.zone.equals("The Red Zeppelin's Mooring")) {
       return switch (this.adventureNumber) {
-        case AdventurePool.ZEPPELIN_PROTESTORS -> QuestDatabase.isQuestLaterThan(
-            Quest.RON, QuestDatabase.UNSTARTED);
+        case AdventurePool.ZEPPELIN_PROTESTORS -> QuestDatabase.isQuestStarted(Quest.RON);
         case AdventurePool.RED_ZEPPELIN -> QuestDatabase.isQuestLaterThan(Quest.RON, "step1");
         default -> false;
       };
@@ -603,7 +601,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.adventureNumber == AdventurePool.WHITEYS_GROVE) {
-      return QuestDatabase.isQuestLaterThan(Quest.CITADEL, QuestDatabase.UNSTARTED)
+      return QuestDatabase.isQuestStarted(Quest.CITADEL)
           || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
           || KoLCharacter.isEd();
     }
@@ -631,14 +629,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.NE_SHRINE -> true;
         case AdventurePool.SE_SHRINE -> true;
         case AdventurePool.ZIGGURAT -> true;
-        case AdventurePool.HIDDEN_APARTMENT -> QuestDatabase.isQuestLaterThan(
-            Quest.CURSES, QuestDatabase.UNSTARTED);
-        case AdventurePool.HIDDEN_HOSPITAL -> QuestDatabase.isQuestLaterThan(
-            Quest.DOCTOR, QuestDatabase.UNSTARTED);
-        case AdventurePool.HIDDEN_OFFICE -> QuestDatabase.isQuestLaterThan(
-            Quest.BUSINESS, QuestDatabase.UNSTARTED);
-        case AdventurePool.HIDDEN_BOWLING_ALLEY -> QuestDatabase.isQuestLaterThan(
-            Quest.SPARE, QuestDatabase.UNSTARTED);
+        case AdventurePool.HIDDEN_APARTMENT -> QuestDatabase.isQuestStarted(Quest.CURSES);
+        case AdventurePool.HIDDEN_HOSPITAL -> QuestDatabase.isQuestStarted(Quest.DOCTOR);
+        case AdventurePool.HIDDEN_OFFICE -> QuestDatabase.isQuestStarted(Quest.BUSINESS);
+        case AdventurePool.HIDDEN_BOWLING_ALLEY -> QuestDatabase.isQuestStarted(Quest.SPARE);
         default -> false;
       };
     }
@@ -655,9 +649,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return true;
         case AdventurePool.ARID_DESERT:
           // Open after diary read
-          return QuestDatabase.isQuestLaterThan(Quest.DESERT, QuestDatabase.UNSTARTED);
+          return QuestDatabase.isQuestStarted(Quest.DESERT);
         case AdventurePool.OASIS:
-          if (!QuestDatabase.isQuestLaterThan(Quest.DESERT, QuestDatabase.UNSTARTED)) {
+          if (!QuestDatabase.isQuestStarted(Quest.DESERT)) {
             return false;
           }
           // Open after 1 desert exploration
@@ -675,7 +669,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Pyramid")) {
-      if (!QuestDatabase.isQuestLaterThan(Quest.PYRAMID, QuestDatabase.UNSTARTED)) {
+      if (!QuestDatabase.isQuestStarted(Quest.PYRAMID)) {
         return false;
       }
       return switch (this.adventureNumber) {
@@ -748,8 +742,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       switch (this.adventureNumber) {
         case AdventurePool.HAUNTED_KITCHEN:
         case AdventurePool.HAUNTED_CONSERVATORY:
-          return QuestDatabase.isQuestLaterThan(
-              Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
+          return QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
         case AdventurePool.HAUNTED_LIBRARY:
           return InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
         case AdventurePool.HAUNTED_BILLIARDS_ROOM:
@@ -798,7 +791,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       if (this.adventureNumber == AdventurePool.BUGBEAR_PEN) {
-        return QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
+        return QuestDatabase.isQuestStarted(Quest.BUGBEAR)
             && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
       }
 
@@ -817,7 +810,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Le Marais D&egrave;gueulasse")) {
       // This is in Little Canadia
-      if (!QuestDatabase.isQuestLaterThan(Quest.SWAMP, QuestDatabase.UNSTARTED)) {
+      if (!QuestDatabase.isQuestStarted(Quest.SWAMP)) {
         return false;
       }
       return switch (this.adventureNumber) {
