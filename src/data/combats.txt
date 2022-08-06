@@ -525,10 +525,10 @@ Wrong Side of the Tracks, 28 Days Later	-1	scary pirate	Zombie eXtreme Snowboard
 # Areas with no combats
 
 Anemone Mine (Mining)	0
-Frat House In Disguise	0
+Frat House (In Disguise)	0
 Friar Ceremony Location	0
 Goat Party	0
-Hippy Camp In Disguise	0
+Hippy Camp (In Disguise)	0
 Itznotyerzitz Mine (in Disguise)	0
 Lemon Party	0
 The Mine Foremens' Office	0

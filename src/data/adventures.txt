@@ -211,11 +211,14 @@ The Drip	adventure=544	Env: indoor nowander	The Dripping Hall
 # Mysterious Island areas
 
 Island	adventure=27	Env: indoor Stat: 30	Frat House	outfit|+1 bottle of rhinoceros hormones|+5 figurine of a slippery seal
-Island	adventure=29	Env: indoor Stat: 30	Frat House In Disguise
-Island	adventure=150	Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
+Island	adventure=29	Env: indoor Stat: 30	Frat House (In Disguise)
+
 Island	adventure=26	Env: outdoor Stat: 30	Hippy Camp	outfit|1 windchimes, 1 decorative fountain, 1 Feng Shui for Big Dumb Idiots|+1 teeny-tiny magic scroll|+5 figurine of a stinking seal
-Island	adventure=65	Env: outdoor Stat: 30	Hippy Camp In Disguise
+Island	adventure=65	Env: outdoor Stat: 30	Hippy Camp (In Disguise)
+
 Island	adventure=149	Env: outdoor Stat: 100	The Hippy Camp (Bombed Back to the Stone Age)	+5 figurine of a stinking seal
+Island	adventure=150	Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
+
 Island	adventure=66	Env: outdoor Stat: 45	The Obligatory Pirate's Cove	outfit|+1 bottle of pirate juice
 
 Pirate	adventure=157	Env: indoor Stat: 80	Barrrney's Barrr	Cap'm Caronch's Map|Orcish Frat House blueprints|6 pirate insults|7 pirate insults
@@ -225,10 +228,11 @@ Pirate	adventure=160	Env: indoor Stat: 140	Belowdecks
 
 # Big Island at war
 
-IsleWar	adventure=135	Env: indoor Stat: 0	Wartime Frat House	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin|1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
 IsleWar	adventure=134	Env: indoor Stat: 165	Wartime Frat House (Hippy Disguise)	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
-IsleWar	adventure=133	Env: indoor Stat: 0	Wartime Hippy Camp	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband|1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
+IsleWar	adventure=135	Env: indoor Stat: 0	Wartime Frat House	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin|1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
+
 IsleWar	adventure=131	Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
+IsleWar	adventure=133	Env: indoor Stat: 0	Wartime Hippy Camp	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband|1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
 
 IsleWar	adventure=132	Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
 IsleWar	adventure=140	Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)

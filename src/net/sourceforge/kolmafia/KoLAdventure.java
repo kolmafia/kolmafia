@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -697,20 +698,61 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // Level 12 quest
+
+    // The Mysterious Island on the Verge of War (small island) is a bit odd.
+    //
+    // When you look at it, the hippy camp and frat house have the usual URLs.
+    // You can adventure in either using those URLs, either disguised or not.
+    //
+    // If you are disguised as an enemy (either normal or wartime outfits), you
+    // get combat encounters. The "Next Adventure" links at the end of the
+    // battle and the "Last Adventure" link in the charpane will will be to the
+    // wartime (Disguised) URL
+    //
+    // If you are either undisguised or disguised as a friend (either normal or
+    // wartime outfits), you get non-combat encounters. The "Next Adventure"
+    // links at the end of the battle and the "Last Adventure" link in the
+    // charpane will will be to the Wartime not-disguised URL
+    //
+    // To adventure in the frat house, all of the following work, disguised or not:
+    //
+    // AdventurePool.FRAT_HOUSE:
+    // AdventurePool.WARTIME_FRAT_HOUSE:
+    // AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED:
+    //
+    // To adventure in the hippy camp, all of the following work, disguised or not:
+    //
+    // AdventurePool.HIPPY_CAMP:
+    // AdventurePool.WARTIME_HIPPY_CAMP:
+    // AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED:
+
     if (this.zone.equals("IsleWar")) {
-      if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
+      if (!KoLCharacter.mysteriousIslandAccessible()
+          || !QuestDatabase.isQuestStarted(Quest.ISLAND_WAR)) {
         return false;
       }
-      // IsleWar	adventure=135	Wartime Frat House
-      // IsleWar	adventure=134	Wartime Frat House (Hippy Disguise)
-      // IsleWar	adventure=133	Wartime Hippy Camp
-      // IsleWar	adventure=131	Wartime Hippy Camp (Frat Disguise)
 
-      // IsleWar	adventure=132	The Battlefield (Frat Uniform)
-      // IsleWar	adventure=140	The Battlefield (Hippy Uniform)
+      // Quest.ISLAND_WAR progresses from "unstarted" -> "started" -> "step1" -> "finished"
+      // "started" is the Verge of War on the Mysterious Island
+      // "step1" is the actual war on the Big Island
+      // "finished" is the peaceful Big Island
 
-      // Only available during the war. After the war, you can visit the Nunnery.
-      // IsleWar	adventure=126	The Themthar Hills
+      switch (this.adventureNumber) {
+        case AdventurePool.WARTIME_FRAT_HOUSE:
+        case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED:
+        case AdventurePool.WARTIME_HIPPY_CAMP:
+        case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED:
+          return QuestDatabase.isQuestBefore(Quest.ISLAND_WAR, "step1");
+
+        case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
+        case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
+          return QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
+
+        case AdventurePool.THEMTHAR_HILLS:
+          // Only available during the war. After the war, you can visit the Nunnery.
+          return QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
+      }
+      return false;
     }
 
     if (this.zone.equals("Farm")) {
@@ -881,26 +923,34 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // We have a way to get to the island.  Access to individual zones
       // depends on quest state and outfits
 
+      String winner = IslandManager.warWinner();
+      // neither, hippies, fratboys
+
       switch (this.adventureNumber) {
         case AdventurePool.PIRATE_COVE:
           // You cannot visit the pirates during the war
           return !KoLCharacter.islandWarInProgress();
+
         case AdventurePool.HIPPY_CAMP:
         case AdventurePool.HIPPY_CAMP_DISGUISED:
-          // You can visit the hippy camp before or after the war
-          // *** unless it has been bombed into the stone age.
-          return !KoLCharacter.islandWarInProgress();
+          // You can visit the hippy camp before or after the war, unless it
+          // has been bombed into the stone age.
+          return !QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1") && winner.equals("hippies");
+
         case AdventurePool.FRAT_HOUSE:
         case AdventurePool.FRAT_HOUSE_DISGUISED:
-          // You can visit the frat house before or after the war
-          // *** unless it has been bombed into the stone age.
-          return !KoLCharacter.islandWarInProgress();
+          // You can visit the frat house before or after the war, unless it
+          // has been bombed into the stone age.
+          return !QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1") && winner.equals("fratboys");
+
         case AdventurePool.BOMBED_HIPPY_CAMP:
-          // *** validate
-          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
+              && (winner.equals("neither") || winner.equals("fratboys"));
+
         case AdventurePool.BOMBED_FRAT_HOUSE:
-          // *** validate
-          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
+              && (winner.equals("neither") || winner.equals("hippies"));
+
         case AdventurePool.THE_JUNKYARD:
         case AdventurePool.MCMILLICANCUDDYS_FARM:
           return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
@@ -1433,14 +1483,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public int getOutfitId() {
     switch (this.adventureNumber) {
       case AdventurePool.FRAT_HOUSE_DISGUISED:
-        return OutfitPool.FRAT_OUTFIT;
-      case AdventurePool.HIPPY_CAMP_DISGUISED:
-        return OutfitPool.HIPPY_OUTFIT;
       case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED:
         // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
         return EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
             ? OutfitPool.WAR_HIPPY_OUTFIT
             : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
+      case AdventurePool.HIPPY_CAMP_DISGUISED:
       case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED:
         // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
         return EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)

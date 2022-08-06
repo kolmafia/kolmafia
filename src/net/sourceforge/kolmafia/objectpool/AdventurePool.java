@@ -50,7 +50,9 @@ public class AdventurePool {
   public static final int THEMTHAR_HILLS = 126;
   public static final int WARTIME_FRAT_HOUSE_DISGUISED = 131;
   public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
+  public static final int WARTIME_HIPPY_CAMP = 133;
   public static final int WARTIME_HIPPY_CAMP_DISGUISED = 134;
+  public static final int WARTIME_FRAT_HOUSE = 135;
   public static final int SONOFA_BEACH = 136;
   public static final int HAIKU_DUNGEON = 138;
   public static final int HIPPY_UNIFORM_BATTLEFIELD = 140;
