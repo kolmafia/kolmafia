@@ -92,11 +92,11 @@ Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Astral	Astral	Astral Plane	astral mushroom
 Memories	Memories	Memories	empty agua de vida bottle
 Spaaace	Spaaace	Outer Space	transporter transponder
-Mountain:Form of Mole	Mountains	Mt. Molehill	llama lama gong
+Mountain:Form of Mole	Mountain	Mt. Molehill	llama lama gong
 
 Rabbit Hole	Plains	Down the Rabbit Hole	&quot;DRINK ME&quot; potion
 
-Dungeon:Video Game	Mountains	Video Game Dungeon	GameInformPowerDailyPro walkthru
+Dungeon:Video Game	Mountain	Video Game Dungeon	GameInformPowerDailyPro walkthru
 
 Suburbs	Suburbs	The Suburbs of Dis	devilish folio
 Gingerbread City	Mountain	Gingerbread City	Build-a-City Gingerbread kit
