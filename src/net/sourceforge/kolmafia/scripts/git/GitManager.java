@@ -586,7 +586,7 @@ public class GitManager extends ScriptManager {
           RequestLogger.printLine("Cannot parse " + potential + " as SVN URL");
           continue;
         }
-        var id = SVNManager.getFolderUUIDNoRemote(repo);
+        var id = SVNManager.getFolderUUID(repo);
         if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
           SVNManager.doCheckout(repo);
         }

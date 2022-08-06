@@ -992,7 +992,11 @@ public class SVNManager extends ScriptManager {
    * @param repo the repo to get a unique folder name for
    * @return a unique folder ID for a given repo URL
    */
-  static String getFolderUUID(SVNURL repo) {
+  public static String getFolderUUID(SVNURL repo) {
+    String local = getFolderUUIDNoRemote(repo);
+    if (local != null) return local;
+
+    // couldn't get local repo name
     String remote;
     // first, make sure the repo is there.
     try {
@@ -1005,8 +1009,7 @@ public class SVNManager extends ScriptManager {
       SVN_LOCK.unlock();
     }
 
-    String local = getFolderUUIDNoRemote(repo);
-    return local != null ? local : remote;
+    return remote;
   }
 
   public static String getFolderUUIDNoRemote(SVNURL repo) {
@@ -1505,8 +1508,7 @@ public class SVNManager extends ScriptManager {
     for (File f : projects) {
       try {
         var url = SVNManager.getClientManager().getStatusClient().doStatus(f, false).getURL();
-        String uuid = getFolderUUIDNoRemote(url);
-        if (uuid == null) uuid = getFolderUUID(url);
+        String uuid = getFolderUUID(url);
 
         installed.add(uuid);
       } catch (SVNException e) {
@@ -1534,8 +1536,7 @@ public class SVNManager extends ScriptManager {
       // to figure out if they are installed, compare what the UUID would be of both.
       // convert each dependencyURL to a UUID before comparing.
 
-      String uuid = getFolderUUIDNoRemote(url);
-      if (uuid == null) uuid = getFolderUUID(url);
+      String uuid = getFolderUUID(url);
 
       if (!installed.contains(uuid)) installMe.add(url);
     }
