@@ -935,13 +935,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.HIPPY_CAMP_DISGUISED:
           // You can visit the hippy camp before or after the war, unless it
           // has been bombed into the stone age.
-          return !QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1") && winner.equals("hippies");
+          return QuestDatabase.isQuestBefore(Quest.ISLAND_WAR, "step1")
+              || (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) && winner.equals("hippies"));
 
         case AdventurePool.FRAT_HOUSE:
         case AdventurePool.FRAT_HOUSE_DISGUISED:
           // You can visit the frat house before or after the war, unless it
           // has been bombed into the stone age.
-          return !QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1") && winner.equals("fratboys");
+          return QuestDatabase.isQuestBefore(Quest.ISLAND_WAR, "step1")
+              || (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) && winner.equals("fratboys"));
 
         case AdventurePool.BOMBED_HIPPY_CAMP:
           return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
