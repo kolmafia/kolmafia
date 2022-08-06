@@ -555,6 +555,7 @@ public class GitManager extends ScriptManager {
   protected static void installDependencies(Path dependencies) {
     if (!Preferences.getBoolean("gitInstallDependencies")) return;
 
+    KoLmafia.updateDisplay("Installing dependencies");
     ScriptManager.installDependencies(dependencies);
   }
 

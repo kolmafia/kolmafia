@@ -81,7 +81,6 @@ public class ScriptManager {
   }
 
   protected static void installDependencies(Path dependencies) {
-    KoLmafia.updateDisplay("Installing dependencies");
     List<String> potentials;
     try {
       potentials = Files.readAllLines(dependencies);

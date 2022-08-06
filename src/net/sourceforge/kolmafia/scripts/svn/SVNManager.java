@@ -1412,6 +1412,7 @@ public class SVNManager extends ScriptManager {
     if (!KoLmafia.permitsContinue()) return;
 
     File[] projects = KoLConstants.SVN_LOCATION.listFiles();
+    boolean printInstall = true;
 
     if (projects == null || projects.length == 0) {
       // Nothing to do here.
@@ -1421,7 +1422,13 @@ public class SVNManager extends ScriptManager {
     for (File f : projects) {
       File dep = new File(f, DEPENDENCIES);
 
-      if (dep.exists()) ScriptManager.installDependencies(dep.toPath());
+      if (dep.exists()) {
+        if (printInstall) {
+          KoLmafia.updateDisplay("Installing dependencies");
+          printInstall = false;
+        }
+        ScriptManager.installDependencies(dep.toPath());
+      }
     }
   }
 
