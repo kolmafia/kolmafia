@@ -759,7 +759,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Farm")) {
-      if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
+      if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
       // Farm	adventure=137	McMillicancuddy's Barn
@@ -770,32 +770,38 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Farm	adventure=145	McMillicancuddy's Bog
       // Farm	adventure=146	McMillicancuddy's Family Plot
       // Farm	adventure=147	McMillicancuddy's Shady Thicket
+      // *** validate
+      return true;
     }
 
     if (this.zone.equals("Orchard")) {
-      if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
+      if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
       // Orchard	adventure=127	The Hatching Chamber
       // Orchard	adventure=128	The Feeding Chamber
       // Orchard	adventure=129	The Royal Guard Chamber
       // Orchard	adventure=130	The Filthworm Queen's Chamber
+      // *** validate
+      return true;
     }
 
     if (this.zone.equals("Junkyard")) {
-      if (!KoLCharacter.mysteriousIslandAccessible() || !KoLCharacter.islandWarInProgress()) {
+      if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
       // Junkyard	adventure=182	Next to that Barrel with Something Burning in it
       // Junkyard	adventure=183	Near an Abandoned Refrigerator
       // Junkyard	adventure=184	Over Where the Old Tires Are
       // Junkyard	adventure=185	Out by that Rusted-Out Car
+      // *** validate
+      return true;
     }
 
     if (this.adventureNumber == AdventurePool.SONOFA_BEACH) {
       // Sonofa Beach is available during the war as a sidequest and also
       // after the war, whether or not it was used as such.
-      return QuestDatabase.isQuestStarted(Quest.ISLAND_WAR);
+      return QuestDatabase.isQuestLaterThan(Quest.ISLAND_WAR, QuestDatabase.STARTED);
     }
 
     // Island	adventure=136	Env: outdoor Stat: 170	Sonofa Beach
@@ -932,7 +938,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       switch (this.adventureNumber) {
         case AdventurePool.PIRATE_COVE:
           // You cannot visit the pirates during the war
-          return !KoLCharacter.islandWarInProgress();
+          return !QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
 
         case AdventurePool.HIPPY_CAMP:
         case AdventurePool.HIPPY_CAMP_DISGUISED:
@@ -966,9 +972,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Pirate Ship
     if (this.zone.equals("Pirate")) {
-      if (!KoLCharacter.mysteriousIslandAccessible() || KoLCharacter.islandWarInProgress()) {
+      // There are several ways to get to the island.
+      // However, the pirates are unavailable during the war.
+      if (!KoLCharacter.mysteriousIslandAccessible()
+          || QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
+
       boolean haveOutfit = EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP);
       boolean haveFledges = InventoryManager.hasItem(ItemPool.PIRATE_FLEDGES);
       if (!haveOutfit && !haveFledges) {
@@ -993,13 +1003,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             && !QuestLogRequest.isDungeonOfDoomAvailable();
           // The Dungeons of Doom are only available if you've finished the quest
         case AdventurePool.DUNGEON_OF_DOOM -> QuestLogRequest.isDungeonOfDoomAvailable();
-          // If you have a GameInformPowerDailyPro walkthru in inventory, you
-          // have (or had) access to The GameInformPowerDailyPro Dungeon.
-          // *** Do we track your progress?
-        case AdventurePool.VIDEO_GAME_LEVEL_1,
-            AdventurePool.VIDEO_GAME_LEVEL_2,
-            AdventurePool.VIDEO_GAME_LEVEL_3 -> InventoryManager.hasItem(
-            ItemPool.get(ItemPool.GAMEPRO_WALKTHRU));
         default -> true;
       };
     }
@@ -1054,10 +1057,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // The following zones depend on your clan, your permissions, and the
     // current state of clan dungeons. We're not going to touch them here.
-    //
-    // Clan Basement
-    // Hobopolis
-    // Dreadsylvania
+    if (zone.equals("Clan Basement") || zone.equals("Hobopolis") || zone.equals("Dreadsylvania")) {
+      return true;
+    }
 
     // Some adventuring areas are available via items.
     AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
@@ -1073,6 +1075,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Item is not restricted.
     // *** Validate
+
+    if (this.zone.equals("Dungeon:Video Game")) {
+      // If you have a GameInformPowerDailyPro walkthru in inventory, you
+      // have (or had) access to The GameInformPowerDailyPro Dungeon.
+      // *** Do we track your progress?
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.GAMEPRO_WALKTHRU));
+    }
 
     return true;
   }

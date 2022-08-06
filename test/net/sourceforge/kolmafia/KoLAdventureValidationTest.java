@@ -99,7 +99,7 @@ public class KoLAdventureValidationTest {
       zones.put(AdventurePool.HIPPY_CAMP, AdventureDatabase.getAdventureByName("Hippy Camp"));
       zones.put(
           AdventurePool.HIPPY_CAMP_DISGUISED,
-          AdventureDatabase.getAdventureByName("Hippy Camp (In Disguise)"));
+          AdventureDatabase.getAdventureByName("Hippy Camp (Hippy Disguise)"));
       zones.put(
           AdventurePool.WARTIME_HIPPY_CAMP,
           AdventureDatabase.getAdventureByName("Wartime Hippy Camp"));
@@ -311,7 +311,7 @@ public class KoLAdventureValidationTest {
       zones.put(AdventurePool.FRAT_HOUSE, AdventureDatabase.getAdventureByName("Frat House"));
       zones.put(
           AdventurePool.FRAT_HOUSE_DISGUISED,
-          AdventureDatabase.getAdventureByName("Frat House (In Disguise)"));
+          AdventureDatabase.getAdventureByName("Frat House (Frat Disguise)"));
       zones.put(
           AdventurePool.WARTIME_FRAT_HOUSE,
           AdventureDatabase.getAdventureByName("Wartime Frat House"));

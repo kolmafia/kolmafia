@@ -138,11 +138,10 @@ Pyramid	adventure=406	Env: underground Stat: 150	The Upper Chamber	10 crumbling 
 Pyramid	adventure=407	Env: underground Stat: 140	The Middle Chamber	10 tomb ratchet
 Pyramid	place=pyramid_state	Env: none Stat: 0 Level: 6	The Lower Chambers
 
-# Mountains areas
+# Mountain areas
 
 Mountain	adventure=240	Env: underground Stat: 0	Noob Cave	1 black kitten
 Mountain	adventure=92	Env: underground Stat: 0 nowander	The Dire Warren
-Mountain	adventure=437	Env: indoor Stat: 0	The Secret Council Warehouse
 Mountain	adventure=80	Env: outdoor Stat: 68	The Valley of Rof L'm Fao	1 64735 scroll, 1 lowercase N
 Mountain	barrel=0	Env: none Stat: 0	The Barrel Full of Barrels
 Mountain	adventure=295	Env: outdoor Stat: 75	The Smut Orc Logging Camp	30 any plank|The Lacrosse Stick of Lacoronado
@@ -211,10 +210,10 @@ The Drip	adventure=544	Env: indoor nowander	The Dripping Hall
 # Mysterious Island areas
 
 Island	adventure=27	Env: indoor Stat: 30	Frat House	outfit|+1 bottle of rhinoceros hormones|+5 figurine of a slippery seal
-Island	adventure=29	Env: indoor Stat: 30	Frat House (In Disguise)
+Island	adventure=29	Env: indoor Stat: 30	Frat House (Frat Disguise)
 
 Island	adventure=26	Env: outdoor Stat: 30	Hippy Camp	outfit|1 windchimes, 1 decorative fountain, 1 Feng Shui for Big Dumb Idiots|+1 teeny-tiny magic scroll|+5 figurine of a stinking seal
-Island	adventure=65	Env: outdoor Stat: 30	Hippy Camp (In Disguise)
+Island	adventure=65	Env: outdoor Stat: 30	Hippy Camp (Hippy Disguise)
 
 Island	adventure=149	Env: outdoor Stat: 100	The Hippy Camp (Bombed Back to the Stone Age)	+5 figurine of a stinking seal
 Island	adventure=150	Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
@@ -299,7 +298,15 @@ Volcano	adventure=221	Env: underground Stat: 175	The Nemesis' Lair
 
 # Ascension Path Areas
 
-# Bugbear Invasion Path
+# Ed the Undying
+
+Mountain	adventure=437	Env: indoor Stat: 0	The Secret Council Warehouse
+
+# License to Adventure path
+
+Town	adventure=495	Env: indoor Stat: 0	Super Villain's Lair
+
+# Bugbear Invasion path
 
 Mothership	adventure=281	Env: indoor Stat: 0	Medbay
 Mothership	adventure=282	Env: indoor Stat: 0	Waste Processing
@@ -498,7 +505,6 @@ Portal	adventure=164	Env: underground Stat: 365	El Vibrato Island
 
 Town	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
 Town	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
-Town	adventure=495	Env: indoor Stat: 0	Super Villain's Lair
 Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
 Town	adventure=528	Env: indoor Stat: 0	The Neverending Party
 

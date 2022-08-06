@@ -3704,11 +3704,6 @@ public abstract class KoLCharacter {
         && !Limitmode.limitZone("Island");
   }
 
-  public static final boolean islandWarInProgress() {
-    return QuestDatabase.isQuestStarted(Quest.ISLAND_WAR)
-        && !QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
-  }
-
   /**
    * Accessor method to set the list of available skills.
    *
