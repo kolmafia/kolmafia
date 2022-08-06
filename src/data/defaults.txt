@@ -1443,6 +1443,8 @@ user	usableOffhands	1
 user	usableOther	1
 user	usablePants	2
 user	usableShirts	1
+user	useBookOfEverySkillHardcore	true
+user	useBookOfEverySkillSoftcore	true
 user	useCrimboToysHardcore	false
 user	useCrimboToysSoftcore	true
 user	valueOfAdventure	500
