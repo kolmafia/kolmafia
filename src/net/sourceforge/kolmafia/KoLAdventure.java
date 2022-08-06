@@ -364,6 +364,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return false;
     }
 
+    // There are lots of zones from past events (like Crimbos) that are no
+    // longer available. AdventureDatabase maintains a handy Set of all such,
+    // so it is quick and easy and inexpensive to just eliminate them first.
+    if (AdventureDatabase.removedAdventure(this)) {
+      return false;
+    }
+
     // First check non-adventure.php zones.
 
     // Level 3 quest
@@ -390,7 +397,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (trapper.equals(QuestDatabase.FINISHED)) {
         return false;
       }
-
       return trapper.equals("step3")
           || trapper.equals("step4")
           || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
@@ -412,7 +418,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    // Special events
+    /* Removed adventures.
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
       return Preferences.getBoolean("eldritchFissureAvailable");
     }
@@ -420,6 +426,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.adventureId.equals(AdventurePool.ELDRITCH_HORROR_ID)) {
       return Preferences.getBoolean("eldritchHorrorAvailable");
     }
+    */
 
     // Only look at adventure.php locations below this.
     // Further validation for other adventures happens in part2
@@ -427,8 +434,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
+    // Level 2 quest
+    // Level 3 quest
     if (this.zone.equals("Woods")) {
-      // Woods unlocked by first Council Quest
       // *** Validate
     }
 
@@ -987,12 +995,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // The Sea	adventure=210	Mer-kin Colosseum
       // The Sea	adventure=337	The Caliginous Abyss
       // The Sea	mining=3	Anemone Mine (Mining)
-    }
-
-    // There are lots of zones from past events (including Crimbo) that are no
-    // longer available. AdventureDatabase maintains a handy Set of all such.
-    if (AdventureDatabase.removedAdventure(this)) {
-      return false;
     }
 
     // The following zones depend on your clan, your permissions, and the

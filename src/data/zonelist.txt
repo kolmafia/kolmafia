@@ -1,46 +1,36 @@
-1
-# zone	parent	description
+2
+# zone	parent	description	item
 
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
+A Monorail Station	Town	A Monorail Station
 
-Exploathing	Exploathing	Kingdom of Exploathing
-
+# The following are in town but have their own sorting
 Manor	Town	Spookyraven Manor
 Manor0	Manor	Spookyraven (Cellar)
 Manor1	Manor	Spookyraven (First Floor)
 Manor2	Manor	Spookyraven (Second Floor)
 Manor3	Manor	Spookyraven (Third Floor)
-KOL High School	Town	KOL High School
-
-Clan Basement	Clan Basement	Clan Basement
-Hobopolis	Clan Basement	Hobopolis
-Dreadsylvania	Clan Basement	Dreadsylvania
-
-The Sea	The Sea	The Sea
 
 Plains	Plains	Nearby Plains
 Degrassi Knoll	Plains	Inside Degrassi Knoll
 Rift	Plains	Temporal Rift
 Fernswarthy's Tower	Plains	Fernswarthy's Tower
+
+# The following are in the plains but have their own sorting
 Beanstalk	Beanstalk	Above the Beanstalk
-RabbitHole	Plains	Down the Rabbit Hole
-Suburbs	Suburbs	The Suburbs of Dis
-Mothership	Mothership	The Bugbear Mothership
-
 BatHole	BatHole	Bat Hole
-
 Knob	Knob	Cobb's Knob
 Lab	Knob	Cobb's Knob Lab
 Menagerie	Knob	Cobb's Knob Menagerie
-
 Cyrpt	Cyrpt	Defiled Cyrpt
 
 Woods	Woods	Distant Woods
 HiddenCity	Woods	Hidden City
 The Drip	Woods	The Drip
 
-Friars	Friars	Deep Fat Friar's
+# The following are in the woods but have their own sorting
+Friars	Friars	Deep Fat Friars
 Pandamonium	Pandamonium	Pandamonium
 
 Mountain	Mountain	Big Mountains
@@ -48,10 +38,6 @@ McLarge	Mountain	Mt. McLargeHuge
 Dungeon	Mountain	Dungeon Full of Dungeons
 Highlands	Mountain	Highlands
 The Red Zeppelin's Mooring	Mountain	The Red Zeppelin's Mooring
-Nemesis Cave	Mountain	Nemesis Cave
-The Snojo	Mountain	The Snojo
-Gingerbread City	Mountain	Gingerbread City
-The Spacegate	Mountain	The Spacegate
 
 Beach	Beach	Desert Beach
 Pyramid	Beach	Ancient Buried Pyramid
@@ -64,23 +50,49 @@ Farm	IsleWar	McMillicancuddy's Farm
 Orchard	IsleWar	Organic Orchard
 Junkyard	IsleWar	Wartime Junkyard
 
+The Sea	The Sea	The Sea
+
+Campground	Campground	Campground
+
+Clan Basement	Clan Basement	Clan Basement
+Hobopolis	Clan Basement	Hobopolis
+Dreadsylvania	Clan Basement	Dreadsylvania
+
+# Nemesis
+
+Nemesis Cave	Mountain	Nemesis Cave
 Volcano	Volcano	Secret Tropical Island Volcano Lair
 
+# Paths
+
+KOL High School	Town	KOL High School
+Exploathing	Exploathing	Kingdom of Exploathing
+Mothership	Mothership	The Bugbear Mothership
+The Grey Goo Impact Site	The Grey Goo Impact Site	Grey Goo Path
+
+# Zodiac Signs
+
 Signed Zones	Signed Zones	Signed Zones
+
 Gyms	Signed Zones	Clan/Signed Gyms
 MusSign	Signed Zones	Muscle Sign
 MoxSign	Signed Zones	Moxie Sign
 BadMoon	Signed Zones	Bad Moon
-
 Little Canadia	Signed Zones	Little Canadia
 Le Marais D&egrave;gueulasse	Little Canadia	Le Marais D&egrave;gueulasse
 
-Astral	Astral	Astral Plane
-Wormwood	Wormwood	Worm Wood
-Memories	Memories	Memories
-Spaaace	Spaaace	Outer Space
+# The following zones are all opened up via item usage
+# This means they are subject to Standard restrictions
+
+Item-Driven	Item-Driven	Item-Driven Zones
 
 Portal	Portal	El Vibrato Island
+
+RabbitHole	Plains	Down the Rabbit Hole
+Suburbs	Suburbs	The Suburbs of Dis
+Gingerbread City	Mountain	Gingerbread City
+The Spacegate	Mountain	The Spacegate
+The Snojo	Mountain	The Snojo
 
 Antique Maps	Antique Maps	Antique Maps
 Landscaper	Antique Maps	The Landscaper's Lair
@@ -89,9 +101,6 @@ Kegger	Antique Maps	Kegger in the Woods
 Vanya's Castle	Antique Maps	Vanya's Castle
 Magic Commune	Antique Maps	Magic Commune
 Ellsbury's Claim	Antique Maps	Ellsbury's Claim
-
-Psychoses	Psychoses	Psychoses
-Campground	Campground	Campground
 
 Skid Row	Woods	Skid Row
 The Prince's Ball	Woods	The Prince's Ball
@@ -105,12 +114,12 @@ Dinseylandfill	Elemental International Airport	Dinseylandfill
 That 70s Volcano	Elemental International Airport	That 70s Volcano
 The Glaciest	Elemental International Airport	The Glaciest
 
-A Monorail Station	Town	A Monorail Station
-FantasyRealm	A Monorail Station	FantasyRealm
-PirateRealm	A Monorail Station	PirateRealm
-PirateRealm Island	PirateRealm	PirateRealm Island
+Psychoses	Psychoses	Psychoses
 
-Item-Driven	Item-Driven	Item-Driven Zones
+Astral	Astral	Astral Plane
+Wormwood	Wormwood	Worm Wood
+Memories	Memories	Memories
+Spaaace	Spaaace	Outer Space
 
 Spelunky Area	Item-Driven	Spelunky Area
 
@@ -121,16 +130,23 @@ Slums (Moderate Crime)	Batfellow Area	Slums (Moderate Crime)
 Industrial District (High Crime)	Batfellow Area	Industrial District (High Crime)
 Downtown	Batfellow Area	Downtown
 
-The Grey Goo Impact Site	The Grey Goo Impact Site	Grey Goo Path
+FantasyRealm	A Monorail Station	FantasyRealm
+PirateRealm	A Monorail Station	PirateRealm
+PirateRealm Island	PirateRealm	PirateRealm Island
+
+# The following zones do not sort into a higher-level zone
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
-
 Holiday	Unsorted	Holiday Zones
 Override	Unsorted	Discoveries
 
+# The following zones are only available at the whim of KoL
+
 Events	Events	Events
 Twitch	Town	Time-Twitching Tower
+
+# The following zones are all retired Events or Holidays
 
 Removed	Removed	Removed Areas
 
