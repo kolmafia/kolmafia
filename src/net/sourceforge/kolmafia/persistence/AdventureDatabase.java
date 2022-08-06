@@ -113,6 +113,15 @@ public class AdventureDatabase {
           AdventureDatabase.ZONE_DESCRIPTIONS.put(zone, description);
 
           if (data.length == 3) {
+            // Perhaps inherit from parent zone
+            Path apath = ascensionPathZones.get(parent);
+            if (apath != null) {
+              ascensionPathZones.put(zone, apath);
+            }
+            AdventureResult item = itemGeneratedZones.get(parent);
+            if (item != null) {
+              itemGeneratedZones.put(zone, item);
+            }
             continue;
           }
 

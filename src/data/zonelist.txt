@@ -88,7 +88,15 @@ Item-Driven	Item-Driven	Item-Driven Zones
 
 Portal	Portal	El Vibrato Island	El Vibrato trapezoid
 
-RabbitHole	Plains	Down the Rabbit Hole	&quot;DRINK ME&quot; potion
+Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
+Astral	Astral	Astral Plane	astral mushroom
+Memories	Memories	Memories	empty agua de vida bottle
+Spaaace	Spaaace	Outer Space	transporter transponder
+Mountain:Form of Mole	Mountains	Mt. Molehill	llama lama gong
+
+Rabbit Hole	Plains	Down the Rabbit Hole	&quot;DRINK ME&quot; potion
+
+Dungeon:Video Game	Mountains	Video Game Dungeon	GameInformPowerDailyPro walkthru
 
 Suburbs	Suburbs	The Suburbs of Dis	devilish folio
 Gingerbread City	Mountain	Gingerbread City	Build-a-City Gingerbread kit
@@ -96,43 +104,48 @@ The Spacegate	Mountain	The Spacegate	Spacegate access badge
 The Snojo	Mountain	The Snojo	X-32-F snowman crate
 
 Antique Maps	Antique Maps	Antique Maps
-Landscaper	Antique Maps	The Landscaper's Lair
-Jacking	Antique Maps	Prof. Jacking's Lab
-Kegger	Antique Maps	Kegger in the Woods
-Vanya's Castle	Antique Maps	Vanya's Castle
-Magic Commune	Antique Maps	Magic Commune
-Ellsbury's Claim	Antique Maps	Ellsbury's Claim
 
-Skid Row	Woods	Skid Row
-The Prince's Ball	Woods	The Prince's Ball
-Rumpelstiltskin's Home For Children	Woods	Rumpelstiltskin's Home For Children
-The Candy Witch and the Relentless Child Thieves	Woods	The Candy Witch and the Relentless Child Thieves
+Landscaper	Antique Maps	The Landscaper's Lair	map to The Landscaper's Lair
+Jacking	Antique Maps	Prof. Jacking's Lab	map to Professor Jacking's laboratory
+Kegger	Antique Maps	Kegger in the Woods	map to the Kegger in the Woods
+Vanya's Castle	Antique Maps	Vanya's Castle	map to Vanya's Castle
+Magic Commune	Antique Maps	Magic Commune	map to the Magic Commune
+Ellsbury's Claim	Antique Maps	Ellsbury's Claim	map to Ellsbury's Claim
+
+Grimstone:A Deserted Stretch of I-911	Woods	A Deserted Stretch of I-911	grimstone mask
+Grimstone:Skid Row	Woods	Skid Row	grimstone mask
+Grimstone:The Prince's Ball	Woods	The Prince's Ball	grimstone mask
+Grimstone:Rumpelstiltskin's Home For Children	Woods	Rumpelstiltskin's Home For Children	grimstone mask
+Grimstone:The Candy Witch and the Relentless Child Thieves	Woods	The Candy Witch and the Relentless Child Thieves	grimstone mask
 
 Elemental International Airport	Town	Elemental International Airport
-Spring Break Beach	Elemental International Airport	Spring Break Beach
-Conspiracy Island	Elemental International Airport	Conspiracy Island
-Dinseylandfill	Elemental International Airport	Dinseylandfill
-That 70s Volcano	Elemental International Airport	That 70s Volcano
-The Glaciest	Elemental International Airport	The Glaciest
 
-Psychoses	Psychoses	Psychoses
+Spring Break Beach	Elemental International Airport	Spring Break Beach	airplane charter: Spring Break Beach
+Conspiracy Island	Elemental International Airport	Conspiracy Island	airplane charter: Conspiracy Island
+Dinseylandfill	Elemental International Airport	Dinseylandfill	airplane charter: Dinseylandfill
+That 70s Volcano	Elemental International Airport	That 70s Volcano	airplane charter: That 70s Volcano
+The Glaciest	Elemental International Airport	The Glaciest	airplane charter: The Glaciest
 
-Astral	Astral	Astral Plane
-Wormwood	Wormwood	Worm Wood
-Memories	Memories	Memories
-Spaaace	Spaaace	Outer Space
+Psychoses	Psychoses	Psychoses	psychoanalytic jar
+Psychoses:Crackpot Mystic	Psychoses	The Crackpot Mystic's Psychoses	jar of psychoses (The Crackpot Mystic)
+Psychoses:Meatsmith	Psychoses	The Meatsmith's Psychoses	jar of psychoses (The Meatsmith)
+Psychoses:Gourd Captain	Psychoses	The Captain of the Gourd Psychoses	jar of psychoses (The Captain of the Gourd)
+Psychoses:Pretentious Artist	Psychoses	The Pretentious Artist's Psychoses	jar of psychoses (The Pretentious Artist)
+Psychoses:The Old Man	Psychoses	The Old Man's Psychoses	jar of psychoses (The Old Man)
+Psychoses:Suspicious Guy	Psychoses	The Suspicious-Looking Guy's Psychoses	jar of psychoses (The Suspicious-Looking Guy)
+Psychoses:Jick	Psychoses	Jick's Psychoses	jar of psychoses (Jick)
 
-Spelunky Area	Item-Driven	Spelunky Area
+Spelunky Area	Item-Driven	Spelunky Area	Tales of Spelunking
 
-Batfellow Area	Item-Driven	Batfellow Area
-Bat-Cavern	Batfellow Area	Bat-Cavern
-Center Park (Low Crime)	Batfellow Area	Center Park (Low Crime)
-Slums (Moderate Crime)	Batfellow Area	Slums (Moderate Crime)
-Industrial District (High Crime)	Batfellow Area	Industrial District (High Crime)
-Downtown	Batfellow Area	Downtown
+Batfellow Area	Item-Driven	Batfellow Area	Batfellow comic
+Batfellow:Bat-Cavern	Batfellow Area	Bat-Cavern
+Batfellow:Center Park (Low Crime)	Batfellow Area	Center Park (Low Crime)
+Batfellow:Slums (Moderate Crime)	Batfellow Area	Slums (Moderate Crime)
+Batfellow:Industrial District (High Crime)	Batfellow Area	Industrial District (High Crime)
+Batfellow:Downtown	Batfellow Area	Downtown
 
-FantasyRealm	A Monorail Station	FantasyRealm
-PirateRealm	A Monorail Station	PirateRealm
+FantasyRealm	A Monorail Station	FantasyRealm	FantasyRealm membership packet
+PirateRealm	A Monorail Station	PirateRealm	PirateRealm membership packet
 PirateRealm Island	PirateRealm	PirateRealm Island
 
 # The following zones do not sort into a higher-level zone

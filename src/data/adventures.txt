@@ -502,13 +502,13 @@ Town	adventure=495	Env: indoor Stat: 0	Super Villain's Lair
 Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
 Town	adventure=528	Env: indoor Stat: 0	The Neverending Party
 
-Mountain	adventure=177	Env: underground Stat: 0	Mt. Molehill
+Mountain:Form of Mole	adventure=177	Env: underground Stat: 0	Mt. Molehill
 
-Dungeon	adventure=319	Env: indoor Stat: 0	Video Game Level 1
-Dungeon	adventure=320	Env: indoor Stat: 0	Video Game Level 2
-Dungeon	adventure=321	Env: indoor Stat: 0	Video Game Level 3
+Dungeon:Video Game	adventure=319	Env: indoor Stat: 0	Video Game Level 1
+Dungeon:Video Game	adventure=320	Env: indoor Stat: 0	Video Game Level 2
+Dungeon:Video Game	adventure=321	Env: indoor Stat: 0	Video Game Level 3
 
-RabbitHole	adventure=225	Env: outdoor Stat: 0	The Red Queen's Garden	+1 reflection of a map
+Rabbit Hole	adventure=225	Env: outdoor Stat: 0	The Red Queen's Garden	+1 reflection of a map
 
 Suburbs	adventure=277	Env: outdoor Stat: 40	The Clumsiness Grove	1 furious stone, 1 vanity stone
 Suburbs	adventure=278	Env: outdoor Stat: 40	The Maelstrom of Lovers	1 lecherous stone, 1 jealousy stone
@@ -539,42 +539,48 @@ Kegger	adventure=231	Env: outdoor	Kegger in the Woods
 Magic Commune	adventure=232	Env: outdoor	The Electric Lemonade Acid Parade
 Ellsbury's Claim	adventure=236	Env: outdoor	Neckback Crick
 
-Psychoses	adventure=301	Env: outdoor	Anger Man's Level
-Psychoses	adventure=302	Env: outdoor	Fear Man's Level	1 digital key
-Psychoses	adventure=303	Env: outdoor	Doubt Man's Level
-Psychoses	adventure=304	Env: outdoor	Regret Man's Level
-Psychoses	adventure=305	Env: underground	The Nightmare Meatrealm
-Psychoses	adventure=306	Env: indoor	A Kitchen Drawer
-Psychoses	adventure=307	Env: indoor	A Grocery Bag
-Psychoses	adventure=309	Env: outdoor	Chinatown Shops	1 zaibatsu lobby card
-Psychoses	adventure=310	Env: indoor	Triad Factory	1 strange goggles
-Psychoses	adventure=311	Env: indoor	1st Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 2 card
-Psychoses	adventure=312	Env: indoor	2nd Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 3 card
-Psychoses	adventure=313	Env: indoor	3rd Floor, Shiawase-Mitsuhama Building	1 CEO office card
-Psychoses	adventure=314	Env: indoor	Chinatown Tenement	30 gold piece
-Psychoses	adventure=316	Env: outdoor	The Gourd!
-Psychoses	adventure=317	Env: indoor	The Tower of Procedurally-Generated Skeletons
-Psychoses	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
+Psychoses:Crackpot Mystic	adventure=301	Env: outdoor	Anger Man's Level
+Psychoses:Crackpot Mystic	adventure=302	Env: outdoor	Fear Man's Level	1 digital key
+Psychoses:Crackpot Mystic	adventure=303	Env: outdoor	Doubt Man's Level
+Psychoses:Crackpot Mystic	adventure=304	Env: outdoor	Regret Man's Level
 
-Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
-Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
+Psychoses:Meatsmith	adventure=305	Env: underground	The Nightmare Meatrealm
 
-The Candy Witch and the Relentless Child Thieves	adventure=370	Env: outdoor Stat: 0	Sweet-Ade Lake
-The Candy Witch and the Relentless Child Thieves	adventure=371	Env: outdoor Stat: 0	Eager Rice Burrows
-The Candy Witch and the Relentless Child Thieves	adventure=372	Env: outdoor Stat: 0	Gumdrop Forest
+Psychoses:Pretentious Artist	adventure=306	Env: indoor	A Kitchen Drawer
+Psychoses:Pretentious Artist	adventure=307	Env: indoor	A Grocery Bag
 
-Woods	adventure=373	Env: outdoor Stat: 0	A Deserted Stretch of I-911
+Psychoses:Suspicious Guy	adventure=309	Env: outdoor	Chinatown Shops	1 zaibatsu lobby card
+Psychoses:Suspicious Guy	adventure=310	Env: indoor	Triad Factory	1 strange goggles
+Psychoses:Suspicious Guy	adventure=311	Env: indoor	1st Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 2 card
+Psychoses:Suspicious Guy	adventure=312	Env: indoor	2nd Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 3 card
+Psychoses:Suspicious Guy	adventure=313	Env: indoor	3rd Floor, Shiawase-Mitsuhama Building	1 CEO office card
+Psychoses:Suspicious Guy	adventure=314	Env: indoor	Chinatown Tenement	30 gold piece
 
-The Prince's Ball	adventure=374	Env: indoor Stat: 0	The Prince's Restroom
-The Prince's Ball	adventure=375	Env: indoor Stat: 0	The Prince's Dance Floor
-The Prince's Ball	adventure=376	Env: indoor Stat: 0	The Prince's Kitchen
-The Prince's Ball	adventure=377	Env: outdoor Stat: 0	The Prince's Balcony
-The Prince's Ball	adventure=378	Env: indoor Stat: 0	The Prince's Lounge
-The Prince's Ball	adventure=379	Env: indoor Stat: 0	The Prince's Canapes Table
+Psychoses:Gourd Captain	adventure=316	Env: outdoor	The Gourd!
 
-Rumpelstiltskin's Home For Children	adventure=380	Env: outdoor Stat: 0	Ye Olde Medievale Villagee
-Rumpelstiltskin's Home For Children	adventure=381	Env: outdoor Stat: 0	Portal to Terrible Parents
-Rumpelstiltskin's Home For Children	adventure=382	Env: none nowander Stat: 0	Rumpelstiltskin's Workshop
+Psychoses:Jick	adventure=317	Env: indoor	The Tower of Procedurally-Generated Skeletons
+
+Psychoses:The Old Man	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
+
+Grimstone:Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
+Grimstone:Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
+
+Grimstone:The Candy Witch and the Relentless Child Thieves	adventure=370	Env: outdoor Stat: 0	Sweet-Ade Lake
+Grimstone:The Candy Witch and the Relentless Child Thieves	adventure=371	Env: outdoor Stat: 0	Eager Rice Burrows
+Grimstone:The Candy Witch and the Relentless Child Thieves	adventure=372	Env: outdoor Stat: 0	Gumdrop Forest
+
+Grimstone:A Deserted Stretch of I-911	adventure=373	Env: outdoor Stat: 0	A Deserted Stretch of I-911
+
+Grimstone:The Prince's Ball	adventure=374	Env: indoor Stat: 0	The Prince's Restroom
+Grimstone:The Prince's Ball	adventure=375	Env: indoor Stat: 0	The Prince's Dance Floor
+Grimstone:The Prince's Ball	adventure=376	Env: indoor Stat: 0	The Prince's Kitchen
+Grimstone:The Prince's Ball	adventure=377	Env: outdoor Stat: 0	The Prince's Balcony
+Grimstone:The Prince's Ball	adventure=378	Env: indoor Stat: 0	The Prince's Lounge
+Grimstone:The Prince's Ball	adventure=379	Env: indoor Stat: 0	The Prince's Canapes Table
+
+Grimstone:Rumpelstiltskin's Home For Children	adventure=380	Env: outdoor Stat: 0	Ye Olde Medievale Villagee
+Grimstone:Rumpelstiltskin's Home For Children	adventure=381	Env: outdoor Stat: 0	Portal to Terrible Parents
+Grimstone:Rumpelstiltskin's Home For Children	adventure=382	Env: none nowander Stat: 0	Rumpelstiltskin's Workshop
 
 Spring Break Beach	adventure=402	Env: indoor Stat: 0	The Fun-Guy Mansion
 Spring Break Beach	adventure=403	Env: indoor Stat: 0	Sloppy Seconds Diner	4 choiceadv
@@ -613,19 +619,19 @@ Spelunky Area	adventure=434	Env: none nowander Stat: 0	The City of Goooold
 Spelunky Area	adventure=435	Env: none nowander Stat: 0	LOLmec's Lair
 Spelunky Area	adventure=436	Env: none nowander Stat: 0	Yomama's Throne
 
-Center Park (Low Crime)	adventure=461	Env: none nowander Stat: 0	Center Park After Dark
-Slums (Moderate Crime)	adventure=462	Env: none nowander Stat: 0	The Mean Streets
-Industrial District (High Crime)	adventure=463	Env: none nowander Stat: 0	Warehouse Row
-Center Park (Low Crime)	adventure=464	Env: none nowander Stat: 0	Gotpork Conservatory of Flowers
-Center Park (Low Crime)	adventure=465	Env: none nowander Stat: 0	Gotpork Municipal Reservoir
-Center Park (Low Crime)	adventure=466	Env: none nowander Stat: 0	Gotpork Gardens Cemetery
-Slums (Moderate Crime)	adventure=467	Env: none nowander Stat: 0	Gotpork City Sewers
-Slums (Moderate Crime)	adventure=468	Env: none nowander Stat: 0	Porkham Asylum
-Slums (Moderate Crime)	adventure=469	Env: none nowander Stat: 0	The Old Gotpork Library
-Industrial District (High Crime)	adventure=470	Env: none nowander Stat: 0	Gotpork Clock, Inc.
-Industrial District (High Crime)	adventure=471	Env: none nowander Stat: 0	Gotpork Foundry
-Industrial District (High Crime)	adventure=472	Env: none nowander Stat: 0	Trivial Pursuits, LLC
-Downtown	adventure=473	Env: none nowander Stat: 0	JokesterCo
+Batfellow:Center Park (Low Crime)	adventure=461	Env: none nowander Stat: 0	Center Park After Dark
+Batfellow:Slums (Moderate Crime)	adventure=462	Env: none nowander Stat: 0	The Mean Streets
+Batfellow:Industrial District (High Crime)	adventure=463	Env: none nowander Stat: 0	Warehouse Row
+Batfellow:Center Park (Low Crime)	adventure=464	Env: none nowander Stat: 0	Gotpork Conservatory of Flowers
+Batfellow:Center Park (Low Crime)	adventure=465	Env: none nowander Stat: 0	Gotpork Municipal Reservoir
+Batfellow:Center Park (Low Crime)	adventure=466	Env: none nowander Stat: 0	Gotpork Gardens Cemetery
+Batfellow:Slums (Moderate Crime)	adventure=467	Env: none nowander Stat: 0	Gotpork City Sewers
+Batfellow:Slums (Moderate Crime)	adventure=468	Env: none nowander Stat: 0	Porkham Asylum
+Batfellow:Slums (Moderate Crime)	adventure=469	Env: none nowander Stat: 0	The Old Gotpork Library
+Batfellow:Industrial District (High Crime)	adventure=470	Env: none nowander Stat: 0	Gotpork Clock, Inc.
+Batfellow:Industrial District (High Crime)	adventure=471	Env: none nowander Stat: 0	Gotpork Foundry
+Batfellow:Industrial District (High Crime)	adventure=472	Env: none nowander Stat: 0	Trivial Pursuits, LLC
+Batfellow:Downtown	adventure=473	Env: none nowander Stat: 0	JokesterCo
 
 The Snojo	adventure=460	Env: indoor nowander	The X-32-F Combat Training Snowman
 
