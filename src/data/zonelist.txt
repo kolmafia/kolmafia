@@ -1,5 +1,5 @@
 2
-# zone	parent	description	item
+# zone	parent	description	[item or path]
 
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
@@ -63,12 +63,12 @@ Dreadsylvania	Clan Basement	Dreadsylvania
 Nemesis Cave	Mountain	Nemesis Cave
 Volcano	Volcano	Secret Tropical Island Volcano Lair
 
-# Paths
+# Ascension Paths
 
-KOL High School	Town	KOL High School
-Exploathing	Exploathing	Kingdom of Exploathing
-Mothership	Mothership	The Bugbear Mothership
-The Grey Goo Impact Site	The Grey Goo Impact Site	Grey Goo Path
+KOL High School	Town	KOL High School	KOLHS
+Exploathing	Exploathing	Kingdom of Exploathing	Kingdom of Exploathing
+Mothership	Mothership	The Bugbear Mothership	Bugbear Invasion
+The Grey Goo Impact Site	The Grey Goo Impact Site	Grey Goo	Grey Goo
 
 # Zodiac Signs
 
@@ -86,13 +86,14 @@ Le Marais D&egrave;gueulasse	Little Canadia	Le Marais D&egrave;gueulasse
 
 Item-Driven	Item-Driven	Item-Driven Zones
 
-Portal	Portal	El Vibrato Island
+Portal	Portal	El Vibrato Island	El Vibrato trapezoid
 
-RabbitHole	Plains	Down the Rabbit Hole
-Suburbs	Suburbs	The Suburbs of Dis
-Gingerbread City	Mountain	Gingerbread City
-The Spacegate	Mountain	The Spacegate
-The Snojo	Mountain	The Snojo
+RabbitHole	Plains	Down the Rabbit Hole	&quot;DRINK ME&quot; potion
+
+Suburbs	Suburbs	The Suburbs of Dis	devilish folio
+Gingerbread City	Mountain	Gingerbread City	Build-a-City Gingerbread kit
+The Spacegate	Mountain	The Spacegate	Spacegate access badge
+The Snojo	Mountain	The Snojo	X-32-F snowman crate
 
 Antique Maps	Antique Maps	Antique Maps
 Landscaper	Antique Maps	The Landscaper's Lair

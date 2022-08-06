@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.combat.Macrofier;
@@ -33,6 +34,7 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -372,6 +374,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return false;
     }
 
+    // Some zones are restricted to a specific Ascension Path.
+    Path path = AdventureDatabase.zoneAscensionPath(this.zone);
+    if (path != null && path != KoLCharacter.getPath()) {
+      return false;
+    }
+    // Further validation of individual zones happens below.
+
     // First check non-adventure.php zones.
 
     // Level 3 quest
@@ -626,14 +635,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // *** Protector Spectre
 
     if (this.adventureNumber == AdventurePool.HIDDEN_TEMPLE) {
-      if (KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked()) {
-        return true;
-      }
-
-      // Visit the distant woods and take a look.
-      // *** Why do we do this?
-      RequestThread.postRequest(new GenericRequest("woods"));
-      return KoLCharacter.getTempleUnlocked();
+      return KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked();
     }
 
     if (this.zone.equals("HiddenCity")) {
@@ -733,6 +735,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // Quest.ISLAND_WAR progresses from "unstarted" -> "started" -> "step1" -> "finished"
+      // "unstarted" is the peaceful Mysterious Island
       // "started" is the Verge of War on the Mysterious Island
       // "step1" is the actual war on the Big Island
       // "finished" is the peaceful Big Island
@@ -1055,6 +1058,21 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Clan Basement
     // Hobopolis
     // Dreadsylvania
+
+    // Some adventuring areas are available via items.
+    AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
+    if (item == null) {
+      // If it is not from an item, assume it is fine
+      return true;
+    }
+
+    // It is from an item. Standard restrictions probably apply.
+    if (KoLCharacter.getRestricted() && !StandardRequest.isAllowed("Items", item.getName())) {
+      return false;
+    }
+
+    // Item is not restricted.
+    // *** Validate
 
     return true;
   }

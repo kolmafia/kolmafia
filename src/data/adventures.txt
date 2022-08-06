@@ -69,9 +69,6 @@ Plains	adventure=21	Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 po
 Plains	adventure=58	Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
 Plains	adventure=386	Env: outdoor Stat: 120	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
 
-Fernswarthy's Tower	adventure=22	Env: outdoor Stat: 11	Tower Ruins	1 disembodied brain
-Fernswarthy's Tower	basement=0	Env: none Stat: 0	Fernswarthy's Basement
-
 BatHole	adventure=30	Env: underground Stat: 13	The Bat Hole Entrance	1 Pine-Fresh air freshener
 BatHole	adventure=31	Env: underground Stat: 13	Guano Junction	3 sonar-in-a-biscuit|+1 Eau de Guaneau
 BatHole	adventure=32	Env: underground Stat: 13	The Batrat and Ratbat Burrow	+1 Dogsgotnonoz pills|The Stankara Stone
@@ -94,6 +91,9 @@ Menagerie	adventure=53	Env: underground Stat: 45	Cobb's Knob Menagerie, Level 3	
 Rift	adventure=85	Env: outdoor Stat: 0	Battlefield (No Uniform)	Cloaca-Cola helmet, Cloaca-Cola fatigues, Cloaca-Cola shield|Dyspepsi-Cola helmet, Dyspepsi-Cola fatigues, Dyspepsi-Cola shield|six-pack of New Cloaca-Cola
 Rift	adventure=86	Env: outdoor Stat: 30	Battlefield (Cloaca Uniform)
 Rift	adventure=87	Env: outdoor Stat: 30	Battlefield (Dyspepsi Uniform)
+
+Fernswarthy's Tower	adventure=22	Env: outdoor Stat: 11	Tower Ruins	1 disembodied brain
+Fernswarthy's Tower	basement=0	Env: none Stat: 0	Fernswarthy's Basement
 
 Cyrpt	adventure=264	Env: underground Stat: 40	The Defiled Nook	1 evil eye
 Cyrpt	adventure=262	Env: underground Stat: 40	The Defiled Cranny
@@ -148,12 +148,11 @@ Mountain	barrel=0	Env: none Stat: 0	The Barrel Full of Barrels
 Mountain	adventure=295	Env: outdoor Stat: 75	The Smut Orc Logging Camp	30 any plank|The Lacrosse Stick of Lacoronado
 Mountain	adventure=387	Env: indoor Stat: 0	The Thinknerd Warehouse	Professor What garment
 
-The Red Zeppelin's Mooring	adventure=384	Env: outdoor Stat: 125	A Mob of Zeppelin Protesters
-The Red Zeppelin's Mooring	adventure=385	Env: indoor Stat: 150	The Red Zeppelin	1 Copperhead Charm (rampant)
-
-Highlands	adventure=296	Env: outdoor Stat: 75	A-Boo Peak	3 A-Boo clue
-Highlands	adventure=297	Env: outdoor Stat: 90	Twin Peak	1 gold wedding ring
-Highlands	adventure=298	Env: outdoor Stat: 85	Oil Peak	1 jar of oil|oil cap, oil lamp, oil slacks|oil cap, oil lamp, oil slacks, oily boid, oil pan
+Dungeon	adventure=138	Env: underground Stat: 5	The Haiku Dungeon	1 choiceadv
+Dungeon	adventure=19	Env: underground Stat: 19	The Limerick Dungeon	1 dungeoneer's dungarees|+1 cyclops eyedrops
+Dungeon	adventure=226	Env: underground Stat: 44	The Enormous Greater-Than Sign	1 plus sign, +1 autostop
+Dungeon	adventure=39	Env: underground Stat: 44	The Dungeons of Doom	1 dead mimic
+Dungeon	adventure=325	Env: underground Stat: 15 nowander	The Daily Dungeon
 
 McLarge	adventure=270	Env: underground Stat: 60	Itznotyerzitz Mine	outfit
 McLarge	adventure=271	Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
@@ -165,11 +164,12 @@ McLarge	adventure=176	Env: underground Stat: 0	The Mine Foremens' Office	1 dwarv
 McLarge	dwarffactory=0	Env: none Stat: 0	Dwarven Factory Warehouse
 McLarge	mining=1	Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
 
-Dungeon	adventure=138	Env: underground Stat: 5	The Haiku Dungeon	1 choiceadv
-Dungeon	adventure=19	Env: underground Stat: 19	The Limerick Dungeon	1 dungeoneer's dungarees|+1 cyclops eyedrops
-Dungeon	adventure=226	Env: underground Stat: 44	The Enormous Greater-Than Sign	1 plus sign, +1 autostop
-Dungeon	adventure=39	Env: underground Stat: 44	The Dungeons of Doom	1 dead mimic
-Dungeon	adventure=325	Env: underground Stat: 15 nowander	The Daily Dungeon
+Highlands	adventure=296	Env: outdoor Stat: 75	A-Boo Peak	3 A-Boo clue
+Highlands	adventure=297	Env: outdoor Stat: 90	Twin Peak	1 gold wedding ring
+Highlands	adventure=298	Env: outdoor Stat: 85	Oil Peak	1 jar of oil|oil cap, oil lamp, oil slacks|oil cap, oil lamp, oil slacks, oily boid, oil pan
+
+The Red Zeppelin's Mooring	adventure=384	Env: outdoor Stat: 125	A Mob of Zeppelin Protesters
+The Red Zeppelin's Mooring	adventure=385	Env: indoor Stat: 150	The Red Zeppelin	1 Copperhead Charm (rampant)
 
 # Woods areas.
 
@@ -296,6 +296,43 @@ Volcano	adventure=218	Env: indoor Stat: 140	Convention Hall Lobby	6 vial of blue
 Volcano	adventure=219	Env: outdoor Stat: 140	Outside the Club	1 rave visor, 1 glowstick on a string, 1 candy necklace, 1 pacifier necklace, 1 teddybear backpack
 Volcano	adventure=220	Env: indoor Stat: 140	The Island Barracks	5 hacienda key
 Volcano	adventure=221	Env: underground Stat: 175	The Nemesis' Lair
+
+# Ascension Path Areas
+
+# Bugbear Invasion Path
+
+Mothership	adventure=281	Env: indoor Stat: 0	Medbay
+Mothership	adventure=282	Env: indoor Stat: 0	Waste Processing
+Mothership	adventure=283	Env: indoor Stat: 25	Sonar
+Mothership	adventure=284	Env: indoor Stat: 50	Science Lab
+Mothership	adventure=285	Env: indoor Stat: 60	Morgue
+Mothership	adventure=286	Env: indoor Stat: 90	Special Ops
+Mothership	adventure=287	Env: indoor Stat: 130	Engineering
+Mothership	adventure=288	Env: indoor Stat: 155	Navigation
+Mothership	adventure=289	Env: indoor Stat: 210	Galley
+
+# KoL High School path
+
+KOL High School	adventure=326	Env: indoor Stat: 0	The Hallowed Halls
+KOL High School	adventure=327	Env: indoor Stat: 0	Shop Class
+KOL High School	adventure=328	Env: indoor Stat: 0	Chemistry Class
+KOL High School	adventure=329	Env: indoor Stat: 0	Art Class
+
+# Kingdom of Exploathing path
+
+Exploathing	adventure=533	Env: outdoor Stat: 0	The Exploaded Battlefield
+Exploathing	adventure=534	Env: outdoor Stat: 0	The Invader
+
+# Grey Goo path
+
+The Grey Goo Impact Site	adventure=545	Env: unknown Stat: 0	The Goo Fields
+The Grey Goo Impact Site	adventure=546	Env: unknown Stat: 0	The Goo-Choked Fun House
+The Grey Goo Impact Site	adventure=547	Env: unknown Stat: 0	The Goo-Coated Knob
+The Grey Goo Impact Site	adventure=548	Env: unknown Stat: 0	The Goo-Spewing Bat Hole
+The Grey Goo Impact Site	adventure=549	Env: unknown Stat: 0	The Goo-Bedecked Beanstalk
+The Grey Goo Impact Site	adventure=550	Env: unknown Stat: 0	The Goo-Shrouded Palindome
+The Grey Goo Impact Site	adventure=551	Env: unknown Stat: 0	The Goo-Girded Garves
+The Grey Goo Impact Site	adventure=552	Env: unknown Stat: 0	The Goo-Splattered Tower Ruins
 
 # Zodiac sign areas
 
@@ -651,38 +688,3 @@ PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Storm Island
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Red Roger's Fortress
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Jack's Hideout
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	The Temple
-
-# Bugbear Invasion Path
-
-Mothership	adventure=281	Env: indoor Stat: 0	Medbay
-Mothership	adventure=282	Env: indoor Stat: 0	Waste Processing
-Mothership	adventure=283	Env: indoor Stat: 25	Sonar
-Mothership	adventure=284	Env: indoor Stat: 50	Science Lab
-Mothership	adventure=285	Env: indoor Stat: 60	Morgue
-Mothership	adventure=286	Env: indoor Stat: 90	Special Ops
-Mothership	adventure=287	Env: indoor Stat: 130	Engineering
-Mothership	adventure=288	Env: indoor Stat: 155	Navigation
-Mothership	adventure=289	Env: indoor Stat: 210	Galley
-
-# KoL High School path
-
-KOL High School	adventure=326	Env: indoor Stat: 0	The Hallowed Halls
-KOL High School	adventure=327	Env: indoor Stat: 0	Shop Class
-KOL High School	adventure=328	Env: indoor Stat: 0	Chemistry Class
-KOL High School	adventure=329	Env: indoor Stat: 0	Art Class
-
-# Kingdom of Exploathing path
-
-Exploathing	adventure=533	Env: outdoor Stat: 0	The Exploaded Battlefield
-Exploathing	adventure=534	Env: outdoor Stat: 0	The Invader
-
-# Grey Goo path
-
-The Grey Goo Impact Site	adventure=545	Env: unknown Stat: 0	The Goo Fields
-The Grey Goo Impact Site	adventure=546	Env: unknown Stat: 0	The Goo-Choked Fun House
-The Grey Goo Impact Site	adventure=547	Env: unknown Stat: 0	The Goo-Coated Knob
-The Grey Goo Impact Site	adventure=548	Env: unknown Stat: 0	The Goo-Spewing Bat Hole
-The Grey Goo Impact Site	adventure=549	Env: unknown Stat: 0	The Goo-Bedecked Beanstalk
-The Grey Goo Impact Site	adventure=550	Env: unknown Stat: 0	The Goo-Shrouded Palindome
-The Grey Goo Impact Site	adventure=551	Env: unknown Stat: 0	The Goo-Girded Garves
-The Grey Goo Impact Site	adventure=552	Env: unknown Stat: 0	The Goo-Splattered Tower Ruins

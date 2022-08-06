@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import java.util.HashMap;
 import java.util.Map;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -40,6 +42,27 @@ public class KoLAdventureValidationTest {
   @AfterAll
   private static void afterAll() {
     Preferences.saveSettingsToFile = true;
+  }
+
+  @Nested
+  class BugbearInvasion {
+    @Test
+    public void cannotVisitMothershipUnlessBugbearsAreInvading() {
+      var cleanups = new Cleanups(withPath(Path.NONE));
+      try (cleanups) {
+        KoLAdventure area = AdventureDatabase.getAdventureByName("Medbay");
+        assertFalse(area.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitMothershipUnlessBugbearsAreInvading() {
+      var cleanups = new Cleanups(withPath(Path.BUGBEAR_INVASION));
+      try (cleanups) {
+        KoLAdventure area = AdventureDatabase.getAdventureByName("Medbay");
+        assertTrue(area.isCurrentlyAccessible());
+      }
+    }
   }
 
   @Nested
@@ -91,6 +114,15 @@ public class KoLAdventureValidationTest {
     @AfterAll
     private static void afterAll() {
       zones.clear();
+    }
+
+    @Test
+    public void cannotVisitHippyCampWithoutIslandAccess() {
+      assertFalse(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
     }
 
     @Test
@@ -295,6 +327,15 @@ public class KoLAdventureValidationTest {
     @AfterAll
     private static void afterAll() {
       zones.clear();
+    }
+
+    @Test
+    public void cannotVisitFratHouseWithoutIslandAccess() {
+      assertFalse(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
     }
 
     @Test
