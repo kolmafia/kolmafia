@@ -191,6 +191,7 @@ public class AdventurePool {
   public static final int THE_BEEHIVE = 432;
   public static final int THE_CRASHED_UFO = 433;
   public static final int THE_CITY_OF_GOOOOLD = 434;
+  public static final int SECRET_COUNCIL_WAREHOUSE = 437;
   public static final int PANDAMONIUM = 438;
   public static final int SKELETON_STORE = 438;
   public static final int MADNESS_BAKERY = 440;

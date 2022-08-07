@@ -534,6 +534,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // **** item validation
+      // Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
       // Town	adventure=458	The Deep Machine Tunnels
       // Town	adventure=474	Investigating a Plaintive Telegram
       // Town	adventure=528	The Neverending Party
@@ -549,6 +550,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.VALLEY_OF_ROF_LM_FAO -> QuestDatabase.isQuestFinished(Quest.TOPPING);
           // The Thinknerd Warehouse: Unlocks when reading (receiving?) Letter for Melvign the Gnome
         case AdventurePool.THINKNERD_WAREHOUSE -> QuestDatabase.isQuestStarted(Quest.SHIRT);
+          // The Secret Council Warehouse is near the end of an Ed the Undying run
+        case AdventurePool.SECRET_COUNCIL_WAREHOUSE -> KoLCharacter.isEd()
+            && KoLCharacter.getLevel() >= 13;
           // Allow future "Mountain" zones
         default -> true;
       };
@@ -570,7 +574,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Opens at level two with first council quest
     if (this.zone.equals("Woods")) {
-      // *** Validate
       // With the exception of a few challenge paths, the Woods open when
       // the Council asks for a mosquito larva at level two.
       return switch (this.adventureNumber) {
