@@ -33,8 +33,8 @@ public class DaycareCommand extends AbstractCommand {
       RequestThread.postRequest(
           new GenericRequest("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1334&option=3"));
-      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1334&option=2"));
-      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1334&option=5"));
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1336&option=2"));
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1336&option=5"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1334&option=4"));
     } else {
       int choice = 0;

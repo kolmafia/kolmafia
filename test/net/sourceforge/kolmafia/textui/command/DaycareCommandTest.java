@@ -126,8 +126,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
     assertPostRequest(
         requests.get(0), "/place.php", "whichplace=town_wrong&action=townwrong_boxingdaycare");
     assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1334&option=3");
-    assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1334&option=2");
-    assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1334&option=5");
+    assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1336&option=2");
+    assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1336&option=5");
     assertPostRequest(requests.get(4), "/choice.php", "whichchoice=1334&option=4");
   }
 
@@ -146,8 +146,8 @@ public class DaycareCommandTest extends AbstractCommandTestBase {
     assertPostRequest(
         requests.get(0), "/place.php", "whichplace=town_wrong&action=townwrong_boxingdaycare");
     assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1334&option=3");
-    assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1334&option=2");
-    assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1334&option=5");
+    assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1336&option=2");
+    assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1336&option=5");
     assertPostRequest(requests.get(4), "/choice.php", "whichchoice=1334&option=4");
   }
 
