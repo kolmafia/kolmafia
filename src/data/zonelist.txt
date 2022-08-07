@@ -96,7 +96,7 @@ Mountain:Form of Mole	Mountain	Mt. Molehill	llama lama gong
 
 Rabbit Hole	Plains	Down the Rabbit Hole	&quot;DRINK ME&quot; potion
 
-Dungeon:Video Game	Mountain	Video Game Dungeon	GameInformPowerDailyPro walkthru
+Video Game Dungeon	Mountain	Video Game Dungeon	GameInformPowerDailyPro walkthru
 
 Suburbs	Suburbs	The Suburbs of Dis	devilish folio
 Gingerbread City	Mountain	Gingerbread City	Build-a-City Gingerbread kit
@@ -112,11 +112,11 @@ Vanya's Castle	Antique Maps	Vanya's Castle	map to Vanya's Castle
 Magic Commune	Antique Maps	Magic Commune	map to the Magic Commune
 Ellsbury's Claim	Antique Maps	Ellsbury's Claim	map to Ellsbury's Claim
 
-Grimstone:A Deserted Stretch of I-911	Woods	A Deserted Stretch of I-911	grimstone mask
-Grimstone:Skid Row	Woods	Skid Row	grimstone mask
-Grimstone:The Prince's Ball	Woods	The Prince's Ball	grimstone mask
-Grimstone:Rumpelstiltskin's Home For Children	Woods	Rumpelstiltskin's Home For Children	grimstone mask
-Grimstone:The Candy Witch and the Relentless Child Thieves	Woods	The Candy Witch and the Relentless Child Thieves	grimstone mask
+A Deserted Stretch of I-911	Woods	A Deserted Stretch of I-911	grimstone mask
+Skid Row	Woods	Skid Row	grimstone mask
+The Prince's Ball	Woods	The Prince's Ball	grimstone mask
+Rumpelstiltskin's Home For Children	Woods	Rumpelstiltskin's Home For Children	grimstone mask
+The Candy Witch and the Relentless Child Thieves	Woods	The Candy Witch and the Relentless Child Thieves	grimstone mask
 
 Elemental International Airport	Town	Elemental International Airport
 
@@ -127,13 +127,13 @@ That 70s Volcano	Elemental International Airport	That 70s Volcano	airplane chart
 The Glaciest	Elemental International Airport	The Glaciest	airplane charter: The Glaciest
 
 Psychoses	Psychoses	Psychoses	psychoanalytic jar
-Psychoses:Crackpot Mystic	Psychoses	The Crackpot Mystic's Psychoses	jar of psychoses (The Crackpot Mystic)
-Psychoses:Meatsmith	Psychoses	The Meatsmith's Psychoses	jar of psychoses (The Meatsmith)
-Psychoses:Gourd Captain	Psychoses	The Captain of the Gourd Psychoses	jar of psychoses (The Captain of the Gourd)
-Psychoses:Pretentious Artist	Psychoses	The Pretentious Artist's Psychoses	jar of psychoses (The Pretentious Artist)
-Psychoses:The Old Man	Psychoses	The Old Man's Psychoses	jar of psychoses (The Old Man)
-Psychoses:Suspicious Guy	Psychoses	The Suspicious-Looking Guy's Psychoses	jar of psychoses (The Suspicious-Looking Guy)
-Psychoses:Jick	Psychoses	Jick's Psychoses	jar of psychoses (Jick)
+The Crackpot Mystic's Psychoses	Psychoses	The Crackpot Mystic's Psychoses	jar of psychoses (The Crackpot Mystic)
+The Meatsmith's Brainspace	Psychoses	The Meatsmith's Psychoses	jar of psychoses (The Meatsmith)
+The Captain of the Gourd's Psychoses	Psychoses	The Captain of the Gourd Psychoses	jar of psychoses (The Captain of the Gourd)
+The Pretentious Artist's Obsession	Psychoses	The Pretentious Artist's Psychoses	jar of psychoses (The Pretentious Artist)
+The Old Man's Past	Psychoses	jar of psychoses (The Old Man)
+The Suspicious-Looking Guy's Shady Past	Psychoses	The Suspicious-Looking Guy's Psychoses	jar of psychoses (The Suspicious-Looking Guy)
+Jick's Obsessions	Psychoses	Jick's Psychoses	jar of psychoses (Jick)
 
 Spelunky Area	Item-Driven	Spelunky Area	Tales of Spelunking
 

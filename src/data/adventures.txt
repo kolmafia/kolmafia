@@ -510,9 +510,9 @@ Town	adventure=528	Env: indoor Stat: 0	The Neverending Party
 
 Mountain:Form of Mole	adventure=177	Env: underground Stat: 0	Mt. Molehill
 
-Dungeon:Video Game	adventure=319	Env: indoor Stat: 0	Video Game Level 1
-Dungeon:Video Game	adventure=320	Env: indoor Stat: 0	Video Game Level 2
-Dungeon:Video Game	adventure=321	Env: indoor Stat: 0	Video Game Level 3
+Video Game Dungeon	adventure=319	Env: indoor Stat: 0	Video Game Level 1
+Video Game Dungeon	adventure=320	Env: indoor Stat: 0	Video Game Level 2
+Video Game Dungeon	adventure=321	Env: indoor Stat: 0	Video Game Level 3
 
 Rabbit Hole	adventure=225	Env: outdoor Stat: 0	The Red Queen's Garden	+1 reflection of a map
 
@@ -545,48 +545,48 @@ Kegger	adventure=231	Env: outdoor	Kegger in the Woods
 Magic Commune	adventure=232	Env: outdoor	The Electric Lemonade Acid Parade
 Ellsbury's Claim	adventure=236	Env: outdoor	Neckback Crick
 
-Psychoses:Crackpot Mystic	adventure=301	Env: outdoor	Anger Man's Level
-Psychoses:Crackpot Mystic	adventure=302	Env: outdoor	Fear Man's Level	1 digital key
-Psychoses:Crackpot Mystic	adventure=303	Env: outdoor	Doubt Man's Level
-Psychoses:Crackpot Mystic	adventure=304	Env: outdoor	Regret Man's Level
+The Crackpot Mystic's Psychoses	adventure=301	Env: outdoor	Anger Man's Level
+The Crackpot Mystic's Psychoses	adventure=302	Env: outdoor	Fear Man's Level	1 digital key
+The Crackpot Mystic's Psychoses	adventure=303	Env: outdoor	Doubt Man's Level
+The Crackpot Mystic's Psychoses	adventure=304	Env: outdoor	Regret Man's Level
 
-Psychoses:Meatsmith	adventure=305	Env: underground	The Nightmare Meatrealm
+The Meatsmith's Brainspace	adventure=305	Env: underground	The Nightmare Meatrealm
 
-Psychoses:Pretentious Artist	adventure=306	Env: indoor	A Kitchen Drawer
-Psychoses:Pretentious Artist	adventure=307	Env: indoor	A Grocery Bag
+The Pretentious Artist's Obsession	adventure=306	Env: indoor	A Kitchen Drawer
+The Pretentious Artist's Obsession	adventure=307	Env: indoor	A Grocery Bag
 
-Psychoses:Suspicious Guy	adventure=309	Env: outdoor	Chinatown Shops	1 zaibatsu lobby card
-Psychoses:Suspicious Guy	adventure=310	Env: indoor	Triad Factory	1 strange goggles
-Psychoses:Suspicious Guy	adventure=311	Env: indoor	1st Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 2 card
-Psychoses:Suspicious Guy	adventure=312	Env: indoor	2nd Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 3 card
-Psychoses:Suspicious Guy	adventure=313	Env: indoor	3rd Floor, Shiawase-Mitsuhama Building	1 CEO office card
-Psychoses:Suspicious Guy	adventure=314	Env: indoor	Chinatown Tenement	30 gold piece
+The Suspicious-Looking Guy's Shady Past	adventure=309	Env: outdoor	Chinatown Shops	1 zaibatsu lobby card
+The Suspicious-Looking Guy's Shady Past	adventure=310	Env: indoor	Triad Factory	1 strange goggles
+The Suspicious-Looking Guy's Shady Past	adventure=311	Env: indoor	1st Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 2 card
+The Suspicious-Looking Guy's Shady Past	adventure=312	Env: indoor	2nd Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 3 card
+The Suspicious-Looking Guy's Shady Past	adventure=313	Env: indoor	3rd Floor, Shiawase-Mitsuhama Building	1 CEO office card
+The Suspicious-Looking Guy's Shady Past	adventure=314	Env: indoor	Chinatown Tenement	30 gold piece
 
-Psychoses:Gourd Captain	adventure=316	Env: outdoor	The Gourd!
+The Captain of the Gourd's Psychoses	adventure=316	Env: outdoor	The Gourd!
 
-Psychoses:Jick	adventure=317	Env: indoor	The Tower of Procedurally-Generated Skeletons
+Jick's Obsessions	adventure=317	Env: indoor	The Tower of Procedurally-Generated Skeletons
 
-Psychoses:The Old Man	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
+The Old Man's Past	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
 
-Grimstone:Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
-Grimstone:Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
+Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
+Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
 
-Grimstone:The Candy Witch and the Relentless Child Thieves	adventure=370	Env: outdoor Stat: 0	Sweet-Ade Lake
-Grimstone:The Candy Witch and the Relentless Child Thieves	adventure=371	Env: outdoor Stat: 0	Eager Rice Burrows
-Grimstone:The Candy Witch and the Relentless Child Thieves	adventure=372	Env: outdoor Stat: 0	Gumdrop Forest
+The Candy Witch and the Relentless Child Thieves	adventure=370	Env: outdoor Stat: 0	Sweet-Ade Lake
+The Candy Witch and the Relentless Child Thieves	adventure=371	Env: outdoor Stat: 0	Eager Rice Burrows
+The Candy Witch and the Relentless Child Thieves	adventure=372	Env: outdoor Stat: 0	Gumdrop Forest
 
-Grimstone:A Deserted Stretch of I-911	adventure=373	Env: outdoor Stat: 0	A Deserted Stretch of I-911
+A Deserted Stretch of I-911	adventure=373	Env: outdoor Stat: 0	A Deserted Stretch of I-911
 
-Grimstone:The Prince's Ball	adventure=374	Env: indoor Stat: 0	The Prince's Restroom
-Grimstone:The Prince's Ball	adventure=375	Env: indoor Stat: 0	The Prince's Dance Floor
-Grimstone:The Prince's Ball	adventure=376	Env: indoor Stat: 0	The Prince's Kitchen
-Grimstone:The Prince's Ball	adventure=377	Env: outdoor Stat: 0	The Prince's Balcony
-Grimstone:The Prince's Ball	adventure=378	Env: indoor Stat: 0	The Prince's Lounge
-Grimstone:The Prince's Ball	adventure=379	Env: indoor Stat: 0	The Prince's Canapes Table
+The Prince's Ball	adventure=374	Env: indoor Stat: 0	The Prince's Restroom
+The Prince's Ball	adventure=375	Env: indoor Stat: 0	The Prince's Dance Floor
+The Prince's Ball	adventure=376	Env: indoor Stat: 0	The Prince's Kitchen
+The Prince's Ball	adventure=377	Env: outdoor Stat: 0	The Prince's Balcony
+The Prince's Ball	adventure=378	Env: indoor Stat: 0	The Prince's Lounge
+The Prince's Ball	adventure=379	Env: indoor Stat: 0	The Prince's Canapes Table
 
-Grimstone:Rumpelstiltskin's Home For Children	adventure=380	Env: outdoor Stat: 0	Ye Olde Medievale Villagee
-Grimstone:Rumpelstiltskin's Home For Children	adventure=381	Env: outdoor Stat: 0	Portal to Terrible Parents
-Grimstone:Rumpelstiltskin's Home For Children	adventure=382	Env: none nowander Stat: 0	Rumpelstiltskin's Workshop
+Rumpelstiltskin's Home For Children	adventure=380	Env: outdoor Stat: 0	Ye Olde Medievale Villagee
+Rumpelstiltskin's Home For Children	adventure=381	Env: outdoor Stat: 0	Portal to Terrible Parents
+Rumpelstiltskin's Home For Children	adventure=382	Env: none nowander Stat: 0	Rumpelstiltskin's Workshop
 
 Spring Break Beach	adventure=402	Env: indoor Stat: 0	The Fun-Guy Mansion
 Spring Break Beach	adventure=403	Env: indoor Stat: 0	Sloppy Seconds Diner	4 choiceadv

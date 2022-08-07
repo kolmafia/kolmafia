@@ -6,9 +6,13 @@ public class AdventurePool {
   public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
   public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
   public static final String SHROUDED_PEAK_ID = "cloudypeak2";
+  public static final String TUNNEL_OF_LOVE_ID = "townwrong_tunnel";
+  public static final String BARREL_ID = "barrel";
 
+  public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
   public static final int FUN_HOUSE = 20;
+  public static final int UNQUIET_GARVES = 21;
   public static final int TOWER_RUINS = 22;
   public static final int HIPPY_CAMP = 26;
   public static final int FRAT_HOUSE = 27;
@@ -85,6 +89,7 @@ public class AdventurePool {
   public static final int CONVENTION_HALL_LOBBY = 218;
   public static final int OUTSIDE_THE_CLUB = 219;
   public static final int ISLAND_BARRACKS = 220;
+  public static final int NEMESIS_LAIR = 221;
   public static final int GREATER_THAN_SIGN = 226;
   public static final int BARROOM_BRAWL = 233;
   public static final int NOOB_CAVE = 240;
@@ -142,6 +147,7 @@ public class AdventurePool {
   public static final int ZIGGURAT = 350;
   public static final int DEGRASSI_KNOLL_GARAGE = 354;
   public static final int THE_SHORE = 355;
+  public static final int OLD_LANDFILL = 356;
   public static final int ARID_DESERT = 364;
   public static final int WARBEAR_FORTRESS_LEVEL_THREE = 368;
   public static final int YE_OLDE_MEDIEVALE_VILLAGEE = 380;
@@ -149,6 +155,7 @@ public class AdventurePool {
   public static final int ZEPPELIN_PROTESTORS = 384;
   public static final int RED_ZEPPELIN = 385;
   public static final int PALINDOME = 386;
+  public static final int THINKNERD_WAREHOUSE = 387;
   public static final int HAUNTED_KITCHEN = 388;
   public static final int HAUNTED_CONSERVATORY = 389;
   public static final int HAUNTED_LIBRARY = 390;
@@ -185,6 +192,9 @@ public class AdventurePool {
   public static final int THE_CRASHED_UFO = 433;
   public static final int THE_CITY_OF_GOOOOLD = 434;
   public static final int PANDAMONIUM = 438;
+  public static final int SKELETON_STORE = 438;
+  public static final int MADNESS_BAKERY = 440;
+  public static final int OVERGROWN_LOT = 441;
   public static final int BARF_MOUNTAIN = 442;
   public static final int GARBAGE_BARGES = 443;
   public static final int TOXIC_TEACUPS = 444;
@@ -194,6 +204,7 @@ public class AdventurePool {
   public static final int VELVET_GOLD_MINE = 449;
   public static final int LAVACO_LAMP_FACTORY = 450;
   public static final int BUBBLIN_CALDERA = 451;
+  public static final int FUNGAL_NETHERS = 452;
   public static final int ICE_HOTEL = 455;
   public static final int VYKEA = 456;
   public static final int ICE_HOLE = 457;
