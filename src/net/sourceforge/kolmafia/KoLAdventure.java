@@ -362,6 +362,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.isValidAdventure = this.isCurrentlyAccessible();
   }
 
+  // AdventureResults used during validation
+  private static final AdventureResult TALISMAN = ItemPool.get(ItemPool.TALISMAN);
+  private static final AdventureResult TROPICAL_CONTACT_HIGH =
+      EffectPool.get(EffectPool.TROPICAL_CONTACT_HIGH);
+  private static AdventureResult DINGHY_PLANS = ItemPool.get(ItemPool.DINGHY_PLANS);
+  private static AdventureResult DINGY_PLANKS = ItemPool.get(ItemPool.DINGY_PLANKS);
+
   public boolean isCurrentlyAccessible() {
     if (Limitmode.limitAdventure(this)) {
       return false;
@@ -379,6 +386,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (path != null && path != KoLCharacter.getPath()) {
       return false;
     }
+
+    // Some zones/areas are available via items.
+    AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
+    // It is from an item. Standard restrictions probably apply.
+    if (KoLCharacter.getRestricted() && !StandardRequest.isAllowed("Items", item.getName())) {
+      return false;
+    }
+
     // Further validation of individual zones happens below.
 
     // First check non-adventure.php zones.
@@ -439,15 +454,182 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     */
 
     // Only look at adventure.php locations below this.
-    // Further validation for other adventures happens in part2
     if (!this.formSource.startsWith("adventure.php")) {
       return true;
     }
 
-    // Level 2 quest
-    // Level 3 quest
+    // Top-level map areas.
+
+    // Open at level one, with a subset of eventual zones
+    if (this.zone.equals("Town")) {
+      if (this.adventureNumber == AdventurePool.COPPERHEAD_CLUB) {
+        return QuestDatabase.isQuestStarted(Quest.SHEN);
+      }
+      // Town	adventure=112	The Sleazy Back Alley
+      // Town	adventure=439	The Skeleton Store
+      // QuestDatabase.setQuestProgress(Quest.MEATSMITH, QuestDatabase.STARTED);
+      // Town	adventure=440	Madness Bakery
+      // QuestDatabase.setQuestProgress(Quest.ARMORER, QuestDatabase.STARTED);
+      // Town	adventure=441	The Overgrown Lot
+      // QuestDatabase.setQuestProgress(Quest.DOC, QuestDatabase.STARTED);
+      // License to Adventure
+      // Town	adventure=495	Super Villain's Lair
+      // Item-granted
+      // Town	adventure=458	The Deep Machine Tunnels
+      // Town	adventure=474	Investigating a Plaintive Telegram
+      // Town	place=townwrong_tunnel	The Tunnel of L.O.V.E.
+      // Town	adventure=528	The Neverending Party
+    }
+
+    // Open at level one, with a subset of eventual zones
+    if (this.zone.equals("Mountain")) {
+      // The The Smut Orc Logging Camp is available if you have started the Highlands quest
+      if (this.adventureNumber == AdventurePool.SMUT_ORC_LOGGING_CAMP) {
+        return QuestDatabase.isQuestStarted(Quest.TOPPING);
+      }
+      // The Valley of Rof L'm Fao is available if you have completed the Highlands quest
+      if (this.adventureNumber == AdventurePool.VALLEY_OF_ROF_LM_FAO) {
+        return QuestDatabase.isQuestFinished(Quest.TOPPING);
+      }
+      // The Thinknerd Warehouse: Unlocjks when reading (receiving?) Letter for
+      // Melvign the Gnome - Quest.SHIRT is started
+      //
+      // Mountain	adventure=240	Noob Cave
+      // Mountain	adventure=92	The Dire Warren
+      // Mountain	barrel=0	The Barrel Full of Barrels
+      // Mountain	adventure=387	The Thinknerd Warehouse
+    }
+
+    // Open at level one, with a subset of eventual zones
+    if (this.zone.equals("Plains")) {
+      // Plains	adventure=20	The "Fun" House
+      // Plains	adventure=21	The Unquiet Garves
+
+      // The Unquiet Garves: Unlocks upon Receiving The Wizard of Ego quest or
+      // receiving Undefile the Cyrpt Quest
+      //
+      // The VERY Unquiet Garves are available if you have completed the Cyrpt quest
+      if (this.adventureNumber == AdventurePool.VERY_UNQUIET_GARVES) {
+        return QuestDatabase.isQuestFinished(Quest.CYRPT);
+      }
+
+      if (this.adventureNumber == AdventurePool.PALINDOME) {
+        return KoLCharacter.hasEquipped(TALISMAN) || InventoryManager.hasItem(TALISMAN);
+      }
+    }
+
+    // Opens at level two with first council quest
     if (this.zone.equals("Woods")) {
       // *** Validate
+      // With the exception of a few challenge paths, the Woods open when
+      // the Council asks for a mosquito larva at level two.
+
+      if (this.adventureNumber == AdventurePool.HIDDEN_TEMPLE) {
+        return KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked();
+      }
+
+      if (this.adventureNumber == AdventurePool.WHITEYS_GROVE) {
+        return QuestDatabase.isQuestStarted(Quest.CITADEL)
+            || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
+            || KoLCharacter.isEd();
+      }
+
+      if (this.adventureNumber == AdventurePool.BLACK_FOREST) {
+        return QuestDatabase.isQuestStarted(Quest.MACGUFFIN);
+      }
+
+      // Mosquito quest given
+      // Woods	adventure=15	The Spooky Forest
+      // Tavern quest given
+      // Woods	adventure=233	A Barroom Brawl
+      // Have continuum transfunctioner
+      // Woods	adventure=73	8-Bit Realm
+      // Woods	adventure=413	Road to the White Citadel
+      // Woods	adventure=356	The Old Landfill
+    }
+
+    // Opens when you build a bitchin' Meat car or the equivalent
+    if (this.zone.equals("Beach")) {
+      if (!KoLCharacter.desertBeachAccessible()) {
+        return false;
+      }
+      switch (this.adventureNumber) {
+        case AdventurePool.THE_SHORE:
+        case AdventurePool.SOUTH_OF_THE_BORDER:
+          return true;
+        case AdventurePool.ARID_DESERT:
+          // Open after diary read
+          return QuestDatabase.isQuestStarted(Quest.DESERT);
+        case AdventurePool.OASIS:
+          if (!QuestDatabase.isQuestStarted(Quest.DESERT)) {
+            return false;
+          }
+          // Open after 1 desert exploration
+          if (Preferences.getInteger("desertExploration") > 0) {
+            return true;
+          }
+          // Legacy: what about accounts who did desert before we tracked it?
+          return QuestDatabase.isQuestFinished(Quest.DESERT);
+        case AdventurePool.KOKOMO_RESORT:
+          // Open with "Tropical Contact High"
+          return KoLConstants.activeEffects.contains(TROPICAL_CONTACT_HIGH);
+      }
+      return false;
+    }
+
+    // Opens when you build a dingy dinghy or the equivalent
+    if (this.zone.equals("Island")) {
+      // There are several ways to get to the island.
+      if (!KoLCharacter.mysteriousIslandAccessible() && !canBuildDinghy()) {
+        return false;
+      }
+
+      // We have a way to get to the island.  Access to individual zones
+      // depends on quest state and outfits
+
+      String winner = IslandManager.warWinner();
+      // neither, hippies, fratboys
+
+      switch (this.adventureNumber) {
+        case AdventurePool.PIRATE_COVE:
+          // You cannot visit the pirates during the war
+          return !QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
+
+        case AdventurePool.HIPPY_CAMP:
+        case AdventurePool.HIPPY_CAMP_DISGUISED:
+          // You can visit the hippy camp before or after the war, unless it
+          // has been bombed into the stone age.
+          return QuestDatabase.isQuestBefore(Quest.ISLAND_WAR, "step1")
+              || (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) && winner.equals("hippies"));
+
+        case AdventurePool.FRAT_HOUSE:
+        case AdventurePool.FRAT_HOUSE_DISGUISED:
+          // You can visit the frat house before or after the war, unless it
+          // has been bombed into the stone age.
+          return QuestDatabase.isQuestBefore(Quest.ISLAND_WAR, "step1")
+              || (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) && winner.equals("fratboys"));
+
+        case AdventurePool.BOMBED_HIPPY_CAMP:
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
+              && (winner.equals("neither") || winner.equals("fratboys"));
+
+        case AdventurePool.BOMBED_FRAT_HOUSE:
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
+              && (winner.equals("neither") || winner.equals("hippies"));
+
+        case AdventurePool.SONOFA_BEACH:
+          // Sonofa Beach is available during the war as a sidequest and also
+          // after the war, whether or not it was used as such.
+          return QuestDatabase.isQuestLaterThan(Quest.ISLAND_WAR, QuestDatabase.STARTED);
+
+        case AdventurePool.THE_JUNKYARD:
+        case AdventurePool.MCMILLICANCUDDYS_FARM:
+          // The Junkyard and the Farm are sidequest zones during the war, but
+          // are available as single adventuring areas after the war is done.
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
+      }
+
+      return false;
     }
 
     // Level 4 quest
@@ -488,6 +670,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             return InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
           }
       }
+      return false;
     }
 
     // Level 5 quest
@@ -545,11 +728,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
-    // The VERY Unquiet Garves are available if you have completed the Cyrpt quest
-    if (this.adventureNumber == AdventurePool.VERY_UNQUIET_GARVES) {
-      return QuestDatabase.isQuestFinished(Quest.CYRPT);
-    }
-
     // Level 8 quest
     if (this.zone.equals("McLarge")) {
       return switch (this.adventureNumber) {
@@ -597,10 +775,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 11 quest
 
-    if (this.adventureNumber == AdventurePool.BLACK_FOREST) {
-      return QuestDatabase.isQuestStarted(Quest.MACGUFFIN);
-    }
-
     // *** Lord Spookyraven
 
     if (this.zone.equals("Manor0")) {
@@ -608,10 +782,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // *** Doctor Awkward
-
-    if (this.adventureNumber == AdventurePool.COPPERHEAD_CLUB) {
-      return QuestDatabase.isQuestStarted(Quest.SHEN);
-    }
 
     if (this.zone.equals("The Red Zeppelin's Mooring")) {
       return switch (this.adventureNumber) {
@@ -621,22 +791,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
-    if (this.adventureNumber == AdventurePool.PALINDOME) {
-      AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
-      return KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
-    }
-
-    if (this.adventureNumber == AdventurePool.WHITEYS_GROVE) {
-      return QuestDatabase.isQuestStarted(Quest.CITADEL)
-          || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
-          || KoLCharacter.isEd();
-    }
-
     // *** Protector Spectre
-
-    if (this.adventureNumber == AdventurePool.HIDDEN_TEMPLE) {
-      return KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked();
-    }
 
     if (this.zone.equals("HiddenCity")) {
       if (!QuestDatabase.isQuestLaterThan(Quest.WORSHIP, "step2")) {
@@ -658,35 +813,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // *** Ed the Undying
-
-    if (this.zone.equals("Beach")) {
-      if (!KoLCharacter.desertBeachAccessible()) {
-        return false;
-      }
-      switch (this.adventureNumber) {
-        case AdventurePool.THE_SHORE:
-        case AdventurePool.SOUTH_OF_THE_BORDER:
-          return true;
-        case AdventurePool.ARID_DESERT:
-          // Open after diary read
-          return QuestDatabase.isQuestStarted(Quest.DESERT);
-        case AdventurePool.OASIS:
-          if (!QuestDatabase.isQuestStarted(Quest.DESERT)) {
-            return false;
-          }
-          // Open after 1 desert exploration
-          if (Preferences.getInteger("desertExploration") > 0) {
-            return true;
-          }
-          // Legacy: what about accounts who did desert before we tracked it?
-          return QuestDatabase.isQuestFinished(Quest.DESERT);
-        case AdventurePool.KOKOMO_RESORT:
-          // Open with "Tropical Contact High"
-          return KoLConstants.activeEffects.contains(
-              EffectPool.get(EffectPool.TROPICAL_CONTACT_HIGH));
-      }
-      return false;
-    }
 
     if (this.zone.equals("Pyramid")) {
       if (!QuestDatabase.isQuestStarted(Quest.PYRAMID)) {
@@ -729,8 +855,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED:
 
     if (this.zone.equals("IsleWar")) {
-      if (!KoLCharacter.mysteriousIslandAccessible()
-          || !QuestDatabase.isQuestStarted(Quest.ISLAND_WAR)) {
+      if (!KoLCharacter.mysteriousIslandAccessible() && !canBuildDinghy()) {
+        return false;
+      }
+
+      if (!QuestDatabase.isQuestStarted(Quest.ISLAND_WAR)) {
         return false;
       }
 
@@ -762,6 +891,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
+      // *** validate
       // Farm	adventure=137	McMillicancuddy's Barn
       // Farm	adventure=141	McMillicancuddy's Pond
       // Farm	adventure=142	McMillicancuddy's Back 40
@@ -770,7 +900,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Farm	adventure=145	McMillicancuddy's Bog
       // Farm	adventure=146	McMillicancuddy's Family Plot
       // Farm	adventure=147	McMillicancuddy's Shady Thicket
-      // *** validate
       return true;
     }
 
@@ -778,11 +907,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
+      // *** validate
       // Orchard	adventure=127	The Hatching Chamber
       // Orchard	adventure=128	The Feeding Chamber
       // Orchard	adventure=129	The Royal Guard Chamber
       // Orchard	adventure=130	The Filthworm Queen's Chamber
-      // *** validate
       return true;
     }
 
@@ -790,23 +919,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
+      // *** validate
       // Junkyard	adventure=182	Next to that Barrel with Something Burning in it
       // Junkyard	adventure=183	Near an Abandoned Refrigerator
       // Junkyard	adventure=184	Over Where the Old Tires Are
       // Junkyard	adventure=185	Out by that Rusted-Out Car
-      // *** validate
       return true;
     }
-
-    if (this.adventureNumber == AdventurePool.SONOFA_BEACH) {
-      // Sonofa Beach is available during the war as a sidequest and also
-      // after the war, whether or not it was used as such.
-      return QuestDatabase.isQuestLaterThan(Quest.ISLAND_WAR, QuestDatabase.STARTED);
-    }
-
-    // Island	adventure=136	Env: outdoor Stat: 170	Sonofa Beach
-    // Island	adventure=154	Env: outdoor Stat: 170	Post-War Junkyard
-    // Island	adventure=155	Env: outdoor Stat: 170	McMillicancuddy's Farm
 
     // Spookyraven Manor quests:
     //
@@ -852,7 +971,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Nemesis Quest
     // ***
 
-    // Plains	adventure=20	The "Fun" House
     // Nemesis Cave	adventure=452	The Fungal Nethers
     // Volcano	adventure=214	The Broodling Grounds
     // Volcano	adventure=215	The Outer Compound
@@ -898,7 +1016,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Le Marais D&egrave;gueulasse")) {
-      // This is in Little Canadia
+      // This is a subzone of Little Canadia
       if (!QuestDatabase.isQuestStarted(Quest.SWAMP)) {
         return false;
       }
@@ -919,63 +1037,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
     }
 
-    if (this.zone.equals("Island")) {
-      // There are several ways to get to the island.
-      if (!KoLCharacter.mysteriousIslandAccessible()) {
-        // validate2 will use dingy planks + dinghy plans if you have them
-        if (!InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
-            || !InventoryManager.hasItem(ItemPool.DINGY_PLANKS)) {
-          return false;
-        }
-      }
-
-      // We have a way to get to the island.  Access to individual zones
-      // depends on quest state and outfits
-
-      String winner = IslandManager.warWinner();
-      // neither, hippies, fratboys
-
-      switch (this.adventureNumber) {
-        case AdventurePool.PIRATE_COVE:
-          // You cannot visit the pirates during the war
-          return !QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
-
-        case AdventurePool.HIPPY_CAMP:
-        case AdventurePool.HIPPY_CAMP_DISGUISED:
-          // You can visit the hippy camp before or after the war, unless it
-          // has been bombed into the stone age.
-          return QuestDatabase.isQuestBefore(Quest.ISLAND_WAR, "step1")
-              || (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) && winner.equals("hippies"));
-
-        case AdventurePool.FRAT_HOUSE:
-        case AdventurePool.FRAT_HOUSE_DISGUISED:
-          // You can visit the frat house before or after the war, unless it
-          // has been bombed into the stone age.
-          return QuestDatabase.isQuestBefore(Quest.ISLAND_WAR, "step1")
-              || (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) && winner.equals("fratboys"));
-
-        case AdventurePool.BOMBED_HIPPY_CAMP:
-          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
-              && (winner.equals("neither") || winner.equals("fratboys"));
-
-        case AdventurePool.BOMBED_FRAT_HOUSE:
-          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
-              && (winner.equals("neither") || winner.equals("hippies"));
-
-        case AdventurePool.THE_JUNKYARD:
-        case AdventurePool.MCMILLICANCUDDYS_FARM:
-          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
-      }
-
-      return false;
-    }
-
     // Pirate Ship
     if (this.zone.equals("Pirate")) {
       // There are several ways to get to the island.
+      if (!KoLCharacter.mysteriousIslandAccessible() && !canBuildDinghy()) {
+        return false;
+      }
+
       // However, the pirates are unavailable during the war.
-      if (!KoLCharacter.mysteriousIslandAccessible()
-          || QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
+      if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
 
@@ -1007,11 +1077,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
-    // The Valley of Rof L'm Fao is available if you have completed the Highlands quest
-    if (this.adventureNumber == AdventurePool.VALLEY_OF_ROF_LM_FAO) {
-      return QuestDatabase.isQuestFinished(Quest.TOPPING);
-    }
-
     if (this.adventureNumber == AdventurePool.TOWER_RUINS) {
       if (QuestDatabase.getQuest(Quest.EGO).equals("step2")) {
         // We've received Fernswarthy's key but have not yet ventured into the
@@ -1028,10 +1093,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         default -> true;
       };
     }
-
-    // Item-generated zones. They all come from IOTMs and therefore may be
-    // affected by Standard restrictions.
-    // *** Validate
 
     if (this.zone.equals("The Sea")) {
       // *** Validate
@@ -1053,6 +1114,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // The Sea	adventure=210	Mer-kin Colosseum
       // The Sea	adventure=337	The Caliginous Abyss
       // The Sea	mining=3	Anemone Mine (Mining)
+      return true;
     }
 
     // The following zones depend on your clan, your permissions, and the
@@ -1061,20 +1123,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    // Some adventuring areas are available via items.
-    AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
-    if (item == null) {
-      // If it is not from an item, assume it is fine
-      return true;
-    }
+    // *** Validate path-restricted zones
+    // We have already rejected zones that do not match your path.
 
-    // It is from an item. Standard restrictions probably apply.
-    if (KoLCharacter.getRestricted() && !StandardRequest.isAllowed("Items", item.getName())) {
-      return false;
-    }
+    // Mothership -> Bugbear Invasion
+    // KOL High School	Town -> KOLHS
+    // Exploathing -> Kingdom of Exploathing
+    // The Grey Goo Impact Site -> Grey Goo
 
-    // Item is not restricted.
-    // *** Validate
+    // *** Validate item-generated zones
+    // We have already rejected Standard restricted items.
 
     if (this.zone.equals("Dungeon:Video Game")) {
       // If you have a GameInformPowerDailyPro walkthru in inventory, you
@@ -1084,6 +1142,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     return true;
+  }
+
+  // Building a dingy dinghy is something that validate2 can do for us.
+  private boolean canBuildDinghy() {
+    return InventoryManager.hasItem(DINGHY_PLANS) && InventoryManager.hasItem(DINGY_PLANKS);
   }
 
   // Validation part 2:

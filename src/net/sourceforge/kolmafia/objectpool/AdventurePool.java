@@ -107,6 +107,7 @@ public class AdventurePool {
   public static final int MAELSTROM_OF_LOVERS = 278;
   public static final int GLACIER_OF_JERKS = 279;
   public static final int HIDDEN_TEMPLE = 280;
+  public static final int SMUT_ORC_LOGGING_CAMP = 295;
   public static final int ABOO_PEAK = 296;
   public static final int OIL_PEAK = 298;
   public static final int VIDEO_GAME_LEVEL_1 = 319;
