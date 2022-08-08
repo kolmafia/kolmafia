@@ -1973,6 +1973,7 @@ public class OptionsFrame extends GenericFrame {
     private final JCheckBox makePocketWishes;
     private final JCheckBox haveBoxingDaydream;
     private final JCheckBox harvestBatteries;
+    private final JCheckBox useBookOfEverySkill;
 
     private final SkillMenu tomeSkills;
     private final SkillMenu libramSkills;
@@ -2045,6 +2046,10 @@ public class OptionsFrame extends GenericFrame {
       this.harvestBatteries = new JCheckBox("harvest batteries");
       this.harvestBatteries.addActionListener(this);
       centerPanel.add(this.harvestBatteries);
+
+      this.useBookOfEverySkill = new JCheckBox("use Book of Every Skill");
+      this.useBookOfEverySkill.addActionListener(this);
+      centerPanel.add(this.useBookOfEverySkill);
 
       centerContainer.add(centerPanel);
       centerContainer.add(Box.createVerticalStrut(10));
@@ -2124,6 +2129,8 @@ public class OptionsFrame extends GenericFrame {
           "haveBoxingDaydream" + this.breakfastType, this.haveBoxingDaydream.isSelected());
       Preferences.setBoolean(
           "harvestBatteries" + this.breakfastType, this.harvestBatteries.isSelected());
+      Preferences.setBoolean(
+          "useBookOfEverySkill" + this.breakfastType, this.useBookOfEverySkill.isSelected());
 
       this.tomeSkills.setPreference();
       this.libramSkills.setPreference();
@@ -2152,6 +2159,8 @@ public class OptionsFrame extends GenericFrame {
           Preferences.getBoolean("haveBoxingDaydream" + this.breakfastType));
       this.harvestBatteries.setSelected(
           Preferences.getBoolean("harvestBatteries" + this.breakfastType));
+      this.useBookOfEverySkill.setSelected(
+          Preferences.getBoolean("useBookOfEverySkill" + this.breakfastType));
     }
 
     @Override
