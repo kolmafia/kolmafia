@@ -6318,6 +6318,12 @@ public abstract class ChoiceControl {
       case 1466: // Configure Your Unbreakable Umbrella
         UmbrellaRequest.parseUmbrella(urlString, text);
         break;
+
+      case 1476: // Stillsuit
+        if (ChoiceManager.lastDecision == 1) {
+          StillSuitManager.clearSweat();
+        }
+        break;
     }
   }
 
@@ -7953,6 +7959,9 @@ public abstract class ChoiceControl {
       case 1463:
         LocketManager.parseMonsters(text);
         break;
+      case 1476:
+        StillSuitManager.parseChoice(text);
+        break;
     }
   }
 
@@ -9055,6 +9064,7 @@ public abstract class ChoiceControl {
       case 1459: // Chem Lab
       case 1460: // Toy Lab
       case 1463: // Reminiscing About Those Monsters You Fought
+      case 1476: // Stillsuit
         return true;
 
       default:

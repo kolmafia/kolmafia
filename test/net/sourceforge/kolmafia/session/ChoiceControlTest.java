@@ -180,4 +180,32 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class StillSuit {
+    @Test
+    void canReadInformationFromChoicePage() {
+      var cleanups = new Cleanups(withProperty("familiarSweat"));
+
+      try (cleanups) {
+        var urlString = "choice.php?forceoption=0";
+        var responseText = html("request/test_choice_stillsuit.html");
+        var request = new GenericRequest(urlString);
+        request.responseText = responseText;
+        ChoiceManager.preChoice(request);
+        request.processResponse();
+
+        assertThat("familiarSweat", isSetTo(81));
+      }
+    }
+
+    @Test
+    void drinkingSweatClearsPrefs() {
+      var cleanups = new Cleanups(withProperty("familiarSweat", 1234), withPostChoice1(1476, 1));
+
+      try (cleanups) {
+        assertThat("familiarSweat", isSetTo(0));
+      }
+    }
+  }
 }
