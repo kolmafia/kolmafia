@@ -201,7 +201,7 @@ class ChoiceControlTest {
 
     @Test
     void drinkingSweatClearsPrefs() {
-      var cleanups = new Cleanups(withProperty("familiarSweat", 1234), withPostChoice1(1476, 1));
+      var cleanups = new Cleanups(withProperty("familiarSweat", 1234), withPostChoice2(1476, 1));
 
       try (cleanups) {
         assertThat("familiarSweat", isSetTo(0));
