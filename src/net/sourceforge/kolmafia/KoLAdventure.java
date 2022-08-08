@@ -376,6 +376,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult DEVILISH_FOLIO = ItemPool.get(ItemPool.DEVILISH_FOLIO);
   private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
   private static final AdventureResult TRANSPONDER = ItemPool.get(ItemPool.TRANSPORTER_TRANSPONDER);
+  private static final AdventureResult PIRATE_FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
 
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
       EffectPool.get(EffectPool.TROPICAL_CONTACT_HIGH);
@@ -390,7 +391,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   private static final Set<String> antiqueMapZones = new HashSet<>();
   private static final Set<String> psychosesZones = new HashSet<>();
+  private static final Set<String> batfellowZones = new HashSet<>();
   private static final Map<String, String> grimstoneZones = new HashMap<>();
+  private static final Map<String, String> holidayAdventures = new HashMap<>();
 
   static {
     antiqueMapZones.add("Landscaper");
@@ -406,11 +409,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     psychosesZones.add("The Captain of the Gourd's Psychoses");
     psychosesZones.add("Jick's Obsessions");
     psychosesZones.add("The Old Man's Past");
+    batfellowZones.add("Bat-Cavern");
+    batfellowZones.add("Center Park (Low Crime)");
+    batfellowZones.add("Slums (Moderate Crime)");
+    batfellowZones.add("Industrial District (High Crime)");
+    batfellowZones.add("Downtown");
     grimstoneZones.put("A Deserted Stretch of I-911", "hare");
     grimstoneZones.put("Skid Row", "wolf");
     grimstoneZones.put("The Prince's Ball", "stepmother");
     grimstoneZones.put("Rumpelstiltskin's Home For Children", "gnome");
     grimstoneZones.put("The Candy Witch and the Relentless Child Thieves", "witch");
+    holidayAdventures.put("St. Sneaky Pete's Day Stupor", "St. Sneaky Pete's Day");
+    holidayAdventures.put("The Yuletide Bonfire", "Yuletide");
+    holidayAdventures.put("The Arrrboretum", "Arrrbor Day");
+    holidayAdventures.put("Generic Summer Holiday Swimming!", "Generic Summer Holiday");
+    holidayAdventures.put("Drunken Stupor", null);
+    holidayAdventures.put("The Spectral Pickle Factory", null);
+    holidayAdventures.put("Spectral Salad Factory", null);
   }
 
   public boolean isCurrentlyAccessible() {
@@ -701,7 +716,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
             int sonarsToUse = sonarsForLocation - sonarsUsed;
 
-            return InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
+            return InventoryManager.hasItem(SONAR.getInstance(sonarsToUse));
           }
       }
       return false;
@@ -712,11 +727,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // *** Validate
       return switch (this.adventureNumber) {
         case AdventurePool.OUTSKIRTS_OF_THE_KNOB -> true;
-          // *** Knob opened
         case AdventurePool.COBB_BARRACKS,
             AdventurePool.COBB_KITCHEN,
             AdventurePool.COBB_HAREM,
-            AdventurePool.COBB_TREASURY -> true;
+            AdventurePool.COBB_TREASURY -> QuestDatabase.isQuestLaterThan(
+            Quest.GOBLIN, QuestDatabase.STARTED);
         default -> false;
       };
     }
@@ -1093,16 +1108,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       boolean haveOutfit = EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP);
-      boolean haveFledges = InventoryManager.hasItem(ItemPool.PIRATE_FLEDGES);
+      boolean haveFledges =
+          EquipmentManager.canEquip(PIRATE_FLEDGES)
+              && InventoryManager.getAccessibleCount(PIRATE_FLEDGES) > 0;
       if (!haveOutfit && !haveFledges) {
         return false;
       }
       // *** Distinguish between areas
       return switch (this.adventureNumber) {
         case AdventurePool.BARRRNEYS_BARRR -> true;
-        case AdventurePool.FCLE -> true;
-        case AdventurePool.POOP_DECK -> true;
-        case AdventurePool.BELOWDECKS -> true;
+        case AdventurePool.FCLE -> QuestDatabase.isQuestLaterThan(Quest.PIRATE, "step4");
+        case AdventurePool.POOP_DECK -> QuestDatabase.isQuestLaterThan(Quest.PIRATE, "step5");
+        case AdventurePool.BELOWDECKS -> QuestDatabase.isQuestFinished(Quest.PIRATE);
         default -> false;
       };
     }
@@ -1175,8 +1192,29 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
+    // Holiday zones
+    if (holidayAdventures.containsKey(this.zone)) {
+      // Holiday zones include "Drunken Stupor" and "St. Sneaky Pete's Day Stupor"
+      // Holiday zones include "The Spectral Pickle Factory!" and "Spectral Salad Factory!"
+      String holiday = holidayAdventures.get(this.adventureName);
+      if (holiday == null) {
+        // I dunno.
+        return true;
+      }
+      return HolidayDatabase.getHoliday().contains(holiday);
+    }
+
+    if (this.zone.equals("Twitch")) {
+      // This gets set if we visit town and see "town_tower"
+      return Preferences.getBoolean("timeTowerAvailable");
+    }
+
     // *** Validate path-restricted zones
     // We have already rejected zones that do not match your path.
+
+    if (this.zone.equals("BadMoon")) {
+      return KoLCharacter.inBadMoon();
+    }
 
     if (this.zone.equals("Mothership")) {
       // We already confirmed that you are on the BugBear Invasion path.
@@ -1236,17 +1274,48 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    // *** Validate item-generated zones
-    // We have already rejected Standard restricted items.
+    // The rest of this method validates item-generated zones.
+    // We have already rejected items restricted by Standard.
+
+    if (item == null) {
+      // Assume that any non-item areas we did validate are available
+      return true;
+    }
 
     if (this.zone.equals("Spelunky Area")) {
+      // No Avatar of Boris or Ed
       // *** LimitMode
       return true;
     }
 
-    if (this.zone.startsWith("Batfellow")) {
+    if (batfellowZones.contains(this.zone)) {
       // *** LimitMode
       return true;
+    }
+
+    if (this.zone.equals("Astral")) {
+      // astral mushroom grants 5 turns of Half-Astral
+      // You can choose the type of trip to take.
+      // You cannot adventure anywhere else until it expires.
+      //
+      // An Incredibly Strange Place (Bad Trip)
+      // An Incredibly Strange Place (Mediocre Trip)
+      // An Incredibly Strange Place (Great Trip)
+      //
+      // *** This should be a LimitMode
+
+      return InventoryManager.hasItem(item) || KoLConstants.activeEffects.contains(HALF_ASTRAL);
+    }
+
+    if (this.zone.equals("Shape of Mole")) {
+      // llama lama gong lets you choose to be a mole.
+      // This grants 12 turns of Shape of...Mole!
+      // You cannot use another gong if you are in Form of...Bird!
+      // You cannot adventure anywhere except in Mt. Molehill while that effect is active.
+      //
+      // *** This should be a LimitMode
+      return KoLConstants.activeEffects.contains(SHAPE_OF_MOLE)
+          || (InventoryManager.hasItem(item) && !KoLConstants.activeEffects.contains(FORM_OF_BIRD));
     }
 
     if (this.zone.equals("Spring Break Beach")) {
@@ -1299,27 +1368,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return InventoryManager.hasItem(item) || KoLConstants.activeEffects.contains(DIS_ABLED);
     }
 
-    if (this.zone.equals("Astral")) {
-      // astral mushroom grants 5 turns of Half-Astral
-      // You can choose the type of trip to take.
-      // You cannot adventure anywhere else until it expires.
-
-      // An Incredibly Strange Place (Bad Trip)
-      // An Incredibly Strange Place (Mediocre Trip)
-      // An Incredibly Strange Place (Great Trip)
-      // *** validate. This should be a LimitMode
-      return InventoryManager.hasItem(item) || KoLConstants.activeEffects.contains(HALF_ASTRAL);
-    }
-
-    if (this.zone.equals("Mountain:Form of Mole")) {
-      // llama lama gong lets you choose to be a mole.
-      // You cannot use another gong if you are in Form of...Bird!
-      // This grants 12 turns of Shape of...Mole!
-      // You cannot adventure anywhere except in Mt. Molehill while that effect is active.
-      // *** validate. This should be a LimitMode
-      return true;
-    }
-
     if (this.zone.equals("Portal")) {
       // El Vibrato Island
       return true;
@@ -1368,8 +1416,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // You can only use one grimstone mask in use at a time.
     if (grimstoneZones.containsKey(this.zone)) {
-      // No Ed, Dark Gyffte, Avatar of Sneaky Pete, Avatar of West of Loathing
-      // ***
+      if (KoLCharacter.isEd()
+          || KoLCharacter.inDarkGyffte()
+          || KoLCharacter.isSneakyPete()
+          || KoLCharacter.isWestOfLoathing()) {
+        return false;
+      }
+
       // One path at a time.
       String tale = grimstoneZones.get(this.zone);
       String current = Preferences.getString("grimstoneMaskPath");
@@ -1708,8 +1761,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           }
 
           int sonarsToUse = sonarsForLocation - sonarsUsed;
-          RequestThread.postRequest(
-              UseItemRequest.getInstance(ItemPool.get(ItemPool.SONAR, sonarsToUse)));
+          RequestThread.postRequest(UseItemRequest.getInstance(SONAR.getInstance(sonarsToUse)));
           sonarsUsed += sonarsToUse;
 
           return (sonarsUsed >= sonarsForLocation);

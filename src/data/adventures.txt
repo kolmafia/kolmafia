@@ -508,7 +508,7 @@ Town	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
 Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
 Town	adventure=528	Env: indoor Stat: 0	The Neverending Party
 
-Mountain:Form of Mole	adventure=177	Env: underground Stat: 0	Mt. Molehill
+Shape of Mole	adventure=177	Env: underground Stat: 0	Mt. Molehill
 
 Video Game Dungeon	adventure=319	Env: indoor Stat: 0	Video Game Level 1
 Video Game Dungeon	adventure=320	Env: indoor Stat: 0	Video Game Level 2
@@ -625,19 +625,19 @@ Spelunky Area	adventure=434	Env: none nowander Stat: 0	The City of Goooold
 Spelunky Area	adventure=435	Env: none nowander Stat: 0	LOLmec's Lair
 Spelunky Area	adventure=436	Env: none nowander Stat: 0	Yomama's Throne
 
-Batfellow:Center Park (Low Crime)	adventure=461	Env: none nowander Stat: 0	Center Park After Dark
-Batfellow:Slums (Moderate Crime)	adventure=462	Env: none nowander Stat: 0	The Mean Streets
-Batfellow:Industrial District (High Crime)	adventure=463	Env: none nowander Stat: 0	Warehouse Row
-Batfellow:Center Park (Low Crime)	adventure=464	Env: none nowander Stat: 0	Gotpork Conservatory of Flowers
-Batfellow:Center Park (Low Crime)	adventure=465	Env: none nowander Stat: 0	Gotpork Municipal Reservoir
-Batfellow:Center Park (Low Crime)	adventure=466	Env: none nowander Stat: 0	Gotpork Gardens Cemetery
-Batfellow:Slums (Moderate Crime)	adventure=467	Env: none nowander Stat: 0	Gotpork City Sewers
-Batfellow:Slums (Moderate Crime)	adventure=468	Env: none nowander Stat: 0	Porkham Asylum
-Batfellow:Slums (Moderate Crime)	adventure=469	Env: none nowander Stat: 0	The Old Gotpork Library
-Batfellow:Industrial District (High Crime)	adventure=470	Env: none nowander Stat: 0	Gotpork Clock, Inc.
-Batfellow:Industrial District (High Crime)	adventure=471	Env: none nowander Stat: 0	Gotpork Foundry
-Batfellow:Industrial District (High Crime)	adventure=472	Env: none nowander Stat: 0	Trivial Pursuits, LLC
-Batfellow:Downtown	adventure=473	Env: none nowander Stat: 0	JokesterCo
+Center Park (Low Crime)	adventure=461	Env: none nowander Stat: 0	Center Park After Dark
+Slums (Moderate Crime)	adventure=462	Env: none nowander Stat: 0	The Mean Streets
+Industrial District (High Crime)	adventure=463	Env: none nowander Stat: 0	Warehouse Row
+Center Park (Low Crime)	adventure=464	Env: none nowander Stat: 0	Gotpork Conservatory of Flowers
+Center Park (Low Crime)	adventure=465	Env: none nowander Stat: 0	Gotpork Municipal Reservoir
+Center Park (Low Crime)	adventure=466	Env: none nowander Stat: 0	Gotpork Gardens Cemetery
+Slums (Moderate Crime)	adventure=467	Env: none nowander Stat: 0	Gotpork City Sewers
+Slums (Moderate Crime)	adventure=468	Env: none nowander Stat: 0	Porkham Asylum
+Slums (Moderate Crime)	adventure=469	Env: none nowander Stat: 0	The Old Gotpork Library
+Industrial District (High Crime)	adventure=470	Env: none nowander Stat: 0	Gotpork Clock, Inc.
+Industrial District (High Crime)	adventure=471	Env: none nowander Stat: 0	Gotpork Foundry
+Industrial District (High Crime)	adventure=472	Env: none nowander Stat: 0	Trivial Pursuits, LLC
+Downtown	adventure=473	Env: none nowander Stat: 0	JokesterCo
 
 The Snojo	adventure=460	Env: indoor nowander	The X-32-F Combat Training Snowman
 

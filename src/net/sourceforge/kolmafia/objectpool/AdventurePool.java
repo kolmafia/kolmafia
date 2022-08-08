@@ -27,7 +27,10 @@ public class AdventurePool {
   public static final int BUGBEAR_PEN = 47;
   public static final int SPOOKY_GRAVY_BURROW = 48;
   public static final int POST_QUEST_BUGBEAR_PEN = 49;
+  public static final int COBB_LABORATORY = 50;
+  public static final int MENAGERIE_LEVEL_1 = 51;
   public static final int MENAGERIE_LEVEL_2 = 52;
+  public static final int MENAGERIE_LEVEL_3 = 53;
   public static final int VERY_UNQUIET_GARVES = 58;
   public static final int HIPPY_CAMP_DISGUISED = 65;
   public static final int PIRATE_COVE = 66;

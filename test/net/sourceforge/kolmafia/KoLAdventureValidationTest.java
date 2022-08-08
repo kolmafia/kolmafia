@@ -5,6 +5,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withStats;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,12 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -61,6 +64,334 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         KoLAdventure area = AdventureDatabase.getAdventureByName("Medbay");
         assertTrue(area.isCurrentlyAccessible());
+      }
+    }
+  }
+
+  @Nested
+  class CobbsKnob {
+
+    // Simplify looking up the KoLAdventure based on adventure ID.
+    private static Map<Integer, KoLAdventure> zones = new HashMap<>();
+    private static KoLAdventure throneRoom = AdventureDatabase.getAdventureByName("Throne Room");
+
+    @BeforeAll
+    private static void beforeAll() {
+      zones.put(
+          AdventurePool.OUTSKIRTS_OF_THE_KNOB,
+          AdventureDatabase.getAdventureByName("The Outskirts of Cobb's Knob"));
+      zones.put(
+          AdventurePool.COBB_BARRACKS,
+          AdventureDatabase.getAdventureByName("Cobb's Knob Barracks"));
+      zones.put(
+          AdventurePool.COBB_KITCHEN, AdventureDatabase.getAdventureByName("Cobb's Knob Kitchens"));
+      zones.put(
+          AdventurePool.COBB_HAREM, AdventureDatabase.getAdventureByName("Cobb's Knob Harem"));
+      zones.put(
+          AdventurePool.COBB_TREASURY,
+          AdventureDatabase.getAdventureByName("Cobb's Knob Treasury"));
+      zones.put(
+          AdventurePool.COBB_LABORATORY,
+          AdventureDatabase.getAdventureByName("Cobb's Knob Laboratory"));
+      zones.put(AdventurePool.KNOB_SHAFT, AdventureDatabase.getAdventureByName("The Knob Shaft"));
+      zones.put(
+          AdventurePool.MENAGERIE_LEVEL_1,
+          AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 1"));
+      zones.put(
+          AdventurePool.MENAGERIE_LEVEL_2,
+          AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 2"));
+      zones.put(
+          AdventurePool.MENAGERIE_LEVEL_3,
+          AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 3"));
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      zones.clear();
+      throneRoom = null;
+    }
+
+    @Test
+    public void canVisitCobbsKnobBeforeQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_BARRACKS).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_KITCHEN).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_HAREM).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_TREASURY).isCurrentlyAccessible());
+        assertFalse(throneRoom.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCobbsKnobBeforeDecrypting() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_BARRACKS).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_KITCHEN).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_HAREM).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_TREASURY).isCurrentlyAccessible());
+        assertFalse(throneRoom.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCobbsKnobAfterDecrypting() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_BARRACKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_KITCHEN).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_HAREM).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_TREASURY).isCurrentlyAccessible());
+        assertTrue(throneRoom.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCobbsKnobAfterDefeatingKing() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_BARRACKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_KITCHEN).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_HAREM).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_TREASURY).isCurrentlyAccessible());
+        assertFalse(throneRoom.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void cannotVisitCobbsKnobLaboratoryWithoutKey() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
+      try (cleanups) {
+        assertFalse(zones.get(AdventurePool.COBB_LABORATORY).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.KNOB_SHAFT).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCobbsKnobLaboratoryWithKey() {
+      var cleanups =
+          new Cleanups(withItem("Cobb's Knob lab key"), withQuestProgress(Quest.GOBLIN, "step1"));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.COBB_LABORATORY).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.KNOB_SHAFT).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void cannotVisitCobbsKnobMenagerieWithoutKey() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
+      try (cleanups) {
+        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_1).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_2).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_3).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCobbsKnobMenagerieWithKey() {
+      var cleanups =
+          new Cleanups(
+              withItem("Cobb's Knob Menagerie key"), withQuestProgress(Quest.GOBLIN, "step1"));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_1).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_2).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_3).isCurrentlyAccessible());
+      }
+    }
+  }
+
+  @Nested
+  class Pirate {
+
+    // Simplify looking up the KoLAdventure based on adventure ID.
+    private static Map<Integer, KoLAdventure> zones = new HashMap<>();
+
+    @BeforeAll
+    private static void beforeAll() {
+      zones.put(
+          AdventurePool.PIRATE_COVE,
+          AdventureDatabase.getAdventureByName("The Obligatory Pirate's Cove"));
+      zones.put(
+          AdventurePool.BARRRNEYS_BARRR, AdventureDatabase.getAdventureByName("Barrrney's Barrr"));
+      zones.put(AdventurePool.FCLE, AdventureDatabase.getAdventureByName("The F'c'le"));
+      zones.put(AdventurePool.POOP_DECK, AdventureDatabase.getAdventureByName("The Poop Deck"));
+      zones.put(AdventurePool.BELOWDECKS, AdventureDatabase.getAdventureByName("Belowdecks"));
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      zones.clear();
+    }
+
+    @AfterEach
+    private void afterEach() {
+      EquipmentManager.updateNormalOutfits();
+    }
+
+    @Test
+    public void cannotVisitPiratesWithoutIslandAccess() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(zones.get(AdventurePool.PIRATE_COVE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitPiratesUndisguised() {
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.PIRATE_COVE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void cannotVisitPiratesDuringWar() {
+      var cleanups =
+          new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
+      try (cleanups) {
+        assertFalse(zones.get(AdventurePool.PIRATE_COVE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitPirateShipDisguised() {
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withStats(25, 25, 25),
+              withItem("eyepatch"),
+              withItem("swashbuckling pants"),
+              withItem("stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitPirateShipFledged() {
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withStats(25, 60, 25),
+              withItem("pirate fledges"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitPirateShipBeforeQuest() {
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withStats(25, 25, 25),
+              withItem("eyepatch"),
+              withItem("swashbuckling pants"),
+              withItem("stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitPirateShipFcleDuringQuest() {
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withStats(25, 25, 25),
+              withItem("eyepatch"),
+              withItem("swashbuckling pants"),
+              withItem("stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, "step5"));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitPirateShipPoopDeckDuringQuest() {
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withStats(25, 25, 25),
+              withItem("eyepatch"),
+              withItem("swashbuckling pants"),
+              withItem("stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, "step6"));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitPirateShipBelowdecksAfterQuest() {
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withStats(25, 25, 25),
+              withItem("eyepatch"),
+              withItem("swashbuckling pants"),
+              withItem("stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
       }
     }
   }

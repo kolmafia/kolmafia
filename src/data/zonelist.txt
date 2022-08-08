@@ -92,11 +92,11 @@ Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Astral	Astral	Astral Plane	astral mushroom
 Memories	Memories	Memories	empty agua de vida bottle
 Spaaace	Spaaace	Outer Space	transporter transponder
-Mountain:Form of Mole	Mountain	Mt. Molehill	llama lama gong
+Shape of Mole	Mountain	Mt. Molehill	llama lama gong
 
 Rabbit Hole	Plains	Down the Rabbit Hole	&quot;DRINK ME&quot; potion
 
-Video Game Dungeon	Mountain	Video Game Dungeon	GameInformPowerDailyPro walkthru
+Video Game Dungeon	Dungeon	Video Game Dungeon	GameInformPowerDailyPro walkthru
 
 Suburbs	Suburbs	The Suburbs of Dis	devilish folio
 Gingerbread City	Mountain	Gingerbread City	Build-a-City Gingerbread kit
@@ -137,12 +137,12 @@ Jick's Obsessions	Psychoses	Jick's Psychoses	jar of psychoses (Jick)
 
 Spelunky Area	Item-Driven	Spelunky Area	Tales of Spelunking
 
-Batfellow Area	Item-Driven	Batfellow Area	Batfellow comic
-Batfellow:Bat-Cavern	Batfellow Area	Bat-Cavern
-Batfellow:Center Park (Low Crime)	Batfellow Area	Center Park (Low Crime)
-Batfellow:Slums (Moderate Crime)	Batfellow Area	Slums (Moderate Crime)
-Batfellow:Industrial District (High Crime)	Batfellow Area	Industrial District (High Crime)
-Batfellow:Downtown	Batfellow Area	Downtown
+Batfellow Area	Item-Driven	Batfellow Area	special edition Batfellow comic
+Bat-Cavern	Batfellow Area	Bat-Cavern
+Center Park (Low Crime)	Batfellow Area	Center Park (Low Crime)
+Slums (Moderate Crime)	Batfellow Area	Slums (Moderate Crime)
+Industrial District (High Crime)	Batfellow Area	Industrial District (High Crime)
+Downtown	Batfellow Area	Downtown
 
 FantasyRealm	A Monorail Station	FantasyRealm	FantasyRealm membership packet
 PirateRealm	A Monorail Station	PirateRealm	PirateRealm membership packet
