@@ -1414,8 +1414,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (antiqueMapZones.contains(this.zone)) {
-      // *** How can we tell if you have used the map?
-      return true;
+      // The maps are all quest items. Therefore, you can't ascend and
+      // keep them, but you can use them as much as you want until then.
+      return InventoryManager.hasItem(item);
     }
 
     // You can only have one jar of psychoses open at once.
