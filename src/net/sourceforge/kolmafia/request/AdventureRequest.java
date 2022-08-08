@@ -65,6 +65,7 @@ public class AdventureRequest extends GenericRequest {
   private final String adventureName;
   private final String formSource;
   private final String adventureId;
+  private final int adventureNumber;
 
   private int override = -1;
 
@@ -82,6 +83,8 @@ public class AdventureRequest extends GenericRequest {
     this.adventureName = adventureName;
     this.formSource = formSource;
     this.adventureId = adventureId;
+    this.adventureNumber =
+        StringUtilities.isNumeric(adventureId) ? StringUtilities.parseInt(adventureId) : 0;
 
     // The adventure Id is all you need to identify the adventure;
     // posting it in the form sent to adventure.php will handle
@@ -140,6 +143,10 @@ public class AdventureRequest extends GenericRequest {
     }
   }
 
+  public AdventureRequest(final String adventureName, final int snarfblat) {
+    this(adventureName, "adventure.php", String.valueOf(snarfblat));
+  }
+
   @Override
   protected boolean retryOnTimeout() {
     return true;
@@ -153,7 +160,7 @@ public class AdventureRequest extends GenericRequest {
     if (!KoLmafia.permitsContinue()) {
       return;
     } else if (this.formSource.equals("adventure.php")) {
-      if (this.adventureId.equals(AdventurePool.THE_SHORE_ID)) {
+      if (this.adventureNumber == AdventurePool.THE_SHORE) {
         // The Shore
         int adv = KoLCharacter.inFistcore() ? 5 : 3;
         if (KoLCharacter.getAdventuresLeft() < adv) {
@@ -268,7 +275,7 @@ public class AdventureRequest extends GenericRequest {
     // Nothing more to do in this area
 
     if (this.formSource.equals("adventure.php")) {
-      if (this.adventureId.equals(AdventurePool.MERKIN_COLOSSEUM_ID)) {
+      if (this.adventureNumber == AdventurePool.MERKIN_COLOSSEUM) {
         SeaMerkinRequest.parseColosseumResponse(this.getURLString(), this.responseText);
       }
 
@@ -295,7 +302,7 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    if (this.adventureId.equals(AdventurePool.ROULETTE_TABLES_ID)) {
+    if (this.adventureNumber == AdventurePool.ROULETTE_TABLES) {
       ResultProcessor.processMeat(-10);
     } else if (this.adventureId.equals(String.valueOf(AdventurePool.POKER_ROOM))) {
       ResultProcessor.processMeat(-30);
@@ -800,7 +807,7 @@ public class AdventureRequest extends GenericRequest {
     return responseText.substring(boldIndex + 3, endBoldIndex);
   }
 
-  private static int parseArea(final String urlString) {
+  public static int parseArea(final String urlString) {
     Matcher matcher = AREA_PATTERN.matcher(urlString);
     if (matcher.find()) {
       return StringUtilities.parseInt(matcher.group(2));
@@ -1006,7 +1013,7 @@ public class AdventureRequest extends GenericRequest {
     if (limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN) {
       return 0;
     }
-    if (this.adventureId.equals(AdventurePool.THE_SHORE_ID)) {
+    if (this.adventureNumber == AdventurePool.THE_SHORE) {
       return KoLCharacter.inFistcore() ? 5 : 3;
     }
     if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {

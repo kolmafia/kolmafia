@@ -889,7 +889,7 @@ public class EquipmentDatabase {
   }
 
   public static final int getOutfitId(final KoLAdventure adventure) {
-    int adventureId = Integer.parseInt(adventure.getAdventureId());
+    int adventureId = adventure.getAdventureNumber();
 
     switch (adventureId) {
       case AdventurePool.COBB_BARRACKS:

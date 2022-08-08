@@ -49,7 +49,7 @@ public class AdventureCommand extends AbstractCommand {
         return;
       }
 
-      if (adventureCount <= 0 && adventure.getAdventureId().equals(AdventurePool.THE_SHORE_ID)) {
+      if (adventureCount <= 0 && adventure.getAdventureNumber() == AdventurePool.THE_SHORE) {
         adventureCount += (int) Math.floor(KoLCharacter.getAdventuresLeft() / 3);
       } else if (adventureCount <= 0) {
         adventureCount += KoLCharacter.getAdventuresLeft();

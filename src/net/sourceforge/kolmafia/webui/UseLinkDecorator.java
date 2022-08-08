@@ -2073,7 +2073,7 @@ public abstract class UseLinkDecorator {
       case ItemPool.EXPERIMENTAL_SERUM_P00:
         {
           int count = InventoryManager.getCount(itemId);
-          return count < 5 && QuestDatabase.isQuestLaterThan(Quest.SERUM, QuestDatabase.UNSTARTED)
+          return count < 5 && QuestDatabase.isQuestStarted(Quest.SERUM)
               ? new UseLink(itemId, count)
               : new UseLink(
                   itemId,

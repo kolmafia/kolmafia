@@ -628,8 +628,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     // If we are Level 13 or less, the Council might have quests for us
     if (newLevel <= 13) {
       // If we're Ed, and have already found we're talking to Amun instead, link to Amun
-      if (KoLCharacter.isEd()
-          && QuestDatabase.isQuestLaterThan(Quest.LARVA, QuestDatabase.UNSTARTED)) {
+      if (KoLCharacter.isEd() && QuestDatabase.isQuestStarted(Quest.LARVA)) {
         links.append(" [<a href=\"council.php\">Amun</a>]");
       } else {
         links.append(" [<a href=\"council.php\">council</a>]");

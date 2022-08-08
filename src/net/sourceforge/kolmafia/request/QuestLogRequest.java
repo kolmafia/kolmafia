@@ -35,12 +35,12 @@ public class QuestLogRequest extends GenericRequest {
   }
 
   public static final boolean isWhiteCitadelAvailable() {
-    String pref = Preferences.getString(Quest.CITADEL.getPref());
+    String pref = QuestDatabase.getQuest(Quest.CITADEL);
     return pref.equals(QuestDatabase.FINISHED) || pref.equals("step5") || pref.equals("step6");
   }
 
   public static final boolean areFriarsAvailable() {
-    return Preferences.getString(Quest.FRIAR.getPref()).equals(QuestDatabase.FINISHED);
+    return QuestDatabase.isQuestFinished(Quest.FRIAR);
   }
 
   public static final boolean isBlackMarketAvailable() {
@@ -50,13 +50,13 @@ public class QuestLogRequest extends GenericRequest {
     if (KoLCharacter.inNuclearAutumn()) {
       return false;
     }
-    String pref = Preferences.getString(Quest.MACGUFFIN.getPref());
+    String pref = QuestDatabase.getQuest(Quest.MACGUFFIN);
 
     return pref.equals(QuestDatabase.FINISHED) || pref.contains("step");
   }
 
   public static final boolean isHippyStoreAvailable() {
-    return !Preferences.getString(Quest.ISLAND_WAR.getPref()).equals("step1");
+    return !QuestDatabase.getQuest(Quest.ISLAND_WAR).equals("step1");
   }
 
   @Override
@@ -145,14 +145,14 @@ public class QuestLogRequest extends GenericRequest {
     }
 
     // Some quests vanish when completed but can be inferred by the presence of a new one
-    if (QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED)) {
-      QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
-    }
-    if (QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_BABIES, QuestDatabase.UNSTARTED)) {
-      QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
-    }
-    if (QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.UNSTARTED)) {
+    if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_DANCE)) {
       QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
+    }
+    if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_BABIES)) {
+      QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+    }
+    if (QuestDatabase.isQuestStarted(Quest.MANOR)) {
+      QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
     }
     if (QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, "step1")) {
       QuestDatabase.setQuestProgress(Quest.BLACK, QuestDatabase.FINISHED);
@@ -163,7 +163,7 @@ public class QuestLogRequest extends GenericRequest {
       QuestDatabase.setQuestProgress(Quest.BUSINESS, QuestDatabase.FINISHED);
       QuestDatabase.setQuestProgress(Quest.SPARE, QuestDatabase.FINISHED);
     }
-    if (QuestDatabase.isQuestLaterThan(Quest.PYRAMID, QuestDatabase.UNSTARTED)) {
+    if (QuestDatabase.isQuestStarted(Quest.PYRAMID)) {
       QuestDatabase.setQuestProgress(Quest.DESERT, QuestDatabase.FINISHED);
     }
 
@@ -172,8 +172,7 @@ public class QuestLogRequest extends GenericRequest {
         || QuestDatabase.isQuestFinished(Quest.MEATCAR)) {
       KoLCharacter.setDesertBeachAvailable();
     }
-    if (QuestDatabase.isQuestLaterThan(Quest.PIRATE, QuestDatabase.UNSTARTED)
-        || QuestDatabase.isQuestFinished(Quest.HIPPY)) {
+    if (QuestDatabase.isQuestStarted(Quest.PIRATE) || QuestDatabase.isQuestFinished(Quest.HIPPY)) {
       Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
     }
     if (QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)) {

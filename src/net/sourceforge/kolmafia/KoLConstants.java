@@ -215,7 +215,7 @@ public interface KoLConstants extends UtilityConstants {
   int SPLEENHIT_VERSION = 3;
   int STATUSEFFECTS_VERSION = 4;
   int ZAPGROUPS_VERSION = 1;
-  int ZONELIST_VERSION = 1;
+  int ZONELIST_VERSION = 2;
 
   // mallprices.txt can be updated by typing a filename, so give
   // it a distinct version number in case the user types the name
