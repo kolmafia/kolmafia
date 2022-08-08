@@ -1,10 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -16,6 +11,17 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ColdMedicineCabinetCommand extends AbstractCommand {
   public ColdMedicineCabinetCommand() {
