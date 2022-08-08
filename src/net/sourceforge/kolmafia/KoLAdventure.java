@@ -459,8 +459,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 3 quest
     if (this.formSource.equals("cellar.php")) {
-      // *** Validate Tavern Quest
-      return true;
+      return QuestDatabase.isQuestStarted(Quest.RAT);
     }
 
     // Level 5 quest boss
@@ -470,9 +469,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // Level 7 quest boss
-    if (this.formSource.equals("cyrpt.php")) {
-      // *** Validate Bonerdagon
-      return true;
+    if (this.formSource.equals("crypt.php")) {
+      return QuestDatabase.isQuestStep(Quest.CYRPT, QuestDatabase.STARTED)
+          && Preferences.getInteger("cyrptTotalEvilness") == 0;
     }
 
     // Level 8 quest boss

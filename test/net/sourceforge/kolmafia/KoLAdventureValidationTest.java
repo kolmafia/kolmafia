@@ -206,6 +206,170 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Cyrpt {
+
+    // Simplify looking up the KoLAdventure based on adventure ID.
+    private static Map<Integer, KoLAdventure> zones = new HashMap<>();
+    private static KoLAdventure haert = AdventureDatabase.getAdventureByName("Haert of the Cyrpt");
+
+    @BeforeAll
+    private static void beforeAll() {
+      zones.put(
+          AdventurePool.DEFILED_ALCOVE, AdventureDatabase.getAdventureByName("The Defiled Alcove"));
+      zones.put(
+          AdventurePool.DEFILED_CRANNY, AdventureDatabase.getAdventureByName("The Defiled Cranny"));
+      zones.put(
+          AdventurePool.DEFILED_NICHE, AdventureDatabase.getAdventureByName("The Defiled Niche"));
+      zones.put(
+          AdventurePool.DEFILED_NOOK, AdventureDatabase.getAdventureByName("The Defiled Nook"));
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      zones.clear();
+      haert = null;
+    }
+
+    @Test
+    public void cannotVisitCyrptBeforeQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
+        assertFalse(haert.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCyrptWhenQuestStarted() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withProperty("cyrptTotalEvilness", 200));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
+        assertFalse(haert.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCyrptWhenAlcoveClear() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+              withProperty("cyrptAlcoveEvilness", 0),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withProperty("cyrptTotalEvilness", 150));
+      try (cleanups) {
+        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
+        assertFalse(haert.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCyrptWhenCrannyClear() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 0),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withProperty("cyrptTotalEvilness", 150));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
+        assertFalse(haert.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCyrptWhenNicheClear() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 0),
+              withProperty("cyrptNookEvilness", 50),
+              withProperty("cyrptTotalEvilness", 150));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
+        assertFalse(haert.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitCyrptWhenNookClear() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 0),
+              withProperty("cyrptTotalEvilness", 150));
+      try (cleanups) {
+        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
+        assertFalse(haert.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void canVisitHaertWhenCyrptClear() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+              withProperty("cyrptAlcoveEvilness", 0),
+              withProperty("cyrptCrannyEvilness", 0),
+              withProperty("cyrptNicheEvilness", 0),
+              withProperty("cyrptNookEvilness", 0),
+              withProperty("cyrptTotalEvilness", 0));
+      try (cleanups) {
+        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
+        assertTrue(haert.isCurrentlyAccessible());
+      }
+    }
+
+    @Test
+    public void cannotVisitCyrptWhenQuestFinished() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
+        assertFalse(haert.isCurrentlyAccessible());
+      }
+    }
+  }
+
+  @Nested
   class Pirate {
 
     // Simplify looking up the KoLAdventure based on adventure ID.
