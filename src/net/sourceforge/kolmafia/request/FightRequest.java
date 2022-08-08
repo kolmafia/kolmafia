@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
+import net.sourceforge.kolmafia.session.StillSuitManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
@@ -4206,6 +4207,8 @@ public class FightRequest extends GenericRequest {
     // logging in if you are still in a fight or choice
     FightRequest.clearInstanceData();
     FightRequest.won = won;
+
+    StillSuitManager.handleSweat(responseText, !FightRequest.inMultiFight);
 
     // <a href="fight.php" id="againlink">The barrier between world is torn...</a>
     if (FightRequest.inMultiFight && responseText.contains("The barrier between world")) {

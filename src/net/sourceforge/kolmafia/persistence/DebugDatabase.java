@@ -1371,7 +1371,7 @@ public class DebugDatabase {
     return DebugDatabase.createModifierString(known);
   }
 
-  private static void parseStandardEnchantments(
+  public static void parseStandardEnchantments(
       final String text,
       final ModifierList known,
       final ArrayList<String> unknown,
