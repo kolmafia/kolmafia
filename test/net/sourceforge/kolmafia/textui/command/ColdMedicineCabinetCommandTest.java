@@ -360,4 +360,27 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       }
     }
   }
+
+  @Test
+  void ShowCorrectNumberOfTurnsForMajority() {
+    var cleanups =
+        new Cleanups(
+            withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
+            withProperty("lastCombatEnvironments", "iiiiiioooooouuuuuuio"),
+            withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+            withTurnsPlayed(0),
+            withContinuationState());
+
+    try (cleanups) {
+      String output = execute("");
+      assertThat(
+          output, containsString("For Extrovermectin&trade;, spend 5 turns in an indoor location"));
+      assertThat(
+          output, containsString("For Homebodyl&trade;, spend 5 turns in an outdoor location"));
+      assertThat(
+          output,
+          containsString("For Breathitin&trade;, spend 11 turns in an underground location"));
+      assertContinueState();
+    }
+  }
 }
