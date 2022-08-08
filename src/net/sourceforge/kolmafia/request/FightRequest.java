@@ -4208,7 +4208,8 @@ public class FightRequest extends GenericRequest {
     FightRequest.clearInstanceData();
     FightRequest.won = won;
 
-    StillSuitManager.handleSweat(responseText, !FightRequest.inMultiFight);
+    StillSuitManager.handleSweat(
+        responseText, !(FightRequest.inMultiFight || FightRequest.choiceFollowsFight));
 
     // <a href="fight.php" id="againlink">The barrier between world is torn...</a>
     if (FightRequest.inMultiFight && responseText.contains("The barrier between world")) {
