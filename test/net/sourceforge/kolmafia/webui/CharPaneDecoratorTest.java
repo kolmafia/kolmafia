@@ -4,9 +4,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -41,19 +41,22 @@ public class CharPaneDecoratorTest {
   @ParameterizedTest
   @ValueSource(strings = {"basic", "compact"})
   public void decorateEffects(final String displayMode) {
-    KoLCharacter.addAvailableSkill(SkillPool.ODE_TO_BOOZE);
-    Preferences.setString("olfactedMonster", "novelty tropical skeleton");
+    var cleanups =
+        new Cleanups(
+            withSkill(SkillPool.ODE_TO_BOOZE),
+            withProperty("olfactedMonster", "novelty tropical skeleton"));
 
-    String input = html("request/test_charpane_" + displayMode + ".html");
-    CharPaneRequest.processResults(input);
+    try (cleanups) {
+      String input = html("request/test_charpane_" + displayMode + ".html");
+      CharPaneRequest.processResults(input);
 
-    var expected = html("request/test_charpane_" + displayMode + "_decorated_effects.html");
-    var actual =
-        CharPaneDecorator.decorateIntrinsics(
-                CharPaneDecorator.decorateEffects(new StringBuffer(input)))
-            .toString();
+      var actual = new StringBuffer(input);
+      CharPaneDecorator.decorate(actual);
 
-    assertEquals(expected, actual);
+      assertThat(
+          actual.toString(),
+          containsString(html("request/test_charpane_" + displayMode + "_decorated_effects.html")));
+    }
   }
 
   @ParameterizedTest
