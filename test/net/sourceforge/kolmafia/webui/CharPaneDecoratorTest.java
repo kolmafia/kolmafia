@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -29,6 +30,7 @@ public class CharPaneDecoratorTest {
     KoLCharacter.reset("Test Character");
     Preferences.reset("Test Character");
     CharPaneRequest.reset();
+    KoLConstants.activeEffects.clear();
   }
 
   @AfterAll
