@@ -29,7 +29,7 @@ public class StillSuitManager {
 
     int drams = 0;
     if (familiar == KoLCharacter.getFamiliar()) {
-      drams = 2;
+      drams = 3;
     } else if (familiar != null) {
       drams = 1;
     }
