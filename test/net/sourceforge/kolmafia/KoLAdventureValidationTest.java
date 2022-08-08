@@ -69,6 +69,118 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class AirportCharters {
+
+    // Simplify looking up the KoLAdventure based on adventure ID.
+    private static Map<Integer, KoLAdventure> sleazeZones = new HashMap<>();
+    private static Map<Integer, KoLAdventure> spookyZones = new HashMap<>();
+    private static Map<Integer, KoLAdventure> stenchZones = new HashMap<>();
+    private static Map<Integer, KoLAdventure> hotZones = new HashMap<>();
+    private static Map<Integer, KoLAdventure> coldZones = new HashMap<>();
+
+    @BeforeAll
+    private static void beforeAll() {
+      sleazeZones.put(
+          AdventurePool.FUN_GUY_MANSION,
+          AdventureDatabase.getAdventureByName("The Fun-Guy Mansion"));
+      sleazeZones.put(
+          AdventurePool.SLOPPY_SECONDS_DINER,
+          AdventureDatabase.getAdventureByName("Sloppy Seconds Diner"));
+      sleazeZones.put(
+          AdventurePool.YACHT, AdventureDatabase.getAdventureByName("The Sunken Party Yacht"));
+
+      spookyZones.put(
+          AdventurePool.DR_WEIRDEAUX,
+          AdventureDatabase.getAdventureByName("The Mansion of Dr. Weirdeaux"));
+      spookyZones.put(
+          AdventurePool.SECRET_GOVERNMENT_LAB,
+          AdventureDatabase.getAdventureByName("The Secret Government Laboratory"));
+      spookyZones.put(
+          AdventurePool.DEEP_DARK_JUNGLE,
+          AdventureDatabase.getAdventureByName("The Deep Dark Jungle"));
+
+      stenchZones.put(
+          AdventurePool.BARF_MOUNTAIN, AdventureDatabase.getAdventureByName("Barf Mountain"));
+      stenchZones.put(
+          AdventurePool.GARBAGE_BARGES,
+          AdventureDatabase.getAdventureByName("Pirates of the Garbage Barges"));
+      stenchZones.put(
+          AdventurePool.TOXIC_TEACUPS, AdventureDatabase.getAdventureByName("The Toxic Teacups"));
+      stenchZones.put(
+          AdventurePool.LIQUID_WASTE_SLUICE,
+          AdventureDatabase.getAdventureByName(
+              "Uncle Gator's Country Fun-Time Liquid Waste Sluice"));
+
+      hotZones.put(
+          AdventurePool.SMOOCH_ARMY_HQ, AdventureDatabase.getAdventureByName("The SMOOCH Army HQ"));
+      hotZones.put(
+          AdventurePool.VELVET_GOLD_MINE,
+          AdventureDatabase.getAdventureByName("The Velvet / Gold Mine"));
+      hotZones.put(
+          AdventurePool.LAVACO_LAMP_FACTORY,
+          AdventureDatabase.getAdventureByName("LavaCo&trade; Lamp Factory"));
+      hotZones.put(
+          AdventurePool.BUBBLIN_CALDERA,
+          AdventureDatabase.getAdventureByName("The Bubblin' Caldera"));
+
+      coldZones.put(AdventurePool.ICE_HOTEL, AdventureDatabase.getAdventureByName("The Ice Hotel"));
+      coldZones.put(AdventurePool.VYKEA, AdventureDatabase.getAdventureByName("VYKEA"));
+      coldZones.put(AdventurePool.ICE_HOLE, AdventureDatabase.getAdventureByName("The Ice Hole"));
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      sleazeZones.clear();
+      spookyZones.clear();
+      stenchZones.clear();
+      hotZones.clear();
+      coldZones.clear();
+    }
+
+    private void testElementalZoneNoAccess(Map<Integer, KoLAdventure> zones) {
+      for (Integer key : zones.keySet()) {
+        assertFalse(zones.get(key).isCurrentlyAccessible());
+      }
+    }
+
+    private void testElementalZoneWithAccess(Map<Integer, KoLAdventure> zones, String property) {
+      var cleanups = new Cleanups(withProperty(property, true));
+      try (cleanups) {
+        for (Integer key : zones.keySet()) {
+          assertTrue(zones.get(key).isCurrentlyAccessible());
+        }
+      }
+    }
+
+    @Test
+    public void cannotVisitElementalZonesWithoutAccess() {
+      testElementalZoneNoAccess(sleazeZones);
+      testElementalZoneNoAccess(spookyZones);
+      testElementalZoneNoAccess(stenchZones);
+      testElementalZoneNoAccess(hotZones);
+      testElementalZoneNoAccess(coldZones);
+    }
+
+    @Test
+    public void canVisitElementalZonesWithAllAccess() {
+      testElementalZoneWithAccess(sleazeZones, "sleazeAirportAlways");
+      testElementalZoneWithAccess(spookyZones, "spookyAirportAlways");
+      testElementalZoneWithAccess(stenchZones, "stenchAirportAlways");
+      testElementalZoneWithAccess(hotZones, "hotAirportAlways");
+      testElementalZoneWithAccess(coldZones, "coldAirportAlways");
+    }
+
+    @Test
+    public void canVisitElementalZonesWithDailyAccess() {
+      testElementalZoneWithAccess(sleazeZones, "_sleazeAirportToday");
+      testElementalZoneWithAccess(spookyZones, "_spookyAirportToday");
+      testElementalZoneWithAccess(stenchZones, "_stenchAirportToday");
+      testElementalZoneWithAccess(hotZones, "_hotAirportToday");
+      testElementalZoneWithAccess(coldZones, "_coldAirportToday");
+    }
+  }
+
+  @Nested
   class CobbsKnob {
 
     // Simplify looking up the KoLAdventure based on adventure ID.
