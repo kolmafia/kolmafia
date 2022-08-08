@@ -503,10 +503,10 @@ PastEvents	adventure=508	Env: outdoor nowander	A Monorail Station
 
 Portal	adventure=164	Env: underground Stat: 365	El Vibrato Island
 
-Town	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
-Town	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
-Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
-Town	adventure=528	Env: indoor Stat: 0	The Neverending Party
+Tunnel of L.O.V.E.	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
+Deep Machine Tunnels	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
+LT&T	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
+Neverending Party	adventure=528	Env: indoor Stat: 0	The Neverending Party
 
 Shape of Mole	adventure=177	Env: underground Stat: 0	Mt. Molehill
 

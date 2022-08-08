@@ -88,6 +88,11 @@ Item-Driven	Item-Driven	Item-Driven Zones
 
 Portal	Portal	El Vibrato Island	El Vibrato trapezoid
 
+Tunnel of L.O.V.E.	Town	The Tunnel of L.O.V.E.	heart-shaped crate
+Deep Machine Tunnels	Town	The Deep Machine Tunnels	machine elf capsule
+LT&T	Town	LT&T Telegrams	LT&T telegraph office deed
+Neverending Party	Town	The Neverending Party	Neverending Party invitation envelope
+
 Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Astral	Astral	Astral Plane	astral mushroom
 Memories	Memories	Memories	empty agua de vida bottle

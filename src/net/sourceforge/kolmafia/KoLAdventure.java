@@ -497,14 +497,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Fernswarthy's Basement
     if (this.formSource.equals("basement.php")) {
-      // *** Validate Fernswarthy's Basement
-      return true;
+      return QuestDatabase.isQuestLaterThan(Quest.EGO, "step4");
     }
 
     // The Tunnel of L.O.V.E.
     if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
-      // *** Validate
-      return true;
+      // LOV Entrance Pass is the one-day pass.
+      // *** Not supported yet!
+      return Preferences.getBoolean("loveTunnelAvailable")
+          && !Preferences.getBoolean("_loveTunnelUsed");
     }
 
     // The Barrel Full of Barrels
@@ -546,12 +547,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.SUPER_VILLAIN_LAIR:
           return KoLCharacter.getPath() == Path.LICENSE_TO_ADVENTURE;
       }
-
-      // **** item validation
-      // Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
-      // Town	adventure=458	The Deep Machine Tunnels
-      // Town	adventure=474	Investigating a Plaintive Telegram
-      // Town	adventure=528	The Neverending Party
     }
 
     // Open at level one, with a subset of eventual zones
@@ -723,7 +718,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 5 quest
     if (this.zone.equals("Knob")) {
-      // *** Validate
       return switch (this.adventureNumber) {
         case AdventurePool.OUTSKIRTS_OF_THE_KNOB -> true;
         case AdventurePool.COBB_BARRACKS,
@@ -938,7 +932,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
-      // *** validate
       // McMillicancuddy's Barn
       // McMillicancuddy's Pond
       // McMillicancuddy's Back 40
@@ -947,6 +940,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // McMillicancuddy's Bog
       // McMillicancuddy's Family Plot
       // McMillicancuddy's Shady Thicket
+
+      // *** validate:
+      // - only  three duck zones that were selected in the barn
+      // - done when all three duck zones have been cleared
       return true;
     }
 
@@ -954,11 +951,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
-      // *** validate
       // The Hatching Chamber
       // The Feeding Chamber
       // The Royal Guard Chamber
       // The Filthworm Queen's Chamber
+
+      // *** validate:
+      // - done when Filthworm Queen is slain
       return true;
     }
 
@@ -966,11 +965,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
-      // *** validate
+
       // Next to that Barrel with Something Burning in it
       // Near an Abandoned Refrigerator
       // Over Where the Old Tires Are
       // Out by that Rusted-Out Car
+
+      // You can visit any of the zones both before or after getting the tool -
+      // and even after turning them all in.
       return true;
     }
 
@@ -1113,7 +1115,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!haveOutfit && !haveFledges) {
         return false;
       }
-      // *** Distinguish between areas
       return switch (this.adventureNumber) {
         case AdventurePool.BARRRNEYS_BARRR -> true;
         case AdventurePool.FCLE -> QuestDatabase.isQuestLaterThan(Quest.PIRATE, "step4");
@@ -1369,13 +1370,29 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Portal")) {
       // El Vibrato Island
+      // *** validate
       return true;
     }
 
-    // Town	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
-    // Town	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
-    // Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
-    // Town	adventure=528	Env: indoor Stat: 0	The Neverending Party
+    if (this.zone.equals("Deep Machine Tunnels")) {
+      // The Deep Machine Tunnels
+      // Deep Machine Tunnels snowglobe is the one day pass.
+      // *** Not supported yet!
+      return KoLCharacter.findFamiliar(FamiliarPool.MACHINE_ELF) != null;
+    }
+
+    if (this.zone.equals("LT&T")) {
+      // Telegram quests
+      // inflatable LT&T telegraph office is the one-day pass.
+      // *** Not supported yet!
+      return Preferences.getBoolean("telegraphOfficeAvailable");
+    }
+
+    if (this.zone.equals("Neverending Party")) {
+      // The Neverending Party
+      return Preferences.getBoolean("neverendingPartyAlways")
+          || Preferences.getBoolean("_neverendingPartyToday");
+    }
 
     if (this.zone.equals("Wormwood")) {
       // tiny bottle of absinthe grants 15 turns of Absinthe-Minded.
@@ -1430,8 +1447,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("The Snojo")) {
       // The X-32-F Combat Training Snowman
-      // *** validate
-      return true;
+      return Preferences.getBoolean("snojoAvailable");
     }
 
     if (this.zone.equals("The Spacegate")) {
@@ -1451,14 +1467,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("FantasyRealm")) {
       // *** You have limited turns available per day.
-      // *** validate
-      return true;
+      return Preferences.getBoolean("frAlways") || Preferences.getBoolean("_frToday");
     }
 
     if (this.zone.startsWith("PirateRealm")) {
       // *** You have limited turns available per day.
-      // *** validate
-      return true;
+      return Preferences.getBoolean("prAlways") || Preferences.getBoolean("_prToday");
     }
 
     // Assume that any areas we did not call out above are available
