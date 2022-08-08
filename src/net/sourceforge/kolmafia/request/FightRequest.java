@@ -4087,7 +4087,7 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("_holoWristProgress");
       }
 
-      if (QuestDatabase.isQuestLaterThan(Quest.GUZZLR, QuestDatabase.UNSTARTED)
+      if (QuestDatabase.isQuestStarted(Quest.GUZZLR)
           && Preferences.getString("guzzlrQuestLocation").equals(locationName)
           && responseText.contains(Preferences.getString("guzzlrQuestClient"))) {
         int incr = Math.max(3, 10 - Preferences.getInteger("_guzzlrDeliveries"));
@@ -4097,7 +4097,7 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("guzzlrDeliveryProgress", incr);
       }
 
-      if (QuestDatabase.isQuestLaterThan(Quest.GUZZLR, QuestDatabase.UNSTARTED)
+      if (QuestDatabase.isQuestStarted(Quest.GUZZLR)
           && responseText.contains("You finally manage to track down")) {
         String tier = Preferences.getString("guzzlrQuestTier");
         int itemId = ItemDatabase.getItemId(Preferences.getString("guzzlrQuestBooze"));

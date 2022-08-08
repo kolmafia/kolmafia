@@ -1419,15 +1419,15 @@ public abstract class ChoiceAdventures {
 
     // That Explains All The Eyepatches
     // Dynamically calculate options based on mainstat
-    new ChoiceAdventure(184, "Island", "Barrrney's Barrr");
+    new ChoiceAdventure(184, "Pirate", "Barrrney's Barrr");
 
     // Yes, You're a Rock Starrr
-    new ChoiceAdventure(185, "Island", "Barrrney's Barrr");
+    new ChoiceAdventure(185, "Pirate", "Barrrney's Barrr");
 
     // A Test of Testarrrsterone
     new ChoiceAdventure(
         186,
-        "Island",
+        "Pirate",
         "Barrrney's Barrr",
         // Option...
         new Option("stats"),
@@ -1454,7 +1454,7 @@ public abstract class ChoiceAdventures {
     // Chatterboxing
     new ChoiceAdventure(
         191,
-        "Island",
+        "Pirate",
         "F'c'le",
         // Option...
         new Option("moxie substats"),

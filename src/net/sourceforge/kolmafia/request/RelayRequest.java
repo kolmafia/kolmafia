@@ -759,11 +759,11 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String location = adventure.getAdventureId();
+    int location = adventure.getAdventureNumber();
 
     // If he's not going on to the battlefield, no problem
-    if (!location.equals(AdventurePool.FRAT_UNIFORM_BATTLEFIELD_ID)
-        && !location.equals(AdventurePool.HIPPY_UNIFORM_BATTLEFIELD_ID)) {
+    if (location != AdventurePool.FRAT_UNIFORM_BATTLEFIELD
+        && location != AdventurePool.HIPPY_UNIFORM_BATTLEFIELD) {
       return false;
     }
 
@@ -1018,10 +1018,10 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String location = adventure.getAdventureId();
+    int location = adventure.getAdventureNumber();
 
     // If he's not going to the Mer-Kin Colosseum, no problem
-    if (!location.equals(AdventurePool.MERKIN_COLOSSEUM_ID)) {
+    if (location != AdventurePool.MERKIN_COLOSSEUM) {
       return false;
     }
 
@@ -1143,13 +1143,13 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String location = adventure.getAdventureId();
+    int location = adventure.getAdventureNumber();
 
     // If they aren't going to the War Gremlin zones, no problem
-    if (!location.equals(AdventurePool.JUNKYARD_BARREL_ID)
-        && !location.equals(AdventurePool.JUNKYARD_REFRIGERATOR_ID)
-        && !location.equals(AdventurePool.JUNKYARD_TIRES_ID)
-        && !location.equals(AdventurePool.JUNKYARD_CAR_ID)) {
+    if (location != AdventurePool.JUNKYARD_BARREL
+        && location != AdventurePool.JUNKYARD_REFRIGERATOR
+        && location != AdventurePool.JUNKYARD_TIRES
+        && location != AdventurePool.JUNKYARD_CAR) {
       return false;
     }
 
@@ -1240,7 +1240,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the desert, no problem
-    if (!AdventurePool.ARID_DESERT_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.ARID_DESERT != location) {
       return false;
     }
 
@@ -1299,7 +1300,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the desert, no problem
-    if (!AdventurePool.ARID_DESERT_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.ARID_DESERT != location) {
       return false;
     }
 
@@ -1392,7 +1394,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the desert, no problem
-    if (!AdventurePool.ARID_DESERT_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.ARID_DESERT != location) {
       return false;
     }
 
@@ -1528,17 +1531,16 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in a liana location, or the lianas are defeated, no problem
-    String location = this.getFormField("snarfblat");
-    if (!((AdventurePool.NE_SHRINE_ID.equals(location)
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (!((AdventurePool.NE_SHRINE == location
             && Preferences.getInteger("hiddenOfficeProgress") == 0)
-        || (AdventurePool.SE_SHRINE_ID.equals(location)
+        || (AdventurePool.SE_SHRINE == location
             && Preferences.getInteger("hiddenBowlingAlleyProgress") == 0)
-        || (AdventurePool.NW_SHRINE_ID.equals(location)
+        || (AdventurePool.NW_SHRINE == location
             && Preferences.getInteger("hiddenApartmentProgress") == 0)
-        || (AdventurePool.SW_SHRINE_ID.equals(location)
+        || (AdventurePool.SW_SHRINE == location
             && Preferences.getInteger("hiddenHospitalProgress") == 0)
-        || (AdventurePool.ZIGGURAT_ID.equals(location)
-            && Preferences.getInteger("zigguratLianas") == 0))) {
+        || (AdventurePool.ZIGGURAT == location && Preferences.getInteger("zigguratLianas") == 0))) {
       return false;
     }
 
@@ -1604,7 +1606,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the Castle Top, no problem
-    if (!AdventurePool.CASTLE_TOP_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.CASTLE_TOP != location) {
       return false;
     }
 
@@ -1708,7 +1711,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the Daily Dungeon, no problem
-    if (!AdventurePool.THE_DAILY_DUNGEON_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.THE_DAILY_DUNGEON != location) {
       return false;
     }
 
@@ -1763,7 +1767,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the Billiards Room, no problem
-    if (!AdventurePool.HAUNTED_BILLIARDS_ROOM_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.HAUNTED_BILLIARDS_ROOM != location) {
       return false;
     }
 
@@ -1920,8 +1925,9 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the Laundry Room or Wine Cellar, no problem
-    if (!AdventurePool.HAUNTED_WINE_CELLAR_ID.equals(this.getFormField("snarfblat"))
-        && !AdventurePool.HAUNTED_LAUNDRY_ROOM_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.HAUNTED_WINE_CELLAR != location
+        && AdventurePool.HAUNTED_LAUNDRY_ROOM != location) {
       return false;
     }
 
@@ -1963,7 +1969,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the Zeppelin, no problem
-    if (!AdventurePool.RED_ZEPPELIN_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.RED_ZEPPELIN != location) {
       return false;
     }
 
@@ -2005,7 +2012,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in the Boiler Room, no problem
-    if (!AdventurePool.HAUNTED_BOILER_ROOM_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.HAUNTED_BOILER_ROOM != location) {
       return false;
     }
 
@@ -2050,14 +2058,14 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
     // If they aren't in the Poop Deck or Hidden Temple, no problem
-    if (!AdventurePool.POOP_DECK_ID.equals(this.getFormField("snarfblat"))
-        && !AdventurePool.HIDDEN_TEMPLE_ID.equals(this.getFormField("snarfblat"))) {
+    if (AdventurePool.POOP_DECK != location && AdventurePool.HIDDEN_TEMPLE != location) {
       return false;
     }
 
     // If they aren't in the Ballroom, or are in Ballroom with Lights Out due, no problem
-    if (!AdventurePool.HAUNTED_BALLROOM_ID.equals(this.getFormField("snarfblat"))
+    if (AdventurePool.HAUNTED_BALLROOM != location
         || LightsOutManager.lightsOutNow()
         || VoteMonsterManager.voteMonsterNow()) {
       return false;
@@ -2305,11 +2313,9 @@ public class RelayRequest extends PasswordHashRequest {
 
     // This one's for the Boss Bat, who has special items at 4 and 8.
     if (path.startsWith("adventure.php")) {
-      String location = adventure == null ? null : adventure.getAdventureId();
+      int location = adventure == null ? 0 : adventure.getAdventureNumber();
 
-      if (location != null
-          && location.equals(AdventurePool.BOSSBAT_ID)
-          && KoLCharacter.mcdAvailable()) {
+      if (location == AdventurePool.BOSSBAT && KoLCharacter.mcdAvailable()) {
         int turns = AdventureSpentDatabase.getTurns("The Boss Bat's Lair");
         if (turns < 4) {
           // Do not prompt about adjusting the MCD if the Boss Bat cannot show up

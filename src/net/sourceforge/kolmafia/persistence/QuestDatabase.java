@@ -1166,6 +1166,10 @@ public class QuestDatabase {
     return false;
   }
 
+  public static boolean isQuestStarted(Quest quest) {
+    return QuestDatabase.isQuestLaterThan(quest, QuestDatabase.UNSTARTED);
+  }
+
   public static boolean isQuestFinished(Quest quest) {
     if (quest == null) {
       return false;

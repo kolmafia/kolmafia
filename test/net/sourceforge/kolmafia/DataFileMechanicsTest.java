@@ -60,7 +60,7 @@ public class DataFileMechanicsTest {
         Arguments.of("TCRS.astral_consumables.txt", 0, 4, 4),
         Arguments.of("TCRS.astral_pets.txt", 0, 4, 4),
         // zapgroups.txt is too simple
-        Arguments.of("zonelist.txt", 1, 3, 3));
+        Arguments.of("zonelist.txt", 2, 3, 4));
   }
 
   // Field counts that are not really an error.

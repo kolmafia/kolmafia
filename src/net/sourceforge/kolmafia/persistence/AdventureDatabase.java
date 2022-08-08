@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -15,6 +17,8 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -58,6 +62,9 @@ public class AdventureDatabase {
   private static final Map<String, Integer> statLookup = new HashMap<>();
   private static final Map<String, Integer> waterLevelLookup = new HashMap<>();
   private static final Map<String, Boolean> wandererLookup = new HashMap<>();
+  private static final Set<KoLAdventure> removedAdventures = new HashSet<>();
+  private static final Map<String, Path> ascensionPathZones = new HashMap<>();
+  private static final Map<String, AdventureResult> itemGeneratedZones = new HashMap<>();
 
   static {
     AdventureDatabase.refreshZoneTable();
@@ -104,6 +111,37 @@ public class AdventureDatabase {
           }
 
           AdventureDatabase.ZONE_DESCRIPTIONS.put(zone, description);
+
+          if (data.length == 3) {
+            // Perhaps inherit from parent zone
+            Path apath = ascensionPathZones.get(parent);
+            if (apath != null) {
+              ascensionPathZones.put(zone, apath);
+            }
+            AdventureResult item = itemGeneratedZones.get(parent);
+            if (item != null) {
+              itemGeneratedZones.put(zone, item);
+            }
+            continue;
+          }
+
+          String source = data[3];
+
+          // See if it is an Ascension Path
+          Path path = AscensionPath.nameToPath(source);
+          if (path != null) {
+            ascensionPathZones.put(zone, path);
+            continue;
+          }
+
+          // See if it is an Item name
+          int itemId = ItemDatabase.getItemId(source);
+          if (itemId > 0) {
+            itemGeneratedZones.put(zone, ItemPool.get(itemId));
+            continue;
+          }
+          RequestLogger.printLine(
+              "Adventure zone \"" + zone + "\" has unrecognizable source: \"" + source + "\"");
         }
       }
     } catch (IOException e) {
@@ -255,6 +293,7 @@ public class AdventureDatabase {
     AdventureDatabase.allAdventures.clear();
     AdventureDatabase.adventureByURL.clear();
     AdventureDatabase.adventureByName.clear();
+    AdventureDatabase.removedAdventures.clear();
 
     for (var adv : AdventureDatabase.adventureTable) {
       AdventureDatabase.addAdventure(AdventureDatabase.getAdventure(adv));
@@ -300,6 +339,35 @@ public class AdventureDatabase {
       url = StringUtilities.singleStringReplace(url, "snarfblat=", "adv=");
       AdventureDatabase.adventureByURL.put(url, location);
     }
+
+    // Walk up the adventure's zones. If it ends in "Removed", save it.
+    String zone = location.getZone();
+    while (true) {
+      if (zone == null) {
+        break;
+      }
+      if (zone.equals("Removed")) {
+        AdventureDatabase.removedAdventures.add(location);
+        break;
+      }
+      String parent = AdventureDatabase.getParentZone(zone);
+      if (zone.equals(parent)) {
+        break;
+      }
+      zone = parent;
+    }
+  }
+
+  public static final boolean removedAdventure(KoLAdventure location) {
+    return AdventureDatabase.removedAdventures.contains(location);
+  }
+
+  public static final Path zoneAscensionPath(String zone) {
+    return AdventureDatabase.ascensionPathZones.get(zone);
+  }
+
+  public static final AdventureResult zoneGeneratingItem(String zone) {
+    return AdventureDatabase.itemGeneratedZones.get(zone);
   }
 
   public static final LockableListModel<KoLAdventure> getAsLockableListModel() {
