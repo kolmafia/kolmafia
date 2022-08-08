@@ -8,8 +8,10 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -188,6 +190,7 @@ class ChoiceControlTest {
       var cleanups = new Cleanups(withProperty("familiarSweat"));
 
       try (cleanups) {
+        RequestLoggerOutput.startStream();
         var urlString = "choice.php?forceoption=0";
         var responseText = html("request/test_choice_stillsuit.html");
         var request = new GenericRequest(urlString);
@@ -196,6 +199,10 @@ class ChoiceControlTest {
         request.processResponse();
 
         assertThat("familiarSweat", isSetTo(81));
+        assertThat(
+            RequestLoggerOutput.stopStream(),
+            is(
+                "Your next distillate will give you: Experience (Muscle): +5, Experience (Moxie): +4, Spooky Damage: +15, Spooky Spell Damage: +25\n"));
       }
     }
 

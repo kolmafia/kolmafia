@@ -3,12 +3,11 @@ package net.sourceforge.kolmafia.session;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class StillSuitManager {
   private StillSuitManager() {}
@@ -18,10 +17,6 @@ public class StillSuitManager {
   }
 
   public static void handleSweat(final String responseText) {
-    handleSweat(responseText, false);
-  }
-
-  public static void handleSweat(final String responseText, final boolean checkEffect) {
     if (!responseText.contains("tiny_stillsuit.gif")) {
       return;
     }
@@ -40,12 +35,6 @@ public class StillSuitManager {
     }
 
     Preferences.increment("familiarSweat", drams);
-
-    if (checkEffect) visit();
-  }
-
-  private static void visit() {
-    RequestThread.postRequest(new GenericRequest("inventory.php?action=distill&pwd"));
   }
 
   private static final Pattern DRAMS = Pattern.compile("<b>(\\d+)</b> drams");
@@ -61,7 +50,8 @@ public class StillSuitManager {
 
     var modifiers = new Modifiers.ModifierList();
     DebugDatabase.parseStandardEnchantments(text, modifiers, new ArrayList<>(), EFFECTS_BLOCK);
-
-    // Not sure what to do with modifiers just yet
+    if (modifiers.size() > 0) {
+      KoLmafia.updateDisplay("Your next distillate will give you: " + modifiers);
+    }
   }
 }
