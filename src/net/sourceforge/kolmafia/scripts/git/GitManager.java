@@ -21,7 +21,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.ScriptManager;
-import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -38,8 +37,6 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
 
 public class GitManager extends ScriptManager {
 
@@ -528,7 +525,7 @@ public class GitManager extends ScriptManager {
     }
   }
 
-  private static String getRepoId(String repoUrl, String branch) {
+  public static String getRepoId(String repoUrl, String branch) {
     String dashBranch = branch == null ? "" : "-" + branch;
     if (repoUrl.endsWith(".git")) {
       repoUrl = repoUrl.substring(0, repoUrl.length() - 4);
@@ -555,43 +552,11 @@ public class GitManager extends ScriptManager {
     return Optional.of(matches.get(0));
   }
 
-  private static void installDependencies(Path dependencies) {
+  protected static void installDependencies(Path dependencies) {
     if (!Preferences.getBoolean("gitInstallDependencies")) return;
 
     KoLmafia.updateDisplay("Installing dependencies");
-    List<String> potentials;
-    try {
-      potentials = Files.readAllLines(dependencies);
-    } catch (IOException e) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to read dependency file " + dependencies);
-      return;
-    }
-    for (var potential : potentials) {
-      if (potential.startsWith("#")) continue;
-      String[] args = potential.split("\\s+");
-      if (args.length == 0) continue;
-      var url = args[0];
-      if (args.length > 1 || url.endsWith(".git")) {
-        // git
-        String branch = args.length == 1 ? null : args[1];
-        var id = getRepoId(url, branch);
-        if (!Files.exists(KoLConstants.GIT_LOCATION.toPath().resolve(id))) {
-          GitManager.clone(url, branch);
-        }
-      } else {
-        SVNURL repo;
-        try {
-          repo = SVNURL.parseURIEncoded(potential);
-        } catch (SVNException e) {
-          RequestLogger.printLine("Cannot parse " + potential + " as SVN URL");
-          continue;
-        }
-        var id = SVNManager.getFolderUUIDNoRemote(repo);
-        if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
-          SVNManager.doCheckout(repo);
-        }
-      }
-    }
+    ScriptManager.installDependencies(dependencies);
   }
 
   private static Optional<JSONObject> readManifest(Path manifest) {

@@ -182,6 +182,42 @@ public class GitManagerTest {
   }
 
   @Nested
+  public class DependencySvnTests {
+
+    @BeforeAll
+    public static void cloneRepo() {
+      String output =
+          CliCaller.callCli(
+              "svn",
+              "checkout https://github.com/midgleyc/mafia-script-install-test/branches/test-deps");
+      assertThat(output, containsString("Installing dependencies"));
+      assertThat(output, containsString("Successfully checked out working copy"));
+    }
+
+    @AfterAll
+    public static void removeRepo() {
+      removeSvnIfExists("midgleyc-mafia-script-install-test-branches-test-deps");
+      removeGitIfExists("midgleyc-mafia-script-install-test-test-deps-git");
+      removeSvnIfExists("midgleyc-mafia-script-install-test-branches-test-deps-svn");
+    }
+
+    @Test
+    public void installedDependencies() {
+      assertTrue(Files.exists(Paths.get("scripts", "1-git.ash")));
+      assertTrue(Files.exists(Paths.get("scripts", "1-svn.ash")));
+    }
+
+    @Test
+    public void installedDependenciesWithRightVersionControl() {
+      assertTrue(
+          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-git")));
+      assertTrue(
+          Files.isDirectory(
+              Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
+    }
+  }
+
+  @Nested
   public class ManifestTests {
 
     private static final String id = "midgleyc-mafia-script-install-test-test-manifest";
