@@ -27,9 +27,6 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     this.usage = " - show information about the cold medicine cabinet";
   }
 
-  private static final AdventureResult COLD_MEDICINE_CABINET =
-      ItemPool.get(ItemPool.COLD_MEDICINE_CABINET);
-
   public static final List<String> ITEM_TYPES =
       List.of("equipment", "food", "booze", "potion", "pill");
 
@@ -42,10 +39,13 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
 
   private static final Map<Character, String> LOCATION_STRINGS =
       Map.ofEntries(
-          Map.entry('i', " turns in an indoor location"),
-          Map.entry('o', " turns in an outdoor location"),
-          Map.entry('u', " turns in an underground location"),
-          Map.entry('x', " turns anywhere")); // this needs extra stuff
+          Map.entry('i', " turns in an indoor location\n"),
+          Map.entry('o', " turns in an outdoor location\n"),
+          Map.entry('u', " turns in an underground location\n"),
+          Map.entry(
+              'x',
+              " non-majority turns anywhere/majority turns underwater\n")); // underwater/unknown
+  // need extra stuff
 
   private static Stream<Character> getCharacters() {
     return Preferences.getString("lastCombatEnvironments").chars().mapToObj(i -> (char) i);
@@ -301,17 +301,16 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     final var output = new StringBuilder();
     final var actualTurnsForMajority = populateNaiveTurnsForMajorityMap(counts, output);
     final var lastEnvironments = getCharacters().toArray(Character[]::new);
-    final var lastEnvironmentIndex = lastEnvironments.length - 1;
     final var keys = new ArrayList<>(actualTurnsForMajority.keySet());
-    for (int i = lastEnvironmentIndex; i > -1; i--) {
+    for (int i = 0; i < lastEnvironments.length; i++) {
       final var last = lastEnvironments[i];
-      for (int j = keys.size() - 1; j > -1; j--) {
+      for (int j = keys.size() - 1; j > -1; j--) { // iterate backwards so we can hot remove keys
         final var key = keys.get(j);
         if (key == last) {
           actualTurnsForMajority.put(last, actualTurnsForMajority.get(last) + 1);
           continue;
         }
-        if (actualTurnsForMajority.get(key) == lastEnvironmentIndex - i) {
+        if (actualTurnsForMajority.get(key) == i) {
           output
               .append("For ")
               .append(PILLS.get(key))
@@ -330,16 +329,17 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
       Map<Character, Integer> counts, StringBuilder output) {
     final var naiveTurnsForMajority = new HashMap<Character, Integer>();
     for (char c : counts.keySet()) {
+      if (c == '?') continue;
       var turnsForMajority = 11 - counts.get(c);
       if (turnsForMajority < 1) continue;
       naiveTurnsForMajority.put(c, turnsForMajority);
     }
     for (char c : PILLS.keySet()) {
-      if (c != 'x' && naiveTurnsForMajority.get(c) == null) {
+      if (naiveTurnsForMajority.get(c) == null) {
         output
-            .append("Your next ")
+            .append("For ")
             .append(PILLS.get(c))
-            .append(" pill requires a minimum of 11")
+            .append(", spend a minimum of 11")
             .append(LOCATION_STRINGS.get(c));
       }
     }
