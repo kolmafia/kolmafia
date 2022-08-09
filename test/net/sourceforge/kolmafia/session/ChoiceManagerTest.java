@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -145,6 +146,24 @@ public class ChoiceManagerTest {
 
         assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
+      }
+    }
+
+    @Test
+    public void returnsTrueWithoutAbortStateIfPreferenceFalse() {
+      var cleanup =
+          new Cleanups(
+              withHandlingChoice(),
+              withContinuationState(),
+              withProperty("abortOnChoiceWhenNotInChoice", false));
+
+      try (cleanup) {
+        String urlString = "choice.php?whichchoice=1234&pwd&option=1";
+        var request = new GenericRequest(urlString);
+        request.responseText = "Whoops!  You're not actually in a choice adventure.";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
       }
     }
 
