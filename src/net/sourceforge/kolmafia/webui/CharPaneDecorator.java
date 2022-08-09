@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -380,7 +381,17 @@ public class CharPaneDecorator {
       pos += annotations.length();
     }
 
-    pos = buffer.indexOf("<table", pos);
+    // If your familiar is under max weight, there can be a progress bar rendered with a table.
+    // Because of the mix of compact, basic and progress or no progress bar, we want to find
+    // whichever of these substrings occurs soonest without being -1 (i.e. not occurring)
+    pos =
+        IntStream.of(
+                buffer.indexOf("</font></td></tr></table>", pos),
+                buffer.indexOf("<table", pos),
+                buffer.indexOf("</center>", pos))
+            .filter(i -> i > -1)
+            .min()
+            .orElse(pos);
 
     if (insertItemAnnotations) {
       itemAnnotations.insert(0, CharPaneRequest.compactCharacterPane ? "<br>" : " ");

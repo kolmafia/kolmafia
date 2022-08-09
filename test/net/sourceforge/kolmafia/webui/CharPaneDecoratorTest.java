@@ -60,7 +60,7 @@ public class CharPaneDecoratorTest {
   }
 
   @ParameterizedTest
-  @ValueSource(strings = {"basic", "compact"})
+  @ValueSource(strings = {"basic", "compact", "basic_20lbs", "compact_20lbs"})
   public void addDistillLink(final String displayMode) {
     final int drams = 50;
     var cleanups =
@@ -70,12 +70,12 @@ public class CharPaneDecoratorTest {
             withEquipped(EquipmentManager.FAMILIAR, "tiny stillsuit"));
 
     try (cleanups) {
-      String input = html("request/test_charpane_" + displayMode + "_woim.html");
+      String input = html("request/test_charpane_woim_" + displayMode + ".html");
       CharPaneRequest.processResults(input);
 
       var buffer = new StringBuffer(input);
       CharPaneDecorator.decorate(buffer);
-      var prefix = displayMode.equals("basic") ? " " : "<br>";
+      var prefix = displayMode.startsWith("basic") ? "Oily Woim " : "lbs.<br>";
       assertThat(
           buffer.toString(),
           containsString(
