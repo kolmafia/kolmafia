@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
@@ -381,6 +382,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult TRANSPONDER = ItemPool.get(ItemPool.TRANSPORTER_TRANSPONDER);
   private static final AdventureResult PIRATE_FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult DRIP_HARNESS = ItemPool.get(ItemPool.DRIP_HARNESS, 1);
+  private static final AdventureResult FANTASY_REALM_GEM = ItemPool.get(ItemPool.FANTASY_REALM_GEM);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -1493,8 +1495,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("FantasyRealm")) {
-      // *** You have limited turns available per day.
-      return Preferences.getBoolean("frAlways") || Preferences.getBoolean("_frToday");
+      if (!Preferences.getBoolean("frAlways") && !Preferences.getBoolean("_frToday")) {
+        return false;
+      }
+
+      if (Preferences.getInteger("_frHoursLeft") < 1) return false;
+
+      return (Preferences.getString("_frAreasUnlocked").contains(this.adventureName));
     }
 
     if (this.zone.startsWith("PirateRealm")) {
@@ -1843,6 +1850,26 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!KoLCharacter.hasEquipped(DRIP_HARNESS)) {
         InventoryManager.retrieveItem(DRIP_HARNESS);
         RequestThread.postRequest(new EquipmentRequest(DRIP_HARNESS));
+      }
+
+      return true;
+    }
+
+    if (this.zone.equals("FantasyRealm")) {
+      if (!InventoryManager.hasItem(FANTASY_REALM_GEM)) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You need a FantasyRealm G. E. M. to go there");
+        return false;
+      }
+
+      // Must have FantasyRealm GEM equipped
+      if (!KoLCharacter.hasEquipped(FANTASY_REALM_GEM)) {
+        InventoryManager.retrieveItem(FANTASY_REALM_GEM);
+        RequestThread.postRequest(new EquipmentRequest(FANTASY_REALM_GEM));
+      }
+
+      // Cannot bring a familiar
+      if (KoLCharacter.getFamiliar() != FamiliarData.NO_FAMILIAR) {
+        RequestThread.postRequest(new FamiliarRequest(null));
       }
 
       return true;

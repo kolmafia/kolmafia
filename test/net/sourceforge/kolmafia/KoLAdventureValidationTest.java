@@ -5,6 +5,7 @@ import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -23,6 +24,7 @@ import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1379,6 +1381,146 @@ public class KoLAdventureValidationTest {
 
       try (cleanups) {
         assertThat(UNKNOWN.canAdventure(), is(false));
+      }
+    }
+  }
+
+  @Nested
+  class FantasyRealm {
+    private static KoLAdventure BANDITS =
+        AdventureDatabase.getAdventureByName("The Bandit Crossroads");
+
+    private static KoLAdventure MOUNTAINS =
+        AdventureDatabase.getAdventureByName("The Towering Mountains");
+
+    @Test
+    void canAdventure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void canAdventureWithDayPass() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", false),
+              withProperty("_frToday", true),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutAccess() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", false),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutHours() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 0),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutUnlock() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(MOUNTAINS.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotPrepareWithoutGem() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.prepareForAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void preparingEquipsGem() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"),
+              withItem(ItemPool.FANTASY_REALM_GEM));
+
+      try (cleanups) {
+        var success = BANDITS.prepareForAdventure();
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_equip.php", "which=2&ajax=1&slot=1&action=equip&whichitem=9837");
+        assertThat(success, is(true));
+      }
+    }
+
+    @Test
+    void preparingRemovesFamiliar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"),
+              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.FANTASY_REALM_GEM),
+              withFamiliar(FamiliarPool.PARROT));
+
+      try (cleanups) {
+        var success = BANDITS.prepareForAdventure();
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/familiar.php", "action=putback&ajax=1");
+        assertThat(success, is(true));
       }
     }
   }
