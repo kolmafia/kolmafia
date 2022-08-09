@@ -17,7 +17,7 @@ public class StillSuitManager {
   }
 
   public static void handleSweat(final String responseText) {
-    if (!responseText.contains("tiny_stillsuit.gif")) {
+    if (!responseText.contains("stillsuit.gif")) {
       return;
     }
 
