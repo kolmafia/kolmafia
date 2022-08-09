@@ -2154,9 +2154,12 @@ public abstract class ChoiceManager {
       // Allow a script to simply attempt to visit choice.php.
       if (!urlString.equals("choice.php")) {
         if (Preferences.getBoolean("abortOnChoiceWhenNotInChoice")) {
-          KoLmafia.updateDisplay(MafiaState.ABORT, "Whoops! You're not actually in a choice adventure");
+          KoLmafia.updateDisplay(
+              MafiaState.ABORT, "Whoops! You're not actually in a choice adventure");
         } else {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Script submitted " + urlString + " when KoL was not in a choice adventure");
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "Script submitted " + urlString + " when KoL was not in a choice adventure");
         }
       }
       ChoiceManager.handlingChoice = false;

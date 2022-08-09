@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Player;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -152,7 +151,11 @@ public class ChoiceManagerTest {
 
     @Test
     public void returnsTrueWithoutAbortStateIfPreferenceFalse() {
-      var cleanup = new Cleanups(withHandlingChoice(), withContinuationState(), withProperty("abortOnChoiceWhenNotInChoice", false));
+      var cleanup =
+          new Cleanups(
+              withHandlingChoice(),
+              withContinuationState(),
+              withProperty("abortOnChoiceWhenNotInChoice", false));
 
       try (cleanup) {
         String urlString = "choice.php?whichchoice=1234&pwd&option=1";
