@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.Player.withSkill;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,7 +52,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  @Disabled("Using > does force colorization. ")
+  @Disabled("Using > does not force colorization. ")
   public void testMirrorWritesHTML() {
     // Open the mirror
     execute("chats/test_writes_html.txt");
@@ -62,8 +64,8 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Close the mirror
     execute("");
     String mirrorOutput = getMirrorLog("test_writes_html.txt");
-    assertTrue(mirrorOutput.contains("<font color=olive>> Fake command input</font><br>"));
-    assertTrue(mirrorOutput.contains("Raw Line<br>"));
+    assertThat(mirrorOutput, containsString("<font color=olive>> Fake command input</font><br>"));
+    assertThat(mirrorOutput, containsString("Raw Line<br>"));
   }
 
   @Test
@@ -75,7 +77,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Close the mirror
     execute("");
     String mirrorOutput = getMirrorLog("test_writes.txt");
-    assertTrue(mirrorOutput.contains("Raw Line"));
+    assertThat(mirrorOutput, containsString("Raw Line"));
   }
 
   @Test
@@ -90,7 +92,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Now read the log and verify that it was not written
     String mirrorOutput = getMirrorLog("test_mirror_closes.txt");
     // Test that the second line is not in the output
-    assertFalse(mirrorOutput.contains("Should not be seen"));
+    assertFalse(mirrorOutput.contains("Should not be seen"), "Unexpected content in mirror.");
   }
 
   @Test
@@ -105,7 +107,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Read the log
     String mirrorOutput = getMirrorLog("test_mirror_list_strings.txt");
     // Test that the output matches as expected
-    assertEquals("Line 1\n" + "Line 2", mirrorOutput);
+    assertEquals("Line 1\n" + "Line 2", mirrorOutput, "Unexpected content in mirror.");
   }
 
   @Test
@@ -120,7 +122,9 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
       String mirrorOutput = getMirrorLog("test_mirror_list_skills.txt");
       // Test that the output matches the expected html
       assertEquals(
-          "Uncategorized\n" + " - Chronic Indigestion\n" + " - Liver of Steel", mirrorOutput);
+          "Uncategorized\n" + " - Chronic Indigestion\n" + " - Liver of Steel",
+          mirrorOutput,
+          "Unexpected content in mirror.");
     }
   }
 
