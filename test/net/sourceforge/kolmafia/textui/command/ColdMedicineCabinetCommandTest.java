@@ -361,87 +361,101 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
     }
   }
 
-  @Test
-  void ShowCorrectNumberOfTurnsForMajority() {
-    var cleanups =
-        new Cleanups(
-            withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
-            withProperty("lastCombatEnvironments", "iiiiiioooooouuuuuuio"),
-            withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-            withTurnsPlayed(0),
-            withContinuationState());
-
-    try (cleanups) {
-      String output = execute("");
-      assertThat(
-          output,
-          containsString(
-              "For Fleshazole&trade;, spend a minimum of 11 non-majority turns anywhere/majority turns underwater"));
-      assertThat(
-          output, containsString("For Homebodyl&trade;, spend 4 turns in an outdoor location"));
-      assertThat(
-          output,
-          containsString("For Breathitin&trade;, spend 5 turns in an underground location"));
-      assertThat(
-          output,
-          containsString("For Extrovermectin&trade;, spend 10 turns in an indoor location"));
-      assertContinueState();
+  @Nested
+  class PillsParamTests {
+    @BeforeAll
+    public static void beforeAll() {
+      KoLCharacter.reset("ColdMedicineCabinetCommandTest");
     }
-  }
 
-  @Test
-  void HandleMajorityTurnsIncludingUnknownEnvironments() {
-    var cleanups =
-        new Cleanups(
-            withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
-            withProperty("lastCombatEnvironments", "???????uuuuuuuuooooo"),
-            withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-            withTurnsPlayed(0),
-            withContinuationState());
-
-    try (cleanups) {
-      String output = execute("");
-      assertThat(
-          output,
-          containsString(
-              "For Fleshazole&trade;, spend a minimum of 11 non-majority turns anywhere/majority turns underwater"));
-      assertThat(
-          output,
-          containsString(
-              "For Extrovermectin&trade;, spend a minimum of 11 turns in an indoor location"));
-      assertThat(
-          output, containsString("For Homebodyl&trade;, spend 6 turns in an outdoor location"));
-      assertThat(
-          output,
-          containsString("For Breathitin&trade;, spend 3 turns in an underground location"));
-      assertContinueState();
+    @BeforeEach
+    public void beforeEach() {
+      HttpClientWrapper.setupFakeClient();
     }
-  }
 
-  @Test
-  void HandleMajorityTurnsIncludingUnderwaterEnvironments() {
-    var cleanups =
-        new Cleanups(
-            withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
-            withProperty("lastCombatEnvironments", "xxx???ii?ouuuuooiixx"),
-            withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
-            withTurnsPlayed(0),
-            withContinuationState());
+    @Test
+    void GuessNextPillsWithNoUnknownOrUnderwaterEnvironments() {
+      var cleanups =
+          new Cleanups(
+              withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
+              withProperty("lastCombatEnvironments", "iiiiiioooooouuuuuuio"),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(0),
+              withContinuationState());
 
-    try (cleanups) {
-      String output = execute("");
-      assertThat(
-          output,
-          containsString("For Breathitin&trade;, spend 7 turns in an underground location"));
-      assertThat(
-          output, containsString("For Homebodyl&trade;, spend 8 turns in an outdoor location"));
-      assertThat(
-          output, containsString("For Extrovermectin&trade;, spend 9 turns in an indoor location"));
-      assertThat(
-          output,
-          containsString(
-              "For Fleshazole&trade;, spend 9 non-majority turns anywhere/majority turns underwater"));
-      assertContinueState();
+      try (cleanups) {
+        String output = execute("pills");
+        assertThat(
+            output,
+            containsString(
+                "For Fleshazole&trade;, spend a minimum of 11 combats underwater or until no environment has overall majority"));
+        assertThat(
+            output, containsString("For Homebodyl&trade;, spend 4 combats in an outdoor location"));
+        assertThat(
+            output,
+            containsString("For Breathitin&trade;, spend 5 combats in an underground location"));
+        assertThat(
+            output,
+            containsString("For Extrovermectin&trade;, spend 10 combats in an indoor location"));
+        assertContinueState();
+      }
+    }
+
+    @Test
+    void GuessNextPillsWithUnknownEnvironments() {
+      var cleanups =
+          new Cleanups(
+              withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
+              withProperty("lastCombatEnvironments", "???????uuuuuuuuooooo"),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(0),
+              withContinuationState());
+
+      try (cleanups) {
+        String output = execute("pills");
+        assertThat(
+            output,
+            containsString(
+                "For Fleshazole&trade;, spend a minimum of 11 combats underwater or until no environment has overall majority"));
+        assertThat(
+            output,
+            containsString(
+                "For Extrovermectin&trade;, spend a minimum of 11 combats in an indoor location"));
+        assertThat(
+            output, containsString("For Homebodyl&trade;, spend 6 combats in an outdoor location"));
+        assertThat(
+            output,
+            containsString("For Breathitin&trade;, spend 3 combats in an underground location"));
+        assertContinueState();
+      }
+    }
+
+    @Test
+    void GuesNextPillsWithAllTypesOfEnvironments() {
+      var cleanups =
+          new Cleanups(
+              withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
+              withProperty("lastCombatEnvironments", "xxx???ii?ouuuuooiixx"),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(0),
+              withContinuationState());
+
+      try (cleanups) {
+        String output = execute("pills");
+        assertThat(
+            output,
+            containsString("For Breathitin&trade;, spend 7 combats in an underground location"));
+        assertThat(
+            output, containsString("For Homebodyl&trade;, spend 8 combats in an outdoor location"));
+        assertThat(
+            output,
+            containsString("For Extrovermectin&trade;, spend 9 combats in an indoor location"));
+        assertThat(
+            output,
+            containsString(
+                "For Fleshazole&trade;, spend 9 combats underwater or until no environment has overall majority"));
+        assertContinueState();
+      }
     }
   }
 }

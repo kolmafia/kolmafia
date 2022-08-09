@@ -39,12 +39,12 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
 
   private static final Map<Character, String> LOCATION_STRINGS =
       Map.ofEntries(
-          Map.entry('i', " turns in an indoor location\n"),
-          Map.entry('o', " turns in an outdoor location\n"),
-          Map.entry('u', " turns in an underground location\n"),
+          Map.entry('i', " combats in an indoor location\n"),
+          Map.entry('o', " combats in an outdoor location\n"),
+          Map.entry('u', " combats in an underground location\n"),
           Map.entry(
               'x',
-              " non-majority turns anywhere/majority turns underwater\n")); // underwater/unknown
+              " combats underwater or until no environment has overall majority\n")); // underwater/unknown
   // need extra stuff
 
   private static Stream<Character> getCharacters() {
@@ -252,7 +252,6 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     } else {
       output.append(formatItemList(cabinet, guessing));
     }
-    output.append(turnsRequiredForMajorities());
     RequestLogger.printLine(output.toString());
   }
 
@@ -290,16 +289,17 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
       case "booze", "wine" -> collect(3);
       case "potion" -> collect(4);
       case "pill" -> collect(5);
+      case "pills" -> guessTurnsRequiredForPills();
       default -> {
         KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Parameter not recognised");
       }
     }
   }
 
-  private static StringBuilder turnsRequiredForMajorities() {
+  private static void guessTurnsRequiredForPills() {
     final var counts = getCounts();
     final var output = new StringBuilder();
-    final var actualTurnsForMajority = populateNaiveTurnsForMajorityMap(counts, output);
+    final var actualTurnsForMajority = populateNaiveTurnsRequiredForPillMap(counts, output);
     final var lastEnvironments = getCharacters().toArray(Character[]::new);
     final var keys = new ArrayList<>(actualTurnsForMajority.keySet());
     for (int i = 0; i < lastEnvironments.length; i++) {
@@ -318,14 +318,17 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
               .append(actualTurnsForMajority.get(key))
               .append(LOCATION_STRINGS.get(key));
           keys.remove(j);
-          if (keys.size() < 1) return output;
+          if (keys.size() < 1) {
+            RequestLogger.printLine(output.toString());
+            return;
+          }
         }
       }
     }
-    return output;
+    RequestLogger.printLine(output.toString());
   }
 
-  private static Map<Character, Integer> populateNaiveTurnsForMajorityMap(
+  private static Map<Character, Integer> populateNaiveTurnsRequiredForPillMap(
       Map<Character, Integer> counts, StringBuilder output) {
     final var naiveTurnsForMajority = new HashMap<Character, Integer>();
     for (char c : counts.keySet()) {
