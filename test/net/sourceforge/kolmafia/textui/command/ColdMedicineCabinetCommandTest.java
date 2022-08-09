@@ -428,7 +428,7 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
     }
 
     @Test
-    void GuesNextPillsWithAllTypesOfEnvironments() {
+    void GuessNextPillsWithAllTypesOfEnvironments() {
       var cleanups =
           new Cleanups(
               withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
@@ -452,6 +452,35 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
             output,
             containsString(
                 "For Fleshazole&trade;, spend 9 combats underwater or until no environment has overall majority"));
+        assertContinueState();
+      }
+    }
+
+    @Test
+    void GuessNextPillsWithExistingMajority() {
+      var cleanups =
+          new Cleanups(
+              withNextResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
+              withProperty("lastCombatEnvironments", "uuuuuuuuuuuiioxiiuo?"),
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(0),
+              withContinuationState());
+
+      try (cleanups) {
+        String output = execute("plan");
+        assertThat(
+            output,
+            containsString("For Breathitin&trade;, spend 0 combats in an underground location\n"));
+        assertThat(
+            output,
+            containsString("For Homebodyl&trade;, spend 9 combats in an outdoor location\n"));
+        assertThat(
+            output,
+            containsString("For Extrovermectin&trade;, spend 7 combats in an indoor location\n"));
+        assertThat(
+            output,
+            containsString(
+                "For Fleshazole&trade;, spend 10 combats underwater or until no environment has overall majority"));
         assertContinueState();
       }
     }
