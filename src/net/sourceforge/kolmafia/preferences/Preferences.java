@@ -216,6 +216,7 @@ public class Preferences {
         "envyfishMonster",
         "falloutShelterChronoUsed",
         "falloutShelterCoolingTankUsed",
+        "familiarSweat",
         "fireExtinguisherBatHoleUsed",
         "fireExtinguisherChasmUsed",
         "fireExtinguisherCyrptUsed",

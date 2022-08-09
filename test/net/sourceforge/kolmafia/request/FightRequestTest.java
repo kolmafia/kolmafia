@@ -4,6 +4,7 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
@@ -991,6 +992,38 @@ public class FightRequestTest {
         // Any old free fight from our fixtures
         parseCombatData("request/test_fight_potted_plant.html");
         assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
+      }
+    }
+  }
+
+  @Nested
+  class StillSuit {
+    @Test
+    public void canTrackFamiliarSweatOnCurrentFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withProperty("familiarSweat", 5),
+              withFamiliar(FamiliarPool.WOIM),
+              withEquipped(EquipmentManager.FAMILIAR, "tiny stillsuit"));
+      try (cleanups) {
+        parseCombatData("request/test_fight_stillsuit_on_familiar.html");
+        assertThat("familiarSweat", isSetTo(8));
+      }
+    }
+
+    @Test
+    public void canTrackFamiliarSweatOnTerrariumFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withProperty("familiarSweat", 5),
+              withFamiliar(FamiliarPool.WOIM),
+              withEquipped(EquipmentManager.FAMILIAR, "woimbook"),
+              withFamiliarInTerrarium(FamiliarPool.PET_ROCK));
+      try (cleanups) {
+        var rock = KoLCharacter.findFamiliar(FamiliarPool.PET_ROCK);
+        rock.setItem(ItemPool.get(ItemPool.STILLSUIT));
+        parseCombatData("request/test_fight_stillsuit_in_terrarium.html");
+        assertThat("familiarSweat", isSetTo(6));
       }
     }
   }

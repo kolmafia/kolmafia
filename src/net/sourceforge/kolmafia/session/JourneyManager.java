@@ -100,7 +100,7 @@ public abstract class JourneyManager {
           RequestLogger.printLine("Unknown location \"" + locationName + "\" in " + filename);
           continue;
         }
-        int adventureId = location.getSnarfblat();
+        int adventureId = location.getAdventureNumber();
 
         if (!journeymanZones.containsKey(adventureId)) {
           journeymanZones.put(adventureId, location);

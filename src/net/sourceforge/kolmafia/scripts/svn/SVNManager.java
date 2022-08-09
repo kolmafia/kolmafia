@@ -14,15 +14,10 @@
 
 package net.sourceforge.kolmafia.scripts.svn;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
@@ -39,7 +34,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.ScriptManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -70,7 +64,6 @@ public class SVNManager extends ScriptManager {
   static final Lock SVN_LOCK = new ReentrantLock();
 
   private static final int RETRY_LIMIT = 3;
-  private static final int DEPENDENCY_RECURSION_LIMIT = 5;
 
   private static final Stack<SVNFileEvent> eventStack = new Stack<>();
   private static final TreeMap<File, Long[]> updateMessages = new TreeMap<>();
@@ -129,67 +122,6 @@ public class SVNManager extends ScriptManager {
     eventStack.clear();
     updateMessages.clear();
   }
-
-  /*
-   * Creates a new version controlled directory (doesn't create any intermediate directories) right in a repository.
-   * Like 'svn mkdir URL -m "some comment"' command. It's done by invoking SVNCommitClient.doMkDir(SVNURL[] urls,
-   * String commitMessage) which takes the following parameters: urls - an array of URLs that are to be created;
-   * commitMessage - a commit log message since a URL-based directory creation is immediately committed to a
-   * repository.
-   */
-  /*	private static SVNCommitInfo makeDirectory( SVNURL url, String commitMessage )
-    throws SVNException
-  {
-
-     * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
-
-    return ourClientManager.getCommitClient().doMkDir( new SVNURL[]
-    { url
-    }, commitMessage );
-  }*/
-
-  /*
-   * Imports an unversioned directory into a repository location denoted by a destination URL (all necessary parent
-   * non-existent paths will be created automatically). This operation commits the repository to a new revision. Like
-   * 'svn import PATH URL (-N) -m "some comment"' command. It's done by invoking SVNCommitClient.doImport(File path,
-   * SVNURL dstURL, String commitMessage, boolean recursive) which takes the following parameters: path - a local
-   * unversioned directory or singal file that will be imported into a repository; dstURL - a repository location
-   * where the local unversioned directory/file will be imported into; this URL path may contain non-existent parent
-   * paths that will be created by the repository server; commitMessage - a commit log message since the new
-   * directory/file are immediately created in the repository; recursive - if true and path parameter corresponds to a
-   * directory then the directory will be added with all its child subdirictories, otherwise the operation will cover
-   * only the directory itself (only those files which are located in the directory).
-   */
-  /*	private static SVNCommitInfo importDirectory( File localPath, SVNURL dstURL, String commitMessage,
-    boolean isRecursive )
-    throws SVNException
-  {
-
-     * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
-
-    return ourClientManager.getCommitClient().doImport( localPath, dstURL, commitMessage, isRecursive );
-
-  }*/
-
-  /*
-   * Committs changes in a working copy to a repository. Like 'svn commit PATH -m "some comment"' command. It's done
-   * by invoking SVNCommitClient.doCommit(File[] paths, boolean keepLocks, String commitMessage, boolean force,
-   * boolean recursive) which takes the following parameters: paths - working copy paths which changes are to be
-   * committed; keepLocks - if true then doCommit(..) won't unlock locked paths; otherwise they will be unlocked after
-   * a successful commit; commitMessage - a commit log message; force - if true then a non-recursive commit will be
-   * forced anyway; recursive - if true and a path corresponds to a directory then doCommit(..) recursively commits
-   * changes for the entire directory, otherwise - only for child entries of the directory;
-   */
-  /*	private static SVNCommitInfo commit( File wcPath, boolean keepLocks, String commitMessage )
-    throws SVNException
-  {
-
-     * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
-
-    return ourClientManager.getCommitClient().doCommit( new File[]
-    { wcPath
-    }, keepLocks, commitMessage, false, true );
-  }*/
 
   /*
    * Checks out a working copy from a repository. Like 'svn checkout URL[@REV] PATH (-r..)' command; It's done by
@@ -992,7 +924,11 @@ public class SVNManager extends ScriptManager {
    * @param repo the repo to get a unique folder name for
    * @return a unique folder ID for a given repo URL
    */
-  static String getFolderUUID(SVNURL repo) {
+  public static String getFolderUUID(SVNURL repo) {
+    String local = getFolderUUIDNoRemote(repo);
+    if (local != null) return local;
+
+    // couldn't get local repo name
     String remote;
     // first, make sure the repo is there.
     try {
@@ -1005,8 +941,7 @@ public class SVNManager extends ScriptManager {
       SVN_LOCK.unlock();
     }
 
-    String local = getFolderUUIDNoRemote(repo);
-    return local != null ? local : remote;
+    return remote;
   }
 
   public static String getFolderUUIDNoRemote(SVNURL repo) {
@@ -1474,14 +1409,10 @@ public class SVNManager extends ScriptManager {
   }
 
   private static void checkDependencies() {
-    checkDependencies(0);
-  }
-
-  private static void checkDependencies(int recursionDepth) {
     if (!KoLmafia.permitsContinue()) return;
 
     File[] projects = KoLConstants.SVN_LOCATION.listFiles();
-    List<File> dependencyFiles = new ArrayList<>();
+    boolean printInstall = true;
 
     if (projects == null || projects.length == 0) {
       // Nothing to do here.
@@ -1491,119 +1422,14 @@ public class SVNManager extends ScriptManager {
     for (File f : projects) {
       File dep = new File(f, DEPENDENCIES);
 
-      if (dep.exists()) dependencyFiles.add(dep);
-    }
-
-    if (dependencyFiles.size() == 0) return;
-
-    // we have some dependencies to resolve.  We need to figure out what SVNURLs are already
-    // installed.
-    initialize();
-
-    Set<String> installed = new HashSet<>();
-
-    for (File f : projects) {
-      try {
-        var url = SVNManager.getClientManager().getStatusClient().doStatus(f, false).getURL();
-        String uuid = getFolderUUIDNoRemote(url);
-        if (uuid == null) uuid = getFolderUUID(url);
-
-        installed.add(uuid);
-      } catch (SVNException e) {
-        // shouldn't happen, punt
-        error(e);
-        return;
-      }
-    }
-
-    // Now we need to figure out the set of URLs specified by dependency files
-
-    Set<SVNURL> dependencyURLs = new HashSet<>();
-
-    for (File dep : dependencyFiles) {
-      dependencyURLs.addAll(readDependencies(dep));
-    }
-
-    if (dependencyURLs.size() == 0) return;
-
-    // now, see if there are any files in dependencyURLs that aren't yet installed
-    Set<SVNURL> installMe = new HashSet<>();
-
-    for (SVNURL url : dependencyURLs) {
-      if (url == null) continue;
-      // to figure out if they are installed, compare what the UUID would be of both.
-      // convert each dependencyURL to a UUID before comparing.
-
-      String uuid = getFolderUUIDNoRemote(url);
-      if (uuid == null) uuid = getFolderUUID(url);
-
-      if (!installed.contains(uuid)) installMe.add(url);
-    }
-
-    if (installMe.size() == 0) return;
-
-    // before installing, we need to check that they're actually valid
-
-    Iterator<SVNURL> it = installMe.iterator();
-    while (it.hasNext()) {
-      SVNURL url = it.next();
-      if (validateRepo(url, false)) {
-        RequestLogger.printLine(
-            "Dependency at " + url + " failed validation.  Won't be processed.");
-        it.remove();
-      }
-    }
-
-    if (installMe.size() == 0) return;
-    if (!KoLmafia.permitsContinue()) return;
-
-    // install them
-    RequestLogger.printLine(
-        "Installing "
-            + installMe.size()
-            + " new dependenc"
-            + (installMe.size() == 1 ? "y." : "ies."));
-
-    for (SVNURL url : installMe) {
-      RequestThread.postRequest(new CheckoutRunnable(url));
-      pushUpdates(true);
-    }
-
-    if (recursionDepth <= DEPENDENCY_RECURSION_LIMIT) {
-      checkDependencies(++recursionDepth);
-    } else {
-      RequestLogger.printLine(
-          "Stopping dependency installation: Too Much Recursion.  Doing svn update will continue to resolve them if you want.");
-    }
-  }
-
-  /**
-   * Reads a dependencies.txt text file and pulls out the URLs.
-   *
-   * <p>Output should be sanitized, with comments, bogus lines, and duplicate entries (obviously,
-   * since it's a set) removed.
-   *
-   * @param dep the <code>File</code> that contains the dependencies
-   * @return a <code>Set</code> of <code>SVNURL</code>s that are dependencies
-   */
-  private static Set<SVNURL> readDependencies(File dep) {
-    Set<SVNURL> depURLs = new HashSet<>();
-    try (BufferedReader reader = FileUtilities.getReader(dep)) {
-      String[] data;
-      while ((data = FileUtilities.readData(reader)) != null) {
-        // turn it into an SVNURL
-        try {
-          depURLs.add(SVNURL.parseURIEncoded(data[0]));
-        } catch (SVNException e) {
-          RequestLogger.printLine("Bad line of data in " + dep + "; skipping this file.");
-          depURLs.clear();
-          break;
+      if (dep.exists()) {
+        if (printInstall) {
+          KoLmafia.updateDisplay("Installing dependencies");
+          printInstall = false;
         }
+        ScriptManager.installDependencies(dep.toPath());
       }
-    } catch (IOException e) {
-      StaticEntity.printStackTrace(e);
     }
-    return depURLs;
   }
 
   private static void error(SVNException e) {

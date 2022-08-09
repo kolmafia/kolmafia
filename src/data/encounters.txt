@@ -83,10 +83,10 @@ Cobb's Knob Treasury	LUCKY	Knob Goblin Embezzler
 Elf Alley	LUCKY	What a Tosser
 Exposure Esplanade	LUCKY	Cold Comfort
 Frat House	LUCKY	Sand in the Vaseline
-Frat House In Disguise	LUCKY	Lambda Upsilon Chi Kappa
+Frat House (Frat Disguise)	LUCKY	Lambda Upsilon Chi Kappa
 Guano Junction	LUCKY	Le Chauve-Souris du Parfum
 Hippy Camp	LUCKY	The Latest Sorcerous Developments
-Hippy Camp In Disguise	LUCKY	A Case of the Baskets
+Hippy Camp (Hippy Disguise)	LUCKY	A Case of the Baskets
 Itznotyerzitz Mine	LUCKY	Either Ore
 Lair of the Ninja Snowmen	LUCKY	Not Quite as Cold as Ice
 Lemon Party	LUCKY	Lemon Party Slot
