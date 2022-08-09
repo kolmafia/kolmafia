@@ -647,6 +647,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("can_adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("prepare_for_adventure", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("set_location", DataTypes.VOID_TYPE, params));
 
     params = new Type[] {DataTypes.LOCATION_TYPE, DataTypes.INT_TYPE};
@@ -3793,7 +3796,12 @@ public abstract class RuntimeLibrary {
 
   public static Value can_adventure(ScriptRuntime controller, final Value arg) {
     KoLAdventure location = (KoLAdventure) arg.content;
-    return DataTypes.makeBooleanValue(location.isCurrentlyAccessible());
+    return DataTypes.makeBooleanValue(location.canAdventure());
+  }
+
+  public static Value prepare_for_adventure(ScriptRuntime controller, final Value arg) {
+    KoLAdventure location = (KoLAdventure) arg.content;
+    return DataTypes.makeBooleanValue(location.prepareForAdventure());
   }
 
   public static Value adventure(ScriptRuntime controller, final Value arg1, final Value arg2) {
