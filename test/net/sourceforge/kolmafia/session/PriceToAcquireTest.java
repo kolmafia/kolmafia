@@ -99,7 +99,7 @@ public class PriceToAcquireTest {
   }
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("price to acquire user");
@@ -109,19 +109,19 @@ public class PriceToAcquireTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     MallPriceDatabase.savePricesToFile = true;
     Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     CharPaneRequest.setCanInteract(true);
     Preferences.reset("price to acquire user");
   }
 
   @AfterEach
-  private void afterEach() {
+  public void afterEach() {
     // Prevent leakage; reset to initial state
 
     Preferences.setFloat("valueOfInventory", 1.8f);

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 public class ChoiceManagerTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
@@ -35,12 +35,12 @@ public class ChoiceManagerTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }

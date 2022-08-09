@@ -26,7 +26,7 @@ import org.mockito.Mockito;
 public class QuantumTerrariumRequestTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("quantum terrarium user");
@@ -34,7 +34,7 @@ public class QuantumTerrariumRequestTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 

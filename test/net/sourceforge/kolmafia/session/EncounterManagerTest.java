@@ -44,7 +44,7 @@ import org.mockito.Mockito;
 
 class EncounterManagerTest {
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     KoLCharacter.reset("EncounterManagerTest");
     Preferences.reset("EncounterManagerTest");
     KoLmafia.resetSession();
@@ -53,7 +53,7 @@ class EncounterManagerTest {
   }
 
   @AfterAll
-  private static void cleanup() {
+  public static void cleanup() {
     TurnCounter.clearCounters();
   }
 
