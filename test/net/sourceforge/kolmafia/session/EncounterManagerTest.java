@@ -407,7 +407,7 @@ class EncounterManagerTest {
 
     boolean actual = EncounterManager.isRelativityMonster();
 
-    assertThat(relativityMonster, equalTo(relativityMonster));
+    assertThat(actual, equalTo(relativityMonster));
     assertThat("_relativityMonster", isSetTo(false));
   }
 
