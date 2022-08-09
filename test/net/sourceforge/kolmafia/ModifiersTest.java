@@ -239,7 +239,7 @@ public class ModifiersTest {
   @Nested
   class BuffedHP {
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       EquipmentManager.resetEquipment();
     }
 
@@ -478,7 +478,7 @@ public class ModifiersTest {
   @Nested
   class BuffedMP {
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       EquipmentManager.resetEquipment();
     }
 
@@ -697,13 +697,13 @@ public class ModifiersTest {
   @Nested
   class Noobcore {
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       Preferences.saveSettingsToFile = false;
       Preferences.reset("noob");
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       Preferences.saveSettingsToFile = true;
     }
 
@@ -754,13 +754,13 @@ public class ModifiersTest {
   @Nested
   class Voter {
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       Preferences.saveSettingsToFile = false;
       Preferences.reset("voter");
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       Preferences.saveSettingsToFile = true;
     }
 

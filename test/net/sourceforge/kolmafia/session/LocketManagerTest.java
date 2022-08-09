@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public class LocketManagerTest {
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     KoLCharacter.reset("LocketManagerTest");
     Preferences.reset("LocketManagerTest");
   }

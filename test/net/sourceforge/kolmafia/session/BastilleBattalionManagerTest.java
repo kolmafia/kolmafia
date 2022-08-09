@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 public class BastilleBattalionManagerTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
@@ -32,12 +32,12 @@ public class BastilleBattalionManagerTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     BastilleBattalionManager.reset();
     Preferences.setBoolean("logBastilleBattalionBattles", false);
     KoLConstants.activeEffects.clear();

@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 public class GreyYouManagerTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("grey you manager user");
@@ -25,7 +25,7 @@ public class GreyYouManagerTest {
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     GreyYouManager.resetAbsorptions();
   }
 

@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 public class GuildRequestTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     KoLCharacter.reset("GuildRequestTest");
     Preferences.reset("GuildRequestTest");
     Preferences.saveSettingsToFile = false;
@@ -42,7 +42,7 @@ public class GuildRequestTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
