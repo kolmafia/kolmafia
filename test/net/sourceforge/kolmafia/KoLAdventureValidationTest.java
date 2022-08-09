@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.HttpClientWrapper.setupFakeClient;
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
@@ -7,6 +11,9 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withStats;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,6 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -1117,6 +1126,72 @@ public class KoLAdventureValidationTest {
         assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
         assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
         assertTrue(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class RabbitHole {
+    static KoLAdventure RABBIT_HOLE =
+        AdventureDatabase.getAdventureByName("The Red Queen's Garden");
+
+    @Test
+    public void cannotAdventureWithoutEffectOrItem() {
+      assertThat(RABBIT_HOLE.canAdventure(), is(false));
+    }
+
+    @Test
+    public void canAdventureWithEffectActive() {
+      var cleanups = new Cleanups(withEffect(EffectPool.DOWN_THE_RABBIT_HOLE));
+      try (cleanups) {
+        assertThat(RABBIT_HOLE.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void canAdventureWithItemInInventory() {
+      var cleanups = new Cleanups(withItem(ItemPool.DRINK_ME_POTION));
+      try (cleanups) {
+        assertThat(RABBIT_HOLE.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void cannotPrepareForAdventureWithoutItemAndEffect() {
+      assertThat(RABBIT_HOLE.prepareForAdventure(), is(false));
+    }
+
+    @Test
+    public void canPrepareForAdventureWithEffect() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.DOWN_THE_RABBIT_HOLE), withItem(ItemPool.DRINK_ME_POTION));
+      try (cleanups) {
+        var success = RABBIT_HOLE.prepareForAdventure();
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(0));
+        assertThat(success, is(true));
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithItem() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withItem(ItemPool.DRINK_ME_POTION));
+      try (cleanups) {
+        var success = RABBIT_HOLE.prepareForAdventure();
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.DRINK_ME_POTION + "&ajax=1");
+        assertThat(success, is(true));
       }
     }
   }

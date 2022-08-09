@@ -1802,6 +1802,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
+    if (this.zone.equals("Rabbit Hole")) {
+      if (!KoLConstants.activeEffects.contains(DOWN_THE_RABBIT_HOLE)) {
+        AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
+        if (!InventoryManager.hasItem(item)) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "You need a \"DRINK ME\" potion to go there.");
+          return false;
+        }
+
+        RequestThread.postRequest(UseItemRequest.getInstance(item));
+      }
+
+      return true;
+    }
+
     if (this.zone.equals("The Drip")) {
       if (!InventoryManager.hasItem(DRIP_HARNESS)) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You need a Drip harness to go there");
