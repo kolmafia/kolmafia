@@ -126,7 +126,7 @@ public class JourneyCommand extends AbstractCommand {
 
       output.append("<tr>");
 
-      boolean accessible = !me || zone.isCurrentlyAccessible();
+      boolean accessible = !me || zone.canAdventure();
 
       output.append("<td rowspan=2>");
       if (!accessible) {
@@ -141,8 +141,12 @@ public class JourneyCommand extends AbstractCommand {
       String[] skills = JourneyManager.journeymanData.get(zone).get(aclass);
       for (int i = 0; i < 6; ++i) {
         String skillName = skills[i];
+        int skillId = SkillDatabase.getSkillId(skillName);
         boolean known = me && KoLCharacter.hasSkill(skillName);
         output.append("<td>");
+        // output.append("<a href=\"desc_skill.php?whichskill=");
+        // output.append(skillId);
+        // output.append("&self=true\">");
         if (known) {
           output.append("<s>");
         }
@@ -150,6 +154,7 @@ public class JourneyCommand extends AbstractCommand {
         if (known) {
           output.append("</s>");
         }
+        // output.append("</a>");
         output.append("</td>");
         if (i == 2) {
           output.append("</tr><tr>");
@@ -256,7 +261,7 @@ public class JourneyCommand extends AbstractCommand {
     if (me) {
       if (unreachableZone(zone)) {
         output.append(" (which is permanently inaccessible to you)");
-      } else if (!zone.isCurrentlyAccessible()) {
+      } else if (!zone.canAdventure()) {
         output.append(" (which is not currently accessible to you)");
       }
     }
