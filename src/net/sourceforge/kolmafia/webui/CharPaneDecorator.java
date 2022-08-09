@@ -394,7 +394,10 @@ public class CharPaneDecorator {
             .orElse(pos);
 
     if (insertItemAnnotations) {
-      itemAnnotations.insert(0, CharPaneRequest.compactCharacterPane ? "<br>" : " ");
+      itemAnnotations.insert(0, CharPaneRequest.compactCharacterPane ? "<br><small>" : " ");
+      if (CharPaneRequest.compactCharacterPane) {
+        itemAnnotations.append("</small>");
+      }
       buffer.insert(pos, itemAnnotations);
     }
   }

@@ -75,7 +75,7 @@ public class CharPaneDecoratorTest {
 
       var buffer = new StringBuffer(input);
       CharPaneDecorator.decorate(buffer);
-      var prefix = displayMode.startsWith("basic") ? "Oily Woim " : "lbs.<br>";
+      var prefix = displayMode.startsWith("basic") ? "Oily Woim " : "lbs.<br><small>";
       assertThat(
           buffer.toString(),
           containsString(
