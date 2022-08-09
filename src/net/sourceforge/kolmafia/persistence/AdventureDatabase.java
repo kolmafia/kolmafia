@@ -295,9 +295,21 @@ public class AdventureDatabase {
     AdventureDatabase.adventureByName.clear();
     AdventureDatabase.removedAdventures.clear();
 
-    for (var adv : AdventureDatabase.adventureTable) {
+    for (Adventure adv : AdventureDatabase.adventureTable) {
       AdventureDatabase.addAdventure(AdventureDatabase.getAdventure(adv));
     }
+
+    // Backwards compatibility for changed adventure names
+    addSynonym("Hippy Camp (Hippy Disguise)", "Hippy Camp in Disguise");
+    addSynonym("Frat House (Frat Disguise)", "Frat House in Disguise");
+    addSynonym("The Junkyard", "Post-War Junkyard");
+  }
+
+  // For looking up adventures by legacy name
+  private static final void addSynonym(String name, String synonym) {
+    KoLAdventure location = AdventureDatabase.getAdventure(name);
+    AdventureDatabase.allAdventures.addSynonym(synonym, location);
+    AdventureDatabase.adventureByName.put(synonym, location);
   }
 
   public static final boolean isPirateRealmIsland(final String url) {
@@ -840,6 +852,10 @@ public class AdventureDatabase {
 
     public void add(final KoLAdventure value) {
       this.internalList.put(StringUtilities.getCanonicalName(value.getAdventureName()), value);
+    }
+
+    public void addSynonym(final String synonym, final KoLAdventure value) {
+      this.internalList.put(StringUtilities.getCanonicalName(synonym), value);
     }
 
     public KoLAdventure find(String adventureName) {
