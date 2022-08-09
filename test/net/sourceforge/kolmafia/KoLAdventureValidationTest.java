@@ -5,6 +5,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withStats;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,13 +49,35 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Standard {
+    @Test
+    public void restrictedItemZonesNotAllowedUnderStandard() {
+      var cleanups = new Cleanups(withRestricted(true));
+      try (cleanups) {
+        // From the tiny bottle of absinthe - a very old item
+        KoLAdventure area = AdventureDatabase.getAdventureByName("The Stately Pleasure Dome");
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void nonItemZonesAllowedUnderStandard() {
+      var cleanups = new Cleanups(withRestricted(true));
+      try (cleanups) {
+        KoLAdventure area = AdventureDatabase.getAdventureByName("The Outskirts of Cobb's Knob");
+        assertTrue(area.canAdventure());
+      }
+    }
+  }
+
+  @Nested
   class BugbearInvasion {
     @Test
     public void cannotVisitMothershipUnlessBugbearsAreInvading() {
       var cleanups = new Cleanups(withPath(Path.NONE));
       try (cleanups) {
         KoLAdventure area = AdventureDatabase.getAdventureByName("Medbay");
-        assertFalse(area.isCurrentlyAccessible());
+        assertFalse(area.canAdventure());
       }
     }
 
@@ -63,7 +86,7 @@ public class KoLAdventureValidationTest {
       var cleanups = new Cleanups(withPath(Path.BUGBEAR_INVASION));
       try (cleanups) {
         KoLAdventure area = AdventureDatabase.getAdventureByName("Medbay");
-        assertTrue(area.isCurrentlyAccessible());
+        assertTrue(area.canAdventure());
       }
     }
   }
@@ -139,7 +162,7 @@ public class KoLAdventureValidationTest {
 
     private void testElementalZoneNoAccess(Map<Integer, KoLAdventure> zones) {
       for (Integer key : zones.keySet()) {
-        assertFalse(zones.get(key).isCurrentlyAccessible());
+        assertFalse(zones.get(key).canAdventure());
       }
     }
 
@@ -147,7 +170,7 @@ public class KoLAdventureValidationTest {
       var cleanups = new Cleanups(withProperty(property, true));
       try (cleanups) {
         for (Integer key : zones.keySet()) {
-          assertTrue(zones.get(key).isCurrentlyAccessible());
+          assertTrue(zones.get(key).canAdventure());
         }
       }
     }
@@ -227,12 +250,12 @@ public class KoLAdventureValidationTest {
     public void canVisitCobbsKnobBeforeQuest() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.COBB_BARRACKS).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.COBB_KITCHEN).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.COBB_HAREM).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.COBB_TREASURY).isCurrentlyAccessible());
-        assertFalse(throneRoom.isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).canAdventure());
+        assertFalse(zones.get(AdventurePool.COBB_BARRACKS).canAdventure());
+        assertFalse(zones.get(AdventurePool.COBB_KITCHEN).canAdventure());
+        assertFalse(zones.get(AdventurePool.COBB_HAREM).canAdventure());
+        assertFalse(zones.get(AdventurePool.COBB_TREASURY).canAdventure());
+        assertFalse(throneRoom.canAdventure());
       }
     }
 
@@ -240,12 +263,12 @@ public class KoLAdventureValidationTest {
     public void canVisitCobbsKnobBeforeDecrypting() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.COBB_BARRACKS).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.COBB_KITCHEN).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.COBB_HAREM).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.COBB_TREASURY).isCurrentlyAccessible());
-        assertFalse(throneRoom.isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).canAdventure());
+        assertFalse(zones.get(AdventurePool.COBB_BARRACKS).canAdventure());
+        assertFalse(zones.get(AdventurePool.COBB_KITCHEN).canAdventure());
+        assertFalse(zones.get(AdventurePool.COBB_HAREM).canAdventure());
+        assertFalse(zones.get(AdventurePool.COBB_TREASURY).canAdventure());
+        assertFalse(throneRoom.canAdventure());
       }
     }
 
@@ -253,12 +276,12 @@ public class KoLAdventureValidationTest {
     public void canVisitCobbsKnobAfterDecrypting() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.COBB_BARRACKS).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.COBB_KITCHEN).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.COBB_HAREM).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.COBB_TREASURY).isCurrentlyAccessible());
-        assertTrue(throneRoom.isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).canAdventure());
+        assertTrue(zones.get(AdventurePool.COBB_BARRACKS).canAdventure());
+        assertTrue(zones.get(AdventurePool.COBB_KITCHEN).canAdventure());
+        assertTrue(zones.get(AdventurePool.COBB_HAREM).canAdventure());
+        assertTrue(zones.get(AdventurePool.COBB_TREASURY).canAdventure());
+        assertTrue(throneRoom.canAdventure());
       }
     }
 
@@ -266,12 +289,12 @@ public class KoLAdventureValidationTest {
     public void canVisitCobbsKnobAfterDefeatingKing() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.COBB_BARRACKS).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.COBB_KITCHEN).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.COBB_HAREM).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.COBB_TREASURY).isCurrentlyAccessible());
-        assertFalse(throneRoom.isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).canAdventure());
+        assertTrue(zones.get(AdventurePool.COBB_BARRACKS).canAdventure());
+        assertTrue(zones.get(AdventurePool.COBB_KITCHEN).canAdventure());
+        assertTrue(zones.get(AdventurePool.COBB_HAREM).canAdventure());
+        assertTrue(zones.get(AdventurePool.COBB_TREASURY).canAdventure());
+        assertFalse(throneRoom.canAdventure());
       }
     }
 
@@ -279,8 +302,8 @@ public class KoLAdventureValidationTest {
     public void cannotVisitCobbsKnobLaboratoryWithoutKey() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.COBB_LABORATORY).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.KNOB_SHAFT).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.COBB_LABORATORY).canAdventure());
+        assertFalse(zones.get(AdventurePool.KNOB_SHAFT).canAdventure());
       }
     }
 
@@ -289,8 +312,8 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withItem("Cobb's Knob lab key"), withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.COBB_LABORATORY).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.KNOB_SHAFT).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.COBB_LABORATORY).canAdventure());
+        assertTrue(zones.get(AdventurePool.KNOB_SHAFT).canAdventure());
       }
     }
 
@@ -298,9 +321,9 @@ public class KoLAdventureValidationTest {
     public void cannotVisitCobbsKnobMenagerieWithoutKey() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_1).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_2).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_3).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_1).canAdventure());
+        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_2).canAdventure());
+        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_3).canAdventure());
       }
     }
 
@@ -310,9 +333,9 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("Cobb's Knob Menagerie key"), withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_1).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_2).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_3).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_1).canAdventure());
+        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_2).canAdventure());
+        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_3).canAdventure());
       }
     }
   }
@@ -346,11 +369,11 @@ public class KoLAdventureValidationTest {
     public void cannotVisitCyrptBeforeQuest() {
       var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
-        assertFalse(haert.isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
+        assertFalse(haert.canAdventure());
       }
     }
 
@@ -365,11 +388,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptTotalEvilness", 200));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
-        assertFalse(haert.isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
+        assertFalse(haert.canAdventure());
       }
     }
 
@@ -384,11 +407,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptTotalEvilness", 150));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
-        assertFalse(haert.isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
+        assertFalse(haert.canAdventure());
       }
     }
 
@@ -403,11 +426,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptTotalEvilness", 150));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
-        assertFalse(haert.isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
+        assertFalse(haert.canAdventure());
       }
     }
 
@@ -422,11 +445,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptTotalEvilness", 150));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
-        assertFalse(haert.isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
+        assertFalse(haert.canAdventure());
       }
     }
 
@@ -441,11 +464,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptTotalEvilness", 150));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
-        assertFalse(haert.isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
+        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
+        assertFalse(haert.canAdventure());
       }
     }
 
@@ -460,11 +483,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptTotalEvilness", 0));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
-        assertTrue(haert.isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
+        assertTrue(haert.canAdventure());
       }
     }
 
@@ -472,11 +495,11 @@ public class KoLAdventureValidationTest {
     public void cannotVisitCyrptWhenQuestFinished() {
       var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).isCurrentlyAccessible());
-        assertFalse(haert.isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
+        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
+        assertFalse(haert.canAdventure());
       }
     }
   }
@@ -513,11 +536,11 @@ public class KoLAdventureValidationTest {
     public void cannotVisitPiratesWithoutIslandAccess() {
       var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.PIRATE_COVE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.PIRATE_COVE).canAdventure());
+        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
 
@@ -528,11 +551,11 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.PIRATE_COVE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.PIRATE_COVE).canAdventure());
+        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
 
@@ -541,11 +564,11 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.PIRATE_COVE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.PIRATE_COVE).canAdventure());
+        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
 
@@ -563,10 +586,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
+        assertTrue(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertTrue(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
 
@@ -580,10 +603,10 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
+        assertTrue(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertTrue(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
 
@@ -601,10 +624,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
 
@@ -622,10 +645,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
+        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
 
@@ -643,10 +666,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
+        assertTrue(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
 
@@ -664,10 +687,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.FCLE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.POOP_DECK).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.BELOWDECKS).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
+        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
+        assertTrue(zones.get(AdventurePool.POOP_DECK).canAdventure());
+        assertTrue(zones.get(AdventurePool.BELOWDECKS).canAdventure());
       }
     }
   }
@@ -725,11 +748,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitHippyCampWithoutIslandAccess() {
-      assertFalse(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
-      assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-      assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-      assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-      assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+      assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+      assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+      assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+      assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
     }
 
     @Test
@@ -739,12 +762,12 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
 
@@ -757,12 +780,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
               withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
 
@@ -773,12 +796,12 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
       try (cleanups) {
         // KoL does not require going directly to verge-od-war zones
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
         // ... but it allows it.
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
 
@@ -793,12 +816,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         // KoL does not require going directly to verge-od-war zones
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
         // ... but it allows it.
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
 
@@ -807,11 +830,11 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
 
@@ -823,12 +846,12 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "fratboys"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
 
@@ -842,12 +865,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
               withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
 
@@ -859,11 +882,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "hippies"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertTrue(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
 
@@ -875,11 +898,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "both"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
+        assertTrue(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
       }
     }
   }
@@ -938,11 +961,11 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void cannotVisitFratHouseWithoutIslandAccess() {
-      assertFalse(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
-      assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-      assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-      assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-      assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+      assertFalse(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+      assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+      assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+      assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+      assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
     }
 
     @Test
@@ -952,12 +975,12 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
 
@@ -971,12 +994,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
               withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
 
@@ -987,12 +1010,12 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
       try (cleanups) {
         // KoL does not require going directly to verge-od-war zones
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
         // ... but it allows it.
-        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
 
@@ -1006,12 +1029,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
       try (cleanups) {
         // KoL does not require going directly to verge-od-war zones
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
         // ... but it allows it.
-        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
 
@@ -1020,11 +1043,11 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
 
@@ -1036,12 +1059,12 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "hippies"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
 
@@ -1056,12 +1079,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
               withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
 
@@ -1073,11 +1096,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "fratboys"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertTrue(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
 
@@ -1089,11 +1112,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "both"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).isCurrentlyAccessible());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).isCurrentlyAccessible());
-        assertTrue(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).isCurrentlyAccessible());
+        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
+        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
+        assertTrue(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
       }
     }
   }

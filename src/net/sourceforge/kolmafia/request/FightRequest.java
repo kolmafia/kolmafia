@@ -4200,6 +4200,9 @@ public class FightRequest extends GenericRequest {
       KoLCharacter.resetCurrentPP();
     }
 
+    // Handle incrementing stillsuit sweat (this happens whether the fight is won or lost)
+    StillSuitManager.handleSweat(responseText);
+
     FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
     FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();
 
@@ -4207,8 +4210,6 @@ public class FightRequest extends GenericRequest {
     // logging in if you are still in a fight or choice
     FightRequest.clearInstanceData();
     FightRequest.won = won;
-
-    StillSuitManager.handleSweat(responseText);
 
     // <a href="fight.php" id="againlink">The barrier between world is torn...</a>
     if (FightRequest.inMultiFight && responseText.contains("The barrier between world")) {
