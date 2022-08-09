@@ -393,6 +393,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult FORM_OF_BIRD = EffectPool.get(EffectPool.FORM_OF_BIRD);
   private static final AdventureResult ABSINTHE_MINDED = EffectPool.get(EffectPool.ABSINTHE);
   private static final AdventureResult TRANSPONDENT = EffectPool.get(EffectPool.TRANSPONDENT);
+  private static final AdventureResult FILTHWORM_LARVA_STENCH =
+      EffectPool.get(EffectPool.FILTHWORM_LARVA_STENCH);
+  private static final AdventureResult FILTHWORM_DRONE_STENCH =
+      EffectPool.get(EffectPool.FILTHWORM_DRONE_STENCH);
+  private static final AdventureResult FILTHWORM_GUARD_STENCH =
+      EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
 
   private static final Set<String> antiqueMapZones = new HashSet<>();
   private static final Set<String> psychosesZones = new HashSet<>();
@@ -959,14 +965,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
-      // The Hatching Chamber
-      // The Feeding Chamber
-      // The Royal Guard Chamber
-      // The Filthworm Queen's Chamber
 
-      // *** validate:
-      // - done when Filthworm Queen is slain
-      return true;
+      // Once Filthworm Queen is defeated none of the zones can be accessed
+      if (InventoryManager.hasItem(ItemPool.FILTHWORM_QUEEN_HEART)
+          || !Preferences.getString("sidequestOrchardCompleted").equals("none")) {
+        return false;
+      }
+
+      return switch (this.adventureNumber) {
+        case AdventurePool.FILTHWORM_HATCHING_CHAMBER -> true;
+        case AdventurePool.FILTHWORM_FEEDING_CHAMBER -> KoLConstants.activeEffects.contains(
+            FILTHWORM_LARVA_STENCH);
+        case AdventurePool.FILTHWORM_GUARDS_CHAMBER -> KoLConstants.activeEffects.contains(
+            FILTHWORM_DRONE_STENCH);
+        case AdventurePool.FILTHWORM_QUEENS_CHAMBER -> KoLConstants.activeEffects.contains(
+            FILTHWORM_GUARD_STENCH);
+        default -> false;
+      };
     }
 
     if (this.zone.equals("Junkyard")) {

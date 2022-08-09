@@ -36,6 +36,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class KoLAdventureValidationTest {
 
@@ -1275,6 +1277,96 @@ public class KoLAdventureValidationTest {
 
       try (cleanups) {
         assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+  }
+
+  @Nested
+  class Orchard {
+    private static KoLAdventure HATCHING =
+        AdventureDatabase.getAdventureByName("The Hatching Chamber");
+    private static KoLAdventure FEEDING =
+        AdventureDatabase.getAdventureByName("The Feeding Chamber");
+    private static KoLAdventure GUARDS =
+        AdventureDatabase.getAdventureByName("The Royal Guard Chamber");
+    private static KoLAdventure QUEENS =
+        AdventureDatabase.getAdventureByName("The Filthworm Queen's Chamber");
+
+    @Test
+    void cannotAdventureOutsideWar() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "unstarted"));
+
+      try (cleanups) {
+        assertThat(HATCHING.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void canAdventureInHatchingChamber() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      try (cleanups) {
+        assertThat(HATCHING.canAdventure(), is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canAdventureInFeedingChamber(final boolean haveEffect) {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (haveEffect) cleanups.add(withEffect(EffectPool.FILTHWORM_LARVA_STENCH));
+
+      try (cleanups) {
+        assertThat(FEEDING.canAdventure(), is(haveEffect));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canAdventureInGuardsChamber(final boolean haveEffect) {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (haveEffect) cleanups.add(withEffect(EffectPool.FILTHWORM_DRONE_STENCH));
+
+      try (cleanups) {
+        assertThat(GUARDS.canAdventure(), is(haveEffect));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canAdventureInQueensChamber(final boolean haveEffect) {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (haveEffect) cleanups.add(withEffect(EffectPool.FILTHWORM_GUARD_STENCH));
+
+      try (cleanups) {
+        assertThat(QUEENS.canAdventure(), is(haveEffect));
+      }
+    }
+
+    @Test
+    void cannotAdventureWhenQueenIsSlain() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withItem(ItemPool.FILTHWORM_QUEEN_HEART));
+
+      try (cleanups) {
+        assertThat(HATCHING.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWhenQueenHeartIsHandedIn() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty("sidequestOrchardCompleted", "frat"));
+
+      try (cleanups) {
+        assertThat(HATCHING.canAdventure(), is(false));
       }
     }
   }
