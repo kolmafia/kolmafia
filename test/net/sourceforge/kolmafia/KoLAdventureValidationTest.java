@@ -1363,7 +1363,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
-              withProperty("sidequestwCompleted", "frat"));
+              withProperty("sidequestOrchardCompleted", "frat"));
 
       try (cleanups) {
         assertThat(HATCHING.canAdventure(), is(false));
