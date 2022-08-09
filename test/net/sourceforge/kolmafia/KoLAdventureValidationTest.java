@@ -1132,7 +1132,7 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class RabbitHole {
-    static KoLAdventure RABBIT_HOLE =
+    private static KoLAdventure RABBIT_HOLE =
         AdventureDatabase.getAdventureByName("The Red Queen's Garden");
 
     @Test
@@ -1192,6 +1192,89 @@ public class KoLAdventureValidationTest {
         assertPostRequest(
             requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.DRINK_ME_POTION + "&ajax=1");
         assertThat(success, is(true));
+      }
+    }
+  }
+
+  @Nested
+  class Spacegate {
+    private static KoLAdventure SPACEGATE =
+        AdventureDatabase.getAdventureByName("Through the Spacegate");
+
+    @Test
+    void canAdventure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 2));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void canAdventureWithDayTicket() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", false),
+              withProperty("_spacegateToday", true),
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 2));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutAccess() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 2));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutDialledCoordinates() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true), withProperty("_spacegateTurnsLeft", 2));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutTurnsRemaining() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 0));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureInKoE() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 2),
+              withPath(Path.KINGDOM_OF_EXPLOATHING));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
       }
     }
   }

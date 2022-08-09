@@ -1464,8 +1464,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return false;
       }
-      // *** You have limited turns available per day.
-      return Preferences.getBoolean("spacegateAlways") || Preferences.getBoolean("_spacegateToday");
+
+      return (Preferences.getBoolean("spacegateAlways")
+              || Preferences.getBoolean("_spacegateToday"))
+          && !Preferences.getString("_spacegateCoordinates").isBlank()
+          && Preferences.getInteger("_spacegateTurnsLeft") > 0;
     }
 
     if (this.zone.equals("Gingerbread City")) {
