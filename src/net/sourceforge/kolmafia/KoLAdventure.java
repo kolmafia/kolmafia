@@ -1499,7 +1499,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // If we got here, we have the plans and planks
       RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.DINGHY_PLANS));
     }
-    return InventoryManager.hasItem(DINGY_DINGHY);
+    return KoLCharacter.mysteriousIslandAccessible();
   }
 
   // Validation part 2:
