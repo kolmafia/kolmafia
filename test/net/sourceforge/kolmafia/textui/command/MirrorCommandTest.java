@@ -149,6 +149,17 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     assertFalse(getMirrorLog("mirror_2.txt").contains("Mirror 2 Log"));
   }
 
+  @Test
+  public void ashqShouldGenerateHTMLThatIsCaptured() {
+    execute("chats/mirror_1");
+    AshSingleLineCommand asl = new AshSingleLineCommand();
+    // ashq print("Mirror test.","olive");
+    asl.run("ashq", "print(\"Mirror test.\",\"olive\");");
+    execute("");
+    String contents = getMirrorLog("mirror_1.txt");
+    assertThat(contents, containsString("<font color=\"olive\">Mirror test.</font>"));
+  }
+
   // Uncomment when code allowing htm, html available
   @ParameterizedTest
   @CsvSource({
