@@ -368,11 +368,6 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       KoLCharacter.reset("ColdMedicineCabinetCommandTest");
     }
 
-    @BeforeEach
-    public void beforeEach() {
-      HttpClientWrapper.setupFakeClient();
-    }
-
     @Test
     void GuessNextPillsWithNoUnknownOrUnderwaterEnvironments() {
       var cleanups =
@@ -384,16 +379,17 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
               withContinuationState());
 
       try (cleanups) {
-        String output = execute("pills");
+        String output = execute("plan");
         assertThat(
             output,
             containsString(
-                "For Fleshazole&trade;, spend a minimum of 11 combats underwater or until no environment has overall majority"));
-        assertThat(
-            output, containsString("For Homebodyl&trade;, spend 4 combats in an outdoor location"));
+                "For Fleshazole&trade;, spend a minimum of 11 combats underwater or until no environment has overall majority\n"));
         assertThat(
             output,
-            containsString("For Breathitin&trade;, spend 5 combats in an underground location"));
+            containsString("For Homebodyl&trade;, spend 4 combats in an outdoor location\n"));
+        assertThat(
+            output,
+            containsString("For Breathitin&trade;, spend 5 combats in an underground location\n"));
         assertThat(
             output,
             containsString("For Extrovermectin&trade;, spend 10 combats in an indoor location"));
@@ -412,17 +408,18 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
               withContinuationState());
 
       try (cleanups) {
-        String output = execute("pills");
+        String output = execute("plan");
         assertThat(
             output,
             containsString(
-                "For Fleshazole&trade;, spend a minimum of 11 combats underwater or until no environment has overall majority"));
+                "For Fleshazole&trade;, spend a minimum of 11 combats underwater or until no environment has overall majority\n"));
         assertThat(
             output,
             containsString(
-                "For Extrovermectin&trade;, spend a minimum of 11 combats in an indoor location"));
+                "For Extrovermectin&trade;, spend a minimum of 11 combats in an indoor location\n"));
         assertThat(
-            output, containsString("For Homebodyl&trade;, spend 6 combats in an outdoor location"));
+            output,
+            containsString("For Homebodyl&trade;, spend 6 combats in an outdoor location\n"));
         assertThat(
             output,
             containsString("For Breathitin&trade;, spend 3 combats in an underground location"));
@@ -441,15 +438,16 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
               withContinuationState());
 
       try (cleanups) {
-        String output = execute("pills");
+        String output = execute("plan");
         assertThat(
             output,
-            containsString("For Breathitin&trade;, spend 7 combats in an underground location"));
-        assertThat(
-            output, containsString("For Homebodyl&trade;, spend 8 combats in an outdoor location"));
+            containsString("For Breathitin&trade;, spend 7 combats in an underground location\n"));
         assertThat(
             output,
-            containsString("For Extrovermectin&trade;, spend 9 combats in an indoor location"));
+            containsString("For Homebodyl&trade;, spend 8 combats in an outdoor location\n"));
+        assertThat(
+            output,
+            containsString("For Extrovermectin&trade;, spend 9 combats in an indoor location\n"));
         assertThat(
             output,
             containsString(

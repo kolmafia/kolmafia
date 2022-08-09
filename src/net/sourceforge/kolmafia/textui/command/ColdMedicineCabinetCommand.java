@@ -24,7 +24,17 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 
 public class ColdMedicineCabinetCommand extends AbstractCommand {
   public ColdMedicineCabinetCommand() {
-    this.usage = " - show information about the cold medicine cabinet";
+    this.usage =
+        " - interact with the Cold Medicine Cabinet\n"
+            + "Available sub-commands:\n"
+            + "<blank> | booze | equipment | food | pill | potion | plan\n"
+            + " <blank>: show the status of the Cold Medicine Cabinet including available rewards from the choice encounter\n"
+            + " booze: collect the booze reward from the Cold Medicine Cabinet choice encounter\n"
+            + " equipment: collect the equipment reward from the Cold Medicine Cabinet choice encounter\n"
+            + " food: collect the food reward from the Cold Medicine Cabinet choice encounter\n"
+            + " pill: collect the pill reward from the Cold Medicine Cabinet choice encounter\n"
+            + " plan: guess combats required for each type of pill reward\n"
+            + " potion: collect the potion reward from the Cold Medicine Cabinet choice encounter";
   }
 
   public static final List<String> ITEM_TYPES =
@@ -39,12 +49,12 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
 
   private static final Map<Character, String> LOCATION_STRINGS =
       Map.ofEntries(
-          Map.entry('i', " combats in an indoor location\n"),
-          Map.entry('o', " combats in an outdoor location\n"),
-          Map.entry('u', " combats in an underground location\n"),
+          Map.entry('i', " combats in an indoor location"),
+          Map.entry('o', " combats in an outdoor location"),
+          Map.entry('u', " combats in an underground location"),
           Map.entry(
               'x',
-              " combats underwater or until no environment has overall majority\n")); // underwater/unknown
+              " combats underwater or until no environment has overall majority")); // underwater/unknown
   // need extra stuff
 
   private static Stream<Character> getCharacters() {
@@ -289,17 +299,16 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
       case "booze", "wine" -> collect(3);
       case "potion" -> collect(4);
       case "pill" -> collect(5);
-      case "pills" -> guessTurnsRequiredForPills();
+      case "plan" -> guessCombatsRequiredForPills();
       default -> {
         KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Parameter not recognised");
       }
     }
   }
 
-  private static void guessTurnsRequiredForPills() {
-    final var counts = getCounts();
+  private static void guessCombatsRequiredForPills() {
     final var output = new StringBuilder();
-    final var actualTurnsForMajority = populateNaiveTurnsRequiredForPillMap(counts, output);
+    final var actualTurnsForMajority = populateNaiveTurnsRequiredForPillMap(output);
     final var lastEnvironments = getCharacters().toArray(Character[]::new);
     final var keys = new ArrayList<>(actualTurnsForMajority.keySet());
     for (int i = 0; i < lastEnvironments.length; i++) {
@@ -321,6 +330,8 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
           if (keys.size() < 1) {
             RequestLogger.printLine(output.toString());
             return;
+          } else {
+            output.append("\n");
           }
         }
       }
@@ -329,7 +340,8 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
   }
 
   private static Map<Character, Integer> populateNaiveTurnsRequiredForPillMap(
-      Map<Character, Integer> counts, StringBuilder output) {
+      StringBuilder output) {
+    var counts = getCounts();
     final var naiveTurnsForMajority = new HashMap<Character, Integer>();
     for (char c : counts.keySet()) {
       if (c == '?') continue;
@@ -343,7 +355,8 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
             .append("For ")
             .append(PILLS.get(c))
             .append(", spend a minimum of 11")
-            .append(LOCATION_STRINGS.get(c));
+            .append(LOCATION_STRINGS.get(c))
+            .append("\n");
       }
     }
     return naiveTurnsForMajority;
