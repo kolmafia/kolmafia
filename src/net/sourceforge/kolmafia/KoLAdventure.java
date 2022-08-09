@@ -876,6 +876,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStarted(Quest.PYRAMID)) {
         return false;
       }
+
       return switch (this.adventureNumber) {
         case AdventurePool.UPPER_CHAMBER -> true;
         case AdventurePool.MIDDLE_CHAMBER -> Preferences.getBoolean("middleChamberUnlock");
@@ -977,11 +978,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return switch (this.adventureNumber) {
         case AdventurePool.FILTHWORM_HATCHING_CHAMBER -> true;
         case AdventurePool.FILTHWORM_FEEDING_CHAMBER -> KoLConstants.activeEffects.contains(
-            FILTHWORM_LARVA_STENCH);
+                FILTHWORM_LARVA_STENCH)
+            || InventoryManager.hasItem(ItemPool.FILTHWORM_HATCHLING_GLAND);
         case AdventurePool.FILTHWORM_GUARDS_CHAMBER -> KoLConstants.activeEffects.contains(
-            FILTHWORM_DRONE_STENCH);
+                FILTHWORM_DRONE_STENCH)
+            || InventoryManager.hasItem(ItemPool.FILTHWORM_DRONE_GLAND);
         case AdventurePool.FILTHWORM_QUEENS_CHAMBER -> KoLConstants.activeEffects.contains(
-            FILTHWORM_GUARD_STENCH);
+                FILTHWORM_GUARD_STENCH)
+            || InventoryManager.hasItem(ItemPool.FILTHWORM_GUARD_GLAND);
         default -> false;
       };
     }
@@ -1870,6 +1874,35 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Cannot bring a familiar
       if (KoLCharacter.getFamiliar() != FamiliarData.NO_FAMILIAR) {
         RequestThread.postRequest(new FamiliarRequest(null));
+      }
+
+      return true;
+    }
+
+    if (this.zone.equals("Orchard")) {
+      var item =
+          switch (this.adventureNumber) {
+            case AdventurePool.FILTHWORM_FEEDING_CHAMBER -> KoLConstants.activeEffects.contains(
+                    FILTHWORM_LARVA_STENCH)
+                ? null
+                : ItemPool.FILTHWORM_HATCHLING_GLAND;
+            case AdventurePool.FILTHWORM_GUARDS_CHAMBER -> KoLConstants.activeEffects.contains(
+                    FILTHWORM_DRONE_STENCH)
+                ? null
+                : ItemPool.FILTHWORM_DRONE_GLAND;
+            case AdventurePool.FILTHWORM_QUEENS_CHAMBER -> KoLConstants.activeEffects.contains(
+                    FILTHWORM_GUARD_STENCH)
+                ? null
+                : ItemPool.FILTHWORM_GUARD_GLAND;
+            default -> null;
+          };
+
+      if (item != null) {
+        if (!InventoryManager.hasItem(item)) {
+          return false;
+        }
+
+        RequestThread.postRequest(UseItemRequest.getInstance(item));
       }
 
       return true;
