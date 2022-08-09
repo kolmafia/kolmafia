@@ -54,7 +54,7 @@
    "longDesc": "This will find the most cost-efficient booze (given a non-insane number of mall searches) for making the Carriageman drunk as a Dreadsylvanian skunk, buy as much as it needs, and dump it down his throat."
  },
  {
-   "repo": "https://svn.code.sf.net/p/therazekolmafia/eatdrink/code/",
+   "repo": "https://svn.code.sf.net/p/therazekolmafia/eatdrink/",
    "author": "Theraze, dj_d",
    "name": "EatDrink",
    "forumThread": "https://kolmafia.us/showthread.php?1519-EatDrink-ash-Optimize-your-daily-diet",
@@ -81,7 +81,7 @@
    "longDesc": "The FarFuture command will play the game to collect the prize of your choice and earn two medals."
  },
  {
-   "repo": "https://svn.code.sf.net/p/therazekolmafia/getskill/code/",
+   "repo": "https://svn.code.sf.net/p/therazekolmafia/getskill/",
    "author": "Theraze & kitsunenine",
    "name": "Get Skill",
    "forumThread": "https://kolmafia.us/showthread.php?4302-Get_skill-ash-CLI-accessible-skill-acquisition",
@@ -387,7 +387,7 @@
    "longDesc": "Spends 20 turns a day at a 'Z' difficuly planet with all rocks."
  },
  {
-   "repo": "https://svn.code.sf.net/p/therazekolmafia/thesea/code/",
+   "repo": "https://svn.code.sf.net/p/therazekolmafia/thesea/",
    "author": "Theraze",
    "name": "The Sea",
    "forumThread": "https://kolmafia.us/showthread.php?8708-TheSea-ash-Automated-Underwater-Quests",
@@ -504,7 +504,7 @@
    "longDesc": "This stores all your ascension relevant items into an easy to view relay script, based on on a variety of factors such as path, class and astral items. It helps you build a pull lists based on the factors that matter to you. It will even alert you to type69 status if your path is current. Finally, it will help you to buy and pull items in run based on your decisions."
  },
  {
-   "repo": "https://svn.code.sf.net/p/therazekolmafia/canadv/code/",
+   "repo": "https://svn.code.sf.net/p/therazekolmafia/canadv/",
    "author": "Theraze, zarqon",
    "name": "CanAdv",
    "forumThread": "https://kolmafia.us/showthread.php?2027-CanAdv-check-whether-you-can-adventure-at-a-given-location",
