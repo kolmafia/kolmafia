@@ -1363,10 +1363,22 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
-              withProperty("sidequestOrchardCompleted", "frat"));
+              withProperty("sidequestwCompleted", "frat"));
 
       try (cleanups) {
         assertThat(HATCHING.canAdventure(), is(false));
+      }
+    }
+
+    private static KoLAdventure UNKNOWN =
+        new KoLAdventure("Orchard", "adventure.php", "696969", "The Chamber of Filthworm Commerce");
+
+    @Test
+    void cannotAdventureInUnknownNewOrchardZone() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      try (cleanups) {
+        assertThat(UNKNOWN.canAdventure(), is(false));
       }
     }
   }
