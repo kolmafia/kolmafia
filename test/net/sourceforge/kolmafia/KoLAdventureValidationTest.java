@@ -1062,6 +1062,30 @@ public class KoLAdventureValidationTest {
         assertTrue(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
+
+    @Test
+    public void changesIntoWarFratOutfitIfNecessary() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("beer helmet"),
+              withEquippableItem("distressed denim pants"),
+              withEquippableItem("bejeweled pledge pin"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
+
+      try (cleanups) {
+        var success = WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure();
+
+        assertThat(success, is(true));
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_equip.php", "which=2&action=outfit&whichoutfit=33&ajax=1");
+      }
+    }
   }
 
   @Nested

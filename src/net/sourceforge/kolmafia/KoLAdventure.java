@@ -1982,12 +1982,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public int getOutfitId() {
     return switch (this.adventureNumber) {
-      case AdventurePool.FRAT_HOUSE_DISGUISED, AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED ->
-      // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
-      getFirstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
-      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED, AdventurePool.HIPPY_CAMP_DISGUISED ->
-      // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
-      getFirstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
+        // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
+      case AdventurePool.FRAT_HOUSE_DISGUISED,
+          AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED -> getFirstAvailableOutfitId(
+          OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
+        // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
+      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
+          AdventurePool.HIPPY_CAMP_DISGUISED -> getFirstAvailableOutfitId(
+          OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
       case AdventurePool.CLOACA_BATTLEFIELD -> OutfitPool.CLOACA_UNIFORM;
       case AdventurePool.DYSPEPSI_BATTLEFIELD -> OutfitPool.DYSPEPSI_UNIFORM;
       case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> OutfitPool.WAR_FRAT_OUTFIT;
