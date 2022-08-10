@@ -55,6 +55,10 @@ public class AdventurePool {
   public static final int OUTSKIRTS_OF_THE_KNOB = 114;
   public static final int OASIS = 122;
   public static final int THEMTHAR_HILLS = 126;
+  public static final int FILTHWORM_HATCHING_CHAMBER = 127;
+  public static final int FILTHWORM_FEEDING_CHAMBER = 128;
+  public static final int FILTHWORM_GUARDS_CHAMBER = 129;
+  public static final int FILTHWORM_QUEENS_CHAMBER = 130;
   public static final int WARTIME_FRAT_HOUSE_DISGUISED = 131;
   public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
   public static final int WARTIME_HIPPY_CAMP = 133;
