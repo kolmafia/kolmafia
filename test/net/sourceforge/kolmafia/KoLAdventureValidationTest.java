@@ -108,14 +108,13 @@ public class KoLAdventureValidationTest {
   class AirportCharters {
 
     // Simplify looking up the KoLAdventure based on adventure ID.
-    private static Map<Integer, KoLAdventure> sleazeZones = new HashMap<>();
-    private static Map<Integer, KoLAdventure> spookyZones = new HashMap<>();
-    private static Map<Integer, KoLAdventure> stenchZones = new HashMap<>();
-    private static Map<Integer, KoLAdventure> hotZones = new HashMap<>();
-    private static Map<Integer, KoLAdventure> coldZones = new HashMap<>();
+    private static final Map<Integer, KoLAdventure> sleazeZones = new HashMap<>();
+    private static final Map<Integer, KoLAdventure> spookyZones = new HashMap<>();
+    private static final Map<Integer, KoLAdventure> stenchZones = new HashMap<>();
+    private static final Map<Integer, KoLAdventure> hotZones = new HashMap<>();
+    private static final Map<Integer, KoLAdventure> coldZones = new HashMap<>();
 
-    @BeforeAll
-    public static void beforeAll() {
+    static {
       sleazeZones.put(
           AdventurePool.FUN_GUY_MANSION,
           AdventureDatabase.getAdventureByName("The Fun-Guy Mansion"));
@@ -219,55 +218,39 @@ public class KoLAdventureValidationTest {
   @Nested
   class CobbsKnob {
 
-    // Simplify looking up the KoLAdventure based on adventure ID.
-    private static Map<Integer, KoLAdventure> zones = new HashMap<>();
-    private static KoLAdventure throneRoom = AdventureDatabase.getAdventureByName("Throne Room");
-
-    @BeforeAll
-    public static void beforeAll() {
-      zones.put(
-          AdventurePool.OUTSKIRTS_OF_THE_KNOB,
-          AdventureDatabase.getAdventureByName("The Outskirts of Cobb's Knob"));
-      zones.put(
-          AdventurePool.COBB_BARRACKS,
-          AdventureDatabase.getAdventureByName("Cobb's Knob Barracks"));
-      zones.put(
-          AdventurePool.COBB_KITCHEN, AdventureDatabase.getAdventureByName("Cobb's Knob Kitchens"));
-      zones.put(
-          AdventurePool.COBB_HAREM, AdventureDatabase.getAdventureByName("Cobb's Knob Harem"));
-      zones.put(
-          AdventurePool.COBB_TREASURY,
-          AdventureDatabase.getAdventureByName("Cobb's Knob Treasury"));
-      zones.put(
-          AdventurePool.COBB_LABORATORY,
-          AdventureDatabase.getAdventureByName("Cobb's Knob Laboratory"));
-      zones.put(AdventurePool.KNOB_SHAFT, AdventureDatabase.getAdventureByName("The Knob Shaft"));
-      zones.put(
-          AdventurePool.MENAGERIE_LEVEL_1,
-          AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 1"));
-      zones.put(
-          AdventurePool.MENAGERIE_LEVEL_2,
-          AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 2"));
-      zones.put(
-          AdventurePool.MENAGERIE_LEVEL_3,
-          AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 3"));
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      zones.clear();
-    }
+    private static final KoLAdventure OUTSKIRTS_OF_THE_KNOB =
+        AdventureDatabase.getAdventureByName("The Outskirts of Cobb's Knob");
+    private static final KoLAdventure COBB_BARRACKS =
+        AdventureDatabase.getAdventureByName("Cobb's Knob Barracks");
+    private static final KoLAdventure COBB_KITCHEN =
+        AdventureDatabase.getAdventureByName("Cobb's Knob Kitchens");
+    private static final KoLAdventure COBB_HAREM =
+        AdventureDatabase.getAdventureByName("Cobb's Knob Harem");
+    private static final KoLAdventure COBB_TREASURY =
+        AdventureDatabase.getAdventureByName("Cobb's Knob Treasury");
+    private static final KoLAdventure COBB_LABORATORY =
+        AdventureDatabase.getAdventureByName("Cobb's Knob Laboratory");
+    private static final KoLAdventure KNOB_SHAFT =
+        AdventureDatabase.getAdventureByName("The Knob Shaft");
+    private static final KoLAdventure MENAGERIE_LEVEL_1 =
+        AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 1");
+    private static final KoLAdventure MENAGERIE_LEVEL_2 =
+        AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 2");
+    private static final KoLAdventure MENAGERIE_LEVEL_3 =
+        AdventureDatabase.getAdventureByName("Cobb's Knob Menagerie, Level 3");
+    private static final KoLAdventure THRONE_ROOM =
+        AdventureDatabase.getAdventureByName("Throne Room");
 
     @Test
     public void canVisitCobbsKnobBeforeQuest() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).canAdventure());
-        assertFalse(zones.get(AdventurePool.COBB_BARRACKS).canAdventure());
-        assertFalse(zones.get(AdventurePool.COBB_KITCHEN).canAdventure());
-        assertFalse(zones.get(AdventurePool.COBB_HAREM).canAdventure());
-        assertFalse(zones.get(AdventurePool.COBB_TREASURY).canAdventure());
-        assertFalse(throneRoom.canAdventure());
+        assertTrue(OUTSKIRTS_OF_THE_KNOB.canAdventure());
+        assertFalse(COBB_BARRACKS.canAdventure());
+        assertFalse(COBB_KITCHEN.canAdventure());
+        assertFalse(COBB_HAREM.canAdventure());
+        assertFalse(COBB_TREASURY.canAdventure());
+        assertFalse(THRONE_ROOM.canAdventure());
       }
     }
 
@@ -275,12 +258,12 @@ public class KoLAdventureValidationTest {
     public void canVisitCobbsKnobBeforeDecrypting() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).canAdventure());
-        assertFalse(zones.get(AdventurePool.COBB_BARRACKS).canAdventure());
-        assertFalse(zones.get(AdventurePool.COBB_KITCHEN).canAdventure());
-        assertFalse(zones.get(AdventurePool.COBB_HAREM).canAdventure());
-        assertFalse(zones.get(AdventurePool.COBB_TREASURY).canAdventure());
-        assertFalse(throneRoom.canAdventure());
+        assertTrue(OUTSKIRTS_OF_THE_KNOB.canAdventure());
+        assertFalse(COBB_BARRACKS.canAdventure());
+        assertFalse(COBB_KITCHEN.canAdventure());
+        assertFalse(COBB_HAREM.canAdventure());
+        assertFalse(COBB_TREASURY.canAdventure());
+        assertFalse(THRONE_ROOM.canAdventure());
       }
     }
 
@@ -288,12 +271,12 @@ public class KoLAdventureValidationTest {
     public void canVisitCobbsKnobAfterDecrypting() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).canAdventure());
-        assertTrue(zones.get(AdventurePool.COBB_BARRACKS).canAdventure());
-        assertTrue(zones.get(AdventurePool.COBB_KITCHEN).canAdventure());
-        assertTrue(zones.get(AdventurePool.COBB_HAREM).canAdventure());
-        assertTrue(zones.get(AdventurePool.COBB_TREASURY).canAdventure());
-        assertTrue(throneRoom.canAdventure());
+        assertTrue(OUTSKIRTS_OF_THE_KNOB.canAdventure());
+        assertTrue(COBB_BARRACKS.canAdventure());
+        assertTrue(COBB_KITCHEN.canAdventure());
+        assertTrue(COBB_HAREM.canAdventure());
+        assertTrue(COBB_TREASURY.canAdventure());
+        assertTrue(THRONE_ROOM.canAdventure());
       }
     }
 
@@ -301,12 +284,12 @@ public class KoLAdventureValidationTest {
     public void canVisitCobbsKnobAfterDefeatingKing() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.OUTSKIRTS_OF_THE_KNOB).canAdventure());
-        assertTrue(zones.get(AdventurePool.COBB_BARRACKS).canAdventure());
-        assertTrue(zones.get(AdventurePool.COBB_KITCHEN).canAdventure());
-        assertTrue(zones.get(AdventurePool.COBB_HAREM).canAdventure());
-        assertTrue(zones.get(AdventurePool.COBB_TREASURY).canAdventure());
-        assertFalse(throneRoom.canAdventure());
+        assertTrue(OUTSKIRTS_OF_THE_KNOB.canAdventure());
+        assertTrue(COBB_BARRACKS.canAdventure());
+        assertTrue(COBB_KITCHEN.canAdventure());
+        assertTrue(COBB_HAREM.canAdventure());
+        assertTrue(COBB_TREASURY.canAdventure());
+        assertFalse(THRONE_ROOM.canAdventure());
       }
     }
 
@@ -314,8 +297,8 @@ public class KoLAdventureValidationTest {
     public void cannotVisitCobbsKnobLaboratoryWithoutKey() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.COBB_LABORATORY).canAdventure());
-        assertFalse(zones.get(AdventurePool.KNOB_SHAFT).canAdventure());
+        assertFalse(COBB_LABORATORY.canAdventure());
+        assertFalse(KNOB_SHAFT.canAdventure());
       }
     }
 
@@ -324,8 +307,8 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withItem("Cobb's Knob lab key"), withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.COBB_LABORATORY).canAdventure());
-        assertTrue(zones.get(AdventurePool.KNOB_SHAFT).canAdventure());
+        assertTrue(COBB_LABORATORY.canAdventure());
+        assertTrue(KNOB_SHAFT.canAdventure());
       }
     }
 
@@ -333,9 +316,9 @@ public class KoLAdventureValidationTest {
     public void cannotVisitCobbsKnobMenagerieWithoutKey() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_1).canAdventure());
-        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_2).canAdventure());
-        assertFalse(zones.get(AdventurePool.MENAGERIE_LEVEL_3).canAdventure());
+        assertFalse(MENAGERIE_LEVEL_1.canAdventure());
+        assertFalse(MENAGERIE_LEVEL_2.canAdventure());
+        assertFalse(MENAGERIE_LEVEL_3.canAdventure());
       }
     }
 
@@ -345,9 +328,9 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("Cobb's Knob Menagerie key"), withQuestProgress(Quest.GOBLIN, "step1"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_1).canAdventure());
-        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_2).canAdventure());
-        assertTrue(zones.get(AdventurePool.MENAGERIE_LEVEL_3).canAdventure());
+        assertTrue(MENAGERIE_LEVEL_1.canAdventure());
+        assertTrue(MENAGERIE_LEVEL_2.canAdventure());
+        assertTrue(MENAGERIE_LEVEL_3.canAdventure());
       }
     }
   }
@@ -355,36 +338,26 @@ public class KoLAdventureValidationTest {
   @Nested
   class Cyrpt {
 
-    // Simplify looking up the KoLAdventure based on adventure ID.
-    private static Map<Integer, KoLAdventure> zones = new HashMap<>();
-    private static KoLAdventure haert = AdventureDatabase.getAdventureByName("Haert of the Cyrpt");
-
-    @BeforeAll
-    public static void beforeAll() {
-      zones.put(
-          AdventurePool.DEFILED_ALCOVE, AdventureDatabase.getAdventureByName("The Defiled Alcove"));
-      zones.put(
-          AdventurePool.DEFILED_CRANNY, AdventureDatabase.getAdventureByName("The Defiled Cranny"));
-      zones.put(
-          AdventurePool.DEFILED_NICHE, AdventureDatabase.getAdventureByName("The Defiled Niche"));
-      zones.put(
-          AdventurePool.DEFILED_NOOK, AdventureDatabase.getAdventureByName("The Defiled Nook"));
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      zones.clear();
-    }
+    private static final KoLAdventure DEFILED_ALCOVE =
+        AdventureDatabase.getAdventureByName("The Defiled Alcove");
+    private static final KoLAdventure DEFILED_CRANNY =
+        AdventureDatabase.getAdventureByName("The Defiled Cranny");
+    private static final KoLAdventure DEFILED_NICHE =
+        AdventureDatabase.getAdventureByName("The Defiled Niche");
+    private static final KoLAdventure DEFILED_NOOK =
+        AdventureDatabase.getAdventureByName("The Defiled Nook");
+    private static final KoLAdventure HAERT =
+        AdventureDatabase.getAdventureByName("Haert of the Cyrpt");
 
     @Test
     public void cannotVisitCyrptBeforeQuest() {
       var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
-        assertFalse(haert.canAdventure());
+        assertFalse(DEFILED_ALCOVE.canAdventure());
+        assertFalse(DEFILED_CRANNY.canAdventure());
+        assertFalse(DEFILED_NICHE.canAdventure());
+        assertFalse(DEFILED_NOOK.canAdventure());
+        assertFalse(HAERT.canAdventure());
       }
     }
 
@@ -399,11 +372,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptTotalEvilness", 200));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
-        assertFalse(haert.canAdventure());
+        assertTrue(DEFILED_ALCOVE.canAdventure());
+        assertTrue(DEFILED_CRANNY.canAdventure());
+        assertTrue(DEFILED_NICHE.canAdventure());
+        assertTrue(DEFILED_NOOK.canAdventure());
+        assertFalse(HAERT.canAdventure());
       }
     }
 
@@ -418,11 +391,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptTotalEvilness", 150));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
-        assertFalse(haert.canAdventure());
+        assertFalse(DEFILED_ALCOVE.canAdventure());
+        assertTrue(DEFILED_CRANNY.canAdventure());
+        assertTrue(DEFILED_NICHE.canAdventure());
+        assertTrue(DEFILED_NOOK.canAdventure());
+        assertFalse(HAERT.canAdventure());
       }
     }
 
@@ -437,11 +410,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptTotalEvilness", 150));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
-        assertFalse(haert.canAdventure());
+        assertTrue(DEFILED_ALCOVE.canAdventure());
+        assertFalse(DEFILED_CRANNY.canAdventure());
+        assertTrue(DEFILED_NICHE.canAdventure());
+        assertTrue(DEFILED_NOOK.canAdventure());
+        assertFalse(HAERT.canAdventure());
       }
     }
 
@@ -456,11 +429,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 50),
               withProperty("cyrptTotalEvilness", 150));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
-        assertFalse(haert.canAdventure());
+        assertTrue(DEFILED_ALCOVE.canAdventure());
+        assertTrue(DEFILED_CRANNY.canAdventure());
+        assertFalse(DEFILED_NICHE.canAdventure());
+        assertTrue(DEFILED_NOOK.canAdventure());
+        assertFalse(HAERT.canAdventure());
       }
     }
 
@@ -475,11 +448,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptTotalEvilness", 150));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
-        assertTrue(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
-        assertFalse(haert.canAdventure());
+        assertTrue(DEFILED_ALCOVE.canAdventure());
+        assertTrue(DEFILED_CRANNY.canAdventure());
+        assertTrue(DEFILED_NICHE.canAdventure());
+        assertFalse(DEFILED_NOOK.canAdventure());
+        assertFalse(HAERT.canAdventure());
       }
     }
 
@@ -494,11 +467,11 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptTotalEvilness", 0));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
-        assertTrue(haert.canAdventure());
+        assertFalse(DEFILED_ALCOVE.canAdventure());
+        assertFalse(DEFILED_CRANNY.canAdventure());
+        assertFalse(DEFILED_NICHE.canAdventure());
+        assertFalse(DEFILED_NOOK.canAdventure());
+        assertTrue(HAERT.canAdventure());
       }
     }
 
@@ -506,11 +479,11 @@ public class KoLAdventureValidationTest {
     public void cannotVisitCyrptWhenQuestFinished() {
       var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.DEFILED_ALCOVE).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_CRANNY).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_NICHE).canAdventure());
-        assertFalse(zones.get(AdventurePool.DEFILED_NOOK).canAdventure());
-        assertFalse(haert.canAdventure());
+        assertFalse(DEFILED_ALCOVE.canAdventure());
+        assertFalse(DEFILED_CRANNY.canAdventure());
+        assertFalse(DEFILED_NICHE.canAdventure());
+        assertFalse(DEFILED_NOOK.canAdventure());
+        assertFalse(HAERT.canAdventure());
       }
     }
   }
@@ -518,35 +491,25 @@ public class KoLAdventureValidationTest {
   @Nested
   class Pirate {
 
-    // Simplify looking up the KoLAdventure based on adventure ID.
-    private static Map<Integer, KoLAdventure> zones = new HashMap<>();
-
-    @BeforeAll
-    public static void beforeAll() {
-      zones.put(
-          AdventurePool.PIRATE_COVE,
-          AdventureDatabase.getAdventureByName("The Obligatory Pirate's Cove"));
-      zones.put(
-          AdventurePool.BARRRNEYS_BARRR, AdventureDatabase.getAdventureByName("Barrrney's Barrr"));
-      zones.put(AdventurePool.FCLE, AdventureDatabase.getAdventureByName("The F'c'le"));
-      zones.put(AdventurePool.POOP_DECK, AdventureDatabase.getAdventureByName("The Poop Deck"));
-      zones.put(AdventurePool.BELOWDECKS, AdventureDatabase.getAdventureByName("Belowdecks"));
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      zones.clear();
-    }
+    private static final KoLAdventure PIRATE_COVE =
+        AdventureDatabase.getAdventureByName("The Obligatory Pirate's Cove");
+    private static final KoLAdventure BARRRNEYS_BARRR =
+        AdventureDatabase.getAdventureByName("Barrrney's Barrr");
+    private static final KoLAdventure FCLE = AdventureDatabase.getAdventureByName("The F'c'le");
+    private static final KoLAdventure POOP_DECK =
+        AdventureDatabase.getAdventureByName("The Poop Deck");
+    private static final KoLAdventure BELOWDECKS =
+        AdventureDatabase.getAdventureByName("Belowdecks");
 
     @Test
     public void cannotVisitPiratesWithoutIslandAccess() {
       var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.PIRATE_COVE).canAdventure());
-        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertFalse(PIRATE_COVE.canAdventure());
+        assertFalse(BARRRNEYS_BARRR.canAdventure());
+        assertFalse(FCLE.canAdventure());
+        assertFalse(POOP_DECK.canAdventure());
+        assertFalse(BELOWDECKS.canAdventure());
       }
     }
 
@@ -557,11 +520,11 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.PIRATE_COVE).canAdventure());
-        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertTrue(PIRATE_COVE.canAdventure());
+        assertFalse(BARRRNEYS_BARRR.canAdventure());
+        assertFalse(FCLE.canAdventure());
+        assertFalse(POOP_DECK.canAdventure());
+        assertFalse(BELOWDECKS.canAdventure());
       }
     }
 
@@ -570,11 +533,11 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.PIRATE_COVE).canAdventure());
-        assertFalse(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertFalse(PIRATE_COVE.canAdventure());
+        assertFalse(BARRRNEYS_BARRR.canAdventure());
+        assertFalse(FCLE.canAdventure());
+        assertFalse(POOP_DECK.canAdventure());
+        assertFalse(BELOWDECKS.canAdventure());
       }
     }
 
@@ -591,10 +554,10 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
-        assertTrue(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertTrue(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(FCLE.canAdventure());
+        assertTrue(POOP_DECK.canAdventure());
+        assertTrue(BELOWDECKS.canAdventure());
       }
     }
 
@@ -608,10 +571,10 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
-        assertTrue(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertTrue(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(FCLE.canAdventure());
+        assertTrue(POOP_DECK.canAdventure());
+        assertTrue(BELOWDECKS.canAdventure());
       }
     }
 
@@ -628,10 +591,10 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.PIRATE, QuestDatabase.UNSTARTED));
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertFalse(FCLE.canAdventure());
+        assertFalse(POOP_DECK.canAdventure());
+        assertFalse(BELOWDECKS.canAdventure());
       }
     }
 
@@ -648,10 +611,10 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.PIRATE, "step5"));
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
-        assertFalse(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(FCLE.canAdventure());
+        assertFalse(POOP_DECK.canAdventure());
+        assertFalse(BELOWDECKS.canAdventure());
       }
     }
 
@@ -668,10 +631,10 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.PIRATE, "step6"));
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
-        assertTrue(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertFalse(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(FCLE.canAdventure());
+        assertTrue(POOP_DECK.canAdventure());
+        assertFalse(BELOWDECKS.canAdventure());
       }
     }
 
@@ -688,10 +651,10 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
-        assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
-        assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
-        assertTrue(zones.get(AdventurePool.POOP_DECK).canAdventure());
-        assertTrue(zones.get(AdventurePool.BELOWDECKS).canAdventure());
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(FCLE.canAdventure());
+        assertTrue(POOP_DECK.canAdventure());
+        assertTrue(BELOWDECKS.canAdventure());
       }
     }
   }
@@ -722,14 +685,15 @@ public class KoLAdventureValidationTest {
     //
     // AdventurePool.BOMBED_HIPPY_CAMP
 
-    private static KoLAdventure HIPPY_CAMP = AdventureDatabase.getAdventureByName("Hippy Camp");
-    private static KoLAdventure HIPPY_CAMP_DISGUISED =
+    private static final KoLAdventure HIPPY_CAMP =
+        AdventureDatabase.getAdventureByName("Hippy Camp");
+    private static final KoLAdventure HIPPY_CAMP_DISGUISED =
         AdventureDatabase.getAdventureByName("Hippy Camp (Hippy Disguise)");
-    private static KoLAdventure WARTIME_HIPPY_CAMP =
+    private static final KoLAdventure WARTIME_HIPPY_CAMP =
         AdventureDatabase.getAdventureByName("Wartime Hippy Camp");
-    private static KoLAdventure WARTIME_HIPPY_CAMP_DISGUISED =
+    private static final KoLAdventure WARTIME_HIPPY_CAMP_DISGUISED =
         AdventureDatabase.getAdventureByName("Wartime Hippy Camp (Frat Disguise)");
-    private static KoLAdventure BOMBED_HIPPY_CAMP =
+    private static final KoLAdventure BOMBED_HIPPY_CAMP =
         AdventureDatabase.getAdventureByName("The Hippy Camp (Bombed Back to the Stone Age)");
 
     @Test
@@ -1114,14 +1078,15 @@ public class KoLAdventureValidationTest {
     //
     // AdventurePool.BOMBED_FRAT_HOUSE
 
-    private static KoLAdventure FRAT_HOUSE = AdventureDatabase.getAdventureByName("Frat House");
-    private static KoLAdventure FRAT_HOUSE_DISGUISED =
+    private static final KoLAdventure FRAT_HOUSE =
+        AdventureDatabase.getAdventureByName("Frat House");
+    private static final KoLAdventure FRAT_HOUSE_DISGUISED =
         AdventureDatabase.getAdventureByName("Frat House (Frat Disguise)");
-    private static KoLAdventure WARTIME_FRAT_HOUSE =
+    private static final KoLAdventure WARTIME_FRAT_HOUSE =
         AdventureDatabase.getAdventureByName("Wartime Frat House");
-    private static KoLAdventure WARTIME_FRAT_HOUSE_DISGUISED =
+    private static final KoLAdventure WARTIME_FRAT_HOUSE_DISGUISED =
         AdventureDatabase.getAdventureByName("Wartime Frat House (Hippy Disguise)");
-    private static KoLAdventure BOMBED_FRAT_HOUSE =
+    private static final KoLAdventure BOMBED_FRAT_HOUSE =
         AdventureDatabase.getAdventureByName(
             "The Orcish Frat House (Bombed Back to the Stone Age)");
 
@@ -1462,7 +1427,7 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class RabbitHole {
-    private static KoLAdventure RABBIT_HOLE =
+    private static final KoLAdventure RABBIT_HOLE =
         AdventureDatabase.getAdventureByName("The Red Queen's Garden");
 
     @Test
@@ -1528,7 +1493,7 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class Spacegate {
-    private static KoLAdventure SPACEGATE =
+    private static final KoLAdventure SPACEGATE =
         AdventureDatabase.getAdventureByName("Through the Spacegate");
 
     @Test
@@ -1712,7 +1677,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
-    private static KoLAdventure UNKNOWN =
+    private static final KoLAdventure UNKNOWN =
         new KoLAdventure("Orchard", "adventure.php", "696969", "The Chamber of Filthworm Commerce");
 
     @Test
@@ -1757,10 +1722,10 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class FantasyRealm {
-    private static KoLAdventure BANDITS =
+    private static final KoLAdventure BANDITS =
         AdventureDatabase.getAdventureByName("The Bandit Crossroads");
 
-    private static KoLAdventure MOUNTAINS =
+    private static final KoLAdventure MOUNTAINS =
         AdventureDatabase.getAdventureByName("The Towering Mountains");
 
     @Test
@@ -1890,6 +1855,146 @@ public class KoLAdventureValidationTest {
 
         assertThat(requests, hasSize(1));
         assertPostRequest(requests.get(0), "/familiar.php", "action=putback&ajax=1");
+        assertThat(success, is(true));
+      }
+    }
+  }
+
+  @Nested
+  class MarketQuests {
+    private static final KoLAdventure SKELETON_STORE =
+        AdventureDatabase.getAdventureByName("The Skeleton Store");
+    private static final KoLAdventure MADNESS_BAKERY =
+        AdventureDatabase.getAdventureByName("Madness Bakery");
+    private static final KoLAdventure OVERGROWN_LOT =
+        AdventureDatabase.getAdventureByName("The Overgrown Lot");
+
+    // For each zone:
+    //   If have access, prepareForAdventure immediately returns true
+    //   If have no access and have item, prepareForAdventure uses item.
+    //   If have no access and don't have item, prepareForAdventure starts quest with NPC
+
+    void withAccessToSkeletonStoreMakesNoRequests() {
+      var cleanups = new Cleanups(withProperty("skeletonStoreAvailable", true));
+      setupFakeClient();
+      try (cleanups) {
+        var success = SKELETON_STORE.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+        assertThat(success, is(true));
+      }
+    }
+
+    void withSkeletonStoreItemUsesItem() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skeletonStoreAvailable", false),
+              withItem(ItemPool.BONE_WITH_A_PRICE_TAG));
+      setupFakeClient();
+      try (cleanups) {
+        var success = SKELETON_STORE.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.BONE_WITH_A_PRICE_TAG + "&ajax=1");
+        assertThat(success, is(true));
+      }
+    }
+
+    void withoutSkeletonStoreItemStartsQuest() {
+      var cleanups = new Cleanups(withProperty("skeletonStoreAvailable", false));
+      setupFakeClient();
+      try (cleanups) {
+        var success = SKELETON_STORE.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/shop.php", "whichshop=meatsmith");
+        assertPostRequest(requests.get(1), "/shop.php", "whichshop=meatsmith&action=talk");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1059&option=1");
+        assertThat(success, is(true));
+      }
+    }
+
+    void withAccessToMadnessBakeryStoreMakesNoRequests() {
+      var cleanups = new Cleanups(withProperty("madnessBakeryAvailable", true));
+      setupFakeClient();
+      try (cleanups) {
+        var success = MADNESS_BAKERY.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+        assertThat(success, is(true));
+      }
+    }
+
+    void withMadnessBakeryItemUsesItem() {
+      var cleanups =
+          new Cleanups(
+              withProperty("madnessBakeryAvailable", false),
+              withItem(ItemPool.HYPNOTIC_BREADCRUMBS));
+      setupFakeClient();
+      try (cleanups) {
+        var success = MADNESS_BAKERY.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.HYPNOTIC_BREADCRUMBS + "&ajax=1");
+        assertThat(success, is(true));
+      }
+    }
+
+    void withoutMadnessBakeryItemStartsQuest() {
+      var cleanups = new Cleanups(withProperty("madnessBakeryStoreAvailable", false));
+      setupFakeClient();
+      try (cleanups) {
+        var success = MADNESS_BAKERY.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/shop.php", "whichshop=armory");
+        assertPostRequest(requests.get(1), "/shop.php", "whichshop=armory&action=talk");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1065&option=1");
+        assertThat(success, is(true));
+      }
+    }
+
+    void withAccessToOvergrownLotMakesNoRequests() {
+      var cleanups = new Cleanups(withProperty("overgrownLotAvailable", true));
+      setupFakeClient();
+      try (cleanups) {
+        var success = OVERGROWN_LOT.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+        assertThat(success, is(true));
+      }
+    }
+
+    void withOvergrownLotItemUsesItem() {
+      var cleanups =
+          new Cleanups(withProperty("overgrownLotAvailable", false), withItem(ItemPool.BOOZE_MAP));
+      setupFakeClient();
+      try (cleanups) {
+        var success = OVERGROWN_LOT.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.BOOZE_MAP + "&ajax=1");
+        assertThat(success, is(true));
+      }
+    }
+
+    void withoutOvergrownLotItemStartsQuest() {
+      var cleanups = new Cleanups(withProperty("overgrownLotAvailable", false));
+      setupFakeClient();
+      try (cleanups) {
+        var success = OVERGROWN_LOT.prepareForAdventure();
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/shop.php", "whichshop=doc");
+        assertPostRequest(requests.get(1), "/shop.php", "whichshop=doc&action=talk");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1064&option=1");
         assertThat(success, is(true));
       }
     }
