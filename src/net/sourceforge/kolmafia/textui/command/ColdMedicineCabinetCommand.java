@@ -24,11 +24,18 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 
 public class ColdMedicineCabinetCommand extends AbstractCommand {
   public ColdMedicineCabinetCommand() {
-    this.usage = " - show information about the cold medicine cabinet";
+    this.usage =
+        " - interact with the Cold Medicine Cabinet\n"
+            + "Available sub-commands:\n"
+            + "<blank> | booze | equipment | food | pill | potion | plan\n"
+            + " <blank>: show the status of the Cold Medicine Cabinet including available rewards from the choice encounter\n"
+            + " booze: collect the booze reward from the Cold Medicine Cabinet choice encounter\n"
+            + " equipment: collect the equipment reward from the Cold Medicine Cabinet choice encounter\n"
+            + " food: collect the food reward from the Cold Medicine Cabinet choice encounter\n"
+            + " pill: collect the pill reward from the Cold Medicine Cabinet choice encounter\n"
+            + " plan: guess combats required for each type of pill reward\n"
+            + " potion: collect the potion reward from the Cold Medicine Cabinet choice encounter";
   }
-
-  private static final AdventureResult COLD_MEDICINE_CABINET =
-      ItemPool.get(ItemPool.COLD_MEDICINE_CABINET);
 
   public static final List<String> ITEM_TYPES =
       List.of("equipment", "food", "booze", "potion", "pill");
@@ -42,10 +49,13 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
 
   private static final Map<Character, String> LOCATION_STRINGS =
       Map.ofEntries(
-          Map.entry('i', " turns in an indoor location"),
-          Map.entry('o', " turns in an outdoor location"),
-          Map.entry('u', " turns in an underground location"),
-          Map.entry('x', " turns anywhere")); // this needs extra stuff
+          Map.entry('i', " combats in an indoor location"),
+          Map.entry('o', " combats in an outdoor location"),
+          Map.entry('u', " combats in an underground location"),
+          Map.entry(
+              'x',
+              " combats underwater or until no environment has overall majority")); // underwater/unknown
+  // need extra stuff
 
   private static Stream<Character> getCharacters() {
     return Preferences.getString("lastCombatEnvironments").chars().mapToObj(i -> (char) i);
@@ -252,7 +262,6 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     } else {
       output.append(formatItemList(cabinet, guessing));
     }
-    output.append(turnsRequiredForMajorities());
     RequestLogger.printLine(output.toString());
   }
 
@@ -290,58 +299,92 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
       case "booze", "wine" -> collect(3);
       case "potion" -> collect(4);
       case "pill" -> collect(5);
+      case "plan" -> guessCombatsRequiredForPills();
       default -> {
         KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Parameter not recognised");
       }
     }
   }
 
-  private static StringBuilder turnsRequiredForMajorities() {
-    final var counts = getCounts();
+  /**
+   * Uses the naive guess from populateNaiveTurnsRequiredForPillMap to calculate a more accurate
+   * guess for the number of combats required in an environment for the associated pill. Iterates
+   * exactly once over the lastCombatEnvironments property and increases the combats required if the
+   * new combat environment is the same as the oldest (19th index) combat environment, which would
+   * be removed to append the new combat environment.
+   *
+   * <p>Outputs the number of combats required for each environment that exists in the
+   * lastCombatEnvironments property string to acquire those environments' associated pills. It is
+   * assumed the player requires 11 combats in any environment that does exist in the property
+   * string to acquire the associated pill for that environment.
+   */
+  private static void guessCombatsRequiredForPills() {
     final var output = new StringBuilder();
-    final var actualTurnsForMajority = populateNaiveTurnsForMajorityMap(counts, output);
+    // create a base map using naive guesses based on the unchanging state of the property string
+    final var actualTurnsForMajority = populateNaiveTurnsRequiredForPillMap();
+    for (char c : PILLS.keySet()) { // iterate over ALL environment types
+      if (actualTurnsForMajority.get(c)
+          == null) { // if an environment is not in the property, assume 11 turns outright
+        output
+            .append("For ")
+            .append(PILLS.get(c))
+            .append(", spend a minimum of 11")
+            .append(LOCATION_STRINGS.get(c))
+            .append("\n");
+      }
+    }
     final var lastEnvironments = getCharacters().toArray(Character[]::new);
-    final var lastEnvironmentIndex = lastEnvironments.length - 1;
     final var keys = new ArrayList<>(actualTurnsForMajority.keySet());
-    for (int i = lastEnvironmentIndex; i > -1; i--) {
+    for (int i = 0; i < lastEnvironments.length; i++) {
       final var last = lastEnvironments[i];
-      for (int j = keys.size() - 1; j > -1; j--) {
+      for (int j = keys.size() - 1; j > -1; j--) { // iterate backwards so we can hot remove keys
         final var key = keys.get(j);
-        if (key == last) {
+        // if the new combat environment is equal to the old combat environment, we will require an
+        // extra turn
+        if (actualTurnsForMajority.get(key) > 0 && key == last) {
           actualTurnsForMajority.put(last, actualTurnsForMajority.get(last) + 1);
           continue;
         }
-        if (actualTurnsForMajority.get(key) == lastEnvironmentIndex - i) {
+        // if the iterator matches the turns we require (which is kept updated), then we're done and
+        // can output
+        if (actualTurnsForMajority.get(key) == i) {
           output
               .append("For ")
               .append(PILLS.get(key))
               .append(", spend ")
               .append(actualTurnsForMajority.get(key))
               .append(LOCATION_STRINGS.get(key));
-          keys.remove(j);
-          if (keys.size() < 1) return output;
+          keys.remove(j); // remove the environments we're done with
+          if (keys.size() < 1) {
+            RequestLogger.printLine(output.toString());
+            return;
+          } else {
+            output.append("\n"); // only append a newline if it's not the ultimate output
+          }
         }
       }
     }
-    return output;
+    RequestLogger.printLine(output.toString()); // shouldn't get here in theory, so just in case
   }
 
-  private static Map<Character, Integer> populateNaiveTurnsForMajorityMap(
-      Map<Character, Integer> counts, StringBuilder output) {
+  /**
+   * Produce a naive guess at the number of turns required to acquire each type of pill. Used to
+   * calculate a more accurate guess in guessCombatsRequiredForPills with a single parse of the
+   * lastCombatEnvironments property.
+   *
+   * @return A hashmap where keys are the Character representation for unique environments from the
+   *     lastCombatEnvironments property, and values are Integers representing a naive guess of the
+   *     number of turns required to get a type of pill: (11 - number of times the environment
+   *     appears in the property)
+   */
+  private static Map<Character, Integer> populateNaiveTurnsRequiredForPillMap() {
+    var counts = getCounts();
     final var naiveTurnsForMajority = new HashMap<Character, Integer>();
     for (char c : counts.keySet()) {
+      if (c == '?') continue; // ignore unknown locations
       var turnsForMajority = 11 - counts.get(c);
-      if (turnsForMajority < 1) continue;
+      if (turnsForMajority < 1) turnsForMajority = 0;
       naiveTurnsForMajority.put(c, turnsForMajority);
-    }
-    for (char c : PILLS.keySet()) {
-      if (c != 'x' && naiveTurnsForMajority.get(c) == null) {
-        output
-            .append("Your next ")
-            .append(PILLS.get(c))
-            .append(" pill requires a minimum of 11")
-            .append(LOCATION_STRINGS.get(c));
-      }
     }
     return naiveTurnsForMajority;
   }

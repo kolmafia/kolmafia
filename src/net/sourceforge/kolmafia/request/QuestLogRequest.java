@@ -151,7 +151,7 @@ public class QuestLogRequest extends GenericRequest {
     if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_BABIES)) {
       QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
     }
-    if (QuestDatabase.isQuestStarted(Quest.MANOR)) {
+    if (QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED)) {
       QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
     }
     if (QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, "step1")) {

@@ -675,6 +675,9 @@ public class ItemPool {
   public static final int REINFORCED_BEADED_HEADBAND = 2337;
   public static final int BLACK_PUDDING = 2338;
   public static final int BLACKFLY_CHARDONNAY = 2339;
+  public static final int FILTHWORM_HATCHLING_GLAND = 2344;
+  public static final int FILTHWORM_DRONE_GLAND = 2345;
+  public static final int FILTHWORM_GUARD_GLAND = 2346;
   public static final int FILTHWORM_QUEEN_HEART = 2347;
   public static final int BEJEWELED_PLEDGE_PIN = 2353;
   public static final int COMMUNICATIONS_WINDCHIMES = 2354;
