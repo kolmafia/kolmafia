@@ -1134,6 +1134,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Dungeon")) {
       return switch (this.adventureNumber) {
+        case AdventurePool.LIMERICK_DUNGEON -> KoLCharacter.getBaseMainstat() >= 19;
           // The Enormous Greater-Than Sign is available if your base
           // mainstate is at least 45 and you have not yet unlocked
           // the Dungeon of Doom

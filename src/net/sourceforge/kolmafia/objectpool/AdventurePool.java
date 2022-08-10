@@ -11,6 +11,7 @@ public class AdventurePool {
 
   public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
+  public static final int LIMERICK_DUNGEON = 19;
   public static final int FUN_HOUSE = 20;
   public static final int UNQUIET_GARVES = 21;
   public static final int TOWER_RUINS = 22;
@@ -196,7 +197,7 @@ public class AdventurePool {
   public static final int THE_CITY_OF_GOOOOLD = 434;
   public static final int SECRET_COUNCIL_WAREHOUSE = 437;
   public static final int PANDAMONIUM = 438;
-  public static final int SKELETON_STORE = 438;
+  public static final int SKELETON_STORE = 439;
   public static final int MADNESS_BAKERY = 440;
   public static final int OVERGROWN_LOT = 441;
   public static final int BARF_MOUNTAIN = 442;

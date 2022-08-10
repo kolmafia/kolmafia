@@ -941,6 +941,7 @@ user	lttQuestDifficulty	0
 user	lttQuestName	
 user	lttQuestStageCount	0
 user	maelstromOfLoversBoss
+user	madnessBakeryAvailable	false
 user	makeFriendsMonster	
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
@@ -1042,6 +1043,7 @@ user	optimalSwagger	0
 user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
+user	overgrownLotAvailable	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
 user	pastaThrall1
@@ -1272,6 +1274,7 @@ user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
 user	singleFamiliarRun	0
 user	skateParkStatus	war
+user	skeletonStoreAvailable	false
 user	skillBurn3	-100
 user	skillBurn90	-100
 user	skillBurn153	-100

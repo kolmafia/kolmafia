@@ -2519,6 +2519,7 @@ public class ItemPool {
   public static final int WINGED_YETI_FUR = 8135;
   public static final int SESHAT_TALISMAN = 8144;
   public static final int MEATSMITH_CHECK = 8156;
+  public static final int BONE_WITH_A_PRICE_TAG = 8158;
   public static final int MAGICAL_BAGUETTE = 8167;
   public static final int ENCHANTED_ICING = 8168;
   public static final int CARTON_OF_SNAKE_MILK = 8172;
@@ -2526,6 +2527,7 @@ public class ItemPool {
   public static final int MAP_TO_KOKOMO = 8182;
   public static final int CROWN_OF_ED = 8185;
   public static final int BOOZE_MAP = 8187;
+  public static final int HYPNOTIC_BREADCRUMBS = 8199;
   public static final int POPULAR_TART = 8200;
   public static final int NO_HANDED_PIE = 8201;
   public static final int DOC_VITALITY_SERUM = 8202;

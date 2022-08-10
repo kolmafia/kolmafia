@@ -1279,4 +1279,40 @@ public class QuestManagerTest {
     assertThat("_spacegateRuins", isSetTo(false));
     assertThat("_spacegateTurnsLeft", isSetTo(20));
   }
+
+  @Test
+  public void canDetectOvergrownLotInTownWrong() {
+    var cleanups = new Cleanups(withProperty("overgrownLotAvailable", false));
+
+    try (cleanups) {
+      var request = new GenericRequest("place.php?whichplace=town_wrong");
+      request.responseText = html("request/test_place_town_wrong_overgrown_lot.html");
+      QuestManager.handleQuestChange(request);
+      assertTrue(Preferences.getBoolean("overgrownLotAvailable"));
+    }
+  }
+
+  @Test
+  public void canDetectMadnessBakeryInTownRight() {
+    var cleanups = new Cleanups(withProperty("madnessBakeryAvailable", false));
+
+    try (cleanups) {
+      var request = new GenericRequest("place.php?whichplace=town_right");
+      request.responseText = html("request/test_place_town_right_madness_bakery.html");
+      QuestManager.handleQuestChange(request);
+      assertTrue(Preferences.getBoolean("madnessBakeryAvailable"));
+    }
+  }
+
+  @Test
+  public void canDetectSkeletonStoreInTownMarket() {
+    var cleanups = new Cleanups(withProperty("skeletonStoreAvailable", false));
+
+    try (cleanups) {
+      var request = new GenericRequest("place.php?whichplace=town_market");
+      request.responseText = html("request/test_place_town_market_skeleton_store.html");
+      QuestManager.handleQuestChange(request);
+      assertTrue(Preferences.getBoolean("skeletonStoreAvailable"));
+    }
+  }
 }
