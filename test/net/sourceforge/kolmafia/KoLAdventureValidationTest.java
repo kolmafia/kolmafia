@@ -17,6 +17,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
 import java.util.HashMap;
@@ -38,8 +39,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class KoLAdventureValidationTest {
 
@@ -1285,66 +1285,54 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class Orchard {
-    private static KoLAdventure HATCHING =
-        AdventureDatabase.getAdventureByName("The Hatching Chamber");
-    private static KoLAdventure FEEDING =
-        AdventureDatabase.getAdventureByName("The Feeding Chamber");
-    private static KoLAdventure GUARDS =
-        AdventureDatabase.getAdventureByName("The Royal Guard Chamber");
-    private static KoLAdventure QUEENS =
-        AdventureDatabase.getAdventureByName("The Filthworm Queen's Chamber");
+    private enum Chambers {
+      HATCHING("The Hatching Chamber", -1, -1),
+      FEEDING(
+          "The Feeding Chamber",
+          EffectPool.FILTHWORM_LARVA_STENCH,
+          ItemPool.FILTHWORM_HATCHLING_GLAND),
+      GUARDS(
+          "The Royal Guard Chamber",
+          EffectPool.FILTHWORM_DRONE_STENCH,
+          ItemPool.FILTHWORM_DRONE_GLAND),
+      QUEENS(
+          "The Filthworm Queen's Chamber",
+          EffectPool.FILTHWORM_GUARD_STENCH,
+          ItemPool.FILTHWORM_GUARD_GLAND);
+
+      private KoLAdventure adventure;
+      private int effectId;
+      private int itemId;
+
+      Chambers(final String adventureName, final int effectId, final int itemId) {
+        this.adventure = AdventureDatabase.getAdventureByName(adventureName);
+        this.effectId = effectId;
+        this.itemId = itemId;
+      }
+
+      public boolean canAdventure() {
+        return adventure.canAdventure();
+      }
+
+      public boolean prepareForAdventure() {
+        return adventure.prepareForAdventure();
+      }
+
+      public int getEffectId() {
+        return effectId;
+      }
+
+      public int getItemId() {
+        return itemId;
+      }
+    }
 
     @Test
     void cannotAdventureOutsideWar() {
       var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "unstarted"));
 
       try (cleanups) {
-        assertThat(HATCHING.canAdventure(), is(false));
-      }
-    }
-
-    @Test
-    void canAdventureInHatchingChamber() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
-
-      try (cleanups) {
-        assertThat(HATCHING.canAdventure(), is(true));
-      }
-    }
-
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    void canAdventureInFeedingChamber(final boolean haveEffect) {
-      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
-
-      if (haveEffect) cleanups.add(withEffect(EffectPool.FILTHWORM_LARVA_STENCH));
-
-      try (cleanups) {
-        assertThat(FEEDING.canAdventure(), is(haveEffect));
-      }
-    }
-
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    void canAdventureInGuardsChamber(final boolean haveEffect) {
-      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
-
-      if (haveEffect) cleanups.add(withEffect(EffectPool.FILTHWORM_DRONE_STENCH));
-
-      try (cleanups) {
-        assertThat(GUARDS.canAdventure(), is(haveEffect));
-      }
-    }
-
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    void canAdventureInQueensChamber(final boolean haveEffect) {
-      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
-
-      if (haveEffect) cleanups.add(withEffect(EffectPool.FILTHWORM_GUARD_STENCH));
-
-      try (cleanups) {
-        assertThat(QUEENS.canAdventure(), is(haveEffect));
+        assertThat(Chambers.HATCHING.canAdventure(), is(false));
       }
     }
 
@@ -1356,7 +1344,7 @@ public class KoLAdventureValidationTest {
               withItem(ItemPool.FILTHWORM_QUEEN_HEART));
 
       try (cleanups) {
-        assertThat(HATCHING.canAdventure(), is(false));
+        assertThat(Chambers.HATCHING.canAdventure(), is(false));
       }
     }
 
@@ -1368,7 +1356,33 @@ public class KoLAdventureValidationTest {
               withProperty("sidequestOrchardCompleted", "frat"));
 
       try (cleanups) {
-        assertThat(HATCHING.canAdventure(), is(false));
+        assertThat(Chambers.HATCHING.canAdventure(), is(false));
+      }
+    }
+
+    @CartesianTest
+    void canAdventureInChambersWithRightEffect(
+        @CartesianTest.Enum Chambers chamber,
+        @Values(booleans = {true, false}) final boolean haveEffect) {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (haveEffect) cleanups.add(withEffect(chamber.getEffectId()));
+
+      try (cleanups) {
+        assertThat(chamber.canAdventure(), is(haveEffect || chamber == Chambers.HATCHING));
+      }
+    }
+
+    @CartesianTest
+    void canAdventureInChambersWithRightGland(
+        @CartesianTest.Enum Chambers chamber,
+        @Values(booleans = {true, false}) final boolean haveGland) {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (haveGland) cleanups.add(withItem(chamber.getItemId()));
+
+      try (cleanups) {
+        assertThat(chamber.canAdventure(), is(haveGland || chamber == Chambers.HATCHING));
       }
     }
 
@@ -1381,6 +1395,36 @@ public class KoLAdventureValidationTest {
 
       try (cleanups) {
         assertThat(UNKNOWN.canAdventure(), is(false));
+      }
+    }
+
+    @CartesianTest
+    void preparingForChamberUsesGland(
+        @CartesianTest.Enum Chambers chamber,
+        @Values(booleans = {true, false}) final boolean hasGland,
+        @Values(booleans = {true, false}) final boolean hasEffect) {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (hasGland) cleanups.add(withItem(chamber.getItemId()));
+      if (hasEffect) cleanups.add(withEffect(chamber.getEffectId()));
+
+      try (cleanups) {
+        var success = chamber.prepareForAdventure();
+        var requests = getRequests();
+
+        var nothingToDo = chamber == Chambers.HATCHING || hasEffect;
+
+        if (nothingToDo || !hasGland) {
+          assertThat(requests, hasSize(0));
+        } else {
+          assertThat(requests, hasSize(1));
+          assertPostRequest(
+              requests.get(0), "/inv_use.php", "whichitem=" + chamber.getItemId() + "&ajax=1");
+        }
+
+        assertThat(success, is(nothingToDo || hasGland));
       }
     }
   }
