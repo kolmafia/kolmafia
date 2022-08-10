@@ -59,10 +59,10 @@ public class AdventurePool {
   public static final int FILTHWORM_FEEDING_CHAMBER = 128;
   public static final int FILTHWORM_GUARDS_CHAMBER = 129;
   public static final int FILTHWORM_QUEENS_CHAMBER = 130;
-  public static final int WARTIME_FRAT_HOUSE_DISGUISED = 131;
+  public static final int WARTIME_FRAT_HOUSE_DISGUISED = 134;
   public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
-  public static final int WARTIME_HIPPY_CAMP = 133;
-  public static final int WARTIME_HIPPY_CAMP_DISGUISED = 134;
+  public static final int WARTIME_HIPPY_CAMP = 131;
+  public static final int WARTIME_HIPPY_CAMP_DISGUISED = 133;
   public static final int WARTIME_FRAT_HOUSE = 135;
   public static final int SONOFA_BEACH = 136;
   public static final int HAIKU_DUNGEON = 138;

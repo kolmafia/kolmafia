@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
@@ -916,6 +917,30 @@ public class KoLAdventureValidationTest {
         assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
         assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
         assertTrue(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+      }
+    }
+
+    @Test
+    public void changesIntoWarFratOutfitIfNecessary() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("beer helmet"),
+              withEquippableItem("distressed denim pants"),
+              withEquippableItem("bejeweled pledge pin"),
+              withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      try (cleanups) {
+        var success = zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).prepareForAdventure();
+
+        assertThat(success, is(true));
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_equip.php", "which=2&action=outfit&whichoutfit=33&ajax=1");
       }
     }
   }

@@ -235,10 +235,12 @@ public class Player {
   private static Cleanups addToList(final AdventureResult item, final List<AdventureResult> list) {
     var old = item.getCount(list);
     AdventureResult.addResultToList(list, item);
+    EquipmentManager.updateEquipmentLists();
 
     return new Cleanups(
         () -> {
           AdventureResult.removeResultFromList(list, item);
+          EquipmentManager.updateEquipmentLists();
           if (old != 0) AdventureResult.addResultToList(list, item.getInstance(old));
         });
   }
