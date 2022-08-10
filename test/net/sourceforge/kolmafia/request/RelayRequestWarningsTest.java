@@ -42,7 +42,7 @@ public class RelayRequestWarningsTest {
   // warnings. Once you have confirmed once, it holds for rest of the session.
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
@@ -51,7 +51,7 @@ public class RelayRequestWarningsTest {
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     KoLConstants.inventory.clear();
     RelayRequest.reset();
     EquipmentManager.resetEquipment();
@@ -59,7 +59,7 @@ public class RelayRequestWarningsTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
     KoLConstants.inventory.clear();
     RelayRequest.reset();

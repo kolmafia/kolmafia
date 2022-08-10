@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -26,7 +27,7 @@ import org.junit.jupiter.api.Test;
 public class ChoiceManagerTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
@@ -35,12 +36,12 @@ public class ChoiceManagerTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }
@@ -145,6 +146,24 @@ public class ChoiceManagerTest {
 
         assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
+      }
+    }
+
+    @Test
+    public void returnsTrueWithoutAbortStateIfPreferenceFalse() {
+      var cleanup =
+          new Cleanups(
+              withHandlingChoice(),
+              withContinuationState(),
+              withProperty("abortOnChoiceWhenNotInChoice", false));
+
+      try (cleanup) {
+        String urlString = "choice.php?whichchoice=1234&pwd&option=1";
+        var request = new GenericRequest(urlString);
+        request.responseText = "Whoops!  You're not actually in a choice adventure.";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
       }
     }
 

@@ -44,7 +44,7 @@ import org.junitpioneer.jupiter.cartesian.CartesianTest;
 public class KoLAdventureValidationTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     Preferences.saveSettingsToFile = false;
   }
@@ -57,7 +57,7 @@ public class KoLAdventureValidationTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
@@ -115,7 +115,7 @@ public class KoLAdventureValidationTest {
     private static Map<Integer, KoLAdventure> coldZones = new HashMap<>();
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       sleazeZones.put(
           AdventurePool.FUN_GUY_MANSION,
           AdventureDatabase.getAdventureByName("The Fun-Guy Mansion"));
@@ -165,7 +165,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       sleazeZones.clear();
       spookyZones.clear();
       stenchZones.clear();
@@ -224,7 +224,7 @@ public class KoLAdventureValidationTest {
     private static KoLAdventure throneRoom = AdventureDatabase.getAdventureByName("Throne Room");
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(
           AdventurePool.OUTSKIRTS_OF_THE_KNOB,
           AdventureDatabase.getAdventureByName("The Outskirts of Cobb's Knob"));
@@ -254,7 +254,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
       throneRoom = null;
     }
@@ -361,7 +361,7 @@ public class KoLAdventureValidationTest {
     private static KoLAdventure haert = AdventureDatabase.getAdventureByName("Haert of the Cyrpt");
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(
           AdventurePool.DEFILED_ALCOVE, AdventureDatabase.getAdventureByName("The Defiled Alcove"));
       zones.put(
@@ -373,7 +373,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
       haert = null;
     }
@@ -524,7 +524,7 @@ public class KoLAdventureValidationTest {
     private static Map<Integer, KoLAdventure> zones = new HashMap<>();
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(
           AdventurePool.PIRATE_COVE,
           AdventureDatabase.getAdventureByName("The Obligatory Pirate's Cove"));
@@ -536,12 +536,12 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
     }
 
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       EquipmentManager.updateNormalOutfits();
     }
 
@@ -738,7 +738,7 @@ public class KoLAdventureValidationTest {
     private static Map<Integer, KoLAdventure> zones = new HashMap<>();
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(AdventurePool.HIPPY_CAMP, AdventureDatabase.getAdventureByName("Hippy Camp"));
       zones.put(
           AdventurePool.HIPPY_CAMP_DISGUISED,
@@ -755,7 +755,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
     }
 
@@ -950,7 +950,7 @@ public class KoLAdventureValidationTest {
     private static Map<Integer, KoLAdventure> zones = new HashMap<>();
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(AdventurePool.FRAT_HOUSE, AdventureDatabase.getAdventureByName("Frat House"));
       zones.put(
           AdventurePool.FRAT_HOUSE_DISGUISED,
@@ -968,7 +968,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
     }
 

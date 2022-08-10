@@ -67,7 +67,7 @@ public class YouRobotManagerTest {
   }
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
@@ -76,12 +76,12 @@ public class YouRobotManagerTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
   @AfterEach
-  private void afterEach() {
+  public void afterEach() {
     Preferences.setInteger("statbotUses", 0);
     Preferences.setInteger("youRobotTop", 0);
     Preferences.setInteger("youRobotLeft", 0);

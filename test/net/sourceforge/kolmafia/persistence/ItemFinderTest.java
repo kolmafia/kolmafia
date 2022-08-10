@@ -21,14 +21,14 @@ import org.junit.jupiter.api.Test;
 public class ItemFinderTest {
 
   @BeforeAll
-  private static void itemFinderClassSetup() {
+  public static void itemFinderClassSetup() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("item finder user");
   }
 
   @BeforeEach
-  private void itemFinderSetup() {
+  public void itemFinderSetup() {
     // Reset exactly the preferences used by this package to defaults
     Preferences.setString("_roboDrinks", "");
     Preferences.setBoolean("autoSatisfyWithNPCs", false);

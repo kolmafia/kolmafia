@@ -893,17 +893,17 @@ public class FightRequestTest {
   @Nested
   class LoveBugsPreferenceButtonGroupTest {
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       Preferences.saveSettingsToFile = false;
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       Preferences.saveSettingsToFile = true;
     }
 
     @BeforeEach
-    private void beforeEach() {
+    public void beforeEach() {
       KoLCharacter.reset("lovebugs");
     }
 

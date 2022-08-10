@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public class UseItemEnqueuePanelTest {
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     KoLCharacter.reset(true);
     KoLCharacter.reset("fakeUserName");
 
