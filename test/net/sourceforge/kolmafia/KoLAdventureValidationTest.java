@@ -1353,7 +1353,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
-              withProperty("sidequestOrchardCompleted", "frat"));
+              withProperty("sidequestOrchardCompleted", "fratboy"));
 
       try (cleanups) {
         assertThat(Chambers.HATCHING.canAdventure(), is(false));
@@ -1401,22 +1401,22 @@ public class KoLAdventureValidationTest {
     @CartesianTest
     void preparingForChamberUsesGland(
         @CartesianTest.Enum Chambers chamber,
-        @Values(booleans = {true, false}) final boolean hasGland,
-        @Values(booleans = {true, false}) final boolean hasEffect) {
+        @Values(booleans = {true, false}) final boolean haveGland,
+        @Values(booleans = {true, false}) final boolean haveEffect) {
       setupFakeClient();
 
       var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
 
-      if (hasGland) cleanups.add(withItem(chamber.getItemId()));
-      if (hasEffect) cleanups.add(withEffect(chamber.getEffectId()));
+      if (haveGland) cleanups.add(withItem(chamber.getItemId()));
+      if (haveEffect) cleanups.add(withEffect(chamber.getEffectId()));
 
       try (cleanups) {
         var success = chamber.prepareForAdventure();
         var requests = getRequests();
 
-        var nothingToDo = chamber == Chambers.HATCHING || hasEffect;
+        var nothingToDo = chamber == Chambers.HATCHING || haveEffect;
 
-        if (nothingToDo || !hasGland) {
+        if (nothingToDo || !haveGland) {
           assertThat(requests, hasSize(0));
         } else {
           assertThat(requests, hasSize(1));
@@ -1424,7 +1424,7 @@ public class KoLAdventureValidationTest {
               requests.get(0), "/inv_use.php", "whichitem=" + chamber.getItemId() + "&ajax=1");
         }
 
-        assertThat(success, is(nothingToDo || hasGland));
+        assertThat(success, is(nothingToDo || haveGland));
       }
     }
   }
