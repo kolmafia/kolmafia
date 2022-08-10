@@ -929,7 +929,7 @@ public class KoLAdventureValidationTest {
               withEquippableItem("beer helmet"),
               withEquippableItem("distressed denim pants"),
               withEquippableItem("bejeweled pledge pin"),
-              withQuestProgress(Quest.ISLAND_WAR, "step1"));
+              withQuestProgress(Quest.ISLAND_WAR, "started"));
 
       try (cleanups) {
         var success = zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).prepareForAdventure();
