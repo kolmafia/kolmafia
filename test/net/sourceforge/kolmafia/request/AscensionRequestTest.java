@@ -26,7 +26,7 @@ public class AscensionRequestTest {
   }
 
   @Test
-  void testOnAscension() {
+  void testAscensionsTodayTracked() {
     String name = "ascensionsToday";
     int beforeAscension = 1;
     int afterAscension = 2;
