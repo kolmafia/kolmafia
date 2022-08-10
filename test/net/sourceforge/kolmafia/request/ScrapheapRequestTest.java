@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class ScrapheapRequestTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     Preferences.saveSettingsToFile = false;
   }
 
@@ -31,7 +31,7 @@ public class ScrapheapRequestTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     ChoiceManager.handlingChoice = false;
     Preferences.saveSettingsToFile = true;
   }

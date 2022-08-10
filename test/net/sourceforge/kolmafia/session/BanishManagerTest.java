@@ -29,14 +29,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class BanishManagerTest {
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     KoLCharacter.reset("BanishManagerTest");
     Preferences.reset("BanishManagerTest");
     BanishManager.clearCache();
   }
 
   @AfterAll
-  private static void cleanup() {
+  public static void cleanup() {
     BanishManager.clearCache();
   }
 

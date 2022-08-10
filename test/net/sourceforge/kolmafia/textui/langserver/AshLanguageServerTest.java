@@ -33,7 +33,7 @@ public class AshLanguageServerTest {
   static Set<Logger> disabledLoggers = new HashSet<>();
 
   @BeforeAll
-  private static void disableLoggers() {
+  protected static void disableLoggers() {
     Set.of(StreamMessageProducer.class, RemoteEndpoint.class)
         .forEach(
             c -> {
@@ -44,7 +44,7 @@ public class AshLanguageServerTest {
   }
 
   @AfterAll
-  private static void disposeDisabledLoggers() {
+  protected static void disposeDisabledLoggers() {
     disabledLoggers.clear();
   }
 

@@ -33,24 +33,24 @@ import org.junit.jupiter.api.Test;
 public class OptionsFrameTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     Preferences.saveSettingsToFile = false;
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
   @Nested
   class PreferenceCheckBoxTest {
     @BeforeEach
-    private void beforeEach() {
+    public void beforeEach() {
       KoLCharacter.reset("checkbox");
     }
 
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       PreferenceListenerRegistry.reset();
     }
 
@@ -119,12 +119,12 @@ public class OptionsFrameTest {
   @Nested
   class PreferenceIntegerTextFieldTest {
     @BeforeEach
-    private void beforeEach() {
+    public void beforeEach() {
       KoLCharacter.reset("textfield");
     }
 
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       PreferenceListenerRegistry.reset();
     }
 
@@ -198,12 +198,12 @@ public class OptionsFrameTest {
   @Nested
   class PreferenceButtonGroupTest {
     @BeforeEach
-    private void beforeEach() {
+    public void beforeEach() {
       KoLCharacter.reset("buttongroup");
     }
 
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       PreferenceListenerRegistry.reset();
     }
 
