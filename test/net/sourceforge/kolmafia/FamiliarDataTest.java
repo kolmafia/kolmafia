@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class FamiliarDataTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("familiar data test");
@@ -43,7 +43,7 @@ public class FamiliarDataTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
@@ -189,7 +189,7 @@ public class FamiliarDataTest {
   @Nested
   class API {
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       // Other tests add familiars to the character
       // Start clean.
       KoLCharacter.reset("");
@@ -197,7 +197,7 @@ public class FamiliarDataTest {
     }
 
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       // ApiRequest.parseStatus() sets all sorts of stuff
       // Reset the character to eliminate leaks to other tests
       KoLCharacter.reset("");

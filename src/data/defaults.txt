@@ -1,4 +1,5 @@
 1
+global	abortOnChoiceWhenNotInChoice	true
 global	addChatCommandLine	false
 global	addCreationQueue	true
 global	addStatusBarToFrames	false

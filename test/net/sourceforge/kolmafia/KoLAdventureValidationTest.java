@@ -1,20 +1,32 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.HttpClientWrapper.setupFakeClient;
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withStats;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
 import java.util.HashMap;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -27,11 +39,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class KoLAdventureValidationTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     Preferences.saveSettingsToFile = false;
   }
@@ -44,7 +57,7 @@ public class KoLAdventureValidationTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
@@ -102,7 +115,7 @@ public class KoLAdventureValidationTest {
     private static Map<Integer, KoLAdventure> coldZones = new HashMap<>();
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       sleazeZones.put(
           AdventurePool.FUN_GUY_MANSION,
           AdventureDatabase.getAdventureByName("The Fun-Guy Mansion"));
@@ -152,7 +165,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       sleazeZones.clear();
       spookyZones.clear();
       stenchZones.clear();
@@ -211,7 +224,7 @@ public class KoLAdventureValidationTest {
     private static KoLAdventure throneRoom = AdventureDatabase.getAdventureByName("Throne Room");
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(
           AdventurePool.OUTSKIRTS_OF_THE_KNOB,
           AdventureDatabase.getAdventureByName("The Outskirts of Cobb's Knob"));
@@ -241,7 +254,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
       throneRoom = null;
     }
@@ -348,7 +361,7 @@ public class KoLAdventureValidationTest {
     private static KoLAdventure haert = AdventureDatabase.getAdventureByName("Haert of the Cyrpt");
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(
           AdventurePool.DEFILED_ALCOVE, AdventureDatabase.getAdventureByName("The Defiled Alcove"));
       zones.put(
@@ -360,7 +373,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
       haert = null;
     }
@@ -511,7 +524,7 @@ public class KoLAdventureValidationTest {
     private static Map<Integer, KoLAdventure> zones = new HashMap<>();
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(
           AdventurePool.PIRATE_COVE,
           AdventureDatabase.getAdventureByName("The Obligatory Pirate's Cove"));
@@ -523,12 +536,12 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
     }
 
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       EquipmentManager.updateNormalOutfits();
     }
 
@@ -725,7 +738,7 @@ public class KoLAdventureValidationTest {
     private static Map<Integer, KoLAdventure> zones = new HashMap<>();
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(AdventurePool.HIPPY_CAMP, AdventureDatabase.getAdventureByName("Hippy Camp"));
       zones.put(
           AdventurePool.HIPPY_CAMP_DISGUISED,
@@ -742,7 +755,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
     }
 
@@ -937,7 +950,7 @@ public class KoLAdventureValidationTest {
     private static Map<Integer, KoLAdventure> zones = new HashMap<>();
 
     @BeforeAll
-    private static void beforeAll() {
+    public static void beforeAll() {
       zones.put(AdventurePool.FRAT_HOUSE, AdventureDatabase.getAdventureByName("Frat House"));
       zones.put(
           AdventurePool.FRAT_HOUSE_DISGUISED,
@@ -955,7 +968,7 @@ public class KoLAdventureValidationTest {
     }
 
     @AfterAll
-    private static void afterAll() {
+    public static void afterAll() {
       zones.clear();
     }
 
@@ -1117,6 +1130,441 @@ public class KoLAdventureValidationTest {
         assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
         assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
         assertTrue(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class RabbitHole {
+    private static KoLAdventure RABBIT_HOLE =
+        AdventureDatabase.getAdventureByName("The Red Queen's Garden");
+
+    @Test
+    public void cannotAdventureWithoutEffectOrItem() {
+      assertThat(RABBIT_HOLE.canAdventure(), is(false));
+    }
+
+    @Test
+    public void canAdventureWithEffectActive() {
+      var cleanups = new Cleanups(withEffect(EffectPool.DOWN_THE_RABBIT_HOLE));
+      try (cleanups) {
+        assertThat(RABBIT_HOLE.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void canAdventureWithItemInInventory() {
+      var cleanups = new Cleanups(withItem(ItemPool.DRINK_ME_POTION));
+      try (cleanups) {
+        assertThat(RABBIT_HOLE.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void cannotPrepareForAdventureWithoutItemAndEffect() {
+      assertThat(RABBIT_HOLE.prepareForAdventure(), is(false));
+    }
+
+    @Test
+    public void canPrepareForAdventureWithEffect() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.DOWN_THE_RABBIT_HOLE), withItem(ItemPool.DRINK_ME_POTION));
+      try (cleanups) {
+        var success = RABBIT_HOLE.prepareForAdventure();
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(0));
+        assertThat(success, is(true));
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithItem() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withItem(ItemPool.DRINK_ME_POTION));
+      try (cleanups) {
+        var success = RABBIT_HOLE.prepareForAdventure();
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.DRINK_ME_POTION + "&ajax=1");
+        assertThat(success, is(true));
+      }
+    }
+  }
+
+  @Nested
+  class Spacegate {
+    private static KoLAdventure SPACEGATE =
+        AdventureDatabase.getAdventureByName("Through the Spacegate");
+
+    @Test
+    void canAdventure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 2));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void canAdventureWithDayTicket() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", false),
+              withProperty("_spacegateToday", true),
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 2));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutAccess() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 2));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutDialledCoordinates() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true), withProperty("_spacegateTurnsLeft", 2));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutTurnsRemaining() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 0));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureInKoE() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateTurnsLeft", 2),
+              withPath(Path.KINGDOM_OF_EXPLOATHING));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+  }
+
+  @Nested
+  class Orchard {
+    private enum Chambers {
+      HATCHING("The Hatching Chamber", -1, -1),
+      FEEDING(
+          "The Feeding Chamber",
+          EffectPool.FILTHWORM_LARVA_STENCH,
+          ItemPool.FILTHWORM_HATCHLING_GLAND),
+      GUARDS(
+          "The Royal Guard Chamber",
+          EffectPool.FILTHWORM_DRONE_STENCH,
+          ItemPool.FILTHWORM_DRONE_GLAND),
+      QUEENS(
+          "The Filthworm Queen's Chamber",
+          EffectPool.FILTHWORM_GUARD_STENCH,
+          ItemPool.FILTHWORM_GUARD_GLAND);
+
+      private KoLAdventure adventure;
+      private int effectId;
+      private int itemId;
+
+      Chambers(final String adventureName, final int effectId, final int itemId) {
+        this.adventure = AdventureDatabase.getAdventureByName(adventureName);
+        this.effectId = effectId;
+        this.itemId = itemId;
+      }
+
+      public boolean canAdventure() {
+        return adventure.canAdventure();
+      }
+
+      public boolean prepareForAdventure() {
+        return adventure.prepareForAdventure();
+      }
+
+      public int getEffectId() {
+        return effectId;
+      }
+
+      public int getItemId() {
+        return itemId;
+      }
+    }
+
+    @Test
+    void cannotAdventureOutsideWar() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "unstarted"));
+
+      try (cleanups) {
+        assertThat(Chambers.HATCHING.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWhenQueenIsSlain() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withItem(ItemPool.FILTHWORM_QUEEN_HEART));
+
+      try (cleanups) {
+        assertThat(Chambers.HATCHING.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWhenQueenHeartIsHandedIn() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty("sidequestOrchardCompleted", "fratboy"));
+
+      try (cleanups) {
+        assertThat(Chambers.HATCHING.canAdventure(), is(false));
+      }
+    }
+
+    @CartesianTest
+    void canAdventureInChambersWithRightEffect(
+        @CartesianTest.Enum Chambers chamber,
+        @Values(booleans = {true, false}) final boolean haveEffect) {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (haveEffect) cleanups.add(withEffect(chamber.getEffectId()));
+
+      try (cleanups) {
+        assertThat(chamber.canAdventure(), is(haveEffect || chamber == Chambers.HATCHING));
+      }
+    }
+
+    @CartesianTest
+    void canAdventureInChambersWithRightGland(
+        @CartesianTest.Enum Chambers chamber,
+        @Values(booleans = {true, false}) final boolean haveGland) {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (haveGland) cleanups.add(withItem(chamber.getItemId()));
+
+      try (cleanups) {
+        assertThat(chamber.canAdventure(), is(haveGland || chamber == Chambers.HATCHING));
+      }
+    }
+
+    private static KoLAdventure UNKNOWN =
+        new KoLAdventure("Orchard", "adventure.php", "696969", "The Chamber of Filthworm Commerce");
+
+    @Test
+    void cannotAdventureInUnknownNewOrchardZone() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      try (cleanups) {
+        assertThat(UNKNOWN.canAdventure(), is(false));
+      }
+    }
+
+    @CartesianTest
+    void preparingForChamberUsesGland(
+        @CartesianTest.Enum Chambers chamber,
+        @Values(booleans = {true, false}) final boolean haveGland,
+        @Values(booleans = {true, false}) final boolean haveEffect) {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
+
+      if (haveGland) cleanups.add(withItem(chamber.getItemId()));
+      if (haveEffect) cleanups.add(withEffect(chamber.getEffectId()));
+
+      try (cleanups) {
+        var success = chamber.prepareForAdventure();
+        var requests = getRequests();
+
+        var nothingToDo = chamber == Chambers.HATCHING || haveEffect;
+
+        if (nothingToDo || !haveGland) {
+          assertThat(requests, hasSize(0));
+        } else {
+          assertThat(requests, hasSize(1));
+          assertPostRequest(
+              requests.get(0), "/inv_use.php", "whichitem=" + chamber.getItemId() + "&ajax=1");
+        }
+
+        assertThat(success, is(nothingToDo || haveGland));
+      }
+    }
+  }
+
+  @Nested
+  class FantasyRealm {
+    private static KoLAdventure BANDITS =
+        AdventureDatabase.getAdventureByName("The Bandit Crossroads");
+
+    private static KoLAdventure MOUNTAINS =
+        AdventureDatabase.getAdventureByName("The Towering Mountains");
+
+    @Test
+    void canAdventure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void canAdventureWithDayPass() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", false),
+              withProperty("_frToday", true),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutAccess() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", false),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutHours() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 0),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutUnlock() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(MOUNTAINS.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotPrepareWithoutGem() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"));
+
+      try (cleanups) {
+        assertThat(BANDITS.prepareForAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void preparingEquipsGem() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"),
+              withItem(ItemPool.FANTASY_REALM_GEM));
+
+      try (cleanups) {
+        var success = BANDITS.prepareForAdventure();
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_equip.php", "which=2&ajax=1&slot=1&action=equip&whichitem=9837");
+        assertThat(success, is(true));
+      }
+    }
+
+    @Test
+    void preparingRemovesFamiliar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withProperty("_frToday", false),
+              withProperty("_frHoursLeft", 5),
+              withProperty("_frAreasUnlocked", "The Bandit Crossroads,"),
+              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.FANTASY_REALM_GEM),
+              withFamiliar(FamiliarPool.PARROT));
+
+      try (cleanups) {
+        var success = BANDITS.prepareForAdventure();
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/familiar.php", "action=putback&ajax=1");
+        assertThat(success, is(true));
       }
     }
   }

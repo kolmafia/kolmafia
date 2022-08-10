@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 public class MallPriceDatabaseTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     MallPriceDatabase.savePricesToFile = false;
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     MallPriceDatabase.savePricesToFile = true;
   }
 

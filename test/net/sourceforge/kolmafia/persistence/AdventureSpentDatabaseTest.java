@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 public class AdventureSpentDatabaseTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("adventure spent database user");
@@ -33,7 +33,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     CharPaneRequest.reset();
     AdventureSpentDatabase.resetTurns(false);
     // Some of the response texts have a CAB, some do not.
