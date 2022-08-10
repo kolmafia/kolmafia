@@ -1834,8 +1834,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Rabbit Hole")) {
       if (!KoLConstants.activeEffects.contains(DOWN_THE_RABBIT_HOLE)) {
         AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
-        if (!InventoryManager.hasItem(item)) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You need a \"DRINK ME\" potion to go there.");
+
+        if (!InventoryManager.retrieveItem(item)) {
+          // This shouldn't fail as it is guaranteed in canAdventure()
           return false;
         }
 
@@ -1867,7 +1868,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // Must have FantasyRealm GEM equipped
       if (!KoLCharacter.hasEquipped(FANTASY_REALM_GEM)) {
-        InventoryManager.retrieveItem(FANTASY_REALM_GEM);
         RequestThread.postRequest(new EquipmentRequest(FANTASY_REALM_GEM));
       }
 
