@@ -240,8 +240,8 @@ public class Player {
     return new Cleanups(
         () -> {
           AdventureResult.removeResultFromList(list, item);
-          EquipmentManager.updateEquipmentLists();
           if (old != 0) AdventureResult.addResultToList(list, item.getInstance(old));
+          EquipmentManager.updateEquipmentLists();
         });
   }
 
