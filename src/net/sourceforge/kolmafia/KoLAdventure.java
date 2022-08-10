@@ -1912,38 +1912,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   public int getOutfitId() {
-    switch (this.adventureNumber) {
-      case AdventurePool.FRAT_HOUSE_DISGUISED:
-        // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
-        return EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)
-            ? OutfitPool.WAR_FRAT_OUTFIT
-            : EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT) ? OutfitPool.FRAT_OUTFIT : 0;
-      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED:
-        // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
-        return EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
-            ? OutfitPool.WAR_HIPPY_OUTFIT
-            : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
-      case AdventurePool.HIPPY_CAMP_DISGUISED:
-        // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
-        return EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
-            ? OutfitPool.WAR_HIPPY_OUTFIT
-            : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
-      case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED:
-        // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
-        return EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)
-            ? OutfitPool.WAR_FRAT_OUTFIT
-            : EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT) ? OutfitPool.FRAT_OUTFIT : 0;
-      case AdventurePool.CLOACA_BATTLEFIELD:
-        return OutfitPool.CLOACA_UNIFORM;
-      case AdventurePool.DYSPEPSI_BATTLEFIELD:
-        return OutfitPool.DYSPEPSI_UNIFORM;
-      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
-        return OutfitPool.WAR_FRAT_OUTFIT;
-      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
-        return OutfitPool.WAR_HIPPY_OUTFIT;
-      default:
-        return 0;
-    }
+    return switch (this.adventureNumber) {
+      case AdventurePool.FRAT_HOUSE_DISGUISED, AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED ->
+      // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
+      EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)
+          ? OutfitPool.WAR_FRAT_OUTFIT
+          : EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT) ? OutfitPool.FRAT_OUTFIT : 0;
+      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED, AdventurePool.HIPPY_CAMP_DISGUISED ->
+      // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
+      EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
+          ? OutfitPool.WAR_HIPPY_OUTFIT
+          : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
+      case AdventurePool.CLOACA_BATTLEFIELD -> OutfitPool.CLOACA_UNIFORM;
+      case AdventurePool.DYSPEPSI_BATTLEFIELD -> OutfitPool.DYSPEPSI_UNIFORM;
+      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> OutfitPool.WAR_FRAT_OUTFIT;
+      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD -> OutfitPool.WAR_HIPPY_OUTFIT;
+      default -> 0;
+    };
   }
 
   /**
