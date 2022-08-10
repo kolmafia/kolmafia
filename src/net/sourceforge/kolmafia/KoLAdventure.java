@@ -383,6 +383,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult PIRATE_FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult DRIP_HARNESS = ItemPool.get(ItemPool.DRIP_HARNESS, 1);
   private static final AdventureResult FANTASY_REALM_GEM = ItemPool.get(ItemPool.FANTASY_REALM_GEM);
+  private static final AdventureResult BONE_WITH_A_PRICE_TAG =
+      ItemPool.get(ItemPool.BONE_WITH_A_PRICE_TAG);
+  private static final AdventureResult BOOZE_MAP = ItemPool.get(ItemPool.BOOZE_MAP);
+  private static final AdventureResult HYPNOTIC_BREADCRUMBS =
+      ItemPool.get(ItemPool.HYPNOTIC_BREADCRUMBS);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -549,9 +554,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Town")) {
       return switch (this.adventureNumber) {
         case AdventurePool.SLEAZY_BACK_ALLEY -> true;
-        case AdventurePool.SKELETON_STORE -> QuestDatabase.isQuestStarted(Quest.MEATSMITH);
-        case AdventurePool.MADNESS_BAKERY -> QuestDatabase.isQuestStarted(Quest.ARMORER);
-        case AdventurePool.OVERGROWN_LOT -> QuestDatabase.isQuestStarted(Quest.DOC);
+          // We can start the three market quests, if necessary
+        case AdventurePool.SKELETON_STORE -> true;
+        case AdventurePool.MADNESS_BAKERY -> true;
+        case AdventurePool.OVERGROWN_LOT -> true;
           // Shen is available once you've read the diary and been told to talk to him.
         case AdventurePool.COPPERHEAD_CLUB -> QuestDatabase.isQuestStarted(Quest.SHEN);
           // Only one of the four Lair locations is in Town; two are in the
@@ -1907,6 +1913,63 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return true;
+    }
+
+    if (this.adventureNumber == AdventurePool.SKELETON_STORE) {
+      if (Preferences.getBoolean("skeletonStoreAvailable")
+          || QuestDatabase.isQuestStarted(Quest.MEATSMITH)) {
+        return true;
+      }
+
+      // If we have a bone with a price tag on it, use it
+      if (InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(BONE_WITH_A_PRICE_TAG));
+      } else {
+        // Otherwise, visit the Meatsmith and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1059&option=1"));
+      }
+
+      return Preferences.getBoolean("skeletonStoreAvailable");
+    }
+
+    if (this.adventureNumber == AdventurePool.MADNESS_BAKERY) {
+      if (Preferences.getBoolean("madnessBakeryAvailable")
+          || QuestDatabase.isQuestStarted(Quest.ARMORER)) {
+        return true;
+      }
+
+      // If we have hypnotic breadcrumbs on it, use it
+      if (InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(HYPNOTIC_BREADCRUMBS));
+      } else {
+        // Otherwise, visit the Armorer and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1065&option=1"));
+      }
+
+      return Preferences.getBoolean("madnessBakeryAvailable");
+    }
+
+    if (this.adventureNumber == AdventurePool.OVERGROWN_LOT) {
+      if (Preferences.getBoolean("overgrownLotAvailable")
+          || QuestDatabase.isQuestStarted(Quest.DOC)) {
+        return true;
+      }
+
+      // If we have a map to a hidden booze cache on it, use it
+      if (InventoryManager.hasItem(BOOZE_MAP)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(BOOZE_MAP));
+      } else {
+        // Otherwise, visit Doc Galaktik and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1064&option=1"));
+      }
+
+      return Preferences.getBoolean("overgrownLotAvailable");
     }
 
     return true;
