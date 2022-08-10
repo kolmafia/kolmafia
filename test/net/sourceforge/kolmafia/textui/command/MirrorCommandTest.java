@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -52,20 +51,19 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  @Disabled("Using > does not force colorization. ")
   public void testMirrorWritesHTML() {
     // Open the mirror
     execute("chats/test_writes_html.txt");
     // When `> ` is used as a prefix, the RequestLogger will colorize it assuming its a command
-    // input.
+    // input but that is not true at the moment, hence plain text assertion.
     RequestLogger.printLine("> Fake command input");
     // Log another line, this should be raw.
     RequestLogger.printLine("Raw Line");
     // Close the mirror
     execute("");
     String mirrorOutput = getMirrorLog("test_writes_html.txt");
-    assertThat(mirrorOutput, containsString("<font color=olive>> Fake command input</font><br>"));
-    assertThat(mirrorOutput, containsString("Raw Line<br>"));
+    assertThat(mirrorOutput, containsString("> Fake command input"));
+    assertThat(mirrorOutput, containsString("Raw Line"));
   }
 
   @Test
@@ -115,6 +113,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     try (var cleanups = new Cleanups(withSkill(1), withSkill(2))) {
       execute("chats/test_mirror_list_skills");
       // Available skills is special in that it will print html
+      // but this test is not expecting HTML.  This needs to be resolved.
       RequestLogger.printList(KoLConstants.availableSkills);
       // Close the mirror
       execute("");
@@ -144,7 +143,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Assert that mirror_1 only contains both messages
     assertTrue(getMirrorLog("mirror_1.txt").contains("Mirror 1 Log"));
     assertTrue(getMirrorLog("mirror_1.txt").contains("Mirror 2 Log"));
-    // Assert that mirror_2 contains neither messages
+    // Assert that mirror_2 contains neither message
     assertFalse(getMirrorLog("mirror_2.txt").contains("Mirror 1 Log"));
     assertFalse(getMirrorLog("mirror_2.txt").contains("Mirror 2 Log"));
   }
