@@ -732,38 +732,23 @@ public class KoLAdventureValidationTest {
     //
     // AdventurePool.BOMBED_HIPPY_CAMP
 
-    // Simplify looking up the KoLAdventure based on adventure ID.
-    private static Map<Integer, KoLAdventure> zones = new HashMap<>();
-
-    @BeforeAll
-    public static void beforeAll() {
-      zones.put(AdventurePool.HIPPY_CAMP, AdventureDatabase.getAdventureByName("Hippy Camp"));
-      zones.put(
-          AdventurePool.HIPPY_CAMP_DISGUISED,
-          AdventureDatabase.getAdventureByName("Hippy Camp (Hippy Disguise)"));
-      zones.put(
-          AdventurePool.WARTIME_HIPPY_CAMP,
-          AdventureDatabase.getAdventureByName("Wartime Hippy Camp"));
-      zones.put(
-          AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED,
-          AdventureDatabase.getAdventureByName("Wartime Hippy Camp (Frat Disguise)"));
-      zones.put(
-          AdventurePool.BOMBED_HIPPY_CAMP,
-          AdventureDatabase.getAdventureByName("The Hippy Camp (Bombed Back to the Stone Age)"));
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      zones.clear();
-    }
+    private static KoLAdventure HIPPY_CAMP = AdventureDatabase.getAdventureByName("Hippy Camp");
+    private static KoLAdventure HIPPY_CAMP_DISGUISED =
+        AdventureDatabase.getAdventureByName("Hippy Camp (Hippy Disguise)");
+    private static KoLAdventure WARTIME_HIPPY_CAMP =
+        AdventureDatabase.getAdventureByName("Wartime Hippy Camp");
+    private static KoLAdventure WARTIME_HIPPY_CAMP_DISGUISED =
+        AdventureDatabase.getAdventureByName("Wartime Hippy Camp (Frat Disguise)");
+    private static KoLAdventure BOMBED_HIPPY_CAMP =
+        AdventureDatabase.getAdventureByName("The Hippy Camp (Bombed Back to the Stone Age)");
 
     @Test
     public void cannotVisitHippyCampWithoutIslandAccess() {
-      assertFalse(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
-      assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
-      assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-      assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-      assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+      assertFalse(HIPPY_CAMP.canAdventure());
+      assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
+      assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
+      assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+      assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
     }
 
     @Test
@@ -773,12 +758,12 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertTrue(HIPPY_CAMP.canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
 
@@ -789,14 +774,16 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
-              withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
+              withEquipped(EquipmentManager.PANTS, "filthy corduroys"),
+              // Have stats for Filthy Hippy Disguise
+              withStats(15, 15, 15));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertTrue(HIPPY_CAMP.canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
 
@@ -809,9 +796,11 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
-              withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
+              withEquipped(EquipmentManager.PANTS, "filthy corduroys"),
+              // Have stats for Filthy Hippy Disguise
+              withStats(15, 15, 15));
       try (cleanups) {
-        var success = zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).prepareForAdventure();
+        var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
         var requests = getRequests();
 
         assertThat(requests, hasSize(0));
@@ -829,11 +818,12 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withItem("filthy knitted dread sack"),
               withItem("filthy corduroys"),
+              // Have stats for Filthy Hippy Disguise
               withStats(15, 15, 15));
       try (cleanups) {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
-        var success = zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).prepareForAdventure();
+        var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
         var requests = getRequests();
 
         assertThat(requests, hasSize(1));
@@ -866,7 +856,7 @@ public class KoLAdventureValidationTest {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
-        var success = zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).prepareForAdventure();
+        var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
         var requests = getRequests();
 
         assertThat(requests, hasSize(1));
@@ -899,7 +889,7 @@ public class KoLAdventureValidationTest {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
-        var success = zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).prepareForAdventure();
+        var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
         var requests = getRequests();
 
         assertThat(requests, hasSize(1));
@@ -918,12 +908,12 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
       try (cleanups) {
         // KoL does not require going directly to verge-of-war zones
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertTrue(HIPPY_CAMP.canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
         // ... but it allows it.
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertTrue(WARTIME_HIPPY_CAMP.canAdventure());
+        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
 
@@ -938,12 +928,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         // KoL does not require going directly to verge-of-war zones
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
+        assertTrue(HIPPY_CAMP.canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
         // ... but it allows it.
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertTrue(WARTIME_HIPPY_CAMP.canAdventure());
+        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
 
@@ -969,8 +959,8 @@ public class KoLAdventureValidationTest {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        var success = zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).prepareForAdventure();
+        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        var success = WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure();
         var requests = getRequests();
 
         assertThat(requests, hasSize(1));
@@ -1004,8 +994,8 @@ public class KoLAdventureValidationTest {
         EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
-        assertTrue(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        var success = zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).prepareForAdventure();
+        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        var success = WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure();
         var requests = getRequests();
 
         assertThat(requests, hasSize(1));
@@ -1022,11 +1012,11 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertFalse(HIPPY_CAMP.canAdventure());
+        assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
 
@@ -1038,12 +1028,12 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "fratboys"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertTrue(HIPPY_CAMP.canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
 
@@ -1057,12 +1047,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
               withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
+        assertTrue(HIPPY_CAMP.canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
 
@@ -1074,11 +1064,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "hippies"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertTrue(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertFalse(HIPPY_CAMP.canAdventure());
+        assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertTrue(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
 
@@ -1090,11 +1080,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "both"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.HIPPY_CAMP_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED).canAdventure());
-        assertTrue(zones.get(AdventurePool.BOMBED_HIPPY_CAMP).canAdventure());
+        assertFalse(HIPPY_CAMP.canAdventure());
+        assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertTrue(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
   }
@@ -1125,39 +1115,24 @@ public class KoLAdventureValidationTest {
     //
     // AdventurePool.BOMBED_FRAT_HOUSE
 
-    // Simplify looking up the KoLAdventure based on adventure ID.
-    private static Map<Integer, KoLAdventure> zones = new HashMap<>();
-
-    @BeforeAll
-    public static void beforeAll() {
-      zones.put(AdventurePool.FRAT_HOUSE, AdventureDatabase.getAdventureByName("Frat House"));
-      zones.put(
-          AdventurePool.FRAT_HOUSE_DISGUISED,
-          AdventureDatabase.getAdventureByName("Frat House (Frat Disguise)"));
-      zones.put(
-          AdventurePool.WARTIME_FRAT_HOUSE,
-          AdventureDatabase.getAdventureByName("Wartime Frat House"));
-      zones.put(
-          AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
-          AdventureDatabase.getAdventureByName("Wartime Frat House (Hippy Disguise)"));
-      zones.put(
-          AdventurePool.BOMBED_FRAT_HOUSE,
-          AdventureDatabase.getAdventureByName(
-              "The Orcish Frat House (Bombed Back to the Stone Age)"));
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      zones.clear();
-    }
+    private static KoLAdventure FRAT_HOUSE = AdventureDatabase.getAdventureByName("Frat House");
+    private static KoLAdventure FRAT_HOUSE_DISGUISED =
+        AdventureDatabase.getAdventureByName("Frat House (Frat Disguise)");
+    private static KoLAdventure WARTIME_FRAT_HOUSE =
+        AdventureDatabase.getAdventureByName("Wartime Frat House");
+    private static KoLAdventure WARTIME_FRAT_HOUSE_DISGUISED =
+        AdventureDatabase.getAdventureByName("Wartime Frat House (Hippy Disguise)");
+    private static KoLAdventure BOMBED_FRAT_HOUSE =
+        AdventureDatabase.getAdventureByName(
+            "The Orcish Frat House (Bombed Back to the Stone Age)");
 
     @Test
     public void cannotVisitFratHouseWithoutIslandAccess() {
-      assertFalse(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
-      assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
-      assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-      assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-      assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+      assertFalse(FRAT_HOUSE.canAdventure());
+      assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
+      assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
+      assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+      assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
     }
 
     @Test
@@ -1167,12 +1142,12 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertTrue(FRAT_HOUSE.canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
       }
     }
 
@@ -1184,14 +1159,134 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(EquipmentManager.HAT, "Orcish baseball cap"),
               withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
-              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
+              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"),
+              // Have stats for Frat Boy Ensemble
+              withStats(20, 15, 15));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertTrue(FRAT_HOUSE.canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureDisguisedEquipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withEquipped(EquipmentManager.HAT, "Orcish baseball cap"),
+              withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
+              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"),
+              // Have stats for Frat Boy Ensemble
+              withStats(20, 15, 15));
+      try (cleanups) {
+        var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(0));
+        assertThat(success, is(true));
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureDisguisedUnEquipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withItem("Orcish baseball cap"),
+              withItem("Orcish cargo shorts"),
+              withItem("Orcish frat-paddle"),
+              // Have stats for Frat Boy Ensemble
+              withStats(20, 15, 15));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
+        var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.FRAT_OUTFIT + "&ajax=1");
+        assertThat(success, is(true));
+      }
+    }
+
+    @Test
+    public void canPickFratOutfitToAdventureBeforeWar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              // War Frat Fatigues
+              withItem("beer helmet"),
+              withItem("distressed denim pants"),
+              withItem("bejeweled pledge pin"),
+              // Frat Boy Ensemble
+              withItem("Orcish baseball cap"),
+              withItem("Orcish cargo shorts"),
+              withItem("Orcish frat-paddle"),
+              // Have stats only for Frat Boy Ensemble
+              withStats(20, 15, 15));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
+        assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
+        var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.FRAT_OUTFIT + "&ajax=1");
+        assertThat(success, is(true));
+      }
+    }
+
+    @Test
+    public void canPickWarFratOutfitToAdventureBeforeWar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              // War Frat Fatigues
+              withItem("beer helmet"),
+              withItem("distressed denim pants"),
+              withItem("bejeweled pledge pin"),
+              // Frat Boy Ensemble
+              withItem("Orcish baseball cap"),
+              withItem("Orcish cargo shorts"),
+              withItem("Orcish frat-paddle"),
+              // Have stats sufficient for War Frat Fatigues
+              withStats(70, 70, 70));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
+        var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_FRAT_OUTFIT + "&ajax=1");
+        assertThat(success, is(true));
       }
     }
 
@@ -1202,12 +1297,12 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
       try (cleanups) {
         // KoL does not require going directly to verge-of-war zones
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertTrue(FRAT_HOUSE.canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
         // ... but it allows it.
-        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertTrue(WARTIME_FRAT_HOUSE.canAdventure());
+        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
       }
     }
 
@@ -1221,12 +1316,80 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
       try (cleanups) {
         // KoL does not require going directly to verge-of-war zones
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
+        assertTrue(FRAT_HOUSE.canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
         // ... but it allows it.
-        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertTrue(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertTrue(WARTIME_FRAT_HOUSE.canAdventure());
+        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPickHippyOutfitToAdventureOnVergeOfWar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
+              // Have War Hippy Fatigues
+              withItem("reinforced beaded headband"),
+              withItem("bullet-proof corduroys"),
+              withItem("round purple sunglasses"),
+              // Filthy Hippy Disguise
+              withItem("filthy knitted dread sack"),
+              withItem("filthy corduroys"),
+              // Have stats only for Filthy Hippy Disguise
+              withStats(15, 15, 15));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
+        assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
+        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        var success = WARTIME_FRAT_HOUSE_DISGUISED.prepareForAdventure();
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.HIPPY_OUTFIT + "&ajax=1");
+        assertThat(success, is(true));
+      }
+    }
+
+    @Test
+    public void canPickWarFratOutfitToAdventureOnVergeOfWar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
+              // Have War Hippy Fatigues
+              withItem("reinforced beaded headband"),
+              withItem("bullet-proof corduroys"),
+              withItem("round purple sunglasses"),
+              // Filthy Hippy Disguise
+              withItem("filthy knitted dread sack"),
+              withItem("filthy corduroys"),
+              // Have stats sufficient for War Hippy Fatigues
+              withStats(70, 70, 70));
+      try (cleanups) {
+        EquipmentManager.updateNormalOutfits();
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
+        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        var success = WARTIME_FRAT_HOUSE_DISGUISED.prepareForAdventure();
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_HIPPY_OUTFIT + "&ajax=1");
+        assertThat(success, is(true));
       }
     }
 
@@ -1235,11 +1398,11 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withItem("dingy dinghy"), withQuestProgress(Quest.ISLAND_WAR, "step1"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertFalse(FRAT_HOUSE.canAdventure());
+        assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
       }
     }
 
@@ -1251,12 +1414,12 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "hippies"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertTrue(FRAT_HOUSE.canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
       }
     }
 
@@ -1271,12 +1434,12 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
               withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
+        assertTrue(FRAT_HOUSE.canAdventure());
         // We check only quest status, not available equipment
-        assertTrue(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
       }
     }
 
@@ -1288,11 +1451,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "fratboys"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertTrue(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertFalse(FRAT_HOUSE.canAdventure());
+        assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertTrue(BOMBED_FRAT_HOUSE.canAdventure());
       }
     }
 
@@ -1304,11 +1467,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "both"));
       try (cleanups) {
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.FRAT_HOUSE_DISGUISED).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE).canAdventure());
-        assertFalse(zones.get(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED).canAdventure());
-        assertTrue(zones.get(AdventurePool.BOMBED_FRAT_HOUSE).canAdventure());
+        assertFalse(FRAT_HOUSE.canAdventure());
+        assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertTrue(BOMBED_FRAT_HOUSE.canAdventure());
       }
     }
   }
