@@ -123,6 +123,7 @@ public class BreakfastManager {
         collectAnticheese();
         collectSeaJelly();
         harvestBatteries();
+        useBookOfEverySkill();
       }
 
       boolean recoverMana =
@@ -801,8 +802,11 @@ public class BreakfastManager {
     FamiliarData currentFam = KoLCharacter.getFamiliar();
 
     FamiliarManager.changeFamiliar(jellyfish, false);
+    // Force automation to take option 1
+    Preferences.setInteger("choiceAdventure1219", 1);
+    // This will redirect to choice.php?forceoption=0 which will make
+    // ChoiceManager automate the choice through option 1
     RequestThread.postRequest(new PlaceRequest("thesea", "thesea_left2", false));
-    RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1219&option=1"));
     FamiliarManager.changeFamiliar(currentFam);
 
     KoLmafia.forceContinue();
@@ -836,6 +840,29 @@ public class BreakfastManager {
               new GenericRequest("choice.php?pwd&whichchoice=1448&option=1&pp=" + (pp + 1)));
         }
       }
+
+      KoLmafia.forceContinue();
+    }
+  }
+
+  private static void useBookOfEverySkill() {
+    if (Preferences.getBoolean("_bookOfEverySkillUsed")) {
+      return;
+    }
+
+    AdventureResult book = ItemPool.get(ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL, 1);
+
+    if (!InventoryManager.hasItem(book)
+        || !StandardRequest.isAllowed("Items", book.getName())
+        || KoLCharacter.inBeecore()) {
+      return;
+    }
+
+    if (Preferences.getBoolean(
+        "useBookOfEverySkill" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
+      KoLmafia.updateDisplay("Reading for a guild skill...");
+
+      RequestThread.postRequest(UseItemRequest.getInstance(book));
 
       KoLmafia.forceContinue();
     }

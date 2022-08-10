@@ -2,12 +2,17 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
-import static internal.helpers.Preference.isSetTo;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,20 +29,26 @@ public class GenericRequestTest {
 
   @Test
   public void hallowienerVolcoinoNotPickedUpByLuckyGoldRing() {
-    assertEquals("", Preferences.getString("lastEncounter"));
-    equip(EquipmentManager.ACCESSORY1, "lucky gold ring");
-    assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
+            withProperty("lastEnccounter", ""));
 
-    KoLAdventure.setLastAdventure("The Bubblin' Caldera");
+    try (cleanups) {
+      assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
 
-    GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
-    request.setHasResult(true);
-    request.responseText = html("request/test_adventure_hallowiener_volcoino_lucky_gold_ring.html");
+      KoLAdventure.setLastAdventure("The Bubblin' Caldera");
 
-    request.processResponse();
+      GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
+      request.setHasResult(true);
+      request.responseText =
+          html("request/test_adventure_hallowiener_volcoino_lucky_gold_ring.html");
 
-    assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
-    assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+      request.processResponse();
+
+      assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
+      assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    }
   }
 
   @Test
@@ -70,5 +81,23 @@ public class GenericRequestTest {
     req.processResponse();
 
     assertThat("sweat", isSetTo(expectedSweat));
+  }
+
+  @Test
+  public void detectsBogusChoices() {
+    var cleanup =
+        new Cleanups(
+            withNextResponse(200, html("request/test_choice_whoops.html")),
+            withProperty("_shrubDecorated"),
+            withContinuationState());
+
+    try (cleanup) {
+      new GenericRequest(
+              "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2")
+          .run();
+
+      assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
+      assertThat("_shrubDecorated", isSetTo(false));
+    }
   }
 }

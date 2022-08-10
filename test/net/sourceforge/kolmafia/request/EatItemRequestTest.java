@@ -1,19 +1,21 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.withItem;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class EatItemRequestTest {
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("EatItemRequest");
     Preferences.reset("EatItemRequest");
@@ -21,10 +23,17 @@ class EatItemRequestTest {
 
   @Nested
   class MilkOfMagnesium {
+    private Cleanups cleanups = new Cleanups();
+
     @BeforeEach
-    private void milkSetup() {
-      addItem(ItemPool.MILK_OF_MAGNESIUM);
-      addItem(ItemPool.TOMATO);
+    public void beforeEach() {
+      cleanups.add(withItem(ItemPool.MILK_OF_MAGNESIUM));
+      cleanups.add(withItem(ItemPool.TOMATO));
+    }
+
+    @AfterEach
+    public void afterEach() {
+      cleanups.close();
     }
 
     @Test

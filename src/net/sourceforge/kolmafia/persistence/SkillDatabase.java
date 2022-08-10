@@ -1205,7 +1205,7 @@ public class SkillDatabase {
       case SkillPool.BLOOD_BOND:
       case SkillPool.BLOOD_BUBBLE:
         return 30;
-      case SkillPool.BLOOD_bLADE:
+      case SkillPool.BLOOD_BLADE:
       case SkillPool.BRAMS_BLOODY_BAGATELLE:
         return 50;
 

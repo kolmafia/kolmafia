@@ -1,9 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Preference.isSetTo;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -26,7 +26,7 @@ class CharPaneRequestTest {
 
   @Test
   void canParseSnowsuit() {
-    var cleanups = new Cleanups(setProperty("snowsuit", ""));
+    var cleanups = new Cleanups(withProperty("snowsuit", ""));
 
     try (cleanups) {
       CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
@@ -44,7 +44,8 @@ class CharPaneRequestTest {
     void parseSweatiness(String responseHtml, int expectedValue) {
       var cleanups =
           new Cleanups(
-              equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 0));
+              withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+              withProperty("sweat", 0));
 
       try (cleanups) {
         var result = CharPaneRequest.processResults(html(responseHtml));
@@ -57,7 +58,8 @@ class CharPaneRequestTest {
     void recogniseNoSweatinessDisplayedMeansZeroIfPantsEquipped() {
       var cleanups =
           new Cleanups(
-              equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 11));
+              withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+              withProperty("sweat", 11));
 
       try (cleanups) {
         var result = CharPaneRequest.processResults(html("request/test_charpane_basic.html"));

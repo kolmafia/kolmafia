@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -18,24 +19,24 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.ScriptManager;
-import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.BranchTrackingStatus;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
 
 public class GitManager extends ScriptManager {
 
@@ -120,7 +121,10 @@ public class GitManager extends ScriptManager {
       var repo = git.getRepository();
       AbstractTreeIterator currTree;
       AbstractTreeIterator incomingTree;
+      ObjectId currCommit;
+      ObjectId incomingCommit;
       try {
+        currCommit = getCurrentCommit(repo);
         currTree = getCurrentCommitTree(repo);
       } catch (IOException e) {
         KoLmafia.updateDisplay(
@@ -144,6 +148,7 @@ public class GitManager extends ScriptManager {
       }
 
       try {
+        incomingCommit = getCurrentCommit(repo);
         incomingTree = getCurrentCommitTree(repo);
       } catch (IOException e) {
         KoLmafia.updateDisplay(
@@ -167,6 +172,11 @@ public class GitManager extends ScriptManager {
         return;
       }
 
+      if (diffs.size() == 0) {
+        RequestLogger.printLine("No changes");
+        return;
+      }
+
       boolean checkDependencies = false;
 
       for (var diff : diffs) {
@@ -186,6 +196,10 @@ public class GitManager extends ScriptManager {
         if (DEPENDENCIES.equals(diff.getNewPath())) {
           checkDependencies = true;
         }
+      }
+
+      if (Preferences.getBoolean("gitShowCommitMessages")) {
+        printCommitMessages(git, currCommit, incomingCommit, folder);
       }
 
       if (checkDependencies) {
@@ -219,12 +233,61 @@ public class GitManager extends ScriptManager {
     }
   }
 
+  /** Get the current commit. */
+  private static ObjectId getCurrentCommit(Repository repo) throws IOException {
+    return repo.resolve("HEAD");
+  }
+
   /** Get the current commit as an AbstractTreeIterator, as required by DiffCommand. */
   private static AbstractTreeIterator getCurrentCommitTree(Repository repo) throws IOException {
     var currId = repo.resolve("HEAD^{tree}");
     var treeIterator = new CanonicalTreeParser();
     treeIterator.reset(repo.newObjectReader(), currId);
     return treeIterator;
+  }
+
+  /** Print commit messages from since to until */
+  private static void printCommitMessages(Git git, ObjectId since, ObjectId until, String folder) {
+    Iterable<RevCommit> commits;
+    try {
+      commits = git.log().addRange(since, until).call();
+    } catch (IOException | GitAPIException e) {
+      KoLmafia.updateDisplay(
+          MafiaState.CONTINUE, "Failed to get commit messages for " + folder + ": " + e);
+      return;
+    }
+
+    for (var commit : commits) {
+      var author = commit.getAuthorIdent();
+      var datetime = getCommitDate(commit, author);
+      var date = formatCommitDate(datetime);
+      var message = commit.getFullMessage();
+
+      RequestLogger.printLine("<b>commit " + ObjectId.toString(commit) + "</b>");
+      RequestLogger.printLine("Author: " + getAuthor(author).replace("<", "&lt;"));
+      RequestLogger.printLine("Date:   " + date);
+      RequestLogger.printLine("<p style=\"text-indent:2em\">" + message + "</p>");
+      RequestLogger.printLine("<br>");
+    }
+  }
+
+  /** Get a commit date with the author's time zone */
+  private static ZonedDateTime getCommitDate(RevCommit commit, PersonIdent author) {
+    return ZonedDateTime.ofInstant(
+        Instant.ofEpochSecond(commit.getCommitTime()), author.getZoneId());
+  }
+
+  /** Format a commit date as it appears in the logs */
+  public static String formatCommitDate(ZonedDateTime datetime) {
+    // use format that is similar to what 'git show' gives, ex:
+    // Date: Sat Jul 16 11:40:35 2022 +0100
+    var fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy z");
+    return fmt.format(datetime);
+  }
+
+  /** Get a commit author for display */
+  private static String getAuthor(PersonIdent author) {
+    return author.getName() + " <" + author.getEmailAddress() + ">";
   }
 
   /** Return all installed git projects */
@@ -345,7 +408,6 @@ public class GitManager extends ScriptManager {
     }
     var deps = root.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {
-      KoLmafia.updateDisplay("Installing dependencies");
       installDependencies(deps);
     }
   }
@@ -382,17 +444,10 @@ public class GitManager extends ScriptManager {
       var rw = new RevWalk(repo);
       var commit = rw.parseCommit(lastCommitId);
       var author = commit.getAuthorIdent();
-      var datetime =
-          ZonedDateTime.ofInstant(
-              Instant.ofEpochSecond(commit.getCommitTime()), author.getZoneId());
+      var datetime = getCommitDate(commit, author);
 
       return Optional.of(
-          new GitInfo(
-              url,
-              branch,
-              ObjectId.toString(lastCommitId),
-              author.getName() + " <" + author.getEmailAddress() + ">",
-              datetime));
+          new GitInfo(url, branch, ObjectId.toString(lastCommitId), getAuthor(author), datetime));
     } catch (IOException e) {
       // all or nothing
       return Optional.empty();
@@ -470,7 +525,7 @@ public class GitManager extends ScriptManager {
     }
   }
 
-  private static String getRepoId(String repoUrl, String branch) {
+  public static String getRepoId(String repoUrl, String branch) {
     String dashBranch = branch == null ? "" : "-" + branch;
     if (repoUrl.endsWith(".git")) {
       repoUrl = repoUrl.substring(0, repoUrl.length() - 4);
@@ -497,40 +552,11 @@ public class GitManager extends ScriptManager {
     return Optional.of(matches.get(0));
   }
 
-  private static void installDependencies(Path dependencies) {
-    List<String> potentials;
-    try {
-      potentials = Files.readAllLines(dependencies);
-    } catch (IOException e) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to read dependency file " + dependencies);
-      return;
-    }
-    for (var potential : potentials) {
-      if (potential.startsWith("#")) continue;
-      String[] args = potential.split("\\s+");
-      if (args.length == 0) continue;
-      var url = args[0];
-      if (args.length > 1 || url.endsWith(".git")) {
-        // git
-        String branch = args.length == 1 ? null : args[1];
-        var id = getRepoId(url, branch);
-        if (!Files.exists(KoLConstants.GIT_LOCATION.toPath().resolve(id))) {
-          GitManager.clone(url, branch);
-        }
-      } else {
-        SVNURL repo;
-        try {
-          repo = SVNURL.parseURIEncoded(potential);
-        } catch (SVNException e) {
-          RequestLogger.printLine("Cannot parse " + potential + " as SVN URL");
-          continue;
-        }
-        var id = SVNManager.getFolderUUIDNoRemote(repo);
-        if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
-          SVNManager.doCheckout(repo);
-        }
-      }
-    }
+  protected static void installDependencies(Path dependencies) {
+    if (!Preferences.getBoolean("gitInstallDependencies")) return;
+
+    KoLmafia.updateDisplay("Installing dependencies");
+    ScriptManager.installDependencies(dependencies);
   }
 
   private static Optional<JSONObject> readManifest(Path manifest) {

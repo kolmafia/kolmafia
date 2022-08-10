@@ -1,23 +1,33 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import internal.helpers.Cleanups;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class ChoiceManagerTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
@@ -26,12 +36,12 @@ public class ChoiceManagerTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }
@@ -79,5 +89,96 @@ public class ChoiceManagerTest {
     // specialChoiceDecision1(int choice, String decision, int stepCount, String responseText)
     option = ChoiceManager.specialChoiceDecision1(choice, "", 0, responseText);
     assertEquals("3", option);
+  }
+
+  @Nested
+  class BogusChoices {
+    @Test
+    public void returnsFalseWithNormalChoice() {
+      var cleanup = new Cleanups(withHandlingChoice());
+
+      try (cleanup) {
+        String urlString = "choice.php?whichchoice=1";
+        var request = new GenericRequest(urlString);
+        request.responseText = "Some normal choice text";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
+      }
+    }
+
+    // "Whoops!" testing (i.e. where it returns true) handled in
+    // GenericRequestTest.detectsBogusChoices
+
+    @Test
+    public void returnsFalseWithNonChoiceRequest() {
+      var cleanup = new Cleanups(withHandlingChoice());
+
+      try (cleanup) {
+        String urlString = "adventure.php?snarfblat=100";
+        var request = new GenericRequest(urlString);
+        request.responseText = "";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
+      }
+    }
+
+    @Test
+    public void returnsFalseWithNonExecutedRequest() {
+      var cleanup = new Cleanups(withHandlingChoice());
+
+      try (cleanup) {
+        String urlString =
+            "choice.php?whichchoice=999&pwd&option=1&topper=3&lights=5&garland=1&gift=2";
+        var request = new GenericRequest(urlString);
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(false));
+      }
+    }
+
+    @Test
+    public void returnsTrueWithAbortState() {
+      var cleanup = new Cleanups(withHandlingChoice(), withContinuationState());
+
+      try (cleanup) {
+        String urlString = "choice.php?whichchoice=1234&pwd&option=1";
+        var request = new GenericRequest(urlString);
+        request.responseText = "Whoops!  You're not actually in a choice adventure.";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
+      }
+    }
+
+    @Test
+    public void returnsTrueWithoutAbortStateIfPreferenceFalse() {
+      var cleanup =
+          new Cleanups(
+              withHandlingChoice(),
+              withContinuationState(),
+              withProperty("abortOnChoiceWhenNotInChoice", false));
+
+      try (cleanup) {
+        String urlString = "choice.php?whichchoice=1234&pwd&option=1";
+        var request = new GenericRequest(urlString);
+        request.responseText = "Whoops!  You're not actually in a choice adventure.";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+      }
+    }
+
+    @Test
+    public void returnsTrueWithoutAbortState() {
+      var cleanup = new Cleanups(withHandlingChoice(), withContinuationState());
+
+      try (cleanup) {
+        String urlString = "choice.php";
+        var request = new GenericRequest(urlString);
+        request.responseText = "Whoops!  You're not actually in a choice adventure.";
+
+        assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+      }
+    }
   }
 }

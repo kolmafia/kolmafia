@@ -201,7 +201,7 @@ Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin	erudite gremlin 
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
 Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
 Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
-Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
+The Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
 Professor Jacking's Huge-A-Ma-tron	-1	Castle in the Clouds in the Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
 Professor Jacking's Small-O-Fier	-1	cruel dust mote	funk particle	jungle scabie: 0	malevolent magnetic field	smooth jazz scabie: 0
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
@@ -525,10 +525,10 @@ Wrong Side of the Tracks, 28 Days Later	-1	scary pirate	Zombie eXtreme Snowboard
 # Areas with no combats
 
 Anemone Mine (Mining)	0
-Frat House In Disguise	0
+Frat House (Frat Disguise)	0
 Friar Ceremony Location	0
 Goat Party	0
-Hippy Camp In Disguise	0
+Hippy Camp (Hippy Disguise)	0
 Itznotyerzitz Mine (in Disguise)	0
 Lemon Party	0
 The Mine Foremens' Office	0

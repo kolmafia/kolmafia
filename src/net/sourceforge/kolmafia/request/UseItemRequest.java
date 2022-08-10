@@ -2382,7 +2382,7 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
 
         // If quest Gotta Worship Them All is started, this completes step 1
-        if (QuestDatabase.isQuestLaterThan(Quest.WORSHIP, QuestDatabase.UNSTARTED)) {
+        if (QuestDatabase.isQuestStarted(Quest.WORSHIP)) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step1");
         }
 
@@ -5852,6 +5852,14 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         break;
+
+      case ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL:
+        Preferences.setBoolean("_bookOfEverySkillUsed", true);
+        // You turn to a random page, hold your breath, and read up on a new skill!
+        if (responseText.contains("turn to a random page")) {
+          ResponseTextParser.learnSkillFromResponse(responseText);
+        }
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

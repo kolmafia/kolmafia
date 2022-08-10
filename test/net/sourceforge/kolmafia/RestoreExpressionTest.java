@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia;
 
-import static internal.helpers.Player.addEffect;
-import static internal.helpers.Player.addSkill;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.inPath;
-import static internal.helpers.Player.isClass;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,12 +28,14 @@ public class RestoreExpressionTest {
   @ParameterizedTest
   @EnumSource(AscensionClass.class)
   public void canDetectClass(AscensionClass ascensionClass) {
-    isClass(AscensionClass.ACCORDION_THIEF);
+    var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
 
-    double expected = ascensionClass == AscensionClass.ACCORDION_THIEF ? 1.0 : 0.0;
+    try (cleanups) {
+      double expected = ascensionClass == AscensionClass.ACCORDION_THIEF ? 1.0 : 0.0;
 
-    var exp = new RestoreExpression("class(" + ascensionClass.toString() + ")", "Detect class");
-    assertThat(ascensionClass.toString(), exp.eval(), is(expected));
+      var exp = new RestoreExpression("class(" + ascensionClass.toString() + ")", "Detect class");
+      assertThat(ascensionClass.toString(), exp.eval(), is(expected));
+    }
   }
 
   @ParameterizedTest
@@ -44,9 +46,12 @@ public class RestoreExpressionTest {
     "4, 0",
   })
   public void canDetectEffect(String effect, String expected) {
-    addEffect("Confused");
-    var exp = new RestoreExpression("effect(" + effect + ")", "Detect effect");
-    assertEquals(Double.parseDouble(expected), exp.eval());
+    var cleanups = withEffect("Confused");
+
+    try (cleanups) {
+      var exp = new RestoreExpression("effect(" + effect + ")", "Detect effect");
+      assertEquals(Double.parseDouble(expected), exp.eval());
+    }
   }
 
   @ParameterizedTest
@@ -56,10 +61,13 @@ public class RestoreExpressionTest {
     "38, 1",
     "39, 0",
   })
-  public void canDetectSkill(String skill, String expected) {
-    addSkill("Natural Born Scrabbler");
-    var exp = new RestoreExpression("skill(" + skill + ")", "Detect skill");
-    assertEquals(Double.parseDouble(expected), exp.eval());
+  public void canDetectSkill(String skill, double expected) {
+    var cleanups = withSkill("Natural Born Scrabbler");
+
+    try (cleanups) {
+      var exp = new RestoreExpression("skill(" + skill + ")", "Detect skill");
+      assertEquals(expected, exp.eval());
+    }
   }
 
   @ParameterizedTest
@@ -67,21 +75,26 @@ public class RestoreExpressionTest {
     "seal-clubbing club, 1",
     "turtle totem, 0",
   })
-  public void canDetectEquip(String item, String expected) {
-    equip(EquipmentManager.WEAPON, "seal-clubbing club");
-    var exp = new RestoreExpression("equipped(" + item + ")", "Detect equip");
-    assertEquals(Double.parseDouble(expected), exp.eval());
+  public void canDetectEquip(String item, double expected) {
+    var cleanups = withEquipped(EquipmentManager.WEAPON, "seal-clubbing club");
+
+    try (cleanups) {
+      var exp = new RestoreExpression("equipped(" + item + ")", "Detect equip");
+      assertEquals(expected, exp.eval());
+    }
   }
 
   @ParameterizedTest
   @EnumSource(AscensionPath.Path.class)
   public void canDetectPath(AscensionPath.Path path) {
-    inPath(AscensionPath.Path.YOU_ROBOT);
+    var cleanups = withPath(AscensionPath.Path.YOU_ROBOT);
 
-    double expected = path == AscensionPath.Path.YOU_ROBOT ? 1.0 : 0.0;
+    try (cleanups) {
+      double expected = path == AscensionPath.Path.YOU_ROBOT ? 1.0 : 0.0;
 
-    var exp = new RestoreExpression("path(" + path.toString() + ")", "Detect class");
-    assertThat(path.toString(), exp.eval(), is(expected));
+      var exp = new RestoreExpression("path(" + path.toString() + ")", "Detect class");
+      assertThat(path.toString(), exp.eval(), is(expected));
+    }
   }
 
   @Test

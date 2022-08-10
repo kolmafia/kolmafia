@@ -1,11 +1,12 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -24,7 +25,7 @@ import org.junit.jupiter.api.Test;
 public class GuildRequestTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     KoLCharacter.reset("GuildRequestTest");
     Preferences.reset("GuildRequestTest");
     Preferences.saveSettingsToFile = false;
@@ -41,7 +42,7 @@ public class GuildRequestTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 
@@ -99,7 +100,7 @@ public class GuildRequestTest {
     // Requesting: choice.php?forceoption=0
     // Requesting: choice.php?pwd&whichchoice=930&option=1
 
-    var cleanups = Player.setProperty("questG02Whitecastle", "unstarted");
+    var cleanups = withProperty("questG02Whitecastle", "unstarted");
 
     try (cleanups) {
       // talk with "ocg"
@@ -135,7 +136,7 @@ public class GuildRequestTest {
     // Field: location = [choice.php?forceoption=0]
     // Requesting: choice.php?forceoption=0
 
-    var cleanups = Player.addItem(ItemPool.CITADEL_SATCHEL);
+    var cleanups = withItem(ItemPool.CITADEL_SATCHEL);
 
     try (cleanups) {
       // talk with "ocg"

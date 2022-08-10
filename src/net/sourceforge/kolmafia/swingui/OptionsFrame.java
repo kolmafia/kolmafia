@@ -370,13 +370,13 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           this.newTextArea(
               """
-	      Configure the behavior of Mafia's Script menu.
+        Configure the behavior of Mafia's Script menu.
 
-	      If you set the script MRU length to a value greater than zero, that many of your most recently run scripts will be displayed.
+        If you set the script MRU length to a value greater than zero, that many of your most recently run scripts will be displayed.
 
-	      If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
+        If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
 
-	      If you select neither option, no scripts will be displayed."""));
+        If you select neither option, no scripts will be displayed."""));
 
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
@@ -1187,9 +1187,9 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           this.newTextArea(
               """
-	      Configure the behavior of Mafia's built-in SVN client here.
+        Configure the behavior of Mafia's built-in SVN client here.
 
-	      With SVN you can seamlessly install community-created scripts and have them automatically update."""));
+        With SVN you can seamlessly install community-created scripts and have them automatically update."""));
 
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
@@ -1257,9 +1257,9 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           this.newTextArea(
               """
-	      Configure the behavior of Mafia's built-in git client here.
+        Configure the behavior of Mafia's built-in git client here.
 
-	      With git you can seamlessly install community-created scripts and have them automatically update."""));
+        With git you can seamlessly install community-created scripts and have them automatically update."""));
 
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
@@ -1270,6 +1270,43 @@ public class OptionsFrame extends GenericFrame {
 
       this.queue(
           new PreferenceCheckBox("gitUpdateOnLogin", "Update installed Git projects on login"));
+      String tip =
+          "<html>Turning this option on will show the associated message that the author<br>"
+              + "provided to describe changes in the new version.  This includes things<br>"
+              + "like bug fixes, new features, etc.</html>";
+      this.queue(
+          new PreferenceCheckBox(
+              "gitShowCommitMessages", "Show commit messages after update", tip));
+
+      /*
+       * End Basic Options
+       */
+
+      this.queue(Box.createVerticalStrut(10));
+      JLabel label = new JLabel("Advanced options:");
+      this.queue(label);
+      this.queue(this.newSeparator(label));
+      this.queue(Box.createVerticalStrut(5));
+
+      /*
+       * Advanced Options
+       */
+
+      tip =
+          "<html>A script may declare dependencies - i.e. other scripts that should be installed<br>"
+              + "along with it.  Those dependencies can declare their own dependencies, and<br>so forth.<br>"
+              + "<br>"
+              + "Users who want complete control over what they are installing can turn this off,<br>"
+              + "but should make sure to manually install dependencies or scripts may<br>malfunction.";
+      this.queue(
+          new PreferenceCheckBox(
+              "gitInstallDependencies",
+              "Automatically install dependencies for git projects",
+              tip));
+
+      /*
+       * End Advanced Options
+       */
 
       this.makeLayout();
     }
@@ -1936,6 +1973,7 @@ public class OptionsFrame extends GenericFrame {
     private final JCheckBox makePocketWishes;
     private final JCheckBox haveBoxingDaydream;
     private final JCheckBox harvestBatteries;
+    private final JCheckBox useBookOfEverySkill;
 
     private final SkillMenu tomeSkills;
     private final SkillMenu libramSkills;
@@ -2008,6 +2046,10 @@ public class OptionsFrame extends GenericFrame {
       this.harvestBatteries = new JCheckBox("harvest batteries");
       this.harvestBatteries.addActionListener(this);
       centerPanel.add(this.harvestBatteries);
+
+      this.useBookOfEverySkill = new JCheckBox("use Book of Every Skill");
+      this.useBookOfEverySkill.addActionListener(this);
+      centerPanel.add(this.useBookOfEverySkill);
 
       centerContainer.add(centerPanel);
       centerContainer.add(Box.createVerticalStrut(10));
@@ -2087,6 +2129,8 @@ public class OptionsFrame extends GenericFrame {
           "haveBoxingDaydream" + this.breakfastType, this.haveBoxingDaydream.isSelected());
       Preferences.setBoolean(
           "harvestBatteries" + this.breakfastType, this.harvestBatteries.isSelected());
+      Preferences.setBoolean(
+          "useBookOfEverySkill" + this.breakfastType, this.useBookOfEverySkill.isSelected());
 
       this.tomeSkills.setPreference();
       this.libramSkills.setPreference();
@@ -2115,6 +2159,8 @@ public class OptionsFrame extends GenericFrame {
           Preferences.getBoolean("haveBoxingDaydream" + this.breakfastType));
       this.harvestBatteries.setSelected(
           Preferences.getBoolean("harvestBatteries" + this.breakfastType));
+      this.useBookOfEverySkill.setSelected(
+          Preferences.getBoolean("useBookOfEverySkill" + this.breakfastType));
     }
 
     @Override

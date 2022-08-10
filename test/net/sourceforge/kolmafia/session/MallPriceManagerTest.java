@@ -139,7 +139,7 @@ public class MallPriceManagerTest {
   }
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("mall price manager user");
@@ -149,13 +149,13 @@ public class MallPriceManagerTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     MallPriceDatabase.savePricesToFile = true;
     Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     // Stop requests from actually running
     GenericRequest.sessionId = null;
     KoLCharacter.setAvailableMeat(1_000_000);

@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.setWorkshed;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -64,7 +64,7 @@ public class MayoMinderCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveMayoMinder() {
-    var cleanups = setWorkshed(ItemPool.MAYO_CLINIC);
+    var cleanups = withWorkshedItem(ItemPool.MAYO_CLINIC);
 
     try (cleanups) {
       String output = execute("mayodiol");
@@ -76,7 +76,8 @@ public class MayoMinderCommandTest extends AbstractCommandTestBase {
 
   @Test
   void canSetMinder() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.MAYO_CLINIC), addItem(ItemPool.MAYO_MINDER));
+    var cleanups =
+        new Cleanups(withWorkshedItem(ItemPool.MAYO_CLINIC), withItem(ItemPool.MAYO_MINDER));
 
     try (cleanups) {
       execute("mayostat");

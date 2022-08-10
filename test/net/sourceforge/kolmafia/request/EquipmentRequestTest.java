@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.setFamiliar;
+import static internal.helpers.Player.withFamiliar;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
@@ -30,7 +30,7 @@ public class EquipmentRequestTest {
     String location = "inventory.php?which=2";
     String responseText = html("request/test_parse_equipment.html");
 
-    var cleanups = new Cleanups(setFamiliar(FamiliarPool.TRICK_TOT));
+    var cleanups = new Cleanups(withFamiliar(FamiliarPool.TRICK_TOT));
 
     try (cleanups) {
       EquipmentRequest.parseEquipment(location, responseText);

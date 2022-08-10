@@ -106,95 +106,126 @@ public class KoLCharacterTest {
 
   @Test
   public void getMaxSongs() {
-    KoLCharacter.setAscensionClass(AscensionClass.ACCORDION_THIEF);
-    equip(EquipmentManager.HAT, "brimstone beret"); // Four Songs (mutex)
-    equip(EquipmentManager.ACCESSORY1, "plexiglass pendant"); // Four Songs (mutex)
-    equip(EquipmentManager.WEAPON, "zombie accordion"); // Additional Song
-    KoLCharacter.addAvailableSkill(SkillPool.MARIACHI_MEMORY); // Additional Song
+    var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.ACCORDION_THIEF),
+            withEquipped(EquipmentManager.HAT, "brimstone beret"), // Four Songs (mutex)
+            withEquipped(EquipmentManager.ACCESSORY1, "plexiglass pendant"), // Four Songs (mutex)
+            withEquipped(EquipmentManager.WEAPON, "zombie accordion"), // Additional Song
+            withSkill(SkillPool.MARIACHI_MEMORY) // Additional Song
+            );
 
-    KoLCharacter.recalculateAdjustments();
-
-    assertEquals(6, KoLCharacter.getMaxSongs());
+    try (cleanups) {
+      KoLCharacter.recalculateAdjustments();
+      assertEquals(6, KoLCharacter.getMaxSongs());
+    }
   }
 
   @Test
   public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
-    inLocation("Noob Cave");
-    addEffect("Colorfully Concealed");
-    KoLCharacter.recalculateAdjustments();
-    assertEquals(0, KoLCharacter.getCombatRateAdjustment());
+    var cleanups = new Cleanups(withLocation("Noob Cave"), withEffect("Colorfully Concealed"));
+
+    try (cleanups) {
+      KoLCharacter.recalculateAdjustments();
+      assertEquals(0, KoLCharacter.getCombatRateAdjustment());
+    }
   }
 
   @Test
   public void underwaterZonesCheckUnderwaterNegativeCombat() {
-    inLocation("The Ice Hole");
-    addEffect("Colorfully Concealed");
-    KoLCharacter.recalculateAdjustments();
-    assertEquals(-5, KoLCharacter.getCombatRateAdjustment());
+    var cleanups = new Cleanups(withLocation("The Ice Hole"), withEffect("Colorfully Concealed"));
+
+    try (cleanups) {
+      KoLCharacter.recalculateAdjustments();
+      assertEquals(-5, KoLCharacter.getCombatRateAdjustment());
+    }
   }
 
   @Test
   public void canFindFamiliarByRace() {
-    hasFamiliar(FamiliarPool.MOSQUITO);
-    hasFamiliar(FamiliarPool.BADGER);
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER));
 
-    var fam = KoLCharacter.findFamiliar("mosquito");
-    assertEquals(FamiliarPool.MOSQUITO, fam.getId());
+    try (cleanups) {
+      var fam = KoLCharacter.findFamiliar("mosquito");
+      assertEquals(FamiliarPool.MOSQUITO, fam.getId());
+    }
   }
 
   @Test
   public void returnsNullIfFamiliarRaceDoesntExist() {
-    hasFamiliar(FamiliarPool.MOSQUITO);
-    hasFamiliar(FamiliarPool.BADGER);
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER));
 
-    var fam = KoLCharacter.findFamiliar("non-existent familiar");
-    assertNull(fam);
+    try (cleanups) {
+      var fam = KoLCharacter.findFamiliar("non-existent familiar");
+      assertNull(fam);
+    }
   }
 
   @Test
   public void canFindFamiliarById() {
-    hasFamiliar(FamiliarPool.MOSQUITO);
-    hasFamiliar(FamiliarPool.BADGER);
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER));
 
-    var fam = KoLCharacter.findFamiliar(FamiliarPool.BADGER);
-    assertEquals(FamiliarPool.BADGER, fam.getId());
+    try (cleanups) {
+      var fam = KoLCharacter.findFamiliar(FamiliarPool.BADGER);
+      assertEquals(FamiliarPool.BADGER, fam.getId());
+    }
   }
 
   @Test
   public void returnsNullIfFamiliarIdDoesntExist() {
-    hasFamiliar(FamiliarPool.MOSQUITO);
-    hasFamiliar(FamiliarPool.BADGER);
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER));
 
-    var fam = KoLCharacter.findFamiliar(13);
-    assertNull(fam);
+    try (cleanups) {
+      var fam = KoLCharacter.findFamiliar(13);
+      assertNull(fam);
+    }
   }
 
   @Test
   public void familiarsWithoutGsDoNotExistInGLover() {
-    hasFamiliar(FamiliarPool.MOSQUITO);
-    hasFamiliar(FamiliarPool.BADGER);
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER),
+            withPath(AscensionPath.Path.GLOVER));
 
-    KoLCharacter.setPath(AscensionPath.Path.GLOVER);
-
-    var fam = KoLCharacter.findFamiliar("mosquito");
-    assertNull(fam);
+    try (cleanups) {
+      var fam = KoLCharacter.findFamiliar("mosquito");
+      assertNull(fam);
+    }
   }
 
   @Test
   public void familiarsWithGsDoExistInGLover() {
-    hasFamiliar(FamiliarPool.MOSQUITO);
-    hasFamiliar(FamiliarPool.BADGER);
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER),
+            withPath(AscensionPath.Path.GLOVER));
 
-    KoLCharacter.setPath(AscensionPath.Path.GLOVER);
-
-    var fam = KoLCharacter.findFamiliar("astral badger");
-    assertEquals(FamiliarPool.BADGER, fam.getId());
+    try (cleanups) {
+      var fam = KoLCharacter.findFamiliar("astral badger");
+      assertEquals(FamiliarPool.BADGER, fam.getId());
+    }
   }
 
   @Test
   public void familiarsWithoutBsDoExistInBeesHateYou() {
     var cleanups =
-        new Cleanups(inPath(AscensionPath.Path.BEES_HATE_YOU), hasFamiliar(FamiliarPool.MU));
+        new Cleanups(
+            withPath(AscensionPath.Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.MU));
 
     try (cleanups) {
       var mu = KoLCharacter.findFamiliar(FamiliarPool.MU);
@@ -206,7 +237,8 @@ public class KoLCharacterTest {
   public void familiarsWithBsDoNotExistInBeesHateYou() {
     var cleanups =
         new Cleanups(
-            inPath(AscensionPath.Path.BEES_HATE_YOU), hasFamiliar(FamiliarPool.CAT_BURGLAR));
+            withPath(AscensionPath.Path.BEES_HATE_YOU),
+            withFamiliarInTerrarium(FamiliarPool.CAT_BURGLAR));
 
     try (cleanups) {
       var mu = KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR);
@@ -216,35 +248,43 @@ public class KoLCharacterTest {
 
   @Test
   public void restrictedFamiliarsDoNotExistInStandard() {
-    hasFamiliar(FamiliarPool.MOSQUITO);
-    hasFamiliar(FamiliarPool.BADGER);
-    KoLCharacter.setRestricted(true);
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER),
+            withRestricted(true));
 
-    var request = new StandardRequest();
-    request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
-    request.processResults();
+    try (cleanups) {
+      var request = new StandardRequest();
+      request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
+      request.processResults();
 
-    var fam = KoLCharacter.findFamiliar("astral badger");
-    assertNull(fam);
+      var fam = KoLCharacter.findFamiliar("astral badger");
+      assertNull(fam);
+    }
   }
 
   @Test
   public void unrestrictedFamiliarsDoExistInStandard() {
-    hasFamiliar(FamiliarPool.MOSQUITO);
-    hasFamiliar(FamiliarPool.BADGER);
-    KoLCharacter.setRestricted(true);
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withFamiliarInTerrarium(FamiliarPool.BADGER),
+            withRestricted(true));
 
-    var request = new StandardRequest();
-    request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
-    request.processResults();
+    try (cleanups) {
+      var request = new StandardRequest();
+      request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
+      request.processResults();
 
-    var fam = KoLCharacter.findFamiliar("mosquito");
-    assertEquals(FamiliarPool.MOSQUITO, fam.getId());
+      var fam = KoLCharacter.findFamiliar("mosquito");
+      assertEquals(FamiliarPool.MOSQUITO, fam.getId());
+    }
   }
 
   @Test
   public void greyGooHasNoStomach() {
-    var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+    var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
     try (cleanups) {
       assertThat(KoLCharacter.getFullnessLimit(), equalTo(0));
@@ -253,7 +293,7 @@ public class KoLCharacterTest {
 
   @Test
   public void greyGooHasNoLiver() {
-    var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+    var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
     try (cleanups) {
       assertThat(KoLCharacter.getInebrietyLimit(), equalTo(0));
@@ -262,7 +302,7 @@ public class KoLCharacterTest {
 
   @Test
   public void greyGooHasNoSpleen() {
-    var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+    var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
     try (cleanups) {
       assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));

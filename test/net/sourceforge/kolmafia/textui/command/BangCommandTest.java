@@ -23,7 +23,7 @@ public class BangCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void identifiesKnownPotions() {
-    Cleanups cleanups = setProperty("lastBangPotion821", "confusion");
+    Cleanups cleanups = withProperty("lastBangPotion821", "confusion");
     try (cleanups) {
       String output = execute("");
       assertThat(output, containsString("bubbly: confusion"));
@@ -32,7 +32,7 @@ public class BangCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void countsPotionsInInventory() {
-    Cleanups cleanups = addItem("bubbly potion");
+    Cleanups cleanups = withItem("bubbly potion");
     try (cleanups) {
       String output = execute("");
       assertThat(output, containsString("bubbly:  (have 1)"));
@@ -41,7 +41,7 @@ public class BangCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void countsPotionsInCloset() {
-    Cleanups cleanups = addItemToCloset("bubbly potion");
+    Cleanups cleanups = withItemInCloset("bubbly potion");
     try (cleanups) {
       String output = execute("");
       assertThat(output, containsString("bubbly:  (have 0, 1 in closet)"));

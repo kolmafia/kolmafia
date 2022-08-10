@@ -2138,6 +2138,38 @@ public abstract class ChoiceManager {
   }
 
   /**
+   * Determine if a request to choice.php showed that we weren't actually in a choice adventure
+   *
+   * @param request Completed request to check
+   * @return If the player was trying to respond to a choice but was not in a choice adventure
+   */
+  public static boolean bogusChoice(final String urlString, final GenericRequest request) {
+    if (!ChoiceManager.handlingChoice
+        || !urlString.startsWith("choice.php")
+        || request.responseText == null) {
+      return false;
+    }
+
+    if (request.responseText.contains("Whoops!  You're not actually in a choice adventure.")) {
+      // Allow a script to simply attempt to visit choice.php.
+      if (!urlString.equals("choice.php")) {
+        if (Preferences.getBoolean("abortOnChoiceWhenNotInChoice")) {
+          KoLmafia.updateDisplay(
+              MafiaState.ABORT, "Whoops! You're not actually in a choice adventure");
+        } else {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "Script submitted " + urlString + " when KoL was not in a choice adventure");
+        }
+      }
+      ChoiceManager.handlingChoice = false;
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Certain requests do not interrupt a choice (i.e. are accessible and do not walk away from the
    * choice)
    */

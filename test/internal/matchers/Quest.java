@@ -1,4 +1,4 @@
-package internal.helpers;
+package internal.matchers;
 
 import static org.hamcrest.Matchers.equalTo;
 

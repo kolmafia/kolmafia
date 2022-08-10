@@ -6318,6 +6318,12 @@ public abstract class ChoiceControl {
       case 1466: // Configure Your Unbreakable Umbrella
         UmbrellaRequest.parseUmbrella(urlString, text);
         break;
+
+      case 1476: // Stillsuit
+        if (ChoiceManager.lastDecision == 1) {
+          StillSuitManager.clearSweat();
+        }
+        break;
     }
   }
 
@@ -7953,6 +7959,9 @@ public abstract class ChoiceControl {
       case 1463:
         LocketManager.parseMonsters(text);
         break;
+      case 1476:
+        StillSuitManager.parseChoice(text);
+        break;
     }
   }
 
@@ -9010,6 +9019,7 @@ public abstract class ChoiceControl {
       case 1197: // Travel back to a Delicious Meal
       case 1217: // Sweet Synthesis
       case 1218: // Wax On
+      case 1219: // Approach the Jellyfish
       case 1233: // Equipment Requisition
       case 1234: // Spacegate Vaccination Machine
       case 1235: // Spacegate Terminal
@@ -9054,6 +9064,7 @@ public abstract class ChoiceControl {
       case 1459: // Chem Lab
       case 1460: // Toy Lab
       case 1463: // Reminiscing About Those Monsters You Fought
+      case 1476: // Stillsuit
         return true;
 
       default:

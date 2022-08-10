@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia;
 
-import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -58,7 +58,7 @@ class ModeableTest {
 
   @Test
   void getState() {
-    var cleanups = setProperty("umbrellaState", "broken");
+    var cleanups = withProperty("umbrellaState", "broken");
 
     try (cleanups) {
       var modeable = Modeable.UMBRELLA;

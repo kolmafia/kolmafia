@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Preference.isSetTo;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public class LocketManagerTest {
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     KoLCharacter.reset("LocketManagerTest");
     Preferences.reset("LocketManagerTest");
   }

@@ -9,7 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -643,6 +642,12 @@ public abstract class RuntimeLibrary {
         new LibraryFunction("session_logs", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
     // Major functions related to adventuring and item management.
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("can_adventure", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("prepare_for_adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("set_location", DataTypes.VOID_TYPE, params));
@@ -1575,6 +1580,12 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.SLOT_TYPE, DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.FAMILIAR_TYPE};
+    functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.FAMILIAR_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.SLOT_TYPE};
@@ -3304,7 +3315,7 @@ public abstract class RuntimeLibrary {
     }
 
     if (value.getType().equals(DataTypes.LOCATION_TYPE)) {
-      return new Value(((KoLAdventure) value.content).getSnarfblat());
+      return new Value(((KoLAdventure) value.content).getAdventureNumber());
     }
 
     return new Value(value.intValue());
@@ -3782,6 +3793,16 @@ public abstract class RuntimeLibrary {
   }
 
   // Major functions related to adventuring and item management.
+
+  public static Value can_adventure(ScriptRuntime controller, final Value arg) {
+    KoLAdventure location = (KoLAdventure) arg.content;
+    return DataTypes.makeBooleanValue(location.canAdventure());
+  }
+
+  public static Value prepare_for_adventure(ScriptRuntime controller, final Value arg) {
+    KoLAdventure location = (KoLAdventure) arg.content;
+    return DataTypes.makeBooleanValue(location.prepareForAdventure());
+  }
 
   public static Value adventure(ScriptRuntime controller, final Value arg1, final Value arg2) {
     boolean countThenLocation =
@@ -6477,10 +6498,32 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value equip(ScriptRuntime controller, final Value arg1, final Value arg2) {
-    boolean slotThenItem = arg1.getType().equals(DataTypes.SLOT_TYPE);
+    boolean destinationThenItem = !arg1.getType().equals(DataTypes.ITEM_TYPE);
 
-    String slot = slotThenItem ? arg1.toString() : arg2.toString();
-    Value item = slotThenItem ? arg2 : arg1;
+    Value destination = destinationThenItem ? arg1 : arg2;
+    Value item = destinationThenItem ? arg2 : arg1;
+
+    // If we're trying to equip an item to a familiar...
+    if (destination.getType().equals(DataTypes.FAMILIAR_TYPE)) {
+      var familiar = new FamiliarData((int) destination.intValue());
+      if (KoLCharacter.getFamiliar().equals(familiar)) {
+        // ...which is our current familiar, just use the "familiar" slot
+        destination = new Value("familiar");
+      } else {
+        // ...otherwise check if we can equip it...
+        var it = ItemPool.get((int) item.intValue());
+
+        if (!familiar.canEquip(it)) {
+          return DataTypes.FALSE_VALUE;
+        }
+
+        // ...and fire a request to do so.
+        RequestThread.postRequest(new FamiliarRequest(familiar, it));
+        return RuntimeLibrary.continueValue();
+      }
+    }
+
+    var slot = destination.toString();
 
     if (item.equals(DataTypes.ITEM_INIT)) {
       KoLmafiaCLI.DEFAULT_SHELL.executeCommand("unequip", slot);
@@ -8746,10 +8789,7 @@ public abstract class RuntimeLibrary {
     // lastChangedAuthor
     rec.aset(3, new Value(info.lastChangedAuthor()), interpreter);
     // lastChangedDate
-    // use format that is similar to what 'git show' gives, ex:
-    // Date: Sat Jul 16 11:40:35 2022 +0100
-    var fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy z");
-    var date = fmt.format(info.lastChangedDate());
+    var date = GitManager.formatCommitDate(info.lastChangedDate());
     rec.aset(4, new Value(date), interpreter);
 
     return rec;

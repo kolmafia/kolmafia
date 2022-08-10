@@ -1,16 +1,17 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
-import static internal.helpers.Preference.isSetTo;
-import static internal.helpers.Quest.isStep;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
+import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -66,7 +67,7 @@ class ChoiceControlTest {
       ItemPool.FURIOUS_STONE + ", The Bat in the Spats",
     })
     public void testOfYourMettleSetsNextBoss(String stoneId, String monster) {
-      var cleanups = new Cleanups(addItem(Integer.parseInt(stoneId)));
+      var cleanups = new Cleanups(withItem(Integer.parseInt(stoneId)));
 
       try (cleanups) {
         var choice = withPostChoice2(563, 1);
@@ -103,7 +104,7 @@ class ChoiceControlTest {
       ItemPool.LECHEROUS_STONE + ", Thug 1 and Thug 2",
     })
     public void choiceToBeMadeSetsNextBoss(String stoneId, String monster) {
-      var cleanups = new Cleanups(addItem(Integer.parseInt(stoneId)));
+      var cleanups = new Cleanups(withItem(Integer.parseInt(stoneId)));
 
       try (cleanups) {
         var choice = withPostChoice2(566, 1);
@@ -140,7 +141,7 @@ class ChoiceControlTest {
       ItemPool.AVARICE_STONE + ", The Large-Bellied Snitch",
     })
     public void oneMoreDemonToSlaySetsBoss(String stoneId, String monster) {
-      var cleanups = new Cleanups(addItem(Integer.parseInt(stoneId)));
+      var cleanups = new Cleanups(withItem(Integer.parseInt(stoneId)));
 
       try (cleanups) {
         var choice = withPostChoice2(569, 1);
@@ -157,7 +158,7 @@ class ChoiceControlTest {
     @ParameterizedTest
     @CsvSource({"ice_crown, 0", "frozen_jeans, 1", "ice_wrap, 2"})
     void seeingEquipmentCorrectsTotalTakenToday(String itemSlug, int impliedEquipmentTaken) {
-      var cleanups = new Cleanups(setProperty("_coldMedicineEquipmentTaken", -1));
+      var cleanups = new Cleanups(withProperty("_coldMedicineEquipmentTaken", -1));
 
       try (cleanups) {
         var urlString = "choice.php?forceoption=0";
@@ -174,10 +175,43 @@ class ChoiceControlTest {
     @Test
     void takingEquipmentIncrementsCounter() {
       var cleanups =
-          new Cleanups(setProperty("_coldMedicineEquipmentTaken", 0), withPostChoice1(1455, 1));
+          new Cleanups(withProperty("_coldMedicineEquipmentTaken", 0), withPostChoice1(1455, 1));
 
       try (cleanups) {
         assertThat("_coldMedicineEquipmentTaken", isSetTo(1));
+      }
+    }
+  }
+
+  @Nested
+  class StillSuit {
+    @Test
+    void canReadInformationFromChoicePage() {
+      var cleanups = new Cleanups(withProperty("familiarSweat"));
+
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        var urlString = "choice.php?forceoption=0";
+        var responseText = html("request/test_choice_stillsuit.html");
+        var request = new GenericRequest(urlString);
+        request.responseText = responseText;
+        ChoiceManager.preChoice(request);
+        request.processResponse();
+
+        assertThat("familiarSweat", isSetTo(81));
+        assertThat(
+            RequestLoggerOutput.stopStream(),
+            is(
+                "Your next distillate will give you: Experience (Muscle): +5, Experience (Moxie): +4, Spooky Damage: +15, Spooky Spell Damage: +25\n"));
+      }
+    }
+
+    @Test
+    void drinkingSweatClearsPrefs() {
+      var cleanups = new Cleanups(withProperty("familiarSweat", 1234), withPostChoice2(1476, 1));
+
+      try (cleanups) {
+        assertThat("familiarSweat", isSetTo(0));
       }
     }
   }

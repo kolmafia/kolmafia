@@ -3,11 +3,14 @@ package net.sourceforge.kolmafia.persistence;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class AdventureDatabaseTest {
 
@@ -41,6 +44,18 @@ public class AdventureDatabaseTest {
     public void getAdventureReturnsNullOnManyMatch() {
       var adventure = AdventureDatabase.getAdventure("S");
       assertThat(adventure, is(nullValue()));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "Hippy Camp (Hippy Disguise), Hippy Camp in Disguise",
+      "Frat House (Frat Disguise), Frat House in Disguise",
+      "The Junkyard, Post-War Junkyard",
+    })
+    public void getAdventureRecognizesLegacySynonyms(String name, String synonym) {
+      var adventure1 = AdventureDatabase.getAdventure(name);
+      var adventure2 = AdventureDatabase.getAdventure(synonym);
+      assertEquals(adventure1, adventure2);
     }
   }
 

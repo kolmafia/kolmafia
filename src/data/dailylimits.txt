@@ -164,6 +164,7 @@ Use	STYX deodorant body spray	_styxSprayUsed
 Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed
 Use	Stabonic scroll	_stabonicScrollUsed
 Use	Taco Dan's Taco Stand Flier	_tacoFlierUsed
+Use	The Big Book of Every Skill	_bookOfEverySkillUsed
 Use	The Cocktail Shaker	_cocktailShakerUsed
 Use	The Legendary Beat	_legendaryBeat
 Use	Trivial Avocations board game	_trivialAvocationsGame

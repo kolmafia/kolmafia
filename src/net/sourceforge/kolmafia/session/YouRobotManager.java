@@ -647,6 +647,7 @@ public abstract class YouRobotManager {
       boolean changed = false;
 
       if (upgrade == null) {
+        visitChoice(request);
         return;
       }
 

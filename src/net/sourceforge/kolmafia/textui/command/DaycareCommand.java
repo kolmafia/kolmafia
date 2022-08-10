@@ -7,7 +7,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class DaycareCommand extends AbstractCommand {
   public DaycareCommand() {
-    this.usage = " [ item | muscle | mysticality | moxie | regen ] - get the item or buff";
+    this.usage =
+        " [ item | muscle | mysticality | moxie | regen | scavenge [free] ] - scavenge or get the item or buff";
   }
 
   @Override
@@ -24,6 +25,17 @@ public class DaycareCommand extends AbstractCommand {
       RequestThread.postRequest(
           new GenericRequest("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1334&option=1"));
+    } else if (parameters.contains("scavenge")) {
+      if (parameters.contains("free") && Preferences.getInteger("_daycareGymScavenges") != 0) {
+        KoLmafia.updateDisplay("You have already used your free scavenge for gym equipment today");
+        return;
+      }
+      RequestThread.postRequest(
+          new GenericRequest("place.php?whichplace=town_wrong&action=townwrong_boxingdaycare"));
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1334&option=3"));
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1336&option=2"));
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1336&option=5"));
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1334&option=4"));
     } else {
       int choice = 0;
       if (parameters.contains("mus")) {

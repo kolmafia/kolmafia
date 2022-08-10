@@ -2,9 +2,9 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.addEffect;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.setWorkshed;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -42,7 +42,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void failsifNotAsdonMartin() {
-    var cleanups = setWorkshed(ItemPool.DNA_LAB);
+    var cleanups = withWorkshedItem(ItemPool.DNA_LAB);
 
     try (cleanups) {
       String output = execute("");
@@ -53,7 +53,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void providesUsageIfNoParameters() {
-    var cleanups = setWorkshed(ItemPool.ASDON_MARTIN);
+    var cleanups = withWorkshedItem(ItemPool.ASDON_MARTIN);
 
     try (cleanups) {
       String output = execute("");
@@ -66,7 +66,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void providesUsageIfDriveWithNoEffect() {
-    var cleanups = setWorkshed(ItemPool.ASDON_MARTIN);
+    var cleanups = withWorkshedItem(ItemPool.ASDON_MARTIN);
 
     try (cleanups) {
       String output = execute("drive");
@@ -79,7 +79,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveClearErrorsIfNoStyle() {
-    var cleanups = setWorkshed(ItemPool.ASDON_MARTIN);
+    var cleanups = withWorkshedItem(ItemPool.ASDON_MARTIN);
 
     try (cleanups) {
       String output = execute("drive clear");
@@ -91,7 +91,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   @Test
   void driveClearClearsStyle() {
     var cleanups =
-        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"));
+        new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"));
 
     try (cleanups) {
       execute("drive clear");
@@ -106,7 +106,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveUnrecognisedErrors() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN));
 
     try (cleanups) {
       String output = execute("drive dangerously");
@@ -117,7 +117,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveNoFuelErrors() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN));
 
     try (cleanups) {
       String output = execute("drive obnoxiously");
@@ -127,7 +127,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveNoEffectsAdds() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), setFuel());
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), setFuel());
 
     try (cleanups) {
       execute("drive obnoxiously");
@@ -143,7 +143,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   void driveSameEffectExtends() {
     var cleanups =
         new Cleanups(
-            setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"), setFuel());
+            withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"), setFuel());
 
     try (cleanups) {
       execute("drive obnoxiously");
@@ -162,7 +162,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   void driveNewEffectRemovesAndAdds() {
     var cleanups =
         new Cleanups(
-            setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"), setFuel());
+            withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"), setFuel());
 
     try (cleanups) {
       execute("drive observantly");
@@ -178,7 +178,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void fuelInvalidErrors() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN));
 
     try (cleanups) {
       String output = execute("fuel foobar");
@@ -189,7 +189,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void fuelAbsentErrors() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN));
 
     try (cleanups) {
       String output = execute("fuel 10 soda bread");
@@ -201,7 +201,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   @Test
   void fuelValidSendsRequest() {
     var cleanups =
-        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addItem("loaf of soda bread", 10));
+        new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withItem("loaf of soda bread", 10));
 
     try (cleanups) {
       execute("fuel 10 soda bread");
@@ -216,7 +216,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   @Test
   void fuelZeroDoesNotSendRequest() {
     var cleanups =
-        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addItem("loaf of soda bread", 10));
+        new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withItem("loaf of soda bread", 10));
 
     try (cleanups) {
       execute("fuel 0 soda bread");

@@ -1586,7 +1586,6 @@ Item	miracle whip	Initiative: +50, Weapon Damage: +50, Item Drop: +50, Meat Drop
 # Mjolnir Jr.
 Item	Moonthril Flamberge	Muscle Percent: [15*G]
 Item	Moonthril Longbow	Moxie Percent: [15*G]
-Item	mother's necklace	Adventures: +3, Never Fumble
 Item	muculent machete	Muscle: +2, Meat Drop: +5
 # murderbot plasma rifle: Can be used to instantly kill Spants
 Item	murderbot plasma rifle	Hot Damage: +25, Reduce Enemy Defense: 10
@@ -3234,6 +3233,7 @@ Item	monster bait	Combat Rate: +5, Single Equip
 Item	monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 # mood ring
 Item	moon-amber necklace	Spell Damage Percent: +50, Maximum MP: +200, Mysticality Percent: [5*G], Single Equip
+Item	mother's necklace	Adventures: +3, Never Fumble
 Item	moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Single Equip
 Item	Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
@@ -4404,6 +4404,7 @@ Item	tiny Mountie hat	Familiar Weight: +5
 Item	tiny prop sword	Familiar Weight: +5
 Item	tiny shaker of salt	Familiar Weight: +5
 Item	tiny sombrero	Sombrero Bonus: +10
+Item	tiny stillsuit	Familiar Weight: +5, Experience (familiar): +1, Familiar Damage: +10, Generic
 # tiny top hat and cane: Lets your Li'l Xenomorph dance!
 # tiny top hat and cane: (adds item0 to familiar abilities)
 Item	tiny top hat and cane	Fairy: 1.0
@@ -11940,6 +11941,7 @@ Item	Unmotivator: Success Warrior	Free Pull
 Item	unopened Bird-a-Day calendar	Free Pull
 Item	unopened diabolic pizza cube box	Free Pull
 Item	Unopened Eight Days a Week Pill Keeper	Free Pull
+Item	unopened tiny stillsuit	Free Pull
 Item	unpowered Robortender	Free Pull
 # unrefined Mountain Stream syrup: Restores 50-60 MP
 # unstable laser battery: Deals 200-250 <font color=red>Hot Damage</font>

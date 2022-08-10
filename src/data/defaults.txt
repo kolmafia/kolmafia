@@ -1,4 +1,5 @@
 1
+global	abortOnChoiceWhenNotInChoice	true
 global	addChatCommandLine	false
 global	addCreationQueue	true
 global	addStatusBarToFrames	false
@@ -48,6 +49,8 @@ global	externalEditor
 global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
+global	gitInstallDependencies	true
+global	gitShowCommitMessages	false
 global	gitUpdateOnLogin	false
 global	greenScreenProtection	false
 global	guiUsesOneWindow	false
@@ -578,6 +581,7 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
+user	familiarSweat	0
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false
 user	fireExtinguisherChasmUsed	false
@@ -1443,6 +1447,8 @@ user	usableOffhands	1
 user	usableOther	1
 user	usablePants	2
 user	usableShirts	1
+user	useBookOfEverySkillHardcore	true
+user	useBookOfEverySkillSoftcore	true
 user	useCrimboToysHardcore	false
 user	useCrimboToysSoftcore	true
 user	valueOfAdventure	500
@@ -1560,6 +1566,7 @@ user	_birdsSoughtToday	0
 user	_bittycar
 user	_blankoutUsed	false
 user	_bonersSummoned	false
+user	_bookOfEverySkillUsed	false
 user	_boomBoxFights	9
 user	_boomBoxSongsLeft	11
 user	_bootStomps	0
@@ -1978,6 +1985,7 @@ user	_pocketProfessorLectures	0
 user	_poisonArrows	0
 user	_pokeGrowFertilizerDrops	0
 user	_poolGames	0
+user	_pottedPowerPlant
 user	_pottedTeaTreeUsed	false
 user	_powderedGoldDrops	0
 user	_powderedMadnessUses	0

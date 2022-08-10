@@ -644,7 +644,7 @@ public class QuestManager {
       }
     }
     // Derive quest status from available rooms
-    if (responseText.contains("snarfblat=" + AdventurePool.HAUNTED_KITCHEN_ID)) {
+    if (responseText.contains("snarfblat=" + AdventurePool.HAUNTED_KITCHEN)) {
       QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED);
     }
     if (responseText.contains("whichplace=manor2")) {
@@ -662,21 +662,22 @@ public class QuestManager {
     if (!responseText.contains("Spookyraven Manor Second Floor")) {
       return;
     }
+    int area = AdventureRequest.parseArea(location);
     if (location.contains("action=manor2_ladys")) {
       if (responseText.contains("just want to dance")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1");
       }
     }
-    if (location.contains(AdventurePool.HAUNTED_BALLROOM_ID)) {
+    if (area == AdventurePool.HAUNTED_BALLROOM) {
       if (responseText.contains("Having a Ball in the Ballroom")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
       }
     }
     // Derive quest status from available rooms
-    if (responseText.contains("snarfblat=" + AdventurePool.HAUNTED_BATHROOM_ID)) {
+    if (responseText.contains("snarfblat=" + AdventurePool.HAUNTED_BATHROOM)) {
       QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, "step1");
     }
-    if (responseText.contains("snarfblat=" + AdventurePool.HAUNTED_BALLROOM_ID)) {
+    if (responseText.contains("snarfblat=" + AdventurePool.HAUNTED_BALLROOM)) {
       QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, "step3");
     }
     if (responseText.contains("whichplace=manor3")) {
@@ -689,18 +690,19 @@ public class QuestManager {
   }
 
   public static final void handlePyramidChange(final String location, final String responseText) {
+    int area = AdventureRequest.parseArea(location);
     if (location.contains("action=db_pyramid1") || location.contains("action=expl_pyramidpre")) {
       // Unlock Pyramid
       if (responseText.contains("the model bursts into flames and is quickly consumed")) {
         QuestDatabase.setQuestProgress(Quest.PYRAMID, QuestDatabase.STARTED);
       }
-    } else if (location.contains(AdventurePool.UPPER_CHAMBER_ID)) {
+    } else if (area == AdventurePool.UPPER_CHAMBER) {
       if (responseText.contains("Down Dooby-Doo Down Down")) {
         // Open Middle Chamber
         Preferences.setBoolean("middleChamberUnlock", true);
         QuestDatabase.setQuestProgress(Quest.PYRAMID, "step1");
       }
-    } else if (location.contains(AdventurePool.MIDDLE_CHAMBER_ID)) {
+    } else if (area == AdventurePool.MIDDLE_CHAMBER) {
       if (responseText.contains("Further Down Dooby-Doo Down Down")) {
         // Open Lower Chamber
         Preferences.setBoolean("lowerChamberUnlock", true);
@@ -751,12 +753,13 @@ public class QuestManager {
   }
 
   public static final void handleAirportChange(final String location, final String responseText) {
+    int area = AdventureRequest.parseArea(location);
     // Check Cold settings
     if (!Preferences.getBoolean("coldAirportAlways")) {
       // Detect if Airport is open today
-      if (location.contains(AdventurePool.ICE_HOTEL_ID)
-          || location.contains(AdventurePool.VYKEA_ID)
-          || location.contains(AdventurePool.ICE_HOLE_ID)
+      if (area == AdventurePool.ICE_HOTEL
+          || area == AdventurePool.VYKEA
+          || area == AdventurePool.ICE_HOLE
           || location.contains("whichplace=airport_cold")) {
         if (!responseText.contains("You don't know where that is.")
             && !responseText.contains("That isn't a place you can go.")) {
@@ -772,10 +775,10 @@ public class QuestManager {
     // Check Hot settings
     if (!Preferences.getBoolean("hotAirportAlways")) {
       // Detect if Airport is open today
-      if (location.contains(AdventurePool.SMOOCH_ARMY_HQ_ID)
-          || location.contains(AdventurePool.VELVET_GOLD_MINE_ID)
-          || location.contains(AdventurePool.LAVACO_LAMP_FACTORY_ID)
-          || location.contains(AdventurePool.BUBBLIN_CALDERA_ID)
+      if (area == AdventurePool.SMOOCH_ARMY_HQ
+          || area == AdventurePool.VELVET_GOLD_MINE
+          || area == AdventurePool.LAVACO_LAMP_FACTORY
+          || area == AdventurePool.BUBBLIN_CALDERA
           || location.contains("whichplace=airport_hot")) {
         if (!responseText.contains("You don't know where that is.")
             && !responseText.contains("That isn't a place you can go.")) {
@@ -791,9 +794,9 @@ public class QuestManager {
     // Check Sleaze settings
     if (!Preferences.getBoolean("sleazeAirportAlways")) {
       // Detect if Airport is open today
-      if (location.contains(AdventurePool.FUN_GUY_MANSION_ID)
-          || location.contains(AdventurePool.SLOPPY_SECONDS_DINER_ID)
-          || location.contains(AdventurePool.YACHT_ID)
+      if (area == AdventurePool.FUN_GUY_MANSION
+          || area == AdventurePool.SLOPPY_SECONDS_DINER
+          || area == AdventurePool.YACHT
           || location.contains("whichplace=airport_sleaze")) {
         if (!responseText.contains("You don't know where that is.")
             && !responseText.contains("That isn't a place you can go.")) {
@@ -809,9 +812,9 @@ public class QuestManager {
     // Check Spooky settings
     if (!Preferences.getBoolean("spookyAirportAlways")) {
       // Detect if Airport is open today
-      if (location.contains(AdventurePool.DR_WEIRDEAUX_ID)
-          || location.contains(AdventurePool.SECRET_GOVERNMENT_LAB_ID)
-          || location.contains(AdventurePool.DEEP_DARK_JUNGLE_ID)
+      if (area == AdventurePool.DR_WEIRDEAUX
+          || area == AdventurePool.SECRET_GOVERNMENT_LAB
+          || area == AdventurePool.DEEP_DARK_JUNGLE
           || location.contains("whichplace=airport_spooky")) {
         if (!responseText.contains("You don't know where that is.")
             && !responseText.contains("That isn't a place you can go.")) {
@@ -827,10 +830,10 @@ public class QuestManager {
     // Check Stench settings
     if (!Preferences.getBoolean("stenchAirportAlways")) {
       // Detect if Airport is open today
-      if (location.contains(AdventurePool.BARF_MOUNTAIN_ID)
-          || location.contains(AdventurePool.GARBAGE_BARGES_ID)
-          || location.contains(AdventurePool.TOXIC_TEACUPS_ID)
-          || location.contains(AdventurePool.LIQUID_WASTE_SLUICE_ID)
+      if (area == AdventurePool.BARF_MOUNTAIN
+          || area == AdventurePool.GARBAGE_BARGES
+          || area == AdventurePool.TOXIC_TEACUPS
+          || area == AdventurePool.LIQUID_WASTE_SLUICE
           || location.contains("whichplace=airport_stench")) {
         if (!responseText.contains("You don't know where that is.")
             && !responseText.contains("That isn't a place you can go.")) {
@@ -1101,6 +1104,7 @@ public class QuestManager {
   }
 
   private static void handleSeaChange(final String location, final String responseText) {
+    int area = AdventureRequest.parseArea(location);
     if (location.contains("action=oldman_oldman")
         && responseText.contains("have you found my boot yet?")) {
       QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
@@ -1128,21 +1132,21 @@ public class QuestManager {
       } else if (responseText.contains("Gonna need one of them seahorses")) {
         Preferences.setBoolean("corralUnlocked", true);
       }
-    } else if (location.contains(AdventurePool.MARINARA_TRENCH_ID)
+    } else if (area == AdventurePool.MARINARA_TRENCH
         && responseText.contains("Show me what you've found, Old Timer")) {
       QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (location.contains(AdventurePool.ANENOME_MINE_ID)
+    } else if (area == AdventurePool.ANENOME_MINE
         && responseText.contains("Sure, kid. I can teach you a thing or two")) {
       QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (location.contains(AdventurePool.DIVE_BAR_ID)
+    } else if (area == AdventurePool.DIVE_BAR
         && (responseText.contains("What causes these things to form?")
             || responseText.contains("what is that divine instrument?"))) {
       QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (location.contains(AdventurePool.MERKIN_OUTPOST_ID)
+    } else if (area == AdventurePool.MERKIN_OUTPOST
         && responseText.contains("Phew, that was a close one")) {
       QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step9");
       ConcoctionDatabase.setRefreshNeeded(false);
-    } else if (location.contains(AdventurePool.CALIGINOUS_ABYSS_ID)
+    } else if (area == AdventurePool.CALIGINOUS_ABYSS
         && responseText.contains("I should get dinner on the table for the boys")) {
       QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
     }
@@ -1201,27 +1205,28 @@ public class QuestManager {
 
   public static final void handleBeanstalkChange(final String location, final String responseText) {
     // If you can adventure in areas, it tells us about quests
-    if (location.contains(AdventurePool.AIRSHIP_ID)) {
+    int area = AdventureRequest.parseArea(location);
+    if (area == AdventurePool.AIRSHIP) {
       // Airship available
       QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step1");
       if (responseText.contains("we're looking for the Four Immateria")) {
         QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step2");
       }
-    } else if (location.contains(AdventurePool.CASTLE_BASEMENT_ID)) {
+    } else if (area == AdventurePool.CASTLE_BASEMENT) {
       // Castle basement available
       QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step7");
       if (responseText.contains("New Area Unlocked") && responseText.contains("The Ground Floor")) {
         Preferences.setInteger("lastCastleGroundUnlock", KoLCharacter.getAscensions());
         QuestDatabase.setQuestProgress(Quest.GARBAGE, "step8");
       }
-    } else if (location.contains(AdventurePool.CASTLE_GROUND_ID)) {
+    } else if (area == AdventurePool.CASTLE_GROUND) {
       // Castle Ground floor available
       QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step8");
       if (responseText.contains("New Area Unlocked") && responseText.contains("The Top Floor")) {
         Preferences.setInteger("lastCastleTopUnlock", KoLCharacter.getAscensions());
         QuestDatabase.setQuestProgress(Quest.GARBAGE, "step9");
       }
-    } else if (location.contains(AdventurePool.CASTLE_TOP_ID)
+    } else if (area == AdventurePool.CASTLE_TOP
         && !responseText.contains("You have to learn to walk")
         && !responseText.contains("You'll have to figure out some other way")) {
       // Castle Top floor available
@@ -1370,14 +1375,13 @@ public class QuestManager {
       ResultProcessor.removeItem(ItemPool.MOSQUITO_LARVA);
     }
     QuestDatabase.handleCouncilText(responseText);
-    if (QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, QuestDatabase.UNSTARTED)) {
+    if (QuestDatabase.isQuestStarted(Quest.MACGUFFIN)) {
       QuestDatabase.setQuestIfBetter(Quest.BLACK, QuestDatabase.STARTED);
     }
   }
 
   public static final void unlockGoatlet() {
-    AdventureRequest goatlet =
-        new AdventureRequest("Goatlet", "adventure.php", AdventurePool.GOATLET_ID);
+    AdventureRequest goatlet = new AdventureRequest("Goatlet", AdventurePool.GOATLET);
 
     if (KoLCharacter.inFistcore()) {
       // You can actually get here without knowing Worldpunch
@@ -1637,7 +1641,7 @@ public class QuestManager {
     } else if (monsterName.equals("E.V.E., the robot zombie")) {
       QuestDatabase.setQuestProgress(Quest.EVE, "step1");
     } else if (monsterName.equals("writing desk")) {
-      if (QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED)
+      if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)
           && !InventoryManager.hasItem(ItemPool.SPOOKYRAVEN_NECKLACE)
           && !QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)) {
         Preferences.increment("writingDesksDefeated", 1, 5, false);
@@ -1997,7 +2001,7 @@ public class QuestManager {
         break;
 
       case AdventurePool.GARBAGE_BARGES:
-        if (QuestDatabase.isQuestLaterThan(Quest.SOCIAL_JUSTICE_I, QuestDatabase.UNSTARTED)) {
+        if (QuestDatabase.isQuestStarted(Quest.SOCIAL_JUSTICE_I)) {
           Preferences.increment("dinseySocialJusticeIProgress", 1);
         } else if (responseText.contains("probably not embarrassingly sexist anymore")) {
           Preferences.setInteger("dinseySocialJusticeIProgress", 15);
