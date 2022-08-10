@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
@@ -34,7 +35,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -538,11 +538,6 @@ public class KoLAdventureValidationTest {
       zones.clear();
     }
 
-    @AfterEach
-    public void afterEach() {
-      EquipmentManager.updateNormalOutfits();
-    }
-
     @Test
     public void cannotVisitPiratesWithoutIslandAccess() {
       var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
@@ -595,7 +590,6 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
         assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
@@ -633,7 +627,6 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
         assertFalse(zones.get(AdventurePool.FCLE).canAdventure());
@@ -654,7 +647,6 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, "step5"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
         assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
@@ -675,7 +667,6 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, "step6"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
         assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
@@ -696,7 +687,6 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP));
         assertTrue(zones.get(AdventurePool.BARRRNEYS_BARRR).canAdventure());
         assertTrue(zones.get(AdventurePool.FCLE).canAdventure());
@@ -816,12 +806,9 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withItem("filthy knitted dread sack"),
-              withItem("filthy corduroys"),
-              // Have stats for Filthy Hippy Disguise
-              withStats(15, 15, 15));
+              withEquippableItem("filthy knitted dread sack"),
+              withEquippableItem("filthy corduroys"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
         var requests = getRequests();
@@ -848,12 +835,9 @@ public class KoLAdventureValidationTest {
               withItem("bullet-proof corduroys"),
               withItem("round purple sunglasses"),
               // Filthy Hippy Disguise
-              withItem("filthy knitted dread sack"),
-              withItem("filthy corduroys"),
-              // Have stats only for Filthy Hippy Disguise
-              withStats(15, 15, 15));
+              withEquippableItem("filthy knitted dread sack"),
+              withEquippableItem("filthy corduroys"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
@@ -877,16 +861,13 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               // Have War Hippy Fatigues
-              withItem("reinforced beaded headband"),
-              withItem("bullet-proof corduroys"),
-              withItem("round purple sunglasses"),
+              withEquippableItem("reinforced beaded headband"),
+              withEquippableItem("bullet-proof corduroys"),
+              withEquippableItem("round purple sunglasses"),
               // Filthy Hippy Disguise
-              withItem("filthy knitted dread sack"),
-              withItem("filthy corduroys"),
-              // Have stats sufficient for War Hippy Fatigues
-              withStats(70, 70, 70));
+              withEquippableItem("filthy knitted dread sack"),
+              withEquippableItem("filthy corduroys"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
@@ -950,13 +931,10 @@ public class KoLAdventureValidationTest {
               withItem("distressed denim pants"),
               withItem("bejeweled pledge pin"),
               // Frat Boy Ensemble
-              withItem("Orcish baseball cap"),
-              withItem("Orcish cargo shorts"),
-              withItem("Orcish frat-paddle"),
-              // Have stats only for Frat Boy Ensemble
-              withStats(20, 15, 15));
+              withEquippableItem("Orcish baseball cap"),
+              withEquippableItem("Orcish cargo shorts"),
+              withEquippableItem("Orcish frat-paddle"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
@@ -981,17 +959,14 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
               // War Frat Fatigues
-              withItem("beer helmet"),
-              withItem("distressed denim pants"),
-              withItem("bejeweled pledge pin"),
+              withEquippableItem("beer helmet"),
+              withEquippableItem("distressed denim pants"),
+              withEquippableItem("bejeweled pledge pin"),
               // Frat Boy Ensemble
-              withItem("Orcish baseball cap"),
-              withItem("Orcish cargo shorts"),
-              withItem("Orcish frat-paddle"),
-              // Have stats sufficient for War Frat Fatigues
-              withStats(70, 70, 70));
+              withEquippableItem("Orcish baseball cap"),
+              withEquippableItem("Orcish cargo shorts"),
+              withEquippableItem("Orcish frat-paddle"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
@@ -1202,13 +1177,10 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withItem("Orcish baseball cap"),
-              withItem("Orcish cargo shorts"),
-              withItem("Orcish frat-paddle"),
-              // Have stats for Frat Boy Ensemble
-              withStats(20, 15, 15));
+              withEquippableItem("Orcish baseball cap"),
+              withEquippableItem("Orcish cargo shorts"),
+              withEquippableItem("Orcish frat-paddle"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
         var requests = getRequests();
@@ -1235,13 +1207,10 @@ public class KoLAdventureValidationTest {
               withItem("distressed denim pants"),
               withItem("bejeweled pledge pin"),
               // Frat Boy Ensemble
-              withItem("Orcish baseball cap"),
-              withItem("Orcish cargo shorts"),
-              withItem("Orcish frat-paddle"),
-              // Have stats only for Frat Boy Ensemble
-              withStats(20, 15, 15));
+              withEquippableItem("Orcish baseball cap"),
+              withEquippableItem("Orcish cargo shorts"),
+              withEquippableItem("Orcish frat-paddle"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
@@ -1265,17 +1234,14 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               // War Frat Fatigues
-              withItem("beer helmet"),
-              withItem("distressed denim pants"),
-              withItem("bejeweled pledge pin"),
+              withEquippableItem("beer helmet"),
+              withEquippableItem("distressed denim pants"),
+              withEquippableItem("bejeweled pledge pin"),
               // Frat Boy Ensemble
-              withItem("Orcish baseball cap"),
-              withItem("Orcish cargo shorts"),
-              withItem("Orcish frat-paddle"),
-              // Have stats sufficient for War Frat Fatigues
-              withStats(70, 70, 70));
+              withEquippableItem("Orcish baseball cap"),
+              withEquippableItem("Orcish cargo shorts"),
+              withEquippableItem("Orcish frat-paddle"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
@@ -1338,12 +1304,9 @@ public class KoLAdventureValidationTest {
               withItem("bullet-proof corduroys"),
               withItem("round purple sunglasses"),
               // Filthy Hippy Disguise
-              withItem("filthy knitted dread sack"),
-              withItem("filthy corduroys"),
-              // Have stats only for Filthy Hippy Disguise
-              withStats(15, 15, 15));
+              withEquippableItem("filthy knitted dread sack"),
+              withEquippableItem("filthy corduroys"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
@@ -1368,16 +1331,13 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
               // Have War Hippy Fatigues
-              withItem("reinforced beaded headband"),
-              withItem("bullet-proof corduroys"),
-              withItem("round purple sunglasses"),
+              withEquippableItem("reinforced beaded headband"),
+              withEquippableItem("bullet-proof corduroys"),
+              withEquippableItem("round purple sunglasses"),
               // Filthy Hippy Disguise
-              withItem("filthy knitted dread sack"),
-              withItem("filthy corduroys"),
-              // Have stats sufficient for War Hippy Fatigues
-              withStats(70, 70, 70));
+              withEquippableItem("filthy knitted dread sack"),
+              withEquippableItem("filthy corduroys"));
       try (cleanups) {
-        EquipmentManager.updateNormalOutfits();
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());

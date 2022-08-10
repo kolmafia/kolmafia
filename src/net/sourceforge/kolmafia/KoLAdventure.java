@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1975,18 +1976,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
+  private int getFirstAvailableOutfitId(int... ids) {
+    return Arrays.stream(ids).filter(EquipmentManager::hasOutfit).findFirst().orElse(0);
+  }
+
   public int getOutfitId() {
     return switch (this.adventureNumber) {
       case AdventurePool.FRAT_HOUSE_DISGUISED, AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED ->
       // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
-      EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)
-          ? OutfitPool.WAR_FRAT_OUTFIT
-          : EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT) ? OutfitPool.FRAT_OUTFIT : 0;
+      getFirstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
       case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED, AdventurePool.HIPPY_CAMP_DISGUISED ->
       // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
-      EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
-          ? OutfitPool.WAR_HIPPY_OUTFIT
-          : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
+      getFirstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
       case AdventurePool.CLOACA_BATTLEFIELD -> OutfitPool.CLOACA_UNIFORM;
       case AdventurePool.DYSPEPSI_BATTLEFIELD -> OutfitPool.DYSPEPSI_UNIFORM;
       case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> OutfitPool.WAR_FRAT_OUTFIT;
