@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.session.ValhallaManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -448,20 +447,6 @@ class PreferencesTest {
     Preferences.resetPerAscension();
     // confirm changed
     assertNotEquals(val, Preferences.getInteger(name));
-  }
-
-  @Test
-  void countsAscensions() {
-    String name = "ascensionsToday";
-    int beforeAscension = 1;
-    int afterAscension = 2;
-
-    // Confirm it was set
-    Preferences.setInteger(name, beforeAscension);
-    // reset
-    ValhallaManager.onAscension();
-    // confirm changed
-    assertEquals(afterAscension, Preferences.getInteger(name));
   }
 
   void resetRolloverProperties() {
