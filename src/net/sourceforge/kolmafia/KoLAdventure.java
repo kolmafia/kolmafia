@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -383,6 +384,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult PIRATE_FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult DRIP_HARNESS = ItemPool.get(ItemPool.DRIP_HARNESS, 1);
   private static final AdventureResult FANTASY_REALM_GEM = ItemPool.get(ItemPool.FANTASY_REALM_GEM);
+  private static final AdventureResult BONE_WITH_A_PRICE_TAG =
+      ItemPool.get(ItemPool.BONE_WITH_A_PRICE_TAG);
+  private static final AdventureResult BOOZE_MAP = ItemPool.get(ItemPool.BOOZE_MAP);
+  private static final AdventureResult HYPNOTIC_BREADCRUMBS =
+      ItemPool.get(ItemPool.HYPNOTIC_BREADCRUMBS);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -549,9 +555,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Town")) {
       return switch (this.adventureNumber) {
         case AdventurePool.SLEAZY_BACK_ALLEY -> true;
-        case AdventurePool.SKELETON_STORE -> QuestDatabase.isQuestStarted(Quest.MEATSMITH);
-        case AdventurePool.MADNESS_BAKERY -> QuestDatabase.isQuestStarted(Quest.ARMORER);
-        case AdventurePool.OVERGROWN_LOT -> QuestDatabase.isQuestStarted(Quest.DOC);
+          // We can start the three market quests, if necessary
+        case AdventurePool.SKELETON_STORE -> true;
+        case AdventurePool.MADNESS_BAKERY -> true;
+        case AdventurePool.OVERGROWN_LOT -> true;
           // Shen is available once you've read the diary and been told to talk to him.
         case AdventurePool.COPPERHEAD_CLUB -> QuestDatabase.isQuestStarted(Quest.SHEN);
           // Only one of the four Lair locations is in Town; two are in the
@@ -1155,6 +1162,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Dungeon")) {
       return switch (this.adventureNumber) {
+        case AdventurePool.LIMERICK_DUNGEON -> KoLCharacter.getBaseMainstat() >= 19;
           // The Enormous Greater-Than Sign is available if your base
           // mainstate is at least 45 and you have not yet unlocked
           // the Dungeon of Doom
@@ -1908,21 +1916,80 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
+    if (this.adventureNumber == AdventurePool.SKELETON_STORE) {
+      if (Preferences.getBoolean("skeletonStoreAvailable")
+          || QuestDatabase.isQuestStarted(Quest.MEATSMITH)) {
+        return true;
+      }
+
+      // If we have a bone with a price tag on it, use it
+      if (InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(BONE_WITH_A_PRICE_TAG));
+      } else {
+        // Otherwise, visit the Meatsmith and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1059&option=1"));
+      }
+
+      return Preferences.getBoolean("skeletonStoreAvailable");
+    }
+
+    if (this.adventureNumber == AdventurePool.MADNESS_BAKERY) {
+      if (Preferences.getBoolean("madnessBakeryAvailable")
+          || QuestDatabase.isQuestStarted(Quest.ARMORER)) {
+        return true;
+      }
+
+      // If we have hypnotic breadcrumbs on it, use it
+      if (InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(HYPNOTIC_BREADCRUMBS));
+      } else {
+        // Otherwise, visit the Armorer and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1065&option=1"));
+      }
+
+      return Preferences.getBoolean("madnessBakeryAvailable");
+    }
+
+    if (this.adventureNumber == AdventurePool.OVERGROWN_LOT) {
+      if (Preferences.getBoolean("overgrownLotAvailable")
+          || QuestDatabase.isQuestStarted(Quest.DOC)) {
+        return true;
+      }
+
+      // If we have a map to a hidden booze cache on it, use it
+      if (InventoryManager.hasItem(BOOZE_MAP)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(BOOZE_MAP));
+      } else {
+        // Otherwise, visit Doc Galaktik and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1064&option=1"));
+      }
+
+      return Preferences.getBoolean("overgrownLotAvailable");
+    }
+
     return true;
+  }
+
+  private int getFirstAvailableOutfitId(int... ids) {
+    return Arrays.stream(ids).filter(EquipmentManager::hasOutfit).findFirst().orElse(0);
   }
 
   public int getOutfitId() {
     return switch (this.adventureNumber) {
-      case AdventurePool.FRAT_HOUSE_DISGUISED, AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED ->
-      // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
-      EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)
-          ? OutfitPool.WAR_FRAT_OUTFIT
-          : EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT) ? OutfitPool.FRAT_OUTFIT : 0;
-      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED, AdventurePool.HIPPY_CAMP_DISGUISED ->
-      // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
-      EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
-          ? OutfitPool.WAR_HIPPY_OUTFIT
-          : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
+        // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
+      case AdventurePool.FRAT_HOUSE_DISGUISED,
+          AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED -> getFirstAvailableOutfitId(
+          OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
+        // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
+      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
+          AdventurePool.HIPPY_CAMP_DISGUISED -> getFirstAvailableOutfitId(
+          OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
       case AdventurePool.CLOACA_BATTLEFIELD -> OutfitPool.CLOACA_UNIFORM;
       case AdventurePool.DYSPEPSI_BATTLEFIELD -> OutfitPool.DYSPEPSI_UNIFORM;
       case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> OutfitPool.WAR_FRAT_OUTFIT;
