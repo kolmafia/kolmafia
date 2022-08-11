@@ -546,10 +546,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withItem("dingy dinghy"),
-              withStats(25, 25, 25),
-              withItem("eyepatch"),
-              withItem("swashbuckling pants"),
-              withItem("stuffed shoulder parrot"),
+              withEquippableItem("eyepatch"),
+              withEquippableItem("swashbuckling pants"),
+              withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
@@ -566,8 +565,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withItem("dingy dinghy"),
-              withStats(25, 60, 25),
-              withItem("pirate fledges"),
+              withEquippableItem("pirate fledges"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
@@ -583,10 +581,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withItem("dingy dinghy"),
-              withStats(25, 25, 25),
-              withItem("eyepatch"),
-              withItem("swashbuckling pants"),
-              withItem("stuffed shoulder parrot"),
+              withEquippableItem("eyepatch"),
+              withEquippableItem("swashbuckling pants"),
+              withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.UNSTARTED));
       try (cleanups) {
@@ -603,10 +600,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withItem("dingy dinghy"),
-              withStats(25, 25, 25),
-              withItem("eyepatch"),
-              withItem("swashbuckling pants"),
-              withItem("stuffed shoulder parrot"),
+              withEquippableItem("eyepatch"),
+              withEquippableItem("swashbuckling pants"),
+              withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, "step5"));
       try (cleanups) {
@@ -623,10 +619,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withItem("dingy dinghy"),
-              withStats(25, 25, 25),
-              withItem("eyepatch"),
-              withItem("swashbuckling pants"),
-              withItem("stuffed shoulder parrot"),
+              withEquippableItem("eyepatch"),
+              withEquippableItem("swashbuckling pants"),
+              withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, "step6"));
       try (cleanups) {
@@ -643,10 +638,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withItem("dingy dinghy"),
-              withStats(25, 25, 25),
-              withItem("eyepatch"),
-              withItem("swashbuckling pants"),
-              withItem("stuffed shoulder parrot"),
+              withEquippableItem("eyepatch"),
+              withEquippableItem("swashbuckling pants"),
+              withEquippableItem("stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED));
       try (cleanups) {
@@ -713,8 +707,7 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
         assertTrue(HIPPY_CAMP.canAdventure());
-        // We check only quest status, not available equipment
-        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
@@ -854,10 +847,9 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         // KoL does not require going directly to verge-of-war zones
         assertTrue(HIPPY_CAMP.canAdventure());
-        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
-        // ... but it allows it.
+        assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(WARTIME_HIPPY_CAMP.canAdventure());
-        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
       }
     }
@@ -968,8 +960,7 @@ public class KoLAdventureValidationTest {
               withProperty("sideDefeated", "fratboys"));
       try (cleanups) {
         assertTrue(HIPPY_CAMP.canAdventure());
-        // We check only quest status, not available equipment
-        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertFalse(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(BOMBED_HIPPY_CAMP.canAdventure());
@@ -987,7 +978,6 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
       try (cleanups) {
         assertTrue(HIPPY_CAMP.canAdventure());
-        // We check only quest status, not available equipment
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP.canAdventure());
         assertFalse(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
@@ -1033,18 +1023,17 @@ public class KoLAdventureValidationTest {
 
       var cleanups =
           new Cleanups(
+              withItem("dingy dinghy"),
               withEquippableItem("beer helmet"),
               withEquippableItem("distressed denim pants"),
               withEquippableItem("bejeweled pledge pin"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
 
       try (cleanups) {
-        var success = WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure();
-
-        assertThat(success, is(true));
+        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
+        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
         var requests = getRequests();
-
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0), "/inv_equip.php", "which=2&action=outfit&whichoutfit=33&ajax=1");
@@ -1107,8 +1096,7 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED));
       try (cleanups) {
         assertTrue(FRAT_HOUSE.canAdventure());
-        // We check only quest status, not available equipment
-        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
@@ -1123,12 +1111,9 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(EquipmentManager.HAT, "Orcish baseball cap"),
               withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
-              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"),
-              // Have stats for Frat Boy Ensemble
-              withStats(20, 15, 15));
+              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         assertTrue(FRAT_HOUSE.canAdventure());
-        // We check only quest status, not available equipment
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
@@ -1146,9 +1131,7 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(EquipmentManager.HAT, "Orcish baseball cap"),
               withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
-              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"),
-              // Have stats for Frat Boy Ensemble
-              withStats(20, 15, 15));
+              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
         var requests = getRequests();
@@ -1253,10 +1236,10 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         // KoL does not require going directly to verge-of-war zones
         assertTrue(FRAT_HOUSE.canAdventure());
-        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         // ... but it allows it.
         assertTrue(WARTIME_FRAT_HOUSE.canAdventure());
-        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
       }
     }
@@ -1364,8 +1347,7 @@ public class KoLAdventureValidationTest {
               withProperty("sideDefeated", "hippies"));
       try (cleanups) {
         assertTrue(FRAT_HOUSE.canAdventure());
-        // We check only quest status, not available equipment
-        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertFalse(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(BOMBED_FRAT_HOUSE.canAdventure());
@@ -1384,7 +1366,7 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         assertTrue(FRAT_HOUSE.canAdventure());
-        // We check only quest status, not available equipment
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE.canAdventure());
         assertFalse(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());

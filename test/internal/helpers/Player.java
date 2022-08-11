@@ -44,6 +44,20 @@ import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.mockito.Mockito;
 
 public class Player {
+
+  private static void addItemRequirement(Cleanups cleanups, AdventureResult item) {
+    String requirement = EquipmentDatabase.getEquipRequirement(item.getItemId());
+    EquipmentRequirement req = new EquipmentRequirement(requirement);
+
+    if (req.isMuscle()) {
+      cleanups.add(withMuscleAtLeast(req.getAmount()));
+    } else if (req.isMysticality()) {
+      cleanups.add(withMysticalityAtLeast(req.getAmount()));
+    } else if (req.isMoxie()) {
+      cleanups.add(withMoxieAtLeast(req.getAmount()));
+    }
+  }
+
   /**
    * Equip the given slot with the given item
    *
@@ -86,7 +100,15 @@ public class Player {
   public static Cleanups withEquipped(final int slot, final AdventureResult item) {
     var old = EquipmentManager.getEquipment(slot);
     EquipmentManager.setEquipment(slot, item.getItemId() == -1 ? EquipmentRequest.UNEQUIP : item);
-    return new Cleanups(() -> EquipmentManager.setEquipment(slot, old));
+    EquipmentManager.updateNormalOutfits();
+    var cleanups =
+        new Cleanups(
+            () -> {
+              EquipmentManager.setEquipment(slot, old);
+              EquipmentManager.updateNormalOutfits();
+            });
+    addItemRequirement(cleanups, item);
+    return cleanups;
   }
 
   /**
@@ -299,18 +321,7 @@ public class Player {
   public static Cleanups withEquippableItem(final AdventureResult item) {
     var cleanups = new Cleanups();
     cleanups.add(withItem(item));
-
-    String requirement = EquipmentDatabase.getEquipRequirement(item.getItemId());
-    EquipmentRequirement req = new EquipmentRequirement(requirement);
-
-    if (req.isMuscle()) {
-      cleanups.add(withMuscleAtLeast(req.getAmount()));
-    } else if (req.isMysticality()) {
-      cleanups.add(withMysticalityAtLeast(req.getAmount()));
-    } else if (req.isMoxie()) {
-      cleanups.add(withMoxieAtLeast(req.getAmount()));
-    }
-
+    addItemRequirement(cleanups, item);
     return cleanups;
   }
 
