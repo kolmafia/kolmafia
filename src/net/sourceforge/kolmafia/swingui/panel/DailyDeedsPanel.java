@@ -2500,7 +2500,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     public void update() {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
-      boolean limited = Limitmode.limitZone("RabbitHole");
+      boolean limited = Limitmode.limitZone("Rabbit Hole");
       int have = InventoryManager.getCount(ItemPool.DRINK_ME_POTION);
       if (Preferences.getBoolean("_madTeaParty")) {
         this.setShown((!bm || kf) && !limited);
@@ -3274,7 +3274,7 @@ public class DailyDeedsPanel extends Box implements Listener {
               || (InventoryManager.getCount(ItemPool.DRINK_ME_POTION) > 0);
       boolean active =
           KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.DOWN_THE_RABBIT_HOLE));
-      boolean limited = Limitmode.limitZone("RabbitHole");
+      boolean limited = Limitmode.limitZone("Rabbit Hole");
 
       this.setShown(
           StandardRequest.isAllowed("Clan Item", "Looking Glass")
