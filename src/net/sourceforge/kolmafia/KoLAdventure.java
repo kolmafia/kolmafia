@@ -1596,7 +1596,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   private int availableOutfitId(int id) {
-    // If one the outfit is currently worn, cool.
+    // Checks if the outfit is currently worn or equippable.
     return EquipmentManager.hasOutfit(id) ? id : 0;
   }
 
