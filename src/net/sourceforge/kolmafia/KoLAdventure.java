@@ -1581,7 +1581,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.getOutfitId() != 0;
   }
 
-  private int getFirstAvailableOutfitId(int... ids) {
+  private int firstAvailableOutfitId(int... ids) {
     // If one of the outfits is currently worn, either the user specifically
     // chose it, or we chose it on a previous call.
     // Don't override user decisions, so, return that one.
@@ -1593,6 +1593,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // No user selection. The outfits are assumed to be ordered by "goodness".
     // Pick the first available. (And equippable; hasOutfit enforces that.)
     return Arrays.stream(ids).filter(EquipmentManager::hasOutfit).findFirst().orElse(0);
+  }
+
+  private int availableOutfitId(int id) {
+    // If one the outfit is currently worn, cool.
+    return EquipmentManager.hasOutfit(id) ? id : 0;
   }
 
   // Building a dingy dinghy is something that validate2 can do for us.
@@ -2051,7 +2056,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public int getOutfitId() {
     if (this.formSource.equals("dwarffactory.php")
         || this.adventureNumber == AdventurePool.MINE_OFFICE) {
-      return getFirstAvailableOutfitId(OutfitPool.DWARVISH_UNIFORM, OutfitPool.MINING_OUTFIT);
+      return firstAvailableOutfitId(OutfitPool.DWARVISH_UNIFORM, OutfitPool.MINING_OUTFIT);
     }
 
     return switch (this.adventureNumber) {
@@ -2059,30 +2064,31 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               Quest.ISLAND_WAR, QuestDatabase.STARTED)
           ?
           // Verge of War
-          getFirstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT)
+          firstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT)
           :
           // Before or after war
-          getFirstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
+          firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
 
-      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED -> getFirstAvailableOutfitId(
+      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED -> firstAvailableOutfitId(
           OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
 
       case AdventurePool.HIPPY_CAMP_DISGUISED -> QuestDatabase.isQuestStep(
               Quest.ISLAND_WAR, QuestDatabase.STARTED)
           ?
           // Verge of War
-          getFirstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT)
+          firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT)
           :
           // Before or after war
-          getFirstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
+          firstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
 
-      case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED -> getFirstAvailableOutfitId(
+      case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED -> firstAvailableOutfitId(
           OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
 
-      case AdventurePool.CLOACA_BATTLEFIELD -> OutfitPool.CLOACA_UNIFORM;
-      case AdventurePool.DYSPEPSI_BATTLEFIELD -> OutfitPool.DYSPEPSI_UNIFORM;
-      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> OutfitPool.WAR_FRAT_OUTFIT;
-      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD -> OutfitPool.WAR_HIPPY_OUTFIT;
+      case AdventurePool.CLOACA_BATTLEFIELD -> availableOutfitId(OutfitPool.CLOACA_UNIFORM);
+      case AdventurePool.DYSPEPSI_BATTLEFIELD -> availableOutfitId(OutfitPool.DYSPEPSI_UNIFORM);
+      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> availableOutfitId(OutfitPool.WAR_FRAT_OUTFIT);
+      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD -> availableOutfitId(
+          OutfitPool.WAR_HIPPY_OUTFIT);
       default -> 0;
     };
   }

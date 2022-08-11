@@ -447,6 +447,12 @@ public class ItemPool {
   public static final int COMFY_BLANKET = 1311;
   public static final int FACSIMILE_DICTIONARY = 1316;
   public static final int TIME_HELMET = 1323;
+  public static final int DYSPEPSI_HELMET = 1326;
+  public static final int CLOACA_SHIELD = 1327;
+  public static final int CLOACA_FATIGUES = 1328;
+  public static final int DYSPEPSI_SHIELD = 1329;
+  public static final int DYSPEPSI_FATIGUES = 1330;
+  public static final int CLOACA_HELMET = 1331;
   public static final int CLOACA_COLA = 1334;
   public static final int FANCY_CHOCOLATE = 1382;
   public static final int TOY_SOLDIER = 1397;

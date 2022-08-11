@@ -309,7 +309,29 @@ public class Player {
    * @return Removes item from player's inventory and resets stats
    */
   public static Cleanups withEquippableItem(final String itemName, final int count) {
-    return withEquippableItem(AdventureResult.tallyItem(itemName, count, true));
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withEquippableItem(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts item in player's inventory and ensures player meets requirements to equip
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withEquippableItem(final int itemId) {
+    return withEquippableItem(itemId, 1);
+  }
+
+  /**
+   * Puts number of items in player's inventory and ensures player meets requirements to equip
+   *
+   * @param itemId Item to give
+   * @param count Quantity of item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withEquippableItem(final int itemId, final int count) {
+    return withEquippableItem(ItemPool.get(itemId, count));
   }
 
   /**

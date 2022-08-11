@@ -3,16 +3,17 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRestricted;
-import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -212,6 +213,224 @@ public class KoLAdventureValidationTest {
       testElementalZoneWithAccess(stenchZones, "_stenchAirportToday");
       testElementalZoneWithAccess(hotZones, "_hotAirportToday");
       testElementalZoneWithAccess(coldZones, "_coldAirportToday");
+    }
+  }
+
+  @Nested
+  class Cola {
+    private static final KoLAdventure COLA_NONE =
+        AdventureDatabase.getAdventureByName("Battlefield (No Uniform)");
+    private static final KoLAdventure COLA_CLOACA =
+        AdventureDatabase.getAdventureByName("Battlefield (Cloaca Uniform)");
+    private static final KoLAdventure COLA_DYSPEPSI =
+        AdventureDatabase.getAdventureByName("Battlefield (Dyspepsi Uniform)");
+
+    @Test
+    public void mustMeetZonePrerequesites() {
+      var cleanups =
+          new Cleanups(withAscensions(1), withLevel(4), withQuestProgress(Quest.EGO, "step1"));
+      try (cleanups) {
+        assertTrue(COLA_NONE.canAdventure());
+        assertFalse(COLA_CLOACA.canAdventure());
+        assertFalse(COLA_DYSPEPSI.canAdventure());
+      }
+    }
+
+    @Test
+    public void mustHaveAscended() {
+      var cleanups =
+          new Cleanups(withAscensions(0), withLevel(4), withQuestProgress(Quest.EGO, "step1"));
+      try (cleanups) {
+        assertFalse(COLA_NONE.canAdventure());
+      }
+    }
+
+    @Test
+    public void mustBeAtLeastLevel4() {
+      var cleanups =
+          new Cleanups(withAscensions(1), withLevel(3), withQuestProgress(Quest.EGO, "step1"));
+      try (cleanups) {
+        assertFalse(COLA_NONE.canAdventure());
+      }
+    }
+
+    @Test
+    public void mustBeNoMoreThanLevel5() {
+      var cleanups =
+          new Cleanups(withAscensions(1), withLevel(6), withQuestProgress(Quest.EGO, "step1"));
+      try (cleanups) {
+        assertFalse(COLA_NONE.canAdventure());
+      }
+    }
+
+    @Test
+    public void mustHaveRecoveredKey() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(1), withLevel(4), withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertFalse(COLA_NONE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureWithCloacaUniformEquipped() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquipped(EquipmentManager.HAT, ItemPool.CLOACA_HELMET),
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.CLOACA_SHIELD),
+              withEquipped(EquipmentManager.PANTS, ItemPool.CLOACA_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_NONE.canAdventure());
+        assertTrue(COLA_CLOACA.canAdventure());
+        assertFalse(COLA_DYSPEPSI.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureCloacaEquipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquipped(EquipmentManager.HAT, ItemPool.CLOACA_HELMET),
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.CLOACA_SHIELD),
+              withEquipped(EquipmentManager.PANTS, ItemPool.CLOACA_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_CLOACA.canAdventure());
+        assertTrue(COLA_CLOACA.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithCloacaUniformAvailable() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquippableItem(ItemPool.CLOACA_HELMET),
+              withEquippableItem(ItemPool.CLOACA_SHIELD),
+              withEquippableItem(ItemPool.CLOACA_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_NONE.canAdventure());
+        assertTrue(COLA_CLOACA.canAdventure());
+        assertFalse(COLA_DYSPEPSI.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureCloacaAvailable() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquippableItem(ItemPool.CLOACA_HELMET),
+              withEquippableItem(ItemPool.CLOACA_SHIELD),
+              withEquippableItem(ItemPool.CLOACA_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_CLOACA.canAdventure());
+        assertTrue(COLA_CLOACA.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.CLOACA_UNIFORM + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canAdventureWithDyspepsiUniformEquipped() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquipped(EquipmentManager.HAT, ItemPool.DYSPEPSI_HELMET),
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
+              withEquipped(EquipmentManager.PANTS, ItemPool.DYSPEPSI_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_NONE.canAdventure());
+        assertFalse(COLA_CLOACA.canAdventure());
+        assertTrue(COLA_DYSPEPSI.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureDyspepsiEquipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquipped(EquipmentManager.HAT, ItemPool.DYSPEPSI_HELMET),
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
+              withEquipped(EquipmentManager.PANTS, ItemPool.DYSPEPSI_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_DYSPEPSI.canAdventure());
+        assertTrue(COLA_DYSPEPSI.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithDyspepsiUniformAvailable() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquippableItem(ItemPool.DYSPEPSI_HELMET),
+              withEquippableItem(ItemPool.DYSPEPSI_SHIELD),
+              withEquippableItem(ItemPool.DYSPEPSI_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_NONE.canAdventure());
+        assertFalse(COLA_CLOACA.canAdventure());
+        assertTrue(COLA_DYSPEPSI.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureDyspepsiAvailable() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquippableItem(ItemPool.DYSPEPSI_HELMET),
+              withEquippableItem(ItemPool.DYSPEPSI_SHIELD),
+              withEquippableItem(ItemPool.DYSPEPSI_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_DYSPEPSI.canAdventure());
+        assertTrue(COLA_DYSPEPSI.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.DYSPEPSI_UNIFORM + "&ajax=1");
+      }
     }
   }
 
@@ -721,9 +940,7 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
-              withEquipped(EquipmentManager.PANTS, "filthy corduroys"),
-              // Have stats for Filthy Hippy Disguise
-              withStats(15, 15, 15));
+              withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
       try (cleanups) {
         assertTrue(HIPPY_CAMP.canAdventure());
         // We check only quest status, not available equipment
@@ -743,15 +960,13 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
-              withEquipped(EquipmentManager.PANTS, "filthy corduroys"),
-              // Have stats for Filthy Hippy Disguise
-              withStats(15, 15, 15));
+              withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
       try (cleanups) {
-        var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(0));
-        assertThat(success, is(true));
       }
     }
 
@@ -767,15 +982,15 @@ public class KoLAdventureValidationTest {
               withEquippableItem("filthy corduroys"));
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
-        var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.HIPPY_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -797,15 +1012,15 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
-        var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.HIPPY_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -827,15 +1042,15 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
-        var success = HIPPY_CAMP_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
+        assertTrue(HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_HIPPY_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -894,15 +1109,14 @@ public class KoLAdventureValidationTest {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
-        var success = WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.FRAT_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -926,15 +1140,14 @@ public class KoLAdventureValidationTest {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
         assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.canAdventure());
-        var success = WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(WARTIME_HIPPY_CAMP_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_FRAT_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -1133,11 +1346,11 @@ public class KoLAdventureValidationTest {
               withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
               withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
-        var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(0));
-        assertThat(success, is(true));
       }
     }
 
@@ -1154,15 +1367,15 @@ public class KoLAdventureValidationTest {
               withEquippableItem("Orcish frat-paddle"));
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
-        var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.FRAT_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -1185,15 +1398,15 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
-        var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.FRAT_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -1216,15 +1429,15 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT));
-        var success = FRAT_HOUSE_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
+        assertTrue(FRAT_HOUSE_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_FRAT_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -1282,15 +1495,15 @@ public class KoLAdventureValidationTest {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertFalse(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
-        var success = WARTIME_FRAT_HOUSE_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.HIPPY_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -1313,15 +1526,15 @@ public class KoLAdventureValidationTest {
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT));
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT));
         assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
-        var success = WARTIME_FRAT_HOUSE_DISGUISED.prepareForAdventure();
-        var requests = getRequests();
+        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.canAdventure());
+        assertTrue(WARTIME_FRAT_HOUSE_DISGUISED.prepareForAdventure());
 
+        var requests = getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.WAR_HIPPY_OUTFIT + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
 
@@ -1446,12 +1659,11 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withEffect(EffectPool.DOWN_THE_RABBIT_HOLE), withItem(ItemPool.DRINK_ME_POTION));
       try (cleanups) {
-        var success = RABBIT_HOLE.prepareForAdventure();
+        assertTrue(RABBIT_HOLE.canAdventure());
+        assertTrue(RABBIT_HOLE.prepareForAdventure());
 
         var requests = getRequests();
-
         assertThat(requests, hasSize(0));
-        assertThat(success, is(true));
       }
     }
 
@@ -1461,14 +1673,13 @@ public class KoLAdventureValidationTest {
 
       var cleanups = new Cleanups(withItem(ItemPool.DRINK_ME_POTION));
       try (cleanups) {
-        var success = RABBIT_HOLE.prepareForAdventure();
+        assertTrue(RABBIT_HOLE.canAdventure());
+        assertTrue(RABBIT_HOLE.prepareForAdventure());
 
         var requests = getRequests();
-
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.DRINK_ME_POTION + "&ajax=1");
-        assertThat(success, is(true));
       }
     }
   }
