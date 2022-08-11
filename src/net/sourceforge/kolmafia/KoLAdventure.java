@@ -1743,9 +1743,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return wearOutfit(outfitId);
       }
 
-      // *** If we are wearing an outfit, need to remove (some of) it in order
-      // *** to get undisguised encounters.
+      // Can't adventure in Battlefield (No Uniform) if we are wearing a Cola
+      // War Uniform.  Remove the shield.
+      if (EquipmentManager.isWearingOutfit(OutfitPool.CLOACA_UNIFORM)
+          || EquipmentManager.isWearingOutfit(OutfitPool.DYSPEPSI_UNIFORM)) {
+        RequestThread.postRequest(
+            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND, true));
+      }
 
+      // inv_equip.php?which=2&ajax=1&action=unequip&type=offhand
       return true;
     }
 

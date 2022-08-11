@@ -291,7 +291,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canPrepareToAdventureCloacaEquipped() {
+    public void canPrepareForAdventureCloacaEquipped() {
       setupFakeClient();
 
       var cleanups =
@@ -329,7 +329,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canPrepareToAdventureCloacaAvailable() {
+    public void canPrepareForAdventureCloacaAvailable() {
       setupFakeClient();
 
       var cleanups =
@@ -371,7 +371,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canPrepareToAdventureDyspepsiEquipped() {
+    public void canPrepareForAdventureDyspepsiEquipped() {
       setupFakeClient();
 
       var cleanups =
@@ -409,7 +409,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canPrepareToAdventureDyspepsiAvailable() {
+    public void canPrepareForAdventureDyspepsiAvailable() {
       setupFakeClient();
 
       var cleanups =
@@ -430,6 +430,67 @@ public class KoLAdventureValidationTest {
             requests.get(0),
             "/inv_equip.php",
             "which=2&action=outfit&whichoutfit=" + OutfitPool.DYSPEPSI_UNIFORM + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithNoUniform() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(withAscensions(1), withLevel(4), withQuestProgress(Quest.EGO, "step1"));
+      try (cleanups) {
+        assertTrue(COLA_NONE.canAdventure());
+        assertTrue(COLA_NONE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureAndRemoveCloacaUniform() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquipped(EquipmentManager.HAT, ItemPool.CLOACA_HELMET),
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.CLOACA_SHIELD),
+              withEquipped(EquipmentManager.PANTS, ItemPool.CLOACA_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_NONE.canAdventure());
+        assertTrue(COLA_NONE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureAndRemoveDyspepsiUniform() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withLevel(4),
+              withQuestProgress(Quest.EGO, "step1"),
+              withEquipped(EquipmentManager.HAT, ItemPool.DYSPEPSI_HELMET),
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
+              withEquipped(EquipmentManager.PANTS, ItemPool.DYSPEPSI_FATIGUES));
+      try (cleanups) {
+        assertTrue(COLA_NONE.canAdventure());
+        assertTrue(COLA_NONE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
       }
     }
   }
@@ -952,7 +1013,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canPrepareToAdventureDisguisedEquipped() {
+    public void canPrepareForAdventureDisguisedEquipped() {
       setupFakeClient();
 
       var cleanups =
@@ -971,7 +1032,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canPrepareToAdventureDisguisedUnEquipped() {
+    public void canPrepareForAdventureDisguisedUnEquipped() {
       setupFakeClient();
 
       var cleanups =
@@ -1335,7 +1396,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canPrepareToAdventureDisguisedEquipped() {
+    public void canPrepareForAdventureDisguisedEquipped() {
       setupFakeClient();
 
       var cleanups =
@@ -1355,7 +1416,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canPrepareToAdventureDisguisedUnEquipped() {
+    public void canPrepareForAdventureDisguisedUnEquipped() {
       setupFakeClient();
 
       var cleanups =
