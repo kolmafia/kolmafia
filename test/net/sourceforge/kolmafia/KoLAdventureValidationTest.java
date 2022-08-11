@@ -496,6 +496,172 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class DwarfFactory {
+    private static final KoLAdventure WAREHOUSE =
+        AdventureDatabase.getAdventureByName("Dwarven Factory Warehouse");
+    private static final KoLAdventure OFFICE =
+        AdventureDatabase.getAdventureByName("The Mine Foremens' Office");
+
+    @Test
+    public void mustHaveStartedQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.FACTORY, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(WAREHOUSE.canAdventure());
+        assertFalse(OFFICE.canAdventure());
+      }
+    }
+
+    @Test
+    public void mustHaveOutfit() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertFalse(WAREHOUSE.canAdventure());
+        assertFalse(OFFICE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureWithMiningOutfitEquipped() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
+              withEquipped(EquipmentManager.HAT, "miner's helmet"),
+              withEquipped(EquipmentManager.WEAPON, "7-Foot Dwarven mattock"),
+              withEquipped(EquipmentManager.PANTS, "miner's pants"));
+      try (cleanups) {
+        assertTrue(WAREHOUSE.canAdventure());
+        assertTrue(OFFICE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithMiningOutfitEquipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
+              withEquipped(EquipmentManager.HAT, "miner's helmet"),
+              withEquipped(EquipmentManager.WEAPON, "7-Foot Dwarven mattock"),
+              withEquipped(EquipmentManager.PANTS, "miner's pants"));
+      try (cleanups) {
+        assertTrue(WAREHOUSE.canAdventure());
+        assertTrue(WAREHOUSE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithMiningOutfitInInventory() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
+              withEquippableItem("miner's helmet"),
+              withEquippableItem("7-Foot Dwarven mattock"),
+              withEquippableItem("miner's pants"));
+      try (cleanups) {
+        assertTrue(WAREHOUSE.canAdventure());
+        assertTrue(OFFICE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithMiningOutfitInInventory() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
+              withEquippableItem("miner's helmet"),
+              withEquippableItem("7-Foot Dwarven mattock"),
+              withEquippableItem("miner's pants"));
+      try (cleanups) {
+        assertTrue(WAREHOUSE.canAdventure());
+        assertTrue(WAREHOUSE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.MINING_OUTFIT + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canAdventureWithDwarvishUniformEquipped() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
+              withEquipped(EquipmentManager.HAT, "dwarvish war helmet"),
+              withEquipped(EquipmentManager.WEAPON, "dwarvish war mattock"),
+              withEquipped(EquipmentManager.PANTS, "dwarvish war kilt"));
+      try (cleanups) {
+        assertTrue(WAREHOUSE.canAdventure());
+        assertTrue(OFFICE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithDwarvishUniformEquipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
+              withEquipped(EquipmentManager.HAT, "dwarvish war helmet"),
+              withEquipped(EquipmentManager.WEAPON, "dwarvish war mattock"),
+              withEquipped(EquipmentManager.PANTS, "dwarvish war kilt"));
+      try (cleanups) {
+        assertTrue(WAREHOUSE.canAdventure());
+        assertTrue(WAREHOUSE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithDwarvishUniformInInventory() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
+              withEquippableItem("dwarvish war helmet"),
+              withEquippableItem("dwarvish war mattock"),
+              withEquippableItem("dwarvish war kilt"));
+      try (cleanups) {
+        assertTrue(WAREHOUSE.canAdventure());
+        assertTrue(OFFICE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithDwarvishUniformInInventory() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
+              withEquippableItem("dwarvish war helmet"),
+              withEquippableItem("dwarvish war mattock"),
+              withEquippableItem("dwarvish war kilt"));
+      try (cleanups) {
+        assertTrue(WAREHOUSE.canAdventure());
+        assertTrue(WAREHOUSE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.DWARVISH_UNIFORM + "&ajax=1");
+      }
+    }
+  }
+
+  @Nested
   class CobbsKnob {
 
     private static final KoLAdventure OUTSKIRTS_OF_THE_KNOB =
