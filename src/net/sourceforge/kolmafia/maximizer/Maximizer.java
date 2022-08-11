@@ -748,7 +748,7 @@ public class Maximizer {
           } else if (!RabbitHoleManager.hatLengthAvailable(
               StringUtilities.parseInt(cmd.substring(7)))) {
             continue;
-          } else if (Limitmode.limitZone("RabbitHole")) {
+          } else if (Limitmode.limitZone("Rabbit Hole")) {
             continue;
           } else if (Preferences.getBoolean("_madTeaParty")) {
             cmd = "";
