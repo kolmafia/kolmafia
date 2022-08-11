@@ -1751,7 +1751,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND, true));
       }
 
-      // inv_equip.php?which=2&ajax=1&action=unequip&type=offhand
       return true;
     }
 
