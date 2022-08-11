@@ -1,4 +1,5 @@
 1
+global	abortOnChoiceWhenNotInChoice	true
 global	addChatCommandLine	false
 global	addCreationQueue	true
 global	addStatusBarToFrames	false
@@ -579,6 +580,7 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
+user	familiarSweat	0
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false
 user	fireExtinguisherChasmUsed	false
@@ -939,6 +941,7 @@ user	lttQuestDifficulty	0
 user	lttQuestName	
 user	lttQuestStageCount	0
 user	maelstromOfLoversBoss
+user	madnessBakeryAvailable	false
 user	makeFriendsMonster	
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
@@ -1040,6 +1043,7 @@ user	optimalSwagger	0
 user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
+user	overgrownLotAvailable	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
 user	pastaThrall1
@@ -1270,6 +1274,7 @@ user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
 user	singleFamiliarRun	0
 user	skateParkStatus	war
+user	skeletonStoreAvailable	false
 user	skillBurn3	-100
 user	skillBurn90	-100
 user	skillBurn153	-100
@@ -1443,6 +1448,8 @@ user	usableOffhands	1
 user	usableOther	1
 user	usablePants	2
 user	usableShirts	1
+user	useBookOfEverySkillHardcore	true
+user	useBookOfEverySkillSoftcore	true
 user	useCrimboToysHardcore	false
 user	useCrimboToysSoftcore	true
 user	valueOfAdventure	500

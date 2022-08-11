@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -352,25 +353,78 @@ public class CharPaneDecorator {
 
   private static void decorateFamiliar(final StringBuffer buffer) {
     StringBuffer annotations = CharPaneDecorator.getFamiliarAnnotation();
-    if (annotations == null || annotations.length() == 0) {
-      return;
-    }
+    StringBuffer itemAnnotations = CharPaneDecorator.getFamiliarItemAnnotation();
+
+    var insertAnnotations = annotations != null && annotations.length() > 0;
+    var insertItemAnnotations = itemAnnotations != null && itemAnnotations.length() > 0;
+
+    int pos;
 
     if (CharPaneRequest.compactCharacterPane) {
-      int pos = buffer.indexOf("<a target=mainpane href=\"familiar.php\"");
+      pos = buffer.indexOf("<a target=mainpane href=\"familiar.php\"");
       if (pos == -1) return;
-      annotations.append("<br>");
-      buffer.insert(pos, annotations);
     } else {
-      int pos = buffer.indexOf("<b>Familiar:</b>");
+      pos = buffer.indexOf("<b>Familiar:</b>");
       if (pos == -1) return;
-      annotations.insert(0, "<br>(");
-      annotations.append(")");
-      buffer.insert(pos + 16, annotations);
+      pos += 16;
+    }
+
+    if (insertAnnotations) {
+      if (CharPaneRequest.compactCharacterPane) {
+        annotations.append("<br>");
+      } else {
+        annotations.insert(0, "<br>(");
+        annotations.append(")");
+      }
+
+      buffer.insert(pos, annotations);
+      pos += annotations.length();
+    }
+
+    // If your familiar is under max weight, there can be a progress bar rendered with a table.
+    // Because of the mix of compact, basic and progress or no progress bar, we want to find
+    // whichever of these substrings occurs soonest without being -1 (i.e. not occurring)
+    pos =
+        IntStream.of(
+                buffer.indexOf("</font></td></tr></table>", pos),
+                buffer.indexOf("<table", pos),
+                buffer.indexOf("</center>", pos))
+            .filter(i -> i > -1)
+            .min()
+            .orElse(pos);
+
+    if (insertItemAnnotations) {
+      itemAnnotations.insert(0, CharPaneRequest.compactCharacterPane ? "<br><small>" : " ");
+      if (CharPaneRequest.compactCharacterPane) {
+        itemAnnotations.append("</small>");
+      }
+      buffer.insert(pos, itemAnnotations);
     }
   }
 
-  public static final StringBuffer getFamiliarAnnotation() {
+  public static StringBuffer getFamiliarItemAnnotation() {
+    var item = EquipmentManager.getFamiliarItem();
+
+    if (item == null) {
+      return null;
+    }
+
+    StringBuffer buffer = new StringBuffer();
+
+    if (item.getItemId() == ItemPool.STILLSUIT) {
+      buffer
+          .append("(<a target=mainpane href=\"inventory.php?action=distill&pwd=")
+          .append(GenericRequest.passwordHash)
+          .append("\" title=\"")
+          .append(Preferences.getInteger("familiarSweat"))
+          .append(" drams\">distill</a>)");
+      return buffer;
+    }
+
+    return null;
+  }
+
+  public static StringBuffer getFamiliarAnnotation() {
     FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
     if (familiar == null) {
       return null;

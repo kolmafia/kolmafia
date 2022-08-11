@@ -1,11 +1,22 @@
 package net.sourceforge.kolmafia.scripts;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNURL;
 
 public class ScriptManager {
 
@@ -67,5 +78,41 @@ public class ScriptManager {
     }
 
     return source.contains(substring);
+  }
+
+  protected static void installDependencies(Path dependencies) {
+    List<String> potentials;
+    try {
+      potentials = Files.readAllLines(dependencies);
+    } catch (IOException e) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to read dependency file " + dependencies);
+      return;
+    }
+    for (var potential : potentials) {
+      if (potential.startsWith("#")) continue;
+      String[] args = potential.split("\\s+");
+      if (args.length == 0 || args[0].length() == 0) continue;
+      var url = args[0];
+      if (args.length > 1 || url.endsWith(".git")) {
+        // git
+        String branch = args.length == 1 ? null : args[1];
+        var id = GitManager.getRepoId(url, branch);
+        if (!Files.exists(KoLConstants.GIT_LOCATION.toPath().resolve(id))) {
+          GitManager.clone(url, branch);
+        }
+      } else {
+        SVNURL repo;
+        try {
+          repo = SVNURL.parseURIEncoded(potential);
+        } catch (SVNException e) {
+          RequestLogger.printLine("Cannot parse \"" + potential + "\" as SVN URL");
+          continue;
+        }
+        var id = SVNManager.getFolderUUID(repo);
+        if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
+          SVNManager.doCheckout(repo);
+        }
+      }
+    }
   }
 }

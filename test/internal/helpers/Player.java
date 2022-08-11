@@ -235,11 +235,13 @@ public class Player {
   private static Cleanups addToList(final AdventureResult item, final List<AdventureResult> list) {
     var old = item.getCount(list);
     AdventureResult.addResultToList(list, item);
+    EquipmentManager.updateEquipmentLists();
 
     return new Cleanups(
         () -> {
           AdventureResult.removeResultFromList(list, item);
           if (old != 0) AdventureResult.addResultToList(list, item.getInstance(old));
+          EquipmentManager.updateEquipmentLists();
         });
   }
 
@@ -394,14 +396,25 @@ public class Player {
   /**
    * Gives player a number of turns of the given effect
    *
+   * @param effectId Effect to add
+   * @param turns Turns of effect to give
+   * @return Removes effect
+   */
+  public static Cleanups withEffect(final int effectId, final int turns) {
+    var effect = EffectPool.get(effectId, turns);
+    KoLConstants.activeEffects.add(effect);
+    return new Cleanups(() -> KoLConstants.activeEffects.remove(effect));
+  }
+
+  /**
+   * Gives player a number of turns of the given effect
+   *
    * @param effectName Effect to add
    * @param turns Turns of effect to give
    * @return Removes effect
    */
   public static Cleanups withEffect(final String effectName, final int turns) {
-    var effect = EffectPool.get(EffectDatabase.getEffectId(effectName), turns);
-    KoLConstants.activeEffects.add(effect);
-    return new Cleanups(() -> KoLConstants.activeEffects.remove(effect));
+    return withEffect(EffectDatabase.getEffectId(effectName), turns);
   }
 
   /**
@@ -412,6 +425,16 @@ public class Player {
    */
   public static Cleanups withEffect(final String effectName) {
     return withEffect(effectName, 1);
+  }
+
+  /**
+   * Gives player one turn of the given effect
+   *
+   * @param effectId Effect to add
+   * @return Removes effect
+   */
+  public static Cleanups withEffect(final int effectId) {
+    return withEffect(effectId, 1);
   }
 
   /**

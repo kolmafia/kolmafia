@@ -2382,7 +2382,7 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
 
         // If quest Gotta Worship Them All is started, this completes step 1
-        if (QuestDatabase.isQuestLaterThan(Quest.WORSHIP, QuestDatabase.UNSTARTED)) {
+        if (QuestDatabase.isQuestStarted(Quest.WORSHIP)) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step1");
         }
 
@@ -5860,6 +5860,16 @@ public class UseItemRequest extends GenericRequest {
           ResponseTextParser.learnSkillFromResponse(responseText);
         }
         return;
+
+      case ItemPool.HYPNOTIC_BREADCRUMBS:
+        Preferences.setBoolean("madnessBakeryAvailable", true);
+        break;
+      case ItemPool.BOOZE_MAP:
+        Preferences.setBoolean("overgrownLotAvailable", true);
+        break;
+      case ItemPool.BONE_WITH_A_PRICE_TAG:
+        Preferences.setBoolean("skeletonStoreAvailable", true);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

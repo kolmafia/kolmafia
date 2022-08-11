@@ -38,7 +38,7 @@ class DailyLimitDatabaseTest {
   @Nested
   class DailyLimitTests {
     @BeforeEach
-    private void beforeEach() {
+    public void beforeEach() {
       KoLCharacter.reset("DailyLimitDatabaseTest");
       Preferences.reset("DailyLimitDatabaseTest");
     }

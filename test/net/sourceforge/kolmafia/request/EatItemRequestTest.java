@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 class EatItemRequestTest {
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("EatItemRequest");
     Preferences.reset("EatItemRequest");
@@ -26,13 +26,13 @@ class EatItemRequestTest {
     private Cleanups cleanups = new Cleanups();
 
     @BeforeEach
-    private void beforeEach() {
+    public void beforeEach() {
       cleanups.add(withItem(ItemPool.MILK_OF_MAGNESIUM));
       cleanups.add(withItem(ItemPool.TOMATO));
     }
 
     @AfterEach
-    private void afterEach() {
+    public void afterEach() {
       cleanups.close();
     }
 

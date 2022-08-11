@@ -24,7 +24,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class EquipmentManagerTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
@@ -33,7 +33,7 @@ public class EquipmentManagerTest {
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     Preferences.saveSettingsToFile = true;
   }
 

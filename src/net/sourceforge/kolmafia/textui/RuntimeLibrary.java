@@ -644,7 +644,10 @@ public abstract class RuntimeLibrary {
     // Major functions related to adventuring and item management.
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
-    functions.add(new LibraryFunction("location_accessible", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(new LibraryFunction("can_adventure", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("prepare_for_adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("set_location", DataTypes.VOID_TYPE, params));
@@ -3312,7 +3315,7 @@ public abstract class RuntimeLibrary {
     }
 
     if (value.getType().equals(DataTypes.LOCATION_TYPE)) {
-      return new Value(((KoLAdventure) value.content).getSnarfblat());
+      return new Value(((KoLAdventure) value.content).getAdventureNumber());
     }
 
     return new Value(value.intValue());
@@ -3791,9 +3794,14 @@ public abstract class RuntimeLibrary {
 
   // Major functions related to adventuring and item management.
 
-  public static Value location_accessible(ScriptRuntime controller, final Value arg) {
+  public static Value can_adventure(ScriptRuntime controller, final Value arg) {
     KoLAdventure location = (KoLAdventure) arg.content;
-    return DataTypes.makeBooleanValue(location.isCurrentlyAccessible());
+    return DataTypes.makeBooleanValue(location.canAdventure());
+  }
+
+  public static Value prepare_for_adventure(ScriptRuntime controller, final Value arg) {
+    KoLAdventure location = (KoLAdventure) arg.content;
+    return DataTypes.makeBooleanValue(location.prepareForAdventure());
   }
 
   public static Value adventure(ScriptRuntime controller, final Value arg1, final Value arg2) {

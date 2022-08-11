@@ -17,12 +17,12 @@ import org.junit.jupiter.api.Test;
 public class MonsterManuelManagerTest {
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     MonsterManuelManager.flushCache();
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     MonsterManuelManager.flushCache();
   }
 

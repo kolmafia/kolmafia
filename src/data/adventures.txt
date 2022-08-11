@@ -2,33 +2,18 @@
 # Zone Name | URL | attributes | Location Name | goals (optional)
 # Possible attributes are Env, Stat, Level, and nowander
 # environment should be indoor, outdoor, underground, underwater, none, or unknown
+
+Campground	adventure=543	Env: outdoor	Your Mushroom Garden
+
+# Clan areas
+
 Gyms	clan_gym=MUSCLE	Env: none Stat: 0	Pump Up Muscle
 Gyms	clan_gym=MYST	Env: none Stat: 0	Pump Up Mysticality
 Gyms	clan_gym=MOXIE	Env: none Stat: 0	Pump Up Moxie
 Gyms	clan_hobopolis=1	Env: none Stat: 0	Richard's Hobo Mysticality
 Gyms	clan_hobopolis=2	Env: none Stat: 0	Richard's Hobo Moxie
 Gyms	clan_hobopolis=3	Env: none Stat: 0	Richard's Hobo Muscle
-Beach	adventure=45	Env: outdoor Stat: 10	South of the Border	+1 donkey flipbook
-Beach	adventure=122	Env: outdoor Stat: 135	The Oasis	1 stone rose, 1 drum machine
-Beach	adventure=364	Env: outdoor Stat: 120	The Arid, Extra-Dry Desert	15 worm-riding manual
-Beach	adventure=355	Env: indoor Stat: 0 nowander	The Shore, Inc. Travel Agency
-Beach	adventure=446	Env: outdoor Stat: 0	Kokomo Resort
-Pyramid	adventure=406	Env: underground Stat: 150	The Upper Chamber	10 crumbling wooden wheel
-Pyramid	adventure=407	Env: underground Stat: 140	The Middle Chamber	10 tomb ratchet
-Pyramid	place=pyramid_state	Env: none Stat: 0 Level: 6	The Lower Chambers
-Casino	casino=1	Env: none Stat: 0	Goat Party
-Casino	casino=2	Env: none Stat: 0	Pirate Party
-Casino	casino=11	Env: none Stat: 0	Lemon Party
-Casino	adventure=70	Env: indoor Stat: 0	The Roulette Tables
-Casino	adventure=71	Env: indoor Stat: 0	The Poker Room
-Dungeon	adventure=138	Env: underground Stat: 5	The Haiku Dungeon	1 choiceadv
-Dungeon	adventure=19	Env: underground Stat: 19	The Limerick Dungeon	1 dungeoneer's dungarees|+1 cyclops eyedrops
-Dungeon	adventure=226	Env: underground Stat: 44	The Enormous Greater-Than Sign	1 plus sign, +1 autostop
-Dungeon	adventure=39	Env: underground Stat: 44	The Dungeons of Doom	1 dead mimic
-Dungeon	adventure=325	Env: underground Stat: 15 nowander	The Daily Dungeon
-Dungeon	adventure=319	Env: indoor Stat: 0	Video Game Level 1
-Dungeon	adventure=320	Env: indoor Stat: 0	Video Game Level 2
-Dungeon	adventure=321	Env: indoor Stat: 0	Video Game Level 3
+
 Hobopolis	adventure=166	Env: underground Stat: 250	A Maze of Sewer Tunnels
 Hobopolis	adventure=167	Env: underground Stat: 300	Hobopolis Town Square
 Hobopolis	adventure=168	Env: underground Stat: 350	Burnbarrel Blvd.	+1 jar of squeeze
@@ -40,105 +25,56 @@ Clan Basement	adventure=203	Env: underground Stat: 100	The Slime Tube	1 choicead
 Dreadsylvania	adventure=338	Env: outdoor Stat: 500	Dreadsylvanian Woods
 Dreadsylvania	adventure=339	Env: indoor Stat: 500	Dreadsylvanian Village
 Dreadsylvania	adventure=340	Env: indoor Stat: 500	Dreadsylvanian Castle
-The Sea	adventure=186	Env: underwater Stat: 310	The Briny Deeps	14 any fish meat
-The Sea	adventure=187	Env: underwater Stat: 375	The Brinier Deepers
-The Sea	adventure=189	Env: underwater Stat: 400	The Briniest Deepests
-The Sea	adventure=190	Env: underwater Stat: 400	An Octopus's Garden	1 wriggling flytrap pellet|1 straw hat|1 octopus's spade|+1 giant pearl
-The Sea	adventure=191	Env: underwater Stat: 540	The Wreck of the Edgar Fitzsimmons	1 aerated diving helmet|1 rusty compass|1 rusty diving helmet|+1 long-forgotten necklace
-The Sea	adventure=194	Env: underwater	Madness Reef	+1 dragonfish caviar|+1 seaweed
-The Sea	adventure=198	Env: underwater Stat: 650	The Mer-Kin Outpost	1 Grandma's Chartreuse Yarn|1 Mer-kin lockkey
-The Sea	adventure=188	Env: underwater Stat: 410	The Skate Park
-The Sea	adventure=195	Env: underwater Stat: 480	The Marinara Trench	+3 bubbling tempura batter|+1 globe of Deep Sauce
-The Sea	adventure=196	Env: underwater Stat: 450	Anemone Mine	1 Mer-kin digpick|1 midget clownfish
-The Sea	adventure=197	Env: underwater Stat: 480	The Dive Bar	+3 seaode|1 choiceadv|1 Shavin' razor
-The Sea	adventure=199	Env: underwater Stat: 585	The Coral Corral
-The Sea	adventure=207	Env: underwater	Mer-kin Elementary School
-The Sea	adventure=208	Env: underwater	Mer-kin Library
-The Sea	adventure=209	Env: underwater	Mer-kin Gymnasium
-The Sea	adventure=210	Env: underwater	Mer-kin Colosseum
-The Sea	adventure=337	Env: underwater Stat: 600	The Caliginous Abyss
-The Sea	mining=3	Env: none Stat: 0	Anemone Mine (Mining)
+
+# Town areas
+
 Town	adventure=112	Env: outdoor Stat: 0	The Sleazy Back Alley	1 pail of pretentious paint|+3 distilled fortified wine|1 map to a hidden booze cache
 Town	adventure=383	Env: indoor Stat: 135	The Copperhead Club	1 Copperhead Charm|1 priceless diamond|1 choiceadv
 Town	adventure=439	Env: indoor Stat: 0	The Skeleton Store	1 Skeleton Store office key|1 check to the Meatsmith
 Town	adventure=440	Env: indoor Stat: 0	Madness Bakery	1 no-handed pie
 Town	adventure=441	Env: outdoor Stat: 0	The Overgrown Lot	3 Fraudwort, 3 Shysterweed, 3 Swindleblossom|The Lot's engagement ring
-Town	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
-Town	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
-Town	adventure=495	Env: indoor Stat: 0	Super Villain's Lair
-Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
-Town	adventure=528	Env: indoor Stat: 0	The Neverending Party
+
+Casino	casino=1	Env: none Stat: 0	Goat Party
+Casino	casino=2	Env: none Stat: 0	Pirate Party
+Casino	casino=11	Env: none Stat: 0	Lemon Party
+Casino	adventure=70	Env: indoor Stat: 0	The Roulette Tables
+Casino	adventure=71	Env: indoor Stat: 0	The Poker Room
+
+Manor0	adventure=399	Env: underground Stat: 104	The Haunted Boiler Room	1 wine bomb
+Manor0	adventure=400	Env: underground Stat: 104	The Haunted Laundry Room	1 blasting soda
+Manor0	adventure=401	Env: underground Stat: 104	The Haunted Wine Cellar	1 bottle of Chateau de Vinegar
+Manor0	place=manor4_chamberboss	Env: none Stat: 0 Level: 4	Summoning Chamber
 Manor1	adventure=113	Env: indoor Stat: 0	The Haunted Pantry	pretentious palette|+3 tasty tart|1 hypnotic breadcrumbs
 Manor1	adventure=388	Env: indoor Stat: 20	The Haunted Kitchen	1 Spookyraven billiards room key|1 loosening powder|1 chef's hat|+1 freezerburned ice cube
 Manor1	adventure=389	Env: indoor Stat: 20	The Haunted Conservatory	1 powdered castoreum|1 pellet of plant food
 Manor1	adventure=390	Env: indoor Stat: 20	The Haunted Library	1 Lady Spookyraven's necklace|+1 black eyedrops
 Manor1	adventure=391	Env: indoor Stat: 20	The Haunted Billiards Room	1 [7302]Spookyraven library key|+1 cube of billiard chalk
-Manor2	adventure=394	Env: indoor Stat: 40	The Haunted Gallery	1 Lady Spookyraven's dancing shoes|1 triple-distilled turpentine
 Manor2	adventure=392	Env: indoor Stat: 40	The Haunted Bathroom	1 Lady Spookyraven's powder puff|1 drain dissolver
 Manor2	adventure=393	Env: indoor Stat: 40	The Haunted Bedroom	1 Lady Spookyraven's finest gown|1 Lord Spookyraven's spectacles|1 disposable instant camera
+Manor2	adventure=394	Env: indoor Stat: 40	The Haunted Gallery	1 Lady Spookyraven's dancing shoes|1 triple-distilled turpentine
 Manor2	adventure=395	Env: indoor Stat: 40	The Haunted Ballroom	1 dance card
-Manor0	adventure=399	Env: underground Stat: 104	The Haunted Boiler Room	1 wine bomb
-Manor0	adventure=400	Env: underground Stat: 104	The Haunted Laundry Room	1 blasting soda
-Manor0	adventure=401	Env: underground Stat: 104	The Haunted Wine Cellar	1 bottle of Chateau de Vinegar
 Manor3	adventure=396	Env: indoor Stat: 68	The Haunted Laboratory	1 detartrated anhydrous sublicalc
 Manor3	adventure=397	Env: indoor Stat: 68	The Haunted Nursery
 Manor3	adventure=398	Env: indoor Stat: 68	The Haunted Storage Room	1 triatomaceous dust
-Manor0	place=manor4_chamberboss	Env: none Stat: 0 Level: 4	Summoning Chamber
-HiddenCity	adventure=341	Env: indoor Stat: 135	The Hidden Apartment Building	1 moss-covered stone sphere
-HiddenCity	adventure=342	Env: indoor Stat: 140	The Hidden Hospital	1 dripping stone sphere
-HiddenCity	adventure=343	Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
-HiddenCity	adventure=344	Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
-HiddenCity	adventure=345	Env: outdoor Stat: 125	The Hidden Park	1 antique machete|+1 shrinking powder|1 book of matches
-HiddenCity	adventure=346	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
-HiddenCity	adventure=347	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
-HiddenCity	adventure=348	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northeast)
-HiddenCity	adventure=349	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southeast)
-HiddenCity	adventure=350	Env: outdoor Stat: 140 nowander	A Massive Ziggurat	1 choiceadv
-Woods	cellar=0	Env: none Stat: 0 Level: 6	The Typical Tavern Cellar
-Woods	adventure=15	Env: outdoor Stat: 0	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood
-Woods	adventure=280	Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
-Woods	adventure=233	Env: indoor Stat: 0	A Barroom Brawl	1 beer goggles|+3 beer lens
-Woods	adventure=73	Env: outdoor Stat: 20	8-Bit Realm	1 digital key|+1 [2426]fire flower
-Woods	adventure=100	Env: outdoor Stat: 37	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+5 white rice|+1 bag of lard
-# Woods	adventure=99	Env: outdoor	The Road to White Citadel
-Woods	adventure=413	Env: outdoor	The Road to the White Citadel	+1 duonoculars
-Woods	adventure=405	Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
-Woods	adventure=356	Env: outdoor Stat: 25	The Old Landfill	1 old claw-foot bathtub, 1 old clothesline pole, 1 antique cigar sign
+
+# Plains areas
+
+Degrassi Knoll	adventure=351	Env: indoor Stat: 10	The Degrassi Knoll Restroom
+Degrassi Knoll	adventure=352	Env: indoor Stat: 10	The Degrassi Knoll Bakery
+Degrassi Knoll	adventure=353	Env: indoor Stat: 10	The Degrassi Knoll Gym	1 frilly skirt|1 maiden wig
+Degrassi Knoll	adventure=354	Env: indoor Stat: 10	The Degrassi Knoll Garage	1 gnollish toolbox, 1 tires
+
+Plains	adventure=20	Env: indoor Stat: 15	The "Fun" House	1 box|20 empty greasepaint tube
+Plains	adventure=21	Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|The Shield of Brook
+Plains	adventure=58	Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
+Plains	adventure=386	Env: outdoor Stat: 120	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
+
 BatHole	adventure=30	Env: underground Stat: 13	The Bat Hole Entrance	1 Pine-Fresh air freshener
 BatHole	adventure=31	Env: underground Stat: 13	Guano Junction	3 sonar-in-a-biscuit|+1 Eau de Guaneau
 BatHole	adventure=32	Env: underground Stat: 13	The Batrat and Ratbat Burrow	+1 Dogsgotnonoz pills|The Stankara Stone
 BatHole	adventure=33	Env: underground Stat: 13	The Beanbat Chamber	1 enchanted bean
 BatHole	adventure=34	Env: underground Stat: 13	The Boss Bat's Lair
-Rift	adventure=85	Env: outdoor Stat: 0	Battlefield (No Uniform)	Cloaca-Cola helmet, Cloaca-Cola fatigues, Cloaca-Cola shield|Dyspepsi-Cola helmet, Dyspepsi-Cola fatigues, Dyspepsi-Cola shield|six-pack of New Cloaca-Cola
-Rift	adventure=86	Env: outdoor Stat: 30	Battlefield (Cloaca Uniform)
-Rift	adventure=87	Env: outdoor Stat: 30	Battlefield (Dyspepsi Uniform)
-RabbitHole	adventure=225	Env: outdoor Stat: 0	The Red Queen's Garden	+1 reflection of a map
-Suburbs	adventure=277	Env: outdoor Stat: 40	The Clumsiness Grove	1 furious stone, 1 vanity stone
-Suburbs	adventure=278	Env: outdoor Stat: 40	The Maelstrom of Lovers	1 lecherous stone, 1 jealousy stone
-Suburbs	adventure=279	Env: outdoor Stat: 40	The Glacier of Jerks	1 avarice stone, 1 gluttonous stone
-Mothership	adventure=281	Env: indoor Stat: 0	Medbay
-Mothership	adventure=282	Env: indoor Stat: 0	Waste Processing
-Mothership	adventure=283	Env: indoor Stat: 25	Sonar
-Mothership	adventure=284	Env: indoor Stat: 50	Science Lab
-Mothership	adventure=285	Env: indoor Stat: 60	Morgue
-Mothership	adventure=286	Env: indoor Stat: 90	Special Ops
-Mothership	adventure=287	Env: indoor Stat: 130	Engineering
-Mothership	adventure=288	Env: indoor Stat: 155	Navigation
-Mothership	adventure=289	Env: indoor Stat: 210	Galley
-KOL High School	adventure=326	Env: indoor Stat: 0	The Hallowed Halls
-KOL High School	adventure=327	Env: indoor Stat: 0	Shop Class
-KOL High School	adventure=328	Env: indoor Stat: 0	Chemistry Class
-KOL High School	adventure=329	Env: indoor Stat: 0	Art Class
-Degrassi Knoll	adventure=351	Env: indoor Stat: 10	The Degrassi Knoll Restroom
-Degrassi Knoll	adventure=352	Env: indoor Stat: 10	The Degrassi Knoll Bakery
-Degrassi Knoll	adventure=353	Env: indoor Stat: 10	The Degrassi Knoll Gym	1 frilly skirt|1 maiden wig
-Degrassi Knoll	adventure=354	Env: indoor Stat: 10	The Degrassi Knoll Garage	1 gnollish toolbox, 1 tires
-Plains	adventure=20	Env: indoor Stat: 15	The "Fun" House	1 box|20 empty greasepaint tube
-Plains	adventure=21	Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|The Shield of Brook
-Plains	adventure=58	Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
-Plains	adventure=386	Env: outdoor Stat: 120	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
-Fernswarthy's Tower	adventure=22	Env: outdoor Stat: 11	Tower Ruins	1 disembodied brain
-Fernswarthy's Tower	basement=0	Env: none Stat: 0	Fernswarthy's Basement
+
 Knob	adventure=114	Env: outdoor Stat: 0	The Outskirts of Cobb's Knob	1 chef's hat|1 Knob Goblin encryption key|1 pretentious paintbrush|+1 Knob Goblin lunchbox|1 bone with a price tag on it
 Knob	adventure=257	Env: underground Stat: 25	Cobb's Knob Barracks	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=258	Env: underground Stat: 20	Cobb's Knob Kitchens	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
@@ -151,86 +87,26 @@ Lab	mining=2	Env: none Stat: 0	The Knob Shaft (Mining)
 Menagerie	adventure=51	Env: underground Stat: 35	Cobb's Knob Menagerie, Level 1	1 GOTO
 Menagerie	adventure=52	Env: underground Stat: 40	Cobb's Knob Menagerie, Level 2	1 weremoose spit|+1 irradiated pet snacks
 Menagerie	adventure=53	Env: underground Stat: 45	Cobb's Knob Menagerie, Level 3	1 abominable blubber
-Friars	adventure=541	Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagram
-Friars	adventure=540	Env: outdoor Stat: 45	The Dark Heart of the Woods	1 box of birthday candles|heavy-duty bendy straw
-Friars	adventure=539	Env: outdoor Stat: 45	The Dark Elbow of the Woods	1 eldritch butterknife
-Friars	friars=0	Env: none Stat: 0	Friar Ceremony Location
-Friars	adventure=438	Env: outdoor	Pandamonium
-Pandamonium	adventure=248	Env: outdoor Stat: 45	Pandamonium Slums	1 ruby W|3 hot wing|1 Hey Deze map|+1 SPF 451 lip balm|+5 figurine of a charred seal|heavy-duty bendy straw
-Pandamonium	adventure=242	Env: indoor Stat: 60	The Laugh Floor	5 imp air|1 observational glasses
-Pandamonium	adventure=243	Env: indoor Stat: 55	Infernal Rackets Backstage	5 bus pass
+
+Rift	adventure=85	Env: outdoor Stat: 0	Battlefield (No Uniform)	Cloaca-Cola helmet, Cloaca-Cola fatigues, Cloaca-Cola shield|Dyspepsi-Cola helmet, Dyspepsi-Cola fatigues, Dyspepsi-Cola shield|six-pack of New Cloaca-Cola
+Rift	adventure=86	Env: outdoor Stat: 30	Battlefield (Cloaca Uniform)
+Rift	adventure=87	Env: outdoor Stat: 30	Battlefield (Dyspepsi Uniform)
+
+Fernswarthy's Tower	adventure=22	Env: outdoor Stat: 11	Tower Ruins	1 disembodied brain
+Fernswarthy's Tower	basement=0	Env: none Stat: 0	Fernswarthy's Basement
+
 Cyrpt	adventure=264	Env: underground Stat: 40	The Defiled Nook	1 evil eye
 Cyrpt	adventure=262	Env: underground Stat: 40	The Defiled Cranny
 Cyrpt	adventure=261	Env: underground Stat: 40	The Defiled Alcove
 Cyrpt	adventure=263	Env: underground Stat: 40	The Defiled Niche	1 plus-sized phylactery
 Cyrpt	crypt=heart	Env: none Stat: 0 Level: 6	Haert of the Cyrpt
-Island	adventure=27	Env: indoor Stat: 30	Frat House	outfit|+1 bottle of rhinoceros hormones|+5 figurine of a slippery seal
-Island	adventure=29	Env: indoor Stat: 30	Frat House In Disguise
-Island	adventure=150	Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
-Island	adventure=26	Env: outdoor Stat: 30	Hippy Camp	outfit|1 windchimes, 1 decorative fountain, 1 Feng Shui for Big Dumb Idiots|+1 teeny-tiny magic scroll|+5 figurine of a stinking seal
-Island	adventure=65	Env: outdoor Stat: 30	Hippy Camp In Disguise
-Island	adventure=149	Env: outdoor Stat: 100	The Hippy Camp (Bombed Back to the Stone Age)	+5 figurine of a stinking seal
-Island	adventure=66	Env: outdoor Stat: 45	The Obligatory Pirate's Cove	outfit|+1 bottle of pirate juice
-Island	adventure=157	Env: indoor Stat: 80	Barrrney's Barrr	Cap'm Caronch's Map|Orcish Frat House blueprints|6 pirate insults|7 pirate insults
-Island	adventure=158	Env: outdoor Stat: 100	The F'c'le	1 Mizzenmast mop, 1 ball polish, 1 rigging shampoo
-Island	adventure=159	Env: outdoor Stat: 120	The Poop Deck
-Island	adventure=160	Env: indoor Stat: 140	Belowdecks
-Island	adventure=154	Env: outdoor Stat: 170	Post-War Junkyard
-Island	adventure=155	Env: outdoor Stat: 170	McMillicancuddy's Farm
-IsleWar	adventure=132	Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
-IsleWar	adventure=140	Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
-IsleWar	adventure=135	Env: indoor Stat: 0	Wartime Frat House	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin|1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
-IsleWar	adventure=134	Env: indoor Stat: 165	Wartime Frat House (Hippy Disguise)	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
-IsleWar	adventure=133	Env: indoor Stat: 0	Wartime Hippy Camp	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband|1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
-IsleWar	adventure=131	Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
-Exploathing	adventure=533	Env: outdoor Stat: 0	The Exploaded Battlefield
-Exploathing	adventure=534	Env: outdoor Stat: 0	The Invader
-Junkyard	adventure=182	Env: outdoor Stat: 170	Next to that Barrel with Something Burning in it	molybdenum hammer
-Junkyard	adventure=183	Env: outdoor Stat: 170	Near an Abandoned Refrigerator	molybdenum pliers
-Junkyard	adventure=184	Env: outdoor Stat: 170	Over Where the Old Tires Are	molybdenum crescent wrench
-Junkyard	adventure=185	Env: outdoor Stat: 170	Out by that Rusted-Out Car	molybdenum screwdriver
-IsleWar	adventure=136	Env: outdoor Stat: 170	Sonofa Beach	5 barrel of gunpowder|+3 figurine of a sleek seal
-IsleWar	adventure=126	Env: outdoor Stat: 165	The Themthar Hills
-Farm	adventure=137	Env: indoor Stat: 165	McMillicancuddy's Barn
-Farm	adventure=141	Env: outdoor Stat: 170	McMillicancuddy's Pond
-Farm	adventure=142	Env: outdoor Stat: 170	McMillicancuddy's Back 40
-Farm	adventure=143	Env: outdoor Stat: 170	McMillicancuddy's Other Back 40
-Farm	adventure=144	Env: outdoor Stat: 170	McMillicancuddy's Granary
-Farm	adventure=145	Env: outdoor Stat: 170	McMillicancuddy's Bog
-Farm	adventure=146	Env: outdoor Stat: 170	McMillicancuddy's Family Plot
-Farm	adventure=147	Env: outdoor Stat: 170	McMillicancuddy's Shady Thicket
-Orchard	adventure=127	Env: underground Stat: 165	The Hatching Chamber	1 filthworm hatchling scent gland
-Orchard	adventure=128	Env: underground Stat: 165	The Feeding Chamber	1 filthworm drone scent gland
-Orchard	adventure=129	Env: underground Stat: 165	The Royal Guard Chamber	1 filthworm royal guard scent gland
-Orchard	adventure=130	Env: underground Stat: 170	The Filthworm Queen's Chamber
-Mountain	adventure=240	Env: underground Stat: 0	Noob Cave	1 black kitten
-Mountain	adventure=92	Env: underground Stat: 0 nowander	The Dire Warren
-Mountain	adventure=437	Env: indoor Stat: 0	The Secret Council Warehouse
-Mountain	adventure=80	Env: outdoor Stat: 68	The Valley of Rof L'm Fao	1 64735 scroll, 1 lowercase N
-Mountain	adventure=177	Env: underground Stat: 0	Mt. Molehill
-Mountain	barrel=0	Env: none Stat: 0	The Barrel Full of Barrels
-Mountain	adventure=295	Env: outdoor Stat: 75	The Smut Orc Logging Camp	30 any plank|The Lacrosse Stick of Lacoronado
-Mountain	adventure=387	Env: indoor Stat: 0	The Thinknerd Warehouse	Professor What garment
-Nemesis Cave	adventure=452	Env: underground Stat: 0	The Fungal Nethers	6 fizzing spore pod
-The Red Zeppelin's Mooring	adventure=384	Env: outdoor Stat: 125	A Mob of Zeppelin Protesters
-The Red Zeppelin's Mooring	adventure=385	Env: indoor Stat: 150	The Red Zeppelin	1 Copperhead Charm (rampant)
-Highlands	adventure=296	Env: outdoor Stat: 75	A-Boo Peak	3 A-Boo clue
-Highlands	adventure=297	Env: outdoor Stat: 90	Twin Peak	1 gold wedding ring
-Highlands	adventure=298	Env: outdoor Stat: 85	Oil Peak	1 jar of oil|oil cap, oil lamp, oil slacks|oil cap, oil lamp, oil slacks, oily boid, oil pan
-McLarge	adventure=270	Env: underground Stat: 60	Itznotyerzitz Mine	outfit
-McLarge	adventure=271	Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
-McLarge	adventure=272	Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
-McLarge	adventure=273	Env: outdoor Stat: 70	The eXtreme Slope	outfit
-McLarge	place=cloudypeak2	Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
-McLarge	adventure=110	Env: outdoor Stat: 53	The Icy Peak
-McLarge	adventure=176	Env: underground Stat: 0	The Mine Foremens' Office	1 dwarvish document, 1 dwarvish parchment, 1 dwarvish paper, 1 dwarvish punchcard, 1 little laminated card, 1 notbig laminated card, 1 small laminated card, 1 unlarge laminated card
-McLarge	dwarffactory=0	Env: none Stat: 0	Dwarven Factory Warehouse
-McLarge	mining=1	Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
+
 Beanstalk	adventure=81	Env: outdoor Stat: 90	The Penultimate Fantasy Airship	1 S.O.C.K.|1 metallic A|1 model airship|1 amulet of extreme plot significance
 Beanstalk	adventure=322	Env: underground Stat: 130	The Castle in the Clouds in the Sky (Basement)	1 heavy D
 Beanstalk	adventure=323	Env: indoor Stat: 110	The Castle in the Clouds in the Sky (Ground Floor)	1 electric boning knife
 Beanstalk	adventure=324	Env: indoor Stat: 130	The Castle in the Clouds in the Sky (Top Floor)	3 thin black candle|1 steam-powered model rocketship|Murphy's Rancid Black Flag
 Beanstalk	adventure=83	Env: outdoor Stat: 100	The Hole in the Sky	1 Richard's star key|1 star starfish|The Eye of the Stars
+
 Sorceress	place=ns_01_crowd1	Env: none Stat: 0	Fastest Adventurer Contest
 Sorceress	place=ns_01_crowd2	Env: none Stat: 0	Strongest Adventurer Contest
 Sorceress	place=ns_01_crowd2	Env: none Stat: 0	Smartest Adventurer Contest
@@ -249,6 +125,169 @@ Sorceress	place=ns_07_monster3	Env: none Stat: 0	Tower Level 3
 Sorceress	place=ns_08_monster4	Env: none Stat: 0	Tower Level 4
 Sorceress	place=ns_09_monster5	Env: none Stat: 0	Tower Level 5
 Sorceress	place=ns_10_sorcfight	Env: none Stat: 0	The Naughty Sorceress' Chamber
+
+# Beach areas
+
+Beach	adventure=45	Env: outdoor Stat: 10	South of the Border	+1 donkey flipbook
+Beach	adventure=122	Env: outdoor Stat: 135	The Oasis	1 stone rose, 1 drum machine
+Beach	adventure=364	Env: outdoor Stat: 120	The Arid, Extra-Dry Desert	15 worm-riding manual
+Beach	adventure=355	Env: indoor Stat: 0 nowander	The Shore, Inc. Travel Agency
+Beach	adventure=446	Env: outdoor Stat: 0	Kokomo Resort
+
+Pyramid	adventure=406	Env: underground Stat: 150	The Upper Chamber	10 crumbling wooden wheel
+Pyramid	adventure=407	Env: underground Stat: 140	The Middle Chamber	10 tomb ratchet
+Pyramid	place=pyramid_state	Env: none Stat: 0 Level: 6	The Lower Chambers
+
+# Mountain areas
+
+Mountain	adventure=240	Env: underground Stat: 0	Noob Cave	1 black kitten
+Mountain	adventure=92	Env: underground Stat: 0 nowander	The Dire Warren
+Mountain	adventure=80	Env: outdoor Stat: 68	The Valley of Rof L'm Fao	1 64735 scroll, 1 lowercase N
+Mountain	barrel=0	Env: none Stat: 0	The Barrel Full of Barrels
+Mountain	adventure=295	Env: outdoor Stat: 75	The Smut Orc Logging Camp	30 any plank|The Lacrosse Stick of Lacoronado
+Mountain	adventure=387	Env: indoor Stat: 0	The Thinknerd Warehouse	Professor What garment
+
+Dungeon	adventure=138	Env: underground Stat: 5	The Haiku Dungeon	1 choiceadv
+Dungeon	adventure=19	Env: underground Stat: 19	The Limerick Dungeon	1 dungeoneer's dungarees|+1 cyclops eyedrops
+Dungeon	adventure=226	Env: underground Stat: 44	The Enormous Greater-Than Sign	1 plus sign, +1 autostop
+Dungeon	adventure=39	Env: underground Stat: 44	The Dungeons of Doom	1 dead mimic
+Dungeon	adventure=325	Env: underground Stat: 15 nowander	The Daily Dungeon
+
+McLarge	adventure=270	Env: underground Stat: 60	Itznotyerzitz Mine	outfit
+McLarge	adventure=271	Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
+McLarge	adventure=272	Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
+McLarge	adventure=273	Env: outdoor Stat: 70	The eXtreme Slope	outfit
+McLarge	place=cloudypeak2	Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
+McLarge	adventure=110	Env: outdoor Stat: 53	The Icy Peak
+McLarge	adventure=176	Env: underground Stat: 0	The Mine Foremens' Office	1 dwarvish document, 1 dwarvish parchment, 1 dwarvish paper, 1 dwarvish punchcard, 1 little laminated card, 1 notbig laminated card, 1 small laminated card, 1 unlarge laminated card
+McLarge	dwarffactory=0	Env: none Stat: 0	Dwarven Factory Warehouse
+McLarge	mining=1	Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
+
+Highlands	adventure=296	Env: outdoor Stat: 75	A-Boo Peak	3 A-Boo clue
+Highlands	adventure=297	Env: outdoor Stat: 90	Twin Peak	1 gold wedding ring
+Highlands	adventure=298	Env: outdoor Stat: 85	Oil Peak	1 jar of oil|oil cap, oil lamp, oil slacks|oil cap, oil lamp, oil slacks, oily boid, oil pan
+
+The Red Zeppelin's Mooring	adventure=384	Env: outdoor Stat: 125	A Mob of Zeppelin Protesters
+The Red Zeppelin's Mooring	adventure=385	Env: indoor Stat: 150	The Red Zeppelin	1 Copperhead Charm (rampant)
+
+# Woods areas.
+
+Woods	cellar=0	Env: none Stat: 0 Level: 6	The Typical Tavern Cellar
+Woods	adventure=15	Env: outdoor Stat: 0	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood
+Woods	adventure=280	Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
+Woods	adventure=233	Env: indoor Stat: 0	A Barroom Brawl	1 beer goggles|+3 beer lens
+Woods	adventure=73	Env: outdoor Stat: 20	8-Bit Realm	1 digital key|+1 [2426]fire flower
+Woods	adventure=100	Env: outdoor Stat: 37	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+5 white rice|+1 bag of lard
+# Woods	adventure=99	Env: outdoor	The Road to White Citadel
+Woods	adventure=413	Env: outdoor	The Road to the White Citadel	+1 duonoculars
+Woods	adventure=405	Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
+Woods	adventure=356	Env: outdoor Stat: 25	The Old Landfill	1 old claw-foot bathtub, 1 old clothesline pole, 1 antique cigar sign
+
+Friars	adventure=541	Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagram
+Friars	adventure=540	Env: outdoor Stat: 45	The Dark Heart of the Woods	1 box of birthday candles|heavy-duty bendy straw
+Friars	adventure=539	Env: outdoor Stat: 45	The Dark Elbow of the Woods	1 eldritch butterknife
+Friars	friars=0	Env: none Stat: 0	Friar Ceremony Location
+Friars	adventure=438	Env: outdoor	Pandamonium
+
+Pandamonium	adventure=248	Env: outdoor Stat: 45	Pandamonium Slums	1 ruby W|3 hot wing|1 Hey Deze map|+1 SPF 451 lip balm|+5 figurine of a charred seal|heavy-duty bendy straw
+Pandamonium	adventure=242	Env: indoor Stat: 60	The Laugh Floor	5 imp air|1 observational glasses
+Pandamonium	adventure=243	Env: indoor Stat: 55	Infernal Rackets Backstage	5 bus pass
+
+HiddenCity	adventure=341	Env: indoor Stat: 135	The Hidden Apartment Building	1 moss-covered stone sphere
+HiddenCity	adventure=342	Env: indoor Stat: 140	The Hidden Hospital	1 dripping stone sphere
+HiddenCity	adventure=343	Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
+HiddenCity	adventure=344	Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
+HiddenCity	adventure=345	Env: outdoor Stat: 125	The Hidden Park	1 antique machete|+1 shrinking powder|1 book of matches
+HiddenCity	adventure=346	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
+HiddenCity	adventure=347	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
+HiddenCity	adventure=348	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northeast)
+HiddenCity	adventure=349	Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southeast)
+HiddenCity	adventure=350	Env: outdoor Stat: 140 nowander	A Massive Ziggurat	1 choiceadv
+
+The Drip	adventure=542	Env: outdoor nowander	The Dripping Trees
+The Drip	adventure=544	Env: indoor nowander	The Dripping Hall
+
+# Mysterious Island areas
+
+Island	adventure=27	Env: indoor Stat: 30	Frat House	outfit|+1 bottle of rhinoceros hormones|+5 figurine of a slippery seal
+Island	adventure=29	Env: indoor Stat: 30	Frat House (Frat Disguise)
+
+Island	adventure=26	Env: outdoor Stat: 30	Hippy Camp	outfit|1 windchimes, 1 decorative fountain, 1 Feng Shui for Big Dumb Idiots|+1 teeny-tiny magic scroll|+5 figurine of a stinking seal
+Island	adventure=65	Env: outdoor Stat: 30	Hippy Camp (Hippy Disguise)
+
+Island	adventure=149	Env: outdoor Stat: 100	The Hippy Camp (Bombed Back to the Stone Age)	+5 figurine of a stinking seal
+Island	adventure=150	Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
+
+Island	adventure=66	Env: outdoor Stat: 45	The Obligatory Pirate's Cove	outfit|+1 bottle of pirate juice
+
+Pirate	adventure=157	Env: indoor Stat: 80	Barrrney's Barrr	Cap'm Caronch's Map|Orcish Frat House blueprints|6 pirate insults|7 pirate insults
+Pirate	adventure=158	Env: outdoor Stat: 100	The F'c'le	1 Mizzenmast mop, 1 ball polish, 1 rigging shampoo
+Pirate	adventure=159	Env: outdoor Stat: 120	The Poop Deck
+Pirate	adventure=160	Env: indoor Stat: 140	Belowdecks
+
+# Big Island at war
+
+IsleWar	adventure=134	Env: indoor Stat: 165	Wartime Frat House (Hippy Disguise)	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
+IsleWar	adventure=135	Env: indoor Stat: 0	Wartime Frat House	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin|1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
+
+IsleWar	adventure=131	Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
+IsleWar	adventure=133	Env: indoor Stat: 0	Wartime Hippy Camp	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband|1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
+
+IsleWar	adventure=132	Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
+IsleWar	adventure=140	Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
+
+Junkyard	adventure=182	Env: outdoor Stat: 170	Next to that Barrel with Something Burning in it	molybdenum hammer
+Junkyard	adventure=183	Env: outdoor Stat: 170	Near an Abandoned Refrigerator	molybdenum pliers
+Junkyard	adventure=184	Env: outdoor Stat: 170	Over Where the Old Tires Are	molybdenum crescent wrench
+Junkyard	adventure=185	Env: outdoor Stat: 170	Out by that Rusted-Out Car	molybdenum screwdriver
+
+Farm	adventure=137	Env: indoor Stat: 165	McMillicancuddy's Barn
+Farm	adventure=141	Env: outdoor Stat: 170	McMillicancuddy's Pond
+Farm	adventure=142	Env: outdoor Stat: 170	McMillicancuddy's Back 40
+Farm	adventure=143	Env: outdoor Stat: 170	McMillicancuddy's Other Back 40
+Farm	adventure=144	Env: outdoor Stat: 170	McMillicancuddy's Granary
+Farm	adventure=145	Env: outdoor Stat: 170	McMillicancuddy's Bog
+Farm	adventure=146	Env: outdoor Stat: 170	McMillicancuddy's Family Plot
+Farm	adventure=147	Env: outdoor Stat: 170	McMillicancuddy's Shady Thicket
+
+Orchard	adventure=127	Env: underground Stat: 165	The Hatching Chamber	1 filthworm hatchling scent gland
+Orchard	adventure=128	Env: underground Stat: 165	The Feeding Chamber	1 filthworm drone scent gland
+Orchard	adventure=129	Env: underground Stat: 165	The Royal Guard Chamber	1 filthworm royal guard scent gland
+Orchard	adventure=130	Env: underground Stat: 170	The Filthworm Queen's Chamber
+
+IsleWar	adventure=126	Env: outdoor Stat: 165	The Themthar Hills
+
+# Big Island at peace
+
+Island	adventure=154	Env: outdoor Stat: 170	The Junkyard
+Island	adventure=155	Env: outdoor Stat: 170	McMillicancuddy's Farm
+# Sonofa Beach is available both during the war and after it
+Island	adventure=136	Env: outdoor Stat: 170	Sonofa Beach	5 barrel of gunpowder|+3 figurine of a sleek seal
+
+# The Sea areas
+
+The Sea	adventure=186	Env: underwater Stat: 310	The Briny Deeps	14 any fish meat
+The Sea	adventure=187	Env: underwater Stat: 375	The Brinier Deepers
+The Sea	adventure=189	Env: underwater Stat: 400	The Briniest Deepests
+The Sea	adventure=190	Env: underwater Stat: 400	An Octopus's Garden	1 wriggling flytrap pellet|1 straw hat|1 octopus's spade|+1 giant pearl
+The Sea	adventure=191	Env: underwater Stat: 540	The Wreck of the Edgar Fitzsimmons	1 aerated diving helmet|1 rusty compass|1 rusty diving helmet|+1 long-forgotten necklace
+The Sea	adventure=194	Env: underwater	Madness Reef	+1 dragonfish caviar|+1 seaweed
+The Sea	adventure=198	Env: underwater Stat: 650	The Mer-Kin Outpost	1 Grandma's Chartreuse Yarn|1 Mer-kin lockkey
+The Sea	adventure=188	Env: underwater Stat: 410	The Skate Park
+The Sea	adventure=195	Env: underwater Stat: 480	The Marinara Trench	+3 bubbling tempura batter|+1 globe of Deep Sauce
+The Sea	adventure=196	Env: underwater Stat: 450	Anemone Mine	1 Mer-kin digpick|1 midget clownfish
+The Sea	adventure=197	Env: underwater Stat: 480	The Dive Bar	+3 seaode|1 choiceadv|1 Shavin' razor
+The Sea	adventure=199	Env: underwater Stat: 585	The Coral Corral
+The Sea	adventure=207	Env: underwater	Mer-kin Elementary School
+The Sea	adventure=208	Env: underwater	Mer-kin Library
+The Sea	adventure=209	Env: underwater	Mer-kin Gymnasium
+The Sea	adventure=210	Env: underwater	Mer-kin Colosseum
+The Sea	adventure=337	Env: underwater Stat: 600	The Caliginous Abyss
+The Sea	mining=3	Env: none Stat: 0	Anemone Mine (Mining)
+
+# Nemesis areas
+
+Nemesis Cave	adventure=452	Env: underground Stat: 0	The Fungal Nethers	6 fizzing spore pod
 Volcano	adventure=214	Env: outdoor Stat: 140	The Broodling Grounds	6 hellseal brain,6 hellseal hide, 6 hellseal sinew|sealhide hood, sealhide leggings, sealhide buckler|sealhide hood, sealhide leggings, sealhide cloak, sealhide buckler, sealhide whip, sealhide moccasins, sealhide gloves, sealhide belt
 Volcano	adventure=215	Env: outdoor Stat: 140	The Outer Compound
 Volcano	adventure=217	Env: outdoor Stat: 140	The Temple Portico	5 cult memo
@@ -256,9 +295,58 @@ Volcano	adventure=218	Env: indoor Stat: 140	Convention Hall Lobby	6 vial of blue
 Volcano	adventure=219	Env: outdoor Stat: 140	Outside the Club	1 rave visor, 1 glowstick on a string, 1 candy necklace, 1 pacifier necklace, 1 teddybear backpack
 Volcano	adventure=220	Env: indoor Stat: 140	The Island Barracks	5 hacienda key
 Volcano	adventure=221	Env: underground Stat: 175	The Nemesis' Lair
+
+# Ascension Path Areas
+
+# Ed the Undying
+
+Mountain	adventure=437	Env: indoor Stat: 0	The Secret Council Warehouse
+
+# License to Adventure path
+
+Town	adventure=495	Env: indoor Stat: 0	Super Villain's Lair
+
+# Bugbear Invasion path
+
+Mothership	adventure=281	Env: indoor Stat: 0	Medbay
+Mothership	adventure=282	Env: indoor Stat: 0	Waste Processing
+Mothership	adventure=283	Env: indoor Stat: 25	Sonar
+Mothership	adventure=284	Env: indoor Stat: 50	Science Lab
+Mothership	adventure=285	Env: indoor Stat: 60	Morgue
+Mothership	adventure=286	Env: indoor Stat: 90	Special Ops
+Mothership	adventure=287	Env: indoor Stat: 130	Engineering
+Mothership	adventure=288	Env: indoor Stat: 155	Navigation
+Mothership	adventure=289	Env: indoor Stat: 210	Galley
+
+# KoL High School path
+
+KOL High School	adventure=326	Env: indoor Stat: 0	The Hallowed Halls
+KOL High School	adventure=327	Env: indoor Stat: 0	Shop Class
+KOL High School	adventure=328	Env: indoor Stat: 0	Chemistry Class
+KOL High School	adventure=329	Env: indoor Stat: 0	Art Class
+
+# Kingdom of Exploathing path
+
+Exploathing	adventure=533	Env: outdoor Stat: 0	The Exploaded Battlefield
+Exploathing	adventure=534	Env: outdoor Stat: 0	The Invader
+
+# Grey Goo path
+
+The Grey Goo Impact Site	adventure=545	Env: unknown Stat: 0	The Goo Fields
+The Grey Goo Impact Site	adventure=546	Env: unknown Stat: 0	The Goo-Choked Fun House
+The Grey Goo Impact Site	adventure=547	Env: unknown Stat: 0	The Goo-Coated Knob
+The Grey Goo Impact Site	adventure=548	Env: unknown Stat: 0	The Goo-Spewing Bat Hole
+The Grey Goo Impact Site	adventure=549	Env: unknown Stat: 0	The Goo-Bedecked Beanstalk
+The Grey Goo Impact Site	adventure=550	Env: unknown Stat: 0	The Goo-Shrouded Palindome
+The Grey Goo Impact Site	adventure=551	Env: unknown Stat: 0	The Goo-Girded Garves
+The Grey Goo Impact Site	adventure=552	Env: unknown Stat: 0	The Goo-Splattered Tower Ruins
+
+# Zodiac sign areas
+
 MusSign	adventure=47	Env: indoor Stat: 13	The Bugbear Pen	1 annoying pitchfork
 MusSign	adventure=48	Env: underground Stat: 40	The Spooky Gravy Burrow	1 inexplicably glowing rock, 1 spooky glove
 MusSign	adventure=49	Env: outdoor Stat: 0	Post-Quest Bugbear Pens
+
 Little Canadia	adventure=43	Env: outdoor Stat: 0	Outskirts of Camp Logging Camp
 Little Canadia	adventure=44	Env: outdoor Stat: 30	Camp Logging Camp
 Le Marais D&egrave;gueulasse	adventure=330	Env: outdoor Stat: 15	The Edge of the Swamp
@@ -268,30 +356,12 @@ Le Marais D&egrave;gueulasse	adventure=333	Env: indoor Stat: 50	The Ruined Wizar
 Le Marais D&egrave;gueulasse	adventure=334	Env: outdoor Stat: 30	The Wildlife Sanctuarrrrrgh
 Le Marais D&egrave;gueulasse	adventure=335	Env: outdoor Stat: 35	Swamp Beaver Territory
 Le Marais D&egrave;gueulasse	adventure=336	Env: indoor Stat: 50	The Weird Swamp Village
-MoxSign	adventure=46	Env: indoor Stat: 25	Thugnderdome	+1 flange|+1 clockwork key|10 clockwork key
-BadMoon	adventure=148	Env: none	Heartbreaker's Hotel
-Astral	adventure=96	Env: outdoor Stat: 20	An Incredibly Strange Place (Bad Trip)
-Astral	adventure=98	Env: outdoor Stat: 50	An Incredibly Strange Place (Mediocre Trip)
-Astral	adventure=97	Env: outdoor Stat: 145	An Incredibly Strange Place (Great Trip)
-Portal	adventure=164	Env: underground Stat: 365	El Vibrato Island
-Wormwood	adventure=151	Env: indoor Stat: 0	The Stately Pleasure Dome	1 choiceadv
-Wormwood	adventure=152	Env: indoor Stat: 0	The Mouldering Mansion	1 choiceadv
-Wormwood	adventure=153	Env: indoor Stat: 0	The Rogue Windmill	1 choiceadv
-Memories	adventure=204	Env: outdoor Stat: 20	The Primordial Soup
-Memories	adventure=205	Env: outdoor Stat: 55	The Jungles of Ancient Loathing
-Memories	adventure=206	Env: indoor Stat: 150	Seaside Megalopolis
-Spaaace	adventure=265	Env: indoor Stat: 0	Domed City of Ronaldus	2 Map to Safety Shelter Ronald Prime|1 E.M.U. Unit
-Spaaace	adventure=266	Env: indoor Stat: 0	Domed City of Grimacia	2 Map to Safety Shelter Grimace Prime|1 E.M.U. Unit
-Spaaace	adventure=267	Env: indoor Stat: 0	Hamburglaris Shield Generator
 
-Landscaper	adventure=224	Env: outdoor	The Landscaper's Lair	3 grass clippings
-Jacking	adventure=227	Env: indoor	Professor Jacking's Small-O-Fier	1 world's most unappetizing beverage|1 can-you-dig-it?
-Jacking	adventure=228	Env: indoor	Professor Jacking's Huge-A-Ma-tron	1 Crazyleg's razor, 1 squirmy violent party snack
-Vanya's Castle	adventure=229	Env: indoor	Vanya's Castle Foyer
-Vanya's Castle	adventure=230	Env: indoor	Vanya's Castle Chapel
-Kegger	adventure=231	Env: outdoor	Kegger in the Woods
-Magic Commune	adventure=232	Env: outdoor	The Electric Lemonade Acid Parade
-Ellsbury's Claim	adventure=236	Env: outdoor	Neckback Crick
+MoxSign	adventure=46	Env: indoor Stat: 25	Thugnderdome	+1 flange|+1 clockwork key|10 clockwork key
+
+BadMoon	adventure=148	Env: none	Heartbreaker's Hotel
+
+# Recurring Holidays
 
 Holiday	town=trickortreat	Env: none Stat: 0	Trick-or-Treating
 Holiday	adventure=23	Env: outdoor	Drunken Stupor
@@ -301,6 +371,22 @@ Holiday	adventure=174	Env: outdoor	The Arrrboretum
 Holiday	adventure=37	Env: indoor	The Spectral Pickle Factory
 Holiday	adventure=175	Env: indoor	Spectral Salad Factory
 Holiday	adventure=173	Env: outdoor	Generic Summer Holiday Swimming!
+
+# Special (maybe eventually recurring?) Events
+
+Twitch	adventure=410	Env: underground Stat: 0	The Cave Before Time
+Twitch	adventure=411	Env: indoor Stat: 0	An Illicit Bohemian Party
+Twitch	adventure=412	Env: outdoor Stat: 0	Moonshiners' Woods
+Twitch	adventure=414	Env: outdoor Stat: 0	The Roman Forum
+Twitch	adventure=418	Env: indoor Stat: 0	The Post-Mall
+Twitch	adventure=422	Env: indoor Stat: 0	The Rowdy Saloon
+Twitch	adventure=423	Env: underground Stat: 0	The Spooky Old Abandoned Mine
+Twitch	adventure=453	Env: indoor Stat: 0	Globe Theatre Main Stage
+Twitch	adventure=454	Env: indoor Stat: 0	Globe Theatre Backstage
+Twitch	adventure=475	Env: indoor Stat: 0	12 West Main
+Twitch	adventure=476	Env: outdoor Stat: 0	KoL Con Clan Party House
+
+# Special one-time Events - including Crimbo content
 
 The Candy Diorama	adventure=274	Env: unknown	Lollipop Forest
 The Candy Diorama	adventure=275	Env: unknown	Fudge Mountain
@@ -370,82 +456,117 @@ WhiteWed	adventure=89	Env: indoors	The Mall of Loathing, 28 Days Later
 WhiteWed	adventure=90	Env: outdoors	Wrong Side of the Tracks, 28 Days Later
 WhiteWed	adventure=59	Env: outdoors	The Icy Peak in The Recent Past
 
-Events	adventure=216	Env: unknown	Shivering Timbers
+PastEvents	adventure=216	Env: unknown	Shivering Timbers
 
-Events	adventure=244	Env: unknown	A Skeleton Invasion!
-Events	adventure=245	Env: unknown	The Cannon Museum
-Events	invasion=1	Env: none	A Swarm of Yeti-Mounted Skeletons
-Events	invasion=2	Env: none	The Bonewall
-Events	invasion=3	Env: none	A Massive Flying Battleship
-Events	invasion=4	Env: none	A Supply Train
-Events	invasion=5	Env: none	The Bone Star
+PastEvents	adventure=244	Env: unknown	A Skeleton Invasion!
+PastEvents	adventure=245	Env: unknown	The Cannon Museum
+PastEvents	invasion=1	Env: none	A Swarm of Yeti-Mounted Skeletons
+PastEvents	invasion=2	Env: none	The Bonewall
+PastEvents	invasion=3	Env: none	A Massive Flying Battleship
+PastEvents	invasion=4	Env: none	A Supply Train
+PastEvents	invasion=5	Env: none	The Bone Star
 
-Events	adventure=156	Env: unknown	Grim Grimacite Site
+PastEvents	adventure=156	Env: unknown	Grim Grimacite Site
 
-Events	adventure=268	Env: unknown	A Pile of Old Servers
+PastEvents	adventure=268	Env: unknown	A Pile of Old Servers
 
-Events	adventure=269	Env: unknown	The Haunted Sorority House	1 choiceadv
+PastEvents	adventure=269	Env: unknown	The Haunted Sorority House	1 choiceadv
 
-Events	plains=brushfire	Env: none	Fightin' Fire
-Events	adventure=290	Env: unknown	Super-Intense Mega-Grassfire
-Events	adventure=291	Env: unknown	Fierce Flying Flames
-Events	adventure=292	Env: unknown	Lord Flameface's Castle Entryway
-Events	adventure=293	Env: unknown	Lord Flameface's Castle Belfry
-Events	adventure=294	Env: unknown	Lord Flameface's Throne Room
+PastEvents	plains=brushfire	Env: none	Fightin' Fire
+PastEvents	adventure=290	Env: unknown	Super-Intense Mega-Grassfire
+PastEvents	adventure=291	Env: unknown	Fierce Flying Flames
+PastEvents	adventure=292	Env: unknown	Lord Flameface's Castle Entryway
+PastEvents	adventure=293	Env: unknown	Lord Flameface's Castle Belfry
+PastEvents	adventure=294	Env: unknown	Lord Flameface's Throne Room
 
-Events	adventure=357	Env: outdoor	A Stinking Abyssal Portal
-Events	adventure=358	Env: outdoor	A Scorching Abyssal Portal
-Events	adventure=359	Env: outdoor	A Terrifying Abyssal Portal
-Events	adventure=360	Env: outdoor	A Freezing Abyssal Portal
-Events	adventure=361	Env: outdoor	An Unsettling Abyssal Portal
-Events	adventure=362	Env: outdoor	A Yawning Abyssal Portal
+PastEvents	adventure=357	Env: outdoor	A Stinking Abyssal Portal
+PastEvents	adventure=358	Env: outdoor	A Scorching Abyssal Portal
+PastEvents	adventure=359	Env: outdoor	A Terrifying Abyssal Portal
+PastEvents	adventure=360	Env: outdoor	A Freezing Abyssal Portal
+PastEvents	adventure=361	Env: outdoor	An Unsettling Abyssal Portal
+PastEvents	adventure=362	Env: outdoor	A Yawning Abyssal Portal
 
-Events	adventure=363	Env: indoor	The Space Odyssey Discotheque
+PastEvents	adventure=363	Env: indoor	The Space Odyssey Discotheque
 
-Events	adventure=365	Env: outdoor	The Spirit World
+PastEvents	adventure=365	Env: outdoor	The Spirit World
 
-Events	adventure=408	Env: outdoor	Some Scattered Smoking Debris
+PastEvents	adventure=408	Env: outdoor	Some Scattered Smoking Debris
 Events	adventure=409	Env: outdoor	A Crater Full of Space Beasts
 
-Events	place=town_eincursion	Env: outdoor	An Eldritch Fissure
-Events	place=town_eicfight2	Env: outdoor	An Eldritch Horror
+PastEvents	place=town_eincursion	Env: outdoor	An Eldritch Fissure
+PastEvents	place=town_eicfight2	Env: outdoor	An Eldritch Horror
 
-Events	adventure=496	Env: outdoor nowander	Monorail Work Site
-Events	adventure=508	Env: outdoor nowander	A Monorail Station
+PastEvents	adventure=496	Env: outdoor nowander	Monorail Work Site
+PastEvents	adventure=508	Env: outdoor nowander	A Monorail Station
 
-The Drip	adventure=542	Env: outdoor nowander	The Dripping Trees
-The Drip	adventure=544	Env: indoor nowander	The Dripping Hall
+# Item-supplied adventuring zones
 
-Twitch	adventure=410	Env: underground Stat: 0	The Cave Before Time
-Twitch	adventure=411	Env: indoor Stat: 0	An Illicit Bohemian Party
-Twitch	adventure=412	Env: outdoor Stat: 0	Moonshiners' Woods
-Twitch	adventure=414	Env: outdoor Stat: 0	The Roman Forum
-Twitch	adventure=418	Env: indoor Stat: 0	The Post-Mall
-Twitch	adventure=422	Env: indoor Stat: 0	The Rowdy Saloon
-Twitch	adventure=423	Env: underground Stat: 0	The Spooky Old Abandoned Mine
-Twitch	adventure=453	Env: indoor Stat: 0	Globe Theatre Main Stage
-Twitch	adventure=454	Env: indoor Stat: 0	Globe Theatre Backstage
-Twitch	adventure=475	Env: indoor Stat: 0	12 West Main
-Twitch	adventure=476	Env: outdoor Stat: 0	KoL Con Clan Party House
+Portal	adventure=164	Env: underground Stat: 365	El Vibrato Island
 
-Psychoses	adventure=301	Env: outdoor	Anger Man's Level
-Psychoses	adventure=302	Env: outdoor	Fear Man's Level	1 digital key
-Psychoses	adventure=303	Env: outdoor	Doubt Man's Level
-Psychoses	adventure=304	Env: outdoor	Regret Man's Level
-Psychoses	adventure=305	Env: underground	The Nightmare Meatrealm
-Psychoses	adventure=306	Env: indoor	A Kitchen Drawer
-Psychoses	adventure=307	Env: indoor	A Grocery Bag
-Psychoses	adventure=309	Env: outdoor	Chinatown Shops	1 zaibatsu lobby card
-Psychoses	adventure=310	Env: indoor	Triad Factory	1 strange goggles
-Psychoses	adventure=311	Env: indoor	1st Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 2 card
-Psychoses	adventure=312	Env: indoor	2nd Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 3 card
-Psychoses	adventure=313	Env: indoor	3rd Floor, Shiawase-Mitsuhama Building	1 CEO office card
-Psychoses	adventure=314	Env: indoor	Chinatown Tenement	30 gold piece
-Psychoses	adventure=316	Env: outdoor	The Gourd!
-Psychoses	adventure=317	Env: indoor	The Tower of Procedurally-Generated Skeletons
-Psychoses	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
+Tunnel of L.O.V.E.	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
+Deep Machine Tunnels	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
+LT&T	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
+Neverending Party	adventure=528	Env: indoor Stat: 0	The Neverending Party
 
-Campground	adventure=543	Env: outdoor	Your Mushroom Garden
+Shape of Mole	adventure=177	Env: underground Stat: 0	Mt. Molehill
+
+Video Game Dungeon	adventure=319	Env: indoor Stat: 0	Video Game Level 1
+Video Game Dungeon	adventure=320	Env: indoor Stat: 0	Video Game Level 2
+Video Game Dungeon	adventure=321	Env: indoor Stat: 0	Video Game Level 3
+
+Rabbit Hole	adventure=225	Env: outdoor Stat: 0	The Red Queen's Garden	+1 reflection of a map
+
+Suburbs	adventure=277	Env: outdoor Stat: 40	The Clumsiness Grove	1 furious stone, 1 vanity stone
+Suburbs	adventure=278	Env: outdoor Stat: 40	The Maelstrom of Lovers	1 lecherous stone, 1 jealousy stone
+Suburbs	adventure=279	Env: outdoor Stat: 40	The Glacier of Jerks	1 avarice stone, 1 gluttonous stone
+
+Astral	adventure=96	Env: outdoor Stat: 20	An Incredibly Strange Place (Bad Trip)
+Astral	adventure=98	Env: outdoor Stat: 50	An Incredibly Strange Place (Mediocre Trip)
+Astral	adventure=97	Env: outdoor Stat: 145	An Incredibly Strange Place (Great Trip)
+
+Wormwood	adventure=151	Env: indoor Stat: 0	The Stately Pleasure Dome	1 choiceadv
+Wormwood	adventure=152	Env: indoor Stat: 0	The Mouldering Mansion	1 choiceadv
+Wormwood	adventure=153	Env: indoor Stat: 0	The Rogue Windmill	1 choiceadv
+
+Memories	adventure=204	Env: outdoor Stat: 20	The Primordial Soup
+Memories	adventure=205	Env: outdoor Stat: 55	The Jungles of Ancient Loathing
+Memories	adventure=206	Env: indoor Stat: 150	Seaside Megalopolis
+
+Spaaace	adventure=265	Env: indoor Stat: 0	Domed City of Ronaldus	2 Map to Safety Shelter Ronald Prime|1 E.M.U. Unit
+Spaaace	adventure=266	Env: indoor Stat: 0	Domed City of Grimacia	2 Map to Safety Shelter Grimace Prime|1 E.M.U. Unit
+Spaaace	adventure=267	Env: indoor Stat: 0	Hamburglaris Shield Generator
+
+Landscaper	adventure=224	Env: outdoor	The Landscaper's Lair	3 grass clippings
+Jacking	adventure=227	Env: indoor	Professor Jacking's Small-O-Fier	1 world's most unappetizing beverage|1 can-you-dig-it?
+Jacking	adventure=228	Env: indoor	Professor Jacking's Huge-A-Ma-tron	1 Crazyleg's razor, 1 squirmy violent party snack
+Vanya's Castle	adventure=229	Env: indoor	Vanya's Castle Foyer
+Vanya's Castle	adventure=230	Env: indoor	Vanya's Castle Chapel
+Kegger	adventure=231	Env: outdoor	Kegger in the Woods
+Magic Commune	adventure=232	Env: outdoor	The Electric Lemonade Acid Parade
+Ellsbury's Claim	adventure=236	Env: outdoor	Neckback Crick
+
+The Crackpot Mystic's Psychoses	adventure=301	Env: outdoor	Anger Man's Level
+The Crackpot Mystic's Psychoses	adventure=302	Env: outdoor	Fear Man's Level	1 digital key
+The Crackpot Mystic's Psychoses	adventure=303	Env: outdoor	Doubt Man's Level
+The Crackpot Mystic's Psychoses	adventure=304	Env: outdoor	Regret Man's Level
+
+The Meatsmith's Brainspace	adventure=305	Env: underground	The Nightmare Meatrealm
+
+The Pretentious Artist's Obsession	adventure=306	Env: indoor	A Kitchen Drawer
+The Pretentious Artist's Obsession	adventure=307	Env: indoor	A Grocery Bag
+
+The Suspicious-Looking Guy's Shady Past	adventure=309	Env: outdoor	Chinatown Shops	1 zaibatsu lobby card
+The Suspicious-Looking Guy's Shady Past	adventure=310	Env: indoor	Triad Factory	1 strange goggles
+The Suspicious-Looking Guy's Shady Past	adventure=311	Env: indoor	1st Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 2 card
+The Suspicious-Looking Guy's Shady Past	adventure=312	Env: indoor	2nd Floor, Shiawase-Mitsuhama Building	1 zaibatsu level 3 card
+The Suspicious-Looking Guy's Shady Past	adventure=313	Env: indoor	3rd Floor, Shiawase-Mitsuhama Building	1 CEO office card
+The Suspicious-Looking Guy's Shady Past	adventure=314	Env: indoor	Chinatown Tenement	30 gold piece
+
+The Captain of the Gourd's Psychoses	adventure=316	Env: outdoor	The Gourd!
+
+Jick's Obsessions	adventure=317	Env: indoor	The Tower of Procedurally-Generated Skeletons
+
+The Old Man's Past	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
 
 Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
 Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
@@ -454,7 +575,7 @@ The Candy Witch and the Relentless Child Thieves	adventure=370	Env: outdoor Stat
 The Candy Witch and the Relentless Child Thieves	adventure=371	Env: outdoor Stat: 0	Eager Rice Burrows
 The Candy Witch and the Relentless Child Thieves	adventure=372	Env: outdoor Stat: 0	Gumdrop Forest
 
-Woods	adventure=373	Env: outdoor Stat: 0	A Deserted Stretch of I-911
+A Deserted Stretch of I-911	adventure=373	Env: outdoor Stat: 0	A Deserted Stretch of I-911
 
 The Prince's Ball	adventure=374	Env: indoor Stat: 0	The Prince's Restroom
 The Prince's Ball	adventure=375	Env: indoor Stat: 0	The Prince's Dance Floor
@@ -579,14 +700,3 @@ PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Storm Island
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Red Roger's Fortress
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Jack's Hideout
 PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	The Temple
-
-# Grey Goo path
-
-The Grey Goo Impact Site	adventure=545	Env: unknown Stat: 0	The Goo Fields
-The Grey Goo Impact Site	adventure=546	Env: unknown Stat: 0	The Goo-Choked Fun House
-The Grey Goo Impact Site	adventure=547	Env: unknown Stat: 0	The Goo-Coated Knob
-The Grey Goo Impact Site	adventure=548	Env: unknown Stat: 0	The Goo-Spewing Bat Hole
-The Grey Goo Impact Site	adventure=549	Env: unknown Stat: 0	The Goo-Bedecked Beanstalk
-The Grey Goo Impact Site	adventure=550	Env: unknown Stat: 0	The Goo-Shrouded Palindome
-The Grey Goo Impact Site	adventure=551	Env: unknown Stat: 0	The Goo-Girded Garves
-The Grey Goo Impact Site	adventure=552	Env: unknown Stat: 0	The Goo-Splattered Tower Ruins

@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
+import net.sourceforge.kolmafia.session.StillSuitManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
@@ -4086,7 +4087,7 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("_holoWristProgress");
       }
 
-      if (QuestDatabase.isQuestLaterThan(Quest.GUZZLR, QuestDatabase.UNSTARTED)
+      if (QuestDatabase.isQuestStarted(Quest.GUZZLR)
           && Preferences.getString("guzzlrQuestLocation").equals(locationName)
           && responseText.contains(Preferences.getString("guzzlrQuestClient"))) {
         int incr = Math.max(3, 10 - Preferences.getInteger("_guzzlrDeliveries"));
@@ -4096,7 +4097,7 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("guzzlrDeliveryProgress", incr);
       }
 
-      if (QuestDatabase.isQuestLaterThan(Quest.GUZZLR, QuestDatabase.UNSTARTED)
+      if (QuestDatabase.isQuestStarted(Quest.GUZZLR)
           && responseText.contains("You finally manage to track down")) {
         String tier = Preferences.getString("guzzlrQuestTier");
         int itemId = ItemDatabase.getItemId(Preferences.getString("guzzlrQuestBooze"));
@@ -4198,6 +4199,9 @@ public class FightRequest extends GenericRequest {
     } else if (KoLCharacter.isPlumber()) {
       KoLCharacter.resetCurrentPP();
     }
+
+    // Handle incrementing stillsuit sweat (this happens whether the fight is won or lost)
+    StillSuitManager.handleSweat(responseText);
 
     FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
     FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();
