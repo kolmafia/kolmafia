@@ -2717,3 +2717,4 @@
 2717	Kinda Damp	blooddrops.gif	1e39ab0a1afcc1c70d5302304f7b93b2	good	none
 2718	Wholesomely Resolved	happy.gif	2b47f4772381abb5ac24e620be92da96	good	none
 2719	Slippery and Speedy	sweaty.gif	defb8cda55243471997f272f928a09f8	neutral	none	cast 1 Drench Yourself in Sweat
+2720	Buzzed on Distillate	chinsweat.gif	d64eab33f648e1a77da23ae516353fb2	neutral	none

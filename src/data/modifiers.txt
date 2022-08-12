@@ -5313,6 +5313,7 @@ Effect	Buttery, Boy	Sleaze Resistance: +3, Sleaze Damage: +30, Moxie Percent: +1
 Effect	Buttons Rouged, Louisiana	Avatar: "man with the red buttons"
 Effect	Buy!  Sell!  Buy!  Sell!	Meat Drop: [max(0,202-2*T)]
 Effect	Buzzard Breath	Stench Damage: +30, Spooky Damage: +30
+# Buzzed on Distillate: Variable
 Effect	Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Effect	Cake Caked	Mysticality Percent: +50
 Effect	Can Has Cyborger	Moxie Percent: +10
