@@ -736,8 +736,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
       switch (this.adventureNumber) {
         case AdventurePool.BAT_HOLE_ENTRYWAY:
-        case AdventurePool.GUANO_JUNCTION:
           return true;
+        case AdventurePool.GUANO_JUNCTION:
+          return KoLCharacter.getElementalResistanceLevels(Element.STENCH) >= 1;
         case AdventurePool.BATRAT:
         case AdventurePool.BEANBAT:
         case AdventurePool.BOSSBAT:

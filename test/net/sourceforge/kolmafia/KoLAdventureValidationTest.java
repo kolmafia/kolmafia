@@ -662,6 +662,213 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class BatHole {
+
+    private static final KoLAdventure BAT_HOLE_ENTRYWAY =
+        AdventureDatabase.getAdventureByName("The Bat Hole Entrance");
+    private static final KoLAdventure GUANO_JUNCTION =
+        AdventureDatabase.getAdventureByName("Guano Junction");
+    private static final KoLAdventure BATRAT =
+        AdventureDatabase.getAdventureByName("The Batrat and Ratbat Burrow");
+    private static final KoLAdventure BEANBAT =
+        AdventureDatabase.getAdventureByName("The Beanbat Chamber");
+    private static final KoLAdventure BOSSBAT =
+        AdventureDatabase.getAdventureByName("The Boss Bat's Lair");
+
+    @Test
+    public void cannotVisitBatHoleWithQuestUnstarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertFalse(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithQuestStarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertFalse(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void needStenchProtectionForGuanoJunction() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertTrue(GUANO_JUNCTION.canAdventure());
+        assertFalse(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithOneSonarUsed() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step1"));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithOneSonarInInventory() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 1));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithTwoSonarUsed() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step2"));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithTwoSonarInInventory() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 2));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithThreeSonarUsed() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step3"));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BEANBAT.canAdventure());
+        assertTrue(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithThreeSonarInInventory() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BEANBAT.canAdventure());
+        assertTrue(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureInBatHoleUsingZeroSonar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(withQuestProgress(Quest.BAT, "step1"), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BATRAT.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureInBatHoleUsingOneSonar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BATRAT.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureInBatHoleUsingTwoSonar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BEANBAT.canAdventure());
+        assertTrue(BEANBAT.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+        assertPostRequest(
+            requests.get(1), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureInBatHoleUsingThreeSonar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BOSSBAT.canAdventure());
+        assertTrue(BOSSBAT.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+        assertPostRequest(
+            requests.get(1), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+        assertPostRequest(
+            requests.get(2), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+      }
+    }
+  }
+
+  @Nested
   class CobbsKnob {
 
     private static final KoLAdventure OUTSKIRTS_OF_THE_KNOB =
