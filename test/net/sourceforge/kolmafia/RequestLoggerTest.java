@@ -5,6 +5,7 @@ import static internal.helpers.Player.withLastLocationName;
 import static internal.helpers.Player.withMultiFight;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
@@ -66,5 +67,18 @@ class RequestLoggerTest {
         assertThat(output, equalTo("[1] Unknown Location"));
       }
     }
+  }
+
+  @Test
+  public void logCanHaveGeneratedHTML() {
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      RequestLogger.openCustom(out);
+      RequestLogger.printLine("> Wassup?");
+      RequestLogger.closeCustom();
+    }
+    String logged = ostream.toString().trim();
+    assertEquals("> Wassup?", logged);
+
   }
 }
