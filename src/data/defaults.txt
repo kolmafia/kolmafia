@@ -739,7 +739,6 @@ user	iceSculptureMonster
 user	iceSwagger	0
 user	implementGlitchItem	false
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
-user	item9084	0
 user	itemBoughtPerAscension637	false
 user	itemBoughtPerAscension8266	false
 user	itemBoughtPerAscension10790	false
@@ -1031,6 +1030,7 @@ user	nsContestants1	-1
 user	nsContestants2	-1
 user	nsContestants3	-1
 user	nsTowerDoorKeysUsed
+user	nuclearAutumnPoints	0
 user	numericSwagger	0
 user	nunsVisits	0
 user	oceanAction	savecontinue
@@ -1431,6 +1431,7 @@ user	trackVoteMonster	false
 user	turtleBlessingTurns	0
 user	trapperOre
 user	twinPeakProgress	0
+user	twoCRSPoints	0
 user	umbrellaState	broken
 user	umdLastObtained	
 user	uneffectWithHotTub	true
