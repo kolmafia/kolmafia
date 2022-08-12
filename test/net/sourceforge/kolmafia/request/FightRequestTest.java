@@ -9,6 +9,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -1081,6 +1082,23 @@ public class FightRequestTest {
         rock.setItem(ItemPool.get(ItemPool.STILLSUIT));
         parseCombatData("request/test_fight_stillsuit_in_terrarium.html");
         assertThat("familiarSweat", isSetTo(6));
+      }
+    }
+  }
+
+  @Nested
+  class PocketProfessor {
+    @Test
+    public void incrementsLecturesIfFamWeightIncreasesMidCombat() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.METEOR_SHOWER),
+              withFamiliar(FamiliarPool.POCKET_PROFESSOR, 100),
+              withProperty("_pocketProfessorLectures", 4));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_meteor_shower_lecture.html");
+        assertThat("_pocketProfessorLectures", isSetTo(5));
       }
     }
   }
