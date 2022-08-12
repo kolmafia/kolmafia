@@ -45,17 +45,42 @@ import org.mockito.Mockito;
 
 public class Player {
 
-  private static void addItemRequirement(Cleanups cleanups, AdventureResult item) {
-    String requirement = EquipmentDatabase.getEquipRequirement(item.getItemId());
+  /**
+   * Ensures that the character stats are sufficient to equip an item
+   *
+   * @param itemName The item of interest
+   * @return Restores the stat to the old value
+   */
+  public static Cleanups withStatsRequiredForEquipment(final String itemName) {
+    int itemId = ItemDatabase.getItemId(itemName, 1, false);
+    return withStatsRequiredForEquipment(itemId);
+  }
+
+  /**
+   * Ensures that the character stats are sufficient to equip an item
+   *
+   * @param AdventureResult The item of interest
+   * @return Restores the stat to the old value
+   */
+  public static Cleanups withStatsRequiredForEquipment(AdventureResult item) {
+    return withStatsRequiredForEquipment(item.getItemId());
+  }
+
+  /**
+   * Ensures that the character stats are sufficient to equip an item
+   *
+   * @param itemId The item of interest
+   * @return Restores the stat to the old value
+   */
+  public static Cleanups withStatsRequiredForEquipment(final int itemId) {
+    String requirement = EquipmentDatabase.getEquipRequirement(itemId);
     EquipmentRequirement req = new EquipmentRequirement(requirement);
 
-    if (req.isMuscle()) {
-      cleanups.add(withMuscleAtLeast(req.getAmount()));
-    } else if (req.isMysticality()) {
-      cleanups.add(withMysticalityAtLeast(req.getAmount()));
-    } else if (req.isMoxie()) {
-      cleanups.add(withMoxieAtLeast(req.getAmount()));
-    }
+    return req.isMuscle()
+        ? withMuscleAtLeast(req.getAmount())
+        : req.isMysticality()
+            ? withMysticalityAtLeast(req.getAmount())
+            : req.isMoxie() ? withMoxieAtLeast(req.getAmount()) : new Cleanups();
   }
 
   /**
@@ -98,16 +123,19 @@ public class Player {
    * @return Restores item previously equipped to slot
    */
   public static Cleanups withEquipped(final int slot, final AdventureResult item) {
+    var cleanups = new Cleanups();
+    // Do this first so that Equipment lists and outfits will update appropriately
+    cleanups.add(withStatsRequiredForEquipment(item));
+
     var old = EquipmentManager.getEquipment(slot);
     EquipmentManager.setEquipment(slot, item.getItemId() == -1 ? EquipmentRequest.UNEQUIP : item);
     EquipmentManager.updateNormalOutfits();
-    var cleanups =
+    cleanups.add(
         new Cleanups(
             () -> {
               EquipmentManager.setEquipment(slot, old);
               EquipmentManager.updateNormalOutfits();
-            });
-    addItemRequirement(cleanups, item);
+            }));
     return cleanups;
   }
 
@@ -342,8 +370,9 @@ public class Player {
    */
   public static Cleanups withEquippableItem(final AdventureResult item) {
     var cleanups = new Cleanups();
+    // Do this first so that Equipment lists and outfits will update appropriately
+    cleanups.add(withStatsRequiredForEquipment(item));
     cleanups.add(withItem(item));
-    addItemRequirement(cleanups, item);
     return cleanups;
   }
 
