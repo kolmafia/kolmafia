@@ -58,8 +58,7 @@ class RequestLoggerTest {
     @Test
     public void canReportUnknownLocationInMultiFight() {
       var cleanups =
-          new Cleanups(
-              withLastLocation((String) null), withMultiFight(), withItemMonster(null));
+          new Cleanups(withLastLocation((String) null), withMultiFight(), withItemMonster(null));
 
       try (cleanups) {
         var output = withCapturedLogs(RequestLogger::registerLastLocation);
