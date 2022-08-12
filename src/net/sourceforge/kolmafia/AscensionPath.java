@@ -46,7 +46,8 @@ public class AscensionPath {
     GLOVER("G-Lover", 33, false, "g-loveheart", "a", "gloverPoints", 10, false),
     DISGUISES_DELIMIT("Disguises Delimit", 34, false, "dd_icon", "a", "masksUnlocked", 25, false),
     DARK_GYFFTE("Dark Gyffte", 35, true, "darkgift", "a", "darkGyfftePoints", 23, true),
-    CRAZY_RANDOM_SUMMER_TWO("Two Crazy Random Summer", 36, false, "twocrazydice", "a", "twoCRSPoints", 37, false),
+    CRAZY_RANDOM_SUMMER_TWO(
+        "Two Crazy Random Summer", 36, false, "twocrazydice", "a", "twoCRSPoints", 37, false),
     KINGDOM_OF_EXPLOATHING("Kingdom of Exploathing", 37, false, "puff", "a"),
     PATH_OF_THE_PLUMBER(
         "Path of the Plumber", 38, true, "mario_mushroom1", "a", "plumberPoints", 22, false),
