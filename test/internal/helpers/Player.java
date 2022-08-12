@@ -1056,7 +1056,11 @@ public class Player {
             withProperty("hiddenOfficeProgress"),
             withProperty("hiddenBowlingAlleyProgress"));
 
-    KoLAdventure.setLastAdventure(lastLocation);
+    if (lastLocation == null) {
+      KoLAdventure.setLastAdventure((String) null);
+    } else {
+      KoLAdventure.setLastAdventure(lastLocation);
+    }
 
     var cleanups = new Cleanups(() -> KoLAdventure.setLastAdventure(old));
     cleanups.add(clearProperties);

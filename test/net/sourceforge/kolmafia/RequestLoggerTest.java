@@ -44,7 +44,7 @@ class RequestLoggerTest {
     public void canReportPreviousLocationInMultiFightWithItemMonster() {
       var cleanups =
           new Cleanups(
-              withLastLocation((KoLAdventure) null),
+              withLastLocation((String) null),
               withMultiFight(),
               withItemMonster("Combat Lover's Locket"));
 
@@ -59,7 +59,7 @@ class RequestLoggerTest {
     public void canReportUnknownLocationInMultiFight() {
       var cleanups =
           new Cleanups(
-              withLastLocation((KoLAdventure) null), withMultiFight(), withItemMonster(null));
+              withLastLocation((String) null), withMultiFight(), withItemMonster(null));
 
       try (cleanups) {
         var output = withCapturedLogs(RequestLogger::registerLastLocation);
