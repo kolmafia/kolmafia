@@ -5,7 +5,6 @@ import static internal.helpers.Player.withLastLocationName;
 import static internal.helpers.Player.withMultiFight;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
