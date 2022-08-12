@@ -136,7 +136,7 @@ public class Player {
             () -> {
               EquipmentManager.setEquipment(slot, old);
               EquipmentManager.updateNormalOutfits();
-	      KoLCharacter.recalculateAdjustments();
+              KoLCharacter.recalculateAdjustments();
             }));
     return cleanups;
   }
