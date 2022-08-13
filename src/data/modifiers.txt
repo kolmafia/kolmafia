@@ -2036,7 +2036,7 @@ Item	A Light that Never Goes Out	Mysticality: +5, Hot Damage: +5, Smithsness: +5
 Item	Abracandalabra	Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 10, Maximum MP Percent: +100, Lasts Until Rollover
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
-Item	Adventurer bobblehead	Muscle Percent: [pref(item9084)], Mysticality Percent: [pref(item9084)], Moxie Percent: [pref(item9084)]
+Item	Adventurer bobblehead	Muscle Percent: [pref(nuclearAutumnPoints)], Mysticality Percent: [pref(nuclearAutumnPoints)], Moxie Percent: [pref(nuclearAutumnPoints)]
 # aerogel attache case: Produce random cocktailcrafting ingredients as you adventure
 Item	aerogel attache case	Pickpocket Chance: +10, Stench Damage: +10, Drops Items
 Item	ancient calendar	Adventures: +3, Damage Reduction: 4
@@ -5313,6 +5313,7 @@ Effect	Buttery, Boy	Sleaze Resistance: +3, Sleaze Damage: +30, Moxie Percent: +1
 Effect	Buttons Rouged, Louisiana	Avatar: "man with the red buttons"
 Effect	Buy!  Sell!  Buy!  Sell!	Meat Drop: [max(0,202-2*T)]
 Effect	Buzzard Breath	Stench Damage: +30, Spooky Damage: +30
+# Buzzed on Distillate: Variable
 Effect	Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Effect	Cake Caked	Mysticality Percent: +50
 Effect	Can Has Cyborger	Moxie Percent: +10

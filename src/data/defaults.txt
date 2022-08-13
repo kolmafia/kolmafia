@@ -739,7 +739,6 @@ user	iceSculptureMonster
 user	iceSwagger	0
 user	implementGlitchItem	false
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
-user	item9084	0
 user	itemBoughtPerAscension637	false
 user	itemBoughtPerAscension8266	false
 user	itemBoughtPerAscension10790	false
@@ -941,6 +940,7 @@ user	lttQuestDifficulty	0
 user	lttQuestName	
 user	lttQuestStageCount	0
 user	maelstromOfLoversBoss
+user	madnessBakeryAvailable	false
 user	makeFriendsMonster	
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
@@ -1030,6 +1030,7 @@ user	nsContestants1	-1
 user	nsContestants2	-1
 user	nsContestants3	-1
 user	nsTowerDoorKeysUsed
+user	nuclearAutumnPoints	0
 user	numericSwagger	0
 user	nunsVisits	0
 user	oceanAction	savecontinue
@@ -1042,6 +1043,7 @@ user	optimalSwagger	0
 user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
+user	overgrownLotAvailable	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
 user	pastaThrall1
@@ -1272,6 +1274,7 @@ user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
 user	singleFamiliarRun	0
 user	skateParkStatus	war
+user	skeletonStoreAvailable	false
 user	skillBurn3	-100
 user	skillBurn90	-100
 user	skillBurn153	-100
@@ -1428,6 +1431,7 @@ user	trackVoteMonster	false
 user	turtleBlessingTurns	0
 user	trapperOre
 user	twinPeakProgress	0
+user	twoCRSPoints	0
 user	umbrellaState	broken
 user	umdLastObtained	
 user	uneffectWithHotTub	true

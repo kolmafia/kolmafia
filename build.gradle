@@ -67,6 +67,7 @@ dependencies {
 	testImplementation('org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.12.0') {
 		because 'assertion errors including Location/Range/Position need it'
 	}
+	testImplementation 'org.junit-pioneer:junit-pioneer:1.7.1'
 
 	implementation 'com.formdev:flatlaf:1.6.2'
 	implementation 'com.formdev:flatlaf-intellij-themes:1.6.2'

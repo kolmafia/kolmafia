@@ -2057,7 +2057,7 @@ public class EquipmentManager {
   }
 
   public static final void updateNormalOutfits() {
-    ArrayList<SpecialOutfit> available = new ArrayList<SpecialOutfit>();
+    ArrayList<SpecialOutfit> available = new ArrayList<>();
 
     for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit != null && outfit.hasAllPieces()) {

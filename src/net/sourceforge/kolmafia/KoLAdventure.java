@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +31,7 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
@@ -45,7 +47,6 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -381,6 +382,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult TRANSPONDER = ItemPool.get(ItemPool.TRANSPORTER_TRANSPONDER);
   private static final AdventureResult PIRATE_FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult DRIP_HARNESS = ItemPool.get(ItemPool.DRIP_HARNESS, 1);
+  private static final AdventureResult FANTASY_REALM_GEM = ItemPool.get(ItemPool.FANTASY_REALM_GEM);
+  private static final AdventureResult BONE_WITH_A_PRICE_TAG =
+      ItemPool.get(ItemPool.BONE_WITH_A_PRICE_TAG);
+  private static final AdventureResult BOOZE_MAP = ItemPool.get(ItemPool.BOOZE_MAP);
+  private static final AdventureResult HYPNOTIC_BREADCRUMBS =
+      ItemPool.get(ItemPool.HYPNOTIC_BREADCRUMBS);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -393,6 +400,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult FORM_OF_BIRD = EffectPool.get(EffectPool.FORM_OF_BIRD);
   private static final AdventureResult ABSINTHE_MINDED = EffectPool.get(EffectPool.ABSINTHE);
   private static final AdventureResult TRANSPONDENT = EffectPool.get(EffectPool.TRANSPONDENT);
+  private static final AdventureResult FILTHWORM_LARVA_STENCH =
+      EffectPool.get(EffectPool.FILTHWORM_LARVA_STENCH);
+  private static final AdventureResult FILTHWORM_DRONE_STENCH =
+      EffectPool.get(EffectPool.FILTHWORM_DRONE_STENCH);
+  private static final AdventureResult FILTHWORM_GUARD_STENCH =
+      EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
 
   private static final Set<String> antiqueMapZones = new HashSet<>();
   private static final Set<String> psychosesZones = new HashSet<>();
@@ -507,6 +520,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step4");
     }
 
+    // Dwarven Factory Warehouse
+    if (this.formSource.equals("dwarffactory.php")) {
+      return QuestDatabase.isQuestStarted(Quest.FACTORY) && hasRequiredOutfit();
+    }
+
     // The Tunnel of L.O.V.E.
     if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
       // LOV Entrance Pass is the one-day pass.
@@ -541,9 +559,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Town")) {
       return switch (this.adventureNumber) {
         case AdventurePool.SLEAZY_BACK_ALLEY -> true;
-        case AdventurePool.SKELETON_STORE -> QuestDatabase.isQuestStarted(Quest.MEATSMITH);
-        case AdventurePool.MADNESS_BAKERY -> QuestDatabase.isQuestStarted(Quest.ARMORER);
-        case AdventurePool.OVERGROWN_LOT -> QuestDatabase.isQuestStarted(Quest.DOC);
+          // We can start the three market quests, if necessary
+        case AdventurePool.SKELETON_STORE -> true;
+        case AdventurePool.MADNESS_BAKERY -> true;
+        case AdventurePool.OVERGROWN_LOT -> true;
           // Shen is available once you've read the diary and been told to talk to him.
         case AdventurePool.COPPERHEAD_CLUB -> QuestDatabase.isQuestStarted(Quest.SHEN);
           // Only one of the four Lair locations is in Town; two are in the
@@ -641,44 +660,72 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // We have a way to get to the island.  Access to individual zones
       // depends on quest state and outfits
 
-      String winner = IslandManager.warWinner();
-      // neither, hippies, fratboys
+      if (this.adventureNumber == AdventurePool.SONOFA_BEACH) {
+        // Sonofa Beach is available during the war as a sidequest and also
+        // after the war, whether or not it was used as such.
+        return QuestDatabase.isQuestLaterThan(Quest.ISLAND_WAR, QuestDatabase.STARTED);
+      }
 
-      return switch (this.adventureNumber) {
-          // You cannot visit the pirates during the war
-        case AdventurePool.PIRATE_COVE -> !QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
+      // If the war is in-progress, no "peaceful" areas are available
+      if (QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
+        return false;
+      }
 
+      String loser = Preferences.getString("sideDefeated");
+
+      switch (this.adventureNumber) {
+        case AdventurePool.PIRATE_COVE:
+          return true;
+
+        case AdventurePool.HIPPY_CAMP:
           // You can visit the hippy camp before or after the war, unless it
           // has been bombed into the stone age.
-        case AdventurePool.HIPPY_CAMP, AdventurePool.HIPPY_CAMP_DISGUISED -> QuestDatabase
-                .isQuestBefore(Quest.ISLAND_WAR, "step1")
-            || (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) && winner.equals("hippies"));
+          if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)) {
+            return !loser.equals("hippies") && !loser.equals("both");
+          }
+          return true;
 
+        case AdventurePool.FRAT_HOUSE:
           // You can visit the frat house before or after the war, unless it
           // has been bombed into the stone age.
-        case AdventurePool.FRAT_HOUSE, AdventurePool.FRAT_HOUSE_DISGUISED -> QuestDatabase
-                .isQuestBefore(Quest.ISLAND_WAR, "step1")
-            || (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) && winner.equals("fratboys"));
+          if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)) {
+            return !loser.equals("fratboys") && !loser.equals("both");
+          }
+          return true;
 
-        case AdventurePool.BOMBED_HIPPY_CAMP -> QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
-            && (winner.equals("neither") || winner.equals("fratboys"));
+        case AdventurePool.HIPPY_CAMP_DISGUISED:
+          // No disguises in bombed Hippy Camp
+          if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
+              && (loser.equals("hippies") || loser.equals("both"))) {
+            return false;
+          }
+          return hasRequiredOutfit();
 
-        case AdventurePool.BOMBED_FRAT_HOUSE -> QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
-            && (winner.equals("neither") || winner.equals("hippies"));
+        case AdventurePool.FRAT_HOUSE_DISGUISED:
+          // No disguises in bombed Frat Camp
+          if (QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
+              && (loser.equals("fratboys") || loser.equals("both"))) {
+            return false;
+          }
+          return hasRequiredOutfit();
 
-          // Sonofa Beach is available during the war as a sidequest and also
-          // after the war, whether or not it was used as such.
-        case AdventurePool.SONOFA_BEACH -> QuestDatabase.isQuestLaterThan(
-            Quest.ISLAND_WAR, QuestDatabase.STARTED);
+        case AdventurePool.BOMBED_HIPPY_CAMP:
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
+              && (loser.equals("hippies") || loser.equals("both"));
+
+        case AdventurePool.BOMBED_FRAT_HOUSE:
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)
+              && (loser.equals("fratboys") || loser.equals("both"));
 
           // The Junkyard and the Farm are sidequest zones during the war, but
           // are available as single adventuring areas after the war is done.
-        case AdventurePool.THE_JUNKYARD, AdventurePool.MCMILLICANCUDDYS_FARM -> QuestDatabase
-            .isQuestFinished(Quest.ISLAND_WAR);
+        case AdventurePool.THE_JUNKYARD:
+        case AdventurePool.MCMILLICANCUDDYS_FARM:
+          return QuestDatabase.isQuestFinished(Quest.ISLAND_WAR);
+      }
 
-          // Allow future "Island" zones
-        default -> true;
-      };
+      // Allow future "Island" zones
+      return true;
     }
 
     // Level 4 quest
@@ -784,7 +831,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.NINJA_SNOWMEN, AdventurePool.EXTREME_SLOPE -> QuestDatabase
             .isQuestLaterThan(Quest.TRAPPER, "step1");
         case AdventurePool.ICY_PEAK -> QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4");
-        case AdventurePool.MINE_OFFICE -> QuestDatabase.isQuestStarted(Quest.FACTORY);
+        case AdventurePool.MINE_OFFICE -> QuestDatabase.isQuestStarted(Quest.FACTORY)
+            && hasRequiredOutfit();
         default -> false;
       };
     }
@@ -868,6 +916,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStarted(Quest.PYRAMID)) {
         return false;
       }
+
       return switch (this.adventureNumber) {
         case AdventurePool.UPPER_CHAMBER -> true;
         case AdventurePool.MIDDLE_CHAMBER -> Preferences.getBoolean("middleChamberUnlock");
@@ -909,31 +958,43 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
 
-      if (!QuestDatabase.isQuestStarted(Quest.ISLAND_WAR)) {
-        return false;
-      }
-
       // Quest.ISLAND_WAR progresses from "unstarted" -> "started" -> "step1" -> "finished"
       // "unstarted" is the peaceful Mysterious Island
       // "started" is the Verge of War on the Mysterious Island
       // "step1" is the actual war on the Big Island
       // "finished" is the peaceful Big Island
 
-      return switch (this.adventureNumber) {
-        case AdventurePool.WARTIME_FRAT_HOUSE,
-            AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
-            AdventurePool.WARTIME_HIPPY_CAMP,
-            AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED -> QuestDatabase.isQuestBefore(
-            Quest.ISLAND_WAR, "step1");
+      if (!QuestDatabase.isQuestStarted(Quest.ISLAND_WAR)
+          || QuestDatabase.isQuestFinished(Quest.ISLAND_WAR)) {
+        return false;
+      }
 
-        case AdventurePool.FRAT_UNIFORM_BATTLEFIELD,
-            AdventurePool.HIPPY_UNIFORM_BATTLEFIELD -> QuestDatabase.isQuestStep(
-            Quest.ISLAND_WAR, "step1");
+      switch (this.adventureNumber) {
+        case AdventurePool.WARTIME_FRAT_HOUSE:
+        case AdventurePool.WARTIME_HIPPY_CAMP:
+          return QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED);
 
-          // available during the war. After the war, you can visit the Nunnery.
-        case AdventurePool.THEMTHAR_HILLS -> QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
-        default -> false;
-      };
+        case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED:
+        case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED:
+          if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, QuestDatabase.STARTED)) {
+            return false;
+          }
+          return hasRequiredOutfit();
+
+        case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
+        case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
+          if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
+            return false;
+          }
+          return hasRequiredOutfit();
+
+        case AdventurePool.THEMTHAR_HILLS:
+          // Available only during the war. After the war, you can visit the Nunnery.
+          return QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
+
+        default:
+          return false;
+      }
     }
 
     if (this.zone.equals("Farm")) {
@@ -959,14 +1020,26 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
-      // The Hatching Chamber
-      // The Feeding Chamber
-      // The Royal Guard Chamber
-      // The Filthworm Queen's Chamber
 
-      // *** validate:
-      // - done when Filthworm Queen is slain
-      return true;
+      // Once Filthworm Queen is defeated none of the zones can be accessed
+      if (InventoryManager.hasItem(ItemPool.FILTHWORM_QUEEN_HEART)
+          || !Preferences.getString("sidequestOrchardCompleted").equals("none")) {
+        return false;
+      }
+
+      return switch (this.adventureNumber) {
+        case AdventurePool.FILTHWORM_HATCHING_CHAMBER -> true;
+        case AdventurePool.FILTHWORM_FEEDING_CHAMBER -> KoLConstants.activeEffects.contains(
+                FILTHWORM_LARVA_STENCH)
+            || InventoryManager.hasItem(ItemPool.FILTHWORM_HATCHLING_GLAND);
+        case AdventurePool.FILTHWORM_GUARDS_CHAMBER -> KoLConstants.activeEffects.contains(
+                FILTHWORM_DRONE_STENCH)
+            || InventoryManager.hasItem(ItemPool.FILTHWORM_DRONE_GLAND);
+        case AdventurePool.FILTHWORM_QUEENS_CHAMBER -> KoLConstants.activeEffects.contains(
+                FILTHWORM_GUARD_STENCH)
+            || InventoryManager.hasItem(ItemPool.FILTHWORM_GUARD_GLAND);
+        default -> false;
+      };
     }
 
     if (this.zone.equals("Junkyard")) {
@@ -1056,7 +1129,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       boolean ascended = KoLCharacter.getAscensions() > 0;
       int level = KoLCharacter.getLevel();
       boolean keyed = QuestDatabase.isQuestLaterThan(Quest.EGO, QuestDatabase.STARTED);
-      return ascended && level >= 4 && level <= 5 && keyed;
+      if (!ascended || level < 4 || level > 5 || !keyed) {
+        return false;
+      }
+
+      return switch (this.adventureNumber) {
+        case AdventurePool.CLOACA_BATTLEFIELD,
+            AdventurePool.DYSPEPSI_BATTLEFIELD -> hasRequiredOutfit();
+        default -> true;
+      };
     }
 
     if (this.zone.equals("Degrassi Knoll")) {
@@ -1118,8 +1199,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       boolean haveOutfit = EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP);
       boolean haveFledges =
-          EquipmentManager.canEquip(PIRATE_FLEDGES)
-              && InventoryManager.getAccessibleCount(PIRATE_FLEDGES) > 0;
+          EquipmentManager.canEquip(PIRATE_FLEDGES) && InventoryManager.hasItem(PIRATE_FLEDGES);
       if (!haveOutfit && !haveFledges) {
         return false;
       }
@@ -1134,6 +1214,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Dungeon")) {
       return switch (this.adventureNumber) {
+        case AdventurePool.LIMERICK_DUNGEON -> KoLCharacter.getBaseMainstat() >= 19;
           // The Enormous Greater-Than Sign is available if your base
           // mainstate is at least 45 and you have not yet unlocked
           // the Dungeon of Doom
@@ -1464,8 +1545,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return false;
       }
-      // *** You have limited turns available per day.
-      return Preferences.getBoolean("spacegateAlways") || Preferences.getBoolean("_spacegateToday");
+
+      return (Preferences.getBoolean("spacegateAlways")
+              || Preferences.getBoolean("_spacegateToday"))
+          && !Preferences.getString("_spacegateCoordinates").isBlank()
+          && Preferences.getInteger("_spacegateTurnsLeft") > 0;
     }
 
     if (this.zone.equals("Gingerbread City")) {
@@ -1475,8 +1559,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("FantasyRealm")) {
-      // *** You have limited turns available per day.
-      return Preferences.getBoolean("frAlways") || Preferences.getBoolean("_frToday");
+      if (!Preferences.getBoolean("frAlways") && !Preferences.getBoolean("_frToday")) {
+        return false;
+      }
+
+      if (Preferences.getInteger("_frHoursLeft") < 1) return false;
+
+      return (Preferences.getString("_frAreasUnlocked").contains(this.adventureName));
     }
 
     if (this.zone.startsWith("PirateRealm")) {
@@ -1486,6 +1575,29 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Assume that any areas we did not call out above are available
     return true;
+  }
+
+  private boolean hasRequiredOutfit() {
+    return this.getOutfitId() != 0;
+  }
+
+  private int firstAvailableOutfitId(int... ids) {
+    // If one of the outfits is currently worn, either the user specifically
+    // chose it, or we chose it on a previous call.
+    // Don't override user decisions, so, return that one.
+    int outfitId =
+        Arrays.stream(ids).filter(EquipmentManager::isWearingOutfit).findFirst().orElse(0);
+    if (outfitId != 0) {
+      return outfitId;
+    }
+    // No user selection. The outfits are assumed to be ordered by "goodness".
+    // Pick the first available. (And equippable; hasOutfit enforces that.)
+    return Arrays.stream(ids).filter(EquipmentManager::hasOutfit).findFirst().orElse(0);
+  }
+
+  private int availableOutfitId(int id) {
+    // Checks if the outfit is currently worn or equippable.
+    return EquipmentManager.hasOutfit(id) ? id : 0;
   }
 
   // Building a dingy dinghy is something that validate2 can do for us.
@@ -1599,39 +1711,46 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.formSource.equals("dwarffactory.php")
         || this.adventureNumber == AdventurePool.MINE_OFFICE) {
-      int id1 = OutfitPool.MINING_OUTFIT;
-      int id2 = OutfitPool.DWARVISH_UNIFORM;
 
-      if (EquipmentManager.isWearingOutfit(id1) || EquipmentManager.isWearingOutfit(id2)) {
-        return true;
+      int outfitId = this.getOutfitId();
+      if (outfitId > 0) {
+        return wearOutfit(outfitId);
       }
 
-      SpecialOutfit outfit =
-          EquipmentManager.hasOutfit(id1)
-              ? EquipmentDatabase.getOutfit(id1)
-              : EquipmentManager.hasOutfit(id2) ? EquipmentDatabase.getOutfit(id2) : null;
-
-      if (outfit == null) {
-        return false;
-      }
-
-      RequestThread.postRequest(new EquipmentRequest(outfit));
       return true;
     }
 
-    // Disguise zones require outfits
-    int outfitId = this.getOutfitId();
-    if (outfitId > 0) {
-      if (EquipmentManager.isWearingOutfit(outfitId)) {
-        return true;
-      }
-
-      SpecialOutfit outfit = EquipmentDatabase.getOutfit(outfitId);
-      if (!EquipmentManager.retrieveOutfit(outfit)) {
+    if (this.zone.equals("Island") || this.zone.equals("IsleWar")) {
+      // If validate1 expected us to build dinghy, do it.
+      if (!buildDinghy()) {
+        // This should not fail.
         return false;
       }
 
-      RequestThread.postRequest(new EquipmentRequest(outfit));
+      // If this is a disguise zone, wear an outfit
+      int outfitId = this.getOutfitId();
+      if (outfitId > 0) {
+        return wearOutfit(outfitId);
+      }
+
+      return true;
+    }
+
+    if (this.zone.equals("Rift")) {
+      // If this is a disguise zone, wear an outfit
+      int outfitId = this.getOutfitId();
+      if (outfitId > 0) {
+        return wearOutfit(outfitId);
+      }
+
+      // Can't adventure in Battlefield (No Uniform) if we are wearing a Cola
+      // War Uniform.  Remove the shield.
+      if (EquipmentManager.isWearingOutfit(OutfitPool.CLOACA_UNIFORM)
+          || EquipmentManager.isWearingOutfit(OutfitPool.DYSPEPSI_UNIFORM)) {
+        RequestThread.postRequest(
+            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND, true));
+      }
+
       return true;
     }
 
@@ -1740,25 +1859,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return InventoryManager.retrieveItem(ItemPool.CASINO_PASS);
     }
 
-    if (this.zone.equals("Island")) {
-      // If validate1 expected us to build dinghy, do it.
-      return buildDinghy();
-    }
-
     if (this.zone.equals("Pirate")) {
       // If validate1 expected us to build dinghy, do it.
       buildDinghy();
 
       // *** Equip Swashbucking getup or pirate fledges
-
-      return true;
-    }
-
-    if (this.zone.equals("IsleWar")) {
-      // If validate1 expected us to build a dinghy, do it.
-      buildDinghy();
-
-      // *** Equip an outfit, if expected
 
       return true;
     }
@@ -1802,6 +1907,21 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
+    if (this.zone.equals("Rabbit Hole")) {
+      if (!KoLConstants.activeEffects.contains(DOWN_THE_RABBIT_HOLE)) {
+        AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
+
+        if (!InventoryManager.retrieveItem(item)) {
+          // This shouldn't fail as it is guaranteed in canAdventure()
+          return false;
+        }
+
+        RequestThread.postRequest(UseItemRequest.getInstance(item));
+      }
+
+      return true;
+    }
+
     if (this.zone.equals("The Drip")) {
       if (!InventoryManager.hasItem(DRIP_HARNESS)) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You need a Drip harness to go there");
@@ -1816,42 +1936,166 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
+    if (this.zone.equals("FantasyRealm")) {
+      if (!InventoryManager.hasItem(FANTASY_REALM_GEM)) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You need a FantasyRealm G. E. M. to go there");
+        return false;
+      }
+
+      // Must have FantasyRealm GEM equipped
+      if (!KoLCharacter.hasEquipped(FANTASY_REALM_GEM)) {
+        RequestThread.postRequest(new EquipmentRequest(FANTASY_REALM_GEM));
+      }
+
+      // Cannot bring a familiar
+      if (KoLCharacter.getFamiliar() != FamiliarData.NO_FAMILIAR) {
+        RequestThread.postRequest(new FamiliarRequest(null));
+      }
+
+      return true;
+    }
+
+    if (this.zone.equals("Orchard")) {
+      var item =
+          switch (this.adventureNumber) {
+            case AdventurePool.FILTHWORM_FEEDING_CHAMBER -> KoLConstants.activeEffects.contains(
+                    FILTHWORM_LARVA_STENCH)
+                ? null
+                : ItemPool.FILTHWORM_HATCHLING_GLAND;
+            case AdventurePool.FILTHWORM_GUARDS_CHAMBER -> KoLConstants.activeEffects.contains(
+                    FILTHWORM_DRONE_STENCH)
+                ? null
+                : ItemPool.FILTHWORM_DRONE_GLAND;
+            case AdventurePool.FILTHWORM_QUEENS_CHAMBER -> KoLConstants.activeEffects.contains(
+                    FILTHWORM_GUARD_STENCH)
+                ? null
+                : ItemPool.FILTHWORM_GUARD_GLAND;
+            default -> null;
+          };
+
+      if (item != null) {
+        if (!InventoryManager.hasItem(item)) {
+          return false;
+        }
+
+        RequestThread.postRequest(UseItemRequest.getInstance(item));
+      }
+
+      return true;
+    }
+
+    if (this.adventureNumber == AdventurePool.SKELETON_STORE) {
+      if (Preferences.getBoolean("skeletonStoreAvailable")
+          || QuestDatabase.isQuestStarted(Quest.MEATSMITH)) {
+        return true;
+      }
+
+      // If we have a bone with a price tag on it, use it
+      if (InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(BONE_WITH_A_PRICE_TAG));
+      } else {
+        // Otherwise, visit the Meatsmith and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1059&option=1"));
+      }
+
+      return Preferences.getBoolean("skeletonStoreAvailable");
+    }
+
+    if (this.adventureNumber == AdventurePool.MADNESS_BAKERY) {
+      if (Preferences.getBoolean("madnessBakeryAvailable")
+          || QuestDatabase.isQuestStarted(Quest.ARMORER)) {
+        return true;
+      }
+
+      // If we have hypnotic breadcrumbs on it, use it
+      if (InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(HYPNOTIC_BREADCRUMBS));
+      } else {
+        // Otherwise, visit the Armorer and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1065&option=1"));
+      }
+
+      return Preferences.getBoolean("madnessBakeryAvailable");
+    }
+
+    if (this.adventureNumber == AdventurePool.OVERGROWN_LOT) {
+      if (Preferences.getBoolean("overgrownLotAvailable")
+          || QuestDatabase.isQuestStarted(Quest.DOC)) {
+        return true;
+      }
+
+      // If we have a map to a hidden booze cache on it, use it
+      if (InventoryManager.hasItem(BOOZE_MAP)) {
+        RequestThread.postRequest(UseItemRequest.getInstance(BOOZE_MAP));
+      } else {
+        // Otherwise, visit Doc Galaktik and start the quest.
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc"));
+        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc&action=talk"));
+        RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1064&option=1"));
+      }
+
+      return Preferences.getBoolean("overgrownLotAvailable");
+    }
+
+    return true;
+  }
+
+  private boolean wearOutfit(int outfitId) {
+    if (EquipmentManager.isWearingOutfit(outfitId)) {
+      return true;
+    }
+
+    SpecialOutfit outfit = EquipmentDatabase.getOutfit(outfitId);
+    if (!EquipmentManager.retrieveOutfit(outfit)) {
+      return false;
+    }
+
+    RequestThread.postRequest(new EquipmentRequest(outfit));
     return true;
   }
 
   public int getOutfitId() {
-    switch (this.adventureNumber) {
-      case AdventurePool.FRAT_HOUSE_DISGUISED:
-        // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
-        return EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)
-            ? OutfitPool.WAR_FRAT_OUTFIT
-            : EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT) ? OutfitPool.FRAT_OUTFIT : 0;
-      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED:
-        // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
-        return EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
-            ? OutfitPool.WAR_HIPPY_OUTFIT
-            : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
-      case AdventurePool.HIPPY_CAMP_DISGUISED:
-        // Can be either HIPPY_OUTFIT or WAR_HIPPY_OUTFIT
-        return EquipmentManager.hasOutfit(OutfitPool.WAR_HIPPY_OUTFIT)
-            ? OutfitPool.WAR_HIPPY_OUTFIT
-            : EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT) ? OutfitPool.HIPPY_OUTFIT : 0;
-      case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED:
-        // Can be either FRAT_OUTFIT or WAR_FRAT_OUTFIT
-        return EquipmentManager.hasOutfit(OutfitPool.WAR_FRAT_OUTFIT)
-            ? OutfitPool.WAR_FRAT_OUTFIT
-            : EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT) ? OutfitPool.FRAT_OUTFIT : 0;
-      case AdventurePool.CLOACA_BATTLEFIELD:
-        return OutfitPool.CLOACA_UNIFORM;
-      case AdventurePool.DYSPEPSI_BATTLEFIELD:
-        return OutfitPool.DYSPEPSI_UNIFORM;
-      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
-        return OutfitPool.WAR_FRAT_OUTFIT;
-      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
-        return OutfitPool.WAR_HIPPY_OUTFIT;
-      default:
-        return 0;
+    if (this.formSource.equals("dwarffactory.php")
+        || this.adventureNumber == AdventurePool.MINE_OFFICE) {
+      return firstAvailableOutfitId(OutfitPool.DWARVISH_UNIFORM, OutfitPool.MINING_OUTFIT);
     }
+
+    return switch (this.adventureNumber) {
+      case AdventurePool.FRAT_HOUSE_DISGUISED -> QuestDatabase.isQuestStep(
+              Quest.ISLAND_WAR, QuestDatabase.STARTED)
+          ?
+          // Verge of War
+          firstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT)
+          :
+          // Before or after war
+          firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
+
+      case AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED -> firstAvailableOutfitId(
+          OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
+
+      case AdventurePool.HIPPY_CAMP_DISGUISED -> QuestDatabase.isQuestStep(
+              Quest.ISLAND_WAR, QuestDatabase.STARTED)
+          ?
+          // Verge of War
+          firstAvailableOutfitId(OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT)
+          :
+          // Before or after war
+          firstAvailableOutfitId(OutfitPool.WAR_HIPPY_OUTFIT, OutfitPool.HIPPY_OUTFIT);
+
+      case AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED -> firstAvailableOutfitId(
+          OutfitPool.WAR_FRAT_OUTFIT, OutfitPool.FRAT_OUTFIT);
+
+      case AdventurePool.CLOACA_BATTLEFIELD -> availableOutfitId(OutfitPool.CLOACA_UNIFORM);
+      case AdventurePool.DYSPEPSI_BATTLEFIELD -> availableOutfitId(OutfitPool.DYSPEPSI_UNIFORM);
+      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD -> availableOutfitId(OutfitPool.WAR_FRAT_OUTFIT);
+      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD -> availableOutfitId(
+          OutfitPool.WAR_HIPPY_OUTFIT);
+      default -> 0;
+    };
   }
 
   /**
