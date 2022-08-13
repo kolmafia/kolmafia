@@ -5,10 +5,13 @@ import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withMultiFight;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -66,5 +69,31 @@ class RequestLoggerTest {
         assertThat(output, equalTo("[1] Unknown Location"));
       }
     }
+  }
+
+  @Test
+  @Disabled("This test shows the HTML appended to the string does not appear in the session log")
+  public void angleBrackeGeneratesHTMLtoLog() {
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      RequestLogger.openCustom(out);
+      RequestLogger.printLine("> Wassup?");
+      RequestLogger.closeCustom();
+    }
+    String logged = ostream.toString().trim();
+    assertEquals("<font color=olive>> Wassup?</font><br>", logged);
+  }
+
+  @Test
+  @Disabled("This test shows the HTML appended to the string does not appear in the session log")
+  public void mafiaStateGeneratesHTMLThatIsLogged() {
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      RequestLogger.openCustom(out);
+      RequestLogger.printLine(KoLConstants.MafiaState.ERROR, "Am I Blue?", true);
+      RequestLogger.closeCustom();
+    }
+    String logged = ostream.toString().trim();
+    assertEquals("<font color=red>Am I Blue?</font><br>", logged);
   }
 }
