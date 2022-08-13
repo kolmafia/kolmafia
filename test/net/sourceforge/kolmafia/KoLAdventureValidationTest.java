@@ -1269,6 +1269,109 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class HiddenCity {
+
+    private static final KoLAdventure HIDDEN_PARK =
+        AdventureDatabase.getAdventureByName("The Hidden Park");
+    private static final KoLAdventure NW_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Northwest)");
+    private static final KoLAdventure SW_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Southwest)");
+    private static final KoLAdventure NE_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Northeast)");
+    private static final KoLAdventure SE_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Southeast)");
+    private static final KoLAdventure ZIGGURAT =
+        AdventureDatabase.getAdventureByName("A Massive Ziggurat");
+    private static final KoLAdventure HIDDEN_APARTMENT =
+        AdventureDatabase.getAdventureByName("The Hidden Apartment Building");
+    private static final KoLAdventure HIDDEN_HOSPITAL =
+        AdventureDatabase.getAdventureByName("The Hidden Hospital");
+    private static final KoLAdventure HIDDEN_OFFICE =
+        AdventureDatabase.getAdventureByName("The Hidden Office Building");
+    private static final KoLAdventure HIDDEN_BOWLING_ALLEY =
+        AdventureDatabase.getAdventureByName("The Hidden Bowling Alley");
+
+    @Test
+    public void cannotVisitHiddenCityPreQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.WORSHIP, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(HIDDEN_PARK.canAdventure());
+        assertFalse(NW_SHRINE.canAdventure());
+        assertFalse(HIDDEN_APARTMENT.canAdventure());
+        assertFalse(NE_SHRINE.canAdventure());
+        assertFalse(HIDDEN_OFFICE.canAdventure());
+        assertFalse(SW_SHRINE.canAdventure());
+        assertFalse(HIDDEN_HOSPITAL.canAdventure());
+        assertFalse(SE_SHRINE.canAdventure());
+        assertFalse(HIDDEN_BOWLING_ALLEY.canAdventure());
+        assertFalse(ZIGGURAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenCityOnceOpened() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.WORSHIP, "step3"));
+      try (cleanups) {
+        assertTrue(HIDDEN_PARK.canAdventure());
+        assertTrue(NW_SHRINE.canAdventure());
+        assertTrue(NE_SHRINE.canAdventure());
+        assertTrue(SW_SHRINE.canAdventure());
+        assertTrue(SE_SHRINE.canAdventure());
+        assertTrue(ZIGGURAT.canAdventure());
+        assertFalse(HIDDEN_APARTMENT.canAdventure());
+        assertFalse(HIDDEN_OFFICE.canAdventure());
+        assertFalse(HIDDEN_HOSPITAL.canAdventure());
+        assertFalse(HIDDEN_BOWLING_ALLEY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenApartmentBuildingOnceOpened() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.WORSHIP, "step3"),
+              withQuestProgress(Quest.CURSES, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HIDDEN_APARTMENT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenOfficeBuildingOnceOpened() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.WORSHIP, "step3"),
+              withQuestProgress(Quest.BUSINESS, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HIDDEN_OFFICE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenHospitalOnceOpened() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.WORSHIP, "step3"),
+              withQuestProgress(Quest.DOCTOR, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HIDDEN_HOSPITAL.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenBowlingAlleyOnceOpened() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.WORSHIP, "step3"),
+              withQuestProgress(Quest.SPARE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HIDDEN_BOWLING_ALLEY.canAdventure());
+      }
+    }
+  }
+
+  @Nested
   class Pirate {
 
     private static final KoLAdventure PIRATE_COVE =
