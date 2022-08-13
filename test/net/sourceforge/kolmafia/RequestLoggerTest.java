@@ -67,7 +67,7 @@ class RequestLoggerTest {
   }
 
   @Test
-  @Disabled("This test shows the HTML appended to thh string does not appear in the session log")
+  @Disabled("This test shows the HTML appended to the string does not appear in the session log")
   public void angleBrackeGeneratesHTMLtoLog() {
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
@@ -80,7 +80,7 @@ class RequestLoggerTest {
   }
 
   @Test
-  @Disabled("This test shows the HTML appended to thh string does not appear in the session log")
+  @Disabled("This test shows the HTML appended to the string does not appear in the session log")
   public void mafiaStateGeneratesHTMLThatIsLogged() {
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
