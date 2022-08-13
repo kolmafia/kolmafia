@@ -62,7 +62,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Close the mirror
     execute("");
     String mirrorOutput = getMirrorLog("test_writes_html.txt");
-    assertThat(mirrorOutput, containsString("> Fake command input"));
+    assertThat(mirrorOutput, containsString("<font color=olive>> Fake command input</font><br>"));
     assertThat(mirrorOutput, containsString("Raw Line"));
   }
 
@@ -164,8 +164,8 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @CsvSource({
     "file,file.txt",
-    // "file.html,file.html",
-    // "file.htm,file.htm",
+    "file.html,file.html",
+    "file.htm,file.htm",
     "file.txt,file.txt",
     "file.csv,file.csv.txt"
   })
