@@ -1142,6 +1142,133 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class BeanStalk {
+
+    private static final KoLAdventure AIRSHIP =
+        AdventureDatabase.getAdventureByName("The Penultimate Fantasy Airship");
+    private static final KoLAdventure CASTLE_BASEMENT =
+        AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Basement)");
+    private static final KoLAdventure CASTLE_GROUND =
+        AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Ground Floor)");
+    private static final KoLAdventure CASTLE_TOP =
+        AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Top Floor)");
+    private static final KoLAdventure HOLE_IN_THE_SKY =
+        AdventureDatabase.getAdventureByName("The Hole in the Sky");
+
+    @Test
+    public void cannotVisitBeanStalkPreQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(AIRSHIP.canAdventure());
+        assertFalse(CASTLE_BASEMENT.canAdventure());
+        assertFalse(CASTLE_GROUND.canAdventure());
+        assertFalse(CASTLE_TOP.canAdventure());
+        assertFalse(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitBeanStalkWithNoBean() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertFalse(AIRSHIP.canAdventure());
+        assertFalse(CASTLE_BASEMENT.canAdventure());
+        assertFalse(CASTLE_GROUND.canAdventure());
+        assertFalse(CASTLE_TOP.canAdventure());
+        assertFalse(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPlantBeanIfNecessary() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED), withItem("enchanted bean"));
+      try (cleanups) {
+        assertTrue(AIRSHIP.canAdventure());
+        assertTrue(AIRSHIP.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
+      }
+    }
+
+    @Test
+    public void canVisitAirshipWithBeanStalkWithBeanPlanted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"));
+      try (cleanups) {
+        assertTrue(AIRSHIP.canAdventure());
+        assertFalse(CASTLE_BASEMENT.canAdventure());
+        assertFalse(CASTLE_GROUND.canAdventure());
+        assertFalse(CASTLE_TOP.canAdventure());
+        assertFalse(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitSomeBeanstalkZonesInExploathing() {
+      var cleanups = new Cleanups(withPath(Path.KINGDOM_OF_EXPLOATHING));
+      try (cleanups) {
+        assertFalse(AIRSHIP.canAdventure());
+        assertTrue(CASTLE_BASEMENT.canAdventure());
+        assertTrue(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitCastleWithSOCK() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"), withItem("S.O.C.K."));
+      try (cleanups) {
+        assertTrue(CASTLE_BASEMENT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitCastleWithRowboat() {
+      var cleanups = new Cleanups(withItem("intragalactic rowboat"));
+      try (cleanups) {
+        assertTrue(CASTLE_BASEMENT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitCastleGroundFloorIfUnlocked() {
+      var cleanups = new Cleanups(withAscensions(13), withProperty("lastCastleGroundUnlock", 13));
+      try (cleanups) {
+        assertTrue(CASTLE_GROUND.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitCastleTopFloorIfUnlocked() {
+      var cleanups = new Cleanups(withAscensions(13), withProperty("lastCastleTopUnlock", 13));
+      try (cleanups) {
+        assertTrue(CASTLE_TOP.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHoleInTheSkyWithRocketship() {
+      var cleanups = new Cleanups(withItem("steam-powered model rocketship"));
+      try (cleanups) {
+        assertTrue(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHoleInTheSkyWithRowboat() {
+      var cleanups = new Cleanups(withItem("intragalactic rowboat"));
+      try (cleanups) {
+        assertTrue(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+  }
+
+  @Nested
   class Pirate {
 
     private static final KoLAdventure PIRATE_COVE =

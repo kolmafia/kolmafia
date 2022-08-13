@@ -1852,7 +1852,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Use the enchanted bean by clicking on the coffee grounds.
       // This should not fail
       RequestThread.postRequest(new PlaceRequest("plains", "garbage_grounds"));
-      return QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED);
+      return true;
     }
 
     // The casino is unlocked if you have a casino pass in inventory.
