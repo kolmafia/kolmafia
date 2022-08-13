@@ -127,6 +127,7 @@ import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.HeistManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -2690,6 +2691,11 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction(
             "expected_cold_medicine_cabinet", DataTypes.STRING_TO_ITEM_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction(
+            "absorbed_monsters", new AggregateType(DataTypes.MONSTER_TYPE, 0), params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -9694,6 +9700,19 @@ public abstract class RuntimeLibrary {
         Value val = DataTypes.makeItemValue(e.getValue());
         value.aset(key, val);
       }
+    }
+
+    return value;
+  }
+
+  public static Value absorbed_monsters(ScriptRuntime controller) {
+    AggregateType type =
+        new AggregateType(DataTypes.MONSTER_TYPE, GreyYouManager.absorbedMonsters.size());
+    ArrayValue value = new ArrayValue(type);
+
+    int index = 0;
+    for (Integer monsterId : GreyYouManager.absorbedMonsters) {
+      value.aset(new Value(index++), DataTypes.makeMonsterValue(monsterId, true));
     }
 
     return value;
