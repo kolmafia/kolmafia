@@ -159,7 +159,6 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     assertThat(contents, containsString("<font color=\"olive\">Mirror test.</font>"));
   }
 
-  // Uncomment when code allowing htm, html available
   @ParameterizedTest
   @CsvSource({
     "file,file.txt",
