@@ -313,6 +313,7 @@ public class EffectPool {
   public static final int INTIMIDATINGLY = 2314;
   public static final int OBSERVANTLY = 2315;
   public static final int WATERPROOFLY = 2316;
+  public static final int METEOR_SHOWERED = 2317;
   public static final int SILENT_HUNTING = 2336;
   public static final int NEARLY_SILENT_HUNTING = 2337;
   public static final int TAINTED_LOVE_POTION = 2374;
