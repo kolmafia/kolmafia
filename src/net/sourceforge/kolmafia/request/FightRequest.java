@@ -8666,6 +8666,9 @@ public class FightRequest extends GenericRequest {
   // objects.
   private static final Pattern GOOSE_DRONE_PATTERN = Pattern.compile("(\\d+) bits? of goo emerge");
 
+  private static final AdventureResult METEOR_SHOWERED =
+      EffectPool.get(EffectPool.METEOR_SHOWERED, 1);
+
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
     if (FightRequest.nextAction == null || FightRequest.nextAction.equals("")) {
@@ -9468,6 +9471,9 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.METEOR_SHOWER:
         if (responseText.contains("consult your mental index") || skillSuccess) {
+          KoLConstants.activeEffects.remove(METEOR_SHOWERED);
+          KoLConstants.activeEffects.add(METEOR_SHOWERED);
+          KoLCharacter.recalculateAdjustments();
           skillSuccess = true;
         }
         break;
