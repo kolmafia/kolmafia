@@ -1214,6 +1214,52 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void canPrepareToAdventureWearingPirateOutfit() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withEquipped(EquipmentManager.HAT, "eyepatch"),
+              withEquipped(EquipmentManager.PANTS, "swashbuckling pants"),
+              withEquipped(EquipmentManager.ACCESSORY1, "stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureNotWearingPirateOutfit() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withEquippableItem("eyepatch"),
+              withEquippableItem("swashbuckling pants"),
+              withEquippableItem("stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.SWASHBUCKLING_GETUP + "&ajax=1");
+      }
+    }
+
+    @Test
     public void canVisitPirateShipFledged() {
       var cleanups =
           new Cleanups(
@@ -1226,6 +1272,48 @@ public class KoLAdventureValidationTest {
         assertTrue(FCLE.canAdventure());
         assertTrue(POOP_DECK.canAdventure());
         assertTrue(BELOWDECKS.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureWearingFledges() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withEquipped(EquipmentManager.ACCESSORY1, "pirate fledges"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureNotWearingFledges() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withEquippableItem("pirate fledges"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.PIRATE_FLEDGES);
       }
     }
 
@@ -2457,7 +2545,9 @@ public class KoLAdventureValidationTest {
 
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_equip.php", "which=2&ajax=1&slot=1&action=equip&whichitem=9837");
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.FANTASY_REALM_GEM);
         assertThat(success, is(true));
       }
     }

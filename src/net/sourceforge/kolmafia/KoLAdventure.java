@@ -1864,7 +1864,21 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // If validate1 expected us to build dinghy, do it.
       buildDinghy();
 
-      // *** Equip Swashbucking getup or pirate fledges
+      // If we are already acceptably garbed as pirate, cool.
+      if (KoLCharacter.hasEquipped(PIRATE_FLEDGES)
+          || EquipmentManager.isWearingOutfit(OutfitPool.SWASHBUCKLING_GETUP)) {
+        return true;
+      }
+
+      // If we have the pirate fledges, that is the best choice.
+      if (EquipmentManager.canEquip(PIRATE_FLEDGES) && InventoryManager.hasItem(PIRATE_FLEDGES)) {
+        // This will pick an empty slot, or accessory1, if all are full
+        RequestThread.postRequest(new EquipmentRequest(PIRATE_FLEDGES));
+        return true;
+      }
+
+      // Otherwise, we must have the Swashbucking Getup. Don it.
+      wearOutfit(OutfitPool.SWASHBUCKLING_GETUP);
 
       return true;
     }
