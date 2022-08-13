@@ -2695,7 +2695,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(
         new LibraryFunction(
-            "absorbed_monsters", new AggregateType(DataTypes.MONSTER_TYPE, 0), params));
+            "absorbed_monsters",
+            new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE),
+            params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -9706,13 +9708,12 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value absorbed_monsters(ScriptRuntime controller) {
-    AggregateType type =
-        new AggregateType(DataTypes.MONSTER_TYPE, GreyYouManager.absorbedMonsters.size());
-    ArrayValue value = new ArrayValue(type);
+    AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE);
+    MapValue value = new MapValue(type);
 
     int index = 0;
     for (Integer monsterId : GreyYouManager.absorbedMonsters) {
-      value.aset(new Value(index++), DataTypes.makeMonsterValue(monsterId, true));
+      value.aset(DataTypes.makeMonsterValue(monsterId, true), DataTypes.TRUE_VALUE);
     }
 
     return value;

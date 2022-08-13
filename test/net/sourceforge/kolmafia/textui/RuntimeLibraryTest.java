@@ -231,7 +231,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       String output = execute("absorbed_monsters()");
       assertThat(
-          output, equalTo("Returned: aggregate monster [2]\n0 => oil baron\n1 => warwelf\n"));
+          output,
+          equalTo(
+              """
+              Returned: aggregate boolean [monster]
+              warwelf => true
+              oil baron => true
+              """));
     }
   }
 
