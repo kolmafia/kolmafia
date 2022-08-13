@@ -6,8 +6,10 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -31,6 +33,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -124,39 +127,42 @@ public class FightRequestTest {
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
   }
 
-  @Test
-  public void commerceGhostIncrementsByOneOnFight() {
-    FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
-    KoLCharacter.setFamiliar(fam);
-    assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
-    FightRequest.currentRound = 0;
-    parseCombatData("request/test_fight_gnome_adv.html");
-    assertEquals(1, Preferences.getInteger("commerceGhostCombats"));
-  }
+  @Nested
+  class CommerceGhost {
+    @Test
+    public void commerceGhostIncrementsByOneOnFight() {
+      FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
+      KoLCharacter.setFamiliar(fam);
+      assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
+      FightRequest.currentRound = 0;
+      parseCombatData("request/test_fight_gnome_adv.html");
+      assertEquals(1, Preferences.getInteger("commerceGhostCombats"));
+    }
 
-  // If mafia has miscounted we should move our count
-  @Test
-  @Disabled("Response text does not trigger the code that detects action by ghost.")
-  public void commerceGhostResetsTo10() {
-    FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
-    KoLCharacter.setFamiliar(fam);
-    Preferences.setInteger("commerceGhostCombats", 5);
-    FightRequest.updateCombatData(
-        null,
-        null,
-        "<td style=\"color: white;\" align=center bgcolor=blue><b>Combat!</b></td></tr><tr><tdstyle=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td> Don't forget to buy a foo!");
-    assertEquals(10, Preferences.getInteger("commerceGhostCombats"));
-  }
+    // If mafia has miscounted we should move our count
+    @Test
+    @Disabled("Response text does not trigger the code that detects action by ghost.")
+    public void commerceGhostResetsTo10() {
+      FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
+      KoLCharacter.setFamiliar(fam);
+      Preferences.setInteger("commerceGhostCombats", 5);
+      FightRequest.updateCombatData(
+          null,
+          null,
+          "<td style=\"color: white;\" align=center bgcolor=blue><b>Combat!</b></td></tr><tr><tdstyle=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td> Don't forget to buy a foo!");
+      assertEquals(10, Preferences.getInteger("commerceGhostCombats"));
+    }
 
-  // When we turn in the quest we should reset
-  @Test
-  @Disabled("Response text does not trigger the code that detects action by ghost.")
-  public void commerceGhostResetsTo0() {
-    FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
-    KoLCharacter.setFamiliar(fam);
-    Preferences.setInteger("commerceGhostCombats", 10);
-    FightRequest.updateCombatData(null, null, "Nice, you bought a foo!");
-    assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
+    // When we turn in the quest we should reset
+    @Test
+    @Disabled("Response text does not trigger the code that detects action by ghost.")
+    public void commerceGhostResetsTo0() {
+      FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
+      KoLCharacter.setFamiliar(fam);
+      Preferences.setInteger("commerceGhostCombats", 10);
+      FightRequest.updateCombatData(null, null, "Nice, you bought a foo!");
+      assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
+    }
   }
 
   @Test
@@ -180,33 +186,58 @@ public class FightRequestTest {
     assertEquals(0, Preferences.getInteger("_gnomeAdv"));
   }
 
-  @Test
-  public void crystalBallPredictions() {
-    assertEquals("", Preferences.getString("crystalBallPredictions"));
+  @Nested
+  class MiniatureCrystalBall {
+    @BeforeEach
+    void beforeEach() {
+      FightRequest.clearInstanceData();
+    }
 
-    KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("The Neverending Party"));
-    parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
-    FightRequest.clearInstanceData();
-    // Parsing isn't initiated without the crystal ball
-    assertEquals("", Preferences.getString("crystalBallPredictions"));
+    @Test
+    public void noParsingWithoutBall() {
+      var cleanups =
+          new Cleanups(
+              withProperty("crystalBallPredictions"), withLastLocation("The Neverending Party"));
 
-    // NOW equip the crystal ball
-    FamiliarData familiar = FamiliarData.registerFamiliar(FamiliarPool.MOSQUITO, 1);
-    KoLCharacter.setFamiliar(familiar);
-    EquipmentManager.setEquipment(
-        EquipmentManager.FAMILIAR, ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL));
+      try (cleanups) {
+        parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
+        assertThat("crystalBallPredictions", isSetTo(""));
+      }
+    }
 
-    parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
-    FightRequest.clearInstanceData();
-    assertEquals(
-        "0:The Neverending Party:party girl", Preferences.getString("crystalBallPredictions"));
+    @Test
+    public void parsesPredictionWithCrystalBall() {
+      var cleanups =
+          new Cleanups(
+              withProperty("crystalBallPredictions"),
+              withLastLocation("The Neverending Party"),
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
 
-    KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("The Red Zeppelin"));
-    parseCombatData("request/test_fight_crystal_ball_zeppelin.html");
-    FightRequest.clearInstanceData();
-    assertEquals(
-        "0:The Neverending Party:party girl|0:The Red Zeppelin:Red Snapper",
-        Preferences.getString("crystalBallPredictions"));
+      try (cleanups) {
+        CrystalBallManager.reset();
+        parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
+        assertThat("crystalBallPredictions", isSetTo("0:The Neverending Party:party girl"));
+      }
+    }
+
+    @Test
+    void parsesASecondPrediction() {
+      var cleanups =
+          new Cleanups(
+              withProperty("crystalBallPredictions", "0:The Neverending Party:party girl"),
+              withLastLocation("The Red Zeppelin"),
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
+
+      try (cleanups) {
+        CrystalBallManager.reset();
+        parseCombatData("request/test_fight_crystal_ball_zeppelin.html");
+        assertThat(
+            "crystalBallPredictions",
+            isSetTo("0:The Neverending Party:party girl|0:The Red Zeppelin:Red Snapper"));
+      }
+    }
   }
 
   @Test
@@ -216,18 +247,35 @@ public class FightRequestTest {
     assertEquals(5, Preferences.getInteger("_voidFreeFights"));
   }
 
-  @Test
-  public void cursedMagnifyingGlassTest() {
-    EquipmentManager.setEquipment(
-        EquipmentManager.OFFHAND, ItemPool.get(ItemPool.CURSED_MAGNIFYING_GLASS));
-    Preferences.setInteger("cursedMagnifyingGlassCount", 13);
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("void slab"));
-    parseCombatData("request/test_fight_void_monster.html");
-    assertEquals(0, Preferences.getInteger("cursedMagnifyingGlassCount"));
+  @Nested
+  class CursedMagnifyingGlass {
+    @Test
+    public void cursedMagnifyingGlassResetsOnVoidMonster() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.CURSED_MAGNIFYING_GLASS),
+              withProperty("cursedMagnifyingGlassCount", 13),
+              withNextMonster("void slab"));
 
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("lavatory"));
-    parseCombatData("request/test_fight_cursed_magnifying_glass_update.html");
-    assertEquals(3, Preferences.getInteger("cursedMagnifyingGlassCount"));
+      try (cleanups) {
+        parseCombatData("request/test_fight_void_monster.html");
+        assertThat("cursedMagnifyingGlassCount", isSetTo(0));
+      }
+    }
+
+    @Test
+    public void cursedMagnifyingGlassCanUpdateAnIncorrectPref() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.CURSED_MAGNIFYING_GLASS),
+              withProperty("cursedMagnifyingGlassCount", 0),
+              withNextMonster("lavatory"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_cursed_magnifying_glass_update.html");
+        assertThat("cursedMagnifyingGlassCount", isSetTo(3));
+      }
+    }
   }
 
   @Test
@@ -245,173 +293,180 @@ public class FightRequestTest {
     assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
   }
 
-  @ParameterizedTest
-  @ValueSource(strings = {"alielf", "Black Crayon Crimbo Elf"})
-  public void registersLocketFight(String monsterName) {
-    var monster = MonsterDatabase.findMonster(monsterName);
-    MonsterStatusTracker.setNextMonster(monster);
-    parseCombatData("request/test_fight_start_locket_fight_with_" + monster.getPhylum() + ".html");
-    assertThat("locketPhylum", isSetTo(monster.getPhylum().toString()));
-    assertThat("_locketMonstersFought", isSetTo(monster.getId()));
+  @Nested
+  class CombatLoversLocket {
+    @ParameterizedTest
+    @ValueSource(strings = {"alielf", "Black Crayon Crimbo Elf"})
+    public void registersLocketFight(String monsterName) {
+      var monster = MonsterDatabase.findMonster(monsterName);
+      MonsterStatusTracker.setNextMonster(monster);
+      parseCombatData(
+          "request/test_fight_start_locket_fight_with_" + monster.getPhylum() + ".html");
+      assertThat("locketPhylum", isSetTo(monster.getPhylum().toString()));
+      assertThat("_locketMonstersFought", isSetTo(monster.getId()));
+    }
+
+    @Test
+    public void rememberNewMonsterForLocket() {
+      assertFalse(LocketManager.remembersMonster(1568));
+
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Sloppy Seconds Sundae"));
+      parseCombatData("request/test_fight_monster_added_to_locket.html");
+
+      assertTrue(LocketManager.remembersMonster(1568));
+    }
+
+    @Test
+    public void updatesListIfMonsterWasAlreadyInLocket() {
+      assertFalse(LocketManager.remembersMonster(155));
+
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Barbecue Team"));
+      parseCombatData("request/test_fight_monster_already_in_locket.html");
+
+      assertTrue(LocketManager.remembersMonster(155));
+    }
+
+    @Test
+    public void dontIncrementWitchessIfFromLocket() {
+      assertEquals(Preferences.getInteger("_witchessFights"), 0);
+
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+      parseCombatData("request/test_fight_witchess_with_locket.html");
+
+      assertEquals(Preferences.getInteger("_witchessFights"), 0);
+    }
   }
 
-  @Test
-  public void rememberNewMonsterForLocket() {
-    assertFalse(LocketManager.remembersMonster(1568));
+  @Nested
+  class GreyGoose {
+    @Test
+    public void shouldWorkAroundGreyGooseKoLBug() {
+      String html = html("request/test_fight_grey_goose_combat_skills.html");
+      FightRequest.currentRound = 1;
+      FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+      KoLCharacter.setFamiliar(fam);
+      KoLCharacter.getFamiliar().setWeight(6);
+      // If we have a 6-lb. Grey Goose, the Grey Goose combat skills on the fight
+      // page are valid.
+      FightRequest.parseAvailableCombatSkills(html);
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
+      // If it is less than 6-lbs., a KoL bug still shows them on the combat page,
+      // but if you try to use them, "You don't know that skill."
+      KoLCharacter.getFamiliar().setWeight(1);
+      FightRequest.parseAvailableCombatSkills(html);
+      assertFalse(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
+    }
 
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Sloppy Seconds Sundae"));
-    parseCombatData("request/test_fight_monster_added_to_locket.html");
+    @Test
+    public void canTrackMeatifyMatterCast() {
+      String html = html("request/test_fight_meatify_matter.html");
+      FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+      KoLCharacter.setFamiliar(fam);
+      KoLCharacter.getFamiliar().setWeight(6);
+      FightRequest.currentRound = 1;
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("angry tourist"));
+      FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7409");
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(5, KoLCharacter.getFamiliar().getWeight());
+      assertTrue(Preferences.getBoolean("_meatifyMatterUsed"));
+      assertEquals(0, SkillDatabase.getMaxCasts(SkillPool.MEATIFY_MATTER));
+    }
 
-    assertTrue(LocketManager.remembersMonster(1568));
-  }
+    // X bits of goo emerge from <name> and begin hovering about, moving probingly around various
+    // objects.
+    // One of the matter duplicating drones seems to coalesce around the <item> and then transforms
+    // into an exact replica. <X-1> more drones are still circling around.
+    // One of the matter duplicating drones seems to coalesce around the <item> and then transforms
+    // into an exact replica. That was the last drone.
 
-  @Test
-  public void updatesListIfMonsterWasAlreadyInLocket() {
-    assertFalse(LocketManager.remembersMonster(155));
+    @Test
+    public void canTrackGooseDrones() {
+      FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+      KoLCharacter.setFamiliar(fam);
+      KoLCharacter.getFamiliar().setWeight(6);
 
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Barbecue Team"));
-    parseCombatData("request/test_fight_monster_already_in_locket.html");
+      assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
 
-    assertTrue(LocketManager.remembersMonster(155));
-  }
+      String html = html("request/test_fight_goose_drones_1.html");
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("angry tourist"));
+      FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7410");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(6, Preferences.getInteger("gooseDronesRemaining"));
 
-  @Test
-  public void dontIncrementWitchessIfFromLocket() {
-    assertEquals(Preferences.getInteger("_witchessFights"), 0);
+      html = html("request/test_fight_goose_drones_2.html");
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 2;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(5, Preferences.getInteger("gooseDronesRemaining"));
 
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-    parseCombatData("request/test_fight_witchess_with_locket.html");
+      html = html("request/test_fight_goose_drones_3.html");
+      FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7410");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(9, Preferences.getInteger("gooseDronesRemaining"));
 
-    assertEquals(Preferences.getInteger("_witchessFights"), 0);
-  }
+      html = html("request/test_fight_goose_drones_4.html");
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 2;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(7, Preferences.getInteger("gooseDronesRemaining"));
 
-  // Grey Goose Tests
-  @Test
-  public void shouldWorkAroundGreyGooseKoLBug() {
-    String html = html("request/test_fight_grey_goose_combat_skills.html");
-    FightRequest.currentRound = 1;
-    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
-    KoLCharacter.setFamiliar(fam);
-    KoLCharacter.getFamiliar().setWeight(6);
-    // If we have a 6-lb. Grey Goose, the Grey Goose combat skills on the fight
-    // page are valid.
-    FightRequest.parseAvailableCombatSkills(html);
-    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
-    // If it is less than 6-lbs., a KoL bug still shows them on the combat page,
-    // but if you try to use them, "You don't know that skill."
-    KoLCharacter.getFamiliar().setWeight(1);
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
-  }
+      html = html("request/test_fight_goose_drones_5.html");
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(6, Preferences.getInteger("gooseDronesRemaining"));
 
-  @Test
-  public void canTrackMeatifyMatterCast() {
-    String html = html("request/test_fight_meatify_matter.html");
-    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
-    KoLCharacter.setFamiliar(fam);
-    KoLCharacter.getFamiliar().setWeight(6);
-    FightRequest.currentRound = 1;
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("angry tourist"));
-    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7409");
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(5, KoLCharacter.getFamiliar().getWeight());
-    assertTrue(Preferences.getBoolean("_meatifyMatterUsed"));
-    assertEquals(0, SkillDatabase.getMaxCasts(SkillPool.MEATIFY_MATTER));
-  }
+      html = html("request/test_fight_goose_drones_6.html");
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(4, Preferences.getInteger("gooseDronesRemaining"));
 
-  // X bits of goo emerge from <name> and begin hovering about, moving probingly around various
-  // objects.
-  // One of the matter duplicating drones seems to coalesce around the <item> and then transforms
-  // into an exact replica. <X-1> more drones are still circling around.
-  // One of the matter duplicating drones seems to coalesce around the <item> and then transforms
-  // into an exact replica. That was the last drone.
+      html = html("request/test_fight_goose_drones_7.html");
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(3, Preferences.getInteger("gooseDronesRemaining"));
 
-  @Test
-  public void canTrackGooseDrones() {
-    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
-    KoLCharacter.setFamiliar(fam);
-    KoLCharacter.getFamiliar().setWeight(6);
+      html = html("request/test_fight_goose_drones_8.html");
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(2, Preferences.getInteger("gooseDronesRemaining"));
 
-    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+      html = html("request/test_fight_goose_drones_9.html");
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(1, Preferences.getInteger("gooseDronesRemaining"));
 
-    String html = html("request/test_fight_goose_drones_1.html");
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("angry tourist"));
-    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7410");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(6, Preferences.getInteger("gooseDronesRemaining"));
+      html = html("request/test_fight_goose_drones_10.html");
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+    }
 
-    html = html("request/test_fight_goose_drones_2.html");
-    FightRequest.registerRequest(true, "fight.php?action=attack");
-    FightRequest.currentRound = 2;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(5, Preferences.getInteger("gooseDronesRemaining"));
+    @Test
+    public void canTrackCastAndUseGooseDrones() {
+      FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+      KoLCharacter.setFamiliar(fam);
+      KoLCharacter.getFamiliar().setWeight(6);
 
-    html = html("request/test_fight_goose_drones_3.html");
-    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7410");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(9, Preferences.getInteger("gooseDronesRemaining"));
-
-    html = html("request/test_fight_goose_drones_4.html");
-    FightRequest.registerRequest(true, "fight.php?action=attack");
-    FightRequest.currentRound = 2;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(7, Preferences.getInteger("gooseDronesRemaining"));
-
-    html = html("request/test_fight_goose_drones_5.html");
-    FightRequest.registerRequest(true, "fight.php?action=attack");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(6, Preferences.getInteger("gooseDronesRemaining"));
-
-    html = html("request/test_fight_goose_drones_6.html");
-    FightRequest.registerRequest(true, "fight.php?action=attack");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(4, Preferences.getInteger("gooseDronesRemaining"));
-
-    html = html("request/test_fight_goose_drones_7.html");
-    FightRequest.registerRequest(true, "fight.php?action=attack");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(3, Preferences.getInteger("gooseDronesRemaining"));
-
-    html = html("request/test_fight_goose_drones_8.html");
-    FightRequest.registerRequest(true, "fight.php?action=attack");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(2, Preferences.getInteger("gooseDronesRemaining"));
-
-    html = html("request/test_fight_goose_drones_9.html");
-    FightRequest.registerRequest(true, "fight.php?action=attack");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(1, Preferences.getInteger("gooseDronesRemaining"));
-
-    html = html("request/test_fight_goose_drones_10.html");
-    FightRequest.registerRequest(true, "fight.php?action=attack");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
-  }
-
-  @Test
-  public void canTrackCastAndUseGooseDrones() {
-    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
-    KoLCharacter.setFamiliar(fam);
-    KoLCharacter.getFamiliar().setWeight(6);
-
-    String html = html("request/test_fight_cast_and_use_drones.html");
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-    // Multi-round response text. Matter_Duplicating drones emitted one round and used-up next round
-    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
-    FightRequest.registerRequest(
-        true,
-        "fight.php?action=macro&macrotext=if+hasskill+curse+of+weaksauce%3Bskill+curse+of+weaksauce%3Bendif%3Bif+hascombatitem+porquoise-handled+sixgun+%26%26+hascombatitem+mayor+ghost%3Buse+porquoise-handled+sixgun%2Cmayor+ghost%3Bendif%3Bif+hasskill+bowl+straight+up%3Bskill+bowl+straight+up%3Bendif%3Bif+hascombatitem+spooky+putty+sheet%3Buse+spooky+putty+sheet%3Bendif%3Bif+hasskill+emit+matter+duplicating+drones%3Bskill+emit+matter+duplicating+drones%3Bendif%3Battack%3Brepeat%3Babort%3B");
-    FightRequest.currentRound = 1;
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+      String html = html("request/test_fight_cast_and_use_drones.html");
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+      // Multi-round response text. Matter_Duplicating drones emitted one round and used-up next
+      // round
+      assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+      FightRequest.registerRequest(
+          true,
+          "fight.php?action=macro&macrotext=if+hasskill+curse+of+weaksauce%3Bskill+curse+of+weaksauce%3Bendif%3Bif+hascombatitem+porquoise-handled+sixgun+%26%26+hascombatitem+mayor+ghost%3Buse+porquoise-handled+sixgun%2Cmayor+ghost%3Bendif%3Bif+hasskill+bowl+straight+up%3Bskill+bowl+straight+up%3Bendif%3Bif+hascombatitem+spooky+putty+sheet%3Buse+spooky+putty+sheet%3Bendif%3Bif+hasskill+emit+matter+duplicating+drones%3Bskill+emit+matter+duplicating+drones%3Bendif%3Battack%3Brepeat%3Babort%3B");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+    }
   }
 
   @Test
@@ -502,107 +557,110 @@ public class FightRequestTest {
     assertEquals(1, Preferences.getInteger("gooseDronesRemaining"));
   }
 
-  @Test
-  public void canTrackGreyYouAbsorptions() {
-    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
-    KoLCharacter.setFamiliar(fam);
-    KoLCharacter.getFamiliar().setExperience(36);
+  @Nested
+  class GreyYou {
+    @Test
+    public void canTrackGreyYouAbsorptions() {
+      FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+      KoLCharacter.setFamiliar(fam);
+      KoLCharacter.getFamiliar().setExperience(36);
 
-    KoLCharacter.setPath(Path.GREY_YOU);
-    GreyYouManager.resetAbsorptions();
+      KoLCharacter.setPath(Path.GREY_YOU);
+      GreyYouManager.resetAbsorptions();
 
-    // Initial absorption of an albino bat
-    String urlString = "fight.php?action=skill&whichskill=27000";
-    String html = html("request/test_fight_goo_absorption_1.html");
-    MonsterData monster = MonsterDatabase.findMonster("albino bat");
-    int monsterId = monster.getId();
-    MonsterStatusTracker.setNextMonster(monster);
+      // Initial absorption of an albino bat
+      String urlString = "fight.php?action=skill&whichskill=27000";
+      String html = html("request/test_fight_goo_absorption_1.html");
+      MonsterData monster = MonsterDatabase.findMonster("albino bat");
+      int monsterId = monster.getId();
+      MonsterStatusTracker.setNextMonster(monster);
 
-    FightRequest.currentRound = 2;
-    FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, html);
-    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
-    assertEquals(6, KoLCharacter.getFamiliar().getWeight());
+      FightRequest.currentRound = 2;
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+      assertEquals(6, KoLCharacter.getFamiliar().getWeight());
 
-    GreyYouManager.resetAbsorptions();
+      GreyYouManager.resetAbsorptions();
 
-    // Subsequent absorption of an albino bat via Re-Process Matter
-    urlString = "fight.php?action=skill&whichskill=7408";
-    html = html("request/test_fight_goo_absorption_2.html");
-    FightRequest.currentRound = 2;
-    FightRequest.registerRequest(true, urlString);
-    assertEquals("", Preferences.getString("gooseReprocessed"));
-    FightRequest.updateCombatData(null, null, html);
-    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
-    assertEquals(String.valueOf(monsterId), Preferences.getString("gooseReprocessed"));
-    assertEquals(1, KoLCharacter.getFamiliar().getWeight());
+      // Subsequent absorption of an albino bat via Re-Process Matter
+      urlString = "fight.php?action=skill&whichskill=7408";
+      html = html("request/test_fight_goo_absorption_2.html");
+      FightRequest.currentRound = 2;
+      FightRequest.registerRequest(true, urlString);
+      assertEquals("", Preferences.getString("gooseReprocessed"));
+      FightRequest.updateCombatData(null, null, html);
+      assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+      assertEquals(String.valueOf(monsterId), Preferences.getString("gooseReprocessed"));
+      assertEquals(1, KoLCharacter.getFamiliar().getWeight());
 
-    GreyYouManager.resetAbsorptions();
+      GreyYouManager.resetAbsorptions();
 
-    // Absorbing a Passive Skill
-    urlString = "fight.php?action=skill&whichskill=27000";
-    html = html("request/test_fight_goo_absorption_3.html");
-    monster = MonsterDatabase.findMonster("rushing bum");
-    monsterId = monster.getId();
-    MonsterStatusTracker.setNextMonster(monster);
-    FightRequest.currentRound = 2;
-    assertFalse(KoLCharacter.hasSkill(SkillPool.HARRIED));
-    FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, html);
-    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
-    assertTrue(KoLCharacter.hasSkill(SkillPool.HARRIED));
+      // Absorbing a Passive Skill
+      urlString = "fight.php?action=skill&whichskill=27000";
+      html = html("request/test_fight_goo_absorption_3.html");
+      monster = MonsterDatabase.findMonster("rushing bum");
+      monsterId = monster.getId();
+      MonsterStatusTracker.setNextMonster(monster);
+      FightRequest.currentRound = 2;
+      assertFalse(KoLCharacter.hasSkill(SkillPool.HARRIED));
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+      assertTrue(KoLCharacter.hasSkill(SkillPool.HARRIED));
 
-    GreyYouManager.resetAbsorptions();
+      GreyYouManager.resetAbsorptions();
 
-    // Absorbing a non-special monster
-    urlString = "fight.php?action=skill&whichskill=27000";
-    html = html("request/test_fight_goo_absorption_4.html");
-    monster = MonsterDatabase.findMonster("regular old bat");
-    monsterId = monster.getId();
-    MonsterStatusTracker.setNextMonster(monster);
-    FightRequest.currentRound = 2;
-    FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, html);
-    assertFalse(GreyYouManager.absorbedMonsters.contains(monsterId));
-  }
+      // Absorbing a non-special monster
+      urlString = "fight.php?action=skill&whichskill=27000";
+      html = html("request/test_fight_goo_absorption_4.html");
+      monster = MonsterDatabase.findMonster("regular old bat");
+      monsterId = monster.getId();
+      MonsterStatusTracker.setNextMonster(monster);
+      FightRequest.currentRound = 2;
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      assertFalse(GreyYouManager.absorbedMonsters.contains(monsterId));
+    }
 
-  @Test
-  public void canReabsorbMultipleMonsters() {
-    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
-    KoLCharacter.setFamiliar(fam);
-    KoLCharacter.getFamiliar().setExperience(36);
+    @Test
+    public void canReabsorbMultipleMonsters() {
+      FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+      KoLCharacter.setFamiliar(fam);
+      KoLCharacter.getFamiliar().setExperience(36);
 
-    KoLCharacter.setPath(Path.GREY_YOU);
-    GreyYouManager.resetAbsorptions();
+      KoLCharacter.setPath(Path.GREY_YOU);
+      GreyYouManager.resetAbsorptions();
 
-    // Absorption of an albino bat via Re-Process Matter
-    String urlString = "fight.php?action=skill&whichskill=7408";
-    String html = html("request/test_fight_goo_absorption_2.html");
-    FightRequest.currentRound = 2;
-    FightRequest.registerRequest(true, urlString);
-    assertEquals("", Preferences.getString("gooseReprocessed"));
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals("41", Preferences.getString("gooseReprocessed"));
+      // Absorption of an albino bat via Re-Process Matter
+      String urlString = "fight.php?action=skill&whichskill=7408";
+      String html = html("request/test_fight_goo_absorption_2.html");
+      FightRequest.currentRound = 2;
+      FightRequest.registerRequest(true, urlString);
+      assertEquals("", Preferences.getString("gooseReprocessed"));
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals("41", Preferences.getString("gooseReprocessed"));
 
-    // Second absorption of a model skeleton via Re-Process Matter
-    KoLCharacter.getFamiliar().setExperience(36);
-    urlString = "fight.php?action=skill&whichskill=7408";
-    html = html("request/test_fight_goo_absorption_5.html");
-    FightRequest.currentRound = 2;
-    FightRequest.registerRequest(true, urlString);
-    assertEquals("41", Preferences.getString("gooseReprocessed"));
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+      // Second absorption of a model skeleton via Re-Process Matter
+      KoLCharacter.getFamiliar().setExperience(36);
+      urlString = "fight.php?action=skill&whichskill=7408";
+      html = html("request/test_fight_goo_absorption_5.html");
+      FightRequest.currentRound = 2;
+      FightRequest.registerRequest(true, urlString);
+      assertEquals("41", Preferences.getString("gooseReprocessed"));
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
 
-    // Third absorption of a model skeleton via Re-Process Matter
-    KoLCharacter.getFamiliar().setExperience(36);
-    urlString = "fight.php?action=skill&whichskill=7408";
-    html = html("request/test_fight_goo_absorption_5.html");
-    FightRequest.currentRound = 2;
-    FightRequest.registerRequest(true, urlString);
-    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
-    FightRequest.updateCombatData(null, null, html);
-    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+      // Third absorption of a model skeleton via Re-Process Matter
+      KoLCharacter.getFamiliar().setExperience(36);
+      urlString = "fight.php?action=skill&whichskill=7408";
+      html = html("request/test_fight_goo_absorption_5.html");
+      FightRequest.currentRound = 2;
+      FightRequest.registerRequest(true, urlString);
+      assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+    }
   }
 
   @Nested
@@ -1024,6 +1082,23 @@ public class FightRequestTest {
         rock.setItem(ItemPool.get(ItemPool.STILLSUIT));
         parseCombatData("request/test_fight_stillsuit_in_terrarium.html");
         assertThat("familiarSweat", isSetTo(6));
+      }
+    }
+  }
+
+  @Nested
+  class PocketProfessor {
+    @Test
+    public void incrementsLecturesIfFamWeightIncreasesMidCombat() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.METEOR_SHOWER),
+              withFamiliar(FamiliarPool.POCKET_PROFESSOR, 100),
+              withProperty("_pocketProfessorLectures", 4));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_meteor_shower_lecture.html");
+        assertThat("_pocketProfessorLectures", isSetTo(5));
       }
     }
   }

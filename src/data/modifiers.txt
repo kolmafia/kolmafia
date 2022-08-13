@@ -2036,7 +2036,7 @@ Item	A Light that Never Goes Out	Mysticality: +5, Hot Damage: +5, Smithsness: +5
 Item	Abracandalabra	Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 10, Maximum MP Percent: +100, Lasts Until Rollover
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
-Item	Adventurer bobblehead	Muscle Percent: [pref(item9084)], Mysticality Percent: [pref(item9084)], Moxie Percent: [pref(item9084)]
+Item	Adventurer bobblehead	Muscle Percent: [pref(nuclearAutumnPoints)], Mysticality Percent: [pref(nuclearAutumnPoints)], Moxie Percent: [pref(nuclearAutumnPoints)]
 # aerogel attache case: Produce random cocktailcrafting ingredients as you adventure
 Item	aerogel attache case	Pickpocket Chance: +10, Stench Damage: +10, Drops Items
 Item	ancient calendar	Adventures: +3, Damage Reduction: 4
