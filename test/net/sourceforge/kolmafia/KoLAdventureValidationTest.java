@@ -13,6 +13,7 @@ import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -929,7 +930,7 @@ public class KoLAdventureValidationTest {
         assertTrue(COBB_KITCHEN.canAdventure());
         assertTrue(COBB_HAREM.canAdventure());
         assertTrue(COBB_TREASURY.canAdventure());
-        assertTrue(THRONE_ROOM.canAdventure());
+        assertFalse(THRONE_ROOM.canAdventure());
       }
     }
 
@@ -984,6 +985,218 @@ public class KoLAdventureValidationTest {
         assertTrue(MENAGERIE_LEVEL_1.canAdventure());
         assertTrue(MENAGERIE_LEVEL_2.canAdventure());
         assertTrue(MENAGERIE_LEVEL_3.canAdventure());
+      }
+    }
+
+    // Tests for fighting the King.  We've already confirmed that the
+    // inside of the Knob must be open and the King not yet slain.
+
+    // Can fight King as harem girl wearing outfit with effect
+
+    @Test
+    public void canFightKingGearedUpAsHaremGirl() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withEffect(EffectPool.KNOB_GOBLIN_PERFUME));
+      try (cleanups) {
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canFightKingUnEquippedAsHaremGirl() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquippableItem("Knob Goblin harem veil"),
+              withEquippableItem("Knob Goblin harem pants"),
+              withEffect(EffectPool.KNOB_GOBLIN_PERFUME));
+      try (cleanups) {
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT));
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.HAREM_OUTFIT + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canFightKingUnPerfumedAsHaremGirl() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withItem(ItemPool.KNOB_GOBLIN_PERFUME));
+      try (cleanups) {
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.KNOB_GOBLIN_PERFUME + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void cannotFightKingUnPerfumedAsHaremGirlInBeecore() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withPath(Path.BEES_HATE_YOU));
+      try (cleanups) {
+        assertFalse(THRONE_ROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void canFightKingUnPerfumedUnGearedAsHaremGirl() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquippableItem("Knob Goblin harem veil"),
+              withEquippableItem("Knob Goblin harem pants"),
+              withItem(ItemPool.KNOB_GOBLIN_PERFUME));
+      try (cleanups) {
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT));
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.HAREM_OUTFIT + "&ajax=1");
+        assertPostRequest(
+            requests.get(1),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.KNOB_GOBLIN_PERFUME + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canFightKingGearedUpAsGuard() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin elite helm"),
+              withEquipped(EquipmentManager.WEAPON, "Knob Goblin elite polearm"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin elite pants"),
+              withItem(ItemPool.KNOB_CAKE));
+      try (cleanups) {
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canFightKingUnGearedUpAsGuard() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquippableItem("Knob Goblin elite helm"),
+              withEquippableItem("Knob Goblin elite polearm"),
+              withEquippableItem("Knob Goblin elite pants"),
+              withItem(ItemPool.KNOB_CAKE));
+      try (cleanups) {
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT));
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.KNOB_ELITE_OUTFIT + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canFightKingUnCakedAsGuard() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin elite helm"),
+              withEquipped(EquipmentManager.WEAPON, "Knob Goblin elite polearm"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin elite pants"),
+              withItem("unfrosted Knob cake"),
+              withItem("Knob frosting"),
+              withProperty("hasChef", true),
+              withRange());
+      try (cleanups) {
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/craft.php", "action=craft&mode=cook&ajax=1&a=4946&b=4945&qty=1");
+      }
+    }
+
+    @Test
+    public void canFightKingUnGearedUnCakedAsGuard() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquippableItem("Knob Goblin elite helm"),
+              withEquippableItem("Knob Goblin elite polearm"),
+              withEquippableItem("Knob Goblin elite pants"),
+              withItem("unfrosted Knob cake"),
+              withItem("Knob frosting"),
+              withProperty("hasChef", true),
+              withRange());
+      try (cleanups) {
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT));
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.KNOB_ELITE_OUTFIT + "&ajax=1");
+        assertPostRequest(
+            requests.get(1), "/craft.php", "action=craft&mode=cook&ajax=1&a=4946&b=4945&qty=1");
       }
     }
   }

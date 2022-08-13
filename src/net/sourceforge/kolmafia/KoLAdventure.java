@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -484,8 +485,39 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 5 quest boss
     if (this.formSource.equals("cobbsknob.php")) {
-      return QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
-          && !QuestDatabase.isQuestFinished(Quest.GOBLIN);
+      // If we have not opened the interior of the Knob or have already
+      // killed the king, no can do
+      if (!QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
+          || QuestDatabase.isQuestFinished(Quest.GOBLIN)) {
+        return false;
+      }
+
+      // Otherwise, you have two options for approaching the King:
+
+      // In the Knob Goblin Harem Girl Disguise with Knob Goblin perfume effect
+      // (With Knob Goblin perfume in inventory, we will use to get the effect)
+
+      boolean haveHaremOutfit = EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT);
+      boolean haveEffect = KoLConstants.activeEffects.contains(PERFUME);
+      boolean havePerfume =
+          !KoLCharacter.inBeecore() && InventoryManager.hasItem(KNOB_GOBLIN_PERFUME);
+
+      if (haveHaremOutfit && (haveEffect || havePerfume)) {
+        return true;
+      }
+
+      // In the Knob Goblin Elite Guard Uniform with a Knob cake
+      // (With ingredients in inventory, we will cook it)
+      boolean haveEliteOutfit = EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT);
+      boolean haveCake = InventoryManager.hasItem(KNOB_CAKE);
+      CreateItemRequest creator = CreateItemRequest.getInstance(KNOB_CAKE);
+      boolean canBakeCake = creator != null && creator.getQuantityPossible() > 0;
+
+      if (haveEliteOutfit && (haveCake || canBakeCake)) {
+        return true;
+      }
+
+      return false;
     }
 
     // Level 7 quest boss
@@ -1671,39 +1703,50 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.formSource.equals("cobbsknob.php")) {
       if (EquipmentManager.isWearingOutfit(OutfitPool.HAREM_OUTFIT)) {
         // Harem girl
-        if (!KoLConstants.activeEffects.contains(PERFUME)
-            && !KoLCharacter.inBeecore()
-            && InventoryManager.retrieveItem(KNOB_GOBLIN_PERFUME)) {
-          RequestThread.postRequest(UseItemRequest.getInstance(KNOB_GOBLIN_PERFUME));
+        if (KoLConstants.activeEffects.contains(PERFUME)) {
+          return true;
         }
-        return KoLConstants.activeEffects.contains(PERFUME);
-      }
-
-      if (EquipmentManager.isWearingOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
-        // Elite Guard
-        return InventoryManager.retrieveItem(KNOB_CAKE);
-      }
-
-      // If we are in Beecore, we had to adventure to get the effect.
-      if (EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT)
-          && (KoLConstants.activeEffects.contains(PERFUME)
-              || (!KoLCharacter.inBeecore()
-                  && InventoryManager.retrieveItem(KNOB_GOBLIN_PERFUME)))) {
-        SpecialOutfit outfit = EquipmentDatabase.getOutfit(OutfitPool.HAREM_OUTFIT);
-        RequestThread.postRequest(new EquipmentRequest(outfit));
-
-        // If we selected the harem girl outfit, use a perfume
-        if (!KoLConstants.activeEffects.contains(PERFUME)) {
+        // This shouldn't fail.
+        if (InventoryManager.retrieveItem(KNOB_GOBLIN_PERFUME)) {
           RequestThread.postRequest(UseItemRequest.getInstance(KNOB_GOBLIN_PERFUME));
         }
         return true;
       }
 
-      if (EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT)
-          && InventoryManager.retrieveItem(KNOB_CAKE)) {
-        // We have the elite guard uniform and have made a cake.
-        SpecialOutfit outfit = EquipmentDatabase.getOutfit(OutfitPool.KNOB_ELITE_OUTFIT);
-        RequestThread.postRequest(new EquipmentRequest(outfit));
+      if (EquipmentManager.isWearingOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
+        // Elite Guard
+
+        // This shouldn't fail.
+        InventoryManager.retrieveItem(KNOB_CAKE);
+        return true;
+      }
+
+      // If we are in Beecore, we had to adventure to get the effect.
+      if (EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT)
+          && (KoLConstants.activeEffects.contains(PERFUME)
+              || InventoryManager.hasItem(KNOB_GOBLIN_PERFUME))) {
+        // Harem girl
+
+        wearOutfit(OutfitPool.HAREM_OUTFIT);
+
+        if (KoLConstants.activeEffects.contains(PERFUME)) {
+          return true;
+        }
+
+        // This shouldn't fail.
+        if (InventoryManager.retrieveItem(KNOB_GOBLIN_PERFUME)) {
+          RequestThread.postRequest(UseItemRequest.getInstance(KNOB_GOBLIN_PERFUME));
+        }
+        return true;
+      }
+
+      if (EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
+        // Elite Guard
+
+        wearOutfit(OutfitPool.KNOB_ELITE_OUTFIT);
+
+        // This shouldn't fail.
+        InventoryManager.retrieveItem(KNOB_CAKE);
         return true;
       }
 
