@@ -110,7 +110,6 @@ public class RequestLogger extends NullStream {
     RequestLogger.previousUpdateString = message;
 
     RequestLogger.outputStream.println(message);
-    RequestLogger.mirrorStream.println(message);
     RequestLogger.debugStream.println(message);
 
     if (StaticEntity.backtraceTrigger != null && message.contains(StaticEntity.backtraceTrigger)) {
@@ -118,6 +117,7 @@ public class RequestLogger extends NullStream {
     }
 
     if (!addToBuffer) {
+      RequestLogger.mirrorStream.println(message);
       return;
     }
 
@@ -171,6 +171,7 @@ public class RequestLogger extends NullStream {
 
     colorBuffer.append(KoLConstants.LINE_BREAK);
     KoLConstants.commandBuffer.append(colorBuffer.toString());
+    RequestLogger.mirrorStream.println(colorBuffer);
     RelayServer.addStatusMessage(colorBuffer.toString());
   }
 

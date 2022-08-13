@@ -55,7 +55,6 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Open the mirror
     execute("chats/test_writes_html.txt");
     // When `> ` is used as a prefix, the RequestLogger will colorize it assuming its a command
-    // input but that is not true at the moment, hence plain text assertion.
     RequestLogger.printLine("> Fake command input");
     // Log another line, this should be raw.
     RequestLogger.printLine("Raw Line");
@@ -105,7 +104,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Read the log
     String mirrorOutput = getMirrorLog("test_mirror_list_strings.txt");
     // Test that the output matches as expected
-    assertEquals("Line 1\n" + "Line 2", mirrorOutput, "Unexpected content in mirror.");
+    assertEquals("Line 1<br>" + "Line 2<br></pre>", mirrorOutput, "Unexpected content in mirror.");
   }
 
   @Test

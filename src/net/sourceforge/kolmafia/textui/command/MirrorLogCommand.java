@@ -21,7 +21,7 @@ public class MirrorLogCommand extends AbstractCommand {
       KoLmafia.updateDisplay("Mirror stream closed.");
     } else {
       if (!parameters.endsWith(".txt")
-              && !((parameters.endsWith(".html") || parameters.endsWith(".htm")))) {
+          && !((parameters.endsWith(".html") || parameters.endsWith(".htm")))) {
         parameters += ".txt";
       }
 

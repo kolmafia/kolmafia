@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -72,8 +70,7 @@ class RequestLoggerTest {
   }
 
   @Test
-  @Disabled("This test shows the HTML appended to the string does not appear in the session log")
-  public void angleBrackeGeneratesHTMLtoLog() {
+  public void angleBracketDoesNotGenerateHTMLtoLog() {
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
       RequestLogger.openCustom(out);
@@ -81,12 +78,11 @@ class RequestLoggerTest {
       RequestLogger.closeCustom();
     }
     String logged = ostream.toString().trim();
-    assertEquals("<font color=olive>> Wassup?</font><br>", logged);
+    assertEquals("> Wassup?", logged);
   }
 
   @Test
-  @Disabled("This test shows the HTML appended to the string does not appear in the session log")
-  public void mafiaStateGeneratesHTMLThatIsLogged() {
+  public void mafiaStateDoesNotGenerateHTMLThatIsLogged() {
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
       RequestLogger.openCustom(out);
@@ -94,6 +90,6 @@ class RequestLoggerTest {
       RequestLogger.closeCustom();
     }
     String logged = ostream.toString().trim();
-    assertEquals("<font color=red>Am I Blue?</font><br>", logged);
+    assertEquals("Am I Blue?", logged);
   }
 }
