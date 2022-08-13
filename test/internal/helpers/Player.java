@@ -1100,15 +1100,35 @@ public class Player {
   }
 
   /**
-   * Sets the last location name
+   * Sets the last location
    *
    * @param lastLocationName Last location name to set
    * @return Restores previous value
    */
-  public static Cleanups withLastLocationName(final String lastLocationName) {
-    var old = KoLAdventure.lastLocationName;
-    KoLAdventure.lastLocationName = lastLocationName;
-    return new Cleanups(() -> KoLAdventure.lastLocationName = old);
+  public static Cleanups withLastLocation(final String lastLocationName) {
+    var location = AdventureDatabase.getAdventure(lastLocationName);
+    return withLastLocation(location);
+  }
+
+  public static Cleanups withLastLocation(final KoLAdventure lastLocation) {
+    var old = KoLAdventure.lastVisitedLocation;
+    var clearProperties =
+        new Cleanups(
+            withProperty("lastAdventure"),
+            withProperty("hiddenApartmentProgress"),
+            withProperty("hiddenHospitalProgress"),
+            withProperty("hiddenOfficeProgress"),
+            withProperty("hiddenBowlingAlleyProgress"));
+
+    if (lastLocation == null) {
+      KoLAdventure.setLastAdventure((String) null);
+    } else {
+      KoLAdventure.setLastAdventure(lastLocation);
+    }
+
+    var cleanups = new Cleanups(() -> KoLAdventure.setLastAdventure(old));
+    cleanups.add(clearProperties);
+    return cleanups;
   }
 
   /**
