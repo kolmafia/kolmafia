@@ -15,10 +15,14 @@ import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -208,6 +212,32 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                 potion => none
                 """));
       }
+    }
+  }
+
+  @Test
+  void canSeeGreyYouMonsterAbsorbs() {
+    var cleanups = new Cleanups(GreyYouManager::resetAbsorptions);
+
+    try (cleanups) {
+      KoLCharacter.setPath(Path.GREY_YOU);
+
+      String name1 = "oil baron";
+      MonsterData monster1 = MonsterDatabase.findMonster(name1);
+      GreyYouManager.absorbMonster(monster1);
+      String name2 = "warwelf";
+      MonsterData monster2 = MonsterDatabase.findMonster(name2);
+      GreyYouManager.absorbMonster(monster2);
+
+      String output = execute("absorbed_monsters()");
+      assertThat(
+          output,
+          equalTo(
+              """
+              Returned: aggregate boolean [monster]
+              warwelf => true
+              oil baron => true
+              """));
     }
   }
 
