@@ -1426,7 +1426,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       //
       // *** This should be a LimitMode
 
-      return InventoryManager.hasItem(item) || KoLConstants.activeEffects.contains(HALF_ASTRAL);
+      return KoLConstants.activeEffects.contains(HALF_ASTRAL) || InventoryManager.hasItem(item);
     }
 
     if (this.zone.equals("Shape of Mole")) {
@@ -1480,14 +1480,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Rabbit Hole")) {
       // A "DRINK ME" potion grants 20 turns of Down the Rabbit Hole.
       // Having the item or the effect will suffice.
-      return InventoryManager.hasItem(item)
-          || KoLConstants.activeEffects.contains(DOWN_THE_RABBIT_HOLE);
+      return KoLConstants.activeEffects.contains(DOWN_THE_RABBIT_HOLE)
+          || InventoryManager.hasItem(item);
     }
 
     if (this.zone.equals("Suburbs")) {
       // devilish folio grants 30 turns of Dis Abled.
       // Having the item or the effect will suffice.
-      return InventoryManager.hasItem(item) || KoLConstants.activeEffects.contains(DIS_ABLED);
+      return KoLConstants.activeEffects.contains(DIS_ABLED) || InventoryManager.hasItem(item);
     }
 
     if (this.zone.equals("Portal")) {
@@ -1520,7 +1520,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // tiny bottle of absinthe grants 15 turns of Absinthe-Minded.
       // This opens up the Wormwood.
       // You can choose to adventure there or not.
-      return InventoryManager.hasItem(item) || KoLConstants.activeEffects.contains(ABSINTHE_MINDED);
+      return KoLConstants.activeEffects.contains(ABSINTHE_MINDED) || InventoryManager.hasItem(item);
     }
 
     if (this.zone.equals("Memories")) {
@@ -1532,7 +1532,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Spaaace")) {
       // transporter transponder grants 30 turns of Transpondent.
       // Having the item or the effect will suffice.
-      return InventoryManager.hasItem(item) || KoLConstants.activeEffects.contains(TRANSPONDENT);
+      return KoLConstants.activeEffects.contains(TRANSPONDENT) || InventoryManager.hasItem(item);
     }
 
     if (antiqueMapZones.contains(this.zone)) {
@@ -1973,14 +1973,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Rabbit Hole")) {
       if (!KoLConstants.activeEffects.contains(DOWN_THE_RABBIT_HOLE)) {
-        AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
-
-        if (!InventoryManager.retrieveItem(item)) {
+        if (!InventoryManager.retrieveItem(DRINK_ME_POTION)) {
           // This shouldn't fail as it is guaranteed in canAdventure()
           return false;
         }
 
-        RequestThread.postRequest(UseItemRequest.getInstance(item));
+        RequestThread.postRequest(UseItemRequest.getInstance(DRINK_ME_POTION));
       }
 
       return true;
