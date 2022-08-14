@@ -1316,14 +1316,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Holiday zones
     if (holidayAdventures.containsKey(this.zone)) {
-      // Holiday zones include "Drunken Stupor" and "St. Sneaky Pete's Day Stupor"
-      // Holiday zones include "The Spectral Pickle Factory!" and "Spectral Salad Factory!"
       String holiday = holidayAdventures.get(this.adventureName);
-      if (holiday == null) {
-        // I dunno.
-        return true;
-      }
-      return HolidayDatabase.getHoliday().contains(holiday);
+      String today = HolidayDatabase.getHoliday();
+      return switch (this.adventureNumber) {
+        case AdventurePool.DRUNKEN_STUPOR -> KoLCharacter.isFallingDown();
+        case AdventurePool.SSPD_STUPOR -> today.contains(holiday)
+            && KoLCharacter.getInebriety() >= 26;
+        default -> (holiday == null) ? true : today.contains(holiday);
+      };
     }
 
     if (this.zone.equals("Twitch")) {
