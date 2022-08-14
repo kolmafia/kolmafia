@@ -442,9 +442,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     holidayAdventures.put("The Yuletide Bonfire", "Yuletide");
     holidayAdventures.put("The Arrrboretum", "Arrrbor Day");
     holidayAdventures.put("Generic Summer Holiday Swimming!", "Generic Summer Holiday");
+    holidayAdventures.put("The Spectral Pickle Factory", "April Fool's Day");
     holidayAdventures.put("Drunken Stupor", null);
-    holidayAdventures.put("The Spectral Pickle Factory", null);
-    holidayAdventures.put("Spectral Salad Factory", null);
   }
 
   public boolean canAdventure() {
