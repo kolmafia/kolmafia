@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextResponse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -101,5 +103,22 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
     var requests = getRequests();
     assertThat(requests.size(), equalTo(3));
+  }
+
+  @Test
+  public void showAcquiredItem() {
+    String output;
+    var cleanups =
+        new Cleanups(
+            withItem("hexagonal wand"),
+            withItem("Dreadsylvanian spooky pocket"),
+            withNextResponse(200, html("request/test_zap_pockets.html")));
+
+    try (cleanups) {
+      output = execute("Dreadsylvanian spooky pocket");
+    }
+
+    assertThat(output, containsString("Dreadsylvanian spooky pocket has been transformed"));
+    assertThat(output, containsString("transformed into Dreadsylvanian hot pocket"));
   }
 }
