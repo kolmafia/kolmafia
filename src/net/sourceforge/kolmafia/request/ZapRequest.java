@@ -26,6 +26,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ZapRequest extends GenericRequest {
   private static final Pattern ZAP_PATTERN = Pattern.compile("whichitem=(\\d+)");
+  private static final Pattern ACQUIRE_PATTERN =
+      Pattern.compile("You acquire an item: <b>(.*?)</b>");
   private static final Pattern OPTION_PATTERN =
       Pattern.compile("<option value=(\\d+) descid='.*?'>.*?</option>");
 
@@ -131,8 +133,11 @@ public class ZapRequest extends GenericRequest {
       return;
     }
 
+    Matcher acquiresMatcher = ZapRequest.ACQUIRE_PATTERN.matcher(responseText);
+    String acquired = acquiresMatcher.find() ? acquiresMatcher.group(1) : "an unknown item";
+
     // Notify the user of success.
-    KoLmafia.updateDisplay(this.item.getName() + " has been transformed.");
+    KoLmafia.updateDisplay(this.item.getName() + " has been transformed into " + acquired + ".");
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
