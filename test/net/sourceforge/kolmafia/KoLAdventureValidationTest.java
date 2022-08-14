@@ -2586,6 +2586,136 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Farm {
+    private static final KoLAdventure THE_BARN =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Barn");
+    private static final KoLAdventure THE_POND =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Pond");
+    private static final KoLAdventure THE_BACK_40 =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Back 40");
+    private static final KoLAdventure THE_OTHER_BACK_40 =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Other Back 40");
+    private static final KoLAdventure THE_GRANARY =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Granary");
+    private static final KoLAdventure THE_BOG =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Bog");
+    private static final KoLAdventure THE_FAMILY_PLOT =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Family Plot");
+    private static final KoLAdventure THE_SHADY_THICKET =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Shady Thicket");
+
+    @Test
+    public void cannotAdventureUnlessAtWar() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertFalse(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureInBarnWithZeroSelected() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"), withProperty("duckAreasSelected", ""));
+      try (cleanups) {
+        assertTrue(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureInBarnWithOneSelected() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty("duckAreasSelected", "McMillicancuddy's Pond"));
+      try (cleanups) {
+        assertTrue(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureInBarnWithTwoSelected() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty(
+                  "duckAreasSelected", "McMillicancuddy's Pond,McMillicancuddy's Granary"));
+      try (cleanups) {
+        assertTrue(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureWithSelected() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty(
+                  "duckAreasSelected",
+                  "McMillicancuddy's Pond,McMillicancuddy's Granary,McMillicancuddy's Shady Thicket"));
+      try (cleanups) {
+        assertFalse(THE_BARN.canAdventure());
+        assertTrue(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertTrue(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertTrue(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotAdventureIfCleared() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty(
+                  "duckAreasSelected",
+                  "McMillicancuddy's Pond,McMillicancuddy's Granary,McMillicancuddy's Shady Thicket"),
+              withProperty("duckAreasCleared", "McMillicancuddy's Granary"));
+      try (cleanups) {
+        assertFalse(THE_BARN.canAdventure());
+        assertTrue(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertTrue(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+  }
+
+  @Nested
   class RabbitHole {
     private static final KoLAdventure RABBIT_HOLE =
         AdventureDatabase.getAdventureByName("The Red Queen's Garden");

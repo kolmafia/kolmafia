@@ -489,6 +489,40 @@ public abstract class ChoiceControl {
     String text = request.responseText;
 
     switch (ChoiceManager.lastChoice) {
+      case 147:
+        // Cornered!
+        String ducks1 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "McMillicancuddy's Granary";
+              case 2 -> "McMillicancuddy's Bog";
+              case 3 -> "McMillicancuddy's Pond";
+              default -> "";
+            };
+        Preferences.setString("duckAreas", Preferences.getString("duckAreas") + ducks1);
+        break;
+
+      case 148:
+        // Cornered Again!
+        String ducks2 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "McMillicancuddy's Back 40";
+              case 2 -> "McMillicancuddy's Family Plot";
+              default -> "";
+            };
+        Preferences.setString("duckAreas", Preferences.getString("duckAreas") + "," + ducks2);
+        break;
+
+      case 149:
+        // How Many Corners Does this Stupid Barn Have?
+        String ducks3 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "McMillicancuddy's Shady Thicket";
+              case 2 -> "McMillicancuddy's Other Back 40";
+              default -> "";
+            };
+        Preferences.setString("duckAreas", Preferences.getString("duckAreas") + "," + ducks3);
+        break;
+
       case 188:
         // The Infiltrationist
 

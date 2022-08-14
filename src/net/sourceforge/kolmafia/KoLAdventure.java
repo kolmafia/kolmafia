@@ -1034,19 +1034,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
         return false;
       }
-      // McMillicancuddy's Barn
-      // McMillicancuddy's Pond
-      // McMillicancuddy's Back 40
-      // McMillicancuddy's Other Back 40
-      // McMillicancuddy's Granary
-      // McMillicancuddy's Bog
-      // McMillicancuddy's Family Plot
-      // McMillicancuddy's Shady Thicket
 
-      // *** validate:
-      // - only  three duck zones that were selected in the barn
-      // - done when all three duck zones have been cleared
-      return true;
+      String selected = Preferences.getString("duckAreasSelected");
+      String cleared = Preferences.getString("duckAreasCleared");
+
+      if (selected.indexOf(",") == selected.lastIndexOf(",")) {
+        // True only if zero, one, or two duck areas have been selected.
+        return this.adventureNumber == AdventurePool.THE_BARN;
+      }
+
+      // Three have been selected
+      return selected.contains(this.adventureName) && !cleared.contains(this.adventureName);
     }
 
     if (this.zone.equals("Orchard")) {
