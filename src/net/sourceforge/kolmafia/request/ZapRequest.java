@@ -34,6 +34,7 @@ public class ZapRequest extends GenericRequest {
   private static final Map<Integer, List<String>> zapGroups = new HashMap<>();
 
   private AdventureResult item;
+  public AdventureResult acquired;
 
   public ZapRequest(final AdventureResult item) {
     super("wand.php");
@@ -134,10 +135,13 @@ public class ZapRequest extends GenericRequest {
     }
 
     Matcher acquiresMatcher = ZapRequest.ACQUIRE_PATTERN.matcher(responseText);
-    String acquired = acquiresMatcher.find() ? acquiresMatcher.group(1) : "an unknown item";
+    String acquired = acquiresMatcher.find() ? acquiresMatcher.group(1) : null;
+    if (acquired != null) {
+      this.acquired = ItemPool.get(acquired, 1);
+    }
 
     // Notify the user of success.
-    KoLmafia.updateDisplay(this.item.getName() + " has been transformed into " + acquired + ".");
+    KoLmafia.updateDisplay(this.item.getName() + " has been transformed into " + (acquired != null ? acquired : "an unknown item") + ".");
   }
 
   public static void parseResponse(final String urlString, final String responseText) {

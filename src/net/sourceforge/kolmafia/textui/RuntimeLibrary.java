@@ -2698,6 +2698,9 @@ public abstract class RuntimeLibrary {
             "absorbed_monsters",
             new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE),
             params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("zap", DataTypes.ITEM_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -9717,5 +9720,14 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value zap(ScriptRuntime controller, Value item) {
+    var request = new ZapRequest(ItemPool.get((int) item.intValue()));
+    RequestThread.postRequest(request);
+
+    int itemId = request.acquired == null ? -1 : request.acquired.getItemId();
+
+    return DataTypes.makeItemValue(itemId, true);
   }
 }
