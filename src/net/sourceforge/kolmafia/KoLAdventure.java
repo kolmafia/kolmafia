@@ -1031,7 +1031,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Farm")) {
-      if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
+      if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")
+          || !Preferences.getString("sidequestFarmCompleted").equals("none")) {
         return false;
       }
 

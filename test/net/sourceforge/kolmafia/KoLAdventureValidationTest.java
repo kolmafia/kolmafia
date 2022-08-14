@@ -2622,6 +2622,24 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void cannotAdventureWhenSidequestCompleted() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "start1"),
+              withProperty("sidequestFarmCompleted", "hippies"));
+      try (cleanups) {
+        assertFalse(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
     public void cannotAdventureAfterLocationIsCleared() {
       var cleanups =
           new Cleanups(
