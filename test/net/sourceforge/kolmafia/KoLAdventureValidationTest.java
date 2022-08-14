@@ -9,6 +9,7 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -18,6 +19,7 @@ import static internal.helpers.Player.withRestricted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
@@ -2616,6 +2618,28 @@ public class KoLAdventureValidationTest {
         assertFalse(THE_BOG.canAdventure());
         assertFalse(THE_FAMILY_PLOT.canAdventure());
         assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotAdventureAfterLocationIsCleared() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty(
+                  "duckAreasSelected",
+                  THE_POND.getAdventureId()
+                      + ","
+                      + THE_GRANARY.getAdventureId()
+                      + ","
+                      + THE_SHADY_THICKET.getAdventureId()),
+              withProperty("duckAreasCleared", ""),
+              withLastLocation(THE_GRANARY));
+      try (cleanups) {
+        assertTrue(THE_GRANARY.canAdventure());
+        assertTrue(KoLAdventure.findAdventureFailure("There are no more ducks here") >= 0);
+        assertEquals(Preferences.getString("duckAreasCleared"), THE_GRANARY.getAdventureId());
+        assertFalse(THE_GRANARY.canAdventure());
       }
     }
 
