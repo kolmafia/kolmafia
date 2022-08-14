@@ -1364,6 +1364,129 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class McLargeHuge {
+
+    private static final KoLAdventure ITZNOTYERZITZ_MINE =
+        AdventureDatabase.getAdventureByName("Itznotyerzitz Mine");
+    private static final KoLAdventure GOATLET = AdventureDatabase.getAdventureByName("The Goatlet");
+    private static final KoLAdventure NINJA_SNOWMEN =
+        AdventureDatabase.getAdventureByName("Lair of the Ninja Snowmen");
+    private static final KoLAdventure EXTREME_SLOPE =
+        AdventureDatabase.getAdventureByName("The eXtreme Slope");
+    private static final KoLAdventure SHROUDED_PEAK =
+        AdventureDatabase.getAdventureByName("Mist-Shrouded Peak");
+    private static final KoLAdventure ICY_PEAK =
+        AdventureDatabase.getAdventureByName("The Icy Peak");
+
+    @Test
+    public void cannotVisitMcLargeHugePreQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(ITZNOTYERZITZ_MINE.canAdventure());
+        assertFalse(GOATLET.canAdventure());
+        assertFalse(NINJA_SNOWMEN.canAdventure());
+        assertFalse(EXTREME_SLOPE.canAdventure());
+        assertFalse(SHROUDED_PEAK.canAdventure());
+        assertFalse(ICY_PEAK.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitMcLargeHugeOnceQuestStarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step1"));
+      try (cleanups) {
+        assertTrue(ITZNOTYERZITZ_MINE.canAdventure());
+        assertTrue(GOATLET.canAdventure());
+        assertFalse(NINJA_SNOWMEN.canAdventure());
+        assertFalse(EXTREME_SLOPE.canAdventure());
+        assertFalse(SHROUDED_PEAK.canAdventure());
+        assertFalse(ICY_PEAK.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitMcLargeHugeAfterGivingTrapperItems() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step2"));
+      try (cleanups) {
+        assertTrue(ITZNOTYERZITZ_MINE.canAdventure());
+        assertTrue(GOATLET.canAdventure());
+        assertTrue(NINJA_SNOWMEN.canAdventure());
+        assertTrue(EXTREME_SLOPE.canAdventure());
+        assertFalse(SHROUDED_PEAK.canAdventure());
+        assertFalse(ICY_PEAK.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitShroudedPeakWithoutColdResistance() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step3"));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertFalse(SHROUDED_PEAK.canAdventure());
+        assertFalse(SHROUDED_PEAK.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitShroudedPeakWithColdResistance() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TRAPPER, "step3"),
+              withEquipped(EquipmentManager.ACCESSORY1, "cozy scarf"));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertTrue(SHROUDED_PEAK.canAdventure());
+        assertTrue(SHROUDED_PEAK.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitShroudedPeakAfterGroar() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TRAPPER, "step5"),
+              withEquipped(EquipmentManager.ACCESSORY1, "cozy scarf"));
+      try (cleanups) {
+        assertFalse(SHROUDED_PEAK.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitIcyPeakWithoutColdResistance() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step5"));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertFalse(ICY_PEAK.canAdventure());
+        assertFalse(ICY_PEAK.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitIcyPeakWithColdResistance() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TRAPPER, "step5"),
+              withEquipped(EquipmentManager.ACCESSORY1, "ghost of a necklace"));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertTrue(ICY_PEAK.canAdventure());
+        assertTrue(ICY_PEAK.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitIcyPeakBeforeGroar() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TRAPPER, "step4"),
+              withEquipped(EquipmentManager.ACCESSORY1, "ghost of a necklace"));
+      try (cleanups) {
+        assertFalse(SHROUDED_PEAK.canAdventure());
+      }
+    }
+  }
+
+  @Nested
   class BeanStalk {
 
     private static final KoLAdventure AIRSHIP =
