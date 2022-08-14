@@ -141,7 +141,11 @@ public class ZapRequest extends GenericRequest {
     }
 
     // Notify the user of success.
-    KoLmafia.updateDisplay(this.item.getName() + " has been transformed into " + (acquired != null ? acquired : "an unknown item") + ".");
+    KoLmafia.updateDisplay(
+        this.item.getName()
+            + " has been transformed into "
+            + (acquired != null ? acquired : "an unknown item")
+            + ".");
   }
 
   public static void parseResponse(final String urlString, final String responseText) {

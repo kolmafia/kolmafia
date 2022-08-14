@@ -249,9 +249,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       try (cleanups) {
         String output = execute("zap($item[Dreadsylvanian spooky pocket])");
-        assertThat(
-            output,
-            containsString("Returned: none"));
+        assertThat(output, containsString("Returned: none"));
       }
     }
 
@@ -265,9 +263,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       try (cleanups) {
         String output = execute("zap($item[Dreadsylvanian spooky pocket])");
-        assertThat(
-            output,
-            containsString("Returned: Dreadsylvanian hot pocket"));
+        assertThat(output, containsString("Returned: Dreadsylvanian hot pocket"));
       }
     }
   }
