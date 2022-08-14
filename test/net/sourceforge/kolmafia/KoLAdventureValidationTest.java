@@ -2641,7 +2641,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
-              withProperty("duckAreasSelected", "McMillicancuddy's Pond"));
+              withProperty("duckAreasSelected", THE_POND.getAdventureId()));
       try (cleanups) {
         assertTrue(THE_BARN.canAdventure());
         assertFalse(THE_POND.canAdventure());
@@ -2660,7 +2660,8 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
               withProperty(
-                  "duckAreasSelected", "McMillicancuddy's Pond,McMillicancuddy's Granary"));
+                  "duckAreasSelected",
+                  THE_POND.getAdventureId() + "," + THE_GRANARY.getAdventureId()));
       try (cleanups) {
         assertTrue(THE_BARN.canAdventure());
         assertFalse(THE_POND.canAdventure());
@@ -2680,7 +2681,11 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
               withProperty(
                   "duckAreasSelected",
-                  "McMillicancuddy's Pond,McMillicancuddy's Granary,McMillicancuddy's Shady Thicket"));
+                  THE_POND.getAdventureId()
+                      + ","
+                      + THE_GRANARY.getAdventureId()
+                      + ","
+                      + THE_SHADY_THICKET.getAdventureId()));
       try (cleanups) {
         assertFalse(THE_BARN.canAdventure());
         assertTrue(THE_POND.canAdventure());
@@ -2700,8 +2705,12 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.ISLAND_WAR, "step1"),
               withProperty(
                   "duckAreasSelected",
-                  "McMillicancuddy's Pond,McMillicancuddy's Granary,McMillicancuddy's Shady Thicket"),
-              withProperty("duckAreasCleared", "McMillicancuddy's Granary"));
+                  THE_POND.getAdventureId()
+                      + ","
+                      + THE_GRANARY.getAdventureId()
+                      + ","
+                      + THE_SHADY_THICKET.getAdventureId()),
+              withProperty("duckAreasCleared", THE_GRANARY.getAdventureId()));
       try (cleanups) {
         assertFalse(THE_BARN.canAdventure());
         assertTrue(THE_POND.canAdventure());

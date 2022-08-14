@@ -1044,7 +1044,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // Three have been selected
-      return selected.contains(this.adventureName) && !cleared.contains(this.adventureName);
+      return selected.contains(this.adventureId) && !cleared.contains(this.adventureId);
     }
 
     if (this.zone.equals("Orchard")) {
