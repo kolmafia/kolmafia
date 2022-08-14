@@ -9726,7 +9726,8 @@ public abstract class RuntimeLibrary {
     var request = new ZapRequest(ItemPool.get((int) item.intValue()));
     RequestThread.postRequest(request);
 
-    int itemId = request.acquired == null ? -1 : request.acquired.getItemId();
+    var acquired = request.getAcquired();
+    int itemId = acquired == null ? -1 : acquired.getItemId();
 
     return DataTypes.makeItemValue(itemId, true);
   }

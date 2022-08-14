@@ -34,7 +34,7 @@ public class ZapRequest extends GenericRequest {
   private static final Map<Integer, List<String>> zapGroups = new HashMap<>();
 
   private AdventureResult item;
-  public AdventureResult acquired;
+  private AdventureResult acquired;
 
   public ZapRequest(final AdventureResult item) {
     super("wand.php");
@@ -228,5 +228,9 @@ public class ZapRequest extends GenericRequest {
     RequestLogger.updateSessionLog("zap " + item.getName());
 
     return true;
+  }
+
+  public AdventureResult getAcquired() {
+    return acquired;
   }
 }
