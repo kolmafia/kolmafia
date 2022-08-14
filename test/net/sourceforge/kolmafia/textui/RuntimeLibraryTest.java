@@ -242,6 +242,33 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class Zap {
+    @Test
+    void noWandReturnsNone() {
+      var cleanups = withItem("Dreadsylvanian spooky pocket");
+
+      try (cleanups) {
+        String output = execute("zap($item[Dreadsylvanian spooky pocket])");
+        assertThat(output, containsString("Returned: none"));
+      }
+    }
+
+    @Test
+    void canZapItem() {
+      var cleanups =
+          new Cleanups(
+              withItem("hexagonal wand"),
+              withItem("Dreadsylvanian spooky pocket"),
+              withNextResponse(200, html("request/test_zap_pockets.html")));
+
+      try (cleanups) {
+        String output = execute("zap($item[Dreadsylvanian spooky pocket])");
+        assertThat(output, containsString("Returned: Dreadsylvanian hot pocket"));
+      }
+    }
+  }
+
+  @Nested
   class Equip {
     @Test
     void canEquipItem() {
