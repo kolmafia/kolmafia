@@ -703,17 +703,24 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void needStenchProtectionForGuanoJunction() {
+    public void cannotVisitGuanoJunctionWithoutStenchProtection() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.STARTED));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertFalse(GUANO_JUNCTION.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitGuanoJunctionWithStenchProtection() {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.BAT, QuestDatabase.STARTED),
               withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"));
       try (cleanups) {
-        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
         assertTrue(GUANO_JUNCTION.canAdventure());
-        assertFalse(BATRAT.canAdventure());
-        assertFalse(BEANBAT.canAdventure());
-        assertFalse(BOSSBAT.canAdventure());
+        assertTrue(GUANO_JUNCTION.prepareForAdventure());
       }
     }
 

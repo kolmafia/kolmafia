@@ -532,9 +532,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (trapper.equals(QuestDatabase.FINISHED)) {
         return false;
       }
-      return trapper.equals("step3")
-          || trapper.equals("step4")
-          || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
+      return (trapper.equals("step3")
+              || trapper.equals("step4")
+              || Preferences.getString("peteMotorbikeTires").equals("Snow Tires"))
+          && KoLCharacter.getElementalResistanceLevels(Element.COLD) >= 5;
     }
 
     // Level 11 quest boss -> Lord Spookyraven
@@ -863,7 +864,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             .isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
         case AdventurePool.NINJA_SNOWMEN, AdventurePool.EXTREME_SLOPE -> QuestDatabase
             .isQuestLaterThan(Quest.TRAPPER, "step1");
-        case AdventurePool.ICY_PEAK -> QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4");
+        case AdventurePool.ICY_PEAK -> QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4")
+            && KoLCharacter.getElementalResistanceLevels(Element.COLD) >= 1;
         case AdventurePool.MINE_OFFICE -> QuestDatabase.isQuestStarted(Quest.FACTORY)
             && hasRequiredOutfit();
         default -> false;
@@ -1866,6 +1868,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.adventureId.equals(AdventurePool.SHROUDED_PEAK_ID)) {
+      // canAdventure checks this already. If the betweenBattle script
+      // should have a chance to fix it, make that method return true.
       if (KoLCharacter.getElementalResistanceLevels(Element.COLD) >= 5) {
         return true;
       }
@@ -1874,6 +1878,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.adventureNumber == AdventurePool.ICY_PEAK) {
+      // canAdventure checks this already. If the betweenBattle script
+      // should have a chance to fix it, make that method return true.
       if (KoLCharacter.getElementalResistanceLevels(Element.COLD) >= 1) {
         return true;
       }
@@ -1928,6 +1934,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("BatHole")) {
       switch (this.adventureNumber) {
         case AdventurePool.GUANO_JUNCTION:
+          // canAdventure checks this already. If the betweenBattle script
+          // should have a chance to fix it, make that method return true.
           if (KoLCharacter.getElementalResistanceLevels(Element.STENCH) >= 1) {
             return true;
           }
