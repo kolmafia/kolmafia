@@ -501,6 +501,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       boolean havePerfume =
           !KoLCharacter.inBeecore() && InventoryManager.hasItem(KNOB_GOBLIN_PERFUME);
 
+      // prepareForAdventure will use Knob Goblin perfume, if necessary.
       if (haveHaremOutfit && (haveEffect || havePerfume)) {
         return true;
       }
@@ -512,6 +513,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       CreateItemRequest creator = CreateItemRequest.getInstance(KNOB_CAKE);
       boolean canBakeCake = creator != null && creator.getQuantityPossible() > 0;
 
+      // prepareForAdventure will create Knob cake, if necessary.
       if (haveEliteOutfit && (haveCake || canBakeCake)) {
         return true;
       }
@@ -796,6 +798,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
             int sonarsToUse = sonarsForLocation - sonarsUsed;
 
+            // prepareForAdventure will use sonars-in-a-biscuit, if necessary.
             return InventoryManager.hasItem(SONAR.getInstance(sonarsToUse));
           }
       }
@@ -881,7 +884,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return switch (this.adventureNumber) {
           // The beanstalk is unlocked when the player has planted a
           // beanstalk -- but, the bean needs to be planted first.
-          // We will plant in validate2, if necessary
+          // prepareForAdventure will plant an enchanted bean, if necessary.
         case AdventurePool.AIRSHIP -> !KoLCharacter.isKingdomOfExploathing()
             && (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)
                 || (QuestDatabase.isQuestStarted(Quest.GARBAGE)
@@ -1061,6 +1064,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return switch (this.adventureNumber) {
+          // prepareForAdventure will use the appropriate filthworm gland, if necessary
         case AdventurePool.FILTHWORM_HATCHING_CHAMBER -> true;
         case AdventurePool.FILTHWORM_FEEDING_CHAMBER -> KoLConstants.activeEffects.contains(
                 FILTHWORM_LARVA_STENCH)
@@ -1426,6 +1430,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       //
       // *** This should be a LimitMode
 
+      // prepareForAdventure will use an astral mushroom, if necessary.
+      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(HALF_ASTRAL) || InventoryManager.hasItem(item);
     }
 
@@ -1436,6 +1442,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // You cannot adventure anywhere except in Mt. Molehill while that effect is active.
       //
       // *** This should be a LimitMode
+
+      // prepareForAdventure will NOT use a llama lama gong and choose the Mole option.
+      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(SHAPE_OF_MOLE)
           || (InventoryManager.hasItem(item) && !KoLConstants.activeEffects.contains(FORM_OF_BIRD));
     }
@@ -1480,6 +1489,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Rabbit Hole")) {
       // A "DRINK ME" potion grants 20 turns of Down the Rabbit Hole.
       // Having the item or the effect will suffice.
+      // prepareForAdventure will use a the (cheap) potion if necessary.
       return KoLConstants.activeEffects.contains(DOWN_THE_RABBIT_HOLE)
           || InventoryManager.hasItem(item);
     }
@@ -1487,6 +1497,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Suburbs")) {
       // devilish folio grants 30 turns of Dis Abled.
       // Having the item or the effect will suffice.
+      // prepareForAdventure will NOT use a devilish folio if necessary.
+      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(DIS_ABLED) || InventoryManager.hasItem(item);
     }
 
@@ -1520,6 +1532,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // tiny bottle of absinthe grants 15 turns of Absinthe-Minded.
       // This opens up the Wormwood.
       // You can choose to adventure there or not.
+      // prepareForAdventure will NOT use a tiny jar of absinthe if necessary.
+      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(ABSINTHE_MINDED) || InventoryManager.hasItem(item);
     }
 
@@ -1532,6 +1546,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Spaaace")) {
       // transporter transponder grants 30 turns of Transpondent.
       // Having the item or the effect will suffice.
+      // prepareForAdventure will NOT use a transponder if necessary.
+      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(TRANSPONDENT) || InventoryManager.hasItem(item);
     }
 
@@ -1550,6 +1566,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // AdventureResult item - the item needed to activate this zone
       // That item is in the Campground if it is currently active
       // _psychoJarUsed - if a psycho jar is in use
+      // prepareForAdventure will NOT use a jar of psychoses if necessary.
+      // *** Should it? They are very expensive
       return KoLConstants.campground.contains(item) || InventoryManager.hasItem(item);
     }
 
@@ -1565,6 +1583,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // One path at a time.
       String tale = grimstoneZones.get(this.zone);
       String current = Preferences.getString("grimstoneMaskPath");
+      // prepareForAdventure will NOT use a grimstone mask if necessary.
+      // *** Should it? They are not cheap.
       return tale.equals(current) || InventoryManager.hasItem(item);
     }
 
