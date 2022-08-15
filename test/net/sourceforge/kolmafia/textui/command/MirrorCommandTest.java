@@ -51,30 +51,34 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  public void testMirrorWritesHTML() {
+  public void whenMafiaAddsHTMLTheHTMLIsIncludedInTheMirror() {
     // Open the mirror
     execute("chats/test_writes_html.txt");
-    // When `> ` is used as a prefix, the RequestLogger will colorize it assuming its a command
-    RequestLogger.printLine("> Fake command input");
-    // Log another line, this should be raw.
+    // When `> ` is used as a prefix, the RequestLogger will colorize it assuming its a command,
+    // thus
+    // mafia will add HTML.  See angleBracketDoesNotGenerateHTMLtoLog in RequestLoggerTest
+    RequestLogger.printLine("> Wassup?");
+    // Log another line, this should be raw, with no added HTML.
     RequestLogger.printLine("Raw Line");
     // Close the mirror
     execute("");
     String mirrorOutput = getMirrorLog("test_writes_html.txt");
-    assertThat(mirrorOutput, containsString("<font color=olive>> Fake command input</font><br>"));
-    assertThat(mirrorOutput, containsString("Raw Line"));
+    // This is now a failing test because a break is appended to the raw line
+    assertEquals(
+        " <font color=olive>> Wassup?</font><br>\n" + "Raw Line",
+        mirrorOutput,
+        "Unexpected content in mirror.");
   }
 
   @Test
   public void testMirrorDoesNotAddHTML() {
     // Open the mirror
     execute("chats/test_writes.txt");
-    // Log a raw line, this should be raw.
     RequestLogger.printLine("Raw Line");
-    // Close the mirror
     execute("");
     String mirrorOutput = getMirrorLog("test_writes.txt");
-    assertThat(mirrorOutput, containsString("Raw Line"));
+    // This is now a failing test because a break is appended to the raw line
+    assertEquals("Raw Line", mirrorOutput, "Unexpected content in mirror.");
   }
 
   @Test
