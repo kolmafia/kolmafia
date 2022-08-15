@@ -3382,8 +3382,7 @@ public class KoLAdventureValidationTest {
     void canPrepareForAdventureWithDripHarnessUnequipped() {
       setupFakeClient();
 
-      var cleanups =
-          new Cleanups(withEquippableItem(ItemPool.DRIP_HARNESS));
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.DRIP_HARNESS));
       try (cleanups) {
         assertTrue(DRIPPING_TREES.canAdventure());
         assertTrue(DRIPPING_TREES.prepareForAdventure());
