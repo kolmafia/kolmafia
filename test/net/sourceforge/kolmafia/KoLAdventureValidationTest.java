@@ -3193,7 +3193,6 @@ public class KoLAdventureValidationTest {
   class FantasyRealm {
     private static final KoLAdventure BANDITS =
         AdventureDatabase.getAdventureByName("The Bandit Crossroads");
-
     private static final KoLAdventure MOUNTAINS =
         AdventureDatabase.getAdventureByName("The Towering Mountains");
 
@@ -3327,6 +3326,74 @@ public class KoLAdventureValidationTest {
         assertThat(requests, hasSize(1));
         assertPostRequest(requests.get(0), "/familiar.php", "action=putback&ajax=1");
         assertThat(success, is(true));
+      }
+    }
+  }
+
+  @Nested
+  class TheDrip {
+    private static final KoLAdventure DRIPPING_TREES =
+        AdventureDatabase.getAdventureByName("The Dripping Trees");
+    private static final KoLAdventure DRIPPING_HALL =
+        AdventureDatabase.getAdventureByName("The Dripping Hall");
+
+    @Test
+    void cannotAdventureWithoutDripHarness() {
+      assertFalse(DRIPPING_TREES.canAdventure());
+      assertFalse(DRIPPING_HALL.canAdventure());
+    }
+
+    @Test
+    void cannotAdventureUnlessDrippingHallUnlocked() {
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS));
+      try (cleanups) {
+        assertTrue(DRIPPING_TREES.canAdventure());
+        assertFalse(DRIPPING_HALL.canAdventure());
+      }
+    }
+
+    @Test
+    void canAdventureWithnlessDrippingHallUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS),
+              withProperty("drippingHallUnlocked", true));
+      try (cleanups) {
+        assertTrue(DRIPPING_TREES.canAdventure());
+        assertTrue(DRIPPING_HALL.canAdventure());
+      }
+    }
+
+    @Test
+    void canPrepareForAdventureWithDripHarnessEquipped() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS));
+      try (cleanups) {
+        assertTrue(DRIPPING_TREES.canAdventure());
+        assertTrue(DRIPPING_TREES.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    void canPrepareForAdventureWithDripHarnessUnequipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(withEquippableItem(ItemPool.DRIP_HARNESS));
+      try (cleanups) {
+        assertTrue(DRIPPING_TREES.canAdventure());
+        assertTrue(DRIPPING_TREES.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.DRIP_HARNESS);
       }
     }
   }

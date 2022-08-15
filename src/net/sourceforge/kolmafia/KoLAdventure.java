@@ -1270,6 +1270,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("The Drip")) {
+      if (!InventoryManager.hasItem(DRIP_HARNESS)) {
+        return false;
+      }
       return switch (this.adventureNumber) {
         case AdventurePool.THE_DRIPPING_HALL -> Preferences.getBoolean("drippingHallUnlocked");
         default -> true;
