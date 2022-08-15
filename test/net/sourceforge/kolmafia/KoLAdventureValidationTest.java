@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
@@ -37,7 +38,9 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.QuestManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -2785,7 +2788,9 @@ public class KoLAdventureValidationTest {
               withLastLocation(THE_GRANARY));
       try (cleanups) {
         assertTrue(THE_GRANARY.canAdventure());
-        assertTrue(KoLAdventure.findAdventureFailure("There are no more ducks here") >= 0);
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.THE_GRANARY);
+        request.responseText = html("request/test_no_more_ducks.html");
+        QuestManager.handleQuestChange(request);
         assertEquals(Preferences.getString("duckAreasCleared"), THE_GRANARY.getAdventureId());
         assertFalse(THE_GRANARY.canAdventure());
       }

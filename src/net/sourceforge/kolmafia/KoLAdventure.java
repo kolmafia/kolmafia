@@ -3160,16 +3160,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       Preferences.setInteger("hippiesDefeated", 1000);
     } else if (responseText.contains("There are no Frat soldiers left")) {
       Preferences.setInteger("fratboysDefeated", 1000);
-    } else if (responseText.contains("There are no more ducks here")) {
-      KoLAdventure adventure = KoLAdventure.lastVisitedLocation;
-      if (adventure != null) {
-        StringBuilder buffer = new StringBuilder(Preferences.getString("duckAreasCleared"));
-        if (buffer.length() != 0) {
-          buffer.append(",");
-        }
-        buffer.append(adventure.adventureId);
-        Preferences.setString("duckAreasCleared", buffer.toString());
-      }
     } else if (responseText.contains("Drippy Juice supply")) {
       Preferences.setInteger("drippyJuice", 0);
     } else if (responseText.contains("Better bundle up")
