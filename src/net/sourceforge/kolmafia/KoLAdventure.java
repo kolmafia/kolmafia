@@ -1608,13 +1608,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("FantasyRealm")) {
-      if (!Preferences.getBoolean("frAlways") && !Preferences.getBoolean("_frToday")) {
-        return false;
-      }
-
-      if (Preferences.getInteger("_frHoursLeft") < 1) return false;
-
-      return (Preferences.getString("_frAreasUnlocked").contains(this.adventureName));
+      return (Preferences.getBoolean("frAlways") || Preferences.getBoolean("_frToday"))
+          && Preferences.getInteger("_frHoursLeft") >= 1
+          && Preferences.getString("_frAreasUnlocked").contains(this.adventureName);
     }
 
     if (this.zone.startsWith("PirateRealm")) {
