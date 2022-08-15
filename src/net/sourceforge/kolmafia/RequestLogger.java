@@ -152,9 +152,7 @@ public class RequestLogger extends NullStream {
 
       if (addedColor) {
         colorBuffer.append("</font><br>");
-      } else {
-        colorBuffer.append("<br>");
-      }
+      } // colorBuffer.append("<br>");
 
       if (!message.contains("<") && message.contains(KoLConstants.LINE_BREAK)) {
         colorBuffer.append("</pre>");

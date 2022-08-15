@@ -63,7 +63,6 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Close the mirror
     execute("");
     String mirrorOutput = getMirrorLog("test_writes_html.txt");
-    // This is now a failing test because a break is appended to the raw line
     assertEquals(
         " <font color=olive>> Wassup?</font><br>\n" + "Raw Line",
         mirrorOutput,
@@ -77,7 +76,6 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     RequestLogger.printLine("Raw Line");
     execute("");
     String mirrorOutput = getMirrorLog("test_writes.txt");
-    // This is now a failing test because a break is appended to the raw line
     assertEquals("Raw Line", mirrorOutput, "Unexpected content in mirror.");
   }
 
@@ -108,7 +106,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Read the log
     String mirrorOutput = getMirrorLog("test_mirror_list_strings.txt");
     // Test that the output matches as expected
-    assertEquals("Line 1<br>" + "Line 2<br></pre>", mirrorOutput, "Unexpected content in mirror.");
+    assertEquals("Line 1<br>Line 2</pre>", mirrorOutput, "Unexpected content in mirror.");
   }
 
   @Test
