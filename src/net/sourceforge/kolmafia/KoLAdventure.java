@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -77,7 +76,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   private boolean isValidAdventure = false;
   private boolean hasWanderers = false;
-  private final String zone, parentZone, adventureId, formSource, adventureName, environment;
+  private final String zone, parentZone, rootZone;
+  private final String adventureId, formSource, adventureName, environment;
   private final int adventureNumber;
   private final int recommendedStat, waterLevel;
   private final String normalString, lowercaseString, parentZoneDescription;
@@ -122,6 +122,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     this.parentZone = AdventureDatabase.PARENT_ZONES.get(zone);
     this.parentZoneDescription = AdventureDatabase.ZONE_DESCRIPTIONS.get(this.parentZone);
+
+    String rootZone = this.parentZone;
+    while (true) {
+      if (rootZone == null) {
+        break;
+      }
+      String next = AdventureDatabase.PARENT_ZONES.get(rootZone);
+      if (rootZone.equals(next)) {
+        break;
+      }
+      rootZone = next;
+    }
+    this.rootZone = rootZone;
 
     this.environment = AdventureDatabase.getEnvironment(adventureName);
 
@@ -184,6 +197,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public String getParentZoneDescription() {
     return this.parentZoneDescription;
+  }
+
+  public String getRootZone() {
+    return this.rootZone;
   }
 
   public String getEnvironment() {
@@ -408,31 +425,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult FILTHWORM_GUARD_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
 
-  private static final Set<String> antiqueMapZones = new HashSet<>();
-  private static final Set<String> psychosesZones = new HashSet<>();
-  private static final Set<String> batfellowZones = new HashSet<>();
   private static final Map<String, String> grimstoneZones = new HashMap<>();
   private static final Map<String, String> holidayAdventures = new HashMap<>();
 
   static {
-    antiqueMapZones.add("Landscaper");
-    antiqueMapZones.add("Jacking");
-    antiqueMapZones.add("Vanya's Castle");
-    antiqueMapZones.add("Kegger");
-    antiqueMapZones.add("Magic Commune");
-    antiqueMapZones.add("Ellsbury's Claim");
-    psychosesZones.add("The Crackpot Mystic's Psychoses");
-    psychosesZones.add("The Meatsmith's Brainspace");
-    psychosesZones.add("The Pretentious Artist's Obsession");
-    psychosesZones.add("The Suspicious-Looking Guy's Shady Past");
-    psychosesZones.add("The Captain of the Gourd's Psychoses");
-    psychosesZones.add("Jick's Obsessions");
-    psychosesZones.add("The Old Man's Past");
-    batfellowZones.add("Bat-Cavern");
-    batfellowZones.add("Center Park (Low Crime)");
-    batfellowZones.add("Slums (Moderate Crime)");
-    batfellowZones.add("Industrial District (High Crime)");
-    batfellowZones.add("Downtown");
     grimstoneZones.put("A Deserted Stretch of I-911", "hare");
     grimstoneZones.put("Skid Row", "wolf");
     grimstoneZones.put("The Prince's Ball", "stepmother");
@@ -454,7 +450,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // There are lots of zones from past events (like Crimbos) that are no
     // longer available. AdventureDatabase maintains a handy Set of all such,
     // so it is quick and easy and inexpensive to just eliminate them first.
-    if (AdventureDatabase.removedAdventure(this)) {
+    if (this.rootZone.equals("Removed")) {
       return false;
     }
 
@@ -1414,7 +1410,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    if (batfellowZones.contains(this.zone)) {
+    if (this.parentZone.equals("Batfellow Area")) {
       // *** LimitMode
       return true;
     }
@@ -1551,7 +1547,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLConstants.activeEffects.contains(TRANSPONDENT) || InventoryManager.hasItem(item);
     }
 
-    if (antiqueMapZones.contains(this.zone)) {
+    if (this.parentZone.equals("Antique Maps")) {
       // The maps are all quest items. Therefore, you can't ascend and
       // keep them, but you can use them as much as you want until then.
       return InventoryManager.hasItem(item);
@@ -1562,7 +1558,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // There is a quest associated with each.
     // After you finish, you can no longer adventure there.
     // We do not track those quests.
-    if (psychosesZones.contains(this.zone)) {
+    if (this.parentZone.equals("Psychoses")) {
       // AdventureResult item - the item needed to activate this zone
       // That item is in the Campground if it is currently active
       // _psychoJarUsed - if a psycho jar is in use
@@ -1572,7 +1568,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // You can only use one grimstone mask in use at a time.
-    if (grimstoneZones.containsKey(this.zone)) {
+    if (this.parentZone.equals("Grimstone")) {
       if (KoLCharacter.isEd()
           || KoLCharacter.inDarkGyffte()
           || KoLCharacter.isSneakyPete()
