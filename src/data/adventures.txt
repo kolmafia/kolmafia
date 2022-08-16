@@ -369,7 +369,6 @@ Holiday	adventure=84	Env: outdoor	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	Env: outdoor	The Yuletide Bonfire
 Holiday	adventure=174	Env: outdoor	The Arrrboretum
 Holiday	adventure=37	Env: indoor	The Spectral Pickle Factory
-Holiday	adventure=175	Env: indoor	Spectral Salad Factory
 Holiday	adventure=173	Env: outdoor	Generic Summer Holiday Swimming!
 
 # Special (maybe eventually recurring?) Events
@@ -455,6 +454,8 @@ WhiteWed	adventure=88	Env: outdoors	Market Square, 28 Days Later
 WhiteWed	adventure=89	Env: indoors	The Mall of Loathing, 28 Days Later
 WhiteWed	adventure=90	Env: outdoors	Wrong Side of the Tracks, 28 Days Later
 WhiteWed	adventure=59	Env: outdoors	The Icy Peak in The Recent Past
+
+PastEvents	adventure=175	Env: indoor	Spectral Salad Factory
 
 PastEvents	adventure=216	Env: unknown	Shivering Timbers
 

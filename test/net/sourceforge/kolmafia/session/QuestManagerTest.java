@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.hasIntegerValue;
@@ -29,6 +30,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1278,6 +1280,21 @@ public class QuestManagerTest {
     assertThat("_spacegateMurderbot", isSetTo(false));
     assertThat("_spacegateRuins", isSetTo(false));
     assertThat("_spacegateTurnsLeft", isSetTo(20));
+  }
+
+  @Test
+  public void canDetectDuckAreaCleared() {
+    var cleanups =
+        new Cleanups(
+            withProperty("duckAreasCleared", ""),
+            withLastLocation(AdventureDatabase.getAdventureByName("McMillicancuddy's Granary")));
+    try (cleanups) {
+      var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.THE_GRANARY);
+      request.responseText = html("request/test_no_more_ducks.html");
+      QuestManager.handleQuestChange(request);
+      assertEquals(
+          Preferences.getString("duckAreasCleared"), String.valueOf(AdventurePool.THE_GRANARY));
+    }
   }
 
   @Test

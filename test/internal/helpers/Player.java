@@ -130,11 +130,13 @@ public class Player {
     var old = EquipmentManager.getEquipment(slot);
     EquipmentManager.setEquipment(slot, item.getItemId() == -1 ? EquipmentRequest.UNEQUIP : item);
     EquipmentManager.updateNormalOutfits();
+    KoLCharacter.recalculateAdjustments();
     cleanups.add(
         new Cleanups(
             () -> {
               EquipmentManager.setEquipment(slot, old);
               EquipmentManager.updateNormalOutfits();
+              KoLCharacter.recalculateAdjustments();
             }));
     return cleanups;
   }
