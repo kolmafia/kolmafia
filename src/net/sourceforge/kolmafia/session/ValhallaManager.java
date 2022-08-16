@@ -174,6 +174,8 @@ public class ValhallaManager {
       PreferenceListenerRegistry.deferPreferenceListeners(true);
       Preferences.increment("knownAscensions", 1);
       // Increment the amount of times we've ascended today
+      // We can jump the gash only 2 times a day, but can pick more than 2 paths a day. (Start in
+      // valhalla)
       Preferences.increment("ascensionsToday", 1);
       Preferences.setInteger("lastBreakfast", -1);
       KoLCharacter.setCurrentRun(0);
