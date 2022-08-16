@@ -533,8 +533,8 @@ user	doctorBagQuestLights	0
 user	doctorBagQuestLocation	
 user	doctorBagUpgrades	0
 user	doghouseBoarded	false
-user	doghouseCoinspiracy	0
 user	doghouseBeachBuck	false
+user	doghouseCoinspiracy	0
 user	doghouseFunFunds	false
 user	doghouseVolcoino	false
 user	dolphinItem
