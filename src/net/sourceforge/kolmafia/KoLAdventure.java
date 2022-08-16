@@ -909,7 +909,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // *** Lord Spookyraven
 
     if (this.zone.equals("Manor0")) {
-      return QuestDatabase.isQuestStarted(Quest.MANOR);
+      return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED);
     }
 
     // *** Doctor Awkward
