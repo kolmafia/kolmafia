@@ -1,11 +1,10 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withItemMonster;
-import static internal.helpers.Player.withLastLocationName;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withMultiFight;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
@@ -32,7 +31,7 @@ class RequestLoggerTest {
     @Test
     public void canReportPreviousLocationInMultiFightInLocation() {
       var cleanups =
-          new Cleanups(withLastLocationName("The Outskirts of Cobb's Knob"), withMultiFight());
+          new Cleanups(withLastLocation("The Outskirts of Cobb's Knob"), withMultiFight());
 
       try (cleanups) {
         var output = withCapturedLogs(RequestLogger::registerLastLocation);
@@ -45,7 +44,7 @@ class RequestLoggerTest {
     public void canReportPreviousLocationInMultiFightWithItemMonster() {
       var cleanups =
           new Cleanups(
-              withLastLocationName(null),
+              withLastLocation((String) null),
               withMultiFight(),
               withItemMonster("Combat Lover's Locket"));
 
@@ -59,7 +58,7 @@ class RequestLoggerTest {
     @Test
     public void canReportUnknownLocationInMultiFight() {
       var cleanups =
-          new Cleanups(withLastLocationName(null), withMultiFight(), withItemMonster(null));
+          new Cleanups(withLastLocation((String) null), withMultiFight(), withItemMonster(null));
 
       try (cleanups) {
         var output = withCapturedLogs(RequestLogger::registerLastLocation);

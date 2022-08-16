@@ -127,6 +127,7 @@ import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.HeistManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -2690,6 +2691,16 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction(
             "expected_cold_medicine_cabinet", DataTypes.STRING_TO_ITEM_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction(
+            "absorbed_monsters",
+            new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE),
+            params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("zap", DataTypes.ITEM_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -9697,5 +9708,27 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value absorbed_monsters(ScriptRuntime controller) {
+    AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE);
+    MapValue value = new MapValue(type);
+
+    int index = 0;
+    for (Integer monsterId : GreyYouManager.absorbedMonsters) {
+      value.aset(DataTypes.makeMonsterValue(monsterId, true), DataTypes.TRUE_VALUE);
+    }
+
+    return value;
+  }
+
+  public static Value zap(ScriptRuntime controller, Value item) {
+    var request = new ZapRequest(ItemPool.get((int) item.intValue()));
+    RequestThread.postRequest(request);
+
+    var acquired = request.getAcquired();
+    int itemId = acquired == null ? -1 : acquired.getItemId();
+
+    return DataTypes.makeItemValue(itemId, true);
   }
 }
