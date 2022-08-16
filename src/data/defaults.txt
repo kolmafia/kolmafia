@@ -544,6 +544,8 @@ user	drippyJuice	0
 user	drippyOrbsClaimed	0
 user	drippyShieldUnlocked	false
 user	drunkenSwagger	0
+user	duckAreasCleared	
+user	duckAreasSelected	
 user	edDefeatAbort	2
 user	edPiece	
 user	edPoints	0

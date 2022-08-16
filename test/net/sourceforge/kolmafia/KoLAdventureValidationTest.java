@@ -3,20 +3,24 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
@@ -34,7 +38,9 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.QuestManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -662,6 +668,220 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class BatHole {
+
+    private static final KoLAdventure BAT_HOLE_ENTRYWAY =
+        AdventureDatabase.getAdventureByName("The Bat Hole Entrance");
+    private static final KoLAdventure GUANO_JUNCTION =
+        AdventureDatabase.getAdventureByName("Guano Junction");
+    private static final KoLAdventure BATRAT =
+        AdventureDatabase.getAdventureByName("The Batrat and Ratbat Burrow");
+    private static final KoLAdventure BEANBAT =
+        AdventureDatabase.getAdventureByName("The Beanbat Chamber");
+    private static final KoLAdventure BOSSBAT =
+        AdventureDatabase.getAdventureByName("The Boss Bat's Lair");
+
+    @Test
+    public void cannotVisitBatHoleWithQuestUnstarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertFalse(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithQuestStarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertFalse(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitGuanoJunctionWithoutStenchProtection() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.STARTED));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertFalse(GUANO_JUNCTION.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitGuanoJunctionWithStenchProtection() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"));
+      try (cleanups) {
+        assertTrue(GUANO_JUNCTION.canAdventure());
+        assertTrue(GUANO_JUNCTION.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithOneSonarUsed() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step1"));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithOneSonarInInventory() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 1));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertFalse(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithTwoSonarUsed() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step2"));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithTwoSonarInInventory() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 2));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BEANBAT.canAdventure());
+        assertFalse(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithThreeSonarUsed() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, "step3"));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BEANBAT.canAdventure());
+        assertTrue(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitBatHoleWithThreeSonarInInventory() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BAT_HOLE_ENTRYWAY.canAdventure());
+        assertFalse(GUANO_JUNCTION.canAdventure());
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BEANBAT.canAdventure());
+        assertTrue(BOSSBAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureInBatHoleUsingZeroSonar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(withQuestProgress(Quest.BAT, "step1"), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BATRAT.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureInBatHoleUsingOneSonar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BATRAT.canAdventure());
+        assertTrue(BATRAT.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureInBatHoleUsingTwoSonar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BEANBAT.canAdventure());
+        assertTrue(BEANBAT.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+        assertPostRequest(
+            requests.get(1), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureInBatHoleUsingThreeSonar() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.BAT, QuestDatabase.STARTED), withItem(ItemPool.SONAR, 3));
+      try (cleanups) {
+        assertTrue(BOSSBAT.canAdventure());
+        assertTrue(BOSSBAT.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+        assertPostRequest(
+            requests.get(1), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+        assertPostRequest(
+            requests.get(2), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+      }
+    }
+  }
+
+  @Nested
   class CobbsKnob {
 
     private static final KoLAdventure OUTSKIRTS_OF_THE_KNOB =
@@ -722,7 +942,7 @@ public class KoLAdventureValidationTest {
         assertTrue(COBB_KITCHEN.canAdventure());
         assertTrue(COBB_HAREM.canAdventure());
         assertTrue(COBB_TREASURY.canAdventure());
-        assertTrue(THRONE_ROOM.canAdventure());
+        assertFalse(THRONE_ROOM.canAdventure());
       }
     }
 
@@ -777,6 +997,218 @@ public class KoLAdventureValidationTest {
         assertTrue(MENAGERIE_LEVEL_1.canAdventure());
         assertTrue(MENAGERIE_LEVEL_2.canAdventure());
         assertTrue(MENAGERIE_LEVEL_3.canAdventure());
+      }
+    }
+
+    // Tests for fighting the King.  We've already confirmed that the
+    // inside of the Knob must be open and the King not yet slain.
+
+    // Can fight King as harem girl wearing outfit with effect
+
+    @Test
+    public void canFightKingGearedUpAsHaremGirl() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withEffect(EffectPool.KNOB_GOBLIN_PERFUME));
+      try (cleanups) {
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canFightKingUnEquippedAsHaremGirl() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquippableItem("Knob Goblin harem veil"),
+              withEquippableItem("Knob Goblin harem pants"),
+              withEffect(EffectPool.KNOB_GOBLIN_PERFUME));
+      try (cleanups) {
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT));
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.HAREM_OUTFIT + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canFightKingUnPerfumedAsHaremGirl() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withItem(ItemPool.KNOB_GOBLIN_PERFUME));
+      try (cleanups) {
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.KNOB_GOBLIN_PERFUME + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void cannotFightKingUnPerfumedAsHaremGirlInBeecore() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withPath(Path.BEES_HATE_YOU));
+      try (cleanups) {
+        assertFalse(THRONE_ROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void canFightKingUnPerfumedUnGearedAsHaremGirl() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquippableItem("Knob Goblin harem veil"),
+              withEquippableItem("Knob Goblin harem pants"),
+              withItem(ItemPool.KNOB_GOBLIN_PERFUME));
+      try (cleanups) {
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT));
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.HAREM_OUTFIT + "&ajax=1");
+        assertPostRequest(
+            requests.get(1),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.KNOB_GOBLIN_PERFUME + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canFightKingGearedUpAsGuard() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin elite helm"),
+              withEquipped(EquipmentManager.WEAPON, "Knob Goblin elite polearm"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin elite pants"),
+              withItem(ItemPool.KNOB_CAKE));
+      try (cleanups) {
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canFightKingUnGearedUpAsGuard() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquippableItem("Knob Goblin elite helm"),
+              withEquippableItem("Knob Goblin elite polearm"),
+              withEquippableItem("Knob Goblin elite pants"),
+              withItem(ItemPool.KNOB_CAKE));
+      try (cleanups) {
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT));
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.KNOB_ELITE_OUTFIT + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canFightKingUnCakedAsGuard() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquipped(EquipmentManager.HAT, "Knob Goblin elite helm"),
+              withEquipped(EquipmentManager.WEAPON, "Knob Goblin elite polearm"),
+              withEquipped(EquipmentManager.PANTS, "Knob Goblin elite pants"),
+              withItem("unfrosted Knob cake"),
+              withItem("Knob frosting"),
+              withProperty("hasChef", true),
+              withRange());
+      try (cleanups) {
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/craft.php", "action=craft&mode=cook&ajax=1&a=4946&b=4945&qty=1");
+      }
+    }
+
+    @Test
+    public void canFightKingUnGearedUnCakedAsGuard() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, "step1"),
+              withEquippableItem("Knob Goblin elite helm"),
+              withEquippableItem("Knob Goblin elite polearm"),
+              withEquippableItem("Knob Goblin elite pants"),
+              withItem("unfrosted Knob cake"),
+              withItem("Knob frosting"),
+              withProperty("hasChef", true),
+              withRange());
+      try (cleanups) {
+        assertTrue(EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT));
+        assertTrue(THRONE_ROOM.canAdventure());
+        assertTrue(THRONE_ROOM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.KNOB_ELITE_OUTFIT + "&ajax=1");
+        assertPostRequest(
+            requests.get(1), "/craft.php", "action=craft&mode=cook&ajax=1&a=4946&b=4945&qty=1");
       }
     }
   }
@@ -935,6 +1367,359 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class McLargeHuge {
+
+    private static final KoLAdventure ITZNOTYERZITZ_MINE =
+        AdventureDatabase.getAdventureByName("Itznotyerzitz Mine");
+    private static final KoLAdventure GOATLET = AdventureDatabase.getAdventureByName("The Goatlet");
+    private static final KoLAdventure NINJA_SNOWMEN =
+        AdventureDatabase.getAdventureByName("Lair of the Ninja Snowmen");
+    private static final KoLAdventure EXTREME_SLOPE =
+        AdventureDatabase.getAdventureByName("The eXtreme Slope");
+    private static final KoLAdventure SHROUDED_PEAK =
+        AdventureDatabase.getAdventureByName("Mist-Shrouded Peak");
+    private static final KoLAdventure ICY_PEAK =
+        AdventureDatabase.getAdventureByName("The Icy Peak");
+
+    @Test
+    public void cannotVisitMcLargeHugePreQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(ITZNOTYERZITZ_MINE.canAdventure());
+        assertFalse(GOATLET.canAdventure());
+        assertFalse(NINJA_SNOWMEN.canAdventure());
+        assertFalse(EXTREME_SLOPE.canAdventure());
+        assertFalse(SHROUDED_PEAK.canAdventure());
+        assertFalse(ICY_PEAK.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitMcLargeHugeOnceQuestStarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step1"));
+      try (cleanups) {
+        assertTrue(ITZNOTYERZITZ_MINE.canAdventure());
+        assertTrue(GOATLET.canAdventure());
+        assertFalse(NINJA_SNOWMEN.canAdventure());
+        assertFalse(EXTREME_SLOPE.canAdventure());
+        assertFalse(SHROUDED_PEAK.canAdventure());
+        assertFalse(ICY_PEAK.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitMcLargeHugeAfterGivingTrapperItems() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step2"));
+      try (cleanups) {
+        assertTrue(ITZNOTYERZITZ_MINE.canAdventure());
+        assertTrue(GOATLET.canAdventure());
+        assertTrue(NINJA_SNOWMEN.canAdventure());
+        assertTrue(EXTREME_SLOPE.canAdventure());
+        assertFalse(SHROUDED_PEAK.canAdventure());
+        assertFalse(ICY_PEAK.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitShroudedPeakWithoutColdResistance() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step3"));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertFalse(SHROUDED_PEAK.canAdventure());
+        assertFalse(SHROUDED_PEAK.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitShroudedPeakWithColdResistance() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TRAPPER, "step3"),
+              withEquipped(EquipmentManager.ACCESSORY1, "cozy scarf"));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertTrue(SHROUDED_PEAK.canAdventure());
+        assertTrue(SHROUDED_PEAK.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitShroudedPeakAfterGroar() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TRAPPER, "step5"),
+              withEquipped(EquipmentManager.ACCESSORY1, "cozy scarf"));
+      try (cleanups) {
+        assertFalse(SHROUDED_PEAK.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitIcyPeakWithoutColdResistance() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step5"));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertFalse(ICY_PEAK.canAdventure());
+        assertFalse(ICY_PEAK.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitIcyPeakWithColdResistance() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TRAPPER, "step5"),
+              withEquipped(EquipmentManager.ACCESSORY1, "ghost of a necklace"));
+      try (cleanups) {
+        // We do not currently allow betweenBattle script to fix
+        assertTrue(ICY_PEAK.canAdventure());
+        assertTrue(ICY_PEAK.prepareForAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitIcyPeakBeforeGroar() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TRAPPER, "step4"),
+              withEquipped(EquipmentManager.ACCESSORY1, "ghost of a necklace"));
+      try (cleanups) {
+        assertFalse(SHROUDED_PEAK.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class BeanStalk {
+
+    private static final KoLAdventure AIRSHIP =
+        AdventureDatabase.getAdventureByName("The Penultimate Fantasy Airship");
+    private static final KoLAdventure CASTLE_BASEMENT =
+        AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Basement)");
+    private static final KoLAdventure CASTLE_GROUND =
+        AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Ground Floor)");
+    private static final KoLAdventure CASTLE_TOP =
+        AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Top Floor)");
+    private static final KoLAdventure HOLE_IN_THE_SKY =
+        AdventureDatabase.getAdventureByName("The Hole in the Sky");
+
+    @Test
+    public void cannotVisitBeanStalkPreQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(AIRSHIP.canAdventure());
+        assertFalse(CASTLE_BASEMENT.canAdventure());
+        assertFalse(CASTLE_GROUND.canAdventure());
+        assertFalse(CASTLE_TOP.canAdventure());
+        assertFalse(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitBeanStalkWithNoBean() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertFalse(AIRSHIP.canAdventure());
+        assertFalse(CASTLE_BASEMENT.canAdventure());
+        assertFalse(CASTLE_GROUND.canAdventure());
+        assertFalse(CASTLE_TOP.canAdventure());
+        assertFalse(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPlantBeanIfNecessary() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED), withItem("enchanted bean"));
+      try (cleanups) {
+        assertTrue(AIRSHIP.canAdventure());
+        assertTrue(AIRSHIP.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
+      }
+    }
+
+    @Test
+    public void canVisitAirshipWithBeanStalkWithBeanPlanted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"));
+      try (cleanups) {
+        assertTrue(AIRSHIP.canAdventure());
+        assertFalse(CASTLE_BASEMENT.canAdventure());
+        assertFalse(CASTLE_GROUND.canAdventure());
+        assertFalse(CASTLE_TOP.canAdventure());
+        assertFalse(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitSomeBeanstalkZonesInExploathing() {
+      var cleanups = new Cleanups(withPath(Path.KINGDOM_OF_EXPLOATHING));
+      try (cleanups) {
+        assertFalse(AIRSHIP.canAdventure());
+        assertTrue(CASTLE_BASEMENT.canAdventure());
+        assertTrue(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitCastleWithSOCK() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"), withItem("S.O.C.K."));
+      try (cleanups) {
+        assertTrue(CASTLE_BASEMENT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitCastleWithRowboat() {
+      var cleanups = new Cleanups(withItem("intragalactic rowboat"));
+      try (cleanups) {
+        assertTrue(CASTLE_BASEMENT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitCastleGroundFloorIfUnlocked() {
+      var cleanups = new Cleanups(withAscensions(13), withProperty("lastCastleGroundUnlock", 13));
+      try (cleanups) {
+        assertTrue(CASTLE_GROUND.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitCastleTopFloorIfUnlocked() {
+      var cleanups = new Cleanups(withAscensions(13), withProperty("lastCastleTopUnlock", 13));
+      try (cleanups) {
+        assertTrue(CASTLE_TOP.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHoleInTheSkyWithRocketship() {
+      var cleanups = new Cleanups(withItem("steam-powered model rocketship"));
+      try (cleanups) {
+        assertTrue(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHoleInTheSkyWithRowboat() {
+      var cleanups = new Cleanups(withItem("intragalactic rowboat"));
+      try (cleanups) {
+        assertTrue(HOLE_IN_THE_SKY.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class HiddenCity {
+
+    private static final KoLAdventure HIDDEN_PARK =
+        AdventureDatabase.getAdventureByName("The Hidden Park");
+    private static final KoLAdventure NW_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Northwest)");
+    private static final KoLAdventure SW_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Southwest)");
+    private static final KoLAdventure NE_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Northeast)");
+    private static final KoLAdventure SE_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Southeast)");
+    private static final KoLAdventure ZIGGURAT =
+        AdventureDatabase.getAdventureByName("A Massive Ziggurat");
+    private static final KoLAdventure HIDDEN_APARTMENT =
+        AdventureDatabase.getAdventureByName("The Hidden Apartment Building");
+    private static final KoLAdventure HIDDEN_HOSPITAL =
+        AdventureDatabase.getAdventureByName("The Hidden Hospital");
+    private static final KoLAdventure HIDDEN_OFFICE =
+        AdventureDatabase.getAdventureByName("The Hidden Office Building");
+    private static final KoLAdventure HIDDEN_BOWLING_ALLEY =
+        AdventureDatabase.getAdventureByName("The Hidden Bowling Alley");
+
+    @Test
+    public void cannotVisitHiddenCityPreQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.WORSHIP, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(HIDDEN_PARK.canAdventure());
+        assertFalse(NW_SHRINE.canAdventure());
+        assertFalse(HIDDEN_APARTMENT.canAdventure());
+        assertFalse(NE_SHRINE.canAdventure());
+        assertFalse(HIDDEN_OFFICE.canAdventure());
+        assertFalse(SW_SHRINE.canAdventure());
+        assertFalse(HIDDEN_HOSPITAL.canAdventure());
+        assertFalse(SE_SHRINE.canAdventure());
+        assertFalse(HIDDEN_BOWLING_ALLEY.canAdventure());
+        assertFalse(ZIGGURAT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenCityOnceOpened() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.WORSHIP, "step3"));
+      try (cleanups) {
+        assertTrue(HIDDEN_PARK.canAdventure());
+        assertTrue(NW_SHRINE.canAdventure());
+        assertTrue(NE_SHRINE.canAdventure());
+        assertTrue(SW_SHRINE.canAdventure());
+        assertTrue(SE_SHRINE.canAdventure());
+        assertTrue(ZIGGURAT.canAdventure());
+        assertFalse(HIDDEN_APARTMENT.canAdventure());
+        assertFalse(HIDDEN_OFFICE.canAdventure());
+        assertFalse(HIDDEN_HOSPITAL.canAdventure());
+        assertFalse(HIDDEN_BOWLING_ALLEY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenApartmentBuildingOnceOpened() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.WORSHIP, "step3"),
+              withQuestProgress(Quest.CURSES, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HIDDEN_APARTMENT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenOfficeBuildingOnceOpened() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.WORSHIP, "step3"),
+              withQuestProgress(Quest.BUSINESS, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HIDDEN_OFFICE.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenHospitalOnceOpened() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.WORSHIP, "step3"),
+              withQuestProgress(Quest.DOCTOR, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HIDDEN_HOSPITAL.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHiddenBowlingAlleyOnceOpened() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.WORSHIP, "step3"),
+              withQuestProgress(Quest.SPARE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HIDDEN_BOWLING_ALLEY.canAdventure());
+      }
+    }
+  }
+
+  @Nested
   class Pirate {
 
     private static final KoLAdventure PIRATE_COVE =
@@ -1007,6 +1792,52 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void canPrepareToAdventureWearingPirateOutfit() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withEquipped(EquipmentManager.HAT, "eyepatch"),
+              withEquipped(EquipmentManager.PANTS, "swashbuckling pants"),
+              withEquipped(EquipmentManager.ACCESSORY1, "stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureNotWearingPirateOutfit() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withEquippableItem("eyepatch"),
+              withEquippableItem("swashbuckling pants"),
+              withEquippableItem("stuffed shoulder parrot"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&action=outfit&whichoutfit=" + OutfitPool.SWASHBUCKLING_GETUP + "&ajax=1");
+      }
+    }
+
+    @Test
     public void canVisitPirateShipFledged() {
       var cleanups =
           new Cleanups(
@@ -1019,6 +1850,48 @@ public class KoLAdventureValidationTest {
         assertTrue(FCLE.canAdventure());
         assertTrue(POOP_DECK.canAdventure());
         assertTrue(BELOWDECKS.canAdventure());
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureWearingFledges() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withEquipped(EquipmentManager.ACCESSORY1, "pirate fledges"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareToAdventureNotWearingFledges() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem("dingy dinghy"),
+              withEquippableItem("pirate fledges"),
+              withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(BARRRNEYS_BARRR.canAdventure());
+        assertTrue(BARRRNEYS_BARRR.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.PIRATE_FLEDGES);
       }
     }
 
@@ -1848,6 +2721,187 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Farm {
+    private static final KoLAdventure THE_BARN =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Barn");
+    private static final KoLAdventure THE_POND =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Pond");
+    private static final KoLAdventure THE_BACK_40 =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Back 40");
+    private static final KoLAdventure THE_OTHER_BACK_40 =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Other Back 40");
+    private static final KoLAdventure THE_GRANARY =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Granary");
+    private static final KoLAdventure THE_BOG =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Bog");
+    private static final KoLAdventure THE_FAMILY_PLOT =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Family Plot");
+    private static final KoLAdventure THE_SHADY_THICKET =
+        AdventureDatabase.getAdventureByName("McMillicancuddy's Shady Thicket");
+
+    @Test
+    public void cannotAdventureUnlessAtWar() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertFalse(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotAdventureWhenSidequestCompleted() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "start1"),
+              withProperty("sidequestFarmCompleted", "hippies"));
+      try (cleanups) {
+        assertFalse(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotAdventureAfterLocationIsCleared() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty(
+                  "duckAreasSelected",
+                  THE_POND.getAdventureId()
+                      + ","
+                      + THE_GRANARY.getAdventureId()
+                      + ","
+                      + THE_SHADY_THICKET.getAdventureId()),
+              withProperty("duckAreasCleared", ""),
+              withLastLocation(THE_GRANARY));
+      try (cleanups) {
+        assertTrue(THE_GRANARY.canAdventure());
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.THE_GRANARY);
+        request.responseText = html("request/test_no_more_ducks.html");
+        QuestManager.handleQuestChange(request);
+        assertEquals(Preferences.getString("duckAreasCleared"), THE_GRANARY.getAdventureId());
+        assertFalse(THE_GRANARY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureInBarnWithZeroSelected() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"), withProperty("duckAreasSelected", ""));
+      try (cleanups) {
+        assertTrue(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureInBarnWithOneSelected() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty("duckAreasSelected", THE_POND.getAdventureId()));
+      try (cleanups) {
+        assertTrue(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureInBarnWithTwoSelected() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty(
+                  "duckAreasSelected",
+                  THE_POND.getAdventureId() + "," + THE_GRANARY.getAdventureId()));
+      try (cleanups) {
+        assertTrue(THE_BARN.canAdventure());
+        assertFalse(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertFalse(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureWithSelected() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty(
+                  "duckAreasSelected",
+                  THE_POND.getAdventureId()
+                      + ","
+                      + THE_GRANARY.getAdventureId()
+                      + ","
+                      + THE_SHADY_THICKET.getAdventureId()));
+      try (cleanups) {
+        assertFalse(THE_BARN.canAdventure());
+        assertTrue(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertTrue(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertTrue(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotAdventureIfCleared() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.ISLAND_WAR, "step1"),
+              withProperty(
+                  "duckAreasSelected",
+                  THE_POND.getAdventureId()
+                      + ","
+                      + THE_GRANARY.getAdventureId()
+                      + ","
+                      + THE_SHADY_THICKET.getAdventureId()),
+              withProperty("duckAreasCleared", THE_GRANARY.getAdventureId()));
+      try (cleanups) {
+        assertFalse(THE_BARN.canAdventure());
+        assertTrue(THE_POND.canAdventure());
+        assertFalse(THE_BACK_40.canAdventure());
+        assertFalse(THE_OTHER_BACK_40.canAdventure());
+        assertFalse(THE_GRANARY.canAdventure());
+        assertFalse(THE_BOG.canAdventure());
+        assertFalse(THE_FAMILY_PLOT.canAdventure());
+        assertTrue(THE_SHADY_THICKET.canAdventure());
+      }
+    }
+  }
+
+  @Nested
   class RabbitHole {
     private static final KoLAdventure RABBIT_HOLE =
         AdventureDatabase.getAdventureByName("The Red Queen's Garden");
@@ -2144,7 +3198,6 @@ public class KoLAdventureValidationTest {
   class FantasyRealm {
     private static final KoLAdventure BANDITS =
         AdventureDatabase.getAdventureByName("The Bandit Crossroads");
-
     private static final KoLAdventure MOUNTAINS =
         AdventureDatabase.getAdventureByName("The Towering Mountains");
 
@@ -2250,7 +3303,9 @@ public class KoLAdventureValidationTest {
 
         assertThat(requests, hasSize(1));
         assertPostRequest(
-            requests.get(0), "/inv_equip.php", "which=2&ajax=1&slot=1&action=equip&whichitem=9837");
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.FANTASY_REALM_GEM);
         assertThat(success, is(true));
       }
     }
@@ -2276,6 +3331,73 @@ public class KoLAdventureValidationTest {
         assertThat(requests, hasSize(1));
         assertPostRequest(requests.get(0), "/familiar.php", "action=putback&ajax=1");
         assertThat(success, is(true));
+      }
+    }
+  }
+
+  @Nested
+  class TheDrip {
+    private static final KoLAdventure DRIPPING_TREES =
+        AdventureDatabase.getAdventureByName("The Dripping Trees");
+    private static final KoLAdventure DRIPPING_HALL =
+        AdventureDatabase.getAdventureByName("The Dripping Hall");
+
+    @Test
+    void cannotAdventureWithoutDripHarness() {
+      assertFalse(DRIPPING_TREES.canAdventure());
+      assertFalse(DRIPPING_HALL.canAdventure());
+    }
+
+    @Test
+    void cannotAdventureUnlessDrippingHallUnlocked() {
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS));
+      try (cleanups) {
+        assertTrue(DRIPPING_TREES.canAdventure());
+        assertFalse(DRIPPING_HALL.canAdventure());
+      }
+    }
+
+    @Test
+    void canAdventureWithnlessDrippingHallUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS),
+              withProperty("drippingHallUnlocked", true));
+      try (cleanups) {
+        assertTrue(DRIPPING_TREES.canAdventure());
+        assertTrue(DRIPPING_HALL.canAdventure());
+      }
+    }
+
+    @Test
+    void canPrepareForAdventureWithDripHarnessEquipped() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS));
+      try (cleanups) {
+        assertTrue(DRIPPING_TREES.canAdventure());
+        assertTrue(DRIPPING_TREES.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    void canPrepareForAdventureWithDripHarnessUnequipped() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.DRIP_HARNESS));
+      try (cleanups) {
+        assertTrue(DRIPPING_TREES.canAdventure());
+        assertTrue(DRIPPING_TREES.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.DRIP_HARNESS);
       }
     }
   }

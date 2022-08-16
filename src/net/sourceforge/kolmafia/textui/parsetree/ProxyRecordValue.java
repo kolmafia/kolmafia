@@ -1279,6 +1279,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("zone", DataTypes.STRING_TYPE)
             .add("parent", DataTypes.STRING_TYPE)
             .add("parentdesc", DataTypes.STRING_TYPE)
+            .add("root", DataTypes.STRING_TYPE)
             .add("environment", DataTypes.STRING_TYPE)
             .add("fire_level", DataTypes.INT_TYPE)
             .add("bounty", DataTypes.BOUNTY_TYPE)
@@ -1328,6 +1329,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_parentdesc() {
       return this.content != null ? ((KoLAdventure) this.content).getParentZoneDescription() : "";
+    }
+
+    public String get_root() {
+      return this.content != null ? ((KoLAdventure) this.content).getRootZone() : "";
     }
 
     public String get_environment() {

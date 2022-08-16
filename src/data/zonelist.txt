@@ -117,11 +117,13 @@ Vanya's Castle	Antique Maps	Vanya's Castle	map to Vanya's Castle
 Magic Commune	Antique Maps	Magic Commune	map to the Magic Commune
 Ellsbury's Claim	Antique Maps	Ellsbury's Claim	map to Ellsbury's Claim
 
-A Deserted Stretch of I-911	Woods	A Deserted Stretch of I-911	grimstone mask
-Skid Row	Woods	Skid Row	grimstone mask
-The Prince's Ball	Woods	The Prince's Ball	grimstone mask
-Rumpelstiltskin's Home For Children	Woods	Rumpelstiltskin's Home For Children	grimstone mask
-The Candy Witch and the Relentless Child Thieves	Woods	The Candy Witch and the Relentless Child Thieves	grimstone mask
+Grimstone	Woods	Grimstone	grimstone mask
+
+A Deserted Stretch of I-911	Grimstone	A Deserted Stretch of I-911
+Skid Row	Grimstone	Skid Row
+The Prince's Ball	Grimstone	The Prince's Ball
+Rumpelstiltskin's Home For Children	Grimstone	Rumpelstiltskin's Home For Children
+The Candy Witch and the Relentless Child Thieves	Grimstone	The Candy Witch and the Relentless Child Thieves
 
 Elemental International Airport	Town	Elemental International Airport
 

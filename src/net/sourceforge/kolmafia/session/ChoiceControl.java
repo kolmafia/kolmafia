@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -489,6 +490,40 @@ public abstract class ChoiceControl {
     String text = request.responseText;
 
     switch (ChoiceManager.lastChoice) {
+      case 147:
+        // Cornered!
+        int ducks1 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> AdventurePool.THE_GRANARY;
+              case 2 -> AdventurePool.THE_BOG;
+              case 3 -> AdventurePool.THE_POND;
+              default -> 0;
+            };
+        Preferences.setString("duckAreas", String.valueOf(ducks1));
+        break;
+
+      case 148:
+        // Cornered Again!
+        int ducks2 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> AdventurePool.THE_BACK_40;
+              case 2 -> AdventurePool.THE_FAMILY_PLOT;
+              default -> 0;
+            };
+        Preferences.setString("duckAreas", Preferences.getString("duckAreas") + "," + ducks2);
+        break;
+
+      case 149:
+        // How Many Corners Does this Stupid Barn Have?
+        int ducks3 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> AdventurePool.THE_SHADY_THICKET;
+              case 2 -> AdventurePool.THE_OTHER_BACK_40;
+              default -> 0;
+            };
+        Preferences.setString("duckAreas", Preferences.getString("duckAreas") + "," + ducks3);
+        break;
+
       case 188:
         // The Infiltrationist
 
