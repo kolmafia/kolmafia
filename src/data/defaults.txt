@@ -12,11 +12,9 @@ global	autoHighlightOnFocus	true
 global	broadcastEvents	true
 global	browserBookmarks
 global	cacheMallSearches	false
-global	charsheetDropdown	1
 global	chatBeep	false
 global	chatFontSize
 global	chatLinksUseRelay	false
-global	chatStyle	0
 global	coinMasterIndex	1
 global	combatHotkey0
 global	combatHotkey1
@@ -30,7 +28,6 @@ global	combatHotkey8
 global	combatHotkey9
 global	commandLineNamespace
 global	compactChessboard	false
-global	cookies.inventory
 global	copyAsHTML	false
 global	customizedTabs	false
 global	dailyDeedsOptions	Breakfast,Daily Dungeon,Submit Spading Data,Chips,Library Card,Telescope,Ball Pit,Styx Pixie,VIP Pool,Swimming Pool,April Shower,Bag o' Tricks,Legendary Beat,Outrageous Sombrero,Feast,Friars,Skate Park,Concert,Demon Summoning,Rage Gland,Free Rests,Hot Tub,Nuns,Oscus' Soda,Express Card,Flush Mojo,Pudding,Hatter,Melange,Ultra Mega Sour Ball,Stills,Photocopy,Putty,Camera,Banished Monsters,Romantic Arrow,Avatar of Jarlberg Staves,Bonus Adventures,Familiar Drops,Free Fights,Free Runaways,Defective Token,Chateau Desk,Deck of Every Card,Shrine to the Barrel god,Potted Tea Tree
@@ -72,8 +69,6 @@ global	lastBuffRequestType	0
 global	lastGlobalCounterDay	-1
 global	lastImageCacheClear	0
 global	lastRelayUpdate
-global	lastRssUpdate	0
-global	lastRssVersion
 global	lastUserAgent
 global	lastUsername
 global	logAcquiredItems	true
@@ -105,7 +100,6 @@ global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
 global	printStackOnAbort	false
-global	protectAgainstOverdrink	true
 global	proxySet	false
 global	relayAddSounds	false
 global	relayAddsCustomCombat	true
@@ -169,7 +163,6 @@ global	userAgent
 global	verboseSpeakeasy	false
 global	verboseFloundry	false
 global	wrapLongLines	true
-global	_announcementShown	false
 global	_g9Effect	0
 global	_gitUpdated	false
 global	_svnRepoFileFetched	false
@@ -207,7 +200,6 @@ user	autoSatisfyWithNPCs	false
 user	autoSatisfyWithStash	false
 user	autoSatisfyWithStorage	true
 user	autoSetConditions	true
-user	autoSphereID	false
 user	autoSteal	true
 user	autoTuxedo	false
 user	availableCandyCredits	0
@@ -821,7 +813,6 @@ user	lastDwarfHopper3
 user	lastDwarfHopper4
 user	lastEVHelmetValue	0
 user	lastEVHelmetReset	-1
-user	lastEasterEggBalloon	-1
 user	lastEmptiedStorage	-1
 user	lastEncounter
 user	lastFilthClearance	-1
@@ -1086,7 +1077,6 @@ user	prayedForGlamour	false
 user	prayedForProtection	false
 user	prayedForVigor	false
 user	preAscensionScript
-user	preBlackbirdFamiliar
 user	primaryLabGooIntensity	10
 user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0
