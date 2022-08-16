@@ -447,9 +447,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return false;
     }
 
-    // There are lots of zones from past events (like Crimbos) that are no
-    // longer available. AdventureDatabase maintains a handy Set of all such,
-    // so it is quick and easy and inexpensive to just eliminate them first.
+    // There are lots of areas from past events (like Crimbos) that are no
+    // longer available. While they were active, we sorted them in "Events"
+    // (or similar), but once they are done, they go into "Removed".
     if (this.rootZone.equals("Removed")) {
       return false;
     }
