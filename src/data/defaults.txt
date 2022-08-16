@@ -1427,6 +1427,7 @@ user	umdLastObtained
 user	uneffectWithHotTub	true
 user	unicornHornInflation	0
 user	universalSeasoningActive	false
+user	universalSeasoningAvailable	true
 user	universalSeasoningCost	1000
 user	usable1HWeapons	3
 user	usable1xAccs	1
@@ -1484,6 +1485,7 @@ user	yearbookCameraPending	false
 user	yearbookCameraTarget
 user	yearbookCameraUpgrades	0
 user	yourFavoriteBird
+user	yourFavoriteBirdMods
 user	youRobotBody	0
 user	youRobotBottom	0
 user	youRobotCPUUpgrades
@@ -1551,6 +1553,7 @@ user	_bellydancerPickpockets	0
 user	_bendHellUsed	false
 user	_benettonsCasts	0
 user	_birdOfTheDay
+user	_birdOfTheDayMods
 user	_birdsSoughtToday	0
 user	_bittycar
 user	_blankoutUsed	false
