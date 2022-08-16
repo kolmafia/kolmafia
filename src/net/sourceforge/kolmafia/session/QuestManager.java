@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -710,6 +711,10 @@ public class QuestManager {
     if (area == AdventurePool.HAUNTED_BALLROOM) {
       if (responseText.contains("Having a Ball in the Ballroom")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+        // You cannot visit the third floor unless you have visited the second floor
+        new UpdateSuppressedRequest("place.php?whichplace=manor2").run();
+        // You cannot adventure on the third floor unless you have visited the third floor
+        new UpdateSuppressedRequest("place.php?whichplace=manor3").run();
       }
     }
     // Derive quest status from available rooms
@@ -1232,6 +1237,7 @@ public class QuestManager {
     if (responseText.contains("immediately grows into an enormous beanstalk")) {
       ResultProcessor.processItem(ItemPool.ENCHANTED_BEAN, -1);
       QuestDatabase.setQuestProgress(Quest.GARBAGE, "step1");
+      new UpdateSuppressedRequest("place.php?whichplace=beanstalk").run();
       if (KoLmafia.isAdventuring()) {
         KoLmafia.updateDisplay(MafiaState.PENDING, "You have planted a beanstalk.");
       }

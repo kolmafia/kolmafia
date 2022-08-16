@@ -1016,8 +1016,21 @@ public class Player {
    * @return Cleans up so this response is not given again
    */
   public static Cleanups withNextResponse(final int code, final String response) {
+    return withNextResponse(new FakeHttpClientBuilder(), code, response);
+  }
+
+  /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param builder The FakeHtmlClientBuilder to use
+   * @param code Status code to fake
+   * @param response Response text to fake
+   * @return Cleans up so this response is not given again
+   */
+  public static Cleanups withNextResponse(
+      FakeHttpClientBuilder builder, final int code, final String response) {
     var old = HttpUtilities.getClientBuilder();
-    var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests

@@ -255,6 +255,11 @@ public class RelayRequest extends PasswordHashRequest {
     return false;
   }
 
+  @Override
+  protected boolean shouldSuppressUpdate() {
+    return true;
+  }
+
   private void parseCookies() {
     // Cookie:
     // AWSALB=iKPiF7/vFUCL2z+/EsRTv6hJcVCELL/BskHXIkr6V2SymH+NlxEU28mSmSPUWnVY/Oyw4+EFLWA2tzw6w126Bk//oKrbpBa+wCn4ije528LSM2wLUpyCHglCstyS
