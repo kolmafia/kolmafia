@@ -463,6 +463,18 @@ public abstract class EncounterManager {
           RequestLogger.updateSessionLog("Gift note: " + note);
         }
         return;
+      case "dog diner afternoon":
+        Preferences.setBoolean("doghouseBeachBuck", true);
+        return;
+      case "labrador conspirator":
+        Preferences.increment("doghouseCoinspiracy");
+        return;
+      case "doggy heaven":
+        Preferences.setBoolean("doghouseFunFunds", true);
+        return;
+      case "lava dogs":
+        Preferences.setBoolean("doghouseVolcoino", true);
+        return;
     }
   }
 

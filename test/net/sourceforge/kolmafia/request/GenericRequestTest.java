@@ -7,6 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -48,6 +49,30 @@ public class GenericRequestTest {
 
       assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
       assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    }
+  }
+
+  @Test
+  public void hallowienerVolcoinoPickedUp() {
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
+            withProperty("lastEnccounter", ""));
+
+    try (cleanups) {
+      assertFalse(Preferences.getBoolean("doghouseVolcoino"));
+
+      KoLAdventure.setLastAdventure("The Bubblin' Caldera");
+
+      GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
+      request.setHasResult(true);
+      request.responseText =
+          html("request/test_adventure_hallowiener_volcoino_lucky_gold_ring.html");
+
+      request.processResponse();
+
+      assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
+      assertTrue(Preferences.getBoolean("doghouseVolcoino"));
     }
   }
 
