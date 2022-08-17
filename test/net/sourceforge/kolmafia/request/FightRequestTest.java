@@ -1092,7 +1092,7 @@ public class FightRequestTest {
     @ParameterizedTest
     @CsvSource({
       "request/test_dino_archelon.html, archelon, none",
-      "request/test_dino_dilophosaur.html, dilophosaur, none",
+      "request/test_dino_dilophosaur.html, dilophosaur, spooky",
       "request/test_dino_flatusaurus.html, flatusaurus, hot",
       "request/test_dino_ghostasaurus.html, ghostasaurus, none",
       "request/test_dino_kachungasaur.html, kachungasaur, none",
