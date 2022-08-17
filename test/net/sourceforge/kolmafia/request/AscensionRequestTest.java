@@ -100,12 +100,11 @@ public class AscensionRequestTest {
 
       // Testing to ensure "Are you sure" is not handled
       // This does a 302 redirect
-      // Because this is called by http request, we're calling the resulting method directly.
       var ascendRequest =
           new GenericRequest(
               "afterlife.php?action=ascend&asctype=2&whichclass=1&gender=2&whichpath=44&whichsign=3");
       ascendRequest.setHasResult(true);
-      RequestLogger.registerRequest(ascendRequest, ascendRequest.getURLString());
+      ascendRequest.execute();
 
       RequestLogger.closeCustom();
     }
@@ -126,11 +125,11 @@ public class AscensionRequestTest {
       RequestLogger.openCustom(out);
 
       // This does a 302 redirect
-      // Because this is called by http request, we're calling the resulting method directly.
       var ascendConfirm =
           new GenericRequest(
               "afterlife.php?action=ascend&confirmascend=1&whichsign=3&gender=2&whichclass=27&whichpath=44&asctype=2&nopetok=1");
-      RequestLogger.registerRequest(ascendConfirm, ascendConfirm.getURLString());
+      ascendConfirm.setHasResult(true);
+      ascendConfirm.execute();
 
       RequestLogger.closeCustom();
     }
