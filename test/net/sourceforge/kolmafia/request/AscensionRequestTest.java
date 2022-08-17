@@ -90,8 +90,8 @@ public class AscensionRequestTest {
 
   @Test
   void testPathSelectedUnconfirmed() {
-    // Set last breakfast to 0 to mark that we've ascended as done in testPreAscension
-    Preferences.setInteger("lastBreakfast", 0);
+    // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
+    Preferences.setInteger("lastBreakfast", -1);
     Preferences.setInteger("bankedKarma", 150);
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 
@@ -115,15 +115,15 @@ public class AscensionRequestTest {
 
   @Test
   void testPathSelectedConfirmed() {
-    // Set last breakfast to 0 to mark that we've ascended as done in testPreAscension
-    Preferences.setInteger("lastBreakfast", 0);
+    // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
+    Preferences.setInteger("lastBreakfast", -1);
     Preferences.setInteger("bankedKarma", 150);
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 
     try (PrintStream out = new PrintStream(ostream, true)) {
       RequestLogger.openCustom(out);
 
-      // This does a 302 redirect
+      // This does a 302 redirect to choice.php?forceoption=0
       var ascendConfirm =
           new GenericRequest(
               "afterlife.php?action=ascend&confirmascend=1&whichsign=3&gender=2&whichclass=27&whichpath=44&asctype=2&nopetok=1");
