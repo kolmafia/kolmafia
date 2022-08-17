@@ -1091,23 +1091,30 @@ public class FightRequestTest {
   class Dinosaurs {
     @ParameterizedTest
     @CsvSource({
-      "request/test_dino_archelon.html, archelon",
-      "request/test_dino_dilophosaur.html, dilophosaur",
-      "request/test_dino_flatusaurus.html, flatusaurus",
-      "request/test_dino_ghostasaurus.html, ghostasaurus",
-      "request/test_dino_kachungasaur.html, kachungasaur",
-      "request/test_dino_primitive_chicken.html, chicken",
-      "request/test_dino_pterodactyl.html, pterodactyl",
-      "request/test_dino_spikolodon.html, spikolodon",
-      "request/test_dino_velociraptor.html, velociraptor",
+      "request/test_dino_archelon.html, archelon, none",
+      "request/test_dino_dilophosaur.html, dilophosaur, none",
+      "request/test_dino_flatusaurus.html, flatusaurus, hot",
+      "request/test_dino_ghostasaurus.html, ghostasaurus, none",
+      "request/test_dino_kachungasaur.html, kachungasaur, none",
+      "request/test_dino_primitive_chicken.html, chicken, none",
+      "request/test_dino_pterodactyl.html, pterodactyl, none",
+      "request/test_dino_spikolodon.html, spikolodon, none",
+      "request/test_dino_velociraptor.html, velociraptor, none",
     })
-    public void canExtractDinosaurFromFight(String filename, String dinosaur) {
-      KoLAdventure.setLastAdventure("The Haunted pantry");
-      GenericRequest request = new GenericRequest("fight.php");
-      request.responseText = html(filename);
-      String encounter = AdventureRequest.registerEncounter(request);
-      MonsterData monster = MonsterStatusTracker.getLastMonster();
-      assertTrue(Set.of(monster.getRandomModifiers()).contains(dinosaur));
+    public void canExtractDinosaurFromFight(String filename, String dinosaur, String element) {
+      var cleanups = new Cleanups(withLastLocation("The Haunted Pantry"));
+
+      try (cleanups) {
+        GenericRequest request = new GenericRequest("fight.php");
+        request.responseText = html(filename);
+        String encounter = AdventureRequest.registerEncounter(request);
+        MonsterData monster = MonsterStatusTracker.getLastMonster();
+        var modifiers = Set.of(monster.getRandomModifiers());
+        assertTrue(modifiers.contains(dinosaur));
+        if (!element.equals("none")) {
+          assertTrue(modifiers.contains(element));
+        }
+      }
     }
   }
 

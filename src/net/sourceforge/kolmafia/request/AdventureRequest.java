@@ -1245,7 +1245,7 @@ public class AdventureRequest extends GenericRequest {
     ARCHELON("archelon", "glass-shelled archelon that consumed "),
     CHICKEN("chicken", "primitive chicken that just ate "),
     DILOPHOSAUR("dilophosaur", "carrion-eating dilophosaur that consumed "),
-    FLATUSAURUS("flatusaurus", "steamy flatusaurus that recently devoured "),
+    HOT_FLATUSAURUS("flatusaurus", "steamy flatusaurus that recently devoured ", "hot"),
     GHOSTASAURUS("ghostasaurus", "ghostasaurus that swallowed the soul of "),
     KACHUNGASAUR("kachungasaur", "kachungasaur that consumed "),
     PTERODACTYL("pterodactyl", "high-altitude pterodactyl that just ate "),
@@ -1254,10 +1254,16 @@ public class AdventureRequest extends GenericRequest {
 
     private final String name;
     private final String description;
+    private final String element;
 
     private Dinosaur(String name, String description) {
+      this(name, description, null);
+    }
+
+    private Dinosaur(String name, String description, String element) {
       this.name = name;
       this.description = description;
+      this.element = element;
     }
 
     public String getName() {
@@ -1267,12 +1273,20 @@ public class AdventureRequest extends GenericRequest {
     public String getDescription() {
       return this.description;
     }
+
+    public String getElement() {
+      return this.element;
+    }
   }
 
   private static String handleDinosaurs(String monsterName) {
     for (Dinosaur dino : Dinosaur.values()) {
       if (monsterName.contains(dino.getDescription())) {
         MonsterData.lastRandomModifiers.add(dino.getName());
+        String element = dino.getElement();
+        if (element != null) {
+          MonsterData.lastRandomModifiers.add(element);
+        }
         return StringUtilities.globalStringDelete(monsterName, dino.getDescription());
       }
     }
