@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.withNextResponseRedirectedTo;
+import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -49,18 +51,24 @@ public class AscensionRequestTest {
     var cleanups =
         new Cleanups(
             withProperty(breakfastPref, breakfastBefore),
-            withProperty(ascensionsPref, ascensionBefore),
-            withNextResponseRedirectedTo(
-                200, "afterlife.php", html("request/test_ascension_jump_gash.html")));
+            withProperty(ascensionsPref, ascensionBefore));
 
     try (cleanups) {
-      // This does a 302 redirect to afterlife.php
-      var jumpGash = new GenericRequest("ascend.php?action=ascend&pwd&confirm=on&confirm2=on");
-      jumpGash.run();
+      var gashCleanups = withNextResponse(302, Map.of("location", List.of("afterlife.php")), "");
 
-      // Execute the result of the 302 redirect and get the output which puts us in valhalla
-      var afterlife = new GenericRequest("afterlife.php");
-      afterlife.run();
+      try (gashCleanups) {
+        // This does a 302 redirect to afterlife.php
+        var jumpGash = new GenericRequest("ascend.php?action=ascend&pwd&confirm=on&confirm2=on");
+        jumpGash.run();
+      }
+
+      var afterlifeCleanups = withNextResponse(200, html("request/test_ascension_jump_gash.html"));
+
+      try (afterlifeCleanups) {
+        // Execute the result of the 302 redirect and get the output which puts us in valhalla
+        var afterlife = new GenericRequest("afterlife.php");
+        afterlife.run();
+      }
 
       // Confirm our last run breakfast is now -1
       assertThat(breakfastPref, isSetTo(breakfastValhalla));
@@ -127,7 +135,7 @@ public class AscensionRequestTest {
         new Cleanups(
             withProperty("lastBreakfast", -1),
             withProperty("bankedKarma", 150),
-            withNextResponseRedirectedTo(200, "main.php", ""));
+            withNextResponse(302, Map.of("location", List.of("main.php")), ""));
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 
     try (cleanups;
