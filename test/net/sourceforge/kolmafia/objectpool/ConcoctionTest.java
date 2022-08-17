@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
@@ -34,7 +33,6 @@ public class ConcoctionTest {
   public void steelOrgansAreSortedToTheTop() {
     var steelMargarita = ConcoctionPool.get(ItemPool.STEEL_LIVER);
     var nonSteelOrgan = ConcoctionPool.get(ItemPool.PERFECT_NEGRONI);
-    assertThat(nonSteelOrgan, notNullValue());
     assertThat(steelMargarita.compareTo(nonSteelOrgan), is(-1));
     assertThat(nonSteelOrgan.compareTo(steelMargarita), is(1));
   }
@@ -50,8 +48,8 @@ public class ConcoctionTest {
   @Test
   public void exerciseSameNames() {
     // Exercise compareTo and equals for Concoctions with the same name
-    var e1 = ConcoctionPool.get(2286);
-    var e2 = ConcoctionPool.get(7962);
+    var e1 = ConcoctionPool.get(ItemPool.EYE_OF_ED);
+    var e2 = ConcoctionPool.get(ItemPool.ED_EYE);
 
     int c1 = e1.compareTo(e2);
     int c2 = e2.compareTo(e1);
