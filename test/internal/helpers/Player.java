@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mockStatic;
 import internal.network.FakeHttpClientBuilder;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -1006,12 +1007,41 @@ public class Player {
   }
 
   /**
+   * Sets next two responses to GenericRequest redirect and GenericRequest redirected page
+   *
+   * <p>Note that this uses its own FakeHttpClientBuilder so getRequests() will not work on one set
+   * separately
+   *
+   * @param code Redirected page status code
+   * @param redirectLocation Redirect location
+   * @param response Redirected page response text
+   * @return Cleans up so the responses won't be given
+   */
+  public static Cleanups withNextResponseRedirectedTo(
+      final int code, String redirectLocation, final String response) {
+    var old = HttpUtilities.getClientBuilder();
+    var builder = new FakeHttpClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+    builder.client.addResponse(302, Map.of("location", List.of(redirectLocation)), "");
+    builder.client.addResponse(code, response);
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(() -> old);
+          GenericRequest.resetClient();
+        });
+  }
+
+  /**
    * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
    * getRequests() will not work on one set separately
    *
    * @param code Status code to fake
    * @param response Response text to fake
-   * @return Cleans up so this response is not given again
+   * @return Cleans up so the responses won't be given
    */
   public static Cleanups withNextResponse(final int code, final String response) {
     var old = HttpUtilities.getClientBuilder();
@@ -1019,7 +1049,7 @@ public class Player {
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
-    builder.client.setResponse(code, response);
+    builder.client.addResponse(code, response);
 
     return new Cleanups(
         () -> {
