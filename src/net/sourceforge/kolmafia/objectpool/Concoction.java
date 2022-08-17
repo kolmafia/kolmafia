@@ -29,11 +29,12 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * actually make the item.
  */
 public class Concoction implements Comparable<Concoction> {
-
-  public static final int FOOD_PRIORITY = 1;
-  public static final int BOOZE_PRIORITY = 2;
-  public static final int SPLEEN_PRIORITY = 3;
-  public static final int NO_PRIORITY = 0;
+  public enum Priority {
+    NONE,
+    FOOD,
+    BOOZE,
+    SPLEEN
+  }
 
   private String name;
   private final int hashCode;
@@ -47,7 +48,7 @@ public class Concoction implements Comparable<Concoction> {
   private final EnumSet<CraftingRequirements> mixingRequirements;
   private final EnumSet<CraftingMisc> mixingMisc;
   private final int row;
-  public int sortOrder;
+  public Priority sortOrder;
 
   private final boolean isReagentPotion;
 
@@ -181,21 +182,21 @@ public class Concoction implements Comparable<Concoction> {
     this.setEffectName();
   }
 
-  public int getSortOrder() {
+  public Priority getSortOrder() {
     int itemId = this.concoction == null ? -1 : this.concoction.getItemId();
     if (this.fullness > 0 || itemId == ItemPool.QUANTUM_TACO) {
-      return FOOD_PRIORITY;
+      return Priority.FOOD;
     }
 
     if (this.inebriety > 0 || itemId == ItemPool.SCHRODINGERS_THERMOS) {
-      return BOOZE_PRIORITY;
+      return Priority.BOOZE;
     }
 
     if (this.spleenhit > 0) {
-      return SPLEEN_PRIORITY;
+      return Priority.SPLEEN;
     }
 
-    return NO_PRIORITY;
+    return Priority.NONE;
   }
 
   public void setConsumptionData() {
@@ -213,21 +214,13 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void setStatGain() {
-    final String range;
-    switch (KoLCharacter.mainStat()) {
-      case MUSCLE:
-        range = ConsumablesDatabase.getMuscleRange(this.name);
-        break;
-      case MYSTICALITY:
-        range = ConsumablesDatabase.getMysticalityRange(this.name);
-        break;
-      case MOXIE:
-        range = ConsumablesDatabase.getMoxieRange(this.name);
-        break;
-      default:
-        range = "+0.0";
-        break;
-    }
+    final String range =
+        switch (KoLCharacter.mainStat()) {
+          case MUSCLE -> ConsumablesDatabase.getMuscleRange(this.name);
+          case MYSTICALITY -> ConsumablesDatabase.getMysticalityRange(this.name);
+          case MOXIE -> ConsumablesDatabase.getMoxieRange(this.name);
+          default -> "+0.0";
+        };
     this.mainstatGain = StringUtilities.parseDouble(range);
   }
 
@@ -317,14 +310,13 @@ public class Concoction implements Comparable<Concoction> {
     // For any non-null reference value x, x.equals(null) should
     // return false.
 
-    if (!(o instanceof Concoction)) {
+    if (!(o instanceof Concoction other)) {
       return false;
     }
 
     // Concoction.compareTo() returns 0 only if the names match
     // ignoring case
 
-    Concoction other = (Concoction) o;
     if (this.name == null) {
       return other.name == null;
     }
@@ -431,10 +423,10 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     if (this.sortOrder != o.sortOrder) {
-      return this.sortOrder - o.sortOrder;
+      return this.sortOrder.compareTo(o.sortOrder);
     }
 
-    if (this.sortOrder == NO_PRIORITY) {
+    if (this.sortOrder == Priority.NONE) {
       return nameCheckCompare(o);
     }
 
@@ -453,7 +445,7 @@ public class Concoction implements Comparable<Concoction> {
       boolean oCantConsume = false;
 
       switch (this.sortOrder) {
-        case FOOD_PRIORITY -> {
+        case FOOD -> {
           limit =
               KoLCharacter.getFullnessLimit()
                   - KoLCharacter.getFullness()
@@ -461,7 +453,7 @@ public class Concoction implements Comparable<Concoction> {
           thisCantConsume = this.fullness > limit;
           oCantConsume = o.fullness > limit;
         }
-        case BOOZE_PRIORITY -> {
+        case BOOZE -> {
           limit =
               KoLCharacter.getInebrietyLimit()
                   - KoLCharacter.getInebriety()
@@ -469,7 +461,7 @@ public class Concoction implements Comparable<Concoction> {
           thisCantConsume = this.inebriety > limit;
           oCantConsume = o.inebriety > limit;
         }
-        case SPLEEN_PRIORITY -> {
+        case SPLEEN -> {
           limit =
               KoLCharacter.getSpleenLimit()
                   - KoLCharacter.getSpleenUse()
