@@ -937,6 +937,12 @@ public class QuestManager {
       } else if (responseText.contains("make a note of the temple's location")) {
         QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.FINISHED);
         Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+        ResultProcessor.removeItem(ItemPool.BENDY_STRAW);
+        ResultProcessor.removeItem(ItemPool.PLANT_FOOD);
+        ResultProcessor.removeItem(ItemPool.SEWING_KIT);
+
+        // Do we need to look at the woods in order to unlock the Hidden Temple?
+        new UpdateSuppressedRequest("woods.php").run();
       }
     } else if (location.contains("action=woods_hippy")
         && responseText.contains("You've got this cool boat")) {

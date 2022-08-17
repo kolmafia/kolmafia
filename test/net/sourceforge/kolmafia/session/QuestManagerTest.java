@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -1403,9 +1404,9 @@ public class QuestManagerTest {
       var ascension = 50;
       var cleanup =
           new Cleanups(
-              withItem("Spooky Temple map"),
-              withItem("spooky sapling"),
-              withItem("Spooky-Gro fertilizer"),
+              withItem(ItemPool.SPOOKY_MAP),
+              withItem(ItemPool.SPOOKY_SAPLING),
+              withItem(ItemPool.SPOOKY_FERTILIZER),
               withHttpClientBuilder(builder),
               // The Quest SHOULD suffice...
               withQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED),
@@ -1427,6 +1428,44 @@ public class QuestManagerTest {
         assertThat(requests, hasSize(2));
         assertPostRequest(
             requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SPOOKY_MAP + "&ajax=1");
+        assertGetRequest(requests.get(1), "/woods.php", null);
+      }
+    }
+
+    @Test
+    public void willOpenHiddenTempleProfessorFanning() {
+      var builder = new FakeHttpClientBuilder();
+
+      // "I never told you my name!" you shout back, but he's already
+      // gone. Grumbling, you make a note of the temple's location on your
+      // map. What a jerk. You hope he gets killed by pygmies or something.
+
+      var ascension = 50;
+      var cleanup =
+          new Cleanups(
+              withItem(ItemPool.BENDY_STRAW),
+              withItem(ItemPool.PLANT_FOOD),
+              withItem(ItemPool.SEWING_KIT),
+              withHttpClientBuilder(builder),
+              // The Quest SHOULD suffice...
+              withQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED),
+              // But we have a legacy property which tracks the same thing.
+              withAscensions(ascension),
+              withProperty("lastTempleUnlock", ascension - 1));
+
+      try (cleanup) {
+        assertFalse(KoLCharacter.getTempleUnlocked());
+        var request = new PlaceRequest("woods", "woods_dakota");
+        builder.client.setResponse(200, "make a note of the temple's location");
+        request.run();
+
+        assertThat(Quest.TEMPLE, isFinished());
+        assertEquals(Preferences.getInteger("lastTempleUnlock"), ascension);
+        assertTrue(KoLCharacter.getTempleUnlocked());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/place.php", "whichplace=woods&action=woods_dakota");
         assertGetRequest(requests.get(1), "/woods.php", null);
       }
     }
