@@ -181,20 +181,30 @@ public class Concoction implements Comparable<Concoction> {
     this.setEffectName();
   }
 
+  public int getSortOrder() {
+    int itemId = this.concoction == null ? -1 : this.concoction.getItemId();
+    if (this.fullness > 0 || itemId == ItemPool.QUANTUM_TACO) {
+      return FOOD_PRIORITY;
+    }
+
+    if (this.inebriety > 0 || itemId == ItemPool.SCHRODINGERS_THERMOS) {
+      return BOOZE_PRIORITY;
+    }
+
+    if (this.spleenhit > 0) {
+      return SPLEEN_PRIORITY;
+    }
+
+    return NO_PRIORITY;
+  }
+
   public void setConsumptionData() {
     this.fullness = ConsumablesDatabase.getFullness(this.name);
     this.inebriety = ConsumablesDatabase.getInebriety(this.name);
     this.spleenhit = ConsumablesDatabase.getSpleenHit(this.name);
 
-    this.sortOrder =
-        this.fullness > 0
-                || (this.concoction != null && this.concoction.getItemId() == ItemPool.QUANTUM_TACO)
-            ? FOOD_PRIORITY
-            : this.inebriety > 0
-                    || (this.concoction != null
-                        && this.concoction.getItemId() == ItemPool.SCHRODINGERS_THERMOS)
-                ? BOOZE_PRIORITY
-                : this.spleenhit > 0 ? SPLEEN_PRIORITY : NO_PRIORITY;
+    this.sortOrder = getSortOrder();
+
     this.setStatGain();
   }
 
@@ -430,7 +440,9 @@ public class Concoction implements Comparable<Concoction> {
 
     // Sort steel organs to the top.
     if (this.steelOrgan) {
-      return o.steelOrgan ? nameCheckCompare(o) : -1;
+      // No need to see if they are both steel organs as they have different sort orders
+      // and are thus differentiated above.
+      return -1;
     } else if (o.steelOrgan) {
       return 1;
     }
@@ -441,31 +453,30 @@ public class Concoction implements Comparable<Concoction> {
       boolean oCantConsume = false;
 
       switch (this.sortOrder) {
-        case FOOD_PRIORITY:
+        case FOOD_PRIORITY -> {
           limit =
               KoLCharacter.getFullnessLimit()
                   - KoLCharacter.getFullness()
                   - ConcoctionDatabase.getQueuedFullness();
           thisCantConsume = this.fullness > limit;
           oCantConsume = o.fullness > limit;
-          break;
-
-        case BOOZE_PRIORITY:
+        }
+        case BOOZE_PRIORITY -> {
           limit =
               KoLCharacter.getInebrietyLimit()
                   - KoLCharacter.getInebriety()
                   - ConcoctionDatabase.getQueuedInebriety();
           thisCantConsume = this.inebriety > limit;
           oCantConsume = o.inebriety > limit;
-          break;
-
-        case SPLEEN_PRIORITY:
+        }
+        case SPLEEN_PRIORITY -> {
           limit =
               KoLCharacter.getSpleenLimit()
                   - KoLCharacter.getSpleenUse()
                   - ConcoctionDatabase.getQueuedSpleenHit();
           thisCantConsume = this.spleenhit > limit;
           oCantConsume = o.spleenhit > limit;
+        }
       }
 
       if (thisCantConsume != oCantConsume) {
