@@ -38,7 +38,7 @@ public class ConcoctionTest {
   }
 
   @Test
-  public void steelOrgansThemselvesAreSortedByName() {
+  public void foodsAreSortedBeforeDrinks() {
     var steelMargarita = ConcoctionPool.get(ItemPool.STEEL_LIVER);
     var steelLasagna = ConcoctionPool.get(ItemPool.STEEL_STOMACH);
     assertThat(steelMargarita.compareTo(steelLasagna), is(1));
