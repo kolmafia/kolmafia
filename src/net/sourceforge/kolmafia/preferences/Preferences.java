@@ -208,6 +208,8 @@ public class Preferences {
         "drippingHallAdventuresSinceAscension",
         "drippingTreesAdventuresSinceAscension",
         "drippyJuice",
+        "duckAreasCleared",
+        "duckAreasSelected",
         "edPiece",
         "eldritchTentaclesFought",
         "encountersUntilDMTChoice",

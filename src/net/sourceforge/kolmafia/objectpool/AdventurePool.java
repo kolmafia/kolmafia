@@ -15,6 +15,7 @@ public class AdventurePool {
   public static final int FUN_HOUSE = 20;
   public static final int UNQUIET_GARVES = 21;
   public static final int TOWER_RUINS = 22;
+  public static final int DRUNKEN_STUPOR = 23;
   public static final int HIPPY_CAMP = 26;
   public static final int FRAT_HOUSE = 27;
   public static final int FRAT_HOUSE_DISGUISED = 29;
@@ -41,6 +42,7 @@ public class AdventurePool {
   public static final int VALLEY_OF_ROF_LM_FAO = 80;
   public static final int AIRSHIP = 81;
   public static final int HOLE_IN_THE_SKY = 83;
+  public static final int SSPD_STUPOR = 84;
   public static final int COLA_BATTLEFIELD = 85;
   public static final int CLOACA_BATTLEFIELD = 86;
   public static final int DYSPEPSI_BATTLEFIELD = 87;
@@ -66,8 +68,16 @@ public class AdventurePool {
   public static final int WARTIME_FRAT_HOUSE_DISGUISED = 134;
   public static final int WARTIME_FRAT_HOUSE = 135;
   public static final int SONOFA_BEACH = 136;
+  public static final int THE_BARN = 137;
   public static final int HAIKU_DUNGEON = 138;
   public static final int HIPPY_UNIFORM_BATTLEFIELD = 140;
+  public static final int THE_POND = 141;
+  public static final int THE_BACK_40 = 142;
+  public static final int THE_OTHER_BACK_40 = 143;
+  public static final int THE_GRANARY = 144;
+  public static final int THE_BOG = 145;
+  public static final int THE_FAMILY_PLOT = 146;
+  public static final int THE_SHADY_THICKET = 147;
   public static final int BOMBED_HIPPY_CAMP = 149;
   public static final int BOMBED_FRAT_HOUSE = 150;
   public static final int THE_JUNKYARD = 154;

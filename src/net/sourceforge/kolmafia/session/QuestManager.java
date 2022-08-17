@@ -197,6 +197,15 @@ public class QuestManager {
         case AdventurePool.SPACEGATE:
           handleSpacegateChange(location, responseText);
           break;
+        case AdventurePool.THE_POND:
+        case AdventurePool.THE_BACK_40:
+        case AdventurePool.THE_OTHER_BACK_40:
+        case AdventurePool.THE_GRANARY:
+        case AdventurePool.THE_BOG:
+        case AdventurePool.THE_FAMILY_PLOT:
+        case AdventurePool.THE_SHADY_THICKET:
+          handleFarmChange(location, responseText);
+          break;
         default:
           if (KoLCharacter.getInebriety() > 25) {
             handleSneakyPeteChange(responseText);
@@ -566,6 +575,20 @@ public class QuestManager {
     }
     if (location.contains("action=sg_Terminal")) {
       parseSpacegateTerminal(responseText, false);
+    }
+  }
+
+  private static void handleFarmChange(final String location, final String responseText) {
+    if (responseText.contains("There are no more ducks here")) {
+      KoLAdventure adventure = KoLAdventure.lastVisitedLocation;
+      if (adventure != null) {
+        StringBuilder buffer = new StringBuilder(Preferences.getString("duckAreasCleared"));
+        if (buffer.length() != 0) {
+          buffer.append(",");
+        }
+        buffer.append(adventure.getAdventureId());
+        Preferences.setString("duckAreasCleared", buffer.toString());
+      }
     }
   }
 
