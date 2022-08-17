@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.preferences;
 
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
@@ -449,7 +451,8 @@ class PreferencesTest {
     assertNotEquals(val, Preferences.getInteger(name));
   }
 
-  void resetRolloverProperties() {
+  @Test
+  void testRolloverPropertiesAreReset() {
     String name = "ascensionsToday";
     int beforeRollover = 1;
     int afterRollover = 0;
@@ -460,7 +463,7 @@ class PreferencesTest {
     Preferences.resetPerRollover();
 
     // confirm default
-    assertNotEquals(afterRollover, Preferences.getInteger(name));
+    assertThat(name, isSetTo(afterRollover));
   }
 
   @Test
