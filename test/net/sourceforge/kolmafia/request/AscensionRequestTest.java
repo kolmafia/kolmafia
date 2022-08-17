@@ -89,7 +89,7 @@ public class AscensionRequestTest {
   }
 
   @Test
-  void testPathSelectedUnconfirmed() {
+  void testSelectPathUnconfirmedUnprocessed() {
     // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
     Preferences.setInteger("lastBreakfast", -1);
     Preferences.setInteger("bankedKarma", 150);
@@ -98,12 +98,14 @@ public class AscensionRequestTest {
     try (PrintStream out = new PrintStream(ostream, true)) {
       RequestLogger.openCustom(out);
 
+      // Testing to ensure "Are you sure" is not handled
+      // This does a 302 redirect
+      // Because this is called by http request, we're calling the resulting method directly.
       var ascendRequest =
           new GenericRequest(
               "afterlife.php?action=ascend&asctype=2&whichclass=1&gender=2&whichpath=44&whichsign=3");
-      ascendRequest.responseText = html("request/test_ascension_confirm_ascend.html");
       ascendRequest.setHasResult(true);
-      ascendRequest.execute();
+      RequestLogger.registerRequest(ascendRequest, ascendRequest.getURLString());
 
       RequestLogger.closeCustom();
     }
@@ -114,7 +116,7 @@ public class AscensionRequestTest {
   }
 
   @Test
-  void testPathSelectedConfirmed() {
+  void testSelectPathConfirmedProcessed() {
     // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
     Preferences.setInteger("lastBreakfast", -1);
     Preferences.setInteger("bankedKarma", 150);
@@ -123,13 +125,12 @@ public class AscensionRequestTest {
     try (PrintStream out = new PrintStream(ostream, true)) {
       RequestLogger.openCustom(out);
 
-      // This does a 302 redirect to choice.php?forceoption=0
+      // This does a 302 redirect
+      // Because this is called by http request, we're calling the resulting method directly.
       var ascendConfirm =
           new GenericRequest(
               "afterlife.php?action=ascend&confirmascend=1&whichsign=3&gender=2&whichclass=27&whichpath=44&asctype=2&nopetok=1");
-      ascendConfirm.responseText = html("request/test_ascension_ascend_grey_you.html");
-      ascendConfirm.setHasResult(true);
-      ascendConfirm.execute();
+      RequestLogger.registerRequest(ascendConfirm, ascendConfirm.getURLString());
 
       RequestLogger.closeCustom();
     }
