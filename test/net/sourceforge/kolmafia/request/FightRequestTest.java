@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import java.util.Set;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -1083,6 +1084,30 @@ public class FightRequestTest {
         parseCombatData("request/test_fight_stillsuit_in_terrarium.html");
         assertThat("familiarSweat", isSetTo(6));
       }
+    }
+  }
+
+  @Nested
+  class Dinosaurs {
+    @ParameterizedTest
+    @CsvSource({
+      "request/test_dino_archelon.html, archelon",
+      "request/test_dino_dilophosaur.html, dilophosaur",
+      "request/test_dino_flatusaurus.html, flatusaurus",
+      "request/test_dino_ghostasaurus.html, ghostasaurus",
+      "request/test_dino_kachungasaur.html, kachungasaur",
+      "request/test_dino_primitive_chicken.html, chicken",
+      "request/test_dino_pterodactyl.html, pterodactyl",
+      "request/test_dino_spikolodon.html, spikolodon",
+      "request/test_dino_velociraptor.html, velociraptor",
+    })
+    public void canExtractDinosaurFromFight(String filename, String dinosaur) {
+      KoLAdventure.setLastAdventure("The Haunted pantry");
+      GenericRequest request = new GenericRequest("fight.php");
+      request.responseText = html(filename);
+      String encounter = AdventureRequest.registerEncounter(request);
+      MonsterData monster = MonsterStatusTracker.getLastMonster();
+      assertTrue(Set.of(monster.getRandomModifiers()).contains(dinosaur));
     }
   }
 

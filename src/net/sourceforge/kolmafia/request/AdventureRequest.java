@@ -532,6 +532,7 @@ public class AdventureRequest extends GenericRequest {
     encounter = AdventureRequest.handleIntergnat(encounter);
     encounter = AdventureRequest.handleNuclearAutumn(encounter);
     encounter = AdventureRequest.handleMask(encounter);
+    encounter = AdventureRequest.handleDinosaurs(encounter);
 
     // KoL now provides MONSTERID in fight responseText.
     Matcher m = MONSTERID_PATTERN.matcher(responseText);
@@ -1236,6 +1237,44 @@ public class AdventureRequest extends GenericRequest {
     if (monsterName.contains(" AND TESLA!")) {
       MonsterData.lastRandomModifiers.add("tesla");
       return StringUtilities.globalStringDelete(monsterName, " AND TESLA!");
+    }
+    return monsterName;
+  }
+
+  public enum Dinosaur {
+    ARCHELON("archelon", "glass-shelled archelon that consumed "),
+    CHICKEN("chicken", "primitive chicken that just ate "),
+    DILOPHOSAUR("dilophosaur", "carrion-eating dilophosaur that consumed "),
+    FLATUSAURUS("flatusaurus", "steamy flatusaurus that recently devoured "),
+    GHOSTASAURUS("ghostasaurus", "ghostasaurus that swallowed the soul of "),
+    KACHUNGASAUR("kachungasaur", "kachungasaur that consumed "),
+    PTERODACTYL("pterodactyl", "high-altitude pterodactyl that just ate "),
+    SPIKOLODON("spikolodon", "spikolodon that recently devoured "),
+    VELOCIRAPTOR("velociraptor", "supersonic velociraptor that recently devoured ");
+
+    private final String name;
+    private final String description;
+
+    private Dinosaur(String name, String description) {
+      this.name = name;
+      this.description = description;
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getDescription() {
+      return this.description;
+    }
+  }
+
+  private static String handleDinosaurs(String monsterName) {
+    for (Dinosaur dino : Dinosaur.values()) {
+      if (monsterName.contains(dino.getDescription())) {
+        MonsterData.lastRandomModifiers.add(dino.getName());
+        return StringUtilities.globalStringDelete(monsterName, dino.getDescription());
+      }
     }
     return monsterName;
   }
