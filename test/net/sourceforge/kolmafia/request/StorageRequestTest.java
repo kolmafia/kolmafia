@@ -1,10 +1,20 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withHardcore;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRonin;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,6 +30,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class StorageRequestTest {
@@ -723,177 +735,173 @@ public class StorageRequestTest {
   // *** before submitting a request to KoL. Since these short circuit the
   // *** run() method, we don't need to mock.
 
-  private void storageRunMethodSetup() {
-    // Simulate logging out and back in again.
-    KoLCharacter.reset("");
-    KoLCharacter.reset("run method user");
-    // Reset preferences to defaults.
-    KoLCharacter.reset(true);
-    // Not in error state
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-  }
-
-  private StorageRequest makeZeroItemRequest() {
-    // Make a StorageRequest
-    StorageRequest request =
-        new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[0]);
-
-    // Return a subinstance
-    return makeSubinstance(request);
-  }
-
-  private StorageRequest makeSingleItemRequest(int itemId) {
-    // Make a list of 1 item to pull.
-    List<AdventureResult> items = new ArrayList<>();
-    items.add(ItemPool.get(itemId, 1));
-
-    // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
-
-    // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
-
-    // Return a subinstance
-    return makeSubinstance(request);
-  }
-
-  private StorageRequest makeMeatRequest() {
-    // Make a list of 1 item to pull.
-    List<AdventureResult> items = new ArrayList<>();
-    items.add(new AdventureResult(AdventureLongCountResult.MEAT, 1000));
-
-    // StorageRequest wants an actual Java array
-    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
-
-    // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.PULL_MEAT_FROM_STORAGE, attachments);
-
-    // Return a subinstance
-    return makeSubinstance(request);
-  }
-
   private StorageRequest makeSubinstance(StorageRequest request) {
     // Make subinstance, just as TransferItemRequest does before calling run()
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
 
     // We expect there to be a single subinstance
-    assertTrue(subinstances.size() == 1);
+    assertThat(subinstances, hasSize(1));
 
     TransferItemRequest rq = subinstances.get(0);
 
     // We expect it to be a StorageRequest
-    assertTrue(rq instanceof StorageRequest);
+    assertThat(rq, instanceOf(StorageRequest.class));
 
     return (StorageRequest) rq;
   }
 
-  @Test
-  public void itShouldNotEmptyStorageInHardcore() {
-    storageRunMethodSetup();
+  @Nested
+  class Run {
+    @BeforeEach
+    public void storageRunMethodSetup() {
+      // Simulate logging out and back in again.
+      KoLCharacter.reset("");
+      KoLCharacter.reset("run method user");
+      // Reset preferences to defaults.
+      KoLCharacter.reset(true);
+    }
 
-    // Test being in Hardcore
-    KoLCharacter.setHardcore(true);
+    private StorageRequest makeZeroItemRequest() {
+      // Make a StorageRequest
+      StorageRequest request =
+          new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[0]);
 
-    // Make an request to empty storage
-    StorageRequest request = new StorageRequest(StorageRequest.EMPTY_STORAGE);
+      // Return a subinstance
+      return makeSubinstance(request);
+    }
 
-    // Run it and verify failure
-    request.run();
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-  }
+    private StorageRequest makeSingleItemRequest(int itemId) {
+      // Make a list of 1 item to pull.
+      var attachments = List.of(ItemPool.get(itemId, 1)).toArray(new AdventureResult[0]);
 
-  @Test
-  public void itShouldNotPullMeatInHardcore() {
-    storageRunMethodSetup();
+      // Make a StorageRequest
+      StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
 
-    // Test being in Hardcore
-    KoLCharacter.setHardcore(true);
+      // Return a subinstance
+      return makeSubinstance(request);
+    }
 
-    // Make a request with Meat
-    StorageRequest request = makeMeatRequest();
+    private StorageRequest makeMeatRequest() {
+      // Make a list of 1 item to pull.
+      var attachments =
+          List.of(new AdventureResult(AdventureLongCountResult.MEAT, 1000))
+              .toArray(new AdventureResult[0]);
 
-    // Run it and verify failure
-    request.run();
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-  }
+      // Make a StorageRequest
+      StorageRequest request =
+          new StorageRequest(StorageRequest.PULL_MEAT_FROM_STORAGE, attachments);
 
-  @Test
-  public void itShouldNotPullNonFreePullsInHardcore() {
-    storageRunMethodSetup();
+      // Return a subinstance
+      return makeSubinstance(request);
+    }
 
-    // Test being in Hardcore
-    KoLCharacter.setHardcore(true);
+    @Test
+    public void itShouldNotEmptyStorageInHardcore() {
+      var cleanups = new Cleanups(withHardcore(true), withContinuationState());
 
-    // Make a request with an Item
-    StorageRequest request = makeSingleItemRequest(ItemPool.HOT_WAD);
+      try (cleanups) {
+        // Make an request to empty storage
+        StorageRequest request = new StorageRequest(StorageRequest.EMPTY_STORAGE);
 
-    // Run it and verify failure
-    request.run();
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-  }
+        // Run it and verify failure
+        request.run();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+      }
+    }
 
-  @Test
-  public void itShouldNotEmptyStorageInRonin() {
-    storageRunMethodSetup();
+    @Test
+    public void itShouldNotPullMeatInHardcore() {
+      var cleanups = new Cleanups(withHardcore(true), withContinuationState());
 
-    // Test being in Ronin
-    KoLCharacter.setRonin(true);
+      try (cleanups) {
+        // Make a request with Meat
+        StorageRequest request = makeMeatRequest();
 
-    // Make an request to empty storage
-    StorageRequest request = new StorageRequest(StorageRequest.EMPTY_STORAGE);
+        // Run it and verify failure
+        request.run();
+        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+      }
+    }
 
-    // Run it and verify failure
-    request.run();
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-  }
+    @Test
+    public void itShouldNotPullNonFreePullsInHardcore() {
+      var cleanups = new Cleanups(withHardcore(true), withContinuationState());
 
-  @Test
-  public void itShouldNotPullTwiceInRonin() {
-    storageRunMethodSetup();
+      try (cleanups) {
+        // Make a request with an Item
+        StorageRequest request = makeSingleItemRequest(ItemPool.HOT_WAD);
 
-    // Test being in Ronin
-    KoLCharacter.setRonin(true);
+        // Run it and verify failure
+        request.run();
+        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+      }
+    }
 
-    // Make a request with an Item
-    StorageRequest request = makeSingleItemRequest(ItemPool.HOT_WAD);
+    @Test
+    public void itShouldNotEmptyStorageInRonin() {
+      var cleanups = new Cleanups(withRonin(true), withContinuationState());
 
-    // Say that we've already pulled one today
-    StorageRequest.addPulledItem(ItemPool.HOT_WAD);
+      try (cleanups) {
+        // Make an request to empty storage
+        StorageRequest request = new StorageRequest(StorageRequest.EMPTY_STORAGE);
 
-    // Tested individually above, but why not?
-    assertTrue(StorageRequest.itemPulledInRonin(ItemPool.HOT_WAD));
+        // Run it and verify failure
+        request.run();
+        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+      }
+    }
 
-    // Run it and verify failure
-    request.run();
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-  }
+    @Test
+    public void itShouldNotPullTwiceInRonin() {
+      var cleanups = new Cleanups(withRonin(true), withContinuationState());
 
-  @Test
-  public void itShouldNotPullMeatInFistcore() {
-    storageRunMethodSetup();
+      try (cleanups) {
+        // Make a request with an Item
+        StorageRequest request = makeSingleItemRequest(ItemPool.HOT_WAD);
 
-    // Test being in Fistcore
-    KoLCharacter.setKingLiberated(false);
-    KoLCharacter.setPath(Path.SURPRISING_FIST);
+        // Say that we've already pulled one today
+        StorageRequest.addPulledItem(ItemPool.HOT_WAD);
 
-    // Make a request with Meat
-    StorageRequest request = makeMeatRequest();
+        // Tested individually above, but why not?
+        assertTrue(StorageRequest.itemPulledInRonin(ItemPool.HOT_WAD));
 
-    // Run it and verify failure
-    request.run();
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-  }
+        // Run it and verify failure
+        request.run();
+        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+      }
+    }
 
-  @Test
-  public void itShouldRequestZeroItems() {
-    storageRunMethodSetup();
+    @Test
+    public void itShouldNotPullMeatInFistcore() {
+      var cleanups =
+          new Cleanups(
+              withProperty("kingLiberated", false),
+              withPath(Path.SURPRISING_FIST),
+              withContinuationState());
 
-    // Make a request with no items
-    StorageRequest request = makeZeroItemRequest();
+      try (cleanups) {
+        // Make a request with Meat
+        StorageRequest request = makeMeatRequest();
 
-    // Run it and verify failure
-    request.run();
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+        // Run it and verify failure
+        request.run();
+        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+      }
+    }
+
+    @Test
+    public void itShouldRequestZeroItems() {
+      var cleanups = new Cleanups(withContinuationState());
+
+      try (cleanups) {
+        // Make a request with no items
+        StorageRequest request = makeZeroItemRequest();
+
+        // Run it and verify failure
+        request.run();
+        assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+      }
+    }
   }
 
   // *** Here are tests for StorageRequest.transferItems()

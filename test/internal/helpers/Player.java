@@ -1189,6 +1189,18 @@ public class Player {
   }
 
   /**
+   * Sets the player's ronin status
+   *
+   * @param inRonin Whether the player is in Ronin
+   * @return Restores to previous value
+   */
+  public static Cleanups withRonin(final boolean inRonin) {
+    var old = KoLCharacter.inRonin();
+    KoLCharacter.setRonin(inRonin);
+    return new Cleanups(() -> KoLCharacter.setRonin(old));
+  }
+
+  /**
    * Sets the player's "can interact" status (i.e. whether they are under ronin-style restrictions)
    *
    * @param canInteract Whether the player can interact

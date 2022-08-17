@@ -343,76 +343,11 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   @Override
   public void actionCancelled() {}
 
-  private class ConsumableComparator implements Comparator<Concoction> {
+  private static class ConsumableComparator implements Comparator<Concoction> {
     @Override
     public int compare(Concoction o1, Concoction o2) {
-      if (o1 == null || o2 == null) {
+      if (o1 == null) {
         throw new NullPointerException();
-      }
-
-      String name1 = o1.getName();
-      String name2 = o2.getName();
-
-      if (name1 == null) {
-        return name2 == null ? 0 : 1;
-      }
-
-      if (name2 == null) {
-        return -1;
-      }
-
-      // Sort steel organs to the top.
-      if (o1.steelOrgan) {
-        return o2.steelOrgan ? name1.compareToIgnoreCase(name2) : -1;
-      } else if (o2.steelOrgan) {
-        return 1;
-      }
-
-      // none, food, booze, spleen
-      if (o1.sortOrder != o2.sortOrder) {
-        return o1.sortOrder - o2.sortOrder;
-      }
-
-      if (o1.sortOrder == Concoction.NO_PRIORITY) {
-        return name1.compareToIgnoreCase(name2);
-      }
-
-      if (Preferences.getBoolean("sortByRoom")) {
-        int limit = 0;
-        boolean o1CantConsume = false;
-        boolean o2CantConsume = false;
-
-        switch (o1.sortOrder) {
-          case Concoction.FOOD_PRIORITY:
-            limit =
-                KoLCharacter.getFullnessLimit()
-                    - KoLCharacter.getFullness()
-                    - ConcoctionDatabase.getQueuedFullness();
-            o1CantConsume = o1.getFullness() > limit;
-            o2CantConsume = o2.getFullness() > limit;
-            break;
-
-          case Concoction.BOOZE_PRIORITY:
-            limit =
-                KoLCharacter.getInebrietyLimit()
-                    - KoLCharacter.getInebriety()
-                    - ConcoctionDatabase.getQueuedInebriety();
-            o1CantConsume = o1.getInebriety() > limit;
-            o2CantConsume = o2.getInebriety() > limit;
-            break;
-
-          case Concoction.SPLEEN_PRIORITY:
-            limit =
-                KoLCharacter.getSpleenLimit()
-                    - KoLCharacter.getSpleenUse()
-                    - ConcoctionDatabase.getQueuedSpleenHit();
-            o1CantConsume = o1.getSpleenHit() > limit;
-            o2CantConsume = o2.getSpleenHit() > limit;
-        }
-
-        if (o1CantConsume != o2CantConsume) {
-          return o1CantConsume ? 1 : -1;
-        }
       }
 
       return o1.compareTo(o2);
