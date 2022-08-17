@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -62,6 +63,11 @@ public class FightRequestTest {
     KoLConstants.availableCombatSkillsList.clear();
     KoLConstants.availableCombatSkillsSet.clear();
     KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
+  }
+
+  @AfterEach
+  public void afterEach() {
+    FightRequest.currentRound = 0;
   }
 
   private void parseCombatData(String path, String location, String encounter) {
