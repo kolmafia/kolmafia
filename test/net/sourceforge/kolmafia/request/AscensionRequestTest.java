@@ -99,7 +99,6 @@ public class AscensionRequestTest {
       RequestLogger.openCustom(out);
 
       // Testing to ensure "Are you sure" is not handled
-      // This does a 302 redirect
       var ascendRequest =
           new GenericRequest(
               "afterlife.php?action=ascend&asctype=2&whichclass=1&gender=2&whichpath=44&whichsign=3");
