@@ -1361,11 +1361,11 @@ public class QuestManagerTest {
         request.run();
         assertThat(Quest.SPOOKYRAVEN_DANCE, isFinished());
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(3));
+        assertThat(requests, hasSize(2));
         assertPostRequest(
             requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.HAUNTED_BALLROOM);
         assertPostRequest(requests.get(1), "/place.php", "whichplace=manor2");
-        assertPostRequest(requests.get(2), "/place.php", "whichplace=manor3");
+        // assertPostRequest(requests.get(2), "/place.php", "whichplace=manor3");
       }
     }
 

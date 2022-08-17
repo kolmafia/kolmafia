@@ -714,7 +714,7 @@ public class QuestManager {
         // You cannot visit the third floor unless you have visited the second floor
         new UpdateSuppressedRequest("place.php?whichplace=manor2").run();
         // You cannot adventure on the third floor unless you have visited the third floor
-        new UpdateSuppressedRequest("place.php?whichplace=manor3").run();
+        // new UpdateSuppressedRequest("place.php?whichplace=manor3").run();
       }
     }
     // Derive quest status from available rooms
