@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayOutputStream;
@@ -133,8 +135,9 @@ public class AscensionRequestTest {
     }
 
     String logged = ostream.toString().trim();
-    assertEquals(
-        "Ascend as a Normal Female Grey Goo under the Vole sign on a Grey You path, banking 150 Karma.",
-        logged);
+    assertThat(
+        logged,
+        containsString(
+            "Ascend as a Normal Female Grey Goo under the Vole sign on a Grey You path, banking 150 Karma."));
   }
 }
