@@ -7,9 +7,9 @@ import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
-import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Item.isInInventory;
@@ -1350,13 +1350,14 @@ public class QuestManagerTest {
       var builder = new FakeHttpClientBuilder();
       var cleanup =
           new Cleanups(
-              withNextResponse(
-                  builder, 200, "Spookyraven Manor Second Floor" + "Having a Ball in the Ballroom"),
+              withHttpClientBuilder(builder),
               withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED));
 
       try (cleanup) {
         var request =
             new GenericRequest("adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM);
+        builder.client.setResponse(
+            200, "Spookyraven Manor Second Floor" + "Having a Ball in the Ballroom");
         request.run();
         assertThat(Quest.SPOOKYRAVEN_DANCE, isFinished());
         var requests = builder.client.getRequests();
@@ -1374,11 +1375,12 @@ public class QuestManagerTest {
       var cleanup =
           new Cleanups(
               withItem("enchanted bean"),
-              withNextResponse(builder, 200, "immediately grows into an enormous beanstalk"),
+              withHttpClientBuilder(builder),
               withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED));
 
       try (cleanup) {
         var request = new GenericRequest("place.php?whichplace=plains&action=garbage_grounds");
+        builder.client.setResponse(200, "immediately grows into an enormous beanstalk");
         request.run();
         assertThat(Quest.GARBAGE, isStep(1));
         var requests = builder.client.getRequests();
@@ -1404,7 +1406,7 @@ public class QuestManagerTest {
               withItem("Spooky Temple map"),
               withItem("spooky sapling"),
               withItem("Spooky-Gro fertilizer"),
-              withNextResponse(builder, 200, "it immediately grows to 20 feet in height"),
+              withHttpClientBuilder(builder),
               // The Quest SHOULD suffice...
               withQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED),
               // But we have a legacy property which tracks the same thing.
@@ -1414,6 +1416,7 @@ public class QuestManagerTest {
       try (cleanup) {
         assertFalse(KoLCharacter.getTempleUnlocked());
         var request = UseItemRequest.getInstance(ItemPool.SPOOKY_MAP, 1);
+        builder.client.setResponse(200, "it immediately grows to 20 feet in height");
         request.run();
 
         assertThat(Quest.TEMPLE, isFinished());
@@ -1442,11 +1445,12 @@ public class QuestManagerTest {
           new Cleanups(
               withItem(ItemPool.FORGED_ID_DOCUMENTS),
               withItem(ItemPool.MACGUFFIN_DIARY),
-              withNextResponse(builder, 200, "your father's MacGuffin diary"),
+              withHttpClientBuilder(builder),
               withQuestProgress(Quest.BLACK, "step2"),
               withProperty("autoQuest", true));
 
       try (cleanup) {
+        builder.client.setResponse(200, "your father's MacGuffin diary");
         ResultProcessor.processResult(true, ItemPool.get(ItemPool.MACGUFFIN_DIARY));
         assertThat(Quest.BLACK, isStep(3));
 
@@ -1463,10 +1467,11 @@ public class QuestManagerTest {
       var cleanup =
           new Cleanups(
               withItem(ItemPool.VOLCANO_MAP),
-              withNextResponse(builder, 302, null),
+              withHttpClientBuilder(builder),
               withProperty("autoQuest", true));
 
       try (cleanup) {
+        builder.client.setResponse(302, null);
         ResultProcessor.processResult(true, ItemPool.get(ItemPool.VOLCANO_MAP));
 
         // *** FakeHttpClient does not follow redirects.

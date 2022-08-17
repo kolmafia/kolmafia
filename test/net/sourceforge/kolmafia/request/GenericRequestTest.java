@@ -122,12 +122,11 @@ public class GenericRequestTest {
       var builder = new FakeHttpClientBuilder();
       var cleanup =
           new Cleanups(
-              withItem("seal tooth"),
-              withNextResponse(builder, 200, html("request/test_use_seal_tooth.html")),
-              withContinuationState());
+              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState());
 
       try (cleanup) {
         var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
         var requests = builder.client.getRequests();
@@ -144,11 +143,12 @@ public class GenericRequestTest {
           new Cleanups(
               withItem("seal tooth"),
               withUpdateSuppressed(),
-              withNextResponse(builder, 200, html("request/test_use_seal_tooth.html")),
+              withHttpClientBuilder(builder),
               withContinuationState());
 
       try (cleanup) {
         var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
         var requests = builder.client.getRequests();
@@ -162,12 +162,11 @@ public class GenericRequestTest {
       var builder = new FakeHttpClientBuilder();
       var cleanup =
           new Cleanups(
-              withItem("seal tooth"),
-              withNextResponse(builder, 200, html("request/test_use_seal_tooth.html")),
-              withContinuationState());
+              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState());
 
       try (cleanup) {
         var request = new UpdateSuppressedRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
         var requests = builder.client.getRequests();

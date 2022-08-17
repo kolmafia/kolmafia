@@ -3,6 +3,7 @@ package internal.helpers;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.network.FakeHttpClientBuilder;
+import java.net.http.HttpClient;
 import java.util.Calendar;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -1008,6 +1009,26 @@ public class Player {
   }
 
   /**
+   * Sets supplied HttpClient.Builder to be used by GenericRequest
+   *
+   * @param builder The builder to use
+   * @return restores previous builder
+   */
+  public static Cleanups withHttpClientBuilder(HttpClient.Builder builder) {
+    var old = HttpUtilities.getClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(() -> old);
+          GenericRequest.resetClient();
+        });
+  }
+
+  /**
    * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
    * getRequests() will not work on one set separately
    *
@@ -1016,21 +1037,8 @@ public class Player {
    * @return Cleans up so this response is not given again
    */
   public static Cleanups withNextResponse(final int code, final String response) {
-    return withNextResponse(new FakeHttpClientBuilder(), code, response);
-  }
-
-  /**
-   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
-   * getRequests() will not work on one set separately
-   *
-   * @param builder The FakeHtmlClientBuilder to use
-   * @param code Status code to fake
-   * @param response Response text to fake
-   * @return Cleans up so this response is not given again
-   */
-  public static Cleanups withNextResponse(
-      FakeHttpClientBuilder builder, final int code, final String response) {
     var old = HttpUtilities.getClientBuilder();
+    var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
