@@ -1665,7 +1665,8 @@ public abstract class KoLCharacter {
       freerests += 5;
     if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
     if (KoLCharacter.hasSkill("Long Winter's Nap")) freerests += 5;
-    if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0) freerests += 5;
+    if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
+        || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
     return freerests;
   }
 

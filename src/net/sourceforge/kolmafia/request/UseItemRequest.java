@@ -5860,6 +5860,16 @@ public class UseItemRequest extends GenericRequest {
           ResponseTextParser.learnSkillFromResponse(responseText);
         }
         return;
+
+      case ItemPool.HYPNOTIC_BREADCRUMBS:
+        Preferences.setBoolean("madnessBakeryAvailable", true);
+        break;
+      case ItemPool.BOOZE_MAP:
+        Preferences.setBoolean("overgrownLotAvailable", true);
+        break;
+      case ItemPool.BONE_WITH_A_PRICE_TAG:
+        Preferences.setBoolean("skeletonStoreAvailable", true);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

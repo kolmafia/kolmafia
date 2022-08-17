@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -193,6 +194,10 @@ public abstract class ChoiceAdventures {
         final Option... options) {
       super(choice, ordering);
       this.zone = zone;
+      if (!AdventureDatabase.ZONE_DESCRIPTIONS.containsKey(zone)) {
+        System.out.println("ChoiceAdventure # " + choice + " has an invalid zone " + zone);
+      }
+
       this.name = name;
       if (options == null) {
         System.out.println("ChoiceAdventure # " + choice + " has no Options configured");
@@ -2586,7 +2591,7 @@ public abstract class ChoiceAdventures {
     // Choice 442 is A Moment of Reflection
     new ChoiceAdventure(
         442,
-        "RabbitHole",
+        "Rabbit Hole",
         "A Moment of Reflection",
         // Option...
         new Option("Seal Clubber/Pastamancer/custard"),
@@ -2601,7 +2606,7 @@ public abstract class ChoiceAdventures {
     // Choice 444 is The Field of Strawberries (Seal Clubber)
     new ChoiceAdventure(
         444,
-        "RabbitHole",
+        "Rabbit Hole",
         "Reflection of Map (Seal Clubber)",
         // Option...
         new Option("walrus ice cream", "walrus ice cream"),
@@ -2610,7 +2615,7 @@ public abstract class ChoiceAdventures {
     // Choice 445 is The Field of Strawberries (Pastamancer)
     new ChoiceAdventure(
         445,
-        "RabbitHole",
+        "Rabbit Hole",
         "Reflection of Map (Pastamancer)",
         // Option...
         new Option("eggman noodles", "eggman noodles"),
@@ -2619,7 +2624,7 @@ public abstract class ChoiceAdventures {
     // Choice 446 is The Caucus Racetrack (Accordion Thief)
     new ChoiceAdventure(
         446,
-        "RabbitHole",
+        "Rabbit Hole",
         "Reflection of Map (Accordion Thief)",
         // Option...
         new Option("missing wine", "missing wine"),
@@ -2628,7 +2633,7 @@ public abstract class ChoiceAdventures {
     // Choice 447 is The Caucus Racetrack (Sauceror)
     new ChoiceAdventure(
         447,
-        "RabbitHole",
+        "Rabbit Hole",
         "Reflection of Map (Sauceror)",
         // Option...
         new Option("Vial of <i>jus de larmes</i>", "Vial of <i>jus de larmes</i>"),
@@ -2637,7 +2642,7 @@ public abstract class ChoiceAdventures {
     // Choice 448 is The Croquet Grounds (Turtle Tamer)
     new ChoiceAdventure(
         448,
-        "RabbitHole",
+        "Rabbit Hole",
         "Reflection of Map (Turtle Tamer)",
         // Option...
         new Option("beautiful soup", "beautiful soup"),
@@ -2646,7 +2651,7 @@ public abstract class ChoiceAdventures {
     // Choice 449 is The Croquet Grounds (Disco Bandit)
     new ChoiceAdventure(
         449,
-        "RabbitHole",
+        "Rabbit Hole",
         "Reflection of Map (Disco Bandit)",
         // Option...
         new Option("Lobster <i>qua</i> Grill", "Lobster <i>qua</i> Grill"),
@@ -5176,7 +5181,7 @@ public abstract class ChoiceAdventures {
     // Choice 1223 is L.O.V. Entrance
     new ChoiceAdventure(
         1223,
-        "Town",
+        "Tunnel of L.O.V.E.",
         "L.O.V.E Fight 1",
         // Option...
         new Option("(free) fight LOV Enforcer", 1),
@@ -5185,7 +5190,7 @@ public abstract class ChoiceAdventures {
     // Choice 1224 is L.O.V. Equipment Room
     new ChoiceAdventure(
         1224,
-        "Town",
+        "Tunnel of L.O.V.E.",
         "L.O.V.E Choice 1",
         // Option...
         new Option("acquire LOV Eardigan", 1, "LOV Eardigan"),
@@ -5196,7 +5201,7 @@ public abstract class ChoiceAdventures {
     // Choice 1225 is L.O.V. Engine Room
     new ChoiceAdventure(
         1225,
-        "Town",
+        "Tunnel of L.O.V.E.",
         "L.O.V.E Fight 2",
         // Option...
         new Option("(free) fight LOV Engineer", 1),
@@ -5205,7 +5210,7 @@ public abstract class ChoiceAdventures {
     // Choice 1226 is L.O.V. Emergency Room
     new ChoiceAdventure(
         1226,
-        "Town",
+        "Tunnel of L.O.V.E.",
         "L.O.V.E Choice 2",
         // Option...
         new Option("50 adv of Lovebotamy (+10 stats/fight)", 1),
@@ -5216,7 +5221,7 @@ public abstract class ChoiceAdventures {
     // Choice 1227 is L.O.V. Elbow Room
     new ChoiceAdventure(
         1227,
-        "Town",
+        "Tunnel of L.O.V.E.",
         "L.O.V.E Fight 3",
         // Option...
         new Option("(free) fight LOV Equivocator", 1),
@@ -5225,7 +5230,7 @@ public abstract class ChoiceAdventures {
     // Choice 1228 is L.O.V. Emporium
     new ChoiceAdventure(
         1228,
-        "Town",
+        "Tunnel of L.O.V.E.",
         "L.O.V.E Choice 3",
         // Option...
         new Option("acquire LOV Enamorang", 1, "LOV Enamorang"),
@@ -5798,7 +5803,7 @@ public abstract class ChoiceAdventures {
     // Choice 1322 is The Beginning of the Neverend
     new ChoiceAdventure(
         1322,
-        "Town",
+        "Neverending Party",
         "Neverending Party Intro",
         // Option...
         new Option("accept quest", 1),
@@ -5810,7 +5815,7 @@ public abstract class ChoiceAdventures {
     // Choice 1324 is It Hasn't Ended, It's Just Paused
     new ChoiceAdventure(
         1324,
-        "Town",
+        "Neverending Party",
         "Neverending Party Pause",
         // Option...
         new Option(
@@ -5824,7 +5829,7 @@ public abstract class ChoiceAdventures {
     // Choice 1325 is A Room With a View...  Of a Bed
     new ChoiceAdventure(
         1325,
-        "Town",
+        "Neverending Party",
         "Neverending Party Bedroom",
         // Option...
         new Option("full HP/MP heal", 1),
@@ -5836,7 +5841,7 @@ public abstract class ChoiceAdventures {
     // Choice 1326 is Gone Kitchin'
     new ChoiceAdventure(
         1326,
-        "Town",
+        "Neverending Party",
         "Neverending Party Kitchen",
         // Option...
         new Option("gain mys stats", 1),
@@ -5848,7 +5853,7 @@ public abstract class ChoiceAdventures {
     // Choice 1327 is Forward to the Back
     new ChoiceAdventure(
         1327,
-        "Town",
+        "Neverending Party",
         "Neverending Party Back Yard",
         // Option...
         new Option("gain mox stats", 1),
@@ -5860,7 +5865,7 @@ public abstract class ChoiceAdventures {
     // Choice 1328 is Basement Urges
     new ChoiceAdventure(
         1328,
-        "Town",
+        "Neverending Party",
         "Neverending Party Basement",
         // Option...
         new Option("gain mus stats", 1),

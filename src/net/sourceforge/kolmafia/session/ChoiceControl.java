@@ -2434,6 +2434,7 @@ public abstract class ChoiceControl {
         } else if (text.contains("skeleton store is right next door")
             || text.contains("I'll be here")) {
           QuestDatabase.setQuestProgress(Quest.MEATSMITH, QuestDatabase.STARTED);
+          Preferences.setBoolean("skeletonStoreAvailable", true);
         }
         break;
 
@@ -2459,6 +2460,7 @@ public abstract class ChoiceControl {
         // The Doctor is Out.  Of Herbs.
         if (ChoiceManager.lastDecision == 1) {
           QuestDatabase.setQuestProgress(Quest.DOC, QuestDatabase.STARTED);
+          Preferences.setBoolean("overgrownLotAvailable", true);
         } else if (ChoiceManager.lastDecision == 2) {
           QuestDatabase.setQuestProgress(Quest.DOC, QuestDatabase.FINISHED);
           ResultProcessor.processResult(ItemPool.get(ItemPool.FRAUDWORT, -3));
@@ -2473,6 +2475,7 @@ public abstract class ChoiceControl {
         // Lending a Hand (and a Foot)
         if (ChoiceManager.lastDecision == 1) {
           QuestDatabase.setQuestProgress(Quest.ARMORER, QuestDatabase.STARTED);
+          Preferences.setBoolean("madnessBakeryAvailable", true);
         } else if (ChoiceManager.lastDecision == 3) {
           QuestDatabase.setQuestIfBetter(Quest.ARMORER, QuestDatabase.STARTED);
         }

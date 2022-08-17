@@ -11,6 +11,7 @@ public class AdventurePool {
 
   public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
+  public static final int LIMERICK_DUNGEON = 19;
   public static final int FUN_HOUSE = 20;
   public static final int UNQUIET_GARVES = 21;
   public static final int TOWER_RUINS = 22;
@@ -55,10 +56,14 @@ public class AdventurePool {
   public static final int OUTSKIRTS_OF_THE_KNOB = 114;
   public static final int OASIS = 122;
   public static final int THEMTHAR_HILLS = 126;
-  public static final int WARTIME_FRAT_HOUSE_DISGUISED = 131;
+  public static final int FILTHWORM_HATCHING_CHAMBER = 127;
+  public static final int FILTHWORM_FEEDING_CHAMBER = 128;
+  public static final int FILTHWORM_GUARDS_CHAMBER = 129;
+  public static final int FILTHWORM_QUEENS_CHAMBER = 130;
+  public static final int WARTIME_HIPPY_CAMP_DISGUISED = 131;
   public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
   public static final int WARTIME_HIPPY_CAMP = 133;
-  public static final int WARTIME_HIPPY_CAMP_DISGUISED = 134;
+  public static final int WARTIME_FRAT_HOUSE_DISGUISED = 134;
   public static final int WARTIME_FRAT_HOUSE = 135;
   public static final int SONOFA_BEACH = 136;
   public static final int HAIKU_DUNGEON = 138;
@@ -196,7 +201,7 @@ public class AdventurePool {
   public static final int THE_CITY_OF_GOOOOLD = 434;
   public static final int SECRET_COUNCIL_WAREHOUSE = 437;
   public static final int PANDAMONIUM = 438;
-  public static final int SKELETON_STORE = 438;
+  public static final int SKELETON_STORE = 439;
   public static final int MADNESS_BAKERY = 440;
   public static final int OVERGROWN_LOT = 441;
   public static final int BARF_MOUNTAIN = 442;

@@ -327,6 +327,8 @@ public class QuestManager {
         handleTownRightChange(location, responseText);
       } else if (location.contains("whichplace=town_wrong")) {
         handleTownWrongChange(location, responseText);
+      } else if (location.contains("whichplace=town_market")) {
+        handleTownMarketChange(location, responseText);
       } else if (location.contains("whichplace=woods")) {
         handleWoodsChange(location, responseText);
       } else if (location.contains("whichplace=zeppelin")) {
@@ -403,6 +405,9 @@ public class QuestManager {
         Preferences.setBoolean("voteAlways", true);
       }
     }
+    if (responseText.contains("Madness Bakery")) {
+      Preferences.setBoolean("madnessBakeryAvailable", true);
+    }
   }
 
   private static void handleTownWrongChange(final String location, String responseText) {
@@ -418,6 +423,17 @@ public class QuestManager {
       }
       if (responseText.contains("Boxing Daycare") && !Preferences.getBoolean("daycareOpen")) {
         Preferences.setBoolean("_daycareToday", true);
+      }
+      if (responseText.contains("Overgrown Lot")) {
+        Preferences.setBoolean("overgrownLotAvailable", true);
+      }
+    }
+  }
+
+  private static void handleTownMarketChange(final String location, String responseText) {
+    if (!location.contains("action") && !KoLCharacter.inBadMoon()) {
+      if (responseText.contains("The Skeleton Store")) {
+        Preferences.setBoolean("skeletonStoreAvailable", true);
       }
     }
   }
