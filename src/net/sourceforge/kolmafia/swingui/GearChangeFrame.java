@@ -138,7 +138,15 @@ public class GearChangeFrame extends GenericFrame {
     RequestThread.executeMethodAfterInitialization(this, "validateSelections");
   }
 
-  public static void showModifiers(Object value, boolean isFamiliarItem) {
+  public static void showModifiers(Object value) {
+    var slot =
+        (value instanceof AdventureResult item)
+            ? EquipmentManager.consumeFilterToEquipmentType(ItemDatabase.getConsumptionType(item))
+            : -1;
+    showModifiers(value, slot);
+  }
+
+  public static void showModifiers(Object value, final int slot) {
     if (GearChangeFrame.INSTANCE == null) {
       return;
     }
@@ -150,11 +158,6 @@ public class GearChangeFrame extends GenericFrame {
 
     if (value instanceof AdventureResult item) {
       mods = new Modifiers();
-      var slot =
-          isFamiliarItem
-              ? EquipmentManager.FAMILIAR
-              : EquipmentManager.consumeFilterToEquipmentType(
-                  ItemDatabase.getConsumptionType(item));
       var taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
       KoLCharacter.addItemAdjustment(
           mods,
@@ -751,10 +754,7 @@ public class GearChangeFrame extends GenericFrame {
     public EquipmentComboBox(final LockableListModel<AdventureResult> model, final int slot) {
       super(model);
 
-      DefaultListCellRenderer renderer =
-          (slot == EquipmentManager.FAMILIAR)
-              ? ListCellRendererFactory.getFamiliarEquipmentRenderer()
-              : ListCellRendererFactory.getUsableEquipmentRenderer();
+      DefaultListCellRenderer renderer = ListCellRendererFactory.getUsableEquipmentRenderer(slot);
 
       this.setRenderer(renderer);
       this.addPopupMenuListener(new ChangeItemListener());

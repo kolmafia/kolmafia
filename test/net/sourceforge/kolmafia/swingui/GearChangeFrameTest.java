@@ -44,7 +44,7 @@ class GearChangeFrameTest {
 
     @Test
     void canShowBasicItemModifiers() {
-      GearChangeFrame.showModifiers(ItemPool.get(ItemPool.RAVIOLI_HAT), false);
+      GearChangeFrame.showModifiers(ItemPool.get(ItemPool.RAVIOLI_HAT));
       assertThat(
           modifierText(),
           equalTo(
@@ -55,9 +55,23 @@ class GearChangeFrameTest {
     void doesntShowItemModifiersForHatOnHatrack() {
       var cleanups = new Cleanups(withFamiliar(FamiliarPool.HATRACK));
       try (cleanups) {
-        GearChangeFrame.showModifiers(ItemPool.get(ItemPool.RAVIOLI_HAT), true);
+        GearChangeFrame.showModifiers(
+            ItemPool.get(ItemPool.RAVIOLI_HAT), EquipmentManager.FAMILIAR);
         assertThat(modifierText(), equalTo(""));
       }
+    }
+
+    @Test
+    void weaponsInOffhandSlotGetPowerDamage() {
+      GearChangeFrame.showModifiers(ItemPool.get(ItemPool.SEAL_CLUB), EquipmentManager.OFFHAND);
+      assertThat(modifierText(), equalTo("Weapon Dmg:<div align=right>+1.5</div>"));
+    }
+
+    @Test
+    void offhandsInOffhandSlotDoNotGetPowerDamage() {
+      GearChangeFrame.showModifiers(
+          ItemPool.get(ItemPool.BONERDAGON_SKULL), EquipmentManager.OFFHAND);
+      assertThat(modifierText(), equalTo("Spooky Dmg:<div align=right>+5.00</div>"));
     }
 
     @ParameterizedTest
@@ -72,7 +86,7 @@ class GearChangeFrameTest {
       if (spurs != null) cleanups.add(withEquipped(EquipmentManager.BOOTSPUR, spurs));
 
       try (cleanups) {
-        GearChangeFrame.showModifiers(ItemPool.get(ItemPool.COWBOY_BOOTS), false);
+        GearChangeFrame.showModifiers(ItemPool.get(ItemPool.COWBOY_BOOTS));
         assertThat(modifierText(), equalTo(mods));
       }
     }
@@ -86,7 +100,7 @@ class GearChangeFrameTest {
       var cleanups = new Cleanups(withProperty("backupCameraMode", setting == null ? "" : setting));
 
       try (cleanups) {
-        GearChangeFrame.showModifiers(ItemPool.get(ItemPool.BACKUP_CAMERA), false);
+        GearChangeFrame.showModifiers(ItemPool.get(ItemPool.BACKUP_CAMERA));
         assertThat(modifierText(), equalTo(mods));
       }
     }
