@@ -1244,8 +1244,18 @@ public class AdventureRequest extends GenericRequest {
   public enum Dinosaur {
     ARCHELON("archelon", "glass-shelled archelon that consumed "),
     CHICKEN("chicken", "primitive chicken that just ate "),
+    HOT_DILOPHOSAUR("dilophosaur", "hot-blooded dilophosaur that consumed ", "hot"),
+    COLD_DILOPHOSAUR("dilophosaur", "cold-blooded dilophosaur that consumed ", "cold"),
+    STENCH_DILOPHOSAUR("dilophosaur", "swamp dilophosaur that consumed ", "stench"),
     SPOOKY_DILOPHOSAUR("dilophosaur", "carrion-eating dilophosaur that consumed ", "spooky"),
+    SLEAZE_DILOPHOSAUR("dilophosaur", "slimy dilophosaur that consumed ", "sleaze"),
     HOT_FLATUSAURUS("flatusaurus", "steamy flatusaurus that recently devoured ", "hot"),
+    COLD_FLATUSAURUS("flatusaurus", "chilling flatusaurus that recently devoured ", "cold"),
+    STENCH_FLATUSAURUS(
+        "flatusaurus", "foul-smelling flatusaurus that recently devoured ", "stench"),
+    SPOOKY_FLATUSAURUS(
+        "flatusaurus", "mist-shrouded flatusaurus that recently devoured ", "spooky"),
+    SLEAZE_FLATUSAURUS("flatusaurus", "sweaty flatusaurus that recently devoured ", "sleaze"),
     GHOSTASAURUS("ghostasaurus", "ghostasaurus that swallowed the soul of "),
     KACHUNGASAUR("kachungasaur", "kachungasaur that consumed "),
     PTERODACTYL("pterodactyl", "high-altitude pterodactyl that just ate "),
