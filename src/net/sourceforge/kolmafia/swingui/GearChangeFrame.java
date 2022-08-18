@@ -138,7 +138,7 @@ public class GearChangeFrame extends GenericFrame {
     RequestThread.executeMethodAfterInitialization(this, "validateSelections");
   }
 
-  public static void showModifiers(Object value) {
+  public static void showModifiers(Object value, boolean isFamiliarItem) {
     if (GearChangeFrame.INSTANCE == null) {
       return;
     }
@@ -151,7 +151,10 @@ public class GearChangeFrame extends GenericFrame {
     if (value instanceof AdventureResult item) {
       mods = new Modifiers();
       var slot =
-          EquipmentManager.consumeFilterToEquipmentType(ItemDatabase.getConsumptionType(item));
+          isFamiliarItem
+              ? EquipmentManager.FAMILIAR
+              : EquipmentManager.consumeFilterToEquipmentType(
+                  ItemDatabase.getConsumptionType(item));
       var taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
       KoLCharacter.addItemAdjustment(
           mods,
@@ -248,7 +251,7 @@ public class GearChangeFrame extends GenericFrame {
     pane.getModifiersLabel().setText(buff.toString());
   }
 
-  private abstract class EquipmentTabPanel extends GenericPanel {
+  protected abstract class EquipmentTabPanel extends GenericPanel {
     protected JLabel modifiersLabel;
     protected int modifiersWidth;
 
