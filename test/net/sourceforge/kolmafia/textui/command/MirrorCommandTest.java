@@ -55,28 +55,17 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Open the mirror
     execute("chats/test_writes_html.txt");
     // When `> ` is used as a prefix, the RequestLogger will colorize it assuming its a command,
-    // thus
-    // mafia will add HTML.  See angleBracketDoesNotGenerateHTMLtoLog in RequestLoggerTest
+    // thus mafia will add HTML.  See angleBracketDoesNotGenerateHTMLtoLog in RequestLoggerTest
     RequestLogger.printLine("> Wassup?");
-    // Log another line, this should be raw, with no added HTML.
+    // Log another line, mafia will add a br.
     RequestLogger.printLine("Raw Line");
     // Close the mirror
     execute("");
     String mirrorOutput = getMirrorLog("test_writes_html.txt");
     assertEquals(
-        " <font color=olive>> Wassup?</font><br>\n" + "Raw Line",
+        " <font color=olive>> Wassup?</font><br>\n" + "Raw Line<br>",
         mirrorOutput,
         "Unexpected content in mirror.");
-  }
-
-  @Test
-  public void testMirrorDoesNotAddHTML() {
-    // Open the mirror
-    execute("chats/test_writes.txt");
-    RequestLogger.printLine("Raw Line");
-    execute("");
-    String mirrorOutput = getMirrorLog("test_writes.txt");
-    assertEquals("Raw Line", mirrorOutput, "Unexpected content in mirror.");
   }
 
   @Test
@@ -106,7 +95,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     // Read the log
     String mirrorOutput = getMirrorLog("test_mirror_list_strings.txt");
     // Test that the output matches as expected
-    assertEquals("Line 1<br>Line 2</pre>", mirrorOutput, "Unexpected content in mirror.");
+    assertEquals("Line 1<br>Line 2<br></pre>", mirrorOutput, "Unexpected content in mirror.");
   }
 
   @Test
