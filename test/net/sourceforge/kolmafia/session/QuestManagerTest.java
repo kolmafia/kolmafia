@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
@@ -10,6 +11,7 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
+import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Item.isInInventory;
@@ -1433,8 +1435,31 @@ public class QuestManagerTest {
     }
 
     @Test
+    public void willStartHiddenTempleQuestProfessorFanning() {
+      setupFakeClient();
+
+      // "Sure, right. So I've got a 'quest' for you. See all the vines growing
+      // on the rock? I could climb up with those, but they need
+      // strengthening. So I need you to pick up a couple things for me."
+
+      var cleanup =
+          new Cleanups(
+              withNextResponse(200, html("request/test_dakota_1.html")),
+              withQuestProgress(Quest.TEMPLE, QuestDatabase.UNSTARTED));
+
+      try (cleanup) {
+        assertFalse(KoLCharacter.getTempleUnlocked());
+        var request = new PlaceRequest("woods", "woods_dakota_anim");
+        request.run();
+
+        assertThat(Quest.TEMPLE, isStarted());
+        assertFalse(KoLCharacter.getTempleUnlocked());
+      }
+    }
+
+    @Test
     public void willOpenHiddenTempleProfessorFanning() {
-      var builder = new FakeHttpClientBuilder();
+      setupFakeClient();
 
       // "I never told you my name!" you shout back, but he's already
       // gone. Grumbling, you make a note of the temple's location on your
@@ -1443,10 +1468,10 @@ public class QuestManagerTest {
       var ascension = 50;
       var cleanup =
           new Cleanups(
+              withNextResponse(200, html("request/test_dakota_2.html")),
               withItem(ItemPool.BENDY_STRAW),
               withItem(ItemPool.PLANT_FOOD),
               withItem(ItemPool.SEWING_KIT),
-              withHttpClientBuilder(builder),
               // The Quest SHOULD suffice...
               withQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED),
               // But we have a legacy property which tracks the same thing.
@@ -1456,17 +1481,11 @@ public class QuestManagerTest {
       try (cleanup) {
         assertFalse(KoLCharacter.getTempleUnlocked());
         var request = new PlaceRequest("woods", "woods_dakota");
-        builder.client.setResponse(200, "make a note of the temple's location");
         request.run();
 
         assertThat(Quest.TEMPLE, isFinished());
         assertEquals(Preferences.getInteger("lastTempleUnlock"), ascension);
         assertTrue(KoLCharacter.getTempleUnlocked());
-
-        var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(2));
-        assertPostRequest(requests.get(0), "/place.php", "whichplace=woods&action=woods_dakota");
-        assertGetRequest(requests.get(1), "/woods.php", null);
       }
     }
 
