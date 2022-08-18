@@ -82,6 +82,24 @@ public class EnumeratedWrapper extends ScriptableObject {
         new ProxyRecordValue.ItemProxy(DataTypes.makeIntValue(1)));
   }
 
+  private static EnumeratedWrapper getValue(Scriptable scope, Type type, Value value) {
+    Class<?> proxyRecordValueClass = null;
+
+    for (Class<?> testRecordValueClass : ProxyRecordValue.class.getDeclaredClasses()) {
+      if (testRecordValueClass.getSimpleName().toLowerCase().startsWith(type.getName())) {
+        proxyRecordValueClass = testRecordValueClass;
+        break;
+      }
+    }
+
+    return EnumeratedWrapper.wrap(scope, proxyRecordValueClass, value);
+  }
+
+  public static EnumeratedWrapper getNone(Scriptable scope, Type type) {
+    Value rawValue = type.parseValue(null, true);
+    return getValue(scope, type, rawValue);
+  }
+
   private static EnumeratedWrapper getOne(Scriptable scope, Type type, Object key) {
     Value rawValue = type.initialValue();
     if (key instanceof String || key instanceof ConsString) {
@@ -96,14 +114,7 @@ public class EnumeratedWrapper extends ScriptableObject {
       throw new ScriptException("Bad " + type.getName() + " value: " + key.toString());
     }
 
-    Class<?> proxyRecordValueClass = null;
-    for (Class<?> testRecordValueClass : ProxyRecordValue.class.getDeclaredClasses()) {
-      if (testRecordValueClass.getSimpleName().toLowerCase().startsWith(type.getName())) {
-        proxyRecordValueClass = testRecordValueClass;
-      }
-    }
-
-    return EnumeratedWrapper.wrap(scope, proxyRecordValueClass, rawValue);
+    return getValue(scope, type, rawValue);
   }
 
   public static Object genericGet(
