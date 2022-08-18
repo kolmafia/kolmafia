@@ -45,7 +45,10 @@ class GearChangeFrameTest {
     @Test
     void canShowBasicItemModifiers() {
       GearChangeFrame.showModifiers(ItemPool.get(ItemPool.RAVIOLI_HAT), false);
-      assertThat(modifierText(), equalTo("Dmg Absorption:<div align=right>+10.00</div>Spell Dmg:<div align=right>+1.00</div>"));
+      assertThat(
+          modifierText(),
+          equalTo(
+              "Dmg Absorption:<div align=right>+10.00</div>Spell Dmg:<div align=right>+1.00</div>"));
     }
 
     @Test
