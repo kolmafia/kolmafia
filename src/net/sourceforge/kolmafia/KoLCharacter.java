@@ -5372,7 +5372,7 @@ public abstract class KoLCharacter {
     return newModifiers;
   }
 
-  private static void addItemAdjustment(
+  public static void addItemAdjustment(
       Modifiers newModifiers,
       int slot,
       AdventureResult item,
@@ -5475,12 +5475,11 @@ public abstract class KoLCharacter {
 
         case ItemPool.FOLDER_HOLDER:
           // Apply folders
-          for (int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i) {
-            AdventureResult folder = equipment[i];
-            if (folder != null && folder != EquipmentRequest.UNEQUIP) {
-              newModifiers.add(Modifiers.getItemModifiers(folder.getItemId()));
-            }
-          }
+          EquipmentManager.FOLDER_SLOTS.stream()
+              .map(EquipmentManager::getEquipment)
+              .filter(f -> f != null && f != EquipmentRequest.UNEQUIP)
+              .map(AdventureResult::getItemId)
+              .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
           break;
 
         case ItemPool.COWBOY_BOOTS:

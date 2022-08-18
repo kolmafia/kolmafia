@@ -74,7 +74,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value, false);
+        GearChangeFrame.showModifiers(value);
       }
 
       if (toHTMLFunction != null) {
@@ -781,7 +781,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value, false);
+        GearChangeFrame.showModifiers(value);
       }
 
       AdventureResult ar = (AdventureResult) value;
@@ -855,7 +855,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value, true);
+        GearChangeFrame.showModifiers(value);
       }
 
       AdventureResult ar = (AdventureResult) value;
@@ -898,7 +898,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value, false);
+        GearChangeFrame.showModifiers(value);
       }
 
       return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

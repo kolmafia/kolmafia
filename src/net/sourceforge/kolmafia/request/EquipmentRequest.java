@@ -442,11 +442,12 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    for (int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; i++) {
-      if (i != slot && folder.equals(EquipmentManager.getEquipment(i))) {
-        this.error = "You can't equip two of the same folder";
-        return;
-      }
+    if (EquipmentManager.FOLDER_SLOTS.stream()
+        .filter(s -> s != slot)
+        .map(EquipmentManager::getEquipment)
+        .anyMatch(folder::equals)) {
+      this.error = "You can't equip two of the same folder";
+      return;
     }
 
     // Find out what item is being equipped

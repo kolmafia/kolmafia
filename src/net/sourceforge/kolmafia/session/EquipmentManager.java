@@ -89,6 +89,8 @@ public class EquipmentManager {
   private static final List<List<AdventureResult>> historyLists =
       new ArrayList<>(EquipmentManager.ALL_SLOTS);
 
+  public static List<Integer> FOLDER_SLOTS = List.of(FOLDER1, FOLDER2, FOLDER3, FOLDER4, FOLDER5);
+
   private static int fakeHandCount = 0;
   private static int stinkyCheeseLevel = 0;
 
@@ -235,7 +237,7 @@ public class EquipmentManager {
     } else if (consumeType == KoLConstants.CONSUME_FOLDER) {
       // Folders are similar to stickers
 
-      for (int slot = EquipmentManager.FOLDER1; slot <= EquipmentManager.FOLDER5; ++slot) {
+      for (int slot : EquipmentManager.FOLDER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
