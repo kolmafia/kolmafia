@@ -532,6 +532,7 @@ public class AdventureRequest extends GenericRequest {
     encounter = AdventureRequest.handleIntergnat(encounter);
     encounter = AdventureRequest.handleNuclearAutumn(encounter);
     encounter = AdventureRequest.handleMask(encounter);
+    encounter = AdventureRequest.handleDinosaurs(encounter);
 
     // KoL now provides MONSTERID in fight responseText.
     Matcher m = MONSTERID_PATTERN.matcher(responseText);
@@ -1236,6 +1237,68 @@ public class AdventureRequest extends GenericRequest {
     if (monsterName.contains(" AND TESLA!")) {
       MonsterData.lastRandomModifiers.add("tesla");
       return StringUtilities.globalStringDelete(monsterName, " AND TESLA!");
+    }
+    return monsterName;
+  }
+
+  public enum Dinosaur {
+    ARCHELON("archelon", "glass-shelled archelon that consumed "),
+    CHICKEN("chicken", "primitive chicken that just ate "),
+    HOT_DILOPHOSAUR("dilophosaur", "hot-blooded dilophosaur that consumed ", "hot"),
+    COLD_DILOPHOSAUR("dilophosaur", "cold-blooded dilophosaur that consumed ", "cold"),
+    STENCH_DILOPHOSAUR("dilophosaur", "swamp dilophosaur that consumed ", "stench"),
+    SPOOKY_DILOPHOSAUR("dilophosaur", "carrion-eating dilophosaur that consumed ", "spooky"),
+    SLEAZE_DILOPHOSAUR("dilophosaur", "slimy dilophosaur that consumed ", "sleaze"),
+    HOT_FLATUSAURUS("flatusaurus", "steamy flatusaurus that recently devoured ", "hot"),
+    COLD_FLATUSAURUS("flatusaurus", "chilling flatusaurus that recently devoured ", "cold"),
+    STENCH_FLATUSAURUS(
+        "flatusaurus", "foul-smelling flatusaurus that recently devoured ", "stench"),
+    SPOOKY_FLATUSAURUS(
+        "flatusaurus", "mist-shrouded flatusaurus that recently devoured ", "spooky"),
+    SLEAZE_FLATUSAURUS("flatusaurus", "sweaty flatusaurus that recently devoured ", "sleaze"),
+    GHOSTASAURUS("ghostasaurus", "ghostasaurus that swallowed the soul of "),
+    KACHUNGASAUR("kachungasaur", "kachungasaur that consumed "),
+    PTERODACTYL("pterodactyl", "high-altitude pterodactyl that just ate "),
+    SPIKOLODON("spikolodon", "spikolodon that recently devoured "),
+    VELOCIRAPTOR("velociraptor", "supersonic velociraptor that recently devoured ");
+
+    private final String name;
+    private final String description;
+    private final String element;
+
+    private Dinosaur(String name, String description) {
+      this(name, description, null);
+    }
+
+    private Dinosaur(String name, String description, String element) {
+      this.name = name;
+      this.description = description;
+      this.element = element;
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getDescription() {
+      return this.description;
+    }
+
+    public String getElement() {
+      return this.element;
+    }
+  }
+
+  private static String handleDinosaurs(String monsterName) {
+    for (Dinosaur dino : Dinosaur.values()) {
+      if (monsterName.contains(dino.getDescription())) {
+        MonsterData.lastRandomModifiers.add(dino.getName());
+        String element = dino.getElement();
+        if (element != null) {
+          MonsterData.lastRandomModifiers.add(element);
+        }
+        return StringUtilities.globalStringDelete(monsterName, dino.getDescription());
+      }
     }
     return monsterName;
   }
