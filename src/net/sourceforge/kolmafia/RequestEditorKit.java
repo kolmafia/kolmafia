@@ -296,7 +296,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.addBugReportWarning(buffer);
     } else if (location.startsWith("adventure.php")) {
       RequestEditorKit.fixTavernCellar(buffer);
-      // RequestEditorKit.fixBallroom1( buffer );
+      RequestEditorKit.fixBallroom1(buffer);
       RequestEditorKit.fixDucks(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.fixBallroom2(buffer);
@@ -2337,21 +2337,18 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void fixBallroom1(final StringBuffer buffer) {
     // Things that go BEFORE Stationary Buttons have been generated
 
-    String link = null;
-
-    if (buffer.indexOf("Having a Ball in the Ballroom") != -1) {
-      link =
-          "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady Spookyraven on the Third Floor</a>";
-    }
-
-    if (link == null) {
+    if (buffer.indexOf("Having a Ball in the Ballroom") == -1) {
       return;
     }
 
     int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
-    if (index != -1) {
-      buffer.insert(index, link);
+    if (index == -1) {
+      return;
     }
+
+    String link =
+        "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady Spookyraven on the Third Floor</a>";
+    buffer.insert(index, link);
   }
 
   private static final AdventureResult DANCE_CARD = ItemPool.get(ItemPool.DANCE_CARD, 1);
@@ -2359,27 +2356,25 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void fixBallroom2(final StringBuffer buffer) {
     // Things that go AFTER Stationary Buttons have been generated
 
-    String link = null;
-
-    if (buffer.indexOf("Rotting Matilda") != -1) {
-      // Give player a link to use another dance card
-      if (DANCE_CARD.getCount(KoLConstants.inventory) <= 0) {
-        return;
-      }
-      link =
-          "<p><a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\">Use another dance card</a>";
+    if (buffer.indexOf("Rotting Matilda") == -1) {
+      return;
     }
 
-    if (link == null) {
+    // Give player a link to use another dance card
+    if (DANCE_CARD.getCount(KoLConstants.inventory) <= 0) {
       return;
     }
 
     int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
-    if (index != -1) {
-      buffer.insert(index, link);
+    if (index == -1) {
+      return;
     }
+
+    String link =
+        "<p><a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\">Use another dance card</a>";
+    buffer.insert(index, link);
   }
 
   private static void fixGovernmentLab(final StringBuffer buffer) {
