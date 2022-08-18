@@ -4724,16 +4724,17 @@ public abstract class KoLCharacter {
   }
 
   public static boolean hasEquipped(
-      AdventureResult[] equipment, final AdventureResult item, List<Integer> equipmentSlots) {
-    return equipmentSlots.stream().anyMatch(s -> KoLCharacter.hasEquipped(equipment, item, s));
+      AdventureResult[] equipment, final AdventureResult item, int[] equipmentSlots) {
+    return Arrays.stream(equipmentSlots)
+        .anyMatch(s -> KoLCharacter.hasEquipped(equipment, item, s));
   }
 
   public static boolean hasEquipped(AdventureResult[] equipment, final AdventureResult item) {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
       case KoLConstants.EQUIP_WEAPON -> KoLCharacter.hasEquipped(
-          equipment, item, List.of(EquipmentManager.WEAPON, EquipmentManager.OFFHAND));
+          equipment, item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
       case KoLConstants.EQUIP_OFFHAND -> KoLCharacter.hasEquipped(
-          equipment, item, List.of(EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR));
+          equipment, item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
       case KoLConstants.EQUIP_HAT -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.HAT);
       case KoLConstants.EQUIP_SHIRT -> KoLCharacter.hasEquipped(
@@ -4743,27 +4744,13 @@ public abstract class KoLCharacter {
       case KoLConstants.EQUIP_CONTAINER -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.CONTAINER);
       case KoLConstants.EQUIP_ACCESSORY -> KoLCharacter.hasEquipped(
-          equipment,
-          item,
-          List.of(
-              EquipmentManager.ACCESSORY1,
-              EquipmentManager.ACCESSORY2,
-              EquipmentManager.ACCESSORY3));
+          equipment, item, EquipmentManager.ACCESSORY_SLOTS);
       case KoLConstants.CONSUME_STICKER -> KoLCharacter.hasEquipped(
-          equipment,
-          item,
-          List.of(EquipmentManager.STICKER1, EquipmentManager.STICKER2, EquipmentManager.STICKER3));
+          equipment, item, EquipmentManager.STICKER_SLOTS);
       case KoLConstants.CONSUME_CARD -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.CARDSLEEVE);
       case KoLConstants.CONSUME_FOLDER -> KoLCharacter.hasEquipped(
-          equipment,
-          item,
-          List.of(
-              EquipmentManager.FOLDER1,
-              EquipmentManager.FOLDER2,
-              EquipmentManager.FOLDER3,
-              EquipmentManager.FOLDER4,
-              EquipmentManager.FOLDER5));
+          equipment, item, EquipmentManager.FOLDER_SLOTS);
       case KoLConstants.EQUIP_FAMILIAR -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.FAMILIAR);
       default -> false;
@@ -5455,12 +5442,11 @@ public abstract class KoLCharacter {
         case ItemPool.STICKER_SWORD:
         case ItemPool.STICKER_CROSSBOW:
           // Apply stickers
-          for (int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i) {
-            AdventureResult sticker = equipment[i];
-            if (sticker != null && sticker != EquipmentRequest.UNEQUIP) {
-              newModifiers.add(Modifiers.getItemModifiers(sticker.getItemId()));
-            }
-          }
+          Arrays.stream(EquipmentManager.STICKER_SLOTS)
+              .mapToObj(i -> equipment[i])
+              .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
+              .map(AdventureResult::getItemId)
+              .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
           break;
 
         case ItemPool.CARD_SLEEVE:
@@ -5475,8 +5461,8 @@ public abstract class KoLCharacter {
 
         case ItemPool.FOLDER_HOLDER:
           // Apply folders
-          EquipmentManager.FOLDER_SLOTS.stream()
-              .map(EquipmentManager::getEquipment)
+          Arrays.stream(EquipmentManager.FOLDER_SLOTS)
+              .mapToObj(EquipmentManager::getEquipment)
               .filter(f -> f != null && f != EquipmentRequest.UNEQUIP)
               .map(AdventureResult::getItemId)
               .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));

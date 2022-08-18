@@ -456,7 +456,7 @@ public class GearChangeFrame extends GenericFrame {
 
     // Start with accessories
 
-    for (int i = EquipmentManager.ACCESSORY1; i <= EquipmentManager.ACCESSORY3; ++i) {
+    for (int i : EquipmentManager.ACCESSORY_SLOTS) {
       if (pieces[i] != null) {
         RequestThread.postRequest(new EquipmentRequest(pieces[i], i, true));
         pieces[i] = null;
