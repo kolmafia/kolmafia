@@ -4757,65 +4757,36 @@ public abstract class KoLCharacter {
     };
   }
 
+  private static int equipmentSlotFromSubset(final AdventureResult item, final int[] slots) {
+    return Arrays.stream(slots)
+        .filter(s -> KoLCharacter.hasEquipped(item, s))
+        .findFirst()
+        .orElse(EquipmentManager.NONE);
+  }
+
+  private static int equipmentSlotFromSubset(final AdventureResult item, final int slot) {
+    return KoLCharacter.hasEquipped(item, slot) ? slot : EquipmentManager.NONE;
+  }
+
   public static final int equipmentSlot(final AdventureResult item) {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case KoLConstants.EQUIP_WEAPON -> KoLCharacter.hasEquipped(item, EquipmentManager.WEAPON)
-          ? EquipmentManager.WEAPON
-          : KoLCharacter.hasEquipped(item, EquipmentManager.OFFHAND)
-              ? EquipmentManager.OFFHAND
-              : EquipmentManager.NONE;
-      case KoLConstants.EQUIP_OFFHAND -> KoLCharacter.hasEquipped(item, EquipmentManager.OFFHAND)
-          ? EquipmentManager.OFFHAND
-          :
-          // Left-Hand Man gives usual powers when holding an off-hand item
-          KoLCharacter.hasEquipped(item, EquipmentManager.FAMILIAR)
-              ? EquipmentManager.FAMILIAR
-              : EquipmentManager.NONE;
-      case KoLConstants.EQUIP_HAT -> KoLCharacter.hasEquipped(item, EquipmentManager.HAT)
-          ? EquipmentManager.HAT
-          : EquipmentManager.NONE;
-      case KoLConstants.EQUIP_SHIRT -> KoLCharacter.hasEquipped(item, EquipmentManager.SHIRT)
-          ? EquipmentManager.SHIRT
-          : EquipmentManager.NONE;
-      case KoLConstants.EQUIP_PANTS -> KoLCharacter.hasEquipped(item, EquipmentManager.PANTS)
-          ? EquipmentManager.PANTS
-          : EquipmentManager.NONE;
-      case KoLConstants.EQUIP_CONTAINER -> KoLCharacter.hasEquipped(
-              item, EquipmentManager.CONTAINER)
-          ? EquipmentManager.CONTAINER
-          : EquipmentManager.NONE;
-      case KoLConstants.EQUIP_ACCESSORY -> KoLCharacter.hasEquipped(
-              item, EquipmentManager.ACCESSORY1)
-          ? EquipmentManager.ACCESSORY1
-          : KoLCharacter.hasEquipped(item, EquipmentManager.ACCESSORY2)
-              ? EquipmentManager.ACCESSORY2
-              : KoLCharacter.hasEquipped(item, EquipmentManager.ACCESSORY3)
-                  ? EquipmentManager.ACCESSORY3
-                  : EquipmentManager.NONE;
-      case KoLConstants.CONSUME_STICKER -> KoLCharacter.hasEquipped(item, EquipmentManager.STICKER1)
-          ? EquipmentManager.STICKER1
-          : KoLCharacter.hasEquipped(item, EquipmentManager.STICKER2)
-              ? EquipmentManager.STICKER2
-              : KoLCharacter.hasEquipped(item, EquipmentManager.STICKER3)
-                  ? EquipmentManager.STICKER3
-                  : EquipmentManager.NONE;
-      case KoLConstants.CONSUME_CARD -> KoLCharacter.hasEquipped(item, EquipmentManager.CARDSLEEVE)
-          ? EquipmentManager.CARDSLEEVE
-          : EquipmentManager.NONE;
-      case KoLConstants.CONSUME_FOLDER -> KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER1)
-          ? EquipmentManager.FOLDER1
-          : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER2)
-              ? EquipmentManager.FOLDER2
-              : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER3)
-                  ? EquipmentManager.FOLDER3
-                  : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER4)
-                      ? EquipmentManager.FOLDER4
-                      : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER5)
-                          ? EquipmentManager.FOLDER5
-                          : EquipmentManager.NONE;
-      case KoLConstants.EQUIP_FAMILIAR -> KoLCharacter.hasEquipped(item, EquipmentManager.FAMILIAR)
-          ? EquipmentManager.FAMILIAR
-          : EquipmentManager.NONE;
+      case KoLConstants.EQUIP_WEAPON -> equipmentSlotFromSubset(
+          item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
+      case KoLConstants.EQUIP_OFFHAND -> equipmentSlotFromSubset(
+          item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
+      case KoLConstants.EQUIP_HAT -> equipmentSlotFromSubset(item, EquipmentManager.HAT);
+      case KoLConstants.EQUIP_SHIRT -> equipmentSlotFromSubset(item, EquipmentManager.SHIRT);
+      case KoLConstants.EQUIP_PANTS -> equipmentSlotFromSubset(item, EquipmentManager.PANTS);
+      case KoLConstants.EQUIP_CONTAINER -> equipmentSlotFromSubset(
+          item, EquipmentManager.CONTAINER);
+      case KoLConstants.EQUIP_ACCESSORY -> equipmentSlotFromSubset(
+          item, EquipmentManager.ACCESSORY_SLOTS);
+      case KoLConstants.CONSUME_STICKER -> equipmentSlotFromSubset(
+          item, EquipmentManager.STICKER_SLOTS);
+      case KoLConstants.CONSUME_CARD -> equipmentSlotFromSubset(item, EquipmentManager.CARDSLEEVE);
+      case KoLConstants.CONSUME_FOLDER -> equipmentSlotFromSubset(
+          item, EquipmentManager.FOLDER_SLOTS);
+      case KoLConstants.EQUIP_FAMILIAR -> equipmentSlotFromSubset(item, EquipmentManager.FAMILIAR);
       default -> EquipmentManager.NONE;
     };
   }
