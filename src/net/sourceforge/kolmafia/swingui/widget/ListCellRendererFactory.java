@@ -74,7 +74,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value, false);
+        GearChangeFrame.showModifiers(value);
       }
 
       if (toHTMLFunction != null) {
@@ -760,12 +760,15 @@ public class ListCellRendererFactory {
     }
   }
 
-  public static final DefaultListCellRenderer getUsableEquipmentRenderer() {
-    return new UsableEquipmentRenderer();
+  public static final DefaultListCellRenderer getUsableEquipmentRenderer(final int slot) {
+    return new UsableEquipmentRenderer(slot);
   }
 
   private static class UsableEquipmentRenderer extends DefaultListCellRenderer {
-    public UsableEquipmentRenderer() {
+    private int slot;
+
+    public UsableEquipmentRenderer(final int slot) {
+      this.slot = slot;
       this.setOpaque(true);
     }
 
@@ -781,23 +784,28 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value, false);
+        GearChangeFrame.showModifiers(value, slot);
       }
 
       AdventureResult ar = (AdventureResult) value;
       int equipmentType = ItemDatabase.getConsumptionType(ar.getItemId());
 
       int power = EquipmentDatabase.getPower(ar.getItemId());
-      String stringForm = null;
+      String stringForm;
 
-      if (equipmentType == KoLConstants.EQUIP_FAMILIAR || ar.equals(EquipmentRequest.UNEQUIP)) {
-        if (ar.equals(EquipmentRequest.UNEQUIP)) {
-          stringForm = ar.getName();
-        } else if (KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().canEquip(ar)) {
-          stringForm = ar.getName();
-        } else {
-          stringForm = "<font color=gray>" + ar.getName() + "</font>";
+      if (equipmentType == KoLConstants.EQUIP_FAMILIAR) {
+        stringForm = ar.getName();
+
+        String effect = Modifiers.getFamiliarEffect(ar.getName());
+        if (effect != null) {
+          stringForm += " (" + effect + ")";
         }
+
+        if (KoLCharacter.getFamiliar() == null || !KoLCharacter.getFamiliar().canEquip(ar)) {
+          stringForm = "<font color=gray>" + stringForm + "</font>";
+        }
+      } else if (ar.equals(EquipmentRequest.UNEQUIP)) {
+        stringForm = ar.getName();
       } else {
         if (equipmentType == KoLConstants.EQUIP_ACCESSORY) {
           int count;
@@ -838,45 +846,6 @@ public class ListCellRendererFactory {
     }
   }
 
-  public static final DefaultListCellRenderer getFamiliarEquipmentRenderer() {
-    return new FamiliarEquipmentRenderer();
-  }
-
-  private static class FamiliarEquipmentRenderer extends DefaultListCellRenderer {
-    @Override
-    public Component getListCellRendererComponent(
-        final JList<?> list,
-        final Object value,
-        final int index,
-        final boolean isSelected,
-        final boolean cellHasFocus) {
-      if (!(value instanceof AdventureResult)) {
-        return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-      }
-
-      if (isSelected) {
-        GearChangeFrame.showModifiers(value, true);
-      }
-
-      AdventureResult ar = (AdventureResult) value;
-      String stringForm = ar.getName();
-
-      String effect = Modifiers.getFamiliarEffect(ar.getName());
-      if (effect != null) {
-        stringForm += " (" + effect + ")";
-      }
-
-      if (KoLCharacter.getFamiliar() == null || !KoLCharacter.getFamiliar().canEquip(ar)) {
-        stringForm = "<html><font color=gray>" + stringForm + "</font></html>";
-      }
-
-      JLabel defaultComponent =
-          (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-      defaultComponent.setText(stringForm);
-      return defaultComponent;
-    }
-  }
-
   public static final DefaultListCellRenderer getFamiliarRenderer() {
     return new FamiliarRenderer();
   }
@@ -898,7 +867,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value, false);
+        GearChangeFrame.showModifiers(value);
       }
 
       return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

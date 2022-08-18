@@ -89,6 +89,23 @@ public class EquipmentManager {
   private static final List<List<AdventureResult>> historyLists =
       new ArrayList<>(EquipmentManager.ALL_SLOTS);
 
+  public static final int[] FOLDER_SLOTS =
+      new int[] {
+        EquipmentManager.FOLDER1,
+        EquipmentManager.FOLDER2,
+        EquipmentManager.FOLDER3,
+        EquipmentManager.FOLDER4,
+        EquipmentManager.FOLDER5,
+      };
+
+  public static int[] ACCESSORY_SLOTS =
+      new int[] {
+        EquipmentManager.ACCESSORY1, EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3
+      };
+
+  public static int[] STICKER_SLOTS =
+      new int[] {EquipmentManager.STICKER1, EquipmentManager.STICKER2, EquipmentManager.STICKER3};
+
   private static int fakeHandCount = 0;
   private static int stinkyCheeseLevel = 0;
 
@@ -225,7 +242,7 @@ public class EquipmentManager {
       // Make sure the current sticker in each slot remains in the list, even if
       // there are no more of that type in inventory.
 
-      for (int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot) {
+      for (int slot : EquipmentManager.STICKER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
@@ -235,7 +252,7 @@ public class EquipmentManager {
     } else if (consumeType == KoLConstants.CONSUME_FOLDER) {
       // Folders are similar to stickers
 
-      for (int slot = EquipmentManager.FOLDER1; slot <= EquipmentManager.FOLDER5; ++slot) {
+      for (int slot : EquipmentManager.FOLDER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {

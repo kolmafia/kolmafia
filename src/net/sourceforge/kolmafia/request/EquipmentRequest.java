@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -442,11 +443,12 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    for (int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; i++) {
-      if (i != slot && folder.equals(EquipmentManager.getEquipment(i))) {
-        this.error = "You can't equip two of the same folder";
-        return;
-      }
+    if (Arrays.stream(EquipmentManager.FOLDER_SLOTS)
+        .filter(s -> s != slot)
+        .mapToObj(EquipmentManager::getEquipment)
+        .anyMatch(folder::equals)) {
+      this.error = "You can't equip two of the same folder";
+      return;
     }
 
     // Find out what item is being equipped
@@ -749,17 +751,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     return EquipmentRequest.availableSlot(STICKER_SLOTS);
   }
 
-  public static final int[] FOLDER_SLOTS =
-      new int[] {
-        EquipmentManager.FOLDER1,
-        EquipmentManager.FOLDER2,
-        EquipmentManager.FOLDER3,
-        EquipmentManager.FOLDER4,
-        EquipmentManager.FOLDER5,
-      };
-
-  public static final int availableFolder() {
-    return EquipmentRequest.availableSlot(FOLDER_SLOTS, KoLCharacter.inHighschool() ? 5 : 3);
+  public static int availableFolder() {
+    return EquipmentRequest.availableSlot(
+        EquipmentManager.FOLDER_SLOTS, KoLCharacter.inHighschool() ? 5 : 3);
   }
 
   public String getOutfitName() {
@@ -1171,7 +1165,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public static final void parseBedazzlements(final String responseText) {
     Matcher matcher = EquipmentRequest.STICKER_PATTERN.matcher(responseText);
-    for (int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot) {
+    for (int slot : EquipmentManager.STICKER_SLOTS) {
       if (!matcher.find()) {
         return; // presumably doesn't have a sticker weapon
       }
@@ -1830,16 +1824,12 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     // Calculate accessory fill order
-    int[] accessories =
-        new int[] {
-          EquipmentManager.ACCESSORY1, EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3
-        };
     int accessoryIndex = 0;
 
     // Consume unfilled slots from 1 to 3
-    for (int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; slot++) {
+    for (int slot : EquipmentManager.ACCESSORY_SLOTS) {
       if (oldEquipment[slot] == EquipmentRequest.UNEQUIP) {
-        accessories[accessoryIndex++] = slot;
+        EquipmentManager.ACCESSORY_SLOTS[accessoryIndex++] = slot;
       }
     }
     // Consume filled slots from 3 to 1
@@ -1848,7 +1838,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         slot--) {
       if (oldEquipment[slot] != EquipmentRequest.UNEQUIP
           && newEquipment[slot] == EquipmentRequest.UNEQUIP) {
-        accessories[accessoryIndex++] = slot;
+        EquipmentManager.ACCESSORY_SLOTS[accessoryIndex++] = slot;
       }
     }
 
@@ -1889,7 +1879,7 @@ public class EquipmentRequest extends PasswordHashRequest {
             // KoL error: four accessories
             continue;
           }
-          slot = accessories[accessoryIndex++];
+          slot = EquipmentManager.ACCESSORY_SLOTS[accessoryIndex++];
           break;
 
         case EquipmentManager.WEAPON:
