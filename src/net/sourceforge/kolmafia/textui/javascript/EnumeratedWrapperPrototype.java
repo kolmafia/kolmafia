@@ -62,6 +62,9 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
           allFunction, "typeName", getClassName(), DONTENUM | READONLY | PERMANENT);
       constructor.defineProperty("all", allFunction, DONTENUM | READONLY | PERMANENT);
 
+      constructor.defineProperty(
+          "none", EnumeratedWrapper.getNone(scope, type), DONTENUM | READONLY | PERMANENT);
+
       constructor.sealObject();
 
       for (String methodName : new String[] {"toString"}) {
