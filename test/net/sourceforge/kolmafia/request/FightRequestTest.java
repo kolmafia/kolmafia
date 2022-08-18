@@ -62,6 +62,7 @@ public class FightRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("");
     KoLCharacter.reset("FightRequestTest");
+    Preferences.saveSettingsToFile = false;
     KoLConstants.availableCombatSkillsList.clear();
     KoLConstants.availableCombatSkillsSet.clear();
   }
@@ -260,10 +261,10 @@ public class FightRequestTest {
 
   @Test
   public void voidMonsterIncrementationTest() {
-    var cleanups = new Cleanups(withFight(0));
+    var cleanups =
+        new Cleanups(withFight(0), withNextMonster("void slab"), withProperty("_voidFreeFights"));
 
     try (cleanups) {
-      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("void slab"));
       parseCombatData("request/test_fight_void_monster.html");
       assertEquals(5, Preferences.getInteger("_voidFreeFights"));
     }
@@ -334,30 +335,37 @@ public class FightRequestTest {
 
     @Test
     public void rememberNewMonsterForLocket() {
-      assertFalse(LocketManager.remembersMonster(1568));
+      var SLOPPY_SECONDS_SUNDAE = 1568;
+      var cleanups = new Cleanups(withNextMonster("Sloppy Seconds Sundae"), withFight(0));
+      try (cleanups) {
+        assertFalse(LocketManager.remembersMonster(SLOPPY_SECONDS_SUNDAE));
 
-      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Sloppy Seconds Sundae"));
-      parseCombatData("request/test_fight_monster_added_to_locket.html");
+        parseCombatData("request/test_fight_monster_added_to_locket.html");
 
-      assertTrue(LocketManager.remembersMonster(1568));
+        assertTrue(LocketManager.remembersMonster(SLOPPY_SECONDS_SUNDAE));
+      }
     }
 
     @Test
     public void updatesListIfMonsterWasAlreadyInLocket() {
-      assertFalse(LocketManager.remembersMonster(155));
+      var KNOB_GOBLIN_BBQ_TEAM = 155;
+      var cleanups = new Cleanups(withNextMonster("Knob Goblin Barbecue Team"), withFight(0));
+      try (cleanups) {
+        assertFalse(LocketManager.remembersMonster(KNOB_GOBLIN_BBQ_TEAM));
 
-      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Barbecue Team"));
-      parseCombatData("request/test_fight_monster_already_in_locket.html");
+        parseCombatData("request/test_fight_monster_already_in_locket.html");
 
-      assertTrue(LocketManager.remembersMonster(155));
+        assertTrue(LocketManager.remembersMonster(KNOB_GOBLIN_BBQ_TEAM));
+      }
     }
 
     @Test
     public void dontIncrementWitchessIfFromLocket() {
-      var cleanups = new Cleanups(withFight(), withProperty("_witchessFights", 0));
+      var cleanups =
+          new Cleanups(
+              withNextMonster("Witches Knight"), withFight(), withProperty("_witchessFights", 0));
 
       try (cleanups) {
-        MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
         parseCombatData("request/test_fight_witchess_with_locket.html");
 
         assertEquals(Preferences.getInteger("_witchessFights"), 0);
@@ -511,18 +519,20 @@ public class FightRequestTest {
 
   @Test
   public void canFindItemsWithGravyBoatAndSlayTheDead() {
-    KoLConstants.inventory.clear();
+    var cleanups = new Cleanups(withFight(2), withNextMonster("toothy sklelton"));
 
-    String html = html("request/test_fight_gravy_boat_2.html");
-    String url = "fight.php?action=skill&whichskill=7348";
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("toothy sklelton"));
-    FightRequest.registerRequest(true, url);
-    FightRequest.currentRound = 2;
-    // This html has hewn moon-rune spoon munging. processResults will un-munge
-    // it before calling updateCombatData.
-    FightRequest.processResults(null, null, html);
-    assertEquals(1, InventoryManager.getCount(ItemPool.LOOSE_TEETH));
-    assertEquals(1, InventoryManager.getCount(ItemPool.EVIL_EYE));
+    try (cleanups) {
+      String html = html("request/test_fight_gravy_boat_2.html");
+      String url = "fight.php?action=skill&whichskill=7348";
+      FightRequest.registerRequest(true, url);
+      // This html has hewn moon-rune spoon munging. processResults will un-munge
+      // it before calling updateCombatData.
+      FightRequest.processResults(null, null, html);
+      assertEquals(1, InventoryManager.getCount(ItemPool.LOOSE_TEETH));
+      assertEquals(1, InventoryManager.getCount(ItemPool.EVIL_EYE));
+
+      KoLConstants.inventory.clear();
+    }
   }
 
   @ParameterizedTest
