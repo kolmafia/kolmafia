@@ -329,7 +329,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithNoBonuses() {
-    String responseText = html("request/test_desert_exploration_no_bonuses.html");
+    String responseText = html("request/test_fight_desert_exploration_no_bonuses.html");
     var cleanups = new Cleanups(withProperty("desertExploration", 20));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -342,7 +342,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithUVResistantCompass() {
-    String responseText = html("request/test_desert_exploration_compass.html");
+    String responseText = html("request/test_fight_desert_exploration_compass.html");
     var cleanups =
         new Cleanups(
             withProperty("desertExploration", 20),
@@ -358,7 +358,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithSurvivalKnifeUltrahydrated() {
-    String responseText = html("request/test_desert_exploration_knife.html");
+    String responseText = html("request/test_fight_desert_exploration_knife.html");
     var cleanups =
         new Cleanups(
             withProperty("desertExploration", 20),
@@ -375,7 +375,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithCompassAndSurvivalKnifeUltrahydrated() {
-    String responseText = html("request/test_desert_exploration_compass_knife.html");
+    String responseText = html("request/test_fight_desert_exploration_compass_knife.html");
     var cleanups =
         new Cleanups(
             withProperty("desertExploration", 20),
@@ -393,7 +393,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithMelodramadery() {
-    String responseText = html("request/test_desert_exploration_camel.html");
+    String responseText = html("request/test_fight_desert_exploration_camel.html");
     var cleanups =
         new Cleanups(
             withProperty("desertExploration", 20), withFamiliar(FamiliarPool.MELODRAMEDARY));
@@ -408,7 +408,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithMelodramaderyAndCompass() {
-    String responseText = html("request/test_desert_exploration_camel_compass.html");
+    String responseText = html("request/test_fight_desert_exploration_camel_compass.html");
     var cleanups =
         new Cleanups(
             withProperty("desertExploration", 20),
@@ -425,7 +425,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithMelodramaderyAndSurvivalKnifeUltrahydrated() {
-    String responseText = html("request/test_desert_exploration_camel_knife.html");
+    String responseText = html("request/test_fight_desert_exploration_camel_knife.html");
     var cleanups =
         new Cleanups(
             withProperty("desertExploration", 20),
@@ -443,7 +443,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithMelodramaderyAndCompassAndSurvivalKnifeUltrahydrated() {
-    String responseText = html("request/test_desert_exploration_camel_compass_knife.html");
+    String responseText = html("request/test_fight_desert_exploration_camel_compass_knife.html");
     var cleanups =
         new Cleanups(
             withProperty("desertExploration", 20),
@@ -462,7 +462,7 @@ public class QuestManagerTest {
 
   @Test
   void canDetectDesertProgressWithMelodramedaryAndSurvivalKnifeUnhydrated() {
-    String responseText = html("request/test_desert_exploration_camel_knife_unhydrated.html");
+    String responseText = html("request/test_fight_desert_exploration_camel_knife_unhydrated.html");
     var cleanups =
         new Cleanups(
             withProperty("desertExploration", 20),
