@@ -7790,8 +7790,9 @@ public class FightRequest extends GenericRequest {
     // Your nanites absorb your fallen enemy.  Cool.
     // Your nanites absorb the remains and become more stylish.
     //
-    // But, it only seems to happen when you've won the combat.
-    if (FightRequest.won) {
+    // It only happens when you've won the combat or reprocessed the monster with your Goose
+    var fam = KoLCharacter.getFamiliar();
+    if (FightRequest.won || fam != null && fam.getId() == FamiliarPool.GREY_GOOSE) {
       GreyYouManager.absorbMonster(status.monster);
       Matcher matcher = GOO_GAIN_PATTERN.matcher(text);
       String gain = null;
