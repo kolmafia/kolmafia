@@ -47,7 +47,7 @@ public class RequestLogger extends NullStream {
     RequestLogger.printLine(line);
   }
 
-  public static final void printList(final List<?> printing, final PrintStream ostream) {
+  public static void printList(final List<?> printing, final PrintStream ostream) {
     if (printing == null || ostream == null) {
       return;
     }
@@ -56,7 +56,7 @@ public class RequestLogger extends NullStream {
       ostream.println(
           printing.stream()
               .filter(Objects::nonNull)
-              .map(o -> o.toString())
+              .map(Object::toString)
               .collect(Collectors.joining(KoLConstants.LINE_BREAK)));
       return;
     }
@@ -76,27 +76,27 @@ public class RequestLogger extends NullStream {
     KoLConstants.commandBuffer.append(buffer.toString());
   }
 
-  public static final void printList(final List<?> printing) {
+  public static void printList(final List<?> printing) {
     RequestLogger.printList(printing, INSTANCE);
   }
 
-  public static final void printLine() {
+  public static void printLine() {
     RequestLogger.printLine(MafiaState.CONTINUE, "", true);
   }
 
-  public static final void printLine(final String message) {
+  public static void printLine(final String message) {
     RequestLogger.printLine(MafiaState.CONTINUE, message, true);
   }
 
-  public static final void printLine(final String message, final boolean addToBuffer) {
+  public static void printLine(final String message, final boolean addToBuffer) {
     RequestLogger.printLine(MafiaState.CONTINUE, message, addToBuffer);
   }
 
-  public static final void printLine(final MafiaState state, final String message) {
+  public static void printLine(final MafiaState state, final String message) {
     RequestLogger.printLine(state, message, true);
   }
 
-  public static final void printLine(final MafiaState state, String message, boolean addToBuffer) {
+  public static void printLine(final MafiaState state, String message, boolean addToBuffer) {
     if (message == null) {
       return;
     }
@@ -110,7 +110,6 @@ public class RequestLogger extends NullStream {
     RequestLogger.previousUpdateString = message;
 
     RequestLogger.outputStream.println(message);
-    RequestLogger.mirrorStream.println(message);
     RequestLogger.debugStream.println(message);
 
     if (StaticEntity.backtraceTrigger != null && message.contains(StaticEntity.backtraceTrigger)) {
@@ -118,6 +117,7 @@ public class RequestLogger extends NullStream {
     }
 
     if (!addToBuffer) {
+      RequestLogger.mirrorStream.println(message);
       return;
     }
 
@@ -171,10 +171,11 @@ public class RequestLogger extends NullStream {
 
     colorBuffer.append(KoLConstants.LINE_BREAK);
     KoLConstants.commandBuffer.append(colorBuffer.toString());
+    RequestLogger.mirrorStream.println(colorBuffer);
     RelayServer.addStatusMessage(colorBuffer.toString());
   }
 
-  public static final PrintStream openStream(
+  public static PrintStream openStream(
       final String filename, final PrintStream originalStream, boolean hasLocation) {
     if (!hasLocation && KoLCharacter.getUserName().isEmpty()) {
       return NullStream.INSTANCE;
@@ -194,37 +195,37 @@ public class RequestLogger extends NullStream {
     return LogStream.openStream(filename, false);
   }
 
-  public static final void closeStream(final PrintStream stream) {
+  public static void closeStream(final PrintStream stream) {
     try {
       stream.close();
     } catch (Exception e) {
     }
   }
 
-  public static final void openCustom(PrintStream out) {
+  public static void openCustom(PrintStream out) {
     RequestLogger.outputStream = out;
   }
 
-  public static final void closeCustom() {
+  public static void closeCustom() {
     RequestLogger.closeStream(RequestLogger.outputStream);
     RequestLogger.outputStream = KoLmafiaTUI.outputStream;
   }
 
-  public static final void openMirror(final String location) {
+  public static void openMirror(final String location) {
     RequestLogger.mirrorStream =
         RequestLogger.openStream(location, RequestLogger.mirrorStream, true);
   }
 
-  public static final void closeMirror() {
+  public static void closeMirror() {
     RequestLogger.closeStream(RequestLogger.mirrorStream);
     RequestLogger.mirrorStream = NullStream.INSTANCE;
   }
 
-  public static final PrintStream getSessionStream() {
+  public static PrintStream getSessionStream() {
     return RequestLogger.sessionStream;
   }
 
-  public static final void openSessionLog() {
+  public static void openSessionLog() {
     RequestLogger.sessionStream =
         RequestLogger.openStream(
             KoLConstants.SESSIONS_DIRECTORY
@@ -236,16 +237,16 @@ public class RequestLogger extends NullStream {
             false);
   }
 
-  public static final void closeSessionLog() {
+  public static void closeSessionLog() {
     RequestLogger.closeStream(RequestLogger.sessionStream);
     RequestLogger.sessionStream = NullStream.INSTANCE;
   }
 
-  public static final void updateSessionLog() {
+  public static void updateSessionLog() {
     RequestLogger.sessionStream.println();
   }
 
-  public static final void updateSessionLog(final String line) {
+  public static void updateSessionLog(final String line) {
     if (StaticEntity.backtraceTrigger != null && line.contains(StaticEntity.backtraceTrigger)) {
       StaticEntity.printStackTrace("Backtrace triggered by session log message");
     }
@@ -253,15 +254,15 @@ public class RequestLogger extends NullStream {
     RequestLogger.sessionStream.println(line);
   }
 
-  public static final boolean isDebugging() {
+  public static boolean isDebugging() {
     return RequestLogger.debugStream != NullStream.INSTANCE;
   }
 
-  public static final PrintStream getDebugStream() {
+  public static PrintStream getDebugStream() {
     return RequestLogger.debugStream;
   }
 
-  public static final void openDebugLog() {
+  public static void openDebugLog() {
     RequestLogger.debugStream =
         RequestLogger.openStream(
             "DEBUG_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt",
@@ -270,17 +271,17 @@ public class RequestLogger extends NullStream {
     NamedListenerRegistry.fireChange("(debug)");
   }
 
-  public static final void closeDebugLog() {
+  public static void closeDebugLog() {
     RequestLogger.closeStream(RequestLogger.debugStream);
     RequestLogger.debugStream = NullStream.INSTANCE;
     NamedListenerRegistry.fireChange("(debug)");
   }
 
-  public static final void updateDebugLog() {
+  public static void updateDebugLog() {
     RequestLogger.debugStream.println();
   }
 
-  public static final void updateDebugLog(final String line) {
+  public static void updateDebugLog(final String line) {
     if (StaticEntity.backtraceTrigger != null && line.contains(StaticEntity.backtraceTrigger)) {
       StaticEntity.printStackTrace("Backtrace triggered by debug log message");
     }
@@ -288,23 +289,23 @@ public class RequestLogger extends NullStream {
     RequestLogger.debugStream.println(line);
   }
 
-  public static final void updateDebugLog(final Throwable t) {
+  public static void updateDebugLog(final Throwable t) {
     t.printStackTrace(RequestLogger.debugStream);
   }
 
-  public static final void updateDebugLog(final Object o) {
+  public static void updateDebugLog(final Object o) {
     RequestLogger.debugStream.println(o.toString());
   }
 
-  public static final boolean isTracing() {
+  public static boolean isTracing() {
     return RequestLogger.traceStream != NullStream.INSTANCE;
   }
 
-  public static final PrintStream getTraceStream() {
+  public static PrintStream getTraceStream() {
     return RequestLogger.traceStream;
   }
 
-  public static final void openTraceStream() {
+  public static void openTraceStream() {
     RequestLogger.traceStream =
         RequestLogger.openStream(
             "TRACE_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt",
@@ -312,24 +313,24 @@ public class RequestLogger extends NullStream {
             true);
   }
 
-  public static final void closeTraceStream() {
+  public static void closeTraceStream() {
     RequestLogger.closeStream(RequestLogger.traceStream);
     RequestLogger.traceStream = NullStream.INSTANCE;
   }
 
   private static final StringBuilder traceBuffer = new StringBuilder();
 
-  public static final synchronized void trace(String message) {
+  public static synchronized void trace(String message) {
     if (RequestLogger.isTracing()) {
       traceBuffer.setLength(0);
       traceBuffer.append((new Date()).getTime());
       traceBuffer.append(": ");
       traceBuffer.append(message);
-      RequestLogger.traceStream.println(traceBuffer.toString());
+      RequestLogger.traceStream.println(traceBuffer);
     }
   }
 
-  public static final void registerRequest(final GenericRequest request, final String urlString) {
+  public static void registerRequest(final GenericRequest request, final String urlString) {
     try {
       RequestLogger.doRegister(request, urlString);
     } catch (Exception e) {
@@ -1584,7 +1585,7 @@ public class RequestLogger extends NullStream {
     RequestLogger.updateSessionLog(urlString);
   }
 
-  public static final void registerLocation(final String location) {
+  public static void registerLocation(final String location) {
     String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
 
     RequestLogger.printLine();
