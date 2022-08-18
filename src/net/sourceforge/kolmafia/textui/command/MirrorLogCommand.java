@@ -10,9 +10,9 @@ public class MirrorLogCommand extends AbstractCommand {
 
   @Override
   public void run(final String command, String parameters) {
-    if (command.contains("end")
-        || command.contains("stop")
-        || command.contains("close")
+    if (command.indexOf("end") != -1
+        || command.indexOf("stop") != -1
+        || command.indexOf("close") != -1
         || parameters.length() == 0
         || parameters.equals("end")
         || parameters.equals("stop")
@@ -20,8 +20,7 @@ public class MirrorLogCommand extends AbstractCommand {
       RequestLogger.closeMirror();
       KoLmafia.updateDisplay("Mirror stream closed.");
     } else {
-      if (!parameters.endsWith(".txt")
-          && !((parameters.endsWith(".html") || parameters.endsWith(".htm")))) {
+      if (!parameters.endsWith(".txt")) {
         parameters += ".txt";
       }
 
