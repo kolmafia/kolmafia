@@ -6259,7 +6259,7 @@ public abstract class ChoiceControl {
         // If you change the mode with the item equipped, you need to un-equip and re-equip it to
         // get the modifiers
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 3) {
-          for (int i = EquipmentManager.ACCESSORY1; i <= EquipmentManager.ACCESSORY3; ++i) {
+          for (int i : EquipmentManager.ACCESSORY_SLOTS) {
             AdventureResult item = EquipmentManager.getEquipment(i);
             if (item != null && item.getItemId() == ItemPool.BACKUP_CAMERA) {
               RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, i));

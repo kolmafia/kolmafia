@@ -169,7 +169,7 @@ public class Maximizer {
 
       boolean[] alreadyDone = new boolean[EquipmentManager.ALL_SLOTS];
 
-      for (int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; ++slot) {
+      for (int slot : EquipmentManager.ACCESSORY_SLOTS) {
         if (Maximizer.best.equipment[slot].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
             && EquipmentManager.getEquipment(slot).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
