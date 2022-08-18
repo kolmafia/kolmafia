@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,25 +27,17 @@ class GearChangeFrameTest {
 
   @Nested
   class ShowModifiers {
-    static GearChangeFrame.EquipmentTabPanel PANE = null;
-
-    @BeforeAll
-    static void beforeAll() {
-      var frame = new GearChangeFrame();
-      frame.tabs.setSelectedIndex(0);
-      PANE = (GearChangeFrame.EquipmentTabPanel) frame.tabs.getSelectedComponent();
-    }
-
-    private String modifierText() {
-      var text = PANE.getModifiersLabel().getText();
-      return text.length() > 56 ? text.substring(31, text.length() - 25) : "";
+    private static String modifierText(String text) {
+      return text.length() > 54 ? text.substring(29, text.length() - 25) : "";
     }
 
     @Test
     void canShowBasicItemModifiers() {
-      GearChangeFrame.showModifiers(ItemPool.get(ItemPool.RAVIOLI_HAT));
+      var mods =
+          GearChangeFrame.getModifiers(
+              ItemPool.get(ItemPool.RAVIOLI_HAT), EquipmentManager.HAT, false, 1);
       assertThat(
-          modifierText(),
+          modifierText(mods.toString()),
           equalTo(
               "Dmg Absorption:<div align=right>+10.00</div>Spell Dmg:<div align=right>+1.00</div>"));
     }
@@ -55,23 +46,27 @@ class GearChangeFrameTest {
     void doesntShowItemModifiersForHatOnHatrack() {
       var cleanups = new Cleanups(withFamiliar(FamiliarPool.HATRACK));
       try (cleanups) {
-        GearChangeFrame.showModifiers(
-            ItemPool.get(ItemPool.RAVIOLI_HAT), EquipmentManager.FAMILIAR);
-        assertThat(modifierText(), equalTo(""));
+        var mods =
+            GearChangeFrame.getModifiers(
+                ItemPool.get(ItemPool.RAVIOLI_HAT), EquipmentManager.FAMILIAR, false, 1);
+        assertThat(modifierText(mods.toString()), equalTo(""));
       }
     }
 
     @Test
     void weaponsInOffhandSlotGetPowerDamage() {
-      GearChangeFrame.showModifiers(ItemPool.get(ItemPool.SEAL_CLUB), EquipmentManager.OFFHAND);
-      assertThat(modifierText(), equalTo("Weapon Dmg:<div align=right>+1.5</div>"));
+      var mods =
+          GearChangeFrame.getModifiers(
+              ItemPool.get(ItemPool.SEAL_CLUB), EquipmentManager.WEAPON, false, 1);
+      assertThat(modifierText(mods.toString()), equalTo("Weapon Dmg:<div align=right>+1.50</div>"));
     }
 
     @Test
     void offhandsInOffhandSlotDoNotGetPowerDamage() {
-      GearChangeFrame.showModifiers(
-          ItemPool.get(ItemPool.BONERDAGON_SKULL), EquipmentManager.OFFHAND);
-      assertThat(modifierText(), equalTo("Spooky Dmg:<div align=right>+5.00</div>"));
+      var mods =
+          GearChangeFrame.getModifiers(
+              ItemPool.get(ItemPool.BONERDAGON_SKULL), EquipmentManager.OFFHAND, false, 1);
+      assertThat(modifierText(mods.toString()), equalTo("Spooky Dmg:<div align=right>+5.00</div>"));
     }
 
     @ParameterizedTest
@@ -79,15 +74,17 @@ class GearChangeFrameTest {
       ",, Maximum HP:<div align=right>+25.00</div>Maximum MP:<div align=right>+25.00</div>",
       "diamondback skin, nicksilver spurs, Monster Level:<div align=right>+20.00</div>Item Drop:<div align=right>+20.00</div>Maximum HP:<div align=right>+25.00</div>Maximum MP:<div align=right>+25.00</div>",
     })
-    void canShowCowboyBootsModifiers(String skin, String spurs, String mods) {
+    void canShowCowboyBootsModifiers(String skin, String spurs, String expectedMods) {
       var cleanups = new Cleanups();
 
       if (skin != null) cleanups.add(withEquipped(EquipmentManager.BOOTSKIN, skin));
       if (spurs != null) cleanups.add(withEquipped(EquipmentManager.BOOTSPUR, spurs));
 
       try (cleanups) {
-        GearChangeFrame.showModifiers(ItemPool.get(ItemPool.COWBOY_BOOTS));
-        assertThat(modifierText(), equalTo(mods));
+        var mods =
+            GearChangeFrame.getModifiers(
+                ItemPool.get(ItemPool.COWBOY_BOOTS), EquipmentManager.ACCESSORY1, false, 1);
+        assertThat(modifierText(mods.toString()), equalTo(expectedMods));
       }
     }
 
@@ -96,12 +93,14 @@ class GearChangeFrameTest {
       ", Maximum HP:<div align=right>+20.00</div>Maximum MP:<div align=right>+20.00</div>Single Equip",
       "meat, Meat Drop:<div align=right>+50.00</div>Maximum HP:<div align=right>+20.00</div>Maximum MP:<div align=right>+20.00</div>Single Equip"
     })
-    void canShowBackupCameraModifiers(String setting, String mods) {
+    void canShowBackupCameraModifiers(String setting, String expectedMods) {
       var cleanups = new Cleanups(withProperty("backupCameraMode", setting == null ? "" : setting));
 
       try (cleanups) {
-        GearChangeFrame.showModifiers(ItemPool.get(ItemPool.BACKUP_CAMERA));
-        assertThat(modifierText(), equalTo(mods));
+        var mods =
+            GearChangeFrame.getModifiers(
+                ItemPool.get(ItemPool.BACKUP_CAMERA), EquipmentManager.ACCESSORY1, false, 1);
+        assertThat(modifierText(mods.toString()), equalTo(expectedMods));
       }
     }
   }

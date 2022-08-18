@@ -138,22 +138,9 @@ public class GearChangeFrame extends GenericFrame {
     RequestThread.executeMethodAfterInitialization(this, "validateSelections");
   }
 
-  public static void showModifiers(Object value) {
-    var slot =
-        (value instanceof AdventureResult item)
-            ? EquipmentManager.consumeFilterToEquipmentType(ItemDatabase.getConsumptionType(item))
-            : -1;
-    showModifiers(value, slot);
-  }
-
-  public static void showModifiers(Object value, final int slot) {
-    if (GearChangeFrame.INSTANCE == null) {
-      return;
-    }
-
-    EquipmentTabPanel pane =
-        (EquipmentTabPanel) GearChangeFrame.INSTANCE.tabs.getSelectedComponent();
-
+  public static StringBuffer getModifiers(
+      Object value, final int slot, final boolean isCustomizablePanel, final int width) {
+    StringBuffer buff = new StringBuffer();
     Modifiers mods;
 
     if (value instanceof AdventureResult item) {
@@ -171,16 +158,14 @@ public class GearChangeFrame extends GenericFrame {
           taoFactor);
     } else if (value instanceof SpecialOutfit outfit) {
       mods = Modifiers.getModifiers("Outfit", outfit.getName());
-    } else if (value instanceof FamiliarData familiar
-        && pane == GearChangeFrame.INSTANCE.customizablePanel) {
+    } else if (value instanceof FamiliarData familiar && isCustomizablePanel) {
       mods = Modifiers.getModifiers("Throne", familiar.getRace());
     } else {
-      return;
+      return null;
     }
 
     if (mods == null) {
-      pane.getModifiersLabel().setText("");
-      return;
+      return buff;
     }
 
     String name = mods.getString(Modifiers.INTRINSIC_EFFECT);
@@ -191,9 +176,8 @@ public class GearChangeFrame extends GenericFrame {
       mods = newMods;
     }
 
-    StringBuilder buff = new StringBuilder();
     buff.append("<html><table><tr><td width=");
-    buff.append(pane.getModifiersWidth());
+    buff.append(width);
     buff.append(">");
 
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
@@ -251,10 +235,35 @@ public class GearChangeFrame extends GenericFrame {
     }
 
     buff.append("</td></tr></table></html>");
-    pane.getModifiersLabel().setText(buff.toString());
+    return buff;
   }
 
-  protected abstract class EquipmentTabPanel extends GenericPanel {
+  public static void showModifiers(Object value) {
+    var slot =
+        (value instanceof AdventureResult item)
+            ? EquipmentManager.consumeFilterToEquipmentType(ItemDatabase.getConsumptionType(item))
+            : -1;
+    showModifiers(value, slot);
+  }
+
+  public static void showModifiers(Object value, final int slot) {
+    if (GearChangeFrame.INSTANCE == null) {
+      return;
+    }
+
+    EquipmentTabPanel pane =
+        (EquipmentTabPanel) GearChangeFrame.INSTANCE.tabs.getSelectedComponent();
+
+    var isCustomizablePanel = pane == GearChangeFrame.INSTANCE.customizablePanel;
+
+    StringBuffer buff = getModifiers(value, slot, isCustomizablePanel, pane.getModifiersWidth());
+
+    if (buff != null) {
+      pane.getModifiersLabel().setText(buff.toString());
+    }
+  }
+
+  private abstract class EquipmentTabPanel extends GenericPanel {
     protected JLabel modifiersLabel;
     protected int modifiersWidth;
 
