@@ -5,7 +5,6 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
