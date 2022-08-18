@@ -61,7 +61,7 @@ public class Player {
   /**
    * Ensures that the character stats are sufficient to equip an item
    *
-   * @param AdventureResult The item of interest
+   * @param item The item of interest
    * @return Restores the stat to the old value
    */
   public static Cleanups withStatsRequiredForEquipment(AdventureResult item) {
