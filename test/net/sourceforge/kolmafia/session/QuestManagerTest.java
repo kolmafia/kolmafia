@@ -1359,16 +1359,15 @@ public class QuestManagerTest {
       try (cleanup) {
         var request =
             new GenericRequest("adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM);
-        builder.client.setResponse(
-            200, "Spookyraven Manor Second Floor" + "Having a Ball in the Ballroom");
+        builder.client.setResponse(200, html("request/test_spookraven_dance.html"));
         request.run();
         assertThat(Quest.SPOOKYRAVEN_DANCE, isFinished());
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(3));
         assertPostRequest(
             requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.HAUNTED_BALLROOM);
-        assertPostRequest(requests.get(1), "/place.php", "whichplace=manor2");
-        // assertPostRequest(requests.get(2), "/place.php", "whichplace=manor3");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(2), "/place.php", "whichplace=manor2");
       }
     }
 
