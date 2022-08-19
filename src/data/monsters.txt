@@ -1353,6 +1353,7 @@ The Naughty Scorcheress	2220	sorcform1.gif	BOSS NOCOPY Atk: 190 Def: 171 HP: 400
 
 # Fall of the Dinosaurs
 
+kachungasaur	2230	dino_kachung.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 dilophosaur	2231	dino_diplo.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 high-altitude pterodactyl	2232	dino_ptero.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 glass-shelled archelon	2233	dino_turtle.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
