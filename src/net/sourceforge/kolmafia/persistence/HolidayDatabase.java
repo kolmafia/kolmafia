@@ -23,8 +23,8 @@ public class HolidayDatabase {
   private static int RONALD_PHASE = -1;
   private static int GRIMACE_PHASE = -1;
   private static int HAMBURGLAR_POSITION = -1;
-  private static final TimeZone ROLLOVER = TimeZone.getTimeZone("GMT-0330");
-  private static final TimeZone ARIZONA = TimeZone.getTimeZone("GMT-0700");
+  public static final TimeZone ROLLOVER = TimeZone.getTimeZone("GMT-0330");
+  public static final TimeZone ARIZONA = TimeZone.getTimeZone("GMT-0700");
 
   static {
     HolidayDatabase.guessPhaseStep();

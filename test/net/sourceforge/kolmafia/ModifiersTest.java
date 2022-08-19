@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import internal.helpers.Cleanups;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -70,7 +69,7 @@ public class ModifiersTest {
   @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7})
   public void tuesdayRubyModifiers(int dotw) {
     // Wide-reaching unit test for getModifiers
-    var cleanup = withDay(new GregorianCalendar(2017, Calendar.JANUARY, dotw));
+    var cleanup = withDay(2017, Calendar.JANUARY, dotw);
     try (cleanup) {
       Modifiers mods = Modifiers.getModifiers("Item", "Tuesday's Ruby");
 
