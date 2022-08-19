@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withDay;
 import static net.sourceforge.kolmafia.persistence.HolidayDatabase.ROLLOVER;
+import static net.sourceforge.kolmafia.persistence.HolidayDatabase.getHolidayPredictions;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -75,6 +76,20 @@ class HolidayDatabaseTest {
     })
     void canIdentifyRealLifeHolidays(final String date, final String holiday) {
       assertThat(HolidayDatabase.getRealLifeHoliday("2022" + date), equalTo(holiday));
+    }
+  }
+
+  @Nested
+  class InGameHolidays {
+    @ParameterizedTest
+    @CsvSource({
+      "1,1,Festival of Jarlsberg: today|Valentine's Day: 14 days|St. Sneaky Pete's Day: 21 days|Oyster Egg Day: 28 days|El Dia De Los Muertos Borrachos: 36 days|Generic Summer Holiday: 45 days|Dependence Day: 54 days|Arrrbor Day: 62 days|Lab&oacute;r Day: 72 days|Halloween: 82 days|Feast of Boris: 89 days|Yuletide: 94 days",
+      "12,6,Lab&oacute;r Day: 6 days|Halloween: 16 days|Dependence Day: 22 days|Feast of Boris: 23 days|Yuletide: 28 days|Festival of Jarlsberg: 33 days|Valentine's Day: 44 days|St. Sneaky Pete's Day: 51 days|Oyster Egg Day: 58 days|El Dia De Los Muertos Borrachos: 66 days|Generic Summer Holiday: 75 days|Arrrbor Day: 92 days",
+    })
+    void canIdentifyAllHolidays(final int day, final int month, final String holidays) {
+      var date = ZonedDateTime.of(2022, month, day, 0, 0, 0, 0, ROLLOVER);
+      var actualHolidays = getHolidayPredictions(date);
+      assertThat(String.join("|", actualHolidays), equalTo(holidays));
     }
   }
 }

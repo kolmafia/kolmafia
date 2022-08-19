@@ -987,11 +987,11 @@ public class HolidayDatabase {
     return HolidayDatabase.getRealLifeOnlyHoliday(stringDate);
   }
 
-  public static String getRealLifeOnlyHoliday(final ZonedDateTime dateTime) {
+  private static String getRealLifeOnlyHoliday(final ZonedDateTime dateTime) {
     return HolidayDatabase.getRealLifeOnlyHoliday(dateTime.format(DAILY_DATETIME_FORMAT));
   }
 
-  public static String getRealLifeOnlyHoliday(final String stringDate) {
+  private static String getRealLifeOnlyHoliday(final String stringDate) {
     if (stringDate.endsWith("0202")) {
       return "Groundhog Day";
     }
