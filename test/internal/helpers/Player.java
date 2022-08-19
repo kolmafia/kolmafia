@@ -3,9 +3,9 @@ package internal.helpers;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.network.FakeHttpClientBuilder;
+import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
-import java.net.http.HttpClient;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
