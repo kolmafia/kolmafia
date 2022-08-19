@@ -1,26 +1,33 @@
 package net.sourceforge.kolmafia.persistence;
 
+import java.time.DayOfWeek;
+import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
+
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class HolidayDatabase {
-  private static long NEWYEAR = 0;
-  private static long BOUNDARY = 0;
-  private static long COLLISION = 0;
+import static net.sourceforge.kolmafia.KoLConstants.DAILY_DATETIME_FORMAT;
 
-  private static final long MS_PER_DAY = 86400000L;
+public class HolidayDatabase {
+  private static ZonedDateTime NEWYEAR;
+  private static ZonedDateTime BOUNDARY;
+  private static ZonedDateTime COLLISION;
 
   private static int RONALD_PHASE = -1;
   private static int GRIMACE_PHASE = -1;
   private static int HAMBURGLAR_POSITION = -1;
-  public static final TimeZone ROLLOVER = TimeZone.getTimeZone("GMT-0330");
-  public static final TimeZone ARIZONA = TimeZone.getTimeZone("GMT-0700");
+  public static final ZoneId ROLLOVER = ZoneId.of("GMT-0330");
+  public static final ZoneId ARIZONA = ZoneId.of("GMT-0700");
 
   static {
     HolidayDatabase.guessPhaseStep();
