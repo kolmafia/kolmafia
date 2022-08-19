@@ -1238,7 +1238,8 @@ public class QuestManager {
     if (responseText.contains("immediately grows into an enormous beanstalk")) {
       ResultProcessor.processItem(ItemPool.ENCHANTED_BEAN, -1);
       QuestDatabase.setQuestProgress(Quest.GARBAGE, "step1");
-      new UpdateSuppressedRequest("place.php?whichplace=beanstalk").run();
+      // This appears to be unnecessary,
+      // new UpdateSuppressedRequest("place.php?whichplace=beanstalk").run();
       if (KoLmafia.isAdventuring()) {
         KoLmafia.updateDisplay(MafiaState.PENDING, "You have planted a beanstalk.");
       }

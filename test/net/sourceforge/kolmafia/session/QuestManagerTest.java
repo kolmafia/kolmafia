@@ -8,10 +8,12 @@ import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Item.isInInventory;
@@ -45,7 +47,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
-import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -1382,14 +1384,15 @@ public class QuestManagerTest {
 
       try (cleanup) {
         var request = new GenericRequest("place.php?whichplace=plains&action=garbage_grounds");
-        builder.client.setResponse(200, "immediately grows into an enormous beanstalk");
+        builder.client.setResponse(200, html("request/test_plant_enchanted_bean.html"));
         request.run();
         assertThat(Quest.GARBAGE, isStep(1));
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(2));
         assertPostRequest(
             requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
-        assertPostRequest(requests.get(1), "/place.php", "whichplace=beanstalk");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        // assertPostRequest(requests.get(2), "/place.php", "whichplace=beanstalk");
       }
     }
 
@@ -1492,28 +1495,41 @@ public class QuestManagerTest {
     public void willReadDiaryWhenAcquired() {
       var builder = new FakeHttpClientBuilder();
 
-      // You plant your Spooky Sapling in the loose soil at the base of the
-      // Temple. You spray it with your Spooky-Gro Fertilizer, and it immediately
-      // grows to 20 feet in height. You can easily climb the branches to reach
-      // the first step of the Temple now...
-
       var ascension = 50;
       var cleanup =
           new Cleanups(
               withItem(ItemPool.FORGED_ID_DOCUMENTS),
               withItem(ItemPool.MACGUFFIN_DIARY),
+              withGender(KoLCharacter.FEMALE),
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.BLACK, "step2"),
-              withProperty("autoQuest", true));
+              withProperty("autoQuest", true),
+              withLastLocation("The Shore, Inc. Travel Agency"),
+              withPasswordHash("TEST"));
 
       try (cleanup) {
-        builder.client.setResponse(200, "your father's MacGuffin diary");
-        ResultProcessor.processResult(true, ItemPool.get(ItemPool.MACGUFFIN_DIARY));
+        // class net.sourceforge.kolmafia.request.RelayRequest
+        // adventure.php?snarfblat=355
+        // 302 location = [choice.php?forceoption=0]
+
+        builder.client.setResponse(200, html("request/test_vacation_with_forged_id.html"));
+        var request = new RelayRequest(false);
+        request.constructURLString("choice.php?forceoption=0");
+        request.run();
+
+        builder.client.setResponse(200, html("request/test_vacation_get_diary.html"));
+        request = new RelayRequest(false);
+        request.constructURLString("choice.php?pwd&whichchoice=793&option=2");
+        request.run();
+
         assertThat(Quest.BLACK, isStep(3));
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(1));
-        assertPostRequest(requests.get(0), "/diary.php", "textversion=1");
+        assertThat(requests, hasSize(3));
+
+        assertPostRequest(requests.get(0), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(1), "/choice.php", "pwd=&whichchoice=793&option=2");
+        assertPostRequest(requests.get(2), "/diary.php", "textversion=1&pwd=TEST");
       }
     }
 
@@ -1521,26 +1537,36 @@ public class QuestManagerTest {
     public void willUseVolcanoMapWhenAcquired() {
       var builder = new FakeHttpClientBuilder();
 
-      var cleanup =
-          new Cleanups(
-              withItem(ItemPool.VOLCANO_MAP),
-              withHttpClientBuilder(builder),
-              withProperty("autoQuest", true));
+      var cleanup = new Cleanups(withHttpClientBuilder(builder), withProperty("autoQuest", true));
 
       try (cleanup) {
-        builder.client.setResponse(302, null);
+        // You get the map when you defeat the final Nemesis assassin.
+        // I did this in the Relay Browser and collected DEBUG logs
+        //
+        // class net.sourceforge.kolmafia.request.RelayRequest
+        // fight.php?action=skill&whichskill=4012
+        // responseText = test_fight_volcano_map.html
+        //
+        // I have an unsolved issue trying to "run" that. Working on it.
+        //
+        // In the mean time:
+        //
+        // This uses the volcano map, which redirects, but we do not follow it
+        // Redirected: inventory.php?which=3&action=message
+        // Unhandled redirect to inventory.php?which=3&action=message
+        // The secret tropical island volcano lair map has been read.
+
+        builder.client.setResponse(302, "");
         ResultProcessor.processResult(true, ItemPool.get(ItemPool.VOLCANO_MAP));
 
-        // *** FakeHttpClient does not follow redirects.
-        var request = new UpdateSuppressedRequest("volcanoisland.php");
-        builder.client.setResponse(200, html("request/test_volcano_island.html"));
-        request.run();
+        // class net.sourceforge.kolmafia.request.RelayRequest
+        // charpane.phpb
+        // class net.sourceforge.kolmafia.request.RelayRequest
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0), "/inv_use.php", "which=3&whichitem=" + ItemPool.VOLCANO_MAP);
-        assertGetRequest(requests.get(1), "/volcanoisland.php", null);
       }
     }
   }
