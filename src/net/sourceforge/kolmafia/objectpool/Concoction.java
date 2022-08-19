@@ -182,6 +182,49 @@ public class Concoction implements Comparable<Concoction> {
     this.setEffectName();
   }
 
+  // Copy constructor primarily for testing.  Shallow copy.
+  public Concoction(Concoction source) {
+    this.allocated = source.allocated;
+    this.concoction = source.concoction;
+    this.creatable = source.creatable;
+    this.effectName = source.effectName;
+    this.fancydog = source.fancydog;
+    this.freeTotal = source.freeTotal;
+    this.fullness = source.fullness;
+    this.hashCode = source.hashCode;
+    this.hotdog = source.hotdog;
+    this.inebriety = source.inebriety;
+    this.ingredientArray = source.ingredientArray;
+    this.ingredients = source.ingredients;
+    this.initial = source.initial;
+    this.isReagentPotion = source.isReagentPotion;
+    this.mainstatGain = source.mainstatGain;
+    this.mallable = source.mallable;
+    this.mixingMethod = source.mixingMethod;
+    this.mixingMisc = source.mixingMisc;
+    this.mixingRequirements = source.mixingRequirements;
+    this.name = source.name;
+    this.param = source.param;
+    this.price = source.price;
+    this.property = source.property;
+    this.pullable = source.pullable;
+    this.purchaseRequest = source.purchaseRequest;
+    this.queued = source.queued;
+    this.queuedPulls = source.queuedPulls;
+    this.request = source.request;
+    this.row = source.row;
+    this.sortOrder = source.sortOrder;
+    this.speakeasy = source.speakeasy;
+    this.special = source.special;
+    this.spleenhit = source.spleenhit;
+    this.steelOrgan = source.steelOrgan;
+    this.total = source.total;
+    this.visibleTotal = source.visibleTotal;
+    this.visited = source.visited;
+    this.wasPossible = source.wasPossible;
+    this.yield = source.yield;
+  }
+
   public Priority getSortOrder() {
     int itemId = this.concoction == null ? -1 : this.concoction.getItemId();
     if (this.fullness > 0 || itemId == ItemPool.QUANTUM_TACO) {
