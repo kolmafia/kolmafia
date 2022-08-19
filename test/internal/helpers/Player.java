@@ -1015,7 +1015,7 @@ public class Player {
    *
    * @param code Status code to fake
    * @param response Response text to fake
-   * @return Cleans up so the responses won't be given
+   * @return Cleans up so this response is not given again
    */
   public static Cleanups withNextResponse(final int code, final String response) {
     return withNextResponse(code, new HashMap<>(), response);
@@ -1028,7 +1028,7 @@ public class Player {
    * @param code Status code to fake
    * @param headers Response headers to fake
    * @param response Response text to fake
-   * @return Cleans up so the responses won't be given
+   * @return Cleans up so this response is not given again
    */
   public static Cleanups withNextResponse(
       final int code, final Map<String, List<String>> headers, final String response) {
