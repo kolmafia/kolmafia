@@ -3,6 +3,7 @@ package internal.helpers;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.network.FakeHttpClientBuilder;
+import java.net.http.HttpClient;
 import java.util.Calendar;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -1042,6 +1043,26 @@ public class Player {
    */
   public static Cleanups withQuestProgress(final QuestDatabase.Quest quest, final int step) {
     return withQuestProgress(quest, "step" + step);
+  }
+
+  /**
+   * Sets supplied HttpClient.Builder to be used by GenericRequest
+   *
+   * @param builder The builder to use
+   * @return restores previous builder
+   */
+  public static Cleanups withHttpClientBuilder(HttpClient.Builder builder) {
+    var old = HttpUtilities.getClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(() -> old);
+          GenericRequest.resetClient();
+        });
   }
 
   /**

@@ -1151,24 +1151,31 @@ public class FightRequestTest {
   class Dinosaurs {
     @ParameterizedTest
     @CsvSource({
-      "request/test_dino_archelon.html, archelon, none",
-      "request/test_dino_dilophosaur.html, dilophosaur, spooky",
-      "request/test_dino_flatusaurus.html, flatusaurus, hot",
-      "request/test_dino_ghostasaurus.html, ghostasaurus, none",
-      "request/test_dino_kachungasaur.html, kachungasaur, none",
-      "request/test_dino_primitive_chicken.html, chicken, none",
-      "request/test_dino_pterodactyl.html, pterodactyl, none",
-      "request/test_dino_spikolodon.html, spikolodon, none",
-      "request/test_dino_velociraptor.html, velociraptor, none",
+      "request/test_dino_archelon.html, animated ornate nightstand, archelon, none",
+      "request/test_dino_dilophosaur.html, cosmetics wraith, dilophosaur, carrion-eating",
+      "request/test_dino_flatusaurus.html, Hellion, flatusaurus, steamy",
+      "request/test_dino_ghostasaurus.html, cubist bull, ghostasaurus, none",
+      "request/test_dino_kachungasaur.html, malevolent hair clog, kachungasaur, none",
+      "request/test_dino_primitive_chicken.html, amateur ninja, chicken, none",
+      "request/test_dino_pterodactyl.html, W imp, pterodactyl, none",
+      "request/test_dino_spikolodon.html, empty suit of armor, spikolodon, none",
+      "request/test_dino_velociraptor.html, cubist bull, velociraptor, none",
     })
-    public void canExtractDinosaurFromFight(String filename, String dinosaur, String element) {
-      var cleanups = new Cleanups(withLastLocation("The Haunted Pantry"));
+    public void canExtractDinosaurFromFight(
+        String filename, String monsterName, String dinosaur, String element) {
+
+      // This is obviously not where these dinosaurs were encountered.
+      // However, in order to register an encounter (which is where we parse
+      // the dinosaur attributes), we had to register the request first, and
+      // this location will do as well as any.
+      var cleanups = new Cleanups(withLastLocation("The Haunted Pantry"), withPath(Path.DINOSAURS));
 
       try (cleanups) {
         GenericRequest request = new GenericRequest("fight.php");
         request.responseText = html(filename);
         String encounter = AdventureRequest.registerEncounter(request);
         MonsterData monster = MonsterStatusTracker.getLastMonster();
+        assertEquals(monster.getName(), monsterName);
         var modifiers = Set.of(monster.getRandomModifiers());
         assertTrue(modifiers.contains(dinosaur));
         if (!element.equals("none")) {
