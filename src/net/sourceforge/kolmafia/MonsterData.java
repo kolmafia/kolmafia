@@ -1073,106 +1073,202 @@ public class MonsterData extends AdventureResult {
 
     // Iterate over them and modify the base values
     for (String modifier : modifiers) {
-      if (modifier.equals("askew")) {
-        monster.attack = monster.getRawAttack() * 11 / 10;
-      } else if (modifier.equals("bouncing")) {
-        monster.attack = monster.getRawAttack() * 3 / 2;
-      } else if (modifier.equals("broke")) {
-        monster.meat = 5;
-      } else if (modifier.equals("cloned")) {
-        monster.health = monster.getRawHP() * 2;
-        monster.attack = monster.getRawAttack() * 2;
-        monster.defense = monster.getRawDefense() * 2;
-      } else if (modifier.equals("dancin'")) {
-        monster.defense = monster.getRawDefense() * 3 / 2;
-      } else if (modifier.equals("filthy")) {
-        // Stench Aura
-      } else if (modifier.equals("floating")) {
-        monster.defense = monster.getRawDefense() * 3 / 2;
-      } else if (modifier.equals("foul-mouthed")) {
-        // Sleaze Aura
-      } else if (modifier.equals("fragile")) {
-        monster.health = 1;
-      } else if (modifier.equals("frozen")) {
-        monster.setElement(Element.COLD);
-      } else if (modifier.equals("ghostly")) {
-        if (monster.getPhysicalResistance() == 0) {
-          monster.physicalResistance = 90;
-        }
-      } else if (modifier.equals("haunted")) {
-        // Spooky Aura
-      } else if (modifier.equals("hot")) {
-        // Hot Aura
-      } else if (modifier.equals("huge")) {
-        monster.health = monster.getRawHP() * 2;
-        monster.attack = monster.getRawAttack() * 2;
-        monster.defense = monster.getRawDefense() * 2;
-      } else if (modifier.equals("ice-cold")) {
-        monster.setElement(Element.COLD);
-      } else if (modifier.equals("left-handed")) {
-        Object originalAttack = monster.attack;
-        Object originalDefense = monster.defense;
-        monster.attack = originalDefense;
-        monster.defense = originalAttack;
-      } else if (modifier.equals("red-hot")) {
-        monster.setElement(Element.HOT);
-      } else if (modifier.equals("short")) {
-        monster.health = monster.getRawHP() / 2;
-        monster.defense = monster.getRawDefense() * 2;
-      } else if (modifier.equals("skinny")) {
-        monster.health = monster.getRawHP() / 2;
-        monster.defense = monster.getRawDefense() / 2;
-      } else if (modifier.equals("sleazy")) {
-        monster.setElement(Element.SLEAZE);
-      } else if (modifier.equals("solid gold")) {
-        monster.meat = 1000;
-      } else if (modifier.equals("spooky")) {
-        monster.setElement(Element.SPOOKY);
-      } else if (modifier.equals("stinky")) {
-        monster.setElement(Element.STENCH);
-      } else if (modifier.equals("throbbing")) {
-        monster.health = monster.getRawHP() * 2;
-      } else if (modifier.equals("tiny")) {
-        monster.health = monster.getRawHP() / 10;
-        monster.attack = monster.getRawAttack() / 10;
-        monster.defense = monster.getRawDefense() / 10;
-      } else if (modifier.equals("turgid")) {
-        monster.health = monster.getRawHP() * 5;
-      } else if (modifier.equals("unlucky")) {
-        monster.health = 13;
-        monster.attack = 13;
-        monster.defense = 13;
-      } else if (modifier.equals("wet")) {
-        // Cold Aura
-      }
+      switch (modifier) {
+        case "askew":
+          monster.attack = monster.getRawAttack() * 11 / 10;
+          break;
+        case "bouncing":
+          monster.attack = monster.getRawAttack() * 3 / 2;
+          break;
+        case "broke":
+          monster.meat = 5;
+          break;
+        case "cloned":
+          monster.health = monster.getRawHP() * 2;
+          monster.attack = monster.getRawAttack() * 2;
+          monster.defense = monster.getRawDefense() * 2;
+          break;
+        case "dancin'":
+          monster.defense = monster.getRawDefense() * 3 / 2;
+          break;
+        case "filthy":
+          // Stench Aura
+          break;
+        case "floating":
+          monster.defense = monster.getRawDefense() * 3 / 2;
+          break;
+        case "foul-mouthed":
+          // Sleaze Aura
+          break;
+        case "fragile":
+          monster.health = 1;
+          break;
+        case "frozen":
+          monster.setElement(Element.COLD);
+          break;
+        case "ghostly":
+          if (monster.getPhysicalResistance() == 0) {
+            monster.physicalResistance = 90;
+          }
+          break;
+        case "haunted":
+          // Spooky Aura
+          break;
+        case "hot":
+          // Hot Aura
+          break;
+        case "huge":
+          monster.health = monster.getRawHP() * 2;
+          monster.attack = monster.getRawAttack() * 2;
+          monster.defense = monster.getRawDefense() * 2;
+          break;
+        case "ice-cold":
+          monster.setElement(Element.COLD);
+          break;
+        case "left-handed":
+          Object originalAttack = monster.attack;
+          Object originalDefense = monster.defense;
+          monster.attack = originalDefense;
+          monster.defense = originalAttack;
+          break;
+        case "red-hot":
+          monster.setElement(Element.HOT);
+          break;
+        case "short":
+          monster.health = monster.getRawHP() / 2;
+          monster.defense = monster.getRawDefense() * 2;
+          break;
+        case "skinny":
+          monster.health = monster.getRawHP() / 2;
+          monster.defense = monster.getRawDefense() / 2;
+          break;
+        case "sleazy":
+          monster.setElement(Element.SLEAZE);
+          break;
+        case "solid gold":
+          monster.meat = 1000;
+          break;
+        case "spooky":
+          monster.setElement(Element.SPOOKY);
+          break;
+        case "stinky":
+          monster.setElement(Element.STENCH);
+          break;
+        case "throbbing":
+          monster.health = monster.getRawHP() * 2;
+          break;
+        case "tiny":
+          monster.health = monster.getRawHP() / 10;
+          monster.attack = monster.getRawAttack() / 10;
+          monster.defense = monster.getRawDefense() / 10;
+          break;
+        case "turgid":
+          monster.health = monster.getRawHP() * 5;
+          break;
+        case "unlucky":
+          monster.health = 13;
+          monster.attack = 13;
+          monster.defense = 13;
+          break;
+        case "wet":
+          // Cold Aura
+          break;
 
-      // Non-OCRS modifiers
-      else if (modifier.equals("mutant")) {
-        monster.health = monster.getRawHP() * 6 / 5;
-        monster.attack = monster.getRawAttack() * 6 / 5;
-        monster.defense = monster.getRawDefense() * 6 / 5;
-      } else if (this.scale == null
-          && (modifier.equals("Mr. mask") || modifier.equals("Bonerdagon mask"))) {
-        monster.health = monster.getRawHP() * 2;
-        monster.attack = monster.getRawAttack() * 2;
-        monster.defense = monster.getRawDefense() * 2;
-      } else if (modifier.equals("ninja mask")) {
-        monster.initiative = 10000;
-      } else if (this.scale == null && modifier.equals("opera mask")) {
-        monster.attack = monster.getRawAttack() * 2;
-      } else if (this.scale == null && modifier.equals("bandit mask")) {
-        monster.defense = monster.getRawDefense() * 4;
-      } else if (modifier.equals("fencing mask")) {
-        if (monster.getPhysicalResistance() == 0) {
-          monster.physicalResistance = 90;
-        }
-        if (monster.getElementalResistance() == 0) {
-          monster.elementalResistance = 90;
-        }
-      } else if (this.scale == null && modifier.equals("Naughty Sorceress mask")) {
-        monster.health = monster.getRawHP() * 3;
-        monster.attack = monster.getRawAttack() * 3;
-        monster.defense = monster.getRawDefense() * 3;
+          // Nuclear Autumn
+        case "mutant":
+          monster.health = monster.getRawHP() * 6 / 5;
+          monster.attack = monster.getRawAttack() * 6 / 5;
+          monster.defense = monster.getRawDefense() * 6 / 5;
+          break;
+
+          // Masks
+        case "Mr. mask":
+        case "Bonerdagon mask":
+          if (this.scale == null) {
+            monster.health = monster.getRawHP() * 2;
+            monster.attack = monster.getRawAttack() * 2;
+            monster.defense = monster.getRawDefense() * 2;
+          }
+          break;
+        case "ninja mask":
+          monster.initiative = 10000;
+          break;
+        case "opera mask":
+          if (this.scale == null) {
+            monster.attack = monster.getRawAttack() * 2;
+          }
+          break;
+        case "bandit mask":
+          if (this.scale == null) {
+            monster.defense = monster.getRawDefense() * 4;
+          }
+          break;
+        case "fencing mask":
+          if (monster.getPhysicalResistance() == 0) {
+            monster.physicalResistance = 90;
+          }
+          if (monster.getElementalResistance() == 0) {
+            monster.elementalResistance = 90;
+          }
+          break;
+        case "Naughty Sorceress mask":
+          if (this.scale == null) {
+            monster.health = monster.getRawHP() * 3;
+            monster.attack = monster.getRawAttack() * 3;
+            monster.defense = monster.getRawDefense() * 3;
+          }
+          break;
+
+          // Fall of the Dinosaurs
+        case "archelon":
+          // Reflects spells
+          break;
+        case "chicken":
+          monster.health = 1;
+          monster.attack = 1;
+          monster.defense = 1;
+          break;
+        case "dilophosaur":
+          // Elemental damage each round?
+          break;
+        case "flatusaurus":
+          // Elemental damage each round?
+          break;
+        case "ghostasaurus":
+          monster.physicalResistance = 100;
+          break;
+        case "kachungasaur":
+          // Big slam attack, triple Meat drop
+          break;
+        case "pterodactyl":
+          // Melee damage always misses
+          break;
+        case "spikolodon":
+          // Thorn damage when melee
+          break;
+        case "velociraptor":
+          // Runs away if lose initiative, lots of +item when killed
+          break;
+        case "hot-blooded":
+        case "steamy":
+          monster.setElement(Element.HOT);
+          break;
+        case "cold-blooded":
+        case "chilling":
+          monster.setElement(Element.COLD);
+          break;
+        case "swamp":
+        case "foul-smelling":
+          monster.setElement(Element.STENCH);
+          break;
+        case "carrion-eating":
+        case "mist-shrouded":
+          monster.setElement(Element.SPOOKY);
+          break;
+        case "slimy":
+        case "sweaty":
+          monster.setElement(Element.SLEAZE);
+          break;
       }
     }
 
