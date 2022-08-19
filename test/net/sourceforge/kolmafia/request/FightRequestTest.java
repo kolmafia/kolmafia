@@ -778,21 +778,21 @@ public class FightRequestTest {
 
   @ParameterizedTest
   @CsvSource({
-    "june_cleaver, Sleaze",
-    "lovebug_booze, Cold",
+    "fight_june_cleaver, Sleaze",
+    "fight_lovebug_booze, Cold",
     "desert_exploration_no_bonuses, Spooky",
-    "lovebug_cricket, Stench",
-    "potted_plant, Hot",
+    "fight_lovebug_cricket, Stench",
+    "fight_potted_plant, Hot",
   })
   public void canTrackJuneCleaverPrefs(String file, String element) {
     var cleanups =
         new Cleanups(
             withEquipped(EquipmentManager.WEAPON, ItemPool.JUNE_CLEAVER),
-            withProperty("_juneCleaverSleaze"),
+            withProperty("_juneCleaver" + element),
             withProperty("_juneCleaverFightsLeft"));
 
     try (cleanups) {
-      parseCombatData("request/test_fight_" + file + ".html");
+      parseCombatData("request/test_" + file + ".html");
       assertEquals(Preferences.getInteger("_juneCleaver" + element), 2);
       assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 0);
     }
