@@ -3344,6 +3344,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.GREY_YOU;
   }
 
+  public static final boolean inDinocore() {
+    return KoLCharacter.ascensionPath == Path.DINOSAURS;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND);
