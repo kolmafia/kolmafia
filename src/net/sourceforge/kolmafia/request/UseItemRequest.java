@@ -957,7 +957,18 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.VOLCANO_MAP:
         {
-          new UpdateSuppressedRequest("inv_use.php?which=3&whichitem=3291&pwd").run();
+          var request =
+              new UpdateSuppressedRequest("inv_use.php?which=3&whichitem=3291&pwd") {
+                protected boolean shouldFollowRedirect() {
+                  return true;
+                }
+
+                @Override
+                public boolean hasResult(String location) {
+                  return false;
+                }
+              };
+          request.run();
           // This will redirect to volcanoisland.php
           KoLmafia.updateDisplay("The secret tropical island volcano lair map has been read.");
           return;

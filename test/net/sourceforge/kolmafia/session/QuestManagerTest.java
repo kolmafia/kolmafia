@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
@@ -1537,36 +1538,29 @@ public class QuestManagerTest {
     public void willUseVolcanoMapWhenAcquired() {
       var builder = new FakeHttpClientBuilder();
 
-      var cleanup = new Cleanups(withHttpClientBuilder(builder), withProperty("autoQuest", true));
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("autoQuest", true),
+              withLastLocation("Madness Bakery"),
+              withPasswordHash("TEST"));
 
       try (cleanup) {
-        // You get the map when you defeat the final Nemesis assassin.
-        // I did this in the Relay Browser and collected DEBUG logs
-        //
-        // class net.sourceforge.kolmafia.request.RelayRequest
-        // fight.php?action=skill&whichskill=4012
-        // responseText = test_fight_volcano_map.html
-        //
-        // I have an unsolved issue trying to "run" that. Working on it.
-        //
-        // In the mean time:
-        //
-        // This uses the volcano map, which redirects, but we do not follow it
+        builder.client.setResponse(200, html("request/test_fight_volcano_map.html"));
+        var request = new RelayRequest(false);
+        request.constructURLString("fight.php?action=skill&whichskill=4012");
+        request.run();
+
         // Redirected: inventory.php?which=3&action=message
-        // Unhandled redirect to inventory.php?which=3&action=message
-        // The secret tropical island volcano lair map has been read.
-
-        builder.client.setResponse(302, "");
-        ResultProcessor.processResult(true, ItemPool.get(ItemPool.VOLCANO_MAP));
-
-        // class net.sourceforge.kolmafia.request.RelayRequest
-        // charpane.phpb
-        // class net.sourceforge.kolmafia.request.RelayRequest
+        // responseText = ...
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(1));
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/fight.php", "action=skill&whichskill=4012");
         assertPostRequest(
-            requests.get(0), "/inv_use.php", "which=3&whichitem=" + ItemPool.VOLCANO_MAP);
+            requests.get(1),
+            "/inv_use.php",
+            "which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd=TEST");
       }
     }
   }
