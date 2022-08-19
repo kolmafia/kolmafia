@@ -45,20 +45,6 @@ public class ConcoctionTest {
   }
 
   @Test
-  public void copyComparesAsEqual() {
-    Concoction original = ConcoctionPool.get(ItemPool.STEEL_LIVER);
-    Concoction copy = new Concoction(original);
-    // Not same object
-    assertNotSame(original, copy, "Different objects not supposed to be ==");
-    // But are equals
-    assertEquals(original, copy, "Original and copy not equals.");
-    assertEquals(copy, original, "Copy and original.");
-    // Sort the same via compareTo
-    assertEquals(original.compareTo(copy), 0, "compareTo not sorting copy.");
-    assertEquals(copy.compareTo(original), 0, "compareTo not sorting original.");
-  }
-
-  @Test
   public void foodsAreSortedBeforeDrinks() {
     var steelMargarita = ConcoctionPool.get(ItemPool.STEEL_LIVER);
     var steelLasagna = ConcoctionPool.get(ItemPool.STEEL_STOMACH);
