@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -605,8 +604,6 @@ public abstract class InventoryManager {
           if (sim) {
             return "remove";
           }
-
-          SpecialOutfit.replaceEquipmentInSlot(EquipmentRequest.UNEQUIP, slot);
 
           RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
 
