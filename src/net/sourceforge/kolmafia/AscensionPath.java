@@ -58,6 +58,7 @@ public class AscensionPath {
     WILDFIRE("Wildfire", 43, false, "fire", "a"),
     GREY_YOU("Grey You", 44, true, "greygooring", "a", "greyYouPoints", 11, false),
     JOURNEYMAN("Journeyman", 45, false, "map", "a"),
+    DINOSAURS("Fall of the Dinosaurs", 46, false, "dinostuffy", "a"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;

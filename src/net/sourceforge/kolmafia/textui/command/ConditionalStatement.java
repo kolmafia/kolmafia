@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -179,14 +181,10 @@ public abstract class ConditionalStatement extends AbstractCommand {
     }
 
     if (left.equals("stickers")) {
-      int count = 0;
-      for (int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i) {
-        AdventureResult item = EquipmentManager.getEquipment(i);
-        if (!EquipmentRequest.UNEQUIP.equals(item)) {
-          ++count;
-        }
-      }
-      return count;
+      return Arrays.stream(EquipmentManager.STICKER_SLOTS)
+          .mapToObj(EquipmentManager::getEquipment)
+          .filter(Predicate.not(EquipmentRequest.UNEQUIP::equals))
+          .count();
     }
 
     AdventureResult item = AbstractCommand.itemParameter(left);

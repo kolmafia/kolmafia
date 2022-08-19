@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -3343,6 +3344,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.GREY_YOU;
   }
 
+  public static final boolean inDinocore() {
+    return KoLCharacter.ascensionPath == Path.DINOSAURS;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND);
@@ -4570,16 +4575,21 @@ public abstract class KoLCharacter {
    * Pasta Thralls
    */
 
-  public static final LockableListModel<PastaThrallData> getPastaThrallList() {
+  public static LockableListModel<PastaThrallData> getPastaThrallList() {
     return KoLCharacter.pastaThralls;
   }
 
-  public static final PastaThrallData currentPastaThrall() {
+  public static PastaThrallData currentPastaThrall() {
     return KoLCharacter.currentPastaThrall;
   }
 
-  public static final PastaThrallData findPastaThrall(final String type) {
+  public static PastaThrallData findPastaThrall(final String type) {
     if (ascensionClass != AscensionClass.PASTAMANCER) {
+      return null;
+    }
+
+    // Some paths don't allow the Pastamancer access to their normal skills
+    if (KoLCharacter.inNuclearAutumn()) {
       return null;
     }
 
@@ -4587,26 +4597,19 @@ public abstract class KoLCharacter {
       return PastaThrallData.NO_THRALL;
     }
 
-    // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.inZombiecore()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.inNoobcore()) {
+    return KoLCharacter.pastaThralls.stream()
+        .filter(t -> t.getType().equals(type))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public static PastaThrallData findPastaThrall(final int thrallId) {
+    if (ascensionClass != AscensionClass.PASTAMANCER) {
       return null;
     }
 
-    for (PastaThrallData thrall : KoLCharacter.pastaThralls) {
-      if (thrall.getType().equals(type)) {
-        return thrall;
-      }
-    }
-
-    return null;
-  }
-
-  public static final PastaThrallData findPastaThrall(final int thrallId) {
-    if (ascensionClass != AscensionClass.PASTAMANCER) {
+    // Some paths don't allow the Pastamancer access to their normal skills
+    if (KoLCharacter.inNuclearAutumn()) {
       return null;
     }
 
@@ -4614,26 +4617,13 @@ public abstract class KoLCharacter {
       return PastaThrallData.NO_THRALL;
     }
 
-    // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.inZombiecore()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.inNoobcore()
-        || KoLCharacter.isVampyre()) {
-      return null;
-    }
-
-    for (PastaThrallData thrall : KoLCharacter.pastaThralls) {
-      if (thrall.getId() == thrallId) {
-        return thrall;
-      }
-    }
-
-    return null;
+    return KoLCharacter.pastaThralls.stream()
+        .filter(t -> t.getId() == thrallId)
+        .findAny()
+        .orElse(null);
   }
 
-  public static final void setPastaThrall(final PastaThrallData thrall) {
+  public static void setPastaThrall(final PastaThrallData thrall) {
     if (KoLCharacter.currentPastaThrall == thrall) {
       return;
     }
@@ -4707,169 +4697,102 @@ public abstract class KoLCharacter {
     return KoLCharacter.findWand();
   }
 
-  public static final AdventureResult findWand() {
-    for (int i = 0; i < KoLCharacter.WANDS.length; ++i) {
-      if (KoLConstants.inventory.contains(KoLCharacter.WANDS[i])) {
-        Preferences.setInteger("lastZapperWand", KoLCharacter.getAscensions());
-        return KoLCharacter.WANDS[i];
-      }
-    }
-
-    return null;
+  public static AdventureResult findWand() {
+    return Arrays.stream(KoLCharacter.WANDS)
+        .filter(KoLConstants.inventory::contains)
+        .peek((w) -> Preferences.setInteger("lastZapperWand", KoLCharacter.getAscensions()))
+        .findAny()
+        .orElse(null);
   }
 
-  public static final boolean hasEquipped(final AdventureResult item, final int equipmentSlot) {
+  public static boolean hasEquipped(final AdventureResult item, final int equipmentSlot) {
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == item.getItemId();
   }
 
-  public static final boolean hasEquipped(final int itemId, final int equipmentSlot) {
+  public static boolean hasEquipped(final int itemId, final int equipmentSlot) {
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == itemId;
   }
 
-  public static final boolean hasEquipped(final AdventureResult item) {
+  public static boolean hasEquipped(final AdventureResult item) {
     return KoLCharacter.equipmentSlot(item) != EquipmentManager.NONE;
   }
 
-  public static final boolean hasEquipped(final int itemId) {
+  public static boolean hasEquipped(final int itemId) {
     return KoLCharacter.hasEquipped(ItemPool.get(itemId, 1));
   }
 
-  public static final boolean hasEquipped(
+  public static boolean hasEquipped(
       AdventureResult[] equipment, final AdventureResult item, final int equipmentSlot) {
     AdventureResult current = equipment[equipmentSlot];
-    return (current == null) ? false : (current.getItemId() == item.getItemId());
+    return current != null && (current.getItemId() == item.getItemId());
   }
 
-  public static final boolean hasEquipped(AdventureResult[] equipment, final AdventureResult item) {
-    switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case KoLConstants.EQUIP_WEAPON:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.WEAPON)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.OFFHAND);
+  public static boolean hasEquipped(
+      AdventureResult[] equipment, final AdventureResult item, int[] equipmentSlots) {
+    return Arrays.stream(equipmentSlots)
+        .anyMatch(s -> KoLCharacter.hasEquipped(equipment, item, s));
+  }
 
-      case KoLConstants.EQUIP_OFFHAND:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.OFFHAND)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FAMILIAR);
+  public static boolean hasEquipped(AdventureResult[] equipment, final AdventureResult item) {
+    return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
+      case KoLConstants.EQUIP_WEAPON -> KoLCharacter.hasEquipped(
+          equipment, item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
+      case KoLConstants.EQUIP_OFFHAND -> KoLCharacter.hasEquipped(
+          equipment, item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
+      case KoLConstants.EQUIP_HAT -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.HAT);
+      case KoLConstants.EQUIP_SHIRT -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.SHIRT);
+      case KoLConstants.EQUIP_PANTS -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.PANTS);
+      case KoLConstants.EQUIP_CONTAINER -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.CONTAINER);
+      case KoLConstants.EQUIP_ACCESSORY -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.ACCESSORY_SLOTS);
+      case KoLConstants.CONSUME_STICKER -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.STICKER_SLOTS);
+      case KoLConstants.CONSUME_CARD -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.CARDSLEEVE);
+      case KoLConstants.CONSUME_FOLDER -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.FOLDER_SLOTS);
+      case KoLConstants.EQUIP_FAMILIAR -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.FAMILIAR);
+      default -> false;
+    };
+  }
 
-      case KoLConstants.EQUIP_HAT:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.HAT);
+  private static int equipmentSlotFromSubset(final AdventureResult item, final int[] slots) {
+    return Arrays.stream(slots)
+        .filter(s -> KoLCharacter.hasEquipped(item, s))
+        .findFirst()
+        .orElse(EquipmentManager.NONE);
+  }
 
-      case KoLConstants.EQUIP_SHIRT:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.SHIRT);
-
-      case KoLConstants.EQUIP_PANTS:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.PANTS);
-
-      case KoLConstants.EQUIP_CONTAINER:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.CONTAINER);
-
-      case KoLConstants.EQUIP_ACCESSORY:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.ACCESSORY1)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.ACCESSORY2)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.ACCESSORY3);
-
-      case KoLConstants.CONSUME_STICKER:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.STICKER1)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.STICKER2)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.STICKER3);
-
-      case KoLConstants.CONSUME_CARD:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.CARDSLEEVE);
-
-      case KoLConstants.CONSUME_FOLDER:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER1)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER2)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER3)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER4)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER5);
-
-      case KoLConstants.EQUIP_FAMILIAR:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FAMILIAR);
-    }
-
-    return false;
+  private static int equipmentSlotFromSubset(final AdventureResult item, final int slot) {
+    return KoLCharacter.hasEquipped(item, slot) ? slot : EquipmentManager.NONE;
   }
 
   public static final int equipmentSlot(final AdventureResult item) {
-    switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case KoLConstants.EQUIP_WEAPON:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.WEAPON)
-            ? EquipmentManager.WEAPON
-            : KoLCharacter.hasEquipped(item, EquipmentManager.OFFHAND)
-                ? EquipmentManager.OFFHAND
-                : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_OFFHAND:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.OFFHAND)
-            ? EquipmentManager.OFFHAND
-            :
-            // Left-Hand Man gives usual powers when holding an off-hand item
-            KoLCharacter.hasEquipped(item, EquipmentManager.FAMILIAR)
-                ? EquipmentManager.FAMILIAR
-                : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_HAT:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.HAT)
-            ? EquipmentManager.HAT
-            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_SHIRT:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.SHIRT)
-            ? EquipmentManager.SHIRT
-            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_PANTS:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.PANTS)
-            ? EquipmentManager.PANTS
-            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_CONTAINER:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.CONTAINER)
-            ? EquipmentManager.CONTAINER
-            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_ACCESSORY:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.ACCESSORY1)
-            ? EquipmentManager.ACCESSORY1
-            : KoLCharacter.hasEquipped(item, EquipmentManager.ACCESSORY2)
-                ? EquipmentManager.ACCESSORY2
-                : KoLCharacter.hasEquipped(item, EquipmentManager.ACCESSORY3)
-                    ? EquipmentManager.ACCESSORY3
-                    : EquipmentManager.NONE;
-
-      case KoLConstants.CONSUME_STICKER:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.STICKER1)
-            ? EquipmentManager.STICKER1
-            : KoLCharacter.hasEquipped(item, EquipmentManager.STICKER2)
-                ? EquipmentManager.STICKER2
-                : KoLCharacter.hasEquipped(item, EquipmentManager.STICKER3)
-                    ? EquipmentManager.STICKER3
-                    : EquipmentManager.NONE;
-
-      case KoLConstants.CONSUME_CARD:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.CARDSLEEVE)
-            ? EquipmentManager.CARDSLEEVE
-            : EquipmentManager.NONE;
-
-      case KoLConstants.CONSUME_FOLDER:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER1)
-            ? EquipmentManager.FOLDER1
-            : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER2)
-                ? EquipmentManager.FOLDER2
-                : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER3)
-                    ? EquipmentManager.FOLDER3
-                    : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER4)
-                        ? EquipmentManager.FOLDER4
-                        : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER5)
-                            ? EquipmentManager.FOLDER5
-                            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_FAMILIAR:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.FAMILIAR)
-            ? EquipmentManager.FAMILIAR
-            : EquipmentManager.NONE;
-    }
-
-    return EquipmentManager.NONE;
+    return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
+      case KoLConstants.EQUIP_WEAPON -> equipmentSlotFromSubset(
+          item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
+      case KoLConstants.EQUIP_OFFHAND -> equipmentSlotFromSubset(
+          item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
+      case KoLConstants.EQUIP_HAT -> equipmentSlotFromSubset(item, EquipmentManager.HAT);
+      case KoLConstants.EQUIP_SHIRT -> equipmentSlotFromSubset(item, EquipmentManager.SHIRT);
+      case KoLConstants.EQUIP_PANTS -> equipmentSlotFromSubset(item, EquipmentManager.PANTS);
+      case KoLConstants.EQUIP_CONTAINER -> equipmentSlotFromSubset(
+          item, EquipmentManager.CONTAINER);
+      case KoLConstants.EQUIP_ACCESSORY -> equipmentSlotFromSubset(
+          item, EquipmentManager.ACCESSORY_SLOTS);
+      case KoLConstants.CONSUME_STICKER -> equipmentSlotFromSubset(
+          item, EquipmentManager.STICKER_SLOTS);
+      case KoLConstants.CONSUME_CARD -> equipmentSlotFromSubset(item, EquipmentManager.CARDSLEEVE);
+      case KoLConstants.CONSUME_FOLDER -> equipmentSlotFromSubset(
+          item, EquipmentManager.FOLDER_SLOTS);
+      case KoLConstants.EQUIP_FAMILIAR -> equipmentSlotFromSubset(item, EquipmentManager.FAMILIAR);
+      default -> EquipmentManager.NONE;
+    };
   }
 
   public static final void updateStatus() {
@@ -5411,7 +5334,7 @@ public abstract class KoLCharacter {
     return newModifiers;
   }
 
-  private static void addItemAdjustment(
+  public static void addItemAdjustment(
       Modifiers newModifiers,
       int slot,
       AdventureResult item,
@@ -5494,12 +5417,11 @@ public abstract class KoLCharacter {
         case ItemPool.STICKER_SWORD:
         case ItemPool.STICKER_CROSSBOW:
           // Apply stickers
-          for (int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i) {
-            AdventureResult sticker = equipment[i];
-            if (sticker != null && sticker != EquipmentRequest.UNEQUIP) {
-              newModifiers.add(Modifiers.getItemModifiers(sticker.getItemId()));
-            }
-          }
+          Arrays.stream(EquipmentManager.STICKER_SLOTS)
+              .mapToObj(i -> equipment[i])
+              .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
+              .map(AdventureResult::getItemId)
+              .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
           break;
 
         case ItemPool.CARD_SLEEVE:
@@ -5514,12 +5436,11 @@ public abstract class KoLCharacter {
 
         case ItemPool.FOLDER_HOLDER:
           // Apply folders
-          for (int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i) {
-            AdventureResult folder = equipment[i];
-            if (folder != null && folder != EquipmentRequest.UNEQUIP) {
-              newModifiers.add(Modifiers.getItemModifiers(folder.getItemId()));
-            }
-          }
+          Arrays.stream(EquipmentManager.FOLDER_SLOTS)
+              .mapToObj(EquipmentManager::getEquipment)
+              .filter(f -> f != null && f != EquipmentRequest.UNEQUIP)
+              .map(AdventureResult::getItemId)
+              .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
           break;
 
         case ItemPool.COWBOY_BOOTS:
