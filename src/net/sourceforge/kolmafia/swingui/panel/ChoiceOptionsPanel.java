@@ -358,9 +358,10 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addChoiceSelect("Fernswarthy's Tower", "Fernswarthy's Basement", this.basementMallSelect);
     this.addChoiceSelect("Woods", "Spooky Forest", this.spookyForestSelect);
     this.addChoiceSelect("Astral", "Violet Fog", this.violetFogSelect);
+    // This Should be available for all Manor zones
+    this.addChoiceSelect("Manor1", "Lights Out", this.lightsOutSelect);
     this.addChoiceSelect("Manor1", "Rise of Spookyraven", this.riseSelect);
     this.addChoiceSelect("Manor1", "Fall of Spookyraven", this.fallSelect);
-    this.addChoiceSelect("Manor1", "Lights Out", this.lightsOutSelect);
     this.addChoiceSelect("Manor2", "Louvre Goal", this.louvreSelect);
     this.addChoiceSelect("Manor2", "Louvre Override", this.manualLouvre);
     this.addChoiceSelect("Manor2", "The Maidens", this.maidenSelect);

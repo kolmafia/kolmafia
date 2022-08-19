@@ -44,11 +44,16 @@ public class Networking {
     assertThat(uri.getQuery(), equalTo(query));
   }
 
+  public static String getPostRequestBody(HttpRequest request) {
+    assertThat(request.method(), equalTo("POST"));
+    var reqBody = new RequestBodyReader().bodyAsString(request);
+    return URLDecoder.decode(reqBody, StandardCharsets.UTF_8);
+  }
+
   public static void assertPostRequest(HttpRequest request, String path, String body) {
     assertThat(request.method(), equalTo("POST"));
     var uri = request.uri();
     assertThat(uri.getPath(), equalTo(path));
-    var reqBody = new RequestBodyReader().bodyAsString(request);
-    assertThat(URLDecoder.decode(reqBody, StandardCharsets.UTF_8), equalTo(body));
+    assertThat(getPostRequestBody(request), equalTo(body));
   }
 }
