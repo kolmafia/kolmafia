@@ -414,6 +414,10 @@ public class Concoction implements Comparable<Concoction> {
       throw new NullPointerException();
     }
 
+    if (this == o) {
+      return 0;
+    }
+
     if (this.name == null) {
       return o.name == null ? 0 : 1;
     }
