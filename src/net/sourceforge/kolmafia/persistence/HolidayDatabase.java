@@ -16,15 +16,24 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HolidayDatabase {
-  private static ZonedDateTime NEWYEAR;
-  private static ZonedDateTime BOUNDARY;
-  private static ZonedDateTime COLLISION;
+  public static final ZoneId ROLLOVER = ZoneId.of("GMT-0330");
+  public static final ZoneId ARIZONA = ZoneId.of("GMT-0700");
+
+  // The epoch of the Kingdom of Loathing.
+  private static final ZonedDateTime NEWYEAR =
+      ZonedDateTime.of(2005, Month.SEPTEMBER.getValue(), 17, 0, 0, 0, 0, ROLLOVER);
+
+  // The date of White Wednesday, which throws everything off by a day
+  private static final ZonedDateTime BOUNDARY =
+      ZonedDateTime.of(2005, Month.OCTOBER.getValue(), 27, 0, 0, 0, 0, ROLLOVER);
+
+  // The day the thing crashed into Grimace
+  private static final ZonedDateTime COLLISION =
+      ZonedDateTime.of(2006, Month.JUNE.getValue(), 3, 0, 0, 0, 0, ROLLOVER);
 
   private static int RONALD_PHASE = -1;
   private static int GRIMACE_PHASE = -1;
   private static int HAMBURGLAR_POSITION = -1;
-  public static final ZoneId ROLLOVER = ZoneId.of("GMT-0330");
-  public static final ZoneId ARIZONA = ZoneId.of("GMT-0700");
 
   static {
     HolidayDatabase.guessPhaseStep();
@@ -168,18 +177,6 @@ public class HolidayDatabase {
 
   public static void guessPhaseStep() {
     try {
-      // Use a timezone such that the "day" begins at rollover.
-      HolidayDatabase.NEWYEAR =
-          ZonedDateTime.of(2005, Month.SEPTEMBER.getValue(), 17, 0, 0, 0, 0, ROLLOVER);
-
-      // the date of White Wednesday, which throws everything off by a day
-      HolidayDatabase.BOUNDARY =
-          ZonedDateTime.of(2005, Month.OCTOBER.getValue(), 27, 0, 0, 0, 0, ROLLOVER);
-
-      // the day the thing crashed into Grimace
-      HolidayDatabase.COLLISION =
-          ZonedDateTime.of(2006, Month.JUNE.getValue(), 3, 0, 0, 0, 0, ROLLOVER);
-
       int calendarDay = HolidayDatabase.getDayInKoLYear(ZonedDateTime.now(ROLLOVER));
       int phaseStep = (calendarDay + 16) % 16;
 
@@ -306,26 +303,17 @@ public class HolidayDatabase {
   }
 
   public static String getPhaseName(final int phase) {
-    switch (phase) {
-      case 0:
-        return "new moon";
-      case 1:
-        return "waxing crescent";
-      case 2:
-        return "first quarter";
-      case 3:
-        return "waxing gibbous";
-      case 4:
-        return "full moon";
-      case 5:
-        return "waning gibbous";
-      case 6:
-        return "third quarter";
-      case 7:
-        return "waning crescent";
-      default:
-        return "unknown";
-    }
+    return switch (phase) {
+      case 0 -> "new moon";
+      case 1 -> "waxing crescent";
+      case 2 -> "first quarter";
+      case 3 -> "waxing gibbous";
+      case 4 -> "full moon";
+      case 5 -> "waning gibbous";
+      case 6 -> "third quarter";
+      case 7 -> "waning crescent";
+      default -> "unknown";
+    };
   }
 
   public static String getHamburglarPositionAsString() {
@@ -333,32 +321,20 @@ public class HolidayDatabase {
   }
 
   public static String getHamburglarPositionName(final int phase) {
-    switch (phase) {
-      case 0:
-        return "in front of Grimace, L side";
-      case 1:
-        return "in front of Grimace, R side";
-      case 2:
-        return "far right";
-      case 3:
-        return "behind Grimace";
-      case 4:
-        return "in back, near Grimace";
-      case 5:
-        return "in back, near Ronald";
-      case 6:
-        return "behind Ronald";
-      case 7:
-        return "far left";
-      case 8:
-        return "in front of Ronald, L side";
-      case 9:
-        return "in front of Ronald, R side";
-      case 10:
-        return "front center";
-      default:
-        return "unknown";
-    }
+    return switch (phase) {
+      case 0 -> "in front of Grimace, L side";
+      case 1 -> "in front of Grimace, R side";
+      case 2 -> "far right";
+      case 3 -> "behind Grimace";
+      case 4 -> "in back, near Grimace";
+      case 5 -> "in back, near Ronald";
+      case 6 -> "behind Ronald";
+      case 7 -> "far left";
+      case 8 -> "in front of Ronald, L side";
+      case 9 -> "in front of Ronald, R side";
+      case 10 -> "front center";
+      default -> "unknown";
+    };
   }
 
   /**
@@ -407,14 +383,6 @@ public class HolidayDatabase {
     return grimacePhase >= 4 ? 8 + ronaldPhase : ronaldPhase;
   }
 
-  /** Returns whether or not the grue will fight during the current moon phase. */
-  public static boolean getGrueEffect() {
-    return HolidayDatabase.getGrueEffect(
-        HolidayDatabase.RONALD_PHASE,
-        HolidayDatabase.GRIMACE_PHASE,
-        HolidayDatabase.HAMBURGLAR_POSITION);
-  }
-
   /** Returns whether or not the grue will fight during the given moon phases. */
   public static boolean getGrueEffect(
       final int ronaldPhase, final int grimacePhase, final int hamburglarPosition) {
@@ -441,16 +409,6 @@ public class HolidayDatabase {
   }
 
   /**
-   * Returns the effect percentage (as a whole number integer) of the Talisman of Baio for today.
-   */
-  public static int getBaioEffect() {
-    return HolidayDatabase.getBaioEffect(
-        HolidayDatabase.RONALD_PHASE,
-        HolidayDatabase.GRIMACE_PHASE,
-        HolidayDatabase.HAMBURGLAR_POSITION);
-  }
-
-  /**
    * Returns the effect percentage (as a whole number integer) of the Talisman of Baio for the given
    * moon phases.
    */
@@ -473,14 +431,6 @@ public class HolidayDatabase {
             - HolidayDatabase.getGrimaceMoonlight(grimacePhase)
             + HolidayDatabase.getHamburglarDarkness(ronaldPhase, grimacePhase, hamburglarPosition);
     return grimaceEffect * 10;
-  }
-
-  /** Returns the effect of the Jekyllin, based on the current moon phase information. */
-  public static String getJekyllinEffect() {
-    return HolidayDatabase.getJekyllinEffect(
-        HolidayDatabase.RONALD_PHASE,
-        HolidayDatabase.GRIMACE_PHASE,
-        HolidayDatabase.HAMBURGLAR_POSITION);
   }
 
   /** Returns the effect of the Jekyllin for the given moon phases */
@@ -786,7 +736,7 @@ public class HolidayDatabase {
 
   /** Returns a complete list of all holiday predictions for the given day, as an array. */
   public static String[] getHolidayPredictions(final ZonedDateTime dateTime) {
-    List<HolidayEntry> holidayList = new ArrayList<HolidayEntry>();
+    List<HolidayEntry> holidayList = new ArrayList<>();
     int currentCalendarDay = HolidayDatabase.getDayInKoLYear(dateTime);
 
     int[] calendarDayAsArray;
@@ -839,18 +789,11 @@ public class HolidayDatabase {
     return predictionsArray;
   }
 
-  private static class HolidayEntry implements Comparable<HolidayEntry> {
-    private final int offset;
-    private final String name;
-
-    public HolidayEntry(final int offset, final String name) {
-      this.offset = offset;
-      this.name = name;
-    }
+  private record HolidayEntry(int offset, String name) implements Comparable<HolidayEntry> {
 
     @Override
     public int compareTo(final HolidayEntry o) {
-      if (!(o instanceof HolidayEntry)) {
+      if (o == null) {
         return -1;
       }
 
@@ -863,21 +806,11 @@ public class HolidayDatabase {
 
     @Override
     public boolean equals(final Object o) {
-      if (!(o instanceof HolidayEntry)) {
+      if (!(o instanceof HolidayEntry other)) {
         return false;
       }
 
-      HolidayEntry other = (HolidayEntry) o;
-
       return (this.offset == other.offset) && this.name.equals(other.name);
-    }
-
-    @Override
-    public int hashCode() {
-      int hash = 0;
-      hash += this.offset;
-      hash += this.name != null ? this.name.hashCode() : 0;
-      return hash;
     }
 
     @Override
@@ -1003,7 +936,7 @@ public class HolidayDatabase {
       int d = l + 28 - 31 * (m / 4);
 
       HolidayDatabase.easter =
-          ZonedDateTime.of(y, m - 1, d, 0, 0, 0, 0, ROLLOVER).format(DAILY_DATETIME_FORMAT);
+          ZonedDateTime.of(y, m, d, 0, 0, 0, 0, ROLLOVER).format(DAILY_DATETIME_FORMAT);
 
       var dayOfTheWeek =
           ZonedDateTime.of(y, Month.NOVEMBER.getValue(), 1, 0, 0, 0, 0, ROLLOVER).getDayOfWeek();
@@ -1081,6 +1014,10 @@ public class HolidayDatabase {
 
     if (stringDate.endsWith("0923")) {
       return "Veracity's Birthday";
+    }
+
+    if (stringDate.endsWith("0217")) {
+      return "Gausie's Birthday";
     }
 
     return null;
