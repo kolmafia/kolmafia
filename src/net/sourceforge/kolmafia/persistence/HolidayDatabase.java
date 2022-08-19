@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.KoLConstants.DAILY_DATETIME_FORMAT;
+
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.time.ZoneId;
@@ -8,15 +10,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.TimeZone;
-
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import static net.sourceforge.kolmafia.KoLConstants.DAILY_DATETIME_FORMAT;
 
 public class HolidayDatabase {
   private static ZonedDateTime NEWYEAR;
