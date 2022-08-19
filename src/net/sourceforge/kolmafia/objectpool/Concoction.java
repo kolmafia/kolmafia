@@ -479,8 +479,10 @@ public class Concoction implements Comparable<Concoction> {
 
     // Sort steel organs to the top.
     if (this.steelOrgan) {
-      // No need to see if they are both steel organs as they have different sort orders
-      // and are thus differentiated above.
+      if (o.steelOrgan) {
+        // both are steel organs so return name compare
+        return this.nameCheckCompare(o);
+      }
       return -1;
     } else if (o.steelOrgan) {
       return 1;

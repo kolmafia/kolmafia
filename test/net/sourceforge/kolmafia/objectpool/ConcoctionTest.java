@@ -49,13 +49,13 @@ public class ConcoctionTest {
     Concoction original = ConcoctionPool.get(ItemPool.STEEL_LIVER);
     Concoction copy = new Concoction(original);
     // Not same object
-    assertFalse(original == copy, "Different objects not supposed to be ==");
+    assertNotSame(original, copy, "Different objects not supposed to be ==");
     // But are equals
-    assertTrue(original.equals(copy), "Original and copy not equals.");
-    assertTrue(copy.equals(original), "Copy and original.");
+    assertEquals(original, copy, "Original and copy not equals.");
+    assertEquals(copy, original, "Copy and original.");
     // Sort the same via compareTo
-    // assertEquals(original.compareTo(copy), 0, "compareTo not sorting copy.");
-    // assertEquals(copy.compareTo(original), 0, "compareTo not sorting original.");
+    assertEquals(original.compareTo(copy), 0, "compareTo not sorting copy.");
+    assertEquals(copy.compareTo(original), 0, "compareTo not sorting original.");
   }
 
   @Test
