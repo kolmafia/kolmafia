@@ -1495,7 +1495,6 @@ public class QuestManagerTest {
     public void willReadDiaryWhenAcquired() {
       var builder = new FakeHttpClientBuilder();
 
-      var ascension = 50;
       var cleanup =
           new Cleanups(
               withItem(ItemPool.FORGED_ID_DOCUMENTS),
