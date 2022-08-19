@@ -3557,7 +3557,7 @@ public abstract class RuntimeLibrary {
   // updated usually once per day.
 
   public static Value holiday(ScriptRuntime controller) {
-    Date today = new Date();
+    var today = HolidayDatabase.getRolloverDateTime();
     String gameHoliday = HolidayDatabase.getGameHoliday(today);
     String realHoliday = HolidayDatabase.getRealLifeHoliday(today);
     String result =
@@ -3638,16 +3638,15 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value gameday_to_string(ScriptRuntime controller) {
-    return new Value(
-        HolidayDatabase.getCalendarDayAsString(HolidayDatabase.getCalendarDay(new Date())));
+    return new Value(HolidayDatabase.getCalendarDayAsString(HolidayDatabase.getDayInKoLYear()));
   }
 
   public static Value gameday_to_int(ScriptRuntime controller) {
-    return new Value(HolidayDatabase.getCalendarDay(new Date()));
+    return new Value(HolidayDatabase.getDayInKoLYear());
   }
 
   public static Value gametime_to_int(ScriptRuntime controller) {
-    return new Value(HolidayDatabase.getTimeDifference(new Date()));
+    return new Value(HolidayDatabase.getTimeInKoLDay());
   }
 
   public static Value rollover(ScriptRuntime controller) {

@@ -3,7 +3,8 @@ package internal.helpers;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.network.FakeHttpClientBuilder;
-import java.util.GregorianCalendar;
+import java.time.Month;
+import java.time.ZonedDateTime;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -855,7 +856,7 @@ public class Player {
    * @param day Day to set
    * @return Restores to using the real day
    */
-  public static Cleanups withDay(final int year, final int month, final int day) {
+  public static Cleanups withDay(final int year, final Month month, final int day) {
     return withDay(year, month, day, 12, 0);
   }
 
@@ -870,17 +871,19 @@ public class Player {
    * @return Restores to using the real day
    */
   public static Cleanups withDay(
-      final int year, final int month, final int day, final int hour, final int minute) {
+      final int year, final Month month, final int day, final int hour, final int minute) {
     var mocked = mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS);
 
-    var arizonaCalendar = new GregorianCalendar(HolidayDatabase.ARIZONA);
-    arizonaCalendar.set(year, month, day, hour, minute);
-    var rolloverCalendar = new GregorianCalendar(HolidayDatabase.ROLLOVER);
-    rolloverCalendar.set(year, month, day, hour, minute);
-
-    mocked.when(HolidayDatabase::getDate).thenReturn(arizonaCalendar.getTime());
-    mocked.when(HolidayDatabase::getCalendar).thenReturn(arizonaCalendar);
-    mocked.when(HolidayDatabase::getKoLCalendar).thenReturn(rolloverCalendar);
+    mocked
+        .when(HolidayDatabase::getArizonaDateTime)
+        .thenReturn(
+            ZonedDateTime.of(
+                year, month.getValue(), day, hour, minute, 0, 0, HolidayDatabase.ARIZONA));
+    mocked
+        .when(HolidayDatabase::getRolloverDateTime)
+        .thenReturn(
+            ZonedDateTime.of(
+                year, month.getValue(), day, hour, minute, 0, 0, HolidayDatabase.ROLLOVER));
 
     return new Cleanups(mocked::close);
   }

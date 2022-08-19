@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import java.util.Calendar;
+import java.time.Month;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
@@ -48,7 +48,7 @@ public class ResultProcessorTest {
       HolidayDatabase.guessPhaseStep();
       EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
       // This was an Oyster Egg Day.
-      final var cleanups = withDay(2022, Calendar.JANUARY, 29, 12, 0);
+      final var cleanups = withDay(2022, Month.JANUARY, 29, 12, 0);
       try (cleanups) {
         ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
       }
@@ -58,7 +58,7 @@ public class ResultProcessorTest {
     public void obtainOysterEggOnWrongDay() {
       EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
       // This was not an Oyster Egg Day.
-      final var cleanups = withDay(2022, Calendar.JANUARY, 30, 12, 0);
+      final var cleanups = withDay(2022, Month.JANUARY, 30, 12, 0);
       try (cleanups) {
         ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
         assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
@@ -68,7 +68,7 @@ public class ResultProcessorTest {
     @Test
     public void obtainOysterEggWithoutBasket() {
       // This was an Oyster Egg Day.
-      final var cleanups = withDay(2022, Calendar.JANUARY, 29, 12, 0);
+      final var cleanups = withDay(2022, Month.JANUARY, 29, 12, 0);
       try (cleanups) {
         ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
         assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
@@ -78,7 +78,7 @@ public class ResultProcessorTest {
     @Test
     public void obtainOysterEggOnWrongDayAndWithoutBasket() {
       // This was not an Oyster Egg Day.
-      final var cleanups = withDay(2022, Calendar.JANUARY, 30, 12, 0);
+      final var cleanups = withDay(2022, Month.JANUARY, 30, 12, 0);
       try (cleanups) {
         ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
         assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);

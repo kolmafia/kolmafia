@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -2266,18 +2266,17 @@ public class Modifiers {
       case ItemPool.TUESDAYS_RUBY:
         {
           // Set modifiers depending on what KoL day of the week it is
-          Calendar date = HolidayDatabase.getCalendar();
-          int dotw = date.get(Calendar.DAY_OF_WEEK);
+          var dotw = HolidayDatabase.getArizonaDateTime().getDayOfWeek();
 
-          this.set(Modifiers.MEATDROP, dotw == Calendar.SUNDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MUS_PCT, dotw == Calendar.MONDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MP_REGEN_MIN, dotw == Calendar.TUESDAY ? 3.0 : 0.0);
-          this.set(Modifiers.MP_REGEN_MAX, dotw == Calendar.TUESDAY ? 7.0 : 0.0);
-          this.set(Modifiers.MYS_PCT, dotw == Calendar.WEDNESDAY ? 5.0 : 0.0);
-          this.set(Modifiers.ITEMDROP, dotw == Calendar.THURSDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MOX_PCT, dotw == Calendar.FRIDAY ? 5.0 : 0.0);
-          this.set(Modifiers.HP_REGEN_MIN, dotw == Calendar.SATURDAY ? 3.0 : 0.0);
-          this.set(Modifiers.HP_REGEN_MAX, dotw == Calendar.SATURDAY ? 7.0 : 0.0);
+          this.set(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
+          this.set(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
+          this.set(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
+          this.set(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
+          this.set(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
+          this.set(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
           return true;
         }
 

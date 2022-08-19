@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import java.util.Calendar;
+import java.time.Month;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -219,7 +219,7 @@ public class ModifierExpressionTest {
   @Test
   public void canDetectHoliday() {
     HolidayDatabase.guessPhaseStep();
-    final var cleanups = withDay(2008, Calendar.FEBRUARY, 17, 12, 0);
+    final var cleanups = withDay(2008, Month.FEBRUARY, 17, 12, 0);
 
     try (cleanups) {
       var exp = new ModifierExpression("event(Sneaky Pete's Day)", "Event: Sneaky Pete's day");
@@ -229,7 +229,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectDecember() {
-    final var cleanups = withDay(2021, Calendar.DECEMBER, 3);
+    final var cleanups = withDay(2021, Month.DECEMBER, 3);
 
     try (cleanups) {
       var exp = new ModifierExpression("event(December)", "Event: December");
@@ -369,7 +369,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectFestivalOfJarlsberg() {
-    final var cleanups = withDay(2020, Calendar.JANUARY, 1);
+    final var cleanups = withDay(2020, Month.JANUARY, 1);
     try (cleanups) {
       var exp = new ModifierExpression("J", "Festival of Jarlsberg");
       assertThat(exp.eval(), is(1.0));
