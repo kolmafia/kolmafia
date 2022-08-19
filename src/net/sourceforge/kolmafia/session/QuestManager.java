@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -710,6 +711,8 @@ public class QuestManager {
     if (area == AdventurePool.HAUNTED_BALLROOM) {
       if (responseText.contains("Having a Ball in the Ballroom")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+        // You cannot visit the third floor unless you have visited the second floor
+        new UpdateSuppressedRequest("place.php?whichplace=manor2").run();
       }
     }
     // Derive quest status from available rooms
@@ -932,6 +935,9 @@ public class QuestManager {
       } else if (responseText.contains("make a note of the temple's location")) {
         QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.FINISHED);
         Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+        ResultProcessor.removeItem(ItemPool.BENDY_STRAW);
+        ResultProcessor.removeItem(ItemPool.PLANT_FOOD);
+        ResultProcessor.removeItem(ItemPool.SEWING_KIT);
       }
     } else if (location.contains("action=woods_hippy")
         && responseText.contains("You've got this cool boat")) {
@@ -1232,6 +1238,8 @@ public class QuestManager {
     if (responseText.contains("immediately grows into an enormous beanstalk")) {
       ResultProcessor.processItem(ItemPool.ENCHANTED_BEAN, -1);
       QuestDatabase.setQuestProgress(Quest.GARBAGE, "step1");
+      // This appears to be unnecessary,
+      // new UpdateSuppressedRequest("place.php?whichplace=beanstalk").run();
       if (KoLmafia.isAdventuring()) {
         KoLmafia.updateDisplay(MafiaState.PENDING, "You have planted a beanstalk.");
       }

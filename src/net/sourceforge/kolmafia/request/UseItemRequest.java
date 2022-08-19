@@ -950,24 +950,26 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MACGUFFIN_DIARY:
       case ItemPool.ED_DIARY:
         {
-          // Make it a RelayRequest since we don't want a charpane refresh
-          RelayRequest request = new RelayRequest(false);
-          request.constructURLString("diary.php?textversion=1");
-          RequestThread.postRequest(request);
+          new UpdateSuppressedRequest("diary.php?textversion=1").run();
           KoLmafia.updateDisplay("Your father's diary has been read.");
           return;
         }
 
       case ItemPool.VOLCANO_MAP:
         {
-          try {
-            GenericRequest.suppressUpdate(true);
-            GenericRequest request = new GenericRequest("inv_use.php?which=3&whichitem=3291&pwd");
-            RequestThread.postRequest(request);
-            // This will redirect to volcanoisland.php
-          } finally {
-            GenericRequest.suppressUpdate(false);
-          }
+          var request =
+              new UpdateSuppressedRequest("inv_use.php?which=3&whichitem=3291&pwd") {
+                protected boolean shouldFollowRedirect() {
+                  return true;
+                }
+
+                @Override
+                public boolean hasResult(String location) {
+                  return false;
+                }
+              };
+          request.run();
+          // This will redirect to volcanoisland.php
           KoLmafia.updateDisplay("The secret tropical island volcano lair map has been read.");
           return;
         }
@@ -2385,6 +2387,9 @@ public class UseItemRequest extends GenericRequest {
         if (QuestDatabase.isQuestStarted(Quest.WORSHIP)) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step1");
         }
+
+        // Do we need to look at the woods in order to unlock the Hidden Temple?
+        new UpdateSuppressedRequest("woods.php").run();
 
         break;
 
