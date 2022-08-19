@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.preferences;
 
+import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -457,13 +458,12 @@ class PreferencesTest {
     int beforeRollover = 1;
     int afterRollover = 0;
 
-    // Confirm it was set
-    Preferences.setInteger(name, beforeRollover);
+    try (var cleanups = withProperty(name, beforeRollover)) {
+      Preferences.resetPerRollover();
 
-    Preferences.resetPerRollover();
-
-    // confirm default
-    assertThat(name, isSetTo(afterRollover));
+      // confirm default
+      assertThat(name, isSetTo(afterRollover));
+    }
   }
 
   @Test

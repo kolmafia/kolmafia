@@ -16,26 +16,20 @@ import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class AscensionRequestTest {
-  @BeforeEach
-  public void initializeCharPrefs() {
+  @BeforeAll
+  public static void initializeCharPrefs() {
     KoLCharacter.reset("fakePrefUser");
     KoLCharacter.reset(true);
     Preferences.saveSettingsToFile = false;
     // Fix another test not cleaning up
     FightRequest.currentRound = 0;
-  }
-
-  @AfterEach
-  public void resetCharAndPrefs() {
-    KoLCharacter.reset("");
-    KoLCharacter.reset(true);
-    KoLCharacter.setUserId(0);
-    Preferences.saveSettingsToFile = false;
   }
 
   @Test
