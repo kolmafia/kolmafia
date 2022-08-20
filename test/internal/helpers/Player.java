@@ -661,6 +661,18 @@ public class Player {
   }
 
   /**
+   * Sets the player's gender to the given value.
+   *
+   * @param gender Required gender
+   * @return Resets gender to unknown
+   */
+  public static Cleanups withGender(final int gender) {
+    KoLCharacter.setGender(gender);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> KoLCharacter.setGender(0));
+  }
+
+  /**
    * Sets the player's level to the given value. This is done by setting all stats to the minimum
    * required for that level.
    *
@@ -1025,6 +1037,21 @@ public class Player {
           GenericRequest.sessionId = null;
           HttpUtilities.setClientBuilder(() -> old);
           GenericRequest.resetClient();
+        });
+  }
+
+  /**
+   * Sets supplied passwordHash to be used by GenericRequest
+   *
+   * @param passwordHash The passwordHash to use
+   * @return restores previous passwordHash
+   */
+  public static Cleanups withPasswordHash(String passwordHash) {
+    var old = GenericRequest.passwordHash;
+    GenericRequest.setPasswordHash(passwordHash);
+    return new Cleanups(
+        () -> {
+          GenericRequest.setPasswordHash(old);
         });
   }
 
