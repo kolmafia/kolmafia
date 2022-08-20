@@ -45,7 +45,7 @@ jobs:
         run: ./gradlew --no-daemon check jacocoTestReport
 
       - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3.3.0
+        uses: mikepenz/action-junit-report@v3.2.0
         if: always()
         with:
           check_name: "Test Report (${{ matrix.os }})"
