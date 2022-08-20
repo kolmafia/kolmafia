@@ -367,6 +367,10 @@ public class GenericRequest implements Runnable {
     return GenericRequest.suppressUpdate;
   }
 
+  protected boolean shouldSuppressUpdate() {
+    return GenericRequest.suppressUpdate;
+  }
+
   public GenericRequest cloneURLString(final GenericRequest req) {
     String newURLString = req.getFullURLString();
     boolean usePostMethod = !req.data.isEmpty();
@@ -2207,11 +2211,7 @@ public class GenericRequest implements Runnable {
     // Once everything is complete, decide whether or not
     // you should refresh your status.
 
-    if (!this.hasResult || GenericRequest.suppressUpdate) {
-      return;
-    }
-
-    if (this instanceof RelayRequest) {
+    if (!this.hasResult || this.shouldSuppressUpdate()) {
       return;
     }
 
