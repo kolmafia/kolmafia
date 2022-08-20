@@ -34,6 +34,7 @@ big bad voodoo mask	160	Mox: 65
 Big Candy's tophat	100	none
 biker's hat	200	Mox: 85
 biomechanical crimborg helmet	150	Mox: 60
+birdseed hat	100	none
 black cowboy hat	165	Mox: 67
 black helmet	160	Mus: 65
 blue traffic cone	60	Mox: 15
@@ -751,6 +752,7 @@ bod-ice	100	none
 Brogre brolo shirt	100	Mus: 35
 bronze breastplate	105	Mus: 37
 camouflage T-shirt	100	Mus: 25
+camouflage vest	50	none
 cane-mail shirt	100	none
 chamoisole	200	Mus: 200
 cheerful Crimbo sweater	50	none
@@ -778,6 +780,7 @@ First Post shirt - Cir Senam	100	none
 fishbone corset	20	none
 flagstone fleece	120	Mox: 40
 flaming pink shirt	100	none
+flatusaur gasmask	100	none
 floral print shirt	100	Mus: 35
 flyest of shirts	80	Mus: 25
 fresh coat of paint	100	none
@@ -836,6 +839,7 @@ real cowboy hat	50	none
 red coat	160	Mus: 65
 red shirt	150	Mus: 60
 red-and-green sweater	50	Mox: 35
+reflective vest	50	none
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
@@ -1420,6 +1424,7 @@ primitive alien spear	50	Mus: 10	1-handed spear
 pristine walrus tusk	150	Mus: 60	1-handed staff
 projectile icemaker	125	Mox: 45	2-handed crossbow
 protection stick	90	Mus: 30	1-handed club
+pterodactyl rifle	100	Mox: 0	2-handed rifle
 PVC staff	200	Mus: 85	2-handed staff
 pygmy concertinette	150	Mox: 60	1-handed accordion
 pygmy spear	165	Mus: 67	1-handed spear
@@ -2161,6 +2166,7 @@ stuffed can of asparagus	10	none
 stuffed caterpillar	10	none
 stuffed Cheshire bitten	10	none
 stuffed cocoabo	10	none
+stuffed dinosaur	0	none
 stuffed dodecapede	10	none
 stuffed dodo	10	none
 stuffed flaming gravy fairy	10	none
@@ -3385,6 +3391,7 @@ Zombo's skull ring	200	Mys: 200
 anniversary pewter cape	10	none
 antique nutcracker cape	150	Mys: 30
 auxiliary backbone	0	Mus: 75
+awkward dinosaur research harness	10	none
 B. L. A. R. T.	0	none
 back shell	0	none
 bakelite backpack	120	Mus: 40
