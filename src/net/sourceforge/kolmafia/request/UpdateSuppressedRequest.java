@@ -14,4 +14,9 @@ public class UpdateSuppressedRequest extends GenericRequest {
   public boolean shouldSuppressUpdate() {
     return true;
   }
+
+  @Override
+  protected boolean shouldFollowRedirect() {
+    return true;
+  }
 }

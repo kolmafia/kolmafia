@@ -4309,6 +4309,17 @@ public abstract class KoLCharacter {
     return KoLCharacter.getAscensions() == Preferences.getInteger("lastTempleUnlock");
   }
 
+  public static final void setTempleUnlocked() {
+    if (KoLCharacter.getAscensions() != Preferences.getInteger("lastTempleUnlock")) {
+      QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.FINISHED);
+      Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+      // If quest Gotta Worship Them All is started, this completes step 1
+      if (QuestDatabase.isQuestStarted(Quest.WORSHIP)) {
+        QuestDatabase.setQuestProgress(Quest.WORSHIP, "step1");
+      }
+    }
+  }
+
   public static final boolean getTrapperQuestCompleted() {
     return KoLCharacter.getAscensions() == Preferences.getInteger("lastTr4pz0rQuest");
   }

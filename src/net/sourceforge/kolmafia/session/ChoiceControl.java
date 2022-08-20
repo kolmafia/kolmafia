@@ -499,7 +499,7 @@ public abstract class ChoiceControl {
               case 3 -> AdventurePool.THE_POND;
               default -> 0;
             };
-        Preferences.setString("duckAreas", String.valueOf(ducks1));
+        Preferences.setString("duckAreasSelected", String.valueOf(ducks1));
         break;
 
       case 148:
@@ -510,7 +510,8 @@ public abstract class ChoiceControl {
               case 2 -> AdventurePool.THE_FAMILY_PLOT;
               default -> 0;
             };
-        Preferences.setString("duckAreas", Preferences.getString("duckAreas") + "," + ducks2);
+        Preferences.setString(
+            "duckAreasSelected", Preferences.getString("duckAreasSelected") + "," + ducks2);
         break;
 
       case 149:
@@ -521,7 +522,8 @@ public abstract class ChoiceControl {
               case 2 -> AdventurePool.THE_OTHER_BACK_40;
               default -> 0;
             };
-        Preferences.setString("duckAreas", Preferences.getString("duckAreas") + "," + ducks3);
+        Preferences.setString(
+            "duckAreasSelected", Preferences.getString("duckAreasSelected") + "," + ducks3);
         break;
 
       case 188:

@@ -933,8 +933,7 @@ public class QuestManager {
       if (responseText.contains("need you to pick up a couple things for me")) {
         QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED);
       } else if (responseText.contains("make a note of the temple's location")) {
-        QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.FINISHED);
-        Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+        KoLCharacter.setTempleUnlocked();
         ResultProcessor.removeItem(ItemPool.BENDY_STRAW);
         ResultProcessor.removeItem(ItemPool.PLANT_FOOD);
         ResultProcessor.removeItem(ItemPool.SEWING_KIT);
@@ -946,7 +945,7 @@ public class QuestManager {
 
     // If we see the Hidden Temple, mark it as unlocked
     if (responseText.contains("temple.gif")) {
-      Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+      KoLCharacter.setTempleUnlocked();
     }
 
     // If we see the Black Market, update Black Market quest
