@@ -3391,6 +3391,7 @@ public class ItemPool {
   public static final int MOTHERS_NECKLACE = 10925;
   public static final int DESIGNER_SWEATPANTS = 10929;
   public static final int STILLSUIT = 10932;
+  public static final int DINODOLLAR = 10944;
 
   private ItemPool() {}
 
