@@ -10957,3 +10957,20 @@
 10930	sweat-ade	858239579	sweatade.gif	spleen, usable	t	0
 10931	unopened tiny stillsuit	250424223	stillsuit_box.gif	usable	t	0
 10932	tiny stillsuit	957101431	stillsuit.gif	familiar		0
+10933	thick dinosaur leather	430663553	wlleather.gif	none	q	0
+10934	shiny dinosaur scale	474472914	scale3.gif	none	q	0
+10935	pristine dinosaur feather	898765772	feather.gif	none	q	0
+10936	nasty dinosaur spike	853331281	spine.gif	none	q	0
+10937	pterodactyl rifle	914589236	mercrifle.gif	weapon	q	0
+10938	birdseed hat	130317743	birdseedhat.gif	hat	q	0
+10939	flatusaur gasmask	959048787	gasmask2.gif	hat	q	0
+10940	dinosaur dart	225129353	ancientdart.gif	none, combat	q,d	10
+10941	Dino DNAde&trade;	646751681	dinodrink.gif	potion, usable	q,d	10
+10942	dinosaur repellent	524382822	spraycan2.gif	none, combat	q	0
+10943	camouflage vest	292829086	camovest.gif	shirt	q	0
+10944	Dinodollar	840321323	dinobuck.gif	none	q	0
+10945
+10946	dinosaur pheromone kit	278152222	wbchemset.gif	none, combat	q	0
+10947	awkward dinosaur research harness	352034766	dripharness.gif	container	q	0
+10948	reflective vest	339444087	lightvest.gif	shirt	q	0
+10949	stuffed dinosaur	262152514	dinostuffy.gif	offhand	g	0

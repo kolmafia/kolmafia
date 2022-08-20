@@ -1351,6 +1351,18 @@ The Big Ignatowicz	2218	firethedude.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 I
 The Man on Fire	2219	firetheman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude E: hot	really dense meat stack (100)
 The Naughty Scorcheress	2220	sorcform1.gif	BOSS NOCOPY Atk: 190 Def: 171 HP: 400 Init: 10000 P: dude ED: hot Article: The	Instant Karma (c100)	Thwaitgold maggot statuette (n100)
 
+# Fall of the Dinosaurs
+
+kachungasaur	2230	dino_kachung.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+dilophosaur	2231	dino_diplo.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+high-altitude pterodactyl	2232	dino_ptero.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+glass-shelled archelon	2233	dino_turtle.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+supersonic velociraptor	2234	dino_raptor.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+spikolodon	2235	dino_spike.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+ghostasaurus	2236	dino_ghost.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: undead EA: spooky Article: a
+flatusaurus	2237	dino_flat.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+primitive chicken	2238	dino_chicken.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)
