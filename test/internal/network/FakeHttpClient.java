@@ -41,6 +41,10 @@ public class FakeHttpClient extends HttpClient {
     responses.add(new FakeHttpResponse<>(responseCode, headers, response));
   }
 
+  public void addResponse(FakeHttpResponse<String> response) {
+    responses.add(response);
+  }
+
   public List<HttpRequest> getRequests() {
     return requests;
   }

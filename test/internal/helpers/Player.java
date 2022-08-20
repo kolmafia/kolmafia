@@ -3,6 +3,7 @@ package internal.helpers;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -1032,12 +1033,31 @@ public class Player {
    */
   public static Cleanups withNextResponse(
       final int code, final Map<String, List<String>> headers, final String response) {
+    if (code > 0) {
+      return withNextResponse(new FakeHttpResponse<>(code, headers, response));
+    }
+
+    return withNextResponse();
+  }
+
+  /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param fakeHttpResponses Responses to fake
+   * @return Cleans up so this response is not given again
+   */
+  @SafeVarargs
+  public static Cleanups withNextResponse(final FakeHttpResponse<String>... fakeHttpResponses) {
     var old = HttpUtilities.getClientBuilder();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
-    builder.client.addResponse(code, headers, response);
+
+    for (FakeHttpResponse<String> fakeHttpResponse : fakeHttpResponses) {
+      builder.client.addResponse(fakeHttpResponse);
+    }
 
     return new Cleanups(
         () -> {

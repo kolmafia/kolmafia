@@ -457,8 +457,9 @@ class PreferencesTest {
     String name = "ascensionsToday";
     int beforeRollover = 1;
     int afterRollover = 0;
+    var cleanups = withProperty(name, beforeRollover);
 
-    try (var cleanups = withProperty(name, beforeRollover)) {
+    try (cleanups) {
       Preferences.resetPerRollover();
 
       // confirm default
