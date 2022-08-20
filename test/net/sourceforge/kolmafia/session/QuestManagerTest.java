@@ -1,13 +1,21 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.HttpClientWrapper.setupFakeClient;
+import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
+import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.hasIntegerValue;
 import static internal.matchers.Preference.isSetTo;
@@ -18,9 +26,11 @@ import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -36,7 +46,11 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -1330,6 +1344,222 @@ public class QuestManagerTest {
       request.responseText = html("request/test_place_town_market_skeleton_store.html");
       QuestManager.handleQuestChange(request);
       assertTrue(Preferences.getBoolean("skeletonStoreAvailable"));
+    }
+  }
+
+  @Nested
+  class ZoneOpening {
+
+    @Test
+    public void willOpenThirdFloorAfterDancingWithLadySpookyraven() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED));
+
+      try (cleanup) {
+        var request =
+            new GenericRequest("adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM);
+        builder.client.setResponse(200, html("request/test_spookraven_dance.html"));
+        request.run();
+        assertThat(Quest.SPOOKYRAVEN_DANCE, isFinished());
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.HAUNTED_BALLROOM);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(2), "/place.php", "whichplace=manor2");
+      }
+    }
+
+    @Test
+    public void willOpenBeanstalkAfterPlantingBean() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withItem("enchanted bean"),
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED));
+
+      try (cleanup) {
+        var request = new GenericRequest("place.php?whichplace=plains&action=garbage_grounds");
+        builder.client.setResponse(200, html("request/test_plant_enchanted_bean.html"));
+        request.run();
+        assertThat(Quest.GARBAGE, isStep(1));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        // assertPostRequest(requests.get(2), "/place.php", "whichplace=beanstalk");
+      }
+    }
+
+    @Test
+    public void willOpenHiddenTempleAfterReadingMap() {
+      var builder = new FakeHttpClientBuilder();
+
+      // You plant your Spooky Sapling in the loose soil at the base of the
+      // Temple. You spray it with your Spooky-Gro Fertilizer, and it immediately
+      // grows to 20 feet in height. You can easily climb the branches to reach
+      // the first step of the Temple now...
+
+      var ascension = 50;
+      var cleanup =
+          new Cleanups(
+              withItem(ItemPool.SPOOKY_MAP),
+              withItem(ItemPool.SPOOKY_SAPLING),
+              withItem(ItemPool.SPOOKY_FERTILIZER),
+              withHttpClientBuilder(builder),
+              // The Quest SHOULD suffice...
+              withQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED),
+              // But we have a legacy property which tracks the same thing.
+              withAscensions(ascension),
+              withProperty("lastTempleUnlock", ascension - 1));
+
+      try (cleanup) {
+        assertFalse(KoLCharacter.getTempleUnlocked());
+        var request = UseItemRequest.getInstance(ItemPool.SPOOKY_MAP, 1);
+        builder.client.setResponse(200, "it immediately grows to 20 feet in height");
+        request.run();
+
+        assertThat(Quest.TEMPLE, isFinished());
+        assertEquals(Preferences.getInteger("lastTempleUnlock"), ascension);
+        assertTrue(KoLCharacter.getTempleUnlocked());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SPOOKY_MAP + "&ajax=1");
+        assertGetRequest(requests.get(1), "/woods.php", null);
+      }
+    }
+
+    @Test
+    public void willStartHiddenTempleQuestProfessorFanning() {
+      setupFakeClient();
+
+      // "Sure, right. So I've got a 'quest' for you. See all the vines growing
+      // on the rock? I could climb up with those, but they need
+      // strengthening. So I need you to pick up a couple things for me."
+
+      var cleanup =
+          new Cleanups(
+              withNextResponse(200, html("request/test_dakota_1.html")),
+              withQuestProgress(Quest.TEMPLE, QuestDatabase.UNSTARTED));
+
+      try (cleanup) {
+        assertFalse(KoLCharacter.getTempleUnlocked());
+        var request = new PlaceRequest("woods", "woods_dakota_anim");
+        request.run();
+
+        assertThat(Quest.TEMPLE, isStarted());
+        assertFalse(KoLCharacter.getTempleUnlocked());
+      }
+    }
+
+    @Test
+    public void willOpenHiddenTempleProfessorFanning() {
+      setupFakeClient();
+
+      // "I never told you my name!" you shout back, but he's already
+      // gone. Grumbling, you make a note of the temple's location on your
+      // map. What a jerk. You hope he gets killed by pygmies or something.
+
+      var ascension = 50;
+      var cleanup =
+          new Cleanups(
+              withNextResponse(200, html("request/test_dakota_2.html")),
+              withItem(ItemPool.BENDY_STRAW),
+              withItem(ItemPool.PLANT_FOOD),
+              withItem(ItemPool.SEWING_KIT),
+              // The Quest SHOULD suffice...
+              withQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED),
+              // But we have a legacy property which tracks the same thing.
+              withAscensions(ascension),
+              withProperty("lastTempleUnlock", ascension - 1));
+
+      try (cleanup) {
+        assertFalse(KoLCharacter.getTempleUnlocked());
+        var request = new PlaceRequest("woods", "woods_dakota");
+        request.run();
+
+        assertThat(Quest.TEMPLE, isFinished());
+        assertEquals(Preferences.getInteger("lastTempleUnlock"), ascension);
+        assertTrue(KoLCharacter.getTempleUnlocked());
+      }
+    }
+
+    @Test
+    public void willReadDiaryWhenAcquired() {
+      var builder = new FakeHttpClientBuilder();
+
+      var cleanup =
+          new Cleanups(
+              withItem(ItemPool.FORGED_ID_DOCUMENTS),
+              withItem(ItemPool.MACGUFFIN_DIARY),
+              withGender(KoLCharacter.FEMALE),
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.BLACK, "step2"),
+              withProperty("autoQuest", true),
+              withLastLocation("The Shore, Inc. Travel Agency"),
+              withPasswordHash("TEST"));
+
+      try (cleanup) {
+        // class net.sourceforge.kolmafia.request.RelayRequest
+        // adventure.php?snarfblat=355
+        // 302 location = [choice.php?forceoption=0]
+
+        builder.client.setResponse(200, html("request/test_vacation_with_forged_id.html"));
+        var request = new RelayRequest(false);
+        request.constructURLString("choice.php?forceoption=0");
+        request.run();
+
+        builder.client.setResponse(200, html("request/test_vacation_get_diary.html"));
+        request = new RelayRequest(false);
+        request.constructURLString("choice.php?pwd&whichchoice=793&option=2");
+        request.run();
+
+        assertThat(Quest.BLACK, isStep(3));
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(3));
+
+        assertPostRequest(requests.get(0), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(1), "/choice.php", "pwd=&whichchoice=793&option=2");
+        assertPostRequest(requests.get(2), "/diary.php", "textversion=1&pwd=TEST");
+      }
+    }
+
+    @Test
+    public void willUseVolcanoMapWhenAcquired() {
+      var builder = new FakeHttpClientBuilder();
+
+      var cleanup =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("autoQuest", true),
+              withLastLocation("Madness Bakery"),
+              withPasswordHash("TEST"));
+
+      try (cleanup) {
+        builder.client.setResponse(200, html("request/test_fight_volcano_map.html"));
+        var request = new RelayRequest(false);
+        request.constructURLString("fight.php?action=skill&whichskill=4012");
+        request.run();
+
+        // Redirected: inventory.php?which=3&action=message
+        // responseText = ...
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/fight.php", "action=skill&whichskill=4012");
+        assertPostRequest(
+            requests.get(1),
+            "/inv_use.php",
+            "which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd=TEST");
+      }
     }
   }
 }

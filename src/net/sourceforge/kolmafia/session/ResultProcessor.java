@@ -1601,7 +1601,7 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.BLACK, "step3");
         // Automatically use the diary to open zones
         if (Preferences.getBoolean("autoQuest")) {
-          RequestThread.postRequest(UseItemRequest.getInstance(result));
+          UseItemRequest.getInstance(result).run();
         }
         break;
 
@@ -1613,7 +1613,7 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step25");
         // Automatically use the map to open zones
         if (Preferences.getBoolean("autoQuest")) {
-          RequestThread.postRequest(UseItemRequest.getInstance(result));
+          UseItemRequest.getInstance(result).run();
         }
         break;
 

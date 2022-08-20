@@ -410,8 +410,34 @@ public class Player {
    * @return Reset current familiar
    */
   public static Cleanups withFamiliar(final int familiarId, final int experience) {
+    return withFamiliar(familiarId, experience, null);
+  }
+
+  /**
+   * Takes familiar as player's current familiar
+   *
+   * @param familiarId Familiar to take
+   * @param name Name for familiar to have
+   * @return Reset current familiar
+   */
+  public static Cleanups withFamiliar(final int familiarId, final String name) {
+    return withFamiliar(familiarId, 1, name);
+  }
+
+  /**
+   * Takes familiar as player's current familiar
+   *
+   * @param familiarId Familiar to take
+   * @param experience Experience for familiar to have
+   * @param name Name for familiar to have
+   * @return Reset current familiar
+   */
+  public static Cleanups withFamiliar(
+      final int familiarId, final int experience, final String name) {
     var old = KoLCharacter.getFamiliar();
-    KoLCharacter.setFamiliar(FamiliarData.registerFamiliar(familiarId, experience));
+    var fam = FamiliarData.registerFamiliar(familiarId, experience);
+    if (name != null) fam.setName(name);
+    KoLCharacter.setFamiliar(fam);
     return new Cleanups(() -> KoLCharacter.setFamiliar(old));
   }
 
@@ -532,6 +558,17 @@ public class Player {
    */
   public static Cleanups withSkill(final int skillId) {
     KoLCharacter.addAvailableSkill(skillId);
+    return new Cleanups(() -> KoLCharacter.removeAvailableSkill(skillId));
+  }
+
+  /**
+   * Ensures player does not have a skill
+   *
+   * @param skillId Skill to ensure is removed
+   * @return Removes the skill if it was gained
+   */
+  public static Cleanups withoutSkill(final int skillId) {
+    KoLCharacter.removeAvailableSkill(skillId);
     return new Cleanups(() -> KoLCharacter.removeAvailableSkill(skillId));
   }
 
@@ -659,6 +696,18 @@ public class Player {
    */
   public static Cleanups withMoxieAtLeast(final int moxie) {
     return withMoxie(Math.max(moxie, KoLCharacter.getBaseMoxie()));
+  }
+
+  /**
+   * Sets the player's gender to the given value.
+   *
+   * @param gender Required gender
+   * @return Resets gender to unknown
+   */
+  public static Cleanups withGender(final int gender) {
+    KoLCharacter.setGender(gender);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> KoLCharacter.setGender(0));
   }
 
   /**
@@ -1054,6 +1103,21 @@ public class Player {
   }
 
   /**
+   * Sets supplied passwordHash to be used by GenericRequest
+   *
+   * @param passwordHash The passwordHash to use
+   * @return restores previous passwordHash
+   */
+  public static Cleanups withPasswordHash(String passwordHash) {
+    var old = GenericRequest.passwordHash;
+    GenericRequest.setPasswordHash(passwordHash);
+    return new Cleanups(
+        () -> {
+          GenericRequest.setPasswordHash(old);
+        });
+  }
+
+  /**
    * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
    * getRequests() will not work on one set separately
    *
@@ -1183,9 +1247,22 @@ public class Player {
    * @return Restores previous value
    */
   public static Cleanups withFight() {
+    return withFight(1);
+  }
+
+  /**
+   * Acts like the player is currently on the given round of a fight
+   *
+   * @return Restores previous value
+   */
+  public static Cleanups withFight(final int round) {
     var old = FightRequest.currentRound;
-    FightRequest.currentRound = 1;
-    return new Cleanups(() -> FightRequest.currentRound = 0);
+    FightRequest.currentRound = round;
+    return new Cleanups(
+        () -> {
+          FightRequest.currentRound = 0;
+          FightRequest.clearInstanceData();
+        });
   }
 
   /**
