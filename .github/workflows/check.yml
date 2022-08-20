@@ -45,10 +45,11 @@ jobs:
         run: ./gradlew --no-daemon check jacocoTestReport
 
       - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3.2.0
+        uses: mikepenz/action-junit-report@v3
         if: always()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          job_summary: true
           check_name: "Test Report (${{ matrix.os }})"
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
