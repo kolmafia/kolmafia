@@ -5416,6 +5416,7 @@ public class FightRequest extends GenericRequest {
   public static class TagStatus {
     public String name;
     public String familiar;
+    public int familiarId;
     public String familiarName;
     public String enthroned;
     public String enthronedName;
@@ -5461,8 +5462,8 @@ public class FightRequest extends GenericRequest {
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
-      int familiarId = current.getId();
       this.familiar = current.getFightImageLocation();
+      this.familiarId = current.getId();
       this.familiarName = current.getName();
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.doppel =
@@ -7790,8 +7791,9 @@ public class FightRequest extends GenericRequest {
     // Your nanites absorb your fallen enemy.  Cool.
     // Your nanites absorb the remains and become more stylish.
     //
-    // But, it only seems to happen when you've won the combat.
-    if (FightRequest.won) {
+    // It only happens when you've won the combat or reprocessed the monster with your Goose
+    var fam = KoLCharacter.getFamiliar();
+    if (FightRequest.won || fam != null && status.familiarId == FamiliarPool.GREY_GOOSE) {
       GreyYouManager.absorbMonster(status.monster);
       Matcher matcher = GOO_GAIN_PATTERN.matcher(text);
       String gain = null;
