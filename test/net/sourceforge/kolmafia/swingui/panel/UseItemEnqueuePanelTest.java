@@ -4,6 +4,8 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -98,6 +100,7 @@ public class UseItemEnqueuePanelTest {
     var button = buttonSearch.get();
     var enabled = button.isEnabled();
     assertFalse(enabled);
+    assertThat(button.getToolTipText(), containsString("You do not know The Ode to Booze"));
   }
 
   @Test
@@ -130,6 +133,7 @@ public class UseItemEnqueuePanelTest {
       assertTrue(buttonSearch.isPresent());
       var button = buttonSearch.get();
       assertFalse(button.isEnabled());
+      assertThat(button.getToolTipText(), containsString("can't remember any more songs"));
     }
   }
 
@@ -140,6 +144,25 @@ public class UseItemEnqueuePanelTest {
             withSkill(SkillPool.ODE_TO_BOOZE),
             withEffect(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY),
             withEffect(EffectPool.ELRONS_EXPLOSIVE_ETUDE));
+
+    try (cleanups) {
+      var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
+      var buttonSearch =
+          Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
+      assertTrue(buttonSearch.isPresent());
+      var button = buttonSearch.get();
+      assertTrue(button.isEnabled());
+    }
+  }
+
+  @Test
+  public void odeToBoozeEnabledWithNoRoomButEffect() {
+    var cleanups =
+        new Cleanups(
+            withSkill(SkillPool.ODE_TO_BOOZE),
+            withEffect(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY),
+            withEffect(EffectPool.ELRONS_EXPLOSIVE_ETUDE),
+            withEffect(EffectPool.ODE));
 
     try (cleanups) {
       var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
