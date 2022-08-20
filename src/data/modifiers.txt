@@ -108,6 +108,7 @@ Item	big bad voodoo mask	Mysticality: +7, Spell Damage: +15, Familiar Effect: "1
 Item	Big Candy's tophat	Candy Drop: +25, Damage Reduction: 5, Familiar Effect: "1xGhoul, 1xFairy, cap 25"
 Item	biker's hat	Moxie Percent: +40, Booze Drop: +40, Pickpocket Chance: +20, Familiar Effect: "atk"
 Item	biomechanical crimborg helmet	Hot Damage: +5, Stench Damage: +5, Familiar Effect: "atk, 1xFairy, cap 37"
+# birdseed hat: Attracts chickens
 Item	black cowboy hat	Muscle: +8, Weapon Damage: +8, Familiar Effect: "1xBarrr, 1xLep, cap 41"
 Item	black helmet	Maximum HP: +30, Familiar Effect: "1xFairy, cap 40"
 Item	blue traffic cone	Moxie: +3, Hot Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
@@ -929,6 +930,7 @@ Item	bod-ice	Monster Level: +25, Sleaze Damage: +25, Sleaze Spell Damage: +25, L
 Item	Brogre brolo shirt	PvP Fights: +3
 Item	bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
 Item	camouflage T-shirt	Mana Cost (combat): -3, Combat Rate: -5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +15
+Item	camouflage vest	Combat Rate: -10
 Item	cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15
 Item	chamoisole	Slime Resistance: +3
 Item	cheerful Crimbo sweater	Cold Resistance: +2, Moxie: -15
@@ -956,6 +958,7 @@ Item	First Post shirt - Cir Senam	Spooky Damage: +1, Stench Damage: +1, Hot Dama
 # flagstone fleece: Lets you flex your muscles
 Item	flagstone fleece	Experience (Moxie): +3, Adventures: +3
 Item	flaming pink shirt	Item Drop: +15, Softcore Only
+# flatusaur gasmask: Protects against flatusaurus emissions
 Item	floral print shirt	Mysticality: +5
 Item	flyest of shirts	Moxie: +5, Spell Damage: +5
 # fresh coat of paint: Enchantments are different every day
@@ -1015,6 +1018,7 @@ Item	Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resista
 Item	red coat	Ranged Damage: +25, Initiative: -25
 Item	red shirt	Monster Level: +20, Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 # red-and-green sweater: Shocking!
+Item	reflective vest	Combat Rate: +10
 Item	rhinestone cowboy shirt	Muscle: +5
 Item	safety vest	Damage Reduction: 3, Moxie: +5
 Item	sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
@@ -1676,6 +1680,8 @@ Item	primitive alien spear	Muscle: +20, Hot Damage: +25, HP Regen Min: 2, HP Reg
 Item	pristine walrus tusk	Cold Damage: +50, Muscle: +15
 Item	projectile icemaker	Moxie: +7, Spell Damage: +7, Cold Damage: +5
 Item	protection stick	Critical Hit Percent: +4, Muscle Percent: +6, Maximum HP: +10, PvP Fights: +1
+Item	pterodactyl rifle	Ranged Damage Percent: +50
+# pterodactyl rifle: Lets you snipe pterodactyls from a great distance
 Item	PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
 Item	pygmy concertinette	Weapon Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 17
 Item	pygmy spear	Muscle: +7
@@ -2545,6 +2551,7 @@ Item	studded sealhide shield	Muscle: +5, Maximum HP: +30, Damage Reduction: 7
 # stuffed caterpillar
 # stuffed Cheshire bitten
 # stuffed cocoabo
+Item	stuffed dinosaur	Muscle: +3, Mysticality: +3, Moxie: +3
 # stuffed dodecapede
 # stuffed dodo
 # stuffed flaming gravy fairy
@@ -3984,6 +3991,7 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15
 Item	auxiliary backbone	PvP Fights: +3
+Item	awkward dinosaur research harness	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Monster Level: +10, Initiative: -100
 # B. L. A. R. T.: Spray water at your foes in various stream configurations
 Item	B. L. A. R. T.	Hot Resistance: +3
 Item	back shell	Damage Absorption: +200, Damage Reduction: 20
@@ -6722,6 +6730,7 @@ Effect	Prayer of Seshat	Experience (Mysticality): +3
 # Predjudicetidigitation: (because you hate them)
 Effect	Predjudicetidigitation	Combat Rate: -10
 Effect	Preemptive Medicine	Maximum HP Percent: +500
+Effect	Prehistoric Potential	Muscle Percent: +300, Mysticality Percent: +300, Moxie Percent: +300
 Effect	Prelude of Precision	Critical Hit Percent: +10
 Effect	Prestidigysfunction	Mysticality Percent: -95
 Effect	Pretending to Pretend	Weapon Damage Percent: +100
@@ -9510,6 +9519,7 @@ Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 Item	diluted makeup	Effect: "Made Up, Watered Down", Effect Duration: 10
+Item	Dino DNAde&trade;	Effect: "Prehistoric Potential", Effect Duration: 30
 Item	Dinsey face paint	Effect: "The Dinsey Look", Effect Duration: 20
 Item	disco horoscope (Aquarius)	Effect: "Aquarius Rising", Effect Duration: 10
 Item	disco horoscope (Aries)	Effect: "Aries Rising", Effect Duration: 10
@@ -10863,6 +10873,7 @@ Item	detective school application	Free Pull
 # Diet Cloaca Cola: Restores 7-9 MP
 # dinged-up triangle: Summons a Hobo buddy
 # dingy dinghy: <b>Allows Travel to The Mysterious Island of Mystery</b>
+# dinosaur dart: Deal 500 damage to any non-Boss dinosaur
 Item	Dinsey Maintenance Manual	Skill: "Dinsey Operations Expert"
 # Dinsey tattoo kit: Grants a cool Dinsey tattoo when used
 # dirty bottlecap: Absorb it for a useful skill!
