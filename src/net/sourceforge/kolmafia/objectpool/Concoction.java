@@ -414,6 +414,10 @@ public class Concoction implements Comparable<Concoction> {
       throw new NullPointerException();
     }
 
+    if (this.equals(o)) {
+      return 0;
+    }
+
     if (this.name == null) {
       return o.name == null ? 0 : 1;
     }
@@ -432,8 +436,6 @@ public class Concoction implements Comparable<Concoction> {
 
     // Sort steel organs to the top.
     if (this.steelOrgan) {
-      // No need to see if they are both steel organs as they have different sort orders
-      // and are thus differentiated above.
       return -1;
     } else if (o.steelOrgan) {
       return 1;

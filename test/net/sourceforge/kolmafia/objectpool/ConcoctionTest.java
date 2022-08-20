@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.objectpool;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -35,6 +36,12 @@ public class ConcoctionTest {
     var nonSteelOrgan = ConcoctionPool.get(ItemPool.PERFECT_NEGRONI);
     assertThat(steelMargarita.compareTo(nonSteelOrgan), is(-1));
     assertThat(nonSteelOrgan.compareTo(steelMargarita), is(1));
+  }
+
+  @Test
+  public void concoctionsCanBeComparedToThemselves() {
+    var steelMargarita = ConcoctionPool.get(ItemPool.STEEL_LIVER);
+    assertThat(steelMargarita, comparesEqualTo(steelMargarita));
   }
 
   @Test
