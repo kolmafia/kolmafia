@@ -319,10 +319,13 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   private record HasOde(boolean enabled, String reason) {}
 
   private HasOde checkOdeCastable() {
-    if (!KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE)) return new HasOde(false, "You do not know The Ode to Booze");
+    if (!KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE)) {
+      return new HasOde(false, "You do not know The Ode to Booze");
+    }
 
-    if (KoLCharacter.getSongs() >= KoLCharacter.getMaxSongs()) {
-      if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ODE))) return new HasOde(false,"You can't remember any more songs" );
+    if (KoLCharacter.getSongs() >= KoLCharacter.getMaxSongs()
+        && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ODE))) {
+      return new HasOde(false, "You can't remember any more songs");
     }
 
     return new HasOde(true, "");
