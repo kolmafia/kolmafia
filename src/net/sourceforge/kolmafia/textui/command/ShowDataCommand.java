@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui.command;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -96,7 +95,7 @@ public class ShowDataCommand extends AbstractCommand {
     desiredStream.println();
 
     if (desiredData.startsWith("moon")) {
-      Date today = new Date();
+      var today = HolidayDatabase.getRolloverDateTime();
 
       desiredStream.println(
           CalendarFrame.LONG_FORMAT.format(today)
@@ -110,8 +109,8 @@ public class ShowDataCommand extends AbstractCommand {
       desiredStream.println();
 
       String[] holidayPredictions = HolidayDatabase.getHolidayPredictions(today);
-      for (int i = 0; i < holidayPredictions.length; ++i) {
-        desiredStream.println(holidayPredictions[i]);
+      for (String holidayPrediction : holidayPredictions) {
+        desiredStream.println(holidayPrediction);
       }
 
       desiredStream.println();

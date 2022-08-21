@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -5436,10 +5435,9 @@ public abstract class ChoiceControl {
       case 918:
         // Yachtzee!
         if (text.contains("Ultimate Mind Destroyer")) {
-          Calendar date = HolidayDatabase.getCalendar();
-          SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-          String today = sdf.format(date.getTime());
-          Preferences.setString("umdLastObtained", today);
+          var date = HolidayDatabase.getArizonaDateTime();
+          Preferences.setString(
+              "umdLastObtained", date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }
         break;
 
