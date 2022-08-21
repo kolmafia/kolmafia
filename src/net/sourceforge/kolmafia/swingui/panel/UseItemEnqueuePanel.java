@@ -271,19 +271,9 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
           this.buttons[index++].setEnabled(haveHobo);
 
           // The ode listener is just after the hobo listener
-          boolean haveOde = KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE);
-          boolean roomForSong = KoLCharacter.getSongs() < KoLCharacter.getMaxSongs();
-          if (!haveOde || !roomForSong) {
-            String reason =
-                (!haveOde)
-                    ? "You do not know The Ode to Booze"
-                    : (!roomForSong) ? "You can't remember any more songs" : "";
-            this.buttons[index].setToolTipText(reason);
-            this.buttons[index].setEnabled(false);
-          } else {
-            this.buttons[index].setToolTipText("");
-            this.buttons[index].setEnabled(true);
-          }
+          var hasOde = checkOdeCastable();
+          this.buttons[index].setToolTipText(hasOde.reason);
+          this.buttons[index].setEnabled(hasOde.enabled);
           index++;
 
           // The prayer listener is just after the ode listener
@@ -324,6 +314,21 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
           break;
         }
     }
+  }
+
+  private record HasOde(boolean enabled, String reason) {}
+
+  private HasOde checkOdeCastable() {
+    if (!KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE)) {
+      return new HasOde(false, "You do not know The Ode to Booze");
+    }
+
+    if (KoLCharacter.getSongs() >= KoLCharacter.getMaxSongs()
+        && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ODE))) {
+      return new HasOde(false, "You can't remember any more songs");
+    }
+
+    return new HasOde(true, "");
   }
 
   @Override
