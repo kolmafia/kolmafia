@@ -942,6 +942,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((request instanceof DinostaurRequest || isExternal)
+        && DinostaurRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((request instanceof DinseyCompanyStoreRequest || isExternal)
         && DinseyCompanyStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;

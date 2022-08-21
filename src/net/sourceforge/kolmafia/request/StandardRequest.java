@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -121,8 +120,7 @@ public class StandardRequest extends GenericRequest {
   public StandardRequest() {
     super("standard.php");
     // Two years before current year
-    Calendar calendar = HolidayDatabase.getCalendar();
-    int year = calendar.get(Calendar.YEAR);
+    int year = HolidayDatabase.getRolloverDateTime().getYear();
     this.addFormField("date", (year - 2) + "-01-02");
     // Must use GET
     this.constructURLString(this.getFullURLString(), false);

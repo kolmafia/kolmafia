@@ -84,6 +84,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel crimbo20foodPanel = null;
   private CoinmasterPanel crimboCartelPanel = null;
   private CoinmasterPanel dimemasterPanel = null;
+  private CoinmasterPanel dinostaurPanel = null;
   private CoinmasterPanel dinseyCompanyStorePanel = null;
   private CoinmasterPanel discoGiftCoPanel = null;
   private CoinmasterPanel dollhawkerPanel = null;
@@ -248,6 +249,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     plumberItemPanel = new PlumberItemPanel();
     panel.add(plumberItemPanel);
     this.selectorPanel.addPanel(plumberItemPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    dinostaurPanel = new DinostaurPanel();
+    panel.add(dinostaurPanel);
+    this.selectorPanel.addPanel(dinostaurPanel.getPanelSelector(), panel);
 
     // Aftercore coinmasters
     this.selectorPanel.addSeparator();
@@ -1395,6 +1401,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         buffer.append(currency.getPluralName(count));
         buffer.append(")");
       }
+    }
+  }
+
+  private class DinostaurPanel extends CoinmasterPanel {
+    public DinostaurPanel() {
+      super(DinostaurRequest.DINOSTAUR);
     }
   }
 

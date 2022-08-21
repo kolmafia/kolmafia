@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -49,7 +48,7 @@ public class ValhallaDecorator {
     predictions.append(
         "<td><div style=\"padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>");
     HolidayDatabase.addPredictionHTML(
-        predictions, new Date(), HolidayDatabase.getPhaseStep(), false);
+        predictions, HolidayDatabase.getRolloverDateTime(), HolidayDatabase.getPhaseStep(), false);
     predictions.append("</font></div></td></tr><tr><td colspan=3><br>");
     predictions.append(KoLConstants.LINE_BREAK);
     predictions.append(KoLConstants.LINE_BREAK);
@@ -597,7 +596,7 @@ public class ValhallaDecorator {
     }
 
     folderHolderBuffer.append("Folder Holder: ");
-    for (int slot : EquipmentManager.FOLDER_SLOTS) {
+    for (int slot : EquipmentManager.FOLDER_SLOTS_AFTERCORE) {
       AdventureResult folder = EquipmentManager.getEquipment(slot);
       if (folder != null) {
         String name = folder.getName();

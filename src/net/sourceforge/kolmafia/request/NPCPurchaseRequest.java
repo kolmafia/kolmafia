@@ -910,6 +910,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       }
     }
 
+    if (shopId.equals("dino")) {
+      DinostaurRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
     // When we purchase items from NPC stores using ajax, the
     // response tells us nothing about the contents of the store.
     if (urlString.contains("ajax=1")) {
@@ -1274,6 +1279,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("glover")) {
         return GMartRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("dino")) {
+        return DinostaurRequest.registerRequest(urlString);
       }
 
       return false;

@@ -10969,7 +10969,7 @@
 10942	dinosaur repellent	524382822	spraycan2.gif	none, combat	q	0
 10943	camouflage vest	292829086	camovest.gif	shirt	q	0
 10944	Dinodollar	840321323	dinobuck.gif	none	q	0
-10945
+10945	valuable dinosaur droppings	468937901	droppings.gif	none	q	0
 10946	dinosaur pheromone kit	278152222	wbchemset.gif	none, combat	q	0
 10947	awkward dinosaur research harness	352034766	dripharness.gif	container	q	0
 10948	reflective vest	339444087	lightvest.gif	shirt	q	0
