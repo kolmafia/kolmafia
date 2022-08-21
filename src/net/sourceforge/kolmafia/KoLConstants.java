@@ -5,6 +5,7 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -53,6 +54,7 @@ public interface KoLConstants extends UtilityConstants {
   DecimalFormat HUMAN_READABLE_FORMAT = new DecimalFormat("#.##");
 
   SimpleDateFormat DAILY_FORMAT = new SimpleDateFormat("yyyyMMdd", Locale.US);
+  DateTimeFormatter DAILY_DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd", Locale.US);
   SimpleDateFormat WEEKLY_FORMAT = new SimpleDateFormat("yyyyMM_'w'W", Locale.US);
   SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss z", Locale.US);
 

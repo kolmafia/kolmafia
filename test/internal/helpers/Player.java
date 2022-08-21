@@ -4,7 +4,8 @@ import static org.mockito.Mockito.mockStatic;
 
 import internal.network.FakeHttpClientBuilder;
 import java.net.http.HttpClient;
-import java.util.Calendar;
+import java.time.Month;
+import java.time.ZonedDateTime;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -900,15 +901,39 @@ public class Player {
   /**
    * Set the day used by HolidayDatabase
    *
-   * @param cal Day to set
+   * @param year Year to set
+   * @param month Month to set
+   * @param day Day to set
    * @return Restores to using the real day
    */
-  public static Cleanups withDay(final Calendar cal) {
+  public static Cleanups withDay(final int year, final Month month, final int day) {
+    return withDay(year, month, day, 12, 0);
+  }
+
+  /**
+   * Set the day used by HolidayDatabase
+   *
+   * @param year Year to set
+   * @param month Month to set
+   * @param day Day to set
+   * @param hour Hour to set
+   * @param minute Minute to set
+   * @return Restores to using the real day
+   */
+  public static Cleanups withDay(
+      final int year, final Month month, final int day, final int hour, final int minute) {
     var mocked = mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS);
 
-    mocked.when(HolidayDatabase::getDate).thenReturn(cal.getTime());
-    mocked.when(HolidayDatabase::getCalendar).thenReturn(cal);
-    mocked.when(HolidayDatabase::getKoLCalendar).thenReturn(cal);
+    mocked
+        .when(HolidayDatabase::getArizonaDateTime)
+        .thenReturn(
+            ZonedDateTime.of(
+                year, month.getValue(), day, hour, minute, 0, 0, HolidayDatabase.ARIZONA));
+    mocked
+        .when(HolidayDatabase::getRolloverDateTime)
+        .thenReturn(
+            ZonedDateTime.of(
+                year, month.getValue(), day, hour, minute, 0, 0, HolidayDatabase.ROLLOVER));
 
     return new Cleanups(mocked::close);
   }

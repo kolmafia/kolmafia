@@ -16,9 +16,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import java.time.DayOfWeek;
+import java.time.Month;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -68,21 +68,26 @@ public class ModifiersTest {
 
   @ParameterizedTest
   @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7})
-  public void tuesdayRubyModifiers(int dotw) {
+  public void tuesdayRubyModifiers(int date) {
     // Wide-reaching unit test for getModifiers
-    var cleanup = withDay(new GregorianCalendar(2017, Calendar.JANUARY, dotw));
+    var cleanup = withDay(2017, Month.MAY, date);
+
+    // January 1st 2017 was a Monday, so we can use day of the week and day of the month as the same
+    // value
+    var dotw = DayOfWeek.of(date);
+
     try (cleanup) {
       Modifiers mods = Modifiers.getModifiers("Item", "Tuesday's Ruby");
 
-      assertThat(mods.get(Modifiers.MEATDROP), equalTo(dotw == Calendar.SUNDAY ? 5.0 : 0.0));
-      assertThat(mods.get(Modifiers.MUS_PCT), equalTo(dotw == Calendar.MONDAY ? 5.0 : 0.0));
-      assertThat(mods.get(Modifiers.MP_REGEN_MIN), equalTo(dotw == Calendar.TUESDAY ? 3.0 : 0.0));
-      assertThat(mods.get(Modifiers.MP_REGEN_MAX), equalTo(dotw == Calendar.TUESDAY ? 7.0 : 0.0));
-      assertThat(mods.get(Modifiers.MYS_PCT), equalTo(dotw == Calendar.WEDNESDAY ? 5.0 : 0.0));
-      assertThat(mods.get(Modifiers.ITEMDROP), equalTo(dotw == Calendar.THURSDAY ? 5.0 : 0.0));
-      assertThat(mods.get(Modifiers.MOX_PCT), equalTo(dotw == Calendar.FRIDAY ? 5.0 : 0.0));
-      assertThat(mods.get(Modifiers.HP_REGEN_MIN), equalTo(dotw == Calendar.SATURDAY ? 3.0 : 0.0));
-      assertThat(mods.get(Modifiers.HP_REGEN_MAX), equalTo(dotw == Calendar.SATURDAY ? 7.0 : 0.0));
+      assertThat(mods.get(Modifiers.MEATDROP), equalTo(dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.MUS_PCT), equalTo(dotw == DayOfWeek.MONDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.MP_REGEN_MIN), equalTo(dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0));
+      assertThat(mods.get(Modifiers.MP_REGEN_MAX), equalTo(dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0));
+      assertThat(mods.get(Modifiers.MYS_PCT), equalTo(dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.ITEMDROP), equalTo(dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.MOX_PCT), equalTo(dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.HP_REGEN_MIN), equalTo(dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0));
+      assertThat(mods.get(Modifiers.HP_REGEN_MAX), equalTo(dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0));
     }
   }
 
