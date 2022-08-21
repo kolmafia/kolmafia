@@ -1826,10 +1826,11 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Calculate accessory fill order
     int accessoryIndex = 0;
 
+    int[] accessories = EquipmentManager.ACCESSORY_SLOTS.clone();
     // Consume unfilled slots from 1 to 3
     for (int slot : EquipmentManager.ACCESSORY_SLOTS) {
       if (oldEquipment[slot] == EquipmentRequest.UNEQUIP) {
-        EquipmentManager.ACCESSORY_SLOTS[accessoryIndex++] = slot;
+        accessories[accessoryIndex++] = slot;
       }
     }
     // Consume filled slots from 3 to 1
@@ -1838,7 +1839,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         slot--) {
       if (oldEquipment[slot] != EquipmentRequest.UNEQUIP
           && newEquipment[slot] == EquipmentRequest.UNEQUIP) {
-        EquipmentManager.ACCESSORY_SLOTS[accessoryIndex++] = slot;
+        accessories[accessoryIndex++] = slot;
       }
     }
 
@@ -1879,7 +1880,7 @@ public class EquipmentRequest extends PasswordHashRequest {
             // KoL error: four accessories
             continue;
           }
-          slot = EquipmentManager.ACCESSORY_SLOTS[accessoryIndex++];
+          slot = accessories[accessoryIndex++];
           break;
 
         case EquipmentManager.WEAPON:
