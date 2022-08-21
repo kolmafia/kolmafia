@@ -596,7 +596,7 @@ public class ValhallaDecorator {
     }
 
     folderHolderBuffer.append("Folder Holder: ");
-    for (int slot : EquipmentManager.FOLDER_SLOTS) {
+    for (int slot : EquipmentManager.FOLDER_SLOTS_AFTERCORE) {
       AdventureResult folder = EquipmentManager.getEquipment(slot);
       if (folder != null) {
         String name = folder.getName();
