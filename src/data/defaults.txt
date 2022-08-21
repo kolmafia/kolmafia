@@ -1887,6 +1887,7 @@ user	_lovebugsFunFunds	0
 user	_lovebugsHoboNickel	0
 user	_lovebugsWalmart	0
 user	_loveChocolatesUsed	0
+user	_loveTunnelToday	false
 user	_loveTunnelUsed	false
 user	_luckyGoldRingVolcoino	false
 user	_lunchBreak	false
@@ -2107,6 +2108,7 @@ user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false
 user	_taffyRareSummons	0
 user	_taffyYellowSummons	0
+user	_telegraphOfficeToday	false
 user	_templeHiddenPower	false
 user	_tempRelayCounters
 user	_tempuraAirUsed	false

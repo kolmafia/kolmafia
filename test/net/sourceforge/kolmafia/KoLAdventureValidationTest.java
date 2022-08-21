@@ -2966,6 +2966,233 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Suburbs {
+    private static final KoLAdventure GROVE =
+        AdventureDatabase.getAdventureByName("The Clumsiness Grove");
+    private static final KoLAdventure MAELSTROM =
+        AdventureDatabase.getAdventureByName("The Maelstrom of Lovers");
+    private static final KoLAdventure GLACIER =
+        AdventureDatabase.getAdventureByName("The Glacier of Jerks");
+
+    @Test
+    public void cannotAdventureWithoutEffectOrItem() {
+      assertThat(GROVE.canAdventure(), is(false));
+      assertThat(MAELSTROM.canAdventure(), is(false));
+      assertThat(GLACIER.canAdventure(), is(false));
+    }
+
+    @Test
+    public void canAdventureWithEffectActive() {
+      var cleanups = new Cleanups(withEffect(EffectPool.DIS_ABLED));
+      try (cleanups) {
+        assertThat(GROVE.canAdventure(), is(true));
+        assertThat(MAELSTROM.canAdventure(), is(true));
+        assertThat(GLACIER.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void canAdventureWithItemInInventory() {
+      var cleanups = new Cleanups(withItem(ItemPool.DEVILISH_FOLIO));
+      try (cleanups) {
+        assertThat(GROVE.canAdventure(), is(true));
+        assertThat(MAELSTROM.canAdventure(), is(true));
+        assertThat(GLACIER.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void cannotPrepareForAdventureWithoutItemAndEffect() {
+      assertThat(GROVE.prepareForAdventure(), is(false));
+      assertThat(MAELSTROM.prepareForAdventure(), is(false));
+      assertThat(GLACIER.prepareForAdventure(), is(false));
+    }
+
+    @Test
+    public void canPrepareForAdventureWithEffect() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(withEffect(EffectPool.DIS_ABLED), withItem(ItemPool.DEVILISH_FOLIO));
+      try (cleanups) {
+        assertTrue(GROVE.canAdventure());
+        assertTrue(GROVE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithItem() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withItem(ItemPool.DEVILISH_FOLIO));
+      try (cleanups) {
+        assertTrue(GROVE.canAdventure());
+        assertTrue(GROVE.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.DEVILISH_FOLIO + "&ajax=1");
+      }
+    }
+  }
+
+  @Nested
+  class Wormwood {
+    private static final KoLAdventure PLEASURE_DOME =
+        AdventureDatabase.getAdventureByName("The Stately Pleasure Dome");
+    private static final KoLAdventure MOULDERING_MANSION =
+        AdventureDatabase.getAdventureByName("The Mouldering Mansion");
+    private static final KoLAdventure ROGUE_WINDMILL =
+        AdventureDatabase.getAdventureByName("The Rogue Windmill");
+
+    @Test
+    public void cannotAdventureWithoutEffectOrItem() {
+      assertThat(PLEASURE_DOME.canAdventure(), is(false));
+      assertThat(MOULDERING_MANSION.canAdventure(), is(false));
+      assertThat(ROGUE_WINDMILL.canAdventure(), is(false));
+    }
+
+    @Test
+    public void canAdventureWithEffectActive() {
+      var cleanups = new Cleanups(withEffect(EffectPool.ABSINTHE));
+      try (cleanups) {
+        assertThat(PLEASURE_DOME.canAdventure(), is(true));
+        assertThat(MOULDERING_MANSION.canAdventure(), is(true));
+        assertThat(ROGUE_WINDMILL.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void canAdventureWithItemInInventory() {
+      var cleanups = new Cleanups(withItem(ItemPool.ABSINTHE));
+      try (cleanups) {
+        assertThat(PLEASURE_DOME.canAdventure(), is(true));
+        assertThat(MOULDERING_MANSION.canAdventure(), is(true));
+        assertThat(ROGUE_WINDMILL.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void cannotPrepareForAdventureWithoutItemAndEffect() {
+      assertThat(PLEASURE_DOME.prepareForAdventure(), is(false));
+      assertThat(MOULDERING_MANSION.prepareForAdventure(), is(false));
+      assertThat(ROGUE_WINDMILL.prepareForAdventure(), is(false));
+    }
+
+    @Test
+    public void canPrepareForAdventureWithEffect() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withEffect(EffectPool.ABSINTHE), withItem(ItemPool.ABSINTHE));
+      try (cleanups) {
+        assertTrue(PLEASURE_DOME.canAdventure());
+        assertTrue(PLEASURE_DOME.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithItem() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withItem(ItemPool.ABSINTHE));
+      try (cleanups) {
+        assertTrue(PLEASURE_DOME.canAdventure());
+        assertTrue(PLEASURE_DOME.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.ABSINTHE + "&ajax=1");
+      }
+    }
+  }
+
+  @Nested
+  class Spaaace {
+    private static final KoLAdventure RONALDUS =
+        AdventureDatabase.getAdventureByName("Domed City of Ronaldus");
+    private static final KoLAdventure GRIMACIA =
+        AdventureDatabase.getAdventureByName("Domed City of Grimacia");
+    private static final KoLAdventure HAMBURGLARIS =
+        AdventureDatabase.getAdventureByName("Hamburglaris Shield Generator");
+
+    @Test
+    public void cannotAdventureWithoutEffectOrItem() {
+      assertThat(RONALDUS.canAdventure(), is(false));
+      assertThat(GRIMACIA.canAdventure(), is(false));
+      assertThat(HAMBURGLARIS.canAdventure(), is(false));
+    }
+
+    @Test
+    public void canAdventureWithEffectActive() {
+      var cleanups = new Cleanups(withEffect(EffectPool.TRANSPONDENT));
+      try (cleanups) {
+        assertThat(RONALDUS.canAdventure(), is(true));
+        assertThat(GRIMACIA.canAdventure(), is(true));
+        assertThat(HAMBURGLARIS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void canAdventureWithItemInInventory() {
+      var cleanups = new Cleanups(withItem(ItemPool.TRANSPORTER_TRANSPONDER));
+      try (cleanups) {
+        assertThat(RONALDUS.canAdventure(), is(true));
+        assertThat(GRIMACIA.canAdventure(), is(true));
+        assertThat(HAMBURGLARIS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void cannotPrepareForAdventureWithoutItemAndEffect() {
+      assertThat(RONALDUS.prepareForAdventure(), is(false));
+      assertThat(GRIMACIA.prepareForAdventure(), is(false));
+      assertThat(HAMBURGLARIS.prepareForAdventure(), is(false));
+    }
+
+    @Test
+    public void canPrepareForAdventureWithEffect() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.TRANSPONDENT), withItem(ItemPool.TRANSPORTER_TRANSPONDER));
+      try (cleanups) {
+        assertTrue(RONALDUS.canAdventure());
+        assertTrue(RONALDUS.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithItem() {
+      setupFakeClient();
+
+      var cleanups = new Cleanups(withItem(ItemPool.TRANSPORTER_TRANSPONDER));
+      try (cleanups) {
+        assertTrue(RONALDUS.canAdventure());
+        assertTrue(RONALDUS.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.TRANSPORTER_TRANSPONDER + "&ajax=1");
+      }
+    }
+  }
+
+  @Nested
   class Spacegate {
     private static final KoLAdventure SPACEGATE =
         AdventureDatabase.getAdventureByName("Through the Spacegate");

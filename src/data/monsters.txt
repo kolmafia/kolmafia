@@ -1360,7 +1360,7 @@ glass-shelled archelon	2233	dino_turtle.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: 
 supersonic velociraptor	2234	dino_raptor.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 spikolodon	2235	dino_spike.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 ghostasaurus	2236	dino_ghost.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: undead EA: spooky Article: a
-flatusaurus	2237	dino_flat.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+flatusaurus	2237	dino_flatus.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 primitive chicken	2238	dino_chicken.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 
 # Items of the Month
