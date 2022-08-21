@@ -100,9 +100,7 @@ public class EquipmentManager {
 
   public static final int[] FOLDER_SLOTS_AFTERCORE =
       new int[] {
-          EquipmentManager.FOLDER1,
-          EquipmentManager.FOLDER2,
-          EquipmentManager.FOLDER3,
+        EquipmentManager.FOLDER1, EquipmentManager.FOLDER2, EquipmentManager.FOLDER3,
       };
 
   public static final int[] ACCESSORY_SLOTS =
