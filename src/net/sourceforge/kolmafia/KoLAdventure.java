@@ -1537,7 +1537,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Deep Machine Tunnels")) {
       // The Deep Machine Tunnels
       // Deep Machine Tunnels snowglobe gives 57 turns of Inside The Snowglobe
-      return KoLCharacter.findFamiliar(FamiliarPool.MACHINE_ELF) != null
+      return KoLCharacter.hasFamiliar(FamiliarPool.MACHINE_ELF)
           || KoLConstants.activeEffects.contains(INSIDE_THE_SNOWGLOBE)
           || InventoryManager.hasItem(item);
     }
@@ -2047,15 +2047,32 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Deep Machine Tunnels")) {
-      if (KoLCharacter.findFamiliar(FamiliarPool.MACHINE_ELF) == null
-          && !KoLConstants.activeEffects.contains(INSIDE_THE_SNOWGLOBE)) {
-        if (!InventoryManager.retrieveItem(MACHINE_SNOWGLOBE)) {
-          // This shouldn't fail as it is guaranteed in canAdventure()
-          return false;
-        }
-
-        RequestThread.postRequest(UseItemRequest.getInstance(MACHINE_SNOWGLOBE));
+      // I think you can use the snowglobe even if you have the familiar,
+      // as long as it is in the terrarium
+      if (KoLConstants.activeEffects.contains(INSIDE_THE_SNOWGLOBE)) {
+        // With active effect, nothing more to do.
+        return true;
       }
+
+      // If you don't have the effect but do have a Machine Elf, prefer that.
+      FamiliarData machineElf = KoLCharacter.findFamiliar(FamiliarPool.MACHINE_ELF);
+      if (machineElf != null) {
+        // If the Machine Elf is at your side, good to go.
+        if (KoLCharacter.getFamiliar().getId() == FamiliarPool.MACHINE_ELF) {
+          return true;
+        }
+        // Otherwise, remove from terrarium
+        new FamiliarRequest(machineElf).run();
+        return true;
+      }
+
+      // Need to use a snowglobe
+      if (!InventoryManager.retrieveItem(MACHINE_SNOWGLOBE)) {
+        // This shouldn't fail as it is guaranteed in canAdventure()
+        return false;
+      }
+
+      RequestThread.postRequest(UseItemRequest.getInstance(MACHINE_SNOWGLOBE));
 
       return true;
     }

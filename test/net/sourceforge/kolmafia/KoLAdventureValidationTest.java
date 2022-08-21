@@ -9,6 +9,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
@@ -3188,6 +3189,114 @@ public class KoLAdventureValidationTest {
             requests.get(0),
             "/inv_use.php",
             "whichitem=" + ItemPool.TRANSPORTER_TRANSPONDER + "&ajax=1");
+      }
+    }
+  }
+
+  @Nested
+  class DeepMachineTunnels {
+    private static final KoLAdventure DEEP_MACHINE_TUNNELS =
+        AdventureDatabase.getAdventureByName("The Deep Machine Tunnels");
+
+    @Test
+    public void cannotAdventureWithoutFamiliarOrEffectOrItem() {
+      assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(false));
+    }
+
+    @Test
+    public void canAdventureWithFamiliarInTerrarium() {
+      var cleanups = new Cleanups(withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF));
+      try (cleanups) {
+        assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void canAdventureWithFamiliarAtSide() {
+      var cleanups = new Cleanups(withFamiliar(FamiliarPool.MACHINE_ELF));
+      try (cleanups) {
+        assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void canAdventureWithEffectActive() {
+      var cleanups = new Cleanups(withEffect(EffectPool.INSIDE_THE_SNOWGLOBE));
+      try (cleanups) {
+        assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void canAdventureWithItemInInventory() {
+      var cleanups = new Cleanups(withItem(ItemPool.MACHINE_SNOWGLOBE));
+      try (cleanups) {
+        assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    public void cannotPrepareForAdventureWithoutFamiliarOrItemOrEffect() {
+      assertThat(DEEP_MACHINE_TUNNELS.canAdventure(), is(false));
+    }
+
+    @Test
+    public void canPrepareForAdventureWithFamiliarAtSide() {
+      setupFakeClient();
+      var cleanups = new Cleanups(withFamiliar(FamiliarPool.MACHINE_ELF));
+      try (cleanups) {
+        assertTrue(DEEP_MACHINE_TUNNELS.canAdventure());
+        assertTrue(DEEP_MACHINE_TUNNELS.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithEffect() {
+      setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.INSIDE_THE_SNOWGLOBE), withItem(ItemPool.MACHINE_SNOWGLOBE));
+      try (cleanups) {
+        assertTrue(DEEP_MACHINE_TUNNELS.canAdventure());
+        assertTrue(DEEP_MACHINE_TUNNELS.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithFamiliarInTerrarium() {
+      setupFakeClient();
+      var cleanups = new Cleanups(withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF));
+      try (cleanups) {
+        assertTrue(DEEP_MACHINE_TUNNELS.canAdventure());
+        assertTrue(DEEP_MACHINE_TUNNELS.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/familiar.php",
+            "action=newfam&newfam=" + FamiliarPool.MACHINE_ELF + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void canPrepareForAdventureWithItem() {
+      setupFakeClient();
+      var cleanups = new Cleanups(withItem(ItemPool.MACHINE_SNOWGLOBE));
+      try (cleanups) {
+        assertTrue(DEEP_MACHINE_TUNNELS.canAdventure());
+        assertTrue(DEEP_MACHINE_TUNNELS.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.MACHINE_SNOWGLOBE + "&ajax=1");
       }
     }
   }
