@@ -1355,13 +1355,22 @@ The Naughty Scorcheress	2220	sorcform1.gif	BOSS NOCOPY Atk: 190 Def: 171 HP: 400
 
 kachungasaur	2230	dino_kachung.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 dilophosaur	2231	dino_diplo.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
-high-altitude pterodactyl	2232	dino_ptero.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+high-altitude pterodactyl	2232	dino_ptero.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast EA: stench Article: a
 glass-shelled archelon	2233	dino_turtle.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 supersonic velociraptor	2234	dino_raptor.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 spikolodon	2235	dino_spike.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 ghostasaurus	2236	dino_ghost.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: undead EA: spooky Article: a
-flatusaurus	2237	dino_flat.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+flatusaurus	2237	dino_flatus.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
 primitive chicken	2238	dino_chicken.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+two-headed pteranodon with a two-headed bat inside it	2239	dino_bossbat.gif	Atk: 40 Def: 40 HP: 60 Init: 80 P: beast Article: a
+goblodocus	2240	dino_goblinking.gif	Atk: 60 Def: 60 HP: 100 Init: 50 P: beast Article: a
+T-Rex who ate the Bonerdagon	2241	dino_bonerex.gif	Atk: 100 Def: 100 HP: 150 Init: 100 P: beast Article: a
+suruasaurus	2242	dino_palin.gif	Atk: 191 Def: 181 HP: 272 Init: 101 P: beast Article: a
+herd of well-fed microraptors	2243	dino_micro.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: beast EA: cold EA: hot EA: sleaze EA: spooky EA: stench Article: a
+protoceratops spectre	2244	dino_specter.gif	Atk: 200 Def: 200 HP: 300 Init: -10000 P: undead E: spooky Article: the
+refrigeradon	2245	dino_fridge.gif	Atk: 100 Def: 300 HP: 200 Init: 50 P: beast EA: cold Article: a
+Slackiosaurus	2246	dino_slack.gif	Atk: 250 Def: 250 HP: 2000 Init: -10000 P: beast Article: The
+Naughty Saursaurus	2248	dino_sorc.gif	Atk: 300 Def: 300 HP: 1000 Init: 100 P: beast EA: spooky Article: The
 
 # Items of the Month
 
