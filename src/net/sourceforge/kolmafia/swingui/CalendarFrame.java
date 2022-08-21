@@ -5,6 +5,8 @@ import ca.bcit.geekkit.JCalendar;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -76,7 +78,8 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       StaticEntity.printStackTrace(e);
     }
 
-    CalendarFrame.calculatePhases(CalendarFrame.selectedDate.getTime());
+    CalendarFrame.calculatePhases(
+        CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()));
 
     dailyDisplay = new RequestPane();
     JComponentUtilities.setComponentSize(dailyDisplay, 400, 335);
@@ -133,7 +136,8 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
                         .getModel()
                         .getValueAt(CalendarFrame.selectedRow, CalendarFrame.selectedColumn)));
 
-        CalendarFrame.calculatePhases(CalendarFrame.selectedDate.getTime());
+        CalendarFrame.calculatePhases(
+            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()));
         this.updateTabs();
       } catch (Exception e1) {
         // This should not happen.  Therefore, print
@@ -148,18 +152,18 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
    * Recalculates the moon phases given the time noted in the constructor. This calculation assumes
    * that the straightforward algorithm has no errors.
    */
-  private static void calculatePhases(final Date time) {
+  private static void calculatePhases(final ZonedDateTime dateTime) {
     // In order to ensure that everything is computed
     // based on new-year, wrap the date inside of the
     // formatter (which strips time information) and
     // reparse the date.
 
-    CalendarFrame.calendarDay = HolidayDatabase.getCalendarDay(time);
+    CalendarFrame.calendarDay = HolidayDatabase.getDayInKoLYear(dateTime);
     int phaseStep = (CalendarFrame.calendarDay + 16) % 16;
 
     CalendarFrame.ronaldPhase = phaseStep % 8;
     CalendarFrame.grimacePhase = phaseStep / 2;
-    CalendarFrame.hamburglarPosition = HolidayDatabase.getHamburglarPosition(time);
+    CalendarFrame.hamburglarPosition = HolidayDatabase.getHamburglarPosition(dateTime);
   }
 
   /**
@@ -205,12 +209,14 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     displayHTML.append("/");
     displayHTML.append(
         CalendarFrame.CALENDARS[
-            HolidayDatabase.getCalendarMonth(CalendarFrame.selectedDate.getTime())]);
+            HolidayDatabase.getCalendarMonth(
+                CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()))]);
     displayHTML.append(".gif\"></td></tr><tr><td align=center>");
     displayHTML.append(CalendarFrame.LONG_FORMAT.format(CalendarFrame.selectedDate.getTime()));
     displayHTML.append("</td></tr><tr><td align=center><font size=+1><b>");
     displayHTML.append(
-        HolidayDatabase.getCalendarDayAsString(CalendarFrame.selectedDate.getTime()));
+        HolidayDatabase.getCalendarDayAsString(
+            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
     displayHTML.append("</b></font></td></tr></table></center>");
 
     displayHTML.append("</td><td valign=top>");
@@ -220,7 +226,9 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     // row, just in case.
 
     displayHTML.append("<tr><td colspan=2 align=center><b>");
-    displayHTML.append(HolidayDatabase.getHoliday(CalendarFrame.selectedDate.getTime()));
+    displayHTML.append(
+        HolidayDatabase.getHoliday(
+            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
     displayHTML.append("</b></td></tr><tr><td colspan=2></td></tr>");
 
     // Next display today's moon phases, including
@@ -358,10 +366,14 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     displayHTML.append(CalendarFrame.LONG_FORMAT.format(CalendarFrame.selectedDate.getTime()));
     displayHTML.append("</u></b><br><i>");
     displayHTML.append(
-        HolidayDatabase.getCalendarDayAsString(CalendarFrame.selectedDate.getTime()));
+        HolidayDatabase.getCalendarDayAsString(
+            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
     displayHTML.append("</i><br>&nbsp;<br>");
 
-    HolidayDatabase.addPredictionHTML(displayHTML, CalendarFrame.selectedDate.getTime(), phaseStep);
+    HolidayDatabase.addPredictionHTML(
+        displayHTML,
+        CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()),
+        phaseStep);
 
     CalendarFrame.predictDisplay.setText(displayHTML.toString());
   }
@@ -444,7 +456,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
             this.model.getCurrentYear(),
             this.model.getCurrentMonth(),
             StringUtilities.parseInt(dayString));
-        Date selectedTime = this.dateCalculator.getTime();
+        ZonedDateTime selectedTime = this.dateCalculator.toInstant().atZone(ZoneId.systemDefault());
 
         if (CalendarFrame.SHORT_FORMAT
             .format(new Date())

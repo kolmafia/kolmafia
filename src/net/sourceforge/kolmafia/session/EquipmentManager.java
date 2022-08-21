@@ -98,12 +98,17 @@ public class EquipmentManager {
         EquipmentManager.FOLDER5,
       };
 
-  public static int[] ACCESSORY_SLOTS =
+  public static final int[] FOLDER_SLOTS_AFTERCORE =
+      new int[] {
+        EquipmentManager.FOLDER1, EquipmentManager.FOLDER2, EquipmentManager.FOLDER3,
+      };
+
+  public static final int[] ACCESSORY_SLOTS =
       new int[] {
         EquipmentManager.ACCESSORY1, EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3
       };
 
-  public static int[] STICKER_SLOTS =
+  public static final int[] STICKER_SLOTS =
       new int[] {EquipmentManager.STICKER1, EquipmentManager.STICKER2, EquipmentManager.STICKER3};
 
   private static int fakeHandCount = 0;

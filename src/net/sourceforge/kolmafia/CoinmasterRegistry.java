@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.request.Crimbo20CandyRequest;
 import net.sourceforge.kolmafia.request.Crimbo20FoodRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
+import net.sourceforge.kolmafia.request.DinostaurRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.DiscoGiftCoRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
@@ -106,6 +107,7 @@ public abstract class CoinmasterRegistry {
         Crimbo20FoodRequest.CRIMBO20FOOD,
         CrimboCartelRequest.CRIMBO_CARTEL,
         DimemasterRequest.HIPPY,
+        DinostaurRequest.DINOSTAUR,
         DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE,
         DiscoGiftCoRequest.DISCO_GIFTCO,
         DollHawkerRequest.DOLLHAWKER,

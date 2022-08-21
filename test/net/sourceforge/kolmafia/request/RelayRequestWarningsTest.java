@@ -1,7 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -19,6 +22,7 @@ import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class RelayRequestWarningsTest {
@@ -458,5 +462,41 @@ public class RelayRequestWarningsTest {
             + " If you are ready to break the prism, click on the icon on the left."
             + " If you wish to visit the Scrapheap, click on icon on the right.";
     assertEquals(expected, request.lastWarning);
+  }
+
+  @Nested
+  class DinoCore {
+    @Test
+    public void shouldNotWarnInDinocoreWithNoDollars() {
+      RelayRequest request = new RelayRequest(false);
+      String URL = "place.php?whichplace=nstower&action=ns_11_prism";
+      request.constructURLString(URL, true);
+
+      var cleanups = withPath(Path.DINOSAURS);
+
+      try (cleanups) {
+        assertFalse(request.sendBreakPrismWarning(URL));
+      }
+    }
+
+    @Test
+    public void shouldWarnInDinocoreWithDollars() {
+      RelayRequest request = new RelayRequest(false);
+      String URL = "place.php?whichplace=nstower&action=ns_11_prism";
+      request.constructURLString(URL, true);
+
+      var cleanups = new Cleanups(withPath(Path.DINOSAURS), withItem(ItemPool.DINODOLLAR));
+
+      try (cleanups) {
+        assertTrue(request.sendBreakPrismWarning(URL));
+        String expected =
+            "You are about to free King Ralph and end your Fall of the Dinosaurs run."
+                + " Before you do so, you might want to spend your Dinodollars at the Dino Staur,"
+                + " since you will not be able to do so after you free the king."
+                + " If you are ready to break the prism, click on the icon on the left."
+                + " If you wish to visit the Dino Staur, click on icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
   }
 }
