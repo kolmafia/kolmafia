@@ -5574,6 +5574,7 @@ Effect	Different Way of Seeing Things	Experience Percent (Mysticality): +50
 Effect	Digitalis, Dig It	Initiative: +75, Maximum HP: +200
 Effect	Digitally Converted	Monster Level: +30
 Effect	Dilated Pupils	Item Drop: +20
+# Dino Pheromoned: You are attracting a certain class of dinosaur
 Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Effect	Dirge of Dreadfulness (Remastered)	Spooky Damage: +36, Spooky Spell Damage: +36
 Effect	Dirty Pear	Sleaze Damage: [mod(Sleaze Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
