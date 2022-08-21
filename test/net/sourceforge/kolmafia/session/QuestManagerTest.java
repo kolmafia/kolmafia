@@ -1436,7 +1436,6 @@ public class QuestManagerTest {
         assertPostRequest(
             requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-        // assertPostRequest(requests.get(2), "/place.php", "whichplace=beanstalk");
       }
     }
 
