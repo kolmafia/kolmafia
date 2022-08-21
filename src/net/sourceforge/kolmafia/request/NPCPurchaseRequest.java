@@ -1281,6 +1281,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         return GMartRequest.registerRequest(urlString);
       }
 
+      if (shopId.equals("dino")) {
+        return DinostaurRequest.registerRequest(urlString);
+      }
+
       return false;
     }
 
