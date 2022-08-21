@@ -5437,7 +5437,7 @@ public abstract class KoLCharacter {
         case ItemPool.FOLDER_HOLDER:
           // Apply folders
           Arrays.stream(EquipmentManager.FOLDER_SLOTS)
-              .mapToObj(EquipmentManager::getEquipment)
+              .mapToObj(i -> equipment[i])
               .filter(f -> f != null && f != EquipmentRequest.UNEQUIP)
               .map(AdventureResult::getItemId)
               .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
