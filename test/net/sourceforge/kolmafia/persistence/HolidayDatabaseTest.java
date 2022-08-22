@@ -115,5 +115,29 @@ class HolidayDatabaseTest {
         assertThat(HolidayDatabase.getGrimacePhaseAsString(), equalTo(grimace));
       }
     }
+
+    @ParameterizedTest
+    @CsvSource(
+        delimiter = ';',
+        value = {
+          "1;behind Grimace",
+          "2;in back, near Ronald",
+          "3;far left",
+          "4;in front of Ronald, R side",
+          "5;in front of Grimace, L side",
+          "6;far right",
+          "7;in back, near Grimace",
+          "8;behind Ronald",
+          "9;in front of Ronald, L side",
+          "10;front center",
+          "11;in front of Grimace, R side",
+        })
+    void canIdentityHamburglarPosition(final int day, final String hamburglar) {
+      var cleanups = withDay(2022, Month.AUGUST, day);
+
+      try (cleanups) {
+        assertThat(HolidayDatabase.getHamburglarPositionAsString(), equalTo(hamburglar));
+      }
+    }
   }
 }
