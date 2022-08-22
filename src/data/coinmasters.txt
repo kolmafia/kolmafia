@@ -1041,3 +1041,16 @@ Elf Candy Drive	buy	1000	fruit bat	ROW1189
 Elf Candy Drive	buy	1000	tinsel orb	ROW1190
 Elf Candy Drive	buy	3000	The Night Before Crimbo, Ch. 5	ROW1199
 Elf Candy Drive	buy	3000	The Night Before Crimbo, Ch. 6	ROW1207
+
+# Dinostaur
+
+Dino World Gift Shop (The Dinostaur)	buy	1	Dino DNAde&trade;	ROW1284
+Dino World Gift Shop (The Dinostaur)	buy	3	dinosaur dart	ROW1283
+Dino World Gift Shop (The Dinostaur)	buy	5	dinosaur repellent	ROW1285
+Dino World Gift Shop (The Dinostaur)	buy	5	dinosaur pheromone kit	ROW1279
+Dino World Gift Shop (The Dinostaur)	buy	20	birdseed hat	ROW1281
+Dino World Gift Shop (The Dinostaur)	buy	25	reflective vest	ROW1287
+Dino World Gift Shop (The Dinostaur)	buy	25	camouflage vest	ROW1286
+Dino World Gift Shop (The Dinostaur)	buy	30	flatusaur gasmask	ROW1282
+Dino World Gift Shop (The Dinostaur)	buy	50	pterodactyl rifle	ROW1280
+Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288

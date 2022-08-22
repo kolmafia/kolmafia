@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +132,7 @@ public abstract class ConsequenceManager {
       return;
     }
     // getCalendarDay is good for up to 96 description items
-    int seq = HolidayDatabase.getCalendarDay(new Date());
+    int seq = HolidayDatabase.getDayInKoLYear();
     GenericRequest req = new GenericRequest(ConsequenceManager.descriptions.get(seq % size));
     RequestThread.postRequest(req);
   }

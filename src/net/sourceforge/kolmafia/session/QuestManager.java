@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -410,9 +411,16 @@ public class QuestManager {
 
   private static void handleTownRightChange(final String location, String responseText) {
     if (!location.contains("action") && !KoLCharacter.inBadMoon()) {
-      if (responseText.contains("Voting Booth")) {
-        Preferences.setBoolean("voteAlways", true);
+      if (responseText.contains("Voting Booth") && !Preferences.getBoolean("voteAlways")) {
+        Preferences.setBoolean("_voteToday", true);
       }
+    }
+    if (responseText.contains("Horsery")) {
+      Preferences.setBoolean("horseryAvailable", true);
+    }
+    if (responseText.contains("Telegraph Office")
+        && !Preferences.getBoolean("telegraphOfficeAvailable")) {
+      Preferences.setBoolean("_telegraphOfficeToday", true);
     }
     if (responseText.contains("Madness Bakery")) {
       Preferences.setBoolean("madnessBakeryAvailable", true);
@@ -432,6 +440,10 @@ public class QuestManager {
       }
       if (responseText.contains("Boxing Daycare") && !Preferences.getBoolean("daycareOpen")) {
         Preferences.setBoolean("_daycareToday", true);
+      }
+      if (responseText.contains("Tunnel of L.O.V.E.")
+          && !Preferences.getBoolean("loveTunnelAvailable")) {
+        Preferences.setBoolean("_loveTunnelToday", true);
       }
       if (responseText.contains("Overgrown Lot")) {
         Preferences.setBoolean("overgrownLotAvailable", true);
@@ -710,6 +722,8 @@ public class QuestManager {
     if (area == AdventurePool.HAUNTED_BALLROOM) {
       if (responseText.contains("Having a Ball in the Ballroom")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+        // You cannot visit the third floor unless you have visited the second floor
+        new UpdateSuppressedRequest("place.php?whichplace=manor2").run();
       }
     }
     // Derive quest status from available rooms
@@ -930,8 +944,10 @@ public class QuestManager {
       if (responseText.contains("need you to pick up a couple things for me")) {
         QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED);
       } else if (responseText.contains("make a note of the temple's location")) {
-        QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.FINISHED);
-        Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+        KoLCharacter.setTempleUnlocked();
+        ResultProcessor.removeItem(ItemPool.BENDY_STRAW);
+        ResultProcessor.removeItem(ItemPool.PLANT_FOOD);
+        ResultProcessor.removeItem(ItemPool.SEWING_KIT);
       }
     } else if (location.contains("action=woods_hippy")
         && responseText.contains("You've got this cool boat")) {
@@ -940,7 +956,7 @@ public class QuestManager {
 
     // If we see the Hidden Temple, mark it as unlocked
     if (responseText.contains("temple.gif")) {
-      Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+      KoLCharacter.setTempleUnlocked();
     }
 
     // If we see the Black Market, update Black Market quest

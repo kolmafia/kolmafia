@@ -84,14 +84,17 @@ Le Marais D&egrave;gueulasse	Little Canadia	Le Marais D&egrave;gueulasse
 # The following zones are all opened up via item usage
 # This means they are subject to Standard restrictions
 
+# The items listed are the "day pass", if any, rather than the
+# permanent unlock item
+
 Item-Driven	Item-Driven	Item-Driven Zones
 
 Portal	Portal	El Vibrato Island	El Vibrato trapezoid
 
-Tunnel of L.O.V.E.	Town	The Tunnel of L.O.V.E.	heart-shaped crate
-Deep Machine Tunnels	Town	The Deep Machine Tunnels	machine elf capsule
-LT&T	Town	LT&T Telegrams	LT&T telegraph office deed
-Neverending Party	Town	The Neverending Party	Neverending Party invitation envelope
+Tunnel of L.O.V.E.	Town	The Tunnel of L.O.V.E.	LOV Entrance Pass
+Deep Machine Tunnels	Town	The Deep Machine Tunnels	Deep Machine Tunnels snowglobe
+LT&T	Town	LT&T Telegrams	inflatable LT&T telegraph office
+Neverending Party	Town	The Neverending Party	Neverending Party guest pass
 
 Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Astral	Astral	Astral Plane	astral mushroom
@@ -104,7 +107,7 @@ Rabbit Hole	Plains	Down the Rabbit Hole	&quot;DRINK ME&quot; potion
 Video Game Dungeon	Dungeon	Video Game Dungeon	GameInformPowerDailyPro walkthru
 
 Suburbs	Suburbs	The Suburbs of Dis	devilish folio
-Gingerbread City	Mountain	Gingerbread City	Build-a-City Gingerbread kit
+Gingerbread City	Mountain	Gingerbread City	counterfeit city
 The Spacegate	Mountain	The Spacegate	Spacegate access badge
 The Snojo	Mountain	The Snojo	X-32-F snowman crate
 
@@ -127,11 +130,11 @@ The Candy Witch and the Relentless Child Thieves	Grimstone	The Candy Witch and t
 
 Elemental International Airport	Town	Elemental International Airport
 
-Spring Break Beach	Elemental International Airport	Spring Break Beach	airplane charter: Spring Break Beach
-Conspiracy Island	Elemental International Airport	Conspiracy Island	airplane charter: Conspiracy Island
-Dinseylandfill	Elemental International Airport	Dinseylandfill	airplane charter: Dinseylandfill
-That 70s Volcano	Elemental International Airport	That 70s Volcano	airplane charter: That 70s Volcano
-The Glaciest	Elemental International Airport	The Glaciest	airplane charter: The Glaciest
+Spring Break Beach	Elemental International Airport	Spring Break Beach	one-day ticket to Spring Break Beach
+Conspiracy Island	Elemental International Airport	Conspiracy Island	one-day ticket to Conspiracy Island
+Dinseylandfill	Elemental International Airport	Dinseylandfill	one-day ticket to Dinseylandfill
+That 70s Volcano	Elemental International Airport	That 70s Volcano	one-day ticket to That 70s Volcano
+The Glaciest	Elemental International Airport	The Glaciest	one-day ticket to The Glaciest
 
 Psychoses	Psychoses	Psychoses	psychoanalytic jar
 The Crackpot Mystic's Psychoses	Psychoses	The Crackpot Mystic's Psychoses	jar of psychoses (The Crackpot Mystic)

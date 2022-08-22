@@ -255,6 +255,11 @@ public class RelayRequest extends PasswordHashRequest {
     return false;
   }
 
+  @Override
+  protected boolean shouldSuppressUpdate() {
+    return true;
+  }
+
   private void parseCookies() {
     // Cookie:
     // AWSALB=iKPiF7/vFUCL2z+/EsRTv6hJcVCELL/BskHXIkr6V2SymH+NlxEU28mSmSPUWnVY/Oyw4+EFLWA2tzw6w126Bk//oKrbpBa+wCn4ije528LSM2wLUpyCHglCstyS
@@ -913,6 +918,31 @@ public class RelayRequest extends PasswordHashRequest {
           "hand.gif",
           "jigawatts.gif",
           "\"place.php?whichplace=scrapheap\"",
+          null,
+          null);
+      return true;
+    }
+
+    // In Fall of the Dinosaurs, you will lose access to the Dinostaur and can therefore not spend
+    // your dinodollars
+
+    if (KoLCharacter.inDinocore()) {
+      if (InventoryManager.getCount(ItemPool.DINODOLLAR) <= 0) {
+        return false;
+      }
+
+      String warning =
+          "You are about to free King Ralph and end your Fall of the Dinosaurs run."
+              + " Before you do so, you might want to spend your Dinodollars at the Dino Staur,"
+              + " since you will not be able to do so after you free the king."
+              + " If you are ready to break the prism, click on the icon on the left."
+              + " If you wish to visit the Dino Staur, click on icon on the right.";
+      this.sendOptionalWarning(
+          CONFIRM_RALPH,
+          warning,
+          "hand.gif",
+          "dinobuck.gif",
+          "\"shop.php?whichshop=dino\"",
           null,
           null);
       return true;

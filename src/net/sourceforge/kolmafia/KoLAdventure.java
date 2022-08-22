@@ -394,10 +394,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult DINGHY_PLANS = ItemPool.get(ItemPool.DINGHY_PLANS);
   private static final AdventureResult DINGY_PLANKS = ItemPool.get(ItemPool.DINGY_PLANKS);
   private static final AdventureResult ENCHANTED_BEAN = ItemPool.get(ItemPool.ENCHANTED_BEAN);
-  private static final AdventureResult DRINK_ME_POTION = ItemPool.get(ItemPool.DRINK_ME_POTION);
-  private static final AdventureResult DEVILISH_FOLIO = ItemPool.get(ItemPool.DEVILISH_FOLIO);
-  private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
-  private static final AdventureResult TRANSPONDER = ItemPool.get(ItemPool.TRANSPORTER_TRANSPONDER);
   private static final AdventureResult PIRATE_FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult DRIP_HARNESS = ItemPool.get(ItemPool.DRIP_HARNESS, 1);
   private static final AdventureResult FANTASY_REALM_GEM = ItemPool.get(ItemPool.FANTASY_REALM_GEM);
@@ -406,6 +402,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult BOOZE_MAP = ItemPool.get(ItemPool.BOOZE_MAP);
   private static final AdventureResult HYPNOTIC_BREADCRUMBS =
       ItemPool.get(ItemPool.HYPNOTIC_BREADCRUMBS);
+  // Items that grant an effect to give access
+  private static final AdventureResult DRINK_ME_POTION = ItemPool.get(ItemPool.DRINK_ME_POTION);
+  private static final AdventureResult DEVILISH_FOLIO = ItemPool.get(ItemPool.DEVILISH_FOLIO);
+  private static final AdventureResult ABSINTHE = ItemPool.get(ItemPool.ABSINTHE);
+  private static final AdventureResult TRANSPONDER = ItemPool.get(ItemPool.TRANSPORTER_TRANSPONDER);
+  private static final AdventureResult MACHINE_SNOWGLOBE = ItemPool.get(ItemPool.MACHINE_SNOWGLOBE);
+  // Items that grant an effect and require configuration to give access
+  private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
+  private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG);
+  private static final AdventureResult GRIMSTONE_MASK = ItemPool.get(ItemPool.GRIMSTONE_MASK);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -413,11 +419,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult DOWN_THE_RABBIT_HOLE =
       EffectPool.get(EffectPool.DOWN_THE_RABBIT_HOLE);
   private static final AdventureResult DIS_ABLED = EffectPool.get(EffectPool.DIS_ABLED);
+  private static final AdventureResult ABSINTHE_MINDED = EffectPool.get(EffectPool.ABSINTHE);
+  private static final AdventureResult TRANSPONDENT = EffectPool.get(EffectPool.TRANSPONDENT);
+  private static final AdventureResult INSIDE_THE_SNOWGLOBE =
+      EffectPool.get(EffectPool.INSIDE_THE_SNOWGLOBE, 1);
   private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
   private static final AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
   private static final AdventureResult FORM_OF_BIRD = EffectPool.get(EffectPool.FORM_OF_BIRD);
-  private static final AdventureResult ABSINTHE_MINDED = EffectPool.get(EffectPool.ABSINTHE);
-  private static final AdventureResult TRANSPONDENT = EffectPool.get(EffectPool.TRANSPONDENT);
   private static final AdventureResult FILTHWORM_LARVA_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_LARVA_STENCH);
   private static final AdventureResult FILTHWORM_DRONE_STENCH =
@@ -557,9 +565,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // The Tunnel of L.O.V.E.
     if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
-      // LOV Entrance Pass is the one-day pass.
-      // *** Not supported yet!
-      return Preferences.getBoolean("loveTunnelAvailable")
+      return (Preferences.getBoolean("loveTunnelAvailable")
+              || Preferences.getBoolean("_loveTunnelToday"))
           && !Preferences.getBoolean("_loveTunnelUsed");
     }
 
@@ -1430,7 +1437,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // *** This should be a LimitMode
 
       // prepareForAdventure will use an astral mushroom, if necessary.
-      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(HALF_ASTRAL) || InventoryManager.hasItem(item);
     }
 
@@ -1441,9 +1447,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // You cannot adventure anywhere except in Mt. Molehill while that effect is active.
       //
       // *** This should be a LimitMode
-
-      // prepareForAdventure will NOT use a llama lama gong and choose the Mole option.
-      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(SHAPE_OF_MOLE)
           || (InventoryManager.hasItem(item) && !KoLConstants.activeEffects.contains(FORM_OF_BIRD));
     }
@@ -1478,11 +1481,30 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           || Preferences.getBoolean("_coldAirportToday");
     }
 
+    if (this.zone.equals("LT&T")) {
+      // Telegram quests
+      // *** Only accessible if you have chosen a quest
+      return Preferences.getBoolean("telegraphOfficeAvailable")
+          || Preferences.getBoolean("_telegraphOfficeToday");
+    }
+
+    if (this.zone.equals("Neverending Party")) {
+      // The Neverending Party
+      return Preferences.getBoolean("neverendingPartyAlways")
+          || Preferences.getBoolean("_neverendingPartyToday");
+    }
+
     if (this.zone.equals("Video Game Dungeon")) {
       // If you have a GameInformPowerDailyPro walkthru in inventory, you
       // have (or had) access to The GameInformPowerDailyPro Dungeon.
       // *** Do we track your progress?
       return InventoryManager.hasItem(item);
+    }
+
+    if (this.zone.equals("Portal")) {
+      // El Vibrato Island
+      // *** validate
+      return true;
     }
 
     if (this.zone.equals("Rabbit Hole")) {
@@ -1496,58 +1518,34 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Suburbs")) {
       // devilish folio grants 30 turns of Dis Abled.
       // Having the item or the effect will suffice.
-      // prepareForAdventure will NOT use a devilish folio if necessary.
-      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(DIS_ABLED) || InventoryManager.hasItem(item);
-    }
-
-    if (this.zone.equals("Portal")) {
-      // El Vibrato Island
-      // *** validate
-      return true;
-    }
-
-    if (this.zone.equals("Deep Machine Tunnels")) {
-      // The Deep Machine Tunnels
-      // Deep Machine Tunnels snowglobe is the one day pass.
-      // *** Not supported yet!
-      return KoLCharacter.findFamiliar(FamiliarPool.MACHINE_ELF) != null;
-    }
-
-    if (this.zone.equals("LT&T")) {
-      // Telegram quests
-      // inflatable LT&T telegraph office is the one-day pass.
-      // *** Not supported yet!
-      return Preferences.getBoolean("telegraphOfficeAvailable");
-    }
-
-    if (this.zone.equals("Neverending Party")) {
-      // The Neverending Party
-      return Preferences.getBoolean("neverendingPartyAlways")
-          || Preferences.getBoolean("_neverendingPartyToday");
     }
 
     if (this.zone.equals("Wormwood")) {
       // tiny bottle of absinthe grants 15 turns of Absinthe-Minded.
       // This opens up the Wormwood.
       // You can choose to adventure there or not.
-      // prepareForAdventure will NOT use a tiny jar of absinthe if necessary.
-      // *** Should it? They are not cheap.
       return KoLConstants.activeEffects.contains(ABSINTHE_MINDED) || InventoryManager.hasItem(item);
+    }
+
+    if (this.zone.equals("Spaaace")) {
+      // transporter transponder grants 30 turns of Transpondent.
+      // Having the item or the effect will suffice.
+      return KoLConstants.activeEffects.contains(TRANSPONDENT) || InventoryManager.hasItem(item);
+    }
+
+    if (this.zone.equals("Deep Machine Tunnels")) {
+      // The Deep Machine Tunnels
+      // Deep Machine Tunnels snowglobe gives 57 turns of Inside The Snowglobe
+      return KoLCharacter.hasFamiliar(FamiliarPool.MACHINE_ELF)
+          || KoLConstants.activeEffects.contains(INSIDE_THE_SNOWGLOBE)
+          || InventoryManager.hasItem(item);
     }
 
     if (this.zone.equals("Memories")) {
       // You can gaze into an empty agua de vida bottle
       // and access the zones within
       return InventoryManager.hasItem(item);
-    }
-
-    if (this.zone.equals("Spaaace")) {
-      // transporter transponder grants 30 turns of Transpondent.
-      // Having the item or the effect will suffice.
-      // prepareForAdventure will NOT use a transponder if necessary.
-      // *** Should it? They are not cheap.
-      return KoLConstants.activeEffects.contains(TRANSPONDENT) || InventoryManager.hasItem(item);
     }
 
     if (this.parentZone.equals("Antique Maps")) {
@@ -1712,6 +1710,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // This shouldn't fail.
       return KoLConstants.activeEffects.contains(HALF_ASTRAL);
+    }
+
+    if (this.parentZone.equals("Grimstone")) {
+      // *** Should use grimstone mask and select correct path
+      return true;
+    }
+
+    if (this.zone.equals("Shape of Mole")) {
+      // *** Should use llama lama gong and select correct form
+      return true;
     }
 
     // Fighting the Goblin King requires effects
@@ -1995,6 +2003,76 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
         RequestThread.postRequest(UseItemRequest.getInstance(DRINK_ME_POTION));
       }
+
+      return true;
+    }
+
+    if (this.zone.equals("Suburbs")) {
+      if (!KoLConstants.activeEffects.contains(DIS_ABLED)) {
+        if (!InventoryManager.retrieveItem(DEVILISH_FOLIO)) {
+          // This shouldn't fail as it is guaranteed in canAdventure()
+          return false;
+        }
+
+        RequestThread.postRequest(UseItemRequest.getInstance(DEVILISH_FOLIO));
+      }
+
+      return true;
+    }
+
+    if (this.zone.equals("Wormwood")) {
+      if (!KoLConstants.activeEffects.contains(ABSINTHE_MINDED)) {
+        if (!InventoryManager.retrieveItem(ABSINTHE)) {
+          // This shouldn't fail as it is guaranteed in canAdventure()
+          return false;
+        }
+
+        RequestThread.postRequest(UseItemRequest.getInstance(ABSINTHE));
+      }
+
+      return true;
+    }
+
+    if (this.zone.equals("Spaaace")) {
+      if (!KoLConstants.activeEffects.contains(TRANSPONDENT)) {
+        if (!InventoryManager.retrieveItem(TRANSPONDER)) {
+          // This shouldn't fail as it is guaranteed in canAdventure()
+          return false;
+        }
+
+        RequestThread.postRequest(UseItemRequest.getInstance(TRANSPONDER));
+      }
+
+      return true;
+    }
+
+    if (this.zone.equals("Deep Machine Tunnels")) {
+      // I think you can use the snowglobe even if you have the familiar,
+      // as long as it is in the terrarium
+      if (KoLConstants.activeEffects.contains(INSIDE_THE_SNOWGLOBE)) {
+        // With active effect, nothing more to do.
+        return true;
+      }
+
+      // If you don't have the effect but do have a Machine Elf, prefer that.
+      FamiliarData machineElf = KoLCharacter.findFamiliar(FamiliarPool.MACHINE_ELF);
+      if (machineElf != null) {
+        // If the Machine Elf is at your side, good to go.
+        if (KoLCharacter.getFamiliar().getId() == FamiliarPool.MACHINE_ELF) {
+          return true;
+        }
+        // Otherwise, remove from terrarium
+        new FamiliarRequest(machineElf).run();
+        return true;
+      }
+
+      // Need to use a snowglobe
+      if (!InventoryManager.retrieveItem(MACHINE_SNOWGLOBE)) {
+        // This shouldn't fail as it is guaranteed in canAdventure()
+        return false;
+      }
+
+      RequestThread.postRequest(UseItemRequest.getInstance(MACHINE_SNOWGLOBE));
 
       return true;
     }

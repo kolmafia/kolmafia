@@ -1,14 +1,17 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -16,6 +19,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -98,6 +102,77 @@ public class GenericRequestTest {
 
       assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
       assertThat("_shrubDecorated", isSetTo(false));
+    }
+  }
+
+  @Nested
+  class SuppressUpdate {
+
+    public static Cleanups withUpdateSuppressed() {
+      var old = GenericRequest.updateSuppressed();
+      GenericRequest.suppressUpdate(true);
+      return new Cleanups(
+          () -> {
+            GenericRequest.suppressUpdate(old);
+          });
+    }
+
+    @Test
+    public void willRequestUnsuppressedUpdate() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState());
+
+      try (cleanup) {
+        var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
+        request.run();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=2&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void willGloballySuppressUpdate() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withItem("seal tooth"),
+              withUpdateSuppressed(),
+              withHttpClientBuilder(builder),
+              withContinuationState());
+
+      try (cleanup) {
+        var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
+        request.run();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=2&ajax=1");
+      }
+    }
+
+    @Test
+    public void willLocallySuppressUpdate() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState());
+
+      try (cleanup) {
+        var request = new UpdateSuppressedRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
+        request.run();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=2&ajax=1");
+      }
     }
   }
 }

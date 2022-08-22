@@ -2237,6 +2237,8 @@ public class ItemPool {
   public static final int THINKNERD_PACKAGE = 7278;
   public static final int ELEVENT = 7295;
   public static final int PROFESSOR_WHAT_TSHIRT = 7297;
+  public static final int BENDY_STRAW = 7398;
+  public static final int PLANT_FOOD = 7399;
   public static final int SEWING_KIT = 7300;
   public static final int BILLIARDS_KEY = 7301;
   public static final int LIBRARY_KEY = 7302;
@@ -2746,6 +2748,7 @@ public class ItemPool {
   public static final int TELEGRAPH_OFFICE_DEED = 8836;
   public static final int PLAINTIVE_TELEGRAM = 8837;
   public static final int COWBOY_BOOTS = 8850;
+  public static final int INFLATABLE_TELEGRAPH_OFFICE = 8851;
   public static final int HEIMZ_BEANS = 8866;
   public static final int TESLA_BEANS = 8867;
   public static final int MIXED_BEANS = 8868;
@@ -2898,6 +2901,7 @@ public class ItemPool {
   public static final int SPRINKLES = 9205;
   public static final int VIGILANTE_BOOK = 9206;
   public static final int BROKEN_CHOCOLATE_POCKETWATCH = 9215;
+  public static final int CLOD_OF_DIRT = 9216;
   public static final int GINGERBREAD_RESTRAINING_ORDER = 9217;
   public static final int GINGERBREAD_WINE = 9220;
   public static final int GINGERBREAD_MUG = 9221;
@@ -2933,10 +2937,10 @@ public class ItemPool {
   public static final int HEART_SHAPED_CRATE = 9316;
   public static final int LOVE_BOOMERANG = 9323;
   public static final int LOVE_CHOCOLATE = 9325;
+  public static final int LOVE_ENTRANCE_PASS = 9330;
   public static final int ELDRITCH_ICHOR = 9333;
   public static final int ELDRITCH_TINCTURE = 9335;
   public static final int ELDRITCH_TINCTURE_DEPLETED = 9336;
-  public static final int CLOD_OF_DIRT = 9216;
   public static final int DIRTY_BOTTLECAP = 9343;
   public static final int DISCARDED_BUTTON = 9344;
   public static final int GUMMY_MEMORY = 9345;
@@ -3389,6 +3393,7 @@ public class ItemPool {
   public static final int MOTHERS_NECKLACE = 10925;
   public static final int DESIGNER_SWEATPANTS = 10929;
   public static final int STILLSUIT = 10932;
+  public static final int DINODOLLAR = 10944;
 
   private ItemPool() {}
 
