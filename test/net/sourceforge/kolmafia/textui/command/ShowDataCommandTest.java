@@ -19,6 +19,7 @@ public class ShowDataCommandTest extends AbstractCommandTestBase {
       assertThat(output, containsString("August 21, 2022 - Martinus 6"));
       assertThat(output, containsString("Ronald: waning gibbous"));
       assertThat(output, containsString("Grimace: first quarter"));
+      assertThat(output, containsString("Mini-moon: front center"));
       assertThat(output, containsString("Arrrbor Day: 22 days"));
       assertThat(output, containsString("3 days until Muscle."));
     }
