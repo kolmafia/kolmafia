@@ -411,9 +411,16 @@ public class QuestManager {
 
   private static void handleTownRightChange(final String location, String responseText) {
     if (!location.contains("action") && !KoLCharacter.inBadMoon()) {
-      if (responseText.contains("Voting Booth")) {
-        Preferences.setBoolean("voteAlways", true);
+      if (responseText.contains("Voting Booth") && !Preferences.getBoolean("voteAlways")) {
+        Preferences.setBoolean("_voteToday", true);
       }
+    }
+    if (responseText.contains("Horsery")) {
+      Preferences.setBoolean("horseryAvailable", true);
+    }
+    if (responseText.contains("Telegraph Office")
+        && !Preferences.getBoolean("telegraphOfficeAvailable")) {
+      Preferences.setBoolean("_telegraphOfficeToday", true);
     }
     if (responseText.contains("Madness Bakery")) {
       Preferences.setBoolean("madnessBakeryAvailable", true);
@@ -433,6 +440,10 @@ public class QuestManager {
       }
       if (responseText.contains("Boxing Daycare") && !Preferences.getBoolean("daycareOpen")) {
         Preferences.setBoolean("_daycareToday", true);
+      }
+      if (responseText.contains("Tunnel of L.O.V.E.")
+          && !Preferences.getBoolean("loveTunnelAvailable")) {
+        Preferences.setBoolean("_loveTunnelToday", true);
       }
       if (responseText.contains("Overgrown Lot")) {
         Preferences.setBoolean("overgrownLotAvailable", true);

@@ -54,6 +54,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -341,293 +342,299 @@ public class QuestManagerTest {
    * Pyramid Quest
    */
 
-  @Test
-  void canDetectDesertProgressWithNoBonuses() {
-    String responseText = html("request/test_desert_exploration_no_bonuses.html");
-    var cleanups = new Cleanups(withProperty("desertExploration", 20));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
-      assertTrue(responseText.contains("Desert exploration <b>+1%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 21);
+  @Nested
+  class DesertExploration {
+    @Test
+    void canDetectDesertProgressWithNoBonuses() {
+      String responseText = html("request/test_desert_exploration_no_bonuses.html");
+      var cleanups = new Cleanups(withProperty("desertExploration", 20));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertTrue(responseText.contains("Desert exploration <b>+1%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 21);
+      }
+    }
+
+    @Test
+    void canDetectDesertProgressWithUVResistantCompass() {
+      String responseText = html("request/test_desert_exploration_compass.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 20),
+              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "plaque of locusts");
+        assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 22);
+      }
+    }
+
+    @Test
+    void canDetectDesertProgressWithSurvivalKnifeUltrahydrated() {
+      String responseText = html("request/test_desert_exploration_knife.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 20),
+              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEffect("Ultrahydrated"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "rock scorpion");
+        assertTrue(responseText.contains("Desert exploration <b>+3%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 23);
+      }
+    }
+
+    @Test
+    void canDetectDesertProgressWithCompassAndSurvivalKnifeUltrahydrated() {
+      String responseText = html("request/test_desert_exploration_compass_knife.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 20),
+              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
+              withEffect("Ultrahydrated"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertTrue(responseText.contains("Desert exploration <b>+4%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 24);
+      }
+    }
+
+    @Test
+    void canDetectDesertProgressWithMelodramadery() {
+      String responseText = html("request/test_desert_exploration_camel.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 20), withFamiliar(FamiliarPool.MELODRAMEDARY));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 22);
+      }
+    }
+
+    @Test
+    void canDetectDesertProgressWithMelodramaderyAndCompass() {
+      String responseText = html("request/test_desert_exploration_camel_compass.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 20),
+              withFamiliar(FamiliarPool.MELODRAMEDARY),
+              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "rock scorpion");
+        assertTrue(responseText.contains("Desert exploration <b>+3%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 23);
+      }
+    }
+
+    @Test
+    void canDetectDesertProgressWithMelodramaderyAndSurvivalKnifeUltrahydrated() {
+      String responseText = html("request/test_desert_exploration_camel_knife.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 20),
+              withFamiliar(FamiliarPool.MELODRAMEDARY),
+              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEffect("Ultrahydrated"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertTrue(responseText.contains("Desert exploration <b>+4%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 24);
+      }
+    }
+
+    @Test
+    void canDetectDesertProgressWithMelodramaderyAndCompassAndSurvivalKnifeUltrahydrated() {
+      String responseText = html("request/test_desert_exploration_camel_compass_knife.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 20),
+              withFamiliar(FamiliarPool.MELODRAMEDARY),
+              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
+              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEffect("Ultrahydrated"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "rock scorpion");
+        assertTrue(responseText.contains("Desert exploration <b>+5%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 25);
+      }
+    }
+
+    @Test
+    void canDetectDesertProgressWithMelodramedaryAndSurvivalKnifeUnhydrated() {
+      String responseText = html("request/test_desert_exploration_camel_knife_unhydrated.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 20),
+              withFamiliar(FamiliarPool.MELODRAMEDARY),
+              withEquipped(EquipmentManager.WEAPON, "survival knife"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "cactuary");
+        assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 22);
+      }
     }
   }
 
-  @Test
-  void canDetectDesertProgressWithUVResistantCompass() {
-    String responseText = html("request/test_desert_exploration_compass.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("desertExploration", 20),
-            withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "plaque of locusts");
-      assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 22);
+  @Nested
+  class Pyramid {
+    @Test
+    void canDetectPyramidStartedFromBeach() {
+      var request = new GenericRequest("place.php?whichplace=desertbeach&action=db_pyramid1");
+      request.responseText = html("request/test_place_desert_beach_uncover_pyramid.html");
+      QuestManager.handleQuestChange(request);
+      assertThat(Quest.PYRAMID, isStarted());
     }
-  }
 
-  @Test
-  void canDetectDesertProgressWithSurvivalKnifeUltrahydrated() {
-    String responseText = html("request/test_desert_exploration_knife.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("desertExploration", 20),
-            withEquipped(EquipmentManager.WEAPON, "survival knife"),
-            withEffect("Ultrahydrated"));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "rock scorpion");
-      assertTrue(responseText.contains("Desert exploration <b>+3%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 23);
+    @Test
+    void justBeingInPyramidIsPyramidStarted() {
+      var request = new GenericRequest("place.php?whichplace=pyramid");
+      request.responseText = html("request/test_place_pyramid_first_visit.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat(Quest.PYRAMID, isStarted());
     }
-  }
 
-  @Test
-  void canDetectDesertProgressWithCompassAndSurvivalKnifeUltrahydrated() {
-    String responseText = html("request/test_desert_exploration_compass_knife.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("desertExploration", 20),
-            withEquipped(EquipmentManager.WEAPON, "survival knife"),
-            withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
-            withEffect("Ultrahydrated"));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
-      assertTrue(responseText.contains("Desert exploration <b>+4%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 24);
+    @Test
+    void canDetectPyramidStep1FromUpperChamber() {
+      var request = new GenericRequest("adventure.php?snarfblat=406");
+      request.responseText =
+          html("request/test_adventure_upper_chamber_down_dooby_doo_down_down.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat(Quest.PYRAMID, isStep(1));
+      assertThat("middleChamberUnlock", isSetTo(true));
     }
-  }
 
-  @Test
-  void canDetectDesertProgressWithMelodramadery() {
-    String responseText = html("request/test_desert_exploration_camel.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("desertExploration", 20), withFamiliar(FamiliarPool.MELODRAMEDARY));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
-      assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 22);
+    @Test
+    void justBeingInMiddleChamberIsPyramidStep1() {
+      var request = new GenericRequest("adventure.php?snarfblat=407");
+      request.responseText = "anything";
+      QuestManager.handleQuestChange(request);
+
+      assertThat(Quest.PYRAMID, isStep(1));
+      assertThat("middleChamberUnlock", isSetTo(true));
     }
-  }
 
-  @Test
-  void canDetectDesertProgressWithMelodramaderyAndCompass() {
-    String responseText = html("request/test_desert_exploration_camel_compass.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("desertExploration", 20),
-            withFamiliar(FamiliarPool.MELODRAMEDARY),
-            withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "rock scorpion");
-      assertTrue(responseText.contains("Desert exploration <b>+3%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 23);
+    @Test
+    void canDetectPyramidStep1FromPyramid() {
+      var request = new GenericRequest("place.php?whichplace=pyramid");
+      request.responseText = html("request/test_place_pyramid_unlocked_middle_chamber.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat(Quest.PYRAMID, isStep(1));
+      assertThat("middleChamberUnlock", isSetTo(true));
+      assertThat("lowerChamberUnlock", isSetTo(false));
+      assertThat("controlRoomUnlock", isSetTo(false));
     }
-  }
 
-  @Test
-  void canDetectDesertProgressWithMelodramaderyAndSurvivalKnifeUltrahydrated() {
-    String responseText = html("request/test_desert_exploration_camel_knife.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("desertExploration", 20),
-            withFamiliar(FamiliarPool.MELODRAMEDARY),
-            withEquipped(EquipmentManager.WEAPON, "survival knife"),
-            withEffect("Ultrahydrated"));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
-      assertTrue(responseText.contains("Desert exploration <b>+4%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 24);
+    @Test
+    void canDetectPyramidStep2FromMiddleChamber() {
+      var request = new GenericRequest("adventure.php?snarfblat=407");
+      request.responseText =
+          html("request/test_adventure_middle_chamber_further_down_dooby_doo_down_down.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat(Quest.PYRAMID, isStep(2));
+      assertThat("lowerChamberUnlock", isSetTo(true));
     }
-  }
 
-  @Test
-  void canDetectDesertProgressWithMelodramaderyAndCompassAndSurvivalKnifeUltrahydrated() {
-    String responseText = html("request/test_desert_exploration_camel_compass_knife.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("desertExploration", 20),
-            withFamiliar(FamiliarPool.MELODRAMEDARY),
-            withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
-            withEquipped(EquipmentManager.WEAPON, "survival knife"),
-            withEffect("Ultrahydrated"));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "rock scorpion");
-      assertTrue(responseText.contains("Desert exploration <b>+5%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 25);
+    @Test
+    void canDetectPyramidStep2FromPyramid() {
+      var request = new GenericRequest("place.php?whichplace=pyramid");
+      request.responseText = html("request/test_place_pyramid_unlocked_lower_chamber.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat(Quest.PYRAMID, isStep(2));
+      assertThat("middleChamberUnlock", isSetTo(true));
+      assertThat("lowerChamberUnlock", isSetTo(true));
+      assertThat("controlRoomUnlock", isSetTo(false));
     }
-  }
 
-  @Test
-  void canDetectDesertProgressWithMelodramedaryAndSurvivalKnifeUnhydrated() {
-    String responseText = html("request/test_desert_exploration_camel_knife_unhydrated.html");
-    var cleanups =
-        new Cleanups(
-            withProperty("desertExploration", 20),
-            withFamiliar(FamiliarPool.MELODRAMEDARY),
-            withEquipped(EquipmentManager.WEAPON, "survival knife"));
-    try (cleanups) {
-      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
-      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
-      QuestManager.updateQuestData(responseText, "cactuary");
-      assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
-      assertEquals(Preferences.getInteger("desertExploration"), 22);
+    @Test
+    void canDetectPyramidStep3FromMiddleChamber() {
+      var request = new GenericRequest("adventure.php?snarfblat=407");
+      request.responseText = html("request/test_adventure_middle_chamber_under_control.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat(Quest.PYRAMID, isStep(3));
+      assertThat("controlRoomUnlock", isSetTo(true));
+      assertThat("pyramidPosition", isSetTo(1));
     }
-  }
 
-  @Test
-  void canDetectPyramidStartedFromBeach() {
-    var request = new GenericRequest("place.php?whichplace=desertbeach&action=db_pyramid1");
-    request.responseText = html("request/test_place_desert_beach_uncover_pyramid.html");
-    QuestManager.handleQuestChange(request);
-    assertThat(Quest.PYRAMID, isStarted());
-  }
+    @Test
+    void canDetectPyramidStep3FromPyramid() {
+      var request = new GenericRequest("place.php?whichplace=pyramid");
+      request.responseText = html("request/test_place_pyramid_unlocked_control_room.html");
+      QuestManager.handleQuestChange(request);
 
-  @Test
-  void justBeingInPyramidIsPyramidStarted() {
-    var request = new GenericRequest("place.php?whichplace=pyramid");
-    request.responseText = html("request/test_place_pyramid_first_visit.html");
-    QuestManager.handleQuestChange(request);
+      assertThat(Quest.PYRAMID, isStep(3));
+      assertThat("middleChamberUnlock", isSetTo(true));
+      assertThat("lowerChamberUnlock", isSetTo(true));
+      assertThat("controlRoomUnlock", isSetTo(true));
+    }
 
-    assertThat(Quest.PYRAMID, isStarted());
-  }
+    private static final Map<String, Integer> PYRAMID_POSITIONS =
+        Map.ofEntries(
+            Map.entry("basket", 4),
+            Map.entry("first_visit", 1),
+            Map.entry("rats_and_basket", 2),
+            Map.entry("rubble_and_vending_machine", 3),
+            Map.entry("vending_machine_and_rats", 5));
 
-  @Test
-  void canDetectPyramidStep1FromUpperChamber() {
-    var request = new GenericRequest("adventure.php?snarfblat=406");
-    request.responseText =
-        html("request/test_adventure_upper_chamber_down_dooby_doo_down_down.html");
-    QuestManager.handleQuestChange(request);
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "basket",
+          "first_visit",
+          "rats_and_basket",
+          "rubble_and_vending_machine",
+          "vending_machine_and_rats"
+        })
+    void canDetectPyramidPositionFromPyramid(String pyramidState) {
+      var request = new GenericRequest("place.php?whichplace=pyramid");
+      request.responseText = html("request/test_place_pyramid_" + pyramidState + ".html");
+      QuestManager.handleQuestChange(request);
 
-    assertThat(Quest.PYRAMID, isStep(1));
-    assertThat("middleChamberUnlock", isSetTo(true));
-  }
+      assertThat("pyramidPosition", isSetTo(PYRAMID_POSITIONS.get(pyramidState)));
+    }
 
-  @Test
-  void justBeingInMiddleChamberIsPyramidStep1() {
-    var request = new GenericRequest("adventure.php?snarfblat=407");
-    request.responseText = "anything";
-    QuestManager.handleQuestChange(request);
+    @Test
+    void canDetectPyramidBombUsedFromPyramidAction() {
+      var request = new GenericRequest("place.php?whichplace=pyramid&action=pyramid_state1");
+      request.responseText = html("request/test_place_pyramid_bomb_rubble.html");
+      QuestManager.handleQuestChange(request);
 
-    assertThat(Quest.PYRAMID, isStep(1));
-    assertThat("middleChamberUnlock", isSetTo(true));
-  }
+      assertThat("pyramidBombUsed", isSetTo(true));
+    }
 
-  @Test
-  void canDetectPyramidStep1FromPyramid() {
-    var request = new GenericRequest("place.php?whichplace=pyramid");
-    request.responseText = html("request/test_place_pyramid_unlocked_middle_chamber.html");
-    QuestManager.handleQuestChange(request);
+    @Test
+    void canDetectPyramidBombUsedFromPyramid() {
+      var request = new GenericRequest("place.php?whichplace=pyramid");
+      request.responseText = html("request/test_place_pyramid_unlocked_tomb.html");
+      QuestManager.handleQuestChange(request);
 
-    assertThat(Quest.PYRAMID, isStep(1));
-    assertThat("middleChamberUnlock", isSetTo(true));
-    assertThat("lowerChamberUnlock", isSetTo(false));
-    assertThat("controlRoomUnlock", isSetTo(false));
-  }
-
-  @Test
-  void canDetectPyramidStep2FromMiddleChamber() {
-    var request = new GenericRequest("adventure.php?snarfblat=407");
-    request.responseText =
-        html("request/test_adventure_middle_chamber_further_down_dooby_doo_down_down.html");
-    QuestManager.handleQuestChange(request);
-
-    assertThat(Quest.PYRAMID, isStep(2));
-    assertThat("lowerChamberUnlock", isSetTo(true));
-  }
-
-  @Test
-  void canDetectPyramidStep2FromPyramid() {
-    var request = new GenericRequest("place.php?whichplace=pyramid");
-    request.responseText = html("request/test_place_pyramid_unlocked_lower_chamber.html");
-    QuestManager.handleQuestChange(request);
-
-    assertThat(Quest.PYRAMID, isStep(2));
-    assertThat("middleChamberUnlock", isSetTo(true));
-    assertThat("lowerChamberUnlock", isSetTo(true));
-    assertThat("controlRoomUnlock", isSetTo(false));
-  }
-
-  @Test
-  void canDetectPyramidStep3FromMiddleChamber() {
-    var request = new GenericRequest("adventure.php?snarfblat=407");
-    request.responseText = html("request/test_adventure_middle_chamber_under_control.html");
-    QuestManager.handleQuestChange(request);
-
-    assertThat(Quest.PYRAMID, isStep(3));
-    assertThat("controlRoomUnlock", isSetTo(true));
-    assertThat("pyramidPosition", isSetTo(1));
-  }
-
-  @Test
-  void canDetectPyramidStep3FromPyramid() {
-    var request = new GenericRequest("place.php?whichplace=pyramid");
-    request.responseText = html("request/test_place_pyramid_unlocked_control_room.html");
-    QuestManager.handleQuestChange(request);
-
-    assertThat(Quest.PYRAMID, isStep(3));
-    assertThat("middleChamberUnlock", isSetTo(true));
-    assertThat("lowerChamberUnlock", isSetTo(true));
-    assertThat("controlRoomUnlock", isSetTo(true));
-  }
-
-  private static final Map<String, Integer> PYRAMID_POSITIONS =
-      Map.ofEntries(
-          Map.entry("basket", 4),
-          Map.entry("first_visit", 1),
-          Map.entry("rats_and_basket", 2),
-          Map.entry("rubble_and_vending_machine", 3),
-          Map.entry("vending_machine_and_rats", 5));
-
-  @ParameterizedTest
-  @ValueSource(
-      strings = {
-        "basket",
-        "first_visit",
-        "rats_and_basket",
-        "rubble_and_vending_machine",
-        "vending_machine_and_rats"
-      })
-  void canDetectPyramidPositionFromPyramid(String pyramidState) {
-    var request = new GenericRequest("place.php?whichplace=pyramid");
-    request.responseText = html("request/test_place_pyramid_" + pyramidState + ".html");
-    QuestManager.handleQuestChange(request);
-
-    assertThat("pyramidPosition", isSetTo(PYRAMID_POSITIONS.get(pyramidState)));
-  }
-
-  @Test
-  void canDetectPyramidBombUsedFromPyramidAction() {
-    var request = new GenericRequest("place.php?whichplace=pyramid&action=pyramid_state1");
-    request.responseText = html("request/test_place_pyramid_bomb_rubble.html");
-    QuestManager.handleQuestChange(request);
-
-    assertThat("pyramidBombUsed", isSetTo(true));
-  }
-
-  @Test
-  void canDetectPyramidBombUsedFromPyramid() {
-    var request = new GenericRequest("place.php?whichplace=pyramid");
-    request.responseText = html("request/test_place_pyramid_unlocked_tomb.html");
-    QuestManager.handleQuestChange(request);
-
-    assertThat("pyramidBombUsed", isSetTo(true));
+      assertThat("pyramidBombUsed", isSetTo(true));
+    }
   }
 
   /*
@@ -1060,95 +1067,101 @@ public class QuestManagerTest {
   /*
    * Airport
    */
-  private static Stream<Arguments> provideAirportsAndZones() {
-    return Stream.of(
-        Arguments.of(
-            "cold",
-            new int[] {AdventurePool.ICE_HOTEL, AdventurePool.VYKEA, AdventurePool.ICE_HOLE}),
-        Arguments.of(
-            "hot",
-            new int[] {
-              AdventurePool.SMOOCH_ARMY_HQ,
-              AdventurePool.VELVET_GOLD_MINE,
-              AdventurePool.LAVACO_LAMP_FACTORY,
-              AdventurePool.BUBBLIN_CALDERA
-            }),
-        Arguments.of(
-            "sleaze",
-            new int[] {
-              AdventurePool.SLOPPY_SECONDS_DINER, AdventurePool.FUN_GUY_MANSION, AdventurePool.YACHT
-            }),
-        Arguments.of(
-            "spooky",
-            new int[] {
-              AdventurePool.DR_WEIRDEAUX,
-              AdventurePool.SECRET_GOVERNMENT_LAB,
-              AdventurePool.DEEP_DARK_JUNGLE
-            }),
-        Arguments.of(
-            "stench",
-            new int[] {
-              AdventurePool.BARF_MOUNTAIN,
-              AdventurePool.GARBAGE_BARGES,
-              AdventurePool.TOXIC_TEACUPS,
-              AdventurePool.LIQUID_WASTE_SLUICE
-            }));
-  }
 
-  @ParameterizedTest
-  @MethodSource("provideAirportsAndZones")
-  void canParseAFullAirport(String element, int[] zones) {
-    assertThat(element + "AirportAlways", isSetTo(false));
-    assertThat("_" + element + "AirportToday", isSetTo(false));
-
-    var request = new GenericRequest("place.php?whichplace=airport");
-    request.responseText = html("request/test_place_airport_all_charters.html");
-    QuestManager.handleQuestChange(request);
-
-    assertThat("_" + element + "AirportToday", isSetTo(true));
-  }
-
-  @ParameterizedTest
-  @MethodSource("provideAirportsAndZones")
-  void justBeingInAirportLocationWithoutPermanentAccessMeansDaypass(
-      String element, int[] snarfblats) {
-    assertThat(element + "AirportAlways", isSetTo(false));
-    assertThat("_" + element + "AirportToday", isSetTo(false));
-
-    var request = new GenericRequest("adventure.php?snarfblat=" + snarfblats[0]);
-    request.responseText = "anything";
-    QuestManager.handleQuestChange(request);
-
-    assertThat(element, "_" + element + "AirportToday", isSetTo(true));
-  }
-
-  @ParameterizedTest
-  @MethodSource("provideAirportsAndZones")
-  void justBeingInAirportLocationWithPermanentAccessDoesNotMeanDaypass(
-      String element, int[] snarfblats) {
-    Preferences.setBoolean(element + "AirportAlways", true);
-    assertThat(element, "_" + element + "AirportToday", isSetTo(false));
-
-    for (int snarfblat : snarfblats) {
-      var request = new GenericRequest("adventure.php?snarfblat=" + snarfblat);
-      request.responseText = "anything";
-      QuestManager.handleQuestChange(request);
+  @Nested
+  class Airport {
+    private static Stream<Arguments> provideAirportsAndZones() {
+      return Stream.of(
+          Arguments.of(
+              "cold",
+              new int[] {AdventurePool.ICE_HOTEL, AdventurePool.VYKEA, AdventurePool.ICE_HOLE}),
+          Arguments.of(
+              "hot",
+              new int[] {
+                AdventurePool.SMOOCH_ARMY_HQ,
+                AdventurePool.VELVET_GOLD_MINE,
+                AdventurePool.LAVACO_LAMP_FACTORY,
+                AdventurePool.BUBBLIN_CALDERA
+              }),
+          Arguments.of(
+              "sleaze",
+              new int[] {
+                AdventurePool.SLOPPY_SECONDS_DINER,
+                AdventurePool.FUN_GUY_MANSION,
+                AdventurePool.YACHT
+              }),
+          Arguments.of(
+              "spooky",
+              new int[] {
+                AdventurePool.DR_WEIRDEAUX,
+                AdventurePool.SECRET_GOVERNMENT_LAB,
+                AdventurePool.DEEP_DARK_JUNGLE
+              }),
+          Arguments.of(
+              "stench",
+              new int[] {
+                AdventurePool.BARF_MOUNTAIN,
+                AdventurePool.GARBAGE_BARGES,
+                AdventurePool.TOXIC_TEACUPS,
+                AdventurePool.LIQUID_WASTE_SLUICE
+              }));
     }
 
-    assertThat("_" + element + "AirportToday", isSetTo(false));
-  }
+    @ParameterizedTest
+    @MethodSource("provideAirportsAndZones")
+    void canParseAFullAirport(String element, int[] zones) {
+      assertThat(element + "AirportAlways", isSetTo(false));
+      assertThat("_" + element + "AirportToday", isSetTo(false));
 
-  @ParameterizedTest
-  @MethodSource("provideAirportsAndZones")
-  void beingDeniedAccessToAirportLocationDoesNotMeanDaypass(String element, int[] snarfblats) {
-    assertThat(element + "AirportAlways", isSetTo(false));
-    assertThat("_" + element + "AirportToday", isSetTo(false));
+      var request = new GenericRequest("place.php?whichplace=airport");
+      request.responseText = html("request/test_place_airport_all_charters.html");
+      QuestManager.handleQuestChange(request);
 
-    var request = new GenericRequest("adventure.php?snarfblat=" + snarfblats[0]);
-    request.responseText = html("request/test_adventure_that_isnt_a_place.html");
-    QuestManager.handleQuestChange(request);
+      assertThat("_" + element + "AirportToday", isSetTo(true));
+    }
 
-    assertThat(element, "_" + element + "AirportToday", isSetTo(false));
+    @ParameterizedTest
+    @MethodSource("provideAirportsAndZones")
+    void justBeingInAirportLocationWithoutPermanentAccessMeansDaypass(
+        String element, int[] snarfblats) {
+      assertThat(element + "AirportAlways", isSetTo(false));
+      assertThat("_" + element + "AirportToday", isSetTo(false));
+
+      var request = new GenericRequest("adventure.php?snarfblat=" + snarfblats[0]);
+      request.responseText = "anything";
+      QuestManager.handleQuestChange(request);
+
+      assertThat(element, "_" + element + "AirportToday", isSetTo(true));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideAirportsAndZones")
+    void justBeingInAirportLocationWithPermanentAccessDoesNotMeanDaypass(
+        String element, int[] snarfblats) {
+      Preferences.setBoolean(element + "AirportAlways", true);
+      assertThat(element, "_" + element + "AirportToday", isSetTo(false));
+
+      for (int snarfblat : snarfblats) {
+        var request = new GenericRequest("adventure.php?snarfblat=" + snarfblat);
+        request.responseText = "anything";
+        QuestManager.handleQuestChange(request);
+      }
+
+      assertThat("_" + element + "AirportToday", isSetTo(false));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideAirportsAndZones")
+    void beingDeniedAccessToAirportLocationDoesNotMeanDaypass(String element, int[] snarfblats) {
+      assertThat(element + "AirportAlways", isSetTo(false));
+      assertThat("_" + element + "AirportToday", isSetTo(false));
+
+      var request = new GenericRequest("adventure.php?snarfblat=" + snarfblats[0]);
+      request.responseText = html("request/test_adventure_that_isnt_a_place.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat(element, "_" + element + "AirportToday", isSetTo(false));
+    }
   }
 
   @Test
@@ -1348,8 +1361,97 @@ public class QuestManagerTest {
   }
 
   @Nested
-  class ZoneOpening {
+  class DayPasses {
 
+    public void checkDayPasses(
+        String place, String html, boolean perm, String always, String today) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty(always, perm),
+              withProperty(today, false));
+      try (cleanups) {
+        var request = new GenericRequest("place.php?whichplace=" + place);
+        builder.client.setResponse(200, html);
+        request.run();
+        if (today.equals("none")) {
+          assertTrue(Preferences.getBoolean(always));
+        } else if (perm) {
+          assertTrue(Preferences.getBoolean(always));
+          assertFalse(Preferences.getBoolean(today));
+        } else {
+          assertFalse(Preferences.getBoolean(always));
+          assertTrue(Preferences.getBoolean(today));
+        }
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/place.php", "whichplace=" + place);
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "daycareOpen, _daycareToday",
+      "neverendingPartyAlways, _neverendingPartyToday",
+      "loveTunnelAvailable, _loveTunnelToday"
+    })
+    public void checkDayPassesInTownWrong(String always, String today) {
+      var html = html("request/test_visit_town_wrong.html");
+      // If we have always access, we don't have today access
+      checkDayPasses("town_wrong", html, true, always, today);
+      // If we don't have always access, we have today access
+      checkDayPasses("town_wrong", html, false, always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "horseryAvailable, none",
+      "telegraphOfficeAvailable, _telegraphOfficeToday",
+      "voteAlways, _voteToday"
+    })
+    public void checkDayPassesInTownRight(String always, String today) {
+      var html = html("request/test_visit_town_right.html");
+      // If we have always access, we don't have today access
+      checkDayPasses("town_right", html, true, always, today);
+      // If we don't have always access, we have today access
+      checkDayPasses("town_right", html, false, always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "coldAirportAlways, _coldAirportToday",
+      "hotAirportAlways, _hotAirportToday",
+      "sleazeAirportAlways, _sleazeAirportToday",
+      "spookyAirportAlways, _spookyAirportToday",
+      "stenchAirportAlways, _stenchAirportToday"
+    })
+    public void checkDayPassesInAirport(String always, String today) {
+      var html = html("request/test_visit_airport.html");
+      // If we have always access, we don't have today access
+      checkDayPasses("airport", html, true, always, today);
+      // If we don't have always access, we have today access
+      checkDayPasses("airport", html, false, always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "chateauAvailable, none",
+      "snojoAvailable, none",
+      "gingerbreadCityAvailable, _gingerbreadCityToday"
+    })
+    public void checkDayPassesInMountains(String always, String today) {
+      var html = html("request/test_visit_mountains.html");
+      // If we have always access, we don't have today access
+      checkDayPasses("mountains", html, true, always, today);
+      // If we don't have always access, we have today access
+      checkDayPasses("mountains", html, false, always, today);
+    }
+  }
+
+  @Nested
+  class ZoneOpening {
     @Test
     public void willOpenThirdFloorAfterDancingWithLadySpookyraven() {
       var builder = new FakeHttpClientBuilder();

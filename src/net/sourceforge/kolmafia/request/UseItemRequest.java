@@ -2970,6 +2970,14 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
+      case ItemPool.INFLATABLE_TELEGRAPH_OFFICE:
+        // You blow up the replica LT&T office and install it on the Right Side of the Tracks.
+        if (!responseText.contains("You blow up the replica")) {
+          return;
+        }
+        Preferences.setBoolean("_telegraphOfficeToday", true);
+        break;
+
       case ItemPool.HEART_SHAPED_CRATE:
         Preferences.setBoolean("loveTunnelAvailable", true);
         if (!responseText.contains("You wander")) {
@@ -2977,6 +2985,14 @@ public class UseItemRequest extends GenericRequest {
           KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
           return;
         }
+        break;
+
+      case ItemPool.LOVE_ENTRANCE_PASS:
+        // You follow the directions on the ticket to the Tunnel of L.O.V.E.
+        if (!responseText.contains("You follow the directions")) {
+          return;
+        }
+        Preferences.setBoolean("_loveTunnelToday", true);
         break;
 
       case ItemPool.BEAUTIFUL_RAINBOW:

@@ -80,6 +80,9 @@ public class AdventurePool {
   public static final int THE_SHADY_THICKET = 147;
   public static final int BOMBED_HIPPY_CAMP = 149;
   public static final int BOMBED_FRAT_HOUSE = 150;
+  public static final int PLEASURE_DOME = 151;
+  public static final int MOULDERING_MANSION = 152;
+  public static final int ROGUE_WINDMILL = 153;
   public static final int THE_JUNKYARD = 154;
   public static final int MCMILLICANCUDDYS_FARM = 155;
   public static final int BARRRNEYS_BARRR = 157;
