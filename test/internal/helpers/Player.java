@@ -438,7 +438,11 @@ public class Player {
     var fam = FamiliarData.registerFamiliar(familiarId, experience);
     if (name != null) fam.setName(name);
     KoLCharacter.setFamiliar(fam);
-    return new Cleanups(() -> KoLCharacter.setFamiliar(old));
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setFamiliar(old);
+          KoLCharacter.removeFamiliar(fam);
+        });
   }
 
   /**

@@ -210,8 +210,6 @@ public class PlaceRequest extends GenericRequest {
     } else if (place.equals("spelunky")) {
       SpelunkyRequest.parseResponse(urlString, responseText);
     } else if (place.equals("town_right")) {
-      Preferences.setBoolean("telegraphOfficeAvailable", responseText.contains("townright_ltt"));
-      Preferences.setBoolean("horseryAvailable", responseText.contains("horsery.gif"));
       if (action.equals("townright_vote")) {
         if (responseText.contains("Today's Leader")) {
           Matcher matcher = PlaceRequest.VOTE_PATTERN.matcher(responseText);
@@ -307,7 +305,6 @@ public class PlaceRequest extends GenericRequest {
       if (action.equals("townwrong_artist_quest") || action.equals("townwrong_artist_noquest")) {
         ArtistRequest.parseResponse(urlString, responseText);
       }
-      Preferences.setBoolean("loveTunnelAvailable", responseText.contains("townwrong_tunnel"));
     } else if (place.equals("twitch")) {
       // The Time-Twitching Tower has faded back into the
       // swirling mists of the temporal ether. Or maybe you

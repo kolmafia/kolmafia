@@ -274,6 +274,7 @@ public class EffectPool {
   public static final int DOUBLE_BARRELED = 1949;
   public static final int BEER_BARREL_POLKA = 1950;
   public static final int CRAFT_TEA = 1989;
+  public static final int INSIDE_THE_SNOWGLOBE = 1999;
   public static final int COWRRUPTION = 2064;
   public static final int BOWLEGGED_SWAGGER = 2073;
   public static final int BENDIN_HELL = 2074;
