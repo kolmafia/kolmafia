@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import static net.sourceforge.kolmafia.KoLConstants.DAILY_DATETIME_FORMAT;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -278,7 +279,7 @@ public class HolidayDatabase {
       return -1;
     }
 
-    var days = ChronoUnit.DAYS.between(dateTime, HolidayDatabase.COLLISION);
+    var days = Duration.between(HolidayDatabase.COLLISION, dateTime).toDays();
     return (int) ((days * 2 % 11 + 11) % 11);
   }
 

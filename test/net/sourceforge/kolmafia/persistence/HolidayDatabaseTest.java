@@ -30,7 +30,7 @@ class HolidayDatabaseTest {
       var date = ZonedDateTime.of(2013, Month.FEBRUARY.getValue(), 17, 0, 0, 0, 0, ROLLOVER);
       var position = HolidayDatabase.getHamburglarPosition(date);
 
-      assertThat(position, equalTo(4));
+      assertThat(position, equalTo(7));
     }
   }
 
@@ -90,6 +90,54 @@ class HolidayDatabaseTest {
       var date = ZonedDateTime.of(2022, month, day, 0, 0, 0, 0, ROLLOVER);
       var actualHolidays = getHolidayPredictions(date);
       assertThat(String.join("|", actualHolidays), equalTo(holidays));
+    }
+  }
+
+  @Nested
+  class Moons {
+    @ParameterizedTest
+    @CsvSource({
+      "1,waxing crescent,new moon",
+      "2,first quarter,waxing crescent",
+      "4,full moon,first quarter",
+      "6,third quarter,waxing gibbous",
+      "8,new moon,full moon",
+      "9,waxing crescent,full moon",
+      "11,waxing gibbous,waning gibbous",
+      "13,waning gibbous,third quarter",
+      "15,waning crescent,waning crescent",
+    })
+    void canIdentityMoonPosition(final int day, final String ronald, final String grimace) {
+      var cleanups = withDay(2022, Month.AUGUST, day);
+
+      try (cleanups) {
+        assertThat(HolidayDatabase.getRonaldPhaseAsString(), equalTo(ronald));
+        assertThat(HolidayDatabase.getGrimacePhaseAsString(), equalTo(grimace));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        delimiter = ';',
+        value = {
+          "1;behind Grimace",
+          "2;in back, near Ronald",
+          "3;far left",
+          "4;in front of Ronald, R side",
+          "5;in front of Grimace, L side",
+          "6;far right",
+          "7;in back, near Grimace",
+          "8;behind Ronald",
+          "9;in front of Ronald, L side",
+          "10;front center",
+          "11;in front of Grimace, R side",
+        })
+    void canIdentityHamburglarPosition(final int day, final String hamburglar) {
+      var cleanups = withDay(2022, Month.AUGUST, day);
+
+      try (cleanups) {
+        assertThat(HolidayDatabase.getHamburglarPositionAsString(), equalTo(hamburglar));
+      }
     }
   }
 }
