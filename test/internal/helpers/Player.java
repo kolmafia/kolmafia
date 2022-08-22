@@ -3,10 +3,13 @@ package internal.helpers;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -1130,12 +1133,45 @@ public class Player {
    * @return Cleans up so this response is not given again
    */
   public static Cleanups withNextResponse(final int code, final String response) {
+    return withNextResponse(code, new HashMap<>(), response);
+  }
+
+  /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param code Status code to fake
+   * @param headers Response headers to fake
+   * @param response Response text to fake
+   * @return Cleans up so this response is not given again
+   */
+  public static Cleanups withNextResponse(
+      final int code, final Map<String, List<String>> headers, final String response) {
+    if (code > 0) {
+      return withNextResponse(new FakeHttpResponse<>(code, headers, response));
+    }
+
+    return withNextResponse();
+  }
+
+  /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param fakeHttpResponses Responses to fake
+   * @return Cleans up so this response is not given again
+   */
+  @SafeVarargs
+  public static Cleanups withNextResponse(final FakeHttpResponse<String>... fakeHttpResponses) {
     var old = HttpUtilities.getClientBuilder();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
-    builder.client.setResponse(code, response);
+
+    for (FakeHttpResponse<String> fakeHttpResponse : fakeHttpResponses) {
+      builder.client.addResponse(fakeHttpResponse);
+    }
 
     return new Cleanups(
         () -> {

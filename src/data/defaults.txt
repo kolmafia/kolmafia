@@ -176,6 +176,7 @@ user	antagonisticSnowmanKitAvailable	true
 user	antagonisticSnowmanKitCost	1000
 user	arcadeGameHints	false
 user	armoryUnlocked	false
+user	ascensionsToday	0
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
 user	autoBuyPriceLimit	20000
@@ -1072,6 +1073,7 @@ user	poolSharkCount	0
 user	poolSkill	0
 user	popularTartUnlocked	false
 user	postAscensionScript
+user	potatoAlarmClockUsed	false
 user	prAlways	false
 user	prayedForGlamour	false
 user	prayedForProtection	false
@@ -1980,7 +1982,6 @@ user	_pocketProfessorLectures	0
 user	_poisonArrows	0
 user	_pokeGrowFertilizerDrops	0
 user	_poolGames	0
-user	_potatoAlarmClockUsed	false
 user	_pottedPowerPlant
 user	_pottedTeaTreeUsed	false
 user	_powderedGoldDrops	0

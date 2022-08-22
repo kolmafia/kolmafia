@@ -1327,14 +1327,14 @@ public class QuestManagerTest {
         // adventure.php?snarfblat=137
         // 302 location = [choice.php?forceoption=0]
 
-        builder.client.setResponse(200, html("request/test_duck_choice_1.html"));
+        builder.client.addResponse(200, html("request/test_duck_choice_1.html"));
         var request = new RelayRequest(false);
         request.constructURLString("choice.php?forceoption=0");
         request.run();
         assertTrue(ChoiceManager.handlingChoice);
         assertEquals(147, ChoiceManager.lastChoice);
 
-        builder.client.setResponse(200, html("request/test_duck_choice_2.html"));
+        builder.client.addResponse(200, html("request/test_duck_choice_2.html"));
         request = new RelayRequest(false);
         request.constructURLString("choice.php?pwd&whichchoice=147&option=3");
         request.run();
@@ -1417,7 +1417,7 @@ public class QuestManagerTest {
               withProperty(today, false));
       try (cleanups) {
         var request = new GenericRequest("place.php?whichplace=" + place);
-        builder.client.setResponse(200, html);
+        builder.client.addResponse(200, html);
         request.run();
         if (today.equals("none")) {
           assertTrue(Preferences.getBoolean(always));
@@ -1507,7 +1507,7 @@ public class QuestManagerTest {
       try (cleanup) {
         var request =
             new GenericRequest("adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM);
-        builder.client.setResponse(200, html("request/test_spookraven_dance.html"));
+        builder.client.addResponse(200, html("request/test_spookraven_dance.html"));
         request.run();
         assertThat(Quest.SPOOKYRAVEN_DANCE, isFinished());
         var requests = builder.client.getRequests();
@@ -1530,7 +1530,7 @@ public class QuestManagerTest {
 
       try (cleanup) {
         var request = new GenericRequest("place.php?whichplace=plains&action=garbage_grounds");
-        builder.client.setResponse(200, html("request/test_plant_enchanted_bean.html"));
+        builder.client.addResponse(200, html("request/test_plant_enchanted_bean.html"));
         request.run();
         assertThat(Quest.GARBAGE, isStep(1));
         var requests = builder.client.getRequests();
@@ -1566,7 +1566,7 @@ public class QuestManagerTest {
       try (cleanup) {
         assertFalse(KoLCharacter.getTempleUnlocked());
         var request = UseItemRequest.getInstance(ItemPool.SPOOKY_MAP, 1);
-        builder.client.setResponse(200, html("request/test_spooky_temple_map.html"));
+        builder.client.addResponse(200, html("request/test_spooky_temple_map.html"));
         request.run();
 
         assertThat(Quest.TEMPLE, isFinished());
@@ -1656,12 +1656,12 @@ public class QuestManagerTest {
         // adventure.php?snarfblat=355
         // 302 location = [choice.php?forceoption=0]
 
-        builder.client.setResponse(200, html("request/test_vacation_with_forged_id.html"));
+        builder.client.addResponse(200, html("request/test_vacation_with_forged_id.html"));
         var request = new RelayRequest(false);
         request.constructURLString("choice.php?forceoption=0");
         request.run();
 
-        builder.client.setResponse(200, html("request/test_vacation_get_diary.html"));
+        builder.client.addResponse(200, html("request/test_vacation_get_diary.html"));
         request = new RelayRequest(false);
         request.constructURLString("choice.php?pwd&whichchoice=793&option=2");
         request.run();
@@ -1689,7 +1689,7 @@ public class QuestManagerTest {
               withPasswordHash("TEST"));
 
       try (cleanup) {
-        builder.client.setResponse(200, html("request/test_fight_volcano_map.html"));
+        builder.client.addResponse(200, html("request/test_fight_volcano_map.html"));
         var request = new RelayRequest(false);
         request.constructURLString("fight.php?action=skill&whichskill=4012");
         request.run();

@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.preferences;
 
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
@@ -380,17 +383,22 @@ class PreferencesTest {
     String legacyDaily = "nunsVisits";
     String newStyleDaily = "_SomeDailyThing";
     String notADaily = "somePrefName";
+    String notARealDaily = "ascensionsToday";
     Integer legacyValue = 1;
     Integer newStyleValue = 2;
     Integer notADailyValue = 3;
+    Integer notARealDailyValue = 3;
 
     Preferences.setInteger(legacyDaily, legacyValue);
     Preferences.setInteger(newStyleDaily, newStyleValue);
     Preferences.setInteger(notADaily, notADailyValue);
+    Preferences.setInteger(notARealDaily, notARealDailyValue);
     assertEquals(Preferences.getInteger(legacyDaily), legacyValue, legacyDaily + "value not set");
     assertEquals(
         Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not set");
     assertEquals(Preferences.getInteger(notADaily), notADailyValue, notADaily + "value not set");
+    assertEquals(
+        Preferences.getInteger(notARealDaily), notARealDailyValue, notADaily + "value not set");
 
     Preferences.resetDailies();
     assertNotEquals(
@@ -399,6 +407,10 @@ class PreferencesTest {
         Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not reset");
     assertEquals(
         Preferences.getInteger(notADaily), notADailyValue, notADaily + "value unexpectedly reset");
+    assertEquals(
+        Preferences.getInteger(notARealDaily),
+        notARealDailyValue,
+        notARealDaily + "value unexpectedly reset");
   }
 
   @Test
@@ -438,6 +450,21 @@ class PreferencesTest {
     Preferences.resetPerAscension();
     // confirm changed
     assertNotEquals(val, Preferences.getInteger(name));
+  }
+
+  @Test
+  void testRolloverPropertiesAreReset() {
+    String name = "ascensionsToday";
+    int beforeRollover = 1;
+    int afterRollover = 0;
+    var cleanups = withProperty(name, beforeRollover);
+
+    try (cleanups) {
+      Preferences.resetPerRollover();
+
+      // confirm default
+      assertThat(name, isSetTo(afterRollover));
+    }
   }
 
   @Test

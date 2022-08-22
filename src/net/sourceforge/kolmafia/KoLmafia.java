@@ -634,6 +634,10 @@ public abstract class KoLmafia {
     int ascensions = KoLCharacter.getAscensions();
     int knownAscensions = Preferences.getInteger("knownAscensions");
 
+    if (shouldResetCounters) {
+      Preferences.resetPerRollover();
+    }
+
     if (ascensions != 0 && knownAscensions != -1 && knownAscensions != ascensions) {
       Preferences.setInteger("knownAscensions", ascensions);
       ValhallaManager.resetPerAscensionCounters();
@@ -905,7 +909,7 @@ public abstract class KoLmafia {
       String message = "Your potato alarm clock gave you 5 extra adventures";
       KoLmafia.updateDisplay(message);
       RequestLogger.updateSessionLog(message);
-      Preferences.setBoolean("_potatoAlarmClockUsed", true);
+      Preferences.setBoolean("potatoAlarmClockUsed", true);
     }
   }
 
