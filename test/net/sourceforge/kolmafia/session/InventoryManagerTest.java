@@ -43,7 +43,7 @@ public class InventoryManagerTest {
       assertEquals(HOBO_CODE_BINDER, checkpoint.get(EquipmentManager.OFFHAND));
 
       // Tell the InventoryManager to "retrieve" the item into inventory
-      builder.client.setResponse(200, html("request/test_unequip_offhand.html"));
+      builder.client.addResponse(200, html("request/test_unequip_offhand.html"));
       InventoryManager.retrieveItem(HOBO_CODE_BINDER);
 
       var requests = builder.client.getRequests();
@@ -57,7 +57,7 @@ public class InventoryManagerTest {
       assertEquals(UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
 
       builder.client.clear();
-      builder.client.setResponse(200, html("request/test_equip_offhand.html"));
+      builder.client.addResponse(200, html("request/test_equip_offhand.html"));
       checkpoint.close();
 
       requests = builder.client.getRequests();

@@ -126,7 +126,7 @@ public class GenericRequestTest {
 
       try (cleanup) {
         var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
-        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
+        builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
         var requests = builder.client.getRequests();
@@ -148,7 +148,7 @@ public class GenericRequestTest {
 
       try (cleanup) {
         var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
-        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
+        builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
         var requests = builder.client.getRequests();
@@ -166,7 +166,7 @@ public class GenericRequestTest {
 
       try (cleanup) {
         var request = new UpdateSuppressedRequest("inv_use.php?whichitem=2&ajax=1");
-        builder.client.setResponse(200, html("request/test_use_seal_tooth.html"));
+        builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
         request.run();
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
         var requests = builder.client.getRequests();
