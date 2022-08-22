@@ -177,13 +177,13 @@ public class HolidayDatabase {
 
   public static void guessPhaseStep() {
     try {
-      int calendarDay = HolidayDatabase.getDayInKoLYear(ZonedDateTime.now(ROLLOVER));
+      int calendarDay = HolidayDatabase.getDayInKoLYear();
       int phaseStep = (calendarDay + 16) % 16;
 
       HolidayDatabase.RONALD_PHASE = phaseStep % 8;
       HolidayDatabase.GRIMACE_PHASE = phaseStep / 2;
       HolidayDatabase.HAMBURGLAR_POSITION =
-          HolidayDatabase.getHamburglarPosition(ZonedDateTime.now(ROLLOVER));
+          HolidayDatabase.getHamburglarPosition(getRolloverDateTime());
     } catch (Exception e) {
       // This should not happen. Therefore, print
       // a stack trace for debug purposes.
