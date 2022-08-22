@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
-import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
@@ -9,6 +8,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
@@ -1309,18 +1309,62 @@ public class QuestManagerTest {
     assertThat("_spacegateTurnsLeft", isSetTo(20));
   }
 
-  @Test
-  public void canDetectDuckAreaCleared() {
-    var cleanups =
-        new Cleanups(
-            withProperty("duckAreasCleared", ""),
-            withLastLocation(AdventureDatabase.getAdventureByName("McMillicancuddy's Granary")));
-    try (cleanups) {
-      var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.THE_GRANARY);
-      request.responseText = html("request/test_no_more_ducks.html");
-      QuestManager.handleQuestChange(request);
-      assertEquals(
-          Preferences.getString("duckAreasCleared"), String.valueOf(AdventurePool.THE_GRANARY));
+  @Nested
+  class Farm {
+
+    @Test
+    public void canSelectDuckArea() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("duckAreasSelected", ""),
+              withLastLocation("McMillicancuddy's Barn"),
+              withPasswordHash("TEST"),
+              withHandlingChoice(false));
+      try (cleanups) {
+        // class net.sourceforge.kolmafia.request.RelayRequest
+        // adventure.php?snarfblat=137
+        // 302 location = [choice.php?forceoption=0]
+
+        builder.client.setResponse(200, html("request/test_duck_choice_1.html"));
+        var request = new RelayRequest(false);
+        request.constructURLString("choice.php?forceoption=0");
+        request.run();
+        assertTrue(ChoiceManager.handlingChoice);
+        assertEquals(147, ChoiceManager.lastChoice);
+
+        builder.client.setResponse(200, html("request/test_duck_choice_2.html"));
+        request = new RelayRequest(false);
+        request.constructURLString("choice.php?pwd&whichchoice=147&option=3");
+        request.run();
+
+        assertFalse(ChoiceManager.handlingChoice);
+        assertEquals(
+            Preferences.getString("duckAreasSelected"), String.valueOf(AdventurePool.THE_POND));
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        // assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=" +
+        // AdventurePool.THE_BARN);
+        assertPostRequest(requests.get(0), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(1), "/choice.php", "pwd=&whichchoice=147&option=3");
+      }
+    }
+
+    @Test
+    public void canDetectDuckAreaCleared() {
+      var cleanups =
+          new Cleanups(
+              withProperty("duckAreasCleared", ""),
+              withLastLocation(AdventureDatabase.getAdventureByName("McMillicancuddy's Granary")));
+      try (cleanups) {
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.THE_GRANARY);
+        request.responseText = html("request/test_no_more_ducks.html");
+        QuestManager.handleQuestChange(request);
+        assertEquals(
+            Preferences.getString("duckAreasCleared"), String.valueOf(AdventurePool.THE_GRANARY));
+      }
     }
   }
 
@@ -1494,7 +1538,6 @@ public class QuestManagerTest {
         assertPostRequest(
             requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-        // assertPostRequest(requests.get(2), "/place.php", "whichplace=beanstalk");
       }
     }
 
@@ -1523,7 +1566,7 @@ public class QuestManagerTest {
       try (cleanup) {
         assertFalse(KoLCharacter.getTempleUnlocked());
         var request = UseItemRequest.getInstance(ItemPool.SPOOKY_MAP, 1);
-        builder.client.setResponse(200, "it immediately grows to 20 feet in height");
+        builder.client.setResponse(200, html("request/test_spooky_temple_map.html"));
         request.run();
 
         assertThat(Quest.TEMPLE, isFinished());
@@ -1534,7 +1577,7 @@ public class QuestManagerTest {
         assertThat(requests, hasSize(2));
         assertPostRequest(
             requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.SPOOKY_MAP + "&ajax=1");
-        assertGetRequest(requests.get(1), "/woods.php", null);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 

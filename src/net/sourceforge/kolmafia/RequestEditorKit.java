@@ -2341,14 +2341,21 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
+    String adventureAgain =
+        "<p><a href=\"adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM + "\">";
+    int index = buffer.indexOf(adventureAgain);
     if (index == -1) {
       return;
     }
 
-    String link =
+    String link1 =
         "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady Spookyraven on the Third Floor</a>";
-    buffer.insert(index, link);
+    buffer.insert(index, link1);
+
+    // Have to recheck since we've inserted HTML in front of index
+    index = buffer.indexOf(adventureAgain);
+    String link2 = "<p><a href=\"place.php?whichplace=manor3\">Go to the Third Floor</a>";
+    buffer.insert(index, link2);
   }
 
   private static final AdventureResult DANCE_CARD = ItemPool.get(ItemPool.DANCE_CARD, 1);
