@@ -13,7 +13,7 @@ public class ShowDataCommandTest extends AbstractCommandTestBase {
   public void canPrintDateInfo() {
     this.command = "moons";
 
-    var cleanups = withDay(2022, Month.AUGUST, 21);;
+    var cleanups = withDay(2022, Month.AUGUST, 21);
     try (cleanups) {
       String output = execute("");
       assertThat(output, containsString("August 21, 2022 - Martinus 6"));
