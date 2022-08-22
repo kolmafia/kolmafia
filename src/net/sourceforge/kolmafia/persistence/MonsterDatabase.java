@@ -804,11 +804,22 @@ public class MonsterDatabase {
   }
 
   public static final MonsterData newMonster(
-      final String name, final int id, final String[] images, final String attributes) {
+      final String name, int id, final String[] images, final String attributes) {
     MonsterData monster = MonsterDatabase.findMonster(name);
     if (monster != null && monster.getId() == id) {
       // *** Is this an error?
       return monster;
+    }
+
+    // Ed the Undying has ID = 473. We have 7 different pseudo-monsters for his
+    // different stages, named Ed the Undying (1), and so on.  on.  We've given
+    // wach of those id = 0, so that looking up monster by id will find the
+    // base.  However, when we are in a fight, we want to match MONSTERID with
+    // the disambiguated version. Therefore, give each of them id = 473 here.
+    if (id == 0) {
+      if (name.startsWith("Ed the Undying")) {
+        id = 473;
+      }
     }
 
     return new MonsterData(name, id, images, attributes);
