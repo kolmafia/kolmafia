@@ -942,6 +942,8 @@ public class Player {
             ZonedDateTime.of(
                 year, month.getValue(), day, hour, minute, 0, 0, HolidayDatabase.ROLLOVER));
 
+    HolidayDatabase.guessPhaseStep();
+
     return new Cleanups(mocked::close);
   }
 
