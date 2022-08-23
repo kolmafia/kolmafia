@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
@@ -73,10 +74,11 @@ public class QuestManagerTest {
   private void printRequests(List<HttpRequest> requests) {
     for (HttpRequest req : requests) {
       String method = req.method();
-      String path = req.uri().getPath();
+      var uri = req.uri();
+      String path = uri.getPath();
       switch (method) {
         case "GET":
-          System.out.println("GET " + path);
+          System.out.println("GET " + path + " -> " + uri.getQuery());
           break;
         case "POST":
           System.out.println("POST " + path + " -> " + getPostRequestBody(req));
@@ -1663,6 +1665,7 @@ public class QuestManagerTest {
               withItem(ItemPool.MACGUFFIN_DIARY),
               withGender(KoLCharacter.FEMALE),
               withQuestProgress(Quest.BLACK, "step2"),
+              withProperty("autoQuest", true),
               withQuestProgress(Quest.MACGUFFIN, QuestDatabase.STARTED),
               withQuestProgress(Quest.DESERT, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.MANOR, QuestDatabase.UNSTARTED),
@@ -1684,7 +1687,7 @@ public class QuestManagerTest {
         var vacation = new GenericRequest("choice.php?pwd&whichchoice=793&option=2");
         vacation.run();
         // You acquire your father's MacGuffin diary.
-        // with autoQuest = 2, we "use" it, which calls diary.php?textversion=1
+        // with autoQuest = true, we "use" it, which calls diary.php?textversion=1
 
         assertThat(Quest.MACGUFFIN, isStep(2));
         assertThat(Quest.BLACK, isFinished());
@@ -1702,27 +1705,35 @@ public class QuestManagerTest {
 
       var cleanup =
           new Cleanups(
-              withHttpClientBuilder(builder),
               withProperty("autoQuest", true),
               withLastLocation("Madness Bakery"),
-              withPasswordHash("TEST"));
+              withHttpClientBuilder(builder));
 
       try (cleanup) {
-        builder.client.addResponse(200, html("request/test_fight_volcano_map.html"));
-        var request = new RelayRequest(false);
-        request.constructURLString("fight.php?action=skill&whichskill=4012");
-        request.run();
+        builder.client.addResponse(
+            new FakeHttpResponse<>(200, html("request/test_fight_volcano_map.html")));
+        builder.client.addResponse(
+            new FakeHttpResponse<>(
+                302, Map.of("location", List.of("inventory.php?which=3&action=message")), ""));
+        builder.client.addResponse(
+            new FakeHttpResponse<>(200, html("request/test_volcano_message.html")));
 
-        // Redirected: inventory.php?which=3&action=message
-        // responseText = ...
+        var fight = new GenericRequest("fight.php?action=skill&whichskill=4012");
+        // This finishes the fight with the final Nemesis assassin
+        fight.run();
+        // You acquire the secret tropical island volcano lair map
+        // with autoQuest = true, we "use" it, which calls inv_use.php
+        //
+        // This redirects to inventory.php?which=3&action=message (first time)
+        // or volcanoisland.php (subsequent times)
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(4));
         assertPostRequest(requests.get(0), "/fight.php", "action=skill&whichskill=4012");
         assertPostRequest(
-            requests.get(1),
-            "/inv_use.php",
-            "which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd=TEST");
+            requests.get(1), "/inv_use.php", "which=3&whichitem=" + ItemPool.VOLCANO_MAP);
+        assertGetRequest(requests.get(2), "/inventory.php", "which=3&action=message");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }
