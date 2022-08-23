@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import static net.sourceforge.kolmafia.KoLConstants.DAILY_DATETIME_FORMAT;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -177,13 +178,13 @@ public class HolidayDatabase {
 
   public static void guessPhaseStep() {
     try {
-      int calendarDay = HolidayDatabase.getDayInKoLYear(ZonedDateTime.now(ROLLOVER));
+      int calendarDay = HolidayDatabase.getDayInKoLYear();
       int phaseStep = (calendarDay + 16) % 16;
 
       HolidayDatabase.RONALD_PHASE = phaseStep % 8;
       HolidayDatabase.GRIMACE_PHASE = phaseStep / 2;
       HolidayDatabase.HAMBURGLAR_POSITION =
-          HolidayDatabase.getHamburglarPosition(ZonedDateTime.now(ROLLOVER));
+          HolidayDatabase.getHamburglarPosition(getRolloverDateTime());
     } catch (Exception e) {
       // This should not happen. Therefore, print
       // a stack trace for debug purposes.
@@ -278,7 +279,7 @@ public class HolidayDatabase {
       return -1;
     }
 
-    var days = ChronoUnit.DAYS.between(dateTime, HolidayDatabase.COLLISION);
+    var days = Duration.between(HolidayDatabase.COLLISION, dateTime).toDays();
     return (int) ((days * 2 % 11 + 11) % 11);
   }
 

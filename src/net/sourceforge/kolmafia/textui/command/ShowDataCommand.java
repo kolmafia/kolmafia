@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -98,7 +99,7 @@ public class ShowDataCommand extends AbstractCommand {
       var today = HolidayDatabase.getRolloverDateTime();
 
       desiredStream.println(
-          CalendarFrame.LONG_FORMAT.format(today)
+          today.format(DateTimeFormatter.ofPattern(CalendarFrame.LONG_FORMAT.toPattern()))
               + " - "
               + HolidayDatabase.getCalendarDayAsString(today));
       desiredStream.println();

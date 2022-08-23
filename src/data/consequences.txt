@@ -124,9 +124,6 @@ DESC_EFFECT	Wine-Friendly	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
 
 # Monster disambiguation:
 
-# Monster ID -94
-MONSTER	pooltergeist	poolter2\.gif	"pooltergeist (ultra-rare)"
-
 MONSTER	Ed the Undying	/ed(\d)\.gif	"Ed the Undying ($1)"
 MONSTER	Ed the Undying	.	"Ed the Undying (1)"
 
