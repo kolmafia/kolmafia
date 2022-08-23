@@ -960,12 +960,7 @@ public class UseItemRequest extends GenericRequest {
         {
           var request =
               new UpdateSuppressedRequest(
-                  "inv_use.php?which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd") {
-                @Override
-                public boolean hasResult(String location) {
-                  return false;
-                }
-              };
+                  "inv_use.php?which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd");
           request.run();
           // This redirects to inventory.php?which=3&action=message (first time)
           // or volcanoisland.php (subsequent times)
