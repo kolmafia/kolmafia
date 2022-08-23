@@ -10974,3 +10974,4 @@
 10947	awkward dinosaur research harness	352034766	dripharness.gif	container	q	0
 10948	reflective vest	339444087	lightvest.gif	shirt	q	0
 10949	stuffed dinosaur	262152514	dinostuffy.gif	offhand	g	0
+10950	Thwaitgold mosquito-in-amber statuette	925741442	thwaitamber.gif	none		0
