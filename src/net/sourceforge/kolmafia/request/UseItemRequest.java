@@ -950,13 +950,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MACGUFFIN_DIARY:
       case ItemPool.ED_DIARY:
         {
-          var request =
-              new UpdateSuppressedRequest("diary.php?textversion=1") {
-                @Override
-                public boolean hasResult(String location) {
-                  return false;
-                }
-              };
+          var request = new UpdateSuppressedRequest("diary.php?textversion=1");
           request.run();
           KoLmafia.updateDisplay("Your father's diary has been read.");
           return;
@@ -966,12 +960,7 @@ public class UseItemRequest extends GenericRequest {
         {
           var request =
               new UpdateSuppressedRequest(
-                  "inv_use.php?which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd") {
-                @Override
-                public boolean hasResult(String location) {
-                  return false;
-                }
-              };
+                  "inv_use.php?which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd");
           request.run();
           // This redirects to inventory.php?which=3&action=message (first time)
           // or volcanoisland.php (subsequent times)

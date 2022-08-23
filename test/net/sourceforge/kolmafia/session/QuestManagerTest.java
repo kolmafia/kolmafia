@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
@@ -31,6 +33,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
+import java.net.http.HttpRequest;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -64,6 +69,22 @@ public class QuestManagerTest {
     KoLCharacter.reset("QuestManager");
     Preferences.reset("QuestManager");
     KoLConstants.inventory.clear();
+  }
+
+  private void printRequests(List<HttpRequest> requests) {
+    for (HttpRequest req : requests) {
+      String method = req.method();
+      var uri = req.uri();
+      String path = uri.getPath();
+      switch (method) {
+        case "GET":
+          System.out.println("GET " + path + " -> " + uri.getQuery());
+          break;
+        case "POST":
+          System.out.println("POST " + path + " -> " + getPostRequestBody(req));
+          break;
+      }
+    }
   }
 
   /*
@@ -1638,42 +1659,43 @@ public class QuestManagerTest {
 
     @Test
     public void willReadDiaryWhenAcquired() {
-      var builder = new FakeHttpClientBuilder();
-
       var cleanup =
           new Cleanups(
               withItem(ItemPool.FORGED_ID_DOCUMENTS),
               withItem(ItemPool.MACGUFFIN_DIARY),
               withGender(KoLCharacter.FEMALE),
-              withHttpClientBuilder(builder),
               withQuestProgress(Quest.BLACK, "step2"),
               withProperty("autoQuest", true),
-              withLastLocation("The Shore, Inc. Travel Agency"),
-              withPasswordHash("TEST"));
+              withQuestProgress(Quest.MACGUFFIN, QuestDatabase.STARTED),
+              withQuestProgress(Quest.DESERT, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.MANOR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.SHEN, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.RON, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.WORSHIP, QuestDatabase.UNSTARTED),
+              withNextResponse(
+                  new FakeHttpResponse<>(
+                      302, Map.of("location", List.of("choice.php?forceoption=0")), ""),
+                  new FakeHttpResponse<>(200, html("request/test_vacation_with_forged_id.html")),
+                  new FakeHttpResponse<>(200, html("request/test_vacation_get_diary.html")),
+                  new FakeHttpResponse<>(200, html("request/test_vacation_diary.html"))));
 
       try (cleanup) {
-        // class net.sourceforge.kolmafia.request.RelayRequest
-        // adventure.php?snarfblat=355
-        // 302 location = [choice.php?forceoption=0]
+        // This does a 302 redirect to choice.php
+        var shore = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.THE_SHORE);
+        shore.run();
+        // This takes a vacation with the forged identification documents
+        var vacation = new GenericRequest("choice.php?pwd&whichchoice=793&option=2");
+        vacation.run();
+        // You acquire your father's MacGuffin diary.
+        // with autoQuest = true, we "use" it, which calls diary.php?textversion=1
 
-        builder.client.addResponse(200, html("request/test_vacation_with_forged_id.html"));
-        var request = new RelayRequest(false);
-        request.constructURLString("choice.php?forceoption=0");
-        request.run();
-
-        builder.client.addResponse(200, html("request/test_vacation_get_diary.html"));
-        request = new RelayRequest(false);
-        request.constructURLString("choice.php?pwd&whichchoice=793&option=2");
-        request.run();
-
-        assertThat(Quest.BLACK, isStep(3));
-
-        var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(3));
-
-        assertPostRequest(requests.get(0), "/choice.php", "forceoption=0");
-        assertPostRequest(requests.get(1), "/choice.php", "pwd=&whichchoice=793&option=2");
-        assertPostRequest(requests.get(2), "/diary.php", "textversion=1&pwd=TEST");
+        assertThat(Quest.MACGUFFIN, isStep(2));
+        assertThat(Quest.BLACK, isFinished());
+        assertThat(Quest.DESERT, isStarted());
+        assertThat(Quest.MANOR, isStarted());
+        assertThat(Quest.SHEN, isStarted());
+        assertThat(Quest.RON, isStarted());
+        assertThat(Quest.WORSHIP, isStarted());
       }
     }
 
@@ -1683,27 +1705,35 @@ public class QuestManagerTest {
 
       var cleanup =
           new Cleanups(
-              withHttpClientBuilder(builder),
               withProperty("autoQuest", true),
               withLastLocation("Madness Bakery"),
-              withPasswordHash("TEST"));
+              withHttpClientBuilder(builder));
 
       try (cleanup) {
-        builder.client.addResponse(200, html("request/test_fight_volcano_map.html"));
-        var request = new RelayRequest(false);
-        request.constructURLString("fight.php?action=skill&whichskill=4012");
-        request.run();
+        builder.client.addResponse(
+            new FakeHttpResponse<>(200, html("request/test_fight_volcano_map.html")));
+        builder.client.addResponse(
+            new FakeHttpResponse<>(
+                302, Map.of("location", List.of("inventory.php?which=3&action=message")), ""));
+        builder.client.addResponse(
+            new FakeHttpResponse<>(200, html("request/test_volcano_message.html")));
 
-        // Redirected: inventory.php?which=3&action=message
-        // responseText = ...
+        var fight = new GenericRequest("fight.php?action=skill&whichskill=4012");
+        // This finishes the fight with the final Nemesis assassin
+        fight.run();
+        // You acquire the secret tropical island volcano lair map
+        // with autoQuest = true, we "use" it, which calls inv_use.php
+        //
+        // This redirects to inventory.php?which=3&action=message (first time)
+        // or volcanoisland.php (subsequent times)
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(4));
         assertPostRequest(requests.get(0), "/fight.php", "action=skill&whichskill=4012");
         assertPostRequest(
-            requests.get(1),
-            "/inv_use.php",
-            "which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd=TEST");
+            requests.get(1), "/inv_use.php", "which=3&whichitem=" + ItemPool.VOLCANO_MAP);
+        assertGetRequest(requests.get(2), "/inventory.php", "which=3&action=message");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

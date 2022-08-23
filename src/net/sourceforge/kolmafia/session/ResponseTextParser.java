@@ -192,10 +192,6 @@ public class ResponseTextParser {
       return false;
     }
 
-    if (location.startsWith("diary")) {
-      return false;
-    }
-
     if (location.startsWith("clan")) {
       return location.startsWith("clan_stash")
           || location.startsWith("clan_hall")
