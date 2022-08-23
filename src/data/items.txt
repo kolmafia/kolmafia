@@ -10965,7 +10965,7 @@
 10938	birdseed hat	130317743	birdseedhat.gif	hat	q	0
 10939	flatusaur gasmask	959048787	gasmask2.gif	hat	q	0
 10940	dinosaur dart	225129353	ancientdart.gif	none, combat	q,d	10
-10941	Dino DNAde&trade;	646751681	dinodrink.gif	potion, usable	q,d	10
+10941	Dino DNAde&trade;	646751681	dinodrink.gif	potion, multiple	q,d	10	bottles of Dino DNAde&trade;
 10942	dinosaur repellent	524382822	spraycan2.gif	none, combat	q	0
 10943	camouflage vest	292829086	camovest.gif	shirt	q	0
 10944	Dinodollar	840321323	dinobuck.gif	none	q	0
@@ -10974,3 +10974,4 @@
 10947	awkward dinosaur research harness	352034766	dripharness.gif	container	q	0
 10948	reflective vest	339444087	lightvest.gif	shirt	q	0
 10949	stuffed dinosaur	262152514	dinostuffy.gif	offhand	g	0
+10950	Thwaitgold mosquito-in-amber statuette	925741442	thwaitamber.gif	none		0

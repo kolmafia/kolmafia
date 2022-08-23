@@ -1370,6 +1370,7 @@ herd of well-fed microraptors	2243	dino_micro.gif	Atk: 200 Def: 200 HP: 300 Init
 protoceratops spectre	2244	dino_specter.gif	Atk: 200 Def: 200 HP: 300 Init: -10000 P: undead E: spooky Article: the
 refrigeradon	2245	dino_fridge.gif	Atk: 100 Def: 300 HP: 200 Init: 50 P: beast EA: cold Article: a
 Slackiosaurus	2246	dino_slack.gif	Atk: 250 Def: 250 HP: 2000 Init: -10000 P: beast Article: The
+Oligarcheopteryx	2247	dino_theman.gif	Atk: 250 Def: 250 HP: 2000 Init: 100 P: beast Article: The
 Naughty Saursaurus	2248	dino_sorc.gif	Atk: 300 Def: 300 HP: 1000 Init: 100 P: beast EA: spooky Article: The
 
 # Items of the Month
