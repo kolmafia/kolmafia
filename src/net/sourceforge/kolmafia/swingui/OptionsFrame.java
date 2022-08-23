@@ -339,6 +339,9 @@ public class OptionsFrame extends GenericFrame {
         {"autoTuxedo", "Wear Tuxedo when when appropriate (& include in adv gain)"},
         {"autoPinkyRing", "Wear Mafia Pinky Ring when when appropriate (& include in adv gain)"},
         {"autoFillMayoMinder", "Fill Mayo Minder&trade; automatically when appropriate"},
+        {},
+        {"requireBoxServants", "Do not cook/mix fancy concoctions without -in-the-box)"},
+        {"autoRepairBoxServants", "Automatically repair -in-the-box on explosion)"},
       };
 
       this.setOptions(options);
