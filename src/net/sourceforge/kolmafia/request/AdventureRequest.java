@@ -1241,7 +1241,7 @@ public class AdventureRequest extends GenericRequest {
     return monsterName;
   }
 
-  private static final String[] dinoMods = {
+  private static final String[] dinoTypes = {
     // Dinosaurs
     "archelon",
     "chicken",
@@ -1251,8 +1251,10 @@ public class AdventureRequest extends GenericRequest {
     "kachungasaur",
     "pterodactyl",
     "spikolodon",
-    "velociraptor",
+    "velociraptor"
+  };
 
+  private static final String[] dinoMods = {
     // Modifiers
     "carrion-eating",
     "chilling",
@@ -1279,16 +1281,26 @@ public class AdventureRequest extends GenericRequest {
       return monsterName;
     }
 
+    for (String modifier : dinoTypes) {
+      if (monsterName.contains(modifier)) {
+        MonsterData.lastRandomModifiers.add(modifier);
+        monsterName = StringUtilities.singleStringDelete(monsterName, modifier);
+        break;
+      }
+    }
+
     for (String modifier : dinoMods) {
       if (monsterName.contains(modifier)) {
         MonsterData.lastRandomModifiers.add(modifier);
-        monsterName = StringUtilities.globalStringDelete(monsterName, modifier);
+        monsterName = StringUtilities.singleStringDelete(monsterName, modifier);
+        break;
       }
     }
 
     for (String devour : dinoGluttony) {
       if (monsterName.contains(devour)) {
-        monsterName = StringUtilities.globalStringDelete(monsterName, devour);
+        monsterName = StringUtilities.singleStringDelete(monsterName, devour);
+        break;
       }
     }
 
