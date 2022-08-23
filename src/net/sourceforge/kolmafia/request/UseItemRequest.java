@@ -950,13 +950,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MACGUFFIN_DIARY:
       case ItemPool.ED_DIARY:
         {
-          var request =
-              new UpdateSuppressedRequest("diary.php?textversion=1") {
-                @Override
-                public boolean hasResult(String location) {
-                  return false;
-                }
-              };
+          var request = new UpdateSuppressedRequest("diary.php?textversion=1");
           request.run();
           KoLmafia.updateDisplay("Your father's diary has been read.");
           return;
