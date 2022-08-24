@@ -10232,7 +10232,7 @@
 10204	pirate shaving cream	529804567	pr_shavingcream.gif	potion, usable	t,d	15	cans of pirate shaving cream
 10205	conquistador's breastplate	471803689	pr_breastplate.gif	shirt		0
 10206
-10207	[glitch season reward name]	286010589	nopic.gif	reusable		0
+10207	[glitch season reward name]	286010589	nopic.gif	food, reusable		0
 10208	signal fragment	946907321	pr_signal.gif	usable	t,d	5
 10209	windicle	704440940	pr_windicle.gif	none, combat	t,d	10
 10210	pirate radio ring	651533160	pr_radioring.gif	accessory		0
