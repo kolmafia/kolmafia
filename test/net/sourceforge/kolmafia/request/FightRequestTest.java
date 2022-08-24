@@ -1151,18 +1151,18 @@ public class FightRequestTest {
   class Dinosaurs {
     @ParameterizedTest
     @CsvSource({
-      "request/test_dino_archelon.html, animated ornate nightstand, archelon, none",
-      "request/test_dino_dilophosaur.html, cosmetics wraith, dilophosaur, carrion-eating",
-      "request/test_dino_flatusaurus.html, Hellion, flatusaurus, steamy",
-      "request/test_dino_ghostasaurus.html, cubist bull, ghostasaurus, none",
-      "request/test_dino_kachungasaur.html, malevolent hair clog, kachungasaur, none",
-      "request/test_dino_primitive_chicken.html, amateur ninja, chicken, none",
-      "request/test_dino_pterodactyl.html, W imp, pterodactyl, none",
-      "request/test_dino_spikolodon.html, empty suit of armor, spikolodon, none",
-      "request/test_dino_velociraptor.html, cubist bull, velociraptor, none",
+      "request/test_dino_archelon.html, none, archelon, animated ornate nightstand",
+      "request/test_dino_dilophosaur.html, carrion-eating, dilophosaur, cosmetics wraith",
+      "request/test_dino_flatusaurus.html, steamy, flatusaurus, Hellion",
+      "request/test_dino_ghostasaurus.html, none, ghostasaurus, cubist bull",
+      "request/test_dino_kachungasaur.html, none, kachungasaur, malevolent hair clog",
+      "request/test_dino_primitive_chicken.html, none, chicken, amateur ninja",
+      "request/test_dino_pterodactyl.html, none, pterodactyl, W imp",
+      "request/test_dino_spikolodon.html, none, spikolodon, empty suit of armor",
+      "request/test_dino_velociraptor.html, none, velociraptor, cubist bull",
     })
     public void canExtractDinosaurFromFight(
-        String filename, String monsterName, String dinosaur, String element) {
+        String filename, String modifier, String dinosaur, String monsterName) {
 
       // This is obviously not where these dinosaurs were encountered.
       // However, in order to register an encounter (which is where we parse
@@ -1177,10 +1177,10 @@ public class FightRequestTest {
         MonsterData monster = MonsterStatusTracker.getLastMonster();
         assertEquals(monster.getName(), monsterName);
         var modifiers = Set.of(monster.getRandomModifiers());
-        assertTrue(modifiers.contains(dinosaur));
-        if (!element.equals("none")) {
-          assertTrue(modifiers.contains(element));
+        if (!modifier.equals("none")) {
+          assertTrue(modifiers.contains(modifier));
         }
+        assertTrue(modifiers.contains(dinosaur));
       }
     }
   }
