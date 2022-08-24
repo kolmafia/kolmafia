@@ -1241,70 +1241,70 @@ public class AdventureRequest extends GenericRequest {
     return monsterName;
   }
 
-  public enum Dinosaur {
-    ARCHELON("archelon", "glass-shelled archelon that consumed "),
-    CHICKEN("chicken", "primitive chicken that just ate "),
-    HOT_DILOPHOSAUR("dilophosaur", "hot-blooded dilophosaur that consumed ", "hot-blooded"),
-    COLD_DILOPHOSAUR("dilophosaur", "cold-blooded dilophosaur that consumed ", "cold-blooded"),
-    STENCH_DILOPHOSAUR("dilophosaur", "swamp dilophosaur that consumed ", "swamp"),
-    SPOOKY_DILOPHOSAUR(
-        "dilophosaur", "carrion-eating dilophosaur that consumed ", "carrion-eating"),
-    SLEAZE_DILOPHOSAUR("dilophosaur", "slimy dilophosaur that consumed ", "slimy"),
-    HOT_FLATUSAURUS("flatusaurus", "steamy flatusaurus that recently devoured ", "steamy"),
-    COLD_FLATUSAURUS("flatusaurus", "chilling flatusaurus that recently devoured ", "chilling"),
-    STENCH_FLATUSAURUS(
-        "flatusaurus", "foul-smelling flatusaurus that recently devoured ", "foul-smelling"),
-    SPOOKY_FLATUSAURUS(
-        "flatusaurus", "mist-shrouded flatusaurus that recently devoured ", "mist-shrouded"),
-    SLEAZE_FLATUSAURUS("flatusaurus", "sweaty flatusaurus that recently devoured ", "sweaty"),
-    GHOSTASAURUS("ghostasaurus", "ghostasaurus that swallowed the soul of "),
-    KACHUNGASAUR("kachungasaur", "kachungasaur that consumed "),
-    PTERODACTYL("pterodactyl", "high-altitude pterodactyl that just ate "),
-    SPIKOLODON("spikolodon", "spikolodon that recently devoured "),
-    VELOCIRAPTOR("velociraptor", "supersonic velociraptor that recently devoured ");
+  private static final String[] dinoTypes = {
+    // Dinosaurs
+    "archelon",
+    "chicken",
+    "dilophosaur",
+    "flatusaurus",
+    "ghostasaurus",
+    "kachungasaur",
+    "pterodactyl",
+    "spikolodon",
+    "velociraptor"
+  };
 
-    private final String name;
-    private final String description;
-    private final String element;
+  private static final String[] dinoMods = {
+    // Modifiers
+    "carrion-eating",
+    "chilling",
+    "cold-blooded",
+    "foul-smelling",
+    "glass-shelled",
+    "high-altitude",
+    "hot-blooded",
+    "mist-shrouded",
+    "primitive",
+    "slimy",
+    "steamy",
+    "supersonic",
+    "swamp",
+    "sweaty"
+  };
 
-    private Dinosaur(String name, String description) {
-      this(name, description, null);
-    }
-
-    private Dinosaur(String name, String description, String element) {
-      this.name = name;
-      this.description = description;
-      this.element = element;
-    }
-
-    public String getName() {
-      return this.name;
-    }
-
-    public String getDescription() {
-      return this.description;
-    }
-
-    public String getElement() {
-      return this.element;
-    }
-  }
+  public static final String[] dinoGluttony = {
+    "that consumed", "that just ate", "that recently devoured ", "that swallowed the soul of"
+  };
 
   private static String handleDinosaurs(String monsterName) {
     if (!KoLCharacter.inDinocore()) {
       return monsterName;
     }
-    for (Dinosaur dino : Dinosaur.values()) {
-      if (monsterName.contains(dino.getDescription())) {
-        MonsterData.lastRandomModifiers.add(dino.getName());
-        String element = dino.getElement();
-        if (element != null) {
-          MonsterData.lastRandomModifiers.add(element);
-        }
-        return StringUtilities.globalStringDelete(monsterName, dino.getDescription());
+
+    for (String modifier : dinoTypes) {
+      if (monsterName.contains(modifier)) {
+        MonsterData.lastRandomModifiers.add(modifier);
+        monsterName = StringUtilities.singleStringDelete(monsterName, modifier);
+        break;
       }
     }
-    return monsterName;
+
+    for (String modifier : dinoMods) {
+      if (monsterName.contains(modifier)) {
+        MonsterData.lastRandomModifiers.add(modifier);
+        monsterName = StringUtilities.singleStringDelete(monsterName, modifier);
+        break;
+      }
+    }
+
+    for (String devour : dinoGluttony) {
+      if (monsterName.contains(devour)) {
+        monsterName = StringUtilities.singleStringDelete(monsterName, devour);
+        break;
+      }
+    }
+
+    return monsterName.trim();
   }
 
   private static String handleNuclearAutumn(String monsterName) {

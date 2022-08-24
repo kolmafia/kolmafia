@@ -5,18 +5,24 @@ import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import java.util.ArrayList;
-import net.sourceforge.kolmafia.KoLAdventure;
+import java.util.Set;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class AdventureRequestTest {
   @BeforeEach
@@ -51,16 +57,19 @@ public class AdventureRequestTest {
 
   @Test
   public void gregariousMonstersAreQueued() {
-    KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("Barf Mountain"));
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Embezzler"));
+    var cleanups =
+        new Cleanups(withLastLocation("Barf Mountain"), withNextMonster("Knob Goblin Embezzler"));
 
-    var req = new GenericRequest("fight.php");
-    req.setHasResult(true);
-    req.responseText = html("request/test_fight_gregarious_monster.html");
-    req.processResponse();
+    try (cleanups) {
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText = html("request/test_fight_gregarious_monster.html");
+      req.processResponse();
 
-    assertThat(
-        AdventureQueueDatabase.getZoneQueue("Barf Mountain"), contains("Knob Goblin Embezzler"));
+      assertThat(
+          AdventureQueueDatabase.getZoneQueue("Barf Mountain"), contains("Knob Goblin Embezzler"));
+    }
   }
 
   @Test
@@ -108,5 +117,63 @@ public class AdventureRequestTest {
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 3);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 12);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+  }
+
+  @Nested
+  class Dinosaurs {
+    @ParameterizedTest
+    @CsvSource({
+      "glass-shelled, archelon, animated ornate nightstand",
+      "hot-blooded, dilophosaur, cosmetics wraith",
+      "cold-blooded, dilophosaur, cosmetics wraith",
+      "swamp, dilophosaur, cosmetics wraith",
+      "carrion-eating, dilophosaur, cosmetics wraith",
+      "slimy, dilophosaur, cosmetics wraith",
+      "steamy, flatusaurus, Hellion",
+      "chilling, flatusaurus, Hellion",
+      "foul-smelling, flatusaurus, Hellion",
+      "mist-shrouded, flatusaurus, Hellion",
+      "sweaty, flatusaurus, Hellion",
+      "none, ghostasaurus, cubist bull",
+      "none, kachungasaur, malevolent hair clog",
+      "primitive, chicken, amateur ninja",
+      "high-altitude, pterodactyl, W imp",
+      "none, spikolodon, empty suit of armor",
+      "supersonic, velociraptor, cubist bull",
+    })
+    public void canExtractDinosaurFromFight(String modifier, String dinosaur, String prey) {
+      var cleanups = new Cleanups(withPath(Path.DINOSAURS), withNextMonster((MonsterData) null));
+      try (cleanups) {
+        // <modifier> <dinosaur> " recently devoured " <prey>
+        // <modifier> <dinosaur> " just ate " <prey>
+        // <modifier> <dinosaur> " consumed " <prey>
+        // <modifier> <dinosaur> " swallowed the soul of " <prey>
+        for (String gluttony : AdventureRequest.dinoGluttony) {
+          StringBuilder encounter = new StringBuilder();
+          encounter.append("a ");
+          encounter.append(modifier);
+          encounter.append(" ");
+          encounter.append(dinosaur);
+          encounter.append(" ");
+          encounter.append(gluttony);
+          encounter.append(" ");
+          encounter.append(prey);
+          MonsterData swallowed = MonsterDatabase.findMonster(prey);
+          int monsterId = swallowed.getId();
+          String responseText = "<!-- MONSTERID: " + monsterId + " -->";
+          MonsterData extracted =
+              AdventureRequest.extractMonster(encounter.toString(), responseText);
+          MonsterStatusTracker.setNextMonster(extracted);
+
+          MonsterData monster = MonsterStatusTracker.getLastMonster();
+          assertEquals(monster.getName(), prey);
+          var modifiers = Set.of(monster.getRandomModifiers());
+          if (!modifier.equals("none")) {
+            assertTrue(modifiers.contains(modifier));
+          }
+          assertTrue(modifiers.contains(dinosaur));
+        }
+      }
+    }
   }
 }
