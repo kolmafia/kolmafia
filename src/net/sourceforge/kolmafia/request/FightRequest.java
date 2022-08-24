@@ -170,7 +170,7 @@ public class FightRequest extends GenericRequest {
   private static final Pattern COMBATITEM_PATTERN =
       Pattern.compile("<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>");
   private static final Pattern AVAILABLE_COMBATSKILL_PATTERN =
-      Pattern.compile("<option[^>]*?value=\\\"(\\d+)[^>]*?>((.*?) \\((\\d+)[^<]*)</option>");
+      Pattern.compile("<option[^>]*?value=\"(\\d+)[^>]*?>((.*?) \\((\\d+)[^<]*)</option>");
 
   // fambattle.php?pwd&famaction[backstab-209]=Backstab
   private static final Pattern FAMBATTLE_PATTERN = Pattern.compile("famaction.*?-(\\d+).*?=(.*)");
@@ -294,10 +294,6 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("<td>You get (\\d+)% less Sweaty.</td>");
   private static final Pattern DESIGNER_SWEATPANTS_MORE_SWEATY =
       Pattern.compile("<td>You get (\\d+)% Sweatier.</td>");
-
-  private static final Pattern POWERFUL_GLOVE_CHARGE =
-      Pattern.compile(
-          "CHEAT CODE: (?:(?:Replace)|(?:Shrink)) Enemy \\(\\d+ of today's remaining (\\d+)%\\)");
 
   private static final AdventureResult TOOTH = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
   private static final AdventureResult SPICES = ItemPool.get(ItemPool.SPICES, 1);
