@@ -201,9 +201,7 @@ public class ValhallaManager {
     EquipmentManager.updateEquipmentLists();
     ValhallaManager.resetMoonsignCafes();
     ConcoctionDatabase.refreshConcoctions();
-    ConsumablesDatabase.setSmoresData();
-    ConsumablesDatabase.setAffirmationCookieData();
-    ConsumablesDatabase.setLevelVariableConsumables();
+    ConsumablesDatabase.setVariableConsumables();
     ConsumablesDatabase.calculateAdventureRanges();
     HermitRequest.initialize();
 
