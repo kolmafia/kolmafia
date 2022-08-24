@@ -361,74 +361,32 @@ public class ListCellRendererFactory {
       stringForm.append("</b></nobr><br><nobr>&nbsp;");
 
       switch (item.getItemId()) {
-        case ItemPool.MUNCHIES_PILL:
-          stringForm.append("+1-3 adv from next food");
-          break;
-
-        case ItemPool.SUSHI_DOILY:
-          stringForm.append("+3 adv from next sushi (automatically used from inventory)");
-          break;
-
-        case ItemPool.GRAINS_OF_SALT:
-          stringForm.append("+3 adv from next food (automatically used from inventory)");
-          break;
-
-        case ItemPool.SCRATCHS_FORK:
-          stringForm.append("+30% adv/mus/mys/mox from next food, +50% from salad");
-          break;
-
-        case ItemPool.DIVINE_FLUTE:
-          stringForm.append("+(7*adv)+(0-15) MP from next drink");
-          break;
-
-        case ItemPool.FROSTYS_MUG:
-          stringForm.append("+30% adv/mus/mys/mox from next drink, +50% from beer");
-          break;
-
-        case ItemPool.CRIMBCO_MUG:
-          stringForm.append("does something to next drink");
-          break;
-
-        case ItemPool.BGE_SHOTGLASS:
-          stringForm.append("+3 adv from next drink");
-          break;
-
-        case ItemPool.FUDGE_SPORK:
-          stringForm.append("+3 adv from next food, 10 sugar rush");
-          break;
-
-        case ItemPool.JAR_OF_SWAMP_HONEY:
-          stringForm.append(
-              "+10-15 mus/mys/mox from next food (automatically used from inventory)");
-          break;
-
-        case ItemPool.MAYONEX:
-          stringForm.append("adv from next food converted to BMC");
-          break;
-
-        case ItemPool.MAYODIOL:
-          stringForm.append("1 full from next food converted to drunk");
-          break;
-
-        case ItemPool.MAYOSTAT:
-          stringForm.append("return some of next food");
-          break;
-
-        case ItemPool.MAYOZAPINE:
-          stringForm.append("x2 stat gain from next food");
-          break;
-
-        case ItemPool.MAYOFLEX:
-          stringForm.append("+1 adv from next food");
-          break;
-
-        default:
+        case ItemPool.MUNCHIES_PILL -> stringForm.append("+1-3 adv from next food");
+        case ItemPool.SUSHI_DOILY -> stringForm.append(
+            "+3 adv from next sushi (automatically used from inventory)");
+        case ItemPool.GRAINS_OF_SALT -> stringForm.append(
+            "+3 adv from next food (automatically used from inventory)");
+        case ItemPool.SCRATCHS_FORK -> stringForm.append(
+            "+30% adv/mus/mys/mox from next food, +50% from salad");
+        case ItemPool.DIVINE_FLUTE -> stringForm.append("+(7*adv)+(0-15) MP from next drink");
+        case ItemPool.FROSTYS_MUG -> stringForm.append(
+            "+30% adv/mus/mys/mox from next drink, +50% from beer");
+        case ItemPool.CRIMBCO_MUG -> stringForm.append("does something to next drink");
+        case ItemPool.BGE_SHOTGLASS -> stringForm.append("+3 adv from next drink");
+        case ItemPool.FUDGE_SPORK -> stringForm.append("+3 adv from next food, 10 sugar rush");
+        case ItemPool.JAR_OF_SWAMP_HONEY -> stringForm.append(
+            "+10-15 mus/mys/mox from next food (automatically used from inventory)");
+        case ItemPool.MAYONEX -> stringForm.append("adv from next food converted to BMC");
+        case ItemPool.MAYODIOL -> stringForm.append("1 full from next food converted to drunk");
+        case ItemPool.MAYOSTAT -> stringForm.append("return some of next food");
+        case ItemPool.MAYOZAPINE -> stringForm.append("x2 stat gain from next food");
+        case ItemPool.MAYOFLEX -> stringForm.append("+1 adv from next food");
+        default -> {
           Integer fullness = ConsumablesDatabase.getRawFullness(name);
           Integer inebriety = ConsumablesDatabase.getRawInebriety(name);
           Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
           String spacer = "";
           boolean potion = true;
-
           if (fullness != null) {
             stringForm.append(spacer);
             spacer = " ";
@@ -450,7 +408,6 @@ public class ListCellRendererFactory {
             stringForm.append(" spleen");
             potion = false;
           }
-
           if (!potion) {
             this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(name), "adv");
 
@@ -497,6 +454,7 @@ public class ListCellRendererFactory {
             stringForm.append(", ");
             stringForm.append(notes);
           }
+        }
       }
 
       if (color != null) {

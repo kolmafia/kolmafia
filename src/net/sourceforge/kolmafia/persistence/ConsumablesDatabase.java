@@ -901,7 +901,7 @@ public class ConsumablesDatabase {
 
     range += ConsumablesDatabase.conditionalExtraAdventures(name, perUnit);
 
-    return range.doubleValue();
+    return range;
   }
 
   private static int getStatUnit(final String name) {
@@ -1045,7 +1045,7 @@ public class ConsumablesDatabase {
 
   // Support for astral consumables and other level dependant consumables
 
-  public static final void setVariableConsumables() {
+  public static void setLevelVariableConsumables() {
     int level = Math.min(11, Math.max(3, KoLCharacter.getLevel()));
 
     // astral pilsner:
@@ -1127,7 +1127,7 @@ public class ConsumablesDatabase {
 
     name = "spaghetti breakfast";
     size = ConsumablesDatabase.getFullness(name);
-    float sbAdv = (level + 1) / 2;
+    float sbAdv = (level + 1) / 2f;
     adventures = String.valueOf(sbAdv);
     muscle = "0";
     mysticality = "0";
@@ -1145,7 +1145,7 @@ public class ConsumablesDatabase {
 
     name = "Cold One";
     size = ConsumablesDatabase.getInebriety(name);
-    float coAdv = (level + 1) / 2;
+    float coAdv = (level + 1) / 2f;
     adventures = String.valueOf(coAdv);
     muscle = "0";
     mysticality = "0";
@@ -1155,7 +1155,7 @@ public class ConsumablesDatabase {
         name, size, adventures, muscle, mysticality, moxie, note);
   }
 
-  public static final void setSmoresData() {
+  public static void setSmoresData() {
     // s'more
     String name = "s'more";
     int size = Preferences.getInteger("smoresEaten") + 1 + ConcoctionDatabase.queuedSmores;
@@ -1173,7 +1173,7 @@ public class ConsumablesDatabase {
     }
   }
 
-  public static final void setAffirmationCookieData() {
+  public static void setAffirmationCookieData() {
     // Affirmation CookieHandler
     String name = "Affirmation Cookie";
     int size = 1;
@@ -1188,20 +1188,41 @@ public class ConsumablesDatabase {
         name, size, 1, "good", adventures, muscle, mysticality, moxie, note);
   }
 
+  public static void setDistillateData() {
+    var drams = Preferences.getInteger("familiarSweat");
+    if (drams < 10) drams = 0;
+
+    final var adventures = Math.round(Math.pow(drams, 0.4));
+    final var effectTurns = Math.min(100, (int) Math.floor(drams / 5.0));
+    ConsumablesDatabase.setConsumptionData(
+        "stillsuit distillate",
+        1,
+        String.valueOf(adventures),
+        "0",
+        "0",
+        "0",
+        effectTurns + " Buzzed on Distillate");
+  }
+
+  public static void setVariableConsumables() {
+    setLevelVariableConsumables();
+    setSmoresData();
+    setAffirmationCookieData();
+    setDistillateData();
+  }
+
   // Support for dusty bottles of wine
 
   public static final String dustyBottleType(final int itemId) {
-    return (itemId == ItemPool.DUSTY_BOTTLE_OF_MERLOT)
-        ? "average"
-        : (itemId == ItemPool.DUSTY_BOTTLE_OF_PORT)
-            ? "vinegar"
-            : (itemId == ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR)
-                ? "spooky"
-                : (itemId == ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL)
-                    ? "great"
-                    : (itemId == ItemPool.DUSTY_BOTTLE_OF_MARSALA)
-                        ? "glassy"
-                        : (itemId == ItemPool.DUSTY_BOTTLE_OF_MUSCAT) ? "bad" : "dusty";
+    return switch (itemId) {
+      case ItemPool.DUSTY_BOTTLE_OF_MERLOT -> "average";
+      case ItemPool.DUSTY_BOTTLE_OF_PORT -> "vinegar";
+      case ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR -> "spooky";
+      case ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL -> "great";
+      case ItemPool.DUSTY_BOTTLE_OF_MARSALA -> "glassy";
+      case ItemPool.DUSTY_BOTTLE_OF_MUSCAT -> "bad";
+      default -> "dusty";
+    };
   }
 
   public static final String dustyBottleName(final int itemId) {

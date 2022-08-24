@@ -400,8 +400,6 @@ public abstract class KoLCharacter {
     CoinmasterRegistry.reset();
     ConcoctionDatabase.resetQueue();
     ConcoctionDatabase.refreshConcoctions();
-    ConsumablesDatabase.setSmoresData();
-    ConsumablesDatabase.setAffirmationCookieData();
     ConsumablesDatabase.setVariableConsumables();
     ConsumablesDatabase.calculateAdventureRanges();
     DailyLimitDatabase.reset();
@@ -925,7 +923,7 @@ public abstract class KoLCharacter {
       if (previousLevel != KoLCharacter.currentLevel) {
         HPRestoreItemList.updateHealthRestored();
         MPRestoreItemList.updateManaRestored();
-        ConsumablesDatabase.setVariableConsumables();
+        ConsumablesDatabase.setLevelVariableConsumables();
       }
     }
 

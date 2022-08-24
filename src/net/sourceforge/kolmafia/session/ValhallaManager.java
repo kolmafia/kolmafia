@@ -203,7 +203,7 @@ public class ValhallaManager {
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setSmoresData();
     ConsumablesDatabase.setAffirmationCookieData();
-    ConsumablesDatabase.setVariableConsumables();
+    ConsumablesDatabase.setLevelVariableConsumables();
     ConsumablesDatabase.calculateAdventureRanges();
     HermitRequest.initialize();
 
