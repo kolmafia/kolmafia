@@ -357,6 +357,9 @@ public class ResponseTextParser {
           case ItemPool.DESIGNER_SWEATPANTS:
             ItemDatabase.parseDesignerSweatpants(responseText);
             break;
+          case ItemPool.POWERFUL_GLOVE:
+            ItemDatabase.parsePowerfulGlove(responseText);
+            break;
           default:
             changesFromTimeToTime = false;
             break;

@@ -81,6 +81,7 @@ DESC_ITEM	Yearbook Club Camera	asked you to photograph.*?<b>(.*?)</b>	_yearbookC
 DESC_ITEM	familiar scrapbook	Scraps Collected: <b>([\d,]+)</b>	scrapbookCharges=[stripcommas($1)]
 DESC_ITEM	industrial fire extinguisher	The extinguisher's tank is currently <b>([\d]+)% full</b>	_fireExtinguisherCharge=$1
 DESC_ITEM	designer sweatpants	Your sweatpants are currently (\d+)% sweat-logged.	sweat=$1
+DESC_ITEM	Powerful Glove	The Glove's battery is (\d+)% charged.	_powerfulGloveBatteryPowerUsed=[100-$1]
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods
