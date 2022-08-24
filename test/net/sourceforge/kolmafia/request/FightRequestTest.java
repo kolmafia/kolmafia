@@ -879,6 +879,32 @@ public class FightRequestTest {
     }
   }
 
+  @Test
+  public void canDetectPowerfulGloveCharge() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_powerfulGloveBatteryPowerUsed", 0),
+            withEquipped(EquipmentManager.ACCESSORY1, "Powerful Glove"));
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_powerful_glove_30_remaining_charge.html");
+      assertThat("_powerfulGloveBatteryPowerUsed", isSetTo(30));
+    }
+  }
+
+  @Test
+  public void canDetectCosplaySaberUses() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_saberForceUses", 0),
+            withEquipped(EquipmentManager.WEAPON, "Fourth of May Cosplay Saber"));
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_cosplay_saber_2_uses_remaining.html");
+      assertThat("_saberForceUses", isSetTo(2));
+    }
+  }
+
   @Nested
   class XOSkeleton {
     @Test

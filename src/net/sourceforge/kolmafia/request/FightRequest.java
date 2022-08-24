@@ -294,6 +294,13 @@ public class FightRequest extends GenericRequest {
   private static final Pattern DESIGNER_SWEATPANTS_MORE_SWEATY =
       Pattern.compile("<td>You get (\\d+)% Sweatier.</td>");
 
+  private static final Pattern POWERFUL_GLOVE_CHARGE =
+      Pattern.compile(
+          ">CHEAT CODE: (?:(?:Replace Enemy)|(?:Shrink Enemy)) \\(\\d+ of today's remaining (\\d+)%\\)<");
+
+  private static final Pattern COSPLAY_SABER_USES =
+      Pattern.compile(">Use the Force, [\\w ]+! \\((\\d)+ uses? left\\)<");
+
   private static final AdventureResult TOOTH = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
   private static final AdventureResult SPICES = ItemPool.get(ItemPool.SPICES, 1);
   private static final AdventureResult MERCENARY = ItemPool.get(ItemPool.TOY_MERCENARY, 1);
@@ -2741,6 +2748,25 @@ public class FightRequest extends GenericRequest {
       Matcher moreSweatMatcher = FightRequest.DESIGNER_SWEATPANTS_MORE_SWEATY.matcher(responseText);
       if (moreSweatMatcher.find()) {
         Preferences.increment("sweat", StringUtilities.parseInt(moreSweatMatcher.group(1)));
+      }
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.POWERFUL_GLOVE)) {
+      Matcher powerfulGloveCharge = FightRequest.POWERFUL_GLOVE_CHARGE.matcher(responseText);
+
+      if (powerfulGloveCharge.find()) {
+        Preferences.setInteger(
+            "_powerfulGloveBatteryPowerUsed",
+            100 - StringUtilities.parseInt(powerfulGloveCharge.group(1)));
+      }
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.FOURTH_SABER)) {
+      Matcher cosplaySaberUses = FightRequest.COSPLAY_SABER_USES.matcher(responseText);
+
+      if (cosplaySaberUses.find()) {
+        Preferences.setInteger(
+            "_saberForceUses", StringUtilities.parseInt(cosplaySaberUses.group(1)));
       }
     }
     // "The Slime draws back and shudders, as if it's about to sneeze.
