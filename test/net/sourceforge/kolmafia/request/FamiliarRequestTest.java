@@ -69,11 +69,11 @@ class FamiliarRequestTest {
     void doNotMoveStillsuitIfTakingOutStillsuitFamiliar() {
       setupFakeClient();
       var cleanups =
-              new Cleanups(
-                      withFamiliar(FamiliarPool.GROUPIE),
-                      withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
-                      withFamiliarInTerrarium(FamiliarPool.BOWLET),
-                      withProperty("stillsuitFamiliar", "Bowlet"));
+          new Cleanups(
+              withFamiliar(FamiliarPool.GROUPIE),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withFamiliarInTerrarium(FamiliarPool.BOWLET),
+              withProperty("stillsuitFamiliar", "Bowlet"));
 
       try (cleanups) {
         var newFamiliar = FamiliarData.registerFamiliar(FamiliarPool.BOWLET, 0);
@@ -90,11 +90,11 @@ class FamiliarRequestTest {
     void doNotMoveStillsuitIfPuttingAwayStillsuitFamiliar() {
       setupFakeClient();
       var cleanups =
-              new Cleanups(
-                      withFamiliar(FamiliarPool.BOWLET),
-                      withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
-                      withFamiliarInTerrarium(FamiliarPool.GROUPIE),
-                      withProperty("stillsuitFamiliar", "Bowlet"));
+          new Cleanups(
+              withFamiliar(FamiliarPool.BOWLET),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withFamiliarInTerrarium(FamiliarPool.GROUPIE),
+              withProperty("stillsuitFamiliar", "Bowlet"));
 
       try (cleanups) {
         var newFamiliar = FamiliarData.registerFamiliar(FamiliarPool.GROUPIE, 0);
@@ -111,11 +111,11 @@ class FamiliarRequestTest {
     void ignoreBogusStillsuitFamiliar() {
       setupFakeClient();
       var cleanups =
-              new Cleanups(
-                      withFamiliar(FamiliarPool.GROUPIE),
-                      withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
-                      withFamiliarInTerrarium(FamiliarPool.BOWLET),
-                      withProperty("stillsuitFamiliar", "Ian, the familiar of great reknown"));
+          new Cleanups(
+              withFamiliar(FamiliarPool.GROUPIE),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withFamiliarInTerrarium(FamiliarPool.BOWLET),
+              withProperty("stillsuitFamiliar", "Ian, the familiar of great reknown"));
 
       try (cleanups) {
         var newFamiliar = FamiliarData.registerFamiliar(FamiliarPool.BOWLET, 0);
