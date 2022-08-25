@@ -582,20 +582,14 @@ public class MallSearchRequest extends GenericRequest {
   }
 
   private static String tierName(int tier) {
-    switch (tier) {
-      case 1:
-        return "crappy";
-      case 2:
-        return "decent";
-      case 3:
-        return "good";
-      case 4:
-        return "awesome";
-      case 5:
-        return "EPIC";
-      default:
-        return "???";
-    }
+    return switch (tier) {
+      case 1 -> "crappy";
+      case 2 -> "decent";
+      case 3 -> "good";
+      case 4 -> "awesome";
+      case 5 -> "EPIC";
+      default -> "???";
+    };
   }
 
   private static String extractTiers(String urlString) {

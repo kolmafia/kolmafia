@@ -99,47 +99,16 @@ public final class ColorFactory {
     return color;
   }
 
-  public static final String getQualityColor(final String name) {
-    String pref;
-    String color = null;
-    String quality = ConsumablesDatabase.getQuality(name);
-
-    if (quality == null) {
-      return null;
-    }
-    if (quality.equals(ConsumablesDatabase.CRAPPY)) {
-      pref = checkPref("crappy");
-      color = pref != null ? pref : "#999999";
-    } else if (quality.equals(ConsumablesDatabase.DECENT)) {
-      pref = checkPref("decent");
-      color = pref;
-    } else if (quality.equals(ConsumablesDatabase.GOOD)) {
-      pref = checkPref("good");
-      color = pref != null ? pref : "green";
-    } else if (quality.equals(ConsumablesDatabase.AWESOME)) {
-      pref = checkPref("awesome");
-      color = pref != null ? pref : "blue";
-    } else if (quality.equals(ConsumablesDatabase.EPIC)) {
-      pref = checkPref("epic");
-      color = pref != null ? pref : "#8a2be2";
-    }
-    return color;
+  public static String getQualityColor(final String name) {
+    return ConsumablesDatabase.getQuality(name).getColor();
   }
 
   private static String getJunkColor() {
-    String pref = checkPref("junk");
-    if (pref == null) {
-      return "gray";
-    }
-    return pref;
+    return checkPref("junk", "gray");
   }
 
   private static String getMementoColor() {
-    String pref = checkPref("memento");
-    if (pref == null) {
-      return "olive";
-    }
-    return pref;
+    return checkPref("memento", "olive");
   }
 
   private static String getNotAvailableColor() {
@@ -181,11 +150,15 @@ public final class ColorFactory {
     return null;
   }
 
-  private static String checkPref(String pref) {
+  private static String checkPref(String pref, String defaultValue) {
     Object it = colorPrefMap.get(pref);
     if (it != null) {
       return it.toString();
     }
-    return null;
+    return defaultValue;
+  }
+
+  private static String checkPref(String pref) {
+    return checkPref(pref, null);
   }
 }
