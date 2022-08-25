@@ -2196,6 +2196,14 @@ public class ItemDatabase {
     Preferences.setInteger("sweat", 0);
   }
 
+  public static void parsePowerfulGlove(final String desc) {
+    if (desc.contains("The Glove's battery is currently fully charged.")) {
+      Preferences.setInteger("_powerfulGloveBatteryPowerUsed", 0);
+    } else if (desc.contains("The Glove's battery is fully depleted.")) {
+      Preferences.setInteger("_powerfulGloveBatteryPowerUsed", 100);
+    }
+  }
+
   public static void resetVampireVintnerWine() {
     Preferences.setString("vintnerWineName", "");
     Preferences.setString("vintnerWineEffect", "");
