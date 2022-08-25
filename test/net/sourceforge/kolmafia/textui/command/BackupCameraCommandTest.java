@@ -10,6 +10,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
@@ -93,7 +94,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
 
-      assertThat(requests, hasSize(2));
+      assertThat(requests, hasSize(greaterThanOrEqualTo(2)));
       assertPostRequest(requests.get(0), "/inventory.php", "action=bcmode");
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1449&option=3");
     }
@@ -111,8 +112,9 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
                 new FakeHttpResponse<>(
                     200, html("request/test_command_backupcamera_handles_unavailable_option.html")),
                 new FakeHttpResponse<>(
-                    200,
-                    html("request/test_command_backupcamera_handles_unavailable_option.html"))));
+                    200, html("request/test_command_backupcamera_handles_unavailable_option.html")),
+                new FakeHttpResponse<>(
+                    200, html("request/test_command_backupcamera_leave_choice.html"))));
 
     try (cleanups) {
       execute("ml");
@@ -120,10 +122,11 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
       var requests =
           ((FakeHttpClientBuilder) HttpUtilities.getClientBuilder()).client.getRequests();
 
-      assertThat(requests, hasSize(3));
+      assertThat(requests, hasSize(4));
       assertPostRequest(requests.get(0), "/inventory.php", "action=bcmode");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1449&option=1");
+      assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1449&option=6");
       assertThat(ChoiceManager.handlingChoice, is(false));
     }
   }
@@ -139,7 +142,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
 
-      assertThat(requests, hasSize(2));
+      assertThat(requests, hasSize(greaterThanOrEqualTo(2)));
       assertPostRequest(requests.get(0), "/inventory.php", "action=bcmode");
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1449&option=5");
     }
@@ -155,7 +158,7 @@ class BackupCameraCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
 
-      assertThat(requests, hasSize(2));
+      assertThat(requests, hasSize(greaterThanOrEqualTo(2)));
       assertPostRequest(requests.get(0), "/inventory.php", "action=bcmode");
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1449&option=4");
     }
