@@ -879,6 +879,41 @@ public class FightRequestTest {
     }
   }
 
+  @Test
+  public void canDetectPowerfulGloveCharge() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_powerfulGloveBatteryPowerUsed", 0),
+            withEquipped(EquipmentManager.ACCESSORY1, "Powerful Glove"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_powerful_glove_30_remaining_charge.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.REPLACE_ENEMY));
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.SHRINK_ENEMY));
+      assertThat("_powerfulGloveBatteryPowerUsed", isSetTo(30));
+    }
+  }
+
+  @Test
+  public void canDetectCosplaySaberUses() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_saberForceUses", 0),
+            withEquipped(EquipmentManager.WEAPON, "Fourth of May Cosplay Saber"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_cosplay_saber_2_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.USE_THE_FORCE));
+      assertThat("_saberForceUses", isSetTo(2));
+    }
+  }
+
   @Nested
   class XOSkeleton {
     @Test

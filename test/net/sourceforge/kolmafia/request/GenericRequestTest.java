@@ -87,6 +87,21 @@ public class GenericRequestTest {
     assertThat("sweat", isSetTo(expectedSweat));
   }
 
+  @ParameterizedTest
+  @ValueSource(ints = {100, 40, 0})
+  public void parsePowerfulGlove(int expectedCharge) {
+    var cleanups = withProperty("_powerfulGloveBatteryPowerUsed", 50);
+
+    try (cleanups) {
+      var req = new GenericRequest("desc_item.php?whichitem=991142661");
+      req.responseText =
+          html("request/test_desc_item_powerful_glove_" + expectedCharge + "_charge_used.html");
+      req.processResponse();
+
+      assertThat("_powerfulGloveBatteryPowerUsed", isSetTo(expectedCharge));
+    }
+  }
+
   @Test
   public void detectsBogusChoices() {
     var cleanup =
