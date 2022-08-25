@@ -126,6 +126,16 @@ DESC_EFFECT	Wine-Friendly	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
 
 COMBAT_SKILL	Use the Force	Use the Force, [\w ]+! \((\d+) uses? left\)	_saberForceUses=$1
 COMBAT_SKILL	CHEAT CODE: Shrink Enemy	CHEAT CODE: Shrink Enemy \(5 of today's remaining (\d+)%\)	_powerfulGloveBatteryPowerUsed=[100-$1]
+COMBAT_SKILL	Use the Force	Use the Force, [\w ]+! \((\d+) uses? left\)	_saberForceUses=$1
+COMBAT_SKILL	CHEAT CODE: Shrink Enemy	CHEAT CODE: Shrink Enemy \(5 of today's remaining (\d+)%\)	_powerfulGloveBatteryPowerUsed=[100-$1]
+COMBAT_SKILL	Fire Extinguisher: Foam 'em Up	Fire Extinguisher: Foam 'em Up \(5 charge, (\d+)% remaining\)	_fireExtinguisherCharge=$1
+COMBAT_SKILL	Become a Cloud of Mist	Become a Cloud of Mist \((\d+) time\(s\) remaining today\)\)	_vampyreCloakeFormUses=[10-$1]
+COMBAT_SKILL	Meteor Shower	Meteor Shower \((\d+) charges left\)	_meteorShowerUses=[5-$1]
+COMBAT_SKILL	Macrometeorite	Macrometeorite \((\d+) charges left\)	_macrometeoriteUses=[10-$1]
+COMBAT_SKILL	Talk About Politics	Talk About Politics \((\d+) left\) \(0 Mana Points\)	_pantsgivingBanish=[5-$1]
+COMBAT_SKILL	Otoscope	Otoscope \((\d+) charges left\)	_otoscopeUsed=[3-$1]
+COMBAT_SKILL	Reflex Hammer	Reflex Hammer \((\d+) charges left\)	_reflexHammerUsed=[3-$1]
+COMBAT_SKILL	Chest X-Ray	Chest X-Ray \((\d+) charges left\)	_chestXRayUsed=[3-$1]
 
 # Monster disambiguation:
 
