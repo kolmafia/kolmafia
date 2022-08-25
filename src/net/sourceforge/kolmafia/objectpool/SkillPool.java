@@ -294,6 +294,7 @@ public class SkillPool {
   public static final int BECOME_WOLF = 7308;
   public static final int BECOME_MIST = 7309;
   public static final int BECOME_BAT = 7310;
+  public static final int USE_THE_FORCE = 7311;
   public static final int DELIVER_THESIS = 7316;
   public static final int LECTURE_ON_VELOCITY = 7317;
   public static final int LECTURE_ON_MASS = 7318;
