@@ -295,9 +295,6 @@ public class FightRequest extends GenericRequest {
   private static final Pattern DESIGNER_SWEATPANTS_MORE_SWEATY =
       Pattern.compile("<td>You get (\\d+)% Sweatier.</td>");
 
-  private static final Pattern BACKUP_CAMERA_USES =
-      Pattern.compile("Back-Up to your Last Enemy \\((\\d+) uses? today\\)");
-
   private static final AdventureResult TOOTH = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
   private static final AdventureResult SPICES = ItemPool.get(ItemPool.SPICES, 1);
   private static final AdventureResult MERCENARY = ItemPool.get(ItemPool.TOY_MERCENARY, 1);
@@ -4604,15 +4601,6 @@ public class FightRequest extends GenericRequest {
         if (skillId >= 7091
             && Preferences.getInteger("gladiatorBladeMovesKnown") + 7090 < skillId) {
           Preferences.setInteger("gladiatorBallMovesKnown", skillId - 7090);
-        }
-      }
-      if (skillId == SkillPool.BACK_UP) {
-        Matcher matcher = FightRequest.BACKUP_CAMERA_USES.matcher(m.group(2));
-
-        if (matcher.find()) {
-          int limit = KoLCharacter.inRobocore() ? 16 : 11;
-
-          Preferences.setInteger("_backUpUses", limit - StringUtilities.parseInt(matcher.group(1)));
         }
       }
     }
