@@ -5416,6 +5416,7 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         Preferences.setBoolean("_spacegateToday", true);
+        Preferences.setInteger("_spacegateTurnsLeft", 20);
         break;
 
       case ItemPool.SPACE_BABY_CHILDRENS_BOOK:

@@ -3382,6 +3382,13 @@ public class KoLAdventureValidationTest {
         assertThat(SPACEGATE.canAdventure(), is(false));
       }
     }
+
+    // *** Verify that portable spacegate (open) and permanent access look the same to us.
+
+    // *** tests for prepareForAdventure
+    // - with all necessary gear equipped
+    // - with necessary gear not-yet-acquired
+    // - with some necessary gear not equipeed
   }
 
   @Nested

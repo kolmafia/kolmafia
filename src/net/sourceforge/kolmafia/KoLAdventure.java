@@ -5,8 +5,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
@@ -412,6 +414,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
   private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG);
   private static final AdventureResult GRIMSTONE_MASK = ItemPool.get(ItemPool.GRIMSTONE_MASK);
+  private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
+      ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -1596,10 +1600,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
 
-      return (Preferences.getBoolean("spacegateAlways")
-              || Preferences.getBoolean("_spacegateToday"))
-          && !Preferences.getString("_spacegateCoordinates").isBlank()
-          && Preferences.getInteger("_spacegateTurnsLeft") > 0;
+      // If you have permanent access, you must have activated the Spacegate
+      // and chosen a planet to visit. prepareForAdventure will acquire and
+      // equip the necessary protective gear, if you have not already done so.
+      if (Preferences.getBoolean("spacegateAlways")) {
+        return !Preferences.getString("_spacegateCoordinates").isBlank()
+            && Preferences.getInteger("_spacegateTurnsLeft") > 0;
+      }
+
+      // If you don't have permanent access, you must have used a portable
+      // spacegate. You don't get to choose which planet you go to, but you
+      // have been given the necessary protective gear. prepareForAdventure
+      // will equip it, if you have not already done so.
+      if (Preferences.getBoolean("_spacegateToday")) {
+        return Preferences.getInteger("_spacegateTurnsLeft") > 0;
+      }
+
+      return false;
     }
 
     if (this.zone.equals("Gingerbread City")) {
@@ -1719,6 +1736,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Shape of Mole")) {
       // *** Should use llama lama gong and select correct form
+      return true;
+    }
+
+    if (this.zone.equals("The Spacegate")) {
+      // *** "_spacegateGear" contains the gear we need.
+      // If we don't have it, trying to adventure once in the Spacegate will
+      // give it to you.  If it is not equipped, equip it now.
+      Set<AdventureResult> gear =
+          Arrays.stream(Preferences.getString("_spacegateGear").split("\\|"))
+              .map(item -> new AdventureResult(item, 1, false))
+              .collect(Collectors.toSet());
+
       return true;
     }
 
