@@ -1012,8 +1012,8 @@ public class FightRequestTest {
 
   @ParameterizedTest
   @CsvSource({
-    "0, false",
     "5, true",
+    "0, false",
   })
   public void canDetectBackupCameraUses(int backupsUsed, boolean youRobotPath) {
     // Back-Up to your Last Enemy (11 uses today)
