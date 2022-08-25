@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -2413,15 +2413,16 @@ public class QuestManager {
       Pattern.compile("<br>ALERT: ANCIENT RUINS DETECTED<br>");
   public static final Pattern SPACEGATE_TURNS_PATTERN =
       Pattern.compile("<p>Spacegate Energy remaining: <b><font size=\\+2>(\\d+) </font>");
-  public static final Map<String, String> hazardToGear = new HashMap<>();
 
-  static {
-    hazardToGear.put("toxic atmosphere", "filter helmet");
-    hazardToGear.put("high gravity", "exo-server leg braces");
-    hazardToGear.put("irradiated", "rad cloak");
-    hazardToGear.put("magnetic storms", "gate tranceiver");
-    hazardToGear.put("high winds", "high-friction boots");
-  }
+  public record Hazard(String terminal, String adventure, String gear) {}
+
+  public static final Hazard[] HAZARDS = {
+    new Hazard("toxic atmosphere", "Toxic environment", "filter helmet"),
+    new Hazard("high gravity", "Extremely high gravity", "exo-server leg braces"),
+    new Hazard("irradiated", "High radiation levels", "rad cloak"),
+    new Hazard("magnetic storms", "High levels of magnetic interference", "gate tranceiver"),
+    new Hazard("high winds", "Intense winds", "high-friction boots"),
+  };
 
   public static void parseSpacegateAdventure(final String text) {
     // If we've already parsed the hazards, nothing to do here.
@@ -2430,13 +2431,13 @@ public class QuestManager {
     }
     // Otherwise, this is from a portable spacegate.
     // Parse hazards and needed equipment
-    List<String> hazards = new ArrayList<>();
-    List<String> gear = new ArrayList<>();
+    Set<String> hazards = new HashSet<>();
+    Set<String> gear = new HashSet<>();
 
-    for (String hazard : hazardToGear.keySet()) {
-      if (text.contains(hazard)) {
-        hazards.add(hazard);
-        gear.add(hazardToGear.get(hazard));
+    for (Hazard hazard : HAZARDS) {
+      if (text.contains(hazard.adventure)) {
+        hazards.add(hazard.terminal);
+        gear.add(hazard.gear);
       }
     }
     Preferences.setString("_spacegateHazards", hazards.stream().collect(Collectors.joining("|")));
@@ -2472,10 +2473,14 @@ public class QuestManager {
     if (print) {
       RequestLogger.updateSessionLog("Hazards: " + hazards);
     }
+
+    var terminalHazards = hazards;
     String gear =
-        Arrays.stream(hazards.split("\\|"))
-            .map(h -> hazardToGear.get(h))
+        Arrays.stream(HAZARDS)
+            .filter(h -> terminalHazards.contains(h.terminal))
+            .map(h -> h.gear)
             .collect(Collectors.joining("|"));
+
     Preferences.setString("_spacegateGear", gear);
     if (print) {
       RequestLogger.updateSessionLog("Gear: " + gear);

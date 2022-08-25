@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
@@ -34,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
-import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,22 +67,6 @@ public class QuestManagerTest {
     KoLCharacter.reset("QuestManager");
     Preferences.reset("QuestManager");
     KoLConstants.inventory.clear();
-  }
-
-  private void printRequests(List<HttpRequest> requests) {
-    for (HttpRequest req : requests) {
-      String method = req.method();
-      var uri = req.uri();
-      String path = uri.getPath();
-      switch (method) {
-        case "GET":
-          System.out.println("GET " + path + " -> " + uri.getQuery());
-          break;
-        case "POST":
-          System.out.println("POST " + path + " -> " + getPostRequestBody(req));
-          break;
-      }
-    }
   }
 
   /*
@@ -1353,7 +1335,7 @@ public class QuestManagerTest {
     }
 
     @Test
-    void canActivateSpacegateAndAcquiregear() {
+    void canActivateSpacegateAndAcquireGear() {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
           new Cleanups(
@@ -1408,7 +1390,7 @@ public class QuestManagerTest {
     }
 
     @Test
-    void canActivatePortableSpacegateAndAcquiregear() {
+    void canActivatePortableSpacegateAndAcquireGear() {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
           new Cleanups(
@@ -1439,7 +1421,7 @@ public class QuestManagerTest {
         request.run();
         assertThat("_spacegateHazards", isSetTo("high gravity"));
         assertThat("_spacegateGear", isSetTo("exo-server leg braces"));
-        assertTrue(InventoryManager.hasItem(ItemPool.EXO_SERVER_LEG_BRACES));
+        assertTrue(InventoryManager.hasItem(ItemPool.EXO_SERVO_LEG_BRACES));
       }
     }
   }

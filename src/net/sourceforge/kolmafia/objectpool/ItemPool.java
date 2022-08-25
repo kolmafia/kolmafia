@@ -2959,7 +2959,7 @@ public class ItemPool {
   public static final int TOGGLE_SWITCH_BOUNCE = 9403;
   public static final int SPACEGATE_ACCESS_BADGE = 9404;
   public static final int FILTER_HELMET = 9405;
-  public static final int EXO_SERVER_LEG_BRACES = 9406;
+  public static final int EXO_SERVO_LEG_BRACES = 9406;
   public static final int RAD_CLOAK = 9407;
   public static final int GATE_TRANCEIVER = 9408;
   public static final int HIGH_FRICTION_BOOTS = 9409;

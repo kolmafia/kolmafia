@@ -1740,13 +1740,35 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("The Spacegate")) {
-      // *** "_spacegateGear" contains the gear we need.
-      // If we don't have it, trying to adventure once in the Spacegate will
-      // give it to you.  If it is not equipped, equip it now.
+      String neededGear = Preferences.getString("_spacegateGear");
+      // If we don't know what gear we need, this must be a portable
+      // spacegate. Visit Through the Spacegate to see what it gives us.
+      if (neededGear.equals("")) {
+        var request = new GenericRequest("adventure.php?snarfblat=494");
+        RequestThread.postRequest(request);
+        neededGear = Preferences.getString("_spacegateGear");
+      }
+      // We now know what gear we need.
       Set<AdventureResult> gear =
-          Arrays.stream(Preferences.getString("_spacegateGear").split("\\|"))
+          Arrays.stream(neededGear.split("\\|"))
               .map(item -> new AdventureResult(item, 1, false))
               .collect(Collectors.toSet());
+      // Do we have it all? If not, some, but not all, were manually checked out
+      // from Equipment Requisition. Visit Through the Spacegate to get the
+      // rest.
+      boolean haveAllGear = gear.stream().allMatch(InventoryManager::hasItem);
+      if (!haveAllGear) {
+        var request = new GenericRequest("adventure.php?snarfblat=494");
+        RequestThread.postRequest(request);
+      }
+      // Equip any gear that is not yet equipped.  Note that there are two
+      // possible accessories. We can't unequip one to equip the other.
+      // *** how to do that?
+      for (AdventureResult item : gear) {
+        if (!KoLCharacter.hasEquipped(item)) {
+          RequestThread.postRequest(new EquipmentRequest(item));
+        }
+      }
 
       return true;
     }
