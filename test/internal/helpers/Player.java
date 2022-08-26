@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -929,18 +930,18 @@ public class Player {
    */
   public static Cleanups withDay(
       final int year, final Month month, final int day, final int hour, final int minute) {
-    var mocked = mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS);
+    var mocked = mockStatic(DateTimeManager.class, Mockito.RETURNS_DEFAULTS);
 
     mocked
-        .when(HolidayDatabase::getArizonaDateTime)
+        .when(DateTimeManager::getArizonaDateTime)
         .thenReturn(
             ZonedDateTime.of(
-                year, month.getValue(), day, hour, minute, 0, 0, HolidayDatabase.ARIZONA));
+                year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ARIZONA));
     mocked
-        .when(HolidayDatabase::getRolloverDateTime)
+        .when(DateTimeManager::getRolloverDateTime)
         .thenReturn(
             ZonedDateTime.of(
-                year, month.getValue(), day, hour, minute, 0, 0, HolidayDatabase.ROLLOVER));
+                year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ROLLOVER));
 
     HolidayDatabase.guessPhaseStep();
 

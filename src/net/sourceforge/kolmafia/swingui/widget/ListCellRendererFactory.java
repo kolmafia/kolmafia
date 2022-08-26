@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Component;
+import java.util.StringJoiner;
 import java.util.function.BiFunction;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
@@ -329,7 +330,7 @@ public class ListCellRendererFactory {
       StringBuffer stringForm = new StringBuffer();
       String name = item.getName();
 
-      stringForm.append("<html><nobr>");
+      stringForm.append("<html><nobr><b>");
 
       String color = null;
 
@@ -340,24 +341,36 @@ public class ListCellRendererFactory {
       }
 
       if (color != null) {
-        stringForm.append("<font color=");
-        stringForm.append(color);
-        stringForm.append(">");
+        stringForm.append("<font color=").append(color).append(">");
       }
 
-      stringForm.append("<b>");
-      stringForm.append(item.toString());
+      stringForm.append(item).append(" (");
+
+      var quality = ConsumablesDatabase.getQuality(item.getName());
+
+      if (quality == ConsumablesDatabase.ConsumableQuality.CHANGING) {
+        if (isSelected) {
+          stringForm.append("???");
+        } else {
+          stringForm.append(
+              "<font color=green>?</font><font color=red>?</font><font color=gray>?</font>");
+        }
+        stringForm.append(", ");
+      }
 
       boolean pulling;
-
-      stringForm.append(" (");
       if (count > 0) {
         stringForm.append(count);
         pulling = item.queuedPulls != 0;
       } else {
         pulling = this.appendAmount(stringForm, item);
       }
+
       stringForm.append(")");
+
+      if (color != null) {
+        stringForm.append("</font>");
+      }
       stringForm.append("</b></nobr><br><nobr>&nbsp;");
 
       switch (item.getItemId()) {
@@ -385,67 +398,11 @@ public class ListCellRendererFactory {
           Integer fullness = ConsumablesDatabase.getRawFullness(name);
           Integer inebriety = ConsumablesDatabase.getRawInebriety(name);
           Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
-          String spacer = "";
-          boolean potion = true;
-          if (fullness != null) {
-            stringForm.append(spacer);
-            spacer = " ";
-            stringForm.append(fullness);
-            stringForm.append(" full");
-            potion = false;
-          }
-          if (inebriety != null) {
-            stringForm.append(spacer);
-            spacer = " ";
-            stringForm.append(inebriety);
-            stringForm.append(" drunk");
-            potion = false;
-          }
-          if (spleenhit != null) {
-            stringForm.append(spacer);
-            spacer = " ";
-            stringForm.append(spleenhit);
-            stringForm.append(" spleen");
-            potion = false;
-          }
-          if (!potion) {
-            this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(name), "adv");
 
-            if (Preferences.getBoolean("showGainsPerUnit")) {
-              if (fullness != null && fullness.intValue() > 0) {
-                stringForm.append(" / full");
-              } else if (inebriety != null && inebriety.intValue() > 0) {
-                stringForm.append(" / drunk");
-              } else if (spleenhit != null && spleenhit.intValue() > 0) {
-                stringForm.append(" / spleen");
-              }
-            }
-
-            this.appendRange(stringForm, ConsumablesDatabase.getMuscleRange(name), "mus");
-            this.appendRange(stringForm, ConsumablesDatabase.getMysticalityRange(name), "mys");
-            this.appendRange(stringForm, ConsumablesDatabase.getMoxieRange(name), "mox");
+          if (fullness != null || inebriety != null || spleenhit != null) {
+            this.appendConsumable(stringForm, name, fullness, inebriety, spleenhit);
           } else {
-            String effectName = item.getEffectName();
-            int effectId = EffectDatabase.getEffectId(effectName);
-            int effectDuration =
-                (int) Modifiers.getNumericModifier("Item", name, "Effect Duration");
-            Modifiers mods = Modifiers.getEffectModifiers(effectId);
-            String effectModifiers = (mods == null) ? null : mods.getString("Evaluated Modifiers");
-            AdventureResult effect = EffectPool.get(effectId, 0);
-            int active = effect.getCount(KoLConstants.activeEffects);
-            stringForm.append(effectDuration);
-            stringForm.append(" ");
-            stringForm.append(effectName);
-            if (active > 0) {
-              stringForm.append(" (");
-              stringForm.append(active);
-              stringForm.append(" active)");
-            }
-            if (effectModifiers != null) {
-              stringForm.append(" (");
-              stringForm.append(effectModifiers);
-              stringForm.append(")");
-            }
+            this.appendPotion(stringForm, item, name);
           }
 
           // Display notes whether the item is a consumable or not
@@ -455,10 +412,6 @@ public class ListCellRendererFactory {
             stringForm.append(notes);
           }
         }
-      }
-
-      if (color != null) {
-        stringForm.append("</font>");
       }
 
       if (pulling) {
@@ -477,6 +430,57 @@ public class ListCellRendererFactory {
         ((JComponent) defaultComponent).setToolTipText(null);
       }
       return defaultComponent;
+    }
+
+    public void appendConsumable(
+        final StringBuffer stringForm,
+        final String name,
+        final Integer fullness,
+        final Integer inebriety,
+        final Integer spleenhit) {
+      var joiner = new StringJoiner(" ");
+      if (fullness != null) joiner.add(fullness + " full");
+      if (inebriety != null) joiner.add(inebriety + " drunk");
+      if (spleenhit != null) joiner.add(spleenhit + " spleen");
+      stringForm.append(joiner);
+
+      this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(name), "adv");
+
+      if (Preferences.getBoolean("showGainsPerUnit")) {
+        if (fullness != null && fullness > 0) {
+          stringForm.append(" / full");
+        } else if (inebriety != null && inebriety > 0) {
+          stringForm.append(" / drunk");
+        } else if (spleenhit != null && spleenhit > 0) {
+          stringForm.append(" / spleen");
+        }
+      }
+
+      this.appendRange(stringForm, ConsumablesDatabase.getMuscleRange(name), "mus");
+      this.appendRange(stringForm, ConsumablesDatabase.getMysticalityRange(name), "mys");
+      this.appendRange(stringForm, ConsumablesDatabase.getMoxieRange(name), "mox");
+    }
+
+    private void appendPotion(
+        final StringBuffer stringForm, final Concoction item, final String name) {
+      String effectName = item.getEffectName();
+      int effectId = EffectDatabase.getEffectId(effectName);
+      AdventureResult effect = EffectPool.get(effectId, 0);
+
+      int effectDuration = (int) Modifiers.getNumericModifier("Item", name, "Effect Duration");
+      stringForm.append(effectDuration).append(" ").append(effectName);
+
+      int active = effect.getCount(KoLConstants.activeEffects);
+      if (active > 0) {
+        stringForm.append(" (").append(active).append(" active)");
+      }
+
+      Modifiers mods = Modifiers.getEffectModifiers(effectId);
+      String effectModifiers = (mods == null) ? null : mods.getString("Evaluated Modifiers");
+
+      if (effectModifiers != null) {
+        stringForm.append(" (").append(effectModifiers).append(")");
+      }
     }
 
     public boolean appendAmount(final StringBuffer stringForm, final Concoction item) {

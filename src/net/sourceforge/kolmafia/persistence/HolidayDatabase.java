@@ -5,7 +5,6 @@ import static net.sourceforge.kolmafia.KoLConstants.DAILY_DATETIME_FORMAT;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Month;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -17,20 +16,17 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HolidayDatabase {
-  public static final ZoneId ROLLOVER = ZoneId.of("GMT-0330");
-  public static final ZoneId ARIZONA = ZoneId.of("GMT-0700");
-
   // The epoch of the Kingdom of Loathing.
   private static final ZonedDateTime NEWYEAR =
-      ZonedDateTime.of(2005, Month.SEPTEMBER.getValue(), 17, 0, 0, 0, 0, ROLLOVER);
+      ZonedDateTime.of(2005, Month.SEPTEMBER.getValue(), 17, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
 
   // The date of White Wednesday, which throws everything off by a day
   private static final ZonedDateTime BOUNDARY =
-      ZonedDateTime.of(2005, Month.OCTOBER.getValue(), 27, 0, 0, 0, 0, ROLLOVER);
+      ZonedDateTime.of(2005, Month.OCTOBER.getValue(), 27, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
 
   // The day the thing crashed into Grimace
   private static final ZonedDateTime COLLISION =
-      ZonedDateTime.of(2006, Month.JUNE.getValue(), 3, 0, 0, 0, 0, ROLLOVER);
+      ZonedDateTime.of(2006, Month.JUNE.getValue(), 3, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
 
   private static int RONALD_PHASE = -1;
   private static int GRIMACE_PHASE = -1;
@@ -184,7 +180,7 @@ public class HolidayDatabase {
       HolidayDatabase.RONALD_PHASE = phaseStep % 8;
       HolidayDatabase.GRIMACE_PHASE = phaseStep / 2;
       HolidayDatabase.HAMBURGLAR_POSITION =
-          HolidayDatabase.getHamburglarPosition(getRolloverDateTime());
+          HolidayDatabase.getHamburglarPosition(DateTimeManager.getRolloverDateTime());
     } catch (Exception e) {
       // This should not happen. Therefore, print
       // a stack trace for debug purposes.
@@ -263,7 +259,7 @@ public class HolidayDatabase {
       HolidayDatabase.COLLISION.plusDays(phaseError);
     }
     HolidayDatabase.HAMBURGLAR_POSITION =
-        HolidayDatabase.getHamburglarPosition(getRolloverDateTime());
+        HolidayDatabase.getHamburglarPosition(DateTimeManager.getRolloverDateTime());
   }
 
   public static int getRonaldPhase() {
@@ -625,7 +621,7 @@ public class HolidayDatabase {
   }
 
   public static int getDayInKoLYear() {
-    return getDayInKoLYear(getRolloverDateTime());
+    return getDayInKoLYear(DateTimeManager.getRolloverDateTime());
   }
 
   public static int getTimeInKoLDay(final ZonedDateTime timeDate) {
@@ -634,7 +630,7 @@ public class HolidayDatabase {
   }
 
   public static int getTimeInKoLDay() {
-    return getTimeInKoLDay(getRolloverDateTime());
+    return getTimeInKoLDay(DateTimeManager.getRolloverDateTime());
   }
 
   /**
@@ -651,7 +647,7 @@ public class HolidayDatabase {
   }
 
   public static String getCalendarDayAsString() {
-    return getCalendarDayAsString(getRolloverDateTime());
+    return getCalendarDayAsString(DateTimeManager.getRolloverDateTime());
   }
 
   /** Utility method which decomposes a given calendar day into its actual calendar components. */
@@ -727,7 +723,7 @@ public class HolidayDatabase {
   }
 
   public static String currentStatDay() {
-    return switch (statDay(getRolloverDateTime())) {
+    return switch (statDay(DateTimeManager.getRolloverDateTime())) {
       case MUSCLE -> "Muscle Day";
       case MYSTICALITY -> "Mysticality Day";
       case MOXIE -> "Moxie Day";
@@ -820,26 +816,12 @@ public class HolidayDatabase {
     }
   }
 
-  /**
-   * Gets the date and time in Arizona's timezone. Almost everything in the game uses the date and
-   * time based on rollover, so if you're using this: double check that its the correct function.
-   *
-   * @return Date and time in the Arizona time zone
-   */
-  public static ZonedDateTime getArizonaDateTime() {
-    return ZonedDateTime.now(ARIZONA);
-  }
-
-  public static ZonedDateTime getRolloverDateTime() {
-    return ZonedDateTime.now(ROLLOVER);
-  }
-
   public static String getHoliday() {
     return getHoliday(false);
   }
 
   public static String getHoliday(final boolean showPredictions) {
-    return getHoliday(getRolloverDateTime(), showPredictions);
+    return getHoliday(DateTimeManager.getRolloverDateTime(), showPredictions);
   }
 
   public static String getHoliday(final ZonedDateTime dateTime) {
@@ -937,10 +919,12 @@ public class HolidayDatabase {
       int d = l + 28 - 31 * (m / 4);
 
       HolidayDatabase.easter =
-          ZonedDateTime.of(y, m, d, 0, 0, 0, 0, ROLLOVER).format(DAILY_DATETIME_FORMAT);
+          ZonedDateTime.of(y, m, d, 0, 0, 0, 0, DateTimeManager.ROLLOVER)
+              .format(DAILY_DATETIME_FORMAT);
 
       var dayOfTheWeek =
-          ZonedDateTime.of(y, Month.NOVEMBER.getValue(), 1, 0, 0, 0, 0, ROLLOVER).getDayOfWeek();
+          ZonedDateTime.of(y, Month.NOVEMBER.getValue(), 1, 0, 0, 0, 0, DateTimeManager.ROLLOVER)
+              .getDayOfWeek();
       HolidayDatabase.thanksgiving =
           switch (dayOfTheWeek) {
             case FRIDAY -> "1128";
@@ -1030,7 +1014,7 @@ public class HolidayDatabase {
    * @return Returns true if it is currently Monday in Arizona
    */
   public static boolean isMonday() {
-    return isMonday(getArizonaDateTime());
+    return isMonday(DateTimeManager.getArizonaDateTime());
   }
 
   /**
@@ -1048,7 +1032,7 @@ public class HolidayDatabase {
    * @return Returns true if it is currently December in Arizona
    */
   public static boolean isDecember() {
-    return isDecember(getArizonaDateTime());
+    return isDecember(DateTimeManager.getArizonaDateTime());
   }
 
   /**

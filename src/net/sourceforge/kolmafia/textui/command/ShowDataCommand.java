@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -96,7 +97,7 @@ public class ShowDataCommand extends AbstractCommand {
     desiredStream.println();
 
     if (desiredData.startsWith("moon")) {
-      var today = HolidayDatabase.getRolloverDateTime();
+      var today = DateTimeManager.getRolloverDateTime();
 
       desiredStream.println(
           today.format(DateTimeFormatter.ofPattern(CalendarFrame.LONG_FORMAT.toPattern()))

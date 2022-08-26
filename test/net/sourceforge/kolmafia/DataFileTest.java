@@ -37,8 +37,7 @@ public class DataFileTest {
               ".+", // name
               "\\d+", // fullness
               "\\d+", // level
-              // Sushi does not specify quality, for some reason.
-              "(crappy|decent|good|awesome|EPIC|)", // quality
+              "(crappy|decent|good|awesome|EPIC|\\?\\?\\?|drippy|sushi|quest)", // quality
               "-?\\d+(-\\d+)?", // adv
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys
@@ -51,8 +50,8 @@ public class DataFileTest {
               ".+", // name
               "\\d+", // fullness
               "\\d+", // level
-              // Missing quality for old Crimbo cafe items.
-              "(crappy|decent|good|awesome|EPIC|)", // quality
+              // Missing quality for ice stein.
+              "(crappy|decent|good|awesome|EPIC|\\?\\?\\?|drippy|quest|)", // quality
               "-?\\d+(-\\d+)?", // adv
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys

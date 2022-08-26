@@ -8082,8 +8082,8 @@ Skill	Sinister Charm	Floor Buffed Moxie: "Mysticality", Maximum HP: -15
 Skill	Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
 # Skullcracker: Critical hits occasionally stun opponents
-Skill	Slimy Shoulders	Initiative: [pref(skillLevel48)]
-Skill	Slimy Sinews	Maximum HP: [pref(skillLevel46)]
+Skill	Slimy Shoulders	Initiative: [pref(skillLevel48)*2]
+Skill	Slimy Sinews	Maximum HP: [pref(skillLevel46)*2]
 Skill	Slimy Synapses	Maximum MP: [pref(skillLevel47)]
 # Sloppy Secrets: You get more bang (huh huh) for your buck at the diner
 Skill	Small Intestine	Absorb Adventures: +2

@@ -792,6 +792,7 @@ public class ResponseTextParser {
   public static final void learnSkill(final int skillId) {
     // The following skills are found in battle and result in
     // losing an item from inventory.
+    var levelPref = "skillLevel" + skillId;
 
     switch (skillId) {
       case SkillPool.SNARL_OF_THE_TIMBERWOLF:
@@ -817,7 +818,7 @@ public class ResponseTextParser {
         }
         break;
       case SkillPool.BELCH_THE_RAINBOW:
-        Preferences.increment("skillLevel117", 1, 11, false);
+        Preferences.increment(levelPref, 1, 11, false);
         break;
       case SkillPool.TOGGLE_OPTIMALITY:
       case SkillPool.PIRATE_BELLOW:
@@ -826,10 +827,15 @@ public class ResponseTextParser {
       case SkillPool.BEAR_ESSENCE:
       case SkillPool.CALCULATE_THE_UNIVERSE:
       case SkillPool.EXPERIENCE_SAFARI:
-        Preferences.increment("skillLevel" + skillId);
+        Preferences.increment(levelPref);
+        break;
+      case SkillPool.SLIMY_SHOULDERS:
+      case SkillPool.SLIMY_SINEWS:
+      case SkillPool.SLIMY_SYNAPSES:
+        Preferences.increment(levelPref, 1, 10, false);
         break;
       case SkillPool.IMPLODE_UNIVERSE:
-        Preferences.increment("skillLevel188", 1, 13, false);
+        Preferences.increment(levelPref, 1, 13, false);
         break;
     }
 

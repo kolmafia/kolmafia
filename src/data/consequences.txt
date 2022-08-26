@@ -93,8 +93,8 @@ DESC_ITEM	Kremlin's Greatest Briefcase
 DESC_ITEM	fresh coat of paint		_coatOfPaintModifier=mods
 
 DESC_SKILL	Banishing Shout	currently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
-DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=$1
-DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
+DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=[$1/2]
+DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=[$1/2]
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
 DESC_SKILL	Summon Annoyance	Cost</b>: (\d+)	summonAnnoyanceCost=$1
 DESC_SKILL	Bear Essence	\+(\d+)% Picnic Basket	skillLevel134=[$1/20]

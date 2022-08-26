@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -48,7 +49,7 @@ public class ValhallaDecorator {
     predictions.append(
         "<td><div style=\"padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>");
     HolidayDatabase.addPredictionHTML(
-        predictions, HolidayDatabase.getRolloverDateTime(), HolidayDatabase.getPhaseStep(), false);
+        predictions, DateTimeManager.getRolloverDateTime(), HolidayDatabase.getPhaseStep(), false);
     predictions.append("</font></div></td></tr><tr><td colspan=3><br>");
     predictions.append(KoLConstants.LINE_BREAK);
     predictions.append(KoLConstants.LINE_BREAK);

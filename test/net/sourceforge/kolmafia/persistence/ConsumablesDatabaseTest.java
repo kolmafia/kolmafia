@@ -1,12 +1,15 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import java.time.Month;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -37,5 +40,23 @@ class ConsumablesDatabaseTest {
             ConsumablesDatabase.getAdventureRange("stillsuit distillate"), equalTo(adventures));
       }
     }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"2016, 6, 18", "2011, 3, 17"})
+  void borisDayImprovesSomeConsumables(int year, int month, int day) {
+    var cleanups = new Cleanups(withDay(year, Month.of(month), day));
+
+    try (cleanups) {
+      ConsumablesDatabase.reset();
+      assertThat(ConsumablesDatabase.getAdventureRange("cranberries"), is(3.0));
+      assertThat(ConsumablesDatabase.getQuality("cranberries"), is(ConsumableQuality.GOOD));
+      assertThat(ConsumablesDatabase.getAdventureRange("redrum"), is(7.0));
+      assertThat(ConsumablesDatabase.getQuality("redrum"), is(ConsumableQuality.GOOD));
+      assertThat(ConsumablesDatabase.getAdventureRange("vodka and cranberry"), is(7.5));
+      assertThat(ConsumablesDatabase.getQuality("vodka and cranberry"), is(ConsumableQuality.GOOD));
+    }
+
+    ConsumablesDatabase.reset();
   }
 }

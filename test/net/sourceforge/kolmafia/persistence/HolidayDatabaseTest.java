@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withDay;
-import static net.sourceforge.kolmafia.persistence.HolidayDatabase.ROLLOVER;
+import static net.sourceforge.kolmafia.persistence.DateTimeManager.ROLLOVER;
 import static net.sourceforge.kolmafia.persistence.HolidayDatabase.getHolidayPredictions;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
