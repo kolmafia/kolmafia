@@ -93,12 +93,7 @@ public class AdventureSpentDatabase implements Serializable {
     if (loc == null) {
       return;
     }
-    if (!AdventureSpentDatabase.TURNS.containsKey(loc)) {
-      // This is a new location
-      AdventureSpentDatabase.TURNS.put(loc, 1);
-      return;
-    }
-    int turns = AdventureSpentDatabase.TURNS.get(loc);
+    int turns = AdventureSpentDatabase.TURNS.getOrDefault(loc, 0);
     AdventureSpentDatabase.TURNS.put(loc, turns + 1);
   }
 

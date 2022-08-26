@@ -10,6 +10,7 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -30,6 +31,22 @@ public class Networking {
     } catch (JSONException e) {
       Assertions.fail("Failed to parse JSON");
       throw new AssertionError(e);
+    }
+  }
+
+  public static void printRequests(List<HttpRequest> requests) {
+    for (HttpRequest req : requests) {
+      String method = req.method();
+      var uri = req.uri();
+      String path = uri.getPath();
+      switch (method) {
+        case "GET":
+          System.out.println("GET " + path + " -> " + uri.getQuery());
+          break;
+        case "POST":
+          System.out.println("POST " + path + " -> " + getPostRequestBody(req));
+          break;
+      }
     }
   }
 
