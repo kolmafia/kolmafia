@@ -31,7 +31,7 @@ public class RequestPaneTest {
 
       pane.select(0, pane.getText().length());
 
-      assertThat(pane.getSelectedText(), containsString(html));
+      assertThat(pane.getSelectedText(), equalTo(html));
     }
   }
 
