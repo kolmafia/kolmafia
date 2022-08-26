@@ -910,7 +910,7 @@ public class FightRequestTest {
       FightRequest.parseAvailableCombatSkills(html);
 
       assertTrue(KoLCharacter.hasCombatSkill(SkillPool.USE_THE_FORCE));
-      assertThat("_saberForceUses", isSetTo(2));
+      assertThat("_saberForceUses", isSetTo(3));
     }
   }
 
