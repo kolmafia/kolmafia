@@ -370,6 +370,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
   }
 
+  // Validation part 0:
+  //
+  // If you want to adventure in a zone or location which is permanently
+  // unlocked by an IOTM - which might also provide a "day pass" for one-day
+  // access to (some of) the features, if we didn't see you use the item which
+  // granted daily access, we can usually visit a map area and take a look.
+  //
+  // this.isValidAdventure will be false if the only way to visit an area is to
+  // use a (possibly expensive) day pass - which you might not even own
+
+  private void validate0() {
+    this.isValidAdventure = this.preValidateAdventure();
+  }
+
   // Validation part 1:
   //
   // Determine if you are locked out of reaching a zone or location by level,
@@ -383,6 +397,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   private void validate1() {
     this.isValidAdventure = this.canAdventure();
+  }
+
+  // Validation part 2:
+  //
+  // The zone/location is within reach. If the pre-adventure script
+  // donned outfits, bought supplies, or gained effects, cool.
+  //
+  // If it didn't do what we can here.
+  //
+  // If we can't, log error and set this.isValidAdventure to false.
+
+  private void validate2() {
+    this.isValidAdventure = this.prepareForAdventure();
   }
 
   // AdventureResults used during validation
@@ -453,6 +480,99 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     holidayAdventures.put("The Spectral Pickle Factory", "April Fool's Day");
     holidayAdventures.put("Drunken Stupor", null);
   }
+
+  // Validation part 0:
+
+  public boolean preValidateAdventure() {
+
+    if (this.zone.equals("Spring Break Beach")) {
+      // Unlimited adventuring if available
+      if (Preferences.getBoolean("sleazeAirportAlways")) {
+        return true;
+      }
+      if (!Preferences.getBoolean("_sleazeAirportToday")) {
+        // Take a look at the airport.
+        var request = new PlaceRequest("airport");
+        RequestThread.postRequest(request);
+      }
+      return Preferences.getBoolean("_sleazeAirportToday");
+    }
+
+    if (this.zone.equals("Conspiracy Island")) {
+      // Unlimited adventuring if available
+      if (Preferences.getBoolean("spookyAirportAlways")) {
+        return true;
+      }
+      if (!Preferences.getBoolean("_spookyAirportToday")) {
+        // Take a look at the airport.
+        var request = new PlaceRequest("airport");
+        RequestThread.postRequest(request);
+      }
+      return Preferences.getBoolean("_spookyAirportToday");
+    }
+
+    if (this.zone.equals("Dinseylandfill")) {
+      // Unlimited adventuring if available
+      if (Preferences.getBoolean("stenchAirportAlways")) {
+        return true;
+      }
+      if (!Preferences.getBoolean("_stenchAirportToday")) {
+        // Take a look at the airport.
+        var request = new PlaceRequest("airport");
+        RequestThread.postRequest(request);
+      }
+      return Preferences.getBoolean("_stenchAirportToday");
+    }
+
+    if (this.zone.equals("That 70s Volcano")) {
+      // Unlimited adventuring if available
+      if (Preferences.getBoolean("hotAirportAlways")) {
+        return true;
+      }
+      if (!Preferences.getBoolean("_hotAirportToday")) {
+        // Take a look at the airport.
+        var request = new PlaceRequest("airport");
+        RequestThread.postRequest(request);
+      }
+      return Preferences.getBoolean("_hotAirportToday");
+    }
+
+    if (this.zone.equals("The Glaciest")) {
+      // Unlimited adventuring if available
+      if (Preferences.getBoolean("coldAirportAlways")) {
+        return true;
+      }
+      if (!Preferences.getBoolean("_coldAirportToday")) {
+        // Take a look at the airport.
+        var request = new PlaceRequest("airport");
+        RequestThread.postRequest(request);
+      }
+      return Preferences.getBoolean("_coldAirportToday");
+    }
+
+    if (this.zone.equals("The Spacegate")) {
+      // Through the Spacegate
+      if (Preferences.getBoolean("spacegateAlways")) {
+        return true;
+      }
+
+      if (!Preferences.getBoolean("_spacegateToday")) {
+        if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
+          Preferences.setBoolean("_spacegateToday", true);
+          // There is no way to tell how many turns you have
+          // left today in an open portable spacegate.
+          // I think.
+          Preferences.setInteger("_spacegateTurnsLeft", 20);
+          return true;
+        }
+      }
+      return false;
+    }
+
+    return true;
+  }
+
+  // Validation part 1:
 
   public boolean canAdventure() {
     if (Limitmode.limitAdventure(this)) {
@@ -1678,17 +1798,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   // Validation part 2:
-  //
-  // The zone/location is within reach. If the pre-adventure script
-  // donned outfits, bought supplies, or gained effects, cool.
-  //
-  // If it didn't do what we can here.
-  //
-  // If we can't, log error and set this.isValidAdventure to false.
-
-  private void validate2() {
-    this.isValidAdventure = this.prepareForAdventure();
-  }
 
   public boolean prepareForAdventure() {
     // If we get here, this.isValidAdventure is true.
