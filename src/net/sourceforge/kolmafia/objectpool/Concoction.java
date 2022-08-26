@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
@@ -967,83 +968,75 @@ public class Concoction implements Comparable<Concoction> {
       needToMake -= buyable;
     }
 
-    if (this.mixingMethod
-        == CraftingType.NOCREATE) { // No recipe for this item - don't bother with checking
-      // ingredients, because there aren't any.
-      return alreadyHave;
-    }
-
-    if (this.mixingMethod == CraftingType.SINGLE_USE
-        || this.mixingMethod == CraftingType.MULTI_USE) {
-      if (KoLCharacter.inBeecore()
-          && ItemDatabase.unusableInBeecore(this.ingredientArray[0].getItemId())) {
+    switch (this.mixingMethod) {
+      case NOCREATE: // No recipe for this item - don't bother with checking
+        // ingredients, because there aren't any.
         return alreadyHave;
-      }
+      case SINGLE_USE:
+      case MULTI_USE:
+        if (KoLCharacter.inBeecore()
+            && ItemDatabase.unusableInBeecore(this.ingredientArray[0].getItemId())) {
+          return alreadyHave;
+        }
 
-      if (KoLCharacter.inGLover()
-          && ItemDatabase.unusableInGLover(this.ingredientArray[0].getItemId())) {
-        return alreadyHave;
-      }
-    }
+        if (KoLCharacter.inGLover()
+            && ItemDatabase.unusableInGLover(this.ingredientArray[0].getItemId())) {
+          return alreadyHave;
+        }
+        break;
+      case COINMASTER:
+        // Check if Coin Master is available
+        PurchaseRequest purchaseRequest = this.purchaseRequest;
+        if (purchaseRequest == null || !purchaseRequest.canPurchase()) {
+          return alreadyHave;
+        }
 
-    if (this.mixingMethod == CraftingType.COINMASTER) {
-      // Check if Coin Master is available
-      PurchaseRequest purchaseRequest = this.purchaseRequest;
-      if (purchaseRequest == null || !purchaseRequest.canPurchase()) {
-        return alreadyHave;
-      }
-
-      return alreadyHave + purchaseRequest.affordableCount();
-    }
-
-    if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)
-        || Preferences.getBoolean(
-            "unknownRecipe" + this.getItemId())) { // Impossible to create any more of this item.
-      return alreadyHave;
-    }
-
-    if (this.mixingMethod == CraftingType.FLOUNDRY) {
-      return alreadyHave + (ClanLoungeRequest.availableFloundryItem(this.name) ? 1 : 0);
-    }
-
-    if (this.mixingMethod == CraftingType.BARREL) {
-      return alreadyHave + (BarrelShrineRequest.availableBarrelItem(this.name) ? 1 : 0);
-    }
-
-    if (this.mixingMethod == CraftingType.TERMINAL) {
-      // Check that we know the file for this
-      String known = Preferences.getString("sourceTerminalExtrudeKnown");
-      if (this.name.equals("Source terminal GRAM chip") && !known.contains("gram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal PRAM chip") && !known.contains("pram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal SPAM chip") && !known.contains("spam.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal CRAM chip") && !known.contains("cram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal DRAM chip") && !known.contains("dram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal TRAM chip") && !known.contains("tram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("software bug") && !known.contains("familiar.ext")) {
-        return alreadyHave;
-      }
-    }
-
-    if (this.mixingMethod == CraftingType.SPACEGATE) {
-      // If you have one in inventory, you cannot get more
-      return this.initial == 0 ? alreadyHave + 1 : alreadyHave;
-    }
-
-    if (this.mixingMethod == CraftingType.FANTASY_REALM) {
-      return alreadyHave
-          + (StringUtilities.isNumeric(Preferences.getString("_frHoursLeft")) ? 0 : 1);
+        return alreadyHave + purchaseRequest.affordableCount();
+      case FLOUNDRY:
+        return alreadyHave + (ClanLoungeRequest.availableFloundryItem(this.name) ? 1 : 0);
+      case BARREL:
+        return alreadyHave + (BarrelShrineRequest.availableBarrelItem(this.name) ? 1 : 0);
+      case TERMINAL:
+        // Check that we know the file for this
+        String known = Preferences.getString("sourceTerminalExtrudeKnown");
+        if (this.name.equals("Source terminal GRAM chip") && !known.contains("gram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal PRAM chip") && !known.contains("pram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal SPAM chip") && !known.contains("spam.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal CRAM chip") && !known.contains("cram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal DRAM chip") && !known.contains("dram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal TRAM chip") && !known.contains("tram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("software bug") && !known.contains("familiar.ext")) {
+          return alreadyHave;
+        }
+        break;
+      case SPACEGATE:
+        // If you have one in inventory, you cannot get more
+        return this.initial == 0 ? alreadyHave + 1 : alreadyHave;
+      case FANTASY_REALM:
+        return alreadyHave
+            + (StringUtilities.isNumeric(Preferences.getString("_frHoursLeft")) ? 0 : 1);
+      case STILLSUIT:
+        return StillSuitRequest.canMake() ? 1 : 0;
+      default:
+        if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)
+            || Preferences.getBoolean(
+                "unknownRecipe"
+                    + this.getItemId())) { // Impossible to create any more of this item.
+          return alreadyHave;
+        }
+        break;
     }
 
     if (needToMake <= 0) { // Have enough on hand already.

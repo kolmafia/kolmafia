@@ -464,6 +464,7 @@ public interface KoLConstants extends UtilityConstants {
     FANTASY_REALM, // Items made by visiting FantasyRealm welcome center
     SAUSAGE_O_MATIC, // Items made by Kramco Sausage-o-Matic
     KRINGLE, // Items made from waterlogged items
+    STILLSUIT, // Distillate from the stillsuit
   }
 
   enum CraftingRequirements {

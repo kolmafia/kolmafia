@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.objectpool;
 
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.equalTo;
@@ -7,11 +10,19 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /* This test was triggered by a runtime error traced back to sorting usable concoctions that
 said "Comparison method violates its general contract!"  But it has been replaced by the cli
@@ -19,6 +30,12 @@ command checkconcoctions for the contract checking portion.
  */
 
 public class ConcoctionTest {
+  @BeforeEach
+  void beforeEach() {
+    KoLCharacter.reset(true);
+    KoLCharacter.reset("ConcoctionTest");
+    Preferences.reset("ConcoctionTest");
+  }
 
   // This test should never fail but may generate a error if data is introduced that is not
   // properly handled by the compareTo.
@@ -99,6 +116,40 @@ public class ConcoctionTest {
               + " has fancy ingredients",
           isFancy,
           equalTo(hasFancyIngredient));
+    }
+  }
+
+  @Nested
+  class StillsuitDistillate {
+    private static Concoction DISTILLATE = ConcoctionPool.get(-1, "stillsuit distillate");
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 10, 20})
+    void cannotMakeDistillateWithoutDrams(int drams) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.CARNIE),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withProperty("familiarSweat", drams));
+
+      try (cleanups) {
+        DISTILLATE.calculate3();
+        assertThat(DISTILLATE.freeTotal, is(drams >= 10 ? 1 : 0));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void cannotMakeDistillateWithoutStillSuit(boolean hasStillSuit) {
+      var cleanups =
+          new Cleanups(withFamiliar(FamiliarPool.CARNIE), withProperty("familiarSweat", 20));
+
+      if (hasStillSuit) cleanups.add(withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT));
+
+      try (cleanups) {
+        DISTILLATE.calculate3();
+        assertThat(DISTILLATE.freeTotal, is(hasStillSuit ? 1 : 0));
+      }
     }
   }
 }
