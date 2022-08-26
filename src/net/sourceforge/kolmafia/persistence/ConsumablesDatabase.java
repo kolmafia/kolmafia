@@ -98,7 +98,7 @@ public class ConsumablesDatabase {
       return name;
     }
 
-    public java.lang.String getName() {
+    public String getName() {
       return name;
     }
 
