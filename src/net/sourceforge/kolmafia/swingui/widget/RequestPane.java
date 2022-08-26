@@ -198,6 +198,6 @@ public class RequestPane extends JEditorPane {
     selectedText = RequestPane.LINE_BREAK.matcher(selectedText).replaceAll("\n").trim();
     selectedText = KoLConstants.ANYTAG_PATTERN.matcher(selectedText).replaceAll("");
 
-    return StringUtilities.getEntityDecode(selectedText, false);
+    return StringUtilities.getEntityDecode(selectedText, false).trim();
   }
 }
