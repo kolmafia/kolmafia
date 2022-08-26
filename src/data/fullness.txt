@@ -23,16 +23,16 @@ alien meat	1	1	good	3	0	0	0	gain 5 turns of a random positive effect
 alien sandwich	2	4	awesome	10	5-10	5-10	5-10	gain 10 turns of a random positive effect
 amok pudding	2	4	decent	3-5	5-10	5-10	5-10	20 Puddingface (+20 Sleaze Damage)
 ancient frozen dinner	4	1	decent	4-8	0	8-10	0
-ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy
+ancient serpent roll	3	1	sushi	9-14	0	8-16	20-30	45/55 Fishy
 ancient unspeakable fruitcake	3	1	decent	3-6	15-20	15-20	15-20
 angel-food cake	3	1	crappy	3	0	0	0
 angst burger	5	1	awesome	0	0	0	0	+10 PvP fights
 animal part cracker	3	4	good	8-10	8-10	8-10	8-10	30 Sprinkle in Your Eye (+25% Sprinkle drop)
 antique packet of ketchup	1	1	crappy	1	1-2	0	1-3	lose 3 HP
-As Jus Gezund Heit	4	1		4-6	0	0	0
+As Jus Gezund Heit	4	1	decent	4-6	0	0	0
 asparagus lo mein	3	6	awesome	10-14	10-14	10-14	0
 asparagus stir-fry	1	3	good	1-5	3-5	2-5	0
-astral hot dog	3	1		20-24	176-220	176-220	176-220
+astral hot dog	3	1	???	20-24	176-220	176-220	176-220
 b&auml;tzle	4	4	good	10-14	0	0	20-30
 babycakes	2	1	crappy	2	0	0	0
 badass pie	2	4	awesome	8-10	10-20	10-20	10-20	20 Pie in the Sky (+2 mus/mys/mox exp)
@@ -61,8 +61,8 @@ bear claw	2	1	good	4-8	20-30	0	0	30 Bear Clawed (+100% weapon dmg)
 beautiful soup	2	5	good	4-8	34-49	0	0
 Beefy Crunch Pastaco	2	3	EPIC	11-12	60-100	0	0	40 Boletus Swoletus (+40 Mus)
 beefy fish meat	1	1	good	2-3	4-8	0	0	5/15 Fishy
-beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy
-beefy nigiri	2	1		4-8	8-16	0	0	20/30 Fishy
+beefy maki	3	1	sushi	7-12	8-16	0	0	45/55 Fishy
+beefy nigiri	2	1	sushi	4-8	8-16	0	0	20/30 Fishy
 beer basted brat	3	11	awesome	13-16	31-40	31-40	31-40
 bell-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Fury of the Bells (+10% mus)
 berries of suffering	2	2	good	5-6	11-18	0	0
@@ -90,7 +90,7 @@ bone meal	2	6	awesome	7-9	12-20	12-20	12-20
 boring spaghetti	4	5	good	10-14	0	20-25	0
 Boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
 boss brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
-Bouillabaise Coucher Avec Moi	5	1		5-9	0	0	0
+Bouillabaise Coucher Avec Moi	5	1	decent	5-9	0	0	0
 bowl full of jelly	1	1	EPIC	5-6	0	0	0	30 Jowls Full, and Belly (+50 Maximum HP)
 bowl of Bounty-Os	3	3	awesome	12-15	16-24	16-24	16-24	20 Broken Fast (+30% item drop)
 bowl of cottage cheese	2	1	crappy	2	0	0	0
@@ -105,7 +105,7 @@ bowl of prescription candy	1	1	awesome	0	0	0	0	Unspaded
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of Tastee-Wheet&trade;	1	5	EPIC	5	5	5	5	5 Video... Games? (+5 most modifiers)
 bowl of topioca	3	1	awesome	12	50-60	50-60	50-60
-bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
+bowl of unidentifiable goo	5	1	decent	9-16	9-10	9-10	9-10
 Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys)
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
@@ -139,8 +139,8 @@ candied pecan	1	1	decent	2	5-10	0	0	10 Sugar Rush
 candied sweet potatoes	2	1	awesome	8-10	0	10-20	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 candied yams	3	5	awesome	7-14	0	72-75	0
 candy cane	1	4	good	1-5	10-20	10-20	10-20
-candy cane pizza	4	1		6-11	0	0	0	10 Sugar Rush
-Candy Cane Surprise	3	5		3-6	0	0	0
+candy cane pizza	4	1	decent	6-11	0	0	0	10 Sugar Rush
+Candy Cane Surprise	3	5	decent	3-6	0	0	0
 candy carrot	1	3	good	3	1-2	1-2	1-2	10 Improved Candy Vision (+25 candy drop)
 candy carrot cake	4	8	awesome	15-17	10-20	10-20	10-20	30 Improved Candy Vision (+25 candy drop)
 candy kneecapping stick	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
@@ -156,7 +156,7 @@ Carrot, Cabbage, and Kale Pizza	4	1	decent	7-9	0	0	0	20 Healthy, Elfy, and Wise 
 carton of snake milk	3	1	decent	6	0	0	3
 catgut taco	2	1	decent	2-5	11-33	0	0
 catsup	1	1	crappy	1	0	0	0
-Caviar Carbonara	3	1		7-11	0	0	0
+Caviar Carbonara	3	1	good	7-11	0	0	0
 centipede eggs	2	7	awesome	6-7	8-10	8-10	6-10	10 Somewhat Poisoned
 chaos popcorn	1	1	decent	2	0	0	0
 cheezburger	3	1	awesome	11-13	5-12	5-12	5-12	50 Yes, Can Haz
@@ -227,8 +227,8 @@ crazy little Turkish delight	1	2	decent	1-3	0	30-40	0
 cream of pointy mushroom soup	2	1	decent	2-5	0	0	35-40	lose 3 HP
 creamsicle	1	3	good	1-4	8-10	8-10	8-10
 Crepes a la Lune	2	3	awesome	9-10	10-20	10-20	15-20
-CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	5	1		12-13	0	0	0	lose 30% boredom
-CRIMBCO Reconstituted Gruel	3	1		4-5	0	0	0	lose 10% boredom
+CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	5	1	good	12-13	0	0	0	lose 30% boredom
+CRIMBCO Reconstituted Gruel	3	1	decent	4-5	0	0	0	lose 10% boredom
 CRIMBCOIDS mints	1	1	good	3	10-20	10-20	10-20
 CRIMBCOLOAF	3	1	decent	4-5	15-20	15-20	15-20
 Crimbo pie	3	7	awesome	8-14	25-45	0	0
@@ -257,12 +257,12 @@ devil dog	3	1	awesome	11-13	0	0	0	+5 PvP fights, 30 Devil Inside (+30 Hot Damage
 devil hair pasta	4	6	awesome	11-14	13	13	13	SAUCY
 devil's-food cake	3	1	crappy	3	0	0	0
 deviled egg	1	5	EPIC	5-6	2-4	2-4	2-4
-diabolic pizza	3	1		0	0	0	0	Variable, PIZZA
+diabolic pizza	3	1	???	0	0	0	0	Variable, PIZZA
 digital key lime pie	4	6	awesome	14-16	10-22	10-22	10-22	8-10 white pixels
 dinner roll	1	4	awesome	4-5	0	0	0
 Dinsey food-cone	2	5	EPIC	9-12	10-20	10-20	10-20	30 The Dinsey Way (+80% Meat drop)
 dire fudgesicle	2	1	decent	2-4	0	8-10	0	lose 2 HP
-Disc-Shaped Nutrition Unit	4	5		6-9	0	0	0
+Disc-Shaped Nutrition Unit	4	5	decent	6-9	0	0	0
 disco biscuit	1	6	EPIC	6-7	0	0	20-30	100 Buttermilk Boogie (+50% mox, +50 init, +20-40 HP regen)
 Double Bacon Beelzeburger	3	1	decent	4-6	15-20	-15-20	0
 dragon snaps	1	1	crappy	1	0	0	5-10	5 Oh Snap (+10 mox exp)
@@ -273,9 +273,9 @@ Dreadsylvanian sleaze pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Shee
 Dreadsylvanian spooky pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Fear (+5 Cold/Sleaze Res)
 Dreadsylvanian stew	1	20	EPIC	7-9	10-20	10-20	10-20	50 You've Got a Stew Going (+500 Dreadsylvania Item Drop)
 Dreadsylvanian stink pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Smell (+5 Hot/Spooky Res)
-drippy caviar	5	1		5	0	0	0	5 µg of Drippy Juice
-drippy nugget	5	1		5	0	0	0	5 µg of Drippy Juice
-drippy plum(?)	5	1		5	0	0	0	5 µg of Drippy Juice
+drippy caviar	5	1	drippy	5	0	0	0	5 µg of Drippy Juice
+drippy nugget	5	1	drippy	5	0	0	0	5 µg of Drippy Juice
+drippy plum(?)	5	1	drippy	5	0	0	0	5 µg of Drippy Juice
 drive-thru burger	1	1	awesome	3-4	0	0	0	40 It Went Through All Right
 druidic s'more	2	4	good	5-7	30-50	30-50	30-50
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
@@ -285,26 +285,26 @@ eggwater	1	1	crappy	1	0	0	0
 eldritch mushroom	1	1	crappy	3	11	11	11
 eldritch mushroom pizza	3	12	awesome	9-11	333	333	333	gain eldritch effluvium, 1 Eldritch Attunement, PIZZA
 Eldritch snap	1	12	EPIC	7	11	11	11	3 Eldritch Attunement
-electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
-electric beefy maki	3	1		10-15	8-16	0	0	45/55 Fishy
-electric eleven oceans roll	3	1		12-17	20-30	20-30	28-46	45/55 Fishy
-electric giant dragon roll	3	1		12-17	28-46	0	0	45/55 Fishy
-electric glistening maki	3	1		10-15	0	8-16	0	45/55 Fishy
-electric Jack LaLanne roll	3	1		12-17	28-46	20-30	20-30	45/55 Fishy
-electric jacked Santa roll	3	1		10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+electric ancient serpent roll	3	1	sushi	12-17	0	8-16	20-30	45/55 Fishy
+electric beefy maki	3	1	sushi	10-15	8-16	0	0	45/55 Fishy
+electric eleven oceans roll	3	1	sushi	12-17	20-30	20-30	28-46	45/55 Fishy
+electric giant dragon roll	3	1	sushi	12-17	28-46	0	0	45/55 Fishy
+electric glistening maki	3	1	sushi	10-15	0	8-16	0	45/55 Fishy
+electric Jack LaLanne roll	3	1	sushi	12-17	28-46	20-30	20-30	45/55 Fishy
+electric jacked Santa roll	3	1	sushi	10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
 electric Kool-Aid	2	1	EPIC	12-13	30-50	30-50	30-50	50 Electric, Kool
-electric musclebound rabbit roll	3	1		12-17	8-16	20-30	0	45/55 Fishy
-electric omniscient Santa roll	3	1		10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-electric python roll	3	1		12-17	8-16	0	20-30	45/55 Fishy
-electric slick maki	3	1		10-15	0	0	8-16	45/55 Fishy
-electric slippery snake roll	3	1		12-17	0	0	28-46	45/55 Fishy
-electric sneaky rabbit roll	3	1		12-17	0	20-30	8-16	45/55 Fishy
-electric sneaky Santa roll	3	1		10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-electric tricky dragon roll	3	1		12-17	20-30	0	8-16	45/55 Fishy
-electric white rabbit roll	3	1		12-17	0	28-46	0	45/55 Fishy
-electric wise dragon roll	3	1		12-17	20-30	8-16	0	45/55 Fishy
-electric wizened master roll	3	1		12-17	20-30	28-46	20-30	45/55 Fishy
-eleven oceans roll	3	1		9-14	20-30	20-30	28-46	45/55 Fishy
+electric musclebound rabbit roll	3	1	sushi	12-17	8-16	20-30	0	45/55 Fishy
+electric omniscient Santa roll	3	1	sushi	10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+electric python roll	3	1	sushi	12-17	8-16	0	20-30	45/55 Fishy
+electric slick maki	3	1	sushi	10-15	0	0	8-16	45/55 Fishy
+electric slippery snake roll	3	1	sushi	12-17	0	0	28-46	45/55 Fishy
+electric sneaky rabbit roll	3	1	sushi	12-17	0	20-30	8-16	45/55 Fishy
+electric sneaky Santa roll	3	1	sushi	10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+electric tricky dragon roll	3	1	sushi	12-17	20-30	0	8-16	45/55 Fishy
+electric white rabbit roll	3	1	sushi	12-17	0	28-46	0	45/55 Fishy
+electric wise dragon roll	3	1	sushi	12-17	20-30	8-16	0	45/55 Fishy
+electric wizened master roll	3	1	sushi	12-17	20-30	28-46	20-30	45/55 Fishy
+eleven oceans roll	3	1	sushi	9-14	20-30	20-30	28-46	45/55 Fishy
 elf army field rations	1	1	awesome	4-5	5-15	5-15	5-15
 Elfin shortbread	3	2	decent	3-9	4-6	4-6	4-6
 elven <i>limbos</i> gingerbread	3	5	good	5-8	22-40	22-40	22-40	20 Yuletide Industry (+50% all stats)
@@ -370,35 +370,35 @@ fusillocybin	5	11	awesome	20-23	0	40-45	0	SAUCY
 gallon of milk	15	1	awesome	70-75	500	500	500	100 Feeling Queasy (-10% item drop, -20% meat drop, -30% init)
 Genalen&trade; Bottle	1	10	good	2-4	15-30	15-30	0	useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
-ghost dog	3	1		11-13	0	0	0	30 Scaredy Dog (-5% Combat Rate, +30 Spooky Dam, +3 Cold/Sleaze Res)
+ghost dog	3	1	awesome	11-13	0	0	0	30 Scaredy Dog (-5% Combat Rate, +30 Spooky Dam, +3 Cold/Sleaze Res)
 ghost pepper	2	1	awesome	8-10	60-100	60-100	60-100	Hot damage for 3 combats then 8-10 adventures
 ghostly ectoplasm	1	1	crappy	1	0	0	0	3 Haunted Stomach (+50% Meat drop, +25% Item drop)
 ghuol egg	1	1	crappy	1	-3	0	0
 ghuol egg quiche	3	2	decent	3-9	0	0	0
 ghuol guolash	5	1	good	16-19	0	20-30	0
 ghuol-ear kabob	2	1	decent	2-5	0	0	0
-giant dragon roll	3	1		9-14	28-46	0	0	45/55 Fishy
+giant dragon roll	3	1	sushi	9-14	28-46	0	0	45/55 Fishy
 giant grain of protein powder	1	7	good	2-3	30-40	0	0
 giant green gummi bear	4	4	good	9-10	0	80-150	0	40 Gummibrain (+100 Myst)
 giant heirloom grape tomato	5	6	good	13-15	20-30	20-30	20-30
 giant marshmallow	4	3	decent	7-9	10-20	0	0
 giant red gummi bear	4	4	good	9-10	80-150	0	0	40 Gummiheart (+100 Mus)
 giant yellow gummi bear	4	4	good	9-10	0	0	80-150	40 Gummiskin (+100 Mox)
-Gingerborg Hive	5	5		10-15	0	0	0
+Gingerborg Hive	5	5	good	10-15	0	0	0
 gingerbread bugbear	1	4	good	1-5	10-20	10-20	10-20
 gingerbread horror	1	4	good	1-5	10-20	10-20	10-20
-gingerbread massacre	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
+gingerbread massacre	3	1	decent	3-6	5-6	5-6	5-6	10 Sugar Rush
 gingerbread mug	2	1	decent	3-4	2-4	2-4	2-4
 gingerbread mutant bugbear	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 Gingerbread Nutrition Block	4	1	decent	6-10	0	0	0	20 Forbear, Warbears! (+40 WarBear Armor Penetration)
 gingerbread robot	2	1	awesome	7-11	0	0	0	20 Gingerbread Robust (+100% all stats)
-gingerbread stir-fry	3	1		3-7	0	0	0	10 Sugar Rush
+gingerbread stir-fry	3	1	decent	3-7	0	0	0	10 Sugar Rush
 glass of baboon milk	1	2	decent	2	3-5	0	0
 glass of goat's milk	1	1	crappy	1	0	0	0
 glass of raw eggs	1	1	EPIC	6-7	1-25	1-25	1-25	50 Boxing Day Breakfast (+50% gear drop, +50% weapon damage, +50% spell damage)
 glistening fish meat	1	1	good	2-3	0	4-8	0	5/15 Fishy
-glistening maki	3	1		7-12	0	8-16	0	45/55 Fishy
-glistening nigiri	2	1		4-8	0	8-16	0	20/30 Fishy
+glistening maki	3	1	sushi	7-12	0	8-16	0	45/55 Fishy
+glistening nigiri	2	1	sushi	4-8	0	8-16	0	20/30 Fishy
 glob of cream cheese	1	1	decent	2	0	0	0
 gloomy black mushroom	0	1	crappy	0	0	0	0	Inedible
 glowing fungus	3	1	good	6-7	0	3-5	0	8-10 MP
@@ -423,12 +423,12 @@ green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
 green-iced sweet roll	1	1	good	2-3	0	0	0	40 Sprinkle Sense (+50% Sprinkle drop)
 grilled cheese sandwich	3	6	awesome	9-12	10-20	20-30	0
 grilled mooseflank	3	1	EPIC	15-17	10-20	10-20	10-20
-Grimdrop Chow Mein	4	5		6-11	0	0	0
-Grimgerbread House	5	5		10-15	0	0	0
+Grimdrop Chow Mein	4	5	decent	6-11	0	0	0
+Grimgerbread House	5	5	good	10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
 guffin	3	1	awesome	11-13	0	0	0
 guilty sprout	1	8	good	2-3	200-250	200-250	200-250
-gumdrop chow mein	5	1		9-17	0	0	0	10 Sugar Rush
+gumdrop chow mein	5	1	good	9-17	0	0	0	10 Sugar Rush
 gunky chicken	2	5	good	4-6	15-30	0	0	lose 5-10 HP, 20 Gunky Dory (+50 HP, +4-10 HP regen)
 gunpowder burrito	2	1	good	0	0	0	0	+3 PvP fights
 haggis-wrapped haggis-stuffed haggis	2	2	decent	3-4	0	0	4-10	20 Highland Sheen (+10 mox)
@@ -484,9 +484,9 @@ insanely spicy bean burrito	3	4	awesome	7-14	27-32	0	0
 insanely spicy enchanted bean burrito	3	5	awesome	8-15	0	28-32	0	Chronic Indigestion skill
 insanely spicy jumping bean burrito	3	4	awesome	7-14	0	0	33
 irradiated candy cane	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
-it came from beyond dessert	4	1		6-12	7-8	7-8	7-8	10 Sugar Rush
-Jack LaLanne roll	3	1		9-14	28-46	20-30	20-30	45/55 Fishy
-jacked Santa roll	3	1		10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+it came from beyond dessert	4	1	decent	6-12	7-8	7-8	7-8	10 Sugar Rush
+Jack LaLanne roll	3	1	sushi	9-14	28-46	20-30	20-30	45/55 Fishy
+jacked Santa roll	3	1	sushi	10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
 Jarlsberg's key lime pie	4	6	awesome	14-16	0	28-33	0	Jarlsberg's key
 java cookie	2	1	awesome	7-11	0	0	0	10 Updated (+20 all stats)
 jawbruiser	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush, lose 35-45 HP
@@ -556,26 +556,26 @@ long pork lasagna	3	10	awesome	12-16	0	46-55	0	LASAGNA
 Lord of the Flies-sized fries	3	1	decent	4-6	0	15-20	-15-20
 Lucky Surprise Egg	1	1	crappy	1	0	0	0	series 1 tiny plastic
 Ludovico Pastaco	2	3	EPIC	12-14	0	0	20-40	40 Tremella Tremens (+40 Item Drop)
-magical ancient serpent roll	3	1		9-14	0	8-16	20-30	50/60 Fishy
+magical ancient serpent roll	3	1	sushi	9-14	0	8-16	20-30	50/60 Fishy
 magical baguette	2	1	decent	3-4	0	4-5	0
-magical beefy maki	3	1		7-12	8-16	0	0	50/60 Fishy
-magical eleven oceans roll	3	1		9-14	20-30	20-30	28-46	50/60 Fishy
-magical giant dragon roll	3	1		9-14	28-46	0	0	50/60 Fishy
-magical glistening maki	3	1		7-12	0	8-16	0	50/60 Fishy
-magical Jack LaLanne roll	3	1		9-14	28-46	20-30	20-30	50/60 Fishy
-magical jacked Santa roll	3	1		10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-magical musclebound rabbit roll	3	1		9-14	8-16	20-30	0	50/60 Fishy
-magical omniscient Santa roll	3	1		10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-magical python roll	3	1		9-14	8-16	0	20-30	50/60 Fishy
+magical beefy maki	3	1	sushi	7-12	8-16	0	0	50/60 Fishy
+magical eleven oceans roll	3	1	sushi	9-14	20-30	20-30	28-46	50/60 Fishy
+magical giant dragon roll	3	1	sushi	9-14	28-46	0	0	50/60 Fishy
+magical glistening maki	3	1	sushi	7-12	0	8-16	0	50/60 Fishy
+magical Jack LaLanne roll	3	1	sushi	9-14	28-46	20-30	20-30	50/60 Fishy
+magical jacked Santa roll	3	1	sushi	10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+magical musclebound rabbit roll	3	1	sushi	9-14	8-16	20-30	0	50/60 Fishy
+magical omniscient Santa roll	3	1	sushi	10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+magical python roll	3	1	sushi	9-14	8-16	0	20-30	50/60 Fishy
 magical sausage	0	1	EPIC	1	0	0	0	999 MP
-magical slick maki	3	1		7-12	0	0	8-16	50/60 Fishy
-magical slippery snake roll	3	1		9-14	0	0	28-46	50/60 Fishy
-magical sneaky rabbit roll	3	1		9-14	0	20-30	8-16	50/60 Fishy
-magical sneaky Santa roll	3	1		10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-magical tricky dragon roll	3	1		9-14	20-30	0	8-16	50/60 Fishy
-magical white rabbit roll	3	1		9-14	0	28-46	0	50/60 Fishy
-magical wise dragon roll	3	1		9-14	20-30	8-16	0	50/60 Fishy
-magical wizened master roll	3	1		9-14	20-30	28-46	20-30	50/60 Fishy
+magical slick maki	3	1	sushi	7-12	0	0	8-16	50/60 Fishy
+magical slippery snake roll	3	1	sushi	9-14	0	0	28-46	50/60 Fishy
+magical sneaky rabbit roll	3	1	sushi	9-14	0	20-30	8-16	50/60 Fishy
+magical sneaky Santa roll	3	1	sushi	10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+magical tricky dragon roll	3	1	sushi	9-14	20-30	0	8-16	50/60 Fishy
+magical white rabbit roll	3	1	sushi	9-14	0	28-46	0	50/60 Fishy
+magical wise dragon roll	3	1	sushi	9-14	20-30	8-16	0	50/60 Fishy
+magical wizened master roll	3	1	sushi	9-14	20-30	28-46	20-30	50/60 Fishy
 mana curds	4	4	good	9-11	0	90-120	0	4-6 MP
 mana-basted tofurkey leg	3	5	awesome	0	0	0	0	Unspaded, 20 Mana-Blasted (+50% Max MP, +3-5 MP Regen)
 mana-coated yams	3	5	awesome	0	0	0	0	Unspaded
@@ -606,7 +606,7 @@ Mt. McLargeHuge oyster	3	1	decent	5-7	15-20	0	0
 muffled muffuletta	2	1	awesome	8-10	20-30	20-30	20-30	100 Noise Cancelled (-300% init)
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
-musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
+musclebound rabbit roll	3	1	sushi	9-14	8-16	20-30	0	45/55 Fishy
 mushroom filet	1	1	good	2-3	20-40	20-40	20-40
 mushroom pizza	3	2	good	3-10	0	15-18	0	PIZZA
 nachos of the night	2	1	decent	2-4	0	0	0	20 Night of the Nachos (+50 Spooky Spell Damage, +100% Spell Damage)
@@ -617,7 +617,7 @@ nanite-infested gingerbread bugbear	1	4	good	1-5	21-40	21-40	21-40	20 Chock Full
 natto pocky	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
 nega-mushroom	2	1	awesome	8-10	0	30-40	0	50 Negavision (+25% item drop)
 neutron lollipop	3	1	awesome	9-12	10-20	10-20	10-20
-New and Improved CRIMBCO Reconstituted Gruel	4	1		7-8	0	0	0	lose 20% boredom
+New and Improved CRIMBCO Reconstituted Gruel	4	1	decent	7-8	0	0	0	lose 20% boredom
 nut-shaped Crimbo cookie	2	1	awesome	7-11	0	0	0	20 Nut-Rition (+100% all stats)
 nutty organic salad	3	11	awesome	12-15	0	31-40	0	SALAD
 occult jelly donut	1	4	awesome	3-5	0	40-60	0	30 Filled With Magic (+100% spell dmg)
@@ -629,7 +629,7 @@ olive	1	1	crappy	1	0	0	0
 olive lo mein	3	6	awesome	10-14	10-14	0	10-14
 olive stir-fry	1	3	good	1-5	3-5	0	2-4
 Omega Sundae	7	1	EPIC	32-38	20-30	50-60	20-30
-omniscient Santa roll	3	1		10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+omniscient Santa roll	3	1	sushi	10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
 one with everything	2	1	awesome	6-8	0	10-15	0	50 Inner Dog (+50% Myst, +10% Spell Crit, +50 Damage vs Zombies/Ghosts)
 optimal dog	1	1	awesome	4-5	0	0	0	Grants Lucky! intrinsic
 orange	1	1	crappy	1	0	0	0
@@ -651,7 +651,7 @@ peach pie	3	7	awesome	8-14	0	0	25-45
 pear	1	4	good	3	0	15-20	0
 pear tart	3	7	awesome	8-14	0	25-45	0
 pecan pie	3	5	good	7-9	20-25	0	0	30 Pecan Pied Piper (+25 candy drop)
-Peche a la Frog	3	1		3-4	0	0	0
+Peche a la Frog	3	1	decent	3-4	0	0	0
 penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
 Peppermint Nutrition Block	3	1	decent	3-6	0	0	0	10 Forbear, Warbears! (+40 WarBear Armor Penetration)
 peppermint patty	2	2	EPIC	9-12	10-20	10-20	10-20
@@ -671,7 +671,7 @@ pigeon egg	1	1	decent	2	0	0	0
 pineapple slab	1	1	decent	1-3	5-10	0	0
 pink slime	2	1	decent	3-4	8-10	8-10	8-10
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
-pirate fork	4	1		0	0	0	0	Consume one random 4-fullness food
+pirate fork	4	1	???	0	0	0	0	Consume one random 4-fullness food
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
 plain bagel	3	1	decent	5-7	0	0	0
@@ -707,8 +707,8 @@ primitive candy cane	1	1	good	3-4	0	0	0
 protein paste	2	7	good	4-8	38-60	0	0	10 Pasty (+50% mus)
 pumpkin pie	3	2	EPIC	16-18	12-24	12-24	12-24
 purple pixel pie	3	1	decent	3-6	12-18	12-18	12-18
-python roll	3	1		9-14	8-16	0	20-30	45/55 Fishy
-quantum taco	0	1		0	0	0	0	random food
+python roll	3	1	sushi	9-14	8-16	0	20-30	45/55 Fishy
+quantum taco	0	1	???	0	0	0	0	random food
 queen cookie	1	13	EPIC	4-6	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
 questionable taco	3	1	decent	4-5	0	0	0	lovecat tail
 rack of dinosaur ribs	3	11	EPIC	15-18	10-20	10-20	10-20	30 Meat the Flintstones
@@ -731,7 +731,7 @@ raw stuffing	1	1	decent	2	0	0	20-40	chance of 30 The Good Salmonella (+20% x Ful
 raw sweet potato	1	1	decent	2	0	20-40	0	chance of 30 The Good Salmonella (+20% x Fullness all stats)
 raw turkey	1	1	decent	2	20-40	0	0	chance of 30 The Good Salmonella (+20% x Fullness all stats)
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Fullness 80 Gummiheart (+100 Muscle)
-Red Herring Velvet Cake	5	1		14-19	0	0	0
+Red Herring Velvet Cake	5	1	awesome	14-19	0	0	0
 red velvet cake	2	4	decent	3-5	0	10-30	0	10-20 HP
 Retenez L'Herbe Pat&eacute;	3	13	EPIC	13-20	40-50	40-50	40-50
 ridiculous sandwich	3	1	awesome	11	10-12	10-12	10-12
@@ -748,24 +748,24 @@ S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
 s'more	1	1	crappy	1	0	0	0
 salacious crumbs	3	1	decent	5-7	0	0	15-20
 salt plum	2	1	good	6	0	0	0
-salty ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
-salty beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
-salty eleven oceans roll	3	1		9-14	20-30	20-30	28-46	45/55 Fishy, 10 Salty Dogs
-salty giant dragon roll	3	1		9-14	28-46	0	0	45/55 Fishy, 10 Salty Dogs
-salty glistening maki	3	1		7-12	0	8-16	0	45/55 Fishy, 10 Salty Dogs
-salty Jack LaLanne roll	3	1		9-14	28-46	20-30	20-30	45/55 Fishy, 10 Salty Dogs
-salty jacked Santa roll	3	1		10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-salty musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy, 10 Salty Dogs
-salty omniscient Santa roll	3	1		10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-salty python roll	3	1		9-14	8-16	0	20-30	45/55 Fishy, 10 Salty Dogs
-salty slick maki	3	1		7-12	0	0	8-16	45/55 Fishy, 10 Salty Dogs
-salty slippery snake roll	3	1		9-14	0	0	28-46	45/55 Fishy, 10 Salty Dogs
-salty sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy, 10 Salty Dogs
-salty sneaky Santa roll	3	1		10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-salty tricky dragon roll	3	1		9-14	20-30	0	8-16	45/55 Fishy, 10 Salty Dogs
-salty white rabbit roll	3	1		9-14	0	28-46	0	45/55 Fishy, 10 Salty Dogs
-salty wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy, 10 Salty Dogs
-salty wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy, 10 Salty Dogs
+salty ancient serpent roll	3	1	sushi	9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
+salty beefy maki	3	1	sushi	7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
+salty eleven oceans roll	3	1	sushi	9-14	20-30	20-30	28-46	45/55 Fishy, 10 Salty Dogs
+salty giant dragon roll	3	1	sushi	9-14	28-46	0	0	45/55 Fishy, 10 Salty Dogs
+salty glistening maki	3	1	sushi	7-12	0	8-16	0	45/55 Fishy, 10 Salty Dogs
+salty Jack LaLanne roll	3	1	sushi	9-14	28-46	20-30	20-30	45/55 Fishy, 10 Salty Dogs
+salty jacked Santa roll	3	1	sushi	10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+salty musclebound rabbit roll	3	1	sushi	9-14	8-16	20-30	0	45/55 Fishy, 10 Salty Dogs
+salty omniscient Santa roll	3	1	sushi	10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+salty python roll	3	1	sushi	9-14	8-16	0	20-30	45/55 Fishy, 10 Salty Dogs
+salty slick maki	3	1	sushi	7-12	0	0	8-16	45/55 Fishy, 10 Salty Dogs
+salty slippery snake roll	3	1	sushi	9-14	0	0	28-46	45/55 Fishy, 10 Salty Dogs
+salty sneaky rabbit roll	3	1	sushi	9-14	0	20-30	8-16	45/55 Fishy, 10 Salty Dogs
+salty sneaky Santa roll	3	1	sushi	10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+salty tricky dragon roll	3	1	sushi	9-14	20-30	0	8-16	45/55 Fishy, 10 Salty Dogs
+salty white rabbit roll	3	1	sushi	9-14	0	28-46	0	45/55 Fishy, 10 Salty Dogs
+salty wise dragon roll	3	1	sushi	9-14	20-30	8-16	0	45/55 Fishy, 10 Salty Dogs
+salty wizened master roll	3	1	sushi	9-14	20-30	28-46	20-30	45/55 Fishy, 10 Salty Dogs
 sandwich of the gods	5	13	EPIC	32-38	50-100	50-100	50-100
 sausage pizza	3	2	good	3-10	15-18	0	0	PIZZA
 sausage without a cause	10	1	awesome	40	0	0	0	1 East of Eaten (+200% Weapon Damage, +4 Hot res)
@@ -789,7 +789,7 @@ shadowy cat claw	1	4	awesome	3-5	0	45-75	0	30 Feline Ferocity (+100% weapon dmg)
 sheet cake	15	6	decent	24-28	100-200	100-200	100-200
 shells a la shellfish	5	8	awesome	17-20	25-30	0	0	SAUCY
 shoo-fish pie	2	3	awesome	8-10	10-30	10-30	10-30	20 Fishy
-shoots and leaves	4	1		6-10	7-8	7-8	7-8
+shoots and leaves	4	1	decent	6-10	7-8	7-8	7-8
 shrapnel jelly donut	1	4	awesome	3-5	40-60	0	0	30 Filled With Magic (+100% spell dmg)
 shushed potatoes	2	1	awesome	8-10	20-30	20-30	20-30	100 Noise Cancelled (-300% init)
 single-serving herbal stuffing	4	1	awesome	12-16	0	0	32-35
@@ -803,25 +803,25 @@ sleazy hi mein	5	12	EPIC	24-27	25-30	25-30	70-75	5 Sleazy Breath (combat skill),
 sleeping dog	2	1	awesome	9-10	0	0	0	acquire Dog Tired skill
 slice of pizza	1	1	good	3	12-15	12-15	12-15	PIZZA
 slick fish meat	1	1	good	2-3	0	0	4-8	5/15 Fishy
-slick maki	3	1		7-12	0	0	8-16	45/55 Fishy
-slick nigiri	2	1		4-8	0	0	8-16	20/30 Fishy
+slick maki	3	1	sushi	7-12	0	0	8-16	45/55 Fishy
+slick nigiri	2	1	sushi	4-8	0	0	8-16	20/30 Fishy
 slimy sweetbreads	1	6	good	2-3	0	0	0	20 Grimace (+25 ML, slime res)
-slippery snake roll	3	1		9-14	0	0	28-46	45/55 Fishy
+slippery snake roll	3	1	sushi	9-14	0	0	28-46	45/55 Fishy
 sly dog	2	1	awesome	6-8	0	0	10-15	50 Top Dog (+50% Mox, +10% Crit Chance, +50 Dam vs Skeletons/Vampires)
 smashed danish	1	4	awesome	3-5	45-75	0	0	30 Danish Cunning (+25% pickpocket)
 smelted roe	1	4	good	3	10-20	0	0	50 Sizzling with Fury (+25 Hot Damage, +60 Init)
 SMOOCH soda	1	1	good	3-3	0	0	0	Gain 20-35 MP and SMOOCH bottlecap
 Sneaky Pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
-sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy
-sneaky Santa roll	3	1		10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+sneaky rabbit roll	3	1	sushi	9-14	0	20-30	8-16	45/55 Fishy
+sneaky Santa roll	3	1	sushi	10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
 snow berries	1	1	good	2-3	3-5	3-5	3-5	30 Berry Berry Cold (+10 Cold Damage, +20 Cold Spell Damage)
 snow crab	1	1	EPIC	5-7	10-20	10-20	10-20
 Sogg-Os	1	11	EPIC	5	1-100	1-100	1-100
-Soylent Red and Green	3	5		4-5	0	0	0
+Soylent Red and Green	3	5	decent	4-5	0	0	0
 space chowder	6	1	awesome	20-22	0	0	0
 space jam toast	1	1	decent	1-3	0	50	0
 spagecialetti	4	6	awesome	11-14	13	13	13	SAUCY
-spaghetti breakfast	1	1		6	0	0	0
+spaghetti breakfast	1	1	???	6	0	0	0
 spaghetti con calaveras	6	6	awesome	23-27	47-52	0	0	10 Eso S&iacute; Que Es, SAUCY
 spaghetti with ghost balls	5	9	awesome	18-22	0	0	25-30
 Spaghetti with Moonballs	3	2	good	8-10	10-20	0	20-30
@@ -852,7 +852,7 @@ stalk of asparagus	1	1	crappy	1	0	1-3	0
 standard-issue cupcake	1	1	good	3	2-4	2-4	2-4
 star key lime pie	4	6	awesome	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
 star pop	1	1	awesome	0	0	0	0	Unspaded
-steel lasagna	5	5		00	0	0	0	Stomach of Steel skill
+steel lasagna	5	5	quest	00	0	0	0	Stomach of Steel skill
 stinky hi mein	5	12	EPIC	24-27	30-35	70-75	15-20	5 Stinky Breath (combat skill), SAUCY
 stinky mushroom	3	2	decent	3-9	0	0	3-5	lose 3 HP
 stolen sushi	6	6	good	12-14	15-20	15-20	15-20
@@ -972,13 +972,13 @@ traffic jam toast	1	1	decent	1-3	50	0	0
 transparent nog	1	1	crappy	1	0	0	0	10 Holiday Disappointment (+50% all stats)
 tree-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Yuletide Sappiness (+10% mys)
 triangular CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Triangle, Man (+10% mus)
-tricky dragon roll	3	1		9-14	20-30	0	8-16	45/55 Fishy
+tricky dragon roll	3	1	sushi	9-14	20-30	0	8-16	45/55 Fishy
 Trollhouse cookies	2	1	decent	2-3	4-6	0	0
 tube of cranberry Go-Goo	3	1	awesome	8-14	0	0	31-34
 turkish mostaccioli	5	10	awesome	19-22	35-40	0	0	SAUCY
 Turnip and Rutabaga Pie	5	1	good	12-13	0	0	0	30 Healthy, Elfy, and Wise (8-10 HP Regen)
 turtle soup	1	2	good	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
-twigs and gravel	3	1		3-6	5-6	5-6	5-6
+twigs and gravel	3	1	decent	3-6	5-6	5-6	5-6
 Ultimate Breakfast Sandwich	7	1	EPIC	32-38	30-40	50-60	0
 ultra-deluxe cupcake	1	1	awesome	4	4-6	4-6	4-6
 ultrafondue	3	5	awesome	13-16	15-20	15-20	15-20	30 Fondid (+15 ML)
@@ -992,7 +992,7 @@ uninteresting mayolus	1	2	decent	2	1-5	1-5	1-5
 Ur-Donut	1	1	good	2-3	65-85	65-85	65-85	10 Sugar Rush
 urinal cake	2	1	crappy	2	0	0	0
 Valentine's Day cake	3	1	crappy	3	0	0	0
-vampire cake	5	1		9-16	9-10	9-10	9-10	10 Sugar Rush
+vampire cake	5	1	decent	9-16	9-10	9-10	9-10	10 Sugar Rush
 vampire chowder	4	4	good	9-11	0	0	90-110
 vanilla-frosted king cake	3	1	crappy	3	0	0	0	pink plastic baby
 Vegas Volcano Lava Roll	4	1	decent	6-10	0	0	0	3-5 electrical thingamabobs
@@ -1022,14 +1022,14 @@ white chocolate chip cookies	2	1	decent	2-5	0	11-13	0
 white chocolate chips	1	1	crappy	1	0	0	0
 White Citadel burger	2	1	crappy	2-8	0	0	0
 White Citadel fries	2	1	decent	2-5	0	0	0
-white rabbit roll	3	1		9-14	0	28-46	0	45/55 Fishy
+white rabbit roll	3	1	sushi	9-14	0	28-46	0	45/55 Fishy
 white rice	1	1	crappy	1	1	1-2	1-2
 whole roasted chicken	3	9	awesome	15	18-22	18-22	18-22
 whole turkey leg	1	4	awesome	4-5	0	0	0
 wild honey pie	2	1	decent	4-6	5-7	5-7	5-7	10 Sugar Rush
-wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy
+wise dragon roll	3	1	sushi	9-14	20-30	8-16	0	45/55 Fishy
 witch's bread	3	6	awesome	12-15	0	30-45	0	20 Witch Breaded (+100% Mys, +200% Spell Damage, +20% Spell Critical)
-wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy
+wizened master roll	3	1	sushi	9-14	20-30	28-46	20-30	45/55 Fishy
 wreath-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Wreathed in Merriment (+10% mox)
 Xiblaxian ultraburrito	4	7	EPIC	19-22	50	50	50
 yam candy	3	1	good	5-10	0	31-34	0
@@ -1037,21 +1037,21 @@ Yeg's Motel pillow mint	1	1	good	3	80-100	80-100	80-100	10 Really Quite Poisoned
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
 yellow matter custard	2	6	good	4-8	10-15	10-15	10-15
 yule gruel	3	1	good	9-10	0	0	0
-Yuletide ancient serpent roll	3	1		12-17	0	8-16	20-30	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide beefy maki	3	1		10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide eleven oceans roll	3	1		12-17	20-30	20-30	28-46	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide giant dragon roll	3	1		12-17	28-46	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide glistening maki	3	1		10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide Jack LaLanne roll	3	1		12-17	28-46	20-30	20-30	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide jacked Santa roll	3	1		10-15	5-15	0	0	40 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide musclebound rabbit roll	3	1		12-17	8-16	20-30	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide omniscient Santa roll	3	1		10-15	0	5-15	0	40 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide python roll	3	1		12-17	8-16	0	20-30	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide slick maki	3	1		10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide slippery snake roll	3	1		12-17	0	0	28-46	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide sneaky rabbit roll	3	1		12-17	0	20-30	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide sneaky Santa roll	3	1		10-15	0	0	5-15	40 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide tricky dragon roll	3	1		12-17	20-30	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide white rabbit roll	3	1		12-17	0	28-46	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide wise dragon roll	3	1		12-17	20-30	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-Yuletide wizened master roll	3	1		12-17	20-30	28-46	20-30	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide ancient serpent roll	3	1	sushi	12-17	0	8-16	20-30	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide beefy maki	3	1	sushi	10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide eleven oceans roll	3	1	sushi	12-17	20-30	20-30	28-46	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide giant dragon roll	3	1	sushi	12-17	28-46	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide glistening maki	3	1	sushi	10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide Jack LaLanne roll	3	1	sushi	12-17	28-46	20-30	20-30	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide jacked Santa roll	3	1	sushi	10-15	5-15	0	0	40 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide musclebound rabbit roll	3	1	sushi	12-17	8-16	20-30	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide omniscient Santa roll	3	1	sushi	10-15	0	5-15	0	40 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide python roll	3	1	sushi	12-17	8-16	0	20-30	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide slick maki	3	1	sushi	10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide slippery snake roll	3	1	sushi	12-17	0	0	28-46	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide sneaky rabbit roll	3	1	sushi	12-17	0	20-30	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide sneaky Santa roll	3	1	sushi	10-15	0	0	5-15	40 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide tricky dragon roll	3	1	sushi	12-17	20-30	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide white rabbit roll	3	1	sushi	12-17	0	28-46	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide wise dragon roll	3	1	sushi	12-17	20-30	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
+Yuletide wizened master roll	3	1	sushi	12-17	20-30	28-46	20-30	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy

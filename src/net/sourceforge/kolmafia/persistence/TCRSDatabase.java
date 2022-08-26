@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -41,10 +42,10 @@ public class TCRSDatabase {
   public static class TCRS {
     public final String name;
     public final int size;
-    public final String quality;
+    public final ConsumableQuality quality;
     public final String modifiers;
 
-    TCRS(String name, int size, String quality, String modifiers) {
+    TCRS(String name, int size, ConsumableQuality quality, String modifiers) {
       this.name = name;
       this.size = size;
       this.quality = quality;
@@ -171,7 +172,7 @@ public class TCRSDatabase {
         int itemId = StringUtilities.parseInt(data[0]);
         String name = data[1];
         int size = StringUtilities.parseInt(data[2]);
-        String quality = data[3];
+        var quality = ConsumableQuality.find(data[3]);
         String modifiers = data[4];
 
         TCRS item = new TCRS(name, size, quality, modifiers);
@@ -241,7 +242,7 @@ public class TCRSDatabase {
       Integer itemId = entry.getKey();
       String name = tcrs.name;
       Integer size = tcrs.size;
-      String quality = tcrs.quality;
+      var quality = tcrs.quality;
       String modifiers = tcrs.modifiers;
       String line = itemId + "\t" + name + "\t" + size + "\t" + quality + "\t" + modifiers;
       writer.println(line);
@@ -398,7 +399,7 @@ public class TCRSDatabase {
     // The "ring" is the path reward for completing a TCRS run.
     // Its enchantments are character-specific.
     if (itemId == ItemPool.RING) {
-      return new TCRS("ring", 0, "", "Single Equip");
+      return new TCRS("ring", 0, ConsumableQuality.NONE, "Single Equip");
     }
 
     // Read the Item Description
@@ -435,7 +436,7 @@ public class TCRSDatabase {
     // Parse the things that are changed in TCRS
     String name = DebugDatabase.parseName(text);
     int size = DebugDatabase.parseConsumableSize(text);
-    String quality = DebugDatabase.parseQuality(text);
+    var quality = DebugDatabase.parseQuality(text);
     ArrayList<String> unknown = new ArrayList<String>();
     String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, -1);
 
@@ -556,14 +557,15 @@ public class TCRSDatabase {
     return applyModifiers(id, TCRSMap.get(id));
   }
 
-  private static int qualityMultiplier(String quality) {
-    return "EPIC".equals(quality)
-        ? 5
-        : "awesome".equals(quality)
-            ? 4
-            : "good".equals(quality)
-                ? 3
-                : "decent".equals(quality) ? 2 : "crappy".equals(quality) ? 1 : 0;
+  private static int qualityMultiplier(ConsumableQuality quality) {
+    return switch (quality) {
+      case EPIC -> 5;
+      case AWESOME -> 4;
+      case GOOD -> 3;
+      case DECENT -> 2;
+      case CRAPPY -> 1;
+      default -> 0;
+    };
   }
 
   public static boolean applyModifiers(final Integer itemId, final TCRS tcrs) {

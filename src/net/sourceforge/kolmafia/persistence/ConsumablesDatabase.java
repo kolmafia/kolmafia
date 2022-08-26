@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -47,7 +48,7 @@ public class ConsumablesDatabase {
       new TreeMap<String, Integer>(KoLConstants.ignoreCaseComparator);
   public static final Map<String, Integer> spleenHitByName =
       new TreeMap<String, Integer>(KoLConstants.ignoreCaseComparator);
-  private static final Map<String, String> qualityByName = new HashMap<String, String>();
+  private static final Map<String, ConsumableQuality> qualityByName = new HashMap<>();
   private static final Map<String, String> notesByName = new HashMap<String, String>();
 
   private static final Map<Integer, Map<String, Double>> advsByName = new HashMap<>(1 << 5);
@@ -58,12 +59,53 @@ public class ConsumablesDatabase {
 
   private static Set<String> advNames = null;
 
-  public static final String NONE = "";
-  public static final String CRAPPY = "crappy";
-  public static final String DECENT = "decent";
-  public static final String GOOD = "good";
-  public static final String AWESOME = "awesome";
-  public static final String EPIC = "EPIC";
+  public static enum ConsumableQuality {
+    NONE(""),
+    CRAPPY("crappy", "#999999"),
+    DECENT("decent"),
+    GOOD("good", "green"),
+    AWESOME("awesome", "blue"),
+    EPIC("EPIC", "#8a2be2"),
+    QUEST("quest"),
+    CHANGING("???"),
+    DRIPPY("drippy", "#964B00"),
+    SUSHI("sushi");
+
+    static final Map<String, ConsumableQuality> nameToQuality = new HashMap<>();
+
+    static {
+      Arrays.stream(values()).forEach(q -> nameToQuality.put(q.getName(), q));
+    }
+
+    static ConsumableQuality find(final String name) {
+      return nameToQuality.getOrDefault(name, ConsumableQuality.NONE);
+    }
+
+    private final String name;
+    private final String color;
+
+    ConsumableQuality(final String name, final String color) {
+      this.name = name;
+      this.color = color;
+    }
+
+    ConsumableQuality(final String name) {
+      this(name, null);
+    }
+
+    @Override
+    public String toString() {
+      return name;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public String getColor() {
+      return color;
+    }
+  }
 
   static {
     for (int i = 0; i < 1 << 5; ++i) {
@@ -121,7 +163,7 @@ public class ConsumablesDatabase {
       final String name,
       final int size,
       final int level,
-      final String quality,
+      final ConsumableQuality quality,
       final String adv,
       final String mus,
       final String mys,
@@ -136,7 +178,7 @@ public class ConsumablesDatabase {
       final String name,
       final int size,
       final int level,
-      final String quality,
+      final ConsumableQuality quality,
       final String adv,
       final String mus,
       final String mys,
@@ -177,27 +219,15 @@ public class ConsumablesDatabase {
   private static void setConsumptionData(
       final String name,
       final int size,
-      final String adventures,
-      final String muscle,
-      final String mysticality,
-      final String moxie,
-      final String note) {
-    ConsumablesDatabase.setConsumptionData(
-        name, size, 1, "", adventures, muscle, mysticality, moxie, note);
-  }
-
-  private static void setConsumptionData(
-      final String name,
-      final int size,
       final int level,
-      final String quality,
+      final ConsumableQuality quality,
       final String adventures,
       final String muscle,
       final String mysticality,
       final String moxie,
       final String note) {
     ConsumablesDatabase.levelReqByName.put(name, level);
-    ConsumablesDatabase.qualityByName.put(name, ConsumablesDatabase.qualityValue(quality));
+    ConsumablesDatabase.qualityByName.put(name, quality);
     ConsumablesDatabase.saveAdventureRange(name, size, adventures);
     ConsumablesDatabase.calculateAdventureRange(name);
     ConsumablesDatabase.muscleByName.put(name, muscle);
@@ -239,7 +269,7 @@ public class ConsumablesDatabase {
     }
 
     Integer level = ConsumablesDatabase.levelReqByName.get(name);
-    String quality = ConsumablesDatabase.qualityByName.get(name);
+    var quality = ConsumablesDatabase.qualityByName.get(name);
     String adventures = ConsumablesDatabase.getAdvRangeByName(name);
     String muscle = ConsumablesDatabase.muscleByName.get(name);
     String mysticality = ConsumablesDatabase.mysticalityByName.get(name);
@@ -299,20 +329,23 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.levelReqByName.put(name, Integer.valueOf(data[2]));
 
     // Some items different on Feast of Boris
-    if (!isBorisDay) {
-      ConsumablesDatabase.qualityByName.put(name, ConsumablesDatabase.qualityValue(data[3]));
-      ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), data[4]);
-    } else if (name.equals("cranberries")) {
-      ConsumablesDatabase.qualityByName.put(name, ConsumablesDatabase.qualityValue("good"));
-      ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "2-4");
-    } else if (name.equals("redrum")) {
-      ConsumablesDatabase.qualityByName.put(name, ConsumablesDatabase.qualityValue("good"));
-      ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "5-9");
-    } else if (name.equals("vodka and cranberries")) {
-      ConsumablesDatabase.qualityByName.put(name, ConsumablesDatabase.qualityValue("good"));
-      ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "6-9");
+    if (isBorisDay) {
+      switch (name) {
+        case "cranberries" -> {
+          ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
+          ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "2-4");
+        }
+        case "redrum" -> {
+          ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
+          ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "5-9");
+        }
+        case "vodka and cranberry" -> {
+          ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
+          ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "6-9");
+        }
+      }
     } else {
-      ConsumablesDatabase.qualityByName.put(name, ConsumablesDatabase.qualityValue(data[3]));
+      ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.find(data[3]));
       ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), data[4]);
     }
 
@@ -334,23 +367,6 @@ public class ConsumablesDatabase {
     if (notes.length() > 0) {
       ConsumablesDatabase.notesByName.put(name, notes);
     }
-  }
-
-  public static final String qualityValue(String value) {
-    // Reduce string allocations...
-    return value == null
-        ? ConsumablesDatabase.NONE
-        : value.equals("crappy")
-            ? ConsumablesDatabase.CRAPPY
-            : value.equals("decent")
-                ? ConsumablesDatabase.DECENT
-                : value.equals("good")
-                    ? ConsumablesDatabase.GOOD
-                    : value.equals("awesome")
-                        ? ConsumablesDatabase.AWESOME
-                        : value.equals("EPIC")
-                            ? ConsumablesDatabase.EPIC
-                            : ConsumablesDatabase.NONE;
   }
 
   private static void saveAdventureRange(final String name, final int unitCost, String range) {
@@ -604,7 +620,7 @@ public class ConsumablesDatabase {
     }
 
     int level = DebugDatabase.parseLevel(text);
-    String quality = DebugDatabase.parseQuality(text);
+    var quality = DebugDatabase.parseQuality(text);
 
     // Add consumption data for this session
     ConsumablesDatabase.updateConsumableSize(itemName, usage, size);
@@ -624,7 +640,7 @@ public class ConsumablesDatabase {
       final String itemName,
       final int size,
       final int level,
-      final String quality,
+      final ConsumableQuality quality,
       final String advs,
       final String mus,
       final String mys,
@@ -697,17 +713,8 @@ public class ConsumablesDatabase {
     return spleenhit == null ? 0 : spleenhit.intValue();
   }
 
-  public static final String getRawQuality(final String name) {
-    if (name == null) {
-      return null;
-    }
-
-    return ConsumablesDatabase.qualityByName.get(name);
-  }
-
-  public static final String getQuality(final String name) {
-    String quality = ConsumablesDatabase.getRawQuality(name);
-    return quality != null ? quality : "";
+  public static final ConsumableQuality getQuality(final String name) {
+    return ConsumablesDatabase.qualityByName.getOrDefault(name, ConsumableQuality.NONE);
   }
 
   public static final String getNotes(final String name) {
@@ -1068,7 +1075,7 @@ public class ConsumablesDatabase {
     String note = "";
 
     ConsumablesDatabase.setConsumptionData(
-        name, size, adventures, muscle, mysticality, moxie, note);
+        name, size, 1, ConsumableQuality.CHANGING, adventures, muscle, mysticality, moxie, note);
 
     // astral hot dog
     //
@@ -1096,7 +1103,7 @@ public class ConsumablesDatabase {
     note = "";
 
     ConsumablesDatabase.setConsumptionData(
-        name, size, adventures, muscle, mysticality, moxie, note);
+        name, size, 1, ConsumableQuality.CHANGING, adventures, muscle, mysticality, moxie, note);
 
     // astral energy drink
     //
@@ -1116,7 +1123,7 @@ public class ConsumablesDatabase {
     moxie = "0";
     note = "";
     ConsumablesDatabase.setConsumptionData(
-        name, size, adventures, muscle, mysticality, moxie, note);
+        name, size, 1, ConsumableQuality.CHANGING, adventures, muscle, mysticality, moxie, note);
 
     // spaghetti breakfast
     //
@@ -1134,7 +1141,7 @@ public class ConsumablesDatabase {
     moxie = "0";
     note = "";
     ConsumablesDatabase.setConsumptionData(
-        name, size, adventures, muscle, mysticality, moxie, note);
+        name, size, 1, ConsumableQuality.CHANGING, adventures, muscle, mysticality, moxie, note);
 
     // cold one
     //
@@ -1152,7 +1159,7 @@ public class ConsumablesDatabase {
     moxie = "0";
     note = "";
     ConsumablesDatabase.setConsumptionData(
-        name, size, adventures, muscle, mysticality, moxie, note);
+        name, size, 1, ConsumableQuality.CHANGING, adventures, muscle, mysticality, moxie, note);
   }
 
   public static void setSmoresData() {
@@ -1165,7 +1172,7 @@ public class ConsumablesDatabase {
     String moxie = "0";
     String note = "";
     ConsumablesDatabase.setConsumptionData(
-        name, size, 1, "crappy", adventures, muscle, mysticality, moxie, note);
+        name, size, 1, ConsumableQuality.CRAPPY, adventures, muscle, mysticality, moxie, note);
     ConsumablesDatabase.fullnessByName.put(name, size);
     Concoction c = ConcoctionPool.get(ItemPool.SMORE);
     if (c != null) {
@@ -1185,7 +1192,7 @@ public class ConsumablesDatabase {
     String moxie = String.valueOf(30 * count);
     String note = "";
     ConsumablesDatabase.setConsumptionData(
-        name, size, 1, "good", adventures, muscle, mysticality, moxie, note);
+        name, size, 1, ConsumableQuality.GOOD, adventures, muscle, mysticality, moxie, note);
   }
 
   public static void setDistillateData() {
@@ -1197,6 +1204,8 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.setConsumptionData(
         "stillsuit distillate",
         1,
+        1,
+        ConsumableQuality.CHANGING,
         String.valueOf(adventures),
         "0",
         "0",
