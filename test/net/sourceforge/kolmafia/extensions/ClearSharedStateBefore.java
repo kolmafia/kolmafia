@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.kolmafia.*;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
@@ -45,6 +46,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     StaticEntity.overrideRevision(null);
     GenericRequest.sessionId = null;
     GenericRequest.passwordHash = "";
+    AdventureSpentDatabase.setNoncombatEncountered(false);
   }
 
   public void deleteDirectoriesAndContents() {

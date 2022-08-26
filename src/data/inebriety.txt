@@ -629,6 +629,7 @@ stealth bomber	3	6	awesome	9-12	10-20	0	10-20
 Steamboat	3	1	awesome	12	15-30	15-30	15-30	20 Steamed (+3 Hot Resist, +20 Hot Dam, +20 Item Drop)
 steel margarita	5	5		0	0	0	0	Liver of Steel skill
 stepmom's booze	3	5	decent	4-6	0	5-10	5-10	KOLHS
+stillsuit distillate	1	1		0	0	0	0	Buzzed on Distillate
 stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30
 stinky mushroom wine	3	6	awesome	10-14	0	0	12-15	WINE
 strawberry daiquiri	3	1	decent	5-6	0	0	8-10

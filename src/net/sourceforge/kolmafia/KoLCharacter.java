@@ -400,8 +400,6 @@ public abstract class KoLCharacter {
     CoinmasterRegistry.reset();
     ConcoctionDatabase.resetQueue();
     ConcoctionDatabase.refreshConcoctions();
-    ConsumablesDatabase.setSmoresData();
-    ConsumablesDatabase.setAffirmationCookieData();
     ConsumablesDatabase.setVariableConsumables();
     ConsumablesDatabase.calculateAdventureRanges();
     DailyLimitDatabase.reset();
@@ -925,7 +923,7 @@ public abstract class KoLCharacter {
       if (previousLevel != KoLCharacter.currentLevel) {
         HPRestoreItemList.updateHealthRestored();
         MPRestoreItemList.updateManaRestored();
-        ConsumablesDatabase.setVariableConsumables();
+        ConsumablesDatabase.setLevelVariableConsumables();
       }
     }
 
@@ -4436,6 +4434,8 @@ public abstract class KoLCharacter {
     return KoLCharacter.findFamiliar(familiarId) != null;
   }
 
+  private static AdventureResult STILLSUIT = ItemPool.get(ItemPool.STILLSUIT);
+
   /**
    * Accessor method to set the data for the current familiar.
    *
@@ -4457,7 +4457,21 @@ public abstract class KoLCharacter {
     if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
       KoLCharacter.currentFamiliar.deactivate();
     }
+
+    var previousFamiliar = KoLCharacter.currentFamiliar;
     KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar(familiar);
+
+    if (previousFamiliar.getItem().equals(STILLSUIT)) {
+      var stillsuitFamiliar = KoLCharacter.findFamiliar(Preferences.getString("stillsuitFamiliar"));
+      if (stillsuitFamiliar != null
+          && stillsuitFamiliar != familiar
+          && stillsuitFamiliar != previousFamiliar) {
+        KoLmafia.updateDisplay("Giving your tiny stillsuit to your stillsuit familiar...");
+        RequestThread.postRequest(new FamiliarRequest(previousFamiliar, EquipmentRequest.UNEQUIP));
+        RequestThread.postRequest(new FamiliarRequest(stillsuitFamiliar, STILLSUIT));
+      }
+    }
+
     if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
       KoLCharacter.currentFamiliar.activate();
     }
