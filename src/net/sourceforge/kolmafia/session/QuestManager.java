@@ -1,10 +1,14 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -587,6 +591,9 @@ public class QuestManager {
     }
     if (location.contains("action=sg_Terminal")) {
       parseSpacegateTerminal(responseText, false);
+    }
+    if (location.startsWith("adventure.php")) {
+      parseSpacegateAdventure(responseText);
     }
   }
 
@@ -2407,6 +2414,36 @@ public class QuestManager {
   public static final Pattern SPACEGATE_TURNS_PATTERN =
       Pattern.compile("<p>Spacegate Energy remaining: <b><font size=\\+2>(\\d+) </font>");
 
+  public record Hazard(String terminal, String adventure, String gear) {}
+
+  public static final Hazard[] HAZARDS = {
+    new Hazard("toxic atmosphere", "Toxic environment", "filter helmet"),
+    new Hazard("high gravity", "Extremely high gravity", "exo-server leg braces"),
+    new Hazard("irradiated", "High radiation levels", "rad cloak"),
+    new Hazard("magnetic storms", "High levels of magnetic interference", "gate tranceiver"),
+    new Hazard("high winds", "Intense winds", "high-friction boots"),
+  };
+
+  public static void parseSpacegateAdventure(final String text) {
+    // If we've already parsed the hazards, nothing to do here.
+    if (!Preferences.getString("_spacegateHazards").equals("")) {
+      return;
+    }
+    // Otherwise, this is from a portable spacegate.
+    // Parse hazards and needed equipment
+    Set<String> hazards = new HashSet<>();
+    Set<String> gear = new HashSet<>();
+
+    for (Hazard hazard : HAZARDS) {
+      if (text.contains(hazard.adventure)) {
+        hazards.add(hazard.terminal);
+        gear.add(hazard.gear);
+      }
+    }
+    Preferences.setString("_spacegateHazards", hazards.stream().collect(Collectors.joining("|")));
+    Preferences.setString("_spacegateGear", gear.stream().collect(Collectors.joining("|")));
+  }
+
   public static void parseSpacegateTerminal(final String text, final boolean print) {
     if (!text.contains("Spacegate Terminal")) {
       return;
@@ -2435,6 +2472,18 @@ public class QuestManager {
     Preferences.setString("_spacegateHazards", hazards);
     if (print) {
       RequestLogger.updateSessionLog("Hazards: " + hazards);
+    }
+
+    var terminalHazards = hazards;
+    String gear =
+        Arrays.stream(HAZARDS)
+            .filter(h -> terminalHazards.contains(h.terminal))
+            .map(h -> h.gear)
+            .collect(Collectors.joining("|"));
+
+    Preferences.setString("_spacegateGear", gear);
+    if (print) {
+      RequestLogger.updateSessionLog("Gear: " + gear);
     }
 
     m = QuestManager.SPACEGATE_PLANT_LIFE_PATTERN.matcher(text);

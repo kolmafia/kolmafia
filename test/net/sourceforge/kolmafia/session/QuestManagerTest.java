@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
@@ -34,7 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
-import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,22 +67,6 @@ public class QuestManagerTest {
     KoLCharacter.reset("QuestManager");
     Preferences.reset("QuestManager");
     KoLConstants.inventory.clear();
-  }
-
-  private void printRequests(List<HttpRequest> requests) {
-    for (HttpRequest req : requests) {
-      String method = req.method();
-      var uri = req.uri();
-      String path = uri.getPath();
-      switch (method) {
-        case "GET":
-          System.out.println("GET " + path + " -> " + uri.getQuery());
-          break;
-        case "POST":
-          System.out.println("POST " + path + " -> " + getPostRequestBody(req));
-          break;
-      }
-    }
   }
 
   /*
@@ -1283,51 +1265,165 @@ public class QuestManagerTest {
   /*
    * Spacegate
    */
-  @ParameterizedTest
-  @ValueSource(strings = {"place.php?whichplace=spacegate", "adventure.php?snarfblat=494"})
-  void justBeingInSpacegateWithoutPermanentAccessMeansDaypass() {
-    assertThat("spacegateAlways", isSetTo(false));
-    assertThat("_spacegateToday", isSetTo(false));
 
-    var request = new GenericRequest("place.php?whichplace=spacegate");
-    request.responseText = "anything";
-    QuestManager.handleQuestChange(request);
+  @Nested
+  class Spacegate {
+    @ParameterizedTest
+    @ValueSource(strings = {"place.php?whichplace=spacegate", "adventure.php?snarfblat=494"})
+    void justBeingInSpacegateWithoutPermanentAccessMeansDaypass() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", false), withProperty("_spacegateToday", false));
+      try (cleanups) {
+        var request = new GenericRequest("place.php?whichplace=spacegate");
+        request.responseText = "anything";
+        QuestManager.handleQuestChange(request);
+        assertThat("_spacegateToday", isSetTo(true));
+      }
+    }
 
-    assertThat("_spacegateToday", isSetTo(true));
-  }
+    @ParameterizedTest
+    @ValueSource(strings = {"place.php?whichplace=spacegate", "adventure.php?snarfblat=494"})
+    void justBeingInSpacegateWithPermanentAccessDoesNotMeanDaypass() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true), withProperty("_spacegateToday", false));
+      try (cleanups) {
+        var request = new GenericRequest("place.php?whichplace=spacegate");
+        request.responseText = "anything";
+        QuestManager.handleQuestChange(request);
 
-  @ParameterizedTest
-  @ValueSource(strings = {"place.php?whichplace=spacegate", "adventure.php?snarfblat=494"})
-  void justBeingInSpacegateWithPermanentAccessDoesNotMeanDaypass() {
-    Preferences.setBoolean("spacegateAlways", true);
-    assertThat("_spacegateToday", isSetTo(false));
+        assertThat("_spacegateToday", isSetTo(false));
+      }
+    }
 
-    var request = new GenericRequest("place.php?whichplace=spacegate");
-    request.responseText = "anything";
-    QuestManager.handleQuestChange(request);
+    @ParameterizedTest
+    @ValueSource(
+        strings = {"choice.php?forceoption=0", "place.php?whichplace=spacegate&action=sg_Terminal"})
+    void canParseSpacegateTerminal(String url) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_spacegateAnimalLife"),
+              withProperty("_spacegateCoordinates"),
+              withProperty("_spacegateGear"),
+              withProperty("_spacegateHazards"),
+              withProperty("_spacegateIntelligentLife"),
+              withProperty("_spacegateMurderbot"),
+              withProperty("_spacegatePlanetIndex"),
+              withProperty("_spacegatePlanetName"),
+              withProperty("_spacegatePlantLife"),
+              withProperty("_spacegateRuins"),
+              withProperty("_spacegateSpant"),
+              withProperty("_spacegateTurnsLeft"));
+      try (cleanups) {
+        var request = new GenericRequest(url);
+        request.responseText = html("request/test_spacegate_terminal_earddyk.html");
+        QuestManager.handleQuestChange(request);
+        assertThat("_spacegateCoordinates", isSetTo("EARDDYK"));
+        assertThat("_spacegatePlanetIndex", isSetTo(4));
+        assertThat("_spacegatePlanetName", isSetTo("Diverticulus Isaacson IX"));
+        assertThat("_spacegateHazards", isSetTo("high winds"));
+        assertThat("_spacegateGear", isSetTo("high-friction boots"));
+        assertThat("_spacegateAnimalLife", isSetTo("primitive (hostile)"));
+        assertThat("_spacegatePlantLife", isSetTo("primitive"));
+        assertThat("_spacegateIntelligentLife", isSetTo("none detected"));
+        assertThat("_spacegateMurderbot", isSetTo(false));
+        assertThat("_spacegateRuins", isSetTo(false));
+        assertThat("_spacegateSpant", isSetTo(false));
+        assertThat("_spacegateTurnsLeft", isSetTo(20));
+      }
+    }
 
-    assertThat("_spacegateToday", isSetTo(false));
-  }
+    @Test
+    void canActivateSpacegateAndAcquireGear() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("_spacegateAnimalLife"),
+              withProperty("_spacegateCoordinates"),
+              withProperty("_spacegateGear"),
+              withProperty("_spacegateHazards"),
+              withProperty("_spacegateIntelligentLife"),
+              withProperty("_spacegateMurderbot"),
+              withProperty("_spacegatePlanetIndex"),
+              withProperty("_spacegatePlanetName"),
+              withProperty("_spacegatePlantLife"),
+              withProperty("_spacegateRuins"),
+              withProperty("_spacegateSpant"),
+              withProperty("_spacegateTurnsLeft"));
+      try (cleanups) {
+        // Approach the terminal and prepare to activate it
+        var request = new GenericRequest("place.php?whichplace=spacegate&action=sg_Terminal");
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        builder.client.addResponse(200, html("request/test_spacegate_terminal.html"));
+        request.run();
 
-  @ParameterizedTest
-  @ValueSource(
-      strings = {"choice.php?forceoption=0", "place.php?whichplace=spacegate&action=sg_Terminal"})
-  void canParseSpacegateTerminal(String url) {
-    var request = new GenericRequest(url);
-    request.responseText = html("request/test_spacegate_terminal_earddyk.html");
-    QuestManager.handleQuestChange(request);
+        // Select a random planet
+        request = new GenericRequest("choice.php?whichchoice=1235&pwd&option=3");
+        builder.client.addResponse(200, html("request/test_spacegate_activate.html"));
+        builder.client.addResponse(200, ""); // api.php
+        request.run();
 
-    assertThat("_spacegatePlanetName", isSetTo("Diverticulus Isaacson IX"));
-    assertThat("_spacegateCoordinates", isSetTo("EARDDYK"));
-    assertThat("_spacegatePlanetIndex", isSetTo(4));
-    assertThat("_spacegateHazards", isSetTo("high winds"));
-    assertThat("_spacegatePlantLife", isSetTo("primitive"));
-    assertThat("_spacegateAnimalLife", isSetTo("primitive (hostile)"));
-    assertThat("_spacegateIntelligentLife", isSetTo("none detected"));
-    assertThat("_spacegateSpant", isSetTo(false));
-    assertThat("_spacegateMurderbot", isSetTo(false));
-    assertThat("_spacegateRuins", isSetTo(false));
-    assertThat("_spacegateTurnsLeft", isSetTo(20));
+        assertThat("_spacegateCoordinates", isSetTo("ECWSIJJ"));
+        assertThat("_spacegatePlanetIndex", isSetTo(4));
+        assertThat("_spacegatePlanetName", isSetTo("Beta Fritus IX"));
+        assertThat("_spacegateHazards", isSetTo("irradiated"));
+        assertThat("_spacegateGear", isSetTo("rad cloak"));
+        assertThat("_spacegateAnimalLife", isSetTo("primitive"));
+        assertThat("_spacegatePlantLife", isSetTo("none detected"));
+        assertThat("_spacegateIntelligentLife", isSetTo("none detected"));
+        assertThat("_spacegateMurderbot", isSetTo(true));
+        assertThat("_spacegateRuins", isSetTo(false));
+        assertThat("_spacegateSpant", isSetTo(true));
+        assertThat("_spacegateTurnsLeft", isSetTo(20));
+
+        // Attempt to adventure.
+        assertFalse(InventoryManager.hasItem(ItemPool.RAD_CLOAK));
+        request = new GenericRequest("adventure.php?snarfblat=494");
+        builder.client.addResponse(200, html("request/test_spacegate_hazards_1.html"));
+        builder.client.addResponse(200, ""); // api.php
+        request.run();
+        assertTrue(InventoryManager.hasItem(ItemPool.RAD_CLOAK));
+      }
+    }
+
+    @Test
+    void canActivatePortableSpacegateAndAcquireGear() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.PORTABLE_SPACEGATE),
+              withProperty("_spacegateGear"),
+              withProperty("_spacegateHazards"),
+              withProperty("_spacegateTurnsLeft"));
+      try (cleanups) {
+        // Use your portable spacegate
+        var request = new GenericRequest("inv_use.php?pwd&which=3&whichitem=9465&ajax=1");
+        builder.client.addResponse(200, html("request/test_portable_spacegate_activate.html"));
+        builder.client.addResponse(200, ""); // api.php
+        request.run();
+        assertFalse(InventoryManager.hasItem(ItemPool.PORTABLE_SPACEGATE));
+        assertTrue(InventoryManager.hasItem(ItemPool.OPEN_PORTABLE_SPACEGATE));
+        assertThat("_spacegateTurnsLeft", isSetTo(20));
+
+        // It gave us a random planet. Look at the gate.
+        request = new GenericRequest("place.php?whichplace=spacegate_portable");
+        builder.client.addResponse(200, html("request/test_portable_spacegate.html"));
+        request.run();
+
+        // It didn't tell us a thing about it. Dangerous!
+        // Attempt to adventure.
+        request = new GenericRequest("adventure.php?snarfblat=494");
+        builder.client.addResponse(200, html("request/test_spacegate_hazards_2.html"));
+        request.run();
+        assertThat("_spacegateHazards", isSetTo("high gravity"));
+        assertThat("_spacegateGear", isSetTo("exo-server leg braces"));
+        assertTrue(InventoryManager.hasItem(ItemPool.EXO_SERVO_LEG_BRACES));
+      }
+    }
   }
 
   @Nested

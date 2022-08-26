@@ -2066,6 +2066,7 @@ user	_sourceTerminalPortscanUses	0
 user	_spaceFurDropsCrown	0
 user	_spacegateAnimalLife
 user	_spacegateCoordinates
+user	_spacegateGear
 user	_spacegateHazards
 user	_spacegateIntelligentLife
 user	_spacegateMurderbot	false
