@@ -550,9 +550,48 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return Preferences.getBoolean("_coldAirportToday");
     }
 
+    if (this.zone.equals("Gingerbread City")) {
+      // Unlimited adventuring if available
+      if (Preferences.getBoolean("gingerbreadCityAvailable")) {
+        return true;
+      }
+      if (!Preferences.getBoolean("_gingerbreadCityToday")) {
+        // Take a look at the mountains.
+        var request = new PlaceRequest("mountains");
+        RequestThread.postRequest(request);
+      }
+      return Preferences.getBoolean("_gingerbreadCityToday");
+    }
+
+    if (this.zone.equals("Neverending Party")) {
+      // Unlimited adventuring if available
+      if (Preferences.getBoolean("neverendingPartyAlways")) {
+        return true;
+      }
+      if (!Preferences.getBoolean("_neverendingPartyToday")) {
+        // Take a look at the mountains.
+        var request = new PlaceRequest("town_wrong");
+        RequestThread.postRequest(request);
+      }
+      return Preferences.getBoolean("_neverendingPartyToday");
+    }
+
+    if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
+      // One trip through is available
+      if (Preferences.getBoolean("loveTunnelAvailable")) {
+        return true;
+      }
+      if (!Preferences.getBoolean("_loveTunnelToday")) {
+        // Take a look at the mountains.
+        var request = new PlaceRequest("town_wrong");
+        RequestThread.postRequest(request);
+      }
+      return Preferences.getBoolean("_loveTunnelToday");
+    }
+
     if (this.zone.equals("The Spacegate")) {
       // Through the Spacegate
-      if (Preferences.getBoolean("spacegateAlways")) {
+      if (Preferences.getBoolean("spacegateAlways") || Preferences.getBoolean("_spacegateToday")) {
         return true;
       }
 
@@ -566,7 +605,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return true;
         }
       }
-      return false;
+
+      // Take a look at the mountains.
+      var request = new PlaceRequest("mountains");
+      RequestThread.postRequest(request);
+
+      return Preferences.getBoolean("spacegateAlways");
     }
 
     return true;
