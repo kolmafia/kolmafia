@@ -339,7 +339,7 @@ public class ConsumablesDatabase {
           ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
           ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "5-9");
         }
-        case "vodka and cranberries" -> {
+        case "vodka and cranberry" -> {
           ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
           ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "6-9");
         }

@@ -31,7 +31,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -5437,7 +5437,7 @@ public abstract class ChoiceControl {
       case 918:
         // Yachtzee!
         if (text.contains("Ultimate Mind Destroyer")) {
-          var date = HolidayDatabase.getArizonaDateTime();
+          var date = DateTimeManager.getArizonaDateTime();
           Preferences.setString(
               "umdLastObtained", date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }

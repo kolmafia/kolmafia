@@ -25,7 +25,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -8764,7 +8764,7 @@ public abstract class ChoiceAdventures {
         // Yachtzee
         result = new Option[3];
         // Is it 7 or more days since the last time you got the Ultimate Mind Destroyer?
-        var date = HolidayDatabase.getArizonaDateTime();
+        var date = DateTimeManager.getArizonaDateTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String lastUMDDateString = Preferences.getString("umdLastObtained");
         if (lastUMDDateString != null && !lastUMDDateString.equals("")) {
@@ -8772,7 +8772,7 @@ public abstract class ChoiceAdventures {
             var compareDate =
                 sdf.parse(lastUMDDateString)
                     .toInstant()
-                    .atZone(HolidayDatabase.ARIZONA)
+                    .atZone(DateTimeManager.ARIZONA)
                     .plusDays(7);
             if (date.compareTo(compareDate) >= 0) {
               result[0] = new Option("get Ultimate Mind Destroyer");

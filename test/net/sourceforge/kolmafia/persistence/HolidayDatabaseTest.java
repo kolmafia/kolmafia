@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withDay;
-import static net.sourceforge.kolmafia.persistence.HolidayDatabase.ROLLOVER;
 import static net.sourceforge.kolmafia.persistence.HolidayDatabase.getHolidayPredictions;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -19,7 +18,8 @@ class HolidayDatabaseTest {
   class HamburgularPosition {
     @Test
     void noPositionBeforeCollision() {
-      var date = ZonedDateTime.of(2006, Month.JUNE.getValue(), 2, 0, 0, 0, 0, ROLLOVER);
+      var date =
+          ZonedDateTime.of(2006, Month.JUNE.getValue(), 2, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
       var position = HolidayDatabase.getHamburglarPosition(date);
 
       assertThat(position, equalTo(-1));
@@ -27,7 +27,9 @@ class HolidayDatabaseTest {
 
     @Test
     void canDeterminePosition() {
-      var date = ZonedDateTime.of(2013, Month.FEBRUARY.getValue(), 17, 0, 0, 0, 0, ROLLOVER);
+      var date =
+          ZonedDateTime.of(
+              2013, Month.FEBRUARY.getValue(), 17, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
       var position = HolidayDatabase.getHamburglarPosition(date);
 
       assertThat(position, equalTo(7));
@@ -49,7 +51,9 @@ class HolidayDatabaseTest {
     @ParameterizedTest
     @CsvSource({"22, true", "23, false"})
     void canDetectADayIsMonday(final int date, final boolean isMonday) {
-      var dateTime = ZonedDateTime.of(2022, Month.AUGUST.getValue(), date, 0, 0, 0, 0, ROLLOVER);
+      var dateTime =
+          ZonedDateTime.of(
+              2022, Month.AUGUST.getValue(), date, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
       assertThat(HolidayDatabase.isMonday(dateTime), equalTo(isMonday));
     }
   }
@@ -87,7 +91,7 @@ class HolidayDatabaseTest {
       "12,6,Lab&oacute;r Day: 6 days|Halloween: 16 days|Dependence Day: 22 days|Feast of Boris: 23 days|Yuletide: 28 days|Festival of Jarlsberg: 33 days|Valentine's Day: 44 days|St. Sneaky Pete's Day: 51 days|Oyster Egg Day: 58 days|El Dia De Los Muertos Borrachos: 66 days|Generic Summer Holiday: 75 days|Arrrbor Day: 92 days",
     })
     void canIdentifyAllHolidays(final int day, final int month, final String holidays) {
-      var date = ZonedDateTime.of(2022, month, day, 0, 0, 0, 0, ROLLOVER);
+      var date = ZonedDateTime.of(2022, month, day, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
       var actualHolidays = getHolidayPredictions(date);
       assertThat(String.join("|", actualHolidays), equalTo(holidays));
     }
