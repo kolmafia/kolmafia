@@ -22,6 +22,9 @@ public class SkillPool {
   public static final int PRIDE = 27;
   public static final int RAINBOW_GRAVITATION = 44;
   public static final int RAGE_GLAND = 45;
+  public static final int SLIMY_SINEWS = 46;
+  public static final int SLIMY_SYNAPSES = 47;
+  public static final int SLIMY_SHOULDERS = 48;
   public static final int GOTHY_HANDWAVE = 49;
   public static final int BREAK_IT_ON_DOWN = 50;
   public static final int POP_AND_LOCK = 51;
