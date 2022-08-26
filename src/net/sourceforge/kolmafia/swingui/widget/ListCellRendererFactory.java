@@ -366,7 +366,7 @@ public class ListCellRendererFactory {
         pulling = this.appendAmount(stringForm, item);
       }
 
-      stringForm.append(")").append("</b>");
+      stringForm.append(")");
 
       if (color != null) {
         stringForm.append("</font>");
