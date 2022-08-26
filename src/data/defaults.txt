@@ -1380,6 +1380,7 @@ user	statusSpecialOps	0
 user	statusWasteProcessing	0
 user	stenchAirportAlways	false
 user	stenchCursedMonster	
+user	stillsuitFamiliar
 user	stopForFixedWanderer	false
 user	stopForUltraRare	true
 user	streamCrossDefaultTarget	ProtonicBot
