@@ -1204,6 +1204,8 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.setConsumptionData(
         "stillsuit distillate",
         1,
+        1,
+        ConsumableQuality.CHANGING,
         String.valueOf(adventures),
         "0",
         "0",
