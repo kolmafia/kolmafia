@@ -544,7 +544,7 @@ public class TCRSDatabase {
     }
 
     // Fix all the consumables whose adv yield varies by level
-    ConsumablesDatabase.setVariableConsumables();
+    ConsumablesDatabase.setLevelVariableConsumables();
 
     ConcoctionDatabase.refreshConcoctions();
     KoLCharacter.recalculateAdjustments();
@@ -735,8 +735,6 @@ public class TCRSDatabase {
 
     ConcoctionDatabase.resetEffects();
     ConcoctionDatabase.refreshConcoctions();
-    ConsumablesDatabase.setSmoresData();
-    ConsumablesDatabase.setAffirmationCookieData();
     ConsumablesDatabase.setVariableConsumables();
     ConsumablesDatabase.calculateAdventureRanges();
 
