@@ -33,6 +33,8 @@ public abstract class ConsequenceManager {
       new HashMap<Integer, Consequence>();
   private static final ArrayList<String> descriptions = new ArrayList<String>();
   private static final HashMap<String, Consequence> monsters = new HashMap<String, Consequence>();
+  private static final HashMap<Integer, Consequence> combatSkillNames =
+      new HashMap<Integer, Consequence>();
   private static final ArrayList<Consequence> accomplishments = new ArrayList<Consequence>();
 
   private static final Pattern GROUP_PATTERN = Pattern.compile("\\$(\\d)");
@@ -94,6 +96,14 @@ public abstract class ConsequenceManager {
         cons.register(ConsequenceManager.effectDescs, key);
         ConsequenceManager.descriptions.add("desc_effect.php?whicheffect=" + key);
       }
+    } else if (type.equals("COMBAT_SKILL")) {
+      int id = SkillDatabase.getSkillId(spec);
+      if (id == -1) {
+        RequestLogger.printLine("Unknown COMBAT_SKILL consequence: " + spec);
+      } else {
+        Integer key = id;
+        cons.register(ConsequenceManager.combatSkillNames, key);
+      }
     } else if (type.equals("MONSTER")) {
       String key = spec;
       cons.register(ConsequenceManager.monsters, key);
@@ -121,6 +131,13 @@ public abstract class ConsequenceManager {
 
   public static void parseEffectDesc(String id, String responseText) {
     Consequence cons = ConsequenceManager.effectDescs.get(id);
+    if (cons != null) {
+      cons.test(responseText);
+    }
+  }
+
+  public static void parseCombatSkillName(int id, String responseText) {
+    Consequence cons = ConsequenceManager.combatSkillNames.get(id);
     if (cons != null) {
       cons.test(responseText);
     }

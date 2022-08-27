@@ -207,6 +207,24 @@ class ChoiceControlTest {
     }
 
     @Test
+    void canReadInformationFromChoicePageWhenLessThan10Drams() {
+      var cleanups = new Cleanups(withProperty("familiarSweat"));
+
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        var urlString = "choice.php?forceoption=0";
+        var responseText = html("request/test_choice_stillsuit_sub_10.html");
+        var request = new GenericRequest(urlString);
+        request.responseText = responseText;
+        ChoiceManager.preChoice(request);
+        request.processResponse();
+
+        assertThat("familiarSweat", isSetTo(3));
+        assertThat(RequestLoggerOutput.stopStream(), is(""));
+      }
+    }
+
+    @Test
     void drinkingSweatClearsPrefs() {
       var cleanups = new Cleanups(withProperty("familiarSweat", 1234), withPostChoice2(1476, 1));
 

@@ -5,8 +5,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
@@ -368,6 +370,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
   }
 
+  // Validation part 0:
+  //
+  // If you want to adventure in a zone or location which is permanently
+  // unlocked by an IOTM - which might also provide a "day pass" for one-day
+  // access to (some of) the features, if we didn't see you use the item which
+  // granted daily access, we can usually visit a map area and take a look.
+  //
+  // this.isValidAdventure will be false if the only way to visit an area is to
+  // use a (possibly expensive) day pass - which you might not even own
+
+  private void validate0() {
+    this.isValidAdventure = this.preValidateAdventure();
+  }
+
   // Validation part 1:
   //
   // Determine if you are locked out of reaching a zone or location by level,
@@ -381,6 +397,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   private void validate1() {
     this.isValidAdventure = this.canAdventure();
+  }
+
+  // Validation part 2:
+  //
+  // The zone/location is within reach. If the pre-adventure script
+  // donned outfits, bought supplies, or gained effects, cool.
+  //
+  // If it didn't do what we can here.
+  //
+  // If we can't, log error and set this.isValidAdventure to false.
+
+  private void validate2() {
+    this.isValidAdventure = this.prepareForAdventure();
   }
 
   // AdventureResults used during validation
@@ -412,6 +441,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
   private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG);
   private static final AdventureResult GRIMSTONE_MASK = ItemPool.get(ItemPool.GRIMSTONE_MASK);
+  private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
+      ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -449,6 +480,93 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     holidayAdventures.put("The Spectral Pickle Factory", "April Fool's Day");
     holidayAdventures.put("Drunken Stupor", null);
   }
+
+  // Validation part 0:
+
+  private boolean checkZone(String alwaysPref, String todayPref, String place) {
+    // If we have permanent access, cool.
+    if (Preferences.getBoolean(alwaysPref)) {
+      return true;
+    }
+    // If we don't know we have daily access, looking at the map
+    // will induce QuestManager to detect it.
+    if (!Preferences.getBoolean(todayPref)) {
+      var request = new PlaceRequest(place);
+      RequestThread.postRequest(request);
+    }
+    return Preferences.getBoolean(todayPref);
+  }
+
+  public boolean preValidateAdventure() {
+
+    if (this.zone.equals("Spring Break Beach")) {
+      // Unlimited adventuring if available
+      return checkZone("sleazeAirportAlways", "_sleazeAirportToday", "airport");
+    }
+
+    if (this.zone.equals("Conspiracy Island")) {
+      // Unlimited adventuring if available
+      return checkZone("spookyAirportAlways", "_spookyAirportToday", "airport");
+    }
+
+    if (this.zone.equals("Dinseylandfill")) {
+      // Unlimited adventuring if available
+      return checkZone("stenchAirportAlways", "_stenchAirportToday", "airport");
+    }
+
+    if (this.zone.equals("That 70s Volcano")) {
+      // Unlimited adventuring if available
+      return checkZone("hotAirportAlways", "_hotAirportToday", "airport");
+    }
+
+    if (this.zone.equals("The Glaciest")) {
+      // Unlimited adventuring if available
+      return checkZone("coldAirportAlways", "_coldAirportToday", "airport");
+    }
+
+    if (this.zone.equals("Gingerbread City")) {
+      // Unlimited adventuring if available
+      return checkZone("gingerbreadCityAvailable", "_gingerbreadCityToday", "mountains");
+    }
+
+    if (this.zone.equals("Neverending Party")) {
+      // Unlimited adventuring if available
+      return checkZone("neverendingPartyAlways", "_neverendingPartyToday", "town_wrong");
+    }
+
+    if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
+      // One trip through if available
+      return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
+    }
+
+    if (this.zone.equals("The Spacegate")) {
+      // Through the Spacegate
+      if (Preferences.getBoolean("spacegateAlways") || Preferences.getBoolean("_spacegateToday")) {
+        return true;
+      }
+
+      if (!Preferences.getBoolean("_spacegateToday")) {
+        if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
+          Preferences.setBoolean("_spacegateToday", true);
+          // There is no way to tell how many turns you have
+          // left today in an open portable spacegate.
+          // I think.
+          Preferences.setInteger("_spacegateTurnsLeft", 20);
+          return true;
+        }
+      }
+
+      // Take a look at the mountains.
+      var request = new PlaceRequest("mountains");
+      RequestThread.postRequest(request);
+
+      return Preferences.getBoolean("spacegateAlways");
+    }
+
+    return true;
+  }
+
+  // Validation part 1:
 
   public boolean canAdventure() {
     if (Limitmode.limitAdventure(this)) {
@@ -1596,10 +1714,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
 
-      return (Preferences.getBoolean("spacegateAlways")
-              || Preferences.getBoolean("_spacegateToday"))
-          && !Preferences.getString("_spacegateCoordinates").isBlank()
-          && Preferences.getInteger("_spacegateTurnsLeft") > 0;
+      // If you have permanent access, you must have activated the Spacegate
+      // and chosen a planet to visit. prepareForAdventure will acquire and
+      // equip the necessary protective gear, if you have not already done so.
+      if (Preferences.getBoolean("spacegateAlways")) {
+        return !Preferences.getString("_spacegateCoordinates").isBlank()
+            && Preferences.getInteger("_spacegateTurnsLeft") > 0;
+      }
+
+      // If you don't have permanent access, you must have used a portable
+      // spacegate. You don't get to choose which planet you go to, but you
+      // have been given the necessary protective gear. prepareForAdventure
+      // will equip it, if you have not already done so.
+      if (Preferences.getBoolean("_spacegateToday")) {
+        return Preferences.getInteger("_spacegateTurnsLeft") > 0;
+      }
+
+      return false;
     }
 
     if (this.zone.equals("Gingerbread City")) {
@@ -1661,17 +1792,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   // Validation part 2:
-  //
-  // The zone/location is within reach. If the pre-adventure script
-  // donned outfits, bought supplies, or gained effects, cool.
-  //
-  // If it didn't do what we can here.
-  //
-  // If we can't, log error and set this.isValidAdventure to false.
-
-  private void validate2() {
-    this.isValidAdventure = this.prepareForAdventure();
-  }
 
   public boolean prepareForAdventure() {
     // If we get here, this.isValidAdventure is true.
@@ -1719,6 +1839,40 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Shape of Mole")) {
       // *** Should use llama lama gong and select correct form
+      return true;
+    }
+
+    if (this.zone.equals("The Spacegate")) {
+      String neededGear = Preferences.getString("_spacegateGear");
+      // If we don't know what gear we need, this must be a portable
+      // spacegate. Visit Through the Spacegate to see what it gives us.
+      if (neededGear.equals("")) {
+        var request = new GenericRequest("adventure.php?snarfblat=494");
+        RequestThread.postRequest(request);
+        neededGear = Preferences.getString("_spacegateGear");
+      }
+      // We now know what gear we need.
+      Set<AdventureResult> gear =
+          Arrays.stream(neededGear.split("\\|"))
+              .map(item -> new AdventureResult(item, 1, false))
+              .collect(Collectors.toSet());
+      // Do we have it all? If not, some, but not all, were manually checked out
+      // from Equipment Requisition. Visit Through the Spacegate to get the
+      // rest.
+      boolean haveAllGear = gear.stream().allMatch(InventoryManager::hasItem);
+      if (!haveAllGear) {
+        var request = new GenericRequest("adventure.php?snarfblat=494");
+        RequestThread.postRequest(request);
+      }
+      // Equip any gear that is not yet equipped.  Note that there are two
+      // possible accessories. We can't unequip one to equip the other.
+      // *** how to do that?
+      for (AdventureResult item : gear) {
+        if (!KoLCharacter.hasEquipped(item)) {
+          RequestThread.postRequest(new EquipmentRequest(item));
+        }
+      }
+
       return true;
     }
 

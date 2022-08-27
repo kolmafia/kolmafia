@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -643,6 +644,9 @@ public abstract class RuntimeLibrary {
         new LibraryFunction("session_logs", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
     // Major functions related to adventuring and item management.
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("pre_validate_adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("can_adventure", DataTypes.BOOLEAN_TYPE, params));
@@ -3557,7 +3561,7 @@ public abstract class RuntimeLibrary {
   // updated usually once per day.
 
   public static Value holiday(ScriptRuntime controller) {
-    var today = HolidayDatabase.getRolloverDateTime();
+    var today = DateTimeManager.getRolloverDateTime();
     String gameHoliday = HolidayDatabase.getGameHoliday(today);
     String realHoliday = HolidayDatabase.getRealLifeHoliday(today);
     String result =
@@ -3803,6 +3807,11 @@ public abstract class RuntimeLibrary {
   }
 
   // Major functions related to adventuring and item management.
+
+  public static Value pre_validate_adventure(ScriptRuntime controller, final Value arg) {
+    KoLAdventure location = (KoLAdventure) arg.content;
+    return DataTypes.makeBooleanValue(location.preValidateAdventure());
+  }
 
   public static Value can_adventure(ScriptRuntime controller, final Value arg) {
     KoLAdventure location = (KoLAdventure) arg.content;

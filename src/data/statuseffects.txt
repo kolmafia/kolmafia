@@ -2717,6 +2717,6 @@
 2717	Kinda Damp	blooddrops.gif	1e39ab0a1afcc1c70d5302304f7b93b2	good	none
 2718	Wholesomely Resolved	happy.gif	2b47f4772381abb5ac24e620be92da96	good	none
 2719	Slippery and Speedy	sweaty.gif	defb8cda55243471997f272f928a09f8	neutral	none	cast 1 Drench Yourself in Sweat
-2720	Buzzed on Distillate	chinsweat.gif	d64eab33f648e1a77da23ae516353fb2	neutral	none
+2720	Buzzed on Distillate	chinsweat.gif	d64eab33f648e1a77da23ae516353fb2	neutral	none	drink 1 stillsuit distillate
 2721	Dino Pheromoned	wbchemset.gif	395dfbcdb8accb94d462d1380d53e913	neutral	none
 2722	Prehistoric Potential	dna.gif	53927d1c7c90d775d1033fd12618cfa7	neutral	none	use 1 Dino DNAde&trade;

@@ -10,6 +10,7 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
@@ -27,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.util.HashMap;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -47,6 +49,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class KoLAdventureValidationTest {
@@ -67,6 +71,197 @@ public class KoLAdventureValidationTest {
   @AfterAll
   public static void afterAll() {
     Preferences.saveSettingsToFile = true;
+  }
+
+  @Nested
+  class PreValidateAdventure {
+
+    private void checkDayPasses(
+        KoLAdventure adventure,
+        String place,
+        String html,
+        boolean perm,
+        boolean today,
+        String alwaysProperty,
+        String todayProperty) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty(alwaysProperty, perm),
+              withProperty(todayProperty, today));
+      try (cleanups) {
+        var url = "place.php?whichplace=" + place;
+        builder.client.addResponse(200, html);
+
+        boolean success = adventure.preValidateAdventure();
+
+        var requests = builder.client.getRequests();
+        if (perm || today) {
+          // If we know that we have permanent or daily access, pre-validation
+          // returns true with no requests
+          assertTrue(success);
+          assertThat(requests, hasSize(0));
+        } else if (html.equals("")) {
+          // If we have neither permanent nor daily access and none is visible
+          // on the map, pre-validation returns false with one request
+          assertFalse(success);
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=" + place);
+        } else {
+          // If we have neither permanent nor daily access but the map shows
+          // access, pre-validation returns true with one request and sets
+          // daily access
+          assertTrue(success);
+          assertTrue(Preferences.getBoolean(todayProperty));
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=" + place);
+        }
+      }
+    }
+
+    private void checkDayPasses(String adventureName, String place, String always, String today) {
+      KoLAdventure adventure = AdventureDatabase.getAdventureByName(adventureName);
+      var html = html("request/test_visit_" + place + ".html");
+      // If we have always access, we don't have today access
+      checkDayPasses(adventure, place, html, true, false, always, today);
+      // If we don't have always access, we might today access
+      checkDayPasses(adventure, place, html, false, true, always, today);
+      // If we don't have always or today access, we might still have today access
+      checkDayPasses(adventure, place, html, false, false, always, today);
+      // If we don't have always or today access, we might really not have today access
+      checkDayPasses(adventure, place, "", false, false, always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "The Neverending Party, neverendingPartyAlways, _neverendingPartyToday",
+      "The Tunnel of L.O.V.E., loveTunnelAvailable, _loveTunnelToday"
+    })
+    public void checkDayPassesInTownWrong(String adventureName, String always, String today) {
+      checkDayPasses(adventureName, "town_wrong", always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "VYKEA, coldAirportAlways, _coldAirportToday",
+      "The SMOOCH Army HQ, hotAirportAlways, _hotAirportToday",
+      "The Fun-Guy Mansion, sleazeAirportAlways, _sleazeAirportToday",
+      "The Deep Dark Jungle, spookyAirportAlways, _spookyAirportToday",
+      "Barf Mountain, stenchAirportAlways, _stenchAirportToday"
+    })
+    public void checkDayPassesInAirport(String adventureName, String always, String today) {
+      checkDayPasses(adventureName, "airport", always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"Gingerbread Civic Center, gingerbreadCityAvailable, _gingerbreadCityToday"})
+    public void checkDayPassesInMountains(String adventureName, String always, String today) {
+      checkDayPasses(adventureName, "mountains", always, today);
+    }
+
+    @Nested
+    class Spacegate {
+      private static KoLAdventure SPACEGATE =
+          AdventureDatabase.getAdventureByName("Through the Spacegate");
+      private static final String always = "spacegateAlways";
+      private static final String today = "_spacegateToday";
+
+      @Test
+      public void checkAlwaysAccessForSpacegate() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withProperty(always, true),
+                withProperty(today, false));
+        try (cleanups) {
+          // If we have always access, we're good to go.
+          boolean success = SPACEGATE.preValidateAdventure();
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(0));
+          assertTrue(success);
+        }
+      }
+
+      @Test
+      public void checkTodayAccessForSpacegate() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withProperty(always, false),
+                withProperty(today, true));
+        try (cleanups) {
+          // If we have daily access, we're good to go
+          boolean success = SPACEGATE.preValidateAdventure();
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(0));
+          assertTrue(success);
+        }
+      }
+
+      @Test
+      public void checkPortableAccessForSpacegate() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withProperty(always, false),
+                withProperty(today, false),
+                withItem(ItemPool.OPEN_PORTABLE_SPACEGATE));
+        try (cleanups) {
+          // If we have neither access, but we have an open portable
+          // Spacegate,  we actually have daily access.
+          boolean success = SPACEGATE.preValidateAdventure();
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(0));
+          assertTrue(Preferences.getBoolean(today));
+          assertTrue(success);
+        }
+      }
+
+      @Test
+      public void checkMapAccessForSpacegate() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withProperty(always, false),
+                withProperty(today, false));
+        try (cleanups) {
+          // If we have neither access, but the Spacegate is on the map,
+          // we actually have permanent access.
+          builder.client.addResponse(200, html("request/test_visit_mountains.html"));
+          boolean success = SPACEGATE.preValidateAdventure();
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=mountains");
+          assertTrue(Preferences.getBoolean(always));
+          assertTrue(success);
+        }
+      }
+
+      @Test
+      public void checkNoAccessForSpacegate() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withProperty(always, false),
+                withProperty(today, false));
+        try (cleanups) {
+          // If we have neither access, but the Spacegate is not on the map,
+          // we really have no access
+          builder.client.addResponse(200, "");
+          boolean success = SPACEGATE.preValidateAdventure();
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=mountains");
+          assertFalse(success);
+        }
+      }
+    }
   }
 
   @Nested
@@ -3307,11 +3502,22 @@ public class KoLAdventureValidationTest {
         AdventureDatabase.getAdventureByName("Through the Spacegate");
 
     @Test
-    void canAdventure() {
+    void cannotAdventureWithoutAccess() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", false), withProperty("_spacegateToday", false));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void canAdventureWithCoordinatesAndTurns() {
       var cleanups =
           new Cleanups(
               withProperty("spacegateAlways", true),
-              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateCoordinates", "ABCDEFG"),
               withProperty("_spacegateTurnsLeft", 2));
 
       try (cleanups) {
@@ -3320,12 +3526,33 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    void canAdventureWithDayTicket() {
+    void cannotAdventureWithoutCoordinates() {
+      var cleanups = new Cleanups(withProperty("spacegateAlways", true));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void cannotAdventureWithoutTurns() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "ABCDEF"),
+              withProperty("_spacegateTurnsLeft", 0));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void canAdventureWithPortableSpacegateAndTurns() {
       var cleanups =
           new Cleanups(
               withProperty("spacegateAlways", false),
               withProperty("_spacegateToday", true),
-              withProperty("_spacegateCoordinates", "XXXXX"),
               withProperty("_spacegateTurnsLeft", 2));
 
       try (cleanups) {
@@ -3334,35 +3561,10 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    void cannotAdventureWithoutAccess() {
+    void cannotAdventureWithPortableSpacegateWithoutTurns() {
       var cleanups =
           new Cleanups(
-              withProperty("_spacegateCoordinates", "XXXXX"),
-              withProperty("_spacegateTurnsLeft", 2));
-
-      try (cleanups) {
-        assertThat(SPACEGATE.canAdventure(), is(false));
-      }
-    }
-
-    @Test
-    void cannotAdventureWithoutDialledCoordinates() {
-      var cleanups =
-          new Cleanups(
-              withProperty("spacegateAlways", true), withProperty("_spacegateTurnsLeft", 2));
-
-      try (cleanups) {
-        assertThat(SPACEGATE.canAdventure(), is(false));
-      }
-    }
-
-    @Test
-    void cannotAdventureWithoutTurnsRemaining() {
-      var cleanups =
-          new Cleanups(
-              withProperty("spacegateAlways", true),
-              withProperty("_spacegateCoordinates", "XXXXX"),
-              withProperty("_spacegateTurnsLeft", 0));
+              withProperty("_spacegateToday", true), withProperty("_spacegateTurnsLeft", 0));
 
       try (cleanups) {
         assertThat(SPACEGATE.canAdventure(), is(false));
@@ -3374,12 +3576,109 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withProperty("spacegateAlways", true),
-              withProperty("_spacegateCoordinates", "XXXXX"),
+              withProperty("_spacegateCoordinates", "ABCDEF"),
               withProperty("_spacegateTurnsLeft", 2),
               withPath(Path.KINGDOM_OF_EXPLOATHING));
 
       try (cleanups) {
         assertThat(SPACEGATE.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void canPrepareForAdventureWithEquipmentEquipped() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "ABCDEFG"),
+              withProperty("_spacegateTurnsLeft", 2),
+              withProperty("_spacegateGear", "exo-servo leg braces"),
+              withEquipped(EquipmentManager.PANTS, ItemPool.EXO_SERVO_LEG_BRACES));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(true));
+        assertThat(SPACEGATE.prepareForAdventure(), is(true));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    void canPrepareForAdventureWithEquipmentInInventory() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "ABCDEFG"),
+              withProperty("_spacegateTurnsLeft", 2),
+              withProperty("_spacegateGear", "exo-servo leg braces"),
+              withEquippableItem(ItemPool.EXO_SERVO_LEG_BRACES));
+
+      try (cleanups) {
+        assertThat(SPACEGATE.canAdventure(), is(true));
+        assertThat(SPACEGATE.prepareForAdventure(), is(true));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.EXO_SERVO_LEG_BRACES);
+      }
+    }
+
+    @Test
+    void canPrepareForAdventureAndAcquireEquipment() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("spacegateAlways", true),
+              withProperty("_spacegateCoordinates", "ABCDEFG"),
+              withProperty("_spacegateTurnsLeft", 2),
+              withProperty("_spacegateGear", "exo-servo leg braces"),
+              withLastLocation(SPACEGATE));
+
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_spacegate_hazards_2.html"));
+        assertThat(SPACEGATE.canAdventure(), is(true));
+        assertThat(SPACEGATE.prepareForAdventure(), is(true));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=494");
+        assertPostRequest(
+            requests.get(1),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.EXO_SERVO_LEG_BRACES);
+      }
+    }
+
+    @Test
+    void canPrepareForAdventureAndFindAndAcquireEquipment() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("_spacegateToday", true),
+              withProperty("_spacegateTurnsLeft", 20),
+              withProperty("_spacegateGear"),
+              withLastLocation(SPACEGATE));
+
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_spacegate_hazards_1.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertThat(SPACEGATE.canAdventure(), is(true));
+        assertThat(SPACEGATE.prepareForAdventure(), is(true));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=494");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(
+            requests.get(2),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.RAD_CLOAK);
       }
     }
   }

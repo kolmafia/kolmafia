@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -169,7 +170,7 @@ public class FightRequest extends GenericRequest {
   private static final Pattern COMBATITEM_PATTERN =
       Pattern.compile("<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>");
   private static final Pattern AVAILABLE_COMBATSKILL_PATTERN =
-      Pattern.compile("<option[^>]*?value=\"(\\d+)[^>]*?>(.*?) \\((\\d+)[^<]*</option>");
+      Pattern.compile("<option[^>]*?value=\"(\\d+)[^>]*?>((.*?) \\((\\d+)[^<]*)</option>");
 
   // fambattle.php?pwd&famaction[backstab-209]=Backstab
   private static final Pattern FAMBATTLE_PATTERN = Pattern.compile("famaction.*?-(\\d+).*?=(.*)");
@@ -2743,6 +2744,7 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("sweat", StringUtilities.parseInt(moreSweatMatcher.group(1)));
       }
     }
+
     // "The Slime draws back and shudders, as if it's about to sneeze.
     // Then it blasts you with a massive loogie that sticks to your
     // rusty grave robbing shovel, pulls it off of you, and absorbs
@@ -4570,9 +4572,10 @@ public class FightRequest extends GenericRequest {
       int skillId = StringUtilities.parseInt(m.group(1));
       String skillName = SkillDatabase.getSkillName(skillId);
       if (skillName == null) {
-        skillName = m.group(2);
+        skillName = m.group(3);
         SkillDatabase.registerSkill(skillId, skillName);
       }
+      ConsequenceManager.parseCombatSkillName(skillId, m.group(2));
       // If Grey Goose skills are present, they may not actually be available;
       // KoL erroneously leaves them in the dropdown after you have cast them
       // and thereby deleveled your Grey Goose. Bug Reported.

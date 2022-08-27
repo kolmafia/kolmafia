@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class BackupCameraCommand extends AbstractCommand implements ModeCommand {
@@ -57,5 +58,10 @@ public class BackupCameraCommand extends AbstractCommand implements ModeCommand 
 
     RequestThread.postRequest(new GenericRequest("inventory.php?action=bcmode"));
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1449&option=" + choice));
+
+    // If still in choice, call 'Leave it alone' to exit
+    if (ChoiceManager.handlingChoice && ChoiceManager.lastChoice == 1449) {
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1449&option=6"));
+    }
   }
 }

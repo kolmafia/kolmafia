@@ -879,6 +879,160 @@ public class FightRequestTest {
     }
   }
 
+  @Test
+  public void canDetectPowerfulGloveCharge() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_powerfulGloveBatteryPowerUsed", 0),
+            withEquipped(EquipmentManager.ACCESSORY1, "Powerful Glove"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_skill_name_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.REPLACE_ENEMY));
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.SHRINK_ENEMY));
+      assertThat("_powerfulGloveBatteryPowerUsed", isSetTo(30));
+    }
+  }
+
+  @Test
+  public void canDetectCosplaySaberUses() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_saberForceUses", 0),
+            withEquipped(EquipmentManager.WEAPON, "Fourth of May Cosplay Saber"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_skill_name_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.USE_THE_FORCE));
+      assertThat("_saberForceUses", isSetTo(3));
+    }
+  }
+
+  @Test
+  public void canDetectLilDoctorBagUses() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_otoscopeUsed", 10),
+            withProperty("_reflexHammerUsed", 10),
+            withProperty("_chestXRayUsed", 10),
+            withEquipped(EquipmentManager.ACCESSORY1, "Lil' Doctor™ bag"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_skill_name_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.OTOSCOPE));
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.REFLEX_HAMMER));
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.CHEST_X_RAY));
+      assertThat("_otoscopeUsed", isSetTo(0));
+      assertThat("_reflexHammerUsed", isSetTo(0));
+      assertThat("_chestXRayUsed", isSetTo(0));
+    }
+  }
+
+  @Test
+  public void canDetectExtinguisherCharge() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_fireExtinguisherCharge", 0),
+            withEquipped(EquipmentManager.WEAPON, "Industrial Fire Extinguisher"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_skill_name_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP));
+      assertThat("_fireExtinguisherCharge", isSetTo(35));
+    }
+  }
+
+  @Test
+  public void canDetectVampyreCloakeFormUses() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_vampyreCloakeFormUses", 5),
+            withEquipped(EquipmentManager.CONTAINER, "Vampyric cloake"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_skill_name_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BECOME_BAT));
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BECOME_MIST));
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BECOME_WOLF));
+      assertThat("_vampyreCloakeFormUses", isSetTo(0));
+    }
+  }
+
+  @Test
+  public void canDetectMeteorLoreUses() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_meteorShowerUses", 1),
+            withProperty("_macrometeoriteUses", 1));
+
+    try (cleanups) {
+      String html = html("request/test_fight_skill_name_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.METEOR_SHOWER));
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.MACROMETEOR));
+      assertThat("_meteorShowerUses", isSetTo(0));
+      assertThat("_macrometeoriteUses", isSetTo(0));
+    }
+  }
+
+  @Test
+  public void canDetectPantsgivingBanishUses() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_pantsgivingBanish", 3),
+            withEquipped(EquipmentManager.PANTS, "Pantsgiving"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_skill_name_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.TALK_ABOUT_POLITICS));
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.POCKET_CRUMBS));
+      assertThat("_pantsgivingBanish", isSetTo(0));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "5, true",
+    "0, false",
+  })
+  public void canDetectBackupCameraUses(int backupsUsed, boolean youRobotPath) {
+    // Back-Up to your Last Enemy (11 uses today)
+    var cleanups =
+        new Cleanups(
+            withPath(youRobotPath ? Path.YOU_ROBOT : Path.NONE),
+            withFight(),
+            withProperty("_backUpUses", 3),
+            withEquipped(EquipmentManager.ACCESSORY1, "Backup Camera"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_skill_name_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BACK_UP));
+      assertThat("_backUpUses", isSetTo(backupsUsed));
+    }
+  }
+
   @Nested
   class XOSkeleton {
     @Test

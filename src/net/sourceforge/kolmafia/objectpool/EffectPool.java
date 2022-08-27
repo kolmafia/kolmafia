@@ -52,7 +52,6 @@ public class EffectPool {
   public static final int SPOOKYFORM = 191;
   public static final int STENCHFORM = 192;
   public static final int SLEAZEFORM = 193;
-  public static final int MILK = 211;
   public static final int CURSED_BY_RNG = 217;
   public static final int CHALKY_HAND = 221;
   public static final int DREAMS_AND_LIGHTS = 223;

@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -813,8 +814,8 @@ public class DebugDatabase {
       report.println("# *** " + name + " is size " + size + " but should be " + descSize + ".");
     }
 
-    String quality = ConsumablesDatabase.getQuality(name);
-    String descQuality = DebugDatabase.parseQuality(text);
+    var quality = ConsumablesDatabase.getQuality(name);
+    var descQuality = DebugDatabase.parseQuality(text);
     if (!quality.equals(descQuality)) {
       report.println(
           "# *** " + name + " is quality " + quality + " but should be " + descQuality + ".");
@@ -2741,7 +2742,7 @@ public class DebugDatabase {
 
     int level = ConsumablesDatabase.getLevelReqByName(name);
     String adv = ConsumablesDatabase.getAdvRangeByName(name);
-    String quality =
+    var quality =
         (itemId == -1) ? ConsumablesDatabase.getQuality(name) : DebugDatabase.parseQuality(text);
     String mus = ConsumablesDatabase.getMuscleByName(name);
     String mys = ConsumablesDatabase.getMysticalityByName(name);
@@ -2760,9 +2761,9 @@ public class DebugDatabase {
 
   private static final Pattern QUALITY_PATTERN = Pattern.compile("Type: <b>.*?\\((.*?)\\).*?</b>");
 
-  public static final String parseQuality(final String text) {
+  public static ConsumableQuality parseQuality(final String text) {
     Matcher matcher = DebugDatabase.QUALITY_PATTERN.matcher(text);
-    return ConsumablesDatabase.qualityValue(matcher.find() ? matcher.group(1) : "");
+    return ConsumableQuality.find(matcher.find() ? matcher.group(1) : "");
   }
 
   // **********************************************************

@@ -299,7 +299,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return The quality
      */
     public String get_quality() {
-      return ConsumablesDatabase.getQuality(this.contentString);
+      return ConsumablesDatabase.getQuality(this.contentString).getName();
     }
 
     /**

@@ -3922,7 +3922,7 @@
 3894	vial of teal slime	867609165	vial.gif	potion, multiple, cook	q,d	99	vials of teal slime
 3895	vial of indigo slime	455694019	vial.gif	potion, multiple, cook	q,d	99	vials of indigo slime
 3896	vial of purple slime	553670862	vial.gif	potion, multiple, cook	q,d	99	vials of purple slime
-3897	vial of brown slime	615023386	vial.gif	potion, usable, cook	q,d	3	vials of brown slime
+3897	vial of brown slime	615023386	vial.gif	multiple, usable, cook	q,d	3	vials of brown slime
 3898	bottle of G&uuml;-Gone	959190225	cleaner.gif	none, combat reusable	q	0
 3899
 3900

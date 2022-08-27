@@ -2958,6 +2958,11 @@ public class ItemPool {
   public static final int TOGGLE_SWITCH_BARTEND = 9402;
   public static final int TOGGLE_SWITCH_BOUNCE = 9403;
   public static final int SPACEGATE_ACCESS_BADGE = 9404;
+  public static final int FILTER_HELMET = 9405;
+  public static final int EXO_SERVO_LEG_BRACES = 9406;
+  public static final int RAD_CLOAK = 9407;
+  public static final int GATE_TRANCEIVER = 9408;
+  public static final int HIGH_FRICTION_BOOTS = 9409;
   public static final int SPACEGATE_RESEARCH = 9410;
   public static final int ALIEN_ROCK_SAMPLE = 9411;
   public static final int ALIEN_GEMSTONE = 9412;
@@ -2985,6 +2990,7 @@ public class ItemPool {
   public static final int SPACE_BABY_CHILDRENS_BOOK = 9463;
   public static final int SPACE_BABY_BAWBAW = 9464;
   public static final int PORTABLE_SPACEGATE = 9465;
+  public static final int OPEN_PORTABLE_SPACEGATE = 9477;
   public static final int NEW_YOU_CLUB_MEMBERSHIP_FORM = 9478;
   public static final int AFFIRMATION_SUPERFICIALLY_INTERESTED = 9481;
   public static final int AFFIRMATION_MIND_MASTER = 9483;

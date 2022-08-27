@@ -182,6 +182,9 @@ public class PlaceRequest extends GenericRequest {
           && !Preferences.getBoolean("gingerbreadCityAvailable")) {
         Preferences.setBoolean("_gingerbreadCityToday", true);
       }
+      if (responseText.contains("spacegate")) {
+        Preferences.setBoolean("spacegateAlways", true);
+      }
     } else if (place.equals("nstower")) {
       SorceressLairManager.parseTowerResponse(action, responseText);
     } else if (place.equals("nstower_door") || place.equals("nstower_doorlowkey")) {
@@ -624,6 +627,8 @@ public class PlaceRequest extends GenericRequest {
       } else if (action.equals("sg_vaccinator")) {
         message = "Visiting the Spacegate Vaccination Machine";
       }
+    } else if (place.equals("spacegate_portable")) {
+      message = "Visiting your portable Spacegate";
     } else if (place.equals("sea_oldman")) {
       // place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6313[/code]
       if (action.equals("oldman_oldman")) {
