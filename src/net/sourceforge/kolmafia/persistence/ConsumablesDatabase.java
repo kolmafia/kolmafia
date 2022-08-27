@@ -894,10 +894,10 @@ public class ConsumablesDatabase {
       range =
           ConsumablesDatabase.getAdventureMap(
                   perUnit,
+                  false,
                   adventuresBoosted && lunch,
                   adventuresBoosted && gourmand,
-                  adventuresBoosted && munchies,
-                  false)
+                  adventuresBoosted && munchies)
               .get(name);
       if (adventuresBoosted && milk) {
         range += 5;
