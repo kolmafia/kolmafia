@@ -1533,7 +1533,9 @@ public class QuestManagerTest {
               withProperty(always, perm),
               withProperty(today, false));
       try (cleanups) {
-        var request = new GenericRequest("place.php?whichplace=" + place);
+        boolean isPlace = !place.endsWith(".php");
+        var url = isPlace ? "place.php?whichplace=" + place : place;
+        var request = new GenericRequest(url);
         builder.client.addResponse(200, html);
         request.run();
         if (today.equals("none")) {
@@ -1548,7 +1550,11 @@ public class QuestManagerTest {
 
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(1));
-        assertPostRequest(requests.get(0), "/place.php", "whichplace=" + place);
+        if (isPlace) {
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=" + place);
+        } else {
+          assertGetRequest(requests.get(0), "/" + url, null);
+        }
       }
     }
 
@@ -1600,7 +1606,8 @@ public class QuestManagerTest {
     @CsvSource({
       "chateauAvailable, none",
       "snojoAvailable, none",
-      "gingerbreadCityAvailable, _gingerbreadCityToday"
+      "gingerbreadCityAvailable, _gingerbreadCityToday",
+      "spacegateAlways, none"
     })
     public void checkDayPassesInMountains(String always, String today) {
       var html = html("request/test_visit_mountains.html");
@@ -1608,6 +1615,26 @@ public class QuestManagerTest {
       checkDayPasses("mountains", html, true, always, today);
       // If we don't have always access, we have today access
       checkDayPasses("mountains", html, false, always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"barrelShrineUnlocked, none"})
+    public void checkDayPassesInDungeons(String always, String today) {
+      var html = html("request/test_visit_dungeons.html");
+      // If we have always access, we don't have today access
+      checkDayPasses("da.php", html, true, always, today);
+      // If we don't have always access, we have today access
+      checkDayPasses("da.php", html, false, always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"getawayCampsiteUnlocked, none"})
+    public void checkDayPassesInWoods(String always, String today) {
+      var html = html("request/test_visit_woods.html");
+      // If we have always access, we don't have today access
+      checkDayPasses("woods", html, true, always, today);
+      // If we don't have always access, we have today access
+      checkDayPasses("woods", html, false, always, today);
     }
   }
 

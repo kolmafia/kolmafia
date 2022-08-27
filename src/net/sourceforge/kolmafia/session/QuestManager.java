@@ -228,6 +228,8 @@ public class QuestManager {
       }
     } else if (location.startsWith("council")) {
       handleCouncilChange(responseText);
+    } else if (location.startsWith("da")) {
+      handleDungeonsChange(responseText);
     } else if (location.startsWith("fernruin")) {
       QuestDatabase.setQuestIfBetter(Quest.EGO, "step3");
     } else if (location.startsWith("friars")) {
@@ -1439,6 +1441,12 @@ public class QuestManager {
     QuestDatabase.handleCouncilText(responseText);
     if (QuestDatabase.isQuestStarted(Quest.MACGUFFIN)) {
       QuestDatabase.setQuestIfBetter(Quest.BLACK, QuestDatabase.STARTED);
+    }
+  }
+
+  private static void handleDungeonsChange(final String responseText) {
+    if (responseText.contains("barrelshrine")) {
+      Preferences.setBoolean("barrelShrineUnlocked", true);
     }
   }
 
