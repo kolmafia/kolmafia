@@ -483,110 +483,60 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   // Validation part 0:
 
+  public boolean checkZone(String alwaysPref, String todayPref, String place) {
+    // If we have permanent access, cool.
+    if (Preferences.getBoolean(alwaysPref)) {
+      return true;
+    }
+    // If we don't know we have daily access, looking at the map
+    // will induce QuestManager to detect it.
+    if (!Preferences.getBoolean(todayPref)) {
+      var request = new PlaceRequest(place);
+      RequestThread.postRequest(request);
+    }
+    return Preferences.getBoolean(todayPref);
+  }
+
   public boolean preValidateAdventure() {
 
     if (this.zone.equals("Spring Break Beach")) {
       // Unlimited adventuring if available
-      if (Preferences.getBoolean("sleazeAirportAlways")) {
-        return true;
-      }
-      if (!Preferences.getBoolean("_sleazeAirportToday")) {
-        // Take a look at the airport.
-        var request = new PlaceRequest("airport");
-        RequestThread.postRequest(request);
-      }
-      return Preferences.getBoolean("_sleazeAirportToday");
+      return checkZone("sleazeAirportAlways", "_sleazeAirportToday", "airport");
     }
 
     if (this.zone.equals("Conspiracy Island")) {
       // Unlimited adventuring if available
-      if (Preferences.getBoolean("spookyAirportAlways")) {
-        return true;
-      }
-      if (!Preferences.getBoolean("_spookyAirportToday")) {
-        // Take a look at the airport.
-        var request = new PlaceRequest("airport");
-        RequestThread.postRequest(request);
-      }
-      return Preferences.getBoolean("_spookyAirportToday");
+      return checkZone("spookyAirportAlways", "_spookyAirportToday", "airport");
     }
 
     if (this.zone.equals("Dinseylandfill")) {
       // Unlimited adventuring if available
-      if (Preferences.getBoolean("stenchAirportAlways")) {
-        return true;
-      }
-      if (!Preferences.getBoolean("_stenchAirportToday")) {
-        // Take a look at the airport.
-        var request = new PlaceRequest("airport");
-        RequestThread.postRequest(request);
-      }
-      return Preferences.getBoolean("_stenchAirportToday");
+      return checkZone("stenchAirportAlways", "_stenchAirportToday", "airport");
     }
 
     if (this.zone.equals("That 70s Volcano")) {
       // Unlimited adventuring if available
-      if (Preferences.getBoolean("hotAirportAlways")) {
-        return true;
-      }
-      if (!Preferences.getBoolean("_hotAirportToday")) {
-        // Take a look at the airport.
-        var request = new PlaceRequest("airport");
-        RequestThread.postRequest(request);
-      }
-      return Preferences.getBoolean("_hotAirportToday");
+      return checkZone("hotAirportAlways", "_hotAirportToday", "airport");
     }
 
     if (this.zone.equals("The Glaciest")) {
       // Unlimited adventuring if available
-      if (Preferences.getBoolean("coldAirportAlways")) {
-        return true;
-      }
-      if (!Preferences.getBoolean("_coldAirportToday")) {
-        // Take a look at the airport.
-        var request = new PlaceRequest("airport");
-        RequestThread.postRequest(request);
-      }
-      return Preferences.getBoolean("_coldAirportToday");
+      return checkZone("coldAirportAlways", "_coldAirportToday", "airport");
     }
 
     if (this.zone.equals("Gingerbread City")) {
       // Unlimited adventuring if available
-      if (Preferences.getBoolean("gingerbreadCityAvailable")) {
-        return true;
-      }
-      if (!Preferences.getBoolean("_gingerbreadCityToday")) {
-        // Take a look at the mountains.
-        var request = new PlaceRequest("mountains");
-        RequestThread.postRequest(request);
-      }
-      return Preferences.getBoolean("_gingerbreadCityToday");
+      return checkZone("gingerbreadCityAvailable", "_gingerbreadCityToday", "mountains");
     }
 
     if (this.zone.equals("Neverending Party")) {
       // Unlimited adventuring if available
-      if (Preferences.getBoolean("neverendingPartyAlways")) {
-        return true;
-      }
-      if (!Preferences.getBoolean("_neverendingPartyToday")) {
-        // Take a look at the mountains.
-        var request = new PlaceRequest("town_wrong");
-        RequestThread.postRequest(request);
-      }
-      return Preferences.getBoolean("_neverendingPartyToday");
+      return checkZone("neverendingPartyAlways", "_neverendingPartyToday", "town_wrong");
     }
 
     if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
-      // One trip through is available
-      if (Preferences.getBoolean("loveTunnelAvailable")) {
-        return true;
-      }
-      if (!Preferences.getBoolean("_loveTunnelToday")) {
-        // Take a look at the mountains.
-        var request = new PlaceRequest("town_wrong");
-        RequestThread.postRequest(request);
-      }
-      return Preferences.getBoolean("_loveTunnelToday");
+      // One trip through if available
+      return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
     }
 
     if (this.zone.equals("The Spacegate")) {

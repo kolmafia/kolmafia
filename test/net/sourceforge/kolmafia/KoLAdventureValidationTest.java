@@ -76,7 +76,7 @@ public class KoLAdventureValidationTest {
   @Nested
   class PreValidateAdventure {
 
-    public void checkDayPasses(
+    private void checkDayPasses(
         KoLAdventure adventure,
         String place,
         String html,
@@ -92,7 +92,7 @@ public class KoLAdventureValidationTest {
               withProperty(todayProperty, today));
       try (cleanups) {
         var url = "place.php?whichplace=" + place;
-        builder.client.addResponse(200, html == null ? "" : html);
+        builder.client.addResponse(200, html);
 
         boolean success = adventure.preValidateAdventure();
 
@@ -102,14 +102,14 @@ public class KoLAdventureValidationTest {
           // returns true with no requests
           assertTrue(success);
           assertThat(requests, hasSize(0));
-        } else if (html == null) {
-          // If we have neither permanent or daily access and none is visible
+        } else if (html.equals("")) {
+          // If we have neither permanent nor daily access and none is visible
           // on the map, pre-validation returns false with one request
           assertFalse(success);
           assertThat(requests, hasSize(1));
           assertPostRequest(requests.get(0), "/place.php", "whichplace=" + place);
         } else {
-          // If we have neither permanent or daily access but the map shows
+          // If we have neither permanent nor daily access but the map shows
           // access, pre-validation returns true with one request and sets
           // daily access
           assertTrue(success);
@@ -120,22 +120,26 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    private void checkDayPasses(String adventureName, String place, String always, String today) {
+      KoLAdventure adventure = AdventureDatabase.getAdventureByName(adventureName);
+      var html = html("request/test_visit_" + place + ".html");
+      // If we have always access, we don't have today access
+      checkDayPasses(adventure, place, html, true, false, always, today);
+      // If we don't have always access, we might today access
+      checkDayPasses(adventure, place, html, false, true, always, today);
+      // If we don't have always or today access, we might still have today access
+      checkDayPasses(adventure, place, html, false, false, always, today);
+      // If we don't have always or today access, we might really not have today access
+      checkDayPasses(adventure, place, "", false, false, always, today);
+    }
+
     @ParameterizedTest
     @CsvSource({
       "The Neverending Party, neverendingPartyAlways, _neverendingPartyToday",
       "The Tunnel of L.O.V.E., loveTunnelAvailable, _loveTunnelToday"
     })
     public void checkDayPassesInTownWrong(String adventureName, String always, String today) {
-      KoLAdventure adventure = AdventureDatabase.getAdventureByName(adventureName);
-      var html = html("request/test_visit_town_wrong.html");
-      // If we have always access, we don't have today access
-      checkDayPasses(adventure, "town_wrong", html, true, false, always, today);
-      // If we don't have always access, we might today access
-      checkDayPasses(adventure, "town_wrong", html, false, true, always, today);
-      // If we don't have always or today access, we might still have today access
-      checkDayPasses(adventure, "town_wrong", html, false, false, always, today);
-      // If we don't have always or today access, we might really not have today access
-      checkDayPasses(adventure, "town_wrong", null, false, false, always, today);
+      checkDayPasses(adventureName, "town_wrong", always, today);
     }
 
     @ParameterizedTest
@@ -147,33 +151,13 @@ public class KoLAdventureValidationTest {
       "Barf Mountain, stenchAirportAlways, _stenchAirportToday"
     })
     public void checkDayPassesInAirport(String adventureName, String always, String today) {
-      KoLAdventure adventure = AdventureDatabase.getAdventureByName(adventureName);
-      var html = html("request/test_visit_airport.html");
-
-      // If we have always access, we don't have today access
-      checkDayPasses(adventure, "airport", html, true, false, always, today);
-      // If we don't have always access, we might today access
-      checkDayPasses(adventure, "airport", html, false, true, always, today);
-      // If we don't have always or today access, we might still have today access
-      checkDayPasses(adventure, "airport", html, false, false, always, today);
-      // If we don't have always or today access, we might really not have today access
-      checkDayPasses(adventure, "airport", null, false, false, always, today);
+      checkDayPasses(adventureName, "airport", always, today);
     }
 
     @ParameterizedTest
     @CsvSource({"Gingerbread Civic Center, gingerbreadCityAvailable, _gingerbreadCityToday"})
     public void checkDayPassesInMountains(String adventureName, String always, String today) {
-      KoLAdventure adventure = AdventureDatabase.getAdventureByName(adventureName);
-      var html = html("request/test_visit_mountains.html");
-
-      // If we have always access, we don't have today access
-      checkDayPasses(adventure, "mountains", html, true, false, always, today);
-      // If we don't have always access, we might today access
-      checkDayPasses(adventure, "mountains", html, false, true, always, today);
-      // If we don't have always or today access, we might still have today access
-      checkDayPasses(adventure, "mountains", html, false, false, always, today);
-      // If we don't have always or today access, we might really not have today access
-      checkDayPasses(adventure, "mountains", null, false, false, always, today);
+      checkDayPasses(adventureName, "mountains", always, today);
     }
 
     @Nested
@@ -267,7 +251,7 @@ public class KoLAdventureValidationTest {
                 withProperty(always, false),
                 withProperty(today, false));
         try (cleanups) {
-          // If we have neither access, but the Spacegate is not on the map
+          // If we have neither access, but the Spacegate is not on the map,
           // we really have no access
           builder.client.addResponse(200, "");
           boolean success = SPACEGATE.preValidateAdventure();
