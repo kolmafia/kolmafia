@@ -483,7 +483,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   // Validation part 0:
 
-  public boolean checkZone(String alwaysPref, String todayPref, String place) {
+  private boolean checkZone(String alwaysPref, String todayPref, String place) {
     // If we have permanent access, cool.
     if (Preferences.getBoolean(alwaysPref)) {
       return true;
