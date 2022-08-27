@@ -646,6 +646,9 @@ public abstract class RuntimeLibrary {
     // Major functions related to adventuring and item management.
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("pre_validate_adventure", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("can_adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
@@ -3804,6 +3807,11 @@ public abstract class RuntimeLibrary {
   }
 
   // Major functions related to adventuring and item management.
+
+  public static Value pre_validate_adventure(ScriptRuntime controller, final Value arg) {
+    KoLAdventure location = (KoLAdventure) arg.content;
+    return DataTypes.makeBooleanValue(location.preValidateAdventure());
+  }
 
   public static Value can_adventure(ScriptRuntime controller, final Value arg) {
     KoLAdventure location = (KoLAdventure) arg.content;

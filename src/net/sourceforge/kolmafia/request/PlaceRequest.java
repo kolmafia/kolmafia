@@ -182,6 +182,9 @@ public class PlaceRequest extends GenericRequest {
           && !Preferences.getBoolean("gingerbreadCityAvailable")) {
         Preferences.setBoolean("_gingerbreadCityToday", true);
       }
+      if (responseText.contains("spacegate")) {
+        Preferences.setBoolean("spacegateAlways", true);
+      }
     } else if (place.equals("nstower")) {
       SorceressLairManager.parseTowerResponse(action, responseText);
     } else if (place.equals("nstower_door") || place.equals("nstower_doorlowkey")) {
