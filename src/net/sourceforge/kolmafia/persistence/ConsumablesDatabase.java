@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -31,7 +30,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConsumablesDatabase {
   public static final AdventureResult ODE = EffectPool.get(EffectPool.ODE);
-  public static final AdventureResult MILK = EffectPool.get(EffectPool.MILK);
   public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get(EffectPool.GLORIOUS_LUNCH);
   public static final AdventureResult BARREL_OF_LAUGHS =
       EffectPool.get(EffectPool.BARREL_OF_LAUGHS);
@@ -59,7 +57,7 @@ public class ConsumablesDatabase {
 
   private static Set<String> advNames = null;
 
-  public static enum ConsumableQuality {
+  public enum ConsumableQuality {
     NONE(""),
     CRAPPY("crappy", "#999999"),
     DECENT("decent"),
@@ -864,7 +862,15 @@ public class ConsumablesDatabase {
     return factor;
   }
 
-  public static final double getAdventureRange(final String name) {
+  private static boolean areAdventuresBoosted(final String name) {
+    int itemId = ItemDatabase.getItemId(name, 1, false);
+    return switch (ConcoctionDatabase.getMixingMethod(itemId, name)) {
+      case SUSHI, STILLSUIT -> false;
+      default -> true;
+    };
+  }
+
+  public static double getAdventureRange(final String name) {
     if (name == null) {
       return 0.0;
     }
@@ -873,14 +879,13 @@ public class ConsumablesDatabase {
       return 0.0;
     }
 
-    String cname = StringUtilities.getCanonicalName(name);
     boolean perUnit = Preferences.getBoolean("showGainsPerUnit");
     Double range = null;
 
+    var adventuresBoosted = areAdventuresBoosted(name);
+
     if (ConsumablesDatabase.getRawFullness(name) != null) {
-      int itemId = ItemDatabase.getItemId(name, 1, false);
-      boolean sushi = ConcoctionDatabase.getMixingMethod(itemId, name) == CraftingType.SUSHI;
-      boolean milk = KoLConstants.activeEffects.contains(ConsumablesDatabase.MILK);
+      boolean milk = Preferences.getBoolean("milkOfMagnesiumActive");
       boolean lunch =
           KoLConstants.activeEffects.contains(ConsumablesDatabase.GLORIOUS_LUNCH)
               || ConsumablesDatabase.BARREL_OF_LAUGHS.getCount(KoLConstants.activeEffects) >= 5;
@@ -888,15 +893,27 @@ public class ConsumablesDatabase {
       boolean munchies = Preferences.getInteger("munchiesPillsUsed") > 0;
       range =
           ConsumablesDatabase.getAdventureMap(
-                  perUnit, !sushi && milk, !sushi && lunch, !sushi && gourmand, !sushi && munchies)
+                  perUnit,
+                  false,
+                  adventuresBoosted && lunch,
+                  adventuresBoosted && gourmand,
+                  adventuresBoosted && munchies)
               .get(name);
+      if (adventuresBoosted && milk) {
+        range += 5;
+      }
     } else if (ConsumablesDatabase.getRawInebriety(name) != null) {
       boolean odeEffect = KoLConstants.activeEffects.contains(ConsumablesDatabase.ODE);
       boolean rowdyDrinker =
           KoLCharacter.hasSkill("Rowdy Drinker")
               || ConsumablesDatabase.BEER_BARREL_POLKA.getCount(KoLConstants.activeEffects) >= 5;
       range =
-          ConsumablesDatabase.getAdventureMap(perUnit, odeEffect, rowdyDrinker, false, false)
+          ConsumablesDatabase.getAdventureMap(
+                  perUnit,
+                  adventuresBoosted && odeEffect,
+                  adventuresBoosted && rowdyDrinker,
+                  false,
+                  false)
               .get(name);
     } else if (ConsumablesDatabase.getRawSpleenHit(name) != null) {
       range = ConsumablesDatabase.getAdventureMap(perUnit, false, false, false, false).get(name);
