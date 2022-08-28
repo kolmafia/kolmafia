@@ -161,7 +161,7 @@ public class AscensionPath {
 
   static {
     for (Path path : Path.values()) {
-      pathByName.put(path.name, path);
+      pathByName.put(path.name.toLowerCase(), path);
       pathById.put(path.id, path);
       if (path.image != null) {
         pathByImage.put(path.image, path);
@@ -170,7 +170,7 @@ public class AscensionPath {
   }
 
   public static Path nameToPath(String name) {
-    return pathByName.get(name);
+    return pathByName.get(name.toLowerCase());
   }
 
   public static Path idToPath(int id) {
