@@ -38,7 +38,6 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,11 +46,6 @@ public class MaximizerTest {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("MaximizerTest");
-    Preferences.reset("MaximizerTest");
-  }
-
-  @BeforeEach
-  public void allowPreferences() {
     Preferences.reset("MaximizerTest");
   }
   // basic
