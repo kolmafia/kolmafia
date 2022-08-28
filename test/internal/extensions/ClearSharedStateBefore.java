@@ -1,4 +1,6 @@
-package net.sourceforge.kolmafia.extensions;
+package internal.extensions;
+
+import static internal.extensions.CheckNested.isNested;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
 
   @Override
   public void beforeAll(ExtensionContext context) {
+    if (isNested(context)) return;
     restoreUserStateToNoUser();
     restoreOtherStates();
     deleteDirectoriesAndContents();

@@ -1,4 +1,6 @@
-package net.sourceforge.kolmafia.extensions;
+package internal.extensions;
+
+import static internal.extensions.CheckNested.isNested;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +20,7 @@ public class ClearSharedStateAfter implements AfterAllCallback {
 
   @Override
   public void afterAll(ExtensionContext context) {
+    if (isNested(context)) return;
     deleteDirectoriesAndContents();
   }
 

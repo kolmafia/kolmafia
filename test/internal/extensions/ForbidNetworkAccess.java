@@ -1,4 +1,6 @@
-package net.sourceforge.kolmafia.extensions;
+package internal.extensions;
+
+import static internal.extensions.CheckNested.isNested;
 
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -9,6 +11,7 @@ public class ForbidNetworkAccess implements BeforeAllCallback {
 
   @Override
   public void beforeAll(ExtensionContext context) {
+    if (isNested(context)) return;
     ForbidNetworkAccess.blockNetwork();
   }
 
