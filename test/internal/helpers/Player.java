@@ -8,6 +8,7 @@ import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -1397,16 +1398,18 @@ public class Player {
    *
    * @param type The type of key
    * @param key The restricted item / skill
-   * @param allowed Whether key is allowed
    * @return Restores to previous value
    */
-  public static Cleanups withAllowedInStandard(
-      final RestrictedItemType type, final String key, final boolean allowed) {
-    var mocked = mockStatic(StandardRequest.class, Mockito.CALLS_REAL_METHODS);
+  public static Cleanups withNotAllowedInStandard(final RestrictedItemType type, final String key) {
+    var lcKey = key.toLowerCase();
+    var map = StandardRequest.getRestrictionMap();
+    map.computeIfAbsent(type, k -> new HashSet<>()).add(lcKey);
 
-    mocked.when(() -> StandardRequest.isAllowedInStandard(type, key)).thenReturn(allowed);
-
-    return new Cleanups(mocked::close);
+    return new Cleanups(
+        () -> {
+          var val = map.get(type);
+          if (val != null) val.remove(lcKey);
+        });
   }
 
   /**

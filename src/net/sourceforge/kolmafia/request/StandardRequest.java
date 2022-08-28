@@ -23,6 +23,10 @@ public class StandardRequest extends GenericRequest {
 
   private static boolean initialized = false;
 
+  public static Map<RestrictedItemType, Set<String>> getRestrictionMap() {
+    return map;
+  }
+
   public static void reset() {
     StandardRequest.initialized = false;
     StandardRequest.map.clear();

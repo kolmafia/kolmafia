@@ -8,7 +8,6 @@ import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
 import static internal.helpers.Maximizer.recommends;
 import static internal.helpers.Maximizer.someBoostIs;
-import static internal.helpers.Player.withAllowedInStandard;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -17,6 +16,7 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
@@ -1081,7 +1081,7 @@ public class MaximizerTest {
           new Cleanups(
               withProperty("horseryAvailable", true),
               withRestricted(true),
-              withAllowedInStandard(RestrictedItemType.ITEMS, "Horsery contract", false));
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Horsery contract"));
 
       try (cleanups) {
         assertTrue(maximize("-combat"));
