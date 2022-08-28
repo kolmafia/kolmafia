@@ -124,55 +124,34 @@ public class Type extends Symbol {
   }
 
   public Value initialValue() {
-    switch (this.type) {
-      case DataTypes.TYPE_VOID:
-        return DataTypes.VOID_VALUE;
-      case DataTypes.TYPE_BOOLEAN:
-        return DataTypes.BOOLEAN_INIT;
-      case DataTypes.TYPE_INT:
-        return DataTypes.INT_INIT;
-      case DataTypes.TYPE_FLOAT:
-        return DataTypes.FLOAT_INIT;
-      case DataTypes.TYPE_STRING:
-        return DataTypes.STRING_INIT;
-      case DataTypes.TYPE_BUFFER:
-        return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
-      case DataTypes.TYPE_MATCHER:
-        return new Value(DataTypes.MATCHER_TYPE, "", Pattern.compile("").matcher(""));
-      case DataTypes.TYPE_ITEM:
-        return DataTypes.ITEM_INIT;
-      case DataTypes.TYPE_LOCATION:
-        return DataTypes.LOCATION_INIT;
-      case DataTypes.TYPE_CLASS:
-        return DataTypes.CLASS_INIT;
-      case DataTypes.TYPE_STAT:
-        return DataTypes.STAT_INIT;
-      case DataTypes.TYPE_SKILL:
-        return DataTypes.SKILL_INIT;
-      case DataTypes.TYPE_EFFECT:
-        return DataTypes.EFFECT_INIT;
-      case DataTypes.TYPE_FAMILIAR:
-        return DataTypes.FAMILIAR_INIT;
-      case DataTypes.TYPE_SLOT:
-        return DataTypes.SLOT_INIT;
-      case DataTypes.TYPE_MONSTER:
-        return DataTypes.MONSTER_INIT;
-      case DataTypes.TYPE_ELEMENT:
-        return DataTypes.ELEMENT_INIT;
-      case DataTypes.TYPE_COINMASTER:
-        return DataTypes.COINMASTER_INIT;
-      case DataTypes.TYPE_PHYLUM:
-        return DataTypes.PHYLUM_INIT;
-      case DataTypes.TYPE_BOUNTY:
-        return DataTypes.BOUNTY_INIT;
-      case DataTypes.TYPE_THRALL:
-        return DataTypes.THRALL_INIT;
-      case DataTypes.TYPE_SERVANT:
-        return DataTypes.SERVANT_INIT;
-      case DataTypes.TYPE_VYKEA:
-        return DataTypes.VYKEA_INIT;
-    }
-    return null;
+    return switch (this.type) {
+      case DataTypes.TYPE_VOID -> DataTypes.VOID_VALUE;
+      case DataTypes.TYPE_BOOLEAN -> DataTypes.BOOLEAN_INIT;
+      case DataTypes.TYPE_INT -> DataTypes.INT_INIT;
+      case DataTypes.TYPE_FLOAT -> DataTypes.FLOAT_INIT;
+      case DataTypes.TYPE_STRING -> DataTypes.STRING_INIT;
+      case DataTypes.TYPE_BUFFER -> new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
+      case DataTypes.TYPE_MATCHER -> new Value(
+          DataTypes.MATCHER_TYPE, "", Pattern.compile("").matcher(""));
+      case DataTypes.TYPE_ITEM -> DataTypes.ITEM_INIT;
+      case DataTypes.TYPE_LOCATION -> DataTypes.LOCATION_INIT;
+      case DataTypes.TYPE_CLASS -> DataTypes.CLASS_INIT;
+      case DataTypes.TYPE_STAT -> DataTypes.STAT_INIT;
+      case DataTypes.TYPE_SKILL -> DataTypes.SKILL_INIT;
+      case DataTypes.TYPE_EFFECT -> DataTypes.EFFECT_INIT;
+      case DataTypes.TYPE_FAMILIAR -> DataTypes.FAMILIAR_INIT;
+      case DataTypes.TYPE_SLOT -> DataTypes.SLOT_INIT;
+      case DataTypes.TYPE_MONSTER -> DataTypes.MONSTER_INIT;
+      case DataTypes.TYPE_ELEMENT -> DataTypes.ELEMENT_INIT;
+      case DataTypes.TYPE_COINMASTER -> DataTypes.COINMASTER_INIT;
+      case DataTypes.TYPE_PHYLUM -> DataTypes.PHYLUM_INIT;
+      case DataTypes.TYPE_BOUNTY -> DataTypes.BOUNTY_INIT;
+      case DataTypes.TYPE_THRALL -> DataTypes.THRALL_INIT;
+      case DataTypes.TYPE_SERVANT -> DataTypes.SERVANT_INIT;
+      case DataTypes.TYPE_VYKEA -> DataTypes.VYKEA_INIT;
+      case DataTypes.TYPE_PATH -> DataTypes.PATH_INIT;
+      default -> null;
+    };
   }
 
   public Value parseValue(final String name, final boolean returnDefault) {
