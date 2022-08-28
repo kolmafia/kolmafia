@@ -104,6 +104,9 @@ public class Type extends Symbol {
     if (this.equals(DataTypes.VYKEA_TYPE)) {
       return ProxyRecordValue.VykeaProxy._type;
     }
+    if (this.equals(DataTypes.PATH_TYPE)) {
+      return ProxyRecordValue.PathProxy._type;
+    }
     if (this.equals(DataTypes.ELEMENT_TYPE)) {
       return ProxyRecordValue.ElementProxy._type;
     }
@@ -172,98 +175,59 @@ public class Type extends Symbol {
   }
 
   public Value parseValue(final String name, final boolean returnDefault) {
-    switch (this.type) {
-      case DataTypes.TYPE_BOOLEAN:
-        return DataTypes.parseBooleanValue(name, returnDefault);
-      case DataTypes.TYPE_INT:
-        return DataTypes.parseIntValue(name, returnDefault);
-      case DataTypes.TYPE_FLOAT:
-        return DataTypes.parseFloatValue(name, returnDefault);
-      case DataTypes.TYPE_STRING:
-        return DataTypes.parseStringValue(name);
-      case DataTypes.TYPE_ITEM:
-        return DataTypes.parseItemValue(name, returnDefault);
-      case DataTypes.TYPE_LOCATION:
-        return DataTypes.parseLocationValue(name, returnDefault);
-      case DataTypes.TYPE_CLASS:
-        return DataTypes.parseClassValue(name, returnDefault);
-      case DataTypes.TYPE_STAT:
-        return DataTypes.parseStatValue(name, returnDefault);
-      case DataTypes.TYPE_SKILL:
-        return DataTypes.parseSkillValue(name, returnDefault);
-      case DataTypes.TYPE_EFFECT:
-        return DataTypes.parseEffectValue(name, returnDefault);
-      case DataTypes.TYPE_FAMILIAR:
-        return DataTypes.parseFamiliarValue(name, returnDefault);
-      case DataTypes.TYPE_SLOT:
-        return DataTypes.parseSlotValue(name, returnDefault);
-      case DataTypes.TYPE_MONSTER:
-        return DataTypes.parseMonsterValue(name, returnDefault);
-      case DataTypes.TYPE_ELEMENT:
-        return DataTypes.parseElementValue(name, returnDefault);
-      case DataTypes.TYPE_COINMASTER:
-        return DataTypes.parseCoinmasterValue(name, returnDefault);
-      case DataTypes.TYPE_PHYLUM:
-        return DataTypes.parsePhylumValue(name, returnDefault);
-      case DataTypes.TYPE_BOUNTY:
-        return DataTypes.parseBountyValue(name, returnDefault);
-      case DataTypes.TYPE_THRALL:
-        return DataTypes.parseThrallValue(name, returnDefault);
-      case DataTypes.TYPE_SERVANT:
-        return DataTypes.parseServantValue(name, returnDefault);
-      case DataTypes.TYPE_VYKEA:
-        return DataTypes.parseVykeaValue(name, returnDefault);
-    }
-    return null;
+    return switch (this.type) {
+      case DataTypes.TYPE_BOOLEAN -> DataTypes.parseBooleanValue(name, returnDefault);
+      case DataTypes.TYPE_INT -> DataTypes.parseIntValue(name, returnDefault);
+      case DataTypes.TYPE_FLOAT -> DataTypes.parseFloatValue(name, returnDefault);
+      case DataTypes.TYPE_STRING -> DataTypes.parseStringValue(name);
+      case DataTypes.TYPE_ITEM -> DataTypes.parseItemValue(name, returnDefault);
+      case DataTypes.TYPE_LOCATION -> DataTypes.parseLocationValue(name, returnDefault);
+      case DataTypes.TYPE_CLASS -> DataTypes.parseClassValue(name, returnDefault);
+      case DataTypes.TYPE_STAT -> DataTypes.parseStatValue(name, returnDefault);
+      case DataTypes.TYPE_SKILL -> DataTypes.parseSkillValue(name, returnDefault);
+      case DataTypes.TYPE_EFFECT -> DataTypes.parseEffectValue(name, returnDefault);
+      case DataTypes.TYPE_FAMILIAR -> DataTypes.parseFamiliarValue(name, returnDefault);
+      case DataTypes.TYPE_SLOT -> DataTypes.parseSlotValue(name, returnDefault);
+      case DataTypes.TYPE_MONSTER -> DataTypes.parseMonsterValue(name, returnDefault);
+      case DataTypes.TYPE_ELEMENT -> DataTypes.parseElementValue(name, returnDefault);
+      case DataTypes.TYPE_COINMASTER -> DataTypes.parseCoinmasterValue(name, returnDefault);
+      case DataTypes.TYPE_PHYLUM -> DataTypes.parsePhylumValue(name, returnDefault);
+      case DataTypes.TYPE_BOUNTY -> DataTypes.parseBountyValue(name, returnDefault);
+      case DataTypes.TYPE_THRALL -> DataTypes.parseThrallValue(name, returnDefault);
+      case DataTypes.TYPE_SERVANT -> DataTypes.parseServantValue(name, returnDefault);
+      case DataTypes.TYPE_VYKEA -> DataTypes.parseVykeaValue(name, returnDefault);
+      case DataTypes.TYPE_PATH -> DataTypes.parsePathValue(name, returnDefault);
+      default -> null;
+    };
   }
 
   public Value makeValue(final Integer idval, final boolean returnDefault) {
-    int id = idval.intValue();
-    switch (this.type) {
-      case DataTypes.TYPE_BOOLEAN:
-        return DataTypes.makeBooleanValue(id);
-      case DataTypes.TYPE_INT:
-        return DataTypes.makeIntValue(id);
-      case DataTypes.TYPE_FLOAT:
-        return DataTypes.makeFloatValue(id);
-      case DataTypes.TYPE_STRING:
-        return new Value(String.valueOf(id));
-      case DataTypes.TYPE_ITEM:
-        return DataTypes.makeItemValue(id, returnDefault);
-      case DataTypes.TYPE_SKILL:
-        return DataTypes.makeSkillValue(id, returnDefault);
-      case DataTypes.TYPE_EFFECT:
-        return DataTypes.makeEffectValue(id, returnDefault);
-      case DataTypes.TYPE_FAMILIAR:
-        return DataTypes.makeFamiliarValue(id, returnDefault);
-      case DataTypes.TYPE_MONSTER:
-        return DataTypes.makeMonsterValue(id, returnDefault);
-      case DataTypes.TYPE_THRALL:
-        return DataTypes.makeThrallValue(id, returnDefault);
-      case DataTypes.TYPE_SERVANT:
-        return DataTypes.makeServantValue(id, returnDefault);
-      case DataTypes.TYPE_LOCATION:
-        return DataTypes.parseLocationValue(id, returnDefault);
-      case DataTypes.TYPE_SLOT:
-        return DataTypes.makeSlotValue(id, returnDefault);
-
+    int id = idval;
+    return switch (this.type) {
+      case DataTypes.TYPE_BOOLEAN -> DataTypes.makeBooleanValue(id);
+      case DataTypes.TYPE_INT -> DataTypes.makeIntValue(id);
+      case DataTypes.TYPE_FLOAT -> DataTypes.makeFloatValue(id);
+      case DataTypes.TYPE_STRING -> new Value(String.valueOf(id));
+      case DataTypes.TYPE_ITEM -> DataTypes.makeItemValue(id, returnDefault);
+      case DataTypes.TYPE_SKILL -> DataTypes.makeSkillValue(id, returnDefault);
+      case DataTypes.TYPE_EFFECT -> DataTypes.makeEffectValue(id, returnDefault);
+      case DataTypes.TYPE_FAMILIAR -> DataTypes.makeFamiliarValue(id, returnDefault);
+      case DataTypes.TYPE_MONSTER -> DataTypes.makeMonsterValue(id, returnDefault);
+      case DataTypes.TYPE_THRALL -> DataTypes.makeThrallValue(id, returnDefault);
+      case DataTypes.TYPE_SERVANT -> DataTypes.makeServantValue(id, returnDefault);
+      case DataTypes.TYPE_LOCATION -> DataTypes.parseLocationValue(id, returnDefault);
+      case DataTypes.TYPE_SLOT -> DataTypes.makeSlotValue(id, returnDefault);
+      case DataTypes.TYPE_PATH -> DataTypes.makePathValue(id, returnDefault);
         // The following don't have an integer -> object mapping
-      case DataTypes.TYPE_CLASS:
-        return DataTypes.CLASS_INIT;
-      case DataTypes.TYPE_STAT:
-        return DataTypes.STAT_INIT;
-      case DataTypes.TYPE_ELEMENT:
-        return DataTypes.ELEMENT_INIT;
-      case DataTypes.TYPE_COINMASTER:
-        return DataTypes.COINMASTER_INIT;
-      case DataTypes.TYPE_PHYLUM:
-        return DataTypes.PHYLUM_INIT;
-      case DataTypes.TYPE_BOUNTY:
-        return DataTypes.BOUNTY_INIT;
-      case DataTypes.TYPE_VYKEA:
-        return DataTypes.VYKEA_INIT;
-    }
-    return null;
+      case DataTypes.TYPE_CLASS -> DataTypes.CLASS_INIT;
+      case DataTypes.TYPE_STAT -> DataTypes.STAT_INIT;
+      case DataTypes.TYPE_ELEMENT -> DataTypes.ELEMENT_INIT;
+      case DataTypes.TYPE_COINMASTER -> DataTypes.COINMASTER_INIT;
+      case DataTypes.TYPE_PHYLUM -> DataTypes.PHYLUM_INIT;
+      case DataTypes.TYPE_BOUNTY -> DataTypes.BOUNTY_INIT;
+      case DataTypes.TYPE_VYKEA -> DataTypes.VYKEA_INIT;
+      default -> null;
+    };
   }
 
   public List<String> getAmbiguousNames(String s1, Value value, boolean quote) {

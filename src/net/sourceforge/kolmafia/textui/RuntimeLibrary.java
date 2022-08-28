@@ -472,6 +472,8 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
     params = new Type[] {DataTypes.VYKEA_TYPE};
     functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
+    params = new Type[] {DataTypes.PATH_TYPE};
+    functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
@@ -560,6 +562,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_vykea", DataTypes.VYKEA_TYPE, params));
+
+    params = new Type[] {DataTypes.STRICT_STRING_TYPE};
+    functions.add(new LibraryFunction("to_path", DataTypes.PATH_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("to_plural", DataTypes.STRING_TYPE, params));
@@ -3544,6 +3549,10 @@ public abstract class RuntimeLibrary {
 
   public static Value to_vykea(ScriptRuntime controller, final Value value) {
     return DataTypes.parseVykeaValue(value.toString(), true);
+  }
+
+  public static Value to_path(ScriptRuntime controller, final Value value) {
+    return DataTypes.parsePathValue(value.toString(), true);
   }
 
   public static Value to_plural(ScriptRuntime controller, final Value item) {

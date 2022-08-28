@@ -9,7 +9,7 @@ public class AscensionPath {
 
   public enum Path {
     // Path Name, Path ID, is Avatar?, image in ascension history, article
-    NONE("None", 0, false, "blank", null),
+    NONE("none", 0, false, "blank", null),
     BOOZETAFARIAN("Boozetafarian", 1, false, "martini", "a"),
     TEETOTALER("Teetotaler", 2, false, "bowl", "a"),
     OXYGENARIAN("Oxygenarian", 3, false, "oxy", "an"),
@@ -138,17 +138,15 @@ public class AscensionPath {
     }
 
     public boolean canUseFamiliars() {
-      switch (this) {
-        case AVATAR_OF_BORIS:
-        case AVATAR_OF_JARLSBERG:
-        case AVATAR_OF_SNEAKY_PETE:
-        case ACTUALLY_ED_THE_UNDYING:
-        case LICENSE_TO_ADVENTURE:
-        case DARK_GYFFTE:
-          return false;
-        default:
-          return true;
-      }
+      return switch (this) {
+        case AVATAR_OF_BORIS,
+            AVATAR_OF_JARLSBERG,
+            AVATAR_OF_SNEAKY_PETE,
+            ACTUALLY_ED_THE_UNDYING,
+            LICENSE_TO_ADVENTURE,
+            DARK_GYFFTE -> false;
+        default -> true;
+      };
     }
 
     @Override

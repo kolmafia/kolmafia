@@ -223,6 +223,9 @@ public class Value implements TypedNode, Comparable<Value> {
     if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
       return new ProxyRecordValue.VykeaProxy(this);
     }
+    if (this.getType().equals(DataTypes.PATH_TYPE)) {
+      return new ProxyRecordValue.PathProxy(this);
+    }
     if (this.getType().equals(DataTypes.ELEMENT_TYPE)) {
       return new ProxyRecordValue.ElementProxy(this);
     }
@@ -264,7 +267,7 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   private int compareTo(final Value o, final boolean ignoreCase) {
-    if (!(o instanceof Value)) {
+    if (o == null) {
       throw new ClassCastException();
     }
 
@@ -277,7 +280,8 @@ public class Value implements TypedNode, Comparable<Value> {
         || this.getType().equals(DataTypes.FAMILIAR_TYPE)
         || this.getType().equals(DataTypes.SLOT_TYPE)
         || this.getType().equals(DataTypes.THRALL_TYPE)
-        || this.getType().equals(DataTypes.SERVANT_TYPE)) {
+        || this.getType().equals(DataTypes.SERVANT_TYPE)
+        || this.getType().equals(DataTypes.PATH_TYPE)) {
       return Long.compare(this.contentLong, o.contentLong);
     }
 
