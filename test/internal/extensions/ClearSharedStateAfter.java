@@ -1,5 +1,7 @@
 package internal.extensions;
 
+import static internal.extensions.CheckNested.isNested;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +20,7 @@ public class ClearSharedStateAfter implements AfterAllCallback {
 
   @Override
   public void afterAll(ExtensionContext context) {
+    if (isNested(context)) return;
     deleteDirectoriesAndContents();
   }
 
