@@ -1,7 +1,10 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class AscensionPath {
@@ -89,6 +92,10 @@ public class AscensionPath {
       this.pointsPreference = pointsPreference;
       this.maximumPoints = maximumPoints;
       this.bucket = bucket;
+    }
+
+    public static Set<Path> allPaths() {
+      return Arrays.stream(values()).filter(a -> a.getId() > 0).collect(Collectors.toSet());
     }
 
     Path(String name, int id, boolean isAvatar, String image, String article) {

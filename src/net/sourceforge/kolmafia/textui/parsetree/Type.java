@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -425,6 +426,8 @@ public class Type extends Symbol {
       case DataTypes.TYPE_VYKEA:
         this.addValues(list, VYKEACompanionData.VYKEA);
         break;
+      case DataTypes.TYPE_PATH:
+        this.addValues(list, Path.allPaths());
       default:
         return null;
     }
