@@ -193,10 +193,7 @@ public class Maximizer {
       return;
     }
 
-    Iterator<String> i = Modifiers.getAllModifiers();
-    while (i.hasNext()) {
-      String lookup = i.next();
-
+    for (String lookup : Modifiers.getAllModifiers()) {
       // Include skills from absorbing items in Noobcore
       if (KoLCharacter.inNoobcore() && lookup.startsWith("Skill:")) {
         String name = lookup.substring(6);

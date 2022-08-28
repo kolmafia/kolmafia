@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -97,16 +98,12 @@ public class DebugModifiers extends Modifiers {
 
   public static void allModifiers() {
     DebugModifiers.buffer.append("<tr>");
-    Iterator<Integer> i = DebugModifiers.wanted.keySet().iterator();
     HashMap<Integer, Iterator<Change>> modifiersChangers = new HashMap<>();
-    while (i.hasNext()) {
-      Integer key = i.next();
+    for (Integer key : DebugModifiers.wanted.keySet()) {
       String modifier = DebugModifiers.wanted.get(key);
       DebugModifiers.buffer.append(modifier);
       ArrayList<Change> modChangers = new ArrayList<>();
-      Iterator<String> allmods = Modifiers.getAllModifiers();
-      while (allmods.hasNext()) {
-        String lookup = allmods.next();
+      for (String lookup : Modifiers.getAllModifiers()) {
         String type;
         String name;
         int ind = lookup.indexOf(":");
@@ -134,9 +131,7 @@ public class DebugModifiers extends Modifiers {
     DebugModifiers.buffer.append("</tr>");
     while (modifiersChangers.size() > 0) {
       DebugModifiers.buffer.append("<tr>");
-      i = DebugModifiers.wanted.keySet().iterator();
-      while (i.hasNext()) {
-        Integer key = i.next();
+      for (Integer key : DebugModifiers.wanted.keySet()) {
         Iterator<Change> li = modifiersChangers.get(key);
         if (li == null) {
           DebugModifiers.buffer.append("<td colspan=3></td>");
