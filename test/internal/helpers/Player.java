@@ -1399,12 +1399,11 @@ public class Player {
    * @param allowed Whether key is allowed
    * @return Restores to previous value
    */
-  public static Cleanups withAllowedInStandard(final String type, final String key, final boolean allowed) {
+  public static Cleanups withAllowedInStandard(
+      final String type, final String key, final boolean allowed) {
     var mocked = mockStatic(StandardRequest.class, Mockito.CALLS_REAL_METHODS);
 
-    mocked
-        .when(() -> StandardRequest.isAllowedInStandard(type, key))
-        .thenReturn(allowed);
+    mocked.when(() -> StandardRequest.isAllowedInStandard(type, key)).thenReturn(allowed);
 
     return new Cleanups(mocked::close);
   }

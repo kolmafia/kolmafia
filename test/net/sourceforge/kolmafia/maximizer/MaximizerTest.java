@@ -1068,7 +1068,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSuggestHorseryIfUnaffordable() {
-      var cleanups = new Cleanups(withProperty("horseryAvailable", true), withProperty("_horsery", "normal horse"), withMeat(0));
+      var cleanups =
+          new Cleanups(
+              withProperty("horseryAvailable", true),
+              withProperty("_horsery", "normal horse"),
+              withMeat(0));
 
       try (cleanups) {
         assertTrue(maximize("-combat"));
@@ -1078,7 +1082,11 @@ public class MaximizerTest {
 
     @Test
     public void doesNotSuggestHorseryIfNotAllowedInStandard() {
-      var cleanups = new Cleanups(withProperty("horseryAvailable", true), withRestricted(true), withAllowedInStandard("Items", "Horsery contract", false));
+      var cleanups =
+          new Cleanups(
+              withProperty("horseryAvailable", true),
+              withRestricted(true),
+              withAllowedInStandard("Items", "Horsery contract", false));
 
       try (cleanups) {
         assertTrue(maximize("-combat"));
