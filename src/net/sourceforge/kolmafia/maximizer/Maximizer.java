@@ -580,7 +580,8 @@ public class Maximizer {
           if (item == null && ClanLoungeRequest.isHotDog(iName)) {
             if (KoLCharacter.inBadMoon()) {
               continue;
-            } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Hot Dog Stand")) {
+            } else if (!StandardRequest.isAllowed(
+                RestrictedItemType.CLAN_ITEMS, "Clan Hot Dog Stand")) {
               continue;
             }
             // Jarlsberg and Zombie characters can't eat hot dogs
@@ -685,7 +686,8 @@ public class Maximizer {
           spleenCost = 1;
         } else if (cmd.startsWith("pillkeeper")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Eight Days a Week Pill Keeper")) {
+          if (!StandardRequest.isAllowed(
+              RestrictedItemType.ITEMS, "Eight Days a Week Pill Keeper")) {
             continue;
           }
           // You must have the pill keeper
@@ -889,7 +891,8 @@ public class Maximizer {
         } else if (cmd.startsWith("swim ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool")) {
             continue;
           } else if (Limitmode.limitClan()) {
             continue;
@@ -906,7 +909,8 @@ public class Maximizer {
         } else if (cmd.startsWith("fortune ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Love Tester")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.CLAN_ITEMS, "Clan Love Tester")) {
             continue;
           } else if (Limitmode.limitClan()) {
             continue;
@@ -941,7 +945,8 @@ public class Maximizer {
         } else if (cmd.startsWith("barrelprayer")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
             continue;
           } else if (Limitmode.limitZone("Dungeon Full of Dungeons")) {
             continue;

@@ -2478,7 +2478,8 @@ public class ItemDatabase {
   }
 
   public static boolean isAllowedInStandard(final int itemId) {
-    return StandardRequest.isAllowedInStandard(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
+    return StandardRequest.isAllowedInStandard(
+        RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static int getNoobSkillId(final int itemId) {

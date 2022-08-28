@@ -2602,7 +2602,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean np =
           (Preferences.getBoolean("_neverendingPartyToday")
                   || Preferences.getBoolean("neverendingPartyAlways"))
-              && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Neverending Party invitation envelope")
+              && StandardRequest.isAllowed(
+                  RestrictedItemType.ITEMS, "Neverending Party invitation envelope")
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
       boolean vb =
@@ -3398,7 +3399,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0;
       boolean sp = Preferences.getBoolean("_olympicSwimmingPool");
-      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool");
+      boolean allowed =
+          StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool");
       boolean limited = Limitmode.limitClan();
       this.setShown((!bm || kf) && (have || sp) && allowed && !limited);
       if (sp) {
@@ -3860,7 +3862,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = Preferences.getBoolean("barrelShrineUnlocked");
       boolean prayed = Preferences.getBoolean("_barrelPrayer");
-      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god");
+      boolean allowed =
+          StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god");
       boolean limited = Limitmode.limitZone("Dungeon Full of Dungeons");
       this.setShown((!bm || kf) && (have || prayed) && allowed && !limited);
 
