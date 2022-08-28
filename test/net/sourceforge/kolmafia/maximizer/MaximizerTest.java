@@ -8,6 +8,7 @@ import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
 import static internal.helpers.Maximizer.recommends;
 import static internal.helpers.Maximizer.someBoostIs;
+import static internal.helpers.Player.withAllowedInStandard;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -15,8 +16,10 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLocation;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -35,6 +38,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -43,6 +47,11 @@ public class MaximizerTest {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("MaximizerTest");
+    Preferences.reset("MaximizerTest");
+  }
+
+  @BeforeEach
+  public void allowPreferences() {
     Preferences.reset("MaximizerTest");
   }
   // basic
@@ -1041,6 +1050,39 @@ public class MaximizerTest {
         assertTrue(maximize("meat -acc1 -acc2"));
         recommendedSlotIs(EquipmentManager.ACCESSORY3, "backup camera");
         assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
+      }
+    }
+  }
+
+  @Nested
+  class Horsery {
+    @Test
+    public void suggestsHorseryIfAvailable() {
+      var cleanups = withProperty("horseryAvailable", true);
+
+      try (cleanups) {
+        assertTrue(maximize("-combat"));
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "horsery dark")));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestHorseryIfUnaffordable() {
+      var cleanups = new Cleanups(withProperty("horseryAvailable", true), withProperty("_horsery", "normal horse"), withMeat(0));
+
+      try (cleanups) {
+        assertTrue(maximize("-combat"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "horsery dark")));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestHorseryIfNotAllowedInStandard() {
+      var cleanups = new Cleanups(withProperty("horseryAvailable", true), withRestricted(true), withAllowedInStandard("Items", "Horsery contract", false));
+
+      try (cleanups) {
+        assertTrue(maximize("-combat"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "horsery dark")));
       }
     }
   }

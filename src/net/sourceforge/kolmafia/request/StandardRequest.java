@@ -176,7 +176,7 @@ public class StandardRequest extends GenericRequest {
       Pattern.compile("<span class=\"i\">(.*?)(, )?</span>");
 
   public static final void parseResponse(final String location, final String responseText) {
-    TrendyRequest.reset();
+    StandardRequest.reset();
 
     Matcher matcher = StandardRequest.STANDARD_PATTERN.matcher(responseText);
     while (matcher.find()) {
@@ -193,12 +193,6 @@ public class StandardRequest extends GenericRequest {
           set.add(object);
         }
       }
-    }
-
-    // Buggy items and skills that should be listed but aren't.
-    if (!itemSet.isEmpty()) {
-      itemSet.add("actual reality goggles");
-      skillSet.add("fifteen minutes of flame");
     }
 
     StandardRequest.initialized = true;

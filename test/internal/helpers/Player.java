@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -1388,6 +1389,24 @@ public class Player {
     var old = KoLCharacter.getRestricted();
     KoLCharacter.setRestricted(restricted);
     return new Cleanups(() -> KoLCharacter.setRestricted(old));
+  }
+
+  /**
+   * Sets whether a particular item / skill is allowed in Standard
+   *
+   * @param type The type of key
+   * @param key The restricted item / skill
+   * @param allowed Whether key is allowed
+   * @return Restores to previous value
+   */
+  public static Cleanups withAllowedInStandard(final String type, final String key, final boolean allowed) {
+    var mocked = mockStatic(StandardRequest.class, Mockito.CALLS_REAL_METHODS);
+
+    mocked
+        .when(() -> StandardRequest.isAllowedInStandard(type, key))
+        .thenReturn(allowed);
+
+    return new Cleanups(mocked::close);
   }
 
   /**
