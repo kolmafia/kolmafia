@@ -177,12 +177,11 @@ public class AscensionPath {
   }
 
   public static Path nameToPath(String name) {
-    return pathByName.get(name.toLowerCase());
+    return pathByName.getOrDefault(name.toLowerCase(), Path.NONE);
   }
 
   public static Path idToPath(int id) {
-    Path retval = pathById.get(id);
-    return retval == null ? Path.NONE : retval;
+    return pathById.getOrDefault(id, Path.NONE);
   }
 
   public static Path imageToPath(String image) {

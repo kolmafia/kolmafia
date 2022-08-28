@@ -288,58 +288,47 @@ public class Type extends Symbol {
       return this.parseValue((String) object, returnDefault);
     }
     if (object instanceof Integer) {
-      int integer = ((Integer) object).intValue();
-      switch (this.type) {
-        case DataTypes.TYPE_BOOLEAN:
-          return DataTypes.makeBooleanValue(integer);
-        case DataTypes.TYPE_CLASS:
-          return DataTypes.makeClassValue(integer, returnDefault);
-        case DataTypes.TYPE_INT:
-          return DataTypes.makeIntValue(integer);
-        case DataTypes.TYPE_FLOAT:
-          return DataTypes.makeFloatValue(integer);
-        case DataTypes.TYPE_STRING:
-          return new Value(DataTypes.STRING_TYPE, String.valueOf(integer));
-        case DataTypes.TYPE_ITEM:
-          return DataTypes.makeItemValue(integer, returnDefault);
-        case DataTypes.TYPE_SKILL:
-          return DataTypes.makeSkillValue(integer, returnDefault);
-        case DataTypes.TYPE_EFFECT:
-          return DataTypes.makeEffectValue(integer, returnDefault);
-        case DataTypes.TYPE_FAMILIAR:
-          return DataTypes.makeFamiliarValue(integer, returnDefault);
-        case DataTypes.TYPE_MONSTER:
-          return DataTypes.makeMonsterValue(integer, returnDefault);
-        case DataTypes.TYPE_THRALL:
-          return DataTypes.makeThrallValue(integer, returnDefault);
-        case DataTypes.TYPE_SERVANT:
-          return DataTypes.makeServantValue(integer, returnDefault);
-      }
-      return null;
+      int integer = (Integer) object;
+      return switch (this.type) {
+        case DataTypes.TYPE_BOOLEAN -> DataTypes.makeBooleanValue(integer);
+        case DataTypes.TYPE_CLASS -> DataTypes.makeClassValue(integer, returnDefault);
+        case DataTypes.TYPE_INT -> DataTypes.makeIntValue(integer);
+        case DataTypes.TYPE_FLOAT -> DataTypes.makeFloatValue(integer);
+        case DataTypes.TYPE_STRING -> new Value(DataTypes.STRING_TYPE, String.valueOf(integer));
+        case DataTypes.TYPE_ITEM -> DataTypes.makeItemValue(integer, returnDefault);
+        case DataTypes.TYPE_SKILL -> DataTypes.makeSkillValue(integer, returnDefault);
+        case DataTypes.TYPE_EFFECT -> DataTypes.makeEffectValue(integer, returnDefault);
+        case DataTypes.TYPE_FAMILIAR -> DataTypes.makeFamiliarValue(integer, returnDefault);
+        case DataTypes.TYPE_MONSTER -> DataTypes.makeMonsterValue(integer, returnDefault);
+        case DataTypes.TYPE_THRALL -> DataTypes.makeThrallValue(integer, returnDefault);
+        case DataTypes.TYPE_SERVANT -> DataTypes.makeServantValue(integer, returnDefault);
+        default -> null;
+      };
     }
-    if (object instanceof MonsterData) {
-      MonsterData monster = (MonsterData) object;
-      switch (this.type) {
-        case DataTypes.TYPE_INT:
-          return DataTypes.makeIntValue(monster.getId());
-        case DataTypes.TYPE_STRING:
-          return new Value(DataTypes.STRING_TYPE, monster.getName());
-        case DataTypes.TYPE_MONSTER:
-          return DataTypes.makeMonsterValue(monster);
-      }
-      return null;
+    if (object instanceof MonsterData monster) {
+      return switch (this.type) {
+        case DataTypes.TYPE_INT -> DataTypes.makeIntValue(monster.getId());
+        case DataTypes.TYPE_STRING -> new Value(DataTypes.STRING_TYPE, monster.getName());
+        case DataTypes.TYPE_MONSTER -> DataTypes.makeMonsterValue(monster);
+        default -> null;
+      };
     }
-    if (object instanceof AscensionClass) {
-      AscensionClass ascensionClass = (AscensionClass) object;
-      switch (this.type) {
-        case DataTypes.TYPE_INT:
-          return DataTypes.makeIntValue(ascensionClass.getId());
-        case DataTypes.TYPE_STRING:
-          return new Value(DataTypes.STRING_TYPE, ascensionClass.getName());
-        case DataTypes.TYPE_CLASS:
-          return DataTypes.makeClassValue(ascensionClass, returnDefault);
-      }
-      return null;
+    if (object instanceof AscensionClass ascensionClass) {
+      return switch (this.type) {
+        case DataTypes.TYPE_INT -> DataTypes.makeIntValue(ascensionClass.getId());
+        case DataTypes.TYPE_STRING -> new Value(DataTypes.STRING_TYPE, ascensionClass.getName());
+        case DataTypes.TYPE_CLASS -> DataTypes.makeClassValue(ascensionClass, returnDefault);
+        case DataTypes.TYPE_PATH -> DataTypes.makePathValue(ascensionClass.getPath());
+        default -> null;
+      };
+    }
+    if (object instanceof Path path) {
+      return switch (this.type) {
+        case DataTypes.TYPE_INT -> DataTypes.makeIntValue(path.getId());
+        case DataTypes.TYPE_STRING -> new Value(DataTypes.STRING_TYPE, path.getName());
+        case DataTypes.TYPE_PATH -> DataTypes.makePathValue(path);
+        default -> null;
+      };
     }
     return null;
   }
@@ -407,6 +396,7 @@ public class Type extends Symbol {
         break;
       case DataTypes.TYPE_PATH:
         this.addValues(list, Path.allPaths());
+        break;
       default:
         return null;
     }
