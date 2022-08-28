@@ -314,6 +314,10 @@ public class Maximizer {
 
       if (lookup.startsWith("Horsery:")
           && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+        // Must be available in your current path
+        if (!StandardRequest.isAllowed("Items", "Horsery contract")) {
+          continue;
+        }
         String cmd, text;
         int price = 0;
         String name = lookup.substring(8);
