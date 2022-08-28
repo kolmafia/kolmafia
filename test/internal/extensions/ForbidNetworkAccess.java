@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.extensions;
+package internal.extensions;
 
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;

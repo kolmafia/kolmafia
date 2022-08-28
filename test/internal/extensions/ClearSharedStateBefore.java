@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.extensions;
+package internal.extensions;
 
 import java.io.File;
 import java.io.IOException;
