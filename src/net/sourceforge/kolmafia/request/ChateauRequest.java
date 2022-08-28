@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.Limitmode;
@@ -239,7 +240,7 @@ public class ChateauRequest extends PlaceRequest {
 
   public static boolean chateauAvailable() {
     return Preferences.getBoolean("chateauAvailable")
-        && StandardRequest.isAllowed("Items", "Chateau Mantegna room key")
+        && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Chateau Mantegna room key")
         && !Limitmode.limitZone("Mountain")
         && !KoLCharacter.inBadMoon()
         && !KoLCharacter.isKingdomOfExploathing();

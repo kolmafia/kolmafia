@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -506,7 +507,7 @@ public class ItemManageFrame extends GenericFrame {
         for (int i = 0; i < items.length; ++i) {
           AdventureResult item = items[i];
           String itemName = item.getName();
-          if (!StandardRequest.isAllowed("Items", itemName)) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, itemName)) {
             items[i] = null;
           }
         }

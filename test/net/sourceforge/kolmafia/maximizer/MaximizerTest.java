@@ -33,6 +33,7 @@ import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1080,7 +1081,7 @@ public class MaximizerTest {
           new Cleanups(
               withProperty("horseryAvailable", true),
               withRestricted(true),
-              withAllowedInStandard("Items", "Horsery contract", false));
+              withAllowedInStandard(RestrictedItemType.ITEMS, "Horsery contract", false));
 
       try (cleanups) {
         assertTrue(maximize("-combat"));

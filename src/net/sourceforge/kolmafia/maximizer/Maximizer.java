@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -312,7 +313,7 @@ public class Maximizer {
       if (lookup.startsWith("Horsery:")
           && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
         // Must be available in your current path
-        if (!StandardRequest.isAllowed("Items", "Horsery contract")) {
+        if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
           continue;
         }
         String cmd, text;
@@ -579,7 +580,7 @@ public class Maximizer {
           if (item == null && ClanLoungeRequest.isHotDog(iName)) {
             if (KoLCharacter.inBadMoon()) {
               continue;
-            } else if (!StandardRequest.isAllowed("Clan Item", "Clan Hot Dog Stand")) {
+            } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Hot Dog Stand")) {
               continue;
             }
             // Jarlsberg and Zombie characters can't eat hot dogs
@@ -628,7 +629,7 @@ public class Maximizer {
           duration = 20;
         } else if (cmd.startsWith("cast ")) {
           String skillName = UneffectRequest.effectToSkill(name);
-          if (!StandardRequest.isAllowed("Skills", skillName)) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.SKILLS, skillName)) {
             continue;
           }
 
@@ -661,7 +662,7 @@ public class Maximizer {
             continue;
           }
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Skills", "Sweet Synthesis")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Sweet Synthesis")) {
             continue;
           }
           // You must know the skill
@@ -684,7 +685,7 @@ public class Maximizer {
           spleenCost = 1;
         } else if (cmd.startsWith("pillkeeper")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Items", "Eight Days a Week Pill Keeper")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Eight Days a Week Pill Keeper")) {
             continue;
           }
           // You must have the pill keeper
@@ -705,7 +706,7 @@ public class Maximizer {
           duration = 30;
         } else if (cmd.startsWith("cargo effect ")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Items", "Cargo Cultist Shorts")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cargo Cultist Shorts")) {
             continue;
           }
           // You must have the cargo shorts
@@ -854,7 +855,7 @@ public class Maximizer {
         } else if (cmd.startsWith("pool ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Pool Table")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Pool Table")) {
             continue;
           } else if (Limitmode.limitClan()) {
             continue;
@@ -871,7 +872,7 @@ public class Maximizer {
         } else if (cmd.startsWith("shower ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "April Shower")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")) {
             continue;
           } else if (Limitmode.limitClan()) {
             continue;
@@ -888,7 +889,7 @@ public class Maximizer {
         } else if (cmd.startsWith("swim ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Clan Swimming Pool")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool")) {
             continue;
           } else if (Limitmode.limitClan()) {
             continue;
@@ -905,7 +906,7 @@ public class Maximizer {
         } else if (cmd.startsWith("fortune ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Clan Love Tester")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Love Tester")) {
             continue;
           } else if (Limitmode.limitClan()) {
             continue;
@@ -923,7 +924,7 @@ public class Maximizer {
           AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Items", "portable Mayo Clinic")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "portable Mayo Clinic")) {
             continue;
           } else if (Limitmode.limitCampground()) {
             continue;
@@ -940,7 +941,7 @@ public class Maximizer {
         } else if (cmd.startsWith("barrelprayer")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Items", "shrine to the Barrel god")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
             continue;
           } else if (Limitmode.limitZone("Dungeon Full of Dungeons")) {
             continue;
@@ -1004,7 +1005,7 @@ public class Maximizer {
           }
           usesRemaining = 5 - Preferences.getInteger("_gapBuffs");
         } else if (cmd.startsWith("spacegate")) {
-          if (!StandardRequest.isAllowed("Items", "Spacegate access badge")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")) {
             continue;
           }
           if (KoLCharacter.isKingdomOfExploathing()) {
@@ -1029,7 +1030,7 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_spacegateVaccine") ? 0 : 1;
         } else if (cmd.startsWith("beach head ")) {
-          if (!StandardRequest.isAllowed("Items", "Beach Comb")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Beach Comb")) {
             continue;
           }
           boolean available =
@@ -1051,7 +1052,7 @@ public class Maximizer {
           duration = 50;
           usesRemaining = headAvailable ? 1 : 0;
         } else if (cmd.startsWith("daycare")) {
-          if (!StandardRequest.isAllowed("Items", "Boxing Day care package")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Boxing Day care package")) {
             continue;
           }
           boolean available =
@@ -1098,7 +1099,7 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_grimBuff") ? 0 : 1;
         } else if (cmd.equals("witchess")) {
-          if (!StandardRequest.isAllowed("Items", "Witchess Set")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
             continue;
           }
           if (!KoLConstants.campground.contains(ItemPool.get(ItemPool.WITCHESS_SET, 1))) {
@@ -1221,7 +1222,7 @@ public class Maximizer {
             continue;
           }
 
-          if (!StandardRequest.isAllowed("Items", iname)) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, iname)) {
             continue;
           }
 

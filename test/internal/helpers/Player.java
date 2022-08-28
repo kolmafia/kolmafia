@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -1400,7 +1401,7 @@ public class Player {
    * @return Restores to previous value
    */
   public static Cleanups withAllowedInStandard(
-      final String type, final String key, final boolean allowed) {
+      final RestrictedItemType type, final String key, final boolean allowed) {
     var mocked = mockStatic(StandardRequest.class, Mockito.CALLS_REAL_METHODS);
 
     mocked.when(() -> StandardRequest.isAllowedInStandard(type, key)).thenReturn(allowed);

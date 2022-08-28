@@ -295,7 +295,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     // Unallowed familiars cannot be equipped
-    if (!StandardRequest.isAllowed("Familiars", this.race)) {
+    if (!StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, this.race)) {
       return false;
     }
 
