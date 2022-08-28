@@ -34,8 +34,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
-import net.sourceforge.kolmafia.AscensionPath;
-import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.Expression;
@@ -577,13 +575,6 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("desc_to_item", DataTypes.ITEM_TYPE, params));
-
-    // Experimental
-    params = new Type[] {DataTypes.STRING_TYPE};
-    functions.add(new LibraryFunction("path_name_to_id", DataTypes.INT_TYPE, params));
-
-    params = new Type[] {DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("path_id_to_name", DataTypes.STRING_TYPE, params));
 
     // Functions related to daily information which get
     // updated usually once per day.
@@ -1202,10 +1193,7 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_sign", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("my_path", DataTypes.STRING_TYPE, params));
-
-    params = new Type[] {};
-    functions.add(new LibraryFunction("my_path_id", DataTypes.INT_TYPE, params));
+    functions.add(new LibraryFunction("my_path", DataTypes.PATH_TYPE, params));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("in_muscle_sign", DataTypes.BOOLEAN_TYPE, params));
@@ -2583,6 +2571,13 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(new LibraryFunction("get_fuel", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.INT_TYPE};
+    functions.add(
+        new LibraryFunction(
+            "voting_booth_initiatives",
+            new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE),
+            params));
+
     params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE};
     functions.add(
         new LibraryFunction(
@@ -3377,16 +3372,6 @@ public abstract class RuntimeLibrary {
 
   public static Value desc_to_item(ScriptRuntime controller, final Value value) {
     return DataTypes.makeItemValue(ItemDatabase.getItemIdFromDescription(value.toString()), true);
-  }
-
-  public static Value path_name_to_id(ScriptRuntime controller, final Value value) {
-    Path path = AscensionPath.nameToPath(value.toString());
-    return DataTypes.makeIntValue(path == null ? -1 : path.getId());
-  }
-
-  public static Value path_id_to_name(ScriptRuntime controller, final Value value) {
-    Path path = AscensionPath.idToPath((int) value.intValue());
-    return DataTypes.makeStringValue(path.getName());
   }
 
   public static Value to_class(ScriptRuntime controller, final Value value) {
@@ -5619,11 +5604,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value my_path(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getPath().getName());
-  }
-
-  public static Value my_path_id(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getPath().getId());
+    var path = KoLCharacter.getPath();
+    return DataTypes.makePathValue(path);
   }
 
   public static Value in_muscle_sign(ScriptRuntime controller) {
