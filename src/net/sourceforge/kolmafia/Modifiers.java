@@ -1139,8 +1139,8 @@ public class Modifiers {
     return rv;
   }
 
-  public static final Iterator<String> getAllModifiers() {
-    return Modifiers.modifiersByName.keySet().iterator();
+  public static final Set<String> getAllModifiers() {
+    return Modifiers.modifiersByName.keySet();
   }
 
   public static final void overrideEffectModifiers(final int effectId) {

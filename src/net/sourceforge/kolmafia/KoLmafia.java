@@ -102,6 +102,7 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
+import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -301,6 +302,7 @@ public abstract class KoLmafia {
     }
 
     FlaggedItems.initializeLists();
+    VolcanoMazeManager.downloadImages();
 
     // Now run the main routines for each, so that
     // you have an interface.

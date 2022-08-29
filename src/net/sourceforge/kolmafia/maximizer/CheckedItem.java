@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -86,7 +87,7 @@ public class CheckedItem extends AdventureResult {
       return;
     }
 
-    if (!StandardRequest.isAllowed("Items", itemName)) {
+    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, itemName)) {
       // Unallowed items can't be bought or pulled, though the original code
       // just reset everything to zero
 
