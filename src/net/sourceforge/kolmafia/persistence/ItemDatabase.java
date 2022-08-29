@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -2473,11 +2474,12 @@ public class ItemDatabase {
   }
 
   public static boolean isAllowed(final int itemId) {
-    return StandardRequest.isAllowed("Items", ItemDatabase.getDataName(itemId));
+    return StandardRequest.isAllowed(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static boolean isAllowedInStandard(final int itemId) {
-    return StandardRequest.isAllowedInStandard("Items", ItemDatabase.getDataName(itemId));
+    return StandardRequest.isAllowedInStandard(
+        RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static int getNoobSkillId(final int itemId) {

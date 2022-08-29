@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
@@ -147,7 +148,7 @@ public class ValhallaDecorator {
       }
 
       // You can ascend in Goocore without breaking Ronin
-      if (!StandardRequest.isNotRestricted("Skills", skillName)) {
+      if (!StandardRequest.isNotRestricted(RestrictedItemType.SKILLS, skillName)) {
         continue;
       }
 

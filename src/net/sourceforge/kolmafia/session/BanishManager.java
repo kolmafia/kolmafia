@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -417,7 +418,7 @@ public class BanishManager {
   public static final boolean isBanished(final String monster) {
     BanishManager.recalculate();
 
-    boolean iceHouseEffective = StandardRequest.isAllowed("Items", "ice house");
+    boolean iceHouseEffective = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "ice house");
 
     return banishedMonsters.stream()
         .anyMatch(
