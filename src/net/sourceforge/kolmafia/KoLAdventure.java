@@ -582,7 +582,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Some zones are restricted to a specific Ascension Path.
     Path path = AdventureDatabase.zoneAscensionPath(this.zone);
-    if (path != null && path != KoLCharacter.getPath()) {
+    if (path != Path.NONE && path != KoLCharacter.getPath()) {
       return false;
     }
 

@@ -5604,8 +5604,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value my_path(ScriptRuntime controller) {
-    var path = KoLCharacter.getPath();
-    return DataTypes.makePathValue(path);
+    return DataTypes.makePathValue(KoLCharacter.getPath());
   }
 
   public static Value in_muscle_sign(ScriptRuntime controller) {

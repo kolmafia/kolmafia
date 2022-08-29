@@ -1769,8 +1769,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     private Path getPath() {
-      var path = (Path) this.content;
-      return path == null ? Path.NONE : path;
+      return (Path) this.content;
     }
 
     public int get_id() {

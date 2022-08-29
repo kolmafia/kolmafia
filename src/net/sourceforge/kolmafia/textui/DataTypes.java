@@ -942,7 +942,7 @@ public class DataTypes {
   }
 
   public static final Value makePathValue(final Path path) {
-    if (path == null) return DataTypes.PATH_INIT;
+    if (path == Path.NONE) return DataTypes.PATH_INIT;
     return new Value(DataTypes.PATH_TYPE, path.getId(), path.getName(), path);
   }
 
