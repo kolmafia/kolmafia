@@ -43,6 +43,7 @@ class UseSkillRequestTest {
   @BeforeAll
   static void beforeAll() {
     KoLCharacter.reset("UseSkillRequestTest");
+    Preferences.reset("UseSkillRequestTest");
   }
 
   private static int EXPERIENCE_SAFARI = SkillDatabase.getSkillId("Experience Safari");
