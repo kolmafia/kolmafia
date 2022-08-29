@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
 import net.sourceforge.kolmafia.textui.parsetree.IncDec;
 import net.sourceforge.kolmafia.textui.parsetree.JavaForLoop;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Loop;
 import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
@@ -3121,6 +3122,7 @@ public class Parser {
     final ErrorManager callErrors = new ErrorManager();
 
     Token name = this.currentToken();
+    var nameStart = this.getCurrentPosition();
     this.readToken(); // name
 
     List<Evaluable> params = this.parseParameters(scope, firstParam);
@@ -3146,6 +3148,14 @@ public class Parser {
       }
 
       target = new BadFunction(name.content);
+    }
+
+    if (target instanceof LibraryFunction) {
+      var deprecationWarning = ((LibraryFunction) target).deprecationWarning;
+      if (deprecationWarning.length > 0) {
+        var location = this.makeLocation(nameStart, this.getCurrentPosition());
+        this.warning(location, "Function \"" + name + "\" is deprecated", deprecationWarning);
+      }
     }
 
     FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);

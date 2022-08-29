@@ -575,10 +575,20 @@ public abstract class RuntimeLibrary {
 
     // Experimental
     params = new Type[] {DataTypes.STRING_TYPE};
-    functions.add(new LibraryFunction("path_name_to_id", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "path_name_to_id",
+            DataTypes.INT_TYPE,
+            params,
+            "Due to be removed on the 15th of September 2022"));
 
     params = new Type[] {DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("path_id_to_name", DataTypes.STRING_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "path_id_to_name",
+            DataTypes.STRING_TYPE,
+            params,
+            "Due to be removed on the 15th of September 2022"));
 
     // Functions related to daily information which get
     // updated usually once per day.
@@ -1197,10 +1207,20 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_sign", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("my_path", DataTypes.STRING_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "my_path",
+            DataTypes.STRING_TYPE,
+            params,
+            "Return type to be changed on the 15th of September 2022"));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("my_path_id", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "my_path_id",
+            DataTypes.INT_TYPE,
+            params,
+            "Due to be removed on the 15th of September 2022"));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("in_muscle_sign", DataTypes.BOOLEAN_TYPE, params));
