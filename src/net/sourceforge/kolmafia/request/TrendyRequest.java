@@ -33,7 +33,8 @@ public class TrendyRequest extends GenericRequest {
     TrendyRequest.initialize();
     Map<String, Boolean> check;
     if ((check = map.get(type)) == null) return true;
-    return check.get(key.toLowerCase());
+    var notExpired = check.get(key.toLowerCase());
+    return notExpired == null || notExpired;
   }
 
   public TrendyRequest() {
