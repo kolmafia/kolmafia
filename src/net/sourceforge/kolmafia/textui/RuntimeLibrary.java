@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -9092,23 +9093,23 @@ public abstract class RuntimeLibrary {
     if (type.equals(DataTypes.TYPE_STRING)) {
 
       result =
-          TrendyRequest.isTrendy("Items", key)
-              && TrendyRequest.isTrendy("Campground", key)
-              && TrendyRequest.isTrendy("Bookshelf", key)
-              && TrendyRequest.isTrendy("Familiars", key)
-              && TrendyRequest.isTrendy("Skills", key)
-              && TrendyRequest.isTrendy("Clan Item", key);
+          TrendyRequest.isTrendy(RestrictedItemType.ITEMS, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.CAMPGROUND, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.BOOKSHELF_BOOKS, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.FAMILIARS, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.SKILLS, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.CLAN_ITEMS, key);
     } else if (type.equals(DataTypes.TYPE_ITEM)) {
-      result = TrendyRequest.isTrendy("Items", key);
+      result = TrendyRequest.isTrendy(RestrictedItemType.ITEMS, key);
     } else if (type.equals(DataTypes.TYPE_FAMILIAR)) {
-      result = TrendyRequest.isTrendy("Familiars", key);
+      result = TrendyRequest.isTrendy(RestrictedItemType.FAMILIARS, key);
     } else if (type.equals(DataTypes.TYPE_SKILL)) {
       if (SkillDatabase.isBookshelfSkill(key)) {
         int itemId = SkillDatabase.skillToBook(key);
         key = ItemDatabase.getItemName(itemId);
-        result = TrendyRequest.isTrendy("Bookshelf", key);
+        result = TrendyRequest.isTrendy(RestrictedItemType.BOOKSHELF_BOOKS, key);
       } else {
-        result = TrendyRequest.isTrendy("Skills", key);
+        result = TrendyRequest.isTrendy(RestrictedItemType.SKILLS, key);
       }
     } else {
       result = false;
@@ -9125,15 +9126,15 @@ public abstract class RuntimeLibrary {
 
     if (type.equals(DataTypes.TYPE_STRING)) {
       result =
-          StandardRequest.isNotRestricted("Items", key)
-              && StandardRequest.isNotRestricted("Bookshelf Books", key)
-              && StandardRequest.isNotRestricted("Skills", key)
-              && StandardRequest.isNotRestricted("Familiars", key)
-              && StandardRequest.isNotRestricted("Clan Items", key);
+          StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key)
+              && StandardRequest.isNotRestricted(RestrictedItemType.BOOKSHELF_BOOKS, key)
+              && StandardRequest.isNotRestricted(RestrictedItemType.SKILLS, key)
+              && StandardRequest.isNotRestricted(RestrictedItemType.FAMILIARS, key)
+              && StandardRequest.isNotRestricted(RestrictedItemType.CLAN_ITEMS, key);
     } else if (type.equals(DataTypes.TYPE_ITEM)) {
-      result = StandardRequest.isNotRestricted("Items", key);
+      result = StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key);
     } else if (type.equals(DataTypes.TYPE_FAMILIAR)) {
-      result = StandardRequest.isNotRestricted("Familiars", key);
+      result = StandardRequest.isNotRestricted(RestrictedItemType.FAMILIARS, key);
     } else if (type.equals(DataTypes.TYPE_SKILL)) {
       if (SkillDatabase.isBookshelfSkill(key)) {
         int itemId = SkillDatabase.skillToBook(key);
@@ -9142,10 +9143,10 @@ public abstract class RuntimeLibrary {
         // listed both under Bookshelf Books and Items, but
         // 3 are listed under only one or the other.
         result =
-            StandardRequest.isNotRestricted("Bookshelf Books", key)
-                && StandardRequest.isNotRestricted("Items", key);
+            StandardRequest.isNotRestricted(RestrictedItemType.BOOKSHELF_BOOKS, key)
+                && StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key);
       } else {
-        result = StandardRequest.isNotRestricted("Skills", key);
+        result = StandardRequest.isNotRestricted(RestrictedItemType.SKILLS, key);
       }
     } else {
       result = false;

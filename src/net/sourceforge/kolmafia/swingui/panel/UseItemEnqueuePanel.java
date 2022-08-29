@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -249,7 +250,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
                       || (Preferences.getBoolean("barrelShrineUnlocked")
                           && !Preferences.getBoolean("_barrelPrayer")
                           && KoLCharacter.isTurtleTamer()
-                          && StandardRequest.isAllowed("Items", "shrine to the Barrel god")));
+                          && StandardRequest.isAllowed(
+                              RestrictedItemType.ITEMS, "shrine to the Barrel god")));
 
           this.buttons[index++].setEnabled(lunchAvailable);
 
@@ -282,7 +284,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
                   && (Preferences.getBoolean("barrelShrineUnlocked")
                       && !Preferences.getBoolean("_barrelPrayer")
                       && KoLCharacter.isAccordionThief()
-                      && StandardRequest.isAllowed("Items", "shrine to the Barrel god"));
+                      && StandardRequest.isAllowed(
+                          RestrictedItemType.ITEMS, "shrine to the Barrel god"));
           this.buttons[index++].setEnabled(prayerAvailable);
 
           // We gray out the dog hair button unless we have
@@ -688,7 +691,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
       if (item != null) {
         // Apparently, Cafe items are allowed, whether or not they are in Standard
-        if (creation.getPrice() <= 0 && !StandardRequest.isAllowed("Items", item.getDataName())) {
+        if (creation.getPrice() <= 0
+            && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getDataName())) {
           return false;
         }
 
@@ -771,11 +775,13 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
             return false;
         }
 
-      if (creation.hotdog && !StandardRequest.isAllowed("Clan Items", "Clan hot dog stand")) {
+      if (creation.hotdog
+          && !StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan hot dog stand")) {
         return false;
       }
 
-      if (creation.speakeasy && !StandardRequest.isAllowed("Clan Items", "Clan speakeasy")) {
+      if (creation.speakeasy
+          && !StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan speakeasy")) {
         return false;
       }
 

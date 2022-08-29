@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1603,7 +1604,7 @@ public class Evaluator {
         if (familiar != null
             && familiar != FamiliarData.NO_FAMILIAR
             && familiar.canCarry()
-            && StandardRequest.isAllowed("Familiars", familiar.getRace())
+            && StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, familiar.getRace())
             && !familiar.equals(KoLCharacter.getFamiliar())
             && !this.carriedFamiliars.contains(familiar)
             && !familiar.equals(useCrownFamiliar)

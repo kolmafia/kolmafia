@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -431,7 +432,7 @@ public class NPCStoreDatabase {
       if (workshedItem != null) {
         available =
             workshedItem.getItemId() == ItemPool.MAYO_CLINIC
-                && StandardRequest.isAllowed("Items", "portable Mayo Clinic");
+                && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "portable Mayo Clinic");
         if (itemId == ItemPool.MIRACLE_WHIP) {
           return available
               && !Preferences.getBoolean("_mayoDeviceRented")
