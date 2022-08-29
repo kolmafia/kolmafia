@@ -220,7 +220,11 @@ public class GenericRequest implements Runnable {
 
   public static void setPasswordHash(final String hash) {
     GenericRequest.passwordHash = hash;
-    GenericRequest.passwordHashValue = "=" + hash;
+    if ("".equals(hash)) {
+      GenericRequest.passwordHashValue = "";
+    } else {
+      GenericRequest.passwordHashValue = "=" + hash;
+    }
   }
 
   /**
