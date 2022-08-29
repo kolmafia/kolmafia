@@ -656,6 +656,14 @@ public class DataTypes {
     return new Value(DataTypes.VYKEA_TYPE, companion.getType(), name, companion);
   }
 
+  public static Value parsePathValue(final int id, final boolean returnDefault) {
+    var path = AscensionPath.idToPath(id);
+    if (path == Path.NONE) {
+      return returnDefault ? DataTypes.PATH_INIT : null;
+    }
+    return new Value(path);
+  }
+
   public static final Value parsePathValue(String name, final boolean returnDefault) {
     if (name == null || name.equals("")) {
       return returnDefault ? DataTypes.PATH_INIT : null;
@@ -671,7 +679,7 @@ public class DataTypes {
       return returnDefault ? DataTypes.PATH_INIT : null;
     }
 
-    return new Value(DataTypes.PATH_TYPE, path.getId(), name, path);
+    return new Value(path);
   }
 
   public static final Value parseBountyValue(String name, final boolean returnDefault) {

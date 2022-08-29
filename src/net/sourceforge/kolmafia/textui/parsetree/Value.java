@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.List;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -91,6 +92,10 @@ public class Value implements TypedNode, Comparable<Value> {
     this.contentLong = original.contentLong;
     this.contentString = original.contentString;
     this.content = original.content;
+  }
+
+  public Value(final Path path) {
+    this(DataTypes.PATH_TYPE, path.getId(), path.getName(), path);
   }
 
   public Value toFloatValue() {
