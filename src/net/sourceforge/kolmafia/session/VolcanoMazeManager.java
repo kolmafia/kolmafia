@@ -75,10 +75,10 @@ public abstract class VolcanoMazeManager {
         "lava12.gif",
       };
 
-  static {
+  public static void downloadImages() {
     String base = KoLmafia.imageServerPath() + "itemimages/";
-    for (int i = 0; i < VolcanoMazeManager.IMAGES.length; ++i) {
-      FileUtilities.downloadImage(base + VolcanoMazeManager.IMAGES[i]);
+    for (var img : IMAGES) {
+      FileUtilities.downloadImage(base + img);
     }
   }
 
