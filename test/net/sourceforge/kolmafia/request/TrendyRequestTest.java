@@ -21,7 +21,8 @@ public class TrendyRequestTest {
       assertFalse(TrendyRequest.isTrendy(RestrictedItemType.ITEMS, "card sleeve"));
       assertTrue(TrendyRequest.isTrendy(RestrictedItemType.SKILLS, "Ancient Crymbo Lore"));
       assertTrue(TrendyRequest.isTrendy(RestrictedItemType.SKILLS, "Dead Nostrils"));
-      assertFalse(TrendyRequest.isTrendy(RestrictedItemType.SKILLS, "Show Your Boring Familiar Pictures"));
+      assertFalse(
+          TrendyRequest.isTrendy(RestrictedItemType.SKILLS, "Show Your Boring Familiar Pictures"));
     }
   }
 }
