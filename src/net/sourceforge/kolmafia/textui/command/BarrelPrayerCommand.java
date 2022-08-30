@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -64,7 +65,7 @@ public class BarrelPrayerCommand extends AbstractCommand {
       return;
     }
 
-    if (!StandardRequest.isAllowed("Items", "shrine to the Barrel god")) {
+    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "Your path restricts you from approaching the Barrel Shrine");
       return;
