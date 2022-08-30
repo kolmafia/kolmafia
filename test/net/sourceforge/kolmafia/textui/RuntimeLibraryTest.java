@@ -7,6 +7,7 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -340,6 +341,26 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       try (cleanups) {
         String output = execute(command);
         assertThat(output, endsWith("Returned: false\n"));
+      }
+    }
+
+    @Nested
+    class PathFunctions {
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "boolean test(string path) { return path == \"Trendy\"; } test($path[Trendy])",
+            "string p = my_path(); (p == \"Trendy\")"
+          })
+      void myPathCoercesToString(String command) {
+        // my_path() used to return a string, we want to make sure that we don't break old scripts
+        // where possible
+        var cleanups = new Cleanups(withPath(Path.TRENDY));
+
+        try (cleanups) {
+          String output = execute(command);
+          assertThat(output, endsWith("Returned: true\n"));
+        }
       }
     }
   }
