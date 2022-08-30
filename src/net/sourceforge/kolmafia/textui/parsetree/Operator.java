@@ -253,6 +253,10 @@ public class Operator extends Command {
       return true;
     }
 
+    if (lhs.equals(DataTypes.TYPE_PATH) && rhs.equals(DataTypes.TYPE_INT)) {
+      return true;
+    }
+
     return false;
   }
 

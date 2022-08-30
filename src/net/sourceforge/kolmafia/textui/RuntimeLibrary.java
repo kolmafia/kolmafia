@@ -2582,13 +2582,6 @@ public abstract class RuntimeLibrary {
             new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE),
             params));
 
-    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE};
-    functions.add(
-        new LibraryFunction(
-            "voting_booth_initiatives",
-            new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE),
-            params));
-
     params = new Type[] {DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE};
     functions.add(
         new LibraryFunction(
