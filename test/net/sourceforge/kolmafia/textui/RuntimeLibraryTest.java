@@ -352,6 +352,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             "boolean test(string path) { return path == \"Trendy\"; } test($path[Trendy])",
             "string p = my_path(); (p == \"Trendy\")",
             "(my_path() == \"Trendy\")",
+            "my_path().starts_with(\"Tre\")",
           })
       void myPathCoercesToString(String command) {
         // my_path() used to return a string, we want to make sure that we don't break old scripts
