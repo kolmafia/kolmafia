@@ -231,6 +231,13 @@ public class ItemFinderTest {
     assertEquals(item.getItemId(), ItemPool.ELITE_TROUSERS);
     assertEquals(item.getCount(), 2);
 
+    // count of 1 + item name starts with a number
+    item = ItemFinder.getFirstMatchingItem("1 7-ball", false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertEquals(item.getItemId(), ItemPool.SEVEN_BALL);
+    assertEquals(item.getCount(), 1);
+
     // count + item name contains commas
     item = ItemFinder.getFirstMatchingItem("2 Tea, Earl Grey, Hot", false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);

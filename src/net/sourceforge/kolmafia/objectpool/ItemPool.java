@@ -553,6 +553,7 @@ public class ItemPool {
   public static final int TWO_BALL = 1901;
   public static final int FIVE_BALL = 1904;
   public static final int SIX_BALL = 1905;
+  public static final int SEVEN_BALL = 1906;
   public static final int EIGHT_BALL = 1907;
   public static final int SPOOKYRAVEN_SPECTACLES = 1916;
   public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;
