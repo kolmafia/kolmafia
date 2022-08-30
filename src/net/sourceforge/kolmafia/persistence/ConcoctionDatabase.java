@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -1352,7 +1353,7 @@ public class ConcoctionDatabase {
           && ar.getItemId() > 0
           && item.getPrice() <= 0
           && ConsumablesDatabase.meetsLevelRequirement(item.getName())
-          && StandardRequest.isAllowed("Items", ar.getName())) {
+          && StandardRequest.isAllowed(RestrictedItemType.ITEMS, ar.getName())) {
         item.setPullable(
             Math.min(
                 ar.getCount(KoLConstants.storage) - item.queuedPulls,
@@ -2171,7 +2172,7 @@ public class ConcoctionDatabase {
             || InventoryManager.hasItem(ItemPool.FISH_HATCHET)
             || InventoryManager.hasItem(ItemPool.TUNAC);
     boolean floundryUsable =
-        StandardRequest.isAllowed("Items", "Clan Floundry")
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Clan Floundry")
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
     if (clanFloundry && !gotFloundryItem && floundryUsable) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.FLOUNDRY);
@@ -2192,7 +2193,7 @@ public class ConcoctionDatabase {
     boolean gotBarrelShrine = Preferences.getBoolean("barrelShrineUnlocked");
     boolean gotBarrelItem = Preferences.getBoolean("_barrelPrayer");
     boolean barrelUsable =
-        StandardRequest.isAllowed("Items", "shrine to the Barrel god")
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
     if (gotBarrelShrine && !gotBarrelItem && barrelUsable) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.BARREL);
@@ -2225,7 +2226,7 @@ public class ConcoctionDatabase {
     }
 
     boolean spacegateUsable =
-        StandardRequest.isAllowed("Items", "Spacegate access badge")
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
     if (Preferences.getBoolean("spacegateAlways") && spacegateUsable) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SPACEGATE);
@@ -2237,7 +2238,7 @@ public class ConcoctionDatabase {
     }
 
     boolean fantasyRealmUsable =
-        StandardRequest.isAllowed("Items", "FantasyRealm membership packet")
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "FantasyRealm membership packet")
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled())
             && !StringUtilities.isNumeric(Preferences.getString("_frHoursLeft"));
     if ((Preferences.getBoolean("frAlways") || Preferences.getBoolean("_frToday"))
@@ -2259,7 +2260,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(CraftingType.KRINGLE, "You must be in Kringel's workshop.");
 
     boolean stillsuitUsable =
-        StandardRequest.isAllowed("Items", "tiny stillsuit")
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "tiny stillsuit")
             && InventoryManager.hasItem(ItemPool.STILLSUIT);
     if (stillsuitUsable) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.STILLSUIT);
@@ -2319,11 +2320,11 @@ public class ConcoctionDatabase {
   public static int getFreeCraftingTurns() {
     return ConcoctionDatabase.INIGO.getCount(KoLConstants.activeEffects) / 5
         + (KoLCharacter.hasSkill("Rapid Prototyping")
-                && StandardRequest.isAllowed("Skills", "Rapid Prototyping")
+                && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Rapid Prototyping")
             ? 5 - Preferences.getInteger("_rapidPrototypingUsed")
             : 0)
         + (KoLCharacter.hasSkill("Expert Corner-Cutter")
-                && StandardRequest.isAllowed("Skills", "Expert Corner-Cutter")
+                && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Expert Corner-Cutter")
                 &&
                 // KoL bug: this is the only skill that does not work
                 // unless you have at least one turn available, even
@@ -2332,7 +2333,7 @@ public class ConcoctionDatabase {
             ? 5 - Preferences.getInteger("_expertCornerCutterUsed")
             : 0)
         + (ConcoctionDatabase.CRAFT_TEA.getCount(KoLConstants.activeEffects) / 5)
-        + (StandardRequest.isAllowed("Items", "Cold Medicine Cabinet")
+        + (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cold Medicine Cabinet")
             ? Preferences.getInteger("homebodylCharges")
             : 0);
   }

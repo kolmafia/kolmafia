@@ -591,7 +591,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // If it is from an item, Standard restrictions may apply.
     if (item != null
         && KoLCharacter.getRestricted()
-        && !StandardRequest.isAllowed("Items", item.getName())) {
+        && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName())) {
       return false;
     }
 

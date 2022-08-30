@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -172,7 +173,7 @@ public class RestaurantCommand extends AbstractCommand {
       return false;
     }
 
-    if (!StandardRequest.isAllowed("Clan Items", "Clan hot dog stand")
+    if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan hot dog stand")
         || KoLCharacter.inZombiecore()
         || KoLCharacter.isJarlsberg()) {
       KoLmafia.updateDisplay("The clan hot dog stand is not available on your current path.");
@@ -237,7 +238,7 @@ public class RestaurantCommand extends AbstractCommand {
       return false;
     }
 
-    if (!StandardRequest.isAllowed("Clan Items", "Clan speakeasy")
+    if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan speakeasy")
         || KoLCharacter.isJarlsberg()
         || KoLCharacter.inHighschool()) {
       KoLmafia.updateDisplay("The clan speakeasy is not available on your current path.");

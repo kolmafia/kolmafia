@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -622,7 +623,7 @@ public class BreakfastManager {
       return;
     }
 
-    if (!StandardRequest.isAllowed("Items", "Boxing Day care package")) {
+    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Boxing Day care package")) {
       return;
     }
 
@@ -816,7 +817,7 @@ public class BreakfastManager {
     AdventureResult plant = ItemPool.get("potted power plant", 1);
 
     if (!InventoryManager.hasItem(plant)
-        || !StandardRequest.isAllowed("Items", plant.getName())
+        || !StandardRequest.isAllowed(RestrictedItemType.ITEMS, plant.getName())
         || KoLCharacter.inGLover()) {
       return;
     }
@@ -853,7 +854,7 @@ public class BreakfastManager {
     AdventureResult book = ItemPool.get(ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL, 1);
 
     if (!InventoryManager.hasItem(book)
-        || !StandardRequest.isAllowed("Items", book.getName())
+        || !StandardRequest.isAllowed(RestrictedItemType.ITEMS, book.getName())
         || KoLCharacter.inBeecore()) {
       return;
     }

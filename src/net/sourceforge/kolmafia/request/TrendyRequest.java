@@ -6,16 +6,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 
 public class TrendyRequest extends GenericRequest {
   // Types: "Items", "Campground", Bookshelf", "Familiars", "Skills", "Clan Item".
 
-  private static final Map<String, Boolean> itemMap = new HashMap<>();
-  private static final Map<String, Boolean> campgroundMap = new HashMap<>();
-  private static final Map<String, Boolean> bookshelfMap = new HashMap<>();
-  private static final Map<String, Boolean> familiarMap = new HashMap<>();
-  private static final Map<String, Boolean> skillMap = new HashMap<>();
-  private static final Map<String, Boolean> clanMap = new HashMap<>();
+  private static final Map<RestrictedItemType, Map<String, Boolean>> map = new HashMap<>();
 
   private static final TrendyRequest INSTANCE = new TrendyRequest();
   private static boolean running = false;
@@ -24,12 +20,7 @@ public class TrendyRequest extends GenericRequest {
 
   public static void reset() {
     TrendyRequest.initialized = false;
-    TrendyRequest.itemMap.clear();
-    TrendyRequest.campgroundMap.clear();
-    TrendyRequest.bookshelfMap.clear();
-    TrendyRequest.familiarMap.clear();
-    TrendyRequest.skillMap.clear();
-    TrendyRequest.clanMap.clear();
+    TrendyRequest.map.clear();
   }
 
   public static void initialize() {
@@ -38,29 +29,12 @@ public class TrendyRequest extends GenericRequest {
     }
   }
 
-  private static Map<String, Boolean> typeToMap(final String type) {
-    return type.equals("Items")
-        ? TrendyRequest.itemMap
-        : type.equals("Campground")
-            ? TrendyRequest.campgroundMap
-            : type.equals("Bookshelf")
-                ? TrendyRequest.bookshelfMap
-                : type.equals("Familiars")
-                    ? TrendyRequest.familiarMap
-                    : type.equals("Skills")
-                        ? TrendyRequest.skillMap
-                        : type.equals("Clan Item") ? TrendyRequest.clanMap : null;
-  }
-
-  private static boolean isTrendy(final Map<String, Boolean> map, final String key) {
+  public static boolean isTrendy(final RestrictedItemType type, final String key) {
     TrendyRequest.initialize();
-    Boolean value = map.get(key.toLowerCase());
-    return value == null || value.booleanValue();
-  }
-
-  public static boolean isTrendy(final String type, final String key) {
-    Map<String, Boolean> map = TrendyRequest.typeToMap(type);
-    return map != null && TrendyRequest.isTrendy(map, key);
+    Map<String, Boolean> check;
+    if ((check = map.get(type)) == null) return true;
+    var notExpired = check.get(key.toLowerCase());
+    return notExpired == null || notExpired;
   }
 
   public TrendyRequest() {
@@ -135,7 +109,7 @@ public class TrendyRequest extends GenericRequest {
     Matcher matcher = TrendyRequest.TRENDY_PATTERN.matcher(responseText);
     while (matcher.find()) {
       String type = matcher.group(3);
-      Map<String, Boolean> map = TrendyRequest.typeToMap(type);
+      RestrictedItemType itemType = RestrictedItemType.fromString(type);
       if (map == null) {
         // Report it?
         continue;
@@ -147,9 +121,9 @@ public class TrendyRequest extends GenericRequest {
       // String date = matcher.group( 2 );
       String objects = matcher.group(4);
       String[] splits = objects.split(", ");
-      for (int i = 0; i < splits.length; ++i) {
-        String object = splits[i].trim().toLowerCase();
-        map.put(object, Boolean.valueOf(available));
+      for (String split : splits) {
+        String object = split.trim().toLowerCase();
+        map.computeIfAbsent(itemType, k -> new HashMap<>()).put(object, available);
       }
     }
 

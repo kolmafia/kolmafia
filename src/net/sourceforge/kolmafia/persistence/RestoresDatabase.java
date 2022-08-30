@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RestoreExpression;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -333,7 +334,7 @@ public class RestoresDatabase {
       if (name.equals("April Shower")) {
         return InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
             && (!KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated())
-            && StandardRequest.isAllowed("Clan Item", "April Shower")
+            && StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")
             && !Limitmode.limitClan();
       }
       if (name.equals("Campground")) {
