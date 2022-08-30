@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
+import static net.sourceforge.kolmafia.textui.DataTypes.PATH_TYPE;
 import static net.sourceforge.kolmafia.textui.parsetree.AggregateType.badAggregateType;
 import static net.sourceforge.kolmafia.textui.parsetree.VariableReference.badVariableReference;
 
@@ -1062,12 +1063,26 @@ public class Parser {
       }
     }
 
+    if (ltype.equals(PATH_TYPE)) {
+      Function target = scope.findFunction(name, params, MatchType.COERCE);
+      if (target != null && target.getType().equals(ltype)) {
+        return new FunctionCall(rhs.getLocation(), target, params, this);
+      }
+    }
+
     if (ltype instanceof AggregateType) {
       return rhs;
     }
 
     if (rtype instanceof TypeDef || rtype instanceof RecordType) {
       Function target = scope.findFunction(name, params, MatchType.EXACT);
+      if (target != null && target.getType().equals(ltype)) {
+        return new FunctionCall(rhs.getLocation(), target, params, this);
+      }
+    }
+
+    if (rtype.equals(PATH_TYPE)) {
+      Function target = scope.findFunction(name, params, MatchType.COERCE);
       if (target != null && target.getType().equals(ltype)) {
         return new FunctionCall(rhs.getLocation(), target, params, this);
       }

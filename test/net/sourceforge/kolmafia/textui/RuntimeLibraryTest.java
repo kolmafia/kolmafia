@@ -350,7 +350,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       @ValueSource(
           strings = {
             "boolean test(string path) { return path == \"Trendy\"; } test($path[Trendy])",
-            "string p = my_path(); (p == \"Trendy\")"
+            "string p = my_path(); (p == \"Trendy\")",
+            "(my_path() == \"Trendy\")",
           })
       void myPathCoercesToString(String command) {
         // my_path() used to return a string, we want to make sure that we don't break old scripts
