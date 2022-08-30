@@ -264,8 +264,12 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   private int compareTo(final Value o, final boolean ignoreCase) {
-    if (!(o instanceof Value)) {
+    if (o == null) {
       throw new ClassCastException();
+    }
+
+    if (this.getType().equals(DataTypes.FLOAT_TYPE) || o.getType().equals(DataTypes.FLOAT_TYPE)) {
+      return Double.compare(this.toFloatValue().floatValue(), o.toFloatValue().floatValue());
     }
 
     if (this.getType().equals(DataTypes.BOOLEAN_TYPE)
@@ -286,11 +290,6 @@ public class Value implements TypedNode, Comparable<Value> {
       VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
       VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
       return v1.compareTo(v2);
-    }
-
-    if (this.getType().equals(DataTypes.FLOAT_TYPE)) {
-      return Double.compare(
-          Double.longBitsToDouble(this.contentLong), Double.longBitsToDouble(o.contentLong));
     }
 
     if (this.getType().equals(DataTypes.MONSTER_TYPE)) {
