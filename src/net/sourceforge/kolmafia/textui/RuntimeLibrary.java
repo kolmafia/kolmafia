@@ -580,7 +580,7 @@ public abstract class RuntimeLibrary {
             "path_name_to_id",
             DataTypes.INT_TYPE,
             params,
-            "Due to be removed on the 15th of September 2022"));
+            "Changing 'path_name_to_id(xxx)' to 'to_path(xxx).id' will remove this warning"));
 
     params = new Type[] {DataTypes.INT_TYPE};
     functions.add(
@@ -588,7 +588,7 @@ public abstract class RuntimeLibrary {
             "path_id_to_name",
             DataTypes.STRING_TYPE,
             params,
-            "Due to be removed on the 15th of September 2022"));
+            "Changing 'path_id_to_name(xxx)' to 'my_path(xxx).name' will remove this warning"));
 
     // Functions related to daily information which get
     // updated usually once per day.
@@ -1207,12 +1207,7 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_sign", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {};
-    functions.add(
-        new LibraryFunction(
-            "my_path",
-            DataTypes.STRING_TYPE,
-            params,
-            "Return type to be changed on the 15th of September 2022"));
+    functions.add(new LibraryFunction("my_path", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {};
     functions.add(
@@ -1220,7 +1215,7 @@ public abstract class RuntimeLibrary {
             "my_path_id",
             DataTypes.INT_TYPE,
             params,
-            "Due to be removed on the 15th of September 2022"));
+            "Changing 'my_path_id()' to 'my_path().id' will remove this warning"));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("in_muscle_sign", DataTypes.BOOLEAN_TYPE, params));
