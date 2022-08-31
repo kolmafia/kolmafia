@@ -373,6 +373,25 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         }
       }
 
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "(my_path() == \"None\")",
+            "boolean test() { switch (my_path()) { case \"None\": return true; default: return false; } } test()",
+          })
+      void nonePathIsTitleCases(String command) {
+        // Unrestricted used to be "None" but now it's technically "none". These tests make sure
+        // coercion is handling this
+        // We know it won't work in one case: "None" == my_path(). So if you wrote that, you're SOL
+        // :)
+        var cleanups = new Cleanups(withPath(Path.NONE));
+
+        try (cleanups) {
+          String output = execute(command);
+          assertThat(output, endsWith("Returned: true\n"));
+        }
+      }
+
       @Test
       void myPathCoercionWorksInJs() {
         getInstance().command = "js";
