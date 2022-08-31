@@ -3684,7 +3684,12 @@ public class Parser {
         } else {
           Location operationLocation = Parser.mergeLocations(lhs.getLocation(), rhs.getLocation());
 
-          rhs = this.autoCoerceValue(ltype, rhs, scope);
+          var lhsCoerceType =
+              (oper.equals("contains") && ltype.equals(DataTypes.TYPE_AGGREGATE))
+                  ? ((AggregateType) ltype).getIndexType().getBaseType()
+                  : ltype;
+
+          rhs = this.autoCoerceValue(lhsCoerceType, rhs, scope);
           if (!oper.validCoercion(ltype, rhs.getType())) {
             expressionErrors.submitError(
                 this.error(

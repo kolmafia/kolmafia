@@ -354,7 +354,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             "(my_path() == \"Trendy\")",
             "my_path().starts_with(\"Tre\")",
             "boolean test() { switch (my_path()) { case \"Trendy\": return true; default: return false; } } test()",
-            "($strings[Trendy] contains my_path())"
+            "boolean test(string path_name) { switch (path_name) { case $path[Trendy]: return true; default: return false; } } test(\"Trendy\")",
+            "($strings[Trendy] contains my_path())",
+            "($paths[Trendy] contains \"Trendy\")"
           })
       void myPathCoercesToString(String command) {
         // my_path() used to return a string, we want to make sure that we don't break old scripts

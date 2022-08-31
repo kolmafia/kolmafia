@@ -46,7 +46,7 @@ public class PluralValue extends AggregateValue {
       this.lookup = new TreeSet<>();
       this.lookup.addAll(Arrays.asList(keys()));
     }
-    return this.lookup.stream().anyMatch(v -> v.compareTo(key) == 0);
+    return this.lookup.contains(key);
   }
 
   @Override
