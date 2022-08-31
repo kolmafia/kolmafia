@@ -45,6 +45,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     this.command = "ash";
   }
 
+  public RuntimeLibraryTest getInstance() {
+    return this;
+  }
+
   @Test
   void normalMonsterExpectedDamage() {
     String output = execute("expected_damage($monster[blooper])");
@@ -367,6 +371,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           String output = execute(command);
           assertThat(output, endsWith("Returned: true\n"));
         }
+      }
+
+      @Test
+      void myPathCoercionWorksInJs() {
+        getInstance().command = "js";
+
+        var cleanups = new Cleanups(withPath(Path.TRENDY));
+
+        try (cleanups) {
+          String output = execute("myPath() == \"Trendy\"");
+          assertThat(output, endsWith("Returned: true\n"));
+        }
+
+        getInstance().command = "ash";
       }
     }
   }
