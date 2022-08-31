@@ -130,7 +130,6 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void printHtmlToSession() {
-    String sessionString = "";
     LogStream mocked;
 
     try (var mockedConstruction = mockConstruction(LogStream.class)) {
