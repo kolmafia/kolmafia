@@ -12,9 +12,13 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LibraryFunction extends Function {
   private Method method;
+  public String[] deprecationWarning;
 
-  public LibraryFunction(final String name, final Type type, final Type[] params) {
+  public LibraryFunction(
+      final String name, final Type type, final Type[] params, final String... deprecationWarning) {
     super(name.toLowerCase(), type);
+
+    this.deprecationWarning = deprecationWarning;
 
     Class<?>[] args = new Class[params.length + 1];
 
@@ -36,6 +40,10 @@ public class LibraryFunction extends Function {
 
       StaticEntity.printStackTrace(e, "No method found for built-in function: " + name);
     }
+  }
+
+  public LibraryFunction(final String name, final Type type, final Type[] params) {
+    this(name, type, params, new String[] {});
   }
 
   @Override
