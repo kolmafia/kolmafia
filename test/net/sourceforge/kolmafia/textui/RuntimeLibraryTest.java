@@ -12,12 +12,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mockConstruction;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
@@ -28,13 +28,12 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
-import net.sourceforge.kolmafia.utilities.LogStream;
+import net.sourceforge.kolmafia.utilities.NullStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.ArgumentCaptor;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
   @BeforeEach
@@ -129,46 +128,87 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void printHtmlToSession() {
-    LogStream mocked;
+  void testPrintHtmlDoesNotWriteToSessionLog() {
+    var html = "<td><p>word</p></td>";
 
-    try (var mockedConstruction = mockConstruction(LogStream.class)) {
-      RequestLogger.openSessionLog();
-      mocked = mockedConstruction.constructed().get(0);
-    }
-
-    ArgumentCaptor<String> valueCapture = ArgumentCaptor.forClass(String.class);
-    doNothing().when(mocked).println(valueCapture.capture());
-
-    var cleanups =
-        new Cleanups(new Cleanups(mocked::close), new Cleanups(RequestLogger::closeSessionLog));
-
-    try (cleanups) {
-      var html =
-          """
-                <table border="2" cols="4">
-                      <tr>
-                        <td>
-                          <p>
-                            roninStoragePulls
-                          </p>
-                        </td>
-                      </tr>
-                    </table>"""
-              .replaceAll("\r|\n", "<br>"); // The command tests don't handle newlines very well
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
 
       // Confirm that print_html doesn't log to session
       execute("print_html('" + html + "')");
-      assertThat(valueCapture.getAllValues(), hasSize(0));
 
-      // Confirm that false doesn't log to session
+      assertThat(ostream.toString(), is(""));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @Test
+  void testPrintHtmlFalseDoesNotWriteToSessionLog() {
+    var html = "<td><p>word</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
       execute("print_html('" + html + "', false)");
-      assertThat(valueCapture.getAllValues(), hasSize(0));
 
-      // Confirm that true does log to session
+      assertThat(ostream.toString(), is(""));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @Test
+  void testPrintHtmlTrueWritesToSessionLog() {
+    var html = "<td><p>word</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
       execute("print_html('" + html + "', true)");
-      assertThat(valueCapture.getAllValues(), hasSize(1));
-      assertThat(valueCapture.getValue(), equalTo("> roninStoragePulls"));
+
+      assertThat(ostream.toString(), is("> word\n"));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @Test
+  void testPrintHtmlWritesSingleLineToSessionLog() {
+    var html = "<td><p>word1</p><p>word2</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
+      execute("print_html('" + html + "', true)");
+
+      assertThat(ostream.toString(), is("> word1word2\n"));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @Test
+  void testPrintHtmlWritesMultipleLinesToSessionLog() {
+    var html = "<td><p>word1</p><br><p>word2</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
+      execute("print_html('" + html + "', true)");
+
+      assertThat(ostream.toString(), is("> word1\n> word2\n"));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
     }
   }
 

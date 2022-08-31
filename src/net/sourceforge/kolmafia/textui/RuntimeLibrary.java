@@ -2892,14 +2892,12 @@ public abstract class RuntimeLibrary {
   }
 
   private static String cleanString(Value string) {
-    return cleanString(string.toString());
-  }
+    String parameters = string.toString();
 
-  private static String cleanString(String string) {
-    string = StringUtilities.globalStringDelete(string, "\n");
-    string = StringUtilities.globalStringDelete(string, "\r");
+    parameters = StringUtilities.globalStringDelete(parameters, "\n");
+    parameters = StringUtilities.globalStringDelete(parameters, "\r");
 
-    return string;
+    return parameters;
   }
 
   private static String addColorDecoration(final String string, final Value color) {
@@ -2967,9 +2965,14 @@ public abstract class RuntimeLibrary {
   public static Value print_html(
       ScriptRuntime controller, final Value string, final Value logToSession) {
     if (logToSession.intValue() == 1) {
-      String parameters = StringUtilities.stripHtml(string.toString());
-      parameters = RuntimeLibrary.cleanString(parameters);
-      RequestLogger.getSessionStream().println("> " + parameters);
+      String parameters = RuntimeLibrary.cleanString(string);
+      parameters = StringUtilities.stripHtml(parameters);
+
+      // Unlike print(), print_html() can do newlines in gCLI, which is why they're preserved in
+      // session log
+      for (String split : parameters.split("\n")) {
+        RequestLogger.getSessionStream().println("> " + split.trim());
+      }
     }
 
     RequestLogger.printLine(string.toString());
