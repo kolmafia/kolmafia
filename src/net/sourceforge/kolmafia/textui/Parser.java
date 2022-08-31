@@ -2147,6 +2147,8 @@ public class Parser {
           caseErrors.submitSyntaxError(this.unexpectedTokenError(":", this.currentToken()));
         }
 
+        test = autoCoerceValue(type, test, scope);
+
         if (!test.getType().equals(type) && !type.isBad() && !test.getType().isBad()) {
           caseErrors.submitError(
               this.error(

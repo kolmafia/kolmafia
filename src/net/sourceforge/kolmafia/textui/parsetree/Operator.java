@@ -217,7 +217,7 @@ public class Operator extends Command {
 
     if (oper.equals("contains")) {
       return lhs.getType() == DataTypes.TYPE_AGGREGATE
-          && ((AggregateType) lhs).getIndexType().getBaseType().equals(rhs);
+          && validCoercion(((AggregateType) lhs).getIndexType().getBaseType(), rhs, "==");
     }
 
     // If the types are equal, no coercion is necessary
