@@ -2896,12 +2896,10 @@ public abstract class RuntimeLibrary {
   }
 
   private static String cleanString(String string) {
-    String parameters = string;
+    string = StringUtilities.globalStringDelete(string, "\n");
+    string = StringUtilities.globalStringDelete(string, "\r");
 
-    parameters = StringUtilities.globalStringDelete(parameters, "\n");
-    parameters = StringUtilities.globalStringDelete(parameters, "\r");
-
-    return parameters;
+    return string;
   }
 
   private static String addColorDecoration(final String string, final Value color) {
