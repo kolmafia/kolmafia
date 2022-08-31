@@ -358,6 +358,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("print", DataTypes.VOID_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("print_html", DataTypes.VOID_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("print_html", DataTypes.VOID_TYPE, params));
 
@@ -2889,7 +2892,11 @@ public abstract class RuntimeLibrary {
   }
 
   private static String cleanString(Value string) {
-    String parameters = string.toString();
+    return cleanString(string.toString());
+  }
+
+  private static String cleanString(String string) {
+    String parameters = string;
 
     parameters = StringUtilities.globalStringDelete(parameters, "\n");
     parameters = StringUtilities.globalStringDelete(parameters, "\r");
@@ -2956,6 +2963,18 @@ public abstract class RuntimeLibrary {
 
     RequestLogger.printLine(parameters);
 
+    return DataTypes.VOID_VALUE;
+  }
+
+  public static Value print_html(
+      ScriptRuntime controller, final Value string, final Value logToSession) {
+    if (logToSession.intValue() == 1) {
+      String parameters = StringUtilities.stripHtml(string.toString());
+      parameters = RuntimeLibrary.cleanString(parameters);
+      RequestLogger.getSessionStream().println("> " + parameters);
+    }
+
+    RequestLogger.printLine(string.toString());
     return DataTypes.VOID_VALUE;
   }
 

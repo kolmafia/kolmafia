@@ -12,26 +12,31 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mockConstruction;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
+import net.sourceforge.kolmafia.utilities.LogStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentCaptor;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
-
   @BeforeEach
   public void initEach() {
     Preferences.saveSettingsToFile = false;
@@ -123,6 +128,51 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
+  @Test
+  void printHtmlToSession() {
+    String sessionString = "";
+    LogStream mocked;
+
+    try (var mockedConstruction = mockConstruction(LogStream.class)) {
+      RequestLogger.openSessionLog();
+      mocked = mockedConstruction.constructed().get(0);
+    }
+
+    ArgumentCaptor<String> valueCapture = ArgumentCaptor.forClass(String.class);
+    doNothing().when(mocked).println(valueCapture.capture());
+
+    var cleanups =
+        new Cleanups(new Cleanups(mocked::close), new Cleanups(RequestLogger::closeSessionLog));
+
+    try (cleanups) {
+      var html =
+          """
+                <table border="2" cols="4">
+                      <tr>
+                        <td>
+                          <p>
+                            roninStoragePulls
+                          </p>
+                        </td>
+                      </tr>
+                    </table>"""
+              .replaceAll("\r|\n", "<br>"); // The command tests don't handle newlines very well
+
+      // Confirm that print_html doesn't log to session
+      execute("print_html('" + html + "')");
+      assertThat(valueCapture.getAllValues(), hasSize(0));
+
+      // Confirm that false doesn't log to session
+      execute("print_html('" + html + "', false)");
+      assertThat(valueCapture.getAllValues(), hasSize(0));
+
+      // Confirm that true does log to session
+      execute("print_html('" + html + "', true)");
+      assertThat(valueCapture.getAllValues(), hasSize(1));
+      assertThat(valueCapture.getValue(), equalTo("> roninStoragePulls"));
+    }
+  }
+
   @Nested
   class ExpectedCmc {
     @BeforeEach
@@ -141,13 +191,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                Returned: aggregate item [string]
-                booze => Doc's Fortifying Wine
-                equipment => frozen jeans
-                food => frozen tofu pop
-                pill => Breathitin&trade;
-                potion => anti-odor cream
-                """));
+                    Returned: aggregate item [string]
+                    booze => Doc's Fortifying Wine
+                    equipment => frozen jeans
+                    food => frozen tofu pop
+                    pill => Breathitin&trade;
+                    potion => anti-odor cream
+                    """));
       }
     }
 
@@ -161,14 +211,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                        Could not parse cabinet.
-                        Returned: aggregate item [string]
-                        booze => none
-                        equipment => none
-                        food => none
-                        pill => none
-                        potion => none
-                        """));
+                    Could not parse cabinet.
+                    Returned: aggregate item [string]
+                    booze => none
+                    equipment => none
+                    food => none
+                    pill => none
+                    potion => none
+                    """));
       }
     }
 
@@ -183,13 +233,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                Returned: aggregate item [string]
-                booze => Doc's Medical-Grade Wine
-                equipment => ice crown
-                food => none
-                pill => Extrovermectin&trade;
-                potion => none
-                """));
+                    Returned: aggregate item [string]
+                    booze => Doc's Medical-Grade Wine
+                    equipment => ice crown
+                    food => none
+                    pill => Extrovermectin&trade;
+                    potion => none
+                    """));
       }
     }
 
@@ -204,13 +254,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                Returned: aggregate item [string]
-                booze => Doc's Medical-Grade Wine
-                equipment => ice crown
-                food => none
-                pill => none
-                potion => none
-                """));
+                    Returned: aggregate item [string]
+                    booze => Doc's Medical-Grade Wine
+                    equipment => ice crown
+                    food => none
+                    pill => none
+                    potion => none
+                    """));
       }
     }
   }
@@ -234,10 +284,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-              Returned: aggregate boolean [monster]
-              warwelf => true
-              oil baron => true
-              """));
+                Returned: aggregate boolean [monster]
+                warwelf => true
+                oil baron => true
+                """));
     }
   }
 
