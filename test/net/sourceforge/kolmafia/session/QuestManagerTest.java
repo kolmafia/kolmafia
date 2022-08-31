@@ -1420,7 +1420,7 @@ public class QuestManagerTest {
         builder.client.addResponse(200, html("request/test_spacegate_hazards_2.html"));
         request.run();
         assertThat("_spacegateHazards", isSetTo("high gravity"));
-        assertThat("_spacegateGear", isSetTo("exo-server leg braces"));
+        assertThat("_spacegateGear", isSetTo("exo-servo leg braces"));
         assertTrue(InventoryManager.hasItem(ItemPool.EXO_SERVO_LEG_BRACES));
       }
     }
