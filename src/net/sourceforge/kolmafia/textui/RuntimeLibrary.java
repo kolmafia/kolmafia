@@ -358,6 +358,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("print", DataTypes.VOID_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("print_html", DataTypes.VOID_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("print_html", DataTypes.VOID_TYPE, params));
 
@@ -2979,6 +2982,23 @@ public abstract class RuntimeLibrary {
 
     RequestLogger.printLine(parameters);
 
+    return DataTypes.VOID_VALUE;
+  }
+
+  public static Value print_html(
+      ScriptRuntime controller, final Value string, final Value logToSession) {
+    if (logToSession.intValue() == 1) {
+      String parameters = RuntimeLibrary.cleanString(string);
+      parameters = StringUtilities.stripHtml(parameters);
+
+      // Unlike print(), print_html() can do newlines in gCLI, which is why they're preserved in
+      // session log
+      for (String split : parameters.split("\n")) {
+        RequestLogger.getSessionStream().println("> " + split.trim());
+      }
+    }
+
+    RequestLogger.printLine(string.toString());
     return DataTypes.VOID_VALUE;
   }
 
