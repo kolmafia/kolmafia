@@ -7,6 +7,7 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -46,6 +47,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   public RuntimeLibraryTest() {
     this.command = "ash";
+  }
+
+  public RuntimeLibraryTest getInstance() {
+    return this;
   }
 
   @Test
@@ -429,6 +434,65 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       try (cleanups) {
         String output = execute(command);
         assertThat(output, endsWith("Returned: false\n"));
+      }
+    }
+
+    @Nested
+    class PathFunctions {
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "boolean test(string path) { return path == \"Trendy\"; } test($path[Trendy])",
+            "string p = my_path(); (p == \"Trendy\")",
+            "(my_path() == \"Trendy\")",
+            "my_path().starts_with(\"Tre\")",
+            "boolean test() { switch (my_path()) { case \"Trendy\": return true; default: return false; } } test()",
+            "boolean test(string path_name) { switch (path_name) { case $path[Trendy]: return true; default: return false; } } test(\"Trendy\")",
+            "($strings[Trendy] contains my_path())",
+            "($paths[Trendy] contains \"Trendy\")"
+          })
+      void myPathCoercesToString(String command) {
+        // my_path() used to return a string, we want to make sure that we don't break old scripts
+        // where possible
+        var cleanups = new Cleanups(withPath(Path.TRENDY));
+
+        try (cleanups) {
+          String output = execute(command);
+          assertThat(output, endsWith("Returned: true\n"));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "(my_path() == \"None\")",
+            "boolean test() { switch (my_path()) { case \"None\": return true; default: return false; } } test()",
+          })
+      void nonePathIsTitleCases(String command) {
+        // Unrestricted used to be "None" but now it's technically "none". These tests make sure
+        // coercion is handling this
+        // We know it won't work in one case: "None" == my_path(). So if you wrote that, you're SOL
+        // :)
+        var cleanups = new Cleanups(withPath(Path.NONE));
+
+        try (cleanups) {
+          String output = execute(command);
+          assertThat(output, endsWith("Returned: true\n"));
+        }
+      }
+
+      @Test
+      void myPathCoercionWorksInJs() {
+        getInstance().command = "js";
+
+        var cleanups = new Cleanups(withPath(Path.TRENDY));
+
+        try (cleanups) {
+          String output = execute("myPath() == \"Trendy\"");
+          assertThat(output, endsWith("Returned: true\n"));
+        }
+
+        getInstance().command = "ash";
       }
     }
   }
