@@ -11,26 +11,13 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
+import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
 import net.sourceforge.kolmafia.textui.command.ModeCommand;
 import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.textui.command.UmbrellaCommand;
 
 public enum Modeable {
-  EDPIECE(
-      "edpiece",
-      "edPiece",
-      ItemPool.get(ItemPool.CROWN_OF_ED),
-      "Edpiece",
-      new EdPieceCommand(),
-      false),
-  RETROCAPE(
-      "retrocape",
-      null,
-      ItemPool.get(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE),
-      "RetroCape",
-      new RetroCapeCommand(),
-      false),
   BACKUPCAMERA(
       "backupcamera",
       "backupCameraMode",
@@ -38,27 +25,48 @@ public enum Modeable {
       "BackupCamera",
       new BackupCameraCommand(),
       true),
-  UMBRELLA(
-      "umbrella",
-      "umbrellaState",
-      ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
-      "UnbreakableUmbrella",
-      new UmbrellaCommand(),
+  EDPIECE(
+      "edpiece",
+      "edPiece",
+      ItemPool.get(ItemPool.CROWN_OF_ED),
+      "Edpiece",
+      new EdPieceCommand(),
+      false),
+  PARKA(
+      "parka",
+      "parkaMode",
+      ItemPool.get(ItemPool.JURASSIC_PARKA),
+      "JurassicParka",
+      new JurassicParkaCommand(),
       true),
+  RETROCAPE(
+      "retrocape",
+      null,
+      ItemPool.get(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE),
+      "RetroCape",
+      new RetroCapeCommand(),
+      false),
   SNOWSUIT(
       "snowsuit",
       "snowsuit",
       ItemPool.get(ItemPool.SNOW_SUIT),
       "Snowsuit",
       new SnowsuitCommand(),
-      false);
+      false),
+  UMBRELLA(
+      "umbrella",
+      "umbrellaState",
+      ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
+      "UnbreakableUmbrella",
+      new UmbrellaCommand(),
+      true);
 
   private final String command;
   private final String statePref;
   private final AdventureResult item;
   private final String modifier;
   private final ModeCommand commandInstance;
-  private final boolean equipAfterChange;
+  private final boolean mustEquipAfterChange;
 
   Modeable(
       final String command,
@@ -66,13 +74,13 @@ public enum Modeable {
       final AdventureResult item,
       final String modifier,
       final ModeCommand commandInstance,
-      final boolean equipAfterChange) {
+      final boolean mustEquipAfterChange) {
     this.command = command;
     this.statePref = statePref;
     this.item = item;
     this.modifier = modifier;
     this.commandInstance = commandInstance;
-    this.equipAfterChange = equipAfterChange;
+    this.mustEquipAfterChange = mustEquipAfterChange;
   }
 
   public String getCommand() {
@@ -115,8 +123,8 @@ public enum Modeable {
     return this.modifier;
   }
 
-  public boolean getEquipAfterChange() {
-    return this.equipAfterChange;
+  public boolean mustEquipAfterChange() {
+    return this.mustEquipAfterChange;
   }
 
   public static Modeable find(final AdventureResult item) {
