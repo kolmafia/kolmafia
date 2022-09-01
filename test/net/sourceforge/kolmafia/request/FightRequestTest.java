@@ -1232,8 +1232,6 @@ public class FightRequestTest {
       "The Haunted Pantry, i",
       "The Middle Chamber, u",
       "The Briny Deeps, x",
-      // If they add Gausie's Grotto I promise to come and make up a new location
-      "Gausie's Grotto, ?"
     })
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
       var cleanups = withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
@@ -1242,6 +1240,17 @@ public class FightRequestTest {
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxx" + environmentSymbol));
+      }
+    }
+
+    @Test
+    public void canHandleNullZones() {
+      var cleanups = withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
+      try (cleanups) {
+        // If they add Gausie's Grotto I promise to come and make up a new location
+        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("Gausie's Grotto");
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx");
       }
     }
 
