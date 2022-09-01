@@ -7,15 +7,20 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -188,6 +193,40 @@ public class GenericRequestTest {
         assertThat(requests, hasSize(1));
         assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=2&ajax=1");
       }
+    }
+  }
+
+  @Test
+  public void testTracksTowelAcquired() {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastTowelAscension", -1),
+            withNextResponse(
+                new FakeHttpResponse<>(
+                    302, Map.of("location", List.of("choice.php?forceoption=0")), ""),
+                new FakeHttpResponse<>(
+                    200, html("request/test_request_haunted_bathroom_off_the_rack.html")),
+                new FakeHttpResponse<>(
+                    200,
+                    ""), // An api request is triggered by the above containing a charpane request.
+                // We swallow it.
+                new FakeHttpResponse<>(
+                    200, html("request/test_request_haunted_bathroom_towel.html"))));
+
+    try (cleanups) {
+      // Prove that the towel is not set to the current ascension before we start the test.
+      assertThat("lastTowelAscension", not(isSetTo(KoLCharacter.getAscensions())));
+
+      // Does a 302 redirect to choice.php
+      var hitChoice =
+          new GenericRequest("adventure.php?snarfblat=" + AdventurePool.HAUNTED_BATHROOM);
+      hitChoice.run();
+
+      // Take the towel
+      var tookTowel = new GenericRequest("choice.php?pwd&whichchoice=882&option=1");
+      tookTowel.run();
+
+      assertThat("lastTowelAscension", isSetTo(KoLCharacter.getAscensions()));
     }
   }
 }

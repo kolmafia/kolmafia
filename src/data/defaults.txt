@@ -880,6 +880,7 @@ user	lastTempleAdventures	-1
 user	lastTempleButtonsUnlock	-1
 user	lastTempleUnlock	-1
 user	lastThingWithNoNameDefeated	-1
+user	lastTowelAscension	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
 user	lastVoteMonsterTurn	0
