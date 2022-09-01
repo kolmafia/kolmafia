@@ -11,18 +11,33 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
+import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
 import net.sourceforge.kolmafia.textui.command.ModeCommand;
 import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.textui.command.UmbrellaCommand;
 
 public enum Modeable {
+  BACKUPCAMERA(
+      "backupcamera",
+      "backupCameraMode",
+      ItemPool.get(ItemPool.BACKUP_CAMERA),
+      "BackupCamera",
+      new BackupCameraCommand(),
+      true),
   EDPIECE(
       "edpiece",
       "edPiece",
       ItemPool.get(ItemPool.CROWN_OF_ED),
       "Edpiece",
       new EdPieceCommand(),
+      false),
+  PARKA(
+      "parka",
+      "parkaMode",
+      ItemPool.get(ItemPool.JURASSIC_PARKA),
+      "JurassicParka",
+      new JurassicParkaCommand(),
       false),
   RETROCAPE(
       "retrocape",
@@ -31,27 +46,20 @@ public enum Modeable {
       "RetroCape",
       new RetroCapeCommand(),
       false),
-  BACKUPCAMERA(
-      "backupcamera",
-      "backupCameraMode",
-      ItemPool.get(ItemPool.BACKUP_CAMERA),
-      "BackupCamera",
-      new BackupCameraCommand(),
-      true),
-  UMBRELLA(
-      "umbrella",
-      "umbrellaState",
-      ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
-      "UnbreakableUmbrella",
-      new UmbrellaCommand(),
-      true),
   SNOWSUIT(
       "snowsuit",
       "snowsuit",
       ItemPool.get(ItemPool.SNOW_SUIT),
       "Snowsuit",
       new SnowsuitCommand(),
-      false);
+      false),
+  UMBRELLA(
+      "umbrella",
+      "umbrellaState",
+      ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
+      "UnbreakableUmbrella",
+      new UmbrellaCommand(),
+      true);
 
   private final String command;
   private final String statePref;

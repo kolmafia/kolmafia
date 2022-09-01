@@ -1040,6 +1040,7 @@ user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
+user	parkaMode
 user	pastaThrall1
 user	pastaThrall2
 user	pastaThrall3
