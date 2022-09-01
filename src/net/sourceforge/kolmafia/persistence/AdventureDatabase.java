@@ -113,8 +113,8 @@ public class AdventureDatabase {
 
           if (data.length == 3) {
             // Perhaps inherit from parent zone
-            Path apath = ascensionPathZones.get(parent);
-            if (apath != null) {
+            Path apath = ascensionPathZones.getOrDefault(parent, Path.NONE);
+            if (apath != Path.NONE) {
               ascensionPathZones.put(zone, apath);
             }
             AdventureResult item = itemGeneratedZones.get(parent);
@@ -128,7 +128,7 @@ public class AdventureDatabase {
 
           // See if it is an Ascension Path
           Path path = AscensionPath.nameToPath(source);
-          if (path != null) {
+          if (path != Path.NONE) {
             ascensionPathZones.put(zone, path);
             continue;
           }
@@ -349,7 +349,7 @@ public class AdventureDatabase {
   }
 
   public static final Path zoneAscensionPath(String zone) {
-    return AdventureDatabase.ascensionPathZones.get(zone);
+    return AdventureDatabase.ascensionPathZones.getOrDefault(zone, Path.NONE);
   }
 
   public static final AdventureResult zoneGeneratingItem(String zone) {

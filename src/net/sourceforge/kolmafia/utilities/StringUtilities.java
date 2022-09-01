@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
 public class StringUtilities {
@@ -38,6 +39,9 @@ public class StringUtilities {
               + "below|beneath|beside|between|beyond|by|down|during|except|for|from|in|inside|"
               + "into|like|near|of|off|on|onto|out|outside|over|past|through|throughout|to|"
               + "under|up|upon|with|within|without)\\b");
+
+  private static final Pattern WHITESPACE = Pattern.compile("\n\\s*");
+  private static final Pattern LINE_BREAK = Pattern.compile("<br/?>", Pattern.CASE_INSENSITIVE);
 
   private static final SimpleDateFormat DATE_FORMAT =
       new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
@@ -919,5 +923,25 @@ public class StringUtilities {
     int last = l.size() - 1;
     if (last == 0) return l.get(last);
     return String.join(" and ", String.join(", ", l.subList(0, last)), l.get(last));
+  }
+
+  public static String stripHtml(String s) {
+    // Now we begin trimming out some of the whitespace,
+    // because that causes some strange rendering problems.
+
+    s = StringUtilities.WHITESPACE.matcher(s).replaceAll("\n");
+
+    s = StringUtilities.globalStringDelete(s, "\r");
+    s = StringUtilities.globalStringDelete(s, "\n");
+    s = StringUtilities.globalStringDelete(s, "\t");
+
+    // Finally, we start replacing the various HTML tags
+    // with emptiness, except for the <br> tag which is
+    // rendered as a new line.
+
+    s = StringUtilities.LINE_BREAK.matcher(s).replaceAll("\n").trim();
+    s = KoLConstants.ANYTAG_PATTERN.matcher(s).replaceAll("");
+
+    return StringUtilities.getEntityDecode(s, false).trim();
   }
 }
