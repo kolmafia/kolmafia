@@ -985,6 +985,9 @@ Item	hipposkin poncho	Monster Level: +10
 Item	Hodgman's disgusting technicolor overcoat	Spooky Damage: +15, Stench Damage: +15, Hot Damage: +15, Cold Damage: +15, Sleaze Damage: +15, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5
 Item	icing poncho	Cold Damage: +25, Cold Spell Damage: +25, Food Drop: +50
 Item	junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
+# Item Jurassic Parka: Deters an opponent's first attack
+# Item Jurassic Parka: Engage dinosaur modes for more bonuses
+Item	Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	Kashmir sweater	Hot Damage: +10, Hot Spell Damage: +10
 Item	Kiss the Knob apron	Maximum MP: +5
 Item	Knob Goblin elite shirt	Muscle: +3
@@ -11439,6 +11442,7 @@ Item	packaged cold medicine cabinet	Free Pull
 Item	packaged Daylight Shavings Helmet	Free Pull
 Item	packaged familiar scrapbook	Free Pull
 Item	packaged industrial fire extinguisher	Free Pull
+Item	packaged Jurassic Parka	Free Pull
 Item	packaged knock-off retro superhero cape	Free Pull
 Item	packaged miniature crystal ball	Free Pull
 Item	packaged Pocket Professor	Free Pull
