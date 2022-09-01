@@ -4220,22 +4220,22 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void trackEnvironment(final KoLAdventure location) {
-    var environment = location != null ? location.getEnvironment() : "none";
+    if (location != null ) {
+      var symbol =
+              switch (location.getEnvironment()) {
+                case "outdoor" -> "o";
+                case "indoor" -> "i";
+                case "underground" -> "u";
+                case "underwater" -> "x";
+                default -> "?";
+              };
 
-    var symbol =
-        switch (environment) {
-          case "outdoor" -> "o";
-          case "indoor" -> "i";
-          case "underground" -> "u";
-          case "underwater" -> "x";
-          default -> "?";
-        };
+      // Make sure the value is padded to handle malformed preferences
+      var environments = "x".repeat(20) + Preferences.getString("lastCombatEnvironments") + symbol;
 
-    // Make sure the value is padded to handle malformed preferences
-    var environments = "x".repeat(20) + Preferences.getString("lastCombatEnvironments") + symbol;
-
-    Preferences.setString(
-        "lastCombatEnvironments", environments.substring(environments.length() - 20));
+      Preferences.setString(
+              "lastCombatEnvironments", environments.substring(environments.length() - 20));
+    }
   }
 
   // <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative;
