@@ -34,21 +34,17 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return getChoiceForParameters(parameters) > 0;
+    return getChoiceForParameters(normalize(parameters)) > 0;
   }
 
   @Override
   public String normalize(String parameters) {
-    return parameters;
+    parameters = parameters.trim().toLowerCase();
+    return ALIASES.getOrDefault(parameters, parameters);
   }
 
   public int getChoiceForParameters(final String parameters) {
-    if (parameters == null) return 0;
-    return MODES.entrySet().stream()
-        .filter(e -> parameters.contains(e.getKey()))
-        .findAny()
-        .map(Map.Entry::getValue)
-        .orElse(getChoiceForParameters(ALIASES.getOrDefault(parameters, null)));
+    return MODES.getOrDefault(parameters, 0);
   }
 
   public Set<String> getModes() {
@@ -62,7 +58,9 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
       return;
     }
 
-    int choice = getChoiceForParameters(parameters);
+    var mode = normalize(parameters);
+
+    int choice = getChoiceForParameters(mode);
 
     if (choice == 0) {
       KoLmafia.updateDisplay("The mode " + parameters + " was not recognised");
@@ -77,7 +75,7 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1449&option=6"));
     }
 
-    KoLmafia.updateDisplay("Your parka is now set to " + parameters + " mode.");
+    KoLmafia.updateDisplay("Your parka is now set to " + mode + " mode.");
   }
 
   private static void setMode(final String mode) {
