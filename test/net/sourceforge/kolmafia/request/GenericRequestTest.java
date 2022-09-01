@@ -199,6 +199,7 @@ public class GenericRequestTest {
   public void testTracksTowelAcquired() {
     var cleanups =
         new Cleanups(
+            withProperty("lastTowelAscension", -1),
             withAscensions(123),
             withNextResponse(
                 new FakeHttpResponse<>(
