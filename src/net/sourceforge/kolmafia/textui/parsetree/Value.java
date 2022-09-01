@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.List;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -91,6 +92,10 @@ public class Value implements TypedNode, Comparable<Value> {
     this.contentLong = original.contentLong;
     this.contentString = original.contentString;
     this.content = original.content;
+  }
+
+  public Value(final Path path) {
+    this(DataTypes.PATH_TYPE, path.getId(), path.getName(), path);
   }
 
   public Value toFloatValue() {
@@ -223,6 +228,9 @@ public class Value implements TypedNode, Comparable<Value> {
     if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
       return new ProxyRecordValue.VykeaProxy(this);
     }
+    if (this.getType().equals(DataTypes.PATH_TYPE)) {
+      return new ProxyRecordValue.PathProxy(this);
+    }
     if (this.getType().equals(DataTypes.ELEMENT_TYPE)) {
       return new ProxyRecordValue.ElementProxy(this);
     }
@@ -264,7 +272,7 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   private int compareTo(final Value o, final boolean ignoreCase) {
-    if (!(o instanceof Value)) {
+    if (o == null) {
       throw new ClassCastException();
     }
 
@@ -277,7 +285,8 @@ public class Value implements TypedNode, Comparable<Value> {
         || this.getType().equals(DataTypes.FAMILIAR_TYPE)
         || this.getType().equals(DataTypes.SLOT_TYPE)
         || this.getType().equals(DataTypes.THRALL_TYPE)
-        || this.getType().equals(DataTypes.SERVANT_TYPE)) {
+        || this.getType().equals(DataTypes.SERVANT_TYPE)
+        || this.getType().equals(DataTypes.PATH_TYPE)) {
       return Long.compare(this.contentLong, o.contentLong);
     }
 
