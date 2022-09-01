@@ -217,7 +217,7 @@ public class Operator extends Command {
 
     if (oper.equals("contains")) {
       return lhs.getType() == DataTypes.TYPE_AGGREGATE
-          && ((AggregateType) lhs).getIndexType().getBaseType().equals(rhs);
+          && validCoercion(((AggregateType) lhs).getIndexType().getBaseType(), rhs, "==");
     }
 
     // If the types are equal, no coercion is necessary
@@ -245,11 +245,17 @@ public class Operator extends Command {
     }
 
     // Int coerces to float
-    if (lhs.equals(DataTypes.TYPE_INT) && rhs.equals(DataTypes.TYPE_FLOAT)) {
+    if ((lhs.equals(DataTypes.TYPE_INT) && rhs.equals(DataTypes.TYPE_FLOAT))
+        || (lhs.equals(DataTypes.TYPE_FLOAT) && rhs.equals(DataTypes.TYPE_INT))) {
       return true;
     }
 
-    if (lhs.equals(DataTypes.TYPE_FLOAT) && rhs.equals(DataTypes.TYPE_INT)) {
+    if ((lhs.equals(DataTypes.TYPE_PATH) && rhs.equals(DataTypes.TYPE_INT))
+        || (lhs.equals(DataTypes.TYPE_INT) && rhs.equals(DataTypes.TYPE_PATH))) {
+      return true;
+    }
+
+    if (lhs.equals(DataTypes.TYPE_PATH) && rhs.equals(DataTypes.TYPE_STRING)) {
       return true;
     }
 
