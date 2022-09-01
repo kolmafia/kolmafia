@@ -1250,7 +1250,7 @@ public class FightRequestTest {
         // If they add Gausie's Grotto I promise to come and make up a new location
         KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("Gausie's Grotto");
         parseCombatData("request/test_fight_oil_slick.html");
-        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx");
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx"));
       }
     }
 

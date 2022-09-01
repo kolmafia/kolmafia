@@ -4220,21 +4220,21 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void trackEnvironment(final KoLAdventure location) {
-    if (location != null ) {
+    if (location != null) {
       var symbol =
-              switch (location.getEnvironment()) {
-                case "outdoor" -> "o";
-                case "indoor" -> "i";
-                case "underground" -> "u";
-                case "underwater" -> "x";
-                default -> "?";
-              };
+          switch (location.getEnvironment()) {
+            case "outdoor" -> "o";
+            case "indoor" -> "i";
+            case "underground" -> "u";
+            case "underwater" -> "x";
+            default -> "?";
+          };
 
       // Make sure the value is padded to handle malformed preferences
       var environments = "x".repeat(20) + Preferences.getString("lastCombatEnvironments") + symbol;
 
       Preferences.setString(
-              "lastCombatEnvironments", environments.substring(environments.length() - 20));
+          "lastCombatEnvironments", environments.substring(environments.length() - 20));
     }
   }
 
