@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
@@ -13,8 +15,10 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.command.AshSingleLineCommand;
 import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.junit.jupiter.api.AfterEach;
@@ -99,6 +103,34 @@ public class CustomScriptTest {
 
       RequestLogger.closeCustom();
     }
+  }
+
+  @Test
+  void deprecationWarnings() {
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+    var newFunction =
+        new LibraryFunction(
+            "deprecated_function", DataTypes.VOID_TYPE, new Type[] {}, "Deprecation warning");
+    RuntimeLibrary.functions.add(newFunction);
+
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.openCustom(out);
+
+      var command = new AshSingleLineCommand();
+      String script = "deprecated_function();";
+      command.run("verify", script);
+
+      String output = ostream.toString().trim();
+      assertThat(
+          output,
+          startsWith(
+              "Function \"deprecated_function\" is deprecated (char 1 to char 22) Deprecation warning"));
+      RequestLogger.closeCustom();
+    }
+
+    RuntimeLibrary.functions.remove(newFunction);
   }
 
   @BeforeEach

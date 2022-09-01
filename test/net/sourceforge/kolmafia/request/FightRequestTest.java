@@ -35,7 +35,6 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1236,9 +1235,11 @@ public class FightRequestTest {
       "Gausie's Grotto, ?"
     })
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
-      var cleanups = withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
+      var cleanups =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
+              withLastLocation(adventureName));
       try (cleanups) {
-        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure(adventureName);
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxx" + environmentSymbol));
@@ -1248,9 +1249,9 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "xxxxx", "xxxxxxxxxxxxxxxxxxx"})
     public void canRecoverUndersizedProp(String pref) {
-      var cleanups = withProperty("lastCombatEnvironments", pref);
+      var cleanups =
+          new Cleanups(withProperty("lastCombatEnvironments", pref), withLastLocation("The Oasis"));
       try (cleanups) {
-        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("The Oasis");
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxo"));
@@ -1259,12 +1260,41 @@ public class FightRequestTest {
 
     @Test
     public void doesNotCountFreeFights() {
-      var cleanups = withProperty("lastCombatEnvironments", "ioioioioioioioioioio");
+      var cleanups =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
+              withLastLocation("Hobopolis Town Square"));
       try (cleanups) {
-        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("Hobopolis Town Square");
         // Any old free fight from our fixtures
         parseCombatData("request/test_fight_potted_plant.html");
         assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
+      }
+    }
+
+    @Test
+    public void doesNotCountNonSnarfblats() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
+              withLastLocation("The Typical Tavern Cellar"));
+      try (cleanups) {
+        // Any old non-free fight from our fixtures
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
+      }
+    }
+
+    @Test
+    public void countsNewZonesAsQuestions() {
+      var overrideLocation = new KoLAdventure("Override", "adventure.php", "69", "Nice");
+      var cleanups =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
+              withLastLocation(overrideLocation));
+      try (cleanups) {
+        // Any old non-free fight from our fixtures
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("oioioioioioioioioio?"));
       }
     }
   }

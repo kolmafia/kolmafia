@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.swingui.widget;
 import java.awt.*;
 import java.io.StringWriter;
 import java.util.Enumeration;
-import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
@@ -11,7 +10,6 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import javax.swing.text.html.InlineView;
 import net.sourceforge.kolmafia.ImageCachingEditorKit;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -109,9 +107,6 @@ public class RequestPane extends JEditorPane {
     }
   }
 
-  private static final Pattern WHITESPACE = Pattern.compile("\n\\s*");
-  private static final Pattern LINE_BREAK = Pattern.compile("<br/?>", Pattern.CASE_INSENSITIVE);
-
   public RequestPane() {
     this.setEditorKit(new WrappedHtmlEditorKit());
     this.setContentType("text/html");
@@ -182,22 +177,6 @@ public class RequestPane extends JEditorPane {
       return selectedText;
     }
 
-    // Now we begin trimming out some of the whitespace,
-    // because that causes some strange rendering problems.
-
-    selectedText = RequestPane.WHITESPACE.matcher(selectedText).replaceAll("\n");
-
-    selectedText = StringUtilities.globalStringDelete(selectedText, "\r");
-    selectedText = StringUtilities.globalStringDelete(selectedText, "\n");
-    selectedText = StringUtilities.globalStringDelete(selectedText, "\t");
-
-    // Finally, we start replacing the various HTML tags
-    // with emptiness, except for the <br> tag which is
-    // rendered as a new line.
-
-    selectedText = RequestPane.LINE_BREAK.matcher(selectedText).replaceAll("\n").trim();
-    selectedText = KoLConstants.ANYTAG_PATTERN.matcher(selectedText).replaceAll("");
-
-    return StringUtilities.getEntityDecode(selectedText, false).trim();
+    return StringUtilities.stripHtml(selectedText);
   }
 }
