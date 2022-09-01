@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
+import static net.sourceforge.kolmafia.textui.DataTypes.PATH_TYPE;
 import static net.sourceforge.kolmafia.textui.parsetree.AggregateType.badAggregateType;
 import static net.sourceforge.kolmafia.textui.parsetree.VariableReference.badVariableReference;
 
@@ -48,6 +49,7 @@ import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
 import net.sourceforge.kolmafia.textui.parsetree.IncDec;
 import net.sourceforge.kolmafia.textui.parsetree.JavaForLoop;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Loop;
 import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
@@ -1062,12 +1064,26 @@ public class Parser {
       }
     }
 
+    if (ltype.equals(PATH_TYPE)) {
+      Function target = scope.findFunction(name, params, MatchType.COERCE);
+      if (target != null && target.getType().equals(ltype)) {
+        return new FunctionCall(rhs.getLocation(), target, params, this);
+      }
+    }
+
     if (ltype instanceof AggregateType) {
       return rhs;
     }
 
     if (rtype instanceof TypeDef || rtype instanceof RecordType) {
       Function target = scope.findFunction(name, params, MatchType.EXACT);
+      if (target != null && target.getType().equals(ltype)) {
+        return new FunctionCall(rhs.getLocation(), target, params, this);
+      }
+    }
+
+    if (rtype.equals(PATH_TYPE)) {
+      Function target = scope.findFunction(name, params, MatchType.COERCE);
       if (target != null && target.getType().equals(ltype)) {
         return new FunctionCall(rhs.getLocation(), target, params, this);
       }
@@ -2132,6 +2148,8 @@ public class Parser {
           caseErrors.submitSyntaxError(this.unexpectedTokenError(":", this.currentToken()));
         }
 
+        test = autoCoerceValue(type, test, scope);
+
         if (!test.getType().equals(type) && !type.isBad() && !test.getType().isBad()) {
           caseErrors.submitError(
               this.error(
@@ -3121,6 +3139,7 @@ public class Parser {
     final ErrorManager callErrors = new ErrorManager();
 
     Token name = this.currentToken();
+    var nameStart = this.getCurrentPosition();
     this.readToken(); // name
 
     List<Evaluable> params = this.parseParameters(scope, firstParam);
@@ -3146,6 +3165,14 @@ public class Parser {
       }
 
       target = new BadFunction(name.content);
+    }
+
+    if (target instanceof LibraryFunction) {
+      var deprecationWarning = ((LibraryFunction) target).deprecationWarning;
+      if (deprecationWarning.length > 0) {
+        var location = this.makeLocation(nameStart, this.getCurrentPosition());
+        this.warning(location, "Function \"" + name + "\" is deprecated", deprecationWarning);
+      }
     }
 
     FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
@@ -3667,7 +3694,12 @@ public class Parser {
         } else {
           Location operationLocation = Parser.mergeLocations(lhs.getLocation(), rhs.getLocation());
 
-          rhs = this.autoCoerceValue(ltype, rhs, scope);
+          var lhsCoerceType =
+              (oper.equals("contains") && ltype.equals(DataTypes.TYPE_AGGREGATE))
+                  ? ((AggregateType) ltype).getIndexType().getBaseType()
+                  : ltype;
+
+          rhs = this.autoCoerceValue(lhsCoerceType, rhs, scope);
           if (!oper.validCoercion(ltype, rhs.getType())) {
             expressionErrors.submitError(
                 this.error(

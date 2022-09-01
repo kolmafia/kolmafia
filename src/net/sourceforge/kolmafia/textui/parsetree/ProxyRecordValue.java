@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
@@ -148,18 +149,25 @@ public class ProxyRecordValue extends RecordValue {
 
   public static class ClassProxy extends ProxyRecordValue {
     public static RecordType _type =
-        new RecordBuilder().add("primestat", DataTypes.STAT_TYPE).finish("class proxy");
+        new RecordBuilder()
+            .add("primestat", DataTypes.STAT_TYPE)
+            .add("path", DataTypes.PATH_TYPE)
+            .finish("class proxy");
 
     public ClassProxy(Value obj) {
       super(_type, obj);
     }
 
+    private AscensionClass getAscensionClass() {
+      return (AscensionClass) this.content;
+    }
+
     public Value get_primestat() {
-      if (this.content == null) {
+      if (getAscensionClass() == null) {
         return DataTypes.STAT_INIT;
       }
 
-      int primeIndex = ((AscensionClass) this.content).getPrimeStatIndex();
+      int primeIndex = getAscensionClass().getPrimeStatIndex();
 
       String name = null;
       if (primeIndex > -1 && primeIndex < AdventureResult.STAT_NAMES.length) {
@@ -167,6 +175,10 @@ public class ProxyRecordValue extends RecordValue {
       }
 
       return DataTypes.parseStatValue(name, true);
+    }
+
+    public Value get_path() {
+      return DataTypes.makePathValue(getAscensionClass().getPath());
     }
   }
 
@@ -1738,6 +1750,50 @@ public class ProxyRecordValue extends RecordValue {
           return "circle.gif";
       }
       return "";
+    }
+  }
+
+  public static class PathProxy extends ProxyRecordValue {
+    public static RecordType _type =
+        new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
+            .add("name", DataTypes.STRING_TYPE)
+            .add("avatar", DataTypes.BOOLEAN_TYPE)
+            .add("image", DataTypes.STRING_TYPE)
+            .add("points", DataTypes.INT_TYPE)
+            .add("familiars", DataTypes.BOOLEAN_TYPE)
+            .finish("path proxy");
+
+    public PathProxy(Value obj) {
+      super(_type, obj);
+    }
+
+    private Path getPath() {
+      return (Path) this.content;
+    }
+
+    public int get_id() {
+      return getPath().getId();
+    }
+
+    public String get_name() {
+      return getPath().getName();
+    }
+
+    public boolean get_avatar() {
+      return getPath().isAvatar();
+    }
+
+    public String get_image() {
+      return getPath().getImage();
+    }
+
+    public int get_points() {
+      return getPath().getPoints();
+    }
+
+    public boolean get_familiars() {
+      return getPath().canUseFamiliars();
     }
   }
 
