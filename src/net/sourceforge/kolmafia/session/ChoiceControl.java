@@ -1768,6 +1768,14 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 882:
+        // Off the Rack
+        if (ChoiceManager.lastDecision == 1
+            && text.contains("You never know when it might come in handy.")) {
+          Preferences.setInteger("lastTowelAscension", KoLCharacter.getAscensions());
+        }
+        break;
+
       case 890:
         // Lights Out in the Storage Room
         if (text.contains("BUT AIN'T NO ONE CAN GET A STAIN OUT LIKE OLD AGNES!")
