@@ -38,7 +38,7 @@ public enum Modeable {
       ItemPool.get(ItemPool.JURASSIC_PARKA),
       "JurassicParka",
       new JurassicParkaCommand(),
-      false),
+      true),
   RETROCAPE(
       "retrocape",
       null,
@@ -66,7 +66,7 @@ public enum Modeable {
   private final AdventureResult item;
   private final String modifier;
   private final ModeCommand commandInstance;
-  private final boolean equipAfterChange;
+  private final boolean mustEquipAfterChange;
 
   Modeable(
       final String command,
@@ -74,13 +74,13 @@ public enum Modeable {
       final AdventureResult item,
       final String modifier,
       final ModeCommand commandInstance,
-      final boolean equipAfterChange) {
+      final boolean mustEquipAfterChange) {
     this.command = command;
     this.statePref = statePref;
     this.item = item;
     this.modifier = modifier;
     this.commandInstance = commandInstance;
-    this.equipAfterChange = equipAfterChange;
+    this.mustEquipAfterChange = mustEquipAfterChange;
   }
 
   public String getCommand() {
@@ -123,8 +123,8 @@ public enum Modeable {
     return this.modifier;
   }
 
-  public boolean getEquipAfterChange() {
-    return this.equipAfterChange;
+  public boolean mustEquipAfterChange() {
+    return this.mustEquipAfterChange;
   }
 
   public static Modeable find(final AdventureResult item) {
