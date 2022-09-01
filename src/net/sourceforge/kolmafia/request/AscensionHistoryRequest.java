@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -599,17 +600,11 @@ public class AscensionHistoryRequest extends GenericRequest
                     ? AscensionSnapshot.CASUAL
                     : AscensionSnapshot.NORMAL;
 
-        for (Path path : Path.values()) {
-          String image = path.getImage();
-          if (image != null && columns[8].contains(image)) {
-            this.path = path;
-            break;
-          }
-        }
-
-        if (this.path == null) {
-          this.path = Path.NONE;
-        }
+        this.path =
+            Arrays.stream(Path.values())
+                .filter(p -> columns[8].contains(p.getImage()))
+                .findAny()
+                .orElse(Path.NONE);
       } catch (Exception e) {
         // This should not happen.  Therefore, print
         // a stack trace for debug purposes.

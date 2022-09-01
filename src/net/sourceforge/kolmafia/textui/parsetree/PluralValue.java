@@ -37,15 +37,14 @@ public class PluralValue extends AggregateValue {
 
   @Override
   public int count() {
-    Value[] array = (Value[]) this.content;
-    return array.length;
+    return keys().length;
   }
 
   @Override
   public boolean contains(final Value key) {
     if (this.lookup == null) {
-      this.lookup = new TreeSet<Value>();
-      this.lookup.addAll(Arrays.asList((Value[]) this.content));
+      this.lookup = new TreeSet<>();
+      this.lookup.addAll(Arrays.asList(keys()));
     }
     return this.lookup.contains(key);
   }
@@ -61,8 +60,8 @@ public class PluralValue extends AggregateValue {
 
     Value[] array = this.keys();
 
-    for (int i = 0; i < array.length; ++i) {
-      obj.put(array[i].toJSON());
+    for (Value value : array) {
+      obj.put(value.toJSON());
     }
 
     return obj;
