@@ -214,9 +214,6 @@ public class GenericRequestTest {
                     200, html("request/test_request_haunted_bathroom_towel.html"))));
 
     try (cleanups) {
-      // Prove that the towel is not set to the current ascension before we start the test.
-      assertThat("lastTowelAscension", not(isSetTo(123)));
-
       // Does a 302 redirect to choice.php
       var hitChoice =
           new GenericRequest("adventure.php?snarfblat=" + AdventurePool.HAUNTED_BATHROOM);
