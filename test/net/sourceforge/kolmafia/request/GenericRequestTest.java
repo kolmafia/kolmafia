@@ -7,7 +7,6 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -206,10 +205,8 @@ public class GenericRequestTest {
                     302, Map.of("location", List.of("choice.php?forceoption=0")), ""),
                 new FakeHttpResponse<>(
                     200, html("request/test_request_haunted_bathroom_off_the_rack.html")),
-                new FakeHttpResponse<>(
-                    200,
-                    ""), // An api request is triggered by the above containing a charpane request.
-                // We swallow it.
+                // Swallow an api request triggered by the choice containing a charpane request.
+                new FakeHttpResponse<>(200, ""),
                 new FakeHttpResponse<>(
                     200, html("request/test_request_haunted_bathroom_towel.html"))));
 
