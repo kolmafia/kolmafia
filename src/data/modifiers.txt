@@ -985,6 +985,7 @@ Item	hipposkin poncho	Monster Level: +10
 Item	Hodgman's disgusting technicolor overcoat	Spooky Damage: +15, Stench Damage: +15, Hot Damage: +15, Cold Damage: +15, Sleaze Damage: +15, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5
 Item	icing poncho	Cold Damage: +25, Cold Spell Damage: +25, Food Drop: +50
 Item	junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
+Item	Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: 1, Stench Resistance: 1, Hot Resistance: 1, Cold Resistance: 1, Sleaze Resistance: 1
 Item	Kashmir sweater	Hot Damage: +10, Hot Spell Damage: +10
 Item	Kiss the Knob apron	Maximum MP: +5
 Item	Knob Goblin elite shirt	Muscle: +3
@@ -12147,6 +12148,13 @@ UnbreakableUmbrella	bucket style	Item Drop: 25
 UnbreakableUmbrella	pitchfork style	Weapon Damage: 25
 UnbreakableUmbrella	constantly twirling	Spell Damage: 25
 UnbreakableUmbrella	cocoon	Combat Rate: -10
+
+# Jurassic Parka
+JurassicParka	ghostasaurus	Spooky Resistance: +2, Damage Reduction: 10, Maximum MP: 50
+JurassicParka	dilophosaur	Stench Resistance: +2, Sleaze Spell Damage: +20, Sleaze Damage: +20
+JurassicParka	pterodactyl	Hot Resistance: +2, Combat Rate: -5, Initiative: 50
+JurassicParka	kachungasaur	Cold Resistance: +2, Maximum HP Percent: +100, Meat Drop: +50
+JurassicParka	spikolodon	Sleaze Resistance: +2, Monster Level: [min(L,11)*3]
 
 # Disguises Delimit
 Mask	Mr. Mask	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1

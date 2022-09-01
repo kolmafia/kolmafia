@@ -1041,6 +1041,7 @@ user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
+user	parkaMode
 user	pastaThrall1
 user	pastaThrall2
 user	pastaThrall3
@@ -2085,6 +2086,7 @@ user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
 user	_spelunkerCharges	0
 user	_spelunkingTalesDrops	0
+user	_spikolodonSpikeUses	0
 user	_spinmasterLatheVisited	false
 user	_spinningWheel	false
 user	_spookyAirportToday	false

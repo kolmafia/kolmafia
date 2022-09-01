@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
+import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -4461,21 +4462,11 @@ public abstract class ChoiceControl {
       case 1449:
         {
           switch (ChoiceManager.lastDecision) {
-            case 1:
-              Preferences.setString("backupCameraMode", "ml");
-              break;
-            case 2:
-              Preferences.setString("backupCameraMode", "meat");
-              break;
-            case 3:
-              Preferences.setString("backupCameraMode", "init");
-              break;
-            case 4:
-              Preferences.setBoolean("backupCameraReverserEnabled", true);
-              break;
-            case 5:
-              Preferences.setBoolean("backupCameraReverserEnabled", false);
-              break;
+            case 1 -> Preferences.setString("backupCameraMode", "ml");
+            case 2 -> Preferences.setString("backupCameraMode", "meat");
+            case 3 -> Preferences.setString("backupCameraMode", "init");
+            case 4 -> Preferences.setBoolean("backupCameraReverserEnabled", true);
+            case 5 -> Preferences.setBoolean("backupCameraReverserEnabled", false);
           }
 
           break;
@@ -4539,6 +4530,9 @@ public abstract class ChoiceControl {
       case 1475:
         // June cleaver
         JuneCleaverManager.parseChoice(urlString);
+        break;
+      case 1481:
+        JurassicParkaCommand.parseChoice(ChoiceManager.lastDecision);
         break;
     }
   }
