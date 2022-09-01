@@ -20,8 +20,8 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
       Map.ofEntries(
           Map.entry("kachungasaur", 1),
           Map.entry("dilophosaur", 2),
-          Map.entry("ghostasaurus", 3),
-          Map.entry("spikolodon", 4),
+          Map.entry("spikolodon", 3),
+          Map.entry("ghostasaurus", 4),
           Map.entry("pterodactyl", 5));
 
   public static final Map<String, String> ALIASES =
