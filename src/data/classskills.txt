@@ -948,6 +948,10 @@
 7419	Drench Yourself in Sweat	sebashield.gif	3	0	5
 7420	Sip Some Sweat	waterglass.gif	2	0	0
 7421	Sweat Sip	waterglass.gif	5	0	0
+7422	Snipe Pterodactyl		5	0	0
+7423	Spit jurassic acid	jparka3.gif	5	0	0
+7424	Launch spikolodon spikes	jparka2.gif	5	0	0
+7425	Engage ultra-attractive parka mode	jparka7.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

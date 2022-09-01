@@ -72,6 +72,7 @@ Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
 Cast	Jump Shark	_peteJumpedShark	3
 Cast	KGB tranquilizer dart	_kgbTranquilizerDartUses	3
 Cast	Lash of the Cobra	_edLashCount	30
+Cast	Launch spikolodon spikes	_spikolodonSpikeUses	5
 Cast	Lock Picking	lockPicked
 Cast	Long Con	_longConUsed	5
 Cast	Lunch Break	_lunchBreak
