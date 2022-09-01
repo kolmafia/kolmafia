@@ -200,7 +200,7 @@ public class GenericRequestTest {
   public void testTracksTowelAcquired() {
     var cleanups =
         new Cleanups(
-            withProperty("lastTowelAscension", -1),
+            withAscensions(123),
             withNextResponse(
                 new FakeHttpResponse<>(
                     302, Map.of("location", List.of("choice.php?forceoption=0")), ""),
