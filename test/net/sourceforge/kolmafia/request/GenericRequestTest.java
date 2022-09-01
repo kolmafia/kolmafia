@@ -215,7 +215,7 @@ public class GenericRequestTest {
 
     try (cleanups) {
       // Prove that the towel is not set to the current ascension before we start the test.
-      assertThat("lastTowelAscension", not(isSetTo(KoLCharacter.getAscensions())));
+      assertThat("lastTowelAscension", not(isSetTo(123)));
 
       // Does a 302 redirect to choice.php
       var hitChoice =
@@ -226,7 +226,7 @@ public class GenericRequestTest {
       var tookTowel = new GenericRequest("choice.php?pwd&whichchoice=882&option=1");
       tookTowel.run();
 
-      assertThat("lastTowelAscension", isSetTo(KoLCharacter.getAscensions()));
+      assertThat("lastTowelAscension", isSetTo(123));
     }
   }
 }
