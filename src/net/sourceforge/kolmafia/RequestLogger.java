@@ -221,10 +221,6 @@ public class RequestLogger extends NullStream {
     RequestLogger.mirrorStream = NullStream.INSTANCE;
   }
 
-  public static void setSessionStream(PrintStream stream) {
-    RequestLogger.sessionStream = stream;
-  }
-
   public static PrintStream getSessionStream() {
     return RequestLogger.sessionStream;
   }

@@ -346,7 +346,6 @@ public class Preferences {
         "optimisticCandleProgress",
         "overgrownLotAvailable",
         "parasolUsed",
-        "parkaMode",
         "pastaThrall1",
         "pastaThrall2",
         "pastaThrall3",

@@ -1615,7 +1615,7 @@ public class Maximizer {
       } else if (changeModeable) {
         text = modeable.getCommand() + " " + modeables.get(modeable);
         cmd = text;
-        if (modeable.mustEquipAfterChange())
+        if (modeable.getEquipAfterChange())
           cmd += "; equip " + slotname + " \u00B6" + item.getItemId();
       } else {
         cmd = "equip " + slotname + " \u00B6" + item.getItemId();

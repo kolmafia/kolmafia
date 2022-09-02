@@ -1,10 +1,7 @@
 package net.sourceforge.kolmafia;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class AscensionPath {
@@ -12,7 +9,7 @@ public class AscensionPath {
 
   public enum Path {
     // Path Name, Path ID, is Avatar?, image in ascension history, article
-    NONE("none", 0, false, "blank", null),
+    NONE("None", 0, false, "blank", null),
     BOOZETAFARIAN("Boozetafarian", 1, false, "martini", "a"),
     TEETOTALER("Teetotaler", 2, false, "bowl", "a"),
     OXYGENARIAN("Oxygenarian", 3, false, "oxy", "an"),
@@ -94,10 +91,6 @@ public class AscensionPath {
       this.bucket = bucket;
     }
 
-    public static Set<Path> allPaths() {
-      return Arrays.stream(values()).filter(a -> a.getId() > 0).collect(Collectors.toSet());
-    }
-
     Path(String name, int id, boolean isAvatar, String image, String article) {
       this(name, id, isAvatar, image, article, null, 0, false);
     }
@@ -145,15 +138,17 @@ public class AscensionPath {
     }
 
     public boolean canUseFamiliars() {
-      return switch (this) {
-        case AVATAR_OF_BORIS,
-            AVATAR_OF_JARLSBERG,
-            AVATAR_OF_SNEAKY_PETE,
-            ACTUALLY_ED_THE_UNDYING,
-            LICENSE_TO_ADVENTURE,
-            DARK_GYFFTE -> false;
-        default -> true;
-      };
+      switch (this) {
+        case AVATAR_OF_BORIS:
+        case AVATAR_OF_JARLSBERG:
+        case AVATAR_OF_SNEAKY_PETE:
+        case ACTUALLY_ED_THE_UNDYING:
+        case LICENSE_TO_ADVENTURE:
+        case DARK_GYFFTE:
+          return false;
+        default:
+          return true;
+      }
     }
 
     @Override
@@ -168,7 +163,7 @@ public class AscensionPath {
 
   static {
     for (Path path : Path.values()) {
-      pathByName.put(path.name.toLowerCase(), path);
+      pathByName.put(path.name, path);
       pathById.put(path.id, path);
       if (path.image != null) {
         pathByImage.put(path.image, path);
@@ -177,11 +172,12 @@ public class AscensionPath {
   }
 
   public static Path nameToPath(String name) {
-    return pathByName.getOrDefault(name.toLowerCase(), Path.NONE);
+    return pathByName.get(name);
   }
 
   public static Path idToPath(int id) {
-    return pathById.getOrDefault(id, Path.NONE);
+    Path retval = pathById.get(id);
+    return retval == null ? Path.NONE : retval;
   }
 
   public static Path imageToPath(String image) {

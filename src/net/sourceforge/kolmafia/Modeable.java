@@ -11,20 +11,12 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
-import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
 import net.sourceforge.kolmafia.textui.command.ModeCommand;
 import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.textui.command.UmbrellaCommand;
 
 public enum Modeable {
-  BACKUPCAMERA(
-      "backupcamera",
-      "backupCameraMode",
-      ItemPool.get(ItemPool.BACKUP_CAMERA),
-      "BackupCamera",
-      new BackupCameraCommand(),
-      true),
   EDPIECE(
       "edpiece",
       "edPiece",
@@ -32,13 +24,6 @@ public enum Modeable {
       "Edpiece",
       new EdPieceCommand(),
       false),
-  PARKA(
-      "parka",
-      "parkaMode",
-      ItemPool.get(ItemPool.JURASSIC_PARKA),
-      "JurassicParka",
-      new JurassicParkaCommand(),
-      true),
   RETROCAPE(
       "retrocape",
       null,
@@ -46,27 +31,34 @@ public enum Modeable {
       "RetroCape",
       new RetroCapeCommand(),
       false),
-  SNOWSUIT(
-      "snowsuit",
-      "snowsuit",
-      ItemPool.get(ItemPool.SNOW_SUIT),
-      "Snowsuit",
-      new SnowsuitCommand(),
-      false),
+  BACKUPCAMERA(
+      "backupcamera",
+      "backupCameraMode",
+      ItemPool.get(ItemPool.BACKUP_CAMERA),
+      "BackupCamera",
+      new BackupCameraCommand(),
+      true),
   UMBRELLA(
       "umbrella",
       "umbrellaState",
       ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
       "UnbreakableUmbrella",
       new UmbrellaCommand(),
-      true);
+      true),
+  SNOWSUIT(
+      "snowsuit",
+      "snowsuit",
+      ItemPool.get(ItemPool.SNOW_SUIT),
+      "Snowsuit",
+      new SnowsuitCommand(),
+      false);
 
   private final String command;
   private final String statePref;
   private final AdventureResult item;
   private final String modifier;
   private final ModeCommand commandInstance;
-  private final boolean mustEquipAfterChange;
+  private final boolean equipAfterChange;
 
   Modeable(
       final String command,
@@ -74,13 +66,13 @@ public enum Modeable {
       final AdventureResult item,
       final String modifier,
       final ModeCommand commandInstance,
-      final boolean mustEquipAfterChange) {
+      final boolean equipAfterChange) {
     this.command = command;
     this.statePref = statePref;
     this.item = item;
     this.modifier = modifier;
     this.commandInstance = commandInstance;
-    this.mustEquipAfterChange = mustEquipAfterChange;
+    this.equipAfterChange = equipAfterChange;
   }
 
   public String getCommand() {
@@ -123,8 +115,8 @@ public enum Modeable {
     return this.modifier;
   }
 
-  public boolean mustEquipAfterChange() {
-    return this.mustEquipAfterChange;
+  public boolean getEquipAfterChange() {
+    return this.equipAfterChange;
   }
 
   public static Modeable find(final AdventureResult item) {

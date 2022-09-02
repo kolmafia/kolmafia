@@ -5,15 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TypeList implements Iterable<Type> {
-  public static TypeList of(Type... types) {
-    var typeList = new TypeList();
-    for (var t : types) {
-      typeList.add(t);
-    }
-    return typeList;
-  }
-
-  protected final List<Type> list = new ArrayList<>();
+  private final List<Type> list = new ArrayList<>();
 
   public boolean add(final Type n) {
     if (this.find(n.getName()) != null) {
@@ -24,15 +16,14 @@ public class TypeList implements Iterable<Type> {
     return true;
   }
 
-  public boolean addAll(final TypeList t) {
-    return list.addAll(t.list);
-  }
-
   public Type find(final String name) {
-    return this.list.stream()
-        .filter(t -> t.getName().equalsIgnoreCase(name))
-        .findFirst()
-        .orElse(null);
+    for (Type currentType : this.list) {
+      if (currentType.getName().equalsIgnoreCase(name)) {
+        return currentType;
+      }
+    }
+
+    return null;
   }
 
   @Override
