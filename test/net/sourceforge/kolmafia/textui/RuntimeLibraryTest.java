@@ -7,23 +7,29 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
+import net.sourceforge.kolmafia.utilities.NullStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,7 +37,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
-
   @BeforeEach
   public void initEach() {
     Preferences.saveSettingsToFile = false;
@@ -42,6 +47,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   public RuntimeLibraryTest() {
     this.command = "ash";
+  }
+
+  public RuntimeLibraryTest getInstance() {
+    return this;
   }
 
   @Test
@@ -123,6 +132,91 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
+  @Test
+  void testPrintHtmlDoesNotWriteToSessionLog() {
+    var html = "<td><p>word</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
+      execute("print_html('" + html + "')");
+
+      assertThat(ostream.toString(), is(""));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @Test
+  void testPrintHtmlFalseDoesNotWriteToSessionLog() {
+    var html = "<td><p>word</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
+      execute("print_html('" + html + "', false)");
+
+      assertThat(ostream.toString(), is(""));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @Test
+  void testPrintHtmlTrueWritesToSessionLog() {
+    var html = "<td><p>word</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
+      execute("print_html('" + html + "', true)");
+
+      assertThat(ostream.toString(), is("> word\n"));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @Test
+  void testPrintHtmlWritesSingleLineToSessionLog() {
+    var html = "<td><p>word1</p><p>word2</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
+      execute("print_html('" + html + "', true)");
+
+      assertThat(ostream.toString(), is("> word1word2\n"));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @Test
+  void testPrintHtmlWritesMultipleLinesToSessionLog() {
+    var html = "<td><p>word1</p><br><p>word2</p></td>";
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.setSessionStream(out);
+
+      // Confirm that print_html doesn't log to session
+      execute("print_html('" + html + "', true)");
+
+      assertThat(ostream.toString(), is("> word1\n> word2\n"));
+      RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
   @Nested
   class ExpectedCmc {
     @BeforeEach
@@ -141,13 +235,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                Returned: aggregate item [string]
-                booze => Doc's Fortifying Wine
-                equipment => frozen jeans
-                food => frozen tofu pop
-                pill => Breathitin&trade;
-                potion => anti-odor cream
-                """));
+                    Returned: aggregate item [string]
+                    booze => Doc's Fortifying Wine
+                    equipment => frozen jeans
+                    food => frozen tofu pop
+                    pill => Breathitin&trade;
+                    potion => anti-odor cream
+                    """));
       }
     }
 
@@ -161,14 +255,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                        Could not parse cabinet.
-                        Returned: aggregate item [string]
-                        booze => none
-                        equipment => none
-                        food => none
-                        pill => none
-                        potion => none
-                        """));
+                    Could not parse cabinet.
+                    Returned: aggregate item [string]
+                    booze => none
+                    equipment => none
+                    food => none
+                    pill => none
+                    potion => none
+                    """));
       }
     }
 
@@ -183,13 +277,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                Returned: aggregate item [string]
-                booze => Doc's Medical-Grade Wine
-                equipment => ice crown
-                food => none
-                pill => Extrovermectin&trade;
-                potion => none
-                """));
+                    Returned: aggregate item [string]
+                    booze => Doc's Medical-Grade Wine
+                    equipment => ice crown
+                    food => none
+                    pill => Extrovermectin&trade;
+                    potion => none
+                    """));
       }
     }
 
@@ -204,13 +298,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                Returned: aggregate item [string]
-                booze => Doc's Medical-Grade Wine
-                equipment => ice crown
-                food => none
-                pill => none
-                potion => none
-                """));
+                    Returned: aggregate item [string]
+                    booze => Doc's Medical-Grade Wine
+                    equipment => ice crown
+                    food => none
+                    pill => none
+                    potion => none
+                    """));
       }
     }
   }
@@ -234,10 +328,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-              Returned: aggregate boolean [monster]
-              warwelf => true
-              oil baron => true
-              """));
+                Returned: aggregate boolean [monster]
+                warwelf => true
+                oil baron => true
+                """));
     }
   }
 
@@ -340,6 +434,65 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       try (cleanups) {
         String output = execute(command);
         assertThat(output, endsWith("Returned: false\n"));
+      }
+    }
+
+    @Nested
+    class PathFunctions {
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "boolean test(string path) { return path == \"Trendy\"; } test($path[Trendy])",
+            "string p = my_path(); (p == \"Trendy\")",
+            "(my_path() == \"Trendy\")",
+            "my_path().starts_with(\"Tre\")",
+            "boolean test() { switch (my_path()) { case \"Trendy\": return true; default: return false; } } test()",
+            "boolean test(string path_name) { switch (path_name) { case $path[Trendy]: return true; default: return false; } } test(\"Trendy\")",
+            "($strings[Trendy] contains my_path())",
+            "($paths[Trendy] contains \"Trendy\")"
+          })
+      void myPathCoercesToString(String command) {
+        // my_path() used to return a string, we want to make sure that we don't break old scripts
+        // where possible
+        var cleanups = new Cleanups(withPath(Path.TRENDY));
+
+        try (cleanups) {
+          String output = execute(command);
+          assertThat(output, endsWith("Returned: true\n"));
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "(my_path() == \"None\")",
+            "boolean test() { switch (my_path()) { case \"None\": return true; default: return false; } } test()",
+          })
+      void nonePathIsTitleCases(String command) {
+        // Unrestricted used to be "None" but now it's technically "none". These tests make sure
+        // coercion is handling this
+        // We know it won't work in one case: "None" == my_path(). So if you wrote that, you're SOL
+        // :)
+        var cleanups = new Cleanups(withPath(Path.NONE));
+
+        try (cleanups) {
+          String output = execute(command);
+          assertThat(output, endsWith("Returned: true\n"));
+        }
+      }
+
+      @Test
+      void myPathCoercionWorksInJs() {
+        getInstance().command = "js";
+
+        var cleanups = new Cleanups(withPath(Path.TRENDY));
+
+        try (cleanups) {
+          String output = execute("myPath() == \"Trendy\"");
+          assertThat(output, endsWith("Returned: true\n"));
+        }
+
+        getInstance().command = "ash";
       }
     }
   }

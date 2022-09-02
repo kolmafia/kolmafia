@@ -358,6 +358,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("print", DataTypes.VOID_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("print_html", DataTypes.VOID_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("print_html", DataTypes.VOID_TYPE, params));
 
@@ -473,6 +476,8 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
     params = new Type[] {DataTypes.VYKEA_TYPE};
     functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
+    params = new Type[] {DataTypes.PATH_TYPE};
+    functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
@@ -562,6 +567,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_vykea", DataTypes.VYKEA_TYPE, params));
 
+    params = new Type[] {DataTypes.STRICT_STRING_TYPE};
+    functions.add(new LibraryFunction("to_path", DataTypes.PATH_TYPE, params));
+
+    params = new Type[] {DataTypes.INT_TYPE};
+    functions.add(new LibraryFunction("to_path", DataTypes.PATH_TYPE, params));
+
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("to_plural", DataTypes.STRING_TYPE, params));
 
@@ -576,10 +587,20 @@ public abstract class RuntimeLibrary {
 
     // Experimental
     params = new Type[] {DataTypes.STRING_TYPE};
-    functions.add(new LibraryFunction("path_name_to_id", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "path_name_to_id",
+            DataTypes.INT_TYPE,
+            params,
+            "Changing 'path_name_to_id(xxx)' to 'to_path(xxx).id' will remove this warning"));
 
     params = new Type[] {DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("path_id_to_name", DataTypes.STRING_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "path_id_to_name",
+            DataTypes.STRING_TYPE,
+            params,
+            "Changing 'path_id_to_name(xxx)' to 'my_path(xxx).name' will remove this warning"));
 
     // Functions related to daily information which get
     // updated usually once per day.
@@ -1198,10 +1219,15 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_sign", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("my_path", DataTypes.STRING_TYPE, params));
+    functions.add(new LibraryFunction("my_path", DataTypes.PATH_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("my_path_id", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "my_path_id",
+            DataTypes.INT_TYPE,
+            params,
+            "Changing 'my_path_id()' to 'my_path().id' will remove this warning"));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("in_muscle_sign", DataTypes.BOOLEAN_TYPE, params));
@@ -2579,7 +2605,7 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(new LibraryFunction("get_fuel", DataTypes.INT_TYPE, params));
 
-    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE};
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.INT_TYPE};
     functions.add(
         new LibraryFunction(
             "voting_booth_initiatives",
@@ -2956,6 +2982,23 @@ public abstract class RuntimeLibrary {
 
     RequestLogger.printLine(parameters);
 
+    return DataTypes.VOID_VALUE;
+  }
+
+  public static Value print_html(
+      ScriptRuntime controller, final Value string, final Value logToSession) {
+    if (logToSession.intValue() == 1) {
+      String parameters = RuntimeLibrary.cleanString(string);
+      parameters = StringUtilities.stripHtml(parameters);
+
+      // Unlike print(), print_html() can do newlines in gCLI, which is why they're preserved in
+      // session log
+      for (String split : parameters.split("\n")) {
+        RequestLogger.getSessionStream().println("> " + split.trim());
+      }
+    }
+
+    RequestLogger.printLine(string.toString());
     return DataTypes.VOID_VALUE;
   }
 
@@ -3545,6 +3588,14 @@ public abstract class RuntimeLibrary {
 
   public static Value to_vykea(ScriptRuntime controller, final Value value) {
     return DataTypes.parseVykeaValue(value.toString(), true);
+  }
+
+  public static Value to_path(ScriptRuntime controller, final Value value) {
+    if (value.getType().equals(DataTypes.TYPE_INT)) {
+      return DataTypes.parsePathValue((int) value.intValue(), true);
+    }
+
+    return DataTypes.parsePathValue(value.toString(), true);
   }
 
   public static Value to_plural(ScriptRuntime controller, final Value item) {
@@ -5611,7 +5662,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value my_path(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getPath().getName());
+    return DataTypes.makePathValue(KoLCharacter.getPath());
   }
 
   public static Value my_path_id(ScriptRuntime controller) {

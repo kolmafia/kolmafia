@@ -63,5 +63,14 @@ public class BackupCameraCommand extends AbstractCommand implements ModeCommand 
     if (ChoiceManager.handlingChoice && ChoiceManager.lastChoice == 1449) {
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1449&option=6"));
     }
+
+    KoLmafia.updateDisplay(
+        "Your backup camera "
+            + switch (choice) {
+              case 1, 2, 3 -> "is now set to " + parameters + " mode";
+              case 4 -> "reverser is now on (text won't be backwards)";
+              case 5 -> "reverser is now on (fight will now be backwards! enjoy!)";
+              default -> "feels ignored";
+            });
   }
 }

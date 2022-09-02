@@ -671,6 +671,7 @@ public class KoLmafiaCLI {
     new JourneyCommand().register("journey");
     new JsRefCommand().register("jsref");
     new JukeboxCommand().register("jukebox");
+    new JurassicParkaCommand().register("parka");
     new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");
     new LatteCommand().register("latte");
     new LeafletCommand().register("leaflet");
