@@ -2995,6 +2995,9 @@ public class FightRequest extends GenericRequest {
         "It's Always Happy Hour Somewhere"
       };
 
+  static final Pattern GOTH_KID_PVP_PATTERN =
+      Pattern.compile("draws a picture of (?!your opponent)|draws a magically-animated cartoon");
+
   // This performs checks that are only applied once combat is finished,
   // and that aren't (yet) part of the processNormalResults loop.
   // `responseText` will be a fragment of the page; anything that needs
@@ -3632,7 +3635,8 @@ public class FightRequest extends GenericRequest {
 
         case FamiliarPool.ARTISTIC_GOTH_KID:
           if (KoLCharacter.getHippyStoneBroken()) {
-            if (responseText.contains("You gain 1 PvP Fight")) {
+            if (responseText.contains("You gain 1 PvP Fight")
+                && GOTH_KID_PVP_PATTERN.matcher(responseText).find()) {
               Preferences.setInteger("_gothKidCharge", 0);
               Preferences.increment("_gothKidFights");
             } else {
