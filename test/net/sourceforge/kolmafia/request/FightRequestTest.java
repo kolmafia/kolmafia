@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHippyStoneBroken;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
@@ -1382,6 +1383,41 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_meteor_shower_lecture.html");
         assertThat("_pocketProfessorLectures", isSetTo(5));
+      }
+    }
+  }
+
+  @Nested
+  class GothKid {
+    @Test
+    public void advancesFightCounters() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.ARTISTIC_GOTH_KID),
+              withHippyStoneBroken(),
+              withProperty("_gothKidCharge", 1),
+              withProperty("_gothKidFights", 1));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_goth_kid_pvp.html");
+        assertThat("_gothKidCharge", isSetTo(0));
+        assertThat("_gothKidFights", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void doesNotMatchOtherPvPGains() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.ARTISTIC_GOTH_KID),
+              withHippyStoneBroken(),
+              withProperty("_gothKidCharge", 1),
+              withProperty("_gothKidFights", 1));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_feel_superior_pvp.html");
+        assertThat("_gothKidCharge", isSetTo(2));
+        assertThat("_gothKidFights", isSetTo(1));
       }
     }
   }
