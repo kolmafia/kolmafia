@@ -13,32 +13,24 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class JurassicParkaCommand extends AbstractCommand implements ModeCommand {
   public JurassicParkaCommand() {
     this.usage =
-        " [kachungasaur | cold | hp | meat | dilophosaur | stench | acid | ghostasaurus | spooky | mp | dr | spikolodon | sleaze | ml | spikes | pterodactyl | hot | init] - pull a dino tab on your Jurassic Parka";
+        " [kachungasaur | cold | dilophosaur | stench | ghostasaurus | spooky | spikolodon | sleaze | pterodactyl | hot] - pull a dino tab on your Jurassic Parka";
   }
 
   public static final Map<String, Integer> MODES =
       Map.ofEntries(
           Map.entry("kachungasaur", 1),
           Map.entry("dilophosaur", 2),
-          Map.entry("spikolodon", 3),
-          Map.entry("ghostasaurus", 4),
+          Map.entry("ghostasaurus", 3),
+          Map.entry("spikolodon", 4),
           Map.entry("pterodactyl", 5));
 
   public static final Map<String, String> ALIASES =
       Map.ofEntries(
           Map.entry("spooky", "ghostasaurus"),
-          Map.entry("mp", "ghostasaurus"),
-          Map.entry("dr", "ghostasaurus"),
           Map.entry("stench", "dilophosaur"),
-          Map.entry("acid", "dilophosaur"),
           Map.entry("hot", "pterodactyl"),
-          Map.entry("init", "pterodactyl"),
           Map.entry("cold", "kachungasaur"),
-          Map.entry("hp", "kachungasaur"),
-          Map.entry("meat", "kachungasaur"),
-          Map.entry("sleaze", "spikolodon"),
-          Map.entry("ml", "spikolodon"),
-          Map.entry("spikes", "spikolodon"));
+          Map.entry("sleaze", "spokolodon"));
 
   @Override
   public boolean validate(final String command, final String parameters) {
