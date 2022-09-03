@@ -7,7 +7,7 @@ Cast	Advanced Saucecrafting	reagentSummons
 Cast	Ancestral Recall	_ancestralRecallCasts	10
 Cast	Army of Toddlers	_armyToddlerCast
 Cast	Asdon Martin: Missile Launcher	_missileLauncherUsed
-Cast	Back-Up to your Last Enemy	_backUpUses	11
+Cast	Back-Up to your Last Enemy	_backUpUses	[11+path(You, Robot)*5]
 Cast	Baleful Howl	_balefulHowlUses	10
 Cast	Beancannon	_beanCannonUses	5
 Cast	Become a Bat	_vampyreCloakeFormUses	10

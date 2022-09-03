@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase.assertErrorState;
@@ -18,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.StringReader;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -236,6 +238,24 @@ class DailyLimitDatabaseTest {
     void canGetMessageForMaximumCastsReached() {
       var limit = DailyLimitType.CAST.getDailyLimit(SkillPool.FEEL_ENVY);
       assertThat(limit.getMaxMessage(), equalTo("You can only cast Feel Envy 3 times per day"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"16, true", "11, false"})
+    void canDetectBackupCameraLimits(int limitExpected, boolean youRobotPath) {
+      var cleanups =
+          new Cleanups(
+              withPath(youRobotPath ? AscensionPath.Path.YOU_ROBOT : AscensionPath.Path.NONE));
+
+      try (cleanups) {
+        var limit = DailyLimitType.CAST.getDailyLimit(SkillPool.BACK_UP);
+        assertThat(
+            limit.getMaxMessage(),
+            equalTo(
+                "You can only cast Back-Up to your Last Enemy "
+                    + limitExpected
+                    + " times per day"));
+      }
     }
   }
 
