@@ -1421,4 +1421,20 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class JurassicParka {
+    @Test
+    void spikolodonSpikesRecorded() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.SHIRT, ItemPool.JURASSIC_PARKA),
+              withProperty("_spikolodonSpikeUses", 0));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_spikolodon_spikes.html");
+        assertThat("_spikolodonSpikeUses", isSetTo(1));
+      }
+    }
+  }
 }

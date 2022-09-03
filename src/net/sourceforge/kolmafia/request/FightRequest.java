@@ -9926,6 +9926,12 @@ public class FightRequest extends GenericRequest {
         // These skills consume 1 energy per use
         KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - 1);
         break;
+
+      case SkillPool.LAUNCH_SPIKOLODON_SPIKES:
+        if (responseText.contains("The spikolodon spikes both")) {
+          skillSuccess = true;
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
