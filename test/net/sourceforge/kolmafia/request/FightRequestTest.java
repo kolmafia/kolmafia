@@ -1427,7 +1427,9 @@ public class FightRequestTest {
     @Test
     void spikolodonSpikesRecorded() {
       var cleanups =
-              new Cleanups(withEquipped(EquipmentManager.SHIRT, ItemPool.JURASSIC_PARKA), withProperty("_spikolodonSpikeUses", 0));
+          new Cleanups(
+              withEquipped(EquipmentManager.SHIRT, ItemPool.JURASSIC_PARKA),
+              withProperty("_spikolodonSpikeUses", 0));
 
       try (cleanups) {
         parseCombatData("request/test_fight_spikolodon_spikes.html");
