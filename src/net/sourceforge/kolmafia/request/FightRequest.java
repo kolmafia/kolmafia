@@ -8573,15 +8573,25 @@ public class FightRequest extends GenericRequest {
         return responseText.contains("You quickly quaff") || itemSuccess;
 
       case ItemPool.GLOB_OF_BLANK_OUT:
+        var usedUpIfSucceeded = Preferences.getInteger("blankOutUsed") >= 4;
 
         // As you're moseying, you notice that the last of the Blank-Out
         // is gone, and that your hand is finally clean. Yay!
-
-        if (responseText.contains("your hand is finally clean")) {
+        if (responseText.contains("your hand is finally clean")
+            || (itemSuccess && usedUpIfSucceeded)) {
           Preferences.setInteger("blankOutUsed", 0);
           return true;
         }
-        Preferences.increment("blankOutUsed");
+
+        // You smear part of your handful of Blank-Out on the monster until you can't see it
+        // anymore.
+        // And if you've learned one thing from urban legends about ostriches,
+        // it's that what you can't see can't hurt you. You mosey off.
+        if (responseText.contains("You smear part of your handful") || itemSuccess) {
+          Preferences.increment("blankOutUsed");
+          return false;
+        }
+
         return false;
 
       case ItemPool.MERKIN_PINKSLIP:
