@@ -840,13 +840,7 @@ public abstract class KoLmafia {
     // Check items that vary per person
     // These won't actually generate a server hit if the item
     // has been seen at its current modifiers
-    InventoryManager.checkNoHat();
-    InventoryManager.checkJickSword();
-    InventoryManager.checkPantogram();
-    InventoryManager.checkLatte();
-    InventoryManager.checkSaber();
-    InventoryManager.checkCoatOfPaint();
-    InventoryManager.checkUmbrella();
+    InventoryManager.checkMods();
 
     // Items that conditionally grant skills
     InventoryManager.checkPowerfulGlove();

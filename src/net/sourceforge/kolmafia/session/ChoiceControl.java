@@ -4122,8 +4122,7 @@ public abstract class ChoiceControl {
           String bird = Preferences.getString("_birdOfTheDay");
           Preferences.setString("yourFavoriteBird", bird);
           ResponseTextParser.learnSkill("Visit your Favorite Bird");
-          ResultProcessor.updateBirdModifiers(
-              EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, "yourFavoriteBird");
+          DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD);
         }
         break;
 
