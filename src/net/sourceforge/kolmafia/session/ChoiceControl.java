@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -6361,7 +6362,7 @@ public abstract class ChoiceControl {
 
       case 1476: // Stillsuit
         if (ChoiceManager.lastDecision == 1) {
-          StillSuitManager.clearSweat();
+          StillSuitManager.handleDrink(text);
         }
         break;
     }
