@@ -8204,30 +8204,44 @@ public class FightRequest extends GenericRequest {
     KoLCharacter.battleSkillNames.add("item bottle of G&uuml;-Gone");
   }
 
-  private static boolean isItemConsumed(final int itemId, final String responseText) {
-    boolean itemSuccess =
-        (FightRequest.anapest
-                && (responseText.contains("used a thing from your bag")
-                    || responseText.contains("item caused something to happen")))
-            || (FightRequest.haiku
-                && (responseText.contains("do some stuff with a thing")
-                    || responseText.contains("some inscrutable end")));
+  private static boolean isItemSuccess(final String responseText) {
+    return (FightRequest.anapest
+            && (responseText.contains("used a thing from your bag")
+                || responseText.contains("item caused something to happen")))
+        || (FightRequest.haiku
+            && (responseText.contains("do some stuff with a thing")
+                || responseText.contains("some inscrutable end")));
+  }
 
-    boolean itemDamageSuccess =
-        (FightRequest.anapest
-                && (responseText.contains("hurl a thing")
-                    || responseText.contains("thing you hold up")
-                    || responseText.contains("fling a thing")
-                    || responseText.contains("pain with that thing")))
-            || (FightRequest.haiku
-                && (responseText.contains("like a mighty summer storm")
-                    || responseText.contains("whip out a thing")
-                    || responseText.contains("Like a killing frost")
-                    || responseText.contains("thing you just threw")
-                    || responseText.contains("combat items!")
-                    || responseText.contains("sling an item")
-                    || responseText.contains("item you just threw")
-                    || responseText.contains("item just hit")));
+  private static boolean isItemDamageSuccess(final String responseText) {
+    return (FightRequest.anapest
+            && (responseText.contains("hurl a thing")
+                || responseText.contains("thing you hold up")
+                || responseText.contains("fling a thing")
+                || responseText.contains("pain with that thing")))
+        || (FightRequest.haiku
+            && (responseText.contains("like a mighty summer storm")
+                || responseText.contains("whip out a thing")
+                || responseText.contains("Like a killing frost")
+                || responseText.contains("thing you just threw")
+                || responseText.contains("combat items!")
+                || responseText.contains("sling an item")
+                || responseText.contains("item you just threw")
+                || responseText.contains("item just hit")));
+  }
+
+  private static boolean isItemRunawaySuccess(final String responseText) {
+    return (FightRequest.anapest && responseText.contains("wings on your heels"))
+        || (FightRequest.haiku
+            && (responseText.contains("burps taste like pride")
+                || responseText.contains("beat a retreat")))
+        || (FightRequest.machineElf && responseText.contains("are no longer anywhere"));
+  }
+
+  private static boolean isItemConsumed(final int itemId, final String responseText) {
+    boolean itemSuccess = isItemSuccess(responseText);
+    boolean itemRunawaySuccess = isItemRunawaySuccess(responseText);
+    boolean itemDamageSuccess = isItemDamageSuccess(responseText);
 
     if (itemId == ItemPool.ICEBALL) {
       // First use:
@@ -8573,15 +8587,14 @@ public class FightRequest extends GenericRequest {
         return responseText.contains("You quickly quaff") || itemSuccess;
 
       case ItemPool.GLOB_OF_BLANK_OUT:
-
         // As you're moseying, you notice that the last of the Blank-Out
         // is gone, and that your hand is finally clean. Yay!
-
-        if (responseText.contains("your hand is finally clean")) {
+        if (responseText.contains("your hand is finally clean")
+            || (itemRunawaySuccess && Preferences.getInteger("blankOutUsed") >= 5)) {
           Preferences.setInteger("blankOutUsed", 0);
           return true;
         }
-        Preferences.increment("blankOutUsed");
+
         return false;
 
       case ItemPool.MERKIN_PINKSLIP:
@@ -9949,20 +9962,8 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
-    boolean itemSuccess =
-        (FightRequest.anapest
-                && (responseText.contains("used a thing from your bag")
-                    || responseText.contains("item caused something to happen")))
-            || (FightRequest.haiku
-                && (responseText.contains("do some stuff with a thing")
-                    || responseText.contains("some inscrutable end")))
-            || (FightRequest.machineElf && responseText.contains("performs its function"));
-    boolean itemRunawaySuccess =
-        (FightRequest.anapest && responseText.contains("wings on your heels"))
-            || (FightRequest.haiku
-                && (responseText.contains("burps taste like pride")
-                    || responseText.contains("beat a retreat")))
-            || (FightRequest.machineElf && responseText.contains("are no longer anywhere"));
+    boolean itemSuccess = isItemSuccess(responseText);
+    boolean itemRunawaySuccess = isItemRunawaySuccess(responseText);
 
     switch (itemId) {
       default:
@@ -10239,6 +10240,16 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case ItemPool.GLOB_OF_BLANK_OUT:
+        // You smear part of your handful of Blank-Out on the monster until you can't see it
+        // anymore.
+        // And if you've learned one thing from urban legends about ostriches,
+        // it's that what you can't see can't hurt you. You mosey off.
+        if (responseText.contains("You smear part of your handful") || itemRunawaySuccess) {
+          Preferences.increment("blankOutUsed");
+        }
+        break;
+
       case ItemPool.COSMIC_BOWLING_BALL:
         // Since you've got this cosmic bowling ball, you hurl it down
         // the ancient lanes. You knock over a few pins. You may be
@@ -10311,7 +10322,6 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.isItemConsumed(itemId, responseText)) {
       ResultProcessor.processResult(ItemPool.get(itemId, -1));
-      return;
     }
   }
 

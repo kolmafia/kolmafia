@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
@@ -14,6 +15,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withoutSkill;
+import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -33,6 +35,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -69,6 +72,11 @@ public class FightRequestTest {
 
   private void parseCombatData(String path, String location, String encounter) {
     String html = html(path);
+
+    if (location != null) {
+      FightRequest.registerRequest(true, location);
+    }
+
     FightRequest.updateCombatData(location, encounter, html);
   }
 
@@ -1434,6 +1442,71 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_spikolodon_spikes.html");
         assertThat("_spikolodonSpikeUses", isSetTo(1));
+      }
+    }
+  }
+
+  @Nested
+  class BottleOfBlankOut {
+    @Test
+    void canTrackSuccessfulUse() {
+      var cleanups =
+          new Cleanups(withProperty("blankOutUsed", 1), withItem(ItemPool.GLOB_OF_BLANK_OUT));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blank_out.html",
+            "fight.php?action=useitem&whichitem=4872&whichitem2=0");
+        assertThat(ItemPool.GLOB_OF_BLANK_OUT, isInInventory(1));
+        assertThat("blankOutUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    void canTrackSuccessfulUseInAnapests() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.JUST_THE_BEST_ANAPESTS),
+              withProperty("blankOutUsed", 1),
+              withItem(ItemPool.GLOB_OF_BLANK_OUT));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blank_out_anapests.html",
+            "fight.php?action=useitem&whichitem=4872&whichitem2=0");
+        assertThat(ItemPool.GLOB_OF_BLANK_OUT, isInInventory(1));
+        assertThat("blankOutUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    void canTrackSuccessfulFinalUse() {
+      var cleanups =
+          new Cleanups(withProperty("blankOutUsed", 4), withItem(ItemPool.GLOB_OF_BLANK_OUT));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blank_out_finished.html",
+            "fight.php?action=useitem&whichitem=4872&whichitem2=0");
+        assertThat(ItemPool.GLOB_OF_BLANK_OUT, isInInventory(0));
+        assertThat("blankOutUsed", isSetTo(0));
+      }
+    }
+
+    @Test
+    void canTrackSuccessfulFinalUseInAnapests() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.JUST_THE_BEST_ANAPESTS),
+              withProperty("blankOutUsed", 4),
+              withItem(ItemPool.GLOB_OF_BLANK_OUT));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blank_out_anapests.html",
+            "fight.php?action=useitem&whichitem=4872&whichitem2=0");
+        assertThat(ItemPool.GLOB_OF_BLANK_OUT, isInInventory(0));
+        assertThat("blankOutUsed", isSetTo(0));
       }
     }
   }
