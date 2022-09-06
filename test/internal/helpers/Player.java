@@ -794,6 +794,16 @@ public class Player {
   }
 
   /**
+   * Sets the player's hippy stone to broken
+   *
+   * @return Set's the player's hippy stone to unbroken
+   */
+  public static Cleanups withHippyStoneBroken() {
+    KoLCharacter.setHippyStoneBroken(true);
+    return new Cleanups(() -> KoLCharacter.setHippyStoneBroken(false));
+  }
+
+  /**
    * Sets the player's fullness
    *
    * @param fullness Desired fullness

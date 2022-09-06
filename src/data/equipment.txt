@@ -806,6 +806,7 @@ hipposkin poncho	120	Mus: 45
 Hodgman's disgusting technicolor overcoat	200	Mus: 200
 icing poncho	80	Mus: 35
 junk-mail shirt	60	Mus: 15
+Jurassic Parka	100	none
 Kashmir sweater	155	Mus: 62
 Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
