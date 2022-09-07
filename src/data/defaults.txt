@@ -455,6 +455,7 @@ user	crudeMonster
 user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
+user	currentDistillateMods
 user	currentEasyBountyItem	
 user	currentExtremity	0
 user	currentHardBountyItem	
@@ -1004,6 +1005,7 @@ user	munchiesPillsUsed	0
 user	mushroomGardenCropLevel	1
 user	neverendingPartyAlways	false
 user	nextAdventure
+user	nextDistillateMods
 user	nextParanormalActivity	1
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom

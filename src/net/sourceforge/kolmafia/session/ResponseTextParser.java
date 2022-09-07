@@ -376,15 +376,14 @@ public class ResponseTextParser {
         ConsequenceManager.parseEffectDesc(descid, responseText);
         int effectId = EffectDatabase.getEffectIdFromDescription(descid);
         switch (effectId) {
-          case EffectPool.WINE_FORTIFIED:
-          case EffectPool.WINE_HOT:
-          case EffectPool.WINE_FRISKY:
-          case EffectPool.WINE_COLD:
-          case EffectPool.WINE_DARK:
-          case EffectPool.WINE_BEFOULED:
-          case EffectPool.WINE_FRIENDLY:
-            EffectDatabase.parseVampireVintnerWineEffect(responseText, effectId);
-            break;
+          case EffectPool.WINE_FORTIFIED,
+              EffectPool.WINE_HOT,
+              EffectPool.WINE_FRISKY,
+              EffectPool.WINE_COLD,
+              EffectPool.WINE_DARK,
+              EffectPool.WINE_BEFOULED,
+              EffectPool.WINE_FRIENDLY -> EffectDatabase.parseVampireVintnerWineEffect(
+              responseText, effectId);
         }
       }
     } else if (location.startsWith("diary.php")) {
