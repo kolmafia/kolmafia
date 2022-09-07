@@ -1,6 +1,10 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withChoice;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
@@ -8,11 +12,14 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -190,7 +197,6 @@ class ChoiceControlTest {
       var cleanups = new Cleanups(withProperty("familiarSweat"));
 
       try (cleanups) {
-        RequestLoggerOutput.startStream();
         var urlString = "choice.php?forceoption=0";
         var responseText = html("request/test_choice_stillsuit.html");
         var request = new GenericRequest(urlString);
@@ -200,15 +206,32 @@ class ChoiceControlTest {
 
         assertThat("familiarSweat", isSetTo(81));
         assertThat(
-            RequestLoggerOutput.stopStream(),
-            is(
-                "Your next distillate will give you: Experience (Muscle): +5, Experience (Moxie): +4, Spooky Damage: +15, Spooky Spell Damage: +25\n"));
+            "nextDistillateMods",
+            isSetTo(
+                "Experience (Muscle): +5, Experience (Moxie): +4, Spooky Damage: +15, Spooky Spell Damage: +25"));
       }
     }
 
     @Test
     void canReadInformationFromChoicePageWhenLessThan10Drams() {
       var cleanups = new Cleanups(withProperty("familiarSweat"));
+
+      try (cleanups) {
+        var urlString = "choice.php?forceoption=0";
+        var responseText = html("request/test_choice_stillsuit_sub_10.html");
+        var request = new GenericRequest(urlString);
+        request.responseText = responseText;
+        ChoiceManager.preChoice(request);
+        request.processResponse();
+
+        assertThat("familiarSweat", isSetTo(3));
+        assertThat("nextDistillateMods", isSetTo(""));
+      }
+    }
+
+    @Test
+    void noNextDistillateModsWhenLessThan10Dram() {
+      var cleanups = new Cleanups(withProperty("nextDistillateMods", "Cold Resistance: +1"));
 
       try (cleanups) {
         RequestLoggerOutput.startStream();
@@ -219,17 +242,60 @@ class ChoiceControlTest {
         ChoiceManager.preChoice(request);
         request.processResponse();
 
-        assertThat("familiarSweat", isSetTo(3));
-        assertThat(RequestLoggerOutput.stopStream(), is(""));
+        assertThat("nextDistillateMods", isSetTo(""));
       }
     }
 
     @Test
-    void drinkingSweatClearsPrefs() {
-      var cleanups = new Cleanups(withProperty("familiarSweat", 1234), withPostChoice2(1476, 1));
+    void canDrinkSweat() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(200, html("request/test_desc_effect_buzzed_on_distillate.html"));
+      var cleanups =
+          new Cleanups(
+              withProperty("nextDistillateMods", "Cold Resistance: 1"),
+              withProperty("currentDistillateMods", ""),
+              withProperty("familiarSweat", 1234),
+              withHttpClientBuilder(builder),
+              withPostChoice2(1476, 1, html("request/test_choice_stillsuit_drank.html")));
 
       try (cleanups) {
         assertThat("familiarSweat", isSetTo(0));
+        assertThat("nextDistillateMods", isSetTo(""));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/desc_effect.php", "whicheffect=d64eab33f648e1a77da23ae516353fb2");
+        assertThat(
+            "currentDistillateMods",
+            isSetTo(
+                "Experience (Muscle): +3, Experience (Mysticality): +2, Experience (Moxie): +2, Damage Reduction: 9, Sleaze Damage: +6, Sleaze Spell Damage: +10"));
+      }
+    }
+  }
+
+  @Nested
+  class Entauntauned {
+    @Test
+    void canDetectEntauntaunedLevel() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(200, html("request/test_desc_effect_entauntauned.html"));
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MELODRAMEDARY, 1000),
+              withProperty("_entauntaunedToday", false),
+              withProperty("entauntaunedColdRes", 0),
+              withHttpClientBuilder(builder),
+              withChoice(1418, 1, html("request/test_choice_so_cold.html")));
+
+      try (cleanups) {
+        var melo = KoLCharacter.findFamiliar(FamiliarPool.MELODRAMEDARY);
+        assertThat(melo.getTotalExperience(), is(0));
+        assertThat("_entauntaunedToday", isSetTo(true));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/desc_effect.php", "whicheffect=297ee9fadfb5560e5142e0b3a88456db");
+        assertThat("entauntaunedColdRes", isSetTo(16));
       }
     }
   }

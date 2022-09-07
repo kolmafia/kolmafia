@@ -720,16 +720,8 @@ public class TCRSDatabase {
     EffectDatabase.reset();
     ConsumablesDatabase.reset();
 
-    // Check items that vary per person.  Not all of these are in
-    // Standard, but TCRS will be out of standard soon.
-    // (Copied from KoLmafia.refreshSessionData)
-    InventoryManager.checkNoHat();
-    InventoryManager.checkJickSword();
-    InventoryManager.checkPantogram();
-    InventoryManager.checkLatte();
-    InventoryManager.checkSaber();
-    InventoryManager.checkCoatOfPaint();
-    InventoryManager.checkUmbrella();
+    // Check items that vary per person
+    InventoryManager.checkMods();
 
     deriveApplyItem(ItemPool.RING);
 

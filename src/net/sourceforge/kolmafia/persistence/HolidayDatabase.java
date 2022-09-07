@@ -615,6 +615,10 @@ public class HolidayDatabase {
     return days;
   }
 
+  public static long getDayDifference() {
+    return getDayDifference(DateTimeManager.getRolloverDateTime());
+  }
+
   public static int getDayInKoLYear(final ZonedDateTime timeDate) {
     int dayDifference = (int) Math.floor(getDayDifference(timeDate));
     return (dayDifference + 96) % 96;
