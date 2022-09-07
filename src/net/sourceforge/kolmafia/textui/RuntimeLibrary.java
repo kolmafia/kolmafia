@@ -3867,6 +3867,9 @@ public abstract class RuntimeLibrary {
 
   public static Value can_adventure(ScriptRuntime controller, final Value arg) {
     KoLAdventure location = (KoLAdventure) arg.content;
+    if (location == null) {
+      return DataTypes.FALSE_VALUE;
+    }
     return DataTypes.makeBooleanValue(location.canAdventure());
   }
 
