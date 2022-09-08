@@ -24,7 +24,7 @@ public class MainWarningScript implements Script {
       return null;
     }
 
-    if (JavascriptRuntime.getValidDefaultExport(moduleExports) != null) {
+    if (JavascriptRuntime.getValidDefaultExport(moduleExports) != Scriptable.NOT_FOUND) {
       return null;
     }
 
