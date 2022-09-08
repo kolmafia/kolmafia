@@ -32,6 +32,7 @@ import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
@@ -277,8 +278,12 @@ public class JavascriptRuntime extends AbstractRuntime {
             }
           }
           if (functionName != null) {
+            Object defaultExport = getValidDefaultExport(exports);
             Object mainFunction =
-                ScriptableObject.getProperty(exports != null ? exports : scope, functionName);
+                (defaultExport != null)
+                    ? defaultExport
+                    : ScriptableObject.getProperty(exports != null ? exports : scope, functionName);
+
             if (mainFunction instanceof Function) {
               return ((Function) mainFunction)
                   .call(cx, scope, cx.newObject(currentTopScope), runArguments);
@@ -287,6 +292,20 @@ public class JavascriptRuntime extends AbstractRuntime {
 
           return null;
         });
+  }
+
+  public static Object getValidDefaultExport(Object exports) {
+    if (!(exports instanceof NativeObject)) return null;
+    NativeObject e = (NativeObject) exports;
+    if (e.containsKey("default") && e.containsKey("__esModule")) {
+      Object esm = e.get("__esModule");
+
+      if (esm instanceof Boolean && (Boolean) esm) {
+        return ScriptableObject.getProperty((Scriptable) exports, "default");
+      }
+    }
+
+    return null;
   }
 
   public static void interruptAll() {
