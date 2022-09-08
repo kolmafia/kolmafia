@@ -1,8 +1,5 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -17,6 +14,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ItemFinderTest {
 
@@ -230,14 +229,6 @@ public class ItemFinderTest {
     assertTrue(item != null);
     assertEquals(item.getItemId(), ItemPool.ELITE_TROUSERS);
     assertEquals(item.getCount(), 2);
-
-    // count of 1 + item name starts with a number
-    item = ItemFinder.getFirstMatchingItem("1 7-ball", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertTrue(item != null);
-    assertEquals(item.getItemId(), ItemPool.SEVEN_BALL);
-    assertEquals(item.getCount(), 1);
-
     // count + item name contains commas
     item = ItemFinder.getFirstMatchingItem("2 Tea, Earl Grey, Hot", false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
@@ -906,5 +897,30 @@ public class ItemFinderTest {
     assertEquals(results[0].getItemId(), ItemPool.SEAL_TOOTH);
     assertEquals(results[0].getCount(), 1);
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
+  }
+
+  @Test
+  public void itShouldFindSomeEdgeCasesSatisfactorily() {
+    AdventureResult item;
+    // count of 1 + item name starts with a number
+    item = ItemFinder.getFirstMatchingItem("1 7-ball", false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertEquals(item.getItemId(), ItemPool.SEVEN_BALL);
+    assertEquals(item.getCount(), 1);
+    // Meat, 1 Meat, 1 1 Meat
+    item = ItemFinder.getFirstMatchingItem("Meat", false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertFalse(item != null);
+    item = ItemFinder.getFirstMatchingItem("1 Meat", false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertEquals(item.getItemId(), ItemPool.ONE_MEAT);
+    assertEquals(item.getCount(), 1);
+    item = ItemFinder.getFirstMatchingItem("1 1 Meat", false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertEquals(item.getItemId(), ItemPool.ONE_MEAT);
+    assertEquals(item.getCount(), 1);
   }
 }
