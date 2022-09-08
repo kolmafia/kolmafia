@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -14,8 +16,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ItemFinderTest {
 
