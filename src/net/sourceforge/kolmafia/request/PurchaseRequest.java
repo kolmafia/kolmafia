@@ -289,8 +289,8 @@ public abstract class PurchaseRequest extends GenericRequest
         return o1.quantity - o2.quantity;
       }
 
-      // All else being equal, order by shop name. *shrug*
-      return o1.shopName.compareToIgnoreCase(o2.shopName);
+      // Return 0 as they are equal
+      return 0;
     }
 
     @Override
