@@ -214,7 +214,7 @@ cookie cookie	2	1	awesome	7-11	0	0	0	10 Cookie Backup (automatically removes bea
 Cool Brunch Pastaco	2	3	EPIC	11-12	0	0	60-100	40 Gyromitra Gymnastics (+40 Mox)
 cool cat claw	1	4	awesome	3-5	0	0	45-75	30 Feline Ferocity (+100% weapon dmg)
 cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg)
-cool mint precipice bar	1	1	good	3	5-10	5-10	5-10	30 On the Minty Precipice (+10 stats/fight, +15% experience)
+cool mint precipice bar	1	1	good	3	5-10	5-10	5-10	30 On the Minty Precipice (+10 stats/fight, +15% all stats)
 cool mushroom	2	1	decent	2-3	0	12-15	0
 cool mushroom casserole	4	1	decent	4-12	0	35-40	0
 corned-beef Reuben	3	9	awesome	12-13	28-34	0	0

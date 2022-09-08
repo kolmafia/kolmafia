@@ -515,16 +515,22 @@ public class FamiliarRequest extends GenericRequest {
         return false;
       }
 
-      FamiliarData familiar = KoLCharacter.findFamiliar(FamiliarRequest.getWhichFam(urlString));
+      var id = FamiliarRequest.getWhichFam(urlString);
+      // can equip items on familiars we can't use
+      var familiar = KoLCharacter.familiars.stream().filter(x -> x.getId() == id).findFirst();
       FamiliarData current = KoLCharacter.getFamiliar();
       AdventureResult item = ItemPool.get(GenericRequest.getWhichItem(urlString), 1);
 
-      if (current.equals(familiar)) {
-        EquipmentManager.removeConditionalSkills(EquipmentManager.FAMILIAR, current.getItem());
-        EquipmentManager.addConditionalSkills(EquipmentManager.FAMILIAR, item);
-      }
+      familiar.ifPresent(
+          f -> {
+            if (current.equals(f)) {
+              EquipmentManager.removeConditionalSkills(
+                  EquipmentManager.FAMILIAR, current.getItem());
+              EquipmentManager.addConditionalSkills(EquipmentManager.FAMILIAR, item);
+            }
 
-      FamiliarRequest.equipFamiliar(familiar, item);
+            FamiliarRequest.equipFamiliar(f, item);
+          });
       EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
 
       return true;
@@ -544,14 +550,20 @@ public class FamiliarRequest extends GenericRequest {
         return false;
       }
 
-      FamiliarData familiar = KoLCharacter.findFamiliar(FamiliarRequest.getFamId(urlString));
+      var id = FamiliarRequest.getFamId(urlString);
+      // can unequip items on familiars we can't use
+      var familiar = KoLCharacter.familiars.stream().filter(x -> x.getId() == id).findFirst();
       FamiliarData current = KoLCharacter.getFamiliar();
 
-      if (current.equals(familiar)) {
-        EquipmentManager.removeConditionalSkills(EquipmentManager.FAMILIAR, current.getItem());
-      }
+      familiar.ifPresent(
+          f -> {
+            if (current.equals(f)) {
+              EquipmentManager.removeConditionalSkills(
+                  EquipmentManager.FAMILIAR, current.getItem());
+            }
 
-      FamiliarRequest.unequipFamiliar(familiar);
+            FamiliarRequest.unequipFamiliar(f);
+          });
       EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
 
       return true;

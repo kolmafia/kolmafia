@@ -1593,7 +1593,18 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.BUDDY_BJORN);
   }
 
-  public static final void checkNoHat() {
+  public static void checkMods() {
+    checkNoHat();
+    checkJickSword();
+    checkPantogram();
+    checkLatte();
+    checkSaber();
+    checkCoatOfPaint();
+    checkUmbrella();
+    checkBuzzedOnDistillate();
+  }
+
+  public static void checkNoHat() {
     AdventureResult NO_HAT = ItemPool.get(ItemPool.NO_HAT, 1);
     String mod = Preferences.getString("_noHatModifier");
     if (!KoLCharacter.hasEquipped(NO_HAT, EquipmentManager.HAT)
@@ -1608,7 +1619,7 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.NO_HAT);
   }
 
-  public static final void checkJickSword() {
+  public static void checkJickSword() {
     AdventureResult JICK_SWORD = ItemPool.get(ItemPool.JICK_SWORD, 1);
     String mod = Preferences.getString("jickSwordModifier");
     if (!mod.equals("")) {
@@ -1622,15 +1633,11 @@ public abstract class InventoryManager {
       // it can be checked later
       return;
     }
-    if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.JICK_SWORD + "]", mod);
-      return;
-    }
 
     checkItemDescription(ItemPool.JICK_SWORD);
   }
 
-  public static final void checkPantogram() {
+  public static void checkPantogram() {
     AdventureResult PANTOGRAM_PANTS = ItemPool.get(ItemPool.PANTOGRAM_PANTS, 1);
     String mod = Preferences.getString("_pantogramModifier");
     if (!KoLCharacter.hasEquipped(PANTOGRAM_PANTS, EquipmentManager.PANTS)
@@ -1645,7 +1652,7 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.PANTOGRAM_PANTS);
   }
 
-  public static final void checkLatte() {
+  public static void checkLatte() {
     AdventureResult LATTE_MUG = ItemPool.get(ItemPool.LATTE_MUG, 1);
     String mod = Preferences.getString("latteModifier");
     if (!KoLCharacter.hasEquipped(LATTE_MUG, EquipmentManager.OFFHAND)
@@ -1660,7 +1667,7 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.LATTE_MUG);
   }
 
-  public static final void checkSaber() {
+  public static void checkSaber() {
     AdventureResult SABER = ItemPool.get(ItemPool.FOURTH_SABER, 1);
     if (!KoLCharacter.hasEquipped(SABER)
         && SABER.getCount(KoLConstants.inventory) == 0
@@ -1674,7 +1681,7 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.FOURTH_SABER);
   }
 
-  public static final void checkUmbrella() {
+  public static void checkUmbrella() {
     AdventureResult UMBRELLA = ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA, 1);
     if (!KoLCharacter.hasEquipped(UMBRELLA)
         && UMBRELLA.getCount(KoLConstants.inventory) == 0
@@ -1685,7 +1692,7 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.UNBREAKABLE_UMBRELLA);
   }
 
-  public static final void checkKGB() {
+  public static void checkKGB() {
     AdventureResult KGB = ItemPool.get(ItemPool.KREMLIN_BRIEFCASE, 1);
     // See if we have a Kremlin's Greatest Briefcase
     // One sitting in storage, mall store, or display case probably hasn't had enchantments changed,
@@ -1699,7 +1706,7 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.KREMLIN_BRIEFCASE);
   }
 
-  public static final void checkVampireVintnerWine() {
+  public static void checkVampireVintnerWine() {
     // 1950 Vampire Vintner Wine is a quest item. You can have at most
     // one in inventory - and nowhere else.
     if (InventoryManager.getCount(ItemPool.VAMPIRE_VINTNER_WINE) == 0) {
@@ -1710,7 +1717,7 @@ public abstract class InventoryManager {
     InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
   }
 
-  public static final void checkCoatOfPaint() {
+  public static void checkCoatOfPaint() {
     AdventureResult COAT_OF_PAINT = ItemPool.get(ItemPool.COAT_OF_PAINT, 1);
     String mod = Preferences.getString("_coatOfPaintModifier");
     if (!KoLCharacter.hasEquipped(COAT_OF_PAINT, EquipmentManager.SHIRT)
@@ -1725,9 +1732,23 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.COAT_OF_PAINT);
   }
 
+  public static void checkBuzzedOnDistillate() {
+    var BUZZED = EffectPool.get(EffectPool.BUZZED_ON_DISTILLATE);
+    String mod = Preferences.getString("currentDistillateMods");
+    if (!KoLConstants.activeEffects.contains(BUZZED)) {
+      return;
+    }
+    if (!mod.equals("")) {
+      Modifiers.overrideModifier("Effect:[" + EffectPool.BUZZED_ON_DISTILLATE + "]", mod);
+      return;
+    }
+
+    DebugDatabase.readEffectDescriptionText(EffectPool.BUZZED_ON_DISTILLATE);
+  }
+
   public static Pattern BIRD_PATTERN = Pattern.compile("Seek out an? (.*)");
 
-  public static final void checkBirdOfTheDay() {
+  public static void checkBirdOfTheDay() {
     AdventureResult BOTD = ItemPool.get(ItemPool.BIRD_A_DAY_CALENDAR, 1);
     if (BOTD.getCount(KoLConstants.inventory) == 0 && BOTD.getCount(KoLConstants.closet) == 0) {
       return;
@@ -1754,9 +1775,8 @@ public abstract class InventoryManager {
       // Blessing of the Bid will still refer to it.
     }
 
-    ResultProcessor.updateBirdModifiers(EffectPool.BLESSING_OF_THE_BIRD, "_birdOfTheDay");
-    ResultProcessor.updateBirdModifiers(
-        EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, "yourFavoriteBird");
+    DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD);
+    DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_THE_BIRD);
   }
 
   private static final AdventureResult GOLDEN_MR_ACCESSORY =

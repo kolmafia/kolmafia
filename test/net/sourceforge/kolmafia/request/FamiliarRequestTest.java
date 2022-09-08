@@ -3,14 +3,21 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.notNullValue;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -27,6 +34,61 @@ class FamiliarRequestTest {
     KoLCharacter.reset(true);
     KoLCharacter.reset("FamiliarRequestTest");
     Preferences.reset("FamiliarRequestTest");
+  }
+
+  @Nested
+  class UnusableFamiliars {
+
+    @Test
+    void canEquipUnusableFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.MINIATURE_CRYSTAL_BALL),
+              withFamiliarInTerrarium(FamiliarPool.BOWLET),
+              withPath(Path.BEES_HATE_YOU),
+              withNextResponse(200, html("request/test_equip_terrarium_familiar.html")));
+
+      try (cleanups) {
+        var bowlet =
+            KoLCharacter.familiars.stream()
+                .filter(x -> x.getId() == FamiliarPool.BOWLET)
+                .findFirst()
+                .orElseThrow();
+        var crystalBall = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
+        var famRequest = new FamiliarRequest(bowlet, crystalBall);
+        famRequest.run();
+
+        var equipped = bowlet.getItem();
+        assertThat(equipped, notNullValue());
+        assertThat(equipped.getItemId(), equalTo(ItemPool.MINIATURE_CRYSTAL_BALL));
+      }
+    }
+
+    @Test
+    void canUnequipUnusableFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.MINIATURE_CRYSTAL_BALL),
+              withFamiliarInTerrarium(FamiliarPool.BOWLET),
+              withPath(Path.BEES_HATE_YOU),
+              withNextResponse(200, "Item unequipped."));
+
+      try (cleanups) {
+        var bowlet =
+            KoLCharacter.familiars.stream()
+                .filter(x -> x.getId() == FamiliarPool.BOWLET)
+                .findFirst()
+                .orElseThrow();
+        var crystalBall = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
+        bowlet.setItem(crystalBall);
+        var famRequest = new FamiliarRequest(bowlet, EquipmentRequest.UNEQUIP);
+        famRequest.run();
+
+        var equipped = bowlet.getItem();
+        assertThat(equipped, notNullValue());
+        assertThat(equipped.getItemId(), equalTo(-1));
+      }
+    }
   }
 
   @Nested
