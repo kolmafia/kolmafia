@@ -26,16 +26,13 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class ConsequenceManager {
-  private static final HashMap<String, Consequence> itemDescs = new HashMap<String, Consequence>();
-  private static final HashMap<String, Consequence> effectDescs =
-      new HashMap<String, Consequence>();
-  private static final HashMap<Integer, Consequence> skillDescs =
-      new HashMap<Integer, Consequence>();
-  private static final ArrayList<String> descriptions = new ArrayList<String>();
-  private static final HashMap<String, Consequence> monsters = new HashMap<String, Consequence>();
-  private static final HashMap<Integer, Consequence> combatSkillNames =
-      new HashMap<Integer, Consequence>();
-  private static final ArrayList<Consequence> accomplishments = new ArrayList<Consequence>();
+  private static final HashMap<String, Consequence> itemDescs = new HashMap<>();
+  private static final HashMap<String, Consequence> effectDescs = new HashMap<>();
+  private static final HashMap<Integer, Consequence> skillDescs = new HashMap<>();
+  private static final ArrayList<String> descriptions = new ArrayList<>();
+  private static final HashMap<String, Consequence> monsters = new HashMap<>();
+  private static final HashMap<Integer, Consequence> combatSkillNames = new HashMap<>();
+  private static final ArrayList<Consequence> accomplishments = new ArrayList<>();
 
   private static final Pattern GROUP_PATTERN = Pattern.compile("\\$(\\d)");
   private static final Pattern EXPR_PATTERN = Pattern.compile("\\[(.+?)\\]");
@@ -71,47 +68,52 @@ public abstract class ConsequenceManager {
     String type = cons.getType();
     String spec = cons.getSpec();
 
-    if (type.equals("DESC_ITEM")) {
-      String key = ItemDatabase.getDescriptionId(ItemDatabase.getItemId(spec));
-      if (key == null) {
-        RequestLogger.printLine("Unknown DESC_ITEM consequence: " + spec);
-      } else {
-        cons.register(ConsequenceManager.itemDescs, key);
-        ConsequenceManager.descriptions.add("desc_item.php?whichitem=" + key);
+    switch (type) {
+      case "DESC_ITEM" -> {
+        String descId = ItemDatabase.getDescriptionId(ItemDatabase.getItemId(spec));
+        if (descId == null) {
+          RequestLogger.printLine("Unknown DESC_ITEM consequence: " + spec);
+        } else {
+          cons.register(ConsequenceManager.itemDescs, descId);
+          var url = "desc_item.php?whichitem=" + descId;
+          descriptions.add(url);
+        }
       }
-    } else if (type.equals("DESC_SKILL")) {
-      int id = SkillDatabase.getSkillId(spec);
-      if (id == -1) {
-        RequestLogger.printLine("Unknown DESC_SKILL consequence: " + spec);
-      } else {
-        Integer key = id;
-        cons.register(ConsequenceManager.skillDescs, key);
-        ConsequenceManager.descriptions.add("desc_skill.php?whichskill=" + id + "&self=true");
+      case "DESC_SKILL" -> {
+        int id = SkillDatabase.getSkillId(spec);
+        if (id == -1) {
+          RequestLogger.printLine("Unknown DESC_SKILL consequence: " + spec);
+        } else {
+          cons.register(ConsequenceManager.skillDescs, id);
+          var url = "desc_skill.php?whichskill=" + id + "&self=true";
+          descriptions.add(url);
+        }
       }
-    } else if (type.equals("DESC_EFFECT")) {
-      String key = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(spec));
-      if (key == null) {
-        RequestLogger.printLine("Unknown DESC_EFFECT consequence: " + spec);
-      } else {
-        cons.register(ConsequenceManager.effectDescs, key);
-        ConsequenceManager.descriptions.add("desc_effect.php?whicheffect=" + key);
+      case "DESC_EFFECT" -> {
+        String descId = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(spec));
+        if (descId == null) {
+          RequestLogger.printLine("Unknown DESC_EFFECT consequence: " + spec);
+        } else {
+          cons.register(ConsequenceManager.effectDescs, descId);
+          var url = "desc_effect.php?whicheffect=" + descId;
+          descriptions.add(url);
+        }
       }
-    } else if (type.equals("COMBAT_SKILL")) {
-      int id = SkillDatabase.getSkillId(spec);
-      if (id == -1) {
-        RequestLogger.printLine("Unknown COMBAT_SKILL consequence: " + spec);
-      } else {
-        Integer key = id;
-        cons.register(ConsequenceManager.combatSkillNames, key);
+      case "COMBAT_SKILL" -> {
+        int id = SkillDatabase.getSkillId(spec);
+        if (id == -1) {
+          RequestLogger.printLine("Unknown COMBAT_SKILL consequence: " + spec);
+        } else {
+          cons.register(ConsequenceManager.combatSkillNames, id);
+        }
       }
-    } else if (type.equals("MONSTER")) {
-      String key = spec;
-      cons.register(ConsequenceManager.monsters, key);
-    } else if (type.equals("QUEST_LOG")) {
-      String key = spec;
-      cons.register(ConsequenceManager.accomplishments);
-    } else {
-      RequestLogger.printLine("Unknown consequence type: " + type);
+      case "MONSTER" -> {
+        cons.register(ConsequenceManager.monsters, spec);
+      }
+      case "QUEST_LOG" -> {
+        cons.register(ConsequenceManager.accomplishments);
+      }
+      default -> RequestLogger.printLine("Unknown consequence type: " + type);
     }
   }
 
@@ -148,8 +150,7 @@ public abstract class ConsequenceManager {
     if (size == 0) { // this shouldn't happen...
       return;
     }
-    // getCalendarDay is good for up to 96 description items
-    int seq = HolidayDatabase.getDayInKoLYear();
+    var seq = (int) HolidayDatabase.getDayDifference();
     GenericRequest req = new GenericRequest(ConsequenceManager.descriptions.get(seq % size));
     RequestThread.postRequest(req);
   }
@@ -240,7 +241,7 @@ public abstract class ConsequenceManager {
     }
 
     private String fireAction(String action, Matcher match) {
-      StringBuffer buff = new StringBuffer();
+      var buff = new StringBuilder();
       Matcher m = ConsequenceManager.GROUP_PATTERN.matcher(action);
       if (m.find()) {
         do {
@@ -286,13 +287,20 @@ public abstract class ConsequenceManager {
 
       String type = this.getType();
       String mods = "";
-      if (type.equals("DESC_ITEM")) {
-        int itemId = ItemDatabase.getItemId(this.getSpec());
-        int equipType = ItemDatabase.getConsumptionType(itemId);
-        mods =
-            DebugDatabase.parseItemEnchantments(
-                match.replaceFirst(match.group(0)), new ArrayList<>(), equipType);
-        Modifiers.overrideModifier("Item:[" + itemId + "]", mods);
+      switch (type) {
+        case "DESC_ITEM" -> {
+          int itemId = ItemDatabase.getItemId(this.getSpec());
+          int equipType = ItemDatabase.getConsumptionType(itemId);
+          mods =
+              DebugDatabase.parseItemEnchantments(
+                  match.replaceFirst(match.group(0)), new ArrayList<>(), equipType);
+          Modifiers.overrideModifier("Item:[" + itemId + "]", mods);
+        }
+        case "DESC_EFFECT" -> {
+          int itemId = EffectDatabase.getEffectId(this.getSpec());
+          mods = DebugDatabase.parseEffectEnchantments(match.replaceFirst(match.group(0)));
+          Modifiers.overrideModifier("Effect:[" + itemId + "]", mods);
+        }
       }
 
       pos = action.indexOf('=');

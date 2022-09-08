@@ -23,6 +23,11 @@ public class MainWarningScript implements Script {
     if (!(moduleExports instanceof Scriptable)) {
       return null;
     }
+
+    if (JavascriptRuntime.getValidDefaultExport(moduleExports) != Scriptable.NOT_FOUND) {
+      return null;
+    }
+
     if (requireMain != Scriptable.NOT_FOUND
         && requireMain == moduleObject
         && ScriptableObject.getProperty(scope, "main") != Scriptable.NOT_FOUND

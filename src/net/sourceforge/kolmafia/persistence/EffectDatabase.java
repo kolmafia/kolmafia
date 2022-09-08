@@ -759,34 +759,20 @@ public class EffectDatabase {
     String ename = EffectDatabase.getEffectName(effectId);
     Modifiers emods = Modifiers.parseModifiers(ename, eEnchantments);
 
-    int level = 0;
+    int level =
+        switch (effectId) {
+          case EffectPool.WINE_FORTIFIED -> (int) emods.get(Modifiers.WEAPON_DAMAGE) / 3;
+          case EffectPool.WINE_HOT -> (int) emods.get(Modifiers.HOT_DAMAGE) / 3;
+          case EffectPool.WINE_COLD -> (int) emods.get(Modifiers.COLD_DAMAGE) / 3;
+          case EffectPool.WINE_DARK -> (int) emods.get(Modifiers.SPOOKY_DAMAGE) / 4;
+          case EffectPool.WINE_BEFOULED -> (int) emods.get(Modifiers.STENCH_DAMAGE) / 3;
+          case EffectPool.WINE_FRISKY -> (int) emods.get(Modifiers.SLEAZE_DAMAGE) / 3;
+          case EffectPool.WINE_FRIENDLY -> (int) emods.get(Modifiers.FAMILIAR_DAMAGE) / 3;
+          default -> -1;
+        };
 
-    switch (effectId) {
-      case EffectPool.WINE_FORTIFIED:
-        level = (int) emods.get(Modifiers.WEAPON_DAMAGE) / 3;
-        break;
-      case EffectPool.WINE_HOT:
-        level = (int) emods.get(Modifiers.HOT_DAMAGE) / 3;
-        break;
-      case EffectPool.WINE_COLD:
-        level = (int) emods.get(Modifiers.COLD_DAMAGE) / 3;
-        break;
-      case EffectPool.WINE_DARK:
-        level = (int) emods.get(Modifiers.SPOOKY_DAMAGE) / 4;
-        break;
-      case EffectPool.WINE_BEFOULED:
-        level = (int) emods.get(Modifiers.STENCH_DAMAGE) / 3;
-        break;
-      case EffectPool.WINE_FRISKY:
-        level = (int) emods.get(Modifiers.SLEAZE_DAMAGE) / 3;
-        break;
-      case EffectPool.WINE_FRIENDLY:
-        level = (int) emods.get(Modifiers.FAMILIAR_DAMAGE) / 3;
-        break;
-      default:
-        return;
+    if (level >= 0) {
+      Preferences.setInteger("vintnerWineLevel", level);
     }
-
-    Preferences.setInteger("vintnerWineLevel", level);
   }
 }

@@ -313,20 +313,12 @@ public class ResultProcessor {
     String blessingBird = birdMatcher.find() ? birdMatcher.group(1) : bird;
     if (!bird.equals(blessingBird)) {
       Preferences.setString(property, blessingBird);
-      ResultProcessor.updateBirdModifiers(effectId, property);
+      DebugDatabase.readEffectDescriptionText(effectId);
     }
   }
 
-  public static void updateBirdModifiers(int effectId, String property) {
-    Modifiers.overrideEffectModifiers(effectId);
-    String mods = Modifiers.getStringModifier("Effect", effectId, "Modifiers");
-    Preferences.setString(property + "Mods", mods);
-  }
-
   public static void updateEntauntauned() {
-    Modifiers.overrideEffectModifiers(EffectPool.ENTAUNTAUNED);
-    double res = Modifiers.getNumericModifier("Effect", EffectPool.ENTAUNTAUNED, "Cold Resistance");
-    Preferences.setInteger("entauntaunedColdRes", (int) Math.round(res));
+    DebugDatabase.readEffectDescriptionText(EffectPool.ENTAUNTAUNED);
   }
 
   public static void updateVintner() {
@@ -357,25 +349,19 @@ public class ResultProcessor {
       // If the effect is "Blessing of the Bird", KoL changes
       // it to "Blessing of the XXX", where XXX is today's bird
       switch (effectId) {
-        case EffectPool.BLESSING_OF_THE_BIRD:
-          ResultProcessor.updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
-          break;
-        case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD:
-          ResultProcessor.updateBird(
-              EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
-          break;
-        case EffectPool.ENTAUNTAUNED:
-          updateEntauntauned();
-          break;
-        case EffectPool.WINE_FORTIFIED:
-        case EffectPool.WINE_HOT:
-        case EffectPool.WINE_FRISKY:
-        case EffectPool.WINE_COLD:
-        case EffectPool.WINE_FRIENDLY:
-        case EffectPool.WINE_DARK:
-        case EffectPool.WINE_BEFOULED:
-          ResultProcessor.updateVintner();
-          break;
+        case EffectPool.BLESSING_OF_THE_BIRD -> updateBird(
+            EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
+        case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD -> updateBird(
+            EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
+        case EffectPool.ENTAUNTAUNED,
+            EffectPool.BUZZED_ON_DISTILLATE,
+            EffectPool.WINE_FORTIFIED,
+            EffectPool.WINE_HOT,
+            EffectPool.WINE_FRISKY,
+            EffectPool.WINE_COLD,
+            EffectPool.WINE_FRIENDLY,
+            EffectPool.WINE_DARK,
+            EffectPool.WINE_BEFOULED -> DebugDatabase.readEffectDescriptionText(effectId);
       }
 
       String acquisition = effectMatcher.group(2);

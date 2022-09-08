@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.mockito.Mockito;
 
@@ -1263,6 +1264,24 @@ public class Player {
    */
   public static Cleanups withPostChoice2(final int choice, final int decision) {
     return withPostChoice2(choice, decision, "");
+  }
+
+  /**
+   * Simulates a choice (postChoice1, processResults and then postChoice2)
+   *
+   * <p>{@code @todo} Still needs some more choice handling (visitChoice, postChoice0)
+   *
+   * @param choice Choice number
+   * @param decision Decision number
+   * @return Restores state for choice handling
+   */
+  public static Cleanups withChoice(
+      final int choice, final int decision, final String responseText) {
+    var cleanups = new Cleanups();
+    cleanups.add(withPostChoice1(choice, decision, responseText));
+    ResultProcessor.processResults(false, responseText);
+    cleanups.add(withPostChoice2(choice, decision, responseText));
+    return cleanups;
   }
 
   /**
