@@ -33,23 +33,12 @@ class ValueTest {
     void compareBooleans() {
       // booleans compare as ints, except to strings
       var value = new Value(true);
-      assertThat(
-          "true > false",
-          value.compareTo(new Value(false)),
-          hasSign(POSITIVE));
-      assertThat(
-          "true == true",
-          value.compareTo(new Value(true)),
-          hasSign(ZERO));
+      assertThat("true > false", value.compareTo(new Value(false)), hasSign(POSITIVE));
+      assertThat("true == true", value.compareTo(new Value(true)), hasSign(ZERO));
       assertThat("true < 5", value.compareTo(new Value(5)), hasSign(NEGATIVE));
       assertThat(
-          "true > \"non numeric\"",
-          value.compareTo(new Value("non numeric")),
-          hasSign(POSITIVE));
-      assertThat(
-          "true < 1.4",
-          value.compareTo(new Value(1.4)),
-          hasSign(NEGATIVE));
+          "true > \"non numeric\"", value.compareTo(new Value("non numeric")), hasSign(POSITIVE));
+      assertThat("true < 1.4", value.compareTo(new Value(1.4)), hasSign(NEGATIVE));
     }
 
     @Test
@@ -64,10 +53,7 @@ class ValueTest {
           "$bounty[bean-shaped rock] == $bounty[bean-shaped rock]",
           value.compareTo(DataTypes.parseBountyValue("bean-shaped rock", true)),
           hasSign(ZERO));
-      assertThat(
-          "$bounty[bean-shaped rock] < 5",
-          value.compareTo(new Value(5)),
-          hasSign(NEGATIVE));
+      assertThat("$bounty[bean-shaped rock] < 5", value.compareTo(new Value(5)), hasSign(NEGATIVE));
       assertThat(
           "$bounty[bean-shaped rock] > \"a non numeric value\"",
           value.compareTo(new Value("a non numeric value")),
@@ -94,18 +80,12 @@ class ValueTest {
           "\"contents\".replace_string(\"\", \"\") == \"contents\".replace_string(\"\", \"\")",
           value.compareTo(new Value(DataTypes.BUFFER_TYPE, contents, buffer)),
           hasSign(ZERO));
-      assertThat(
-          "\"contents\" < 5",
-          value.compareTo(new Value(5.0)),
-          hasSign(NEGATIVE));
+      assertThat("\"contents\" < 5", value.compareTo(new Value(5.0)), hasSign(NEGATIVE));
       assertThat(
           "\"contents\" < \"non numeric\"",
           value.compareTo(new Value("non numeric")),
           hasSign(NEGATIVE));
-      assertThat(
-          "\"contents\" > -30.4",
-          value.compareTo(new Value(-30.4)),
-          hasSign(POSITIVE));
+      assertThat("\"contents\" > -30.4", value.compareTo(new Value(-30.4)), hasSign(POSITIVE));
     }
 
     @Test
@@ -120,12 +100,8 @@ class ValueTest {
           "$class[4] == $class[3]",
           value.compareTo(DataTypes.makeClassValue(4, true)),
           hasSign(ZERO));
-      assertThat(
-          "$class[4] > 2.4",
-          value.compareTo(new Value(2.4)),
-          hasSign(POSITIVE));
-      assertThat(
-          "$class[4] > 2", value.compareTo(new Value(2)), hasSign(POSITIVE));
+      assertThat("$class[4] > 2.4", value.compareTo(new Value(2.4)), hasSign(POSITIVE));
+      assertThat("$class[4] > 2", value.compareTo(new Value(2)), hasSign(POSITIVE));
       assertThat(
           "$class[4] < $monster[99]",
           value.compareTo(DataTypes.makeMonsterValue(99, true)),
@@ -146,13 +122,8 @@ class ValueTest {
           value.compareTo(DataTypes.makeCoinmasterValue(DiscoGiftCoRequest.DISCO_GIFTCO)),
           hasSign(ZERO));
       assertThat(
-          "$coinmaster[Disco GiftCo] < 2.4",
-          value.compareTo(new Value(2.4)),
-          hasSign(NEGATIVE));
-      assertThat(
-          "$coinmaster[Disco GiftCo] < 2",
-          value.compareTo(new Value(2)),
-          hasSign(NEGATIVE));
+          "$coinmaster[Disco GiftCo] < 2.4", value.compareTo(new Value(2.4)), hasSign(NEGATIVE));
+      assertThat("$coinmaster[Disco GiftCo] < 2", value.compareTo(new Value(2)), hasSign(NEGATIVE));
       assertThat(
           "$coinmaster[Disco GiftCo] < $monster[453]",
           value.compareTo(DataTypes.makeMonsterValue(453, true)),
@@ -171,12 +142,8 @@ class ValueTest {
           "$effect[10] == $effect[9]",
           value.compareTo(DataTypes.makeEffectValue(10, true)),
           hasSign(ZERO));
-      assertThat(
-          "$effect[10] > 3.8",
-          value.compareTo(new Value(3.8)),
-          hasSign(POSITIVE));
-      assertThat(
-          "$effect[10] > 3", value.compareTo(new Value(3)), hasSign(POSITIVE));
+      assertThat("$effect[10] > 3.8", value.compareTo(new Value(3.8)), hasSign(POSITIVE));
+      assertThat("$effect[10] > 3", value.compareTo(new Value(3)), hasSign(POSITIVE));
       assertThat(
           "$effect[10] < 134",
           value.compareTo(DataTypes.makeMonsterValue(134, true)),
@@ -197,8 +164,7 @@ class ValueTest {
           hasSign(ZERO));
       assertThat(
           "$element[cold] < \"string\"", value.compareTo(new Value("string")), hasSign(NEGATIVE));
-      assertThat(
-          "$element[cold] < 3.8", value.compareTo(new Value(3.8)), hasSign(NEGATIVE));
+      assertThat("$element[cold] < 3.8", value.compareTo(new Value(3.8)), hasSign(NEGATIVE));
       assertThat("$element[cold] < 3", value.compareTo(new Value(3)), hasSign(NEGATIVE));
       assertThat(
           "$element[cold] > $location[Fastest Adventurer Contest]",
@@ -220,23 +186,14 @@ class ValueTest {
           "$familiar[91] == $familiar[91]",
           value.compareTo(DataTypes.makeFamiliarValue(91, true)),
           hasSign(ZERO));
-      assertThat(
-          "$familiar[91] > 8.8",
-          value.compareTo(new Value(8.8)),
-          hasSign(POSITIVE));
+      assertThat("$familiar[91] > 8.8", value.compareTo(new Value(8.8)), hasSign(POSITIVE));
     }
 
     @Test
     void compareInts() {
       var value = new Value(150);
-      assertThat(
-          "150 < 200",
-          value.compareTo(new Value(200)),
-          hasSign(NEGATIVE));
-      assertThat(
-          "150 == 150",
-          value.compareTo(new Value(150)),
-          hasSign(ZERO));
+      assertThat("150 < 200", value.compareTo(new Value(200)), hasSign(NEGATIVE));
+      assertThat("150 == 150", value.compareTo(new Value(150)), hasSign(ZERO));
       assertThat(
           "7 == $path[Trendy]",
           new Value(7).compareTo(DataTypes.makePathValue(Path.TRENDY)),
@@ -247,9 +204,7 @@ class ValueTest {
           hasSign(ZERO));
 
       assertThat(
-          "7 > $thrall[2]",
-          value.compareTo(DataTypes.makeThrallValue(2, true)),
-          hasSign(POSITIVE));
+          "7 > $thrall[2]", value.compareTo(DataTypes.makeThrallValue(2, true)), hasSign(POSITIVE));
 
       // Coinmasters have an int value of 0
       assertThat(
@@ -279,18 +234,9 @@ class ValueTest {
     @Test
     void compareFloats() {
       var value = new Value(5.2);
-      assertThat(
-          "5.2 > 4.69",
-          value.compareTo(new Value(4.69)),
-          hasSign(POSITIVE));
-      assertThat(
-          "5.2 == 5.2",
-          value.compareTo(new Value(5.2)),
-          hasSign(ZERO));
-      assertThat(
-          "5.2 > true",
-          value.compareTo(new Value(true)),
-          hasSign(POSITIVE));
+      assertThat("5.2 > 4.69", value.compareTo(new Value(4.69)), hasSign(POSITIVE));
+      assertThat("5.2 == 5.2", value.compareTo(new Value(5.2)), hasSign(ZERO));
+      assertThat("5.2 > true", value.compareTo(new Value(true)), hasSign(POSITIVE));
       assertThat(
           "5.2 < $familiar[6]",
           value.compareTo(DataTypes.makeFamiliarValue(6, true)),
@@ -332,10 +278,7 @@ class ValueTest {
           "$path[Avatar of Boris] == $path[Avatar of Boris]",
           value.compareTo(DataTypes.makePathValue(Path.AVATAR_OF_BORIS)),
           hasSign(ZERO));
-      assertThat(
-          "$path[Avatar of Boris] == 8",
-          value.compareTo(new Value(8)),
-          hasSign(ZERO));
+      assertThat("$path[Avatar of Boris] == 8", value.compareTo(new Value(8)), hasSign(ZERO));
 
       // These are not comparable in this way. There is special handling in ASH to make this work
       // though, for backwards
@@ -350,9 +293,7 @@ class ValueTest {
     void compareStrings() {
       var value = new Value("some random string");
       assertThat(
-          "\"some random string\" < \"zzz\"",
-          value.compareTo(new Value("zzz")),
-          hasSign(NEGATIVE));
+          "\"some random string\" < \"zzz\"", value.compareTo(new Value("zzz")), hasSign(NEGATIVE));
       assertThat(
           "\"some random string\" == \"some random string\"",
           value.compareTo(new Value("some random string")),
