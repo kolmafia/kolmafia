@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -271,8 +272,8 @@ public class Value implements TypedNode, Comparable<Value> {
     return this.compareTo(o, true);
   }
 
-  private static final List<Type> COMPARE_BY_LONG =
-      List.of(
+  private static final Set<Type> COMPARE_BY_LONG =
+      Set.of(
           DataTypes.BOOLEAN_TYPE,
           DataTypes.CLASS_TYPE,
           DataTypes.EFFECT_TYPE,
