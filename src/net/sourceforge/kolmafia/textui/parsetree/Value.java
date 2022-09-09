@@ -263,6 +263,19 @@ public class Value implements TypedNode, Comparable<Value> {
     return this.compareTo(o, true);
   }
 
+  private static final List<Type> COMPARE_BY_LONG =
+      List.of(
+          DataTypes.BOOLEAN_TYPE,
+          DataTypes.CLASS_TYPE,
+          DataTypes.EFFECT_TYPE,
+          DataTypes.FAMILIAR_TYPE,
+          DataTypes.INT_TYPE,
+          DataTypes.ITEM_TYPE,
+          DataTypes.SERVANT_TYPE,
+          DataTypes.SKILL_TYPE,
+          DataTypes.SLOT_TYPE,
+          DataTypes.THRALL_TYPE);
+
   private int compareTo(final Value o, final boolean ignoreCase) {
     if (o == null) {
       throw new ClassCastException();
@@ -272,24 +285,18 @@ public class Value implements TypedNode, Comparable<Value> {
       return Double.compare(this.toFloatValue().floatValue(), o.toFloatValue().floatValue());
     }
 
-    if (this.getType().equals(DataTypes.BOOLEAN_TYPE)
-        || this.getType().equals(DataTypes.INT_TYPE)
-        || this.getType().equals(DataTypes.ITEM_TYPE)
-        || this.getType().equals(DataTypes.EFFECT_TYPE)
-        || this.getType().equals(DataTypes.CLASS_TYPE)
-        || this.getType().equals(DataTypes.SKILL_TYPE)
-        || this.getType().equals(DataTypes.FAMILIAR_TYPE)
-        || this.getType().equals(DataTypes.SLOT_TYPE)
-        || this.getType().equals(DataTypes.THRALL_TYPE)
-        || this.getType().equals(DataTypes.SERVANT_TYPE)) {
+    if (COMPARE_BY_LONG.contains(this.getType())) {
       return Long.compare(this.contentLong, o.contentLong);
     }
 
     if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
-      // Let the underlying data type itself decide
-      VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
-      VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
-      return v1.compareTo(v2);
+      // If both Vykeas, let the underlying data type itself decide
+      if (o.getType().equals(DataTypes.VYKEA_TYPE)) {
+        VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
+        VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
+        return v1.compareTo(v2);
+      }
+      // Otherwise, compare by string
     }
 
     if (this.getType().equals(DataTypes.MONSTER_TYPE)) {
@@ -321,7 +328,7 @@ public class Value implements TypedNode, Comparable<Value> {
 
   @Override
   public boolean equals(final Object o) {
-    return !(o instanceof Value) ? false : this.compareTo((Value) o) == 0;
+    return o instanceof Value && this.compareTo((Value) o) == 0;
   }
 
   @Override
@@ -465,7 +472,7 @@ public class Value implements TypedNode, Comparable<Value> {
   @Override
   public void print(final PrintStream stream, final int indent) {
     AshRuntime.indentLine(stream, indent);
-    stream.println("<VALUE " + this.getType() + " [" + this.toString() + "]>");
+    stream.println("<VALUE " + this.getType() + " [" + this + "]>");
   }
 
   public Object toJSON() throws JSONException {
