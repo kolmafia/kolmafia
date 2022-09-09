@@ -1143,16 +1143,6 @@ public class Modifiers {
     return Modifiers.modifiersByName.keySet();
   }
 
-  public static final void overrideEffectModifiers(final int effectId) {
-    String name = EffectDatabase.getEffectName(effectId);
-    String descId = EffectDatabase.getDescriptionId(effectId);
-    String text = DebugDatabase.readEffectDescriptionText(descId);
-
-    String mod = DebugDatabase.parseEffectEnchantments(text);
-    String lookup = Modifiers.getLookupName("Effect", name);
-    Modifiers.overrideModifier(lookup, mod);
-  }
-
   public static final void overrideModifier(String lookup, Object value) {
     if (value != null) {
       Modifiers.modifiersByName.put(lookup, value);

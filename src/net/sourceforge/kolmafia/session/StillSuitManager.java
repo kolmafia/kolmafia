@@ -5,8 +5,8 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -59,9 +59,15 @@ public class StillSuitManager {
 
     var modifiers = new Modifiers.ModifierList();
     DebugDatabase.parseStandardEnchantments(text, modifiers, new ArrayList<>(), EFFECTS_BLOCK);
-    if (modifiers.size() > 0) {
-      KoLmafia.updateDisplay("Your next distillate will give you: " + modifiers);
-    }
+    Preferences.setString("nextDistillateMods", (modifiers.size() > 0) ? modifiers.toString() : "");
+  }
+
+  public static void handleDrink(final String responseText) {
+    if (!responseText.contains("You put your lips to the nozzle")) return;
+
+    clearSweat();
+    DebugDatabase.readEffectDescriptionText(EffectPool.BUZZED_ON_DISTILLATE);
+    Preferences.setString("nextDistillateMods", "");
   }
 
   private static void setSweat(final int drams) {

@@ -2,10 +2,12 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHippyStoneBroken;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
@@ -13,6 +15,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withoutSkill;
+import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -32,10 +35,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -69,6 +72,11 @@ public class FightRequestTest {
 
   private void parseCombatData(String path, String location, String encounter) {
     String html = html(path);
+
+    if (location != null) {
+      FightRequest.registerRequest(true, location);
+    }
+
     FightRequest.updateCombatData(location, encounter, html);
   }
 
@@ -1236,9 +1244,11 @@ public class FightRequestTest {
       "Gausie's Grotto, ?"
     })
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
-      var cleanups = withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
+      var cleanups =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
+              withLastLocation(adventureName));
       try (cleanups) {
-        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure(adventureName);
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxx" + environmentSymbol));
@@ -1248,9 +1258,9 @@ public class FightRequestTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "xxxxx", "xxxxxxxxxxxxxxxxxxx"})
     public void canRecoverUndersizedProp(String pref) {
-      var cleanups = withProperty("lastCombatEnvironments", pref);
+      var cleanups =
+          new Cleanups(withProperty("lastCombatEnvironments", pref), withLastLocation("The Oasis"));
       try (cleanups) {
-        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("The Oasis");
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
         assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxo"));
@@ -1259,12 +1269,41 @@ public class FightRequestTest {
 
     @Test
     public void doesNotCountFreeFights() {
-      var cleanups = withProperty("lastCombatEnvironments", "ioioioioioioioioioio");
+      var cleanups =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
+              withLastLocation("Hobopolis Town Square"));
       try (cleanups) {
-        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("Hobopolis Town Square");
         // Any old free fight from our fixtures
         parseCombatData("request/test_fight_potted_plant.html");
         assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
+      }
+    }
+
+    @Test
+    public void doesNotCountNonSnarfblats() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
+              withLastLocation("The Typical Tavern Cellar"));
+      try (cleanups) {
+        // Any old non-free fight from our fixtures
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
+      }
+    }
+
+    @Test
+    public void countsNewZonesAsQuestions() {
+      var overrideLocation = new KoLAdventure("Override", "adventure.php", "69", "Nice");
+      var cleanups =
+          new Cleanups(
+              withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
+              withLastLocation(overrideLocation));
+      try (cleanups) {
+        // Any old non-free fight from our fixtures
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("oioioioioioioioioio?"));
       }
     }
   }
@@ -1352,6 +1391,122 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_meteor_shower_lecture.html");
         assertThat("_pocketProfessorLectures", isSetTo(5));
+      }
+    }
+  }
+
+  @Nested
+  class GothKid {
+    @Test
+    public void advancesFightCounters() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.ARTISTIC_GOTH_KID),
+              withHippyStoneBroken(),
+              withProperty("_gothKidCharge", 1),
+              withProperty("_gothKidFights", 1));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_goth_kid_pvp.html");
+        assertThat("_gothKidCharge", isSetTo(0));
+        assertThat("_gothKidFights", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void doesNotMatchOtherPvPGains() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.ARTISTIC_GOTH_KID),
+              withHippyStoneBroken(),
+              withProperty("_gothKidCharge", 1),
+              withProperty("_gothKidFights", 1));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_feel_superior_pvp.html");
+        assertThat("_gothKidCharge", isSetTo(2));
+        assertThat("_gothKidFights", isSetTo(1));
+      }
+    }
+  }
+
+  @Nested
+  class JurassicParka {
+    @Test
+    void spikolodonSpikesRecorded() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.SHIRT, ItemPool.JURASSIC_PARKA),
+              withProperty("_spikolodonSpikeUses", 0));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_spikolodon_spikes.html");
+        assertThat("_spikolodonSpikeUses", isSetTo(1));
+      }
+    }
+  }
+
+  @Nested
+  class BottleOfBlankOut {
+    @Test
+    void canTrackSuccessfulUse() {
+      var cleanups =
+          new Cleanups(withProperty("blankOutUsed", 1), withItem(ItemPool.GLOB_OF_BLANK_OUT));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blank_out.html",
+            "fight.php?action=useitem&whichitem=4872&whichitem2=0");
+        assertThat(ItemPool.GLOB_OF_BLANK_OUT, isInInventory(1));
+        assertThat("blankOutUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    void canTrackSuccessfulUseInAnapests() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.JUST_THE_BEST_ANAPESTS),
+              withProperty("blankOutUsed", 1),
+              withItem(ItemPool.GLOB_OF_BLANK_OUT));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blank_out_anapests.html",
+            "fight.php?action=useitem&whichitem=4872&whichitem2=0");
+        assertThat(ItemPool.GLOB_OF_BLANK_OUT, isInInventory(1));
+        assertThat("blankOutUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    void canTrackSuccessfulFinalUse() {
+      var cleanups =
+          new Cleanups(withProperty("blankOutUsed", 4), withItem(ItemPool.GLOB_OF_BLANK_OUT));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blank_out_finished.html",
+            "fight.php?action=useitem&whichitem=4872&whichitem2=0");
+        assertThat(ItemPool.GLOB_OF_BLANK_OUT, isInInventory(0));
+        assertThat("blankOutUsed", isSetTo(0));
+      }
+    }
+
+    @Test
+    void canTrackSuccessfulFinalUseInAnapests() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.JUST_THE_BEST_ANAPESTS),
+              withProperty("blankOutUsed", 4),
+              withItem(ItemPool.GLOB_OF_BLANK_OUT));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_blank_out_anapests.html",
+            "fight.php?action=useitem&whichitem=4872&whichitem2=0");
+        assertThat(ItemPool.GLOB_OF_BLANK_OUT, isInInventory(0));
+        assertThat("blankOutUsed", isSetTo(0));
       }
     }
   }

@@ -856,21 +856,18 @@ public class CharPaneRequest extends GenericRequest {
     return CharPaneRequest.extractEffect(descId, effectName, duration);
   }
 
-  public static final AdventureResult extractEffect(
+  public static AdventureResult extractEffect(
       final String descId, String effectName, int duration) {
     int effectId = EffectDatabase.getEffectIdFromDescription(descId);
-
     if (effectId == -1) {
       effectId = EffectDatabase.learnEffectId(effectName, descId);
-    } else if (effectId == EffectPool.BLESSING_OF_THE_BIRD) {
-      ResultProcessor.updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
-    } else if (effectId == EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD) {
-      ResultProcessor.updateBird(
-          EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
     }
 
-    if (duration == Integer.MAX_VALUE) {
-      // Intrinsic effect
+    switch (effectId) {
+      case EffectPool.BLESSING_OF_THE_BIRD -> ResultProcessor.updateBird(
+          EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
+      case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD -> ResultProcessor.updateBird(
+          EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
     }
 
     return EffectPool.get(effectId, duration);

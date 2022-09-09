@@ -7,7 +7,7 @@ Cast	Advanced Saucecrafting	reagentSummons
 Cast	Ancestral Recall	_ancestralRecallCasts	10
 Cast	Army of Toddlers	_armyToddlerCast
 Cast	Asdon Martin: Missile Launcher	_missileLauncherUsed
-Cast	Back-Up to your Last Enemy	_backUpUses	11
+Cast	Back-Up to your Last Enemy	_backUpUses	[11+path(You, Robot)*5]
 Cast	Baleful Howl	_balefulHowlUses	10
 Cast	Beancannon	_beanCannonUses	5
 Cast	Become a Bat	_vampyreCloakeFormUses	10
@@ -72,6 +72,7 @@ Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
 Cast	Jump Shark	_peteJumpedShark	3
 Cast	KGB tranquilizer dart	_kgbTranquilizerDartUses	3
 Cast	Lash of the Cobra	_edLashCount	30
+Cast	Launch spikolodon spikes	_spikolodonSpikeUses	5
 Cast	Lock Picking	lockPicked
 Cast	Long Con	_longConUsed	5
 Cast	Lunch Break	_lunchBreak
@@ -137,6 +138,7 @@ Tome	Summon Smithsness	_smithsnessSummons	3
 Tome	Summon Snowcones	_snowconeSummons	3
 Tome	Summon Stickers	_stickerSummons	3
 Tome	Summon Sugar Sheets	_sugarSummons	3
+Use	[glitch season reward name]	_glitchItemImplemented
 Use	CSA fire-starting kit	_fireStartingKitUsed
 Use	Chester's bag of candy	_bagOfCandyUsed
 Use	Chroner cross	_chronerCrossUsed

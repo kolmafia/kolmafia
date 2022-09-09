@@ -1,0 +1,10 @@
+aggregate boolean [string]
+Hot Damage: +10 => true
+Maximum MP Percent: +30 => true
+Muscle: -20 => true
+Pants Drop: +30 => true
+aggregate boolean [string]
+Hot Resistance: +3 => true
+Maximum HP Percent: -50 => true
+Moxie Percent: +25 => true
+Muscle Percent: +25 => true
