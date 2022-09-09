@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Objects;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -189,6 +190,15 @@ class ValueTest {
           "compare int to other int", value.compareTo(new Value(200)), lessThanOrEqualTo(-1));
       assertThat("compare int to same int", value.compareTo(new Value(150)), is(0));
       assertThat(
+          "compare int to equivalent path",
+          new Value(7).compareTo(DataTypes.makePathValue(Path.TRENDY)),
+          is(0));
+      assertThat(
+          "compare int to equivalent monster",
+          value.compareTo(DataTypes.makeMonsterValue(MonsterDatabase.findMonster("batrat"))),
+          is(0));
+
+      assertThat(
           "compare int to thrall",
           value.compareTo(DataTypes.makeThrallValue(2, true)),
           greaterThanOrEqualTo(1));
@@ -232,10 +242,10 @@ class ValueTest {
     }
 
     @Test
-    void compareKnownIdMonsters() {
+    void compareMonsters() {
       var vampire = Objects.requireNonNull(DataTypes.makeMonsterValue(1, true));
       assertThat(
-          "two known monster ids are compared by id",
+          "compare two known monster ids by id",
           vampire.compareTo(DataTypes.makeMonsterValue(MonsterDatabase.findMonster("dodecapede"))),
           lessThanOrEqualTo(-1));
 
@@ -244,17 +254,48 @@ class ValueTest {
               DataTypes.makeMonsterValue(MonsterDatabase.findMonster("ancient protector spirit")));
 
       assertThat(
-          "unknown monster id is compared to known monster id by name",
+          "compare unknown monster id to known monster id by name",
           vampire.compareTo(aps),
           greaterThanOrEqualTo(1));
       assertThat(
-          "known monster id is compared to unknown monster id by name",
+          "compare known monster id to unknown monster id by name",
           aps.compareTo(vampire),
           lessThanOrEqualTo(-1));
     }
 
     @Test
-    void compareUnknownIdMonsters() {}
+    void comparePaths() {
+      var value = DataTypes.makePathValue(Path.AVATAR_OF_BORIS);
+      assertThat(
+          "compare path to other path",
+          value.compareTo(DataTypes.makePathValue(Path.BEES_HATE_YOU)),
+          greaterThanOrEqualTo(1));
+      assertThat(
+          "compare path to same path",
+          value.compareTo(DataTypes.makePathValue(Path.AVATAR_OF_BORIS)),
+          greaterThanOrEqualTo(0));
+      assertThat(
+          "compare path to equivalent string",
+          value.compareTo(new Value("Avatar of Boris")),
+          greaterThanOrEqualTo(0));
+      assertThat(
+          "compare path to equivalent int", value.compareTo(new Value(8)), greaterThanOrEqualTo(0));
+    }
+
+    @Test
+    void compareStrings() {
+      var value = new Value("some random string");
+      assertThat(
+          "compare string to other string",
+          value.compareTo(new Value("zzz")),
+          lessThanOrEqualTo(-1));
+      assertThat(
+          "compare string to same string", value.compareTo(new Value("some random string")), is(0));
+      assertThat(
+          "compare string to equivalent path",
+          new Value("Trendy").compareTo(DataTypes.makePathValue(Path.TRENDY)),
+          is(0));
+    }
 
     @Test
     void compareVykeas() {
