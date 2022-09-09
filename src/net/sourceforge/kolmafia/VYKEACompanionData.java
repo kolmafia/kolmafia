@@ -277,6 +277,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   }
 
   public static int stringToType(final String type) {
+    if (type == null) return NONE;
     return switch (type) {
       case "bookshelf" -> BOOKSHELF;
       case "ceiling fan" -> CEILING_FAN;
@@ -302,6 +303,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   }
 
   public static AdventureResult stringToRune(final String rune) {
+    if (rune == null) return NO_RUNE;
     return switch (rune) {
       case "frenzy" -> FRENZY_RUNE;
       case "blood" -> BLOOD_RUNE;
