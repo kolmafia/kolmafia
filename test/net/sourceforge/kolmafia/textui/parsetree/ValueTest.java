@@ -273,13 +273,12 @@ class ValueTest {
       assertThat(
           "compare path to same path",
           value.compareTo(DataTypes.makePathValue(Path.AVATAR_OF_BORIS)),
-          greaterThanOrEqualTo(0));
+          is(0));
       assertThat(
           "compare path to equivalent string",
           value.compareTo(new Value("Avatar of Boris")),
-          greaterThanOrEqualTo(0));
-      assertThat(
-          "compare path to equivalent int", value.compareTo(new Value(8)), greaterThanOrEqualTo(0));
+          is(0));
+      assertThat("compare path to equivalent int", value.compareTo(new Value(8)), is(0));
     }
 
     @Test
