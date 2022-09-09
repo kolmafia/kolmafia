@@ -922,5 +922,11 @@ public class ItemFinderTest {
     assertTrue(item != null);
     assertEquals(item.getItemId(), ItemPool.ONE_MEAT);
     assertEquals(item.getCount(), 1);
+    // Fuzzy match - see https://wiki.kolmafia.us/index.php/CLI_Reference#Item_Parameter
+    item = ItemFinder.getFirstMatchingItem("1 WA", false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertEquals(ItemPool.WA, item.getItemId()); // Expected, got order
+    assertEquals(item.getCount(), 1);
   }
 }
