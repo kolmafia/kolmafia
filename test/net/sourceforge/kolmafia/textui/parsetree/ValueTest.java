@@ -339,11 +339,11 @@ class ValueTest {
           hasSign(ZERO));
 
       assertThat(
-          "$vykea[level 1 blood dresser] == \"la\"",
+          "$vykea[level 1 blood dresser] > \"la\"",
           value.compareTo(new Value("la")),
           hasSign(POSITIVE));
       assertThat(
-          "$vykea[level 1 blood dresser] == \"lz\"",
+          "$vykea[level 1 blood dresser] < \"lz\"",
           value.compareTo(new Value("lz")),
           hasSign(NEGATIVE));
     }
