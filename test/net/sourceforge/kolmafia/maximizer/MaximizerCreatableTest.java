@@ -13,6 +13,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class MaximizerCreatableTest {
   @BeforeAll
@@ -60,6 +62,19 @@ public class MaximizerCreatableTest {
     }
 
     @Test
+    public void cannotCreateBarrelItemsAfterPrayer() {
+      var cleanups =
+          new Cleanups(
+              withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", true));
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("ml");
+        recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+      }
+    }
+
+    @Test
     public void cannotCreateBarrelItemsInStandard() {
       var cleanups =
           new Cleanups(
@@ -71,6 +86,79 @@ public class MaximizerCreatableTest {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
         recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+      }
+    }
+  }
+
+  @Nested
+  class FantasyRealm {
+    @ParameterizedTest
+    @ValueSource(strings = {"frAlways", "_frToday"})
+    public void canCreateFantasyRealmItems(String pref) {
+      var cleanups = withProperty(pref, true);
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("moxie");
+        recommendedSlotIs(EquipmentManager.HAT, "FantasyRealm Rogue's Mask");
+      }
+    }
+
+    @Test
+    public void cannotCreateFantasyRealmItemsIfAlreadyUsed() {
+      var cleanups = new Cleanups(withProperty("frAlways", true), withProperty("_frHoursLeft", 5));
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("moxie");
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
+      }
+    }
+
+    @Test
+    public void cannotCreateFantasyRealmItemsInStandard() {
+      var cleanups =
+          new Cleanups(
+              withProperty("frAlways", true),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "FantasyRealm membership packet"));
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("moxie");
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
+      }
+    }
+  }
+
+  @Nested
+  class Floundry {
+    @Test
+    public void canCreateFloundryItems() {
+      var cleanups =
+          new Cleanups(
+              withClanLoungeItem(ItemPool.CLAN_FLOUNDRY), withClanLoungeItem(ItemPool.CARPE));
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("meat");
+        recommendedSlotIs(EquipmentManager.CONTAINER, "carpe");
+      }
+    }
+
+    @Test
+    public void cannotCreateFloundryItemsInStandard() {
+      var cleanups =
+          new Cleanups(
+              withClanLoungeItem(ItemPool.CLAN_FLOUNDRY),
+              withClanLoungeItem(ItemPool.CARPE),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Clan Floundry"));
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("meat");
+        recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
       }
     }
   }

@@ -992,6 +992,15 @@ public class Concoction implements Comparable<Concoction> {
         }
 
         return alreadyHave + purchaseRequest.affordableCount();
+    }
+
+    if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)
+        || Preferences.getBoolean(
+            "unknownRecipe" + this.getItemId())) { // Impossible to create any more of this item.
+      return alreadyHave;
+    }
+
+    switch (this.mixingMethod) {
       case FLOUNDRY:
         return alreadyHave + (ClanLoungeRequest.availableFloundryItem(this.name) ? 1 : 0);
       case BARREL:
@@ -1029,14 +1038,6 @@ public class Concoction implements Comparable<Concoction> {
             + (StringUtilities.isNumeric(Preferences.getString("_frHoursLeft")) ? 0 : 1);
       case STILLSUIT:
         return StillSuitRequest.canMake() ? 1 : 0;
-      default:
-        if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)
-            || Preferences.getBoolean(
-                "unknownRecipe"
-                    + this.getItemId())) { // Impossible to create any more of this item.
-          return alreadyHave;
-        }
-        break;
     }
 
     if (needToMake <= 0) { // Have enough on hand already.
