@@ -395,7 +395,6 @@ public class ItemFinder {
         matchList.add(name);
       }
     } else if (wrapHelper(parameters) != -1) {
-      //     } else if (ItemDatabase.getItemId(parameters, 1) != -1) {
       // The entire parameter is a single item
       itemId = ItemDatabase.getItemId(parameters, 1);
       matchList = new ArrayList<>();
@@ -653,7 +652,7 @@ public class ItemFinder {
     String itemCountString = parameters.substring(0, spaceIndex);
     if (!StringUtilities.isNumeric(itemCountString)) return -1;
     String possibleItem = parameters.substring(spaceIndex + 1).trim();
-    int possibleId = ItemDatabase.getItemId(possibleItem, 1);
+    int possibleId = ItemDatabase.getExactItemId(possibleItem);
     if (possibleId != -1) return -1;
     return ItemDatabase.getItemId(parameters, 1);
   }
