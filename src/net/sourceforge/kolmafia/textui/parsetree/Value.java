@@ -295,7 +295,7 @@ public class Value implements TypedNode, Comparable<Value> {
       return Double.compare(this.toFloatValue().floatValue(), o.toFloatValue().floatValue());
     }
 
-    if (COMPARE_BY_LONG.contains(this.getType())) {
+    if (COMPARE_BY_LONG.contains(this.getType()) || COMPARE_BY_LONG.contains(o.getType())) {
       return Long.compare(this.contentLong, o.contentLong);
     }
 
