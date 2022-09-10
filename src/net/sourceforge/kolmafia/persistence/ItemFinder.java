@@ -649,16 +649,12 @@ public class ItemFinder {
 
   private static int wrapHelper(String parameters) {
     int spaceIndex = parameters.indexOf(' ');
-    if (spaceIndex != -1) {
-      String itemCountString = parameters.substring(0, spaceIndex);
-      if (StringUtilities.isNumeric(itemCountString)) {
-        parameters = parameters.substring(spaceIndex + 1).trim();
-        int both = ItemDatabase.getItemId(parameters, 1);
-        if (both != -1) {
-          return -1;
-        }
-      }
-    }
+    if (spaceIndex == -1) return -1;
+    String itemCountString = parameters.substring(0, spaceIndex);
+    if (!StringUtilities.isNumeric(itemCountString)) return -1;
+    String possibleItem = parameters.substring(spaceIndex + 1).trim();
+    int possibleId = ItemDatabase.getItemId(possibleItem, 1);
+    if (possibleId != -1) return -1;
     return ItemDatabase.getItemId(parameters, 1);
   }
 }
