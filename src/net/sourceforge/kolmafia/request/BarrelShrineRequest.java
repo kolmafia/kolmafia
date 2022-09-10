@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -13,7 +14,8 @@ public class BarrelShrineRequest extends CreateItemRequest {
   }
 
   public static boolean availableBarrelItem(final String itemName) {
-    if (Preferences.getBoolean("barrelShrineUnlocked")) {
+    if (Preferences.getBoolean("barrelShrineUnlocked")
+        && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
       if (itemName.equals("barrel lid")
           && !Preferences.getBoolean("_barrelPrayer")
           && !Preferences.getBoolean("prayedForProtection")) {
