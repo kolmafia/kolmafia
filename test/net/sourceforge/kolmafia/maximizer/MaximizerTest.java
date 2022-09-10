@@ -826,7 +826,8 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("Monster Level Percent"));
-        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
 
@@ -841,7 +842,8 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("exp"));
-        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
 
