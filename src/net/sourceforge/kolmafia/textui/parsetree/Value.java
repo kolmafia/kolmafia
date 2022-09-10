@@ -298,7 +298,7 @@ public class Value implements TypedNode, Comparable<Value> {
 
     // Compare Doubles
     if ((this.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(this.getType()))
-        && (o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType())) {
+        && (o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType()))) {
       return Double.compare(this.toFloatValue().floatValue(), o.toFloatValue().floatValue());
     }
 
@@ -320,14 +320,14 @@ public class Value implements TypedNode, Comparable<Value> {
 
     // Compare numeric to possibly numeric string, if either is a numeric tupe
     if ((this.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(this.getType()))
-        && (o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType())) {
+        && (o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType()))) {
       // Compare numeric to numeric string
       if ((this.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(this.getType())) && StringUtilities.isNumeric(o.contentString)) {
         return Double.compare(this.toFloatValue().floatValue(), Double.parseDouble(o.contentString));
       }
 
       // Compare numeric string to numeric
-      if ((o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType()) && StringUtilities.isNumeric(this.contentString)) {
+      if ((o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType())) && StringUtilities.isNumeric(this.contentString)) {
         return Double.compare(Double.parseDouble(this.contentString), o.toFloatValue().floatValue());
       }
     }
