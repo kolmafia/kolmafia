@@ -911,7 +911,7 @@ public class ItemFinderTest {
     item = ItemFinder.getFirstMatchingItem("1 7-ball", false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertTrue(item != null);
-    //assertEquals(item.getItemId(), ItemPool.SEVEN_BALL);
+    assertEquals(item.getItemId(), ItemPool.SEVEN_BALL);
     assertEquals(item.getCount(), 1);
     // Meat, 1 Meat, 1 1 Meat
     item = ItemFinder.getFirstMatchingItem("Meat", false, null, Match.ANY);
@@ -931,7 +931,7 @@ public class ItemFinderTest {
     item = ItemFinder.getFirstMatchingItem("1 WA", false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertTrue(item != null);
-    //assertEquals(ItemPool.WA, item.getItemId()); // Expected, got order
+    assertEquals(ItemPool.WA, item.getItemId()); // Expected, got order
     assertEquals(item.getCount(), 1);
   }
 }
