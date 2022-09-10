@@ -5,6 +5,7 @@ import static internal.helpers.Player.*;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -32,11 +33,57 @@ public class MaximizerCreatableTest {
   }
 
   @Nested
+  class BarrelShrine {
+    @Test
+    public void canCreateBarrelItems() {
+      var cleanups = withProperty("barrelShrineUnlocked", true);
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("ml");
+        recommendedSlotIs(EquipmentManager.OFFHAND, "barrel lid");
+      }
+    }
+
+    @Test
+    public void cannotCreateBarrelItemsTwice() {
+      var cleanups =
+          new Cleanups(
+              withProperty("barrelShrineUnlocked", true),
+              withProperty("prayedForProtection", true));
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("ml");
+        recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+      }
+    }
+
+    @Test
+    public void cannotCreateBarrelItemsInStandard() {
+      var cleanups =
+          new Cleanups(
+              withProperty("barrelShrineUnlocked", true),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "shrine to the Barrel god"));
+
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        maximizeCreatable("ml");
+        recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+      }
+    }
+  }
+
+  @Nested
   class NPCStore {
     @Test
     public void canBuyUtensil() {
-      var cleanups = new Cleanups(withProperty("autoSatisfyWithNPCs", true),
-          withProperty("autoBuyPriceLimit", 2_000), withMeat(2000));
+      var cleanups =
+          new Cleanups(
+              withProperty("autoSatisfyWithNPCs", true),
+              withProperty("autoBuyPriceLimit", 2_000),
+              withMeat(2000));
 
       try (cleanups) {
         maximizeCreatable("spell dmg");
@@ -46,8 +93,12 @@ public class MaximizerCreatableTest {
 
     @Test
     public void buyBestUtensil() {
-      var cleanups = new Cleanups(withProperty("autoSatisfyWithNPCs", true),
-          withProperty("autoBuyPriceLimit", 2_000), withMeat(2000), withStats(100, 100, 100));
+      var cleanups =
+          new Cleanups(
+              withProperty("autoSatisfyWithNPCs", true),
+              withProperty("autoBuyPriceLimit", 2_000),
+              withMeat(2000),
+              withStats(100, 100, 100));
 
       try (cleanups) {
         maximizeCreatable("spell dmg");
@@ -57,7 +108,11 @@ public class MaximizerCreatableTest {
 
     @Test
     public void canOnlyBuyOneSphygmayomanometer() {
-      var cleanups = new Cleanups(withProperty("autoSatisfyWithNPCs", true), withWorkshedItem(ItemPool.MAYO_CLINIC), withStats(100, 100, 100));
+      var cleanups =
+          new Cleanups(
+              withProperty("autoSatisfyWithNPCs", true),
+              withWorkshedItem(ItemPool.MAYO_CLINIC),
+              withStats(100, 100, 100));
 
       try (cleanups) {
         maximizeCreatable("muscle");
@@ -70,8 +125,10 @@ public class MaximizerCreatableTest {
     @Test
     public void canOnlyBuyOneOversizedSparkler() {
       var cleanups =
-          new Cleanups(withProperty("autoSatisfyWithNPCs", true),
-              withSkill("Double-Fisted Skull Smashing"), withProperty("_fireworksShop", true));
+          new Cleanups(
+              withProperty("autoSatisfyWithNPCs", true),
+              withSkill("Double-Fisted Skull Smashing"),
+              withProperty("_fireworksShop", true));
 
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
@@ -84,7 +141,8 @@ public class MaximizerCreatableTest {
     @Test
     public void cannotCreateFireworkHatIfAlreadyHave() {
       var cleanups =
-          new Cleanups(withProperty("autoSatisfyWithNPCs", true),
+          new Cleanups(
+              withProperty("autoSatisfyWithNPCs", true),
               withProperty("_fireworksShop", true),
               withProperty("_fireworksShopHatBought", true));
 
