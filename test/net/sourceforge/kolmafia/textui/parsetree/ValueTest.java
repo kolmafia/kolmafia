@@ -314,10 +314,10 @@ class ValueTest {
 
     @Test
     compareStringToFloat() {
-        var value = new Value("5.2");
-        assertThat("\"5.2\" > 4.69", value.compareTo(new Value(4.69)), hasSign(POSITIVE));
-        assertThat("\"5.2\" == 5.2", value.compareTo(new Value(5.2)), hasSign(ZERO));
-        assertThat("\"5.2\" < 6.9", value.compareTo(new Value(true)), hasSign(NEGATIVE));
+      var value = new Value("5.2");
+      assertThat("\"5.2\" > 4.69", value.compareTo(new Value(4.69)), hasSign(POSITIVE));
+      assertThat("\"5.2\" == 5.2", value.compareTo(new Value(5.2)), hasSign(ZERO));
+      assertThat("\"5.2\" < 6.9", value.compareTo(new Value(true)), hasSign(NEGATIVE));
     }
 
     @Test
