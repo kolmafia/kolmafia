@@ -310,7 +310,8 @@ public class Value implements TypedNode, Comparable<Value> {
     }
 
     // If either Monster, compare IDs if known
-    if (this.getType().equals(DataTypes.MONSTER_TYPE) || o.getType().equals(DataTypes.MONSTER_TYPE)) {
+    if (this.getType().equals(DataTypes.MONSTER_TYPE)
+        || o.getType().equals(DataTypes.MONSTER_TYPE)) {
       // If we know a monster ID, compare it
       if (this.contentLong != 0 || o.contentLong != 0) {
         return Long.compare(this.contentLong, o.contentLong);
@@ -322,17 +323,20 @@ public class Value implements TypedNode, Comparable<Value> {
     if ((this.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(this.getType()))
         && (o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType()))) {
       // Compare numeric to numeric string
-      if ((this.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(this.getType())) && StringUtilities.isNumeric(o.contentString)) {
+      if ((this.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(this.getType()))
+          && StringUtilities.isNumeric(o.contentString)) {
         return Double.compare(this.toFloatValue().floatValue(), Double.parseDouble(o.contentString));
       }
 
       // Compare numeric string to numeric
-      if ((o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType())) && StringUtilities.isNumeric(this.contentString)) {
+      if ((o.getType().equals(DataTypes.FLOAT_TYPE) || COMPARE_BY_LONG.contains(o.getType()))
+          && StringUtilities.isNumeric(this.contentString)) {
         return Double.compare(Double.parseDouble(this.contentString), o.toFloatValue().floatValue());
       }
     }
     // Compare numeric string to numeric string, if neither is a numeric type
-    else if (StringUtilities.isNumeric(this.contentString) && StringUtilities.isNumeric(o.contentString)) {
+    else if (StringUtilities.isNumeric(this.contentString)
+        && StringUtilities.isNumeric(o.contentString)) {
       return Double.compare(Double.parseDouble(this.contentString), Double.parseDouble(o.contentString));
     }
 
