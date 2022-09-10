@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.eclipse.lsp4j.Location;
 import org.json.JSONException;
 
