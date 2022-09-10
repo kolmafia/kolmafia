@@ -142,12 +142,15 @@ public class Player {
     EquipmentManager.setEquipment(slot, item.getItemId() == -1 ? EquipmentRequest.UNEQUIP : item);
     EquipmentManager.updateNormalOutfits();
     KoLCharacter.recalculateAdjustments();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
     cleanups.add(
         new Cleanups(
             () -> {
               EquipmentManager.setEquipment(slot, old);
               EquipmentManager.updateNormalOutfits();
               KoLCharacter.recalculateAdjustments();
+              ConcoctionDatabase.refreshConcoctions();
             }));
     return cleanups;
   }
@@ -299,12 +302,15 @@ public class Player {
     var old = item.getCount(list);
     AdventureResult.addResultToList(list, item);
     EquipmentManager.updateEquipmentLists();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
 
     return new Cleanups(
         () -> {
           AdventureResult.removeResultFromList(list, item);
           if (old != 0) AdventureResult.addResultToList(list, item.getInstance(old));
           EquipmentManager.updateEquipmentLists();
+          ConcoctionDatabase.refreshConcoctions();
         });
   }
 
