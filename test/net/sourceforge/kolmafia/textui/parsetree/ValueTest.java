@@ -305,7 +305,7 @@ class ValueTest {
     }
 
     @Test
-    void compareStringToInt() {
+    void compareNumericStringToInt() {
       var value = new Value("150");
       assertThat("\"150\" < 200", value.compareTo(new Value(200)), hasSign(NEGATIVE));
       assertThat("\"150\" == 150", value.compareTo(new Value(150)), hasSign(ZERO));
@@ -313,11 +313,35 @@ class ValueTest {
     }
 
     @Test
-    void compareStringToFloat() {
+    void compareIntToNumericString() {
+      var value = new Value(150);
+      assertThat("150 < 200", value.compareTo(new Value("200")), hasSign(NEGATIVE));
+      assertThat("150 == 150", value.compareTo(new Value("150")), hasSign(ZERO));
+      assertThat("150 > 100", value.compareTo(new Value("100")), hasSign(POSITIVE));
+    }
+
+    @Test
+    void compareNumericStringToFloat() {
       var value = new Value("5.2");
       assertThat("\"5.2\" > 4.69", value.compareTo(new Value(4.69)), hasSign(POSITIVE));
       assertThat("\"5.2\" == 5.2", value.compareTo(new Value(5.2)), hasSign(ZERO));
       assertThat("\"5.2\" < 6.9", value.compareTo(new Value(6.9)), hasSign(NEGATIVE));
+    }
+
+    @Test
+    void compareFloatToNumericString() {
+      var value = new Value(5.2);
+      assertThat("5.2 > \"4.69\"", value.compareTo(new Value("4.69")), hasSign(POSITIVE));
+      assertThat("5.2 == \"5.2\"", value.compareTo(new Value("5.2")), hasSign(ZERO));
+      assertThat("5.2 < \"6.9\"", value.compareTo(new Value("6.9")), hasSign(NEGATIVE));
+    }
+
+    @Test
+    void compareNumericStrings() {
+      var value = new Value("5.2");
+      assertThat("\"5.2\" > \"4.69\"", value.compareTo(new Value("4.69")), hasSign(POSITIVE));
+      assertThat("\"5.2\" == \"5.2\"", value.compareTo(new Value("5.2")), hasSign(ZERO));
+      assertThat("\"5.2\" < \"6.9\"", value.compareTo(new Value("6.9")), hasSign(NEGATIVE));
     }
 
     @Test
