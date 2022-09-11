@@ -25,7 +25,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><i><nobr><b><font color=#999999>fortune cookie (0 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;1 full, +1.00 adv, semi-rare numbers</i></nobr></html>"));
+              "<html><nobr><b><font color=#999999>fortune cookie (1 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;1 full, +1.00 adv, semi-rare numbers</nobr></html>"));
     }
   }
 
@@ -42,7 +42,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><i><nobr><b>plain pizza (0 possible, 1 current)</b></nobr><br><nobr>&nbsp;2 full, +3.00 adv, PIZZA</i></nobr></html>"));
+              "<html><nobr><b>plain pizza (1 possible, 1 current)</b></nobr><br><nobr>&nbsp;2 full, +3.00 adv, PIZZA</nobr></html>"));
     }
   }
 
@@ -59,7 +59,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><i><nobr><b><font color=green>blackberry (0 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;1 full, +2.50 adv, +3.0 mus, +3.0 mys, +3.0 mox</i></nobr></html>"));
+              "<html><nobr><b><font color=green>blackberry (1 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;1 full, +2.50 adv, +3.0 mus, +3.0 mys, +3.0 mox</nobr></html>"));
     }
   }
 
@@ -76,7 +76,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><i><nobr><b><font color=gray>blackberry (0 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;1 full, +2.50 adv, +3.0 mus, +3.0 mys, +3.0 mox</i></nobr></html>"));
+              "<html><nobr><b><font color=gray>blackberry (1 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;1 full, +2.50 adv, +3.0 mus, +3.0 mys, +3.0 mox</nobr></html>"));
     }
   }
 
@@ -93,7 +93,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><i><nobr><b><font color=#964B00>drippy plum(?) (0 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;5 full, +5.00 adv, 5 µg of Drippy Juice</i></nobr></html>"));
+              "<html><nobr><b><font color=#964B00>drippy plum(?) (1 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;5 full, +5.00 adv, 5 µg of Drippy Juice</nobr></html>"));
     }
   }
 
@@ -110,7 +110,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><i><nobr><b>astral hot dog (<font color=green>?</font><font color=red>?</font><font color=gray>?</font>, 0 possible, 1 current)</b></nobr><br><nobr>&nbsp;3 full, +16.00 adv, +144.0 mus, +144.0 mys, +144.0 mox</i></nobr></html>"));
+              "<html><nobr><b>astral hot dog (<font color=green>?</font><font color=red>?</font><font color=gray>?</font>, 1 possible, 1 current)</b></nobr><br><nobr>&nbsp;3 full, +16.00 adv, +144.0 mus, +144.0 mys, +144.0 mox</nobr></html>"));
     }
   }
 
@@ -127,7 +127,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><nobr><b><font color=blue>Taco Dan's Taco Fish Fish Taco (2 Beach Bucks, 0 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;2 full, +8.00 adv, +50.0 mus, +50.0 mys, +50.0 mox</nobr></html>"));
+              "<html><nobr><b><font color=blue>Taco Dan's Taco Fish Fish Taco (2 Beach Bucks, 1 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;2 full, +8.00 adv, +50.0 mus, +50.0 mys, +50.0 mox</nobr></html>"));
     }
   }
 
@@ -144,7 +144,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><i><nobr><b><font color=#8a2be2>Mr. Burnsger (0 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;4 full, +28.00 adv, +30.0 mus, +30.0 mys, +30.0 mox, -2 Drunkenness</i></nobr></html>"));
+              "<html><nobr><b><font color=#8a2be2>Mr. Burnsger (1 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;4 full, +28.00 adv, +30.0 mus, +30.0 mys, +30.0 mox, -2 Drunkenness</nobr></html>"));
     }
   }
 
@@ -161,7 +161,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><i><nobr><b>fortune cookie (0 possible, 1 current)</b></nobr><br><nobr>&nbsp;1 full, +1.00 adv, semi-rare numbers</i></nobr></html>"));
+              "<html><nobr><b>fortune cookie (1 possible, 1 current)</b></nobr><br><nobr>&nbsp;1 full, +1.00 adv, semi-rare numbers</nobr></html>"));
     }
   }
 }

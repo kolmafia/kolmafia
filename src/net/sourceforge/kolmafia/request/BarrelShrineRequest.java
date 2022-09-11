@@ -4,7 +4,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -15,20 +14,14 @@ public class BarrelShrineRequest extends CreateItemRequest {
 
   public static boolean availableBarrelItem(final String itemName) {
     if (Preferences.getBoolean("barrelShrineUnlocked")
-        && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
-      if (itemName.equals("barrel lid")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForProtection")) {
+        && !Preferences.getBoolean("_barrelPrayer")) {
+      if (itemName.equals("barrel lid") && !Preferences.getBoolean("prayedForProtection")) {
         return true;
       }
-      if (itemName.equals("barrel hoop earring")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForGlamour")) {
+      if (itemName.equals("barrel hoop earring") && !Preferences.getBoolean("prayedForGlamour")) {
         return true;
       }
-      if (itemName.equals("bankruptcy barrel")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForVigor")) {
+      if (itemName.equals("bankruptcy barrel") && !Preferences.getBoolean("prayedForVigor")) {
         return true;
       }
     }
