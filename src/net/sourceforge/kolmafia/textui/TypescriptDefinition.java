@@ -88,7 +88,7 @@ public class TypescriptDefinition {
             .collect(Collectors.toList());
 
     switch (f.getName()) {
-      case "adv1, adventure" -> {
+      case "adv1", "adventure" -> {
         if (paramTypes.size() >= 3) {
           paramTypes.set(2, combatFilterType);
         }
@@ -115,7 +115,7 @@ public class TypescriptDefinition {
     return getType(f.getType());
   }
 
-  private static String formatFunction(LibraryFunction f) {
+  public static String formatFunction(LibraryFunction f) {
     var name = JavascriptRuntime.toCamelCase(f.getName());
     var type = getReturnType(f);
     var paramTypes = getParamTypes(f);
@@ -212,6 +212,7 @@ public class TypescriptDefinition {
               "export type %s = %s;",
               unionType,
               values.stream()
+                  .sorted()
                   .map(v -> String.format("\"%s\"", v))
                   .collect(Collectors.joining(" | "))));
     }
@@ -236,17 +237,20 @@ public class TypescriptDefinition {
         .toList();
   }
 
+  public static String getContents() {
+    return Stream.of(getFunctions(), getAbstractMafiaClass(), getMafiaClasses())
+        .flatMap(Collection::stream)
+        .collect(Collectors.joining("\n"));
+  }
+
   public static void main(final String[] args) {
-    var definitionFile =
-        Stream.of(getFunctions(), getAbstractMafiaClass(), getMafiaClasses())
-            .flatMap(Collection::stream)
-            .collect(Collectors.joining("\n"));
+    var contents = getContents();
 
     try {
       Files.write(
           Path.of("./index.d.ts"),
-          definitionFile.getBytes(),
-          StandardOpenOption.WRITE,
+          contents.getBytes(),
+          StandardOpenOption.TRUNCATE_EXISTING,
           StandardOpenOption.CREATE);
     } catch (IOException e) {
       System.out.println("Cannot write to index.d.ts");
