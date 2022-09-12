@@ -100,18 +100,6 @@ public class Operator extends Command {
     return -1;
   }
 
-  public static boolean isStringLike(Type type) {
-    return type.equals(DataTypes.TYPE_STRING)
-        || type.equals(DataTypes.TYPE_BUFFER)
-        || type.equals(DataTypes.TYPE_LOCATION)
-        || type.equals(DataTypes.TYPE_STAT)
-        || type.equals(DataTypes.TYPE_MONSTER)
-        || type.equals(DataTypes.TYPE_ELEMENT)
-        || type.equals(DataTypes.TYPE_COINMASTER)
-        || type.equals(DataTypes.TYPE_PHYLUM)
-        || type.equals(DataTypes.TYPE_BOUNTY);
-  }
-
   public boolean isArithmetic() {
     return this.operator.equals("+")
         || this.operator.equals("-")
@@ -294,7 +282,7 @@ public class Operator extends Command {
     Value result;
 
     // If either side is non-numeric, perform string operations
-    if (Operator.isStringLike(ltype) || Operator.isStringLike(rtype)) {
+    if (ltype.isStringLike() || rtype.isStringLike()) {
       // Since we only do string concatenation, we should
       // only get here if the operator is "+".
       if (!this.operator.equals("+")) {
