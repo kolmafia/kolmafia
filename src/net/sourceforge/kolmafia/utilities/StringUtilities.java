@@ -944,4 +944,8 @@ public class StringUtilities {
 
     return StringUtilities.getEntityDecode(s, false).trim();
   }
+
+  public static String capitalize(final String s) {
+    return s.substring(0, 1).toUpperCase() + s.substring(1);
+  }
 }

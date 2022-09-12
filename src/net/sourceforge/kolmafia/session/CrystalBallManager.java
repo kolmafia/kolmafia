@@ -35,6 +35,8 @@ public final class CrystalBallManager {
     Pattern.compile("if you stick around here you're going to run into <b>an? (.*?)</b>")
   };
 
+  private static final AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL);
+
   private CrystalBallManager() {}
 
   public static class Prediction implements Comparable<Prediction> {
@@ -151,15 +153,13 @@ public final class CrystalBallManager {
   }
 
   // EncounterManager methods
+  private static boolean isEquipped() {
+    return KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR);
+  }
 
   public static boolean isCrystalBallZone(final String zone) {
-    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
-      if (prediction.location.equalsIgnoreCase(zone)) {
-        return true;
-      }
-    }
-
-    return false;
+    if (!isEquipped()) return false;
+    return predictions.values().stream().anyMatch(p -> p.location.equalsIgnoreCase(zone));
   }
 
   public static boolean isCrystalBallMonster() {
@@ -174,17 +174,9 @@ public final class CrystalBallManager {
   public static boolean isCrystalBallMonster(final String monster, final String zone) {
     // There's no message to check for so assume the correct monster in the correct zone is from the
     // crystal ball (if it is equipped)
-    AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
-    if (KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR)) {
-      for (final Prediction prediction : CrystalBallManager.predictions.values()) {
-        if (prediction.monster.equalsIgnoreCase(monster)
-            && prediction.location.equalsIgnoreCase(zone)) {
-          return true;
-        }
-      }
-    }
-
-    return false;
+    if (!isEquipped()) return false;
+    return predictions.values().stream()
+        .anyMatch(p -> p.monster.equalsIgnoreCase(monster) && p.location.equalsIgnoreCase(zone));
   }
 
   public static boolean own() {
@@ -198,7 +190,7 @@ public final class CrystalBallManager {
     RequestThread.postRequest(new GenericRequest("inventory.php?ponder=1", false));
   }
 
-  private static Pattern POSSIBLE_PREDICTION =
+  private static final Pattern POSSIBLE_PREDICTION =
       Pattern.compile("<li> +(?:an?|the|some)? ?(.*?) in (.*?)</li>");
 
   public static void parsePonder(final String responseText) {
