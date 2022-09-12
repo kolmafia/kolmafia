@@ -276,6 +276,17 @@ task cleanJpackage(type: Delete) {
 	delete 'build/releases'
 }
 
+gradle.taskGraph.whenReady { graph ->
+	if (graph.hasTask(":tsDefs") || graph.hasTask(":test")) {
+		compileJava.options.compilerArgs += "-parameters"
+	}
+}
+
+task tsDefs(type: JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+	mainClass = "net.sourceforge.kolmafia.textui.TypescriptDefinition"
+}
+
 tasks.jpackage {
 	dependsOn shadowJar, cleanJpackage
 	input = 'dist'
