@@ -1718,13 +1718,17 @@ public abstract class InventoryManager {
   }
 
   public static void checkCoatOfPaint() {
+    checkCoatOfPaint(false);
+  }
+
+  public static void checkCoatOfPaint(boolean ignoreExistingModifiers) {
     AdventureResult COAT_OF_PAINT = ItemPool.get(ItemPool.COAT_OF_PAINT, 1);
     String mod = Preferences.getString("_coatOfPaintModifier");
     if (!KoLCharacter.hasEquipped(COAT_OF_PAINT, EquipmentManager.SHIRT)
         && !KoLConstants.inventory.contains(COAT_OF_PAINT)) {
       return;
     }
-    if (!mod.equals("")) {
+    if (!ignoreExistingModifiers && !mod.equals("")) {
       Modifiers.overrideModifier("Item:[" + ItemPool.COAT_OF_PAINT + "]", mod);
       return;
     }
