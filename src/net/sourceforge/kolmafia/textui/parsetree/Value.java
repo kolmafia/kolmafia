@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -139,6 +138,10 @@ public class Value implements TypedNode, Comparable<Value> {
       return ((StringBuffer) this.content).toString();
     }
 
+    if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
+      return this.content.toString();
+    }
+
     if (this.getType().equals(DataTypes.TYPE_VOID)) {
       return "void";
     }
@@ -193,58 +196,26 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   public Value asProxy() {
-    if (this.getType().equals(DataTypes.CLASS_TYPE)) {
-      return new ProxyRecordValue.ClassProxy(this);
-    }
-    if (this.getType().equals(DataTypes.ITEM_TYPE)) {
-      return new ProxyRecordValue.ItemProxy(this);
-    }
-    if (this.getType().equals(DataTypes.FAMILIAR_TYPE)) {
-      return new ProxyRecordValue.FamiliarProxy(this);
-    }
-    if (this.getType().equals(DataTypes.SKILL_TYPE)) {
-      return new ProxyRecordValue.SkillProxy(this);
-    }
-    if (this.getType().equals(DataTypes.EFFECT_TYPE)) {
-      return new ProxyRecordValue.EffectProxy(this);
-    }
-    if (this.getType().equals(DataTypes.LOCATION_TYPE)) {
-      return new ProxyRecordValue.LocationProxy(this);
-    }
-    if (this.getType().equals(DataTypes.MONSTER_TYPE)) {
-      return new ProxyRecordValue.MonsterProxy(this);
-    }
-    if (this.getType().equals(DataTypes.COINMASTER_TYPE)) {
-      return new ProxyRecordValue.CoinmasterProxy(this);
-    }
-    if (this.getType().equals(DataTypes.BOUNTY_TYPE)) {
-      return new ProxyRecordValue.BountyProxy(this);
-    }
-    if (this.getType().equals(DataTypes.THRALL_TYPE)) {
-      return new ProxyRecordValue.ThrallProxy(this);
-    }
-    if (this.getType().equals(DataTypes.SERVANT_TYPE)) {
-      return new ProxyRecordValue.ServantProxy(this);
-    }
-    if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
-      return new ProxyRecordValue.VykeaProxy(this);
-    }
-    if (this.getType().equals(DataTypes.PATH_TYPE)) {
-      return new ProxyRecordValue.PathProxy(this);
-    }
-    if (this.getType().equals(DataTypes.ELEMENT_TYPE)) {
-      return new ProxyRecordValue.ElementProxy(this);
-    }
-    if (this.getType().equals(DataTypes.PHYLUM_TYPE)) {
-      return new ProxyRecordValue.PhylumProxy(this);
-    }
-    if (this.getType().equals(DataTypes.STAT_TYPE)) {
-      return new ProxyRecordValue.StatProxy(this);
-    }
-    if (this.getType().equals(DataTypes.SLOT_TYPE)) {
-      return new ProxyRecordValue.SlotProxy(this);
-    }
-    return this;
+    return switch (this.getType().getType()) {
+      case DataTypes.TYPE_CLASS -> new ProxyRecordValue.ClassProxy(this);
+      case DataTypes.TYPE_ITEM -> new ProxyRecordValue.ItemProxy(this);
+      case DataTypes.TYPE_FAMILIAR -> new ProxyRecordValue.FamiliarProxy(this);
+      case DataTypes.TYPE_SKILL -> new ProxyRecordValue.SkillProxy(this);
+      case DataTypes.TYPE_EFFECT -> new ProxyRecordValue.EffectProxy(this);
+      case DataTypes.TYPE_LOCATION -> new ProxyRecordValue.LocationProxy(this);
+      case DataTypes.TYPE_MONSTER -> new ProxyRecordValue.MonsterProxy(this);
+      case DataTypes.TYPE_COINMASTER -> new ProxyRecordValue.CoinmasterProxy(this);
+      case DataTypes.TYPE_BOUNTY -> new ProxyRecordValue.BountyProxy(this);
+      case DataTypes.TYPE_THRALL -> new ProxyRecordValue.ThrallProxy(this);
+      case DataTypes.TYPE_SERVANT -> new ProxyRecordValue.ServantProxy(this);
+      case DataTypes.TYPE_VYKEA -> new ProxyRecordValue.VykeaProxy(this);
+      case DataTypes.TYPE_PATH -> new ProxyRecordValue.PathProxy(this);
+      case DataTypes.TYPE_ELEMENT -> new ProxyRecordValue.ElementProxy(this);
+      case DataTypes.TYPE_PHYLUM -> new ProxyRecordValue.PhylumProxy(this);
+      case DataTypes.TYPE_STAT -> new ProxyRecordValue.StatProxy(this);
+      case DataTypes.TYPE_SLOT -> new ProxyRecordValue.SlotProxy(this);
+      default -> this;
+    };
   }
 
   /* null-safe version of the above */
@@ -253,6 +224,16 @@ public class Value implements TypedNode, Comparable<Value> {
       return null;
     }
     return value.asProxy();
+  }
+
+  public boolean isStringLike() {
+    var type = this.getType();
+
+    if (type == DataTypes.MONSTER_TYPE) {
+      return this.contentLong == 0;
+    }
+
+    return type.isStringLike();
   }
 
   public static final Comparator<Value> ignoreCaseComparator =
@@ -272,58 +253,29 @@ public class Value implements TypedNode, Comparable<Value> {
     return this.compareTo(o, true);
   }
 
-  private static final Set<Type> COMPARE_BY_LONG =
-      Set.of(
-          DataTypes.BOOLEAN_TYPE,
-          DataTypes.CLASS_TYPE,
-          DataTypes.EFFECT_TYPE,
-          DataTypes.FAMILIAR_TYPE,
-          DataTypes.INT_TYPE,
-          DataTypes.ITEM_TYPE,
-          DataTypes.PATH_TYPE,
-          DataTypes.SERVANT_TYPE,
-          DataTypes.SKILL_TYPE,
-          DataTypes.SLOT_TYPE,
-          DataTypes.THRALL_TYPE);
-
   private int compareTo(final Value o, final boolean ignoreCase) {
     if (o == null) {
       throw new ClassCastException();
+    }
+
+    // If both Vykeas, defer to Vykea compareTo. Otherwise, compare as normal
+    if (this.getType().equals(DataTypes.VYKEA_TYPE) && o.getType().equals(DataTypes.VYKEA_TYPE)) {
+      VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
+      VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
+      return v1.compareTo(v2);
+    }
+
+    if (this.isStringLike() || o.isStringLike()) {
+      return ignoreCase
+          ? this.toString().compareToIgnoreCase(o.toString())
+          : this.toString().compareTo(o.toString());
     }
 
     if (this.getType().equals(DataTypes.FLOAT_TYPE) || o.getType().equals(DataTypes.FLOAT_TYPE)) {
       return Double.compare(this.toFloatValue().floatValue(), o.toFloatValue().floatValue());
     }
 
-    if (COMPARE_BY_LONG.contains(this.getType())) {
-      return Long.compare(this.contentLong, o.contentLong);
-    }
-
-    if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
-      // If both Vykeas, let the underlying data type itself decide
-      if (o.getType().equals(DataTypes.VYKEA_TYPE)) {
-        VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
-        VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
-        return v1.compareTo(v2);
-      }
-      // Otherwise, compare by string
-    }
-
-    if (this.getType().equals(DataTypes.MONSTER_TYPE)) {
-      // If we know a monster ID, compare it
-      if (this.contentLong != 0 || o.contentLong != 0) {
-        return Long.compare(this.contentLong, o.contentLong);
-      }
-      // Otherwise, must compare names
-    }
-
-    if (this.contentString != null && o.contentString != null) {
-      return ignoreCase
-          ? this.contentString.compareToIgnoreCase(o.contentString)
-          : this.contentString.compareTo(o.contentString);
-    }
-
-    return -1;
+    return Long.compare(this.contentLong, o.contentLong);
   }
 
   public int count() {

@@ -87,7 +87,7 @@ public class TernaryExpression extends Expression {
       return null;
     }
 
-    if (Operator.isStringLike(this.lhs.getType()) != Operator.isStringLike(this.rhs.getType())) {
+    if (this.lhs.getType().isStringLike() != this.rhs.getType().isStringLike()) {
       executeResult = executeResult.toStringValue();
     }
     if (ScriptRuntime.isTracing()) {
