@@ -32,7 +32,7 @@ import org.eclipse.lsp4j.Location;
 public class Type extends Symbol {
   public boolean primitive;
   private final int type;
-  private Value allValues = null;
+  private PluralValue allValues = null;
 
   public Type(final String name, final int type) {
     this(name, type, null);
@@ -347,7 +347,7 @@ public class Type extends Symbol {
     return null;
   }
 
-  public Value allValues() {
+  public PluralValue allValues() {
     if (this.allValues != null) return this.allValues;
 
     List<Value> list = new ArrayList<>();
