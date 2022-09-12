@@ -1972,9 +1972,9 @@ public class KoLAdventureValidationTest {
     public void cannotVisitPalindomeWithTalismanComponentsAndNoMeat() {
       var cleanups =
           new Cleanups(
-              withItem(ItemPool.TALISMAN, 0),
               withItem(ItemPool.COPPERHEAD_CHARM),
-              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT));
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
+              withMeat(0));
       try (cleanups) {
         assertFalse(PALINDOME.canAdventure());
       }
@@ -1998,7 +1998,6 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withItem(ItemPool.TALISMAN, 0),
               withItem(ItemPool.COPPERHEAD_CHARM),
               withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
               withMeat(10));
@@ -2032,7 +2031,6 @@ public class KoLAdventureValidationTest {
     public void canVisitPalindomeWithComponentsAndThePlunger() {
       var cleanups =
           new Cleanups(
-              withItem(ItemPool.TALISMAN, 0),
               withItem(ItemPool.COPPERHEAD_CHARM),
               withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
               withSign(ZodiacSign.VOLE));
@@ -2047,7 +2045,6 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withItem(ItemPool.TALISMAN, 0),
               withItem(ItemPool.COPPERHEAD_CHARM),
               withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
               withSign(ZodiacSign.VOLE));
