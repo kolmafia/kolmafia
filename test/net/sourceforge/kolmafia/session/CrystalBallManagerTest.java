@@ -42,9 +42,16 @@ public class CrystalBallManagerTest {
 
   @Test
   public void crystalBallZoneTest() {
-    assertTrue(CrystalBallManager.isCrystalBallZone("The Smut Orc Logging Camp"));
-    assertTrue(CrystalBallManager.isCrystalBallZone("The Defiled Nook"));
-    assertFalse(CrystalBallManager.isCrystalBallZone("The Defiled Niche"));
+    var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.BADGER),
+            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+
+    try (cleanups) {
+      assertTrue(CrystalBallManager.isCrystalBallZone("The Smut Orc Logging Camp"));
+      assertTrue(CrystalBallManager.isCrystalBallZone("The Defiled Nook"));
+      assertFalse(CrystalBallManager.isCrystalBallZone("The Defiled Niche"));
+    }
   }
 
   @ParameterizedTest
