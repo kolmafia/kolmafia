@@ -721,6 +721,55 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
+    if (this.parentZone.equals("Manor")) {
+      // Spookyraven Manor quests:
+      //
+      // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
+      // Quest.SPOOKYRAVEN_DANCE	Lady Spookyraven
+      // Quest.SPOOKYRAVEN_BABIES	Lady Spookyraven
+      // Quest.MANOR			Lord Spookyraven
+
+      if (this.zone.equals("Manor0")) {
+        return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED);
+      }
+
+      if (this.zone.equals("Manor1")) {
+        return switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> QuestDatabase
+              .isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
+          case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
+          case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(
+              ItemPool.BILLIARDS_KEY);
+          default -> true;
+        };
+      }
+
+      if (this.zone.equals("Manor2")) {
+        return switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_BATHROOM,
+              AdventurePool.HAUNTED_BEDROOM,
+              AdventurePool.HAUNTED_GALLERY -> QuestDatabase.isQuestLaterThan(
+              Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
+          case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
+              Quest.SPOOKYRAVEN_DANCE, "step2");
+          default -> true;
+        };
+      }
+
+      if (this.zone.equals("Manor3")) {
+        return switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_LABORATORY,
+              AdventurePool.HAUNTED_NURSERY,
+              AdventurePool.HAUNTED_STORAGE_ROOM -> QuestDatabase.isQuestLaterThan(
+              Quest.SPOOKYRAVEN_DANCE, "step3");
+          default -> true;
+        };
+      }
+
+      // You can't get there from here.
+      return true;
+    }
+
     // Open at level one, with a subset of eventual zones
     if (this.zone.equals("Mountain")) {
       return switch (this.adventureNumber) {
@@ -741,13 +790,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Open at level one, with a subset of eventual zones
     if (this.zone.equals("Plains")) {
+      if (this.adventureNumber == AdventurePool.PALINDOME) {
+        // If you have created the Talisman o' Namsilat, the Palindome is available
+        if (KoLCharacter.hasEquipped(TALISMAN) || InventoryManager.hasItem(TALISMAN)) {
+          return true;
+        }
+
+        // If you have the components to create the Talisman, we will make it
+        CreateItemRequest creator = CreateItemRequest.getInstance(TALISMAN);
+        return creator != null && creator.getQuantityPossible() > 0;
+      }
+
       return switch (this.adventureNumber) {
         case AdventurePool.FUN_HOUSE -> QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step4");
         case AdventurePool.UNQUIET_GARVES -> QuestDatabase.isQuestStarted(Quest.CYRPT)
             || QuestDatabase.isQuestStarted(Quest.EGO);
         case AdventurePool.VERY_UNQUIET_GARVES -> QuestDatabase.isQuestFinished(Quest.CYRPT);
-        case AdventurePool.PALINDOME -> KoLCharacter.hasEquipped(TALISMAN)
-            || InventoryManager.hasItem(TALISMAN);
           // Allow future "Plains" zones
         default -> true;
       };
@@ -1023,12 +1081,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 11 quest
 
-    // *** Lord Spookyraven
-
-    if (this.zone.equals("Manor0")) {
-      return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED);
-    }
-
     // *** Doctor Awkward
 
     if (this.zone.equals("The Red Zeppelin's Mooring")) {
@@ -1205,45 +1257,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // You can visit any of the zones both before or after getting the tool -
       // and even after turning them all in.
       return true;
-    }
-
-    // Spookyraven Manor quests:
-    //
-    // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
-    // Quest.SPOOKYRAVEN_DANCE		Lady Spookyraven
-    // Quest.SPOOKYRAVEN_BABIES		Lady Spookyraven
-
-    if (this.zone.equals("Manor1")) {
-      return switch (this.adventureNumber) {
-        case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> QuestDatabase
-            .isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
-        case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
-        case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(
-            ItemPool.BILLIARDS_KEY);
-        default -> true;
-      };
-    }
-
-    if (this.zone.equals("Manor2")) {
-      return switch (this.adventureNumber) {
-        case AdventurePool.HAUNTED_BATHROOM,
-            AdventurePool.HAUNTED_BEDROOM,
-            AdventurePool.HAUNTED_GALLERY -> QuestDatabase.isQuestLaterThan(
-            Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
-        case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
-            Quest.SPOOKYRAVEN_DANCE, "step2");
-        default -> true;
-      };
-    }
-
-    if (this.zone.equals("Manor3")) {
-      return switch (this.adventureNumber) {
-        case AdventurePool.HAUNTED_LABORATORY,
-            AdventurePool.HAUNTED_NURSERY,
-            AdventurePool.HAUNTED_STORAGE_ROOM -> QuestDatabase.isQuestLaterThan(
-            Quest.SPOOKYRAVEN_DANCE, "step3");
-        default -> true;
-      };
     }
 
     // Nemesis Quest
@@ -1593,7 +1606,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("LT&T")) {
       // Telegram quests
-      // *** Only accessible if you have chosen a quest
+      // Only available if you have started a quest
+      if (!QuestDatabase.isQuestStarted(Quest.TELEGRAM)) {
+        return false;
+      }
       return Preferences.getBoolean("telegraphOfficeAvailable")
           || Preferences.getBoolean("_telegraphOfficeToday");
     }
@@ -1885,7 +1901,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (EquipmentManager.isWearingOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
         // Elite Guard
 
-        // This shouldn't fail.
+        // This shouldn't fail. It will craft it if necessary.
         InventoryManager.retrieveItem(KNOB_CAKE);
         return true;
       }
@@ -1914,7 +1930,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
         wearOutfit(OutfitPool.KNOB_ELITE_OUTFIT);
 
-        // This shouldn't fail.
+        // This shouldn't fail. It will craft it if necessary.
         InventoryManager.retrieveItem(KNOB_CAKE);
         return true;
       }
@@ -1988,10 +2004,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.adventureNumber == AdventurePool.PALINDOME) {
-      if (!KoLCharacter.hasEquipped(TALISMAN)) {
-        // This will pick an empty slot, or accessory1, if all are full
-        RequestThread.postRequest(new EquipmentRequest(TALISMAN));
+      if (KoLCharacter.hasEquipped(TALISMAN)) {
+        return true;
       }
+
+      // This shouldn't fail. It will craft it if necessary.
+      InventoryManager.retrieveItem(TALISMAN);
+
+      // This will pick an empty slot, or accessory1, if all are full
+      RequestThread.postRequest(new EquipmentRequest(TALISMAN));
+
       return true;
     }
 

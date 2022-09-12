@@ -14,11 +14,13 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -66,6 +68,7 @@ public class KoLAdventureValidationTest {
     KoLCharacter.reset("KoLAdventure");
     Preferences.reset("KoLAdventure");
     KoLConstants.inventory.clear();
+    EquipmentManager.resetEquipment();
   }
 
   @AfterAll
@@ -1911,6 +1914,161 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.SPARE, QuestDatabase.STARTED));
       try (cleanups) {
         assertTrue(HIDDEN_BOWLING_ALLEY.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class Palindome {
+    private static final KoLAdventure PALINDOME =
+        AdventureDatabase.getAdventureByName("Inside the Palindome");
+
+    @Test
+    public void cannotVisitPalindomeWithoutTalisman() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        assertFalse(PALINDOME.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitPalindomeWithTalismanEquipped() {
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TALISMAN));
+      try (cleanups) {
+        assertTrue(PALINDOME.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitPalindomeWithTalismanInInventory() {
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.TALISMAN));
+      try (cleanups) {
+        assertTrue(PALINDOME.canAdventure());
+      }
+    }
+
+    @Test
+    public void canEquipTalismanFromInventory() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withEquippableItem(ItemPool.TALISMAN));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_visit_palindome_equip_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(PALINDOME.canAdventure());
+        assertTrue(PALINDOME.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TALISMAN);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void cannotVisitPalindomeWithTalismanComponentsAndNoMeat() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.TALISMAN, 0),
+              withItem(ItemPool.COPPERHEAD_CHARM),
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT));
+      try (cleanups) {
+        assertFalse(PALINDOME.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitPalindomeWithTalismanComponentsAndMeat() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.COPPERHEAD_CHARM),
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
+              withMeat(10));
+      try (cleanups) {
+        assertTrue(PALINDOME.canAdventure());
+      }
+    }
+
+    @Test
+    public void canCreateTalismanAndEquipWithMeat() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.TALISMAN, 0),
+              withItem(ItemPool.COPPERHEAD_CHARM),
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
+              withMeat(10));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_visit_palindome_make_paste.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_visit_palindome_make_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_visit_palindome_equip_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(PALINDOME.canAdventure());
+        assertTrue(PALINDOME.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(6));
+        assertPostRequest(
+            requests.get(0), "/craft.php", "action=makepaste&whichitem=25&ajax=1&qty=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(
+            requests.get(2), "/craft.php", "action=craft&mode=combine&ajax=1&a=7178&b=7186&qty=1");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(
+            requests.get(4),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TALISMAN);
+        assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void canVisitPalindomeWithComponentsAndThePlunger() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.TALISMAN, 0),
+              withItem(ItemPool.COPPERHEAD_CHARM),
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
+              withSign(ZodiacSign.VOLE));
+      try (cleanups) {
+        assertTrue(PALINDOME.canAdventure());
+      }
+    }
+
+    @Test
+    public void canCreateTalismanAndEquipWithThePlunger() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.TALISMAN, 0),
+              withItem(ItemPool.COPPERHEAD_CHARM),
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
+              withSign(ZodiacSign.VOLE));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_visit_palindome_make_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_visit_palindome_equip_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(PALINDOME.canAdventure());
+        assertTrue(PALINDOME.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(4));
+        assertPostRequest(
+            requests.get(0), "/craft.php", "action=craft&mode=combine&ajax=1&a=7178&b=7186&qty=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(
+            requests.get(2),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TALISMAN);
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }
