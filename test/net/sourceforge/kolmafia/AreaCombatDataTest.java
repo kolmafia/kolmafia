@@ -3,7 +3,14 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.aMapWithSize;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notANumber;
+import static org.hamcrest.core.Every.everyItem;
 
 import internal.helpers.Cleanups;
 import java.io.File;
@@ -19,6 +26,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class AreaCombatDataTest {
@@ -230,5 +238,23 @@ public class AreaCombatDataTest {
             hasEntry(
                 equalTo(MonsterDatabase.findMonster("The Large-Bellied Snitch")),
                 closeTo(100f / 6, 0.001))));
+  }
+
+  @Nested
+  class ZeroTotalWeighting {
+    @Test
+    public void canGetAppearanceRateForZeroTotalWeighting() {
+      var appearanceRates = AdventureDatabase.getAreaCombatData("The Hedge Maze").getMonsterData();
+
+      assertThat(appearanceRates, aMapWithSize(4));
+      assertThat(appearanceRates.values(), everyItem(not(notANumber())));
+    }
+
+    @Test
+    public void canGetAverageMLForZeroTotalWeighting() {
+      var ml = AdventureDatabase.getAreaCombatData("The Hedge Maze").getAverageML();
+
+      assertThat(ml, not(notANumber()));
+    }
   }
 }

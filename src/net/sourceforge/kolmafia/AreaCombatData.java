@@ -424,6 +424,11 @@ public class AreaCombatData {
     return this.weights;
   }
 
+  public double dividedByTotalWeighting(final double weight) {
+    if (totalWeighting() == 0) return 0;
+    return weight / totalWeighting();
+  }
+
   public int combats() {
     return this.combats;
   }
@@ -479,10 +484,10 @@ public class AreaCombatData {
             .filter(m -> getWeighting(m) > 0)
             .map(
                 m ->
-                    (double) m.getAttack()
-                        * (double) getWeighting(m)
-                        * (1 - (double) this.getRejection(m) / 100)
-                        / this.totalWeighting())
+                    dividedByTotalWeighting(
+                        (double) m.getAttack()
+                            * (double) getWeighting(m)
+                            * (1 - (double) this.getRejection(m) / 100)))
             .reduce(0.0, Double::sum);
 
     double averageSuperlikelyML = 0.0;
@@ -563,9 +568,8 @@ public class AreaCombatData {
       }
 
       double weight =
-          (double) weighting
-              * (1 - (double) this.getRejection(monster) / 100)
-              / this.totalWeighting();
+          dividedByTotalWeighting(
+              (double) weighting * (1 - (double) this.getRejection(monster) / 100));
       int ml = monster.ML();
       averageExperience +=
           weight * (monster.getExperience() + experienceAdjustment - ml / (ml > 0 ? 6.0 : 8.0));
@@ -658,7 +662,7 @@ public class AreaCombatData {
       if (stateful) {
         chance = AdventureQueueDatabase.applyQueueEffects(chance, monster, this);
       } else {
-        chance = chance / totalWeighting();
+        chance = dividedByTotalWeighting(chance);
       }
 
       monsterData.put(monster, chance);
