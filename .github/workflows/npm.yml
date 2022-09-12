@@ -10,7 +10,10 @@ jobs:
     if: github.repository == 'kolmafia/kolmafia'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setup Java 17
         uses: actions/setup-java@v3
@@ -30,7 +33,7 @@ jobs:
       - name: Prepare package
         run: |
           mv index.d.ts .github/npm/index.d.ts
-          KOLMAFIA_VERSION=$(cat build/revision.txt)
+          KOLMAFIA_VERSION=$(git rev-list --count $GITHUB_SHA)
           sed -i 's/{{version}}/$KOLMAFIA_VERSION/g' .github/npm/package.json
 
       - uses: actions/setup-node@v3
