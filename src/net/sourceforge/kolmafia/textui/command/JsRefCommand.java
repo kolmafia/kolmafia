@@ -15,15 +15,15 @@ public class JsRefCommand extends AbstractCommand {
   private String toObjectKeyType(final Type type) {
     String jsTypeName = toJavascriptTypeName(type);
     if (jsTypeName.equals("number") || jsTypeName.equals("string")) {
-      return jsTypeName;
+      return "key: " + jsTypeName;
     }
 
     return type.toString() + ": string";
   }
 
-  private String toJavascriptTypeName(final Type type) {
+  public String toJavascriptTypeName(final Type type) {
     if (type == null || type.toString() == null) {
-      return "null";
+      return "any";
     }
 
     if (type instanceof AggregateType) {
@@ -54,16 +54,12 @@ public class JsRefCommand extends AbstractCommand {
       return object + "}";
     }
 
-    switch (type.toString()) {
-      case "int":
-      case "float":
-        return "number";
-      case "buffer":
-      case "strict_string":
-        return "string";
-      default:
-        return type.toString();
-    }
+    return switch (type.toString()) {
+      case "int", "float" -> "number";
+      case "buffer", "strict_string" -> "string";
+      case "aggregate" -> "any";
+      default -> type.toString();
+    };
   }
 
   @Override
