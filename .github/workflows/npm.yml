@@ -31,7 +31,7 @@ jobs:
         run: |
           mv index.d.ts .github/npm/index.d.ts
           KOLMAFIA_VERSION=$(git rev-list --count $GITHUB_SHA)
-          sed -i 's/{{version}}/$KOLMAFIA_VERSION/g' .github/npm/package.json
+          sed -i 's/{{version}}/'$KOLMAFIA_VERSION'/g' .github/npm/package.json
 
       - uses: actions/setup-node@v3
         with:
