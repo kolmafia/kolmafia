@@ -138,6 +138,7 @@ Tome	Summon Smithsness	_smithsnessSummons	3
 Tome	Summon Snowcones	_snowconeSummons	3
 Tome	Summon Stickers	_stickerSummons	3
 Tome	Summon Sugar Sheets	_sugarSummons	3
+Use	[glitch season reward name]	_glitchItemImplemented
 Use	CSA fire-starting kit	_fireStartingKitUsed
 Use	Chester's bag of candy	_bagOfCandyUsed
 Use	Chroner cross	_chronerCrossUsed

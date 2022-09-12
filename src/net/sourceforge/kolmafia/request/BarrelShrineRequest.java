@@ -13,20 +13,15 @@ public class BarrelShrineRequest extends CreateItemRequest {
   }
 
   public static boolean availableBarrelItem(final String itemName) {
-    if (Preferences.getBoolean("barrelShrineUnlocked")) {
-      if (itemName.equals("barrel lid")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForProtection")) {
+    if (Preferences.getBoolean("barrelShrineUnlocked")
+        && !Preferences.getBoolean("_barrelPrayer")) {
+      if (itemName.equals("barrel lid") && !Preferences.getBoolean("prayedForProtection")) {
         return true;
       }
-      if (itemName.equals("barrel hoop earring")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForGlamour")) {
+      if (itemName.equals("barrel hoop earring") && !Preferences.getBoolean("prayedForGlamour")) {
         return true;
       }
-      if (itemName.equals("bankruptcy barrel")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForVigor")) {
+      if (itemName.equals("bankruptcy barrel") && !Preferences.getBoolean("prayedForVigor")) {
         return true;
       }
     }

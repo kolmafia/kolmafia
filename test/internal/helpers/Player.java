@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -49,6 +50,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.mockito.Mockito;
 
@@ -140,12 +142,15 @@ public class Player {
     EquipmentManager.setEquipment(slot, item.getItemId() == -1 ? EquipmentRequest.UNEQUIP : item);
     EquipmentManager.updateNormalOutfits();
     KoLCharacter.recalculateAdjustments();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
     cleanups.add(
         new Cleanups(
             () -> {
               EquipmentManager.setEquipment(slot, old);
               EquipmentManager.updateNormalOutfits();
               KoLCharacter.recalculateAdjustments();
+              ConcoctionDatabase.refreshConcoctions();
             }));
     return cleanups;
   }
@@ -281,7 +286,7 @@ public class Player {
   }
 
   /**
-   * Puts an amount of the given item into the player's clan stask
+   * Puts an amount of the given item into the player's clan stash
    *
    * @param itemName Item to give
    * @param count Quantity to give
@@ -297,13 +302,27 @@ public class Player {
     var old = item.getCount(list);
     AdventureResult.addResultToList(list, item);
     EquipmentManager.updateEquipmentLists();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
 
     return new Cleanups(
         () -> {
           AdventureResult.removeResultFromList(list, item);
           if (old != 0) AdventureResult.addResultToList(list, item.getInstance(old));
           EquipmentManager.updateEquipmentLists();
+          ConcoctionDatabase.refreshConcoctions();
         });
+  }
+
+  /**
+   * Puts the given item into the player's clan lounge
+   *
+   * @param itemId Item to give
+   * @return Removes the item from the lounge
+   */
+  public static Cleanups withClanLoungeItem(final int itemId) {
+    ClanLoungeRequest.setClanLoungeItem(itemId, 1);
+    return new Cleanups(() -> ClanLoungeRequest.setClanLoungeItem(itemId, 0));
   }
 
   /**
@@ -1263,6 +1282,24 @@ public class Player {
    */
   public static Cleanups withPostChoice2(final int choice, final int decision) {
     return withPostChoice2(choice, decision, "");
+  }
+
+  /**
+   * Simulates a choice (postChoice1, processResults and then postChoice2)
+   *
+   * <p>{@code @todo} Still needs some more choice handling (visitChoice, postChoice0)
+   *
+   * @param choice Choice number
+   * @param decision Decision number
+   * @return Restores state for choice handling
+   */
+  public static Cleanups withChoice(
+      final int choice, final int decision, final String responseText) {
+    var cleanups = new Cleanups();
+    cleanups.add(withPostChoice1(choice, decision, responseText));
+    ResultProcessor.processResults(false, responseText);
+    cleanups.add(withPostChoice2(choice, decision, responseText));
+    return cleanups;
   }
 
   /**

@@ -546,7 +546,7 @@ public class MaximizerTest {
     final var cleanups =
         new Cleanups(
             withEquippableItem("Space Trip safety headphones"),
-            withEquippableItem("Krampus horn"),
+            withEquippableItem("Krampus Horn"),
             // get ourselves to -25 combat
             withEffect("Shelter of Shed"),
             withEffect("Smooth Movements"));
@@ -555,7 +555,7 @@ public class MaximizerTest {
       assertTrue(
           EquipmentManager.canEquip("Space Trip safety headphones"),
           "Cannot equip Space Trip safety headphones");
-      assertTrue(EquipmentManager.canEquip("Krampus horn"), "Cannot equip Krampus Horn");
+      assertTrue(EquipmentManager.canEquip("Krampus Horn"), "Cannot equip Krampus Horn");
       assertTrue(
           maximize(
               "cold res,-combat -hat -weapon -offhand -back -shirt -pants -familiar -acc1 -acc2 -acc3"));
@@ -567,7 +567,7 @@ public class MaximizerTest {
           0.01,
           "Maximizing one slot should reach 27");
 
-      recommendedSlotIs(EquipmentManager.ACCESSORY1, "Krampus horn");
+      recommendedSlotIs(EquipmentManager.ACCESSORY1, "Krampus Horn");
     }
   }
 
@@ -826,7 +826,8 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("Monster Level Percent"));
-        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
 
@@ -841,7 +842,8 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("exp"));
-        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
 

@@ -1,0 +1,5 @@
+Snarfblat location has an id: true
+Snarfblat location can be converted to int: true
+Non-snarfblat locationas have id of -1: true
+Non-snarfblat locationas have int value of -1: true
+Location none cannot be adventured in: true
