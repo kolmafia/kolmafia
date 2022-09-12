@@ -194,6 +194,7 @@ class ValueTest {
       var value = new Value(150);
       assertThat("150 < 200", value.compareTo(new Value(200)), hasSign(NEGATIVE));
       assertThat("150 == 150", value.compareTo(new Value(150)), hasSign(ZERO));
+      assertThat("150 == \"150\"", value.compareTo(new Value("150")), hasSign(ZERO));
       assertThat(
           "7 == $path[Trendy]",
           new Value(7).compareTo(DataTypes.makePathValue(Path.TRENDY)),
@@ -295,6 +296,7 @@ class ValueTest {
           "\"Trendy\" == $path[Trendy]",
           new Value("Trendy").compareTo(DataTypes.makePathValue(Path.TRENDY)),
           hasSign(ZERO));
+      assertThat("\"25\" == 25", new Value("25").compareTo(new Value(25)), hasSign(ZERO));
     }
 
     @Test
