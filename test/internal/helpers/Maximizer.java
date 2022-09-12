@@ -39,7 +39,7 @@ public class Maximizer {
   public static void recommendedSlotIs(int slot, String item) {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(equipment.isPresent(), "Expected " + item + " to be recommended, but it was not");
-    assertEquals(AdventureResult.parseResult(item), equipment.get());
+    assertEquals(AdventureResult.tallyItem(item), equipment.get());
   }
 
   public static void recommendedSlotIsUnchanged(int slot) {

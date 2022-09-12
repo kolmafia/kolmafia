@@ -257,6 +257,14 @@ class DailyLimitDatabaseTest {
                     + " times per day"));
       }
     }
+
+    @Test
+    void canGetMessageForGlitchItemImplemented() {
+      var limit = DailyLimitType.USE.getDailyLimit(ItemPool.GLITCH_ITEM);
+      assertThat(
+          limit.getMaxMessage(),
+          equalTo("You can only use [glitch season reward name] 1 times per day"));
+    }
   }
 
   @Test

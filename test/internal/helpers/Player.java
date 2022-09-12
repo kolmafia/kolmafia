@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -141,12 +142,15 @@ public class Player {
     EquipmentManager.setEquipment(slot, item.getItemId() == -1 ? EquipmentRequest.UNEQUIP : item);
     EquipmentManager.updateNormalOutfits();
     KoLCharacter.recalculateAdjustments();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
     cleanups.add(
         new Cleanups(
             () -> {
               EquipmentManager.setEquipment(slot, old);
               EquipmentManager.updateNormalOutfits();
               KoLCharacter.recalculateAdjustments();
+              ConcoctionDatabase.refreshConcoctions();
             }));
     return cleanups;
   }
@@ -282,7 +286,7 @@ public class Player {
   }
 
   /**
-   * Puts an amount of the given item into the player's clan stask
+   * Puts an amount of the given item into the player's clan stash
    *
    * @param itemName Item to give
    * @param count Quantity to give
@@ -298,13 +302,27 @@ public class Player {
     var old = item.getCount(list);
     AdventureResult.addResultToList(list, item);
     EquipmentManager.updateEquipmentLists();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
 
     return new Cleanups(
         () -> {
           AdventureResult.removeResultFromList(list, item);
           if (old != 0) AdventureResult.addResultToList(list, item.getInstance(old));
           EquipmentManager.updateEquipmentLists();
+          ConcoctionDatabase.refreshConcoctions();
         });
+  }
+
+  /**
+   * Puts the given item into the player's clan lounge
+   *
+   * @param itemId Item to give
+   * @return Removes the item from the lounge
+   */
+  public static Cleanups withClanLoungeItem(final int itemId) {
+    ClanLoungeRequest.setClanLoungeItem(itemId, 1);
+    return new Cleanups(() -> ClanLoungeRequest.setClanLoungeItem(itemId, 0));
   }
 
   /**
