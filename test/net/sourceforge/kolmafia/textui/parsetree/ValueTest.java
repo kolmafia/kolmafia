@@ -209,6 +209,7 @@ class ValueTest {
           "0 < $coinmaster[Niña Store]",
           new Value(0).compareTo(DataTypes.makeCoinmasterValue(NinjaStoreRequest.NINJA_STORE)),
           hasSign(NEGATIVE));
+      assertThat("\"11\" < 2", new Value("11").compareTo(new Value(2)), hasSign(NEGATIVE));
     }
 
     @Test
