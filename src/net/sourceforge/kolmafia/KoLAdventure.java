@@ -403,6 +403,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   // AdventureResults used during validation
+  private static final AdventureResult SPOOKYRAVEN_TELEGRAM =
+      ItemPool.get(ItemPool.SPOOKYRAVEN_TELEGRAM);
+  private static final AdventureResult LIBRARY_KEY = ItemPool.get(ItemPool.LIBRARY_KEY);
+  private static final AdventureResult BILLIARDS_KEY = ItemPool.get(ItemPool.BILLIARDS_KEY);
+  private static final AdventureResult SPOOKYRAVEN_NECKLACE =
+      ItemPool.get(ItemPool.SPOOKYRAVEN_NECKLACE);
+  private static final AdventureResult GHOST_NECKLACE = ItemPool.get(ItemPool.GHOST_NECKLACE);
+  private static final AdventureResult POWDER_PUFF = ItemPool.get(ItemPool.POWDER_PUFF);
+  private static final AdventureResult FINEST_GOWN = ItemPool.get(ItemPool.FINEST_GOWN);
+  private static final AdventureResult DANCING_SHOES = ItemPool.get(ItemPool.DANCING_SHOES);
   private static final AdventureResult KNOB_GOBLIN_PERFUME =
       ItemPool.get(ItemPool.KNOB_GOBLIN_PERFUME);
   private static final AdventureResult KNOB_CAKE = ItemPool.get(ItemPool.KNOB_CAKE);
@@ -738,8 +748,24 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Spookyraven Manor quests:
       //
       // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
+      // KMail from Lady Spookyraven at start of ascension or at level 5
+      // if unascended contains telegram from Lady Spookyraven
+      // -> reading telegram starts quest and opens Haunted Kitchen
+      // -> talking to her on first floor after getting necklace removes
+      //    necklace, grants ghost necklace, and ends quest.
       // Quest.SPOOKYRAVEN_DANCE	Lady Spookyraven
+      // KMail from Lady Spookyraven (immediately after ending necklace
+      // quest or at level 7 if unascended) invites you to 2nd floor.
+      // -> Talking to her starts quest and opens Haunted Gallery,
+      //    Haunted Bathroom, and Haunted Bedroom
+      // -> Talking to her after acquiring dancing gear opens Haunted
+      //    Ballroom
+      // -> Adventuring in Haunted Ballroom ends quest
       // Quest.SPOOKYRAVEN_BABIES	Lady Spookyraven
+      // KMail from Lady Spookyraven (immediately after ending dancing
+      // quest or at level 9 if unascended) invites you to 3d floor.
+      // -> Visiting third floor opens Haunted Storage Room, Haunted
+      //   Nursery, and Haunted Laboratory
       // Quest.MANOR			Lord Spookyraven
 
       if (this.zone.equals("Manor0")) {
@@ -750,9 +776,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return switch (this.adventureNumber) {
           case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> QuestDatabase
               .isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
-          case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
-          case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(
-              ItemPool.BILLIARDS_KEY);
+          case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(LIBRARY_KEY);
+          case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(BILLIARDS_KEY);
           default -> true;
         };
       }
@@ -1702,7 +1727,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLConstants.campground.contains(item) || InventoryManager.hasItem(item);
     }
 
-    // You can only use one grimstone mask in use at a time.
+    // You can only have one grimstone mask in use at a time.
     if (this.parentZone.equals("Grimstone")) {
       if (KoLCharacter.isEd()
           || KoLCharacter.inDarkGyffte()
