@@ -147,6 +147,23 @@ public class KoLAdventureValidationTest {
 
     @ParameterizedTest
     @CsvSource({
+      "Investigating a Plaintive Telegram, telegraphOfficeAvailable, _telegraphOfficeToday"
+    })
+    public void checkDayPassesInTownRight(String adventureName, String always, String today) {
+      checkDayPasses(adventureName, "town_right", always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "The Bandit Crossroads, frAlways, _frToday",
+      "PirateRealm Island, prAlways, _prToday"
+    })
+    public void checkDayPassesInMonorail(String adventureName, String always, String today) {
+      checkDayPasses(adventureName, "monorail", always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
       "VYKEA, coldAirportAlways, _coldAirportToday",
       "The SMOOCH Army HQ, hotAirportAlways, _hotAirportToday",
       "The Fun-Guy Mansion, sleazeAirportAlways, _sleazeAirportToday",

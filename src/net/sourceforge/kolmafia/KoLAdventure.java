@@ -519,6 +519,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return checkZone("gingerbreadCityAvailable", "_gingerbreadCityToday", "mountains");
     }
 
+    if (this.zone.equals("LT&T")) {
+      // One quest from a day pass, geometric cost for permanent
+      return checkZone("telegraphOfficeAvailable", "_telegraphOfficeToday", "town_right");
+    }
+
     if (this.zone.equals("Neverending Party")) {
       // Unlimited adventuring if available
       return checkZone("neverendingPartyAlways", "_neverendingPartyToday", "town_wrong");
@@ -527,6 +532,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
       // One trip through if available
       return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
+    }
+
+    if (this.zone.equals("FantasyRealm")) {
+      // One daily visit if available
+      return checkZone("frAlways", "_frToday", "monorail");
+    }
+
+    if (this.zone.equals("PirateRealm")) {
+      // One daily visit if available
+      return checkZone("prAlways", "_prToday", "monorail");
     }
 
     if (this.zone.equals("The Spacegate")) {
@@ -1603,13 +1618,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("LT&T")) {
-      // Telegram quests
-      // Only available if you have started a quest
-      if (!QuestDatabase.isQuestStarted(Quest.TELEGRAM)) {
-        return false;
-      }
-      return Preferences.getBoolean("telegraphOfficeAvailable")
-          || Preferences.getBoolean("_telegraphOfficeToday");
+      // Only available if you have accepted a quest
+      return QuestDatabase.isQuestStarted(Quest.TELEGRAM);
     }
 
     if (this.zone.equals("Neverending Party")) {

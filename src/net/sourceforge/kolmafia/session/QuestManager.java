@@ -320,6 +320,8 @@ public class QuestManager {
         } else if (location.contains("action=cloudypeak")) {
           handleMcLargehugeChange(responseText);
         }
+      } else if (location.contains("whichplace=monorail")) {
+        handleMonorailChange(location, responseText);
       } else if (location.contains("whichplace=orc_chasm")) {
         handleChasmChange(responseText);
       } else if (location.contains("whichplace=palindome")) {
@@ -462,6 +464,15 @@ public class QuestManager {
       if (responseText.contains("The Skeleton Store")) {
         Preferences.setBoolean("skeletonStoreAvailable", true);
       }
+    }
+  }
+
+  private static void handleMonorailChange(final String location, String responseText) {
+    if (responseText.contains("FantasyRealm") && !Preferences.getBoolean("frAlways")) {
+      Preferences.setBoolean("_frToday", true);
+    }
+    if (responseText.contains("PirateRealm") && !Preferences.getBoolean("prAlways")) {
+      Preferences.setBoolean("_prToday", true);
     }
   }
 
