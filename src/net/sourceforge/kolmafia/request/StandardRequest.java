@@ -1,6 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,29 +11,25 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 
 public class StandardRequest extends GenericRequest {
   // Types: "Items", "Bookshelf Books", "Skills", "Familiars", "Clan Items".
 
-  private static final Set<String> itemSet = new HashSet<String>();
-  private static final Set<String> bookshelfSet = new HashSet<String>();
-  private static final Set<String> familiarSet = new HashSet<String>();
-  private static final Set<String> skillSet = new HashSet<String>();
-  private static final Set<String> clanSet = new HashSet<String>();
-  // There is a Miscellaneous category that doesn't seem useful
+  private static final Map<RestrictedItemType, Set<String>> map = new HashMap<>();
 
   private static boolean running = false;
 
   private static boolean initialized = false;
 
+  public static Map<RestrictedItemType, Set<String>> getRestrictionMap() {
+    return map;
+  }
+
   public static void reset() {
     StandardRequest.initialized = false;
-    StandardRequest.itemSet.clear();
-    StandardRequest.bookshelfSet.clear();
-    StandardRequest.familiarSet.clear();
-    StandardRequest.skillSet.clear();
-    StandardRequest.clanSet.clear();
+    StandardRequest.map.clear();
   }
 
   public static void initialize(final boolean force) {
@@ -48,42 +47,20 @@ public class StandardRequest extends GenericRequest {
     }
   }
 
-  private static Set<String> typeToSet(final String type) {
-    switch (type) {
-      case "Items":
-        return itemSet;
-      case "Bookshelf Books":
-        return bookshelfSet;
-      case "Skills":
-        return skillSet;
-      case "Familiars":
-        return familiarSet;
-      case "Clan Items":
-        return clanSet;
-      default:
-        return null;
-    }
-  }
-
-  private static boolean isNotRestricted(final Set<String> set, final String key) {
-    StandardRequest.initialize(false);
-    return !set.contains(key.toLowerCase());
-  }
-
-  public static boolean isNotRestricted(final String type, final String key) {
+  public static boolean isNotRestricted(final RestrictedItemType type, final String key) {
     if (!KoLCharacter.getRestricted()) {
       return true;
     }
-    Set<String> set = StandardRequest.typeToSet(type);
-    return set != null && StandardRequest.isNotRestricted(set, key);
+    StandardRequest.initialize(false);
+    return !map.getOrDefault(type, Collections.emptySet()).contains(key.toLowerCase());
   }
 
-  public static boolean isAllowed(String type, final String key) {
+  public static boolean isAllowed(RestrictedItemType type, final String key) {
     if (KoLCharacter.isTrendy() && !TrendyRequest.isTrendy(type, key)) {
       return false;
     }
 
-    if (KoLCharacter.inQuantum() && type.equals("Familiars")) {
+    if (KoLCharacter.inQuantum() && type.equals(RestrictedItemType.FAMILIARS)) {
       return true;
     }
 
@@ -95,26 +72,19 @@ public class StandardRequest extends GenericRequest {
   }
 
   public static boolean isAllowed(final FamiliarData familiar) {
-    return isAllowed("Familiars", familiar.getRace());
+    return isAllowed(RestrictedItemType.FAMILIARS, familiar.getRace());
   }
 
-  public static boolean isAllowedInStandard(String type, final String key) {
-    if (type.equals("Bookshelf")) {
-      type = "Bookshelf Books";
-    } else if (type.equals("Clan Item")) {
-      type = "Clan Items";
-    }
-
-    if (type.equals("Bookshelf Books")) {
+  public static boolean isAllowedInStandard(RestrictedItemType type, final String key) {
+    if (type.equals(RestrictedItemType.BOOKSHELF_BOOKS)) {
       // Work around a KoL bug: most restricted books are
       // listed both under Bookshelf Books and Items, but
       // 3 are listed under only one or the other.
-      return StandardRequest.isNotRestricted("Bookshelf Books", key)
-          && StandardRequest.isNotRestricted("Items", key);
+      return StandardRequest.isNotRestricted(RestrictedItemType.BOOKSHELF_BOOKS, key)
+          && StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key);
     }
 
-    Set<String> set = StandardRequest.typeToSet(type);
-    return set != null && StandardRequest.isNotRestricted(set, key);
+    return StandardRequest.isNotRestricted(type, key);
   }
 
   public StandardRequest() {
@@ -176,13 +146,13 @@ public class StandardRequest extends GenericRequest {
       Pattern.compile("<span class=\"i\">(.*?)(, )?</span>");
 
   public static final void parseResponse(final String location, final String responseText) {
-    TrendyRequest.reset();
+    StandardRequest.reset();
 
     Matcher matcher = StandardRequest.STANDARD_PATTERN.matcher(responseText);
     while (matcher.find()) {
       String type = matcher.group(1);
-      Set<String> set = StandardRequest.typeToSet(type);
-      if (set == null) {
+      RestrictedItemType itemType = RestrictedItemType.fromString(type);
+      if (itemType == null) {
         continue;
       }
 
@@ -190,15 +160,9 @@ public class StandardRequest extends GenericRequest {
       while (objectMatcher.find()) {
         String object = objectMatcher.group(1).trim().toLowerCase();
         if (object.length() > 0) {
-          set.add(object);
+          map.computeIfAbsent(itemType, k -> new HashSet<>()).add(object);
         }
       }
-    }
-
-    // Buggy items and skills that should be listed but aren't.
-    if (!itemSet.isEmpty()) {
-      itemSet.add("actual reality goggles");
-      skillSet.add("fifteen minutes of flame");
     }
 
     StandardRequest.initialized = true;

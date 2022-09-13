@@ -15,8 +15,11 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLocation;
+import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,6 +33,7 @@ import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -542,7 +546,7 @@ public class MaximizerTest {
     final var cleanups =
         new Cleanups(
             withEquippableItem("Space Trip safety headphones"),
-            withEquippableItem("Krampus horn"),
+            withEquippableItem("Krampus Horn"),
             // get ourselves to -25 combat
             withEffect("Shelter of Shed"),
             withEffect("Smooth Movements"));
@@ -551,7 +555,7 @@ public class MaximizerTest {
       assertTrue(
           EquipmentManager.canEquip("Space Trip safety headphones"),
           "Cannot equip Space Trip safety headphones");
-      assertTrue(EquipmentManager.canEquip("Krampus horn"), "Cannot equip Krampus Horn");
+      assertTrue(EquipmentManager.canEquip("Krampus Horn"), "Cannot equip Krampus Horn");
       assertTrue(
           maximize(
               "cold res,-combat -hat -weapon -offhand -back -shirt -pants -familiar -acc1 -acc2 -acc3"));
@@ -563,7 +567,7 @@ public class MaximizerTest {
           0.01,
           "Maximizing one slot should reach 27");
 
-      recommendedSlotIs(EquipmentManager.ACCESSORY1, "Krampus horn");
+      recommendedSlotIs(EquipmentManager.ACCESSORY1, "Krampus Horn");
     }
   }
 
@@ -822,7 +826,8 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("Monster Level Percent"));
-        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
 
@@ -837,7 +842,8 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("exp"));
-        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
 
@@ -1041,6 +1047,47 @@ public class MaximizerTest {
         assertTrue(maximize("meat -acc1 -acc2"));
         recommendedSlotIs(EquipmentManager.ACCESSORY3, "backup camera");
         assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
+      }
+    }
+  }
+
+  @Nested
+  class Horsery {
+    @Test
+    public void suggestsHorseryIfAvailable() {
+      var cleanups = withProperty("horseryAvailable", true);
+
+      try (cleanups) {
+        assertTrue(maximize("-combat"));
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "horsery dark")));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestHorseryIfUnaffordable() {
+      var cleanups =
+          new Cleanups(
+              withProperty("horseryAvailable", true),
+              withProperty("_horsery", "normal horse"),
+              withMeat(0));
+
+      try (cleanups) {
+        assertTrue(maximize("-combat"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "horsery dark")));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestHorseryIfNotAllowedInStandard() {
+      var cleanups =
+          new Cleanups(
+              withProperty("horseryAvailable", true),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Horsery contract"));
+
+      try (cleanups) {
+        assertTrue(maximize("-combat"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "horsery dark")));
       }
     }
   }

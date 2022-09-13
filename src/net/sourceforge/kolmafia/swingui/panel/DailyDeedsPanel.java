@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -1180,7 +1181,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0;
       boolean as = Preferences.getBoolean("_aprilShower");
-      boolean allowed = StandardRequest.isAllowed("Clan Item", "April Shower");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower");
       boolean limited = Limitmode.limitClan();
       this.setShown((!bm || kf) && (have || as) && allowed && !limited);
       this.setEnabled(true);
@@ -2374,7 +2375,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0;
-      boolean allowed = StandardRequest.isAllowed("Clan Item", "Pool Table");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Pool Table");
       boolean limited = Limitmode.limitClan();
       int nf = Preferences.getInteger("_poolGames");
       this.setShown((!bm || kf) && (have || nf > 0) && allowed && !limited);
@@ -2407,7 +2408,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
       boolean tree = Preferences.getBoolean("_crimboTree");
-      boolean allowed = StandardRequest.isAllowed("Clan Item", "Crimbo Tree");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Crimbo Tree");
       boolean limited = Limitmode.limitClan();
       int ctd = Preferences.getInteger("crimboTreeDays");
       this.setShown((!bm || kf) && tree && allowed && !limited);
@@ -2566,7 +2567,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean bf =
           (!KoLCharacter.isHardcore()
                   && !limited
-                  && StandardRequest.isAllowed("Items", "Libram of BRICKOs"))
+                  && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Libram of BRICKOs"))
               || KoLCharacter.hasSkill("Summon BRICKOs");
       FamiliarData hipster = KoLCharacter.findFamiliar(FamiliarPool.HIPSTER);
       FamiliarData goth = KoLCharacter.findFamiliar(FamiliarPool.ARTISTIC_GOTH_KID);
@@ -2584,45 +2585,46 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean gl = godLobster != null && godLobster.canEquip();
       boolean sj =
           Preferences.getBoolean("snojoAvailable")
-              && StandardRequest.isAllowed("Items", "X-32-F snowman crate")
+              && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "X-32-F snowman crate")
               && !Limitmode.limitZone("The Snojo")
               && !KoLCharacter.inBadMoon();
       boolean wc =
           KoLConstants.campground.contains(ItemPool.get(ItemPool.WITCHESS_SET, 1))
-              && StandardRequest.isAllowed("Items", "Witchess Set")
+              && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")
               && !Limitmode.limitCampground()
               && !KoLCharacter.inBadMoon();
       boolean et = !(Preferences.getBoolean("_eldritchTentacleFought"));
       boolean lv =
           Preferences.getBoolean("loveTunnelAvailable")
-              && StandardRequest.isAllowed("Items", "LOV Entrance Pass")
+              && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "LOV Entrance Pass")
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
       boolean np =
           (Preferences.getBoolean("_neverendingPartyToday")
                   || Preferences.getBoolean("neverendingPartyAlways"))
-              && StandardRequest.isAllowed("Items", "Neverending Party invitation envelope")
+              && StandardRequest.isAllowed(
+                  RestrictedItemType.ITEMS, "Neverending Party invitation envelope")
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
       boolean vb =
           (Preferences.getBoolean("_voteToday") || Preferences.getBoolean("voteAlways"))
-              && StandardRequest.isAllowed("Items", "voter registration form")
+              && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "voter registration form")
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
       boolean sg =
-          StandardRequest.isAllowed("Items", "Kramco Sausage-o-Matic™")
+          StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Kramco Sausage-o-Matic™")
               && InventoryManager.hasItem(ItemPool.SAUSAGE_O_MATIC);
       boolean gm =
-          StandardRequest.isAllowed("Items", "[glitch season reward name]")
+          StandardRequest.isAllowed(RestrictedItemType.ITEMS, "[glitch season reward name]")
               && InventoryManager.hasItem(ItemPool.GLITCH_ITEM)
               && Preferences.getInteger("_glitchMonsterFights") == 0;
       boolean pp =
           (KoLConstants.campground.contains(ItemPool.get(ItemPool.MUSHROOM_SPORES, 1))
                   || InventoryManager.hasItem(ItemPool.MUSHROOM_SPORES))
-              && StandardRequest.isAllowed("Items", "packet of mushroom spores")
+              && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "packet of mushroom spores")
               && !Limitmode.limitCampground();
       boolean vm =
-          StandardRequest.isAllowed("Items", "cursed magnifying glass")
+          StandardRequest.isAllowed(RestrictedItemType.ITEMS, "cursed magnifying glass")
               && InventoryManager.hasItem(ItemPool.CURSED_MAGNIFYING_GLASS);
 
       StringBuilder buffer = new StringBuilder();
@@ -3074,7 +3076,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0;
-      boolean allowed = StandardRequest.isAllowed("Clan Item", "Fax Machine");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Fax Machine");
       boolean limited = Limitmode.limitClan();
       boolean photo =
           InventoryManager.getCount(ItemPool.PHOTOCOPIER) > 0
@@ -3277,7 +3279,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean limited = Limitmode.limitZone("Rabbit Hole");
 
       this.setShown(
-          StandardRequest.isAllowed("Clan Item", "Looking Glass")
+          StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Looking Glass")
               && (have || active)
               && (!bm || kf)
               && !limited);
@@ -3397,7 +3399,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0;
       boolean sp = Preferences.getBoolean("_olympicSwimmingPool");
-      boolean allowed = StandardRequest.isAllowed("Clan Item", "Clan Swimming Pool");
+      boolean allowed =
+          StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool");
       boolean limited = Limitmode.limitClan();
       this.setShown((!bm || kf) && (have || sp) && allowed && !limited);
       if (sp) {
@@ -3719,7 +3722,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = InventoryManager.getCount(ItemPool.DECK_OF_EVERY_CARD) > 0;
       boolean nocards = Preferences.getInteger("_deckCardsDrawn") >= 15;
-      boolean allowed = StandardRequest.isAllowed("Items", "Deck of Every Card");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Deck of Every Card");
       boolean limited = Limitmode.limitItem(ItemPool.DECK_OF_EVERY_CARD);
       this.setShown((!bm || kf) && (have || nocards) && allowed && !limited);
       if (nocards) {
@@ -3859,7 +3862,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = Preferences.getBoolean("barrelShrineUnlocked");
       boolean prayed = Preferences.getBoolean("_barrelPrayer");
-      boolean allowed = StandardRequest.isAllowed("Items", "shrine to the Barrel god");
+      boolean allowed =
+          StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god");
       boolean limited = Limitmode.limitZone("Dungeon Full of Dungeons");
       this.setShown((!bm || kf) && (have || prayed) && allowed && !limited);
 
@@ -3972,7 +3976,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean kf = KoLCharacter.kingLiberated();
       boolean noenhance = Preferences.getInteger("_sourceTerminalEnhanceUses") >= limit;
       boolean have = !Preferences.getString("sourceTerminalEnhanceKnown").equals("");
-      boolean allowed = StandardRequest.isAllowed("Items", "Source terminal");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Source terminal");
       boolean limited = Limitmode.limitCampground();
       this.setShown((!bm || kf) && have && allowed && !limited);
       if (noenhance) {
@@ -4056,7 +4060,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = !Preferences.getString("sourceTerminalEnquiryKnown").equals("");
-      boolean allowed = StandardRequest.isAllowed("Items", "Source terminal");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Source terminal");
       boolean limited = Limitmode.limitCampground();
       this.setShown((!bm || kf) && have && allowed && !limited);
       box.setEnabled(true);
@@ -4141,7 +4145,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = !Preferences.getString("sourceTerminalExtrudeKnown").equals("");
-      boolean allowed = StandardRequest.isAllowed("Items", "Source terminal");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Source terminal");
       boolean limited = Limitmode.limitCampground();
       int extrudes = Preferences.getInteger("_sourceTerminalExtrudes");
       boolean noextrude = extrudes >= 3;
@@ -4231,7 +4235,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = !Preferences.getString("sourceTerminalEducateKnown").equals("");
-      boolean allowed = StandardRequest.isAllowed("Items", "Source terminal");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Source terminal");
       boolean limited = Limitmode.limitCampground();
       this.setShown((!bm || kf) && have && allowed && !limited);
       box.setEnabled(true);
@@ -4295,7 +4299,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
       boolean have = !Preferences.getString("sourceTerminalEducateKnown").equals("");
-      boolean allowed = StandardRequest.isAllowed("Items", "Source terminal");
+      boolean allowed = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Source terminal");
       boolean limited = Limitmode.limitCampground();
       this.setShown((!bm || kf) && have && allowed && !limited);
 

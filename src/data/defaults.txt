@@ -455,6 +455,7 @@ user	crudeMonster
 user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
+user	currentDistillateMods
 user	currentEasyBountyItem	
 user	currentExtremity	0
 user	currentHardBountyItem	
@@ -880,6 +881,7 @@ user	lastTempleAdventures	-1
 user	lastTempleButtonsUnlock	-1
 user	lastTempleUnlock	-1
 user	lastThingWithNoNameDefeated	-1
+user	lastTowelAscension	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
 user	lastVoteMonsterTurn	0
@@ -1003,6 +1005,7 @@ user	munchiesPillsUsed	0
 user	mushroomGardenCropLevel	1
 user	neverendingPartyAlways	false
 user	nextAdventure
+user	nextDistillateMods
 user	nextParanormalActivity	1
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
@@ -1040,6 +1043,7 @@ user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
+user	parkaMode
 user	pastaThrall1
 user	pastaThrall2
 user	pastaThrall3
@@ -2084,6 +2088,7 @@ user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
 user	_spelunkerCharges	0
 user	_spelunkingTalesDrops	0
+user	_spikolodonSpikeUses	0
 user	_spinmasterLatheVisited	false
 user	_spinningWheel	false
 user	_spookyAirportToday	false

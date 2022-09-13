@@ -2,6 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -12,9 +16,13 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LibraryFunction extends Function {
   private Method method;
+  public String[] deprecationWarning;
 
-  public LibraryFunction(final String name, final Type type, final Type[] params) {
+  public LibraryFunction(
+      final String name, final Type type, final Type[] params, final String... deprecationWarning) {
     super(name.toLowerCase(), type);
+
+    this.deprecationWarning = deprecationWarning;
 
     Class<?>[] args = new Class[params.length + 1];
 
@@ -36,6 +44,10 @@ public class LibraryFunction extends Function {
 
       StaticEntity.printStackTrace(e, "No method found for built-in function: " + name);
     }
+  }
+
+  public LibraryFunction(final String name, final Type type, final Type[] params) {
+    this(name, type, params, new String[] {});
   }
 
   @Override
@@ -108,5 +120,12 @@ public class LibraryFunction extends Function {
       // This is not expected, but is an internal error in ASH
       throw new ScriptException(e);
     }
+  }
+
+  public List<String> getParameterNames() {
+    return Arrays.stream(this.method.getParameters())
+        .skip(1)
+        .map(Parameter::getName)
+        .collect(Collectors.toList());
   }
 }

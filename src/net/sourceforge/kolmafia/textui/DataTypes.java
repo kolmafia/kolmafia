@@ -4,6 +4,8 @@ import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
@@ -62,6 +64,7 @@ public class DataTypes {
   public static final int TYPE_BOUNTY = 113;
   public static final int TYPE_SERVANT = 114;
   public static final int TYPE_VYKEA = 115;
+  public static final int TYPE_PATH = 116;
 
   public static final int TYPE_STRICT_STRING = 1000;
   public static final int TYPE_AGGREGATE = 1001;
@@ -93,6 +96,7 @@ public class DataTypes {
   public static final Type THRALL_TYPE = new Type("thrall", DataTypes.TYPE_THRALL);
   public static final Type SERVANT_TYPE = new Type("servant", DataTypes.TYPE_SERVANT);
   public static final Type VYKEA_TYPE = new Type("vykea", DataTypes.TYPE_VYKEA);
+  public static final Type PATH_TYPE = new Type("path", DataTypes.TYPE_PATH);
 
   public static final Type STRICT_STRING_TYPE =
       new Type("strict_string", DataTypes.TYPE_STRICT_STRING);
@@ -193,40 +197,40 @@ public class DataTypes {
   public static final Value SERVANT_INIT = new Value(DataTypes.SERVANT_TYPE, 0, "none", null);
   public static final Value VYKEA_INIT =
       new Value(DataTypes.VYKEA_TYPE, 0, "none", VYKEACompanionData.NO_COMPANION);
+  public static final Value PATH_INIT = new Value(DataTypes.PATH_TYPE, -1, "none", Path.NONE);
 
-  public static final TypeList enumeratedTypes = new TypeList();
-  public static final TypeList simpleTypes = new TypeList();
+  public static final TypeList enumeratedTypes =
+      TypeList.of(
+          ITEM_TYPE,
+          LOCATION_TYPE,
+          CLASS_TYPE,
+          STAT_TYPE,
+          SKILL_TYPE,
+          EFFECT_TYPE,
+          FAMILIAR_TYPE,
+          SLOT_TYPE,
+          MONSTER_TYPE,
+          ELEMENT_TYPE,
+          COINMASTER_TYPE,
+          PHYLUM_TYPE,
+          BOUNTY_TYPE,
+          THRALL_TYPE,
+          SERVANT_TYPE,
+          VYKEA_TYPE,
+          PATH_TYPE);
+  public static final TypeList simpleTypes =
+      TypeList.of(
+          VOID_TYPE,
+          BOOLEAN_TYPE,
+          INT_TYPE,
+          FLOAT_TYPE,
+          STRING_TYPE,
+          BUFFER_TYPE,
+          MATCHER_TYPE,
+          AGGREGATE_TYPE);
 
   static {
-    simpleTypes.add(DataTypes.VOID_TYPE);
-    simpleTypes.add(DataTypes.BOOLEAN_TYPE);
-    simpleTypes.add(DataTypes.INT_TYPE);
-    simpleTypes.add(DataTypes.FLOAT_TYPE);
-    simpleTypes.add(DataTypes.STRING_TYPE);
-    simpleTypes.add(DataTypes.BUFFER_TYPE);
-    simpleTypes.add(DataTypes.MATCHER_TYPE);
-    simpleTypes.add(DataTypes.AGGREGATE_TYPE);
-
-    enumeratedTypes.add(DataTypes.ITEM_TYPE);
-    enumeratedTypes.add(DataTypes.LOCATION_TYPE);
-    enumeratedTypes.add(DataTypes.CLASS_TYPE);
-    enumeratedTypes.add(DataTypes.STAT_TYPE);
-    enumeratedTypes.add(DataTypes.SKILL_TYPE);
-    enumeratedTypes.add(DataTypes.EFFECT_TYPE);
-    enumeratedTypes.add(DataTypes.FAMILIAR_TYPE);
-    enumeratedTypes.add(DataTypes.SLOT_TYPE);
-    enumeratedTypes.add(DataTypes.MONSTER_TYPE);
-    enumeratedTypes.add(DataTypes.ELEMENT_TYPE);
-    enumeratedTypes.add(DataTypes.COINMASTER_TYPE);
-    enumeratedTypes.add(DataTypes.PHYLUM_TYPE);
-    enumeratedTypes.add(DataTypes.BOUNTY_TYPE);
-    enumeratedTypes.add(DataTypes.THRALL_TYPE);
-    enumeratedTypes.add(DataTypes.SERVANT_TYPE);
-    enumeratedTypes.add(DataTypes.VYKEA_TYPE);
-
-    for (Type type : enumeratedTypes) {
-      simpleTypes.add(type);
-    }
+    simpleTypes.addAll(enumeratedTypes);
   }
 
   private DataTypes() {}
@@ -652,6 +656,32 @@ public class DataTypes {
     return new Value(DataTypes.VYKEA_TYPE, companion.getType(), name, companion);
   }
 
+  public static Value parsePathValue(final int id, final boolean returnDefault) {
+    var path = AscensionPath.idToPath(id);
+    if (path == Path.NONE) {
+      return returnDefault ? DataTypes.PATH_INIT : null;
+    }
+    return new Value(path);
+  }
+
+  public static final Value parsePathValue(String name, final boolean returnDefault) {
+    if (name == null || name.equals("")) {
+      return returnDefault ? DataTypes.PATH_INIT : null;
+    }
+
+    if (name.equalsIgnoreCase("none")) {
+      return DataTypes.PATH_INIT;
+    }
+
+    var path = AscensionPath.nameToPath(name);
+
+    if (path == Path.NONE) {
+      return returnDefault ? DataTypes.PATH_INIT : null;
+    }
+
+    return new Value(path);
+  }
+
   public static final Value parseBountyValue(String name, final boolean returnDefault) {
     if (name == null || name.equals("")) {
       return returnDefault ? DataTypes.BOUNTY_INIT : null;
@@ -919,6 +949,19 @@ public class DataTypes {
     return new Value(DataTypes.VYKEA_TYPE, companion.getType(), companion.toString(), companion);
   }
 
+  public static final Value makePathValue(final Path path) {
+    if (path == Path.NONE) return DataTypes.PATH_INIT;
+    return new Value(DataTypes.PATH_TYPE, path.getId(), path.getName(), path);
+  }
+
+  public static final Value makePathValue(final int id, final boolean returnDefault) {
+    var path = AscensionPath.idToPath(id);
+    if (path == Path.NONE) {
+      return returnDefault ? DataTypes.PATH_INIT : null;
+    }
+    return new Value(DataTypes.PATH_TYPE, id, path.getName(), path);
+  }
+
   public static final Value makeMonsterValue(final MonsterData monster) {
     if (monster == null) {
       return DataTypes.MONSTER_INIT;
@@ -1003,6 +1046,9 @@ public class DataTypes {
 
       case TYPE_VYKEA:
         return InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
+
+      case TYPE_PATH:
+        return InputFieldUtilities.input(message, Path.values()).toString();
 
       case TYPE_CLASS:
         return InputFieldUtilities.input(message, AscensionClass.values()).toString();

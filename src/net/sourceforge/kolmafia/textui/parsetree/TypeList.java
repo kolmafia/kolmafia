@@ -3,9 +3,18 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TypeList implements Iterable<Type> {
-  private final List<Type> list = new ArrayList<>();
+  public static TypeList of(Type... types) {
+    var typeList = new TypeList();
+    for (var t : types) {
+      typeList.add(t);
+    }
+    return typeList;
+  }
+
+  protected final List<Type> list = new ArrayList<>();
 
   public boolean add(final Type n) {
     if (this.find(n.getName()) != null) {
@@ -16,19 +25,24 @@ public class TypeList implements Iterable<Type> {
     return true;
   }
 
-  public Type find(final String name) {
-    for (Type currentType : this.list) {
-      if (currentType.getName().equalsIgnoreCase(name)) {
-        return currentType;
-      }
-    }
+  public boolean addAll(final TypeList t) {
+    return list.addAll(t.list);
+  }
 
-    return null;
+  public Type find(final String name) {
+    return this.list.stream()
+        .filter(t -> t.getName().equalsIgnoreCase(name))
+        .findFirst()
+        .orElse(null);
   }
 
   @Override
   public Iterator<Type> iterator() {
     return list.iterator();
+  }
+
+  public Stream<Type> stream() {
+    return list.stream();
   }
 
   public boolean contains(final Type type) {

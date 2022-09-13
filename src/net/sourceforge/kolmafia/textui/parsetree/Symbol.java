@@ -30,7 +30,7 @@ public abstract class Symbol implements ParseTreeNode, Comparable<Symbol> {
 
   @Override
   public int compareTo(final Symbol o) {
-    if (!(o instanceof Symbol)) {
+    if (o == null) {
       throw new ClassCastException();
     }
     if (this.name == null) {

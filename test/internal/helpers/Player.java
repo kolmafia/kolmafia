@@ -8,6 +8,7 @@ import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -20,6 +21,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -38,14 +40,17 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.mockito.Mockito;
 
@@ -137,12 +142,15 @@ public class Player {
     EquipmentManager.setEquipment(slot, item.getItemId() == -1 ? EquipmentRequest.UNEQUIP : item);
     EquipmentManager.updateNormalOutfits();
     KoLCharacter.recalculateAdjustments();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
     cleanups.add(
         new Cleanups(
             () -> {
               EquipmentManager.setEquipment(slot, old);
               EquipmentManager.updateNormalOutfits();
               KoLCharacter.recalculateAdjustments();
+              ConcoctionDatabase.refreshConcoctions();
             }));
     return cleanups;
   }
@@ -278,7 +286,7 @@ public class Player {
   }
 
   /**
-   * Puts an amount of the given item into the player's clan stask
+   * Puts an amount of the given item into the player's clan stash
    *
    * @param itemName Item to give
    * @param count Quantity to give
@@ -294,13 +302,27 @@ public class Player {
     var old = item.getCount(list);
     AdventureResult.addResultToList(list, item);
     EquipmentManager.updateEquipmentLists();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
 
     return new Cleanups(
         () -> {
           AdventureResult.removeResultFromList(list, item);
           if (old != 0) AdventureResult.addResultToList(list, item.getInstance(old));
           EquipmentManager.updateEquipmentLists();
+          ConcoctionDatabase.refreshConcoctions();
         });
+  }
+
+  /**
+   * Puts the given item into the player's clan lounge
+   *
+   * @param itemId Item to give
+   * @return Removes the item from the lounge
+   */
+  public static Cleanups withClanLoungeItem(final int itemId) {
+    ClanLoungeRequest.setClanLoungeItem(itemId, 1);
+    return new Cleanups(() -> ClanLoungeRequest.setClanLoungeItem(itemId, 0));
   }
 
   /**
@@ -791,6 +813,16 @@ public class Player {
   }
 
   /**
+   * Sets the player's hippy stone to broken
+   *
+   * @return Set's the player's hippy stone to unbroken
+   */
+  public static Cleanups withHippyStoneBroken() {
+    KoLCharacter.setHippyStoneBroken(true);
+    return new Cleanups(() -> KoLCharacter.setHippyStoneBroken(false));
+  }
+
+  /**
    * Sets the player's fullness
    *
    * @param fullness Desired fullness
@@ -1253,6 +1285,24 @@ public class Player {
   }
 
   /**
+   * Simulates a choice (postChoice1, processResults and then postChoice2)
+   *
+   * <p>{@code @todo} Still needs some more choice handling (visitChoice, postChoice0)
+   *
+   * @param choice Choice number
+   * @param decision Decision number
+   * @return Restores state for choice handling
+   */
+  public static Cleanups withChoice(
+      final int choice, final int decision, final String responseText) {
+    var cleanups = new Cleanups();
+    cleanups.add(withPostChoice1(choice, decision, responseText));
+    ResultProcessor.processResults(false, responseText);
+    cleanups.add(withPostChoice2(choice, decision, responseText));
+    return cleanups;
+  }
+
+  /**
    * Sets the last location
    *
    * @param lastLocationName Last location name to set
@@ -1388,6 +1438,25 @@ public class Player {
     var old = KoLCharacter.getRestricted();
     KoLCharacter.setRestricted(restricted);
     return new Cleanups(() -> KoLCharacter.setRestricted(old));
+  }
+
+  /**
+   * Sets whether a particular item / skill is allowed in Standard
+   *
+   * @param type The type of key
+   * @param key The restricted item / skill
+   * @return Restores to previous value
+   */
+  public static Cleanups withNotAllowedInStandard(final RestrictedItemType type, final String key) {
+    var lcKey = key.toLowerCase();
+    var map = StandardRequest.getRestrictionMap();
+    map.computeIfAbsent(type, k -> new HashSet<>()).add(lcKey);
+
+    return new Cleanups(
+        () -> {
+          var val = map.get(type);
+          if (val != null) val.remove(lcKey);
+        });
   }
 
   /**

@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -357,6 +358,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("print", DataTypes.VOID_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("print_html", DataTypes.VOID_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("print_html", DataTypes.VOID_TYPE, params));
 
@@ -472,6 +476,8 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
     params = new Type[] {DataTypes.VYKEA_TYPE};
     functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
+    params = new Type[] {DataTypes.PATH_TYPE};
+    functions.add(new LibraryFunction("to_int", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
@@ -561,6 +567,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_vykea", DataTypes.VYKEA_TYPE, params));
 
+    params = new Type[] {DataTypes.STRICT_STRING_TYPE};
+    functions.add(new LibraryFunction("to_path", DataTypes.PATH_TYPE, params));
+
+    params = new Type[] {DataTypes.INT_TYPE};
+    functions.add(new LibraryFunction("to_path", DataTypes.PATH_TYPE, params));
+
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("to_plural", DataTypes.STRING_TYPE, params));
 
@@ -575,10 +587,20 @@ public abstract class RuntimeLibrary {
 
     // Experimental
     params = new Type[] {DataTypes.STRING_TYPE};
-    functions.add(new LibraryFunction("path_name_to_id", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "path_name_to_id",
+            DataTypes.INT_TYPE,
+            params,
+            "Changing 'path_name_to_id(xxx)' to 'to_path(xxx).id' will remove this warning"));
 
     params = new Type[] {DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("path_id_to_name", DataTypes.STRING_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "path_id_to_name",
+            DataTypes.STRING_TYPE,
+            params,
+            "Changing 'path_id_to_name(xxx)' to 'my_path(xxx).name' will remove this warning"));
 
     // Functions related to daily information which get
     // updated usually once per day.
@@ -1197,10 +1219,15 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_sign", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("my_path", DataTypes.STRING_TYPE, params));
+    functions.add(new LibraryFunction("my_path", DataTypes.PATH_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("my_path_id", DataTypes.INT_TYPE, params));
+    functions.add(
+        new LibraryFunction(
+            "my_path_id",
+            DataTypes.INT_TYPE,
+            params,
+            "Changing 'my_path_id()' to 'my_path().id' will remove this warning"));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("in_muscle_sign", DataTypes.BOOLEAN_TYPE, params));
@@ -2578,7 +2605,7 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(new LibraryFunction("get_fuel", DataTypes.INT_TYPE, params));
 
-    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE};
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.INT_TYPE};
     functions.add(
         new LibraryFunction(
             "voting_booth_initiatives",
@@ -2955,6 +2982,23 @@ public abstract class RuntimeLibrary {
 
     RequestLogger.printLine(parameters);
 
+    return DataTypes.VOID_VALUE;
+  }
+
+  public static Value print_html(
+      ScriptRuntime controller, final Value string, final Value logToSession) {
+    if (logToSession.intValue() == 1) {
+      String parameters = RuntimeLibrary.cleanString(string);
+      parameters = StringUtilities.stripHtml(parameters);
+
+      // Unlike print(), print_html() can do newlines in gCLI, which is why they're preserved in
+      // session log
+      for (String split : parameters.split("\n")) {
+        RequestLogger.getSessionStream().println("> " + split.trim());
+      }
+    }
+
+    RequestLogger.printLine(string.toString());
     return DataTypes.VOID_VALUE;
   }
 
@@ -3546,6 +3590,14 @@ public abstract class RuntimeLibrary {
     return DataTypes.parseVykeaValue(value.toString(), true);
   }
 
+  public static Value to_path(ScriptRuntime controller, final Value value) {
+    if (value.getType().equals(DataTypes.TYPE_INT)) {
+      return DataTypes.parsePathValue((int) value.intValue(), true);
+    }
+
+    return DataTypes.parsePathValue(value.toString(), true);
+  }
+
   public static Value to_plural(ScriptRuntime controller, final Value item) {
     return new Value(ItemDatabase.getPluralName((int) item.intValue()));
   }
@@ -3815,6 +3867,9 @@ public abstract class RuntimeLibrary {
 
   public static Value can_adventure(ScriptRuntime controller, final Value arg) {
     KoLAdventure location = (KoLAdventure) arg.content;
+    if (location == null) {
+      return DataTypes.FALSE_VALUE;
+    }
     return DataTypes.makeBooleanValue(location.canAdventure());
   }
 
@@ -5610,7 +5665,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value my_path(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getPath().getName());
+    return DataTypes.makePathValue(KoLCharacter.getPath());
   }
 
   public static Value my_path_id(ScriptRuntime controller) {
@@ -9092,23 +9147,23 @@ public abstract class RuntimeLibrary {
     if (type.equals(DataTypes.TYPE_STRING)) {
 
       result =
-          TrendyRequest.isTrendy("Items", key)
-              && TrendyRequest.isTrendy("Campground", key)
-              && TrendyRequest.isTrendy("Bookshelf", key)
-              && TrendyRequest.isTrendy("Familiars", key)
-              && TrendyRequest.isTrendy("Skills", key)
-              && TrendyRequest.isTrendy("Clan Item", key);
+          TrendyRequest.isTrendy(RestrictedItemType.ITEMS, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.CAMPGROUND, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.BOOKSHELF_BOOKS, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.FAMILIARS, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.SKILLS, key)
+              && TrendyRequest.isTrendy(RestrictedItemType.CLAN_ITEMS, key);
     } else if (type.equals(DataTypes.TYPE_ITEM)) {
-      result = TrendyRequest.isTrendy("Items", key);
+      result = TrendyRequest.isTrendy(RestrictedItemType.ITEMS, key);
     } else if (type.equals(DataTypes.TYPE_FAMILIAR)) {
-      result = TrendyRequest.isTrendy("Familiars", key);
+      result = TrendyRequest.isTrendy(RestrictedItemType.FAMILIARS, key);
     } else if (type.equals(DataTypes.TYPE_SKILL)) {
       if (SkillDatabase.isBookshelfSkill(key)) {
         int itemId = SkillDatabase.skillToBook(key);
         key = ItemDatabase.getItemName(itemId);
-        result = TrendyRequest.isTrendy("Bookshelf", key);
+        result = TrendyRequest.isTrendy(RestrictedItemType.BOOKSHELF_BOOKS, key);
       } else {
-        result = TrendyRequest.isTrendy("Skills", key);
+        result = TrendyRequest.isTrendy(RestrictedItemType.SKILLS, key);
       }
     } else {
       result = false;
@@ -9125,15 +9180,15 @@ public abstract class RuntimeLibrary {
 
     if (type.equals(DataTypes.TYPE_STRING)) {
       result =
-          StandardRequest.isNotRestricted("Items", key)
-              && StandardRequest.isNotRestricted("Bookshelf Books", key)
-              && StandardRequest.isNotRestricted("Skills", key)
-              && StandardRequest.isNotRestricted("Familiars", key)
-              && StandardRequest.isNotRestricted("Clan Items", key);
+          StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key)
+              && StandardRequest.isNotRestricted(RestrictedItemType.BOOKSHELF_BOOKS, key)
+              && StandardRequest.isNotRestricted(RestrictedItemType.SKILLS, key)
+              && StandardRequest.isNotRestricted(RestrictedItemType.FAMILIARS, key)
+              && StandardRequest.isNotRestricted(RestrictedItemType.CLAN_ITEMS, key);
     } else if (type.equals(DataTypes.TYPE_ITEM)) {
-      result = StandardRequest.isNotRestricted("Items", key);
+      result = StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key);
     } else if (type.equals(DataTypes.TYPE_FAMILIAR)) {
-      result = StandardRequest.isNotRestricted("Familiars", key);
+      result = StandardRequest.isNotRestricted(RestrictedItemType.FAMILIARS, key);
     } else if (type.equals(DataTypes.TYPE_SKILL)) {
       if (SkillDatabase.isBookshelfSkill(key)) {
         int itemId = SkillDatabase.skillToBook(key);
@@ -9142,10 +9197,10 @@ public abstract class RuntimeLibrary {
         // listed both under Bookshelf Books and Items, but
         // 3 are listed under only one or the other.
         result =
-            StandardRequest.isNotRestricted("Bookshelf Books", key)
-                && StandardRequest.isNotRestricted("Items", key);
+            StandardRequest.isNotRestricted(RestrictedItemType.BOOKSHELF_BOOKS, key)
+                && StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key);
       } else {
-        result = StandardRequest.isNotRestricted("Skills", key);
+        result = StandardRequest.isNotRestricted(RestrictedItemType.SKILLS, key);
       }
     } else {
       result = false;

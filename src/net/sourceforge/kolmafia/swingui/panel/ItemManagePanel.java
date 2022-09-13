@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -872,7 +873,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
           }
       }
 
-      if (isVisibleWithFilter && !StandardRequest.isAllowed("Items", name)) {
+      if (isVisibleWithFilter && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, name)) {
         isVisibleWithFilter = !FilterItemField.this.instyle;
       }
 

@@ -1,4 +1,6 @@
-package net.sourceforge.kolmafia.extensions;
+package internal.extensions;
+
+import static internal.extensions.CheckNested.isNested;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -22,6 +25,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
 
   @Override
   public void beforeAll(ExtensionContext context) {
+    if (isNested(context)) return;
     restoreUserStateToNoUser();
     restoreOtherStates();
     deleteDirectoriesAndContents();
@@ -47,6 +51,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     GenericRequest.sessionId = null;
     GenericRequest.passwordHash = "";
     AdventureSpentDatabase.setNoncombatEncountered(false);
+    StandardRequest.reset();
   }
 
   public void deleteDirectoriesAndContents() {

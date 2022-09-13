@@ -10975,3 +10975,5 @@
 10948	reflective vest	339444087	lightvest.gif	shirt	q	0
 10949	stuffed dinosaur	262152514	dinostuffy.gif	offhand	g	0
 10950	Thwaitgold mosquito-in-amber statuette	925741442	thwaitamber.gif	none		0
+10951	packaged Jurassic Parka	526296804	jparka_box.gif	usable	t	0
+10952	Jurassic Parka	815637689	jparka7.gif	shirt		0
