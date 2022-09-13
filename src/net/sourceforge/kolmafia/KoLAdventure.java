@@ -88,8 +88,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private final AreaCombatData areaSummary;
   private final boolean isNonCombatsOnly;
 
-  private static final Pattern ADVENTURE_AGAIN =
-      Pattern.compile("<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>");
   private static final HashSet<String> unknownAdventures = new HashSet<>();
 
   public static final Comparator<KoLAdventure> NameComparator =
@@ -817,7 +815,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // the Council asks for a mosquito larva at level two.
       return switch (this.adventureNumber) {
         case AdventurePool.BARROOM_BRAWL -> QuestDatabase.isQuestStarted(Quest.RAT);
-          // validate2 will visit the Crackpot Mystic to get one, if needed
+          // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
         case AdventurePool.PIXEL_REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
             || InventoryManager.hasItem(TRANSFUNCTIONER);
         case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.isKingdomOfExploathing()
@@ -1785,7 +1783,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return EquipmentManager.hasOutfit(id) ? id : 0;
   }
 
-  // Building a dingy dinghy is something that validate2 can do for us.
+  // Building a dingy dinghy is something that prepareForAdventure can do for us.
   private boolean canBuildDinghy() {
     return InventoryManager.hasItem(DINGHY_PLANS) && InventoryManager.hasItem(DINGY_PLANKS);
   }
@@ -1807,7 +1805,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need
       // to be Half-Astral or have access to an astral mushroom.
-      // validate1 ensured that one or the other is true
+      // canAdventure ensured that one or the other is true
 
       String option =
           switch (this.adventureNumber) {
@@ -1950,7 +1948,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Island") || this.zone.equals("IsleWar")) {
-      // If validate1 expected us to build dinghy, do it.
+      // If canAdventure expected us to build dinghy, do it.
       if (!buildDinghy()) {
         // This should not fail.
         return false;
@@ -2082,7 +2080,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return true;
       }
 
-      // This should not fail; validate1 verified we had one.
+      // This should not fail; canAdventure verified we had one.
       if (!InventoryManager.retrieveItem(ENCHANTED_BEAN)) {
         return false;
       }
@@ -2099,7 +2097,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Pirate")) {
-      // If validate1 expected us to build dinghy, do it.
+      // If canAdventure expected us to build dinghy, do it.
       buildDinghy();
 
       // If we are already acceptably garbed as pirate, cool.
@@ -2442,7 +2440,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
-    // Validate access that a betweenBattleScript cannot help with
+    // Check that adventuring in the zone does not require consuming
+    // expensive resources
+    this.validate0();
+    if (!this.isValidAdventure) {
+      if (KoLmafia.permitsContinue()) {
+        // validate0 did not give its own error message
+        KoLmafia.updateDisplay(MafiaState.ERROR, "That area is not available.");
+      }
+      return;
+    }
+
+    // Check that adventuring the zone is open to us, given level or quest
+    // progress, possibly by using inexpensive resources we have on hand
+    // (planting a beanstalk, building a dingy dinghy, and so on.)
     this.validate1();
     if (!this.isValidAdventure) {
       if (KoLmafia.permitsContinue()) {
@@ -2524,13 +2535,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     KoLAdventure.setNextAdventure(this);
     if (RecoveryManager.isRecoveryPossible()) {
       RecoveryManager.runBetweenBattleChecks(!this.isNonCombatsOnly());
-
       if (!KoLmafia.permitsContinue()) {
         return;
       }
     }
 
-    // Validate things that a betweenBattleScript might have helped with
+    // Perform any of the simple things that we are capable of (beanstalk,
+    // dinghy, etc.) that are needed to adventure in the zone.
     this.validate2();
     if (!this.isValidAdventure) {
       if (KoLmafia.permitsContinue()) {
@@ -2727,6 +2738,57 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
+  private static final AdventureResult mop = ItemPool.get(ItemPool.MIZZENMAST_MOP, 1);
+  private static final AdventureResult polish = ItemPool.get(ItemPool.BALL_POLISH, 1);
+  private static final AdventureResult sham = ItemPool.get(ItemPool.RIGGING_SHAMPOO, 1);
+
+  private void prepareToAdventure(final String urlString) {
+
+    // RequestLogger.registerRequest -> KoLAdventure.recordToSession -> (here)
+    //
+    // If we are automating we've already been through validate0
+    // (preValidateadventure), validate1 (canAdventure), and validate2
+    // (prepareForAdventure) for this adventure location.
+    //
+    // If we are adventuring in the Relay Browser, the user has clicked on
+    // something which results in an adventure URL and none of the validation
+    // steps have been executed.
+
+    // If we are in a drunken stupor, return now.
+    if (KoLCharacter.isFallingDown()
+        && !urlString.startsWith("trickortreat")
+        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
+      return;
+    }
+
+    switch (this.adventureNumber) {
+      case AdventurePool.FCLE:
+        // If can complete Cap'n Caronch's chore, do so and get pirate fledges
+        if (InventoryManager.hasItem(mop)
+            && InventoryManager.hasItem(polish)
+            && InventoryManager.hasItem(sham)) {
+          RequestThread.postRequest(UseItemRequest.getInstance(mop));
+          RequestThread.postRequest(UseItemRequest.getInstance(polish));
+          RequestThread.postRequest(UseItemRequest.getInstance(sham));
+        }
+        break;
+      case AdventurePool.DEGRASSI_KNOLL_GARAGE:
+        // Visit the untinker before adventuring at Degrassi Knoll.
+        UntinkerRequest.canUntinker();
+    }
+
+    // If we are automating, we have already validated this adventure.  If we
+    // are in the Relay Browser, we clicked an adventure location, so clearly
+    // we can go there, but we have not validated it per se.
+
+    // Wear the appropriate equipment for the King's chamber in Cobb's knob, if
+    // you can.
+
+    if (this.formSource.equals("cobbsknob.php") && this.canAdventure()) {
+      this.prepareForAdventure();
+    }
+  }
+
   private static KoLAdventure findAdventure(final String urlString) {
     if (urlString.equals("barrel.php")) {
       return null;
@@ -2737,6 +2799,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return AdventureDatabase.getAdventureByURL(urlString);
   }
 
+  private static final Pattern ADVENTURE_AGAIN =
+      Pattern.compile("<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>");
+
   private static KoLAdventure findAdventureAgain(final String responseText) {
     // Look for an "Adventure Again" link and return the
     // KoLAdventure that it matches.
@@ -2746,55 +2811,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     return KoLAdventure.findAdventure(matcher.group(1));
-  }
-
-  private void prepareToAdventure(final String urlString) {
-    // If we are in a drunken stupor, return now.
-    if (KoLCharacter.isFallingDown()
-        && !urlString.startsWith("trickortreat")
-        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
-      return;
-    }
-
-    int id = 0;
-
-    if (StringUtilities.isNumeric(this.adventureId)) {
-      id = StringUtilities.parseInt(this.adventureId);
-
-      switch (id) {
-        case AdventurePool.FCLE:
-          AdventureResult mop = ItemPool.get(ItemPool.MIZZENMAST_MOP, 1);
-          AdventureResult polish = ItemPool.get(ItemPool.BALL_POLISH, 1);
-          AdventureResult sham = ItemPool.get(ItemPool.RIGGING_SHAMPOO, 1);
-          if (InventoryManager.hasItem(mop)
-              && InventoryManager.hasItem(polish)
-              && InventoryManager.hasItem(sham)) {
-            RequestThread.postRequest(UseItemRequest.getInstance(mop));
-            RequestThread.postRequest(UseItemRequest.getInstance(polish));
-            RequestThread.postRequest(UseItemRequest.getInstance(sham));
-          }
-          break;
-      }
-    }
-
-    if (!(this.getRequest() instanceof AdventureRequest) || this.isValidAdventure) {
-      return;
-    }
-
-    // Visit the untinker before adventuring at Degrassi Knoll.
-
-    if (id == AdventurePool.DEGRASSI_KNOLL_GARAGE) {
-      UntinkerRequest.canUntinker();
-    }
-
-    this.isValidAdventure = true;
-
-    // Make sure you're wearing the appropriate equipment
-    // for the King's chamber in Cobb's knob.
-
-    if (this.formSource.equals("cobbsknob.php")) {
-      this.validate2();
-    }
   }
 
   // Automated adventuring in an area can result in a failure. We go into
