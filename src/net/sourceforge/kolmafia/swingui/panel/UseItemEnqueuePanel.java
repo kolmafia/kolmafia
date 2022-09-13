@@ -785,10 +785,11 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         return false;
       }
 
-      if (item != null
-          && item.getItemId() == ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR
-          && ConsumablesDatabase.getAdventureRange(item.getName()) == 0) {
-        return false;
+      if (item != null && ConsumablesDatabase.getAdventureRange(item.getName()) == 0) {
+        switch (item.getItemId()) {
+          case ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR, ItemPool.GLITCH_ITEM:
+            return false;
+        }
       }
 
       if (KoLCharacter.inBeecore()) {
