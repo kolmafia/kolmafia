@@ -139,6 +139,9 @@ public class Value implements TypedNode, Comparable<Value> {
     }
 
     if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
+      if ("none".equals(this.contentString)) {
+        return "none";
+      }
       return this.content.toString();
     }
 

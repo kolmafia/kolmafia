@@ -279,7 +279,7 @@ class ValueTest {
           hasSign(ZERO));
       assertThat("$path[Avatar of Boris] == 8", value.compareTo(new Value(8)), hasSign(ZERO));
       assertThat(
-          "paths compare to strings by string value (equivalent value)",
+          "$path[Avatar of Boris] == \"Avatar of Boris\"",
           value.compareTo(new Value("Avatar of Boris")),
           hasSign(ZERO));
     }
