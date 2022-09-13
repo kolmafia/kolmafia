@@ -102,22 +102,20 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     listeners.add(new ExecuteListener());
 
     switch (this.type) {
-      case FOOD:
+      case FOOD -> {
         listeners.add(new BingeGhostListener());
         listeners.add(new MilkListener());
         listeners.add(new UniversalSeasoningListener());
         listeners.add(new LunchListener());
         listeners.add(new DistendListener());
-        break;
-      case BOOZE:
+      }
+      case BOOZE -> {
         listeners.add(new BingeHoboListener());
         listeners.add(new OdeListener());
         listeners.add(new PrayerListener());
         listeners.add(new DogHairListener());
-        break;
-      case SPLEEN:
-        listeners.add(new MojoListener());
-        break;
+      }
+      case SPLEEN -> listeners.add(new MojoListener());
     }
 
     ActionListener[] listenerArray = new ActionListener[listeners.size()];
@@ -215,107 +213,99 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
 
     switch (this.type) {
-      case FOOD:
-        {
-          // The "consume" button depends on character path
-          boolean canEat = KoLCharacter.canEat();
-          this.buttons[index++].setEnabled(canEat);
+      case FOOD -> {
+        // The "consume" button depends on character path
+        boolean canEat = KoLCharacter.canEat();
+        this.buttons[index++].setEnabled(canEat);
 
-          boolean haveGhost = KoLCharacter.findFamiliar(FamiliarPool.GHOST) != null;
-          this.buttons[index++].setEnabled(haveGhost);
+        boolean haveGhost = KoLCharacter.findFamiliar(FamiliarPool.GHOST) != null;
+        this.buttons[index++].setEnabled(haveGhost);
 
-          // The milk listener is just after the ghost listener
-          boolean milkUsed = Preferences.getBoolean("_milkOfMagnesiumUsed");
-          boolean milkAvailable =
-              !milkUsed
-                  && (InventoryManager.itemAvailable(ItemPool.MILK_OF_MAGNESIUM)
-                      || CreateItemRequest.getInstance(
-                                  ItemPool.get(ItemPool.MILK_OF_MAGNESIUM, 1), false)
-                              .getQuantityPossible()
-                          > 0);
+        // The milk listener is just after the ghost listener
+        boolean milkUsed = Preferences.getBoolean("_milkOfMagnesiumUsed");
+        boolean milkAvailable =
+            !milkUsed
+                && (InventoryManager.itemAvailable(ItemPool.MILK_OF_MAGNESIUM)
+                    || CreateItemRequest.getInstance(
+                                ItemPool.get(ItemPool.MILK_OF_MAGNESIUM, 1), false)
+                            .getQuantityPossible()
+                        > 0);
 
-          this.buttons[index++].setEnabled(milkAvailable);
+        this.buttons[index++].setEnabled(milkAvailable);
 
-          // The seasoning listener is just after the ghost listener
-          boolean seasoningUsable = UseItemRequest.maximumUses(ItemPool.UNIVERSAL_SEASONING) > 0;
-          boolean seasoningAvailable =
-              seasoningUsable && (InventoryManager.itemAvailable(ItemPool.UNIVERSAL_SEASONING));
+        // The seasoning listener is just after the ghost listener
+        boolean seasoningUsable = UseItemRequest.maximumUses(ItemPool.UNIVERSAL_SEASONING) > 0;
+        boolean seasoningAvailable =
+            seasoningUsable && (InventoryManager.itemAvailable(ItemPool.UNIVERSAL_SEASONING));
 
-          this.buttons[index++].setEnabled(seasoningAvailable);
+        this.buttons[index++].setEnabled(seasoningAvailable);
 
-          // The lunch listener is just after the seasoning listener
-          boolean lunchAvailable =
-              canEat
-                  && (KoLCharacter.hasSkill("Song of the Glorious Lunch")
-                      || (Preferences.getBoolean("barrelShrineUnlocked")
-                          && !Preferences.getBoolean("_barrelPrayer")
-                          && KoLCharacter.isTurtleTamer()
-                          && StandardRequest.isAllowed(
-                              RestrictedItemType.ITEMS, "shrine to the Barrel god")));
+        // The lunch listener is just after the seasoning listener
+        boolean lunchAvailable =
+            canEat
+                && (KoLCharacter.hasSkill("Song of the Glorious Lunch")
+                    || (Preferences.getBoolean("barrelShrineUnlocked")
+                        && !Preferences.getBoolean("_barrelPrayer")
+                        && KoLCharacter.isTurtleTamer()
+                        && StandardRequest.isAllowed(
+                            RestrictedItemType.ITEMS, "shrine to the Barrel god")));
 
-          this.buttons[index++].setEnabled(lunchAvailable);
+        this.buttons[index++].setEnabled(lunchAvailable);
 
-          // We gray out the distend button unless we have a
-          // pill, and haven't used one today.
-          boolean havepill = InventoryManager.getAccessibleCount(ItemPool.DISTENTION_PILL) > 0;
-          boolean usedpill = Preferences.getBoolean("_distentionPillUsed");
-          boolean canFlush = (havepill && !usedpill);
+        // We gray out the distend button unless we have a
+        // pill, and haven't used one today.
+        boolean havepill = InventoryManager.getAccessibleCount(ItemPool.DISTENTION_PILL) > 0;
+        boolean usedpill = Preferences.getBoolean("_distentionPillUsed");
+        boolean canFlush = (havepill && !usedpill);
 
-          this.buttons[index++].setEnabled(canFlush);
-          break;
-        }
-      case BOOZE:
-        {
-          boolean canDrink = KoLCharacter.canDrink();
-          this.buttons[index++].setEnabled(canDrink);
+        this.buttons[index++].setEnabled(canFlush);
+      }
+      case BOOZE -> {
+        boolean canDrink = KoLCharacter.canDrink();
+        this.buttons[index++].setEnabled(canDrink);
 
-          boolean haveHobo = KoLCharacter.findFamiliar(FamiliarPool.HOBO) != null;
-          this.buttons[index++].setEnabled(haveHobo);
+        boolean haveHobo = KoLCharacter.findFamiliar(FamiliarPool.HOBO) != null;
+        this.buttons[index++].setEnabled(haveHobo);
 
-          // The ode listener is just after the hobo listener
-          var hasOde = checkOdeCastable();
-          this.buttons[index].setToolTipText(hasOde.reason);
-          this.buttons[index].setEnabled(hasOde.enabled);
-          index++;
+        // The ode listener is just after the hobo listener
+        var hasOde = checkOdeCastable();
+        this.buttons[index].setToolTipText(hasOde.reason);
+        this.buttons[index].setEnabled(hasOde.enabled);
+        index++;
 
-          // The prayer listener is just after the ode listener
-          boolean prayerAvailable =
-              canDrink
-                  && (Preferences.getBoolean("barrelShrineUnlocked")
-                      && !Preferences.getBoolean("_barrelPrayer")
-                      && KoLCharacter.isAccordionThief()
-                      && StandardRequest.isAllowed(
-                          RestrictedItemType.ITEMS, "shrine to the Barrel god"));
-          this.buttons[index++].setEnabled(prayerAvailable);
+        // The prayer listener is just after the ode listener
+        boolean prayerAvailable =
+            canDrink
+                && (Preferences.getBoolean("barrelShrineUnlocked")
+                    && !Preferences.getBoolean("_barrelPrayer")
+                    && KoLCharacter.isAccordionThief()
+                    && StandardRequest.isAllowed(
+                        RestrictedItemType.ITEMS, "shrine to the Barrel god"));
+        this.buttons[index++].setEnabled(prayerAvailable);
 
-          // We gray out the dog hair button unless we have
-          // inebriety, have a pill, and haven't used one today.
-          boolean havedrunk = KoLCharacter.getInebriety() > 0;
-          boolean havepill =
-              InventoryManager.getAccessibleCount(ItemPool.SYNTHETIC_DOG_HAIR_PILL) > 0;
-          boolean usedpill = Preferences.getBoolean("_syntheticDogHairPillUsed");
-          boolean canFlush = havedrunk && (havepill && !usedpill);
-          this.buttons[index++].setEnabled(canFlush);
-          break;
-        }
-      case SPLEEN:
-        {
-          boolean canSpleen = KoLCharacter.canSpleen();
-          this.buttons[index++].setEnabled(canSpleen);
+        // We gray out the dog hair button unless we have
+        // inebriety, have a pill, and haven't used one today.
+        boolean havedrunk = KoLCharacter.getInebriety() > 0;
+        boolean havepill =
+            InventoryManager.getAccessibleCount(ItemPool.SYNTHETIC_DOG_HAIR_PILL) > 0;
+        boolean usedpill = Preferences.getBoolean("_syntheticDogHairPillUsed");
+        boolean canFlush = havedrunk && (havepill && !usedpill);
+        this.buttons[index++].setEnabled(canFlush);
+      }
+      case SPLEEN -> {
+        boolean canSpleen = KoLCharacter.canSpleen();
+        this.buttons[index++].setEnabled(canSpleen);
 
-          boolean filterAvailable = InventoryManager.itemAvailable(ItemPool.MOJO_FILTER);
-          boolean haveSpleen = KoLCharacter.getSpleenUse() > 0;
-          boolean canUseFilter = Preferences.getInteger("currentMojoFilters") < 3;
-          boolean canFlush = filterAvailable && haveSpleen && canUseFilter;
-          this.buttons[index++].setEnabled(canFlush);
-          break;
-        }
-      case POTION:
-        {
-          boolean canUsePotions = KoLCharacter.canUsePotions();
-          this.buttons[index++].setEnabled(canUsePotions);
-          break;
-        }
+        boolean filterAvailable = InventoryManager.itemAvailable(ItemPool.MOJO_FILTER);
+        boolean haveSpleen = KoLCharacter.getSpleenUse() > 0;
+        boolean canUseFilter = Preferences.getInteger("currentMojoFilters") < 3;
+        boolean canFlush = filterAvailable && haveSpleen && canUseFilter;
+        this.buttons[index++].setEnabled(canFlush);
+      }
+      case POTION -> {
+        boolean canUsePotions = KoLCharacter.canUsePotions();
+        this.buttons[index++].setEnabled(canUsePotions);
+      }
     }
   }
 
@@ -409,18 +399,12 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       ConcoctionDatabase.refreshConcoctions();
 
       switch (UseItemEnqueuePanel.this.type) {
-        case FOOD:
-          UseItemEnqueuePanel.this.queueTabs.setTitleAt(
-              0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-          break;
-        case BOOZE:
-          UseItemEnqueuePanel.this.queueTabs.setTitleAt(
-              0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-          break;
-        case SPLEEN:
-          UseItemEnqueuePanel.this.queueTabs.setTitleAt(
-              0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
-          break;
+        case FOOD -> UseItemEnqueuePanel.this.queueTabs.setTitleAt(
+            0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
+        case BOOZE -> UseItemEnqueuePanel.this.queueTabs.setTitleAt(
+            0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
+        case SPLEEN -> UseItemEnqueuePanel.this.queueTabs.setTitleAt(
+            0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
       }
       ConcoctionDatabase.getUsables().sort();
     }
@@ -456,24 +440,22 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       }
 
       switch (type) {
-        case FOOD:
+        case FOOD -> {
           ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_EAT);
           UseItemEnqueuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-          break;
-        case BOOZE:
+        }
+        case BOOZE -> {
           ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_DRINK);
           UseItemEnqueuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-          break;
-        case SPLEEN:
+        }
+        case SPLEEN -> {
           ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_SPLEEN);
           UseItemEnqueuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
-          break;
-        case POTION:
-          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_USE);
-          break;
+        }
+        case POTION -> ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_USE);
       }
       ConcoctionDatabase.getUsables().sort();
     }
