@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class TypeList implements Iterable<Type> {
   public static TypeList of(Type... types) {
@@ -38,6 +39,10 @@ public class TypeList implements Iterable<Type> {
   @Override
   public Iterator<Type> iterator() {
     return list.iterator();
+  }
+
+  public Stream<Type> stream() {
+    return list.stream();
   }
 
   public boolean contains(final Type type) {

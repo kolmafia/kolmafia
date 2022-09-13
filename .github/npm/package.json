@@ -1,0 +1,14 @@
+{
+  "name": "kolmafia",
+  "version": "{{version}}.0.0",
+  "description": "Typings for the KoLmafia JS standard library",
+  "main": "index",
+  "types": "index",
+  "repository": "https://github.com/kolmafia/kolmafia",
+  "author": "KoLmafia Team",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "index.d.ts"
+  ]
+}

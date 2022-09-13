@@ -53,7 +53,7 @@ class ValueTest {
           "$bounty[bean-shaped rock] == $bounty[bean-shaped rock]",
           value.compareTo(DataTypes.parseBountyValue("bean-shaped rock", true)),
           hasSign(ZERO));
-      assertThat("$bounty[bean-shaped rock] < 5", value.compareTo(new Value(5)), hasSign(NEGATIVE));
+      assertThat("$bounty[bean-shaped rock] > 5", value.compareTo(new Value(5)), hasSign(POSITIVE));
       assertThat(
           "$bounty[bean-shaped rock] > \"a non numeric value\"",
           value.compareTo(new Value("a non numeric value")),
@@ -80,7 +80,7 @@ class ValueTest {
           "\"contents\".replace_string(\"\", \"\") == \"contents\".replace_string(\"\", \"\")",
           value.compareTo(new Value(DataTypes.BUFFER_TYPE, contents, buffer)),
           hasSign(ZERO));
-      assertThat("\"contents\" < 5", value.compareTo(new Value(5.0)), hasSign(NEGATIVE));
+      assertThat("\"contents\" > 5", value.compareTo(new Value(5.0)), hasSign(POSITIVE));
       assertThat(
           "\"contents\" < \"non numeric\"",
           value.compareTo(new Value("non numeric")),
@@ -122,8 +122,8 @@ class ValueTest {
           value.compareTo(DataTypes.makeCoinmasterValue(DiscoGiftCoRequest.DISCO_GIFTCO)),
           hasSign(ZERO));
       assertThat(
-          "$coinmaster[Disco GiftCo] < 2.4", value.compareTo(new Value(2.4)), hasSign(NEGATIVE));
-      assertThat("$coinmaster[Disco GiftCo] < 2", value.compareTo(new Value(2)), hasSign(NEGATIVE));
+          "$coinmaster[Disco GiftCo] > 2.4", value.compareTo(new Value(2.4)), hasSign(POSITIVE));
+      assertThat("$coinmaster[Disco GiftCo] > 2", value.compareTo(new Value(2)), hasSign(POSITIVE));
       assertThat(
           "$coinmaster[Disco GiftCo] < $monster[453]",
           value.compareTo(DataTypes.makeMonsterValue(453, true)),
@@ -164,8 +164,8 @@ class ValueTest {
           hasSign(ZERO));
       assertThat(
           "$element[cold] < \"string\"", value.compareTo(new Value("string")), hasSign(NEGATIVE));
-      assertThat("$element[cold] < 3.8", value.compareTo(new Value(3.8)), hasSign(NEGATIVE));
-      assertThat("$element[cold] < 3", value.compareTo(new Value(3)), hasSign(NEGATIVE));
+      assertThat("$element[cold] > 3.8", value.compareTo(new Value(3.8)), hasSign(POSITIVE));
+      assertThat("$element[cold] > 3", value.compareTo(new Value(3)), hasSign(POSITIVE));
       assertThat(
           "$element[cold] > $location[Fastest Adventurer Contest]",
           value.compareTo(
@@ -194,6 +194,7 @@ class ValueTest {
       var value = new Value(150);
       assertThat("150 < 200", value.compareTo(new Value(200)), hasSign(NEGATIVE));
       assertThat("150 == 150", value.compareTo(new Value(150)), hasSign(ZERO));
+      assertThat("150 == \"150\"", value.compareTo(new Value("150")), hasSign(ZERO));
       assertThat(
           "7 == $path[Trendy]",
           new Value(7).compareTo(DataTypes.makePathValue(Path.TRENDY)),
@@ -202,15 +203,13 @@ class ValueTest {
           "7 == $monster[batrat]",
           value.compareTo(DataTypes.makeMonsterValue(MonsterDatabase.findMonster("batrat"))),
           hasSign(ZERO));
-
       assertThat(
           "7 > $thrall[2]", value.compareTo(DataTypes.makeThrallValue(2, true)), hasSign(POSITIVE));
-
-      // Coinmasters have an int value of 0
       assertThat(
-          "0 == $coinmaster[Niña Store]",
+          "0 < $coinmaster[Niña Store]",
           new Value(0).compareTo(DataTypes.makeCoinmasterValue(NinjaStoreRequest.NINJA_STORE)),
-          hasSign(ZERO));
+          hasSign(NEGATIVE));
+      assertThat("\"11\" < 2", new Value("11").compareTo(new Value(2)), hasSign(NEGATIVE));
     }
 
     @Test
@@ -279,14 +278,10 @@ class ValueTest {
           value.compareTo(DataTypes.makePathValue(Path.AVATAR_OF_BORIS)),
           hasSign(ZERO));
       assertThat("$path[Avatar of Boris] == 8", value.compareTo(new Value(8)), hasSign(ZERO));
-
-      // These are not comparable in this way. There is special handling in ASH to make this work
-      // though, for backwards
-      // compatibility.
       assertThat(
-          "paths compare to strings by int value (would-be-equivalent value)",
+          "paths compare to strings by string value (equivalent value)",
           value.compareTo(new Value("Avatar of Boris")),
-          hasSign(POSITIVE));
+          hasSign(ZERO));
     }
 
     @Test
@@ -302,6 +297,7 @@ class ValueTest {
           "\"Trendy\" == $path[Trendy]",
           new Value("Trendy").compareTo(DataTypes.makePathValue(Path.TRENDY)),
           hasSign(ZERO));
+      assertThat("\"25\" == 25", new Value("25").compareTo(new Value(25)), hasSign(ZERO));
     }
 
     @Test

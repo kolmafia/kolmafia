@@ -342,6 +342,12 @@ public class Parser {
     reservedWords.add("monster");
     reservedWords.add("element");
     reservedWords.add("coinmaster");
+    reservedWords.add("phylum");
+    reservedWords.add("thrall");
+    reservedWords.add("bounty");
+    reservedWords.add("servant");
+    reservedWords.add("vykea");
+    reservedWords.add("path");
 
     reservedWords.add("record");
     reservedWords.add("typedef");
