@@ -395,7 +395,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class ReSortListener extends ThreadedListener {
+  private static class ReSortListener extends ThreadedListener {
     @Override
     protected void execute() {
       ConcoctionDatabase.getUsables().sort();
@@ -558,7 +558,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     public abstract String toString();
   }
 
-  private class MilkListener extends ThreadedListener {
+  private static class MilkListener extends ThreadedListener {
     @Override
     protected void execute() {
       RequestThread.postRequest(
@@ -571,7 +571,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class UniversalSeasoningListener extends ThreadedListener {
+  private static class UniversalSeasoningListener extends ThreadedListener {
     @Override
     protected void execute() {
       RequestThread.postRequest(
@@ -584,7 +584,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class LunchListener extends ThreadedListener {
+  private static class LunchListener extends ThreadedListener {
     @Override
     protected void execute() {
       if (KoLCharacter.hasSkill("Song of the Glorious Lunch")) {
@@ -606,7 +606,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class OdeListener extends ThreadedListener {
+  private static class OdeListener extends ThreadedListener {
     @Override
     protected void execute() {
       RequestThread.postRequest(UseSkillRequest.getInstance("The Ode to Booze", 1));
@@ -621,7 +621,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class PrayerListener extends ThreadedListener {
+  private static class PrayerListener extends ThreadedListener {
     @Override
     protected void execute() {
       // Barrel shrine request
@@ -637,7 +637,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class DistendListener extends ThreadedListener {
+  private static class DistendListener extends ThreadedListener {
     @Override
     protected void execute() {
       AdventureResult item = ItemPool.get(ItemPool.DISTENTION_PILL, 1);
@@ -651,7 +651,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class DogHairListener extends ThreadedListener {
+  private static class DogHairListener extends ThreadedListener {
     @Override
     protected void execute() {
       AdventureResult item = ItemPool.get(ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1);
@@ -665,7 +665,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class MojoListener extends ThreadedListener {
+  private static class MojoListener extends ThreadedListener {
     @Override
     protected void execute() {
       AdventureResult item = ItemPool.get(ItemPool.MOJO_FILTER, 1);
@@ -970,7 +970,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class PerUnitCheckBox extends PreferenceListenerCheckBox {
+  private static class PerUnitCheckBox extends PreferenceListenerCheckBox {
     public PerUnitCheckBox(final ConcoctionType type) {
       super(
           type == ConcoctionType.BOOZE
@@ -987,7 +987,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class ByRoomCheckbox extends PreferenceListenerCheckBox {
+  private static class ByRoomCheckbox extends PreferenceListenerCheckBox {
     public ByRoomCheckbox() {
       super("by room", "sortByRoom");
       this.setToolTipText("Sort items you have no room for to the bottom");
@@ -1019,7 +1019,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class TurnFreeCheckbox extends PreferenceListenerCheckBox {
+  private static class TurnFreeCheckbox extends PreferenceListenerCheckBox {
     public TurnFreeCheckbox() {
       super("turn-free", "showTurnFreeOnly");
 
@@ -1032,7 +1032,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class NoSummonCheckbox extends PreferenceListenerCheckBox {
+  private static class NoSummonCheckbox extends PreferenceListenerCheckBox {
     public NoSummonCheckbox() {
       super("no-summon", "showNoSummonOnly");
 
@@ -1045,7 +1045,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class RefreshListener extends ThreadedListener {
+  private static class RefreshListener extends ThreadedListener {
     @Override
     protected void execute() {
       ConcoctionDatabase.refreshConcoctions();
