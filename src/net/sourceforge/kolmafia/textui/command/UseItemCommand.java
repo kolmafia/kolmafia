@@ -174,19 +174,18 @@ public class UseItemCommand extends AbstractCommand {
           }
         }
 
-        if (command.equals("use")) {
-          switch (consumpt) {
-            case KoLConstants.CONSUME_EAT:
-            case KoLConstants.CONSUME_FOOD_HELPER:
-              KoLmafia.updateDisplay(MafiaState.ERROR, currentMatch.getName() + " must be eaten.");
-              return false;
-            case KoLConstants.CONSUME_DRINK:
-            case KoLConstants.CONSUME_DRINK_HELPER:
-              KoLmafia.updateDisplay(MafiaState.ERROR, currentMatch.getName() + " must be drunk.");
-              return false;
-            case KoLConstants.CONSUME_SPLEEN:
-              KoLmafia.updateDisplay(MafiaState.ERROR, currentMatch.getName() + " must be chewed.");
-              return false;
+        if (command.equals("use") && !ItemDatabase.isUsable(itemId)) {
+          var correctedUsage =
+              switch (consumpt) {
+                case KoLConstants.CONSUME_EAT, KoLConstants.CONSUME_FOOD_HELPER -> "eaten";
+                case KoLConstants.CONSUME_DRINK, KoLConstants.CONSUME_DRINK_HELPER -> "drunk";
+                case KoLConstants.CONSUME_SPLEEN -> "chewed";
+                default -> null;
+              };
+          if (correctedUsage != null) {
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR, currentMatch.getName() + " must be " + correctedUsage + ".");
+            return false;
           }
         }
 
