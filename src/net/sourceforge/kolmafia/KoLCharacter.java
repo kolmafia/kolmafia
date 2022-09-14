@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -4373,26 +4374,26 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Accessor method to find the specified familiar.
+   * Accessor method to find the specified usable familiar.
    *
    * @param race The race of the familiar to find
    * @return familiar The first familiar matching this race
    */
-  public static final FamiliarData usableFamiliar(final String race) {
+  public static FamiliarData usableFamiliar(final String race) {
     return usableFamiliar(f -> f.getRace().equalsIgnoreCase(race));
   }
 
   /**
-   * Accessor method to find the specified familiar.
+   * Accessor method to find the specified usable familiar.
    *
    * @param familiarId The id of the familiar to find
    * @return familiar The first familiar matching this id
    */
-  public static final FamiliarData usableFamiliar(final int familiarId) {
+  public static FamiliarData usableFamiliar(final int familiarId) {
     return usableFamiliar(f -> f.getId() == familiarId);
   }
 
-  private static final FamiliarData usableFamiliar(final Predicate<FamiliarData> familiarFilter) {
+  private static FamiliarData usableFamiliar(final Predicate<FamiliarData> familiarFilter) {
     // Quick check against NO_FAMILIAR
     if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return FamiliarData.NO_FAMILIAR;
 
@@ -4414,6 +4415,34 @@ public abstract class KoLCharacter {
         .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
         .findAny()
         .orElse(null);
+  }
+
+  /**
+   * Accessor method to find the specified owned familiar.
+   *
+   * @param race The race of the familiar to find
+   * @return familiar The first familiar matching this race
+   */
+  public static Optional<FamiliarData> ownedFamiliar(final String race) {
+    return ownedFamiliar(f -> f.getRace().equalsIgnoreCase(race));
+  }
+
+  /**
+   * Accessor method to find the specified owned familiar.
+   *
+   * @param familiarId The id of the familiar to find
+   * @return familiar The first familiar matching this id
+   */
+  public static Optional<FamiliarData> ownedFamiliar(final int familiarId) {
+    return ownedFamiliar(f -> f.getId() == familiarId);
+  }
+
+  private static Optional<FamiliarData> ownedFamiliar(
+      final Predicate<FamiliarData> familiarFilter) {
+    // Quick check against NO_FAMILIAR
+    if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return Optional.of(FamiliarData.NO_FAMILIAR);
+
+    return KoLCharacter.familiars.stream().filter(familiarFilter).findAny();
   }
 
   public static final boolean canUseFamiliar(final int familiarId) {
@@ -4448,7 +4477,8 @@ public abstract class KoLCharacter {
     KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar(familiar);
 
     if (previousFamiliar.getItem().equals(STILLSUIT)) {
-      var stillsuitFamiliar = KoLCharacter.usableFamiliar(Preferences.getString("stillsuitFamiliar"));
+      var stillsuitFamiliar =
+          KoLCharacter.usableFamiliar(Preferences.getString("stillsuitFamiliar"));
       if (stillsuitFamiliar != null
           && stillsuitFamiliar != familiar
           && stillsuitFamiliar != previousFamiliar) {
