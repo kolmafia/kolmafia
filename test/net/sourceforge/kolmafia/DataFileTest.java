@@ -37,7 +37,8 @@ public class DataFileTest {
               ".+", // name
               "\\d+", // fullness
               "\\d+", // level
-              "(crappy|decent|good|awesome|EPIC|\\?\\?\\?|drippy|sushi|quest)", // quality
+              // Missing quality is only for fake food "[glitch season reward name]"
+              "(crappy|decent|good|awesome|EPIC|\\?\\?\\?|drippy|sushi|quest|)", // quality
               "-?\\d+(-\\d+)?", // adv
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys
@@ -50,7 +51,7 @@ public class DataFileTest {
               ".+", // name
               "\\d+", // fullness
               "\\d+", // level
-              // Missing quality for ice stein.
+              // Missing quality is only for fake drink "ice stein"
               "(crappy|decent|good|awesome|EPIC|\\?\\?\\?|drippy|quest|)", // quality
               "-?\\d+(-\\d+)?", // adv
               "-?\\d+(-\\d+)?", // mus
