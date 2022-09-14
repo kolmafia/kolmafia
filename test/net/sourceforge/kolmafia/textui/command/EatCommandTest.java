@@ -12,14 +12,13 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class EatCommandTest extends AbstractCommandTestBase {
-  @BeforeEach
-  void beforeEach() {
-    KoLCharacter.reset(true);
+  @BeforeAll
+  static void beforeAll() {
     KoLCharacter.reset("EatCommandTest");
     Preferences.reset("EatCommandTest");
   }
