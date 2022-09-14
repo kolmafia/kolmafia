@@ -1646,7 +1646,10 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill("Disco Nap")) ++freerests;
     if (KoLCharacter.hasSkill("Adventurer of Leisure")) freerests += 2;
     if (KoLCharacter.hasSkill("Executive Narcolepsy")) ++freerests;
-    if (KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent()) freerests += 3;
+    // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
+    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective ")
+        && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
+      freerests += 3;
     if (KoLCharacter.hasSkill("Food Coma")) freerests += 10;
     if (KoLCharacter.hasSkill("Dog Tired")) freerests += 5;
     if (ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals("ceiling fan"))
