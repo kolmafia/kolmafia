@@ -117,7 +117,7 @@ public enum AscensionClass {
       case ED:
         return "Eds the Undying";
       default:
-        if (getName().startsWith("Avatar of ")) return "Avatars of " + getName().substring(6);
+        if (getName().startsWith("Avatar of ")) return "Avatars" + getName().substring(6);
         return getName() + "s";
     }
   }
@@ -147,6 +147,10 @@ public enum AscensionClass {
   }
 
   public final int getPrimeStatIndex() {
+    if (KoLCharacter.getAscensionClass() != this) {
+      return this.primeStatIndex;
+    }
+
     switch (this) {
       case PLUMBER:
       case GREY_GOO:
