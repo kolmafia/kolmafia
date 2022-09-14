@@ -738,6 +738,12 @@ public class QuestManager {
       if (responseText.contains("just want to dance")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1");
       }
+      if (responseText.contains("Meet me in the ballroom")) {
+        QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3");
+        ResultProcessor.removeItem(ItemPool.POWDER_PUFF);
+        ResultProcessor.removeItem(ItemPool.FINEST_GOWN);
+        ResultProcessor.removeItem(ItemPool.DANCING_SHOES);
+      }
     }
     if (area == AdventurePool.HAUNTED_BALLROOM) {
       if (responseText.contains("Having a Ball in the Ballroom")) {

@@ -745,14 +745,31 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.parentZone.equals("Manor")) {
-      // Spookyraven Manor quests:
-      //
+      // Quest.MANOR			Lord Spookyraven
+      if (this.zone.equals("Manor0")) {
+        return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED);
+      }
+
       // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
       // KMail from Lady Spookyraven at start of ascension or at level 5
       // if unascended contains telegram from Lady Spookyraven
       // -> reading telegram starts quest and opens Haunted Kitchen
       // -> talking to her on first floor after getting necklace removes
       //    necklace, grants ghost necklace, and ends quest.
+      if (this.zone.equals("Manor1")) {
+        int neededLevel = KoLCharacter.getAscensions() > 0 ? 0 : 5;
+        return switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_PANTRY -> true;
+          case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> QuestDatabase
+                  .isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)
+              || InventoryManager.hasItem(SPOOKYRAVEN_TELEGRAM)
+              || KoLCharacter.getLevel() >= neededLevel;
+          case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(LIBRARY_KEY);
+          case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(BILLIARDS_KEY);
+          default -> true;
+        };
+      }
+
       // Quest.SPOOKYRAVEN_DANCE	Lady Spookyraven
       // KMail from Lady Spookyraven (immediately after ending necklace
       // quest or at level 7 if unascended) invites you to 2nd floor.
@@ -761,45 +778,38 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // -> Talking to her after acquiring dancing gear opens Haunted
       //    Ballroom
       // -> Adventuring in Haunted Ballroom ends quest
+      if (this.zone.equals("Manor2")) {
+        int neededLevel = KoLCharacter.getAscensions() > 0 ? 0 : 7;
+        return switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_BATHROOM,
+              AdventurePool.HAUNTED_BEDROOM,
+              AdventurePool.HAUNTED_GALLERY -> QuestDatabase.isQuestLaterThan(
+                  Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)
+              || (KoLCharacter.getLevel() >= neededLevel
+                  && (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)
+                      || InventoryManager.hasItem(GHOST_NECKLACE)));
+          case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
+                  Quest.SPOOKYRAVEN_DANCE, "step2")
+              || (InventoryManager.hasItem(POWDER_PUFF)
+                  && InventoryManager.hasItem(FINEST_GOWN)
+                  && InventoryManager.hasItem(DANCING_SHOES));
+          default -> true;
+        };
+      }
+
       // Quest.SPOOKYRAVEN_BABIES	Lady Spookyraven
       // KMail from Lady Spookyraven (immediately after ending dancing
       // quest or at level 9 if unascended) invites you to 3d floor.
       // -> Visiting third floor opens Haunted Storage Room, Haunted
       //   Nursery, and Haunted Laboratory
-      // Quest.MANOR			Lord Spookyraven
-
-      if (this.zone.equals("Manor0")) {
-        return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED);
-      }
-
-      if (this.zone.equals("Manor1")) {
-        return switch (this.adventureNumber) {
-          case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> QuestDatabase
-              .isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
-          case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(LIBRARY_KEY);
-          case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(BILLIARDS_KEY);
-          default -> true;
-        };
-      }
-
-      if (this.zone.equals("Manor2")) {
-        return switch (this.adventureNumber) {
-          case AdventurePool.HAUNTED_BATHROOM,
-              AdventurePool.HAUNTED_BEDROOM,
-              AdventurePool.HAUNTED_GALLERY -> QuestDatabase.isQuestLaterThan(
-              Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
-          case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
-              Quest.SPOOKYRAVEN_DANCE, "step2");
-          default -> true;
-        };
-      }
-
       if (this.zone.equals("Manor3")) {
+        int neededLevel = KoLCharacter.getAscensions() > 0 ? 0 : 9;
         return switch (this.adventureNumber) {
           case AdventurePool.HAUNTED_LABORATORY,
               AdventurePool.HAUNTED_NURSERY,
               AdventurePool.HAUNTED_STORAGE_ROOM -> QuestDatabase.isQuestLaterThan(
-              Quest.SPOOKYRAVEN_DANCE, "step3");
+                  Quest.SPOOKYRAVEN_DANCE, "step3")
+              && (KoLCharacter.getLevel() >= neededLevel);
           default -> true;
         };
       }
@@ -2033,6 +2043,61 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new EquipmentRequest(TRANSFUNCTIONER));
       }
+      return true;
+    }
+
+    if (this.parentZone.equals("Manor")) {
+      if (this.zone.equals("Manor1")) {
+        switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_KITCHEN:
+          case AdventurePool.HAUNTED_CONSERVATORY:
+            if (!QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)) {
+              // If we have ascended at least once, we started with telegram in inventory.
+              // Otherwise, it comes in KMail at level 5.
+              if (!InventoryManager.hasItem(SPOOKYRAVEN_TELEGRAM)) {
+                InventoryManager.refresh();
+                InventoryManager.retrieveItem(SPOOKYRAVEN_TELEGRAM);
+              }
+              if (InventoryManager.hasItem(SPOOKYRAVEN_TELEGRAM)) {
+                RequestThread.postRequest(UseItemRequest.getInstance(SPOOKYRAVEN_TELEGRAM));
+              }
+            }
+            return QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
+        }
+      }
+
+      if (this.zone.equals("Manor2")) {
+        switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_BATHROOM:
+          case AdventurePool.HAUNTED_BEDROOM:
+          case AdventurePool.HAUNTED_GALLERY:
+            if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)) {
+              if (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)) {
+                // Talk to Lady Spookyraven on 1st floor
+                var request = new GenericRequest("place.php?whichplace=manor1&action=manor1_ladys");
+                RequestThread.postRequest(request);
+              }
+              if (InventoryManager.hasItem(GHOST_NECKLACE)) {
+                // Talk to Lady Spookyraven on 2nd floor
+                var request = new GenericRequest("place.php?whichplace=manor2&action=manor2_ladys");
+                RequestThread.postRequest(request);
+              }
+            }
+            return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
+          case AdventurePool.HAUNTED_BALLROOM:
+            if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2")) {
+              // These should not fail
+              InventoryManager.retrieveItem(POWDER_PUFF);
+              InventoryManager.retrieveItem(FINEST_GOWN);
+              InventoryManager.retrieveItem(DANCING_SHOES);
+              // Talk to Lady Spookyraven on 2nd floor
+              var request = new GenericRequest("place.php?whichplace=manor2&action=manor2_ladys");
+              RequestThread.postRequest(request);
+            }
+            return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
+        }
+      }
+
       return true;
     }
 
