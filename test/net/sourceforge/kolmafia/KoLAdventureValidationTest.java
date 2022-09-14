@@ -2329,17 +2329,16 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void canVisitPalindomeWithTalismanEquipped() {
-      var cleanups = new Cleanups(withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TALISMAN));
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TALISMAN));
       try (cleanups) {
         assertTrue(PALINDOME.canAdventure());
-      }
-    }
-
-    @Test
-    public void canVisitPalindomeWithTalismanInInventory() {
-      var cleanups = new Cleanups(withEquippableItem(ItemPool.TALISMAN));
-      try (cleanups) {
-        assertTrue(PALINDOME.canAdventure());
+        assertTrue(PALINDOME.prepareForAdventure());
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(0));
       }
     }
 
@@ -2377,18 +2376,6 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canVisitPalindomeWithTalismanComponentsAndMeat() {
-      var cleanups =
-          new Cleanups(
-              withItem(ItemPool.COPPERHEAD_CHARM),
-              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
-              withMeat(10));
-      try (cleanups) {
-        assertTrue(PALINDOME.canAdventure());
-      }
-    }
-
-    @Test
     public void canCreateTalismanAndEquipWithMeat() {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
@@ -2420,18 +2407,6 @@ public class KoLAdventureValidationTest {
             "/inv_equip.php",
             "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TALISMAN);
         assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
-      }
-    }
-
-    @Test
-    public void canVisitPalindomeWithComponentsAndThePlunger() {
-      var cleanups =
-          new Cleanups(
-              withItem(ItemPool.COPPERHEAD_CHARM),
-              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
-              withSign(ZodiacSign.VOLE));
-      try (cleanups) {
-        assertTrue(PALINDOME.canAdventure());
       }
     }
 

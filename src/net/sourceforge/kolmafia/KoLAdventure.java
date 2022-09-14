@@ -370,8 +370,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // this.isValidAdventure will be false if the only way to visit an area is to
   // use a (possibly expensive) day pass - which you might not even own
 
-  private void validate0() {
-    this.isValidAdventure = this.preValidateAdventure();
+  private boolean validate0() {
+    return (this.isValidAdventure = this.preValidateAdventure());
   }
 
   // Validation part 1:
@@ -385,8 +385,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // this.isValidAdventure will be false if there is nothing you can do
   // to go to this location at this time, or true, otherwise
 
-  private void validate1() {
-    this.isValidAdventure = this.canAdventure();
+  private boolean validate1() {
+    return (this.isValidAdventure = this.canAdventure());
   }
 
   // Validation part 2:
@@ -398,8 +398,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   //
   // If we can't, log error and set this.isValidAdventure to false.
 
-  private void validate2() {
-    this.isValidAdventure = this.prepareForAdventure();
+  private boolean validate2() {
+    return (this.isValidAdventure = this.prepareForAdventure());
   }
 
   // AdventureResults used during validation
@@ -584,6 +584,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // Validation part 1:
 
   public boolean canAdventure() {
+    // If we get here via automation, preValidateAdventure() returned true
+
     if (Limitmode.limitAdventure(this)) {
       return false;
     }
@@ -1845,7 +1847,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // Validation part 2:
 
   public boolean prepareForAdventure() {
-    // If we get here, this.isValidAdventure is true.
+    // If we get here via automation, canAdventure() returned true
 
     if (this.zone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need
@@ -2542,8 +2544,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Check that adventuring in the zone does not require consuming
     // expensive resources
-    this.validate0();
-    if (!this.isValidAdventure) {
+    if (!this.validate0()) {
       if (KoLmafia.permitsContinue()) {
         // validate0 did not give its own error message
         KoLmafia.updateDisplay(MafiaState.ERROR, "That area is not available.");
@@ -2554,8 +2555,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Check that adventuring the zone is open to us, given level or quest
     // progress, possibly by using inexpensive resources we have on hand
     // (planting a beanstalk, building a dingy dinghy, and so on.)
-    this.validate1();
-    if (!this.isValidAdventure) {
+    if (!this.validate1()) {
       if (KoLmafia.permitsContinue()) {
         // validate1 did not give its own error message
         KoLmafia.updateDisplay(MafiaState.ERROR, "That area is not available.");
@@ -2642,8 +2642,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Perform any of the simple things that we are capable of (beanstalk,
     // dinghy, etc.) that are needed to adventure in the zone.
-    this.validate2();
-    if (!this.isValidAdventure) {
+    if (!this.validate2()) {
       if (KoLmafia.permitsContinue()) {
         // validate2 did not give its own error message
         KoLmafia.updateDisplay(MafiaState.ERROR, "That area is not available.");
