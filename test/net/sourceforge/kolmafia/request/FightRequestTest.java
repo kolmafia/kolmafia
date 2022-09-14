@@ -1022,10 +1022,10 @@ public class FightRequestTest {
   class SmashGraaagh {
     @Test
     public void canTrackSmashAndGraaaghPickPocketSuccess() {
-      var cleanups = new Cleanups(withProperty("_zombieSmashPocketsUsed", 0), withFight(2));
+      var cleanups = new Cleanups(withProperty("_zombieSmashPocketsUsed", 0), withFight());
 
       try (cleanups) {
-        String urlString = "fight.php?action=macro&macrotext=skill+12023&whichmacro=0";
+        String urlString = "fight.php?action=skill&whichskill=12023";
         String html = html("request/test_fight_smash_and_graaagh_success.html");
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
@@ -1035,10 +1035,10 @@ public class FightRequestTest {
 
     @Test
     public void canTrackSmashAndGraaaghPickPocketFailure() {
-      var cleanups = new Cleanups(withProperty("_zombieSmashPocketsUsed", 3), withFight(2));
+      var cleanups = new Cleanups(withProperty("_zombieSmashPocketsUsed", 3), withFight());
 
       try (cleanups) {
-        String urlString = "fight.php?action=macro&macrotext=skill+12023&whichmacro=0";
+        String urlString = "fight.php?action=skill&whichskill=12023";
         String html = html("request/test_fight_smash_and_graaagh_failure.html");
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);

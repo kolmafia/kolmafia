@@ -9210,7 +9210,7 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
-	  case SkillPool.SMASH_GRAAAGH:
+      case SkillPool.SMASH_GRAAAGH:
         if (responseText.contains("incidentally tearing free an item")) {
           // No casting limit, can pickpocket items up to 30 times a day
           Preferences.increment("_zombieSmashPocketsUsed");
