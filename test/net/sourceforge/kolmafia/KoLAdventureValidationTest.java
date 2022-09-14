@@ -910,7 +910,8 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withHttpClientBuilder(builder), withAscensions(1), withItem(ItemPool.GHOST_NECKLACE));
       try (cleanups) {
-        builder.client.addResponse(200, "Spookyraven Manor Second Floor - just want to dance");
+        builder.client.addResponse(200, html("request/test_lady_spookyraven_2A.html"));
+        builder.client.addResponse(200, ""); // api.php
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
         assertTrue(HAUNTED_GALLERY.canAdventure());
@@ -919,8 +920,9 @@ public class KoLAdventureValidationTest {
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(1));
+        assertThat(requests, hasSize(2));
         assertPostRequest(requests.get(0), "/place.php", "whichplace=manor2&action=manor2_ladys");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
@@ -973,9 +975,10 @@ public class KoLAdventureValidationTest {
               withAscensions(1),
               withItem(ItemPool.SPOOKYRAVEN_NECKLACE));
       try (cleanups) {
-        builder.client.addResponse(
-            200, "You acquire an item: <b>ghost of a necklace</b> - ghostly copy of the necklace");
-        builder.client.addResponse(200, "Spookyraven Manor Second Floor - just want to dance");
+        builder.client.addResponse(200, html("request/test_lady_spookyraven_1.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_lady_spookyraven_2A.html"));
+        builder.client.addResponse(200, ""); // api.php
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
         assertTrue(HAUNTED_GALLERY.canAdventure());
@@ -984,9 +987,11 @@ public class KoLAdventureValidationTest {
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(4));
         assertPostRequest(requests.get(0), "/place.php", "whichplace=manor1&action=manor1_ladys");
-        assertPostRequest(requests.get(1), "/place.php", "whichplace=manor2&action=manor2_ladys");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(2), "/place.php", "whichplace=manor2&action=manor2_ladys");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
@@ -1021,15 +1026,42 @@ public class KoLAdventureValidationTest {
               withItem(ItemPool.FINEST_GOWN),
               withItem(ItemPool.DANCING_SHOES));
       try (cleanups) {
-        builder.client.addResponse(200, "Spookyraven Manor Second Floor - Meet me in the ballroom");
+        builder.client.addResponse(200, html("request/test_lady_spookyraven_2B.html"));
+        builder.client.addResponse(200, ""); // api.php
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
         assertTrue(HAUNTED_BALLROOM.canAdventure());
         assertTrue(HAUNTED_BALLROOM.prepareForAdventure());
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step3");
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(1));
+        assertThat(requests, hasSize(2));
         assertPostRequest(requests.get(0), "/place.php", "whichplace=manor2&action=manor2_ladys");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void canBallroomDanceToOpenThirdFloor() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withAscensions(1),
+              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3"));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_spookraven_dance.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_spookyraven_after_dance.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=395");
+        request.run();
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.FINISHED);
+        assertTrue(HAUNTED_LABORATORY.canAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=395");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(2), "/place.php", "whichplace=manor2");
       }
     }
 
