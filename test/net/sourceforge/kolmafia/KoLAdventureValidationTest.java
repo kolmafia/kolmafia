@@ -783,18 +783,20 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.SPOOKYRAVEN_TELEGRAM));
       try (cleanups) {
-        builder.client.addResponse(200, "");
+        builder.client.addResponse(200, html("request/test_spookyraven_telegram.html"));
+        builder.client.addResponse(200, ""); // api.php
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
         assertTrue(HAUNTED_KITCHEN.canAdventure());
         assertTrue(HAUNTED_KITCHEN.prepareForAdventure());
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.STARTED);
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(1));
+        assertThat(requests, hasSize(2));
         assertPostRequest(
             requests.get(0),
             "/inv_use.php",
             "whichitem=" + ItemPool.SPOOKYRAVEN_TELEGRAM + "&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
