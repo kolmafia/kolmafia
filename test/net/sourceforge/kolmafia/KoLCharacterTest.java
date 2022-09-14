@@ -287,8 +287,7 @@ public class KoLCharacterTest {
   public void familiarsWithoutGsAreStillOwnedInGLover() {
     var cleanups =
         new Cleanups(
-            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-            withPath(AscensionPath.Path.GLOVER));
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO), withPath(AscensionPath.Path.GLOVER));
 
     try (cleanups) {
       var fam = KoLCharacter.ownedFamiliar("mosquito");

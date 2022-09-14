@@ -82,13 +82,12 @@ public class FamiliarCommand extends AbstractCommand {
       parameters = parameters.substring(6).trim();
     }
 
-    List<FamiliarData> familiarList = KoLCharacter.getFamiliarList();
+    List<FamiliarData> familiarList = KoLCharacter.usableFamiliars();
 
-    String[] familiars = new String[familiarList.size()];
-    for (int i = 0; i < familiarList.size(); ++i) {
-      FamiliarData familiar = familiarList.get(i);
-      familiars[i] = StringUtilities.getCanonicalName(familiar.getRace());
-    }
+    String[] familiars =
+        familiarList.stream()
+            .map(f -> StringUtilities.getCanonicalName(f.getRace()))
+            .toArray(String[]::new);
 
     List<String> matchList = StringUtilities.getMatchingNames(familiars, parameters);
 

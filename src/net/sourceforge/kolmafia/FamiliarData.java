@@ -413,7 +413,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     int singleFamiliarRun = Preferences.getInteger("singleFamiliarRun");
 
     if (singleFamiliarRun == 0) {
-      for (FamiliarData familiar : KoLCharacter.getFamiliarList()) {
+      for (FamiliarData familiar : KoLCharacter.usableFamiliars()) {
         if (familiar.getTotalExperience() != 0) {
           if (singleFamiliarRun != 0) {
             singleFamiliarRun = -1;
@@ -1489,7 +1489,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     FamiliarData current = KoLCharacter.getFamiliar();
-    for (FamiliarData familiar : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData familiar : KoLCharacter.ownedFamiliars()) {
       if (!familiar.equals(current)) {
         AdventureResult equipped = familiar.getItem();
         if (equipped != null && equipped.equals(item)) {

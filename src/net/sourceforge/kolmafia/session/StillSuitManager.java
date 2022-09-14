@@ -25,7 +25,7 @@ public class StillSuitManager {
     }
 
     var familiar =
-        KoLCharacter.familiars.stream()
+        KoLCharacter.ownedFamiliars().stream()
             .filter(f -> f.getItem() != null && f.getItem().getItemId() == ItemPool.STILLSUIT)
             .findFirst()
             .orElse(null);

@@ -3143,8 +3143,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       int fu = Preferences.getInteger("_feastUsed");
       String list = Preferences.getString("_feastedFamiliars");
       boolean have = InventoryManager.getCount(ItemPool.MOVEABLE_FEAST) > 0;
-      for (int i = 0; !have && i < KoLCharacter.getFamiliarList().size(); ++i) {
-        FamiliarData current = KoLCharacter.getFamiliarList().get(i);
+      for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
+        if (have) break;
         if (current.getItem() != null && current.getItem().getItemId() == ItemPool.MOVEABLE_FEAST) {
           have = true;
         }

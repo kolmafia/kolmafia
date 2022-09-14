@@ -4409,12 +4409,18 @@ public abstract class KoLCharacter {
 
     return KoLCharacter.familiars.stream()
         .filter(familiarFilter)
-        .filter(StandardRequest::isAllowed)
-        .filter(f -> !KoLCharacter.inZombiecore() || f.isUndead())
-        .filter(f -> !KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
-        .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        .filter(KoLCharacter::isUsable)
         .findAny()
         .orElse(null);
+  }
+
+  private static boolean isUsable(FamiliarData f) {
+    if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
+
+    return StandardRequest.isAllowed(f)
+        && (!KoLCharacter.inZombiecore() || f.isUndead())
+        && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
+        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()));
   }
 
   /**
@@ -4610,6 +4616,28 @@ public abstract class KoLCharacter {
    */
   public static final LockableListModel<FamiliarData> getFamiliarList() {
     return KoLCharacter.familiars;
+  }
+
+  /**
+   * Returns the list of familiars owned by the character.
+   *
+   * @return The list of familiars owned by the character
+   */
+  public static List<FamiliarData> ownedFamiliars() {
+    return KoLCharacter.familiars;
+  }
+
+  /**
+   * Returns the list of familiars usable by the character.
+   *
+   * @return The list of familiars usable by the character
+   */
+  public static List<FamiliarData> usableFamiliars() {
+    if (!KoLCharacter.getPath().canUseFamiliars()) return List.of(FamiliarData.NO_FAMILIAR);
+
+    if (KoLCharacter.inQuantum()) return List.of(currentFamiliar);
+
+    return KoLCharacter.familiars.stream().filter(KoLCharacter::isUsable).toList();
   }
 
   /*

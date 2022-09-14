@@ -6861,7 +6861,7 @@ public abstract class RuntimeLibrary {
     AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.FAMILIAR_TYPE);
     MapValue value = new MapValue(type);
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       if (fam.getFavorite()) {
         value.aset(
             DataTypes.makeFamiliarValue(fam.getId(), true),

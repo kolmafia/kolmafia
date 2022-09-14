@@ -1646,13 +1646,12 @@ public class EquipmentManager {
         EquipmentManager.updateEquipmentList(
             consumeFilter, EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR));
 
-        FamiliarData[] familiarList = new FamiliarData[KoLCharacter.familiars.size()];
-        KoLCharacter.familiars.toArray(familiarList);
+        FamiliarData[] familiarList = KoLCharacter.ownedFamiliars().toArray(new FamiliarData[0]);
 
         FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
-        for (int i = 0; i < familiarList.length; ++i) {
-          AdventureResult currentItem = familiarList[i].getItem();
+        for (FamiliarData familiarData : familiarList) {
+          AdventureResult currentItem = familiarData.getItem();
           if (currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip(currentItem)) {
             AdventureResult.addResultToList(
                 EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR), currentItem);

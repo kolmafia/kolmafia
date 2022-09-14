@@ -1039,7 +1039,7 @@ public class GearChangeFrame extends GenericFrame {
     // Add stealable familiar equipment
     if (myFamiliar != FamiliarData.NO_FAMILIAR) {
       List<AdventureResult> items = lists.get(EquipmentManager.FAMILIAR);
-      for (FamiliarData familiar : KoLCharacter.familiars) {
+      for (FamiliarData familiar : KoLCharacter.ownedFamiliars()) {
         if (familiar == myFamiliar) {
           continue;
         }
@@ -1330,7 +1330,7 @@ public class GearChangeFrame extends GenericFrame {
   private List<FamiliarData> validFamiliars(final FamiliarData currentFamiliar) {
     List<FamiliarData> familiars = new ArrayList<>();
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       // Only add it once
       if (familiars.contains(fam)) {
         continue;
@@ -1363,7 +1363,7 @@ public class GearChangeFrame extends GenericFrame {
       final FamiliarData exclude1, final FamiliarData exclude2) {
     List<FamiliarData> familiars = new ArrayList<>();
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       // Cannot carry a familiar if it is current familiar or is carried elsewhere
       if (fam == exclude1 || fam == exclude2) {
         continue;
