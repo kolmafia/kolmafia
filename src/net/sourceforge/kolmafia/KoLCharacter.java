@@ -4619,7 +4619,8 @@ public abstract class KoLCharacter {
    * @return The list of familiars available to the character
    */
   public static final LockableListModel<FamiliarData> getFamiliarList() {
-    var list = new LockableListModel<>(KoLCharacter.familiars);
+    var list = new SortedListModel<FamiliarData>();
+    list.addAll(KoLCharacter.familiars);
     list.setSelectedItem(KoLCharacter.currentFamiliar);
     list.setFilter(
         new ListElementFilter() {
