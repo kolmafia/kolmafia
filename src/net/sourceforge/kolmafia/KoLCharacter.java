@@ -4555,7 +4555,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Adds the given familiar to the list of available familiars.
+   * Adds the given familiar to the list of owned familiars.
    *
    * @param familiar The Id of the familiar to be added
    */
@@ -4580,7 +4580,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Remove the given familiar from the list of available familiars.
+   * Remove the given familiar from the list of owned familiars.
    *
    * @param familiar The Id of the familiar to be removed
    */
