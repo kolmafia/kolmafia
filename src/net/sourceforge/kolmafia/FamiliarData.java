@@ -270,12 +270,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     // Familiars cannot be equipped by most Avatar classes
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.isSneakyPete()
-        || KoLCharacter.isEd()
-        || KoLCharacter.inBondcore()
-        || KoLCharacter.isVampyre()) {
+    if (!KoLCharacter.getPath().canUseFamiliars()) {
       return false;
     }
 
