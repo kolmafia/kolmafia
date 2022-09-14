@@ -182,7 +182,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.familiar = KoLCharacter.getFamiliar();
 
       // Put familiar changer on top
-      this.familiars = new ChangeComboBox(KoLCharacter.getFamiliarList()); // TODO
+      this.familiars = new ChangeComboBox(KoLCharacter.getFamiliarList());
       this.familiars.setRenderer(FamiliarData.getRenderer());
       container.add(this.familiars, BorderLayout.NORTH);
 

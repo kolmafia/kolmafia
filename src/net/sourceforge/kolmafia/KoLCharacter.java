@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -207,7 +209,7 @@ public abstract class KoLCharacter {
 
   // Familiar data
 
-  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
+  public static final List<FamiliarData> familiars = new ArrayList<>();
   public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
   public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
   public static String currentFamiliarImage = null;
@@ -4506,7 +4508,6 @@ public abstract class KoLCharacter {
       KoLCharacter.currentBjorned = FamiliarData.NO_FAMILIAR;
     }
 
-    KoLCharacter.familiars.setSelectedItem(KoLCharacter.currentFamiliar);
     EquipmentManager.setEquipment(
         EquipmentManager.FAMILIAR, KoLCharacter.currentFamiliar.getItem());
 
@@ -4615,7 +4616,17 @@ public abstract class KoLCharacter {
    * @return The list of familiars available to the character
    */
   public static final LockableListModel<FamiliarData> getFamiliarList() {
-    return KoLCharacter.familiars;
+    var list = new LockableListModel<>(KoLCharacter.familiars);
+    list.setSelectedItem(KoLCharacter.currentFamiliar);
+    list.setFilter(
+        new ListElementFilter() {
+          @Override
+          public boolean isVisible(Object element) {
+            var elt = (FamiliarData) element;
+            return KoLCharacter.isUsable(elt);
+          }
+        });
+    return list;
   }
 
   /**
