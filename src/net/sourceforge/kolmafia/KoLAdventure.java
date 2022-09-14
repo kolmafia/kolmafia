@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.BatManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -2035,11 +2036,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.adventureNumber == AdventurePool.PIXEL_REALM || this.zone.equals("Vanya's Castle")) {
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
+        // This redirects to choice.php&forceoption=0.
+        //
+        // The user might have configured choice 664 to automate.  If so,
+        // ChoiceHandler will do the whole thing and we will end up with the
+        // transfunctioner in inventory and not in a choice.
         GenericRequest pixelRequest = new GenericRequest("choice.php?whichchoice=664&option=1");
-        // The early steps cannot be skipped
-        RequestThread.postRequest(pixelRequest);
-        RequestThread.postRequest(pixelRequest);
-        RequestThread.postRequest(pixelRequest);
+        while (ChoiceManager.handlingChoice) {
+          RequestThread.postRequest(pixelRequest);
+        }
       }
 
       if (!KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {

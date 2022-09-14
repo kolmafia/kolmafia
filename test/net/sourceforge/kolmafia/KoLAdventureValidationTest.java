@@ -32,6 +32,7 @@ import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -1094,6 +1095,122 @@ public class KoLAdventureValidationTest {
         assertFalse(HAUNTED_WINE_CELLAR.canAdventure());
         assertFalse(HAUNTED_LAUNDRY_ROOM.canAdventure());
         assertFalse(HAUNTED_BOILER_ROOM.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class Pixels {
+    private static final KoLAdventure PIXEL_REALM =
+        AdventureDatabase.getAdventureByName("8-Bit Realm");
+    private static final KoLAdventure VANYA =
+        AdventureDatabase.getAdventureByName("Vanya's Castle Foyer");
+
+    @Test
+    public void pixelRealmNotAvailableWithoutWoods() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(PIXEL_REALM.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureWithTransfunctionerEquipped() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
+      try (cleanups) {
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithTransfunctionerInInventory() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withEquippableItem(ItemPool.TRANSFUNCTIONER));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_equip_transfunctioner.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    private void acquireAndEquipTransfunctioner(FakeHttpClientBuilder builder) {
+      // place.php?whichplace=forestvillage&action=fv_mystic
+      builder.client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+      builder.client.addResponse(200, html("request/test_mystic_1.html"));
+      // choice.php?whichchoice=664&option=1&pwd
+      builder.client.addResponse(200, html("request/test_mystic_2.html"));
+      // choice.php?whichchoice=664&option=1&pwd
+      builder.client.addResponse(200, html("request/test_mystic_3.html"));
+      // choice.php?whichchoice=664&option=1&pwd
+      builder.client.addResponse(200, html("request/test_mystic_4.html"));
+      builder.client.addResponse(200, ""); // api.php
+      // inv_equip.php?which=2&ajax=1&slot=1&action=equip&whichitem=458
+      builder.client.addResponse(200, html("request/test_equip_transfunctioner.html"));
+      builder.client.addResponse(200, ""); // api.php
+
+      assertTrue(PIXEL_REALM.canAdventure());
+      assertTrue(PIXEL_REALM.prepareForAdventure());
+
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(8));
+      assertPostRequest(requests.get(0), "/place.php", "whichplace=forestvillage&action=fv_mystic");
+      assertPostRequest(requests.get(1), "/choice.php", "forceoption=0");
+      assertPostRequest(requests.get(2), "/choice.php", "whichchoice=664&option=1");
+      assertPostRequest(requests.get(3), "/choice.php", "whichchoice=664&option=1");
+      assertPostRequest(requests.get(4), "/choice.php", "whichchoice=664&option=1");
+      assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(
+          requests.get(6),
+          "/inv_equip.php",
+          "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
+      assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
+    }
+
+    @Test
+    public void canAcquireAndEquipTransfunctionerAutomated() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withProperty("choiceAdventure664", 1));
+      try (cleanups) {
+        acquireAndEquipTransfunctioner(builder);
+      }
+    }
+
+    @Test
+    public void canAcquireAndEquipTransfunctionerManually() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withProperty("choiceAdventure664", 0));
+      try (cleanups) {
+        acquireAndEquipTransfunctioner(builder);
       }
     }
   }
