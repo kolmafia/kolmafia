@@ -32,9 +32,9 @@ jobs:
 
       - name: Prepare package
         run: |
+          PACKAGE_VERSION=$(head -n 1 index.d.ts | cut -c 5-)
           mv index.d.ts .github/npm/index.d.ts
-          KOLMAFIA_VERSION=$(git rev-list --count $GITHUB_SHA)
-          sed -i 's/{{version}}/'$KOLMAFIA_VERSION'/g' .github/npm/package.json
+          sed -i 's/{{version}}/'$PACKAGE_VERSION'/g' .github/npm/package.json
 
       - uses: actions/setup-node@v3
         with:

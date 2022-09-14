@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.text.CharSequenceLength.hasLength;
 
 import java.util.Arrays;
@@ -46,5 +47,15 @@ public class TypescriptDefinitionTest {
     assertThat(fn.isPresent(), is(true));
     LibraryFunction libFn = (LibraryFunction) fn.get();
     assertThat(TypescriptDefinition.formatFunction(libFn), equalTo(formatted));
+  }
+
+  @Test
+  void firstLineContainsValidVersionNumber() {
+    // We get the version number with `PACKAGE_VERSION=$(head -n 1 index.d.ts | cut -c 5-)`
+    // As such, here we test that this produces a valid version number
+    var contents = TypescriptDefinition.getContents();
+    var firstLine = contents.substring(0, contents.indexOf("\n"));
+    var version = firstLine.substring(4);
+    assertThat(version, matchesPattern("^\\d+\\.\\d+\\.\\d+$"));
   }
 }

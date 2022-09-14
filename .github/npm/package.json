@@ -1,6 +1,6 @@
 {
   "name": "kolmafia",
-  "version": "{{version}}.0.0",
+  "version": "{{version}}",
   "description": "Typings for the KoLmafia JS standard library",
   "main": "index",
   "types": "index",
