@@ -1361,7 +1361,7 @@ public class FightRequestTest {
               withEquipped(EquipmentManager.FAMILIAR, "woimbook"),
               withFamiliarInTerrarium(FamiliarPool.PET_ROCK));
       try (cleanups) {
-        var rock = KoLCharacter.findFamiliar(FamiliarPool.PET_ROCK);
+        var rock = KoLCharacter.usableFamiliar(FamiliarPool.PET_ROCK);
         rock.setItem(ItemPool.get(ItemPool.STILLSUIT));
         parseCombatData("request/test_fight_stillsuit_in_terrarium.html");
         assertThat("familiarSweat", isSetTo(6));

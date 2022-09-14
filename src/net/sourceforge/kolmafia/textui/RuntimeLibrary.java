@@ -6514,7 +6514,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heist_targets(ScriptRuntime controller) {
-    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+    if (!KoLCharacter.canUseFamiliar(FamiliarPool.CAT_BURGLAR)) {
       throw controller.runtimeException("You don't have a Cat Burglar");
     }
     FamiliarData current = KoLCharacter.getFamiliar();
@@ -6542,7 +6542,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heist(ScriptRuntime controller, final Value num, final Value item) {
-    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+    if (!KoLCharacter.canUseFamiliar(FamiliarPool.CAT_BURGLAR)) {
       throw controller.runtimeException("You don't have a Cat Burglar");
     }
     FamiliarData current = KoLCharacter.getFamiliar();
@@ -6798,7 +6798,7 @@ public abstract class RuntimeLibrary {
     int familiarId = (int) familiar.intValue();
     return familiarId == -1
         ? DataTypes.FALSE_VALUE
-        : DataTypes.makeBooleanValue(KoLCharacter.findFamiliar(familiarId) != null);
+        : DataTypes.makeBooleanValue(KoLCharacter.usableFamiliar(familiarId) != null);
   }
 
   public static Value use_familiar(ScriptRuntime controller, final Value familiar) {
@@ -6831,7 +6831,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value familiar_equipped_equipment(ScriptRuntime controller, final Value familiar) {
-    FamiliarData fam = KoLCharacter.findFamiliar((int) familiar.intValue());
+    FamiliarData fam = KoLCharacter.usableFamiliar((int) familiar.intValue());
     AdventureResult item = fam == null ? EquipmentRequest.UNEQUIP : fam.getItem();
     return item == EquipmentRequest.UNEQUIP
         ? DataTypes.ITEM_INIT
@@ -6839,7 +6839,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value familiar_weight(ScriptRuntime controller, final Value familiar) {
-    FamiliarData fam = KoLCharacter.findFamiliar((int) familiar.intValue());
+    FamiliarData fam = KoLCharacter.usableFamiliar((int) familiar.intValue());
     return fam == null ? DataTypes.ZERO_VALUE : new Value(fam.getWeight());
   }
 

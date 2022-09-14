@@ -930,13 +930,13 @@ public class GearChangeFrame extends GenericFrame {
   private FamiliarData familiarCarryingEquipment(final int slot) {
     switch (slot) {
       case EquipmentManager.HAT:
-        return KoLCharacter.findFamiliar(FamiliarPool.HATRACK);
+        return KoLCharacter.usableFamiliar(FamiliarPool.HATRACK);
       case EquipmentManager.PANTS:
-        return KoLCharacter.findFamiliar(FamiliarPool.SCARECROW);
+        return KoLCharacter.usableFamiliar(FamiliarPool.SCARECROW);
       case EquipmentManager.WEAPON:
-        return KoLCharacter.findFamiliar(FamiliarPool.HAND);
+        return KoLCharacter.usableFamiliar(FamiliarPool.HAND);
       case EquipmentManager.OFFHAND:
-        return KoLCharacter.findFamiliar(FamiliarPool.LEFT_HAND);
+        return KoLCharacter.usableFamiliar(FamiliarPool.LEFT_HAND);
       default:
         return null;
     }

@@ -336,7 +336,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public final void setExperience(int exp) {
     Stream<FamiliarData> famsToSet =
         CRIMBO_GHOSTS.contains(this.getId())
-            ? CRIMBO_GHOSTS.stream().map(KoLCharacter::findFamiliar).filter(Objects::nonNull)
+            ? CRIMBO_GHOSTS.stream().map(KoLCharacter::usableFamiliar).filter(Objects::nonNull)
             : Stream.of(this);
 
     famsToSet.forEach(
@@ -596,7 +596,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   private static FamiliarData registerFamiliar(final Matcher matcher, boolean idFirst) {
     String race = matcher.group(4);
-    FamiliarData familiar = KoLCharacter.findFamiliar(race);
+    FamiliarData familiar = KoLCharacter.usableFamiliar(race);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(matcher, idFirst);
@@ -613,7 +613,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return FamiliarData.NO_FAMILIAR;
     }
 
-    FamiliarData familiar = KoLCharacter.findFamiliar(id);
+    FamiliarData familiar = KoLCharacter.usableFamiliar(id);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(id);
@@ -643,7 +643,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return FamiliarData.NO_FAMILIAR;
     }
 
-    FamiliarData familiar = KoLCharacter.findFamiliar(id);
+    FamiliarData familiar = KoLCharacter.usableFamiliar(id);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(id);
@@ -1517,7 +1517,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public static final void checkShrub() {
-    if (KoLCharacter.findFamiliar(FamiliarPool.CRIMBO_SHRUB) == null) {
+    if (KoLCharacter.usableFamiliar(FamiliarPool.CRIMBO_SHRUB) == null) {
       return;
     }
 

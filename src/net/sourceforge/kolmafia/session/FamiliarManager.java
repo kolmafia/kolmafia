@@ -23,7 +23,7 @@ public abstract class FamiliarManager {
   }
 
   public static void changeFamiliar(int famId, boolean stealEquipment) {
-    changeFamiliar(KoLCharacter.findFamiliar(famId), stealEquipment);
+    changeFamiliar(KoLCharacter.usableFamiliar(famId), stealEquipment);
   }
 
   public static void changeFamiliar(FamiliarData familiar) {

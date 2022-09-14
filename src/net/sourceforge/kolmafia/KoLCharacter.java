@@ -1643,7 +1643,7 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill("Disco Nap")) ++freerests;
     if (KoLCharacter.hasSkill("Adventurer of Leisure")) freerests += 2;
     if (KoLCharacter.hasSkill("Executive Narcolepsy")) ++freerests;
-    if (KoLCharacter.findFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE) != null) freerests += 3;
+    if (KoLCharacter.usableFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE) != null) freerests += 3;
     if (KoLCharacter.hasSkill("Food Coma")) freerests += 10;
     if (KoLCharacter.hasSkill("Dog Tired")) freerests += 5;
     if (ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals("ceiling fan"))
@@ -4378,8 +4378,8 @@ public abstract class KoLCharacter {
    * @param race The race of the familiar to find
    * @return familiar The first familiar matching this race
    */
-  public static final FamiliarData findFamiliar(final String race) {
-    return findFamiliar(f -> f.getRace().equalsIgnoreCase(race));
+  public static final FamiliarData usableFamiliar(final String race) {
+    return usableFamiliar(f -> f.getRace().equalsIgnoreCase(race));
   }
 
   /**
@@ -4388,11 +4388,11 @@ public abstract class KoLCharacter {
    * @param familiarId The id of the familiar to find
    * @return familiar The first familiar matching this id
    */
-  public static final FamiliarData findFamiliar(final int familiarId) {
-    return findFamiliar(f -> f.getId() == familiarId);
+  public static final FamiliarData usableFamiliar(final int familiarId) {
+    return usableFamiliar(f -> f.getId() == familiarId);
   }
 
-  private static final FamiliarData findFamiliar(final Predicate<FamiliarData> familiarFilter) {
+  private static final FamiliarData usableFamiliar(final Predicate<FamiliarData> familiarFilter) {
     // Quick check against NO_FAMILIAR
     if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return FamiliarData.NO_FAMILIAR;
 
@@ -4416,8 +4416,8 @@ public abstract class KoLCharacter {
         .orElse(null);
   }
 
-  public static final boolean hasFamiliar(final int familiarId) {
-    return KoLCharacter.findFamiliar(familiarId) != null;
+  public static final boolean canUseFamiliar(final int familiarId) {
+    return KoLCharacter.usableFamiliar(familiarId) != null;
   }
 
   private static AdventureResult STILLSUIT = ItemPool.get(ItemPool.STILLSUIT);
@@ -4448,7 +4448,7 @@ public abstract class KoLCharacter {
     KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar(familiar);
 
     if (previousFamiliar.getItem().equals(STILLSUIT)) {
-      var stillsuitFamiliar = KoLCharacter.findFamiliar(Preferences.getString("stillsuitFamiliar"));
+      var stillsuitFamiliar = KoLCharacter.usableFamiliar(Preferences.getString("stillsuitFamiliar"));
       if (stillsuitFamiliar != null
           && stillsuitFamiliar != familiar
           && stillsuitFamiliar != previousFamiliar) {

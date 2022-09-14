@@ -4368,7 +4368,7 @@ public abstract class ChoiceControl {
       case 1418:
         // So Cold
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.findFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
+          KoLCharacter.usableFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
           Preferences.setBoolean("_entauntaunedToday", true);
         }
         break;
