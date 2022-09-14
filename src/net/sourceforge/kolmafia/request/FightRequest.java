@@ -9214,7 +9214,6 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("incidentally tearing free an item")) {
           // No casting limit, can pickpocket items up to 30 times a day
           skillSuccess = true;
-          Preferences.increment("_zombieSmashPocketsUsed");
         }
         break;
 
