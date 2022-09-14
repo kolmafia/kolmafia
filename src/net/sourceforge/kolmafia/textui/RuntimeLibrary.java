@@ -1689,6 +1689,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("have_familiar", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.FAMILIAR_TYPE};
+    functions.add(new LibraryFunction("own_familiar", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.FAMILIAR_TYPE};
     functions.add(new LibraryFunction("use_familiar", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.FAMILIAR_TYPE};
@@ -6801,6 +6804,13 @@ public abstract class RuntimeLibrary {
         : DataTypes.makeBooleanValue(KoLCharacter.usableFamiliar(familiarId) != null);
   }
 
+  public static Value own_familiar(ScriptRuntime controller, final Value familiar) {
+    int familiarId = (int) familiar.intValue();
+    return familiarId == -1
+        ? DataTypes.FALSE_VALUE
+        : DataTypes.makeBooleanValue(KoLCharacter.ownedFamiliar(familiarId).isPresent());
+  }
+
   public static Value use_familiar(ScriptRuntime controller, final Value familiar) {
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("familiar", familiar.toString());
     return RuntimeLibrary.continueValue();
@@ -6831,8 +6841,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value familiar_equipped_equipment(ScriptRuntime controller, final Value familiar) {
-    FamiliarData fam = KoLCharacter.usableFamiliar((int) familiar.intValue());
-    AdventureResult item = fam == null ? EquipmentRequest.UNEQUIP : fam.getItem();
+    var fam = KoLCharacter.ownedFamiliar((int) familiar.intValue());
+    AdventureResult item = fam.map(FamiliarData::getItem).orElse(EquipmentRequest.UNEQUIP);
     return item == EquipmentRequest.UNEQUIP
         ? DataTypes.ITEM_INIT
         : DataTypes.makeItemValue(item.getItemId(), true);

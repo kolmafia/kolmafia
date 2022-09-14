@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -927,19 +928,14 @@ public class GearChangeFrame extends GenericFrame {
     }
   }
 
-  private FamiliarData familiarCarryingEquipment(final int slot) {
-    switch (slot) {
-      case EquipmentManager.HAT:
-        return KoLCharacter.usableFamiliar(FamiliarPool.HATRACK);
-      case EquipmentManager.PANTS:
-        return KoLCharacter.usableFamiliar(FamiliarPool.SCARECROW);
-      case EquipmentManager.WEAPON:
-        return KoLCharacter.usableFamiliar(FamiliarPool.HAND);
-      case EquipmentManager.OFFHAND:
-        return KoLCharacter.usableFamiliar(FamiliarPool.LEFT_HAND);
-      default:
-        return null;
-    }
+  private Optional<FamiliarData> familiarCarryingEquipment(final int slot) {
+    return switch (slot) {
+      case EquipmentManager.HAT -> KoLCharacter.ownedFamiliar(FamiliarPool.HATRACK);
+      case EquipmentManager.PANTS -> KoLCharacter.ownedFamiliar(FamiliarPool.SCARECROW);
+      case EquipmentManager.WEAPON -> KoLCharacter.ownedFamiliar(FamiliarPool.HAND);
+      case EquipmentManager.OFFHAND -> KoLCharacter.ownedFamiliar(FamiliarPool.LEFT_HAND);
+      default -> Optional.empty();
+    };
   }
 
   private List<List<AdventureResult>> populateEquipmentLists() {
@@ -1030,9 +1026,9 @@ public class GearChangeFrame extends GenericFrame {
 
       // If a non-current familiar has an appropriate item, add it.
       if (slot != EquipmentManager.FAMILIAR) {
-        FamiliarData familiar = familiarCarryingEquipment(slot);
-        if (familiar != null && familiar != KoLCharacter.getFamiliar()) {
-          AdventureResult familiarItem = familiar.getItem();
+        var familiar = familiarCarryingEquipment(slot);
+        if (familiar.isPresent() && familiar.get() != KoLCharacter.getFamiliar()) {
+          AdventureResult familiarItem = familiar.get().getItem();
           if (!items.contains(familiarItem) && this.filterItem(familiarItem, slot)) {
             items.add(familiarItem);
           }

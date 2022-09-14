@@ -596,7 +596,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   private static FamiliarData registerFamiliar(final Matcher matcher, boolean idFirst) {
     String race = matcher.group(4);
-    FamiliarData familiar = KoLCharacter.usableFamiliar(race);
+    FamiliarData familiar = KoLCharacter.usableFamiliar(race); // TODO
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(matcher, idFirst);
@@ -613,7 +613,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return FamiliarData.NO_FAMILIAR;
     }
 
-    FamiliarData familiar = KoLCharacter.usableFamiliar(id);
+    FamiliarData familiar = KoLCharacter.usableFamiliar(id); // TODO
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(id);
@@ -643,7 +643,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return FamiliarData.NO_FAMILIAR;
     }
 
-    FamiliarData familiar = KoLCharacter.usableFamiliar(id);
+    FamiliarData familiar = KoLCharacter.usableFamiliar(id); // TODO
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(id);

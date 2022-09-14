@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
@@ -279,6 +280,19 @@ public class KoLCharacterTest {
 
       var fam = KoLCharacter.usableFamiliar("mosquito");
       assertEquals(FamiliarPool.MOSQUITO, fam.getId());
+    }
+  }
+
+  @Test
+  public void familiarsWithoutGsAreStillOwnedInGLover() {
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withPath(AscensionPath.Path.GLOVER));
+
+    try (cleanups) {
+      var fam = KoLCharacter.ownedFamiliar("mosquito");
+      assertTrue(fam.isPresent());
     }
   }
 

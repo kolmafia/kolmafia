@@ -710,18 +710,18 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_name() {
-      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
-      return fam == null ? "" : fam.getName();
+      var fam = KoLCharacter.ownedFamiliar(this.contentString);
+      return fam.map(FamiliarData::getName).orElse("");
     }
 
     public String get_owner() {
-      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
-      return fam == null ? "" : fam.getOwner();
+      var fam = KoLCharacter.ownedFamiliar(this.contentString);
+      return fam.map(FamiliarData::getOwner).orElse("");
     }
 
     public int get_owner_id() {
-      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
-      return fam == null ? 0 : fam.getOwnerId();
+      var fam = KoLCharacter.ownedFamiliar(this.contentString);
+      return fam.map(FamiliarData::getOwnerId).orElse(0);
     }
 
     public int get_experience() {
