@@ -2213,6 +2213,7 @@ user	_xoHugsUsed	0
 user	_yellowPixelDropsCrown	0
 user	_zapCount	0
 user	_zombieClover	false
+user	_zombieSmashPocketsUsed	0
 user	_preventScurvy	false
 user	choiceAdventure2	2
 user	choiceAdventure3	3
