@@ -16,6 +16,15 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class TypescriptDefinitionTest {
+  private LibraryFunction findFunction(final String signature) {
+    var name = signature.substring(0, signature.indexOf("("));
+    return Arrays.stream(RuntimeLibrary.functions.findFunctions(name))
+        .filter(f -> f.getSignature().equals(signature))
+        .map(LibraryFunction.class::cast)
+        .findFirst()
+        .orElse(null);
+  }
+
   @Test
   void producesAnyOutput() {
     assertThat(TypescriptDefinition.getContents(), hasLength(greaterThan(0)));
@@ -23,30 +32,31 @@ public class TypescriptDefinitionTest {
 
   private static Stream<Arguments> provideStringsForFormatFunction() {
     return Stream.of(
-        Arguments.of("abort", "()", "export function abort(): never;"),
+        Arguments.of("abort()", "export function abort(): never;"),
+        Arguments.of("adv1(location)", "export function adv1(locationValue: Location): boolean;"),
         Arguments.of(
-            "adv1", "(location)", "export function adv1(locationValue: Location): boolean;"),
-        Arguments.of(
-            "adv1",
-            "(location, int, string)",
+            "adv1(location, int, string)",
             "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction: string | ((round: number, monster: Monster, text: string) => string)): boolean;"),
         Arguments.of(
-            "run_combat",
-            "(string)",
+            "run_combat(string)",
             "export function runCombat(filterFunction: string | ((round: number, monster: Monster, text: string) => string)): string;"));
   }
 
   @ParameterizedTest
   @MethodSource("provideStringsForFormatFunction")
-  void canFormatFunctions(String name, String signature, String formatted) {
-    var fn =
-        Arrays.stream(RuntimeLibrary.functions.findFunctions(name))
-            .filter(f -> f.getSignature().equals(name + signature))
-            .findFirst();
+  void canFormatFunctions(final String signature, final String formatted) {
+    var fn = findFunction(signature);
+    assertThat(TypescriptDefinition.formatFunction(fn), equalTo(formatted));
+  }
 
-    assertThat(fn.isPresent(), is(true));
-    LibraryFunction libFn = (LibraryFunction) fn.get();
-    assertThat(TypescriptDefinition.formatFunction(libFn), equalTo(formatted));
+  @Test
+  void showsDeprecationMessage() {
+    var fn = findFunction("my_path_id()");
+    // This is ash styled and not JS styled, but still better than nothing
+    assertThat(
+        TypescriptDefinition.formatFunction(fn),
+        is(
+            "/** @deprecated Changing 'my_path_id()' to 'my_path().id' will remove this warning */\nexport function myPathId(): number;"));
   }
 
   @Test
