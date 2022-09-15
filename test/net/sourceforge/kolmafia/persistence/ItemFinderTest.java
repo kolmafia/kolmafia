@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -18,6 +17,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class ItemFinderTest {
 
@@ -226,11 +227,6 @@ public class ItemFinderTest {
     assertEquals(item.getCount(), 2);
 
     // count + item name starts with a number
-    item = ItemFinder.getFirstMatchingItem("1 1337 7r0uZ0RZ", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertTrue(item != null);
-    assertEquals(item.getItemId(), ItemPool.ELITE_TROUSERS);
-    assertEquals(item.getCount(), 1);
     item = ItemFinder.getFirstMatchingItem("2 1337 7r0uZ0RZ", false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertTrue(item != null);
@@ -906,49 +902,22 @@ public class ItemFinderTest {
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
   }
 
-  @Test
-  public void itShouldNotUseCountAsPartOfItemName() {
+  @ParameterizedTest
+  @CsvSource({
+    "'1 1337 7r0uZ0RZ'," + ItemPool.ELITE_TROUSERS + ",1",
+    "'1 WA'," + ItemPool.WA + ",1",
+    "'1 Meat'," + ItemPool.ONE_MEAT + ",1",
+    "'1 1 Meat'," + ItemPool.ONE_MEAT + ",1",
+    "'123 1 Meat'," + ItemPool.ONE_MEAT + ",123",
+    "'1 7-ball'," + ItemPool.SEVEN_BALL + ",1"
+  })
+  public void parseStringAndFindItemAndQuantity(
+      String toBeParsed, int expectedItemId, int expectedQuantity) {
     AdventureResult item;
-    // count of 1 + item name starts with a number -  1 7-ball is not the same as 17-ball
-    item = ItemFinder.getFirstMatchingItem("1 7-ball", false, null, Match.ANY);
+    item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertTrue(item != null);
-    assertEquals(ItemPool.SEVEN_BALL, item.getItemId());
-    assertEquals(item.getCount(), 1);
-  }
-
-  @Test
-  public void itShouldHandleCountForItemBeginningWithDigitAndContainingSpace() {
-    AdventureResult item;
-    // Meat, 1 Meat, 1 1 Meat, 123 1 Meat
-    item = ItemFinder.getFirstMatchingItem("Meat", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertFalse(item != null);
-    item = ItemFinder.getFirstMatchingItem("1 Meat", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertTrue(item != null);
-    assertEquals(ItemPool.ONE_MEAT, item.getItemId());
-    assertEquals(item.getCount(), 1);
-    item = ItemFinder.getFirstMatchingItem("1 1 Meat", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertTrue(item != null);
-    assertEquals(ItemPool.ONE_MEAT, item.getItemId());
-    assertEquals(item.getCount(), 1);
-    item = ItemFinder.getFirstMatchingItem("123 1 Meat", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertTrue(item != null);
-    assertEquals(ItemPool.ONE_MEAT, item.getItemId());
-    assertEquals(item.getCount(), 123);
-  }
-
-  @Test
-  public void itShouldFindCountFollowedByExactMatch() {
-    AdventureResult item;
-    // Fuzzy match - see https://wiki.kolmafia.us/index.php/CLI_Reference#Item_Parameter
-    item = ItemFinder.getFirstMatchingItem("1 WA", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertTrue(item != null);
-    assertEquals(ItemPool.WA, item.getItemId());
-    assertEquals(item.getCount(), 1);
+    assertEquals(expectedItemId, item.getItemId());
+    assertEquals(expectedQuantity, item.getCount());
   }
 }
