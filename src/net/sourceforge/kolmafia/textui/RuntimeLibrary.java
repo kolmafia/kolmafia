@@ -3862,6 +3862,9 @@ public abstract class RuntimeLibrary {
 
   public static Value pre_validate_adventure(ScriptRuntime controller, final Value arg) {
     KoLAdventure location = (KoLAdventure) arg.content;
+    if (location == null) {
+      return DataTypes.FALSE_VALUE;
+    }
     return DataTypes.makeBooleanValue(location.preValidateAdventure());
   }
 
@@ -3875,6 +3878,9 @@ public abstract class RuntimeLibrary {
 
   public static Value prepare_for_adventure(ScriptRuntime controller, final Value arg) {
     KoLAdventure location = (KoLAdventure) arg.content;
+    if (location == null) {
+      return DataTypes.FALSE_VALUE;
+    }
     return DataTypes.makeBooleanValue(location.prepareForAdventure());
   }
 
