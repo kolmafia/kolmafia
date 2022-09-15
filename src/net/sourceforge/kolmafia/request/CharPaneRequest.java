@@ -154,8 +154,7 @@ public class CharPaneRequest extends GenericRequest {
       return true;
     }
 
-    if (KoLCharacter.getLimitmode() != null
-        && KoLCharacter.getLimitmode().equals(Limitmode.SPELUNKY)) {
+    if (KoLCharacter.getLimitmode() == Limitmode.SPELUNKY) {
       KoLCharacter.setLimitmode(Limitmode.NONE);
     }
 
@@ -164,7 +163,7 @@ public class CharPaneRequest extends GenericRequest {
     CharPaneRequest.compactCharacterPane = responseText.contains("<br>Lvl. ");
 
     // If we are in Valhalla, do special processing
-    if (KoLCharacter.getLimitmode() == null
+    if (KoLCharacter.getLimitmode() == Limitmode.NONE
         && (responseText.contains("otherimages/spirit.gif")
             || responseText.contains("<br>Lvl. <img"))) {
       processValhallaCharacterPane(responseText);

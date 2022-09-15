@@ -63,7 +63,6 @@ import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -3515,16 +3514,16 @@ public class RelayRequest extends PasswordHashRequest {
    *     run()-ing.
    */
   private boolean sendWarnings(KoLAdventure adventure, String adventureName, String nextAdventure) {
-    var limitmode = KoLCharacter.getLimitmode();
-
-    // If we are playing Spelunky, a specialized set of warnings are relevant
-    if ((limitmode != null) && limitmode.equals(Limitmode.SPELUNKY)) {
-      return this.sendSpelunkyWarning(adventure);
-    }
-
-    // If we are in some other limitmode, no warnings are relevant
-    if (limitmode != null) {
-      return false;
+    switch (KoLCharacter.getLimitmode()) {
+      case NONE -> {}
+      case SPELUNKY -> {
+        // If we are playing Spelunky, a specialized set of warnings are relevant
+        return this.sendSpelunkyWarning(adventure);
+      }
+      default -> {
+        // If we are in some other limitmode, no warnings are relevant
+        return false;
+      }
     }
 
     String path = this.getBasePath();

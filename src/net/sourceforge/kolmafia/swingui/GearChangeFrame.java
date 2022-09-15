@@ -1099,7 +1099,7 @@ public class GearChangeFrame extends GenericFrame {
         return false;
     }
 
-    return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip(item);
+    return KoLCharacter.getLimitmode() == Limitmode.NONE || EquipmentManager.canEquip(item);
   }
 
   private boolean filterWeapon(final AdventureResult weapon, final int slot) {
@@ -1211,7 +1211,8 @@ public class GearChangeFrame extends GenericFrame {
     }
 
     // Make sure we meet requirements in Limitmode, otherwise show (greyed out)
-    return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip(item.getName());
+    return KoLCharacter.getLimitmode() == Limitmode.NONE
+        || EquipmentManager.canEquip(item.getName());
   }
 
   private AdventureResult currentOrSelectedItem(final int slot) {
