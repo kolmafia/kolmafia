@@ -260,8 +260,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.adventureNumber;
   }
 
+  public boolean hasSnarfblat() {
+    return this.getFormSource().equals("adventure.php");
+  }
+
   private int getSnarfblat() {
-    if (!this.getFormSource().equals("adventure.php")) {
+    if (!hasSnarfblat()) {
       return -1;
     }
 
@@ -481,11 +485,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           Map.entry("The Spectral Pickle Factory", "April Fool's Day"),
           Map.entry("Drunken Stupor", ""));
 
-  private boolean isTooDrunk() {
+  public boolean tooDrunkToAdventure() {
     if (!KoLCharacter.isFallingDown()) return false;
 
-    // The wine glass allows you to adventure while falling down drunk
-    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) return false;
+    // The wine glass allows you to adventure in snarfblat zones while falling down drunk
+    // There may be some non-snarfblat zones coded to respect the wineglass, but I've not
+    // been able to find any.
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS)) && hasSnarfblat())
+      return false;
 
     // There are some limit modes that allow adventuring even while falling down drunk
     var limitMode = KoLCharacter.getLimitmode();
@@ -521,7 +528,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   public boolean preValidateAdventure() {
-    if (isTooDrunk()) {
+    if (tooDrunkToAdventure()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You are too drunk to continue.");
       return false;
     }
@@ -2870,7 +2877,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // steps have been executed.
 
     // If we are too drunk adventure, return now.
-    if (isTooDrunk()) return;
+    if (tooDrunkToAdventure()) return;
 
     switch (this.adventureNumber) {
       case AdventurePool.FCLE:

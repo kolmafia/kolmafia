@@ -118,6 +118,23 @@ public class KoLAdventureValidationTest {
     }
 
     @ParameterizedTest
+    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
+    void beingTooDrunkWithAWineglassInNonSnarfblatFailsPreValidation(final int slot) {
+      var cleanups =
+          new Cleanups(
+              withInebriety(30),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+
+      try (cleanups) {
+        assertThat(
+            AdventureDatabase.getAdventureByName("The Typical Tavern Cellar")
+                .preValidateAdventure(),
+            is(false));
+      }
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = {Limitmode.SPELUNKY, Limitmode.BATMAN})
     void beingTooDrunkInSomeLimitModesPassesPreValidation(final String limitMode) {
       var cleanups = new Cleanups(withInebriety(30), withLimitMode(limitMode));
