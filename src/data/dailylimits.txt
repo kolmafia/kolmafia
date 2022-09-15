@@ -96,6 +96,7 @@ Cast	Release the Boots	_bootStomps	7
 Cast	Request Sandwich	_requestSandwichSucceeded
 Cast	Shattering Punch	_shatteringPunchUsed	3
 Cast	Show them your ring	_mafiaMiddleFingerRingUsed
+Cast	Smash & Graaagh	_zombieSmashPocketsUsed	30
 Cast	Snokebomb	_snokebombUsed	3
 Cast	Spaghetti Breakfast	_spaghettiBreakfast
 Cast	Squeeze Stress Ball	_stressBallSqueezes	5
