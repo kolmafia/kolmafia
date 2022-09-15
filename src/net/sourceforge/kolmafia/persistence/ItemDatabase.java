@@ -429,7 +429,7 @@ public class ItemDatabase {
         if (useType == null) {
           RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
         } else {
-          ItemDatabase.useTypeById.put(itemId, useType.intValue());
+          ItemDatabase.useTypeById.put(itemId, useType);
         }
 
         int attrs = 0;
@@ -439,7 +439,7 @@ public class ItemDatabase {
           if (useType == null) {
             RequestLogger.printLine("Unknown secondary usage for " + name + ": " + usage);
           } else {
-            attrs |= useType.intValue();
+            attrs |= useType;
             CandyDatabase.registerCandy(id, usage);
           }
         }
@@ -1871,32 +1871,31 @@ public class ItemDatabase {
    *
    * @return <code>true</code> if the item is usable
    */
-  public static final boolean isUsable(final int itemId) {
+  public static boolean isUsable(final int itemId) {
     // Anything that you can manipulate with inv_use.php
 
     int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     int attributes = ItemDatabase.getAttributes(itemId);
 
-    switch (useType) {
-        // Explicit "use"
-      case KoLConstants.CONSUME_USE:
-      case KoLConstants.MESSAGE_DISPLAY:
-      case KoLConstants.INFINITE_USES:
-        // Multi-use
-      case KoLConstants.CONSUME_MULTIPLE:
-        // Grow is a type of use
-      case KoLConstants.GROW_FAMILIAR:
-        // Any potion
-      case KoLConstants.CONSUME_POTION:
-      case KoLConstants.CONSUME_AVATAR:
-        return true;
-      default:
-        return (attributes
-                & (ItemDatabase.ATTR_USABLE
-                    | ItemDatabase.ATTR_MULTIPLE
-                    | ItemDatabase.ATTR_REUSABLE))
-            != 0;
-    }
+    return switch (useType) {
+      case
+          // Explicit "use"
+          KoLConstants.CONSUME_USE,
+          KoLConstants.MESSAGE_DISPLAY,
+          KoLConstants.INFINITE_USES,
+          // Multi-use
+          KoLConstants.CONSUME_MULTIPLE,
+          // Grow is a type of use
+          KoLConstants.GROW_FAMILIAR,
+          // Any potion
+          KoLConstants.CONSUME_POTION,
+          KoLConstants.CONSUME_AVATAR -> true;
+      default -> (attributes
+              & (ItemDatabase.ATTR_USABLE
+                  | ItemDatabase.ATTR_MULTIPLE
+                  | ItemDatabase.ATTR_REUSABLE))
+          != 0;
+    };
   }
 
   public static final boolean isPotion(final AdventureResult item) {

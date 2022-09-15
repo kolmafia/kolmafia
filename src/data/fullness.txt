@@ -5,6 +5,7 @@
 # Food	Fullness	Level Req	quality	Adv	Musc	Myst	Moxie
 
 [experimental crimbo food]	3	1	EPIC	0	0	0	0	Random
+[glitch season reward name]	0	0		0	0	0	0	Inedible, starts a fight with %monster%
 &quot;caramel&quot; orange	1	1	awesome	4	0	0	0	gain 10 turns of a random positive effect
 &quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
 20-lb can of rice and beans	15	1	good	45	0	0	0	100 Stuffed (+100 HP)
