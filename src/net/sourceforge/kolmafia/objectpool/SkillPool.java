@@ -376,6 +376,7 @@ public class SkillPool {
   public static final int BITE_MINION = 12001;
   public static final int HOWL_ALPHA = 12020;
   public static final int SUMMON_MINION = 12021;
+  public static final int SMASH_GRAAAGH = 12023;
   public static final int SUMMON_HORDE = 12026;
   public static final int RECRUIT_ZOMBIE = 12031;
   public static final int CONJURE_EGGS = 14001;
