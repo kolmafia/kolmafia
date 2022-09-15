@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 import javax.swing.JEditorPane;
@@ -1364,9 +1363,9 @@ public abstract class KoLmafia {
 
       if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
         // The wine glass allows you to adventure while falling down drunk
-      } else if (Objects.equals(KoLCharacter.getLimitmode(), Limitmode.SPELUNKY)) {
+      } else if (KoLCharacter.getLimitmode() == Limitmode.SPELUNKY) {
         // You're allowed to Spelunk even while falling down drunk
-      } else if (Objects.equals(KoLCharacter.getLimitmode(), Limitmode.BATMAN)) {
+      } else if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {
         // You're allowed to Batfellow even while falling down drunk
       } else if (adventureName.equals("An Eldritch Fissure")
           || adventureName.equals("An Eldritch Horror")
