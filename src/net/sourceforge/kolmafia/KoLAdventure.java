@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -465,24 +464,44 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult FILTHWORM_GUARD_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
 
-  private static final Map<String, String> grimstoneZones = new HashMap<>();
-  private static final Map<String, String> holidayAdventures = new HashMap<>();
+  private static final Map<String, String> grimstoneZones =
+      Map.ofEntries(
+          Map.entry("A Deserted Stretch of I-911", "hare"),
+          Map.entry("Skid Row", "wolf"),
+          Map.entry("The Prince's Ball", "stepmother"),
+          Map.entry("Rumpelstiltskin's Home For Children", "gnome"),
+          Map.entry("The Candy Witch and the Relentless Child Thieves", "witch"));
 
-  static {
-    grimstoneZones.put("A Deserted Stretch of I-911", "hare");
-    grimstoneZones.put("Skid Row", "wolf");
-    grimstoneZones.put("The Prince's Ball", "stepmother");
-    grimstoneZones.put("Rumpelstiltskin's Home For Children", "gnome");
-    grimstoneZones.put("The Candy Witch and the Relentless Child Thieves", "witch");
-    holidayAdventures.put("St. Sneaky Pete's Day Stupor", "St. Sneaky Pete's Day");
-    holidayAdventures.put("The Yuletide Bonfire", "Yuletide");
-    holidayAdventures.put("The Arrrboretum", "Arrrbor Day");
-    holidayAdventures.put("Generic Summer Holiday Swimming!", "Generic Summer Holiday");
-    holidayAdventures.put("The Spectral Pickle Factory", "April Fool's Day");
-    holidayAdventures.put("Drunken Stupor", null);
-  }
+  private static final Map<String, String> holidayAdventures =
+      Map.ofEntries(
+          Map.entry("St. Sneaky Pete's Day Stupor", "St. Sneaky Pete's Day"),
+          Map.entry("The Yuletide Bonfire", "Yuletide"),
+          Map.entry("The Arrrboretum", "Arrrbor Day"),
+          Map.entry("Generic Summer Holiday Swimming!", "Generic Summer Holiday"),
+          Map.entry("The Spectral Pickle Factory", "April Fool's Day"),
+          Map.entry("Drunken Stupor", ""));
 
   // Validation part 0:
+  private boolean isTooDrunk() {
+    if (!KoLCharacter.isFallingDown()) return false;
+
+    // The wine glass allows you to adventure while falling down drunk
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) return false;
+
+    // There are some limit modes that allow adventuring even while falling down drunk
+    switch (KoLCharacter.getLimitmode()) {
+      case Limitmode.SPELUNKY, Limitmode.BATMAN -> {
+        return false;
+      }
+    }
+
+    // There are some adventure locations that allow adventuring even while falling down drunk
+    if (AdventureDatabase.canAdventureWhileOverdrunk(adventureName)) {
+      return false;
+    }
+
+    return true;
+  }
 
   private boolean checkZone(String alwaysPref, String todayPref, String place) {
     // If we have permanent access, cool.
@@ -1505,8 +1524,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return switch (this.adventureNumber) {
         case AdventurePool.DRUNKEN_STUPOR -> KoLCharacter.isFallingDown();
         case AdventurePool.SSPD_STUPOR -> today.contains(holiday)
-            && KoLCharacter.getInebriety() >= 26;
-        default -> (holiday == null) ? true : today.contains(holiday);
+            || today.equals("Drunksgiving") && KoLCharacter.getInebriety() >= 26;
+        default -> holiday == null || today.contains(holiday);
       };
     }
 
@@ -2858,12 +2877,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // something which results in an adventure URL and none of the validation
     // steps have been executed.
 
-    // If we are in a drunken stupor, return now.
-    if (KoLCharacter.isFallingDown()
-        && !urlString.startsWith("trickortreat")
-        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
-      return;
-    }
+    // If we are too drunk adventure, return now.
+    if (isTooDrunk()) return;
 
     switch (this.adventureNumber) {
       case AdventurePool.FCLE:
