@@ -488,9 +488,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) return false;
 
     // There are some limit modes that allow adventuring even while falling down drunk
-    switch (KoLCharacter.getLimitmode()) {
-      case Limitmode.SPELUNKY, Limitmode.BATMAN -> {
-        return false;
+    var limitMode = KoLCharacter.getLimitmode();
+    if (limitMode != null) {
+      switch (limitMode) {
+        case Limitmode.SPELUNKY, Limitmode.BATMAN -> {
+          return false;
+        }
       }
     }
 

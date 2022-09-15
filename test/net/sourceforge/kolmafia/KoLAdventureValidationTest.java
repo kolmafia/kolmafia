@@ -11,9 +11,11 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -46,6 +48,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -54,6 +57,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class KoLAdventureValidationTest {
@@ -78,8 +82,64 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
-  class PreValidateAdventure {
+  class Overdrunk {
+    private static KoLAdventure WARREN = AdventureDatabase.getAdventureByName("The Dire Warren");
 
+    @Test
+    void beingSoberPassesPreValidation() {
+      var cleanups = new Cleanups(withInebriety(5));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void beingTooDrunkFailsPreValidation() {
+      var cleanups = new Cleanups(withInebriety(30));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(false));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
+    void beingTooDrunkWithAWineglassPassesPreValidation(final int slot) {
+      var cleanups =
+          new Cleanups(
+              withInebriety(30),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {Limitmode.SPELUNKY, Limitmode.BATMAN})
+    void beingTooDrunkInSomeLimitModesPassesPreValidation(final String limitMode) {
+      var cleanups = new Cleanups(withInebriety(30), withLimitMode(limitMode));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Trick-or-Treating", "Drunken Stupor"})
+    void beignTooDrunkInSomeLocationsPassesPreValidation(final String adventureName) {
+      var cleanups = new Cleanups(withInebriety(30));
+
+      try (cleanups) {
+        assertThat(AdventureDatabase.getAdventure(adventureName).preValidateAdventure(), is(true));
+      }
+    }
+  }
+
+  @Nested
+  class PreValidateAdventure {
     private void checkDayPasses(
         KoLAdventure adventure,
         String place,
