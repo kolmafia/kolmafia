@@ -570,7 +570,7 @@ Jick's Obsessions	adventure=317	Env: indoor	The Tower of Procedurally-Generated 
 The Old Man's Past	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
 
 Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
-Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
+Skid Row	place=ioty2014_wolf	Env: none Stat: 0 overdrunk	Unleash Your Inner Wolf
 
 The Candy Witch and the Relentless Child Thieves	adventure=370	Env: outdoor Stat: 0	Sweet-Ade Lake
 The Candy Witch and the Relentless Child Thieves	adventure=371	Env: outdoor Stat: 0	Eager Rice Burrows
