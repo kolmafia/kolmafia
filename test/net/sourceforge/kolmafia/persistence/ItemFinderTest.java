@@ -906,6 +906,7 @@ public class ItemFinderTest {
   @ParameterizedTest
   @CsvSource({
     "'1 1337 7r0uZ0RZ'," + ItemPool.ELITE_TROUSERS + ",1",
+    "'1337 7r0uZ0RZ'," + ItemPool.ELITE_TROUSERS + ",1",
     "'1 WA'," + ItemPool.WA + ",1",
     "'1 Meat'," + ItemPool.ONE_MEAT + ",1",
     "'1 1 Meat'," + ItemPool.ONE_MEAT + ",1",
