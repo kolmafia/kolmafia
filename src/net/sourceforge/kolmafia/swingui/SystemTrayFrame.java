@@ -37,8 +37,7 @@ public abstract class SystemTrayFrame {
     try {
       Image image = JComponentUtilities.getImage("images/", "TrayIcon12.gif").getImage();
 
-      TrayIcon icon =
-          new TrayIcon(image.getScaledInstance(16, 16, Image.SCALE_DEFAULT), "KoLmafia");
+      icon = new TrayIcon(image.getScaledInstance(16, 16, Image.SCALE_DEFAULT), "KoLmafia");
       icon.addMouseListener(new SetVisibleListener());
 
       PopupMenu popup = new PopupMenu();
