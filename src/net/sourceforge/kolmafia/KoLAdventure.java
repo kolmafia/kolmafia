@@ -518,85 +518,75 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   public boolean preValidateAdventure() {
-
-    if (this.zone.equals("Spring Break Beach")) {
-      // Unlimited adventuring if available
-      return checkZone("sleazeAirportAlways", "_sleazeAirportToday", "airport");
+    if (isTooDrunk()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You are too drunk to continue.");
+      return false;
     }
 
-    if (this.zone.equals("Conspiracy Island")) {
-      // Unlimited adventuring if available
-      return checkZone("spookyAirportAlways", "_spookyAirportToday", "airport");
-    }
-
-    if (this.zone.equals("Dinseylandfill")) {
-      // Unlimited adventuring if available
-      return checkZone("stenchAirportAlways", "_stenchAirportToday", "airport");
-    }
-
-    if (this.zone.equals("That 70s Volcano")) {
-      // Unlimited adventuring if available
-      return checkZone("hotAirportAlways", "_hotAirportToday", "airport");
-    }
-
-    if (this.zone.equals("The Glaciest")) {
-      // Unlimited adventuring if available
-      return checkZone("coldAirportAlways", "_coldAirportToday", "airport");
-    }
-
-    if (this.zone.equals("Gingerbread City")) {
-      // Unlimited adventuring if available
-      return checkZone("gingerbreadCityAvailable", "_gingerbreadCityToday", "mountains");
-    }
-
-    if (this.zone.equals("LT&T")) {
-      // One quest from a day pass, geometric cost for permanent
-      return checkZone("telegraphOfficeAvailable", "_telegraphOfficeToday", "town_right");
-    }
-
-    if (this.zone.equals("Neverending Party")) {
-      // Unlimited adventuring if available
-      return checkZone("neverendingPartyAlways", "_neverendingPartyToday", "town_wrong");
-    }
-
-    if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
-      // One trip through if available
-      return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
-    }
-
-    if (this.zone.equals("FantasyRealm")) {
-      // One daily visit if available
-      return checkZone("frAlways", "_frToday", "monorail");
-    }
-
-    if (this.zone.equals("PirateRealm")) {
-      // One daily visit if available
-      return checkZone("prAlways", "_prToday", "monorail");
-    }
-
-    if (this.zone.equals("The Spacegate")) {
-      // Through the Spacegate
-      if (Preferences.getBoolean("spacegateAlways") || Preferences.getBoolean("_spacegateToday")) {
-        return true;
-      }
-
-      if (!Preferences.getBoolean("_spacegateToday")) {
-        if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
-          Preferences.setBoolean("_spacegateToday", true);
-          // There is no way to tell how many turns you have
-          // left today in an open portable spacegate.
-          // I think.
-          Preferences.setInteger("_spacegateTurnsLeft", 20);
+    switch (this.zone) {
+      case "Spring Break Beach":
+        // Unlimited adventuring if available
+        return checkZone("sleazeAirportAlways", "_sleazeAirportToday", "airport");
+      case "Conspiracy Island":
+        // Unlimited adventuring if available
+        return checkZone("spookyAirportAlways", "_spookyAirportToday", "airport");
+      case "Dinseylandfill":
+        // Unlimited adventuring if available
+        return checkZone("stenchAirportAlways", "_stenchAirportToday", "airport");
+      case "That 70s Volcano":
+        // Unlimited adventuring if available
+        return checkZone("hotAirportAlways", "_hotAirportToday", "airport");
+      case "The Glaciest":
+        // Unlimited adventuring if available
+        return checkZone("coldAirportAlways", "_coldAirportToday", "airport");
+      case "Gingerbread City":
+        // Unlimited adventuring if available
+        return checkZone("gingerbreadCityAvailable", "_gingerbreadCityToday", "mountains");
+      case "LT&T":
+        // One quest from a day pass, geometric cost for permanent
+        return checkZone("telegraphOfficeAvailable", "_telegraphOfficeToday", "town_right");
+      case "Neverending Party":
+        // Unlimited adventuring if available
+        return checkZone("neverendingPartyAlways", "_neverendingPartyToday", "town_wrong");
+      case "FantasyRealm":
+        // One daily visit if available
+        return checkZone("frAlways", "_frToday", "monorail");
+      case "PirateRealm":
+        // One daily visit if available
+        return checkZone("prAlways", "_prToday", "monorail");
+      case "The Spacegate":
+        // Through the Spacegate
+        if (Preferences.getBoolean("spacegateAlways")
+            || Preferences.getBoolean("_spacegateToday")) {
           return true;
         }
-      }
 
-      // Take a look at the mountains.
-      var request = new PlaceRequest("mountains");
-      RequestThread.postRequest(request);
+        if (!Preferences.getBoolean("_spacegateToday")) {
+          if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
+            Preferences.setBoolean("_spacegateToday", true);
+            // There is no way to tell how many turns you have
+            // left today in an open portable spacegate.
+            // I think.
+            Preferences.setInteger("_spacegateTurnsLeft", 20);
+            return true;
+          }
+        }
 
-      return Preferences.getBoolean("spacegateAlways");
+        // Take a look at the mountains.
+        var request = new PlaceRequest("mountains");
+        RequestThread.postRequest(request);
+
+        return Preferences.getBoolean("spacegateAlways");
     }
+
+    switch (this.adventureId) {
+      case AdventurePool.TUNNEL_OF_LOVE_ID:
+        {
+          // One trip through if available
+          return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
+        }
+    }
+    ;
 
     return true;
   }
