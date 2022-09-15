@@ -14,11 +14,13 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -30,6 +32,7 @@ import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -66,6 +69,7 @@ public class KoLAdventureValidationTest {
     KoLCharacter.reset("KoLAdventure");
     Preferences.reset("KoLAdventure");
     KoLConstants.inventory.clear();
+    EquipmentManager.resetEquipment();
   }
 
   @AfterAll
@@ -140,6 +144,23 @@ public class KoLAdventureValidationTest {
     })
     public void checkDayPassesInTownWrong(String adventureName, String always, String today) {
       checkDayPasses(adventureName, "town_wrong", always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "Investigating a Plaintive Telegram, telegraphOfficeAvailable, _telegraphOfficeToday"
+    })
+    public void checkDayPassesInTownRight(String adventureName, String always, String today) {
+      checkDayPasses(adventureName, "town_right", always, today);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "The Bandit Crossroads, frAlways, _frToday",
+      "PirateRealm Island, prAlways, _prToday"
+    })
+    public void checkDayPassesInMonorail(String adventureName, String always, String today) {
+      checkDayPasses(adventureName, "monorail", always, today);
     }
 
     @ParameterizedTest
@@ -693,6 +714,535 @@ public class KoLAdventureValidationTest {
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
+      }
+    }
+  }
+
+  @Nested
+  class Spookyraven {
+    private static final KoLAdventure HAUNTED_PANTRY =
+        AdventureDatabase.getAdventureByName("The Haunted Pantry");
+    private static final KoLAdventure HAUNTED_CONSERVATORY =
+        AdventureDatabase.getAdventureByName("The Haunted Conservatory");
+    private static final KoLAdventure HAUNTED_KITCHEN =
+        AdventureDatabase.getAdventureByName("The Haunted Kitchen");
+    private static final KoLAdventure HAUNTED_BILLIARDS_ROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Billiards Room");
+    private static final KoLAdventure HAUNTED_LIBRARY =
+        AdventureDatabase.getAdventureByName("The Haunted Library");
+    private static final KoLAdventure HAUNTED_GALLERY =
+        AdventureDatabase.getAdventureByName("The Haunted Gallery");
+    private static final KoLAdventure HAUNTED_BATHROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Bathroom");
+    private static final KoLAdventure HAUNTED_BEDROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Bedroom");
+    private static final KoLAdventure HAUNTED_BALLROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Ballroom");
+    private static final KoLAdventure HAUNTED_STORAGE_ROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Storage Room");
+    private static final KoLAdventure HAUNTED_NURSERY =
+        AdventureDatabase.getAdventureByName("The Haunted Nursery");
+    private static final KoLAdventure HAUNTED_LABORATORY =
+        AdventureDatabase.getAdventureByName("The Haunted Laboratory");
+    private static final KoLAdventure HAUNTED_WINE_CELLAR =
+        AdventureDatabase.getAdventureByName("The Haunted Wine Cellar");
+    private static final KoLAdventure HAUNTED_LAUNDRY_ROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Laundry Room");
+    private static final KoLAdventure HAUNTED_BOILER_ROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Boiler Room");
+
+    @Test
+    public void hauntedPantryAvailable() {
+      var cleanups = new Cleanups(withAscensions(0), withLevel(1));
+      try (cleanups) {
+        assertTrue(HAUNTED_PANTRY.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedFirstFloorAvailableWithQuest() {
+      var cleanups =
+          new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(HAUNTED_KITCHEN.canAdventure());
+        assertTrue(HAUNTED_CONSERVATORY.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedFirstFloorAvailableWithTelegram() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_TELEGRAM));
+      try (cleanups) {
+        assertTrue(HAUNTED_KITCHEN.canAdventure());
+        assertTrue(HAUNTED_CONSERVATORY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canReadTelegramToStartQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.SPOOKYRAVEN_TELEGRAM));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_spookyraven_telegram.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
+        assertTrue(HAUNTED_KITCHEN.canAdventure());
+        assertTrue(HAUNTED_KITCHEN.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.STARTED);
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.SPOOKYRAVEN_TELEGRAM + "&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void hauntedFirstFloorNotAvailableWithoutLevel() {
+      var cleanups = new Cleanups(withAscensions(0), withLevel(4));
+      try (cleanups) {
+        assertFalse(HAUNTED_KITCHEN.canAdventure());
+        assertFalse(HAUNTED_CONSERVATORY.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedFirstFloorAvailableWithLevel() {
+      var cleanups = new Cleanups(withAscensions(0), withLevel(5));
+      try (cleanups) {
+        assertTrue(HAUNTED_KITCHEN.canAdventure());
+        assertTrue(HAUNTED_CONSERVATORY.canAdventure());
+      }
+    }
+
+    @Test
+    public void canFetchAndReadTelegramToStartQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withLevel(5));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_spookyraven_telegram.json"));
+        builder.client.addResponse(200, "");
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
+        assertTrue(HAUNTED_KITCHEN.canAdventure());
+        assertTrue(HAUNTED_KITCHEN.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.STARTED);
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/api.php", "what=inventory&for=KoLmafia");
+        assertPostRequest(
+            requests.get(1),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.SPOOKYRAVEN_TELEGRAM + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void hauntedBilliardsRoomAvailableWithKey() {
+      var cleanups = new Cleanups(withItem(ItemPool.BILLIARDS_KEY));
+      try (cleanups) {
+        assertTrue(HAUNTED_BILLIARDS_ROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedBilliardsRoomNotAvailableWithoutKey() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        assertFalse(HAUNTED_BILLIARDS_ROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedLibraryAvailableWithKey() {
+      var cleanups = new Cleanups(withItem(ItemPool.LIBRARY_KEY));
+      try (cleanups) {
+        assertTrue(HAUNTED_LIBRARY.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedLibraryNotAvailableWithoutKey() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        assertFalse(HAUNTED_LIBRARY.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedSecondFloorAvailableWithQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1"));
+      try (cleanups) {
+        assertTrue(HAUNTED_GALLERY.canAdventure());
+        assertTrue(HAUNTED_BATHROOM.canAdventure());
+        assertTrue(HAUNTED_BEDROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedSecondFloorAvailableWithGhostNecklaceAndAscension() {
+      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withAscensions(1));
+      try (cleanups) {
+        assertTrue(HAUNTED_GALLERY.canAdventure());
+        assertTrue(HAUNTED_BATHROOM.canAdventure());
+        assertTrue(HAUNTED_BEDROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedSecondFloorAvailableWithGhostNecklaceAndLevel() {
+      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withLevel(7));
+      try (cleanups) {
+        assertTrue(HAUNTED_GALLERY.canAdventure());
+        assertTrue(HAUNTED_BATHROOM.canAdventure());
+        assertTrue(HAUNTED_BEDROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void canTalkToLadySpookyravenToStartQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withAscensions(1), withItem(ItemPool.GHOST_NECKLACE));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_lady_spookyraven_2A.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertTrue(HAUNTED_GALLERY.canAdventure());
+        assertTrue(HAUNTED_GALLERY.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.FINISHED);
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/place.php", "whichplace=manor2&action=manor2_ladys");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void hauntedSecondFloorNotAvailableWithGhostNecklaceWithoutLevel() {
+      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withLevel(6));
+      try (cleanups) {
+        assertFalse(HAUNTED_GALLERY.canAdventure());
+        assertFalse(HAUNTED_BATHROOM.canAdventure());
+        assertFalse(HAUNTED_BEDROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedSecondFloorAvailableWithSpookyravenNecklaceAndAscension() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withAscensions(1));
+      try (cleanups) {
+        assertTrue(HAUNTED_GALLERY.canAdventure());
+        assertTrue(HAUNTED_BATHROOM.canAdventure());
+        assertTrue(HAUNTED_BEDROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedSecondFloorAvailableWithSpookyravenNecklaceAndLevel() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(7));
+      try (cleanups) {
+        assertTrue(HAUNTED_GALLERY.canAdventure());
+        assertTrue(HAUNTED_BATHROOM.canAdventure());
+        assertTrue(HAUNTED_BEDROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedSecondFloorNotAvailableWithSpookyravenNecklaceWithoutLevel() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(6));
+      try (cleanups) {
+        assertFalse(HAUNTED_GALLERY.canAdventure());
+        assertFalse(HAUNTED_BATHROOM.canAdventure());
+        assertFalse(HAUNTED_BEDROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void canTalkToLadySpookyravenTwiceToStartQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withAscensions(1),
+              withItem(ItemPool.SPOOKYRAVEN_NECKLACE));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_lady_spookyraven_1.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_lady_spookyraven_2A.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertTrue(HAUNTED_GALLERY.canAdventure());
+        assertTrue(HAUNTED_GALLERY.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.FINISHED);
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(4));
+        assertPostRequest(requests.get(0), "/place.php", "whichplace=manor1&action=manor1_ladys");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(2), "/place.php", "whichplace=manor2&action=manor2_ladys");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void hauntedBallroomAvailableWithQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3"));
+      try (cleanups) {
+        assertTrue(HAUNTED_BALLROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedBallroomAvailableWithItems() {
+      // ResultProcessor sets quest progress to step 2 when you get the third item.
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.POWDER_PUFF),
+              withItem(ItemPool.FINEST_GOWN),
+              withItem(ItemPool.DANCING_SHOES));
+      try (cleanups) {
+        assertTrue(HAUNTED_BALLROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void canTalkToLadySpookyravenToOpenBallroom() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.POWDER_PUFF),
+              withItem(ItemPool.FINEST_GOWN),
+              withItem(ItemPool.DANCING_SHOES));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_lady_spookyraven_2B.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
+        assertTrue(HAUNTED_BALLROOM.canAdventure());
+        assertTrue(HAUNTED_BALLROOM.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step3");
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/place.php", "whichplace=manor2&action=manor2_ladys");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void canBallroomDanceToOpenThirdFloor() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withAscensions(1),
+              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3"));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_spookraven_dance.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_spookyraven_after_dance.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=395");
+        request.run();
+        assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.FINISHED);
+        assertTrue(HAUNTED_LABORATORY.canAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=395");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(2), "/place.php", "whichplace=manor2");
+      }
+    }
+
+    @Test
+    public void hauntedBallroomNotAvailableWithoutQuestOrItems() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1"));
+      try (cleanups) {
+        assertFalse(HAUNTED_BALLROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedThirdFloorAvailableWithQuestAndAscension() {
+      var cleanups =
+          new Cleanups(
+              withAscensions(1),
+              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertTrue(HAUNTED_STORAGE_ROOM.canAdventure());
+        assertTrue(HAUNTED_NURSERY.canAdventure());
+        assertTrue(HAUNTED_LABORATORY.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedThirdFloorAvailableWithQuestAndLevel() {
+      var cleanups =
+          new Cleanups(
+              withLevel(9), withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertTrue(HAUNTED_STORAGE_ROOM.canAdventure());
+        assertTrue(HAUNTED_NURSERY.canAdventure());
+        assertTrue(HAUNTED_LABORATORY.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedThirdFloorNotAvailableWithQuestAndNotLevel() {
+      var cleanups =
+          new Cleanups(
+              withLevel(8), withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertFalse(HAUNTED_STORAGE_ROOM.canAdventure());
+        assertFalse(HAUNTED_NURSERY.canAdventure());
+        assertFalse(HAUNTED_LABORATORY.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedCellarAvailableWithQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, "step1"));
+      try (cleanups) {
+        assertTrue(HAUNTED_WINE_CELLAR.canAdventure());
+        assertTrue(HAUNTED_LAUNDRY_ROOM.canAdventure());
+        assertTrue(HAUNTED_BOILER_ROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void hauntedCellarNotAvailableWithOutQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertFalse(HAUNTED_WINE_CELLAR.canAdventure());
+        assertFalse(HAUNTED_LAUNDRY_ROOM.canAdventure());
+        assertFalse(HAUNTED_BOILER_ROOM.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class Pixels {
+    private static final KoLAdventure PIXEL_REALM =
+        AdventureDatabase.getAdventureByName("8-Bit Realm");
+    private static final KoLAdventure VANYA =
+        AdventureDatabase.getAdventureByName("Vanya's Castle Foyer");
+
+    @Test
+    public void pixelRealmNotAvailableWithoutWoods() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(PIXEL_REALM.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureWithTransfunctionerEquipped() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
+      try (cleanups) {
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithTransfunctionerInInventory() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withEquippableItem(ItemPool.TRANSFUNCTIONER));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_equip_transfunctioner.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    private void acquireAndEquipTransfunctioner(FakeHttpClientBuilder builder) {
+      // place.php?whichplace=forestvillage&action=fv_mystic
+      builder.client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+      builder.client.addResponse(200, html("request/test_mystic_1.html"));
+      // choice.php?whichchoice=664&option=1&pwd
+      builder.client.addResponse(200, html("request/test_mystic_2.html"));
+      // choice.php?whichchoice=664&option=1&pwd
+      builder.client.addResponse(200, html("request/test_mystic_3.html"));
+      // choice.php?whichchoice=664&option=1&pwd
+      builder.client.addResponse(200, html("request/test_mystic_4.html"));
+      builder.client.addResponse(200, ""); // api.php
+      // inv_equip.php?which=2&ajax=1&slot=1&action=equip&whichitem=458
+      builder.client.addResponse(200, html("request/test_equip_transfunctioner.html"));
+      builder.client.addResponse(200, ""); // api.php
+
+      assertTrue(PIXEL_REALM.canAdventure());
+      assertTrue(PIXEL_REALM.prepareForAdventure());
+
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(8));
+      assertPostRequest(requests.get(0), "/place.php", "whichplace=forestvillage&action=fv_mystic");
+      assertPostRequest(requests.get(1), "/choice.php", "forceoption=0");
+      assertPostRequest(requests.get(2), "/choice.php", "whichchoice=664&option=1");
+      assertPostRequest(requests.get(3), "/choice.php", "whichchoice=664&option=1");
+      assertPostRequest(requests.get(4), "/choice.php", "whichchoice=664&option=1");
+      assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(
+          requests.get(6),
+          "/inv_equip.php",
+          "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
+      assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
+    }
+
+    @Test
+    public void canAcquireAndEquipTransfunctionerAutomated() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withProperty("choiceAdventure664", 1));
+      try (cleanups) {
+        acquireAndEquipTransfunctioner(builder);
+      }
+    }
+
+    @Test
+    public void canAcquireAndEquipTransfunctionerManually() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withProperty("choiceAdventure664", 0));
+      try (cleanups) {
+        acquireAndEquipTransfunctioner(builder);
       }
     }
   }
@@ -1911,6 +2461,133 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.SPARE, QuestDatabase.STARTED));
       try (cleanups) {
         assertTrue(HIDDEN_BOWLING_ALLEY.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class Palindome {
+    private static final KoLAdventure PALINDOME =
+        AdventureDatabase.getAdventureByName("Inside the Palindome");
+
+    @Test
+    public void cannotVisitPalindomeWithoutTalisman() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        assertFalse(PALINDOME.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitPalindomeWithTalismanEquipped() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TALISMAN));
+      try (cleanups) {
+        assertTrue(PALINDOME.canAdventure());
+        assertTrue(PALINDOME.prepareForAdventure());
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canEquipTalismanFromInventory() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withEquippableItem(ItemPool.TALISMAN));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_visit_palindome_equip_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(PALINDOME.canAdventure());
+        assertTrue(PALINDOME.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TALISMAN);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void cannotVisitPalindomeWithTalismanComponentsAndNoMeat() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.COPPERHEAD_CHARM),
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
+              withMeat(0));
+      try (cleanups) {
+        assertFalse(PALINDOME.canAdventure());
+      }
+    }
+
+    @Test
+    public void canCreateTalismanAndEquipWithMeat() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.COPPERHEAD_CHARM),
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
+              withMeat(10));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_visit_palindome_make_paste.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_visit_palindome_make_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_visit_palindome_equip_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(PALINDOME.canAdventure());
+        assertTrue(PALINDOME.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(6));
+        assertPostRequest(
+            requests.get(0), "/craft.php", "action=makepaste&whichitem=25&ajax=1&qty=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(
+            requests.get(2), "/craft.php", "action=craft&mode=combine&ajax=1&a=7178&b=7186&qty=1");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(
+            requests.get(4),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TALISMAN);
+        assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void canCreateTalismanAndEquipWithThePlunger() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.COPPERHEAD_CHARM),
+              withItem(ItemPool.COPPERHEAD_CHARM_RAMPANT),
+              withSign(ZodiacSign.VOLE));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_visit_palindome_make_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_visit_palindome_equip_talisman.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(PALINDOME.canAdventure());
+        assertTrue(PALINDOME.prepareForAdventure());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(4));
+        assertPostRequest(
+            requests.get(0), "/craft.php", "action=craft&mode=combine&ajax=1&a=7178&b=7186&qty=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(
+            requests.get(2),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TALISMAN);
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

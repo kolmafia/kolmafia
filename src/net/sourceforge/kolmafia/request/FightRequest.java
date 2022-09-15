@@ -9210,6 +9210,13 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.SMASH_GRAAAGH:
+        if (responseText.contains("incidentally tearing free an item")) {
+          // No casting limit, can pickpocket items up to 30 times a day
+          skillSuccess = true;
+        }
+        break;
+
       case SkillPool.SHOW_RING:
         // You show him your ring. "Well, I never," he exclaims as he storms off in a huff.
         // You show them your ring. They aren't impressed.

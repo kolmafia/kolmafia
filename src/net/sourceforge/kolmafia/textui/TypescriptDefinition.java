@@ -131,7 +131,10 @@ public class TypescriptDefinition {
             .mapToObj(i -> String.format("%s: %s", paramNames.get(i), paramTypes.get(i)))
             .collect(Collectors.joining(", "));
 
-    var deprecationWarning = (f.deprecationWarning.length > 0) ? "/** @deprecated */\n" : "";
+    var deprecationWarning =
+        (f.deprecationWarning.length > 0)
+            ? "/** @deprecated " + String.join("<br>", f.deprecationWarning) + " */\n"
+            : "";
 
     return String.format("%sexport function %s(%s): %s;", deprecationWarning, name, params, type);
   }

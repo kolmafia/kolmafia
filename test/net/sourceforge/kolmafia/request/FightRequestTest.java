@@ -1018,6 +1018,35 @@ public class FightRequestTest {
     }
   }
 
+  @Nested
+  class SmashGraaagh {
+    @Test
+    public void canTrackSmashAndGraaaghPickPocketSuccess() {
+      var cleanups = new Cleanups(withProperty("_zombieSmashPocketsUsed", 0), withFight());
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=12023";
+        String html = html("request/test_fight_smash_and_graaagh_success.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_zombieSmashPocketsUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void canTrackSmashAndGraaaghPickPocketFailure() {
+      var cleanups = new Cleanups(withProperty("_zombieSmashPocketsUsed", 3), withFight());
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=12023";
+        String html = html("request/test_fight_smash_and_graaagh_failure.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_zombieSmashPocketsUsed", isSetTo(3));
+      }
+    }
+  }
+
   @ParameterizedTest
   @CsvSource({
     "5, true",
