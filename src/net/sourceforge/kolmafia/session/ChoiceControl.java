@@ -239,7 +239,7 @@ public abstract class ChoiceControl {
           int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
           AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
           ResultProcessor.processResult(cost);
-          KoLCharacter.setLimitmode(null);
+          KoLCharacter.setLimitmode(Limitmode.NONE);
         }
         break;
 
@@ -249,14 +249,14 @@ public abstract class ChoiceControl {
             Preferences.setInteger("_edDefeats", 0);
             Preferences.setBoolean("edUsedLash", false);
             MonsterStatusTracker.reset();
-            KoLCharacter.setLimitmode(null);
+            KoLCharacter.setLimitmode(Limitmode.NONE);
             break;
           case 1:
             int edDefeats = Preferences.getInteger("_edDefeats");
             int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
             AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
             ResultProcessor.processResult(cost);
-            KoLCharacter.setLimitmode(null);
+            KoLCharacter.setLimitmode(Limitmode.NONE);
             break;
         }
         break;
@@ -5821,14 +5821,14 @@ public abstract class ChoiceControl {
         // Batfellow Ends
         // (choosing to exit)
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.setLimitmode(null);
+          KoLCharacter.setLimitmode(Limitmode.NONE);
         }
         break;
 
       case 1168:
         // Batfellow Ends
         // (from running out of time)
-        KoLCharacter.setLimitmode(null);
+        KoLCharacter.setLimitmode(Limitmode.NONE);
         break;
 
       case 1171: // LT&T Office

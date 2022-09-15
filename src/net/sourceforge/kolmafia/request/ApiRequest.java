@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -355,15 +354,19 @@ public class ApiRequest extends GenericRequest {
       // Many things from the Char Pane are available
       CharPaneRequest.parseStatus(JSON);
 
-      String limitmode = KoLCharacter.getLimitmode();
-      if (limitmode == Limitmode.SPELUNKY) {
-        // Parse Spelunky equipment
-        SpelunkyRequest.parseStatus(JSON);
-      } else if (limitmode == Limitmode.BATMAN) {
-        // Don't mess with equipment
-      } else {
-        // Parse currently worn equipment
-        EquipmentManager.parseStatus(JSON);
+      var limitmode = KoLCharacter.getLimitmode();
+      switch (limitmode) {
+        case SPELUNKY:
+          // Parse Spelunky equipment
+          SpelunkyRequest.parseStatus(JSON);
+          break;
+        case BATMAN:
+          // Don't mess with equipment
+          break;
+        default:
+          // Parse currently worn equipment
+          EquipmentManager.parseStatus(JSON);
+          break;
       }
 
       // Must be AFTER current familiar is set and equipment is processed

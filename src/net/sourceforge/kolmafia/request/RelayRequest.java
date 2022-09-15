@@ -3515,7 +3515,7 @@ public class RelayRequest extends PasswordHashRequest {
    *     run()-ing.
    */
   private boolean sendWarnings(KoLAdventure adventure, String adventureName, String nextAdventure) {
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitmode();
 
     // If we are playing Spelunky, a specialized set of warnings are relevant
     if ((limitmode != null) && limitmode.equals(Limitmode.SPELUNKY)) {

@@ -324,7 +324,7 @@ public class Expression {
               v = 1;
               break;
             }
-            String parentZone = AdventureDatabase.PARENT_ZONES.get(currentZone);
+            String parentZone = AdventureDatabase.getParentZone(currentZone);
             if (parentZone == null || currentZone.equals(parentZone)) {
               break;
             }

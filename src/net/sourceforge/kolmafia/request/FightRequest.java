@@ -1976,7 +1976,7 @@ public class FightRequest extends GenericRequest {
     }
 
     boolean shouldLogAction = Preferences.getBoolean("logBattleAction");
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitmode();
     boolean isBatfellow = (limitmode == Limitmode.BATMAN);
 
     // The response tells you if you won initiative.
@@ -2595,7 +2595,7 @@ public class FightRequest extends GenericRequest {
     String monsterName = monster != null ? monster.getName() : "";
     SpecialMonster special = FightRequest.specialMonsterCategory(monsterName);
 
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitmode();
     boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
     boolean won = finalRound && responseText.contains("<!--WINWINWIN-->");
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
@@ -5460,7 +5460,7 @@ public class FightRequest extends GenericRequest {
     public boolean mayowasp;
     public boolean dolphin;
     public boolean eldritchHorror;
-    public String limitmode;
+    public Limitmode limitmode;
     public String VYKEACompanion;
     public String horse;
     public boolean hookah = false;
@@ -10620,7 +10620,7 @@ public class FightRequest extends GenericRequest {
     // Begin logging all the different combat actions and storing
     // relevant data for post-processing.
 
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitmode();
     boolean isBatfellow = (limitmode == Limitmode.BATMAN);
     String name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 

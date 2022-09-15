@@ -5981,7 +5981,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value limit_mode(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getLimitmode());
+    return new Value(KoLCharacter.getLimitmode().getName());
   }
 
   public static Value get_florist_plants(ScriptRuntime controller) {

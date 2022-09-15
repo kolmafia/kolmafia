@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
@@ -164,7 +163,7 @@ public abstract class KoLCharacter {
 
   private static String mask = null;
 
-  private static String limitmode = null;
+  private static Limitmode limitmode = Limitmode.NONE;
 
   public static final int MAX_BASEPOINTS = 65535;
 
@@ -1309,39 +1308,31 @@ public abstract class KoLCharacter {
     return ascensionClass == null ? Stat.NONE : ascensionClass.getMainStat();
   }
 
-  public static final void setLimitmode(String limitmode) {
-    if (limitmode != null && limitmode.equals("0")) {
-      limitmode = null;
+  public static void setLimitmode(final Limitmode limitmode) {
+    switch (limitmode) {
+      case NONE -> {
+        if (KoLCharacter.limitmode.requiresReset()
+            && !GenericRequest.abortIfInFightOrChoice(true)) {
+          KoLmafia.resetAfterLimitmode();
+        }
+      }
+      case BATMAN -> BatManager.setCombatSkills();
     }
 
-    if (limitmode == null) {
-      String old = KoLCharacter.limitmode;
-      boolean reset =
-          (old == Limitmode.SPELUNKY || old == Limitmode.BATMAN)
-              && !GenericRequest.abortIfInFightOrChoice(true);
-      KoLCharacter.limitmode = null;
-      if (reset) {
-        KoLmafia.resetAfterLimitmode();
-      }
-    } else if (limitmode.equals(Limitmode.SPELUNKY)) {
-      KoLCharacter.limitmode = Limitmode.SPELUNKY;
-    } else if (limitmode.equals(Limitmode.BATMAN)) {
-      KoLCharacter.limitmode = Limitmode.BATMAN;
-      BatManager.setCombatSkills();
-    } else if (limitmode.equals(Limitmode.ED)) {
-      KoLCharacter.limitmode = Limitmode.ED;
-    } else {
-      KoLCharacter.limitmode = limitmode;
-    }
+    KoLCharacter.limitmode = limitmode;
   }
 
-  public static final String getLimitmode() {
+  public static void setLimitmode(final String name) {
+    var limitmode = Limitmode.find(name);
+    setLimitmode(limitmode);
+  }
+
+  public static Limitmode getLimitmode() {
     return KoLCharacter.limitmode;
   }
 
-  public static final void enterLimitmode(final String limitmode) {
-    // Entering Spelunky or Batman
-    if (limitmode != Limitmode.SPELUNKY && limitmode != Limitmode.BATMAN) {
+  public static void enterLimitmode(final Limitmode limitmode) {
+    if (!limitmode.requiresReset()) {
       return;
     }
 
@@ -1373,11 +1364,7 @@ public abstract class KoLCharacter {
     EquipmentManager.resetCustomOutfits();
     SkillBuffFrame.update();
 
-    if (limitmode == Limitmode.SPELUNKY) {
-      SpelunkyRequest.reset();
-    } else if (limitmode == Limitmode.BATMAN) {
-      BatManager.begin();
-    }
+    limitmode.reset();
 
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();

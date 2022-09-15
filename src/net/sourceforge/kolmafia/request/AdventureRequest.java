@@ -1010,7 +1010,7 @@ public class AdventureRequest extends GenericRequest {
     if (this.override >= 0) {
       return this.override;
     }
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitmode();
     if (limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN) {
       return 0;
     }

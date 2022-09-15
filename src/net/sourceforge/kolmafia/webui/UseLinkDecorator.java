@@ -52,8 +52,8 @@ public abstract class UseLinkDecorator {
 
     // If you are Ed in the Underworld, you have to wait until you
     // are on the surface again before you use anything
-    String limitMode = KoLCharacter.getLimitmode();
-    if (limitMode == Limitmode.ED) {
+    var limitmode = KoLCharacter.getLimitmode();
+    if (limitmode == Limitmode.ED) {
       return;
     }
 

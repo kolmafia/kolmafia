@@ -72,7 +72,7 @@ public class CharPaneDecorator {
     // If you are playing Spelunky or Batfellow, the charpane is
     // entirely different.
 
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitmode();
     if (limitmode != Limitmode.SPELUNKY && limitmode != Limitmode.BATMAN) {
       // We are interested in the following sections of the CharPane:
       //

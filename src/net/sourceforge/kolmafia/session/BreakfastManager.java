@@ -86,7 +86,7 @@ public class BreakfastManager {
   private BreakfastManager() {}
 
   public static void getBreakfast(final boolean runComplete) {
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitmode();
     if (limitmode != null) {
       // Current limitmodes are transient states you can
       // enter and leave during a run. If KoL ever implements

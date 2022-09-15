@@ -733,7 +733,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
   @Override
   public void run() {
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitmode();
 
     if (limitmode != Limitmode.SPELUNKY) {
       this.levelLabel.setText("Level " + KoLCharacter.getLevel());
