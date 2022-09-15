@@ -586,7 +586,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
         }
     }
-    ;
 
     return true;
   }
