@@ -232,6 +232,7 @@ public class ItemFinderTest {
     assertTrue(item != null);
     assertEquals(item.getItemId(), ItemPool.ELITE_TROUSERS);
     assertEquals(item.getCount(), 2);
+    
     // count + item name contains commas
     item = ItemFinder.getFirstMatchingItem("2 Tea, Earl Grey, Hot", false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
