@@ -481,7 +481,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           Map.entry("The Spectral Pickle Factory", "April Fool's Day"),
           Map.entry("Drunken Stupor", ""));
 
-  // Validation part 0:
   private boolean isTooDrunk() {
     if (!KoLCharacter.isFallingDown()) return false;
 
@@ -503,6 +502,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
+  // Validation part 0:
   private boolean checkZone(String alwaysPref, String todayPref, String place) {
     // If we have permanent access, cool.
     if (Preferences.getBoolean(alwaysPref)) {
