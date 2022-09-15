@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.BatManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -88,8 +89,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private final AreaCombatData areaSummary;
   private final boolean isNonCombatsOnly;
 
-  private static final Pattern ADVENTURE_AGAIN =
-      Pattern.compile("<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>");
   private static final HashSet<String> unknownAdventures = new HashSet<>();
 
   public static final Comparator<KoLAdventure> NameComparator =
@@ -372,8 +371,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // this.isValidAdventure will be false if the only way to visit an area is to
   // use a (possibly expensive) day pass - which you might not even own
 
-  private void validate0() {
-    this.isValidAdventure = this.preValidateAdventure();
+  private boolean validate0() {
+    return (this.isValidAdventure = this.preValidateAdventure());
   }
 
   // Validation part 1:
@@ -387,8 +386,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // this.isValidAdventure will be false if there is nothing you can do
   // to go to this location at this time, or true, otherwise
 
-  private void validate1() {
-    this.isValidAdventure = this.canAdventure();
+  private boolean validate1() {
+    return (this.isValidAdventure = this.canAdventure());
   }
 
   // Validation part 2:
@@ -400,11 +399,21 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   //
   // If we can't, log error and set this.isValidAdventure to false.
 
-  private void validate2() {
-    this.isValidAdventure = this.prepareForAdventure();
+  private boolean validate2() {
+    return (this.isValidAdventure = this.prepareForAdventure());
   }
 
   // AdventureResults used during validation
+  private static final AdventureResult SPOOKYRAVEN_TELEGRAM =
+      ItemPool.get(ItemPool.SPOOKYRAVEN_TELEGRAM);
+  private static final AdventureResult LIBRARY_KEY = ItemPool.get(ItemPool.LIBRARY_KEY);
+  private static final AdventureResult BILLIARDS_KEY = ItemPool.get(ItemPool.BILLIARDS_KEY);
+  private static final AdventureResult SPOOKYRAVEN_NECKLACE =
+      ItemPool.get(ItemPool.SPOOKYRAVEN_NECKLACE);
+  private static final AdventureResult GHOST_NECKLACE = ItemPool.get(ItemPool.GHOST_NECKLACE);
+  private static final AdventureResult POWDER_PUFF = ItemPool.get(ItemPool.POWDER_PUFF);
+  private static final AdventureResult FINEST_GOWN = ItemPool.get(ItemPool.FINEST_GOWN);
+  private static final AdventureResult DANCING_SHOES = ItemPool.get(ItemPool.DANCING_SHOES);
   private static final AdventureResult KNOB_GOBLIN_PERFUME =
       ItemPool.get(ItemPool.KNOB_GOBLIN_PERFUME);
   private static final AdventureResult KNOB_CAKE = ItemPool.get(ItemPool.KNOB_CAKE);
@@ -521,6 +530,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return checkZone("gingerbreadCityAvailable", "_gingerbreadCityToday", "mountains");
     }
 
+    if (this.zone.equals("LT&T")) {
+      // One quest from a day pass, geometric cost for permanent
+      return checkZone("telegraphOfficeAvailable", "_telegraphOfficeToday", "town_right");
+    }
+
     if (this.zone.equals("Neverending Party")) {
       // Unlimited adventuring if available
       return checkZone("neverendingPartyAlways", "_neverendingPartyToday", "town_wrong");
@@ -529,6 +543,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.adventureId.equals(AdventurePool.TUNNEL_OF_LOVE_ID)) {
       // One trip through if available
       return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
+    }
+
+    if (this.zone.equals("FantasyRealm")) {
+      // One daily visit if available
+      return checkZone("frAlways", "_frToday", "monorail");
+    }
+
+    if (this.zone.equals("PirateRealm")) {
+      // One daily visit if available
+      return checkZone("prAlways", "_prToday", "monorail");
     }
 
     if (this.zone.equals("The Spacegate")) {
@@ -561,6 +585,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // Validation part 1:
 
   public boolean canAdventure() {
+    // If we get here via automation, preValidateAdventure() returned true
+
     if (Limitmode.limitAdventure(this)) {
       return false;
     }
@@ -721,6 +747,80 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
+    if (this.parentZone.equals("Manor")) {
+      // Quest.MANOR			Lord Spookyraven
+      if (this.zone.equals("Manor0")) {
+        return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED);
+      }
+
+      // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
+      // KMail from Lady Spookyraven at start of ascension or at level 5
+      // if unascended contains telegram from Lady Spookyraven
+      // -> reading telegram starts quest and opens Haunted Kitchen
+      // -> talking to her on first floor after getting necklace removes
+      //    necklace, grants ghost necklace, and ends quest.
+      if (this.zone.equals("Manor1")) {
+        int neededLevel = KoLCharacter.getAscensions() > 0 ? 0 : 5;
+        return switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_PANTRY -> true;
+          case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> QuestDatabase
+                  .isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)
+              || InventoryManager.hasItem(SPOOKYRAVEN_TELEGRAM)
+              || KoLCharacter.getLevel() >= neededLevel;
+          case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(LIBRARY_KEY);
+          case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(BILLIARDS_KEY);
+          default -> true;
+        };
+      }
+
+      // Quest.SPOOKYRAVEN_DANCE	Lady Spookyraven
+      // KMail from Lady Spookyraven (immediately after ending necklace
+      // quest or at level 7 if unascended) invites you to 2nd floor.
+      // -> Talking to her starts quest and opens Haunted Gallery,
+      //    Haunted Bathroom, and Haunted Bedroom
+      // -> Talking to her after acquiring dancing gear opens Haunted
+      //    Ballroom
+      // -> Adventuring in Haunted Ballroom ends quest
+      if (this.zone.equals("Manor2")) {
+        int neededLevel = KoLCharacter.getAscensions() > 0 ? 0 : 7;
+        return switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_BATHROOM,
+              AdventurePool.HAUNTED_BEDROOM,
+              AdventurePool.HAUNTED_GALLERY -> QuestDatabase.isQuestLaterThan(
+                  Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)
+              || (KoLCharacter.getLevel() >= neededLevel
+                  && (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)
+                      || InventoryManager.hasItem(GHOST_NECKLACE)));
+          case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
+                  Quest.SPOOKYRAVEN_DANCE, "step2")
+              || (InventoryManager.hasItem(POWDER_PUFF)
+                  && InventoryManager.hasItem(FINEST_GOWN)
+                  && InventoryManager.hasItem(DANCING_SHOES));
+          default -> true;
+        };
+      }
+
+      // Quest.SPOOKYRAVEN_BABIES	Lady Spookyraven
+      // KMail from Lady Spookyraven (immediately after ending dancing
+      // quest or at level 9 if unascended) invites you to 3d floor.
+      // -> Visiting third floor opens Haunted Storage Room, Haunted
+      //   Nursery, and Haunted Laboratory
+      if (this.zone.equals("Manor3")) {
+        int neededLevel = KoLCharacter.getAscensions() > 0 ? 0 : 9;
+        return switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_LABORATORY,
+              AdventurePool.HAUNTED_NURSERY,
+              AdventurePool.HAUNTED_STORAGE_ROOM -> QuestDatabase.isQuestLaterThan(
+                  Quest.SPOOKYRAVEN_DANCE, "step3")
+              && (KoLCharacter.getLevel() >= neededLevel);
+          default -> true;
+        };
+      }
+
+      // You can't get there from here.
+      return true;
+    }
+
     // Open at level one, with a subset of eventual zones
     if (this.zone.equals("Mountain")) {
       return switch (this.adventureNumber) {
@@ -741,13 +841,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Open at level one, with a subset of eventual zones
     if (this.zone.equals("Plains")) {
+      if (this.adventureNumber == AdventurePool.PALINDOME) {
+        // If you have created the Talisman o' Namsilat, the Palindome is available
+        if (KoLCharacter.hasEquipped(TALISMAN) || InventoryManager.hasItem(TALISMAN)) {
+          return true;
+        }
+
+        // If you have the components to create the Talisman, we will make it
+        CreateItemRequest creator = CreateItemRequest.getInstance(TALISMAN);
+        return creator != null && creator.getQuantityPossible() > 0;
+      }
+
       return switch (this.adventureNumber) {
         case AdventurePool.FUN_HOUSE -> QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step4");
         case AdventurePool.UNQUIET_GARVES -> QuestDatabase.isQuestStarted(Quest.CYRPT)
             || QuestDatabase.isQuestStarted(Quest.EGO);
         case AdventurePool.VERY_UNQUIET_GARVES -> QuestDatabase.isQuestFinished(Quest.CYRPT);
-        case AdventurePool.PALINDOME -> KoLCharacter.hasEquipped(TALISMAN)
-            || InventoryManager.hasItem(TALISMAN);
           // Allow future "Plains" zones
         default -> true;
       };
@@ -759,7 +868,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // the Council asks for a mosquito larva at level two.
       return switch (this.adventureNumber) {
         case AdventurePool.BARROOM_BRAWL -> QuestDatabase.isQuestStarted(Quest.RAT);
-          // validate2 will visit the Crackpot Mystic to get one, if needed
+          // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
         case AdventurePool.PIXEL_REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
             || InventoryManager.hasItem(TRANSFUNCTIONER);
         case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.isKingdomOfExploathing()
@@ -1023,12 +1132,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 11 quest
 
-    // *** Lord Spookyraven
-
-    if (this.zone.equals("Manor0")) {
-      return QuestDatabase.isQuestLaterThan(Quest.MANOR, QuestDatabase.STARTED);
-    }
-
     // *** Doctor Awkward
 
     if (this.zone.equals("The Red Zeppelin's Mooring")) {
@@ -1205,45 +1308,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // You can visit any of the zones both before or after getting the tool -
       // and even after turning them all in.
       return true;
-    }
-
-    // Spookyraven Manor quests:
-    //
-    // Quest.SPOOKYRAVEN_NECKLACE	Lady Spookyraven
-    // Quest.SPOOKYRAVEN_DANCE		Lady Spookyraven
-    // Quest.SPOOKYRAVEN_BABIES		Lady Spookyraven
-
-    if (this.zone.equals("Manor1")) {
-      return switch (this.adventureNumber) {
-        case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> QuestDatabase
-            .isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
-        case AdventurePool.HAUNTED_LIBRARY -> InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
-        case AdventurePool.HAUNTED_BILLIARDS_ROOM -> InventoryManager.hasItem(
-            ItemPool.BILLIARDS_KEY);
-        default -> true;
-      };
-    }
-
-    if (this.zone.equals("Manor2")) {
-      return switch (this.adventureNumber) {
-        case AdventurePool.HAUNTED_BATHROOM,
-            AdventurePool.HAUNTED_BEDROOM,
-            AdventurePool.HAUNTED_GALLERY -> QuestDatabase.isQuestLaterThan(
-            Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
-        case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
-            Quest.SPOOKYRAVEN_DANCE, "step2");
-        default -> true;
-      };
-    }
-
-    if (this.zone.equals("Manor3")) {
-      return switch (this.adventureNumber) {
-        case AdventurePool.HAUNTED_LABORATORY,
-            AdventurePool.HAUNTED_NURSERY,
-            AdventurePool.HAUNTED_STORAGE_ROOM -> QuestDatabase.isQuestLaterThan(
-            Quest.SPOOKYRAVEN_DANCE, "step3");
-        default -> true;
-      };
     }
 
     // Nemesis Quest
@@ -1592,10 +1656,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("LT&T")) {
-      // Telegram quests
-      // *** Only accessible if you have chosen a quest
-      return Preferences.getBoolean("telegraphOfficeAvailable")
-          || Preferences.getBoolean("_telegraphOfficeToday");
+      // Only available if you have accepted a quest
+      return QuestDatabase.isQuestStarted(Quest.TELEGRAM);
     }
 
     if (this.zone.equals("Neverending Party")) {
@@ -1678,7 +1740,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLConstants.campground.contains(item) || InventoryManager.hasItem(item);
     }
 
-    // You can only use one grimstone mask in use at a time.
+    // You can only have one grimstone mask in use at a time.
     if (this.parentZone.equals("Grimstone")) {
       if (KoLCharacter.isEd()
           || KoLCharacter.inDarkGyffte()
@@ -1769,7 +1831,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return EquipmentManager.hasOutfit(id) ? id : 0;
   }
 
-  // Building a dingy dinghy is something that validate2 can do for us.
+  // Building a dingy dinghy is something that prepareForAdventure can do for us.
   private boolean canBuildDinghy() {
     return InventoryManager.hasItem(DINGHY_PLANS) && InventoryManager.hasItem(DINGY_PLANKS);
   }
@@ -1786,12 +1848,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // Validation part 2:
 
   public boolean prepareForAdventure() {
-    // If we get here, this.isValidAdventure is true.
+    // If we get here via automation, canAdventure() returned true
 
     if (this.zone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need
       // to be Half-Astral or have access to an astral mushroom.
-      // validate1 ensured that one or the other is true
+      // canAdventure ensured that one or the other is true
 
       String option =
           switch (this.adventureNumber) {
@@ -1885,7 +1947,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (EquipmentManager.isWearingOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
         // Elite Guard
 
-        // This shouldn't fail.
+        // This shouldn't fail. It will craft it if necessary.
         InventoryManager.retrieveItem(KNOB_CAKE);
         return true;
       }
@@ -1914,7 +1976,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
         wearOutfit(OutfitPool.KNOB_ELITE_OUTFIT);
 
-        // This shouldn't fail.
+        // This shouldn't fail. It will craft it if necessary.
         InventoryManager.retrieveItem(KNOB_CAKE);
         return true;
       }
@@ -1934,7 +1996,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Island") || this.zone.equals("IsleWar")) {
-      // If validate1 expected us to build dinghy, do it.
+      // If canAdventure expected us to build dinghy, do it.
       if (!buildDinghy()) {
         // This should not fail.
         return false;
@@ -1974,11 +2036,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.adventureNumber == AdventurePool.PIXEL_REALM || this.zone.equals("Vanya's Castle")) {
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
+        // This redirects to choice.php&forceoption=0.
+        //
+        // The user might have configured choice 664 to automate.  If so,
+        // ChoiceHandler will do the whole thing and we will end up with the
+        // transfunctioner in inventory and not in a choice.
         GenericRequest pixelRequest = new GenericRequest("choice.php?whichchoice=664&option=1");
-        // The early steps cannot be skipped
-        RequestThread.postRequest(pixelRequest);
-        RequestThread.postRequest(pixelRequest);
-        RequestThread.postRequest(pixelRequest);
+        while (ChoiceManager.handlingChoice) {
+          RequestThread.postRequest(pixelRequest);
+        }
       }
 
       if (!KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
@@ -1987,11 +2053,72 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    if (this.adventureNumber == AdventurePool.PALINDOME) {
-      if (!KoLCharacter.hasEquipped(TALISMAN)) {
-        // This will pick an empty slot, or accessory1, if all are full
-        RequestThread.postRequest(new EquipmentRequest(TALISMAN));
+    if (this.parentZone.equals("Manor")) {
+      if (this.zone.equals("Manor1")) {
+        switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_KITCHEN:
+          case AdventurePool.HAUNTED_CONSERVATORY:
+            if (!QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)) {
+              // If we have ascended at least once, we started with telegram in inventory.
+              // Otherwise, it comes in KMail at level 5.
+              if (!InventoryManager.hasItem(SPOOKYRAVEN_TELEGRAM)) {
+                InventoryManager.refresh();
+                InventoryManager.retrieveItem(SPOOKYRAVEN_TELEGRAM);
+              }
+              if (InventoryManager.hasItem(SPOOKYRAVEN_TELEGRAM)) {
+                RequestThread.postRequest(UseItemRequest.getInstance(SPOOKYRAVEN_TELEGRAM));
+              }
+            }
+            return QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
+        }
       }
+
+      if (this.zone.equals("Manor2")) {
+        switch (this.adventureNumber) {
+          case AdventurePool.HAUNTED_BATHROOM:
+          case AdventurePool.HAUNTED_BEDROOM:
+          case AdventurePool.HAUNTED_GALLERY:
+            if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)) {
+              if (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)) {
+                // Talk to Lady Spookyraven on 1st floor
+                var request = new GenericRequest("place.php?whichplace=manor1&action=manor1_ladys");
+                RequestThread.postRequest(request);
+              }
+              if (InventoryManager.hasItem(GHOST_NECKLACE)) {
+                // Talk to Lady Spookyraven on 2nd floor
+                var request = new GenericRequest("place.php?whichplace=manor2&action=manor2_ladys");
+                RequestThread.postRequest(request);
+              }
+            }
+            return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
+          case AdventurePool.HAUNTED_BALLROOM:
+            if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2")) {
+              // These should not fail
+              InventoryManager.retrieveItem(POWDER_PUFF);
+              InventoryManager.retrieveItem(FINEST_GOWN);
+              InventoryManager.retrieveItem(DANCING_SHOES);
+              // Talk to Lady Spookyraven on 2nd floor
+              var request = new GenericRequest("place.php?whichplace=manor2&action=manor2_ladys");
+              RequestThread.postRequest(request);
+            }
+            return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
+        }
+      }
+
+      return true;
+    }
+
+    if (this.adventureNumber == AdventurePool.PALINDOME) {
+      if (KoLCharacter.hasEquipped(TALISMAN)) {
+        return true;
+      }
+
+      // This shouldn't fail. It will craft it if necessary.
+      InventoryManager.retrieveItem(TALISMAN);
+
+      // This will pick an empty slot, or accessory1, if all are full
+      RequestThread.postRequest(new EquipmentRequest(TALISMAN));
+
       return true;
     }
 
@@ -2060,7 +2187,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return true;
       }
 
-      // This should not fail; validate1 verified we had one.
+      // This should not fail; canAdventure verified we had one.
       if (!InventoryManager.retrieveItem(ENCHANTED_BEAN)) {
         return false;
       }
@@ -2077,7 +2204,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Pirate")) {
-      // If validate1 expected us to build dinghy, do it.
+      // If canAdventure expected us to build dinghy, do it.
       buildDinghy();
 
       // If we are already acceptably garbed as pirate, cool.
@@ -2420,9 +2547,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
-    // Validate access that a betweenBattleScript cannot help with
-    this.validate1();
-    if (!this.isValidAdventure) {
+    // Check that adventuring in the zone does not require consuming
+    // expensive resources
+    if (!this.validate0()) {
+      if (KoLmafia.permitsContinue()) {
+        // validate0 did not give its own error message
+        KoLmafia.updateDisplay(MafiaState.ERROR, "That area is not available.");
+      }
+      return;
+    }
+
+    // Check that adventuring the zone is open to us, given level or quest
+    // progress, possibly by using inexpensive resources we have on hand
+    // (planting a beanstalk, building a dingy dinghy, and so on.)
+    if (!this.validate1()) {
       if (KoLmafia.permitsContinue()) {
         // validate1 did not give its own error message
         KoLmafia.updateDisplay(MafiaState.ERROR, "That area is not available.");
@@ -2502,15 +2640,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     KoLAdventure.setNextAdventure(this);
     if (RecoveryManager.isRecoveryPossible()) {
       RecoveryManager.runBetweenBattleChecks(!this.isNonCombatsOnly());
-
       if (!KoLmafia.permitsContinue()) {
         return;
       }
     }
 
-    // Validate things that a betweenBattleScript might have helped with
-    this.validate2();
-    if (!this.isValidAdventure) {
+    // Perform any of the simple things that we are capable of (beanstalk,
+    // dinghy, etc.) that are needed to adventure in the zone.
+    if (!this.validate2()) {
       if (KoLmafia.permitsContinue()) {
         // validate2 did not give its own error message
         KoLmafia.updateDisplay(MafiaState.ERROR, "That area is not available.");
@@ -2705,6 +2842,57 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
+  private static final AdventureResult mop = ItemPool.get(ItemPool.MIZZENMAST_MOP, 1);
+  private static final AdventureResult polish = ItemPool.get(ItemPool.BALL_POLISH, 1);
+  private static final AdventureResult sham = ItemPool.get(ItemPool.RIGGING_SHAMPOO, 1);
+
+  private void prepareToAdventure(final String urlString) {
+
+    // RequestLogger.registerRequest -> KoLAdventure.recordToSession -> (here)
+    //
+    // If we are automating we've already been through validate0
+    // (preValidateadventure), validate1 (canAdventure), and validate2
+    // (prepareForAdventure) for this adventure location.
+    //
+    // If we are adventuring in the Relay Browser, the user has clicked on
+    // something which results in an adventure URL and none of the validation
+    // steps have been executed.
+
+    // If we are in a drunken stupor, return now.
+    if (KoLCharacter.isFallingDown()
+        && !urlString.startsWith("trickortreat")
+        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
+      return;
+    }
+
+    switch (this.adventureNumber) {
+      case AdventurePool.FCLE:
+        // If can complete Cap'n Caronch's chore, do so and get pirate fledges
+        if (InventoryManager.hasItem(mop)
+            && InventoryManager.hasItem(polish)
+            && InventoryManager.hasItem(sham)) {
+          RequestThread.postRequest(UseItemRequest.getInstance(mop));
+          RequestThread.postRequest(UseItemRequest.getInstance(polish));
+          RequestThread.postRequest(UseItemRequest.getInstance(sham));
+        }
+        break;
+      case AdventurePool.DEGRASSI_KNOLL_GARAGE:
+        // Visit the untinker before adventuring at Degrassi Knoll.
+        UntinkerRequest.canUntinker();
+    }
+
+    // If we are automating, we have already validated this adventure.  If we
+    // are in the Relay Browser, we clicked an adventure location, so clearly
+    // we can go there, but we have not validated it per se.
+
+    // Wear the appropriate equipment for the King's chamber in Cobb's knob, if
+    // you can.
+
+    if (this.formSource.equals("cobbsknob.php") && this.canAdventure()) {
+      this.prepareForAdventure();
+    }
+  }
+
   private static KoLAdventure findAdventure(final String urlString) {
     if (urlString.equals("barrel.php")) {
       return null;
@@ -2715,6 +2903,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return AdventureDatabase.getAdventureByURL(urlString);
   }
 
+  private static final Pattern ADVENTURE_AGAIN =
+      Pattern.compile("<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>");
+
   private static KoLAdventure findAdventureAgain(final String responseText) {
     // Look for an "Adventure Again" link and return the
     // KoLAdventure that it matches.
@@ -2724,55 +2915,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     return KoLAdventure.findAdventure(matcher.group(1));
-  }
-
-  private void prepareToAdventure(final String urlString) {
-    // If we are in a drunken stupor, return now.
-    if (KoLCharacter.isFallingDown()
-        && !urlString.startsWith("trickortreat")
-        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
-      return;
-    }
-
-    int id = 0;
-
-    if (StringUtilities.isNumeric(this.adventureId)) {
-      id = StringUtilities.parseInt(this.adventureId);
-
-      switch (id) {
-        case AdventurePool.FCLE:
-          AdventureResult mop = ItemPool.get(ItemPool.MIZZENMAST_MOP, 1);
-          AdventureResult polish = ItemPool.get(ItemPool.BALL_POLISH, 1);
-          AdventureResult sham = ItemPool.get(ItemPool.RIGGING_SHAMPOO, 1);
-          if (InventoryManager.hasItem(mop)
-              && InventoryManager.hasItem(polish)
-              && InventoryManager.hasItem(sham)) {
-            RequestThread.postRequest(UseItemRequest.getInstance(mop));
-            RequestThread.postRequest(UseItemRequest.getInstance(polish));
-            RequestThread.postRequest(UseItemRequest.getInstance(sham));
-          }
-          break;
-      }
-    }
-
-    if (!(this.getRequest() instanceof AdventureRequest) || this.isValidAdventure) {
-      return;
-    }
-
-    // Visit the untinker before adventuring at Degrassi Knoll.
-
-    if (id == AdventurePool.DEGRASSI_KNOLL_GARAGE) {
-      UntinkerRequest.canUntinker();
-    }
-
-    this.isValidAdventure = true;
-
-    // Make sure you're wearing the appropriate equipment
-    // for the King's chamber in Cobb's knob.
-
-    if (this.formSource.equals("cobbsknob.php")) {
-      this.validate2();
-    }
   }
 
   // Automated adventuring in an area can result in a failure. We go into

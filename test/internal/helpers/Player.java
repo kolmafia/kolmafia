@@ -334,7 +334,12 @@ public class Player {
   public static Cleanups withMeat(final long meat) {
     var old = KoLCharacter.getAvailableMeat();
     KoLCharacter.setAvailableMeat(meat);
-    return new Cleanups(() -> KoLCharacter.setAvailableMeat(old));
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setAvailableMeat(old);
+          ConcoctionDatabase.refreshConcoctions();
+        });
   }
 
   /**
@@ -879,7 +884,12 @@ public class Player {
   public static Cleanups withSign(final ZodiacSign sign) {
     var old = KoLCharacter.getSign();
     KoLCharacter.setSign(sign);
-    return new Cleanups(() -> KoLCharacter.setSign(old));
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setSign(old);
+          ConcoctionDatabase.refreshConcoctions();
+        });
   }
 
   /**

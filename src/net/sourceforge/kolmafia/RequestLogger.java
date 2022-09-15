@@ -369,9 +369,6 @@ public class RequestLogger extends NullStream {
       return;
     }
 
-    // Some adventures do not post any form fields,
-    // so handle them first.
-
     if (KoLAdventure.recordToSession(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -389,6 +386,9 @@ public class RequestLogger extends NullStream {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
+
+    // Some adventures do not post any form fields,
+    // so handle them first.
 
     // We want to register simple visits to the Altar of Literacy
     if ((request instanceof AltarOfLiteracyRequest || isExternal)
