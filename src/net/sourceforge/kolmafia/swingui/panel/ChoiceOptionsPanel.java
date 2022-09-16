@@ -365,8 +365,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addChoiceSelect("Manor2", "Louvre Goal", this.louvreSelect);
     this.addChoiceSelect("Manor2", "Louvre Override", this.manualLouvre);
     this.addChoiceSelect("Manor2", "The Maidens", this.maidenSelect);
-    this.addChoiceSelect("Island", "Ocean Destination", this.oceanDestSelect);
-    this.addChoiceSelect("Island", "Ocean Action", this.oceanActionSelect);
+    this.addChoiceSelect("Pirate", "Ocean Destination", this.oceanDestSelect);
+    this.addChoiceSelect("Pirate", "Ocean Action", this.oceanActionSelect);
     this.addChoiceSelect("Mountain", "Barrel full of Barrels", this.barrelSelect);
     this.addChoiceSelect("Mountain", "The Valley of Rof L'm Fao", this.addingSelect);
     this.addChoiceSelect("Events", "Sorority House Attic", this.darkAtticSelect);

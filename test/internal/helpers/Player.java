@@ -1403,6 +1403,22 @@ public class Player {
   }
 
   /**
+   * Sets the player's "currently handling a choice" flag
+   *
+   * @param whichChoice which choice is currently being handled
+   * @return Restores previous value
+   */
+  public static Cleanups withHandlingChoice(final int whichChoice) {
+    ChoiceManager.handlingChoice = true;
+    ChoiceManager.lastChoice = whichChoice;
+    return new Cleanups(
+        () -> {
+          ChoiceManager.handlingChoice = false;
+          ChoiceManager.lastChoice = 0;
+        });
+  }
+
+  /**
    * Sets the current "item monster" (the item source of the currently-being-fought monster)
    *
    * @param itemMonster Item source for monster
