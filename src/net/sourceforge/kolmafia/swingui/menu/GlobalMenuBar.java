@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TowerDoorManager;
-import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 
@@ -211,8 +210,6 @@ public class GlobalMenuBar extends JMenuBar {
     helperMenu.add(
         new RelayBrowserMenuItem(
             "The KoL Wiki", "https://kol.coldfront.net/thekolwiki/index.php/Main_Page"));
-    helperMenu.add(
-        new InvocationMenuItem("Violet Fog Mapper", VioletFogManager.class, "showGemelliMap"));
     helperMenu.add(new InvocationMenuItem("Wumpinator", WumpusManager.class, "invokeWumpinator"));
   }
 
