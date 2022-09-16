@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -54,7 +54,7 @@ public class RecoveryManager {
         && !FightRequest.choiceFollowsFight
         && (!ChoiceManager.handlingChoice || ChoiceManager.canWalkAway())
         && !CharPaneRequest.inValhalla()
-        && KoLCharacter.getLimitmode() == Limitmode.NONE;
+        && KoLCharacter.getLimitMode() == LimitMode.NONE;
   }
 
   public static boolean runThresholdChecks() {

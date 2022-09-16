@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DiscoCombatHelper {
@@ -732,7 +732,7 @@ public class DiscoCombatHelper {
     }
 
     // If you are in Limitmode, no way
-    if (KoLCharacter.getLimitmode() != Limitmode.NONE) {
+    if (KoLCharacter.getLimitMode() != LimitMode.NONE) {
       return;
     }
 

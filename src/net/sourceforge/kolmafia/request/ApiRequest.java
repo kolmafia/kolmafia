@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +65,7 @@ public class ApiRequest extends GenericRequest {
     // If in limitmode, Noobcore, PokeFam, and Disguises Delimit,
     // API status doesn't contain the full information, so use
     // Character Pane instead.
-    if (KoLCharacter.getLimitmode() != Limitmode.NONE
+    if (KoLCharacter.getLimitMode() != LimitMode.NONE
         || KoLCharacter.inNoobcore()
         || KoLCharacter.inPokefam()
         || KoLCharacter.inDisguise()) {
@@ -355,7 +355,7 @@ public class ApiRequest extends GenericRequest {
       // Many things from the Char Pane are available
       CharPaneRequest.parseStatus(JSON);
 
-      var limitmode = KoLCharacter.getLimitmode();
+      var limitmode = KoLCharacter.getLimitMode();
       switch (limitmode) {
         case SPELUNKY:
           // Parse Spelunky equipment

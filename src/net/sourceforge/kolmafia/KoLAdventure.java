@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
@@ -576,7 +575,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public boolean canAdventure() {
     // If we get here via automation, preValidateAdventure() returned true
 
-    if (Limitmode.limitAdventure(this)) {
+    if (KoLCharacter.getLimitMode().limitAdventure(this)) {
       return false;
     }
 
@@ -3632,9 +3631,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     KoLAdventure.registerAdventure();
     EncounterManager.registerAdventure(location);
 
-    var limitmode = KoLCharacter.getLimitmode();
     String message =
-        switch (limitmode) {
+        switch (KoLCharacter.getLimitMode()) {
           case SPELUNKY -> "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
           case BATMAN -> "{" + BatManager.getTimeLeftString() + "} " + location;
           default -> "[" + KoLAdventure.getAdventureCount() + "] " + location;

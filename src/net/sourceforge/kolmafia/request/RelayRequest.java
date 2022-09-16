@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -3514,7 +3513,7 @@ public class RelayRequest extends PasswordHashRequest {
    *     run()-ing.
    */
   private boolean sendWarnings(KoLAdventure adventure, String adventureName, String nextAdventure) {
-    switch (KoLCharacter.getLimitmode()) {
+    switch (KoLCharacter.getLimitMode()) {
       case NONE -> {}
       case SPELUNKY -> {
         // If we are playing Spelunky, a specialized set of warnings are relevant

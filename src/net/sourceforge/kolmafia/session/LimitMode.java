@@ -1,29 +1,29 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
-public enum Limitmode {
+public enum LimitMode {
   NONE("0"),
   SPELUNKY("spelunky"),
   BATMAN("batman"),
   ED("edunder");
 
-  public static Limitmode find(final String name) {
+  public static LimitMode find(final String name) {
     return Arrays.stream(values())
         .filter(l -> l.getName().equals(name))
         .findAny()
-        .orElse(Limitmode.NONE);
+        .orElse(LimitMode.NONE);
   }
 
   private final String name;
 
-  Limitmode(final String name) {
+  LimitMode(final String name) {
     this.name = name;
   }
 
@@ -43,25 +43,21 @@ public enum Limitmode {
     resetFunction().ifPresent(Runnable::run);
   }
 
-  public static boolean limitSkill(final int skillId) {
-    var limitmode = KoLCharacter.getLimitmode();
-
-    return switch (limitmode) {
+  public boolean limitSkill(final int skillId) {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY -> skillId < 7238 || skillId > 7244;
       case BATMAN -> true;
     };
   }
 
-  public static boolean limitSkill(final UseSkillRequest skill) {
+  public boolean limitSkill(final UseSkillRequest skill) {
     int skillId = skill.getSkillId();
-    return Limitmode.limitSkill(skillId);
+    return limitSkill(skillId);
   }
 
-  public static boolean limitItem(final int itemId) {
-    var limitmode = KoLCharacter.getLimitmode();
-
-    return switch (limitmode) {
+  public boolean limitItem(final int itemId) {
+    return switch (this) {
       case NONE -> false;
       case SPELUNKY -> itemId < 8040 || itemId > 8062;
       case BATMAN -> itemId < 8797 || itemId > 8815 || itemId == 8800;
@@ -69,10 +65,8 @@ public enum Limitmode {
     };
   }
 
-  public static boolean limitSlot(final int slot) {
-    var limitmode = KoLCharacter.getLimitmode();
-
-    return switch (limitmode) {
+  public boolean limitSlot(final int slot) {
+    return switch (this) {
       case NONE -> false;
       case SPELUNKY -> switch (slot) {
         case EquipmentManager.HAT,
@@ -86,131 +80,116 @@ public enum Limitmode {
     };
   }
 
-  public static boolean limitOutfits() {
-    var limitmode = KoLCharacter.getLimitmode();
-
-    return switch (limitmode) {
+  public boolean limitOutfits() {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
     };
   }
 
-  public static boolean limitFamiliars() {
-    var limitmode = KoLCharacter.getLimitmode();
-
-    return switch (limitmode) {
+  public boolean limitFamiliars() {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
     };
   }
 
-  public static boolean limitAdventure(KoLAdventure adventure) {
-    return Limitmode.limitZone(adventure.getZone());
+  public boolean limitAdventure(KoLAdventure adventure) {
+    return limitZone(adventure.getZone());
   }
 
-  public static boolean limitZone(String zoneName) {
-    var limitmode = KoLCharacter.getLimitmode();
-    String rootZone = AdventureDatabase.getRootZone(zoneName);
+  private final List<String> limitZones = List.of("Batfellow Area", "Spelunky Area");
 
-    return switch (limitmode) {
-      case NONE -> rootZone.equals("Spelunky Area") || rootZone.equals("Batfellow Area");
+  public boolean limitZone(String zoneName) {
+    String rootZone = AdventureDatabase.getRootZone(zoneName, limitZones);
+
+    return switch (this) {
+      case NONE -> limitZones.contains(rootZone);
       case SPELUNKY -> !rootZone.equals("Spelunky Area");
       case BATMAN -> !rootZone.equals("Batfellow Area");
       case ED -> true;
     };
   }
 
-  public static boolean limitMeat() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitMeat() {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
     };
   }
 
-  public static boolean limitMall() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitMall() {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
     };
   }
 
-  public static boolean limitNPCStores() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitNPCStores() {
+    return switch (this) {
       case NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
     };
   }
 
-  public static boolean limitCoinmasters() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitCoinmasters() {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
     };
   }
 
-  public static boolean limitClan() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitClan() {
+    return switch (this) {
       case NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
     };
   }
 
-  public static boolean limitCampground() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitCampground() {
+    return switch (this) {
       case NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
     };
   }
 
-  public static boolean limitStorage() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitStorage() {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
     };
   }
 
-  public static boolean limitEating() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitEating() {
+    return switch (this) {
       case NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
     };
   }
 
-  public static boolean limitDrinking() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitDrinking() {
+    return switch (this) {
       case NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
     };
   }
 
-  public static boolean limitSpleening() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitSpleening() {
+    return switch (this) {
       case NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
     };
   }
 
-  public static boolean limitPickpocket() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitPickpocket() {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
     };
   }
 
-  public static boolean limitMCD() {
-    var limitmode = KoLCharacter.getLimitmode();
-    return switch (limitmode) {
+  public boolean limitMCD() {
+    return switch (this) {
       case NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
     };

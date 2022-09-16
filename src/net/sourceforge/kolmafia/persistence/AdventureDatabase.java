@@ -567,12 +567,22 @@ public class AdventureDatabase {
     return zoneLookup.get(location);
   }
 
-  public static String getRootZone(String zoneName) {
+  public static String getRootZone(final String zoneName) {
+    return getRootZone(zoneName, List.of());
+  }
+
+  public static String getRootZone(String zoneName, final List<String> stopAtZones) {
     while (true) {
+      if (stopAtZones.contains(zoneName)) {
+        return zoneName;
+      }
+
       String parent = getParentZone(zoneName);
+
       if (parent == null || parent.equals(zoneName)) {
         return zoneName;
       }
+
       zoneName = parent;
     }
   }
