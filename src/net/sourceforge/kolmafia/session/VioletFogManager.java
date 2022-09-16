@@ -507,7 +507,35 @@ public abstract class VioletFogManager {
     var goalChoice = goal > 0 ? FIRST_GOAL_LOCATION + goal - 1 : -1;
 
     var dot = new StringBuilder();
-    dot.append("digraph G {\n").append("  layout=circo\n");
+    dot.append("digraph G {\n")
+        // Add a legend
+        .append(
+            """
+            graph [labelloc="b" label=<
+              <TABLE BORDER="0"><TR>
+                  <TD COLSPAN="2">This way <font color="blue">→</font> &nbsp; That way <font color="red">→</font> &nbsp; The other way <font color="purple">→</font></TD>
+              </TR><TR>
+                  <TD>
+                      <TABLE BORDER="0"><TR>
+                          <TD>You are here</TD>
+                          <TD BGCOLOR="red" WIDTH="20px">
+                              <TABLE BORDER="0"><TR><TD BGCOLOR="yellow"></TD></TR></TABLE>
+                          </TD>
+                      </TR></TABLE>
+                  </TD>
+                  <TD>
+                      <TABLE BORDER="0"><TR>
+                          <TD>Your goal</TD>
+                          <TD BGCOLOR="green" WIDTH="20px">
+                              <TABLE BORDER="0"><TR><TD BGCOLOR="yellow"></TD></TR></TABLE>
+                          </TD>
+                      </TR></TABLE>
+                  </TD>
+              </TR></TABLE>
+            >]
+          """)
+        // And lay out with the circular engine (the only one that is readable!)
+        .append("  layout=circo\n");
     for (int source = FIRST_CHOICE; source <= LAST_CHOICE; source++) {
       dot.append("  ")
           .append(source)
