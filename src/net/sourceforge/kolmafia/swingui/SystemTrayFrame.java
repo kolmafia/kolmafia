@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class SystemTrayFrame {
@@ -77,7 +78,7 @@ public abstract class SystemTrayFrame {
       return;
     }
 
-    icon.setToolTip(message);
+    icon.setToolTip(CharacterEntities.unescape(message));
   }
 
   public static void showBalloon(final String message) {
