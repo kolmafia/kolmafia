@@ -871,7 +871,9 @@ public class Modifiers {
         Pattern.compile("Lasts Until Rollover")),
     new BooleanModifier(
         "Attacks Can't Miss",
-        Pattern.compile("Regular Attacks Can't Miss"),
+        new Pattern[] {
+          Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")
+        },
         Pattern.compile("Attacks Can't Miss")),
     new BooleanModifier("Pirate", Pattern.compile("Look like a Pirate")),
     new BooleanModifier("Breakable", Pattern.compile("Breakable")),
