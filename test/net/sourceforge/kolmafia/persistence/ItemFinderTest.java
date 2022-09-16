@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -16,8 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ItemFinderTest {
 
@@ -900,11 +900,15 @@ public class ItemFinderTest {
   @ParameterizedTest
   @CsvSource({
     "'1 1337 7r0uZ0RZ'," + ItemPool.ELITE_TROUSERS + ",1",
+    // space in name that begins with digit, 1 assumed for quantity
     "'1337 7r0uZ0RZ'," + ItemPool.ELITE_TROUSERS + ",1",
+    // See https://wiki.kolmafia.us/index.php/CLI_Reference 1 WA fuzzy matched to 100-watt light
+    // bulb
     "'1 WA'," + ItemPool.WA + ",1",
     "'1 Meat'," + ItemPool.ONE_MEAT + ",1",
     "'1 1 Meat'," + ItemPool.ONE_MEAT + ",1",
     "'123 1 Meat'," + ItemPool.ONE_MEAT + ",123",
+    // Initial bug was 1 7-ball being returned as 17-ball
     "'1 7-ball'," + ItemPool.SEVEN_BALL + ",1"
   })
   public void parseStringAndFindItemAndQuantity(

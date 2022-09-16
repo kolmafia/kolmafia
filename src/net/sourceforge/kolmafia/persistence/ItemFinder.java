@@ -305,8 +305,7 @@ public class ItemFinder {
     return ItemFinder.getFirstMatchingItem(parameters, true, null, filterType);
   }
 
-  public static AdventureResult getFirstMatchingItem(
-      String parameters, boolean errorOnFailure) {
+  public static AdventureResult getFirstMatchingItem(String parameters, boolean errorOnFailure) {
     return ItemFinder.getFirstMatchingItem(parameters, errorOnFailure, null, Match.ANY);
   }
 
