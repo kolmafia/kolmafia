@@ -1480,7 +1480,7 @@ public class OptionsFrame extends GenericFrame {
               {"guiUsesOneWindow", "Restrict interface to a single window"},
               {
                 "useSystemTrayIcon",
-                "Minimize main interface to system tray (and enable desktop notifications)"
+                "Minimize main interface to system tray and enable desktop notifications"
               },
               {"addCreationQueue", "Add creation queueing interface to item manager"},
               {"addStatusBarToFrames", "Add a status line to independent windows"},
@@ -1493,7 +1493,7 @@ public class OptionsFrame extends GenericFrame {
                   {"guiUsesOneWindow", "Restrict interface to a single window"},
                   {
                     "useSystemTrayIcon",
-                    "Minimize main interface to system tray (and enable desktop notifications)"
+                    "Minimize main interface to system tray and enable desktop notifications"
                   },
                   {"useDockIconBadge", "Show turns remaining on Dock icon (OSX 10.5+)"},
                   {"addCreationQueue", "Add creation queueing interface to item manager"},
@@ -1508,7 +1508,7 @@ public class OptionsFrame extends GenericFrame {
                   {"guiUsesOneWindow", "Restrict interface to a single window"},
                   {
                     "useSystemTrayIcon",
-                    "Minimize main interface to system tray (and enable desktop notifications)"
+                    "Minimize main interface to system tray and enable desktop notifications"
                   },
                   {"addCreationQueue", "Add creation queueing interface to item manager"},
                   {"addStatusBarToFrames", "Add a status line to independent windows"},
