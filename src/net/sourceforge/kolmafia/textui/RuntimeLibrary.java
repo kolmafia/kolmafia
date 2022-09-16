@@ -148,6 +148,7 @@ import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
@@ -339,6 +340,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("user_prompt", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("user_notify", DataTypes.VOID_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("user_notify", DataTypes.VOID_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("logprint", DataTypes.VOID_TYPE, params));
@@ -2912,6 +2919,16 @@ public abstract class RuntimeLibrary {
       final Value timeOut,
       final Value defaultString) {
     return InterruptableDialog.input(message, timeOut, defaultString);
+  }
+
+  public static Value user_notify(
+      ScriptRuntime controller, final Value message, final Value onlyShowWhenHidden) {
+    SystemTrayFrame.showBalloon(message.toString(), onlyShowWhenHidden.intValue() == 1);
+    return DataTypes.VOID_VALUE;
+  }
+
+  public static Value user_notify(ScriptRuntime controller, final Value message) {
+    return user_notify(controller, message, DataTypes.FALSE_VALUE);
   }
 
   private static String cleanString(Value string) {
