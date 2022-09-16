@@ -19,6 +19,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemFinderTest {
 
   @BeforeAll
@@ -919,5 +922,38 @@ public class ItemFinderTest {
     assertNotNull(item);
     assertEquals(expectedItemId, item.getItemId());
     assertEquals(expectedQuantity, item.getCount());
+  }
+
+  // Tests written for the sole purpose of 100% coverage
+  @Test
+  public void itShouldMatchANYWhenNotExplicitlySpecified() {
+    List<String> nameList = new ArrayList<>();
+    String item;
+    nameList.add("7-ball");
+    nameList.add("17-ball");
+    item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNotNull(item);
+    assertEquals(item, "7-ball");
+    nameList.clear();
+    nameList.add("17-ball");
+    nameList.add("7-ball");
+    item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNotNull(item);
+    assertEquals(item, "7-ball");
+
+  }
+
+  @Test
+  public void itShouldReturnNullWhenPassedNullOrEmptyList() {
+    List<String> nameList = new ArrayList<>();
+    String item;
+    item = ItemFinder.getFirstMatchingItemName(null, "7-ball");
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNull(item);
+    item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNull(item);
   }
 }
