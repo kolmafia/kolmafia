@@ -10793,7 +10793,7 @@
 10765	yellow rocket	562478024	fwrocket3.gif	none, combat	d	10
 10766	blue rocket	830484549	fwrocket2.gif	none, combat	d	10
 10767	red rocket	942080224	fwrocket1.gif	none, combat	d	10
-10768	fire crackers	615027243	firecrackers.gif	food, combat		0
+10768	fire crackers	615027243	firecrackers.gif	food, combat		0	handfuls of fire crackers
 10769	Arr, M80	555632254	m80.gif	none, combat		0
 10770	Catherine Wheel	660770799	catherinewheel.gif	container	q	0
 10771	rocket boots	438783522	rocketboot.gif	accessory	q	0

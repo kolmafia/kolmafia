@@ -1506,7 +1506,8 @@ Item	iron pasta spoon	Spell Damage: +10
 Item	ironic battle spoon	Spell Damage: +10
 Item	jack flapper	Spell Damage: +5
 Item	Jacob's rung	Maximum MP: +15, Spell Damage: +15
-Item	June Cleaver	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Adventures: +5, Hot Damage: [pref(_juneCleaverHot)], Spooky Damage: [pref(_juneCleaverSpooky)], Sleaze Damage: [pref(_juneCleaverSleaze)], Cold Damage: [pref(_juneCleaverCold)], Stench Damage: [pref(_juneCleaverStench)]
+# Item June cleaver: Grows stronger the more you use it
+Item	June cleaver	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Adventures: +5, Hot Damage: [pref(_juneCleaverHot)], Spooky Damage: [pref(_juneCleaverSpooky)], Sleaze Damage: [pref(_juneCleaverSleaze)], Cold Damage: [pref(_juneCleaverCold)], Stench Damage: [pref(_juneCleaverStench)], Attacks Can't Miss
 Item	jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
 Item	keel-haulin' knife	Spell Damage: +17
 Item	kelp-holly gun	Moxie: +10, Ranged Damage Percent: +50, Pickpocket Chance: +25
