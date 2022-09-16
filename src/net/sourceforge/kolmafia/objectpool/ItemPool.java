@@ -330,6 +330,7 @@ public class ItemPool {
   public static final int ROLLING_PIN = 873;
   public static final int UNROLLING_PIN = 874;
   public static final int GOOFBALLS = 879;
+  public static final int ONE_HUNDRED_WATT_BULB = 902;
   public static final int YUMMY_TUMMY_BEAN = 905;
   public static final int DWARF_BREAD = 910;
   public static final int PLASTIC_SWORD = 938;
@@ -553,6 +554,7 @@ public class ItemPool {
   public static final int TWO_BALL = 1901;
   public static final int FIVE_BALL = 1904;
   public static final int SIX_BALL = 1905;
+  public static final int SEVEN_BALL = 1906;
   public static final int EIGHT_BALL = 1907;
   public static final int SPOOKYRAVEN_SPECTACLES = 1916;
   public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;

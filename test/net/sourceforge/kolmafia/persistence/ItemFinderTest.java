@@ -17,6 +17,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class ItemFinderTest {
 
@@ -899,5 +901,25 @@ public class ItemFinderTest {
     assertEquals(results[0].getItemId(), ItemPool.SEAL_TOOTH);
     assertEquals(results[0].getCount(), 1);
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'1 1337 7r0uZ0RZ'," + ItemPool.ELITE_TROUSERS + ",1",
+    "'1337 7r0uZ0RZ'," + ItemPool.ELITE_TROUSERS + ",1",
+    "'1 WA'," + ItemPool.WA + ",1",
+    "'1 Meat'," + ItemPool.ONE_MEAT + ",1",
+    "'1 1 Meat'," + ItemPool.ONE_MEAT + ",1",
+    "'123 1 Meat'," + ItemPool.ONE_MEAT + ",123",
+    "'1 7-ball'," + ItemPool.SEVEN_BALL + ",1"
+  })
+  public void parseStringAndFindItemAndQuantity(
+      String toBeParsed, int expectedItemId, int expectedQuantity) {
+    AdventureResult item;
+    item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertEquals(expectedItemId, item.getItemId());
+    assertEquals(expectedQuantity, item.getCount());
   }
 }

@@ -32,7 +32,7 @@ import org.eclipse.lsp4j.Location;
 public class Type extends Symbol {
   public boolean primitive;
   private final int type;
-  private Value allValues = null;
+  private PluralValue allValues = null;
 
   public Type(final String name, final int type) {
     this(name, type, null);
@@ -121,6 +121,21 @@ public class Type extends Symbol {
       return ProxyRecordValue.StatProxy._type;
     }
     return this;
+  }
+
+  public boolean isStringLike() {
+    return switch (this.getType()) {
+      case DataTypes.TYPE_STRING,
+          DataTypes.TYPE_BUFFER,
+          DataTypes.TYPE_LOCATION,
+          DataTypes.TYPE_STAT,
+          DataTypes.TYPE_MONSTER,
+          DataTypes.TYPE_ELEMENT,
+          DataTypes.TYPE_COINMASTER,
+          DataTypes.TYPE_PHYLUM,
+          DataTypes.TYPE_BOUNTY -> true;
+      default -> false;
+    };
   }
 
   public Value initialValue() {
@@ -212,58 +227,57 @@ public class Type extends Symbol {
 
   public List<String> getAmbiguousNames(String s1, Value value, boolean quote) {
     switch (this.type) {
-      case DataTypes.TYPE_ITEM:
-      case DataTypes.TYPE_EFFECT:
-      case DataTypes.TYPE_MONSTER:
-      case DataTypes.TYPE_SKILL:
-        {
-          String s2 = value.toString();
-          if (s1.equalsIgnoreCase(s2)) {
-            return null;
-          }
-
-          if (s1.startsWith("[")) {
-            int bracket = s1.indexOf("]");
-            if (bracket > 0 && StringUtilities.isNumeric(s1.substring(1, bracket))) {
-              return null;
-            }
-          }
-
-          if (StringUtilities.isNumeric(s1)) {
-            // A number will have been unambiguously
-            // interpreted as an item or effect id
-            return null;
-          }
-
-          ArrayList<String> names = new ArrayList<>();
-          int currentId = (int) value.contentLong;
-          String name =
-              this.type == DataTypes.TYPE_ITEM
-                  ? ItemDatabase.getItemName(currentId)
-                  : this.type == DataTypes.TYPE_EFFECT
-                      ? EffectDatabase.getEffectName(currentId)
-                      : this.type == DataTypes.TYPE_MONSTER
-                          ? MonsterDatabase.getMonsterName(currentId)
-                          : this.type == DataTypes.TYPE_SKILL
-                              ? SkillDatabase.getSkillName(currentId)
-                              : "";
-          int[] ids =
-              this.type == DataTypes.TYPE_ITEM
-                  ? ItemDatabase.getItemIds(name, 1, false)
-                  : this.type == DataTypes.TYPE_EFFECT
-                      ? EffectDatabase.getEffectIds(name, false)
-                      : this.type == DataTypes.TYPE_MONSTER
-                          ? MonsterDatabase.getMonsterIds(name, false)
-                          : this.type == DataTypes.TYPE_SKILL
-                              ? SkillDatabase.getSkillIds(name, false)
-                              : null;
-
-          for (int id : ids) {
-            String s3 = quote ? ("\"[" + id + "]" + name + "\"") : ("[" + id + "]" + name);
-            names.add(s3);
-          }
-          return names;
+      case DataTypes.TYPE_ITEM,
+          DataTypes.TYPE_EFFECT,
+          DataTypes.TYPE_MONSTER,
+          DataTypes.TYPE_SKILL -> {
+        String s2 = value.toString();
+        if (s1.equalsIgnoreCase(s2)) {
+          return null;
         }
+
+        if (s1.startsWith("[")) {
+          int bracket = s1.indexOf("]");
+          if (bracket > 0 && StringUtilities.isNumeric(s1.substring(1, bracket))) {
+            return null;
+          }
+        }
+
+        if (StringUtilities.isNumeric(s1)) {
+          // A number will have been unambiguously
+          // interpreted as an item or effect id
+          return null;
+        }
+
+        ArrayList<String> names = new ArrayList<>();
+        int currentId = (int) value.contentLong;
+        String name =
+            this.type == DataTypes.TYPE_ITEM
+                ? ItemDatabase.getItemName(currentId)
+                : this.type == DataTypes.TYPE_EFFECT
+                    ? EffectDatabase.getEffectName(currentId)
+                    : this.type == DataTypes.TYPE_MONSTER
+                        ? MonsterDatabase.getMonsterName(currentId)
+                        : this.type == DataTypes.TYPE_SKILL
+                            ? SkillDatabase.getSkillName(currentId)
+                            : "";
+        int[] ids =
+            this.type == DataTypes.TYPE_ITEM
+                ? ItemDatabase.getItemIds(name, 1, false)
+                : this.type == DataTypes.TYPE_EFFECT
+                    ? EffectDatabase.getEffectIds(name, false)
+                    : this.type == DataTypes.TYPE_MONSTER
+                        ? MonsterDatabase.getMonsterIds(name, false)
+                        : this.type == DataTypes.TYPE_SKILL
+                            ? SkillDatabase.getSkillIds(name, false)
+                            : null;
+
+        for (int id : ids) {
+          String s3 = quote ? ("\"[" + id + "]" + name + "\"") : ("[" + id + "]" + name);
+          names.add(s3);
+        }
+        return names;
+      }
     }
     return null;
   }
@@ -333,7 +347,7 @@ public class Type extends Symbol {
     return null;
   }
 
-  public Value allValues() {
+  public PluralValue allValues() {
     if (this.allValues != null) return this.allValues;
 
     List<Value> list = new ArrayList<>();

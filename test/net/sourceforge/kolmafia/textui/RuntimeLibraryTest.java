@@ -442,7 +442,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       @ParameterizedTest
       @ValueSource(
           strings = {
-            "boolean test(string path) { return path == \"Trendy\"; } test($path[Trendy])",
+            "boolean test(string p) { return p == \"Trendy\"; } test($path[Trendy])",
             "string p = my_path(); (p == \"Trendy\")",
             "(my_path() == \"Trendy\")",
             "my_path().starts_with(\"Tre\")",

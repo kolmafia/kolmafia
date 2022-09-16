@@ -320,6 +320,8 @@ public class QuestManager {
         } else if (location.contains("action=cloudypeak")) {
           handleMcLargehugeChange(responseText);
         }
+      } else if (location.contains("whichplace=monorail")) {
+        handleMonorailChange(location, responseText);
       } else if (location.contains("whichplace=orc_chasm")) {
         handleChasmChange(responseText);
       } else if (location.contains("whichplace=palindome")) {
@@ -462,6 +464,15 @@ public class QuestManager {
       if (responseText.contains("The Skeleton Store")) {
         Preferences.setBoolean("skeletonStoreAvailable", true);
       }
+    }
+  }
+
+  private static void handleMonorailChange(final String location, String responseText) {
+    if (responseText.contains("FantasyRealm") && !Preferences.getBoolean("frAlways")) {
+      Preferences.setBoolean("_frToday", true);
+    }
+    if (responseText.contains("PirateRealm") && !Preferences.getBoolean("prAlways")) {
+      Preferences.setBoolean("_prToday", true);
     }
   }
 
@@ -726,6 +737,12 @@ public class QuestManager {
     if (location.contains("action=manor2_ladys")) {
       if (responseText.contains("just want to dance")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1");
+      }
+      if (responseText.contains("Meet me in the ballroom")) {
+        QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3");
+        ResultProcessor.removeItem(ItemPool.POWDER_PUFF);
+        ResultProcessor.removeItem(ItemPool.FINEST_GOWN);
+        ResultProcessor.removeItem(ItemPool.DANCING_SHOES);
       }
     }
     if (area == AdventurePool.HAUNTED_BALLROOM) {

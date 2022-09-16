@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -19,12 +20,13 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class SystemTrayFrame {
   private static TrayIcon icon = null;
 
-  public static final synchronized void addTrayIcon() {
+  public static synchronized void addTrayIcon() {
     if (SystemTrayFrame.icon != null) {
       return;
     }
@@ -37,8 +39,7 @@ public abstract class SystemTrayFrame {
     try {
       Image image = JComponentUtilities.getImage("images/", "TrayIcon12.gif").getImage();
 
-      TrayIcon icon =
-          new TrayIcon(image.getScaledInstance(16, 16, Image.SCALE_DEFAULT), "KoLmafia");
+      icon = new TrayIcon(image.getScaledInstance(16, 16, Image.SCALE_DEFAULT), "KoLmafia");
       icon.addMouseListener(new SetVisibleListener());
 
       PopupMenu popup = new PopupMenu();
@@ -58,13 +59,13 @@ public abstract class SystemTrayFrame {
     }
   }
 
-  public static final void removeTrayIcon() {
-    if (SystemTrayFrame.icon != null) {
+  public static void removeTrayIcon() {
+    if (icon != null) {
       SystemTray.getSystemTray().remove(icon);
     }
   }
 
-  public static final void updateToolTip() {
+  public static void updateToolTip() {
     if (KoLCharacter.getUserName().equals("")) {
       SystemTrayFrame.updateToolTip(StaticEntity.getVersion());
     } else {
@@ -72,29 +73,28 @@ public abstract class SystemTrayFrame {
     }
   }
 
-  public static final void updateToolTip(final String message) {
-    if (SystemTrayFrame.icon == null) {
+  public static void updateToolTip(final String message) {
+    if (icon == null) {
       return;
     }
 
-    SystemTrayFrame.icon.setToolTip(message);
+    icon.setToolTip(CharacterEntities.unescape(message));
   }
 
-  public static final void showBalloon(final String message) {
-    if (SystemTrayFrame.icon == null) {
+  public static void showBalloon(final String message) {
+    showBalloon(message, true);
+  }
+
+  public static void showBalloon(final String message, final boolean onlyShowWhenHidden) {
+    if (icon == null) {
       return;
     }
 
-    Frame[] frames = Frame.getFrames();
-    boolean anyFrameVisible = false;
-    for (int i = 0; i < frames.length; ++i) {
-      anyFrameVisible |= frames[i].isVisible();
-    }
-
-    anyFrameVisible |= KoLDesktop.instanceExists() && KoLDesktop.getInstance().isVisible();
-
-    if (anyFrameVisible) {
-      return;
+    if (onlyShowWhenHidden) {
+      if (Arrays.stream(Frame.getFrames()).anyMatch(Frame::isVisible)
+          || (KoLDesktop.instanceExists() && KoLDesktop.getInstance().isVisible())) {
+        return;
+      }
     }
 
     try {
@@ -117,7 +117,7 @@ public abstract class SystemTrayFrame {
     }
   }
 
-  public static final void showDisplay() {
+  public static void showDisplay() {
     KoLmafiaGUI.checkFrameSettings();
     KoLDesktop.getInstance().setVisible(true);
   }

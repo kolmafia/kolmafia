@@ -83,8 +83,8 @@ public class ItemFinder {
     Set<Integer> itemIdSet = new HashSet<>();
     int pseudoItems = 0;
 
-    for (int i = 0; i < nameList.size(); ++i) {
-      int itemId = ItemDatabase.getItemId(nameList.get(i));
+    for (String s : nameList) {
+      int itemId = ItemDatabase.getItemId(s);
       if (itemId == -1) {
         pseudoItems += 1;
       } else {
@@ -103,16 +103,16 @@ public class ItemFinder {
     // all the other items in the game, IF exactly one such item
     // matches.
 
-    for (int i = 0; i < nameList.size(); ++i) {
-      itemName = nameList.get(i);
+    for (String s : nameList) {
+      itemName = s;
       if (!itemName.startsWith("pix") && itemName.endsWith("candy heart")) {
         if (rv != null) return "";
         rv = ItemDatabase.getCanonicalName(itemName);
       }
     }
 
-    for (int i = 0; i < nameList.size(); ++i) {
-      itemName = nameList.get(i);
+    for (String s : nameList) {
+      itemName = s;
       if (!itemName.startsWith("abo")
           && !itemName.startsWith("yel")
           && itemName.endsWith("snowcone")) {
@@ -121,8 +121,8 @@ public class ItemFinder {
       }
     }
 
-    for (int i = 0; i < nameList.size(); ++i) {
-      itemName = nameList.get(i);
+    for (String s : nameList) {
+      itemName = s;
       if (itemName.endsWith("cupcake")) {
         if (rv != null) return "";
         rv = ItemDatabase.getCanonicalName(itemName);
@@ -146,8 +146,7 @@ public class ItemFinder {
 
       ArrayList<String> restoreList = new ArrayList<>();
 
-      for (int i = 0; i < nameList.size(); ++i) {
-        String itemName = nameList.get(i);
+      for (String itemName : nameList) {
         int itemId = ItemDatabase.getItemId(itemName);
 
         if (RestoresDatabase.isRestore(itemId)) {
@@ -316,7 +315,7 @@ public class ItemFinder {
     return getFirstMatchingItem(parameters, errorOnFailure, null, filterType);
   }
 
-  public static final AdventureResult getFirstMatchingItem(
+  public static AdventureResult getFirstMatchingItem(
       String parameters,
       boolean errorOnFailure,
       List<AdventureResult> sourceList,
@@ -394,7 +393,7 @@ public class ItemFinder {
       } else {
         matchList.add(name);
       }
-    } else if (ItemDatabase.getItemId(parameters, 1) != -1) {
+    } else if (wrapHelper(parameters) != -1) {
       // The entire parameter is a single item
       itemId = ItemDatabase.getItemId(parameters, 1);
       matchList = new ArrayList<>();
@@ -418,46 +417,21 @@ public class ItemFinder {
 
     if (itemName == null) {
       if (errorOnFailure) {
-        String error;
-        switch (filterType) {
-          case ANY:
-          default:
-            error = " has no matches.";
-            break;
-          case FOOD:
-            error = " cannot be eaten.";
-            break;
-          case BOOZE:
-            error = " cannot be drunk.";
-            break;
-          case SPLEEN:
-            error = " cannot be chewed.";
-            break;
-          case USE:
-            error = " cannot be used.";
-            break;
-          case CREATE:
-            error = " cannot be created.";
-            break;
-          case UNTINKER:
-            error = " cannot be untinkered.";
-            break;
-          case EQUIP:
-            error = " cannot be equipped.";
-            break;
-          case CANDY:
-            error = " is not candy.";
-            break;
-          case ABSORB:
-            error = " cannot be absorbed.";
-            break;
-          case ROBO:
-            error = " cannot be fed.";
-            break;
-          case ASDON:
-            error = " cannot be used as fuel.";
-            break;
-        }
+        String error =
+            switch (filterType) {
+              case ANY -> " has no matches.";
+              case FOOD -> " cannot be eaten.";
+              case BOOZE -> " cannot be drunk.";
+              case SPLEEN -> " cannot be chewed.";
+              case USE -> " cannot be used.";
+              case CREATE -> " cannot be created.";
+              case UNTINKER -> " cannot be untinkered.";
+              case EQUIP -> " cannot be equipped.";
+              case CANDY -> " is not candy.";
+              case ABSORB -> " cannot be absorbed.";
+              case ROBO -> " cannot be fed.";
+              case ASDON -> " cannot be used as fuel.";
+            };
 
         KoLmafia.updateDisplay(MafiaState.ERROR, "[" + parameters + "]" + error);
       }
@@ -644,5 +618,16 @@ public class ItemFinder {
 
     AdventureResult[] result = new AdventureResult[items.size()];
     return items.toArray(result);
+  }
+
+  private static int wrapHelper(String parameters) {
+    int spaceIndex = parameters.indexOf(' ');
+    if (spaceIndex == -1) return -1;
+    String itemCountString = parameters.substring(0, spaceIndex);
+    if (!StringUtilities.isNumeric(itemCountString)) return -1;
+    String possibleItem = parameters.substring(spaceIndex + 1).trim();
+    int possibleId = ItemDatabase.getExactItemId(possibleItem);
+    if (possibleId != -1) return -1;
+    return ItemDatabase.getItemId(parameters, 1);
   }
 }
