@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 public enum LimitMode {
-  NONE("0"),
+  NONE(""),
   SPELUNKY("spelunky"),
   BATMAN("batman"),
   ED("edunder");

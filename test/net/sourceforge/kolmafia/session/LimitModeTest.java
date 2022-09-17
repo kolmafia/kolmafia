@@ -13,6 +13,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class LimitModeTest {
   @Test
+  void nameOfNoneIsBlank() {
+    assertThat(LimitMode.NONE.getName(), is(""));
+  }
+
+  @Test
   void canFindByName() {
     assertThat(LimitMode.find("batman"), is(LimitMode.BATMAN));
   }
