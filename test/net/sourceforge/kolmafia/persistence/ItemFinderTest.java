@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.persistence;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -18,9 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ItemFinderTest {
 
@@ -942,7 +941,6 @@ public class ItemFinderTest {
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
     assertEquals(item, "7-ball");
-
   }
 
   @Test
@@ -955,5 +953,38 @@ public class ItemFinderTest {
     item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNull(item);
+  }
+
+  @Test
+  public void itShouldAndHandleAnAlias() {
+    List<String> nameList = new ArrayList<>();
+    String item;
+    nameList.add("bugged bonnet");
+    nameList.add("bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t");
+    nameList.add("bugged bonnet");
+    item = ItemFinder.getFirstMatchingItemName(nameList, "bugged bonnet");
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNotNull(item);
+    assertEquals("bugged bonnet", item);
+  }
+
+  @Test
+  public void itShouldHandleCandyHearts() {
+    List<String> nameList = new ArrayList<>();
+    String item;
+    nameList.add("red candy heart");
+    nameList.add("orange candy heart");
+    nameList.add("yellow candy heart");
+    nameList.add("green candy heart");
+    nameList.add("blue candy heart");
+    nameList.add("lavender candy heart");
+    item = ItemFinder.getFirstMatchingItemName(nameList, "blue candy heart");
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNotNull(item);
+    assertEquals("", item);
+    item = ItemFinder.getFirstMatchingItemName(nameList, "orange candy heart");
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNotNull(item);
+    assertEquals("orange candy heart", item);
   }
 }
