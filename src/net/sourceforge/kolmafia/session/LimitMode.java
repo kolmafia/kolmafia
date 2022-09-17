@@ -12,7 +12,9 @@ public enum LimitMode {
   UNKNOWN("unknown"),
   NONE(""),
   SPELUNKY("spelunky"),
+  // Batfellow
   BATMAN("batman"),
+  // Ed in the Underworld
   ED("edunder");
 
   public static LimitMode find(final String name) {
