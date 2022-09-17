@@ -720,11 +720,6 @@ public abstract class UseLinkDecorator {
           return new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=", false);
         }
 
-        switch (itemId) {
-          case ItemPool.GLITCH_ITEM:
-            return null;
-        }
-
         return new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=");
 
       case KoLConstants.CONSUME_DRINK:
