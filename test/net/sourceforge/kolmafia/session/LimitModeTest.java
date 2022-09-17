@@ -13,13 +13,18 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class LimitModeTest {
   @Test
+  void nameOfNoneIsBlank() {
+    assertThat(LimitMode.NONE.getName(), is(""));
+  }
+
+  @Test
   void canFindByName() {
     assertThat(LimitMode.find("batman"), is(LimitMode.BATMAN));
   }
 
   @Test
-  void findsNoneWithUnknownName() {
-    assertThat(LimitMode.find("gausie mode engage!"), is(LimitMode.NONE));
+  void findsUnknownWithUnknownName() {
+    assertThat(LimitMode.find("gausie mode engage!"), is(LimitMode.UNKNOWN));
   }
 
   @Test
@@ -154,7 +159,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE"},
+        names = {"NONE", "UNKNOWN"},
         mode = EnumSource.Mode.EXCLUDE)
     void cantAccessRegularZonesInLimitModes(final LimitMode lm) {
       var adventure = AdventureDatabase.getAdventureByName("The Dire Warren");

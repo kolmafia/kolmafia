@@ -1559,7 +1559,11 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     Object lmo = JSON.get("limitmode");
-    KoLCharacter.setLimitMode(lmo.toString());
+    if (lmo instanceof Integer && lmo.equals(0)) {
+      KoLCharacter.setLimitMode(LimitMode.NONE);
+    } else {
+      KoLCharacter.setLimitMode(lmo.toString());
+    }
 
     JSONObject lastadv = JSON.getJSONObject("lastadv");
     String adventureId = lastadv.getString("id");
