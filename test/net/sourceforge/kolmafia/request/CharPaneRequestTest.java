@@ -51,7 +51,8 @@ class CharPaneRequestTest {
 
     @Test
     void parseApiParsesLimitModeUnknownString() {
-      var json = ApiRequest.getJSON(html("request/test_api_status_limit_mode_unknown.json"), "testing");
+      var json =
+          ApiRequest.getJSON(html("request/test_api_status_limit_mode_unknown.json"), "testing");
       assertThat(json, notNullValue());
 
       CharPaneRequest.parseStatus(json);
@@ -61,7 +62,9 @@ class CharPaneRequestTest {
 
     @Test
     void parseApiParsesLimitModeUnknownObject() {
-      var json = ApiRequest.getJSON(html("request/test_api_status_limit_mode_unknown_int.json"), "testing");
+      var json =
+          ApiRequest.getJSON(
+              html("request/test_api_status_limit_mode_unknown_int.json"), "testing");
       assertThat(json, notNullValue());
 
       CharPaneRequest.parseStatus(json);
