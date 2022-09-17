@@ -361,7 +361,7 @@ public class OceanManager {
 
   private static final Pattern OCEAN_PATTERN = Pattern.compile("(\\d+),(\\d+)");
 
-  public static final Point getDestination() {
+  public static Point getDestination() {
     String dest = Preferences.getString("oceanDestination");
     if (dest.equals("manual")) {
       return null;
@@ -396,13 +396,9 @@ public class OceanManager {
     return new Point(lon, lat);
   }
 
-  private static final GenericRequest OCEAN_HANDLER = new GenericRequest("ocean.php");
-
-  public static final void processOceanAdventure() {
-    OceanManager.processOceanAdventure(OceanManager.OCEAN_HANDLER);
-  }
-
-  public static final void processOceanAdventure(final GenericRequest request) {
+  public static void processOceanAdventure() {
+    // We are called when choice.php?whichchoice=189&option=1 redirects to ocean.php.
+    GenericRequest request = new GenericRequest("ocean.php");
     Point destination = OceanManager.getDestination();
 
     if (destination == null) {
@@ -489,7 +485,7 @@ public class OceanManager {
   private static final Pattern LAT_PATTERN =
       Pattern.compile("<input type=text class=text size=5 name=lat");
 
-  public static final void decorate(final StringBuffer buffer) {
+  public static void decorate(final StringBuffer buffer) {
     Point destination = OceanManager.getDestination();
 
     if (destination == null) {
@@ -517,7 +513,7 @@ public class OceanManager {
   private static final Pattern URL_LON_PATTERN = Pattern.compile("lon=(\\d+)");
   private static final Pattern URL_LAT_PATTERN = Pattern.compile("lat=(\\d+)");
 
-  public static final boolean registerRequest(final String urlString) {
+  public static boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("ocean.php")) {
       return false;
     }

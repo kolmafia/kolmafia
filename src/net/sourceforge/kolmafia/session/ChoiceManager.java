@@ -251,8 +251,7 @@ public abstract class ChoiceManager {
         return;
       }
 
-      // We automated one choice. If it redirected to a
-      // fight, quit automating the choice.
+      // We automated one choice. If it redirected, quit automating the choice.
       if (request.redirectLocation != null) {
         return;
       }

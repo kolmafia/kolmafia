@@ -1449,7 +1449,7 @@ public abstract class ChoiceAdventures {
         new Option("mullet wig and briefcase"),
         new Option("frilly skirt and hot wings"));
 
-    //  O Cap'm, My Cap'm
+    // O Cap'm, My Cap'm
     new ChoiceCost(189, new Cost(1, new AdventureResult(AdventureResult.MEAT, -977)));
 
     // Choice 190 is unknown

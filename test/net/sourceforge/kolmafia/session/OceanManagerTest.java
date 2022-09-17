@@ -3,10 +3,15 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.printRequests;
+import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,19 +24,37 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class OceanManagerTest {
+  @BeforeAll
+  public static void beforeAll() {
+    // Simulate logging out and back in again.
+    Preferences.saveSettingsToFile = false;
+  }
+
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("OceanManager");
     Preferences.reset("OceanManager");
     KoLConstants.inventory.clear();
+  }
+
+  @AfterAll
+  public static void afterAll() {
+    Preferences.saveSettingsToFile = true;
   }
 
   @Test
@@ -128,6 +151,124 @@ public class OceanManagerTest {
       assertGetRequest(requests.get(1), "/ocean.php", "intro=1");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(requests.get(3), "/ocean.php", "lon=48&lat=47");
+    }
+  }
+
+  @Nested
+  class Automation {
+
+    // Automation is controlled by 2 (3) settings:
+    //
+    // choiceadventure189 / oceanDestination
+    //   0 / manual (defaults)
+    //   1 / muscle, mysticality, moxie, sphere, plinth, random, XXX,YYY
+    //   2 / ignore
+    //
+    // oceanAction
+    //   continue
+    //   show
+    //   stop
+    //   savecontinue (default)
+    //   saveshow
+    //   savestop
+
+    private static final String ABORT_MESSAGE =
+        "<a href=main.php target=mainpane class=error>Click here to continue in the relay browser.</a><br>";
+
+    @Test
+    public void canAutomateWithManualControl() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withMeat(977),
+              withProperty("choiceAdventure189", 0),
+              withProperty("oceanDestination", "manual"),
+              withProperty("oceanAction", "continue"),
+              // Needed when automating AdventureRequest -> CHOICE_HANDLER
+              withPasswordHash("choice"),
+              withGender(1));
+      try (cleanups) {
+        // adventure.php?snarfblat=159
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        // choice.php?forceoption=0
+        builder.client.addResponse(200, html("request/test_ocean_choice.html"));
+        // api.php?what=status&for=KoLmafia
+        builder.client.addResponse(200, ""); // api.php
+
+        var adventure = new AdventureRequest("The Poop Deck", AdventurePool.POOP_DECK);
+        adventure.run();
+
+        // This redirects to a choice.
+        // Attempt to automate it and discover the user wants manual control
+        // Abort and tell them to continue in the relay browser
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
+        String expected = ABORT_MESSAGE;
+        assertEquals(RequestLogger.previousUpdateString, expected);
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=159&pwd=choice");
+        assertPostRequest(requests.get(1), "/choice.php", "forceoption=0&pwd=choice");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void canAutomateWithSpecificDestination() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withMeat(977),
+              withProperty("choiceAdventure189", 1),
+              withProperty("oceanDestination", "sphere"),
+              withProperty("oceanAction", "continue"),
+              // Needed when automating AdventureRequest -> CHOICE_HANDLER
+              withPasswordHash("choice"),
+              withGender(1));
+      try (cleanups) {
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        // choice.php?forceoption=0
+        builder.client.addResponse(200, html("request/test_ocean_choice.html"));
+        // api.php?what=status&for=KoLmafia
+        builder.client.addResponse(200, ""); // api.php
+        // choice.php?whichchoice=189&option=1&pwd
+        builder.client.addResponse(302, Map.of("location", List.of("ocean.php?intro=1")), "");
+        // We ignore the redirect to ocean.php?intro=1
+        // builder.client.addResponse(200, html("request/test_ocean_intro.html"));
+        // Instead, we submit: ocean.php?lon=59&lat=10
+        builder.client.addResponse(200, html("request/test_ocean_sphere_2.html"));
+        builder.client.addResponse(200, ""); // api.php
+
+        var adventure = new AdventureRequest("The Poop Deck", AdventurePool.POOP_DECK);
+        adventure.run();
+
+        // This redirects to a choice.
+        // Attempt to automate it and discover the user wants a power sphere
+        // Submit URL to accept the helm, which redirects to ocean.php
+        // OceanManager completes the processing
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        // We paid 977 Meat for the journey
+        assertEquals(0, KoLCharacter.getAvailableMeat());
+        // We ended up with a power sphere
+        assertTrue(InventoryManager.hasItem(ItemPool.POWER_SPHERE));
+
+        var requests = builder.client.getRequests();
+        printRequests(requests);
+
+        assertThat(requests, hasSize(6));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=159&pwd=choice");
+        assertPostRequest(requests.get(1), "/choice.php", "forceoption=0&pwd=choice");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/choice.php", "whichchoice=189&option=1&pwd=choice");
+        assertPostRequest(requests.get(4), "/ocean.php", "lon=59&lat=10&pwd=choice");
+        assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      }
     }
   }
 }
