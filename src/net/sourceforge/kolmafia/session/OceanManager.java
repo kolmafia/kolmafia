@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -23,14 +25,46 @@ public class OceanManager {
   private OceanManager() {}
 
   // All special ocean destinations
-  private static Map<Point, Destination> destinations = new HashMap<>();
+  private static final Map<Point, Destination> destinations = new HashMap<>();
+
+  // Special ocean destinations by keyword category
+  public static final List<Point> muscleDestinations = new ArrayList<>();
+  public static final List<Point> mysticalityDestinations = new ArrayList<>();
+  public static final List<Point> moxieDestinations = new ArrayList<>();
+  public static final List<Point> altarDestinations = new ArrayList<>();
+  public static final List<Point> sandDestinations = new ArrayList<>();
+  public static final List<Point> sphereDestinations = new ArrayList<>();
+  public static final List<Point> plinthDestinations = new ArrayList<>();
+
+  private static final Pattern POINT_PATTERN = Pattern.compile("(\\d+),(\\d+)");
 
   private static class Point {
+    public static final int xMin = 1;
+    public static final int xMax = 242;
+    public static final int yMin = 1;
+    public static final int yMax = 100;
+
     public final int x, y;
 
-    public Point(int lon, int lat) {
-      this.x = lon;
-      this.y = lat;
+    public Point(int x, int y) {
+      this.x = x;
+      this.y = y;
+    }
+
+    public static boolean valid(int x, int y) {
+      return x >= xMin && x <= xMax && y >= yMin && y <= yMax;
+    }
+
+    public static Point parse(String input) {
+      Matcher matcher = POINT_PATTERN.matcher(input);
+      if (matcher.find()) {
+        int x = StringUtilities.parseInt(matcher.group(1));
+        int y = StringUtilities.parseInt(matcher.group(2));
+        if (valid(x, y)) {
+          return new Point(x, y);
+        }
+      }
+      return null;
     }
 
     @Override
@@ -43,7 +77,7 @@ public class OceanManager {
 
     @Override
     public int hashCode() {
-      return (x - 1) * 100 + (y - 1);
+      return (x - 1) * yMax + (y - 1);
     }
 
     @Override
@@ -79,6 +113,10 @@ public class OceanManager {
       Point location = new Point(lon, lat);
       this.locations.add(location);
       destinations.put(location, this);
+    }
+
+    public Set<Point> getLocations() {
+      return this.locations;
     }
 
     @Override
@@ -339,6 +377,65 @@ public class OceanManager {
     Destination.MAINLAND.add(21, 19);
     Destination.MAINLAND.add(21, 20);
     // Destination.MAINLAND.add(21, 21);
+
+    muscleDestinations.addAll(Destination.GILLIGAN.getLocations());
+    muscleDestinations.addAll(Destination.MONKEY.getLocations());
+    muscleDestinations.addAll(Destination.OYSTER.getLocations());
+
+    mysticalityDestinations.addAll(Destination.DINOSAUR.getLocations());
+    mysticalityDestinations.addAll(Destination.LAND_OF_LOST.getLocations());
+    mysticalityDestinations.addAll(Destination.MYST.getLocations());
+
+    moxieDestinations.addAll(Destination.CAST_AWAY.getLocations());
+    moxieDestinations.addAll(Destination.LORD_OF_FLIES.getLocations());
+    moxieDestinations.addAll(Destination.LOST.getLocations());
+
+    sandDestinations.addAll(Destination.RAINBOW_SAND.getLocations());
+    altarDestinations.addAll(Destination.ALTAR.getLocations());
+    sphereDestinations.addAll(Destination.SPHERE.getLocations());
+    plinthDestinations.addAll(Destination.PLINTH.getLocations());
+  }
+
+  private static List<Point> getDestinations(final String keyword) {
+    return switch (keyword) {
+      case "muscle" -> muscleDestinations;
+      case "mysticality" -> mysticalityDestinations;
+      case "moxie" -> moxieDestinations;
+      case "sand" -> sandDestinations;
+      case "altar" -> altarDestinations;
+      case "sphere" -> sphereDestinations;
+      case "plinth" -> plinthDestinations;
+      default -> null;
+    };
+  }
+
+  private static Point getRandomDestination(final String keyword) {
+    List<Point> destinations = getDestinations(keyword);
+    if (destinations != null) {
+      return destinations.get(KoLConstants.RNG.nextInt(destinations.size()));
+    }
+    return null;
+  }
+
+  private static Point getRandomDestination() {
+    while (true) {
+      int lon = KoLConstants.RNG.nextInt(Point.xMax) + 1;
+      int lat = KoLConstants.RNG.nextInt(Point.yMax) + 1;
+      Point point = new Point(lon, lat);
+
+      // You cannot go to the mainland
+      if (Destination.MAINLAND.getLocations().contains(point)) {
+        continue;
+      }
+
+      // Going to the Plinth will use up a power sphere for no benefit
+      if (Destination.PLINTH.getLocations().contains(point)) {
+        continue;
+      }
+
+      // We found a safe location
+      return point;
+    }
   }
 
   // Automation when GenericRequest gets a redirect to ocean.php
@@ -359,41 +456,16 @@ public class OceanManager {
   //     save and show
   //     save and stop
 
-  private static final Pattern OCEAN_PATTERN = Pattern.compile("(\\d+),(\\d+)");
-
   public static Point getDestination() {
     String dest = Preferences.getString("oceanDestination");
-    if (dest.equals("manual")) {
-      return null;
-    }
 
-    int lon = 0;
-    int lat = 0;
-
-    if (dest.equals("muscle")) {
-      lon = 12;
-      lat = 84;
-    } else if (dest.equals("mysticality")) {
-      lon = 3;
-      lat = 35;
-    } else if (dest.equals("moxie")) {
-      lon = 13;
-      lat = 91;
-    } else if (dest.equals("sphere")) {
-      lon = 59;
-      lat = 10;
-    } else if (dest.equals("plinth")) {
-      lon = 63;
-      lat = 29;
-    } else if (dest.indexOf(",") != -1) {
-      Matcher matcher = OCEAN_PATTERN.matcher(dest);
-      if (matcher.find()) {
-        lon = StringUtilities.parseInt(matcher.group(1));
-        lat = StringUtilities.parseInt(matcher.group(2));
-      }
-    }
-
-    return new Point(lon, lat);
+    return switch (dest) {
+      case "manual" -> null;
+      case "muscle", "mysticality", "moxie", "plinth" -> getRandomDestination(dest);
+      case "sphere" -> new Point(59, 10);
+      case "random" -> getRandomDestination();
+      default -> (dest.contains(",")) ? Point.parse(dest) : null;
+    };
   }
 
   public static void processOceanAdventure() {
@@ -402,13 +474,19 @@ public class OceanManager {
     Point destination = OceanManager.getDestination();
 
     if (destination == null) {
-      KoLmafia.updateDisplay(MafiaState.ABORT, "Pick a course.");
+      KoLmafia.updateDisplay(MafiaState.ABORT, "Pick a valid course.");
       request.showInBrowser(true);
       return;
     }
 
-    int lon = destination.x;
-    int lat = destination.y;
+    // The navigator says "Sorry, Cap'm, but we can't sail to those
+    // coordinates, because that's where the mainland is, and we've pretty much
+    // plundered the mainland dry. Perhaps a more exotic locale is in order?"
+    if (Destination.MAINLAND.getLocations().contains(destination)) {
+      destination = getRandomDestination();
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You cannot sail to the mainland.");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Random destination chosen: " + destination);
+    }
 
     String action = Preferences.getString("oceanAction");
     boolean stop = action.equals("stop") || action.equals("savestop");
@@ -416,64 +494,35 @@ public class OceanManager {
     boolean save =
         action.equals("savecontinue") || action.equals("saveshow") || action.equals("savestop");
 
-    while (true) {
-      if (lon < 1 || lon > 242 || lat < 1 || lat > 100) {
-        // Pick a random destination
-        lon = KoLConstants.RNG.nextInt(242) + 1;
-        lat = KoLConstants.RNG.nextInt(100) + 1;
-      }
+    // ocean.php?lon=10&lat=10
+    request.addFormField("lon", String.valueOf(destination.x));
+    request.addFormField("lat", String.valueOf(destination.y));
 
-      String coords = "Coordinates: " + lon + ", " + lat;
-      RequestLogger.printLine(coords);
-      RequestLogger.updateSessionLog(coords);
+    request.run();
 
-      // ocean.php?lon=10&lat=10
-      request.constructURLString("ocean.php");
-      request.clearDataFields();
-      request.addFormField("lon", String.valueOf(lon));
-      request.addFormField("lat", String.valueOf(lat));
+    if (save) {
+      // Save the response Text
+      File output = new File(KoLConstants.DATA_LOCATION, "ocean.html");
+      PrintStream writer = LogStream.openStream(output, false);
 
-      request.run();
+      // Trim to contain only HTML body
+      int start = request.responseText.indexOf("<body>");
+      int end = request.responseText.indexOf("</body>");
+      String text = request.responseText.substring(start + 6, end);
+      writer.println(text);
+      writer.close();
+    }
 
-      if (save) {
-        // Save the response Text
-        File output = new File(KoLConstants.DATA_LOCATION, "ocean.html");
-        PrintStream writer = LogStream.openStream(output, false);
+    if (stop) {
+      // Show result in browser and stop automation
+      KoLmafia.updateDisplay(MafiaState.ABORT, "Stop");
+      request.showInBrowser(true);
+      return;
+    }
 
-        // Trim to contain only HTML body
-        int start = request.responseText.indexOf("<body>");
-        int end = request.responseText.indexOf("</body>");
-        String text = request.responseText.substring(start + 6, end);
-        writer.println(text);
-        writer.close();
-      }
-
-      if (stop) {
-        // Show result in browser and stop automation
-        KoLmafia.updateDisplay(MafiaState.ABORT, "Stop");
-        request.showInBrowser(true);
-        return;
-      }
-
-      if (show) {
-        // Show the response in the browser
-        request.showInBrowser(true);
-      }
-
-      // And continue
-
-      // The navigator says "Sorry, Cap'm, but we can't sail
-      // to those coordinates, because that's where the
-      // mainland is, and we've pretty much plundered the
-      // mainland dry. Perhaps a more exotic locale is in
-      // order?"
-
-      if (request.responseText.indexOf("that's where the mainland is") == -1) {
-        return;
-      }
-
-      // Pick a different random destination
-      lon = lat = 0;
+    if (show) {
+      // Show the response in the browser
+      request.showInBrowser(true);
     }
   }
 
