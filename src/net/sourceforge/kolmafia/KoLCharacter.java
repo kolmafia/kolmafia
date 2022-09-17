@@ -209,7 +209,11 @@ public abstract class KoLCharacter {
 
   // Familiar data
 
-  public static final List<FamiliarData> familiars = new ArrayList<>();
+  // the only usage of this as a LockableListModel is in FamiliarTrainingPane, so filter to usable
+  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>(element -> {
+    var elt = (FamiliarData) element;
+    return KoLCharacter.isUsable(elt);
+  });
   public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
   public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
   public static String currentFamiliarImage = null;
@@ -4511,6 +4515,7 @@ public abstract class KoLCharacter {
       KoLCharacter.currentBjorned = FamiliarData.NO_FAMILIAR;
     }
 
+    KoLCharacter.familiars.setSelectedItem(KoLCharacter.currentFamiliar);
     EquipmentManager.setEquipment(
         EquipmentManager.FAMILIAR, KoLCharacter.currentFamiliar.getItem());
 
@@ -4614,23 +4619,12 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Returns the list of familiars available to the character.
+   * Returns the list of familiars usable by the character, as a LockableListModel.
    *
-   * @return The list of familiars available to the character
+   * @return The list of familiars usable by the character
    */
   public static final LockableListModel<FamiliarData> getFamiliarList() {
-    var list = new SortedListModel<FamiliarData>();
-    list.addAll(KoLCharacter.familiars);
-    list.setSelectedItem(KoLCharacter.currentFamiliar);
-    list.setFilter(
-        new ListElementFilter() {
-          @Override
-          public boolean isVisible(Object element) {
-            var elt = (FamiliarData) element;
-            return KoLCharacter.isUsable(elt);
-          }
-        });
-    return list;
+    return KoLCharacter.familiars;
   }
 
   /**
