@@ -25,7 +25,6 @@ import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -315,6 +314,8 @@ public abstract class HPRestoreItemList {
         return;
       }
 
+      var limitMode = KoLCharacter.getLimitMode();
+
       if (this == HPRestoreItemList.GRUB
           && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))) {
         return;
@@ -335,7 +336,7 @@ public abstract class HPRestoreItemList {
       }
 
       if (this == HPRestoreItemList.CAMPGROUND) {
-        if (Limitmode.limitCampground() || KoLCharacter.isEd()) {
+        if (limitMode.limitCampground() || KoLCharacter.isEd()) {
           return;
         }
         if (!KoLCharacter.inNuclearAutumn()) {
@@ -356,7 +357,7 @@ public abstract class HPRestoreItemList {
             RequestThread.postRequest(new CampAwayRequest(CampAwayRequest.TENT));
             return;
           }
-          if (!Limitmode.limitCampground()
+          if (!limitMode.limitCampground()
               && !KoLCharacter.isEd()
               && !KoLCharacter.inNuclearAutumn()) {
             RequestThread.postRequest(new CampgroundRequest("rest"));

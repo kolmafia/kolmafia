@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class GardenCommand extends AbstractCommand {
   public GardenCommand() {
@@ -35,7 +34,9 @@ public class GardenCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameters) {
-    if (KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground()) {
+    if (KoLCharacter.isEd()
+        || KoLCharacter.inNuclearAutumn()
+        || KoLCharacter.getLimitMode().limitCampground()) {
       KoLmafia.updateDisplay("You can't get to your campground to visit your garden.");
       return;
     }

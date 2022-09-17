@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class WalMartRequest extends CoinMasterRequest {
   public static final String master = "Wal-Mart";
@@ -102,7 +102,7 @@ public class WalMartRequest extends CoinMasterRequest {
         && !Preferences.getBoolean("coldAirportAlways")) {
       return "You don't have access to The Glaciest";
     }
-    if (Limitmode.limitZone("The Glaciest")) {
+    if (KoLCharacter.getLimitMode().limitZone("The Glaciest")) {
       return "You cannot currently access The Glaciest";
     }
     return null;

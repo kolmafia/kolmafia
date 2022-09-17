@@ -80,7 +80,7 @@ import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
@@ -1976,8 +1976,8 @@ public class FightRequest extends GenericRequest {
     }
 
     boolean shouldLogAction = Preferences.getBoolean("logBattleAction");
-    String limitmode = KoLCharacter.getLimitmode();
-    boolean isBatfellow = (limitmode == Limitmode.BATMAN);
+    var limitMode = KoLCharacter.getLimitMode();
+    boolean isBatfellow = (limitMode == LimitMode.BATMAN);
 
     // The response tells you if you won initiative.
 
@@ -2595,7 +2595,7 @@ public class FightRequest extends GenericRequest {
     String monsterName = monster != null ? monster.getName() : "";
     SpecialMonster special = FightRequest.specialMonsterCategory(monsterName);
 
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitMode();
     boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
     boolean won = finalRound && responseText.contains("<!--WINWINWIN-->");
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
@@ -2617,13 +2617,13 @@ public class FightRequest extends GenericRequest {
             && !won
             && (FightRequest.pokefam
                 ? responseText.contains("action=fambattle.php")
-                : (limitmode == Limitmode.BATMAN || FightRequest.innerWolf)
+                : (limitmode == LimitMode.BATMAN || FightRequest.innerWolf)
                     ? responseText.contains("action=\"fight.php\"")
                     : Preferences.getBoolean("serverAddsCustomCombat")
                         ? responseText.contains("(show old combat form)")
                         : KoLCharacter.inDisguise() ? fightCount > 1 : fightCount > 0);
 
-    if (limitmode == Limitmode.BATMAN || limitmode == Limitmode.SPELUNKY) {
+    if (limitmode == LimitMode.BATMAN || limitmode == LimitMode.SPELUNKY) {
       if (!finalRound) {
         return;
       }
@@ -2634,7 +2634,7 @@ public class FightRequest extends GenericRequest {
       }
 
       if (won) {
-        if (limitmode == Limitmode.BATMAN) {
+        if (limitmode == LimitMode.BATMAN) {
           BatManager.wonFight(monsterName, responseText);
         } else {
           SpelunkyRequest.wonFight(monsterName, responseText);
@@ -4741,7 +4741,7 @@ public class FightRequest extends GenericRequest {
       FightRequest.maybeProcessLovebugsGain(message, status);
     }
 
-    if (status.limitmode == Limitmode.SPELUNKY) {
+    if (status.limitmode == LimitMode.SPELUNKY) {
       // If we lose HP in battle, annotate with attack/defense
       if (result.getName().equals(AdventureResult.HP)) {
         action.append(" (");
@@ -4750,7 +4750,7 @@ public class FightRequest extends GenericRequest {
         action.append(KoLCharacter.getAdjustedMoxie());
         action.append(" moxie)");
       }
-    } else if (status.limitmode == Limitmode.BATMAN) {
+    } else if (status.limitmode == LimitMode.BATMAN) {
       // If we gain or lose HP in battle, track it
       if (result.getName().equals(AdventureResult.HP)) {
         BatManager.changeBatHealth(result);
@@ -4795,7 +4795,7 @@ public class FightRequest extends GenericRequest {
           type == ATTACK ? " attack power." : type == DEFENSE ? " defense." : " hit points.");
     }
 
-    if (status.limitmode == Limitmode.SPELUNKY) {
+    if (status.limitmode == LimitMode.SPELUNKY) {
       // additional logging when decrease monster's HP, attack, or defense
       AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
       Stat stat = EquipmentDatabase.getWeaponStat(weapon.getItemId());
@@ -5460,7 +5460,7 @@ public class FightRequest extends GenericRequest {
     public boolean mayowasp;
     public boolean dolphin;
     public boolean eldritchHorror;
-    public String limitmode;
+    public LimitMode limitmode;
     public String VYKEACompanion;
     public String horse;
     public boolean hookah = false;
@@ -5556,8 +5556,8 @@ public class FightRequest extends GenericRequest {
       this.ghost = null;
 
       // Save limitmode so we can log appropriately
-      this.limitmode = KoLCharacter.getLimitmode();
-      boolean isBatfellow = (this.limitmode == Limitmode.BATMAN);
+      this.limitmode = KoLCharacter.getLimitMode();
+      boolean isBatfellow = (this.limitmode == LimitMode.BATMAN);
       this.name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 
       this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
@@ -6698,7 +6698,7 @@ public class FightRequest extends GenericRequest {
       status.lastCombatItem = itemId;
     }
 
-    if (status.limitmode == Limitmode.BATMAN
+    if (status.limitmode == LimitMode.BATMAN
         && image.equals("briefcase.gif")
         && str.contains("You lose an item")) {
       AdventureResult result = ItemPool.get(ItemPool.FINGERPRINT_DUSTING_KIT, -1);
@@ -7925,7 +7925,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean handleSpelunky(String text, TagStatus status) {
-    if (status.limitmode != Limitmode.SPELUNKY) {
+    if (status.limitmode != LimitMode.SPELUNKY) {
       return false;
     }
 
@@ -7969,7 +7969,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean handleSpelunkyGold(String image, String str, TagStatus status) {
-    if (status.limitmode != Limitmode.SPELUNKY) {
+    if (status.limitmode != LimitMode.SPELUNKY) {
       return false;
     }
 
@@ -10620,8 +10620,8 @@ public class FightRequest extends GenericRequest {
     // Begin logging all the different combat actions and storing
     // relevant data for post-processing.
 
-    String limitmode = KoLCharacter.getLimitmode();
-    boolean isBatfellow = (limitmode == Limitmode.BATMAN);
+    var limitmode = KoLCharacter.getLimitMode();
+    boolean isBatfellow = (limitmode == LimitMode.BATMAN);
     String name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 
     boolean shouldLogAction = Preferences.getBoolean("logBattleAction");

@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
@@ -113,7 +112,8 @@ public class Maximizer {
     RequestLogger.updateSessionLog("Maximizer: " + maxMe);
     KoLConstants.maximizerMList.addItem(maxMe);
     Maximizer.eval = new Evaluator(maxMe);
-    Integer filterCount = Math.toIntExact(filter.values().stream().filter(v -> v).count());
+    int filterCount = Math.toIntExact(filter.values().stream().filter(v -> v).count());
+    var limitMode = KoLCharacter.getLimitMode();
 
     // parsing error
     if (!KoLmafia.permitsContinue() || !filter.containsValue(true)) {
@@ -587,7 +587,7 @@ public class Maximizer {
             // Jarlsberg and Zombie characters can't eat hot dogs
             else if (KoLCharacter.isJarlsberg() || KoLCharacter.isZombieMaster()) {
               continue;
-            } else if (Limitmode.limitClan()) {
+            } else if (limitMode.limitClan()) {
               continue;
             } else if (!haveVipKey) {
               if (includeAll) {
@@ -736,7 +736,7 @@ public class Maximizer {
         } else if (cmd.startsWith("friars ")) {
           int lfc = Preferences.getInteger("lastFriarCeremonyAscension");
           int ka = Preferences.getInteger("knownAscensions");
-          if (lfc < ka || Limitmode.limitZone("Friars")) {
+          if (lfc < ka || limitMode.limitZone("Friars")) {
             continue;
           } else if (Preferences.getBoolean("friarsBlessingReceived")) {
             cmd = "";
@@ -752,7 +752,7 @@ public class Maximizer {
           } else if (!RabbitHoleManager.hatLengthAvailable(
               StringUtilities.parseInt(cmd.substring(7)))) {
             continue;
-          } else if (Limitmode.limitZone("Rabbit Hole")) {
+          } else if (limitMode.limitZone("Rabbit Hole")) {
             continue;
           } else if (Preferences.getBoolean("_madTeaParty")) {
             cmd = "";
@@ -762,7 +762,7 @@ public class Maximizer {
         } else if (cmd.startsWith("mom ")) {
           if (!QuestDatabase.isQuestFinished(Quest.SEA_MONKEES)) {
             continue;
-          } else if (Limitmode.limitZone("The Sea")) {
+          } else if (limitMode.limitZone("The Sea")) {
             continue;
           } else if (Preferences.getBoolean("_momFoodReceived")) {
             cmd = "";
@@ -779,7 +779,7 @@ public class Maximizer {
 
           if (!KoLCharacter.canInteract() && ((onHand + creatable) < 1 || candles < 3)) {
             continue;
-          } else if (Limitmode.limitZone("Manor0")) {
+          } else if (limitMode.limitZone("Manor0")) {
             continue;
           } else if (Preferences.getBoolean("demonSummoned")) {
             cmd = "";
@@ -801,7 +801,7 @@ public class Maximizer {
 
           if (side.equals("none")) {
             continue;
-          } else if (Limitmode.limitZone("Island") || Limitmode.limitZone("IsleWar")) {
+          } else if (limitMode.limitZone("Island") || limitMode.limitZone("IsleWar")) {
             continue;
           } else if (side.equals("fratboy")) {
             available =
@@ -820,7 +820,7 @@ public class Maximizer {
           duration = 20;
           usesRemaining = Preferences.getBoolean("concertVisited") ? 0 : 1;
         } else if (cmd.startsWith("telescope ")) {
-          if (Limitmode.limitCampground()) {
+          if (limitMode.limitCampground()) {
             continue;
           } else if (Preferences.getInteger("telescopeUpgrades") == 0) {
             if (includeAll) {
@@ -837,7 +837,7 @@ public class Maximizer {
         } else if (cmd.startsWith("ballpit")) {
           if (!KoLCharacter.canInteract()) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (Preferences.getBoolean("_ballpit")) {
             cmd = "";
@@ -847,7 +847,7 @@ public class Maximizer {
         } else if (cmd.startsWith("jukebox")) {
           if (!KoLCharacter.canInteract()) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (Preferences.getBoolean("_jukebox")) {
             cmd = "";
@@ -859,7 +859,7 @@ public class Maximizer {
             continue;
           } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Pool Table")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -876,7 +876,7 @@ public class Maximizer {
             continue;
           } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -894,7 +894,7 @@ public class Maximizer {
           } else if (!StandardRequest.isAllowed(
               RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -912,7 +912,7 @@ public class Maximizer {
           } else if (!StandardRequest.isAllowed(
               RestrictedItemType.CLAN_ITEMS, "Clan Love Tester")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -930,7 +930,7 @@ public class Maximizer {
             continue;
           } else if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "portable Mayo Clinic")) {
             continue;
-          } else if (Limitmode.limitCampground()) {
+          } else if (limitMode.limitCampground()) {
             continue;
           } else if (workshed == null || workshed.getItemId() != ItemPool.MAYO_CLINIC) {
             if (includeAll) {
@@ -948,7 +948,7 @@ public class Maximizer {
           } else if (!StandardRequest.isAllowed(
               RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
             continue;
-          } else if (Limitmode.limitZone("Dungeon Full of Dungeons")) {
+          } else if (limitMode.limitZone("Dungeon Full of Dungeons")) {
             continue;
           } else if (!Preferences.getBoolean("barrelShrineUnlocked")) {
             if (includeAll) {
@@ -963,7 +963,7 @@ public class Maximizer {
         } else if (cmd.startsWith("styx ")) {
           if (!KoLCharacter.inBadMoon()) {
             continue;
-          } else if (Limitmode.limitZone("BadMoon")) {
+          } else if (limitMode.limitZone("BadMoon")) {
             continue;
           } else if (Preferences.getBoolean("styxPixieVisited")) {
             cmd = "";
@@ -979,7 +979,7 @@ public class Maximizer {
 
           if (!status.equals(buffStatus)) {
             continue;
-          } else if (Limitmode.limitZone("The Sea")) {
+          } else if (limitMode.limitZone("The Sea")) {
             continue;
           } else if (Preferences.getBoolean(buffPref)) {
             cmd = "";
@@ -1090,7 +1090,7 @@ public class Maximizer {
         } else if (cmd.startsWith("grim")) {
           FamiliarData fam = KoLCharacter.findFamiliar(FamiliarPool.GRIM_BROTHER);
           if (fam == null) {
-            if (Limitmode.limitFamiliars()) {
+            if (limitMode.limitFamiliars()) {
               continue;
             } else if (includeAll) {
               text = "(get a Grim Brother familiar for " + name + ")";
@@ -1196,7 +1196,7 @@ public class Maximizer {
           }
           if (Preferences.getInteger("falloutShelterLevel") < 3) {
             continue;
-          } else if (Limitmode.limitCampground()) {
+          } else if (limitMode.limitCampground()) {
             continue;
           } else if (Preferences.getBoolean("_falloutShelterSpaUsed")) {
             cmd = "";

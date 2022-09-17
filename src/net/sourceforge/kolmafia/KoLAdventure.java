@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
@@ -121,21 +120,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.normalString = this.zone + ": " + this.adventureName;
     this.lowercaseString = this.normalString.toLowerCase();
 
-    this.parentZone = AdventureDatabase.PARENT_ZONES.get(zone);
+    this.parentZone = AdventureDatabase.getParentZone(zone);
     this.parentZoneDescription = AdventureDatabase.ZONE_DESCRIPTIONS.get(this.parentZone);
 
-    String rootZone = this.parentZone;
-    while (true) {
-      if (rootZone == null) {
-        break;
-      }
-      String next = AdventureDatabase.PARENT_ZONES.get(rootZone);
-      if (rootZone.equals(next)) {
-        break;
-      }
-      rootZone = next;
-    }
-    this.rootZone = rootZone;
+    this.rootZone = AdventureDatabase.getRootZone(this.parentZone);
 
     this.environment = AdventureDatabase.getEnvironment(adventureName);
 
@@ -587,7 +575,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public boolean canAdventure() {
     // If we get here via automation, preValidateAdventure() returned true
 
-    if (Limitmode.limitAdventure(this)) {
+    if (KoLCharacter.getLimitMode().limitAdventure(this)) {
       return false;
     }
 
@@ -3644,15 +3632,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     KoLAdventure.registerAdventure();
     EncounterManager.registerAdventure(location);
 
-    String limitmode = KoLCharacter.getLimitmode();
-    String message = null;
-    if (limitmode == Limitmode.SPELUNKY) {
-      message = "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
-    } else if (limitmode == Limitmode.BATMAN) {
-      message = "{" + BatManager.getTimeLeftString() + "} " + location;
-    } else {
-      message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
-    }
+    String message =
+        switch (KoLCharacter.getLimitMode()) {
+          case SPELUNKY -> "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
+          case BATMAN -> "{" + BatManager.getTimeLeftString() + "} " + location;
+          default -> "[" + KoLAdventure.getAdventureCount() + "] " + location;
+        };
     RequestLogger.printLine();
     RequestLogger.printLine(message);
 

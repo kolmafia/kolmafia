@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
@@ -143,20 +143,19 @@ public class CharPaneRequest extends GenericRequest {
 
     // Are we in a limitmode?
     if (responseText.contains(">Last Spelunk</a>")) {
-      KoLCharacter.setLimitmode(Limitmode.SPELUNKY);
+      KoLCharacter.setLimitMode(LimitMode.SPELUNKY);
       SpelunkyRequest.parseCharpane(responseText);
       return true;
     }
 
     if (responseText.contains("You're Batfellow")) {
-      KoLCharacter.setLimitmode(Limitmode.BATMAN);
+      KoLCharacter.setLimitMode(LimitMode.BATMAN);
       BatManager.parseCharpane(responseText);
       return true;
     }
 
-    if (KoLCharacter.getLimitmode() != null
-        && KoLCharacter.getLimitmode().equals(Limitmode.SPELUNKY)) {
-      KoLCharacter.setLimitmode(null);
+    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
+      KoLCharacter.setLimitMode(LimitMode.NONE);
     }
 
     // We can deduce whether we are in compact charpane mode
@@ -164,7 +163,7 @@ public class CharPaneRequest extends GenericRequest {
     CharPaneRequest.compactCharacterPane = responseText.contains("<br>Lvl. ");
 
     // If we are in Valhalla, do special processing
-    if (KoLCharacter.getLimitmode() == null
+    if (KoLCharacter.getLimitMode() == LimitMode.NONE
         && (responseText.contains("otherimages/spirit.gif")
             || responseText.contains("<br>Lvl. <img"))) {
       processValhallaCharacterPane(responseText);
@@ -1560,7 +1559,7 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     Object lmo = JSON.get("limitmode");
-    KoLCharacter.setLimitmode(lmo.toString());
+    KoLCharacter.setLimitMode(lmo.toString());
 
     JSONObject lastadv = JSON.getJSONObject("lastadv");
     String adventureId = lastadv.getString("id");
@@ -1644,7 +1643,7 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.setInteraction();
 
-    if (Limitmode.limitFamiliars()) {
+    if (KoLCharacter.getLimitMode().limitFamiliars()) {
       // No familiar
     } else if (KoLCharacter.inAxecore()) {
       int level = JSON.getInt("clancy_level");
