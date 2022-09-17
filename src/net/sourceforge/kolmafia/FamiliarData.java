@@ -561,9 +561,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
     Matcher frowMatcher = FamiliarData.FROW_PATTERN.matcher(responseText);
     while (frowMatcher.find()) {
       String frow = frowMatcher.group();
-      if (frow.contains("\"frow expired\"")) {
-        continue;
-      }
 
       Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher(frow);
       if (familiarMatcher.find()) {
