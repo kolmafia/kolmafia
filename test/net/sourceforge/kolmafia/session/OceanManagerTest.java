@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHandlingChoice;
@@ -217,7 +216,7 @@ public class OceanManagerTest {
     }
 
     @Test
-    public void canAutomateWithSpecificDestination() {
+    public void canAutomateWithKeywordDestination() {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
           new Cleanups(
@@ -259,14 +258,65 @@ public class OceanManagerTest {
         assertTrue(InventoryManager.hasItem(ItemPool.POWER_SPHERE));
 
         var requests = builder.client.getRequests();
-        printRequests(requests);
-
         assertThat(requests, hasSize(6));
         assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=159&pwd=choice");
         assertPostRequest(requests.get(1), "/choice.php", "forceoption=0&pwd=choice");
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(3), "/choice.php", "whichchoice=189&option=1&pwd=choice");
         assertPostRequest(requests.get(4), "/ocean.php", "lon=59&lat=10&pwd=choice");
+        assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void canAutomateWithCoordinatesDestination() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withMeat(977),
+              withProperty("choiceAdventure189", 1),
+              withProperty("oceanDestination", "86,40"),
+              withProperty("oceanAction", "continue"),
+              // Needed when automating AdventureRequest -> CHOICE_HANDLER
+              withPasswordHash("choice"),
+              withGender(1));
+      try (cleanups) {
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        // choice.php?forceoption=0
+        builder.client.addResponse(200, html("request/test_ocean_choice.html"));
+        // api.php?what=status&for=KoLmafia
+        builder.client.addResponse(200, ""); // api.php
+        // choice.php?whichchoice=189&option=1&pwd
+        builder.client.addResponse(302, Map.of("location", List.of("ocean.php?intro=1")), "");
+        // We ignore the redirect to ocean.php?intro=1
+        // builder.client.addResponse(200, html("request/test_ocean_intro.html"));
+        // Instead, we submit: ocean.php?lon=86&lat=40
+        builder.client.addResponse(200, html("request/test_ocean_sphere_3.html"));
+        builder.client.addResponse(200, ""); // api.php
+
+        var adventure = new AdventureRequest("The Poop Deck", AdventurePool.POOP_DECK);
+        adventure.run();
+
+        // This redirects to a choice.
+        // Attempt to automate it and discover the user wants a power sphere
+        // Submit URL to accept the helm, which redirects to ocean.php
+        // OceanManager completes the processing
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        // We paid 977 Meat for the journey
+        assertEquals(0, KoLCharacter.getAvailableMeat());
+        // We ended up with a power sphere
+        assertTrue(InventoryManager.hasItem(ItemPool.POWER_SPHERE));
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(6));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=159&pwd=choice");
+        assertPostRequest(requests.get(1), "/choice.php", "forceoption=0&pwd=choice");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/choice.php", "whichchoice=189&option=1&pwd=choice");
+        assertPostRequest(requests.get(4), "/ocean.php", "lon=86&lat=40&pwd=choice");
         assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
       }
     }
