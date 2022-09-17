@@ -37,14 +37,37 @@ class CharPaneRequestTest {
     }
   }
 
-  @Test
-  void parseApiParsesLimitModeNone() {
-    var json = ApiRequest.getJSON(html("request/test_api_status.json"), "testing");
-    assertThat(json, notNullValue());
+  @Nested
+  class ApiLimitMode {
+    @Test
+    void parseApiParsesLimitModeNone() {
+      var json = ApiRequest.getJSON(html("request/test_api_status_aftercore.json"), "testing");
+      assertThat(json, notNullValue());
 
-    CharPaneRequest.parseStatus(json);
+      CharPaneRequest.parseStatus(json);
 
-    assertThat(KoLCharacter.getLimitMode(), is(LimitMode.NONE));
+      assertThat(KoLCharacter.getLimitMode(), is(LimitMode.NONE));
+    }
+
+    @Test
+    void parseApiParsesLimitModeUnknownString() {
+      var json = ApiRequest.getJSON(html("request/test_api_status_limit_mode_unknown.json"), "testing");
+      assertThat(json, notNullValue());
+
+      CharPaneRequest.parseStatus(json);
+
+      assertThat(KoLCharacter.getLimitMode(), is(LimitMode.UNKNOWN));
+    }
+
+    @Test
+    void parseApiParsesLimitModeUnknownObject() {
+      var json = ApiRequest.getJSON(html("request/test_api_status_limit_mode_unknown_int.json"), "testing");
+      assertThat(json, notNullValue());
+
+      CharPaneRequest.parseStatus(json);
+
+      assertThat(KoLCharacter.getLimitMode(), is(LimitMode.UNKNOWN));
+    }
   }
 
   @Nested
