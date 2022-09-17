@@ -73,7 +73,7 @@ public class EventManager {
       return false;
     }
 
-    if (eventHTML.indexOf("logged") != -1 || eventHTML.indexOf("has left the building") != -1) {
+    if (eventHTML.contains("logged") || eventHTML.contains("has left the building")) {
       return false;
     }
 
