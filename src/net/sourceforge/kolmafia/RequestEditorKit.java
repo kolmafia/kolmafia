@@ -60,7 +60,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -341,7 +341,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("choice.php")) {
       RequestEditorKit.fixTavernCellar(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
-      RequestEditorKit.addChoiceSpoilers(location, buffer);
+      RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
       RequestEditorKit.addBarrelSounds(buffer);
     } else if (location.startsWith("clan_hobopolis.php")) {
       HobopolisDecorator.decorate(location, buffer);
@@ -1516,7 +1516,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     IslandDecorator.appendMissingGremlinTool(monster, monsterData);
 
-    if (KoLCharacter.getLimitmode() == Limitmode.SPELUNKY) {
+    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
       SpelunkyRequest.decorateSpelunkyMonster(monsterData);
     }
 
@@ -1819,7 +1819,8 @@ public class RequestEditorKit extends HTMLEditorKit {
     m.appendTail(buffer);
   }
 
-  private static void addChoiceSpoilers(final String location, final StringBuffer buffer) {
+  private static void addChoiceSpoilers(
+      final String location, final StringBuffer buffer, final boolean addComplexFeatures) {
     if (!Preferences.getBoolean("relayShowSpoilers")) {
       return;
     }
@@ -1834,7 +1835,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Do any choice-specific decorations
-    ChoiceAdventures.decorateChoice(choice, buffer);
+    ChoiceAdventures.decorateChoice(choice, buffer, addComplexFeatures);
 
     String text = buffer.toString();
     Matcher matcher = FORM_PATTERN.matcher(text);

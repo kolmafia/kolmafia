@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class ChateauRequest extends PlaceRequest {
   private static final Pattern PAINTING_PATTERN =
@@ -241,7 +240,7 @@ public class ChateauRequest extends PlaceRequest {
   public static boolean chateauAvailable() {
     return Preferences.getBoolean("chateauAvailable")
         && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Chateau Mantegna room key")
-        && !Limitmode.limitZone("Mountain")
+        && !KoLCharacter.getLimitMode().limitZone("Mountain")
         && !KoLCharacter.inBadMoon()
         && !KoLCharacter.isKingdomOfExploathing();
   }

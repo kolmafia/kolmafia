@@ -86,8 +86,8 @@ public class BreakfastManager {
   private BreakfastManager() {}
 
   public static void getBreakfast(final boolean runComplete) {
-    String limitmode = KoLCharacter.getLimitmode();
-    if (limitmode != null) {
+    var limitmode = KoLCharacter.getLimitMode();
+    if (limitmode != LimitMode.NONE) {
       // Current limitmodes are transient states you can
       // enter and leave during a run. If KoL ever implements
       // a limitmode for an entire run, we may have to
@@ -142,7 +142,7 @@ public class BreakfastManager {
   }
 
   public static void checkRumpusRoom() {
-    if (!Limitmode.limitClan()
+    if (!KoLCharacter.getLimitMode().limitClan()
         && Preferences.getBoolean(
             "visitRumpus" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       ClanRumpusRequest.getBreakfast();
@@ -151,7 +151,7 @@ public class BreakfastManager {
   }
 
   public static void checkVIPLounge() {
-    if (!Limitmode.limitClan()
+    if (!KoLCharacter.getLimitMode().limitClan()
         && InventoryManager.hasItem(VIP_LOUNGE_KEY)
         && Preferences.getBoolean(
             "visitLounge" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
@@ -304,7 +304,7 @@ public class BreakfastManager {
     if (KoLCharacter.inBadMoon()
         || KoLCharacter.inNuclearAutumn()
         || KoLCharacter.isKingdomOfExploathing()
-        || Limitmode.limitZone("Mountain")) {
+        || KoLCharacter.getLimitMode().limitZone("Mountain")) {
       return;
     }
 
@@ -320,7 +320,9 @@ public class BreakfastManager {
   }
 
   public static void harvestGarden() {
-    if (KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground()) {
+    if (KoLCharacter.isEd()
+        || KoLCharacter.inNuclearAutumn()
+        || KoLCharacter.getLimitMode().limitCampground()) {
       return;
     }
 
@@ -358,7 +360,9 @@ public class BreakfastManager {
   }
 
   public static void useSpinningWheel() {
-    if (KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground()) {
+    if (KoLCharacter.isEd()
+        || KoLCharacter.inNuclearAutumn()
+        || KoLCharacter.getLimitMode().limitCampground()) {
       return;
     }
 
@@ -583,7 +587,8 @@ public class BreakfastManager {
   }
 
   private static void checkJackass() {
-    if (Preferences.getBoolean("_defectiveTokenChecked") || Limitmode.limitZone("Town")) {
+    if (Preferences.getBoolean("_defectiveTokenChecked")
+        || KoLCharacter.getLimitMode().limitZone("Town")) {
       return;
     }
 
@@ -636,13 +641,14 @@ public class BreakfastManager {
   }
 
   public static void visitVolcanoIsland() {
-    if (!Limitmode.limitZone("Volcano")) {
+    if (!KoLCharacter.getLimitMode().limitZone("Volcano")) {
       VolcanoIslandRequest.getBreakfast();
     }
   }
 
   public static void visitBigIsland() {
-    if (Limitmode.limitZone("Island") || Limitmode.limitZone("IsleWar")) {
+    if (KoLCharacter.getLimitMode().limitZone("Island")
+        || KoLCharacter.getLimitMode().limitZone("IsleWar")) {
       return;
     }
 
@@ -781,7 +787,8 @@ public class BreakfastManager {
   }
 
   private static void collectSeaJelly() {
-    if (Limitmode.limitZone("The Sea") || Limitmode.limitFamiliars()) {
+    if (KoLCharacter.getLimitMode().limitZone("The Sea")
+        || KoLCharacter.getLimitMode().limitFamiliars()) {
       return;
     }
 

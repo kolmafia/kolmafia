@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -733,15 +733,15 @@ public class CompactSidePane extends JPanel implements Runnable {
 
   @Override
   public void run() {
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitMode = KoLCharacter.getLimitMode();
 
-    if (limitmode != Limitmode.SPELUNKY) {
+    if (limitMode != LimitMode.SPELUNKY) {
       this.levelLabel.setText("Level " + KoLCharacter.getLevel());
     } else {
       this.levelLabel.setText(" ");
     }
 
-    if (limitmode == Limitmode.SPELUNKY) {
+    if (limitMode == LimitMode.SPELUNKY) {
       this.roninLabel.setText("(Spelunkin')");
     } else if (CharPaneRequest.inValhalla()) {
       this.roninLabel.setText("(Valhalla)");
@@ -757,7 +757,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       this.roninLabel.setText("(Ronin for " + KoLCharacter.roninLeft() + ")");
     }
 
-    if (limitmode != Limitmode.SPELUNKY) {
+    if (limitMode != LimitMode.SPELUNKY) {
       this.mcdLabel.setText("ML @ " + KoLCharacter.getMindControlLevel());
     } else {
       this.mcdLabel.setText("");
@@ -768,7 +768,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     this.statValueLabel[count].setText(
         this.getStatText(KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle()));
     count++;
-    if (limitmode != Limitmode.SPELUNKY) {
+    if (limitMode != LimitMode.SPELUNKY) {
       this.statLabel[count].setText("   Mys: ");
       this.statValueLabel[count].setText(
           this.getStatText(
@@ -816,7 +816,7 @@ public class CompactSidePane extends JPanel implements Runnable {
             + KoLConstants.COMMA_FORMAT.format(KoLCharacter.getMaximumHP()));
     count++;
 
-    if (limitmode != Limitmode.SPELUNKY) {
+    if (limitMode != LimitMode.SPELUNKY) {
       // Paths
       if (!KoLCharacter.isVampyre()) {
         this.statusLabel[count].setText("    MP: ");
@@ -925,7 +925,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     }
 
     count = 0;
-    if (limitmode != Limitmode.SPELUNKY) {
+    if (limitMode != LimitMode.SPELUNKY) {
       // Remove this if/when KoL supports Water Level effect on Oil Peak/Tavern
       if (KoLCharacter.inRaincore()) {
         this.bonusLabel[count].setText("    ML: ");
@@ -1020,7 +1020,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       // occasionally gets triggered during the setText().
     }
 
-    if (limitmode != Limitmode.SPELUNKY) {
+    if (limitMode != LimitMode.SPELUNKY) {
       long currentLevel = KoLCharacter.calculateLastLevel();
       long nextLevel = KoLCharacter.calculateNextLevel();
       long totalPrime = KoLCharacter.getTotalPrime();
@@ -1040,7 +1040,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       this.levelPanel.setToolTipText("");
     }
 
-    if (limitmode == Limitmode.SPELUNKY) {
+    if (limitMode == LimitMode.SPELUNKY) {
       String imageName = SpelunkyRequest.getBuddyImageName();
       if (imageName == null) {
         this.familiarLabel.setNoIcon();

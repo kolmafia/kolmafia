@@ -239,7 +239,7 @@ public abstract class ChoiceControl {
           int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
           AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
           ResultProcessor.processResult(cost);
-          KoLCharacter.setLimitmode(null);
+          KoLCharacter.setLimitMode(LimitMode.NONE);
         }
         break;
 
@@ -249,14 +249,14 @@ public abstract class ChoiceControl {
             Preferences.setInteger("_edDefeats", 0);
             Preferences.setBoolean("edUsedLash", false);
             MonsterStatusTracker.reset();
-            KoLCharacter.setLimitmode(null);
+            KoLCharacter.setLimitMode(LimitMode.NONE);
             break;
           case 1:
             int edDefeats = Preferences.getInteger("_edDefeats");
             int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
             AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
             ResultProcessor.processResult(cost);
-            KoLCharacter.setLimitmode(null);
+            KoLCharacter.setLimitMode(LimitMode.NONE);
             break;
         }
         break;
@@ -2182,7 +2182,7 @@ public abstract class ChoiceControl {
       case 993:
         // Tales of Spelunking
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.enterLimitmode(Limitmode.SPELUNKY);
+          KoLCharacter.enterLimitmode(LimitMode.SPELUNKY);
         }
         break;
 
@@ -2357,7 +2357,7 @@ public abstract class ChoiceControl {
 
       case 1023: // Like a Bat Into Hell
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.setLimitmode(Limitmode.ED);
+          KoLCharacter.setLimitMode(LimitMode.ED);
         }
         break;
 
@@ -2685,7 +2685,7 @@ public abstract class ChoiceControl {
       case 1133:
         // Batfellow Begins
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.enterLimitmode(Limitmode.BATMAN);
+          KoLCharacter.enterLimitmode(LimitMode.BATMAN);
         }
         break;
 
@@ -5821,14 +5821,14 @@ public abstract class ChoiceControl {
         // Batfellow Ends
         // (choosing to exit)
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.setLimitmode(null);
+          KoLCharacter.setLimitMode(LimitMode.NONE);
         }
         break;
 
       case 1168:
         // Batfellow Ends
         // (from running out of time)
-        KoLCharacter.setLimitmode(null);
+        KoLCharacter.setLimitMode(LimitMode.NONE);
         break;
 
       case 1171: // LT&T Office

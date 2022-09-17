@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
@@ -68,7 +67,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -164,7 +163,7 @@ public abstract class KoLCharacter {
 
   private static String mask = null;
 
-  private static String limitmode = null;
+  private static LimitMode limitMode = LimitMode.NONE;
 
   public static final int MAX_BASEPOINTS = 65535;
 
@@ -698,7 +697,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getSpleenLimit() {
-    if (Limitmode.limitSpleening()) {
+    if (KoLCharacter.getLimitMode().limitSpleening()) {
       return 0;
     }
 
@@ -1309,43 +1308,34 @@ public abstract class KoLCharacter {
     return ascensionClass == null ? Stat.NONE : ascensionClass.getMainStat();
   }
 
-  public static final void setLimitmode(String limitmode) {
-    if (limitmode != null && limitmode.equals("0")) {
-      limitmode = null;
-    }
-
-    if (limitmode == null) {
-      String old = KoLCharacter.limitmode;
-      boolean reset =
-          (old == Limitmode.SPELUNKY || old == Limitmode.BATMAN)
-              && !GenericRequest.abortIfInFightOrChoice(true);
-      KoLCharacter.limitmode = null;
-      if (reset) {
-        KoLmafia.resetAfterLimitmode();
+  public static void setLimitMode(final LimitMode limitmode) {
+    switch (limitmode) {
+      case NONE -> {
+        if (KoLCharacter.limitMode.requiresReset()
+            && !GenericRequest.abortIfInFightOrChoice(true)) {
+          KoLmafia.resetAfterLimitmode();
+        }
       }
-    } else if (limitmode.equals(Limitmode.SPELUNKY)) {
-      KoLCharacter.limitmode = Limitmode.SPELUNKY;
-    } else if (limitmode.equals(Limitmode.BATMAN)) {
-      KoLCharacter.limitmode = Limitmode.BATMAN;
-      BatManager.setCombatSkills();
-    } else if (limitmode.equals(Limitmode.ED)) {
-      KoLCharacter.limitmode = Limitmode.ED;
-    } else {
-      KoLCharacter.limitmode = limitmode;
+      case BATMAN -> BatManager.setCombatSkills();
     }
+
+    KoLCharacter.limitMode = limitmode;
   }
 
-  public static final String getLimitmode() {
-    return KoLCharacter.limitmode;
+  public static void setLimitMode(final String name) {
+    setLimitMode(LimitMode.find(name));
   }
 
-  public static final void enterLimitmode(final String limitmode) {
-    // Entering Spelunky or Batman
-    if (limitmode != Limitmode.SPELUNKY && limitmode != Limitmode.BATMAN) {
+  public static LimitMode getLimitMode() {
+    return KoLCharacter.limitMode;
+  }
+
+  public static void enterLimitmode(final LimitMode limitmode) {
+    if (!limitmode.requiresReset()) {
       return;
     }
 
-    KoLCharacter.limitmode = limitmode;
+    KoLCharacter.limitMode = limitmode;
 
     KoLCharacter.resetSkills();
     EquipmentManager.removeAllEquipment();
@@ -1373,11 +1363,7 @@ public abstract class KoLCharacter {
     EquipmentManager.resetCustomOutfits();
     SkillBuffFrame.update();
 
-    if (limitmode == Limitmode.SPELUNKY) {
-      SpelunkyRequest.reset();
-    } else if (limitmode == Limitmode.BATMAN) {
-      BatManager.begin();
-    }
+    limitmode.reset();
 
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
@@ -1649,7 +1635,7 @@ public abstract class KoLCharacter {
    * @return The character's available meat for spending
    */
   public static final long getAvailableMeat() {
-    return Limitmode.limitMeat() ? 0 : KoLCharacter.availableMeat;
+    return KoLCharacter.getLimitMode().limitMeat() ? 0 : KoLCharacter.availableMeat;
   }
 
   public static int freeRestsAvailable() {
@@ -2185,7 +2171,7 @@ public abstract class KoLCharacter {
 
   /** Accessor method to retrieve the total current monster level adjustment */
   public static final int getMonsterLevelAdjustment() {
-    if (Limitmode.limitMCD()) {
+    if (KoLCharacter.getLimitMode().limitMCD()) {
       return 0;
     }
 
@@ -3368,7 +3354,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canEat() {
-    if (Limitmode.limitEating()) {
+    if (KoLCharacter.getLimitMode().limitEating()) {
       return false;
     }
 
@@ -3388,7 +3374,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canDrink() {
-    if (Limitmode.limitDrinking()) {
+    if (KoLCharacter.getLimitMode().limitDrinking()) {
       return false;
     }
 
@@ -3408,7 +3394,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canSpleen() {
-    if (Limitmode.limitSpleening()) {
+    if (KoLCharacter.getLimitMode().limitSpleening()) {
       return false;
     }
 
@@ -3601,7 +3587,7 @@ public abstract class KoLCharacter {
    */
   public static final boolean knollAvailable() {
     return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
-        && !Limitmode.limitZone("MusSign")
+        && !KoLCharacter.getLimitMode().limitZone("MusSign")
         && !KoLCharacter.isKingdomOfExploathing()
         && !KoLCharacter.inGoocore();
   }
@@ -3617,7 +3603,7 @@ public abstract class KoLCharacter {
    */
   public static final boolean canadiaAvailable() {
     return KoLCharacter.getSignZone() == ZodiacZone.CANADIA
-        && !Limitmode.limitZone("Little Canadia")
+        && !KoLCharacter.getLimitMode().limitZone("Little Canadia")
         && !KoLCharacter.isKingdomOfExploathing();
   }
 
@@ -3677,7 +3663,7 @@ public abstract class KoLCharacter {
       }
     }
     return Preferences.getInteger("lastDesertUnlock") == KoLCharacter.getAscensions()
-        && !Limitmode.limitZone("Beach");
+        && !KoLCharacter.getLimitMode().limitZone("Beach");
   }
 
   public static final void setDesertBeachAvailable() {
@@ -3705,7 +3691,7 @@ public abstract class KoLCharacter {
       }
     }
     return Preferences.getInteger("lastIslandUnlock") == KoLCharacter.getAscensions()
-        && !Limitmode.limitZone("Island");
+        && !KoLCharacter.getLimitMode().limitZone("Island");
   }
 
   /**
@@ -3771,7 +3757,7 @@ public abstract class KoLCharacter {
       return;
     }
 
-    if (Limitmode.limitSkill(skill)) {
+    if (KoLCharacter.getLimitMode().limitSkill(skill)) {
       return;
     }
 
@@ -4363,7 +4349,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canPickpocket() {
-    return !Limitmode.limitPickpocket()
+    return !KoLCharacter.getLimitMode().limitPickpocket()
         && (ascensionClass == AscensionClass.DISCO_BANDIT
             || ascensionClass == AscensionClass.ACCORDION_THIEF
             || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
