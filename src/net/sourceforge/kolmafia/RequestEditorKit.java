@@ -60,7 +60,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -1516,7 +1516,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     IslandDecorator.appendMissingGremlinTool(monster, monsterData);
 
-    if (KoLCharacter.getLimitmode() == Limitmode.SPELUNKY) {
+    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
       SpelunkyRequest.decorateSpelunkyMonster(monsterData);
     }
 

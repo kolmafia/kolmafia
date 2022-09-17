@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -1099,7 +1099,7 @@ public class GearChangeFrame extends GenericFrame {
         return false;
     }
 
-    return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip(item);
+    return KoLCharacter.getLimitMode() == LimitMode.NONE || EquipmentManager.canEquip(item);
   }
 
   private boolean filterWeapon(final AdventureResult weapon, final int slot) {
@@ -1211,7 +1211,8 @@ public class GearChangeFrame extends GenericFrame {
     }
 
     // Make sure we meet requirements in Limitmode, otherwise show (greyed out)
-    return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip(item.getName());
+    return KoLCharacter.getLimitMode() == LimitMode.NONE
+        || EquipmentManager.canEquip(item.getName());
   }
 
   private AdventureResult currentOrSelectedItem(final int slot) {
@@ -1247,7 +1248,8 @@ public class GearChangeFrame extends GenericFrame {
       List<AdventureResult> items = equipmentLists.get(slot);
       AdventureResult selectedItem = this.currentOrSelectedItem(slot);
       GearChangeFrame.updateEquipmentList(model, items, selectedItem);
-      this.equipment[slot].setEnabled(this.isEnabled && !Limitmode.limitSlot(slot));
+      this.equipment[slot].setEnabled(
+          this.isEnabled && !KoLCharacter.getLimitMode().limitSlot(slot));
 
       if (slot == EquipmentManager.WEAPON) {
         // Equipping 2 or more handed weapon: nothing in off-hand
@@ -1305,22 +1307,28 @@ public class GearChangeFrame extends GenericFrame {
 
     this.updateFamiliarList(this.familiars, this.validFamiliars(currentFamiliar), selectedFamiliar);
     this.equipment[EquipmentManager.FAMILIAR].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
     this.updateFamiliarList(
         this.crownFamiliars,
         this.carriableFamiliars(currentFamiliar, bjornedFamiliar),
         selectedThroneFamiliar);
     this.equipment[EquipmentManager.CROWNOFTHRONES].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
     this.updateFamiliarList(
         this.bjornFamiliars,
         this.carriableFamiliars(currentFamiliar, enthronedFamiliar),
         selectedBjornFamiliar);
     this.equipment[EquipmentManager.BUDDYBJORN].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
 
-    this.outfitSelect.setEnabled(this.isEnabled && !Limitmode.limitOutfits());
-    this.customSelect.setEnabled(this.isEnabled && !Limitmode.limitOutfits());
+    this.outfitSelect.setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitOutfits());
+    this.customSelect.setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitOutfits());
   }
 
   private List<FamiliarData> validFamiliars(final FamiliarData currentFamiliar) {

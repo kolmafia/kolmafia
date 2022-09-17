@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -384,7 +385,7 @@ public abstract class MoodManager {
     }
 
     // If in limitmode, eg. Spelunky, do not run moods
-    if (KoLCharacter.getLimitmode() != null) {
+    if (KoLCharacter.getLimitMode() != LimitMode.NONE) {
       return;
     }
 

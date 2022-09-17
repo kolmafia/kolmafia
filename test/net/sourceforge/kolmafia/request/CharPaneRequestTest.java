@@ -6,10 +6,13 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,6 +35,16 @@ class CharPaneRequestTest {
       CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
       assertThat("snowsuit", isSetTo("hat"));
     }
+  }
+
+  @Test
+  void parseApiParsesLimitModeNone() {
+    var json = ApiRequest.getJSON(html("request/test_api_status.json"), "testing");
+    assertThat(json, notNullValue());
+
+    CharPaneRequest.parseStatus(json);
+
+    assertThat(KoLCharacter.getLimitMode(), is(LimitMode.NONE));
   }
 
   @Nested

@@ -188,7 +188,7 @@ public class AdventureDatabase {
           RequestLogger.printLine("Adventure area \"" + name + "\" is missing environment data");
         }
 
-        if (AdventureDatabase.PARENT_ZONES.get(zone) == null) {
+        if (AdventureDatabase.getParentZone(zone) == null) {
           RequestLogger.printLine(
               "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"");
           continue;
@@ -565,6 +565,26 @@ public class AdventureDatabase {
 
   public static String getZone(final String location) {
     return zoneLookup.get(location);
+  }
+
+  public static String getRootZone(final String zoneName) {
+    return getRootZone(zoneName, List.of());
+  }
+
+  public static String getRootZone(String zoneName, final List<String> stopAtZones) {
+    while (true) {
+      if (stopAtZones.contains(zoneName)) {
+        return zoneName;
+      }
+
+      String parent = getParentZone(zoneName);
+
+      if (parent == null || parent.equals(zoneName)) {
+        return zoneName;
+      }
+
+      zoneName = parent;
+    }
   }
 
   public static String getParentZone(final String zone) {

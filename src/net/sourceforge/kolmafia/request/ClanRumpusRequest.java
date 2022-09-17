@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanRumpusRequest extends GenericRequest {
@@ -221,7 +220,7 @@ public class ClanRumpusRequest extends GenericRequest {
   @Override
   public void run() {
     // Sometimes can't access in Limitmode
-    if (Limitmode.limitClan()) {
+    if (KoLCharacter.getLimitMode().limitClan()) {
       return;
     }
 
@@ -505,7 +504,7 @@ public class ClanRumpusRequest extends GenericRequest {
 
   public static void getBreakfast() {
     // Sometimes can't access in Limitmode
-    if (Limitmode.limitClan()) {
+    if (KoLCharacter.getLimitMode().limitClan()) {
       return;
     }
 
