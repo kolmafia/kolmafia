@@ -268,7 +268,7 @@ public class Value implements TypedNode, Comparable<Value> {
       return v1.compareTo(v2);
     }
 
-    if (this.isStringLike() || o.isStringLike()) {
+    if (this.isStringLike() && o.isStringLike()) {
       return ignoreCase
           ? this.toString().compareToIgnoreCase(o.toString())
           : this.toString().compareTo(o.toString());
