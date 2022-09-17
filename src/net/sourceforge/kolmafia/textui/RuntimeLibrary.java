@@ -1689,7 +1689,7 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("have_familiar", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.FAMILIAR_TYPE};
-    functions.add(new LibraryFunction("own_familiar", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(new LibraryFunction("in_terrarium", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.FAMILIAR_TYPE};
     functions.add(new LibraryFunction("use_familiar", DataTypes.BOOLEAN_TYPE, params));
@@ -6804,7 +6804,7 @@ public abstract class RuntimeLibrary {
         : DataTypes.makeBooleanValue(KoLCharacter.usableFamiliar(familiarId) != null);
   }
 
-  public static Value own_familiar(ScriptRuntime controller, final Value familiar) {
+  public static Value in_terrarium(ScriptRuntime controller, final Value familiar) {
     int familiarId = (int) familiar.intValue();
     return familiarId == -1
         ? DataTypes.FALSE_VALUE
