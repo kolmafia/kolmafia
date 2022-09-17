@@ -43,7 +43,7 @@ public class OceanManager {
 
     @Override
     public int hashCode() {
-      return (x - 1) * 100 * (y - 1);
+      return (x - 1) * 100 + (y - 1);
     }
 
     @Override
