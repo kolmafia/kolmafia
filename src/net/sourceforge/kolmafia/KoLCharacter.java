@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,7 +12,6 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -210,10 +208,12 @@ public abstract class KoLCharacter {
   // Familiar data
 
   // the only usage of this as a LockableListModel is in FamiliarTrainingPane, so filter to usable
-  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>(element -> {
-    var elt = (FamiliarData) element;
-    return KoLCharacter.isUsable(elt);
-  });
+  public static final SortedListModel<FamiliarData> familiars =
+      new SortedListModel<>(
+          element -> {
+            var elt = (FamiliarData) element;
+            return KoLCharacter.isUsable(elt);
+          });
   public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
   public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
   public static String currentFamiliarImage = null;
