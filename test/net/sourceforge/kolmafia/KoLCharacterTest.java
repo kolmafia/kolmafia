@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +17,6 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -308,16 +306,6 @@ public class KoLCharacterTest {
 
     try (cleanups) {
       assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
-    }
-  }
-
-  @Test
-  public void setLimitMode0SetsToNone() {
-    var cleanups = new Cleanups(withLimitMode(LimitMode.BATMAN));
-
-    try (cleanups) {
-      KoLCharacter.setLimitMode("0");
-      assertThat(KoLCharacter.getLimitMode(), is(LimitMode.NONE));
     }
   }
 }
