@@ -341,7 +341,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("choice.php")) {
       RequestEditorKit.fixTavernCellar(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
-      RequestEditorKit.addChoiceSpoilers(location, buffer);
+      RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
       RequestEditorKit.addBarrelSounds(buffer);
     } else if (location.startsWith("clan_hobopolis.php")) {
       HobopolisDecorator.decorate(location, buffer);
@@ -1819,7 +1819,8 @@ public class RequestEditorKit extends HTMLEditorKit {
     m.appendTail(buffer);
   }
 
-  private static void addChoiceSpoilers(final String location, final StringBuffer buffer) {
+  private static void addChoiceSpoilers(
+      final String location, final StringBuffer buffer, final boolean addComplexFeatures) {
     if (!Preferences.getBoolean("relayShowSpoilers")) {
       return;
     }
@@ -1834,7 +1835,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Do any choice-specific decorations
-    ChoiceAdventures.decorateChoice(choice, buffer);
+    ChoiceAdventures.decorateChoice(choice, buffer, addComplexFeatures);
 
     String text = buffer.toString();
     Matcher matcher = FORM_PATTERN.matcher(text);
