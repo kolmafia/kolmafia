@@ -77,7 +77,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public static String lastLocationName = null;
   public static String lastLocationURL = null;
 
-  private boolean isValidAdventure = false;
   private boolean hasWanderers = false;
   private final String zone, parentZone, rootZone;
   private final String adventureId, formSource, adventureName, environment;
@@ -368,11 +367,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // access to (some of) the features, if we didn't see you use the item which
   // granted daily access, we can usually visit a map area and take a look.
   //
-  // this.isValidAdventure will be false if the only way to visit an area is to
-  // use a (possibly expensive) day pass - which you might not even own
+  // This returns false if the only way to visit an area is to use a (possibly
+  // expensive) day pass - which you might not even own
 
   private boolean validate0() {
-    return (this.isValidAdventure = this.preValidateAdventure());
+    return this.preValidateAdventure();
   }
 
   // Validation part 1:
@@ -383,11 +382,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // an effect. After we've given that script a chance to run, part 2 of
   // validation might be able to do some of those things anyway.
   //
-  // this.isValidAdventure will be false if there is nothing you can do
-  // to go to this location at this time, or true, otherwise
+  // This returns false if there is nothing you can do to go to this location
+  // at this time, or true, otherwise
 
   private boolean validate1() {
-    return (this.isValidAdventure = this.canAdventure());
+    return this.canAdventure();
   }
 
   // Validation part 2:
@@ -397,10 +396,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   //
   // If it didn't do what we can here.
   //
-  // If we can't, log error and set this.isValidAdventure to false.
+  // If we can't, log error and return false.
 
   private boolean validate2() {
-    return (this.isValidAdventure = this.prepareForAdventure());
+    return this.prepareForAdventure();
   }
 
   // AdventureResults used during validation
