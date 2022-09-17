@@ -65,7 +65,8 @@ public class OceanManager {
     RAINBOW_SAND("Rainbow Sand"),
     ALTAR("Small Tropical Island"),
     SPHERE("Power Sphere"),
-    PLINTH("Plinth");
+    PLINTH("Plinth"),
+    MAINLAND("Mainland");
 
     String desc;
     Set<Point> locations = new HashSet<>();
@@ -202,6 +203,142 @@ public class OceanManager {
     Destination.SPHERE.add(86, 40);
 
     Destination.PLINTH.add(63, 29);
+
+    // Mainland coordinates from:
+    //
+    // https://kol.coldfront.net/thekolwiki/index.php/File:BootyMap.gif
+
+    // Destination.MAINLAND.add(11, 11);
+    Destination.MAINLAND.add(11, 12);
+    Destination.MAINLAND.add(11, 13);
+    Destination.MAINLAND.add(11, 14);
+    Destination.MAINLAND.add(11, 15);
+    // Destination.MAINLAND.add(11, 16);
+    Destination.MAINLAND.add(11, 17);
+    Destination.MAINLAND.add(11, 18);
+    Destination.MAINLAND.add(11, 19);
+    Destination.MAINLAND.add(11, 20);
+    // Destination.MAINLAND.add(11, 21);
+
+    Destination.MAINLAND.add(12, 11);
+    Destination.MAINLAND.add(12, 12);
+    Destination.MAINLAND.add(12, 13);
+    Destination.MAINLAND.add(12, 14);
+    Destination.MAINLAND.add(12, 15);
+    Destination.MAINLAND.add(12, 16);
+    Destination.MAINLAND.add(12, 17);
+    Destination.MAINLAND.add(12, 18);
+    Destination.MAINLAND.add(12, 19);
+    Destination.MAINLAND.add(12, 20);
+    Destination.MAINLAND.add(12, 21);
+
+    Destination.MAINLAND.add(13, 11);
+    Destination.MAINLAND.add(13, 12);
+    Destination.MAINLAND.add(13, 13);
+    Destination.MAINLAND.add(13, 14);
+    Destination.MAINLAND.add(13, 15);
+    Destination.MAINLAND.add(13, 16);
+    Destination.MAINLAND.add(13, 17);
+    Destination.MAINLAND.add(13, 18);
+    Destination.MAINLAND.add(13, 19);
+    Destination.MAINLAND.add(13, 20);
+    Destination.MAINLAND.add(13, 21);
+
+    Destination.MAINLAND.add(14, 11);
+    Destination.MAINLAND.add(14, 12);
+    Destination.MAINLAND.add(14, 13);
+    Destination.MAINLAND.add(14, 14);
+    Destination.MAINLAND.add(14, 15);
+    Destination.MAINLAND.add(14, 16);
+    Destination.MAINLAND.add(14, 17);
+    Destination.MAINLAND.add(14, 18);
+    Destination.MAINLAND.add(14, 19);
+    Destination.MAINLAND.add(14, 20);
+    Destination.MAINLAND.add(14, 21);
+
+    // Destination.MAINLAND.add(15, 11);
+    Destination.MAINLAND.add(15, 12);
+    Destination.MAINLAND.add(15, 13);
+    Destination.MAINLAND.add(15, 14);
+    Destination.MAINLAND.add(15, 15);
+    Destination.MAINLAND.add(15, 16);
+    Destination.MAINLAND.add(15, 17);
+    Destination.MAINLAND.add(15, 18);
+    Destination.MAINLAND.add(15, 19);
+    Destination.MAINLAND.add(15, 20);
+    Destination.MAINLAND.add(15, 21);
+
+    // Destination.MAINLAND.add(16, 11);
+    Destination.MAINLAND.add(16, 12);
+    Destination.MAINLAND.add(16, 13);
+    Destination.MAINLAND.add(16, 14);
+    Destination.MAINLAND.add(16, 15);
+    Destination.MAINLAND.add(16, 16);
+    Destination.MAINLAND.add(16, 17);
+    Destination.MAINLAND.add(16, 18);
+    Destination.MAINLAND.add(16, 19);
+    Destination.MAINLAND.add(16, 20);
+    Destination.MAINLAND.add(16, 21);
+
+    Destination.MAINLAND.add(17, 11);
+    Destination.MAINLAND.add(17, 12);
+    Destination.MAINLAND.add(17, 13);
+    Destination.MAINLAND.add(17, 14);
+    Destination.MAINLAND.add(17, 15);
+    Destination.MAINLAND.add(17, 16);
+    Destination.MAINLAND.add(17, 17);
+    Destination.MAINLAND.add(17, 18);
+    Destination.MAINLAND.add(17, 19);
+    Destination.MAINLAND.add(17, 20);
+    // Destination.MAINLAND.add(17, 21);
+
+    Destination.MAINLAND.add(18, 11);
+    Destination.MAINLAND.add(18, 12);
+    Destination.MAINLAND.add(18, 13);
+    Destination.MAINLAND.add(18, 14);
+    Destination.MAINLAND.add(18, 15);
+    Destination.MAINLAND.add(18, 16);
+    Destination.MAINLAND.add(18, 17);
+    // Destination.MAINLAND.add(18, 18);
+    // Destination.MAINLAND.add(18, 19);
+    // Destination.MAINLAND.add(18, 20);
+    // Destination.MAINLAND.add(18, 21);
+
+    Destination.MAINLAND.add(19, 11);
+    Destination.MAINLAND.add(19, 12);
+    Destination.MAINLAND.add(19, 13);
+    Destination.MAINLAND.add(19, 14);
+    Destination.MAINLAND.add(19, 15);
+    Destination.MAINLAND.add(19, 16);
+    // Destination.MAINLAND.add(19, 17);
+    // Destination.MAINLAND.add(19, 18);
+    Destination.MAINLAND.add(19, 19);
+    Destination.MAINLAND.add(19, 20);
+    // Destination.MAINLAND.add(19, 21);
+
+    Destination.MAINLAND.add(20, 11);
+    Destination.MAINLAND.add(20, 12);
+    Destination.MAINLAND.add(20, 13);
+    Destination.MAINLAND.add(20, 14);
+    Destination.MAINLAND.add(20, 15);
+    Destination.MAINLAND.add(20, 16);
+    // Destination.MAINLAND.add(20, 17);
+    Destination.MAINLAND.add(20, 18);
+    Destination.MAINLAND.add(20, 19);
+    Destination.MAINLAND.add(20, 20);
+    Destination.MAINLAND.add(20, 21);
+
+    // Destination.MAINLAND.add(21, 11);
+    Destination.MAINLAND.add(21, 12);
+    Destination.MAINLAND.add(21, 13);
+    Destination.MAINLAND.add(21, 14);
+    Destination.MAINLAND.add(21, 15);
+    // Destination.MAINLAND.add(21, 16);
+    // Destination.MAINLAND.add(21, 17);
+    // Destination.MAINLAND.add(21, 18);
+    Destination.MAINLAND.add(21, 19);
+    Destination.MAINLAND.add(21, 20);
+    // Destination.MAINLAND.add(21, 21);
   }
 
   // Automation when GenericRequest gets a redirect to ocean.php
