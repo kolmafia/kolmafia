@@ -6323,10 +6323,14 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static final void decorateChoice(final int choice, final StringBuffer buffer) {
+  public static final void decorateChoice(
+      final int choice, final StringBuffer buffer, final boolean addComplexFeatures) {
     if (choice >= 48 && choice <= 70) {
       // Add "Go To Goal" button for the Violet Fog
       VioletFogManager.addGoalButton(buffer);
+      if (addComplexFeatures) {
+        VioletFogManager.addGraph(buffer);
+      }
       return;
     }
 
