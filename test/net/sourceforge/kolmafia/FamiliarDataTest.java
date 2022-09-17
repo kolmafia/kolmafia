@@ -5,12 +5,15 @@ import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -183,6 +186,40 @@ public class FamiliarDataTest {
       // This experience should be ignored
       fam.setExperience(69);
       assertThat(fam.getWeight(), equalTo(weight));
+    }
+  }
+
+  @Nested
+  class Terrarium {
+    @BeforeAll
+    public static void beforeAll() {
+      // Other tests add familiars to the character
+      // Start clean.
+      KoLCharacter.reset("");
+      KoLCharacter.reset("familiar data test");
+    }
+
+    @AfterEach
+    public void afterEach() {
+      // We're going to register a lot of familiars
+      // Reset the character to eliminate leaks to other tests
+      KoLCharacter.reset("");
+      KoLCharacter.reset("familiar data test");
+    }
+
+    @Test
+    public void registersExpiredFamiliars() {
+      var cleanups =
+          new Cleanups(
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Pet Rock"));
+
+      try (cleanups) {
+        FamiliarData.registerFamiliarData(html("request/test_terrarium_standard.html"));
+
+        assertTrue(KoLCharacter.ownedFamiliar(FamiliarPool.PET_ROCK).isPresent());
+        assertThat(KoLCharacter.usableFamiliar(FamiliarPool.PET_ROCK), nullValue());
+      }
     }
   }
 
