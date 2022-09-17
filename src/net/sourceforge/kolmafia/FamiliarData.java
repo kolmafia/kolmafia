@@ -284,6 +284,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
+    // Only undead familiars can be equipped in Zombiecore
+    if (KoLCharacter.inZombiecore() && !this.isUndead()) {
+      return false;
+    }
+
     // Familiars are only allowed with the right hat in You, Robot
     if (KoLCharacter.inRobocore() && !YouRobotManager.canUseFamiliars()) {
       return false;
