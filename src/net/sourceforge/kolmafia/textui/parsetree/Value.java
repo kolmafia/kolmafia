@@ -268,6 +268,15 @@ public class Value implements TypedNode, Comparable<Value> {
       return v1.compareTo(v2);
     }
 
+    // Prefer to order monsters by ID. If they both have id 0, then fall back to string comparison.
+    if (this.getType().equals(DataTypes.MONSTER_TYPE)
+        && o.getType().equals(DataTypes.MONSTER_TYPE)) {
+      int cmp = Long.compare(this.contentLong, o.contentLong);
+      if (cmp != 0 || this.contentLong != 0) {
+        return cmp;
+      }
+    }
+
     if (this.isStringLike() || o.isStringLike()) {
       return ignoreCase
           ? this.toString().compareToIgnoreCase(o.toString())
