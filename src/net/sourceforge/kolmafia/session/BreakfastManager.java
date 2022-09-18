@@ -800,7 +800,7 @@ public class BreakfastManager {
       return;
     }
 
-    FamiliarData jellyfish = KoLCharacter.findFamiliar(FamiliarPool.SPACE_JELLYFISH);
+    FamiliarData jellyfish = KoLCharacter.usableFamiliar(FamiliarPool.SPACE_JELLYFISH);
     if (jellyfish == null) {
       return;
     }

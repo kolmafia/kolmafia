@@ -4003,7 +4003,7 @@ public class FightRequest extends GenericRequest {
 
           Matcher otherFamiliarExp = SHORT_ORDER_EXP_PATTERN.matcher(responseText);
           if (otherFamiliarExp.find()) {
-            FamiliarData fam = KoLCharacter.findFamiliar(otherFamiliarExp.group(1));
+            FamiliarData fam = KoLCharacter.usableFamiliar(otherFamiliarExp.group(1));
 
             if (fam != null) {
               int exp = StringUtilities.parseInt(otherFamiliarExp.group(2));

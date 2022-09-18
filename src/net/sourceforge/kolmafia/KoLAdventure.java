@@ -1697,7 +1697,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Deep Machine Tunnels")) {
       // The Deep Machine Tunnels
       // Deep Machine Tunnels snowglobe gives 57 turns of Inside The Snowglobe
-      return KoLCharacter.hasFamiliar(FamiliarPool.MACHINE_ELF)
+      return KoLCharacter.canUseFamiliar(FamiliarPool.MACHINE_ELF)
           || KoLConstants.activeEffects.contains(INSIDE_THE_SNOWGLOBE)
           || InventoryManager.hasItem(item);
     }
@@ -2316,7 +2316,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // If you don't have the effect but do have a Machine Elf, prefer that.
-      FamiliarData machineElf = KoLCharacter.findFamiliar(FamiliarPool.MACHINE_ELF);
+      FamiliarData machineElf = KoLCharacter.usableFamiliar(FamiliarPool.MACHINE_ELF);
       if (machineElf != null) {
         // If the Machine Elf is at your side, good to go.
         if (KoLCharacter.getFamiliar().getId() == FamiliarPool.MACHINE_ELF) {

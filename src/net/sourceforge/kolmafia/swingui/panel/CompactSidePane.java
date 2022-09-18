@@ -357,7 +357,7 @@ public class CompactSidePane extends JPanel implements Runnable {
           customMenu[i] = new JMenu(pref.split("\\|", 2)[0]);
         }
       }
-      for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+      for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
         if (fam == FamiliarData.NO_FAMILIAR) {
           continue; // no menu item for this one
         }

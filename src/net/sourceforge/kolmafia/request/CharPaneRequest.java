@@ -1113,7 +1113,7 @@ public class CharPaneRequest extends GenericRequest {
         int id = FamiliarDatabase.getFamiliarByImageLocation(PokeFamMatcher.group(1));
         String name = PokeFamMatcher.group(2);
         int level = StringUtilities.parseInt(PokeFamMatcher.group(3));
-        FamiliarData familiar = KoLCharacter.findFamiliar(id);
+        FamiliarData familiar = KoLCharacter.usableFamiliar(id);
         if (familiar == null) {
           // Add new familiar to list
           familiar = new FamiliarData(id, name, level);
@@ -1452,7 +1452,7 @@ public class CharPaneRequest extends GenericRequest {
     Matcher mediumMatcher = pattern.matcher(responseText);
     if (mediumMatcher.find()) {
       int aura = StringUtilities.parseInt(mediumMatcher.group(1));
-      FamiliarData fam = KoLCharacter.findFamiliar(FamiliarPool.HAPPY_MEDIUM);
+      FamiliarData fam = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
       if (fam == null) {
         // Another familiar has turned into a Happy Medium
         return;
@@ -1701,7 +1701,7 @@ public class CharPaneRequest extends GenericRequest {
 
       if (famId == FamiliarPool.HAPPY_MEDIUM) {
         int aura = StringUtilities.parseInt(image.substring(7, 8));
-        FamiliarData medium = KoLCharacter.findFamiliar(FamiliarPool.HAPPY_MEDIUM);
+        FamiliarData medium = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
         medium.setCharges(aura);
       }
     }

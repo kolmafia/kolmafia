@@ -321,7 +321,7 @@ public class TestCommand extends AbstractCommand {
       if (split.length >= 2) {
         int index = parameters.indexOf(" ");
         String race = parameters.substring(index + 1).trim();
-        familiar = KoLCharacter.findFamiliar(race);
+        familiar = KoLCharacter.usableFamiliar(race);
       }
       if (familiar == null || familiar == FamiliarData.NO_FAMILIAR) {
         return;
