@@ -970,18 +970,13 @@ public class ItemFinderTest {
 
   @Test
   public void itShouldHandleCandyHearts() {
-    List<String> nameList = new ArrayList<>();
+    List<String> nameList = ItemDatabase.getCanonicalNamesAsList();
     String item;
-    nameList.add("red candy heart");
-    nameList.add("orange candy heart");
-    nameList.add("yellow candy heart");
-    nameList.add("green candy heart");
-    nameList.add("blue candy heart");
-    nameList.add("lavender candy heart");
     item = ItemFinder.getFirstMatchingItemName(nameList, "blue candy heart");
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
     assertEquals("", item);
+    nameList = ItemDatabase.getCanonicalNamesAsList();
     item = ItemFinder.getFirstMatchingItemName(nameList, "orange candy heart");
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
