@@ -348,7 +348,7 @@ public class NPCStoreDatabase {
           return InventoryManager.hasItem(ItemPool.FISHING_POLE);
         case ItemPool.TRICK_TOT_UNICORN:
         case ItemPool.TRICK_TOT_CANDY:
-          return KoLCharacter.findFamiliar(FamiliarPool.TRICK_TOT) != null;
+          return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
       }
     } else if (storeId.equals("town_giftshop.php")) {
       // Gift Shop
@@ -537,7 +537,7 @@ public class NPCStoreDatabase {
         return false;
       }
       if (itemId == ItemPool.TRICK_TOT_CANDY || itemId == ItemPool.TRICK_TOT_EYEBALL) {
-        return KoLCharacter.findFamiliar(FamiliarPool.TRICK_TOT) != null;
+        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
       }
     } else if (storeId.equals("vault2")) {
 
@@ -545,14 +545,14 @@ public class NPCStoreDatabase {
         return false;
       }
       if (itemId == ItemPool.TRICK_TOT_KNIGHT || itemId == ItemPool.TRICK_TOT_ROBOT) {
-        return KoLCharacter.findFamiliar(FamiliarPool.TRICK_TOT) != null;
+        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
       }
     } else if (storeId.equals("vault3")) {
       if (!KoLCharacter.inNuclearAutumn() || Preferences.getInteger("falloutShelterLevel") < 7) {
         return false;
       }
       if (itemId == ItemPool.TRICK_TOT_LIBERTY || itemId == ItemPool.TRICK_TOT_UNICORN) {
-        return KoLCharacter.findFamiliar(FamiliarPool.TRICK_TOT) != null;
+        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
       }
     } else if (storeId.equals("wildfire")) {
       if (!KoLCharacter.inFirecore()) {

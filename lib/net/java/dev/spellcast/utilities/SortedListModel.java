@@ -54,6 +54,11 @@ public class SortedListModel<E>
 	{
 	}
 
+	public SortedListModel( final ListElementFilter f )
+	{
+		super(f);
+	}
+
 	/**
 	 * Please refer to {@link java.util.List#add(int,Object)} for more information regarding this function. Note that if
 	 * the position is invalid (ie: it does not result in a sorted property), the element will be successfully added,

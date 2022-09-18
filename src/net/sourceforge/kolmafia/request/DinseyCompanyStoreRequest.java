@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class DinseyCompanyStoreRequest extends CoinMasterRequest {
   public static final String master = "The Dinsey Company Store";
@@ -105,7 +105,7 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
         && !Preferences.getBoolean("stenchAirportAlways")) {
       return "You don't have access to Dinseylandfill";
     }
-    if (Limitmode.limitZone("Dinseylandfill")) {
+    if (KoLCharacter.getLimitMode().limitZone("Dinseylandfill")) {
       return "You cannot currently access Dinseylandfill";
     }
     return null;

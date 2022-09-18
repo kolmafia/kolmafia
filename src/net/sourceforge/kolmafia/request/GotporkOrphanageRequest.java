@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 
 public class GotporkOrphanageRequest extends CoinMasterRequest {
   public static final String master = "Gotpork Orphanage";
@@ -113,7 +113,7 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    if (KoLCharacter.getLimitmode() != Limitmode.BATMAN) {
+    if (KoLCharacter.getLimitMode() != LimitMode.BATMAN) {
       return "Only Batfellow can go to the Gotpork Orphanage.";
     }
     if (BatManager.currentBatZone() != BatManager.DOWNTOWN) {

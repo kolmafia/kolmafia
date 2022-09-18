@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -40,7 +41,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -927,19 +928,14 @@ public class GearChangeFrame extends GenericFrame {
     }
   }
 
-  private FamiliarData familiarCarryingEquipment(final int slot) {
-    switch (slot) {
-      case EquipmentManager.HAT:
-        return KoLCharacter.findFamiliar(FamiliarPool.HATRACK);
-      case EquipmentManager.PANTS:
-        return KoLCharacter.findFamiliar(FamiliarPool.SCARECROW);
-      case EquipmentManager.WEAPON:
-        return KoLCharacter.findFamiliar(FamiliarPool.HAND);
-      case EquipmentManager.OFFHAND:
-        return KoLCharacter.findFamiliar(FamiliarPool.LEFT_HAND);
-      default:
-        return null;
-    }
+  private Optional<FamiliarData> familiarCarryingEquipment(final int slot) {
+    return switch (slot) {
+      case EquipmentManager.HAT -> KoLCharacter.ownedFamiliar(FamiliarPool.HATRACK);
+      case EquipmentManager.PANTS -> KoLCharacter.ownedFamiliar(FamiliarPool.SCARECROW);
+      case EquipmentManager.WEAPON -> KoLCharacter.ownedFamiliar(FamiliarPool.HAND);
+      case EquipmentManager.OFFHAND -> KoLCharacter.ownedFamiliar(FamiliarPool.LEFT_HAND);
+      default -> Optional.empty();
+    };
   }
 
   private List<List<AdventureResult>> populateEquipmentLists() {
@@ -1030,9 +1026,9 @@ public class GearChangeFrame extends GenericFrame {
 
       // If a non-current familiar has an appropriate item, add it.
       if (slot != EquipmentManager.FAMILIAR) {
-        FamiliarData familiar = familiarCarryingEquipment(slot);
-        if (familiar != null && familiar != KoLCharacter.getFamiliar()) {
-          AdventureResult familiarItem = familiar.getItem();
+        var familiar = familiarCarryingEquipment(slot);
+        if (familiar.isPresent() && familiar.get() != KoLCharacter.getFamiliar()) {
+          AdventureResult familiarItem = familiar.get().getItem();
           if (!items.contains(familiarItem) && this.filterItem(familiarItem, slot)) {
             items.add(familiarItem);
           }
@@ -1043,7 +1039,7 @@ public class GearChangeFrame extends GenericFrame {
     // Add stealable familiar equipment
     if (myFamiliar != FamiliarData.NO_FAMILIAR) {
       List<AdventureResult> items = lists.get(EquipmentManager.FAMILIAR);
-      for (FamiliarData familiar : KoLCharacter.familiars) {
+      for (FamiliarData familiar : KoLCharacter.ownedFamiliars()) {
         if (familiar == myFamiliar) {
           continue;
         }
@@ -1099,7 +1095,7 @@ public class GearChangeFrame extends GenericFrame {
         return false;
     }
 
-    return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip(item);
+    return KoLCharacter.getLimitMode() == LimitMode.NONE || EquipmentManager.canEquip(item);
   }
 
   private boolean filterWeapon(final AdventureResult weapon, final int slot) {
@@ -1211,7 +1207,8 @@ public class GearChangeFrame extends GenericFrame {
     }
 
     // Make sure we meet requirements in Limitmode, otherwise show (greyed out)
-    return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip(item.getName());
+    return KoLCharacter.getLimitMode() == LimitMode.NONE
+        || EquipmentManager.canEquip(item.getName());
   }
 
   private AdventureResult currentOrSelectedItem(final int slot) {
@@ -1247,7 +1244,8 @@ public class GearChangeFrame extends GenericFrame {
       List<AdventureResult> items = equipmentLists.get(slot);
       AdventureResult selectedItem = this.currentOrSelectedItem(slot);
       GearChangeFrame.updateEquipmentList(model, items, selectedItem);
-      this.equipment[slot].setEnabled(this.isEnabled && !Limitmode.limitSlot(slot));
+      this.equipment[slot].setEnabled(
+          this.isEnabled && !KoLCharacter.getLimitMode().limitSlot(slot));
 
       if (slot == EquipmentManager.WEAPON) {
         // Equipping 2 or more handed weapon: nothing in off-hand
@@ -1305,28 +1303,34 @@ public class GearChangeFrame extends GenericFrame {
 
     this.updateFamiliarList(this.familiars, this.validFamiliars(currentFamiliar), selectedFamiliar);
     this.equipment[EquipmentManager.FAMILIAR].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
     this.updateFamiliarList(
         this.crownFamiliars,
         this.carriableFamiliars(currentFamiliar, bjornedFamiliar),
         selectedThroneFamiliar);
     this.equipment[EquipmentManager.CROWNOFTHRONES].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
     this.updateFamiliarList(
         this.bjornFamiliars,
         this.carriableFamiliars(currentFamiliar, enthronedFamiliar),
         selectedBjornFamiliar);
     this.equipment[EquipmentManager.BUDDYBJORN].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
 
-    this.outfitSelect.setEnabled(this.isEnabled && !Limitmode.limitOutfits());
-    this.customSelect.setEnabled(this.isEnabled && !Limitmode.limitOutfits());
+    this.outfitSelect.setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitOutfits());
+    this.customSelect.setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitOutfits());
   }
 
   private List<FamiliarData> validFamiliars(final FamiliarData currentFamiliar) {
     List<FamiliarData> familiars = new ArrayList<>();
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       // Only add it once
       if (familiars.contains(fam)) {
         continue;
@@ -1359,7 +1363,7 @@ public class GearChangeFrame extends GenericFrame {
       final FamiliarData exclude1, final FamiliarData exclude2) {
     List<FamiliarData> familiars = new ArrayList<>();
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       // Cannot carry a familiar if it is current familiar or is carried elsewhere
       if (fam == exclude1 || fam == exclude2) {
         continue;

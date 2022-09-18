@@ -2378,7 +2378,7 @@ public class ResultProcessor {
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ANGRY_JUNG_MAN) {
           Preferences.increment("_jungDrops", 1);
           Preferences.setInteger("jungCharge", 0);
-          KoLCharacter.findFamiliar(FamiliarPool.ANGRY_JUNG_MAN).setCharges(0);
+          KoLCharacter.usableFamiliar(FamiliarPool.ANGRY_JUNG_MAN).setCharges(0);
         }
         break;
 
@@ -2662,10 +2662,10 @@ public class ResultProcessor {
       case ItemPool.GRIMSTONE_MASK:
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
-              .equals(KoLCharacter.findFamiliar(FamiliarPool.GRIMSTONE_GOLEM))) {
+              .equals(KoLCharacter.usableFamiliar(FamiliarPool.GRIMSTONE_GOLEM))) {
             Preferences.increment("_grimstoneMaskDrops");
             Preferences.setInteger("grimstoneCharge", 0);
-            KoLCharacter.findFamiliar(FamiliarPool.GRIMSTONE_GOLEM).setCharges(0);
+            KoLCharacter.usableFamiliar(FamiliarPool.GRIMSTONE_GOLEM).setCharges(0);
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.GRIMSTONE_GOLEM
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.GRIMSTONE_GOLEM) {
             Preferences.increment("_grimstoneMaskDropsCrown");
@@ -2676,7 +2676,7 @@ public class ResultProcessor {
       case ItemPool.GRIM_FAIRY_TALE:
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
-              .equals(KoLCharacter.findFamiliar(FamiliarPool.GRIM_BROTHER))) {
+              .equals(KoLCharacter.usableFamiliar(FamiliarPool.GRIM_BROTHER))) {
             Preferences.increment("_grimFairyTaleDrops");
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.GRIM_BROTHER
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.GRIM_BROTHER) {
@@ -2689,7 +2689,7 @@ public class ResultProcessor {
       case ItemPool.MULLED_HOBO_WINE:
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
-              .equals(KoLCharacter.findFamiliar(FamiliarPool.GARBAGE_FIRE))) {
+              .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("garbageFireProgress", -1);
           }
@@ -2699,7 +2699,7 @@ public class ResultProcessor {
       case ItemPool.BURNING_NEWSPAPER:
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
-              .equals(KoLCharacter.findFamiliar(FamiliarPool.GARBAGE_FIRE))) {
+              .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("garbageFireProgress", -1);
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.GARBAGE_FIRE

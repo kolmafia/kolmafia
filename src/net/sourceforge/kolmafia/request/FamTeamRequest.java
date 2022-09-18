@@ -216,7 +216,7 @@ public class FamTeamRequest extends GenericRequest {
       // RequestLogger.printLine( "Process familiar " + name );
       FamTeamRequest.parsePokeTeamData(famtable, logit);
 
-      FamiliarData familiar = KoLCharacter.findFamiliar(id);
+      FamiliarData familiar = KoLCharacter.usableFamiliar(id);
       if (familiar == null) {
         // Add new familiar to list
         familiar = new FamiliarData(id, name, level);

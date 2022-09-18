@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 
 public class EdShopRequest extends CoinMasterRequest {
   public static final String master = "Everything Under the World";
@@ -94,7 +94,7 @@ public class EdShopRequest extends CoinMasterRequest {
     if (!KoLCharacter.isEd()) {
       return "Only Ed can come here.";
     }
-    if (KoLCharacter.getLimitmode() != Limitmode.ED) {
+    if (KoLCharacter.getLimitMode() != LimitMode.ED) {
       return "You must be in the Underworld to shop here.";
     }
     return null;

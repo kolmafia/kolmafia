@@ -38,7 +38,7 @@ public class BjornifyCommand extends AbstractCommand {
       return;
     }
 
-    List<FamiliarData> familiarList = KoLCharacter.getFamiliarList();
+    List<FamiliarData> familiarList = KoLCharacter.usableFamiliars();
 
     String[] familiars = new String[familiarList.size()];
     for (int i = 0; i < familiarList.size(); ++i) {

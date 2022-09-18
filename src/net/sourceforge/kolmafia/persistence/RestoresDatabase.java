@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -312,53 +311,40 @@ public class RestoresDatabase {
   }
 
   public static final Boolean restoreAvailable(final String name, final Boolean purchaseable) {
+    var limitMode = KoLCharacter.getLimitMode();
+
     String type = RestoresDatabase.getType(name);
 
-    if (type.equals("item")) {
-      int itemId = ItemDatabase.getItemId(name);
-      if (purchaseable) {
-        return (ItemDatabase.isTradeable(itemId)
-            || InventoryManager.getAccessibleCount(itemId) > 0);
+    return switch (type) {
+      case "item" -> {
+        int itemId = ItemDatabase.getItemId(name);
+        yield purchaseable
+            ? (ItemDatabase.isTradeable(itemId) || InventoryManager.getAccessibleCount(itemId) > 0)
+            : (InventoryManager.getAccessibleCount(itemId) > 0);
       }
-      return (InventoryManager.getAccessibleCount(itemId) > 0);
-    }
-    if (type.equals("skill")) {
-      return KoLCharacter.hasSkill(name);
-    }
-    if (type.equals("loc")) {
-      if (name.equals("A Relaxing Hot Tub")) {
-        return InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
+      case "skill" -> KoLCharacter.hasSkill(name);
+      case "loc" -> switch (name) {
+        case "A Relaxing Hot Tub" -> InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
             && (!KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated())
-            && !Limitmode.limitClan();
-      }
-      if (name.equals("April Shower")) {
-        return InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
+            && !limitMode.limitClan();
+        case "April Shower" -> InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) > 0
             && (!KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated())
             && StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")
-            && !Limitmode.limitClan();
-      }
-      if (name.equals("Campground")) {
-        return !Limitmode.limitCampground()
+            && !limitMode.limitClan();
+        case "Campground" -> !limitMode.limitCampground()
             && !KoLCharacter.isEd()
             && !KoLCharacter.inNuclearAutumn();
-      }
-      if (name.equals("Comfy Sofa")) {
-        return !Limitmode.limitClan();
-      }
-      if (name.contains("Doc Galaktik's")) {
-        return true;
-      }
-      if (name.equals("Free rests")) {
-        return KoLCharacter.freeRestsAvailable() > 0;
-      }
-      if (name.equals("Nunnery (Frat Warrior)")) {
-        return Preferences.getString("sidequestNunsCompleted").equals("fratboy");
-      }
-      if (name.equals("Nunnery (War Hippy)")) {
-        return Preferences.getString("sidequestNunsCompleted").equals("hippy");
-      }
-    }
-    return false;
+        case "Comfy Sofa" -> !limitMode.limitClan();
+        case "Doc Galaktik's" -> true;
+        case "Free rests" -> KoLCharacter.freeRestsAvailable() > 0;
+        case "Nunnery (Frat Warrior)" -> Preferences.getString("sidequestNunsCompleted")
+            .equals("fratboy");
+        case "Nunnery (War Hippy)" -> Preferences.getString("sidequestNunsCompleted")
+            .equals("hippy");
+        default -> false;
+      };
+      default -> false;
+    };
   }
 
   public static final String[][] getRestoreData(final String level) {

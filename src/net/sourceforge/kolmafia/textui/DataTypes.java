@@ -1020,7 +1020,7 @@ public class DataTypes {
 
       case TYPE_FAMILIAR:
         {
-          FamiliarData[] inputs = KoLCharacter.getFamiliarList().toArray(new FamiliarData[0]);
+          FamiliarData[] inputs = KoLCharacter.usableFamiliars().toArray(new FamiliarData[0]);
           FamiliarData initial = KoLCharacter.getFamiliar();
           FamiliarData value = InputFieldUtilities.input(message, inputs, initial);
           return value == null ? null : value.getRace();
