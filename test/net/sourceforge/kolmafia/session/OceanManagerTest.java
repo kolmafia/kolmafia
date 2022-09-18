@@ -15,6 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -31,11 +32,15 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.OceanManager.Destination;
+import net.sourceforge.kolmafia.session.OceanManager.Point;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class OceanManagerTest {
   @BeforeAll
@@ -56,100 +61,130 @@ public class OceanManagerTest {
     Preferences.saveSettingsToFile = true;
   }
 
-  @Test
-  public void canGetPowerSphere() {
-    var builder = new FakeHttpClientBuilder();
-    var cleanups =
-        new Cleanups(withHttpClientBuilder(builder), withMeat(977), withHandlingChoice(189));
-    try (cleanups) {
-      builder.client.addResponse(302, Map.of("location", List.of("ocean.php?intro=1")), "");
-      builder.client.addResponse(200, html("request/test_ocean_intro.html"));
-      builder.client.addResponse(200, ""); // api.php
-      builder.client.addResponse(200, html("request/test_ocean_sphere.html"));
+  @Nested
+  class NotAutomated {
+    @Test
+    public void canGetPowerSphere() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withMeat(977), withHandlingChoice(189));
+      try (cleanups) {
+        builder.client.addResponse(302, Map.of("location", List.of("ocean.php?intro=1")), "");
+        builder.client.addResponse(200, html("request/test_ocean_intro.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_ocean_sphere.html"));
 
-      String urlString = "choice.php?pwd&whichchoice=189&option=1";
-      var choice = new GenericRequest(urlString);
-      choice.run();
+        String urlString = "choice.php?pwd&whichchoice=189&option=1";
+        var choice = new GenericRequest(urlString);
+        choice.run();
 
-      // Validate sensible request logging
-      String expected = "Encounter: Set an Open Course for the Virgin Booty";
-      assertEquals(RequestLogger.previousUpdateString, expected);
+        // Validate sensible request logging
+        String expected = "Encounter: Set an Open Course for the Virgin Booty";
+        assertEquals(RequestLogger.previousUpdateString, expected);
 
-      // Redirects to ocean.php
-      // No longer in a choice
-      assertFalse(ChoiceManager.handlingChoice);
-      // We paid for the privilege
-      assertEquals(0, KoLCharacter.getAvailableMeat());
+        // Redirects to ocean.php
+        // No longer in a choice
+        assertFalse(ChoiceManager.handlingChoice);
+        // We paid for the privilege
+        assertEquals(0, KoLCharacter.getAvailableMeat());
 
-      // Validate sensible request logging
-      urlString = "ocean.php?lon=48&lat=47";
-      expected = "Setting sail for (48,47) = Power Sphere";
-      assertTrue(OceanManager.registerRequest(urlString));
-      assertEquals(expected, RequestLogger.previousUpdateString);
+        // Validate sensible request logging
+        urlString = "ocean.php?lon=48&lat=47";
+        expected = "Setting sail for (48,47) = Power Sphere";
+        assertTrue(OceanManager.registerRequest(urlString));
+        assertEquals(expected, RequestLogger.previousUpdateString);
 
-      // Actually run the request
-      var sail = new GenericRequest(urlString);
-      sail.run();
-      assertTrue(InventoryManager.hasItem(ItemPool.POWER_SPHERE));
+        // Actually run the request
+        var sail = new GenericRequest(urlString);
+        sail.run();
+        assertTrue(InventoryManager.hasItem(ItemPool.POWER_SPHERE));
 
-      var requests = builder.client.getRequests();
-      assertThat(requests, hasSize(4));
-      assertPostRequest(requests.get(0), "/choice.php", "whichchoice=189&option=1");
-      assertGetRequest(requests.get(1), "/ocean.php", "intro=1");
-      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(3), "/ocean.php", "lon=48&lat=47");
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(4));
+        assertPostRequest(requests.get(0), "/choice.php", "whichchoice=189&option=1");
+        assertGetRequest(requests.get(1), "/ocean.php", "intro=1");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/ocean.php", "lon=48&lat=47");
+      }
+    }
+
+    @Test
+    public void canGetTrapezoid() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withMeat(977),
+              withHandlingChoice(189),
+              withItem(ItemPool.POWER_SPHERE));
+      try (cleanups) {
+        builder.client.addResponse(302, Map.of("location", List.of("ocean.php?intro=1")), "");
+        builder.client.addResponse(200, html("request/test_ocean_intro.html"));
+        builder.client.addResponse(200, ""); // api.php
+        builder.client.addResponse(200, html("request/test_ocean_plinth.html"));
+
+        String urlString = "choice.php?pwd&whichchoice=189&option=1";
+        var choice = new GenericRequest(urlString);
+        choice.run();
+
+        // Validate sensible request logging
+        String expected = "Encounter: Set an Open Course for the Virgin Booty";
+        assertEquals(RequestLogger.previousUpdateString, expected);
+
+        // Redirects to ocean.php
+        // No longer in a choice
+        assertFalse(ChoiceManager.handlingChoice);
+        // We paid for the privilege
+        assertEquals(0, KoLCharacter.getAvailableMeat());
+
+        // Validate sensible request logging
+        urlString = "ocean.php?lon=48&lat=47";
+        expected = "Setting sail for (48,47) = Power Sphere";
+        assertTrue(OceanManager.registerRequest(urlString));
+        assertEquals(expected, RequestLogger.previousUpdateString);
+
+        // Actually run the request
+        var sail = new GenericRequest(urlString);
+        sail.run();
+
+        // We exchanged our power sphere for a trapezoid
+        assertFalse(InventoryManager.hasItem(ItemPool.POWER_SPHERE));
+        assertTrue(InventoryManager.hasItem(ItemPool.TRAPEZOID));
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(4));
+        assertPostRequest(requests.get(0), "/choice.php", "whichchoice=189&option=1");
+        assertGetRequest(requests.get(1), "/ocean.php", "intro=1");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/ocean.php", "lon=48&lat=47");
+      }
     }
   }
 
-  @Test
-  public void canGetTrapezoid() {
-    var builder = new FakeHttpClientBuilder();
-    var cleanups =
-        new Cleanups(
-            withHttpClientBuilder(builder),
-            withMeat(977),
-            withHandlingChoice(189),
-            withItem(ItemPool.POWER_SPHERE));
-    try (cleanups) {
-      builder.client.addResponse(302, Map.of("location", List.of("ocean.php?intro=1")), "");
-      builder.client.addResponse(200, html("request/test_ocean_intro.html"));
-      builder.client.addResponse(200, ""); // api.php
-      builder.client.addResponse(200, html("request/test_ocean_plinth.html"));
+  @Nested
+  class OceanDestinations {
+    @Test
+    public void destinationSetsAreValid() {
+      assertEquals(15, OceanManager.muscleDestinations.size());
+      assertEquals(15, OceanManager.mysticalityDestinations.size());
+      assertEquals(15, OceanManager.moxieDestinations.size());
+      assertEquals(11, OceanManager.sandDestinations.size());
+      assertEquals(43, OceanManager.altarDestinations.size());
+      assertEquals(3, OceanManager.sphereDestinations.size());
+      assertEquals(1, OceanManager.plinthDestinations.size());
+      assertEquals(102, Destination.MAINLAND.getLocations().size());
+    }
 
-      String urlString = "choice.php?pwd&whichchoice=189&option=1";
-      var choice = new GenericRequest(urlString);
-      choice.run();
-
-      // Validate sensible request logging
-      String expected = "Encounter: Set an Open Course for the Virgin Booty";
-      assertEquals(RequestLogger.previousUpdateString, expected);
-
-      // Redirects to ocean.php
-      // No longer in a choice
-      assertFalse(ChoiceManager.handlingChoice);
-      // We paid for the privilege
-      assertEquals(0, KoLCharacter.getAvailableMeat());
-
-      // Validate sensible request logging
-      urlString = "ocean.php?lon=48&lat=47";
-      expected = "Setting sail for (48,47) = Power Sphere";
-      assertTrue(OceanManager.registerRequest(urlString));
-      assertEquals(expected, RequestLogger.previousUpdateString);
-
-      // Actually run the request
-      var sail = new GenericRequest(urlString);
-      sail.run();
-
-      // We exchanged our power sphere for a trapezoid
-      assertFalse(InventoryManager.hasItem(ItemPool.POWER_SPHERE));
-      assertTrue(InventoryManager.hasItem(ItemPool.TRAPEZOID));
-
-      var requests = builder.client.getRequests();
-      assertThat(requests, hasSize(4));
-      assertPostRequest(requests.get(0), "/choice.php", "whichchoice=189&option=1");
-      assertGetRequest(requests.get(1), "/ocean.php", "intro=1");
-      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(3), "/ocean.php", "lon=48&lat=47");
+    @ParameterizedTest
+    @ValueSource(strings = {"muscle", "mysticality", "moxie", "sand", "altar", "sphere", "plinth"})
+    public void canChooseDestinationFromProperty(String keyword) {
+      var cleanups = new Cleanups(withProperty("oceanDestination", keyword));
+      try (cleanups) {
+        List<Point> destinations = OceanManager.getDestinations(keyword);
+        Point destination = OceanManager.getDestination();
+        assertNotNull(destination);
+        assertTrue(destinations.contains(destination));
+      }
     }
   }
 
@@ -160,7 +195,7 @@ public class OceanManagerTest {
     //
     // choiceadventure189 / oceanDestination
     //   0 / manual (defaults)
-    //   1 / muscle, mysticality, moxie, sphere, plinth, random, XXX,YYY
+    //   1 / muscle, mysticality, moxie, sand, altar, sphere, plinth, random, XXX,YYY
     //   2 / ignore
     //
     // oceanAction
@@ -263,7 +298,10 @@ public class OceanManagerTest {
         assertPostRequest(requests.get(1), "/choice.php", "forceoption=0&pwd=choice");
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(3), "/choice.php", "whichchoice=189&option=1&pwd=choice");
-        assertPostRequest(requests.get(4), "/ocean.php", "lon=59&lat=10&pwd=choice");
+        // With "sphere", we choose one of three random destinations:
+        // assertPostRequest(requests.get(4), "/ocean.php", "lon=48&lat=47&pwd=choice");
+        // assertPostRequest(requests.get(4), "/ocean.php", "lon=59&lat=10&pwd=choice");
+        // assertPostRequest(requests.get(4), "/ocean.php", "lon=86&lat=40&pwd=choice");
         assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
       }
     }

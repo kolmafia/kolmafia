@@ -21,6 +21,58 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class OceanManager {
 
+  // You can sail the ocean on the Pirate Ship by adventuring in The Poop Deck.
+  //
+  // Every thirty turns or so, the navigator mistakes you for Cap'm Caronch and
+  // offers to go the destination of your choice if you give him 977 Meat to
+  // outfit the ship.
+  //
+  // Doing so sends you to Set Sail for Virgin Booty, where you select the
+  // Longitude & Latitude of your destination.
+  //
+  // There are a variety of special destinations.
+  //
+  // "muscle" - Gilligan's Island, Monkey Island, Oyster Island - 5 locations
+  // each - give 250-350 muscle substats
+  //
+  // "mysticality" - Dinosaur Comics, Land of the Lost, Myst Island - 5
+  // locations each - give 250-350 mysticality substats
+  //
+  // "moxie" - Cast Away Lord of the Flies, LOST - 5 locations each - give
+  // 250-350 moxie substats
+  //
+  // "sand" - 9 locations originally contained a rainbow pearl.  After each
+  // pearl was retrieved, the location yields only rainbow sand.
+  //
+  // "altar" - 43 "small tropical islands" originally contained a strange tiki
+  // idol. After each idol was retrieved, the location yields only a sinister
+  // altar fragment.
+  //
+  // Riff published a puzzle regarding these; the map of the islands can be
+  // read as "Ak'gyxoth", a demon name. Seventh was the first to figure this
+  // out on August 9, 2008 and summon the demon. He was granted the Emblem of
+  // Ak'gyxoth and the strange tiki idol was renamed to be Idol of Ak'gyxoth.
+  //
+  // KoLmafia connection: Seventh is Jason Harper, the KoLmafia dev who gave us
+  // the Modifier Maximizer among many other things.
+  //
+  // "sphere" - 3 locations originally contained a small triangle, a medium
+  // triangle, and a large triangle. Subsequent visits dropped a strange stone
+  // sphere, which was renamed to be the El Vibrato power sphere. These are
+  // used to charge up your portal and are still obtainable.
+  //
+  // "plinth" - 1 location contains the Plinth. This is El Vibrato island,
+  // named after the character who assembled the strange stone pyramid from the
+  // 3 strange stone triangles and sailed there on February 7, 2008.
+  //
+  // Once per ascension, if you have an El Vibrato power sphere in inventory,
+  // the plinth will absorb it and give you an El Vibrato trapezoid.  You can
+  // set this up in your Campground and gain access to a Strange Portal which
+  // lets you adventure in the underworld of El Vibrato island.
+  //
+  // Sailing here again after obtaining the trapezoid with a power sphere in
+  // inventory absorbs the sphere and gives you nothing in return.
+
   // Avoid useless warning
   private OceanManager() {}
 
@@ -38,7 +90,7 @@ public class OceanManager {
 
   private static final Pattern POINT_PATTERN = Pattern.compile("(\\d+),(\\d+)");
 
-  private static class Point {
+  public static class Point {
     public static final int xMin = 1;
     public static final int xMax = 242;
     public static final int yMin = 1;
@@ -82,7 +134,7 @@ public class OceanManager {
 
     @Override
     public String toString() {
-      return "(" + this.x + "," + this.y + ")";
+      return this.x + "," + this.y;
     }
   }
 
@@ -396,7 +448,7 @@ public class OceanManager {
     plinthDestinations.addAll(Destination.PLINTH.getLocations());
   }
 
-  private static List<Point> getDestinations(final String keyword) {
+  public static List<Point> getDestinations(final String keyword) {
     return switch (keyword) {
       case "muscle" -> muscleDestinations;
       case "mysticality" -> mysticalityDestinations;
@@ -461,8 +513,13 @@ public class OceanManager {
 
     return switch (dest) {
       case "manual" -> null;
-      case "muscle", "mysticality", "moxie", "plinth" -> getRandomDestination(dest);
-      case "sphere" -> new Point(59, 10);
+      case "muscle",
+          "mysticality",
+          "moxie",
+          "sand",
+          "altar",
+          "sphere",
+          "plinth" -> getRandomDestination(dest);
       case "random" -> getRandomDestination();
       default -> (dest.contains(",")) ? Point.parse(dest) : null;
     };
@@ -591,9 +648,9 @@ public class OceanManager {
     Point location = new Point(lon, lat);
 
     StringBuilder buffer = new StringBuilder();
-    buffer.append("Setting sail for ");
+    buffer.append("Setting sail for (");
     buffer.append(location.toString());
-    buffer.append(" = ");
+    buffer.append(") = ");
     Destination dest = destinations.get(location);
     buffer.append(dest == null ? "open ocean" : dest.toString());
 
