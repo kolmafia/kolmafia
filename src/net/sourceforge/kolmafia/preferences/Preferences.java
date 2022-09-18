@@ -186,6 +186,7 @@ public class Preferences {
         "currentHardBountyItem",
         "currentHedgeMazeRoom",
         "currentHippyStore",
+        "currentPortalEnergy",
         "currentSpecialBountyItem",
         "cursedMagnifyingGlassCount",
         "cyrusAdjectives",

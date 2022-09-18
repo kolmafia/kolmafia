@@ -90,6 +90,7 @@ public class AdventurePool {
   public static final int POOP_DECK = 159;
   public static final int BELOWDECKS = 160;
   public static final int YULETIDE = 163;
+  public static final int EL_VIBRATO_ISLAND = 164;
   public static final int HOBOPOLIS_SEWERS = 166;
   public static final int HOBOPOLIS_TOWN_SQUARE = 167;
   public static final int ARRRBORETUM = 174;

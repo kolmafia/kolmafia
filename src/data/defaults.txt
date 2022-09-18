@@ -466,6 +466,7 @@ user	currentJunkyardLocation
 user	currentMojoFilters	0
 user	currentMood	default
 user	currentNunneryMeat	0
+user	currentPortalEnergy	0
 user	currentPVPSeason	none
 user	currentPvpVictories
 user	currentSpecialBountyItem

@@ -601,7 +601,8 @@ public class OceanManager {
     int lon = destination.x;
     int lat = destination.y;
 
-    if (lon < 1 || lon > 242 || lat < 1 || lat > 100) {
+    // getDestination should always return a valid point.
+    if (!Point.valid(lon, lat)) {
       return;
     }
 
