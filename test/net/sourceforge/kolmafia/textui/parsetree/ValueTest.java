@@ -5,6 +5,8 @@ import static internal.matchers.SignMatcher.Sign.POSITIVE;
 import static internal.matchers.SignMatcher.Sign.ZERO;
 import static internal.matchers.SignMatcher.hasSign;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Objects;
@@ -263,6 +265,22 @@ class ValueTest {
           "$monster[ancient protector spirit] < $monster[spooky vampire]",
           aps.compareTo(vampire),
           hasSign(NEGATIVE));
+
+      var ed =
+          Objects.requireNonNull(
+              DataTypes.makeMonsterValue(MonsterDatabase.findMonster("Ed the Undying")));
+      var ed1 =
+          Objects.requireNonNull(
+              DataTypes.makeMonsterValue(MonsterDatabase.findMonster("Ed the Undying (1)")));
+      assertNotEquals(ed, ed1, "$monster[Ed the Undying] != $monster[Ed the Undying (1)]");
+    }
+
+    @Test
+    void edSerializesConsistently() {
+      var ed =
+          Objects.requireNonNull(
+              DataTypes.makeMonsterValue(MonsterDatabase.findMonster("Ed the Undying (1)")));
+      assertEquals(ed.dumpValue(), "Ed the Undying (1)");
     }
 
     @Test
