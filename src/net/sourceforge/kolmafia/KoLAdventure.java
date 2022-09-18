@@ -774,11 +774,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return switch (this.adventureNumber) {
           case AdventurePool.HAUNTED_BATHROOM,
               AdventurePool.HAUNTED_BEDROOM,
-              AdventurePool.HAUNTED_GALLERY -> QuestDatabase.isQuestLaterThan(
-                  Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)
+              AdventurePool.HAUNTED_GALLERY ->
+          // Already started this quest
+          QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)
               || (KoLCharacter.getLevel() >= neededLevel
-                  && (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)
-                      || InventoryManager.hasItem(GHOST_NECKLACE)));
+                  && (
+                  // Not finished the last quest, but you can (so prepareForAdventure will)
+                  InventoryManager.hasItem(GHOST_NECKLACE)
+                      ||
+                      // Finished the last quest, prepareForAdventure will start this one
+                      QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)));
           case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
                   Quest.SPOOKYRAVEN_DANCE, "step2")
               || (InventoryManager.hasItem(POWDER_PUFF)
@@ -2044,8 +2049,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.parentZone.equals("Manor")) {
       if (this.zone.equals("Manor1")) {
         switch (this.adventureNumber) {
-          case AdventurePool.HAUNTED_KITCHEN:
-          case AdventurePool.HAUNTED_CONSERVATORY:
+          case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> {
             if (!QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)) {
               // If we have ascended at least once, we started with telegram in inventory.
               // Otherwise, it comes in KMail at level 5.
@@ -2058,28 +2062,30 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               }
             }
             return QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
+          }
         }
       }
 
       if (this.zone.equals("Manor2")) {
         switch (this.adventureNumber) {
-          case AdventurePool.HAUNTED_BATHROOM:
-          case AdventurePool.HAUNTED_BEDROOM:
-          case AdventurePool.HAUNTED_GALLERY:
+          case AdventurePool.HAUNTED_BATHROOM,
+              AdventurePool.HAUNTED_BEDROOM,
+              AdventurePool.HAUNTED_GALLERY -> {
             if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)) {
-              if (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)) {
+              if (InventoryManager.hasItem(GHOST_NECKLACE)) {
                 // Talk to Lady Spookyraven on 1st floor
                 var request = new GenericRequest("place.php?whichplace=manor1&action=manor1_ladys");
                 RequestThread.postRequest(request);
               }
-              if (InventoryManager.hasItem(GHOST_NECKLACE)) {
+              if (QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)) {
                 // Talk to Lady Spookyraven on 2nd floor
                 var request = new GenericRequest("place.php?whichplace=manor2&action=manor2_ladys");
                 RequestThread.postRequest(request);
               }
             }
             return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
-          case AdventurePool.HAUNTED_BALLROOM:
+          }
+          case AdventurePool.HAUNTED_BALLROOM -> {
             if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2")) {
               // These should not fail
               InventoryManager.retrieveItem(POWDER_PUFF);
@@ -2090,6 +2096,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               RequestThread.postRequest(request);
             }
             return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
+          }
         }
       }
 
