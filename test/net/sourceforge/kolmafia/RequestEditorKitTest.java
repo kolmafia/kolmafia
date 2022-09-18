@@ -88,6 +88,17 @@ public class RequestEditorKitTest {
     assertEquals(1, matcher.results().count());
   }
 
+  @Test
+  void decoratesChaostheticianMessage() {
+    var html = html("request/test_combat_chaosthetician.html");
+    var buffer = new StringBuffer(html);
+    RequestEditorKit.getFeatureRichHTML("fight.php?action=attack", buffer, false);
+    assertThat(
+        buffer.toString(),
+        containsString(
+            "<a href=\"place.php?whichplace=dinorf&action=dinorf_chaos\">Chaosthetician at Dino World</a>"));
+  }
+
   @Nested
   class VioletFog {
     @ParameterizedTest
