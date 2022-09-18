@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.mockito.Mockito;
@@ -914,6 +915,18 @@ public class Player {
     var old = AdventureDatabase.getAdventure(Modifiers.currentLocation);
     Modifiers.setLocation(AdventureDatabase.getAdventure(location));
     return new Cleanups(() -> Modifiers.setLocation(old));
+  }
+
+  /**
+   * Sets the player's limit mode
+   *
+   * @param limitMode Desired limit mode
+   * @return Resets the limit mode to the previous value
+   */
+  public static Cleanups withLimitMode(final LimitMode limitMode) {
+    var old = KoLCharacter.getLimitMode();
+    KoLCharacter.setLimitMode(limitMode);
+    return new Cleanups(() -> KoLCharacter.setLimitMode(old));
   }
 
   /**

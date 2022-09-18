@@ -217,7 +217,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         boolean canEat = KoLCharacter.canEat();
         this.buttons[index++].setEnabled(canEat);
 
-        boolean haveGhost = KoLCharacter.findFamiliar(FamiliarPool.GHOST) != null;
+        boolean haveGhost = KoLCharacter.usableFamiliar(FamiliarPool.GHOST) != null;
         this.buttons[index++].setEnabled(haveGhost);
 
         // The milk listener is just after the ghost listener
@@ -263,7 +263,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         boolean canDrink = KoLCharacter.canDrink();
         this.buttons[index++].setEnabled(canDrink);
 
-        boolean haveHobo = KoLCharacter.findFamiliar(FamiliarPool.HOBO) != null;
+        boolean haveHobo = KoLCharacter.usableFamiliar(FamiliarPool.HOBO) != null;
         this.buttons[index++].setEnabled(haveHobo);
 
         // The ode listener is just after the hobo listener

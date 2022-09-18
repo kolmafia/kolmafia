@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -206,7 +207,13 @@ public abstract class KoLCharacter {
 
   // Familiar data
 
-  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
+  // the only usage of this as a LockableListModel is in FamiliarTrainingPane, so filter to usable
+  public static final SortedListModel<FamiliarData> familiars =
+      new SortedListModel<>(
+          element -> {
+            var elt = (FamiliarData) element;
+            return KoLCharacter.isUsable(elt);
+          });
   public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
   public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
   public static String currentFamiliarImage = null;
@@ -1643,7 +1650,10 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill("Disco Nap")) ++freerests;
     if (KoLCharacter.hasSkill("Adventurer of Leisure")) freerests += 2;
     if (KoLCharacter.hasSkill("Executive Narcolepsy")) ++freerests;
-    if (KoLCharacter.findFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE) != null) freerests += 3;
+    // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
+    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective ")
+        && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
+      freerests += 3;
     if (KoLCharacter.hasSkill("Food Coma")) freerests += 10;
     if (KoLCharacter.hasSkill("Dog Tired")) freerests += 5;
     if (ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals("ceiling fan"))
@@ -4373,26 +4383,26 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Accessor method to find the specified familiar.
+   * Accessor method to find the specified usable familiar.
    *
    * @param race The race of the familiar to find
    * @return familiar The first familiar matching this race
    */
-  public static final FamiliarData findFamiliar(final String race) {
-    return findFamiliar(f -> f.getRace().equalsIgnoreCase(race));
+  public static FamiliarData usableFamiliar(final String race) {
+    return usableFamiliar(f -> f.getRace().equalsIgnoreCase(race));
   }
 
   /**
-   * Accessor method to find the specified familiar.
+   * Accessor method to find the specified usable familiar.
    *
    * @param familiarId The id of the familiar to find
    * @return familiar The first familiar matching this id
    */
-  public static final FamiliarData findFamiliar(final int familiarId) {
-    return findFamiliar(f -> f.getId() == familiarId);
+  public static FamiliarData usableFamiliar(final int familiarId) {
+    return usableFamiliar(f -> f.getId() == familiarId);
   }
 
-  private static final FamiliarData findFamiliar(final Predicate<FamiliarData> familiarFilter) {
+  private static FamiliarData usableFamiliar(final Predicate<FamiliarData> familiarFilter) {
     // Quick check against NO_FAMILIAR
     if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return FamiliarData.NO_FAMILIAR;
 
@@ -4408,16 +4418,50 @@ public abstract class KoLCharacter {
 
     return KoLCharacter.familiars.stream()
         .filter(familiarFilter)
-        .filter(StandardRequest::isAllowed)
-        .filter(f -> !KoLCharacter.inZombiecore() || f.isUndead())
-        .filter(f -> !KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
-        .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        .filter(KoLCharacter::isUsable)
         .findAny()
         .orElse(null);
   }
 
-  public static final boolean hasFamiliar(final int familiarId) {
-    return KoLCharacter.findFamiliar(familiarId) != null;
+  private static boolean isUsable(FamiliarData f) {
+    if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
+
+    return StandardRequest.isAllowed(f)
+        && (!KoLCharacter.inZombiecore() || f.isUndead())
+        && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
+        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()));
+  }
+
+  /**
+   * Accessor method to find the specified owned familiar.
+   *
+   * @param race The race of the familiar to find
+   * @return familiar The first familiar matching this race
+   */
+  public static Optional<FamiliarData> ownedFamiliar(final String race) {
+    return ownedFamiliar(f -> f.getRace().equalsIgnoreCase(race));
+  }
+
+  /**
+   * Accessor method to find the specified owned familiar.
+   *
+   * @param familiarId The id of the familiar to find
+   * @return familiar The first familiar matching this id
+   */
+  public static Optional<FamiliarData> ownedFamiliar(final int familiarId) {
+    return ownedFamiliar(f -> f.getId() == familiarId);
+  }
+
+  private static Optional<FamiliarData> ownedFamiliar(
+      final Predicate<FamiliarData> familiarFilter) {
+    // Quick check against NO_FAMILIAR
+    if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return Optional.of(FamiliarData.NO_FAMILIAR);
+
+    return KoLCharacter.familiars.stream().filter(familiarFilter).findAny();
+  }
+
+  public static final boolean canUseFamiliar(final int familiarId) {
+    return KoLCharacter.usableFamiliar(familiarId) != null;
   }
 
   private static AdventureResult STILLSUIT = ItemPool.get(ItemPool.STILLSUIT);
@@ -4448,7 +4492,8 @@ public abstract class KoLCharacter {
     KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar(familiar);
 
     if (previousFamiliar.getItem().equals(STILLSUIT)) {
-      var stillsuitFamiliar = KoLCharacter.findFamiliar(Preferences.getString("stillsuitFamiliar"));
+      var stillsuitFamiliar =
+          KoLCharacter.usableFamiliar(Preferences.getString("stillsuitFamiliar"));
       if (stillsuitFamiliar != null
           && stillsuitFamiliar != familiar
           && stillsuitFamiliar != previousFamiliar) {
@@ -4525,7 +4570,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Adds the given familiar to the list of available familiars.
+   * Adds the given familiar to the list of owned familiars.
    *
    * @param familiar The Id of the familiar to be added
    */
@@ -4550,7 +4595,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Remove the given familiar from the list of available familiars.
+   * Remove the given familiar from the list of owned familiars.
    *
    * @param familiar The Id of the familiar to be removed
    */
@@ -4574,12 +4619,34 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Returns the list of familiars available to the character.
+   * Returns the list of familiars usable by the character, as a LockableListModel.
    *
-   * @return The list of familiars available to the character
+   * @return The list of familiars usable by the character
    */
   public static final LockableListModel<FamiliarData> getFamiliarList() {
     return KoLCharacter.familiars;
+  }
+
+  /**
+   * Returns the list of familiars owned by the character.
+   *
+   * @return The list of familiars owned by the character
+   */
+  public static List<FamiliarData> ownedFamiliars() {
+    return KoLCharacter.familiars;
+  }
+
+  /**
+   * Returns the list of familiars usable by the character.
+   *
+   * @return The list of familiars usable by the character
+   */
+  public static List<FamiliarData> usableFamiliars() {
+    if (!KoLCharacter.getPath().canUseFamiliars()) return List.of(FamiliarData.NO_FAMILIAR);
+
+    if (KoLCharacter.inQuantum()) return List.of(currentFamiliar);
+
+    return KoLCharacter.familiars.stream().filter(KoLCharacter::isUsable).toList();
   }
 
   /*

@@ -2134,7 +2134,7 @@ public class ItemDatabase {
     Matcher matcher = ItemDatabase.COT_PATTERN.matcher(desc);
     if (matcher.find()) {
       String race = matcher.group(1);
-      KoLCharacter.setEnthroned(KoLCharacter.findFamiliar(race));
+      KoLCharacter.setEnthroned(KoLCharacter.usableFamiliar(race));
     }
   }
 
@@ -2143,7 +2143,7 @@ public class ItemDatabase {
     Matcher matcher = ItemDatabase.COT_PATTERN.matcher(desc);
     if (matcher.find()) {
       String race = matcher.group(1);
-      KoLCharacter.setBjorned(KoLCharacter.findFamiliar(race));
+      KoLCharacter.setBjorned(KoLCharacter.usableFamiliar(race));
     }
   }
 
