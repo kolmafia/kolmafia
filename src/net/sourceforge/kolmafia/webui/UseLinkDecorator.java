@@ -35,7 +35,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.command.SpeculateCommand;
@@ -52,8 +52,8 @@ public abstract class UseLinkDecorator {
 
     // If you are Ed in the Underworld, you have to wait until you
     // are on the surface again before you use anything
-    String limitMode = KoLCharacter.getLimitmode();
-    if (limitMode == Limitmode.ED) {
+    var limitmode = KoLCharacter.getLimitMode();
+    if (limitmode == LimitMode.ED) {
       return;
     }
 

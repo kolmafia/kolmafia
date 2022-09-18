@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class RefreshStatusCommand extends AbstractCommand {
   public RefreshStatusCommand() {
@@ -44,7 +43,9 @@ public class RefreshStatusCommand extends AbstractCommand {
       InventoryManager.refresh();
       return;
     } else if (parameters.startsWith("camp")) {
-      if (!Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn()) {
+      if (!KoLCharacter.getLimitMode().limitCampground()
+          && !KoLCharacter.isEd()
+          && !KoLCharacter.inNuclearAutumn()) {
         RequestThread.postRequest(new CampgroundRequest());
       }
       return;

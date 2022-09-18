@@ -23,7 +23,7 @@ public abstract class FamiliarManager {
   }
 
   public static void changeFamiliar(int famId, boolean stealEquipment) {
-    changeFamiliar(KoLCharacter.findFamiliar(famId), stealEquipment);
+    changeFamiliar(KoLCharacter.usableFamiliar(famId), stealEquipment);
   }
 
   public static void changeFamiliar(FamiliarData familiar) {
@@ -46,7 +46,10 @@ public abstract class FamiliarManager {
     List<AdventureResult> storageItems = new ArrayList<>();
     ArrayList<GenericRequest> requests = new ArrayList<GenericRequest>();
 
-    for (FamiliarData familiar : KoLCharacter.getFamiliarList()) {
+    // there is one case where you might want to equip a familiar its own item when it isn't usable:
+    // blue plate on Shorter-Order Cook in a path where it's not usable (e.g. Zombie Slayer)
+    // as this is fringe only equip usable familiars
+    for (FamiliarData familiar : KoLCharacter.usableFamiliars()) {
       int itemId = FamiliarDatabase.getFamiliarItemId(familiar.getId());
 
       // If this familiar has no specific item of its own, skip it

@@ -576,7 +576,7 @@ public class ResponseTextParser {
       }
       DvorakManager.parseResponse(location, responseText);
     } else if (location.startsWith("topmenu.php")) {
-      if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {
+      if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
         BatManager.parseTopMenu(responseText);
       }
     } else if (location.startsWith("town_altar.php")) {

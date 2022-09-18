@@ -1,13 +1,29 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.VioletFogManager;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class RequestEditorKitTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("RequestEditorKitTest");
+    Preferences.reset("RequestEditorKitTest");
+  }
 
   @Test
   public void willSuppressRedundantCharPaneRefreshes() {
@@ -70,5 +86,38 @@ public class RequestEditorKitTest {
     RequestEditorKit.getFeatureRichHTML(location, buffer);
     matcher = CHARPANE_REFRESH_PATTERN.matcher(buffer);
     assertEquals(1, matcher.results().count());
+  }
+
+  @Nested
+  class VioletFog {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void addsDecorations(final boolean addComplexFeatures) {
+      var cleanups =
+          new Cleanups(
+              withProperty("relayShowSpoilers", true),
+              withProperty(
+                  "violetFogLayout",
+                  "0,0,0,0,0,0,0,0,57,0,53,0,0,0,0,0,0,0,0,0,0,66,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,67,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,50,0,0,0,0,0,0,0,0,0,0,0,0,0,0"),
+              withProperty("lastVioletFogMap", KoLCharacter.getAscensions()),
+              withProperty("violetFogGoal", 7));
+
+      try (cleanups) {
+        VioletFogManager.reset();
+        var buffer =
+            new StringBuffer(html("request/test_choice_violet_fog_66_that_way_to_51.html"));
+        RequestEditorKit.getFeatureRichHTML(
+            "choice.php?pwd&whichchoice=66&option=2", buffer, addComplexFeatures);
+        var contents = buffer.toString();
+        // Go to Goal is rendered
+        assertThat(
+            contents, containsString("<input class=button type=submit value=\"Go To Goal\">"));
+        // Graph is rendered if we are adding complex features to the page
+        var graphMatcher = containsString("id=\"violetFogGraph\"");
+        assertThat(contents, addComplexFeatures ? graphMatcher : not(graphMatcher));
+      }
+
+      VioletFogManager.reset();
+    }
   }
 }
