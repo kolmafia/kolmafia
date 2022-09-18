@@ -57,12 +57,12 @@ public class CampgroundRequestTest {
         var request = new GenericRequest(urlString);
         request.run();
 
-	int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
-	assertNotEquals(-1, index);
+        int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
+        assertNotEquals(-1, index);
         AdventureResult portal = KoLConstants.campground.get(index);
         assertNotNull(portal);
-	assertEquals(20, Preferences.getInteger("currentPortalEnergy"));
-	assertEquals(20, portal.getCount());
+        assertEquals(20, Preferences.getInteger("currentPortalEnergy"));
+        assertEquals(20, portal.getCount());
 
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(2));
@@ -77,12 +77,12 @@ public class CampgroundRequestTest {
       var cleanups = new Cleanups(withEmptyCampground(), withProperty("currentPortalEnergy", 0));
       try (cleanups) {
         CampgroundRequest.parseResponse("campground.php", html);
-	int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
-	assertNotEquals(-1, index);
+        int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
+        assertNotEquals(-1, index);
         AdventureResult portal = KoLConstants.campground.get(index);
         assertNotNull(portal);
-	assertEquals(20, Preferences.getInteger("currentPortalEnergy"));
-	assertEquals(20, portal.getCount());
+        assertEquals(20, Preferences.getInteger("currentPortalEnergy"));
+        assertEquals(20, portal.getCount());
       }
     }
 
@@ -92,12 +92,12 @@ public class CampgroundRequestTest {
       var cleanups = new Cleanups(withEmptyCampground(), withProperty("currentPortalEnergy", 10));
       try (cleanups) {
         CampgroundRequest.parseResponse("campground.php", html);
-	int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
-	assertNotEquals(-1, index);
+        int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
+        assertNotEquals(-1, index);
         AdventureResult portal = KoLConstants.campground.get(index);
         assertNotNull(portal);
-	assertEquals(10, Preferences.getInteger("currentPortalEnergy"));
-	assertEquals(10, portal.getCount());
+        assertEquals(10, Preferences.getInteger("currentPortalEnergy"));
+        assertEquals(10, portal.getCount());
       }
     }
   }

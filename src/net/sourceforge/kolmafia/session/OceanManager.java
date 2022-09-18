@@ -88,7 +88,7 @@ public class OceanManager {
   public static final List<Point> sphereDestinations = new ArrayList<>();
   public static final List<Point> plinthDestinations = new ArrayList<>();
 
-  private static final Pattern POINT_PATTERN = Pattern.compile("(\\d+),(\\d+)");
+  public static final Pattern POINT_PATTERN = Pattern.compile("(\\d+),(\\d+)");
 
   public static class Point {
     public static final int xMin = 1;
@@ -559,15 +559,19 @@ public class OceanManager {
 
     if (save) {
       // Save the response Text
-      File output = new File(KoLConstants.DATA_LOCATION, "ocean.html");
-      PrintStream writer = LogStream.openStream(output, false);
 
       // Trim to contain only HTML body
       int start = request.responseText.indexOf("<body>");
       int end = request.responseText.indexOf("</body>");
-      String text = request.responseText.substring(start + 6, end);
-      writer.println(text);
-      writer.close();
+
+      if (start != -1 && end != -1) {
+        File output = new File(KoLConstants.DATA_LOCATION, "ocean.html");
+        PrintStream writer = LogStream.openStream(output, false);
+
+        String text = request.responseText.substring(start + 6, end);
+        writer.println(text);
+        writer.close();
+      }
     }
 
     if (stop) {

@@ -19,9 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -34,6 +36,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.OceanManager.Destination;
 import net.sourceforge.kolmafia.session.OceanManager.Point;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -184,6 +187,83 @@ public class OceanManagerTest {
         Point destination = OceanManager.getDestination();
         assertNotNull(destination);
         assertTrue(destinations.contains(destination));
+      }
+    }
+
+    @Test
+    public void canChooseRandomDestination() {
+      var cleanups = new Cleanups(withProperty("oceanDestination", "random"));
+      try (cleanups) {
+        Point destination = OceanManager.getDestination();
+        assertNotNull(destination);
+      }
+    }
+
+    @Test
+    public void canChooseSpecificDestination() {
+      var cleanups = new Cleanups(withProperty("oceanDestination", "50,50"));
+      try (cleanups) {
+        Point destination = OceanManager.getDestination();
+        assertNotNull(destination);
+        assertEquals("50,50", destination.toString());
+      }
+    }
+
+    @Test
+    public void manualControlAborts() {
+      var builder = new FakeHttpClientBuilder();
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("oceanDestination", "manual"),
+              withContinuationState());
+      try (cleanups) {
+        OceanManager.processOceanAdventure();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Pick a valid course."));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void rejectsMainlandDestination() {
+      var builder = new FakeHttpClientBuilder();
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withProperty("oceanDestination", "12,12"));
+      try (cleanups) {
+        builder.client.addResponse(200, "");
+        // OceanDestinationComboBox should disallow oceanDestination from
+        // having coordinates on the mainland. However, if the user somehow did
+        // it manually, we currently handle it by choosing a random location.
+        Point destination = OceanManager.getDestination();
+        assertNotNull(destination);
+        assertEquals("12,12", destination.toString());
+        assertTrue(Destination.MAINLAND.getLocations().contains(destination));
+
+        OceanManager.processOceanAdventure();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("You cannot sail to the mainland."));
+
+        // Extract and parse the new destination
+        Matcher matcher = OceanManager.POINT_PATTERN.matcher(text);
+        int lon = 0;
+        int lat = 0;
+        if (matcher.find()) {
+          lon = StringUtilities.parseInt(matcher.group(1));
+          lat = StringUtilities.parseInt(matcher.group(2));
+        }
+
+        assertThat(text, containsString("Random destination chosen: " + lon + "," + lat));
+        assertThat(text, containsString("Setting sail for (" + lon + "," + lat + ")"));
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/ocean.php", "lon=" + lon + "&lat=" + lat);
       }
     }
   }
