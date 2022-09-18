@@ -1561,8 +1561,11 @@ public class CharPaneRequest extends GenericRequest {
     Object lmo = JSON.get("limitmode");
     if (lmo instanceof Integer && lmo.equals(0)) {
       KoLCharacter.setLimitMode(LimitMode.NONE);
+    } else if (lmo instanceof String s) {
+      KoLCharacter.setLimitMode(s);
     } else {
-      KoLCharacter.setLimitMode(lmo.toString());
+      KoLmafia.updateDisplay("Unknown limit mode " + lmo.toString() + " received from API");
+      KoLCharacter.setLimitMode(LimitMode.UNKNOWN);
     }
 
     JSONObject lastadv = JSON.getJSONObject("lastadv");
