@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withChoice;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -296,6 +297,36 @@ class ChoiceControlTest {
         assertPostRequest(
             requests.get(0), "/desc_effect.php", "whicheffect=297ee9fadfb5560e5142e0b3a88456db");
         assertThat("entauntaunedColdRes", isSetTo(16));
+      }
+    }
+  }
+
+  @Nested
+  class Cartography {
+    @ParameterizedTest
+    @CsvSource({
+      "lastCartographyBats, 1427",
+      "lastCartographyBilliards, 1436",
+      "lastCartographyCrypts, 1429",
+      "lastCartographyFrat, 1425",
+      "lastCartographyFratVerge, 1433",
+      "lastCartographyFriars, 1428",
+      "lastCartographyGiants, 1431",
+      "lastCartographyHippyVerge, 1434",
+      "lastCartographyPeaks, 1430",
+      "lastCartographyProtesters, 1432"
+    })
+    void canDetectCartographyChoice(String property, int choice) {
+      var cleanups =
+          new Cleanups(withAscensions(5), withProperty(property, -1), withPostChoice1(0, 0));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=" + choice);
+        req.responseText = "choice.php?whichchoice=" + choice;
+
+        ChoiceManager.visitChoice(req);
+
+        assertThat(property, isSetTo(5));
       }
     }
   }

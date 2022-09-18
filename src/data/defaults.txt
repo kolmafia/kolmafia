@@ -771,6 +771,16 @@ user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
 user	lastBeardBuff	0
 user	lastBreakfast	-1
+user	lastCartographyBats	-1
+user	lastCartographyBilliards	-1
+user	lastCartographyCrypts	-1
+user	lastCartographyFrat	-1
+user	lastCartographyFratVerge	-1
+user	lastCartographyFriars	-1
+user	lastCartographyGiants	-1
+user	lastCartographyHippyVerge	-1
+user	lastCartographyPeaks	-1
+user	lastCartographyProtesters	-1
 user	lastCastleGroundUnlock	-1
 user	lastCastleTopUnlock	-1
 user	lastCellarReset	-1
