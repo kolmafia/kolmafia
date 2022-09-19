@@ -2488,9 +2488,4 @@ public class ItemDatabase {
   public static int[] getItemListByNoobSkillId(final int skillId) {
     return ItemDatabase.itemSourceByNoobSkillId.get(skillId);
   }
-
-  // For testing
-  public static List<String> getCanonicalNamesAsList() {
-    return new ArrayList<>(Arrays.asList(canonicalNames));
-  }
 }

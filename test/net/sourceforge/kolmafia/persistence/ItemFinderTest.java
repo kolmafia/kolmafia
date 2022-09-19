@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -962,26 +961,9 @@ public class ItemFinderTest {
     String item;
     nameList.add("bugged bonnet");
     nameList.add("bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t");
-    nameList.add("bugged bonnet");
     item = ItemFinder.getFirstMatchingItemName(nameList, "bugged bonnet");
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
     assertEquals("bugged bonnet", item);
-  }
-
-  @Test
-  @Disabled("Failing.  bad test or bad code?")
-  public void itShouldHandleCandyHearts() {
-    List<String> nameList = ItemDatabase.getCanonicalNamesAsList();
-    String item;
-    item = ItemFinder.getFirstMatchingItemName(nameList, "blue candy heart");
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals("", item);
-    nameList = ItemDatabase.getCanonicalNamesAsList();
-    item = ItemFinder.getFirstMatchingItemName(nameList, "orange candy heart");
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals("orange candy heart", item);
   }
 }
