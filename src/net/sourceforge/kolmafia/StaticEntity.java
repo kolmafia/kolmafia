@@ -242,7 +242,7 @@ public abstract class StaticEntity {
 
       boolean useTrayIcon = Preferences.getBoolean("useSystemTrayIcon");
 
-      if (SystemTray.isSupported()) {
+      if (!SystemTray.isSupported()) {
         useTrayIcon = false;
       }
 

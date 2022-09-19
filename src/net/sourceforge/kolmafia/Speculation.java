@@ -208,7 +208,7 @@ public class Speculation {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + params);
           return true;
         }
-        FamiliarData fam = KoLCharacter.findFamiliar(id);
+        FamiliarData fam = KoLCharacter.usableFamiliar(id);
         if (fam == null) {
           fam = new FamiliarData(id);
         }

@@ -99,7 +99,7 @@ public abstract class InventoryManager {
           ItemDatabase.registerItem(itemId);
         }
 
-        if (Limitmode.limitItem(itemId)) {
+        if (KoLCharacter.getLimitMode().limitItem(itemId)) {
           unlimited.add(ItemPool.get(itemId, count));
         } else {
           items.add(ItemPool.get(itemId, count));
@@ -208,7 +208,7 @@ public abstract class InventoryManager {
 
     count += InventoryManager.getEquippedCount(item);
 
-    for (FamiliarData current : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
       if (!current.equals(KoLCharacter.getFamiliar())
           && current.getItem() != null
           && current.getItem().equals(item)) {
@@ -563,7 +563,7 @@ public abstract class InventoryManager {
     // restricted items or non-equipment.
     // In QT, we'll just unequip it in the next code block
     if (!isRestricted && ItemDatabase.isEquipment(itemId) && !KoLCharacter.inQuantum()) {
-      for (FamiliarData current : KoLCharacter.getFamiliarList()) {
+      for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
         if (current.getItem() != null && current.getItem().equals(item)) {
           if (sim) {
             return "steal";
@@ -1431,7 +1431,7 @@ public abstract class InventoryManager {
   public static boolean canUseMall() {
     return KoLCharacter.canInteract()
         && Preferences.getBoolean("autoSatisfyWithMall")
-        && !Limitmode.limitMall();
+        && !KoLCharacter.getLimitMode().limitMall();
   }
 
   public static boolean canUseMallToStorage(final AdventureResult item) {
@@ -1446,7 +1446,8 @@ public abstract class InventoryManager {
   }
 
   public static boolean canUseMallToStorage() {
-    return Preferences.getBoolean("autoSatisfyWithMall") && !Limitmode.limitMall();
+    return Preferences.getBoolean("autoSatisfyWithMall")
+        && !KoLCharacter.getLimitMode().limitMall();
   }
 
   public static boolean canUseNPCStores(final AdventureResult item) {
@@ -1461,7 +1462,8 @@ public abstract class InventoryManager {
   }
 
   public static boolean canUseNPCStores() {
-    return Preferences.getBoolean("autoSatisfyWithNPCs") && !Limitmode.limitNPCStores();
+    return Preferences.getBoolean("autoSatisfyWithNPCs")
+        && !KoLCharacter.getLimitMode().limitNPCStores();
   }
 
   public static boolean canUseCoinmasters(final AdventureResult item) {
@@ -1476,7 +1478,8 @@ public abstract class InventoryManager {
   }
 
   public static boolean canUseCoinmasters() {
-    return Preferences.getBoolean("autoSatisfyWithCoinmasters") && !Limitmode.limitCoinmasters();
+    return Preferences.getBoolean("autoSatisfyWithCoinmasters")
+        && !KoLCharacter.getLimitMode().limitCoinmasters();
   }
 
   public static boolean canUseClanStash(final AdventureResult item) {
@@ -1496,7 +1499,7 @@ public abstract class InventoryManager {
     return KoLCharacter.canInteract()
         && Preferences.getBoolean("autoSatisfyWithStash")
         && KoLCharacter.hasClan()
-        && !Limitmode.limitClan();
+        && !KoLCharacter.getLimitMode().limitClan();
   }
 
   public static boolean canUseCloset(final AdventureResult item) {
@@ -1512,7 +1515,8 @@ public abstract class InventoryManager {
   }
 
   public static boolean canUseCloset() {
-    return Preferences.getBoolean("autoSatisfyWithCloset") && !Limitmode.limitCampground();
+    return Preferences.getBoolean("autoSatisfyWithCloset")
+        && !KoLCharacter.getLimitMode().limitCampground();
   }
 
   public static boolean canUseStorage(final AdventureResult item) {
@@ -1530,7 +1534,7 @@ public abstract class InventoryManager {
   public static boolean canUseStorage() {
     return KoLCharacter.canInteract()
         && Preferences.getBoolean("autoSatisfyWithStorage")
-        && !Limitmode.limitStorage();
+        && !KoLCharacter.getLimitMode().limitStorage();
   }
 
   public static final void fireInventoryChanged(final int itemId) {

@@ -38,7 +38,6 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -4301,7 +4300,9 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.THANKSGARDEN_SEEDS:
       case ItemPool.TALL_GRASS_SEEDS:
       case ItemPool.MUSHROOM_SPORES:
-        if (Limitmode.limitCampground() || KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn()) {
+        if (KoLCharacter.getLimitMode().limitCampground()
+            || KoLCharacter.isEd()
+            || KoLCharacter.inNuclearAutumn()) {
           return;
         }
 

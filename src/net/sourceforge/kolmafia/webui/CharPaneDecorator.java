@@ -25,7 +25,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -72,8 +72,8 @@ public class CharPaneDecorator {
     // If you are playing Spelunky or Batfellow, the charpane is
     // entirely different.
 
-    String limitmode = KoLCharacter.getLimitmode();
-    if (limitmode != Limitmode.SPELUNKY && limitmode != Limitmode.BATMAN) {
+    var limitmode = KoLCharacter.getLimitMode();
+    if (limitmode != LimitMode.SPELUNKY && limitmode != LimitMode.BATMAN) {
       // We are interested in the following sections of the CharPane:
       //
       // Status (HP/MP)

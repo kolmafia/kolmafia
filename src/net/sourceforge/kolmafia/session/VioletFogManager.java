@@ -1,10 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -12,7 +11,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.RelayLoader;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 public abstract class VioletFogManager {
   private static final Pattern CHOICE_PATTERN = Pattern.compile("whichchoice value=(\\d+)");
@@ -27,27 +26,27 @@ public abstract class VioletFogManager {
   private static final String[] FogLocationNames = {
     "Violet Fog (Start)", // 48
     "Man on Bicycle", // 49
-    "Pleasant-faced Man", // 50
+    "Pleasant-Faced Man", // 50
     "Man on Cornflake", // 51
     "Giant Chessboard", // 52
-    "Mustache", // 53
-    "Birds", // 54
-    "Machine Elves", // 55
-    "Boat on a River", // 56
+    "Improbable Mustache", // 53
+    "Fog of Birds", // 54
+    "Intense-Looking Man", // 55
+    "Boat on River", // 56
     "Man in Sunglasses", // 57
-    "Caterpiller", // 58
-    "This is not a Pipe", // 59
-    "Chorus Girls", // 60
+    "Huge Caterpillar", // 58
+    "Man in Bowler", // 59
+    "Dance Number", // 60
     "Huge Mountain", // 61
-    "Eye with Hat", // 62
-    "Eye with Weapon", // 63
-    "Eye with Garment", // 64
-    "Muscle Training", // 65
-    "Myst Training", // 66
-    "Moxie Training", // 67
-    "Alcohol Fish", // 68
-    "Food Fish", // 69
-    "Medicine Fish", // 70
+    "The Big Scary Place (Headgear)", // 62
+    "The Big Scary Place (Weapon)", // 63
+    "The Big Scary Place (Garment)", // 64
+    "The Prince of Wishful Thinking (Body)", // 65
+    "The Prince of Wishful Thinking (Wisdom)", // 66
+    "The Prince of Wishful Thinking (Charm)", // 67
+    "She's So Unusual (Alcohol)", // 68
+    "She's So Unusual (Food)", // 69
+    "She's So Unusual (Herbs or Medicines)", // 70
   };
 
   private static final int[][] FogLocationExits = {
@@ -129,8 +128,7 @@ public abstract class VioletFogManager {
         source <= VioletFogManager.LAST_CHOICE;
         ++source) {
       int[] exits = VioletFogManager.FogLocationExits[source - VioletFogManager.FIRST_CHOICE];
-      for (int i = 0; i < exits.length; ++i) {
-        int destination = exits[i];
+      for (int destination : exits) {
         int[] tuple = VioletFogManager.routingTuple(source, destination);
         tuple[0] = destination;
         tuple[1] = 1;
@@ -160,10 +158,10 @@ public abstract class VioletFogManager {
           int hopCount = Integer.MAX_VALUE;
 
           int[] exits = VioletFogManager.FogLocationExits[source - VioletFogManager.FIRST_CHOICE];
-          for (int i = 0; i < exits.length; ++i) {
-            int[] destTuple = VioletFogManager.routingTuple(exits[i], destination);
+          for (int exit : exits) {
+            int[] destTuple = VioletFogManager.routingTuple(exit, destination);
             if (destTuple[0] != 0 && destTuple[1] < hopCount) {
-              nextHop = exits[i];
+              nextHop = exit;
               hopCount = destTuple[1];
             }
           }
@@ -228,7 +226,7 @@ public abstract class VioletFogManager {
   private static final int[][] FogChoiceTable =
       new int[VioletFogManager.LAST_CHOICE - VioletFogManager.FIRST_CHOICE + 1][4];
 
-  public static final void reset() {
+  public static void reset() {
     // Reset what we've "learned" about the fog choices
     for (int i = VioletFogManager.FIRST_CHOICE; i <= VioletFogManager.LAST_CHOICE; ++i) {
       int[] choice = VioletFogManager.FogChoiceTable[i - VioletFogManager.FIRST_CHOICE];
@@ -260,7 +258,7 @@ public abstract class VioletFogManager {
     }
   }
 
-  public static final void saveMap() {
+  public static void saveMap() {
     StringBuilder map = new StringBuilder();
 
     for (int i = 0; i < VioletFogManager.FogChoiceTable.length; ++i) {
@@ -276,51 +274,61 @@ public abstract class VioletFogManager {
     Preferences.setString("violetFogLayout", map.toString());
   }
 
-  private static String currentGoalString() {
-    int goal = Preferences.getInteger("violetFogGoal");
+  private static int parseGoal() {
+    var goal =
+        IntStream.range(0, VioletFogManager.FogGoalItems.length)
+            .filter(
+                i -> {
+                  var item = VioletFogManager.FogGoalItems[i];
+                  return item != null && GoalManager.hasGoal(item);
+                })
+            .findAny()
+            .orElse(Preferences.getInteger("violetFogGoal"));
 
     if (goal < 0 || goal > 11) {
-      return "unknown";
+      return -1;
     }
 
     if (goal == 10) { // Boost Prime Stat
-      goal = KoLCharacter.getPrimeIndex() + 4;
+      return KoLCharacter.getPrimeIndex() + 4;
     } else if (goal == 11) { // Boost Lowest Stat
       long mus = KoLCharacter.getTotalMuscle();
       long mys = KoLCharacter.getTotalMysticality();
       long mox = KoLCharacter.getTotalMoxie();
 
       if (mus <= mys && mus <= mox) {
-        goal = 4;
+        return 4;
       } else if (mys <= mus && mys <= mox) {
-        goal = 5;
+        return 5;
       } else {
-        goal = 6;
+        return 6;
       }
+    }
+
+    return goal;
+  }
+
+  private static String currentGoalString() {
+    var goal = parseGoal();
+
+    if (goal < 0) {
+      return "unknown";
     }
 
     return VioletFogManager.FogGoals[goal];
   }
 
-  public static final boolean fogChoice(final int choice) {
+  public static boolean fogChoice(final int choice) {
     return choice >= VioletFogManager.FIRST_CHOICE && choice <= VioletFogManager.LAST_CHOICE;
   }
 
-  public static final String handleChoice(final int source) {
+  public static String handleChoice(final int source) {
     // We only handle Violet Fog choices
     if (!VioletFogManager.fogChoice(source)) {
       return "";
     }
 
-    // Get the user specified goal
-    int goal = Preferences.getInteger("violetFogGoal");
-    for (int i = 0; i < VioletFogManager.FogGoalItems.length; ++i) {
-      if (VioletFogManager.FogGoalItems[i] != null
-          && GoalManager.hasGoal(VioletFogManager.FogGoalItems[i])) {
-        goal = i;
-        break;
-      }
-    }
+    var goal = parseGoal();
 
     // If no goal, return "4".
     // - If we are not at a "goal" location, this will exit the fog
@@ -329,23 +337,7 @@ public abstract class VioletFogManager {
       return "4";
     }
 
-    if (goal == 10) { // Boost Prime Stat
-      goal = KoLCharacter.getPrimeIndex() + 4;
-    } else if (goal == 11) { // Boost Lowest Stat
-      long mus = KoLCharacter.getTotalMuscle();
-      long mys = KoLCharacter.getTotalMysticality();
-      long mox = KoLCharacter.getTotalMoxie();
-
-      if (mus <= mys && mus <= mox) {
-        goal = 4;
-      } else if (mys <= mus && mys <= mox) {
-        goal = 5;
-      } else {
-        goal = 6;
-      }
-    }
-
-    // Find the location we must get to to achieve the goal
+    // Find the location we must get to in order to achieve the goal
     int destination = VioletFogManager.FIRST_GOAL_LOCATION + goal - 1;
     if (!VioletFogManager.fogChoice(destination)) {
       return "";
@@ -380,8 +372,7 @@ public abstract class VioletFogManager {
     return "";
   }
 
-  public static final boolean mapChoice(
-      final int lastChoice, final int lastDecision, final String text) {
+  public static boolean mapChoice(final int lastChoice, final int lastDecision, final String text) {
     if (!VioletFogManager.fogChoice(lastChoice)) {
       return false;
     }
@@ -433,12 +424,10 @@ public abstract class VioletFogManager {
     }
 
     // Yes. Figure out which one it is
-    int[] exits = VioletFogManager.FogLocationExits[lastChoice - VioletFogManager.FIRST_CHOICE];
-    for (int i = 0; i < exits.length; ++i) {
-      int exit = exits[i];
+    for (int exit : FogLocationExits[lastChoice - FIRST_CHOICE]) {
       boolean found = false;
-      for (int j = 0; j < choices.length; ++j) {
-        if (exit == choices[j]) {
+      for (int choice : choices) {
+        if (exit == choice) {
           found = true;
           break;
         }
@@ -446,7 +435,7 @@ public abstract class VioletFogManager {
 
       if (!found) {
         choices[unknownIndex] = exit;
-        VioletFogManager.saveMap();
+        saveMap();
         return true;
       }
     }
@@ -454,21 +443,23 @@ public abstract class VioletFogManager {
     return true;
   }
 
-  public static final Spoilers choiceSpoilers(final int choice) {
+  public static Spoilers choiceSpoilers(final int choice) {
     // We only handle Violet Fog choices
-    if (!VioletFogManager.fogChoice(choice)) {
+    if (!fogChoice(choice)) {
       return null;
     }
 
-    String name = VioletFogManager.FogLocationNames[choice - VioletFogManager.FIRST_CHOICE];
+    String name = FogLocationNames[choice - FIRST_CHOICE];
 
     // An array of choice spoilers is the third element
-    int[] choices = VioletFogManager.FogChoiceTable[choice - VioletFogManager.FIRST_CHOICE];
-    Option[] options = new Option[4];
-    options[0] = new Option(VioletFogManager.choiceName(choice, choices[0]));
-    options[1] = new Option(VioletFogManager.choiceName(choice, choices[1]));
-    options[2] = new Option(VioletFogManager.choiceName(choice, choices[2]));
-    options[3] = new Option(VioletFogManager.choiceName(choice, choices[3]));
+    int[] choices = FogChoiceTable[choice - FIRST_CHOICE];
+    var options =
+        new Option[] {
+          new Option(choiceName(choice, choices[0])),
+          new Option(choiceName(choice, choices[1])),
+          new Option(choiceName(choice, choices[2])),
+          new Option(choiceName(choice, choices[3])),
+        };
 
     return new Spoilers(choice, name, options);
   }
@@ -481,225 +472,157 @@ public abstract class VioletFogManager {
 
     // If it's the Goal, pick the goal
     if (destination == -1) {
-      return choice < VioletFogManager.FIRST_GOAL_LOCATION
-          ? VioletFogManager.FogGoals[0]
-          : VioletFogManager.FogGoals[choice - VioletFogManager.FIRST_GOAL_LOCATION + 1];
+      return choice < FIRST_GOAL_LOCATION
+          ? FogGoals[0]
+          : FogGoals[choice - FIRST_GOAL_LOCATION + 1];
     }
 
     // Otherwise, return the name of the destination
     return VioletFogManager.FogLocationNames[destination - VioletFogManager.FIRST_CHOICE];
   }
 
-  public static final boolean freeAdventure(final String choice, final String decision) {
-    // "choiceAdventureX"
-    int source = StringUtilities.parseInt(choice.substring(15));
-
-    // Journey to the Center of your Mind
-    if (source == 71) {
-      // We got diverted from where we thought we were going
-      // Switch location to the trip of choice.
-      String name = "";
-      if (decision.equals("1")) {
-        name = "An Incredibly Strange Place (Bad Trip)";
-      } else if (decision.equals("2")) {
-        name = "An Incredibly Strange Place (Mediocre Trip)";
-      } else if (decision.equals("3")) {
-        name = "An Incredibly Strange Place (Great Trip)";
-      }
-
-      Preferences.setString("chosenTrip", name);
-      KoLAdventure.setNextAdventure(name);
-      return true;
-    }
-
-    // Make sure it's a fog adventure
-    if (!VioletFogManager.fogChoice(source)) {
-      return false;
-    }
-
-    // It is. If it's a "goal" location, decision "1" takes an adventure.
-    return source < VioletFogManager.FIRST_GOAL_LOCATION ? true : !decision.equals("1");
+  public static void addGoalButton(final StringBuffer buffer) {
+    String goal = VioletFogManager.currentGoalString();
+    ChoiceManager.addGoalButton(buffer, goal);
   }
 
-  // The Wiki has a Violet Fog Map:
-  //
-  //     http://kol.coldfront.net/thekolwiki/index.php/Violet_Fog_Map
-  //
-  // The Wiki's numbering scheme mapped to Choice Adventure number:
-  //
-  //  1 = 61 (Huge Mountain)
-  //  2 = 49 (Man on Bicycle)
-  //  3 = 52 (Giant Chessboard)
-  //  4 = 68 (Alcohol Fish)
-  //  5 = 56 (Boat on a River)
-  //  6 = 50 (Pleasant-faced Man)
-  //  7 = 53 (Mustache)
-  //  8 = 51 (Man on Cornflake)
-  //  9 = 55 (Machine Elves)
-  // 10 = 70 (Medicine Fish)
-  // 11 = 54 (Birds)
-  // 12 = 67 (Moxie Training)
-  // 13 = 57 (Man in Sunglasses)
-  // 14 = 60 (Chorus Girls)
-  // 15 = 64 (Eye with Garment)
-  // 16 = 66 (Mysticality Training)
-  // 17 = 65 (Muscle Training)
-  // 18 = 69 (Food Fish)
-  // 19 = 58 (Caterpillar)
-  // 20 = 59 (This is not a Pipe)
-  // 21 = 62 (Eye with Hat)
-  // 22 = 63 (Eye with Weapon)
+  private static String getWikiLink(int i) {
+    var name = "Violet Fog" + (i == 0 ? "" : " (" + FogLocationNames[i] + ")");
+    return WikiUtilities.getWikiLocation(name, WikiUtilities.ANY_TYPE, false);
+  }
 
-  private static final int[] WikiToMafia = {
-    61, // 1
-    49, // 2
-    52, // 3
-    68, // 4
-    56, // 5
-    50, // 6
-    53, // 7
-    51, // 8
-    55, // 9
-    70, // 10
-    54, // 11
-    67, // 12
-    57, // 13
-    60, // 14
-    64, // 15
-    66, // 16
-    65, // 17
-    69, // 18
-    58, // 19
-    59, // 20
-    62, // 21
-    63, // 22
+  private static final String[] EDGE_COLORS = {
+    // Unmapped
+    "black",
+    // This way
+    "blue",
+    // That way
+    "red",
+    // The other way
+    "purple"
   };
 
-  private static int mafiaCode(final int wikiCode) {
-    return VioletFogManager.WikiToMafia[wikiCode - 1];
-  }
+  public static String generateGraph() {
+    var goal = parseGoal();
+    var goalChoice = goal > 0 ? FIRST_GOAL_LOCATION + goal - 1 : -1;
 
-  private static final int[] MafiaToWiki = {
-    2, // 49
-    6, // 50
-    8, // 51
-    3, // 52
-    7, // 53
-    11, // 54
-    9, // 55
-    5, // 56
-    13, // 57
-    19, // 58
-    20, // 59
-    14, // 60
-    1, // 61
-    21, // 62
-    22, // 63
-    15, // 64
-    17, // 65
-    16, // 66
-    12, // 67
-    4, // 68
-    18, // 69
-    10, // 70
-  };
+    var dot = new StringBuilder();
+    dot.append("digraph G {\n")
+        // Add a legend
+        .append(
+            """
+            graph [labelloc="b" label=<
+              <TABLE BORDER="0"><TR>
+                  <TD COLSPAN="2">This way <font color="blue">→</font> &nbsp; That way <font color="red">→</font> &nbsp; The other way <font color="purple">→</font></TD>
+              </TR><TR>
+                  <TD>
+                      <TABLE BORDER="0"><TR>
+                          <TD>You are here</TD>
+                          <TD BGCOLOR="red" WIDTH="20px">
+                              <TABLE BORDER="0"><TR><TD BGCOLOR="yellow"></TD></TR></TABLE>
+                          </TD>
+                      </TR></TABLE>
+                  </TD>
+                  <TD>
+                      <TABLE BORDER="0"><TR>
+                          <TD>Your goal</TD>
+                          <TD BGCOLOR="green" WIDTH="20px">
+                              <TABLE BORDER="0"><TR><TD BGCOLOR="yellow"></TD></TR></TABLE>
+                          </TD>
+                      </TR></TABLE>
+                  </TD>
+              </TR></TABLE>
+            >]
+          """)
+        // And lay out with the circular engine (the only one that is readable!)
+        .append("  layout=circo\n");
+    for (int source = FIRST_CHOICE; source <= LAST_CHOICE; source++) {
+      dot.append("  ")
+          .append(source)
+          .append(" [")
+          // Fill the node so it can be clicked
+          .append("style=\"filled\" ");
 
-  private static int wikiCode(final int mafiaCode) {
-    return VioletFogManager.MafiaToWiki[mafiaCode - VioletFogManager.FIRST_CHOICE - 1];
-  }
-
-  private static int[][] WikiFogLocationExits;
-
-  static {
-    VioletFogManager.buildWikiExits();
-  }
-
-  private static void buildWikiExits() {
-    // Get a zeroed array to start things off.
-    VioletFogManager.WikiFogLocationExits =
-        new int[VioletFogManager.LAST_CHOICE - VioletFogManager.FIRST_CHOICE][3];
-
-    // Examine each node in Mafia order
-    for (int source = VioletFogManager.FIRST_CHOICE + 1;
-        source <= VioletFogManager.LAST_CHOICE;
-        ++source) {
-      // Get the array of exit paths
-      int[] mafiaExits = VioletFogManager.FogLocationExits[source - VioletFogManager.FIRST_CHOICE];
-      int[] wikiExits =
-          VioletFogManager.WikiFogLocationExits[VioletFogManager.wikiCode(source) - 1];
-
-      // Copy translated exit from Mafia exit table to Wiki exit table
-      for (int i = 0; i < mafiaExits.length; ++i) {
-        wikiExits[i] = VioletFogManager.wikiCode(mafiaExits[i]);
+      // Color the node based on its relation to the player
+      // These are just the colors Gemelli chose in his tool
+      var youAreHere = ChoiceManager.lastChoice == source;
+      var yourGoal = goalChoice == source;
+      if (youAreHere) {
+        dot.append("fillcolor=yellow color=red ");
+      } else if (yourGoal) {
+        dot.append("fillcolor=yellow color=green ");
+      } else {
+        dot.append("fillcolor=white ");
       }
 
-      // Sort the exits in Wiki order
-      Arrays.sort(wikiExits);
-    }
-  }
+      var i = source - FIRST_CHOICE;
+      var url = getWikiLink(i);
+      dot.append("href=\"")
+          // When the player clicks on a node send them to the Wiki page
+          .append(url)
+          .append("\" ")
+          .append("label=\"")
+          .append(i)
+          .append("\" ")
+          // When the player hovers they'll see the name of the choice adventure
+          .append("tooltip=\"")
+          .append(FogLocationNames[i])
+          .append("\"")
+          .append("]\n");
 
-  // Gemelli has a tool that accepts a code and displays the map
-  // corresponding to it:
-  //
-  // originally: http://www.feesher.com/fog_mapper.php
-  // now: http://fog.bewarethefgc.com
-  //
-  // To get the code, examine the 22 nodes in Wiki order
-  // Examine each of the three destinations from each node, again in Wiki order.
-  // Generate a digit from 0-3:
-  //     0 = unmapped
-  //     1 = this way
-  //     2 = that way
-  //     3 = the other way
-  //
-  // Take the resulting 66 digit string and convert two digits at a time
-  // from base 4 to base 16, resulting in a 33 digit hex string
-
-  public static final String gemelliCode() {
-    int[] code = new int[66];
-    int codeIndex = 0;
-
-    // Examine each node in Wiki order
-    for (int i = 1; i < VioletFogManager.FogChoiceTable.length; ++i) {
-      // Get the choice adventure # corresponding to the Wiki code
-      int source = VioletFogManager.mafiaCode(i);
-
-      // Get the array of exit paths
-      int[] paths = VioletFogManager.FogChoiceTable[source - VioletFogManager.FIRST_CHOICE];
-
-      // For each choice in Wiki order
-      int[] exits = VioletFogManager.WikiFogLocationExits[i - 1];
-
-      for (int j = 0; j < exits.length; ++j) {
-        // Find the exit in the paths
-        for (int index = 0; index < paths.length; ++index) {
-          if (paths[index] == VioletFogManager.mafiaCode(exits[j])) {
-            int choice = source < VioletFogManager.FIRST_GOAL_LOCATION ? index + 1 : index;
-            code[codeIndex] = choice;
+      // For each exit from this location, draw an edge
+      for (int destination : FogLocationExits[i]) {
+        dot.append("  ").append(source).append(" -> ").append(destination);
+        var paths = FogChoiceTable[i];
+        for (int p = 0; p < paths.length; p++) {
+          // If we've mapped this choice, highlight it on graph
+          if (paths[p] == destination) {
+            var result = source < FIRST_GOAL_LOCATION ? p + 1 : p;
+            // Show a tooltip when hovering the edges
+            dot.append(" [tooltip=\"")
+                .append(
+                    switch (result) {
+                      case 1 -> "this way";
+                      case 2 -> "that way";
+                      case 3 -> "the other way";
+                      default -> "";
+                    })
+                .append("\" ")
+                .append("color=")
+                .append(EDGE_COLORS[result])
+                .append("]");
             break;
           }
         }
-        ++codeIndex;
+        dot.append("\n");
       }
     }
-
-    // Convert the 66 element int array into a 33 character character array
-    char[] data = new char[33];
-    for (int i = 0; i < code.length; i += 2) {
-      int hexDigit = code[i] * 4 + code[i + 1];
-      data[i / 2] = Character.forDigit(hexDigit, 16);
-    }
-
-    return String.valueOf(data);
+    dot.append("}");
+    return dot.toString();
   }
 
-  public static final void showGemelliMap() {
-    RelayLoader.openSystemBrowser(
-        "http://fog.bewarethefgc.com/index.php?mapstring=" + VioletFogManager.gemelliCode());
-  }
+  public static void addGraph(final StringBuffer buffer) {
+    var graph = generateGraph();
+    var index = buffer.lastIndexOf("</table>");
+    if (index < 0) return;
 
-  public static final void addGoalButton(final StringBuffer buffer) {
-    String goal = VioletFogManager.currentGoalString();
-    ChoiceManager.addGoalButton(buffer, goal);
+    var graphRenderer =
+        new StringBuilder()
+            .append("<div id=\"violetFogGraph\" style=\"max-width: 95%\">Loading graph...</div>")
+            .append(
+                "<script src=\"https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.min.js\"></script>")
+            .append("<script>")
+            .append("var hpccWasm = window[\"@hpcc-js/wasm\"];")
+            .append("const dot=`")
+            .append(graph)
+            .append("`;")
+            .append("hpccWasm.graphviz.layout(dot, \"svg\", \"dot\").then(svg => {")
+            .append("var el = document.getElementById(\"violetFogGraph\");")
+            .append("el.innerHTML = svg;")
+            .append("el.firstElementChild.removeAttribute(\"height\");")
+            .append("el.firstElementChild.removeAttribute(\"width\");")
+            .append("});")
+            .append("</script>");
+    buffer.insert(index + 8, graphRenderer);
   }
 }

@@ -148,6 +148,7 @@ import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
+import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
@@ -339,6 +340,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("user_prompt", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("user_notify", DataTypes.VOID_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("user_notify", DataTypes.VOID_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("logprint", DataTypes.VOID_TYPE, params));
@@ -1682,6 +1689,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("have_familiar", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.FAMILIAR_TYPE};
+    functions.add(new LibraryFunction("in_terrarium", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.FAMILIAR_TYPE};
     functions.add(new LibraryFunction("use_familiar", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.FAMILIAR_TYPE};
@@ -2912,6 +2922,16 @@ public abstract class RuntimeLibrary {
       final Value timeOut,
       final Value defaultString) {
     return InterruptableDialog.input(message, timeOut, defaultString);
+  }
+
+  public static Value user_notify(
+      ScriptRuntime controller, final Value message, final Value onlyShowWhenHidden) {
+    SystemTrayFrame.showBalloon(message.toString(), onlyShowWhenHidden.intValue() == 1);
+    return DataTypes.VOID_VALUE;
+  }
+
+  public static Value user_notify(ScriptRuntime controller, final Value message) {
+    return user_notify(controller, message, DataTypes.FALSE_VALUE);
   }
 
   private static String cleanString(Value string) {
@@ -5981,7 +6001,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value limit_mode(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getLimitmode());
+    return new Value(KoLCharacter.getLimitMode().getName());
   }
 
   public static Value get_florist_plants(ScriptRuntime controller) {
@@ -6497,7 +6517,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heist_targets(ScriptRuntime controller) {
-    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+    if (!KoLCharacter.canUseFamiliar(FamiliarPool.CAT_BURGLAR)) {
       throw controller.runtimeException("You don't have a Cat Burglar");
     }
     FamiliarData current = KoLCharacter.getFamiliar();
@@ -6525,7 +6545,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heist(ScriptRuntime controller, final Value num, final Value item) {
-    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+    if (!KoLCharacter.canUseFamiliar(FamiliarPool.CAT_BURGLAR)) {
       throw controller.runtimeException("You don't have a Cat Burglar");
     }
     FamiliarData current = KoLCharacter.getFamiliar();
@@ -6781,7 +6801,14 @@ public abstract class RuntimeLibrary {
     int familiarId = (int) familiar.intValue();
     return familiarId == -1
         ? DataTypes.FALSE_VALUE
-        : DataTypes.makeBooleanValue(KoLCharacter.findFamiliar(familiarId) != null);
+        : DataTypes.makeBooleanValue(KoLCharacter.usableFamiliar(familiarId) != null);
+  }
+
+  public static Value in_terrarium(ScriptRuntime controller, final Value familiar) {
+    int familiarId = (int) familiar.intValue();
+    return familiarId == -1
+        ? DataTypes.FALSE_VALUE
+        : DataTypes.makeBooleanValue(KoLCharacter.ownedFamiliar(familiarId).isPresent());
   }
 
   public static Value use_familiar(ScriptRuntime controller, final Value familiar) {
@@ -6814,15 +6841,15 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value familiar_equipped_equipment(ScriptRuntime controller, final Value familiar) {
-    FamiliarData fam = KoLCharacter.findFamiliar((int) familiar.intValue());
-    AdventureResult item = fam == null ? EquipmentRequest.UNEQUIP : fam.getItem();
+    var fam = KoLCharacter.ownedFamiliar((int) familiar.intValue());
+    AdventureResult item = fam.map(FamiliarData::getItem).orElse(EquipmentRequest.UNEQUIP);
     return item == EquipmentRequest.UNEQUIP
         ? DataTypes.ITEM_INIT
         : DataTypes.makeItemValue(item.getItemId(), true);
   }
 
   public static Value familiar_weight(ScriptRuntime controller, final Value familiar) {
-    FamiliarData fam = KoLCharacter.findFamiliar((int) familiar.intValue());
+    FamiliarData fam = KoLCharacter.usableFamiliar((int) familiar.intValue());
     return fam == null ? DataTypes.ZERO_VALUE : new Value(fam.getWeight());
   }
 
@@ -6834,7 +6861,7 @@ public abstract class RuntimeLibrary {
     AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.FAMILIAR_TYPE);
     MapValue value = new MapValue(type);
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       if (fam.getFavorite()) {
         value.aset(
             DataTypes.makeFamiliarValue(fam.getId(), true),

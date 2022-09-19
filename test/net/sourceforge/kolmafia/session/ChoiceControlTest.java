@@ -288,7 +288,7 @@ class ChoiceControlTest {
               withChoice(1418, 1, html("request/test_choice_so_cold.html")));
 
       try (cleanups) {
-        var melo = KoLCharacter.findFamiliar(FamiliarPool.MELODRAMEDARY);
+        var melo = KoLCharacter.usableFamiliar(FamiliarPool.MELODRAMEDARY);
         assertThat(melo.getTotalExperience(), is(0));
         assertThat("_entauntaunedToday", isSetTo(true));
         var requests = builder.client.getRequests();

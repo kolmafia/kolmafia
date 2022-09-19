@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
@@ -143,20 +143,19 @@ public class CharPaneRequest extends GenericRequest {
 
     // Are we in a limitmode?
     if (responseText.contains(">Last Spelunk</a>")) {
-      KoLCharacter.setLimitmode(Limitmode.SPELUNKY);
+      KoLCharacter.setLimitMode(LimitMode.SPELUNKY);
       SpelunkyRequest.parseCharpane(responseText);
       return true;
     }
 
     if (responseText.contains("You're Batfellow")) {
-      KoLCharacter.setLimitmode(Limitmode.BATMAN);
+      KoLCharacter.setLimitMode(LimitMode.BATMAN);
       BatManager.parseCharpane(responseText);
       return true;
     }
 
-    if (KoLCharacter.getLimitmode() != null
-        && KoLCharacter.getLimitmode().equals(Limitmode.SPELUNKY)) {
-      KoLCharacter.setLimitmode(null);
+    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
+      KoLCharacter.setLimitMode(LimitMode.NONE);
     }
 
     // We can deduce whether we are in compact charpane mode
@@ -164,7 +163,7 @@ public class CharPaneRequest extends GenericRequest {
     CharPaneRequest.compactCharacterPane = responseText.contains("<br>Lvl. ");
 
     // If we are in Valhalla, do special processing
-    if (KoLCharacter.getLimitmode() == null
+    if (KoLCharacter.getLimitMode() == LimitMode.NONE
         && (responseText.contains("otherimages/spirit.gif")
             || responseText.contains("<br>Lvl. <img"))) {
       processValhallaCharacterPane(responseText);
@@ -1114,7 +1113,7 @@ public class CharPaneRequest extends GenericRequest {
         int id = FamiliarDatabase.getFamiliarByImageLocation(PokeFamMatcher.group(1));
         String name = PokeFamMatcher.group(2);
         int level = StringUtilities.parseInt(PokeFamMatcher.group(3));
-        FamiliarData familiar = KoLCharacter.findFamiliar(id);
+        FamiliarData familiar = KoLCharacter.usableFamiliar(id);
         if (familiar == null) {
           // Add new familiar to list
           familiar = new FamiliarData(id, name, level);
@@ -1453,7 +1452,7 @@ public class CharPaneRequest extends GenericRequest {
     Matcher mediumMatcher = pattern.matcher(responseText);
     if (mediumMatcher.find()) {
       int aura = StringUtilities.parseInt(mediumMatcher.group(1));
-      FamiliarData fam = KoLCharacter.findFamiliar(FamiliarPool.HAPPY_MEDIUM);
+      FamiliarData fam = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
       if (fam == null) {
         // Another familiar has turned into a Happy Medium
         return;
@@ -1560,7 +1559,14 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     Object lmo = JSON.get("limitmode");
-    KoLCharacter.setLimitmode(lmo.toString());
+    if (lmo instanceof Integer && lmo.equals(0)) {
+      KoLCharacter.setLimitMode(LimitMode.NONE);
+    } else if (lmo instanceof String s) {
+      KoLCharacter.setLimitMode(s);
+    } else {
+      KoLmafia.updateDisplay("Unknown limit mode " + lmo.toString() + " received from API");
+      KoLCharacter.setLimitMode(LimitMode.UNKNOWN);
+    }
 
     JSONObject lastadv = JSON.getJSONObject("lastadv");
     String adventureId = lastadv.getString("id");
@@ -1644,7 +1650,7 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.setInteraction();
 
-    if (Limitmode.limitFamiliars()) {
+    if (KoLCharacter.getLimitMode().limitFamiliars()) {
       // No familiar
     } else if (KoLCharacter.inAxecore()) {
       int level = JSON.getInt("clancy_level");
@@ -1695,7 +1701,7 @@ public class CharPaneRequest extends GenericRequest {
 
       if (famId == FamiliarPool.HAPPY_MEDIUM) {
         int aura = StringUtilities.parseInt(image.substring(7, 8));
-        FamiliarData medium = KoLCharacter.findFamiliar(FamiliarPool.HAPPY_MEDIUM);
+        FamiliarData medium = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
         medium.setCharges(aura);
       }
     }

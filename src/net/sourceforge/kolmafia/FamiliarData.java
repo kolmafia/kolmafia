@@ -270,12 +270,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     // Familiars cannot be equipped by most Avatar classes
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.isSneakyPete()
-        || KoLCharacter.isEd()
-        || KoLCharacter.inBondcore()
-        || KoLCharacter.isVampyre()) {
+    if (!KoLCharacter.getPath().canUseFamiliars()) {
       return false;
     }
 
@@ -286,6 +281,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
     // Familiars without a "G" in their race cannot be equipped in G-Lover
     if (KoLCharacter.inGLover() && !this.glover) {
+      return false;
+    }
+
+    // Only undead familiars can be equipped in Zombiecore
+    if (KoLCharacter.inZombiecore() && !this.isUndead()) {
       return false;
     }
 
@@ -341,7 +341,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public final void setExperience(int exp) {
     Stream<FamiliarData> famsToSet =
         CRIMBO_GHOSTS.contains(this.getId())
-            ? CRIMBO_GHOSTS.stream().map(KoLCharacter::findFamiliar).filter(Objects::nonNull)
+            ? CRIMBO_GHOSTS.stream().map(KoLCharacter::usableFamiliar).filter(Objects::nonNull)
             : Stream.of(this);
 
     famsToSet.forEach(
@@ -418,7 +418,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     int singleFamiliarRun = Preferences.getInteger("singleFamiliarRun");
 
     if (singleFamiliarRun == 0) {
-      for (FamiliarData familiar : KoLCharacter.getFamiliarList()) {
+      for (FamiliarData familiar : KoLCharacter.usableFamiliars()) {
         if (familiar.getTotalExperience() != 0) {
           if (singleFamiliarRun != 0) {
             singleFamiliarRun = -1;
@@ -561,9 +561,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
     Matcher frowMatcher = FamiliarData.FROW_PATTERN.matcher(responseText);
     while (frowMatcher.find()) {
       String frow = frowMatcher.group();
-      if (frow.contains("\"frow expired\"")) {
-        continue;
-      }
 
       Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher(frow);
       if (familiarMatcher.find()) {
@@ -601,7 +598,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   private static FamiliarData registerFamiliar(final Matcher matcher, boolean idFirst) {
     String race = matcher.group(4);
-    FamiliarData familiar = KoLCharacter.findFamiliar(race);
+    FamiliarData familiar = KoLCharacter.ownedFamiliar(race).orElse(null);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(matcher, idFirst);
@@ -618,7 +615,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return FamiliarData.NO_FAMILIAR;
     }
 
-    FamiliarData familiar = KoLCharacter.findFamiliar(id);
+    FamiliarData familiar = KoLCharacter.ownedFamiliar(id).orElse(null);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(id);
@@ -648,7 +645,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return FamiliarData.NO_FAMILIAR;
     }
 
-    FamiliarData familiar = KoLCharacter.findFamiliar(id);
+    FamiliarData familiar = KoLCharacter.ownedFamiliar(id).orElse(null);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(id);
@@ -1494,7 +1491,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     FamiliarData current = KoLCharacter.getFamiliar();
-    for (FamiliarData familiar : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData familiar : KoLCharacter.ownedFamiliars()) {
       if (!familiar.equals(current)) {
         AdventureResult equipped = familiar.getItem();
         if (equipped != null && equipped.equals(item)) {
@@ -1522,7 +1519,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public static final void checkShrub() {
-    if (KoLCharacter.findFamiliar(FamiliarPool.CRIMBO_SHRUB) == null) {
+    if (KoLCharacter.usableFamiliar(FamiliarPool.CRIMBO_SHRUB) == null) {
       return;
     }
 

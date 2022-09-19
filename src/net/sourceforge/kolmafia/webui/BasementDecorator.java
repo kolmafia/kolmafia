@@ -99,7 +99,7 @@ public class BasementDecorator {
       changes.append("</option>");
     }
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       boolean useful = false;
       switch (fam.getId()) {
         case FamiliarPool.HAND:
@@ -112,7 +112,7 @@ public class BasementDecorator {
           useful = true;
           break;
         case FamiliarPool.SOMBRERO:
-          useful = !KoLCharacter.getFamiliarList().contains(BasementRequest.SANDWORM);
+          useful = !KoLCharacter.usableFamiliars().contains(BasementRequest.SANDWORM);
           break;
       }
 

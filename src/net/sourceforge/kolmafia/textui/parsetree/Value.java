@@ -233,7 +233,8 @@ public class Value implements TypedNode, Comparable<Value> {
     var type = this.getType();
 
     if (type == DataTypes.MONSTER_TYPE) {
-      return this.contentLong == 0;
+      // Ed the Undying has special handling in persistence/MonsterDatabase...
+      return this.contentLong == 0 || this.contentLong == 473;
     }
 
     return type.isStringLike();
@@ -266,6 +267,15 @@ public class Value implements TypedNode, Comparable<Value> {
       VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
       VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
       return v1.compareTo(v2);
+    }
+
+    // Prefer to order monsters by ID. If they both have id 0, then fall back to string comparison.
+    if (this.getType().equals(DataTypes.MONSTER_TYPE)
+        && o.getType().equals(DataTypes.MONSTER_TYPE)) {
+      int cmp = Long.compare(this.contentLong, o.contentLong);
+      if (cmp != 0 || !this.isStringLike()) {
+        return cmp;
+      }
     }
 
     if (this.isStringLike() || o.isStringLike()) {
@@ -413,7 +423,7 @@ public class Value implements TypedNode, Comparable<Value> {
                     + this.contentLong
                     + "]"
                     + EffectDatabase.getEffectName((int) this.contentLong)
-                : type == DataTypes.TYPE_MONSTER && this.contentLong != 0
+                : type == DataTypes.TYPE_MONSTER && !this.isStringLike()
                     ? "["
                         + this.contentLong
                         + "]"

@@ -7,12 +7,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class TopMenuDecorator {
   public static final void decorate(final StringBuffer buffer, final String location) {
-    if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
       return;
     }
 
