@@ -233,4 +233,17 @@ public class DailyDeedsPanelTest {
       }
     }
   }
+
+  @Nested
+  class CombatLoversLocket {
+    @Test
+    public void showsLocket() {
+      var cld = new DailyDeedsPanel.CombatLocketDaily();
+      var cleanups = withItem(ItemPool.COMBAT_LOVERS_LOCKET);
+      try (cleanups) {
+        cld.update();
+        assertThat(cld.getText(), containsString("0/3 locket"));
+      }
+    }
+  }
 }
