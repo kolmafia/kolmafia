@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -77,52 +79,6 @@ public class ItemDatabase {
   public static final String TRADE_FLAG = "t";
   public static final String DISCARD_FLAG = "d";
   public static final String BOGUS_FLAG = "z";
-
-  public record Punchcard(int id, String name, String alias) {}
-
-  public static Punchcard[] PUNCHCARDS = {
-    // Verbs
-    new Punchcard(
-        ItemPool.PUNCHCARD_ATTACK,
-        "El Vibrato punchcard (115 holes)",
-        "El Vibrato punchcard (ATTACK)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_REPAIR,
-        "El Vibrato punchcard (97 holes)",
-        "El Vibrato punchcard (REPAIR)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_BUFF, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_MODIFY,
-        "El Vibrato punchcard (213 holes)",
-        "El Vibrato punchcard (MODIFY)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_BUILD,
-        "El Vibrato punchcard (165 holes)",
-        "El Vibrato punchcard (BUILD)"),
-
-    // Objects
-    new Punchcard(
-        ItemPool.PUNCHCARD_TARGET,
-        "El Vibrato punchcard (142 holes)",
-        "El Vibrato punchcard (TARGET)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_SELF, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_FLOOR,
-        "El Vibrato punchcard (88 holes)",
-        "El Vibrato punchcard (FLOOR)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_DRONE,
-        "El Vibrato punchcard (182 holes)",
-        "El Vibrato punchcard (DRONE)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_WALL, "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_SPHERE,
-        "El Vibrato punchcard (104 holes)",
-        "El Vibrato punchcard (SPHERE)")
-  };
 
   private record Alias(int id, String name) {}
 
@@ -634,9 +590,9 @@ public class ItemDatabase {
     }
 
     // Set aliases for the El Vibrato punch cards
-    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
-      id = punchcard.id;
-      String alias = StringUtilities.getCanonicalName(punchcard.alias);
+    for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
+      id = punchcard.id();
+      String alias = StringUtilities.getCanonicalName(punchcard.alias());
       String plural = StringUtilities.singleStringReplace(alias, "punchcard", "punchcards");
       ItemDatabase.addIdToName(alias, id);
       ItemDatabase.itemIdByPlural.put(plural, id);

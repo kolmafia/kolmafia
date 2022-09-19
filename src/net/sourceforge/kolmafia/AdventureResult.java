@@ -10,12 +10,13 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase.Punchcard;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1185,7 +1186,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public static final String punchCardName(final int itemId) {
-    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+    for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
       if (punchcard.id() == itemId) {
         return punchcard.alias();
       }

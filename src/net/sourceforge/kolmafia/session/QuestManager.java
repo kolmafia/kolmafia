@@ -82,8 +82,13 @@ public class QuestManager {
     String redirectLocation = request.redirectLocation;
     if (redirectLocation != null) {
       if (location.startsWith("adventure")) {
-        if (locationId == AdventurePool.PALINDOME) {
-          QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
+        switch (locationId) {
+          case AdventurePool.PALINDOME:
+            QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
+            break;
+          case AdventurePool.EL_VIBRATO_ISLAND:
+            handleElVibratoChange(location, "");
+            break;
         }
       }
       return;
@@ -135,9 +140,6 @@ public class QuestManager {
         case AdventurePool.RED_ZEPPELIN:
           handleZeppelinChange(responseText);
           break;
-        case AdventurePool.EL_VIBRATO_ISLAND:
-          handleElVibratoChange(location, responseText);
-          break;
         case AdventurePool.PALINDOME:
           {
             // Non-fight, non-choice. Could be a regular
@@ -151,6 +153,9 @@ public class QuestManager {
             }
             break;
           }
+        case AdventurePool.EL_VIBRATO_ISLAND:
+          handleElVibratoChange(location, responseText);
+          break;
         case AdventurePool.ABOO_PEAK:
           handleABooPeakChange(responseText);
           break;

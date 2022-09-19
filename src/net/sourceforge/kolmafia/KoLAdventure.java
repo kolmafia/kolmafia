@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -3516,6 +3517,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       Preferences.setInteger("fratboysDefeated", 1000);
     } else if (responseText.contains("Drippy Juice supply")) {
       Preferences.setInteger("drippyJuice", 0);
+    } else if (responseText.contains("El Vibrato portal")) {
+      Preferences.setInteger("currentPortalEnergy", 0);
+      CampgroundRequest.updateElVibratoPortal();
+    } else if (responseText.contains("spacegate is out of energy")) {
+      Preferences.setInteger("_spacegateTurnsLeft", 0);
     } else if (responseText.contains("Better bundle up")
         || responseText.contains("extreme cold makes it impossible")) {
       Matcher matcher = CRIMBO21_COLD_RES.matcher(responseText);

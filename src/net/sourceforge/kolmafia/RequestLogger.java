@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -548,6 +549,12 @@ public class RequestLogger extends NullStream {
 
     // We want to register a simple visit to ocean.php
     if (OceanManager.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    // We want to register a simple visit to elvmachine.php
+    if (ElVibratoManager.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

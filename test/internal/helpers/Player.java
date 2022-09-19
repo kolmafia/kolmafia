@@ -1048,6 +1048,18 @@ public class Player {
   }
 
   /**
+   * Sets the player's campground as having an item installed in it
+   *
+   * @param itemId Item to add
+   * @param count associated count
+   * @return Removes the item
+   */
+  public static Cleanups withCampgroundItem(final int itemId, final int count) {
+    CampgroundRequest.setCampgroundItem(itemId, count);
+    return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(itemId, 1)));
+  }
+
+  /**
    * Clears the Campground and clears it again when done. This prevents leakage if the test adds
    * items to the campground.
    *
