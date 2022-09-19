@@ -1399,7 +1399,7 @@ public class Player {
     FightRequest.currentRound = round;
     return new Cleanups(
         () -> {
-          FightRequest.currentRound = 0;
+          FightRequest.preFight(false);
           FightRequest.clearInstanceData();
         });
   }

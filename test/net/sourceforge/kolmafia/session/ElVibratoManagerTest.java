@@ -5,6 +5,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withEmptyCampground;
+import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
@@ -245,6 +246,8 @@ public class ElVibratoManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
+              // This will clean up FightRequest
+              withFight(0),
               withCampgroundItem(ItemPool.TRAPEZOID, 20),
               withProperty("currentPortalEnergy", 20));
       try (cleanups) {

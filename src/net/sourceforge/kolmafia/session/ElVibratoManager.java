@@ -84,7 +84,8 @@ public class ElVibratoManager {
 
   public static void decorate(final StringBuffer buffer) {
     // If we are not on El Vibrato Island, nothing to do.
-    if (KoLAdventure.lastVisitedLocation.getAdventureNumber() != AdventurePool.EL_VIBRATO_ISLAND) {
+    KoLAdventure location = KoLAdventure.lastVisitedLocation;
+    if (location == null || location.getAdventureNumber() != AdventurePool.EL_VIBRATO_ISLAND) {
       return;
     }
 
