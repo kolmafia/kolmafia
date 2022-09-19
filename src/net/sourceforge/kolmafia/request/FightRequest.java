@@ -698,7 +698,9 @@ public class FightRequest extends GenericRequest {
     super("fight.php");
   }
 
-  public static final void initialize() {}
+  public static final void initialize() {
+    INSTANCE.constructURLString("fight.php");
+  }
 
   public static final void resetKisses() {
     FightRequest.dreadWoodsKisses = 0;

@@ -1399,6 +1399,7 @@ public class Player {
     FightRequest.currentRound = round;
     return new Cleanups(
         () -> {
+          FightRequest.INSTANCE.initialize();
           FightRequest.preFight(false);
           FightRequest.clearInstanceData();
         });
