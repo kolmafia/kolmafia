@@ -111,6 +111,9 @@ public class FightRequest extends GenericRequest {
   // Character-class permissions
   private static final PauseObject PAUSER = new PauseObject();
   public static final FightRequest INSTANCE = new FightRequest();
+  public static final void resetInstance() {
+    INSTANCE.constructURLString("fight.php");
+  }
 
   private static final AdventureResult AMNESIA = EffectPool.get(EffectPool.AMNESIA);
   private static final AdventureResult CUNCTATITIS = EffectPool.get(EffectPool.CUNCTATITIS);
@@ -698,9 +701,7 @@ public class FightRequest extends GenericRequest {
     super("fight.php");
   }
 
-  public static final void initialize() {
-    INSTANCE.constructURLString("fight.php");
-  }
+  public static final void initialize() {}
 
   public static final void resetKisses() {
     FightRequest.dreadWoodsKisses = 0;
