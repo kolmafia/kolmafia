@@ -85,6 +85,11 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
     }
 
     KoLmafia.updateDisplay("Your parka is now set to " + mode + " mode.");
+
+    if (parameters.trim().toLowerCase().equals("nc")) {
+      KoLmafia.updateDisplay(
+          "If you want to switch to the skill that forces noncombats, use 'parka spikolodon' or 'parka spikes'.");
+    }
   }
 
   private static void setMode(final String mode) {
