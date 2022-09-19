@@ -111,6 +111,7 @@ public class FightRequest extends GenericRequest {
   // Character-class permissions
   private static final PauseObject PAUSER = new PauseObject();
   public static final FightRequest INSTANCE = new FightRequest();
+
   public static final void resetInstance() {
     INSTANCE.constructURLString("fight.php");
   }
