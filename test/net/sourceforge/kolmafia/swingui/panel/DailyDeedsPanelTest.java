@@ -6,6 +6,7 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -230,6 +231,46 @@ public class DailyDeedsPanelTest {
       try (cleanups) {
         ff.update();
         assertThat(ff.getText(), containsString("0/5 void"));
+      }
+    }
+  }
+
+  @Nested
+  class CombatLoversLocket {
+    @Test
+    public void showsLocket() {
+      var cld = new DailyDeedsPanel.CombatLocketDaily();
+      var cleanups = withItem(ItemPool.COMBAT_LOVERS_LOCKET);
+      try (cleanups) {
+        cld.update();
+        assertThat(cld.getText(), containsString("0/3 locket"));
+      }
+    }
+
+    @Test
+    public void showsLocket1Monster() {
+      var cld = new DailyDeedsPanel.CombatLocketDaily();
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.COMBAT_LOVERS_LOCKET), withProperty("_locketMonstersFought", "1"));
+      try (cleanups) {
+        cld.update();
+        assertThat(cld.getText(), containsString("1/3 locket: spooky vampire"));
+      }
+    }
+
+    @Test
+    public void showsLocket3Monsters() {
+      var cld = new DailyDeedsPanel.CombatLocketDaily();
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.COMBAT_LOVERS_LOCKET),
+              withProperty("_locketMonstersFought", "1,11,111"));
+      try (cleanups) {
+        cld.update();
+        assertThat(
+            cld.getText(),
+            containsString("3/3 locket: spooky vampire, Gnollish Flyslayer, scary clown"));
       }
     }
   }
