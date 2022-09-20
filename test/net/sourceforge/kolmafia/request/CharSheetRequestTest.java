@@ -229,7 +229,7 @@ public class CharSheetRequestTest {
     String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
-    assertThat(KoLCharacter.getSign(), equalTo(expected));
+    assertThat(KoLCharacter.getSign().getName(), equalTo(expected));
   }
 
   @ParameterizedTest
@@ -256,7 +256,7 @@ public class CharSheetRequestTest {
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getAscensions(), equalTo(0));
-    assertThat(KoLCharacter.getSign(), equalTo(ZodiacSign.NONE.toString()));
+    assertThat(KoLCharacter.getSign(), equalTo(ZodiacSign.NONE));
   }
 
   @Test

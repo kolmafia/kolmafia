@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -76,7 +77,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public static String lastLocationName = null;
   public static String lastLocationURL = null;
 
-  private boolean isValidAdventure = false;
   private boolean hasWanderers = false;
   private final String zone, parentZone, rootZone;
   private final String adventureId, formSource, adventureName, environment;
@@ -356,11 +356,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // access to (some of) the features, if we didn't see you use the item which
   // granted daily access, we can usually visit a map area and take a look.
   //
-  // this.isValidAdventure will be false if the only way to visit an area is to
-  // use a (possibly expensive) day pass - which you might not even own
+  // This returns false if the only way to visit an area is to use a (possibly
+  // expensive) day pass - which you might not even own
 
   private boolean validate0() {
-    return (this.isValidAdventure = this.preValidateAdventure());
+    return this.preValidateAdventure();
   }
 
   // Validation part 1:
@@ -371,11 +371,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // an effect. After we've given that script a chance to run, part 2 of
   // validation might be able to do some of those things anyway.
   //
-  // this.isValidAdventure will be false if there is nothing you can do
-  // to go to this location at this time, or true, otherwise
+  // This returns false if there is nothing you can do to go to this location
+  // at this time, or true, otherwise
 
   private boolean validate1() {
-    return (this.isValidAdventure = this.canAdventure());
+    return this.canAdventure();
   }
 
   // Validation part 2:
@@ -385,10 +385,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   //
   // If it didn't do what we can here.
   //
-  // If we can't, log error and set this.isValidAdventure to false.
+  // If we can't, log error and return false.
 
   private boolean validate2() {
-    return (this.isValidAdventure = this.prepareForAdventure());
+    return this.prepareForAdventure();
   }
 
   // AdventureResults used during validation
@@ -398,7 +398,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult BILLIARDS_KEY = ItemPool.get(ItemPool.BILLIARDS_KEY);
   private static final AdventureResult SPOOKYRAVEN_NECKLACE =
       ItemPool.get(ItemPool.SPOOKYRAVEN_NECKLACE);
-  private static final AdventureResult GHOST_NECKLACE = ItemPool.get(ItemPool.GHOST_NECKLACE);
   private static final AdventureResult POWDER_PUFF = ItemPool.get(ItemPool.POWDER_PUFF);
   private static final AdventureResult FINEST_GOWN = ItemPool.get(ItemPool.FINEST_GOWN);
   private static final AdventureResult DANCING_SHOES = ItemPool.get(ItemPool.DANCING_SHOES);
@@ -432,6 +431,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult GRIMSTONE_MASK = ItemPool.get(ItemPool.GRIMSTONE_MASK);
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
+  private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -774,11 +774,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return switch (this.adventureNumber) {
           case AdventurePool.HAUNTED_BATHROOM,
               AdventurePool.HAUNTED_BEDROOM,
-              AdventurePool.HAUNTED_GALLERY -> QuestDatabase.isQuestLaterThan(
-                  Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)
+              AdventurePool.HAUNTED_GALLERY ->
+          // Already started this quest
+          QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)
               || (KoLCharacter.getLevel() >= neededLevel
-                  && (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)
-                      || InventoryManager.hasItem(GHOST_NECKLACE)));
+                  && (
+                  // Not finished the last quest, but you can (so prepareForAdventure will)
+                  InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)
+                      ||
+                      // Finished the last quest, prepareForAdventure will start this one
+                      QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)));
           case AdventurePool.HAUNTED_BALLROOM -> QuestDatabase.isQuestLaterThan(
                   Quest.SPOOKYRAVEN_DANCE, "step2")
               || (InventoryManager.hasItem(POWDER_PUFF)
@@ -1663,8 +1668,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Portal")) {
       // El Vibrato Island
-      // *** validate
-      return true;
+      return (Preferences.getInteger("currentPortalEnergy") > 0)
+          || InventoryManager.hasItem(TRAPEZOID);
     }
 
     if (this.zone.equals("Rabbit Hole")) {
@@ -2044,8 +2049,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.parentZone.equals("Manor")) {
       if (this.zone.equals("Manor1")) {
         switch (this.adventureNumber) {
-          case AdventurePool.HAUNTED_KITCHEN:
-          case AdventurePool.HAUNTED_CONSERVATORY:
+          case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> {
             if (!QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)) {
               // If we have ascended at least once, we started with telegram in inventory.
               // Otherwise, it comes in KMail at level 5.
@@ -2058,28 +2062,30 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               }
             }
             return QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
+          }
         }
       }
 
       if (this.zone.equals("Manor2")) {
         switch (this.adventureNumber) {
-          case AdventurePool.HAUNTED_BATHROOM:
-          case AdventurePool.HAUNTED_BEDROOM:
-          case AdventurePool.HAUNTED_GALLERY:
+          case AdventurePool.HAUNTED_BATHROOM,
+              AdventurePool.HAUNTED_BEDROOM,
+              AdventurePool.HAUNTED_GALLERY -> {
             if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)) {
               if (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)) {
                 // Talk to Lady Spookyraven on 1st floor
                 var request = new GenericRequest("place.php?whichplace=manor1&action=manor1_ladys");
                 RequestThread.postRequest(request);
               }
-              if (InventoryManager.hasItem(GHOST_NECKLACE)) {
+              if (QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)) {
                 // Talk to Lady Spookyraven on 2nd floor
                 var request = new GenericRequest("place.php?whichplace=manor2&action=manor2_ladys");
                 RequestThread.postRequest(request);
               }
             }
             return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
-          case AdventurePool.HAUNTED_BALLROOM:
+          }
+          case AdventurePool.HAUNTED_BALLROOM -> {
             if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2")) {
               // These should not fail
               InventoryManager.retrieveItem(POWDER_PUFF);
@@ -2090,6 +2096,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               RequestThread.postRequest(request);
             }
             return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
+          }
         }
       }
 
@@ -2108,6 +2115,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       RequestThread.postRequest(new EquipmentRequest(TALISMAN));
 
       return true;
+    }
+
+    if (this.zone.equals("Portal")) {
+      // El Vibrato Island
+      if (InventoryManager.hasItem(TRAPEZOID)) {
+        // Use the El Vibrato trapezoid to open a portal
+        RequestThread.postRequest(UseItemRequest.getInstance(TRAPEZOID));
+      }
+      return Preferences.getInteger("currentPortalEnergy") > 0;
     }
 
     if (this.adventureNumber == AdventurePool.HOBOPOLIS_SEWERS) {
@@ -3517,6 +3533,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       Preferences.setInteger("fratboysDefeated", 1000);
     } else if (responseText.contains("Drippy Juice supply")) {
       Preferences.setInteger("drippyJuice", 0);
+    } else if (responseText.contains("El Vibrato portal")) {
+      Preferences.setInteger("currentPortalEnergy", 0);
+      CampgroundRequest.updateElVibratoPortal();
+    } else if (responseText.contains("spacegate is out of energy")) {
+      Preferences.setInteger("_spacegateTurnsLeft", 0);
     } else if (responseText.contains("Better bundle up")
         || responseText.contains("extreme cold makes it impossible")) {
       Matcher matcher = CRIMBO21_COLD_RES.matcher(responseText);

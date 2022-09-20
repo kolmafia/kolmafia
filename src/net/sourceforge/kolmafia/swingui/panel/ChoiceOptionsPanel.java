@@ -21,6 +21,7 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -29,6 +30,8 @@ import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.LouvreManager;
+import net.sourceforge.kolmafia.session.OceanManager.Destination;
+import net.sourceforge.kolmafia.session.OceanManager.Point;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
@@ -365,8 +368,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addChoiceSelect("Manor2", "Louvre Goal", this.louvreSelect);
     this.addChoiceSelect("Manor2", "Louvre Override", this.manualLouvre);
     this.addChoiceSelect("Manor2", "The Maidens", this.maidenSelect);
-    this.addChoiceSelect("Island", "Ocean Destination", this.oceanDestSelect);
-    this.addChoiceSelect("Island", "Ocean Action", this.oceanActionSelect);
+    this.addChoiceSelect("Pirate", "Ocean Destination", this.oceanDestSelect);
+    this.addChoiceSelect("Pirate", "Ocean Action", this.oceanActionSelect);
     this.addChoiceSelect("Mountain", "Barrel full of Barrels", this.barrelSelect);
     this.addChoiceSelect("Mountain", "The Valley of Rof L'm Fao", this.addingSelect);
     this.addChoiceSelect("Events", "Sorority House Attic", this.darkAtticSelect);
@@ -554,6 +557,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       this.addItem("muscle");
       this.addItem("mysticality");
       this.addItem("moxie");
+      this.addItem("rainbow sand");
+      this.addItem("altar fragment");
       this.addItem("El Vibrato power sphere");
       this.addItem("the plinth");
       this.addItem("random choice");
@@ -584,14 +589,18 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         index = 3;
       } else if (dest.equals("moxie")) {
         index = 4;
-      } else if (dest.equals("sphere")) {
+      } else if (dest.equals("sand")) {
         index = 5;
-      } else if (dest.equals("plinth")) {
+      } else if (dest.equals("altar")) {
         index = 6;
-      } else if (dest.equals("random")) {
+      } else if (dest.equals("sphere")) {
         index = 7;
-      } else if (dest.indexOf(",") != -1) {
+      } else if (dest.equals("plinth")) {
         index = 8;
+      } else if (dest.equals("random")) {
+        index = 9;
+      } else if (dest.indexOf(",") != -1) {
+        index = 10;
       }
 
       this.setSelectedIndex(index);
@@ -616,6 +625,10 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         value = "mysticality";
       } else if (dest.startsWith("moxie")) {
         value = "moxie";
+      } else if (dest.startsWith("rainbow sand")) {
+        value = "sand";
+      } else if (dest.startsWith("altar fragment")) {
+        value = "altar";
       } else if (dest.startsWith("El Vibrato power sphere")) {
         value = "sphere";
       } else if (dest.startsWith("the plinth")) {
@@ -662,7 +675,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       this.createMenu(coords);
 
       // Select the "go to" menu item
-      this.setSelectedIndex(8);
+      this.setSelectedIndex(10);
 
       // Request that the settings be saved in a different thread.
       RequestThread.runInParallel(new SaveOceanDestinationSettingsRunnable(this));
@@ -680,16 +693,22 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       }
 
       int longitude = StringUtilities.parseInt(coords.substring(0, index));
-      if (longitude < 1 || longitude > 242) {
-        return null;
-      }
-
       int latitude = StringUtilities.parseInt(coords.substring(index + 1));
-      if (latitude < 1 || latitude > 100) {
+
+      if (!Point.valid(longitude, latitude)) {
+        // longitude and/or latitude is out of range
+        KoLmafia.updateDisplay("(" + coords + ") are not valid ocean coordinates");
         return null;
       }
 
-      return longitude + "," + latitude;
+      Point point = new Point(longitude, latitude);
+      if (Destination.MAINLAND.getLocations().contains(point)) {
+        // The destination is on the mainland and you cannot sail there
+        KoLmafia.updateDisplay("(" + coords + ") is on the mainland");
+        return null;
+      }
+
+      return point.toString();
     }
   }
 

@@ -112,6 +112,10 @@ public class FightRequest extends GenericRequest {
   private static final PauseObject PAUSER = new PauseObject();
   public static final FightRequest INSTANCE = new FightRequest();
 
+  public static final void resetInstance() {
+    INSTANCE.constructURLString("fight.php");
+  }
+
   private static final AdventureResult AMNESIA = EffectPool.get(EffectPool.AMNESIA);
   private static final AdventureResult CUNCTATITIS = EffectPool.get(EffectPool.CUNCTATITIS);
   public static final AdventureResult ONTHETRAIL = EffectPool.get(EffectPool.ON_THE_TRAIL);

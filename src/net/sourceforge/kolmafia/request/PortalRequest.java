@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class PortalRequest extends GenericRequest {
@@ -59,14 +60,14 @@ public class PortalRequest extends GenericRequest {
       return null;
     }
 
-    String action = matcher.group(1);
-    if (action.equals("power")) {
-      return ItemPool.get(ItemPool.POWER_SPHERE, -1);
-    }
-    if (action.equals("overpower")) {
-      return ItemPool.get(ItemPool.OVERCHARGED_POWER_SPHERE, -1);
-    }
-    return null;
+    int itemId =
+        switch (matcher.group(1)) {
+          case "power" -> ItemPool.POWER_SPHERE;
+          case "overpower" -> ItemPool.OVERCHARGED_POWER_SPHERE;
+          default -> 0;
+        };
+
+    return itemId == 0 ? null : ItemPool.get(itemId, -1);
   }
 
   public static final void parseResponse(final String urlString, final String responseText) {
@@ -75,11 +76,37 @@ public class PortalRequest extends GenericRequest {
     }
 
     AdventureResult item = PortalRequest.getSphere(urlString);
-
     if (item == null) {
       return;
     }
 
+    int itemId = item.getItemId();
+    int charges =
+        switch (itemId) {
+          case ItemPool.POWER_SPHERE -> 5;
+          case ItemPool.OVERCHARGED_POWER_SPHERE -> 10;
+          default -> 0;
+        };
+
+    // You insert the sphere into the base of the portal. There is a crackle of energy as it sinks
+    // into the device and vanishes. The beams surrounding the portal glow more brightly.
+    // You insert the sphere into the base of the portal. The pieces of the device rise from the
+    // ground and energy arcs between them as the El Vibrato portal is reopened.
+
+    // You insert the supercharged sphere into the base of the portal. There is a deafening crackle
+    // of energy as it sinks into the device and vanishes. The beams surrounding the portal glow
+    // more brightly.
+    // You insert the supercharged sphere into the base of the portal. The pieces of the device rise
+    // energetically from the ground and energy arcs between them as the El Vibrato portal is
+    // reopened.
+
+    if (responseText.contains("The pieces of the device rise")) {
+      Preferences.setInteger("currentPortalEnergy", charges);
+    } else if (responseText.contains("crackle of energy")) {
+      Preferences.increment("currentPortalEnergy", charges);
+    }
+
+    CampgroundRequest.updateElVibratoPortal();
     ResultProcessor.processResult(item);
   }
 

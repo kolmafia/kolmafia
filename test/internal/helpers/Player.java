@@ -1037,7 +1037,7 @@ public class Player {
   }
 
   /**
-   * Sets the player's item as having an item installed in it
+   * Sets the player's campground as having an item installed in it
    *
    * @param itemId Item to add
    * @return Removes the item
@@ -1045,6 +1045,29 @@ public class Player {
   public static Cleanups withCampgroundItem(final int itemId) {
     CampgroundRequest.setCampgroundItem(itemId, 1);
     return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(itemId, 1)));
+  }
+
+  /**
+   * Sets the player's campground as having an item installed in it
+   *
+   * @param itemId Item to add
+   * @param count associated count
+   * @return Removes the item
+   */
+  public static Cleanups withCampgroundItem(final int itemId, final int count) {
+    CampgroundRequest.setCampgroundItem(itemId, count);
+    return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(itemId, 1)));
+  }
+
+  /**
+   * Clears the Campground and clears it again when done. This prevents leakage if the test adds
+   * items to the campground.
+   *
+   * @return Empties the Campground
+   */
+  public static Cleanups withEmptyCampground() {
+    CampgroundRequest.reset();
+    return new Cleanups(() -> CampgroundRequest.reset());
   }
 
   /**
@@ -1376,7 +1399,8 @@ public class Player {
     FightRequest.currentRound = round;
     return new Cleanups(
         () -> {
-          FightRequest.currentRound = 0;
+          FightRequest.resetInstance();
+          FightRequest.preFight(false);
           FightRequest.clearInstanceData();
         });
   }
@@ -1413,6 +1437,22 @@ public class Player {
     var old = ChoiceManager.handlingChoice;
     ChoiceManager.handlingChoice = handlingChoice;
     return new Cleanups(() -> ChoiceManager.handlingChoice = old);
+  }
+
+  /**
+   * Sets the player's "currently handling a choice" flag
+   *
+   * @param whichChoice which choice is currently being handled
+   * @return Restores previous value
+   */
+  public static Cleanups withHandlingChoice(final int whichChoice) {
+    ChoiceManager.handlingChoice = true;
+    ChoiceManager.lastChoice = whichChoice;
+    return new Cleanups(
+        () -> {
+          ChoiceManager.handlingChoice = false;
+          ChoiceManager.lastChoice = 0;
+        });
   }
 
   /**

@@ -731,6 +731,12 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
+  public static void updateElVibratoPortal() {
+    int charges = Preferences.getInteger("currentPortalEnergy");
+    CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.TRAPEZOID));
+    CampgroundRequest.setCampgroundItem(ItemPool.TRAPEZOID, charges);
+  }
+
   public static void growTallGrass() {
     AdventureResult crop = CampgroundRequest.getCrop();
     if (crop == null || CampgroundRequest.getCropType(crop) != CropType.GRASS) {
@@ -1006,8 +1012,25 @@ public class CampgroundRequest extends GenericRequest {
     findImage(responseText, "doghouse.gif", ItemPool.HAUNTED_DOGHOUSE);
     findImage(responseText, "chesstable.gif", ItemPool.WITCHESS_SET);
     findImage(responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL);
-    findImage(responseText, "portal1.gif", ItemPool.TRAPEZOID);
-    findImage(responseText, "portal2.gif", ItemPool.TRAPEZOID);
+
+    if (responseText.contains("portal1.gif")) {
+      // Charged portal.
+
+      // If we think it is uncharged, assume it is fully
+      // charged. Otherwise, believe the property.
+      int charges = Preferences.getInteger("currentPortalEnergy");
+      if (charges == 0) {
+        Preferences.setInteger("currentPortalEnergy", 20);
+        charges = 20;
+      }
+      updateElVibratoPortal();
+    }
+
+    if (responseText.contains("portal2.gif")) {
+      // Uncharged portal.
+      Preferences.setInteger("currentPortalEnergy", 0);
+      updateElVibratoPortal();
+    }
 
     if (responseText.contains("campterminal.gif")
         && Preferences.getString("sourceTerminalEducateKnown").equals("")) {

@@ -251,8 +251,7 @@ public abstract class ChoiceManager {
         return;
       }
 
-      // We automated one choice. If it redirected to a
-      // fight, quit automating the choice.
+      // We automated one choice. If it redirected, quit automating the choice.
       if (request.redirectLocation != null) {
         return;
       }
@@ -2202,7 +2201,8 @@ public abstract class ChoiceManager {
     // If you walked away from the choice, this is not the result of a choice.
     if (ChoiceManager.canWalkAway
         && !urlString.startsWith("choice.php")
-        && !urlString.startsWith("fight.php")) {
+        && !urlString.startsWith("fight.php")
+        && !urlString.startsWith("ocean.php")) {
       return;
     }
 

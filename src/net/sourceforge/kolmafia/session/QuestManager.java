@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
@@ -81,8 +82,13 @@ public class QuestManager {
     String redirectLocation = request.redirectLocation;
     if (redirectLocation != null) {
       if (location.startsWith("adventure")) {
-        if (locationId == AdventurePool.PALINDOME) {
-          QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
+        switch (locationId) {
+          case AdventurePool.PALINDOME:
+            QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
+            break;
+          case AdventurePool.EL_VIBRATO_ISLAND:
+            handleElVibratoChange(location, "");
+            break;
         }
       }
       return;
@@ -147,6 +153,9 @@ public class QuestManager {
             }
             break;
           }
+        case AdventurePool.EL_VIBRATO_ISLAND:
+          handleElVibratoChange(location, responseText);
+          break;
         case AdventurePool.ABOO_PEAK:
           handleABooPeakChange(responseText);
           break;
@@ -1282,6 +1291,11 @@ public class QuestManager {
     if (responseText.contains("palinlink.gif")) {
       QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
     }
+  }
+
+  public static final void handleElVibratoChange(final String location, final String responseText) {
+    Preferences.decrement("currentPortalEnergy", 1, 0);
+    CampgroundRequest.updateElVibratoPortal();
   }
 
   public static final void handleBeanstalkChange(final String location, final String responseText) {

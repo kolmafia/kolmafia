@@ -3093,8 +3093,8 @@ public abstract class KoLCharacter {
    *
    * @return String
    */
-  public static final String getSign() {
-    return KoLCharacter.ascensionSign.getName();
+  public static final ZodiacSign getSign() {
+    return KoLCharacter.ascensionSign;
   }
 
   /**
