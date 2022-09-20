@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringJoiner;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -21,6 +22,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -253,6 +255,9 @@ public class DailyDeedsPanel extends Box implements Listener {
     },
     {
       "Special", "Camera",
+    },
+    {
+      "Special", "Combat Lover's Locket",
     },
     {
       "Special", "Romantic Arrow",
@@ -904,6 +909,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.add(new PuttyDaily());
     } else if (deedsString[1].equals("Camera")) {
       this.add(new CameraDaily());
+    } else if (deedsString[1].equals("Combat Lover's Locket")) {
+      this.add(new CombatLocketDaily());
     } else if (deedsString[1].equals("Envyfish Egg")) {
       this.add(new EnvyfishDaily());
     } else if (deedsString[1].equals("Romantic Arrow")) {
@@ -3025,6 +3032,35 @@ public class DailyDeedsPanel extends Box implements Listener {
         text = text + ", now " + monster;
       }
       this.setText(text);
+    }
+  }
+
+  public static class CombatLocketDaily extends Daily {
+    public CombatLocketDaily() {
+      this.addListener("_locketMonstersFought");
+      this.addListener("(character)");
+      this.addLabel("");
+    }
+
+    @Override
+    public void update() {
+      boolean show =
+          StandardRequest.isAllowed(RestrictedItemType.ITEMS, "combat lover's locket")
+              && InventoryManager.hasItem(ItemPool.COMBAT_LOVERS_LOCKET);
+
+      String locketData = Preferences.getString("_locketMonstersFought");
+      String[] splitFights =
+          locketData == null || locketData.isBlank() ? new String[0] : locketData.split(",");
+      StringJoiner monstersFought = new StringJoiner(", ", ": ", "");
+
+      for (String splitFight : splitFights) {
+        int monsterID = Integer.parseInt(splitFight);
+        MonsterData mons = MonsterDatabase.findMonsterById(monsterID);
+        monstersFought.add(mons.getName());
+      }
+
+      this.setText(splitFights.length + "/3 locket" + monstersFought);
+      this.setShown(show);
     }
   }
 

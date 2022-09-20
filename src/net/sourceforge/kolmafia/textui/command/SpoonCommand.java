@@ -38,7 +38,7 @@ public class SpoonCommand extends AbstractCommand {
       return;
     }
 
-    ZodiacSign currentSign = ZodiacSign.find(KoLCharacter.getSign());
+    ZodiacSign currentSign = KoLCharacter.getSign();
     if (currentSign == ZodiacSign.BAD_MOON) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You can't escape the Bad Moon this way.");
       return;

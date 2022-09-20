@@ -333,7 +333,7 @@ public class ValhallaManager {
 
     sessionStream.println(KoLCharacter.getAscensionClassName());
 
-    sessionStream.println(KoLCharacter.getSign());
+    sessionStream.println(KoLCharacter.getSign().getName());
     sessionStream.println();
     sessionStream.println();
 
