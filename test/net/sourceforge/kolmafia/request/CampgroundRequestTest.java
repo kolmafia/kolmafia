@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,7 +31,7 @@ public class CampgroundRequestTest {
 
   @Test
   void canDetectDeactivatedElVibratoPortal() {
-    var cleanups = new Cleanups(withProperty("currentPortalEnergy", 20));
+    var cleanups = new Cleanups(withProperty("currentPortalEnergy", 20), withEmptyCampground());
 
     try (cleanups) {
       String html = html("request/test_campground_deactivated_el_vibrato.html");
