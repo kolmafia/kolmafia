@@ -1,0 +1,251 @@
+1
+12	84	Gilligan's Island
+63	10	Gilligan's Island
+81	40	Gilligan's Island
+111	59	Gilligan's Island
+185	86	Gilligan's Island
+
+56	14	Monkey Island
+90	36	Monkey Island
+105	13	Monkey Island
+147	5	Monkey Island
+148	72	Monkey Island
+
+19	59	Oyster Island
+49	42	Oyster Island
+64	64	Oyster Island
+173	51	Oyster Island
+186	95	Oyster Island
+
+23	66	Dinosaur Comics
+55	8	Dinosaur Comics
+60	14	Dinosaur Comics
+110	15	Dinosaur Comics
+196	42	Dinosaur Comics
+
+89	44	Land of the Lost
+138	43	Land of the Lost
+135	14	Land of the Lost
+151	76	Land of the Lost
+187	88	Land of the Lost
+
+3	35	Myst Island
+13	86	Myst Island
+44	45	Myst Island
+52	50	Myst Island
+81	5	Myst Island
+
+22	62	Cast Away
+30	35	Cast Away
+60	5	Cast Away
+83	45	Cast Away
+185	98	Cast Away
+
+13	91	Lord of the Flies
+44	51	Lord of the Flies
+85	35	Lord of the Flies
+94	65	Lord of the Flies
+115	14	Lord of the Flies
+
+5	39	LOST
+52	45	LOST
+133	60	LOST
+143	11	LOST
+187	92	LOST
+
+124	31	rainbow sand
+134	30	rainbow sand
+144	29	rainbow sand
+154	28	rainbow sand
+164	27	rainbow sand
+172	19	rainbow sand
+174	26	rainbow sand
+176	33	rainbow sand
+178	22	rainbow sand
+180	29	rainbow sand
+184	25	rainbow sand
+
+30	85	sinister altar fragment
+34	79	sinister altar fragment
+38	70	sinister altar fragment
+40	81	sinister altar fragment
+41	90	sinister altar fragment
+47	74	sinister altar fragment
+47	83	sinister altar fragment
+47	91	sinister altar fragment
+51	79	sinister altar fragment
+54	93	sinister altar fragment
+58	77	sinister altar fragment
+59	75	sinister altar fragment
+62	89	sinister altar fragment
+63	81	sinister altar fragment
+68	88	sinister altar fragment
+69	77	sinister altar fragment
+69	94	sinister altar fragment
+70	86	sinister altar fragment
+73	81	sinister altar fragment
+73	88	sinister altar fragment
+77	74	sinister altar fragment
+79	93	sinister altar fragment
+82	83	sinister altar fragment
+86	72	sinister altar fragment
+89	92	sinister altar fragment
+90	79	sinister altar fragment
+94	86	sinister altar fragment
+97	81	sinister altar fragment
+98	94	sinister altar fragment
+100	81	sinister altar fragment
+104	76	sinister altar fragment
+104	85	sinister altar fragment
+107	79	sinister altar fragment
+110	73	sinister altar fragment
+113	94	sinister altar fragment
+116	74	sinister altar fragment
+119	95	sinister altar fragment
+120	88	sinister altar fragment
+121	82	sinister altar fragment
+123	76	sinister altar fragment
+125	97	sinister altar fragment
+127	90	sinister altar fragment
+129	83	sinister altar fragment
+
+48	47	El Vibrato power sphere
+59	10	El Vibrato power sphere
+86	40	El Vibrato power sphere
+
+63	29	Plinth
+
+# Mainland coordinates from:
+# https://kol.coldfront.net/thekolwiki/index.php/File:BootyMap.gif
+
+# 11	11	mainland
+11	12	mainland
+11	13	mainland
+11	14	mainland
+11	15	mainland
+# 11	16	mainland
+11	17	mainland
+11	18	mainland
+11	19	mainland
+11	20	mainland
+# 11	21	mainland
+
+12	11	mainland
+12	12	mainland
+12	13	mainland
+12	14	mainland
+12	15	mainland
+12	16	mainland
+12	17	mainland
+12	18	mainland
+12	19	mainland
+12	20	mainland
+12	21	mainland
+
+13	11	mainland
+13	12	mainland
+13	13	mainland
+13	14	mainland
+13	15	mainland
+13	16	mainland
+13	17	mainland
+13	18	mainland
+13	19	mainland
+13	20	mainland
+13	21	mainland
+
+14	11	mainland
+14	12	mainland
+14	13	mainland
+14	14	mainland
+14	15	mainland
+14	16	mainland
+14	17	mainland
+14	18	mainland
+14	19	mainland
+14	20	mainland
+14	21	mainland
+
+# 15	11	mainland
+15	12	mainland
+15	13	mainland
+15	14	mainland
+15	15	mainland
+15	16	mainland
+15	17	mainland
+15	18	mainland
+15	19	mainland
+15	20	mainland
+15	21	mainland
+
+# 16	11	mainland
+16	12	mainland
+16	13	mainland
+16	14	mainland
+16	15	mainland
+16	16	mainland
+16	17	mainland
+16	18	mainland
+16	19	mainland
+16	20	mainland
+16	21	mainland
+
+17	11	mainland
+17	12	mainland
+17	13	mainland
+17	14	mainland
+17	15	mainland
+17	16	mainland
+17	17	mainland
+17	18	mainland
+17	19	mainland
+17	20	mainland
+# 17	21	mainland
+
+18	11	mainland
+18	12	mainland
+18	13	mainland
+18	14	mainland
+18	15	mainland
+18	16	mainland
+18	17	mainland
+# 18	18	mainland
+# 18	19	mainland
+# 18	20	mainland
+# 18	21	mainland
+
+19	11	mainland
+19	12	mainland
+19	13	mainland
+19	14	mainland
+19	15	mainland
+19	16	mainland
+# 19	17	mainland
+# 19	18	mainland
+19	19	mainland
+19	20	mainland
+# 19	21	mainland
+
+20	11	mainland
+20	12	mainland
+20	13	mainland
+20	14	mainland
+20	15	mainland
+20	16	mainland
+# 20	17	mainland
+20	18	mainland
+20	19	mainland
+20	20	mainland
+20	21	mainland
+
+# 21	11	mainland
+21	12	mainland
+21	13	mainland
+21	14	mainland
+21	15	mainland
+# 21	16	mainland
+# 21	17	mainland
+# 21	18	mainland
+21	19	mainland
+21	20	mainland
+# 21	21	mainland
