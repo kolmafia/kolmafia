@@ -412,7 +412,7 @@ user	cocktailSummons	0
 user	coldAirportAlways	false
 user	commaFamiliar
 user	commerceGhostItem
-user	commerceGhostCombats	 0
+user	commerceGhostCombats	0
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
 user	counterScript
@@ -771,6 +771,16 @@ user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
 user	lastBeardBuff	0
 user	lastBreakfast	-1
+user	lastCartographyBooPeak	-1
+user	lastCartographyCastleTop	-1
+user	lastCartographyDarkNeck	-1
+user	lastCartographyDefiledNook	-1
+user	lastCartographyFratHouse	-1
+user	lastCartographyFratHouseVerge	-1
+user	lastCartographyGuanoJunction	-1
+user	lastCartographyHauntedBilliards	-1
+user	lastCartographyHippyCampVerge	-1
+user	lastCartographyZeppelinProtesters	-1
 user	lastCastleGroundUnlock	-1
 user	lastCastleTopUnlock	-1
 user	lastCellarReset	-1

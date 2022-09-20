@@ -7950,6 +7950,56 @@ public abstract class ChoiceControl {
         CargoCultistShortsRequest.parseAvailablePockets(text);
         break;
 
+      case 1425:
+        // Oh Yeah!
+        Preferences.setInteger("lastCartographyFratHouse", KoLCharacter.getAscensions());
+        break;
+
+      case 1427:
+        //  The Hidden Junction
+        Preferences.setInteger("lastCartographyGuanoJunction", KoLCharacter.getAscensions());
+        break;
+
+      case 1428:
+        //  Your Neck of the Woods
+        Preferences.setInteger("lastCartographyDarkNeck", KoLCharacter.getAscensions());
+        break;
+
+      case 1429:
+        //  No Nook Unknown
+        Preferences.setInteger("lastCartographyDefiledNook", KoLCharacter.getAscensions());
+        break;
+
+      case 1430:
+        //  Ghostly Memories
+        Preferences.setInteger("lastCartographyBooPeak", KoLCharacter.getAscensions());
+        break;
+
+      case 1431:
+        //  Here There Be Giants
+        Preferences.setInteger("lastCartographyCastleTop", KoLCharacter.getAscensions());
+        break;
+
+      case 1432:
+        //  Mob Maptality
+        Preferences.setInteger("lastCartographyZeppelinProtesters", KoLCharacter.getAscensions());
+        break;
+
+      case 1433:
+        //  Sneaky, Sneaky (Frat Warrior Fatigues)
+        Preferences.setInteger("lastCartographyFratHouseVerge", KoLCharacter.getAscensions());
+        break;
+
+      case 1434:
+        //  Sneaky, Sneaky (War Hippy Fatigues)
+        Preferences.setInteger("lastCartographyHippyCampVerge", KoLCharacter.getAscensions());
+        break;
+
+      case 1436:
+        // Billards Room Options
+        Preferences.setInteger("lastCartographyHauntedBilliards", KoLCharacter.getAscensions());
+        break;
+
       case 1445: // Reassembly Station
       case 1447: // Statbot 5000
         YouRobotManager.visitChoice(request);
