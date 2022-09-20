@@ -264,7 +264,7 @@ public class KoLAdventureValidationTest {
 
     @Nested
     class Spacegate {
-      private static KoLAdventure SPACEGATE =
+      private static final KoLAdventure SPACEGATE =
           AdventureDatabase.getAdventureByName("Through the Spacegate");
       private static final String always = "spacegateAlways";
       private static final String today = "_spacegateToday";
@@ -4471,9 +4471,9 @@ public class KoLAdventureValidationTest {
           EffectPool.FILTHWORM_GUARD_STENCH,
           ItemPool.FILTHWORM_GUARD_GLAND);
 
-      private KoLAdventure adventure;
-      private int effectId;
-      private int itemId;
+      private final KoLAdventure adventure;
+      private final int effectId;
+      private final int itemId;
 
       Chambers(final String adventureName, final int effectId, final int itemId) {
         this.adventure = AdventureDatabase.getAdventureByName(adventureName);
@@ -4822,6 +4822,7 @@ public class KoLAdventureValidationTest {
     //   If have no access and have item, prepareForAdventure uses item.
     //   If have no access and don't have item, prepareForAdventure starts quest with NPC
 
+    @Test
     void withAccessToSkeletonStoreMakesNoRequests() {
       var cleanups = new Cleanups(withProperty("skeletonStoreAvailable", true));
       setupFakeClient();
@@ -4833,6 +4834,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withSkeletonStoreItemUsesItem() {
       var cleanups =
           new Cleanups(
@@ -4851,6 +4853,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withoutSkeletonStoreItemStartsQuest() {
       var cleanups = new Cleanups(withProperty("skeletonStoreAvailable", false));
       setupFakeClient();
@@ -4865,6 +4868,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withAccessToMadnessBakeryStoreMakesNoRequests() {
       var cleanups = new Cleanups(withProperty("madnessBakeryAvailable", true));
       setupFakeClient();
@@ -4876,6 +4880,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withMadnessBakeryItemUsesItem() {
       var cleanups =
           new Cleanups(
@@ -4894,6 +4899,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withoutMadnessBakeryItemStartsQuest() {
       var cleanups = new Cleanups(withProperty("madnessBakeryStoreAvailable", false));
       setupFakeClient();
@@ -4908,6 +4914,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withAccessToOvergrownLotMakesNoRequests() {
       var cleanups = new Cleanups(withProperty("overgrownLotAvailable", true));
       setupFakeClient();
@@ -4919,6 +4926,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withOvergrownLotItemUsesItem() {
       var cleanups =
           new Cleanups(withProperty("overgrownLotAvailable", false), withItem(ItemPool.BOOZE_MAP));
@@ -4933,6 +4941,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withoutOvergrownLotItemStartsQuest() {
       var cleanups = new Cleanups(withProperty("overgrownLotAvailable", false));
       setupFakeClient();
