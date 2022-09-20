@@ -6,6 +6,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
@@ -24,7 +25,9 @@ import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import org.junit.jupiter.api.AfterAll;
@@ -1223,6 +1227,64 @@ public class KoLAdventureValidationTest {
         assertFalse(HAUNTED_WINE_CELLAR.canAdventure());
         assertFalse(HAUNTED_LAUNDRY_ROOM.canAdventure());
         assertFalse(HAUNTED_BOILER_ROOM.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class Portal {
+    private static final KoLAdventure EL_VIBRATO =
+        AdventureDatabase.getAdventureByName("El Vibrato Island");
+
+    @Test
+    public void elVibratoNotAvailableWithoutPortal() {
+      var cleanups = new Cleanups(withProperty("currentPortalEnergy", 0));
+      try (cleanups) {
+        assertFalse(EL_VIBRATO.canAdventure());
+      }
+    }
+
+    @Test
+    public void elVibratoAvailableWithChargedPortal() {
+      var cleanups = new Cleanups(withProperty("currentPortalEnergy", 10));
+      try (cleanups) {
+        assertTrue(EL_VIBRATO.canAdventure());
+      }
+    }
+
+    @Test
+    public void failureToAdventureSetsPortalEnergyToZero() {
+      var cleanups = new Cleanups(withProperty("currentPortalEnergy", 10));
+      try (cleanups) {
+        var failure =
+            KoLAdventure.findAdventureFailure(
+                html("request/test_adventure_fail_due_to_el_vibrato_power.html"));
+        assertThat(failure, greaterThan(0));
+        assertThat("currentPortalEnergy", isSetTo(0));
+      }
+    }
+
+    @Test
+    public void elVibratoAvailableWithTrapezoid() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.TRAPEZOID),
+              withEmptyCampground(),
+              withProperty("currentPortalEnergy", 0));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_use_el_vibrato_trapezoid.html"));
+        builder.client.addResponse(200, ""); // api.php
+
+        assertTrue(EL_VIBRATO.canAdventure());
+        assertTrue(EL_VIBRATO.prepareForAdventure());
+        assertFalse(InventoryManager.hasItem(ItemPool.TRAPEZOID));
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=3198&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

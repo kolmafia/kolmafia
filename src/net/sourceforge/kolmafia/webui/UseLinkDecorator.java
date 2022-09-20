@@ -751,6 +751,8 @@ public abstract class UseLinkDecorator {
                 && InventoryManager.getCount(ItemPool.AZAZELS_UNICORN) == 0) {
               return UseLinkDecorator.svenLink(itemId);
             }
+          case ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR:
+            return null;
         }
         return new UseLink(itemId, itemCount, "drink", "inv_booze.php?which=1&whichitem=");
 

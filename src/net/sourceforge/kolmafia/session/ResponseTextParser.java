@@ -394,6 +394,8 @@ public class ResponseTextParser {
       DwarfContraptionRequest.parseResponse(location, responseText);
     } else if (location.startsWith("dwarffactory.php")) {
       DwarfFactoryRequest.parseResponse(location, responseText);
+    } else if (location.startsWith("elvmachine.php")) {
+      ElVibratoManager.parseResponse(location, responseText);
     } else if (location.startsWith("familiar.php")) {
       FamiliarRequest.parseResponse(location, responseText);
       if (!location.contains("ajax=1")) {

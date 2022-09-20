@@ -51,6 +51,11 @@ public class ApiRequest extends GenericRequest {
     this(what, String.valueOf(id));
   }
 
+  @Override
+  public String getHashField() {
+    return null;
+  }
+
   public static String updateStatus() {
     return ApiRequest.updateStatus(false);
   }

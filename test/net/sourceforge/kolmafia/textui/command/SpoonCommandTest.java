@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -39,7 +40,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
     assertErrorState();
     assertThat(output, containsString("You need a hewn moon-rune spoon"));
-    assertEquals("None", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
   }
 
   @Test
@@ -50,7 +51,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
     assertErrorState();
     assertThat(output, containsString("already tuned the moon"));
-    assertEquals("None", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
   }
 
   @Test
@@ -60,7 +61,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
     assertErrorState();
     assertThat(output, containsString("Which sign do you want to change to"));
-    assertEquals("None", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
   }
 
   @Test
@@ -70,7 +71,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
     assertErrorState();
     assertThat(output, containsString("I don't understand what sign"));
-    assertEquals("None", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
   }
 
   @Test
@@ -80,7 +81,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
     assertErrorState();
     assertThat(output, containsString("choose to be born under a Bad Moon"));
-    assertEquals("None", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
   }
 
   @Test
@@ -91,7 +92,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
     assertErrorState();
     assertThat(output, containsString("escape the Bad Moon"));
-    assertEquals("Bad Moon", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.BAD_MOON, KoLCharacter.getSign());
   }
 
   @Test
@@ -102,7 +103,7 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
     assertErrorState();
     assertThat(output, containsString("No need to change"));
-    assertEquals("Marmot", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.MARMOT, KoLCharacter.getSign());
   }
 
   @Test

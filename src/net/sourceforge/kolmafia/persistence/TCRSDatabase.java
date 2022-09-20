@@ -106,13 +106,11 @@ public class TCRSDatabase {
     return filename(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), "");
   }
 
-  public static boolean validate(AscensionClass ascensionClass, String csign) {
-    return (ascensionClass != null
-        && ascensionClass.isStandard()
-        && ZodiacSign.find(csign).isStandard());
+  public static boolean validate(AscensionClass ascensionClass, ZodiacSign csign) {
+    return (ascensionClass != null && ascensionClass.isStandard() && csign.isStandard());
   }
 
-  public static String filename(AscensionClass ascensionClass, String sign, String suffix) {
+  public static String filename(AscensionClass ascensionClass, ZodiacSign sign, String suffix) {
     if (!validate(ascensionClass, sign)) {
       return "";
     }
@@ -120,7 +118,7 @@ public class TCRSDatabase {
     return "TCRS_"
         + StringUtilities.globalStringReplace(ascensionClass.getName(), " ", "_")
         + "_"
-        + sign
+        + sign.getName()
         + suffix
         + ".txt";
   }
@@ -135,7 +133,8 @@ public class TCRSDatabase {
     return retval;
   }
 
-  public static boolean load(AscensionClass ascensionClass, String csign, final boolean verbose) {
+  public static boolean load(
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     if (load(filename(ascensionClass, csign, ""), TCRSMap, verbose)) {
       currentClassSign = ascensionClass.getName() + "/" + csign;
       return true;
@@ -144,11 +143,11 @@ public class TCRSDatabase {
   }
 
   public static boolean loadCafe(
-      AscensionClass ascensionClass, String csign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     boolean retval = true;
     retval &= load(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
     retval &= load(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
-    return true;
+    return retval;
   }
 
   private static boolean load(String fileName, Map<Integer, TCRS> map, final boolean verbose) {
@@ -199,25 +198,26 @@ public class TCRSDatabase {
     return retval;
   }
 
-  public static boolean save(AscensionClass ascensionClass, String csign, final boolean verbose) {
+  public static boolean save(
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     return save(filename(ascensionClass, csign, ""), TCRSMap, verbose);
   }
 
   public static boolean saveCafe(
-      AscensionClass ascensionClass, String csign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     boolean retval = true;
     retval &= save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
     retval &= save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
-    return true;
+    return retval;
   }
 
   public static boolean saveCafeBooze(
-      AscensionClass ascensionClass, String csign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     return save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
   }
 
   public static boolean saveCafeFood(
-      AscensionClass ascensionClass, String csign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     return save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
   }
 
@@ -268,7 +268,7 @@ public class TCRSDatabase {
   }
 
   private static boolean derive(
-      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     // If we don't currently have data for this class/sign, start fresh
     String classSign = ascensionClass.getName() + "/" + sign;
     if (!currentClassSign.equals(classSign)) {
@@ -737,14 +737,14 @@ public class TCRSDatabase {
   // *** Primitives for checking presence of local files
 
   public static boolean localFileExists(
-      AscensionClass ascensionClass, String sign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
     boolean retval = false;
     retval |= localFileExists(filename(ascensionClass, sign, ""), verbose);
     return retval;
   }
 
   public static boolean localCafeFileExists(
-      AscensionClass ascensionClass, String sign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
     boolean retval = true;
     retval &= localFileExists(filename(ascensionClass, sign, "_cafe_booze"), verbose);
     retval &= localFileExists(filename(ascensionClass, sign, "_cafe_food"), verbose);
@@ -752,7 +752,7 @@ public class TCRSDatabase {
   }
 
   public static boolean anyLocalFileExists(
-      AscensionClass ascensionClass, String sign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
     boolean retval = false;
     retval |= localFileExists(filename(ascensionClass, sign, ""), verbose);
     retval |= localFileExists(filename(ascensionClass, sign, "_cafe_booze"), verbose);
@@ -792,13 +792,13 @@ public class TCRSDatabase {
   // class/signs have only the non-cafe file
 
   public static boolean fetch(
-      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     boolean retval = fetchRemoteFile(filename(ascensionClass, sign, ""), verbose);
     return retval;
   }
 
   public static boolean fetchCafe(
-      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     boolean retval = true;
     retval &= fetchRemoteFile(filename(ascensionClass, sign, "_cafe_booze"), verbose);
     retval &= fetchRemoteFile(filename(ascensionClass, sign, "_cafe_food"), verbose);
@@ -814,7 +814,7 @@ public class TCRSDatabase {
   }
 
   public static boolean fetchRemoteFiles(
-      AscensionClass ascensionClass, String sign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
     boolean retval = fetchRemoteFile(filename(ascensionClass, sign, ""), verbose);
     fetchRemoteFile(filename(ascensionClass, sign, "_cafe_booze"), verbose);
     fetchRemoteFile(filename(ascensionClass, sign, "_cafe_food"), verbose);
@@ -881,7 +881,7 @@ public class TCRSDatabase {
   }
 
   private static boolean loadTCRSData(
-      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     // If local TCRS data file is not present, fetch from repository
     if (!localFileExists(ascensionClass, sign, verbose)) {
       fetch(ascensionClass, sign, verbose);
