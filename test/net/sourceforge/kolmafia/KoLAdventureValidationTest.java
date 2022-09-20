@@ -1160,7 +1160,9 @@ public class KoLAdventureValidationTest {
     public void failureToAdventureSetsPortalEnergyToZero() {
       var cleanups = new Cleanups(withProperty("currentPortalEnergy", 10));
       try (cleanups) {
-        var failure = KoLAdventure.findAdventureFailure(html("request/test_adventure_fail_due_to_el_vibrato_power.html"));
+        var failure =
+            KoLAdventure.findAdventureFailure(
+                html("request/test_adventure_fail_due_to_el_vibrato_power.html"));
         assertThat(failure, greaterThan(0));
         assertThat("currentPortalEnergy", isSetTo(0));
       }
