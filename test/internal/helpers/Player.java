@@ -1544,8 +1544,8 @@ public class Player {
    * @return Resets limit mode to previous value
    */
   public static Cleanups withLimitMode(final String limitMode) {
-    var old = KoLCharacter.getLimitmode();
-    KoLCharacter.setLimitmode(limitMode);
-    return new Cleanups(() -> KoLCharacter.setLimitmode(old));
+    var old = KoLCharacter.getLimitMode();
+    KoLCharacter.setLimitMode(limitMode);
+    return new Cleanups(() -> KoLCharacter.setLimitMode(old));
   }
 }
