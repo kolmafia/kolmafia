@@ -82,14 +82,14 @@ public class KoLCharacterTest {
   public void setSignAssignsValues() {
     KoLCharacter.setSign("Marmot");
 
-    assertEquals("Marmot", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.MARMOT, KoLCharacter.getSign());
     assertEquals(6, KoLCharacter.getSignIndex());
     assertEquals(ZodiacType.MOXIE, KoLCharacter.getSignStat());
     assertEquals(ZodiacZone.CANADIA, KoLCharacter.getSignZone());
 
     KoLCharacter.setSign("Invalid");
 
-    assertEquals("None", KoLCharacter.getSign());
+    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
     assertEquals(0, KoLCharacter.getSignIndex());
     assertEquals(ZodiacType.NONE, KoLCharacter.getSignStat());
     assertEquals(ZodiacZone.NONE, KoLCharacter.getSignZone());

@@ -5687,7 +5687,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value my_sign(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getSign());
+    return new Value(KoLCharacter.getSign().getName());
   }
 
   public static Value my_path(ScriptRuntime controller) {
