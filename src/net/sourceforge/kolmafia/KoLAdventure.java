@@ -432,6 +432,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult GRIMSTONE_MASK = ItemPool.get(ItemPool.GRIMSTONE_MASK);
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
+  private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -1663,8 +1664,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Portal")) {
       // El Vibrato Island
-      // *** validate
-      return true;
+      return (Preferences.getInteger("currentPortalEnergy") > 0)
+          || InventoryManager.hasItem(TRAPEZOID);
     }
 
     if (this.zone.equals("Rabbit Hole")) {
@@ -2108,6 +2109,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       RequestThread.postRequest(new EquipmentRequest(TALISMAN));
 
       return true;
+    }
+
+    if (this.zone.equals("Portal")) {
+      // El Vibrato Island
+      if (InventoryManager.hasItem(TRAPEZOID)) {
+        // Use the El Vibrato trapezoid to open a portal
+        RequestThread.postRequest(UseItemRequest.getInstance(TRAPEZOID));
+      }
+      return Preferences.getInteger("currentPortalEnergy") > 0;
     }
 
     if (this.adventureNumber == AdventurePool.HOBOPOLIS_SEWERS) {
