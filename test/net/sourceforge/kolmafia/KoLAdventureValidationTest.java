@@ -48,7 +48,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -57,6 +57,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
@@ -83,7 +84,8 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class Overdrunk {
-    private static KoLAdventure WARREN = AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
 
     @Test
     void beingSoberPassesPreValidation() {
@@ -135,8 +137,10 @@ public class KoLAdventureValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {Limitmode.SPELUNKY, Limitmode.BATMAN})
-    void beingTooDrunkInSomeLimitModesPassesPreValidation(final String limitMode) {
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"SPELUNKY", "BATMAN"})
+    void beingTooDrunkInSomeLimitModesPassesPreValidation(final LimitMode limitMode) {
       var cleanups = new Cleanups(withInebriety(30), withLimitMode(limitMode));
 
       try (cleanups) {
