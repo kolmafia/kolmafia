@@ -305,16 +305,16 @@ class ChoiceControlTest {
   class Cartography {
     @ParameterizedTest
     @CsvSource({
-      "lastCartographyBats, 1427",
-      "lastCartographyBilliards, 1436",
-      "lastCartographyCrypts, 1429",
-      "lastCartographyFrat, 1425",
-      "lastCartographyFratVerge, 1433",
-      "lastCartographyFriars, 1428",
-      "lastCartographyGiants, 1431",
-      "lastCartographyHippyVerge, 1434",
-      "lastCartographyPeaks, 1430",
-      "lastCartographyProtesters, 1432"
+      "lastCartographyGuanoJunction, 1427",
+      "lastCartographyHauntedBilliards, 1436",
+      "lastCartographyDefiledNook, 1429",
+      "lastCartographyFratHouse, 1425",
+      "lastCartographyFratHouseVerge, 1433",
+      "lastCartographyDarkNeck, 1428",
+      "lastCartographyCastleTop, 1431",
+      "lastCartographyHippyCampVerge, 1434",
+      "lastCartographyBooPeak, 1430",
+      "lastCartographyZeppelinProtesters, 1432"
     })
     void canDetectCartographyChoice(String property, int choice) {
       var cleanups =
