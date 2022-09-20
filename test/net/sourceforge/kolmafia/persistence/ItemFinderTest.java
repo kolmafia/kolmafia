@@ -925,45 +925,19 @@ public class ItemFinderTest {
 
   // Tests written for the sole purpose of 100% coverage
   @Test
-  public void itShouldMatchANYWhenNotExplicitlySpecified() {
-    List<String> nameList = new ArrayList<>();
-    String item;
-    nameList.add("7-ball");
-    nameList.add("17-ball");
-    item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item, "7-ball");
-    nameList.clear();
-    nameList.add("17-ball");
-    nameList.add("7-ball");
-    item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item, "7-ball");
-  }
-
-  @Test
-  public void itShouldReturnNullWhenPassedNullOrEmptyList() {
-    List<String> nameList = new ArrayList<>();
+  public void itShouldReturnNullWhenPassedNull() {
     String item;
     item = ItemFinder.getFirstMatchingItemName(null, "7-ball");
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNull(item);
-    item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNull(item);
   }
 
   @Test
-  public void itShouldAndHandleAnAlias() {
+  public void itShouldReturnNullWhenPassedEmptyList() {
     List<String> nameList = new ArrayList<>();
     String item;
-    nameList.add("bugged bonnet");
-    nameList.add("bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t");
-    item = ItemFinder.getFirstMatchingItemName(nameList, "bugged bonnet");
+    item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals("bugged bonnet", item);
+    assertNull(item);
   }
 }
