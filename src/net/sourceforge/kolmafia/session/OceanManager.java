@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +16,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -76,18 +80,6 @@ public class OceanManager {
   // Avoid useless warning
   private OceanManager() {}
 
-  // All special ocean destinations
-  private static final Map<Point, Destination> destinations = new HashMap<>();
-
-  // Special ocean destinations by keyword category
-  public static final List<Point> muscleDestinations = new ArrayList<>();
-  public static final List<Point> mysticalityDestinations = new ArrayList<>();
-  public static final List<Point> moxieDestinations = new ArrayList<>();
-  public static final List<Point> altarDestinations = new ArrayList<>();
-  public static final List<Point> sandDestinations = new ArrayList<>();
-  public static final List<Point> sphereDestinations = new ArrayList<>();
-  public static final List<Point> plinthDestinations = new ArrayList<>();
-
   public static final Pattern POINT_PATTERN = Pattern.compile("(\\d+),(\\d+)");
 
   public static class Point {
@@ -138,6 +130,12 @@ public class OceanManager {
     }
   }
 
+  // All special ocean destinations
+  private static final Map<Point, Destination> destinations = new HashMap<>();
+
+  // Map from description to Destination
+  private static final Map<String, Destination> descToDest = new HashMap<>();
+
   public enum Destination {
     GILLIGAN("Gilligan's Island"),
     MONKEY("Monkey Island"),
@@ -148,17 +146,18 @@ public class OceanManager {
     CAST_AWAY("Cast Away"),
     LORD_OF_FLIES("Lord of the Flies"),
     LOST("LOST"),
-    RAINBOW_SAND("Rainbow Sand"),
-    ALTAR("Small Tropical Island"),
-    SPHERE("Power Sphere"),
+    RAINBOW_SAND("rainbow sand"),
+    ALTAR("sinister altar fragment"),
+    SPHERE("El Vibrato power sphere"),
     PLINTH("Plinth"),
-    MAINLAND("Mainland");
+    MAINLAND("mainland");
 
     String desc;
     Set<Point> locations = new HashSet<>();
 
     Destination(String desc) {
       this.desc = desc;
+      descToDest.put(desc, this);
     }
 
     public void add(int lon, int lat) {
@@ -178,258 +177,58 @@ public class OceanManager {
   };
 
   static {
-    Destination.GILLIGAN.add(12, 84);
-    Destination.GILLIGAN.add(63, 10);
-    Destination.GILLIGAN.add(81, 40);
-    Destination.GILLIGAN.add(111, 59);
-    Destination.GILLIGAN.add(185, 86);
+    // This forces the enum to be initialized, which will populate any sets and
+    // maps used in the constructors.
+    Destination[] destinations = Destination.values();
+  }
 
-    Destination.MONKEY.add(56, 14);
-    Destination.MONKEY.add(90, 36);
-    Destination.MONKEY.add(105, 13);
-    Destination.MONKEY.add(147, 5);
-    Destination.MONKEY.add(148, 72);
+  // Load data file
 
-    Destination.OYSTER.add(19, 59);
-    Destination.OYSTER.add(49, 42);
-    Destination.OYSTER.add(64, 64);
-    Destination.OYSTER.add(173, 51);
-    Destination.OYSTER.add(186, 95);
+  private static final String OCEAN_FILE_NAME = "ocean.txt";
+  private static final int OCEAN_FILE_VERSION = 1;
 
-    Destination.DINOSAUR.add(23, 66);
-    Destination.DINOSAUR.add(55, 8);
-    Destination.DINOSAUR.add(60, 14);
-    Destination.DINOSAUR.add(110, 15);
-    Destination.DINOSAUR.add(196, 42);
+  static {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader(OCEAN_FILE_NAME, OCEAN_FILE_VERSION)) {
+      String[] data;
 
-    Destination.LAND_OF_LOST.add(89, 44);
-    Destination.LAND_OF_LOST.add(138, 43);
-    Destination.LAND_OF_LOST.add(135, 14);
-    Destination.LAND_OF_LOST.add(151, 76);
-    Destination.LAND_OF_LOST.add(187, 88);
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length != 3) {
+          continue;
+        }
 
-    Destination.MYST.add(3, 35);
-    Destination.MYST.add(13, 86);
-    Destination.MYST.add(44, 45);
-    Destination.MYST.add(52, 50);
-    Destination.MYST.add(81, 5);
+        int lon = StringUtilities.parseInt(data[0]);
+        int lat = StringUtilities.parseInt(data[1]);
+        if (!Point.valid(lon, lat)) {
+          System.out.println("Invalid ocean location: " + lon + "," + lat);
+          continue;
+        }
 
-    Destination.CAST_AWAY.add(22, 62);
-    Destination.CAST_AWAY.add(30, 35);
-    Destination.CAST_AWAY.add(60, 5);
-    Destination.CAST_AWAY.add(83, 45);
-    Destination.CAST_AWAY.add(185, 98);
+        String desc = data[2];
+        Destination destination = descToDest.get(desc);
+        if (destination == null) {
+          System.out.println("Unknown destination: " + desc);
+          continue;
+        }
 
-    Destination.LORD_OF_FLIES.add(13, 91);
-    Destination.LORD_OF_FLIES.add(44, 51);
-    Destination.LORD_OF_FLIES.add(85, 35);
-    Destination.LORD_OF_FLIES.add(94, 65);
-    Destination.LORD_OF_FLIES.add(115, 14);
+        destination.add(lon, lat);
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
+  }
 
-    Destination.LOST.add(5, 39);
-    Destination.LOST.add(52, 45);
-    Destination.LOST.add(133, 60);
-    Destination.LOST.add(143, 11);
-    Destination.LOST.add(187, 92);
+  // Special ocean destinations by keyword category.
+  // These are Lists so we can easily choose a random index.
+  public static final List<Point> muscleDestinations = new ArrayList<>();
+  public static final List<Point> mysticalityDestinations = new ArrayList<>();
+  public static final List<Point> moxieDestinations = new ArrayList<>();
+  public static final List<Point> altarDestinations = new ArrayList<>();
+  public static final List<Point> sandDestinations = new ArrayList<>();
+  public static final List<Point> sphereDestinations = new ArrayList<>();
+  public static final List<Point> plinthDestinations = new ArrayList<>();
 
-    Destination.RAINBOW_SAND.add(124, 31);
-    Destination.RAINBOW_SAND.add(134, 30);
-    Destination.RAINBOW_SAND.add(144, 29);
-    Destination.RAINBOW_SAND.add(154, 28);
-    Destination.RAINBOW_SAND.add(164, 27);
-    Destination.RAINBOW_SAND.add(172, 19);
-    Destination.RAINBOW_SAND.add(174, 26);
-    Destination.RAINBOW_SAND.add(176, 33);
-    Destination.RAINBOW_SAND.add(178, 22);
-    Destination.RAINBOW_SAND.add(180, 29);
-    Destination.RAINBOW_SAND.add(184, 25);
-
-    Destination.ALTAR.add(30, 85);
-    Destination.ALTAR.add(34, 79);
-    Destination.ALTAR.add(38, 70);
-    Destination.ALTAR.add(40, 81);
-    Destination.ALTAR.add(41, 90);
-    Destination.ALTAR.add(47, 74);
-    Destination.ALTAR.add(47, 83);
-    Destination.ALTAR.add(47, 91);
-    Destination.ALTAR.add(51, 79);
-    Destination.ALTAR.add(54, 93);
-    Destination.ALTAR.add(58, 77);
-    Destination.ALTAR.add(59, 75);
-    Destination.ALTAR.add(62, 89);
-    Destination.ALTAR.add(63, 81);
-    Destination.ALTAR.add(68, 88);
-    Destination.ALTAR.add(69, 77);
-    Destination.ALTAR.add(69, 94);
-    Destination.ALTAR.add(70, 86);
-    Destination.ALTAR.add(73, 81);
-    Destination.ALTAR.add(73, 88);
-    Destination.ALTAR.add(77, 74);
-    Destination.ALTAR.add(79, 93);
-    Destination.ALTAR.add(82, 83);
-    Destination.ALTAR.add(86, 72);
-    Destination.ALTAR.add(89, 92);
-    Destination.ALTAR.add(90, 79);
-    Destination.ALTAR.add(94, 86);
-    Destination.ALTAR.add(97, 81);
-    Destination.ALTAR.add(98, 94);
-    Destination.ALTAR.add(100, 81);
-    Destination.ALTAR.add(104, 76);
-    Destination.ALTAR.add(104, 85);
-    Destination.ALTAR.add(107, 79);
-    Destination.ALTAR.add(110, 73);
-    Destination.ALTAR.add(113, 94);
-    Destination.ALTAR.add(116, 74);
-    Destination.ALTAR.add(119, 95);
-    Destination.ALTAR.add(120, 88);
-    Destination.ALTAR.add(121, 82);
-    Destination.ALTAR.add(123, 76);
-    Destination.ALTAR.add(125, 97);
-    Destination.ALTAR.add(127, 90);
-    Destination.ALTAR.add(129, 83);
-
-    Destination.SPHERE.add(48, 47);
-    Destination.SPHERE.add(59, 10);
-    Destination.SPHERE.add(86, 40);
-
-    Destination.PLINTH.add(63, 29);
-
-    // Mainland coordinates from:
-    //
-    // https://kol.coldfront.net/thekolwiki/index.php/File:BootyMap.gif
-
-    // Destination.MAINLAND.add(11, 11);
-    Destination.MAINLAND.add(11, 12);
-    Destination.MAINLAND.add(11, 13);
-    Destination.MAINLAND.add(11, 14);
-    Destination.MAINLAND.add(11, 15);
-    // Destination.MAINLAND.add(11, 16);
-    Destination.MAINLAND.add(11, 17);
-    Destination.MAINLAND.add(11, 18);
-    Destination.MAINLAND.add(11, 19);
-    Destination.MAINLAND.add(11, 20);
-    // Destination.MAINLAND.add(11, 21);
-
-    Destination.MAINLAND.add(12, 11);
-    Destination.MAINLAND.add(12, 12);
-    Destination.MAINLAND.add(12, 13);
-    Destination.MAINLAND.add(12, 14);
-    Destination.MAINLAND.add(12, 15);
-    Destination.MAINLAND.add(12, 16);
-    Destination.MAINLAND.add(12, 17);
-    Destination.MAINLAND.add(12, 18);
-    Destination.MAINLAND.add(12, 19);
-    Destination.MAINLAND.add(12, 20);
-    Destination.MAINLAND.add(12, 21);
-
-    Destination.MAINLAND.add(13, 11);
-    Destination.MAINLAND.add(13, 12);
-    Destination.MAINLAND.add(13, 13);
-    Destination.MAINLAND.add(13, 14);
-    Destination.MAINLAND.add(13, 15);
-    Destination.MAINLAND.add(13, 16);
-    Destination.MAINLAND.add(13, 17);
-    Destination.MAINLAND.add(13, 18);
-    Destination.MAINLAND.add(13, 19);
-    Destination.MAINLAND.add(13, 20);
-    Destination.MAINLAND.add(13, 21);
-
-    Destination.MAINLAND.add(14, 11);
-    Destination.MAINLAND.add(14, 12);
-    Destination.MAINLAND.add(14, 13);
-    Destination.MAINLAND.add(14, 14);
-    Destination.MAINLAND.add(14, 15);
-    Destination.MAINLAND.add(14, 16);
-    Destination.MAINLAND.add(14, 17);
-    Destination.MAINLAND.add(14, 18);
-    Destination.MAINLAND.add(14, 19);
-    Destination.MAINLAND.add(14, 20);
-    Destination.MAINLAND.add(14, 21);
-
-    // Destination.MAINLAND.add(15, 11);
-    Destination.MAINLAND.add(15, 12);
-    Destination.MAINLAND.add(15, 13);
-    Destination.MAINLAND.add(15, 14);
-    Destination.MAINLAND.add(15, 15);
-    Destination.MAINLAND.add(15, 16);
-    Destination.MAINLAND.add(15, 17);
-    Destination.MAINLAND.add(15, 18);
-    Destination.MAINLAND.add(15, 19);
-    Destination.MAINLAND.add(15, 20);
-    Destination.MAINLAND.add(15, 21);
-
-    // Destination.MAINLAND.add(16, 11);
-    Destination.MAINLAND.add(16, 12);
-    Destination.MAINLAND.add(16, 13);
-    Destination.MAINLAND.add(16, 14);
-    Destination.MAINLAND.add(16, 15);
-    Destination.MAINLAND.add(16, 16);
-    Destination.MAINLAND.add(16, 17);
-    Destination.MAINLAND.add(16, 18);
-    Destination.MAINLAND.add(16, 19);
-    Destination.MAINLAND.add(16, 20);
-    Destination.MAINLAND.add(16, 21);
-
-    Destination.MAINLAND.add(17, 11);
-    Destination.MAINLAND.add(17, 12);
-    Destination.MAINLAND.add(17, 13);
-    Destination.MAINLAND.add(17, 14);
-    Destination.MAINLAND.add(17, 15);
-    Destination.MAINLAND.add(17, 16);
-    Destination.MAINLAND.add(17, 17);
-    Destination.MAINLAND.add(17, 18);
-    Destination.MAINLAND.add(17, 19);
-    Destination.MAINLAND.add(17, 20);
-    // Destination.MAINLAND.add(17, 21);
-
-    Destination.MAINLAND.add(18, 11);
-    Destination.MAINLAND.add(18, 12);
-    Destination.MAINLAND.add(18, 13);
-    Destination.MAINLAND.add(18, 14);
-    Destination.MAINLAND.add(18, 15);
-    Destination.MAINLAND.add(18, 16);
-    Destination.MAINLAND.add(18, 17);
-    // Destination.MAINLAND.add(18, 18);
-    // Destination.MAINLAND.add(18, 19);
-    // Destination.MAINLAND.add(18, 20);
-    // Destination.MAINLAND.add(18, 21);
-
-    Destination.MAINLAND.add(19, 11);
-    Destination.MAINLAND.add(19, 12);
-    Destination.MAINLAND.add(19, 13);
-    Destination.MAINLAND.add(19, 14);
-    Destination.MAINLAND.add(19, 15);
-    Destination.MAINLAND.add(19, 16);
-    // Destination.MAINLAND.add(19, 17);
-    // Destination.MAINLAND.add(19, 18);
-    Destination.MAINLAND.add(19, 19);
-    Destination.MAINLAND.add(19, 20);
-    // Destination.MAINLAND.add(19, 21);
-
-    Destination.MAINLAND.add(20, 11);
-    Destination.MAINLAND.add(20, 12);
-    Destination.MAINLAND.add(20, 13);
-    Destination.MAINLAND.add(20, 14);
-    Destination.MAINLAND.add(20, 15);
-    Destination.MAINLAND.add(20, 16);
-    // Destination.MAINLAND.add(20, 17);
-    Destination.MAINLAND.add(20, 18);
-    Destination.MAINLAND.add(20, 19);
-    Destination.MAINLAND.add(20, 20);
-    Destination.MAINLAND.add(20, 21);
-
-    // Destination.MAINLAND.add(21, 11);
-    Destination.MAINLAND.add(21, 12);
-    Destination.MAINLAND.add(21, 13);
-    Destination.MAINLAND.add(21, 14);
-    Destination.MAINLAND.add(21, 15);
-    // Destination.MAINLAND.add(21, 16);
-    // Destination.MAINLAND.add(21, 17);
-    // Destination.MAINLAND.add(21, 18);
-    Destination.MAINLAND.add(21, 19);
-    Destination.MAINLAND.add(21, 20);
-    // Destination.MAINLAND.add(21, 21);
-
+  static {
     muscleDestinations.addAll(Destination.GILLIGAN.getLocations());
     muscleDestinations.addAll(Destination.MONKEY.getLocations());
     muscleDestinations.addAll(Destination.OYSTER.getLocations());
@@ -496,6 +295,8 @@ public class OceanManager {
   //     muscle
   //     mysticality
   //     moxie
+  //     sand
+  //     altar
   //     sphere
   //     plinth
   //     LON,LAT
