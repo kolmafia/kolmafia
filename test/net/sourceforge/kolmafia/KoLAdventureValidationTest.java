@@ -884,8 +884,8 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void hauntedSecondFloorAvailableWithGhostNecklaceAndAscension() {
-      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withAscensions(1));
+    public void hauntedSecondFloorAvailableWithNecklaceAndAscension() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withAscensions(1));
       try (cleanups) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
@@ -894,8 +894,8 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void hauntedSecondFloorAvailableWithGhostNecklaceAndLevel() {
-      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withLevel(7));
+    public void hauntedSecondFloorAvailableWithNecklaceAndLevel() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(7));
       try (cleanups) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
@@ -908,9 +908,14 @@ public class KoLAdventureValidationTest {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder), withAscensions(1), withItem(ItemPool.GHOST_NECKLACE));
+              withHttpClientBuilder(builder),
+              withAscensions(1),
+              withItem(ItemPool.SPOOKYRAVEN_NECKLACE));
       try (cleanups) {
-        builder.client.addResponse(200, html("request/test_lady_spookyraven_2A.html"));
+        builder.client.addResponse(
+            200, html("request/test_lady_spookyraven_2.html")); // Hand in necklace
+        builder.client.addResponse(
+            200, html("request/test_lady_spookyraven_2A.html")); // Unlock second floor
         builder.client.addResponse(200, ""); // api.php
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_NECKLACE), QuestDatabase.UNSTARTED);
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), QuestDatabase.UNSTARTED);
@@ -920,15 +925,16 @@ public class KoLAdventureValidationTest {
         assertEquals(QuestDatabase.getQuest(Quest.SPOOKYRAVEN_DANCE), "step1");
 
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(2));
-        assertPostRequest(requests.get(0), "/place.php", "whichplace=manor2&action=manor2_ladys");
-        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/place.php", "whichplace=manor1&action=manor1_ladys");
+        assertPostRequest(requests.get(1), "/place.php", "whichplace=manor2&action=manor2_ladys");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
     @Test
-    public void hauntedSecondFloorNotAvailableWithGhostNecklaceWithoutLevel() {
-      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withLevel(6));
+    public void hauntedSecondFloorNotAvailableWithNecklaceWithoutLevel() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(6));
       try (cleanups) {
         assertFalse(HAUNTED_GALLERY.canAdventure());
         assertFalse(HAUNTED_BATHROOM.canAdventure());
@@ -937,8 +943,11 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void hauntedSecondFloorAvailableWithSpookyravenNecklaceAndAscension() {
-      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withAscensions(1));
+    public void hauntedSecondFloorAvailableWithSpookyravenNecklaceQuestFinishedAndAscension() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED),
+              withAscensions(1));
       try (cleanups) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
@@ -947,8 +956,10 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void hauntedSecondFloorAvailableWithSpookyravenNecklaceAndLevel() {
-      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(7));
+    public void hauntedSecondFloorAvailableWithSpookyravenNecklaceQuestFinishedAndLevel() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED), withLevel(7));
       try (cleanups) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
@@ -957,8 +968,10 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void hauntedSecondFloorNotAvailableWithSpookyravenNecklaceWithoutLevel() {
-      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(6));
+    public void hauntedSecondFloorNotAvailableWithSpookyravenNecklaceQuestFinishedWithoutLevel() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED), withLevel(6));
       try (cleanups) {
         assertFalse(HAUNTED_GALLERY.canAdventure());
         assertFalse(HAUNTED_BATHROOM.canAdventure());
