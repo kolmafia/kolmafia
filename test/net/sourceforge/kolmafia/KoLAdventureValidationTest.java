@@ -884,8 +884,8 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void hauntedSecondFloorAvailableWithGhostNecklaceAndAscension() {
-      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withAscensions(1));
+    public void hauntedSecondFloorAvailableWithNecklaceAndAscension() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withAscensions(1));
       try (cleanups) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
@@ -894,8 +894,8 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void hauntedSecondFloorAvailableWithGhostNecklaceAndLevel() {
-      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withLevel(7));
+    public void hauntedSecondFloorAvailableWithNecklaceAndLevel() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(7));
       try (cleanups) {
         assertTrue(HAUNTED_GALLERY.canAdventure());
         assertTrue(HAUNTED_BATHROOM.canAdventure());
@@ -908,7 +908,9 @@ public class KoLAdventureValidationTest {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder), withAscensions(1), withItem(ItemPool.GHOST_NECKLACE));
+              withHttpClientBuilder(builder),
+              withAscensions(1),
+              withItem(ItemPool.SPOOKYRAVEN_NECKLACE));
       try (cleanups) {
         builder.client.addResponse(
             200, html("request/test_lady_spookyraven_2.html")); // Hand in necklace
@@ -931,8 +933,8 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void hauntedSecondFloorNotAvailableWithGhostNecklaceWithoutLevel() {
-      var cleanups = new Cleanups(withItem(ItemPool.GHOST_NECKLACE), withLevel(6));
+    public void hauntedSecondFloorNotAvailableWithNecklaceWithoutLevel() {
+      var cleanups = new Cleanups(withItem(ItemPool.SPOOKYRAVEN_NECKLACE), withLevel(6));
       try (cleanups) {
         assertFalse(HAUNTED_GALLERY.canAdventure());
         assertFalse(HAUNTED_BATHROOM.canAdventure());
@@ -982,7 +984,9 @@ public class KoLAdventureValidationTest {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder), withAscensions(1), withItem(ItemPool.GHOST_NECKLACE));
+              withHttpClientBuilder(builder),
+              withAscensions(1),
+              withItem(ItemPool.SPOOKYRAVEN_NECKLACE));
       try (cleanups) {
         builder.client.addResponse(200, html("request/test_lady_spookyraven_1.html"));
         builder.client.addResponse(200, ""); // api.php

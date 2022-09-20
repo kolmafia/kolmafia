@@ -398,7 +398,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult BILLIARDS_KEY = ItemPool.get(ItemPool.BILLIARDS_KEY);
   private static final AdventureResult SPOOKYRAVEN_NECKLACE =
       ItemPool.get(ItemPool.SPOOKYRAVEN_NECKLACE);
-  private static final AdventureResult GHOST_NECKLACE = ItemPool.get(ItemPool.GHOST_NECKLACE);
   private static final AdventureResult POWDER_PUFF = ItemPool.get(ItemPool.POWDER_PUFF);
   private static final AdventureResult FINEST_GOWN = ItemPool.get(ItemPool.FINEST_GOWN);
   private static final AdventureResult DANCING_SHOES = ItemPool.get(ItemPool.DANCING_SHOES);
@@ -780,7 +779,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               || (KoLCharacter.getLevel() >= neededLevel
                   && (
                   // Not finished the last quest, but you can (so prepareForAdventure will)
-                  InventoryManager.hasItem(GHOST_NECKLACE)
+                  InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)
                       ||
                       // Finished the last quest, prepareForAdventure will start this one
                       QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)));
@@ -2072,7 +2071,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               AdventurePool.HAUNTED_BEDROOM,
               AdventurePool.HAUNTED_GALLERY -> {
             if (!QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED)) {
-              if (InventoryManager.hasItem(GHOST_NECKLACE)) {
+              if (InventoryManager.hasItem(SPOOKYRAVEN_NECKLACE)) {
                 // Talk to Lady Spookyraven on 1st floor
                 var request = new GenericRequest("place.php?whichplace=manor1&action=manor1_ladys");
                 RequestThread.postRequest(request);
