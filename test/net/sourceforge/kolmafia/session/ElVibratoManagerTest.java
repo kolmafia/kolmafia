@@ -31,6 +31,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class ElVibratoManagerTest {
   @BeforeEach
@@ -72,33 +74,25 @@ public class ElVibratoManagerTest {
       }
     }
 
-    @Test
-    public void canRecognizeActivePortal() {
-      String html = html("request/test_visit_el_vibrato_campground.html");
-      var cleanups = new Cleanups(withEmptyCampground(), withProperty("currentPortalEnergy", 0));
+    @ParameterizedTest
+    @CsvSource({
+      "visit_el_vibrato_campground, 0, 20",
+      "visit_el_vibrato_campground, 10, 10",
+      "visit_deactivated_el_vibrato_campground, 10, 0"
+    })
+    public void canRecognizeActivePortalAndEnergy(
+        final String fixture, final int startingEnergy, final int estimatedEnergy) {
+      String html = html("request/test_" + fixture + ".html");
+      var cleanups =
+          new Cleanups(withEmptyCampground(), withProperty("currentPortalEnergy", startingEnergy));
       try (cleanups) {
         CampgroundRequest.parseResponse("campground.php", html);
         int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
         assertNotEquals(-1, index);
         AdventureResult portal = KoLConstants.campground.get(index);
         assertNotNull(portal);
-        assertEquals(20, Preferences.getInteger("currentPortalEnergy"));
-        assertEquals(20, portal.getCount());
-      }
-    }
-
-    @Test
-    public void canRecognizeActivePortalWithEnergy() {
-      String html = html("request/test_visit_el_vibrato_campground.html");
-      var cleanups = new Cleanups(withEmptyCampground(), withProperty("currentPortalEnergy", 10));
-      try (cleanups) {
-        CampgroundRequest.parseResponse("campground.php", html);
-        int index = KoLConstants.campground.indexOf(ItemPool.get(ItemPool.TRAPEZOID));
-        assertNotEquals(-1, index);
-        AdventureResult portal = KoLConstants.campground.get(index);
-        assertNotNull(portal);
-        assertEquals(10, Preferences.getInteger("currentPortalEnergy"));
-        assertEquals(10, portal.getCount());
+        assertEquals(estimatedEnergy, Preferences.getInteger("currentPortalEnergy"));
+        assertEquals(estimatedEnergy, portal.getCount());
       }
     }
 
