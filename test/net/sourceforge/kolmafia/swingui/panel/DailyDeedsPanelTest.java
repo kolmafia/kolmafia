@@ -250,10 +250,10 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsLocket1Monster() {
       var cld = new DailyDeedsPanel.CombatLocketDaily();
-      var cleanups = withItem(ItemPool.COMBAT_LOVERS_LOCKET);
-      var props = withProperty("_locketMonstersFought", "1");
-      try (cleanups;
-          props) {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.COMBAT_LOVERS_LOCKET), withProperty("_locketMonstersFought", "1"));
+      try (cleanups) {
         cld.update();
         assertThat(cld.getText(), containsString("1/3 locket: spooky vampire"));
       }
@@ -262,10 +262,11 @@ public class DailyDeedsPanelTest {
     @Test
     public void showsLocket3Monsters() {
       var cld = new DailyDeedsPanel.CombatLocketDaily();
-      var cleanups = withItem(ItemPool.COMBAT_LOVERS_LOCKET);
-      var props = withProperty("_locketMonstersFought", "1,11,111");
-      try (cleanups;
-          props) {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.COMBAT_LOVERS_LOCKET),
+              withProperty("_locketMonstersFought", "1,11,111"));
+      try (cleanups) {
         cld.update();
         assertThat(
             cld.getText(),
