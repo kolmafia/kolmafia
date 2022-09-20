@@ -34,7 +34,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase.Punchcard;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -56,6 +55,8 @@ import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -367,6 +368,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       StationaryButtonDecorator.decorate(location, buffer);
 
       DiscoCombatHelper.decorate(buffer);
+      ElVibratoManager.decorate(buffer);
       RequestEditorKit.addFightModifiers(buffer);
       RequestEditorKit.addTaleOfDread(buffer);
       RequestEditorKit.addDesertProgress(buffer);
@@ -1622,7 +1624,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+    for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
       String name = punchcard.name();
       if (buffer.indexOf(name) != -1) {
         StringUtilities.globalStringReplace(buffer, name, punchcard.alias());

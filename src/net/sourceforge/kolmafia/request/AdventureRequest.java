@@ -981,6 +981,8 @@ public class AdventureRequest extends GenericRequest {
       return !formSource.equals("cellar.php");
     } else if (formSource.startsWith("suburbandis.php")) {
       return formSource.contains("action=dothis");
+    } else if (formSource.equals("elvmachine.php")) {
+      return true;
     } else if (formSource.startsWith("tiles.php")) {
       // Only register initial encounter of Dvorak's Revenge
       DvorakManager.saveResponse(responseText);
@@ -999,8 +1001,8 @@ public class AdventureRequest extends GenericRequest {
       return false;
     }
 
-    // It is not a known adventure.	 Therefore,
-    // do not log the encounter yet.
+    // It is not a known adventure.
+    // Therefore, do not log the encounter yet.
 
     return false;
   }
@@ -1087,6 +1089,12 @@ public class AdventureRequest extends GenericRequest {
 
     if (redirectLocation.startsWith("council.php") || redirectLocation.startsWith("ascend.php")) {
       // Community Service can redirect to both council.php and ascend.php
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
+    if (redirectLocation.startsWith("elvmachine.php")) {
+      // El Vibrato Island Machinations
       AdventureRequest.ZONE_UNLOCK.run();
       return;
     }

@@ -3927,7 +3927,8 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.TRAPEZOID:
         if (responseText.contains("you put it on the ground at your campsite")) {
-          CampgroundRequest.setCampgroundItem(ItemPool.TRAPEZOID, 1);
+          Preferences.setInteger("currentPortalEnergy", 20);
+          CampgroundRequest.updateElVibratoPortal();
           break;
         }
         return;

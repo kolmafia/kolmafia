@@ -2026,6 +2026,7 @@ public class GenericRequest implements Runnable {
     }
 
     if (this.redirectLocation.startsWith("ocean.php")) {
+      this.redirectHandled = true;
       OceanManager.processOceanAdventure();
       return true;
     }
