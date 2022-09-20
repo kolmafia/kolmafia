@@ -2399,9 +2399,10 @@ public class RelayRequest extends PasswordHashRequest {
     list.removeModifier("Modifiers");
     list.removeModifier("Outfit");
     int type = ItemDatabase.getConsumptionType(itemId);
-    if (!(type == KoLConstants.EQUIP_HAT && KoLCharacter.findFamiliar(FamiliarPool.HATRACK) != null)
+    if (!(type == KoLConstants.EQUIP_HAT
+            && KoLCharacter.usableFamiliar(FamiliarPool.HATRACK) != null)
         && !(type == KoLConstants.EQUIP_PANTS
-            && KoLCharacter.findFamiliar(FamiliarPool.SCARECROW) != null)) {
+            && KoLCharacter.usableFamiliar(FamiliarPool.SCARECROW) != null)) {
       list.removeModifier("Familiar Effect");
     }
     String stringform = list.toString();

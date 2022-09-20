@@ -208,7 +208,7 @@ public abstract class InventoryManager {
 
     count += InventoryManager.getEquippedCount(item);
 
-    for (FamiliarData current : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
       if (!current.equals(KoLCharacter.getFamiliar())
           && current.getItem() != null
           && current.getItem().equals(item)) {
@@ -563,7 +563,7 @@ public abstract class InventoryManager {
     // restricted items or non-equipment.
     // In QT, we'll just unequip it in the next code block
     if (!isRestricted && ItemDatabase.isEquipment(itemId) && !KoLCharacter.inQuantum()) {
-      for (FamiliarData current : KoLCharacter.getFamiliarList()) {
+      for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
         if (current.getItem() != null && current.getItem().equals(item)) {
           if (sim) {
             return "steal";

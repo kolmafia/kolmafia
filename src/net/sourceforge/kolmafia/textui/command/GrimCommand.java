@@ -15,7 +15,7 @@ public class GrimCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (KoLCharacter.findFamiliar(FamiliarPool.GRIM_BROTHER) == null) {
+    if (KoLCharacter.ownedFamiliar(FamiliarPool.GRIM_BROTHER).isEmpty()) {
       KoLmafia.updateDisplay("You don't have a Grim Brother");
       return;
     }

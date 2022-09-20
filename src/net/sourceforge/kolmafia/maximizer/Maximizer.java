@@ -1088,8 +1088,8 @@ public class Maximizer {
           duration = 20;
           usesRemaining = (15 - Preferences.getInteger("_deckCardsDrawn")) / 5;
         } else if (cmd.startsWith("grim")) {
-          FamiliarData fam = KoLCharacter.findFamiliar(FamiliarPool.GRIM_BROTHER);
-          if (fam == null) {
+          var fam = KoLCharacter.ownedFamiliar(FamiliarPool.GRIM_BROTHER);
+          if (fam.isEmpty()) {
             if (limitMode.limitFamiliars()) {
               continue;
             } else if (includeAll) {

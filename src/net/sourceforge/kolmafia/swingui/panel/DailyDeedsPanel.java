@@ -2570,10 +2570,10 @@ public class DailyDeedsPanel extends Box implements Listener {
                   && !limited
                   && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Libram of BRICKOs"))
               || KoLCharacter.hasSkill("Summon BRICKOs");
-      FamiliarData hipster = KoLCharacter.findFamiliar(FamiliarPool.HIPSTER);
-      FamiliarData goth = KoLCharacter.findFamiliar(FamiliarPool.ARTISTIC_GOTH_KID);
-      FamiliarData machineElf = KoLCharacter.findFamiliar(FamiliarPool.MACHINE_ELF);
-      FamiliarData godLobster = KoLCharacter.findFamiliar(FamiliarPool.GOD_LOBSTER);
+      FamiliarData hipster = KoLCharacter.usableFamiliar(FamiliarPool.HIPSTER);
+      FamiliarData goth = KoLCharacter.usableFamiliar(FamiliarPool.ARTISTIC_GOTH_KID);
+      FamiliarData machineElf = KoLCharacter.usableFamiliar(FamiliarPool.MACHINE_ELF);
+      FamiliarData godLobster = KoLCharacter.usableFamiliar(FamiliarPool.GOD_LOBSTER);
       boolean hh = hipster != null && hipster.canEquip();
       boolean hg = goth != null && goth.canEquip();
       boolean hf = hh || hg;
@@ -2683,9 +2683,9 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     @Override
     public void update() {
-      FamiliarData bander = KoLCharacter.findFamiliar(FamiliarPool.BANDER);
+      FamiliarData bander = KoLCharacter.usableFamiliar(FamiliarPool.BANDER);
       boolean hba = bander != null && bander.canEquip();
-      FamiliarData boots = KoLCharacter.findFamiliar(FamiliarPool.BOOTS);
+      FamiliarData boots = KoLCharacter.usableFamiliar(FamiliarPool.BOOTS);
       boolean hbo = boots != null && boots.canEquip();
       boolean run = Preferences.getInteger("_navelRunaways") > 0;
       boolean gp =
@@ -2811,7 +2811,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       HashSet<String> dropTrackers = new HashSet<String>();
       for (FamiliarData.DropInfo info : FamiliarData.DROP_FAMILIARS) {
         if (!dropTrackers.contains(info.dropTracker)) {
-          FamiliarData fam = KoLCharacter.findFamiliar(info.id);
+          FamiliarData fam = KoLCharacter.usableFamiliar(info.id);
           if (fam != null && fam.canEquip()) {
             dropTrackers.add(info.dropTracker);
             StringBuilder addition = new StringBuilder();
@@ -2836,7 +2836,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         addDropCounter(buffer, noseDrops + " carrot nose");
       }
 
-      FamiliarData grinder = KoLCharacter.findFamiliar(FamiliarPool.GRINDER);
+      FamiliarData grinder = KoLCharacter.usableFamiliar(FamiliarPool.GRINDER);
       int pieDrops = Preferences.getInteger("_pieDrops");
 
       if (grinder != null && (grinder.canEquip() || pieDrops > 0)) {
@@ -2867,13 +2867,13 @@ public class DailyDeedsPanel extends Box implements Listener {
         addDropCounter(buffer, addition.toString());
       }
 
-      FamiliarData hm = KoLCharacter.findFamiliar(FamiliarPool.HAPPY_MEDIUM);
+      FamiliarData hm = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
       int mediumSiphons = Preferences.getInteger("_mediumSiphons");
       if ((hm != null && hm.canEquip()) || mediumSiphons > 0) {
         addDropCounter(buffer, mediumSiphons + " siphon" + (mediumSiphons != 1 ? "s" : ""));
       }
 
-      FamiliarData boots = KoLCharacter.findFamiliar(FamiliarPool.BOOTS);
+      FamiliarData boots = KoLCharacter.usableFamiliar(FamiliarPool.BOOTS);
       if (boots != null && boots.canEquip()) {
         StringBuilder addition = new StringBuilder();
         addition.append(Preferences.getString("_bootStomps"));
@@ -2907,11 +2907,11 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     @Override
     public void update() {
-      FamiliarData gibberer = KoLCharacter.findFamiliar(FamiliarPool.GIBBERER);
+      FamiliarData gibberer = KoLCharacter.usableFamiliar(FamiliarPool.GIBBERER);
       boolean hf1 = gibberer != null && gibberer.canEquip();
-      FamiliarData hare = KoLCharacter.findFamiliar(FamiliarPool.HARE);
+      FamiliarData hare = KoLCharacter.usableFamiliar(FamiliarPool.HARE);
       boolean hf2 = hare != null && hare.canEquip();
-      FamiliarData riftlet = KoLCharacter.findFamiliar(FamiliarPool.RIFTLET);
+      FamiliarData riftlet = KoLCharacter.usableFamiliar(FamiliarPool.RIFTLET);
       boolean hf3 = riftlet != null && riftlet.canEquip();
       boolean hf4 =
           InventoryManager.getCount(ItemPool.TIME_HELMET) > 0
@@ -2921,7 +2921,7 @@ public class DailyDeedsPanel extends Box implements Listener {
           InventoryManager.getCount(ItemPool.V_MASK) > 0
               || Preferences.getInteger("_vmaskAdv") > 0
               || KoLCharacter.hasEquipped(ItemPool.V_MASK);
-      FamiliarData gnome = KoLCharacter.findFamiliar(FamiliarPool.REAGNIMATED_GNOME);
+      FamiliarData gnome = KoLCharacter.usableFamiliar(FamiliarPool.REAGNIMATED_GNOME);
       boolean hf6 = gnome != null && gnome.canEquip();
       boolean hf7 =
           InventoryManager.getCount(ItemPool.MAFIA_THUMB_RING) > 0
@@ -3039,8 +3039,8 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     @Override
     public void update() {
-      FamiliarData angel = KoLCharacter.findFamiliar(FamiliarPool.OBTUSE_ANGEL);
-      FamiliarData reanimator = KoLCharacter.findFamiliar(FamiliarPool.REANIMATOR);
+      FamiliarData angel = KoLCharacter.usableFamiliar(FamiliarPool.OBTUSE_ANGEL);
+      FamiliarData reanimator = KoLCharacter.usableFamiliar(FamiliarPool.REANIMATOR);
       boolean show =
           (angel != null && angel.canEquip()) || (reanimator != null && reanimator.canEquip());
       String text = "";
@@ -3143,8 +3143,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       int fu = Preferences.getInteger("_feastUsed");
       String list = Preferences.getString("_feastedFamiliars");
       boolean have = InventoryManager.getCount(ItemPool.MOVEABLE_FEAST) > 0;
-      for (int i = 0; !have && i < KoLCharacter.getFamiliarList().size(); ++i) {
-        FamiliarData current = KoLCharacter.getFamiliarList().get(i);
+      for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
+        if (have) break;
         if (current.getItem() != null && current.getItem().getItemId() == ItemPool.MOVEABLE_FEAST) {
           have = true;
         }
