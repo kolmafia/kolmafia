@@ -93,7 +93,7 @@ public class OceanManagerTest {
 
         // Validate sensible request logging
         urlString = "ocean.php?lon=48&lat=47";
-        expected = "Setting sail for (48,47) = Power Sphere";
+        expected = "Setting sail for (48,47) = El Vibrato power sphere";
         assertTrue(OceanManager.registerRequest(urlString));
         assertEquals(expected, RequestLogger.previousUpdateString);
 
@@ -142,7 +142,7 @@ public class OceanManagerTest {
 
         // Validate sensible request logging
         urlString = "ocean.php?lon=48&lat=47";
-        expected = "Setting sail for (48,47) = Power Sphere";
+        expected = "Setting sail for (48,47) = El Vibrato power sphere";
         assertTrue(OceanManager.registerRequest(urlString));
         assertEquals(expected, RequestLogger.previousUpdateString);
 
