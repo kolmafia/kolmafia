@@ -372,6 +372,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.addDesertProgress(buffer);
       RequestEditorKit.addBlackForestProgress(buffer);
       RequestEditorKit.addPartyFairProgress(buffer);
+      RequestEditorKit.addChaostheticianLink(buffer);
 
       // Do any monster-specific decoration
       FightDecorator.decorateMonster(buffer);
@@ -2431,6 +2432,20 @@ public class RequestEditorKit extends HTMLEditorKit {
             "inv_equip.php?which=2&action=equip&slot=3&whichitem=");
     buffer.insert(
         index + test.length(), link1.getItemHTML() + link2.getItemHTML() + link3.getItemHTML());
+  }
+
+  private static void addChaostheticianLink(final StringBuffer buffer) {
+    String test = "You should head back to the Chaosthetician at Dino World for your reward";
+    int index = buffer.indexOf(test);
+
+    if (index == -1) {
+      return;
+    }
+
+    StringUtilities.singleStringReplace(
+        buffer,
+        "Chaosthetician at Dino World",
+        "<a href=\"place.php?whichplace=dinorf&action=dinorf_chaos\">Chaosthetician at Dino World</a>");
   }
 
   private static class KoLSubmitView extends FormView {
