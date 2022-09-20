@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withChoice;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -288,7 +289,7 @@ class ChoiceControlTest {
               withChoice(1418, 1, html("request/test_choice_so_cold.html")));
 
       try (cleanups) {
-        var melo = KoLCharacter.findFamiliar(FamiliarPool.MELODRAMEDARY);
+        var melo = KoLCharacter.usableFamiliar(FamiliarPool.MELODRAMEDARY);
         assertThat(melo.getTotalExperience(), is(0));
         assertThat("_entauntaunedToday", isSetTo(true));
         var requests = builder.client.getRequests();
@@ -296,6 +297,36 @@ class ChoiceControlTest {
         assertPostRequest(
             requests.get(0), "/desc_effect.php", "whicheffect=297ee9fadfb5560e5142e0b3a88456db");
         assertThat("entauntaunedColdRes", isSetTo(16));
+      }
+    }
+  }
+
+  @Nested
+  class Cartography {
+    @ParameterizedTest
+    @CsvSource({
+      "lastCartographyGuanoJunction, 1427",
+      "lastCartographyHauntedBilliards, 1436",
+      "lastCartographyDefiledNook, 1429",
+      "lastCartographyFratHouse, 1425",
+      "lastCartographyFratHouseVerge, 1433",
+      "lastCartographyDarkNeck, 1428",
+      "lastCartographyCastleTop, 1431",
+      "lastCartographyHippyCampVerge, 1434",
+      "lastCartographyBooPeak, 1430",
+      "lastCartographyZeppelinProtesters, 1432"
+    })
+    void canDetectCartographyChoice(String property, int choice) {
+      var cleanups =
+          new Cleanups(withAscensions(5), withProperty(property, -1), withPostChoice1(0, 0));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=" + choice);
+        req.responseText = "choice.php?whichchoice=" + choice;
+
+        ChoiceManager.visitChoice(req);
+
+        assertThat(property, isSetTo(5));
       }
     }
   }

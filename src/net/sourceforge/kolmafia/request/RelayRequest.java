@@ -56,14 +56,12 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -2401,9 +2399,10 @@ public class RelayRequest extends PasswordHashRequest {
     list.removeModifier("Modifiers");
     list.removeModifier("Outfit");
     int type = ItemDatabase.getConsumptionType(itemId);
-    if (!(type == KoLConstants.EQUIP_HAT && KoLCharacter.findFamiliar(FamiliarPool.HATRACK) != null)
+    if (!(type == KoLConstants.EQUIP_HAT
+            && KoLCharacter.usableFamiliar(FamiliarPool.HATRACK) != null)
         && !(type == KoLConstants.EQUIP_PANTS
-            && KoLCharacter.findFamiliar(FamiliarPool.SCARECROW) != null)) {
+            && KoLCharacter.usableFamiliar(FamiliarPool.SCARECROW) != null)) {
       list.removeModifier("Familiar Effect");
     }
     String stringform = list.toString();
@@ -3504,16 +3503,16 @@ public class RelayRequest extends PasswordHashRequest {
    *     run()-ing.
    */
   private boolean sendWarnings(KoLAdventure adventure, String adventureName, String nextAdventure) {
-    String limitmode = KoLCharacter.getLimitmode();
-
-    // If we are playing Spelunky, a specialized set of warnings are relevant
-    if ((limitmode != null) && limitmode.equals(Limitmode.SPELUNKY)) {
-      return this.sendSpelunkyWarning(adventure);
-    }
-
-    // If we are in some other limitmode, no warnings are relevant
-    if (limitmode != null) {
-      return false;
+    switch (KoLCharacter.getLimitMode()) {
+      case NONE -> {}
+      case SPELUNKY -> {
+        // If we are playing Spelunky, a specialized set of warnings are relevant
+        return this.sendSpelunkyWarning(adventure);
+      }
+      default -> {
+        // If we are in some other limitmode, no warnings are relevant
+        return false;
+      }
     }
 
     String path = this.getBasePath();

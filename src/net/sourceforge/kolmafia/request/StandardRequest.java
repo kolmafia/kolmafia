@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 
 public class StandardRequest extends GenericRequest {
   // Types: "Items", "Bookshelf Books", "Skills", "Familiars", "Clan Items".
@@ -34,7 +35,7 @@ public class StandardRequest extends GenericRequest {
 
   public static void initialize(final boolean force) {
     // If we are not logged or are under a Limitmode, don't do this.
-    if (GenericRequest.passwordHash.equals("") || KoLCharacter.getLimitmode() != null) {
+    if (GenericRequest.passwordHash.equals("") || KoLCharacter.getLimitMode() != LimitMode.NONE) {
       return;
     }
 

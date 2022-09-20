@@ -50,7 +50,7 @@ class FamiliarRequestTest {
 
       try (cleanups) {
         var bowlet =
-            KoLCharacter.familiars.stream()
+            KoLCharacter.ownedFamiliars().stream()
                 .filter(x -> x.getId() == FamiliarPool.BOWLET)
                 .findFirst()
                 .orElseThrow();
@@ -75,7 +75,7 @@ class FamiliarRequestTest {
 
       try (cleanups) {
         var bowlet =
-            KoLCharacter.familiars.stream()
+            KoLCharacter.ownedFamiliars().stream()
                 .filter(x -> x.getId() == FamiliarPool.BOWLET)
                 .findFirst()
                 .orElseThrow();

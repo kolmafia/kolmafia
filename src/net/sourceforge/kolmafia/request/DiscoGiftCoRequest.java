@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class DiscoGiftCoRequest extends CoinMasterRequest {
   public static final String master = "Disco GiftCo";
@@ -101,7 +101,7 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
         && !Preferences.getBoolean("hotAirportAlways")) {
       return "You don't have access to That 70s Volcano";
     }
-    if (Limitmode.limitZone("That 70s Volcano")) {
+    if (KoLCharacter.getLimitMode().limitZone("That 70s Volcano")) {
       return "You cannot currently access That 70s Volcano";
     }
     return null;

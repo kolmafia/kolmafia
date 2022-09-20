@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class JurassicParkaCommand extends AbstractCommand implements ModeCommand {
   public JurassicParkaCommand() {
     this.usage =
-        " [kachungasaur | cold | hp | meat | dilophosaur | stench | acid | ghostasaurus | spooky | mp | dr | spikolodon | sleaze | ml | spikes | pterodactyl | hot | init] - pull a dino tab on your Jurassic Parka";
+        " [kachungasaur | cold | hp | meat | dilophosaur | stench | acid | ghostasaurus | spooky | mp | dr | spikolodon | sleaze | ml | spikes | pterodactyl | hot | init | nc] - pull a dino tab on your Jurassic Parka";
   }
 
   public static final Map<String, Integer> MODES =
@@ -33,6 +33,7 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
           Map.entry("acid", "dilophosaur"),
           Map.entry("hot", "pterodactyl"),
           Map.entry("init", "pterodactyl"),
+          Map.entry("nc", "pterodactyl"),
           Map.entry("cold", "kachungasaur"),
           Map.entry("hp", "kachungasaur"),
           Map.entry("meat", "kachungasaur"),
@@ -84,6 +85,11 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
     }
 
     KoLmafia.updateDisplay("Your parka is now set to " + mode + " mode.");
+
+    if (parameters.trim().toLowerCase().equals("nc")) {
+      KoLmafia.updateDisplay(
+          "If you want to switch to the skill that forces noncombats, use 'parka spikolodon' or 'parka spikes'.");
+    }
   }
 
   private static void setMode(final String mode) {

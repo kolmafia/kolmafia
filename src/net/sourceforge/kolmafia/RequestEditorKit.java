@@ -60,7 +60,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -341,7 +341,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("choice.php")) {
       RequestEditorKit.fixTavernCellar(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
-      RequestEditorKit.addChoiceSpoilers(location, buffer);
+      RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
       RequestEditorKit.addBarrelSounds(buffer);
     } else if (location.startsWith("clan_hobopolis.php")) {
       HobopolisDecorator.decorate(location, buffer);
@@ -372,6 +372,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.addDesertProgress(buffer);
       RequestEditorKit.addBlackForestProgress(buffer);
       RequestEditorKit.addPartyFairProgress(buffer);
+      RequestEditorKit.addChaostheticianLink(buffer);
 
       // Do any monster-specific decoration
       FightDecorator.decorateMonster(buffer);
@@ -1516,7 +1517,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     IslandDecorator.appendMissingGremlinTool(monster, monsterData);
 
-    if (KoLCharacter.getLimitmode() == Limitmode.SPELUNKY) {
+    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
       SpelunkyRequest.decorateSpelunkyMonster(monsterData);
     }
 
@@ -1819,7 +1820,8 @@ public class RequestEditorKit extends HTMLEditorKit {
     m.appendTail(buffer);
   }
 
-  private static void addChoiceSpoilers(final String location, final StringBuffer buffer) {
+  private static void addChoiceSpoilers(
+      final String location, final StringBuffer buffer, final boolean addComplexFeatures) {
     if (!Preferences.getBoolean("relayShowSpoilers")) {
       return;
     }
@@ -1834,7 +1836,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Do any choice-specific decorations
-    ChoiceAdventures.decorateChoice(choice, buffer);
+    ChoiceAdventures.decorateChoice(choice, buffer, addComplexFeatures);
 
     String text = buffer.toString();
     Matcher matcher = FORM_PATTERN.matcher(text);
@@ -2430,6 +2432,20 @@ public class RequestEditorKit extends HTMLEditorKit {
             "inv_equip.php?which=2&action=equip&slot=3&whichitem=");
     buffer.insert(
         index + test.length(), link1.getItemHTML() + link2.getItemHTML() + link3.getItemHTML());
+  }
+
+  private static void addChaostheticianLink(final StringBuffer buffer) {
+    String test = "You should head back to the Chaosthetician at Dino World for your reward";
+    int index = buffer.indexOf(test);
+
+    if (index == -1) {
+      return;
+    }
+
+    StringUtilities.singleStringReplace(
+        buffer,
+        "Chaosthetician at Dino World",
+        "<a href=\"place.php?whichplace=dinorf&action=dinorf_chaos\">Chaosthetician at Dino World</a>");
   }
 
   private static class KoLSubmitView extends FormView {

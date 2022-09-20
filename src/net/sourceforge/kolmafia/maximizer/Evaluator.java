@@ -482,7 +482,7 @@ public class Evaluator {
           return;
         }
         if (hadFamiliar && weight < 0.0) continue;
-        FamiliarData fam = KoLCharacter.findFamiliar(id);
+        FamiliarData fam = KoLCharacter.usableFamiliar(id);
         if (fam == null && weight > 1.0) { // Allow a familiar to be faked for testing
           fam = new FamiliarData(id);
           fam.setWeight((int) weight);
@@ -1599,7 +1599,7 @@ public class Evaluator {
       secondBest.setEnthroned(secondBestCarriedFamiliar);
 
       // Check each familiar in hat to see if they are worthwhile
-      List<FamiliarData> familiarList = KoLCharacter.getFamiliarList();
+      List<FamiliarData> familiarList = KoLCharacter.usableFamiliars();
       for (FamiliarData familiar : familiarList) {
         if (familiar != null
             && familiar != FamiliarData.NO_FAMILIAR

@@ -324,7 +324,7 @@ public class ShowDataCommand extends AbstractCommand {
                         : desiredData.equals("outfits")
                             ? EquipmentManager.getOutfits()
                             : desiredData.equals("familiars")
-                                ? KoLCharacter.getFamiliarList()
+                                ? KoLCharacter.usableFamiliars()
                                 : KoLConstants.inventory;
 
     if (desiredData.equals("effects")) {

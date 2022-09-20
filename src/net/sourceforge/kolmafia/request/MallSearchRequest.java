@@ -524,8 +524,14 @@ public class MallSearchRequest extends GenericRequest {
 
   private static final Pattern NOBUYERS_PATTERN =
       Pattern.compile("<td valign=\"center\" class=\"buyers\">&nbsp;</td>");
+  private static final Pattern BUYERS_PATTERN = Pattern.compile(" class=\"buyers\"");
 
   public static void decorateMallSearch(StringBuffer buffer) {
+    decorateMallSearchAddBuyButtons(buffer);
+    decorateMallSearchDecorateForbidden(buffer);
+  }
+
+  public static void decorateMallSearchAddBuyButtons(StringBuffer buffer) {
     Matcher matcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(buffer);
     while (matcher.find()) {
       String store = matcher.group(0);
@@ -578,6 +584,38 @@ public class MallSearchRequest extends GenericRequest {
           matcher.start() + nobuyersMatcher.start(),
           matcher.start() + nobuyersMatcher.end(),
           buyers);
+    }
+  }
+
+  public static void decorateMallSearchDecorateForbidden(StringBuffer buffer) {
+    Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
+
+    Matcher matcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(buffer);
+
+    while (matcher.find()) {
+      String store = matcher.group(0);
+
+      Matcher detailsMatcher = MallSearchRequest.LISTDETAIL_PATTERN.matcher(store);
+      if (!detailsMatcher.find()) {
+        continue;
+      }
+
+      String whichstore = detailsMatcher.group(1);
+      int storeId = StringUtilities.parseInt(whichstore);
+
+      // If the store is not in the forbidden list
+      if (!forbidden.contains(storeId)) {
+        continue;
+      }
+
+      // Add a gradiant background and a title attribute to explain.
+      store =
+          store.replaceFirst(
+              ">",
+              " style=\"background-image:linear-gradient(to right, rgba(255,0,0,0), pink);\" title=\"The preference 'forbiddenStores' "
+                  + "contains this store.\">");
+
+      buffer.replace(matcher.start(), matcher.end(), store);
     }
   }
 

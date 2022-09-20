@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
@@ -149,7 +150,7 @@ public class KoLCharacterTest {
             withFamiliarInTerrarium(FamiliarPool.BADGER));
 
     try (cleanups) {
-      var fam = KoLCharacter.findFamiliar("mosquito");
+      var fam = KoLCharacter.usableFamiliar("mosquito");
       assertEquals(FamiliarPool.MOSQUITO, fam.getId());
     }
   }
@@ -162,7 +163,7 @@ public class KoLCharacterTest {
             withFamiliarInTerrarium(FamiliarPool.BADGER));
 
     try (cleanups) {
-      var fam = KoLCharacter.findFamiliar("non-existent familiar");
+      var fam = KoLCharacter.usableFamiliar("non-existent familiar");
       assertNull(fam);
     }
   }
@@ -175,7 +176,7 @@ public class KoLCharacterTest {
             withFamiliarInTerrarium(FamiliarPool.BADGER));
 
     try (cleanups) {
-      var fam = KoLCharacter.findFamiliar(FamiliarPool.BADGER);
+      var fam = KoLCharacter.usableFamiliar(FamiliarPool.BADGER);
       assertEquals(FamiliarPool.BADGER, fam.getId());
     }
   }
@@ -188,7 +189,7 @@ public class KoLCharacterTest {
             withFamiliarInTerrarium(FamiliarPool.BADGER));
 
     try (cleanups) {
-      var fam = KoLCharacter.findFamiliar(13);
+      var fam = KoLCharacter.usableFamiliar(13);
       assertNull(fam);
     }
   }
@@ -202,7 +203,7 @@ public class KoLCharacterTest {
             withPath(AscensionPath.Path.GLOVER));
 
     try (cleanups) {
-      var fam = KoLCharacter.findFamiliar("mosquito");
+      var fam = KoLCharacter.usableFamiliar("mosquito");
       assertNull(fam);
     }
   }
@@ -216,7 +217,7 @@ public class KoLCharacterTest {
             withPath(AscensionPath.Path.GLOVER));
 
     try (cleanups) {
-      var fam = KoLCharacter.findFamiliar("astral badger");
+      var fam = KoLCharacter.usableFamiliar("astral badger");
       assertEquals(FamiliarPool.BADGER, fam.getId());
     }
   }
@@ -228,7 +229,7 @@ public class KoLCharacterTest {
             withPath(AscensionPath.Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.MU));
 
     try (cleanups) {
-      var mu = KoLCharacter.findFamiliar(FamiliarPool.MU);
+      var mu = KoLCharacter.usableFamiliar(FamiliarPool.MU);
       assertThat(mu, not(nullValue()));
     }
   }
@@ -241,7 +242,7 @@ public class KoLCharacterTest {
             withFamiliarInTerrarium(FamiliarPool.CAT_BURGLAR));
 
     try (cleanups) {
-      var mu = KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR);
+      var mu = KoLCharacter.usableFamiliar(FamiliarPool.CAT_BURGLAR);
       assertThat(mu, nullValue());
     }
   }
@@ -259,7 +260,7 @@ public class KoLCharacterTest {
       request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
       request.processResults();
 
-      var fam = KoLCharacter.findFamiliar("astral badger");
+      var fam = KoLCharacter.usableFamiliar("astral badger");
       assertNull(fam);
     }
   }
@@ -277,8 +278,20 @@ public class KoLCharacterTest {
       request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
       request.processResults();
 
-      var fam = KoLCharacter.findFamiliar("mosquito");
+      var fam = KoLCharacter.usableFamiliar("mosquito");
       assertEquals(FamiliarPool.MOSQUITO, fam.getId());
+    }
+  }
+
+  @Test
+  public void familiarsWithoutGsAreStillOwnedInGLover() {
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO), withPath(AscensionPath.Path.GLOVER));
+
+    try (cleanups) {
+      var fam = KoLCharacter.ownedFamiliar("mosquito");
+      assertTrue(fam.isPresent());
     }
   }
 

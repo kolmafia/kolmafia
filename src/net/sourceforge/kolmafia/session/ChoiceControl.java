@@ -239,7 +239,7 @@ public abstract class ChoiceControl {
           int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
           AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
           ResultProcessor.processResult(cost);
-          KoLCharacter.setLimitmode(null);
+          KoLCharacter.setLimitMode(LimitMode.NONE);
         }
         break;
 
@@ -249,14 +249,14 @@ public abstract class ChoiceControl {
             Preferences.setInteger("_edDefeats", 0);
             Preferences.setBoolean("edUsedLash", false);
             MonsterStatusTracker.reset();
-            KoLCharacter.setLimitmode(null);
+            KoLCharacter.setLimitMode(LimitMode.NONE);
             break;
           case 1:
             int edDefeats = Preferences.getInteger("_edDefeats");
             int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
             AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
             ResultProcessor.processResult(cost);
-            KoLCharacter.setLimitmode(null);
+            KoLCharacter.setLimitMode(LimitMode.NONE);
             break;
         }
         break;
@@ -2182,7 +2182,7 @@ public abstract class ChoiceControl {
       case 993:
         // Tales of Spelunking
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.enterLimitmode(Limitmode.SPELUNKY);
+          KoLCharacter.enterLimitmode(LimitMode.SPELUNKY);
         }
         break;
 
@@ -2357,7 +2357,7 @@ public abstract class ChoiceControl {
 
       case 1023: // Like a Bat Into Hell
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.setLimitmode(Limitmode.ED);
+          KoLCharacter.setLimitMode(LimitMode.ED);
         }
         break;
 
@@ -2685,7 +2685,7 @@ public abstract class ChoiceControl {
       case 1133:
         // Batfellow Begins
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.enterLimitmode(Limitmode.BATMAN);
+          KoLCharacter.enterLimitmode(LimitMode.BATMAN);
         }
         break;
 
@@ -4368,7 +4368,7 @@ public abstract class ChoiceControl {
       case 1418:
         // So Cold
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.findFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
+          KoLCharacter.usableFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
           Preferences.setBoolean("_entauntaunedToday", true);
         }
         break;
@@ -5821,14 +5821,14 @@ public abstract class ChoiceControl {
         // Batfellow Ends
         // (choosing to exit)
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.setLimitmode(null);
+          KoLCharacter.setLimitMode(LimitMode.NONE);
         }
         break;
 
       case 1168:
         // Batfellow Ends
         // (from running out of time)
-        KoLCharacter.setLimitmode(null);
+        KoLCharacter.setLimitMode(LimitMode.NONE);
         break;
 
       case 1171: // LT&T Office
@@ -7948,6 +7948,56 @@ public abstract class ChoiceControl {
       case 1420:
         // Cargo Cultist Shorts
         CargoCultistShortsRequest.parseAvailablePockets(text);
+        break;
+
+      case 1425:
+        // Oh Yeah!
+        Preferences.setInteger("lastCartographyFratHouse", KoLCharacter.getAscensions());
+        break;
+
+      case 1427:
+        //  The Hidden Junction
+        Preferences.setInteger("lastCartographyGuanoJunction", KoLCharacter.getAscensions());
+        break;
+
+      case 1428:
+        //  Your Neck of the Woods
+        Preferences.setInteger("lastCartographyDarkNeck", KoLCharacter.getAscensions());
+        break;
+
+      case 1429:
+        //  No Nook Unknown
+        Preferences.setInteger("lastCartographyDefiledNook", KoLCharacter.getAscensions());
+        break;
+
+      case 1430:
+        //  Ghostly Memories
+        Preferences.setInteger("lastCartographyBooPeak", KoLCharacter.getAscensions());
+        break;
+
+      case 1431:
+        //  Here There Be Giants
+        Preferences.setInteger("lastCartographyCastleTop", KoLCharacter.getAscensions());
+        break;
+
+      case 1432:
+        //  Mob Maptality
+        Preferences.setInteger("lastCartographyZeppelinProtesters", KoLCharacter.getAscensions());
+        break;
+
+      case 1433:
+        //  Sneaky, Sneaky (Frat Warrior Fatigues)
+        Preferences.setInteger("lastCartographyFratHouseVerge", KoLCharacter.getAscensions());
+        break;
+
+      case 1434:
+        //  Sneaky, Sneaky (War Hippy Fatigues)
+        Preferences.setInteger("lastCartographyHippyCampVerge", KoLCharacter.getAscensions());
+        break;
+
+      case 1436:
+        // Billards Room Options
+        Preferences.setInteger("lastCartographyHauntedBilliards", KoLCharacter.getAscensions());
         break;
 
       case 1445: // Reassembly Station

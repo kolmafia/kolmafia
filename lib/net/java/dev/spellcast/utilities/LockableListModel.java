@@ -91,6 +91,12 @@ public class LockableListModel<E>
 		this.addAll( c );
 	}
 
+	public LockableListModel( final ListElementFilter f )
+	{
+		this();
+		this.currentFilter = f;
+	}
+
 	private LockableListModel( final LockableListModel<E> l )
 	{
 		this( l, LockableListModel.NO_FILTER );

@@ -20,7 +20,7 @@ public class HeistCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameter) {
-    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+    if (!KoLCharacter.canUseFamiliar(FamiliarPool.CAT_BURGLAR)) {
       KoLmafia.updateDisplay("You don't have a Cat Burglar");
       return;
     }

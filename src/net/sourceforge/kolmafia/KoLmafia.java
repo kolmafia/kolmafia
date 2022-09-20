@@ -95,7 +95,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -734,7 +734,7 @@ public abstract class KoLmafia {
     BanishManager.loadBanishedMonsters();
 
     // Retrieve Custom Outfit list
-    if (!Limitmode.limitOutfits()) {
+    if (!KoLCharacter.getLimitMode().limitOutfits()) {
       RequestThread.postRequest(new CustomOutfitRequest());
     }
 
@@ -787,7 +787,7 @@ public abstract class KoLmafia {
 
     // If the path allows, retrieve campground data to see if the user has box
     // servants or a bookshelf
-    if (!Limitmode.limitCampground()
+    if (!KoLCharacter.getLimitMode().limitCampground()
         && !KoLCharacter.isEd()
         && !KoLCharacter.inNuclearAutumn()
         && !KoLCharacter.inRobocore()) {
@@ -804,7 +804,7 @@ public abstract class KoLmafia {
     // These affect available concoctions
     ConcoctionDatabase.retrieveCafeMenus();
 
-    if (!Limitmode.limitCampground() && KoLCharacter.inNuclearAutumn()) {
+    if (!KoLCharacter.getLimitMode().limitCampground() && KoLCharacter.inNuclearAutumn()) {
       KoLmafia.updateDisplay("Retrieving fallout shelter data...");
       FalloutShelterRequest.reset();
       RequestThread.postRequest(new FalloutShelterRequest());

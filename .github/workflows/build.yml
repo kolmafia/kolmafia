@@ -104,7 +104,6 @@ jobs:
           files: |
             dist/*.jar
             releases/*.deb
-            releases/*.exe
             releases/*.dmg
           tag_name: r${{ env.KOLMAFIA_VERSION }}
           name: ${{ env.KOLMAFIA_VERSION }}

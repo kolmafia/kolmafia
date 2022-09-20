@@ -28,7 +28,7 @@ class StillSuitRequestTest {
             withFamiliarInTerrarium(FamiliarPool.BOWLET), withProperty("familiarSweat", 20));
 
     try (cleanups) {
-      var fam = KoLCharacter.findFamiliar(FamiliarPool.BOWLET);
+      var fam = KoLCharacter.usableFamiliar(FamiliarPool.BOWLET);
       fam.setItem(ItemPool.get(ItemPool.STILLSUIT));
       assertThat(StillSuitRequest.canMake(), is(true));
     }

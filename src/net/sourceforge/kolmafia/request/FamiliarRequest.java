@@ -467,7 +467,7 @@ public class FamiliarRequest extends GenericRequest {
         return false;
       }
 
-      FamiliarData changeTo = KoLCharacter.findFamiliar(FamiliarRequest.getNewFam(urlString));
+      FamiliarData changeTo = KoLCharacter.usableFamiliar(FamiliarRequest.getNewFam(urlString));
 
       if (!handleFamiliarChange(changeTo)) {
         return false;
@@ -517,7 +517,7 @@ public class FamiliarRequest extends GenericRequest {
 
       var id = FamiliarRequest.getWhichFam(urlString);
       // can equip items on familiars we can't use
-      var familiar = KoLCharacter.familiars.stream().filter(x -> x.getId() == id).findFirst();
+      var familiar = KoLCharacter.ownedFamiliar(id);
       FamiliarData current = KoLCharacter.getFamiliar();
       AdventureResult item = ItemPool.get(GenericRequest.getWhichItem(urlString), 1);
 
@@ -552,7 +552,7 @@ public class FamiliarRequest extends GenericRequest {
 
       var id = FamiliarRequest.getFamId(urlString);
       // can unequip items on familiars we can't use
-      var familiar = KoLCharacter.familiars.stream().filter(x -> x.getId() == id).findFirst();
+      var familiar = KoLCharacter.ownedFamiliar(id);
       FamiliarData current = KoLCharacter.getFamiliar();
 
       familiar.ifPresent(
@@ -621,7 +621,7 @@ public class FamiliarRequest extends GenericRequest {
         return false;
       }
 
-      FamiliarData fam = KoLCharacter.findFamiliar(famid);
+      FamiliarData fam = KoLCharacter.usableFamiliar(famid);
       if (fam == null || !fam.canEquip()) {
         return false;
       }
@@ -663,7 +663,7 @@ public class FamiliarRequest extends GenericRequest {
         return false;
       }
 
-      FamiliarData fam = KoLCharacter.findFamiliar(famid);
+      FamiliarData fam = KoLCharacter.usableFamiliar(famid);
       if (fam == null || !fam.canEquip()) {
         return false;
       }
@@ -698,7 +698,7 @@ public class FamiliarRequest extends GenericRequest {
 
     if (action.equals("newfam")) {
       int newfam = FamiliarRequest.getNewFam(urlString);
-      FamiliarData fam = KoLCharacter.findFamiliar(newfam);
+      FamiliarData fam = KoLCharacter.usableFamiliar(newfam);
 
       // If we don't have the new familiar or can't change to
       // it, this request will fail, so don't log it.
@@ -727,13 +727,16 @@ public class FamiliarRequest extends GenericRequest {
       }
 
       int whichitem = FamiliarRequest.getWhichItem(urlString);
-      FamiliarData fam =
-          whichfam == -1 ? KoLCharacter.getFamiliar() : KoLCharacter.findFamiliar(whichfam);
+      var famOpt = KoLCharacter.ownedFamiliar(whichfam);
+      if (famOpt.isEmpty()) {
+        return true;
+      }
+      var fam = famOpt.get();
       AdventureResult item = ItemPool.get(whichitem, 1);
 
       // If we don't have the new familiar or it cannot equip
       // the item, this request will fail, so don't log it.
-      if (fam == null || fam == FamiliarData.NO_FAMILIAR || !fam.canEquip(item)) {
+      if (fam == FamiliarData.NO_FAMILIAR || !fam.canEquip(item)) {
         return true;
       }
 
@@ -744,11 +747,15 @@ public class FamiliarRequest extends GenericRequest {
 
     if (action.equals("unequip")) {
       int famid = FamiliarRequest.getFamId(urlString);
-      FamiliarData fam = KoLCharacter.findFamiliar(famid);
+      var famOpt = KoLCharacter.ownedFamiliar(famid);
+      if (famOpt.isEmpty()) {
+        return true;
+      }
+      var fam = famOpt.get();
 
       // If we don't have the new familiar, this request will
       // fail, so don't log it.
-      if (fam == null || fam == FamiliarData.NO_FAMILIAR) {
+      if (fam == FamiliarData.NO_FAMILIAR) {
         return true;
       }
 
@@ -781,7 +788,7 @@ public class FamiliarRequest extends GenericRequest {
         return true;
       }
 
-      FamiliarData fam = KoLCharacter.findFamiliar(famid);
+      FamiliarData fam = KoLCharacter.usableFamiliar(famid);
 
       // If we don't have the familiar or can't equip it,
       // this request will fail, so don't log it.
@@ -807,7 +814,7 @@ public class FamiliarRequest extends GenericRequest {
         return true;
       }
 
-      FamiliarData fam = KoLCharacter.findFamiliar(famid);
+      FamiliarData fam = KoLCharacter.usableFamiliar(famid);
 
       // If we don't have the familiar or can't equip it,
       // this request will fail, so don't log it.
