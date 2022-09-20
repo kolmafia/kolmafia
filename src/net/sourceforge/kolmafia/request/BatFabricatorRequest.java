@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.session.BatManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 
 public class BatFabricatorRequest extends CoinMasterRequest {
   public static final String master = "Bat-Fabricator";
@@ -114,7 +114,7 @@ public class BatFabricatorRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    if (KoLCharacter.getLimitmode() != Limitmode.BATMAN) {
+    if (KoLCharacter.getLimitMode() != LimitMode.BATMAN) {
       return "Only Batfellow can use the Bat-Fabricator.";
     }
     if (BatManager.currentBatZone() != BatManager.BAT_CAVERN) {

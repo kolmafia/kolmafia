@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -218,7 +217,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         boolean canEat = KoLCharacter.canEat();
         this.buttons[index++].setEnabled(canEat);
 
-        boolean haveGhost = KoLCharacter.findFamiliar(FamiliarPool.GHOST) != null;
+        boolean haveGhost = KoLCharacter.usableFamiliar(FamiliarPool.GHOST) != null;
         this.buttons[index++].setEnabled(haveGhost);
 
         // The milk listener is just after the ghost listener
@@ -264,7 +263,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         boolean canDrink = KoLCharacter.canDrink();
         this.buttons[index++].setEnabled(canDrink);
 
-        boolean haveHobo = KoLCharacter.findFamiliar(FamiliarPool.HOBO) != null;
+        boolean haveHobo = KoLCharacter.usableFamiliar(FamiliarPool.HOBO) != null;
         this.buttons[index++].setEnabled(haveHobo);
 
         // The ode listener is just after the hobo listener
@@ -881,7 +880,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         return false;
       }
 
-      if (Limitmode.limitClan()) {
+      if (KoLCharacter.getLimitMode().limitClan()) {
         if (creation.hotdog || creation.speakeasy) {
           return false;
         }

@@ -6,10 +6,13 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,6 +34,42 @@ class CharPaneRequestTest {
     try (cleanups) {
       CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
       assertThat("snowsuit", isSetTo("hat"));
+    }
+  }
+
+  @Nested
+  class ApiLimitMode {
+    @Test
+    void parseApiParsesLimitModeNone() {
+      var json = ApiRequest.getJSON(html("request/test_api_status_aftercore.json"), "testing");
+      assertThat(json, notNullValue());
+
+      CharPaneRequest.parseStatus(json);
+
+      assertThat(KoLCharacter.getLimitMode(), is(LimitMode.NONE));
+    }
+
+    @Test
+    void parseApiParsesLimitModeUnknownString() {
+      var json =
+          ApiRequest.getJSON(html("request/test_api_status_limit_mode_unknown.json"), "testing");
+      assertThat(json, notNullValue());
+
+      CharPaneRequest.parseStatus(json);
+
+      assertThat(KoLCharacter.getLimitMode(), is(LimitMode.UNKNOWN));
+    }
+
+    @Test
+    void parseApiParsesLimitModeUnknownObject() {
+      var json =
+          ApiRequest.getJSON(
+              html("request/test_api_status_limit_mode_unknown_int.json"), "testing");
+      assertThat(json, notNullValue());
+
+      CharPaneRequest.parseStatus(json);
+
+      assertThat(KoLCharacter.getLimitMode(), is(LimitMode.UNKNOWN));
     }
   }
 

@@ -259,12 +259,11 @@ public class FamiliarTrainingFrame extends GenericFrame {
         // Weight counts if above 1 or with experience, to a maximum of 20
         int totalTerrariumWeight = 0;
 
-        FamiliarData[] familiarArray = new FamiliarData[KoLCharacter.getFamiliarList().size()];
-        KoLCharacter.getFamiliarList().toArray(familiarArray);
+        FamiliarData[] familiarArray = KoLCharacter.ownedFamiliars().toArray(new FamiliarData[0]);
 
-        for (int i = 0; i < familiarArray.length; ++i) {
-          if (familiarArray[i].getWeight() != 1 || familiarArray[i].getTotalExperience() > 0) {
-            totalTerrariumWeight += Math.min(familiarArray[i].getWeight(), 20);
+        for (FamiliarData familiarData : familiarArray) {
+          if (familiarData.getWeight() != 1 || familiarData.getTotalExperience() > 0) {
+            totalTerrariumWeight += Math.min(familiarData.getWeight(), 20);
           }
         }
 
@@ -1593,9 +1592,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       // Find first familiar with item
 
-      List<FamiliarData> familiars = KoLCharacter.getFamiliarList();
-      for (int i = 0; i < familiars.size(); ++i) {
-        FamiliarData familiar = familiars.get(i);
+      List<FamiliarData> familiars = KoLCharacter.ownedFamiliars();
+      for (FamiliarData familiar : familiars) {
         AdventureResult item = familiar.getItem();
 
         if (item == null) {
