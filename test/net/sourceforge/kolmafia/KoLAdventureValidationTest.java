@@ -22,7 +22,9 @@ import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -1151,6 +1153,16 @@ public class KoLAdventureValidationTest {
       var cleanups = new Cleanups(withProperty("currentPortalEnergy", 10));
       try (cleanups) {
         assertTrue(EL_VIBRATO.canAdventure());
+      }
+    }
+
+    @Test
+    public void failureToAdventureSetsPortalEnergyToZero() {
+      var cleanups = new Cleanups(withProperty("currentPortalEnergy", 10));
+      try (cleanups) {
+        var failure = KoLAdventure.findAdventureFailure(html("request/test_adventure_fail_due_to_el_vibrato_power.html"));
+        assertThat(failure, greaterThan(0));
+        assertThat("currentPortalEnergy", isSetTo(0));
       }
     }
 
