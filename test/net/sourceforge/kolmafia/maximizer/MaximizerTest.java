@@ -1032,7 +1032,6 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("meat"));
-        recommends("backup camera");
         recommends("incredibly dense meat gem");
         assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
       }
