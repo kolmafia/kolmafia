@@ -1168,7 +1168,7 @@ public class KoLAdventureValidationTest {
     public void hostileKnollNotAvailableIfNotUnlocked() {
       var cleanups =
           new Cleanups(
-              withSign(ZodiacSign.VOLE),
+              withSign(ZodiacSign.PACKRAT),
               withQuestProgress(Quest.UNTINKER, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.MEATCAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
