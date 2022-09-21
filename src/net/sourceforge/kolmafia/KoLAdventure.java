@@ -1348,7 +1348,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Degrassi Knoll")) {
-      return KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
+      if (KoLCharacter.getSignZone() == ZodiacZone.KNOLL) {
+        return false;
+      }
+      // Either Paco or the Untinker will open the Knoll
+      // We can accept the Untinker's quest if the woods are open
+      return QuestDatabase.isQuestStarted(Quest.MEATCAR)
+          || QuestDatabase.isQuestStarted(Quest.UNTINKER)
+          || QuestDatabase.isQuestStarted(Quest.LARVA);
     }
 
     if (this.zone.equals("MusSign")) {
@@ -1921,6 +1928,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return true;
+    }
+
+    if (this.zone.equals("Degrassi Knoll")) {
+      // Either Paco or the Untinker open the Knoll
+      if (QuestDatabase.isQuestStarted(Quest.MEATCAR)
+          || QuestDatabase.isQuestStarted(Quest.UNTINKER)) {
+        return true;
+      }
+
+      // We can accept the Untinker's quest if the woods are open.
+      if (QuestDatabase.isQuestStarted(Quest.LARVA)) {
+        var request = new PlaceRequest("forestvillage", "fv_untinker_quest", true);
+        request.addFormField("preaction", "screwquest");
+        request.run();
+      }
+      return QuestDatabase.isQuestStarted(Quest.UNTINKER);
     }
 
     // Fighting the Goblin King requires effects

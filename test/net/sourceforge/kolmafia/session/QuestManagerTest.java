@@ -531,7 +531,7 @@ public class QuestManagerTest {
   }
 
   /*
-   * Level 11 - Arid, Extra Dry - Desert
+   * Level 11 - Arid, Extra-Dry - Desert
    */
 
   @Nested

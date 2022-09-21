@@ -132,7 +132,7 @@ public class UntinkerRequest extends GenericRequest {
       QuestDatabase.setQuestProgress(Quest.UNTINKER, QuestDatabase.STARTED);
     }
 
-    // If the quest is still in progross, no need to check anything else
+    // If the quest is still in progress, no need to check anything else
     if (location.contains("fv_untinker_quest")) {
       return;
     }
