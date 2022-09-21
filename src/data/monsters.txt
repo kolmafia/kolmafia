@@ -409,7 +409,7 @@ magical fruit bat	2156	fruitbat1.gif	Atk: 19 Def: 19 HP: 20 Init: 50 Meat: 40 P:
 MagiMechTech MechaMech	175	mech.gif	Atk: 120 Def: 108 HP: 100 Init: 80 P: construct Article: a	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (16)	oversized pizza cutter (8)	magilaser blastercannon (10)
 malevolent hair clog	389	hairclog.gif	Atk: 59 Def: 48 HP: 50 Init: 50 P: horror ED: spooky Article: a	gob of wet hair (40)
 malt liquor golem	1754	maltliquorgolem.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: construct Article: a	premium malt liquor (0)	premium malt liquor (0)	brown paper bag mask (0)	brown paper pants (0)
-man with the red buttons	1520	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 Meat: 150 P: dude Article: the	red box (15)	red button (0)	big red button (n1)	button rouge (c0)
+man with the red buttons	1520	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 Meat: 150 P: dude Article: the	red box (15)	red button (0)	big red button (c1)	button rouge (c0)
 man-eating plant	382	audrey.gif	Atk: 22 Def: 21 HP: 25 Init: 50 P: plant Article: a
 mariachi calavera	272	mariachi3.gif	Atk: 22 Def: 19 HP: 30 Init: 50 P: undead EA: hot Article: a	bottle of tequila (30)	marzipan skull (30)	calavera concertina (p5)
 me4t begZ0r	144	beggar.gif	Atk: 87 Def: 78 HP: 77 Init: 50 P: dude EA: "bad spelling" Article: a	meat vortex (100)
