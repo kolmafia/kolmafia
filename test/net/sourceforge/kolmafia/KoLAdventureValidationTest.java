@@ -23,6 +23,7 @@ import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
 import static internal.matchers.Preference.isSetTo;
+import static internal.matchers.Quest.isStarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
@@ -1144,6 +1145,83 @@ public class KoLAdventureValidationTest {
         assertFalse(HAUNTED_WINE_CELLAR.canAdventure());
         assertFalse(HAUNTED_LAUNDRY_ROOM.canAdventure());
         assertFalse(HAUNTED_BOILER_ROOM.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class DegrassiKnoll {
+    private static final KoLAdventure GARAGE =
+        AdventureDatabase.getAdventureByName("The Degrassi Knoll Garage");
+
+    @Test
+    public void hostileKnollNotAvailableInMuscleSign() {
+      var cleanups =
+          new Cleanups(
+              withSign(ZodiacSign.VOLE), withQuestProgress(Quest.UNTINKER, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertFalse(GARAGE.canAdventure());
+      }
+    }
+
+    @Test
+    public void hostileKnollNotAvailableIfNotUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withSign(ZodiacSign.PACKRAT),
+              withQuestProgress(Quest.UNTINKER, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.MEATCAR, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(GARAGE.canAdventure());
+      }
+    }
+
+    @Test
+    public void hostileKnollAvailableIfUntinkerUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withSign(ZodiacSign.PACKRAT),
+              withQuestProgress(Quest.UNTINKER, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(GARAGE.canAdventure());
+      }
+    }
+
+    @Test
+    public void hostileKnollAvailableIfPacoUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withSign(ZodiacSign.PACKRAT),
+              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(GARAGE.canAdventure());
+      }
+    }
+
+    @Test
+    public void willAcceptUntinkerQuestToUnlockHostileKnoll() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withSign(ZodiacSign.PACKRAT),
+              withQuestProgress(Quest.UNTINKER, QuestDatabase.UNSTARTED),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_visit_untinker_accept_quest.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(GARAGE.canAdventure());
+        assertTrue(GARAGE.prepareForAdventure());
+        assertThat(Quest.UNTINKER, isStarted());
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/place.php",
+            "whichplace=forestvillage&action=fv_untinker_quest&preaction=screwquest");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }
