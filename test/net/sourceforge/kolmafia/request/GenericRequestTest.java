@@ -26,6 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class GenericRequestTest {
@@ -33,6 +34,19 @@ public class GenericRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("GenericRequestTest");
     Preferences.reset("GenericRequestTest");
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "inventory.php, false",
+    "mall.php, true",
+    "manageprices.php, true",
+    "backoffice.php, true",
+    "newchatmessages.php, true",
+  })
+  public void certainUrlsAreIgnored(final String url, final boolean expected) {
+    var req = new GenericRequest(url);
+    assertThat(GenericRequest.shouldIgnore(req), equalTo(expected));
   }
 
   @Test

@@ -39,15 +39,15 @@ public class ItemFinder {
     ASDON,
   }
 
-  public static final List<String> getMatchingNames(String searchString) {
+  public static List<String> getMatchingNames(String searchString) {
     return ItemDatabase.getMatchingNames(searchString);
   }
 
-  public static final String getFirstMatchingItemName(List<String> nameList, String searchString) {
+  public static String getFirstMatchingItemName(List<String> nameList, String searchString) {
     return ItemFinder.getFirstMatchingItemName(nameList, searchString, Match.ANY);
   }
 
-  public static final String getFirstMatchingItemName(
+  public static String getFirstMatchingItemName(
       List<String> nameList, String searchString, Match filterType) {
     if (nameList == null || nameList.isEmpty()) {
       return null;
@@ -297,20 +297,19 @@ public class ItemFinder {
    * Utility method which determines the first item which matches the given parameter string. Note
    * that the string may also specify an item quantity before the string.
    */
-  public static final AdventureResult getFirstMatchingItem(String parameters) {
+  public static AdventureResult getFirstMatchingItem(String parameters) {
     return ItemFinder.getFirstMatchingItem(parameters, true, null, ItemFinder.Match.ANY);
   }
 
-  public static final AdventureResult getFirstMatchingItem(String parameters, Match filterType) {
+  public static AdventureResult getFirstMatchingItem(String parameters, Match filterType) {
     return ItemFinder.getFirstMatchingItem(parameters, true, null, filterType);
   }
 
-  public static final AdventureResult getFirstMatchingItem(
-      String parameters, boolean errorOnFailure) {
+  public static AdventureResult getFirstMatchingItem(String parameters, boolean errorOnFailure) {
     return ItemFinder.getFirstMatchingItem(parameters, errorOnFailure, null, Match.ANY);
   }
 
-  public static final AdventureResult getFirstMatchingItem(
+  public static AdventureResult getFirstMatchingItem(
       String parameters, boolean errorOnFailure, Match filterType) {
     return getFirstMatchingItem(parameters, errorOnFailure, null, filterType);
   }
@@ -450,7 +449,7 @@ public class ItemFinder {
       return null;
     }
 
-    AdventureResult firstMatch = null;
+    AdventureResult firstMatch;
     if (itemId != -1) {
       firstMatch = ItemPool.get(itemId, itemCount);
     } else {
@@ -517,7 +516,7 @@ public class ItemFinder {
       firstMatch = firstMatch.getInstance(itemCount);
     } else if (matchCount < itemCount && sourceList != null) {
       if (errorOnFailure) {
-        String message = "";
+        String message;
         if (sourceList == KoLConstants.freepulls && !StorageRequest.isFreePull(firstMatch)) {
           message = "[" + firstMatch.getName() + "] requested, but it's not a Free Pull";
         } else {
@@ -572,7 +571,7 @@ public class ItemFinder {
 
     String[] itemNames = itemList.split("\\s*,\\s*");
 
-    boolean isMeatMatch = false;
+    boolean isMeatMatch;
     ArrayList<AdventureResult> items = new ArrayList<>();
 
     for (String name : itemNames) {
