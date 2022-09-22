@@ -119,19 +119,20 @@ public class UntinkerRequest extends GenericRequest {
   }
 
   public static final void parseResponse(final String location, final String responseText) {
-    if (!location.contains("fv_untinker") && !location.contains("screwquest")) {
+    if (!location.contains("fv_untinker")) {
       return;
     }
 
     // "Thanks! I'll tell ya, I'm just lost without my screwdriver. Here, lemme mark the Knoll on
     // your map."
-    if (responseText.contains("I'm just lost without my screwdriver")
-        || responseText.contains("I'll go find your screwdriver for you") // Zombie Slayer
-    ) {
+    if (location.contains("screwquest")
+        && (responseText.contains("I'm just lost without my screwdriver")
+            || responseText.contains("I'll go find your screwdriver for you") // Zombie Slayer
+        )) {
       QuestDatabase.setQuestProgress(Quest.UNTINKER, QuestDatabase.STARTED);
     }
 
-    // If the quest is still in progross, no need to check anything else
+    // If the quest is still in progress, no need to check anything else
     if (location.contains("fv_untinker_quest")) {
       return;
     }

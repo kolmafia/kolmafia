@@ -117,7 +117,7 @@ public class PlaceRequest extends GenericRequest {
     } else if (place.equals("falloutshelter")) {
       FalloutShelterRequest.parseResponse(urlString, responseText);
     } else if (place.equals("forestvillage")) {
-      if (action.equals("fv_untinker")) {
+      if (action.startsWith("fv_untinker")) {
         UntinkerRequest.parseResponse(urlString, responseText);
       }
     } else if (place.startsWith("junggate")) {
