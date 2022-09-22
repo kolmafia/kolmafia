@@ -549,6 +549,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case "PirateRealm":
         // One daily visit if available
         return checkZone("prAlways", "_prToday", "monorail");
+      case "Tunnel of L.O.V.E.":
+        return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
       case "The Spacegate":
         // Through the Spacegate
         if (Preferences.getBoolean("spacegateAlways")
@@ -572,14 +574,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(request);
 
         return Preferences.getBoolean("spacegateAlways");
-    }
-
-    switch (this.adventureId) {
-      case AdventurePool.TUNNEL_OF_LOVE_ID:
-        {
-          // One trip through if available
-          return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
-        }
     }
 
     return true;
