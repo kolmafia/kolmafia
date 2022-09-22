@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -179,13 +180,13 @@ public class ElVibratoManager {
   }
 
   static {
-    Construct.BIZARRE.addCommand(BUFF, DRONE, REPAIRED_DRONE, "repaired drone -> augmented drone");
+    Construct.BIZARRE.addCommand(BUFF, DRONE, REPAIRED_DRONE, "-> augmented drone");
     Construct.BIZARRE.addCommand(BUFF, TARGET, null, "10 turns of Fitter, Happier");
     Construct.BIZARRE.addCommand(BUFF, SELF, null, "augments construct");
-    Construct.BIZARRE.addCommand(BUFF, TARGET, null, "heals you");
+    Construct.BIZARRE.addCommand(REPAIR, TARGET, null, "heals you");
     Construct.BIZARRE.addCommand(REPAIR, SELF, null, "heals construct");
     Construct.HULKING.addCommand(ATTACK, FLOOR, null, "get punchcards");
-    Construct.HULKING.addCommand(ATTACK, WALL, null, "get punchcards (can include SPHERE");
+    Construct.HULKING.addCommand(ATTACK, WALL, null, "get punchcards (can include SPHERE)");
     Construct.HULKING.addCommand(ATTACK, SELF, null, "destroys construct");
     Construct.HULKING.addCommand(ATTACK, TARGET, null, "damages you construct");
     Construct.HULKING.addCommand(BUILD, SELF, null, "augments construct");
@@ -193,8 +194,8 @@ public class ElVibratoManager {
     Construct.INDUSTRIOUS.addCommand(BUFF, WALL, null, "no effect");
     Construct.INDUSTRIOUS.addCommand(BUFF, TARGET, null, "damages you");
     Construct.INDUSTRIOUS.addCommand(BUFF, SELF, null, "damages construct");
-    Construct.LONELY.addCommand(MODIFY, SPHERE, POWER_SPHERE, "get overcharged power sphere");
-    Construct.LONELY.addCommand(REPAIR, DRONE, BROKEN_DRONE, "broken drone -> repaired drone");
+    Construct.LONELY.addCommand(MODIFY, SPHERE, POWER_SPHERE, "-> overcharged power sphere");
+    Construct.LONELY.addCommand(REPAIR, DRONE, BROKEN_DRONE, "-> repaired drone");
     Construct.LONELY.addCommand(REPAIR, SELF, null, "manipulates construct");
     Construct.LONELY.addCommand(REPAIR, TARGET, null, "damages you");
     Construct.MENACING.addCommand(ATTACK, WALL, null, "no effect");
@@ -204,15 +205,36 @@ public class ElVibratoManager {
     Construct.TOWERING.addCommand(BUILD, DRONE, null, "get El Vibrato drone");
     Construct.TOWERING.addCommand(BUILD, TARGET, null, "no effect");
     Construct.TOWERING.addCommand(MODIFY, SELF, null, "transform into a new construct");
-    Construct.TOWERING.addCommand(MODIFY, DRONE, EV_DRONE, "drone -> broken drone");
-    Construct.TOWERING.addCommand(MODIFY, SPHERE, POWER_SPHERE, "gain El Vibrato outfit item");
+    Construct.TOWERING.addCommand(MODIFY, DRONE, EV_DRONE, "-> broken drone");
+    Construct.TOWERING.addCommand(MODIFY, SPHERE, POWER_SPHERE, "-> El Vibrato outfit item");
   }
 
-  private static void addCommandButton(final StringBuilder buffer, Command command) {
-    int card1 = command.card1().id();
-    int card2 = command.card2().id();
-    boolean enabled = InventoryManager.getCount(card1) > 0 && InventoryManager.getCount(card2) > 0;
+  private static void addCommandButton(
+      final StringBuilder buffer, Command command, boolean enabled) {
+    buffer.append("<form method=POST action=\"fight.php\"><td>");
+    buffer.append("<input type=hidden name=\"action\" value=\"macro\">");
+    buffer.append("<input type=hidden name=\"macrotext\" value=\"");
+
+    int id1 = command.card1().id();
+    int id2 = command.card2().id();
+
+    buffer.append("use ");
+    buffer.append(id1);
+    if (KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+      buffer.append(",");
+    } else {
+      buffer.append("; use ");
+    }
+    buffer.append(id2);
+
+    buffer.append("\"><input onclick=\"return killforms(this);\" type=\"submit\" value=\"");
     buffer.append("COMMAND!");
+    buffer.append("\"");
+    if (!enabled) {
+      buffer.append(" disabled");
+    }
+
+    buffer.append(">&nbsp;</td></form>");
   }
 
   private static void addMonsterCommands(MonsterData monster, StringBuilder buffer) {
@@ -234,7 +256,7 @@ public class ElVibratoManager {
 
       // Add a button
       buffer.append("<td>");
-      addCommandButton(buffer, command);
+      addCommandButton(buffer, command, enabled);
       buffer.append("</td>");
 
       // Verb
