@@ -4545,6 +4545,9 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         break;
+      case ItemPool.ANTI_FUNGAL_SPRAY:
+        Preferences.resetToDefault("funGuyMansionKills");
+        break;
 
       case ItemPool.CONSPIRACY_ISLAND_CHARTER:
         Preferences.setBoolean("spookyAirportAlways", true);
