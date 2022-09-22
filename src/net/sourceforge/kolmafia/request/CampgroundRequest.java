@@ -808,24 +808,23 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    Matcher matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
-    if (!matcher.find()) {
+    var action = GenericRequest.getAction(urlString);
+    if (action == null) {
       CampgroundRequest.parseCampground(responseText);
       return;
     }
 
-    String action = matcher.group(1);
-
     // A request can have both action=bookshelf and preaction=yyy.
     // Check for that.
-    if (action.equals("bookshelf") && matcher.find()) {
-      action = matcher.group(1);
-    }
-
     if (action.equals("bookshelf")) {
-      // No preaction. Look at books.
-      CampgroundRequest.parseBookTitles(responseText);
-      return;
+      var preaction = GenericRequest.getPreaction(urlString);
+      if (preaction != null) {
+        action = preaction;
+      } else {
+        // No preaction. Look at books.
+        CampgroundRequest.parseBookTitles(responseText);
+        return;
+      }
     }
 
     if (action.equals("makepizza")) {

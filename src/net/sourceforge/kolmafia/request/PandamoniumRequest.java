@@ -110,71 +110,64 @@ public class PandamoniumRequest extends GenericRequest {
   }
 
   private static String subvisitPlace(final String action, final String urlString) {
-    if (action.equals("mourn")) {
-      if (urlString.indexOf("preaction=insult") != -1) {
-        return "Trying to insult Mourn";
-      }
+    var preaction = GenericRequest.getPreaction(urlString);
 
-      if (urlString.indexOf("preaction=observe") != -1) {
-        return "Trying some observational humor on Mourn";
-      }
-
-      if (urlString.indexOf("preaction=prop") != -1) {
-        return "Trying some prop comedy on Mourn";
-      }
-
+    if (preaction == null) {
       return null;
     }
 
-    if (action.equals("sven")) {
-      if (urlString.indexOf("preaction=try") == -1) {
+    switch (action) {
+      case "mourn":
+        return switch (preaction) {
+          case "insult" -> "Trying to insult Mourn";
+          case "observe" -> "Trying some observational humor on Mourn";
+          case "prop" -> "Trying some prop comedy on Mourn";
+          default -> null;
+        };
+      case "sven":
+        if (!preaction.equals("try")) {
+          return null;
+        }
+
+        Matcher m = PandamoniumRequest.MEMBER_PATTERN.matcher(urlString);
+        if (!m.find()) {
+          return null;
+        }
+
+        String bandmember = m.group(1);
+
+        m = PandamoniumRequest.ITEM_PATTERN.matcher(urlString);
+        if (!m.find()) {
+          return null;
+        }
+
+        int itemId = StringUtilities.parseInt(m.group(1));
+        String itemName = ItemDatabase.getItemName(itemId);
+
+        return "Giving " + itemName + " to " + bandmember;
+      default:
         return null;
-      }
-
-      Matcher m = PandamoniumRequest.MEMBER_PATTERN.matcher(urlString);
-      if (!m.find()) {
-        return null;
-      }
-
-      String bandmember = m.group(1);
-
-      m = PandamoniumRequest.ITEM_PATTERN.matcher(urlString);
-      if (!m.find()) {
-        return null;
-      }
-
-      int itemId = StringUtilities.parseInt(m.group(1));
-      String itemName = ItemDatabase.getItemName(itemId);
-
-      return "Giving " + itemName + " to " + bandmember;
     }
-
-    return null;
   }
 
   private static String visitPlace(final String action, final String urlString) {
-    if (action.equals("moan")) {
-      return "Visiting Moaning Panda Square in Pandamonium";
-    }
+    switch (action) {
+      case "moan":
+        return "Visiting Moaning Panda Square in Pandamonium";
+      case "temp":
+        return "Visiting Azazel's Temple in Pandamonium";
+      case "mourn":
+        return "Talking to Mourn at Belilafs Comedy Club";
+      case "sven":
+        // pandamonium.php?action=sven&bandmember=Flargwurm&togive=4673&preaction=try
+        if (urlString.contains("preaction=try")) {
+          return null;
+        }
 
-    if (action.equals("temp")) {
-      return "Visiting Azazel's Temple in Pandamonium";
-    }
-
-    if (action.equals("mourn")) {
-      return "Talking to Mourn at Belilafs Comedy Club";
-    }
-
-    if (action.equals("sven")) {
-      // pandamonium.php?action=sven&bandmember=Flargwurm&togive=4673&preaction=try
-      if (urlString.indexOf("preaction=try") != -1) {
+        return "Talking to Sven Golly at the Hey Deze Arena";
+      default:
         return null;
-      }
-
-      return "Talking to Sven Golly at the Hey Deze Arena";
     }
-
-    return null;
   }
 
   @Override
