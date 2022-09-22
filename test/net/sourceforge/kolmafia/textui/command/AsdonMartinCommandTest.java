@@ -11,8 +11,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -135,7 +135,8 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
     builder.client.addResponse(200, html("request/test_campground_drive_observantly.html"));
 
-    var cleanups = new Cleanups(
+    var cleanups =
+        new Cleanups(
             withWorkshedItem(ItemPool.ASDON_MARTIN),
             withFuel(1558),
             withHttpClientBuilder(builder));
