@@ -1009,6 +1009,11 @@ public class GenericRequest implements Runnable {
     return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
   }
 
+  public static String getPreaction(final String urlString) {
+    Matcher matcher = GenericRequest.PREACTION_PATTERN.matcher(urlString);
+    return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
+  }
+
   public static String getPlace(final String urlString) {
     Matcher matcher = GenericRequest.PLACE_PATTERN.matcher(urlString);
     return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
