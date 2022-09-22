@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1032,7 +1033,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("meat"));
-        recommends("backup camera");
+        recommends(ItemPool.BACKUP_CAMERA);
         recommends("incredibly dense meat gem");
         assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
       }

@@ -62,6 +62,15 @@ public class Maximizer {
     assertTrue(found.isPresent(), "Expected " + item + " to be recommended, but it was not");
   }
 
+  public static void recommends(int itemId) {
+    Optional<Boost> found =
+        getBoosts().stream()
+            .filter(Boost::isEquipment)
+            .filter(b -> (itemId == b.getItem().getItemId()))
+            .findAny();
+    assertTrue(found.isPresent(), "Expected " + itemId + " to be recommended, but it was not");
+  }
+
   public static boolean someBoostIs(Predicate<Boost> predicate) {
     return getBoosts().stream().anyMatch(predicate);
   }
