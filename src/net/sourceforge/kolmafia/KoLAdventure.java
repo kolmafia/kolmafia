@@ -1501,8 +1501,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return switch (this.adventureNumber) {
         case AdventurePool.DRUNKEN_STUPOR -> KoLCharacter.isFallingDown();
         case AdventurePool.SSPD_STUPOR -> {
-          if (today.contains(holiday)
-              || today.equals("Drunksgiving") && KoLCharacter.getInebriety() >= 26) {
+          if ((today.contains(holiday) || today.equals("Drunksgiving"))
+              && KoLCharacter.getInebriety() >= 26) {
             yield true;
           } else {
             KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
