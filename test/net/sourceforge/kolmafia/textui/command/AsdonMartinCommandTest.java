@@ -150,6 +150,8 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertPostRequest(requests.get(0), "/campground.php", "preaction=drive&whichdrive=7");
       assertThat(CampgroundRequest.getFuel(), is(1521));
     }
+
+    KoLConstants.activeEffects.clear();
   }
 
   @Test
