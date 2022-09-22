@@ -4978,22 +4978,27 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    @Disabled("Needs HTML fixtures")
     void withSkeletonStoreItemUsesItem() {
+      var builder = new FakeHttpClientBuilder();
       var cleanups =
           new Cleanups(
+              withHttpClientBuilder(builder),
               withProperty("skeletonStoreAvailable", false),
               withItem(ItemPool.BONE_WITH_A_PRICE_TAG));
-      setupFakeClient();
       try (cleanups) {
-        var success = SKELETON_STORE.prepareForAdventure();
-        var requests = getRequests();
-        assertThat(requests, hasSize(1));
+        builder.client.addResponse(200, html("request/test_use_bone_with_a_tag.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(SKELETON_STORE.canAdventure());
+        assertTrue(SKELETON_STORE.prepareForAdventure());
+        assertTrue(Preferences.getBoolean("skeletonStoreAvailable"));
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
         assertPostRequest(
             requests.get(0),
             "/inv_use.php",
             "whichitem=" + ItemPool.BONE_WITH_A_PRICE_TAG + "&ajax=1");
-        assertThat(success, is(true));
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
@@ -5029,21 +5034,25 @@ public class KoLAdventureValidationTest {
     @Test
     void withMadnessBakeryItemUsesItem() {
       var builder = new FakeHttpClientBuilder();
-      builder.client.addResponse(200, ""); // Using the breadcrumbs
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("madnessBakeryAvailable", false),
               withItem(ItemPool.HYPNOTIC_BREADCRUMBS));
       try (cleanups) {
-        var success = MADNESS_BAKERY.prepareForAdventure();
+        builder.client.addResponse(200, html("request/test_use_breadcrumbs.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(MADNESS_BAKERY.canAdventure());
+        assertTrue(MADNESS_BAKERY.prepareForAdventure());
+        assertTrue(Preferences.getBoolean("madnessBakeryAvailable"));
+
         var requests = builder.client.getRequests();
-        assertThat(requests, hasSize(1));
+        assertThat(requests, hasSize(2));
         assertPostRequest(
             requests.get(0),
             "/inv_use.php",
             "whichitem=" + ItemPool.HYPNOTIC_BREADCRUMBS + "&ajax=1");
-        assertThat(success, is(true));
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
@@ -5078,18 +5087,25 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    @Disabled("Needs HTML fixtures")
     void withOvergrownLotItemUsesItem() {
+      var builder = new FakeHttpClientBuilder();
       var cleanups =
-          new Cleanups(withProperty("overgrownLotAvailable", false), withItem(ItemPool.BOOZE_MAP));
-      setupFakeClient();
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("overgrownLotAvailable", false),
+              withItem(ItemPool.BOOZE_MAP));
       try (cleanups) {
-        var success = OVERGROWN_LOT.prepareForAdventure();
-        var requests = getRequests();
-        assertThat(requests, hasSize(1));
+        builder.client.addResponse(200, html("request/test_use_booze_cache_map.html"));
+        builder.client.addResponse(200, ""); // api.php
+        assertTrue(OVERGROWN_LOT.canAdventure());
+        assertTrue(OVERGROWN_LOT.prepareForAdventure());
+        assertTrue(Preferences.getBoolean("overgrownLotAvailable"));
+
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
         assertPostRequest(
             requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.BOOZE_MAP + "&ajax=1");
-        assertThat(success, is(true));
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
