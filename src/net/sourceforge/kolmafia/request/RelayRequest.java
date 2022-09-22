@@ -2707,23 +2707,12 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    // If you are not overdrunk, nothing to warn about
-    if (!KoLCharacter.isFallingDown()) {
+    if (!adventure.tooDrunkToAdventure()) {
       return false;
     }
 
-    // Only adventure.php will shunt you into a Drunken Stupor
-    if (!adventure.getFormSource().equals("adventure.php")) {
-      return false;
-    }
-
-    // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)) {
-      return false;
-    }
-
-    // If you don't own Drunkula's wineglass, nothing to warn about
-    if (InventoryManager.getCount(ItemPool.DRUNKULA_WINEGLASS) == 0) {
+    // These don't need warning as they don't send you to a Drunken Stupor
+    if (!adventure.hasSnarfblat()) {
       return false;
     }
 

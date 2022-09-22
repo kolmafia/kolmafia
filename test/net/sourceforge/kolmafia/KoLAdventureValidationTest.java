@@ -11,10 +11,13 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -51,14 +54,18 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class KoLAdventureValidationTest {
@@ -83,8 +90,84 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
-  class PreValidateAdventure {
+  class Overdrunk {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
 
+    @Test
+    void beingSoberPassesPreValidation() {
+      var cleanups = new Cleanups(withInebriety(5));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void beingTooDrunkFailsPreValidation() {
+      var cleanups = new Cleanups(withInebriety(30));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(false));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
+    void beingTooDrunkWithAWineglassPassesPreValidation(final int slot) {
+      var cleanups =
+          new Cleanups(
+              withInebriety(30),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
+    void beingTooDrunkWithAWineglassInNonSnarfblatFailsPreValidation(final int slot) {
+      var cleanups =
+          new Cleanups(
+              withInebriety(30),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+
+      try (cleanups) {
+        assertThat(
+            AdventureDatabase.getAdventureByName("The Typical Tavern Cellar")
+                .preValidateAdventure(),
+            is(false));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"SPELUNKY", "BATMAN"})
+    void beingTooDrunkInSomeLimitModesPassesPreValidation(final LimitMode limitMode) {
+      var cleanups = new Cleanups(withInebriety(30), withLimitMode(limitMode));
+
+      try (cleanups) {
+        assertThat(WARREN.preValidateAdventure(), is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Trick-or-Treating", "Drunken Stupor"})
+    void beignTooDrunkInSomeLocationsPassesPreValidation(final String adventureName) {
+      var cleanups = new Cleanups(withInebriety(30));
+
+      try (cleanups) {
+        assertThat(AdventureDatabase.getAdventure(adventureName).preValidateAdventure(), is(true));
+      }
+    }
+  }
+
+  @Nested
+  class PreValidateAdventure {
     private void checkDayPasses(
         KoLAdventure adventure,
         String place,
@@ -188,7 +271,7 @@ public class KoLAdventureValidationTest {
 
     @Nested
     class Spacegate {
-      private static KoLAdventure SPACEGATE =
+      private static final KoLAdventure SPACEGATE =
           AdventureDatabase.getAdventureByName("Through the Spacegate");
       private static final String always = "spacegateAlways";
       private static final String today = "_spacegateToday";
@@ -4515,6 +4598,7 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class Orchard {
+    @SuppressWarnings("unused")
     private enum Chambers {
       HATCHING("The Hatching Chamber", -1, -1),
       FEEDING(
@@ -4530,9 +4614,9 @@ public class KoLAdventureValidationTest {
           EffectPool.FILTHWORM_GUARD_STENCH,
           ItemPool.FILTHWORM_GUARD_GLAND);
 
-      private KoLAdventure adventure;
-      private int effectId;
-      private int itemId;
+      private final KoLAdventure adventure;
+      private final int effectId;
+      private final int itemId;
 
       Chambers(final String adventureName, final int effectId, final int itemId) {
         this.adventure = AdventureDatabase.getAdventureByName(adventureName);
@@ -4881,6 +4965,7 @@ public class KoLAdventureValidationTest {
     //   If have no access and have item, prepareForAdventure uses item.
     //   If have no access and don't have item, prepareForAdventure starts quest with NPC
 
+    @Test
     void withAccessToSkeletonStoreMakesNoRequests() {
       var cleanups = new Cleanups(withProperty("skeletonStoreAvailable", true));
       setupFakeClient();
@@ -4892,6 +4977,8 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
+    @Disabled("Needs HTML fixtures")
     void withSkeletonStoreItemUsesItem() {
       var cleanups =
           new Cleanups(
@@ -4910,8 +4997,11 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
+    @Disabled("Needs HTML fixtures")
     void withoutSkeletonStoreItemStartsQuest() {
-      var cleanups = new Cleanups(withProperty("skeletonStoreAvailable", false));
+      var cleanups =
+          new Cleanups(withProperty("skeletonStoreAvailable", false), withHandlingChoice(false));
       setupFakeClient();
       try (cleanups) {
         var success = SKELETON_STORE.prepareForAdventure();
@@ -4924,6 +5014,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withAccessToMadnessBakeryStoreMakesNoRequests() {
       var cleanups = new Cleanups(withProperty("madnessBakeryAvailable", true));
       setupFakeClient();
@@ -4935,15 +5026,18 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withMadnessBakeryItemUsesItem() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(200, ""); // Using the breadcrumbs
       var cleanups =
           new Cleanups(
+              withHttpClientBuilder(builder),
               withProperty("madnessBakeryAvailable", false),
               withItem(ItemPool.HYPNOTIC_BREADCRUMBS));
-      setupFakeClient();
       try (cleanups) {
         var success = MADNESS_BAKERY.prepareForAdventure();
-        var requests = getRequests();
+        var requests = builder.client.getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0),
@@ -4953,8 +5047,12 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
+    @Disabled("Needs HTML fixtures")
     void withoutMadnessBakeryItemStartsQuest() {
-      var cleanups = new Cleanups(withProperty("madnessBakeryStoreAvailable", false));
+      var cleanups =
+          new Cleanups(
+              withProperty("madnessBakeryStoreAvailable", false), withHandlingChoice(false));
       setupFakeClient();
       try (cleanups) {
         var success = MADNESS_BAKERY.prepareForAdventure();
@@ -4967,6 +5065,7 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
     void withAccessToOvergrownLotMakesNoRequests() {
       var cleanups = new Cleanups(withProperty("overgrownLotAvailable", true));
       setupFakeClient();
@@ -4978,6 +5077,8 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
+    @Disabled("Needs HTML fixtures")
     void withOvergrownLotItemUsesItem() {
       var cleanups =
           new Cleanups(withProperty("overgrownLotAvailable", false), withItem(ItemPool.BOOZE_MAP));
@@ -4992,8 +5093,11 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
+    @Disabled("Needs HTML fixtures")
     void withoutOvergrownLotItemStartsQuest() {
-      var cleanups = new Cleanups(withProperty("overgrownLotAvailable", false));
+      var cleanups =
+          new Cleanups(withProperty("overgrownLotAvailable", false), withHandlingChoice(false));
       setupFakeClient();
       try (cleanups) {
         var success = OVERGROWN_LOT.prepareForAdventure();

@@ -363,9 +363,9 @@ BadMoon	adventure=148	Env: none	Heartbreaker's Hotel
 
 # Recurring Holidays
 
-Holiday	town=trickortreat	Env: none Stat: 0	Trick-or-Treating
-Holiday	adventure=23	Env: outdoor	Drunken Stupor
-Holiday	adventure=84	Env: outdoor	St. Sneaky Pete's Day Stupor
+Holiday	town=trickortreat	Env: none Stat: 0 overdrunk	Trick-or-Treating
+Holiday	adventure=23	Env: outdoor overdrunk	Drunken Stupor
+Holiday	adventure=84	Env: outdoor overdrunk	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	Env: outdoor	The Yuletide Bonfire
 Holiday	adventure=174	Env: outdoor	The Arrrboretum
 Holiday	adventure=37	Env: indoor	The Spectral Pickle Factory
@@ -494,8 +494,8 @@ PastEvents	adventure=365	Env: outdoor	The Spirit World
 PastEvents	adventure=408	Env: outdoor	Some Scattered Smoking Debris
 Events	adventure=409	Env: outdoor	A Crater Full of Space Beasts
 
-PastEvents	place=town_eincursion	Env: outdoor	An Eldritch Fissure
-PastEvents	place=town_eicfight2	Env: outdoor	An Eldritch Horror
+PastEvents	place=town_eincursion	Env: outdoor overdrunk	An Eldritch Fissure
+PastEvents	place=town_eicfight2	Env: outdoor overdrunk	An Eldritch Horror
 
 PastEvents	adventure=496	Env: outdoor nowander	Monorail Work Site
 PastEvents	adventure=508	Env: outdoor nowander	A Monorail Station
@@ -504,7 +504,7 @@ PastEvents	adventure=508	Env: outdoor nowander	A Monorail Station
 
 Portal	adventure=164	Env: underground Stat: 365	El Vibrato Island
 
-Tunnel of L.O.V.E.	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
+Tunnel of L.O.V.E.	place=townwrong_tunnel	Env: indoor overdrunk	The Tunnel of L.O.V.E.
 Deep Machine Tunnels	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
 LT&T	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
 Neverending Party	adventure=528	Env: indoor Stat: 0	The Neverending Party
@@ -570,7 +570,7 @@ Jick's Obsessions	adventure=317	Env: indoor	The Tower of Procedurally-Generated 
 The Old Man's Past	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
 
 Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
-Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
+Skid Row	place=ioty2014_wolf	Env: none Stat: 0 overdrunk	Unleash Your Inner Wolf
 
 The Candy Witch and the Relentless Child Thieves	adventure=370	Env: outdoor Stat: 0	Sweet-Ade Lake
 The Candy Witch and the Relentless Child Thieves	adventure=371	Env: outdoor Stat: 0	Eager Rice Burrows

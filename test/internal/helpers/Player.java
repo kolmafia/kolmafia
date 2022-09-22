@@ -1576,4 +1576,16 @@ public class Player {
     KoLCharacter.setTurnsPlayed(turnsPlayed);
     return new Cleanups(() -> KoLCharacter.setTurnsPlayed(old));
   }
+
+  /**
+   * Sets the player's limit mode
+   *
+   * @param limitMode Desired limit mode
+   * @return Resets limit mode to previous value
+   */
+  public static Cleanups withLimitMode(final String limitMode) {
+    var old = KoLCharacter.getLimitMode();
+    KoLCharacter.setLimitMode(limitMode);
+    return new Cleanups(() -> KoLCharacter.setLimitMode(old));
+  }
 }

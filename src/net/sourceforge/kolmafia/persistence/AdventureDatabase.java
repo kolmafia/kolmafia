@@ -62,6 +62,7 @@ public class AdventureDatabase {
   private static final Map<String, Integer> statLookup = new HashMap<>();
   private static final Map<String, Integer> waterLevelLookup = new HashMap<>();
   private static final Map<String, Boolean> wandererLookup = new HashMap<>();
+  private static final Map<String, Boolean> overdrunkLookup = new HashMap<>();
   private static final Map<String, Path> ascensionPathZones = new HashMap<>();
   private static final Map<String, AdventureResult> itemGeneratedZones = new HashMap<>();
 
@@ -171,6 +172,7 @@ public class AdventureDatabase {
         int stat = -1;
         int waterLevel = -1;
         boolean hasWanderers = true;
+        boolean canAdventureWhileOverdrunk = false;
         StringTokenizer tokens = new StringTokenizer(data[2], " ");
         while (tokens.hasMoreTokens()) {
           String option = tokens.nextToken();
@@ -179,6 +181,7 @@ public class AdventureDatabase {
             case "Stat:" -> stat = StringUtilities.parseInt(tokens.nextToken());
             case "Level:" -> waterLevel = StringUtilities.parseInt(tokens.nextToken());
             case "nowander" -> hasWanderers = false;
+            case "overdrunk" -> canAdventureWhileOverdrunk = true;
           }
         }
 
@@ -203,6 +206,8 @@ public class AdventureDatabase {
 
         hasWanderers = hasWanderers && location[0].equals("adventure");
         AdventureDatabase.wandererLookup.put(name, hasWanderers);
+
+        AdventureDatabase.overdrunkLookup.put(name, canAdventureWhileOverdrunk);
 
         // Build base water level if not specified
         if (waterLevel == -1) {
@@ -810,6 +815,10 @@ public class AdventureDatabase {
 
   public static boolean hasWanderers(final String adventureName, final boolean adv) {
     return AdventureDatabase.wandererLookup.getOrDefault(adventureName, adv);
+  }
+
+  public static boolean canAdventureWhileOverdrunk(final String adventureName) {
+    return AdventureDatabase.overdrunkLookup.getOrDefault(adventureName, false);
   }
 
   private static class AdventureArray {

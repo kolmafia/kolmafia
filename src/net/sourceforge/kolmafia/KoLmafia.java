@@ -95,7 +95,6 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
-import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -1355,31 +1354,6 @@ public abstract class KoLmafia {
       KoLmafia.updateDisplay(
           MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures.");
       return;
-    }
-
-    if (KoLCharacter.isFallingDown()) {
-      String holiday = HolidayDatabase.getHoliday();
-      String adventureName = adventure.getAdventureName();
-
-      if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
-        // The wine glass allows you to adventure while falling down drunk
-      } else if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
-        // You're allowed to Spelunk even while falling down drunk
-      } else if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
-        // You're allowed to Batfellow even while falling down drunk
-      } else if (adventureName.equals("An Eldritch Fissure")
-          || adventureName.equals("An Eldritch Horror")
-          || adventureName.equals("Trick-or-Treating")
-          || adventureName.equals("The Tunnel of L.O.V.E.")) {
-        // There are a few adventures you can do even while falling
-        // down drunk
-      } else if (!holiday.contains("St. Sneaky Pete's Day") && !holiday.contains("Drunksgiving")) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You are too drunk to continue.");
-        return;
-      } else if (KoLCharacter.getInebriety() <= 25) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
-        return;
-      }
     }
 
     if (KoLmafia.abortAfter != null) {
