@@ -76,7 +76,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public static String lastLocationName = null;
   public static String lastLocationURL = null;
 
-  private boolean hasWanderers = false;
+  private final boolean hasWanderers;
   private final String zone, parentZone, rootZone;
   private final String adventureId, formSource, adventureName, environment;
   private final int adventureNumber;
@@ -90,12 +90,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final HashSet<String> unknownAdventures = new HashSet<>();
 
   public static final Comparator<KoLAdventure> NameComparator =
-      new Comparator<KoLAdventure>() {
-        @Override
-        public int compare(KoLAdventure v1, KoLAdventure v2) {
-          return v1.adventureName.compareTo(v2.adventureName);
-        }
-      };
+      Comparator.comparing(v -> v.adventureName);
 
   /**
    * Constructs a new <code>KoLAdventure</code> with the given specifications.
@@ -220,7 +215,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   // In chamber <b>#1</b> of the Daily Dungeon, you encounter ...
   // In the <b>5th</b> chamber of the Daily Dungeon, you encounter ...
-  private static final Pattern DAILY_DUNGEON_CHAMBER = Pattern.compile("<b>#?([\\d]+)(?:th)?</b>");
+  private static final Pattern DAILY_DUNGEON_CHAMBER = Pattern.compile("<b>#?(\\d+)(?:th)?</b>");
 
   public static String getPrettyAdventureName(
       final String locationName, final String responseText) {
@@ -236,9 +231,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   /**
-   * Returns the adventure Id for this adventure.
+   * Returns the adventure id for this adventure.
    *
-   * @return The adventure Id for this adventure
+   * @return The adventure id for this adventure
    */
   public String getAdventureId() {
     return this.adventureId;
@@ -273,8 +268,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         && !KoLAdventure.hasWanderingMonsters(this.formSource, this.adventureId);
   }
 
-  public static final boolean hasWanderingMonsters(
-      final String urlString, final String adventureId) {
+  public static boolean hasWanderingMonsters(final String urlString, final String adventureId) {
     if (!urlString.startsWith("adventure.php")) {
       return false;
     }
@@ -410,7 +404,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
   private static final AdventureResult SONAR = ItemPool.get(ItemPool.SONAR);
   private static final AdventureResult TALISMAN = ItemPool.get(ItemPool.TALISMAN);
-  private static final AdventureResult DINGY_DINGHY = ItemPool.get(ItemPool.DINGY_DINGHY);
   private static final AdventureResult DINGHY_PLANS = ItemPool.get(ItemPool.DINGHY_PLANS);
   private static final AdventureResult DINGY_PLANKS = ItemPool.get(ItemPool.DINGY_PLANKS);
   private static final AdventureResult ENCHANTED_BEAN = ItemPool.get(ItemPool.ENCHANTED_BEAN);
@@ -430,8 +423,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult MACHINE_SNOWGLOBE = ItemPool.get(ItemPool.MACHINE_SNOWGLOBE);
   // Items that grant an effect and require configuration to give access
   private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
-  private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG);
-  private static final AdventureResult GRIMSTONE_MASK = ItemPool.get(ItemPool.GRIMSTONE_MASK);
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
@@ -728,11 +719,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Open at level one, with a subset of eventual zones
     if (this.zone.equals("Town")) {
       return switch (this.adventureNumber) {
-        case AdventurePool.SLEAZY_BACK_ALLEY -> true;
           // We can start the three market quests, if necessary
-        case AdventurePool.SKELETON_STORE -> true;
-        case AdventurePool.MADNESS_BAKERY -> true;
-        case AdventurePool.OVERGROWN_LOT -> true;
+        case AdventurePool.SLEAZY_BACK_ALLEY,
+            AdventurePool.OVERGROWN_LOT,
+            AdventurePool.MADNESS_BAKERY,
+            AdventurePool.SKELETON_STORE -> true;
           // Shen is available once you've read the diary and been told to talk to him.
         case AdventurePool.COPPERHEAD_CLUB -> QuestDatabase.isQuestStarted(Quest.SHEN);
           // Only one of the four Lair locations is in Town; two are in the
@@ -1151,12 +1142,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
       return switch (this.adventureNumber) {
-        case AdventurePool.HIDDEN_PARK -> true;
-        case AdventurePool.NW_SHRINE -> true;
-        case AdventurePool.SW_SHRINE -> true;
-        case AdventurePool.NE_SHRINE -> true;
-        case AdventurePool.SE_SHRINE -> true;
-        case AdventurePool.ZIGGURAT -> true;
+        case AdventurePool.HIDDEN_PARK,
+            AdventurePool.NW_SHRINE,
+            AdventurePool.SW_SHRINE,
+            AdventurePool.NE_SHRINE,
+            AdventurePool.SE_SHRINE,
+            AdventurePool.ZIGGURAT -> true;
         case AdventurePool.HIDDEN_APARTMENT -> QuestDatabase.isQuestStarted(Quest.CURSES);
         case AdventurePool.HIDDEN_HOSPITAL -> QuestDatabase.isQuestStarted(Quest.DOCTOR);
         case AdventurePool.HIDDEN_OFFICE -> QuestDatabase.isQuestStarted(Quest.BUSINESS);
@@ -1188,13 +1179,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     //
     // If you are disguised as an enemy (either normal or wartime outfits), you
     // get combat encounters. The "Next Adventure" links at the end of the
-    // battle and the "Last Adventure" link in the charpane will will be to the
+    // battle and the "Last Adventure" link in the charpane will be to the
     // wartime (Disguised) URL
     //
     // If you are either undisguised or disguised as a friend (either normal or
     // wartime outfits), you get non-combat encounters. The "Next Adventure"
     // links at the end of the battle and the "Last Adventure" link in the
-    // charpane will will be to the Wartime not-disguised URL
+    // charpane will be to the Wartime not-disguised URL
     //
     // To adventure in the frat house, all of the following work, disguised or not:
     //
@@ -1298,10 +1289,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Junkyard")) {
-      if (!QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1")) {
-        return false;
-      }
-
       // Next to that Barrel with Something Burning in it
       // Near an Abandoned Refrigerator
       // Over Where the Old Tires Are
@@ -1309,7 +1296,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // You can visit any of the zones both before or after getting the tool -
       // and even after turning them all in.
-      return true;
+      return QuestDatabase.isQuestStep(Quest.ISLAND_WAR, "step1");
     }
 
     // Nemesis Quest
@@ -1515,7 +1502,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.DRUNKEN_STUPOR -> KoLCharacter.isFallingDown();
         case AdventurePool.SSPD_STUPOR -> {
           if (today.contains(holiday)
-                  || today.equals("Drunksgiving") && KoLCharacter.getInebriety() >= 26) {
+              || today.equals("Drunksgiving") && KoLCharacter.getInebriety() >= 26) {
             yield true;
           } else {
             KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
@@ -1698,7 +1685,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Rabbit Hole")) {
       // A "DRINK ME" potion grants 20 turns of Down the Rabbit Hole.
       // Having the item or the effect will suffice.
-      // prepareForAdventure will use a the (cheap) potion if necessary.
+      // prepareForAdventure will use a (cheap) potion if necessary.
       return KoLConstants.activeEffects.contains(DOWN_THE_RABBIT_HOLE)
           || InventoryManager.hasItem(item);
     }
@@ -2271,7 +2258,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("BatHole")) {
       switch (this.adventureNumber) {
-        case AdventurePool.GUANO_JUNCTION:
+        case AdventurePool.GUANO_JUNCTION -> {
           // canAdventure checks this already. If the betweenBattle script
           // should have a chance to fix it, make that method return true.
           if (KoLCharacter.getElementalResistanceLevels(Element.STENCH) >= 1) {
@@ -2279,9 +2266,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           }
           KoLmafia.updateDisplay(MafiaState.ERROR, "You can't stand the stench");
           return false;
-        case AdventurePool.BATRAT:
-        case AdventurePool.BEANBAT:
-        case AdventurePool.BOSSBAT:
+        }
+        case AdventurePool.BATRAT, AdventurePool.BEANBAT, AdventurePool.BOSSBAT -> {
           int sonarsUsed =
               switch (QuestDatabase.getQuest(Quest.BAT)) {
                 case QuestDatabase.STARTED -> 0;
@@ -2289,23 +2275,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                 case "step2" -> 2;
                 default -> 3;
               };
-
           int sonarsForLocation =
               switch (this.adventureNumber) {
                 case AdventurePool.BATRAT -> 1;
                 case AdventurePool.BEANBAT -> 2;
                 default -> 3;
               };
-
           if (sonarsUsed >= sonarsForLocation) {
             return true;
           }
-
           int sonarsToUse = sonarsForLocation - sonarsUsed;
           RequestThread.postRequest(UseItemRequest.getInstance(SONAR.getInstance(sonarsToUse)));
           sonarsUsed += sonarsToUse;
-
           return (sonarsUsed >= sonarsForLocation);
+        }
       }
       return true;
     }
@@ -2633,7 +2616,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       String action = Preferences.getString("battleAction");
 
       // Check for dictionaries as a battle strategy, if the
-      // person is not adventuring at valley beyond the the chasm.
+      // person is not adventuring at valley beyond the chasm.
       if (action.contains("dictionary")) {
         if (!InventoryManager.hasItem(FightRequest.DICTIONARY1)
             && !InventoryManager.hasItem(FightRequest.DICTIONARY2)) {
@@ -2703,10 +2686,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     RequestThread.postRequest(this.request);
   }
 
-  private static final Pattern ADVENTUREID_PATTERN = Pattern.compile("snarfblat=([\\d]+)");
-  private static final Pattern MINE_PATTERN = Pattern.compile("mine=([\\d]+)");
+  private static final Pattern ADVENTUREID_PATTERN = Pattern.compile("snarfblat=(\\d+)");
+  private static final Pattern MINE_PATTERN = Pattern.compile("mine=(\\d+)");
 
-  public static final KoLAdventure setLastAdventure(
+  public static KoLAdventure setLastAdventure(
       String adventureId, final String adventureName, String adventureURL, final String container) {
     KoLAdventure adventure = AdventureDatabase.getAdventureByURL(adventureURL);
     if (adventure == null) {
@@ -2764,7 +2747,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return adventure;
   }
 
-  public static final void setLastAdventure(final String adventureName) {
+  public static void setLastAdventure(final String adventureName) {
     KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
     if (adventure == null) {
       KoLAdventure.lastVisitedLocation = null;
@@ -2777,12 +2760,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     KoLAdventure.setLastAdventure(adventure);
   }
 
-  public static final void setLastAdventure(final KoLAdventure adventure) {
+  public static void setLastAdventure(final KoLAdventure adventure) {
     if (adventure == null) {
       return;
     }
 
-    String adventureId = adventure.adventureId;
     int adventureNumber = adventure.adventureNumber;
     String adventureName = adventure.adventureName;
     String adventureURL = adventure.formSource;
@@ -2809,7 +2791,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
   }
 
-  public static final void setNextAdventure(final String adventureName) {
+  public static void setNextAdventure(final String adventureName) {
     KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
     if (adventure == null) {
       Preferences.setString("nextAdventure", adventureName);
@@ -2820,7 +2802,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     EncounterManager.registerAdventure(adventureName);
   }
 
-  public static final void setNextAdventure(final KoLAdventure adventure) {
+  public static void setNextAdventure(final KoLAdventure adventure) {
     if (adventure == null) {
       return;
     }
@@ -2830,11 +2812,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     NamedListenerRegistry.fireChange("(koladventure)");
   }
 
-  public static final KoLAdventure lastVisitedLocation() {
+  public static KoLAdventure lastVisitedLocation() {
     return KoLAdventure.lastVisitedLocation;
   }
 
-  public static final int lastAdventureId() {
+  public static int lastAdventureId() {
     KoLAdventure location = KoLAdventure.lastVisitedLocation;
 
     return location == null || !StringUtilities.isNumeric(location.adventureId)
@@ -2842,12 +2824,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         : StringUtilities.parseInt(location.adventureId);
   }
 
-  public static final String lastAdventureIdString() {
+  public static String lastAdventureIdString() {
     KoLAdventure location = KoLAdventure.lastVisitedLocation;
     return location == null ? "" : location.adventureId;
   }
 
-  public static final boolean recordToSession(final String urlString) {
+  public static boolean recordToSession(final String urlString) {
     // This is the first half of logging an adventure location
     // given only the URL. We try to deduce where the player is
     // adventuring and save it for verification later. We also do
@@ -3551,10 +3533,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         "This zone is too old to visit on this path.", "That zone is out of Standard."),
   };
 
-  private static Pattern CRIMBO21_COLD_RES =
-      Pattern.compile("<b>\\[(\\d+) Cold Resistance Required\\]</b>");
+  private static final Pattern CRIMBO21_COLD_RES =
+      Pattern.compile("<b>\\[(\\d+) Cold Resistance Required]</b>");
 
-  public static final int findAdventureFailure(String responseText) {
+  public static int findAdventureFailure(String responseText) {
     // KoL is known to sometimes simply return a blank page as a
     // failure to adventure.
     if (responseText.length() == 0) {
@@ -3591,7 +3573,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return -1;
   }
 
-  public static final String adventureFailureMessage(int index) {
+  public static String adventureFailureMessage(int index) {
     if (index >= 0 && index < ADVENTURE_FAILURES.length) {
       return ADVENTURE_FAILURES[index].message;
     }
@@ -3599,7 +3581,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return null;
   }
 
-  public static final MafiaState adventureFailureSeverity(int index) {
+  public static MafiaState adventureFailureSeverity(int index) {
     if (index >= 0 && index < ADVENTURE_FAILURES.length) {
       return ADVENTURE_FAILURES[index].severity;
     }
@@ -3607,7 +3589,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return MafiaState.ERROR;
   }
 
-  public static final boolean recordToSession(final String urlString, final String responseText) {
+  public static boolean recordToSession(final String urlString, final String responseText) {
     // This is the second half of logging an adventure location
     // after we've submitted the URL and gotten a response, after,
     // perhaps, being redirected. Given the old URL, the new URL,
@@ -3714,21 +3696,21 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
-  public static final void registerAdventure() {
+  public static void registerAdventure() {
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.THE_DRIPPING_TREES:
+      case AdventurePool.THE_DRIPPING_TREES -> {
         Preferences.increment("dripAdventuresSinceAscension");
         Preferences.increment("drippingTreesAdventuresSinceAscension");
         Preferences.decrement("drippyJuice");
-        break;
-      case AdventurePool.THE_DRIPPING_HALL:
+      }
+      case AdventurePool.THE_DRIPPING_HALL -> {
         Preferences.increment("dripAdventuresSinceAscension");
         Preferences.decrement("drippyJuice");
-        break;
+      }
     }
   }
 
-  public static final int getAdventureCount() {
+  public static int getAdventureCount() {
     return Preferences.getBoolean("logReverseOrder")
         ? KoLCharacter.getAdventuresLeft()
         : KoLCharacter.getCurrentRun() + 1;
@@ -3736,7 +3718,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   @Override
   public int compareTo(final KoLAdventure o) {
-    if (!(o instanceof KoLAdventure)) {
+    if (o == null) {
       return 1;
     }
 
