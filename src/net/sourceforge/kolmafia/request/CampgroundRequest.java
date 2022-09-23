@@ -972,7 +972,7 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    if (preaction.equals("fuelconvertor")) {
+    if (action.equals("fuelconvertor")) {
       Matcher fuelMatcher = FUEL_PATTERN_2.matcher(responseText);
       if (fuelMatcher.find()) {
         asdonMartinFuel = StringUtilities.parseInt(fuelMatcher.group(1));
