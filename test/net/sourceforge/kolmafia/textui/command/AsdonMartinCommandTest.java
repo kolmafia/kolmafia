@@ -2,17 +2,21 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -127,23 +131,34 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveNoEffectsAdds() {
-    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), setFuel());
+    var builder = new FakeHttpClientBuilder();
+
+    builder.client.addResponse(200, html("request/test_campground_drive_observantly.html"));
+
+    var cleanups =
+        new Cleanups(
+            withWorkshedItem(ItemPool.ASDON_MARTIN),
+            withFuel(1558),
+            withHttpClientBuilder(builder));
 
     try (cleanups) {
-      execute("drive obnoxiously");
+      execute("drive observantly");
 
-      var requests = getRequests();
+      var requests = builder.client.getRequests();
 
       assertThat(requests, not(empty()));
-      assertPostRequest(requests.get(0), "/campground.php", "preaction=drive&whichdrive=0");
+      assertPostRequest(requests.get(0), "/campground.php", "preaction=drive&whichdrive=7");
+      assertThat(CampgroundRequest.getFuel(), is(1521));
     }
+
+    KoLConstants.activeEffects.clear();
   }
 
   @Test
   void driveSameEffectExtends() {
     var cleanups =
         new Cleanups(
-            withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"), setFuel());
+            withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"), withFuel());
 
     try (cleanups) {
       execute("drive obnoxiously");
@@ -162,7 +177,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   void driveNewEffectRemovesAndAdds() {
     var cleanups =
         new Cleanups(
-            withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"), setFuel());
+            withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"), withFuel());
 
     try (cleanups) {
       execute("drive observantly");
@@ -227,8 +242,13 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
     }
   }
 
-  private Cleanups setFuel() {
-    CampgroundRequest.setFuel(37);
-    return new Cleanups(() -> CampgroundRequest.setFuel(0));
+  private Cleanups withFuel() {
+    return withFuel(37);
+  }
+
+  private Cleanups withFuel(final int fuel) {
+    var old = CampgroundRequest.getFuel();
+    CampgroundRequest.setFuel(fuel);
+    return new Cleanups(() -> CampgroundRequest.setFuel(old));
   }
 }

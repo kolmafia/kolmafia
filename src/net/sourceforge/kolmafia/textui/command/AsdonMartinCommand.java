@@ -17,17 +17,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class AsdonMartinCommand extends AbstractCommand {
 
-  private static class DriveStyle {
-    public String name;
-    public int driveId;
-    public AdventureResult effect;
-
-    public DriveStyle(String name, int driveId, AdventureResult effect) {
-      this.name = name;
-      this.driveId = driveId;
-      this.effect = effect;
-    }
-  }
+  private record DriveStyle(String name, int driveId, AdventureResult effect) {}
 
   private static final DriveStyle[] DRIVESTYLE =
       new DriveStyle[] {
