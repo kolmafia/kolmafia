@@ -14,6 +14,7 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,6 +59,21 @@ public class ClanRumpusRequestTest {
       assertThat(requests, hasSize(1));
       assertPostRequest(requests.get(0), "/clan_rumpus.php", "preaction=buychips&whichbag=0");
       assertThat("_chipBags", isSetTo(3));
+    }
+  }
+
+  @Test
+  void klawRequestParsesAction() {
+    var cleanups =
+        new Cleanups(
+            withNextResponse(200, html("request/test_clan_klaw.html")),
+            withProperty("_klawSummons", 2));
+
+    try (cleanups) {
+      var req = new ClanRumpusRequest(RequestType.VISIT);
+      req.visitEquipment(3, 3);
+      req.run();
+      assertThat("_klawSummons", isSetTo(3));
     }
   }
 }
