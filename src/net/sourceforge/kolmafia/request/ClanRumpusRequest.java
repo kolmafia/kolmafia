@@ -419,7 +419,7 @@ public class ClanRumpusRequest extends GenericRequest {
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
 
-    matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
+    matcher = GenericRequest.PREACTION_PATTERN.matcher(urlString);
     String action = matcher.find() ? matcher.group(1) : null;
 
     if (action == null) {
