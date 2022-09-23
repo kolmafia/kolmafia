@@ -19,17 +19,33 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ClanManager;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ClanLoungeRequestTest {
-  @BeforeEach
-  public void init() {
+  private static final Cleanups CLEANUPS = new Cleanups();
+
+  @BeforeAll
+  public static void beforeAll() {
     Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("ClanLoungeRequestTest");
     Preferences.reset("ClanLoungeRequestTest");
-    // don't try to visit the fireworks shop
-    Preferences.setBoolean("_fireworksShop", true);
+    // Miss some key visits
+    CLEANUPS.add(withProperty("_fireworksShop", true));
+    CLEANUPS.add(withProperty("_crimboTree", true));
+  }
+
+  @AfterAll
+  public static void afterAll() {
+    CLEANUPS.close();
+  }
+
+  @BeforeEach
+  public void init() {
+    ClanManager.resetClanId();
   }
 
   @Test
@@ -63,11 +79,7 @@ public class ClanLoungeRequestTest {
     builder.client.addResponse(200, html("request/test_desc_item_photocopied_mariachi.html"));
     builder.client.addResponse(200, ""); // api.php
 
-    var cleanups =
-        new Cleanups(
-            withHttpClientBuilder(builder),
-            withProperty("_crimboTree", true),
-            withProperty("photocopyMonster"));
+    var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty("photocopyMonster"));
 
     try (cleanups) {
       new ClanLoungeRequest(ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX).run();
@@ -89,10 +101,7 @@ public class ClanLoungeRequestTest {
     builder.client.addResponse(200, html("request/test_clan_swim_sprints.html"));
 
     var cleanups =
-        new Cleanups(
-            withHttpClientBuilder(builder),
-            withProperty("_crimboTree", true),
-            withProperty("_olympicSwimmingPool", false));
+        new Cleanups(withHttpClientBuilder(builder), withProperty("_olympicSwimmingPool", false));
 
     try (cleanups) {
       var outputStream = new ByteArrayOutputStream();
