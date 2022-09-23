@@ -7,11 +7,17 @@ import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.hasToString;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,6 +80,36 @@ public class ClanLoungeRequestTest {
       assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
 
       assertThat("photocopyMonster", isSetTo("handsome mariachi"));
+    }
+  }
+
+  @Test
+  void canTrackSwimming() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, html("request/test_clan_swim_sprints.html"));
+
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withProperty("_crimboTree", true),
+            withProperty("_olympicSwimmingPool", false));
+
+    try (cleanups) {
+      var outputStream = new ByteArrayOutputStream();
+      RequestLogger.openCustom(new PrintStream(outputStream));
+
+      new ClanLoungeRequest(ClanLoungeRequest.SWIMMING_POOL, ClanLoungeRequest.SPRINTS).run();
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(greaterThanOrEqualTo(1)));
+      assertPostRequest(
+          requests.get(0),
+          "/clan_viplounge.php",
+          "preaction=goswimming&subaction=submarine&whichfloor=2");
+
+      RequestLogger.closeCustom();
+
+      assertThat("_olympicSwimmingPool", isSetTo(true));
+      assertThat(outputStream, hasToString(containsString("You did 234 submarine sprints")));
     }
   }
 }
