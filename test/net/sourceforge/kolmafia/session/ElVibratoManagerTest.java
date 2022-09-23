@@ -439,11 +439,11 @@ public class ElVibratoManagerTest {
       //    &nbsp;</td>
       // </form>
 
-      // enabled no  funkslinging
+      // enabled no funkslinging
       //
       // <form method=POST action="fight.php"><td>
       //     <input type=hidden name="action" value="macro">
-      //     <input type=hidden name="macrotext" value="use 3148;use 3153">
+      //     <input type=hidden name="macrotext" value="use 3148; use 3153">
       //     <input onclick="return killforms(this);" type="submit"
       //            value="COMMAND!">
       //     &nbsp;</td>
