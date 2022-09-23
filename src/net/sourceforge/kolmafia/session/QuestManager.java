@@ -1708,6 +1708,7 @@ public class QuestManager {
         }
       }
     } else if (monsterName.equals("Fun-Guy Playmate")) {
+      Preferences.increment("funGuyMansionKills");
       if (responseText.contains("hot tub with some more bacteria")) {
         Preferences.increment("brodenBacteria", 1);
         if (Preferences.getInteger("brodenBacteria") >= 10) {
