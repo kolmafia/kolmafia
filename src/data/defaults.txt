@@ -621,6 +621,7 @@ user	frMountainsUnlocked	false
 user	frSwampUnlocked	false
 user	frVillageUnlocked	false
 user	frWoodUnlocked	false
+user	funGuyMansionKills	0
 user	gameProBossSpecialPower	Unknown
 user	garbageChampagneCharge	0
 user	garbageFireProgress	25
