@@ -299,6 +299,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.fixTavernCellar(buffer);
       RequestEditorKit.fixBallroom1(buffer);
       RequestEditorKit.fixDucks(buffer);
+      RequestEditorKit.fixPortal(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.fixBallroom2(buffer);
       RequestEditorKit.fixGovernmentLab(buffer);
@@ -367,8 +368,8 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       StationaryButtonDecorator.decorate(location, buffer);
 
-      DiscoCombatHelper.decorate(buffer);
       ElVibratoManager.decorate(buffer);
+      DiscoCombatHelper.decorate(buffer);
       RequestEditorKit.addFightModifiers(buffer);
       RequestEditorKit.addTaleOfDread(buffer);
       RequestEditorKit.addDesertProgress(buffer);
@@ -2034,7 +2035,6 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 579:
         // Such Great Heights
         if (option == 3) {
-          // xyzzy
           int index =
               buffer.indexOf(
                   "<p><a href=\"adventure.php?snarfblat=280\">Adventure Again (The Hidden Temple)</a>");
@@ -2325,6 +2325,29 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     RequestEditorKit.addAdventureAgainSection(
         buffer, url, "Go back to The Mysterious Island of Mystery");
+  }
+
+  private static void fixPortal(final StringBuffer buffer) {
+    // Your El Vibrato portal has run out of power.  You should go back to
+    // <a href="campground.php">your campsite</a> and charge it back up.
+
+    if (buffer.indexOf("Your El Vibrato portal has run out of power") == -1) {
+      return;
+    }
+
+    if (InventoryManager.getCount(ItemPool.OVERCHARGED_POWER_SPHERE) > 0) {
+      String url = "campground.php?action=overpowerelvibratoportal";
+      RequestEditorKit.addAdventureAgainSection(
+          buffer, url, "Insert an overcharged El Vibrato power sphere");
+    }
+
+    if (InventoryManager.getCount(ItemPool.POWER_SPHERE) > 0) {
+      String url = "campground.php?action=powerelvibratoportal";
+      RequestEditorKit.addAdventureAgainSection(buffer, url, "Insert an El Vibrato power sphere");
+    }
+
+    String url = "campground.php?action=evibratoportal";
+    RequestEditorKit.addAdventureAgainSection(buffer, url, "Go to your El Vibrato portal");
   }
 
   public static final void addAdventureAgainSection(

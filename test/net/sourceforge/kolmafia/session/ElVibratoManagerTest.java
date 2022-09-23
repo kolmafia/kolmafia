@@ -8,13 +8,17 @@ import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLastLocation;
+import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
@@ -27,6 +31,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -332,6 +337,177 @@ public class ElVibratoManagerTest {
         assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(4), "/elvmachine.php", "action=slot&whichcard=3151");
         assertPostRequest(requests.get(5), "/elvmachine.php", "action=button");
+      }
+    }
+  }
+
+  @Nested
+  class CombatHelper {
+    // Verbs
+    private static final int ATTACK = ItemPool.PUNCHCARD_ATTACK;
+    private static final int REPAIR = ItemPool.PUNCHCARD_REPAIR;
+    private static final int BUFF = ItemPool.PUNCHCARD_BUFF;
+    private static final int MODIFY = ItemPool.PUNCHCARD_MODIFY;
+    private static final int BUILD = ItemPool.PUNCHCARD_BUILD;
+    // Objects
+    private static final int TARGET = ItemPool.PUNCHCARD_TARGET;
+    private static final int SELF = ItemPool.PUNCHCARD_SELF;
+    private static final int FLOOR = ItemPool.PUNCHCARD_FLOOR;
+    private static final int DRONE = ItemPool.PUNCHCARD_DRONE;
+    private static final int WALL = ItemPool.PUNCHCARD_WALL;
+    private static final int SPHERE = ItemPool.PUNCHCARD_SPHERE;
+
+    private static final String html = "<tr><td><center><table></table></center></td></tr>";
+
+    @Test
+    public void mustBeOnElVibratoIsland() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation("Haunted Pantry"),
+              withFight(1),
+              withNextMonster("lonely construct"));
+      try (cleanups) {
+        String input = html;
+        StringBuffer page = new StringBuffer(input);
+        ElVibratoManager.decorate(page);
+        String result = page.toString();
+        // Undecorated
+        assertEquals(input, result);
+      }
+    }
+
+    @Test
+    public void mustBeInFight() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation("El Vibrato Island"),
+              withFight(0),
+              withNextMonster("lonely construct"));
+      try (cleanups) {
+        String input = html;
+        StringBuffer page = new StringBuffer(input);
+        ElVibratoManager.decorate(page);
+        String result = page.toString();
+        // Undecorated
+        assertEquals(input, result);
+      }
+    }
+
+    @Test
+    public void mustBeFightingConstruct() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation("El Vibrato Island"),
+              withFight(1),
+              withNextMonster("migratory pirate"));
+      try (cleanups) {
+        String input = html;
+        StringBuffer page = new StringBuffer(input);
+        ElVibratoManager.decorate(page);
+        String result = page.toString();
+        // Undecorated
+        assertEquals(input, result);
+      }
+    }
+
+    @Test
+    public void mustHaveNormalPage() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation("El Vibrato Island"),
+              withFight(1),
+              withNextMonster("lonely construct"));
+      try (cleanups) {
+        String input = "hello";
+        StringBuffer page = new StringBuffer(input);
+        ElVibratoManager.decorate(page);
+        String result = page.toString();
+        // Undecorated
+        assertEquals(input, result);
+      }
+    }
+
+    private static void checkButton(
+        String result, int card1, int card2, boolean disabled, boolean funkslinging) {
+      // disabled funkslinging
+      //
+      // <form method=POST action="fight.php"><td>
+      //    <input type=hidden name="action" value="macro">
+      //    <input type=hidden name="macrotext" value="use 3146,3153">
+      //    <input onclick="return killforms(this);" type="submit"
+      //           value="COMMAND!" disabled>
+      //    &nbsp;</td>
+      // </form>
+
+      // enabled no funkslinging
+      //
+      // <form method=POST action="fight.php"><td>
+      //     <input type=hidden name="action" value="macro">
+      //     <input type=hidden name="macrotext" value="use 3148; use 3153">
+      //     <input onclick="return killforms(this);" type="submit"
+      //            value="COMMAND!">
+      //     &nbsp;</td>
+      // </form>
+
+      StringBuilder macro = new StringBuilder();
+      macro.append("<input type=hidden name=\"macrotext\" value=\"");
+      macro.append("use ");
+      macro.append(card1);
+      macro.append(funkslinging ? "," : "; use ");
+      macro.append(card2);
+      macro.append("\">");
+
+      assertTrue(result.contains(macro.toString()));
+
+      StringBuilder isEnabled = new StringBuilder();
+      isEnabled.append("value=\"COMMAND!\"");
+      if (disabled) {
+        isEnabled.append(" disabled");
+      }
+      isEnabled.append(">");
+
+      assertTrue(result.contains(isEnabled.toString()));
+    }
+
+    // We'll work with the lonely construct since it can manipulate two
+    // kinds of object
+    //
+    // Command(MODIFY, SPHERE, POWER_SPHERE, "-> overcharged power sphere");
+    // Command(REPAIR, DRONE, BROKEN_DRONE, "-> repaired drone");
+    // Command(REPAIR, SELF, null, "manipulates construct");
+    // Command(REPAIR, TARGET, null, "damages you");
+
+    @ParameterizedTest
+    @CsvSource({
+      "lonely construct, true",
+      "lonely construct, false",
+      "lonely construct (translated), true",
+      "lonely construct (translated), false",
+    })
+    public void canMakeNecessaryButtons(final String monster, final boolean funkslinging) {
+      var cleanups =
+          new Cleanups(
+              withLastLocation("El Vibrato Island"),
+              withFight(1),
+              withNextMonster(monster),
+              withItem(MODIFY),
+              withItem(SPHERE),
+              withItem(REPAIR),
+              withItem(DRONE),
+              withItem(SELF),
+              withItem(ItemPool.POWER_SPHERE),
+              withSkill(funkslinging ? "Ambidextrous Funkslinging" : "Sing"));
+      try (cleanups) {
+        String input = html;
+        StringBuffer page = new StringBuffer(input);
+        ElVibratoManager.decorate(page);
+        String result = page.toString();
+        // Decorated
+        assertNotEquals(input, result);
+        checkButton(result, MODIFY, SPHERE, false, funkslinging);
+        checkButton(result, REPAIR, DRONE, true, funkslinging);
+        checkButton(result, REPAIR, SELF, false, funkslinging);
+        checkButton(result, REPAIR, TARGET, true, funkslinging);
       }
     }
   }
