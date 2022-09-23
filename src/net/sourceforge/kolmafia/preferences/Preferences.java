@@ -240,6 +240,7 @@ public class Preferences {
         "fistTeachingsPokerRoom",
         "fistTeachingsRoad",
         "fistTeachingsSlums",
+        "funGuyMansionKills",
         "frenchGuardTurtlesFreed",
         "garbageChampagneCharge",
         "garbageFireProgress",
