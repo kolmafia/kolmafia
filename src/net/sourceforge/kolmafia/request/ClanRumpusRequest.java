@@ -205,7 +205,7 @@ public class ClanRumpusRequest extends GenericRequest {
     return this;
   }
 
-  private void visitEquipment(final int spot, final int furniture) {
+  void visitEquipment(final int spot, final int furniture) {
     this.clearDataFields();
     this.addFormField("action", "click");
     this.addFormField("spot", String.valueOf(spot));
@@ -422,6 +422,25 @@ public class ClanRumpusRequest extends GenericRequest {
     var preaction = GenericRequest.getPreaction(urlString);
 
     if (preaction == null) {
+      if (urlString.contains("spot=3") && urlString.contains("furni=3")) {
+        // You carefully guide the claw over the prize that
+        // looks the easiest to grab. You press the button and
+        // the claw slowly descends.
+        if (responseText.contains("slowly descends")) {
+          Preferences.increment("_klawSummons", 1);
+        }
+        // The machine makes a horrible clanking noise, and a
+        // wisp of smoke pours out of the prize chute.
+        //
+        // The crane machine seems to be broken down. Oh
+        // well. Maybe they'll fix it by tomorrow.
+        else if (responseText.contains("seems to be broken down")) {
+          Preferences.setInteger("_klawSummons", 3);
+        }
+
+        return;
+      }
+
       return;
     }
 
@@ -472,26 +491,6 @@ public class ClanRumpusRequest extends GenericRequest {
         // reset the preference.
         Preferences.setBoolean("_jukebox", true);
         return;
-      default:
-        if (urlString.contains("spot=3") && urlString.contains("furni=3")) {
-          // You carefully guide the claw over the prize that
-          // looks the easiest to grab. You press the button and
-          // the claw slowly descends.
-          if (responseText.contains("slowly descends")) {
-            Preferences.increment("_klawSummons", 1);
-          }
-          // The machine makes a horrible clanking noise, and a
-          // wisp of smoke pours out of the prize chute.
-          //
-          // The crane machine seems to be broken down. Oh
-          // well. Maybe they'll fix it by tomorrow.
-          else if (responseText.contains("seems to be broken down")) {
-            Preferences.setInteger("_klawSummons", 3);
-          }
-
-          return;
-        }
-        break;
     }
   }
 
