@@ -7,6 +7,7 @@ import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -324,6 +325,58 @@ public class Player {
   public static Cleanups withClanLoungeItem(final int itemId) {
     ClanLoungeRequest.setClanLoungeItem(itemId, 1);
     return new Cleanups(() -> ClanLoungeRequest.setClanLoungeItem(itemId, 0));
+  }
+
+  /**
+   * Restores Clan Furniture after cleanup
+   *
+   * @return Resets to previous state
+   */
+  public static Cleanups withClanFurniture() {
+    var old = ClanManager.getClanRumpus();
+
+    return new Cleanups(
+        () -> {
+          var current = new ArrayList<>(ClanManager.getClanRumpus());
+          for (var item : current) {
+            if (!old.contains(item)) ClanManager.removeFromRumpus(item);
+          }
+        });
+  }
+
+  /**
+   * Adds the given furniture to the player's Clan Rumpus Room
+   *
+   * @param furniture Furniture to install
+   * @return Removes the furniture
+   */
+  public static Cleanups withClanFurniture(final String furniture) {
+    return withClanFurniture(furniture, true);
+  }
+
+  /**
+   * Adds or removes the given furniture to the player's Clan Rumpus Room
+   *
+   * @param furniture Furniture to install
+   * @param shouldHave Whether the player should have the furniture
+   * @return Resets to previous value
+   */
+  public static Cleanups withClanFurniture(final String furniture, final boolean shouldHave) {
+    var old = ClanManager.getClanRumpus().contains(furniture);
+    if (shouldHave && !old) {
+      ClanManager.addToRumpus(furniture);
+    } else if (!shouldHave && old) {
+      ClanManager.removeFromRumpus(furniture);
+    }
+
+    return new Cleanups(
+        () -> {
+          if (shouldHave && !old) {
+            ClanManager.removeFromRumpus(furniture);
+          } else if (!shouldHave && old) {
+            ClanManager.addToRumpus(furniture);
+          }
+        });
   }
 
   /**
