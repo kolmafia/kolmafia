@@ -255,9 +255,7 @@ public class ElVibratoManager {
       buffer.append("<tr>");
 
       // Add a button
-      buffer.append("<td>");
       addCommandButton(buffer, command, enabled);
-      buffer.append("</td>");
 
       // Verb
       buffer.append("<td>");
