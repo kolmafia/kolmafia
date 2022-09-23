@@ -9,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +31,21 @@ public class ClanRumpusRequestTest {
     try (cleanups) {
       new ClanRumpusRequest(ClanRumpusRequest.RequestType.BALLS).run();
       assertThat("_ballpit", isSetTo("true"));
+    }
+  }
+
+  @Test
+  void klawRequestParsesAction() {
+    var cleanups =
+        new Cleanups(
+            withNextResponse(200, html("request/test_clan_klaw.html")),
+            withProperty("_klawSummons", 2));
+
+    try (cleanups) {
+      var req = new ClanRumpusRequest(RequestType.VISIT);
+      req.visitEquipment(3, 3);
+      req.run();
+      assertThat("_klawSummons", isSetTo(3));
     }
   }
 }

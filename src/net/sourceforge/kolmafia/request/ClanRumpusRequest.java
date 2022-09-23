@@ -68,7 +68,7 @@ public class ClanRumpusRequest extends GenericRequest {
         new Song("initiative", "Metal Speed", 4),
       };
 
-  public static final int findChips(final String name) {
+  public static int findChips(final String name) {
     for (Flavour chipFlavor : CHIP_FLAVORS) {
       String flavor = chipFlavor.flavor;
       if (name.equals(flavor)) {
@@ -79,7 +79,7 @@ public class ClanRumpusRequest extends GenericRequest {
     return 0;
   }
 
-  public static final int findSong(final String name) {
+  public static int findSong(final String name) {
     if (StringUtilities.isNumeric(name)) {
       int n = StringUtilities.parseInt(name);
       return n > 0 && n <= SONGS.length ? n : 0;
@@ -129,10 +129,10 @@ public class ClanRumpusRequest extends GenericRequest {
     POTTED_MEAT_TREE("Potted Meat Tree", 9, 3, 1),
     ;
 
-    public String name;
-    public int slot;
-    public int furni;
-    public int maxUses;
+    public final String name;
+    public final int slot;
+    public final int furni;
+    public final int maxUses;
 
     Equipment(String name, int slot, int furni, int maxUses) {
       this.name = name;
@@ -205,7 +205,7 @@ public class ClanRumpusRequest extends GenericRequest {
     return this;
   }
 
-  private void visitEquipment(final int spot, final int furniture) {
+  void visitEquipment(final int spot, final int furniture) {
     this.clearDataFields();
     this.addFormField("action", "click");
     this.addFormField("spot", String.valueOf(spot));
@@ -422,11 +422,28 @@ public class ClanRumpusRequest extends GenericRequest {
     var preaction = GenericRequest.getPreaction(urlString);
 
     if (preaction == null) {
+      if (urlString.contains("spot=3") && urlString.contains("furni=3")) {
+        // You carefully guide the claw over the prize that
+        // looks the easiest to grab. You press the button and
+        // the claw slowly descends.
+        if (responseText.contains("slowly descends")) {
+          Preferences.increment("_klawSummons", 1);
+        }
+        // The machine makes a horrible clanking noise, and a
+        // wisp of smoke pours out of the prize chute.
+        //
+        // The crane machine seems to be broken down. Oh
+        // well. Maybe they'll fix it by tomorrow.
+        else if (responseText.contains("seems to be broken down")) {
+          Preferences.setInteger("_klawSummons", 3);
+        }
+      }
+
       return;
     }
 
     switch (preaction) {
-      case "gym":
+      case "gym" -> {
         if (responseText.contains("You work it on out.")
             || responseText.contains("You study the secrets of the cosmos.")
             || responseText.contains("You bake under the artificial sunlight.")) {
@@ -434,8 +451,8 @@ public class ClanRumpusRequest extends GenericRequest {
         } else {
           KoLmafia.updateDisplay(MafiaState.ABORT, "You can't access that gym");
         }
-        return;
-      case "nap":
+      }
+      case "nap" -> {
         // You take a nap on the comfy sofa.
         if (responseText.contains("You take a nap")) {
           KoLmafia.updateDisplay("Resting completed.");
@@ -444,16 +461,16 @@ public class ClanRumpusRequest extends GenericRequest {
         else {
           KoLmafia.updateDisplay(MafiaState.ABORT, "Resting failed - no Clan Sofa available.");
         }
-        return;
-      case "ballpit":
+      }
+      case "ballpit" -> {
         // You play in the ball pit. Wheeeeeee!
         // (You've already played in the ball pit today.)
         if (responseText.contains("play in the ball pit")
             || responseText.contains("already played in the ball pit")) {
           Preferences.setBoolean("_ballpit", true);
         }
-        return;
-      case "buychips":
+      }
+      case "buychips" -> {
         // a bag of chips drops into the tray at the bottom
         if (responseText.contains("a bag of chips drops")) {
           Preferences.increment("_chipBags", 1);
@@ -464,34 +481,13 @@ public class ClanRumpusRequest extends GenericRequest {
         else if (responseText.contains("but not far enough")) {
           Preferences.setInteger("_chipBags", 3);
         }
-
-        return;
-      case "jukebox":
+      }
+      case "jukebox" -> {
         // Whether we get a song or not, we are done for the
         // day with the Jukebox, unless we ascend, which will
         // reset the preference.
         Preferences.setBoolean("_jukebox", true);
-        return;
-      default:
-        if (urlString.contains("spot=3") && urlString.contains("furni=3")) {
-          // You carefully guide the claw over the prize that
-          // looks the easiest to grab. You press the button and
-          // the claw slowly descends.
-          if (responseText.contains("slowly descends")) {
-            Preferences.increment("_klawSummons", 1);
-          }
-          // The machine makes a horrible clanking noise, and a
-          // wisp of smoke pours out of the prize chute.
-          //
-          // The crane machine seems to be broken down. Oh
-          // well. Maybe they'll fix it by tomorrow.
-          else if (responseText.contains("seems to be broken down")) {
-            Preferences.setInteger("_klawSummons", 3);
-          }
-
-          return;
-        }
-        break;
+      }
     }
   }
 
