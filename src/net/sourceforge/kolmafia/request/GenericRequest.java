@@ -88,7 +88,7 @@ import net.sourceforge.kolmafia.webui.RelayServer;
 public class GenericRequest implements Runnable {
   // Used in many requests. Here for convenience and non-duplication
   public static final Pattern PREACTION_PATTERN = Pattern.compile("preaction=([^&]*)");
-  public static final Pattern ACTION_PATTERN = Pattern.compile("(?<!pre)action=([^&]*)");
+  public static final Pattern ACTION_PATTERN = Pattern.compile("(?<!pre|sub)action=([^&]*)");
   public static final Pattern PLACE_PATTERN = Pattern.compile("place=([^&]*)");
   public static final Pattern WHICHITEM_PATTERN = Pattern.compile("whichitem=(\\d+)");
   public static final Pattern HOWMANY_PATTERN = Pattern.compile("howmany=(\\d+)");

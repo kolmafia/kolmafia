@@ -215,16 +215,26 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void fuelValidSendsRequest() {
+    var builder = new FakeHttpClientBuilder();
+
+    builder.client.addResponse(200, html("request/test_campground_fuel_asdon.html"));
+
     var cleanups =
-        new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withItem("loaf of soda bread", 10));
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withWorkshedItem(ItemPool.ASDON_MARTIN),
+            withFuel(136),
+            withItem("pie man was not meant to eat", 1));
 
     try (cleanups) {
-      execute("fuel 10 soda bread");
+      execute("fuel 1 pie man was not meant to eat");
 
-      var requests = getRequests();
+      var requests = builder.client.getRequests();
 
       assertThat(requests, not(empty()));
-      assertPostRequest(requests.get(0), "/campground.php", "action=fuelconvertor&qty=10&iid=8195");
+      assertPostRequest(requests.get(0), "/campground.php", "action=fuelconvertor&qty=1&iid=7372");
+
+      assertThat(CampgroundRequest.getFuel(), is(275));
     }
   }
 
