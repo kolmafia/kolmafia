@@ -744,8 +744,8 @@ public class DiscoCombatHelper {
     int index = buffer.lastIndexOf("</table></center></td>");
     if (index != -1) {
       StringBuffer table = DiscoCombatHelper.generateTable();
-      table.insert(0, "<tr>");
-      table.append("</tr>");
+      table.insert(0, "<tr><td><center>");
+      table.append("</center></td></tr>");
       buffer.insert(index, table);
     }
   }
