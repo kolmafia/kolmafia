@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
@@ -75,6 +76,17 @@ public class RelayRequestWarningsTest {
     StringBuilder buf = new StringBuilder();
     buf.append("adventure.php?snarfblat=");
     buf.append(adventureId);
+    if (confirmation != null) {
+      buf.append("&");
+      buf.append(confirmation);
+      buf.append("=on");
+    }
+    return buf.toString();
+  }
+
+  private String prismURL(String confirmation) {
+    StringBuilder buf = new StringBuilder();
+    buf.append("place.php?whichplace=nstower&action=ns_11_prism");
     if (confirmation != null) {
       buf.append("&");
       buf.append(confirmation);
@@ -405,89 +417,156 @@ public class RelayRequestWarningsTest {
     testMacheteZone(request, AdventurePool.ZIGGURAT, "zigguratLianas");
   }
 
-  @Test
-  public void thatBreakPrismWarningWorks() {
-    RelayRequest request = new RelayRequest(false);
+  @Nested
+  class RoboCore {
+    public static Cleanups withYouRobotEnergy(final int energy) {
+      var current = KoLCharacter.getYouRobotEnergy();
+      KoLCharacter.setYouRobotEnergy(energy);
+      return new Cleanups(() -> KoLCharacter.setYouRobotEnergy(current));
+    }
 
-    // No warning needed if you are not about to break the prism
-    String URL = "place.php?whichplace=scrapheap";
-    request.constructURLString(URL, true);
-    assertFalse(request.sendBreakPrismWarning(URL));
+    @Test
+    public void thatNoWarningNeededIfNotAboutToBreakPrism() {
+      var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        String URL = "place.php?whichplace=scrapheap";
+        request.constructURLString(URL, true);
+        assertFalse(request.sendBreakPrismWarning(URL));
+      }
+    }
 
-    // Set path to You, Robot
-    KoLCharacter.setPath(Path.YOU_ROBOT);
-    URL = "place.php?whichplace=nstower&action=ns_11_prism";
-    request.constructURLString(URL, true);
+    @Test
+    public void thatNoWarningNeededIfAlreadyConfirmed() {
+      // Set path to You, Robot
+      var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withYouRobotEnergy(100));
+      try (cleanups) {
+        // No warning needed if already confirmed
+        RelayRequest request = new RelayRequest(false);
+        String URL = prismURL(RelayRequest.CONFIRM_RALPH);
+        request.constructURLString(URL, true);
+        assertFalse(request.sendBreakPrismWarning(URL));
+      }
+    }
 
-    // energy < Statbot < Chronolith
-    KoLCharacter.setYouRobotEnergy(10);
-    Preferences.setInteger("statbotUses", 10);
-    Preferences.setInteger("_chronolithNextCost", 30);
-    assertFalse(request.sendBreakPrismWarning(URL));
+    @Test
+    public void thatNoWarningIfInsufficientEnergy() {
+      // Set path to You, Robot
+      var cleanups =
+          new Cleanups(
+              withPath(Path.YOU_ROBOT),
+              withYouRobotEnergy(10),
+              withProperty("statbotUses", 10),
+              withProperty("_chronolithNextCost", 30));
+      try (cleanups) {
+        // energy < Statbot < Chronolith
+        RelayRequest request = new RelayRequest(false);
+        String URL = prismURL(null);
+        request.constructURLString(URL, true);
+        assertFalse(request.sendBreakPrismWarning(URL));
+      }
+    }
 
-    // Statbot < energy < Chronolith
-    KoLCharacter.setYouRobotEnergy(25);
-    assertTrue(request.sendBreakPrismWarning(URL));
-    String expected =
-        "You are about to free King Ralph and stop being a Robot."
-            + " Before you do so, you might want to spend your remaining 25 energy in the Scrapheap,"
-            + " since you will not be able to do so after you free the king."
-            + " You can gain 5 points of the stat of your choice at Statbot 5000 for 20 energy."
-            + " If you are ready to break the prism, click on the icon on the left."
-            + " If you wish to visit the Scrapheap, click on icon on the right.";
-    assertEquals(expected, request.lastWarning);
+    @Test
+    public void thatWarningIfEnergyForStatbot() {
+      // Set path to You, Robot
+      var cleanups =
+          new Cleanups(
+              withPath(Path.YOU_ROBOT),
+              withProperty("statbotUses", 10),
+              withYouRobotEnergy(25),
+              withProperty("_chronolithNextCost", 30));
+      try (cleanups) {
+        // Statbot < energy < Chronolith
+        RelayRequest request = new RelayRequest(false);
+        String URL = prismURL(null);
+        request.constructURLString(URL, true);
+        assertTrue(request.sendBreakPrismWarning(URL));
+        String expected =
+            "You are about to free King Ralph and stop being a Robot."
+                + " Before you do so, you might want to spend your remaining 25 energy in the Scrapheap,"
+                + " since you will not be able to do so after you free the king."
+                + " You can gain 5 points of the stat of your choice at Statbot 5000 for 20 energy."
+                + " If you are ready to break the prism, click on the icon on the left."
+                + " If you wish to visit the Scrapheap, click on icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
 
-    // Chronolith < energy < Statbot
-    Preferences.setInteger("statbotUses", 20);
-    Preferences.setInteger("_chronolithNextCost", 20);
-    assertTrue(request.sendBreakPrismWarning(URL));
-    expected =
-        "You are about to free King Ralph and stop being a Robot."
-            + " Before you do so, you might want to spend your remaining 25 energy in the Scrapheap,"
-            + " since you will not be able to do so after you free the king."
-            + " You can gain 10 Adventures at the Chronolith for 20 energy."
-            + " If you are ready to break the prism, click on the icon on the left."
-            + " If you wish to visit the Scrapheap, click on icon on the right.";
-    assertEquals(expected, request.lastWarning);
+    @Test
+    public void thatWarningIfEnergyForChronolith() {
+      // Set path to You, Robot
+      var cleanups =
+          new Cleanups(
+              withPath(Path.YOU_ROBOT),
+              withProperty("_chronolithNextCost", 20),
+              withYouRobotEnergy(25),
+              withProperty("statbotUses", 20));
+      try (cleanups) {
+        // Chronolith < energy < Statbot
+        RelayRequest request = new RelayRequest(false);
+        String URL = prismURL(null);
+        request.constructURLString(URL, true);
+        assertTrue(request.sendBreakPrismWarning(URL));
+        String expected =
+            "You are about to free King Ralph and stop being a Robot."
+                + " Before you do so, you might want to spend your remaining 25 energy in the Scrapheap,"
+                + " since you will not be able to do so after you free the king."
+                + " You can gain 10 Adventures at the Chronolith for 20 energy."
+                + " If you are ready to break the prism, click on the icon on the left."
+                + " If you wish to visit the Scrapheap, click on icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
 
-    // Chronolith < Statbot < energy
-    KoLCharacter.setYouRobotEnergy(50);
-    assertTrue(request.sendBreakPrismWarning(URL));
-    expected =
-        "You are about to free King Ralph and stop being a Robot."
-            + " Before you do so, you might want to spend your remaining 50 energy in the Scrapheap,"
-            + " since you will not be able to do so after you free the king."
-            + " You can gain 10 Adventures at the Chronolith for 20 energy."
-            + " You can gain 5 points of the stat of your choice at Statbot 5000 for 30 energy."
-            + " If you are ready to break the prism, click on the icon on the left."
-            + " If you wish to visit the Scrapheap, click on icon on the right.";
-    assertEquals(expected, request.lastWarning);
+    @Test
+    public void thatWarningIfEnergyForEither() {
+      // Set path to You, Robot
+      var cleanups =
+          new Cleanups(
+              withPath(Path.YOU_ROBOT),
+              withProperty("statbotUses", 20),
+              withProperty("_chronolithNextCost", 20),
+              withYouRobotEnergy(50));
+      try (cleanups) {
+        // Chronolith < Statbot < energy
+        RelayRequest request = new RelayRequest(false);
+        String URL = prismURL(null);
+        request.constructURLString(URL, true);
+        assertTrue(request.sendBreakPrismWarning(URL));
+        String expected =
+            "You are about to free King Ralph and stop being a Robot."
+                + " Before you do so, you might want to spend your remaining 50 energy in the Scrapheap,"
+                + " since you will not be able to do so after you free the king."
+                + " You can gain 10 Adventures at the Chronolith for 20 energy."
+                + " You can gain 5 points of the stat of your choice at Statbot 5000 for 30 energy."
+                + " If you are ready to break the prism, click on the icon on the left."
+                + " If you wish to visit the Scrapheap, click on icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
   }
 
   @Nested
   class DinoCore {
     @Test
     public void shouldNotWarnInDinocoreWithNoDollars() {
-      RelayRequest request = new RelayRequest(false);
-      String URL = "place.php?whichplace=nstower&action=ns_11_prism";
-      request.constructURLString(URL, true);
-
       var cleanups = withPath(Path.DINOSAURS);
-
       try (cleanups) {
+        String URL = prismURL(null);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
         assertFalse(request.sendBreakPrismWarning(URL));
       }
     }
 
     @Test
     public void shouldWarnInDinocoreWithDollars() {
-      RelayRequest request = new RelayRequest(false);
-      String URL = "place.php?whichplace=nstower&action=ns_11_prism";
-      request.constructURLString(URL, true);
-
       var cleanups = new Cleanups(withPath(Path.DINOSAURS), withItem(ItemPool.DINODOLLAR));
-
       try (cleanups) {
+        String URL = prismURL(null);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
         assertTrue(request.sendBreakPrismWarning(URL));
         String expected =
             "You are about to free King Ralph and end your Fall of the Dinosaurs run."
@@ -496,6 +575,17 @@ public class RelayRequestWarningsTest {
                 + " If you are ready to break the prism, click on the icon on the left."
                 + " If you wish to visit the Dino Staur, click on icon on the right.";
         assertEquals(expected, request.lastWarning);
+      }
+    }
+
+    @Test
+    public void shouldNotWarnInDinocoreIfAlreadyConfirmed() {
+      var cleanups = withPath(Path.DINOSAURS);
+      try (cleanups) {
+        String URL = prismURL(RelayRequest.CONFIRM_RALPH);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
+        assertFalse(request.sendBreakPrismWarning(URL));
       }
     }
   }
