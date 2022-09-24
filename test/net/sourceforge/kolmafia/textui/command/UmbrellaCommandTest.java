@@ -7,8 +7,6 @@ import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -45,10 +43,11 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustUnequipLefty() {
-    var cleanups = new Cleanups(withFamiliarInTerrarium(FamiliarPool.LEFT_HAND), withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL));
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
+            withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL));
     try (cleanups) {
-
-
 
       var fam = KoLCharacter.usableFamiliar(FamiliarPool.LEFT_HAND);
       fam.setItem(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA));
@@ -58,8 +57,10 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
 
-      assertPostRequest(requests.get(0), "/familiar.php", "famid=" + FamiliarPool.LEFT_HAND + "&action=unequip&ajax=1");
-
+      assertPostRequest(
+          requests.get(0),
+          "/familiar.php",
+          "famid=" + FamiliarPool.LEFT_HAND + "&action=unequip&ajax=1");
     }
   }
 
