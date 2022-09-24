@@ -48,10 +48,8 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
             withFamiliarInTerrarium(FamiliarPool.LEFT_HAND),
             withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL));
     try (cleanups) {
-
-      var fam = KoLCharacter.usableFamiliar(FamiliarPool.LEFT_HAND);
-      fam.setItem(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA));
-      KoLCharacter.setFamiliar(KoLCharacter.usableFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL));
+      KoLCharacter.usableFamiliar(FamiliarPool.LEFT_HAND)
+          .setItem(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA));
 
       String output = execute("ml");
 
