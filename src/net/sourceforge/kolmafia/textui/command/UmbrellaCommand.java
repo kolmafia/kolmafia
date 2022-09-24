@@ -49,12 +49,14 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    var lefty = KoLCharacter.ownedFamiliar(FamiliarPool.LEFT_HAND);
-    if (lefty.isPresent()
-        && !KoLCharacter.getFamiliar().equals(lefty.get())
-        && lefty.get().getItem().equals(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA))) {
-      RequestThread.postRequest(new FamiliarRequest(lefty.get(), null));
-    }
+    KoLCharacter.ownedFamiliar(FamiliarPool.LEFT_HAND)
+        .ifPresent(
+            (lefty) -> {
+              if (!KoLCharacter.getFamiliar().equals(lefty)
+                  && lefty.getItem().equals(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA))) {
+                RequestThread.postRequest(new FamiliarRequest(lefty, null));
+              }
+            });
 
     parameter = parameter.trim();
 
