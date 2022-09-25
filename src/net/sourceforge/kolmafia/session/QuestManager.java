@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -63,6 +64,25 @@ public class QuestManager {
       Pattern.compile("&quot;Paranormal disturbance reported (.*?).&quot;");
   private static final Pattern DJ_MEAT_PATTERN = Pattern.compile("collect (.*?) Meat for the DJ");
   private static final Pattern TRASH_PATTERN = Pattern.compile("you clean up (\\d+) ");
+
+  private static List<String> friarElbowNCs =
+      List.of(
+          "Deep Imp Act",
+          "Imp Art, Some Wisdom",
+          "A Secret, But Not the Secret You're Looking For",
+          "Butter Knife? I'll Take the Knife");
+  private static List<String> friarNeckNCs =
+      List.of(
+          "How Do We Do It? Quaint and Curious Volume!",
+          "Strike One!",
+          "Olive My Love To You, Oh.",
+          "Dodecahedrariffic!");
+  private static List<String> friarHeartNCs =
+      List.of(
+          "Moon Over the Dark Heart",
+          "Running the Lode",
+          "I, Martin",
+          "Imp Be Nimble, Imp Be Quick");
 
   private QuestManager() {}
 
@@ -218,6 +238,11 @@ public class QuestManager {
         case AdventurePool.THE_FAMILY_PLOT:
         case AdventurePool.THE_SHADY_THICKET:
           handleFarmChange(location, responseText);
+          break;
+        case AdventurePool.DARK_ELBOW_OF_THE_WOODS:
+        case AdventurePool.DARK_HEART_OF_THE_WOODS:
+        case AdventurePool.DARK_NECK_OF_THE_WOODS:
+          handleFriarsCopseChange(location, responseText);
           break;
         default:
           if (KoLCharacter.getInebriety() > 25) {
@@ -629,6 +654,27 @@ public class QuestManager {
         buffer.append(adventure.getAdventureId());
         Preferences.setString("duckAreasCleared", buffer.toString());
       }
+    }
+  }
+
+  private static void handleFriarsCopseChange(final String location, final String responseText) {
+    String encounterName = AdventureRequest.parseEncounter(responseText);
+    switch (location) {
+      case "The Dark Elbow of the Woods":
+        if (friarElbowNCs.contains(encounterName)) {
+          Preferences.setInteger("lastFriarsElbowNC", AdventureSpentDatabase.getTurns(location));
+        }
+        break;
+      case "The Dark Heart of the Woods":
+        if (friarHeartNCs.contains(encounterName)) {
+          Preferences.setInteger("lastFriarsHeartNC", AdventureSpentDatabase.getTurns(location));
+        }
+        break;
+      case "The Dark Neck of the Woods":
+        if (friarNeckNCs.contains(encounterName)) {
+          Preferences.setInteger("lastFriarsNeckNC", AdventureSpentDatabase.getTurns(location));
+        }
+        break;
     }
   }
 
