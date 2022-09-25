@@ -27,6 +27,7 @@ import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStarted;
+import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
@@ -5009,12 +5010,14 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("skeletonStoreAvailable", false),
+              withQuestProgress(Quest.MEATSMITH, QuestDatabase.UNSTARTED),
               withItem(ItemPool.BONE_WITH_A_PRICE_TAG));
       try (cleanups) {
         client.addResponse(200, html("request/test_use_bone_with_a_tag.html"));
         client.addResponse(200, ""); // api.php
         assertTrue(SKELETON_STORE.canAdventure());
         assertTrue(SKELETON_STORE.prepareForAdventure());
+        assertThat(Quest.MEATSMITH, isUnstarted());
         assertTrue(Preferences.getBoolean("skeletonStoreAvailable"));
 
         var requests = client.getRequests();
@@ -5033,7 +5036,9 @@ public class KoLAdventureValidationTest {
       var client = builder.client;
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder), withProperty("skeletonStoreAvailable", false));
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.MEATSMITH, QuestDatabase.UNSTARTED),
+              withProperty("skeletonStoreAvailable", false));
       try (cleanups) {
         client.addResponse(200, html("request/test_visit_meatsmith_quest.html"));
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -5043,6 +5048,7 @@ public class KoLAdventureValidationTest {
 
         assertTrue(SKELETON_STORE.canAdventure());
         assertTrue(SKELETON_STORE.prepareForAdventure());
+        assertThat(Quest.MEATSMITH, isStarted());
         assertTrue(Preferences.getBoolean("skeletonStoreAvailable"));
 
         var requests = client.getRequests();
@@ -5074,6 +5080,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
+              withQuestProgress(Quest.ARMORER, QuestDatabase.UNSTARTED),
               withProperty("madnessBakeryAvailable", false),
               withItem(ItemPool.HYPNOTIC_BREADCRUMBS));
       try (cleanups) {
@@ -5081,6 +5088,7 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, ""); // api.php
         assertTrue(MADNESS_BAKERY.canAdventure());
         assertTrue(MADNESS_BAKERY.prepareForAdventure());
+        assertThat(Quest.ARMORER, isUnstarted());
         assertTrue(Preferences.getBoolean("madnessBakeryAvailable"));
 
         var requests = client.getRequests();
@@ -5099,7 +5107,9 @@ public class KoLAdventureValidationTest {
       var client = builder.client;
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder), withProperty("madnessBakeryAvailable", false));
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.ARMORER, QuestDatabase.UNSTARTED),
+              withProperty("madnessBakeryAvailable", false));
       try (cleanups) {
         client.addResponse(200, html("request/test_visit_armory_quest.html"));
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -5109,6 +5119,7 @@ public class KoLAdventureValidationTest {
 
         assertTrue(MADNESS_BAKERY.canAdventure());
         assertTrue(MADNESS_BAKERY.prepareForAdventure());
+        assertThat(Quest.ARMORER, isStarted());
         assertTrue(Preferences.getBoolean("madnessBakeryAvailable"));
 
         var requests = client.getRequests();
@@ -5140,6 +5151,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
+              withQuestProgress(Quest.DOC, QuestDatabase.UNSTARTED),
               withProperty("overgrownLotAvailable", false),
               withItem(ItemPool.BOOZE_MAP));
       try (cleanups) {
@@ -5147,6 +5159,7 @@ public class KoLAdventureValidationTest {
         client.addResponse(200, ""); // api.php
         assertTrue(OVERGROWN_LOT.canAdventure());
         assertTrue(OVERGROWN_LOT.prepareForAdventure());
+        assertThat(Quest.DOC, isUnstarted());
         assertTrue(Preferences.getBoolean("overgrownLotAvailable"));
 
         var requests = client.getRequests();
@@ -5163,7 +5176,9 @@ public class KoLAdventureValidationTest {
       var client = builder.client;
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder), withProperty("overgrownLotAvailable", false));
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.DOC, QuestDatabase.UNSTARTED),
+              withProperty("overgrownLotAvailable", false));
       try (cleanups) {
         client.addResponse(200, html("request/test_visit_galaktik_quest.html"));
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -5174,6 +5189,7 @@ public class KoLAdventureValidationTest {
         assertTrue(OVERGROWN_LOT.canAdventure());
         assertTrue(OVERGROWN_LOT.prepareForAdventure());
         assertTrue(Preferences.getBoolean("overgrownLotAvailable"));
+        assertThat(Quest.DOC, isStarted());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(5));
