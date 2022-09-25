@@ -343,6 +343,20 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(wildfireMap, "The Man", "The Man on Fire");
     MonsterDatabase.addMapping(wildfireMap, "Naughty Sorceress", "The Naughty Scorcheress");
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.WILDFIRE.getName(), wildfireMap);
+
+    Map<MonsterData, MonsterData> dinoMap = new TreeMap<>();
+    MonsterDatabase.addMapping(
+        dinoMap, "Boss Bat", "two-headed pteranodon with a two-headed bat inside it");
+    MonsterDatabase.addMapping(dinoMap, "Knob Goblin King", "goblodocus");
+    MonsterDatabase.addMapping(dinoMap, "Bonerdagon", "T-Rex who ate the Bonerdagon");
+    MonsterDatabase.addMapping(dinoMap, "Groar", "refrigeradon");
+    MonsterDatabase.addMapping(dinoMap, "Dr. Awkward", "suruasaurus");
+    MonsterDatabase.addMapping(dinoMap, "Lord Spookyraven", "herd of well-fed microraptors");
+    MonsterDatabase.addMapping(dinoMap, "Protector Spectre", "protoceratops spectre");
+    MonsterDatabase.addMapping(dinoMap, "The Big Wisniewski", "Slackiosaurus");
+    MonsterDatabase.addMapping(dinoMap, "The Man", "Oligarcheopteryx");
+    MonsterDatabase.addMapping(dinoMap, "Naughty Sorceress", "Naughty Saursaurus");
+    MonsterDatabase.MONSTER_PATH_MAP.put(Path.DINOSAURS.getName(), dinoMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
