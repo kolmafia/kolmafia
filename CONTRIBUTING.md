@@ -3,6 +3,26 @@
 First off, thank you for contributing your time and knowledge. This project
 would not exist if not for volunteers like you!
 
+## Quickstart
+
+### First time contributing?
+
+1. Fork this repository (click the "fork" button at the top of the page).
+1. Clone your fork with write permissions (_not_ HTTPS; use SSH or GitHub CLI).
+
+### General workflow:
+
+1. Sync your fork's mainline branch with the upstream kolmafia:main.
+1. Switch to the mainline branch of your local repository (`git switch main`).
+1. Pull in the latest changes (`git pull origin main`).
+1. Switch to a new branch (`git switch -c branchname`).
+1. Make your changes. Stage them to be added to your next commit
+   (`git add path/to/some/file`).
+1. Create a new commit (`git commit`).
+1. Push that commit (`git push origin branchname`).
+1. Navigate back to your fork via the web UI. There should be a notification
+   about branches with recent pushed commits. Click "Create pull request".
+
 ## Workflow Overview
 
 Some suggested reading (lifted from [Github docs](https://github.com/github/docs/blob/main/CONTRIBUTING.md)):

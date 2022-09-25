@@ -11,11 +11,11 @@ plugins {
 	id 'jacoco'
 	id 'java'
 
-	id 'com.diffplug.spotless' version '6.9.0'
+	id 'com.diffplug.spotless' version '6.11.0'
 	id 'com.github.johnrengelman.shadow' version '7.1.2'
 	id 'net.nemerosa.versioning' version '3.0.0'
 	id 'org.ajoberstar.grgit' version '5.0.0'
-	id 'org.panteleyev.jpackageplugin' version '1.3.1'
+	id 'org.panteleyev.jpackageplugin' version '1.4.1'
 }
 mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 
@@ -63,15 +63,15 @@ dependencies {
 	testImplementation 'com.spotify:hamcrest-optional:1.2.0'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
 	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.9.0'
-	testImplementation 'org.mockito:mockito-inline:4.6.1'
+	testImplementation 'org.mockito:mockito-inline:4.8.0'
 	testImplementation('org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.12.0') {
 		because 'assertion errors including Location/Range/Position need it'
 	}
 	testImplementation 'org.junit-pioneer:junit-pioneer:1.7.1'
 
-	implementation 'com.formdev:flatlaf:1.6.2'
-	implementation 'com.formdev:flatlaf-intellij-themes:1.6.2'
-	implementation 'com.formdev:flatlaf-swingx:1.6.2'
+	implementation 'com.formdev:flatlaf:1.6.5'
+	implementation 'com.formdev:flatlaf-intellij-themes:1.6.5'
+	implementation 'com.formdev:flatlaf-swingx:1.6.5'
 	// Optional runtime deps for svnkit
 	runtimeOnly 'com.trilead:trilead-ssh2:1.0.0-build222'
 	runtimeOnly 'net.java.dev.jna:jna:5.6.0'
@@ -93,7 +93,7 @@ dependencies {
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.7'
 	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
-	implementation 'org.eclipse.jgit:org.eclipse.jgit:6.2.0.202206071550-r'
+	implementation 'org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r'
 }
 
 application {

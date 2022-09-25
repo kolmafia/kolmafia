@@ -7,7 +7,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -46,6 +48,15 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You need an Unbreakable Umbrella first.");
       return;
     }
+
+    KoLCharacter.ownedFamiliar(FamiliarPool.LEFT_HAND)
+        .ifPresent(
+            (lefty) -> {
+              if (!KoLCharacter.getFamiliar().equals(lefty)
+                  && lefty.getItem().equals(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA))) {
+                RequestThread.postRequest(new FamiliarRequest(lefty, null));
+              }
+            });
 
     parameter = parameter.trim();
 
