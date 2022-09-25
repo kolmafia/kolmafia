@@ -345,7 +345,8 @@ public class MonsterDatabase {
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.WILDFIRE.getName(), wildfireMap);
 
     Map<MonsterData, MonsterData> dinoMap = new TreeMap<>();
-    MonsterDatabase.addMapping(dinoMap, "Boss Bat", "two-headed pteranodon with a two-headed bat inside it");
+    MonsterDatabase.addMapping(
+        dinoMap, "Boss Bat", "two-headed pteranodon with a two-headed bat inside it");
     MonsterDatabase.addMapping(dinoMap, "Knob Goblin King", "goblodocus");
     MonsterDatabase.addMapping(dinoMap, "Bonerdagon", "T-Rex who ate the Bonerdagon");
     MonsterDatabase.addMapping(dinoMap, "Groar", "refrigeradon");
