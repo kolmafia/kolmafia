@@ -1252,6 +1252,7 @@ public class ConcoctionDatabase {
   }
 
   public static final synchronized void refreshConcoctionsNow() {
+    Preferences.increment("_concoctionDatabaseRefreshes");
     ConcoctionDatabase.refreshNeeded = false;
 
     List<AdventureResult> availableIngredients = ConcoctionDatabase.getAvailableIngredients();
