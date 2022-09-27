@@ -243,7 +243,6 @@ questL08Trapper	started	The trapper, unperturbed by the fact that his mountain i
 questL09Topping	started	The Highland Lord has sent us another one of his "emergency" requests.
 questL10Garbage	step7	There's a tremendous amount of space junk floating around.  The astronomers thought it was really close but it turns out it's just really large.  Probably the giants.  Deal with 'em, would ya?
 questL11MacGuffin	started	Near the bottom of the chore list is a note about a package that arrived for you.  No, wait, it's not for you, it's for Bramlet Abercrombie.  My mistake.
-questL11Black	started	Near the bottom of the chore list is a note about a package that arrived for you.  No, wait, it's not for you, it's for Bramlet Abercrombie.  My mistake.
 questL12HippyFrat	started	There's only like sixty square feet of the Mysterious Island left, and the hippies and frat boys have gone to war for control of it.  That needs to be resolved.<center>
 
 # Path of the Plumber

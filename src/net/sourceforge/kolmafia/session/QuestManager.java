@@ -278,21 +278,21 @@ public class QuestManager {
         }
         case "canadia" -> handleCanadiaChange(location, responseText);
         case "desertbeach" -> {
-          if (action.equals("db_pyramid1")) {
+          if (action != null && action.equals("db_pyramid1")) {
             handlePyramidChange(location, responseText);
           } else {
             handleBeachChange(responseText);
           }
         }
         case "exploathing_beach" -> {
-          if (action.equals("expl_pyramidpre")) {
+          if (action != null && action.equals("expl_pyramidpre")) {
             handlePyramidChange(location, responseText);
           } else {
             handleBeachChange(responseText);
           }
         }
         case "exploathing" -> {
-          if (action.equals("expl_council")) {
+          if (action != null && action.equals("expl_council")) {
             handleCouncilChange(responseText);
           }
         }
