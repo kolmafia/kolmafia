@@ -380,6 +380,88 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Exploathing {
+    public static Cleanups withTempleUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TEMPLE),
+              withQuestProgress(Quest.WORSHIP),
+              withProperty("lastTempleUnlock"));
+      // This depends on ascension count being set
+      KoLCharacter.setTempleUnlocked();
+      return cleanups;
+    }
+
+    public Cleanups withKingdomOfExploathing() {
+      // Set up this test to have all quests appropriately started
+      return new Cleanups(
+          withPath(Path.KINGDOM_OF_EXPLOATHING),
+          withAscensions(1),
+          withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+          withQuestProgress(Quest.RAT, QuestDatabase.STARTED),
+          withQuestProgress(Quest.BAT, QuestDatabase.STARTED),
+          withQuestProgress(Quest.GOBLIN, "step1"),
+          withQuestProgress(Quest.FRIAR, QuestDatabase.STARTED),
+          withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+          withProperty("cyrptAlcoveEvilness", 25),
+          withProperty("cyrptCrannyEvilness", 25),
+          withProperty("cyrptNicheEvilness", 25),
+          withProperty("cyrptNookEvilness", 25),
+          withProperty("cyrptTotalEvilness", 100),
+          withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED),
+          withQuestProgress(Quest.TOPPING, QuestDatabase.STARTED),
+          withQuestProgress(Quest.GARBAGE, "step7"),
+          withQuestProgress(Quest.BLACK, QuestDatabase.STARTED),
+          withQuestProgress(Quest.MACGUFFIN, QuestDatabase.STARTED),
+          withQuestProgress(Quest.HIPPY_FRAT, QuestDatabase.STARTED),
+          withTempleUnlocked());
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "The Sleazy Back Alley",
+          "The Haunted Pantry",
+          "The Outskirts of Cobb's Knob",
+          "The Daily Dungeon",
+          "The Spooky Forest",
+          "The Hidden Temple",
+          "The Typical Tavern Cellar",
+          "A Barroom Brawl",
+          "The Bat Hole Entrance",
+          // Need stench resistance +1
+          // "Guano Junction",
+          "Cobb's Knob Barracks",
+          "Cobb's Knob Kitchens",
+          "Cobb's Knob Harem",
+          "Cobb's Knob Treasury",
+          "The Dark Neck of the Woods",
+          "The Dark Heart of the Woods",
+          "The Dark Elbow of the Woods",
+          "The Defiled Nook",
+          "The Defiled Cranny",
+          "The Defiled Alcove",
+          "The Defiled Niche",
+          // Need to talk to Trapper
+          // "Itznotyerzitz Mine",
+          // "The Goatlet",
+          "The Smut Orc Logging Camp",
+          "The Castle in the Clouds in the Sky (Basement)",
+          "The Hole in the Sky",
+          "The Black Forest",
+          "The Exploaded Battlefield",
+          "The Invader"
+        })
+    public void testInitiallyOpenAdventures(String adventure) {
+      var cleanups = withKingdomOfExploathing();
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventure);
+        assertTrue(area.canAdventure());
+      }
+    }
+  }
+
+  @Nested
   class Standard {
     @Test
     public void restrictedItemZonesNotAllowedUnderStandard() {

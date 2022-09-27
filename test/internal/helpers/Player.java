@@ -1147,6 +1147,17 @@ public class Player {
   }
 
   /**
+   * Does nothing, but ensures the given quest is reverted as part of cleanup
+   *
+   * @param quest Quest to set
+   * @return Restores previous value
+   */
+  public static Cleanups withQuestProgress(final QuestDatabase.Quest quest) {
+    var current = QuestDatabase.getQuest(quest);
+    return new Cleanups(() -> QuestDatabase.setQuest(quest, current));
+  }
+
+  /**
    * Sets progress for a given quest
    *
    * @param quest Quest to set
