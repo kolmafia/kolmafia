@@ -488,8 +488,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
+  private static Set<String> invalidExploathingPlaces =
+      Set.of("town", "airport", "plains", "woods", "mountains", "desertbeach");
+
   // Validation part 0:
   private boolean checkZone(String alwaysPref, String todayPref, String place) {
+    // Kingdom of Exploathing does not have any the top-level container
+    // zones available. Certain lower level containers - town_wrong,
+    // town_right, monorail - do exist and can be checked.
+    if (KoLCharacter.isKingdomOfExploathing() && invalidExploathingPlaces.contains(place)) {
+      return false;
+    }
+
     // If we have permanent access, cool.
     if (Preferences.getBoolean(alwaysPref)) {
       return true;
@@ -544,6 +554,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
       case "The Spacegate":
         // Through the Spacegate
+
+        // It's in the mountains and Exploded Loathing does not have that zone.
+        if (KoLCharacter.isKingdomOfExploathing()) {
+          return false;
+        }
+
         if (Preferences.getBoolean("spacegateAlways")
             || Preferences.getBoolean("_spacegateToday")) {
           return true;
