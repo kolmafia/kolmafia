@@ -452,11 +452,39 @@ public class KoLAdventureValidationTest {
           "The Exploaded Battlefield",
           "The Invader"
         })
-    public void testInitiallyOpenAdventures(String adventure) {
+    public void testInitiallyOpenAdventures(String adventureName) {
       var cleanups = withKingdomOfExploathing();
       try (cleanups) {
-        var area = AdventureDatabase.getAdventureByName(adventure);
+        var area = AdventureDatabase.getAdventureByName(adventureName);
         assertTrue(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "The Fun-Guy Mansion, sleazeAirportAlways, false",
+      "The Deep Dark Jungle, spookyAirportAlways, false",
+      "The Toxic Teacups, stenchAirportAlways, false",
+      "The SMOOCH Army HQ, hotAirportAlways, false",
+      "VYKEA, coldAirportAlways, false",
+      "Gingerbread Civic Center, gingerbreadCityAvailable, false",
+      "Investigating a Plaintive Telegram, telegraphOfficeAvailable, true",
+      "The Neverending Party, neverendingPartyAlways, true",
+      "The Bandit Crossroads, frAlways, true",
+      "Sailing the PirateRealm Seas, prAlways, true",
+      "The Tunnel of L.O.V.E., loveTunnelAvailable, true",
+      "Through the Spacegate, spacegateAlways, false"
+    })
+    public void preValidateIOTMZones(String adventureName, String always, boolean check) {
+      var cleanups =
+          new Cleanups(withPath(Path.KINGDOM_OF_EXPLOATHING), withProperty(always, true));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        if (check) {
+          assertTrue(area.preValidateAdventure());
+        } else {
+          assertFalse(area.preValidateAdventure());
+        }
       }
     }
   }
