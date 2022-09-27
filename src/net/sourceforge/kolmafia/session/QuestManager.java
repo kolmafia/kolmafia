@@ -334,9 +334,11 @@ public class QuestManager {
         }
         case "marais" -> handleMaraisChange(responseText);
         case "mclargehuge" -> {
-          switch (action) {
-            case "trappercabin" -> handleTrapperChange(responseText);
-            case "cloudypeak" -> handleMcLargehugeChange(responseText);
+          if (action != null) {
+            switch (action) {
+              case "trappercabin" -> handleTrapperChange(responseText);
+              case "cloudypeak" -> handleMcLargehugeChange(responseText);
+            }
           }
         }
         case "monorail" -> handleMonorailChange(location, responseText);
