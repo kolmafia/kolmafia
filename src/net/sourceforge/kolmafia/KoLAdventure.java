@@ -832,6 +832,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Open at level one, with a subset of eventual zones
     if (this.zone.equals("Mountain")) {
+      // There are no "mountains" in Kingdom of Exploathing. However, the
+      // smut orcs are unlocked from the start.
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return this.adventureNumber == AdventurePool.SMUT_ORC_LOGGING_CAMP;
+      }
+
       return switch (this.adventureNumber) {
         case AdventurePool.NOOB_CAVE, AdventurePool.DIRE_WARREN -> true;
           // The Smut Orc Logging Camp is available if you have started the Highlands quest
@@ -861,6 +867,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return creator != null && creator.getQuantityPossible() > 0;
       }
 
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return false;
+      }
+
       return switch (this.adventureNumber) {
         case AdventurePool.FUN_HOUSE -> QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step4");
         case AdventurePool.UNQUIET_GARVES -> QuestDatabase.isQuestStarted(Quest.CYRPT)
@@ -882,9 +892,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             || InventoryManager.hasItem(TRANSFUNCTIONER);
         case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.isKingdomOfExploathing()
             || KoLCharacter.getTempleUnlocked();
-        case AdventurePool.WHITEYS_GROVE -> KoLCharacter.isEd()
-            || QuestDatabase.isQuestStarted(Quest.CITADEL)
-            || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2");
+        case AdventurePool.WHITEYS_GROVE -> !KoLCharacter.isKingdomOfExploathing()
+            && (KoLCharacter.isEd()
+                || QuestDatabase.isQuestStarted(Quest.CITADEL)
+                || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2"));
         case AdventurePool.BLACK_FOREST -> QuestDatabase.isQuestStarted(Quest.MACGUFFIN);
         case AdventurePool.ROAD_TO_WHITE_CITADEL -> QuestDatabase.isQuestLaterThan(
             Quest.CITADEL, QuestDatabase.STARTED);
@@ -1122,10 +1133,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                     && InventoryManager.hasItem(ENCHANTED_BEAN)));
           // The Castle Basement is unlocked provided the player has the S.O.C.K
           // (legacy: rowboats give access but are no longer creatable)
-        case AdventurePool.CASTLE_BASEMENT -> InventoryManager.hasItem(
-                ItemPool.get(ItemPool.SOCK, 1))
-            || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
-            || KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.CASTLE_BASEMENT -> KoLCharacter.isKingdomOfExploathing()
+            || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
+            || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
         case AdventurePool.CASTLE_GROUND -> Preferences.getInteger("lastCastleGroundUnlock")
             == KoLCharacter.getAscensions();
         case AdventurePool.CASTLE_TOP -> Preferences.getInteger("lastCastleTopUnlock")
@@ -1363,6 +1373,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.getSignZone() == ZodiacZone.KNOLL) {
         return false;
       }
+      // There is no Degrassi Knoll in Kingdom of Exploathing
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return false;
+      }
       // Either Paco or the Untinker will open the Knoll
       // We can accept the Untinker's quest if the woods are open
       return QuestDatabase.isQuestStarted(Quest.MEATCAR)
@@ -1386,7 +1400,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Little Canadia")) {
-      return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
+      // There is no Little Canadia in Kingdom of Exploathing
+      return KoLCharacter.getSignZone() == ZodiacZone.CANADIA
+          && !KoLCharacter.isKingdomOfExploathing();
     }
 
     if (this.zone.equals("Le Marais D&egrave;gueulasse")) {
@@ -1408,7 +1424,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("MoxSign")) {
-      return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
+      // There is no Gnomads Camp in Kingdom of Exploathing
+      return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS
+          && !KoLCharacter.isKingdomOfExploathing();
     }
 
     // Pirate Ship
@@ -1439,6 +1457,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Dungeon")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return adventureNumber == AdventurePool.THE_DAILY_DUNGEON;
+      }
       return switch (this.adventureNumber) {
         case AdventurePool.LIMERICK_DUNGEON -> KoLCharacter.getBaseMainstat() >= 19;
           // The Enormous Greater-Than Sign is available if your base

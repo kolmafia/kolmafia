@@ -461,6 +461,50 @@ public class KoLAdventureValidationTest {
     }
 
     @ParameterizedTest
+    @ValueSource(
+        strings = {
+          // No Sign-Specific zones
+          // *** should test these using withSign
+          "The Degrassi Knoll Restroom",
+          "The Degrassi Knoll Bakery",
+          "The Degrassi Knoll Gym",
+          "The Degrassi Knoll Garage",
+          "Outskirts of Camp Logging Camp",
+          "Camp Logging Camp",
+          "Thugnderdome",
+          // No way to go to the Plains
+          "The \"Fun\" House",
+          "The Unquiet Garves",
+          "The VERY Unquiet Garves",
+          // No way to go to the mountains
+          "Noob Cave",
+          "The Dire Warren",
+          "The Valley of Rof L'm Fao",
+          "The Thinknerd Warehouse",
+          // No way to go to the beach
+          "South of the Border",
+          "Kokomo Resort",
+          // Only the Daily Dungeon
+          "The Haiku Dungeon",
+          "The Limerick Dungeon",
+          "The Enormous Greater-Than Sign",
+          // Only The Spooky Forest
+          "Whitey's Grove",
+          "The Dripping Trees",
+          "The Dripping Hall"
+        })
+    public void testPermanentlyUnavailableAdventures(String adventureName) {
+      var cleanups = withKingdomOfExploathing();
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        if (area.canAdventure()) {
+          System.out.println(adventureName);
+        }
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
     @CsvSource({
       "The Fun-Guy Mansion, sleazeAirportAlways, false",
       "The Deep Dark Jungle, spookyAirportAlways, false",
