@@ -265,100 +265,103 @@ public class QuestManager {
       QuestDatabase.setQuestIfBetter(Quest.AZAZEL, QuestDatabase.STARTED);
     } else if (location.startsWith("place.php")) {
       String place = GenericRequest.getPlace(location);
-      String action = GenericRequest.getAction(location);
-      if (place.startsWith("airport")) {
-        handleAirportChange(location, responseText);
-      }
-      switch (place) {
-        case "bathole" -> handleBatholeChange(responseText);
-        case "beanstalk" -> {
-          if (responseText.contains("otherimages/stalktop/beanstalk.gif")) {
-            QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step1");
-          }
+      if (place != null) {
+        String action = GenericRequest.getAction(location);
+        if (place.startsWith("airport")) {
+          handleAirportChange(location, responseText);
         }
-        case "canadia" -> handleCanadiaChange(location, responseText);
-        case "desertbeach" -> {
-          if (action != null && action.equals("db_pyramid1")) {
-            handlePyramidChange(location, responseText);
-          } else {
-            handleBeachChange(responseText);
+        switch (place) {
+          case "bathole" -> handleBatholeChange(responseText);
+          case "beanstalk" -> {
+            if (responseText.contains("otherimages/stalktop/beanstalk.gif")) {
+              QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step1");
+            }
           }
-        }
-        case "exploathing_beach" -> {
-          if (action != null && action.equals("expl_pyramidpre")) {
-            handlePyramidChange(location, responseText);
-          } else {
-            handleBeachChange(responseText);
+          case "canadia" -> handleCanadiaChange(location, responseText);
+          case "desertbeach" -> {
+            if (action != null && action.equals("db_pyramid1")) {
+              handlePyramidChange(location, responseText);
+            } else {
+              handleBeachChange(responseText);
+            }
           }
-        }
-        case "exploathing" -> {
-          if (action != null && action.equals("expl_council")) {
-            handleCouncilChange(responseText);
+          case "exploathing_beach" -> {
+            if (action != null && action.equals("expl_pyramidpre")) {
+              handlePyramidChange(location, responseText);
+            } else {
+              handleBeachChange(responseText);
+            }
           }
-        }
-        case "gingerbreadcity" -> handleGingerbreadCityChange(location, responseText);
-        case "hiddencity" -> handleHiddenCityChange(location, responseText);
-        case "manor1" -> handleManorFirstFloorChange(location, responseText);
-        case "manor2" -> handleManorSecondFloorChange(location, responseText);
-        case "manor3" -> {
-          if (responseText.contains("Spookyraven Manor Third Floor")) {
-            // If here at all, Necklace and Dance quests are complete and second floor open
-            QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
-            QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+          case "exploathing" -> {
+            if (action != null && action.equals("expl_council")) {
+              handleCouncilChange(responseText);
+            }
+          }
+          case "gingerbreadcity" -> handleGingerbreadCityChange(location, responseText);
+          case "hiddencity" -> handleHiddenCityChange(location, responseText);
+          case "manor1" -> handleManorFirstFloorChange(location, responseText);
+          case "manor2" -> handleManorSecondFloorChange(location, responseText);
+          case "manor3" -> {
+            if (responseText.contains("Spookyraven Manor Third Floor")) {
+              // If here at all, Necklace and Dance quests are complete and second floor open
+              QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
+              QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+              // Legacy code support
+              Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
+            }
+          }
+          case "manor4" -> {
+            if (responseText.contains("Spookyraven Manor Cellar")) {
+              // If here at all, Necklace and Dance quests are complete and second floor and
+              // basement
+              // open
+              QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
+              QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+            }
+            if (responseText.contains("sr_brickhole.gif")) {
+              QuestDatabase.setQuestIfBetter(Quest.MANOR, "step3");
+            } else {
+              QuestDatabase.setQuestIfBetter(Quest.MANOR, "step1");
+            }
             // Legacy code support
             Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
-          }
-        }
-        case "manor4" -> {
-          if (responseText.contains("Spookyraven Manor Cellar")) {
-            // If here at all, Necklace and Dance quests are complete and second floor and basement
-            // open
-            QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
-            QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
-          }
-          if (responseText.contains("sr_brickhole.gif")) {
-            QuestDatabase.setQuestIfBetter(Quest.MANOR, "step3");
-          } else {
-            QuestDatabase.setQuestIfBetter(Quest.MANOR, "step1");
-          }
-          // Legacy code support
-          Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
-          if (responseText.contains("Cold as ice and twice as smooth")) {
-            QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
-            ResultProcessor.removeItem(ItemPool.ED_EYE);
-            if (InventoryManager.getCount(ItemPool.ED_FATS_STAFF) == 0
-                && InventoryManager.getCount(ItemPool.ED_AMULET) == 0) {
-              QuestDatabase.setQuestProgress(Quest.MACGUFFIN, QuestDatabase.FINISHED);
+            if (responseText.contains("Cold as ice and twice as smooth")) {
+              QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
+              ResultProcessor.removeItem(ItemPool.ED_EYE);
+              if (InventoryManager.getCount(ItemPool.ED_FATS_STAFF) == 0
+                  && InventoryManager.getCount(ItemPool.ED_AMULET) == 0) {
+                QuestDatabase.setQuestProgress(Quest.MACGUFFIN, QuestDatabase.FINISHED);
+              }
             }
           }
-        }
-        case "marais" -> handleMaraisChange(responseText);
-        case "mclargehuge" -> {
-          if (action != null) {
-            switch (action) {
-              case "trappercabin" -> handleTrapperChange(responseText);
-              case "cloudypeak" -> handleMcLargehugeChange(responseText);
+          case "marais" -> handleMaraisChange(responseText);
+          case "mclargehuge" -> {
+            if (action != null) {
+              switch (action) {
+                case "trappercabin" -> handleTrapperChange(responseText);
+                case "cloudypeak" -> handleMcLargehugeChange(responseText);
+              }
             }
           }
-        }
-        case "monorail" -> handleMonorailChange(location, responseText);
-        case "orc_chasm" -> handleChasmChange(responseText);
-        case "palindome" -> handlePalindomeChange(location, responseText);
-        case "plains" -> handlePlainsChange(responseText);
-        case "pyramid" -> handlePyramidChange(location, responseText);
-        case "realm_fantasy" -> handleFantasyRealmChange(location, responseText);
-        case "realm_pirate" -> handlePirateRealmChange(location, responseText);
-        case "sea_oldman" -> handleSeaChange(location, responseText);
-        case "spacegate" -> handleSpacegateChange(location, responseText);
-          // don't catch town_wrong, town_right, or town_market
-        case "town" -> handleTownChange(location, responseText);
-        case "town_right" -> handleTownRightChange(location, responseText);
-        case "town_wrong" -> handleTownWrongChange(location, responseText);
-        case "town_market" -> handleTownMarketChange(location, responseText);
-        case "woods" -> handleWoodsChange(location, responseText);
-        case "zeppelin" -> {
-          if (responseText.contains("zep_mob1.gif")) {
-            QuestDatabase.setQuestIfBetter(Quest.RON, "step2");
+          case "monorail" -> handleMonorailChange(location, responseText);
+          case "orc_chasm" -> handleChasmChange(responseText);
+          case "palindome" -> handlePalindomeChange(location, responseText);
+          case "plains" -> handlePlainsChange(responseText);
+          case "pyramid" -> handlePyramidChange(location, responseText);
+          case "realm_fantasy" -> handleFantasyRealmChange(location, responseText);
+          case "realm_pirate" -> handlePirateRealmChange(location, responseText);
+          case "sea_oldman" -> handleSeaChange(location, responseText);
+          case "spacegate" -> handleSpacegateChange(location, responseText);
+            // don't catch town_wrong, town_right, or town_market
+          case "town" -> handleTownChange(location, responseText);
+          case "town_right" -> handleTownRightChange(location, responseText);
+          case "town_wrong" -> handleTownWrongChange(location, responseText);
+          case "town_market" -> handleTownMarketChange(location, responseText);
+          case "woods" -> handleWoodsChange(location, responseText);
+          case "zeppelin" -> {
+            if (responseText.contains("zep_mob1.gif")) {
+              QuestDatabase.setQuestIfBetter(Quest.RON, "step2");
+            }
           }
         }
       }

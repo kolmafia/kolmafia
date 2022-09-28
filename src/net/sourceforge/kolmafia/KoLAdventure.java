@@ -737,11 +737,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return switch (this.adventureNumber) {
           // We can start the three market quests, if necessary
         case AdventurePool.SLEAZY_BACK_ALLEY -> true;
-        case AdventurePool.OVERGROWN_LOT -> InventoryManager.hasItem(BOOZE_MAP)
+        case AdventurePool.OVERGROWN_LOT -> Preferences.getBoolean("overgrownLotAvailable")
+            || InventoryManager.hasItem(BOOZE_MAP)
             || !KoLCharacter.isKingdomOfExploathing();
-        case AdventurePool.MADNESS_BAKERY -> InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)
+        case AdventurePool.MADNESS_BAKERY -> Preferences.getBoolean("madnessBakeryAvailable")
+            || InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)
             || !KoLCharacter.isKingdomOfExploathing();
-        case AdventurePool.SKELETON_STORE -> InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)
+        case AdventurePool.SKELETON_STORE -> Preferences.getBoolean("skeletonStoreAvailable")
+            || InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)
             || !KoLCharacter.isKingdomOfExploathing();
           // Shen is available once you've read the diary and been told to talk to him.
         case AdventurePool.COPPERHEAD_CLUB -> QuestDatabase.isQuestStarted(Quest.SHEN);

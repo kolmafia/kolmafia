@@ -397,6 +397,9 @@ public class KoLAdventureValidationTest {
       return new Cleanups(
           withPath(Path.KINGDOM_OF_EXPLOATHING),
           withAscensions(1),
+          // This is not currently true; we don't actually set the property
+          // indicating you unlocked it this ascension. Should we?
+          // withTempleUnlocked()
           withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
           withQuestProgress(Quest.RAT, QuestDatabase.STARTED),
           withQuestProgress(Quest.BAT, QuestDatabase.STARTED),
@@ -413,8 +416,7 @@ public class KoLAdventureValidationTest {
           withQuestProgress(Quest.GARBAGE, "step7"),
           withQuestProgress(Quest.BLACK, QuestDatabase.STARTED),
           withQuestProgress(Quest.MACGUFFIN, QuestDatabase.STARTED),
-          withQuestProgress(Quest.HIPPY_FRAT, QuestDatabase.STARTED),
-          withTempleUnlocked());
+          withQuestProgress(Quest.HIPPY_FRAT, QuestDatabase.STARTED));
     }
 
     @ParameterizedTest
@@ -460,46 +462,202 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
+    public void thatMarketZonesAvailableWithItem() {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              withItem("map to a hidden booze cache"),
+              withItem("hypnotic breadcrumbs"),
+              withItem("bone with a price tag on it"));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("Madness Bakery");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("The Skeleton Store");
+        assertTrue(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatMarketZonesAvailableIfUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              withProperty("overgrownLotAvailable", true),
+              withProperty("madnessBakeryAvailable", true),
+              withProperty("skeletonStoreAvailable", true));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("Madness Bakery");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("The Skeleton Store");
+        assertTrue(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatMarketZonesNotAvailableViaQuest() {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              withProperty("overgrownLotAvailable", false),
+              withProperty("madnessBakeryAvailable", false),
+              withProperty("skeletonStoreAvailable", false));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
+        assertFalse(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("Madness Bakery");
+        assertFalse(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("The Skeleton Store");
+        assertFalse(area.canAdventure());
+      }
+    }
+
     @ParameterizedTest
     @ValueSource(
         strings = {
-          // For some reason? It's visible in your campground.
-          "Your Mushroom Garden",
-          // No Sign-Specific zones
-          // *** should test these using withSign
           "The Degrassi Knoll Restroom",
           "The Degrassi Knoll Bakery",
           "The Degrassi Knoll Gym",
-          "The Degrassi Knoll Garage",
-          "Outskirts of Camp Logging Camp",
-          "Camp Logging Camp",
-          "Thugnderdome",
-          // No way to go to the Plains
-          "The \"Fun\" House",
-          "The Unquiet Garves",
-          "The VERY Unquiet Garves",
-          // No way to go to the mountains
+          "The Degrassi Knoll Garage"
+        })
+    public void thatHostileKnollUnavailable(String adventureName) {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              // Paco will give us the quest, but we cannot fulfill it
+              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitMushroomGarden() {
+      var cleanups = withKingdomOfExploathing();
+      try (cleanups) {
+        // For some reason? It's visible in your campground.
+        var area = AdventureDatabase.getAdventureByName("Your Mushroom Garden");
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {"South of the Border", "The Shore, Inc. Travel Agency", "Kokomo Resort"})
+    public void testUnavailableBeachAdventures(String adventureName) {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              // You can use a Kokomo Resort Pass, but no dice
+              withEffect("Tropical Contact High", 10));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"The \"Fun\" House", "The Unquiet Garves", "The VERY Unquiet Garves"})
+    public void testUnavailablePlainsAdventures(String adventureName) {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              // OCG will give us the quest, but we cannot fulfill it
+              withQuestProgress(Quest.EGO, QuestDatabase.STARTED),
+              // The VERY Unquiet garves are not available
+              withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
           "Noob Cave",
           "The Dire Warren",
+          // Even after finishing TOPPING quest
           "The Valley of Rof L'm Fao",
-          "The Thinknerd Warehouse",
-          // No way to go to the beach
-          "South of the Border",
-          "The Shore, Inc. Travel Agency",
-          "Kokomo Resort",
-          // Only the Daily Dungeon
-          "The Haiku Dungeon",
-          "The Limerick Dungeon",
-          "The Enormous Greater-Than Sign",
-          // Only The Spooky Forest
-          "Whitey's Grove",
-          "The Dripping Trees",
-          "The Dripping Hall"
+          // You start out with the Letter for Melvign the Gnome.  Using it
+          // redirects to place.php?whichplace=mountains&action=mts_melvin
+          // which redirects to place.php?whichplace=exploathing
+          "The Thinknerd Warehouse"
         })
-    public void testPermanentlyUnavailableAdventures(String adventureName) {
+    public void testUnavailableMountainAdventures(String adventureName) {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(), withQuestProgress(Quest.TOPPING, QuestDatabase.FINISHED));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          // You cannot get the quest from Paco, but talking to Mr. Alarm
+          // won't give you access either
+          "Whitey's Grove"
+          // You can't get a Drip harness
+          // "The Dripping Trees",
+          // "The Dripping Hall"
+        })
+    public void testUnavailableWoodsAdventures(String adventureName) {
+      var cleanups =
+          new Cleanups(withKingdomOfExploathing(), withQuestProgress(Quest.PALINDOME, "step3"));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {"The Haiku Dungeon", "The Limerick Dungeon", "The Enormous Greater-Than Sign"})
+    public void testUnavailableDungeonAdventures(String adventureName) {
       var cleanups = withKingdomOfExploathing();
       try (cleanups) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatKnollIsUnavailable() {
+      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.VOLE));
+      try (cleanups) {
+        // This applies to adventure zones and other features
+        assertFalse(KoLCharacter.knollAvailable());
+      }
+    }
+
+    @Test
+    public void thatCanadiaIsUnavailable() {
+      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.OPOSSUM));
+      try (cleanups) {
+        // This applies to adventure zones and other features
+        assertFalse(KoLCharacter.canadiaAvailable());
+        var area = AdventureDatabase.getAdventureByName("Outskirts of Camp Logging Camp");
+        assertFalse(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("Camp Logging Camp");
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatGnomadsAreUnavailable() {
+      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.OPOSSUM));
+      try (cleanups) {
+        // This applies to adventure zones and other features
+        assertFalse(KoLCharacter.gnomadsAvailable());
+        var area = AdventureDatabase.getAdventureByName("Thugnderdome");
         assertFalse(area.canAdventure());
       }
     }
