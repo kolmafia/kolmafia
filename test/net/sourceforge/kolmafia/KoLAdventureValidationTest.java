@@ -562,7 +562,13 @@ public class KoLAdventureValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"The \"Fun\" House", "The Unquiet Garves", "The VERY Unquiet Garves"})
+    @ValueSource(
+        strings = {
+          "The \"Fun\" House",
+          "The Unquiet Garves",
+          "The VERY Unquiet Garves",
+          "The Penultimate Fantasy Airship"
+        })
     public void testUnavailablePlainsAdventures(String adventureName) {
       var cleanups =
           new Cleanups(
