@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -65,9 +66,15 @@ public class BarrelPrayerCommand extends AbstractCommand {
       return;
     }
 
+    if (KoLCharacter.isKingdomOfExploathing()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "The barrel shrine has been blown to smithereens");
+      return;
+    }
+
     if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
       KoLmafia.updateDisplay(
-          MafiaState.ERROR, "Your path restricts you from approaching the Barrel Shrine");
+          MafiaState.ERROR,
+          "Standard restrictions preclude you from approaching the Barrel Shrine");
       return;
     }
 
