@@ -463,6 +463,8 @@ public class KoLAdventureValidationTest {
     @ParameterizedTest
     @ValueSource(
         strings = {
+          // For some reason? It's visible in your campground.
+          "Your Mushroom Garden",
           // No Sign-Specific zones
           // *** should test these using withSign
           "The Degrassi Knoll Restroom",
@@ -483,6 +485,7 @@ public class KoLAdventureValidationTest {
           "The Thinknerd Warehouse",
           // No way to go to the beach
           "South of the Border",
+          "The Shore, Inc. Travel Agency",
           "Kokomo Resort",
           // Only the Daily Dungeon
           "The Haiku Dungeon",
@@ -497,9 +500,6 @@ public class KoLAdventureValidationTest {
       var cleanups = withKingdomOfExploathing();
       try (cleanups) {
         var area = AdventureDatabase.getAdventureByName(adventureName);
-        if (area.canAdventure()) {
-          System.out.println(adventureName);
-        }
         assertFalse(area.canAdventure());
       }
     }

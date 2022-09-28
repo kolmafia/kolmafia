@@ -751,6 +751,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
+    if (this.zone.equals("Campground")) {
+      return switch (this.adventureNumber) {
+        case AdventurePool.YOUR_MUSHROOM_GARDEN -> !KoLCharacter.isKingdomOfExploathing();
+        default -> true;
+      };
+    }
+
     if (this.parentZone.equals("Manor")) {
       // Quest.MANOR			Lord Spookyraven
       if (this.zone.equals("Manor0")) {
