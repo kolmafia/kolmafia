@@ -15,6 +15,7 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withKingLiberated;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLimitMode;
@@ -693,6 +694,105 @@ public class KoLAdventureValidationTest {
         } else {
           assertFalse(area.preValidateAdventure());
         }
+      }
+    }
+
+    @Test
+    public void thatExploathingAftercoreWorks() {
+      // In Kingdom of Exploathing:
+      //
+      // - The Hidden Temple was open immediately and you did not need to open
+      //   it in one of the usual ways.
+      // - You do not have a Meatcar; you might have been given the quest to
+      //   build one, but the Knoll zones were not available
+      // - You did not plant a beanstalk and go through the Penultimate Fantasy
+      //   Airship. In fact, the Airship was not available.
+      // - You do not have a S.O.C.K.; you had immediate access to the Giant
+      //   Castle without having to go through the Airship.
+      // - You may or may not have made a steam-powered rocketship; you had
+      //   access to the Hole in the Sky without needing one
+      // - You do not have access to the Mysterious Island; you did not need
+      //   (and could not get) a dinghy to do the HIPPY_FRAT quest
+      //
+      // In aftercore, you still have none of those objects, but you retain
+      // access to a lot of adventure zones that normally require them.
+      //
+      // Therefore, we'll test this without said objects but with Quest
+      // progress that indicates you had to have been through various
+      // unavailable areas - that are now available.
+
+      var cleanups =
+          new Cleanups(
+              // This is aftercore
+              withAscensions(2),
+              withKingLiberated(),
+              withProperty("lastDesertUnlock"),
+              // Assume you took the quest from Paco - even though you could
+              // not progress in it.
+              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED),
+              // Starting the Cyrpt normally gives to access to the Unquiet Garves/
+              // Finishing it gives you the VERY Unquiet Garves
+              withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED),
+              // Finishing the Garbage quest normally requires a beanstalk and
+              // the Penultimate Fantasy Airship
+              withQuestProgress(Quest.GARBAGE, QuestDatabase.FINISHED),
+              // Finishing with the Highland Lord opens the The Valley of Rof
+              // L'm Fao
+              withQuestProgress(Quest.TOPPING, QuestDatabase.FINISHED),
+              // You need to adventure through the Hidden Temple
+              withQuestProgress(Quest.WORSHIP, QuestDatabase.FINISHED),
+              // We made wet stunt nut stew the hard way
+              withQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED),
+              // In order to get to the desert, you needed beach access
+              withQuestProgress(Quest.DESERT, QuestDatabase.FINISHED),
+              // You fought hippies and fratboys - but not on the Island
+              withQuestProgress(Quest.HIPPY_FRAT, QuestDatabase.FINISHED),
+              // This is a Canadia sign and therefore has a hostile Knoll.
+              withSign(ZodiacSign.OPOSSUM));
+      try (cleanups) {
+        // Paco gave us the quest and opened the Knoll.
+        var area = AdventureDatabase.getAdventureByName("The Degrassi Knoll Garage");
+        assertTrue(area.canAdventure());
+
+        // Everything in the Misspelled Cemetary is available
+        area = AdventureDatabase.getAdventureByName("The Unquiet Garves");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("The VERY Unquiet Garves");
+        assertTrue(area.canAdventure());
+
+        // The Airship is available - although we did not plant a beanstalk.
+        // (Fun fact: in aftercore, you can see a beanstalk in the Plains.)
+        area = AdventureDatabase.getAdventureByName("The Penultimate Fantasy Airship");
+        assertTrue(area.canAdventure());
+
+        // The Giant Castle is available - although we did not get a S.O.C.K.
+        area =
+            AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Top Floor)");
+        assertTrue(area.canAdventure());
+
+        // The Hole in the Sky is NOT available without a steam-powered model rocketship
+        area = AdventureDatabase.getAdventureByName("The Hole in the Sky");
+        assertFalse(area.canAdventure());
+
+        // Bad Spelling Land is available
+        area = AdventureDatabase.getAdventureByName("The Valley of Rof L'm Fao");
+        assertTrue(area.canAdventure());
+
+        // We can make wet stew more easily now.
+        area = AdventureDatabase.getAdventureByName("Whitey's Grove");
+        assertTrue(area.canAdventure());
+
+        // The Hidden Temple is still available
+        area = AdventureDatabase.getAdventureByName("The Hidden Temple");
+        assertTrue(area.canAdventure());
+
+        // Beach zones are available
+        area = AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
+        assertTrue(area.canAdventure());
+
+        // The Island remains unavailable
+        area = AdventureDatabase.getAdventureByName("The Obligatory Pirate's Cove");
+        assertFalse(area.canAdventure());
       }
     }
   }

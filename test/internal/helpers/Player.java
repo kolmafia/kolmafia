@@ -795,6 +795,18 @@ public class Player {
   }
 
   /**
+   * Sets King Liberated
+   *
+   * @param level Required level
+   * @return Resets level to zero
+   */
+  public static Cleanups withKingLiberated() {
+    var cleanups = new Cleanups(withProperty("lastKingLiberation"), withProperty("kingLiberated"));
+    KoLCharacter.setKingLiberated(true);
+    return cleanups;
+  }
+
+  /**
    * Sets the player's remaining adventures
    *
    * @param adventures Desired adventures remaining

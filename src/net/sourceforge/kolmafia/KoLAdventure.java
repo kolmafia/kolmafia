@@ -913,7 +913,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
         case AdventurePool.PIXEL_REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
             || InventoryManager.hasItem(TRANSFUNCTIONER);
-        case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.getTempleUnlocked();
+        case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.getTempleUnlocked()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.WORSHIP);
         case AdventurePool.WHITEYS_GROVE -> KoLCharacter.isEd()
             || QuestDatabase.isQuestStarted(Quest.CITADEL)
             || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2");
@@ -938,6 +940,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       if (!KoLCharacter.desertBeachAccessible()) {
+        System.out.println("No desert beach accessible");
         return false;
       }
 
@@ -1164,12 +1167,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           // The Castle Basement is unlocked provided the player has the S.O.C.K
           // (legacy: rowboats give access but are no longer creatable)
         case AdventurePool.CASTLE_BASEMENT -> KoLCharacter.isKingdomOfExploathing()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.GARBAGE)
             || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
             || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
         case AdventurePool.CASTLE_GROUND -> Preferences.getInteger("lastCastleGroundUnlock")
-            == KoLCharacter.getAscensions();
+                == KoLCharacter.getAscensions()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.GARBAGE);
         case AdventurePool.CASTLE_TOP -> Preferences.getInteger("lastCastleTopUnlock")
-            == KoLCharacter.getAscensions();
+                == KoLCharacter.getAscensions()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.GARBAGE);
           // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
           // (legacy: rowboats give access but are no longer creatable)
         case AdventurePool.HOLE_IN_THE_SKY -> KoLCharacter.isKingdomOfExploathing()
