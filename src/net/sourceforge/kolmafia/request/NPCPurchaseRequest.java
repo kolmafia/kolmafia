@@ -147,7 +147,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       // the desired result.
       factor = 67;
     }
-    if (NPCPurchaseRequest.usingTrousers()) factor -= 5;
+    if (NPCPurchaseRequest.isDiscountableStore(this.npcStoreId)
+        && NPCPurchaseRequest.usingTrousers()) factor -= 5;
     if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
     return (int) ((this.price * factor) / 100);
   }
@@ -171,6 +172,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         .orElse(null);
   }
 
+  private static boolean isDiscountableStore(String storeId) {
+    return !storeId.equals("fdkol") && !storeId.equals("town_giftshop.php");
+  }
+
   @Override
   public void run() {
     this.addFormField(this.quantityField, String.valueOf(this.limit));
@@ -180,7 +185,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
   @Override
   public boolean ensureProperAttire() {
-    if (this.npcStoreId.equals("fdkol")) {
+    if (!NPCPurchaseRequest.isDiscountableStore(this.npcStoreId)) {
       // Travoltan trousers do not give a discount
       return true;
     }

@@ -50,6 +50,15 @@ class NPCPurchaseRequestTest {
     }
 
     @Test
+    public void priceNotDiscountedBySweatpants() {
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.PANTS, "designer sweatpants"));
+      try (cleanups) {
+        var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
+        assertThat(req.getPrice(), equalTo(100));
+      }
+    }
+
+    @Test
     public void equipsTrousersIfNecessary() {
       var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
 
@@ -62,6 +71,20 @@ class NPCPurchaseRequestTest {
         assertThat(requests, hasSize(1));
         assertPostRequest(
             requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=10929");
+      }
+    }
+
+    @Test
+    public void doesntEquipTrousersIfGiftShop() {
+      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
+
+      try (cleanups) {
+        var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
+        var result = req.ensureProperAttire();
+        assertThat(result, equalTo(true));
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
       }
     }
 
