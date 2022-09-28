@@ -890,6 +890,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Opens at level two with first council quest
     if (this.zone.equals("Woods")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return switch (this.adventureNumber) {
+          case AdventurePool.SPOOKY_FOREST,
+              AdventurePool.BARROOM_BRAWL,
+              AdventurePool.HIDDEN_TEMPLE,
+              AdventurePool.BLACK_FOREST -> true;
+          default -> false;
+        };
+      }
+
       // With the exception of a few challenge paths, the Woods open when
       // the Council asks for a mosquito larva at level two.
       return switch (this.adventureNumber) {
@@ -897,12 +907,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
         case AdventurePool.PIXEL_REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
             || InventoryManager.hasItem(TRANSFUNCTIONER);
-        case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.isKingdomOfExploathing()
-            || KoLCharacter.getTempleUnlocked();
-        case AdventurePool.WHITEYS_GROVE -> !KoLCharacter.isKingdomOfExploathing()
-            && (KoLCharacter.isEd()
-                || QuestDatabase.isQuestStarted(Quest.CITADEL)
-                || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2"));
+        case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.getTempleUnlocked();
+        case AdventurePool.WHITEYS_GROVE -> KoLCharacter.isEd()
+            || QuestDatabase.isQuestStarted(Quest.CITADEL)
+            || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2");
         case AdventurePool.BLACK_FOREST -> QuestDatabase.isQuestStarted(Quest.MACGUFFIN);
         case AdventurePool.ROAD_TO_WHITE_CITADEL -> QuestDatabase.isQuestLaterThan(
             Quest.CITADEL, QuestDatabase.STARTED);
@@ -914,17 +922,26 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Opens when you build a bitchin' Meat car or the equivalent
     if (this.zone.equals("Beach")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return switch (this.adventureNumber) {
+          case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
+          case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+              || QuestDatabase.isQuestFinished(Quest.DESERT);
+          default -> false;
+        };
+      }
+
       if (!KoLCharacter.desertBeachAccessible()) {
         return false;
       }
+
       return switch (this.adventureNumber) {
         case AdventurePool.THE_SHORE, AdventurePool.SOUTH_OF_THE_BORDER -> true;
           // Open after diary read
         case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
           // Open after 1 desert exploration or - legacy - desert quest is finished
-        case AdventurePool.OASIS -> QuestDatabase.isQuestStarted(Quest.DESERT)
-            && (Preferences.getInteger("desertExploration") > 0
-                || QuestDatabase.isQuestFinished(Quest.DESERT));
+        case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+            || QuestDatabase.isQuestFinished(Quest.DESERT);
           // Open with "Tropical Contact High"
         case AdventurePool.KOKOMO_RESORT -> KoLConstants.activeEffects.contains(
             TROPICAL_CONTACT_HIGH);
@@ -1603,11 +1620,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Exploathing")) {
       // We already confirmed that you are on the Kingdom of Exploathing path.
-
-      // The Exploaded Battlefield
-      // The Invader
-
-      // Assume those zones are always available.
       return true;
     }
 
