@@ -736,10 +736,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Town")) {
       return switch (this.adventureNumber) {
           // We can start the three market quests, if necessary
-        case AdventurePool.SLEAZY_BACK_ALLEY,
-            AdventurePool.OVERGROWN_LOT,
-            AdventurePool.MADNESS_BAKERY,
-            AdventurePool.SKELETON_STORE -> true;
+        case AdventurePool.SLEAZY_BACK_ALLEY -> true;
+        case AdventurePool.OVERGROWN_LOT -> InventoryManager.hasItem(BOOZE_MAP)
+            || !KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.MADNESS_BAKERY -> InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)
+            || !KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.SKELETON_STORE -> InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)
+            || !KoLCharacter.isKingdomOfExploathing();
           // Shen is available once you've read the diary and been told to talk to him.
         case AdventurePool.COPPERHEAD_CLUB -> QuestDatabase.isQuestStarted(Quest.SHEN);
           // Only one of the four Lair locations is in Town; two are in the
