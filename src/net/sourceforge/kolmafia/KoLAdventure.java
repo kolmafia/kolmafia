@@ -623,6 +623,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 3 quest
     if (this.formSource.equals("cellar.php")) {
+      // When the Council tells us to go to the Tavern, it is "started"
+      // When we talk to Bart, he unlocks the cellar and it is "step1"
+      // prepareForAdventure will talk to him.
       return QuestDatabase.isQuestStarted(Quest.RAT);
     }
 
@@ -1923,6 +1926,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public boolean prepareForAdventure() {
     // If we get here via automation, canAdventure() returned true
+
+    if (this.formSource.equals("cellar.php")) {
+      if (QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED)) {
+        return true;
+      }
+      // When we talk to Bart, he will open the cellar for us.
+      RequestThread.postRequest(new GenericRequest("tavern.php?place=barkeep"));
+      return QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED);
+    }
 
     if (this.zone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need
