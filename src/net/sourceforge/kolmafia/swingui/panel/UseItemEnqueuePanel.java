@@ -244,6 +244,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
             canEat
                 && (KoLCharacter.hasSkill("Song of the Glorious Lunch")
                     || (Preferences.getBoolean("barrelShrineUnlocked")
+                        && !KoLCharacter.isKingdomOfExploathing()
                         && !Preferences.getBoolean("_barrelPrayer")
                         && KoLCharacter.isTurtleTamer()
                         && StandardRequest.isAllowed(
@@ -276,6 +277,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         boolean prayerAvailable =
             canDrink
                 && (Preferences.getBoolean("barrelShrineUnlocked")
+                    && !KoLCharacter.isKingdomOfExploathing()
                     && !Preferences.getBoolean("_barrelPrayer")
                     && KoLCharacter.isAccordionThief()
                     && StandardRequest.isAllowed(

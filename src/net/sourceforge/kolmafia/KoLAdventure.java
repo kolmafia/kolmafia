@@ -488,8 +488,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
+  private static Set<String> invalidExploathingPlaces =
+      Set.of("town", "airport", "plains", "woods", "mountains", "desertbeach");
+
   // Validation part 0:
   private boolean checkZone(String alwaysPref, String todayPref, String place) {
+    // Kingdom of Exploathing does not have any the top-level container
+    // zones available. Certain lower level containers - town_wrong,
+    // town_right, monorail - do exist and can be checked.
+    if (KoLCharacter.isKingdomOfExploathing() && invalidExploathingPlaces.contains(place)) {
+      return false;
+    }
+
     // If we have permanent access, cool.
     if (Preferences.getBoolean(alwaysPref)) {
       return true;
@@ -544,6 +554,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
       case "The Spacegate":
         // Through the Spacegate
+
+        // It's in the mountains and Exploded Loathing does not have that zone.
+        if (KoLCharacter.isKingdomOfExploathing()) {
+          return false;
+        }
+
         if (Preferences.getBoolean("spacegateAlways")
             || Preferences.getBoolean("_spacegateToday")) {
           return true;
@@ -720,10 +736,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Town")) {
       return switch (this.adventureNumber) {
           // We can start the three market quests, if necessary
-        case AdventurePool.SLEAZY_BACK_ALLEY,
-            AdventurePool.OVERGROWN_LOT,
-            AdventurePool.MADNESS_BAKERY,
-            AdventurePool.SKELETON_STORE -> true;
+        case AdventurePool.SLEAZY_BACK_ALLEY -> true;
+        case AdventurePool.OVERGROWN_LOT -> Preferences.getBoolean("overgrownLotAvailable")
+            || InventoryManager.hasItem(BOOZE_MAP)
+            || !KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.MADNESS_BAKERY -> Preferences.getBoolean("madnessBakeryAvailable")
+            || InventoryManager.hasItem(HYPNOTIC_BREADCRUMBS)
+            || !KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.SKELETON_STORE -> Preferences.getBoolean("skeletonStoreAvailable")
+            || InventoryManager.hasItem(BONE_WITH_A_PRICE_TAG)
+            || !KoLCharacter.isKingdomOfExploathing();
           // Shen is available once you've read the diary and been told to talk to him.
         case AdventurePool.COPPERHEAD_CLUB -> QuestDatabase.isQuestStarted(Quest.SHEN);
           // Only one of the four Lair locations is in Town; two are in the
@@ -731,6 +753,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.SUPER_VILLAIN_LAIR -> KoLCharacter.getPath()
             == Path.LICENSE_TO_ADVENTURE;
           // Allow future "Town" zones
+        default -> true;
+      };
+    }
+
+    if (this.zone.equals("Campground")) {
+      return switch (this.adventureNumber) {
+        case AdventurePool.YOUR_MUSHROOM_GARDEN -> !KoLCharacter.isKingdomOfExploathing();
         default -> true;
       };
     }
@@ -816,6 +845,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Open at level one, with a subset of eventual zones
     if (this.zone.equals("Mountain")) {
+      // There are no "mountains" in Kingdom of Exploathing. However, the
+      // smut orcs are unlocked from the start.
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return this.adventureNumber == AdventurePool.SMUT_ORC_LOGGING_CAMP;
+      }
+
       return switch (this.adventureNumber) {
         case AdventurePool.NOOB_CAVE, AdventurePool.DIRE_WARREN -> true;
           // The Smut Orc Logging Camp is available if you have started the Highlands quest
@@ -845,6 +880,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return creator != null && creator.getQuantityPossible() > 0;
       }
 
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return false;
+      }
+
       return switch (this.adventureNumber) {
         case AdventurePool.FUN_HOUSE -> QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step4");
         case AdventurePool.UNQUIET_GARVES -> QuestDatabase.isQuestStarted(Quest.CYRPT)
@@ -857,6 +896,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Opens at level two with first council quest
     if (this.zone.equals("Woods")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return switch (this.adventureNumber) {
+          case AdventurePool.SPOOKY_FOREST,
+              AdventurePool.BARROOM_BRAWL,
+              AdventurePool.HIDDEN_TEMPLE,
+              AdventurePool.BLACK_FOREST -> true;
+          default -> false;
+        };
+      }
+
       // With the exception of a few challenge paths, the Woods open when
       // the Council asks for a mosquito larva at level two.
       return switch (this.adventureNumber) {
@@ -864,8 +913,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
         case AdventurePool.PIXEL_REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
             || InventoryManager.hasItem(TRANSFUNCTIONER);
-        case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.isKingdomOfExploathing()
-            || KoLCharacter.getTempleUnlocked();
+        case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.getTempleUnlocked()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.WORSHIP);
         case AdventurePool.WHITEYS_GROVE -> KoLCharacter.isEd()
             || QuestDatabase.isQuestStarted(Quest.CITADEL)
             || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2");
@@ -880,17 +930,27 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Opens when you build a bitchin' Meat car or the equivalent
     if (this.zone.equals("Beach")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return switch (this.adventureNumber) {
+          case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
+          case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+              || QuestDatabase.isQuestFinished(Quest.DESERT);
+          default -> false;
+        };
+      }
+
       if (!KoLCharacter.desertBeachAccessible()) {
+        System.out.println("No desert beach accessible");
         return false;
       }
+
       return switch (this.adventureNumber) {
         case AdventurePool.THE_SHORE, AdventurePool.SOUTH_OF_THE_BORDER -> true;
           // Open after diary read
         case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
           // Open after 1 desert exploration or - legacy - desert quest is finished
-        case AdventurePool.OASIS -> QuestDatabase.isQuestStarted(Quest.DESERT)
-            && (Preferences.getInteger("desertExploration") > 0
-                || QuestDatabase.isQuestFinished(Quest.DESERT));
+        case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+            || QuestDatabase.isQuestFinished(Quest.DESERT);
           // Open with "Tropical Contact High"
         case AdventurePool.KOKOMO_RESORT -> KoLConstants.activeEffects.contains(
             TROPICAL_CONTACT_HIGH);
@@ -1106,14 +1166,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
                     && InventoryManager.hasItem(ENCHANTED_BEAN)));
           // The Castle Basement is unlocked provided the player has the S.O.C.K
           // (legacy: rowboats give access but are no longer creatable)
-        case AdventurePool.CASTLE_BASEMENT -> InventoryManager.hasItem(
-                ItemPool.get(ItemPool.SOCK, 1))
-            || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
-            || KoLCharacter.isKingdomOfExploathing();
+        case AdventurePool.CASTLE_BASEMENT -> KoLCharacter.isKingdomOfExploathing()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.GARBAGE)
+            || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
+            || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
         case AdventurePool.CASTLE_GROUND -> Preferences.getInteger("lastCastleGroundUnlock")
-            == KoLCharacter.getAscensions();
+                == KoLCharacter.getAscensions()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.GARBAGE);
         case AdventurePool.CASTLE_TOP -> Preferences.getInteger("lastCastleTopUnlock")
-            == KoLCharacter.getAscensions();
+                == KoLCharacter.getAscensions()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.GARBAGE);
           // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
           // (legacy: rowboats give access but are no longer creatable)
         case AdventurePool.HOLE_IN_THE_SKY -> KoLCharacter.isKingdomOfExploathing()
@@ -1347,6 +1412,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.getSignZone() == ZodiacZone.KNOLL) {
         return false;
       }
+      // There is no Degrassi Knoll in Kingdom of Exploathing
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return false;
+      }
       // Either Paco or the Untinker will open the Knoll
       // We can accept the Untinker's quest if the woods are open
       return QuestDatabase.isQuestStarted(Quest.MEATCAR)
@@ -1370,7 +1439,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Little Canadia")) {
-      return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
+      // There is no Little Canadia in Kingdom of Exploathing
+      return KoLCharacter.getSignZone() == ZodiacZone.CANADIA
+          && !KoLCharacter.isKingdomOfExploathing();
     }
 
     if (this.zone.equals("Le Marais D&egrave;gueulasse")) {
@@ -1392,7 +1463,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("MoxSign")) {
-      return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
+      // There is no Gnomads Camp in Kingdom of Exploathing
+      return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS
+          && !KoLCharacter.isKingdomOfExploathing();
     }
 
     // Pirate Ship
@@ -1423,6 +1496,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Dungeon")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return adventureNumber == AdventurePool.THE_DAILY_DUNGEON;
+      }
       return switch (this.adventureNumber) {
         case AdventurePool.LIMERICK_DUNGEON -> KoLCharacter.getBaseMainstat() >= 19;
           // The Enormous Greater-Than Sign is available if your base
@@ -1559,11 +1635,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Exploathing")) {
       // We already confirmed that you are on the Kingdom of Exploathing path.
-
-      // The Exploaded Battlefield
-      // The Invader
-
-      // Assume those zones are always available.
       return true;
     }
 

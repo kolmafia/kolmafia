@@ -467,7 +467,9 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       String currency = matcher.group(4);
       boolean takesMeat = currency.equals("Meat");
 
-      if ((takesMeat && NPCStoreDatabase.getPurchaseRequest(id) == null)
+      if ((takesMeat
+              && NPCStoreDatabase.getPurchaseRequest(id) == null
+              && CoinmastersDatabase.getPurchaseRequest(id) == null)
           || (
           // Doesnt take meat...
           !takesMeat

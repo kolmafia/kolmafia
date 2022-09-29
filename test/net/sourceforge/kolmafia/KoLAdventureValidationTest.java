@@ -15,6 +15,7 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withKingLiberated;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLimitMode;
@@ -375,6 +376,423 @@ public class KoLAdventureValidationTest {
           assertPostRequest(requests.get(0), "/place.php", "whichplace=mountains");
           assertFalse(success);
         }
+      }
+    }
+  }
+
+  @Nested
+  class Exploathing {
+    public static Cleanups withTempleUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.TEMPLE),
+              withQuestProgress(Quest.WORSHIP),
+              withProperty("lastTempleUnlock"));
+      // This depends on ascension count being set
+      KoLCharacter.setTempleUnlocked();
+      return cleanups;
+    }
+
+    public Cleanups withKingdomOfExploathing() {
+      // Set up this test to have all quests appropriately started
+      return new Cleanups(
+          withPath(Path.KINGDOM_OF_EXPLOATHING),
+          withAscensions(1),
+          // This is not currently true; we don't actually set the property
+          // indicating you unlocked it this ascension. Should we?
+          // withTempleUnlocked()
+          withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+          withQuestProgress(Quest.RAT, QuestDatabase.STARTED),
+          withQuestProgress(Quest.BAT, QuestDatabase.STARTED),
+          withQuestProgress(Quest.GOBLIN, "step1"),
+          withQuestProgress(Quest.FRIAR, QuestDatabase.STARTED),
+          withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+          withProperty("cyrptAlcoveEvilness", 25),
+          withProperty("cyrptCrannyEvilness", 25),
+          withProperty("cyrptNicheEvilness", 25),
+          withProperty("cyrptNookEvilness", 25),
+          withProperty("cyrptTotalEvilness", 100),
+          withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED),
+          withQuestProgress(Quest.TOPPING, QuestDatabase.STARTED),
+          withQuestProgress(Quest.GARBAGE, "step7"),
+          withQuestProgress(Quest.BLACK, QuestDatabase.STARTED),
+          withQuestProgress(Quest.MACGUFFIN, QuestDatabase.STARTED),
+          withQuestProgress(Quest.HIPPY_FRAT, QuestDatabase.STARTED));
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "The Sleazy Back Alley",
+          "The Haunted Pantry",
+          "The Outskirts of Cobb's Knob",
+          "The Daily Dungeon",
+          "The Spooky Forest",
+          "The Hidden Temple",
+          "The Typical Tavern Cellar",
+          "A Barroom Brawl",
+          "The Bat Hole Entrance",
+          // Need stench resistance +1
+          // "Guano Junction",
+          "Cobb's Knob Barracks",
+          "Cobb's Knob Kitchens",
+          "Cobb's Knob Harem",
+          "Cobb's Knob Treasury",
+          "The Dark Neck of the Woods",
+          "The Dark Heart of the Woods",
+          "The Dark Elbow of the Woods",
+          "The Defiled Nook",
+          "The Defiled Cranny",
+          "The Defiled Alcove",
+          "The Defiled Niche",
+          // Need to talk to Trapper
+          // "Itznotyerzitz Mine",
+          // "The Goatlet",
+          "The Smut Orc Logging Camp",
+          "The Castle in the Clouds in the Sky (Basement)",
+          "The Hole in the Sky",
+          "The Black Forest",
+          "The Exploaded Battlefield",
+          "The Invader"
+        })
+    public void testInitiallyOpenAdventures(String adventureName) {
+      var cleanups = withKingdomOfExploathing();
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertTrue(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatMarketZonesAvailableWithItem() {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              withItem("map to a hidden booze cache"),
+              withItem("hypnotic breadcrumbs"),
+              withItem("bone with a price tag on it"));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("Madness Bakery");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("The Skeleton Store");
+        assertTrue(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatMarketZonesAvailableIfUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              withProperty("overgrownLotAvailable", true),
+              withProperty("madnessBakeryAvailable", true),
+              withProperty("skeletonStoreAvailable", true));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("Madness Bakery");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("The Skeleton Store");
+        assertTrue(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatMarketZonesNotAvailableViaQuest() {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              withProperty("overgrownLotAvailable", false),
+              withProperty("madnessBakeryAvailable", false),
+              withProperty("skeletonStoreAvailable", false));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName("The Overgrown Lot");
+        assertFalse(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("Madness Bakery");
+        assertFalse(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("The Skeleton Store");
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "The Degrassi Knoll Restroom",
+          "The Degrassi Knoll Bakery",
+          "The Degrassi Knoll Gym",
+          "The Degrassi Knoll Garage"
+        })
+    public void thatHostileKnollUnavailable(String adventureName) {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              // Paco will give us the quest, but we cannot fulfill it
+              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitMushroomGarden() {
+      var cleanups = withKingdomOfExploathing();
+      try (cleanups) {
+        // For some reason? It's visible in your campground.
+        var area = AdventureDatabase.getAdventureByName("Your Mushroom Garden");
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {"South of the Border", "The Shore, Inc. Travel Agency", "Kokomo Resort"})
+    public void testUnavailableBeachAdventures(String adventureName) {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              // You can use a Kokomo Resort Pass, but no dice
+              withEffect("Tropical Contact High", 10));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "The \"Fun\" House",
+          "The Unquiet Garves",
+          "The VERY Unquiet Garves",
+          "The Penultimate Fantasy Airship"
+        })
+    public void testUnavailablePlainsAdventures(String adventureName) {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(),
+              // OCG will give us the quest, but we cannot fulfill it
+              withQuestProgress(Quest.EGO, QuestDatabase.STARTED),
+              // The VERY Unquiet garves are not available
+              withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "Noob Cave",
+          "The Dire Warren",
+          // Even after finishing TOPPING quest
+          "The Valley of Rof L'm Fao",
+          // You start out with the Letter for Melvign the Gnome.  Using it
+          // redirects to place.php?whichplace=mountains&action=mts_melvin
+          // which redirects to place.php?whichplace=exploathing
+          "The Thinknerd Warehouse"
+        })
+    public void testUnavailableMountainAdventures(String adventureName) {
+      var cleanups =
+          new Cleanups(
+              withKingdomOfExploathing(), withQuestProgress(Quest.TOPPING, QuestDatabase.FINISHED));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          // You cannot get the quest from Paco, but talking to Mr. Alarm
+          // won't give you access either
+          "Whitey's Grove"
+          // You can't get a Drip harness
+          // "The Dripping Trees",
+          // "The Dripping Hall"
+        })
+    public void testUnavailableWoodsAdventures(String adventureName) {
+      var cleanups =
+          new Cleanups(withKingdomOfExploathing(), withQuestProgress(Quest.PALINDOME, "step3"));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {"The Haiku Dungeon", "The Limerick Dungeon", "The Enormous Greater-Than Sign"})
+    public void testUnavailableDungeonAdventures(String adventureName) {
+      var cleanups = withKingdomOfExploathing();
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatKnollIsUnavailable() {
+      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.VOLE));
+      try (cleanups) {
+        // This applies to adventure zones and other features
+        assertFalse(KoLCharacter.knollAvailable());
+      }
+    }
+
+    @Test
+    public void thatCanadiaIsUnavailable() {
+      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.OPOSSUM));
+      try (cleanups) {
+        // This applies to adventure zones and other features
+        assertFalse(KoLCharacter.canadiaAvailable());
+        var area = AdventureDatabase.getAdventureByName("Outskirts of Camp Logging Camp");
+        assertFalse(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("Camp Logging Camp");
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @Test
+    public void thatGnomadsAreUnavailable() {
+      var cleanups = new Cleanups(withKingdomOfExploathing(), withSign(ZodiacSign.OPOSSUM));
+      try (cleanups) {
+        // This applies to adventure zones and other features
+        assertFalse(KoLCharacter.gnomadsAvailable());
+        var area = AdventureDatabase.getAdventureByName("Thugnderdome");
+        assertFalse(area.canAdventure());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "The Fun-Guy Mansion, sleazeAirportAlways, false",
+      "The Deep Dark Jungle, spookyAirportAlways, false",
+      "The Toxic Teacups, stenchAirportAlways, false",
+      "The SMOOCH Army HQ, hotAirportAlways, false",
+      "VYKEA, coldAirportAlways, false",
+      "Gingerbread Civic Center, gingerbreadCityAvailable, false",
+      "Investigating a Plaintive Telegram, telegraphOfficeAvailable, true",
+      "The Neverending Party, neverendingPartyAlways, true",
+      "The Bandit Crossroads, frAlways, true",
+      "Sailing the PirateRealm Seas, prAlways, true",
+      "The Tunnel of L.O.V.E., loveTunnelAvailable, true",
+      "Through the Spacegate, spacegateAlways, false"
+    })
+    public void preValidateIOTMZones(String adventureName, String always, boolean check) {
+      var cleanups =
+          new Cleanups(withPath(Path.KINGDOM_OF_EXPLOATHING), withProperty(always, true));
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName(adventureName);
+        if (check) {
+          assertTrue(area.preValidateAdventure());
+        } else {
+          assertFalse(area.preValidateAdventure());
+        }
+      }
+    }
+
+    @Test
+    public void thatExploathingAftercoreWorks() {
+      // In Kingdom of Exploathing:
+      //
+      // - The Hidden Temple was open immediately and you did not need to open
+      //   it in one of the usual ways.
+      // - You do not have a Meatcar; you might have been given the quest to
+      //   build one, but the Knoll zones were not available
+      // - You did not plant a beanstalk and go through the Penultimate Fantasy
+      //   Airship. In fact, the Airship was not available.
+      // - You do not have a S.O.C.K.; you had immediate access to the Giant
+      //   Castle without having to go through the Airship.
+      // - You may or may not have made a steam-powered rocketship; you had
+      //   access to the Hole in the Sky without needing one
+      // - You do not have access to the Mysterious Island; you did not need
+      //   (and could not get) a dinghy to do the HIPPY_FRAT quest
+      //
+      // In aftercore, you still have none of those objects, but you retain
+      // access to a lot of adventure zones that normally require them.
+      //
+      // Therefore, we'll test this without said objects but with Quest
+      // progress that indicates you had to have been through various
+      // unavailable areas - that are now available.
+
+      var cleanups =
+          new Cleanups(
+              // This is aftercore
+              withAscensions(2),
+              withKingLiberated(),
+              withProperty("lastDesertUnlock"),
+              // Assume you took the quest from Paco - even though you could
+              // not progress in it.
+              withQuestProgress(Quest.MEATCAR, QuestDatabase.STARTED),
+              // Starting the Cyrpt normally gives to access to the Unquiet Garves/
+              // Finishing it gives you the VERY Unquiet Garves
+              withQuestProgress(Quest.CYRPT, QuestDatabase.FINISHED),
+              // Finishing the Garbage quest normally requires a beanstalk and
+              // the Penultimate Fantasy Airship
+              withQuestProgress(Quest.GARBAGE, QuestDatabase.FINISHED),
+              // Finishing with the Highland Lord opens the The Valley of Rof
+              // L'm Fao
+              withQuestProgress(Quest.TOPPING, QuestDatabase.FINISHED),
+              // You need to adventure through the Hidden Temple
+              withQuestProgress(Quest.WORSHIP, QuestDatabase.FINISHED),
+              // We made wet stunt nut stew the hard way
+              withQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED),
+              // In order to get to the desert, you needed beach access
+              withQuestProgress(Quest.DESERT, QuestDatabase.FINISHED),
+              // You fought hippies and fratboys - but not on the Island
+              withQuestProgress(Quest.HIPPY_FRAT, QuestDatabase.FINISHED),
+              // This is a Canadia sign and therefore has a hostile Knoll.
+              withSign(ZodiacSign.OPOSSUM));
+      try (cleanups) {
+        // Paco gave us the quest and opened the Knoll.
+        var area = AdventureDatabase.getAdventureByName("The Degrassi Knoll Garage");
+        assertTrue(area.canAdventure());
+
+        // Everything in the Misspelled Cemetary is available
+        area = AdventureDatabase.getAdventureByName("The Unquiet Garves");
+        assertTrue(area.canAdventure());
+        area = AdventureDatabase.getAdventureByName("The VERY Unquiet Garves");
+        assertTrue(area.canAdventure());
+
+        // The Airship is available - although we did not plant a beanstalk.
+        // (Fun fact: in aftercore, you can see a beanstalk in the Plains.)
+        area = AdventureDatabase.getAdventureByName("The Penultimate Fantasy Airship");
+        assertTrue(area.canAdventure());
+
+        // The Giant Castle is available - although we did not get a S.O.C.K.
+        area =
+            AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Top Floor)");
+        assertTrue(area.canAdventure());
+
+        // The Hole in the Sky is NOT available without a steam-powered model rocketship
+        area = AdventureDatabase.getAdventureByName("The Hole in the Sky");
+        assertFalse(area.canAdventure());
+
+        // Bad Spelling Land is available
+        area = AdventureDatabase.getAdventureByName("The Valley of Rof L'm Fao");
+        assertTrue(area.canAdventure());
+
+        // We can make wet stew more easily now.
+        area = AdventureDatabase.getAdventureByName("Whitey's Grove");
+        assertTrue(area.canAdventure());
+
+        // The Hidden Temple is still available
+        area = AdventureDatabase.getAdventureByName("The Hidden Temple");
+        assertTrue(area.canAdventure());
+
+        // Beach zones are available
+        area = AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
+        assertTrue(area.canAdventure());
+
+        // The Island remains unavailable
+        area = AdventureDatabase.getAdventureByName("The Obligatory Pirate's Cove");
+        assertFalse(area.canAdventure());
       }
     }
   }

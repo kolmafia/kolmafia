@@ -795,6 +795,18 @@ public class Player {
   }
 
   /**
+   * Sets King Liberated
+   *
+   * @param level Required level
+   * @return Resets level to zero
+   */
+  public static Cleanups withKingLiberated() {
+    var cleanups = new Cleanups(withProperty("lastKingLiberation"), withProperty("kingLiberated"));
+    KoLCharacter.setKingLiberated(true);
+    return cleanups;
+  }
+
+  /**
    * Sets the player's remaining adventures
    *
    * @param adventures Desired adventures remaining
@@ -1144,6 +1156,17 @@ public class Player {
     var oldValue = Preferences.getBoolean(key);
     Preferences.setBoolean(key, value);
     return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
+  }
+
+  /**
+   * Does nothing, but ensures the given quest is reverted as part of cleanup
+   *
+   * @param quest Quest to set
+   * @return Restores previous value
+   */
+  public static Cleanups withQuestProgress(final QuestDatabase.Quest quest) {
+    var current = QuestDatabase.getQuest(quest);
+    return new Cleanups(() -> QuestDatabase.setQuest(quest, current));
   }
 
   /**
