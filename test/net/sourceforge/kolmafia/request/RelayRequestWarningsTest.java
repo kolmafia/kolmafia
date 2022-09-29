@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -12,6 +14,8 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -92,14 +96,6 @@ public class RelayRequestWarningsTest {
 
   @Nested
   class Pyramid {
-
-    public Cleanups withCounter(int turns, String label, String image) {
-      var cleanups = new Cleanups(withProperty("relayCounters"));
-      TurnCounter.startCounting(turns, label, image);
-      cleanups.add(() -> TurnCounter.stopCounting(label));
-      return cleanups;
-    }
-
     private static final KoLAdventure LOWER_CHAMBERS =
         AdventureDatabase.getAdventureByName("The Lower Chambers");
 
@@ -127,6 +123,8 @@ public class RelayRequestWarningsTest {
           new Cleanups(
               withProperty("pyramidPosition", position),
               withProperty("pyramidBombUsed", bombed),
+              withProperty("dontStopForCounters", false),
+              withContinuationState(),
               withCounter(counter, "label", "image"));
       try (cleanups) {
         int expected = PyramidRequest.lowerChamberTurnsUsed();
@@ -166,6 +164,16 @@ public class RelayRequestWarningsTest {
         // This is the same check for automation - i.e. a counter warning
         var adventureRequest = LOWER_CHAMBERS.getRequest();
         assertEquals(expected, TurnCounter.getTurnsUsed(adventureRequest));
+
+        // Restart the counter
+        TurnCounter.stopCounting("label");
+        TurnCounter.startCounting(counter, "label", "image");
+
+        warned = adventureRequest.stopForCounters();
+        assertEquals(expected > counter, warned);
+        if (warned) {
+          assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+        }
       }
     }
   }
