@@ -1019,6 +1019,9 @@ public class AdventureRequest extends GenericRequest {
     if (this.adventureNumber == AdventurePool.THE_SHORE) {
       return KoLCharacter.inFistcore() ? 5 : 3;
     }
+    if (this.adventureName.equals("The Lower Chambers")) {
+      return PyramidRequest.lowerChamberTurnsUsed();
+    }
     if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }

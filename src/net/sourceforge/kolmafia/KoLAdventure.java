@@ -3594,6 +3594,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // That isn't a place you can go.
     new AdventureFailure("That isn't a place you can go", "You can't get there from here."),
 
+    // Mushroom Garden in Kingdom of Exploathing. For some reason.
+    new AdventureFailure("You can't go there right now", "You're not allowed to go there."),
+
     // Site Alpha Dormitory
     //
     // It's getting colder! Better bundle up.
