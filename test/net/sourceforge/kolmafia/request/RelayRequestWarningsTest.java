@@ -156,9 +156,9 @@ public class RelayRequestWarningsTest {
         placeRequest.constructURLString(buffer.toString());
         assertEquals(expected, TurnCounter.getTurnsUsed(placeRequest));
 
-	// Restart the counter
-	TurnCounter.stopCounting("label");
-	TurnCounter.startCounting(counter, "label", "image");
+        // Restart the counter
+        TurnCounter.stopCounting("label");
+        TurnCounter.startCounting(counter, "label", "image");
 
         warned = placeRequest.sendCounterWarning();
         assertEquals(expected > counter, warned);
