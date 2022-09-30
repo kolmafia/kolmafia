@@ -45,7 +45,8 @@ public class LoginManager {
   public static void login(String username) {
     try {
       if (!KoLmafia.acquireFileLock(Preferences.baseUserName(username))) {
-        KoLmafia.updateDisplay(MafiaState.ABORT, "Could not acquire file lock for " + username + ".");
+        KoLmafia.updateDisplay(
+            MafiaState.ABORT, "Could not acquire file lock for " + username + ".");
         return;
       }
       KoLmafia.forceContinue();
