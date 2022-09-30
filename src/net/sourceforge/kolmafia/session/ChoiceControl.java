@@ -8689,6 +8689,18 @@ public abstract class ChoiceControl {
     return (desc == null) ? "unknown" : desc;
   }
 
+  public static int getAdventuresUsed(final int choice, final int decision) {
+    switch (choice) {
+      case 929:
+        // Control Freak
+        if (decision == 5) {
+          return PyramidRequest.lowerChamberTurnsUsed();
+        }
+        break;
+    }
+    return 0;
+  }
+
   public static final boolean registerRequest(final String urlString) {
     int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
     int decision = ChoiceUtilities.extractOptionFromURL(urlString);

@@ -950,7 +950,7 @@ Cosmic Ray's Bazaar	buy	5	space chowder	ROW1098
 Cosmic Ray's Bazaar	buy	5	space wine	ROW1099
 Cosmic Ray's Bazaar	buy	10	antique accordion	ROW1097
 Cosmic Ray's Bazaar	buy	10	low-pressure oxygen tank	ROW1091
-Cosmic Ray's Bazaar	buy	20	lucky pill	ROW1100
+Cosmic Ray's Bazaar	buy	20	lucky-ish pill	ROW1100
 Cosmic Ray's Bazaar	buy	25	signal jammer	ROW1089
 Cosmic Ray's Bazaar	buy	25	space shield	ROW1088
 Cosmic Ray's Bazaar	buy	30	Wand of Nagamar	ROW1092

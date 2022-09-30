@@ -76,7 +76,7 @@ public class DataFileTest {
             1,
             new String[] {
               "questL(02Larva|03Rat|04Bat|05Goblin|06Friar|07Cyrptic|08Trapper|09Topping|10Garbage|11MacGuffin|12War|12HippyFrat|13Final|13Warehouse)", // property
-              "(started|step1|step13|finished)", // quest step
+              "(started|step1|step7|step13|finished)", // quest step
               ".+", // council text
             }));
   }

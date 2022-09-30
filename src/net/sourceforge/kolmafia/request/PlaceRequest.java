@@ -56,6 +56,25 @@ public class PlaceRequest extends GenericRequest {
     return this.followRedirects;
   }
 
+  public static int getAdventuresUsed(final String urlString) {
+    String place = GenericRequest.getPlace(urlString);
+    if (place == null) {
+      return 0;
+    }
+
+    String action = GenericRequest.getAction(urlString);
+    if (action == null) {
+      action = "";
+    }
+
+    return switch (place) {
+      case "pyramid" -> action.startsWith("pyramid_state")
+          ? PyramidRequest.lowerChamberTurnsUsed()
+          : 0;
+      default -> 0;
+    };
+  }
+
   @Override
   public void processResults() {
     PlaceRequest.parseResponse(this.getURLString(), this.responseText);
