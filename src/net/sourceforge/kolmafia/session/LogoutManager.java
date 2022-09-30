@@ -89,6 +89,7 @@ public class LogoutManager {
     } finally {
       LogoutManager.isRunning = false;
     }
+    KoLmafia.releaseFileLock();
   }
 
   private static void doLogout() {
