@@ -231,6 +231,20 @@ questL05Goblin	step1	We still need you to neutralize the Goblin King, Adventurer
 questL06Friar	started	The Deep Fat Friars in the Distant Woods are having a problem -- one of the experiments has gone awry, and fey creatures have invaded their grove.  Please, Adventurer, lend them your assistance.	The Deep Fat Friars still require your assistance.  You can find them in the Distant Woods. Don't drink their blood.
 questL07Cyrptic	started	It's in a crypt. Specifically, the Cyrpt near the Misspelled Cemetary in the Nearby Plains. You like crypts, right?	The Spookiness still emanates from the Cyrpt, Adventurer.  See if you can find and destroy the source, and bring us back proof of your conquest. Unless that source is you?
 
+# Kingdom of Exploathing
+
+questL02Larva	started	Even after all this, they want a mosquito larva from the Spooky Forest for some reason.
+questL03Rat	started	The explosion apparently didn't solve the rat problem at the Typical Tavern.
+questL04Bat	started	The Bat Hole somehow survived all this nonsense, and still has the Boss Bat in it.
+questL05Goblin	step1	Cobb's Knob is floating around menacingly and you should probably kill the king before they try something funny.
+questL06Friar	started	Even though the Deep Fat Friars are now floating in an endless void, they're still asking the government of that endless void for help.
+questL07Cyrptic	started	The Cyrpt is evil, and what's even worse is that now it's SPACE EVIL.  You grab an Evilometer from a box next to the list.
+questL08Trapper	started	The trapper, unperturbed by the fact that his mountain is no longer connected to the world, needs some help.
+questL09Topping	started	The Highland Lord has sent us another one of his "emergency" requests.
+questL10Garbage	step7	There's a tremendous amount of space junk floating around.  The astronomers thought it was really close but it turns out it's just really large.  Probably the giants.  Deal with 'em, would ya?
+questL11MacGuffin	started	Near the bottom of the chore list is a note about a package that arrived for you.  No, wait, it's not for you, it's for Bramlet Abercrombie.  My mistake.
+questL12HippyFrat	started	There's only like sixty square feet of the Mysterious Island left, and the hippies and frat boys have gone to war for control of it.  That needs to be resolved.<center>
+
 # Path of the Plumber
 questL02Larva	started	let's get down to business! The first thing we need you to do is go to the Spooky Woods and find a mosquito larva for us! I know, I know -- that doesn't sound very important. It's just... it's like a tradition, okay? It's the traditional first step for heroes around here. I'll be honest, I don't even really remember why. Just think of it as like the first level, where you find out what your weird new ability is for this game. I mean adventure.
 questL02Larva	finished	Oh hey, that's a nice-looking mosquito larva. Good job! I'll go and... put it on the pile, I guess. Here's some Meat for your trouble -- that's what we mainly use for currency around here, instead of Coins. Or stars, or crystals, or any of those other miscellaneous tchotchkes you're used to gathering.

@@ -354,6 +354,8 @@ public class BreakfastManager {
 
   public static void collectHardwood() {
     if (InventoryManager.hasItem(SpinMasterLatheRequest.SPINMASTER)
+        // For some unknown reason, redirects to place.php?whichshop=0
+        && !KoLCharacter.isKingdomOfExploathing()
         && !Preferences.getBoolean("_spinmasterLatheVisited")) {
       CoinMasterRequest.visit(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE);
     }
