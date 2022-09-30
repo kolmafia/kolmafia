@@ -2240,13 +2240,46 @@ public class GenericRequest implements Runnable {
   public void formatResponse() {}
 
   /**
-   * An alternative method to doing adventure calculation is determining how many adventures are
-   * used by the given request, and subtract them after the request is done. This number defaults to
-   * <code>zero</code>; overriding classes should change this value to the appropriate amount.
+   * Sometimes we need to estimate how many turns a request will take; determining whether counters
+   * are due to fire, for example.
    *
    * @return The number of adventures used by this request.
    */
   public int getAdventuresUsed() {
+    String urlString = this.getURLString();
+
+    if (urlString.startsWith("adventure.php")) {
+      // Assume unknown adventure locations take 1 turn each
+      // This is likely not true under the Sea, for example,
+      // but it's as good a guess as any we can make.
+
+      return 1;
+    }
+
+    if (urlString.startsWith("choice.php")) {
+      return ChoiceManager.getAdventuresUsed(urlString);
+    }
+
+    if (urlString.startsWith("place.php")) {
+      return PlaceRequest.getAdventuresUsed(urlString);
+    }
+
+    if (urlString.startsWith("inv_use.php") || urlString.startsWith("inv_eat.php")) {
+      return UseItemRequest.getAdventuresUsed(urlString);
+    }
+
+    if (urlString.startsWith("runskillz.php")) {
+      return UseSkillRequest.getAdventuresUsed(urlString);
+    }
+
+    if (urlString.startsWith("craft.php") || urlString.startsWith("guild.php")) {
+      return CreateItemRequest.getAdventuresUsed(this);
+    }
+
+    if (urlString.startsWith("crimbo09.php")) {
+      return Crimbo09Request.getTurnsUsed(this);
+    }
+
     return 0;
   }
 

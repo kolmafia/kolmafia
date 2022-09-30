@@ -56,6 +56,11 @@ public class PlaceRequest extends GenericRequest {
     return this.followRedirects;
   }
 
+  @Override
+  public int getAdventuresUsed() {
+    return PlaceRequest.getAdventuresUsed(this.getURLString());
+  }
+
   public static int getAdventuresUsed(final String urlString) {
     String place = GenericRequest.getPlace(urlString);
     if (place == null) {
@@ -70,6 +75,10 @@ public class PlaceRequest extends GenericRequest {
     return switch (place) {
       case "pyramid" -> action.startsWith("pyramid_state")
           ? PyramidRequest.lowerChamberTurnsUsed()
+          : 0;
+      case "nemesiscave" -> action.equals("nmcave_boss") ? 1 : 0;
+      case "chateau" -> action.equals("chateau_painting")
+          ? (Preferences.getBoolean("_chateauMonsterFought") ? 0 : 1)
           : 0;
       default -> 0;
     };

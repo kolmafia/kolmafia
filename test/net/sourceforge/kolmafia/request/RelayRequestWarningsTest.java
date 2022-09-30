@@ -103,7 +103,7 @@ public class RelayRequestWarningsTest {
     public void thatCounterWarningsInPyramidWork(
         @Values(ints = {1, 2, 3, 4, 5}) int position,
         @Values(booleans = {true, false}) boolean bombed,
-        @Values(ints = {0, 3}) int counter) {
+        @Values(ints = {0, 3, 7}) int counter) {
 
       // Going to the Lower Chamber consumes seven turns when going after
       // Ed and one turn if simply visiting after turning the wheel.
@@ -171,6 +171,39 @@ public class RelayRequestWarningsTest {
 
         warned = adventureRequest.stopForCounters();
         assertEquals(expected > counter, warned);
+        if (warned) {
+          assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+        }
+      }
+    }
+  }
+
+  @Nested
+  class Nemesis {
+    @Test
+    public void thatCounterWarningsInNemesisCaveWorks() {
+      var cleanups =
+          new Cleanups(
+              withProperty("dontStopForCounters", false),
+              withContinuationState(),
+              withCounter(0, "label", "image"));
+      try (cleanups) {
+        var placeRequest = new RelayRequest(false);
+        String url = "place.php?whichplace=nemesiscave&action=nmcave_boss";
+        placeRequest.constructURLString(url);
+        assertEquals(1, TurnCounter.getTurnsUsed(placeRequest));
+        boolean warned = placeRequest.sendCounterWarning();
+        assertTrue(warned);
+
+        // Restart the counter
+        TurnCounter.stopCounting("label");
+        TurnCounter.startCounting(0, "label", "image");
+
+        // This is the same check for automation - i.e. a counter warning
+        var adventureRequest = new GenericRequest(url);
+        assertEquals(1, TurnCounter.getTurnsUsed(adventureRequest));
+
+        warned = adventureRequest.stopForCounters();
         if (warned) {
           assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
         }
