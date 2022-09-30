@@ -1228,6 +1228,41 @@ public class QuestManagerTest {
   }
 
   /*
+   * Kingdom Of Exploathing
+   */
+  @Nested
+  class Exploathing {
+    @Test
+    public void canParseInitialCouncilPage() {
+      var request = new GenericRequest("place.php?whichplace=exploathing&action=expl_council");
+      request.responseText = html("request/test_visit_initial_exploathing_council.html");
+      QuestManager.handleQuestChange(request);
+
+      Map<Quest, String> quests =
+          Map.ofEntries(
+              Map.entry(Quest.LARVA, QuestDatabase.STARTED),
+              Map.entry(Quest.RAT, QuestDatabase.STARTED),
+              Map.entry(Quest.BAT, QuestDatabase.STARTED),
+              Map.entry(Quest.GOBLIN, "step1"),
+              Map.entry(Quest.FRIAR, QuestDatabase.STARTED),
+              Map.entry(Quest.CYRPT, QuestDatabase.STARTED),
+              Map.entry(Quest.TRAPPER, QuestDatabase.STARTED),
+              Map.entry(Quest.TOPPING, QuestDatabase.STARTED),
+              Map.entry(Quest.GARBAGE, "step7"),
+              Map.entry(Quest.BLACK, QuestDatabase.STARTED),
+              Map.entry(Quest.MACGUFFIN, QuestDatabase.STARTED),
+              Map.entry(Quest.HIPPY_FRAT, QuestDatabase.STARTED));
+
+      for (Quest quest : Quest.councilQuests()) {
+        assertThat(
+            "Status of " + quest.name() + " quest",
+            quest,
+            quests.containsKey(quest) ? isStep(quests.get(quest)) : isUnstarted());
+      }
+    }
+  }
+
+  /*
    * *** Zodiac Quests
    */
 

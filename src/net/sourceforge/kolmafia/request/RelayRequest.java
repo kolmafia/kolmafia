@@ -3685,7 +3685,7 @@ public class RelayRequest extends PasswordHashRequest {
     return path.contains("whichplace=arcade") && this.sendArcadeWarning();
   }
 
-  private boolean sendCounterWarning() {
+  public boolean sendCounterWarning() {
     TurnCounter expired = TurnCounter.getExpiredCounter(this, true);
     while (expired != null) {
       // Read and discard expired informational counters
