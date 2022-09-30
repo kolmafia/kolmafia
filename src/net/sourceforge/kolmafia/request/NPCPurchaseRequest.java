@@ -188,7 +188,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   private static AdventureResult getEquippableTrousers(String npcStoreId) {
     AdventureResult pants =
         DISCOUNT_TROUSERS.stream()
-            .filter(KoLConstants.inventory::contains)
+            .filter(InventoryManager::hasItem)
             .filter(EquipmentManager::canEquip)
             .findFirst()
             .orElse(null);
