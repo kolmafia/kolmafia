@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Set;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -27,8 +27,9 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
-  private static final Set<AdventureResult> DISCOUNT_TROUSERS =
-      Set.of(ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
+  private static final List<AdventureResult> DISCOUNT_TROUSERS =
+      List.of(
+          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
   private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final AdventureResult SUPER_STRUCTURE = EffectPool.get(EffectPool.SUPER_STRUCTURE);
@@ -147,33 +148,61 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       // the desired result.
       factor = 67;
     }
-    if (NPCPurchaseRequest.isDiscountableStore(this.npcStoreId)
-        && NPCPurchaseRequest.usingTrousers()) factor -= 5;
+    if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
     return (int) ((this.price * factor) / 100);
   }
 
   public static int currentDiscountedPrice(int price) {
+    return currentDiscountedPrice(null, price);
+  }
+
+  public static int currentDiscountedPrice(String npcStoreId, int price) {
     long factor = 100;
-    if (NPCPurchaseRequest.usingTrousers()) factor -= 5;
+    if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
     return (int) ((price * factor) / 100);
   }
 
-  private static boolean usingTrousers() {
-    return DISCOUNT_TROUSERS.contains(EquipmentManager.getEquipment(EquipmentManager.PANTS));
+  private static boolean usingTrousers(String npcStoreId) {
+    if ("fdkol".equals(npcStoreId)) {
+      return false;
+    }
+
+    var trousers = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+
+    if (trousers == null) {
+      return false;
+    }
+
+    // Designer sweatpants discount does not apply to the gift shop
+    if ("town_giftshop.php".equals(npcStoreId)
+        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+      return false;
+    }
+
+    return DISCOUNT_TROUSERS.contains(trousers);
   }
 
-  private static AdventureResult getEquippableTrousers() {
-    return DISCOUNT_TROUSERS.stream()
-        .filter(KoLConstants.inventory::contains)
-        .filter(EquipmentManager::canEquip)
-        .findFirst()
-        .orElse(null);
-  }
+  private static AdventureResult getEquippableTrousers(String npcStoreId) {
+    AdventureResult pants =
+        DISCOUNT_TROUSERS.stream()
+            .filter(KoLConstants.inventory::contains)
+            .filter(EquipmentManager::canEquip)
+            .findFirst()
+            .orElse(null);
 
-  private static boolean isDiscountableStore(String storeId) {
-    return !storeId.equals("fdkol") && !storeId.equals("town_giftshop.php");
+    if (pants == null) {
+      return null;
+    }
+
+    // Designer sweatpants discount does not apply to the gift shop
+    if ("town_giftshop.php".equals(npcStoreId)
+        && pants.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+      return null;
+    }
+
+    return pants;
   }
 
   @Override
@@ -185,7 +214,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
   @Override
   public boolean ensureProperAttire() {
-    if (!NPCPurchaseRequest.isDiscountableStore(this.npcStoreId)) {
+    if (this.npcStoreId.equals("fdkol")) {
       // Travoltan trousers do not give a discount
       return true;
     }
@@ -278,8 +307,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     // Otherwise, maybe you can put on some discount-providing trousers to decrease the cost of the
     // purchase, but only if auto-recovery isn't running.
 
-    if (!usingTrousers()) {
-      var trousers = getEquippableTrousers();
+    if (!usingTrousers(this.npcStoreId)) {
+      var trousers = getEquippableTrousers(this.npcStoreId);
       if (trousers != null) {
         (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
       }
