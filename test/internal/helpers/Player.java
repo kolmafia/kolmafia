@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.mockito.Mockito;
 
@@ -1586,6 +1587,21 @@ public class Player {
    */
   public static Cleanups withContinuationState() {
     return withContinuationState(MafiaState.CONTINUE);
+  }
+
+  /**
+   * Sets a counter
+   *
+   * @param turns how many turns
+   * @param label what to call it
+   * @param image what image to show in charpane
+   * @return stops the counter
+   */
+  public static Cleanups withCounter(int turns, String label, String image) {
+    var cleanups = new Cleanups(withProperty("relayCounters"));
+    TurnCounter.startCounting(turns, label, image);
+    cleanups.add(() -> TurnCounter.stopCounting(label));
+    return cleanups;
   }
 
   /**

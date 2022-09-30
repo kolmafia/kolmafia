@@ -28,6 +28,7 @@ import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStarted;
+import static internal.matchers.Quest.isStep;
 import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
@@ -1793,6 +1794,49 @@ public class KoLAdventureValidationTest {
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
         assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=3198&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class Tavern {
+    private static final KoLAdventure TAVERN_CELLAR =
+        AdventureDatabase.getAdventureByName("The Typical Tavern Cellar");
+
+    @Test
+    void thatCellarIsOpenIfAlreadyTalkedToBart() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withQuestProgress(Quest.RAT, "step1"));
+      try (cleanups) {
+        assertTrue(TAVERN_CELLAR.canAdventure());
+        assertTrue(TAVERN_CELLAR.prepareForAdventure());
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    void canOpenCellarByTalkingToBart() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withQuestProgress(Quest.RAT, QuestDatabase.STARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_visit_barkeep_accept.html"));
+        client.addResponse(200, ""); // api.php
+
+        assertTrue(TAVERN_CELLAR.canAdventure());
+        assertTrue(TAVERN_CELLAR.prepareForAdventure());
+        assertThat(Quest.RAT, isStep("step1"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/tavern.php", "place=barkeep");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }

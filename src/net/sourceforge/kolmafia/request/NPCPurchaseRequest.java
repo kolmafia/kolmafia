@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Set;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -23,12 +23,14 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
-  private static final Set<AdventureResult> DISCOUNT_TROUSERS =
-      Set.of(ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
+  private static final List<AdventureResult> DISCOUNT_TROUSERS =
+      List.of(
+          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
   private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final AdventureResult SUPER_STRUCTURE = EffectPool.get(EffectPool.SUPER_STRUCTURE);
@@ -165,7 +167,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
   private static AdventureResult getEquippableTrousers() {
     return DISCOUNT_TROUSERS.stream()
-        .filter(KoLConstants.inventory::contains)
+        .filter(InventoryManager::hasItem)
         .filter(EquipmentManager::canEquip)
         .findFirst()
         .orElse(null);
