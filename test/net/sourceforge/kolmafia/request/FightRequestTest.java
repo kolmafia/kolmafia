@@ -16,7 +16,6 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
-import static internal.matchers.Preference.hasBooleanValue;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -1541,14 +1540,14 @@ public class FightRequestTest {
     }
   }
 
-    @ParameterizedTest
-    @CsvSource({"anapest_runaway, false", "goth_kid_pvp, true"})
-    void setsLastFightProperty(String html, boolean prop) {
-      var cleanups = withProperty("_lastCombatWon");
+  @ParameterizedTest
+  @CsvSource({"anapest_runaway, false", "goth_kid_pvp, true"})
+  void setsLastFightProperty(String html, boolean prop) {
+    var cleanups = withProperty("_lastCombatWon");
 
-      try (cleanups) {
-        parseCombatData("request/test_fight_" + html + ".html", "fight.php?action=attack");
-        assertThat("_lastCombatWon", isSetTo(prop));
-      }
+    try (cleanups) {
+      parseCombatData("request/test_fight_" + html + ".html", "fight.php?action=attack");
+      assertThat("_lastCombatWon", isSetTo(prop));
     }
+  }
 }
