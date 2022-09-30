@@ -503,9 +503,6 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         sorter.setSortKeys(sortKeys);
         sorter.sort();
 
-        // Don't let user use this TableRowSorter to sort on candy name
-        sorter.setSortable(0, false);
-
         // Selected item might have moved. Make sure it is visible.
         this.selectAndScroll(candy);
 
