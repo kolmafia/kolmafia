@@ -3666,7 +3666,7 @@ public abstract class KoLCharacter {
           || InventoryManager.getCount(ItemPool.PUMPKIN_CARRIAGE) > 0
           || InventoryManager.getCount(ItemPool.TIN_LIZZIE) > 0
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
-          || Preferences.getString("questG01Meatcar").equals("finished")
+          || QuestDatabase.isQuestFinished(Quest.MEATCAR)
           || KoLCharacter.kingLiberated()
           || KoLCharacter.isEd()) {
         Preferences.setInteger("lastDesertUnlock", KoLCharacter.getAscensions());

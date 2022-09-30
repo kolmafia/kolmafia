@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -435,7 +436,7 @@ public class TurnCounter implements Comparable<TurnCounter> {
     Preferences.setString("_tempRelayCounters", "");
   }
 
-  private static int getTurnsUsed(GenericRequest request) {
+  public static int getTurnsUsed(GenericRequest request) {
     if (!(request instanceof RelayRequest)) {
       return request.getAdventuresUsed();
     }
@@ -448,6 +449,14 @@ public class TurnCounter implements Comparable<TurnCounter> {
       // but it's as good a guess as any we can make.
 
       return 1;
+    }
+
+    if (urlString.startsWith("choice.php")) {
+      return ChoiceManager.getAdventuresUsed(urlString);
+    }
+
+    if (urlString.startsWith("place.php")) {
+      return PlaceRequest.getAdventuresUsed(urlString);
     }
 
     if (urlString.startsWith("inv_use.php") || urlString.startsWith("inv_eat.php")) {
