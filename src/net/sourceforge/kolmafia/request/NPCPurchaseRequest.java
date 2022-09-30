@@ -186,24 +186,24 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   private static AdventureResult getEquippableTrousers(String npcStoreId) {
-    AdventureResult pants =
+    AdventureResult trousers =
         DISCOUNT_TROUSERS.stream()
             .filter(InventoryManager::hasItem)
             .filter(EquipmentManager::canEquip)
             .findFirst()
             .orElse(null);
 
-    if (pants == null) {
+    if (trousers == null) {
       return null;
     }
 
     // Designer sweatpants discount does not apply to the gift shop
     if ("town_giftshop.php".equals(npcStoreId)
-        && pants.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
       return null;
     }
 
-    return pants;
+    return trousers;
   }
 
   @Override
