@@ -262,6 +262,16 @@ public class GitManagerTest {
       String remove = "midgleyc-mafia-script-install-test-shared-1";
       String output = CliCaller.callCli("git", "delete " + remove);
       assertThat(output, containsString("Project " + remove + " removed"));
+      // first script does not exist
+      assertFalse(Files.exists(Paths.get("scripts", "shared", "1.ash")));
+      // second script still exists
+      assertTrue(Files.exists(Paths.get("scripts", "shared", "2.ash")));
+
+      remove = "midgleyc-mafia-script-install-test-shared-2";
+      output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+
+      assertFalse(Files.exists(Paths.get("scripts", "shared")));
     }
   }
 
