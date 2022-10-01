@@ -1007,6 +1007,11 @@ public class AdventureRequest extends GenericRequest {
     return false;
   }
 
+  public static int getAdventuresUsed(final String urlString) {
+    KoLAdventure adventure = AdventureDatabase.getAdventureByURL(urlString);
+    return adventure == null ? 0 : adventure.getRequest().getAdventuresUsed();
+  }
+
   @Override
   public int getAdventuresUsed() {
     if (this.override >= 0) {

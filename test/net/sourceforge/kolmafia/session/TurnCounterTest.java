@@ -2,11 +2,15 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withCounter;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withLimitMode;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -21,6 +25,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class TurnCounterTest {
@@ -75,6 +81,136 @@ public class TurnCounterTest {
   @AfterAll
   public static void afterAll() {
     Preferences.saveSettingsToFile = true;
+  }
+
+  @Nested
+  class AdventuresUsed {
+    @Nested
+    class Adventure {
+      public void testKoLAdventure(KoLAdventure adventure, int turns) {
+        // Automation
+        var request = adventure.getRequest();
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url = request.getURLString();
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      private static final KoLAdventure THE_SHORE =
+          AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
+
+      @Test
+      public void thatNormalShoreTakesThreeTurns() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testKoLAdventure(THE_SHORE, 3);
+        }
+      }
+
+      @Test
+      public void thatFistcoreShoreTakesFiveTurns() {
+        var cleanups = new Cleanups(withPath(Path.SURPRISING_FIST));
+        try (cleanups) {
+          testKoLAdventure(THE_SHORE, 5);
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "The Briny Deeps",
+            "Gingerbread Reef",
+            "The Sunken Party Yacht",
+            "The Ice Hole"
+          })
+      public void thatUnderWaterNonFishyTakesTwoTurns(String adventureName) {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
+          testKoLAdventure(adventure, 2);
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "The Briny Deeps",
+            "Gingerbread Reef",
+            "The Sunken Party Yacht",
+            "The Ice Hole"
+          })
+      public void thatUnderWaterFishyTakesOneTurn(String adventureName) {
+        var cleanups = new Cleanups(withEffect("Fishy"));
+        try (cleanups) {
+          KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
+          testKoLAdventure(adventure, 1);
+        }
+      }
+
+      @Test
+      public void thatAnytNormalAdventureTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          KoLAdventure adventure = AdventureDatabase.getAdventureByName("The Haunted Pantry");
+          testKoLAdventure(adventure, 1);
+        }
+      }
+
+      @Test
+      public void thatTheSummoningChamberTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          KoLAdventure adventure = AdventureDatabase.getAdventureByName("Summoning Chamber");
+          testKoLAdventure(adventure, 1);
+        }
+      }
+
+      @Test
+      public void thatSpelunkyUsesNoTurns() {
+        var cleanups = new Cleanups(withLimitMode(LimitMode.SPELUNKY));
+        try (cleanups) {
+          KoLAdventure adventure = AdventureDatabase.getAdventureByName("The City of Goooold");
+          testKoLAdventure(adventure, 0);
+        }
+      }
+
+      @Test
+      public void thatBatfellowUsesNoTurns() {
+        var cleanups = new Cleanups(withLimitMode(LimitMode.BATMAN));
+        try (cleanups) {
+          KoLAdventure adventure = AdventureDatabase.getAdventureByName("Porkham Asylum");
+          testKoLAdventure(adventure, 0);
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
+            "Fastest Adventurer Contest",
+            "Strongest Adventurer Contest",
+            "Hottest Adventurer Contest",
+            // The Hedge Maze
+            "Tower Level 1",
+            "Tower Level 2",
+            "Tower Level 3",
+            "Tower Level 4",
+            "Tower Level 5",
+            "The Naughty Sorceress' Chamber",
+          })
+      public void thatSorceressMonstersTakeOneTurn(String adventureName) {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          // These are actually place.php?whichplace=nstower
+          KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
+          testKoLAdventure(adventure, 1);
+        }
+      }
+    }
   }
 
   @Nested

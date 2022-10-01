@@ -2248,39 +2248,21 @@ public class GenericRequest implements Runnable {
   public int getAdventuresUsed() {
     String urlString = this.getURLString();
 
-    if (urlString.startsWith("adventure.php")) {
-      // Assume unknown adventure locations take 1 turn each
-      // This is likely not true under the Sea, for example,
-      // but it's as good a guess as any we can make.
-
-      return 1;
-    }
-
-    if (urlString.startsWith("choice.php")) {
-      return ChoiceManager.getAdventuresUsed(urlString);
-    }
-
-    if (urlString.startsWith("place.php")) {
-      return PlaceRequest.getAdventuresUsed(urlString);
-    }
-
-    if (urlString.startsWith("inv_use.php") || urlString.startsWith("inv_eat.php")) {
-      return UseItemRequest.getAdventuresUsed(urlString);
-    }
-
-    if (urlString.startsWith("runskillz.php")) {
-      return UseSkillRequest.getAdventuresUsed(urlString);
-    }
-
-    if (urlString.startsWith("craft.php") || urlString.startsWith("guild.php")) {
-      return CreateItemRequest.getAdventuresUsed(this);
-    }
-
-    if (urlString.startsWith("crimbo09.php")) {
-      return Crimbo09Request.getTurnsUsed(this);
-    }
-
-    return 0;
+    return switch (this.baseURLString) {
+      case "adventure.php",
+          "barrel.php",
+          "basement.php",
+          "cellar.php",
+          "mining.php",
+          "volcanoisland.php" -> AdventureRequest.getAdventuresUsed(urlString);
+      case "choice.php" -> ChoiceManager.getAdventuresUsed(urlString);
+      case "place.php" -> PlaceRequest.getAdventuresUsed(urlString);
+      case "inv_use.php", "inv_eat.php" -> UseItemRequest.getAdventuresUsed(urlString);
+      case "runskillz.php" -> UseSkillRequest.getAdventuresUsed(urlString);
+      case "craft.php", "guild.php" -> CreateItemRequest.getAdventuresUsed(this);
+      case "crimbo09.php" -> Crimbo09Request.getTurnsUsed(this);
+      default -> 0;
+    };
   }
 
   private void parseResults() {
