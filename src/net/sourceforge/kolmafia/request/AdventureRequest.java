@@ -110,7 +110,7 @@ public class AdventureRequest extends GenericRequest {
       if (adventureId.equals("cloudypeak2")) {
         this.addFormField("whichplace", "mclargehuge");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("pyramid_state")) {
+      } else if (adventureId.equals("pyramid_state")) {
         this.addFormField("whichplace", "pyramid");
         StringBuilder action = new StringBuilder();
         action.append(adventureId);
@@ -119,20 +119,19 @@ public class AdventureRequest extends GenericRequest {
           action.append("a");
         }
         this.addFormField("action", action.toString());
-      } else if (this.adventureId.equals("manor4_chamberboss")) {
+      } else if (adventureId.equals("manor4_chamberboss")) {
         this.addFormField("whichplace", "manor4");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("townwrong_tunnel")) {
+      } else if (adventureId.equals("townwrong_tunnel")) {
         this.addFormField("whichplace", "town_wrong");
         this.addFormField("action", "townwrong_tunnel");
-      } else if (this.adventureId.startsWith("ns_")) {
+      } else if (adventureId.startsWith("ns_")) {
         this.addFormField("whichplace", "nstower");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("town_eincursion")
-          || this.adventureId.equals("town_eicfight2")) {
+      } else if (adventureId.equals("town_eincursion") || adventureId.equals("town_eicfight2")) {
         this.addFormField("whichplace", "town");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("ioty2014_wolf")) {
+      } else if (adventureId.equals("ioty2014_wolf")) {
         this.addFormField("whichplace", "manor4");
         this.addFormField("action", "wolf_houserun");
       }

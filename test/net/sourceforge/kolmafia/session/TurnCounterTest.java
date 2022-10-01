@@ -211,6 +211,49 @@ public class TurnCounterTest {
         }
       }
     }
+
+    @Nested
+    class Places {
+      public void testPlace(String place, String action, int turns) {
+        String url = "place.php?whichplace=" + place + "&action=" + action;
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatTheNemesisCaveTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testPlace("nemesiscave", "nmcave_boss", 1);
+        }
+      }
+
+      @Test
+      public void thatFightingChateauMonsterTakesOneTurn() {
+        var cleanups = new Cleanups(withProperty("_chateauMonsterFought", false));
+        try (cleanups) {
+          testPlace("chateau", "chateau_painting", 1);
+        }
+      }
+
+      @Test
+      public void thatNotFightingChateauMonsterTakesNoTurns() {
+        var cleanups = new Cleanups(withProperty("_chateauMonsterFought", true));
+        try (cleanups) {
+          testPlace("chateau", "chateau_painting", 0);
+        }
+      }
+
+      // The following are place.php requests but are also adventures:
+      //    The Summoning Chamber
+      //    Naughty Sorceress Lair monsters
+      //    The Lower Chambers
+    }
   }
 
   @Nested

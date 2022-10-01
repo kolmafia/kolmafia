@@ -1263,6 +1263,8 @@ public class KoLAdventureValidationTest {
         AdventureDatabase.getAdventureByName("The Haunted Laundry Room");
     private static final KoLAdventure HAUNTED_BOILER_ROOM =
         AdventureDatabase.getAdventureByName("The Haunted Boiler Room");
+    private static final KoLAdventure SUMMONING_CHAMBER =
+        AdventureDatabase.getAdventureByName("Summoning Chamber");
 
     @Test
     public void hauntedPantryAvailable() {
@@ -1658,6 +1660,41 @@ public class KoLAdventureValidationTest {
         assertFalse(HAUNTED_WINE_CELLAR.canAdventure());
         assertFalse(HAUNTED_LAUNDRY_ROOM.canAdventure());
         assertFalse(HAUNTED_BOILER_ROOM.canAdventure());
+      }
+    }
+
+    @Test
+    public void summoningChamberNotAvailableIfNotOpened() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, "step1"));
+      try (cleanups) {
+        assertFalse(SUMMONING_CHAMBER.canAdventure());
+      }
+    }
+
+    @Test
+    public void summoningChamberAvailableIfHaveWineBomb() {
+      var cleanups =
+          new Cleanups(withQuestProgress(Quest.MANOR, "step2"), withItem(ItemPool.WINE_BOMB));
+      try (cleanups) {
+        assertTrue(SUMMONING_CHAMBER.canAdventure());
+        // *** I'd like to test that prepareForAdventure uses the wine bomb,
+        // *** but I need the HTML for using it.
+      }
+    }
+
+    @Test
+    public void summoningChamberAvailableIfOpened() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, "step3"));
+      try (cleanups) {
+        assertTrue(SUMMONING_CHAMBER.canAdventure());
+      }
+    }
+
+    @Test
+    public void summoningChamberNotAvailableIfLordSpookyravenDefeated() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertFalse(SUMMONING_CHAMBER.canAdventure());
       }
     }
   }

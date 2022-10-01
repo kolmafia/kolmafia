@@ -95,7 +95,7 @@ public class PlaceRequest extends GenericRequest {
             "ns_08_monster4",
             // Your Shadow
             "ns_09_monster5",
-            // Your Shadow
+            // Her Naughtiness
             "ns_10_sorcfight" -> 1;
         default -> 0;
       };
@@ -192,7 +192,7 @@ public class PlaceRequest extends GenericRequest {
         }
       }
     } else if (place.equals("manor4")) {
-      if (action.equals("manor4_chamberwall") || action.equals("manor4_chamberwalllabel")) {
+      if (action.startsWith("manor4_chamberwall")) {
         // You mix the mortar-dissolving ingredients
         // into a nasty-smelling paste, and smear it
         // all over the brickwork with a mortar. Smoke
@@ -585,7 +585,7 @@ public class PlaceRequest extends GenericRequest {
       if (action.equals("manor4_chamber")) {
         return true;
       }
-      if (action.equals("manor4_chamberwall") || action.equals("manor4_chamberwalllabel")) {
+      if (action.startsWith("manor4_chamberwall")) {
         message = "Inspecting the Suspicious Masonry";
       }
     } else if (place.equals("mclargehuge")) {
