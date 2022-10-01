@@ -126,12 +126,7 @@ public class GitManagerTest {
 
     @BeforeAll
     public static void cloneRepo() {
-      String output =
-          CliCaller.callCli(
-              "git",
-              "checkout https://github.com/midgleyc/mafia-script-install-test.git test-deps");
-      assertThat(output, containsString("Installing dependencies"));
-      assertThat(output, containsString("Cloned project " + id));
+      installGit(id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps", true);
     }
 
     @AfterAll
@@ -186,12 +181,7 @@ public class GitManagerTest {
 
     @BeforeAll
     public static void cloneRepo() {
-      String output =
-          CliCaller.callCli(
-              "svn",
-              "checkout https://github.com/midgleyc/mafia-script-install-test/branches/test-deps");
-      assertThat(output, containsString("Installing dependencies"));
-      assertThat(output, containsString("Successfully checked out working copy"));
+      installSvn("https://github.com/midgleyc/mafia-script-install-test/branches/test-deps");
     }
 
     @AfterAll
@@ -224,12 +214,8 @@ public class GitManagerTest {
 
     @BeforeAll
     public static void cloneRepo() {
-      String output =
-          CliCaller.callCli(
-              "git",
-              "checkout https://github.com/midgleyc/mafia-script-install-test.git test-manifest");
-      assertThat(output, containsString("Installing dependencies"));
-      assertThat(output, containsString("Cloned project " + id));
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git test-manifest", true);
     }
 
     @AfterAll
@@ -248,6 +234,59 @@ public class GitManagerTest {
     public void didNotInstallFilesRelativeToRoot() {
       assertFalse(Files.exists(Paths.get("scripts", "1-root.ash")));
     }
+  }
+
+  @Nested
+  class DeletionSuccess {
+    @BeforeAll
+    public static void cloneRepo() {
+      installGit(
+          "midgleyc-mafia-script-install-test-shared-1",
+          "midgleyc/mafia-script-install-test shared-1",
+          false);
+      installGit(
+          "midgleyc-mafia-script-install-test-shared-2",
+          "midgleyc/mafia-script-install-test shared-2",
+          false);
+    }
+
+    @AfterAll
+    public static void removeRepo() {
+      removeGitIfExists("midgleyc-mafia-script-install-test-shared-1");
+      removeGitIfExists("midgleyc-mafia-script-install-test-shared-2");
+    }
+
+    @Test
+    public void noErrorIfSharedFolder() {
+      // these two repos contain distinct scripts both in scripts/shared
+      String remove = "midgleyc-mafia-script-install-test-shared-1";
+      String output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+      // first script does not exist
+      assertFalse(Files.exists(Paths.get("scripts", "shared", "1.ash")));
+      // second script still exists
+      assertTrue(Files.exists(Paths.get("scripts", "shared", "2.ash")));
+
+      remove = "midgleyc-mafia-script-install-test-shared-2";
+      output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+
+      assertFalse(Files.exists(Paths.get("scripts", "shared")));
+    }
+  }
+
+  private static void installGit(String id, String params, boolean hasDeps) {
+    String output = CliCaller.callCli("git", "checkout " + params);
+    if (hasDeps) {
+      assertThat(output, containsString("Installing dependencies"));
+    }
+    assertThat(output, containsString("Cloned project " + id));
+  }
+
+  private static void installSvn(String params) {
+    String output = CliCaller.callCli("svn", "checkout " + params);
+    assertThat(output, containsString("Installing dependencies"));
+    assertThat(output, containsString("Successfully checked out working copy"));
   }
 
   private static void removeGitIfExists(String remove) {
