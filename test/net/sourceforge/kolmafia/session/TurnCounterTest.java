@@ -20,6 +20,9 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.BeachCombRequest;
+import net.sourceforge.kolmafia.request.BeachCombRequest.BeachCombCommand;
+import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
@@ -523,7 +526,7 @@ public class TurnCounterTest {
 
     @Nested
     class CombatLoversLocket {
-      public void testCard(String name, int turns) {
+      public void testMonster(String name, int turns) {
         MonsterData monster = MonsterDatabase.findMonster(name);
         assertNotNull(monster);
 
@@ -546,13 +549,128 @@ public class TurnCounterTest {
       public void thatReminiscingTakesOneTurn() {
         var cleanups = new Cleanups();
         try (cleanups) {
-          testCard("Black Crayon Penguin", 1);
+          testMonster("Black Crayon Penguin", 1);
         }
       }
     }
 
     @Nested
-    class BeachComb {}
+    class CakeArena {
+      public void testArena(boolean compete, int turns) {
+        // Automation
+        var request = compete ? new CakeArenaRequest(1, 1) : new CakeArenaRequest();
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url = "arena.php";
+        if (compete) {
+          url += "?action=go&whichopp=1&event=1";
+        }
+
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatNotCompetingTakesNoTurns() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testArena(false, 0);
+        }
+      }
+
+      @Test
+      public void thatCompetingTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testArena(true, 1);
+        }
+      }
+    }
+
+    @Nested
+    class BeachComb {
+      public void testCommand(BeachCombCommand command, int turns) {
+        // Automation
+        var request =
+            switch (command) {
+              case VISIT -> new BeachCombRequest();
+              case EXIT, COMMON, RANDOM -> new BeachCombRequest(command);
+              case HEAD -> new BeachCombRequest(BeachManager.idToBeachHead.get(1));
+              case WANDER -> new BeachCombRequest(137);
+              case COMB -> new BeachCombRequest(6, 6);
+            };
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url =
+            switch (command) {
+              case VISIT -> "main.php?comb=1";
+              case EXIT, COMMON, RANDOM -> "choice.php?whichchoice=1388&option=" + command.option();
+              case HEAD -> "choice.php?whichchoice=1388&option=" + command.option() + "&buff=1";
+              case WANDER -> "choice.php?whichchoice=1388&option="
+                  + command.option()
+                  + "&minutes=137";
+              case COMB -> "choice.php?whichchoice=1388&option="
+                  + command.option()
+                  + "&coords=6,1364";
+            };
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatFreeCombsTakeNoTurns() {
+        var cleanups = new Cleanups(withProperty("_freeBeachWalksUsed", 0));
+        try (cleanups) {
+          // Taking out your Beach Comb
+          testCommand(BeachCombCommand.VISIT, 0);
+          // Putting away your Beach Comb
+          testCommand(BeachCombCommand.EXIT, 0);
+          // Getting common items using 10 combs
+          testCommand(BeachCombCommand.COMMON, 0);
+          // Getting a buff from a Beach Head
+          testCommand(BeachCombCommand.HEAD, 0);
+          // Wandering to a random spot on the beach
+          testCommand(BeachCombCommand.RANDOM, 0);
+          // Wandering to a specific spot on the beach
+          testCommand(BeachCombCommand.WANDER, 0);
+          // Combing a square
+          testCommand(BeachCombCommand.COMB, 0);
+        }
+      }
+
+      @Test
+      public void thatNonFreeCombsTakeOneTurn() {
+        var cleanups = new Cleanups(withProperty("_freeBeachWalksUsed", 11));
+        try (cleanups) {
+          // Taking out your Beach Comb
+          testCommand(BeachCombCommand.VISIT, 0);
+          // Putting away your Beach Comb
+          testCommand(BeachCombCommand.EXIT, 0);
+          // Getting common items using 10 combs
+          testCommand(BeachCombCommand.COMMON, 0);
+          // Getting a buff from a Beach Head
+          testCommand(BeachCombCommand.HEAD, 1);
+          // Wandering to a random spot on the beach
+          testCommand(BeachCombCommand.RANDOM, 1);
+          // Wandering to a specific spot on the beach
+          testCommand(BeachCombCommand.WANDER, 1);
+          // Combing a square
+          testCommand(BeachCombCommand.COMB, 1);
+        }
+      }
+    }
   }
 
   @Nested
