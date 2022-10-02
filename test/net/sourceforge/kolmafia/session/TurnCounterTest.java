@@ -14,10 +14,15 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
+import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import org.junit.jupiter.api.AfterAll;
@@ -253,6 +258,74 @@ public class TurnCounterTest {
       //    The Summoning Chamber
       //    Naughty Sorceress Lair monsters
       //    The Lower Chambers
+    }
+
+    @Nested
+    class DeckOfEveryCard {
+      public void testCard(String name, int turns) {
+        EveryCard card = DeckOfEveryCardRequest.findCard(name);
+        assertNotNull(card);
+
+        // Automation
+        var request = new DeckOfEveryCardRequest(card);
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url = "choice.php?whichchoice=1086&option=1&which=" + card.id;
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatMonsterCardsTakeOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testCard("Green Card", 1);
+        }
+      }
+
+      @Test
+      public void thaNonMonsterCardsTakeNoTurns() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testCard("Ancestral Recall", 0);
+        }
+      }
+    }
+
+    @Nested
+    class CombatLoversLocket {
+      public void testCard(String name, int turns) {
+        MonsterData monster = MonsterDatabase.findMonster(name);
+        assertNotNull(monster);
+
+        // Automation
+        var request = new LocketRequest(monster);
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url = "choice.php?whichchoice=1463&option=1&mid=" + monster.getId();
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatReminiscingTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testCard("Black Crayon Penguin", 1);
+        }
+      }
     }
   }
 

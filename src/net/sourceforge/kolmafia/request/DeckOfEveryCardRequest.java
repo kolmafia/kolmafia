@@ -188,6 +188,10 @@ public class DeckOfEveryCardRequest extends GenericRequest {
     return DeckOfEveryCardRequest.canonicalNameToCard.get(name);
   }
 
+  public static EveryCard findCard(String name) {
+    return DeckOfEveryCardRequest.canonicalNameToCard.get(StringUtilities.getCanonicalName(name));
+  }
+
   public static EveryCard statToCard(Stat stat) {
     return DeckOfEveryCardRequest.statToCard.get(stat);
   }
