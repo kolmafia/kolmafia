@@ -1026,6 +1026,9 @@ public class AdventureRequest extends GenericRequest {
     if (this.adventureName.equals("The Lower Chambers")) {
       return PyramidRequest.lowerChamberTurnsUsed();
     }
+    if (this.adventureName.equals("The Typical Tavern Cellar")) {
+      return this.getURLString().contains("action=explore") ? 1 : 0;
+    }
     if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }

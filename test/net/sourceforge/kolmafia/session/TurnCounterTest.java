@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -234,8 +235,6 @@ public class TurnCounterTest {
       //
       // basement.php
       // - Fernswarthy's Basement
-      // cellar.php
-      // - The Typical Tavern Cellar
       // mining.php
       // - Itznotyerzitz Mine (in Disguise)
       // - The Knob Shaft (Mining)
@@ -284,6 +283,55 @@ public class TurnCounterTest {
         var cleanups = new Cleanups();
         try (cleanups) {
           testVolcano("tuba", "The Island Barracks", 1);
+        }
+      }
+    }
+
+    @Nested
+    class TavernCellar {
+      @AfterEach
+      public void afterEach() {
+        CELLAR.getRequest().removeFormField("action");
+      }
+
+      private static final KoLAdventure CELLAR =
+          AdventureDatabase.getAdventureByName("The Typical Tavern Cellar");
+
+      public void testCellar(String action, int turns) {
+        // Automation
+        var request = CELLAR.getRequest();
+        if (action != null) {
+          request.addFormField("action", action);
+        }
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        var url = "cellar.php";
+        if (action != null) {
+          url += "?action=" + action;
+        }
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatVisitingTavernCellarTakesNoTurns() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testCellar(null, 0);
+        }
+      }
+
+      @Test
+      public void thatExploringTavernCellarSquaresTakeOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testCellar("explore", 1);
         }
       }
     }
