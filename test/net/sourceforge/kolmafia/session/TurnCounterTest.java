@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
+import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -231,8 +232,6 @@ public class TurnCounterTest {
 
       // The following are adventures that do not use adventure.php
       //
-      // barrel.php
-      // - The Barrel Full of Barrels
       // basement.php
       // - Fernswarthy's Basement
       // cellar.php
@@ -243,10 +242,50 @@ public class TurnCounterTest {
       // - Anemone Mine (Mining)
       // - The Crimbonium Mine
       // - The Velvet / Gold Mine (Mining)
+    }
+
+    @Nested
+    class VolcanoIsland {
       // volcanoisland.php&action=tniat
       // - First entry into The Nemesis' Lair
       // volcanoisland.php&action=tuba
       // - redirect to The Island Barracks (only after Nemesis defeated?)
+
+      public void testVolcano(String action, String adventureName, int turns) {
+        // Automation
+        var request = new VolcanoIslandRequest(action);
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Logging
+        String url = "volcanoisland.php?action=" + action;
+        KoLAdventure adventure = AdventureDatabase.getAdventureByURL(url);
+        assertEquals(adventureName, adventure.getAdventureName());
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatInitialNemesisLairVisitUsesNoTurns() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testVolcano("tniat", "The Nemesis' Lair", 0);
+        }
+      }
+
+      @Test
+      public void thatThePostNemesisBarracksTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testVolcano("tuba", "The Island Barracks", 1);
+        }
+      }
     }
 
     @Nested

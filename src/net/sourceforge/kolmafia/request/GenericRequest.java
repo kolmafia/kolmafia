@@ -2249,11 +2249,8 @@ public class GenericRequest implements Runnable {
     String urlString = this.getURLString();
 
     return switch (this.baseURLString) {
-      case "adventure.php",
-          "basement.php",
-          "cellar.php",
-          "mining.php",
-          "volcanoisland.php" -> AdventureRequest.getAdventuresUsed(urlString);
+      case "adventure.php", "basement.php", "cellar.php", "mining.php" -> AdventureRequest
+          .getAdventuresUsed(urlString);
       case "choice.php" -> ChoiceManager.getAdventuresUsed(urlString);
       case "place.php" -> PlaceRequest.getAdventuresUsed(urlString);
       case "campground.php" -> CampgroundRequest.getAdventuresUsed(urlString);
@@ -2261,6 +2258,7 @@ public class GenericRequest implements Runnable {
       case "inv_use.php", "inv_eat.php" -> UseItemRequest.getAdventuresUsed(urlString);
       case "runskillz.php" -> UseSkillRequest.getAdventuresUsed(urlString);
       case "craft.php" -> CreateItemRequest.getAdventuresUsed(this);
+      case "volcanoisland.php" -> VolcanoIslandRequest.getAdventuresUsed(urlString);
       case "clan_hobopolis.php" -> RichardRequest.getAdventuresUsed(urlString);
       case "suburbandis.php" -> SuburbanDisRequest.getAdventuresUsed(urlString);
       case "crimbo09.php" -> Crimbo09Request.getTurnsUsed(this);

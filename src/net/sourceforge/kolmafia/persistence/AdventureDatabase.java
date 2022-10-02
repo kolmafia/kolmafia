@@ -511,8 +511,13 @@ public class AdventureDatabase {
     }
 
     // Adventuring in the barracks after the Nemesis has been defeated
-    if (adventureURL.startsWith("volcanoisland.php") && adventureURL.contains("action=tuba")) {
-      return AdventureDatabase.getAdventure("The Island Barracks");
+    if (adventureURL.startsWith("volcanoisland.php")) {
+      if (adventureURL.contains("action=tuba")) {
+        return AdventureDatabase.getAdventure("The Island Barracks");
+      }
+      if (adventureURL.contains("action=tniat")) {
+        return AdventureDatabase.getAdventure("The Nemesis' Lair");
+      }
     }
 
     adventureURL = RelayRequest.removeConfirmationFields(adventureURL);
