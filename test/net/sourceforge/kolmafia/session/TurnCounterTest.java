@@ -34,6 +34,8 @@ import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.RichardRequest;
+import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -594,6 +596,65 @@ public class TurnCounterTest {
     }
 
     @Nested
+    class Richard {
+      @Test
+      public void thatHelpingRichardTakesTurns() {
+        int turns = 5;
+
+        // Automation
+        var request = new RichardRequest(1);
+        request.setTurnCount(5);
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url = request.getURLString();
+
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+    }
+
+    @Nested
+    class SuburbanDis {
+      public void testAction(String action, int turns) {
+        // Automation
+        var request = new SuburbanDisRequest(action);
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url = "suburbandis.php?action=" + action;
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatDoingThisTakesATurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testAction("dothis", 1);
+        }
+      }
+
+      @Test
+      public void thatVisitingALtarTakesNoTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testAction("altar", 0);
+        }
+      }
+    }
+
+    @Nested
     class BeachComb {
       public void testCommand(BeachCombCommand command, int turns) {
         // Automation
@@ -667,6 +728,11 @@ public class TurnCounterTest {
           // Wandering to a specific spot on the beach
           testCommand(BeachCombCommand.WANDER, 1);
           // Combing a square
+          //
+          // It takes a turn to wander down the beach.  Once there, you can
+          // comb a patch of sand. Additional patches take another turn.  each.
+          //
+          // *** We do not account for that in getAdventuresUsed,, yet
           testCommand(BeachCombCommand.COMB, 1);
         }
       }

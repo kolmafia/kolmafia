@@ -2262,6 +2262,8 @@ public class GenericRequest implements Runnable {
       case "inv_use.php", "inv_eat.php" -> UseItemRequest.getAdventuresUsed(urlString);
       case "runskillz.php" -> UseSkillRequest.getAdventuresUsed(urlString);
       case "craft.php" -> CreateItemRequest.getAdventuresUsed(this);
+      case "clan_hobopolis.php" -> RichardRequest.getAdventuresUsed(urlString);
+      case "suburbandis.php" -> SuburbanDisRequest.getAdventuresUsed(urlString);
       case "crimbo09.php" -> Crimbo09Request.getTurnsUsed(this);
       default -> 0;
     };

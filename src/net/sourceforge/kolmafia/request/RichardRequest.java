@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RichardRequest extends GenericRequest {
   public static final int MYSTICALITY = 1;
@@ -14,6 +15,11 @@ public class RichardRequest extends GenericRequest {
   public static final int MUSCLE = 3;
 
   private static final Pattern TURN_PATTERN = Pattern.compile("numturns=(\\d+)");
+
+  private static int getTurns(String urlString) {
+    Matcher turnMatcher = TURN_PATTERN.matcher(urlString);
+    return turnMatcher.find() ? StringUtilities.parseInt(turnMatcher.group(1)) : 0;
+  }
 
   private int turnCount = 1;
 
@@ -31,13 +37,12 @@ public class RichardRequest extends GenericRequest {
 
   public RichardRequest setTurnCount(final int turnCount) {
     this.turnCount = turnCount;
+    this.addFormField("numturns", String.valueOf(turnCount));
     return this;
   }
 
   @Override
   public void run() {
-    this.addFormField("numturns", String.valueOf(this.turnCount));
-
     if (KoLCharacter.getAdventuresLeft() < this.turnCount) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Insufficient adventures.");
       return;
@@ -53,16 +58,13 @@ public class RichardRequest extends GenericRequest {
     KoLmafia.updateDisplay("Workout completed.");
   }
 
-  /**
-   * An alternative method to doing adventure calculation is determining how many adventures are
-   * used by the given request, and subtract them after the request is done. This number defaults to
-   * <code>zero</code>; overriding classes should change this value to the appropriate amount.
-   *
-   * @return The number of adventures used by this request.
-   */
   @Override
   public int getAdventuresUsed() {
     return this.turnCount;
+  }
+
+  public static int getAdventuresUsed(String urlString) {
+    return getTurns(urlString);
   }
 
   public static boolean registerRequest(final String urlString) {
@@ -88,27 +90,12 @@ public class RichardRequest extends GenericRequest {
       return false;
     }
 
-    Matcher turnMatcher = RichardRequest.TURN_PATTERN.matcher(urlString);
-    if (!turnMatcher.find()) {
-      return false;
-    }
+    int turns = getTurns(urlString);
 
     RequestLogger.printLine(
-        "["
-            + KoLAdventure.getAdventureCount()
-            + "] "
-            + gymType
-            + " ("
-            + turnMatcher.group(1)
-            + " turns)");
+        "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turns + " turns)");
     RequestLogger.updateSessionLog(
-        "["
-            + KoLAdventure.getAdventureCount()
-            + "] "
-            + gymType
-            + " ("
-            + turnMatcher.group(1)
-            + " turns)");
+        "[" + KoLAdventure.getAdventureCount() + "] " + gymType + " (" + turns + " turns)");
     return true;
   }
 }
