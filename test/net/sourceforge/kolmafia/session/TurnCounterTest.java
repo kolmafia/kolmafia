@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
@@ -19,10 +20,15 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampAwayRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
+import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LocketRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import org.junit.jupiter.api.AfterAll;
@@ -96,11 +102,13 @@ public class TurnCounterTest {
         // Automation
         var request = adventure.getRequest();
         assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
         // Relay Browser
         var relay = new RelayRequest(false);
         String url = request.getURLString();
         relay.constructURLString(url);
         assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
         // visit_url
         var generic = new GenericRequest(url);
         assertEquals(turns, TurnCounter.getTurnsUsed(generic));
@@ -215,14 +223,45 @@ public class TurnCounterTest {
           testKoLAdventure(adventure, 1);
         }
       }
+
+      // The following are adventures that do not use adventure.php
+      //
+      // barrel.php
+      // - The Barrel Full of Barrels
+      // basement.php
+      // - Fernswarthy's Basement
+      // cellar.php
+      // - The Typical Tavern Cellar
+      // mining.php
+      // - Itznotyerzitz Mine (in Disguise)
+      // - The Knob Shaft (Mining)
+      // - Anemone Mine (Mining)
+      // - The Crimbonium Mine
+      // - The Velvet / Gold Mine (Mining)
+      // volcanoisland.php&action=tniat
+      // - First entry into The Nemesis' Lair
+      // volcanoisland.php&action=tuba
+      // - redirect to The Island Barracks (only after Nemesis defeated?)
     }
 
     @Nested
     class Places {
+
+      // The following are place.php requests but are automated as adventures:
+      //
+      //    The Summoning Chamber
+      //    The Lower Chambers
+      //    Naughty Sorceress Lair monsters
+
       public void testPlace(String place, String action, int turns) {
-        String url = "place.php?whichplace=" + place + "&action=" + action;
+
+        // Automation
+        var request = new PlaceRequest(place, action);
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
         // Relay Browser
         var relay = new RelayRequest(false);
+        String url = "place.php?whichplace=" + place + "&action=" + action;
         relay.constructURLString(url);
         assertEquals(turns, TurnCounter.getTurnsUsed(relay));
         // visit_url
@@ -253,11 +292,195 @@ public class TurnCounterTest {
           testPlace("chateau", "chateau_painting", 0);
         }
       }
+    }
 
-      // The following are place.php requests but are also adventures:
-      //    The Summoning Chamber
-      //    Naughty Sorceress Lair monsters
-      //    The Lower Chambers
+    @Nested
+    class Resting {
+      // Places you can rest:
+      //
+      // campground.php&action=rest
+      //
+      // place.php?whichplace=chateau&action=chateau_restbox
+      // place.php?whichplace=chateau&action=chateau_restlabelfree
+      // place.php?whichplace=chateau&action=cheateau_restlabel
+      //
+      // place.php?whichplace=campaway&action=campaway_tentclick
+      // place.php?whichplace=campaway&action=campaway_tentturn
+      // place.php?whichplace=campaway&action=campaway_tentfree
+      //
+      // place.php?whichplace=falloutshelter&action=vault1
+
+      class Campground {
+        public void testRest(boolean rest, int turns) {
+          // Automation
+          var action = rest ? "rest" : "garden";
+          var request = new CampgroundRequest(action);
+          assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+          // Relay Browser
+          var relay = new RelayRequest(false);
+          String url = "campground.php?action=" + action;
+          relay.constructURLString(url);
+          assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+          // visit_url
+          var generic = new GenericRequest(url);
+          assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+        }
+
+        @Test
+        public void thatNonRestsTakeNoTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          try (cleanups) {
+            testRest(false, 0);
+          }
+        }
+
+        @Test
+        public void thatFreeRestsTakeNoTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          try (cleanups) {
+            testRest(true, 0);
+          }
+        }
+
+        @Test
+        public void thatNonFreeRestsTakeOneTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1));
+          try (cleanups) {
+            testRest(true, 1);
+          }
+        }
+      }
+
+      class Chateau {
+        public void testRest(boolean rest, int turns) {
+          // Automation
+          var action = rest ? ChateauRequest.BED : "chateau_desk";
+          var request = new ChateauRequest(action);
+          assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+          // Relay Browser
+          var relay = new RelayRequest(false);
+          String url = "place.php?whichplace=chateau&action=" + action;
+          relay.constructURLString(url);
+          assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+          // visit_url
+          var generic = new GenericRequest(url);
+          assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+        }
+
+        @Test
+        public void thatNonRestsTakeNoTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          try (cleanups) {
+            testRest(false, 0);
+          }
+        }
+
+        @Test
+        public void thatFreeRestsTakeNoTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          try (cleanups) {
+            testRest(true, 0);
+          }
+        }
+
+        @Test
+        public void thatNonFreeRestsTakeOneTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1));
+          try (cleanups) {
+            testRest(true, 1);
+          }
+        }
+      }
+
+      class CampAway {
+        public void testRest(boolean rest, int turns) {
+          // Automation
+          var action = rest ? CampAwayRequest.TENT : CampAwayRequest.SKY;
+          var request = new CampAwayRequest(action);
+          assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+          // Relay Browser
+          var relay = new RelayRequest(false);
+          String url = "place.php?whichplace=campaway&action=" + action;
+          relay.constructURLString(url);
+          assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+          // visit_url
+          var generic = new GenericRequest(url);
+          assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+        }
+
+        @Test
+        public void thatNonRestsTakeNoTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          try (cleanups) {
+            testRest(false, 0);
+          }
+        }
+
+        @Test
+        public void thatFreeRestsTakeNoTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          try (cleanups) {
+            testRest(true, 0);
+          }
+        }
+
+        @Test
+        public void thatNonFreeRestsTakeOneTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1));
+          try (cleanups) {
+            testRest(true, 1);
+          }
+        }
+      }
+
+      class FalloutShelter {
+        public void testRest(boolean rest, int turns) {
+          // Automation
+          var action = rest ? FalloutShelterRequest.CRYO_SLEEP_CHAMBER : "vault_term";
+          var request = new FalloutShelterRequest(action);
+          assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+          // Relay Browser
+          var relay = new RelayRequest(false);
+          String url = "place.php?whichplace=campaway&action=" + action;
+          relay.constructURLString(url);
+          assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+          // visit_url
+          var generic = new GenericRequest(url);
+          assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+        }
+
+        @Test
+        public void thatNonRestsTakeNoTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          try (cleanups) {
+            testRest(false, 0);
+          }
+        }
+
+        @Test
+        public void thatFreeRestsNotAvailable() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 0));
+          try (cleanups) {
+            testRest(true, 1);
+          }
+        }
+
+        @Test
+        public void thatNonFreeRestsTakeOneTurns() {
+          var cleanups = new Cleanups(withSkill("Disco Nap"), withProperty("timesRested", 1));
+          try (cleanups) {
+            testRest(true, 1);
+          }
+        }
+      }
     }
 
     @Nested
@@ -327,6 +550,9 @@ public class TurnCounterTest {
         }
       }
     }
+
+    @Nested
+    class BeachComb {}
   }
 
   @Nested

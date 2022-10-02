@@ -81,7 +81,7 @@ public class PlaceRequest extends GenericRequest {
         if (action.equals("chateau_painting")) {
           yield (Preferences.getBoolean("_chateauMonsterFought") ? 0 : 1);
         }
-        if (action.startsWith("chateau_rest")) {
+        if (action.startsWith("chateau_rest") || action.startsWith("cheateau_rest")) {
           yield (KoLCharacter.freeRestsRemaining() == 0 ? 1 : 0);
         }
         yield 0;
