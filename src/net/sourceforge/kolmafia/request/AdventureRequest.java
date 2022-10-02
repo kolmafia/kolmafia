@@ -132,7 +132,7 @@ public class AdventureRequest extends GenericRequest {
         this.addFormField("whichplace", "town");
         this.addFormField("action", adventureId);
       } else if (adventureId.equals("ioty2014_wolf")) {
-        this.addFormField("whichplace", "manor4");
+        this.addFormField("whichplace", "ioty2014_wolf");
         this.addFormField("action", "wolf_houserun");
       }
     } else if (!formSource.equals("basement.php")

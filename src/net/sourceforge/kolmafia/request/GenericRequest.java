@@ -2250,7 +2250,6 @@ public class GenericRequest implements Runnable {
 
     return switch (this.baseURLString) {
       case "adventure.php",
-          "barrel.php",
           "basement.php",
           "cellar.php",
           "mining.php",

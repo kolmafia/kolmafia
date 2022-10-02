@@ -8704,6 +8704,21 @@ public abstract class ChoiceControl {
       case 1086:
         // Pick a Card
         return DeckOfEveryCardRequest.getAdventuresUsed(urlString);
+      case 1099:
+        // The Barrel Full of Barrels
+        //
+        // choice 1: A barrel
+        // choice 2: Turn Crank (1)
+        // choice 3: Exit
+        //
+        // choice.php?whichchoice=1099&pwd&option=1&slot=00
+        //     slots: <ROW><COLUMN> from 00 - 22
+        //
+        // Turning the crank costs a turn.
+        // Smashing a barrel does not - unless it contains a mimic
+        //
+        // Assume that only option 3 - Exit - is guaranteed to not cost a turn.
+        return decision == 3 ? 0 : 1;
       case 1388:
         // Comb the Beach
         return BeachCombRequest.getAdventuresUsed(urlString);

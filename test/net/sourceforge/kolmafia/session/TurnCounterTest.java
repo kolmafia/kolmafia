@@ -300,6 +300,55 @@ public class TurnCounterTest {
     }
 
     @Nested
+    class BarrelFullOfBarrels {
+      private static final KoLAdventure BARRELS =
+          AdventureDatabase.getAdventureByName("The Barrel Full of Barrels");
+
+      public void testChoice(int option, String slot, int turns) {
+        // Automation
+        // Ever since KoL moved the Barrel Full of Barrels from
+        // barrel.php to choice.php, we no longer support automation.
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        // choice.php?whichchoice=1099&pwd&option=1&slot=00
+        String url = "choice.php?whichchoice=1099&option=" + option;
+        if (slot != null) {
+          url += "slot=" + slot;
+        }
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @Test
+      public void thatSmashingABarrelTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testChoice(1, "22", 1);
+        }
+      }
+
+      @Test
+      public void thatTurningTheCrankTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testChoice(2, null, 1);
+        }
+      }
+
+      @Test
+      public void thatExitingTakesNoTurns() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testChoice(3, null, 0);
+        }
+      }
+    }
+
+    @Nested
     class Resting {
       // Places you can rest:
       //
@@ -487,6 +536,7 @@ public class TurnCounterTest {
         }
       }
     }
+
 
     @Nested
     class DeckOfEveryCard {
