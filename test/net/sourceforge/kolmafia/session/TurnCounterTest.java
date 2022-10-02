@@ -537,7 +537,6 @@ public class TurnCounterTest {
       }
     }
 
-
     @Nested
     class DeckOfEveryCard {
       public void testCard(String name, int turns) {
