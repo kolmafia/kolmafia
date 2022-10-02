@@ -8704,6 +8704,9 @@ public abstract class ChoiceControl {
       case 1086:
         // Pick a Card
         return DeckOfEveryCardRequest.getAdventuresUsed(urlString);
+      case 1388:
+        // Comb the Beach
+        return BeachCombRequest.getAdventuresUsed(urlString);
       case 1463:
         // Combat Lover's Locket
         return LocketRequest.getAdventuresUsed(urlString);

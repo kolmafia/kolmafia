@@ -77,10 +77,21 @@ public class PlaceRequest extends GenericRequest {
           ? PyramidRequest.lowerChamberTurnsUsed()
           : 0;
       case "nemesiscave" -> action.equals("nmcave_boss") ? 1 : 0;
-      case "chateau" -> action.equals("chateau_painting")
-          ? (Preferences.getBoolean("_chateauMonsterFought") ? 0 : 1)
-          : 0;
+      case "chateau" -> {
+        if (action.equals("chateau_painting")) {
+          yield (Preferences.getBoolean("_chateauMonsterFought") ? 0 : 1);
+        }
+        if (action.startsWith("chateau_rest")) {
+          yield (KoLCharacter.freeRestsRemaining() == 0 ? 1 : 0);
+        }
+        yield 0;
+      }
       case "manor4" -> action.equals("manor4_chamberboss") ? 1 : 0;
+      case "campaway" -> action.startsWith("campaway_tent")
+              && KoLCharacter.freeRestsRemaining() == 0
+          ? 1
+          : 0;
+      case "falloutshelter" -> action.equals("vault1") ? 1 : 0;
       case "nstower" -> switch (action) {
         case "ns_01_crowd1",
             "ns_01_crowd2",
