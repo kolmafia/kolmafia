@@ -124,6 +124,9 @@ public class TurnCounterTest {
       private static final KoLAdventure THE_SHORE =
           AdventureDatabase.getAdventureByName("The Shore, Inc. Travel Agency");
 
+      private static final KoLAdventure BASEMENT =
+          AdventureDatabase.getAdventureByName("Fernswarthy's Basement");
+
       @Test
       public void thatNormalShoreTakesThreeTurns() {
         var cleanups = new Cleanups();
@@ -159,6 +162,22 @@ public class TurnCounterTest {
       @ParameterizedTest
       @ValueSource(
           strings = {
+            "Itznotyerzitz Mine (in Disguise)",
+            "The Knob Shaft (Mining)",
+            "Anemone Mine (Mining)",
+            "The Velvet / Gold Mine (Mining)"
+          })
+      public void thatMiningTakesOneTurn(String adventureName) {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          KoLAdventure adventure = AdventureDatabase.getAdventure(adventureName);
+          testKoLAdventure(adventure, 1);
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(
+          strings = {
             "The Briny Deeps",
             "Gingerbread Reef",
             "The Sunken Party Yacht",
@@ -178,6 +197,14 @@ public class TurnCounterTest {
         try (cleanups) {
           KoLAdventure adventure = AdventureDatabase.getAdventureByName("The Haunted Pantry");
           testKoLAdventure(adventure, 1);
+        }
+      }
+
+      @Test
+      public void thatFernswarthysBasementTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testKoLAdventure(BASEMENT, 1);
         }
       }
 
@@ -230,17 +257,6 @@ public class TurnCounterTest {
           testKoLAdventure(adventure, 1);
         }
       }
-
-      // The following are adventures that do not use adventure.php
-      //
-      // basement.php
-      // - Fernswarthy's Basement
-      // mining.php
-      // - Itznotyerzitz Mine (in Disguise)
-      // - The Knob Shaft (Mining)
-      // - Anemone Mine (Mining)
-      // - The Crimbonium Mine
-      // - The Velvet / Gold Mine (Mining)
     }
 
     @Nested
