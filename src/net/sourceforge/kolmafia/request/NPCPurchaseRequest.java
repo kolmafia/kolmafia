@@ -149,28 +149,61 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       // the desired result.
       factor = 67;
     }
-    if (NPCPurchaseRequest.usingTrousers()) factor -= 5;
+    if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
     return (int) ((this.price * factor) / 100);
   }
 
   public static int currentDiscountedPrice(int price) {
+    return currentDiscountedPrice(null, price);
+  }
+
+  public static int currentDiscountedPrice(String npcStoreId, int price) {
     long factor = 100;
-    if (NPCPurchaseRequest.usingTrousers()) factor -= 5;
+    if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
     return (int) ((price * factor) / 100);
   }
 
-  private static boolean usingTrousers() {
-    return DISCOUNT_TROUSERS.contains(EquipmentManager.getEquipment(EquipmentManager.PANTS));
+  private static boolean usingTrousers(String npcStoreId) {
+    if ("fdkol".equals(npcStoreId)) {
+      return false;
+    }
+
+    var trousers = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+
+    if (trousers == null) {
+      return false;
+    }
+
+    // Designer sweatpants discount does not apply to the gift shop
+    if ("town_giftshop.php".equals(npcStoreId)
+        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+      return false;
+    }
+
+    return DISCOUNT_TROUSERS.contains(trousers);
   }
 
-  private static AdventureResult getEquippableTrousers() {
-    return DISCOUNT_TROUSERS.stream()
-        .filter(InventoryManager::hasItem)
-        .filter(EquipmentManager::canEquip)
-        .findFirst()
-        .orElse(null);
+  private static AdventureResult getEquippableTrousers(String npcStoreId) {
+    AdventureResult trousers =
+        DISCOUNT_TROUSERS.stream()
+            .filter(InventoryManager::hasItem)
+            .filter(EquipmentManager::canEquip)
+            .findFirst()
+            .orElse(null);
+
+    if (trousers == null) {
+      return null;
+    }
+
+    // Designer sweatpants discount does not apply to the gift shop
+    if ("town_giftshop.php".equals(npcStoreId)
+        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+      return null;
+    }
+
+    return trousers;
   }
 
   @Override
@@ -275,8 +308,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     // Otherwise, maybe you can put on some discount-providing trousers to decrease the cost of the
     // purchase, but only if auto-recovery isn't running.
 
-    if (!usingTrousers()) {
-      var trousers = getEquippableTrousers();
+    if (!usingTrousers(this.npcStoreId)) {
+      var trousers = getEquippableTrousers(this.npcStoreId);
       if (trousers != null) {
         (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
       }
