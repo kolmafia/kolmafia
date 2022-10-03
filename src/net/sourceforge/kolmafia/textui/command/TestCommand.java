@@ -80,7 +80,6 @@ import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -893,14 +892,6 @@ public class TestCommand extends AbstractCommand {
       TestCommand.contents = null;
       String location = StationaryButtonDecorator.getAdventureAgainLocation(buffer);
       RequestLogger.printLine(location);
-      return;
-    }
-
-    if (command.equals("barrel")) {
-      StringBuffer buffer = new StringBuffer(TestCommand.contents);
-      TestCommand.contents = null;
-      BarrelDecorator.decorate(buffer);
-      TestCommand.dump(buffer.toString());
       return;
     }
 

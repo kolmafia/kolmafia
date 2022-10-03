@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 
 public class QuestManager {
   private static final Pattern ORE_PATTERN =
@@ -225,8 +224,6 @@ public class QuestManager {
             handleSneakyPeteChange(responseText);
           }
       }
-    } else if (location.startsWith("barrel")) {
-      BarrelDecorator.parseResponse(location, responseText);
     } else if (location.startsWith("choice.php") && location.contains("forceoption=0")) {
       // This can have no active choice options and therefore
       // won't be interpreted by ChoiceManager

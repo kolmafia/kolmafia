@@ -209,7 +209,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (urlString.startsWith("cellar.php")) {
       return TavernRequest.cellarLocationString(urlString);
     }
-    // *** could do something with barrel.php here
     return this.adventureName;
   }
 
@@ -715,11 +714,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return (Preferences.getBoolean("loveTunnelAvailable")
               || Preferences.getBoolean("_loveTunnelToday"))
           && !Preferences.getBoolean("_loveTunnelUsed");
-    }
-
-    // The Barrel Full of Barrels
-    if (this.adventureId.equals(AdventurePool.BARREL_ID)) {
-      return true;
     }
 
     /* Removed adventures.
@@ -3011,9 +3005,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   private static KoLAdventure findAdventure(final String urlString) {
-    if (urlString.equals("barrel.php")) {
-      return null;
-    }
     if (urlString.startsWith("mining.php") && urlString.contains("intro=1")) {
       return null;
     }

@@ -378,11 +378,6 @@ public class AdventureDatabase {
       adventureURL = adventureURL.substring(1);
     }
 
-    // Barrel smashes count as adventures.
-    if (adventureURL.startsWith("barrel.php")) {
-      return AdventureDatabase.adventureByURL.get("barrel.php");
-    }
-
     // Visiting the basement counts as an adventure
     if (adventureURL.startsWith("basement.php")) {
       return AdventureDatabase.adventureByURL.get("basement.php");

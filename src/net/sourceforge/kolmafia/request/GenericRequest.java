@@ -81,7 +81,6 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.ResettingHttpClient;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.RelayAgent;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
@@ -162,7 +161,6 @@ public class GenericRequest implements Runnable {
 
   // *** static class variables are always suspect
   public static boolean isRatQuest = false;
-  public static boolean isBarrelSmash = false;
   public static boolean ascending = false;
   public static String itemMonster = null;
   private static boolean suppressUpdate = false;
@@ -1342,18 +1340,6 @@ public class GenericRequest implements Runnable {
 
     if (GenericRequest.isRatQuest) {
       TavernRequest.preTavernVisit(this);
-    }
-
-    if (this.hasResult && GenericRequest.isBarrelSmash) {
-      // Smash has resulted in a mimic.
-      // Continue tracking throughout the combat
-      GenericRequest.isBarrelSmash =
-          urlString.startsWith("fight.php") || urlString.startsWith("fambattle.php");
-    }
-
-    if (urlString.startsWith("barrel.php?")) {
-      GenericRequest.isBarrelSmash = true;
-      BarrelDecorator.beginSmash(urlString);
     }
 
     // Do this before registering the request now that we have a
