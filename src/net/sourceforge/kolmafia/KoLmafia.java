@@ -1178,9 +1178,8 @@ public abstract class KoLmafia {
           return;
         }
 
-        if (KoLmafia.currentAdventure.getRequest() instanceof RichardRequest) {
-          RequestThread.postRequest(
-              ((RichardRequest) KoLmafia.currentAdventure.getRequest()).setTurnCount(iterations));
+        if (KoLmafia.currentAdventure.getRequest() instanceof RichardRequest richard) {
+          RequestThread.postRequest(richard.setTurnCount(iterations));
           return;
         }
 

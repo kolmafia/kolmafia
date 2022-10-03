@@ -3407,6 +3407,8 @@ public class FightRequest extends GenericRequest {
       trackEnvironment(location);
     }
 
+    Preferences.setBoolean("_lastCombatWon", won);
+
     if (!won) {
       QuestManager.updateQuestFightLost(responseText, monsterName);
     } else {

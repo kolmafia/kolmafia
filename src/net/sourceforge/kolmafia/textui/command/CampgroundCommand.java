@@ -23,7 +23,7 @@ public class CampgroundCommand extends AbstractCommand {
     GenericRequest request = null;
 
     if (command.equals("rest") && ChateauRequest.chateauRestUsable()) {
-      request = new ChateauRequest("chateau_restbox");
+      request = new ChateauRequest(ChateauRequest.BED);
     } else if (command.equals("rest") && CampAwayRequest.campAwayTentRestUsable()) {
       request = new CampAwayRequest(CampAwayRequest.TENT);
     } else {

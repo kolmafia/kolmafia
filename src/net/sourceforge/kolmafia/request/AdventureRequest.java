@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
@@ -110,7 +109,7 @@ public class AdventureRequest extends GenericRequest {
       if (adventureId.equals("cloudypeak2")) {
         this.addFormField("whichplace", "mclargehuge");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("pyramid_state")) {
+      } else if (adventureId.equals("pyramid_state")) {
         this.addFormField("whichplace", "pyramid");
         StringBuilder action = new StringBuilder();
         action.append(adventureId);
@@ -119,26 +118,23 @@ public class AdventureRequest extends GenericRequest {
           action.append("a");
         }
         this.addFormField("action", action.toString());
-      } else if (this.adventureId.equals("manor4_chamberboss")) {
+      } else if (adventureId.equals("manor4_chamberboss")) {
         this.addFormField("whichplace", "manor4");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("townwrong_tunnel")) {
+      } else if (adventureId.equals("townwrong_tunnel")) {
         this.addFormField("whichplace", "town_wrong");
         this.addFormField("action", "townwrong_tunnel");
-      } else if (this.adventureId.startsWith("ns_")) {
+      } else if (adventureId.startsWith("ns_")) {
         this.addFormField("whichplace", "nstower");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("town_eincursion")
-          || this.adventureId.equals("town_eicfight2")) {
+      } else if (adventureId.equals("town_eincursion") || adventureId.equals("town_eicfight2")) {
         this.addFormField("whichplace", "town");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("ioty2014_wolf")) {
-        this.addFormField("whichplace", "manor4");
+      } else if (adventureId.equals("ioty2014_wolf")) {
+        this.addFormField("whichplace", "ioty2014_wolf");
         this.addFormField("action", "wolf_houserun");
       }
-    } else if (!formSource.equals("basement.php")
-        && !formSource.equals("cellar.php")
-        && !formSource.equals("barrel.php")) {
+    } else if (!formSource.equals("basement.php") && !formSource.equals("cellar.php")) {
       this.addFormField("action", adventureId);
     }
   }
@@ -168,14 +164,6 @@ public class AdventureRequest extends GenericRequest {
           return;
         }
       }
-    } else if (this.formSource.equals("barrel.php")) {
-      int square = BarrelDecorator.recommendSquare();
-      if (square == 0) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "All booze in the specified rows has been collected.");
-        return;
-      }
-      this.addFormField("smash", String.valueOf(square));
     } else if (this.formSource.equals("cellar.php")) {
       if (TavernManager.shouldAutoFaucet()) {
         this.removeFormField("whichspot");
@@ -760,10 +748,6 @@ public class AdventureRequest extends GenericRequest {
           }
           break;
       }
-    } else if (urlString.startsWith("barrel.php")) {
-      // Without this special case, encounter names in the Barrels would
-      // be things like "bottle of rum"
-      return "Barrel Smash";
     }
 
     String encounter = parseEncounter(responseText);
@@ -987,8 +971,6 @@ public class AdventureRequest extends GenericRequest {
       // Only register initial encounter of Dvorak's Revenge
       DvorakManager.saveResponse(responseText);
       return responseText.contains("I before E, except after C");
-    } else if (formSource.startsWith("barrel.php?smash")) {
-      return true;
     } else if (formSource.startsWith("mining.php")) {
       if (formSource.contains("which=")) {
         if (!formSource.contains("mine=6")) {
@@ -1007,6 +989,11 @@ public class AdventureRequest extends GenericRequest {
     return false;
   }
 
+  public static int getAdventuresUsed(final String urlString) {
+    KoLAdventure adventure = AdventureDatabase.getAdventureByURL(urlString);
+    return adventure == null ? 0 : adventure.getRequest().getAdventuresUsed();
+  }
+
   @Override
   public int getAdventuresUsed() {
     if (this.override >= 0) {
@@ -1021,6 +1008,9 @@ public class AdventureRequest extends GenericRequest {
     }
     if (this.adventureName.equals("The Lower Chambers")) {
       return PyramidRequest.lowerChamberTurnsUsed();
+    }
+    if (this.adventureName.equals("The Typical Tavern Cellar")) {
+      return this.getURLString().contains("action=explore") ? 1 : 0;
     }
     if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;

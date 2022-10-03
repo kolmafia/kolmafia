@@ -56,6 +56,11 @@ public class PlaceRequest extends GenericRequest {
     return this.followRedirects;
   }
 
+  @Override
+  public int getAdventuresUsed() {
+    return PlaceRequest.getAdventuresUsed(this.getURLString());
+  }
+
   public static int getAdventuresUsed(final String urlString) {
     String place = GenericRequest.getPlace(urlString);
     if (place == null) {
@@ -71,6 +76,40 @@ public class PlaceRequest extends GenericRequest {
       case "pyramid" -> action.startsWith("pyramid_state")
           ? PyramidRequest.lowerChamberTurnsUsed()
           : 0;
+      case "nemesiscave" -> action.equals("nmcave_boss") ? 1 : 0;
+      case "chateau" -> {
+        if (action.equals("chateau_painting")) {
+          yield (Preferences.getBoolean("_chateauMonsterFought") ? 0 : 1);
+        }
+        if (action.startsWith("chateau_rest") || action.startsWith("cheateau_rest")) {
+          yield (KoLCharacter.freeRestsRemaining() == 0 ? 1 : 0);
+        }
+        yield 0;
+      }
+      case "manor4" -> action.equals("manor4_chamberboss") ? 1 : 0;
+      case "campaway" -> action.startsWith("campaway_tent")
+              && KoLCharacter.freeRestsRemaining() == 0
+          ? 1
+          : 0;
+      case "falloutshelter" -> action.equals("vault1") ? 1 : 0;
+      case "nstower" -> switch (action) {
+        case "ns_01_crowd1",
+            "ns_01_crowd2",
+            "ns_01_crowd3",
+            // Wall of Skin
+            "ns_05_monster1",
+            // Wall of Meat
+            "ns_06_monster2",
+            // Wall of Bones
+            "ns_07_monster3",
+            // Mirror
+            "ns_08_monster4",
+            // Your Shadow
+            "ns_09_monster5",
+            // Her Naughtiness
+            "ns_10_sorcfight" -> 1;
+        default -> 0;
+      };
       default -> 0;
     };
   }
@@ -164,7 +203,7 @@ public class PlaceRequest extends GenericRequest {
         }
       }
     } else if (place.equals("manor4")) {
-      if (action.equals("manor4_chamberwall") || action.equals("manor4_chamberwalllabel")) {
+      if (action.startsWith("manor4_chamberwall")) {
         // You mix the mortar-dissolving ingredients
         // into a nasty-smelling paste, and smear it
         // all over the brickwork with a mortar. Smoke
@@ -557,7 +596,7 @@ public class PlaceRequest extends GenericRequest {
       if (action.equals("manor4_chamber")) {
         return true;
       }
-      if (action.equals("manor4_chamberwall") || action.equals("manor4_chamberwalllabel")) {
+      if (action.startsWith("manor4_chamberwall")) {
         message = "Inspecting the Suspicious Masonry";
       }
     } else if (place.equals("mclargehuge")) {

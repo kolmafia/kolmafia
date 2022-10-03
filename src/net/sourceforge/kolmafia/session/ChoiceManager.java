@@ -2348,9 +2348,7 @@ public abstract class ChoiceManager {
   }
 
   public static int getAdventuresUsed(final String urlString) {
-    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
-    int option = ChoiceUtilities.extractOptionFromURL(urlString);
-    return ChoiceControl.getAdventuresUsed(choice, option);
+    return ChoiceControl.getAdventuresUsed(urlString);
   }
 
   private static void setCanWalkAway(final int choice) {

@@ -16,6 +16,8 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -564,5 +566,15 @@ public class FileUtilities {
     s = matchPathLists(homelist, filelist);
 
     return s;
+  }
+
+  public static boolean isEmptyDirectory(Path path) throws IOException {
+    if (!Files.isDirectory(path)) return false;
+
+    var listFiles = Files.list(path);
+
+    try (listFiles) {
+      return listFiles.findAny().isEmpty();
+    }
   }
 }

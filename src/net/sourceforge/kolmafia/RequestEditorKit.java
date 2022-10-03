@@ -72,7 +72,6 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
@@ -321,8 +320,6 @@ public class RequestEditorKit extends HTMLEditorKit {
             "<tr><td colspan=9",
             "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9");
       }
-    } else if (location.startsWith("barrel.php")) {
-      BarrelDecorator.decorate(buffer);
     } else if (location.startsWith("basement.php")) {
       BasementDecorator.decorate(buffer);
     } else if (location.startsWith("bathole.php")) {

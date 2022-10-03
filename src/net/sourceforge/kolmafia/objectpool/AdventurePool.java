@@ -2,12 +2,11 @@ package net.sourceforge.kolmafia.objectpool;
 
 public class AdventurePool {
   public static final String LOWER_CHAMBER_ID = "pyramid_state";
-  public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
+  public static final String SUMMONING_CHAMBER_ID = "manor4_chamberboss";
   public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
   public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
   public static final String SHROUDED_PEAK_ID = "cloudypeak2";
   public static final String TUNNEL_OF_LOVE_ID = "townwrong_tunnel";
-  public static final String BARREL_ID = "barrel";
 
   public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
