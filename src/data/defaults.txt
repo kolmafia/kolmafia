@@ -1881,6 +1881,7 @@ user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
 user	_kudzuSaladEaten	false
 user	_lastCombatStarted
+user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
 user	_LastPirateRealmIsland
 user	_lastSausageMonsterTurn	0

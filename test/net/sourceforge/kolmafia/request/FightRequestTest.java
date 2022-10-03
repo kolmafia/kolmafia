@@ -1539,4 +1539,15 @@ public class FightRequestTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({"anapest_runaway, false", "goth_kid_pvp, true"})
+  void setsLastFightProperty(String html, boolean prop) {
+    var cleanups = withProperty("_lastCombatWon");
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_" + html + ".html", "fight.php?action=attack");
+      assertThat("_lastCombatWon", isSetTo(prop));
+    }
+  }
 }
