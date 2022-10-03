@@ -60,7 +60,6 @@ public class Preferences {
   private static final Set<String> legacyDailies =
       new TreeSet<>(
           List.of(
-              "barrelLayout",
               "bootsCharged",
               "breakfastCompleted",
               "burrowgrubHiveUsed",
@@ -77,7 +76,6 @@ public class Preferences {
               "grimoire1Summons",
               "grimoire2Summons",
               "grimoire3Summons",
-              "lastBarrelSmashed",
               "libramSummons",
               "libraryCardUsed",
               "noodleSummons",
