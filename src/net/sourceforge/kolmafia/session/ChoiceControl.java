@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
+import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -8689,7 +8690,9 @@ public abstract class ChoiceControl {
     return (desc == null) ? "unknown" : desc;
   }
 
-  public static int getAdventuresUsed(final int choice, final int decision) {
+  public static int getAdventuresUsed(final String urlString) {
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
     switch (choice) {
       case 929:
         // Control Freak
@@ -8697,6 +8700,31 @@ public abstract class ChoiceControl {
           return PyramidRequest.lowerChamberTurnsUsed();
         }
         break;
+      case 1085:
+      case 1086:
+        // Pick a Card
+        return DeckOfEveryCardRequest.getAdventuresUsed(urlString);
+      case 1099:
+        // The Barrel Full of Barrels
+        //
+        // choice 1: A barrel
+        // choice 2: Turn Crank (1)
+        // choice 3: Exit
+        //
+        // choice.php?whichchoice=1099&pwd&option=1&slot=00
+        //     slots: <ROW><COLUMN> from 00 - 22
+        //
+        // Turning the crank costs a turn.
+        // Smashing a barrel does not - unless it contains a mimic
+        //
+        // Assume that only option 3 - Exit - is guaranteed to not cost a turn.
+        return decision == 3 ? 0 : 1;
+      case 1388:
+        // Comb the Beach
+        return BeachCombRequest.getAdventuresUsed(urlString);
+      case 1463:
+        // Combat Lover's Locket
+        return LocketRequest.getAdventuresUsed(urlString);
     }
     return 0;
   }

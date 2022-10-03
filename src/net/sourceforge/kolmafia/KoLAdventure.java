@@ -397,6 +397,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult POWDER_PUFF = ItemPool.get(ItemPool.POWDER_PUFF);
   private static final AdventureResult FINEST_GOWN = ItemPool.get(ItemPool.FINEST_GOWN);
   private static final AdventureResult DANCING_SHOES = ItemPool.get(ItemPool.DANCING_SHOES);
+  private static final AdventureResult WINE_BOMB = ItemPool.get(ItemPool.WINE_BOMB);
   private static final AdventureResult KNOB_GOBLIN_PERFUME =
       ItemPool.get(ItemPool.KNOB_GOBLIN_PERFUME);
   private static final AdventureResult KNOB_CAKE = ItemPool.get(ItemPool.KNOB_CAKE);
@@ -687,7 +688,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 11 quest boss -> Lord Spookyraven
     if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
-      return QuestDatabase.isQuestLaterThan(Quest.MANOR, "step2");
+      return switch (QuestDatabase.getQuest(Quest.MANOR)) {
+        case "step3" -> true;
+        default -> InventoryManager.hasItem(WINE_BOMB);
+      };
     }
 
     // Level 11 quest boss -> Ed
@@ -937,7 +941,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       if (!KoLCharacter.desertBeachAccessible()) {
-        System.out.println("No desert beach accessible");
         return false;
       }
 
@@ -1928,6 +1931,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // When we talk to Bart, he will open the cellar for us.
       RequestThread.postRequest(new GenericRequest("tavern.php?place=barkeep"));
       return QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED);
+    }
+
+    // Level 11 quest boss -> Lord Spookyraven
+    if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
+      if (InventoryManager.hasItem(WINE_BOMB)) {
+        var request = new PlaceRequest("manor4", "manor4_chamberwall", true);
+        RequestThread.postRequest(request);
+      }
+      return QuestDatabase.getQuest(Quest.MANOR).equals("step3");
     }
 
     if (this.zone.equals("Astral")) {

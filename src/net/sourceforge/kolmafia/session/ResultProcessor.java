@@ -2153,10 +2153,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.FIZZING_SPORE_POD:
-        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6
-            && (QuestDatabase.isQuestStep(Quest.NEMESIS, "step12")
-                || QuestDatabase.isQuestStep(Quest.NEMESIS, "step13"))) {
-          QuestDatabase.setQuestProgress(Quest.NEMESIS, "step14");
+        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6) {
+          QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step14");
         }
         break;
 
