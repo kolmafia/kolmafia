@@ -17,6 +17,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -36,6 +38,8 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -886,6 +890,104 @@ public class TurnCounterTest {
           //
           // *** We do not account for that in getAdventuresUsed,, yet
           testCommand(BeachCombCommand.COMB, 1);
+        }
+      }
+    }
+
+    @Nested
+    class UseItem {
+      public void testUsage(int itemId, int turns) {
+        // Automation
+        var request = UseItemRequest.getInstance(itemId);
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url = request.getURLString();
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @ParameterizedTest
+      @ValueSource(
+          ints = {ItemPool.BLACK_PUDDING, ItemPool.SPOOKY_PUTTY_MONSTER, ItemPool.WHITE_PAGE})
+      public void thatUsingThisTakesATurn(int itemId) {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testUsage(itemId, 1);
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(ints = {ItemPool.SEAL_TOOTH, ItemPool.COTTAGE, ItemPool.BRIEFCASE})
+      public void thatUsingThisTakesNoTurn(int itemId) {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testUsage(itemId, 0);
+        }
+      }
+    }
+
+    @Nested
+    class UseSkill {
+      public void testUsage(int skillId, int turns) {
+        // Automation
+        var request = UseSkillRequest.getInstance(skillId);
+        assertEquals(turns, TurnCounter.getTurnsUsed(request));
+
+        // Relay Browser
+        var relay = new RelayRequest(false);
+        String url = request.getURLString();
+        relay.constructURLString(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(relay));
+
+        // visit_url
+        var generic = new GenericRequest(url);
+        assertEquals(turns, TurnCounter.getTurnsUsed(generic));
+      }
+
+      @ParameterizedTest
+      @ValueSource(ints = {SkillPool.HIBERNATE, SkillPool.SIMMER})
+      public void thatUsingThisTakesATurn(int itemId) {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testUsage(itemId, 1);
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(ints = {SkillPool.BEND_HELL, SkillPool.COCOON})
+      public void thatUsingThisTakesNoTurn(int itemId) {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          testUsage(itemId, 0);
+        }
+      }
+    }
+
+    @Nested
+    class Craft {
+      @Test
+      public void thatCreatingGinAndTonicTakesOneTurn() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          String url = "craft.php?action=craft&mode=cocktail&ajax=1&qty=1&a=1553&b=1559";
+          var generic = new GenericRequest(url);
+          assertEquals(1, TurnCounter.getTurnsUsed(generic));
+        }
+      }
+
+      @Test
+      public void thatCreatingFineWineTakesNoTurns() {
+        var cleanups = new Cleanups();
+        try (cleanups) {
+          String url = "craft.php?action=craft&mode=cocktail&ajax=1&qty=1&a=247&b=244";
+          var generic = new GenericRequest(url);
+          assertEquals(0, TurnCounter.getTurnsUsed(generic));
         }
       }
     }
