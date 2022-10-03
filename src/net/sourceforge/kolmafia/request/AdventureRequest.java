@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
@@ -136,9 +135,7 @@ public class AdventureRequest extends GenericRequest {
         this.addFormField("whichplace", "manor4");
         this.addFormField("action", "wolf_houserun");
       }
-    } else if (!formSource.equals("basement.php")
-        && !formSource.equals("cellar.php")
-        && !formSource.equals("barrel.php")) {
+    } else if (!formSource.equals("basement.php") && !formSource.equals("cellar.php")) {
       this.addFormField("action", adventureId);
     }
   }
@@ -168,14 +165,6 @@ public class AdventureRequest extends GenericRequest {
           return;
         }
       }
-    } else if (this.formSource.equals("barrel.php")) {
-      int square = BarrelDecorator.recommendSquare();
-      if (square == 0) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "All booze in the specified rows has been collected.");
-        return;
-      }
-      this.addFormField("smash", String.valueOf(square));
     } else if (this.formSource.equals("cellar.php")) {
       if (TavernManager.shouldAutoFaucet()) {
         this.removeFormField("whichspot");
@@ -760,10 +749,6 @@ public class AdventureRequest extends GenericRequest {
           }
           break;
       }
-    } else if (urlString.startsWith("barrel.php")) {
-      // Without this special case, encounter names in the Barrels would
-      // be things like "bottle of rum"
-      return "Barrel Smash";
     }
 
     String encounter = parseEncounter(responseText);
@@ -987,8 +972,6 @@ public class AdventureRequest extends GenericRequest {
       // Only register initial encounter of Dvorak's Revenge
       DvorakManager.saveResponse(responseText);
       return responseText.contains("I before E, except after C");
-    } else if (formSource.startsWith("barrel.php?smash")) {
-      return true;
     } else if (formSource.startsWith("mining.php")) {
       if (formSource.contains("which=")) {
         if (!formSource.contains("mine=6")) {

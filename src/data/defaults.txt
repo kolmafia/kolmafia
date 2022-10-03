@@ -273,8 +273,6 @@ user	ballpitBonus	1
 user	banishedMonsters	
 user	banishingShoutMonsters
 user	bankedKarma	0
-user	barrelGoal	1
-user	barrelLayout	?????????
 user	barrelShrineUnlocked	false
 user	bartenderTurnsUsed	0
 user	basementMallPrices	1
@@ -769,7 +767,6 @@ user	lastBangPotion825
 user	lastBangPotion826
 user	lastBangPotion827
 user	lastBangPotionReset	-1
-user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
 user	lastBeardBuff	0
 user	lastBreakfast	-1
