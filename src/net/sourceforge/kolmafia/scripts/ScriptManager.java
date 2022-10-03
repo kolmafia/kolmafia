@@ -27,8 +27,6 @@ public class ScriptManager {
 
   protected static final Pattern SOURCEFORGE_PATTERN =
       Pattern.compile("/p/(.*?)/(?:code|svn)(.*)", Pattern.DOTALL);
-  protected static final Pattern GOOGLECODE_HOST_PATTERN =
-      Pattern.compile("([^\\.]+)\\.googlecode\\.com", Pattern.DOTALL);
 
   public static String getProjectIdentifier(String host, String path) {
     String UUID = null;
@@ -37,8 +35,6 @@ public class ScriptManager {
     if ((m = SOURCEFORGE_PATTERN.matcher(path)).find()) {
       // replace awful SVN UUID with nicely-formatted string derived from URL
       UUID = StringUtilities.globalStringReplace(m.group(1) + m.group(2), "/", "-"); //
-    } else if ((m = GOOGLECODE_HOST_PATTERN.matcher(host)).find()) {
-      UUID = m.group(1) + StringUtilities.globalStringReplace(path.substring(4), "/", "-");
     } else if (host.contains("github")) {
       UUID = StringUtilities.globalStringReplace(path.substring(1), "/", "-");
     }

@@ -1110,6 +1110,21 @@ public class Player {
   }
 
   /**
+   * Sets the user as having a cocktail kit installed
+   *
+   * @return Removes the cocktail kit
+   */
+  public static Cleanups withCocktailKit() {
+    KoLCharacter.setCocktailKit(true);
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setCocktailKit(false);
+          ConcoctionDatabase.refreshConcoctions();
+        });
+  }
+
+  /**
    * Does nothing, but ensures the given property is reverted as part of cleanup
    *
    * @param key Key of property

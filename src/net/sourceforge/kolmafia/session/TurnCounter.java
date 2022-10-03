@@ -10,13 +10,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.PlaceRequest;
-import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TurnCounter implements Comparable<TurnCounter> {
@@ -437,50 +431,7 @@ public class TurnCounter implements Comparable<TurnCounter> {
   }
 
   public static int getTurnsUsed(GenericRequest request) {
-    if (!(request instanceof RelayRequest)) {
-      return request.getAdventuresUsed();
-    }
-
-    String urlString = request.getURLString();
-
-    if (urlString.startsWith("adventure.php")) {
-      // Assume unknown adventure locations take 1 turn each
-      // This is likely not true under the Sea, for example,
-      // but it's as good a guess as any we can make.
-
-      return 1;
-    }
-
-    if (urlString.startsWith("choice.php")) {
-      return ChoiceManager.getAdventuresUsed(urlString);
-    }
-
-    if (urlString.startsWith("place.php")) {
-      return PlaceRequest.getAdventuresUsed(urlString);
-    }
-
-    if (urlString.startsWith("inv_use.php") || urlString.startsWith("inv_eat.php")) {
-      return UseItemRequest.getAdventuresUsed(urlString);
-    }
-
-    if (urlString.startsWith("runskillz.php")) {
-      return UseSkillRequest.getAdventuresUsed(urlString);
-    }
-
-    if (urlString.startsWith("craft.php") || urlString.startsWith("guild.php")) {
-      return CreateItemRequest.getAdventuresUsed(request);
-    }
-
-    if (urlString.startsWith("place.php?whichplace=chateau")
-        && urlString.contains("action=chateau_painting")) {
-      return Preferences.getBoolean("_chateauMonsterFought") ? 0 : 1;
-    }
-
-    if (urlString.startsWith("crimbo09.php")) {
-      return Crimbo09Request.getTurnsUsed(request);
-    }
-
-    return 0;
+    return request.getAdventuresUsed();
   }
 
   public static final void addWarning(final String label) {

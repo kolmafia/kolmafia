@@ -19,7 +19,7 @@ public class RestChateauMenuItem extends ThreadedMenuItem {
         return;
       }
 
-      ChateauRequest request = new ChateauRequest("chateau_restbox");
+      ChateauRequest request = new ChateauRequest(ChateauRequest.BED);
       int turnCountValue = StringUtilities.parseInt(turnCount);
 
       KoLmafia.makeRequest(request, turnCountValue);

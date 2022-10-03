@@ -1,9 +1,13 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.session.LocketManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LocketRequest extends GenericRequest {
 
@@ -94,8 +98,28 @@ public class LocketRequest extends GenericRequest {
     super.run();
   }
 
+  private static final Pattern URL_MID_PATTERN = Pattern.compile("mid=(\\d+)");
+
+  private static MonsterData extractMonsterFromURL(final String urlString) {
+    Matcher matcher = URL_MID_PATTERN.matcher(urlString);
+    if (!matcher.find()) {
+      return null;
+    }
+    int mid = StringUtilities.parseInt(matcher.group(1));
+    return MonsterDatabase.findMonsterById(mid);
+  }
+
   @Override
   public int getAdventuresUsed() {
-    return (this.monster != null) ? 1 : 0;
+    return LocketRequest.getAdventuresUsed(this.monster);
+  }
+
+  public static int getAdventuresUsed(String urlString) {
+    MonsterData monster = extractMonsterFromURL(urlString);
+    return LocketRequest.getAdventuresUsed(monster);
+  }
+
+  private static int getAdventuresUsed(MonsterData monster) {
+    return (monster != null) ? 1 : 0;
   }
 }

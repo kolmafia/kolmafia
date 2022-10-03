@@ -1,31 +1,23 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.withContinuationState;
-import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
-import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
 import org.junit.jupiter.api.AfterAll;
@@ -33,7 +25,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class RelayRequestWarningsTest {
 
@@ -54,6 +45,9 @@ public class RelayRequestWarningsTest {
   // Additionally, some locations will be repeatedly adventured in and, once you have confirmed, you
   // don't want to be nagged again. There are global static booleans in RelayRequest for such
   // warnings. Once you have confirmed once, it holds for rest of the session.
+  //
+  // "Counter Warnings" are a special case, since they apply to both
+  // Relay Browser adventuring and Automation. Tests for those are in session/TurnCounterTest.java
 
   @BeforeAll
   public static void beforeAll() {
@@ -92,90 +86,6 @@ public class RelayRequestWarningsTest {
       buf.append("=on");
     }
     return buf.toString();
-  }
-
-  @Nested
-  class Pyramid {
-    private static final KoLAdventure LOWER_CHAMBERS =
-        AdventureDatabase.getAdventureByName("The Lower Chambers");
-
-    @CartesianTest
-    public void thatCounterWarningsInPyramidWork(
-        @Values(ints = {1, 2, 3, 4, 5}) int position,
-        @Values(booleans = {true, false}) boolean bombed,
-        @Values(ints = {0, 3}) int counter) {
-
-      // Going to the Lower Chamber consumes seven turns when going after
-      // Ed and one turn if simply visiting after turning the wheel.
-      //
-      // I did not get a Spookyraven Lights Out warning when about to do
-      // the latter. Let's fix that.
-
-      // "pyramidPosition"
-      // 1 = "Empty/Rubble"
-      //   = "Empty/Empty/Ed's Chamber"
-      // 2 = "Rats/Token"
-      // 3 = "Rubble/Bomb"
-      // 4 = "Token/Empty"
-      // 5 = "Bomb/Rats"
-
-      var cleanups =
-          new Cleanups(
-              withProperty("pyramidPosition", position),
-              withProperty("pyramidBombUsed", bombed),
-              withProperty("dontStopForCounters", false),
-              withContinuationState(),
-              withCounter(counter, "label", "image"));
-      try (cleanups) {
-        int expected = PyramidRequest.lowerChamberTurnsUsed();
-        int actual = LOWER_CHAMBERS.getRequest().getAdventuresUsed();
-        assertEquals(expected, actual);
-
-        // There are two ways to get to the lower chamber:
-        //
-        // From the Control Chamber:
-        // choice.php?pwd&whichchoice=929&option=5
-        var choiceRequest = new RelayRequest(false);
-        choiceRequest.constructURLString("choice.php?whichchoice=929&option=5");
-        assertEquals(expected, TurnCounter.getTurnsUsed(choiceRequest));
-        boolean warned = choiceRequest.sendCounterWarning();
-        assertEquals(expected > counter, warned);
-
-        // (which probably redirects to:)
-        //
-        // From the Pyramid:
-        // place.php?whichplace=pyramid&action=pyramid_state1a
-        var placeRequest = new RelayRequest(false);
-        var buffer = new StringBuilder("place.php?whichplace=pyramid&action=pyramid_state");
-        buffer.append(position);
-        if (bombed) {
-          buffer.append("a");
-        }
-        placeRequest.constructURLString(buffer.toString());
-        assertEquals(expected, TurnCounter.getTurnsUsed(placeRequest));
-
-        // Restart the counter
-        TurnCounter.stopCounting("label");
-        TurnCounter.startCounting(counter, "label", "image");
-
-        warned = placeRequest.sendCounterWarning();
-        assertEquals(expected > counter, warned);
-
-        // This is the same check for automation - i.e. a counter warning
-        var adventureRequest = LOWER_CHAMBERS.getRequest();
-        assertEquals(expected, TurnCounter.getTurnsUsed(adventureRequest));
-
-        // Restart the counter
-        TurnCounter.stopCounting("label");
-        TurnCounter.startCounting(counter, "label", "image");
-
-        warned = adventureRequest.stopForCounters();
-        assertEquals(expected > counter, warned);
-        if (warned) {
-          assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
-        }
-      }
-    }
   }
 
   @Nested

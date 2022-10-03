@@ -34,11 +34,24 @@ public class Preference {
     };
   }
 
+  public static Matcher<String> hasBooleanValue(Matcher<? super Boolean> prefMatcher) {
+    return new FeatureMatcher<String, Boolean>(prefMatcher, "preference to be", "preference") {
+      @Override
+      protected Boolean featureValueOf(String pref) {
+        return Preferences.getBoolean(pref);
+      }
+    };
+  }
+
   public static Matcher<String> isSetTo(Object value) {
     return hasStringValue(equalTo(value.toString()));
   }
 
   public static Matcher<String> isSetTo(float value) {
     return hasFloatValue(equalTo(value));
+  }
+
+  public static Matcher<String> isSetTo(boolean value) {
+    return hasBooleanValue(equalTo(value));
   }
 }
