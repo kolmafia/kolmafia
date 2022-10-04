@@ -440,9 +440,8 @@ public class RelayRequest extends PasswordHashRequest {
         // Just in case, use this key even when using equals
         String ukey = key.toUpperCase();
 
-        // We generate our own Content-Type, Content-Length,
-        // Cache-Control, and Pragma headers.
-        if (ukey.startsWith("CONTENT") || ukey.startsWith("CACHE") || ukey.equals("PRAGMA")) {
+        // We redo the Content-Type and Content-Length encodings, and ignore Content-Encoding.
+        if (ukey.startsWith("CONTENT")) {
           continue;
         }
 
@@ -465,9 +464,11 @@ public class RelayRequest extends PasswordHashRequest {
 
       if (this.responseCode == 200 && this.rawByteBuffer != null) {
         ostream.print("Content-Type: ");
-        ostream.print(this.contentType);
+        var contentType =
+            this.response.headers().firstValue("Content-Type").orElse(this.contentType);
+        ostream.print(contentType);
 
-        if (this.contentType.startsWith("text")) {
+        if (contentType.startsWith("text") && !contentType.contains(";")) {
           ostream.print("; charset=UTF-8");
         }
 
@@ -476,9 +477,6 @@ public class RelayRequest extends PasswordHashRequest {
         ostream.print("Content-Length: ");
         ostream.print(this.rawByteBuffer.length);
         ostream.println();
-
-        ostream.println("Cache-Control: no-cache, must-revalidate");
-        ostream.println("Pragma: no-cache");
       }
     }
   }
