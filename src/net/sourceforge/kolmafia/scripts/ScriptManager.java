@@ -88,26 +88,30 @@ public class ScriptManager {
       if (potential.startsWith("#")) continue;
       String[] args = potential.split("\\s+");
       if (args.length == 0 || args[0].length() == 0) continue;
-      var url = args[0];
-      if (args.length > 1 || url.endsWith(".git")) {
-        // git
-        String branch = args.length == 1 ? null : args[1];
-        var id = GitManager.getRepoId(url, branch);
-        if (!Files.exists(KoLConstants.GIT_LOCATION.toPath().resolve(id))) {
-          GitManager.clone(url, branch);
-        }
-      } else {
-        SVNURL repo;
-        try {
-          repo = SVNURL.parseURIEncoded(potential);
-        } catch (SVNException e) {
-          RequestLogger.printLine("Cannot parse \"" + potential + "\" as SVN URL");
-          continue;
-        }
-        var id = SVNManager.getFolderUUID(repo);
-        if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
-          SVNManager.doCheckout(repo);
-        }
+      installDependency(args);
+    }
+  }
+
+  private static void installDependency(String[] args) {
+    var url = args[0];
+    if (args.length > 1 || url.endsWith(".git")) {
+      // git
+      String branch = args.length == 1 ? null : args[1];
+      var id = GitManager.getRepoId(url, branch);
+      if (!Files.exists(KoLConstants.GIT_LOCATION.toPath().resolve(id))) {
+        GitManager.clone(url, branch);
+      }
+    } else {
+      SVNURL repo;
+      try {
+        repo = SVNURL.parseURIEncoded(url);
+      } catch (SVNException e) {
+        RequestLogger.printLine("Cannot parse \"" + url + "\" as SVN URL");
+        return;
+      }
+      var id = SVNManager.getFolderUUID(repo);
+      if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
+        SVNManager.doCheckout(repo);
       }
     }
   }
