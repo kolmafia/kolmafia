@@ -222,34 +222,44 @@ public class GitManagerTest {
 
     @Test
     public void withSvnInstalledDoesNotInstall() {
-      installSvn("https://github.com/midgleyc/mafia-script-install-test/branches/test-deps-svn", false);
-      installGit(id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
+      installSvn(
+          "https://github.com/midgleyc/mafia-script-install-test/branches/test-deps-svn", false);
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
 
       assertFalse(
           Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
       assertTrue(
-          Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
+          Files.isDirectory(
+              Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
     }
 
     @Test
     public void withGitInstalledDoesNotInstall() {
-      installGit("midgleyc-mafia-script-install-test-test-deps-svn", "https://github.com/midgleyc/mafia-script-install-test.git test-deps-svn", false);
-      installGit(id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
+      installGit(
+          "midgleyc-mafia-script-install-test-test-deps-svn",
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-svn",
+          false);
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
 
       assertTrue(
           Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
       assertFalse(
-          Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
+          Files.isDirectory(
+              Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
     }
 
     @Test
     public void withNothingInstalledInstallsToGit() {
-      installGit(id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
 
       assertTrue(
           Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
       assertFalse(
-          Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
+          Files.isDirectory(
+              Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
     }
   }
 
@@ -268,33 +278,39 @@ public class GitManagerTest {
     @Test
     public void withSvnInstalledDoesNotInstall() {
       installSvn("https://github.com/midgleyc/mafia-script-install-test/trunk", false);
-      installGit(id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk", true);
+      installGit(
+          id,
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk",
+          true);
 
-      assertFalse(
-          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
-      assertTrue(
-          Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
+      assertFalse(Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
+      assertTrue(Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
     }
 
     @Test
     public void withGitInstalledDoesNotInstall() {
-      installGit("midgleyc-mafia-script-install-test", "https://github.com/midgleyc/mafia-script-install-test.git", false);
-      installGit(id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk", true);
+      installGit(
+          "midgleyc-mafia-script-install-test",
+          "https://github.com/midgleyc/mafia-script-install-test.git",
+          false);
+      installGit(
+          id,
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk",
+          true);
 
-      assertTrue(
-          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
-      assertFalse(
-          Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
+      assertTrue(Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
+      assertFalse(Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
     }
 
     @Test
     public void withNothingInstalledInstallsToGit() {
-      installGit(id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk", true);
+      installGit(
+          id,
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk",
+          true);
 
-      assertTrue(
-          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
-      assertFalse(
-          Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
+      assertTrue(Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
+      assertFalse(Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
     }
   }
 
