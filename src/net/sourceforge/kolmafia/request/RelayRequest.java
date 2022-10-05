@@ -455,6 +455,11 @@ public class RelayRequest extends PasswordHashRequest {
           if (ukey.equals("SET-COOKIE")) {
             value = GenericRequest.mungeCookieDomain(value);
           }
+          if (ukey.equals("CACHE-CONTROL")) {
+            if (Preferences.getBoolean("relayCacheUncacheable")) {
+              value = value.replaceFirst("no-store(, )?", "");
+            }
+          }
 
           ostream.print(key);
           ostream.print(": ");
