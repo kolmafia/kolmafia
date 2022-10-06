@@ -6365,6 +6365,11 @@ public abstract class ChoiceControl {
           StillSuitManager.handleDrink(text);
         }
         break;
+
+      case 1483: // Direct Autumn-Aton
+        int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
+        AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
+        break;
     }
   }
 
@@ -8054,7 +8059,8 @@ public abstract class ChoiceControl {
         StillSuitManager.parseChoice(text);
         break;
       case 1483:
-        AutumnatonManager.parseChoice(text);
+        AutumnatonManager.visitChoice(text);
+        break;
     }
   }
 
