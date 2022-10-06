@@ -1,0 +1,70 @@
+{
+  "name": "Ed the Undying",
+  "attackElement": "none",
+  "attackElements": [
+    "none"
+  ],
+  "images": [
+    "ed.gif",
+    "ed2.gif",
+    "ed3.gif",
+    "ed4.gif",
+    "ed5.gif",
+    "ed6.gif",
+    "ed7.gif"
+  ],
+  "randomModifiers": [],
+  "subTypes": []
+}
+{
+  "name": "warwelf",
+  "attackElement": "none",
+  "attackElements": [
+    "none"
+  ],
+  "images": [
+    "werewolf.gif"
+  ],
+  "randomModifiers": [],
+  "subTypes": []
+}
+{
+  "name": "lihc",
+  "attackElement": "spooky",
+  "attackElements": [
+    "sleaze",
+    "spooky"
+  ],
+  "images": [
+    "lich.gif"
+  ],
+  "randomModifiers": [],
+  "subTypes": []
+}
+{
+  "name": "ancient protector spirit",
+  "attackElement": "spooky",
+  "attackElements": [
+    "spooky"
+  ],
+  "images": [
+    "protspirit.gif"
+  ],
+  "randomModifiers": [],
+  "subTypes": [
+    "ghost"
+  ]
+}
+{
+  "name": "Beaten up",
+  "all": [
+    "# losing in combat"
+  ]
+}
+{
+  "name": "Tomato Power",
+  "all": [
+    "use 1 tomato juice of powerful power",
+    "use 1 evil tomato juice of powerful power"
+  ]
+}

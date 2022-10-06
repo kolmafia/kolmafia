@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
+import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -69,6 +70,11 @@ public class ValueConverter {
         scope, Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toArray());
   }
 
+  private Scriptable asNativeArray(PluralValue arrayValue) {
+    return cx.newArray(
+        scope, Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toArray());
+  }
+
   public Object asJava(Value value) {
     if (value == null) return null;
     else if (value.getType().equals(DataTypes.VOID_TYPE)) {
@@ -95,6 +101,8 @@ public class ValueConverter {
       return EnumeratedWrapper.wrap(scope, value.asProxy().getClass(), value);
     } else if (value instanceof RecordValue) {
       return asObject((RecordValue) value);
+    } else if (value instanceof PluralValue) {
+      return asNativeArray((PluralValue) value);
     } else {
       // record type, ...?
       return value;
