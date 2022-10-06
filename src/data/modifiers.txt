@@ -7606,6 +7606,7 @@ Effect	Wet Willied	Underwater Familiar
 # What Are The Odds!?: All item drop rolls will be 50%
 Effect	What's That Smell?	Stench Damage: +3
 Effect	When the Plague Hits Your Eye	Avatar: "Plague Chef"
+Effect	Whet Appetite	Food Drop: +100
 Effect	Which Nurse? Witch Nurse!	Avatar: "pygmy witch nurse"
 Effect	Whippin' It Good	Critical Hit Percent: +5
 Effect	Whispering Strands	Initiative: +10
