@@ -10978,3 +10978,16 @@
 10950	Thwaitgold mosquito-in-amber statuette	925741442	thwaitamber.gif	none		0
 10951	packaged Jurassic Parka	526296804	jparka_box.gif	usable	t	0
 10952	Jurassic Parka	815637689	jparka7.gif	shirt		0
+10953	boxed autumn-aton	129222297	crate.gif	usable	t	0
+10954	autumn-aton	174185886	autumnaton.gif	usable	q	0
+10955	autumn leaf	639910181	leafflavor.gif	potion, usable	t,d	10
+10956	AutumnFest ale	195200911	beerbottle.gif	drink	t,d	10
+10957	autumn sweater-weather sweater	267218508	redsweater.gif	shirt	q	0
+10958	autumn debris shield	659459391	damshield.gif	offhand	q	0
+10959	autumn-spice donut	765851813	powderdonut.gif	food	t,d	11
+10960	autumn dollar	394864972	goldcoin.gif	potion, usable	t,d	1
+10961	autumn leaf pendant	871526580	maplependant.gif	accessory	q	0
+10962	autumn breeze	709263513	cueball.gif	spleen, usable	t,d	15
+10963	autumn years wisdom	794318555	xicrystal.gif	potion, multiple	t,d	15
+10964
+10965	Oopsie IPA	439261217	beerbottle.gif	drink	t	0
