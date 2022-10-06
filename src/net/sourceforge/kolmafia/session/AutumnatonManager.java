@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class AutumnatonManager {
-  private static final Pattern UPGRADE = Pattern.compile("autumnaton/(?!base)(.*?)\\.png");
+  private static final Pattern UPGRADE = Pattern.compile("autumnaton/(?!base)([a-z1]*?)\\.png");
 
   public static void parseChoice(final String responseText) {
     var upgrades =

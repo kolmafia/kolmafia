@@ -29,7 +29,7 @@ class AutumnatonManagerTest {
     try (cleanups) {
       assertThat(
           "autumnatonUpgrades",
-          isSetTo("dualexhaust,leftarm0,leftleg1,periscope,radardish,rightarm1,rightleg1"));
+          isSetTo("dualexhaust,leftleg1,periscope,radardish,rightarm1,rightleg1"));
     }
   }
 }
