@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -23,6 +24,16 @@ import org.json.JSONObject;
 
 public abstract class VolcanoMazeManager {
   private static boolean loaded = false;
+
+  // Java's Random takes a 48 bit seed.
+  public static long RANDOM_SEED = 0xe1d2c3b4a596L;
+
+  // We'll use our own RNG generator to make testing deterministic.
+  public static final Random RNG = new Random(RANDOM_SEED);
+
+  public static void resetRNG() {
+    RNG.setSeed(RANDOM_SEED);
+  }
 
   // The number of maps in the cycle
   public static final int MAPS = 5;
@@ -800,7 +811,7 @@ public abstract class VolcanoMazeManager {
       // Otherwise, pick one at random.
       int next = VolcanoMazeManager.goal;
       while (next == VolcanoMazeManager.goal) {
-        int rnd = KoLConstants.RNG.nextInt(platforms.length);
+        int rnd = RNG.nextInt(platforms.length);
         next = platforms[rnd].intValue();
       }
       return next;
@@ -863,7 +874,7 @@ public abstract class VolcanoMazeManager {
           } else if (board[pos(row, col)]) {
             buffer.append("platform3");
           } else {
-            int rnd = KoLConstants.RNG.nextInt(12);
+            int rnd = RNG.nextInt(12);
             buffer.append("lava");
             buffer.append((rnd + 1));
           }
