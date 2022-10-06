@@ -345,38 +345,28 @@ public class Player {
   }
 
   /**
-   * Adds the given furniture to the player's Clan Rumpus Room
+   * Adds the given set of furniture to the player's Clan Rumpus Room
    *
-   * @param furniture Furniture to install
-   * @return Removes the furniture
-   */
-  public static Cleanups withClanFurniture(final String furniture) {
-    return withClanFurniture(furniture, true);
-  }
-
-  /**
-   * Adds or removes the given furniture to the player's Clan Rumpus Room
-   *
-   * @param furniture Furniture to install
-   * @param shouldHave Whether the player should have the furniture
+   * @param furniture Furniture items to install
    * @return Resets to previous value
    */
-  public static Cleanups withClanFurniture(final String furniture, final boolean shouldHave) {
-    var old = ClanManager.getClanRumpus().contains(furniture);
-    if (shouldHave && !old) {
-      ClanManager.addToRumpus(furniture);
-    } else if (!shouldHave && old) {
-      ClanManager.removeFromRumpus(furniture);
+  public static Cleanups withClanFurniture(final String... furniture) {
+    var cleanups = new Cleanups();
+    var rumpus = ClanManager.getClanRumpus();
+
+    for (var f : furniture) {
+      var old = rumpus.contains(f);
+      ClanManager.addToRumpus(f);
+
+      cleanups.add(
+          () -> {
+            if (!old) {
+              ClanManager.removeFromRumpus(f);
+            }
+          });
     }
 
-    return new Cleanups(
-        () -> {
-          if (shouldHave && !old) {
-            ClanManager.removeFromRumpus(furniture);
-          } else if (!shouldHave && old) {
-            ClanManager.addToRumpus(furniture);
-          }
-        });
+    return cleanups;
   }
 
   /**

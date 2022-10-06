@@ -48,8 +48,16 @@ public class ClanRumpusRequestTest {
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withClanFurniture(),
-            withClanFurniture("Snack Machine"),
+            // This includes additional furniture to match the test fixture and ensure appropriate
+            // tidy-up afterwards
+            // We only actually care about the snack machine
+            withClanFurniture(
+                "Girls of Loathing Calendar",
+                "Collection of Self-Help Books",
+                "Mr. Klaw \"Skill\" Crane Game",
+                "Inspirational Desk Calendar",
+                "Wrestling Mat",
+                "Snack Machine"),
             withProperty("_chipBags", 0));
 
     try (cleanups) {
