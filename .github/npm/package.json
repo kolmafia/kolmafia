@@ -10,5 +10,11 @@
   "private": false,
   "files": [
     "index.d.ts"
-  ]
+  ],
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  },
+  "scripts": {
+    "validate": "tsc ./index.d.ts"
+  }
 }
