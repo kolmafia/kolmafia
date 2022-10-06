@@ -2298,7 +2298,7 @@ astral mask	50	none
 astral ring	50	none
 atlas of local maps	100	none
 attorney's badge	170	Mys: 70
-autumn leaf pendant	0	none
+autumn leaf pendant	100	none
 backup camera	100	none
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10
