@@ -1668,7 +1668,7 @@ public abstract class KoLCharacter {
   public static int freeRestsRemaining() {
     int restsUsed = Preferences.getInteger("timesRested");
     int restsAvailable = KoLCharacter.freeRestsAvailable();
-    return Math.min(0, restsAvailable - restsUsed);
+    return Math.max(0, restsAvailable - restsUsed);
   }
 
   // If there are free rests remaining and KoLmafia thinks there are not, update that value

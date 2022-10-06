@@ -10613,7 +10613,10 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.nextAction = null;
 
-    if (urlString.equals("fight.php") || urlString.contains("ireallymeanit=")) {
+    if (urlString.equals("fight.php")
+        // The following happens when encountering a mariachi in The Island Barracks
+        || urlString.equals("fight.php?")
+        || urlString.contains("ireallymeanit=")) {
       if (FightRequest.inMultiFight || FightRequest.choiceFollowsFight) {
         RequestLogger.registerLastLocation();
       }

@@ -397,12 +397,29 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult POWDER_PUFF = ItemPool.get(ItemPool.POWDER_PUFF);
   private static final AdventureResult FINEST_GOWN = ItemPool.get(ItemPool.FINEST_GOWN);
   private static final AdventureResult DANCING_SHOES = ItemPool.get(ItemPool.DANCING_SHOES);
+  private static final AdventureResult LOOSENING_POWDER = ItemPool.get(ItemPool.LOOSENING_POWDER);
+  private static final AdventureResult POWDERED_CASTOREUM =
+      ItemPool.get(ItemPool.POWDERED_CASTOREUM);
+  private static final AdventureResult DRAIN_DISSOLVER = ItemPool.get(ItemPool.DRAIN_DISSOLVER);
+  private static final AdventureResult TRIPLE_DISTILLED_TURPENTINE =
+      ItemPool.get(ItemPool.TRIPLE_DISTILLED_TURPENTINE);
+  private static final AdventureResult DETARTRATED_ANHYDROUS_SUBLICALC =
+      ItemPool.get(ItemPool.DETARTRATED_ANHYDROUS_SUBLICALC);
+  private static final AdventureResult TRIATOMACEOUS_DUST =
+      ItemPool.get(ItemPool.TRIATOMACEOUS_DUST);
   private static final AdventureResult WINE_BOMB = ItemPool.get(ItemPool.WINE_BOMB);
+  private static final AdventureResult ENCRYPTION_KEY = ItemPool.get(ItemPool.ENCRYPTION_KEY);
+  private static final AdventureResult COBBS_KNOB_MAP = ItemPool.get(ItemPool.COBBS_KNOB_MAP);
+  private static final AdventureResult LAB_KEY = ItemPool.get(ItemPool.LAB_KEY);
+  private static final AdventureResult MENAGERIE_KEY = ItemPool.get(ItemPool.MENAGERIE_KEY);
   private static final AdventureResult KNOB_GOBLIN_PERFUME =
       ItemPool.get(ItemPool.KNOB_GOBLIN_PERFUME);
   private static final AdventureResult KNOB_CAKE = ItemPool.get(ItemPool.KNOB_CAKE);
   private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
   private static final AdventureResult SONAR = ItemPool.get(ItemPool.SONAR);
+  private static final AdventureResult DODECAGRAM = ItemPool.get(ItemPool.DODECAGRAM);
+  private static final AdventureResult CANDLES = ItemPool.get(ItemPool.CANDLES);
+  private static final AdventureResult BUTTERKNIFE = ItemPool.get(ItemPool.BUTTERKNIFE);
   private static final AdventureResult TALISMAN = ItemPool.get(ItemPool.TALISMAN);
   private static final AdventureResult DINGHY_PLANS = ItemPool.get(ItemPool.DINGHY_PLANS);
   private static final AdventureResult DINGY_PLANKS = ItemPool.get(ItemPool.DINGY_PLANKS);
@@ -690,7 +707,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
       return switch (QuestDatabase.getQuest(Quest.MANOR)) {
         case "step3" -> true;
-        default -> InventoryManager.hasItem(WINE_BOMB);
+        default -> InventoryManager.hasItem(WINE_BOMB)
+            || (InventoryManager.hasItem(LOOSENING_POWDER)
+                && InventoryManager.hasItem(POWDERED_CASTOREUM)
+                && InventoryManager.hasItem(DRAIN_DISSOLVER)
+                && InventoryManager.hasItem(TRIPLE_DISTILLED_TURPENTINE)
+                && InventoryManager.hasItem(DETARTRATED_ANHYDROUS_SUBLICALC)
+                && InventoryManager.hasItem(TRIATOMACEOUS_DUST));
       };
     }
 
@@ -1088,17 +1111,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             AdventurePool.COBB_KITCHEN,
             AdventurePool.COBB_HAREM,
             AdventurePool.COBB_TREASURY -> QuestDatabase.isQuestLaterThan(
-            Quest.GOBLIN, QuestDatabase.STARTED);
+                Quest.GOBLIN, QuestDatabase.STARTED)
+            || (InventoryManager.hasItem(ENCRYPTION_KEY)
+                && InventoryManager.hasItem(COBBS_KNOB_MAP));
         default -> false;
       };
     }
 
     if (this.zone.equals("Lab")) {
-      return InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
+      return InventoryManager.hasItem(LAB_KEY);
     }
 
     if (this.zone.equals("Menagerie")) {
-      return InventoryManager.hasItem(ItemPool.get(ItemPool.MENAGERIE_KEY, 1));
+      return InventoryManager.hasItem(MENAGERIE_KEY)
+          &&
+          // You can fight a Knob Goblin Very Mad Scientist and get the Cobb's
+          // Knob Menagerie key before opening Cobb's Knob.
+          QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED);
     }
 
     // Level 6 quest
@@ -1117,7 +1146,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // The Pandamonium zones are available if you have completed the Friars quest
     if (this.zone.equals("Pandamonium")) {
-      return QuestDatabase.isQuestFinished(Quest.FRIAR);
+      return QuestDatabase.isQuestFinished(Quest.FRIAR)
+          || (InventoryManager.hasItem(DODECAGRAM)
+              && InventoryManager.hasItem(CANDLES)
+              && InventoryManager.hasItem(BUTTERKNIFE));
     }
 
     // Level 7 quest
@@ -1138,7 +1170,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("McLarge")) {
       return switch (this.adventureNumber) {
         case AdventurePool.ITZNOTYERZITZ_MINE, AdventurePool.GOATLET -> QuestDatabase
-            .isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
+            .isQuestStarted(Quest.TRAPPER);
         case AdventurePool.NINJA_SNOWMEN, AdventurePool.EXTREME_SLOPE -> QuestDatabase
             .isQuestLaterThan(Quest.TRAPPER, "step1");
         case AdventurePool.ICY_PEAK -> QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4")
@@ -1933,15 +1965,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED);
     }
 
-    // Level 11 quest boss -> Lord Spookyraven
-    if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
-      if (InventoryManager.hasItem(WINE_BOMB)) {
-        var request = new PlaceRequest("manor4", "manor4_chamberwall", true);
-        RequestThread.postRequest(request);
-      }
-      return QuestDatabase.getQuest(Quest.MANOR).equals("step3");
-    }
-
     if (this.zone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need
       // to be Half-Astral or have access to an astral mushroom.
@@ -2038,58 +2061,90 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestStarted(Quest.UNTINKER);
     }
 
-    // Fighting the Goblin King requires effects
-    if (this.formSource.equals("cobbsknob.php")) {
-      if (EquipmentManager.isWearingOutfit(OutfitPool.HAREM_OUTFIT)) {
-        // Harem girl
-        if (KoLConstants.activeEffects.contains(PERFUME)) {
-          return true;
-        }
-        // This shouldn't fail.
-        if (InventoryManager.retrieveItem(KNOB_GOBLIN_PERFUME)) {
-          RequestThread.postRequest(UseItemRequest.getInstance(KNOB_GOBLIN_PERFUME));
-        }
-        return true;
-      }
+    // Level 5 quest
 
-      if (EquipmentManager.isWearingOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
-        // Elite Guard
-
-        // This shouldn't fail. It will craft it if necessary.
-        InventoryManager.retrieveItem(KNOB_CAKE);
-        return true;
-      }
-
-      // If we are in Beecore, we had to adventure to get the effect.
-      if (EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT)
-          && (KoLConstants.activeEffects.contains(PERFUME)
-              || InventoryManager.hasItem(KNOB_GOBLIN_PERFUME))) {
-        // Harem girl
-
-        wearOutfit(OutfitPool.HAREM_OUTFIT);
-
-        if (KoLConstants.activeEffects.contains(PERFUME)) {
+    if (this.zone.equals("Knob")) {
+      // Throne room
+      if (this.formSource.equals("cobbsknob.php")) {
+        if (EquipmentManager.isWearingOutfit(OutfitPool.HAREM_OUTFIT)) {
+          // Harem girl
+          if (KoLConstants.activeEffects.contains(PERFUME)) {
+            return true;
+          }
+          // This shouldn't fail.
+          if (InventoryManager.retrieveItem(KNOB_GOBLIN_PERFUME)) {
+            RequestThread.postRequest(UseItemRequest.getInstance(KNOB_GOBLIN_PERFUME));
+          }
           return true;
         }
 
-        // This shouldn't fail.
-        if (InventoryManager.retrieveItem(KNOB_GOBLIN_PERFUME)) {
-          RequestThread.postRequest(UseItemRequest.getInstance(KNOB_GOBLIN_PERFUME));
+        if (EquipmentManager.isWearingOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
+          // Elite Guard
+
+          // This shouldn't fail. It will craft it if necessary.
+          InventoryManager.retrieveItem(KNOB_CAKE);
+          return true;
         }
+
+        // If we are in Beecore, we had to adventure to get the effect.
+        if (EquipmentManager.hasOutfit(OutfitPool.HAREM_OUTFIT)
+            && (KoLConstants.activeEffects.contains(PERFUME)
+                || InventoryManager.hasItem(KNOB_GOBLIN_PERFUME))) {
+          // Harem girl
+
+          wearOutfit(OutfitPool.HAREM_OUTFIT);
+
+          if (KoLConstants.activeEffects.contains(PERFUME)) {
+            return true;
+          }
+
+          // This shouldn't fail.
+          if (InventoryManager.retrieveItem(KNOB_GOBLIN_PERFUME)) {
+            RequestThread.postRequest(UseItemRequest.getInstance(KNOB_GOBLIN_PERFUME));
+          }
+          return true;
+        }
+
+        if (EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
+          // Elite Guard
+
+          wearOutfit(OutfitPool.KNOB_ELITE_OUTFIT);
+
+          // This shouldn't fail. It will craft it if necessary.
+          InventoryManager.retrieveItem(KNOB_CAKE);
+          return true;
+        }
+
+        return false;
+      }
+
+      // Outskirts of the Knob are always available
+      if (this.adventureNumber == AdventurePool.OUTSKIRTS_OF_THE_KNOB) {
         return true;
       }
 
-      if (EquipmentManager.hasOutfit(OutfitPool.KNOB_ELITE_OUTFIT)) {
-        // Elite Guard
-
-        wearOutfit(OutfitPool.KNOB_ELITE_OUTFIT);
-
-        // This shouldn't fail. It will craft it if necessary.
-        InventoryManager.retrieveItem(KNOB_CAKE);
+      // If we have opened the interior of the Knob, good
+      if (QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)) {
         return true;
       }
 
-      return false;
+      // Otherwise, we must decrypt the map
+      var request = UseItemRequest.getInstance(COBBS_KNOB_MAP);
+      request.run();
+
+      return QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED);
+    }
+
+    // Level 6 quest
+    if (this.zone.equals("Pandamonium")) {
+      if (QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+        return true;
+      }
+      // If we get here, we have the ritual items.
+      // Do the ritual
+      var request = new GenericRequest("friars.php?action=ritual&pwd");
+      request.run();
+      return QuestDatabase.isQuestFinished(Quest.FRIAR);
     }
 
     if (this.formSource.equals("dwarffactory.php")
@@ -2101,6 +2156,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return true;
+    }
+
+    // Level 8 quest
+    if (this.zone.equals("McLarge")) {
+      if (QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED)) {
+        return true;
+      }
+
+      // If we get here, we need to talk to the Trapper
+      var request = new PlaceRequest("mclargehuge", "trappercabin");
+      request.run();
+      return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
     }
 
     if (this.zone.equals("Island") || this.zone.equals("IsleWar")) {
@@ -2162,6 +2229,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.parentZone.equals("Manor")) {
+      if (this.zone.equals("Manor0")) {
+        // Level 11 quest boss -> Lord Spookyraven
+        if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
+          if (QuestDatabase.getQuest(Quest.MANOR).equals("step3")) {
+            return true;
+          }
+          // If we got here, we must have either a wine bomb or the six
+          // ingredients for the mortar dissolving solution.
+          //
+          // Visiting the suspicious masonry will use whichever we have.
+          var request = new PlaceRequest("manor4", "manor4_chamberwall", true);
+          RequestThread.postRequest(request);
+          return QuestDatabase.getQuest(Quest.MANOR).equals("step3");
+        }
+        return true;
+      }
+
       if (this.zone.equals("Manor1")) {
         switch (this.adventureNumber) {
           case AdventurePool.HAUNTED_KITCHEN, AdventurePool.HAUNTED_CONSERVATORY -> {
@@ -2179,6 +2263,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             return QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE);
           }
         }
+        return true;
       }
 
       if (this.zone.equals("Manor2")) {
@@ -2213,6 +2298,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
           }
         }
+        return true;
       }
 
       return true;
