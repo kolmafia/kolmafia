@@ -175,6 +175,10 @@ public class OptionsFrame extends GenericFrame {
         },
         {"relayOverridesImages", "Override certain KoL images"},
         {"relayAddSounds", "Add sounds to certain events"},
+        {
+          "relayCacheUncacheable",
+          "Allow browser to cache pages KoL says should not be cached (so the Back and Forward browser buttons work)"
+        },
         {},
         {"relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)"},
         {"relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)"},
