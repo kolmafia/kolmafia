@@ -25,23 +25,29 @@ jobs:
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Build
+      - name: Generating TypeScript definitions
         env:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
         run: ./gradlew --no-daemon tsDefs
 
-      - name: Prepare package
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Checking generated TypeScript definitions
+        run: |
+          cd .github/npm
+          npm install
+          npm run validate
+
+      - name: Prepare TypeScript package for publication
         run: |
           PACKAGE_VERSION=$(head -n 1 index.d.ts | cut -c 5-)
           mv index.d.ts .github/npm/index.d.ts
           sed -i 's/{{version}}/'$PACKAGE_VERSION'/g' .github/npm/package.json
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16.x"
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Publish
+      - name: Publishing TypeScript package to npm
         run: |
           cd .github/npm
           npm publish
