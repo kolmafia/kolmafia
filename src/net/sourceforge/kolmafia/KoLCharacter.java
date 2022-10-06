@@ -1665,6 +1665,12 @@ public abstract class KoLCharacter {
     return freerests;
   }
 
+  public static int freeRestsRemaining() {
+    int restsUsed = Preferences.getInteger("timesRested");
+    int restsAvailable = KoLCharacter.freeRestsAvailable();
+    return Math.min(0, restsAvailable - restsUsed);
+  }
+
   // If there are free rests remaining and KoLmafia thinks there are not, update that value
   // so it will be correct for the next rest at least
   public static void updateFreeRests(final boolean freeRestsRemain) {
@@ -3666,7 +3672,7 @@ public abstract class KoLCharacter {
           || InventoryManager.getCount(ItemPool.PUMPKIN_CARRIAGE) > 0
           || InventoryManager.getCount(ItemPool.TIN_LIZZIE) > 0
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
-          || Preferences.getString("questG01Meatcar").equals("finished")
+          || QuestDatabase.isQuestFinished(Quest.MEATCAR)
           || KoLCharacter.kingLiberated()
           || KoLCharacter.isEd()) {
         Preferences.setInteger("lastDesertUnlock", KoLCharacter.getAscensions());

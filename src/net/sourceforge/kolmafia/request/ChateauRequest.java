@@ -32,6 +32,8 @@ public class ChateauRequest extends PlaceRequest {
   public static final AdventureResult CHATEAU_PAINTING =
       ItemPool.get(ItemPool.CHATEAU_WATERCOLOR, 1);
 
+  public static final String BED = "chateau_restbox";
+
   public static String ceiling = null;
 
   public ChateauRequest() {
@@ -108,12 +110,9 @@ public class ChateauRequest extends PlaceRequest {
     // place.php?whichplace=chateau&action=chateau_restlabelfree
     // or action=cheateau_restlabel
     // or action=chateau_restbox
-    if (action.startsWith("chateau_rest")
-        ||
-        // It will be nice when KoL fixes this misspelling
-        action.startsWith("cheateau_rest")) {
+    if (action.startsWith("chateau_rest") || action.startsWith("cheateau_rest")) {
       Preferences.increment("timesRested");
-      KoLCharacter.updateFreeRests(responseText.contains("chateau_restlabelfree"));
+      KoLCharacter.updateFreeRests(action.equals("chateau_restlabelfree"));
       KoLCharacter.updateStatus();
     } else if (action.startsWith("chateau_desk")) {
       Preferences.setBoolean("_chateauDeskHarvested", true);
@@ -216,10 +215,7 @@ public class ChateauRequest extends PlaceRequest {
       // Clicking painting redirects to a fight, unless
       // you've already fought today. Ignore that.
       return true;
-    } else if (action.startsWith("chateau_rest")
-        ||
-        // It will be nice when KoL fixes this misspelling
-        action.startsWith("cheateau_rest")) {
+    } else if (action.startsWith("chateau_rest") || action.startsWith("cheateau_rest")) {
       message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your bed in the Chateau";
     }
 

@@ -45,6 +45,9 @@ public class RelayRequestWarningsTest {
   // Additionally, some locations will be repeatedly adventured in and, once you have confirmed, you
   // don't want to be nagged again. There are global static booleans in RelayRequest for such
   // warnings. Once you have confirmed once, it holds for rest of the session.
+  //
+  // "Counter Warnings" are a special case, since they apply to both
+  // Relay Browser adventuring and Automation. Tests for those are in session/TurnCounterTest.java
 
   @BeforeAll
   public static void beforeAll() {
@@ -57,6 +60,7 @@ public class RelayRequestWarningsTest {
 
   @BeforeEach
   public void beforeEach() {
+    Preferences.reset("relay request warnings user");
     KoLConstants.inventory.clear();
     RelayRequest.reset();
     EquipmentManager.resetEquipment();

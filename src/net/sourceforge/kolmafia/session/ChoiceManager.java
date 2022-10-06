@@ -2347,6 +2347,10 @@ public abstract class ChoiceManager {
         RequestEditorKit.getFeatureRichHTML(request.getURLString(), text);
   }
 
+  public static int getAdventuresUsed(final String urlString) {
+    return ChoiceControl.getAdventuresUsed(urlString);
+  }
+
   private static void setCanWalkAway(final int choice) {
     ChoiceManager.canWalkAway = ChoiceControl.canWalkFromChoice(choice);
   }

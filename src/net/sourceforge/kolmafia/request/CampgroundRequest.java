@@ -430,10 +430,15 @@ public class CampgroundRequest extends GenericRequest {
 
   @Override
   public int getAdventuresUsed() {
-    return this.action.equals("rest")
-            && Preferences.getInteger("timesRested") >= KoLCharacter.freeRestsAvailable()
-        ? 1
-        : 0;
+    return getAdventuresUsed("rest".equals(this.action));
+  }
+
+  public static int getAdventuresUsed(String urlString) {
+    return getAdventuresUsed("rest".equals(GenericRequest.getAction(urlString)));
+  }
+
+  private static int getAdventuresUsed(boolean rest) {
+    return rest && KoLCharacter.freeRestsRemaining() == 0 ? 1 : 0;
   }
 
   public static void setCampgroundItem(final int itemId, int count) {

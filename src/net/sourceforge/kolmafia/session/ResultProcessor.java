@@ -41,13 +41,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 
 public class ResultProcessor {
   private static final Pattern DISCARD_PATTERN = Pattern.compile("You discard your (.*?)\\.");
@@ -1099,10 +1097,6 @@ public class ResultProcessor {
     if (result.isItem()) {
       // Do special processing when you get certain items
       ResultProcessor.gainItem(adventureResults, result);
-
-      if (GenericRequest.isBarrelSmash) {
-        BarrelDecorator.gainItem(result);
-      }
 
       if (HermitRequest.isWorthlessItem(result.getItemId())) {
         result = HermitRequest.WORTHLESS_ITEM.getInstance(result.getCount());
@@ -2159,10 +2153,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.FIZZING_SPORE_POD:
-        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6
-            && (QuestDatabase.isQuestStep(Quest.NEMESIS, "step12")
-                || QuestDatabase.isQuestStep(Quest.NEMESIS, "step13"))) {
-          QuestDatabase.setQuestProgress(Quest.NEMESIS, "step14");
+        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6) {
+          QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step14");
         }
         break;
 

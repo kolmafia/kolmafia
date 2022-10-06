@@ -81,7 +81,6 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.ResettingHttpClient;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.RelayAgent;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
@@ -162,7 +161,6 @@ public class GenericRequest implements Runnable {
 
   // *** static class variables are always suspect
   public static boolean isRatQuest = false;
-  public static boolean isBarrelSmash = false;
   public static boolean ascending = false;
   public static String itemMonster = null;
   private static boolean suppressUpdate = false;
@@ -1344,18 +1342,6 @@ public class GenericRequest implements Runnable {
       TavernRequest.preTavernVisit(this);
     }
 
-    if (this.hasResult && GenericRequest.isBarrelSmash) {
-      // Smash has resulted in a mimic.
-      // Continue tracking throughout the combat
-      GenericRequest.isBarrelSmash =
-          urlString.startsWith("fight.php") || urlString.startsWith("fambattle.php");
-    }
-
-    if (urlString.startsWith("barrel.php?")) {
-      GenericRequest.isBarrelSmash = true;
-      BarrelDecorator.beginSmash(urlString);
-    }
-
     // Do this before registering the request now that we have a
     // choice chain that takes a turn per choice
     if (urlString.startsWith("choice.php")) {
@@ -2240,14 +2226,30 @@ public class GenericRequest implements Runnable {
   public void formatResponse() {}
 
   /**
-   * An alternative method to doing adventure calculation is determining how many adventures are
-   * used by the given request, and subtract them after the request is done. This number defaults to
-   * <code>zero</code>; overriding classes should change this value to the appropriate amount.
+   * Sometimes we need to estimate how many turns a request will take; determining whether counters
+   * are due to fire, for example.
    *
    * @return The number of adventures used by this request.
    */
   public int getAdventuresUsed() {
-    return 0;
+    String urlString = this.getURLString();
+
+    return switch (this.baseURLString) {
+      case "adventure.php", "basement.php", "cellar.php", "mining.php" -> AdventureRequest
+          .getAdventuresUsed(urlString);
+      case "choice.php" -> ChoiceManager.getAdventuresUsed(urlString);
+      case "place.php" -> PlaceRequest.getAdventuresUsed(urlString);
+      case "campground.php" -> CampgroundRequest.getAdventuresUsed(urlString);
+      case "arena.php" -> CakeArenaRequest.getAdventuresUsed(urlString);
+      case "inv_use.php", "inv_eat.php" -> UseItemRequest.getAdventuresUsed(urlString);
+      case "runskillz.php" -> UseSkillRequest.getAdventuresUsed(urlString);
+      case "craft.php" -> CreateItemRequest.getAdventuresUsed(this);
+      case "volcanoisland.php" -> VolcanoIslandRequest.getAdventuresUsed(urlString);
+      case "clan_hobopolis.php" -> RichardRequest.getAdventuresUsed(urlString);
+      case "suburbandis.php" -> SuburbanDisRequest.getAdventuresUsed(urlString);
+      case "crimbo09.php" -> Crimbo09Request.getTurnsUsed(this);
+      default -> 0;
+    };
   }
 
   private void parseResults() {

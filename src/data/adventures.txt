@@ -143,7 +143,6 @@ Pyramid	place=pyramid_state	Env: none Stat: 0 Level: 6	The Lower Chambers
 Mountain	adventure=240	Env: underground Stat: 0	Noob Cave	1 black kitten
 Mountain	adventure=92	Env: underground Stat: 0 nowander	The Dire Warren
 Mountain	adventure=80	Env: outdoor Stat: 68	The Valley of Rof L'm Fao	1 64735 scroll, 1 lowercase N
-Mountain	barrel=0	Env: none Stat: 0	The Barrel Full of Barrels
 Mountain	adventure=295	Env: outdoor Stat: 75	The Smut Orc Logging Camp	30 any plank|The Lacrosse Stick of Lacoronado
 Mountain	adventure=387	Env: indoor Stat: 0	The Thinknerd Warehouse	Professor What garment
 

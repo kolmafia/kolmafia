@@ -62,7 +62,6 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
   private final JComboBox<String> lightsOutSelect;
   private final OceanDestinationComboBox oceanDestSelect;
   private final JComboBox<String> oceanActionSelect;
-  private final JComboBox<String> barrelSelect;
   private final JComboBox<String> darkAtticSelect;
   private final JComboBox<String> unlivingRoomSelect;
   private final JComboBox<String> debasementSelect;
@@ -204,15 +203,6 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.oceanActionSelect.addItem("save and continue");
     this.oceanActionSelect.addItem("save and show");
     this.oceanActionSelect.addItem("save and stop");
-
-    this.barrelSelect = new JComboBox<>();
-    this.barrelSelect.addItem("top rows (mixed drinks)");
-    this.barrelSelect.addItem("middle rows (basic booze)");
-    this.barrelSelect.addItem("top & middle rows");
-    this.barrelSelect.addItem("bottom rows (schnapps, fine wine)");
-    this.barrelSelect.addItem("top & bottom rows");
-    this.barrelSelect.addItem("middle & bottom rows");
-    this.barrelSelect.addItem("all available drinks");
 
     this.darkAtticSelect = new JComboBox<>();
     this.darkAtticSelect.addItem("show in browser");
@@ -370,7 +360,6 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addChoiceSelect("Manor2", "The Maidens", this.maidenSelect);
     this.addChoiceSelect("Pirate", "Ocean Destination", this.oceanDestSelect);
     this.addChoiceSelect("Pirate", "Ocean Action", this.oceanActionSelect);
-    this.addChoiceSelect("Mountain", "Barrel full of Barrels", this.barrelSelect);
     this.addChoiceSelect("Mountain", "The Valley of Rof L'm Fao", this.addingSelect);
     this.addChoiceSelect("Events", "Sorority House Attic", this.darkAtticSelect);
     this.addChoiceSelect("Events", "Sorority House Unliving Room", this.unlivingRoomSelect);
@@ -411,7 +400,6 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     PreferenceListenerRegistry.registerPreferenceListener("violetFogGoal", this);
     PreferenceListenerRegistry.registerPreferenceListener("louvreOverride", this);
     PreferenceListenerRegistry.registerPreferenceListener("louvreDesiredGoal", this);
-    PreferenceListenerRegistry.registerPreferenceListener("barrelGoal", this);
     PreferenceListenerRegistry.registerPreferenceListener("gongPath", this);
     PreferenceListenerRegistry.registerPreferenceListener("oceanAction", this);
     PreferenceListenerRegistry.registerPreferenceListener("oceanDestination", this);
@@ -770,7 +758,6 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     Preferences.setInteger("violetFogGoal", this.violetFogSelect.getSelectedIndex());
     Preferences.setString(
         "choiceAdventure127", String.valueOf(this.palindomePapayaSelect.getSelectedIndex() + 1));
-    Preferences.setInteger("barrelGoal", this.barrelSelect.getSelectedIndex() + 1);
     Preferences.setString(
         "choiceAdventure549", String.valueOf(this.darkAtticSelect.getSelectedIndex()));
     Preferences.setString(
@@ -1036,7 +1023,6 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     this.palindomePapayaSelect.setSelectedIndex(
         Math.max(0, Preferences.getInteger("choiceAdventure127") - 1));
-    this.barrelSelect.setSelectedIndex(Math.max(0, Preferences.getInteger("barrelGoal") - 1));
     this.darkAtticSelect.setSelectedIndex(Preferences.getInteger("choiceAdventure549"));
     this.unlivingRoomSelect.setSelectedIndex(Preferences.getInteger("choiceAdventure550"));
     this.debasementSelect.setSelectedIndex(Preferences.getInteger("choiceAdventure551"));

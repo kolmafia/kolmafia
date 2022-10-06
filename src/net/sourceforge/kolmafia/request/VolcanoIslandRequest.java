@@ -38,6 +38,23 @@ public class VolcanoIslandRequest extends GenericRequest {
     this.addFormField("subaction", subaction);
   }
 
+  @Override
+  public int getAdventuresUsed() {
+    return getAdventuresUsed(this.getURLString());
+  }
+
+  public static int getAdventuresUsed(String urlString) {
+    String action = GenericRequest.getAction(urlString);
+    if (action == null) {
+      return 0;
+    }
+    return switch (action) {
+      case "tniat" -> 0;
+      case "tuba" -> 1;
+      default -> 0;
+    };
+  }
+
   public static void getSlime() {
     VolcanoIslandRequest request = new VolcanoIslandRequest(NPC, SLIME);
     RequestThread.postRequest(request);
@@ -103,7 +120,7 @@ public class VolcanoIslandRequest extends GenericRequest {
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("volcanoisland.php") || urlString.indexOf("action=tniat") == -1) {
+    if (!urlString.startsWith("volcanoisland.php") || !urlString.contains("action=tniat")) {
       return;
     }
 
@@ -114,7 +131,7 @@ public class VolcanoIslandRequest extends GenericRequest {
     // your hood and then ripping the robe from your shoulders."
 
     if (KoLCharacter.isPastamancer()
-        && responseText.indexOf("ripping the robe from your shoulders") != -1) {
+        && responseText.contains("ripping the robe from your shoulders")) {
       EquipmentManager.discardEquipment(ItemPool.SPAGHETTI_CULT_ROBE);
     }
   }

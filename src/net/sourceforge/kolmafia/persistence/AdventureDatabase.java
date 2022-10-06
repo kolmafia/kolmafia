@@ -378,11 +378,6 @@ public class AdventureDatabase {
       adventureURL = adventureURL.substring(1);
     }
 
-    // Barrel smashes count as adventures.
-    if (adventureURL.startsWith("barrel.php")) {
-      return AdventureDatabase.adventureByURL.get("barrel.php");
-    }
-
     // Visiting the basement counts as an adventure
     if (adventureURL.startsWith("basement.php")) {
       return AdventureDatabase.adventureByURL.get("basement.php");
@@ -511,8 +506,13 @@ public class AdventureDatabase {
     }
 
     // Adventuring in the barracks after the Nemesis has been defeated
-    if (adventureURL.startsWith("volcanoisland.php") && adventureURL.contains("action=tuba")) {
-      return AdventureDatabase.getAdventure("The Island Barracks");
+    if (adventureURL.startsWith("volcanoisland.php")) {
+      if (adventureURL.contains("action=tuba")) {
+        return AdventureDatabase.getAdventure("The Island Barracks");
+      }
+      if (adventureURL.contains("action=tniat")) {
+        return AdventureDatabase.getAdventure("The Nemesis' Lair");
+      }
     }
 
     adventureURL = RelayRequest.removeConfirmationFields(adventureURL);

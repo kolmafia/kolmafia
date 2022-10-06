@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.mockito.Mockito;
 
@@ -838,6 +839,18 @@ public class Player {
   }
 
   /**
+   * Sets King Liberated
+   *
+   * @param level Required level
+   * @return Resets level to zero
+   */
+  public static Cleanups withKingLiberated() {
+    var cleanups = new Cleanups(withProperty("lastKingLiberation"), withProperty("kingLiberated"));
+    KoLCharacter.setKingLiberated(true);
+    return cleanups;
+  }
+
+  /**
    * Sets the player's remaining adventures
    *
    * @param adventures Desired adventures remaining
@@ -1140,6 +1153,21 @@ public class Player {
   }
 
   /**
+   * Sets the user as having a cocktail kit installed
+   *
+   * @return Removes the cocktail kit
+   */
+  public static Cleanups withCocktailKit() {
+    KoLCharacter.setCocktailKit(true);
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setCocktailKit(false);
+          ConcoctionDatabase.refreshConcoctions();
+        });
+  }
+
+  /**
    * Does nothing, but ensures the given property is reverted as part of cleanup
    *
    * @param key Key of property
@@ -1187,6 +1215,17 @@ public class Player {
     var oldValue = Preferences.getBoolean(key);
     Preferences.setBoolean(key, value);
     return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
+  }
+
+  /**
+   * Does nothing, but ensures the given quest is reverted as part of cleanup
+   *
+   * @param quest Quest to set
+   * @return Restores previous value
+   */
+  public static Cleanups withQuestProgress(final QuestDatabase.Quest quest) {
+    var current = QuestDatabase.getQuest(quest);
+    return new Cleanups(() -> QuestDatabase.setQuest(quest, current));
   }
 
   /**
@@ -1606,6 +1645,21 @@ public class Player {
    */
   public static Cleanups withContinuationState() {
     return withContinuationState(MafiaState.CONTINUE);
+  }
+
+  /**
+   * Sets a counter
+   *
+   * @param turns how many turns
+   * @param label what to call it
+   * @param image what image to show in charpane
+   * @return stops the counter
+   */
+  public static Cleanups withCounter(int turns, String label, String image) {
+    var cleanups = new Cleanups(withProperty("relayCounters"));
+    TurnCounter.startCounting(turns, label, image);
+    cleanups.add(() -> TurnCounter.stopCounting(label));
+    return cleanups;
   }
 
   /**
