@@ -37,14 +37,14 @@ jobs:
 
       - name: Checking generated TypeScript definitions
         run: |
+          mv index.d.ts .github/npm/index.d.ts
           cd .github/npm
           npm install
           npm run validate
 
       - name: Prepare TypeScript package for publication
         run: |
-          PACKAGE_VERSION=$(head -n 1 index.d.ts | cut -c 5-)
-          mv index.d.ts .github/npm/index.d.ts
+          PACKAGE_VERSION=$(head -n 1 .github/npm/index.d.ts | cut -c 5-)
           sed -i 's/{{version}}/'$PACKAGE_VERSION'/g' .github/npm/package.json
 
       - name: Publishing TypeScript package to npm
