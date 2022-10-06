@@ -52,7 +52,6 @@ public class TypescriptDefinition {
           Map.entry("Bounty.location", "Location"),
           Map.entry("Class.primestat", "Stat"),
           Map.entry("Coinmaster.item", "Item"),
-          Map.entry("Effect.all", "{ [source: string]: boolean }"),
           Map.entry("Item.buyer", "Coinmaster"),
           Map.entry("Item.seller", "Coinmaster"),
           Map.entry("Item.noob_skill", "Skill"),
@@ -66,10 +65,7 @@ public class TypescriptDefinition {
           Map.entry("Monster.attack_element", "Element"),
           Map.entry("Monster.defense_element", "Element"),
           Map.entry("Monster.phylum", "Phylum"),
-          Map.entry("Monster.poison", "Effect"),
-          Map.entry("Monster.images", "{ [image: string]: boolean }"),
-          Map.entry("Monster.random_modifiers", "{ [randomModifier: string]: boolean }"),
-          Map.entry("Monster.sub_types", "{ [subType: string]: boolean }"));
+          Map.entry("Monster.poison", "Effect"));
 
   private static final List<Type> typesWithNumbers =
       List.of(

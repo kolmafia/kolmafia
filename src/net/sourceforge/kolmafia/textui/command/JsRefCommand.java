@@ -26,6 +26,10 @@ public class JsRefCommand extends AbstractCommand {
       return "any";
     }
 
+    if (type instanceof PluralValueType) {
+      return "readonly " + toJavascriptTypeName(((PluralValueType) type).getIndexType()) + "[]";
+    }
+
     if (type instanceof AggregateType) {
       if (((AggregateType) type).getSize() < 0) {
         return "{ ["
