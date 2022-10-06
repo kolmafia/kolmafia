@@ -1750,7 +1750,7 @@ arm buzzer	100	Mus: 25	shield
 arrow'd heart balloon	10	none
 astral shield	50	none	shield
 astral statuette	50	none
-autumn debris shield	0	none	shield
+autumn debris shield	150	none	shield
 Bag o' Tricks	0	none
 bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
