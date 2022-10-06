@@ -393,7 +393,7 @@ public class ApiRequest extends GenericRequest {
     }
   }
 
-  private static Map<String, Map.Entry<String, String>> PREF_TO_COOL_ITEM =
+  private static final Map<String, Map.Entry<String, String>> PREF_TO_COOL_ITEM =
       Map.ofEntries(
           Map.entry("airport1", Map.entry("sleazeAirportAlways", "_sleazeAirportToday")),
           Map.entry("airport2", Map.entry("spookyAirportAlways", "_spookyAirportToday")),
@@ -410,9 +410,10 @@ public class ApiRequest extends GenericRequest {
           Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
           Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")),
           Map.entry("hascosmicball", Map.entry("hasCosmicBowlingBall", "")),
-          Map.entry("maydaykit", Map.entry("hasMaydayContract", "")));
+          Map.entry("maydaykit", Map.entry("hasMaydayContract", "")),
+          Map.entry("autumnaton", Map.entry("hasAutumnaton", "")));
 
-  private static final void parseCoolItems(final String coolItems) {
+  private static void parseCoolItems(final String coolItems) {
     if (coolItems == null) {
       return;
     }
