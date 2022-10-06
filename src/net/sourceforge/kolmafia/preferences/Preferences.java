@@ -99,6 +99,7 @@ public class Preferences {
       new String[] {
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
+        "autumnatonUpgrades",
         "awolDeferredPointsBeanslinger",
         "awolDeferredPointsCowpuncher",
         "awolDeferredPointsSnakeoiler",

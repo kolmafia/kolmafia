@@ -8053,6 +8053,8 @@ public abstract class ChoiceControl {
       case 1476:
         StillSuitManager.parseChoice(text);
         break;
+      case 1483:
+        AutumnatonManager.parseChoice(text);
     }
   }
 
@@ -9195,6 +9197,7 @@ public abstract class ChoiceControl {
       case 1460: // Toy Lab
       case 1463: // Reminiscing About Those Monsters You Fought
       case 1476: // Stillsuit
+      case 1483: // Direct Autumn-Aton
         return true;
 
       default:

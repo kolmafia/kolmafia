@@ -204,6 +204,7 @@ user	autoSatisfyWithStorage	true
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false
+user	autumnatonUpgrades
 user	availableCandyCredits	0
 user	availableDimes	0
 user	availableFunPoints	0
