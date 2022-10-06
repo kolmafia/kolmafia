@@ -3017,6 +3017,29 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void canTalkToTrapperToOpenZones() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_visit_trapper_talk.html"));
+        client.addResponse(200, ""); // api.php
+        assertTrue(GOATLET.canAdventure());
+        assertTrue(GOATLET.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.TRAPPER), "step1");
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=mclargehuge&action=trappercabin");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
     public void canVisitMcLargeHugeOnceQuestStarted() {
       var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step1"));
       try (cleanups) {
@@ -3048,7 +3071,6 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         // We do not currently allow betweenBattle script to fix
         assertFalse(SHROUDED_PEAK.canAdventure());
-        assertFalse(SHROUDED_PEAK.prepareForAdventure());
       }
     }
 
@@ -3082,7 +3104,6 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         // We do not currently allow betweenBattle script to fix
         assertFalse(ICY_PEAK.canAdventure());
-        assertFalse(ICY_PEAK.prepareForAdventure());
       }
     }
 

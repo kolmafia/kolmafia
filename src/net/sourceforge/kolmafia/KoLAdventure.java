@@ -1170,7 +1170,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("McLarge")) {
       return switch (this.adventureNumber) {
         case AdventurePool.ITZNOTYERZITZ_MINE, AdventurePool.GOATLET -> QuestDatabase
-            .isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
+            .isQuestStarted(Quest.TRAPPER);
         case AdventurePool.NINJA_SNOWMEN, AdventurePool.EXTREME_SLOPE -> QuestDatabase
             .isQuestLaterThan(Quest.TRAPPER, "step1");
         case AdventurePool.ICY_PEAK -> QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4")
@@ -2156,6 +2156,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return true;
+    }
+
+    // Level 8 quest
+    if (this.zone.equals("McLarge")) {
+      if (QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED)) {
+        return true;
+      }
+
+      // If we get here, we need to talk to the Trapper
+      var request = new PlaceRequest("mclargehuge", "trappercabin");
+      request.run();
+      return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
     }
 
     if (this.zone.equals("Island") || this.zone.equals("IsleWar")) {
