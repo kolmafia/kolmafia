@@ -38,7 +38,11 @@ public class AutumnatonCommand extends AbstractCommand {
     var advName = adventure.getAdventureName();
     KoLmafia.updateDisplay("Sending autumn-aton to " + advName);
 
-    var request = new GenericRequest("choice.php");
+    GenericRequest request =
+        new GenericRequest("inv_use.php?pwd&which=3&whichitem=" + ItemPool.AUTUMNATON, false);
+    RequestThread.postRequest(request);
+
+    request = new GenericRequest("choice.php");
     request.addFormField("whichchoice", "1483");
     request.addFormField("option", "2");
     request.addFormField("pwd", GenericRequest.passwordHash);

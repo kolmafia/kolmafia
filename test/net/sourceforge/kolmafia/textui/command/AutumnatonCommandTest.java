@@ -1,19 +1,18 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
-import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
 import internal.helpers.Cleanups;
-import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -60,16 +59,15 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
   @Nested
   class ValidPreRequisites {
-    @BeforeEach
-    public void beforeEach() {
-      HttpClientWrapper.setupFakeClient();
-    }
-
     @Test
     void succeedsWithAccessibleLocation() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(200, html("request/test_choice_autumnaton_all_upgrades.html"));
+      builder.client.addResponse(200, html("request/test_choice_autumnaton_quest_kitchen.html"));
+
       var cleanups =
           new Cleanups(
-              withNextResponse(200, html("request/test_choice_autumnaton_quest_kitchen.html")),
+              withHttpClientBuilder(builder),
               withProperty("autumnatonQuestLocation", ""),
               withItem(ItemPool.AUTUMNATON));
 
@@ -84,9 +82,13 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void failsWithInaccessibleLocation() {
+      var builder = new FakeHttpClientBuilder();
+      builder.client.addResponse(200, html("request/test_choice_autumnaton_all_upgrades.html"));
+      builder.client.addResponse(200, html("request/test_choice_autumnaton_quest_fail.html"));
+
       var cleanups =
           new Cleanups(
-              withNextResponse(200, html("request/test_choice_autumnaton_quest_fail.html")),
+              withHttpClientBuilder(builder),
               withProperty("autumnatonQuestLocation", ""),
               withItem(ItemPool.AUTUMNATON));
 
