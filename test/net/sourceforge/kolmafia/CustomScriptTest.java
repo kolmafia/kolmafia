@@ -67,7 +67,12 @@ public class CustomScriptTest {
       RequestLogger.closeCustom();
     }
 
-    String output = ostream.toString().trim();
+    String output =
+        ostream
+            .toString()
+            .trim()
+            // try to avoid environment-specific paths in stacktraces
+            .replaceAll("\\bfile:.*?([^\\\\/\\s]+#\\d+)\\b", "file:%%STACKTRACE_LOCATION%%/$1");
     assertEquals(expectedOutput, output, script + " output does not match: ");
   }
 
