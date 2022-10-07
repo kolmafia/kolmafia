@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2563,6 +2564,17 @@ public class Modifiers {
 
     for (Florist plant : plants) {
       this.add(Modifiers.getModifiers("Florist", plant.toString()));
+    }
+  }
+
+  public final void applyAutumnatonModifiers() {
+    if (Modifiers.currentLocation == null || Modifiers.currentLocation.equals("")) return;
+
+    var questLocation = AutumnatonManager.getQuestLocation();
+    if (questLocation.equals("")) return;
+
+    if (Modifiers.currentLocation.equals(questLocation)) {
+      this.add(Modifiers.EXPERIENCE, 1, "Autumnaton");
     }
   }
 

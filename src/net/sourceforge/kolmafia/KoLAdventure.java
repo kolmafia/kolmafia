@@ -246,7 +246,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.getFormSource().equals("adventure.php");
   }
 
-  private int getSnarfblat() {
+  public int getSnarfblat() {
     if (!hasSnarfblat()) {
       return -1;
     }

@@ -30,6 +30,7 @@ armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
 [5140]astral energy drink	8	1	awesome	29-35	0	0	0
 [10882]astral energy drink	5	1		0	0	0	0	Lucky!
 astronaut ice-cream	1	7	EPIC	8-10	0	0	0
+autumn breeze	1	1		0	0	0	0	50 Delighted by Autumn (+100% all stats), Unspaded
 bakelite bits	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
 beefy pill	1	4	decent	0	0	0	0	30 Beefy (+10 DR, +1 all res)

@@ -204,6 +204,9 @@ user	autoSatisfyWithStorage	true
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false
+user	autumnatonQuestLocation
+user	autumnatonQuestTurn	-1
+user	autumnatonUpgrades
 user	availableCandyCredits	0
 user	availableDimes	0
 user	availableFunPoints	0
@@ -696,6 +699,7 @@ user	harvestBatteriesHardcore	true
 user	harvestBatteriesSoftcore	true
 user	harvestGardenHardcore	none
 user	harvestGardenSoftcore	none
+user	hasAutumnaton	false
 user	hasBartender	false
 user	hasChef	false
 user	hasCocktailKit	false
@@ -1533,6 +1537,7 @@ user	_aprilShower	false
 user	_armyToddlerCast	false
 user	_astralDrops	0
 user	_authorsInkUsed	false
+user	_autumnatonQuests	0
 user	_backUpUses	0
 user	_baconMachineUsed	false
 user	_badlyRomanticArrows	0

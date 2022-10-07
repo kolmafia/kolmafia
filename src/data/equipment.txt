@@ -743,6 +743,7 @@ asbestos apron	170	Mus: 70
 Ascension Souvenir T-Shirt	15	none
 ASCII shirt	90	Mus: 30
 astral shirt	50	none
+autumn sweater-weather sweater	50	none
 bat-ass leather jacket	180	Mus: 77
 BGE 'cuddly critter' shirt	30	none
 BGE 'ferocious fruit' shirt	30	none
@@ -1749,6 +1750,7 @@ arm buzzer	100	Mus: 25	shield
 arrow'd heart balloon	10	none
 astral shield	50	none	shield
 astral statuette	50	none
+autumn debris shield	150	none	shield
 Bag o' Tricks	0	none
 bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
@@ -2296,6 +2298,7 @@ astral mask	50	none
 astral ring	50	none
 atlas of local maps	100	none
 attorney's badge	170	Mys: 70
+autumn leaf pendant	100	none
 backup camera	100	none
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10

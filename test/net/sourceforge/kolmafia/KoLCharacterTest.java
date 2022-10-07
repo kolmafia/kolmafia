@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,12 +20,15 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
   @BeforeEach
   public void init() {
     KoLCharacter.reset(true);
+    KoLCharacter.reset("KoLCharacterTest");
+    Preferences.reset("KoLCharacterTest");
     StandardRequest.reset();
   }
 
@@ -319,6 +323,39 @@ public class KoLCharacterTest {
 
     try (cleanups) {
       assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
+    }
+  }
+
+  @Nested
+  class Autumnaton {
+    @Test
+    public void adventuringWithAutumnatonGivesExperience() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(1),
+              withLocation("The Spooky Forest"),
+              withProperty("autumnatonQuestTurn", 5),
+              withProperty("autumnatonQuestLocation", "The Spooky Forest"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.currentNumericModifier("Experience"), is(1.0));
+      }
+    }
+
+    @Test
+    public void oldQuestDoesNotGiveExperience() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(6),
+              withLocation("The Spooky Forest"),
+              withProperty("autumnatonQuestTurn", 2),
+              withProperty("autumnatonQuestLocation", "The Spooky Forest"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.currentNumericModifier("Experience"), is(0.0));
+      }
     }
   }
 }

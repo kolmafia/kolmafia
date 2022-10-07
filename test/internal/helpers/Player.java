@@ -1345,6 +1345,30 @@ public class Player {
   }
 
   /**
+   * Visits a choice with a given choice and response
+   *
+   * @param choice Choice to set
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withChoice(final int choice, final String responseText) {
+    var oldChoice = ChoiceManager.lastChoice;
+    var oldDecision = ChoiceManager.lastDecision;
+
+    var req = new GenericRequest("choice.php?whichchoice=" + choice);
+    req.responseText = responseText;
+
+    ChoiceManager.preChoice(req);
+    ChoiceControl.visitChoice(req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = oldChoice;
+          ChoiceManager.lastDecision = oldDecision;
+        });
+  }
+
+  /**
    * Runs postChoice1 with a given choice and decision and response
    *
    * @param choice Choice to set
@@ -1415,7 +1439,7 @@ public class Player {
   /**
    * Simulates a choice (postChoice1, processResults and then postChoice2)
    *
-   * <p>{@code @todo} Still needs some more choice handling (visitChoice, postChoice0)
+   * <p>{@code @todo} Still needs some more choice handling (postChoice0)
    *
    * @param choice Choice number
    * @param decision Decision number
