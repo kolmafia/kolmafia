@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -46,6 +47,7 @@ public class AutumnatonManager {
                     .filter(e -> responseText.contains(e.getValue()))
                     .map(Map.Entry::getKey),
                 Arrays.stream(Preferences.getString("autumnatonUpgrades").split(",")))
+            .filter(Predicate.not(String::isBlank))
             .distinct()
             .sorted()
             .collect(Collectors.joining(","));
