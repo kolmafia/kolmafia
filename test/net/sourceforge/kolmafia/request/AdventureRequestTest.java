@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -52,6 +53,20 @@ public class AdventureRequestTest {
       AdventureRequest request = new AdventureRequest("The Ice Hole", "adventure.php", "457");
       KoLCharacter.recalculateAdjustments();
       assertEquals(1, request.getAdventuresUsed());
+    }
+  }
+
+  @Test
+  public void regocgnizesSpookyWheelbarrow() {
+    var cleanups =
+        new Cleanups(withProperty("lastEncounter"), withLastLocation("The Spooky Gravy Burrow"));
+
+    try (cleanups) {
+      var request =
+          new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SPOOKY_GRAVY_BURROW);
+      request.responseText = html("request/find_spooky_fairy_gravy.html");
+      AdventureRequest.registerEncounter(request);
+      assertEquals("Spooky Wheelbarrow", Preferences.getString("lastEncounter"));
     }
   }
 
