@@ -2720,3 +2720,8 @@
 2720	Buzzed on Distillate	chinsweat.gif	d64eab33f648e1a77da23ae516353fb2	neutral	none	drink 1 stillsuit distillate
 2721	Dino Pheromoned	wbchemset.gif	395dfbcdb8accb94d462d1380d53e913	neutral	none
 2722	Prehistoric Potential	dna.gif	53927d1c7c90d775d1033fd12618cfa7	neutral	none	use 1 Dino DNAde&trade;
+2723	Crunching Leaves	leafflavor.gif	b645f760ab1a497da20faafbe90d3d29	neutral	none	use 1 autumn leaf
+2724	Whet Appetite	powderdonut.gif	bb374fa9f50dc7ce46f98632396161d8	neutral	none	eat 1 autumn-spice donut
+2725	Bet Your Autumn Dollar	goldcoin.gif	f696596ddc94d295fc25da98d24f58ec	neutral	none	use 1 autumn dollar
+2726	Delighted by Autumn	cueball.gif	fc1fd3b808d9bda46a4d6f1e71a74e9a	neutral	none	chew 1 autumn breeze
+2727	Wisdom of the Autumn Years	xicrystal.gif	67ebd878570ed8315d4a4674e2eed291	neutral	none	use 1 autumn years wisdom

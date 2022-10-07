@@ -43,7 +43,12 @@ public class LibraryFunctionStub extends AshStub {
     ashArgsWithInterpreter.add(controller);
     ashArgsWithInterpreter.addAll(ashArgs);
 
-    return ashFunction.executeWithoutInterpreter(controller, ashArgsWithInterpreter.toArray());
+    try {
+      return ashFunction.executeWithoutInterpreter(controller, ashArgsWithInterpreter.toArray());
+    } catch (Throwable e) {
+      // ensure the exception can be caught in Javascript
+      throw Context.throwAsScriptRuntimeEx(e);
+    }
   }
 
   private int findFunctionReference(Object[] args) {

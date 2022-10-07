@@ -921,6 +921,7 @@ Item	antique nutcracker waistcoat	PvP Fights: +3, Muscle Percent: +15
 # Ascension Souvenir T-Shirt
 Item	ASCII shirt	Mysticality: +7
 Item	astral shirt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+Item	autumn sweater-weather sweater	Cold Resistance: +3, Maximum HP: +50, HP Regen Min: 8, HP Regen Max: 12, MP Regen Min: 8, MP Regen Max: 12, Lasts Until Rollover
 Item	bat-ass leather jacket	Mysticality: +10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	BGE 'cuddly critter' shirt	Item Drop: +7, Meat Drop: +7
 Item	BGE 'ferocious fruit' shirt	Moxie: +10, Maximum HP: +10
@@ -2061,6 +2062,7 @@ Item	arm buzzer	Maximum MP: +25, Damage Reduction: 6
 # arrow'd heart balloon
 Item	astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damage Reduction: 15
 Item	astral statuette	Mysticality Percent: +25, Spell Damage Percent: +50, Adventures: +4
+Item	autumn debris shield	Damage Reduction: 19, Initiative: +30, Hot Damage: +20, Hot Spell Damage: +20, Lasts Until Rollover
 # Bag o' Tricks: Summons Animals During Combat
 Item	Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Max: 12, Spell Damage Percent: +50, Softcore Only
 # bag of Crotchety Pine saplings
@@ -2708,6 +2710,7 @@ Item	astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, M
 Item	atlas of local maps	Combat Rate: -5, Lasts Until Rollover
 # attorney's badge: OBJECTION!
 Item	attorney's badge	Single Equip
+Item	autumn leaf pendant	Familiar Weight: +5, Familiar Damage: +10, Experience (familiar): +1, Lasts Until Rollover
 Item	backup camera	Maximum HP: +20, Maximum MP: +20, Single Equip
 Item	baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
 Item	baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip
@@ -5150,6 +5153,7 @@ Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
 # Berry Thorny: Damages Attacking Opponents
 Effect	Bestial Sympathy	Familiar Weight: +3
+Effect	Bet Your Autumn Dollar	Meat Drop: +50
 Effect	Beta Carotene Overdose	Item Drop: +50
 Effect	Better Off Bread	Avatar: "Bread Golem"
 Effect	Beyond the Pail	Avatar: "fishy pirate"
@@ -5499,6 +5503,7 @@ Effect	Crocodile Tear	Familiar Weight (hidden): [10*env(underwater)]
 Effect	Crotchety, Pining	Muscle Percent: +100
 Effect	Crud&eacute;	Sleaze Damage: +5
 Effect	Cruisin' for a Bruisin'	Weapon Damage Percent: +100
+Effect	Crunching Leaves	Combat Rate: +5, Item Drop: +25
 Effect	Crusty Head	Damage Reduction: 10
 Effect	Crying, Dying	Item Drop: +60
 Effect	Crystalleyesd	Avatar: "The Plumber"
@@ -5564,6 +5569,7 @@ Effect	Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
 # Deep-Seated Rage: +100% Damage vs. Mer-kin
 Effect	Deep-Tainted Mind	Mysticality Percent: -50
 Effect	Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
+Effect	Delighted by Autumn	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Effect	Demonic Taint	Stench Damage: +30
 Effect	Demonicity	Monster Level: +40, Spooky Damage: +80, Spooky Spell Damage: +80
@@ -7600,6 +7606,7 @@ Effect	Wet Willied	Underwater Familiar
 # What Are The Odds!?: All item drop rolls will be 50%
 Effect	What's That Smell?	Stench Damage: +3
 Effect	When the Plague Hits Your Eye	Avatar: "Plague Chef"
+Effect	Whet Appetite	Food Drop: +100
 Effect	Which Nurse? Witch Nurse!	Avatar: "pygmy witch nurse"
 Effect	Whippin' It Good	Critical Hit Percent: +5
 Effect	Whispering Strands	Initiative: +10
@@ -7628,6 +7635,7 @@ Effect	Winklered	Meat Drop: +40
 Effect	Winning Smile	Experience: +3
 Effect	Wintergreen Warmongery	Muscle: +30
 Effect	Wintry Breath	Cold Damage: +10
+Effect	Wisdom of the Autumn Years	Spell Damage Percent: +20, Maximum MP: +100, MP Regen Min: 15, MP Regen Max: 20
 Effect	Wisdom of the God Lobster	Maximum MP: +20, MP Regen Min: 40, MP Regen Max: 40
 Effect	Wisdom of Thoth	Mysticality: +10, Mysticality Percent: +50
 Effect	Wise Spirit	Mysticality: +15
@@ -8494,6 +8502,7 @@ Item	3vi1 pr0n m4nic0tti	Effect: "[599]A Little Bit Evil", Effect Duration: 10
 Item	Aldebaran sardines	Effect: "Fishy", Effect Duration: 60
 Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
 Item	animal part cracker	Effect: "Sprinkle in Your Eye", Effect Duration: 30
+Item	autumn-spice donut	Effect: "Whet Appetite", Effect Duration: 30
 Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 Item	bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
@@ -9132,6 +9141,7 @@ Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50
 # astral energy drink: Gives you good luck
+Item	autumn breeze	Effect: "Delighted by Autumn", Effect Duration: 50
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
 Item	beefy pill	Effect: "Beefy", Effect Duration: 30
 Item	beggin' cologne	Effect: "Eau d' Clochard", Effect Duration: 60
@@ -10579,6 +10589,9 @@ Item	arrowgram	Free Pull
 Item	Asleep in the Cemetery	Skill: "Creepy Lullaby"
 Item	astral badger	Free Pull
 Item	Autobiography Of Dynamite Superman Jones (used)	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
+Item	autumn dollar	Effect: "Bet Your Autumn Dollar", Effect Duration: 30
+Item	autumn leaf	Effect: "Crunching Leaves", Effect Duration: 20
+Item	autumn years wisdom	Effect: "Wisdom of the Autumn Years", Effect Duration: 30
 Item	avatar of the Unconscious Collective	Free Pull
 Item	baby camelCalf	Free Pull
 Item	bad penguin egg	Free Pull
@@ -10669,6 +10682,7 @@ Item	bottled Vampire Vintner	Free Pull
 # box of hammers: (way more effective against constructs)
 # box of old Crimbo decorations: Lets you give your Crimbo Shrub new decorations each day
 Item	box of sunshine	Free Pull
+Item	boxed autumn-aton	Free Pull
 Item	Boxing Day care package	Free Pull
 # brain preservation fluid: Drink it for 5 Adventures!
 # brass abacus: Stuns your opponent for a few rounds

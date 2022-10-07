@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
+import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
 import net.sourceforge.kolmafia.session.BatManager;
@@ -4214,6 +4215,9 @@ public class FightRequest extends GenericRequest {
 
     // Handle incrementing stillsuit sweat (this happens whether the fight is won or lost)
     StillSuitManager.handleSweat(responseText);
+
+    // Handle autumnaton checking (this happens whether the fight is won or lost)
+    AutumnatonManager.parseFight(responseText);
 
     FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
     FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();

@@ -522,7 +522,8 @@ public class DebugDatabase {
     StringBuilder accessTypes = new StringBuilder();
 
     if (text.contains("Quest Item")
-        || text.contains("This item will disappear at the end of the day.")) {
+        || text.contains("This item will disappear at the end of the day.")
+        || text.contains("May not be moved out of inventory")) {
       accessTypes = appendAccessTypes(accessTypes, ItemDatabase.QUEST_FLAG);
     }
 

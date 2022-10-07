@@ -55,6 +55,7 @@ public class AdventureDatabase {
   private static final Map<String, AreaCombatData> areaCombatData = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByURL = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByName = new HashMap<>();
+  private static final Map<Integer, KoLAdventure> adventureById = new HashMap<>();
   private static final Map<String, String> environmentLookup = new HashMap<>();
   private static final Map<String, String> zoneLookup = new HashMap<>();
   private static final Map<String, String> conditionLookup = new HashMap<>();
@@ -294,6 +295,7 @@ public class AdventureDatabase {
     AdventureDatabase.allAdventures.clear();
     AdventureDatabase.adventureByURL.clear();
     AdventureDatabase.adventureByName.clear();
+    AdventureDatabase.adventureById.clear();
 
     for (Adventure adv : AdventureDatabase.adventureTable) {
       AdventureDatabase.addAdventure(AdventureDatabase.getAdventure(adv));
@@ -325,6 +327,10 @@ public class AdventureDatabase {
     AdventureDatabase.adventures.add(location);
     AdventureDatabase.allAdventures.add(location);
     AdventureDatabase.adventureByName.put(location.getAdventureName(), location);
+
+    if (location.hasSnarfblat()) {
+      AdventureDatabase.adventureById.put(location.getSnarfblat(), location);
+    }
 
     GenericRequest request = location.getRequest();
 
@@ -566,6 +572,10 @@ public class AdventureDatabase {
 
   private static KoLAdventure getAdventure(final Adventure adv) {
     return new KoLAdventure(adv.zone, adv.formSource, adv.id, adv.name);
+  }
+
+  public static KoLAdventure getAdventure(final int snarfblat) {
+    return adventureById.get(snarfblat);
   }
 
   public static String getZone(final String location) {
