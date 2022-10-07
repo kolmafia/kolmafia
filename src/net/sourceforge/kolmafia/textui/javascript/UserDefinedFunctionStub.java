@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 public class UserDefinedFunctionStub extends AshStub {
@@ -36,6 +37,11 @@ public class UserDefinedFunctionStub extends AshStub {
     ashArgsWithInterpreter.add(controller);
     ashArgsWithInterpreter.addAll(ashArgs);
 
-    return ashFunction.execute((AshRuntime) controller, ashArgsWithInterpreter.toArray());
+    try {
+      return ashFunction.execute((AshRuntime) controller, ashArgsWithInterpreter.toArray());
+    } catch (Throwable e) {
+      // ensure the exception can be caught in Javascript
+      throw Context.throwAsScriptRuntimeEx(e);
+    }
   }
 }
