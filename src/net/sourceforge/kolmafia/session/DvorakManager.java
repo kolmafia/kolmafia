@@ -13,6 +13,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class DvorakManager {
   private static final char[][] tiles = new char[7][9];
   private static int currentRow = 0;
+  private static String lastResponse = "";
+
+  // For testing
+  public static void reset() {
+    currentRow = 0;
+    lastResponse = "";
+  }
 
   private static final String solution = "BANANAS";
   private static String currentSolution = "";
@@ -182,8 +189,6 @@ public abstract class DvorakManager {
     // Insert it into the page
     buffer.insert(index, button);
   }
-
-  private static String lastResponse = "";
 
   public static final void saveResponse(final String responseText) {
     DvorakManager.lastResponse = responseText;
