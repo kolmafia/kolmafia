@@ -60,7 +60,7 @@ class AutumnatonManagerTest {
           2,
           html("request/test_choice_autumnaton_quest_kitchen.html"),
           AdventurePool.HAUNTED_KITCHEN);
-      assertThat("autumnatonQuestLocation", isSetTo(AdventurePool.HAUNTED_KITCHEN));
+      assertThat("autumnatonQuestLocation", isSetTo("The Haunted Kitchen"));
       assertThat("autumnatonQuestTurn", isSetTo(expected));
     }
   }
