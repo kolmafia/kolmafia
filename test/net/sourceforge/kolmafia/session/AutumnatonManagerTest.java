@@ -24,6 +24,7 @@ class AutumnatonManagerTest {
 
   @ParameterizedTest
   @CsvSource({
+    "all_upgrades, 'base_blackhat,cowcatcher,dualexhaust,leftarm1,leftleg1,periscope,radardish,rightarm1,rightleg1'",
     "many_upgrades, 'dualexhaust,leftleg1,periscope,radardish,rightarm1,rightleg1'",
     "with_hat, 'base_blackhat,cowcatcher,leftleg1,rightleg1'",
   })
