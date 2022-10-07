@@ -1222,7 +1222,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("name", DataTypes.STRING_TYPE)
             .add("default", DataTypes.STRING_TYPE)
             .add("note", DataTypes.STRING_TYPE)
-            .add("all", new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE))
+            .add("all", new PluralValueType(DataTypes.STRING_TYPE))
             .add("image", DataTypes.STRING_TYPE)
             .add("descid", DataTypes.STRING_TYPE)
             .add("candy_tier", DataTypes.INT_TYPE)
@@ -1462,9 +1462,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("base_initiative", DataTypes.INT_TYPE)
             .add("raw_initiative", DataTypes.INT_TYPE)
             .add("attack_element", DataTypes.ELEMENT_TYPE)
-            .add(
-                "attack_elements",
-                new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.ELEMENT_TYPE))
+            .add("attack_elements", new PluralValueType(DataTypes.ELEMENT_TYPE))
             .add("defense_element", DataTypes.ELEMENT_TYPE)
             .add("physical_resistance", DataTypes.INT_TYPE)
             .add("elemental_resistance", DataTypes.INT_TYPE)
@@ -1479,11 +1477,9 @@ public class ProxyRecordValue extends RecordValue {
             .add("boss", DataTypes.BOOLEAN_TYPE)
             .add("copyable", DataTypes.BOOLEAN_TYPE)
             .add("image", DataTypes.STRING_TYPE)
-            .add("images", new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE))
-            .add("sub_types", new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE))
-            .add(
-                "random_modifiers",
-                new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE))
+            .add("images", new PluralValueType(DataTypes.STRING_TYPE))
+            .add("sub_types", new PluralValueType(DataTypes.STRING_TYPE))
+            .add("random_modifiers", new PluralValueType(DataTypes.STRING_TYPE))
             .add("manuel_name", DataTypes.STRING_TYPE)
             .add("wiki_name", DataTypes.STRING_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)

@@ -718,8 +718,7 @@ public class AdventureRequest extends GenericRequest {
     if (urlString.startsWith("adventure.php")) {
       int area = parseArea(urlString);
       switch (area) {
-        case 17:
-          // Hidden Temple
+        case AdventurePool.HIDDEN_TEMPLE:
           // Dvorak's revenge
           // You jump to the last letter, and put your pom-poms down with a sign of relief --
           // thank goodness that's over. Worst. Spelling bee. Ever.
@@ -728,8 +727,7 @@ public class AdventureRequest extends GenericRequest {
           }
           break;
 
-        case 19:
-          // Limerick Dungeon
+        case AdventurePool.LIMERICK_DUNGEON:
           for (int i = 0; i < LIMERICKS.length; ++i) {
             if (responseText.contains(LIMERICKS[i][1])) {
               return LIMERICKS[i][0];
@@ -737,7 +735,23 @@ public class AdventureRequest extends GenericRequest {
           }
           return "Unrecognized Limerick";
 
-        case 114: // Outskirts of The Knob
+        case AdventurePool.SPOOKY_GRAVY_BURROW:
+          // The Spooky Wheelbarrow no longer shows an encounter.
+          // Bug reported, but we can work around it.
+          //
+          // As you explore the Spooky Underground Caverns, you stop short when
+          // you hear a noise. You duck behind a pillar of rock, and peek out
+          // to see a Spooky Gravy Fairy pushing a small wheelbarrow, whistling
+          // a gloomy dirge. As he goes past, you sneak out and thump him on
+          // the head. He squeaks and falls over unconscious.
+          //
+          // His wheelbarrow has two little buckets in it. Score! (Maybe.)
+          if (responseText.contains("pushing a small wheelbarrow")) {
+            return "Spooky Wheelbarrow";
+          }
+          break;
+
+        case AdventurePool.OUTSKIRTS_OF_THE_KNOB:
           // Unstubbed
           // You go back to the tree where the wounded Knob Goblin guard was resting,
           // and find him just where you left him, continuing to whine about his stubbed toe.

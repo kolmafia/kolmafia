@@ -8984,7 +8984,6 @@ public abstract class ChoiceControl {
         break;
 
       case 437: // Flying In Circles
-        ResultProcessor.processAdventuresUsed(1);
         RequestLogger.registerLocation("The Nemesis' Lair");
         break;
 

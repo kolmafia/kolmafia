@@ -12,6 +12,7 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
@@ -20,6 +21,7 @@ import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
@@ -1683,6 +1685,36 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void summoningChamberAvailableIfCanDissolveMortar() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.MANOR, "step2"),
+              withItem(ItemPool.LOOSENING_POWDER),
+              withItem(ItemPool.POWDERED_CASTOREUM),
+              withItem(ItemPool.DRAIN_DISSOLVER),
+              withItem(ItemPool.TRIPLE_DISTILLED_TURPENTINE),
+              withItem(ItemPool.DETARTRATED_ANHYDROUS_SUBLICALC),
+              withItem(ItemPool.TRIATOMACEOUS_DUST));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_mortar_dissolving_solution.html"));
+        client.addResponse(200, ""); // api.php
+        assertTrue(SUMMONING_CHAMBER.canAdventure());
+        assertTrue(SUMMONING_CHAMBER.prepareForAdventure());
+        assertThat(Quest.MANOR, isStep("step3"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=manor4&action=manor4_chamberwall");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
     public void summoningChamberAvailableIfOpened() {
       var cleanups = new Cleanups(withQuestProgress(Quest.MANOR, "step3"));
       try (cleanups) {
@@ -2446,6 +2478,30 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void canDecryptMapToOpenCobbsKnob() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.ENCRYPTION_KEY),
+              withItem(ItemPool.COBBS_KNOB_MAP),
+              withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_encryption_key.html"));
+        client.addResponse(200, ""); // api.php
+        assertTrue(COBB_BARRACKS.canAdventure());
+        assertTrue(COBB_BARRACKS.prepareForAdventure());
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.COBBS_KNOB_MAP + "&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
     public void canVisitCobbsKnobAfterDefeatingKing() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED));
       try (cleanups) {
@@ -2480,6 +2536,16 @@ public class KoLAdventureValidationTest {
     @Test
     public void cannotVisitCobbsKnobMenagerieWithoutKey() {
       var cleanups = new Cleanups(withQuestProgress(Quest.GOBLIN, "step1"));
+      try (cleanups) {
+        assertFalse(MENAGERIE_LEVEL_1.canAdventure());
+        assertFalse(MENAGERIE_LEVEL_2.canAdventure());
+        assertFalse(MENAGERIE_LEVEL_3.canAdventure());
+      }
+    }
+
+    @Test
+    public void cannotVisitCobbsKnobMenagerieWithoutQuest() {
+      var cleanups = new Cleanups(withItem("Cobb's Knob Menagerie key"));
       try (cleanups) {
         assertFalse(MENAGERIE_LEVEL_1.canAdventure());
         assertFalse(MENAGERIE_LEVEL_2.canAdventure());
@@ -2713,6 +2779,63 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Pandammonium {
+    private static final KoLAdventure PANDAMONIUM_SLUMS =
+        AdventureDatabase.getAdventureByName("Pandamonium Slums");
+    private static final KoLAdventure LAUGH_FLOOR =
+        AdventureDatabase.getAdventureByName("The Laugh Floor");
+    private static final KoLAdventure INFERNAL_RACKETS =
+        AdventureDatabase.getAdventureByName("Infernal Rackets Backstage");
+
+    // Quest.FRIAR progression
+    //
+    // "started" - given by Council
+    // "step1" - spoke to friars without all three ritual items
+    // "step2" - spoke to friars with all three ritual items
+    // "finished - performed ritual
+    //
+    // I don't think you actually have to talk to the friars.
+
+    @Test
+    public void canVisitPandamoniumWhenFriarsFinished() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.FRIAR, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertTrue(PANDAMONIUM_SLUMS.canAdventure());
+        assertTrue(LAUGH_FLOOR.canAdventure());
+        assertTrue(INFERNAL_RACKETS.canAdventure());
+      }
+    }
+
+    @Test
+    public void canFinishFriarsToOpenPandamonium() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("friars"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(KoLCharacter.FEMALE),
+              withQuestProgress(Quest.FRIAR, QuestDatabase.STARTED),
+              withItem(ItemPool.DODECAGRAM),
+              withItem(ItemPool.CANDLES),
+              withItem(ItemPool.BUTTERKNIFE));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_visit_friars_ritual.html"));
+        client.addResponse(200, ""); // api.php
+        assertTrue(PANDAMONIUM_SLUMS.canAdventure());
+        assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.FRIAR), QuestDatabase.FINISHED);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/friars.php", "action=ritual&pwd=friars");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
   class Cyrpt {
 
     private static final KoLAdventure DEFILED_ALCOVE =
@@ -2894,6 +3017,29 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void canTalkToTrapperToOpenZones() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_visit_trapper_talk.html"));
+        client.addResponse(200, ""); // api.php
+        assertTrue(GOATLET.canAdventure());
+        assertTrue(GOATLET.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.TRAPPER), "step1");
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=mclargehuge&action=trappercabin");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
     public void canVisitMcLargeHugeOnceQuestStarted() {
       var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, "step1"));
       try (cleanups) {
@@ -2925,7 +3071,6 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         // We do not currently allow betweenBattle script to fix
         assertFalse(SHROUDED_PEAK.canAdventure());
-        assertFalse(SHROUDED_PEAK.prepareForAdventure());
       }
     }
 
@@ -2959,7 +3104,6 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         // We do not currently allow betweenBattle script to fix
         assertFalse(ICY_PEAK.canAdventure());
-        assertFalse(ICY_PEAK.prepareForAdventure());
       }
     }
 

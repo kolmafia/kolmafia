@@ -7,6 +7,7 @@ import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -325,6 +326,48 @@ public class Player {
   public static Cleanups withClanLoungeItem(final int itemId) {
     ClanLoungeRequest.setClanLoungeItem(itemId, 1);
     return new Cleanups(() -> ClanLoungeRequest.setClanLoungeItem(itemId, 0));
+  }
+
+  /**
+   * Restores Clan Furniture after cleanup
+   *
+   * @return Resets to previous state
+   */
+  public static Cleanups withClanFurniture() {
+    var old = ClanManager.getClanRumpus();
+
+    return new Cleanups(
+        () -> {
+          var current = new ArrayList<>(ClanManager.getClanRumpus());
+          for (var item : current) {
+            if (!old.contains(item)) ClanManager.removeFromRumpus(item);
+          }
+        });
+  }
+
+  /**
+   * Adds the given set of furniture to the player's Clan Rumpus Room
+   *
+   * @param furniture Furniture items to install
+   * @return Resets to previous value
+   */
+  public static Cleanups withClanFurniture(final String... furniture) {
+    var cleanups = new Cleanups();
+    var rumpus = ClanManager.getClanRumpus();
+
+    for (var f : furniture) {
+      var old = rumpus.contains(f);
+      ClanManager.addToRumpus(f);
+
+      cleanups.add(
+          () -> {
+            if (!old) {
+              ClanManager.removeFromRumpus(f);
+            }
+          });
+    }
+
+    return cleanups;
   }
 
   /**
