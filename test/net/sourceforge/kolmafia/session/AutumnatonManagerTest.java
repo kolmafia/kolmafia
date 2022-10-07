@@ -41,6 +41,24 @@ class AutumnatonManagerTest {
 
   @ParameterizedTest
   @CsvSource({
+    "upgrade_right_leg, '', 'rightleg1'",
+    "upgrade_multiple, '', 'cowcatcher,leftleg1,rightarm1'",
+    "upgrade_multiple, 'leftarm1', 'cowcatcher,leftarm1,leftleg1,rightarm1'"
+  })
+  public void canDetectNewUpgrade(
+      final String fixture, final String upgradesBefore, final String expectedUpgradesAfter) {
+    var cleanups =
+        new Cleanups(
+            withProperty("autumnatonUpgrades", upgradesBefore),
+            withChoice(1483, 1, html("request/test_choice_autumnaton_" + fixture + ".html")));
+
+    try (cleanups) {
+      assertThat("autumnatonUpgrades", isSetTo(expectedUpgradesAfter));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
     "0, '', 11",
     "0, 'leftleg1,rightleg1', 11",
     "2, 'leftleg1', 22",
