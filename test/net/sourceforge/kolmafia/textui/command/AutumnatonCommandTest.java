@@ -32,7 +32,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
   void errorsWithNoAutumnaton() {
     String output = execute("");
     assertErrorState();
-    assertThat(output, containsString("You need an autumn-aton to send"));
+    assertThat(output, containsString("You need an autumn-aton"));
   }
 
   @Nested
@@ -56,6 +56,17 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
         String output = execute("send trogdor");
         assertErrorState();
         assertThat(output, containsString("I don't understand where trogdor is."));
+      }
+    }
+
+    @Test
+    void errorsWithNonSnarfblatLocation() {
+      var cleanups = withItem(ItemPool.AUTUMNATON);
+
+      try (cleanups) {
+        String output = execute("send Tavern Cellar");
+        assertErrorState();
+        assertThat(output, containsString("The Typical Tavern Cellar is not a valid location"));
       }
     }
 

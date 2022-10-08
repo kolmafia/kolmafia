@@ -18,7 +18,7 @@ public class AutumnatonCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, String parameters) {
     if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "You need an autumn-aton to send.");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You need an autumn-aton.");
       return;
     }
 
@@ -44,6 +44,12 @@ public class AutumnatonCommand extends AbstractCommand {
     }
 
     var advName = adventure.getAdventureName();
+
+    if (!adventure.hasSnarfblat()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, advName + " is not a valid location");
+      return;
+    }
+
     KoLmafia.updateDisplay("Sending autumn-aton to " + advName);
 
     GenericRequest request =
