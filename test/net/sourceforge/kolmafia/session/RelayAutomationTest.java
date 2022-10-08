@@ -59,16 +59,13 @@ public class RelayAutomationTest {
       private static final KoLAdventure HIDDEN_TEMPLE =
           AdventureDatabase.getAdventureByName("The Hidden Temple");
 
-      public Cleanups withDvorak(FakeHttpClientBuilder builder, boolean redirect) {
+      public Cleanups withDvorak(FakeHttpClientBuilder builder) {
         var cleanups = new Cleanups(withHttpClientBuilder(builder), withPasswordHash("dvorak"));
+        return cleanups;
+      }
+
+      public void addDvorakResponses(FakeHttpClientBuilder builder) {
         var client = builder.client;
-        if (redirect) {
-          client.addResponse(302, Map.of("location", List.of("tiles.php")), "");
-          client.addResponse(200, html("request/test_automation_dvorak_0.html"));
-          client.addResponse(200, ""); // api.php
-        } else {
-          client.addResponse(200, html("request/test_automation_dvorak_0.html"));
-        }
         client.addResponse(200, html("request/test_automation_dvorak_1.html"));
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_automation_dvorak_2.html"));
@@ -83,26 +80,11 @@ public class RelayAutomationTest {
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_automation_dvorak_7.html"));
         client.addResponse(200, ""); // api.php
-        return cleanups;
       }
 
-      public void validateRequests(FakeHttpClientBuilder builder, boolean redirect) {
+      public void validateDvorakRequests(FakeHttpClientBuilder builder, int i) {
         var client = builder.client;
-
         var requests = client.getRequests();
-        int i = 0;
-        if (redirect) {
-          assertThat(requests, hasSize(17));
-          assertPostRequest(
-              requests.get(i++),
-              "/adventure.php",
-              "snarfblat=" + HIDDEN_TEMPLE.getAdventureNumber() + "&pwd=dvorak");
-          assertGetRequest(requests.get(i++), "/tiles.php", null);
-          assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
-        } else {
-          assertThat(requests, hasSize(15));
-          assertGetRequest(requests.get(i++), "/tiles.php", null);
-        }
         assertPostRequest(requests.get(i++), "/tiles.php", "action=jump&whichtile=4&pwd=dvorak");
         assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(i++), "/tiles.php", "action=jump&whichtile=6&pwd=dvorak");
@@ -122,8 +104,12 @@ public class RelayAutomationTest {
       @Test
       public void canAutomateDvoraksRevengeFromRelayBrowser() {
         var builder = new FakeHttpClientBuilder();
-        var cleanups = new Cleanups(withDvorak(builder, false));
+        var client = builder.client;
+        var cleanups = new Cleanups(withDvorak(builder));
         try (cleanups) {
+          client.addResponse(200, html("request/test_automation_dvorak_0.html"));
+          addDvorakResponses(builder);
+
           // Visit tiles.php
           var url = "tiles.php";
           var request = new RelayRequest(false);
@@ -140,21 +126,42 @@ public class RelayAutomationTest {
           request.waitForCommandCompletion();
 
           // Verify that expected requests were submitted
-          validateRequests(builder, false);
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(15));
+
+          int i = 0;
+          assertGetRequest(requests.get(i++), "/tiles.php", null);
+          validateDvorakRequests(builder, i);
         }
       }
 
       @Test
       public void canAutomateDvoraksRevengeFromAdventureRequest() {
         var builder = new FakeHttpClientBuilder();
-        var cleanups = new Cleanups(withDvorak(builder, true));
+        var client = builder.client;
+        var cleanups = new Cleanups(withDvorak(builder));
         try (cleanups) {
+          client.addResponse(302, Map.of("location", List.of("tiles.php")), "");
+          client.addResponse(200, html("request/test_automation_dvorak_0.html"));
+          client.addResponse(200, ""); // api.php
+          addDvorakResponses(builder);
+
           // AdventureRequest redirecting to tiles.php
           var request = HIDDEN_TEMPLE.getRequest();
           request.run();
 
           // Verify that expected requests were submitted
-          validateRequests(builder, true);
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(17));
+
+          int i = 0;
+          assertPostRequest(
+              requests.get(i++),
+              "/adventure.php",
+              "snarfblat=" + HIDDEN_TEMPLE.getAdventureNumber() + "&pwd=dvorak");
+          assertGetRequest(requests.get(i++), "/tiles.php", null);
+          assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
+          validateDvorakRequests(builder, i);
         }
       }
     }
