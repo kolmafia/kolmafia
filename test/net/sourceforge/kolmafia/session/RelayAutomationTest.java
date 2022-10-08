@@ -3,9 +3,11 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
@@ -18,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.webui.RelayAgent;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -82,7 +85,7 @@ public class RelayAutomationTest {
         client.addResponse(200, ""); // api.php
       }
 
-      public void validateDvorakRequests(FakeHttpClientBuilder builder, int i) {
+      public int validateDvorakRequests(FakeHttpClientBuilder builder, int i) {
         var client = builder.client;
         var requests = client.getRequests();
         assertPostRequest(requests.get(i++), "/tiles.php", "action=jump&whichtile=4&pwd=dvorak");
@@ -99,6 +102,7 @@ public class RelayAutomationTest {
         assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(i++), "/tiles.php", "action=jump&whichtile=3&pwd=dvorak");
         assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
+        return i;
       }
 
       @Test
@@ -164,6 +168,54 @@ public class RelayAutomationTest {
           validateDvorakRequests(builder, i);
         }
       }
+
+      @Test
+      public void canAutomateHiddenTemplePuzzleChain() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups = new Cleanups(withDvorak(builder));
+        try (cleanups) {
+          client.addResponse(200, html("request/test_temple_puzzle_0.html"));
+          client.addResponse(200, html("request/test_temple_puzzle_1.html"));
+          client.addResponse(302, Map.of("location", List.of("tiles.php")), "");
+          client.addResponse(200, html("request/test_automation_dvorak_0.html"));
+          addDvorakResponses(builder);
+
+          // Visit first puzzle choice
+          // *** Need actual HTML
+          var url = "choice.php?whichchoice=580&option=1";
+          var request = new RelayRequest(false);
+          request.constructURLString(url);
+          request.run();
+          assertThat(ChoiceManager.handlingChoice, equalTo(true));
+          assertThat(ChoiceManager.lastChoice, equalTo(123));
+
+          // Simulate user typing "auto" button
+          url = "choice.php?action=auto";
+          request = new RelayRequest(false);
+          request.constructURLString(url);
+          RelayAgent.automateChoiceAdventure(request);
+
+          // Verify that expected requests were submitted
+          var requests = client.getRequests();
+          printRequests(requests);
+
+          /*
+          assertThat(requests, hasSize(15));
+          */
+
+          int i = 0;
+          assertPostRequest(requests.get(i++), "/choice.php", "whichchoice=580&option=1");
+          assertPostRequest(
+              requests.get(i++), "/choice.php", "whichchoice=123&option=2&pwd=dvorak");
+
+          /*
+          // choice.php?whichchoice=123&option=2&pwd
+          assertGetRequest(requests.get(i++), "/tiles.php", null);
+          i = validateDvorakRequests(builder, i);
+          */
+        }
+      }
     }
 
     // At Least It's Not Full Of Trash
@@ -173,6 +225,7 @@ public class RelayAutomationTest {
     // temple.0.html
     // <a href=choice.php>Continue down the corridor...</a>
     // Now What?
+    // *****
     // Encountered choice adventure with no choices.
     // <a href=main.php target=mainpane class=error>Click here to continue in the relay
     // browser.</a><br>

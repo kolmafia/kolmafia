@@ -109,7 +109,7 @@ public abstract class ChoiceManager {
    *
    * And by user actions:
    *
-   * - RelayRequest when the user hits the "auto" button on a choice page.
+   * - RelayAgent when the user hits the "auto" button on a choice page.
    * - The "choice" command from the gCLI
    * - The run_choice() function of ASH
    */
