@@ -42,6 +42,17 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
     assertThat(output, containsString("You need an autumn-aton"));
   }
 
+  @Test
+  void errorsWithInvalidCommand() {
+    var cleanups = hasAutumnaton();
+
+    try (cleanups) {
+      String output = execute("frobnort");
+      assertErrorState();
+      assertThat(output, containsString("autumnaton <blank> | send [location]"));
+    }
+  }
+
   @Nested
   class Status {
     @Test

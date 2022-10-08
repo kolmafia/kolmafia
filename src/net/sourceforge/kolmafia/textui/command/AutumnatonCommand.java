@@ -29,7 +29,7 @@ public class AutumnatonCommand extends AbstractCommand {
     switch (params[0]) {
       case "" -> status();
       case "send" -> send(params);
-      default -> KoLmafia.updateDisplay(MafiaState.ERROR, "autumnaton " + this.usage);
+      default -> KoLmafia.updateDisplay(MafiaState.ERROR, "autumnaton" + this.usage);
     }
   }
 
