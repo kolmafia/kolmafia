@@ -152,7 +152,18 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
       var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
 
       try (cleanups) {
-        String output = execute("send ");
+        String output = execute("send");
+        assertErrorState();
+        assertThat(output, containsString("Where do you want to send the little guy?"));
+      }
+    }
+
+    @Test
+    void errorsWithOnlySpacesForLocation() {
+      var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
+
+      try (cleanups) {
+        String output = execute("send   ");
         assertErrorState();
         assertThat(output, containsString("Where do you want to send the little guy?"));
       }
