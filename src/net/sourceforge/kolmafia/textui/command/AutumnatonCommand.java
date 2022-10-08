@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -17,7 +19,7 @@ public class AutumnatonCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameters) {
-    if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
+    if (!Preferences.getBoolean("hasAutumnaton")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You need an autumn-aton.");
       return;
     }
@@ -25,12 +27,38 @@ public class AutumnatonCommand extends AbstractCommand {
     String[] params = parameters.split(" ", 2);
 
     switch (params[0]) {
+      case "" -> status();
       case "send" -> send(params);
       default -> KoLmafia.updateDisplay(MafiaState.ERROR, "autumnaton " + this.usage);
     }
   }
 
+  public void status() {
+    var autumnLocation = Preferences.getString("autumnatonQuestLocation");
+    if (autumnLocation.equals("")) {
+      if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
+        RequestLogger.printLine("Your autumn-aton is in an unknown location.");
+      } else {
+        RequestLogger.printLine("Your autumn-aton is ready to be sent somewhere.");
+      }
+    } else {
+      RequestLogger.printLine("Your autumn-aton is plundering in " + autumnLocation + ".");
+      var turns = Preferences.getInteger("autumnatonQuestTurn") - KoLCharacter.getTurnsPlayed();
+      if (turns > 0) {
+        var s = turns == 1 ? "" : "s";
+        RequestLogger.printLine("Your autumn-aton will return after " + turns + " turn" + s + ".");
+      } else {
+        RequestLogger.printLine("Your autumn-aton will return after your next combat.");
+      }
+    }
+  }
+
   public void send(String[] params) {
+    if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Your autumn-aton is away.");
+      return;
+    }
+
     String parameter;
     if (params.length < 2 || (parameter = params[1].trim()).equals("")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Where do you want to send the little guy?");

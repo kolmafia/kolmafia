@@ -4,6 +4,7 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
@@ -11,6 +12,7 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -25,7 +27,12 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("AutumnatonCommandTest");
+    Preferences.reset("AutumnatonCommandTest");
     ChoiceManager.handlingChoice = false;
+  }
+
+  private Cleanups hasAutumnaton() {
+    return withProperty("hasAutumnaton", true);
   }
 
   @Test
@@ -36,10 +43,102 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
   }
 
   @Nested
+  class Status {
+    @Test
+    void noLocationNoAutumnaton() {
+      var cleanups = new Cleanups(hasAutumnaton(), withProperty("autumnatonQuestLocation", ""));
+
+      try (cleanups) {
+        String output = execute("");
+        assertThat(output, containsString("Your autumn-aton is in an unknown location."));
+      }
+    }
+
+    @Test
+    void noLocation() {
+      var cleanups =
+          new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
+              withProperty("autumnatonQuestLocation", ""));
+
+      try (cleanups) {
+        String output = execute("");
+        assertThat(output, containsString("Your autumn-aton is ready to be sent somewhere."));
+      }
+    }
+
+    @Test
+    void locationZeroTurns() {
+      var cleanups =
+          new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
+              withProperty("autumnatonQuestLocation", "The Deep Dark Jungle"),
+              withTurnsPlayed(1),
+              withProperty("autumnatonQuestTurn", 1));
+
+      try (cleanups) {
+        String output = execute("");
+        assertThat(
+            output, containsString("Your autumn-aton is plundering in The Deep Dark Jungle."));
+        assertThat(output, containsString("Your autumn-aton will return after your next combat."));
+      }
+    }
+
+    @Test
+    void locationOneTurn() {
+      var cleanups =
+          new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
+              withProperty("autumnatonQuestLocation", "The Deep Dark Jungle"),
+              withTurnsPlayed(1),
+              withProperty("autumnatonQuestTurn", 2));
+
+      try (cleanups) {
+        String output = execute("");
+        assertThat(
+            output, containsString("Your autumn-aton is plundering in The Deep Dark Jungle."));
+        assertThat(output, containsString("Your autumn-aton will return after 1 turn."));
+      }
+    }
+
+    @Test
+    void locationManyTurns() {
+      var cleanups =
+          new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
+              withProperty("autumnatonQuestLocation", "The Deep Dark Jungle"),
+              withTurnsPlayed(1),
+              withProperty("autumnatonQuestTurn", 12));
+
+      try (cleanups) {
+        String output = execute("");
+        assertThat(
+            output, containsString("Your autumn-aton is plundering in The Deep Dark Jungle."));
+        assertThat(output, containsString("Your autumn-aton will return after 11 turns."));
+      }
+    }
+  }
+
+  @Nested
   class Send {
     @Test
+    void errorsWithAbsentAutumnaton() {
+      var cleanups = hasAutumnaton();
+
+      try (cleanups) {
+        String output = execute("send ");
+        assertErrorState();
+        assertThat(output, containsString("Your autumn-aton is away"));
+      }
+    }
+
+    @Test
     void errorsWithNoLocation() {
-      var cleanups = withItem(ItemPool.AUTUMNATON);
+      var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
 
       try (cleanups) {
         String output = execute("send ");
@@ -50,7 +149,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithBadLocation() {
-      var cleanups = withItem(ItemPool.AUTUMNATON);
+      var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
 
       try (cleanups) {
         String output = execute("send trogdor");
@@ -61,7 +160,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void errorsWithNonSnarfblatLocation() {
-      var cleanups = withItem(ItemPool.AUTUMNATON);
+      var cleanups = new Cleanups(hasAutumnaton(), withItem(ItemPool.AUTUMNATON));
 
       try (cleanups) {
         String output = execute("send Tavern Cellar");
@@ -78,9 +177,10 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
       var cleanups =
           new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
               withHttpClientBuilder(builder),
-              withProperty("autumnatonQuestLocation", ""),
-              withItem(ItemPool.AUTUMNATON));
+              withProperty("autumnatonQuestLocation", ""));
 
       try (cleanups) {
         String output = execute("send noob cave");
@@ -99,9 +199,10 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
       var cleanups =
           new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
               withHttpClientBuilder(builder),
-              withProperty("autumnatonQuestLocation", ""),
-              withItem(ItemPool.AUTUMNATON));
+              withProperty("autumnatonQuestLocation", ""));
 
       try (cleanups) {
         String output = execute("send Hobopolis Town Square");
