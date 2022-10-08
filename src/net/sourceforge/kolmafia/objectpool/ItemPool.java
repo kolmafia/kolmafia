@@ -3405,6 +3405,7 @@ public class ItemPool {
   public static final int DINODOLLAR = 10944;
   public static final int DINOSAUR_DROPPINGS = 10945;
   public static final int JURASSIC_PARKA = 10952;
+  public static final int AUTUMNATON = 10954;
 
   private ItemPool() {}
 
