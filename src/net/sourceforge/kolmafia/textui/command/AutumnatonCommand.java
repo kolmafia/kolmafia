@@ -12,19 +12,27 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class AutumnatonCommand extends AbstractCommand {
   public AutumnatonCommand() {
-    this.usage = " [location] - send your autumn-aton off somewhere";
+    this.usage = " <blank> | send [location] - deal with your autumn-aton";
   }
 
   @Override
-  public void run(final String cmd, String parameter) {
+  public void run(final String cmd, String parameters) {
     if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You need an autumn-aton to send.");
       return;
     }
 
-    parameter = parameter.trim();
+    String[] params = parameters.split(" ", 2);
 
-    if (parameter.equals("")) {
+    switch (params[0]) {
+      case "send" -> send(params);
+      default -> KoLmafia.updateDisplay(MafiaState.ERROR, "autumnaton " + this.usage);
+    }
+  }
+
+  public void send(String[] params) {
+    String parameter;
+    if (params.length < 2 || (parameter = params[1].trim()).equals("")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Where do you want to send the little guy?");
       return;
     }

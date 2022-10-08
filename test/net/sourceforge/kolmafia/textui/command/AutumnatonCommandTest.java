@@ -35,30 +35,30 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
     assertThat(output, containsString("You need an autumn-aton to send"));
   }
 
-  @Test
-  void errorsWithNoLocation() {
-    var cleanups = withItem(ItemPool.AUTUMNATON);
-
-    try (cleanups) {
-      String output = execute("");
-      assertErrorState();
-      assertThat(output, containsString("Where do you want to send the little guy?"));
-    }
-  }
-
-  @Test
-  void errorsWithBadLocation() {
-    var cleanups = withItem(ItemPool.AUTUMNATON);
-
-    try (cleanups) {
-      String output = execute("trogdor");
-      assertErrorState();
-      assertThat(output, containsString("I don't understand where trogdor is."));
-    }
-  }
-
   @Nested
-  class ValidPreRequisites {
+  class Send {
+    @Test
+    void errorsWithNoLocation() {
+      var cleanups = withItem(ItemPool.AUTUMNATON);
+
+      try (cleanups) {
+        String output = execute("send ");
+        assertErrorState();
+        assertThat(output, containsString("Where do you want to send the little guy?"));
+      }
+    }
+
+    @Test
+    void errorsWithBadLocation() {
+      var cleanups = withItem(ItemPool.AUTUMNATON);
+
+      try (cleanups) {
+        String output = execute("send trogdor");
+        assertErrorState();
+        assertThat(output, containsString("I don't understand where trogdor is."));
+      }
+    }
+
     @Test
     void succeedsWithAccessibleLocation() {
       var builder = new FakeHttpClientBuilder();
@@ -72,7 +72,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
               withItem(ItemPool.AUTUMNATON));
 
       try (cleanups) {
-        String output = execute("noob cave");
+        String output = execute("send noob cave");
 
         assertThat(output, containsString("Sending autumn-aton to Noob Cave"));
         assertThat(output, containsString("Sent autumn-aton to Noob Cave"));
@@ -93,7 +93,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
               withItem(ItemPool.AUTUMNATON));
 
       try (cleanups) {
-        String output = execute("Hobopolis Town Square");
+        String output = execute("send Hobopolis Town Square");
 
         assertThat(output, containsString("Sending autumn-aton to Hobopolis Town Square"));
         assertThat(
