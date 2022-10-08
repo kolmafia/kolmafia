@@ -3,20 +3,26 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withQuestProgress;
+import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -26,7 +32,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class RelayAutomationTest {
 
@@ -81,6 +88,7 @@ public class RelayAutomationTest {
         client.addResponse(200, ""); // api.php
         client.addResponse(200, html("request/test_automation_dvorak_6.html"));
         client.addResponse(200, ""); // api.php
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_automation_dvorak_7.html"));
         client.addResponse(200, ""); // api.php
       }
@@ -101,15 +109,18 @@ public class RelayAutomationTest {
         assertPostRequest(requests.get(i++), "/tiles.php", "action=jump&whichtile=6&pwd=dvorak");
         assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(i++), "/tiles.php", "action=jump&whichtile=3&pwd=dvorak");
+        assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
         assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
         return i;
       }
 
-      @Test
-      public void canAutomateDvoraksRevengeFromRelayBrowser() {
+      @ParameterizedTest
+      @ValueSource(strings = {"None", "Quantum Terrarium"})
+      public void canAutomateDvoraksRevengeFromRelayBrowser(String pathName) {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups = new Cleanups(withDvorak(builder));
+        var path = AscensionPath.nameToPath(pathName);
+        var cleanups = new Cleanups(withDvorak(builder), withPath(path));
         try (cleanups) {
           client.addResponse(200, html("request/test_automation_dvorak_0.html"));
           addDvorakResponses(builder);
@@ -128,10 +139,11 @@ public class RelayAutomationTest {
 
           // Wait until the submitted command is done
           request.waitForCommandCompletion();
+          assertThat(RelayRequest.specialCommandResponse.length(), greaterThan(0));
 
           // Verify that expected requests were submitted
           var requests = client.getRequests();
-          assertThat(requests, hasSize(15));
+          assertThat(requests, hasSize(16));
 
           int i = 0;
           assertGetRequest(requests.get(i++), "/tiles.php", null);
@@ -139,11 +151,13 @@ public class RelayAutomationTest {
         }
       }
 
-      @Test
-      public void canAutomateDvoraksRevengeFromAdventureRequest() {
+      @ParameterizedTest
+      @ValueSource(strings = {"None", "Quantum Terrarium"})
+      public void canAutomateDvoraksRevengeFromAdventureRequest(String pathName) {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups = new Cleanups(withDvorak(builder));
+        var path = AscensionPath.nameToPath(pathName);
+        var cleanups = new Cleanups(withDvorak(builder), withPath(path));
         try (cleanups) {
           client.addResponse(302, Map.of("location", List.of("tiles.php")), "");
           client.addResponse(200, html("request/test_automation_dvorak_0.html"));
@@ -156,7 +170,7 @@ public class RelayAutomationTest {
 
           // Verify that expected requests were submitted
           var requests = client.getRequests();
-          assertThat(requests, hasSize(17));
+          assertThat(requests, hasSize(18));
 
           int i = 0;
           assertPostRequest(
@@ -169,17 +183,26 @@ public class RelayAutomationTest {
         }
       }
 
-      @Test
-      public void canAutomateHiddenTemplePuzzleChain() {
+      @ParameterizedTest
+      @ValueSource(strings = {"None", "Quantum Terrarium"})
+      public void canAutomateHiddenTemplePuzzleChain(String pathName) {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var cleanups = new Cleanups(withDvorak(builder));
+        var path = AscensionPath.nameToPath(pathName);
+        var cleanups =
+            new Cleanups(
+                withDvorak(builder), withQuestProgress(Quest.WORSHIP, "step2"), withPath(path));
         try (cleanups) {
           client.addResponse(200, html("request/test_temple_puzzle_0.html"));
           client.addResponse(200, html("request/test_temple_puzzle_1.html"));
           client.addResponse(302, Map.of("location", List.of("tiles.php")), "");
           client.addResponse(200, html("request/test_automation_dvorak_0.html"));
           addDvorakResponses(builder);
+          client.addResponse(200, html("request/test_temple_puzzle_2.html"));
+          if (path == Path.QUANTUM) {
+            // At the end, we are no longer in a choice, and we will look at the Quantum Terrarium
+            client.addResponse(200, "");
+          }
 
           // Visit first puzzle choice
           // *** Need actual HTML
@@ -195,52 +218,28 @@ public class RelayAutomationTest {
           request = new RelayRequest(false);
           request.constructURLString(url);
           RelayAgent.automateChoiceAdventure(request);
+          assertThat(ChoiceManager.handlingChoice, equalTo(false));
+          assertThat(Quest.WORSHIP, isStep("step3"));
 
           // Verify that expected requests were submitted
           var requests = client.getRequests();
-          printRequests(requests);
-
-          /*
-          assertThat(requests, hasSize(15));
-          */
+          int expectedRequests = path == Path.QUANTUM ? 21 : 20;
+          assertThat(requests, hasSize(expectedRequests));
 
           int i = 0;
           assertPostRequest(requests.get(i++), "/choice.php", "whichchoice=580&option=1");
           assertPostRequest(
               requests.get(i++), "/choice.php", "whichchoice=123&option=2&pwd=dvorak");
-
-          /*
-          // choice.php?whichchoice=123&option=2&pwd
+          assertGetRequest(requests.get(i++), "/choice.php", null);
           assertGetRequest(requests.get(i++), "/tiles.php", null);
           i = validateDvorakRequests(builder, i);
-          */
+          assertPostRequest(
+              requests.get(i++), "/choice.php", "whichchoice=125&option=3&pwd=dvorak");
+          if (path == Path.QUANTUM) {
+            assertGetRequest(requests.get(i++), "/qterrarium.php", null);
+          }
         }
       }
     }
-
-    // At Least It's Not Full Of Trash
-    // Hit "auto" button
-    // GET /choice.php?action=auto HTTP/1.1
-    // choice.php?whichchoice=123&option=2 (Unlock Quest Puzzle)
-    // temple.0.html
-    // <a href=choice.php>Continue down the corridor...</a>
-    // Now What?
-    // *****
-    // Encountered choice adventure with no choices.
-    // <a href=main.php target=mainpane class=error>Click here to continue in the relay
-    // browser.</a><br>
-    // aborted automation?
-    // choice.php?forceoption=0
-    // Field: location = [tiles.php]
-    // HTTP/1.1 302 Found
-    // GET /tiles.php HTTP/1.1
-    // tiles.php
-    // dvorak.0.html
-    //
-    // Unhandled redirect to tiles.php
-    // POST /KoLmafia/specialCommand?cmd=dvorak&pwd=3f79884939f76280e902d1baa0d4a14c HTTP/1.1
-    // choice.php?whichchoice=125&option=3&pwd (in CHOICE_HANDLER)
-    // api.php
-
   }
 }

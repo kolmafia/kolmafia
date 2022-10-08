@@ -1162,7 +1162,13 @@ public class GenericRequest implements Runnable {
       } else {
         this.formatResponse();
       }
-      QuantumTerrariumRequest.checkCounter(this);
+
+      // This method check whether you are in a fight or choice.  tiles.php is
+      // similarly uninterruptible.  I'm not sure how to generalize being in
+      // such a request.
+      if (!location.startsWith("tiles.php")) {
+        QuantumTerrariumRequest.checkCounter(this);
+      }
       return;
     }
 

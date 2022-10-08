@@ -231,7 +231,14 @@ public abstract class DvorakManager {
       request.run();
     }
 
-    StringBuffer buffer = new StringBuffer(request.responseText);
+    String responseText = request.responseText;
+    // This should always be true, but check anyway.
+    if (responseText.contains("No Visible Means of Support")) {
+      ChoiceManager.preChoice(request);
+      ChoiceManager.visitChoice(request);
+    }
+
+    StringBuffer buffer = new StringBuffer(responseText);
     RequestEditorKit.getFeatureRichHTML(request.getURLString(), buffer);
     RelayRequest.specialCommandResponse = buffer.toString();
     RelayRequest.specialCommandIsAdventure = true;
