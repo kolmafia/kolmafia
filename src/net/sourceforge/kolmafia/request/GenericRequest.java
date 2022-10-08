@@ -1162,7 +1162,6 @@ public class GenericRequest implements Runnable {
       } else {
         this.formatResponse();
       }
-
       QuantumTerrariumRequest.checkCounter(this);
       return;
     }
