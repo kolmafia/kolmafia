@@ -62,9 +62,15 @@ public class AggregateType extends CompositeType {
   }
 
   // VarArg
-  public AggregateType(
+  protected AggregateType(
       final String name, final Type dataType, final int size, final Location location) {
     this(name, dataType, DataTypes.INT_TYPE, size, false, location);
+  }
+
+  // PluralValue
+  protected AggregateType(
+      final String name, final Type dataType, final Type indexType, final Location location) {
+    this(name, dataType, indexType, -1, false, location);
   }
 
   @Override

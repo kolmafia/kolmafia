@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Networking.html;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.RequestLoggerOutput;
@@ -9,49 +12,15 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
 public class DebugDatabaseTest {
 
   private static final String LS = System.lineSeparator();
-
-  /* TODO: implement or delete these tests
-  @Test
-  public void checkItems()
-  {
-  }
-
-  @Test
-  public void itemDescriptionText()
-  {
-  }
-
-  @Test
-  public void cafeItemDescriptionText()
-  {
-  }
-
-  @Test
-  public void rawItemDescriptionText()
-  {
-  }
-
-  @Test
-  public void testRawItemDescriptionText()
-  {
-  }
-
-  @Test
-  public void testItemDescriptionText()
-  {
-  }
-
-  @Test
-  public void parseItemId()
-  {
-  }
-  */
 
   @Test
   public void parseName() {
@@ -60,292 +29,17 @@ public class DebugDatabaseTest {
     assertEquals("goodName", goodName, "Could not parse name");
     assertEquals("", badName, "Name Returned " + badName);
   }
-  /* TODO: implement or delete these tests
-  @Test
-  public void parsePrice()
-  {
+
+  @Nested
+  class ParseAccess {
+    @ParameterizedTest
+    @ValueSource(strings = {"autumnaton"})
+    public void canIdentifyQuestItems(final String itemName) {
+      var access = DebugDatabase.parseAccess(html("request/test_desc_item_" + itemName + ".html"));
+      assertThat(access, is("q"));
+    }
   }
 
-  @Test
-  public void parseAccess()
-  {
-  }
-
-  @Test
-  public void parseType()
-  {
-  }
-
-  @Test
-  public void typeToPrimary()
-  {
-  }
-
-  @Test
-  public void typeToSecondary()
-  {
-  }
-
-  @Test
-  public void parseLevel()
-  {
-  }
-
-  @Test
-  public void parseSize()
-  {
-  }
-
-  @Test
-  public void parseConsumableSize()
-  {
-  }
-
-  @Test
-  public void parsePower()
-  {
-  }
-
-  @Test
-  public void parseWeaponType()
-  {
-  }
-
-  @Test
-  public void parseReq()
-  {
-  }
-
-  @Test
-  public void parseFullness()
-  {
-  }
-
-  @Test
-  public void parseInebriety()
-  {
-  }
-
-  @Test
-  public void parseToxicity()
-  {
-  }
-
-  @Test
-  public void parseFamiliar()
-  {
-  }
-
-  @Test
-  public void parseItemEnchantments()
-  {
-  }
-
-  @Test
-  public void parseRestores()
-  {
-  }
-
-  @Test
-  public void testParseItemEnchantments()
-  {
-  }
-
-  @Test
-  public void testParseItemEnchantments1()
-  {
-  }
-
-  @Test
-  public void checkOutfits()
-  {
-  }
-
-  @Test
-  public void outfitDescriptionText()
-  {
-  }
-
-  @Test
-  public void readOutfitDescriptionText()
-  {
-  }
-
-  @Test
-  public void rawOutfitDescriptionText()
-  {
-  }
-
-  @Test
-  public void testOutfitDescriptionText()
-  {
-  }
-
-  @Test
-  public void parseOutfitEnchantments()
-  {
-  }
-
-  @Test
-  public void testParseOutfitEnchantments()
-  {
-  }
-
-  @Test
-  public void checkEffects()
-  {
-  }
-
-  @Test
-  public void parseEffectId()
-  {
-  }
-
-  @Test
-  public void parseImage()
-  {
-  }
-
-  @Test
-  public void parseEffectDescid()
-  {
-  }
-
-  @Test
-  public void effectDescriptionText()
-  {
-  }
-
-  @Test
-  public void readEffectDescriptionText()
-  {
-  }
-
-  @Test
-  public void parseEffectEnchantments()
-  {
-  }
-
-  @Test
-  public void testParseEffectEnchantments()
-  {
-  }
-
-  @Test
-  public void testParseEffectEnchantments1()
-  {
-  }
-
-  @Test
-  public void checkSkills()
-  {
-  }
-
-  @Test
-  public void parseSkillId()
-  {
-  }
-
-  @Test
-  public void parseSkillType()
-  {
-  }
-
-  @Test
-  public void parseSkillMPCost()
-  {
-  }
-
-  @Test
-  public void parseSkillEffectName()
-  {
-  }
-
-  @Test
-  public void parseSkillEffectId()
-  {
-  }
-
-  @Test
-  public void parseSkillEffectDuration()
-  {
-  }
-
-  @Test
-  public void skillDescriptionText()
-  {
-  }
-
-  @Test
-  public void readSkillDescriptionText()
-  {
-  }
-
-  @Test
-  public void parseSkillEnchantments()
-  {
-  }
-
-  @Test
-  public void testParseSkillEnchantments()
-  {
-  }
-
-  @Test
-  public void testParseSkillEnchantments1()
-  {
-  }
-
-  @Test
-  public void checkPlurals()
-  {
-  }
-
-  @Test
-  public void checkPowers()
-  {
-  }
-
-  @Test
-  public void checkShields()
-  {
-  }
-
-  @Test
-  public void testCheckShields()
-  {
-  }
-
-  @Test
-  public void checkPotions()
-  {
-  }
-
-  @Test
-  public void checkConsumables()
-  {
-  }
-
-  @Test
-  public void parseQuality()
-  {
-  }
-
-  @Test
-  public void checkFamiliarsInTerrarium()
-  {
-  }
-
-  @Test
-  public void checkFamiliarImages()
-  {
-  }
-
-  @Test
-  public void checkConsumptionData()
-  {
-  }
-  */
   @Test
   @Disabled("Accesses Coldfront which is returning malformed XML")
   public void checkPulverizationData() {

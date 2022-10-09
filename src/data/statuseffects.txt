@@ -2382,13 +2382,13 @@
 2380	Berry Statistical	berry7.gif	b2d5b36903a6918769fc02b251d11c49	good	none	use 1 Snarf berry
 2381	Berry Defensive	berry8.gif	5420b4cff604f9ed359f27aa8ec25001	good	none	use 1 Keese berry
 2382	Berry Experiential	berry4.gif	644bbe5f4cdba76d224cbca0a58c8269	good	none	# use any Pokefam berry
-2383	Eggstraordinary Strength	neweggs.gif	2c7883265ade115090d1f842b25e5f9d	good	none	chew 1 magnificent oyster egg
-2384	Eggstraordinary Brilliance	neweggs.gif	3b08e01bbfb51228106328cda1f75105	good	none	chew 1 brilliant oyster egg
-2385	Eggstraordinary Style	neweggs.gif	3a189ec6d0cb1c990d8789c71f69b8f2	good	none	chew 1 glistening oyster egg
+2383	Eggstraordinary Strength	neweggs.gif	2c7883265ade115090d1f842b25e5f9d	good	nohookah	chew 1 magnificent oyster egg
+2384	Eggstraordinary Brilliance	neweggs.gif	3b08e01bbfb51228106328cda1f75105	good	nohookah	chew 1 brilliant oyster egg
+2385	Eggstraordinary Style	neweggs.gif	3a189ec6d0cb1c990d8789c71f69b8f2	good	nohookah	chew 1 glistening oyster egg
 2386	Eggscitingly Colorful	neweggs.gif	b729f441a75bfe11eb0393b09b1a9819	good	nohookah	chew 1 scintillating oyster egg
-2387	Pearly Vision	neweggs.gif	307a890ec5d91df8ca65ffbc46e91aa4	good	none	chew 1 pearlescent oyster egg
-2388	Lustre After Wealth	neweggs.gif	8cda15e07f8c94b919dcb5d5956ee526	good	none	chew 1 lustrous oyster egg
-2389	Gleam-Inducing	neweggs.gif	b70458b496853776868164e761a81060	good	none	chew 1 gleaming oyster egg
+2387	Pearly Vision	neweggs.gif	307a890ec5d91df8ca65ffbc46e91aa4	good	nohookah	chew 1 pearlescent oyster egg
+2388	Lustre After Wealth	neweggs.gif	8cda15e07f8c94b919dcb5d5956ee526	good	nohookah	chew 1 lustrous oyster egg
+2389	Gleam-Inducing	neweggs.gif	b70458b496853776868164e761a81060	good	nohookah	chew 1 gleaming oyster egg
 2390	Fantasy Faerie Blessing	faeriedust.gif	75ebf7c521ef696c582322f2b73ab000	neutral	nohookah	# Get Blessing in The Faerie Cyrkle
 2391	Poison For Blood	poison.gif	b1cff2cbb39833e32a059909ee9d784b	bad	nohookah	# Make Special Brew in Witch's House
 2392	Brewed Up	coffeecup.gif	cfe7d66865036bccaed8e9253288ba8d	good	nohookah	# Make Regular Brew in Witch's House
@@ -2549,7 +2549,7 @@
 2547	Mixed Nutrients	mixednuts.gif	6970d24f7f32c78045428a46a54c93a4	good	none	use 1 tiny handful of mixed nuts
 2548	Almond Allemande	candyalmond.gif	9370afc952907e7d4959a23c33bc954c	good	none	use 1 candied almond
 2549	Para-lyzed Jaw	para_pop.gif	bf2bcc1f7d2451b8ab11c24198c9a6ca	neutral	none	use 1 Para-Pop
-2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	good	none	use 1 terra panna cotta
+2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	good	nohookah	use 1 terra panna cotta
 2551	Blessing of the Bird	findbird.gif	8de6fb855433dc4b90fb4dbc2a5c919d	neutral	none	cast 1 Seek out a Bird
 2552	Blessing of your favorite Bird	favoritebird.gif	e9c3b4f9a7f9b24166b835481f15c875	neutral	none	cast 1 Visit your Favorite Bird
 2553	Scariersauce	scarysauce.gif	33e4e82db2376879224ab4d8d406325a	good	nohookah
@@ -2720,3 +2720,8 @@
 2720	Buzzed on Distillate	chinsweat.gif	d64eab33f648e1a77da23ae516353fb2	neutral	none	drink 1 stillsuit distillate
 2721	Dino Pheromoned	wbchemset.gif	395dfbcdb8accb94d462d1380d53e913	neutral	none
 2722	Prehistoric Potential	dna.gif	53927d1c7c90d775d1033fd12618cfa7	neutral	none	use 1 Dino DNAde&trade;
+2723	Crunching Leaves	leafflavor.gif	b645f760ab1a497da20faafbe90d3d29	neutral	none	use 1 autumn leaf
+2724	Whet Appetite	powderdonut.gif	bb374fa9f50dc7ce46f98632396161d8	neutral	none	eat 1 autumn-spice donut
+2725	Bet Your Autumn Dollar	goldcoin.gif	f696596ddc94d295fc25da98d24f58ec	neutral	none	use 1 autumn dollar
+2726	Delighted by Autumn	cueball.gif	fc1fd3b808d9bda46a4d6f1e71a74e9a	neutral	none	chew 1 autumn breeze
+2727	Wisdom of the Autumn Years	xicrystal.gif	67ebd878570ed8315d4a4674e2eed291	neutral	none	use 1 autumn years wisdom

@@ -1651,7 +1651,7 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill("Adventurer of Leisure")) freerests += 2;
     if (KoLCharacter.hasSkill("Executive Narcolepsy")) ++freerests;
     // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
-    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective ")
+    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective")
         && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
       freerests += 3;
     if (KoLCharacter.hasSkill("Food Coma")) freerests += 10;
@@ -1668,7 +1668,7 @@ public abstract class KoLCharacter {
   public static int freeRestsRemaining() {
     int restsUsed = Preferences.getInteger("timesRested");
     int restsAvailable = KoLCharacter.freeRestsAvailable();
-    return Math.min(0, restsAvailable - restsUsed);
+    return Math.max(0, restsAvailable - restsUsed);
   }
 
   // If there are free rests remaining and KoLmafia thinks there are not, update that value
@@ -5128,15 +5128,9 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.getAscensions() == Preferences.getInteger("lastQuartetAscension")) {
       switch (Preferences.getInteger("lastQuartetRequest")) {
-        case 1:
-          newModifiers.add(Modifiers.MONSTER_LEVEL, 5, "Ballroom:quartet");
-          break;
-        case 2:
-          newModifiers.add(Modifiers.COMBAT_RATE, -5, "Ballroom:quartet");
-          break;
-        case 3:
-          newModifiers.add(Modifiers.ITEMDROP, 5, "Ballroom:quartet");
-          break;
+        case 1 -> newModifiers.add(Modifiers.MONSTER_LEVEL, 5, "Ballroom:quartet");
+        case 2 -> newModifiers.add(Modifiers.COMBAT_RATE, -5, "Ballroom:quartet");
+        case 3 -> newModifiers.add(Modifiers.ITEMDROP, 5, "Ballroom:quartet");
       }
     }
 
@@ -5155,7 +5149,8 @@ public abstract class KoLCharacter {
     // Boombox, no check for having one so it can work with Maximizer "show things you don't have"
     newModifiers.add(Modifiers.getModifiers("BoomBox", boomBox));
 
-    // Add modifiers from Florist Friar plants
+    // Apply variable location modifiers
+    newModifiers.applyAutumnatonModifiers();
     newModifiers.applyFloristModifiers();
 
     // Horsery

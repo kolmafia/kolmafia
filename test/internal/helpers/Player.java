@@ -7,6 +7,7 @@ import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -325,6 +326,48 @@ public class Player {
   public static Cleanups withClanLoungeItem(final int itemId) {
     ClanLoungeRequest.setClanLoungeItem(itemId, 1);
     return new Cleanups(() -> ClanLoungeRequest.setClanLoungeItem(itemId, 0));
+  }
+
+  /**
+   * Restores Clan Furniture after cleanup
+   *
+   * @return Resets to previous state
+   */
+  public static Cleanups withClanFurniture() {
+    var old = ClanManager.getClanRumpus();
+
+    return new Cleanups(
+        () -> {
+          var current = new ArrayList<>(ClanManager.getClanRumpus());
+          for (var item : current) {
+            if (!old.contains(item)) ClanManager.removeFromRumpus(item);
+          }
+        });
+  }
+
+  /**
+   * Adds the given set of furniture to the player's Clan Rumpus Room
+   *
+   * @param furniture Furniture items to install
+   * @return Resets to previous value
+   */
+  public static Cleanups withClanFurniture(final String... furniture) {
+    var cleanups = new Cleanups();
+    var rumpus = ClanManager.getClanRumpus();
+
+    for (var f : furniture) {
+      var old = rumpus.contains(f);
+      ClanManager.addToRumpus(f);
+
+      cleanups.add(
+          () -> {
+            if (!old) {
+              ClanManager.removeFromRumpus(f);
+            }
+          });
+    }
+
+    return cleanups;
   }
 
   /**
@@ -1302,6 +1345,30 @@ public class Player {
   }
 
   /**
+   * Visits a choice with a given choice and response
+   *
+   * @param choice Choice to set
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withChoice(final int choice, final String responseText) {
+    var oldChoice = ChoiceManager.lastChoice;
+    var oldDecision = ChoiceManager.lastDecision;
+
+    var req = new GenericRequest("choice.php?whichchoice=" + choice);
+    req.responseText = responseText;
+
+    ChoiceManager.preChoice(req);
+    ChoiceControl.visitChoice(req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = oldChoice;
+          ChoiceManager.lastDecision = oldDecision;
+        });
+  }
+
+  /**
    * Runs postChoice1 with a given choice and decision and response
    *
    * @param choice Choice to set
@@ -1372,7 +1439,7 @@ public class Player {
   /**
    * Simulates a choice (postChoice1, processResults and then postChoice2)
    *
-   * <p>{@code @todo} Still needs some more choice handling (visitChoice, postChoice0)
+   * <p>{@code @todo} Still needs some more choice handling (postChoice0)
    *
    * @param choice Choice number
    * @param decision Decision number

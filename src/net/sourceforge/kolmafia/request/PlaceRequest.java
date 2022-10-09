@@ -414,360 +414,427 @@ public class PlaceRequest extends GenericRequest {
     boolean turns = false;
     boolean compact = false;
 
-    if (place.equals("airport_hot")) {
-      if (action.equals("airport4_zone1")) {
-        // Visiting The Towering Inferno Discotheque
-        // This redirects to a choice.
-        message = "Visiting The Towering Inferno Discotheque";
+    switch (place) {
+      case "airport_hot" -> {
+        message =
+            switch (action) {
+              case "airport4_zone1" -> "Visiting The Towering Inferno Discotheque";
+              case "airport4_questhub" -> "Visiting The WLF Bunker";
+              default -> null;
+            };
       }
-      if (action.equals("airport4_questhub")) {
-        // Visiting the The WLF Bunker
-        // This redirects to a choice.
-        message = "Visiting The WLF Bunker";
+      case "airport_sleaze" -> {
+        message =
+            switch (action) {
+              case "airport1_npc1" -> "Talking to Buff Jimmy";
+              case "airport1_npc2" -> "Talking to Taco Dan";
+              case "airport1_npc3" -> "Talking to Broden";
+              default -> null;
+            };
       }
-    } else if (place.equals("airport_sleaze")) {
-      if (action.equals("airport1_npc1")) {
-        message = "Talking to Buff Jimmy";
-      } else if (action.equals("airport1_npc2")) {
-        message = "Talking to Taco Dan";
-      } else if (action.equals("airport1_npc3")) {
-        message = "Talking to Broden";
+      case "airport_spooky" -> {
+        if (action.equals("airport2_radio")) {
+          message = "Using the radio on Conspiracy Island";
+        }
       }
-    } else if (place.equals("airport_spooky")) {
-      if (action.equals("airport2_radio")) {
-        message = "Using the radio on Conspiracy Island";
+      case "airport_spooky_bunker" -> {
+        switch (action) {
+          case "si_shop1locked", "si_shop2locked", "si_shop3locked" -> {
+            return true;
+          }
+          case "si_controlpanel" -> {
+            message = "Manipulating the Control Panel in the Conspiracy Island bunker";
+          }
+        }
       }
-    } else if (place.equals("airport_spooky_bunker")) {
-      if (action.equals("si_shop1locked")
-          || action.equals("si_shop2locked")
-          || action.equals("si_shop3locked")) {
-        return true;
+      case "airport_stench" -> {
+        message =
+            switch (action) {
+              case "airport3_tunnels" -> "Visiting the Maintenance Tunnels";
+              case "airport3_kiosk" -> "Visiting the Employee Assignment Kiosk";
+              default -> null;
+            };
       }
-      if (action.equals("si_controlpanel")) {
-        message = "Manipulating the Control Panel in the Conspiracy Island bunker";
+      case "canadia" -> {
+        message =
+            switch (action) {
+              case "lc_mcd" -> "Visiting the Super-Secret Canadian Mind Control Device";
+              case "lc_marty" -> "Talking to Marty";
+              default -> null;
+            };
       }
-    } else if (place.equals("airport_stench")) {
-      if (action.equals("airport3_tunnels")) {
-        message = "Visiting the Maintenance Tunnels";
-      } else if (action.equals("airport3_kiosk")) {
-        message = "Visiting the Employee Assignment Kiosk";
-      }
-    } else if (place.equals("canadia")) {
-      if (action.equals("lc_mcd")) {
-        message = "Visiting the Super-Secret Canadian Mind Control Device";
-      } else if (action.equals("lc_marty")) {
-        message = "Talking to Marty";
-      }
-    } else if (place.equals("cemetery")) {
-      if (action.equals("cem_advtomb")) {
-        message = "The Unknown Tomb";
-        turns = true;
-      }
-    } else if (place.equals("crimbo2016")) {
-      if (action.equals("crimbo16_trailer")) {
-        message = "Visiting Uncle Crimbo's Mobile Home";
-      } else if (action.equals("crimbo16_tammy")) {
-        message = "Visiting Tammy's Tent";
-      } else if (action.equals("crimbo16_guy2")) {
-        message = "Visiting A Ninja Snowman";
-      } else if (action.equals("crimbo16_guy2a")) {
-        message = "Visiting An Elf Boot-Polisher";
-      } else if (action.equals("crimbo16_guy3")) {
-        message = "Visiting A Hobo";
-      } else if (action.equals("crimbo16_guy3a")) {
-        message = "Visiting An Elf Cook";
-      } else if (action.equals("crimbo16_guy4")) {
-        message = "Visiting A Bugbear";
-      } else if (action.equals("crimbo16_guy4a")) {
-        message = "Visiting An Elf Reindeerstler";
-      } else if (action.equals("crimbo16_guy5")) {
-        message = "Visiting A Hippy";
-      } else if (action.equals("crimbo16_guy5a")) {
-        message = "Visiting An Elf Bearddresser";
-      } else if (action.equals("crimbo16_guy6")) {
-        message = "Visiting A Frat Boy";
-      } else if (action.equals("crimbo16_guy6a")) {
-        message = "Visiting An Elf Haberdasher";
-      }
-    } else if (place.equals("crimbo16m")) {
-      // A Meditation Mat
-    } else if (place.equals("crimbo17_silentnight")) {
-      if (action.equals("crimbo17_bossfight")) {
-        message = "Mime-Head Building";
-      } else if (action.equals("crimbo17_warehouse")) {
-        message = "The Warehouse";
-      }
-    } else if (place.equals("crashsite")) {
-      if (action.equals("crash_ship")) {
-        message = "Visiting the Crashed Spaceship";
-      }
-    } else if (place.equals("desertbeach")) {
-      if (action.equals("db_gnasir")) {
-        message = "Talking to Gnasir";
-      } else if (action.equals("db_nukehouse")) {
-        message = "Visiting the Ruined House";
-        compact = true; // Part of Breakfast
-      } else if (action.equals("db_pyramid1")) {
-        // message = "Visiting the Small Pyramid";
-      }
-    } else if (place.equals("dripfacility")) {
-      if (action.equals("")) {
-        // message = "Visiting The Drip Institute";
-      } else if (action.equals("drip_jeremy")) {
-        message = "Talking to Jeremy Science";
-      } else if (action.equals("drip_armory")) {
-        // Redirects to shop.php?whichshop=driparmory
-      } else if (action.equals("drip_cafeteria")) {
-        // Redirects to shop.php?whichshop=dripcafeteria
-      }
-    } else if (place.equals("exploathing")) {
-      if (action.equals("expl_council")) {
-        message = "Visiting The Council";
-      }
-    } else if (place.equals("exploathing_beach")) {
-      if (action.equals("expl_gnasir")) {
-        message = "Talking to Gnasir";
-      } else if (action.equals("expl_pyramidpre")) {
-        // message = "Visiting the Small Pyramid";
-      }
-    } else if (place.equals("exploathing_other")) {
-    } else if (place.equals("forestvillage")) {
-      if (action.equals("fv_friar")) {
-        // Don't log this
-        return true;
-      }
-      if (action.startsWith("fv_untinker")) {
-        // Let UntinkerRequest claim this
-        return false;
-      }
-      if (action.equals("fv_mystic")) {
-        message = "Talking to the Crackpot Mystic";
-      } else if (action.equals("fv_scientist")) {
-        message = "Visiting a Science Tent";
-      }
-    } else if (place.equals("greygoo")) {
-      if (action.equals("goo_prism")) {
-        message = "Visiting a Prism of Goo";
-        turns = true;
-      }
-    } else if (place.equals("highlands")) {
-      if (action.equals("highlands_dude")) {
-        message = "Talking to the Highland Lord";
-      }
-    } else if (place.equals("ioty2014_candy")) {
-      if (action.equals("witch_house")) {
-        message = "Visiting the Candy Witch's House";
-      }
-    } else if (place.equals("ioty2014_rumple")) {
-      if (action.equals("workshop")) {
-        message = "Visiting Rumplestiltskin's Workshop";
-      }
-    } else if (place.equals("kgb")) {
-      // Kremlin's Greatest Briefcase is a "place"
-      if (action.equals("")) {
-        message = "Examining Kremlin's Greatest Briefcase";
-      }
-    } else if (place.equals("manor1")) {
-      if (action.equals("manor1lock_kitchen")
-          || action.equals("manor1lock_billiards")
-          || action.equals("manor1lock_library")
-          || action.equals("manor1lock_stairsup")) {
-        return true;
-      }
-      if (action.equals("manor1_ladys")) {
-        message = "Talking to Lady Spookyraven";
-      }
-    } else if (place.equals("manor2")) {
-      if (action.equals("manor2lock_ballroom")
-          || action.equals("manor2lock_bathroom")
-          || action.equals("manor2lock_bedroom")
-          || action.equals("manor2lock_gallery")
-          || action.equals("manor2lock_stairsup")) {
-        return true;
-      }
-      if (action.equals("manor2_ladys")) {
-        message = "Talking to Lady Spookyraven";
-      }
-    } else if (place.equals("manor3")) {
-      if (action.equals("manor3_ladys")) {
-        message = "Talking to Lady Spookyraven";
-      }
-    } else if (place.equals("manor4")) {
-      if (action.equals("manor4_chamber")) {
-        return true;
-      }
-      if (action.startsWith("manor4_chamberwall")) {
-        message = "Inspecting the Suspicious Masonry";
-      }
-    } else if (place.equals("mclargehuge")) {
-      if (action.equals("trappercabin")) {
-        message = "Visiting the Trapper";
-      } else if (action.equals("cloudypeak")) {
-        message = "Ascending the Mist-Shrouded Peak";
-      }
-    } else if (place.equals("monorail")) {
-      if (action.equals("monorail_lyle")) {
-        message = "Visiting Lyle, LyleCo CEO";
-      } else if (action.equals("monorail_downtown")) {
-        message = "Train to Downtown";
-        turns = true;
-      }
-    } else if (place.equals("mountains")) {
-      if (action.equals("mts_melvin")) {
-        message = "Talking to Melvign the Gnome";
-      } else if (action.equals("mts_caveblocked")) {
-        message = "Entering the Nemesis Cave";
-      }
-    } else if (place.equals("nemesiscave")) {
-      if (action.equals("nmcave_rubble")) {
-        message = "Examining the rubble in the Nemesis Cave";
-      } else if (action.equals("nmcave_boss")) {
-        message = "Confronting your Nemesis";
-        turns = true;
-      }
-    } else if (place.equals("northpole")) {
-      if (action.equals("np_bonfire")) {
-        message = "Visiting the Bonfire";
-      } else if (action.equals("np_sauna")) {
-        message = "Entering the Sauna";
-      } else if (action.equals("np_foodlab")) {
-        message = "Entering the Food Lab";
-      } else if (action.equals("np_boozelab")) {
-        message = "Entering the Nog Lab";
-      } else if (action.equals("np_spleenlab")) {
-        message = "Entering the Chem Lab";
-      } else if (action.equals("np_toylab")) {
-        message = "Entering the Gift Fabrication Lab";
-      }
-    } else if (place.equals("orc_chasm")) {
-      if (action.startsWith("bridge") || action.equals("label1") || action.equals("label2")) {
-        // Building the bridge. Do we need to log anything?
-        return true;
-      }
-    } else if (place.equals("palindome")) {
-      if (action.equals("pal_drlabel") || action.equals("pal_droffice")) {
-        message = "Visiting Dr. Awkward's office";
-        turns = true;
-      } else if (action.equals("pal_mrlabel") || action.equals("pal_mroffice")) {
-        message = "Visiting Mr. Alarm's office";
-      }
-    } else if (place.equals("plains")) {
-      if (action.equals("rift_scorch") || action.equals("rift_light")) {
-        return true;
-      }
-      if (action.equals("garbage_grounds")) {
-        message = "Inspecting the Giant Pile of Coffee Grounds";
-      } else if (action.equals("lutersgrave")) {
-        if (!InventoryManager.hasItem(ItemPool.CLANCY_LUTE)) {
-          message = "The Luter's Grave";
+      case "cemetery" -> {
+        if (action.equals("cem_advtomb")) {
+          message = "The Unknown Tomb";
           turns = true;
         }
       }
-    } else if (place.equals("pyramid")) {
-      if (action.equals("pyramid_control")) {
-        message = "Visiting the Pyramid Control Room";
+      case "crimbo2016" -> {
+        message =
+            switch (action) {
+              case "crimbo16_trailer" -> "Visiting Uncle Crimbo's Mobile Home";
+              case "crimbo16_tammy" -> "Visiting Tammy's Tent";
+              case "crimbo16_guy2" -> "Visiting A Ninja Snowman";
+              case "crimbo16_guy2a" -> "Visiting An Elf Boot-Polisher";
+              case "crimbo16_guy3" -> "Visiting A Hobo";
+              case "crimbo16_guy3a" -> "Visiting An Elf Cook";
+              case "crimbo16_guy4" -> "Visiting A Bugbear";
+              case "crimbo16_guy4a" -> "Visiting An Elf Reindeerstler";
+              case "crimbo16_guy5" -> "Visiting A Hippy";
+              case "crimbo16_guy5a" -> "Visiting An Elf Bearddresser";
+              case "crimbo16_guy6" -> "Visiting A Frat Boy";
+              case "crimbo16_guy6a" -> "Visiting An Elf Haberdasher";
+              default -> null;
+            };
       }
-    } else if (place.equals("rabbithole")) {
-      if (action.equals("rabbithole_teaparty")) {
-        message = "Visiting the Mad Tea Party";
+      case "crimbo16m" -> {
+        // A Meditation Mat
       }
-    } else if (place.equals("snojo")) {
-      if (action.equals("snojo_controller")) {
-        message = "Visiting Snojo Control Console";
+      case "crimbo17_silentnight" -> {
+        message =
+            switch (action) {
+              case "crimbo17_bossfight" -> "Mime-Head Building";
+              case "crimbo17_warehouse" -> "The Warehouse";
+              default -> null;
+            };
       }
-    } else if (place.equals("spacegate")) {
-      if (action.equals("sg_requisition")) {
-        message = "Visiting Spacegate Equipment Requisition";
-      } else if (action.equals("sg_tech")) {
-        message = "Visiting Spacegate R&D";
-      } else if (action.equals("sg_Terminal")) {
-        message = "Visiting the Spacegate Terminal";
-      } else if (action.equals("sg_vaccinator")) {
-        message = "Visiting the Spacegate Vaccination Machine";
+      case "crashsite" -> {
+        if (action.equals("crash_ship")) {
+          message = "Visiting the Crashed Spaceship";
+        }
       }
-    } else if (place.equals("spacegate_portable")) {
-      message = "Visiting your portable Spacegate";
-    } else if (place.equals("sea_oldman")) {
-      // place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6313[/code]
-      if (action.equals("oldman_oldman")) {
-        message = "Talking to the Old Man";
+      case "desertbeach" -> {
+        switch (action) {
+          case "db_gnasir" -> {
+            message = "Talking to Gnasir";
+          }
+          case "db_nukehouse" -> {
+            message = "Visiting the Ruined House";
+            compact = true; // Part of Breakfast
+          }
+          case "db_pyramid1" -> {
+            // message = "Visiting the Small Pyramid";
+          }
+        }
+        ;
       }
-    } else if (place.equals("thesea")) {
-      if (action.equals("thesea_left2")) {
-        message = "Visiting the Swimmy Little Fishes and Such";
+      case "dinorf" -> {
+        message =
+            switch (action) {
+              case "dinorf_hunter" -> "Visiting the Dino World Game Warden's Shed";
+              case "dinorf_chaos" -> "Visiting the Dino World Visitor's Center";
+              case "dinorf_owner" -> "Visiting the Dino World Owner's Trailer";
+              default -> null;
+            };
       }
-    } else if (place.equals("town")) {
-      if (action.equals("town_oddjobs")) {
-        message = "Visiting the Odd Jobs Board";
+      case "dripfacility" -> {
+        switch (action) {
+          case "" -> {
+            // message = "Visiting The Drip Institute";
+          }
+          case "drip_jeremy" -> {
+            message = "Talking to Jeremy Science";
+          }
+          case "drip_armory" -> {
+            // Redirects to shop.php?whichshop=driparmory
+          }
+          case "drip_cafeteria" -> {
+            // Redirects to shop.php?whichshop=dripcafeteria
+          }
+        }
       }
-    } else if (place.equals("town_market")) {
-      if (action.equals("town_bookmobile")) {
-        message = "Visiting The Bookmobile";
+      case "exploathing" -> {
+        if (action.equals("expl_council")) {
+          message = "Visiting The Council";
+        }
       }
-    } else if (place.equals("town_right")) {
-      if (action.equals("town_horsery")) {
-        message = "Visiting The Horsery";
-        compact = true; // Part of logging in
-      } else if (action.equals("townright_vote")) {
-        message = "Visiting The Voting Booth";
+      case "exploathing_beach" -> {
+        if (action.equals("expl_gnasir")) {
+          message = "Talking to Gnasir";
+        } else if (action.equals("expl_pyramidpre")) {
+          // message = "Visiting the Small Pyramid";
+        }
       }
-    } else if (place.equals("town_wrong")) {
-      if (action.equals("townwrong_precinct")) {
-        message = "Visiting the 11th Precinct Headquarters";
-      } else if (action.equals("townwrong_boxingdaycare")) {
-        message = "Visiting the Boxing Daycare";
+      case "exploathing_other" -> {}
+      case "forestvillage" -> {
+        if (action.equals("fv_friar")) {
+          // Don't log this
+          return true;
+        }
+        if (action.startsWith("fv_untinker")) {
+          // Let UntinkerRequest claim this
+          return false;
+        }
+        if (action.equals("fv_mystic")) {
+          message = "Talking to the Crackpot Mystic";
+        } else if (action.equals("fv_scientist")) {
+          message = "Visiting a Science Tent";
+        }
       }
-    } else if (place.equals("twitch")) {
-      if (action.equals("twitch_votingbooth")) {
-        message = "Visiting the Voting / Phone Booth";
-      } else if (action.equals("twitch_dancave1") || action.equals("twitch_dancave1")) {
-        message = "Visiting Caveman Dan's Cave";
-      } else if (action.equals("twitch_shoerepair")) {
-        message = "Visiting the Shoe Repair Store";
-      } else if (action.equals("twitch_colosseum")) {
-        message = "Visiting the Chariot-Racing Colosseum";
-      } else if (action.equals("twitch_survivors")) {
-        message = "Visiting the Post-Apocalyptic Survivor Encampment";
-      } else if (action.equals("twitch_bank")) {
-        message = "Visiting the Third Four-Fifths Bank of the West";
-      } else if (action.equals("twitch_boat2")) {
-        message = "Visiting The Pinta";
-      } else if (action.equals("twitch_boat3")) {
-        message = "Visiting The Santa Claus";
+      case "greygoo" -> {
+        if (action.equals("goo_prism")) {
+          message = "Visiting a Prism of Goo";
+          turns = true;
+        }
       }
-    } else if (place.equals("woods")) {
-      if (action.equals("woods_emptybm")) {
-        // Visiting the Empty Black Market
-        return true;
+      case "highlands" -> {
+        if (action.equals("highlands_dude")) {
+          message = "Talking to the Highland Lord";
+        }
       }
-      if (action.equals("woods_smokesignals")) {
-        message = "Investigating the Smoke Signals";
-      } else if (action.equals("woods_hippy")) {
-        message = "Talking to that Hippy";
-      } else if (action.equals("woods_dakota_anim") || action.equals("woods_dakota")) {
-        message = "Talking to Dakota Fanning";
+      case "ioty2014_candy" -> {
+        if (action.equals("witch_house")) {
+          message = "Visiting the Candy Witch's House";
+        }
       }
-    } else if (place.equals("airport")
-        || place.equals("arcade")
-        || place.equals("bathole")
-        || place.equals("beanstalk")
-        || place.equals("chateau")
-        || place.equals("giantcastle")
-        || place.equals("hiddencity")
-        || place.equals("knoll_friendly")
-        || place.equals("nstower")
-        || place.equals("scrapheap")
-        || place.equals("town_market")
-        || place.equals("town_right")
-        || place.equals("town_wrong")
-        || place.equals("wormwood")
-        || place.equals("wildfire_camp")) {
-      // It is not interesting to log simple visits to these
-      // places. Other classes may claim specific actions.
-      return action.equals("");
-    } else {
-      // Let any other "place" be claimed by other classes.
-      return false;
+      case "ioty2014_rumple" -> {
+        if (action.equals("workshop")) {
+          message = "Visiting Rumplestiltskin's Workshop";
+        }
+      }
+      case "kgb" -> {
+        // Kremlin's Greatest Briefcase is a "place"
+        if (action.equals("")) {
+          message = "Examining Kremlin's Greatest Briefcase";
+        }
+      }
+      case "manor1" -> {
+        switch (action) {
+          case "manor1lock_kitchen",
+              "manor1lock_billiards",
+              "manor1lock_library",
+              "manor1lock_stairsup" -> {
+            return true;
+          }
+          case "manor1_ladys" -> {
+            message = "Talking to Lady Spookyraven";
+          }
+        }
+      }
+      case "manor2" -> {
+        switch (action) {
+          case "manor2lock_ballroom",
+              "manor2lock_bathroom",
+              "manor2lock_bedroom",
+              "manor2lock_gallery",
+              "manor2lock_stairsup" -> {
+            return true;
+          }
+          case "manor2_ladys" -> {
+            message = "Talking to Lady Spookyraven";
+          }
+        }
+      }
+      case "manor3" -> {
+        if (action.equals("manor3_ladys")) {
+          message = "Talking to Lady Spookyraven";
+        }
+      }
+      case "manor4" -> {
+        if (action.equals("manor4_chamber")) {
+          return true;
+        }
+        if (action.startsWith("manor4_chamberwall")) {
+          message = "Inspecting the Suspicious Masonry";
+        }
+      }
+      case "mclargehuge" -> {
+        message =
+            switch (action) {
+              case "trappercabin" -> "Visiting the Trapper";
+              case "cloudypeak" -> "Ascending the Mist-Shrouded Peak";
+              default -> null;
+            };
+      }
+      case "monorail" -> {
+        switch (action) {
+          case "monorail_lyle" -> message = "Visiting Lyle, LyleCo CEO";
+          case "monorail_downtown" -> {
+            message = "Train to Downtown";
+            turns = true;
+          }
+        }
+      }
+      case "mountains" -> {
+        message =
+            switch (action) {
+              case "mts_melvin" -> "Talking to Melvign the Gnome";
+              case "mts_caveblocked" -> "Entering the Nemesis Cave";
+              default -> null;
+            };
+      }
+      case "nemesiscave" -> {
+        switch (action) {
+          case "nmcave_rubble" -> message = "Examining the rubble in the Nemesis Cave";
+          case "nmcave_boss" -> {
+            message = "Confronting your Nemesis";
+            turns = true;
+          }
+        }
+      }
+      case "northpole" -> {
+        message =
+            switch (action) {
+              case "np_bonfire" -> "Visiting the Bonfire";
+              case "np_sauna" -> "Entering the Sauna";
+              case "np_foodlab" -> "Entering the Food Lab";
+              case "np_boozelab" -> "Entering the Nog Lab";
+              case "np_spleenlab" -> "Entering the Chem Lab";
+              case "np_toylab" -> "Entering the Gift Fabrication Lab";
+              default -> null;
+            };
+      }
+      case "orc_chasm" -> {
+        if (action.startsWith("bridge") || action.equals("label1") || action.equals("label2")) {
+          // Building the bridge. Do we need to log anything?
+          return true;
+        }
+      }
+      case "palindome" -> {
+        switch (action) {
+          case "pal_drlabel", "pal_droffice" -> {
+            message = "Visiting Dr. Awkward's office";
+            turns = true;
+          }
+          case "pal_mrlabel", "pal_mroffice" -> {
+            message = "Visiting Mr. Alarm's office";
+          }
+        }
+      }
+      case "plains" -> {
+        switch (action) {
+          case "rift_scorch", "rift_light" -> {
+            return true;
+          }
+          case "garbage_grounds" -> {
+            message = "Inspecting the Giant Pile of Coffee Grounds";
+          }
+          case "lutersgrave" -> {
+            if (!InventoryManager.hasItem(ItemPool.CLANCY_LUTE)) {
+              message = "The Luter's Grave";
+              turns = true;
+            }
+          }
+        }
+      }
+      case "pyramid" -> {
+        if (action.equals("pyramid_control")) {
+          message = "Visiting the Pyramid Control Room";
+        }
+      }
+      case "rabbithole" -> {
+        if (action.equals("rabbithole_teaparty")) {
+          message = "Visiting the Mad Tea Party";
+        }
+      }
+      case "snojo" -> {
+        if (action.equals("snojo_controller")) {
+          message = "Visiting Snojo Control Console";
+        }
+      }
+      case "spacegate" -> {
+        message =
+            switch (action) {
+              case "sg_requisition" -> "Visiting Spacegate Equipment Requisition";
+              case "sg_tech" -> "Visiting Spacegate R&D";
+              case "sg_Terminal" -> "Visiting the Spacegate Terminal";
+              case "sg_vaccinator" -> "Visiting the Spacegate Vaccination Machine";
+              default -> null;
+            };
+      }
+      case "spacegate_portable" -> {
+        message = "Visiting your portable Spacegate";
+      }
+      case "sea_oldman" -> {
+        // place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6313[/code]
+        if (action.equals("oldman_oldman")) {
+          message = "Talking to the Old Man";
+        }
+      }
+      case "thesea" -> {
+        if (action.equals("thesea_left2")) {
+          message = "Visiting the Swimmy Little Fishes and Such";
+        }
+      }
+      case "town" -> {
+        if (action.equals("town_oddjobs")) {
+          message = "Visiting the Odd Jobs Board";
+        }
+      }
+      case "town_market" -> {
+        if (action.equals("town_bookmobile")) {
+          message = "Visiting The Bookmobile";
+        }
+      }
+      case "town_right" -> {
+        switch (action) {
+          case "town_horsery" -> {
+            message = "Visiting The Horsery";
+            compact = true; // Part of logging in
+          }
+          case "townright_vote" -> message = "Visiting The Voting Booth";
+        }
+      }
+      case "town_wrong" -> {
+        message =
+            switch (action) {
+              case "townwrong_precinct" -> "Visiting the 11th Precinct Headquarters";
+              case "townwrong_boxingdaycare" -> "Visiting the Boxing Daycare";
+              default -> null;
+            };
+      }
+      case "twitch" -> {
+        message =
+            switch (action) {
+              case "twitch_votingbooth" -> "Visiting the Voting / Phone Booth";
+              case "twitch_dancave1" -> "Visiting Caveman Dan's Cave";
+              case "twitch_shoerepair" -> "Visiting the Shoe Repair Store";
+              case "twitch_colosseum" -> "Visiting the Chariot-Racing Colosseum";
+              case "twitch_survivors" -> "Visiting the Post-Apocalyptic Survivor Encampment";
+              case "twitch_bank" -> "Visiting the Third Four-Fifths Bank of the West";
+              case "twitch_boat2" -> "Visiting The Pinta";
+              case "twitch_boat3" -> "Visiting The Santa Claus";
+              default -> null;
+            };
+      }
+      case "woods" -> {
+        switch (action) {
+          case "woods_emptybm" -> {
+            // Visiting the Empty Black Market
+            return true;
+          }
+          case "woods_smokesignals" -> {
+            message = "Investigating the Smoke Signals";
+          }
+          case "woods_hippy" -> {
+            message = "Talking to that Hippy";
+          }
+          case "woods_dakota_anim", "woods_dakota" -> {
+            message = "Talking to Dakota Fanning";
+          }
+        }
+      }
+
+      case "airport",
+          "arcade",
+          "bathole",
+          "beanstalk",
+          "chateau",
+          "giantcastle",
+          "hiddencity",
+          "knoll_friendly",
+          "nstower",
+          "scrapheap",
+          "wormwood",
+          "wildfire_camp" -> {
+        // It is not interesting to log simple visits to these
+        // places. Other classes may claim specific actions.
+        return action.equals("");
+      }
+      default -> {
+        // Let any other "place" be claimed by other classes.
+        return false;
+      }
     }
 
     if (message == null) {

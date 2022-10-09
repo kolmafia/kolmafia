@@ -12,7 +12,7 @@ public class PluralValue extends AggregateValue {
   private TreeSet<Value> lookup;
 
   public PluralValue(final Type type, List<Value> values) {
-    super(new AggregateType(DataTypes.BOOLEAN_TYPE, type));
+    super(new PluralValueType(type));
 
     this.content = values.toArray(new Value[0]);
   }

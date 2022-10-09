@@ -14,6 +14,7 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
@@ -1548,6 +1549,32 @@ public class FightRequestTest {
     try (cleanups) {
       parseCombatData("request/test_fight_" + html + ".html", "fight.php?action=attack");
       assertThat("_lastCombatWon", isSetTo(prop));
+    }
+  }
+
+  @Nested
+  class Autumnaton {
+    @ParameterizedTest
+    @CsvSource({
+      "away_1, 29, The Fun-Guy Mansion",
+      "away_2, 30, The Fun-Guy Mansion",
+      "finished, 1, ''",
+      "same_location, 2, The Fun-Guy Mansion"
+    })
+    public void canUpdateQuestParamsFromFightInfo(
+        final String fixture, final int questTurn, final String questLocation) {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(1),
+              withProperty("autumnatonQuestTurn", 5),
+              withProperty("autumnatonQuestLocation", "The Spooky Forest"));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_autumnaton_" + fixture + ".html", "fight.php?action=attack");
+        assertThat("autumnatonQuestTurn", isSetTo(questTurn));
+        assertThat("autumnatonQuestLocation", isSetTo(questLocation));
+      }
     }
   }
 }

@@ -115,7 +115,6 @@ public class LoginManager {
 
     if (Preferences.getBoolean("gitUpdateOnLogin") && !Preferences.getBoolean("_gitUpdated")) {
       GitManager.updateAll();
-      Preferences.setBoolean("_gitUpdated", true);
     }
 
     if (Preferences.getBoolean(username, "getBreakfast")) {
