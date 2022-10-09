@@ -1394,11 +1394,11 @@ public class GenericRequest implements Runnable {
   public static final boolean shouldIgnore(final GenericRequest request) {
     String requestURL = GenericRequest.decodeField(request.formURLString);
     return requestURL == null
-        //        ||
+        ||
         // Disallow mall searches
-        //        requestURL.contains("mall.php")
-        //        || requestURL.contains("manageprices.php")
-        //        || requestURL.contains("backoffice.php")
+        requestURL.contains("mall.php")
+        || requestURL.contains("manageprices.php")
+        || requestURL.contains("backoffice.php")
         ||
         // Disallow anything to do with chat
         request.isChatRequest;
