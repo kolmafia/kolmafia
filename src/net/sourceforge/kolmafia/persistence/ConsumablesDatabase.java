@@ -247,19 +247,19 @@ public class ConsumablesDatabase {
     Integer fullness = ConsumablesDatabase.getRawFullness(name);
     if (fullness != null) {
       ConsumablesDatabase.fullnessByName.put(alias, fullness);
-      size = fullness.intValue();
+      size = fullness;
     }
 
     Integer inebriety = ConsumablesDatabase.getRawInebriety(name);
     if (inebriety != null) {
       ConsumablesDatabase.inebrietyByName.put(alias, inebriety);
-      size = inebriety.intValue();
+      size = inebriety;
     }
 
     Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
     if (spleenhit != null) {
       ConsumablesDatabase.spleenHitByName.put(alias, spleenhit);
-      size = spleenhit.intValue();
+      size = spleenhit;
     }
 
     if (size == 0) {
@@ -277,7 +277,7 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.setConsumptionData(
         alias,
         size,
-        level == null ? 1 : level.intValue(),
+        level == null ? 1 : level,
         quality,
         adventures,
         muscle,
@@ -321,35 +321,47 @@ public class ConsumablesDatabase {
       return;
     }
 
+    int unitCost = Integer.valueOf(data[1]);
+    int level = Integer.valueOf(data[2]);
+    String quality = data[3];
+    String adventures = data[4];
+    String muscle = data[5];
+    String mysticality = data[6];
+    String moxie = data[7];
+
     String holiday = HolidayDatabase.getHoliday();
     boolean isBorisDay = (holiday.contains("Feast of Boris") || holiday.contains("Drunksgiving"));
 
-    ConsumablesDatabase.levelReqByName.put(name, Integer.valueOf(data[2]));
+    ConsumablesDatabase.levelReqByName.put(name, level);
 
     // Some items different on Feast of Boris
     if (isBorisDay) {
       switch (name) {
         case "cranberries" -> {
           ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
-          ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "2-4");
+          ConsumablesDatabase.saveAdventureRange(name, unitCost, "2-4");
         }
         case "redrum" -> {
           ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
-          ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "5-9");
+          ConsumablesDatabase.saveAdventureRange(name, unitCost, "5-9");
         }
         case "vodka and cranberry" -> {
           ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
-          ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "6-9");
+          ConsumablesDatabase.saveAdventureRange(name, unitCost, "6-9");
+        }
+        default -> {
+          ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.find(quality));
+          ConsumablesDatabase.saveAdventureRange(name, unitCost, adventures);
         }
       }
     } else {
-      ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.find(data[3]));
-      ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), data[4]);
+      ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.find(quality));
+      ConsumablesDatabase.saveAdventureRange(name, unitCost, adventures);
     }
 
-    ConsumablesDatabase.muscleByName.put(name, data[5]);
-    ConsumablesDatabase.mysticalityByName.put(name, data[6]);
-    ConsumablesDatabase.moxieByName.put(name, data[7]);
+    ConsumablesDatabase.muscleByName.put(name, muscle);
+    ConsumablesDatabase.mysticalityByName.put(name, mysticality);
+    ConsumablesDatabase.moxieByName.put(name, moxie);
 
     // When we reset consumption data, we must reset Concoctions
     ConsumablesDatabase.calculateAdventureRange(name);
@@ -422,9 +434,9 @@ public class ConsumablesDatabase {
     Concoction c = ConcoctionPool.get(itemId, name);
     int advs = (c == null) ? 0 : c.getAdventuresNeeded(1, true);
 
-    int unitCost = ConsumablesDatabase.unitCostByName.get(name).intValue();
-    int start = ConsumablesDatabase.advStartByName.get(name).intValue();
-    int end = ConsumablesDatabase.advEndByName.get(name).intValue();
+    int unitCost = ConsumablesDatabase.unitCostByName.get(name);
+    int start = ConsumablesDatabase.advStartByName.get(name);
+    int end = ConsumablesDatabase.advEndByName.get(name);
 
     if (KoLCharacter.inNuclearAutumn()) {
       if (type.equals("food")) {
@@ -684,7 +696,7 @@ public class ConsumablesDatabase {
 
   public static final int getFullness(final String name) {
     Integer fullness = ConsumablesDatabase.getRawFullness(name);
-    return fullness == null ? 0 : fullness.intValue();
+    return fullness == null ? 0 : fullness;
   }
 
   public static final Integer getRawInebriety(final String name) {
@@ -696,7 +708,7 @@ public class ConsumablesDatabase {
 
   public static final int getInebriety(final String name) {
     Integer inebriety = ConsumablesDatabase.getRawInebriety(name);
-    return inebriety == null ? 0 : inebriety.intValue();
+    return inebriety == null ? 0 : inebriety;
   }
 
   public static final Integer getRawSpleenHit(final String name) {
@@ -708,7 +720,7 @@ public class ConsumablesDatabase {
 
   public static final int getSpleenHit(final String name) {
     Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
-    return spleenhit == null ? 0 : spleenhit.intValue();
+    return spleenhit == null ? 0 : spleenhit;
   }
 
   public static final ConsumableQuality getQuality(final String name) {
@@ -763,8 +775,8 @@ public class ConsumablesDatabase {
       // +4 Turns (?) Improves Low Quality Martinis from Exotic Olive Procurer, Ben Dover
       if (Preferences.getBoolean("bondMartiniPlus")) {
         // If Martini would have given 10 or more adventures at base, give 4 extra
-        int start = ConsumablesDatabase.advStartByName.get(name).intValue();
-        int end = ConsumablesDatabase.advEndByName.get(name).intValue();
+        int start = ConsumablesDatabase.advStartByName.get(name);
+        int end = ConsumablesDatabase.advEndByName.get(name);
         for (int i = start; i <= end; i++) {
           if (i < 10) {
             bonus += 4.0 / (end - start + 1);
@@ -787,8 +799,8 @@ public class ConsumablesDatabase {
     if (ConsumablesDatabase.isWine(itemId)) {
       boolean refinedPalate =
           KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.REFINED_PALATE));
-      int start = ConsumablesDatabase.advStartByName.get(name).intValue();
-      int end = ConsumablesDatabase.advEndByName.get(name).intValue();
+      int start = ConsumablesDatabase.advStartByName.get(name);
+      int end = ConsumablesDatabase.advEndByName.get(name);
       double bonus = 0.0;
       // With Refined Palate, apply 25% bonus adventures
       // If we have mafia pinky ring equipped, or can get it equipped and have autoPinkyRing set,
@@ -938,13 +950,13 @@ public class ConsumablesDatabase {
     Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
 
     if (fullness != null) {
-      unit += fullness.intValue();
+      unit += fullness;
     }
     if (inebriety != null) {
-      unit += inebriety.intValue();
+      unit += inebriety;
     }
     if (spleenhit != null) {
-      unit += spleenhit.intValue();
+      unit += spleenhit;
     }
     if (unit == 0) {
       unit = 1;
