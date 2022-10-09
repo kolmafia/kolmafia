@@ -53,8 +53,8 @@ public class VolcanoMazeManagerTest {
       VolcanoMazeManager.reset();
     }
 
-    static final List<String> findMapLocations = new ArrayList<>();
-    static final List<String> stepMapLocations = new ArrayList<>();
+    static final List<String> findMapMoves = new ArrayList<>();
+    static final List<String> stepMapMoves = new ArrayList<>();
     static final List<String> findMapResponses = new ArrayList<>();
     static final List<String> stepMapResponses = new ArrayList<>();
 
@@ -72,14 +72,14 @@ public class VolcanoMazeManagerTest {
         assertTrue(m.find());
         if (count++ <= 4) {
           findMapResponses.add(line);
-          findMapLocations.add(m.group(1));
+          findMapMoves.add(m.group(1));
         } else {
           stepMapResponses.add(line);
-          stepMapLocations.add(m.group(1));
+          stepMapMoves.add(m.group(1));
         }
       }
-      assertEquals(4, findMapLocations.size());
-      assertEquals(63, stepMapLocations.size());
+      assertEquals(4, findMapMoves.size());
+      assertEquals(63, stepMapMoves.size());
     }
 
     static {
@@ -207,10 +207,10 @@ public class VolcanoMazeManagerTest {
         int i = 0;
         assertPostRequest(requests.get(i++), "/volcanoisland.php", "action=tniat&pwd=volcano");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
-        i = validateVolcanoMazeRequests(builder, findMapLocations, i);
+        i = validateVolcanoMazeRequests(builder, findMapMoves, i);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
-        i = validateVolcanoMazeRequests(builder, stepMapLocations, i);
+        i = validateVolcanoMazeRequests(builder, stepMapMoves, i);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
       }
     }
