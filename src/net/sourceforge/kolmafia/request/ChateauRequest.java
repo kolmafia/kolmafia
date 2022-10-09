@@ -112,7 +112,7 @@ public class ChateauRequest extends PlaceRequest {
     // or action=chateau_restbox
     if (action.startsWith("chateau_rest") || action.startsWith("cheateau_rest")) {
       Preferences.increment("timesRested");
-      KoLCharacter.updateFreeRests(action.equals("chateau_restlabelfree"));
+      KoLCharacter.updateFreeRests(responseText.contains("chateau_restlabelfree"));
       KoLCharacter.updateStatus();
     } else if (action.startsWith("chateau_desk")) {
       Preferences.setBoolean("_chateauDeskHarvested", true);
