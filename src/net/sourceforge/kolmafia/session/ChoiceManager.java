@@ -109,7 +109,7 @@ public abstract class ChoiceManager {
    *
    * And by user actions:
    *
-   * - RelayRequest when the user hits the "auto" button on a choice page.
+   * - RelayAgent when the user hits the "auto" button on a choice page.
    * - The "choice" command from the gCLI
    * - The run_choice() function of ASH
    */
@@ -215,10 +215,36 @@ public abstract class ChoiceManager {
         !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice(responseText);
         ++stepCount) {
       int choice = ChoiceUtilities.extractChoice(responseText);
+
       if (choice == 0) {
         // choice.php did not offer us any choices.
-        // This would be a bug in KoL itself.
-        // Bail now and let the user finish by hand.
+        // This is sometimes legitimate.
+        // In particular, not dying at the first puzzle in the Hidden Temple.
+
+        // You wave your hands nonchalantly over your head, and your fingertips
+        // brush a stone bar that had lowered from the ceiling, unnoticed. You
+        // grab it, frantically, and it pulls you up through a trapdoor just as
+        // the walls slam together beneath your feet. That was too close -- you
+        // were almost a Veracity sandwich!
+        //
+        // <b>Now What?</b>
+        // <a href=choice.php>Continue down the corridor...</a>
+        if (responseText.contains("<b>Now What?</b>")) {
+          request.constructURLString("choice.php");
+          request.run();
+          String redirectLocation = request.redirectLocation;
+          String redirectMethod = request.redirectMethod;
+          if ("tiles.php".equals(redirectLocation)) {
+            // Follow the redirect, call DvorakManager to solve it, and return
+            request.constructURLString(redirectLocation, redirectMethod.equals("POST"));
+            request.run();
+            DvorakManager.solve();
+            request.constructURLString("choice.php");
+            request.responseText = responseText = ChoiceManager.lastResponseText;
+            continue;
+          }
+          return;
+        }
 
         KoLmafia.updateDisplay(MafiaState.ABORT, "Encountered choice adventure with no choices.");
         request.showInBrowser(true);

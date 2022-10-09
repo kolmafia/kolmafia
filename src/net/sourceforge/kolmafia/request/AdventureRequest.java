@@ -1118,13 +1118,7 @@ public class AdventureRequest extends GenericRequest {
     RequestLogger.updateSessionLog("Encounter: Dvorak's Revenge");
 
     request.run();
-    request.constructURLString("tiles.php?action=jump&whichtile=4").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=6").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=3").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=5").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=7").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=6").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=3").run();
+    DvorakManager.solve();
   }
 
   private static String handleRandomModifiers(String monsterName, final String responseText) {

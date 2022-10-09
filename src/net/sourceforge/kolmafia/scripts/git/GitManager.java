@@ -91,6 +91,8 @@ public class GitManager extends ScriptManager {
     for (var project : allFolders()) {
       update(project);
     }
+
+    Preferences.setBoolean("_gitUpdated", true);
   }
 
   /**
