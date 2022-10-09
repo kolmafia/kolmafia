@@ -3184,12 +3184,16 @@ public class RelayRequest extends PasswordHashRequest {
       CommandDisplayFrame.executeCommand(GenericRequest.decodeField(command));
 
       if (waitForCompletion) {
-        while (CommandDisplayFrame.hasQueuedCommands()) {
-          this.pauser.pause(500);
-        }
+        this.waitForCommandCompletion();
       }
     } finally {
       GenericRequest.suppressUpdate(false);
+    }
+  }
+
+  public void waitForCommandCompletion() {
+    while (CommandDisplayFrame.hasQueuedCommands()) {
+      this.pauser.pause(500);
     }
   }
 
