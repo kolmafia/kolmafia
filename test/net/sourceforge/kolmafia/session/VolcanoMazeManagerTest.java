@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEquipped;
@@ -14,10 +13,16 @@ import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -48,6 +53,40 @@ public class VolcanoMazeManagerTest {
       VolcanoMazeManager.reset();
     }
 
+    static final List<String> findMapLocations = new ArrayList<>();
+    static final List<String> stepMapLocations = new ArrayList<>();
+    static final List<String> findMapResponses = new ArrayList<>();
+    static final List<String> stepMapResponses = new ArrayList<>();
+
+    public static void loadStepData() {
+      Pattern POS_PATTERN = Pattern.compile("\"pos\":\"(.*?)\"");
+      String data = html("request/volcano.moves.json");
+      // Each line is a JSON response for a move to a location
+      // Submitting "volcanomaze.php?move=5,12&ajax=1"
+      // yields:
+      // {"won":false,"pos":"5,12","show":[3,6,10,14,18,23,26,30,32,41,43,50,52,57,59,60,64,82,84,94,97,102,106,109,111,114,115,117,119,129,136,145,148,153,154,157,164]}
+      String[] lines = data.split("\n");
+      int count = 1;
+      for (String line : lines) {
+        Matcher m = POS_PATTERN.matcher(line);
+        assertTrue(m.find());
+        if (count++ <= 4) {
+          findMapResponses.add(line);
+          findMapLocations.add(m.group(1));
+        } else {
+          stepMapResponses.add(line);
+          stepMapLocations.add(m.group(1));
+        }
+      }
+      assertEquals(4, findMapLocations.size());
+      assertEquals(63, stepMapLocations.size());
+    }
+
+    static {
+      // Do it exactly once.
+      loadStepData();
+    }
+
     public Cleanups withVolcanoMaze(FakeHttpClientBuilder builder) {
       var cleanups =
           new Cleanups(
@@ -61,13 +100,21 @@ public class VolcanoMazeManagerTest {
       return cleanups;
     }
 
-    public void addVolcanoMazeResponses(FakeHttpClientBuilder builder) {
+    public void addVolcanoMazeResponses(FakeHttpClientBuilder builder, List<String> responses) {
       var client = builder.client;
+      for (String response : responses) {
+        client.addResponse(200, response);
+      }
     }
 
-    public int validateVolcanoMazeRequests(FakeHttpClientBuilder builder, int i) {
+    public int validateVolcanoMazeRequests(
+        FakeHttpClientBuilder builder, List<String> moves, int i) {
       var client = builder.client;
       var requests = client.getRequests();
+      for (String move : moves) {
+        var request = requests.get(i++);
+        assertGetRequest(request, "/volcanomaze.php", "move=" + move + "&ajax=1");
+      }
       return i;
     }
 
@@ -78,15 +125,23 @@ public class VolcanoMazeManagerTest {
       var cleanups =
           new Cleanups(
               withVolcanoMaze(builder),
+              // Avoid a "familiar warning" from RelayRequest
               withCurrentRun(800),
+              // Avoid a "health warning" from RelayRequest
+              withHP(500, 500, 500),
+              // Avoid looking at your vinyl boots
               withGender(KoLCharacter.FEMALE),
+              // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
-              withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES),
-              withHP(500, 500, 500));
+              withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
       try (cleanups) {
         client.addResponse(200, html("request/test_volcano_intro.html"));
         client.addResponse(200, html("request/test_volcano_start.html"));
-        addVolcanoMazeResponses(builder);
+        addVolcanoMazeResponses(builder, findMapResponses);
+        client.addResponse(200, html("request/test_volcano_fail.html"));
+        client.addResponse(200, html("request/test_volcano_jump.html"));
+        addVolcanoMazeResponses(builder, stepMapResponses);
+        client.addResponse(200, html("request/test_volcano_finish.html"));
 
         // Visit volcanoisland.php and enter the (defeated) Nemesis's lair
         // You are warned that there will be a fiendishly difficult puzzle
@@ -105,30 +160,58 @@ public class VolcanoMazeManagerTest {
         // VolcanoMazeManager parsed it and saved it in volcanoMaze1
         assertFalse(Preferences.getString("volcanoMaze1").equals(""));
 
-        /*
-               // Simulate user typing "solve" button
-               url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=volcano";
-               request = new RelayRequest(false);
-               request.constructURLString(url);
-               request.run();
+        // Simulate user typing "solve" button
+        url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=volcano";
+        request = new RelayRequest(false);
+        request.constructURLString(url);
+        request.run();
 
-               // Wait until the submitted command is done
-               request.waitForCommandCompletion();
-               assertThat(RelayRequest.specialCommandResponse.length(), greaterThan(0));
+        // Wait until the submitted command is done
+        request.waitForCommandCompletion();
+        // RelayRequest tells browser to redirect to see the map
+        assertEquals("/volcanomaze.php?start=1", RelayRequest.redirectedCommandURL);
 
-        // Verify maze is solved, etc, etc.
+        // The browser requests the map
+        url = "volcanomaze.php?start=1";
+        request = new RelayRequest(false);
+        request.constructURLString(url, false);
+        request.run();
 
-        */
+        // The user decides to jump into the lava and swim to shore
+        url = "volcanomaze.php?jump=1";
+        request = new RelayRequest(false);
+        request.constructURLString(url, false);
+        request.run();
+
+        // It's time to try to Solve it again
+        url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=volcano";
+        request = new RelayRequest(false);
+        request.constructURLString(url);
+        request.run();
+
+        // Wait until the submitted command is done
+        request.waitForCommandCompletion();
+        // RelayRequest tells browser to redirect to see the map
+        assertEquals("/volcanomaze.php?start=1", RelayRequest.redirectedCommandURL);
+
+        // The browser requests the map
+        url = "volcanomaze.php?start=1";
+        request = new RelayRequest(false);
+        request.constructURLString(url, false);
+        request.run();
 
         // Verify that expected requests were submitted
         var requests = client.getRequests();
-        printRequests(requests);
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(72));
 
         int i = 0;
         assertPostRequest(requests.get(i++), "/volcanoisland.php", "action=tniat&pwd=volcano");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
-        validateVolcanoMazeRequests(builder, i);
+        i = validateVolcanoMazeRequests(builder, findMapLocations, i);
+        assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
+        assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
+        i = validateVolcanoMazeRequests(builder, stepMapLocations, i);
+        assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
       }
     }
   }
