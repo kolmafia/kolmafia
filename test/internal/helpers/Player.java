@@ -863,6 +863,18 @@ public class Player {
   }
 
   /**
+   * Sets the player's current run
+   *
+   * @param adventures How many adventures so far this run
+   * @return Resets remaining adventures to previous value
+   */
+  public static Cleanups withCurrentRun(final int adventures) {
+    var old = KoLCharacter.getCurrentRun();
+    KoLCharacter.setCurrentRun(adventures);
+    return new Cleanups(() -> KoLCharacter.setCurrentRun(old));
+  }
+
+  /**
    * Sets the player's ascensions
    *
    * @param ascensions Desired ascensions
