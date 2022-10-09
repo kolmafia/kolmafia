@@ -1,15 +1,15 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.withChoice;
-import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -71,13 +71,15 @@ class AutumnatonManagerTest {
         new Cleanups(
             withTurnsPlayed(0),
             withProperty("autumnatonUpgrades", upgrades),
-            withProperty("_autumnatonQuests", questsToday));
+            withProperty("_autumnatonQuests", questsToday),
+            withItem(ItemPool.AUTUMNATON));
 
     try (cleanups) {
       AutumnatonManager.postChoice(
           2,
           html("request/test_choice_autumnaton_quest_kitchen.html"),
           AdventurePool.HAUNTED_KITCHEN);
+      assertFalse(InventoryManager.hasItem(ItemPool.AUTUMNATON));
       assertThat("autumnatonQuestLocation", isSetTo("The Haunted Kitchen"));
       assertThat("autumnatonQuestTurn", isSetTo(expected));
     }
