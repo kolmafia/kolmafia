@@ -5,15 +5,13 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import internal.helpers.Cleanups;
-
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class ChateauRequestTest {
   @BeforeAll
@@ -34,8 +32,10 @@ public class ChateauRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({ "chateau_restlabelfree, request/test_request_chateau_restlabelfree_next_free.html",
-      "chateau_restbox, request/test_request_chateau_restbox_next_free.html"})
+  @CsvSource({
+    "chateau_restlabelfree, request/test_request_chateau_restlabelfree_next_free.html",
+    "chateau_restbox, request/test_request_chateau_restbox_next_free.html"
+  })
   public void tracksAndDoesNotSetRestsToMaxIfNextFree(String action, String filename) {
     var cleanups = new Cleanups(withProperty("timesRested", 0));
 
@@ -49,8 +49,11 @@ public class ChateauRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({ "chateau_restlabelfree, request/test_request_chateau_restlabelfree_next_nonfree.html",
-      "chateau_restbox, request/test_request_chateau_restbox_next_nonfree.html", "restlabel, request/test_request_chateau_restlabel.html" })
+  @CsvSource({
+    "chateau_restlabelfree, request/test_request_chateau_restlabelfree_next_nonfree.html",
+    "chateau_restbox, request/test_request_chateau_restbox_next_nonfree.html",
+    "chateau_restlabel, request/test_request_chateau_restlabel.html"
+  })
   public void setsRestsToMaxIfNextNonFree(String action, String filename) {
     var cleanups = new Cleanups(withProperty("timesRested", 0));
 
