@@ -14,7 +14,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -134,7 +136,58 @@ public class DataFileConsistencyTest {
         }
         // First field must be a string and a valid zone name
         String zone = fields[0];
-        assertTrue(AdventureDatabase.validateAdventureArea(zone));
+        assertTrue(AdventureDatabase.validateAdventureArea(zone), "Problem with " + zone);
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from combats.txt");
+    }
+  }
+
+  @Test
+  public void testValidFrequencyForCombats() {
+    String file = "combats.txt";
+    int version = 1;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          continue;
+        }
+        // Second field is a Combat frequency - -1 or 0 <= x <= 100
+        String freq = fields[1];
+        int iFreq = StringUtilities.parseInt(freq);
+        boolean allowed = (iFreq == -1) || ((0 <= iFreq) && (iFreq <= 100));
+        assertTrue(allowed, "Problem with frequency on line beginning with " + fields[0]);
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from combats.txt");
+    }
+  }
+
+  @Test
+  public void testValidMonstersForCombats() {
+    String file = "combats.txt";
+    int version = 1;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          continue;
+        }
+        // Third to end are monsters or
+        for (int i = 2; i < fields.length; i++) {
+          String name;
+          String nameAll = fields[i];
+          if (nameAll.contains(":")) {
+            String[] parts = nameAll.split(":");
+            name = parts[0];
+          } else {
+            name = nameAll;
+          }
+          MonsterData monster = MonsterDatabase.findMonster(name);
+          assertNotNull(
+              monster, "Problem with monster " + name + " on line beginning with " + fields[0]);
+        }
       }
     } catch (IOException e) {
       fail("Couldn't read from combats.txt");
