@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,15 +35,13 @@ public class ChateauRequestTest {
     }
 
     public Cleanups propertyCleanups() {
-      return new Cleanups(
-              withProperty("chateauAvailable", true),
-              withProperty("timesRested", 0));
+      return new Cleanups(withProperty("chateauAvailable", true), withProperty("timesRested", 0));
     }
 
     @ParameterizedTest
     @CsvSource({
-            "chateau_restlabelfree, request/test_request_chateau_restlabelfree_next_free.html",
-            "chateau_restbox, request/test_request_chateau_restbox_next_free.html"
+      "chateau_restlabelfree, request/test_request_chateau_restlabelfree_next_free.html",
+      "chateau_restbox, request/test_request_chateau_restbox_next_free.html"
     })
     public void tracksAndDoesNotSetRestsToMaxIfNextFree(String action, String filename) {
       var cleanups = propertyCleanups();
@@ -59,9 +56,9 @@ public class ChateauRequestTest {
 
     @ParameterizedTest
     @CsvSource({
-            "chateau_restlabelfree, request/test_request_chateau_restlabelfree_next_nonfree.html",
-            "chateau_restbox, request/test_request_chateau_restbox_next_nonfree.html",
-            "chateau_restlabel, request/test_request_chateau_restlabel.html"
+      "chateau_restlabelfree, request/test_request_chateau_restlabelfree_next_nonfree.html",
+      "chateau_restbox, request/test_request_chateau_restbox_next_nonfree.html",
+      "chateau_restlabel, request/test_request_chateau_restlabel.html"
     })
     public void setsRestsToMaxIfNextNonFree(String action, String filename) {
       var cleanups = propertyCleanups();
