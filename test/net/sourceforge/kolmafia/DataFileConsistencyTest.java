@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.Test;
@@ -118,6 +119,25 @@ public class DataFileConsistencyTest {
           String.format("%s is in familiars.txt but not in items.txt", name),
           ItemDatabase.getItemId(name),
           greaterThan(0));
+    }
+  }
+
+  @Test
+  public void testValidZonesForCombats() {
+    String file = "combats.txt";
+    int version = 1;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          continue;
+        }
+        // First field must be a string and a valid zone name
+        String zone = fields[0];
+        assertTrue(AdventureDatabase.validateAdventureArea(zone));
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from combats.txt");
     }
   }
 }
