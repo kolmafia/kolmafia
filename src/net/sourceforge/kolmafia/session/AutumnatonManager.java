@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -66,6 +67,7 @@ public class AutumnatonManager {
 
   private static void parseQuest(final String responseText, final int snarfblat) {
     if (!responseText.contains("Good luck, little buddy")) return;
+    ResultProcessor.processItem(ItemPool.AUTUMNATON, -1);
     var questNumber = Preferences.increment("_autumnatonQuests");
     var adventure = AdventureDatabase.getAdventure(snarfblat);
     if (adventure != null) {
