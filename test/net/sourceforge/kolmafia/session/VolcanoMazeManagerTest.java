@@ -14,13 +14,14 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -82,9 +83,26 @@ public class VolcanoMazeManagerTest {
       assertEquals(63, stepMapMoves.size());
     }
 
+    static final Map<String, String> properties = new HashMap<>();
+
+    public static void loadProperties() {
+      String data = html("request/volcano.properties.txt");
+      // Each line is PROPERTY=VALUE
+      String[] lines = data.split("\n");
+      for (String line : lines) {
+        int equals = line.indexOf("=");
+        assertTrue(equals != -1);
+        String property = line.substring(0, equals);
+        String value = line.substring(equals + 1);
+        properties.put(property, value);
+      }
+      assertEquals(5, properties.size());
+    }
+
     static {
       // Do it exactly once.
       loadStepData();
+      loadProperties();
     }
 
     public Cleanups withVolcanoMaze(FakeHttpClientBuilder builder) {
@@ -158,7 +176,7 @@ public class VolcanoMazeManagerTest {
 
         // You now see the first map of the maze.
         // VolcanoMazeManager parsed it and saved it in volcanoMaze1
-        assertFalse(Preferences.getString("volcanoMaze1").equals(""));
+        assertEquals(Preferences.getString("volcanoMaze1"), properties.get("volcanoMaze1"));
 
         // Simulate user typing "solve" button
         url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=volcano";
@@ -176,6 +194,11 @@ public class VolcanoMazeManagerTest {
         request = new RelayRequest(false);
         request.constructURLString(url, false);
         request.run();
+
+        assertEquals(Preferences.getString("volcanoMaze2"), properties.get("volcanoMaze2"));
+        assertEquals(Preferences.getString("volcanoMaze3"), properties.get("volcanoMaze3"));
+        assertEquals(Preferences.getString("volcanoMaze4"), properties.get("volcanoMaze4"));
+        assertEquals(Preferences.getString("volcanoMaze5"), properties.get("volcanoMaze5"));
 
         // The user decides to jump into the lava and swim to shore
         url = "volcanomaze.php?jump=1";
