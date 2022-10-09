@@ -341,6 +341,10 @@ public class ConsumablesDatabase {
           ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.GOOD);
           ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), "6-9");
         }
+        default -> {
+          ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.find(data[3]));
+          ConsumablesDatabase.saveAdventureRange(name, StringUtilities.parseInt(data[1]), data[4]);
+        }
       }
     } else {
       ConsumablesDatabase.qualityByName.put(name, ConsumableQuality.find(data[3]));
