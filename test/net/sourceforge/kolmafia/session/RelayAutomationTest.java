@@ -39,21 +39,12 @@ public class RelayAutomationTest {
 
   @BeforeAll
   public static void beforeAll() {
-    // Simulate logging out and back in again.
-    GenericRequest.passwordHash = "";
-    KoLCharacter.reset("");
     KoLCharacter.reset("relay automation");
-    Preferences.saveSettingsToFile = false;
   }
 
   @BeforeEach
   public void beforeEach() {
     Preferences.reset("relay automation");
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @Nested
