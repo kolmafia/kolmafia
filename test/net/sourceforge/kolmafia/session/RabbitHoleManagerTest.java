@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
@@ -138,6 +139,7 @@ public class RabbitHoleManagerTest {
 
         // Verify that expected requests were submitted
         var requests = client.getRequests();
+	printRequests(requests);
         assertThat(requests, hasSize(15));
         int i = 0;
         assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
