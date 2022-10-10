@@ -4,8 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -162,9 +164,9 @@ public class DataFileConsistencyTest {
         // Second field is a Combat frequency - -1 or 0 <= x <= 100
         String freq = fields[1];
         int iFreq = StringUtilities.parseInt(freq);
-        boolean allowed = (iFreq == -1) || ((0 <= iFreq) && (iFreq <= 100));
-        assertTrue(allowed, "Problem with frequency on line beginning with " + fields[0]);
-      }
+        assertThat(iFreq, greaterThanOrEqualTo(-1));
+        assertThat(iFreq, lessThanOrEqualTo(100));
+       }
     } catch (IOException e) {
       fail("Couldn't read from combats.txt");
     }
@@ -180,7 +182,8 @@ public class DataFileConsistencyTest {
         if (fields.length == 1) {
           continue;
         }
-        // Third to end are monsters or
+        // Third to end are monsters.
+        // Appearance weights proceeded by colon not checked.
         for (int i = 2; i < fields.length; i++) {
           String name;
           String nameAll = fields[i];
