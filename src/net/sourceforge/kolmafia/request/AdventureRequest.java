@@ -1041,7 +1041,7 @@ public class AdventureRequest extends GenericRequest {
     return this.adventureName;
   }
 
-  public static final void handleServerRedirect(String redirectLocation) {
+  public static final void handleServerRedirect(String redirectLocation, boolean usePostMethod) {
     if (redirectLocation.contains("main.php")) {
       return;
     }
@@ -1051,7 +1051,7 @@ public class AdventureRequest extends GenericRequest {
       redirectLocation = "campground.php";
     }
 
-    AdventureRequest.ZONE_UNLOCK.constructURLString(redirectLocation);
+    AdventureRequest.ZONE_UNLOCK.constructURLString(redirectLocation, usePostMethod);
 
     if (redirectLocation.contains("palinshelves.php")) {
       AdventureRequest.ZONE_UNLOCK.run();

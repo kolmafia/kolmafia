@@ -1907,7 +1907,7 @@ public class GenericRequest implements Runnable {
             continue;
           }
           if (FightRequest.choiceFollowsFight) {
-            RequestThread.postRequest(new GenericRequest("choice.php"));
+            RequestThread.postRequest(new GenericRequest("choice.php", false));
             // Fall through
           }
           if (ChoiceManager.handlingChoice) {
@@ -2013,7 +2013,10 @@ public class GenericRequest implements Runnable {
       }
 
       this.redirectHandled = true;
-      ChoiceManager.processRedirectedChoiceAdventure(this.redirectLocation);
+      String redirectLocation = this.redirectLocation;
+      boolean usePostMethod = this.redirectMethod.equals("POST");
+      ChoiceManager.processRedirectedChoiceAdventure(redirectLocation, usePostMethod);
+      this.responseText = ChoiceManager.CHOICE_HANDLER.responseText;
       return true;
     }
 
@@ -2039,7 +2042,9 @@ public class GenericRequest implements Runnable {
     }
 
     if (this instanceof AdventureRequest || this.formURLString.startsWith("choice.php")) {
-      AdventureRequest.handleServerRedirect(this.redirectLocation);
+      String redirectLocation = this.redirectLocation;
+      boolean usePostMethod = this.redirectMethod.equals("POST");
+      AdventureRequest.handleServerRedirect(redirectLocation, usePostMethod);
       return true;
     }
 

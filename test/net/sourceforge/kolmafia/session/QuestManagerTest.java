@@ -850,7 +850,7 @@ public class QuestManagerTest {
 
         builder.client.addResponse(200, html("request/test_duck_choice_1.html"));
         var request = new RelayRequest(false);
-        request.constructURLString("choice.php?forceoption=0");
+        request.constructURLString("choice.php?forceoption=0", false);
         request.run();
         assertTrue(ChoiceManager.handlingChoice);
         assertEquals(147, ChoiceManager.lastChoice);
@@ -868,7 +868,7 @@ public class QuestManagerTest {
         assertThat(requests, hasSize(2));
         // assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=" +
         // AdventurePool.THE_BARN);
-        assertPostRequest(requests.get(0), "/choice.php", "forceoption=0");
+        assertGetRequest(requests.get(0), "/choice.php", "forceoption=0");
         assertPostRequest(requests.get(1), "/choice.php", "pwd=&whichchoice=147&option=3");
       }
     }

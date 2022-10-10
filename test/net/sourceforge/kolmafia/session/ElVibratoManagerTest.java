@@ -332,7 +332,7 @@ public class ElVibratoManagerTest {
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(6));
         assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=164");
-        assertPostRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
         assertGetRequest(requests.get(2), "/elvmachine.php");
         assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(4), "/elvmachine.php", "action=slot&whichcard=3151");
