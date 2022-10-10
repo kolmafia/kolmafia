@@ -1123,7 +1123,7 @@ public abstract class RabbitHoleManager {
   }
 
   public static final void decorateChessPuzzle(final StringBuffer buffer) {
-    // Add a "Solve!" button to the Chess Board
+    // Add a "Step" and a "Solve!" button to the Chess Board
     String search = "</form>";
     int index = buffer.lastIndexOf(search);
     if (index == -1) {
@@ -1132,15 +1132,31 @@ public abstract class RabbitHoleManager {
 
     index += 7;
 
-    StringBuffer button = new StringBuffer();
+    StringBuffer span = new StringBuffer();
+    span.append("<center><table cols=2><tr>");
 
-    String url = "/KoLmafia/specialCommand?cmd=chess+solve&pwd=" + GenericRequest.passwordHash;
-    button.append("<form name=solveform action='").append(url).append("' method=post>");
-    button.append("<input class=button type=submit value=\"Solve!\">");
-    button.append("</form>");
+    StringBuffer stepButton = new StringBuffer();
+    String url = "/KoLmafia/specialCommand?cmd=chess+step&pwd=" + GenericRequest.passwordHash;
+    stepButton.append("<td>");
+    stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
+    stepButton.append("<input type=hidden name=pwd value='").append(GenericRequest.passwordHash).append("'>");
+    stepButton.append("<input class=button type=submit value=\"Step\">").append("</form>");
+    stepButton.append("</td>");
+    span.append(stepButton);
+
+    StringBuffer solveButton = new StringBuffer();
+    url = "/KoLmafia/specialCommand?cmd=chess+solve&pwd=" + GenericRequest.passwordHash;
+    solveButton.append("<td>");
+    solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
+    solveButton.append("<input type=hidden name=pwd value='").append(GenericRequest.passwordHash).append("'>");
+    solveButton.append("<input class=button type=submit value=\"Solve!\">").append("</form>");
+    solveButton.append("</td>");
+    span.append(solveButton);
+
+    span.append("</tr></table></center>");
 
     // Insert it into the page
-    buffer.insert(index, button);
+    buffer.insert(index, span);
   }
 
   public static final String decorateChessPuzzleResponse(final String response) {
