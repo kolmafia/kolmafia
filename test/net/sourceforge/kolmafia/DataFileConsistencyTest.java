@@ -164,9 +164,9 @@ public class DataFileConsistencyTest {
         // Second field is a Combat frequency - -1 or 0 <= x <= 100
         String freq = fields[1];
         int iFreq = StringUtilities.parseInt(freq);
-        assertThat(iFreq, greaterThanOrEqualTo(-1));
-        assertThat(iFreq, lessThanOrEqualTo(100));
-       }
+        assertThat("Problem with frequency " + freq + " on line beginning with " + fields[0], iFreq, greaterThanOrEqualTo(-1));
+        assertThat("Problem with frequency " + freq + " on line beginning with " + fields[0], iFreq, lessThanOrEqualTo(100));
+      }
     } catch (IOException e) {
       fail("Couldn't read from combats.txt");
     }
