@@ -238,7 +238,6 @@ The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Archwizard's Tower	0	Archwizard: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 The Bandit Crossroads	100	fantasy bandit
-The Barrel Full of Barrels	-1	tiny barrel mimic	small barrel mimic	medium-sized barrel mimic	huge barrel mimic
 The Barrow Mounds	100	barrow wraith?
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
 The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
