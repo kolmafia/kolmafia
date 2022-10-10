@@ -325,7 +325,7 @@ public class OceanManagerTest {
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(3));
         assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=159&pwd=choice");
-        assertPostRequest(requests.get(1), "/choice.php", "forceoption=0&pwd=choice");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       }
     }
@@ -375,7 +375,7 @@ public class OceanManagerTest {
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(6));
         assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=159&pwd=choice");
-        assertPostRequest(requests.get(1), "/choice.php", "forceoption=0&pwd=choice");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(3), "/choice.php", "whichchoice=189&option=1&pwd=choice");
         // With "sphere", we choose one of three random destinations:
@@ -431,7 +431,7 @@ public class OceanManagerTest {
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(6));
         assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=159&pwd=choice");
-        assertPostRequest(requests.get(1), "/choice.php", "forceoption=0&pwd=choice");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(3), "/choice.php", "whichchoice=189&option=1&pwd=choice");
         assertPostRequest(requests.get(4), "/ocean.php", "lon=86&lat=40&pwd=choice");

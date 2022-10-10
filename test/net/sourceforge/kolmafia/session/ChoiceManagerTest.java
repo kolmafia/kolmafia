@@ -1,24 +1,31 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
+import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -29,15 +36,7 @@ public class ChoiceManagerTest {
   @BeforeAll
   public static void beforeAll() {
     // Simulate logging out and back in again.
-    GenericRequest.passwordHash = "";
-    KoLCharacter.reset("");
     KoLCharacter.reset("choice manager user");
-    Preferences.saveSettingsToFile = false;
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
@@ -178,6 +177,107 @@ public class ChoiceManagerTest {
 
         assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+      }
+    }
+  }
+
+  @Nested
+  class ChoiceRedirection {
+    @Test
+    public void canRedirectToChoiceInGenericRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("test"),
+              // Avoid health warning
+              withHP(100, 100, 100));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, "test1");
+
+        var url = "inv_use.php?which=3&whichitem=4509&pwd=test";
+        var request =
+            new GenericRequest(url) {
+              @Override
+              protected boolean shouldFollowRedirect() {
+                return true;
+              }
+            };
+        request.run();
+        assertEquals("test1", request.responseText);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=4509&pwd=test");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+
+    @Test
+    public void canProcessChoiceInGenericRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("test"),
+              // Avoid health warning
+              withHP(100, 100, 100));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, "test2");
+
+        var url = "inv_use.php?which=3&whichitem=4509&pwd=test";
+        var request =
+            new GenericRequest(url) {
+              @Override
+              protected boolean shouldFollowRedirect() {
+                return false;
+              }
+            };
+        request.run();
+        assertEquals("test2", request.responseText);
+
+        // Although shouldFollowRedirect() was false, since it redirected to
+        // choice.php, GenericRequest let ChoiceManager handle it
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=4509&pwd=test");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+
+    @Test
+    public void canNotRedirectToChoiceInRelayRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("test"),
+              // Avoid health warning
+              withHP(100, 100, 100));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, "test3");
+
+        var url = "inv_use.php?which=3&whichitem=4509&pwd=test";
+        var request = new RelayRequest(false);
+        request.constructURLString(url);
+        request.run();
+        assertEquals("", request.responseText);
+
+        var choice = new GenericRequest("choice.php?forceoption=0", false);
+        choice.run();
+        assertEquals("test3", choice.responseText);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=4509&pwd=test");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       }
     }
   }
