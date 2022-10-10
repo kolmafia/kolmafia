@@ -2776,7 +2776,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)
+        || KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.FAMILIAR)) {
       return false;
     }
 
