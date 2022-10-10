@@ -139,7 +139,7 @@ public class RabbitHoleManagerTest {
 
         // Verify that expected requests were submitted
         var requests = client.getRequests();
-	printRequests(requests);
+        printRequests(requests);
         assertThat(requests, hasSize(15));
         int i = 0;
         assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
