@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
@@ -63,7 +62,7 @@ public class RabbitHoleManagerTest {
     public int validateChessPuzzleRequests(FakeHttpClientBuilder builder, int i) {
       var client = builder.client;
       var requests = client.getRequests();
-      assertGetRequest(requests.get(i++), "/choice.php", "pwd&whichchoice=442&option=5");
+      assertPostRequest(requests.get(i++), "/choice.php", "whichchoice=442&option=5&pwd=chess");
       assertPostRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=5,6&pwd=chess");
       assertPostRequest(
@@ -106,22 +105,16 @@ public class RabbitHoleManagerTest {
         addChessPuzzleResponses(builder);
         client.addResponse(200, ""); // api.php
 
-        // Use a reflection of a map
-        var url = "inv_use.php?which=3&whichitem=4509&pwd=chess";
-        var request = new RelayRequest(false);
-        request.constructURLString(url);
-        request.run();
-
         // Continue
-        url = "choice.php?forceoption=0";
-        request = new RelayRequest(false);
+        var url = "choice.php?forceoption=0";
+        var request = new RelayRequest(false);
         request.constructURLString(url, false);
         request.run();
 
         // You are now have many options.
-        url = "choice.php?pwd&whichchoice=442&option=5";
+        url = "choice.php?whichchoice=442&option=5&pwd=chess";
         request = new RelayRequest(false);
-        request.constructURLString(url, false);
+        request.constructURLString(url);
         request.run();
 
         // You have selected The Great Big Chessboard
@@ -139,7 +132,6 @@ public class RabbitHoleManagerTest {
 
         // Verify that expected requests were submitted
         var requests = client.getRequests();
-        printRequests(requests);
         assertThat(requests, hasSize(15));
         int i = 0;
         assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
