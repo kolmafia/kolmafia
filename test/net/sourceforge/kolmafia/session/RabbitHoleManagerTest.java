@@ -4,6 +4,7 @@ import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -98,16 +101,25 @@ public class RabbitHoleManagerTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("chess"),
+              // Avoid health warning
+              withHP(100, 100, 100),
               // Avoid looking at your vinyl boots
               withGender(KoLCharacter.FEMALE));
       try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_rabbithole_reflection.html"));
         addChessPuzzleResponses(builder);
         client.addResponse(200, ""); // api.php
 
-        // Continue
-        var url = "choice.php?forceoption=0";
+        // Use a reflection of a map
+        var url = "inv_use.php?which=3&whichitem=4509&pwd=chess";
         var request = new RelayRequest(false);
+        request.constructURLString(url);
+        request.run();
+
+        // Continue
+        url = "choice.php?forceoption=0";
+        request = new RelayRequest(false);
         request.constructURLString(url, false);
         request.run();
 
@@ -132,8 +144,9 @@ public class RabbitHoleManagerTest {
 
         // Verify that expected requests were submitted
         var requests = client.getRequests();
-        assertThat(requests, hasSize(15));
+        assertThat(requests, hasSize(16));
         int i = 0;
+        assertPostRequest(requests.get(i++), "/inv_use.php", "which=3&whichitem=4509&pwd=chess");
         assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
         i = validateChessPuzzleRequests(builder, i);
         assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
