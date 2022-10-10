@@ -447,7 +447,8 @@ public class RelayAgent extends Thread {
     // /choice.php?action=auto
     try {
       request.setAllowOverride(false);
-      ChoiceManager.processChoiceAdventure(request, "choice.php", ChoiceManager.lastResponseText);
+      ChoiceManager.processChoiceAdventure(
+          request, "choice.php", false, ChoiceManager.lastResponseText);
       if (StaticEntity.userAborted || KoLmafia.refusesContinue()) {
         // Resubmit the choice request to let the user see it again
         KoLmafia.forceContinue();

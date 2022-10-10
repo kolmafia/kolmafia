@@ -122,12 +122,15 @@ public abstract class ChoiceManager {
         }
       };
 
-  public static final void processRedirectedChoiceAdventure(final String redirectLocation) {
-    ChoiceManager.processChoiceAdventure(ChoiceManager.CHOICE_HANDLER, redirectLocation, null);
+  public static final void processRedirectedChoiceAdventure(
+      final String redirectLocation, final boolean usePostMethod) {
+    ChoiceManager.processChoiceAdventure(
+        ChoiceManager.CHOICE_HANDLER, redirectLocation, usePostMethod, null);
   }
 
   public static final void processChoiceAdventure(final String responseText) {
-    ChoiceManager.processChoiceAdventure(ChoiceManager.CHOICE_HANDLER, "choice.php", responseText);
+    ChoiceManager.processChoiceAdventure(
+        ChoiceManager.CHOICE_HANDLER, "choice.php", false, responseText);
   }
 
   public static final String processChoiceAdventure(
@@ -156,7 +159,7 @@ public abstract class ChoiceManager {
     request.run();
 
     if (tryToAutomate) {
-      ChoiceManager.processChoiceAdventure(request, "choice.php", request.responseText);
+      ChoiceManager.processChoiceAdventure(request, "choice.php", false, request.responseText);
       return "";
     }
 
@@ -186,13 +189,16 @@ public abstract class ChoiceManager {
   }
 
   public static final void processChoiceAdventure(
-      final GenericRequest request, final String initialURL, String responseText) {
+      final GenericRequest request,
+      final String initialURL,
+      boolean usePostMethod,
+      String responseText) {
     // You can no longer simply ignore a choice adventure.  One of
     // the options may have that effect, but we must at least run
     // choice.php to find out which choice it is.
 
     // Get rid of extra fields - like "action=auto"
-    request.constructURLString(initialURL);
+    request.constructURLString(initialURL, usePostMethod);
 
     if (responseText == null) {
       GoalManager.updateProgress(GoalManager.GOAL_CHOICE);
@@ -2081,7 +2087,7 @@ public abstract class ChoiceManager {
   public static final String gotoGoal() {
     String responseText = ChoiceManager.lastResponseText;
     GenericRequest request = ChoiceManager.CHOICE_HANDLER;
-    ChoiceManager.processChoiceAdventure(request, "choice.php", responseText);
+    ChoiceManager.processChoiceAdventure(request, "choice.php", false, responseText);
     RelayRequest.specialCommandResponse = ChoiceManager.lastDecoratedResponseText;
     RelayRequest.specialCommandIsAdventure = true;
     return request.responseText;
