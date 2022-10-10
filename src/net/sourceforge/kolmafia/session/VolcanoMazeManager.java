@@ -174,16 +174,31 @@ public abstract class VolcanoMazeManager {
     }
     index += 7;
 
-    // Build a "Solve!" button
-    StringBuffer button = new StringBuffer();
+    // Build "Step" and "Solve!" buttons
 
-    String url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
-    button.append("<form name=solveform action='" + url + "' method=post>");
-    button.append("<input class=button type=submit value=\"Solve!\">");
-    button.append("</form>");
+    StringBuffer span = new StringBuffer();
+    span.append("<center><table cols=2><tr>");
+
+    StringBuffer stepButton = new StringBuffer();
+    String url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=" + GenericRequest.passwordHash;
+    stepButton.append("<td>");
+    stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
+    stepButton.append("<input class=button type=submit value=\"Step\">").append("</form>");
+    stepButton.append("</td>");
+    span.append(stepButton);
+
+    StringBuffer solveButton = new StringBuffer();
+    url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
+    solveButton.append("<td>");
+    solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
+    solveButton.append("<input class=button type=submit value=\"Solve!\">").append("</form>");
+    solveButton.append("</td>");
+    span.append(solveButton);
+
+    span.append("</tr></table></center>");
 
     // Insert it into the page
-    buffer.insert(index, button);
+    buffer.insert(index, span);
   }
 
   public static final void parseResult(final String responseText) {
@@ -544,6 +559,11 @@ public abstract class VolcanoMazeManager {
 
   private static int pathsMade = 0;
   private static int pathsExamined = 0;
+
+  public static final void step() {
+    // Save URL to give back to the user's browser
+    RelayRequest.redirectedCommandURL = "/volcanomaze.php?start=1";
+  }
 
   public static final void solve() {
     // Save URL to give back to the user's browser
