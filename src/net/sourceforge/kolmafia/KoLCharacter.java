@@ -1651,7 +1651,7 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill("Adventurer of Leisure")) freerests += 2;
     if (KoLCharacter.hasSkill("Executive Narcolepsy")) ++freerests;
     // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
-    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective ")
+    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective")
         && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
       freerests += 3;
     if (KoLCharacter.hasSkill("Food Coma")) freerests += 10;

@@ -1675,12 +1675,26 @@ public class KoLAdventureValidationTest {
 
     @Test
     public void summoningChamberAvailableIfHaveWineBomb() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
       var cleanups =
-          new Cleanups(withQuestProgress(Quest.MANOR, "step2"), withItem(ItemPool.WINE_BOMB));
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.MANOR, "step2"),
+              withItem(ItemPool.WINE_BOMB));
       try (cleanups) {
+        client.addResponse(200, html("request/test_use_wine_bomb.html"));
+        client.addResponse(200, ""); // api.php
         assertTrue(SUMMONING_CHAMBER.canAdventure());
-        // *** I'd like to test that prepareForAdventure uses the wine bomb,
-        // *** but I need the HTML for using it.
+        assertTrue(SUMMONING_CHAMBER.prepareForAdventure());
+        assertThat(Quest.MANOR, isStep("step3"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=manor4&action=manor4_chamberwall");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
