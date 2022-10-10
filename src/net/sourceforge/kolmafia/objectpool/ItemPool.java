@@ -1422,6 +1422,7 @@ public class ItemPool {
   public static final int LOBSTER_QUA_GRILL = 4515;
   public static final int MISSING_WINE = 4516;
   public static final int ITTAH_BITTAH_HOOKAH = 4519;
+  public static final int QUEEN_COOKIE = 4535;
   public static final int STUFFED_POCKETWATCH = 4545;
   public static final int JACKING_MAP = 4560;
   public static final int TINY_FLY_GLASSES = 4566;

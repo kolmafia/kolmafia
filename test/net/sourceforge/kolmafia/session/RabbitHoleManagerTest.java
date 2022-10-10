@@ -8,10 +8,12 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import org.junit.jupiter.api.AfterEach;
@@ -36,7 +38,9 @@ public class RabbitHoleManagerTest {
   @Nested
   class Chess {
     @AfterEach
-    public void afterEach() {}
+    public void afterEach() {
+      InventoryManager.resetInventory();
+    }
 
     public void addChessPuzzleResponses(FakeHttpClientBuilder builder) {
       var client = builder.client;
@@ -128,7 +132,9 @@ public class RabbitHoleManagerTest {
 
         // Wait until the submitted command is done
         request.waitForCommandCompletion();
-        // RelayRequest tells browser to redirect to see the map
+
+        // We beat the puzzle and got a queen cookie!
+        assertTrue(InventoryManager.hasItem(ItemPool.QUEEN_COOKIE));
 
         // Verify that expected requests were submitted
         var requests = client.getRequests();
