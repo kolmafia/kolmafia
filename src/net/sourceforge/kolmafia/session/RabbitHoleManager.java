@@ -1139,7 +1139,10 @@ public abstract class RabbitHoleManager {
     String url = "/KoLmafia/specialCommand?cmd=chess+step&pwd=" + GenericRequest.passwordHash;
     stepButton.append("<td>");
     stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
-    stepButton.append("<input type=hidden name=pwd value='").append(GenericRequest.passwordHash).append("'>");
+    stepButton
+        .append("<input type=hidden name=pwd value='")
+        .append(GenericRequest.passwordHash)
+        .append("'>");
     stepButton.append("<input class=button type=submit value=\"Step\">").append("</form>");
     stepButton.append("</td>");
     span.append(stepButton);
@@ -1148,7 +1151,10 @@ public abstract class RabbitHoleManager {
     url = "/KoLmafia/specialCommand?cmd=chess+solve&pwd=" + GenericRequest.passwordHash;
     solveButton.append("<td>");
     solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
-    solveButton.append("<input type=hidden name=pwd value='").append(GenericRequest.passwordHash).append("'>");
+    solveButton
+        .append("<input type=hidden name=pwd value='")
+        .append(GenericRequest.passwordHash)
+        .append("'>");
     solveButton.append("<input class=button type=submit value=\"Solve!\">").append("</form>");
     solveButton.append("</td>");
     span.append(solveButton);
