@@ -2005,7 +2005,7 @@ public class KoLAdventureValidationTest {
       var requests = client.getRequests();
       assertThat(requests, hasSize(8));
       assertPostRequest(requests.get(0), "/place.php", "whichplace=forestvillage&action=fv_mystic");
-      assertPostRequest(requests.get(1), "/choice.php", "forceoption=0");
+      assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/choice.php", "whichchoice=664&option=1");
       assertPostRequest(requests.get(3), "/choice.php", "whichchoice=664&option=1");
       assertPostRequest(requests.get(4), "/choice.php", "whichchoice=664&option=1");
