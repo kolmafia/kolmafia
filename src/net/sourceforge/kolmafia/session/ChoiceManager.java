@@ -399,7 +399,7 @@ public abstract class ChoiceManager {
       return false;
     }
 
-    request.clearDataFields();
+    request.constructURLString("choice.php");
     request.addFormField("whichchoice", String.valueOf(choice));
     request.addFormField("option", decision);
     if (!extraFields.equals("")) {
