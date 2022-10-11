@@ -47,6 +47,10 @@ public class Preference {
     return hasStringValue(equalTo(value.toString()));
   }
 
+  public static Matcher<String> isSetTo(int value) {
+    return hasIntegerValue(equalTo(value));
+  }
+
   public static Matcher<String> isSetTo(float value) {
     return hasFloatValue(equalTo(value));
   }

@@ -35,6 +35,7 @@ public class JuneCleaverManagerTest {
   @BeforeEach
   public void beforeEach() {
     Preferences.reset("June Cleaver");
+    JuneCleaverManager.reset();
   }
 
   @Nested
@@ -50,8 +51,11 @@ public class JuneCleaverManagerTest {
               withHttpClientBuilder(builder),
               withProperty("choiceAdventure1474", 1),
               withProperty("juneCleaverQueue"),
+              withProperty("_juneCleaverEncounters", 0),
+              withProperty("_juneCleaverFightsLeft", 0),
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("june"),
+              // No need to look at vinyl boots
               withGender(KoLCharacter.FEMALE));
       try (cleanups) {
         builder.client.addResponse(
@@ -67,6 +71,8 @@ public class JuneCleaverManagerTest {
         var adventure = NOOB_CAVE.getRequest();
         adventure.run();
         assertThat("juneCleaverQueue", isSetTo("1474"));
+        assertThat("_juneCleaverEncounters", isSetTo(1));
+        assertThat("_juneCleaverFightsLeft", isSetTo(6));
 
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(5));
