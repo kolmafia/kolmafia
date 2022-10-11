@@ -1,20 +1,20 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
-import net.sourceforge.kolmafia.AdventureResult;
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class FoldItemCommandTest extends AbstractCommandTestBase {
-  @BeforeEach
-  public void initEach() {
+  @BeforeAll
+  public static void init() {
     KoLCharacter.reset("testUser");
-    KoLCharacter.reset(true);
   }
 
   public FoldItemCommandTest() {
@@ -23,45 +23,51 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void findClosestFoldableTest() {
-    // Spooky Putty mitre > leotard > ball > sheet > snake
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_MITRE));
-    // the sheet is a bait; closer but in the wrong direction
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_SHEET));
+    var cleanups =
+        new Cleanups(
+            // Spooky Putty mitre > leotard > ball > sheet > snake
+            withItem(ItemPool.SPOOKY_PUTTY_MITRE),
+            // the sheet is a bait; closer but in the wrong direction
+            withItem(ItemPool.SPOOKY_PUTTY_SHEET));
 
-    String output = execute("spooky putty ball", true);
+    try (cleanups) {
+      String output = execute("spooky putty ball", true);
 
-    assertContinueState();
-    assertThat(output, containsString("Spooky Putty mitre => Spooky Putty ball"));
+      assertContinueState();
+      assertThat(output, containsString("Spooky Putty mitre => Spooky Putty ball"));
+    }
   }
 
   @Test
   public void loopAroundFoldableListTest() {
-    // Spooky Putty mitre > leotard > ball > sheet > snake
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_SNAKE));
-    // bait, again
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_BALL));
+    var cleanups =
+        new Cleanups(
+            // Spooky Putty mitre > leotard > ball > sheet > snake
+            withItem(ItemPool.SPOOKY_PUTTY_SNAKE),
+            // bait, again
+            withItem(ItemPool.SPOOKY_PUTTY_BALL));
 
-    String output = execute("spooky putty leotard", true);
+    try (cleanups) {
+      String output = execute("spooky putty leotard", true);
 
-    assertContinueState();
-    assertThat(output, containsString("Spooky Putty snake => Spooky Putty leotard"));
+      assertContinueState();
+      assertThat(output, containsString("Spooky Putty snake => Spooky Putty leotard"));
+    }
   }
 
   @Test
   public void restoreHPWhenNeededTest() {
-    // Spooky Putty mitre > leotard > ball > sheet > snake
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_SNAKE));
-    KoLCharacter.setHP(5, 100, 100);
+    var cleanups =
+        new Cleanups(
+            // Spooky Putty mitre > leotard > ball > sheet > snake
+            withItem(ItemPool.SPOOKY_PUTTY_SNAKE), withHP(5, 100, 100));
 
-    String output = execute("spooky putty mitre");
+    try (cleanups) {
+      String output = execute("spooky putty mitre");
 
-    // We didn't give it anything to restore HP with, so we can use that to tell it tried
-    assertErrorState();
-    assertThat(output, containsString("Autorecovery failed."));
+      // We didn't give it anything to restore HP with, so we can use that to tell it tried
+      assertErrorState();
+      assertThat(output, containsString("Autorecovery failed."));
+    }
   }
 }
