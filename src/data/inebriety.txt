@@ -25,7 +25,7 @@ around the world	4	4	good	10-14	0-30	0-30	0-30
 artisanal limoncello	2	6	good	5-7	0	20-30	0	30 Sugar Rush
 asbestos thermos	4	6	awesome	12-18	0	10-20	10-20	100 Inner Warmth (+5 Cold Resist)
 astral pilsner	1	1	???	11	0-22	0-22	0-22
-AutumnFest ale	1	1	awesome	0	0	0	0	Unspaded
+AutumnFest ale	1	1	awesome	4-6	10-40	10-40	10-40
 Aura Libre	2	8	awesome	8-9	0	30-40	0	15 Transcendental Wind (+50 Myst)
 Aye Aye	2	1	good	4-5	0	0	10-20	5 Arresistible (+50 Mox)
 Aye Aye, Captain	2	4	awesome	6-7	0	0	20-30	10 Arresistible (+50 Mox)
