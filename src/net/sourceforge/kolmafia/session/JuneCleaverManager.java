@@ -12,6 +12,10 @@ public class JuneCleaverManager {
 
   public static ArrayList<Integer> queue = new ArrayList<>();
 
+  public static void reset() {
+    queue.clear();
+  }
+
   private static void updateQueue(int id) {
     String savedQueue = Preferences.getString("juneCleaverQueue");
     if (queue.isEmpty() && savedQueue.length() > 0) {
