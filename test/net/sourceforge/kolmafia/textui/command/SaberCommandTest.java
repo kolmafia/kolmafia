@@ -1,34 +1,28 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
-import net.sourceforge.kolmafia.AdventureResult;
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class SaberCommandTest extends AbstractCommandTestBase {
-  @BeforeEach
-  public void initEach() {
+  @BeforeAll
+  public static void init() {
     KoLCharacter.reset("testUser");
-    KoLCharacter.reset(true);
-    Preferences.resetToDefault("_saberMod");
-
-    // Stop requests from actually running
-    GenericRequest.sessionId = null;
+    Preferences.reset("testUser");
   }
 
   public SaberCommandTest() {
     this.command = "saber";
-  }
-
-  private static void hasSaber() {
-    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.FOURTH_SABER));
   }
 
   @Test
@@ -41,65 +35,50 @@ public class SaberCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustNotHaveUpgraded() {
-    hasSaber();
-    Preferences.setInteger("_saberMod", 1);
-    String output = execute("mp");
+    var cleanups = new Cleanups(withItem(ItemPool.FOURTH_SABER), withProperty("_saberMod", 1));
 
-    assertErrorState();
-    assertThat(output, containsString("already upgraded"));
+    try (cleanups) {
+      String output = execute("mp");
+
+      assertErrorState();
+      assertThat(output, containsString("already upgraded"));
+    }
   }
 
   @Test
   void mustSpecifyUpgrade() {
-    hasSaber();
-    String output = execute("");
+    var cleanups = withItem(ItemPool.FOURTH_SABER);
 
-    assertErrorState();
-    assertThat(output, containsString("Which upgrade"));
+    try (cleanups) {
+      String output = execute("");
+
+      assertErrorState();
+      assertThat(output, containsString("Which upgrade"));
+    }
   }
 
   @Test
   void mustSpecifyValidUpgrade() {
-    hasSaber();
-    String output = execute("dog");
+    var cleanups = withItem(ItemPool.FOURTH_SABER);
 
-    assertErrorState();
-    assertThat(output, containsString("I don't understand what upgrade"));
+    try (cleanups) {
+      String output = execute("dog");
+
+      assertErrorState();
+      assertThat(output, containsString("I don't understand what upgrade"));
+    }
   }
 
-  @Test
-  void canChooseMlUpgrade() {
-    hasSaber();
-    String output = execute("ml");
+  @ParameterizedTest
+  @ValueSource(strings = {"ml", "mp", "resistance", "familiar"})
+  void canChooseUpgrades(String upgrade) {
+    var cleanups = withItem(ItemPool.FOURTH_SABER);
 
-    assertContinueState();
-    assertThat(output, containsString("Upgrading saber"));
-  }
+    try (cleanups) {
+      String output = execute(upgrade);
 
-  @Test
-  void canChooseMPUpgrade() {
-    hasSaber();
-    String output = execute("mp");
-
-    assertContinueState();
-    assertThat(output, containsString("Upgrading saber"));
-  }
-
-  @Test
-  void canChooseResUpgrade() {
-    hasSaber();
-    String output = execute("resistance");
-
-    assertContinueState();
-    assertThat(output, containsString("Upgrading saber"));
-  }
-
-  @Test
-  void canChooseFamUpgrade() {
-    hasSaber();
-    String output = execute("familiar");
-
-    assertContinueState();
-    assertThat(output, containsString("Upgrading saber"));
+      assertContinueState();
+      assertThat(output, containsString("Upgrading saber"));
+    }
   }
 }
