@@ -30,7 +30,6 @@ public class ClanLoungeRequestTest {
 
   @BeforeAll
   public static void beforeAll() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("ClanLoungeRequestTest");
     Preferences.reset("ClanLoungeRequestTest");
     // Miss some key visits

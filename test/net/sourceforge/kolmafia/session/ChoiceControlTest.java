@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -37,7 +36,6 @@ class ChoiceControlTest {
   public void beforeEach() {
     KoLCharacter.reset("ChoiceControlTest");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
   }
 
   @Nested

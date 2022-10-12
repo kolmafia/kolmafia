@@ -48,8 +48,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -66,7 +64,6 @@ public class FightRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("");
     KoLCharacter.reset("FightRequestTest");
-    Preferences.saveSettingsToFile = false;
     KoLConstants.availableCombatSkillsList.clear();
     KoLConstants.availableCombatSkillsSet.clear();
   }
@@ -1203,16 +1200,6 @@ public class FightRequestTest {
 
   @Nested
   class LoveBugsPreferenceButtonGroupTest {
-    @BeforeAll
-    public static void beforeAll() {
-      Preferences.saveSettingsToFile = false;
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      Preferences.saveSettingsToFile = true;
-    }
-
     @BeforeEach
     public void beforeEach() {
       KoLCharacter.reset("lovebugs");

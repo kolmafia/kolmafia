@@ -24,7 +24,6 @@ class PlaceRequestTest {
   public void initializeCharPrefs() {
     KoLCharacter.reset("fakePrefUser");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
   }
 
   @AfterEach
@@ -32,7 +31,6 @@ class PlaceRequestTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
-    Preferences.saveSettingsToFile = false;
   }
 
   @Test
