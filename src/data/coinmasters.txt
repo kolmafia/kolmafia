@@ -1054,3 +1054,22 @@ Dino World Gift Shop (The Dinostaur)	buy	25	camouflage vest	ROW1286
 Dino World Gift Shop (The Dinostaur)	buy	30	flatusaur gasmask	ROW1282
 Dino World Gift Shop (The Dinostaur)	buy	50	pterodactyl rifle	ROW1280
 Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288
+
+# KoL Con 13 Merch Table
+
+KoL Con 13 Merch Table	buy	2	KoL Con 13 snowglobe	ROW883
+KoL Con 13 Merch Table	buy	4	potted tea tree	ROW884
+KoL Con 13 Merch Table	buy	5	Xi Receiver Unit	ROW885
+KoL Con 13 Merch Table	buy	6	Gordon Beer's Beer Garden Catalog	ROW886
+KoL Con 13 Merch Table	buy	7	Tome of Rad Libs	ROW887
+KoL Con 13 Merch Table	buy	8	Gygaxian Libram	ROW888
+KoL Con 13 Merch Table	buy	9	hippo tutu	ROW889
+KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
+
+# The Central Loathing Floral Mercantile Exchange
+
+The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
+The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
+The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
+The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
+

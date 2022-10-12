@@ -523,7 +523,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // If we have permanent access, cool.
-    if (Preferences.getBoolean(alwaysPref)) {
+    if (alwaysPref != null && Preferences.getBoolean(alwaysPref)) {
       return true;
     }
     // If we don't know we have daily access, looking at the map
@@ -574,6 +574,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return checkZone("prAlways", "_prToday", "monorail");
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
+      case "Twitch":
+        // There is no permanent access to the Time Twitching Tower; it's
+        // always day by day.
+        return checkZone(null, "timeTowerAvailable", "town");
       case "The Spacegate":
         // Through the Spacegate
 
