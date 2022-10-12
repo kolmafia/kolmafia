@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.file.FileSystems;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,11 @@ class ProfilerTest {
 
   @Test
   public void itShouldRunTheProfilerOnAScript() {
-    String script = "/Excluded/CountItems.ash";
+    String script =
+        FileSystems.getDefault().getSeparator()
+            + "Excluded"
+            + FileSystems.getDefault().getSeparator()
+            + "CountItems.ash";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
       // Inject custom output stream.
@@ -27,6 +32,7 @@ class ProfilerTest {
             .trim()
             // try to avoid environment-specific paths in stacktraces
             .replaceAll("\\bfile:.*?([^\\\\/\\s]+#\\d+)\\b", "file:%%STACKTRACE_LOCATION%%/$1");
+    System.out.println(script);
     System.out.println(output);
     assertTrue(output.contains("toplevel"));
     assertTrue(output.contains("Name (sorted by total time)"));
