@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -14,8 +15,10 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class AutumnatonCommand extends AbstractCommand {
   public AutumnatonCommand() {
-    this.usage = " <blank> | send [location] - deal with your autumn-aton";
+    this.usage = " <blank> | upgrade | send [location] - deal with your autumn-aton";
   }
+
+  private static final Pattern UPGRADE_PATTERN = Pattern.compile("Attach the (.+) that you found.");
 
   @Override
   public void run(final String cmd, String parameters) {
@@ -29,7 +32,8 @@ public class AutumnatonCommand extends AbstractCommand {
     switch (params[0]) {
       case "" -> status();
       case "send" -> send(params);
-      default -> KoLmafia.updateDisplay(MafiaState.ERROR, "autumnaton" + this.usage);
+      case "upgrade" -> upgrade();
+      default -> KoLmafia.updateDisplay(MafiaState.ERROR, "Usage: autumnaton" + this.usage);
     }
   }
 
@@ -40,16 +44,15 @@ public class AutumnatonCommand extends AbstractCommand {
         RequestLogger.printLine("Your autumn-aton is in an unknown location.");
       } else {
         RequestLogger.printLine("Your autumn-aton is ready to be sent somewhere.");
+        String response = useAutumnaton();
+        var upgrades = UPGRADE_PATTERN.matcher(response);
+        if (upgrades.find()) {
+          RequestLogger.printLine("Your autumn-aton has upgrades available: " + upgrades.group(1));
+        }
       }
     } else {
       RequestLogger.printLine("Your autumn-aton is plundering in " + autumnLocation + ".");
-      var turns = Preferences.getInteger("autumnatonQuestTurn") - KoLCharacter.getTurnsPlayed();
-      if (turns > 0) {
-        var s = turns == 1 ? "" : "s";
-        RequestLogger.printLine("Your autumn-aton will return after " + turns + " turn" + s + ".");
-      } else {
-        RequestLogger.printLine("Your autumn-aton will return after your next combat.");
-      }
+      RequestLogger.printLine(turnsRemainingString());
     }
   }
 
@@ -80,12 +83,12 @@ public class AutumnatonCommand extends AbstractCommand {
 
     KoLmafia.updateDisplay("Sending autumn-aton to " + advName);
 
-    GenericRequest request =
-        new GenericRequest("inv_use.php?which=3&whichitem=" + ItemPool.AUTUMNATON);
-    RequestThread.postRequest(request);
+    useAutumnaton();
 
-    request.constructURLString(
-        "choice.php?whichchoice=1483&option=2&heythereprogrammer=" + adventure.getAdventureId());
+    var request =
+        new GenericRequest(
+            "choice.php?whichchoice=1483&option=2&heythereprogrammer="
+                + adventure.getAdventureId());
     RequestThread.postRequest(request);
 
     var sentTo = Preferences.getString("autumnatonQuestLocation");
@@ -95,6 +98,39 @@ public class AutumnatonCommand extends AbstractCommand {
           MafiaState.ERROR, "Failed to send autumnaton to " + advName + ". Is it accessible?");
     } else {
       KoLmafia.updateDisplay("Sent autumn-aton to " + sentTo + ".");
+      RequestLogger.printLine(turnsRemainingString());
+    }
+  }
+
+  public void upgrade() {
+    String response = useAutumnaton();
+
+    var upgrades = UPGRADE_PATTERN.matcher(response);
+    if (!upgrades.find()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "No upgrades available");
+      return;
+    }
+
+    GenericRequest request = new GenericRequest("choice.php?whichchoice=1483&option=1");
+    RequestThread.postRequest(request);
+
+    KoLmafia.updateDisplay("Added upgrades " + upgrades.group(1));
+  }
+
+  private String useAutumnaton() {
+    GenericRequest request =
+        new GenericRequest("inv_use.php?which=3&whichitem=" + ItemPool.AUTUMNATON);
+    RequestThread.postRequest(request);
+    return request.responseText;
+  }
+
+  private String turnsRemainingString() {
+    var turns = Preferences.getInteger("autumnatonQuestTurn") - KoLCharacter.getTurnsPlayed();
+    if (turns > 0) {
+      var s = turns == 1 ? "" : "s";
+      return "Your autumn-aton will return after " + turns + " turn" + s + ".";
+    } else {
+      return "Your autumn-aton will return after your next combat.";
     }
   }
 }
