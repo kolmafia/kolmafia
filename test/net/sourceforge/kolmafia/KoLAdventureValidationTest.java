@@ -369,6 +369,63 @@ public class KoLAdventureValidationTest {
         }
       }
     }
+
+    @Nested
+    class Twitch {
+      private static final KoLAdventure BOHEMIAN_PARTY =
+          AdventureDatabase.getAdventureByName("An Illicit Bohemian Party");
+      private static final String today = "timeTowerAvailable";
+
+      @Test
+      public void checkTodayAccessForTwitch() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(today, true));
+        try (cleanups) {
+          // If we have daily access, we're good to go
+          boolean success = BOHEMIAN_PARTY.preValidateAdventure();
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(0));
+          assertTrue(success);
+        }
+      }
+
+      @Test
+      public void checkMapAccessForTwitch() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(today, false));
+        try (cleanups) {
+          // If we have not verified access, but the Time Twitching Tower is on
+          // the map, we have access today.
+          client.addResponse(200, html("request/test_visit_town_twitch.html"));
+          boolean success = BOHEMIAN_PARTY.preValidateAdventure();
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertTrue(Preferences.getBoolean(today));
+          assertTrue(success);
+        }
+      }
+
+      @Test
+      public void checkMapAccessForNoTwitch() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(today, false));
+        try (cleanups) {
+          // If we have not verified access, but the Time Twitching Tower is on
+          // the map, we have access today.
+          client.addResponse(200, html("request/test_visit_town_no_twitch.html"));
+          boolean success = BOHEMIAN_PARTY.preValidateAdventure();
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
+          assertFalse(Preferences.getBoolean(today));
+          assertFalse(success);
+        }
+      }
+    }
   }
 
   @Nested
