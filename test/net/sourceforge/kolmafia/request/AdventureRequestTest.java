@@ -28,7 +28,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class AdventureRequestTest {
   @BeforeEach
   public void init() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("AdventureRequestTest");
     Preferences.reset("AdventureRequestTest");
   }

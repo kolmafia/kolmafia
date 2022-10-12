@@ -105,13 +105,11 @@ public class PriceToAcquireTest {
     KoLCharacter.reset("price to acquire user");
 
     MallPriceDatabase.savePricesToFile = false;
-    Preferences.saveSettingsToFile = false;
   }
 
   @AfterAll
   public static void afterAll() {
     MallPriceDatabase.savePricesToFile = true;
-    Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
