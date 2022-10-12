@@ -62,7 +62,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -74,23 +73,12 @@ import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class KoLAdventureValidationTest {
 
-  @BeforeAll
-  public static void beforeAll() {
-    // Simulate logging out and back in again.
-    Preferences.saveSettingsToFile = false;
-  }
-
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("KoLAdventure");
     Preferences.reset("KoLAdventure");
     KoLConstants.inventory.clear();
     EquipmentManager.resetEquipment();
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @Nested

@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -39,11 +38,6 @@ public class AreaCombatDataTest {
   static final MonsterData PERVERT = MonsterDatabase.findMonster("smut orc pervert");
   static final MonsterData SNAKE = MonsterDatabase.findMonster("The Frattlesnake");
   static final MonsterData GHOST = MonsterDatabase.findMonster("The ghost of Richard Cockingham");
-
-  @BeforeAll
-  public static void beforeAll() {
-    Preferences.saveSettingsToFile = false;
-  }
 
   @BeforeEach
   public void beforeEach() {

@@ -39,7 +39,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("testUser");
     KoLCharacter.reset(true);
     Preferences.reset("testUser");
