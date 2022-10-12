@@ -27,6 +27,7 @@ class ProfilerTest {
             .trim()
             // try to avoid environment-specific paths in stacktraces
             .replaceAll("\\bfile:.*?([^\\\\/\\s]+#\\d+)\\b", "file:%%STACKTRACE_LOCATION%%/$1");
+    System.out.println(output);
     assertTrue(output.contains("toplevel"));
     assertTrue(output.contains("Name (sorted by total time)"));
     assertTrue(output.contains("Name (sorted by net time)"));
