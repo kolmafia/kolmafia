@@ -29,7 +29,6 @@ public class AdventureSpentDatabaseTest {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("adventure spent database user");
-    Preferences.saveSettingsToFile = false;
   }
 
   @BeforeEach

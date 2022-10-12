@@ -13,7 +13,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +23,6 @@ class SuburbanDisRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("SuburbanDisRequest");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
   }
 
   @Test

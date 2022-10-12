@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -30,12 +29,6 @@ public class QuantumTerrariumRequestTest {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("quantum terrarium user");
-    Preferences.saveSettingsToFile = false;
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   private static Cleanups mockApiRequest(ApiRequest request) {

@@ -55,7 +55,6 @@ public class RelayRequestWarningsTest {
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
     KoLCharacter.reset("relay request warnings user");
-    Preferences.saveSettingsToFile = false;
   }
 
   @BeforeEach
@@ -69,7 +68,6 @@ public class RelayRequestWarningsTest {
 
   @AfterAll
   public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
     KoLConstants.inventory.clear();
     RelayRequest.reset();
     EquipmentManager.resetEquipment();

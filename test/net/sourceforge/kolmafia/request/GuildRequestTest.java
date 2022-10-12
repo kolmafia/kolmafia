@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +27,6 @@ public class GuildRequestTest {
   public static void beforeAll() {
     KoLCharacter.reset("GuildRequestTest");
     Preferences.reset("GuildRequestTest");
-    Preferences.saveSettingsToFile = false;
   }
 
   @BeforeEach
@@ -39,11 +37,6 @@ public class GuildRequestTest {
   @AfterEach
   protected void afterEach() {
     KoLConstants.inventory.clear();
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @Test

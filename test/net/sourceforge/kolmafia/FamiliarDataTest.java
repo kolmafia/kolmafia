@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -42,12 +41,6 @@ public class FamiliarDataTest {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("familiar data test");
-    Preferences.saveSettingsToFile = false;
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @Test

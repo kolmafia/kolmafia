@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 public class ClanRumpusRequestTest {
   @BeforeEach
   public void init() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("ClanRumpusRequestTest");
     Preferences.reset("ClanRumpusRequestTest");
   }
