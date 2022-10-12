@@ -2216,7 +2216,7 @@ tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 Mea
 ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 100 EA: spooky Article: a	ghost beer (0)	ghostly dagger (0)
 Groundling	1842	groundling.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude EA: stench Article: a	stink-penny (0)
 Hamlet	1843	hamlet.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	hawk (0)	hamlet sandwich (0)
-Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (0)
+Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (0)	Othello's dagger (0)	Othello's handkerchief (0)	Othello's military jacket (0)
 Richard X	1841	richardx.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	heavy crown (0)	ear poison (0)
 Understudy	1846	understudy.gif	Scale: -2 Cap: 1000 Floor: 2 Init: -10000 P: dude Article: an	How to Play Othello (0)
 Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	grip key (0)
