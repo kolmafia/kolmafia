@@ -1,9 +1,14 @@
 6
 # Zone Name | URL | attributes | Location Name | goals (optional)
-# Possible attributes are Env, Stat, Level, and nowander
+# Possible attributes are DiffLevel, Env, Stat, Level, overdrunk and nowander
+# DiffLevel is difficulty for autumnaton. Env is environment. Stat is stat requirement.
+# Level is water level, for Heavy Rains locations without an Environment.
+# overdrunk is for locations that can be adventured in while overdrunk.
+# nowander is for locations that wandering monsters cannot appear in.
 # environment should be indoor, outdoor, underground, underwater, none, or unknown
+# difflevel should be unknown, low, mid or high
 
-Campground	adventure=543	Env: outdoor	Your Mushroom Garden
+Campground	adventure=543	DiffLevel: unknown Env: outdoor	Your Mushroom Garden
 
 # Clan areas
 
