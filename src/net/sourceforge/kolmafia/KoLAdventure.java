@@ -78,7 +78,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   private final boolean hasWanderers;
   private final String zone, parentZone, rootZone;
-  private final String adventureId, formSource, adventureName, environment;
+  private final String adventureId, formSource, adventureName, difficultyLevel, environment;
   private final int adventureNumber;
   private final int recommendedStat, waterLevel;
   private final String normalString, lowercaseString, parentZoneDescription;
@@ -119,6 +119,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     this.rootZone = AdventureDatabase.getRootZone(this.parentZone);
 
+    this.difficultyLevel = AdventureDatabase.getDifficultyLevel(adventureName);
     this.environment = AdventureDatabase.getEnvironment(adventureName);
 
     this.recommendedStat = AdventureDatabase.getRecommendedStat(adventureName);
@@ -176,6 +177,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public String getRootZone() {
     return this.rootZone;
+  }
+
+  public String getDifficultyLevel() {
+    return this.difficultyLevel;
   }
 
   public String getEnvironment() {
