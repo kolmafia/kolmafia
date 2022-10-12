@@ -56,6 +56,7 @@ public class AdventureDatabase {
   private static final Map<String, KoLAdventure> adventureByURL = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByName = new HashMap<>();
   private static final Map<Integer, KoLAdventure> adventureById = new HashMap<>();
+  private static final Map<String, String> diffLevelLookup = new HashMap<>();
   private static final Map<String, String> environmentLookup = new HashMap<>();
   private static final Map<String, String> zoneLookup = new HashMap<>();
   private static final Map<String, String> conditionLookup = new HashMap<>();
@@ -169,6 +170,7 @@ public class AdventureDatabase {
         String zone = data[0];
         String[] location = data[1].split("=");
 
+        String diffLevel = null;
         String environment = null;
         int stat = -1;
         int waterLevel = -1;
@@ -178,6 +180,7 @@ public class AdventureDatabase {
         while (tokens.hasMoreTokens()) {
           String option = tokens.nextToken();
           switch (option) {
+            case "DiffLevel:" -> diffLevel = tokens.nextToken();
             case "Env:" -> environment = tokens.nextToken();
             case "Stat:" -> stat = StringUtilities.parseInt(tokens.nextToken());
             case "Level:" -> waterLevel = StringUtilities.parseInt(tokens.nextToken());
@@ -201,6 +204,7 @@ public class AdventureDatabase {
         AdventureDatabase.zoneLookup.put(name, zone);
         AdventureDatabase.adventureTable.add(
             new Adventure(zone, location[0] + ".php", location[1], name));
+        AdventureDatabase.diffLevelLookup.put(name, diffLevel);
         AdventureDatabase.environmentLookup.put(name, environment);
 
         AdventureDatabase.statLookup.put(name, stat);
@@ -809,6 +813,10 @@ public class AdventureDatabase {
 
   public static String fistcoreLocationToSetting(final int location) {
     return fistcoreDataSetting(fistcoreLocationToData(location));
+  }
+
+  public static String getDifficultyLevel(String adventureName) {
+    return AdventureDatabase.diffLevelLookup.getOrDefault(adventureName, "unknown");
   }
 
   public static String getEnvironment(String adventureName) {
