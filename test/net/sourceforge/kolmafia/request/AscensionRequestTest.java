@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +26,6 @@ public class AscensionRequestTest {
   public static void initializeCharPrefs() {
     KoLCharacter.reset("fakePrefUser");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
     // Fix another test not cleaning up
     FightRequest.currentRound = 0;
   }

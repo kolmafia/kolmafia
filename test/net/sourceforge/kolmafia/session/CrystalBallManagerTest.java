@@ -14,7 +14,6 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,11 +23,6 @@ public class CrystalBallManagerTest {
   static final MonsterData NAILER = MonsterDatabase.findMonster("smut orc nailer");
   static final MonsterData SKELELTON = MonsterDatabase.findMonster("spiny skelelton");
   static final MonsterData SKELTEON = MonsterDatabase.findMonster("party skelteon");
-
-  @BeforeAll
-  public static void beforeAll() {
-    Preferences.saveSettingsToFile = false;
-  }
 
   @BeforeEach
   public void beforeEach() {

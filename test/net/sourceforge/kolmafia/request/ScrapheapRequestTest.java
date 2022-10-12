@@ -12,18 +12,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class ScrapheapRequestTest {
-
-  @BeforeAll
-  public static void beforeAll() {
-    Preferences.saveSettingsToFile = false;
-  }
 
   @BeforeEach
   protected void initEach() {
@@ -33,7 +27,6 @@ public class ScrapheapRequestTest {
   @AfterAll
   public static void afterAll() {
     ChoiceManager.handlingChoice = false;
-    Preferences.saveSettingsToFile = true;
   }
 
   private int parseActivations(String path) {
