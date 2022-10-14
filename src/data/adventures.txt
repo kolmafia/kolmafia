@@ -19,7 +19,7 @@ Gyms	clan_hobopolis=1	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Mystic
 Gyms	clan_hobopolis=2	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Moxie
 Gyms	clan_hobopolis=3	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Muscle
 
-Hobopolis	adventure=166	DiffLevel: unknown Env: underground Stat: 250	A Maze of Sewer Tunnels
+Hobopolis	adventure=166	DiffLevel: mid Env: underground Stat: 250	A Maze of Sewer Tunnels
 Hobopolis	adventure=167	DiffLevel: unknown Env: underground Stat: 300	Hobopolis Town Square
 Hobopolis	adventure=168	DiffLevel: unknown Env: underground Stat: 350	Burnbarrel Blvd.	+1 jar of squeeze
 Hobopolis	adventure=169	DiffLevel: unknown Env: underground Stat: 350	Exposure Esplanade	+1 bowl of fishysoisse
@@ -86,12 +86,12 @@ Knob	adventure=258	DiffLevel: unknown Env: underground Stat: 20	Cobb's Knob Kitc
 Knob	adventure=259	DiffLevel: unknown Env: underground Stat: 25	Cobb's Knob Harem	outfit|outfit, 1 Knob Goblin perfume|+3 scented massage oil
 Knob	adventure=260	DiffLevel: unknown Env: underground Stat: 20	Cobb's Knob Treasury
 Knob	cobbsknob=0	DiffLevel: unknown Env: none Stat: 0 Level: 6	Throne Room
-Lab	adventure=50	DiffLevel: unknown Env: underground Stat: 30	Cobb's Knob Laboratory	1 Cobb's Knob Menagerie key|1 Subject 37 file|+1 bottle of Mystic Shell
+Lab	adventure=50	DiffLevel: mid Env: underground Stat: 30	Cobb's Knob Laboratory	1 Cobb's Knob Menagerie key|1 Subject 37 file|+1 bottle of Mystic Shell
 Lab	adventure=101	DiffLevel: mid Env: underground Stat: 30	The Knob Shaft
 Lab	mining=2	DiffLevel: unknown Env: none Stat: 0	The Knob Shaft (Mining)
 Menagerie	adventure=51	DiffLevel: unknown Env: underground Stat: 35	Cobb's Knob Menagerie, Level 1	1 GOTO
 Menagerie	adventure=52	DiffLevel: unknown Env: underground Stat: 40	Cobb's Knob Menagerie, Level 2	1 weremoose spit|+1 irradiated pet snacks
-Menagerie	adventure=53	DiffLevel: unknown Env: underground Stat: 45	Cobb's Knob Menagerie, Level 3	1 abominable blubber
+Menagerie	adventure=53	DiffLevel: mid Env: underground Stat: 45	Cobb's Knob Menagerie, Level 3	1 abominable blubber
 
 Rift	adventure=85	DiffLevel: unknown Env: outdoor Stat: 0	Battlefield (No Uniform)	Cloaca-Cola helmet, Cloaca-Cola fatigues, Cloaca-Cola shield|Dyspepsi-Cola helmet, Dyspepsi-Cola fatigues, Dyspepsi-Cola shield|six-pack of New Cloaca-Cola
 Rift	adventure=86	DiffLevel: unknown Env: outdoor Stat: 30	Battlefield (Cloaca Uniform)
@@ -162,7 +162,7 @@ McLarge	adventure=271	DiffLevel: unknown Env: outdoor Stat: 65	The Goatlet	3 goa
 McLarge	adventure=272	DiffLevel: unknown Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
 McLarge	adventure=273	DiffLevel: mid Env: outdoor Stat: 70	The eXtreme Slope	outfit
 McLarge	place=cloudypeak2	DiffLevel: unknown Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
-McLarge	adventure=110	DiffLevel: unknown Env: outdoor Stat: 53	The Icy Peak
+McLarge	adventure=110	DiffLevel: high Env: outdoor Stat: 53	The Icy Peak
 McLarge	adventure=176	DiffLevel: unknown Env: underground Stat: 0	The Mine Foremens' Office	1 dwarvish document, 1 dwarvish parchment, 1 dwarvish paper, 1 dwarvish punchcard, 1 little laminated card, 1 notbig laminated card, 1 small laminated card, 1 unlarge laminated card
 McLarge	dwarffactory=0	DiffLevel: unknown Env: none Stat: 0	Dwarven Factory Warehouse
 McLarge	mining=1	DiffLevel: unknown Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
@@ -183,8 +183,8 @@ Woods	adventure=233	DiffLevel: mid Env: indoor Stat: 0	A Barroom Brawl	1 beer go
 Woods	adventure=73	DiffLevel: unknown Env: outdoor Stat: 20	8-Bit Realm	1 digital key|+1 [2426]fire flower
 Woods	adventure=100	DiffLevel: unknown Env: outdoor Stat: 37	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+5 white rice|+1 bag of lard
 # Woods	adventure=99	DiffLevel: unknown Env: outdoor	The Road to White Citadel
-Woods	adventure=413	DiffLevel: unknown Env: outdoor	The Road to the White Citadel	+1 duonoculars
-Woods	adventure=405	DiffLevel: unknown Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
+Woods	adventure=413	DiffLevel: mid Env: outdoor	The Road to the White Citadel	+1 duonoculars
+Woods	adventure=405	DiffLevel: high Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
 Woods	adventure=356	DiffLevel: mid Env: outdoor Stat: 25	The Old Landfill	1 old claw-foot bathtub, 1 old clothesline pole, 1 antique cigar sign
 
 Friars	adventure=541	DiffLevel: unknown Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagram
@@ -297,7 +297,7 @@ Volcano	adventure=215	DiffLevel: unknown Env: outdoor Stat: 140	The Outer Compou
 Volcano	adventure=217	DiffLevel: unknown Env: outdoor Stat: 140	The Temple Portico	5 cult memo
 Volcano	adventure=218	DiffLevel: unknown Env: indoor Stat: 140	Convention Hall Lobby	6 vial of blue slime, 6 vial of red slime, 6 vial of yellow slime|9 vial of blue slime, 9 vial of red slime, 9 vial of yellow slime|91 vial of blue slime, 91 vial of red slime, 91 vial of yellow slime
 Volcano	adventure=219	DiffLevel: unknown Env: outdoor Stat: 140	Outside the Club	1 rave visor, 1 glowstick on a string, 1 candy necklace, 1 pacifier necklace, 1 teddybear backpack
-Volcano	adventure=220	DiffLevel: unknown Env: indoor Stat: 140	The Island Barracks	5 hacienda key
+Volcano	adventure=220	DiffLevel: mid Env: indoor Stat: 140	The Island Barracks	5 hacienda key
 Volcano	adventure=221	DiffLevel: unknown Env: underground Stat: 175	The Nemesis' Lair
 
 # Ascension Path Areas
