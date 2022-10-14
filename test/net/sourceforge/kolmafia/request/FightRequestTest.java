@@ -1564,4 +1564,44 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class InvalidAttacks {
+    @Test
+    public void validAttack() {
+      assertFalse(FightRequest.isInvalidAttack("skill Clobber"));
+    }
+
+    @Test
+    public void shieldbuttIsValidWithShield() {
+      var cleanups = withEquipped(EquipmentManager.OFFHAND, "vinyl shield");
+
+      try (cleanups) {
+        assertFalse(FightRequest.isInvalidAttack("skill Shieldbutt"));
+      }
+    }
+
+    @Test
+    public void shieldbuttIsInvalidWithoutShield() {
+      assertTrue(FightRequest.isInvalidAttack("skill Shieldbutt"));
+    }
+
+    @Test
+    public void summonLeviIsValidUnderWater() {
+      var cleanups = withLastLocation("The Ice Hole");
+
+      try (cleanups) {
+        assertFalse(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
+      }
+    }
+
+    @Test
+    public void summonLeviIsInvalidAboveWater() {
+      var cleanups = withLastLocation("Noob Cave");
+
+      try (cleanups) {
+        assertTrue(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
+      }
+    }
+  }
 }
