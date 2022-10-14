@@ -64,10 +64,10 @@ Manor3	adventure=398	DiffLevel: unknown Env: indoor Stat: 68	The Haunted Storage
 
 # Plains areas
 
-Degrassi Knoll	adventure=351	DiffLevel: unknown Env: indoor Stat: 10	The Degrassi Knoll Restroom
-Degrassi Knoll	adventure=352	DiffLevel: unknown Env: indoor Stat: 10	The Degrassi Knoll Bakery
-Degrassi Knoll	adventure=353	DiffLevel: unknown Env: indoor Stat: 10	The Degrassi Knoll Gym	1 frilly skirt|1 maiden wig
-Degrassi Knoll	adventure=354	DiffLevel: unknown Env: indoor Stat: 10	The Degrassi Knoll Garage	1 gnollish toolbox, 1 tires
+Degrassi Knoll	adventure=351	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Restroom
+Degrassi Knoll	adventure=352	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Bakery
+Degrassi Knoll	adventure=353	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Gym	1 frilly skirt|1 maiden wig
+Degrassi Knoll	adventure=354	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Garage	1 gnollish toolbox, 1 tires
 
 Plains	adventure=20	DiffLevel: low Env: indoor Stat: 15	The "Fun" House	1 box|20 empty greasepaint tube
 Plains	adventure=21	DiffLevel: unknown Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|The Shield of Brook
@@ -159,7 +159,7 @@ Dungeon	adventure=325	DiffLevel: mid Env: underground Stat: 15 nowander	The Dail
 
 McLarge	adventure=270	DiffLevel: mid Env: underground Stat: 60	Itznotyerzitz Mine	outfit
 McLarge	adventure=271	DiffLevel: unknown Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
-McLarge	adventure=272	DiffLevel: unknown Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
+McLarge	adventure=272	DiffLevel: mid Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
 McLarge	adventure=273	DiffLevel: mid Env: outdoor Stat: 70	The eXtreme Slope	outfit
 McLarge	place=cloudypeak2	DiffLevel: unknown Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
 McLarge	adventure=110	DiffLevel: high Env: outdoor Stat: 53	The Icy Peak
@@ -200,7 +200,7 @@ Pandamonium	adventure=243	DiffLevel: mid Env: indoor Stat: 55	Infernal Rackets B
 HiddenCity	adventure=341	DiffLevel: unknown Env: indoor Stat: 135	The Hidden Apartment Building	1 moss-covered stone sphere
 HiddenCity	adventure=342	DiffLevel: high Env: indoor Stat: 140	The Hidden Hospital	1 dripping stone sphere
 HiddenCity	adventure=343	DiffLevel: unknown Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
-HiddenCity	adventure=344	DiffLevel: unknown Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
+HiddenCity	adventure=344	DiffLevel: high Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
 HiddenCity	adventure=345	DiffLevel: unknown Env: outdoor Stat: 125	The Hidden Park	1 antique machete|+1 shrinking powder|1 book of matches
 HiddenCity	adventure=346	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
 HiddenCity	adventure=347	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
@@ -530,8 +530,8 @@ Astral	adventure=98	DiffLevel: mid Env: outdoor Stat: 50	An Incredibly Strange P
 Astral	adventure=97	DiffLevel: high Env: outdoor Stat: 145	An Incredibly Strange Place (Great Trip)
 
 Wormwood	adventure=151	DiffLevel: low Env: indoor Stat: 0	The Stately Pleasure Dome	1 choiceadv
-Wormwood	adventure=152	DiffLevel: unknown Env: indoor Stat: 0	The Mouldering Mansion	1 choiceadv
-Wormwood	adventure=153	DiffLevel: unknown Env: indoor Stat: 0	The Rogue Windmill	1 choiceadv
+Wormwood	adventure=152	DiffLevel: low Env: indoor Stat: 0	The Mouldering Mansion	1 choiceadv
+Wormwood	adventure=153	DiffLevel: low Env: indoor Stat: 0	The Rogue Windmill	1 choiceadv
 
 Memories	adventure=204	DiffLevel: unknown Env: outdoor Stat: 20	The Primordial Soup
 Memories	adventure=205	DiffLevel: unknown Env: outdoor Stat: 55	The Jungles of Ancient Loathing
