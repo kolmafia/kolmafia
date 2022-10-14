@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -687,8 +688,8 @@ public class AreaCombatData {
   }
 
   public void getEncounterData(final StringBuffer buffer) {
-    String environment = AdventureDatabase.getEnvironment(this.zone);
-    if (environment == null) {
+    Environment environment = AdventureDatabase.getEnvironment(this.zone);
+    if (environment == Environment.UNKNOWN) {
       buffer.append("<br>");
       buffer.append("<b>Environment:</b> unknown");
     } else {

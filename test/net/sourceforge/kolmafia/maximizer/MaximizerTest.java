@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
@@ -593,7 +594,8 @@ public class MaximizerTest {
           new Cleanups(withLocation("The Ice Hole"), withEquippableItem("Mer-kin sneakmask"));
 
       try (cleanups) {
-        assertEquals(AdventureDatabase.getEnvironment(Modifiers.currentLocation), "underwater");
+        assertEquals(
+            AdventureDatabase.getEnvironment(Modifiers.currentLocation), Environment.UNDERWATER);
         assertTrue(maximize("-combat -tie"));
 
         recommendedSlotIs(EquipmentManager.HAT, "Mer-kin sneakmask");

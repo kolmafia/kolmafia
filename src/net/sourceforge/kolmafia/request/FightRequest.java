@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -1637,9 +1638,9 @@ public class FightRequest extends GenericRequest {
     }
 
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
-    String environment = location != null ? location.getEnvironment() : null;
+    Environment environment = location != null ? location.getEnvironment() : null;
 
-    if (environment != null && !environment.equals("underwater")) {
+    if (environment != null && !environment.isUnderwater()) {
       KoLmafia.updateDisplay(MafiaState.ABORT, "This skill is useless out of water.");
       return true;
     }
@@ -3454,8 +3455,7 @@ public class FightRequest extends GenericRequest {
           // <name> mutters dark secrets under his breath, and
           // you feel time slow down.
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
-          boolean underwater =
-              lastLocation != null && lastLocation.getEnvironment().equals("underwater");
+          boolean underwater = lastLocation != null && lastLocation.getEnvironment().isUnderwater();
           Preferences.increment("_gibbererCharge", underwater ? 2 : 1, 15, true);
           if (responseText.contains("you feel time slow down")) {
             Preferences.increment("extraRolloverAdventures", 1);
@@ -4243,10 +4243,10 @@ public class FightRequest extends GenericRequest {
 
       symbol =
           switch (location.getEnvironment()) {
-            case "outdoor" -> "o";
-            case "indoor" -> "i";
-            case "underground" -> "u";
-            case "underwater" -> "x";
+            case OUTDOOR -> "o";
+            case INDOOR -> "i";
+            case UNDERGROUND -> "u";
+            case UNDERWATER -> "x";
             default -> "?";
           };
     }
