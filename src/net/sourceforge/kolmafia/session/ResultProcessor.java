@@ -41,13 +41,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 
 public class ResultProcessor {
   private static final Pattern DISCARD_PATTERN = Pattern.compile("You discard your (.*?)\\.");
@@ -313,20 +311,12 @@ public class ResultProcessor {
     String blessingBird = birdMatcher.find() ? birdMatcher.group(1) : bird;
     if (!bird.equals(blessingBird)) {
       Preferences.setString(property, blessingBird);
-      ResultProcessor.updateBirdModifiers(effectId, property);
+      DebugDatabase.readEffectDescriptionText(effectId);
     }
   }
 
-  public static void updateBirdModifiers(int effectId, String property) {
-    Modifiers.overrideEffectModifiers(effectId);
-    String mods = Modifiers.getStringModifier("Effect", effectId, "Modifiers");
-    Preferences.setString(property + "Mods", mods);
-  }
-
   public static void updateEntauntauned() {
-    Modifiers.overrideEffectModifiers(EffectPool.ENTAUNTAUNED);
-    double res = Modifiers.getNumericModifier("Effect", EffectPool.ENTAUNTAUNED, "Cold Resistance");
-    Preferences.setInteger("entauntaunedColdRes", (int) Math.round(res));
+    DebugDatabase.readEffectDescriptionText(EffectPool.ENTAUNTAUNED);
   }
 
   public static void updateVintner() {
@@ -357,25 +347,19 @@ public class ResultProcessor {
       // If the effect is "Blessing of the Bird", KoL changes
       // it to "Blessing of the XXX", where XXX is today's bird
       switch (effectId) {
-        case EffectPool.BLESSING_OF_THE_BIRD:
-          ResultProcessor.updateBird(EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
-          break;
-        case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD:
-          ResultProcessor.updateBird(
-              EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
-          break;
-        case EffectPool.ENTAUNTAUNED:
-          updateEntauntauned();
-          break;
-        case EffectPool.WINE_FORTIFIED:
-        case EffectPool.WINE_HOT:
-        case EffectPool.WINE_FRISKY:
-        case EffectPool.WINE_COLD:
-        case EffectPool.WINE_FRIENDLY:
-        case EffectPool.WINE_DARK:
-        case EffectPool.WINE_BEFOULED:
-          ResultProcessor.updateVintner();
-          break;
+        case EffectPool.BLESSING_OF_THE_BIRD -> updateBird(
+            EffectPool.BLESSING_OF_THE_BIRD, effectName, "_birdOfTheDay");
+        case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD -> updateBird(
+            EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
+        case EffectPool.ENTAUNTAUNED,
+            EffectPool.BUZZED_ON_DISTILLATE,
+            EffectPool.WINE_FORTIFIED,
+            EffectPool.WINE_HOT,
+            EffectPool.WINE_FRISKY,
+            EffectPool.WINE_COLD,
+            EffectPool.WINE_FRIENDLY,
+            EffectPool.WINE_DARK,
+            EffectPool.WINE_BEFOULED -> DebugDatabase.readEffectDescriptionText(effectId);
       }
 
       String acquisition = effectMatcher.group(2);
@@ -1114,10 +1098,6 @@ public class ResultProcessor {
       // Do special processing when you get certain items
       ResultProcessor.gainItem(adventureResults, result);
 
-      if (GenericRequest.isBarrelSmash) {
-        BarrelDecorator.gainItem(result);
-      }
-
       if (HermitRequest.isWorthlessItem(result.getItemId())) {
         result = HermitRequest.WORTHLESS_ITEM.getInstance(result.getCount());
       }
@@ -1601,7 +1581,7 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.BLACK, "step3");
         // Automatically use the diary to open zones
         if (Preferences.getBoolean("autoQuest")) {
-          RequestThread.postRequest(UseItemRequest.getInstance(result));
+          UseItemRequest.getInstance(result).run();
         }
         break;
 
@@ -1613,7 +1593,7 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step25");
         // Automatically use the map to open zones
         if (Preferences.getBoolean("autoQuest")) {
-          RequestThread.postRequest(UseItemRequest.getInstance(result));
+          UseItemRequest.getInstance(result).run();
         }
         break;
 
@@ -2173,10 +2153,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.FIZZING_SPORE_POD:
-        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6
-            && (QuestDatabase.isQuestStep(Quest.NEMESIS, "step12")
-                || QuestDatabase.isQuestStep(Quest.NEMESIS, "step13"))) {
-          QuestDatabase.setQuestProgress(Quest.NEMESIS, "step14");
+        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6) {
+          QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step14");
         }
         break;
 
@@ -2392,7 +2370,7 @@ public class ResultProcessor {
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ANGRY_JUNG_MAN) {
           Preferences.increment("_jungDrops", 1);
           Preferences.setInteger("jungCharge", 0);
-          KoLCharacter.findFamiliar(FamiliarPool.ANGRY_JUNG_MAN).setCharges(0);
+          KoLCharacter.usableFamiliar(FamiliarPool.ANGRY_JUNG_MAN).setCharges(0);
         }
         break;
 
@@ -2676,10 +2654,10 @@ public class ResultProcessor {
       case ItemPool.GRIMSTONE_MASK:
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
-              .equals(KoLCharacter.findFamiliar(FamiliarPool.GRIMSTONE_GOLEM))) {
+              .equals(KoLCharacter.usableFamiliar(FamiliarPool.GRIMSTONE_GOLEM))) {
             Preferences.increment("_grimstoneMaskDrops");
             Preferences.setInteger("grimstoneCharge", 0);
-            KoLCharacter.findFamiliar(FamiliarPool.GRIMSTONE_GOLEM).setCharges(0);
+            KoLCharacter.usableFamiliar(FamiliarPool.GRIMSTONE_GOLEM).setCharges(0);
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.GRIMSTONE_GOLEM
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.GRIMSTONE_GOLEM) {
             Preferences.increment("_grimstoneMaskDropsCrown");
@@ -2690,7 +2668,7 @@ public class ResultProcessor {
       case ItemPool.GRIM_FAIRY_TALE:
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
-              .equals(KoLCharacter.findFamiliar(FamiliarPool.GRIM_BROTHER))) {
+              .equals(KoLCharacter.usableFamiliar(FamiliarPool.GRIM_BROTHER))) {
             Preferences.increment("_grimFairyTaleDrops");
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.GRIM_BROTHER
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.GRIM_BROTHER) {
@@ -2703,7 +2681,7 @@ public class ResultProcessor {
       case ItemPool.MULLED_HOBO_WINE:
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
-              .equals(KoLCharacter.findFamiliar(FamiliarPool.GARBAGE_FIRE))) {
+              .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("garbageFireProgress", -1);
           }
@@ -2713,7 +2691,7 @@ public class ResultProcessor {
       case ItemPool.BURNING_NEWSPAPER:
         if (adventureResults) {
           if (KoLCharacter.getFamiliar()
-              .equals(KoLCharacter.findFamiliar(FamiliarPool.GARBAGE_FIRE))) {
+              .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("garbageFireProgress", -1);
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.GARBAGE_FIRE

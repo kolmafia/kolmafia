@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
@@ -148,18 +149,25 @@ public class ProxyRecordValue extends RecordValue {
 
   public static class ClassProxy extends ProxyRecordValue {
     public static RecordType _type =
-        new RecordBuilder().add("primestat", DataTypes.STAT_TYPE).finish("class proxy");
+        new RecordBuilder()
+            .add("primestat", DataTypes.STAT_TYPE)
+            .add("path", DataTypes.PATH_TYPE)
+            .finish("class proxy");
 
     public ClassProxy(Value obj) {
       super(_type, obj);
     }
 
+    private AscensionClass getAscensionClass() {
+      return (AscensionClass) this.content;
+    }
+
     public Value get_primestat() {
-      if (this.content == null) {
+      if (getAscensionClass() == null) {
         return DataTypes.STAT_INIT;
       }
 
-      int primeIndex = ((AscensionClass) this.content).getPrimeStatIndex();
+      int primeIndex = getAscensionClass().getPrimeStatIndex();
 
       String name = null;
       if (primeIndex > -1 && primeIndex < AdventureResult.STAT_NAMES.length) {
@@ -167,6 +175,10 @@ public class ProxyRecordValue extends RecordValue {
       }
 
       return DataTypes.parseStatValue(name, true);
+    }
+
+    public Value get_path() {
+      return DataTypes.makePathValue(getAscensionClass().getPath());
     }
   }
 
@@ -299,7 +311,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return The quality
      */
     public String get_quality() {
-      return ConsumablesDatabase.getQuality(this.contentString);
+      return ConsumablesDatabase.getQuality(this.contentString).getName();
     }
 
     /**
@@ -698,27 +710,27 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_name() {
-      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
-      return fam == null ? "" : fam.getName();
+      var fam = KoLCharacter.ownedFamiliar(this.contentString);
+      return fam.map(FamiliarData::getName).orElse("");
     }
 
     public String get_owner() {
-      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
-      return fam == null ? "" : fam.getOwner();
+      var fam = KoLCharacter.ownedFamiliar(this.contentString);
+      return fam.map(FamiliarData::getOwner).orElse("");
     }
 
     public int get_owner_id() {
-      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
-      return fam == null ? 0 : fam.getOwnerId();
+      var fam = KoLCharacter.ownedFamiliar(this.contentString);
+      return fam.map(FamiliarData::getOwnerId).orElse(0);
     }
 
     public int get_experience() {
-      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
+      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
       return fam == null ? 0 : fam.getTotalExperience();
     }
 
     public int get_charges() {
-      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
+      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
       return fam == null ? 0 : fam.getCharges();
     }
 
@@ -820,7 +832,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_poke_level() {
-      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
+      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
       return fam == null ? 0 : fam.getPokeLevel();
     }
 
@@ -1210,7 +1222,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("name", DataTypes.STRING_TYPE)
             .add("default", DataTypes.STRING_TYPE)
             .add("note", DataTypes.STRING_TYPE)
-            .add("all", new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE))
+            .add("all", new PluralValueType(DataTypes.STRING_TYPE))
             .add("image", DataTypes.STRING_TYPE)
             .add("descid", DataTypes.STRING_TYPE)
             .add("candy_tier", DataTypes.INT_TYPE)
@@ -1279,6 +1291,8 @@ public class ProxyRecordValue extends RecordValue {
             .add("zone", DataTypes.STRING_TYPE)
             .add("parent", DataTypes.STRING_TYPE)
             .add("parentdesc", DataTypes.STRING_TYPE)
+            .add("root", DataTypes.STRING_TYPE)
+            .add("difficulty_level", DataTypes.STRING_TYPE)
             .add("environment", DataTypes.STRING_TYPE)
             .add("fire_level", DataTypes.INT_TYPE)
             .add("bounty", DataTypes.BOUNTY_TYPE)
@@ -1328,6 +1342,14 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_parentdesc() {
       return this.content != null ? ((KoLAdventure) this.content).getParentZoneDescription() : "";
+    }
+
+    public String get_root() {
+      return this.content != null ? ((KoLAdventure) this.content).getRootZone() : "";
+    }
+
+    public String get_difficulty_level() {
+      return this.content != null ? ((KoLAdventure) this.content).getDifficultyLevel() : "";
     }
 
     public String get_environment() {
@@ -1412,9 +1434,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_water_level() {
-      return this.content == null
-          ? KoLCharacter.inRaincore() ? ((KoLAdventure) this.content).getWaterLevel() : 0
-          : 0;
+      if (this.content == null || !KoLCharacter.inRaincore()) {
+        return 0;
+      }
+
+      return ((KoLAdventure) this.content).getWaterLevel();
     }
 
     public boolean get_wanderers() {
@@ -1445,9 +1469,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("base_initiative", DataTypes.INT_TYPE)
             .add("raw_initiative", DataTypes.INT_TYPE)
             .add("attack_element", DataTypes.ELEMENT_TYPE)
-            .add(
-                "attack_elements",
-                new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.ELEMENT_TYPE))
+            .add("attack_elements", new PluralValueType(DataTypes.ELEMENT_TYPE))
             .add("defense_element", DataTypes.ELEMENT_TYPE)
             .add("physical_resistance", DataTypes.INT_TYPE)
             .add("elemental_resistance", DataTypes.INT_TYPE)
@@ -1462,11 +1484,9 @@ public class ProxyRecordValue extends RecordValue {
             .add("boss", DataTypes.BOOLEAN_TYPE)
             .add("copyable", DataTypes.BOOLEAN_TYPE)
             .add("image", DataTypes.STRING_TYPE)
-            .add("images", new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE))
-            .add("sub_types", new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE))
-            .add(
-                "random_modifiers",
-                new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE))
+            .add("images", new PluralValueType(DataTypes.STRING_TYPE))
+            .add("sub_types", new PluralValueType(DataTypes.STRING_TYPE))
+            .add("random_modifiers", new PluralValueType(DataTypes.STRING_TYPE))
             .add("manuel_name", DataTypes.STRING_TYPE)
             .add("wiki_name", DataTypes.STRING_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)
@@ -1733,6 +1753,50 @@ public class ProxyRecordValue extends RecordValue {
           return "circle.gif";
       }
       return "";
+    }
+  }
+
+  public static class PathProxy extends ProxyRecordValue {
+    public static RecordType _type =
+        new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
+            .add("name", DataTypes.STRING_TYPE)
+            .add("avatar", DataTypes.BOOLEAN_TYPE)
+            .add("image", DataTypes.STRING_TYPE)
+            .add("points", DataTypes.INT_TYPE)
+            .add("familiars", DataTypes.BOOLEAN_TYPE)
+            .finish("path proxy");
+
+    public PathProxy(Value obj) {
+      super(_type, obj);
+    }
+
+    private Path getPath() {
+      return (Path) this.content;
+    }
+
+    public int get_id() {
+      return getPath().getId();
+    }
+
+    public String get_name() {
+      return getPath().getName();
+    }
+
+    public boolean get_avatar() {
+      return getPath().isAvatar();
+    }
+
+    public String get_image() {
+      return getPath().getImage();
+    }
+
+    public int get_points() {
+      return getPath().getPoints();
+    }
+
+    public boolean get_familiars() {
+      return getPath().canUseFamiliars();
     }
   }
 

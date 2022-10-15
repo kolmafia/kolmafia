@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -126,12 +127,7 @@ public class GitManagerTest {
 
     @BeforeAll
     public static void cloneRepo() {
-      String output =
-          CliCaller.callCli(
-              "git",
-              "checkout https://github.com/midgleyc/mafia-script-install-test.git test-deps");
-      assertThat(output, containsString("Installing dependencies"));
-      assertThat(output, containsString("Cloned project " + id));
+      installGit(id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps", true);
     }
 
     @AfterAll
@@ -186,12 +182,7 @@ public class GitManagerTest {
 
     @BeforeAll
     public static void cloneRepo() {
-      String output =
-          CliCaller.callCli(
-              "svn",
-              "checkout https://github.com/midgleyc/mafia-script-install-test/branches/test-deps");
-      assertThat(output, containsString("Installing dependencies"));
-      assertThat(output, containsString("Successfully checked out working copy"));
+      installSvn("https://github.com/midgleyc/mafia-script-install-test/branches/test-deps", true);
     }
 
     @AfterAll
@@ -218,18 +209,120 @@ public class GitManagerTest {
   }
 
   @Nested
+  public class GitHubDependencyTests {
+
+    private static final String id = "midgleyc-mafia-script-install-test-test-deps-github";
+
+    @AfterEach
+    public void removeRepo() {
+      removeGitIfExists("midgleyc-mafia-script-install-test-test-deps-github");
+      removeSvnIfExists("midgleyc-mafia-script-install-test-branches-test-deps-svn");
+      removeGitIfExists("midgleyc-mafia-script-install-test-test-deps-svn");
+    }
+
+    @Test
+    public void withSvnInstalledDoesNotInstall() {
+      installSvn(
+          "https://github.com/midgleyc/mafia-script-install-test/branches/test-deps-svn", false);
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
+
+      assertFalse(
+          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
+      assertTrue(
+          Files.isDirectory(
+              Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
+    }
+
+    @Test
+    public void withGitInstalledDoesNotInstall() {
+      installGit(
+          "midgleyc-mafia-script-install-test-test-deps-svn",
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-svn",
+          false);
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
+
+      assertTrue(
+          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
+      assertFalse(
+          Files.isDirectory(
+              Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
+    }
+
+    @Test
+    public void withNothingInstalledInstallsToGit() {
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github", true);
+
+      assertTrue(
+          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
+      assertFalse(
+          Files.isDirectory(
+              Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
+    }
+  }
+
+  @Nested
+  public class GitHubTrunkDependencyTests {
+
+    private static final String id = "midgleyc-mafia-script-install-test-test-deps-github-trunk";
+
+    @AfterEach
+    public void removeRepo() {
+      removeGitIfExists("midgleyc-mafia-script-install-test-test-deps-github-trunk");
+      removeSvnIfExists("midgleyc-mafia-script-install-test-trunk");
+      removeGitIfExists("midgleyc-mafia-script-install-test");
+    }
+
+    @Test
+    public void withSvnInstalledDoesNotInstall() {
+      installSvn("https://github.com/midgleyc/mafia-script-install-test/trunk", false);
+      installGit(
+          id,
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk",
+          true);
+
+      assertFalse(Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
+      assertTrue(Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
+    }
+
+    @Test
+    public void withGitInstalledDoesNotInstall() {
+      installGit(
+          "midgleyc-mafia-script-install-test",
+          "https://github.com/midgleyc/mafia-script-install-test.git",
+          false);
+      installGit(
+          id,
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk",
+          true);
+
+      assertTrue(Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
+      assertFalse(Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
+    }
+
+    @Test
+    public void withNothingInstalledInstallsToGit() {
+      installGit(
+          id,
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github-trunk",
+          true);
+
+      assertTrue(Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test")));
+      assertFalse(Files.isDirectory(Paths.get("svn", "midgleyc-mafia-script-install-test-trunk")));
+    }
+  }
+
+  @Nested
   public class ManifestTests {
 
     private static final String id = "midgleyc-mafia-script-install-test-test-manifest";
 
     @BeforeAll
     public static void cloneRepo() {
-      String output =
-          CliCaller.callCli(
-              "git",
-              "checkout https://github.com/midgleyc/mafia-script-install-test.git test-manifest");
-      assertThat(output, containsString("Installing dependencies"));
-      assertThat(output, containsString("Cloned project " + id));
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git test-manifest", true);
     }
 
     @AfterAll
@@ -248,6 +341,61 @@ public class GitManagerTest {
     public void didNotInstallFilesRelativeToRoot() {
       assertFalse(Files.exists(Paths.get("scripts", "1-root.ash")));
     }
+  }
+
+  @Nested
+  class DeletionSuccess {
+    @BeforeAll
+    public static void cloneRepo() {
+      installGit(
+          "midgleyc-mafia-script-install-test-shared-1",
+          "midgleyc/mafia-script-install-test shared-1",
+          false);
+      installGit(
+          "midgleyc-mafia-script-install-test-shared-2",
+          "midgleyc/mafia-script-install-test shared-2",
+          false);
+    }
+
+    @AfterAll
+    public static void removeRepo() {
+      removeGitIfExists("midgleyc-mafia-script-install-test-shared-1");
+      removeGitIfExists("midgleyc-mafia-script-install-test-shared-2");
+    }
+
+    @Test
+    public void noErrorIfSharedFolder() {
+      // these two repos contain distinct scripts both in scripts/shared
+      String remove = "midgleyc-mafia-script-install-test-shared-1";
+      String output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+      // first script does not exist
+      assertFalse(Files.exists(Paths.get("scripts", "shared", "1.ash")));
+      // second script still exists
+      assertTrue(Files.exists(Paths.get("scripts", "shared", "2.ash")));
+
+      remove = "midgleyc-mafia-script-install-test-shared-2";
+      output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+
+      assertFalse(Files.exists(Paths.get("scripts", "shared")));
+    }
+  }
+
+  private static void installGit(String id, String params, boolean hasDeps) {
+    String output = CliCaller.callCli("git", "checkout " + params);
+    if (hasDeps) {
+      assertThat(output, containsString("Installing dependencies"));
+    }
+    assertThat(output, containsString("Cloned project " + id));
+  }
+
+  private static void installSvn(String params, boolean hasDeps) {
+    String output = CliCaller.callCli("svn", "checkout " + params);
+    if (hasDeps) {
+      assertThat(output, containsString("Installing dependencies"));
+    }
+    assertThat(output, containsString("Successfully checked out working copy"));
   }
 
   private static void removeGitIfExists(String remove) {

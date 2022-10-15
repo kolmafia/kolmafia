@@ -2,12 +2,11 @@ package net.sourceforge.kolmafia.objectpool;
 
 public class AdventurePool {
   public static final String LOWER_CHAMBER_ID = "pyramid_state";
-  public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
+  public static final String SUMMONING_CHAMBER_ID = "manor4_chamberboss";
   public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
   public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
   public static final String SHROUDED_PEAK_ID = "cloudypeak2";
   public static final String TUNNEL_OF_LOVE_ID = "townwrong_tunnel";
-  public static final String BARREL_ID = "barrel";
 
   public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
@@ -15,6 +14,7 @@ public class AdventurePool {
   public static final int FUN_HOUSE = 20;
   public static final int UNQUIET_GARVES = 21;
   public static final int TOWER_RUINS = 22;
+  public static final int DRUNKEN_STUPOR = 23;
   public static final int HIPPY_CAMP = 26;
   public static final int FRAT_HOUSE = 27;
   public static final int FRAT_HOUSE_DISGUISED = 29;
@@ -41,6 +41,7 @@ public class AdventurePool {
   public static final int VALLEY_OF_ROF_LM_FAO = 80;
   public static final int AIRSHIP = 81;
   public static final int HOLE_IN_THE_SKY = 83;
+  public static final int SSPD_STUPOR = 84;
   public static final int COLA_BATTLEFIELD = 85;
   public static final int CLOACA_BATTLEFIELD = 86;
   public static final int DYSPEPSI_BATTLEFIELD = 87;
@@ -66,10 +67,21 @@ public class AdventurePool {
   public static final int WARTIME_FRAT_HOUSE_DISGUISED = 134;
   public static final int WARTIME_FRAT_HOUSE = 135;
   public static final int SONOFA_BEACH = 136;
+  public static final int THE_BARN = 137;
   public static final int HAIKU_DUNGEON = 138;
   public static final int HIPPY_UNIFORM_BATTLEFIELD = 140;
+  public static final int THE_POND = 141;
+  public static final int THE_BACK_40 = 142;
+  public static final int THE_OTHER_BACK_40 = 143;
+  public static final int THE_GRANARY = 144;
+  public static final int THE_BOG = 145;
+  public static final int THE_FAMILY_PLOT = 146;
+  public static final int THE_SHADY_THICKET = 147;
   public static final int BOMBED_HIPPY_CAMP = 149;
   public static final int BOMBED_FRAT_HOUSE = 150;
+  public static final int PLEASURE_DOME = 151;
+  public static final int MOULDERING_MANSION = 152;
+  public static final int ROGUE_WINDMILL = 153;
   public static final int THE_JUNKYARD = 154;
   public static final int MCMILLICANCUDDYS_FARM = 155;
   public static final int BARRRNEYS_BARRR = 157;
@@ -77,6 +89,7 @@ public class AdventurePool {
   public static final int POOP_DECK = 159;
   public static final int BELOWDECKS = 160;
   public static final int YULETIDE = 163;
+  public static final int EL_VIBRATO_ISLAND = 164;
   public static final int HOBOPOLIS_SEWERS = 166;
   public static final int HOBOPOLIS_TOWN_SQUARE = 167;
   public static final int ARRRBORETUM = 174;

@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
-import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
@@ -99,18 +98,6 @@ public class Operator extends Command {
     }
 
     return -1;
-  }
-
-  public static boolean isStringLike(Type type) {
-    return type.equals(DataTypes.TYPE_STRING)
-        || type.equals(DataTypes.TYPE_BUFFER)
-        || type.equals(DataTypes.TYPE_LOCATION)
-        || type.equals(DataTypes.TYPE_STAT)
-        || type.equals(DataTypes.TYPE_MONSTER)
-        || type.equals(DataTypes.TYPE_ELEMENT)
-        || type.equals(DataTypes.TYPE_COINMASTER)
-        || type.equals(DataTypes.TYPE_PHYLUM)
-        || type.equals(DataTypes.TYPE_BOUNTY);
   }
 
   public boolean isArithmetic() {
@@ -217,7 +204,7 @@ public class Operator extends Command {
 
     if (oper.equals("contains")) {
       return lhs.getType() == DataTypes.TYPE_AGGREGATE
-          && ((AggregateType) lhs).getIndexType().getBaseType().equals(rhs);
+          && validCoercion(((AggregateType) lhs).getIndexType().getBaseType(), rhs, "==");
     }
 
     // If the types are equal, no coercion is necessary
@@ -245,11 +232,17 @@ public class Operator extends Command {
     }
 
     // Int coerces to float
-    if (lhs.equals(DataTypes.TYPE_INT) && rhs.equals(DataTypes.TYPE_FLOAT)) {
+    if ((lhs.equals(DataTypes.TYPE_INT) && rhs.equals(DataTypes.TYPE_FLOAT))
+        || (lhs.equals(DataTypes.TYPE_FLOAT) && rhs.equals(DataTypes.TYPE_INT))) {
       return true;
     }
 
-    if (lhs.equals(DataTypes.TYPE_FLOAT) && rhs.equals(DataTypes.TYPE_INT)) {
+    if ((lhs.equals(DataTypes.TYPE_PATH) && rhs.equals(DataTypes.TYPE_INT))
+        || (lhs.equals(DataTypes.TYPE_INT) && rhs.equals(DataTypes.TYPE_PATH))) {
+      return true;
+    }
+
+    if (lhs.equals(DataTypes.TYPE_PATH) && rhs.equals(DataTypes.TYPE_STRING)) {
       return true;
     }
 
@@ -257,93 +250,29 @@ public class Operator extends Command {
   }
 
   private Value compareValues(final AshRuntime interpreter, Value leftValue, Value rightValue) {
-    Type ltype = leftValue.getType();
-    Type rtype = rightValue.getType();
-    boolean bool;
+    var c =
+        this.operator.equals(Parser.APPROX)
+            ? leftValue.compareToIgnoreCase(rightValue)
+            : leftValue.compareTo(rightValue);
 
-    // If either side is non-numeric, perform string comparison
-    if (Operator.isStringLike(ltype) || Operator.isStringLike(rtype)) {
-      String lstring = leftValue.toString();
-      String rstring = rightValue.toString();
-      int c =
-          this.operator.equals(Parser.APPROX)
-              ? lstring.compareToIgnoreCase(rstring)
-              : lstring.compareTo(rstring);
-      bool =
-          (this.operator.equals("==") || this.operator.equals(Parser.APPROX))
-              ? c == 0
-              : this.operator.equals("!=")
-                  ? c != 0
-                  : this.operator.equals(">=")
-                      ? c >= 0
-                      : this.operator.equals("<=")
-                          ? c <= 0
-                          : this.operator.equals(">")
-                              ? c > 0
-                              : this.operator.equals("<") ? c < 0 : false;
-    }
+    var result =
+        switch (this.operator) {
+              case "==", Parser.APPROX -> c == 0;
+              case "!=" -> c != 0;
+              case ">=" -> c >= 0;
+              case "<=" -> c <= 0;
+              case ">" -> c > 0;
+              case "<" -> c < 0;
+              default -> false;
+            }
+            ? DataTypes.TRUE_VALUE
+            : DataTypes.FALSE_VALUE;
 
-    // If either value is a float, coerce to float and compare.
-
-    else if (ltype.equals(DataTypes.TYPE_FLOAT) || rtype.equals(DataTypes.TYPE_FLOAT)) {
-      double lfloat = leftValue.toFloatValue().floatValue();
-      double rfloat = rightValue.toFloatValue().floatValue();
-      bool =
-          (this.operator.equals("==") || this.operator.equals(Parser.APPROX))
-              ? lfloat == rfloat
-              : this.operator.equals("!=")
-                  ? lfloat != rfloat
-                  : this.operator.equals(">=")
-                      ? lfloat >= rfloat
-                      : this.operator.equals("<=")
-                          ? lfloat <= rfloat
-                          : this.operator.equals(">")
-                              ? lfloat > rfloat
-                              : this.operator.equals("<") ? lfloat < rfloat : false;
-    }
-
-    // VYKEA companions have a "name" component which should not be compared
-    else if (ltype.equals(DataTypes.TYPE_VYKEA) || rtype.equals(DataTypes.TYPE_VYKEA)) {
-      VYKEACompanionData v1 = (VYKEACompanionData) (leftValue.content);
-      VYKEACompanionData v2 = (VYKEACompanionData) (rightValue.content);
-      int c = v1.compareTo(v2);
-      bool =
-          (this.operator.equals("==") || this.operator.equals(Parser.APPROX))
-              ? c == 0
-              : this.operator.equals("!=")
-                  ? c != 0
-                  : this.operator.equals(">=")
-                      ? c >= 0
-                      : this.operator.equals("<=")
-                          ? c <= 0
-                          : this.operator.equals(">")
-                              ? c > 0
-                              : this.operator.equals("<") ? c < 0 : false;
-    }
-
-    // Otherwise, compare integers
-    else {
-      long lint = leftValue.intValue();
-      long rint = rightValue.intValue();
-      bool =
-          (this.operator.equals("==") || this.operator.equals(Parser.APPROX))
-              ? lint == rint
-              : this.operator.equals("!=")
-                  ? lint != rint
-                  : this.operator.equals(">=")
-                      ? lint >= rint
-                      : this.operator.equals("<=")
-                          ? lint <= rint
-                          : this.operator.equals(">")
-                              ? lint > rint
-                              : this.operator.equals("<") ? lint < rint : false;
-    }
-
-    Value result = bool ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
     if (ScriptRuntime.isTracing()) {
       interpreter.trace("<- " + result);
     }
     interpreter.traceUnindent();
+
     return result;
   }
 
@@ -353,7 +282,7 @@ public class Operator extends Command {
     Value result;
 
     // If either side is non-numeric, perform string operations
-    if (Operator.isStringLike(ltype) || Operator.isStringLike(rtype)) {
+    if (ltype.isStringLike() || rtype.isStringLike()) {
       // Since we only do string concatenation, we should
       // only get here if the operator is "+".
       if (!this.operator.equals("+")) {

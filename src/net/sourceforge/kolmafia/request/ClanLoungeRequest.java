@@ -842,17 +842,15 @@ public class ClanLoungeRequest extends GenericRequest {
       case ClanLoungeRequest.FAX_MACHINE:
         this.constructURLString("clan_viplounge.php");
         switch (this.option) {
-          case SEND_FAX:
+          case SEND_FAX -> {
             KoLmafia.updateDisplay("Sending a fax.");
             this.addFormField("preaction", "sendfax");
-            break;
-          case RECEIVE_FAX:
+          }
+          case RECEIVE_FAX -> {
             KoLmafia.updateDisplay("Receiving a fax.");
             this.addFormField("preaction", "receivefax");
-            break;
-          default:
-            this.addFormField("action", "faxmachine");
-            break;
+          }
+          default -> this.addFormField("action", "faxmachine");
         }
         this.addFormField("whichfloor", "2");
         break;
@@ -1507,6 +1505,9 @@ public class ClanLoungeRequest extends GenericRequest {
     }
 
     String action = GenericRequest.getAction(urlString);
+    if (action == null) {
+      action = GenericRequest.getPreaction(urlString);
+    }
     Matcher loungeMatcher = LOUNGE_PATTERN.matcher(responseText);
     if (loungeMatcher.find()) {
       ClanLoungeRequest.parseLounge(action, loungeMatcher.group(1), loungeMatcher.group(2));

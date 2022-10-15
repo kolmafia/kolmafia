@@ -19,7 +19,6 @@ class ForbiddenStoresTest {
   public void initializeCharPrefs() {
     KoLCharacter.reset("fakePrefUser");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
   }
 
   @AfterEach
@@ -27,7 +26,6 @@ class ForbiddenStoresTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
-    Preferences.saveSettingsToFile = false;
   }
 
   @Test

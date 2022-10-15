@@ -508,6 +508,7 @@ public class KoLmafiaCLI {
     new AutoAttackCommand().register("aa").register("autoattack");
     new AutoMallCommand().register("automall");
     new AutoSellCommand().register("sell").register("autosell");
+    new AutumnatonCommand().register("autumnaton").register("fallguy");
     new BacktraceCommand().register("backtrace");
     new BackupCameraCommand().register("backupcamera");
     new BadMoonCommand().register("badmoon");
@@ -671,6 +672,7 @@ public class KoLmafiaCLI {
     new JourneyCommand().register("journey");
     new JsRefCommand().register("jsref");
     new JukeboxCommand().register("jukebox");
+    new JurassicParkaCommand().register("parka");
     new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");
     new LatteCommand().register("latte");
     new LeafletCommand().register("leaflet");

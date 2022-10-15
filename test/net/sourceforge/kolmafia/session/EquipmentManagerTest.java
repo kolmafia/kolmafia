@@ -11,10 +11,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,12 +27,6 @@ public class EquipmentManagerTest {
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
     KoLCharacter.reset("equipment manager test");
-    Preferences.saveSettingsToFile = false;
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   private static final AdventureResult UNBREAKABLE_UMBRELLA =
@@ -51,13 +43,52 @@ public class EquipmentManagerTest {
         "cocoon"
       })
   public void thatUnbreakableUmbrellaIsRecognized(String style) {
-    var cleanups = new Cleanups(withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"));
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"),
+            withProperty("umbrellaState", style));
 
     try (cleanups) {
-      Preferences.setString("umbrellaState", style);
       assertEquals("unbreakable umbrella (" + style + ")", UNBREAKABLE_UMBRELLA.getName());
       assertEquals(
           UNBREAKABLE_UMBRELLA.getItemId(), ItemDatabase.getItemId(UNBREAKABLE_UMBRELLA.getName()));
+    }
+  }
+
+  private static final AdventureResult JURASSIC_PARKA = ItemPool.get(ItemPool.JURASSIC_PARKA);
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {"", "kachungasaur", "dilophosaur", "spikolodon", "ghostasaurus", "pterodactyl"})
+  public void thatJurassicParkaIsRecognized(String mode) {
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.SHIRT, "Jurassic Parka"),
+            withProperty("parkaMode", mode));
+
+    try (cleanups) {
+      if (mode.equals("")) {
+        assertEquals("Jurassic Parka", JURASSIC_PARKA.getName());
+      } else {
+        assertEquals("Jurassic Parka (" + mode + " mode)", JURASSIC_PARKA.getName());
+      }
+      assertEquals(JURASSIC_PARKA.getItemId(), ItemDatabase.getItemId(JURASSIC_PARKA.getName()));
+    }
+  }
+
+  private static final AdventureResult BACKUP_CAMERA = ItemPool.get(ItemPool.BACKUP_CAMERA);
+
+  @ParameterizedTest
+  @ValueSource(strings = {"meat", "init", "ml"})
+  public void thatBackupCameraIsRecognized(String mode) {
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.ACCESSORY1, "backup camera"),
+            withProperty("backupCameraMode", mode));
+
+    try (cleanups) {
+      assertEquals("backup camera (" + mode + ")", BACKUP_CAMERA.getName());
+      assertEquals(BACKUP_CAMERA.getItemId(), ItemDatabase.getItemId(BACKUP_CAMERA.getName()));
     }
   }
 

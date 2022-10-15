@@ -56,14 +56,12 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -139,7 +137,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_STICKER = "confirm25";
   private static final String CONFIRM_DESERT_OFFHAND = "confirm26";
   public static final String CONFIRM_MACHETE = "confirm27";
-  private static final String CONFIRM_RALPH = "confirm28";
+  public static final String CONFIRM_RALPH = "confirm28";
   private static final String CONFIRM_RALPH1 = "confirm29";
   private static final String CONFIRM_RALPH2 = "confirm30";
   public static final String CONFIRM_DESERT_WEAPON = "confirm31";
@@ -253,6 +251,11 @@ public class RelayRequest extends PasswordHashRequest {
   @Override
   protected boolean retryOnTimeout() {
     return false;
+  }
+
+  @Override
+  protected boolean shouldSuppressUpdate() {
+    return true;
   }
 
   private void parseCookies() {
@@ -437,9 +440,8 @@ public class RelayRequest extends PasswordHashRequest {
         // Just in case, use this key even when using equals
         String ukey = key.toUpperCase();
 
-        // We generate our own Content-Type, Content-Length,
-        // Cache-Control, and Pragma headers.
-        if (ukey.startsWith("CONTENT") || ukey.startsWith("CACHE") || ukey.equals("PRAGMA")) {
+        // We redo the Content-Type and Content-Length encodings, and ignore Content-Encoding.
+        if (ukey.startsWith("CONTENT")) {
           continue;
         }
 
@@ -453,6 +455,11 @@ public class RelayRequest extends PasswordHashRequest {
           if (ukey.equals("SET-COOKIE")) {
             value = GenericRequest.mungeCookieDomain(value);
           }
+          if (ukey.equals("CACHE-CONTROL")) {
+            if (Preferences.getBoolean("relayCacheUncacheable")) {
+              value = value.replaceFirst("no-store(, )?", "");
+            }
+          }
 
           ostream.print(key);
           ostream.print(": ");
@@ -462,9 +469,11 @@ public class RelayRequest extends PasswordHashRequest {
 
       if (this.responseCode == 200 && this.rawByteBuffer != null) {
         ostream.print("Content-Type: ");
-        ostream.print(this.contentType);
+        var contentType =
+            this.response.headers().firstValue("Content-Type").orElse(this.contentType);
+        ostream.print(contentType);
 
-        if (this.contentType.startsWith("text")) {
+        if (contentType.startsWith("text") && !contentType.contains(";")) {
           ostream.print("; charset=UTF-8");
         }
 
@@ -473,9 +482,6 @@ public class RelayRequest extends PasswordHashRequest {
         ostream.print("Content-Length: ");
         ostream.print(this.rawByteBuffer.length);
         ostream.println();
-
-        ostream.println("Cache-Control: no-cache, must-revalidate");
-        ostream.println("Pragma: no-cache");
       }
     }
   }
@@ -792,7 +798,6 @@ public class RelayRequest extends PasswordHashRequest {
 
   public boolean sendBreakPrismWarning(final String urlString) {
     // place.php?whichplace=nstower&action=ns_11_prism
-
     if (!urlString.startsWith("place.php")
         || !urlString.contains("whichplace=nstower")
         || !urlString.contains("action=ns_11_prism")) {
@@ -806,6 +811,11 @@ public class RelayRequest extends PasswordHashRequest {
     // Isotopes
 
     if (KoLCharacter.isKingdomOfExploathing()) {
+      // If user has already confirmed he wants to break the prism, accept it
+      if (this.getFormField(CONFIRM_RALPH) != null) {
+        return false;
+      }
+
       if (InventoryManager.getCount(ItemPool.RARE_MEAT_ISOTOPE) <= 0) {
         return false;
       }
@@ -880,6 +890,11 @@ public class RelayRequest extends PasswordHashRequest {
     // You might want to spend Energy on Adventures or Stats.
 
     if (KoLCharacter.inRobocore()) {
+      // If user has already confirmed he wants to go there, accept it
+      if (this.getFormField(CONFIRM_RALPH) != null) {
+        return false;
+      }
+
       int energy = KoLCharacter.getYouRobotEnergy();
       int chronolithCost = Preferences.getInteger("_chronolithNextCost");
       int statbotCost = Preferences.getInteger("statbotUses") + 10;
@@ -913,6 +928,36 @@ public class RelayRequest extends PasswordHashRequest {
           "hand.gif",
           "jigawatts.gif",
           "\"place.php?whichplace=scrapheap\"",
+          null,
+          null);
+      return true;
+    }
+
+    // In Fall of the Dinosaurs, you will lose access to the Dinostaur and can therefore not spend
+    // your dinodollars
+
+    if (KoLCharacter.inDinocore()) {
+      // If user has already confirmed he wants to go there, accept it
+      if (this.getFormField(CONFIRM_RALPH) != null) {
+        return false;
+      }
+
+      if (InventoryManager.getCount(ItemPool.DINODOLLAR) <= 0) {
+        return false;
+      }
+
+      String warning =
+          "You are about to free King Ralph and end your Fall of the Dinosaurs run."
+              + " Before you do so, you might want to spend your Dinodollars at the Dino Staur,"
+              + " since you will not be able to do so after you free the king."
+              + " If you are ready to break the prism, click on the icon on the left."
+              + " If you wish to visit the Dino Staur, click on icon on the right.";
+      this.sendOptionalWarning(
+          CONFIRM_RALPH,
+          warning,
+          "hand.gif",
+          "dinobuck.gif",
+          "\"shop.php?whichshop=dino\"",
           null,
           null);
       return true;
@@ -2307,7 +2352,8 @@ public class RelayRequest extends PasswordHashRequest {
     if (KoLCharacter.inRaincore()
         || KoLCharacter.isVampyre()
         || KoLCharacter.isPlumber()
-        || KoLCharacter.inRobocore()) {
+        || KoLCharacter.inRobocore()
+        || KoLCharacter.inDinocore()) {
       return false;
     }
 
@@ -2371,9 +2417,10 @@ public class RelayRequest extends PasswordHashRequest {
     list.removeModifier("Modifiers");
     list.removeModifier("Outfit");
     int type = ItemDatabase.getConsumptionType(itemId);
-    if (!(type == KoLConstants.EQUIP_HAT && KoLCharacter.findFamiliar(FamiliarPool.HATRACK) != null)
+    if (!(type == KoLConstants.EQUIP_HAT
+            && KoLCharacter.usableFamiliar(FamiliarPool.HATRACK) != null)
         && !(type == KoLConstants.EQUIP_PANTS
-            && KoLCharacter.findFamiliar(FamiliarPool.SCARECROW) != null)) {
+            && KoLCharacter.usableFamiliar(FamiliarPool.SCARECROW) != null)) {
       list.removeModifier("Familiar Effect");
     }
     String stringform = list.toString();
@@ -2561,7 +2608,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.isVampyre()
         || KoLCharacter.isPlumber()
         || KoLCharacter.inRobocore()
-        || KoLCharacter.inFirecore()) {
+        || KoLCharacter.inFirecore()
+        || KoLCharacter.inDinocore()) {
       return false;
     }
 
@@ -2677,23 +2725,12 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    // If you are not overdrunk, nothing to warn about
-    if (!KoLCharacter.isFallingDown()) {
+    if (!adventure.tooDrunkToAdventure()) {
       return false;
     }
 
-    // Only adventure.php will shunt you into a Drunken Stupor
-    if (!adventure.getFormSource().equals("adventure.php")) {
-      return false;
-    }
-
-    // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)) {
-      return false;
-    }
-
-    // If you don't own Drunkula's wineglass, nothing to warn about
-    if (InventoryManager.getCount(ItemPool.DRUNKULA_WINEGLASS) == 0) {
+    // These don't need warning as they don't send you to a Drunken Stupor
+    if (!adventure.hasSnarfblat()) {
       return false;
     }
 
@@ -2739,7 +2776,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)
+        || KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.FAMILIAR)) {
       return false;
     }
 
@@ -3147,12 +3185,16 @@ public class RelayRequest extends PasswordHashRequest {
       CommandDisplayFrame.executeCommand(GenericRequest.decodeField(command));
 
       if (waitForCompletion) {
-        while (CommandDisplayFrame.hasQueuedCommands()) {
-          this.pauser.pause(500);
-        }
+        this.waitForCommandCompletion();
       }
     } finally {
       GenericRequest.suppressUpdate(false);
+    }
+  }
+
+  public void waitForCommandCompletion() {
+    while (CommandDisplayFrame.hasQueuedCommands()) {
+      this.pauser.pause(500);
     }
   }
 
@@ -3484,16 +3526,16 @@ public class RelayRequest extends PasswordHashRequest {
    *     run()-ing.
    */
   private boolean sendWarnings(KoLAdventure adventure, String adventureName, String nextAdventure) {
-    String limitmode = KoLCharacter.getLimitmode();
-
-    // If we are playing Spelunky, a specialized set of warnings are relevant
-    if ((limitmode != null) && limitmode.equals(Limitmode.SPELUNKY)) {
-      return this.sendSpelunkyWarning(adventure);
-    }
-
-    // If we are in some other limitmode, no warnings are relevant
-    if (limitmode != null) {
-      return false;
+    switch (KoLCharacter.getLimitMode()) {
+      case NONE -> {}
+      case SPELUNKY -> {
+        // If we are playing Spelunky, a specialized set of warnings are relevant
+        return this.sendSpelunkyWarning(adventure);
+      }
+      default -> {
+        // If we are in some other limitmode, no warnings are relevant
+        return false;
+      }
     }
 
     String path = this.getBasePath();
@@ -3651,7 +3693,7 @@ public class RelayRequest extends PasswordHashRequest {
     return path.contains("whichplace=arcade") && this.sendArcadeWarning();
   }
 
-  private boolean sendCounterWarning() {
+  public boolean sendCounterWarning() {
     TurnCounter expired = TurnCounter.getExpiredCounter(this, true);
     while (expired != null) {
       // Read and discard expired informational counters

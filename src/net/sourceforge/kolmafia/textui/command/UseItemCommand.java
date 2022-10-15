@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.DrinkItemRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -34,9 +35,9 @@ public class UseItemCommand extends AbstractCommand {
       command = "eat";
     }
 
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitMode();
 
-    try (Checkpoint checkpoint = new Checkpoint(() -> KoLCharacter.getLimitmode() != limitmode)) {
+    try (Checkpoint checkpoint = new Checkpoint(() -> KoLCharacter.getLimitMode() != limitmode)) {
       UseItemCommand.use(command, parameters);
     }
   }
@@ -76,6 +77,10 @@ public class UseItemCommand extends AbstractCommand {
         return false;
       }
       if (RestaurantCommand.makeSpeakeasyRequest(command, parameters)) {
+        return false;
+      }
+      if (StillSuitRequest.isDistillate(parameters)) {
+        RequestThread.postRequest(new StillSuitRequest());
         return false;
       }
     }
@@ -169,19 +174,18 @@ public class UseItemCommand extends AbstractCommand {
           }
         }
 
-        if (command.equals("use")) {
-          switch (consumpt) {
-            case KoLConstants.CONSUME_EAT:
-            case KoLConstants.CONSUME_FOOD_HELPER:
-              KoLmafia.updateDisplay(MafiaState.ERROR, currentMatch.getName() + " must be eaten.");
-              return false;
-            case KoLConstants.CONSUME_DRINK:
-            case KoLConstants.CONSUME_DRINK_HELPER:
-              KoLmafia.updateDisplay(MafiaState.ERROR, currentMatch.getName() + " must be drunk.");
-              return false;
-            case KoLConstants.CONSUME_SPLEEN:
-              KoLmafia.updateDisplay(MafiaState.ERROR, currentMatch.getName() + " must be chewed.");
-              return false;
+        if (command.equals("use") && !ItemDatabase.isUsable(itemId)) {
+          var correctedUsage =
+              switch (consumpt) {
+                case KoLConstants.CONSUME_EAT, KoLConstants.CONSUME_FOOD_HELPER -> "eaten";
+                case KoLConstants.CONSUME_DRINK, KoLConstants.CONSUME_DRINK_HELPER -> "drunk";
+                case KoLConstants.CONSUME_SPLEEN -> "chewed";
+                default -> null;
+              };
+          if (correctedUsage != null) {
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR, currentMatch.getName() + " must be " + correctedUsage + ".");
+            return false;
           }
         }
 

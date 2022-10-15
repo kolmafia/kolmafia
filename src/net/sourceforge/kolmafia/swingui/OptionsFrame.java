@@ -175,6 +175,10 @@ public class OptionsFrame extends GenericFrame {
         },
         {"relayOverridesImages", "Override certain KoL images"},
         {"relayAddSounds", "Add sounds to certain events"},
+        {
+          "relayCacheUncacheable",
+          "Allow browser to cache pages KoL says should not be cached (so the Back and Forward browser buttons work)"
+        },
         {},
         {"relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)"},
         {"relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)"},
@@ -339,6 +343,9 @@ public class OptionsFrame extends GenericFrame {
         {"autoTuxedo", "Wear Tuxedo when when appropriate (& include in adv gain)"},
         {"autoPinkyRing", "Wear Mafia Pinky Ring when when appropriate (& include in adv gain)"},
         {"autoFillMayoMinder", "Fill Mayo Minder&trade; automatically when appropriate"},
+        {},
+        {"requireBoxServants", "Do not cook/mix fancy concoctions without -in-the-box)"},
+        {"autoRepairBoxServants", "Automatically repair -in-the-box on explosion)"},
       };
 
       this.setOptions(options);
@@ -1475,7 +1482,10 @@ public class OptionsFrame extends GenericFrame {
         System.getProperty("os.name").startsWith("Windows")
             ? new String[][] {
               {"guiUsesOneWindow", "Restrict interface to a single window"},
-              {"useSystemTrayIcon", "Minimize main interface to system tray"},
+              {
+                "useSystemTrayIcon",
+                "Minimize main interface to system tray and enable desktop notifications"
+              },
               {"addCreationQueue", "Add creation queueing interface to item manager"},
               {"addStatusBarToFrames", "Add a status line to independent windows"},
               {"autoHighlightOnFocus", "Highlight text fields when selected"},
@@ -1485,6 +1495,10 @@ public class OptionsFrame extends GenericFrame {
             : System.getProperty("os.name").startsWith("Mac")
                 ? new String[][] {
                   {"guiUsesOneWindow", "Restrict interface to a single window"},
+                  {
+                    "useSystemTrayIcon",
+                    "Minimize main interface to system tray and enable desktop notifications"
+                  },
                   {"useDockIconBadge", "Show turns remaining on Dock icon (OSX 10.5+)"},
                   {"addCreationQueue", "Add creation queueing interface to item manager"},
                   {"addStatusBarToFrames", "Add a status line to independent windows"},
@@ -1496,6 +1510,10 @@ public class OptionsFrame extends GenericFrame {
                 }
                 : new String[][] {
                   {"guiUsesOneWindow", "Restrict interface to a single window"},
+                  {
+                    "useSystemTrayIcon",
+                    "Minimize main interface to system tray and enable desktop notifications"
+                  },
                   {"addCreationQueue", "Add creation queueing interface to item manager"},
                   {"addStatusBarToFrames", "Add a status line to independent windows"},
                   {"autoHighlightOnFocus", "Highlight text fields when selected"},

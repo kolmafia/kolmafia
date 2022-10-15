@@ -38,7 +38,6 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -950,24 +949,20 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MACGUFFIN_DIARY:
       case ItemPool.ED_DIARY:
         {
-          // Make it a RelayRequest since we don't want a charpane refresh
-          RelayRequest request = new RelayRequest(false);
-          request.constructURLString("diary.php?textversion=1");
-          RequestThread.postRequest(request);
+          var request = new UpdateSuppressedRequest("diary.php?textversion=1");
+          request.run();
           KoLmafia.updateDisplay("Your father's diary has been read.");
           return;
         }
 
       case ItemPool.VOLCANO_MAP:
         {
-          try {
-            GenericRequest.suppressUpdate(true);
-            GenericRequest request = new GenericRequest("inv_use.php?which=3&whichitem=3291&pwd");
-            RequestThread.postRequest(request);
-            // This will redirect to volcanoisland.php
-          } finally {
-            GenericRequest.suppressUpdate(false);
-          }
+          var request =
+              new UpdateSuppressedRequest(
+                  "inv_use.php?which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd");
+          request.run();
+          // This redirects to inventory.php?which=3&action=message (first time)
+          // or volcanoisland.php (subsequent times)
           KoLmafia.updateDisplay("The secret tropical island volcano lair map has been read.");
           return;
         }
@@ -2375,16 +2370,9 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
 
-        ResultProcessor.processItem(ItemPool.SPOOKY_SAPLING, -1);
-        ResultProcessor.processItem(ItemPool.SPOOKY_FERTILIZER, -1);
-
-        QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.FINISHED);
-        Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
-
-        // If quest Gotta Worship Them All is started, this completes step 1
-        if (QuestDatabase.isQuestStarted(Quest.WORSHIP)) {
-          QuestDatabase.setQuestProgress(Quest.WORSHIP, "step1");
-        }
+        KoLCharacter.setTempleUnlocked();
+        ResultProcessor.removeItem(ItemPool.SPOOKY_SAPLING);
+        ResultProcessor.removeItem(ItemPool.SPOOKY_FERTILIZER);
 
         break;
 
@@ -2965,6 +2953,14 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
+      case ItemPool.INFLATABLE_TELEGRAPH_OFFICE:
+        // You blow up the replica LT&T office and install it on the Right Side of the Tracks.
+        if (!responseText.contains("You blow up the replica")) {
+          return;
+        }
+        Preferences.setBoolean("_telegraphOfficeToday", true);
+        break;
+
       case ItemPool.HEART_SHAPED_CRATE:
         Preferences.setBoolean("loveTunnelAvailable", true);
         if (!responseText.contains("You wander")) {
@@ -2972,6 +2968,14 @@ public class UseItemRequest extends GenericRequest {
           KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
           return;
         }
+        break;
+
+      case ItemPool.LOVE_ENTRANCE_PASS:
+        // You follow the directions on the ticket to the Tunnel of L.O.V.E.
+        if (!responseText.contains("You follow the directions")) {
+          return;
+        }
+        Preferences.setBoolean("_loveTunnelToday", true);
         break;
 
       case ItemPool.BEAUTIFUL_RAINBOW:
@@ -3923,7 +3927,8 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.TRAPEZOID:
         if (responseText.contains("you put it on the ground at your campsite")) {
-          CampgroundRequest.setCampgroundItem(ItemPool.TRAPEZOID, 1);
+          Preferences.setInteger("currentPortalEnergy", 20);
+          CampgroundRequest.updateElVibratoPortal();
           break;
         }
         return;
@@ -4296,7 +4301,9 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.THANKSGARDEN_SEEDS:
       case ItemPool.TALL_GRASS_SEEDS:
       case ItemPool.MUSHROOM_SPORES:
-        if (Limitmode.limitCampground() || KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn()) {
+        if (KoLCharacter.getLimitMode().limitCampground()
+            || KoLCharacter.isEd()
+            || KoLCharacter.inNuclearAutumn()) {
           return;
         }
 
@@ -4537,6 +4544,9 @@ public class UseItemRequest extends GenericRequest {
           // If not drunk enough the items is not consumed
           return;
         }
+        break;
+      case ItemPool.ANTI_FUNGAL_SPRAY:
+        Preferences.resetToDefault("funGuyMansionKills");
         break;
 
       case ItemPool.CONSPIRACY_ISLAND_CHARTER:
@@ -5411,6 +5421,7 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         Preferences.setBoolean("_spacegateToday", true);
+        Preferences.setInteger("_spacegateTurnsLeft", 20);
         break;
 
       case ItemPool.SPACE_BABY_CHILDRENS_BOOK:
@@ -5649,7 +5660,7 @@ public class UseItemRequest extends GenericRequest {
           // If we've not added the skill today, learn it now
           if (!KoLCharacter.hasSkill("Seek out a Bird")) {
             ResponseTextParser.learnSkill("Seek out a Bird");
-            ResultProcessor.updateBirdModifiers(EffectPool.BLESSING_OF_THE_BIRD, "_birdOfTheDay");
+            DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_THE_BIRD);
           }
 
           break;

@@ -61,12 +61,14 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
+import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -79,7 +81,7 @@ import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
@@ -110,6 +112,10 @@ public class FightRequest extends GenericRequest {
   // Character-class permissions
   private static final PauseObject PAUSER = new PauseObject();
   public static final FightRequest INSTANCE = new FightRequest();
+
+  public static final void resetInstance() {
+    INSTANCE.constructURLString("fight.php");
+  }
 
   private static final AdventureResult AMNESIA = EffectPool.get(EffectPool.AMNESIA);
   private static final AdventureResult CUNCTATITIS = EffectPool.get(EffectPool.CUNCTATITIS);
@@ -169,7 +175,7 @@ public class FightRequest extends GenericRequest {
   private static final Pattern COMBATITEM_PATTERN =
       Pattern.compile("<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>");
   private static final Pattern AVAILABLE_COMBATSKILL_PATTERN =
-      Pattern.compile("<option[^>]*?value=\"(\\d+)[^>]*?>(.*?) \\((\\d+)[^<]*</option>");
+      Pattern.compile("<option[^>]*?value=\"(\\d+)[^>]*?>((.*?) \\((\\d+)[^<]*)</option>");
 
   // fambattle.php?pwd&famaction[backstab-209]=Backstab
   private static final Pattern FAMBATTLE_PATTERN = Pattern.compile("famaction.*?-(\\d+).*?=(.*)");
@@ -1975,8 +1981,8 @@ public class FightRequest extends GenericRequest {
     }
 
     boolean shouldLogAction = Preferences.getBoolean("logBattleAction");
-    String limitmode = KoLCharacter.getLimitmode();
-    boolean isBatfellow = (limitmode == Limitmode.BATMAN);
+    var limitMode = KoLCharacter.getLimitMode();
+    boolean isBatfellow = (limitMode == LimitMode.BATMAN);
 
     // The response tells you if you won initiative.
 
@@ -2594,7 +2600,7 @@ public class FightRequest extends GenericRequest {
     String monsterName = monster != null ? monster.getName() : "";
     SpecialMonster special = FightRequest.specialMonsterCategory(monsterName);
 
-    String limitmode = KoLCharacter.getLimitmode();
+    var limitmode = KoLCharacter.getLimitMode();
     boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
     boolean won = finalRound && responseText.contains("<!--WINWINWIN-->");
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
@@ -2616,13 +2622,13 @@ public class FightRequest extends GenericRequest {
             && !won
             && (FightRequest.pokefam
                 ? responseText.contains("action=fambattle.php")
-                : (limitmode == Limitmode.BATMAN || FightRequest.innerWolf)
+                : (limitmode == LimitMode.BATMAN || FightRequest.innerWolf)
                     ? responseText.contains("action=\"fight.php\"")
                     : Preferences.getBoolean("serverAddsCustomCombat")
                         ? responseText.contains("(show old combat form)")
                         : KoLCharacter.inDisguise() ? fightCount > 1 : fightCount > 0);
 
-    if (limitmode == Limitmode.BATMAN || limitmode == Limitmode.SPELUNKY) {
+    if (limitmode == LimitMode.BATMAN || limitmode == LimitMode.SPELUNKY) {
       if (!finalRound) {
         return;
       }
@@ -2633,7 +2639,7 @@ public class FightRequest extends GenericRequest {
       }
 
       if (won) {
-        if (limitmode == Limitmode.BATMAN) {
+        if (limitmode == LimitMode.BATMAN) {
           BatManager.wonFight(monsterName, responseText);
         } else {
           SpelunkyRequest.wonFight(monsterName, responseText);
@@ -2743,6 +2749,7 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("sweat", StringUtilities.parseInt(moreSweatMatcher.group(1)));
       }
     }
+
     // "The Slime draws back and shudders, as if it's about to sneeze.
     // Then it blasts you with a massive loogie that sticks to your
     // rusty grave robbing shovel, pulls it off of you, and absorbs
@@ -2992,6 +2999,9 @@ public class FightRequest extends GenericRequest {
         "I Hope I Am Not Enabling Any Addictions You Might Have",
         "It's Always Happy Hour Somewhere"
       };
+
+  static final Pattern GOTH_KID_PVP_PATTERN =
+      Pattern.compile("draws a picture of (?!your opponent)|draws a magically-animated cartoon");
 
   // This performs checks that are only applied once combat is finished,
   // and that aren't (yet) part of the processNormalResults loop.
@@ -3398,6 +3408,8 @@ public class FightRequest extends GenericRequest {
       trackEnvironment(location);
     }
 
+    Preferences.setBoolean("_lastCombatWon", won);
+
     if (!won) {
       QuestManager.updateQuestFightLost(responseText, monsterName);
     } else {
@@ -3630,7 +3642,8 @@ public class FightRequest extends GenericRequest {
 
         case FamiliarPool.ARTISTIC_GOTH_KID:
           if (KoLCharacter.getHippyStoneBroken()) {
-            if (responseText.contains("You gain 1 PvP Fight")) {
+            if (responseText.contains("You gain 1 PvP Fight")
+                && GOTH_KID_PVP_PATTERN.matcher(responseText).find()) {
               Preferences.setInteger("_gothKidCharge", 0);
               Preferences.increment("_gothKidFights");
             } else {
@@ -3997,7 +4010,7 @@ public class FightRequest extends GenericRequest {
 
           Matcher otherFamiliarExp = SHORT_ORDER_EXP_PATTERN.matcher(responseText);
           if (otherFamiliarExp.find()) {
-            FamiliarData fam = KoLCharacter.findFamiliar(otherFamiliarExp.group(1));
+            FamiliarData fam = KoLCharacter.usableFamiliar(otherFamiliarExp.group(1));
 
             if (fam != null) {
               int exp = StringUtilities.parseInt(otherFamiliarExp.group(2));
@@ -4203,6 +4216,9 @@ public class FightRequest extends GenericRequest {
     // Handle incrementing stillsuit sweat (this happens whether the fight is won or lost)
     StillSuitManager.handleSweat(responseText);
 
+    // Handle autumnaton checking (this happens whether the fight is won or lost)
+    AutumnatonManager.parseFight(responseText);
+
     FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
     FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();
 
@@ -4218,16 +4234,22 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void trackEnvironment(final KoLAdventure location) {
-    var environment = location != null ? location.getEnvironment() : "none";
+    String symbol;
 
-    var symbol =
-        switch (environment) {
-          case "outdoor" -> "o";
-          case "indoor" -> "i";
-          case "underground" -> "u";
-          case "underwater" -> "x";
-          default -> "?";
-        };
+    if (location == null) {
+      symbol = "?";
+    } else {
+      if (!location.getFormSource().equals("adventure.php")) return;
+
+      symbol =
+          switch (location.getEnvironment()) {
+            case "outdoor" -> "o";
+            case "indoor" -> "i";
+            case "underground" -> "u";
+            case "underwater" -> "x";
+            default -> "?";
+          };
+    }
 
     // Make sure the value is padded to handle malformed preferences
     var environments = "x".repeat(20) + Preferences.getString("lastCombatEnvironments") + symbol;
@@ -4570,9 +4592,10 @@ public class FightRequest extends GenericRequest {
       int skillId = StringUtilities.parseInt(m.group(1));
       String skillName = SkillDatabase.getSkillName(skillId);
       if (skillName == null) {
-        skillName = m.group(2);
+        skillName = m.group(3);
         SkillDatabase.registerSkill(skillId, skillName);
       }
+      ConsequenceManager.parseCombatSkillName(skillId, m.group(2));
       // If Grey Goose skills are present, they may not actually be available;
       // KoL erroneously leaves them in the dropdown after you have cast them
       // and thereby deleveled your Grey Goose. Bug Reported.
@@ -4728,7 +4751,7 @@ public class FightRequest extends GenericRequest {
       FightRequest.maybeProcessLovebugsGain(message, status);
     }
 
-    if (status.limitmode == Limitmode.SPELUNKY) {
+    if (status.limitmode == LimitMode.SPELUNKY) {
       // If we lose HP in battle, annotate with attack/defense
       if (result.getName().equals(AdventureResult.HP)) {
         action.append(" (");
@@ -4737,7 +4760,7 @@ public class FightRequest extends GenericRequest {
         action.append(KoLCharacter.getAdjustedMoxie());
         action.append(" moxie)");
       }
-    } else if (status.limitmode == Limitmode.BATMAN) {
+    } else if (status.limitmode == LimitMode.BATMAN) {
       // If we gain or lose HP in battle, track it
       if (result.getName().equals(AdventureResult.HP)) {
         BatManager.changeBatHealth(result);
@@ -4782,7 +4805,7 @@ public class FightRequest extends GenericRequest {
           type == ATTACK ? " attack power." : type == DEFENSE ? " defense." : " hit points.");
     }
 
-    if (status.limitmode == Limitmode.SPELUNKY) {
+    if (status.limitmode == LimitMode.SPELUNKY) {
       // additional logging when decrease monster's HP, attack, or defense
       AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
       Stat stat = EquipmentDatabase.getWeaponStat(weapon.getItemId());
@@ -5416,6 +5439,7 @@ public class FightRequest extends GenericRequest {
   public static class TagStatus {
     public String name;
     public String familiar;
+    public int familiarId;
     public String familiarName;
     public String enthroned;
     public String enthronedName;
@@ -5446,7 +5470,7 @@ public class FightRequest extends GenericRequest {
     public boolean mayowasp;
     public boolean dolphin;
     public boolean eldritchHorror;
-    public String limitmode;
+    public LimitMode limitmode;
     public String VYKEACompanion;
     public String horse;
     public boolean hookah = false;
@@ -5461,8 +5485,8 @@ public class FightRequest extends GenericRequest {
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
-      int familiarId = current.getId();
       this.familiar = current.getFightImageLocation();
+      this.familiarId = current.getId();
       this.familiarName = current.getName();
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.doppel =
@@ -5542,8 +5566,8 @@ public class FightRequest extends GenericRequest {
       this.ghost = null;
 
       // Save limitmode so we can log appropriately
-      this.limitmode = KoLCharacter.getLimitmode();
-      boolean isBatfellow = (this.limitmode == Limitmode.BATMAN);
+      this.limitmode = KoLCharacter.getLimitMode();
+      boolean isBatfellow = (this.limitmode == LimitMode.BATMAN);
       this.name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 
       this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
@@ -6684,7 +6708,7 @@ public class FightRequest extends GenericRequest {
       status.lastCombatItem = itemId;
     }
 
-    if (status.limitmode == Limitmode.BATMAN
+    if (status.limitmode == LimitMode.BATMAN
         && image.equals("briefcase.gif")
         && str.contains("You lose an item")) {
       AdventureResult result = ItemPool.get(ItemPool.FINGERPRINT_DUSTING_KIT, -1);
@@ -7790,8 +7814,9 @@ public class FightRequest extends GenericRequest {
     // Your nanites absorb your fallen enemy.  Cool.
     // Your nanites absorb the remains and become more stylish.
     //
-    // But, it only seems to happen when you've won the combat.
-    if (FightRequest.won) {
+    // It only happens when you've won the combat or reprocessed the monster with your Goose
+    var fam = KoLCharacter.getFamiliar();
+    if (FightRequest.won || fam != null && status.familiarId == FamiliarPool.GREY_GOOSE) {
       GreyYouManager.absorbMonster(status.monster);
       Matcher matcher = GOO_GAIN_PATTERN.matcher(text);
       String gain = null;
@@ -7910,7 +7935,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean handleSpelunky(String text, TagStatus status) {
-    if (status.limitmode != Limitmode.SPELUNKY) {
+    if (status.limitmode != LimitMode.SPELUNKY) {
       return false;
     }
 
@@ -7954,7 +7979,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean handleSpelunkyGold(String image, String str, TagStatus status) {
-    if (status.limitmode != Limitmode.SPELUNKY) {
+    if (status.limitmode != LimitMode.SPELUNKY) {
       return false;
     }
 
@@ -8189,30 +8214,44 @@ public class FightRequest extends GenericRequest {
     KoLCharacter.battleSkillNames.add("item bottle of G&uuml;-Gone");
   }
 
-  private static boolean isItemConsumed(final int itemId, final String responseText) {
-    boolean itemSuccess =
-        (FightRequest.anapest
-                && (responseText.contains("used a thing from your bag")
-                    || responseText.contains("item caused something to happen")))
-            || (FightRequest.haiku
-                && (responseText.contains("do some stuff with a thing")
-                    || responseText.contains("some inscrutable end")));
+  private static boolean isItemSuccess(final String responseText) {
+    return (FightRequest.anapest
+            && (responseText.contains("used a thing from your bag")
+                || responseText.contains("item caused something to happen")))
+        || (FightRequest.haiku
+            && (responseText.contains("do some stuff with a thing")
+                || responseText.contains("some inscrutable end")));
+  }
 
-    boolean itemDamageSuccess =
-        (FightRequest.anapest
-                && (responseText.contains("hurl a thing")
-                    || responseText.contains("thing you hold up")
-                    || responseText.contains("fling a thing")
-                    || responseText.contains("pain with that thing")))
-            || (FightRequest.haiku
-                && (responseText.contains("like a mighty summer storm")
-                    || responseText.contains("whip out a thing")
-                    || responseText.contains("Like a killing frost")
-                    || responseText.contains("thing you just threw")
-                    || responseText.contains("combat items!")
-                    || responseText.contains("sling an item")
-                    || responseText.contains("item you just threw")
-                    || responseText.contains("item just hit")));
+  private static boolean isItemDamageSuccess(final String responseText) {
+    return (FightRequest.anapest
+            && (responseText.contains("hurl a thing")
+                || responseText.contains("thing you hold up")
+                || responseText.contains("fling a thing")
+                || responseText.contains("pain with that thing")))
+        || (FightRequest.haiku
+            && (responseText.contains("like a mighty summer storm")
+                || responseText.contains("whip out a thing")
+                || responseText.contains("Like a killing frost")
+                || responseText.contains("thing you just threw")
+                || responseText.contains("combat items!")
+                || responseText.contains("sling an item")
+                || responseText.contains("item you just threw")
+                || responseText.contains("item just hit")));
+  }
+
+  private static boolean isItemRunawaySuccess(final String responseText) {
+    return (FightRequest.anapest && responseText.contains("wings on your heels"))
+        || (FightRequest.haiku
+            && (responseText.contains("burps taste like pride")
+                || responseText.contains("beat a retreat")))
+        || (FightRequest.machineElf && responseText.contains("are no longer anywhere"));
+  }
+
+  private static boolean isItemConsumed(final int itemId, final String responseText) {
+    boolean itemSuccess = isItemSuccess(responseText);
+    boolean itemRunawaySuccess = isItemRunawaySuccess(responseText);
+    boolean itemDamageSuccess = isItemDamageSuccess(responseText);
 
     if (itemId == ItemPool.ICEBALL) {
       // First use:
@@ -8558,15 +8597,14 @@ public class FightRequest extends GenericRequest {
         return responseText.contains("You quickly quaff") || itemSuccess;
 
       case ItemPool.GLOB_OF_BLANK_OUT:
-
         // As you're moseying, you notice that the last of the Blank-Out
         // is gone, and that your hand is finally clean. Yay!
-
-        if (responseText.contains("your hand is finally clean")) {
+        if (responseText.contains("your hand is finally clean")
+            || (itemRunawaySuccess && Preferences.getInteger("blankOutUsed") >= 5)) {
           Preferences.setInteger("blankOutUsed", 0);
           return true;
         }
-        Preferences.increment("blankOutUsed");
+
         return false;
 
       case ItemPool.MERKIN_PINKSLIP:
@@ -9178,6 +9216,13 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.HUGS_KISSES:
         if (responseText.contains("yoinks something") || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.SMASH_GRAAAGH:
+        if (responseText.contains("incidentally tearing free an item")) {
+          // No casting limit, can pickpocket items up to 30 times a day
           skillSuccess = true;
         }
         break;
@@ -9911,6 +9956,12 @@ public class FightRequest extends GenericRequest {
         // These skills consume 1 energy per use
         KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - 1);
         break;
+
+      case SkillPool.LAUNCH_SPIKOLODON_SPIKES:
+        if (responseText.contains("The spikolodon spikes both")) {
+          skillSuccess = true;
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
@@ -9928,20 +9979,8 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
-    boolean itemSuccess =
-        (FightRequest.anapest
-                && (responseText.contains("used a thing from your bag")
-                    || responseText.contains("item caused something to happen")))
-            || (FightRequest.haiku
-                && (responseText.contains("do some stuff with a thing")
-                    || responseText.contains("some inscrutable end")))
-            || (FightRequest.machineElf && responseText.contains("performs its function"));
-    boolean itemRunawaySuccess =
-        (FightRequest.anapest && responseText.contains("wings on your heels"))
-            || (FightRequest.haiku
-                && (responseText.contains("burps taste like pride")
-                    || responseText.contains("beat a retreat")))
-            || (FightRequest.machineElf && responseText.contains("are no longer anywhere"));
+    boolean itemSuccess = isItemSuccess(responseText);
+    boolean itemRunawaySuccess = isItemRunawaySuccess(responseText);
 
     switch (itemId) {
       default:
@@ -10218,6 +10257,16 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case ItemPool.GLOB_OF_BLANK_OUT:
+        // You smear part of your handful of Blank-Out on the monster until you can't see it
+        // anymore.
+        // And if you've learned one thing from urban legends about ostriches,
+        // it's that what you can't see can't hurt you. You mosey off.
+        if (responseText.contains("You smear part of your handful") || itemRunawaySuccess) {
+          Preferences.increment("blankOutUsed");
+        }
+        break;
+
       case ItemPool.COSMIC_BOWLING_BALL:
         // Since you've got this cosmic bowling ball, you hurl it down
         // the ancient lanes. You knock over a few pins. You may be
@@ -10290,7 +10339,6 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.isItemConsumed(itemId, responseText)) {
       ResultProcessor.processResult(ItemPool.get(itemId, -1));
-      return;
     }
   }
 
@@ -10569,7 +10617,10 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.nextAction = null;
 
-    if (urlString.equals("fight.php") || urlString.contains("ireallymeanit=")) {
+    if (urlString.equals("fight.php")
+        // The following happens when encountering a mariachi in The Island Barracks
+        || urlString.equals("fight.php?")
+        || urlString.contains("ireallymeanit=")) {
       if (FightRequest.inMultiFight || FightRequest.choiceFollowsFight) {
         RequestLogger.registerLastLocation();
       }
@@ -10582,8 +10633,8 @@ public class FightRequest extends GenericRequest {
     // Begin logging all the different combat actions and storing
     // relevant data for post-processing.
 
-    String limitmode = KoLCharacter.getLimitmode();
-    boolean isBatfellow = (limitmode == Limitmode.BATMAN);
+    var limitmode = KoLCharacter.getLimitMode();
+    boolean isBatfellow = (limitmode == LimitMode.BATMAN);
     String name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 
     boolean shouldLogAction = Preferences.getBoolean("logBattleAction");

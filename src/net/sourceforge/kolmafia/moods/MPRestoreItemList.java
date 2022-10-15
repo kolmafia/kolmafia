@@ -23,7 +23,6 @@ import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -308,7 +307,7 @@ public abstract class MPRestoreItemList {
 
       if (this == MPRestoreItemList.CHATEAU) {
         if (ChateauRequest.chateauRestUsable()) {
-          RequestThread.postRequest(new ChateauRequest("chateau_restbox"));
+          RequestThread.postRequest(new ChateauRequest(ChateauRequest.BED));
         }
         return;
       }
@@ -321,7 +320,7 @@ public abstract class MPRestoreItemList {
       }
 
       if (this == MPRestoreItemList.CAMPGROUND) {
-        if (Limitmode.limitCampground() || KoLCharacter.isEd()) {
+        if (KoLCharacter.getLimitMode().limitCampground() || KoLCharacter.isEd()) {
           return;
         }
         if (!KoLCharacter.inNuclearAutumn()) {
@@ -335,14 +334,14 @@ public abstract class MPRestoreItemList {
       if (this == MPRestoreItemList.FREEREST) {
         if (Preferences.getInteger("timesRested") < KoLCharacter.freeRestsAvailable()) {
           if (ChateauRequest.chateauRestUsable()) {
-            RequestThread.postRequest(new ChateauRequest("chateau_restbox"));
+            RequestThread.postRequest(new ChateauRequest(ChateauRequest.BED));
             return;
           }
           if (CampAwayRequest.campAwayTentRestUsable()) {
             RequestThread.postRequest(new CampAwayRequest(CampAwayRequest.TENT));
             return;
           }
-          if (!Limitmode.limitCampground()
+          if (!KoLCharacter.getLimitMode().limitCampground()
               && !KoLCharacter.isEd()
               && !KoLCharacter.inNuclearAutumn()) {
             RequestThread.postRequest(new CampgroundRequest("rest"));
@@ -354,7 +353,7 @@ public abstract class MPRestoreItemList {
 
       if (this == MPRestoreItemList.NUNS) {
         if (Preferences.getInteger("nunsVisits") >= 3) return;
-        if (Limitmode.limitZone("IsleWar")) return;
+        if (KoLCharacter.getLimitMode().limitZone("IsleWar")) return;
         String side = Preferences.getString("sidequestNunsCompleted");
         if (!side.equals("fratboy")) return; // no MP for hippies!
         if (KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() < 1000) {
@@ -396,7 +395,7 @@ public abstract class MPRestoreItemList {
           Math.max((int) Math.floor((float) mpShort / (float) this.getManaRestored()), 1);
 
       if (this == MPRestoreItemList.SOFA) {
-        if (!Limitmode.limitClan()) {
+        if (!KoLCharacter.getLimitMode().limitClan()) {
           RequestThread.postRequest(
               (new ClanRumpusRequest(RequestType.SOFA)).setTurnCount(numberToUse));
         }

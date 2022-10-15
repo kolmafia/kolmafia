@@ -950,7 +950,7 @@ Cosmic Ray's Bazaar	buy	5	space chowder	ROW1098
 Cosmic Ray's Bazaar	buy	5	space wine	ROW1099
 Cosmic Ray's Bazaar	buy	10	antique accordion	ROW1097
 Cosmic Ray's Bazaar	buy	10	low-pressure oxygen tank	ROW1091
-Cosmic Ray's Bazaar	buy	20	lucky pill	ROW1100
+Cosmic Ray's Bazaar	buy	20	lucky-ish pill	ROW1100
 Cosmic Ray's Bazaar	buy	25	signal jammer	ROW1089
 Cosmic Ray's Bazaar	buy	25	space shield	ROW1088
 Cosmic Ray's Bazaar	buy	30	Wand of Nagamar	ROW1092
@@ -1041,3 +1041,35 @@ Elf Candy Drive	buy	1000	fruit bat	ROW1189
 Elf Candy Drive	buy	1000	tinsel orb	ROW1190
 Elf Candy Drive	buy	3000	The Night Before Crimbo, Ch. 5	ROW1199
 Elf Candy Drive	buy	3000	The Night Before Crimbo, Ch. 6	ROW1207
+
+# Dinostaur
+
+Dino World Gift Shop (The Dinostaur)	buy	1	Dino DNAde&trade;	ROW1284
+Dino World Gift Shop (The Dinostaur)	buy	3	dinosaur dart	ROW1283
+Dino World Gift Shop (The Dinostaur)	buy	5	dinosaur repellent	ROW1285
+Dino World Gift Shop (The Dinostaur)	buy	5	dinosaur pheromone kit	ROW1279
+Dino World Gift Shop (The Dinostaur)	buy	20	birdseed hat	ROW1281
+Dino World Gift Shop (The Dinostaur)	buy	25	reflective vest	ROW1287
+Dino World Gift Shop (The Dinostaur)	buy	25	camouflage vest	ROW1286
+Dino World Gift Shop (The Dinostaur)	buy	30	flatusaur gasmask	ROW1282
+Dino World Gift Shop (The Dinostaur)	buy	50	pterodactyl rifle	ROW1280
+Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288
+
+# KoL Con 13 Merch Table
+
+KoL Con 13 Merch Table	buy	2	KoL Con 13 snowglobe	ROW883
+KoL Con 13 Merch Table	buy	4	potted tea tree	ROW884
+KoL Con 13 Merch Table	buy	5	Xi Receiver Unit	ROW885
+KoL Con 13 Merch Table	buy	6	Gordon Beer's Beer Garden Catalog	ROW886
+KoL Con 13 Merch Table	buy	7	Tome of Rad Libs	ROW887
+KoL Con 13 Merch Table	buy	8	Gygaxian Libram	ROW888
+KoL Con 13 Merch Table	buy	9	hippo tutu	ROW889
+KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
+
+# The Central Loathing Floral Mercantile Exchange
+
+The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
+The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
+The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
+The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
+

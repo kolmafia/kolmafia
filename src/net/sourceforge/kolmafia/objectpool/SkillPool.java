@@ -22,6 +22,9 @@ public class SkillPool {
   public static final int PRIDE = 27;
   public static final int RAINBOW_GRAVITATION = 44;
   public static final int RAGE_GLAND = 45;
+  public static final int SLIMY_SINEWS = 46;
+  public static final int SLIMY_SYNAPSES = 47;
+  public static final int SLIMY_SHOULDERS = 48;
   public static final int GOTHY_HANDWAVE = 49;
   public static final int BREAK_IT_ON_DOWN = 50;
   public static final int POP_AND_LOCK = 51;
@@ -294,6 +297,7 @@ public class SkillPool {
   public static final int BECOME_WOLF = 7308;
   public static final int BECOME_MIST = 7309;
   public static final int BECOME_BAT = 7310;
+  public static final int USE_THE_FORCE = 7311;
   public static final int DELIVER_THESIS = 7316;
   public static final int LECTURE_ON_VELOCITY = 7317;
   public static final int LECTURE_ON_MASS = 7318;
@@ -364,6 +368,7 @@ public class SkillPool {
   public static final int DRENCH_YOURSELF_IN_SWEAT = 7419;
   public static final int SIP_SOME_SWEAT = 7420;
   public static final int SWEAT_SIP = 7421;
+  public static final int LAUNCH_SPIKOLODON_SPIKES = 7424;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;
@@ -371,6 +376,7 @@ public class SkillPool {
   public static final int BITE_MINION = 12001;
   public static final int HOWL_ALPHA = 12020;
   public static final int SUMMON_MINION = 12021;
+  public static final int SMASH_GRAAAGH = 12023;
   public static final int SUMMON_HORDE = 12026;
   public static final int RECRUIT_ZOMBIE = 12031;
   public static final int CONJURE_EGGS = 14001;

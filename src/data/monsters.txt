@@ -94,7 +94,7 @@ Bonerdagon	198	foss_wyrm.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: und
 bookbat	387	bookbat.gif	Atk: 26 Def: 24 HP: 26 Init: 70 P: construct Article: a	tattered scrap of paper (15)
 booty crab	634	bootycrab.gif	NOCOPY Atk: 100 Def: 90 HP: 70 Init: 10000 Meat: 300 P: beast Phys: 25 E: sleaze Article: a	Cap'm Caronch's nasty booty (100)
 Booze Giant	95	boozegiant.gif	Atk: 76 Def: 68 HP: 66 Init: 80 P: humanoid Article: a	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)	giant breath mint (c0)
-Boss Bat	49	bigbossbat.gif	BOSS NOBANISH NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense Meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
+Boss Bat	49	bigbossbat.gif	BOSS NOBANISH NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
 Box	535	box.gif	Atk: 150 Def: 135 HP: 150 Init: 70 P: constellation ED: sleaze EA: hot EA: sleaze Article: The	line (30)	line (30)	line (30)
 Brainsweeper	34	broombrain.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 36 P: construct Article: a	disembodied brain (30)
 Bram the Stoker	1559	bram.gif	LUCKY Atk: 164 Def: 148 HP: 170 Init: 50 Meat: 250 P: undead EA: hot	Bram's choker (100)
@@ -409,7 +409,7 @@ magical fruit bat	2156	fruitbat1.gif	Atk: 19 Def: 19 HP: 20 Init: 50 Meat: 40 P:
 MagiMechTech MechaMech	175	mech.gif	Atk: 120 Def: 108 HP: 100 Init: 80 P: construct Article: a	photoprotoneutron torpedo (30)	metallic A (30)	glowing red eye (16)	oversized pizza cutter (8)	magilaser blastercannon (10)
 malevolent hair clog	389	hairclog.gif	Atk: 59 Def: 48 HP: 50 Init: 50 P: horror ED: spooky Article: a	gob of wet hair (40)
 malt liquor golem	1754	maltliquorgolem.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: construct Article: a	premium malt liquor (0)	premium malt liquor (0)	brown paper bag mask (0)	brown paper pants (0)
-man with the red buttons	1520	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 Meat: 150 P: dude Article: the	red box (15)	red button (0)	big red button (n1)	button rouge (c0)
+man with the red buttons	1520	redbuttons.gif	Atk: 160 Def: 150 HP: 170 Init: 50 Meat: 150 P: dude Article: the	red box (15)	red button (0)	big red button (c1)	button rouge (c0)
 man-eating plant	382	audrey.gif	Atk: 22 Def: 21 HP: 25 Init: 50 P: plant Article: a
 mariachi calavera	272	mariachi3.gif	Atk: 22 Def: 19 HP: 30 Init: 50 P: undead EA: hot Article: a	bottle of tequila (30)	marzipan skull (30)	calavera concertina (p5)
 me4t begZ0r	144	beggar.gif	Atk: 87 Def: 78 HP: 77 Init: 50 P: dude EA: "bad spelling" Article: a	meat vortex (100)
@@ -1261,8 +1261,8 @@ Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3
 Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	NOCOPY Scale: 11 Cap: ? Floor: ? Init: -10000 P: dude EA: cold EA: hot EA: stench
 
 # Pocket Familiars
-Jerry Bradford	2050	larryscrote.gif	NOCOPY Atk: 35 Def: 0 HP: 0 Init: -10000 P: dude Wiki: "Jerry Bradford (Boss Bat)"	batskin belt (n100)	dense Meat stack (n100)
-Jerry Bradford	2051	larryscrote.gif	NOCOPY Atk: 50 Def: 0 HP: 50 Init: -10000 P: dude Wiki: "Jerry Bradford (Knob Goblin King)"	Crown of the Goblin King (n100)	dense Meat stack (n100)
+Jerry Bradford	2050	larryscrote.gif	NOCOPY Atk: 35 Def: 0 HP: 0 Init: -10000 P: dude Wiki: "Jerry Bradford (Boss Bat)"	batskin belt (n100)	dense meat stack (n100)
+Jerry Bradford	2051	larryscrote.gif	NOCOPY Atk: 50 Def: 0 HP: 50 Init: -10000 P: dude Wiki: "Jerry Bradford (Knob Goblin King)"	Crown of the Goblin King (n100)	dense meat stack (n100)
 Jerry Bradford	2052	larryscrote.gif	NOCOPY Atk: 90 Def: 0 HP: 0 Init: -10000 P: dude Wiki: "Jerry Bradford (Bonerdagon)"	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
 Jerry Bradford	2053	larryscrote.gif	NOCOPY Atk: 120 Def: 0 HP: 0 Init: -10000 P: dude Wiki: "Jerry Bradford (Groar)"	Groar's fur (100)	dense meat stack (100)
 Jerry Bradford	2054	larryscrote.gif	NOCOPY Atk: 170 Def: 0 HP: 0 Init: -10000 P: dude Wiki: "Jerry Bradford (Dr. Awkward)"	Staff of Fats (n100)
@@ -1340,7 +1340,7 @@ The Android	2209	roboss_man.gif	BOSS NOCOPY Atk: 250 Def: 230 HP: 2000 Init: 60 
 Nautomatic Sorceress	2210	roboss_sorc.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 10000 P: construct Phys: 50 Elem: 50 EA: hot EA: sleaze Article: the
 
 # Wildfires
-Blaze Bat	2211	firebossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast E: hot Article: The	batskin belt (100)	dense Meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
+Blaze Bat	2211	firebossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast E: hot Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
 fired-up Knob Goblin King	2212	firegoblinking.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin E: hot Article: The	dense meat stack (100)	dense meat stack (100)
 Burnerdagon	2213	burnerdagon.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: undead ED: hot EA: spooky Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
 Dr. Awkward, who is on fire	2214	fireawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude E: hot	Drowsy Sword (n100)	Staff of Fats (n100)
@@ -1350,6 +1350,28 @@ Groar, Except Hot	2217	firegroar.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init:
 The Big Ignatowicz	2218	firethedude.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy E: hot	solid gold bowling ball (100)
 The Man on Fire	2219	firetheman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude E: hot	really dense meat stack (100)
 The Naughty Scorcheress	2220	sorcform1.gif	BOSS NOCOPY Atk: 190 Def: 171 HP: 400 Init: 10000 P: dude ED: hot Article: The	Instant Karma (c100)	Thwaitgold maggot statuette (n100)
+
+# Fall of the Dinosaurs
+
+kachungasaur	2230	dino_kachung.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+dilophosaur	2231	dino_diplo.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+high-altitude pterodactyl	2232	dino_ptero.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast EA: stench Article: a
+glass-shelled archelon	2233	dino_turtle.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+supersonic velociraptor	2234	dino_raptor.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+spikolodon	2235	dino_spike.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+ghostasaurus	2236	dino_ghost.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: undead EA: spooky Article: a
+flatusaurus	2237	dino_flatus.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+primitive chicken	2238	dino_chicken.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast Article: a
+two-headed pteranodon with a two-headed bat inside it	2239	dino_bossbat.gif	BOSS NOCOPY Atk: 40 Def: 40 HP: 60 Init: 80 P: beast Article: a	dense meat stack (100)
+goblodocus	2240	dino_goblinking.gif	BOSS NOCOPY Atk: 60 Def: 60 HP: 100 Init: 50 P: beast Article: a	dense meat stack (100)	dense meat stack (100)
+T-Rex who ate the Bonerdagon	2241	dino_bonerex.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 150 Init: 100 P: beast EA: spooky Article: a	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
+suruasaurus	2242	dino_palin.gif	BOSS NOCOPY Atk: 191 Def: 181 HP: 272 Init: 101 P: beast Article: a	Staff of Fats (n100)
+herd of well-fed microraptors	2243	dino_micro.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 300 Init: 100 P: beast EA: cold EA: hot EA: sleaze EA: spooky EA: stench Article: a	Eye of Ed (n100)
+protoceratops spectre	2244	dino_specter.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 300 Init: -10000 P: undead E: spooky Article: the	ancient amulet (n100)
+refrigeradon	2245	dino_fridge.gif	BOSS NOCOPY Atk: 100 Def: 300 HP: 200 Init: 50 P: beast EA: cold Article: a	Groar's fur (n100)	dense meat stack (100)
+Slackiosaurus	2246	dino_slack.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 2000 Init: -10000 P: beast Article: The	solid gold bowling ball (100)
+Oligarcheopteryx	2247	dino_theman.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 2000 Init: 100 P: beast Article: The	really dense meat stack (100)
+Naughty Saursaurus	2248	dino_sorc.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 100 P: beast EA: sleaze EA: spooky Article: The	Instant Karma (c100)	Thwaitgold mosquito-in-amber statuette (n100)
 
 # Items of the Month
 
@@ -2194,7 +2216,7 @@ tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 Mea
 ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 100 EA: spooky Article: a	ghost beer (0)	ghostly dagger (0)
 Groundling	1842	groundling.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude EA: stench Article: a	stink-penny (0)
 Hamlet	1843	hamlet.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	hawk (0)	hamlet sandwich (0)
-Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (0)
+Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (0)	Othello's dagger (0)	Othello's handkerchief (0)	Othello's military jacket (0)
 Richard X	1841	richardx.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	heavy crown (0)	ear poison (0)
 Understudy	1846	understudy.gif	Scale: -2 Cap: 1000 Floor: 2 Init: -10000 P: dude Article: an	How to Play Othello (0)
 Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	grip key (0)

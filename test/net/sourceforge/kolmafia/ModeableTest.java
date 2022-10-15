@@ -75,7 +75,7 @@ class ModeableTest {
   @Test
   void getEquipAfterChange() {
     var modeable = Modeable.UMBRELLA;
-    assertThat(modeable.getEquipAfterChange(), equalTo(true));
+    assertThat(modeable.mustEquipAfterChange(), equalTo(true));
   }
 
   @Test

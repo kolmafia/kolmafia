@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia.preferences;
 
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
@@ -17,7 +21,6 @@ class PreferencesTest {
   public void initializeCharPrefs() {
     KoLCharacter.reset("fakePrefUser");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
   }
 
   @AfterEach
@@ -25,7 +28,6 @@ class PreferencesTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
-    Preferences.saveSettingsToFile = false;
   }
 
   @Test
@@ -380,17 +382,22 @@ class PreferencesTest {
     String legacyDaily = "nunsVisits";
     String newStyleDaily = "_SomeDailyThing";
     String notADaily = "somePrefName";
+    String notARealDaily = "ascensionsToday";
     Integer legacyValue = 1;
     Integer newStyleValue = 2;
     Integer notADailyValue = 3;
+    Integer notARealDailyValue = 3;
 
     Preferences.setInteger(legacyDaily, legacyValue);
     Preferences.setInteger(newStyleDaily, newStyleValue);
     Preferences.setInteger(notADaily, notADailyValue);
+    Preferences.setInteger(notARealDaily, notARealDailyValue);
     assertEquals(Preferences.getInteger(legacyDaily), legacyValue, legacyDaily + "value not set");
     assertEquals(
         Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not set");
     assertEquals(Preferences.getInteger(notADaily), notADailyValue, notADaily + "value not set");
+    assertEquals(
+        Preferences.getInteger(notARealDaily), notARealDailyValue, notADaily + "value not set");
 
     Preferences.resetDailies();
     assertNotEquals(
@@ -399,6 +406,10 @@ class PreferencesTest {
         Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not reset");
     assertEquals(
         Preferences.getInteger(notADaily), notADailyValue, notADaily + "value unexpectedly reset");
+    assertEquals(
+        Preferences.getInteger(notARealDaily),
+        notARealDailyValue,
+        notARealDaily + "value unexpectedly reset");
   }
 
   @Test
@@ -438,6 +449,21 @@ class PreferencesTest {
     Preferences.resetPerAscension();
     // confirm changed
     assertNotEquals(val, Preferences.getInteger(name));
+  }
+
+  @Test
+  void testRolloverPropertiesAreReset() {
+    String name = "ascensionsToday";
+    int beforeRollover = 1;
+    int afterRollover = 0;
+    var cleanups = withProperty(name, beforeRollover);
+
+    try (cleanups) {
+      Preferences.resetPerRollover();
+
+      // confirm default
+      assertThat(name, isSetTo(afterRollover));
+    }
   }
 
   @Test
@@ -495,20 +521,22 @@ class PreferencesTest {
 
   @Test
   public void actuallySaveFileToIncreaseCoverage() {
-    Preferences.saveSettingsToFile = true;
-    Preferences.setString("tabby", "*\t*");
-    Preferences.setString("removeMe", "please");
-    Preferences.setString("a", "\n");
-    Preferences.setString("b", "\f");
-    Preferences.setString("c", "\r");
-    Preferences.setString("d", "\\");
-    Preferences.setString("e", "=");
-    Preferences.setString("f", ":");
-    Preferences.setString("g", "#");
-    Preferences.setString("h", "!");
-    Preferences.removeProperty("removeMe", false);
-    assertFalse(Preferences.propertyExists("removeMe", false));
-    Preferences.saveSettingsToFile = false;
+    var cleanups = withSavePreferencesToFile();
+
+    try (cleanups) {
+      Preferences.setString("tabby", "*\t*");
+      Preferences.setString("removeMe", "please");
+      Preferences.setString("a", "\n");
+      Preferences.setString("b", "\f");
+      Preferences.setString("c", "\r");
+      Preferences.setString("d", "\\");
+      Preferences.setString("e", "=");
+      Preferences.setString("f", ":");
+      Preferences.setString("g", "#");
+      Preferences.setString("h", "!");
+      Preferences.removeProperty("removeMe", false);
+      assertFalse(Preferences.propertyExists("removeMe", false));
+    }
   }
 
   @Test
@@ -526,49 +554,55 @@ class PreferencesTest {
 
   @Test
   public void exerciseResetNull() {
-    // Allow files to be written
-    Preferences.saveSettingsToFile = true;
-    // Global preferences name
-    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
-    File globalfile = new File(globalName);
-    if (globalfile.exists()) {
-      globalfile.delete();
+    var cleanups = withSavePreferencesToFile();
+
+    try (cleanups) {
+      // Global preferences name
+      String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+      File globalfile = new File(globalName);
+      if (globalfile.exists()) {
+        globalfile.delete();
+      }
+      assertFalse(globalfile.exists());
+      // Reset should save global.
+      Preferences.reset(null);
+      assertTrue(globalfile.exists());
     }
-    assertFalse(globalfile.exists());
-    // Reset should save global.
-    Preferences.reset(null);
-    assertTrue(globalfile.exists());
   }
 
   @Test
   public void exerciseResetEmpty() {
-    // Allow files to be written
-    Preferences.saveSettingsToFile = true;
-    // Global preferences name
-    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
-    File globalfile = new File(globalName);
-    if (globalfile.exists()) {
-      globalfile.delete();
+    var cleanups = withSavePreferencesToFile();
+
+    try (cleanups) {
+      // Global preferences name
+      String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+      File globalfile = new File(globalName);
+      if (globalfile.exists()) {
+        globalfile.delete();
+      }
+      assertFalse(globalfile.exists());
+      // Reset should save global.
+      Preferences.reset("");
+      assertTrue(globalfile.exists());
     }
-    assertFalse(globalfile.exists());
-    // Reset should save global.
-    Preferences.reset("");
-    assertTrue(globalfile.exists());
   }
 
   @Test
   public void exerciseResetDots() {
-    // Allow files to be written
-    Preferences.saveSettingsToFile = true;
-    // Global preferences name
-    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
-    File globalfile = new File(globalName);
-    if (globalfile.exists()) {
-      globalfile.delete();
+    var cleanups = withSavePreferencesToFile();
+
+    try (cleanups) {
+      // Global preferences name
+      String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+      File globalfile = new File(globalName);
+      if (globalfile.exists()) {
+        globalfile.delete();
+      }
+      assertFalse(globalfile.exists());
+      // Reset should save global.
+      Preferences.reset("dot_is_....not_good");
+      assertTrue(globalfile.exists());
     }
-    assertFalse(globalfile.exists());
-    // Reset should save global.
-    Preferences.reset("dot_is_....not_good");
-    assertTrue(globalfile.exists());
   }
 }

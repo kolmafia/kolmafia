@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,13 +24,15 @@ import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -55,6 +56,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
+import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -69,6 +71,7 @@ import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
+import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -237,7 +240,7 @@ public abstract class ChoiceControl {
           int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
           AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
           ResultProcessor.processResult(cost);
-          KoLCharacter.setLimitmode(null);
+          KoLCharacter.setLimitMode(LimitMode.NONE);
         }
         break;
 
@@ -247,14 +250,14 @@ public abstract class ChoiceControl {
             Preferences.setInteger("_edDefeats", 0);
             Preferences.setBoolean("edUsedLash", false);
             MonsterStatusTracker.reset();
-            KoLCharacter.setLimitmode(null);
+            KoLCharacter.setLimitMode(LimitMode.NONE);
             break;
           case 1:
             int edDefeats = Preferences.getInteger("_edDefeats");
             int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
             AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
             ResultProcessor.processResult(cost);
-            KoLCharacter.setLimitmode(null);
+            KoLCharacter.setLimitMode(LimitMode.NONE);
             break;
         }
         break;
@@ -489,6 +492,42 @@ public abstract class ChoiceControl {
     String text = request.responseText;
 
     switch (ChoiceManager.lastChoice) {
+      case 147:
+        // Cornered!
+        int ducks1 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> AdventurePool.THE_GRANARY;
+              case 2 -> AdventurePool.THE_BOG;
+              case 3 -> AdventurePool.THE_POND;
+              default -> 0;
+            };
+        Preferences.setString("duckAreasSelected", String.valueOf(ducks1));
+        break;
+
+      case 148:
+        // Cornered Again!
+        int ducks2 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> AdventurePool.THE_BACK_40;
+              case 2 -> AdventurePool.THE_FAMILY_PLOT;
+              default -> 0;
+            };
+        Preferences.setString(
+            "duckAreasSelected", Preferences.getString("duckAreasSelected") + "," + ducks2);
+        break;
+
+      case 149:
+        // How Many Corners Does this Stupid Barn Have?
+        int ducks3 =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> AdventurePool.THE_SHADY_THICKET;
+              case 2 -> AdventurePool.THE_OTHER_BACK_40;
+              default -> 0;
+            };
+        Preferences.setString(
+            "duckAreasSelected", Preferences.getString("duckAreasSelected") + "," + ducks3);
+        break;
+
       case 188:
         // The Infiltrationist
 
@@ -1731,6 +1770,14 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 882:
+        // Off the Rack
+        if (ChoiceManager.lastDecision == 1
+            && text.contains("You never know when it might come in handy.")) {
+          Preferences.setInteger("lastTowelAscension", KoLCharacter.getAscensions());
+        }
+        break;
+
       case 890:
         // Lights Out in the Storage Room
         if (text.contains("BUT AIN'T NO ONE CAN GET A STAIN OUT LIKE OLD AGNES!")
@@ -2136,7 +2183,7 @@ public abstract class ChoiceControl {
       case 993:
         // Tales of Spelunking
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.enterLimitmode(Limitmode.SPELUNKY);
+          KoLCharacter.enterLimitmode(LimitMode.SPELUNKY);
         }
         break;
 
@@ -2311,7 +2358,7 @@ public abstract class ChoiceControl {
 
       case 1023: // Like a Bat Into Hell
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.setLimitmode(Limitmode.ED);
+          KoLCharacter.setLimitMode(LimitMode.ED);
         }
         break;
 
@@ -2639,7 +2686,7 @@ public abstract class ChoiceControl {
       case 1133:
         // Batfellow Begins
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.enterLimitmode(Limitmode.BATMAN);
+          KoLCharacter.enterLimitmode(LimitMode.BATMAN);
         }
         break;
 
@@ -4076,8 +4123,7 @@ public abstract class ChoiceControl {
           String bird = Preferences.getString("_birdOfTheDay");
           Preferences.setString("yourFavoriteBird", bird);
           ResponseTextParser.learnSkill("Visit your Favorite Bird");
-          ResultProcessor.updateBirdModifiers(
-              EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, "yourFavoriteBird");
+          DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD);
         }
         break;
 
@@ -4323,7 +4369,7 @@ public abstract class ChoiceControl {
       case 1418:
         // So Cold
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.findFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
+          KoLCharacter.usableFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
           Preferences.setBoolean("_entauntaunedToday", true);
         }
         break;
@@ -4417,21 +4463,11 @@ public abstract class ChoiceControl {
       case 1449:
         {
           switch (ChoiceManager.lastDecision) {
-            case 1:
-              Preferences.setString("backupCameraMode", "ml");
-              break;
-            case 2:
-              Preferences.setString("backupCameraMode", "meat");
-              break;
-            case 3:
-              Preferences.setString("backupCameraMode", "init");
-              break;
-            case 4:
-              Preferences.setBoolean("backupCameraReverserEnabled", true);
-              break;
-            case 5:
-              Preferences.setBoolean("backupCameraReverserEnabled", false);
-              break;
+            case 1 -> Preferences.setString("backupCameraMode", "ml");
+            case 2 -> Preferences.setString("backupCameraMode", "meat");
+            case 3 -> Preferences.setString("backupCameraMode", "init");
+            case 4 -> Preferences.setBoolean("backupCameraReverserEnabled", true);
+            case 5 -> Preferences.setBoolean("backupCameraReverserEnabled", false);
           }
 
           break;
@@ -4495,6 +4531,9 @@ public abstract class ChoiceControl {
       case 1475:
         // June cleaver
         JuneCleaverManager.parseChoice(urlString);
+        break;
+      case 1481:
+        JurassicParkaCommand.parseChoice(ChoiceManager.lastDecision);
         break;
     }
   }
@@ -5401,10 +5440,9 @@ public abstract class ChoiceControl {
       case 918:
         // Yachtzee!
         if (text.contains("Ultimate Mind Destroyer")) {
-          Calendar date = HolidayDatabase.getCalendar();
-          SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-          String today = sdf.format(date.getTime());
-          Preferences.setString("umdLastObtained", today);
+          var date = DateTimeManager.getArizonaDateTime();
+          Preferences.setString(
+              "umdLastObtained", date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         }
         break;
 
@@ -5784,14 +5822,14 @@ public abstract class ChoiceControl {
         // Batfellow Ends
         // (choosing to exit)
         if (ChoiceManager.lastDecision == 1) {
-          KoLCharacter.setLimitmode(null);
+          KoLCharacter.setLimitMode(LimitMode.NONE);
         }
         break;
 
       case 1168:
         // Batfellow Ends
         // (from running out of time)
-        KoLCharacter.setLimitmode(null);
+        KoLCharacter.setLimitMode(LimitMode.NONE);
         break;
 
       case 1171: // LT&T Office
@@ -6224,7 +6262,7 @@ public abstract class ChoiceControl {
         // If you change the mode with the item equipped, you need to un-equip and re-equip it to
         // get the modifiers
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 3) {
-          for (int i = EquipmentManager.ACCESSORY1; i <= EquipmentManager.ACCESSORY3; ++i) {
+          for (int i : EquipmentManager.ACCESSORY_SLOTS) {
             AdventureResult item = EquipmentManager.getEquipment(i);
             if (item != null && item.getItemId() == ItemPool.BACKUP_CAMERA) {
               RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, i));
@@ -6324,8 +6362,13 @@ public abstract class ChoiceControl {
 
       case 1476: // Stillsuit
         if (ChoiceManager.lastDecision == 1) {
-          StillSuitManager.clearSweat();
+          StillSuitManager.handleDrink(text);
         }
+        break;
+
+      case 1483: // Direct Autumn-Aton
+        int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
+        AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
         break;
     }
   }
@@ -7913,6 +7956,56 @@ public abstract class ChoiceControl {
         CargoCultistShortsRequest.parseAvailablePockets(text);
         break;
 
+      case 1425:
+        // Oh Yeah!
+        Preferences.setInteger("lastCartographyFratHouse", KoLCharacter.getAscensions());
+        break;
+
+      case 1427:
+        //  The Hidden Junction
+        Preferences.setInteger("lastCartographyGuanoJunction", KoLCharacter.getAscensions());
+        break;
+
+      case 1428:
+        //  Your Neck of the Woods
+        Preferences.setInteger("lastCartographyDarkNeck", KoLCharacter.getAscensions());
+        break;
+
+      case 1429:
+        //  No Nook Unknown
+        Preferences.setInteger("lastCartographyDefiledNook", KoLCharacter.getAscensions());
+        break;
+
+      case 1430:
+        //  Ghostly Memories
+        Preferences.setInteger("lastCartographyBooPeak", KoLCharacter.getAscensions());
+        break;
+
+      case 1431:
+        //  Here There Be Giants
+        Preferences.setInteger("lastCartographyCastleTop", KoLCharacter.getAscensions());
+        break;
+
+      case 1432:
+        //  Mob Maptality
+        Preferences.setInteger("lastCartographyZeppelinProtesters", KoLCharacter.getAscensions());
+        break;
+
+      case 1433:
+        //  Sneaky, Sneaky (Frat Warrior Fatigues)
+        Preferences.setInteger("lastCartographyFratHouseVerge", KoLCharacter.getAscensions());
+        break;
+
+      case 1434:
+        //  Sneaky, Sneaky (War Hippy Fatigues)
+        Preferences.setInteger("lastCartographyHippyCampVerge", KoLCharacter.getAscensions());
+        break;
+
+      case 1436:
+        // Billards Room Options
+        Preferences.setInteger("lastCartographyHauntedBilliards", KoLCharacter.getAscensions());
+        break;
+
       case 1445: // Reassembly Station
       case 1447: // Statbot 5000
         YouRobotManager.visitChoice(request);
@@ -7964,6 +8057,9 @@ public abstract class ChoiceControl {
         break;
       case 1476:
         StillSuitManager.parseChoice(text);
+        break;
+      case 1483:
+        AutumnatonManager.visitChoice(text);
         break;
     }
   }
@@ -8602,6 +8698,45 @@ public abstract class ChoiceControl {
     return (desc == null) ? "unknown" : desc;
   }
 
+  public static int getAdventuresUsed(final String urlString) {
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
+    switch (choice) {
+      case 929:
+        // Control Freak
+        if (decision == 5) {
+          return PyramidRequest.lowerChamberTurnsUsed();
+        }
+        break;
+      case 1085:
+      case 1086:
+        // Pick a Card
+        return DeckOfEveryCardRequest.getAdventuresUsed(urlString);
+      case 1099:
+        // The Barrel Full of Barrels
+        //
+        // choice 1: A barrel
+        // choice 2: Turn Crank (1)
+        // choice 3: Exit
+        //
+        // choice.php?whichchoice=1099&pwd&option=1&slot=00
+        //     slots: <ROW><COLUMN> from 00 - 22
+        //
+        // Turning the crank costs a turn.
+        // Smashing a barrel does not - unless it contains a mimic
+        //
+        // Assume that only option 3 - Exit - is guaranteed to not cost a turn.
+        return decision == 3 ? 0 : 1;
+      case 1388:
+        // Comb the Beach
+        return BeachCombRequest.getAdventuresUsed(urlString);
+      case 1463:
+        // Combat Lover's Locket
+        return LocketRequest.getAdventuresUsed(urlString);
+    }
+    return 0;
+  }
+
   public static final boolean registerRequest(final String urlString) {
     int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
     int decision = ChoiceUtilities.extractOptionFromURL(urlString);
@@ -8857,7 +8992,6 @@ public abstract class ChoiceControl {
         break;
 
       case 437: // Flying In Circles
-        ResultProcessor.processAdventuresUsed(1);
         RequestLogger.registerLocation("The Nemesis' Lair");
         break;
 
@@ -9068,6 +9202,7 @@ public abstract class ChoiceControl {
       case 1460: // Toy Lab
       case 1463: // Reminiscing About Those Monsters You Fought
       case 1476: // Stillsuit
+      case 1483: // Direct Autumn-Aton
         return true;
 
       default:

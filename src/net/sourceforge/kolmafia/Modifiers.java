@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,11 +32,11 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -871,7 +872,9 @@ public class Modifiers {
         Pattern.compile("Lasts Until Rollover")),
     new BooleanModifier(
         "Attacks Can't Miss",
-        Pattern.compile("Regular Attacks Can't Miss"),
+        new Pattern[] {
+          Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")
+        },
         Pattern.compile("Attacks Can't Miss")),
     new BooleanModifier("Pirate", Pattern.compile("Look like a Pirate")),
     new BooleanModifier("Breakable", Pattern.compile("Breakable")),
@@ -1139,18 +1142,8 @@ public class Modifiers {
     return rv;
   }
 
-  public static final Iterator<String> getAllModifiers() {
-    return Modifiers.modifiersByName.keySet().iterator();
-  }
-
-  public static final void overrideEffectModifiers(final int effectId) {
-    String name = EffectDatabase.getEffectName(effectId);
-    String descId = EffectDatabase.getDescriptionId(effectId);
-    String text = DebugDatabase.readEffectDescriptionText(descId);
-
-    String mod = DebugDatabase.parseEffectEnchantments(text);
-    String lookup = Modifiers.getLookupName("Effect", name);
-    Modifiers.overrideModifier(lookup, mod);
+  public static final Set<String> getAllModifiers() {
+    return Modifiers.modifiersByName.keySet();
   }
 
   public static final void overrideModifier(String lookup, Object value) {
@@ -2266,18 +2259,17 @@ public class Modifiers {
       case ItemPool.TUESDAYS_RUBY:
         {
           // Set modifiers depending on what KoL day of the week it is
-          Calendar date = HolidayDatabase.getCalendar();
-          int dotw = date.get(Calendar.DAY_OF_WEEK);
+          var dotw = DateTimeManager.getArizonaDateTime().getDayOfWeek();
 
-          this.set(Modifiers.MEATDROP, dotw == Calendar.SUNDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MUS_PCT, dotw == Calendar.MONDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MP_REGEN_MIN, dotw == Calendar.TUESDAY ? 3.0 : 0.0);
-          this.set(Modifiers.MP_REGEN_MAX, dotw == Calendar.TUESDAY ? 7.0 : 0.0);
-          this.set(Modifiers.MYS_PCT, dotw == Calendar.WEDNESDAY ? 5.0 : 0.0);
-          this.set(Modifiers.ITEMDROP, dotw == Calendar.THURSDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MOX_PCT, dotw == Calendar.FRIDAY ? 5.0 : 0.0);
-          this.set(Modifiers.HP_REGEN_MIN, dotw == Calendar.SATURDAY ? 3.0 : 0.0);
-          this.set(Modifiers.HP_REGEN_MAX, dotw == Calendar.SATURDAY ? 7.0 : 0.0);
+          this.set(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
+          this.set(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
+          this.set(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
+          this.set(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
+          this.set(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
+          this.set(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
           return true;
         }
 
@@ -2572,6 +2564,17 @@ public class Modifiers {
 
     for (Florist plant : plants) {
       this.add(Modifiers.getModifiers("Florist", plant.toString()));
+    }
+  }
+
+  public final void applyAutumnatonModifiers() {
+    if (Modifiers.currentLocation == null || Modifiers.currentLocation.equals("")) return;
+
+    var questLocation = AutumnatonManager.getQuestLocation();
+    if (questLocation.equals("")) return;
+
+    if (Modifiers.currentLocation.equals(questLocation)) {
+      this.add(Modifiers.EXPERIENCE, 1, "Autumnaton");
     }
   }
 

@@ -8,9 +8,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class ChateauRequest extends PlaceRequest {
   private static final Pattern PAINTING_PATTERN =
@@ -31,6 +31,8 @@ public class ChateauRequest extends PlaceRequest {
 
   public static final AdventureResult CHATEAU_PAINTING =
       ItemPool.get(ItemPool.CHATEAU_WATERCOLOR, 1);
+
+  public static final String BED = "chateau_restbox";
 
   public static String ceiling = null;
 
@@ -108,10 +110,7 @@ public class ChateauRequest extends PlaceRequest {
     // place.php?whichplace=chateau&action=chateau_restlabelfree
     // or action=cheateau_restlabel
     // or action=chateau_restbox
-    if (action.startsWith("chateau_rest")
-        ||
-        // It will be nice when KoL fixes this misspelling
-        action.startsWith("cheateau_rest")) {
+    if (action.startsWith("chateau_rest") || action.startsWith("cheateau_rest")) {
       Preferences.increment("timesRested");
       KoLCharacter.updateFreeRests(responseText.contains("chateau_restlabelfree"));
       KoLCharacter.updateStatus();
@@ -216,10 +215,7 @@ public class ChateauRequest extends PlaceRequest {
       // Clicking painting redirects to a fight, unless
       // you've already fought today. Ignore that.
       return true;
-    } else if (action.startsWith("chateau_rest")
-        ||
-        // It will be nice when KoL fixes this misspelling
-        action.startsWith("cheateau_rest")) {
+    } else if (action.startsWith("chateau_rest") || action.startsWith("cheateau_rest")) {
       message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your bed in the Chateau";
     }
 
@@ -239,8 +235,8 @@ public class ChateauRequest extends PlaceRequest {
 
   public static boolean chateauAvailable() {
     return Preferences.getBoolean("chateauAvailable")
-        && StandardRequest.isAllowed("Items", "Chateau Mantegna room key")
-        && !Limitmode.limitZone("Mountain")
+        && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Chateau Mantegna room key")
+        && !KoLCharacter.getLimitMode().limitZone("Mountain")
         && !KoLCharacter.inBadMoon()
         && !KoLCharacter.isKingdomOfExploathing();
   }

@@ -1,10 +1,14 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -28,14 +32,15 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 
 public class QuestManager {
   private static final Pattern ORE_PATTERN =
@@ -76,8 +81,13 @@ public class QuestManager {
     String redirectLocation = request.redirectLocation;
     if (redirectLocation != null) {
       if (location.startsWith("adventure")) {
-        if (locationId == AdventurePool.PALINDOME) {
-          QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
+        switch (locationId) {
+          case AdventurePool.PALINDOME:
+            QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
+            break;
+          case AdventurePool.EL_VIBRATO_ISLAND:
+            handleElVibratoChange(location, "");
+            break;
         }
       }
       return;
@@ -142,6 +152,9 @@ public class QuestManager {
             }
             break;
           }
+        case AdventurePool.EL_VIBRATO_ISLAND:
+          handleElVibratoChange(location, responseText);
+          break;
         case AdventurePool.ABOO_PEAK:
           handleABooPeakChange(responseText);
           break;
@@ -197,13 +210,20 @@ public class QuestManager {
         case AdventurePool.SPACEGATE:
           handleSpacegateChange(location, responseText);
           break;
+        case AdventurePool.THE_POND:
+        case AdventurePool.THE_BACK_40:
+        case AdventurePool.THE_OTHER_BACK_40:
+        case AdventurePool.THE_GRANARY:
+        case AdventurePool.THE_BOG:
+        case AdventurePool.THE_FAMILY_PLOT:
+        case AdventurePool.THE_SHADY_THICKET:
+          handleFarmChange(location, responseText);
+          break;
         default:
           if (KoLCharacter.getInebriety() > 25) {
             handleSneakyPeteChange(responseText);
           }
       }
-    } else if (location.startsWith("barrel")) {
-      BarrelDecorator.parseResponse(location, responseText);
     } else if (location.startsWith("choice.php") && location.contains("forceoption=0")) {
       // This can have no active choice options and therefore
       // won't be interpreted by ChoiceManager
@@ -214,6 +234,8 @@ public class QuestManager {
       }
     } else if (location.startsWith("council")) {
       handleCouncilChange(responseText);
+    } else if (location.startsWith("da")) {
+      handleDungeonsChange(responseText);
     } else if (location.startsWith("fernruin")) {
       QuestDatabase.setQuestIfBetter(Quest.EGO, "step3");
     } else if (location.startsWith("friars")) {
@@ -239,101 +261,105 @@ public class QuestManager {
       // Quest starts the very instant you click on pandamonium.php
       QuestDatabase.setQuestIfBetter(Quest.AZAZEL, QuestDatabase.STARTED);
     } else if (location.startsWith("place.php")) {
-      if (location.contains("whichplace=airport")) {
-        handleAirportChange(location, responseText);
-      } else if (location.contains("whichplace=bathole")) {
-        handleBatholeChange(responseText);
-      } else if (location.contains("whichplace=beanstalk")) {
-        if (responseText.contains("otherimages/stalktop/beanstalk.gif")) {
-          QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step1");
+      String place = GenericRequest.getPlace(location);
+      if (place != null) {
+        String action = GenericRequest.getAction(location);
+        if (place.startsWith("airport")) {
+          handleAirportChange(location, responseText);
         }
-      } else if (location.contains("whichplace=canadia")) {
-        handleCanadiaChange(location, responseText);
-      } else if (location.contains("whichplace=desertbeach")) {
-        if (location.contains("action=db_pyramid1")) {
-          handlePyramidChange(location, responseText);
-        } else {
-          handleBeachChange(responseText);
-        }
-      } else if (location.contains("whichplace=exploathing_beach")) {
-        if (location.contains("action=expl_pyramidpre")) {
-          handlePyramidChange(location, responseText);
-        } else {
-          handleBeachChange(responseText);
-        }
-      } else if (location.contains("whichplace=gingerbreadcity")) {
-        handleGingerbreadCityChange(location, responseText);
-      } else if (location.contains("whichplace=hiddencity")) {
-        handleHiddenCityChange(location, responseText);
-      } else if (location.contains("whichplace=manor1")) {
-        handleManorFirstFloorChange(location, responseText);
-      } else if (location.contains("whichplace=manor2")) {
-        handleManorSecondFloorChange(location, responseText);
-      } else if (location.contains("whichplace=manor3")
-          && responseText.contains("Spookyraven Manor Third Floor")) {
-        // If here at all, Necklace and Dance quests are complete and second floor open
-        QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
-        QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
-        // Legacy code support
-        Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
-      } else if (location.contains("whichplace=manor4")
-          && responseText.contains("Spookyraven Manor Cellar")) {
-        // If here at all, Necklace and Dance quests are complete and second floor and basement open
-        QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
-        QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
-        if (responseText.contains("sr_brickhole.gif")) {
-          QuestDatabase.setQuestIfBetter(Quest.MANOR, "step3");
-        } else {
-          QuestDatabase.setQuestIfBetter(Quest.MANOR, "step1");
-        }
-        // Legacy code support
-        Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
-        if (responseText.contains("Cold as ice and twice as smooth")) {
-          QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
-          ResultProcessor.removeItem(ItemPool.ED_EYE);
-          if (InventoryManager.getCount(ItemPool.ED_FATS_STAFF) == 0
-              && InventoryManager.getCount(ItemPool.ED_AMULET) == 0) {
-            QuestDatabase.setQuestProgress(Quest.MACGUFFIN, QuestDatabase.FINISHED);
+        switch (place) {
+          case "bathole" -> handleBatholeChange(responseText);
+          case "beanstalk" -> {
+            if (responseText.contains("otherimages/stalktop/beanstalk.gif")) {
+              QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step1");
+            }
           }
-        }
-      } else if (location.contains("whichplace=marais")) {
-        handleMaraisChange(responseText);
-      } else if (location.contains("whichplace=mclargehuge")) {
-        if (location.contains("action=trappercabin")) {
-          handleTrapperChange(responseText);
-        } else if (location.contains("action=cloudypeak")) {
-          handleMcLargehugeChange(responseText);
-        }
-      } else if (location.contains("whichplace=orc_chasm")) {
-        handleChasmChange(responseText);
-      } else if (location.contains("whichplace=palindome")) {
-        handlePalindomeChange(location, responseText);
-      } else if (location.contains("whichplace=plains")) {
-        handlePlainsChange(responseText);
-      } else if (location.contains("whichplace=pyramid")) {
-        handlePyramidChange(location, responseText);
-      } else if (location.contains("whichplace=realm_fantasy")) {
-        handleFantasyRealmChange(location, responseText);
-      } else if (location.contains("whichplace=realm_pirate")) {
-        handlePirateRealmChange(location, responseText);
-      } else if (location.contains("whichplace=sea_oldman")) {
-        handleSeaChange(location, responseText);
-      } else if (location.contains("whichplace=spacegate")) {
-        handleSpacegateChange(location, responseText);
-      } else if (location.endsWith("whichplace=town")) {
-        // don't catch town_wrong, town_right, or other places
-        handleTownChange(location, responseText);
-      } else if (location.contains("whichplace=town_right")) {
-        handleTownRightChange(location, responseText);
-      } else if (location.contains("whichplace=town_wrong")) {
-        handleTownWrongChange(location, responseText);
-      } else if (location.contains("whichplace=town_market")) {
-        handleTownMarketChange(location, responseText);
-      } else if (location.contains("whichplace=woods")) {
-        handleWoodsChange(location, responseText);
-      } else if (location.contains("whichplace=zeppelin")) {
-        if (responseText.contains("zep_mob1.gif")) {
-          QuestDatabase.setQuestIfBetter(Quest.RON, "step2");
+          case "canadia" -> handleCanadiaChange(location, responseText);
+          case "desertbeach" -> {
+            if (action != null && action.equals("db_pyramid1")) {
+              handlePyramidChange(location, responseText);
+            } else {
+              handleBeachChange(responseText);
+            }
+          }
+          case "exploathing_beach" -> {
+            if (action != null && action.equals("expl_pyramidpre")) {
+              handlePyramidChange(location, responseText);
+            } else {
+              handleBeachChange(responseText);
+            }
+          }
+          case "exploathing" -> {
+            if (action != null && action.equals("expl_council")) {
+              handleCouncilChange(responseText);
+            }
+          }
+          case "gingerbreadcity" -> handleGingerbreadCityChange(location, responseText);
+          case "hiddencity" -> handleHiddenCityChange(location, responseText);
+          case "manor1" -> handleManorFirstFloorChange(location, responseText);
+          case "manor2" -> handleManorSecondFloorChange(location, responseText);
+          case "manor3" -> {
+            if (responseText.contains("Spookyraven Manor Third Floor")) {
+              // If here at all, Necklace and Dance quests are complete and second floor open
+              QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
+              QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+              // Legacy code support
+              Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
+            }
+          }
+          case "manor4" -> {
+            if (responseText.contains("Spookyraven Manor Cellar")) {
+              // If here at all, Necklace and Dance quests are complete and second floor and
+              // basement
+              // open
+              QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
+              QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+            }
+            if (responseText.contains("sr_brickhole.gif")) {
+              QuestDatabase.setQuestIfBetter(Quest.MANOR, "step3");
+            } else {
+              QuestDatabase.setQuestIfBetter(Quest.MANOR, "step1");
+            }
+            // Legacy code support
+            Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
+            if (responseText.contains("Cold as ice and twice as smooth")) {
+              QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
+              ResultProcessor.removeItem(ItemPool.ED_EYE);
+              if (InventoryManager.getCount(ItemPool.ED_FATS_STAFF) == 0
+                  && InventoryManager.getCount(ItemPool.ED_AMULET) == 0) {
+                QuestDatabase.setQuestProgress(Quest.MACGUFFIN, QuestDatabase.FINISHED);
+              }
+            }
+          }
+          case "marais" -> handleMaraisChange(responseText);
+          case "mclargehuge" -> {
+            if (action != null) {
+              switch (action) {
+                case "trappercabin" -> handleTrapperChange(responseText);
+                case "cloudypeak" -> handleMcLargehugeChange(responseText);
+              }
+            }
+          }
+          case "monorail" -> handleMonorailChange(location, responseText);
+          case "orc_chasm" -> handleChasmChange(responseText);
+          case "palindome" -> handlePalindomeChange(location, responseText);
+          case "plains" -> handlePlainsChange(responseText);
+          case "pyramid" -> handlePyramidChange(location, responseText);
+          case "realm_fantasy" -> handleFantasyRealmChange(location, responseText);
+          case "realm_pirate" -> handlePirateRealmChange(location, responseText);
+          case "sea_oldman" -> handleSeaChange(location, responseText);
+          case "spacegate" -> handleSpacegateChange(location, responseText);
+            // don't catch town_wrong, town_right, or town_market
+          case "town" -> handleTownChange(location, responseText);
+          case "town_right" -> handleTownRightChange(location, responseText);
+          case "town_wrong" -> handleTownWrongChange(location, responseText);
+          case "town_market" -> handleTownMarketChange(location, responseText);
+          case "woods" -> handleWoodsChange(location, responseText);
+          case "zeppelin" -> {
+            if (responseText.contains("zep_mob1.gif")) {
+              QuestDatabase.setQuestIfBetter(Quest.RON, "step2");
+            }
+          }
         }
       }
     } else if (location.startsWith("questlog")) {
@@ -401,9 +427,16 @@ public class QuestManager {
 
   private static void handleTownRightChange(final String location, String responseText) {
     if (!location.contains("action") && !KoLCharacter.inBadMoon()) {
-      if (responseText.contains("Voting Booth")) {
-        Preferences.setBoolean("voteAlways", true);
+      if (responseText.contains("Voting Booth") && !Preferences.getBoolean("voteAlways")) {
+        Preferences.setBoolean("_voteToday", true);
       }
+    }
+    if (responseText.contains("Horsery")) {
+      Preferences.setBoolean("horseryAvailable", true);
+    }
+    if (responseText.contains("Telegraph Office")
+        && !Preferences.getBoolean("telegraphOfficeAvailable")) {
+      Preferences.setBoolean("_telegraphOfficeToday", true);
     }
     if (responseText.contains("Madness Bakery")) {
       Preferences.setBoolean("madnessBakeryAvailable", true);
@@ -424,6 +457,10 @@ public class QuestManager {
       if (responseText.contains("Boxing Daycare") && !Preferences.getBoolean("daycareOpen")) {
         Preferences.setBoolean("_daycareToday", true);
       }
+      if (responseText.contains("Tunnel of L.O.V.E.")
+          && !Preferences.getBoolean("loveTunnelAvailable")) {
+        Preferences.setBoolean("_loveTunnelToday", true);
+      }
       if (responseText.contains("Overgrown Lot")) {
         Preferences.setBoolean("overgrownLotAvailable", true);
       }
@@ -435,6 +472,15 @@ public class QuestManager {
       if (responseText.contains("The Skeleton Store")) {
         Preferences.setBoolean("skeletonStoreAvailable", true);
       }
+    }
+  }
+
+  private static void handleMonorailChange(final String location, String responseText) {
+    if (responseText.contains("FantasyRealm") && !Preferences.getBoolean("frAlways")) {
+      Preferences.setBoolean("_frToday", true);
+    }
+    if (responseText.contains("PirateRealm") && !Preferences.getBoolean("prAlways")) {
+      Preferences.setBoolean("_prToday", true);
     }
   }
 
@@ -567,6 +613,23 @@ public class QuestManager {
     if (location.contains("action=sg_Terminal")) {
       parseSpacegateTerminal(responseText, false);
     }
+    if (location.startsWith("adventure.php")) {
+      parseSpacegateAdventure(responseText);
+    }
+  }
+
+  private static void handleFarmChange(final String location, final String responseText) {
+    if (responseText.contains("There are no more ducks here")) {
+      KoLAdventure adventure = KoLAdventure.lastVisitedLocation;
+      if (adventure != null) {
+        StringBuilder buffer = new StringBuilder(Preferences.getString("duckAreasCleared"));
+        if (buffer.length() != 0) {
+          buffer.append(",");
+        }
+        buffer.append(adventure.getAdventureId());
+        Preferences.setString("duckAreasCleared", buffer.toString());
+      }
+    }
   }
 
   private static void handleFantasyRealmChange(final String location, final String responseText) {
@@ -683,10 +746,18 @@ public class QuestManager {
       if (responseText.contains("just want to dance")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step1");
       }
+      if (responseText.contains("Meet me in the ballroom")) {
+        QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, "step3");
+        ResultProcessor.removeItem(ItemPool.POWDER_PUFF);
+        ResultProcessor.removeItem(ItemPool.FINEST_GOWN);
+        ResultProcessor.removeItem(ItemPool.DANCING_SHOES);
+      }
     }
     if (area == AdventurePool.HAUNTED_BALLROOM) {
       if (responseText.contains("Having a Ball in the Ballroom")) {
         QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED);
+        // You cannot visit the third floor unless you have visited the second floor
+        new UpdateSuppressedRequest("place.php?whichplace=manor2").run();
       }
     }
     // Derive quest status from available rooms
@@ -907,8 +978,10 @@ public class QuestManager {
       if (responseText.contains("need you to pick up a couple things for me")) {
         QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.STARTED);
       } else if (responseText.contains("make a note of the temple's location")) {
-        QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.FINISHED);
-        Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+        KoLCharacter.setTempleUnlocked();
+        ResultProcessor.removeItem(ItemPool.BENDY_STRAW);
+        ResultProcessor.removeItem(ItemPool.PLANT_FOOD);
+        ResultProcessor.removeItem(ItemPool.SEWING_KIT);
       }
     } else if (location.contains("action=woods_hippy")
         && responseText.contains("You've got this cool boat")) {
@@ -917,7 +990,7 @@ public class QuestManager {
 
     // If we see the Hidden Temple, mark it as unlocked
     if (responseText.contains("temple.gif")) {
-      Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+      KoLCharacter.setTempleUnlocked();
     }
 
     // If we see the Black Market, update Black Market quest
@@ -1219,6 +1292,11 @@ public class QuestManager {
     }
   }
 
+  public static final void handleElVibratoChange(final String location, final String responseText) {
+    Preferences.decrement("currentPortalEnergy", 1, 0);
+    CampgroundRequest.updateElVibratoPortal();
+  }
+
   public static final void handleBeanstalkChange(final String location, final String responseText) {
     // If you can adventure in areas, it tells us about quests
     int area = AdventureRequest.parseArea(location);
@@ -1393,6 +1471,12 @@ public class QuestManager {
     QuestDatabase.handleCouncilText(responseText);
     if (QuestDatabase.isQuestStarted(Quest.MACGUFFIN)) {
       QuestDatabase.setQuestIfBetter(Quest.BLACK, QuestDatabase.STARTED);
+    }
+  }
+
+  private static void handleDungeonsChange(final String responseText) {
+    if (responseText.contains("barrelshrine")) {
+      Preferences.setBoolean("barrelShrineUnlocked", true);
     }
   }
 
@@ -1623,6 +1707,7 @@ public class QuestManager {
         }
       }
     } else if (monsterName.equals("Fun-Guy Playmate")) {
+      Preferences.increment("funGuyMansionKills");
       if (responseText.contains("hot tub with some more bacteria")) {
         Preferences.increment("brodenBacteria", 1);
         if (Preferences.getInteger("brodenBacteria") >= 10) {
@@ -2368,6 +2453,36 @@ public class QuestManager {
   public static final Pattern SPACEGATE_TURNS_PATTERN =
       Pattern.compile("<p>Spacegate Energy remaining: <b><font size=\\+2>(\\d+) </font>");
 
+  public record Hazard(String terminal, String adventure, String gear) {}
+
+  public static final Hazard[] HAZARDS = {
+    new Hazard("toxic atmosphere", "Toxic environment", "filter helmet"),
+    new Hazard("high gravity", "Extremely high gravity", "exo-servo leg braces"),
+    new Hazard("irradiated", "High radiation levels", "rad cloak"),
+    new Hazard("magnetic storms", "High levels of magnetic interference", "gate tranceiver"),
+    new Hazard("high winds", "Intense winds", "high-friction boots"),
+  };
+
+  public static void parseSpacegateAdventure(final String text) {
+    // If we've already parsed the hazards, nothing to do here.
+    if (!Preferences.getString("_spacegateHazards").equals("")) {
+      return;
+    }
+    // Otherwise, this is from a portable spacegate.
+    // Parse hazards and needed equipment
+    Set<String> hazards = new HashSet<>();
+    Set<String> gear = new HashSet<>();
+
+    for (Hazard hazard : HAZARDS) {
+      if (text.contains(hazard.adventure)) {
+        hazards.add(hazard.terminal);
+        gear.add(hazard.gear);
+      }
+    }
+    Preferences.setString("_spacegateHazards", hazards.stream().collect(Collectors.joining("|")));
+    Preferences.setString("_spacegateGear", gear.stream().collect(Collectors.joining("|")));
+  }
+
   public static void parseSpacegateTerminal(final String text, final boolean print) {
     if (!text.contains("Spacegate Terminal")) {
       return;
@@ -2396,6 +2511,18 @@ public class QuestManager {
     Preferences.setString("_spacegateHazards", hazards);
     if (print) {
       RequestLogger.updateSessionLog("Hazards: " + hazards);
+    }
+
+    var terminalHazards = hazards;
+    String gear =
+        Arrays.stream(HAZARDS)
+            .filter(h -> terminalHazards.contains(h.terminal))
+            .map(h -> h.gear)
+            .collect(Collectors.joining("|"));
+
+    Preferences.setString("_spacegateGear", gear);
+    if (print) {
+      RequestLogger.updateSessionLog("Gear: " + gear);
     }
 
     m = QuestManager.SPACEGATE_PLANT_LIFE_PATTERN.matcher(text);

@@ -20,7 +20,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -156,7 +156,7 @@ public class StationaryButtonDecorator {
                 + location
                 + "'><img src='"
                 + KoLmafia.imageServerPath()
-                + "itemimages/plexpock.gif'></td><td class=spacer></td>";
+                + "itemimages/plexpock.gif'></a></td><td class=spacer></td>";
         buffer.insert(imageIndex, script);
 
         // Give it either the "script" or "again" label
@@ -240,7 +240,7 @@ public class StationaryButtonDecorator {
         CAB.append(choice ? "choice.php?action=auto" : getAdventureAgainLocation(buffer));
         CAB.append("'><img src='");
         CAB.append(KoLmafia.imageServerPath());
-        CAB.append("itemimages/plexpock.gif'></td>");
+        CAB.append("itemimages/plexpock.gif'></a></td>");
         //     Column 2
         CAB.append("<td class=spacer></td>");
         //     Column 3
@@ -434,7 +434,7 @@ public class StationaryButtonDecorator {
 
     // If you are Batfellow, you cannot "attack". Instead, you have
     // skills based on items you might have.
-    if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, true);
       StationaryButtonDecorator.addBatButton(actionBuffer, "Bat-Punch", 0);
       StationaryButtonDecorator.addBatButton(actionBuffer, "Bat-Kick", 0);

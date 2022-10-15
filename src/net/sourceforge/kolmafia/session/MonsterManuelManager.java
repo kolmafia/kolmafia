@@ -279,7 +279,7 @@ public class MonsterManuelManager {
                 + id
                 + ") has article '"
                 + article
-                + ", but KoLmafia says it is "
+                + "', but KoLmafia says it is '"
                 + monster.getArticle()
                 + "'");
       }

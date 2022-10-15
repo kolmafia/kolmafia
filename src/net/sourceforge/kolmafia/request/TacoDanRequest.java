@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class TacoDanRequest extends CoinMasterRequest {
   public static final String master = "Taco Dan's Taco Stand";
@@ -113,7 +113,7 @@ public class TacoDanRequest extends CoinMasterRequest {
         && !Preferences.getBoolean("sleazeAirportAlways")) {
       return "You don't have access to Spring Break Beach";
     }
-    if (Limitmode.limitZone("Spring Break Beach")) {
+    if (KoLCharacter.getLimitMode().limitZone("Spring Break Beach")) {
       return "You cannot currently access Spring Break Beach";
     }
     return null;

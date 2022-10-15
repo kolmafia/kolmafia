@@ -1,24 +1,33 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
+import internal.network.FakeHttpResponse;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class GenericRequestTest {
@@ -26,6 +35,19 @@ public class GenericRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("GenericRequestTest");
     Preferences.reset("GenericRequestTest");
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "inventory.php, false",
+    "mall.php, true",
+    "manageprices.php, true",
+    "backoffice.php, true",
+    "newchatmessages.php, true",
+  })
+  public void certainUrlsAreIgnored(final String url, final boolean expected) {
+    var req = new GenericRequest(url);
+    assertThat(GenericRequest.shouldIgnore(req), equalTo(expected));
   }
 
   @Test
@@ -108,6 +130,21 @@ public class GenericRequestTest {
     assertThat("sweat", isSetTo(expectedSweat));
   }
 
+  @ParameterizedTest
+  @ValueSource(ints = {100, 40, 0})
+  public void parsePowerfulGlove(int expectedCharge) {
+    var cleanups = withProperty("_powerfulGloveBatteryPowerUsed", 50);
+
+    try (cleanups) {
+      var req = new GenericRequest("desc_item.php?whichitem=991142661");
+      req.responseText =
+          html("request/test_desc_item_powerful_glove_" + expectedCharge + "_charge_used.html");
+      req.processResponse();
+
+      assertThat("_powerfulGloveBatteryPowerUsed", isSetTo(expectedCharge));
+    }
+  }
+
   @Test
   public void detectsBogusChoices() {
     var cleanup =
@@ -123,6 +160,107 @@ public class GenericRequestTest {
 
       assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ABORT));
       assertThat("_shrubDecorated", isSetTo(false));
+    }
+  }
+
+  @Nested
+  class SuppressUpdate {
+
+    public static Cleanups withUpdateSuppressed() {
+      var old = GenericRequest.updateSuppressed();
+      GenericRequest.suppressUpdate(true);
+      return new Cleanups(
+          () -> {
+            GenericRequest.suppressUpdate(old);
+          });
+    }
+
+    @Test
+    public void willRequestUnsuppressedUpdate() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState());
+
+      try (cleanup) {
+        var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
+        request.run();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=2&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void willGloballySuppressUpdate() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withItem("seal tooth"),
+              withUpdateSuppressed(),
+              withHttpClientBuilder(builder),
+              withContinuationState());
+
+      try (cleanup) {
+        var request = new GenericRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
+        request.run();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=2&ajax=1");
+      }
+    }
+
+    @Test
+    public void willLocallySuppressUpdate() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanup =
+          new Cleanups(
+              withItem("seal tooth"), withHttpClientBuilder(builder), withContinuationState());
+
+      try (cleanup) {
+        var request = new UpdateSuppressedRequest("inv_use.php?whichitem=2&ajax=1");
+        builder.client.addResponse(200, html("request/test_use_seal_tooth.html"));
+        request.run();
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        var requests = builder.client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=2&ajax=1");
+      }
+    }
+  }
+
+  @Test
+  public void testTracksTowelAcquired() {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastTowelAscension", -1),
+            withAscensions(123),
+            withNextResponse(
+                new FakeHttpResponse<>(
+                    302, Map.of("location", List.of("choice.php?forceoption=0")), ""),
+                new FakeHttpResponse<>(
+                    200, html("request/test_request_haunted_bathroom_off_the_rack.html")),
+                // Swallow an api request triggered by the choice containing a charpane request.
+                new FakeHttpResponse<>(200, ""),
+                new FakeHttpResponse<>(
+                    200, html("request/test_request_haunted_bathroom_towel.html"))));
+
+    try (cleanups) {
+      // Does a 302 redirect to choice.php
+      var hitChoice =
+          new GenericRequest("adventure.php?snarfblat=" + AdventurePool.HAUNTED_BATHROOM);
+      hitChoice.run();
+
+      // Take the towel
+      var tookTowel = new GenericRequest("choice.php?pwd&whichchoice=882&option=1");
+      tookTowel.run();
+
+      assertThat("lastTowelAscension", isSetTo(123));
     }
   }
 }

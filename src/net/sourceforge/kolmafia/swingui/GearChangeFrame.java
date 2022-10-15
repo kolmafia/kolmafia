@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -27,6 +28,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -36,11 +38,10 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -138,139 +139,34 @@ public class GearChangeFrame extends GenericFrame {
     RequestThread.executeMethodAfterInitialization(this, "validateSelections");
   }
 
-  public static void showModifiers(Object value, boolean isFamiliarItem) {
-    if (GearChangeFrame.INSTANCE == null) {
-      return;
-    }
-
-    EquipmentTabPanel pane =
-        (EquipmentTabPanel) GearChangeFrame.INSTANCE.tabs.getSelectedComponent();
-
+  public static StringBuffer getModifiers(
+      Object value, final int slot, final boolean isCustomizablePanel, final int width) {
+    StringBuffer buff = new StringBuffer();
     Modifiers mods;
 
-    if (value instanceof AdventureResult) {
-      AdventureResult item = (AdventureResult) value;
-      int itemId = item.getItemId();
-      int familiarId = KoLCharacter.getFamiliar().getId();
-      int consumption = ItemDatabase.getConsumptionType(itemId);
-
-      if (itemId == -1) {
-        // Nothing for (none)
-        mods = null;
-      }
-      if (isFamiliarItem
-          && consumption != KoLConstants.EQUIP_FAMILIAR
-          && (familiarId == FamiliarPool.HATRACK || (familiarId == FamiliarPool.SCARECROW))) {
-        // Mad Hat Racks can equip hats.
-        // Fancypants Scarecrows can equip pants.
-        //
-        // In each case, there is a special familiar
-        // effect; the standard item modifiers are
-        // meaningless.
-        //
-        // Disembodied Hands can equip one-handed weapons.
-        // Left Mand Man can equip off-hand items.
-        //
-        // In each case, the standard item modifiers
-        // are in force.
-        mods = null;
-      } else {
-        Modifiers newMods = new Modifiers();
-        newMods.add(Modifiers.getItemModifiers(itemId));
-
-        switch (itemId) {
-          case ItemPool.CROWN_OF_ED:
-            {
-              newMods.add(Modifiers.getModifiers("Edpiece", Preferences.getString("edPiece")));
-              break;
-            }
-          case ItemPool.SNOW_SUIT:
-            {
-              newMods.add(Modifiers.getModifiers("Snowsuit", Preferences.getString("snowsuit")));
-              break;
-            }
-          case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-            {
-              newMods.add(
-                  Modifiers.getModifiers(
-                      "RetroCape",
-                      Preferences.getString("retroCapeSuperhero")
-                          + " "
-                          + Preferences.getString("retroCapeWashingInstructions")));
-              break;
-            }
-          case ItemPool.BACKUP_CAMERA:
-            {
-              newMods.add(
-                  Modifiers.getModifiers(
-                      "BackupCamera", Preferences.getString("backupCameraMode")));
-              break;
-            }
-          case ItemPool.COWBOY_BOOTS:
-            {
-              AdventureResult skin = EquipmentManager.getEquipment(EquipmentManager.BOOTSKIN);
-              AdventureResult spur = EquipmentManager.getEquipment(EquipmentManager.BOOTSPUR);
-              if (skin != null && skin != EquipmentRequest.UNEQUIP) {
-                newMods.add(Modifiers.getItemModifiers(skin.getItemId()));
-              }
-              if (spur != null && spur != EquipmentRequest.UNEQUIP) {
-                newMods.add(Modifiers.getItemModifiers(spur.getItemId()));
-              }
-              break;
-            }
-          case ItemPool.FOLDER_HOLDER:
-            {
-              for (int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i) {
-                AdventureResult folder = EquipmentManager.getEquipment(i);
-                if (folder != null && folder != EquipmentRequest.UNEQUIP) {
-                  newMods.add(Modifiers.getItemModifiers(folder.getItemId()));
-                }
-              }
-              break;
-            }
-          case ItemPool.STICKER_CROSSBOW:
-          case ItemPool.STICKER_SWORD:
-            {
-              for (int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i) {
-                AdventureResult sticker = EquipmentManager.getEquipment(i);
-                if (sticker != null && sticker != EquipmentRequest.UNEQUIP) {
-                  newMods.add(Modifiers.getItemModifiers(sticker.getItemId()));
-                }
-              }
-              break;
-            }
-          case ItemPool.CARD_SLEEVE:
-            {
-              AdventureResult card = EquipmentManager.getEquipment(EquipmentManager.CARDSLEEVE);
-              if (card != null && card != EquipmentRequest.UNEQUIP) {
-                newMods.add(Modifiers.getItemModifiers(card.getItemId()));
-              }
-              break;
-            }
-          case ItemPool.UNBREAKABLE_UMBRELLA:
-            {
-              newMods.add(
-                  Modifiers.getModifiers(
-                      "UnbreakableUmbrella", Preferences.getString("umbrellaState")));
-              break;
-            }
-          case ItemPool.VAMPYRIC_CLOAKE:
-            newMods.applyVampyricCloakeModifiers();
-        }
-        mods = newMods;
-      }
-    } else if (value instanceof SpecialOutfit) {
-      mods = Modifiers.getModifiers("Outfit", ((SpecialOutfit) value).getName());
-    } else if (value instanceof FamiliarData
-        && pane == GearChangeFrame.INSTANCE.customizablePanel) {
-      mods = Modifiers.getModifiers("Throne", ((FamiliarData) value).getRace());
+    if (value instanceof AdventureResult item) {
+      mods = new Modifiers();
+      var taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
+      KoLCharacter.addItemAdjustment(
+          mods,
+          slot,
+          item,
+          EquipmentManager.allEquipment(),
+          KoLCharacter.getEnthroned(),
+          KoLCharacter.getBjorned(),
+          Modeable.getStateMap(),
+          true,
+          taoFactor);
+    } else if (value instanceof SpecialOutfit outfit) {
+      mods = Modifiers.getModifiers("Outfit", outfit.getName());
+    } else if (value instanceof FamiliarData familiar && isCustomizablePanel) {
+      mods = Modifiers.getModifiers("Throne", familiar.getRace());
     } else {
-      return;
+      return null;
     }
 
     if (mods == null) {
-      pane.getModifiersLabel().setText("");
-      return;
+      return buff;
     }
 
     String name = mods.getString(Modifiers.INTRINSIC_EFFECT);
@@ -281,9 +177,8 @@ public class GearChangeFrame extends GenericFrame {
       mods = newMods;
     }
 
-    StringBuilder buff = new StringBuilder();
     buff.append("<html><table><tr><td width=");
-    buff.append(pane.getModifiersWidth());
+    buff.append(width);
     buff.append(">");
 
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
@@ -341,7 +236,32 @@ public class GearChangeFrame extends GenericFrame {
     }
 
     buff.append("</td></tr></table></html>");
-    pane.getModifiersLabel().setText(buff.toString());
+    return buff;
+  }
+
+  public static void showModifiers(Object value) {
+    var slot =
+        (value instanceof AdventureResult item)
+            ? EquipmentManager.consumeFilterToEquipmentType(ItemDatabase.getConsumptionType(item))
+            : -1;
+    showModifiers(value, slot);
+  }
+
+  public static void showModifiers(Object value, final int slot) {
+    if (GearChangeFrame.INSTANCE == null) {
+      return;
+    }
+
+    EquipmentTabPanel pane =
+        (EquipmentTabPanel) GearChangeFrame.INSTANCE.tabs.getSelectedComponent();
+
+    var isCustomizablePanel = pane == GearChangeFrame.INSTANCE.customizablePanel;
+
+    StringBuffer buff = getModifiers(value, slot, isCustomizablePanel, pane.getModifiersWidth());
+
+    if (buff != null) {
+      pane.getModifiersLabel().setText(buff.toString());
+    }
   }
 
   private abstract class EquipmentTabPanel extends GenericPanel {
@@ -537,7 +457,7 @@ public class GearChangeFrame extends GenericFrame {
 
     // Start with accessories
 
-    for (int i = EquipmentManager.ACCESSORY1; i <= EquipmentManager.ACCESSORY3; ++i) {
+    for (int i : EquipmentManager.ACCESSORY_SLOTS) {
       if (pieces[i] != null) {
         RequestThread.postRequest(new EquipmentRequest(pieces[i], i, true));
         pieces[i] = null;
@@ -844,10 +764,7 @@ public class GearChangeFrame extends GenericFrame {
     public EquipmentComboBox(final LockableListModel<AdventureResult> model, final int slot) {
       super(model);
 
-      DefaultListCellRenderer renderer =
-          (slot == EquipmentManager.FAMILIAR)
-              ? ListCellRendererFactory.getFamiliarEquipmentRenderer()
-              : ListCellRendererFactory.getUsableEquipmentRenderer();
+      DefaultListCellRenderer renderer = ListCellRendererFactory.getUsableEquipmentRenderer(slot);
 
       this.setRenderer(renderer);
       this.addPopupMenuListener(new ChangeItemListener());
@@ -1011,19 +928,14 @@ public class GearChangeFrame extends GenericFrame {
     }
   }
 
-  private FamiliarData familiarCarryingEquipment(final int slot) {
-    switch (slot) {
-      case EquipmentManager.HAT:
-        return KoLCharacter.findFamiliar(FamiliarPool.HATRACK);
-      case EquipmentManager.PANTS:
-        return KoLCharacter.findFamiliar(FamiliarPool.SCARECROW);
-      case EquipmentManager.WEAPON:
-        return KoLCharacter.findFamiliar(FamiliarPool.HAND);
-      case EquipmentManager.OFFHAND:
-        return KoLCharacter.findFamiliar(FamiliarPool.LEFT_HAND);
-      default:
-        return null;
-    }
+  private Optional<FamiliarData> familiarCarryingEquipment(final int slot) {
+    return switch (slot) {
+      case EquipmentManager.HAT -> KoLCharacter.ownedFamiliar(FamiliarPool.HATRACK);
+      case EquipmentManager.PANTS -> KoLCharacter.ownedFamiliar(FamiliarPool.SCARECROW);
+      case EquipmentManager.WEAPON -> KoLCharacter.ownedFamiliar(FamiliarPool.HAND);
+      case EquipmentManager.OFFHAND -> KoLCharacter.ownedFamiliar(FamiliarPool.LEFT_HAND);
+      default -> Optional.empty();
+    };
   }
 
   private List<List<AdventureResult>> populateEquipmentLists() {
@@ -1114,9 +1026,9 @@ public class GearChangeFrame extends GenericFrame {
 
       // If a non-current familiar has an appropriate item, add it.
       if (slot != EquipmentManager.FAMILIAR) {
-        FamiliarData familiar = familiarCarryingEquipment(slot);
-        if (familiar != null && familiar != KoLCharacter.getFamiliar()) {
-          AdventureResult familiarItem = familiar.getItem();
+        var familiar = familiarCarryingEquipment(slot);
+        if (familiar.isPresent() && familiar.get() != KoLCharacter.getFamiliar()) {
+          AdventureResult familiarItem = familiar.get().getItem();
           if (!items.contains(familiarItem) && this.filterItem(familiarItem, slot)) {
             items.add(familiarItem);
           }
@@ -1127,7 +1039,7 @@ public class GearChangeFrame extends GenericFrame {
     // Add stealable familiar equipment
     if (myFamiliar != FamiliarData.NO_FAMILIAR) {
       List<AdventureResult> items = lists.get(EquipmentManager.FAMILIAR);
-      for (FamiliarData familiar : KoLCharacter.familiars) {
+      for (FamiliarData familiar : KoLCharacter.ownedFamiliars()) {
         if (familiar == myFamiliar) {
           continue;
         }
@@ -1183,7 +1095,7 @@ public class GearChangeFrame extends GenericFrame {
         return false;
     }
 
-    return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip(item);
+    return KoLCharacter.getLimitMode() == LimitMode.NONE || EquipmentManager.canEquip(item);
   }
 
   private boolean filterWeapon(final AdventureResult weapon, final int slot) {
@@ -1295,7 +1207,8 @@ public class GearChangeFrame extends GenericFrame {
     }
 
     // Make sure we meet requirements in Limitmode, otherwise show (greyed out)
-    return KoLCharacter.getLimitmode() == null || EquipmentManager.canEquip(item.getName());
+    return KoLCharacter.getLimitMode() == LimitMode.NONE
+        || EquipmentManager.canEquip(item.getName());
   }
 
   private AdventureResult currentOrSelectedItem(final int slot) {
@@ -1331,7 +1244,8 @@ public class GearChangeFrame extends GenericFrame {
       List<AdventureResult> items = equipmentLists.get(slot);
       AdventureResult selectedItem = this.currentOrSelectedItem(slot);
       GearChangeFrame.updateEquipmentList(model, items, selectedItem);
-      this.equipment[slot].setEnabled(this.isEnabled && !Limitmode.limitSlot(slot));
+      this.equipment[slot].setEnabled(
+          this.isEnabled && !KoLCharacter.getLimitMode().limitSlot(slot));
 
       if (slot == EquipmentManager.WEAPON) {
         // Equipping 2 or more handed weapon: nothing in off-hand
@@ -1389,28 +1303,34 @@ public class GearChangeFrame extends GenericFrame {
 
     this.updateFamiliarList(this.familiars, this.validFamiliars(currentFamiliar), selectedFamiliar);
     this.equipment[EquipmentManager.FAMILIAR].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
     this.updateFamiliarList(
         this.crownFamiliars,
         this.carriableFamiliars(currentFamiliar, bjornedFamiliar),
         selectedThroneFamiliar);
     this.equipment[EquipmentManager.CROWNOFTHRONES].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
     this.updateFamiliarList(
         this.bjornFamiliars,
         this.carriableFamiliars(currentFamiliar, enthronedFamiliar),
         selectedBjornFamiliar);
     this.equipment[EquipmentManager.BUDDYBJORN].setEnabled(
-        this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam());
+        this.isEnabled
+            && !KoLCharacter.getLimitMode().limitFamiliars()
+            && !KoLCharacter.inPokefam());
 
-    this.outfitSelect.setEnabled(this.isEnabled && !Limitmode.limitOutfits());
-    this.customSelect.setEnabled(this.isEnabled && !Limitmode.limitOutfits());
+    this.outfitSelect.setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitOutfits());
+    this.customSelect.setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitOutfits());
   }
 
   private List<FamiliarData> validFamiliars(final FamiliarData currentFamiliar) {
     List<FamiliarData> familiars = new ArrayList<>();
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       // Only add it once
       if (familiars.contains(fam)) {
         continue;
@@ -1443,7 +1363,7 @@ public class GearChangeFrame extends GenericFrame {
       final FamiliarData exclude1, final FamiliarData exclude2) {
     List<FamiliarData> familiars = new ArrayList<>();
 
-    for (FamiliarData fam : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
       // Cannot carry a familiar if it is current familiar or is carried elsewhere
       if (fam == exclude1 || fam == exclude2) {
         continue;

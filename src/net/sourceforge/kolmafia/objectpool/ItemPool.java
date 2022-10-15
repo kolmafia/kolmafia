@@ -330,6 +330,7 @@ public class ItemPool {
   public static final int ROLLING_PIN = 873;
   public static final int UNROLLING_PIN = 874;
   public static final int GOOFBALLS = 879;
+  public static final int ONE_HUNDRED_WATT_BULB = 902;
   public static final int YUMMY_TUMMY_BEAN = 905;
   public static final int DWARF_BREAD = 910;
   public static final int PLASTIC_SWORD = 938;
@@ -553,6 +554,7 @@ public class ItemPool {
   public static final int TWO_BALL = 1901;
   public static final int FIVE_BALL = 1904;
   public static final int SIX_BALL = 1905;
+  public static final int SEVEN_BALL = 1906;
   public static final int EIGHT_BALL = 1907;
   public static final int SPOOKYRAVEN_SPECTACLES = 1916;
   public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;
@@ -2237,6 +2239,8 @@ public class ItemPool {
   public static final int THINKNERD_PACKAGE = 7278;
   public static final int ELEVENT = 7295;
   public static final int PROFESSOR_WHAT_TSHIRT = 7297;
+  public static final int BENDY_STRAW = 7398;
+  public static final int PLANT_FOOD = 7399;
   public static final int SEWING_KIT = 7300;
   public static final int BILLIARDS_KEY = 7301;
   public static final int LIBRARY_KEY = 7302;
@@ -2302,6 +2306,7 @@ public class ItemPool {
   public static final int OFFENSIVE_JOKE_BOOK = 7458;
   public static final int COOKING_WITH_GREASE_BOOK = 7459;
   public static final int DINER_HANDBOOK = 7460;
+  public static final int ANTI_FUNGAL_SPRAY = 7461;
   public static final int SPRING_BEACH_TATTOO_COUPON = 7465;
   public static final int SPRING_BEACH_CHARTER = 7466;
   public static final int SPRING_BEACH_TICKET = 7467;
@@ -2746,6 +2751,7 @@ public class ItemPool {
   public static final int TELEGRAPH_OFFICE_DEED = 8836;
   public static final int PLAINTIVE_TELEGRAM = 8837;
   public static final int COWBOY_BOOTS = 8850;
+  public static final int INFLATABLE_TELEGRAPH_OFFICE = 8851;
   public static final int HEIMZ_BEANS = 8866;
   public static final int TESLA_BEANS = 8867;
   public static final int MIXED_BEANS = 8868;
@@ -2883,6 +2889,7 @@ public class ItemPool {
   public static final int TRICK_TOT_EYEBALL = 9144;
   public static final int TRICK_TOT_LIBERTY = 9145;
   public static final int HOARDED_CANDY_WAD = 9146;
+  public static final int TWITCHING_TELEVISION_TATTOO = 9148;
   public static final int STUFFING_FLUFFER = 9164;
   public static final int TURKEY_BLASTER = 9166;
   public static final int CANDIED_SWEET_POTATOES = 9171;
@@ -2898,6 +2905,7 @@ public class ItemPool {
   public static final int SPRINKLES = 9205;
   public static final int VIGILANTE_BOOK = 9206;
   public static final int BROKEN_CHOCOLATE_POCKETWATCH = 9215;
+  public static final int CLOD_OF_DIRT = 9216;
   public static final int GINGERBREAD_RESTRAINING_ORDER = 9217;
   public static final int GINGERBREAD_WINE = 9220;
   public static final int GINGERBREAD_MUG = 9221;
@@ -2933,10 +2941,10 @@ public class ItemPool {
   public static final int HEART_SHAPED_CRATE = 9316;
   public static final int LOVE_BOOMERANG = 9323;
   public static final int LOVE_CHOCOLATE = 9325;
+  public static final int LOVE_ENTRANCE_PASS = 9330;
   public static final int ELDRITCH_ICHOR = 9333;
   public static final int ELDRITCH_TINCTURE = 9335;
   public static final int ELDRITCH_TINCTURE_DEPLETED = 9336;
-  public static final int CLOD_OF_DIRT = 9216;
   public static final int DIRTY_BOTTLECAP = 9343;
   public static final int DISCARDED_BUTTON = 9344;
   public static final int GUMMY_MEMORY = 9345;
@@ -2954,6 +2962,11 @@ public class ItemPool {
   public static final int TOGGLE_SWITCH_BARTEND = 9402;
   public static final int TOGGLE_SWITCH_BOUNCE = 9403;
   public static final int SPACEGATE_ACCESS_BADGE = 9404;
+  public static final int FILTER_HELMET = 9405;
+  public static final int EXO_SERVO_LEG_BRACES = 9406;
+  public static final int RAD_CLOAK = 9407;
+  public static final int GATE_TRANCEIVER = 9408;
+  public static final int HIGH_FRICTION_BOOTS = 9409;
   public static final int SPACEGATE_RESEARCH = 9410;
   public static final int ALIEN_ROCK_SAMPLE = 9411;
   public static final int ALIEN_GEMSTONE = 9412;
@@ -2981,6 +2994,7 @@ public class ItemPool {
   public static final int SPACE_BABY_CHILDRENS_BOOK = 9463;
   public static final int SPACE_BABY_BAWBAW = 9464;
   public static final int PORTABLE_SPACEGATE = 9465;
+  public static final int OPEN_PORTABLE_SPACEGATE = 9477;
   public static final int NEW_YOU_CLUB_MEMBERSHIP_FORM = 9478;
   public static final int AFFIRMATION_SUPERFICIALLY_INTERESTED = 9481;
   public static final int AFFIRMATION_MIND_MASTER = 9483;
@@ -3389,6 +3403,10 @@ public class ItemPool {
   public static final int MOTHERS_NECKLACE = 10925;
   public static final int DESIGNER_SWEATPANTS = 10929;
   public static final int STILLSUIT = 10932;
+  public static final int DINODOLLAR = 10944;
+  public static final int DINOSAUR_DROPPINGS = 10945;
+  public static final int JURASSIC_PARKA = 10952;
+  public static final int AUTUMNATON = 10954;
 
   private ItemPool() {}
 

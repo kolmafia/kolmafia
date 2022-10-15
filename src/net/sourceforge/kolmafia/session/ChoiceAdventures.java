@@ -3,8 +3,6 @@ package net.sourceforge.kolmafia.session;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +25,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -1451,7 +1449,7 @@ public abstract class ChoiceAdventures {
         new Option("mullet wig and briefcase"),
         new Option("frilly skirt and hot wings"));
 
-    //  O Cap'm, My Cap'm
+    // O Cap'm, My Cap'm
     new ChoiceCost(189, new Cost(1, new AdventureResult(AdventureResult.MEAT, -977)));
 
     // Choice 190 is unknown
@@ -6325,10 +6323,14 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static final void decorateChoice(final int choice, final StringBuffer buffer) {
+  public static final void decorateChoice(
+      final int choice, final StringBuffer buffer, final boolean addComplexFeatures) {
     if (choice >= 48 && choice <= 70) {
       // Add "Go To Goal" button for the Violet Fog
       VioletFogManager.addGoalButton(buffer);
+      if (addComplexFeatures) {
+        VioletFogManager.addGraph(buffer);
+      }
       return;
     }
 
@@ -8766,15 +8768,16 @@ public abstract class ChoiceAdventures {
         // Yachtzee
         result = new Option[3];
         // Is it 7 or more days since the last time you got the Ultimate Mind Destroyer?
-        Calendar date = HolidayDatabase.getCalendar();
+        var date = DateTimeManager.getArizonaDateTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String lastUMDDateString = Preferences.getString("umdLastObtained");
-        if (lastUMDDateString != null && lastUMDDateString != "") {
+        if (lastUMDDateString != null && !lastUMDDateString.equals("")) {
           try {
-            Date lastUMDDate = sdf.parse(lastUMDDateString);
-            Calendar compareDate = HolidayDatabase.getCalendar();
-            compareDate.setTime(lastUMDDate);
-            compareDate.add(Calendar.DAY_OF_MONTH, 7);
+            var compareDate =
+                sdf.parse(lastUMDDateString)
+                    .toInstant()
+                    .atZone(DateTimeManager.ARIZONA)
+                    .plusDays(7);
             if (date.compareTo(compareDate) >= 0) {
               result[0] = new Option("get Ultimate Mind Destroyer");
             } else {

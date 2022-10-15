@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -48,7 +49,6 @@ import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
@@ -112,7 +112,8 @@ public class Maximizer {
     RequestLogger.updateSessionLog("Maximizer: " + maxMe);
     KoLConstants.maximizerMList.addItem(maxMe);
     Maximizer.eval = new Evaluator(maxMe);
-    Integer filterCount = Math.toIntExact(filter.values().stream().filter(v -> v).count());
+    int filterCount = Math.toIntExact(filter.values().stream().filter(v -> v).count());
+    var limitMode = KoLCharacter.getLimitMode();
 
     // parsing error
     if (!KoLmafia.permitsContinue() || !filter.containsValue(true)) {
@@ -169,7 +170,7 @@ public class Maximizer {
 
       boolean[] alreadyDone = new boolean[EquipmentManager.ALL_SLOTS];
 
-      for (int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; ++slot) {
+      for (int slot : EquipmentManager.ACCESSORY_SLOTS) {
         if (Maximizer.best.equipment[slot].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
             && EquipmentManager.getEquipment(slot).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
@@ -193,10 +194,7 @@ public class Maximizer {
       return;
     }
 
-    Iterator<String> i = Modifiers.getAllModifiers();
-    while (i.hasNext()) {
-      String lookup = i.next();
-
+    for (String lookup : Modifiers.getAllModifiers()) {
       // Include skills from absorbing items in Noobcore
       if (KoLCharacter.inNoobcore() && lookup.startsWith("Skill:")) {
         String name = lookup.substring(6);
@@ -314,6 +312,10 @@ public class Maximizer {
 
       if (lookup.startsWith("Horsery:")
           && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+        // Must be available in your current path
+        if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
+          continue;
+        }
         String cmd, text;
         int price = 0;
         String name = lookup.substring(8);
@@ -578,13 +580,14 @@ public class Maximizer {
           if (item == null && ClanLoungeRequest.isHotDog(iName)) {
             if (KoLCharacter.inBadMoon()) {
               continue;
-            } else if (!StandardRequest.isAllowed("Clan Item", "Clan Hot Dog Stand")) {
+            } else if (!StandardRequest.isAllowed(
+                RestrictedItemType.CLAN_ITEMS, "Clan Hot Dog Stand")) {
               continue;
             }
             // Jarlsberg and Zombie characters can't eat hot dogs
             else if (KoLCharacter.isJarlsberg() || KoLCharacter.isZombieMaster()) {
               continue;
-            } else if (Limitmode.limitClan()) {
+            } else if (limitMode.limitClan()) {
               continue;
             } else if (!haveVipKey) {
               if (includeAll) {
@@ -627,7 +630,7 @@ public class Maximizer {
           duration = 20;
         } else if (cmd.startsWith("cast ")) {
           String skillName = UneffectRequest.effectToSkill(name);
-          if (!StandardRequest.isAllowed("Skills", skillName)) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.SKILLS, skillName)) {
             continue;
           }
 
@@ -660,7 +663,7 @@ public class Maximizer {
             continue;
           }
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Skills", "Sweet Synthesis")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Sweet Synthesis")) {
             continue;
           }
           // You must know the skill
@@ -683,7 +686,8 @@ public class Maximizer {
           spleenCost = 1;
         } else if (cmd.startsWith("pillkeeper")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Items", "Eight Days a Week Pill Keeper")) {
+          if (!StandardRequest.isAllowed(
+              RestrictedItemType.ITEMS, "Eight Days a Week Pill Keeper")) {
             continue;
           }
           // You must have the pill keeper
@@ -704,7 +708,7 @@ public class Maximizer {
           duration = 30;
         } else if (cmd.startsWith("cargo effect ")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Items", "Cargo Cultist Shorts")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cargo Cultist Shorts")) {
             continue;
           }
           // You must have the cargo shorts
@@ -732,7 +736,7 @@ public class Maximizer {
         } else if (cmd.startsWith("friars ")) {
           int lfc = Preferences.getInteger("lastFriarCeremonyAscension");
           int ka = Preferences.getInteger("knownAscensions");
-          if (lfc < ka || Limitmode.limitZone("Friars")) {
+          if (lfc < ka || limitMode.limitZone("Friars")) {
             continue;
           } else if (Preferences.getBoolean("friarsBlessingReceived")) {
             cmd = "";
@@ -748,7 +752,7 @@ public class Maximizer {
           } else if (!RabbitHoleManager.hatLengthAvailable(
               StringUtilities.parseInt(cmd.substring(7)))) {
             continue;
-          } else if (Limitmode.limitZone("Rabbit Hole")) {
+          } else if (limitMode.limitZone("Rabbit Hole")) {
             continue;
           } else if (Preferences.getBoolean("_madTeaParty")) {
             cmd = "";
@@ -758,7 +762,7 @@ public class Maximizer {
         } else if (cmd.startsWith("mom ")) {
           if (!QuestDatabase.isQuestFinished(Quest.SEA_MONKEES)) {
             continue;
-          } else if (Limitmode.limitZone("The Sea")) {
+          } else if (limitMode.limitZone("The Sea")) {
             continue;
           } else if (Preferences.getBoolean("_momFoodReceived")) {
             cmd = "";
@@ -775,7 +779,7 @@ public class Maximizer {
 
           if (!KoLCharacter.canInteract() && ((onHand + creatable) < 1 || candles < 3)) {
             continue;
-          } else if (Limitmode.limitZone("Manor0")) {
+          } else if (limitMode.limitZone("Manor0")) {
             continue;
           } else if (Preferences.getBoolean("demonSummoned")) {
             cmd = "";
@@ -797,7 +801,7 @@ public class Maximizer {
 
           if (side.equals("none")) {
             continue;
-          } else if (Limitmode.limitZone("Island") || Limitmode.limitZone("IsleWar")) {
+          } else if (limitMode.limitZone("Island") || limitMode.limitZone("IsleWar")) {
             continue;
           } else if (side.equals("fratboy")) {
             available =
@@ -816,7 +820,7 @@ public class Maximizer {
           duration = 20;
           usesRemaining = Preferences.getBoolean("concertVisited") ? 0 : 1;
         } else if (cmd.startsWith("telescope ")) {
-          if (Limitmode.limitCampground()) {
+          if (limitMode.limitCampground()) {
             continue;
           } else if (Preferences.getInteger("telescopeUpgrades") == 0) {
             if (includeAll) {
@@ -833,7 +837,7 @@ public class Maximizer {
         } else if (cmd.startsWith("ballpit")) {
           if (!KoLCharacter.canInteract()) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (Preferences.getBoolean("_ballpit")) {
             cmd = "";
@@ -843,7 +847,7 @@ public class Maximizer {
         } else if (cmd.startsWith("jukebox")) {
           if (!KoLCharacter.canInteract()) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (Preferences.getBoolean("_jukebox")) {
             cmd = "";
@@ -853,9 +857,9 @@ public class Maximizer {
         } else if (cmd.startsWith("pool ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Pool Table")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Pool Table")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -870,9 +874,9 @@ public class Maximizer {
         } else if (cmd.startsWith("shower ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "April Shower")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -887,9 +891,10 @@ public class Maximizer {
         } else if (cmd.startsWith("swim ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Clan Swimming Pool")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -904,9 +909,10 @@ public class Maximizer {
         } else if (cmd.startsWith("fortune ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Clan Love Tester")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.CLAN_ITEMS, "Clan Love Tester")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -922,9 +928,9 @@ public class Maximizer {
           AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Items", "portable Mayo Clinic")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "portable Mayo Clinic")) {
             continue;
-          } else if (Limitmode.limitCampground()) {
+          } else if (limitMode.limitCampground()) {
             continue;
           } else if (workshed == null || workshed.getItemId() != ItemPool.MAYO_CLINIC) {
             if (includeAll) {
@@ -939,9 +945,10 @@ public class Maximizer {
         } else if (cmd.startsWith("barrelprayer")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Items", "shrine to the Barrel god")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
             continue;
-          } else if (Limitmode.limitZone("Dungeon Full of Dungeons")) {
+          } else if (limitMode.limitZone("Dungeon Full of Dungeons")) {
             continue;
           } else if (!Preferences.getBoolean("barrelShrineUnlocked")) {
             if (includeAll) {
@@ -956,7 +963,7 @@ public class Maximizer {
         } else if (cmd.startsWith("styx ")) {
           if (!KoLCharacter.inBadMoon()) {
             continue;
-          } else if (Limitmode.limitZone("BadMoon")) {
+          } else if (limitMode.limitZone("BadMoon")) {
             continue;
           } else if (Preferences.getBoolean("styxPixieVisited")) {
             cmd = "";
@@ -972,7 +979,7 @@ public class Maximizer {
 
           if (!status.equals(buffStatus)) {
             continue;
-          } else if (Limitmode.limitZone("The Sea")) {
+          } else if (limitMode.limitZone("The Sea")) {
             continue;
           } else if (Preferences.getBoolean(buffPref)) {
             cmd = "";
@@ -1003,7 +1010,7 @@ public class Maximizer {
           }
           usesRemaining = 5 - Preferences.getInteger("_gapBuffs");
         } else if (cmd.startsWith("spacegate")) {
-          if (!StandardRequest.isAllowed("Items", "Spacegate access badge")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")) {
             continue;
           }
           if (KoLCharacter.isKingdomOfExploathing()) {
@@ -1028,7 +1035,7 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_spacegateVaccine") ? 0 : 1;
         } else if (cmd.startsWith("beach head ")) {
-          if (!StandardRequest.isAllowed("Items", "Beach Comb")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Beach Comb")) {
             continue;
           }
           boolean available =
@@ -1050,7 +1057,7 @@ public class Maximizer {
           duration = 50;
           usesRemaining = headAvailable ? 1 : 0;
         } else if (cmd.startsWith("daycare")) {
-          if (!StandardRequest.isAllowed("Items", "Boxing Day care package")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Boxing Day care package")) {
             continue;
           }
           boolean available =
@@ -1081,9 +1088,9 @@ public class Maximizer {
           duration = 20;
           usesRemaining = (15 - Preferences.getInteger("_deckCardsDrawn")) / 5;
         } else if (cmd.startsWith("grim")) {
-          FamiliarData fam = KoLCharacter.findFamiliar(FamiliarPool.GRIM_BROTHER);
-          if (fam == null) {
-            if (Limitmode.limitFamiliars()) {
+          var fam = KoLCharacter.ownedFamiliar(FamiliarPool.GRIM_BROTHER);
+          if (fam.isEmpty()) {
+            if (limitMode.limitFamiliars()) {
               continue;
             } else if (includeAll) {
               text = "(get a Grim Brother familiar for " + name + ")";
@@ -1097,7 +1104,7 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_grimBuff") ? 0 : 1;
         } else if (cmd.equals("witchess")) {
-          if (!StandardRequest.isAllowed("Items", "Witchess Set")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
             continue;
           }
           if (!KoLConstants.campground.contains(ItemPool.get(ItemPool.WITCHESS_SET, 1))) {
@@ -1189,7 +1196,7 @@ public class Maximizer {
           }
           if (Preferences.getInteger("falloutShelterLevel") < 3) {
             continue;
-          } else if (Limitmode.limitCampground()) {
+          } else if (limitMode.limitCampground()) {
             continue;
           } else if (Preferences.getBoolean("_falloutShelterSpaUsed")) {
             cmd = "";
@@ -1220,7 +1227,7 @@ public class Maximizer {
             continue;
           }
 
-          if (!StandardRequest.isAllowed("Items", iname)) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, iname)) {
             continue;
           }
 
@@ -1608,7 +1615,7 @@ public class Maximizer {
       } else if (changeModeable) {
         text = modeable.getCommand() + " " + modeables.get(modeable);
         cmd = text;
-        if (modeable.getEquipAfterChange())
+        if (modeable.mustEquipAfterChange())
           cmd += "; equip " + slotname + " \u00B6" + item.getItemId();
       } else {
         cmd = "equip " + slotname + " \u00B6" + item.getItemId();

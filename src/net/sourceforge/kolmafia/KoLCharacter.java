@@ -1,10 +1,12 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -50,7 +52,6 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
@@ -67,7 +68,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -163,7 +164,7 @@ public abstract class KoLCharacter {
 
   private static String mask = null;
 
-  private static String limitmode = null;
+  private static LimitMode limitMode = LimitMode.NONE;
 
   public static final int MAX_BASEPOINTS = 65535;
 
@@ -206,7 +207,13 @@ public abstract class KoLCharacter {
 
   // Familiar data
 
-  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
+  // the only usage of this as a LockableListModel is in FamiliarTrainingPane, so filter to usable
+  public static final SortedListModel<FamiliarData> familiars =
+      new SortedListModel<>(
+          element -> {
+            var elt = (FamiliarData) element;
+            return KoLCharacter.isUsable(elt);
+          });
   public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
   public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
   public static String currentFamiliarImage = null;
@@ -399,8 +406,6 @@ public abstract class KoLCharacter {
     CoinmasterRegistry.reset();
     ConcoctionDatabase.resetQueue();
     ConcoctionDatabase.refreshConcoctions();
-    ConsumablesDatabase.setSmoresData();
-    ConsumablesDatabase.setAffirmationCookieData();
     ConsumablesDatabase.setVariableConsumables();
     ConsumablesDatabase.calculateAdventureRanges();
     DailyLimitDatabase.reset();
@@ -699,7 +704,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getSpleenLimit() {
-    if (Limitmode.limitSpleening()) {
+    if (KoLCharacter.getLimitMode().limitSpleening()) {
       return 0;
     }
 
@@ -924,7 +929,7 @@ public abstract class KoLCharacter {
       if (previousLevel != KoLCharacter.currentLevel) {
         HPRestoreItemList.updateHealthRestored();
         MPRestoreItemList.updateManaRestored();
-        ConsumablesDatabase.setVariableConsumables();
+        ConsumablesDatabase.setLevelVariableConsumables();
       }
     }
 
@@ -1310,43 +1315,34 @@ public abstract class KoLCharacter {
     return ascensionClass == null ? Stat.NONE : ascensionClass.getMainStat();
   }
 
-  public static final void setLimitmode(String limitmode) {
-    if (limitmode != null && limitmode.equals("0")) {
-      limitmode = null;
-    }
-
-    if (limitmode == null) {
-      String old = KoLCharacter.limitmode;
-      boolean reset =
-          (old == Limitmode.SPELUNKY || old == Limitmode.BATMAN)
-              && !GenericRequest.abortIfInFightOrChoice(true);
-      KoLCharacter.limitmode = null;
-      if (reset) {
-        KoLmafia.resetAfterLimitmode();
+  public static void setLimitMode(final LimitMode limitmode) {
+    switch (limitmode) {
+      case NONE -> {
+        if (KoLCharacter.limitMode.requiresReset()
+            && !GenericRequest.abortIfInFightOrChoice(true)) {
+          KoLmafia.resetAfterLimitmode();
+        }
       }
-    } else if (limitmode.equals(Limitmode.SPELUNKY)) {
-      KoLCharacter.limitmode = Limitmode.SPELUNKY;
-    } else if (limitmode.equals(Limitmode.BATMAN)) {
-      KoLCharacter.limitmode = Limitmode.BATMAN;
-      BatManager.setCombatSkills();
-    } else if (limitmode.equals(Limitmode.ED)) {
-      KoLCharacter.limitmode = Limitmode.ED;
-    } else {
-      KoLCharacter.limitmode = limitmode;
+      case BATMAN -> BatManager.setCombatSkills();
     }
+
+    KoLCharacter.limitMode = limitmode;
   }
 
-  public static final String getLimitmode() {
-    return KoLCharacter.limitmode;
+  public static void setLimitMode(final String name) {
+    setLimitMode(LimitMode.find(name));
   }
 
-  public static final void enterLimitmode(final String limitmode) {
-    // Entering Spelunky or Batman
-    if (limitmode != Limitmode.SPELUNKY && limitmode != Limitmode.BATMAN) {
+  public static LimitMode getLimitMode() {
+    return KoLCharacter.limitMode;
+  }
+
+  public static void enterLimitmode(final LimitMode limitmode) {
+    if (!limitmode.requiresReset()) {
       return;
     }
 
-    KoLCharacter.limitmode = limitmode;
+    KoLCharacter.limitMode = limitmode;
 
     KoLCharacter.resetSkills();
     EquipmentManager.removeAllEquipment();
@@ -1374,11 +1370,7 @@ public abstract class KoLCharacter {
     EquipmentManager.resetCustomOutfits();
     SkillBuffFrame.update();
 
-    if (limitmode == Limitmode.SPELUNKY) {
-      SpelunkyRequest.reset();
-    } else if (limitmode == Limitmode.BATMAN) {
-      BatManager.begin();
-    }
+    limitmode.reset();
 
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
@@ -1650,7 +1642,7 @@ public abstract class KoLCharacter {
    * @return The character's available meat for spending
    */
   public static final long getAvailableMeat() {
-    return Limitmode.limitMeat() ? 0 : KoLCharacter.availableMeat;
+    return KoLCharacter.getLimitMode().limitMeat() ? 0 : KoLCharacter.availableMeat;
   }
 
   public static int freeRestsAvailable() {
@@ -1658,7 +1650,10 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill("Disco Nap")) ++freerests;
     if (KoLCharacter.hasSkill("Adventurer of Leisure")) freerests += 2;
     if (KoLCharacter.hasSkill("Executive Narcolepsy")) ++freerests;
-    if (KoLCharacter.findFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE) != null) freerests += 3;
+    // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
+    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective")
+        && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
+      freerests += 3;
     if (KoLCharacter.hasSkill("Food Coma")) freerests += 10;
     if (KoLCharacter.hasSkill("Dog Tired")) freerests += 5;
     if (ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals("ceiling fan"))
@@ -1668,6 +1663,12 @@ public abstract class KoLCharacter {
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
     return freerests;
+  }
+
+  public static int freeRestsRemaining() {
+    int restsUsed = Preferences.getInteger("timesRested");
+    int restsAvailable = KoLCharacter.freeRestsAvailable();
+    return Math.max(0, restsAvailable - restsUsed);
   }
 
   // If there are free rests remaining and KoLmafia thinks there are not, update that value
@@ -2186,7 +2187,7 @@ public abstract class KoLCharacter {
 
   /** Accessor method to retrieve the total current monster level adjustment */
   public static final int getMonsterLevelAdjustment() {
-    if (Limitmode.limitMCD()) {
+    if (KoLCharacter.getLimitMode().limitMCD()) {
       return 0;
     }
 
@@ -3098,8 +3099,8 @@ public abstract class KoLCharacter {
    *
    * @return String
    */
-  public static final String getSign() {
-    return KoLCharacter.ascensionSign.getName();
+  public static final ZodiacSign getSign() {
+    return KoLCharacter.ascensionSign;
   }
 
   /**
@@ -3343,6 +3344,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.GREY_YOU;
   }
 
+  public static final boolean inDinocore() {
+    return KoLCharacter.ascensionPath == Path.DINOSAURS;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND);
@@ -3365,7 +3370,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canEat() {
-    if (Limitmode.limitEating()) {
+    if (KoLCharacter.getLimitMode().limitEating()) {
       return false;
     }
 
@@ -3385,7 +3390,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canDrink() {
-    if (Limitmode.limitDrinking()) {
+    if (KoLCharacter.getLimitMode().limitDrinking()) {
       return false;
     }
 
@@ -3405,7 +3410,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canSpleen() {
-    if (Limitmode.limitSpleening()) {
+    if (KoLCharacter.getLimitMode().limitSpleening()) {
       return false;
     }
 
@@ -3598,7 +3603,7 @@ public abstract class KoLCharacter {
    */
   public static final boolean knollAvailable() {
     return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
-        && !Limitmode.limitZone("MusSign")
+        && !KoLCharacter.getLimitMode().limitZone("MusSign")
         && !KoLCharacter.isKingdomOfExploathing()
         && !KoLCharacter.inGoocore();
   }
@@ -3614,7 +3619,7 @@ public abstract class KoLCharacter {
    */
   public static final boolean canadiaAvailable() {
     return KoLCharacter.getSignZone() == ZodiacZone.CANADIA
-        && !Limitmode.limitZone("Little Canadia")
+        && !KoLCharacter.getLimitMode().limitZone("Little Canadia")
         && !KoLCharacter.isKingdomOfExploathing();
   }
 
@@ -3667,14 +3672,14 @@ public abstract class KoLCharacter {
           || InventoryManager.getCount(ItemPool.PUMPKIN_CARRIAGE) > 0
           || InventoryManager.getCount(ItemPool.TIN_LIZZIE) > 0
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
-          || Preferences.getString("questG01Meatcar").equals("finished")
+          || QuestDatabase.isQuestFinished(Quest.MEATCAR)
           || KoLCharacter.kingLiberated()
           || KoLCharacter.isEd()) {
         Preferences.setInteger("lastDesertUnlock", KoLCharacter.getAscensions());
       }
     }
     return Preferences.getInteger("lastDesertUnlock") == KoLCharacter.getAscensions()
-        && !Limitmode.limitZone("Beach");
+        && !KoLCharacter.getLimitMode().limitZone("Beach");
   }
 
   public static final void setDesertBeachAvailable() {
@@ -3702,7 +3707,7 @@ public abstract class KoLCharacter {
       }
     }
     return Preferences.getInteger("lastIslandUnlock") == KoLCharacter.getAscensions()
-        && !Limitmode.limitZone("Island");
+        && !KoLCharacter.getLimitMode().limitZone("Island");
   }
 
   /**
@@ -3768,7 +3773,7 @@ public abstract class KoLCharacter {
       return;
     }
 
-    if (Limitmode.limitSkill(skill)) {
+    if (KoLCharacter.getLimitMode().limitSkill(skill)) {
       return;
     }
 
@@ -3778,9 +3783,9 @@ public abstract class KoLCharacter {
       if (SkillDatabase.isBookshelfSkill(skillName)) {
         int itemId = SkillDatabase.skillToBook(skillName);
         skillName = ItemDatabase.getItemName(itemId);
-        isAllowed = StandardRequest.isAllowed("Bookshelf Books", skillName);
+        isAllowed = StandardRequest.isAllowed(RestrictedItemType.BOOKSHELF_BOOKS, skillName);
       } else {
-        isAllowed = StandardRequest.isAllowed("Skills", skillName);
+        isAllowed = StandardRequest.isAllowed(RestrictedItemType.SKILLS, skillName);
       }
 
       if (!isAllowed) {
@@ -4304,6 +4309,17 @@ public abstract class KoLCharacter {
     return KoLCharacter.getAscensions() == Preferences.getInteger("lastTempleUnlock");
   }
 
+  public static final void setTempleUnlocked() {
+    if (KoLCharacter.getAscensions() != Preferences.getInteger("lastTempleUnlock")) {
+      QuestDatabase.setQuestProgress(Quest.TEMPLE, QuestDatabase.FINISHED);
+      Preferences.setInteger("lastTempleUnlock", KoLCharacter.getAscensions());
+      // If quest Gotta Worship Them All is started, this completes step 1
+      if (QuestDatabase.isQuestStarted(Quest.WORSHIP)) {
+        QuestDatabase.setQuestProgress(Quest.WORSHIP, "step1");
+      }
+    }
+  }
+
   public static final boolean getTrapperQuestCompleted() {
     return KoLCharacter.getAscensions() == Preferences.getInteger("lastTr4pz0rQuest");
   }
@@ -4349,7 +4365,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canPickpocket() {
-    return !Limitmode.limitPickpocket()
+    return !KoLCharacter.getLimitMode().limitPickpocket()
         && (ascensionClass == AscensionClass.DISCO_BANDIT
             || ascensionClass == AscensionClass.ACCORDION_THIEF
             || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
@@ -4373,26 +4389,26 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Accessor method to find the specified familiar.
+   * Accessor method to find the specified usable familiar.
    *
    * @param race The race of the familiar to find
    * @return familiar The first familiar matching this race
    */
-  public static final FamiliarData findFamiliar(final String race) {
-    return findFamiliar(f -> f.getRace().equalsIgnoreCase(race));
+  public static FamiliarData usableFamiliar(final String race) {
+    return usableFamiliar(f -> f.getRace().equalsIgnoreCase(race));
   }
 
   /**
-   * Accessor method to find the specified familiar.
+   * Accessor method to find the specified usable familiar.
    *
    * @param familiarId The id of the familiar to find
    * @return familiar The first familiar matching this id
    */
-  public static final FamiliarData findFamiliar(final int familiarId) {
-    return findFamiliar(f -> f.getId() == familiarId);
+  public static FamiliarData usableFamiliar(final int familiarId) {
+    return usableFamiliar(f -> f.getId() == familiarId);
   }
 
-  private static final FamiliarData findFamiliar(final Predicate<FamiliarData> familiarFilter) {
+  private static FamiliarData usableFamiliar(final Predicate<FamiliarData> familiarFilter) {
     // Quick check against NO_FAMILIAR
     if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return FamiliarData.NO_FAMILIAR;
 
@@ -4408,17 +4424,53 @@ public abstract class KoLCharacter {
 
     return KoLCharacter.familiars.stream()
         .filter(familiarFilter)
-        .filter(StandardRequest::isAllowed)
-        .filter(f -> !KoLCharacter.inZombiecore() || f.isUndead())
-        .filter(f -> !KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
-        .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        .filter(KoLCharacter::isUsable)
         .findAny()
         .orElse(null);
   }
 
-  public static final boolean hasFamiliar(final int familiarId) {
-    return KoLCharacter.findFamiliar(familiarId) != null;
+  private static boolean isUsable(FamiliarData f) {
+    if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
+
+    return StandardRequest.isAllowed(f)
+        && (!KoLCharacter.inZombiecore() || f.isUndead())
+        && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
+        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()));
   }
+
+  /**
+   * Accessor method to find the specified owned familiar.
+   *
+   * @param race The race of the familiar to find
+   * @return familiar The first familiar matching this race
+   */
+  public static Optional<FamiliarData> ownedFamiliar(final String race) {
+    return ownedFamiliar(f -> f.getRace().equalsIgnoreCase(race));
+  }
+
+  /**
+   * Accessor method to find the specified owned familiar.
+   *
+   * @param familiarId The id of the familiar to find
+   * @return familiar The first familiar matching this id
+   */
+  public static Optional<FamiliarData> ownedFamiliar(final int familiarId) {
+    return ownedFamiliar(f -> f.getId() == familiarId);
+  }
+
+  private static Optional<FamiliarData> ownedFamiliar(
+      final Predicate<FamiliarData> familiarFilter) {
+    // Quick check against NO_FAMILIAR
+    if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return Optional.of(FamiliarData.NO_FAMILIAR);
+
+    return KoLCharacter.familiars.stream().filter(familiarFilter).findAny();
+  }
+
+  public static final boolean canUseFamiliar(final int familiarId) {
+    return KoLCharacter.usableFamiliar(familiarId) != null;
+  }
+
+  private static AdventureResult STILLSUIT = ItemPool.get(ItemPool.STILLSUIT);
 
   /**
    * Accessor method to set the data for the current familiar.
@@ -4441,7 +4493,22 @@ public abstract class KoLCharacter {
     if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
       KoLCharacter.currentFamiliar.deactivate();
     }
+
+    var previousFamiliar = KoLCharacter.currentFamiliar;
     KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar(familiar);
+
+    if (previousFamiliar.getItem().equals(STILLSUIT)) {
+      var stillsuitFamiliar =
+          KoLCharacter.usableFamiliar(Preferences.getString("stillsuitFamiliar"));
+      if (stillsuitFamiliar != null
+          && stillsuitFamiliar != familiar
+          && stillsuitFamiliar != previousFamiliar) {
+        KoLmafia.updateDisplay("Giving your tiny stillsuit to your stillsuit familiar...");
+        RequestThread.postRequest(new FamiliarRequest(previousFamiliar, EquipmentRequest.UNEQUIP));
+        RequestThread.postRequest(new FamiliarRequest(stillsuitFamiliar, STILLSUIT));
+      }
+    }
+
     if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
       KoLCharacter.currentFamiliar.activate();
     }
@@ -4509,7 +4576,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Adds the given familiar to the list of available familiars.
+   * Adds the given familiar to the list of owned familiars.
    *
    * @param familiar The Id of the familiar to be added
    */
@@ -4534,7 +4601,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Remove the given familiar from the list of available familiars.
+   * Remove the given familiar from the list of owned familiars.
    *
    * @param familiar The Id of the familiar to be removed
    */
@@ -4558,28 +4625,55 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Returns the list of familiars available to the character.
+   * Returns the list of familiars usable by the character, as a LockableListModel.
    *
-   * @return The list of familiars available to the character
+   * @return The list of familiars usable by the character
    */
   public static final LockableListModel<FamiliarData> getFamiliarList() {
     return KoLCharacter.familiars;
+  }
+
+  /**
+   * Returns the list of familiars owned by the character.
+   *
+   * @return The list of familiars owned by the character
+   */
+  public static List<FamiliarData> ownedFamiliars() {
+    return KoLCharacter.familiars;
+  }
+
+  /**
+   * Returns the list of familiars usable by the character.
+   *
+   * @return The list of familiars usable by the character
+   */
+  public static List<FamiliarData> usableFamiliars() {
+    if (!KoLCharacter.getPath().canUseFamiliars()) return List.of(FamiliarData.NO_FAMILIAR);
+
+    if (KoLCharacter.inQuantum()) return List.of(currentFamiliar);
+
+    return KoLCharacter.familiars.stream().filter(KoLCharacter::isUsable).toList();
   }
 
   /*
    * Pasta Thralls
    */
 
-  public static final LockableListModel<PastaThrallData> getPastaThrallList() {
+  public static LockableListModel<PastaThrallData> getPastaThrallList() {
     return KoLCharacter.pastaThralls;
   }
 
-  public static final PastaThrallData currentPastaThrall() {
+  public static PastaThrallData currentPastaThrall() {
     return KoLCharacter.currentPastaThrall;
   }
 
-  public static final PastaThrallData findPastaThrall(final String type) {
+  public static PastaThrallData findPastaThrall(final String type) {
     if (ascensionClass != AscensionClass.PASTAMANCER) {
+      return null;
+    }
+
+    // Some paths don't allow the Pastamancer access to their normal skills
+    if (KoLCharacter.inNuclearAutumn()) {
       return null;
     }
 
@@ -4587,26 +4681,19 @@ public abstract class KoLCharacter {
       return PastaThrallData.NO_THRALL;
     }
 
-    // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.inZombiecore()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.inNoobcore()) {
+    return KoLCharacter.pastaThralls.stream()
+        .filter(t -> t.getType().equals(type))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public static PastaThrallData findPastaThrall(final int thrallId) {
+    if (ascensionClass != AscensionClass.PASTAMANCER) {
       return null;
     }
 
-    for (PastaThrallData thrall : KoLCharacter.pastaThralls) {
-      if (thrall.getType().equals(type)) {
-        return thrall;
-      }
-    }
-
-    return null;
-  }
-
-  public static final PastaThrallData findPastaThrall(final int thrallId) {
-    if (ascensionClass != AscensionClass.PASTAMANCER) {
+    // Some paths don't allow the Pastamancer access to their normal skills
+    if (KoLCharacter.inNuclearAutumn()) {
       return null;
     }
 
@@ -4614,26 +4701,13 @@ public abstract class KoLCharacter {
       return PastaThrallData.NO_THRALL;
     }
 
-    // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.inZombiecore()
-        || KoLCharacter.inNuclearAutumn()
-        || KoLCharacter.inNoobcore()
-        || KoLCharacter.isVampyre()) {
-      return null;
-    }
-
-    for (PastaThrallData thrall : KoLCharacter.pastaThralls) {
-      if (thrall.getId() == thrallId) {
-        return thrall;
-      }
-    }
-
-    return null;
+    return KoLCharacter.pastaThralls.stream()
+        .filter(t -> t.getId() == thrallId)
+        .findAny()
+        .orElse(null);
   }
 
-  public static final void setPastaThrall(final PastaThrallData thrall) {
+  public static void setPastaThrall(final PastaThrallData thrall) {
     if (KoLCharacter.currentPastaThrall == thrall) {
       return;
     }
@@ -4707,169 +4781,102 @@ public abstract class KoLCharacter {
     return KoLCharacter.findWand();
   }
 
-  public static final AdventureResult findWand() {
-    for (int i = 0; i < KoLCharacter.WANDS.length; ++i) {
-      if (KoLConstants.inventory.contains(KoLCharacter.WANDS[i])) {
-        Preferences.setInteger("lastZapperWand", KoLCharacter.getAscensions());
-        return KoLCharacter.WANDS[i];
-      }
-    }
-
-    return null;
+  public static AdventureResult findWand() {
+    return Arrays.stream(KoLCharacter.WANDS)
+        .filter(KoLConstants.inventory::contains)
+        .peek((w) -> Preferences.setInteger("lastZapperWand", KoLCharacter.getAscensions()))
+        .findAny()
+        .orElse(null);
   }
 
-  public static final boolean hasEquipped(final AdventureResult item, final int equipmentSlot) {
+  public static boolean hasEquipped(final AdventureResult item, final int equipmentSlot) {
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == item.getItemId();
   }
 
-  public static final boolean hasEquipped(final int itemId, final int equipmentSlot) {
+  public static boolean hasEquipped(final int itemId, final int equipmentSlot) {
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == itemId;
   }
 
-  public static final boolean hasEquipped(final AdventureResult item) {
+  public static boolean hasEquipped(final AdventureResult item) {
     return KoLCharacter.equipmentSlot(item) != EquipmentManager.NONE;
   }
 
-  public static final boolean hasEquipped(final int itemId) {
+  public static boolean hasEquipped(final int itemId) {
     return KoLCharacter.hasEquipped(ItemPool.get(itemId, 1));
   }
 
-  public static final boolean hasEquipped(
+  public static boolean hasEquipped(
       AdventureResult[] equipment, final AdventureResult item, final int equipmentSlot) {
     AdventureResult current = equipment[equipmentSlot];
-    return (current == null) ? false : (current.getItemId() == item.getItemId());
+    return current != null && (current.getItemId() == item.getItemId());
   }
 
-  public static final boolean hasEquipped(AdventureResult[] equipment, final AdventureResult item) {
-    switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case KoLConstants.EQUIP_WEAPON:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.WEAPON)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.OFFHAND);
+  public static boolean hasEquipped(
+      AdventureResult[] equipment, final AdventureResult item, int[] equipmentSlots) {
+    return Arrays.stream(equipmentSlots)
+        .anyMatch(s -> KoLCharacter.hasEquipped(equipment, item, s));
+  }
 
-      case KoLConstants.EQUIP_OFFHAND:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.OFFHAND)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FAMILIAR);
+  public static boolean hasEquipped(AdventureResult[] equipment, final AdventureResult item) {
+    return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
+      case KoLConstants.EQUIP_WEAPON -> KoLCharacter.hasEquipped(
+          equipment, item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
+      case KoLConstants.EQUIP_OFFHAND -> KoLCharacter.hasEquipped(
+          equipment, item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
+      case KoLConstants.EQUIP_HAT -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.HAT);
+      case KoLConstants.EQUIP_SHIRT -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.SHIRT);
+      case KoLConstants.EQUIP_PANTS -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.PANTS);
+      case KoLConstants.EQUIP_CONTAINER -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.CONTAINER);
+      case KoLConstants.EQUIP_ACCESSORY -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.ACCESSORY_SLOTS);
+      case KoLConstants.CONSUME_STICKER -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.STICKER_SLOTS);
+      case KoLConstants.CONSUME_CARD -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.CARDSLEEVE);
+      case KoLConstants.CONSUME_FOLDER -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.FOLDER_SLOTS);
+      case KoLConstants.EQUIP_FAMILIAR -> KoLCharacter.hasEquipped(
+          equipment, item, EquipmentManager.FAMILIAR);
+      default -> false;
+    };
+  }
 
-      case KoLConstants.EQUIP_HAT:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.HAT);
+  private static int equipmentSlotFromSubset(final AdventureResult item, final int[] slots) {
+    return Arrays.stream(slots)
+        .filter(s -> KoLCharacter.hasEquipped(item, s))
+        .findFirst()
+        .orElse(EquipmentManager.NONE);
+  }
 
-      case KoLConstants.EQUIP_SHIRT:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.SHIRT);
-
-      case KoLConstants.EQUIP_PANTS:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.PANTS);
-
-      case KoLConstants.EQUIP_CONTAINER:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.CONTAINER);
-
-      case KoLConstants.EQUIP_ACCESSORY:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.ACCESSORY1)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.ACCESSORY2)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.ACCESSORY3);
-
-      case KoLConstants.CONSUME_STICKER:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.STICKER1)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.STICKER2)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.STICKER3);
-
-      case KoLConstants.CONSUME_CARD:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.CARDSLEEVE);
-
-      case KoLConstants.CONSUME_FOLDER:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER1)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER2)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER3)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER4)
-            || KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER5);
-
-      case KoLConstants.EQUIP_FAMILIAR:
-        return KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FAMILIAR);
-    }
-
-    return false;
+  private static int equipmentSlotFromSubset(final AdventureResult item, final int slot) {
+    return KoLCharacter.hasEquipped(item, slot) ? slot : EquipmentManager.NONE;
   }
 
   public static final int equipmentSlot(final AdventureResult item) {
-    switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case KoLConstants.EQUIP_WEAPON:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.WEAPON)
-            ? EquipmentManager.WEAPON
-            : KoLCharacter.hasEquipped(item, EquipmentManager.OFFHAND)
-                ? EquipmentManager.OFFHAND
-                : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_OFFHAND:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.OFFHAND)
-            ? EquipmentManager.OFFHAND
-            :
-            // Left-Hand Man gives usual powers when holding an off-hand item
-            KoLCharacter.hasEquipped(item, EquipmentManager.FAMILIAR)
-                ? EquipmentManager.FAMILIAR
-                : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_HAT:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.HAT)
-            ? EquipmentManager.HAT
-            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_SHIRT:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.SHIRT)
-            ? EquipmentManager.SHIRT
-            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_PANTS:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.PANTS)
-            ? EquipmentManager.PANTS
-            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_CONTAINER:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.CONTAINER)
-            ? EquipmentManager.CONTAINER
-            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_ACCESSORY:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.ACCESSORY1)
-            ? EquipmentManager.ACCESSORY1
-            : KoLCharacter.hasEquipped(item, EquipmentManager.ACCESSORY2)
-                ? EquipmentManager.ACCESSORY2
-                : KoLCharacter.hasEquipped(item, EquipmentManager.ACCESSORY3)
-                    ? EquipmentManager.ACCESSORY3
-                    : EquipmentManager.NONE;
-
-      case KoLConstants.CONSUME_STICKER:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.STICKER1)
-            ? EquipmentManager.STICKER1
-            : KoLCharacter.hasEquipped(item, EquipmentManager.STICKER2)
-                ? EquipmentManager.STICKER2
-                : KoLCharacter.hasEquipped(item, EquipmentManager.STICKER3)
-                    ? EquipmentManager.STICKER3
-                    : EquipmentManager.NONE;
-
-      case KoLConstants.CONSUME_CARD:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.CARDSLEEVE)
-            ? EquipmentManager.CARDSLEEVE
-            : EquipmentManager.NONE;
-
-      case KoLConstants.CONSUME_FOLDER:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER1)
-            ? EquipmentManager.FOLDER1
-            : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER2)
-                ? EquipmentManager.FOLDER2
-                : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER3)
-                    ? EquipmentManager.FOLDER3
-                    : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER4)
-                        ? EquipmentManager.FOLDER4
-                        : KoLCharacter.hasEquipped(item, EquipmentManager.FOLDER5)
-                            ? EquipmentManager.FOLDER5
-                            : EquipmentManager.NONE;
-
-      case KoLConstants.EQUIP_FAMILIAR:
-        return KoLCharacter.hasEquipped(item, EquipmentManager.FAMILIAR)
-            ? EquipmentManager.FAMILIAR
-            : EquipmentManager.NONE;
-    }
-
-    return EquipmentManager.NONE;
+    return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
+      case KoLConstants.EQUIP_WEAPON -> equipmentSlotFromSubset(
+          item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
+      case KoLConstants.EQUIP_OFFHAND -> equipmentSlotFromSubset(
+          item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
+      case KoLConstants.EQUIP_HAT -> equipmentSlotFromSubset(item, EquipmentManager.HAT);
+      case KoLConstants.EQUIP_SHIRT -> equipmentSlotFromSubset(item, EquipmentManager.SHIRT);
+      case KoLConstants.EQUIP_PANTS -> equipmentSlotFromSubset(item, EquipmentManager.PANTS);
+      case KoLConstants.EQUIP_CONTAINER -> equipmentSlotFromSubset(
+          item, EquipmentManager.CONTAINER);
+      case KoLConstants.EQUIP_ACCESSORY -> equipmentSlotFromSubset(
+          item, EquipmentManager.ACCESSORY_SLOTS);
+      case KoLConstants.CONSUME_STICKER -> equipmentSlotFromSubset(
+          item, EquipmentManager.STICKER_SLOTS);
+      case KoLConstants.CONSUME_CARD -> equipmentSlotFromSubset(item, EquipmentManager.CARDSLEEVE);
+      case KoLConstants.CONSUME_FOLDER -> equipmentSlotFromSubset(
+          item, EquipmentManager.FOLDER_SLOTS);
+      case KoLConstants.EQUIP_FAMILIAR -> equipmentSlotFromSubset(item, EquipmentManager.FAMILIAR);
+      default -> EquipmentManager.NONE;
+    };
   }
 
   public static final void updateStatus() {
@@ -5121,15 +5128,9 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.getAscensions() == Preferences.getInteger("lastQuartetAscension")) {
       switch (Preferences.getInteger("lastQuartetRequest")) {
-        case 1:
-          newModifiers.add(Modifiers.MONSTER_LEVEL, 5, "Ballroom:quartet");
-          break;
-        case 2:
-          newModifiers.add(Modifiers.COMBAT_RATE, -5, "Ballroom:quartet");
-          break;
-        case 3:
-          newModifiers.add(Modifiers.ITEMDROP, 5, "Ballroom:quartet");
-          break;
+        case 1 -> newModifiers.add(Modifiers.MONSTER_LEVEL, 5, "Ballroom:quartet");
+        case 2 -> newModifiers.add(Modifiers.COMBAT_RATE, -5, "Ballroom:quartet");
+        case 3 -> newModifiers.add(Modifiers.ITEMDROP, 5, "Ballroom:quartet");
       }
     }
 
@@ -5148,7 +5149,8 @@ public abstract class KoLCharacter {
     // Boombox, no check for having one so it can work with Maximizer "show things you don't have"
     newModifiers.add(Modifiers.getModifiers("BoomBox", boomBox));
 
-    // Add modifiers from Florist Friar plants
+    // Apply variable location modifiers
+    newModifiers.applyAutumnatonModifiers();
     newModifiers.applyFloristModifiers();
 
     // Horsery
@@ -5411,7 +5413,7 @@ public abstract class KoLCharacter {
     return newModifiers;
   }
 
-  private static void addItemAdjustment(
+  public static void addItemAdjustment(
       Modifiers newModifiers,
       int slot,
       AdventureResult item,
@@ -5494,12 +5496,11 @@ public abstract class KoLCharacter {
         case ItemPool.STICKER_SWORD:
         case ItemPool.STICKER_CROSSBOW:
           // Apply stickers
-          for (int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i) {
-            AdventureResult sticker = equipment[i];
-            if (sticker != null && sticker != EquipmentRequest.UNEQUIP) {
-              newModifiers.add(Modifiers.getItemModifiers(sticker.getItemId()));
-            }
-          }
+          Arrays.stream(EquipmentManager.STICKER_SLOTS)
+              .mapToObj(i -> equipment[i])
+              .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
+              .map(AdventureResult::getItemId)
+              .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
           break;
 
         case ItemPool.CARD_SLEEVE:
@@ -5514,12 +5515,11 @@ public abstract class KoLCharacter {
 
         case ItemPool.FOLDER_HOLDER:
           // Apply folders
-          for (int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i) {
-            AdventureResult folder = equipment[i];
-            if (folder != null && folder != EquipmentRequest.UNEQUIP) {
-              newModifiers.add(Modifiers.getItemModifiers(folder.getItemId()));
-            }
-          }
+          Arrays.stream(EquipmentManager.FOLDER_SLOTS)
+              .mapToObj(i -> equipment[i])
+              .filter(f -> f != null && f != EquipmentRequest.UNEQUIP)
+              .map(AdventureResult::getItemId)
+              .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
           break;
 
         case ItemPool.COWBOY_BOOTS:

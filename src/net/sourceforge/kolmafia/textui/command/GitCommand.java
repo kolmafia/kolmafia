@@ -36,6 +36,9 @@ public class GitCommand extends AbstractCommand {
       return;
     }
     String url = params[1];
+    if (!url.contains(":")) {
+      url = "https://github.com/" + url + (!url.endsWith(".git") ? ".git" : "");
+    }
     if (!url.startsWith("http")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "git checkout works with http(s) URLs only");
       return;

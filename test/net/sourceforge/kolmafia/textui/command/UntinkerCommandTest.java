@@ -99,6 +99,6 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
   }
 
   private void setFakeResponse(String string) {
-    fakeClientBuilder.client.setResponse(200, string);
+    fakeClientBuilder.client.addResponse(200, string);
   }
 }

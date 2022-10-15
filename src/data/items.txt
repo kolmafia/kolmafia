@@ -3922,7 +3922,7 @@
 3894	vial of teal slime	867609165	vial.gif	potion, multiple, cook	q,d	99	vials of teal slime
 3895	vial of indigo slime	455694019	vial.gif	potion, multiple, cook	q,d	99	vials of indigo slime
 3896	vial of purple slime	553670862	vial.gif	potion, multiple, cook	q,d	99	vials of purple slime
-3897	vial of brown slime	615023386	vial.gif	potion, usable, cook	q,d	3	vials of brown slime
+3897	vial of brown slime	615023386	vial.gif	multiple, usable, cook	q,d	3	vials of brown slime
 3898	bottle of G&uuml;-Gone	959190225	cleaner.gif	none, combat reusable	q	0
 3899
 3900
@@ -10232,7 +10232,7 @@
 10204	pirate shaving cream	529804567	pr_shavingcream.gif	potion, usable	t,d	15	cans of pirate shaving cream
 10205	conquistador's breastplate	471803689	pr_breastplate.gif	shirt		0
 10206
-10207	[glitch season reward name]	286010589	nopic.gif	reusable		0
+10207	[glitch season reward name]	286010589	nopic.gif	food, reusable		0
 10208	signal fragment	946907321	pr_signal.gif	usable	t,d	5
 10209	windicle	704440940	pr_windicle.gif	none, combat	t,d	10
 10210	pirate radio ring	651533160	pr_radioring.gif	accessory		0
@@ -10793,7 +10793,7 @@
 10765	yellow rocket	562478024	fwrocket3.gif	none, combat	d	10
 10766	blue rocket	830484549	fwrocket2.gif	none, combat	d	10
 10767	red rocket	942080224	fwrocket1.gif	none, combat	d	10
-10768	fire crackers	615027243	firecrackers.gif	food, combat		0
+10768	fire crackers	615027243	firecrackers.gif	food, combat		0	handfuls of fire crackers
 10769	Arr, M80	555632254	m80.gif	none, combat		0
 10770	Catherine Wheel	660770799	catherinewheel.gif	container	q	0
 10771	rocket boots	438783522	rocketboot.gif	accessory	q	0
@@ -10866,6 +10866,7 @@
 10838	Doc's Special Reserve Wine	510170168	rxwine.gif	drink	t,d	10	bottles of Doc's Special Reserve Wine
 10839	bread pie	734136895	pie.gif	food	t,d	5
 10840	clear Russian	276019932	whitedrink.gif	drink	t,d	5
+10841 
 10842	white Crimbo ball	465562412	crimball_white.gif	none	t	0
 10843	black Crimbo ball	720352210	crimball_black.gif	none	t	0
 10844	gooified animal matter	770996300	goo_org.gif	none	t	0
@@ -10957,3 +10958,36 @@
 10930	sweat-ade	858239579	sweatade.gif	spleen, usable	t	0
 10931	unopened tiny stillsuit	250424223	stillsuit_box.gif	usable	t	0
 10932	tiny stillsuit	957101431	stillsuit.gif	familiar		0
+10933	thick dinosaur leather	430663553	wlleather.gif	none	q	0
+10934	shiny dinosaur scale	474472914	scale3.gif	none	q	0
+10935	pristine dinosaur feather	898765772	feather.gif	none	q	0
+10936	nasty dinosaur spike	853331281	spine.gif	none	q	0
+10937	pterodactyl rifle	914589236	mercrifle.gif	weapon	q	0
+10938	birdseed hat	130317743	birdseedhat.gif	hat	q	0
+10939	flatusaur gasmask	959048787	gasmask2.gif	hat	q	0
+10940	dinosaur dart	225129353	ancientdart.gif	none, combat	q,d	10
+10941	Dino DNAde&trade;	646751681	dinodrink.gif	potion, multiple	q,d	10	bottles of Dino DNAde&trade;
+10942	dinosaur repellent	524382822	spraycan2.gif	none, combat	q	0
+10943	camouflage vest	292829086	camovest.gif	shirt	q	0
+10944	Dinodollar	840321323	dinobuck.gif	none	q	0
+10945	valuable dinosaur droppings	468937901	droppings.gif	none	q	0
+10946	dinosaur pheromone kit	278152222	wbchemset.gif	none, combat	q	0
+10947	awkward dinosaur research harness	352034766	dripharness.gif	container	q	0
+10948	reflective vest	339444087	lightvest.gif	shirt	q	0
+10949	stuffed dinosaur	262152514	dinostuffy.gif	offhand	g	0
+10950	Thwaitgold mosquito-in-amber statuette	925741442	thwaitamber.gif	none		0
+10951	packaged Jurassic Parka	526296804	jparka_box.gif	usable	t	0
+10952	Jurassic Parka	815637689	jparka7.gif	shirt		0
+10953	boxed autumn-aton	129222297	crate.gif	usable	t	0
+10954	autumn-aton	174185886	autumnaton.gif	usable	q	0
+10955	autumn leaf	639910181	leafflavor.gif	potion, usable	t,d	10
+10956	AutumnFest ale	195200911	beerbottle.gif	drink	t,d	10
+10957	autumn sweater-weather sweater	267218508	redsweater.gif	shirt	q	0
+10958	autumn debris shield	659459391	damshield.gif	offhand	q	0
+10959	autumn-spice donut	765851813	powderdonut.gif	food	t,d	11
+10960	autumn dollar	394864972	goldcoin.gif	potion, usable	t,d	1
+10961	autumn leaf pendant	871526580	maplependant.gif	accessory	q	0
+10962	autumn breeze	709263513	cueball.gif	spleen, usable	t,d	15
+10963	autumn years wisdom	794318555	xicrystal.gif	potion, multiple	t,d	15
+10964
+10965	Oopsie IPA	439261217	beerbottle.gif	drink	t	0

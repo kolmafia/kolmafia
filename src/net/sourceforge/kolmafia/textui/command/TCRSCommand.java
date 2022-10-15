@@ -5,6 +5,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase.TCRS;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -56,18 +57,19 @@ public class TCRSCommand extends AbstractCommand {
       String className = split[0];
       AscensionClass ascensionClass = AscensionClass.find(className);
       String sign = split[1];
-      if (!TCRSDatabase.validate(ascensionClass, sign)) {
+      ZodiacSign zsign = ZodiacSign.find(sign);
+      if (!TCRSDatabase.validate(ascensionClass, zsign)) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR,
             className + " is not a valid class or " + sign + " is not a valid sign.");
         return;
       }
-      if (TCRSDatabase.anyLocalFileExists(ascensionClass, sign, true)) {
+      if (TCRSDatabase.anyLocalFileExists(ascensionClass, zsign, true)) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Will not overwrite. Aborting.");
         return;
       }
-      TCRSDatabase.fetch(ascensionClass, sign, true);
-      TCRSDatabase.fetchCafe(ascensionClass, sign, true);
+      TCRSDatabase.fetch(ascensionClass, zsign, true);
+      TCRSDatabase.fetchCafe(ascensionClass, zsign, true);
       return;
     }
 
@@ -116,8 +118,9 @@ public class TCRSCommand extends AbstractCommand {
       String cclass = split[0];
       AscensionClass ascensionClass = AscensionClass.find(cclass);
       String sign = split[1];
-      TCRSDatabase.load(ascensionClass, sign, true);
-      TCRSDatabase.loadCafe(ascensionClass, sign, true);
+      ZodiacSign zsign = ZodiacSign.find(sign);
+      TCRSDatabase.load(ascensionClass, zsign, true);
+      TCRSDatabase.loadCafe(ascensionClass, zsign, true);
       TCRSDatabase.applyModifiers();
       return;
     }

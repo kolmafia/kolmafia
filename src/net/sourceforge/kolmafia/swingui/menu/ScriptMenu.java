@@ -30,6 +30,7 @@ public class ScriptMenu extends JMenu implements Listener {
 
   @Override
   public void update() {
+    GenericFrame.compileScripts();
     SwingUtilities.invokeLater(this::init);
   }
 
@@ -54,7 +55,7 @@ public class ScriptMenu extends JMenu implements Listener {
     }
 
     if (!useMRUList) {
-      add(new InvocationMenuItem("Refresh menu", GenericFrame.class, "compileScripts"));
+      add(new InvocationMenuItem("Refresh menu", this, "update"));
       headers++;
     }
     JMenuItem shiftToEditMenuItem = new JMenuItem("(Shift key to edit)");

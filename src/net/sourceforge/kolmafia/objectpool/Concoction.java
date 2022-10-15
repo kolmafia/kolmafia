@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
@@ -29,11 +30,12 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * actually make the item.
  */
 public class Concoction implements Comparable<Concoction> {
-
-  public static final int FOOD_PRIORITY = 1;
-  public static final int BOOZE_PRIORITY = 2;
-  public static final int SPLEEN_PRIORITY = 3;
-  public static final int NO_PRIORITY = 0;
+  public enum Priority {
+    NONE,
+    FOOD,
+    BOOZE,
+    SPLEEN
+  }
 
   private String name;
   private final int hashCode;
@@ -47,7 +49,7 @@ public class Concoction implements Comparable<Concoction> {
   private final EnumSet<CraftingRequirements> mixingRequirements;
   private final EnumSet<CraftingMisc> mixingMisc;
   private final int row;
-  public int sortOrder;
+  public Priority sortOrder;
 
   private final boolean isReagentPotion;
 
@@ -181,20 +183,30 @@ public class Concoction implements Comparable<Concoction> {
     this.setEffectName();
   }
 
+  public Priority getSortOrder() {
+    int itemId = this.concoction == null ? -1 : this.concoction.getItemId();
+    if (this.fullness > 0 || itemId == ItemPool.QUANTUM_TACO) {
+      return Priority.FOOD;
+    }
+
+    if (this.inebriety > 0 || itemId == ItemPool.SCHRODINGERS_THERMOS) {
+      return Priority.BOOZE;
+    }
+
+    if (this.spleenhit > 0) {
+      return Priority.SPLEEN;
+    }
+
+    return Priority.NONE;
+  }
+
   public void setConsumptionData() {
     this.fullness = ConsumablesDatabase.getFullness(this.name);
     this.inebriety = ConsumablesDatabase.getInebriety(this.name);
     this.spleenhit = ConsumablesDatabase.getSpleenHit(this.name);
 
-    this.sortOrder =
-        this.fullness > 0
-                || (this.concoction != null && this.concoction.getItemId() == ItemPool.QUANTUM_TACO)
-            ? FOOD_PRIORITY
-            : this.inebriety > 0
-                    || (this.concoction != null
-                        && this.concoction.getItemId() == ItemPool.SCHRODINGERS_THERMOS)
-                ? BOOZE_PRIORITY
-                : this.spleenhit > 0 ? SPLEEN_PRIORITY : NO_PRIORITY;
+    this.sortOrder = getSortOrder();
+
     this.setStatGain();
   }
 
@@ -203,21 +215,13 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void setStatGain() {
-    final String range;
-    switch (KoLCharacter.mainStat()) {
-      case MUSCLE:
-        range = ConsumablesDatabase.getMuscleRange(this.name);
-        break;
-      case MYSTICALITY:
-        range = ConsumablesDatabase.getMysticalityRange(this.name);
-        break;
-      case MOXIE:
-        range = ConsumablesDatabase.getMoxieRange(this.name);
-        break;
-      default:
-        range = "+0.0";
-        break;
-    }
+    final String range =
+        switch (KoLCharacter.mainStat()) {
+          case MUSCLE -> ConsumablesDatabase.getMuscleRange(this.name);
+          case MYSTICALITY -> ConsumablesDatabase.getMysticalityRange(this.name);
+          case MOXIE -> ConsumablesDatabase.getMoxieRange(this.name);
+          default -> "+0.0";
+        };
     this.mainstatGain = StringUtilities.parseDouble(range);
   }
 
@@ -307,14 +311,13 @@ public class Concoction implements Comparable<Concoction> {
     // For any non-null reference value x, x.equals(null) should
     // return false.
 
-    if (!(o instanceof Concoction)) {
+    if (!(o instanceof Concoction other)) {
       return false;
     }
 
     // Concoction.compareTo() returns 0 only if the names match
     // ignoring case
 
-    Concoction other = (Concoction) o;
     if (this.name == null) {
       return other.name == null;
     }
@@ -412,6 +415,10 @@ public class Concoction implements Comparable<Concoction> {
       throw new NullPointerException();
     }
 
+    if (this.equals(o)) {
+      return 0;
+    }
+
     if (this.name == null) {
       return o.name == null ? 0 : 1;
     }
@@ -421,16 +428,16 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     if (this.sortOrder != o.sortOrder) {
-      return this.sortOrder - o.sortOrder;
+      return this.sortOrder.compareTo(o.sortOrder);
     }
 
-    if (this.sortOrder == NO_PRIORITY) {
+    if (this.sortOrder == Priority.NONE) {
       return nameCheckCompare(o);
     }
 
     // Sort steel organs to the top.
     if (this.steelOrgan) {
-      return o.steelOrgan ? nameCheckCompare(o) : -1;
+      return -1;
     } else if (o.steelOrgan) {
       return 1;
     }
@@ -441,31 +448,30 @@ public class Concoction implements Comparable<Concoction> {
       boolean oCantConsume = false;
 
       switch (this.sortOrder) {
-        case FOOD_PRIORITY:
+        case FOOD -> {
           limit =
               KoLCharacter.getFullnessLimit()
                   - KoLCharacter.getFullness()
                   - ConcoctionDatabase.getQueuedFullness();
           thisCantConsume = this.fullness > limit;
           oCantConsume = o.fullness > limit;
-          break;
-
-        case BOOZE_PRIORITY:
+        }
+        case BOOZE -> {
           limit =
               KoLCharacter.getInebrietyLimit()
                   - KoLCharacter.getInebriety()
                   - ConcoctionDatabase.getQueuedInebriety();
           thisCantConsume = this.inebriety > limit;
           oCantConsume = o.inebriety > limit;
-          break;
-
-        case SPLEEN_PRIORITY:
+        }
+        case SPLEEN -> {
           limit =
               KoLCharacter.getSpleenLimit()
                   - KoLCharacter.getSpleenUse()
                   - ConcoctionDatabase.getQueuedSpleenHit();
           thisCantConsume = this.spleenhit > limit;
           oCantConsume = o.spleenhit > limit;
+        }
       }
 
       if (thisCantConsume != oCantConsume) {
@@ -962,33 +968,30 @@ public class Concoction implements Comparable<Concoction> {
       needToMake -= buyable;
     }
 
-    if (this.mixingMethod
-        == CraftingType.NOCREATE) { // No recipe for this item - don't bother with checking
-      // ingredients, because there aren't any.
-      return alreadyHave;
-    }
-
-    if (this.mixingMethod == CraftingType.SINGLE_USE
-        || this.mixingMethod == CraftingType.MULTI_USE) {
-      if (KoLCharacter.inBeecore()
-          && ItemDatabase.unusableInBeecore(this.ingredientArray[0].getItemId())) {
+    switch (this.mixingMethod) {
+      case NOCREATE: // No recipe for this item - don't bother with checking
+        // ingredients, because there aren't any.
         return alreadyHave;
-      }
+      case SINGLE_USE:
+      case MULTI_USE:
+        if (KoLCharacter.inBeecore()
+            && ItemDatabase.unusableInBeecore(this.ingredientArray[0].getItemId())) {
+          return alreadyHave;
+        }
 
-      if (KoLCharacter.inGLover()
-          && ItemDatabase.unusableInGLover(this.ingredientArray[0].getItemId())) {
-        return alreadyHave;
-      }
-    }
+        if (KoLCharacter.inGLover()
+            && ItemDatabase.unusableInGLover(this.ingredientArray[0].getItemId())) {
+          return alreadyHave;
+        }
+        break;
+      case COINMASTER:
+        // Check if Coin Master is available
+        PurchaseRequest purchaseRequest = this.purchaseRequest;
+        if (purchaseRequest == null || !purchaseRequest.canPurchase()) {
+          return alreadyHave;
+        }
 
-    if (this.mixingMethod == CraftingType.COINMASTER) {
-      // Check if Coin Master is available
-      PurchaseRequest purchaseRequest = this.purchaseRequest;
-      if (purchaseRequest == null || !purchaseRequest.canPurchase()) {
-        return alreadyHave;
-      }
-
-      return alreadyHave + purchaseRequest.affordableCount();
+        return alreadyHave + purchaseRequest.affordableCount();
     }
 
     if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)
@@ -997,48 +1000,44 @@ public class Concoction implements Comparable<Concoction> {
       return alreadyHave;
     }
 
-    if (this.mixingMethod == CraftingType.FLOUNDRY) {
-      return alreadyHave + (ClanLoungeRequest.availableFloundryItem(this.name) ? 1 : 0);
-    }
-
-    if (this.mixingMethod == CraftingType.BARREL) {
-      return alreadyHave + (BarrelShrineRequest.availableBarrelItem(this.name) ? 1 : 0);
-    }
-
-    if (this.mixingMethod == CraftingType.TERMINAL) {
-      // Check that we know the file for this
-      String known = Preferences.getString("sourceTerminalExtrudeKnown");
-      if (this.name.equals("Source terminal GRAM chip") && !known.contains("gram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal PRAM chip") && !known.contains("pram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal SPAM chip") && !known.contains("spam.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal CRAM chip") && !known.contains("cram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal DRAM chip") && !known.contains("dram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("Source terminal TRAM chip") && !known.contains("tram.ext")) {
-        return alreadyHave;
-      }
-      if (this.name.equals("software bug") && !known.contains("familiar.ext")) {
-        return alreadyHave;
-      }
-    }
-
-    if (this.mixingMethod == CraftingType.SPACEGATE) {
-      // If you have one in inventory, you cannot get more
-      return this.initial == 0 ? alreadyHave + 1 : alreadyHave;
-    }
-
-    if (this.mixingMethod == CraftingType.FANTASY_REALM) {
-      return alreadyHave
-          + (StringUtilities.isNumeric(Preferences.getString("_frHoursLeft")) ? 0 : 1);
+    switch (this.mixingMethod) {
+      case FLOUNDRY:
+        return alreadyHave + (ClanLoungeRequest.availableFloundryItem(this.name) ? 1 : 0);
+      case BARREL:
+        return alreadyHave + (BarrelShrineRequest.availableBarrelItem(this.name) ? 1 : 0);
+      case TERMINAL:
+        // Check that we know the file for this
+        String known = Preferences.getString("sourceTerminalExtrudeKnown");
+        if (this.name.equals("Source terminal GRAM chip") && !known.contains("gram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal PRAM chip") && !known.contains("pram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal SPAM chip") && !known.contains("spam.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal CRAM chip") && !known.contains("cram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal DRAM chip") && !known.contains("dram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("Source terminal TRAM chip") && !known.contains("tram.ext")) {
+          return alreadyHave;
+        }
+        if (this.name.equals("software bug") && !known.contains("familiar.ext")) {
+          return alreadyHave;
+        }
+        break;
+      case SPACEGATE:
+        // If you have one in inventory, you cannot get more
+        return this.initial == 0 ? alreadyHave + 1 : alreadyHave;
+      case FANTASY_REALM:
+        return alreadyHave
+            + (StringUtilities.isNumeric(Preferences.getString("_frHoursLeft")) ? 0 : 1);
+      case STILLSUIT:
+        return StillSuitRequest.canMake() ? 1 : 0;
     }
 
     if (needToMake <= 0) { // Have enough on hand already.

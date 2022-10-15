@@ -3,12 +3,12 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -55,6 +55,8 @@ public class AdventureDatabase {
   private static final Map<String, AreaCombatData> areaCombatData = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByURL = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByName = new HashMap<>();
+  private static final Map<Integer, KoLAdventure> adventureById = new HashMap<>();
+  private static final Map<String, String> diffLevelLookup = new HashMap<>();
   private static final Map<String, String> environmentLookup = new HashMap<>();
   private static final Map<String, String> zoneLookup = new HashMap<>();
   private static final Map<String, String> conditionLookup = new HashMap<>();
@@ -62,7 +64,7 @@ public class AdventureDatabase {
   private static final Map<String, Integer> statLookup = new HashMap<>();
   private static final Map<String, Integer> waterLevelLookup = new HashMap<>();
   private static final Map<String, Boolean> wandererLookup = new HashMap<>();
-  private static final Set<KoLAdventure> removedAdventures = new HashSet<>();
+  private static final Map<String, Boolean> overdrunkLookup = new HashMap<>();
   private static final Map<String, Path> ascensionPathZones = new HashMap<>();
   private static final Map<String, AdventureResult> itemGeneratedZones = new HashMap<>();
 
@@ -114,8 +116,8 @@ public class AdventureDatabase {
 
           if (data.length == 3) {
             // Perhaps inherit from parent zone
-            Path apath = ascensionPathZones.get(parent);
-            if (apath != null) {
+            Path apath = ascensionPathZones.getOrDefault(parent, Path.NONE);
+            if (apath != Path.NONE) {
               ascensionPathZones.put(zone, apath);
             }
             AdventureResult item = itemGeneratedZones.get(parent);
@@ -129,7 +131,7 @@ public class AdventureDatabase {
 
           // See if it is an Ascension Path
           Path path = AscensionPath.nameToPath(source);
-          if (path != null) {
+          if (path != Path.NONE) {
             ascensionPathZones.put(zone, path);
             continue;
           }
@@ -168,21 +170,22 @@ public class AdventureDatabase {
         String zone = data[0];
         String[] location = data[1].split("=");
 
+        String diffLevel = null;
         String environment = null;
         int stat = -1;
         int waterLevel = -1;
         boolean hasWanderers = true;
+        boolean canAdventureWhileOverdrunk = false;
         StringTokenizer tokens = new StringTokenizer(data[2], " ");
         while (tokens.hasMoreTokens()) {
           String option = tokens.nextToken();
-          if (option.equals("Env:")) {
-            environment = tokens.nextToken();
-          } else if (option.equals("Stat:")) {
-            stat = StringUtilities.parseInt(tokens.nextToken());
-          } else if (option.equals("Level:")) {
-            waterLevel = StringUtilities.parseInt(tokens.nextToken());
-          } else if (option.equals("nowander")) {
-            hasWanderers = false;
+          switch (option) {
+            case "DiffLevel:" -> diffLevel = tokens.nextToken();
+            case "Env:" -> environment = tokens.nextToken();
+            case "Stat:" -> stat = StringUtilities.parseInt(tokens.nextToken());
+            case "Level:" -> waterLevel = StringUtilities.parseInt(tokens.nextToken());
+            case "nowander" -> hasWanderers = false;
+            case "overdrunk" -> canAdventureWhileOverdrunk = true;
           }
         }
 
@@ -192,7 +195,7 @@ public class AdventureDatabase {
           RequestLogger.printLine("Adventure area \"" + name + "\" is missing environment data");
         }
 
-        if (AdventureDatabase.PARENT_ZONES.get(zone) == null) {
+        if (AdventureDatabase.getParentZone(zone) == null) {
           RequestLogger.printLine(
               "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"");
           continue;
@@ -201,12 +204,15 @@ public class AdventureDatabase {
         AdventureDatabase.zoneLookup.put(name, zone);
         AdventureDatabase.adventureTable.add(
             new Adventure(zone, location[0] + ".php", location[1], name));
+        AdventureDatabase.diffLevelLookup.put(name, diffLevel);
         AdventureDatabase.environmentLookup.put(name, environment);
 
         AdventureDatabase.statLookup.put(name, stat);
 
         hasWanderers = hasWanderers && location[0].equals("adventure");
         AdventureDatabase.wandererLookup.put(name, hasWanderers);
+
+        AdventureDatabase.overdrunkLookup.put(name, canAdventureWhileOverdrunk);
 
         // Build base water level if not specified
         if (waterLevel == -1) {
@@ -293,7 +299,7 @@ public class AdventureDatabase {
     AdventureDatabase.allAdventures.clear();
     AdventureDatabase.adventureByURL.clear();
     AdventureDatabase.adventureByName.clear();
-    AdventureDatabase.removedAdventures.clear();
+    AdventureDatabase.adventureById.clear();
 
     for (Adventure adv : AdventureDatabase.adventureTable) {
       AdventureDatabase.addAdventure(AdventureDatabase.getAdventure(adv));
@@ -326,6 +332,10 @@ public class AdventureDatabase {
     AdventureDatabase.allAdventures.add(location);
     AdventureDatabase.adventureByName.put(location.getAdventureName(), location);
 
+    if (location.hasSnarfblat()) {
+      AdventureDatabase.adventureById.put(location.getSnarfblat(), location);
+    }
+
     GenericRequest request = location.getRequest();
 
     // This will force the URLstring to be reconstructed and the
@@ -351,31 +361,10 @@ public class AdventureDatabase {
       url = StringUtilities.singleStringReplace(url, "snarfblat=", "adv=");
       AdventureDatabase.adventureByURL.put(url, location);
     }
-
-    // Walk up the adventure's zones. If it ends in "Removed", save it.
-    String zone = location.getZone();
-    while (true) {
-      if (zone == null) {
-        break;
-      }
-      if (zone.equals("Removed")) {
-        AdventureDatabase.removedAdventures.add(location);
-        break;
-      }
-      String parent = AdventureDatabase.getParentZone(zone);
-      if (zone.equals(parent)) {
-        break;
-      }
-      zone = parent;
-    }
-  }
-
-  public static final boolean removedAdventure(KoLAdventure location) {
-    return AdventureDatabase.removedAdventures.contains(location);
   }
 
   public static final Path zoneAscensionPath(String zone) {
-    return AdventureDatabase.ascensionPathZones.get(zone);
+    return AdventureDatabase.ascensionPathZones.getOrDefault(zone, Path.NONE);
   }
 
   public static final AdventureResult zoneGeneratingItem(String zone) {
@@ -397,11 +386,6 @@ public class AdventureDatabase {
 
     if (adventureURL.startsWith("/")) {
       adventureURL = adventureURL.substring(1);
-    }
-
-    // Barrel smashes count as adventures.
-    if (adventureURL.startsWith("barrel.php")) {
-      return AdventureDatabase.adventureByURL.get("barrel.php");
     }
 
     // Visiting the basement counts as an adventure
@@ -532,8 +516,13 @@ public class AdventureDatabase {
     }
 
     // Adventuring in the barracks after the Nemesis has been defeated
-    if (adventureURL.startsWith("volcanoisland.php") && adventureURL.contains("action=tuba")) {
-      return AdventureDatabase.getAdventure("The Island Barracks");
+    if (adventureURL.startsWith("volcanoisland.php")) {
+      if (adventureURL.contains("action=tuba")) {
+        return AdventureDatabase.getAdventure("The Island Barracks");
+      }
+      if (adventureURL.contains("action=tniat")) {
+        return AdventureDatabase.getAdventure("The Nemesis' Lair");
+      }
     }
 
     adventureURL = RelayRequest.removeConfirmationFields(adventureURL);
@@ -589,25 +578,49 @@ public class AdventureDatabase {
     return new KoLAdventure(adv.zone, adv.formSource, adv.id, adv.name);
   }
 
-  public static final String getZone(final String location) {
+  public static KoLAdventure getAdventure(final int snarfblat) {
+    return adventureById.get(snarfblat);
+  }
+
+  public static String getZone(final String location) {
     return zoneLookup.get(location);
   }
 
-  public static final String getParentZone(final String zone) {
+  public static String getRootZone(final String zoneName) {
+    return getRootZone(zoneName, List.of());
+  }
+
+  public static String getRootZone(String zoneName, final List<String> stopAtZones) {
+    while (true) {
+      if (stopAtZones.contains(zoneName)) {
+        return zoneName;
+      }
+
+      String parent = getParentZone(zoneName);
+
+      if (parent == null || parent.equals(zoneName)) {
+        return zoneName;
+      }
+
+      zoneName = parent;
+    }
+  }
+
+  public static String getParentZone(final String zone) {
     return PARENT_ZONES.get(zone);
   }
 
-  public static final AdventureResult getBounty(final KoLAdventure adventure) {
+  public static AdventureResult getBounty(final KoLAdventure adventure) {
     String adventureName = adventure.getAdventureName();
-    String bounty = AdventureDatabase.bountyLookup.get(adventureName);
-    if (bounty == null || bounty.equals("")) {
+    String bounty = AdventureDatabase.bountyLookup.getOrDefault(adventureName, "");
+    if (bounty.equals("")) {
       return null;
     }
     int count = BountyDatabase.getNumber(bounty);
     return new AdventureResult(bounty, count);
   }
 
-  public static final String getDefaultConditions(final KoLAdventure adventure) {
+  public static String getDefaultConditions(final KoLAdventure adventure) {
     if (adventure == null) {
       return "none";
     }
@@ -615,9 +628,9 @@ public class AdventureDatabase {
     // If you're currently doing a bounty, +1 filthy lucre.
 
     String adventureName = adventure.getAdventureName();
-    String bounty = AdventureDatabase.bountyLookup.get(adventureName);
+    String bounty = AdventureDatabase.bountyLookup.getOrDefault(adventureName, "");
 
-    if (bounty != null && !bounty.equals("")) {
+    if (!bounty.equals("")) {
       String easyBountyId = Preferences.getString("currentEasyBountyItem");
       if (!easyBountyId.equals("")) {
         if (bounty.equals(easyBountyId.substring(0, easyBountyId.indexOf(":")))) {
@@ -640,35 +653,27 @@ public class AdventureDatabase {
       }
     }
 
-    String def = "none";
-
     // Pull the condition out of the table and return it.
 
-    String conditions = AdventureDatabase.conditionLookup.get(adventureName);
-    if (conditions == null || conditions.equals("")) {
-      return def;
-    }
-
-    if (!def.equals("none")) {
-      conditions = def + "|" + conditions;
+    String conditions = AdventureDatabase.conditionLookup.getOrDefault(adventureName, "");
+    if (conditions.equals("")) {
+      return "none";
     }
 
     return conditions;
   }
 
-  public static final LockableListModel<String> getDefaultConditionsList(
+  public static LockableListModel<String> getDefaultConditionsList(
       final KoLAdventure adventure, LockableListModel<String> list) {
     String string = AdventureDatabase.getDefaultConditions(adventure);
     String[] conditions = string.split("\\|");
     if (list == null) {
-      list = new LockableListModel<String>();
+      list = new LockableListModel<>();
     } else {
       list.clear();
     }
 
-    for (int i = 0; i < conditions.length; ++i) {
-      list.add(conditions[i]);
-    }
+    list.addAll(Arrays.asList(conditions));
 
     return list;
   }
@@ -794,57 +799,44 @@ public class AdventureDatabase {
         "Lair of the Ninja Snowmen", AdventurePool.NINJA_SNOWMEN, "fistTeachingsNinjaSnowmen"),
   };
 
-  private static int fistcoreDataLocation(final FistcoreScroll data) {
-    return (data == null) ? -1 : data.adventureId;
-  }
-
   private static String fistcoreDataSetting(final FistcoreScroll data) {
     return (data == null) ? null : data.setting;
   }
 
   private static FistcoreScroll fistcoreLocationToData(final int location) {
-    for (int i = 0; i < FISTCORE_SCROLLS.length; ++i) {
-      var data = FISTCORE_SCROLLS[i];
-      int loc = fistcoreDataLocation(data);
-      if (location == loc) {
-        return data;
-      }
-    }
-    return null;
+    return Arrays.stream(FISTCORE_SCROLLS)
+        .filter(Objects::nonNull)
+        .filter(s -> location == s.adventureId)
+        .findFirst()
+        .orElse(null);
   }
 
   public static String fistcoreLocationToSetting(final int location) {
     return fistcoreDataSetting(fistcoreLocationToData(location));
   }
 
-  public static final String getEnvironment(String adventureName) {
-    String env = AdventureDatabase.environmentLookup.get(adventureName);
-    return env == null ? "none" : env;
+  public static String getDifficultyLevel(String adventureName) {
+    return AdventureDatabase.diffLevelLookup.getOrDefault(adventureName, "unknown");
   }
 
-  public static final int getRecommendedStat(String adventureName) {
-    Integer stat = AdventureDatabase.statLookup.get(adventureName);
-    if (stat == null) {
-      return -1;
-    }
-    return stat;
+  public static String getEnvironment(String adventureName) {
+    return AdventureDatabase.environmentLookup.getOrDefault(adventureName, "none");
   }
 
-  public static final int getWaterLevel(String adventureName) {
-    Integer waterLevel = AdventureDatabase.waterLevelLookup.get(adventureName);
-    if (waterLevel == null) {
-      return -1;
-    }
-    return waterLevel;
+  public static int getRecommendedStat(String adventureName) {
+    return AdventureDatabase.statLookup.getOrDefault(adventureName, -1);
   }
 
-  public static final boolean hasWanderers(final String adventureName, final boolean adv) {
-    Boolean hasWanderers = AdventureDatabase.wandererLookup.get(adventureName);
-    if (hasWanderers == null) {
-      return adv;
-    }
+  public static int getWaterLevel(String adventureName) {
+    return AdventureDatabase.waterLevelLookup.getOrDefault(adventureName, -1);
+  }
 
-    return hasWanderers;
+  public static boolean hasWanderers(final String adventureName, final boolean adv) {
+    return AdventureDatabase.wandererLookup.getOrDefault(adventureName, adv);
+  }
+
+  public static boolean canAdventureWhileOverdrunk(final String adventureName) {
+    return AdventureDatabase.overdrunkLookup.getOrDefault(adventureName, false);
   }
 
   private static class AdventureArray {

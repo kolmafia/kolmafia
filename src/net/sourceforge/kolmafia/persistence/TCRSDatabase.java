@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -41,10 +42,10 @@ public class TCRSDatabase {
   public static class TCRS {
     public final String name;
     public final int size;
-    public final String quality;
+    public final ConsumableQuality quality;
     public final String modifiers;
 
-    TCRS(String name, int size, String quality, String modifiers) {
+    TCRS(String name, int size, ConsumableQuality quality, String modifiers) {
       this.name = name;
       this.size = size;
       this.quality = quality;
@@ -105,13 +106,11 @@ public class TCRSDatabase {
     return filename(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), "");
   }
 
-  public static boolean validate(AscensionClass ascensionClass, String csign) {
-    return (ascensionClass != null
-        && ascensionClass.isStandard()
-        && ZodiacSign.find(csign).isStandard());
+  public static boolean validate(AscensionClass ascensionClass, ZodiacSign csign) {
+    return (ascensionClass != null && ascensionClass.isStandard() && csign.isStandard());
   }
 
-  public static String filename(AscensionClass ascensionClass, String sign, String suffix) {
+  public static String filename(AscensionClass ascensionClass, ZodiacSign sign, String suffix) {
     if (!validate(ascensionClass, sign)) {
       return "";
     }
@@ -119,7 +118,7 @@ public class TCRSDatabase {
     return "TCRS_"
         + StringUtilities.globalStringReplace(ascensionClass.getName(), " ", "_")
         + "_"
-        + sign
+        + sign.getName()
         + suffix
         + ".txt";
   }
@@ -134,7 +133,8 @@ public class TCRSDatabase {
     return retval;
   }
 
-  public static boolean load(AscensionClass ascensionClass, String csign, final boolean verbose) {
+  public static boolean load(
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     if (load(filename(ascensionClass, csign, ""), TCRSMap, verbose)) {
       currentClassSign = ascensionClass.getName() + "/" + csign;
       return true;
@@ -143,11 +143,11 @@ public class TCRSDatabase {
   }
 
   public static boolean loadCafe(
-      AscensionClass ascensionClass, String csign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     boolean retval = true;
     retval &= load(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
     retval &= load(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
-    return true;
+    return retval;
   }
 
   private static boolean load(String fileName, Map<Integer, TCRS> map, final boolean verbose) {
@@ -171,7 +171,7 @@ public class TCRSDatabase {
         int itemId = StringUtilities.parseInt(data[0]);
         String name = data[1];
         int size = StringUtilities.parseInt(data[2]);
-        String quality = data[3];
+        var quality = ConsumableQuality.find(data[3]);
         String modifiers = data[4];
 
         TCRS item = new TCRS(name, size, quality, modifiers);
@@ -198,25 +198,26 @@ public class TCRSDatabase {
     return retval;
   }
 
-  public static boolean save(AscensionClass ascensionClass, String csign, final boolean verbose) {
+  public static boolean save(
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     return save(filename(ascensionClass, csign, ""), TCRSMap, verbose);
   }
 
   public static boolean saveCafe(
-      AscensionClass ascensionClass, String csign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     boolean retval = true;
     retval &= save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
     retval &= save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
-    return true;
+    return retval;
   }
 
   public static boolean saveCafeBooze(
-      AscensionClass ascensionClass, String csign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     return save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
   }
 
   public static boolean saveCafeFood(
-      AscensionClass ascensionClass, String csign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
     return save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
   }
 
@@ -241,7 +242,7 @@ public class TCRSDatabase {
       Integer itemId = entry.getKey();
       String name = tcrs.name;
       Integer size = tcrs.size;
-      String quality = tcrs.quality;
+      var quality = tcrs.quality;
       String modifiers = tcrs.modifiers;
       String line = itemId + "\t" + name + "\t" + size + "\t" + quality + "\t" + modifiers;
       writer.println(line);
@@ -267,7 +268,7 @@ public class TCRSDatabase {
   }
 
   private static boolean derive(
-      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     // If we don't currently have data for this class/sign, start fresh
     String classSign = ascensionClass.getName() + "/" + sign;
     if (!currentClassSign.equals(classSign)) {
@@ -398,7 +399,7 @@ public class TCRSDatabase {
     // The "ring" is the path reward for completing a TCRS run.
     // Its enchantments are character-specific.
     if (itemId == ItemPool.RING) {
-      return new TCRS("ring", 0, "", "Single Equip");
+      return new TCRS("ring", 0, ConsumableQuality.NONE, "Single Equip");
     }
 
     // Read the Item Description
@@ -435,7 +436,7 @@ public class TCRSDatabase {
     // Parse the things that are changed in TCRS
     String name = DebugDatabase.parseName(text);
     int size = DebugDatabase.parseConsumableSize(text);
-    String quality = DebugDatabase.parseQuality(text);
+    var quality = DebugDatabase.parseQuality(text);
     ArrayList<String> unknown = new ArrayList<String>();
     String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, -1);
 
@@ -543,7 +544,7 @@ public class TCRSDatabase {
     }
 
     // Fix all the consumables whose adv yield varies by level
-    ConsumablesDatabase.setVariableConsumables();
+    ConsumablesDatabase.setLevelVariableConsumables();
 
     ConcoctionDatabase.refreshConcoctions();
     KoLCharacter.recalculateAdjustments();
@@ -556,14 +557,15 @@ public class TCRSDatabase {
     return applyModifiers(id, TCRSMap.get(id));
   }
 
-  private static int qualityMultiplier(String quality) {
-    return "EPIC".equals(quality)
-        ? 5
-        : "awesome".equals(quality)
-            ? 4
-            : "good".equals(quality)
-                ? 3
-                : "decent".equals(quality) ? 2 : "crappy".equals(quality) ? 1 : 0;
+  private static int qualityMultiplier(ConsumableQuality quality) {
+    return switch (quality) {
+      case EPIC -> 5;
+      case AWESOME -> 4;
+      case GOOD -> 3;
+      case DECENT -> 2;
+      case CRAPPY -> 1;
+      default -> 0;
+    };
   }
 
   public static boolean applyModifiers(final Integer itemId, final TCRS tcrs) {
@@ -718,23 +720,13 @@ public class TCRSDatabase {
     EffectDatabase.reset();
     ConsumablesDatabase.reset();
 
-    // Check items that vary per person.  Not all of these are in
-    // Standard, but TCRS will be out of standard soon.
-    // (Copied from KoLmafia.refreshSessionData)
-    InventoryManager.checkNoHat();
-    InventoryManager.checkJickSword();
-    InventoryManager.checkPantogram();
-    InventoryManager.checkLatte();
-    InventoryManager.checkSaber();
-    InventoryManager.checkCoatOfPaint();
-    InventoryManager.checkUmbrella();
+    // Check items that vary per person
+    InventoryManager.checkMods();
 
     deriveApplyItem(ItemPool.RING);
 
     ConcoctionDatabase.resetEffects();
     ConcoctionDatabase.refreshConcoctions();
-    ConsumablesDatabase.setSmoresData();
-    ConsumablesDatabase.setAffirmationCookieData();
     ConsumablesDatabase.setVariableConsumables();
     ConsumablesDatabase.calculateAdventureRanges();
 
@@ -745,14 +737,14 @@ public class TCRSDatabase {
   // *** Primitives for checking presence of local files
 
   public static boolean localFileExists(
-      AscensionClass ascensionClass, String sign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
     boolean retval = false;
     retval |= localFileExists(filename(ascensionClass, sign, ""), verbose);
     return retval;
   }
 
   public static boolean localCafeFileExists(
-      AscensionClass ascensionClass, String sign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
     boolean retval = true;
     retval &= localFileExists(filename(ascensionClass, sign, "_cafe_booze"), verbose);
     retval &= localFileExists(filename(ascensionClass, sign, "_cafe_food"), verbose);
@@ -760,7 +752,7 @@ public class TCRSDatabase {
   }
 
   public static boolean anyLocalFileExists(
-      AscensionClass ascensionClass, String sign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
     boolean retval = false;
     retval |= localFileExists(filename(ascensionClass, sign, ""), verbose);
     retval |= localFileExists(filename(ascensionClass, sign, "_cafe_booze"), verbose);
@@ -800,13 +792,13 @@ public class TCRSDatabase {
   // class/signs have only the non-cafe file
 
   public static boolean fetch(
-      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     boolean retval = fetchRemoteFile(filename(ascensionClass, sign, ""), verbose);
     return retval;
   }
 
   public static boolean fetchCafe(
-      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     boolean retval = true;
     retval &= fetchRemoteFile(filename(ascensionClass, sign, "_cafe_booze"), verbose);
     retval &= fetchRemoteFile(filename(ascensionClass, sign, "_cafe_food"), verbose);
@@ -822,7 +814,7 @@ public class TCRSDatabase {
   }
 
   public static boolean fetchRemoteFiles(
-      AscensionClass ascensionClass, String sign, final boolean verbose) {
+      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
     boolean retval = fetchRemoteFile(filename(ascensionClass, sign, ""), verbose);
     fetchRemoteFile(filename(ascensionClass, sign, "_cafe_booze"), verbose);
     fetchRemoteFile(filename(ascensionClass, sign, "_cafe_food"), verbose);
@@ -889,7 +881,7 @@ public class TCRSDatabase {
   }
 
   private static boolean loadTCRSData(
-      final AscensionClass ascensionClass, final String sign, final boolean verbose) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
     // If local TCRS data file is not present, fetch from repository
     if (!localFileExists(ascensionClass, sign, verbose)) {
       fetch(ascensionClass, sign, verbose);

@@ -29,6 +29,13 @@ public class ProxyRecordMethodWrapper extends BaseFunction {
     try {
       Object returnValue = method.invoke(((EnumeratedWrapper) thisObj).getWrapped().asProxy());
 
+      // if the method returns a non-proxy Ash value (like Effect.all or Monster.attackElements),
+      // we need to convert it to a java object first
+      if (returnValue instanceof Value) {
+        ValueConverter coercer = new ValueConverter(cx, scope);
+        returnValue = coercer.asJava((Value) returnValue);
+      }
+
       if (returnValue instanceof Value
           && ((Value) returnValue).asProxy() instanceof ProxyRecordValue) {
         returnValue = EnumeratedWrapper.wrap(scope, returnValue.getClass(), (Value) returnValue);

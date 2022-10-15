@@ -357,6 +357,9 @@ public class ResponseTextParser {
           case ItemPool.DESIGNER_SWEATPANTS:
             ItemDatabase.parseDesignerSweatpants(responseText);
             break;
+          case ItemPool.POWERFUL_GLOVE:
+            ItemDatabase.parsePowerfulGlove(responseText);
+            break;
           default:
             changesFromTimeToTime = false;
             break;
@@ -373,15 +376,14 @@ public class ResponseTextParser {
         ConsequenceManager.parseEffectDesc(descid, responseText);
         int effectId = EffectDatabase.getEffectIdFromDescription(descid);
         switch (effectId) {
-          case EffectPool.WINE_FORTIFIED:
-          case EffectPool.WINE_HOT:
-          case EffectPool.WINE_FRISKY:
-          case EffectPool.WINE_COLD:
-          case EffectPool.WINE_DARK:
-          case EffectPool.WINE_BEFOULED:
-          case EffectPool.WINE_FRIENDLY:
-            EffectDatabase.parseVampireVintnerWineEffect(responseText, effectId);
-            break;
+          case EffectPool.WINE_FORTIFIED,
+              EffectPool.WINE_HOT,
+              EffectPool.WINE_FRISKY,
+              EffectPool.WINE_COLD,
+              EffectPool.WINE_DARK,
+              EffectPool.WINE_BEFOULED,
+              EffectPool.WINE_FRIENDLY -> EffectDatabase.parseVampireVintnerWineEffect(
+              responseText, effectId);
         }
       }
     } else if (location.startsWith("diary.php")) {
@@ -392,6 +394,8 @@ public class ResponseTextParser {
       DwarfContraptionRequest.parseResponse(location, responseText);
     } else if (location.startsWith("dwarffactory.php")) {
       DwarfFactoryRequest.parseResponse(location, responseText);
+    } else if (location.startsWith("elvmachine.php")) {
+      ElVibratoManager.parseResponse(location, responseText);
     } else if (location.startsWith("familiar.php")) {
       FamiliarRequest.parseResponse(location, responseText);
       if (!location.contains("ajax=1")) {
@@ -574,7 +578,7 @@ public class ResponseTextParser {
       }
       DvorakManager.parseResponse(location, responseText);
     } else if (location.startsWith("topmenu.php")) {
-      if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {
+      if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
         BatManager.parseTopMenu(responseText);
       }
     } else if (location.startsWith("town_altar.php")) {
@@ -789,6 +793,7 @@ public class ResponseTextParser {
   public static final void learnSkill(final int skillId) {
     // The following skills are found in battle and result in
     // losing an item from inventory.
+    var levelPref = "skillLevel" + skillId;
 
     switch (skillId) {
       case SkillPool.SNARL_OF_THE_TIMBERWOLF:
@@ -814,7 +819,7 @@ public class ResponseTextParser {
         }
         break;
       case SkillPool.BELCH_THE_RAINBOW:
-        Preferences.increment("skillLevel117", 1, 11, false);
+        Preferences.increment(levelPref, 1, 11, false);
         break;
       case SkillPool.TOGGLE_OPTIMALITY:
       case SkillPool.PIRATE_BELLOW:
@@ -823,10 +828,15 @@ public class ResponseTextParser {
       case SkillPool.BEAR_ESSENCE:
       case SkillPool.CALCULATE_THE_UNIVERSE:
       case SkillPool.EXPERIENCE_SAFARI:
-        Preferences.increment("skillLevel" + skillId);
+        Preferences.increment(levelPref);
+        break;
+      case SkillPool.SLIMY_SHOULDERS:
+      case SkillPool.SLIMY_SINEWS:
+      case SkillPool.SLIMY_SYNAPSES:
+        Preferences.increment(levelPref, 1, 10, false);
         break;
       case SkillPool.IMPLODE_UNIVERSE:
-        Preferences.increment("skillLevel188", 1, 13, false);
+        Preferences.increment(levelPref, 1, 13, false);
         break;
     }
 

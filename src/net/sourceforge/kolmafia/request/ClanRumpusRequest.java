@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanRumpusRequest extends GenericRequest {
@@ -69,7 +68,7 @@ public class ClanRumpusRequest extends GenericRequest {
         new Song("initiative", "Metal Speed", 4),
       };
 
-  public static final int findChips(final String name) {
+  public static int findChips(final String name) {
     for (Flavour chipFlavor : CHIP_FLAVORS) {
       String flavor = chipFlavor.flavor;
       if (name.equals(flavor)) {
@@ -80,7 +79,7 @@ public class ClanRumpusRequest extends GenericRequest {
     return 0;
   }
 
-  public static final int findSong(final String name) {
+  public static int findSong(final String name) {
     if (StringUtilities.isNumeric(name)) {
       int n = StringUtilities.parseInt(name);
       return n > 0 && n <= SONGS.length ? n : 0;
@@ -130,10 +129,10 @@ public class ClanRumpusRequest extends GenericRequest {
     POTTED_MEAT_TREE("Potted Meat Tree", 9, 3, 1),
     ;
 
-    public String name;
-    public int slot;
-    public int furni;
-    public int maxUses;
+    public final String name;
+    public final int slot;
+    public final int furni;
+    public final int maxUses;
 
     Equipment(String name, int slot, int furni, int maxUses) {
       this.name = name;
@@ -206,7 +205,7 @@ public class ClanRumpusRequest extends GenericRequest {
     return this;
   }
 
-  private void visitEquipment(final int spot, final int furniture) {
+  void visitEquipment(final int spot, final int furniture) {
     this.clearDataFields();
     this.addFormField("action", "click");
     this.addFormField("spot", String.valueOf(spot));
@@ -221,7 +220,7 @@ public class ClanRumpusRequest extends GenericRequest {
   @Override
   public void run() {
     // Sometimes can't access in Limitmode
-    if (Limitmode.limitClan()) {
+    if (KoLCharacter.getLimitMode().limitClan()) {
       return;
     }
 
@@ -420,92 +419,81 @@ public class ClanRumpusRequest extends GenericRequest {
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
 
-    matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
-    String action = matcher.find() ? matcher.group(1) : null;
+    var preaction = GenericRequest.getPreaction(urlString);
 
-    if (action == null) {
-      return;
-    }
-
-    if (action.equals("gym")) {
-      if (responseText.contains("You work it on out.")
-          || responseText.contains("You study the secrets of the cosmos.")
-          || responseText.contains("You bake under the artificial sunlight.")) {
-        KoLmafia.updateDisplay("Workout completed.");
-      } else {
-        KoLmafia.updateDisplay(MafiaState.ABORT, "You can't access that gym");
-      }
-      return;
-    }
-
-    if (action.equals("nap")) {
-      // You take a nap on the comfy sofa.
-      if (responseText.contains("You take a nap")) {
-        KoLmafia.updateDisplay("Resting completed.");
-      }
-      // Either you aren't in a clan or your clan doesn't have a sofa
-      else {
-        KoLmafia.updateDisplay(MafiaState.ABORT, "Resting failed - no Clan Sofa available.");
-      }
-      return;
-    }
-
-    if (action.equals("ballpit")) {
-      // You play in the ball pit. Wheeeeeee!
-      // (You've already played in the ball pit today.)
-      if (responseText.contains("play in the ball pit")
-          || responseText.contains("already played in the ball pit")) {
-        Preferences.setBoolean("_ballpit", true);
-      }
-      return;
-    }
-
-    if (action.equals("buychips")) {
-      // a bag of chips drops into the tray at the bottom
-      if (responseText.contains("a bag of chips drops")) {
-        Preferences.increment("_chipBags", 1);
-      }
-      // You press the button and the big metal coil rotates,
-      // but not far enough to actually drop the
-      // chips. Dangit!
-      else if (responseText.contains("but not far enough")) {
-        Preferences.setInteger("_chipBags", 3);
+    if (preaction == null) {
+      if (urlString.contains("spot=3") && urlString.contains("furni=3")) {
+        // You carefully guide the claw over the prize that
+        // looks the easiest to grab. You press the button and
+        // the claw slowly descends.
+        if (responseText.contains("slowly descends")) {
+          Preferences.increment("_klawSummons", 1);
+        }
+        // The machine makes a horrible clanking noise, and a
+        // wisp of smoke pours out of the prize chute.
+        //
+        // The crane machine seems to be broken down. Oh
+        // well. Maybe they'll fix it by tomorrow.
+        else if (responseText.contains("seems to be broken down")) {
+          Preferences.setInteger("_klawSummons", 3);
+        }
       }
 
       return;
     }
 
-    if (action.equals("jukebox")) {
-      // Whether we get a song or not, we are done for the
-      // day with the Jukebox, unless we ascend, which will
-      // reset the preference.
-      Preferences.setBoolean("_jukebox", true);
-      return;
-    }
-
-    if (urlString.contains("spot=3") && urlString.contains("furni=3")) {
-      // You carefully guide the claw over the prize that
-      // looks the easiest to grab. You press the button and
-      // the claw slowly descends.
-      if (responseText.contains("slowly descends")) {
-        Preferences.increment("_klawSummons", 1);
+    switch (preaction) {
+      case "gym" -> {
+        if (responseText.contains("You work it on out.")
+            || responseText.contains("You study the secrets of the cosmos.")
+            || responseText.contains("You bake under the artificial sunlight.")) {
+          KoLmafia.updateDisplay("Workout completed.");
+        } else {
+          KoLmafia.updateDisplay(MafiaState.ABORT, "You can't access that gym");
+        }
       }
-      // The machine makes a horrible clanking noise, and a
-      // wisp of smoke pours out of the prize chute.
-      //
-      // The crane machine seems to be broken down. Oh
-      // well. Maybe they'll fix it by tomorrow.
-      else if (responseText.contains("seems to be broken down")) {
-        Preferences.setInteger("_klawSummons", 3);
+      case "nap" -> {
+        // You take a nap on the comfy sofa.
+        if (responseText.contains("You take a nap")) {
+          KoLmafia.updateDisplay("Resting completed.");
+        }
+        // Either you aren't in a clan or your clan doesn't have a sofa
+        else {
+          KoLmafia.updateDisplay(MafiaState.ABORT, "Resting failed - no Clan Sofa available.");
+        }
       }
-
-      return;
+      case "ballpit" -> {
+        // You play in the ball pit. Wheeeeeee!
+        // (You've already played in the ball pit today.)
+        if (responseText.contains("play in the ball pit")
+            || responseText.contains("already played in the ball pit")) {
+          Preferences.setBoolean("_ballpit", true);
+        }
+      }
+      case "buychips" -> {
+        // a bag of chips drops into the tray at the bottom
+        if (responseText.contains("a bag of chips drops")) {
+          Preferences.increment("_chipBags", 1);
+        }
+        // You press the button and the big metal coil rotates,
+        // but not far enough to actually drop the
+        // chips. Dangit!
+        else if (responseText.contains("but not far enough")) {
+          Preferences.setInteger("_chipBags", 3);
+        }
+      }
+      case "jukebox" -> {
+        // Whether we get a song or not, we are done for the
+        // day with the Jukebox, unless we ascend, which will
+        // reset the preference.
+        Preferences.setBoolean("_jukebox", true);
+      }
     }
   }
 
   public static void getBreakfast() {
     // Sometimes can't access in Limitmode
-    if (Limitmode.limitClan()) {
+    if (KoLCharacter.getLimitMode().limitClan()) {
       return;
     }
 

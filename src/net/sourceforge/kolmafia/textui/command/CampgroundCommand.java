@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CampgroundCommand extends AbstractCommand {
@@ -24,11 +23,11 @@ public class CampgroundCommand extends AbstractCommand {
     GenericRequest request = null;
 
     if (command.equals("rest") && ChateauRequest.chateauRestUsable()) {
-      request = new ChateauRequest("chateau_restbox");
+      request = new ChateauRequest(ChateauRequest.BED);
     } else if (command.equals("rest") && CampAwayRequest.campAwayTentRestUsable()) {
       request = new CampAwayRequest(CampAwayRequest.TENT);
     } else {
-      if (!Limitmode.limitCampground() && !KoLCharacter.isEd()) {
+      if (!KoLCharacter.getLimitMode().limitCampground() && !KoLCharacter.isEd()) {
         if (!KoLCharacter.inNuclearAutumn()) {
           request = new CampgroundRequest(command);
         } else {

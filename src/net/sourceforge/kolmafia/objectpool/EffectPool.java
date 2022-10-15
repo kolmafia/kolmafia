@@ -52,7 +52,6 @@ public class EffectPool {
   public static final int SPOOKYFORM = 191;
   public static final int STENCHFORM = 192;
   public static final int SLEAZEFORM = 193;
-  public static final int MILK = 211;
   public static final int CURSED_BY_RNG = 217;
   public static final int CHALKY_HAND = 221;
   public static final int DREAMS_AND_LIGHTS = 223;
@@ -274,6 +273,7 @@ public class EffectPool {
   public static final int DOUBLE_BARRELED = 1949;
   public static final int BEER_BARREL_POLKA = 1950;
   public static final int CRAFT_TEA = 1989;
+  public static final int INSIDE_THE_SNOWGLOBE = 1999;
   public static final int COWRRUPTION = 2064;
   public static final int BOWLEGGED_SWAGGER = 2073;
   public static final int BENDIN_HELL = 2074;
@@ -345,6 +345,7 @@ public class EffectPool {
   public static final int WINE_FRIENDLY = 2665;
   public static final int LUCKY = 2693;
   public static final int ON_THE_TRAIL = 2694;
+  public static final int BUZZED_ON_DISTILLATE = 2720;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

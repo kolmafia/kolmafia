@@ -55,10 +55,11 @@ public class Preferences {
 
   private static final Set<String> defaultsSet = new HashSet<>();
   private static final Set<String> perUserGlobalSet = new HashSet<>();
+  private static final Set<String> onlyResetOnRollover =
+      new TreeSet<>(List.of("ascensionsToday", "potatoAlarmClockUsed"));
   private static final Set<String> legacyDailies =
       new TreeSet<>(
           List.of(
-              "barrelLayout",
               "bootsCharged",
               "breakfastCompleted",
               "burrowgrubHiveUsed",
@@ -75,7 +76,6 @@ public class Preferences {
               "grimoire1Summons",
               "grimoire2Summons",
               "grimoire3Summons",
-              "lastBarrelSmashed",
               "libramSummons",
               "libraryCardUsed",
               "noodleSummons",
@@ -99,6 +99,9 @@ public class Preferences {
       new String[] {
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
+        "autumnatonQuestLocation",
+        "autumnatonQuestTurn",
+        "autumnatonUpgrades",
         "awolDeferredPointsBeanslinger",
         "awolDeferredPointsCowpuncher",
         "awolDeferredPointsSnakeoiler",
@@ -179,10 +182,12 @@ public class Preferences {
         "crystalBallPredictions",
         "csServicesPerformed",
         "cubelingProgress",
+        "currentDistillateMods",
         "currentEasyBountyItem",
         "currentHardBountyItem",
         "currentHedgeMazeRoom",
         "currentHippyStore",
+        "currentPortalEnergy",
         "currentSpecialBountyItem",
         "cursedMagnifyingGlassCount",
         "cyrusAdjectives",
@@ -210,6 +215,8 @@ public class Preferences {
         "drippingHallAdventuresSinceAscension",
         "drippingTreesAdventuresSinceAscension",
         "drippyJuice",
+        "duckAreasCleared",
+        "duckAreasSelected",
         "edPiece",
         "eldritchTentaclesFought",
         "encountersUntilDMTChoice",
@@ -238,6 +245,7 @@ public class Preferences {
         "fistTeachingsPokerRoom",
         "fistTeachingsRoad",
         "fistTeachingsSlums",
+        "funGuyMansionKills",
         "frenchGuardTurtlesFreed",
         "garbageChampagneCharge",
         "garbageFireProgress",
@@ -333,6 +341,7 @@ public class Preferences {
         "miniAdvClass",
         "moonTuned",
         "mushroomGardenCropLevel",
+        "nextDistillateMods",
         "nextParanormalActivity",
         "nextQuantumFamiliar",
         "nextQuantumFamiliarName",
@@ -346,6 +355,7 @@ public class Preferences {
         "optimisticCandleProgress",
         "overgrownLotAvailable",
         "parasolUsed",
+        "parkaMode",
         "pastaThrall1",
         "pastaThrall2",
         "pastaThrall3",
@@ -1161,6 +1171,13 @@ public class Preferences {
 
     // Some need special treatment
     MonorailManager.resetMuffinOrder();
+  }
+
+  public static void resetPerRollover() {
+    // Some preferences are only reset on rollover
+    for (String pref : onlyResetOnRollover) {
+      resetToDefault(pref);
+    }
   }
 
   public static void resetDailies() {

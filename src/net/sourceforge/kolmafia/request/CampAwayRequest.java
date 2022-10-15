@@ -8,9 +8,9 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class CampAwayRequest extends PlaceRequest {
@@ -273,8 +273,8 @@ public class CampAwayRequest extends PlaceRequest {
   public static boolean campAwayTentRestUsable() {
     return Preferences.getBoolean("restUsingCampAwayTent")
         && Preferences.getBoolean("getawayCampsiteUnlocked")
-        && StandardRequest.isAllowed("Items", "Distant Woods Getaway Brochure")
-        && !Limitmode.limitZone("Woods")
+        && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
+        && !KoLCharacter.getLimitMode().limitZone("Woods")
         && !KoLCharacter.inBadMoon();
   }
 }

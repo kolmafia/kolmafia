@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 
@@ -8,7 +9,7 @@ public class VoteMonsterManager {
   private VoteMonsterManager() {}
 
   public static void checkCounter() {
-    if (!StandardRequest.isAllowed("Items", "voter registration form")) {
+    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "voter registration form")) {
       return;
     }
 

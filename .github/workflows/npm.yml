@@ -1,0 +1,55 @@
+
+name: Publish Typescript definitions to NPM
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  npm:
+    if: github.repository == 'kolmafia/kolmafia'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+          cache: "gradle"
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Generating TypeScript definitions
+        env:
+          ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
+        run: ./gradlew --no-daemon tsDefs
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Checking generated TypeScript definitions
+        run: |
+          mv index.d.ts .github/npm/index.d.ts
+          cd .github/npm
+          npm install
+          npm run validate
+
+      - name: Prepare TypeScript package for publication
+        run: |
+          PACKAGE_VERSION=$(head -n 1 .github/npm/index.d.ts | cut -c 5-)
+          sed -i 's/{{version}}/'$PACKAGE_VERSION'/g' .github/npm/package.json
+
+      - name: Publishing TypeScript package to npm
+        run: |
+          cd .github/npm
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

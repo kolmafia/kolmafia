@@ -39,7 +39,7 @@ public class Maximizer {
   public static void recommendedSlotIs(int slot, String item) {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(equipment.isPresent(), "Expected " + item + " to be recommended, but it was not");
-    assertEquals(AdventureResult.parseResult(item), equipment.get());
+    assertEquals(AdventureResult.tallyItem(item), equipment.get());
   }
 
   public static void recommendedSlotIsUnchanged(int slot) {
@@ -60,6 +60,15 @@ public class Maximizer {
             .filter(b -> item.equals(b.getItem().getName()))
             .findAny();
     assertTrue(found.isPresent(), "Expected " + item + " to be recommended, but it was not");
+  }
+
+  public static void recommends(int itemId) {
+    Optional<Boost> found =
+        getBoosts().stream()
+            .filter(Boost::isEquipment)
+            .filter(b -> (itemId == b.getItem().getItemId()))
+            .findAny();
+    assertTrue(found.isPresent(), "Expected " + itemId + " to be recommended, but it was not");
   }
 
   public static boolean someBoostIs(Predicate<Boost> predicate) {

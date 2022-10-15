@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -96,10 +97,10 @@ public class ShowDataCommand extends AbstractCommand {
     desiredStream.println();
 
     if (desiredData.startsWith("moon")) {
-      Date today = new Date();
+      var today = DateTimeManager.getRolloverDateTime();
 
       desiredStream.println(
-          CalendarFrame.LONG_FORMAT.format(today)
+          today.format(DateTimeFormatter.ofPattern(CalendarFrame.LONG_FORMAT.toPattern()))
               + " - "
               + HolidayDatabase.getCalendarDayAsString(today));
       desiredStream.println();
@@ -110,8 +111,8 @@ public class ShowDataCommand extends AbstractCommand {
       desiredStream.println();
 
       String[] holidayPredictions = HolidayDatabase.getHolidayPredictions(today);
-      for (int i = 0; i < holidayPredictions.length; ++i) {
-        desiredStream.println(holidayPredictions[i]);
+      for (String holidayPrediction : holidayPredictions) {
+        desiredStream.println(holidayPrediction);
       }
 
       desiredStream.println();
@@ -323,7 +324,7 @@ public class ShowDataCommand extends AbstractCommand {
                         : desiredData.equals("outfits")
                             ? EquipmentManager.getOutfits()
                             : desiredData.equals("familiars")
-                                ? KoLCharacter.getFamiliarList()
+                                ? KoLCharacter.usableFamiliars()
                                 : KoLConstants.inventory;
 
     if (desiredData.equals("effects")) {

@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -70,6 +71,21 @@ public class MerchTableRequest extends CoinMasterRequest {
   // itemId to item/count of currency; an AdventureResult.
   private static final Map<Integer, AdventureResult> buyCosts =
       new TreeMap<Integer, AdventureResult>();
+
+  // Manually set up the map and change the currency, as need
+  static {
+    for (Entry<Integer, Integer> entry :
+        CoinmastersDatabase.getBuyPrices(MerchTableRequest.master).entrySet()) {
+      int itemId = entry.getKey().intValue();
+      int price = entry.getValue().intValue();
+      AdventureResult cost =
+          switch (itemId) {
+            default -> MR_A.getInstance(price);
+            case ItemPool.TWITCHING_TELEVISION_TATTOO -> CHRONER.getInstance(price);
+          };
+      buyCosts.put(itemId, cost);
+    }
+  }
 
   public MerchTableRequest() {
     super(MerchTableRequest.MERCH_TABLE);

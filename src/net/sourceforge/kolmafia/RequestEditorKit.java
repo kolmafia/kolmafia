@@ -34,7 +34,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase.Punchcard;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -56,11 +55,13 @@ import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -71,7 +72,6 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
@@ -296,8 +296,9 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.addBugReportWarning(buffer);
     } else if (location.startsWith("adventure.php")) {
       RequestEditorKit.fixTavernCellar(buffer);
-      // RequestEditorKit.fixBallroom1( buffer );
+      RequestEditorKit.fixBallroom1(buffer);
       RequestEditorKit.fixDucks(buffer);
+      RequestEditorKit.fixPortal(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.fixBallroom2(buffer);
       RequestEditorKit.fixGovernmentLab(buffer);
@@ -319,8 +320,6 @@ public class RequestEditorKit extends HTMLEditorKit {
             "<tr><td colspan=9",
             "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9");
       }
-    } else if (location.startsWith("barrel.php")) {
-      BarrelDecorator.decorate(buffer);
     } else if (location.startsWith("basement.php")) {
       BasementDecorator.decorate(buffer);
     } else if (location.startsWith("bathole.php")) {
@@ -341,7 +340,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("choice.php")) {
       RequestEditorKit.fixTavernCellar(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
-      RequestEditorKit.addChoiceSpoilers(location, buffer);
+      RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
       RequestEditorKit.addBarrelSounds(buffer);
     } else if (location.startsWith("clan_hobopolis.php")) {
       HobopolisDecorator.decorate(location, buffer);
@@ -366,12 +365,14 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       StationaryButtonDecorator.decorate(location, buffer);
 
+      ElVibratoManager.decorate(buffer);
       DiscoCombatHelper.decorate(buffer);
       RequestEditorKit.addFightModifiers(buffer);
       RequestEditorKit.addTaleOfDread(buffer);
       RequestEditorKit.addDesertProgress(buffer);
       RequestEditorKit.addBlackForestProgress(buffer);
       RequestEditorKit.addPartyFairProgress(buffer);
+      RequestEditorKit.addChaostheticianLink(buffer);
 
       // Do any monster-specific decoration
       FightDecorator.decorateMonster(buffer);
@@ -1516,7 +1517,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     IslandDecorator.appendMissingGremlinTool(monster, monsterData);
 
-    if (KoLCharacter.getLimitmode() == Limitmode.SPELUNKY) {
+    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
       SpelunkyRequest.decorateSpelunkyMonster(monsterData);
     }
 
@@ -1621,7 +1622,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+    for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
       String name = punchcard.name();
       if (buffer.indexOf(name) != -1) {
         StringUtilities.globalStringReplace(buffer, name, punchcard.alias());
@@ -1819,7 +1820,8 @@ public class RequestEditorKit extends HTMLEditorKit {
     m.appendTail(buffer);
   }
 
-  private static void addChoiceSpoilers(final String location, final StringBuffer buffer) {
+  private static void addChoiceSpoilers(
+      final String location, final StringBuffer buffer, final boolean addComplexFeatures) {
     if (!Preferences.getBoolean("relayShowSpoilers")) {
       return;
     }
@@ -1834,7 +1836,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Do any choice-specific decorations
-    ChoiceAdventures.decorateChoice(choice, buffer);
+    ChoiceAdventures.decorateChoice(choice, buffer, addComplexFeatures);
 
     String text = buffer.toString();
     Matcher matcher = FORM_PATTERN.matcher(text);
@@ -2030,7 +2032,6 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 579:
         // Such Great Heights
         if (option == 3) {
-          // xyzzy
           int index =
               buffer.indexOf(
                   "<p><a href=\"adventure.php?snarfblat=280\">Adventure Again (The Hidden Temple)</a>");
@@ -2323,6 +2324,29 @@ public class RequestEditorKit extends HTMLEditorKit {
         buffer, url, "Go back to The Mysterious Island of Mystery");
   }
 
+  private static void fixPortal(final StringBuffer buffer) {
+    // Your El Vibrato portal has run out of power.  You should go back to
+    // <a href="campground.php">your campsite</a> and charge it back up.
+
+    if (buffer.indexOf("Your El Vibrato portal has run out of power") == -1) {
+      return;
+    }
+
+    if (InventoryManager.getCount(ItemPool.OVERCHARGED_POWER_SPHERE) > 0) {
+      String url = "campground.php?action=overpowerelvibratoportal";
+      RequestEditorKit.addAdventureAgainSection(
+          buffer, url, "Insert an overcharged El Vibrato power sphere");
+    }
+
+    if (InventoryManager.getCount(ItemPool.POWER_SPHERE) > 0) {
+      String url = "campground.php?action=powerelvibratoportal";
+      RequestEditorKit.addAdventureAgainSection(buffer, url, "Insert an El Vibrato power sphere");
+    }
+
+    String url = "campground.php?action=evibratoportal";
+    RequestEditorKit.addAdventureAgainSection(buffer, url, "Go to your El Vibrato portal");
+  }
+
   public static final void addAdventureAgainSection(
       final StringBuffer buffer, final String link, final String tag) {
     int index = buffer.indexOf("</center></td></tr><tr><td height=4></td></tr></table>");
@@ -2337,34 +2361,25 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void fixBallroom1(final StringBuffer buffer) {
     // Things that go BEFORE Stationary Buttons have been generated
 
-    String link = null;
-
-    if (buffer.indexOf("Having a Ball in the Ballroom") != -1) {
-      // Give the player a link to talk to Lady Spookyraven again (on the third floor)
-      //
-      // Unfortunately, place.php?whichplace=manor3&action=manor3_ladys does not work until you
-      // visit the third floor map
-      // link = "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady
-      // Spookyraven on the Third Floor</a>";
-      //
-      // Unfortunately, place.php?whichplace=manor3 doesn't work until you visit the second floor
-      // map again.
-      // link = "<p><a href=\"place.php?whichplace=manor3\">Go to the Third Floor</a>";
-      //
-      // Which makes this whole function useless, unless we
-      // can figure out a way - via a sidepane command, say -
-      // to unlock the third floor and then talk to Lady S on
-      // the third floor
-    }
-
-    if (link == null) {
+    if (buffer.indexOf("Having a Ball in the Ballroom") == -1) {
       return;
     }
 
-    int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
-    if (index != -1) {
-      buffer.insert(index, link);
+    String adventureAgain =
+        "<p><a href=\"adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM + "\">";
+    int index = buffer.indexOf(adventureAgain);
+    if (index == -1) {
+      return;
     }
+
+    String link1 =
+        "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady Spookyraven on the Third Floor</a>";
+    buffer.insert(index, link1);
+
+    // Have to recheck since we've inserted HTML in front of index
+    index = buffer.indexOf(adventureAgain);
+    String link2 = "<p><a href=\"place.php?whichplace=manor3\">Go to the Third Floor</a>";
+    buffer.insert(index, link2);
   }
 
   private static final AdventureResult DANCE_CARD = ItemPool.get(ItemPool.DANCE_CARD, 1);
@@ -2372,27 +2387,25 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void fixBallroom2(final StringBuffer buffer) {
     // Things that go AFTER Stationary Buttons have been generated
 
-    String link = null;
-
-    if (buffer.indexOf("Rotting Matilda") != -1) {
-      // Give player a link to use another dance card
-      if (DANCE_CARD.getCount(KoLConstants.inventory) <= 0) {
-        return;
-      }
-      link =
-          "<p><a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\">Use another dance card</a>";
+    if (buffer.indexOf("Rotting Matilda") == -1) {
+      return;
     }
 
-    if (link == null) {
+    // Give player a link to use another dance card
+    if (DANCE_CARD.getCount(KoLConstants.inventory) <= 0) {
       return;
     }
 
     int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
-    if (index != -1) {
-      buffer.insert(index, link);
+    if (index == -1) {
+      return;
     }
+
+    String link =
+        "<p><a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\">Use another dance card</a>";
+    buffer.insert(index, link);
   }
 
   private static void fixGovernmentLab(final StringBuffer buffer) {
@@ -2441,6 +2454,20 @@ public class RequestEditorKit extends HTMLEditorKit {
             "inv_equip.php?which=2&action=equip&slot=3&whichitem=");
     buffer.insert(
         index + test.length(), link1.getItemHTML() + link2.getItemHTML() + link3.getItemHTML());
+  }
+
+  private static void addChaostheticianLink(final StringBuffer buffer) {
+    String test = "You should head back to the Chaosthetician at Dino World for your reward";
+    int index = buffer.indexOf(test);
+
+    if (index == -1) {
+      return;
+    }
+
+    StringUtilities.singleStringReplace(
+        buffer,
+        "Chaosthetician at Dino World",
+        "<a href=\"place.php?whichplace=dinorf&action=dinorf_chaos\">Chaosthetician at Dino World</a>");
   }
 
   private static class KoLSubmitView extends FormView {

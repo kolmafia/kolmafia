@@ -54,7 +54,15 @@ public class CakeArenaRequest extends GenericRequest {
 
   @Override
   public int getAdventuresUsed() {
-    return this.isCompetition ? 1 : 0;
+    return getAdventuresUsed(this.isCompetition);
+  }
+
+  public static int getAdventuresUsed(final String urlString) {
+    return getAdventuresUsed(urlString.contains("action=go"));
+  }
+
+  private static int getAdventuresUsed(boolean isCompetition) {
+    return isCompetition ? 1 : 0;
   }
 
   private static final Pattern EVENT_PATTERN = Pattern.compile("event=(\\d*)");

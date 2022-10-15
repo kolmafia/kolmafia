@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -227,6 +228,8 @@ public class NPCStoreDatabase {
       return false;
     } else if (storeId.startsWith("crimbo20")) {
       return false;
+    } else if (storeId.startsWith("crimbo21")) {
+      return false;
     } else if (storeId.equals("guildstore1")) {
       // Shadowy Store
       return KoLCharacter.isMoxieClass() && KoLCharacter.getGuildStoreOpen();
@@ -345,7 +348,7 @@ public class NPCStoreDatabase {
           return InventoryManager.hasItem(ItemPool.FISHING_POLE);
         case ItemPool.TRICK_TOT_UNICORN:
         case ItemPool.TRICK_TOT_CANDY:
-          return KoLCharacter.findFamiliar(FamiliarPool.TRICK_TOT) != null;
+          return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
       }
     } else if (storeId.equals("town_giftshop.php")) {
       // Gift Shop
@@ -429,7 +432,7 @@ public class NPCStoreDatabase {
       if (workshedItem != null) {
         available =
             workshedItem.getItemId() == ItemPool.MAYO_CLINIC
-                && StandardRequest.isAllowed("Items", "portable Mayo Clinic");
+                && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "portable Mayo Clinic");
         if (itemId == ItemPool.MIRACLE_WHIP) {
           return available
               && !Preferences.getBoolean("_mayoDeviceRented")
@@ -534,7 +537,7 @@ public class NPCStoreDatabase {
         return false;
       }
       if (itemId == ItemPool.TRICK_TOT_CANDY || itemId == ItemPool.TRICK_TOT_EYEBALL) {
-        return KoLCharacter.findFamiliar(FamiliarPool.TRICK_TOT) != null;
+        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
       }
     } else if (storeId.equals("vault2")) {
 
@@ -542,14 +545,14 @@ public class NPCStoreDatabase {
         return false;
       }
       if (itemId == ItemPool.TRICK_TOT_KNIGHT || itemId == ItemPool.TRICK_TOT_ROBOT) {
-        return KoLCharacter.findFamiliar(FamiliarPool.TRICK_TOT) != null;
+        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
       }
     } else if (storeId.equals("vault3")) {
       if (!KoLCharacter.inNuclearAutumn() || Preferences.getInteger("falloutShelterLevel") < 7) {
         return false;
       }
       if (itemId == ItemPool.TRICK_TOT_LIBERTY || itemId == ItemPool.TRICK_TOT_UNICORN) {
-        return KoLCharacter.findFamiliar(FamiliarPool.TRICK_TOT) != null;
+        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
       }
     } else if (storeId.equals("wildfire")) {
       if (!KoLCharacter.inFirecore()) {

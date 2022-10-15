@@ -438,7 +438,7 @@ public class DrinkItemRequest extends UseItemRequest {
 
     if (KoLCharacter.getInebriety() + inebrietyBonus - mimeShotglass
         > KoLCharacter.getInebrietyLimit()) {
-      FamiliarData stooper = KoLCharacter.findFamiliar(FamiliarPool.STOOPER);
+      FamiliarData stooper = KoLCharacter.usableFamiliar(FamiliarPool.STOOPER);
       FamiliarData current = KoLCharacter.getFamiliar();
       if (stooper != null
           && (current == null || stooper != current)
@@ -867,7 +867,7 @@ public class DrinkItemRequest extends UseItemRequest {
       case ItemPool.VAMPIRE_VINTNER_WINE:
         // The charge only starts recounting when the wine is drunk
         Preferences.setInteger("vintnerCharge", 0);
-        KoLCharacter.findFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
+        KoLCharacter.usableFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
         break;
     }
   }

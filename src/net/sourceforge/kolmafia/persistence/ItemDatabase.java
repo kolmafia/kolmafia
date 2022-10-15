@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -39,6 +40,8 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -77,52 +80,6 @@ public class ItemDatabase {
   public static final String DISCARD_FLAG = "d";
   public static final String BOGUS_FLAG = "z";
 
-  public record Punchcard(int id, String name, String alias) {}
-
-  public static Punchcard[] PUNCHCARDS = {
-    // Verbs
-    new Punchcard(
-        ItemPool.PUNCHCARD_ATTACK,
-        "El Vibrato punchcard (115 holes)",
-        "El Vibrato punchcard (ATTACK)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_REPAIR,
-        "El Vibrato punchcard (97 holes)",
-        "El Vibrato punchcard (REPAIR)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_BUFF, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_MODIFY,
-        "El Vibrato punchcard (213 holes)",
-        "El Vibrato punchcard (MODIFY)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_BUILD,
-        "El Vibrato punchcard (165 holes)",
-        "El Vibrato punchcard (BUILD)"),
-
-    // Objects
-    new Punchcard(
-        ItemPool.PUNCHCARD_TARGET,
-        "El Vibrato punchcard (142 holes)",
-        "El Vibrato punchcard (TARGET)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_SELF, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_FLOOR,
-        "El Vibrato punchcard (88 holes)",
-        "El Vibrato punchcard (FLOOR)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_DRONE,
-        "El Vibrato punchcard (182 holes)",
-        "El Vibrato punchcard (DRONE)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_WALL, "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_SPHERE,
-        "El Vibrato punchcard (104 holes)",
-        "El Vibrato punchcard (SPHERE)")
-  };
-
   private record Alias(int id, String name) {}
 
   private static final Alias[] ALIASES = {
@@ -137,6 +94,14 @@ public class ItemDatabase {
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (pitchfork style)"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (constantly twirling)"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (cocoon)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (kachungasaur mode)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (dilophosaur mode)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (spikolodon mode)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (ghostasaurus mode)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (pterodactyl mode)"),
+    new Alias(ItemPool.BACKUP_CAMERA, "backup camera (meat)"),
+    new Alias(ItemPool.BACKUP_CAMERA, "backup camera (init)"),
+    new Alias(ItemPool.BACKUP_CAMERA, "backup camera (ml)"),
     new Alias(-1, "potion of inebriety"),
     new Alias(-1, "potion of healing"),
     new Alias(-1, "potion of confusion"),
@@ -428,7 +393,7 @@ public class ItemDatabase {
         if (useType == null) {
           RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
         } else {
-          ItemDatabase.useTypeById.put(itemId, useType.intValue());
+          ItemDatabase.useTypeById.put(itemId, useType);
         }
 
         int attrs = 0;
@@ -438,7 +403,7 @@ public class ItemDatabase {
           if (useType == null) {
             RequestLogger.printLine("Unknown secondary usage for " + name + ": " + usage);
           } else {
-            attrs |= useType.intValue();
+            attrs |= useType;
             CandyDatabase.registerCandy(id, usage);
           }
         }
@@ -633,9 +598,9 @@ public class ItemDatabase {
     }
 
     // Set aliases for the El Vibrato punch cards
-    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
-      id = punchcard.id;
-      String alias = StringUtilities.getCanonicalName(punchcard.alias);
+    for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
+      id = punchcard.id();
+      String alias = StringUtilities.getCanonicalName(punchcard.alias());
       String plural = StringUtilities.singleStringReplace(alias, "punchcard", "punchcards");
       ItemDatabase.addIdToName(alias, id);
       ItemDatabase.itemIdByPlural.put(plural, id);
@@ -1870,32 +1835,31 @@ public class ItemDatabase {
    *
    * @return <code>true</code> if the item is usable
    */
-  public static final boolean isUsable(final int itemId) {
+  public static boolean isUsable(final int itemId) {
     // Anything that you can manipulate with inv_use.php
 
     int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     int attributes = ItemDatabase.getAttributes(itemId);
 
-    switch (useType) {
-        // Explicit "use"
-      case KoLConstants.CONSUME_USE:
-      case KoLConstants.MESSAGE_DISPLAY:
-      case KoLConstants.INFINITE_USES:
-        // Multi-use
-      case KoLConstants.CONSUME_MULTIPLE:
-        // Grow is a type of use
-      case KoLConstants.GROW_FAMILIAR:
-        // Any potion
-      case KoLConstants.CONSUME_POTION:
-      case KoLConstants.CONSUME_AVATAR:
-        return true;
-      default:
-        return (attributes
-                & (ItemDatabase.ATTR_USABLE
-                    | ItemDatabase.ATTR_MULTIPLE
-                    | ItemDatabase.ATTR_REUSABLE))
-            != 0;
-    }
+    return switch (useType) {
+      case
+          // Explicit "use"
+          KoLConstants.CONSUME_USE,
+          KoLConstants.MESSAGE_DISPLAY,
+          KoLConstants.INFINITE_USES,
+          // Multi-use
+          KoLConstants.CONSUME_MULTIPLE,
+          // Grow is a type of use
+          KoLConstants.GROW_FAMILIAR,
+          // Any potion
+          KoLConstants.CONSUME_POTION,
+          KoLConstants.CONSUME_AVATAR -> true;
+      default -> (attributes
+              & (ItemDatabase.ATTR_USABLE
+                  | ItemDatabase.ATTR_MULTIPLE
+                  | ItemDatabase.ATTR_REUSABLE))
+          != 0;
+    };
   }
 
   public static final boolean isPotion(final AdventureResult item) {
@@ -2134,7 +2098,7 @@ public class ItemDatabase {
     Matcher matcher = ItemDatabase.COT_PATTERN.matcher(desc);
     if (matcher.find()) {
       String race = matcher.group(1);
-      KoLCharacter.setEnthroned(KoLCharacter.findFamiliar(race));
+      KoLCharacter.setEnthroned(KoLCharacter.usableFamiliar(race));
     }
   }
 
@@ -2143,7 +2107,7 @@ public class ItemDatabase {
     Matcher matcher = ItemDatabase.COT_PATTERN.matcher(desc);
     if (matcher.find()) {
       String race = matcher.group(1);
-      KoLCharacter.setBjorned(KoLCharacter.findFamiliar(race));
+      KoLCharacter.setBjorned(KoLCharacter.usableFamiliar(race));
     }
   }
 
@@ -2194,6 +2158,14 @@ public class ItemDatabase {
     }
 
     Preferences.setInteger("sweat", 0);
+  }
+
+  public static void parsePowerfulGlove(final String desc) {
+    if (desc.contains("The Glove's battery is currently fully charged.")) {
+      Preferences.setInteger("_powerfulGloveBatteryPowerUsed", 0);
+    } else if (desc.contains("The Glove's battery is fully depleted.")) {
+      Preferences.setInteger("_powerfulGloveBatteryPowerUsed", 100);
+    }
   }
 
   public static void resetVampireVintnerWine() {
@@ -2465,11 +2437,12 @@ public class ItemDatabase {
   }
 
   public static boolean isAllowed(final int itemId) {
-    return StandardRequest.isAllowed("Items", ItemDatabase.getDataName(itemId));
+    return StandardRequest.isAllowed(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static boolean isAllowedInStandard(final int itemId) {
-    return StandardRequest.isAllowedInStandard("Items", ItemDatabase.getDataName(itemId));
+    return StandardRequest.isAllowedInStandard(
+        RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static int getNoobSkillId(final int itemId) {

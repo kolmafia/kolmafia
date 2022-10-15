@@ -33,7 +33,7 @@ import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
@@ -110,7 +109,7 @@ public class AdventureRequest extends GenericRequest {
       if (adventureId.equals("cloudypeak2")) {
         this.addFormField("whichplace", "mclargehuge");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("pyramid_state")) {
+      } else if (adventureId.equals("pyramid_state")) {
         this.addFormField("whichplace", "pyramid");
         StringBuilder action = new StringBuilder();
         action.append(adventureId);
@@ -119,26 +118,23 @@ public class AdventureRequest extends GenericRequest {
           action.append("a");
         }
         this.addFormField("action", action.toString());
-      } else if (this.adventureId.equals("manor4_chamberboss")) {
+      } else if (adventureId.equals("manor4_chamberboss")) {
         this.addFormField("whichplace", "manor4");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("townwrong_tunnel")) {
+      } else if (adventureId.equals("townwrong_tunnel")) {
         this.addFormField("whichplace", "town_wrong");
         this.addFormField("action", "townwrong_tunnel");
-      } else if (this.adventureId.startsWith("ns_")) {
+      } else if (adventureId.startsWith("ns_")) {
         this.addFormField("whichplace", "nstower");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("town_eincursion")
-          || this.adventureId.equals("town_eicfight2")) {
+      } else if (adventureId.equals("town_eincursion") || adventureId.equals("town_eicfight2")) {
         this.addFormField("whichplace", "town");
         this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("ioty2014_wolf")) {
-        this.addFormField("whichplace", "manor4");
+      } else if (adventureId.equals("ioty2014_wolf")) {
+        this.addFormField("whichplace", "ioty2014_wolf");
         this.addFormField("action", "wolf_houserun");
       }
-    } else if (!formSource.equals("basement.php")
-        && !formSource.equals("cellar.php")
-        && !formSource.equals("barrel.php")) {
+    } else if (!formSource.equals("basement.php") && !formSource.equals("cellar.php")) {
       this.addFormField("action", adventureId);
     }
   }
@@ -168,14 +164,6 @@ public class AdventureRequest extends GenericRequest {
           return;
         }
       }
-    } else if (this.formSource.equals("barrel.php")) {
-      int square = BarrelDecorator.recommendSquare();
-      if (square == 0) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "All booze in the specified rows has been collected.");
-        return;
-      }
-      this.addFormField("smash", String.valueOf(square));
     } else if (this.formSource.equals("cellar.php")) {
       if (TavernManager.shouldAutoFaucet()) {
         this.removeFormField("whichspot");
@@ -532,6 +520,7 @@ public class AdventureRequest extends GenericRequest {
     encounter = AdventureRequest.handleIntergnat(encounter);
     encounter = AdventureRequest.handleNuclearAutumn(encounter);
     encounter = AdventureRequest.handleMask(encounter);
+    encounter = AdventureRequest.handleDinosaurs(encounter);
 
     // KoL now provides MONSTERID in fight responseText.
     Matcher m = MONSTERID_PATTERN.matcher(responseText);
@@ -729,8 +718,7 @@ public class AdventureRequest extends GenericRequest {
     if (urlString.startsWith("adventure.php")) {
       int area = parseArea(urlString);
       switch (area) {
-        case 17:
-          // Hidden Temple
+        case AdventurePool.HIDDEN_TEMPLE:
           // Dvorak's revenge
           // You jump to the last letter, and put your pom-poms down with a sign of relief --
           // thank goodness that's over. Worst. Spelling bee. Ever.
@@ -739,8 +727,7 @@ public class AdventureRequest extends GenericRequest {
           }
           break;
 
-        case 19:
-          // Limerick Dungeon
+        case AdventurePool.LIMERICK_DUNGEON:
           for (int i = 0; i < LIMERICKS.length; ++i) {
             if (responseText.contains(LIMERICKS[i][1])) {
               return LIMERICKS[i][0];
@@ -748,7 +735,23 @@ public class AdventureRequest extends GenericRequest {
           }
           return "Unrecognized Limerick";
 
-        case 114: // Outskirts of The Knob
+        case AdventurePool.SPOOKY_GRAVY_BURROW:
+          // The Spooky Wheelbarrow no longer shows an encounter.
+          // Bug reported, but we can work around it.
+          //
+          // As you explore the Spooky Underground Caverns, you stop short when
+          // you hear a noise. You duck behind a pillar of rock, and peek out
+          // to see a Spooky Gravy Fairy pushing a small wheelbarrow, whistling
+          // a gloomy dirge. As he goes past, you sneak out and thump him on
+          // the head. He squeaks and falls over unconscious.
+          //
+          // His wheelbarrow has two little buckets in it. Score! (Maybe.)
+          if (responseText.contains("pushing a small wheelbarrow")) {
+            return "Spooky Wheelbarrow";
+          }
+          break;
+
+        case AdventurePool.OUTSKIRTS_OF_THE_KNOB:
           // Unstubbed
           // You go back to the tree where the wounded Knob Goblin guard was resting,
           // and find him just where you left him, continuing to whine about his stubbed toe.
@@ -759,10 +762,6 @@ public class AdventureRequest extends GenericRequest {
           }
           break;
       }
-    } else if (urlString.startsWith("barrel.php")) {
-      // Without this special case, encounter names in the Barrels would
-      // be things like "bottle of rum"
-      return "Barrel Smash";
     }
 
     String encounter = parseEncounter(responseText);
@@ -980,12 +979,12 @@ public class AdventureRequest extends GenericRequest {
       return !formSource.equals("cellar.php");
     } else if (formSource.startsWith("suburbandis.php")) {
       return formSource.contains("action=dothis");
+    } else if (formSource.equals("elvmachine.php")) {
+      return true;
     } else if (formSource.startsWith("tiles.php")) {
       // Only register initial encounter of Dvorak's Revenge
       DvorakManager.saveResponse(responseText);
       return responseText.contains("I before E, except after C");
-    } else if (formSource.startsWith("barrel.php?smash")) {
-      return true;
     } else if (formSource.startsWith("mining.php")) {
       if (formSource.contains("which=")) {
         if (!formSource.contains("mine=6")) {
@@ -998,10 +997,15 @@ public class AdventureRequest extends GenericRequest {
       return false;
     }
 
-    // It is not a known adventure.	 Therefore,
-    // do not log the encounter yet.
+    // It is not a known adventure.
+    // Therefore, do not log the encounter yet.
 
     return false;
+  }
+
+  public static int getAdventuresUsed(final String urlString) {
+    KoLAdventure adventure = AdventureDatabase.getAdventureByURL(urlString);
+    return adventure == null ? 0 : adventure.getRequest().getAdventuresUsed();
   }
 
   @Override
@@ -1009,12 +1013,18 @@ public class AdventureRequest extends GenericRequest {
     if (this.override >= 0) {
       return this.override;
     }
-    String limitmode = KoLCharacter.getLimitmode();
-    if (limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN) {
+    var limitmode = KoLCharacter.getLimitMode();
+    if (limitmode == LimitMode.SPELUNKY || limitmode == LimitMode.BATMAN) {
       return 0;
     }
     if (this.adventureNumber == AdventurePool.THE_SHORE) {
       return KoLCharacter.inFistcore() ? 5 : 3;
+    }
+    if (this.adventureName.equals("The Lower Chambers")) {
+      return PyramidRequest.lowerChamberTurnsUsed();
+    }
+    if (this.adventureName.equals("The Typical Tavern Cellar")) {
+      return this.getURLString().contains("action=explore") ? 1 : 0;
     }
     if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
@@ -1031,7 +1041,7 @@ public class AdventureRequest extends GenericRequest {
     return this.adventureName;
   }
 
-  public static final void handleServerRedirect(String redirectLocation) {
+  public static final void handleServerRedirect(String redirectLocation, boolean usePostMethod) {
     if (redirectLocation.contains("main.php")) {
       return;
     }
@@ -1041,7 +1051,7 @@ public class AdventureRequest extends GenericRequest {
       redirectLocation = "campground.php";
     }
 
-    AdventureRequest.ZONE_UNLOCK.constructURLString(redirectLocation);
+    AdventureRequest.ZONE_UNLOCK.constructURLString(redirectLocation, usePostMethod);
 
     if (redirectLocation.contains("palinshelves.php")) {
       AdventureRequest.ZONE_UNLOCK.run();
@@ -1090,6 +1100,12 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
+    if (redirectLocation.startsWith("elvmachine.php")) {
+      // El Vibrato Island Machinations
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
     RequestSynchFrame.showRequest(AdventureRequest.ZONE_UNLOCK);
     RequestLogger.printLine("Unrecognized choice.php redirect: " + redirectLocation);
     RequestLogger.updateSessionLog("Unrecognized choice.php redirect: " + redirectLocation);
@@ -1102,13 +1118,7 @@ public class AdventureRequest extends GenericRequest {
     RequestLogger.updateSessionLog("Encounter: Dvorak's Revenge");
 
     request.run();
-    request.constructURLString("tiles.php?action=jump&whichtile=4").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=6").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=3").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=5").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=7").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=6").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=3").run();
+    DvorakManager.solve();
   }
 
   private static String handleRandomModifiers(String monsterName, final String responseText) {
@@ -1238,6 +1248,72 @@ public class AdventureRequest extends GenericRequest {
       return StringUtilities.globalStringDelete(monsterName, " AND TESLA!");
     }
     return monsterName;
+  }
+
+  private static final String[] dinoTypes = {
+    // Dinosaurs
+    "archelon",
+    "chicken",
+    "dilophosaur",
+    "flatusaurus",
+    "ghostasaurus",
+    "kachungasaur",
+    "pterodactyl",
+    "spikolodon",
+    "velociraptor"
+  };
+
+  private static final String[] dinoMods = {
+    // Modifiers
+    "carrion-eating",
+    "chilling",
+    "cold-blooded",
+    "foul-smelling",
+    "glass-shelled",
+    "high-altitude",
+    "hot-blooded",
+    "mist-shrouded",
+    "primitive",
+    "slimy",
+    "steamy",
+    "supersonic",
+    "swamp",
+    "sweaty"
+  };
+
+  public static final String[] dinoGluttony = {
+    "that consumed", "that just ate", "that recently devoured ", "that swallowed the soul of"
+  };
+
+  private static String handleDinosaurs(String monsterName) {
+    if (!KoLCharacter.inDinocore()) {
+      return monsterName;
+    }
+
+    for (String modifier : dinoTypes) {
+      if (monsterName.contains(modifier)) {
+        MonsterData.lastRandomModifiers.add(modifier);
+        monsterName = StringUtilities.singleStringDelete(monsterName, modifier);
+        break;
+      }
+    }
+
+    for (String modifier : dinoMods) {
+      if (monsterName.contains(modifier)) {
+        MonsterData.lastRandomModifiers.add(modifier);
+        monsterName = StringUtilities.singleStringDelete(monsterName, modifier);
+        break;
+      }
+    }
+
+    for (String devour : dinoGluttony) {
+      if (monsterName.contains(devour)) {
+        monsterName = StringUtilities.singleStringDelete(monsterName, devour);
+        break;
+      }
+    }
+
+    return monsterName.trim();
   }
 
   private static String handleNuclearAutumn(String monsterName) {

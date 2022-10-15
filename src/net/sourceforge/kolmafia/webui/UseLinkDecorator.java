@@ -35,7 +35,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.command.SpeculateCommand;
@@ -52,8 +52,8 @@ public abstract class UseLinkDecorator {
 
     // If you are Ed in the Underworld, you have to wait until you
     // are on the surface again before you use anything
-    String limitMode = KoLCharacter.getLimitmode();
-    if (limitMode == Limitmode.ED) {
+    var limitmode = KoLCharacter.getLimitMode();
+    if (limitmode == LimitMode.ED) {
       return;
     }
 
@@ -751,6 +751,8 @@ public abstract class UseLinkDecorator {
                 && InventoryManager.getCount(ItemPool.AZAZELS_UNICORN) == 0) {
               return UseLinkDecorator.svenLink(itemId);
             }
+          case ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR:
+            return null;
         }
         return new UseLink(itemId, itemCount, "drink", "inv_booze.php?which=1&whichitem=");
 
@@ -1015,6 +1017,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.MEGACOPIA:
           case ItemPool.AMORPHOUS_BLOB:
           case ItemPool.GIANT_AMORPHOUS_BLOB:
+          case ItemPool.AUTUMNATON:
 
             // Not inline, since the redirection to a fight
             // doesn't work ajaxified.
@@ -2141,6 +2144,11 @@ public abstract class UseLinkDecorator {
       case ItemPool.SPINMASTER:
         useType = "lathe";
         useLocation = "shop.php?whichshop=lathe";
+        break;
+
+      case ItemPool.DINOSAUR_DROPPINGS:
+        useType = "turn in";
+        useLocation = "place.php?whichplace=dinorf&action=dinorf_owner";
         break;
 
       default:

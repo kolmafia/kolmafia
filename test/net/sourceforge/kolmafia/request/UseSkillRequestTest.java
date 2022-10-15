@@ -9,8 +9,10 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -41,6 +43,7 @@ class UseSkillRequestTest {
   @BeforeAll
   static void beforeAll() {
     KoLCharacter.reset("UseSkillRequestTest");
+    Preferences.reset("UseSkillRequestTest");
   }
 
   private static int EXPERIENCE_SAFARI = SkillDatabase.getSkillId("Experience Safari");
@@ -90,11 +93,10 @@ class UseSkillRequestTest {
 
   @Test
   void correctErrorMessageForTomeWhenInRun() {
-    KoLCharacter.setMP(1000, 1000, 1000);
-    KoLCharacter.addAvailableSkill(SkillPool.STICKER);
-
     var cleanups =
         new Cleanups(
+            withMP(1000, 1000, 1000),
+            withSkill(SkillPool.STICKER),
             withProperty("tomeSummons", 0),
             withProperty("_stickerSummons", 0),
             withInteractivity(false),
@@ -113,11 +115,10 @@ class UseSkillRequestTest {
 
   @Test
   void correctErrorMessageForTomeWhenOutOfRun() {
-    KoLCharacter.setMP(1000, 1000, 1000);
-    KoLCharacter.addAvailableSkill(SkillPool.STICKER);
-
     var cleanups =
         new Cleanups(
+            withMP(1000, 1000, 1000),
+            withSkill(SkillPool.STICKER),
             withProperty("tomeSummons", 0),
             withProperty("_stickerSummons", 0),
             withInteractivity(true),

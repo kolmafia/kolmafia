@@ -41,4 +41,10 @@ public class PyramidRequest {
     Preferences.setInteger("pyramidPosition", position);
     return position;
   }
+
+  public static final int lowerChamberTurnsUsed() {
+    int position = Preferences.getInteger("pyramidPosition");
+    boolean bombed = Preferences.getBoolean("pyramidBombUsed");
+    return (position == 1 && bombed) ? 7 : 1;
+  }
 }

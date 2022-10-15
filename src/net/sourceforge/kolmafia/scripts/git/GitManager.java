@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.ScriptManager;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -90,6 +91,8 @@ public class GitManager extends ScriptManager {
     for (var project : allFolders()) {
       update(project);
     }
+
+    Preferences.setBoolean("_gitUpdated", true);
   }
 
   /**
@@ -314,6 +317,7 @@ public class GitManager extends ScriptManager {
     var root = getRoot(projectPath);
     KoLmafia.updateDisplay("Removing project " + folder);
     List<Path> toDelete;
+    // get the files under the project root folder in the git/ directory that should be deleted
     try {
       toDelete = getPermissibleFiles(root, true);
     } catch (IOException e) {
@@ -325,7 +329,13 @@ public class GitManager extends ScriptManager {
       var shortPath = root.relativize(absPath);
       var relPath = KoLConstants.ROOT_LOCATION.toPath().resolve(shortPath);
       try {
-        Files.deleteIfExists(relPath);
+        // delete both from the root permissible folder, and the relative file in the project in
+        // git/
+        if (!Files.isDirectory(relPath) || FileUtilities.isEmptyDirectory(relPath)) {
+          // if the folder is a non-empty directory, deletion will fail.
+          // Deletion is ordered such that all script-relevant files have already been deleted.
+          Files.deleteIfExists(relPath);
+        }
         Files.delete(absPath);
         KoLmafia.updateDisplay(shortPath + " => DELETED");
       } catch (IOException e) {

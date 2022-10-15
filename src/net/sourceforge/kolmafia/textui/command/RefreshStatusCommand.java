@@ -4,9 +4,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -15,12 +17,11 @@ import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 public class RefreshStatusCommand extends AbstractCommand {
   public RefreshStatusCommand() {
     this.usage =
-        " all | [status | effects] | [gear | equip | outfit] | inv | camp | storage | stash | [familiar | terarrium] | stickers | quests | shop - resynchronize with KoL.";
+        " all | [status | effects] | [gear | equip | outfit] | inv | camp | storage | stash | closet | [familiar | terarrium] | stickers | quests | shop | concoctions - resynchronize with KoL.";
   }
 
   @Override
@@ -42,7 +43,9 @@ public class RefreshStatusCommand extends AbstractCommand {
       InventoryManager.refresh();
       return;
     } else if (parameters.startsWith("camp")) {
-      if (!Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn()) {
+      if (!KoLCharacter.getLimitMode().limitCampground()
+          && !KoLCharacter.isEd()
+          && !KoLCharacter.inNuclearAutumn()) {
         RequestThread.postRequest(new CampgroundRequest());
       }
       return;
@@ -51,6 +54,9 @@ public class RefreshStatusCommand extends AbstractCommand {
       return;
     } else if (parameters.equals("stash")) {
       RequestThread.postRequest(new ClanStashRequest());
+      return;
+    } else if (parameters.equals("closet")) {
+      ClosetRequest.refresh();
       return;
     } else if (parameters.startsWith("familiar") || parameters.equals("terrarium")) {
       parameters = "familiars";
@@ -62,6 +68,9 @@ public class RefreshStatusCommand extends AbstractCommand {
       return;
     } else if (parameters.equals("shop")) {
       RequestThread.postRequest(new ManageStoreRequest());
+      return;
+    } else if (parameters.equals("concoctions")) {
+      ConcoctionDatabase.refreshConcoctions(true);
       return;
     } else {
       KoLmafia.updateDisplay(MafiaState.ERROR, parameters + " cannot be refreshed.");

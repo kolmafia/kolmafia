@@ -430,10 +430,15 @@ public class CampgroundRequest extends GenericRequest {
 
   @Override
   public int getAdventuresUsed() {
-    return this.action.equals("rest")
-            && Preferences.getInteger("timesRested") >= KoLCharacter.freeRestsAvailable()
-        ? 1
-        : 0;
+    return getAdventuresUsed("rest".equals(this.action));
+  }
+
+  public static int getAdventuresUsed(String urlString) {
+    return getAdventuresUsed("rest".equals(GenericRequest.getAction(urlString)));
+  }
+
+  private static int getAdventuresUsed(boolean rest) {
+    return rest && KoLCharacter.freeRestsRemaining() == 0 ? 1 : 0;
   }
 
   public static void setCampgroundItem(final int itemId, int count) {
@@ -731,6 +736,12 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
+  public static void updateElVibratoPortal() {
+    int charges = Preferences.getInteger("currentPortalEnergy");
+    CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.TRAPEZOID));
+    CampgroundRequest.setCampgroundItem(ItemPool.TRAPEZOID, charges);
+  }
+
   public static void growTallGrass() {
     AdventureResult crop = CampgroundRequest.getCrop();
     if (crop == null || CampgroundRequest.getCropType(crop) != CropType.GRASS) {
@@ -802,24 +813,26 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    Matcher matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
-    if (!matcher.find()) {
+    var action = GenericRequest.getAction(urlString);
+    var preaction = GenericRequest.getPreaction(urlString);
+
+    if (action == null) {
       CampgroundRequest.parseCampground(responseText);
-      return;
+      action = "";
     }
 
-    String action = matcher.group(1);
+    if (preaction == null) {
+      preaction = "";
+    }
 
     // A request can have both action=bookshelf and preaction=yyy.
     // Check for that.
-    if (action.equals("bookshelf") && matcher.find()) {
-      action = matcher.group(1);
-    }
-
     if (action.equals("bookshelf")) {
-      // No preaction. Look at books.
-      CampgroundRequest.parseBookTitles(responseText);
-      return;
+      if (preaction.equals("")) {
+        // No preaction. Look at books.
+        CampgroundRequest.parseBookTitles(responseText);
+        return;
+      }
     }
 
     if (action.equals("makepizza")) {
@@ -847,7 +860,7 @@ public class CampgroundRequest extends GenericRequest {
     // Combining clip arts does this:
     //   campground.php?action=bookshelf&preaction=combinecliparts&clip1=05&clip2=05&clip3=03&pwd
 
-    if (action.startsWith("summon") || action.equals("combinecliparts")) {
+    if (preaction.startsWith("summon") || preaction.equals("combinecliparts")) {
       UseSkillRequest.parseResponse(urlString, responseText);
       return;
     }
@@ -980,7 +993,7 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    if (action.equals("drive")) {
+    if (preaction.equals("drive")) {
       Matcher fuelMatcher = FUEL_PATTERN_1.matcher(responseText);
       if (fuelMatcher.find()) {
         asdonMartinFuel = StringUtilities.parseInt(fuelMatcher.group(1));
@@ -1006,8 +1019,25 @@ public class CampgroundRequest extends GenericRequest {
     findImage(responseText, "doghouse.gif", ItemPool.HAUNTED_DOGHOUSE);
     findImage(responseText, "chesstable.gif", ItemPool.WITCHESS_SET);
     findImage(responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL);
-    findImage(responseText, "portal1.gif", ItemPool.TRAPEZOID);
-    findImage(responseText, "portal2.gif", ItemPool.TRAPEZOID);
+
+    if (responseText.contains("portal1.gif")) {
+      // Charged portal.
+
+      // If we think it is uncharged, assume it is fully
+      // charged. Otherwise, believe the property.
+      int charges = Preferences.getInteger("currentPortalEnergy");
+      if (charges == 0) {
+        Preferences.setInteger("currentPortalEnergy", 20);
+        charges = 20;
+      }
+      updateElVibratoPortal();
+    }
+
+    if (responseText.contains("portal2.gif")) {
+      // Uncharged portal.
+      Preferences.setInteger("currentPortalEnergy", 0);
+      updateElVibratoPortal();
+    }
 
     if (responseText.contains("campterminal.gif")
         && Preferences.getString("sourceTerminalEducateKnown").equals("")) {

@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -481,7 +482,7 @@ public class Evaluator {
           return;
         }
         if (hadFamiliar && weight < 0.0) continue;
-        FamiliarData fam = KoLCharacter.findFamiliar(id);
+        FamiliarData fam = KoLCharacter.usableFamiliar(id);
         if (fam == null && weight > 1.0) { // Allow a familiar to be faked for testing
           fam = new FamiliarData(id);
           fam.setWeight((int) weight);
@@ -1598,12 +1599,12 @@ public class Evaluator {
       secondBest.setEnthroned(secondBestCarriedFamiliar);
 
       // Check each familiar in hat to see if they are worthwhile
-      List<FamiliarData> familiarList = KoLCharacter.getFamiliarList();
+      List<FamiliarData> familiarList = KoLCharacter.usableFamiliars();
       for (FamiliarData familiar : familiarList) {
         if (familiar != null
             && familiar != FamiliarData.NO_FAMILIAR
             && familiar.canCarry()
-            && StandardRequest.isAllowed("Familiars", familiar.getRace())
+            && StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, familiar.getRace())
             && !familiar.equals(KoLCharacter.getFamiliar())
             && !this.carriedFamiliars.contains(familiar)
             && !familiar.equals(useCrownFamiliar)
