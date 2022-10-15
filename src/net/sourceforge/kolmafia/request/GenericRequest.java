@@ -3036,12 +3036,13 @@ public class GenericRequest implements Runnable {
     RequestLogger.updateDebugLog(requestProperties.size() + " request properties");
 
     for (Entry<String, List<String>> entry : requestProperties.entrySet()) {
+      List<String> value;
       if ("Cookie".equalsIgnoreCase(entry.getKey())) {
-        RequestLogger.updateDebugLog(
-            "Field: " + entry.getKey() + " = " + filterCookieList(entry.getValue()));
+        value = filterCookieList(entry.getValue());
       } else {
-        RequestLogger.updateDebugLog("Field: " + entry.getKey() + " = " + entry.getValue());
+        value = entry.getValue();
       }
+      RequestLogger.updateDebugLog("Field: " + entry.getKey() + " = " + value);
     }
 
     RequestLogger.updateDebugLog();
