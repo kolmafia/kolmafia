@@ -60,11 +60,13 @@ class AutumnatonManagerTest {
   @ParameterizedTest
   @CsvSource({
     "0, '', 11",
+    "1, '', 11",
+    "4, '', 44",
+    "2, 'leftleg1', 11",
+    "4, 'rightleg1', 33",
     "0, 'leftleg1,rightleg1', 11",
-    "2, 'leftleg1', 22",
     "2, 'leftleg1,rightleg1', 11",
-    "4, '', 55",
-    "4, 'rightleg1', 44",
+    "4, 'leftleg1,rightleg1', 22",
   })
   public void canDetectQuest(final int questsToday, final String upgrades, final int expected) {
     var cleanups =

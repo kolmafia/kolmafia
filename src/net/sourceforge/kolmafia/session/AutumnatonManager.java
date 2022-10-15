@@ -57,7 +57,7 @@ public class AutumnatonManager {
   }
 
   private static int calculateQuestTurns(final int questNumber) {
-    var effectiveQuest = questNumber;
+    var effectiveQuest = questNumber - 1;
     var upgrades = Preferences.getString("autumnatonUpgrades");
     if (upgrades.contains("leftleg1")) effectiveQuest--;
     if (upgrades.contains("rightleg1")) effectiveQuest--;
