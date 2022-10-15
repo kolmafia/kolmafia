@@ -594,7 +594,7 @@ public class Evaluator {
           }
         } else if (keyword.startsWith("com")) {
           index = Modifiers.COMBAT_RATE;
-          if ("underwater".equals(AdventureDatabase.getEnvironment(Modifiers.currentLocation))) {
+          if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
             this.weight[Modifiers.UNDERWATER_COMBAT_RATE] = weight;
           }
         } else if (keyword.startsWith("item")) {
