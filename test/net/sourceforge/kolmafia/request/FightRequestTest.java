@@ -726,7 +726,7 @@ public class FightRequestTest {
       "2, 2, 4",
       // You hear your cosmic bowling ball rattling around in the ball return system nearby.
       "3, 5, 3",
-      "3, 1 ,2",
+      "3, 1, 2",
       // You hear your cosmic bowling ball approaching.
       "4, 6, 1",
       // Your cosmic bowling ball clatters into the closest ball return and you grab it.
