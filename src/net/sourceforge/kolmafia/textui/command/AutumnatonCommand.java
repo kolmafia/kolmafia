@@ -161,7 +161,10 @@ public class AutumnatonCommand extends AbstractCommand {
 
     StringBuilder output = new StringBuilder();
 
-    output.append("You can send your autumn-aton to ").append(locs.size()).append(" locations.");
+    output
+        .append("You can send your autumn-aton to ")
+        .append(locs.size())
+        .append(" locations.\n\n");
 
     addEnvironmentLocations(output, locMapping, Environment.OUTDOOR);
     addEnvironmentLocations(output, locMapping, Environment.INDOOR);
@@ -176,10 +179,11 @@ public class AutumnatonCommand extends AbstractCommand {
       Environment env) {
     var dl = locMapping.get(env);
     if (dl != null) {
-      output.append("<b>").append(env.toTitle()).append("</b>");
+      output.append("<b>").append(env.toTitle()).append("</b><br>");
       addDiffLevelLocations(output, dl, env, DifficultyLevel.LOW);
       addDiffLevelLocations(output, dl, env, DifficultyLevel.MID);
       addDiffLevelLocations(output, dl, env, DifficultyLevel.HIGH);
+      addDiffLevelLocations(output, dl, env, DifficultyLevel.UNKNOWN);
     }
   }
 
