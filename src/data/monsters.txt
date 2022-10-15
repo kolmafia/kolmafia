@@ -273,7 +273,7 @@ gelatinous cube	532	gelcube.gif	Atk: 3 Def: 2 HP: 6 Init: 50 Meat: 25 P: slime A
 generic duck	544	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 75 P: beast Article: a
 Georgepaul, the Balldodger	879	merkinballer2.gif	BOSS NOCOPY Atk: 1200 Def: 1150 HP: 1400 Init: 100 Meat: 100 P: mer-kin
 ghastly organist	403	phantom.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 50 P: undead EA: hot EA: spooky Article: a	opera mask (20)
-ghost miner	370	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 P: undead GHOST Phys: 100 E: spooky Article: a	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
+ghost miner	370	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 P: undead GHOST Phys: 100 E: spooky Article: a	bubblewrap ore (10)	bubblewrap ore (5)	cardboard ore (10)	cardboard ore (5)	styrofoam ore (10)	styrofoam ore (5)
 ghost of Elizabeth Spookyraven	1564	elizabeth.gif	NOCOPY Scale: 5 Cap: 300 Init: 100 P: undead GHOST Phys: 100 EA: hot EA: spooky Article: the	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
 ghuol	30	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 Init: 60 Meat: 34 P: undead ED: spooky EA: sleaze EA: spooky Article: a	ghuol egg (25)	ghuol ears (25)
 giant giant giant centipede	462	centipede.gif	Atk: 142 Def: 124 HP: 142 Init: 50 Meat: 150 P: bug Article: a	centipede eggs (20)	handful of sand (25)	handful of sand (15)
@@ -2213,21 +2213,21 @@ outlaw leader	1663	outlawboss.gif	NOCOPY Scale: 1 Cap: 1000 Floor: 5 Init: -1000
 tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 Meat: 15 P: dude Article: a	minin' dynamite (20)	minin' dynamite (1)	lump of goofball ore (c0)
 
 # Twitch 7 - Shakespeare (October 2015)
-ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 100 EA: spooky Article: a	ghost beer (0)	ghostly dagger (0)
+ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 100 EA: spooky Article: a	ghost beer (20)	ghostly dagger (5)
 Groundling	1842	groundling.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude EA: stench Article: a	stink-penny (0)
 Hamlet	1843	hamlet.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	hawk (0)	hamlet sandwich (0)
 Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (0)	Othello's dagger (0)	Othello's handkerchief (0)	Othello's military jacket (0)
 Richard X	1841	richardx.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	heavy crown (0)	ear poison (0)
-Understudy	1846	understudy.gif	Scale: -2 Cap: 1000 Floor: 2 Init: -10000 P: dude Article: an	How to Play Othello (0)
-Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	grip key (0)
+Understudy	1846	understudy.gif	Scale: -2 Cap: 1000 Floor: 2 Init: -10000 P: dude Article: an	How to Play Othello (20)
+Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	grip key (10)
 
 # Twitch 8 - KoL Con 13 (September 2016)
-Arizona bark scorpion	1971	barkscorpion.gif	Scale: -10 Init: -10000 P: bug Article: an
-board games elemental	1967	boardgamesman.gif	Scale: 3 Init: -10000 P: construct Article: a
-nerd rapper	1968	nerdrapper.gif	Scale: 5 Init: -10000 P: dude Article: a
-stumbling-drunk congoer (female)	1972	congoerf1.gif,congoerf2.gif,congoerf3.gif	Scale: 5 Init: -10000 P: dude
-stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale: 5 Init: -10000 P: dude
-swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental EA: sleaze Article: a
+Arizona bark scorpion	1971	barkscorpion.gif	Scale: -10 Init: -10000 P: bug Article: an	baby bark scorpion (c0)
+board games elemental	1967	boardgamesman.gif	Scale: 3 Init: -10000 P: construct Article: a	extremely confusing manual (0)	foam pistol (0)
+nerd rapper	1968	nerdrapper.gif	Scale: 5 Init: -10000 P: dude Article: a	charisma potion (0)	droppable microphone (0)
+stumbling-drunk congoer (female)	1972	congoerf1.gif,congoerf2.gif,congoerf3.gif	Scale: 5 Init: -10000 P: dude	unidentified drink (15)	KoL Con 13 T-shirt (5)
+stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale: 5 Init: -10000 P: dude	unidentified drink (15)	KoL Con 13 T-shirt (5)
+swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental EA: sleaze Article: a	diluted makeup (0)	discarded swimming trunks (0)
 
 # Crimbo 2018
 wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	thick walrus blubber (10)	pristine walrus tusk (c0)
