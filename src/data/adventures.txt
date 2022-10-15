@@ -454,10 +454,10 @@ Crimbo06	adventure=117	DiffLevel: unknown Env: unknown	Crimborg Collective Facto
 
 Crimbo05	adventure=93	DiffLevel: unknown Env: unknown	Crimbo Town Toy Factory (2005)
 
-WhiteWed	adventure=88	DiffLevel: unknown Env: outdoors	Market Square, 28 Days Later
-WhiteWed	adventure=89	DiffLevel: unknown Env: indoors	The Mall of Loathing, 28 Days Later
-WhiteWed	adventure=90	DiffLevel: unknown Env: outdoors	Wrong Side of the Tracks, 28 Days Later
-WhiteWed	adventure=59	DiffLevel: unknown Env: outdoors	The Icy Peak in The Recent Past
+WhiteWed	adventure=88	DiffLevel: unknown Env: outdoor	Market Square, 28 Days Later
+WhiteWed	adventure=89	DiffLevel: unknown Env: indoor	The Mall of Loathing, 28 Days Later
+WhiteWed	adventure=90	DiffLevel: unknown Env: outdoor	Wrong Side of the Tracks, 28 Days Later
+WhiteWed	adventure=59	DiffLevel: unknown Env: outdoor	The Icy Peak in The Recent Past
 
 PastEvents	adventure=175	DiffLevel: unknown Env: indoor	Spectral Salad Factory
 
