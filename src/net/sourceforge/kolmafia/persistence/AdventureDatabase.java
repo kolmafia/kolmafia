@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -56,8 +57,8 @@ public class AdventureDatabase {
   private static final Map<String, KoLAdventure> adventureByURL = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByName = new HashMap<>();
   private static final Map<Integer, KoLAdventure> adventureById = new HashMap<>();
-  private static final Map<String, String> diffLevelLookup = new HashMap<>();
-  private static final Map<String, String> environmentLookup = new HashMap<>();
+  private static final Map<String, DifficultyLevel> diffLevelLookup = new HashMap<>();
+  private static final Map<String, Environment> environmentLookup = new HashMap<>();
   private static final Map<String, String> zoneLookup = new HashMap<>();
   private static final Map<String, String> conditionLookup = new HashMap<>();
   private static final Map<String, String> bountyLookup = new HashMap<>();
@@ -87,6 +88,59 @@ public class AdventureDatabase {
   public static final String[] FREE_ADVENTURES = {"Rock-a-bye larva", "Cobb's Knob lab key"};
 
   private AdventureDatabase() {}
+
+  public enum Environment {
+    UNKNOWN("unknown"),
+    NONE("none"),
+    INDOOR("indoor"),
+    OUTDOOR("outdoor"),
+    UNDERGROUND("underground"),
+    UNDERWATER("underwater");
+
+    private final String name;
+
+    Environment(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+
+    public static Optional<Environment> fromString(String text) {
+      if (text == null || text.isEmpty()) return Optional.empty();
+      return Arrays.stream(values()).filter(e -> e.name.equalsIgnoreCase(text)).findAny();
+    }
+
+    public boolean isUnderwater() {
+      return this == Environment.UNDERWATER;
+    }
+  }
+
+  public enum DifficultyLevel {
+    UNKNOWN("unknown"),
+    NONE("none"),
+    LOW("low"),
+    MID("mid"),
+    HIGH("high");
+
+    private final String name;
+
+    DifficultyLevel(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+
+    public static Optional<DifficultyLevel> fromString(String text) {
+      if (text == null || text.isEmpty()) return Optional.empty();
+      return Arrays.stream(values()).filter(e -> e.name.equalsIgnoreCase(text)).findAny();
+    }
+  }
 
   public static final void refreshZoneTable() {
     if (!AdventureDatabase.ZONE_DESCRIPTIONS.isEmpty()) {
@@ -191,10 +245,6 @@ public class AdventureDatabase {
 
         String name = data[3];
 
-        if (environment == null) {
-          RequestLogger.printLine("Adventure area \"" + name + "\" is missing environment data");
-        }
-
         if (AdventureDatabase.getParentZone(zone) == null) {
           RequestLogger.printLine(
               "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"");
@@ -204,8 +254,18 @@ public class AdventureDatabase {
         AdventureDatabase.zoneLookup.put(name, zone);
         AdventureDatabase.adventureTable.add(
             new Adventure(zone, location[0] + ".php", location[1], name));
-        AdventureDatabase.diffLevelLookup.put(name, diffLevel);
-        AdventureDatabase.environmentLookup.put(name, environment);
+        var dl = DifficultyLevel.fromString(diffLevel);
+        if (dl.isPresent()) {
+          AdventureDatabase.diffLevelLookup.put(name, dl.get());
+        } else {
+          RequestLogger.printLine("Adventure area \"" + name + "\" has invalid difflevel data");
+        }
+        var env = Environment.fromString(environment);
+        if (env.isPresent()) {
+          AdventureDatabase.environmentLookup.put(name, env.get());
+        } else {
+          RequestLogger.printLine("Adventure area \"" + name + "\" has invalid environment data");
+        }
 
         AdventureDatabase.statLookup.put(name, stat);
 
@@ -815,12 +875,12 @@ public class AdventureDatabase {
     return fistcoreDataSetting(fistcoreLocationToData(location));
   }
 
-  public static String getDifficultyLevel(String adventureName) {
-    return AdventureDatabase.diffLevelLookup.getOrDefault(adventureName, "unknown");
+  public static DifficultyLevel getDifficultyLevel(String adventureName) {
+    return AdventureDatabase.diffLevelLookup.getOrDefault(adventureName, DifficultyLevel.UNKNOWN);
   }
 
-  public static String getEnvironment(String adventureName) {
-    return AdventureDatabase.environmentLookup.getOrDefault(adventureName, "none");
+  public static Environment getEnvironment(String adventureName) {
+    return AdventureDatabase.environmentLookup.getOrDefault(adventureName, Environment.NONE);
   }
 
   public static int getRecommendedStat(String adventureName) {
