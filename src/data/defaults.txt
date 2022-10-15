@@ -530,10 +530,6 @@ user	doctorBagQuestLights	0
 user	doctorBagQuestLocation	
 user	doctorBagUpgrades	0
 user	doghouseBoarded	false
-user	doghouseBeachBuck	false
-user	doghouseCoinspiracy	0
-user	doghouseFunFunds	false
-user	doghouseVolcoino	false
 user	dolphinItem
 user	dontStopForCounters	false
 user	dreadScroll1	0
@@ -698,6 +694,23 @@ user	guzzlrQuestBooze
 user	guzzlrQuestLocation	
 user	guzzlrQuestTier	
 user	haciendaLayout	000000000000000000
+user	hallowiener8BitRealm	0
+user	hallowienerBeachBuck	false
+user	hallowienerCoinspiracy	0
+user	hallowienerDarkElbow	false
+user	hallowienerDarkHeart	false
+user	hallowienerDarkNeck	false
+user	hallowienerDefiledNook	false
+user	hallowienerFunFunds	false
+user	hallowienerGuanoJunction	false
+user	hallowienerKnollGym	false
+user	hallowienerMadnessBakery	false
+user	hallowienerMiddleChamber	false
+user	hallowienerOvergrownLot	false
+user	hallowienerSkeletonStore	false
+user	hallowienerSmutOrcs	false
+user	hallowienerSonofaBeach	false
+user	hallowienerVolcoino	false
 user	hardcorePVPWarning	false
 user	harvestBatteriesHardcore	true
 user	harvestBatteriesSoftcore	true

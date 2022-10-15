@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -464,16 +465,58 @@ public abstract class EncounterManager {
         }
         return;
       case "dog diner afternoon":
-        Preferences.setBoolean("doghouseBeachBuck", true);
+        Preferences.setBoolean("hallowienerBeachBuck", true);
         return;
       case "labrador conspirator":
-        Preferences.increment("doghouseCoinspiracy");
+        Preferences.increment("hallowienerCoinspiracy");
         return;
       case "doggy heaven":
-        Preferences.setBoolean("doghouseFunFunds", true);
+        Preferences.setBoolean("hallowienerFunFunds", true);
         return;
       case "lava dogs":
-        Preferences.setBoolean("doghouseVolcoino", true);
+        Preferences.setBoolean("hallowienerVolcoino", true);
+        return;
+      case "fruuuuuuuit":
+        Preferences.setBoolean("hallowienerSkeletonStore", true);
+        return;
+      case "boooooze hound":
+        Preferences.setBoolean("hallowienerOvergrownLot", true);
+        return;
+      case "baker's dogzen":
+        Preferences.setBoolean("hallowienerMadnessBakery", true);
+        return;
+      case "dog needs food badly":
+        Preferences.increment("hallowiener8BitRealm");
+        return;
+      case "ratchet-catcher":
+        Preferences.setBoolean("hallowienerMiddleChamber", true);
+        return;
+      case "something about hot wings":
+        if (responseText.contains(
+            "adventure.php?snarfblat=" + AdventurePool.DARK_ELBOW_OF_THE_WOODS)) {
+          Preferences.setBoolean("hallowienerDarkElbow", true);
+        } else if (responseText.contains(
+            "adventure.php?snarfblat=" + AdventurePool.DARK_HEART_OF_THE_WOODS)) {
+          Preferences.setBoolean("hallowienerDarkHeart", true);
+        } else if (responseText.contains(
+            "adventure.php?snarfblat=" + AdventurePool.DARK_NECK_OF_THE_WOODS)) {
+          Preferences.setBoolean("hallowienerDarkNeck", true);
+        }
+        return;
+      case "seeing-eyes dog":
+        Preferences.setBoolean("hallowienerDefiledNook", true);
+        return;
+      case "carpenter dog":
+        Preferences.setBoolean("hallowienerSmutOrcs", true);
+        return;
+      case "are they made of real dogs?":
+        Preferences.setBoolean("hallowienerGuanoJunction", true);
+        return;
+      case "gunbowwowder":
+        Preferences.setBoolean("hallowienerSonofaBeach", true);
+        return;
+      case "it isn't a poodle":
+        Preferences.setBoolean("hallowienerKnollGym", true);
         return;
     }
   }

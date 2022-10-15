@@ -55,7 +55,7 @@ public class GenericRequestTest {
     var cleanups =
         new Cleanups(
             withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
-            withProperty("lastEnccounter", ""));
+            withProperty("lastEncounter", ""));
 
     try (cleanups) {
       assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
@@ -79,11 +79,10 @@ public class GenericRequestTest {
     var cleanups =
         new Cleanups(
             withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
-            withProperty("lastEnccounter", ""));
+            withProperty("lastEncounter", ""),
+            withProperty("hallowienerVolcoino", "false"));
 
     try (cleanups) {
-      assertFalse(Preferences.getBoolean("doghouseVolcoino"));
-
       KoLAdventure.setLastAdventure("The Bubblin' Caldera");
 
       GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
@@ -94,7 +93,7 @@ public class GenericRequestTest {
       request.processResponse();
 
       assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
-      assertTrue(Preferences.getBoolean("doghouseVolcoino"));
+      assertThat("hallowienerVolcoino", isSetTo(true));
     }
   }
 
