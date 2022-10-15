@@ -170,7 +170,10 @@ public class AutumnatonCommand extends AbstractCommand {
     RequestLogger.printLine(output.toString());
   }
 
-  private void addEnvironmentLocations(StringBuilder output, Map<Environment, Map<DifficultyLevel, List<KoLAdventure>>> locMapping, Environment env) {
+  private void addEnvironmentLocations(
+      StringBuilder output,
+      Map<Environment, Map<DifficultyLevel, List<KoLAdventure>>> locMapping,
+      Environment env) {
     var dl = locMapping.get(env);
     if (dl != null) {
       output.append("<b>").append(env.toTitle()).append("</b>");
@@ -180,16 +183,17 @@ public class AutumnatonCommand extends AbstractCommand {
     }
   }
 
-  private void addDiffLevelLocations(StringBuilder output, Map<DifficultyLevel, List<KoLAdventure>> dlMapping, Environment env, DifficultyLevel level) {
+  private void addDiffLevelLocations(
+      StringBuilder output,
+      Map<DifficultyLevel, List<KoLAdventure>> dlMapping,
+      Environment env,
+      DifficultyLevel level) {
     var advs = dlMapping.get(level);
     if (advs != null) {
-      output.append(diffLevelDescription(env, level))
-          .append(" <ul>");
+      output.append(diffLevelDescription(env, level)).append(" <ul>");
 
       for (var item : advs) {
-        output.append("<li>")
-            .append(item.getAdventureName())
-            .append("</li>");
+        output.append("<li>").append(item.getAdventureName()).append("</li>");
       }
 
       output.append("</ul>");
@@ -198,27 +202,28 @@ public class AutumnatonCommand extends AbstractCommand {
 
   private String diffLevelDescription(Environment env, DifficultyLevel level) {
     var title = level.toTitle();
-    var desc = switch (env) {
-      case OUTDOOR -> switch (level) {
-        case LOW -> "gives autumn leaf (potion, +25% item, +5% combat chance)";
-        case MID -> "gives autumn debris shield (shield, +10 DR, +30% init, +20 all hot)";
-        case HIGH -> "gives autumn leaf pendant (accessory, 5 fam weight, 10 fam damage, +1 fam exp)";
-        default -> "";
-      };
-      case INDOOR -> switch (level) {
-        case LOW -> "gives AutumnFest Ale (booze, 1 drunk, 4-6 advs)";
-        case MID -> "gives autumn-spice donut (food, 1 full, 4-6 advs)";
-        case HIGH -> "gives autumn breeze (spleen, 1 toxicity, +100% all stats)";
-        default -> "";
-      };
-      case UNDERGROUND -> switch (level) {
-        case LOW -> "gives autumn sweater-weather sweater (shirt, +3 cold res, +50 HP, +8-12 HP Regen)";
-        case MID -> "gives autumn dollar (potion, +50% meat)";
-        case HIGH -> "gives autumn years wisdom (potion, +20% spell dmg, +100 MP, +15-20 MP Regen)";
-        default -> "";
-      };
-      default -> "";
-    };
+    var desc =
+        switch (env) {
+          case OUTDOOR -> switch (level) {
+            case LOW -> "gives autumn leaf (potion, +25% item, +5% combat chance)";
+            case MID -> "gives autumn debris shield (shield, +10 DR, +30% init, +20 all hot)";
+            case HIGH -> "gives autumn leaf pendant (accessory, 5 fam weight, 10 fam damage, +1 fam exp)";
+            default -> "";
+          };
+          case INDOOR -> switch (level) {
+            case LOW -> "gives AutumnFest Ale (booze, 1 drunk, 4-6 advs)";
+            case MID -> "gives autumn-spice donut (food, 1 full, 4-6 advs)";
+            case HIGH -> "gives autumn breeze (spleen, 1 toxicity, +100% all stats)";
+            default -> "";
+          };
+          case UNDERGROUND -> switch (level) {
+            case LOW -> "gives autumn sweater-weather sweater (shirt, +3 cold res, +50 HP, +8-12 HP Regen)";
+            case MID -> "gives autumn dollar (potion, +50% meat)";
+            case HIGH -> "gives autumn years wisdom (potion, +20% spell dmg, +100 MP, +15-20 MP Regen)";
+            default -> "";
+          };
+          default -> "";
+        };
     return title + ": " + desc;
   }
 }

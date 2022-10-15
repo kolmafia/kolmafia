@@ -2747,9 +2747,7 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(
         new LibraryFunction(
-            "get_autumnaton_locations",
-            new AggregateType(DataTypes.LOCATION_TYPE, 0),
-            params));
+            "get_autumnaton_locations", new AggregateType(DataTypes.LOCATION_TYPE, 0), params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)

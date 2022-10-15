@@ -304,9 +304,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
           new Cleanups(
               hasAutumnaton(),
               withItem(ItemPool.AUTUMNATON),
-              withNextResponse(
-                  200,
-                  html("request/test_choice_autumnaton_all_upgrades.html")));
+              withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
 
       try (cleanups) {
         String output = execute("locations");
