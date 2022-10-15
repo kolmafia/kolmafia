@@ -6317,6 +6317,8 @@ public class FightRequest extends GenericRequest {
         return;
       }
 
+      if (handleCosmicBowlingBall(str)) return;
+
       FightRequest.handleVillainLairRadio(node, status);
 
       if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
@@ -8007,6 +8009,39 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(text, status);
       return true;
     }
+    return false;
+  }
+
+  private static boolean handleCosmicBowlingBall(String text) {
+    if (!text.toLowerCase().contains("you hear your cosmic bowling ball")) return false;
+
+    var combats = Preferences.getInteger("cosmicBowlingBallReturnCombats");
+
+    // 8+ combats
+    if (text.contains("Off in the distance")) {
+      Preferences.setInteger("cosmicBowlingBallReturnCombats", Math.max(combats, 8));
+      return true;
+    }
+
+    // 4-7 combats
+    if (text.contains("in the ball return system.")) {
+      Preferences.setInteger("cosmicBowlingBallReturnCombats", Math.min(Math.max(combats, 4), 7));
+      return true;
+    }
+
+    // 2-3 combats
+    if (text.contains("in the ball return system nearby.")) {
+      Preferences.setInteger("cosmicBowlingBallReturnCombats", Math.min(Math.max(combats, 2), 3));
+      return true;
+    }
+
+    // Next combat
+    if (text.contains("approaching.")) {
+      Preferences.setInteger("cosmicBowlingBallReturnCombats", 1);
+      return true;
+    }
+
+    // Maybe it's something else?
     return false;
   }
 

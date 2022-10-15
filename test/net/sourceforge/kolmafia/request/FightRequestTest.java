@@ -785,6 +785,34 @@ public class FightRequestTest {
   @Nested
   class CosmicBowlingBall {
     @ParameterizedTest
+    @CsvSource({
+      // Off in the distance, you hear your cosmic bowling ball rattling around in the ball
+      // return system.
+      "1, 7, 8",
+      "1, 10, 9",
+      // You hear your cosmic bowling ball rattling around in the ball return system.
+      "2, 9, 7",
+      "2, 2, 4",
+      // You hear your cosmic bowling ball rattling around in the ball return system nearby.
+      "3, 5, 3",
+      "3, 1, 2",
+      // You hear your cosmic bowling ball approaching.
+      "4, 6, 1",
+      // Your cosmic bowling ball clatters into the closest ball return and you grab it.
+      "5, 10, -1"
+    })
+    public void canTrackCosmicBowlingBall(int step, int previous, int expected) {
+      var cleanups =
+          new Cleanups(withProperty("cosmicBowlingBallReturnCombats", previous), withFight(0));
+
+      try (cleanups) {
+        String html = html("request/test_fight_bowling_ball_" + step + ".html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("cosmicBowlingBallReturnCombats", isSetTo(expected));
+      }
+    }
+
+    @ParameterizedTest
     @ValueSource(
         ints = {
           // Off in the distance, you hear your cosmic bowling ball rattling around in the ball
@@ -799,7 +827,7 @@ public class FightRequestTest {
           // Your cosmic bowling ball clatters into the closest ball return and you grab it.
           5
         })
-    public void canTrackCosmicBowlingBall(int step) {
+    public void canTrackCosmicBowlingBallSkills(int step) {
       var cleanups = new Cleanups(withFight());
       try (cleanups) {
         String html = html("request/test_fight_bowling_ball_" + step + ".html");
