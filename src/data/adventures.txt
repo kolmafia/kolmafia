@@ -8,7 +8,7 @@
 # environment should be indoor, outdoor, underground, underwater, none, or unknown
 # difflevel should be unknown, low, mid or high
 
-Campground	adventure=543	DiffLevel: unknown Env: outdoor	Your Mushroom Garden
+Campground	adventure=543	DiffLevel: mid Env: outdoor	Your Mushroom Garden
 
 # Clan areas
 
@@ -19,7 +19,7 @@ Gyms	clan_hobopolis=1	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Mystic
 Gyms	clan_hobopolis=2	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Moxie
 Gyms	clan_hobopolis=3	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Muscle
 
-Hobopolis	adventure=166	DiffLevel: unknown Env: underground Stat: 250	A Maze of Sewer Tunnels
+Hobopolis	adventure=166	DiffLevel: mid Env: underground Stat: 250	A Maze of Sewer Tunnels
 Hobopolis	adventure=167	DiffLevel: unknown Env: underground Stat: 300	Hobopolis Town Square
 Hobopolis	adventure=168	DiffLevel: unknown Env: underground Stat: 350	Burnbarrel Blvd.	+1 jar of squeeze
 Hobopolis	adventure=169	DiffLevel: unknown Env: underground Stat: 350	Exposure Esplanade	+1 bowl of fishysoisse
@@ -42,56 +42,56 @@ Town	adventure=441	DiffLevel: mid Env: outdoor Stat: 0	The Overgrown Lot	3 Fraud
 Casino	casino=1	DiffLevel: unknown Env: none Stat: 0	Goat Party
 Casino	casino=2	DiffLevel: unknown Env: none Stat: 0	Pirate Party
 Casino	casino=11	DiffLevel: unknown Env: none Stat: 0	Lemon Party
-Casino	adventure=70	DiffLevel: unknown Env: indoor Stat: 0	The Roulette Tables
-Casino	adventure=71	DiffLevel: unknown Env: indoor Stat: 0	The Poker Room
+Casino	adventure=70	DiffLevel: low Env: indoor Stat: 0	The Roulette Tables
+Casino	adventure=71	DiffLevel: low Env: indoor Stat: 0	The Poker Room
 
-Manor0	adventure=399	DiffLevel: unknown Env: underground Stat: 104	The Haunted Boiler Room	1 wine bomb
-Manor0	adventure=400	DiffLevel: unknown Env: underground Stat: 104	The Haunted Laundry Room	1 blasting soda
+Manor0	adventure=399	DiffLevel: high Env: underground Stat: 104	The Haunted Boiler Room	1 wine bomb
+Manor0	adventure=400	DiffLevel: high Env: underground Stat: 104	The Haunted Laundry Room	1 blasting soda
 Manor0	adventure=401	DiffLevel: high Env: underground Stat: 104	The Haunted Wine Cellar	1 bottle of Chateau de Vinegar
 Manor0	place=manor4_chamberboss	DiffLevel: unknown Env: none Stat: 0 Level: 4	Summoning Chamber
 Manor1	adventure=113	DiffLevel: low Env: indoor Stat: 0	The Haunted Pantry	pretentious palette|+3 tasty tart|1 hypnotic breadcrumbs
 Manor1	adventure=388	DiffLevel: mid Env: indoor Stat: 20	The Haunted Kitchen	1 Spookyraven billiards room key|1 loosening powder|1 chef's hat|+1 freezerburned ice cube
-Manor1	adventure=389	DiffLevel: unknown Env: indoor Stat: 20	The Haunted Conservatory	1 powdered castoreum|1 pellet of plant food
+Manor1	adventure=389	DiffLevel: mid Env: indoor Stat: 20	The Haunted Conservatory	1 powdered castoreum|1 pellet of plant food
 Manor1	adventure=390	DiffLevel: mid Env: indoor Stat: 20	The Haunted Library	1 Lady Spookyraven's necklace|+1 black eyedrops
 Manor1	adventure=391	DiffLevel: unknown Env: indoor Stat: 20	The Haunted Billiards Room	1 [7302]Spookyraven library key|+1 cube of billiard chalk
 Manor2	adventure=392	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Bathroom	1 Lady Spookyraven's powder puff|1 drain dissolver
 Manor2	adventure=393	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Bedroom	1 Lady Spookyraven's finest gown|1 Lord Spookyraven's spectacles|1 disposable instant camera
 Manor2	adventure=394	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Gallery	1 Lady Spookyraven's dancing shoes|1 triple-distilled turpentine
 Manor2	adventure=395	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Ballroom	1 dance card
-Manor3	adventure=396	DiffLevel: unknown Env: indoor Stat: 68	The Haunted Laboratory	1 detartrated anhydrous sublicalc
+Manor3	adventure=396	DiffLevel: mid Env: indoor Stat: 68	The Haunted Laboratory	1 detartrated anhydrous sublicalc
 Manor3	adventure=397	DiffLevel: unknown Env: indoor Stat: 68	The Haunted Nursery
 Manor3	adventure=398	DiffLevel: unknown Env: indoor Stat: 68	The Haunted Storage Room	1 triatomaceous dust
 
 # Plains areas
 
-Degrassi Knoll	adventure=351	DiffLevel: unknown Env: indoor Stat: 10	The Degrassi Knoll Restroom
-Degrassi Knoll	adventure=352	DiffLevel: unknown Env: indoor Stat: 10	The Degrassi Knoll Bakery
-Degrassi Knoll	adventure=353	DiffLevel: unknown Env: indoor Stat: 10	The Degrassi Knoll Gym	1 frilly skirt|1 maiden wig
-Degrassi Knoll	adventure=354	DiffLevel: unknown Env: indoor Stat: 10	The Degrassi Knoll Garage	1 gnollish toolbox, 1 tires
+Degrassi Knoll	adventure=351	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Restroom
+Degrassi Knoll	adventure=352	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Bakery
+Degrassi Knoll	adventure=353	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Gym	1 frilly skirt|1 maiden wig
+Degrassi Knoll	adventure=354	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Garage	1 gnollish toolbox, 1 tires
 
-Plains	adventure=20	DiffLevel: unknown Env: indoor Stat: 15	The "Fun" House	1 box|20 empty greasepaint tube
-Plains	adventure=21	DiffLevel: unknown Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|The Shield of Brook
-Plains	adventure=58	DiffLevel: unknown Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
-Plains	adventure=386	DiffLevel: unknown Env: outdoor Stat: 120	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
+Plains	adventure=20	DiffLevel: low Env: indoor Stat: 15	The "Fun" House	1 box|20 empty greasepaint tube
+Plains	adventure=21	DiffLevel: low Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|The Shield of Brook
+Plains	adventure=58	DiffLevel: mid Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
+Plains	adventure=386	DiffLevel: high Env: outdoor Stat: 120	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
 
 BatHole	adventure=30	DiffLevel: unknown Env: underground Stat: 13	The Bat Hole Entrance	1 Pine-Fresh air freshener
 BatHole	adventure=31	DiffLevel: unknown Env: underground Stat: 13	Guano Junction	3 sonar-in-a-biscuit|+1 Eau de Guaneau
 BatHole	adventure=32	DiffLevel: low Env: underground Stat: 13	The Batrat and Ratbat Burrow	+1 Dogsgotnonoz pills|The Stankara Stone
-BatHole	adventure=33	DiffLevel: unknown Env: underground Stat: 13	The Beanbat Chamber	1 enchanted bean
+BatHole	adventure=33	DiffLevel: low Env: underground Stat: 13	The Beanbat Chamber	1 enchanted bean
 BatHole	adventure=34	DiffLevel: unknown Env: underground Stat: 13	The Boss Bat's Lair
 
 Knob	adventure=114	DiffLevel: low Env: outdoor Stat: 0	The Outskirts of Cobb's Knob	1 chef's hat|1 Knob Goblin encryption key|1 pretentious paintbrush|+1 Knob Goblin lunchbox|1 bone with a price tag on it
 Knob	adventure=257	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Barracks	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=258	DiffLevel: unknown Env: underground Stat: 20	Cobb's Knob Kitchens	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
-Knob	adventure=259	DiffLevel: unknown Env: underground Stat: 25	Cobb's Knob Harem	outfit|outfit, 1 Knob Goblin perfume|+3 scented massage oil
+Knob	adventure=259	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Harem	outfit|outfit, 1 Knob Goblin perfume|+3 scented massage oil
 Knob	adventure=260	DiffLevel: unknown Env: underground Stat: 20	Cobb's Knob Treasury
 Knob	cobbsknob=0	DiffLevel: unknown Env: none Stat: 0 Level: 6	Throne Room
-Lab	adventure=50	DiffLevel: unknown Env: underground Stat: 30	Cobb's Knob Laboratory	1 Cobb's Knob Menagerie key|1 Subject 37 file|+1 bottle of Mystic Shell
-Lab	adventure=101	DiffLevel: unknown Env: underground Stat: 30	The Knob Shaft
+Lab	adventure=50	DiffLevel: mid Env: underground Stat: 30	Cobb's Knob Laboratory	1 Cobb's Knob Menagerie key|1 Subject 37 file|+1 bottle of Mystic Shell
+Lab	adventure=101	DiffLevel: mid Env: underground Stat: 30	The Knob Shaft
 Lab	mining=2	DiffLevel: unknown Env: none Stat: 0	The Knob Shaft (Mining)
 Menagerie	adventure=51	DiffLevel: unknown Env: underground Stat: 35	Cobb's Knob Menagerie, Level 1	1 GOTO
 Menagerie	adventure=52	DiffLevel: unknown Env: underground Stat: 40	Cobb's Knob Menagerie, Level 2	1 weremoose spit|+1 irradiated pet snacks
-Menagerie	adventure=53	DiffLevel: unknown Env: underground Stat: 45	Cobb's Knob Menagerie, Level 3	1 abominable blubber
+Menagerie	adventure=53	DiffLevel: mid Env: underground Stat: 45	Cobb's Knob Menagerie, Level 3	1 abominable blubber
 
 Rift	adventure=85	DiffLevel: unknown Env: outdoor Stat: 0	Battlefield (No Uniform)	Cloaca-Cola helmet, Cloaca-Cola fatigues, Cloaca-Cola shield|Dyspepsi-Cola helmet, Dyspepsi-Cola fatigues, Dyspepsi-Cola shield|six-pack of New Cloaca-Cola
 Rift	adventure=86	DiffLevel: unknown Env: outdoor Stat: 30	Battlefield (Cloaca Uniform)
@@ -108,9 +108,9 @@ Cyrpt	crypt=heart	DiffLevel: unknown Env: none Stat: 0 Level: 6	Haert of the Cyr
 
 Beanstalk	adventure=81	DiffLevel: high Env: outdoor Stat: 90	The Penultimate Fantasy Airship	1 S.O.C.K.|1 metallic A|1 model airship|1 amulet of extreme plot significance
 Beanstalk	adventure=322	DiffLevel: high Env: underground Stat: 130	The Castle in the Clouds in the Sky (Basement)	1 heavy D
-Beanstalk	adventure=323	DiffLevel: unknown Env: indoor Stat: 110	The Castle in the Clouds in the Sky (Ground Floor)	1 electric boning knife
+Beanstalk	adventure=323	DiffLevel: high Env: indoor Stat: 110	The Castle in the Clouds in the Sky (Ground Floor)	1 electric boning knife
 Beanstalk	adventure=324	DiffLevel: high Env: indoor Stat: 130	The Castle in the Clouds in the Sky (Top Floor)	3 thin black candle|1 steam-powered model rocketship|Murphy's Rancid Black Flag
-Beanstalk	adventure=83	DiffLevel: unknown Env: outdoor Stat: 100	The Hole in the Sky	1 Richard's star key|1 star starfish|The Eye of the Stars
+Beanstalk	adventure=83	DiffLevel: high Env: outdoor Stat: 100	The Hole in the Sky	1 Richard's star key|1 star starfish|The Eye of the Stars
 
 Sorceress	place=ns_01_crowd1	DiffLevel: unknown Env: none Stat: 0	Fastest Adventurer Contest
 Sorceress	place=ns_01_crowd2	DiffLevel: unknown Env: none Stat: 0	Strongest Adventurer Contest
@@ -159,10 +159,10 @@ Dungeon	adventure=325	DiffLevel: mid Env: underground Stat: 15 nowander	The Dail
 
 McLarge	adventure=270	DiffLevel: mid Env: underground Stat: 60	Itznotyerzitz Mine	outfit
 McLarge	adventure=271	DiffLevel: unknown Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
-McLarge	adventure=272	DiffLevel: unknown Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
+McLarge	adventure=272	DiffLevel: mid Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
 McLarge	adventure=273	DiffLevel: mid Env: outdoor Stat: 70	The eXtreme Slope	outfit
 McLarge	place=cloudypeak2	DiffLevel: unknown Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
-McLarge	adventure=110	DiffLevel: unknown Env: outdoor Stat: 53	The Icy Peak
+McLarge	adventure=110	DiffLevel: high Env: outdoor Stat: 53	The Icy Peak
 McLarge	adventure=176	DiffLevel: unknown Env: underground Stat: 0	The Mine Foremens' Office	1 dwarvish document, 1 dwarvish parchment, 1 dwarvish paper, 1 dwarvish punchcard, 1 little laminated card, 1 notbig laminated card, 1 small laminated card, 1 unlarge laminated card
 McLarge	dwarffactory=0	DiffLevel: unknown Env: none Stat: 0	Dwarven Factory Warehouse
 McLarge	mining=1	DiffLevel: unknown Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
@@ -178,13 +178,13 @@ The Red Zeppelin's Mooring	adventure=385	DiffLevel: high Env: indoor Stat: 150	T
 
 Woods	cellar=0	DiffLevel: unknown Env: none Stat: 0 Level: 6	The Typical Tavern Cellar
 Woods	adventure=15	DiffLevel: low Env: outdoor Stat: 0	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood
-Woods	adventure=280	DiffLevel: unknown Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
+Woods	adventure=280	DiffLevel: low Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
 Woods	adventure=233	DiffLevel: mid Env: indoor Stat: 0	A Barroom Brawl	1 beer goggles|+3 beer lens
 Woods	adventure=73	DiffLevel: unknown Env: outdoor Stat: 20	8-Bit Realm	1 digital key|+1 [2426]fire flower
 Woods	adventure=100	DiffLevel: unknown Env: outdoor Stat: 37	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+5 white rice|+1 bag of lard
 # Woods	adventure=99	DiffLevel: unknown Env: outdoor	The Road to White Citadel
-Woods	adventure=413	DiffLevel: unknown Env: outdoor	The Road to the White Citadel	+1 duonoculars
-Woods	adventure=405	DiffLevel: unknown Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
+Woods	adventure=413	DiffLevel: mid Env: outdoor	The Road to the White Citadel	+1 duonoculars
+Woods	adventure=405	DiffLevel: high Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
 Woods	adventure=356	DiffLevel: mid Env: outdoor Stat: 25	The Old Landfill	1 old claw-foot bathtub, 1 old clothesline pole, 1 antique cigar sign
 
 Friars	adventure=541	DiffLevel: unknown Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagram
@@ -200,7 +200,7 @@ Pandamonium	adventure=243	DiffLevel: mid Env: indoor Stat: 55	Infernal Rackets B
 HiddenCity	adventure=341	DiffLevel: unknown Env: indoor Stat: 135	The Hidden Apartment Building	1 moss-covered stone sphere
 HiddenCity	adventure=342	DiffLevel: high Env: indoor Stat: 140	The Hidden Hospital	1 dripping stone sphere
 HiddenCity	adventure=343	DiffLevel: unknown Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
-HiddenCity	adventure=344	DiffLevel: unknown Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
+HiddenCity	adventure=344	DiffLevel: high Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
 HiddenCity	adventure=345	DiffLevel: unknown Env: outdoor Stat: 125	The Hidden Park	1 antique machete|+1 shrinking powder|1 book of matches
 HiddenCity	adventure=346	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
 HiddenCity	adventure=347	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
@@ -297,7 +297,7 @@ Volcano	adventure=215	DiffLevel: unknown Env: outdoor Stat: 140	The Outer Compou
 Volcano	adventure=217	DiffLevel: unknown Env: outdoor Stat: 140	The Temple Portico	5 cult memo
 Volcano	adventure=218	DiffLevel: unknown Env: indoor Stat: 140	Convention Hall Lobby	6 vial of blue slime, 6 vial of red slime, 6 vial of yellow slime|9 vial of blue slime, 9 vial of red slime, 9 vial of yellow slime|91 vial of blue slime, 91 vial of red slime, 91 vial of yellow slime
 Volcano	adventure=219	DiffLevel: unknown Env: outdoor Stat: 140	Outside the Club	1 rave visor, 1 glowstick on a string, 1 candy necklace, 1 pacifier necklace, 1 teddybear backpack
-Volcano	adventure=220	DiffLevel: unknown Env: indoor Stat: 140	The Island Barracks	5 hacienda key
+Volcano	adventure=220	DiffLevel: mid Env: indoor Stat: 140	The Island Barracks	5 hacienda key
 Volcano	adventure=221	DiffLevel: unknown Env: underground Stat: 175	The Nemesis' Lair
 
 # Ascension Path Areas
@@ -347,7 +347,7 @@ The Grey Goo Impact Site	adventure=552	DiffLevel: unknown Env: unknown Stat: 0	T
 
 # Zodiac sign areas
 
-MusSign	adventure=47	DiffLevel: unknown Env: indoor Stat: 13	The Bugbear Pen	1 annoying pitchfork
+MusSign	adventure=47	DiffLevel: low Env: underground Stat: 13	The Bugbear Pen	1 annoying pitchfork
 MusSign	adventure=48	DiffLevel: unknown Env: underground Stat: 40	The Spooky Gravy Burrow	1 inexplicably glowing rock, 1 spooky glove
 MusSign	adventure=49	DiffLevel: unknown Env: outdoor Stat: 0	Post-Quest Bugbear Pens
 
@@ -361,7 +361,7 @@ Le Marais D&egrave;gueulasse	adventure=334	DiffLevel: unknown Env: outdoor Stat:
 Le Marais D&egrave;gueulasse	adventure=335	DiffLevel: unknown Env: outdoor Stat: 35	Swamp Beaver Territory
 Le Marais D&egrave;gueulasse	adventure=336	DiffLevel: unknown Env: indoor Stat: 50	The Weird Swamp Village
 
-MoxSign	adventure=46	DiffLevel: unknown Env: indoor Stat: 25	Thugnderdome	+1 flange|+1 clockwork key|10 clockwork key
+MoxSign	adventure=46	DiffLevel: mid Env: indoor Stat: 25	Thugnderdome	+1 flange|+1 clockwork key|10 clockwork key
 
 BadMoon	adventure=148	DiffLevel: unknown Env: none	Heartbreaker's Hotel
 
@@ -378,16 +378,16 @@ Holiday	adventure=173	DiffLevel: unknown Env: outdoor	Generic Summer Holiday Swi
 # Special (maybe eventually recurring?) Events
 
 Twitch	adventure=410	DiffLevel: mid Env: underground Stat: 0	The Cave Before Time
-Twitch	adventure=411	DiffLevel: unknown Env: indoor Stat: 0	An Illicit Bohemian Party
-Twitch	adventure=412	DiffLevel: unknown Env: outdoor Stat: 0	Moonshiners' Woods
+Twitch	adventure=411	DiffLevel: mid Env: indoor Stat: 0	An Illicit Bohemian Party
+Twitch	adventure=412	DiffLevel: mid Env: outdoor Stat: 0	Moonshiners' Woods
 Twitch	adventure=414	DiffLevel: mid Env: outdoor Stat: 0	The Roman Forum
 Twitch	adventure=418	DiffLevel: mid Env: indoor Stat: 0	The Post-Mall
-Twitch	adventure=422	DiffLevel: unknown Env: indoor Stat: 0	The Rowdy Saloon
+Twitch	adventure=422	DiffLevel: mid Env: indoor Stat: 0	The Rowdy Saloon
 Twitch	adventure=423	DiffLevel: mid Env: underground Stat: 0	The Spooky Old Abandoned Mine
 Twitch	adventure=453	DiffLevel: mid Env: indoor Stat: 0	Globe Theatre Main Stage
-Twitch	adventure=454	DiffLevel: unknown Env: indoor Stat: 0	Globe Theatre Backstage
-Twitch	adventure=475	DiffLevel: unknown Env: indoor Stat: 0	12 West Main
-Twitch	adventure=476	DiffLevel: unknown Env: outdoor Stat: 0	KoL Con Clan Party House
+Twitch	adventure=454	DiffLevel: mid Env: indoor Stat: 0	Globe Theatre Backstage
+Twitch	adventure=475	DiffLevel: mid Env: indoor Stat: 0	12 West Main
+Twitch	adventure=476	DiffLevel: mid Env: outdoor Stat: 0	KoL Con Clan Party House
 
 # Special one-time Events - including Crimbo content
 
@@ -454,10 +454,10 @@ Crimbo06	adventure=117	DiffLevel: unknown Env: unknown	Crimborg Collective Facto
 
 Crimbo05	adventure=93	DiffLevel: unknown Env: unknown	Crimbo Town Toy Factory (2005)
 
-WhiteWed	adventure=88	DiffLevel: unknown Env: outdoors	Market Square, 28 Days Later
-WhiteWed	adventure=89	DiffLevel: unknown Env: indoors	The Mall of Loathing, 28 Days Later
-WhiteWed	adventure=90	DiffLevel: unknown Env: outdoors	Wrong Side of the Tracks, 28 Days Later
-WhiteWed	adventure=59	DiffLevel: unknown Env: outdoors	The Icy Peak in The Recent Past
+WhiteWed	adventure=88	DiffLevel: unknown Env: outdoor	Market Square, 28 Days Later
+WhiteWed	adventure=89	DiffLevel: unknown Env: indoor	The Mall of Loathing, 28 Days Later
+WhiteWed	adventure=90	DiffLevel: unknown Env: outdoor	Wrong Side of the Tracks, 28 Days Later
+WhiteWed	adventure=59	DiffLevel: unknown Env: outdoor	The Icy Peak in The Recent Past
 
 PastEvents	adventure=175	DiffLevel: unknown Env: indoor	Spectral Salad Factory
 
@@ -530,12 +530,12 @@ Astral	adventure=98	DiffLevel: mid Env: outdoor Stat: 50	An Incredibly Strange P
 Astral	adventure=97	DiffLevel: high Env: outdoor Stat: 145	An Incredibly Strange Place (Great Trip)
 
 Wormwood	adventure=151	DiffLevel: low Env: indoor Stat: 0	The Stately Pleasure Dome	1 choiceadv
-Wormwood	adventure=152	DiffLevel: unknown Env: indoor Stat: 0	The Mouldering Mansion	1 choiceadv
-Wormwood	adventure=153	DiffLevel: unknown Env: indoor Stat: 0	The Rogue Windmill	1 choiceadv
+Wormwood	adventure=152	DiffLevel: low Env: indoor Stat: 0	The Mouldering Mansion	1 choiceadv
+Wormwood	adventure=153	DiffLevel: low Env: indoor Stat: 0	The Rogue Windmill	1 choiceadv
 
 Memories	adventure=204	DiffLevel: unknown Env: outdoor Stat: 20	The Primordial Soup
 Memories	adventure=205	DiffLevel: unknown Env: outdoor Stat: 55	The Jungles of Ancient Loathing
-Memories	adventure=206	DiffLevel: unknown Env: indoor Stat: 150	Seaside Megalopolis
+Memories	adventure=206	DiffLevel: mid Env: indoor Stat: 150	Seaside Megalopolis
 
 Spaaace	adventure=265	DiffLevel: unknown Env: indoor Stat: 0	Domed City of Ronaldus	2 Map to Safety Shelter Ronald Prime|1 E.M.U. Unit
 Spaaace	adventure=266	DiffLevel: unknown Env: indoor Stat: 0	Domed City of Grimacia	2 Map to Safety Shelter Grimace Prime|1 E.M.U. Unit
