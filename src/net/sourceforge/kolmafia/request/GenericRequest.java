@@ -33,6 +33,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -3035,10 +3036,26 @@ public class GenericRequest implements Runnable {
     RequestLogger.updateDebugLog(requestProperties.size() + " request properties");
 
     for (Entry<String, List<String>> entry : requestProperties.entrySet()) {
-      RequestLogger.updateDebugLog("Field: " + entry.getKey() + " = " + entry.getValue());
+      List<String> value;
+      if ("Cookie".equalsIgnoreCase(entry.getKey())) {
+        value = filterCookieList(entry.getValue());
+      } else {
+        value = entry.getValue();
+      }
+      RequestLogger.updateDebugLog("Field: " + entry.getKey() + " = " + value);
     }
 
     RequestLogger.updateDebugLog();
+  }
+
+  private static List<String> filterCookieList(List<String> values) {
+    return values.stream()
+        .map(
+            s ->
+                Arrays.stream(s.split("\s*;\s*"))
+                    .map(t -> t.startsWith("PHPSESSID=") ? "PHPSESSID=OMITTED" : t)
+                    .collect(Collectors.joining("; ")))
+        .toList();
   }
 
   public void printHeaderFields() {
