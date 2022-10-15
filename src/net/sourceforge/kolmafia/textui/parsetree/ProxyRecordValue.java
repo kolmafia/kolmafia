@@ -1349,11 +1349,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_difficulty_level() {
-      return this.content != null ? ((KoLAdventure) this.content).getDifficultyLevel() : "";
+      return this.content != null ? ((KoLAdventure) this.content).getDifficultyLevel().name() : "";
     }
 
     public String get_environment() {
-      return this.content != null ? ((KoLAdventure) this.content).getEnvironment() : "";
+      return this.content != null ? ((KoLAdventure) this.content).getEnvironment().name() : "";
     }
 
     public Value get_bounty() {

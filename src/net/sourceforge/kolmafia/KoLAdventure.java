@@ -20,6 +20,8 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.DifficultyLevel;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -78,7 +80,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   private final boolean hasWanderers;
   private final String zone, parentZone, rootZone;
-  private final String adventureId, formSource, adventureName, difficultyLevel, environment;
+  private final String adventureId, formSource, adventureName;
+  private final DifficultyLevel difficultyLevel;
+  private final Environment environment;
   private final int adventureNumber;
   private final int recommendedStat, waterLevel;
   private final String normalString, lowercaseString, parentZoneDescription;
@@ -179,11 +183,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.rootZone;
   }
 
-  public String getDifficultyLevel() {
+  public DifficultyLevel getDifficultyLevel() {
     return this.difficultyLevel;
   }
 
-  public String getEnvironment() {
+  public Environment getEnvironment() {
     return this.environment;
   }
 
