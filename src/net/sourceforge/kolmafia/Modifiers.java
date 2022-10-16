@@ -3322,7 +3322,7 @@ public class Modifiers {
 
     Modifiers.currentLocation = location.getAdventureName();
     Modifiers.currentZone = location.getZone();
-    Modifiers.currentEnvironment = location.getEnvironment().name();
+    Modifiers.currentEnvironment = location.getEnvironment().toString();
     AreaCombatData data = location.getAreaSummary();
     Modifiers.currentML = Math.max(4.0, data == null ? 0.0 : data.getAverageML());
   }
