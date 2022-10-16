@@ -1349,7 +1349,9 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_difficulty_level() {
-      return this.content != null ? ((KoLAdventure) this.content).getDifficultyLevel().toString() : "";
+      return this.content != null
+          ? ((KoLAdventure) this.content).getDifficultyLevel().toString()
+          : "";
     }
 
     public String get_environment() {
