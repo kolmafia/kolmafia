@@ -882,13 +882,11 @@ public class KoLmafiaCLI {
   public static List<File> findScriptFile(final String filename) {
     List<File> matches = new ArrayList<>();
     // Bail if double dots
-    System.out.println("Finding " + filename);
     if (filename.contains("..")) {
       return matches;
     }
 
     File absoluteFile = new File(filename);
-    System.out.println(filename + " isAbsolute? " + absoluteFile.isAbsolute());
     if (absoluteFile.isAbsolute()) {
       // if it really is supposed to be an accessible script file then it needs to be
       // in /relay or /scripts or /planting.  Only return a match if it is in one of the right
@@ -898,6 +896,7 @@ public class KoLmafiaCLI {
           absoluteFile.getPath().startsWith(KoLConstants.PLOTS_LOCATION.getPath())
               || absoluteFile.getPath().startsWith(KoLConstants.SCRIPT_LOCATION.getPath())
               || absoluteFile.getPath().startsWith(KoLConstants.RELAY_LOCATION.getPath());
+      System.out.println(absoluteFile.toString() + " allowed: " + allowed + " ok: " + okPath);
       if (allowed && okPath) matches.add(absoluteFile);
 
       return matches;
