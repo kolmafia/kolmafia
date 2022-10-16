@@ -882,6 +882,7 @@ public class KoLmafiaCLI {
   public static List<File> findScriptFile(final String filename) {
     List<File> matches = new ArrayList<>();
     // Bail if double dots
+    System.out.println("Finding " + filename);
     if (filename.contains("..")) {
       return matches;
     }
