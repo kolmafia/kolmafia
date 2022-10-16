@@ -887,6 +887,7 @@ public class KoLmafiaCLI {
     }
 
     File absoluteFile = new File(filename);
+
     if (absoluteFile.isAbsolute()) {
       // if it really is supposed to be an accessible script file then it needs to be
       // in /relay or /scripts or /planting.  Only return a match if it is in one of the right
@@ -896,7 +897,6 @@ public class KoLmafiaCLI {
           absoluteFile.getPath().startsWith(KoLConstants.PLOTS_LOCATION.getPath())
               || absoluteFile.getPath().startsWith(KoLConstants.SCRIPT_LOCATION.getPath())
               || absoluteFile.getPath().startsWith(KoLConstants.RELAY_LOCATION.getPath());
-      System.out.println(absoluteFile.toString() + " allowed: " + allowed + " ok: " + okPath);
       if (allowed && okPath) matches.add(absoluteFile);
 
       return matches;
