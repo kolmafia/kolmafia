@@ -43,7 +43,7 @@ public class CallScriptCommand extends AbstractCommand {
       // If still no script was found, perhaps it's the
       // secret invocation of the "#x script" that allows a
       // script to be run multiple times.
-      
+
       if (scriptMatches.size() == 0) {
         String runCountString = parameters.split(" ")[0];
         boolean hasMultipleRuns = runCountString.endsWith("x");
