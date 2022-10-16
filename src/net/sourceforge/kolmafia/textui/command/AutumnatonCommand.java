@@ -237,28 +237,27 @@ public class AutumnatonCommand extends AbstractCommand {
   private record Upgrade(String name, String description) {}
 
   private Optional<Upgrade> upgrade(Environment env, DifficultyLevel level) {
-    return
-        switch (env) {
-          case OUTDOOR -> switch (level) {
-            case LOW -> Optional.of(new Upgrade("energy-absorptive hat", "+2 base exp gain"));
-            case MID -> Optional.of(new Upgrade("high performance right arm", "+1 zone item"));
-            case HIGH -> Optional.of(new Upgrade("vision extender", "+1 visual acuity"));
-            default -> Optional.empty();
-          };
-          case INDOOR -> switch (level) {
-            case LOW -> Optional.of(new Upgrade("enhanced left arm", "+1 zone item"));
-            case MID -> Optional.of(new Upgrade("upgraded right leg", "-11 expedition turns"));
-            case HIGH -> Optional.of(new Upgrade("radar dish", "+1 visual acuity"));
-            default -> Optional.empty();
-          };
-          case UNDERGROUND -> switch (level) {
-            case LOW -> Optional.of(new Upgrade("upgraded left leg", "-11 expedition turns"));
-            case MID -> Optional.of(new Upgrade("collection prow", "+1 autumn item"));
-            case HIGH -> Optional.of(new Upgrade("dual exhaust", "+2 base exp gain"));
-            default -> Optional.empty();
-          };
-          default -> Optional.empty();
-        };
+    return switch (env) {
+      case OUTDOOR -> switch (level) {
+        case LOW -> Optional.of(new Upgrade("energy-absorptive hat", "+2 base exp gain"));
+        case MID -> Optional.of(new Upgrade("high performance right arm", "+1 zone item"));
+        case HIGH -> Optional.of(new Upgrade("vision extender", "+1 visual acuity"));
+        default -> Optional.empty();
+      };
+      case INDOOR -> switch (level) {
+        case LOW -> Optional.of(new Upgrade("enhanced left arm", "+1 zone item"));
+        case MID -> Optional.of(new Upgrade("upgraded right leg", "-11 expedition turns"));
+        case HIGH -> Optional.of(new Upgrade("radar dish", "+1 visual acuity"));
+        default -> Optional.empty();
+      };
+      case UNDERGROUND -> switch (level) {
+        case LOW -> Optional.of(new Upgrade("upgraded left leg", "-11 expedition turns"));
+        case MID -> Optional.of(new Upgrade("collection prow", "+1 autumn item"));
+        case HIGH -> Optional.of(new Upgrade("dual exhaust", "+2 base exp gain"));
+        default -> Optional.empty();
+      };
+      default -> Optional.empty();
+    };
   }
 
   private String upgradeDescription(Environment env, DifficultyLevel level) {

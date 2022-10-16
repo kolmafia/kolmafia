@@ -301,24 +301,28 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Nested
     class Locations {
-    @Test
-    public void showsLocations() {
-      var cleanups =
-          new Cleanups(
-              hasAutumnaton(),
-              withItem(ItemPool.AUTUMNATON),
-              withProperty("autumnatonUpgrades", ""),
-              withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
+      @Test
+      public void showsLocations() {
+        var cleanups =
+            new Cleanups(
+                hasAutumnaton(),
+                withItem(ItemPool.AUTUMNATON),
+                withProperty("autumnatonUpgrades", ""),
+                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
 
-      try (cleanups) {
-        String output = execute("locations");
-        assertContinueState();
-        // Daily Dungeon
-        assertThat(output, containsString("<b>Underground</b>"));
-        assertThat(output, containsString("Mid: gives autumn dollar (potion, +50% meat), collection prow giving +1 autumn item"));
-        assertThat(output, containsString("<li>The Daily Dungeon</li>"));
+        try (cleanups) {
+          String output = execute("locations");
+          assertContinueState();
+          // Daily Dungeon
+          assertThat(output, containsString("<b>Underground</b>"));
+          assertThat(
+              output,
+              containsString(
+                  "Mid: gives autumn dollar (potion, +50% meat), collection prow giving +1 autumn item"));
+          assertThat(output, containsString("<li>The Daily Dungeon</li>"));
+        }
       }
-    }
+
       @Test
       public void doesNotShowUpgradeIfHaveUpgrade() {
         var cleanups =
@@ -333,7 +337,11 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
           assertContinueState();
           // Daily Dungeon
           assertThat(output, containsString("Mid: gives autumn dollar (potion, +50% meat)"));
-          assertThat(output, not(containsString("Mid: gives autumn dollar (potion, +50% meat), collection prow giving +1 autumn item")));
+          assertThat(
+              output,
+              not(
+                  containsString(
+                      "Mid: gives autumn dollar (potion, +50% meat), collection prow giving +1 autumn item")));
         }
       }
     }
