@@ -494,5 +494,17 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         getInstance().command = "ash";
       }
     }
+
+    @Test
+    void environmentIsLowercase() {
+      String output = execute("($location[Noob Cave].environment == 'underground')");
+      assertThat(output, endsWith("Returned: true\n"));
+    }
+
+    @Test
+    void diffLevelIsLowercase() {
+      String output = execute("($location[Noob Cave].difficulty_level == 'low')");
+      assertThat(output, endsWith("Returned: true\n"));
+    }
   }
 }

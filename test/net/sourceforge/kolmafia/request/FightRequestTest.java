@@ -24,7 +24,10 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
@@ -194,6 +197,72 @@ public class FightRequestTest {
       assertEquals(0, Preferences.getInteger("_gnomeAdv"));
       parseCombatData("request/test_fight_gnome_adv.html");
       assertEquals(1, Preferences.getInteger("_gnomeAdv"));
+    }
+  }
+
+  @Test
+  public void hareAdv() {
+    var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.HARE),
+            withProperty("_hareCharge", 11),
+            withProperty("extraRolloverAdventures", 2),
+            withProperty("_hareAdv", 0),
+            withFight());
+    try (cleanups) {
+      parseCombatData("request/test_hare_rollover_adventure.html");
+      assertEquals(1, Preferences.getInteger("_hareAdv"));
+      assertEquals(3, Preferences.getInteger("extraRolloverAdventures"));
+      assertEquals(0, Preferences.getInteger("_hareCharge"));
+    }
+  }
+
+  @Nested
+  class Gibberer {
+    @Test
+    public void gibbererAdv() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.GIBBERER),
+              withProperty("_gibbererAdv", 0),
+              withProperty("extraRolloverAdventures", 0),
+              withProperty("_gibbererCharge", 14),
+              withLastLocation("Noob Cave"),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_gibberer_rollover_adventure.html");
+        assertEquals(1, Preferences.getInteger("_gibbererAdv"));
+        assertEquals(1, Preferences.getInteger("extraRolloverAdventures"));
+        assertEquals(0, Preferences.getInteger("_gibbererCharge"));
+      }
+    }
+
+    @Test
+    public void gibbererCharge() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.GIBBERER),
+              withProperty("_gibbererCharge", 12),
+              withLastLocation("Noob Cave"),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_feel_superior_pvp.html");
+        assertEquals(13, Preferences.getInteger("_gibbererCharge"));
+      }
+    }
+
+    @Test
+    public void gibbererChargeUnderwater() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.GIBBERER),
+              withProperty("_gibbererCharge", 12),
+              withLastLocation("The Ice Hole"),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_feel_superior_pvp.html");
+        assertEquals(14, Preferences.getInteger("_gibbererCharge"));
+      }
     }
   }
 
@@ -716,6 +785,34 @@ public class FightRequestTest {
   @Nested
   class CosmicBowlingBall {
     @ParameterizedTest
+    @CsvSource({
+      // Off in the distance, you hear your cosmic bowling ball rattling around in the ball
+      // return system.
+      "1, 7, 8",
+      "1, 10, 9",
+      // You hear your cosmic bowling ball rattling around in the ball return system.
+      "2, 9, 7",
+      "2, 2, 4",
+      // You hear your cosmic bowling ball rattling around in the ball return system nearby.
+      "3, 5, 3",
+      "3, 1, 2",
+      // You hear your cosmic bowling ball approaching.
+      "4, 6, 1",
+      // Your cosmic bowling ball clatters into the closest ball return and you grab it.
+      "5, 10, -1"
+    })
+    public void canTrackCosmicBowlingBall(int step, int previous, int expected) {
+      var cleanups =
+          new Cleanups(withProperty("cosmicBowlingBallReturnCombats", previous), withFight(0));
+
+      try (cleanups) {
+        String html = html("request/test_fight_bowling_ball_" + step + ".html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("cosmicBowlingBallReturnCombats", isSetTo(expected));
+      }
+    }
+
+    @ParameterizedTest
     @ValueSource(
         ints = {
           // Off in the distance, you hear your cosmic bowling ball rattling around in the ball
@@ -730,7 +827,7 @@ public class FightRequestTest {
           // Your cosmic bowling ball clatters into the closest ball return and you grab it.
           5
         })
-    public void canTrackCosmicBowlingBall(int step) {
+    public void canTrackCosmicBowlingBallSkills(int step) {
       var cleanups = new Cleanups(withFight());
       try (cleanups) {
         String html = html("request/test_fight_bowling_ball_" + step + ".html");
@@ -1561,6 +1658,46 @@ public class FightRequestTest {
             "request/test_fight_autumnaton_" + fixture + ".html", "fight.php?action=attack");
         assertThat("autumnatonQuestTurn", isSetTo(questTurn));
         assertThat("autumnatonQuestLocation", isSetTo(questLocation));
+      }
+    }
+  }
+
+  @Nested
+  class InvalidAttacks {
+    @Test
+    public void validAttack() {
+      assertFalse(FightRequest.isInvalidAttack("skill Clobber"));
+    }
+
+    @Test
+    public void shieldbuttIsValidWithShield() {
+      var cleanups = withEquipped(EquipmentManager.OFFHAND, "vinyl shield");
+
+      try (cleanups) {
+        assertFalse(FightRequest.isInvalidAttack("skill Shieldbutt"));
+      }
+    }
+
+    @Test
+    public void shieldbuttIsInvalidWithoutShield() {
+      assertTrue(FightRequest.isInvalidAttack("skill Shieldbutt"));
+    }
+
+    @Test
+    public void summonLeviIsValidUnderWater() {
+      var cleanups = withLastLocation("The Ice Hole");
+
+      try (cleanups) {
+        assertFalse(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
+      }
+    }
+
+    @Test
+    public void summonLeviIsInvalidAboveWater() {
+      var cleanups = withLastLocation("Noob Cave");
+
+      try (cleanups) {
+        assertTrue(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
       }
     }
   }

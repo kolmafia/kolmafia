@@ -2225,7 +2225,7 @@ public abstract class KoLCharacter {
   /** Accessor method to retrieve the total current combat percent adjustment */
   public static final double getCombatRateAdjustment() {
     double rate = KoLCharacter.currentModifiers.get(Modifiers.COMBAT_RATE);
-    if ("underwater".equals(AdventureDatabase.getEnvironment(Modifiers.currentLocation))) {
+    if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
       rate += KoLCharacter.currentModifiers.get(Modifiers.UNDERWATER_COMBAT_RATE);
     }
     return rate;

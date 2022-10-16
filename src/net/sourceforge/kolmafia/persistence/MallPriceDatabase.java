@@ -38,6 +38,8 @@ public class MallPriceDatabase {
   private static final HashSet<String> submitted = new HashSet<>();
   private static int modCount = 0;
 
+  public static final File PRICE_FILE = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
+
   private static final int CONNECT_TIMEOUT = 15 * 1000;
 
   static {
@@ -159,8 +161,7 @@ public class MallPriceDatabase {
       return;
     }
 
-    File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
-    try (PrintStream writer = LogStream.openStream(output, true)) {
+    try (PrintStream writer = LogStream.openStream(PRICE_FILE, true)) {
       writePrices(writer);
     }
   }
