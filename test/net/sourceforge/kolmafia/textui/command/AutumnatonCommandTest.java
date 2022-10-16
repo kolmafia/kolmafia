@@ -297,5 +297,23 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
         assertThat(output, containsString("Added upgrades " + upgrades));
       }
     }
+
+    @Test
+    public void showsLocations() {
+      var cleanups =
+          new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
+              withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
+
+      try (cleanups) {
+        String output = execute("locations");
+        assertContinueState();
+        // Daily Dungeon
+        assertThat(output, containsString("<b>Underground</b>"));
+        assertThat(output, containsString("Mid: gives autumn dollar (potion, +50% meat)"));
+        assertThat(output, containsString("<li>The Daily Dungeon</li>"));
+      }
+    }
   }
 }

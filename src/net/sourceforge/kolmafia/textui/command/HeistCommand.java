@@ -44,22 +44,14 @@ public class HeistCommand extends AbstractCommand {
     var heistManager = heistManager();
     var heistData = heistManager.getHeistTargets();
 
-    output.append("You have ");
-    output.append(heistData.heists);
-    output.append(" heists.\n\n");
+    output.append("You have ").append(heistData.heists).append(" heists.\n\n");
 
     for (var heistable : heistData.heistables.entrySet()) {
       var key = heistable.getKey();
-      output.append("From ");
-      output.append(key.pronoun);
-      output.append(" ");
-      output.append(key.name);
-      output.append(": <ul>");
+      output.append("From ").append(key.pronoun).append(" ").append(key.name).append(": <ul>");
 
       for (var item : heistable.getValue()) {
-        output.append("<li>");
-        output.append(item.name);
-        output.append("</li>");
+        output.append("<li>").append(item.name).append("</li>");
       }
 
       output.append("</ul>");

@@ -102,6 +102,10 @@ public class AdventureDatabase {
       return this.name().toLowerCase();
     }
 
+    public String toTitle() {
+      return StringUtilities.capitalize(this.toString());
+    }
+
     public static Optional<Environment> fromString(String text) {
       if (text == null || text.isEmpty()) return Optional.empty();
       return Arrays.stream(values()).filter(e -> e.name().equalsIgnoreCase(text)).findAny();
@@ -122,6 +126,10 @@ public class AdventureDatabase {
     @Override
     public String toString() {
       return this.name().toLowerCase();
+    }
+
+    public String toTitle() {
+      return StringUtilities.capitalize(this.toString());
     }
 
     public static Optional<DifficultyLevel> fromString(String text) {
