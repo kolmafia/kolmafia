@@ -12,7 +12,7 @@ class ProfilerTest {
 
   @Test
   public void itShouldRunTheProfilerOnAScript() {
-    String script = "/Excluded/CountItems.ash";
+    String script = "Excluded/CountItems.ash";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
       // Inject custom output stream.
