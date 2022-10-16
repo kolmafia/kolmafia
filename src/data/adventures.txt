@@ -53,7 +53,7 @@ Manor1	adventure=113	DiffLevel: low Env: indoor Stat: 0	The Haunted Pantry	prete
 Manor1	adventure=388	DiffLevel: mid Env: indoor Stat: 20	The Haunted Kitchen	1 Spookyraven billiards room key|1 loosening powder|1 chef's hat|+1 freezerburned ice cube
 Manor1	adventure=389	DiffLevel: mid Env: indoor Stat: 20	The Haunted Conservatory	1 powdered castoreum|1 pellet of plant food
 Manor1	adventure=390	DiffLevel: mid Env: indoor Stat: 20	The Haunted Library	1 Lady Spookyraven's necklace|+1 black eyedrops
-Manor1	adventure=391	DiffLevel: unknown Env: indoor Stat: 20	The Haunted Billiards Room	1 [7302]Spookyraven library key|+1 cube of billiard chalk
+Manor1	adventure=391	DiffLevel: mid Env: indoor Stat: 20	The Haunted Billiards Room	1 [7302]Spookyraven library key|+1 cube of billiard chalk
 Manor2	adventure=392	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Bathroom	1 Lady Spookyraven's powder puff|1 drain dissolver
 Manor2	adventure=393	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Bedroom	1 Lady Spookyraven's finest gown|1 Lord Spookyraven's spectacles|1 disposable instant camera
 Manor2	adventure=394	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Gallery	1 Lady Spookyraven's dancing shoes|1 triple-distilled turpentine
@@ -78,7 +78,7 @@ BatHole	adventure=30	DiffLevel: unknown Env: underground Stat: 13	The Bat Hole E
 BatHole	adventure=31	DiffLevel: unknown Env: underground Stat: 13	Guano Junction	3 sonar-in-a-biscuit|+1 Eau de Guaneau
 BatHole	adventure=32	DiffLevel: low Env: underground Stat: 13	The Batrat and Ratbat Burrow	+1 Dogsgotnonoz pills|The Stankara Stone
 BatHole	adventure=33	DiffLevel: low Env: underground Stat: 13	The Beanbat Chamber	1 enchanted bean
-BatHole	adventure=34	DiffLevel: unknown Env: underground Stat: 13	The Boss Bat's Lair
+BatHole	adventure=34	DiffLevel: low Env: underground Stat: 13	The Boss Bat's Lair
 
 Knob	adventure=114	DiffLevel: low Env: outdoor Stat: 0	The Outskirts of Cobb's Knob	1 chef's hat|1 Knob Goblin encryption key|1 pretentious paintbrush|+1 Knob Goblin lunchbox|1 bone with a price tag on it
 Knob	adventure=257	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Barracks	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
@@ -101,9 +101,9 @@ Fernswarthy's Tower	adventure=22	DiffLevel: unknown Env: outdoor Stat: 11	Tower 
 Fernswarthy's Tower	basement=0	DiffLevel: unknown Env: none Stat: 0	Fernswarthy's Basement
 
 Cyrpt	adventure=264	DiffLevel: mid Env: underground Stat: 40	The Defiled Nook	1 evil eye
-Cyrpt	adventure=262	DiffLevel: unknown Env: underground Stat: 40	The Defiled Cranny
-Cyrpt	adventure=261	DiffLevel: unknown Env: underground Stat: 40	The Defiled Alcove
-Cyrpt	adventure=263	DiffLevel: unknown Env: underground Stat: 40	The Defiled Niche	1 plus-sized phylactery
+Cyrpt	adventure=262	DiffLevel: mid Env: underground Stat: 40	The Defiled Cranny
+Cyrpt	adventure=261	DiffLevel: mid Env: underground Stat: 40	The Defiled Alcove
+Cyrpt	adventure=263	DiffLevel: mid Env: underground Stat: 40	The Defiled Niche	1 plus-sized phylactery
 Cyrpt	crypt=heart	DiffLevel: unknown Env: none Stat: 0 Level: 6	Haert of the Cyrpt
 
 Beanstalk	adventure=81	DiffLevel: high Env: outdoor Stat: 90	The Penultimate Fantasy Airship	1 S.O.C.K.|1 metallic A|1 model airship|1 amulet of extreme plot significance
@@ -148,7 +148,7 @@ Pyramid	place=pyramid_state	DiffLevel: unknown Env: none Stat: 0 Level: 6	The Lo
 Mountain	adventure=240	DiffLevel: low Env: underground Stat: 0	Noob Cave	1 black kitten
 Mountain	adventure=92	DiffLevel: low Env: underground Stat: 0 nowander	The Dire Warren
 Mountain	adventure=80	DiffLevel: unknown Env: outdoor Stat: 68	The Valley of Rof L'm Fao	1 64735 scroll, 1 lowercase N
-Mountain	adventure=295	DiffLevel: unknown Env: outdoor Stat: 75	The Smut Orc Logging Camp	30 any plank|The Lacrosse Stick of Lacoronado
+Mountain	adventure=295	DiffLevel: mid Env: outdoor Stat: 75	The Smut Orc Logging Camp	30 any plank|The Lacrosse Stick of Lacoronado
 Mountain	adventure=387	DiffLevel: unknown Env: indoor Stat: 0	The Thinknerd Warehouse	Professor What garment
 
 Dungeon	adventure=138	DiffLevel: low Env: underground Stat: 5	The Haiku Dungeon	1 choiceadv
@@ -187,7 +187,7 @@ Woods	adventure=413	DiffLevel: mid Env: outdoor	The Road to the White Citadel	+1
 Woods	adventure=405	DiffLevel: high Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
 Woods	adventure=356	DiffLevel: mid Env: outdoor Stat: 25	The Old Landfill	1 old claw-foot bathtub, 1 old clothesline pole, 1 antique cigar sign
 
-Friars	adventure=541	DiffLevel: unknown Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagram
+Friars	adventure=541	DiffLevel: mid Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagram
 Friars	adventure=540	DiffLevel: unknown Env: outdoor Stat: 45	The Dark Heart of the Woods	1 box of birthday candles|heavy-duty bendy straw
 Friars	adventure=539	DiffLevel: unknown Env: outdoor Stat: 45	The Dark Elbow of the Woods	1 eldritch butterknife
 Friars	friars=0	DiffLevel: unknown Env: none Stat: 0	Friar Ceremony Location
