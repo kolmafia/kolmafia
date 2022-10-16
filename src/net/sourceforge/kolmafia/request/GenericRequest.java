@@ -2775,6 +2775,7 @@ public class GenericRequest implements Runnable {
       case ItemPool.UNCANNY_DESK_BELL:
       case ItemPool.NASTY_DESK_BELL:
       case ItemPool.GREASY_DESK_BELL:
+      case ItemPool.BASTILLE_LOANER_VOUCHER:
         itemName = item.getName();
         consumed = true;
         break;
