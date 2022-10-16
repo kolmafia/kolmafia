@@ -888,7 +888,7 @@ public class KoLmafiaCLI {
     }
 
     File absoluteFile = new File(filename);
-
+    System.out.println(filename + " isAbsolute? " + absoluteFile.isAbsolute());
     if (absoluteFile.isAbsolute()) {
       // if it really is supposed to be an accessible script file then it needs to be
       // in /relay or /scripts or /planting.  Only return a match if it is in one of the right
