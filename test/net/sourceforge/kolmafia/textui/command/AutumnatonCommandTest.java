@@ -318,7 +318,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
           assertThat(
               output,
               containsString(
-                  "Mid: gives autumn dollar (potion, +50% meat), collection prow giving +1 autumn item"));
+                  "Mid: gives autumn dollar (potion, +50% meat), collection prow (+1 autumn item)"));
           assertThat(output, containsString("<li>The Daily Dungeon</li>"));
         }
       }
@@ -341,7 +341,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
               output,
               not(
                   containsString(
-                      "Mid: gives autumn dollar (potion, +50% meat), collection prow giving +1 autumn item")));
+                      "Mid: gives autumn dollar (potion, +50% meat), collection prow (+1 autumn item)")));
         }
       }
     }

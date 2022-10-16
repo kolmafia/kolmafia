@@ -246,7 +246,7 @@ public class AutumnatonCommand extends AbstractCommand {
       };
       case INDOOR -> switch (level) {
         case LOW -> Optional.of(new Upgrade("enhanced left arm", "+1 zone item"));
-        case MID -> Optional.of(new Upgrade("upgraded right leg", "-11 expedition turns"));
+        case MID -> Optional.of(new Upgrade("high speed right leg", "-11 expedition turns"));
         case HIGH -> Optional.of(new Upgrade("radar dish", "+1 visual acuity"));
         default -> Optional.empty();
       };
@@ -265,6 +265,6 @@ public class AutumnatonCommand extends AbstractCommand {
     if (upgrade.isEmpty()) return "";
     var u = upgrade.get();
     if (AutumnatonManager.hasUpgrade(u.name)) return "";
-    return ", " + u.name + " giving " + u.description;
+    return ", " + u.name + " (" + u.description + ")";
   }
 }
