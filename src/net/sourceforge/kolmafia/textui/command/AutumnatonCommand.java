@@ -1,5 +1,11 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static net.sourceforge.kolmafia.session.AutumnatonManager.useAutumnaton;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -9,13 +15,16 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.DifficultyLevel;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class AutumnatonCommand extends AbstractCommand {
   public AutumnatonCommand() {
-    this.usage = " <blank> | upgrade | send [location] - deal with your autumn-aton";
+    this.usage = " <blank> | upgrade | locations | send [location] - deal with your autumn-aton";
   }
 
   private static final Pattern UPGRADE_PATTERN = Pattern.compile("Attach the (.+) that you found.");
@@ -33,6 +42,7 @@ public class AutumnatonCommand extends AbstractCommand {
       case "" -> status();
       case "send" -> send(params);
       case "upgrade" -> upgrade();
+      case "locations" -> locations();
       default -> KoLmafia.updateDisplay(MafiaState.ERROR, "Usage: autumnaton" + this.usage);
     }
   }
@@ -103,6 +113,11 @@ public class AutumnatonCommand extends AbstractCommand {
   }
 
   public void upgrade() {
+    if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Your autumn-aton is away.");
+      return;
+    }
+
     String response = useAutumnaton();
 
     var upgrades = UPGRADE_PATTERN.matcher(response);
@@ -117,13 +132,6 @@ public class AutumnatonCommand extends AbstractCommand {
     KoLmafia.updateDisplay("Added upgrades " + upgrades.group(1));
   }
 
-  private String useAutumnaton() {
-    GenericRequest request =
-        new GenericRequest("inv_use.php?which=3&whichitem=" + ItemPool.AUTUMNATON);
-    RequestThread.postRequest(request);
-    return request.responseText;
-  }
-
   private String turnsRemainingString() {
     var turns = Preferences.getInteger("autumnatonQuestTurn") - KoLCharacter.getTurnsPlayed();
     if (turns > 0) {
@@ -132,5 +140,94 @@ public class AutumnatonCommand extends AbstractCommand {
     } else {
       return "Your autumn-aton will return after your next combat.";
     }
+  }
+
+  public void locations() {
+    if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Your autumn-aton is away.");
+      return;
+    }
+
+    String response = useAutumnaton();
+    var locs = AutumnatonManager.parseLocations(response);
+
+    Map<Environment, Map<DifficultyLevel, List<KoLAdventure>>> locMapping = new HashMap<>();
+
+    for (var id : locs) {
+      var adv = AdventureDatabase.getAdventure(id);
+      var env = locMapping.computeIfAbsent(adv.getEnvironment(), m -> new HashMap<>());
+      env.computeIfAbsent(adv.getDifficultyLevel(), m -> new ArrayList<>()).add(adv);
+    }
+
+    StringBuilder output = new StringBuilder();
+
+    output
+        .append("You can send your autumn-aton to ")
+        .append(locs.size())
+        .append(" locations.\n\n");
+
+    addEnvironmentLocations(output, locMapping, Environment.OUTDOOR);
+    addEnvironmentLocations(output, locMapping, Environment.INDOOR);
+    addEnvironmentLocations(output, locMapping, Environment.UNDERGROUND);
+
+    RequestLogger.printLine(output.toString());
+  }
+
+  private void addEnvironmentLocations(
+      StringBuilder output,
+      Map<Environment, Map<DifficultyLevel, List<KoLAdventure>>> locMapping,
+      Environment env) {
+    var dl = locMapping.get(env);
+    if (dl != null) {
+      output.append("<b>").append(env.toTitle()).append("</b><br>");
+      addDiffLevelLocations(output, dl, env, DifficultyLevel.LOW);
+      addDiffLevelLocations(output, dl, env, DifficultyLevel.MID);
+      addDiffLevelLocations(output, dl, env, DifficultyLevel.HIGH);
+      addDiffLevelLocations(output, dl, env, DifficultyLevel.UNKNOWN);
+    }
+  }
+
+  private void addDiffLevelLocations(
+      StringBuilder output,
+      Map<DifficultyLevel, List<KoLAdventure>> dlMapping,
+      Environment env,
+      DifficultyLevel level) {
+    var advs = dlMapping.get(level);
+    if (advs != null) {
+      output.append(diffLevelDescription(env, level)).append(" <ul>");
+
+      for (var item : advs) {
+        output.append("<li>").append(item.getAdventureName()).append("</li>");
+      }
+
+      output.append("</ul>");
+    }
+  }
+
+  private String diffLevelDescription(Environment env, DifficultyLevel level) {
+    var title = level.toTitle();
+    var desc =
+        switch (env) {
+          case OUTDOOR -> switch (level) {
+            case LOW -> "gives autumn leaf (potion, +25% item, +5% combat chance)";
+            case MID -> "gives autumn debris shield (shield, +10 DR, +30% init, +20 all hot)";
+            case HIGH -> "gives autumn leaf pendant (accessory, 5 fam weight, 10 fam damage, +1 fam exp)";
+            default -> "";
+          };
+          case INDOOR -> switch (level) {
+            case LOW -> "gives AutumnFest Ale (booze, 1 drunk, 4-6 advs)";
+            case MID -> "gives autumn-spice donut (food, 1 full, 4-6 advs)";
+            case HIGH -> "gives autumn breeze (spleen, 1 toxicity, +100% all stats)";
+            default -> "";
+          };
+          case UNDERGROUND -> switch (level) {
+            case LOW -> "gives autumn sweater-weather sweater (shirt, +3 cold res, +50 HP, +8-12 HP Regen)";
+            case MID -> "gives autumn dollar (potion, +50% meat)";
+            case HIGH -> "gives autumn years wisdom (potion, +20% spell dmg, +100 MP, +15-20 MP Regen)";
+            default -> "";
+          };
+          default -> "";
+        };
+    return title + ": " + desc;
   }
 }

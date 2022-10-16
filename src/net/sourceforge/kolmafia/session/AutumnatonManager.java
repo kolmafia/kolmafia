@@ -1,15 +1,19 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutumnatonManager {
@@ -113,5 +117,23 @@ public class AutumnatonManager {
       Preferences.setString("autumnatonQuestLocation", "");
       Preferences.setInteger("autumnatonQuestTurn", KoLCharacter.getTurnsPlayed());
     }
+  }
+
+  public static String useAutumnaton() {
+    GenericRequest request =
+        new GenericRequest("inv_use.php?which=3&whichitem=" + ItemPool.AUTUMNATON);
+    RequestThread.postRequest(request);
+    return request.responseText;
+  }
+
+  private static final Pattern VISITABLE_LOCATION = Pattern.compile("<option +value=\"(\\d+)\">");
+
+  public static Set<Integer> parseLocations(final String responseText) {
+    var locs = new HashSet<Integer>();
+    var m = VISITABLE_LOCATION.matcher(responseText);
+    while (m.find()) {
+      locs.add(Integer.parseInt(m.group(1)));
+    }
+    return locs;
   }
 }

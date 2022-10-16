@@ -1106,6 +1106,12 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
+    if (redirectLocation.startsWith("inventory.php")) {
+      // Autumnaton's "Back to Inventory"
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
     RequestSynchFrame.showRequest(AdventureRequest.ZONE_UNLOCK);
     RequestLogger.printLine("Unrecognized choice.php redirect: " + redirectLocation);
     RequestLogger.updateSessionLog("Unrecognized choice.php redirect: " + redirectLocation);
