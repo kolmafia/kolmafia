@@ -190,7 +190,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
         SpinMasterLatheRequest.buyCosts.put(iitemId, cost);
         SpinMasterLatheRequest.itemRows.put(iitemId, row);
         NPCPurchaseRequest.learnCoinmasterItem(
-            master, itemName, String.valueOf(price), String.valueOf(row));
+            master, ItemPool.get(itemId, 1), String.valueOf(price), String.valueOf(row));
         CoinmastersDatabase.registerPurchaseRequest(data, item, cost);
         changed = true;
       }
