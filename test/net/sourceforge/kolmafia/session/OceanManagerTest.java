@@ -37,8 +37,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.OceanManager.Destination;
 import net.sourceforge.kolmafia.session.OceanManager.Point;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -46,22 +44,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class OceanManagerTest {
-  @BeforeAll
-  public static void beforeAll() {
-    // Simulate logging out and back in again.
-    Preferences.saveSettingsToFile = false;
-  }
-
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("OceanManager");
     Preferences.reset("OceanManager");
     KoLConstants.inventory.clear();
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @Nested

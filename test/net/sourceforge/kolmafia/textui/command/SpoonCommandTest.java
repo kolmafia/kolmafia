@@ -1,37 +1,28 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.Matchers.containsString;
 
-import net.sourceforge.kolmafia.AdventureResult;
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class SpoonCommandTest extends AbstractCommandTestBase {
-  @BeforeEach
-  public void initEach() {
+  @BeforeAll
+  public static void init() {
     KoLCharacter.reset("testUser");
-    KoLCharacter.reset(true);
-    Preferences.resetToDefault("moonTuned");
-
-    // Stop requests from actually running
-    GenericRequest.sessionId = null;
+    Preferences.reset("testUser");
   }
 
   public SpoonCommandTest() {
     this.command = "spoon";
-  }
-
-  static void hasSpoon() {
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.HEWN_MOON_RUNE_SPOON));
   }
 
   @Test
@@ -40,79 +31,93 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
 
     assertErrorState();
     assertThat(output, containsString("You need a hewn moon-rune spoon"));
-    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
   }
 
   @Test
   void mustNotHaveTuned() {
-    hasSpoon();
-    Preferences.setBoolean("moonTuned", true);
-    String output = execute("marmot");
+    var cleanups =
+        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withProperty("moonTuned", true));
 
-    assertErrorState();
-    assertThat(output, containsString("already tuned the moon"));
-    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
+    try (cleanups) {
+      String output = execute("marmot");
+
+      assertErrorState();
+      assertThat(output, containsString("already tuned the moon"));
+    }
   }
 
   @Test
   void mustSpecifySign() {
-    hasSpoon();
-    String output = execute("");
+    var cleanups = withItem(ItemPool.HEWN_MOON_RUNE_SPOON);
 
-    assertErrorState();
-    assertThat(output, containsString("Which sign do you want to change to"));
-    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
+    try (cleanups) {
+      String output = execute("");
+
+      assertErrorState();
+      assertThat(output, containsString("Which sign do you want to change to"));
+    }
   }
 
   @Test
   void mustSpecifyValidSign() {
-    hasSpoon();
-    String output = execute("dog");
+    var cleanups = withItem(ItemPool.HEWN_MOON_RUNE_SPOON);
 
-    assertErrorState();
-    assertThat(output, containsString("I don't understand what sign"));
-    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
+    try (cleanups) {
+      String output = execute("dog");
+
+      assertErrorState();
+      assertThat(output, containsString("I don't understand what sign"));
+    }
   }
 
   @Test
   void mustNotSetToBadMoon() {
-    hasSpoon();
-    String output = execute("bad moon");
+    var cleanups = withItem(ItemPool.HEWN_MOON_RUNE_SPOON);
 
-    assertErrorState();
-    assertThat(output, containsString("choose to be born under a Bad Moon"));
-    assertEquals(ZodiacSign.NONE, KoLCharacter.getSign());
+    try (cleanups) {
+      String output = execute("bad moon");
+
+      assertErrorState();
+      assertThat(output, containsString("choose to be born under a Bad Moon"));
+    }
   }
 
   @Test
   void mustNotBeInBadMoon() {
-    hasSpoon();
-    KoLCharacter.setSign("Bad Moon");
-    String output = execute("marmot");
+    var cleanups =
+        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.BAD_MOON));
 
-    assertErrorState();
-    assertThat(output, containsString("escape the Bad Moon"));
-    assertEquals(ZodiacSign.BAD_MOON, KoLCharacter.getSign());
+    try (cleanups) {
+      String output = execute("marmot");
+
+      assertErrorState();
+      assertThat(output, containsString("escape the Bad Moon"));
+    }
   }
 
   @Test
   void mustChooseDifferentSign() {
-    hasSpoon();
-    KoLCharacter.setSign("Marmot");
-    String output = execute("marmot");
+    var cleanups =
+        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.MARMOT));
 
-    assertErrorState();
-    assertThat(output, containsString("No need to change"));
-    assertEquals(ZodiacSign.MARMOT, KoLCharacter.getSign());
+    try (cleanups) {
+      String output = execute("marmot");
+
+      assertErrorState();
+      assertThat(output, containsString("No need to change"));
+    }
   }
 
   @Test
   void canChooseSign() {
-    hasSpoon();
-    KoLCharacter.setSign("Wallaby");
-    String output = execute("marmot");
+    var cleanups =
+        new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.WALLABY));
 
-    assertContinueState();
-    assertThat(output, containsString("Tuning moon to Marmot"));
+    try (cleanups) {
+      String output = execute("marmot");
+
+      assertContinueState();
+      assertThat(output, containsString("Tuning moon to Marmot"));
+    }
   }
 }

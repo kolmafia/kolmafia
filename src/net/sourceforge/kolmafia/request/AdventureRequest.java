@@ -1026,7 +1026,7 @@ public class AdventureRequest extends GenericRequest {
     if (this.adventureName.equals("The Typical Tavern Cellar")) {
       return this.getURLString().contains("action=explore") ? 1 : 0;
     }
-    if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
+    if (AdventureDatabase.getEnvironment(this.adventureName).isUnderwater()) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }
     return 1;
@@ -1102,6 +1102,12 @@ public class AdventureRequest extends GenericRequest {
 
     if (redirectLocation.startsWith("elvmachine.php")) {
       // El Vibrato Island Machinations
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
+    if (redirectLocation.startsWith("inventory.php")) {
+      // Autumnaton's "Back to Inventory"
       AdventureRequest.ZONE_UNLOCK.run();
       return;
     }

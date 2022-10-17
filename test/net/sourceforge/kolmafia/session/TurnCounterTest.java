@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,18 +90,12 @@ public class TurnCounterTest {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("counter user");
-    Preferences.saveSettingsToFile = false;
   }
 
   @BeforeEach
   public void beforeEach() {
     Preferences.reset("counter user");
     RelayRequest.reset();
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @Nested
