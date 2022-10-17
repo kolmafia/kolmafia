@@ -3194,7 +3194,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   public void waitForCommandCompletion() {
     while (CommandDisplayFrame.hasQueuedCommands()) {
-      this.pauser.pause(500);
+      this.pauser.pause(50);
     }
   }
 
