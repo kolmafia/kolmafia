@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
 public class DailyDeedsPanelTest {
   @BeforeAll
   public static void beforeAll() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("fakeUserName");
   }
 

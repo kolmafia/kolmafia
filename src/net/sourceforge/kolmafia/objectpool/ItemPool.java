@@ -2889,6 +2889,7 @@ public class ItemPool {
   public static final int TRICK_TOT_EYEBALL = 9144;
   public static final int TRICK_TOT_LIBERTY = 9145;
   public static final int HOARDED_CANDY_WAD = 9146;
+  public static final int TWITCHING_TELEVISION_TATTOO = 9148;
   public static final int STUFFING_FLUFFER = 9164;
   public static final int TURKEY_BLASTER = 9166;
   public static final int CANDIED_SWEET_POTATOES = 9171;
@@ -3143,6 +3144,7 @@ public class ItemPool {
   public static final int NIGHTMARE_FUEL = 9925;
   public static final int MEAT_CLIP = 9926;
   public static final int CHEESE_WHEEL = 9937;
+  public static final int BASTILLE_LOANER_VOUCHER = 9938;
   public static final int NEVERENDING_PARTY_INVITE = 9942;
   public static final int NEVERENDING_PARTY_INVITE_DAILY = 9943;
   public static final int PARTY_HARD_T_SHIRT = 9944;

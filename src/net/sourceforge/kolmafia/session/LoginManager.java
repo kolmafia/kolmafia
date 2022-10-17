@@ -123,7 +123,7 @@ public class LoginManager {
       Preferences.setInteger("lastBreakfast", today);
     }
 
-    if (Preferences.getBoolean("sharePriceData")) {
+    if (Preferences.getBoolean("sharePriceData") || !MallPriceDatabase.PRICE_FILE.exists()) {
       MallPriceDatabase.updatePricesInParallel(
           "https://kolmafia.us/scripts/updateprices.php?action=getmap");
     }

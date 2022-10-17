@@ -26,7 +26,6 @@ class MoodManagerTest {
   public void initializeCharPrefs() {
     KoLCharacter.reset("moody");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
   }
 
   @AfterEach
@@ -34,7 +33,6 @@ class MoodManagerTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
-    Preferences.saveSettingsToFile = false;
   }
 
   public BufferedReader mockedReader() {

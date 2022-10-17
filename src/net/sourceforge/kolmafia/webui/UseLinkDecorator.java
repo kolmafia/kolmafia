@@ -1017,6 +1017,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.MEGACOPIA:
           case ItemPool.AMORPHOUS_BLOB:
           case ItemPool.GIANT_AMORPHOUS_BLOB:
+          case ItemPool.AUTUMNATON:
 
             // Not inline, since the redirection to a fight
             // doesn't work ajaxified.

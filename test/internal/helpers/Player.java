@@ -1721,4 +1721,14 @@ public class Player {
     KoLCharacter.setLimitMode(limitMode);
     return new Cleanups(() -> KoLCharacter.setLimitMode(old));
   }
+
+  /**
+   * Saves preferences to a file.
+   *
+   * @return Stops saving preferences
+   */
+  public static Cleanups withSavePreferencesToFile() {
+    Preferences.saveSettingsToFile = true;
+    return new Cleanups(() -> Preferences.saveSettingsToFile = false);
+  }
 }
