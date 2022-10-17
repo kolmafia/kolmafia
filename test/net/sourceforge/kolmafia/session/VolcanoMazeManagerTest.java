@@ -49,6 +49,12 @@ public class VolcanoMazeManagerTest {
 
   @Nested
   class Automation {
+
+    @BeforeEach
+    public void beforeEach() {
+      VolcanoMazeManager.resetRNG();
+    }
+
     @AfterEach
     public void afterEach() {
       VolcanoMazeManager.reset();
@@ -126,12 +132,12 @@ public class VolcanoMazeManagerTest {
     }
 
     public int validateVolcanoMazeRequests(
-        FakeHttpClientBuilder builder, List<String> moves, int i) {
+        FakeHttpClientBuilder builder, List<String> moves, int i, boolean ajax) {
       var client = builder.client;
       var requests = client.getRequests();
       for (String move : moves) {
         var request = requests.get(i++);
-        assertGetRequest(request, "/volcanomaze.php", "move=" + move + "&ajax=1");
+        assertGetRequest(request, "/volcanomaze.php", "move=" + move + (ajax ? "&ajax=1" : ""));
       }
       return i;
     }
@@ -223,6 +229,9 @@ public class VolcanoMazeManagerTest {
         request.constructURLString(url, false);
         request.run();
 
+        // Verify that we are at the goal
+        assertTrue(VolcanoMazeManager.atGoal());
+
         // Verify that expected requests were submitted
         var requests = client.getRequests();
         assertThat(requests, hasSize(72));
@@ -230,11 +239,88 @@ public class VolcanoMazeManagerTest {
         int i = 0;
         assertPostRequest(requests.get(i++), "/volcanoisland.php", "action=tniat&pwd=volcano");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
-        i = validateVolcanoMazeRequests(builder, findMapMoves, i);
+        i = validateVolcanoMazeRequests(builder, findMapMoves, i, true);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
-        i = validateVolcanoMazeRequests(builder, stepMapMoves, i);
+        i = validateVolcanoMazeRequests(builder, stepMapMoves, i, true);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
+      }
+    }
+
+    @Test
+    public void canStepThroughVolcanoMazeFromRelayBrowser() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withVolcanoMaze(builder),
+              // Avoid a "familiar warning" from RelayRequest
+              withCurrentRun(800),
+              // Avoid a "health warning" from RelayRequest
+              withHP(500, 500, 500),
+              // Avoid looking at your vinyl boots
+              withGender(KoLCharacter.FEMALE),
+              // Not strictly necessary in simulation, but KoL requires it.
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_volcano_intro.html"));
+        client.addResponse(200, html("request/test_volcano_start.html"));
+        addVolcanoMazeResponses(builder, findMapResponses);
+        client.addResponse(200, html("request/test_volcano_jump.html"));
+        addVolcanoMazeResponses(builder, stepMapResponses);
+        client.addResponse(200, html("request/test_volcano_finish.html"));
+
+        // Visit volcanoisland.php and enter the (defeated) Nemesis's lair
+        // You are warned that there will be a fiendishly difficult puzzle
+        var url = "volcanoisland.php?action=tniat&pwd=volcano";
+        var request = new RelayRequest(false);
+        request.constructURLString(url);
+        request.run();
+
+        // Continue
+        url = "volcanomaze.php?start=1";
+        request = new RelayRequest(false);
+        request.constructURLString(url, false);
+        request.run();
+
+        // You now see the first map of the maze.
+        // VolcanoMazeManager parsed it and saved it in volcanoMaze1
+        assertEquals(Preferences.getString("volcanoMaze1"), properties.get("volcanoMaze1"));
+
+        // Simulate user repeatedly typing "step" button
+        int count = 100;
+        while (!VolcanoMazeManager.atGoal() && count-- > 0) {
+          url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=volcano";
+          request = new RelayRequest(false);
+          request.constructURLString(url);
+          request.run();
+
+          // Wait until the submitted command is done
+          request.waitForCommandCompletion();
+
+          // RelayRequest tells browser to redirect to update the map
+          url = RelayRequest.redirectedCommandURL;
+          request = new RelayRequest(false);
+          request.constructURLString(url, false);
+          request.run();
+        }
+
+        assertEquals(Preferences.getString("volcanoMaze2"), properties.get("volcanoMaze2"));
+        assertEquals(Preferences.getString("volcanoMaze3"), properties.get("volcanoMaze3"));
+        assertEquals(Preferences.getString("volcanoMaze4"), properties.get("volcanoMaze4"));
+        assertEquals(Preferences.getString("volcanoMaze5"), properties.get("volcanoMaze5"));
+
+        // Verify that expected requests were submitted
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(70));
+
+        int i = 0;
+        assertPostRequest(requests.get(i++), "/volcanoisland.php", "action=tniat&pwd=volcano");
+        assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
+        i = validateVolcanoMazeRequests(builder, findMapMoves, i, false);
+        assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
+        i = validateVolcanoMazeRequests(builder, stepMapMoves, i, false);
       }
     }
   }
