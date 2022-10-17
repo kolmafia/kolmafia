@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -129,7 +130,9 @@ public class AutumnatonCommand extends AbstractCommand {
     GenericRequest request = new GenericRequest("choice.php?whichchoice=1483&option=1");
     RequestThread.postRequest(request);
 
-    KoLmafia.updateDisplay("Added upgrades " + upgrades.group(1));
+    var s = upgrades.group(1).contains(" and ") ? "s" : "";
+
+    KoLmafia.updateDisplay("Added upgrade" + s + " " + upgrades.group(1));
   }
 
   private String turnsRemainingString() {
@@ -211,7 +214,7 @@ public class AutumnatonCommand extends AbstractCommand {
           case OUTDOOR -> switch (level) {
             case LOW -> "gives autumn leaf (potion, +25% item, +5% combat chance)";
             case MID -> "gives autumn debris shield (shield, +10 DR, +30% init, +20 all hot)";
-            case HIGH -> "gives autumn leaf pendant (accessory, 5 fam weight, 10 fam damage, +1 fam exp)";
+            case HIGH -> "gives autumn leaf pendant (accessory, +5 fam weight, +10 fam damage, +1 fam exp)";
             default -> "";
           };
           case INDOOR -> switch (level) {
@@ -228,6 +231,40 @@ public class AutumnatonCommand extends AbstractCommand {
           };
           default -> "";
         };
-    return title + ": " + desc;
+    return title + ": " + desc + upgradeDescription(env, level);
+  }
+
+  private record Upgrade(String name, String description) {}
+
+  private Optional<Upgrade> upgrade(Environment env, DifficultyLevel level) {
+    return switch (env) {
+      case OUTDOOR -> switch (level) {
+        case LOW -> Optional.of(new Upgrade("energy-absorptive hat", "+2 base exp gain"));
+        case MID -> Optional.of(new Upgrade("high performance right arm", "+1 zone item"));
+        case HIGH -> Optional.of(new Upgrade("vision extender", "+1 visual acuity"));
+        default -> Optional.empty();
+      };
+      case INDOOR -> switch (level) {
+        case LOW -> Optional.of(new Upgrade("enhanced left arm", "+1 zone item"));
+        case MID -> Optional.of(new Upgrade("high speed right leg", "-11 expedition turns"));
+        case HIGH -> Optional.of(new Upgrade("radar dish", "+1 visual acuity"));
+        default -> Optional.empty();
+      };
+      case UNDERGROUND -> switch (level) {
+        case LOW -> Optional.of(new Upgrade("upgraded left leg", "-11 expedition turns"));
+        case MID -> Optional.of(new Upgrade("collection prow", "+1 autumn item"));
+        case HIGH -> Optional.of(new Upgrade("dual exhaust", "+2 base exp gain"));
+        default -> Optional.empty();
+      };
+      default -> Optional.empty();
+    };
+  }
+
+  private String upgradeDescription(Environment env, DifficultyLevel level) {
+    var upgrade = upgrade(env, level);
+    if (upgrade.isEmpty()) return "";
+    var u = upgrade.get();
+    if (AutumnatonManager.hasUpgrade(u.name)) return "";
+    return ", " + u.name + " (" + u.description + ")";
   }
 }

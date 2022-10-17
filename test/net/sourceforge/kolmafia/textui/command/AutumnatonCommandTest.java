@@ -8,6 +8,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
@@ -278,9 +279,9 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @ParameterizedTest
     @CsvSource({
-      "one, dual exhaust",
-      "two, energy-absorptive hat and dual exhaust",
-      "many, energy-absorptive hat and vision extender and dual exhaust"
+      "one, Added upgrade dual exhaust",
+      "two, Added upgrades energy-absorptive hat and dual exhaust",
+      "many, Added upgrades energy-absorptive hat and vision extender and dual exhaust"
     })
     public void upgradesIfUpgrades(String filePart, String upgrades) {
       var cleanups =
@@ -294,25 +295,54 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
       try (cleanups) {
         String output = execute("upgrade");
         assertContinueState();
-        assertThat(output, containsString("Added upgrades " + upgrades));
+        assertThat(output, containsString(upgrades));
       }
     }
 
-    @Test
-    public void showsLocations() {
-      var cleanups =
-          new Cleanups(
-              hasAutumnaton(),
-              withItem(ItemPool.AUTUMNATON),
-              withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
+    @Nested
+    class Locations {
+      @Test
+      public void showsLocations() {
+        var cleanups =
+            new Cleanups(
+                hasAutumnaton(),
+                withItem(ItemPool.AUTUMNATON),
+                withProperty("autumnatonUpgrades", ""),
+                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
 
-      try (cleanups) {
-        String output = execute("locations");
-        assertContinueState();
-        // Daily Dungeon
-        assertThat(output, containsString("<b>Underground</b>"));
-        assertThat(output, containsString("Mid: gives autumn dollar (potion, +50% meat)"));
-        assertThat(output, containsString("<li>The Daily Dungeon</li>"));
+        try (cleanups) {
+          String output = execute("locations");
+          assertContinueState();
+          // Daily Dungeon
+          assertThat(output, containsString("<b>Underground</b>"));
+          assertThat(
+              output,
+              containsString(
+                  "Mid: gives autumn dollar (potion, +50% meat), collection prow (+1 autumn item)"));
+          assertThat(output, containsString("<li>The Daily Dungeon</li>"));
+        }
+      }
+
+      @Test
+      public void doesNotShowUpgradeIfHaveUpgrade() {
+        var cleanups =
+            new Cleanups(
+                hasAutumnaton(),
+                withItem(ItemPool.AUTUMNATON),
+                withProperty("autumnatonUpgrades", "cowcatcher"),
+                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
+
+        try (cleanups) {
+          String output = execute("locations");
+          assertContinueState();
+          // Daily Dungeon
+          assertThat(output, containsString("Mid: gives autumn dollar (potion, +50% meat)"));
+          assertThat(
+              output,
+              not(
+                  containsString(
+                      "Mid: gives autumn dollar (potion, +50% meat), collection prow (+1 autumn item)")));
+        }
       }
     }
   }
