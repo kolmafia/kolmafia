@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -191,7 +192,7 @@ public abstract class VolcanoMazeManager {
     span.append("<center><table cols=2><tr>");
 
     StringBuffer stepButton = new StringBuffer();
-    String url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=" + GenericRequest.passwordHash;
+    String url = "/KoLmafia/specialCommand?cmd=volcano+step&pwd=" + GenericRequest.passwordHash;
     stepButton.append("<td>");
     stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
     stepButton.append("<input class=button type=submit value=\"Step\"");
@@ -306,7 +307,7 @@ public abstract class VolcanoMazeManager {
     while (matcher.find()) {
       String square = matcher.group(1);
       String special = matcher.group(3);
-      if (special != null) {
+      if (!"".equals(special)) {
         int squint = Integer.parseInt(square);
         if (special.equals("you")) {
           currentLocation = squint;
@@ -432,12 +433,11 @@ public abstract class VolcanoMazeManager {
   }
 
   public static final void printCurrentCoordinates() {
-    if (currentLocation == -1) {
-      RequestLogger.printLine("I don't know where you are");
-      return;
-    }
-    RequestLogger.printLine(
-        "Current position: " + VolcanoMazeManager.coordinateString(currentLocation, currentMap));
+    String msg =
+        (currentLocation == -1)
+            ? "I don't know where you are"
+            : "Current position: " + coordinateString(currentLocation, currentMap);
+    RequestLogger.printLine(msg);
   }
 
   private static boolean discoverMaps() {
@@ -586,17 +586,21 @@ public abstract class VolcanoMazeManager {
     // This is a no-op if already done.
     loadCurrentMaps();
 
-    // Save URL to give back to the user's browser.  We let the browser submit
-    // the request so it can animate the response.
-    RelayRequest.redirectedCommandURL = nextStep();
+    String URL = nextStep();
+    var request = new GenericRequest(URL, false);
+    request.run();
+    StringBuffer buffer = new StringBuffer(request.responseText);
+    RequestEditorKit.getFeatureRichHTML(URL, buffer);
+    RelayRequest.specialCommandResponse = buffer.toString();
+    RelayRequest.specialCommandIsAdventure = false;
   }
 
   private static final String nextStep() {
-    // Return the URL for the browser to submit
+    // Return the URL to submit
 
     // If we don't know where we are, visit the cave and find out.
     if (currentLocation < 0) {
-      return "/volcanomaze.php?start=1";
+      return "volcanomaze.php?start=1";
     }
 
     // If we have not seen all the maps, take a step and learn one
@@ -606,15 +610,15 @@ public abstract class VolcanoMazeManager {
       int next = map.pickNeighbor(me);
       // If you are stuck, no option but to jump
       if (next < 0) {
-        return "/volcanomaze.php?jump=1";
+        return "volcanomaze.php?jump=1";
       }
-      return "/volcanomaze.php?move=" + coordinateString(next);
+      return "volcanomaze.php?move=" + coordinateString(next);
     }
 
     // If current location is adjacent to the goal, don't move.
     // Stop before stepping onto the goal
     if (atGoal()) {
-      return "/volcanomaze.php?start=1";
+      return "volcanomaze.php?start=1";
     }
 
     // Calculate the path from here to the goal
@@ -623,12 +627,12 @@ public abstract class VolcanoMazeManager {
 
     // You can't get there from here.
     if (solution == null) {
-      return "/volcanomaze.php?jump=1";
+      return "volcanomaze.php?jump=1";
     }
 
     // Choose the first step on the path
     int next = solution.get(0);
-    return "/volcanomaze.php?move=" + coordinateString(next);
+    return "volcanomaze.php?move=" + coordinateString(next);
   }
 
   private static int pathsMade = 0;
