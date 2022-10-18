@@ -21,15 +21,21 @@ public class AutumnatonManager {
 
   private static final Map<String, String> UPGRADE_DESCRIPTIONS =
       Map.ofEntries(
-          Map.entry("leftarm1", "enhanced left arm"),
-          Map.entry("leftleg1", "upgraded left leg"),
-          Map.entry("rightarm1", "high performance right arm"),
-          Map.entry("rightleg1", "high speed right leg"),
-          Map.entry("base_blackhat", "energy-absorptive hat"),
-          Map.entry("cowcatcher", "collection prow"),
-          Map.entry("periscope", "vision extender"),
-          Map.entry("radardish", "radar dish"),
-          Map.entry("dualexhaust", "dual exhaust"));
+          Map.entry("enhanced left arm", "leftarm1"),
+          Map.entry("upgraded left leg", "leftleg1"),
+          Map.entry("high performance right arm", "rightarm1"),
+          Map.entry("high speed right leg", "rightleg1"),
+          Map.entry("energy-absorptive hat", "base_blackhat"),
+          Map.entry("collection prow", "cowcatcher"),
+          Map.entry("vision extender", "periscope"),
+          Map.entry("radar dish", "radardish"),
+          Map.entry("dual exhaust", "dualexhaust"));
+
+  public static boolean hasUpgrade(String upgrade) {
+    var img = UPGRADE_DESCRIPTIONS.get(upgrade);
+    if (img == null) return false;
+    return Preferences.getString("autumnatonUpgrades").contains(img);
+  }
 
   public static void visitChoice(final String responseText) {
     var upgrades =
@@ -49,8 +55,8 @@ public class AutumnatonManager {
     var upgrades =
         Stream.concat(
                 UPGRADE_DESCRIPTIONS.entrySet().stream()
-                    .filter(e -> responseText.contains(e.getValue()))
-                    .map(Map.Entry::getKey),
+                    .filter(e -> responseText.contains(e.getKey()))
+                    .map(Map.Entry::getValue),
                 Arrays.stream(Preferences.getString("autumnatonUpgrades").split(",")))
             .filter(Predicate.not(String::isBlank))
             .distinct()
