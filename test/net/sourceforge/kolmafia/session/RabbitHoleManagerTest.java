@@ -5,6 +5,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -66,29 +67,29 @@ public class RabbitHoleManagerTest {
       var client = builder.client;
       var requests = client.getRequests();
       assertPostRequest(requests.get(i++), "/choice.php", "whichchoice=442&option=5&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=5,6&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=2,3&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=4,2&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=5,2&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=4,1&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=6,1&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=2,5&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=4,6&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=6,5&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=1,5&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=0,6&pwd=chess");
-      assertPostRequest(
+      assertGetRequest(
           requests.get(i++), "/choice.php", "whichchoice=443&option=1&xy=6,0&pwd=chess");
       return i;
     }
@@ -150,6 +151,78 @@ public class RabbitHoleManagerTest {
         assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
         i = validateChessPuzzleRequests(builder, i);
         assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void canStepThroughChessPuzzleFromRelayBrowser() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("chess"),
+              // Avoid health warning
+              withHP(100, 100, 100),
+              // Avoid looking at your vinyl boots
+              withGender(KoLCharacter.FEMALE),
+              withHandlingChoice(false));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_rabbithole_reflection.html"));
+        addChessPuzzleResponses(builder);
+        client.addResponse(200, ""); // api.php
+
+        // Use a reflection of a map
+        var url = "inv_use.php?which=3&whichitem=4509&pwd=chess";
+        var request = new RelayRequest(false);
+        request.constructURLString(url);
+        request.run();
+
+        // Continue
+        url = "choice.php?forceoption=0";
+        request = new RelayRequest(false);
+        request.constructURLString(url, false);
+        request.run();
+
+        // You are now have many options.
+        url = "choice.php?whichchoice=442&option=5&pwd=chess";
+        request = new RelayRequest(false);
+        request.constructURLString(url);
+        request.run();
+
+        // You have selected The Great Big Chessboard
+        // RabbitHoleManager parsed it and saved in in a Board
+        assertTrue(ChoiceManager.handlingChoice);
+
+        // Simulate user repeatedly typing "step" button
+        int count = 100;
+        while (ChoiceManager.handlingChoice && count-- > 0) {
+          url = "/KoLmafia/redirectedCommand?cmd=chess+step&pwd=chess";
+          request = new RelayRequest(false);
+          request.constructURLString(url);
+          request.run();
+
+          // Wait until the submitted command is done
+          request.waitForCommandCompletion();
+
+          // For redirected command, the browser follows the redirect
+          url = RelayRequest.redirectedCommandURL;
+          request = new RelayRequest(false);
+          request.constructURLString(url, false);
+          request.run();
+        }
+
+        // We beat the puzzle and got a queen cookie!
+        assertTrue(InventoryManager.hasItem(ItemPool.QUEEN_COOKIE));
+
+        // Verify that expected requests were submitted
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(15));
+        int i = 0;
+        assertPostRequest(requests.get(i++), "/inv_use.php", "which=3&whichitem=4509&pwd=chess");
+        assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
+        i = validateChessPuzzleRequests(builder, i);
       }
     }
   }

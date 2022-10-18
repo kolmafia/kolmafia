@@ -6540,6 +6540,11 @@ public abstract class ChoiceControl {
         HaciendaManager.preRecording(text);
         break;
 
+      case 443:
+        // A Chess Puzzle
+        RabbitHoleManager.parseChessPuzzle(text);
+        break;
+
       case 460:
         // Space Trip
         ArcadeRequest.visitSpaceTripChoice(text);
