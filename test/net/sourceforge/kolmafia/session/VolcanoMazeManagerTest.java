@@ -12,7 +12,6 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -268,7 +267,6 @@ public class VolcanoMazeManagerTest {
         client.addResponse(200, html("request/test_volcano_start.html"));
         addVolcanoMazeResponses(builder, findMapResponses);
         client.addResponse(200, html("request/test_volcano_jump.html"));
-        client.addResponse(200, ""); // api.php
         addVolcanoMazeResponses(builder, stepMapResponses);
         client.addResponse(200, html("request/test_volcano_finish.html"));
 
@@ -292,14 +290,19 @@ public class VolcanoMazeManagerTest {
         // Simulate user repeatedly typing "step" button
         int count = 100;
         while (!VolcanoMazeManager.atGoal() && count-- > 0) {
-          url = "/KoLmafia/specialCommand?cmd=volcano+step&pwd=volcano";
+          url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=volcano";
           request = new RelayRequest(false);
           request.constructURLString(url);
           request.run();
 
           // Wait until the submitted command is done
           request.waitForCommandCompletion();
-          assertThat(RelayRequest.specialCommandResponse.length(), greaterThan(0));
+
+          // For redirected command, the browser follows the redirect
+          url = RelayRequest.redirectedCommandURL;
+          request = new RelayRequest(false);
+          request.constructURLString(url, false);
+          request.run();
         }
 
         assertEquals(Preferences.getString("volcanoMaze2"), properties.get("volcanoMaze2"));
@@ -309,14 +312,13 @@ public class VolcanoMazeManagerTest {
 
         // Verify that expected requests were submitted
         var requests = client.getRequests();
-        assertThat(requests, hasSize(71));
+        assertThat(requests, hasSize(70));
 
         int i = 0;
         assertPostRequest(requests.get(i++), "/volcanoisland.php", "action=tniat&pwd=volcano");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
         i = validateVolcanoMazeRequests(builder, findMapMoves, i, false);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
-        assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
         i = validateVolcanoMazeRequests(builder, stepMapMoves, i, false);
       }
     }

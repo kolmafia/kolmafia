@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -170,7 +169,7 @@ public abstract class VolcanoMazeManager {
   }
 
   public static final void decorate(final String location, final StringBuffer buffer) {
-    if (!location.startsWith("volcanomaze.php")) {
+    if (!location.contains("volcanomaze.php")) {
       return;
     }
 
@@ -192,7 +191,7 @@ public abstract class VolcanoMazeManager {
     span.append("<center><table cols=2><tr>");
 
     StringBuffer stepButton = new StringBuffer();
-    String url = "/KoLmafia/specialCommand?cmd=volcano+step&pwd=" + GenericRequest.passwordHash;
+    String url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=" + GenericRequest.passwordHash;
     stepButton.append("<td>");
     stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
     stepButton.append("<input class=button type=submit value=\"Step\"");
@@ -587,12 +586,25 @@ public abstract class VolcanoMazeManager {
     loadCurrentMaps();
 
     String URL = nextStep();
-    var request = new GenericRequest(URL, false);
-    request.run();
-    StringBuffer buffer = new StringBuffer(request.responseText);
-    RequestEditorKit.getFeatureRichHTML(URL, buffer);
-    RelayRequest.specialCommandResponse = buffer.toString();
-    RelayRequest.specialCommandIsAdventure = false;
+
+    // The following would be for "/KoLmafia/specialCommand", where the browser
+    // invokes the command and KoLmafia submits (requests) and returns a
+    // decorated responseText.
+    //
+    // Unfortunately, if KoL's responseText contains relative links, the
+    // browser interprets them as relative to "/KoLmafia/specialcommand".
+
+    // var request = new GenericRequest(URL, false);
+    // request.run();
+    // StringBuffer buffer = new StringBuffer(request.responseText);
+    // decorate(URL, buffer);
+    // RelayRequest.specialCommandResponse = buffer.toString();
+    // RelayRequest.specialCommandIsAdventure = false;
+
+    // Therefore, we'll use "/KoLmafia/redirectedCommand" and let the browser
+    // submit the request and get the responsetext - which we will decorate.
+
+    RelayRequest.redirectedCommandURL = URL;
   }
 
   private static final String nextStep() {
@@ -600,7 +612,7 @@ public abstract class VolcanoMazeManager {
 
     // If we don't know where we are, visit the cave and find out.
     if (currentLocation < 0) {
-      return "volcanomaze.php?start=1";
+      return "/volcanomaze.php?start=1";
     }
 
     // If we have not seen all the maps, take a step and learn one
@@ -610,15 +622,15 @@ public abstract class VolcanoMazeManager {
       int next = map.pickNeighbor(me);
       // If you are stuck, no option but to jump
       if (next < 0) {
-        return "volcanomaze.php?jump=1";
+        return "/volcanomaze.php?jump=1";
       }
-      return "volcanomaze.php?move=" + coordinateString(next);
+      return "/volcanomaze.php?move=" + coordinateString(next);
     }
 
     // If current location is adjacent to the goal, don't move.
     // Stop before stepping onto the goal
     if (atGoal()) {
-      return "volcanomaze.php?start=1";
+      return "/volcanomaze.php?start=1";
     }
 
     // Calculate the path from here to the goal
@@ -627,12 +639,12 @@ public abstract class VolcanoMazeManager {
 
     // You can't get there from here.
     if (solution == null) {
-      return "volcanomaze.php?jump=1";
+      return "/volcanomaze.php?jump=1";
     }
 
     // Choose the first step on the path
     int next = solution.get(0);
-    return "volcanomaze.php?move=" + coordinateString(next);
+    return "/volcanomaze.php?move=" + coordinateString(next);
   }
 
   private static int pathsMade = 0;

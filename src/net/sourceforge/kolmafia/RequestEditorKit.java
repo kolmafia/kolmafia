@@ -456,7 +456,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     } else if (location.startsWith("tiles.php")) {
       DvorakManager.decorate(buffer);
-    } else if (location.startsWith("volcanomaze.php")) {
+    } else if (location.contains("volcanomaze.php")) {
       VolcanoMazeManager.decorate(location, buffer);
     } else if (location.startsWith("wand.php") && !location.contains("notrim=1")) {
       ZapRequest.decorate(buffer);
