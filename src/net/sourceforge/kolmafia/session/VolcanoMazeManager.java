@@ -173,6 +173,9 @@ public abstract class VolcanoMazeManager {
       return;
     }
 
+    // Replace the inline Javascript for handling the maze with our local copy.
+    replaceVolcanoMazeJavaScript(buffer);
+
     // Add a "Solve!" button to the Volcanic Cave which invokes the
     // "volcano solve" command.
 
@@ -218,6 +221,21 @@ public abstract class VolcanoMazeManager {
 
     // Insert it into the page
     buffer.insert(index, span);
+  }
+
+  public static final void replaceVolcanoMazeJavaScript(StringBuffer buffer) {
+    int start = buffer.indexOf("<script type=\"text/javascript\">\n\t\t\tvar uhohs = 0;");
+    if (start == -1) {
+      return;
+    }
+    int end = buffer.indexOf("</script>", start);
+    if (end == -1) {
+      return;
+    }
+    buffer.replace(
+        start,
+        end,
+        "<script language=\"Javascript\" src=\"/" + KoLConstants.VOLCANOMAZE_JS + "\">");
   }
 
   public static final void parseResult(final String responseText) {
