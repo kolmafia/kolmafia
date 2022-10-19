@@ -39,7 +39,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("testUser");
     KoLCharacter.reset(true);
     Preferences.reset("testUser");
@@ -494,6 +493,18 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
         getInstance().command = "ash";
       }
+    }
+
+    @Test
+    void environmentIsLowercase() {
+      String output = execute("($location[Noob Cave].environment == 'underground')");
+      assertThat(output, endsWith("Returned: true\n"));
+    }
+
+    @Test
+    void diffLevelIsLowercase() {
+      String output = execute("($location[Noob Cave].difficulty_level == 'low')");
+      assertThat(output, endsWith("Returned: true\n"));
     }
   }
 }

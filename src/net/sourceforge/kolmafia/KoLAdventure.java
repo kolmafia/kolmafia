@@ -20,6 +20,8 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.DifficultyLevel;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -78,7 +80,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   private final boolean hasWanderers;
   private final String zone, parentZone, rootZone;
-  private final String adventureId, formSource, adventureName, environment;
+  private final String adventureId, formSource, adventureName;
+  private final DifficultyLevel difficultyLevel;
+  private final Environment environment;
   private final int adventureNumber;
   private final int recommendedStat, waterLevel;
   private final String normalString, lowercaseString, parentZoneDescription;
@@ -119,6 +123,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     this.rootZone = AdventureDatabase.getRootZone(this.parentZone);
 
+    this.difficultyLevel = AdventureDatabase.getDifficultyLevel(adventureName);
     this.environment = AdventureDatabase.getEnvironment(adventureName);
 
     this.recommendedStat = AdventureDatabase.getRecommendedStat(adventureName);
@@ -178,7 +183,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return this.rootZone;
   }
 
-  public String getEnvironment() {
+  public DifficultyLevel getDifficultyLevel() {
+    return this.difficultyLevel;
+  }
+
+  public Environment getEnvironment() {
     return this.environment;
   }
 
@@ -518,7 +527,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // If we have permanent access, cool.
-    if (Preferences.getBoolean(alwaysPref)) {
+    if (alwaysPref != null && Preferences.getBoolean(alwaysPref)) {
       return true;
     }
     // If we don't know we have daily access, looking at the map
@@ -569,6 +578,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return checkZone("prAlways", "_prToday", "monorail");
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
+      case "Twitch":
+        // There is no permanent access to the Time Twitching Tower; it's
+        // always day by day.
+        return checkZone(null, "timeTowerAvailable", "town");
       case "The Spacegate":
         // Through the Spacegate
 

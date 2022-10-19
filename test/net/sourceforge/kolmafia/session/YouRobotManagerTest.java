@@ -35,7 +35,6 @@ import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemDequeuePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -72,12 +71,6 @@ public class YouRobotManagerTest {
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
     KoLCharacter.reset("you robot manager user");
-    Preferences.saveSettingsToFile = false;
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @AfterEach

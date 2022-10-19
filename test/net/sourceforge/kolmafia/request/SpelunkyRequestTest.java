@@ -18,7 +18,6 @@ class SpelunkyRequestTest {
   public void initializeCharPrefs() {
     KoLCharacter.reset("lunkhead");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
   }
 
   @AfterEach
@@ -26,7 +25,6 @@ class SpelunkyRequestTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
-    Preferences.saveSettingsToFile = false;
   }
 
   @Test

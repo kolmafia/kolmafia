@@ -3,10 +3,12 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
@@ -17,6 +19,8 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
@@ -49,7 +53,7 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
     try (cleanups) {
       String output = execute("frobnort");
       assertErrorState();
-      assertThat(output, containsString("autumnaton <blank> | send [location]"));
+      assertThat(output, containsString("Usage: autumnaton <blank>"));
     }
   }
 
@@ -76,6 +80,23 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
       try (cleanups) {
         String output = execute("");
         assertThat(output, containsString("Your autumn-aton is ready to be sent somewhere."));
+      }
+    }
+
+    @Test
+    void noLocationUpgradesAvailable() {
+      var cleanups =
+          new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
+              withProperty("autumnatonQuestLocation", ""),
+              withNextResponse(
+                  200, html("request/test_choice_autumnaton_upgrade_available_one.html")));
+
+      try (cleanups) {
+        String output = execute("");
+        assertThat(output, containsString("Your autumn-aton is ready to be sent somewhere."));
+        assertThat(output, containsString("Your autumn-aton has upgrades available: dual exhaust"));
       }
     }
 
@@ -235,6 +256,93 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
             containsString(
                 "Failed to send autumnaton to Hobopolis Town Square. Is it accessible?"));
         assertErrorState();
+      }
+    }
+  }
+
+  @Nested
+  class Upgrade {
+    @Test
+    public void errorsIfNoUpgrades() {
+      var cleanups =
+          new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
+              withNextResponse(200, html("request/test_choice_autumnaton_many_upgrades.html")));
+
+      try (cleanups) {
+        String output = execute("upgrade");
+        assertErrorState();
+        assertThat(output, containsString("No upgrades available"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "one, Added upgrade dual exhaust",
+      "two, Added upgrades energy-absorptive hat and dual exhaust",
+      "many, Added upgrades energy-absorptive hat and vision extender and dual exhaust"
+    })
+    public void upgradesIfUpgrades(String filePart, String upgrades) {
+      var cleanups =
+          new Cleanups(
+              hasAutumnaton(),
+              withItem(ItemPool.AUTUMNATON),
+              withNextResponse(
+                  200,
+                  html("request/test_choice_autumnaton_upgrade_available_" + filePart + ".html")));
+
+      try (cleanups) {
+        String output = execute("upgrade");
+        assertContinueState();
+        assertThat(output, containsString(upgrades));
+      }
+    }
+
+    @Nested
+    class Locations {
+      @Test
+      public void showsLocations() {
+        var cleanups =
+            new Cleanups(
+                hasAutumnaton(),
+                withItem(ItemPool.AUTUMNATON),
+                withProperty("autumnatonUpgrades", ""),
+                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
+
+        try (cleanups) {
+          String output = execute("locations");
+          assertContinueState();
+          // Daily Dungeon
+          assertThat(output, containsString("<b>Underground</b>"));
+          assertThat(
+              output,
+              containsString(
+                  "Mid: gives autumn dollar (potion, +50% meat), collection prow (+1 autumn item)"));
+          assertThat(output, containsString("<li>The Daily Dungeon</li>"));
+        }
+      }
+
+      @Test
+      public void doesNotShowUpgradeIfHaveUpgrade() {
+        var cleanups =
+            new Cleanups(
+                hasAutumnaton(),
+                withItem(ItemPool.AUTUMNATON),
+                withProperty("autumnatonUpgrades", "cowcatcher"),
+                withNextResponse(200, html("request/test_choice_autumnaton_all_upgrades.html")));
+
+        try (cleanups) {
+          String output = execute("locations");
+          assertContinueState();
+          // Daily Dungeon
+          assertThat(output, containsString("Mid: gives autumn dollar (potion, +50% meat)"));
+          assertThat(
+              output,
+              not(
+                  containsString(
+                      "Mid: gives autumn dollar (potion, +50% meat), collection prow (+1 autumn item)")));
+        }
       }
     }
   }
