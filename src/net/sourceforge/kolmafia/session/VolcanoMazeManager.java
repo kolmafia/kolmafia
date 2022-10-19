@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -23,6 +25,16 @@ import org.json.JSONObject;
 
 public abstract class VolcanoMazeManager {
   private static boolean loaded = false;
+
+  // Java's Random takes a 48 bit seed.
+  private static long RANDOM_SEED = 0xe1d2c3b4a596L;
+
+  // We'll use our own RNG generator to make testing deterministic.
+  private static final Random RNG = new Random(RANDOM_SEED);
+
+  public static void resetRNG() {
+    RNG.setSeed(RANDOM_SEED);
+  }
 
   // The number of maps in the cycle
   public static final int MAPS = 5;
@@ -46,7 +58,7 @@ public abstract class VolcanoMazeManager {
   private static final int[] squares = new int[CELLS];
   private static final Neighbors[] neighbors = new Neighbors[CELLS];
 
-  // The number of know platforms. After MAPS maps are known, this had
+  // The number of known platforms. After MAPS maps are known, this had
   // better be all of them.
   private static int found = 1; // Goal known
 
@@ -55,6 +67,14 @@ public abstract class VolcanoMazeManager {
 
   // Position of the goal: (6,6)
   private static final int goal = 84;
+
+  // Neighbors of the goal
+  private static final Set<Integer> goalNeighbors = Set.of(70, 71, 72, 83, 85, 96, 97, 98);
+
+  // true if we can step onto the goal from current location
+  public static boolean atGoal() {
+    return goalNeighbors.contains(currentLocation);
+  }
 
   private static final String[] IMAGES =
       new String[] {
@@ -83,44 +103,44 @@ public abstract class VolcanoMazeManager {
   }
 
   public static final void reset() {
-    VolcanoMazeManager.loaded = false;
-    VolcanoMazeManager.currentMap = 0;
-    VolcanoMazeManager.currentLocation = -1;
-    Arrays.fill(VolcanoMazeManager.maps, null);
-    Arrays.fill(VolcanoMazeManager.squares, 0);
-    Arrays.fill(VolcanoMazeManager.neighbors, null);
-    VolcanoMazeManager.found = 1;
+    loaded = false;
+    currentMap = 0;
+    currentLocation = -1;
+    Arrays.fill(maps, null);
+    Arrays.fill(squares, 0);
+    Arrays.fill(neighbors, null);
+    found = 1;
   }
 
   public static final void clear() {
-    VolcanoMazeManager.reset();
+    reset();
     for (int map = 0; map < maps.length; ++map) {
-      VolcanoMazeManager.clearCurrentMap(map);
+      clearCurrentMap(map);
     }
   }
 
   private static void loadCurrentMaps() {
-    if (!VolcanoMazeManager.loaded) {
+    if (!loaded) {
       NemesisManager.ensureUpdatedNemesisStatus();
       for (int map = 0; map < maps.length; ++map) {
-        VolcanoMazeManager.loadCurrentMap(map);
+        loadCurrentMap(map);
       }
-      RequestLogger.printLine(VolcanoMazeManager.found + " total platforms seen.");
-      VolcanoMazeManager.currentMap = 0;
-      VolcanoMazeManager.currentLocation = -1;
-      VolcanoMazeManager.loaded = true;
+      RequestLogger.printLine(found + " total platforms seen.");
+      currentMap = 0;
+      currentLocation = -1;
+      loaded = true;
     }
   }
 
   private static void loadCurrentMap(final int map) {
     String setting = "volcanoMaze" + (map + 1);
     String coords = Preferences.getString(setting);
-    if (!VolcanoMazeManager.validMap(coords)) {
+    if (!validMap(coords)) {
       Preferences.setString(setting, "");
-      VolcanoMazeManager.maps[map] = null;
+      maps[map] = null;
     } else {
-      VolcanoMazeManager.maps[map] = new VolcanoMap(coords);
-      VolcanoMazeManager.addSquares(map);
+      maps[map] = new VolcanoMap(coords);
+      addSquares(map);
     }
   }
 
@@ -149,7 +169,7 @@ public abstract class VolcanoMazeManager {
   }
 
   public static final void decorate(final String location, final StringBuffer buffer) {
-    if (!location.startsWith("volcanomaze.php")) {
+    if (!location.contains("volcanomaze.php")) {
       return;
     }
 
@@ -163,50 +183,75 @@ public abstract class VolcanoMazeManager {
     }
     index += 7;
 
-    // Build a "Solve!" button
-    StringBuffer button = new StringBuffer();
+    // Build "Step" and "Solve!" buttons
 
-    String url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
-    button.append("<form name=solveform action='" + url + "' method=post>");
-    button.append("<input class=button type=submit value=\"Solve!\">");
-    button.append("</form>");
+    boolean disabled = atGoal();
+
+    StringBuffer span = new StringBuffer();
+    span.append("<center><table cols=2><tr>");
+
+    StringBuffer stepButton = new StringBuffer();
+    String url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=" + GenericRequest.passwordHash;
+    stepButton.append("<td>");
+    stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
+    stepButton.append("<input class=button type=submit value=\"Step\"");
+    if (disabled) {
+      stepButton.append(" disabled");
+    }
+    stepButton.append(">").append("</form>");
+    stepButton.append("</td>");
+    span.append(stepButton);
+
+    StringBuffer solveButton = new StringBuffer();
+    url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
+    solveButton.append("<td>");
+    solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
+    solveButton.append("<input class=button type=submit value=\"Solve!\"");
+    if (disabled) {
+      solveButton.append(" disabled");
+    }
+    solveButton.append(">").append("</form>");
+    solveButton.append("</td>");
+    span.append(solveButton);
+
+    span.append("</tr></table></center>");
 
     // Insert it into the page
-    buffer.insert(index, button);
+    buffer.insert(index, span);
   }
 
   public static final void parseResult(final String responseText) {
     // Load current maps, if necessary
-    VolcanoMazeManager.loadCurrentMaps();
+    loadCurrentMaps();
 
     // Parse what the server gave us
-    String coords = VolcanoMazeManager.parseCoords(responseText);
+    String coords = parseCoords(responseText);
 
     // Make sure we got a good map
-    if (!VolcanoMazeManager.validMap(coords)) {
+    if (!validMap(coords)) {
       return;
     }
 
     // See if we already have this map
-    int index = VolcanoMazeManager.currentMap;
+    int index = currentMap;
     do {
-      VolcanoMap current = VolcanoMazeManager.maps[index];
+      VolcanoMap current = maps[index];
       // Map not found and empty slot found
       if (current == null) {
-        VolcanoMazeManager.currentMap = index;
-        VolcanoMazeManager.maps[index] = new VolcanoMap(coords);
+        currentMap = index;
+        maps[index] = new VolcanoMap(coords);
         break;
       }
 
       // There is a map. Is it this map?
       if (coords.equals(current.getCoordinates())) {
-        VolcanoMazeManager.currentMap = index;
+        currentMap = index;
         return;
       }
 
       // No. Skip to next slot
       index = (index + 1) % maps.length;
-    } while (index != VolcanoMazeManager.currentMap);
+    } while (index != currentMap);
 
     // It's a new map. Save the coordinates in user settings
     int sequence = index + 1;
@@ -214,23 +259,23 @@ public abstract class VolcanoMazeManager {
     Preferences.setString(setting, coords);
 
     // Save the squares
-    VolcanoMazeManager.addSquares(currentMap);
-    RequestLogger.printLine(VolcanoMazeManager.found + " total platforms seen.");
+    addSquares(currentMap);
+    RequestLogger.printLine(found + " total platforms seen.");
   }
 
   private static void addSquares(final int index) {
-    VolcanoMap map = VolcanoMazeManager.maps[index];
+    VolcanoMap map = maps[index];
     int seq = index + 1;
     Integer[] platforms = map.getPlatforms();
-    int ofound = VolcanoMazeManager.found;
+    int ofound = found;
     int pcount = platforms.length;
     RequestLogger.printLine("Map #" + seq + " has " + pcount + " platforms");
     for (int i = 0; i < pcount; ++i) {
       int square = platforms[i].intValue();
-      int old = VolcanoMazeManager.squares[square];
+      int old = squares[square];
       if (old == 0) {
-        VolcanoMazeManager.squares[square] = seq;
-        VolcanoMazeManager.found++;
+        squares[square] = seq;
+        found++;
       } else if (old != seq) {
         // Something is wrong: we already found this
         // square elsewhere in the sequence
@@ -244,9 +289,9 @@ public abstract class VolcanoMazeManager {
     if (responseText.equals("false")) {
       return null;
     } else if (responseText.startsWith("<html>")) {
-      return VolcanoMazeManager.parseHTMLCoords(responseText);
+      return parseHTMLCoords(responseText);
     } else {
-      return VolcanoMazeManager.parseJSONCoords(responseText);
+      return parseJSONCoords(responseText);
     }
   }
 
@@ -261,14 +306,14 @@ public abstract class VolcanoMazeManager {
     while (matcher.find()) {
       String square = matcher.group(1);
       String special = matcher.group(3);
-      if (special != null) {
+      if (!"".equals(special)) {
         int squint = Integer.parseInt(square);
         if (special.equals("you")) {
-          VolcanoMazeManager.currentLocation = squint;
+          currentLocation = squint;
         }
 
         // Sanity check
-        else if (special.equals("goal") && VolcanoMazeManager.goal != squint) {
+        else if (special.equals("goal") && goal != squint) {
           RequestLogger.printLine(
               "Map says goal is on square " + squint + ", not " + VolcanoMazeManager.goal);
         }
@@ -311,15 +356,15 @@ public abstract class VolcanoMazeManager {
     // "pos" is the player's position
     try {
       String pos = JSON.getString("pos");
-      Matcher matcher = VolcanoMazeManager.POS_PATTERN.matcher(pos);
+      Matcher matcher = POS_PATTERN.matcher(pos);
       if (matcher.find()) {
         int col = Integer.parseInt(matcher.group(1));
         int row = Integer.parseInt(matcher.group(2));
         int square = row * NCOLS + col;
-        VolcanoMazeManager.currentLocation = square;
+        currentLocation = square;
       }
     } catch (JSONException e) {
-      VolcanoMazeManager.currentLocation = -1;
+      currentLocation = -1;
     }
 
     // "show" is an array of platforms
@@ -377,33 +422,32 @@ public abstract class VolcanoMazeManager {
   }
 
   public static final String coordinateString(final int pos, final int map) {
-    String cstr = VolcanoMazeManager.coordinateString(pos);
+    String cstr = coordinateString(pos);
     String mstr = (map >= 0) ? ("map " + (map + 1)) : "(unknown map )";
     return cstr + " on " + mstr;
   }
 
   public static final String currentCoordinates() {
-    return VolcanoMazeManager.coordinateString(currentLocation);
+    return coordinateString(currentLocation);
   }
 
   public static final void printCurrentCoordinates() {
-    if (VolcanoMazeManager.currentLocation == -1) {
-      RequestLogger.printLine("I don't know where you are");
-      return;
-    }
-    RequestLogger.printLine(
-        "Current position: " + VolcanoMazeManager.coordinateString(currentLocation, currentMap));
+    String msg =
+        (currentLocation == -1)
+            ? "I don't know where you are"
+            : "Current position: " + coordinateString(currentLocation, currentMap);
+    RequestLogger.printLine(msg);
   }
 
   private static boolean discoverMaps() {
-    VolcanoMazeManager.loadCurrentMaps();
-    if (VolcanoMazeManager.found == CELLS) {
+    loadCurrentMaps();
+    if (found == CELLS) {
       return true;
     }
 
     // Visit the cave to find out where we are
     if (currentLocation < 0) {
-      VolcanoMazeManager.internalVisit();
+      internalVisit();
     }
 
     // Give up now if we couldn't do that.
@@ -412,11 +456,11 @@ public abstract class VolcanoMazeManager {
       return false;
     }
 
-    VolcanoMazeManager.printCurrentCoordinates();
+    printCurrentCoordinates();
 
-    while (VolcanoMazeManager.found < CELLS) {
-      VolcanoMap map = VolcanoMazeManager.maps[currentMap];
-      int me = VolcanoMazeManager.currentLocation;
+    while (found < CELLS) {
+      VolcanoMap map = maps[currentMap];
+      int me = currentLocation;
       int next = map.pickNeighbor(me);
 
       if (next < 0) {
@@ -424,13 +468,13 @@ public abstract class VolcanoMazeManager {
         return false;
       }
 
-      RequestLogger.printLine("Move to: " + VolcanoMazeManager.coordinateString(next, currentMap));
+      RequestLogger.printLine("Move to: " + coordinateString(next, currentMap));
 
-      int ofound = VolcanoMazeManager.found;
+      int ofound = found;
       VolcanoMazeRequest req = new VolcanoMazeRequest(next);
       req.run();
 
-      if (ofound >= VolcanoMazeManager.found) {
+      if (ofound >= found) {
         // This shouldn't happen
         KoLmafia.updateDisplay(MafiaState.ERROR, "Moving did not discover new platforms");
         return false;
@@ -442,8 +486,8 @@ public abstract class VolcanoMazeManager {
 
   // CLI command support
   public static final void visit() {
-    VolcanoMazeManager.internalVisit();
-    VolcanoMazeManager.printCurrentCoordinates();
+    internalVisit();
+    printCurrentCoordinates();
   }
 
   private static void internalVisit() {
@@ -458,21 +502,21 @@ public abstract class VolcanoMazeManager {
     // class follows redirects.
     VolcanoMazeRequest JUMP = new VolcanoMazeRequest(true);
     JUMP.run();
-    VolcanoMazeManager.printCurrentCoordinates();
+    printCurrentCoordinates();
   }
 
   public static final void move(final int x, final int y, final boolean print) {
     VolcanoMazeRequest req = new VolcanoMazeRequest(x, y);
     req.run();
     if (print) {
-      VolcanoMazeManager.displayMap();
+      displayMap();
     }
-    VolcanoMazeManager.printCurrentCoordinates();
+    printCurrentCoordinates();
   }
 
   public static final void displayMap() {
-    VolcanoMazeManager.loadCurrentMaps();
-    VolcanoMap map = VolcanoMazeManager.maps[VolcanoMazeManager.currentMap];
+    loadCurrentMaps();
+    VolcanoMap map = maps[currentMap];
     if (map == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "We haven't seen the volcanic cave yet");
       return;
@@ -487,8 +531,8 @@ public abstract class VolcanoMazeManager {
       return;
     }
 
-    VolcanoMazeManager.loadCurrentMaps();
-    VolcanoMap map = VolcanoMazeManager.maps[num - 1];
+    loadCurrentMaps();
+    VolcanoMap map = maps[num - 1];
     if (map == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "We haven't seen map #" + num);
       return;
@@ -498,7 +542,7 @@ public abstract class VolcanoMazeManager {
   }
 
   public static final void platforms() {
-    if (!VolcanoMazeManager.discoverMaps()) {
+    if (!discoverMaps()) {
       return;
     }
 
@@ -531,6 +575,78 @@ public abstract class VolcanoMazeManager {
     RequestLogger.printLine();
   }
 
+  public static final void step() {
+    // This is intended to be invoked by a button in the relay browser.
+    //
+    // However, since that invokes the "volcano step" command, the user COULD
+    // type it into the gCLI. Ensure we are visiting the Volcano Maze, just as
+    // if we were in the Relay Browser.
+
+    // This is a no-op if already done.
+    loadCurrentMaps();
+
+    String URL = nextStep();
+
+    // The following would be for "/KoLmafia/specialCommand", where the browser
+    // invokes the command and KoLmafia submits (requests) and returns a
+    // decorated responseText.
+    //
+    // Unfortunately, if KoL's responseText contains relative links, the
+    // browser interprets them as relative to "/KoLmafia/specialcommand".
+
+    // var request = new GenericRequest(URL, false);
+    // request.run();
+    // StringBuffer buffer = new StringBuffer(request.responseText);
+    // decorate(URL, buffer);
+    // RelayRequest.specialCommandResponse = buffer.toString();
+    // RelayRequest.specialCommandIsAdventure = false;
+
+    // Therefore, we'll use "/KoLmafia/redirectedCommand" and let the browser
+    // submit the request and get the responsetext - which we will decorate.
+
+    RelayRequest.redirectedCommandURL = URL;
+  }
+
+  private static final String nextStep() {
+    // Return the URL to submit
+
+    // If we don't know where we are, visit the cave and find out.
+    if (currentLocation < 0) {
+      return "/volcanomaze.php?start=1";
+    }
+
+    // If we have not seen all the maps, take a step and learn one
+    if (found < CELLS) {
+      VolcanoMap map = maps[currentMap];
+      int me = currentLocation;
+      int next = map.pickNeighbor(me);
+      // If you are stuck, no option but to jump
+      if (next < 0) {
+        return "/volcanomaze.php?jump=1";
+      }
+      return "/volcanomaze.php?move=" + coordinateString(next);
+    }
+
+    // If current location is adjacent to the goal, don't move.
+    // Stop before stepping onto the goal
+    if (atGoal()) {
+      return "/volcanomaze.php?start=1";
+    }
+
+    // Calculate the path from here to the goal
+    Path solution = solve(currentLocation, currentMap);
+    VolcanoMazeManager.printStatistics(solution);
+
+    // You can't get there from here.
+    if (solution == null) {
+      return "/volcanomaze.php?jump=1";
+    }
+
+    // Choose the first step on the path
+    int next = solution.get(0);
+    return "/volcanomaze.php?move=" + coordinateString(next);
+  }
+
   private static int pathsMade = 0;
   private static int pathsExamined = 0;
 
@@ -538,17 +654,17 @@ public abstract class VolcanoMazeManager {
     // Save URL to give back to the user's browser
     RelayRequest.redirectedCommandURL = "/volcanomaze.php?start=1";
 
-    if (!VolcanoMazeManager.discoverMaps()) {
+    if (!discoverMaps()) {
       return;
     }
 
     // Sanity check
-    if (VolcanoMazeManager.found < CELLS) {
+    if (found < CELLS) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "We couldn't discover all the maps");
       return;
     }
 
-    Path solution = VolcanoMazeManager.solve(currentLocation, currentMap);
+    Path solution = solve(currentLocation, currentMap);
     VolcanoMazeManager.printStatistics(solution);
 
     if (solution == null) {
@@ -558,11 +674,9 @@ public abstract class VolcanoMazeManager {
     }
 
     // Move up next to the goal.
-    for (Integer next : solution) {
-      int sq = next.intValue();
-
+    for (int sq : solution) {
       // Quit when we are about to move to the goal
-      if (sq == VolcanoMazeManager.goal) {
+      if (sq == goal) {
         break;
       }
 
@@ -605,11 +719,11 @@ public abstract class VolcanoMazeManager {
     buffer.append(KoLConstants.COMMA_FORMAT.format(pathsMade));
     buffer.append(" ->");
     if (solution != null) {
-      buffer.append("solution with ");
+      buffer.append(" solution with ");
       buffer.append(solution.size());
       buffer.append(" hops.");
     } else {
-      buffer.append("no solution found.");
+      buffer.append(" no solution found.");
     }
     RequestLogger.printLine(buffer.toString());
   }
@@ -646,18 +760,18 @@ public abstract class VolcanoMazeManager {
 
   private static Path solve(final int location, final int map) {
     // Generate neighbors for every cell
-    VolcanoMazeManager.generateNeighbors();
+    generateNeighbors();
 
     // The work queue of Paths
     LinkedList<Path> queue = new LinkedList<>();
 
     // Statistics
-    VolcanoMazeManager.pathsMade = 0;
-    VolcanoMazeManager.pathsExamined = 0;
+    pathsMade = 0;
+    pathsExamined = 0;
 
     // Find the neighbors for the current location in the current
     // map. These are the first hop for all possible paths.
-    VolcanoMap current = VolcanoMazeManager.maps[map];
+    VolcanoMap current = maps[map];
     Neighbors roots = current.neighbors(location);
 
     // We only need to visit any given cell once.
@@ -669,7 +783,7 @@ public abstract class VolcanoMazeManager {
     // Make a path for each root and add it to the queue.
     Integer[] starts = roots.getPlatforms();
     for (int i = 0; i < starts.length; ++i) {
-      ++VolcanoMazeManager.pathsMade;
+      ++pathsMade;
       Integer square = starts[i];
       queue.addLast(new Path(square));
       // We (will) have visited each root
@@ -679,8 +793,7 @@ public abstract class VolcanoMazeManager {
     // Perform a breadth-first search of the maze
     while (!queue.isEmpty()) {
       Path path = queue.removeFirst();
-      ++VolcanoMazeManager.pathsExamined;
-      // System.out.println( "Examining path: " + path );
+      ++pathsExamined;
 
       Integer last = path.getLast();
       Neighbors neighbors = VolcanoMazeManager.neighbors[last.intValue()];
@@ -800,7 +913,7 @@ public abstract class VolcanoMazeManager {
       // Otherwise, pick one at random.
       int next = VolcanoMazeManager.goal;
       while (next == VolcanoMazeManager.goal) {
-        int rnd = KoLConstants.RNG.nextInt(platforms.length);
+        int rnd = RNG.nextInt(platforms.length);
         next = platforms[rnd].intValue();
       }
       return next;
@@ -863,7 +976,7 @@ public abstract class VolcanoMazeManager {
           } else if (board[pos(row, col)]) {
             buffer.append("platform3");
           } else {
-            int rnd = KoLConstants.RNG.nextInt(12);
+            int rnd = RNG.nextInt(12);
             buffer.append("lava");
             buffer.append((rnd + 1));
           }
@@ -914,11 +1027,11 @@ public abstract class VolcanoMazeManager {
   }
 
   private static class Path implements Iterable<Integer> {
-    private final ArrayList<Integer> list;
+    private final List<Integer> list;
 
     public Path(final Integer square) {
-      list = new ArrayList<Integer>();
-      list.add(square);
+      this.list = new ArrayList<Integer>();
+      this.list.add(square);
     }
 
     @Override
@@ -927,7 +1040,7 @@ public abstract class VolcanoMazeManager {
     }
 
     public Path(final Path prefix, final Integer square) {
-      list = new ArrayList<>(prefix.list);
+      this.list = new ArrayList<>(prefix.list);
       list.add(square);
     }
 
