@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -51,6 +52,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     GenericRequest.sessionId = null;
     GenericRequest.passwordHash = "";
     AdventureSpentDatabase.setNoncombatEncountered(false);
+    RelayRequest.reset();
     StandardRequest.reset();
   }
 

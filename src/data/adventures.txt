@@ -12,12 +12,12 @@ Campground	adventure=543	DiffLevel: mid Env: outdoor	Your Mushroom Garden
 
 # Clan areas
 
-Gyms	clan_gym=MUSCLE	DiffLevel: unknown Env: none Stat: 0	Pump Up Muscle
-Gyms	clan_gym=MYST	DiffLevel: unknown Env: none Stat: 0	Pump Up Mysticality
-Gyms	clan_gym=MOXIE	DiffLevel: unknown Env: none Stat: 0	Pump Up Moxie
-Gyms	clan_hobopolis=1	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Mysticality
-Gyms	clan_hobopolis=2	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Moxie
-Gyms	clan_hobopolis=3	DiffLevel: unknown Env: none Stat: 0	Richard's Hobo Muscle
+Gyms	clan_gym=MUSCLE	DiffLevel: none Env: none Stat: 0	Pump Up Muscle
+Gyms	clan_gym=MYST	DiffLevel: none Env: none Stat: 0	Pump Up Mysticality
+Gyms	clan_gym=MOXIE	DiffLevel: none Env: none Stat: 0	Pump Up Moxie
+Gyms	clan_hobopolis=1	DiffLevel: none Env: none Stat: 0	Richard's Hobo Mysticality
+Gyms	clan_hobopolis=2	DiffLevel: none Env: none Stat: 0	Richard's Hobo Moxie
+Gyms	clan_hobopolis=3	DiffLevel: none Env: none Stat: 0	Richard's Hobo Muscle
 
 Hobopolis	adventure=166	DiffLevel: mid Env: underground Stat: 250	A Maze of Sewer Tunnels
 Hobopolis	adventure=167	DiffLevel: unknown Env: underground Stat: 300	Hobopolis Town Square
@@ -39,28 +39,28 @@ Town	adventure=439	DiffLevel: mid Env: indoor Stat: 0	The Skeleton Store	1 Skele
 Town	adventure=440	DiffLevel: mid Env: indoor Stat: 0	Madness Bakery	1 no-handed pie
 Town	adventure=441	DiffLevel: mid Env: outdoor Stat: 0	The Overgrown Lot	3 Fraudwort, 3 Shysterweed, 3 Swindleblossom|The Lot's engagement ring
 
-Casino	casino=1	DiffLevel: unknown Env: none Stat: 0	Goat Party
-Casino	casino=2	DiffLevel: unknown Env: none Stat: 0	Pirate Party
-Casino	casino=11	DiffLevel: unknown Env: none Stat: 0	Lemon Party
+Casino	casino=1	DiffLevel: none Env: none Stat: 0	Goat Party
+Casino	casino=2	DiffLevel: none Env: none Stat: 0	Pirate Party
+Casino	casino=11	DiffLevel: none Env: none Stat: 0	Lemon Party
 Casino	adventure=70	DiffLevel: low Env: indoor Stat: 0	The Roulette Tables
 Casino	adventure=71	DiffLevel: low Env: indoor Stat: 0	The Poker Room
 
 Manor0	adventure=399	DiffLevel: high Env: underground Stat: 104	The Haunted Boiler Room	1 wine bomb
 Manor0	adventure=400	DiffLevel: high Env: underground Stat: 104	The Haunted Laundry Room	1 blasting soda
 Manor0	adventure=401	DiffLevel: high Env: underground Stat: 104	The Haunted Wine Cellar	1 bottle of Chateau de Vinegar
-Manor0	place=manor4_chamberboss	DiffLevel: unknown Env: none Stat: 0 Level: 4	Summoning Chamber
+Manor0	place=manor4_chamberboss	DiffLevel: none Env: none Stat: 0 Level: 4	Summoning Chamber
 Manor1	adventure=113	DiffLevel: low Env: indoor Stat: 0	The Haunted Pantry	pretentious palette|+3 tasty tart|1 hypnotic breadcrumbs
 Manor1	adventure=388	DiffLevel: mid Env: indoor Stat: 20	The Haunted Kitchen	1 Spookyraven billiards room key|1 loosening powder|1 chef's hat|+1 freezerburned ice cube
 Manor1	adventure=389	DiffLevel: mid Env: indoor Stat: 20	The Haunted Conservatory	1 powdered castoreum|1 pellet of plant food
 Manor1	adventure=390	DiffLevel: mid Env: indoor Stat: 20	The Haunted Library	1 Lady Spookyraven's necklace|+1 black eyedrops
 Manor1	adventure=391	DiffLevel: mid Env: indoor Stat: 20	The Haunted Billiards Room	1 [7302]Spookyraven library key|+1 cube of billiard chalk
-Manor2	adventure=392	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Bathroom	1 Lady Spookyraven's powder puff|1 drain dissolver
-Manor2	adventure=393	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Bedroom	1 Lady Spookyraven's finest gown|1 Lord Spookyraven's spectacles|1 disposable instant camera
-Manor2	adventure=394	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Gallery	1 Lady Spookyraven's dancing shoes|1 triple-distilled turpentine
-Manor2	adventure=395	DiffLevel: unknown Env: indoor Stat: 40	The Haunted Ballroom	1 dance card
+Manor2	adventure=392	DiffLevel: mid Env: indoor Stat: 40	The Haunted Bathroom	1 Lady Spookyraven's powder puff|1 drain dissolver
+Manor2	adventure=393	DiffLevel: mid Env: indoor Stat: 40	The Haunted Bedroom	1 Lady Spookyraven's finest gown|1 Lord Spookyraven's spectacles|1 disposable instant camera
+Manor2	adventure=394	DiffLevel: mid Env: indoor Stat: 40	The Haunted Gallery	1 Lady Spookyraven's dancing shoes|1 triple-distilled turpentine
+Manor2	adventure=395	DiffLevel: mid Env: indoor Stat: 40	The Haunted Ballroom	1 dance card
 Manor3	adventure=396	DiffLevel: mid Env: indoor Stat: 68	The Haunted Laboratory	1 detartrated anhydrous sublicalc
-Manor3	adventure=397	DiffLevel: unknown Env: indoor Stat: 68	The Haunted Nursery
-Manor3	adventure=398	DiffLevel: unknown Env: indoor Stat: 68	The Haunted Storage Room	1 triatomaceous dust
+Manor3	adventure=397	DiffLevel: mid Env: indoor Stat: 68	The Haunted Nursery
+Manor3	adventure=398	DiffLevel: mid Env: indoor Stat: 68	The Haunted Storage Room	1 triatomaceous dust
 
 # Plains areas
 
@@ -75,7 +75,7 @@ Plains	adventure=58	DiffLevel: mid Env: outdoor Stat: 40	The VERY Unquiet Garves
 Plains	adventure=386	DiffLevel: high Env: outdoor Stat: 120	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
 
 BatHole	adventure=30	DiffLevel: unknown Env: underground Stat: 13	The Bat Hole Entrance	1 Pine-Fresh air freshener
-BatHole	adventure=31	DiffLevel: unknown Env: underground Stat: 13	Guano Junction	3 sonar-in-a-biscuit|+1 Eau de Guaneau
+BatHole	adventure=31	DiffLevel: low Env: underground Stat: 13	Guano Junction	3 sonar-in-a-biscuit|+1 Eau de Guaneau
 BatHole	adventure=32	DiffLevel: low Env: underground Stat: 13	The Batrat and Ratbat Burrow	+1 Dogsgotnonoz pills|The Stankara Stone
 BatHole	adventure=33	DiffLevel: low Env: underground Stat: 13	The Beanbat Chamber	1 enchanted bean
 BatHole	adventure=34	DiffLevel: low Env: underground Stat: 13	The Boss Bat's Lair
@@ -85,10 +85,10 @@ Knob	adventure=257	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Barracks
 Knob	adventure=258	DiffLevel: unknown Env: underground Stat: 20	Cobb's Knob Kitchens	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=259	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Harem	outfit|outfit, 1 Knob Goblin perfume|+3 scented massage oil
 Knob	adventure=260	DiffLevel: unknown Env: underground Stat: 20	Cobb's Knob Treasury
-Knob	cobbsknob=0	DiffLevel: unknown Env: none Stat: 0 Level: 6	Throne Room
+Knob	cobbsknob=0	DiffLevel: none Env: none Stat: 0 Level: 6	Throne Room
 Lab	adventure=50	DiffLevel: mid Env: underground Stat: 30	Cobb's Knob Laboratory	1 Cobb's Knob Menagerie key|1 Subject 37 file|+1 bottle of Mystic Shell
 Lab	adventure=101	DiffLevel: mid Env: underground Stat: 30	The Knob Shaft
-Lab	mining=2	DiffLevel: unknown Env: none Stat: 0	The Knob Shaft (Mining)
+Lab	mining=2	DiffLevel: none Env: none Stat: 0	The Knob Shaft (Mining)
 Menagerie	adventure=51	DiffLevel: unknown Env: underground Stat: 35	Cobb's Knob Menagerie, Level 1	1 GOTO
 Menagerie	adventure=52	DiffLevel: unknown Env: underground Stat: 40	Cobb's Knob Menagerie, Level 2	1 weremoose spit|+1 irradiated pet snacks
 Menagerie	adventure=53	DiffLevel: mid Env: underground Stat: 45	Cobb's Knob Menagerie, Level 3	1 abominable blubber
@@ -98,13 +98,13 @@ Rift	adventure=86	DiffLevel: unknown Env: outdoor Stat: 30	Battlefield (Cloaca U
 Rift	adventure=87	DiffLevel: unknown Env: outdoor Stat: 30	Battlefield (Dyspepsi Uniform)
 
 Fernswarthy's Tower	adventure=22	DiffLevel: unknown Env: outdoor Stat: 11	Tower Ruins	1 disembodied brain
-Fernswarthy's Tower	basement=0	DiffLevel: unknown Env: none Stat: 0	Fernswarthy's Basement
+Fernswarthy's Tower	basement=0	DiffLevel: none Env: none Stat: 0	Fernswarthy's Basement
 
 Cyrpt	adventure=264	DiffLevel: mid Env: underground Stat: 40	The Defiled Nook	1 evil eye
 Cyrpt	adventure=262	DiffLevel: mid Env: underground Stat: 40	The Defiled Cranny
 Cyrpt	adventure=261	DiffLevel: mid Env: underground Stat: 40	The Defiled Alcove
 Cyrpt	adventure=263	DiffLevel: mid Env: underground Stat: 40	The Defiled Niche	1 plus-sized phylactery
-Cyrpt	crypt=heart	DiffLevel: unknown Env: none Stat: 0 Level: 6	Haert of the Cyrpt
+Cyrpt	crypt=heart	DiffLevel: none Env: none Stat: 0 Level: 6	Haert of the Cyrpt
 
 Beanstalk	adventure=81	DiffLevel: high Env: outdoor Stat: 90	The Penultimate Fantasy Airship	1 S.O.C.K.|1 metallic A|1 model airship|1 amulet of extreme plot significance
 Beanstalk	adventure=322	DiffLevel: high Env: underground Stat: 130	The Castle in the Clouds in the Sky (Basement)	1 heavy D
@@ -112,24 +112,24 @@ Beanstalk	adventure=323	DiffLevel: high Env: indoor Stat: 110	The Castle in the 
 Beanstalk	adventure=324	DiffLevel: high Env: indoor Stat: 130	The Castle in the Clouds in the Sky (Top Floor)	3 thin black candle|1 steam-powered model rocketship|Murphy's Rancid Black Flag
 Beanstalk	adventure=83	DiffLevel: high Env: outdoor Stat: 100	The Hole in the Sky	1 Richard's star key|1 star starfish|The Eye of the Stars
 
-Sorceress	place=ns_01_crowd1	DiffLevel: unknown Env: none Stat: 0	Fastest Adventurer Contest
-Sorceress	place=ns_01_crowd2	DiffLevel: unknown Env: none Stat: 0	Strongest Adventurer Contest
-Sorceress	place=ns_01_crowd2	DiffLevel: unknown Env: none Stat: 0	Smartest Adventurer Contest
-Sorceress	place=ns_01_crowd2	DiffLevel: unknown Env: none Stat: 0	Smoothest Adventurer Contest
-Sorceress	place=ns_01_crowd2	DiffLevel: unknown Env: none Stat: 0	A Crowd of (Stat) Adventurers
-Sorceress	place=ns_01_crowd3	DiffLevel: unknown Env: none Stat: 0	Hottest Adventurer Contest
-Sorceress	place=ns_01_crowd3	DiffLevel: unknown Env: none Stat: 0	Coldest Adventurer Contest
-Sorceress	place=ns_01_crowd3	DiffLevel: unknown Env: none Stat: 0	Spookiest Adventurer Contest
-Sorceress	place=ns_01_crowd3	DiffLevel: unknown Env: none Stat: 0	Stinkiest Adventurer Contest
-Sorceress	place=ns_01_crowd3	DiffLevel: unknown Env: none Stat: 0	Sleaziest Adventurer Contest
-Sorceress	place=ns_01_crowd3	DiffLevel: unknown Env: none Stat: 0	A Crowd of (Element) Adventurers
-Sorceress	place=ns_03_hedgemaze	DiffLevel: unknown Env: none Stat: 0	The Hedge Maze
-Sorceress	place=ns_05_monster1	DiffLevel: unknown Env: none Stat: 0	Tower Level 1
-Sorceress	place=ns_06_monster2	DiffLevel: unknown Env: none Stat: 0	Tower Level 2
-Sorceress	place=ns_07_monster3	DiffLevel: unknown Env: none Stat: 0	Tower Level 3
-Sorceress	place=ns_08_monster4	DiffLevel: unknown Env: none Stat: 0	Tower Level 4
-Sorceress	place=ns_09_monster5	DiffLevel: unknown Env: none Stat: 0	Tower Level 5
-Sorceress	place=ns_10_sorcfight	DiffLevel: unknown Env: none Stat: 0	The Naughty Sorceress' Chamber
+Sorceress	place=ns_01_crowd1	DiffLevel: none Env: none Stat: 0	Fastest Adventurer Contest
+Sorceress	place=ns_01_crowd2	DiffLevel: none Env: none Stat: 0	Strongest Adventurer Contest
+Sorceress	place=ns_01_crowd2	DiffLevel: none Env: none Stat: 0	Smartest Adventurer Contest
+Sorceress	place=ns_01_crowd2	DiffLevel: none Env: none Stat: 0	Smoothest Adventurer Contest
+Sorceress	place=ns_01_crowd2	DiffLevel: none Env: none Stat: 0	A Crowd of (Stat) Adventurers
+Sorceress	place=ns_01_crowd3	DiffLevel: none Env: none Stat: 0	Hottest Adventurer Contest
+Sorceress	place=ns_01_crowd3	DiffLevel: none Env: none Stat: 0	Coldest Adventurer Contest
+Sorceress	place=ns_01_crowd3	DiffLevel: none Env: none Stat: 0	Spookiest Adventurer Contest
+Sorceress	place=ns_01_crowd3	DiffLevel: none Env: none Stat: 0	Stinkiest Adventurer Contest
+Sorceress	place=ns_01_crowd3	DiffLevel: none Env: none Stat: 0	Sleaziest Adventurer Contest
+Sorceress	place=ns_01_crowd3	DiffLevel: none Env: none Stat: 0	A Crowd of (Element) Adventurers
+Sorceress	place=ns_03_hedgemaze	DiffLevel: none Env: none Stat: 0	The Hedge Maze
+Sorceress	place=ns_05_monster1	DiffLevel: none Env: none Stat: 0	Tower Level 1
+Sorceress	place=ns_06_monster2	DiffLevel: none Env: none Stat: 0	Tower Level 2
+Sorceress	place=ns_07_monster3	DiffLevel: none Env: none Stat: 0	Tower Level 3
+Sorceress	place=ns_08_monster4	DiffLevel: none Env: none Stat: 0	Tower Level 4
+Sorceress	place=ns_09_monster5	DiffLevel: none Env: none Stat: 0	Tower Level 5
+Sorceress	place=ns_10_sorcfight	DiffLevel: none Env: none Stat: 0	The Naughty Sorceress' Chamber
 
 # Beach areas
 
@@ -141,7 +141,7 @@ Beach	adventure=446	DiffLevel: unknown Env: outdoor Stat: 0	Kokomo Resort
 
 Pyramid	adventure=406	DiffLevel: unknown Env: underground Stat: 150	The Upper Chamber	10 crumbling wooden wheel
 Pyramid	adventure=407	DiffLevel: high Env: underground Stat: 140	The Middle Chamber	10 tomb ratchet
-Pyramid	place=pyramid_state	DiffLevel: unknown Env: none Stat: 0 Level: 6	The Lower Chambers
+Pyramid	place=pyramid_state	DiffLevel: none Env: none Stat: 0 Level: 6	The Lower Chambers
 
 # Mountain areas
 
@@ -161,11 +161,11 @@ McLarge	adventure=270	DiffLevel: mid Env: underground Stat: 60	Itznotyerzitz Min
 McLarge	adventure=271	DiffLevel: unknown Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
 McLarge	adventure=272	DiffLevel: mid Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
 McLarge	adventure=273	DiffLevel: mid Env: outdoor Stat: 70	The eXtreme Slope	outfit
-McLarge	place=cloudypeak2	DiffLevel: unknown Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
+McLarge	place=cloudypeak2	DiffLevel: none Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
 McLarge	adventure=110	DiffLevel: high Env: outdoor Stat: 53	The Icy Peak
 McLarge	adventure=176	DiffLevel: unknown Env: underground Stat: 0	The Mine Foremens' Office	1 dwarvish document, 1 dwarvish parchment, 1 dwarvish paper, 1 dwarvish punchcard, 1 little laminated card, 1 notbig laminated card, 1 small laminated card, 1 unlarge laminated card
-McLarge	dwarffactory=0	DiffLevel: unknown Env: none Stat: 0	Dwarven Factory Warehouse
-McLarge	mining=1	DiffLevel: unknown Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
+McLarge	dwarffactory=0	DiffLevel: none Env: none Stat: 0	Dwarven Factory Warehouse
+McLarge	mining=1	DiffLevel: none Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
 
 Highlands	adventure=296	DiffLevel: unknown Env: outdoor Stat: 75	A-Boo Peak	3 A-Boo clue
 Highlands	adventure=297	DiffLevel: mid Env: outdoor Stat: 90	Twin Peak	1 gold wedding ring
@@ -176,7 +176,7 @@ The Red Zeppelin's Mooring	adventure=385	DiffLevel: high Env: indoor Stat: 150	T
 
 # Woods areas.
 
-Woods	cellar=0	DiffLevel: unknown Env: none Stat: 0 Level: 6	The Typical Tavern Cellar
+Woods	cellar=0	DiffLevel: none Env: none Stat: 0 Level: 6	The Typical Tavern Cellar
 Woods	adventure=15	DiffLevel: low Env: outdoor Stat: 0	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood
 Woods	adventure=280	DiffLevel: low Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
 Woods	adventure=233	DiffLevel: mid Env: indoor Stat: 0	A Barroom Brawl	1 beer goggles|+3 beer lens
@@ -188,9 +188,9 @@ Woods	adventure=405	DiffLevel: high Env: outdoor Stat: 110	The Black Forest	1 su
 Woods	adventure=356	DiffLevel: mid Env: outdoor Stat: 25	The Old Landfill	1 old claw-foot bathtub, 1 old clothesline pole, 1 antique cigar sign
 
 Friars	adventure=541	DiffLevel: mid Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagram
-Friars	adventure=540	DiffLevel: unknown Env: outdoor Stat: 45	The Dark Heart of the Woods	1 box of birthday candles|heavy-duty bendy straw
-Friars	adventure=539	DiffLevel: unknown Env: outdoor Stat: 45	The Dark Elbow of the Woods	1 eldritch butterknife
-Friars	friars=0	DiffLevel: unknown Env: none Stat: 0	Friar Ceremony Location
+Friars	adventure=540	DiffLevel: mid Env: outdoor Stat: 45	The Dark Heart of the Woods	1 box of birthday candles|heavy-duty bendy straw
+Friars	adventure=539	DiffLevel: mid Env: outdoor Stat: 45	The Dark Elbow of the Woods	1 eldritch butterknife
+Friars	friars=0	DiffLevel: none Env: none Stat: 0	Friar Ceremony Location
 Friars	adventure=438	DiffLevel: unknown Env: outdoor	Pandamonium
 
 Pandamonium	adventure=248	DiffLevel: unknown Env: outdoor Stat: 45	Pandamonium Slums	1 ruby W|3 hot wing|1 Hey Deze map|+1 SPF 451 lip balm|+5 figurine of a charred seal|heavy-duty bendy straw
@@ -235,7 +235,7 @@ IsleWar	adventure=134	DiffLevel: unknown Env: indoor Stat: 165	Wartime Frat Hous
 IsleWar	adventure=135	DiffLevel: unknown Env: indoor Stat: 0	Wartime Frat House	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin|1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
 
 IsleWar	adventure=131	DiffLevel: unknown Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
-IsleWar	adventure=133	DiffLevel: unknown Env: indoor Stat: 0	Wartime Hippy Camp	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband|1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
+IsleWar	adventure=133	DiffLevel: high Env: outdoor Stat: 0	Wartime Hippy Camp	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband|1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
 
 IsleWar	adventure=132	DiffLevel: high Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
 IsleWar	adventure=140	DiffLevel: unknown Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
@@ -287,7 +287,7 @@ The Sea	adventure=208	DiffLevel: unknown Env: underwater	Mer-kin Library
 The Sea	adventure=209	DiffLevel: unknown Env: underwater	Mer-kin Gymnasium
 The Sea	adventure=210	DiffLevel: unknown Env: underwater	Mer-kin Colosseum
 The Sea	adventure=337	DiffLevel: unknown Env: underwater Stat: 600	The Caliginous Abyss
-The Sea	mining=3	DiffLevel: unknown Env: none Stat: 0	Anemone Mine (Mining)
+The Sea	mining=3	DiffLevel: none Env: none Stat: 0	Anemone Mine (Mining)
 
 # Nemesis areas
 
@@ -367,7 +367,7 @@ BadMoon	adventure=148	DiffLevel: unknown Env: none	Heartbreaker's Hotel
 
 # Recurring Holidays
 
-Holiday	town=trickortreat	DiffLevel: unknown Env: none Stat: 0 overdrunk	Trick-or-Treating
+Holiday	town=trickortreat	DiffLevel: none Env: none Stat: 0 overdrunk	Trick-or-Treating
 Holiday	adventure=23	DiffLevel: unknown Env: outdoor overdrunk	Drunken Stupor
 Holiday	adventure=84	DiffLevel: unknown Env: outdoor overdrunk	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	DiffLevel: unknown Env: outdoor	The Yuletide Bonfire
@@ -427,7 +427,7 @@ Crimbo16	adventure=493	DiffLevel: unknown Env: indoor Stat: 0	Crimbo's Hat
 Crimbo15	adventure=459	DiffLevel: unknown Env: outdoor Stat: 0	The Ruins of the Fully Automated Crimbo Factory
 
 Crimbo14	adventure=419	DiffLevel: unknown Env: outdoor Stat: 0	The Crimbonium Mining Camp
-Crimbo14	mining=5	DiffLevel: unknown Env: none Stat: 0	The Crimbonium Mine
+Crimbo14	mining=5	DiffLevel: none Env: none Stat: 0	The Crimbonium Mine
 
 Crimbo13	adventure=366	DiffLevel: unknown Env: indoor	WarBear Fortress (First Level)
 Crimbo13	adventure=367	DiffLevel: unknown Env: indoor	WarBear Fortress (Second Level)
@@ -465,11 +465,11 @@ PastEvents	adventure=216	DiffLevel: unknown Env: unknown	Shivering Timbers
 
 PastEvents	adventure=244	DiffLevel: unknown Env: unknown	A Skeleton Invasion!
 PastEvents	adventure=245	DiffLevel: unknown Env: unknown	The Cannon Museum
-PastEvents	invasion=1	DiffLevel: unknown Env: none	A Swarm of Yeti-Mounted Skeletons
-PastEvents	invasion=2	DiffLevel: unknown Env: none	The Bonewall
-PastEvents	invasion=3	DiffLevel: unknown Env: none	A Massive Flying Battleship
-PastEvents	invasion=4	DiffLevel: unknown Env: none	A Supply Train
-PastEvents	invasion=5	DiffLevel: unknown Env: none	The Bone Star
+PastEvents	invasion=1	DiffLevel: none Env: none	A Swarm of Yeti-Mounted Skeletons
+PastEvents	invasion=2	DiffLevel: none Env: none	The Bonewall
+PastEvents	invasion=3	DiffLevel: none Env: none	A Massive Flying Battleship
+PastEvents	invasion=4	DiffLevel: none Env: none	A Supply Train
+PastEvents	invasion=5	DiffLevel: none Env: none	The Bone Star
 
 PastEvents	adventure=156	DiffLevel: unknown Env: unknown	Grim Grimacite Site
 
@@ -477,7 +477,7 @@ PastEvents	adventure=268	DiffLevel: unknown Env: unknown	A Pile of Old Servers
 
 PastEvents	adventure=269	DiffLevel: unknown Env: unknown	The Haunted Sorority House	1 choiceadv
 
-PastEvents	plains=brushfire	DiffLevel: unknown Env: none	Fightin' Fire
+PastEvents	plains=brushfire	DiffLevel: none Env: none	Fightin' Fire
 PastEvents	adventure=290	DiffLevel: unknown Env: unknown	Super-Intense Mega-Grassfire
 PastEvents	adventure=291	DiffLevel: unknown Env: unknown	Fierce Flying Flames
 PastEvents	adventure=292	DiffLevel: unknown Env: unknown	Lord Flameface's Castle Entryway
@@ -574,7 +574,7 @@ Jick's Obsessions	adventure=317	DiffLevel: unknown Env: indoor	The Tower of Proc
 The Old Man's Past	adventure=318	DiffLevel: unknown Env: outdoor	The Old Man's Bathtime Adventures
 
 Skid Row	adventure=369	DiffLevel: unknown Env: indoor nowander Stat: 0	The Inner Wolf Gym
-Skid Row	place=ioty2014_wolf	DiffLevel: unknown Env: none Stat: 0 overdrunk	Unleash Your Inner Wolf
+Skid Row	place=ioty2014_wolf	DiffLevel: none Env: none Stat: 0 overdrunk	Unleash Your Inner Wolf
 
 The Candy Witch and the Relentless Child Thieves	adventure=370	DiffLevel: unknown Env: outdoor Stat: 0	Sweet-Ade Lake
 The Candy Witch and the Relentless Child Thieves	adventure=371	DiffLevel: unknown Env: outdoor Stat: 0	Eager Rice Burrows
@@ -610,7 +610,7 @@ That 70s Volcano	adventure=448	DiffLevel: unknown Env: indoor Stat: 0	The SMOOCH
 That 70s Volcano	adventure=449	DiffLevel: unknown Env: underground Stat: 45	The Velvet / Gold Mine
 That 70s Volcano	adventure=450	DiffLevel: mid Env: indoor Stat: 45	LavaCo&trade; Lamp Factory
 That 70s Volcano	adventure=451	DiffLevel: mid Env: outdoor Stat: 90	The Bubblin' Caldera	+1 superduperheated metal
-That 70s Volcano	mining=6	DiffLevel: unknown Env: none Stat: 0	The Velvet / Gold Mine (Mining)
+That 70s Volcano	mining=6	DiffLevel: none Env: none Stat: 0	The Velvet / Gold Mine (Mining)
 
 The Glaciest	adventure=455	DiffLevel: mid Env: indoor Stat: 0	The Ice Hotel
 The Glaciest	adventure=456	DiffLevel: mid Env: indoor Stat: 0	VYKEA

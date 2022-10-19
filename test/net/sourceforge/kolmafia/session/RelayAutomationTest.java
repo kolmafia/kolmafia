@@ -45,6 +45,11 @@ public class RelayAutomationTest {
     Preferences.reset("relay automation");
   }
 
+  @AfterEach
+  public void afterEach() {
+    RelayRequest.reset();
+  }
+
   @Nested
   class HiddenTemple {
     @Nested
