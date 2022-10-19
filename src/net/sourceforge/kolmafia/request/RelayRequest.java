@@ -155,6 +155,10 @@ public class RelayRequest extends PasswordHashRequest {
   public String lastWarning = "";
 
   public static final void reset() {
+    RelayRequest.specialCommandIsAdventure = false;
+    RelayRequest.specialCommandResponse = "";
+    RelayRequest.specialCommandStatus = "";
+    RelayRequest.redirectedCommandURL = "";
     RelayRequest.ignoreBoringDoorsWarning = false;
     RelayRequest.ignoreDesertWarning = false;
     RelayRequest.ignoreDesertWeaponWarning = false;

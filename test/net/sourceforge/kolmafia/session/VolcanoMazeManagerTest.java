@@ -40,6 +40,7 @@ public class VolcanoMazeManagerTest {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("volcano maze");
+    VolcanoMazeManager.reset();
   }
 
   @BeforeEach
@@ -58,6 +59,7 @@ public class VolcanoMazeManagerTest {
     @AfterEach
     public void afterEach() {
       VolcanoMazeManager.reset();
+      RelayRequest.reset();
     }
 
     static final List<String> findMapMoves = new ArrayList<>();
