@@ -74,7 +74,7 @@ Plains	adventure=21	DiffLevel: low Env: outdoor Stat: 11	The Unquiet Garves	1 sm
 Plains	adventure=58	DiffLevel: mid Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
 Plains	adventure=386	DiffLevel: high Env: outdoor Stat: 120	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
 
-BatHole	adventure=30	DiffLevel: unknown Env: underground Stat: 13	The Bat Hole Entrance	1 Pine-Fresh air freshener
+BatHole	adventure=30	DiffLevel: low Env: underground Stat: 13	The Bat Hole Entrance	1 Pine-Fresh air freshener
 BatHole	adventure=31	DiffLevel: low Env: underground Stat: 13	Guano Junction	3 sonar-in-a-biscuit|+1 Eau de Guaneau
 BatHole	adventure=32	DiffLevel: low Env: underground Stat: 13	The Batrat and Ratbat Burrow	+1 Dogsgotnonoz pills|The Stankara Stone
 BatHole	adventure=33	DiffLevel: low Env: underground Stat: 13	The Beanbat Chamber	1 enchanted bean
@@ -194,14 +194,14 @@ Friars	friars=0	DiffLevel: none Env: none Stat: 0	Friar Ceremony Location
 Friars	adventure=438	DiffLevel: unknown Env: outdoor	Pandamonium
 
 Pandamonium	adventure=248	DiffLevel: unknown Env: outdoor Stat: 45	Pandamonium Slums	1 ruby W|3 hot wing|1 Hey Deze map|+1 SPF 451 lip balm|+5 figurine of a charred seal|heavy-duty bendy straw
-Pandamonium	adventure=242	DiffLevel: unknown Env: indoor Stat: 60	The Laugh Floor	5 imp air|1 observational glasses
+Pandamonium	adventure=242	DiffLevel: mid Env: indoor Stat: 60	The Laugh Floor	5 imp air|1 observational glasses
 Pandamonium	adventure=243	DiffLevel: mid Env: indoor Stat: 55	Infernal Rackets Backstage	5 bus pass
 
-HiddenCity	adventure=341	DiffLevel: unknown Env: indoor Stat: 135	The Hidden Apartment Building	1 moss-covered stone sphere
+HiddenCity	adventure=341	DiffLevel: high Env: indoor Stat: 135	The Hidden Apartment Building	1 moss-covered stone sphere
 HiddenCity	adventure=342	DiffLevel: high Env: indoor Stat: 140	The Hidden Hospital	1 dripping stone sphere
-HiddenCity	adventure=343	DiffLevel: unknown Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
+HiddenCity	adventure=343	DiffLevel: high Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
 HiddenCity	adventure=344	DiffLevel: high Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
-HiddenCity	adventure=345	DiffLevel: unknown Env: outdoor Stat: 125	The Hidden Park	1 antique machete|+1 shrinking powder|1 book of matches
+HiddenCity	adventure=345	DiffLevel: high Env: outdoor Stat: 125	The Hidden Park	1 antique machete|+1 shrinking powder|1 book of matches
 HiddenCity	adventure=346	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
 HiddenCity	adventure=347	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
 HiddenCity	adventure=348	DiffLevel: high Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northeast)
@@ -216,7 +216,7 @@ The Drip	adventure=544	DiffLevel: unknown Env: indoor nowander	The Dripping Hall
 Island	adventure=27	DiffLevel: mid Env: indoor Stat: 30	Frat House	outfit|+1 bottle of rhinoceros hormones|+5 figurine of a slippery seal
 Island	adventure=29	DiffLevel: mid Env: indoor Stat: 30	Frat House (Frat Disguise)
 
-Island	adventure=26	DiffLevel: unknown Env: outdoor Stat: 30	Hippy Camp	outfit|1 windchimes, 1 decorative fountain, 1 Feng Shui for Big Dumb Idiots|+1 teeny-tiny magic scroll|+5 figurine of a stinking seal
+Island	adventure=26	DiffLevel: mid Env: outdoor Stat: 30	Hippy Camp	outfit|1 windchimes, 1 decorative fountain, 1 Feng Shui for Big Dumb Idiots|+1 teeny-tiny magic scroll|+5 figurine of a stinking seal
 Island	adventure=65	DiffLevel: mid Env: outdoor Stat: 30	Hippy Camp (Hippy Disguise)
 
 Island	adventure=149	DiffLevel: high Env: outdoor Stat: 100	The Hippy Camp (Bombed Back to the Stone Age)	+5 figurine of a stinking seal
