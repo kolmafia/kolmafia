@@ -44,10 +44,7 @@ public class RabbitHoleManagerTest {
     @AfterEach
     public void afterEach() {
       InventoryManager.resetInventory();
-      RelayRequest.specialCommandIsAdventure = false;
-      RelayRequest.specialCommandResponse = "";
-      RelayRequest.specialCommandStatus = "";
-      RelayRequest.redirectedCommandURL = "";
+      RelayRequest.reset();
     }
 
     public void addChessPuzzleResponses(FakeHttpClientBuilder builder) {

@@ -45,6 +45,11 @@ public class RelayAutomationTest {
     Preferences.reset("relay automation");
   }
 
+  @AfterEach
+  public void afterEach() {
+    RelayRequest.reset();
+  }
+
   @Nested
   class HiddenTemple {
     @Nested
@@ -53,10 +58,6 @@ public class RelayAutomationTest {
       @AfterEach
       public void afterEach() {
         DvorakManager.reset();
-        RelayRequest.specialCommandIsAdventure = false;
-        RelayRequest.specialCommandResponse = "";
-        RelayRequest.specialCommandStatus = "";
-        RelayRequest.redirectedCommandURL = "";
       }
 
       private static final KoLAdventure HIDDEN_TEMPLE =
