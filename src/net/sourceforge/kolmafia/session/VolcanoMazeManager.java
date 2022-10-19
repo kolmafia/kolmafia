@@ -27,10 +27,10 @@ public abstract class VolcanoMazeManager {
   private static boolean loaded = false;
 
   // Java's Random takes a 48 bit seed.
-  public static long RANDOM_SEED = 0xe1d2c3b4a596L;
+  private static long RANDOM_SEED = 0xe1d2c3b4a596L;
 
   // We'll use our own RNG generator to make testing deterministic.
-  public static final Random RNG = new Random(RANDOM_SEED);
+  private static final Random RNG = new Random(RANDOM_SEED);
 
   public static void resetRNG() {
     RNG.setSeed(RANDOM_SEED);
