@@ -194,15 +194,12 @@ public abstract class VolcanoMazeManager {
     span.append("<center><table cols=2><tr>");
 
     StringBuffer stepButton = new StringBuffer();
-    String url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=" + GenericRequest.passwordHash;
-    stepButton.append("<td>");
-    stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
-    stepButton.append("<input class=button type=submit value=\"Step\"");
-    if (disabled) {
-      stepButton.append(" disabled");
-    }
-    stepButton.append(">").append("</form>");
-    stepButton.append("</td>");
+    String url = "?autostep";
+    stepButton.append("<td>").append("<div id=\"step\">");
+    stepButton.append("<form name=stepform action='").append(url).append("' method=get>");
+    stepButton.append("<input class=button type=submit value=\"Step\">");
+    stepButton.append("</form>");
+    stepButton.append("</div>").append("</td>");
     span.append(stepButton);
 
     StringBuffer solveButton = new StringBuffer();
@@ -603,7 +600,7 @@ public abstract class VolcanoMazeManager {
     // This is a no-op if already done.
     loadCurrentMaps();
 
-    String URL = nextStep();
+    String URL = nextStep(false);
 
     // The following would be for "/KoLmafia/specialCommand", where the browser
     // invokes the command and KoLmafia submits (requests) and returns a
@@ -625,13 +622,26 @@ public abstract class VolcanoMazeManager {
     RelayRequest.redirectedCommandURL = URL;
   }
 
-  private static final String nextStep() {
+  public static final void autoStep(RelayRequest request) {
+    // This is invoked by a button in the relay browser.
+    if (atGoal()) {
+      request.responseText = "false";
+      return;
+    }
+
+    request.constructURLString(nextStep(true), false);
+    request.run();
+  }
+
+  private static final String nextStep(boolean ajax) {
     // Return the URL to submit
 
     // If we don't know where we are, visit the cave and find out.
     if (currentLocation < 0) {
       return "/volcanomaze.php?start=1";
     }
+
+    String suffix = ajax ? "&ajax=1" : "";
 
     // If we have not seen all the maps, take a step and learn one
     if (found < CELLS) {
@@ -642,7 +652,7 @@ public abstract class VolcanoMazeManager {
       if (next < 0) {
         return "/volcanomaze.php?jump=1";
       }
-      return "/volcanomaze.php?move=" + coordinateString(next);
+      return "/volcanomaze.php?move=" + coordinateString(next) + suffix;
     }
 
     // If current location is adjacent to the goal, don't move.
@@ -662,7 +672,7 @@ public abstract class VolcanoMazeManager {
 
     // Choose the first step on the path
     int next = solution.get(0);
-    return "/volcanomaze.php?move=" + coordinateString(next);
+    return "/volcanomaze.php?move=" + coordinateString(next) + suffix;
   }
 
   private static int pathsMade = 0;

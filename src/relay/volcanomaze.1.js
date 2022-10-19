@@ -62,5 +62,16 @@ $(document).ready(function () {
 		$.getJSON($(this).attr('href') + '&ajax=1', adjustPlatforms);
 		return false;
 	});
+        $('#step').click(function () {
+	    $.getJSON("?autostep", function (res, status) {
+		if (status != 'success') {
+		    alert(status);
+		    alert(res);
+		} else if (res) {
+		    adjustPlatforms(res);
+		}
+	    });
+	    return false;
+	});
 });
 // </script>
