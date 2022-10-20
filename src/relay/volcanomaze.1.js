@@ -63,15 +63,16 @@ $(document).ready(function () {
 		return false;
 	});
         $('#step').click(function () {
-	    $.getJSON("?autostep", function (res, status) {
-		if (status != 'success') {
-		    alert(status);
-		    alert(res);
-		} else if (res) {
-		    adjustPlatforms(res);
-		}
-	    });
-	    return false;
+	    	$.get("?autostep", function (res) {
+			if (res) {
+				if (res.startsWith("<html>")) {
+					$("html").html(res);
+				} else {
+					adjustPlatforms(JSON.parse(res));
+				}
+			}
+		});
+		return false;
 	});
 });
 // </script>
