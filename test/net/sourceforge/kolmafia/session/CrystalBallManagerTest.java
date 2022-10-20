@@ -1,17 +1,24 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withLastLocation;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
@@ -102,6 +109,21 @@ public class CrystalBallManagerTest {
   }
 
   @Test
+  public void canParsePonderWithoutUpdatingTurn() {
+    var cleanups =
+        new Cleanups(
+            withCurrentRun(1),
+            withProperty("crystalBallPredictions", "0:Twin Peak:Creepy Ginger Twin"));
+
+    try (cleanups) {
+      CrystalBallManager.reset();
+      String html = html("request/test_ponder_orb_one_prediction.html");
+      CrystalBallManager.parsePonder(html);
+      assertThat("crystalBallPredictions", isSetTo("0:Twin Peak:Creepy Ginger Twin"));
+    }
+  }
+
+  @Test
   public void canParsePonderWithMultiple() {
     String html = html("request/test_ponder_orb_two_predictions.html");
     CrystalBallManager.parsePonder(html);
@@ -125,5 +147,63 @@ public class CrystalBallManagerTest {
     CrystalBallManager.parsePonder(html);
     assertEquals(
         "0:The Haunted Laboratory:the gunk", Preferences.getString("crystalBallPredictions"));
+  }
+
+  @Test
+  public void testPredictionDoesNotExpireSameZone() {
+    var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.BADGER),
+            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
+            withCurrentRun(0),
+            withProperty("crystalBallPredictions", "0:The Middle Chamber:tomb rat"),
+            withLastLocation(AdventureDatabase.getAdventure(407)));
+    try (cleanups) {
+      CrystalBallManager.reset();
+      KoLCharacter.setCurrentRun(1);
+
+      CrystalBallManager.updateCrystalBallPredictions();
+
+      assertThat("crystalBallPredictions", isSetTo("0:The Middle Chamber:tomb rat"));
+    }
+  }
+
+  @Test
+  public void testPredictionDoesNotExpireSameTurn() {
+    var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.BADGER),
+            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
+            withProperty("crystalBallPredictions", "0:The Middle Chamber:tomb rat"),
+            withLastLocation(AdventureDatabase.getAdventure(407)));
+    try (cleanups) {
+      CrystalBallManager.reset();
+      KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure(406));
+
+      CrystalBallManager.updateCrystalBallPredictions();
+
+      assertThat("crystalBallPredictions", isSetTo("0:The Middle Chamber:tomb rat"));
+    }
+  }
+
+  @Test
+  public void testPredictionExpiresNewZoneNewTurn() {
+    var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.BADGER),
+            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
+            withCurrentRun(0),
+            withProperty("crystalBallPredictions", "0:The Middle Chamber:tomb rat"),
+            withLastLocation(AdventureDatabase.getAdventure(407)));
+    try (cleanups) {
+      CrystalBallManager.reset();
+      KoLCharacter.setCurrentRun(1);
+
+      KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure(406));
+
+      CrystalBallManager.updateCrystalBallPredictions();
+
+      assertThat("crystalBallPredictions", isSetTo(""));
+    }
   }
 }

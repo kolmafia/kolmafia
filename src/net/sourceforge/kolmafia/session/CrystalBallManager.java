@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,13 +117,17 @@ public final class CrystalBallManager {
     updatePreference();
   }
 
-  private static void addPrediction(final KoLAdventure location, final String predictedMonster) {
+  private static void addPrediction(
+      final int turnPredicted, final KoLAdventure location, final String predictedMonster) {
     CrystalBallManager.predictions.put(
         location.getAdventureName(),
-        new Prediction(
-            KoLCharacter.getCurrentRun(), location.getAdventureName(), predictedMonster));
+        new Prediction(turnPredicted, location.getAdventureName(), predictedMonster));
 
     AdventureQueueDatabase.enqueue(location, predictedMonster);
+  }
+
+  private static void addPrediction(final KoLAdventure location, final String predictedMonster) {
+    addPrediction(KoLCharacter.getCurrentRun(), location, predictedMonster);
   }
 
   private static String parseCrystalBallMonster(final String responseText) {
@@ -135,6 +141,14 @@ public final class CrystalBallManager {
     return null;
   }
 
+  /*
+   * Quote from a /devster
+   *
+   * orb predictions are valid if:
+   * * your turnsplayed is <= the turnsplayed when you got the prediction + 1
+   * OR
+   * * your [lastadv] flag is the zone the prediction is in.
+   */
   public static void updateCrystalBallPredictions() {
     if (KoLAdventure.lastVisitedLocation() == null) {
       return;
@@ -147,7 +161,7 @@ public final class CrystalBallManager {
         .removeIf(
             prediction ->
                 !prediction.location.equals(lastAdventureName)
-                    && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun());
+                    && prediction.turnCount + 1 <= KoLCharacter.getCurrentRun());
 
     updatePreference();
   }
@@ -194,6 +208,7 @@ public final class CrystalBallManager {
       Pattern.compile("<li> +(?:an?|the|some)? ?(.*?) in (.*?)</li>");
 
   public static void parsePonder(final String responseText) {
+    Collection<Prediction> oldPredictions = new ArrayList<>(predictions.values());
     predictions.clear();
 
     Matcher m = POSSIBLE_PREDICTION.matcher(responseText);
@@ -201,7 +216,23 @@ public final class CrystalBallManager {
     while (m.find()) {
       MonsterData monster = MonsterDatabase.findMonster(m.group(1));
       KoLAdventure location = AdventureDatabase.getAdventure(m.group(2));
-      if (location != null && monster != null) {
+
+      if (location == null || monster == null) {
+        continue;
+      }
+
+      Prediction oldPrediction =
+          oldPredictions.stream()
+              .filter(
+                  prediction ->
+                      prediction.location.equals(location.getAdventureName())
+                          && prediction.monster.equals(monster.getName()))
+              .findAny()
+              .orElse(null);
+
+      if (oldPrediction != null) {
+        addPrediction(oldPrediction.turnCount, location, monster.getName());
+      } else {
         addPrediction(location, monster.getName());
       }
     }
