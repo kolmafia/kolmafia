@@ -203,7 +203,7 @@ public abstract class VolcanoMazeManager {
     span.append(stepButton);
 
     StringBuffer solveButton = new StringBuffer();
-    url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
+    url = "/KoLmafia/polledredirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
     solveButton.append("<td>");
     solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
     solveButton.append("<input class=button type=submit value=\"Solve!\"");
@@ -677,12 +677,15 @@ public abstract class VolcanoMazeManager {
     }
 
     // Move up next to the goal.
+    int length = solution.size();
+    int i = 0;
     for (int sq : solution) {
       // Quit when we are about to move to the goal
       if (sq == goal) {
         break;
       }
 
+      RelayRequest.specialCommandStatus = "Move " + ++i + " of " + length;
       VolcanoMazeRequest req = new VolcanoMazeRequest(sq);
       req.run();
     }
