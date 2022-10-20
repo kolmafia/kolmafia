@@ -27,11 +27,6 @@ public class VolcanoCommand extends AbstractCommand {
       return;
     }
 
-    if (command.equals("step")) {
-      VolcanoMazeManager.step();
-      return;
-    }
-
     if (command.equals("solve")) {
       VolcanoMazeManager.solve();
       return;

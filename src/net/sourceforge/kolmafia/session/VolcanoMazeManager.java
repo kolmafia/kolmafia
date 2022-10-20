@@ -590,58 +590,28 @@ public abstract class VolcanoMazeManager {
     RequestLogger.printLine();
   }
 
-  public static final void step() {
-    // This is intended to be invoked by a button in the relay browser.
-    //
-    // However, since that invokes the "volcano step" command, the user COULD
-    // type it into the gCLI. Ensure we are visiting the Volcano Maze, just as
-    // if we were in the Relay Browser.
-
-    // This is a no-op if already done.
-    loadCurrentMaps();
-
-    String URL = nextStep(false);
-
-    // The following would be for "/KoLmafia/specialCommand", where the browser
-    // invokes the command and KoLmafia submits (requests) and returns a
-    // decorated responseText.
-    //
-    // Unfortunately, if KoL's responseText contains relative links, the
-    // browser interprets them as relative to "/KoLmafia/specialcommand".
-
-    // var request = new GenericRequest(URL, false);
-    // request.run();
-    // StringBuffer buffer = new StringBuffer(request.responseText);
-    // decorate(URL, buffer);
-    // RelayRequest.specialCommandResponse = buffer.toString();
-    // RelayRequest.specialCommandIsAdventure = false;
-
-    // Therefore, we'll use "/KoLmafia/redirectedCommand" and let the browser
-    // submit the request and get the responsetext - which we will decorate.
-
-    RelayRequest.redirectedCommandURL = URL;
-  }
-
   public static final void autoStep(RelayRequest request) {
-    // This is invoked by a button in the relay browser.
+    // This is invoked by clicking the "step" button in the relay browser.
+    //
+    // KoL's ajax JavaScript submits volcanomaze.php?autostep
+    // RelayAgent cataches that and calls this function.
+
     if (atGoal()) {
       request.responseText = "false";
       return;
     }
 
-    request.constructURLString(nextStep(true), false);
+    request.constructURLString(nextStep(), false);
     request.run();
   }
 
-  private static final String nextStep(boolean ajax) {
+  private static final String nextStep() {
     // Return the URL to submit
 
     // If we don't know where we are, visit the cave and find out.
     if (currentLocation < 0) {
       return "/volcanomaze.php?start=1";
     }
-
-    String suffix = ajax ? "&ajax=1" : "";
 
     // If we have not seen all the maps, take a step and learn one
     if (found < CELLS) {
@@ -652,7 +622,7 @@ public abstract class VolcanoMazeManager {
       if (next < 0) {
         return "/volcanomaze.php?jump=1";
       }
-      return "/volcanomaze.php?move=" + coordinateString(next) + suffix;
+      return "/volcanomaze.php?move=" + coordinateString(next) + "&ajax=1";
     }
 
     // If current location is adjacent to the goal, don't move.
@@ -672,7 +642,7 @@ public abstract class VolcanoMazeManager {
 
     // Choose the first step on the path
     int next = solution.get(0);
-    return "/volcanomaze.php?move=" + coordinateString(next) + suffix;
+    return "/volcanomaze.php?move=" + coordinateString(next) + "&ajax=1";
   }
 
   private static int pathsMade = 0;
