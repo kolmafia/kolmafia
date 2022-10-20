@@ -4,6 +4,8 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
@@ -12,6 +14,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -85,5 +88,14 @@ class AutumnatonManagerTest {
       assertThat("autumnatonQuestLocation", isSetTo("The Haunted Kitchen"));
       assertThat("autumnatonQuestTurn", isSetTo(expected));
     }
+  }
+
+  @Test
+  public void canParseLocations() {
+    var locs =
+        AutumnatonManager.parseLocations(html("request/test_choice_autumnaton_all_upgrades.html"));
+    assertThat(locs, hasItem(258));
+    assertThat(locs, hasItem(439));
+    assertThat(locs, not(hasItem(11)));
   }
 }

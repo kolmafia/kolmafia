@@ -90,27 +90,25 @@ public class AdventureDatabase {
   private AdventureDatabase() {}
 
   public enum Environment {
-    UNKNOWN("unknown"),
-    NONE("none"),
-    INDOOR("indoor"),
-    OUTDOOR("outdoor"),
-    UNDERGROUND("underground"),
-    UNDERWATER("underwater");
-
-    private final String name;
-
-    Environment(String name) {
-      this.name = name;
-    }
+    UNKNOWN,
+    NONE,
+    INDOOR,
+    OUTDOOR,
+    UNDERGROUND,
+    UNDERWATER;
 
     @Override
     public String toString() {
-      return this.name;
+      return this.name().toLowerCase();
+    }
+
+    public String toTitle() {
+      return StringUtilities.capitalize(this.toString());
     }
 
     public static Optional<Environment> fromString(String text) {
       if (text == null || text.isEmpty()) return Optional.empty();
-      return Arrays.stream(values()).filter(e -> e.name.equalsIgnoreCase(text)).findAny();
+      return Arrays.stream(values()).filter(e -> e.name().equalsIgnoreCase(text)).findAny();
     }
 
     public boolean isUnderwater() {
@@ -119,26 +117,24 @@ public class AdventureDatabase {
   }
 
   public enum DifficultyLevel {
-    UNKNOWN("unknown"),
-    NONE("none"),
-    LOW("low"),
-    MID("mid"),
-    HIGH("high");
-
-    private final String name;
-
-    DifficultyLevel(String name) {
-      this.name = name;
-    }
+    UNKNOWN,
+    NONE,
+    LOW,
+    MID,
+    HIGH;
 
     @Override
     public String toString() {
-      return this.name;
+      return this.name().toLowerCase();
+    }
+
+    public String toTitle() {
+      return StringUtilities.capitalize(this.toString());
     }
 
     public static Optional<DifficultyLevel> fromString(String text) {
       if (text == null || text.isEmpty()) return Optional.empty();
-      return Arrays.stream(values()).filter(e -> e.name.equalsIgnoreCase(text)).findAny();
+      return Arrays.stream(values()).filter(e -> e.name().equalsIgnoreCase(text)).findAny();
     }
   }
 

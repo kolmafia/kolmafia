@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -135,8 +136,8 @@ public abstract class RabbitHoleManager {
 
   static {
     String base = KoLmafia.imageServerPath() + "otherimages/chess/";
-    for (int i = 0; i < RabbitHoleManager.IMAGES.length; ++i) {
-      FileUtilities.downloadImage(base + RabbitHoleManager.IMAGES[i]);
+    for (String image : IMAGES) {
+      FileUtilities.downloadImage(base + image);
     }
   }
 
@@ -634,17 +635,17 @@ public abstract class RabbitHoleManager {
       return -1;
     }
 
-    public Integer[] getMoves() {
+    public List<Integer> getMoves() {
+      List<Integer> list = new ArrayList<>();
+
       if (this.current < 0) {
-        return new Integer[0];
+        return list;
       }
 
       Square square = this.board[this.current];
       if (!square.isPiece()) {
-        return new Integer[0];
+        return list;
       }
-
-      ArrayList<Integer> list = new ArrayList<>();
 
       // Depending on type of piece, generate all moves
       // available on current board configuration
@@ -692,12 +693,10 @@ public abstract class RabbitHoleManager {
           break;
       }
 
-      // Convert the list into an array
-      Integer[] array = new Integer[list.size()];
-      return (Integer[]) list.toArray(array);
+      return list;
     }
 
-    private void addRookMoves(final ArrayList<Integer> list, final int row, final int col) {
+    private void addRookMoves(final List<Integer> list, final int row, final int col) {
       // Go West. Quit when you hit a piece
       for (int i = col - 1; i >= 0; --i) {
         if (this.addMove(list, row, i)) {
@@ -724,7 +723,7 @@ public abstract class RabbitHoleManager {
       }
     }
 
-    private void addBishopMoves(final ArrayList<Integer> list, final int row, final int col) {
+    private void addBishopMoves(final List<Integer> list, final int row, final int col) {
       // Go Northwest. Quit when you hit a piece
       for (int irow = row - 1, icol = col - 1; irow >= 0 && icol >= 0; --irow, --icol) {
         if (this.addMove(list, irow, icol)) {
@@ -751,7 +750,7 @@ public abstract class RabbitHoleManager {
       }
     }
 
-    private boolean addMove(final ArrayList<Integer> list, final int row, final int col) {
+    private boolean addMove(final List<Integer> list, final int row, final int col) {
       // If the proposed move is off the board, fail
       if (row < 0 || row > 7 || col < 0 || col > 7) {
         return false;
@@ -800,9 +799,9 @@ public abstract class RabbitHoleManager {
   private static int moves;
 
   public static final void parseChessPuzzle(final String responseText) {
-    RabbitHoleManager.parseChessPuzzle(responseText, true);
-    if (RabbitHoleManager.board != null) {
-      String message = "Board: " + RabbitHoleManager.board.config();
+    parseChessPuzzle(responseText, true);
+    if (board != null) {
+      String message = "Board: " + board.config();
       RequestLogger.updateSessionLog(message);
     }
   }
@@ -812,15 +811,15 @@ public abstract class RabbitHoleManager {
       return;
     }
 
-    RabbitHoleManager.board = new Board();
+    board = new Board();
 
     if (initialVisit) {
-      RabbitHoleManager.moves = 0;
+      moves = 0;
     } else {
-      ++RabbitHoleManager.moves;
+      ++moves;
     }
 
-    Matcher matcher = RabbitHoleManager.SQUARE_PATTERN.matcher(responseText);
+    Matcher matcher = SQUARE_PATTERN.matcher(responseText);
     int index = 0;
     while (matcher.find()) {
       if (index < 64) {
@@ -831,12 +830,12 @@ public abstract class RabbitHoleManager {
 
     if (index != 0 && index != 64) {
       KoLmafia.updateDisplay("What kind of a chessboard is that? I found " + index + " squares!");
-      RabbitHoleManager.board = null;
+      board = null;
       return;
     }
 
     if (initialVisit) {
-      Preferences.setString("lastChessboard", RabbitHoleManager.board.config());
+      Preferences.setString("lastChessboard", board.config());
     }
   }
 
@@ -854,26 +853,26 @@ public abstract class RabbitHoleManager {
     int moveSquare = Board.square(row, col);
 
     // Save the original piece and the one it captures
-    int square = RabbitHoleManager.board.getCurrent();
-    Square piece = RabbitHoleManager.board.get(square);
-    Square newPiece = RabbitHoleManager.board.get(moveSquare);
+    int square = board.getCurrent();
+    Square piece = board.get(square);
+    Square newPiece = board.get(moveSquare);
 
     // Parse the new board
-    RabbitHoleManager.parseChessPuzzle(responseText, false);
+    parseChessPuzzle(responseText, false);
 
     // Could not parse board - error already shown
-    if (RabbitHoleManager.board == null) {
+    if (board == null) {
       return;
     }
 
     // Find the new piece
-    int newSquare = RabbitHoleManager.board.getCurrent();
+    int newSquare = board.getCurrent();
 
     // Assume we are capturing
     String action = "x";
 
     // If we completed the puzzle, there will no longer be a board
-    if (RabbitHoleManager.board.getPieces() == 0) {
+    if (board.getPieces() == 0) {
       // We simply moved
       newSquare = moveSquare;
       action = "-";
@@ -890,12 +889,7 @@ public abstract class RabbitHoleManager {
     }
 
     // Log the move in chess notation
-    String message =
-        RabbitHoleManager.moves
-            + ": "
-            + piece.notation(square)
-            + action
-            + newPiece.notation(newSquare);
+    String message = moves + ": " + piece.notation(square) + action + newPiece.notation(newSquare);
 
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
@@ -903,21 +897,21 @@ public abstract class RabbitHoleManager {
 
   // CLI command support
   public static final void reset() {
-    RabbitHoleManager.board = null;
-    RabbitHoleManager.moves = 0;
+    board = null;
+    moves = 0;
   }
 
   public static final void load() {
-    if (RabbitHoleManager.board == null) {
-      RabbitHoleManager.parseChessPuzzle(RabbitHoleManager.testData);
+    if (board == null) {
+      parseChessPuzzle(testData);
     }
 
-    if (RabbitHoleManager.board == null) {
+    if (board == null) {
       String config = Preferences.getString("lastChessboard");
-      RabbitHoleManager.load(config, false);
+      load(config, false);
     }
 
-    if (RabbitHoleManager.board == null) {
+    if (board == null) {
       RequestLogger.printLine("I haven't seen a chessboard recently.");
     }
   }
@@ -926,16 +920,16 @@ public abstract class RabbitHoleManager {
     if (config.trim().equals("")) {
       return;
     }
-    RabbitHoleManager.board = new Board(config);
+    board = new Board(config);
 
     if (save && !KoLCharacter.getUserName().equals("")) {
-      Preferences.setString("lastChessboard", RabbitHoleManager.board.config());
+      Preferences.setString("lastChessboard", board.config());
     }
   }
 
   public static final void board() {
-    RabbitHoleManager.load();
-    RabbitHoleManager.board(RabbitHoleManager.board);
+    load();
+    board(board);
   }
 
   private static void board(final Board board) {
@@ -950,8 +944,8 @@ public abstract class RabbitHoleManager {
   }
 
   public static final void test() {
-    RabbitHoleManager.load();
-    RabbitHoleManager.test(RabbitHoleManager.board);
+    load();
+    test(board);
   }
 
   private static void test(final Board board) {
@@ -959,19 +953,19 @@ public abstract class RabbitHoleManager {
       return;
     }
 
-    Path solution = RabbitHoleManager.solve(RabbitHoleManager.board);
+    Path solution = solve(board);
 
     if (solution == null) {
       RequestLogger.printLine("I couldn't solve the current board.");
       return;
     }
 
-    Integer[] path = solution.toArray();
+    List<Integer> path = solution.getPath();
     int square = board.getCurrent();
     Square piece = board.get(square);
     RequestLogger.printLine("The " + piece.getTitle() + " on square " + Square.coords(square));
-    for (int i = 0; i < path.length - 1; ++i) {
-      int next = path[i].intValue();
+    for (int i = 0; i < path.size() - 1; ++i) {
+      int next = path.get(i);
       Square nextPiece = board.get(next);
       RequestLogger.printLine(
           "...takes the "
@@ -986,7 +980,7 @@ public abstract class RabbitHoleManager {
       square = next;
       piece = nextPiece;
     }
-    int next = path[path.length - 1].intValue();
+    int next = path.get(path.size() - 1);
     RequestLogger.printLine(
         "...which moves to square "
             + Square.coords(next)
@@ -997,43 +991,88 @@ public abstract class RabbitHoleManager {
             + ")");
   }
 
-  public static final void solve() {
-    RelayRequest.specialCommandResponse = ChoiceManager.lastResponseText;
-    RelayRequest.specialCommandStatus = "Solving...";
+  public static final void step() {
+    RelayRequest.redirectedCommandURL = "/choice.php?forceoption=0";
 
-    if (RabbitHoleManager.board == null) {
+    if (board == null) {
       RequestLogger.printLine("I haven't seen a chessboard recently.");
       return;
     }
 
-    Path solution = RabbitHoleManager.solve(RabbitHoleManager.board);
+    Path solution = solve(board);
 
     if (solution == null) {
       RequestLogger.printLine("I couldn't solve the current board.");
       return;
     }
 
-    Integer[] path = solution.toArray();
+    List<Integer> path = solution.getPath();
+    int length = path.size();
+
+    if (length == 0) {
+      RequestLogger.printLine("Invalid solution.");
+      return;
+    }
+
+    int square = path.get(0);
+    int row = square / 8;
+    int col = square % 8;
+
+    String URL =
+        "/choice.php?whichchoice=443&option=1&xy="
+            + col
+            + ","
+            + row
+            + "&pwd="
+            + GenericRequest.passwordHash;
+
+    RelayRequest.redirectedCommandURL = URL;
+  }
+
+  public static final void solve() {
+    RelayRequest.specialCommandResponse = ChoiceManager.lastResponseText;
+    RelayRequest.specialCommandStatus = "Solving...";
+
+    if (board == null) {
+      RequestLogger.printLine("I haven't seen a chessboard recently.");
+      return;
+    }
+
+    Path solution = solve(board);
+
+    if (solution == null) {
+      RequestLogger.printLine("I couldn't solve the current board.");
+      return;
+    }
+
+    List<Integer> path = solution.getPath();
+    int length = path.size();
     String response = "";
 
-    for (int i = 0; i < path.length; ++i) {
-      RelayRequest.specialCommandStatus = "Move " + i + " of " + path.length;
-      int square = path[i].intValue();
+    for (int i = 0; i < length; ++i) {
+      RelayRequest.specialCommandStatus = "Move " + i + " of " + length;
+      int square = path.get(i);
       int row = square / 8;
       int col = square % 8;
-      String url = "choice.php?pwd&whichchoice=443&option=1&xy=" + col + "," + row;
-      GenericRequest req = new GenericRequest(url);
+      String url =
+          "choice.php?whichchoice=443&option=1&xy="
+              + col
+              + ","
+              + row
+              + "&pwd="
+              + GenericRequest.passwordHash;
+      GenericRequest req = new GenericRequest(url, false);
       req.run();
       response = req.responseText;
     }
 
-    RelayRequest.specialCommandResponse = RabbitHoleManager.decorateChessPuzzleResponse(response);
+    RelayRequest.specialCommandResponse = decorateChessPuzzleResponse(response);
     RelayRequest.specialCommandIsAdventure = true;
   }
 
   private static Path solve(final Board board) {
     // Attempt to solve by moving the current piece
-    return RabbitHoleManager.solve(board.clone(), new Path());
+    return solve(board.clone(), new Path());
   }
 
   private static Path solve(final Board board, final Path path) {
@@ -1063,11 +1102,9 @@ public abstract class RabbitHoleManager {
     Square currentPiece = board.get(current);
 
     // Get possible moves for the current piece
-    Integer[] moves = board.getMoves();
+    List<Integer> moves = board.getMoves();
 
-    for (int i = 0; i < moves.length; ++i) {
-      int square = moves[i].intValue();
-
+    for (int square : moves) {
       // If there is no piece on the square, skip
       if (!board.get(square).isPiece()) {
         continue;
@@ -1097,11 +1134,20 @@ public abstract class RabbitHoleManager {
     return null;
   }
 
-  private static class Path {
-    private final ArrayList<Integer> list;
+  private static class Path implements Iterable<Integer> {
+    private final List<Integer> list;
 
     public Path() {
       list = new ArrayList<>();
+    }
+
+    @Override
+    public Iterator<Integer> iterator() {
+      return this.list.iterator();
+    }
+
+    public Integer get(final int index) {
+      return list.get(index);
     }
 
     public void add(final int square) {
@@ -1116,14 +1162,13 @@ public abstract class RabbitHoleManager {
       return list.size();
     }
 
-    public Integer[] toArray() {
-      Integer[] array = list.toArray(new Integer[list.size()]);
-      return array;
+    public List<Integer> getPath() {
+      return list;
     }
   }
 
   public static final void decorateChessPuzzle(final StringBuffer buffer) {
-    // Add a "Solve!" button to the Chess Board
+    // Add a "Step" and a "Solve!" button to the Chess Board
     String search = "</form>";
     int index = buffer.lastIndexOf(search);
     if (index == -1) {
@@ -1132,21 +1177,43 @@ public abstract class RabbitHoleManager {
 
     index += 7;
 
-    StringBuffer button = new StringBuffer();
+    StringBuffer span = new StringBuffer();
+    span.append("<center><table cols=2><tr>");
 
-    String url = "/KoLmafia/specialCommand?cmd=chess+solve&pwd=" + GenericRequest.passwordHash;
-    button.append("<form name=solveform action='").append(url).append("' method=post>");
-    button.append("<input class=button type=submit value=\"Solve!\">");
-    button.append("</form>");
+    StringBuffer stepButton = new StringBuffer();
+    String url = "/KoLmafia/redirectedCommand?cmd=chess+step&pwd=" + GenericRequest.passwordHash;
+    stepButton.append("<td>");
+    stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
+    stepButton
+        .append("<input type=hidden name=pwd value='")
+        .append(GenericRequest.passwordHash)
+        .append("'>");
+    stepButton.append("<input class=button type=submit value=\"Step\">").append("</form>");
+    stepButton.append("</td>");
+    span.append(stepButton);
+
+    StringBuffer solveButton = new StringBuffer();
+    url = "/KoLmafia/specialCommand?cmd=chess+solve&pwd=" + GenericRequest.passwordHash;
+    solveButton.append("<td>");
+    solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
+    solveButton
+        .append("<input type=hidden name=pwd value='")
+        .append(GenericRequest.passwordHash)
+        .append("'>");
+    solveButton.append("<input class=button type=submit value=\"Solve!\">").append("</form>");
+    solveButton.append("</td>");
+    span.append(solveButton);
+
+    span.append("</tr></table></center>");
 
     // Insert it into the page
-    buffer.insert(index, button);
+    buffer.insert(index, span);
   }
 
   public static final String decorateChessPuzzleResponse(final String response) {
     StringBuffer buffer = new StringBuffer(response);
     RequestEditorKit.getFeatureRichHTML("choice.php", buffer);
-    RabbitHoleManager.decorateChessPuzzleResponse(buffer);
+    decorateChessPuzzleResponse(buffer);
     return buffer.toString();
   }
 
@@ -1161,12 +1228,12 @@ public abstract class RabbitHoleManager {
       return;
     }
 
-    int index = buffer.indexOf(RabbitHoleManager.ADVENTURE_AGAIN);
+    int index = buffer.indexOf(ADVENTURE_AGAIN);
     if (index == -1) {
       return;
     }
 
-    index += RabbitHoleManager.ADVENTURE_AGAIN.length();
+    index += ADVENTURE_AGAIN.length();
     String link =
         "<a href=\"inv_use.php?pwd="
             + GenericRequest.passwordHash
@@ -1175,7 +1242,7 @@ public abstract class RabbitHoleManager {
   }
 
   public static final Hat getHatData(int length) {
-    for (Hat hat : RabbitHoleManager.HAT_DATA) {
+    for (Hat hat : HAT_DATA) {
       if (hat.getLength() == length) {
         return hat;
       }
@@ -1184,7 +1251,7 @@ public abstract class RabbitHoleManager {
   }
 
   public static final String getHatDescription(int length) {
-    Hat hat = RabbitHoleManager.getHatData(length);
+    Hat hat = getHatData(length);
     if (hat != null) {
       return hat.getEffect() + " (" + hat.getModifier() + ")";
     }
@@ -1205,8 +1272,7 @@ public abstract class RabbitHoleManager {
       if (hat.equals(EquipmentRequest.UNEQUIP)) { // no buff without a hat!
         continue;
       }
-      int len =
-          RabbitHoleManager.HAT_CLEANER_PATTERN.matcher(hat.getName()).replaceAll("").length();
+      int len = HAT_CLEANER_PATTERN.matcher(hat.getName()).replaceAll("").length();
       StringBuilder buf = new StringBuilder("<option value=");
       buf.append(hat.getItemId());
       if (hat.equals(curHat)) {
@@ -1215,7 +1281,7 @@ public abstract class RabbitHoleManager {
       buf.append(">");
       buf.append(hat.getName());
       buf.append(": ");
-      buf.append(RabbitHoleManager.getHatDescription(len));
+      buf.append(getHatDescription(len));
       buf.append("</option>");
       options.put((len << 24) | hat.getItemId(), buf.toString());
     }
@@ -1289,7 +1355,7 @@ public abstract class RabbitHoleManager {
 
     // For each hat length, generate a table row
     for (Integer key : lengths.keySet()) {
-      Hat hat = RabbitHoleManager.getHatData(key.intValue());
+      Hat hat = getHatData(key);
       if (hat == null) {
         continue;
       }
@@ -1344,7 +1410,7 @@ public abstract class RabbitHoleManager {
       return;
     }
 
-    Hat data = RabbitHoleManager.getHatData(hatLength(hat.getName()));
+    Hat data = getHatData(hatLength(hat.getName()));
     if (data == null) {
       return;
     }
@@ -1361,11 +1427,11 @@ public abstract class RabbitHoleManager {
   }
 
   public static void getHatBuff(final int desiredHatLength) {
-    if (RabbitHoleManager.hatLengthAvailable(desiredHatLength)) {
+    if (hatLengthAvailable(desiredHatLength)) {
       TreeMap<Integer, StringBuffer> lengths = getHatMap();
 
       String hat = lengths.get(desiredHatLength).toString().split("\\|")[0];
-      RabbitHoleManager.getHatBuff(ItemFinder.getFirstMatchingItem(hat));
+      getHatBuff(ItemFinder.getFirstMatchingItem(hat));
     } else {
       KoLmafia.updateDisplay(MafiaState.ERROR, "No matching hat length found.");
     }
@@ -1386,7 +1452,7 @@ public abstract class RabbitHoleManager {
   }
 
   public static int hatLength(final String name) {
-    return RabbitHoleManager.HAT_CLEANER_PATTERN.matcher(name).replaceAll("").length();
+    return HAT_CLEANER_PATTERN.matcher(name).replaceAll("").length();
   }
 
   public static final boolean registerChessboardRequest(final String urlString) {

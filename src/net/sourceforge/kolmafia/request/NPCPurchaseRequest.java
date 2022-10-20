@@ -415,10 +415,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
   }
 
-  private static final Pattern ITEM_PATTERN =
-      Pattern.compile(
-          "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)",
-          Pattern.DOTALL);
   private static final Pattern SHOP_NAME_PATTERN =
       Pattern.compile("bgcolor=blue><b>(.*?)</b>", Pattern.DOTALL);
   private static final Pattern BLOOD_MAYO_PATTERN =
@@ -427,7 +423,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   public static final void learnNPCStoreItem(
       final String shopName,
       final String shopId,
-      final String name,
+      final AdventureResult item,
       final String cost,
       final String row) {
     String printMe;
@@ -435,7 +431,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     printMe = "--------------------";
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
-    printMe = shopName + "\t" + shopId + "\t" + name + "\t" + cost + "\tROW" + row;
+    printMe = shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + row;
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
     printMe = "--------------------";
@@ -444,13 +440,13 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   public static final void learnCoinmasterItem(
-      final String shopName, final String name, final String cost, final String row) {
+      final String shopName, final AdventureResult item, final String cost, final String row) {
     String printMe;
     // Print what goes in coinmasters.txt
     printMe = "--------------------";
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
-    printMe = shopName + "\tbuy\t" + cost + "\t" + name + "\tROW" + row;
+    printMe = shopName + "\tbuy\t" + cost + "\t" + item + "\tROW" + row;
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
     printMe = "--------------------";
@@ -463,6 +459,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.equals("beergarden")
         || shopId.equals("crimbo16")
         || shopId.equals("crimbo19toys")
+        || shopId.equals("flowertradein")
         || shopId.equals("grandma")
         || shopId.equals("junkmagazine")
         || shopId.startsWith("kolhs_")
@@ -473,6 +470,18 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.equals("starchart")
         || shopId.equals("xo");
   }
+
+  // <tr rel="7567"><td valign=center></td><td><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/chroner.gif" class="hand pop"
+  // rel="desc_item.php?whichitem=783338147" onClick='javascript:descitem(783338147)'></td><td
+  // valign=center><a
+  // onClick='javascript:descitem(783338147)'><b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/twitchtulip.gif width=30 height=30 onClick='javascript:descitem(973996072)' alt="red tulip" title="red tulip"></td><td><b>1</b></td><td valign=center class=tiny>red tulip</td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=flowertradein&action=buyitem&quantity=1&whichrow=760&pwd=173b4446c2dd92d83eb3ce2af0de1289' value='Trade In'></td></tr>
+  //
+  // <b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;
+  private static final Pattern ITEM_PATTERN =
+      Pattern.compile(
+          "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>(&nbsp;<b>\\((\\d+)\\)</b>&nbsp;)?.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)",
+          Pattern.DOTALL);
 
   public static final void parseShopResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("shop.php")) {
@@ -493,13 +502,16 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       String desc = matcher.group(2);
       String name = matcher.group(3);
       String data = ItemDatabase.getItemDataName(id);
+      String countString = matcher.group(4);
+      int count = countString == null ? 1 : StringUtilities.parseInt(matcher.group(5));
+      AdventureResult item = new AdventureResult(name, count);
 
       if (data == null || !data.equals(name)) {
         // Unknown item
         ItemDatabase.registerItem(id, name, desc);
       }
 
-      String currency = matcher.group(4);
+      String currency = matcher.group(6);
       boolean takesMeat = currency.equals("Meat");
 
       if ((takesMeat
@@ -516,8 +528,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
               // instead of NPC items)
               && !ConcoctionDatabase.hasMixingMethod(id))) {
         // Didn't know this was buyable
-        String cost = matcher.group(5).replaceAll(",", "");
-        String row = matcher.group(6);
+        String cost = matcher.group(7).replaceAll(",", "");
+        String row = matcher.group(8);
         String shopName = "";
         Matcher nameMatcher = SHOP_NAME_PATTERN.matcher(responseText);
         if (nameMatcher.find()) {
@@ -527,9 +539,9 @@ public class NPCPurchaseRequest extends PurchaseRequest {
           shopName = nameMatcher.group(1);
         }
         if (takesMeat) {
-          NPCPurchaseRequest.learnNPCStoreItem(shopName, shopId, name, cost, row);
+          NPCPurchaseRequest.learnNPCStoreItem(shopName, shopId, item, cost, row);
         } else {
-          NPCPurchaseRequest.learnCoinmasterItem(shopName, name, cost, row);
+          NPCPurchaseRequest.learnCoinmasterItem(shopName, item, cost, row);
         }
       }
     }

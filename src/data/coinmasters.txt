@@ -1068,8 +1068,8 @@ KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
 
 # The Central Loathing Floral Mercantile Exchange
 
-The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
-The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
-The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
-The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
+# The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
 

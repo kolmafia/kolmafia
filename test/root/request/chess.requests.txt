@@ -1,0 +1,45 @@
+inv_use.php?which=3&whichitem=4509&pwd
+Field: location = [choice.php?forceoption=0]
+choice.php?forceoption=0
+test_rabbithole_reflection.html
+choice.php?pwd&whichchoice=442&option=5
+test_chess_00.html
+chess solve
+choice.php?pwd&whichchoice=443&option=1&xy=5%2C6
+test_chess_01.html
+1: WBe8xBBf7
+choice.php?pwd&whichchoice=443&option=1&xy=2%2C3
+test_chess_02.html
+2: WBf7xBNc4
+choice.php?pwd&whichchoice=443&option=1&xy=4%2C2
+test_chess_03.html
+3: WNc4xBKe3
+choice.php?pwd&whichchoice=443&option=1&xy=5%2C2
+test_chess_04.html
+4: WKe3xBPf3
+choice.php?pwd&whichchoice=443&option=1&xy=4%2C1
+test_chess_05.html
+5: WPf3xBRe2
+choice.php?pwd&whichchoice=443&option=1&xy=6%2C1
+test_chess_06.html
+6: WRe2xBQg2
+choice.php?pwd&whichchoice=443&option=1&xy=2%2C5
+test_chess_07.html
+7: WQg2xBNc6
+choice.php?pwd&whichchoice=443&option=1&xy=4%2C6
+test_chess_08.html
+8: WNc6xBNe7
+choice.php?pwd&whichchoice=443&option=1&xy=6%2C5
+test_chess_09.html
+9: WNe7xBRg6
+choice.php?pwd&whichchoice=443&option=1&xy=1%2C5
+test_chess_10.html
+10: WRg6xBBb6
+choice.php?pwd&whichchoice=443&option=1&xy=0%2C6
+test_chess_11.html
+11: WBb6xBBa7
+choice.php?pwd&whichchoice=443&option=1&xy=6%2C0
+test_chess_12.html
+12: WBa7-g1
+You acquire an item: queen cookie
+api.php?what=status&for=KoLmafia

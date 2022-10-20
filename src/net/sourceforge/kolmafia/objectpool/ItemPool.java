@@ -1422,6 +1422,7 @@ public class ItemPool {
   public static final int LOBSTER_QUA_GRILL = 4515;
   public static final int MISSING_WINE = 4516;
   public static final int ITTAH_BITTAH_HOOKAH = 4519;
+  public static final int QUEEN_COOKIE = 4535;
   public static final int STUFFED_POCKETWATCH = 4545;
   public static final int JACKING_MAP = 4560;
   public static final int TINY_FLY_GLASSES = 4566;
@@ -3144,6 +3145,7 @@ public class ItemPool {
   public static final int NIGHTMARE_FUEL = 9925;
   public static final int MEAT_CLIP = 9926;
   public static final int CHEESE_WHEEL = 9937;
+  public static final int BASTILLE_LOANER_VOUCHER = 9938;
   public static final int NEVERENDING_PARTY_INVITE = 9942;
   public static final int NEVERENDING_PARTY_INVITE_DAILY = 9943;
   public static final int PARTY_HARD_T_SHIRT = 9944;

@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -438,6 +439,8 @@ public class RelayAgent extends Thread {
       this.request.pseudoResponse("HTTP/1.1 200 OK", LogoutRequest.getLastResponse());
     } else if (this.path.startsWith("/actionbar.php")) {
       ActionBarManager.updateJSONString(this.request);
+    } else if (this.path.equals("/volcanomaze.php?autostep")) {
+      VolcanoMazeManager.autoStep(this.request);
     } else {
       RequestThread.postRequest(this.request);
     }
