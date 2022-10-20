@@ -599,7 +599,7 @@ public abstract class VolcanoMazeManager {
     // This is invoked by clicking the "step" button in the relay browser.
     //
     // KoL's ajax JavaScript submits volcanomaze.php?autostep
-    // RelayAgent cataches that and calls this function.
+    // RelayAgent catches that and calls this function.
 
     if (atGoal()) {
       request.responseText = "false";
