@@ -590,6 +590,11 @@ public abstract class VolcanoMazeManager {
     RequestLogger.printLine();
   }
 
+  public static final void step() {
+    loadCurrentMaps();
+    autoStep(new RelayRequest(false));
+  }
+
   public static final void autoStep(RelayRequest request) {
     // This is invoked by clicking the "step" button in the relay browser.
     //
