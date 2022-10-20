@@ -173,6 +173,9 @@ public abstract class VolcanoMazeManager {
       return;
     }
 
+    // Replace the inline Javascript for handling the maze with our local copy.
+    replaceVolcanoMazeJavaScript(buffer);
+
     // Add a "Solve!" button to the Volcanic Cave which invokes the
     // "volcano solve" command.
 
@@ -191,19 +194,16 @@ public abstract class VolcanoMazeManager {
     span.append("<center><table cols=2><tr>");
 
     StringBuffer stepButton = new StringBuffer();
-    String url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=" + GenericRequest.passwordHash;
-    stepButton.append("<td>");
-    stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
-    stepButton.append("<input class=button type=submit value=\"Step\"");
-    if (disabled) {
-      stepButton.append(" disabled");
-    }
-    stepButton.append(">").append("</form>");
-    stepButton.append("</td>");
+    String url = "?autostep";
+    stepButton.append("<td>").append("<div id=\"step\">");
+    stepButton.append("<form name=stepform action='").append(url).append("' method=get>");
+    stepButton.append("<input class=button type=submit value=\"Step\">");
+    stepButton.append("</form>");
+    stepButton.append("</div>").append("</td>");
     span.append(stepButton);
 
     StringBuffer solveButton = new StringBuffer();
-    url = "/KoLmafia/redirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
+    url = "/KoLmafia/polledredirectedCommand?cmd=volcano+solve&pwd=" + GenericRequest.passwordHash;
     solveButton.append("<td>");
     solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
     solveButton.append("<input class=button type=submit value=\"Solve!\"");
@@ -218,6 +218,21 @@ public abstract class VolcanoMazeManager {
 
     // Insert it into the page
     buffer.insert(index, span);
+  }
+
+  public static final void replaceVolcanoMazeJavaScript(StringBuffer buffer) {
+    int start = buffer.indexOf("<script type=\"text/javascript\">\n\t\t\tvar uhohs = 0;");
+    if (start == -1) {
+      return;
+    }
+    int end = buffer.indexOf("</script>", start);
+    if (end == -1) {
+      return;
+    }
+    buffer.replace(
+        start,
+        end,
+        "<script language=\"Javascript\" src=\"/" + KoLConstants.VOLCANOMAZE_JS + "\">");
   }
 
   public static final void parseResult(final String responseText) {
@@ -576,35 +591,23 @@ public abstract class VolcanoMazeManager {
   }
 
   public static final void step() {
-    // This is intended to be invoked by a button in the relay browser.
-    //
-    // However, since that invokes the "volcano step" command, the user COULD
-    // type it into the gCLI. Ensure we are visiting the Volcano Maze, just as
-    // if we were in the Relay Browser.
-
-    // This is a no-op if already done.
     loadCurrentMaps();
+    autoStep(new RelayRequest(false));
+  }
 
-    String URL = nextStep();
-
-    // The following would be for "/KoLmafia/specialCommand", where the browser
-    // invokes the command and KoLmafia submits (requests) and returns a
-    // decorated responseText.
+  public static final void autoStep(RelayRequest request) {
+    // This is invoked by clicking the "step" button in the relay browser.
     //
-    // Unfortunately, if KoL's responseText contains relative links, the
-    // browser interprets them as relative to "/KoLmafia/specialcommand".
+    // KoL's ajax JavaScript submits volcanomaze.php?autostep
+    // RelayAgent catches that and calls this function.
 
-    // var request = new GenericRequest(URL, false);
-    // request.run();
-    // StringBuffer buffer = new StringBuffer(request.responseText);
-    // decorate(URL, buffer);
-    // RelayRequest.specialCommandResponse = buffer.toString();
-    // RelayRequest.specialCommandIsAdventure = false;
+    if (atGoal()) {
+      request.responseText = "false";
+      return;
+    }
 
-    // Therefore, we'll use "/KoLmafia/redirectedCommand" and let the browser
-    // submit the request and get the responsetext - which we will decorate.
-
-    RelayRequest.redirectedCommandURL = URL;
+    request.constructURLString(nextStep(), false);
+    request.run();
   }
 
   private static final String nextStep() {
@@ -624,7 +627,7 @@ public abstract class VolcanoMazeManager {
       if (next < 0) {
         return "/volcanomaze.php?jump=1";
       }
-      return "/volcanomaze.php?move=" + coordinateString(next);
+      return "/volcanomaze.php?move=" + coordinateString(next) + "&ajax=1";
     }
 
     // If current location is adjacent to the goal, don't move.
@@ -644,7 +647,7 @@ public abstract class VolcanoMazeManager {
 
     // Choose the first step on the path
     int next = solution.get(0);
-    return "/volcanomaze.php?move=" + coordinateString(next);
+    return "/volcanomaze.php?move=" + coordinateString(next) + "&ajax=1";
   }
 
   private static int pathsMade = 0;
@@ -674,12 +677,15 @@ public abstract class VolcanoMazeManager {
     }
 
     // Move up next to the goal.
+    int length = solution.size();
+    int i = 0;
     for (int sq : solution) {
       // Quit when we are about to move to the goal
       if (sq == goal) {
         break;
       }
 
+      RelayRequest.specialCommandStatus = "Move " + ++i + " of " + length;
       VolcanoMazeRequest req = new VolcanoMazeRequest(sq);
       req.run();
     }

@@ -3074,8 +3074,15 @@ public class RelayRequest extends PasswordHashRequest {
       submitCommand(this.getFormField("cmd", false));
       this.pseudoResponse("HTTP/1.1 200 OK", "");
     } else if (path.endsWith("redirectedCommand")) {
-      submitCommand(this.getFormField("cmd"));
-      this.pseudoResponse("HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL);
+      boolean polled = path.endsWith("polledredirectedCommand");
+      String cmd = this.getFormField("cmd");
+      if (!polled || !cmd.equals("wait")) {
+        RelayRequest.specialCommandStatus = "";
+        submitCommand(cmd, false, !polled);
+      }
+      if (!polled || !pollForCompletion("polledredirectedCommand")) {
+        this.pseudoResponse("HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL);
+      }
     } else if (path.endsWith("sideCommand")) {
       submitCommand(this.getFormField("cmd", false), true);
       this.pseudoResponse("HTTP/1.1 302 Found", "/charpane.php");
@@ -3099,23 +3106,7 @@ public class RelayRequest extends PasswordHashRequest {
       }
 
       this.contentType = "text/html";
-      if (CommandDisplayFrame.hasQueuedCommands()) {
-        String refreshURL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
-
-        String buffer =
-            "<html><head>"
-                + "<meta http-equiv=\"refresh\" content=\"1; URL="
-                + refreshURL
-                + "\">"
-                + "</head><body>"
-                + "<a href=\""
-                + refreshURL
-                + "\">"
-                + "Automating (see CLI for details, click to refresh)..."
-                + "</a><p>"
-                + RelayRequest.specialCommandStatus
-                + "</p></body></html>";
-        this.pseudoResponse("HTTP/1.1 200 OK", buffer);
+      if (pollForCompletion("specialCommand")) {
       } else if (RelayRequest.specialCommandResponse.length() > 0) {
         StringBuilder buffer = new StringBuilder();
 
@@ -3168,6 +3159,31 @@ public class RelayRequest extends PasswordHashRequest {
     } else {
       this.pseudoResponse("HTTP/1.1 200 OK", "");
     }
+  }
+
+  public boolean pollForCompletion(String type) {
+    if (!CommandDisplayFrame.hasQueuedCommands()) {
+      return false;
+    }
+
+    String refreshURL = "/KoLmafia/" + type + "?cmd=wait&pwd=" + GenericRequest.passwordHash;
+    String buffer =
+        "<html><head>"
+            + "<meta http-equiv=\"refresh\" content=\"1; URL="
+            + refreshURL
+            + "\">"
+            + "</head><body>"
+            + "<a href=\""
+            + refreshURL
+            + "\">"
+            + "Automating (see CLI for details, click to refresh)..."
+            + "</a><p>"
+            + RelayRequest.specialCommandStatus
+            + "</p></body></html>";
+
+    this.contentType = "text/html";
+    this.pseudoResponse("HTTP/1.1 200 OK", buffer);
+    return true;
   }
 
   private void submitCommand(String command) {
