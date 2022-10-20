@@ -2223,11 +2223,11 @@ Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: 
 
 # Twitch 8 - KoL Con 13 (September 2016)
 Arizona bark scorpion	1971	barkscorpion.gif	Scale: -10 Init: -10000 P: bug Article: an	baby bark scorpion (c0)
-board games elemental	1967	boardgamesman.gif	Scale: 3 Init: -10000 P: construct Article: a	extremely confusing manual (0)	foam pistol (0)
-nerd rapper	1968	nerdrapper.gif	Scale: 5 Init: -10000 P: dude Article: a	charisma potion (0)	droppable microphone (0)
+board games elemental	1967	boardgamesman.gif	Scale: 3 Init: -10000 P: construct Article: a	extremely confusing manual (20)	foam pistol (5)
+nerd rapper	1968	nerdrapper.gif	Scale: 5 Init: -10000 P: dude Article: a	charisma potion (20)	droppable microphone (5)
 stumbling-drunk congoer (female)	1972	congoerf1.gif,congoerf2.gif,congoerf3.gif	Scale: 5 Init: -10000 P: dude	unidentified drink (15)	KoL Con 13 T-shirt (5)
 stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale: 5 Init: -10000 P: dude	unidentified drink (15)	KoL Con 13 T-shirt (5)
-swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental EA: sleaze Article: a	diluted makeup (0)	discarded swimming trunks (0)
+swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental EA: sleaze Article: a	diluted makeup (20)	discarded swimming trunks (5)
 
 # Crimbo 2018
 wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	thick walrus blubber (10)	pristine walrus tusk (c0)
