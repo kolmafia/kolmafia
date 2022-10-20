@@ -134,12 +134,12 @@ public class VolcanoMazeManagerTest {
     }
 
     public int validateVolcanoMazeRequests(
-        FakeHttpClientBuilder builder, List<String> moves, int i, boolean ajax) {
+        FakeHttpClientBuilder builder, List<String> moves, int i) {
       var client = builder.client;
       var requests = client.getRequests();
       for (String move : moves) {
         var request = requests.get(i++);
-        assertGetRequest(request, "/volcanomaze.php", "move=" + move + (ajax ? "&ajax=1" : ""));
+        assertGetRequest(request, "/volcanomaze.php", "move=" + move + "&ajax=1");
       }
       return i;
     }
@@ -240,10 +240,10 @@ public class VolcanoMazeManagerTest {
         int i = 0;
         assertPostRequest(requests.get(i++), "/volcanoisland.php", "action=tniat&pwd=volcano");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
-        i = validateVolcanoMazeRequests(builder, findMapMoves, i, true);
+        i = validateVolcanoMazeRequests(builder, findMapMoves, i);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
-        i = validateVolcanoMazeRequests(builder, stepMapMoves, i, true);
+        i = validateVolcanoMazeRequests(builder, stepMapMoves, i);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
       }
     }
@@ -289,22 +289,21 @@ public class VolcanoMazeManagerTest {
         // VolcanoMazeManager parsed it and saved it in volcanoMaze1
         assertEquals(Preferences.getString("volcanoMaze1"), properties.get("volcanoMaze1"));
 
-        // Simulate user repeatedly typing "step" button
+        // Simulate user repeatedly clicking the "step" button
         int count = 100;
         while (!VolcanoMazeManager.atGoal() && count-- > 0) {
-          url = "/KoLmafia/redirectedCommand?cmd=volcano+step&pwd=volcano";
+          // This is now hooked into KoL's ajax JavaScript.
+          //
+          // When you click the "step" button, the browser submits
+          // volcanomaze.php?autostep.
+          //
+          // RelayAgent intercepts that and calls VolcanoMazeManager.autoStep,
+          // which submits the appropriate request to KoL, leaving the response
+          // in the responseText
+          url = "volcanomaze,php?autostep";
           request = new RelayRequest(false);
           request.constructURLString(url);
-          request.run();
-
-          // Wait until the submitted command is done
-          request.waitForCommandCompletion();
-
-          // For redirected command, the browser follows the redirect
-          url = RelayRequest.redirectedCommandURL;
-          request = new RelayRequest(false);
-          request.constructURLString(url, false);
-          request.run();
+          VolcanoMazeManager.autoStep(request);
         }
 
         assertEquals(Preferences.getString("volcanoMaze2"), properties.get("volcanoMaze2"));
@@ -319,9 +318,9 @@ public class VolcanoMazeManagerTest {
         int i = 0;
         assertPostRequest(requests.get(i++), "/volcanoisland.php", "action=tniat&pwd=volcano");
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "start=1");
-        i = validateVolcanoMazeRequests(builder, findMapMoves, i, false);
+        i = validateVolcanoMazeRequests(builder, findMapMoves, i);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
-        i = validateVolcanoMazeRequests(builder, stepMapMoves, i, false);
+        i = validateVolcanoMazeRequests(builder, stepMapMoves, i);
       }
     }
   }
