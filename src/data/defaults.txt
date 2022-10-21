@@ -159,6 +159,7 @@ global	useLastUserAgent	false
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true
 global	useToolbars	true
+global	useCachedVolcanoMaps	true
 global	useZoneComboBox	false
 global	userAgent
 global	verboseSpeakeasy	false

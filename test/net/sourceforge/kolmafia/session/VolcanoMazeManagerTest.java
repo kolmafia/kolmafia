@@ -151,6 +151,7 @@ public class VolcanoMazeManagerTest {
       var cleanups =
           new Cleanups(
               withVolcanoMaze(builder),
+              withProperty("useCachedVolcanoMaps", false),
               // Avoid a "familiar warning" from RelayRequest
               withCurrentRun(800),
               // Avoid a "health warning" from RelayRequest
@@ -255,6 +256,7 @@ public class VolcanoMazeManagerTest {
       var cleanups =
           new Cleanups(
               withVolcanoMaze(builder),
+              withProperty("useCachedVolcanoMaps", false),
               // Avoid a "familiar warning" from RelayRequest
               withCurrentRun(800),
               // Avoid a "health warning" from RelayRequest
