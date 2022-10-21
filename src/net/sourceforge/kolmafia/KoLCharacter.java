@@ -2107,6 +2107,10 @@ public abstract class KoLCharacter {
     KoLCharacter.currentRun = currentRun;
     if (changed) {
       BanishManager.recalculate();
+
+      if (!KoLmafia.isRefreshing()) {
+        CrystalBallManager.updateCrystalBallPredictions();
+      }
     }
   }
 

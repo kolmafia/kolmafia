@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -150,21 +151,38 @@ public class CrystalBallManagerTest {
   }
 
   @Test
+  @Disabled("Mafia cannot detect the actual monster of the ambiguous name 'Ninja Snowman'")
+  public void canParseSnowmanNinja() {
+    String html = html("request/test_ponder_orb_snowman_ninja.html");
+
+    CrystalBallManager.parsePonder(html);
+    assertThat("crystalBallPredictions", isSetTo("0:Lair of the Ninja Snowmen:Ninja Snowman"));
+  }
+
+  @Test
+  public void canParseWhiteKnight() {
+    String html = html("request/test_ponder_white_knight_whitey_grove.html");
+
+    CrystalBallManager.parsePonder(html);
+    assertThat("crystalBallPredictions", isSetTo("0:Whitey's Grove:Knight in White Satin"));
+  }
+
+  @Test
   public void testPredictionDoesNotExpireSameZone() {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
             withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
             withCurrentRun(0),
-            withProperty("crystalBallPredictions", "0:The Middle Chamber:tomb rat"),
-            withLastLocation(AdventureDatabase.getAdventure(407)));
+            withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"),
+            withLastLocation("The Smut Orc Logging Camp"));
     try (cleanups) {
       CrystalBallManager.reset();
-      KoLCharacter.setCurrentRun(1);
+      KoLCharacter.setCurrentRun(2);
 
       CrystalBallManager.updateCrystalBallPredictions();
 
-      assertThat("crystalBallPredictions", isSetTo("0:The Middle Chamber:tomb rat"));
+      assertThat("crystalBallPredictions", isSetTo("0:The Smut Orc Logging Camp:smut orc nailer"));
     }
   }
 
@@ -174,15 +192,16 @@ public class CrystalBallManagerTest {
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
             withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
-            withProperty("crystalBallPredictions", "0:The Middle Chamber:tomb rat"),
-            withLastLocation(AdventureDatabase.getAdventure(407)));
+            withCurrentRun(0),
+            withLastLocation("The Middle Chamber"),
+            withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"));
     try (cleanups) {
       CrystalBallManager.reset();
       KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure(406));
 
       CrystalBallManager.updateCrystalBallPredictions();
 
-      assertThat("crystalBallPredictions", isSetTo("0:The Middle Chamber:tomb rat"));
+      assertThat("crystalBallPredictions", isSetTo("0:The Smut Orc Logging Camp:smut orc nailer"));
     }
   }
 
@@ -193,13 +212,15 @@ public class CrystalBallManagerTest {
             withFamiliar(FamiliarPool.BADGER),
             withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
             withCurrentRun(0),
-            withProperty("crystalBallPredictions", "0:The Middle Chamber:tomb rat"),
-            withLastLocation(AdventureDatabase.getAdventure(407)));
+            withLastLocation("The Smut Orc Logging Camp"),
+            withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"));
     try (cleanups) {
       CrystalBallManager.reset();
-      KoLCharacter.setCurrentRun(1);
+      KoLCharacter.setCurrentRun(2);
 
-      KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure(406));
+      var adventure = AdventureDatabase.getAdventure(406);
+      KoLAdventure.setLastAdventure(adventure);
+      KoLAdventure.lastVanillaLocationName = adventure.getAdventureName();
 
       CrystalBallManager.updateCrystalBallPredictions();
 

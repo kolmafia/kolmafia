@@ -113,7 +113,22 @@ public final class CrystalBallManager {
       return;
     }
 
-    addPrediction(KoLAdventure.lastVisitedLocation(), predictedMonster);
+    MonsterData predictedMonsterData = MonsterDatabase.findMonster(predictedMonster);
+
+    // Some monsters cannot be uniquely identified by name as several monsters share the name.
+    // Ponder also has this problem.
+    // Eg, Ninja Snowman (Chopsticks)
+    if (predictedMonsterData == null) {
+      return;
+    }
+
+    KoLAdventure location = AdventureDatabase.getAdventure(KoLAdventure.lastVanillaLocationName);
+
+    if (location == null) {
+      return;
+    }
+
+    addPrediction(location, predictedMonsterData.getName());
     updatePreference();
   }
 
@@ -150,18 +165,22 @@ public final class CrystalBallManager {
    * * your [lastadv] flag is the zone the prediction is in.
    */
   public static void updateCrystalBallPredictions() {
-    if (KoLAdventure.lastVisitedLocation() == null) {
+    String lastAdventureName = KoLAdventure.lastVanillaLocationName;
+
+    if (lastAdventureName == null) {
       return;
     }
 
-    String lastAdventureName = KoLAdventure.lastLocationName;
+    if (CrystalBallManager.predictions.isEmpty()) {
+      return;
+    }
 
     CrystalBallManager.predictions
         .values()
         .removeIf(
             prediction ->
                 !prediction.location.equals(lastAdventureName)
-                    && prediction.turnCount + 1 <= KoLCharacter.getCurrentRun());
+                    && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun());
 
     updatePreference();
   }
@@ -205,7 +224,7 @@ public final class CrystalBallManager {
   }
 
   private static final Pattern POSSIBLE_PREDICTION =
-      Pattern.compile("<li> +(?:an?|the|some)? ?(.*?) in (.*?)</li>");
+      Pattern.compile("<li> +(?:an?|the|some)? ?([^<]*) in ([^<]*)</li>");
 
   public static void parsePonder(final String responseText) {
     Collection<Prediction> oldPredictions = new ArrayList<>(predictions.values());
@@ -217,6 +236,9 @@ public final class CrystalBallManager {
       MonsterData monster = MonsterDatabase.findMonster(m.group(1));
       KoLAdventure location = AdventureDatabase.getAdventure(m.group(2));
 
+      // Some monsters cannot be uniquely identified by name as several monsters share the name.
+      // Combat predictions also has this problem.
+      // Eg, Ninja Snowman (Chopsticks)
       if (location == null || monster == null) {
         continue;
       }
