@@ -14,12 +14,16 @@ public class ConcertCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
+    IslandRequest request = null;
+
     String arg = parameters.trim();
 
-    IslandRequest request =
-        Character.isDigit(arg.charAt(0))
-            ? IslandRequest.getConcertRequest(StringUtilities.parseInt(arg))
-            : IslandRequest.getConcertRequest(arg);
+    if (arg.length() != 0) {
+      request =
+          Character.isDigit(arg.charAt(0))
+              ? IslandRequest.getConcertRequest(StringUtilities.parseInt(arg))
+              : IslandRequest.getConcertRequest(arg);
+    }
 
     if (request == null) {
       String error = IslandRequest.concertError(arg);
