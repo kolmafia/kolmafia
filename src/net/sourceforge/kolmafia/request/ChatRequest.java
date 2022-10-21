@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 public class ChatRequest extends GenericRequest {
@@ -21,7 +22,9 @@ public class ChatRequest extends GenericRequest {
     StringBuilder newURLString = new StringBuilder("newchatmessages.php?");
 
     if (tabbedChat) {
-      newURLString.append("j=1&");
+      newURLString.append("aa=");
+      newURLString.append(KoLConstants.RNG.nextDouble());
+      newURLString.append("&j=1&");
     }
 
     newURLString.append("lasttime=");
