@@ -2459,7 +2459,7 @@ public class QuestManager {
     new Hazard("toxic atmosphere", "Toxic environment", "filter helmet"),
     new Hazard("high gravity", "Extremely high gravity", "exo-servo leg braces"),
     new Hazard("irradiated", "High radiation levels", "rad cloak"),
-    new Hazard("magnetic storms", "High levels of magnetic interference", "gate tranceiver"),
+    new Hazard("magnetic storms", "High levels of magnetic interference", "gate transceiver"),
     new Hazard("high winds", "Intense winds", "high-friction boots"),
   };
 
