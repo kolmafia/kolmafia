@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -16,15 +17,17 @@ public class ChatRequestTest {
 
   @Test
   public void itShouldBuildAModernChatRequestWithLastSeen() {
+    KoLConstants.RNG.setSeed(42);
+
     creq = new ChatRequest(0L, true, false);
     fullURL = creq.getFullURLString();
-    expect = "newchatmessages.php?j=1&lasttime=0";
+    expect = "newchatmessages.php?aa=0.7275636800328681&j=1&lasttime=0";
     assertEquals(fullURL, expect);
     assertEquals(creq.getGraf(), "");
     assertTrue(creq.retryOnTimeout());
     creq = new ChatRequest(8675309L, true, false);
     fullURL = creq.getFullURLString();
-    expect = "newchatmessages.php?j=1&lasttime=8675309";
+    expect = "newchatmessages.php?aa=0.6832234717598454&j=1&lasttime=8675309";
     assertEquals(fullURL, expect);
     assertEquals(creq.getGraf(), "");
     assertTrue(creq.retryOnTimeout());
