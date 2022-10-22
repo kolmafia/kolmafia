@@ -84,7 +84,7 @@ Knob	adventure=114	DiffLevel: low Env: outdoor Stat: 0	The Outskirts of Cobb's K
 Knob	adventure=257	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Barracks	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=258	DiffLevel: low Env: underground Stat: 20	Cobb's Knob Kitchens	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=259	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Harem	outfit|outfit, 1 Knob Goblin perfume|+3 scented massage oil
-Knob	adventure=260	DiffLevel: unknown Env: underground Stat: 20	Cobb's Knob Treasury
+Knob	adventure=260	DiffLevel: low Env: underground Stat: 20	Cobb's Knob Treasury
 Knob	cobbsknob=0	DiffLevel: none Env: none Stat: 0 Level: 6	Throne Room
 Lab	adventure=50	DiffLevel: mid Env: underground Stat: 30	Cobb's Knob Laboratory	1 Cobb's Knob Menagerie key|1 Subject 37 file|+1 bottle of Mystic Shell
 Lab	adventure=101	DiffLevel: mid Env: underground Stat: 30	The Knob Shaft
@@ -158,7 +158,7 @@ Dungeon	adventure=39	DiffLevel: mid Env: underground Stat: 44	The Dungeons of Do
 Dungeon	adventure=325	DiffLevel: mid Env: underground Stat: 15 nowander	The Daily Dungeon
 
 McLarge	adventure=270	DiffLevel: mid Env: underground Stat: 60	Itznotyerzitz Mine	outfit
-McLarge	adventure=271	DiffLevel: unknown Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
+McLarge	adventure=271	DiffLevel: mid Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
 McLarge	adventure=272	DiffLevel: mid Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
 McLarge	adventure=273	DiffLevel: mid Env: outdoor Stat: 70	The eXtreme Slope	outfit
 McLarge	place=cloudypeak2	DiffLevel: none Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
@@ -181,7 +181,7 @@ Woods	adventure=15	DiffLevel: low Env: outdoor Stat: 0	The Spooky Forest	1 mosqu
 Woods	adventure=280	DiffLevel: low Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
 Woods	adventure=233	DiffLevel: mid Env: indoor Stat: 0	A Barroom Brawl	1 beer goggles|+3 beer lens
 Woods	adventure=73	DiffLevel: low Env: outdoor Stat: 20	8-Bit Realm	1 digital key|+1 [2426]fire flower
-Woods	adventure=100	DiffLevel: unknown Env: outdoor Stat: 37	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+5 white rice|+1 bag of lard
+Woods	adventure=100	DiffLevel: mid Env: outdoor Stat: 37	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+5 white rice|+1 bag of lard
 # Woods	adventure=99	DiffLevel: unknown Env: outdoor	The Road to White Citadel
 Woods	adventure=413	DiffLevel: mid Env: outdoor	The Road to the White Citadel	+1 duonoculars
 Woods	adventure=405	DiffLevel: high Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
@@ -202,10 +202,10 @@ HiddenCity	adventure=342	DiffLevel: high Env: indoor Stat: 140	The Hidden Hospit
 HiddenCity	adventure=343	DiffLevel: high Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
 HiddenCity	adventure=344	DiffLevel: high Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
 HiddenCity	adventure=345	DiffLevel: high Env: outdoor Stat: 125	The Hidden Park	1 antique machete|+1 shrinking powder|1 book of matches
-HiddenCity	adventure=346	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
-HiddenCity	adventure=347	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
+HiddenCity	adventure=346	DiffLevel: high Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
+HiddenCity	adventure=347	DiffLevel: high Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southwest)
 HiddenCity	adventure=348	DiffLevel: high Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northeast)
-HiddenCity	adventure=349	DiffLevel: unknown Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southeast)
+HiddenCity	adventure=349	DiffLevel: high Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Southeast)
 HiddenCity	adventure=350	DiffLevel: high Env: outdoor Stat: 140 nowander	A Massive Ziggurat	1 choiceadv
 
 The Drip	adventure=542	DiffLevel: unknown Env: outdoor nowander	The Dripping Trees
@@ -220,11 +220,11 @@ Island	adventure=26	DiffLevel: mid Env: outdoor Stat: 30	Hippy Camp	outfit|1 win
 Island	adventure=65	DiffLevel: mid Env: outdoor Stat: 30	Hippy Camp (Hippy Disguise)
 
 Island	adventure=149	DiffLevel: high Env: outdoor Stat: 100	The Hippy Camp (Bombed Back to the Stone Age)	+5 figurine of a stinking seal
-Island	adventure=150	DiffLevel: unknown Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
+Island	adventure=150	DiffLevel: high Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
 
 Island	adventure=66	DiffLevel: unknown Env: outdoor Stat: 45	The Obligatory Pirate's Cove	outfit|+1 bottle of pirate juice
 
-Pirate	adventure=157	DiffLevel: unknown Env: indoor Stat: 80	Barrrney's Barrr	Cap'm Caronch's Map|Orcish Frat House blueprints|6 pirate insults|7 pirate insults
+Pirate	adventure=157	DiffLevel: mid Env: indoor Stat: 80	Barrrney's Barrr	Cap'm Caronch's Map|Orcish Frat House blueprints|6 pirate insults|7 pirate insults
 Pirate	adventure=158	DiffLevel: unknown Env: outdoor Stat: 100	The F'c'le	1 Mizzenmast mop, 1 ball polish, 1 rigging shampoo
 Pirate	adventure=159	DiffLevel: unknown Env: outdoor Stat: 120	The Poop Deck
 Pirate	adventure=160	DiffLevel: unknown Env: indoor Stat: 140	Belowdecks
