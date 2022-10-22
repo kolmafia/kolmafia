@@ -222,12 +222,12 @@ Island	adventure=65	DiffLevel: mid Env: outdoor Stat: 30	Hippy Camp (Hippy Disgu
 Island	adventure=149	DiffLevel: high Env: outdoor Stat: 100	The Hippy Camp (Bombed Back to the Stone Age)	+5 figurine of a stinking seal
 Island	adventure=150	DiffLevel: high Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
 
-Island	adventure=66	DiffLevel: unknown Env: outdoor Stat: 45	The Obligatory Pirate's Cove	outfit|+1 bottle of pirate juice
+Island	adventure=66	DiffLevel: mid Env: outdoor Stat: 45	The Obligatory Pirate's Cove	outfit|+1 bottle of pirate juice
 
 Pirate	adventure=157	DiffLevel: mid Env: indoor Stat: 80	Barrrney's Barrr	Cap'm Caronch's Map|Orcish Frat House blueprints|6 pirate insults|7 pirate insults
-Pirate	adventure=158	DiffLevel: unknown Env: outdoor Stat: 100	The F'c'le	1 Mizzenmast mop, 1 ball polish, 1 rigging shampoo
-Pirate	adventure=159	DiffLevel: unknown Env: outdoor Stat: 120	The Poop Deck
-Pirate	adventure=160	DiffLevel: unknown Env: indoor Stat: 140	Belowdecks
+Pirate	adventure=158	DiffLevel: high Env: outdoor Stat: 100	The F'c'le	1 Mizzenmast mop, 1 ball polish, 1 rigging shampoo
+Pirate	adventure=159	DiffLevel: high Env: outdoor Stat: 120	The Poop Deck
+Pirate	adventure=160	DiffLevel: high Env: indoor Stat: 140	Belowdecks
 
 # Big Island at war
 
