@@ -145,12 +145,57 @@ public class VolcanoMazeManagerTest {
     }
 
     @Test
+    public void canGetFirstMapWithoutSavedData() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(withVolcanoMaze(builder), withProperty("useCachedVolcanoMaps", false));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_volcano_start.html"));
+
+        String url = "volcanomaze.php?start=1";
+        var request = new RelayRequest(false);
+        request.constructURLString(url, false);
+        request.run();
+
+        assertEquals(Preferences.getString("volcanoMaze1"), properties.get("volcanoMaze1"));
+        assertEquals(Preferences.getString("volcanoMaze2"), "");
+        assertEquals(Preferences.getString("volcanoMaze3"), "");
+        assertEquals(Preferences.getString("volcanoMaze4"), "");
+        assertEquals(Preferences.getString("volcanoMaze5"), "");
+      }
+    }
+
+    @Test
+    public void canGetAllMapsWithSavedData() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(withVolcanoMaze(builder), withProperty("useCachedVolcanoMaps", true));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_volcano_start.html"));
+
+        String url = "volcanomaze.php?start=1";
+        var request = new RelayRequest(false);
+        request.constructURLString(url, false);
+        request.run();
+
+        assertEquals(Preferences.getString("volcanoMaze1"), properties.get("volcanoMaze1"));
+        assertEquals(Preferences.getString("volcanoMaze2"), properties.get("volcanoMaze2"));
+        assertEquals(Preferences.getString("volcanoMaze3"), properties.get("volcanoMaze3"));
+        assertEquals(Preferences.getString("volcanoMaze4"), properties.get("volcanoMaze4"));
+        assertEquals(Preferences.getString("volcanoMaze5"), properties.get("volcanoMaze5"));
+      }
+    }
+
+    @Test
     public void canAutomateVolcanoMazeFromRelayBrowser() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
       var cleanups =
           new Cleanups(
               withVolcanoMaze(builder),
+              withProperty("useCachedVolcanoMaps", false),
               // Avoid a "familiar warning" from RelayRequest
               withCurrentRun(800),
               // Avoid a "health warning" from RelayRequest
@@ -255,6 +300,7 @@ public class VolcanoMazeManagerTest {
       var cleanups =
           new Cleanups(
               withVolcanoMaze(builder),
+              withProperty("useCachedVolcanoMaps", false),
               // Avoid a "familiar warning" from RelayRequest
               withCurrentRun(800),
               // Avoid a "health warning" from RelayRequest

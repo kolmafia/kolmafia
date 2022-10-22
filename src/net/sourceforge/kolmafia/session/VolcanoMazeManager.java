@@ -1,18 +1,25 @@
 package net.sourceforge.kolmafia.session;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -38,6 +45,88 @@ public abstract class VolcanoMazeManager {
 
   // The number of maps in the cycle
   public static final int MAPS = 5;
+
+  // ***  Data File: index -> map sequence
+
+  private static final Map<Integer, VolcanoMap[]> keyToMapSequence = new TreeMap<>();
+  private static final Map<String, Integer> coordsToKey = new HashMap<>();
+
+  private static final String VOLCANO_FILE_NAME = "volcanomaze.txt";
+  private static final int VOLCANO_FILE_VERSION = 1;
+
+  // Load data file
+
+  private static void readMapSequences() {
+    keyToMapSequence.clear();
+    coordsToKey.clear();
+
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader(VOLCANO_FILE_NAME, VOLCANO_FILE_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length != 3) {
+          continue;
+        }
+
+        int key = StringUtilities.parseInt(data[0]);
+        int level = StringUtilities.parseInt(data[1]);
+        String platforms = data[2];
+
+        if (level < 1 || level > 5) {
+          RequestLogger.printLine("Map Sequence #" + key + ": invalid level: " + level);
+          continue;
+        }
+
+        VolcanoMap[] mapSequence = keyToMapSequence.get(key);
+        if (mapSequence == null) {
+          mapSequence = new VolcanoMap[MAPS];
+        }
+
+        if (mapSequence[level - 1] != null) {
+          RequestLogger.printLine("Map Sequence #" + key + ": duplicate level: " + level);
+          continue;
+        }
+
+        Integer existing = coordsToKey.get(platforms);
+
+        if (existing != null) {
+          RequestLogger.printLine(
+              "Map Sequence #"
+                  + key
+                  + " level "
+                  + level
+                  + ": platforms already in Map Sequence #"
+                  + existing);
+          continue;
+        }
+
+        VolcanoMap map = new VolcanoMap(platforms);
+        mapSequence[level - 1] = map;
+        keyToMapSequence.put(key, mapSequence);
+        coordsToKey.put(platforms, key);
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
+
+    // Validation
+    for (Entry<Integer, VolcanoMap[]> entry : keyToMapSequence.entrySet()) {
+      int key = entry.getKey();
+      VolcanoMap[] mapSequence = entry.getValue();
+      // All 5 maps must be present
+      for (int i = 0; i < mapSequence.length; ++i) {
+        if (mapSequence[i] == null) {
+          RequestLogger.printLine("Map Sequence #" + key + " missing level " + (i + 1) + " map");
+        }
+      }
+    }
+  }
+
+  static {
+    readMapSequences();
+  }
+
   private static final VolcanoMap[] maps = new VolcanoMap[MAPS];
 
   // Which map we are currently on
@@ -247,24 +336,57 @@ public abstract class VolcanoMazeManager {
       return;
     }
 
-    // See if we already have this map
+    // Find currently known map
+    if (found == CELLS) {
+      for (int i = 0; i < maps.length; ++i) {
+        if (coords.equals(maps[i].coordinates)) {
+          currentMap = i;
+          return;
+        }
+      }
+    }
+
+    // If we don't have all the maps and are using cached map sets, see if we
+    // can derive which cycle we are in
+    if (Preferences.getBoolean("useCachedVolcanoMaps")) {
+      int key = coordsToKey.getOrDefault(coords, 0);
+      if (key != 0) {
+        VolcanoMap[] mapSequence = keyToMapSequence.get(key);
+        for (int i = 0; i < mapSequence.length; i++) {
+          VolcanoMap map = mapSequence[i];
+          // Save the squares
+          maps[i] = map;
+          addSquares(i);
+          if (coords.equals(map.coordinates)) {
+            currentMap = i;
+          }
+          int sequence = i + 1;
+          String setting = "volcanoMaze" + sequence;
+          Preferences.setString(setting, map.coordinates);
+        }
+        found = CELLS;
+        return;
+      }
+      // Oh! Oh! A new Map Sequence!
+    }
+
+    // Find an empty slot for this map
     int index = currentMap;
     do {
       VolcanoMap current = maps[index];
-      // Map not found and empty slot found
+      // Empty slot found
       if (current == null) {
         currentMap = index;
         maps[index] = new VolcanoMap(coords);
         break;
       }
 
-      // There is a map. Is it this map?
-      if (coords.equals(current.getCoordinates())) {
+      if (coords.equals(current.coordinates)) {
         currentMap = index;
         return;
       }
 
-      // No. Skip to next slot
+      // Skip to next slot
       index = (index + 1) % maps.length;
     } while (index != currentMap);
 
@@ -276,6 +398,24 @@ public abstract class VolcanoMazeManager {
     // Save the squares
     addSquares(currentMap);
     RequestLogger.printLine(found + " total platforms seen.");
+
+    // If we have found all the maps and we are using cached maps, we have just
+    // discovered a new sequence. Log it so we can add it to volcanomaze.txt
+    if (found == CELLS) {
+      String printMe = "--------------------";
+      RequestLogger.printLine(printMe);
+      RequestLogger.updateSessionLog(printMe);
+      String newSequence = String.valueOf(keyToMapSequence.size() + 1);
+      for (int i = 0; i < maps.length; ++i) {
+        VolcanoMap map = maps[i];
+        printMe = newSequence + "\t" + (i + 1) + "\t" + map.coordinates;
+        RequestLogger.printLine(printMe);
+        RequestLogger.updateSessionLog(printMe);
+      }
+      printMe = "--------------------";
+      RequestLogger.printLine(printMe);
+      RequestLogger.updateSessionLog(printMe);
+    }
   }
 
   private static void addSquares(final int index) {
@@ -286,7 +426,7 @@ public abstract class VolcanoMazeManager {
     int pcount = platforms.length;
     RequestLogger.printLine("Map #" + seq + " has " + pcount + " platforms");
     for (int i = 0; i < pcount; ++i) {
-      int square = platforms[i].intValue();
+      int square = platforms[i];
       int old = squares[square];
       if (old == 0) {
         squares[square] = seq;
@@ -315,7 +455,7 @@ public abstract class VolcanoMazeManager {
           "<div id=\"sq(\\d+)\" class=\"sq (no|yes)\\s+(you|goal|)\\s*lv(\\d+)\" rel=\"(\\d+),(\\d+)\">");
 
   private static String parseHTMLCoords(final String responseText) {
-    Matcher matcher = VolcanoMazeManager.SQUARE_PATTERN.matcher(responseText);
+    Matcher matcher = SQUARE_PATTERN.matcher(responseText);
     StringBuffer buffer = new StringBuffer();
     boolean first = true;
     while (matcher.find()) {
@@ -329,8 +469,7 @@ public abstract class VolcanoMazeManager {
 
         // Sanity check
         else if (special.equals("goal") && goal != squint) {
-          RequestLogger.printLine(
-              "Map says goal is on square " + squint + ", not " + VolcanoMazeManager.goal);
+          RequestLogger.printLine("Map says goal is on square " + squint + ", not " + goal);
         }
       }
 
@@ -638,7 +777,7 @@ public abstract class VolcanoMazeManager {
 
     // Calculate the path from here to the goal
     Path solution = solve(currentLocation, currentMap);
-    VolcanoMazeManager.printStatistics(solution);
+    printStatistics(solution);
 
     // You can't get there from here.
     if (solution == null) {
@@ -668,7 +807,7 @@ public abstract class VolcanoMazeManager {
     }
 
     Path solution = solve(currentLocation, currentMap);
-    VolcanoMazeManager.printStatistics(solution);
+    printStatistics(solution);
 
     if (solution == null) {
       KoLmafia.updateDisplay(
@@ -692,17 +831,17 @@ public abstract class VolcanoMazeManager {
   }
 
   public static final void test(final int map, final int x, final int y) {
-    VolcanoMazeManager.loadCurrentMaps();
+    loadCurrentMaps();
 
     // Sanity check
-    if (VolcanoMazeManager.found < CELLS) {
+    if (found < CELLS) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't know all the maps");
       return;
     }
 
     int location = pos(y, x);
-    Path solution = VolcanoMazeManager.solve(location, map - 1);
-    VolcanoMazeManager.printStatistics(solution);
+    Path solution = solve(location, map - 1);
+    printStatistics(solution);
 
     if (solution == null) {
       KoLmafia.updateDisplay(
@@ -712,8 +851,7 @@ public abstract class VolcanoMazeManager {
 
     // Print the solution
     for (Integer next : solution) {
-      int pos = next.intValue();
-      RequestLogger.printLine("Hop to " + VolcanoMazeManager.coordinateString(pos));
+      RequestLogger.printLine("Hop to " + coordinateString(next));
     }
   }
 
@@ -793,7 +931,7 @@ public abstract class VolcanoMazeManager {
       Integer square = starts[i];
       queue.addLast(new Path(square));
       // We (will) have visited each root
-      visited[square.intValue()] = true;
+      visited[square] = true;
     }
 
     // Perform a breadth-first search of the maze
@@ -802,22 +940,21 @@ public abstract class VolcanoMazeManager {
       ++pathsExamined;
 
       Integer last = path.getLast();
-      Neighbors neighbors = VolcanoMazeManager.neighbors[last.intValue()];
-      Integer[] platforms = neighbors.getPlatforms();
+      Integer[] platforms = neighbors[last].getPlatforms();
 
       // Examine each neighbor
       for (int i = 0; i < platforms.length; ++i) {
         Integer platform = platforms[i];
         // If this is a goal, we have the solution
-        if (platform.intValue() == VolcanoMazeManager.goal) {
-          ++VolcanoMazeManager.pathsMade;
+        if (platform == goal) {
+          ++pathsMade;
           return new Path(path, platform);
         }
 
         // If neighbor not yet seen, add and search it
-        int square = platform.intValue();
+        int square = platform;
         if (!visited[square]) {
-          ++VolcanoMazeManager.pathsMade;
+          ++pathsMade;
           queue.addLast(new Path(path, platform));
           // We (will) have visited this platform
           visited[square] = true;
@@ -832,25 +969,25 @@ public abstract class VolcanoMazeManager {
   private static void generateNeighbors() {
     for (int square = 0; square < CELLS; ++square) {
       // Calculate and store neighbors once only
-      if (VolcanoMazeManager.neighbors[square] != null) {
+      if (neighbors[square] != null) {
         continue;
       }
 
       // The goal appears in every map
       if (square == goal) {
-        VolcanoMazeManager.neighbors[square] = new Neighbors(square, null);
+        neighbors[square] = new Neighbors(square, null);
         continue;
       }
 
       // Otherwise, get the neighbors relative to the map
       // the square is in.
-      int index = VolcanoMazeManager.squares[square];
-      VolcanoMap pmap = VolcanoMazeManager.maps[index % MAPS];
-      VolcanoMazeManager.neighbors[square] = pmap.neighbors(square);
+      int index = squares[square];
+      VolcanoMap pmap = maps[index % MAPS];
+      neighbors[square] = pmap.neighbors(square);
     }
   }
 
-  private static class VolcanoMap {
+  private static class VolcanoMap implements Comparable<VolcanoMap> {
     public final String coordinates;
     public final Integer[] platforms;
     public final boolean[] board = new boolean[CELLS];
@@ -860,7 +997,7 @@ public abstract class VolcanoMazeManager {
 
       // Make an array of all the platforms
       String[] squares = coordinates.split("\\s*,\\s*");
-      ArrayList<Integer> list = new ArrayList<>();
+      List<Integer> list = new ArrayList<>();
       for (int i = 0; i < squares.length; ++i) {
         String coord = squares[i];
         if (!StringUtilities.isNumeric(coord)) {
@@ -868,12 +1005,30 @@ public abstract class VolcanoMazeManager {
         }
         Integer ival = Integer.valueOf(coord);
         list.add(ival);
-        this.board[ival.intValue()] = true;
+        this.board[ival] = true;
       }
       this.platforms = list.toArray(new Integer[list.size()]);
 
       // Every board has the goal platform
-      this.board[VolcanoMazeManager.goal] = true;
+      this.board[goal] = true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj instanceof VolcanoMap that) {
+        return this.coordinates.equals(that.coordinates);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return this.coordinates.hashCode();
+    }
+
+    @Override
+    public int compareTo(final VolcanoMap o) {
+      return this.coordinates.compareTo(o.coordinates);
     }
 
     public String getCoordinates() {
@@ -911,16 +1066,16 @@ public abstract class VolcanoMazeManager {
 
       // If there is only one neighbor, that's it
       if (platforms.length == 1) {
-        int next = platforms[0].intValue();
+        int next = platforms[0];
         // Don't pick the goal!
-        return (next != VolcanoMazeManager.goal) ? next : -1;
+        return (next != goal) ? next : -1;
       }
 
       // Otherwise, pick one at random.
-      int next = VolcanoMazeManager.goal;
-      while (next == VolcanoMazeManager.goal) {
+      int next = goal;
+      while (next == goal) {
         int rnd = RNG.nextInt(platforms.length);
-        next = platforms[rnd].intValue();
+        next = platforms[rnd];
       }
       return next;
     }
