@@ -1471,7 +1471,7 @@ public class Player {
 
   public static Cleanups withLastLocation(final KoLAdventure lastLocation) {
     var old = KoLAdventure.lastVisitedLocation;
-    var oldVanilla = KoLAdventure.lastVanillaLocationName;
+    var oldVanilla = KoLAdventure.lastZoneName;
 
     var clearProperties =
         new Cleanups(
@@ -1483,17 +1483,17 @@ public class Player {
 
     if (lastLocation == null) {
       KoLAdventure.setLastAdventure((String) null);
+      KoLAdventure.lastZoneName = null;
     } else {
       KoLAdventure.setLastAdventure(lastLocation);
+      KoLAdventure.lastZoneName = lastLocation.getAdventureName();
     }
-
-    KoLAdventure.lastVanillaLocationName = oldVanilla;
 
     var cleanups =
         new Cleanups(
             () -> {
               KoLAdventure.setLastAdventure(old);
-              KoLAdventure.lastVanillaLocationName = oldVanilla;
+              KoLAdventure.lastZoneName = oldVanilla;
             });
     cleanups.add(clearProperties);
     return cleanups;

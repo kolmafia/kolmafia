@@ -976,7 +976,7 @@ public class CharPaneRequest extends GenericRequest {
       final String adventureName,
       final String adventureURL,
       final String container) {
-    KoLAdventure.lastVanillaLocationName = adventureName;
+    KoLAdventure.lastZoneName = adventureName;
     CrystalBallManager.updateCrystalBallPredictions();
 
     if (KoLCharacter.inFight()) {

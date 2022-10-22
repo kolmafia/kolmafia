@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,18 +111,26 @@ public final class CrystalBallManager {
       return;
     }
 
-    MonsterData predictedMonsterData = MonsterDatabase.findMonster(predictedMonster);
+    MonsterData predictedMonsterData = findMonsterName(predictedMonster);
 
-    // Some monsters cannot be uniquely identified by name as several monsters share the name.
-    // Ponder also has this problem.
-    // Eg, Ninja Snowman (Chopsticks)
     if (predictedMonsterData == null) {
       return;
     }
 
-    KoLAdventure location = AdventureDatabase.getAdventure(KoLAdventure.lastVanillaLocationName);
+    // Don't use last vanilla adventure as it's loaded via an api request after the combat starts
+    KoLAdventure location = KoLAdventure.lastVisitedLocation();
 
     if (location == null) {
+      return;
+    }
+
+    Prediction existingPrediction = CrystalBallManager.predictions.get(location.getAdventureName());
+
+    // If this monster has been predicted already at this location, yet was not encountered. Do not
+    // do anything.
+    // A new prediction was not made, the turn it expires must remain unchanged.
+    if (existingPrediction != null
+        && existingPrediction.monster.equals(predictedMonsterData.getName())) {
       return;
     }
 
@@ -165,7 +171,9 @@ public final class CrystalBallManager {
    * * your [lastadv] flag is the zone the prediction is in.
    */
   public static void updateCrystalBallPredictions() {
-    String lastAdventureName = KoLAdventure.lastVanillaLocationName;
+    // We use the vanilla last adventure here as sometimes mafia does not recognize it
+    // And we still want to invalidate the predictions, even if mafia doesn't recognize it
+    String lastAdventureName = KoLAdventure.lastZoneName;
 
     if (lastAdventureName == null) {
       return;
@@ -209,7 +217,7 @@ public final class CrystalBallManager {
     // crystal ball (if it is equipped)
     if (!isEquipped()) return false;
     return predictions.values().stream()
-        .anyMatch(p -> p.monster.equalsIgnoreCase(monster) && p.location.equalsIgnoreCase(zone));
+        .anyMatch(p -> isMonster(p.monster, monster) && p.location.equalsIgnoreCase(zone));
   }
 
   public static boolean own() {
@@ -224,33 +232,62 @@ public final class CrystalBallManager {
   }
 
   private static final Pattern POSSIBLE_PREDICTION =
-      Pattern.compile("<li> +(?:an?|the|some)? ?([^<]*) in ([^<]*)</li>");
+      Pattern.compile("<li> +(?:an?|the|some)? ?(.*? in .*?)</li>");
 
   public static void parsePonder(final String responseText) {
-    Collection<Prediction> oldPredictions = new ArrayList<>(predictions.values());
+    Prediction[] oldPredictions = predictions.values().toArray(new Prediction[0]);
     predictions.clear();
 
     Matcher m = POSSIBLE_PREDICTION.matcher(responseText);
 
     while (m.find()) {
-      MonsterData monster = MonsterDatabase.findMonster(m.group(1));
-      KoLAdventure location = AdventureDatabase.getAdventure(m.group(2));
+      MonsterData monster = null;
+      KoLAdventure location = null;
 
-      // Some monsters cannot be uniquely identified by name as several monsters share the name.
-      // Combat predictions also has this problem.
-      // Eg, Ninja Snowman (Chopsticks)
+      String group = m.group(1);
+      int index = group.indexOf(" in ");
+
+      // As locations and monsters can both have ' in ' in their name, we try to match the location,
+      // then the monster
+      // Only stopping when we've found both viable matches.
+      while (index >= 0) {
+        String monsterName = group.substring(0, index);
+        String locationName = group.substring(index + 4);
+        index = group.indexOf(" in ", index + 4);
+
+        location = AdventureDatabase.getAdventure(locationName);
+
+        if (location == null) {
+          continue;
+        }
+
+        monster = findMonsterName(monsterName);
+
+        if (monster == null) {
+          continue;
+        }
+
+        break;
+      }
+
       if (location == null || monster == null) {
         continue;
       }
 
-      Prediction oldPrediction =
-          oldPredictions.stream()
-              .filter(
-                  prediction ->
-                      prediction.location.equals(location.getAdventureName())
-                          && prediction.monster.equals(monster.getName()))
-              .findAny()
-              .orElse(null);
+      Prediction oldPrediction = null;
+
+      for (Prediction prediction : oldPredictions) {
+        if (!prediction.location.equals(location.getAdventureName())) {
+          continue;
+        }
+
+        if (!isMonster(prediction.monster, monster)) {
+          continue;
+        }
+
+        oldPrediction = prediction;
+        break;
+      }
 
       if (oldPrediction != null) {
         addPrediction(oldPrediction.turnCount, location, monster.getName());
@@ -260,5 +297,54 @@ public final class CrystalBallManager {
     }
 
     updatePreference();
+  }
+
+  private static boolean isMonster(String predictionMonster, String monsterName) {
+    return isMonster(predictionMonster, MonsterDatabase.findMonster(monsterName));
+  }
+
+  private static boolean isMonster(String predictionMonster, MonsterData monsterData) {
+    // If we're asked about a monster we don't know, return false
+    if (monsterData == null) {
+      return false;
+    }
+
+    // If prediction monster has the same name as the monster, return true
+    if (monsterData.getName().equals(predictionMonster)) {
+      return true;
+    }
+
+    MonsterData predictionMonsterData = MonsterDatabase.findMonster(predictionMonster);
+
+    // If we cannot find a predicted monster by this name, return false
+    if (predictionMonsterData == null) {
+      return false;
+    }
+
+    // If the manual names of both monsters match, even if they're known by different names...
+    // The predicted monster might have the same name in its manual, but we may still have predicted
+    // the wrong one
+    return monsterData.getManuelName().equals(predictionMonsterData.getManuelName());
+  }
+
+  private static MonsterData findMonsterName(String monsterName) {
+    MonsterData monster = MonsterDatabase.findMonster(monsterName);
+
+    if (monster != null) {
+      return monster;
+    }
+
+    // Some monsters cannot be uniquely identified by name as several monsters share the name.
+    // Both fight predictions and pondering has this problem.
+    // Eg, Ninja Snowman (Chopsticks)
+    for (Map.Entry<String, MonsterData> entry : MonsterDatabase.entrySet()) {
+      if (!entry.getValue().getManuelName().equals(monsterName)) {
+        continue;
+      }
+
+      return entry.getValue();
+    }
+
+    return null;
   }
 }

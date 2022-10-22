@@ -75,8 +75,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public static KoLAdventure lastVisitedLocation = null;
   public static boolean locationLogged = false;
-  public static String lastVanillaLocationName =
-      null; // Last location name as reported by KoL, unedited by mafia
+  // [Last Adventure] name as reported by KoL, unedited by mafia
+  public static String lastZoneName = null;
   public static String lastLocationName = null;
   public static String lastLocationURL = null;
 
