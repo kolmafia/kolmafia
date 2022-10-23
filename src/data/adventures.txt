@@ -349,7 +349,7 @@ The Grey Goo Impact Site	adventure=552	DiffLevel: unknown Env: unknown Stat: 0	T
 
 MusSign	adventure=47	DiffLevel: low Env: underground Stat: 13	The Bugbear Pen	1 annoying pitchfork
 MusSign	adventure=48	DiffLevel: mid Env: underground Stat: 40	The Spooky Gravy Burrow	1 inexplicably glowing rock, 1 spooky glove
-MusSign	adventure=49	DiffLevel: unknown Env: outdoor Stat: 0	Post-Quest Bugbear Pens
+MusSign	adventure=49	DiffLevel: low Env: indoor Stat: 0	Post-Quest Bugbear Pens
 
 Little Canadia	adventure=43	DiffLevel: unknown Env: outdoor Stat: 0	Outskirts of Camp Logging Camp
 Little Canadia	adventure=44	DiffLevel: unknown Env: outdoor Stat: 30	Camp Logging Camp
@@ -537,9 +537,9 @@ Memories	adventure=204	DiffLevel: mid Env: outdoor Stat: 20	The Primordial Soup
 Memories	adventure=205	DiffLevel: mid Env: outdoor Stat: 55	The Jungles of Ancient Loathing
 Memories	adventure=206	DiffLevel: mid Env: indoor Stat: 150	Seaside Megalopolis
 
-Spaaace	adventure=265	DiffLevel: unknown Env: indoor Stat: 0	Domed City of Ronaldus	2 Map to Safety Shelter Ronald Prime|1 E.M.U. Unit
-Spaaace	adventure=266	DiffLevel: unknown Env: indoor Stat: 0	Domed City of Grimacia	2 Map to Safety Shelter Grimace Prime|1 E.M.U. Unit
-Spaaace	adventure=267	DiffLevel: unknown Env: indoor Stat: 0	Hamburglaris Shield Generator
+Spaaace	adventure=265	DiffLevel: mid Env: indoor Stat: 0	Domed City of Ronaldus	2 Map to Safety Shelter Ronald Prime|1 E.M.U. Unit
+Spaaace	adventure=266	DiffLevel: mid Env: indoor Stat: 0	Domed City of Grimacia	2 Map to Safety Shelter Grimace Prime|1 E.M.U. Unit
+Spaaace	adventure=267	DiffLevel: mid Env: indoor Stat: 0	Hamburglaris Shield Generator
 
 Landscaper	adventure=224	DiffLevel: unknown Env: outdoor	The Landscaper's Lair	3 grass clippings
 Jacking	adventure=227	DiffLevel: unknown Env: indoor	Professor Jacking's Small-O-Fier	1 world's most unappetizing beverage|1 can-you-dig-it?
@@ -597,8 +597,8 @@ Spring Break Beach	adventure=402	DiffLevel: mid Env: indoor Stat: 0	The Fun-Guy 
 Spring Break Beach	adventure=403	DiffLevel: mid Env: indoor Stat: 0	Sloppy Seconds Diner	4 choiceadv
 Spring Break Beach	adventure=404	DiffLevel: unknown Env: underwater Stat: 300	The Sunken Party Yacht
 
-Conspiracy Island	adventure=415	DiffLevel: unknown Env: indoor Stat: 0	The Mansion of Dr. Weirdeaux
-Conspiracy Island	adventure=416	DiffLevel: unknown Env: indoor Stat: 180	The Secret Government Laboratory
+Conspiracy Island	adventure=415	DiffLevel: mid Env: indoor Stat: 0	The Mansion of Dr. Weirdeaux
+Conspiracy Island	adventure=416	DiffLevel: mid Env: indoor Stat: 180	The Secret Government Laboratory
 Conspiracy Island	adventure=417	DiffLevel: mid Env: outdoor Stat: 0	The Deep Dark Jungle
 
 Dinseylandfill	adventure=442	DiffLevel: mid Env: indoor Stat: 90	Barf Mountain	1 keycard &alpha;
@@ -606,8 +606,8 @@ Dinseylandfill	adventure=443	DiffLevel: mid Env: indoor Stat: 140	Pirates of the
 Dinseylandfill	adventure=444	DiffLevel: mid Env: outdoor Stat: 0	The Toxic Teacups	1 keycard &gamma;
 Dinseylandfill	adventure=445	DiffLevel: mid Env: indoor Stat: 0	Uncle Gator's Country Fun-Time Liquid Waste Sluice	1 keycard &delta;
 
-That 70s Volcano	adventure=448	DiffLevel: unknown Env: indoor Stat: 0	The SMOOCH Army HQ
-That 70s Volcano	adventure=449	DiffLevel: unknown Env: underground Stat: 45	The Velvet / Gold Mine
+That 70s Volcano	adventure=448	DiffLevel: mid Env: indoor Stat: 0	The SMOOCH Army HQ
+That 70s Volcano	adventure=449	DiffLevel: mid Env: underground Stat: 45	The Velvet / Gold Mine
 That 70s Volcano	adventure=450	DiffLevel: mid Env: indoor Stat: 45	LavaCo&trade; Lamp Factory
 That 70s Volcano	adventure=451	DiffLevel: mid Env: outdoor Stat: 90	The Bubblin' Caldera	+1 superduperheated metal
 That 70s Volcano	mining=6	DiffLevel: none Env: none Stat: 0	The Velvet / Gold Mine (Mining)
