@@ -349,7 +349,7 @@ The Grey Goo Impact Site	adventure=552	DiffLevel: unknown Env: unknown Stat: 0	T
 
 MusSign	adventure=47	DiffLevel: low Env: underground Stat: 13	The Bugbear Pen	1 annoying pitchfork
 MusSign	adventure=48	DiffLevel: mid Env: underground Stat: 40	The Spooky Gravy Burrow	1 inexplicably glowing rock, 1 spooky glove
-MusSign	adventure=49	DiffLevel: low Env: outdoor Stat: 0	Post-Quest Bugbear Pens
+MusSign	adventure=49	DiffLevel: low Env: indoor Stat: 0	Post-Quest Bugbear Pens
 
 Little Canadia	adventure=43	DiffLevel: unknown Env: outdoor Stat: 0	Outskirts of Camp Logging Camp
 Little Canadia	adventure=44	DiffLevel: unknown Env: outdoor Stat: 30	Camp Logging Camp
