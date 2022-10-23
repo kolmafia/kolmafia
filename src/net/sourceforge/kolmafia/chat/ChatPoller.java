@@ -34,10 +34,10 @@ public class ChatPoller extends Thread {
   public static long localLastSent = 0;
 
   // Milliseconds between polls. Extracted from the Javascript source on
-  // Sept 30, 2014
-  private static final int LCHAT_DELAY_NORMAL = 5000;
-  private static final int LCHAT_DELAY_PAUSED = 30000;
-  private static final int MCHAT_DELAY_NORMAL = 5000;
+  // Oct 21, 2022
+  private static final int LCHAT_DELAY_NORMAL = 3000;
+  private static final int LCHAT_DELAY_PAUSED = 10000;
+  private static final int MCHAT_DELAY_NORMAL = 3000;
   private static final int MCHAT_DELAY_PAUSED = 10000;
 
   // lchat and mchat like to go into "away" mode after 15 minutes.  If

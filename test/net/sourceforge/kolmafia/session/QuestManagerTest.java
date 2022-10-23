@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1525,6 +1526,13 @@ public class QuestManagerTest {
 
   @Nested
   class Spacegate {
+    @Test
+    void allHazardsHaveValidItems() {
+      for (QuestManager.Hazard hazard : QuestManager.HAZARDS) {
+        assertTrue(ItemDatabase.contains(hazard.gear()));
+      }
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"place.php?whichplace=spacegate", "adventure.php?snarfblat=494"})
     void justBeingInSpacegateWithoutPermanentAccessMeansDaypass() {
