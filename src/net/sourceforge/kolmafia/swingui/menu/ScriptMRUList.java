@@ -75,6 +75,7 @@ public class ScriptMRUList implements Listener {
       this.list = list;
       this.file = file;
     }
+
     @Override
     public void run() {
       list.addItem(file);
