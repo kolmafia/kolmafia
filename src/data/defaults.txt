@@ -702,7 +702,6 @@ user	hallowienerDarkElbow	false
 user	hallowienerDarkHeart	false
 user	hallowienerDarkNeck	false
 user	hallowienerDefiledNook	false
-user	hallowienerFunFunds	false
 user	hallowienerGuanoJunction	false
 user	hallowienerKnollGym	false
 user	hallowienerMadnessBakery	false
