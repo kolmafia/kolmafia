@@ -261,4 +261,37 @@ public class GenericRequestTest {
       assertThat("lastTowelAscension", isSetTo(123));
     }
   }
+
+  @Nested
+  class Hallowiener {
+    @ParameterizedTest
+    @CsvSource({
+      "volcoino_lucky_gold_ring, \"The Bubblin' Caldera\", Lava Dogs, hallowienerVolcoino, true",
+      "8bit_realm, 8-Bit Realm, Dog Needs Food Badly, hallowiener8BitRealm, 1",
+      "sonofa_beach, Sonofa Beach, Gunbowwowder, hallowienerSonofaBeach, true",
+      "sloppy_seconds_diner, Sloppy Seconds Diner, Dog Diner Afternoon, hallowienerBeachBuck, true",
+      "secret_government_laboratory, The Secret Government Laboratory, Labrador Conspirator, hallowienerCoinspiracy, 1"
+    })
+    public void hallowienerPickedUp(
+        String htmlName, String location, String encounterName, String property, String expected) {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastEncounter", ""),
+              withProperty(property, Preferences.getDefault(property)));
+
+      try (cleanups) {
+        KoLAdventure.setLastAdventure(location);
+
+        GenericRequest request =
+            new GenericRequest("adventure.php?snarfblat=" + KoLAdventure.lastAdventureId());
+        request.setHasResult(true);
+        request.responseText = html("request/test_adventure_hallowiener_" + htmlName + ".html");
+
+        request.processResponse();
+
+        assertEquals(encounterName, Preferences.getString("lastEncounter"));
+        assertThat(property, isSetTo(expected));
+      }
+    }
+  }
 }

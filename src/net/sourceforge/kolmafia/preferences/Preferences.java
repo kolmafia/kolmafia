@@ -273,7 +273,6 @@ public class Preferences {
         "hallowienerDarkHeart",
         "hallowienerDarkNeck",
         "hallowienerDefiledNook",
-        "hallowienerFunFunds",
         "hallowienerGuanoJunction",
         "hallowienerKnollGym",
         "hallowienerMadnessBakery",

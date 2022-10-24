@@ -470,9 +470,6 @@ public abstract class EncounterManager {
       case "labrador conspirator":
         Preferences.increment("hallowienerCoinspiracy");
         return;
-      case "doggy heaven":
-        Preferences.setBoolean("hallowienerFunFunds", true);
-        return;
       case "lava dogs":
         Preferences.setBoolean("hallowienerVolcoino", true);
         return;
