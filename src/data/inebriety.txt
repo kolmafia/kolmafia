@@ -357,7 +357,7 @@ Hi-Octane Peppermint Jet Fuel	5	5	good	10-15	0	0	0
 high-end ginger wine	2	1	EPIC	12-14	10-30	10-30	10-30	30 High-Falutin' (+50% Meat Drop, +25% Item Drop), WINE
 Highest Bitter	3	6	awesome	12-15	0	10-25	0	60 Mercenary (+40% Item Drop), BEER
 hipster cocktail	4	4	good	11-13	10-15	10-15	10-15	10 Artisanal Satiaton (+3 exp/fight)
-Hodgman's blanket	2	15	EPIC	14-16	300-800	300-800	300-800
+Hodgman's blanket	2	15	EPIC	14-18	300-800	300-800	300-800
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
 horizontal tango	4	4	good	10-14	0	34-36	0
 Horseradish-infused Vodka	5	1	decent	12-13	0	0	0	15 Rad-ish (+25% Mox)
