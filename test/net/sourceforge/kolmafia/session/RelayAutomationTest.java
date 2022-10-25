@@ -164,7 +164,7 @@ public class RelayAutomationTest {
           // Simulate user repeatedly typing "step" button
           int count = 100;
           while (!ChoiceManager.handlingChoice && count-- > 0) {
-            url = "/KoLmafia/specialCommand?cmd=dvorak+step&pwd=dvorak";
+            url = "/KoLmafia/waitSpecialCommand?cmd=dvorak+step&pwd=dvorak";
             request = new RelayRequest(false);
             request.constructURLString(url);
             request.run();

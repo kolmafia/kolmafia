@@ -179,7 +179,7 @@ public abstract class DvorakManager {
     span.append("<center><table cols=2><tr>");
 
     StringBuffer stepButton = new StringBuffer();
-    String url = "/KoLmafia/specialCommand?cmd=dvorak+step&pwd=" + GenericRequest.passwordHash;
+    String url = "/KoLmafia/waitSpecialCommand?cmd=dvorak+step&pwd=" + GenericRequest.passwordHash;
     stepButton.append("<td>");
     stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
     stepButton
