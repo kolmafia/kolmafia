@@ -270,7 +270,8 @@ public class GenericRequestTest {
       "8bit_realm, 8-Bit Realm, Dog Needs Food Badly, hallowiener8BitRealm, 1",
       "sonofa_beach, Sonofa Beach, Gunbowwowder, hallowienerSonofaBeach, true",
       "sloppy_seconds_diner, Sloppy Seconds Diner, Dog Diner Afternoon, hallowienerBeachBuck, true",
-      "secret_government_laboratory, The Secret Government Laboratory, Labrador Conspirator, hallowienerCoinspiracy, 1"
+      "secret_government_laboratory, The Secret Government Laboratory, Labrador Conspirator, hallowienerCoinspiracy, 1",
+      "middle_chamber, The Middle Chamber, Ratchet-catcher, hallowienerMiddleChamber, true"
     })
     public void hallowienerPickedUp(
         String htmlName, String location, String encounterName, String property, String expected) {
