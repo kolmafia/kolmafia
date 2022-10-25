@@ -231,10 +231,10 @@ Pirate	adventure=160	DiffLevel: high Env: indoor Stat: 140	Belowdecks
 
 # Big Island at war
 
-IsleWar	adventure=134	DiffLevel: unknown Env: indoor Stat: 165	Wartime Frat House (Hippy Disguise)	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
-IsleWar	adventure=135	DiffLevel: unknown Env: indoor Stat: 0	Wartime Frat House	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin|1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
+IsleWar	adventure=134	DiffLevel: high Env: indoor Stat: 165	Wartime Frat House (Hippy Disguise)	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
+IsleWar	adventure=135	DiffLevel: high Env: indoor Stat: 0	Wartime Frat House	1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin|1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
 
-IsleWar	adventure=131	DiffLevel: unknown Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
+IsleWar	adventure=131	DiffLevel: high Env: indoor Stat: 165	Wartime Hippy Camp (Frat Disguise)	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband
 IsleWar	adventure=133	DiffLevel: high Env: outdoor Stat: 0	Wartime Hippy Camp	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband|1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
 
 IsleWar	adventure=132	DiffLevel: high Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
@@ -245,7 +245,7 @@ Junkyard	adventure=183	DiffLevel: unknown Env: outdoor Stat: 170	Near an Abandon
 Junkyard	adventure=184	DiffLevel: unknown Env: outdoor Stat: 170	Over Where the Old Tires Are	molybdenum crescent wrench
 Junkyard	adventure=185	DiffLevel: unknown Env: outdoor Stat: 170	Out by that Rusted-Out Car	molybdenum screwdriver
 
-Farm	adventure=137	DiffLevel: unknown Env: indoor Stat: 165	McMillicancuddy's Barn
+Farm	adventure=137	DiffLevel: high Env: indoor Stat: 165	McMillicancuddy's Barn
 Farm	adventure=141	DiffLevel: unknown Env: outdoor Stat: 170	McMillicancuddy's Pond
 Farm	adventure=142	DiffLevel: unknown Env: outdoor Stat: 170	McMillicancuddy's Back 40
 Farm	adventure=143	DiffLevel: unknown Env: outdoor Stat: 170	McMillicancuddy's Other Back 40
@@ -351,8 +351,8 @@ MusSign	adventure=47	DiffLevel: low Env: underground Stat: 13	The Bugbear Pen	1 
 MusSign	adventure=48	DiffLevel: mid Env: underground Stat: 40	The Spooky Gravy Burrow	1 inexplicably glowing rock, 1 spooky glove
 MusSign	adventure=49	DiffLevel: low Env: indoor Stat: 0	Post-Quest Bugbear Pens
 
-Little Canadia	adventure=43	DiffLevel: unknown Env: outdoor Stat: 0	Outskirts of Camp Logging Camp
-Little Canadia	adventure=44	DiffLevel: unknown Env: outdoor Stat: 30	Camp Logging Camp
+Little Canadia	adventure=43	DiffLevel: low Env: outdoor Stat: 0	Outskirts of Camp Logging Camp
+Little Canadia	adventure=44	DiffLevel: mid Env: outdoor Stat: 30	Camp Logging Camp
 Le Marais D&egrave;gueulasse	adventure=330	DiffLevel: unknown Env: outdoor Stat: 15	The Edge of the Swamp
 Le Marais D&egrave;gueulasse	adventure=331	DiffLevel: unknown Env: outdoor Stat: 20	The Dark and Spooky Swamp
 Le Marais D&egrave;gueulasse	adventure=332	DiffLevel: unknown Env: outdoor Stat: 50	The Corpse Bog
