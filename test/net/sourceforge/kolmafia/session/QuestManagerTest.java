@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
@@ -44,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -53,6 +55,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import org.eclipse.jgit.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -61,6 +64,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class QuestManagerTest {
   @BeforeEach
@@ -68,6 +72,7 @@ public class QuestManagerTest {
     KoLCharacter.reset("QuestManager");
     Preferences.reset("QuestManager");
     KoLConstants.inventory.clear();
+    AdventureSpentDatabase.resetTurns(false);
   }
 
   /*
@@ -2037,6 +2042,27 @@ public class QuestManagerTest {
         assertGetRequest(requests.get(2), "/inventory.php", "which=3&action=message");
         assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
+    }
+  }
+
+  @CartesianTest
+  public void canTrackFriarNCs(
+      @CartesianTest.Values(ints = {1, 2, 3, 4}) int ncNumber,
+      @CartesianTest.Values(strings = {"heart", "neck", "elbow"}) String name) {
+    String locationName = "The Dark " + StringUtils.capitalize(name) + " of the Woods";
+    String fileName = "test_friar_" + name + "_" + ncNumber + ".html";
+    String propertyName = "lastFriars" + StringUtils.capitalize(name) + "NC";
+
+    var request =
+        new GenericRequest(
+            "adventure.php?snarfblat="
+                + AdventureDatabase.getAdventureByName(locationName).getSnarfblat());
+    request.responseText = html("request/" + fileName);
+    var cleanup =
+        new Cleanups(withAdventuresSpent(locationName, 11), withProperty(propertyName, -1));
+    try (cleanup) {
+      QuestManager.handleQuestChange(request);
+      assertEquals(Preferences.getInteger(propertyName), 11);
     }
   }
 }
