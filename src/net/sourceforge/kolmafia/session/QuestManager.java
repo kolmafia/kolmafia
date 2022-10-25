@@ -62,20 +62,20 @@ public class QuestManager {
   private static final Pattern DJ_MEAT_PATTERN = Pattern.compile("collect (.*?) Meat for the DJ");
   private static final Pattern TRASH_PATTERN = Pattern.compile("you clean up (\\d+) ");
 
-  private static List<String> friarElbowNCs =
-      List.of(
+  private static Set<String> friarElbowNCs =
+      Set.of(
           "Deep Imp Act",
           "Imp Art, Some Wisdom",
           "A Secret, But Not the Secret You're Looking For",
           "Butter Knife?  I'll Take the Knife");
-  private static List<String> friarNeckNCs =
-      List.of(
+  private static Set<String> friarNeckNCs =
+      Set.of(
           "How Do We Do It? Quaint and Curious Volume!",
           "Strike One!",
           "Olive My Love To You, Oh.",
           "Dodecahedrariffic!");
-  private static List<String> friarHeartNCs =
-      List.of(
+  private static Set<String> friarHeartNCs =
+      Set.of(
           "Moon Over the Dark Heart",
           "Running the Lode",
           "I, Martin",
