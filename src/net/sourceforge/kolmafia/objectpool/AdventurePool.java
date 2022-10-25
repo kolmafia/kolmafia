@@ -133,6 +133,15 @@ public class AdventurePool {
   public static final int MAELSTROM_OF_LOVERS = 278;
   public static final int GLACIER_OF_JERKS = 279;
   public static final int HIDDEN_TEMPLE = 280;
+  public static final int MEDBAY = 281;
+  public static final int WASTE_PROCESSING = 282;
+  public static final int SONAR = 283;
+  public static final int SCIENCE_LAB = 284;
+  public static final int MORGUE = 285;
+  public static final int SPECIAL_OPS = 286;
+  public static final int ENGINEERING = 287;
+  public static final int NAVIGATION = 288;
+  public static final int GALLEY = 289;
   public static final int SMUT_ORC_LOGGING_CAMP = 295;
   public static final int ABOO_PEAK = 296;
   public static final int OIL_PEAK = 298;

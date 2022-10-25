@@ -1648,22 +1648,35 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Mothership")) {
       // We already confirmed that you are on the BugBear Invasion path.
+      //
+      // There are nine zones: three each on levels one, two, and three
+      //
+      // Each level one zone is unlocked by defeating 3 wandering bugbeares
+      // Each level two zone is unlocked by defeating 6 wandering bugbeares
+      // Each level three zone is unlocked by defeating 9 wandering bugbeares
+      //
+      // You must clear level one before level two is open.
+      // You must clear level two before level three is open.
+      //
+      // Therefore, each zone goes from 0-{3,6,9), unlocked, open, cleared
+      //
+      // Zone are available for adventure only when they are "open"
 
-      // There are conditions by which the various areas become available.
-      // Do we track them?
+      String property =
+          switch (this.adventureNumber) {
+            case AdventurePool.MEDBAY -> "statusMedbay";
+            case AdventurePool.WASTE_PROCESSING -> "statusWasteProcessing";
+            case AdventurePool.SONAR -> "statusSonar";
+            case AdventurePool.SCIENCE_LAB -> "statusScienceLab";
+            case AdventurePool.MORGUE -> "statusMorgue";
+            case AdventurePool.SPECIAL_OPS -> "statusSpecialOps";
+            case AdventurePool.ENGINEERING -> "statusEngineering";
+            case AdventurePool.NAVIGATION -> "statusNavigation";
+            case AdventurePool.GALLEY -> "statusGalley";
+            default -> "";
+          };
 
-      // Medbay
-      // Waste Processing
-      // Sonar
-      // Science Lab
-      // Morgue
-      // Special Ops
-      // Engineering
-      // Navigation
-      // Galley
-
-      // Assume those zones are always available.
-      return true;
+      return Preferences.getString(property).equals("open");
     }
 
     if (this.zone.equals("KOL High School")) {
