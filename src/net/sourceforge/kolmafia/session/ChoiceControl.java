@@ -8917,6 +8917,9 @@ public abstract class ChoiceControl {
         case 1445: // Reassembly Station
         case 1447: // Statbot 5000
           return YouRobotManager.registerRequest(urlString);
+
+        case 1483: // Direct Autumn-Aton
+          return AutumnatonManager.registerRequest(urlString);
       }
 
       if (decision != 0) {
