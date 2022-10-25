@@ -93,9 +93,9 @@ Menagerie	adventure=51	DiffLevel: mid Env: underground Stat: 35	Cobb's Knob Mena
 Menagerie	adventure=52	DiffLevel: mid Env: underground Stat: 40	Cobb's Knob Menagerie, Level 2	1 weremoose spit|+1 irradiated pet snacks
 Menagerie	adventure=53	DiffLevel: mid Env: underground Stat: 45	Cobb's Knob Menagerie, Level 3	1 abominable blubber
 
-Rift	adventure=85	DiffLevel: unknown Env: outdoor Stat: 0	Battlefield (No Uniform)	Cloaca-Cola helmet, Cloaca-Cola fatigues, Cloaca-Cola shield|Dyspepsi-Cola helmet, Dyspepsi-Cola fatigues, Dyspepsi-Cola shield|six-pack of New Cloaca-Cola
-Rift	adventure=86	DiffLevel: unknown Env: outdoor Stat: 30	Battlefield (Cloaca Uniform)
-Rift	adventure=87	DiffLevel: unknown Env: outdoor Stat: 30	Battlefield (Dyspepsi Uniform)
+Rift	adventure=85	DiffLevel: mid Env: outdoor Stat: 0	Battlefield (No Uniform)	Cloaca-Cola helmet, Cloaca-Cola fatigues, Cloaca-Cola shield|Dyspepsi-Cola helmet, Dyspepsi-Cola fatigues, Dyspepsi-Cola shield|six-pack of New Cloaca-Cola
+Rift	adventure=86	DiffLevel: mid Env: outdoor Stat: 30	Battlefield (Cloaca Uniform)
+Rift	adventure=87	DiffLevel: mid Env: outdoor Stat: 30	Battlefield (Dyspepsi Uniform)
 
 Fernswarthy's Tower	adventure=22	DiffLevel: low Env: outdoor Stat: 11	Tower Ruins	1 disembodied brain
 Fernswarthy's Tower	basement=0	DiffLevel: none Env: none Stat: 0	Fernswarthy's Basement
