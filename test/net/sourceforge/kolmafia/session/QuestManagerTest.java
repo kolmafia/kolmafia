@@ -32,7 +32,6 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -2032,17 +2031,23 @@ public class QuestManagerTest {
   }
 
   @CartesianTest
-  public void canTrackFriarNCs(@CartesianTest.Values(ints = {1, 2, 3, 4}) int ncNumber, @CartesianTest.Values(strings = {"heart", "neck", "elbow"}) String name) {
+  public void canTrackFriarNCs(
+      @CartesianTest.Values(ints = {1, 2, 3, 4}) int ncNumber,
+      @CartesianTest.Values(strings = {"heart", "neck", "elbow"}) String name) {
     String locationName = "The Dark " + StringUtils.capitalize(name) + " of the Woods";
     String fileName = "test_friar_" + name + "_" + ncNumber + ".html";
     String propertyName = "lastFriars" + StringUtils.capitalize(name) + "NC";
 
-    var request = new GenericRequest("adventure.php?snarfblat=" + AdventureDatabase.getAdventureByName(locationName).getSnarfblat());
+    var request =
+        new GenericRequest(
+            "adventure.php?snarfblat="
+                + AdventureDatabase.getAdventureByName(locationName).getSnarfblat());
     request.responseText = html("request/" + fileName);
-    var cleanup = new Cleanups(withAdventuresSpent(locationName, 11), withProperty(propertyName, -1));
+    var cleanup =
+        new Cleanups(withAdventuresSpent(locationName, 11), withProperty(propertyName, -1));
     try (cleanup) {
-        QuestManager.handleQuestChange(request);
-        assertEquals(Preferences.getInteger(propertyName), 11);
+      QuestManager.handleQuestChange(request);
+      assertEquals(Preferences.getInteger(propertyName), 11);
     }
   }
 }

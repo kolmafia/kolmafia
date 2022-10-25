@@ -24,10 +24,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
-import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
@@ -70,7 +67,7 @@ public class QuestManager {
           "Deep Imp Act",
           "Imp Art, Some Wisdom",
           "A Secret, But Not the Secret You're Looking For",
-          "Butter Knife? I'll Take the Knife");
+          "Butter Knife?  I'll Take the Knife");
   private static List<String> friarNeckNCs =
       List.of(
           "How Do We Do It? Quaint and Curious Volume!",
@@ -242,7 +239,7 @@ public class QuestManager {
         case AdventurePool.DARK_ELBOW_OF_THE_WOODS:
         case AdventurePool.DARK_HEART_OF_THE_WOODS:
         case AdventurePool.DARK_NECK_OF_THE_WOODS:
-          handleFriarsCopseChange(location, responseText);
+          handleFriarsCopseChange(locationId, responseText);
           break;
         default:
           if (KoLCharacter.getInebriety() > 25) {
@@ -657,8 +654,9 @@ public class QuestManager {
     }
   }
 
-  private static void handleFriarsCopseChange(final String location, final String responseText) {
+  private static void handleFriarsCopseChange(final int locationId, final String responseText) {
     String encounterName = AdventureRequest.parseEncounter(responseText);
+    String location = AdventureDatabase.getAdventure(locationId).getAdventureName();
     switch (location) {
       case "The Dark Elbow of the Woods":
         if (friarElbowNCs.contains(encounterName)) {

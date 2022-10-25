@@ -1726,6 +1726,7 @@ public class Player {
 
   /**
    * Sets the adventures spent in a particular location
+   *
    * @param location The name of the location, as a string
    * @param adventuresSpent The number of adventures spent to set
    * @return Returns adventures spent to previous value

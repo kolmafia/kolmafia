@@ -102,10 +102,6 @@ public class AdventureSpentDatabase implements Serializable {
     if (loc == null) {
       return;
     }
-    if (!AdventureSpentDatabase.TURNS.containsKey(loc)) {
-      RequestLogger.printLine(loc + " is not a recognized location.");
-      return;
-    }
     AdventureSpentDatabase.TURNS.put(loc, turns);
   }
 
