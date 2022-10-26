@@ -3086,7 +3086,9 @@ public class RelayRequest extends PasswordHashRequest {
     } else if (path.endsWith("sideCommand")) {
       submitCommand(this.getFormField("cmd", false), true);
       this.pseudoResponse("HTTP/1.1 302 Found", "/charpane.php");
-    } else if (path.endsWith("specialCommand") || path.endsWith("parameterizedCommand")) {
+    } else if (path.endsWith("specialCommand")
+        || path.endsWith("waitSpecialCommand")
+        || path.endsWith("parameterizedCommand")) {
       String cmd = this.getFormField("cmd");
       if (!cmd.equals("wait")) {
         RelayRequest.specialCommandIsAdventure = false;
@@ -3101,7 +3103,8 @@ public class RelayRequest extends PasswordHashRequest {
           String parameters = pwdEnd == -1 ? "" : commandURL.substring(pwdEnd + 1);
           submitCommand(cmd + " " + parameters);
         } else {
-          submitCommand(cmd, false, false);
+          boolean wait = path.endsWith("waitSpecialCommand");
+          submitCommand(cmd, false, wait);
         }
       }
 
