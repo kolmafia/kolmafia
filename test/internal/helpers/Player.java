@@ -28,15 +28,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.DateTimeManager;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -860,6 +852,18 @@ public class Player {
     var old = KoLCharacter.getAdventuresLeft();
     KoLCharacter.setAdventuresLeft(adventures);
     return new Cleanups(() -> KoLCharacter.setAdventuresLeft(old));
+  }
+
+  /**
+   * Sets the player's current run
+   *
+   * @param adventures How many adventures so far this run
+   * @return Resets remaining adventures to previous value
+   */
+  public static Cleanups withCurrentRun(final int adventures) {
+    var old = KoLCharacter.getCurrentRun();
+    KoLCharacter.setCurrentRun(adventures);
+    return new Cleanups(() -> KoLCharacter.setCurrentRun(old));
   }
 
   /**
@@ -1718,5 +1722,18 @@ public class Player {
   public static Cleanups withSavePreferencesToFile() {
     Preferences.saveSettingsToFile = true;
     return new Cleanups(() -> Preferences.saveSettingsToFile = false);
+  }
+
+  /**
+   * Sets the adventures spent in a particular location
+   *
+   * @param location The name of the location, as a string
+   * @param adventuresSpent The number of adventures spent to set
+   * @return Returns adventures spent to previous value
+   */
+  public static Cleanups withAdventuresSpent(final String location, final int adventuresSpent) {
+    int old = AdventureSpentDatabase.getTurns(location);
+    AdventureSpentDatabase.setTurns(location, adventuresSpent);
+    return new Cleanups(() -> AdventureSpentDatabase.setTurns(location, old));
   }
 }

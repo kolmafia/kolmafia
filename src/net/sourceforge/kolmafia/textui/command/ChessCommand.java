@@ -39,6 +39,11 @@ public class ChessCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("step")) {
+      RabbitHoleManager.step();
+      return;
+    }
+
     if (command.equals("solve")) {
       RabbitHoleManager.solve();
       return;

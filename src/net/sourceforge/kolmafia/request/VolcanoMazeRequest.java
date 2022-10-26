@@ -17,17 +17,17 @@ public class VolcanoMazeRequest extends GenericRequest {
   }
 
   public VolcanoMazeRequest(final int pos) {
-    super(VolcanoMazeRequest.getMoveURL(pos), false);
+    super(getMoveURL(pos), false);
   }
 
   public VolcanoMazeRequest(final int col, final int row) {
-    super(VolcanoMazeRequest.getMoveURL(col, row), false);
+    super(getMoveURL(col, row), false);
   }
 
   public static String getMoveURL(final int pos) {
     int row = pos / VolcanoMazeManager.NCOLS;
     int col = pos % VolcanoMazeManager.NCOLS;
-    return VolcanoMazeRequest.getMoveURL(col, row);
+    return getMoveURL(col, row);
   }
 
   public static String getMoveURL(final int col, final int row) {
