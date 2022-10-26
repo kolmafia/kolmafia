@@ -697,9 +697,6 @@ user	guzzlrQuestTier
 user	haciendaLayout	000000000000000000
 user	hallowiener8BitRealm	0
 user	hallowienerCoinspiracy	0
-user	hallowienerDarkElbow	false
-user	hallowienerDarkHeart	false
-user	hallowienerDarkNeck	false
 user	hallowienerDefiledNook	false
 user	hallowienerGuanoJunction	false
 user	hallowienerKnollGym	false
