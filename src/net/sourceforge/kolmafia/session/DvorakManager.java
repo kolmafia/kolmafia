@@ -37,7 +37,7 @@ public abstract class DvorakManager {
       Pattern.compile("<td class='(cell|cell greyed)'.*?'Tile labeled \"(.)\"'>(</a>)?</td>");
 
   private static int parseTiles(final String responseText) {
-    Matcher matcher = DvorakManager.TILE_PATTERN.matcher(responseText);
+    Matcher matcher = TILE_PATTERN.matcher(responseText);
     int count = 0;
     while (matcher.find()) {
       int row = count / 9;
@@ -47,10 +47,10 @@ public abstract class DvorakManager {
         return -1;
       }
       if (matcher.group(1).equals("cell")) {
-        DvorakManager.currentRow = row;
+        currentRow = row;
       }
       char tile = matcher.group(2).charAt(0);
-      DvorakManager.tiles[row][column] = tile;
+      tiles[row][column] = tile;
       count++;
     }
 
@@ -62,10 +62,9 @@ public abstract class DvorakManager {
     // If we have made it to a row, we must have successfully
     // jumped that far.
 
-    DvorakManager.currentSolution =
-        DvorakManager.solution.substring(0, 6 - DvorakManager.currentRow);
+    currentSolution = solution.substring(0, 6 - currentRow);
 
-    return DvorakManager.currentRow;
+    return currentRow;
   }
 
   public static void printTiles() {
@@ -76,17 +75,17 @@ public abstract class DvorakManager {
       buffer.append((row + 1));
       buffer.append(": ");
       for (int col = 0; col < 9; ++col) {
-        buffer.append(DvorakManager.tiles[row][col]);
+        buffer.append(tiles[row][col]);
         buffer.append(" ");
       }
-      if (row == DvorakManager.currentRow) {
+      if (row == currentRow) {
         buffer.append(" ---you are here");
       }
       RequestLogger.printLine(buffer.toString());
     }
 
     RequestLogger.printLine();
-    RequestLogger.printLine("Current solution = \"" + DvorakManager.currentSolution + "\"");
+    RequestLogger.printLine("Current solution = \"" + currentSolution + "\"");
   }
 
   public static final void parseResponse(final String urlString, final String responseText) {
@@ -105,9 +104,9 @@ public abstract class DvorakManager {
       String message = "Oops.";
       RequestLogger.printLine(message);
       RequestLogger.updateSessionLog(message);
-      DvorakManager.currentRow = -1;
+      currentRow = -1;
     } else {
-      DvorakManager.parseTiles(responseText);
+      parseTiles(responseText);
     }
   }
 
@@ -120,7 +119,7 @@ public abstract class DvorakManager {
 
     if (responseText.contains("You jump to the last letter")) {
 
-      String message = "What's that spell? " + DvorakManager.currentSolution + "!";
+      String message = "What's that spell? " + currentSolution + "!";
       RequestLogger.printLine(message);
       RequestLogger.updateSessionLog(message);
     }
@@ -134,7 +133,7 @@ public abstract class DvorakManager {
       return false;
     }
 
-    Matcher matcher = DvorakManager.WHICHTILE_PATTERN.matcher(urlString);
+    Matcher matcher = WHICHTILE_PATTERN.matcher(urlString);
     if (!matcher.find()) {
       RequestLogger.registerLocation("The Hidden Temple");
       return true;
@@ -143,19 +142,19 @@ public abstract class DvorakManager {
     int col = StringUtilities.parseInt(matcher.group(1));
 
     // We saved the array and currentRow when we last visited the puzzle.
-    if (DvorakManager.currentRow < 0 || DvorakManager.currentRow > 6 || col < 0 || col > 8) {
+    if (currentRow < 0 || currentRow > 6 || col < 0 || col > 8) {
       // Shouldn't happen, but log the URL, at least
       return false;
     }
 
-    int row = DvorakManager.currentRow;
-    char letter = DvorakManager.tiles[row][col];
+    int row = currentRow;
+    char letter = tiles[row][col];
 
-    DvorakManager.currentSolution += letter;
+    currentSolution += letter;
 
     StringBuilder buffer = new StringBuilder();
     buffer.append("Give me ");
-    buffer.append(DvorakManager.AN_LETTERS.indexOf(letter) != -1 ? "an" : "a");
+    buffer.append(AN_LETTERS.indexOf(letter) != -1 ? "an" : "a");
     buffer.append(" ");
     buffer.append(letter);
     buffer.append("!");
@@ -176,58 +175,102 @@ public abstract class DvorakManager {
     }
     index += 6;
 
-    // Build a "Solve!" button
-    StringBuffer button = new StringBuffer();
+    StringBuffer span = new StringBuffer();
+    span.append("<center><table cols=2><tr>");
 
-    button.append("<form name=solveform action='");
-    button.append("/KoLmafia/specialCommand?cmd=dvorak&pwd=");
-    button.append(GenericRequest.passwordHash);
-    button.append("' method=post>");
-    button.append("<input class=button type=submit value=\"Solve!\">");
-    button.append("</form>");
+    StringBuffer stepButton = new StringBuffer();
+    String url = "/KoLmafia/waitSpecialCommand?cmd=dvorak+step&pwd=" + GenericRequest.passwordHash;
+    stepButton.append("<td>");
+    stepButton.append("<form name=stepform action='").append(url).append("' method=post>");
+    stepButton
+        .append("<input type=hidden name=pwd value='")
+        .append(GenericRequest.passwordHash)
+        .append("'>");
+    stepButton.append("<input class=button type=submit value=\"Step\">").append("</form>");
+    stepButton.append("</td>");
+    span.append(stepButton);
+
+    StringBuffer solveButton = new StringBuffer();
+    url = "/KoLmafia/specialCommand?cmd=dvorak&pwd==" + GenericRequest.passwordHash;
+    solveButton.append("<td>");
+    solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
+    solveButton
+        .append("<input type=hidden name=pwd value='")
+        .append(GenericRequest.passwordHash)
+        .append("'>");
+    solveButton.append("<input class=button type=submit value=\"Solve!\">").append("</form>");
+    solveButton.append("</td>");
+    span.append(solveButton);
+
+    span.append("</tr></table></center>");
 
     // Insert it into the page
-    buffer.insert(index, button);
+    buffer.insert(index, span);
   }
 
   public static final void saveResponse(final String responseText) {
-    DvorakManager.lastResponse = responseText;
+    lastResponse = responseText;
   }
 
-  public static final void solve() {
-    if (DvorakManager.lastResponse == null) {
+  public static final void step() {
+    String URL = nextStep();
+    String responseText = "Oops";
+    if (URL != null) {
+      GenericRequest request = new GenericRequest(URL);
+      request.run();
+      StringBuffer buffer = new StringBuffer(request.responseText);
+      RequestEditorKit.getFeatureRichHTML(request.getURLString(), buffer);
+      responseText = buffer.toString();
+    }
+    RelayRequest.specialCommandResponse = responseText;
+    RelayRequest.specialCommandIsAdventure = true;
+  }
+
+  private static final String nextStep() {
+    if (lastResponse == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't appear to be at the tiles puzzle");
-      return;
+      return null;
     }
 
     // When we visited this url, we parsed the responseText and
     // saved the tiles and currentRow
 
-    if (DvorakManager.currentRow < 0) {
+    if (currentRow < 0) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "We can't tell what row you are on");
-      return;
+      return null;
     }
 
-    // Execute requests to hop from tile to tile to the end.
-
-    GenericRequest request = new GenericRequest("");
-    for (int row = DvorakManager.currentRow; row >= 0; --row) {
-      char match = solution.charAt(6 - row);
-      int found = -1;
-      for (int col = 0; col < 9; ++col) {
-        char tile = tiles[row][col];
-        if (match == tile) {
-          found = col;
-          break;
-        }
+    int row = currentRow;
+    char match = solution.charAt(6 - row);
+    int found = -1;
+    for (int col = 0; col < 9; ++col) {
+      char tile = tiles[row][col];
+      if (match == tile) {
+        found = col;
+        break;
       }
-      if (found == -1) {
-        KoLmafia.updateDisplay("Could not find '" + match + "' in row " + (row + 1));
+    }
+
+    if (found == -1) {
+      KoLmafia.updateDisplay("Could not find '" + match + "' in row " + (row + 1));
+      return null;
+    }
+
+    return "tiles.php?action=jump&whichtile=" + found;
+  }
+
+  public static final void solve() {
+    GenericRequest request = new GenericRequest("");
+    for (int row = currentRow; row >= 0; --row) {
+      String URL = nextStep();
+      if (URL == null) {
+        // Not expected
+        RelayRequest.specialCommandResponse = "Oops!";
+        RelayRequest.specialCommandIsAdventure = true;
+        lastResponse = null;
         return;
       }
-
-      String url = "tiles.php?action=jump&whichtile=" + found;
-      request.constructURLString(url);
+      request.constructURLString(URL);
       request.run();
     }
 
@@ -242,6 +285,6 @@ public abstract class DvorakManager {
     RequestEditorKit.getFeatureRichHTML(request.getURLString(), buffer);
     RelayRequest.specialCommandResponse = buffer.toString();
     RelayRequest.specialCommandIsAdventure = true;
-    DvorakManager.lastResponse = null;
+    lastResponse = null;
   }
 }

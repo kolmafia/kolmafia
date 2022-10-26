@@ -30,6 +30,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -134,6 +135,43 @@ public class RelayAutomationTest {
           // Wait until the submitted command is done
           request.waitForCommandCompletion();
           assertThat(RelayRequest.specialCommandResponse.length(), greaterThan(0));
+
+          // Verify that expected requests were submitted
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(16));
+
+          int i = 0;
+          assertGetRequest(requests.get(i++), "/tiles.php", null);
+          validateDvorakRequests(builder, i);
+        }
+      }
+
+      @Test
+      public void canStepThroughDvoraksRevengeFromRelayBrowser() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups = new Cleanups(withDvorak(builder));
+        try (cleanups) {
+          client.addResponse(200, html("request/test_automation_dvorak_0.html"));
+          addDvorakResponses(builder);
+
+          // Visit tiles.php
+          var url = "tiles.php";
+          var request = new RelayRequest(false);
+          request.constructURLString(url);
+          request.run();
+
+          // Simulate user repeatedly typing "step" button
+          int count = 100;
+          while (!ChoiceManager.handlingChoice && count-- > 0) {
+            url = "/KoLmafia/waitSpecialCommand?cmd=dvorak+step&pwd=dvorak";
+            request = new RelayRequest(false);
+            request.constructURLString(url);
+            request.run();
+
+            // Wait until the submitted command is done
+            request.waitForCommandCompletion();
+          }
 
           // Verify that expected requests were submitted
           var requests = client.getRequests();
