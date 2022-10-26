@@ -275,7 +275,7 @@ public class Preferences {
         "hallowienerMiddleChamber",
         "hallowienerOvergrownLot",
         "hallowienerSkeletonStore",
-        "hallowienerSmutOrcCamp",
+        "hallowienerSmutOrcs",
         "hallowienerSonofaBeach",
         "hallowienerVolcoino",
         "hasBartender",
