@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
-import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -484,18 +483,6 @@ public abstract class EncounterManager {
         return;
       case "ratchet-catcher":
         Preferences.setBoolean("hallowienerMiddleChamber", true);
-        return;
-      case "something about hot wings":
-        if (responseText.contains(
-            "adventure.php?snarfblat=" + AdventurePool.DARK_ELBOW_OF_THE_WOODS)) {
-          Preferences.setBoolean("hallowienerDarkElbow", true);
-        } else if (responseText.contains(
-            "adventure.php?snarfblat=" + AdventurePool.DARK_HEART_OF_THE_WOODS)) {
-          Preferences.setBoolean("hallowienerDarkHeart", true);
-        } else if (responseText.contains(
-            "adventure.php?snarfblat=" + AdventurePool.DARK_NECK_OF_THE_WOODS)) {
-          Preferences.setBoolean("hallowienerDarkNeck", true);
-        }
         return;
       case "seeing-eyes dog":
         Preferences.setBoolean("hallowienerDefiledNook", true);
