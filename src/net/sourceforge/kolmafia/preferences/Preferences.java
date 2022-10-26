@@ -267,7 +267,6 @@ public class Preferences {
         "guyMadeOfBeesDefeated",
         "guzzlrDeliveryProgress",
         "hallowiener8BitRealm",
-        "hallowienerBeachBuck",
         "hallowienerCoinspiracy",
         "hallowienerDarkElbow",
         "hallowienerDarkHeart",

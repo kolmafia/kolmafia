@@ -7,7 +7,6 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -270,7 +269,6 @@ public class GenericRequestTest {
       "volcoino_lucky_gold_ring, \"The Bubblin' Caldera\", Lava Dogs, hallowienerVolcoino, true",
       "8bit_realm, 8-Bit Realm, Dog Needs Food Badly, hallowiener8BitRealm, 1",
       "sonofa_beach, Sonofa Beach, Gunbowwowder, hallowienerSonofaBeach, true",
-      "sloppy_seconds_diner, Sloppy Seconds Diner, Dog Diner Afternoon, hallowienerBeachBuck, true",
       "secret_government_laboratory, The Secret Government Laboratory, Labrador Conspirator, hallowienerCoinspiracy, 1",
       "middle_chamber, The Middle Chamber, Ratchet-catcher, hallowienerMiddleChamber, true",
       "overgrown_lot, The Overgrown Lot, Boooooze Hound, hallowienerOvergrownLot, true",
@@ -287,8 +285,6 @@ public class GenericRequestTest {
               withProperty(property, Preferences.getDefault(property)));
 
       try (cleanups) {
-        assertThat(property, not(isSetTo(expected)));
-
         KoLAdventure.setLastAdventure(location);
 
         GenericRequest request =

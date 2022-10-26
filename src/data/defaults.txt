@@ -696,7 +696,6 @@ user	guzzlrQuestLocation
 user	guzzlrQuestTier	
 user	haciendaLayout	000000000000000000
 user	hallowiener8BitRealm	0
-user	hallowienerBeachBuck	false
 user	hallowienerCoinspiracy	0
 user	hallowienerDarkElbow	false
 user	hallowienerDarkHeart	false

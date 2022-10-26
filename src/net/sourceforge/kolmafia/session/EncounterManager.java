@@ -464,9 +464,6 @@ public abstract class EncounterManager {
           RequestLogger.updateSessionLog("Gift note: " + note);
         }
         return;
-      case "dog diner afternoon":
-        Preferences.setBoolean("hallowienerBeachBuck", true);
-        return;
       case "labrador conspirator":
         Preferences.increment("hallowienerCoinspiracy");
         return;
