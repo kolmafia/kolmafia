@@ -54,7 +54,7 @@ public class GenericRequestTest {
     var cleanups =
         new Cleanups(
             withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
-            withProperty("lastEnccounter", ""));
+            withProperty("lastEncounter", ""));
 
     try (cleanups) {
       assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
@@ -70,6 +70,29 @@ public class GenericRequestTest {
 
       assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
       assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    }
+  }
+
+  @Test
+  public void hallowienerVolcoinoPickedUp() {
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
+            withProperty("lastEncounter", ""),
+            withProperty("hallowienerVolcoino", "false"));
+
+    try (cleanups) {
+      KoLAdventure.setLastAdventure("The Bubblin' Caldera");
+
+      GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
+      request.setHasResult(true);
+      request.responseText =
+          html("request/test_adventure_hallowiener_volcoino_lucky_gold_ring.html");
+
+      request.processResponse();
+
+      assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
+      assertThat("hallowienerVolcoino", isSetTo(true));
     }
   }
 
@@ -236,6 +259,53 @@ public class GenericRequestTest {
       tookTowel.run();
 
       assertThat("lastTowelAscension", isSetTo(123));
+    }
+  }
+
+  @Nested
+  class Hallowiener {
+    @ParameterizedTest
+    @CsvSource({
+      "volcoino_lucky_gold_ring, \"The Bubblin' Caldera\", Lava Dogs, hallowienerVolcoino, true",
+      "8bit_realm, 8-Bit Realm, Dog Needs Food Badly, hallowiener8BitRealm, 1",
+      "sonofa_beach, Sonofa Beach, Gunbowwowder, hallowienerSonofaBeach, true",
+      "secret_government_laboratory, The Secret Government Laboratory, Labrador Conspirator, hallowienerCoinspiracy, 1",
+      "middle_chamber, The Middle Chamber, Ratchet-catcher, hallowienerMiddleChamber, true",
+      "overgrown_lot, The Overgrown Lot, Boooooze Hound, hallowienerOvergrownLot, true",
+      "madness_bakery, Madness Bakery, Baker's Dogzen, hallowienerMadnessBakery, true",
+      "smut_orcs, Smut Orc Logging Camp, Carpenter Dog, hallowienerSmutOrcs, true",
+      "guano_junction, Guano Junction, Are They Made of Real Dogs?, hallowienerGuanoJunction, true",
+      "skeleton_store, The Skeleton Store, Fruuuuuuuit, hallowienerSkeletonStore, true",
+      "degrassi_knoll_gym, The Degrassi Knoll Gym, It Isn't a Poodle, hallowienerKnollGym, true",
+      "defiled_nook, The Defiled Nook, Seeing-Eyes Dog, hallowienerDefiledNook, true"
+    })
+    public void hallowienerPickedUp(
+        String htmlName, String location, String encounterName, String property, String expected) {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastEncounter", ""),
+              withProperty(property, Preferences.getDefault(property)));
+
+      try (cleanups) {
+        // Assert that the defaults are set to the correct data type
+        if (expected.matches("\\d+")) {
+          assertThat(property, isSetTo("0"));
+        } else {
+          assertThat(property, isSetTo("false"));
+        }
+
+        KoLAdventure.setLastAdventure(location);
+
+        GenericRequest request =
+            new GenericRequest("adventure.php?snarfblat=" + KoLAdventure.lastAdventureId());
+        request.setHasResult(true);
+        request.responseText = html("request/test_adventure_hallowiener_" + htmlName + ".html");
+
+        request.processResponse();
+
+        assertEquals(encounterName, Preferences.getString("lastEncounter"));
+        assertThat(property, isSetTo(expected));
+      }
     }
   }
 }

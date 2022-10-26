@@ -463,6 +463,42 @@ public abstract class EncounterManager {
           RequestLogger.updateSessionLog("Gift note: " + note);
         }
         return;
+      case "labrador conspirator":
+        Preferences.increment("hallowienerCoinspiracy");
+        return;
+      case "lava dogs":
+        Preferences.setBoolean("hallowienerVolcoino", true);
+        return;
+      case "fruuuuuuuit":
+        Preferences.setBoolean("hallowienerSkeletonStore", true);
+        return;
+      case "boooooze hound":
+        Preferences.setBoolean("hallowienerOvergrownLot", true);
+        return;
+      case "baker's dogzen":
+        Preferences.setBoolean("hallowienerMadnessBakery", true);
+        return;
+      case "dog needs food badly":
+        Preferences.increment("hallowiener8BitRealm");
+        return;
+      case "ratchet-catcher":
+        Preferences.setBoolean("hallowienerMiddleChamber", true);
+        return;
+      case "seeing-eyes dog":
+        Preferences.setBoolean("hallowienerDefiledNook", true);
+        return;
+      case "carpenter dog":
+        Preferences.setBoolean("hallowienerSmutOrcs", true);
+        return;
+      case "are they made of real dogs?":
+        Preferences.setBoolean("hallowienerGuanoJunction", true);
+        return;
+      case "gunbowwowder":
+        Preferences.setBoolean("hallowienerSonofaBeach", true);
+        return;
+      case "it isn't a poodle":
+        Preferences.setBoolean("hallowienerKnollGym", true);
+        return;
     }
   }
 
