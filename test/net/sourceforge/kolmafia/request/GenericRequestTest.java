@@ -275,7 +275,9 @@ public class GenericRequestTest {
       "madness_bakery, Madness Bakery, Baker's Dogzen, hallowienerMadnessBakery, true",
       "smut_orcs, Smut Orc Logging Camp, Carpenter Dog, hallowienerSmutOrcs, true",
       "guano_junction, Guano Junction, Are They Made of Real Dogs?, hallowienerGuanoJunction, true",
-      "skeleton_store, The Skeleton Store, Fruuuuuuuit, hallowienerSkeletonStore, true"
+      "skeleton_store, The Skeleton Store, Fruuuuuuuit, hallowienerSkeletonStore, true",
+      "degrassi_knoll_gym, The Degrassi Knoll Gym, It Isn't a Poodle, hallowienerKnollGym, true",
+      "defiled_nook, The Defiled Nook, Seeing-Eyes Dog, hallowienerDefiledNook, true"
     })
     public void hallowienerPickedUp(
         String htmlName, String location, String encounterName, String property, String expected) {
@@ -285,6 +287,13 @@ public class GenericRequestTest {
               withProperty(property, Preferences.getDefault(property)));
 
       try (cleanups) {
+        // Assert that the defaults are set to the correct data type
+        if (expected.matches("\\d+")) {
+          assertThat(property, isSetTo("0"));
+        } else {
+          assertThat(property, isSetTo("false"));
+        }
+
         KoLAdventure.setLastAdventure(location);
 
         GenericRequest request =
