@@ -238,7 +238,7 @@ IsleWar	adventure=131	DiffLevel: high Env: indoor Stat: 165	Wartime Hippy Camp (
 IsleWar	adventure=133	DiffLevel: high Env: outdoor Stat: 0	Wartime Hippy Camp	1 bullet-proof corduroys, 1 round purple sunglasses, 1 reinforced beaded headband|1 beer helmet, 1 distressed denim pants, 1 bejeweled pledge pin
 
 IsleWar	adventure=132	DiffLevel: high Env: outdoor Stat: 180	The Battlefield (Frat Uniform)
-IsleWar	adventure=140	DiffLevel: unknown Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
+IsleWar	adventure=140	DiffLevel: high Env: outdoor Stat: 180	The Battlefield (Hippy Uniform)
 
 Junkyard	adventure=182	DiffLevel: unknown Env: outdoor Stat: 170	Next to that Barrel with Something Burning in it	molybdenum hammer
 Junkyard	adventure=183	DiffLevel: unknown Env: outdoor Stat: 170	Near an Abandoned Refrigerator	molybdenum pliers
@@ -246,7 +246,7 @@ Junkyard	adventure=184	DiffLevel: unknown Env: outdoor Stat: 170	Over Where the 
 Junkyard	adventure=185	DiffLevel: unknown Env: outdoor Stat: 170	Out by that Rusted-Out Car	molybdenum screwdriver
 
 Farm	adventure=137	DiffLevel: high Env: indoor Stat: 165	McMillicancuddy's Barn
-Farm	adventure=141	DiffLevel: unknown Env: outdoor Stat: 170	McMillicancuddy's Pond
+Farm	adventure=141	DiffLevel: high Env: outdoor Stat: 170	McMillicancuddy's Pond
 Farm	adventure=142	DiffLevel: unknown Env: outdoor Stat: 170	McMillicancuddy's Back 40
 Farm	adventure=143	DiffLevel: unknown Env: outdoor Stat: 170	McMillicancuddy's Other Back 40
 Farm	adventure=144	DiffLevel: unknown Env: outdoor Stat: 170	McMillicancuddy's Granary
@@ -259,7 +259,7 @@ Orchard	adventure=128	DiffLevel: unknown Env: underground Stat: 165	The Feeding 
 Orchard	adventure=129	DiffLevel: unknown Env: underground Stat: 165	The Royal Guard Chamber	1 filthworm royal guard scent gland
 Orchard	adventure=130	DiffLevel: unknown Env: underground Stat: 170	The Filthworm Queen's Chamber
 
-IsleWar	adventure=126	DiffLevel: unknown Env: outdoor Stat: 165	The Themthar Hills
+IsleWar	adventure=126	DiffLevel: high Env: outdoor Stat: 165	The Themthar Hills
 
 # Big Island at peace
 
@@ -312,11 +312,11 @@ Town	adventure=495	DiffLevel: unknown Env: indoor Stat: 0	Super Villain's Lair
 
 # Bugbear Invasion path
 
-Mothership	adventure=281	DiffLevel: unknown Env: indoor Stat: 0	Medbay
-Mothership	adventure=282	DiffLevel: unknown Env: indoor Stat: 0	Waste Processing
-Mothership	adventure=283	DiffLevel: unknown Env: indoor Stat: 25	Sonar
-Mothership	adventure=284	DiffLevel: unknown Env: indoor Stat: 50	Science Lab
-Mothership	adventure=285	DiffLevel: unknown Env: indoor Stat: 60	Morgue
+Mothership	adventure=281	DiffLevel: mid Env: indoor Stat: 0	Medbay
+Mothership	adventure=282	DiffLevel: mid Env: indoor Stat: 0	Waste Processing
+Mothership	adventure=283	DiffLevel: mid Env: indoor Stat: 25	Sonar
+Mothership	adventure=284	DiffLevel: mid Env: indoor Stat: 50	Science Lab
+Mothership	adventure=285	DiffLevel: mid Env: indoor Stat: 60	Morgue
 Mothership	adventure=286	DiffLevel: unknown Env: indoor Stat: 90	Special Ops
 Mothership	adventure=287	DiffLevel: unknown Env: indoor Stat: 130	Engineering
 Mothership	adventure=288	DiffLevel: unknown Env: indoor Stat: 155	Navigation
