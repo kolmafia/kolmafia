@@ -773,7 +773,7 @@ public class AdventureRequest extends GenericRequest {
     return null;
   }
 
-  private static String parseEncounter(final String responseText) {
+  public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
     // bold text.
     int index = responseText.indexOf("<body>");
