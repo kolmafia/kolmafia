@@ -1,17 +1,27 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withStats;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -25,6 +35,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class RelayRequestWarningsTest {
 
@@ -64,6 +76,8 @@ public class RelayRequestWarningsTest {
     RelayRequest.reset();
     EquipmentManager.resetEquipment();
     YouRobotManager.reset();
+    // Would not be necessary if tests used Cleanups...
+    KoLCharacter.setPath(Path.NONE);
   }
 
   @AfterAll
@@ -72,6 +86,8 @@ public class RelayRequestWarningsTest {
     RelayRequest.reset();
     EquipmentManager.resetEquipment();
     YouRobotManager.reset();
+    // Would not be necessary if tests used Cleanups...
+    KoLCharacter.setPath(Path.NONE);
   }
 
   private String adventureURL(int adventureId, String confirmation) {
@@ -84,6 +100,118 @@ public class RelayRequestWarningsTest {
       buf.append("=on");
     }
     return buf.toString();
+  }
+
+  @Nested
+  class WineGlass {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final KoLAdventure CELLAR =
+        AdventureDatabase.getAdventureByName("The Typical Tavern Cellar");
+    private static final String confirm = RelayRequest.CONFIRM_WINEGLASS;
+
+    @Test
+    public void thatNoWarningNeededIfNotOverDrunk() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withPath(Path.NONE),
+              withInebriety(5),
+              withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfNoWineglass() {
+      var cleanups = new Cleanups(withInebriety(30), withStats(100, 100, 100));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatWarningNeededIfEquippableInOffhand() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertTrue(request.sendWineglassWarning(WARREN));
+        String expected =
+            "KoLmafia has detected that you are about to adventure while overdrunk. "
+                + "If you are sure you wish to adventure in a Drunken Stupor, click the icon on the left to adventure. "
+                + "If this was an accident, click the icon in the center to equip Drunkula's wineglass. "
+                + "If you want to adventure in a Drunken Stupor and not be nagged, click the icon on the right to closet Drunkula's wineglass.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfNotSnarfblatAdventure() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(CELLAR.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(CELLAR));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
+    public void thatNoWarningNeededIfWineglassEquipped(final int slot) {
+      var cleanups =
+          new Cleanups(
+              withInebriety(30),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfUnequippableInOffhand() {
+      var cleanups = new Cleanups(withInebriety(30), withItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfConfirmedForOffhand() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfConfirmedForFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withInebriety(30),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
   }
 
   @Nested
