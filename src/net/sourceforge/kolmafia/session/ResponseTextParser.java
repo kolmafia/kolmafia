@@ -569,9 +569,7 @@ public class ResponseTextParser {
       SushiRequest.parseConsumption(location, responseText, true);
     } else if (location.startsWith("tavern.php")) {
       TavernRequest.parseResponse(location, responseText);
-    }
-
-    if (location.startsWith("tiles.php")) {
+    } else if (location.startsWith("tiles.php")) {
       if (responseText.contains("charpane.php")) {
         // Since a charpane refresh was requested, this might have taken a turn
         AdventureSpentDatabase.setNoncombatEncountered(true);
