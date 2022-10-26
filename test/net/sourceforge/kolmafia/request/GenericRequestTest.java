@@ -7,6 +7,7 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -271,7 +272,12 @@ public class GenericRequestTest {
       "sonofa_beach, Sonofa Beach, Gunbowwowder, hallowienerSonofaBeach, true",
       "sloppy_seconds_diner, Sloppy Seconds Diner, Dog Diner Afternoon, hallowienerBeachBuck, true",
       "secret_government_laboratory, The Secret Government Laboratory, Labrador Conspirator, hallowienerCoinspiracy, 1",
-      "middle_chamber, The Middle Chamber, Ratchet-catcher, hallowienerMiddleChamber, true"
+      "middle_chamber, The Middle Chamber, Ratchet-catcher, hallowienerMiddleChamber, true",
+      "overgrown_lot, The Overgrown Lot, Boooooze Hound, hallowienerOvergrownLot, true",
+      "madness_bakery, Madness Bakery, Baker's Dogzen, hallowienerMadnessBakery, true",
+      "smut_orcs, Smut Orc Logging Camp, Carpenter Dog, hallowienerSmutOrcs, true",
+      "guano_junction, Guano Junction, Are They Made of Real Dogs?, hallowienerGuanoJunction, true",
+      "skeleton_store, The Skeleton Store, Fruuuuuuuit, hallowienerSkeletonStore, true"
     })
     public void hallowienerPickedUp(
         String htmlName, String location, String encounterName, String property, String expected) {
@@ -281,6 +287,8 @@ public class GenericRequestTest {
               withProperty(property, Preferences.getDefault(property)));
 
       try (cleanups) {
+        assertThat(property, not(isSetTo(expected)));
+
         KoLAdventure.setLastAdventure(location);
 
         GenericRequest request =
