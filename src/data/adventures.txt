@@ -69,7 +69,6 @@ Degrassi Knoll	adventure=352	DiffLevel: low Env: indoor Stat: 10	The Degrassi Kn
 Degrassi Knoll	adventure=353	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Gym	1 frilly skirt|1 maiden wig
 Degrassi Knoll	adventure=354	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Garage	1 gnollish toolbox, 1 tires
 
-Plains	adventure=18	DiffLevel: unknown Env: unknown Stat: 10	Degrassi Knoll
 Plains	adventure=20	DiffLevel: low Env: indoor Stat: 15	The "Fun" House	1 box|20 empty greasepaint tube
 Plains	adventure=21	DiffLevel: low Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|The Shield of Brook
 Plains	adventure=58	DiffLevel: mid Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
@@ -706,3 +705,23 @@ PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	St
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Red Roger's Fortress
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Jack's Hideout
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Temple
+
+# Obselete areas that nevertheless are reported as possibilities for the autumnaton
+Plains	adventure=18	DiffLevel: unknown Env: unknown Stat: 10	Degrassi Knoll
+Manor1	adventure=102	DiffLevel: unknown Env: unknown Stat: 20	The Haunted Kitchen (OLD)
+Manor1	adventure=103	DiffLevel: unknown Env: unknown Stat: 20	The Haunted Conservatory (OLD)
+Manor1	adventure=105	DiffLevel: unknown Env: unknown Stat: 20	The Haunted Billiards Room (OLD)
+Manor2	adventure=107	DiffLevel: unknown Env: unknown Stat: 40	The Haunted Bathroom (OLD)
+Manor2	adventure=108	DiffLevel: unknown Env: unknown Stat: 40	The Haunted Bedroom (OLD)
+Woods	adventure=111	DiffLevel: unknown Env: unknown Stat: 110	The Black Forest (OLD)
+Woods	adventure=118	DiffLevel: unknown Env: unknown	Stat: 120   The Hidden City
+Plains	adventure=119	DiffLevel: unknown Env: unknown Stat: 120	Inside the Palindome (OLD)
+Beach	adventure=121	DiffLevel: unknown Env: unknown Stat: 120	The Arid, Extra-Dry Desert
+Beach	adventure=123	DiffLevel: unknown Env: unknown Stat: 120	The Arid, Extra-Dry Desert
+Pyramid	adventure=124	DiffLevel: unknown Env: unknown Stat: 150	OLD The Upper Chamber
+Pyramid	adventure=125	DiffLevel: unknown Env: unknown Stat: 140	OLD The Middle Chamber
+Manor0	adventure=178	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Northwest)
+Manor0	adventure=179	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Northeast
+Manor0	adventure=180	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Southwest)
+Manor0	adventure=181	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Southwest)
+Nemesis Cave	adventure=213	DiffLevel: unknown Env: unknown Stat: 0	The Fungal Nethers
