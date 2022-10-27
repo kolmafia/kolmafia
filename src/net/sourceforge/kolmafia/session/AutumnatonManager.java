@@ -5,15 +5,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutumnatonManager {
@@ -85,6 +89,40 @@ public class AutumnatonManager {
     }
     Preferences.setInteger(
         "autumnatonQuestTurn", KoLCharacter.getTurnsPlayed() + calculateQuestTurns(questNumber));
+  }
+
+  private static final Pattern SNARFBLAT_PATTERN = Pattern.compile("heythereprogrammer=(\\d+)");
+
+  public static int getSnarfblat(final String urlString) {
+    Matcher matcher = SNARFBLAT_PATTERN.matcher(urlString);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
+  }
+
+  public static boolean registerRequest(final String urlString) {
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
+    switch (decision) {
+      case 1 -> {
+        // Installing an upgrade
+        int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
+        String desc = ChoiceManager.choiceDescription(choice, decision);
+        RequestLogger.printLine(desc);
+        RequestLogger.updateSessionLog(desc);
+        return true;
+      }
+      case 2 -> {
+        // Sending on a mission
+        int snarfblat = getSnarfblat(urlString);
+        KoLAdventure adventure = AdventureDatabase.getAdventure(snarfblat);
+        if (adventure == null) {
+          return false;
+        }
+        String message = "Send your autumn-aton to " + adventure.getAdventureName();
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+        return true;
+      }
+    }
+    return false;
   }
 
   public static void postChoice(

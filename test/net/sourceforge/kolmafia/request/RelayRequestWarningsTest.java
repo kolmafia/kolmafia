@@ -1,17 +1,27 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withStats;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -21,10 +31,13 @@ import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class RelayRequestWarningsTest {
 
@@ -63,7 +76,8 @@ public class RelayRequestWarningsTest {
     KoLConstants.inventory.clear();
     RelayRequest.reset();
     EquipmentManager.resetEquipment();
-    YouRobotManager.reset();
+    // Would not be necessary if tests used Cleanups...
+    KoLCharacter.setPath(Path.NONE);
   }
 
   @AfterAll
@@ -71,13 +85,14 @@ public class RelayRequestWarningsTest {
     KoLConstants.inventory.clear();
     RelayRequest.reset();
     EquipmentManager.resetEquipment();
-    YouRobotManager.reset();
+    // Would not be necessary if tests used Cleanups...
+    KoLCharacter.setPath(Path.NONE);
   }
 
-  private String adventureURL(int adventureId, String confirmation) {
+  private String adventureURL(KoLAdventure adventure, String confirmation) {
+    var request = adventure.getRequest();
     StringBuilder buf = new StringBuilder();
-    buf.append("adventure.php?snarfblat=");
-    buf.append(adventureId);
+    buf.append(request.getURLString());
     if (confirmation != null) {
       buf.append("&");
       buf.append(confirmation);
@@ -87,127 +102,319 @@ public class RelayRequestWarningsTest {
   }
 
   @Nested
-  class MohawkWig {
+  class WineGlass {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final KoLAdventure CELLAR =
+        AdventureDatabase.getAdventureByName("The Typical Tavern Cellar");
+    private static final String confirm = RelayRequest.CONFIRM_WINEGLASS;
+
     @Test
-    public void thatMohawkWigWarningWorks() {
-      RelayRequest request = new RelayRequest(false);
+    public void thatNoWarningNeededIfNotOverDrunk() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withPath(Path.NONE),
+              withInebriety(5),
+              withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
 
-      // No warning needed if you are not in the Castle Top Floor
-      request.constructURLString(adventureURL(AdventurePool.ABOO_PEAK, null), true);
-      assertFalse(request.sendMohawkWigWarning());
+    @Test
+    public void thatNoWarningNeededIfNoWineglass() {
+      var cleanups = new Cleanups(withInebriety(30), withStats(100, 100, 100));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
 
-      // No warning needed if this a resubmission of the "go ahead" URL
-      request.constructURLString(
-          adventureURL(AdventurePool.CASTLE_TOP, RelayRequest.CONFIRM_MOHAWK_WIG), true);
-      assertFalse(request.sendMohawkWigWarning());
-      assertTrue(RelayRequest.ignoreMohawkWigWarning);
+    @Test
+    public void thatWarningNeededIfEquippableInOffhand() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertTrue(request.sendWineglassWarning(WARREN));
+        String expected =
+            "KoLmafia has detected that you are about to adventure while overdrunk. "
+                + "If you are sure you wish to adventure in a Drunken Stupor, click the icon on the left to adventure. "
+                + "If this was an accident, click the icon in the center to equip Drunkula's wineglass. "
+                + "If you want to adventure in a Drunken Stupor and not be nagged, click the icon on the right to closet Drunkula's wineglass.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
 
-      // No warning needed if we already said to ignore warning
-      request.constructURLString(adventureURL(AdventurePool.CASTLE_TOP, null), true);
-      assertFalse(request.sendMohawkWigWarning());
+    @Test
+    public void thatNoWarningNeededIfNotSnarfblatAdventure() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(CELLAR.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(CELLAR));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
+    public void thatNoWarningNeededIfWineglassEquipped(final int slot) {
+      var cleanups =
+          new Cleanups(
+              withInebriety(30),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfUnequippableInOffhand() {
+      var cleanups = new Cleanups(withInebriety(30), withItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfConfirmedForOffhand() {
+      var cleanups =
+          new Cleanups(withInebriety(30), withEquippableItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+
+    @Test
+    public void thatNoWarningNeededIfConfirmedForFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withInebriety(30),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withItem(ItemPool.DRUNKULA_WINEGLASS));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertFalse(request.sendWineglassWarning(WARREN));
+      }
+    }
+  }
+
+  @Nested
+  class MohawkWig {
+    private static final KoLAdventure A_BOO_PEAK =
+        AdventureDatabase.getAdventureByName("A-Boo Peak");
+    private static final KoLAdventure CASTLE_TOP_FLOOR =
+        AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Top Floor)");
+    private static final String confirm = RelayRequest.CONFIRM_MOHAWK_WIG;
+    private static final AdventureResult MOHAWK_WIG = ItemPool.get(ItemPool.MOHAWK_WIG);
+
+    @BeforeEach
+    public void beforeEach() {
       RelayRequest.ignoreMohawkWigWarning = false;
+    }
 
-      // No warning if we don't have a Mohawk wig in inventory
-      assertFalse(request.sendMohawkWigWarning());
+    @Test
+    public void noWarningIfNotTopFloor() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(A_BOO_PEAK, null), false);
+        // No warning needed if you are not in the Castle Top Floor
+        assertFalse(request.sendMohawkWigWarning());
+      }
+    }
 
-      // No warning if we have a Mohawk wig equipped
-      int slot = EquipmentManager.HAT;
-      AdventureResult wig = ItemPool.get(ItemPool.MOHAWK_WIG);
-      EquipmentManager.setEquipment(slot, wig);
-      assertFalse(request.sendMohawkWigWarning());
-      EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
+    @Test
+    public void noWarningWithNoMohawkWigInInventory() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+        // With no Mahawk Wig in Inventory, no warning
+        assertFalse(request.sendMohawkWigWarning());
+      }
+    }
 
-      // Put a Mohawk wig into inventory
-      AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.MOHAWK_WIG));
+    @Test
+    public void noWarningIfConfirmed() {
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.MOHAWK_WIG));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, confirm), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendMohawkWigWarning());
+        assertTrue(RelayRequest.ignoreMohawkWigWarning);
+      }
+    }
 
-      // No warning if we have already completed the castle quest
-      QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step10");
-      assertFalse(request.sendMohawkWigWarning());
-      QuestDatabase.setQuestProgress(Quest.GARBAGE, QuestDatabase.UNSTARTED);
+    @Test
+    public void noWarningIfPreviouslyConfirmed() {
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.MOHAWK_WIG));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+        // No warning needed if this a resubmission with confirmation
+        RelayRequest.ignoreMohawkWigWarning = true;
+        assertFalse(request.sendMohawkWigWarning());
+        assertTrue(RelayRequest.ignoreMohawkWigWarning);
+      }
+    }
 
-      // At this point, we have the wig in inventory, have not completed the
-      // castle quest, are adventuring on the top floor of the castle, and have
-      // not previously told KoLmafia to stop nagging.
+    @Test
+    public void noWarningIfMohawkWigEquipped() {
+      var cleanups = new Cleanups(withEquipped(EquipmentManager.HAT, MOHAWK_WIG));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+        // No warning needed if Mohawk wig already equipped
+        assertFalse(request.sendMohawkWigWarning());
+      }
+    }
 
-      // Set Base Moxie to 50 and Buffed Moxie to 60
-      long base = KoLCharacter.calculatePointSubpoints(50);
-      long buffed = KoLCharacter.calculatePointSubpoints(60);
-      KoLCharacter.setStatPoints(0, 0, 0, 0, (int) buffed, (int) base);
-      assertEquals(50, KoLCharacter.getBaseMoxie());
+    @Test
+    public void noWarningIfCastleQuestCompleted() {
+      var cleanups =
+          new Cleanups(withEquippableItem(MOHAWK_WIG), withQuestProgress(Quest.GARBAGE, "step10"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+        // No warning needed if Mohawk wig already equipped
+        assertFalse(request.sendMohawkWigWarning());
+      }
+    }
 
-      // We expect a warning.
-      KoLCharacter.setPath(Path.NONE);
-      assertTrue(request.sendMohawkWigWarning());
-      String expected =
-          "You are about to adventure without your Mohawk Wig in the Castle."
-              + " It requires base Moxie of 55, but yours is only 50."
-              + " If you are sure you wish to adventure without it, click the icon to adventure.";
-      assertEquals(expected, request.lastWarning);
+    @Test
+    public void warningIfUnequippableMohawkWig() {
+      var cleanups = new Cleanups(withItem(MOHAWK_WIG), withStats(50, 50, 50));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+        // No warning needed if Mohawk wig already equipped
+        assertTrue(request.sendMohawkWigWarning());
+        String expected =
+            "You are about to adventure without your Mohawk Wig in the Castle."
+                + " It requires base Moxie of 55, but yours is only 50."
+                + " If you are sure you wish to adventure without it, click the icon to adventure.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
 
-      // Try it in You, Robot
-      KoLCharacter.setPath(Path.YOU_ROBOT);
-      assertTrue(request.sendMohawkWigWarning());
-      expected =
-          "You are about to adventure without your Mohawk Wig in the Castle."
-              + " It requires base Moxie of 55, but yours is only 50."
-              + " Perhaps it is time to visit Statbot 5000."
-              + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
-              + " If you want to visit the Scrapheap, click the icon on the right.";
-      assertEquals(expected, request.lastWarning);
+    @Test
+    public void warningIfEquippableMohawkWig() {
+      var cleanups = new Cleanups(withEquippableItem(MOHAWK_WIG));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+        assertTrue(request.sendMohawkWigWarning());
+        String expected =
+            "You are about to adventure without your Mohawk Wig in the Castle."
+                + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
+                + " If you want to put the hat on first, click the icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
 
-      // Set your stats to make the item equippable
-      base = KoLCharacter.calculatePointSubpoints(55);
-      KoLCharacter.setStatPoints(0, 0, 0, 0, (int) buffed, (int) base);
-      assertEquals(55, KoLCharacter.getBaseMoxie());
+    @Nested
+    class YouRobot {
 
-      // Try again with no path
-      KoLCharacter.setPath(Path.NONE);
-      assertTrue(request.sendMohawkWigWarning());
-      expected =
-          "You are about to adventure without your Mohawk Wig in the Castle."
-              + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
-              + " If you want to put the hat on first, click the icon on the right.";
-      assertEquals(expected, request.lastWarning);
+      @AfterEach
+      public void AfterEach() {
+        YouRobotManager.reset();
+      }
 
-      // Again in You, Robot, no Mannequin Head
-      KoLCharacter.setPath(Path.YOU_ROBOT);
-      assertTrue(request.sendMohawkWigWarning());
-      expected =
-          "You are about to adventure without your Mohawk Wig in the Castle."
-              + " You need to attach a Mannequin Head in order to wear a hat."
-              + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
-              + " If you want to visit the Scrapheap, click the icon on the right.";
-      assertEquals(expected, request.lastWarning);
+      @Test
+      public void warningIfUnequippableMohawkWig() {
+        var cleanups =
+            new Cleanups(withPath(Path.YOU_ROBOT), withItem(MOHAWK_WIG), withStats(50, 50, 50));
+        try (cleanups) {
+          RelayRequest request = new RelayRequest(false);
+          request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+          // No warning needed if Mohawk wig already equipped
+          assertTrue(request.sendMohawkWigWarning());
+          String expected =
+              "You are about to adventure without your Mohawk Wig in the Castle."
+                  + " It requires base Moxie of 55, but yours is only 50."
+                  + " Perhaps it is time to visit Statbot 5000."
+                  + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
+                  + " If you want to visit the Scrapheap, click the icon on the right.";
+          assertEquals(expected, request.lastWarning);
+        }
+      }
 
-      // Again in You, Robot, with Mannequin Head
-      YouRobotManager.testInstallUpgrade(RobotUpgrade.MANNEQUIN_HEAD);
-      assertTrue(request.sendMohawkWigWarning());
-      expected =
-          "You are about to adventure without your Mohawk Wig in the Castle."
-              + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
-              + " If you want to put the hat on first, click the icon on the right.";
-      assertEquals(expected, request.lastWarning);
+      @Test
+      public void warningIfEquippableMohawkWigWithoutMannequinHead() {
+        var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withEquippableItem(MOHAWK_WIG));
+        try (cleanups) {
+          RelayRequest request = new RelayRequest(false);
+          request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+          // No warning needed if Mohawk wig already equipped
+          assertTrue(request.sendMohawkWigWarning());
+          String expected =
+              "You are about to adventure without your Mohawk Wig in the Castle."
+                  + " You need to attach a Mannequin Head in order to wear a hat."
+                  + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
+                  + " If you want to visit the Scrapheap, click the icon on the right.";
+          assertEquals(expected, request.lastWarning);
+        }
+      }
+
+      @Test
+      public void warningIfEquippableMohawkWigWithMannequinHead() {
+        var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withEquippableItem(MOHAWK_WIG));
+        try (cleanups) {
+          YouRobotManager.testInstallUpgrade(RobotUpgrade.MANNEQUIN_HEAD);
+          RelayRequest request = new RelayRequest(false);
+          request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
+          // No warning needed if Mohawk wig already equipped
+          assertTrue(request.sendMohawkWigWarning());
+          String expected =
+              "You are about to adventure without your Mohawk Wig in the Castle."
+                  + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
+                  + " If you want to put the hat on first, click the icon on the right.";
+          assertEquals(expected, request.lastWarning);
+        }
+      }
     }
   }
 
   @Nested
   class SurvivalKnife {
+    private static final KoLAdventure A_BOO_PEAK =
+        AdventureDatabase.getAdventureByName("A-Boo Peak");
+    private static final KoLAdventure ARID_DESERT =
+        AdventureDatabase.getAdventureByName("The Arid, Extra-Dry Desert");
+    private static final String confirm = RelayRequest.CONFIRM_DESERT_WEAPON;
+    private static final AdventureResult SURVIVAL_KNIFE = ItemPool.get(ItemPool.SURVIVAL_KNIFE);
+
     @Test
     public void thatSurvivalKnifeWarningWorks() {
       RelayRequest request = new RelayRequest(false);
 
       // No warning needed if you are not in the Arid, Extra-Dry Desert
-      request.constructURLString(adventureURL(AdventurePool.ABOO_PEAK, null), true);
+      request.constructURLString(adventureURL(A_BOO_PEAK, null), true);
       assertFalse(request.sendDesertWeaponWarning());
 
       // No warning needed if this a resubmission of the "go ahead" URL
-      request.constructURLString(
-          adventureURL(AdventurePool.ARID_DESERT, RelayRequest.CONFIRM_DESERT_WEAPON), true);
+      request.constructURLString(adventureURL(ARID_DESERT, confirm), true);
       assertFalse(request.sendDesertWeaponWarning());
       assertTrue(RelayRequest.ignoreDesertWeaponWarning);
 
       // No warning needed if we already said to ignore warning
-      request.constructURLString(adventureURL(AdventurePool.ARID_DESERT, null), true);
+      request.constructURLString(adventureURL(ARID_DESERT, null), true);
       assertFalse(request.sendDesertWeaponWarning());
       RelayRequest.ignoreDesertWeaponWarning = false;
 
@@ -217,13 +424,12 @@ public class RelayRequestWarningsTest {
       // No warning if we have a survival knife equipped
       int slot = EquipmentManager.WEAPON;
       AdventureResult knife = ItemPool.get(ItemPool.SURVIVAL_KNIFE);
-      EquipmentManager.setEquipment(slot, knife);
+      EquipmentManager.setEquipment(slot, SURVIVAL_KNIFE);
       assertFalse(request.sendDesertWeaponWarning());
       EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
 
       // Put a survival knife into inventory
-      AdventureResult.addResultToList(
-          KoLConstants.inventory, ItemPool.get(ItemPool.SURVIVAL_KNIFE));
+      AdventureResult.addResultToList(KoLConstants.inventory, SURVIVAL_KNIFE);
 
       // No warning if we have already completed enough desert exploration
       Preferences.setInteger("desertExploration", 99);
@@ -235,7 +441,6 @@ public class RelayRequestWarningsTest {
       // previously told KoLmafia to stop nagging.
 
       // We expect a warning.
-      KoLCharacter.setPath(Path.NONE);
       assertTrue(request.sendDesertWeaponWarning());
       String expected =
           "You are about to adventure without your survival knife in the desert. "
@@ -247,6 +452,20 @@ public class RelayRequestWarningsTest {
 
   @Nested
   class Machete {
+    private static final KoLAdventure A_BOO_PEAK =
+        AdventureDatabase.getAdventureByName("A-Boo Peak");
+    private static final KoLAdventure NW_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Northwest)");
+    private static final KoLAdventure SW_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Southwest)");
+    private static final KoLAdventure NE_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Northeast)");
+    private static final KoLAdventure SE_SHRINE =
+        AdventureDatabase.getAdventureByName("An Overgrown Shrine (Southeast)");
+    private static final KoLAdventure ZIGGURAT =
+        AdventureDatabase.getAdventureByName("A Massive Ziggurat");
+    private static final String confirm = RelayRequest.CONFIRM_MACHETE;
+
     private void testMacheteItem(RelayRequest request, int itemId) {
       // No warning if we have the machete equipped
       int slot = EquipmentManager.WEAPON;
@@ -353,7 +572,7 @@ public class RelayRequestWarningsTest {
       KoLConstants.inventory.clear();
     }
 
-    private void testMacheteZone(RelayRequest request, int zone, String property) {
+    private void testMacheteZone(RelayRequest request, KoLAdventure zone, String property) {
       request.constructURLString(adventureURL(zone, null), true);
 
       // If the property is zero, we have not yet seen the choice
@@ -375,17 +594,16 @@ public class RelayRequestWarningsTest {
       RelayRequest request = new RelayRequest(false);
 
       // No warning needed if you are not in a zone with lianas
-      request.constructURLString(adventureURL(AdventurePool.ABOO_PEAK, null), true);
+      request.constructURLString(adventureURL(A_BOO_PEAK, null), true);
       assertFalse(request.sendMacheteWarning());
 
       // No warning needed if this a resubmission of the "go ahead" URL
-      request.constructURLString(
-          adventureURL(AdventurePool.NW_SHRINE, RelayRequest.CONFIRM_MACHETE), true);
+      request.constructURLString(adventureURL(NW_SHRINE, RelayRequest.CONFIRM_MACHETE), true);
       assertFalse(request.sendMacheteWarning());
       assertTrue(RelayRequest.ignoreMacheteWarning);
 
       // No warning needed if we already said to ignore warning
-      request.constructURLString(adventureURL(AdventurePool.NW_SHRINE, null), true);
+      request.constructURLString(adventureURL(NW_SHRINE, null), true);
       assertFalse(request.sendMacheteWarning());
       RelayRequest.ignoreMacheteWarning = false;
 
@@ -410,11 +628,11 @@ public class RelayRequestWarningsTest {
       assertEquals(expected, request.lastWarning);
 
       // Test each of the liana zones
-      testMacheteZone(request, AdventurePool.NW_SHRINE, "hiddenApartmentProgress");
-      testMacheteZone(request, AdventurePool.SW_SHRINE, "hiddenHospitalProgress");
-      testMacheteZone(request, AdventurePool.NE_SHRINE, "hiddenOfficeProgress");
-      testMacheteZone(request, AdventurePool.SE_SHRINE, "hiddenBowlingAlleyProgress");
-      testMacheteZone(request, AdventurePool.ZIGGURAT, "zigguratLianas");
+      testMacheteZone(request, NW_SHRINE, "hiddenApartmentProgress");
+      testMacheteZone(request, SW_SHRINE, "hiddenHospitalProgress");
+      testMacheteZone(request, NE_SHRINE, "hiddenOfficeProgress");
+      testMacheteZone(request, SE_SHRINE, "hiddenBowlingAlleyProgress");
+      testMacheteZone(request, ZIGGURAT, "zigguratLianas");
     }
   }
 

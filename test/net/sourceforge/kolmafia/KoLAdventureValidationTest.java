@@ -869,21 +869,61 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class BugbearInvasion {
+    private static final KoLAdventure MEDBAY = AdventureDatabase.getAdventureByName("Medbay");
+    private static final KoLAdventure WASTE_PROCESSING =
+        AdventureDatabase.getAdventureByName("Waste Processing");
+    private static final KoLAdventure SONAR = AdventureDatabase.getAdventureByName("Sonar");
+    private static final KoLAdventure SCIENCE_LAB =
+        AdventureDatabase.getAdventureByName("Science Lab");
+    private static final KoLAdventure MORGUE = AdventureDatabase.getAdventureByName("Morgue");
+    private static final KoLAdventure SPECIAL_OPS =
+        AdventureDatabase.getAdventureByName("Special Ops");
+    private static final KoLAdventure ENGINEERING =
+        AdventureDatabase.getAdventureByName("Engineering");
+    private static final KoLAdventure NAVIGATION =
+        AdventureDatabase.getAdventureByName("Navigation");
+    private static final KoLAdventure GALLEY = AdventureDatabase.getAdventureByName("Galley");
+
     @Test
-    public void cannotVisitMothershipUnlessBugbearsAreInvading() {
+    public void cannotVisitMothershipUnlessBugbearInvasion() {
       var cleanups = new Cleanups(withPath(Path.NONE));
       try (cleanups) {
-        KoLAdventure area = AdventureDatabase.getAdventureByName("Medbay");
-        assertFalse(area.canAdventure());
+        assertFalse(MEDBAY.canAdventure());
+        assertFalse(WASTE_PROCESSING.canAdventure());
+        assertFalse(SONAR.canAdventure());
+        assertFalse(SCIENCE_LAB.canAdventure());
+        assertFalse(MORGUE.canAdventure());
+        assertFalse(SPECIAL_OPS.canAdventure());
+        assertFalse(ENGINEERING.canAdventure());
+        assertFalse(NAVIGATION.canAdventure());
+        assertFalse(GALLEY.canAdventure());
       }
     }
 
     @Test
-    public void canVisitMothershipUnlessBugbearsAreInvading() {
-      var cleanups = new Cleanups(withPath(Path.BUGBEAR_INVASION));
+    public void canVisitMothershipZonesOnlyIfOpen() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.BUGBEAR_INVASION),
+              withProperty("statusMedbay", "cleared"),
+              withProperty("statusWasteProcessing", "open"),
+              withProperty("statusSonar", "2"),
+              withProperty("statusScienceLab", "unlocked"),
+              withProperty("statusMorgue", "unlocked"),
+              withProperty("statusSpecialOps", "0"),
+              withProperty("statusEngineering", "7"),
+              withProperty("statusNavigation", "unlocked"),
+              withProperty("statusGalley", "0"));
       try (cleanups) {
-        KoLAdventure area = AdventureDatabase.getAdventureByName("Medbay");
-        assertTrue(area.canAdventure());
+        assertFalse(MEDBAY.canAdventure());
+        assertTrue(WASTE_PROCESSING.canAdventure());
+        assertFalse(SONAR.canAdventure());
+        assertFalse(SCIENCE_LAB.canAdventure());
+        assertFalse(MORGUE.canAdventure());
+        assertFalse(SPECIAL_OPS.canAdventure());
+        assertFalse(ENGINEERING.canAdventure());
+        assertFalse(NAVIGATION.canAdventure());
+        assertFalse(GALLEY.canAdventure());
       }
     }
   }

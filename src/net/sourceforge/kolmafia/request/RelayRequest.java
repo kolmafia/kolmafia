@@ -121,7 +121,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_ARCADE = "confirm9";
   private static final String CONFIRM_KUNGFU = "confirm10";
   private static final String CONFIRM_POOL_SKILL = "confirm11";
-  private static final String CONFIRM_WINEGLASS = "confirm12";
+  public static final String CONFIRM_WINEGLASS = "confirm12";
   private static final String CONFIRM_COLOSSEUM = "confirm13";
   private static final String CONFIRM_GREMLINS = "confirm14";
   private static final String CONFIRM_HARDCOREPVP = "confirm15";
@@ -2720,7 +2720,7 @@ public class RelayRequest extends PasswordHashRequest {
     return false;
   }
 
-  private boolean sendWineglassWarning(final KoLAdventure adventure) {
+  public boolean sendWineglassWarning(final KoLAdventure adventure) {
     if (adventure == null) {
       return false;
     }
@@ -2735,6 +2735,15 @@ public class RelayRequest extends PasswordHashRequest {
 
     // These don't need warning as they don't send you to a Drunken Stupor
     if (!adventure.hasSnarfblat()) {
+      return false;
+    }
+
+    // If it is is not in inventory, nothing we can do
+    if (InventoryManager.getCount(ItemPool.DRUNKULA_WINEGLASS) == 0) {
+      return false;
+    }
+
+    if (!EquipmentManager.canEquip(ItemPool.DRUNKULA_WINEGLASS)) {
       return false;
     }
 
