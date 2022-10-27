@@ -34,7 +34,7 @@
 # Skill names have changed, keeping this for historical reasons only
 
 # 16	Summon Snowcone		1	5	0
-17	Summon Hilarious Objects		1	5	0
+# 17	Summon Hilarious Objects		1	5	0
 # 18	Summon Candy Hearts		1	0	0
 
 19	Transcendent Olfaction	snout.gif	5	0	0
