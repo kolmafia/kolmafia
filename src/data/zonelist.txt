@@ -195,4 +195,4 @@ Crimbo19	Removed	Christmas 2019
 Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 Crimbo21	Removed	Christmas 2021
 
-Obsolete	Removed Kol has retired or changed snarfblat
+Obsolete	Removed	Retired zones
