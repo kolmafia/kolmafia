@@ -106,11 +106,11 @@ public class PlaceRequest extends GenericRequest {
             "ns_09_monster5",
             // Her Naughtiness
             "ns_10_sorcfight" -> 1;
-        case "pyramid" -> action.startsWith("pyramid_state")
-            ? PyramidRequest.lowerChamberTurnsUsed()
-            : 0;
         default -> 0;
       };
+      case "pyramid" -> action.startsWith("pyramid_state")
+          ? PyramidRequest.lowerChamberTurnsUsed()
+          : 0;
       default -> 0;
     };
   }
