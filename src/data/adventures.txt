@@ -69,6 +69,7 @@ Degrassi Knoll	adventure=352	DiffLevel: low Env: indoor Stat: 10	The Degrassi Kn
 Degrassi Knoll	adventure=353	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Gym	1 frilly skirt|1 maiden wig
 Degrassi Knoll	adventure=354	DiffLevel: low Env: indoor Stat: 10	The Degrassi Knoll Garage	1 gnollish toolbox, 1 tires
 
+Plains	adventure=18	DiffLevel: unknown Env: unknown Stat: 10	Degrassi Knoll
 Plains	adventure=20	DiffLevel: low Env: indoor Stat: 15	The "Fun" House	1 box|20 empty greasepaint tube
 Plains	adventure=21	DiffLevel: low Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|The Shield of Brook
 Plains	adventure=58	DiffLevel: mid Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
