@@ -95,7 +95,7 @@ public class AutumnatonManager {
 
   public static int getSnarfblat(final String urlString) {
     Matcher matcher = SNARFBLAT_PATTERN.matcher(urlString);
-    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : null;
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
   }
 
   public static boolean registerRequest(final String urlString) {
@@ -113,6 +113,9 @@ public class AutumnatonManager {
         // Sending on a mission
         int snarfblat = getSnarfblat(urlString);
         KoLAdventure adventure = AdventureDatabase.getAdventure(snarfblat);
+        if (adventure == null) {
+          return false;
+        }
         String message = "Send your autumn-aton to " + adventure.getAdventureName();
         RequestLogger.printLine(message);
         RequestLogger.updateSessionLog(message);
