@@ -14,26 +14,32 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.session.VolcanoMazeManager.VolcanoMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class VolcanoMazeManagerTest {
 
@@ -46,6 +52,96 @@ public class VolcanoMazeManagerTest {
   @BeforeEach
   public void beforeEach() {
     Preferences.reset("volcano maze");
+  }
+
+  @Nested
+  class Maps {
+    @BeforeEach
+    public void beforeEach() {
+      Preferences.reset("volcano maze");
+      VolcanoMazeManager.reset();
+    }
+
+    // Validate maps.
+    //
+    // http://ben.bloomroad.com/kol/nemesis/volcano/index.html
+    //
+    // There are 6 sets of maps - 3 sets of 2, which are mirror images of each other.
+    // RoyalTonberry numbers them {1, 2}, {3, 4}, {5, 6}
+    //
+    // We will number them the same way.
+
+    private static final int NCOLS = VolcanoMazeManager.NCOLS;
+    private static final int START = VolcanoMazeManager.start;
+
+    private String[] loadMapSequence(int key) {
+      VolcanoMap[] maps = VolcanoMazeManager.getMapSequence(key);
+      assertNotNull(maps);
+      int size = maps.length;
+      assertEquals(VolcanoMazeManager.MAPS, size);
+      String[] coords = new String[size];
+      for (int i = 0; i < size; ++i) {
+        VolcanoMap map = maps[i];
+        String coordinates = map.getCoordinates();
+        coords[i] = coordinates;
+      }
+      return coords;
+    }
+
+    private String[] reflectMapSequence(String[] maps) {
+      int size = maps.length;
+      assertEquals(VolcanoMazeManager.MAPS, size);
+      String[] reflection = new String[size];
+      for (int i = 0; i < size; ++i) {
+        String input = maps[i];
+        String reflected =
+            Arrays.stream(input.split(","))
+                .map(
+                    in -> {
+                      int platform = Integer.valueOf(in);
+                      int row = platform / NCOLS;
+                      int col = platform % NCOLS;
+                      return (row * NCOLS) + (NCOLS - col - 1);
+                    })
+                .sorted()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+        reflection[i] = reflected;
+      }
+      return reflection;
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, 65", "2, 65", "3, 41", "4, 41", "5, 47", "6, 47"})
+    public void validateMapSequence(int key, int pathLength) {
+      String[] coords = loadMapSequence(key);
+      var cleanups =
+          new Cleanups(
+              withProperty("volcanoMaze1", coords[0]),
+              withProperty("volcanoMaze2", coords[1]),
+              withProperty("volcanoMaze3", coords[2]),
+              withProperty("volcanoMaze4", coords[3]),
+              withProperty("volcanoMaze5", coords[4]));
+      try (cleanups) {
+        VolcanoMazeManager.loadCurrentMaps(START, 0);
+        var solution = VolcanoMazeManager.solve(START, 0);
+        // The path stops before hopping onto the goal square
+        assertEquals(pathLength - 1, solution.size());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, 2", "3, 4", "5, 6"})
+    public void validateReflectedSequences(int key1, int key2) {
+      String[] coords1 = loadMapSequence(key1);
+      String[] reflection = reflectMapSequence(coords1);
+      String[] coords2 = loadMapSequence(key2);
+      assertEquals(reflection[0], coords2[0]);
+      assertEquals(reflection[1], coords2[1]);
+      assertEquals(reflection[2], coords2[2]);
+      assertEquals(reflection[3], coords2[3]);
+      assertEquals(reflection[4], coords2[4]);
+    }
   }
 
   @Nested

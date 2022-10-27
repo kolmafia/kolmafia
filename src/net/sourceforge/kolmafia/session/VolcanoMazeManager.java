@@ -127,6 +127,11 @@ public abstract class VolcanoMazeManager {
     readMapSequences();
   }
 
+  // For testing
+  public static VolcanoMap[] getMapSequence(int key) {
+    return keyToMapSequence.get(key);
+  }
+
   private static final VolcanoMap[] maps = new VolcanoMap[MAPS];
 
   // Which map we are currently on
@@ -152,10 +157,10 @@ public abstract class VolcanoMazeManager {
   private static int found = 1; // Goal known
 
   // Position of the start: (6,12)
-  private static final int start = 162;
+  public static final int start = 162;
 
   // Position of the goal: (6,6)
-  private static final int goal = 84;
+  public static final int goal = 84;
 
   // Neighbors of the goal
   private static final Set<Integer> goalNeighbors = Set.of(70, 71, 72, 83, 85, 96, 97, 98);
@@ -219,6 +224,16 @@ public abstract class VolcanoMazeManager {
       currentLocation = -1;
       loaded = true;
     }
+  }
+
+  // For testing
+  public static void loadCurrentMaps(int current, int level) {
+    for (int map = 0; map < maps.length; ++map) {
+      loadCurrentMap(map);
+    }
+    currentMap = level;
+    currentLocation = current;
+    loaded = true;
   }
 
   private static void loadCurrentMap(final int map) {
@@ -902,7 +917,7 @@ public abstract class VolcanoMazeManager {
   // pathsMade - paths generated
   // pathsExamined - paths examined
 
-  private static Path solve(final int location, final int map) {
+  public static Path solve(final int location, final int map) {
     // Generate neighbors for every cell
     generateNeighbors();
 
@@ -987,7 +1002,7 @@ public abstract class VolcanoMazeManager {
     }
   }
 
-  private static class VolcanoMap implements Comparable<VolcanoMap> {
+  public static class VolcanoMap implements Comparable<VolcanoMap> {
     public final String coordinates;
     public final Integer[] platforms;
     public final boolean[] board = new boolean[CELLS];
@@ -1187,7 +1202,7 @@ public abstract class VolcanoMazeManager {
     }
   }
 
-  private static class Path implements Iterable<Integer> {
+  public static class Path implements Iterable<Integer> {
     private final List<Integer> list;
 
     public Path(final Integer square) {
