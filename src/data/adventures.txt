@@ -707,7 +707,7 @@ PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Ja
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Temple
 
 # Obsolete areas that nevertheless are reported as possibilities for the autumnaton
-Obsolete    adventure=18	DiffLevel: unknown Env: unknown Stat: 10	Degrassi Knoll (OLD)
+Obsolete	adventure=18	DiffLevel: unknown Env: unknown Stat: 10	Degrassi Knoll (OLD)
 Obsolete	adventure=102	DiffLevel: unknown Env: unknown Stat: 20	The Haunted Kitchen (OLD)
 Obsolete	adventure=103	DiffLevel: unknown Env: unknown Stat: 20	The Haunted Conservatory (OLD)
 Obsolete	adventure=105	DiffLevel: unknown Env: unknown Stat: 20	The Haunted Billiards Room (OLD)
