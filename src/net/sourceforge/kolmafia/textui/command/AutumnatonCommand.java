@@ -158,6 +158,7 @@ public class AutumnatonCommand extends AbstractCommand {
 
     for (var id : locs) {
       var adv = AdventureDatabase.getAdventure(id);
+      if (adv == null) continue;
       var env = locMapping.computeIfAbsent(adv.getEnvironment(), m -> new HashMap<>());
       env.computeIfAbsent(adv.getDifficultyLevel(), m -> new ArrayList<>()).add(adv);
     }
