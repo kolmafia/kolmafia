@@ -26,10 +26,10 @@ Hobopolis	adventure=169	DiffLevel: unknown Env: underground Stat: 350	Exposure E
 Hobopolis	adventure=170	DiffLevel: unknown Env: underground Stat: 350	The Heap	+1 concentrated garbage juice
 Hobopolis	adventure=171	DiffLevel: unknown Env: underground Stat: 350	The Ancient Hobo Burial Ground	+1 deadly lampshade
 Hobopolis	adventure=172	DiffLevel: unknown Env: underground Stat: 350	The Purple Light District	+1 lewd playing card
-Clan Basement	adventure=203	DiffLevel: unknown Env: underground Stat: 100	The Slime Tube	1 choiceadv|1 wad of slimy rags
+Clan Basement	adventure=203	DiffLevel: mid Env: underground Stat: 100	The Slime Tube	1 choiceadv|1 wad of slimy rags
 Dreadsylvania	adventure=338	DiffLevel: mid Env: outdoor Stat: 500	Dreadsylvanian Woods
-Dreadsylvania	adventure=339	DiffLevel: unknown Env: indoor Stat: 500	Dreadsylvanian Village
-Dreadsylvania	adventure=340	DiffLevel: unknown Env: indoor Stat: 500	Dreadsylvanian Castle
+Dreadsylvania	adventure=339	DiffLevel: mid Env: indoor Stat: 500	Dreadsylvanian Village
+Dreadsylvania	adventure=340	DiffLevel: mid Env: indoor Stat: 500	Dreadsylvanian Castle
 
 # Town areas
 
@@ -354,11 +354,11 @@ MusSign	adventure=49	DiffLevel: low Env: indoor Stat: 0	Post-Quest Bugbear Pens
 Little Canadia	adventure=43	DiffLevel: low Env: outdoor Stat: 0	Outskirts of Camp Logging Camp
 Little Canadia	adventure=44	DiffLevel: mid Env: outdoor Stat: 30	Camp Logging Camp
 Le Marais D&egrave;gueulasse	adventure=330	DiffLevel: mid Env: outdoor Stat: 15	The Edge of the Swamp
-Le Marais D&egrave;gueulasse	adventure=331	DiffLevel: unknown Env: outdoor Stat: 20	The Dark and Spooky Swamp
-Le Marais D&egrave;gueulasse	adventure=332	DiffLevel: unknown Env: outdoor Stat: 50	The Corpse Bog
+Le Marais D&egrave;gueulasse	adventure=331	DiffLevel: mid Env: outdoor Stat: 20	The Dark and Spooky Swamp
+Le Marais D&egrave;gueulasse	adventure=332	DiffLevel: mid Env: outdoor Stat: 50	The Corpse Bog
 Le Marais D&egrave;gueulasse	adventure=333	DiffLevel: mid Env: indoor Stat: 50	The Ruined Wizard Tower
-Le Marais D&egrave;gueulasse	adventure=334	DiffLevel: unknown Env: outdoor Stat: 30	The Wildlife Sanctuarrrrrgh
-Le Marais D&egrave;gueulasse	adventure=335	DiffLevel: unknown Env: outdoor Stat: 35	Swamp Beaver Territory
+Le Marais D&egrave;gueulasse	adventure=334	DiffLevel: mid Env: outdoor Stat: 30	The Wildlife Sanctuarrrrrgh
+Le Marais D&egrave;gueulasse	adventure=335	DiffLevel: mid Env: outdoor Stat: 35	Swamp Beaver Territory
 Le Marais D&egrave;gueulasse	adventure=336	DiffLevel: mid Env: indoor Stat: 50	The Weird Swamp Village
 
 MoxSign	adventure=46	DiffLevel: mid Env: indoor Stat: 25	Thugnderdome	+1 flange|+1 clockwork key|10 clockwork key
@@ -516,10 +516,10 @@ Neverending Party	adventure=528	DiffLevel: mid Env: indoor Stat: 0	The Neverendi
 Shape of Mole	adventure=177	DiffLevel: unknown Env: underground Stat: 0	Mt. Molehill
 
 Video Game Dungeon	adventure=319	DiffLevel: mid Env: indoor Stat: 0	Video Game Level 1
-Video Game Dungeon	adventure=320	DiffLevel: unknown Env: indoor Stat: 0	Video Game Level 2
-Video Game Dungeon	adventure=321	DiffLevel: unknown Env: indoor Stat: 0	Video Game Level 3
+Video Game Dungeon	adventure=320	DiffLevel: mid Env: indoor Stat: 0	Video Game Level 2
+Video Game Dungeon	adventure=321	DiffLevel: mid Env: indoor Stat: 0	Video Game Level 3
 
-Rabbit Hole	adventure=225	DiffLevel: unknown Env: outdoor Stat: 0	The Red Queen's Garden	+1 reflection of a map
+Rabbit Hole	adventure=225	DiffLevel: mid Env: outdoor Stat: 0	The Red Queen's Garden	+1 reflection of a map
 
 Suburbs	adventure=277	DiffLevel: unknown Env: outdoor Stat: 40	The Clumsiness Grove	1 furious stone, 1 vanity stone
 Suburbs	adventure=278	DiffLevel: unknown Env: outdoor Stat: 40	The Maelstrom of Lovers	1 lecherous stone, 1 jealousy stone
@@ -654,7 +654,7 @@ Gingerbread City	adventure=479	DiffLevel: unknown Env: indoor Stat: 0 nowander	G
 Gingerbread City	adventure=480	DiffLevel: unknown Env: outdoor Stat: 0 nowander	Gingerbread Upscale Retail District
 Gingerbread City	adventure=481	DiffLevel: unknown Env: underground Stat: 0 nowander	Gingerbread Sewers
 
-FantasyRealm	adventure=502	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Bandit Crossroads
+FantasyRealm	adventure=502	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Bandit Crossroads
 FantasyRealm	adventure=503	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Towering Mountains
 FantasyRealm	adventure=504	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Mystic Wood
 FantasyRealm	adventure=505	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Putrid Swamp
