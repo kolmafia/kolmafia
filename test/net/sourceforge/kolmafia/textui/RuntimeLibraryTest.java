@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
@@ -1478,6 +1479,77 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             torso => Darts: Throw at %part1
             """;
         assertThat(actual, equalTo(expected));
+      }
+    }
+  }
+
+  @Nested
+  class Curse {
+    @Test
+    void canThrowBrick() {
+      setupFakeClient();
+      var cleanup = withItem(ItemPool.BRICK);
+
+      try (cleanup) {
+        var output = execute("curse($item[brick], \"StuBorn\")");
+        assertThat(output, endsWith("Returned: true\n"));
+
+        var requests = getRequests();
+        assertThat(requests.size(), is(1));
+        assertPostRequest(
+            requests.get(0), "/curse.php", "action=use&whichitem=1649&targetplayer=StuBorn");
+      }
+    }
+
+    @Test
+    void canThrowMultipleBricks() {
+      setupFakeClient();
+      var cleanup = withItem(ItemPool.BRICK, 3);
+
+      try (cleanup) {
+        var output = execute("curse(3, $item[brick], \"StuBorn\", \"\")");
+        assertThat(output, endsWith("Returned: true\n"));
+
+        var requests = getRequests();
+        assertThat(requests.size(), is(3));
+        requests.forEach(
+            x ->
+                assertPostRequest(
+                    x, "/curse.php", "action=use&whichitem=1649&targetplayer=StuBorn"));
+      }
+    }
+
+    @Test
+    void canSendCandyHeartMessage() {
+      setupFakeClient();
+      var cleanup = withItem(ItemPool.GREEN_CANDY);
+
+      try (cleanup) {
+        var output = execute("curse($item[green candy heart], \"StuBorn\", \"You|rock!\")");
+        assertThat(output, endsWith("Returned: true\n"));
+
+        var requests = getRequests();
+        assertThat(requests.size(), is(1));
+        assertPostRequest(
+            requests.get(0),
+            "/curse.php",
+            "action=use&whichitem=2309&targetplayer=StuBorn&texta=You&textb=rock!");
+      }
+    }
+
+    @Test
+    void cannotThrowMissingItem() {
+      var output = execute("curse($item[brick], \"StuBorn\")");
+      assertThat(output, startsWith("You need 1 more brick to continue"));
+    }
+
+    @Test
+    void cannotThrowNonCurseItem() {
+      var cleanup = withItem(ItemPool.DISCO_BALL);
+
+      try (cleanup) {
+        var output = execute("curse($item[disco ball], \"StuBorn\")");
+        assertThat(output, startsWith("The disco ball cannot be used for cursing"));
       }
     }
   }
