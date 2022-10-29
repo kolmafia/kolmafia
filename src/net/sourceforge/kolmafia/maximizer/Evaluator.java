@@ -1281,7 +1281,7 @@ public class Evaluator {
               slot = auxSlot;
             }
             if (this.effective) {
-              if (id != ItemPool.FOURTH_SABER) {
+              if (id != ItemPool.FOURTH_SABER && id != ItemPool.JUNE_CLEAVER) {
                 // Always uses best stat, so always considered effective
                 if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
                     && weaponType != WeaponType.RANGED
