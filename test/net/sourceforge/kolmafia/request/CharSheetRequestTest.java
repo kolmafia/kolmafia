@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import org.htmlcleaner.DomSerializer;
 import org.htmlcleaner.HtmlCleaner;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -116,6 +117,7 @@ public class CharSheetRequestTest {
   }
 
   @Test
+  @Disabled("Need to get html")
   public void parseOldSkills() throws ParserConfigurationException {
     String html = html("request/test_charsheet_SHO_17.html");
 
