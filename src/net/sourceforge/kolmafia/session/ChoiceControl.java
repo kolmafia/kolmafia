@@ -4561,8 +4561,6 @@ public abstract class ChoiceControl {
 
   private static final Pattern BENCH_WARRANT_PATTERN =
       Pattern.compile("creep <font color=blueviolet><b>(\\d+)</b></font> of them");
-  private static final Pattern CINDERELLA_SCORE_PATTERN =
-      Pattern.compile("score (?:is now|was) <b>(\\d+)</b>");
   private static final Pattern FOG_PATTERN = Pattern.compile("<font.*?><b>(.*?)</b></font>");
   private static final Pattern LOV_EXIT_PATTERN =
       Pattern.compile("a sign above it that says <b>(.*?)</b>");
@@ -5231,69 +5229,23 @@ public abstract class ChoiceControl {
       case 825:
       case 826:
       case 827:
-        {
-          // The Prince's Ball
-          if (parseCinderellaTime() == false) {
-            Preferences.decrement("cinderellaMinutesToMidnight");
-          }
-          Matcher matcher = CINDERELLA_SCORE_PATTERN.matcher(text);
-          if (matcher.find()) {
-            int score = StringUtilities.parseInt(matcher.group(1));
-            if (score != -1) {
-              Preferences.setInteger("cinderellaScore", score);
-            }
-          }
-          if (text.contains("Your final score was")) {
-            Preferences.setInteger("cinderellaMinutesToMidnight", 0);
-            Preferences.setString("grimstoneMaskPath", "");
-          }
-          break;
-        }
-
+        // stepmother
       case 829:
         // We all wear masks
-        if (ChoiceManager.lastDecision != 6) {
-          ResultProcessor.processItem(ItemPool.GRIMSTONE_MASK, -1);
-          Preferences.setInteger("cinderellaMinutesToMidnight", 0);
-        }
-        if (ChoiceManager.lastDecision == 1) {
-          Preferences.setInteger("cinderellaMinutesToMidnight", 30);
-          Preferences.setInteger("cinderellaScore", 0);
-          Preferences.setString("grimstoneMaskPath", "stepmother");
-        } else if (ChoiceManager.lastDecision == 2) {
-          Preferences.setString("grimstoneMaskPath", "wolf");
-        } else if (ChoiceManager.lastDecision == 3) {
-          Preferences.setString("grimstoneMaskPath", "witch");
-        } else if (ChoiceManager.lastDecision == 4) {
-          Preferences.setString("grimstoneMaskPath", "gnome");
-        } else if (ChoiceManager.lastDecision == 5) {
-          Preferences.setString("grimstoneMaskPath", "hare");
-        }
-        RumpleManager.reset(ChoiceManager.lastDecision);
-        break;
-
+      case 830:
+      case 832:
+      case 833:
+      case 834:
+        // wolf
       case 844:
-        // The Portal to Horrible Parents
-        if (ChoiceManager.lastDecision == 1) {
-          RumpleManager.spyOnParents(text);
-        }
-        break;
-
+      case 845:
       case 846:
-        // Bartering for the Future of Innocent Children
-        RumpleManager.pickParent(ChoiceManager.lastDecision);
-        break;
-
       case 847:
-        // Pick Your Poison
-        RumpleManager.pickSin(ChoiceManager.lastDecision);
-        break;
-
       case 848:
-        // Where the Magic Happens
-        if (ChoiceManager.lastDecision != 4) {
-          RumpleManager.recordTrade(text);
-        }
+      case 849:
+      case 850:
+        // gnome
+        GrimstoneManager.postChoice2(text);
         break;
 
       case 854:
@@ -6477,8 +6429,6 @@ public abstract class ChoiceControl {
   private static final Pattern REANIMATOR_WING_PATTERN = Pattern.compile("(\\d+) wings??<br>");
   private static final Pattern RED_SNAPPER_PATTERN =
       Pattern.compile("guiding you towards: <b>(.*?)</b>.  You've found <b>(\\d+)</b> of them");
-  private static final Pattern RUMPLE_MATERIAL_PATTERN =
-      Pattern.compile("alt=\"(.*?)\"></td><td valign=center>(\\d+)<");
   private static final Pattern SAUSAGE_PATTERN =
       Pattern.compile(
           "grinder needs (.*?) of the (.*?) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units.");
@@ -6834,56 +6784,13 @@ public abstract class ChoiceControl {
       case 825:
       case 826:
       case 827:
-        // The Prince's Ball
-        parseCinderellaTime();
-        Preferences.setString("grimstoneMaskPath", "stepmother");
-        break;
-
+        // Cinderella
       case 848:
       case 849:
       case 850:
-        {
-          // Where the Magic Happens & The Practice & World of Bartercraft
-          Preferences.setString("grimstoneMaskPath", "gnome");
-          // Update remaining materials
-          Matcher matcher = RUMPLE_MATERIAL_PATTERN.matcher(text);
-          while (matcher.find()) {
-            String material = matcher.group(1);
-            int number = StringUtilities.parseInt(matcher.group(2));
-            if (material.equals("straw")) {
-              int straw = InventoryManager.getCount(ItemPool.STRAW);
-              if (straw != number) {
-                ResultProcessor.processItem(ItemPool.STRAW, number - straw);
-              }
-            } else if (material.equals("leather")) {
-              int leather = InventoryManager.getCount(ItemPool.LEATHER);
-              if (leather != number) {
-                ResultProcessor.processItem(ItemPool.LEATHER, number - leather);
-              }
-            } else if (material.equals("clay")) {
-              int clay = InventoryManager.getCount(ItemPool.CLAY);
-              if (clay != number) {
-                ResultProcessor.processItem(ItemPool.CLAY, number - clay);
-              }
-            } else if (material.equals("filling")) {
-              int filling = InventoryManager.getCount(ItemPool.FILLING);
-              if (filling != number) {
-                ResultProcessor.processItem(ItemPool.FILLING, number - filling);
-              }
-            } else if (material.equals("parchment")) {
-              int parchment = InventoryManager.getCount(ItemPool.PARCHMENT);
-              if (parchment != number) {
-                ResultProcessor.processItem(ItemPool.PARCHMENT, number - parchment);
-              }
-            } else if (material.equals("glass")) {
-              int glass = InventoryManager.getCount(ItemPool.GLASS);
-              if (glass != number) {
-                ResultProcessor.processItem(ItemPool.GLASS, number - glass);
-              }
-            }
-          }
-          break;
-        }
+        // Rumplestiltskin
+        GrimstoneManager.visitChoice(text);
+        break;
 
       case 851:
         {
@@ -9064,21 +8971,6 @@ public abstract class ChoiceControl {
         RequestLogger.registerLocation("Boxing Daycare");
         break;
     }
-  }
-
-  private static final Pattern CINDERELLA_TIME_PATTERN =
-      Pattern.compile("<i>It is (\\d+) minute(?:s) to midnight.</i>");
-
-  private static boolean parseCinderellaTime() {
-    Matcher matcher = CINDERELLA_TIME_PATTERN.matcher(ChoiceManager.lastResponseText);
-    while (matcher.find()) {
-      int time = StringUtilities.parseInt(matcher.group(1));
-      if (time != -1) {
-        Preferences.setInteger("cinderellaMinutesToMidnight", time);
-        return true;
-      }
-    }
-    return false;
   }
 
   private static final Pattern FLUENCY_PATTERN = Pattern.compile("Fluency is now (\\d+)%");

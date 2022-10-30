@@ -437,6 +437,9 @@ user	cosmicBowlingBallReturnCombats	-1
 user	cozyCounter6332	0
 user	cozyCounter6333	0
 user	cozyCounter6334	0
+user	craftingClay	-1
+user	craftingLeather	-1
+user	craftingStraw	-1
 user	crappyCameraMonster
 user	crimbo16BeardChakraCleanliness	0
 user	crimbo16BootsChakraCleanliness	0
