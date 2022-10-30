@@ -115,6 +115,25 @@ public class CharSheetRequestTest {
     assertArrayEquals(expected, skillInfos);
   }
 
+  @Test
+  public void parseOldSkills() throws ParserConfigurationException {
+    String html = html("request/test_charsheet_SHO_17.html");
+
+    HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+    DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
+    Document doc = domSerializer.createDOM(cleaner.clean(html));
+
+    ParsedSkillInfo[] skillInfos =
+        CharSheetRequest.parseSkills(doc).toArray(new ParsedSkillInfo[0]);
+
+    ParsedSkillInfo[] expected = {
+      new ParsedSkillInfo(12, "Torso Awaregness", PermStatus.HARDCORE),
+      new ParsedSkillInfo(18, "Summon Hilarious Objects", PermStatus.HARDCORE)
+    };
+
+    assertArrayEquals(expected, skillInfos);
+  }
+
   @ParameterizedTest
   @CsvSource({"normal, 123", "unbuffed_stats, 1199739", "grey_you, 2395753"})
   public void parsePlayerId(String page, String expected) {
