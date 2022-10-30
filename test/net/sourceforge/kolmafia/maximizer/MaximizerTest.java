@@ -217,9 +217,7 @@ public class MaximizerTest {
         recommendedSlotIs(EquipmentManager.WEAPON, "Fourth of May Cosplay Saber");
       }
     }
-
   }
-
 
   @Nested
   class Clownosity {
