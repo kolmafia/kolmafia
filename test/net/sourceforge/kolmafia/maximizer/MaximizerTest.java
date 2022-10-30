@@ -161,6 +161,65 @@ public class MaximizerTest {
   }
 
   @Nested
+  class Effective {
+    @Test
+    public void useRangedWeaponWhenMoxieHigh() {
+      final var cleanups =
+          new Cleanups(
+              withStats(100, 100, 150),
+              withEquippableItem("disco ball"),
+              withEquippableItem("two-handed depthsword"));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon dmg, effective"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "disco ball");
+      }
+    }
+
+    @Test
+    public void useMeleeWeaponWhenMuscleHigh() {
+      final var cleanups =
+          new Cleanups(
+              withStats(150, 100, 100),
+              withEquippableItem("automatic catapult"),
+              withEquippableItem("seal-clubbing club"));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon dmg, effective"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "seal-clubbing club");
+      }
+    }
+
+    @Test
+    public void useJuneCleaverWhenMoxieHigh() {
+      final var cleanups =
+          new Cleanups(
+              withStats(100, 100, 150),
+              withEquippableItem("disco ball"),
+              withEquippableItem("June cleaver"));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon dmg, effective"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "June cleaver");
+      }
+    }
+
+    @Test
+    public void useCosplaySaberWhenMoxieHigh() {
+      final var cleanups =
+          new Cleanups(
+              withStats(100, 100, 150),
+              withEquippableItem("disco ball"),
+              withEquippableItem("Fourth of May Cosplay Saber"));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon dmg, effective"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "Fourth of May Cosplay Saber");
+      }
+    }
+  }
+
+  @Nested
   class Clownosity {
     @Test
     public void clownosityTriesClownEquipment() {
