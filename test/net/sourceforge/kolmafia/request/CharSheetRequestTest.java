@@ -128,7 +128,7 @@ public class CharSheetRequestTest {
 
     ParsedSkillInfo[] expected = {
       new ParsedSkillInfo(12, "Torso Awaregness", PermStatus.HARDCORE),
-      new ParsedSkillInfo(18, "Summon Hilarious Objects", PermStatus.HARDCORE)
+      new ParsedSkillInfo(17, "Summon Hilarious Objects", PermStatus.HARDCORE)
     };
 
     assertArrayEquals(expected, skillInfos);
