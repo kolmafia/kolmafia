@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
 import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
@@ -14,7 +15,6 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import org.htmlcleaner.DomSerializer;
 import org.htmlcleaner.HtmlCleaner;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -128,11 +128,12 @@ public class CharSheetRequestTest {
         CharSheetRequest.parseSkills(doc).toArray(new ParsedSkillInfo[0]);
 
     ParsedSkillInfo[] expected = {
-      new ParsedSkillInfo(12, "Torso Awaregness", PermStatus.HARDCORE),
-      new ParsedSkillInfo(17, "Summon Hilarious Objects", PermStatus.HARDCORE)
+      new ParsedSkillInfo(12, "Torso Awareness", PermStatus.NONE),
+      new ParsedSkillInfo(17, "Summon Hilarious Objects", PermStatus.NONE)
     };
-
-    assertArrayEquals(expected, skillInfos);
+    assertEquals(99, skillInfos.length);
+    assertTrue(Arrays.asList(skillInfos).contains(expected[0]));
+    assertTrue(Arrays.asList(skillInfos).contains(expected[1]));
   }
 
   @ParameterizedTest
