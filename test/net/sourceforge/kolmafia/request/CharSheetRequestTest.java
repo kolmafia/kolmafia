@@ -9,6 +9,7 @@ import java.util.Arrays;
 import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermStatus;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
@@ -112,8 +113,13 @@ public class CharSheetRequestTest {
       new ParsedSkillInfo(6045, "Paul's Passionate Pop Song", PermStatus.HARDCORE),
       new ParsedSkillInfo(19, "Transcendent Olfaction", PermStatus.HARDCORE),
     };
-
     assertArrayEquals(expected, skillInfos);
+    for (ParsedSkillInfo skillInfo : skillInfos) {
+      assertEquals(
+          skillInfo.id,
+          SkillDatabase.getSkillId(skillInfo.name),
+          "Name/ID mismatch for " + skillInfo.id);
+    }
   }
 
   @Test
@@ -134,6 +140,12 @@ public class CharSheetRequestTest {
     assertEquals(99, skillInfos.length);
     assertTrue(Arrays.asList(skillInfos).contains(expected[0]));
     assertTrue(Arrays.asList(skillInfos).contains(expected[1]));
+    for (ParsedSkillInfo skillInfo : skillInfos) {
+      assertEquals(
+          skillInfo.id,
+          SkillDatabase.getSkillId(skillInfo.name),
+          "Name/ID mismatch for " + skillInfo.id);
+    }
   }
 
   @ParameterizedTest
