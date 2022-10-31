@@ -117,7 +117,6 @@ public class CharSheetRequestTest {
   }
 
   @Test
-  @Disabled("Need to get html")
   public void parseOldSkills() throws ParserConfigurationException {
     String html = html("request/test_charsheet_SHO_17.html");
 
