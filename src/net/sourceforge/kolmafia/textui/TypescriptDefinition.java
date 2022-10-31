@@ -151,7 +151,7 @@ public class TypescriptDefinition {
             "    static get%s(name: %s): %s;",
             isAbstract ? "<T extends MafiaClass>" : "", argType, isAbstract ? "T" : type),
         String.format(
-            "    static get%s(names: %s[]): %s[];",
+            "    static get%s(names: readonly %s[]): %s[];",
             isAbstract ? "<T extends MafiaClass>" : "", argType, isAbstract ? "T" : type),
         String.format(
             "    static all<T %s>(): T[];", isAbstract ? "extends MafiaClass" : "= " + type),

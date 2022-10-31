@@ -234,7 +234,7 @@ factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.
 Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: demon E: hot Article: a	demon skin (15)	evil golden arch (30)	infernal insoles (10)	pink slime (0)	heavy-duty bendy straw (c0)
 Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 Group: 2 P: constellation E: sleaze Article: The	star (30)	star (30)	star (30)
 fan dancer	1532	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 Meat: 100 P: dude Article: a	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
-Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS NOCOPY Atk: 75 Def: 67 HP: 80 Init: 100 P: plant E: spooky
+Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS NOCOPY Atk: 75 Def: 67 HP: 80 Init: 100 P: plant E: spooky	spooky bicycle chain (n100)	spooky cosmetics bag (n100)	miniature carton of clove cigarettes (c100)
 ferocious bugbear	531	haiku2.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 20 P: beast Article: a	bugbear beanie (20)	bugbear bungguard (20)
 fiendish can of asparagus	146	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 Meat: 5 P: undead E: stench Article: a	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)
 fiery mushroom guy	1805	mush_flaming.gif	Atk: 30 Def: 25 HP: 20 Init: 50 P: plant Article: a	hot spore pod (0)	flaming mushroom (0)
@@ -1986,7 +1986,7 @@ intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sg
 Genie	2029	genie_mad.gif	NOCOPY Scale: 37 Cap: 11000 Init: -10000 P: elemental Article: a	dropped scrap of paper (n100)
 
 # XO Skeleton (Oct 2017)
-amorphous blob	2032	xoblob.gif	NOCOPY Scale: 100 Init: -10000 P: slime Article: an	giant X (100n)	giant O (100n)
+amorphous blob	2032	xoblob.gif	NOCOPY Scale: 100 Init: -10000 P: slime Article: an	giant X (n100)	giant O (n100)
 giant amorphous blob	2033	xoblob_big.gif	NOCOPY Atk: 10000 Def: 9000 HP: 20000 Init: 500 P: slime Article: an
 
 # FantasyRealm (Apr 2018)

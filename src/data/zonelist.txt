@@ -194,3 +194,5 @@ Crimbo18	Removed	Christmas 2018
 Crimbo19	Removed	Christmas 2019
 Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 Crimbo21	Removed	Christmas 2021
+
+Obsolete	Removed	Retired zones

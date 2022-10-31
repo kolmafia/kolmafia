@@ -302,6 +302,22 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
     @Nested
     class Locations {
       @Test
+      public void doesNotCrashWithAbsentLocations() {
+        var cleanups =
+            new Cleanups(
+                hasAutumnaton(),
+                withItem(ItemPool.AUTUMNATON),
+                withProperty("autumnatonUpgrades", ""),
+                withNextResponse(200, html("request/test_choice_autumnaton_old_locations.html")));
+
+        try (cleanups) {
+          String output = execute("locations");
+          assertContinueState();
+          assertThat(output, containsString("<li>The Haunted Wine Cellar</li>"));
+        }
+      }
+
+      @Test
       public void showsLocations() {
         var cleanups =
             new Cleanups(
