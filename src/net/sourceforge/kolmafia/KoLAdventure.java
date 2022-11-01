@@ -115,7 +115,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.zone = zone;
     this.adventureName = adventureName;
 
-    this.normalString = this.zone + ": " + this.adventureName;
+    this.normalString = StringUtilities.getEntityDecode(this.zone + ": " + this.adventureName);
     this.lowercaseString = this.normalString.toLowerCase();
 
     this.parentZone = AdventureDatabase.getParentZone(zone);
@@ -3124,6 +3124,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // If we are too drunk adventure, return now.
     if (tooDrunkToAdventure()) return;
+
+    // Unleash Your Inner Wolf redirects to a fight chain that takes 3 turns,
+    // regardless of how many fights are actually fought.
+    if (this.adventureId.equals("ioty2014_wolf")) {
+      Preferences.increment("wolfTurnsUsed", 3);
+    }
 
     switch (this.adventureNumber) {
       case AdventurePool.FCLE:

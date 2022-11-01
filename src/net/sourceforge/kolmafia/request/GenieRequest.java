@@ -193,12 +193,7 @@ public class GenieRequest extends GenericRequest {
 
       EncounterManager.ignoreSpecialMonsters();
 
-      String message = "[" + KoLAdventure.getAdventureCount() + "] genie summoned monster";
-      RequestLogger.printLine();
-      RequestLogger.printLine(message);
-
-      RequestLogger.updateSessionLog();
-      RequestLogger.updateSessionLog(message);
+      RequestLogger.registerLocation("genie summoned monster");
     }
   }
 }

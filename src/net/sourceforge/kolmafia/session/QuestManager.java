@@ -340,6 +340,7 @@ public class QuestManager {
             if (responseText.contains("sr_brickhole.gif")) {
               QuestDatabase.setQuestIfBetter(Quest.MANOR, "step3");
             } else {
+              // sr_masonry.gif
               QuestDatabase.setQuestIfBetter(Quest.MANOR, "step1");
             }
             // Legacy code support

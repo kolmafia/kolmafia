@@ -2799,12 +2799,7 @@ public class GenericRequest implements Runnable {
       EncounterManager.registerAdventure(adventure);
     }
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + itemName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(itemName);
 
     GenericRequest.itemMonster = itemName;
   }
@@ -2847,12 +2842,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(name);
   }
 
   private static void checkSkillRedirection(final String location) {
@@ -2883,12 +2873,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + skillName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(skillName);
   }
 
   private static void checkOtherRedirection(final String location) {
@@ -2917,12 +2902,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + otherName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(otherName);
   }
 
   private static AdventureResult sealRitualCandles(final int itemId) {

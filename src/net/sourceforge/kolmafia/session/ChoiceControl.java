@@ -8880,12 +8880,7 @@ public abstract class ChoiceControl {
           KoLAdventure.setNextAdventure("None");
           GenericRequest.itemMonster = "Time-Spinner";
 
-          String message = "[" + KoLAdventure.getAdventureCount() + "] Way Back in Time";
-          RequestLogger.printLine();
-          RequestLogger.printLine(message);
-
-          RequestLogger.updateSessionLog();
-          RequestLogger.updateSessionLog(message);
+          RequestLogger.registerLocation("Way Back in Time");
         }
         return true;
 
@@ -8898,12 +8893,7 @@ public abstract class ChoiceControl {
           KoLAdventure.setNextAdventure("None");
           GenericRequest.itemMonster = "Time-Spinner";
 
-          String message = "[" + KoLAdventure.getAdventureCount() + "] A Recent Fight";
-          RequestLogger.printLine();
-          RequestLogger.printLine(message);
-
-          RequestLogger.updateSessionLog();
-          RequestLogger.updateSessionLog(message);
+          RequestLogger.registerLocation("A Recent Fight");
         }
         return true;
     }
@@ -8983,12 +8973,7 @@ public abstract class ChoiceControl {
       case 1310: // Granted a Boon
         {
           // Boon after fight, location is currently null, so don't log under that name
-          String message = "[" + KoLAdventure.getAdventureCount() + "] God Lobster";
-          RequestLogger.printLine();
-          RequestLogger.printLine(message);
-
-          RequestLogger.updateSessionLog();
-          RequestLogger.updateSessionLog(message);
+          RequestLogger.registerLocation("God Lobster");
           break;
         }
 

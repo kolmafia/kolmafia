@@ -9,10 +9,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class GrimstoneManager {
 
+  private GrimstoneManager() {}
+
   public static void incrementFights(int adventureId) {
     switch (adventureId) {
       case AdventurePool.YE_OLDE_MEDIEVALE_VILLAGEE -> {
         Preferences.increment("rumpelstiltskinTurnsUsed", 1);
+      }
+      case AdventurePool.INNER_WOLF_GYM -> {
+        Preferences.increment("wolfTurnsUsed", 1);
       }
       case AdventurePool.SWEET_ADE_LAKE,
           AdventurePool.EAGER_RICE_BURROWS,
@@ -161,10 +166,12 @@ public abstract class GrimstoneManager {
         break;
 
       case 830: // Cooldown
+        break;
       case 832: // Shower Power
       case 833: // Vendi, Vidi, Vici
       case 834: // Back Room Dealings
         // wolf
+        Preferences.increment("wolfTurnsUsed", 1);
         break;
 
       case 831: // Intrusion
