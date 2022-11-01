@@ -17,7 +17,7 @@ import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -37,10 +37,10 @@ public class GrimstoneManagerTest {
 
   @Nested
   class Wolf {
-    @AfterEach
-    public void beforeEach() {
+    @AfterAll
+    public static void afterAll() {
       // Because we actually load a charpane.
-      KoLCharacter.reset("grimstone");
+      KoLCharacter.reset("");
     }
 
     @Test

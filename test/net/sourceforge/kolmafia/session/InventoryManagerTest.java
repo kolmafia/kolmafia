@@ -11,12 +11,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class InventoryManagerTest {
+
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("inventory manager");
+  }
 
   @Test
   public void willLeaveCheckpointsIntact() {
