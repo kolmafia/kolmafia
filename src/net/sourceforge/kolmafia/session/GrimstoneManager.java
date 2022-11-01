@@ -45,7 +45,7 @@ public abstract class GrimstoneManager {
   private static final Pattern CINDERELLA_SCORE_PATTERN =
       Pattern.compile("score (?:is now|was) <b>(\\d+)</b>");
 
-	// Your final candy total is: <b>684!</b>
+  // Your final candy total is: <b>684!</b>
   private static final Pattern FINAL_CANDY_PATTERN =
       Pattern.compile("Your final candy total is: <b>(\\d+)!</b>");
 
