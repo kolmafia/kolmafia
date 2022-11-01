@@ -1896,6 +1896,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           case "wolf" -> {
             // 30 turns to adventure in Skid Row.  The zone closes when you
             // finish.  We do not seem to track them?
+            return Preferences.getInteger("wolfTurnsUsed") < 30;
           }
           case "stepmother" -> {
             // 30 turns to adventure at The Prince's Ball. The zone closes when
@@ -1916,13 +1917,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             // 30 turns to adventure in The Candy Witch and the Relentless
             // Child Thieves. The zone closes when you finish. We do not seem
             // to track them?
+            return Preferences.getInteger("candyWitchTurnsUsed") < 30;
           }
         }
       }
 
-      // prepareForAdventure will NOT use a grimstone mask if necessary.
-      // *** Should it? They are not cheap.
-      return tale.equals(current) || InventoryManager.hasItem(item);
+      // prepareForAdventure will NOT use a grimstone mask
+      return false;
     }
 
     if (this.zone.equals("The Snojo")) {

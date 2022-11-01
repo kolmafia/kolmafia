@@ -180,6 +180,9 @@ public class AdventurePool {
   public static final int OLD_LANDFILL = 356;
   public static final int ARID_DESERT = 364;
   public static final int WARBEAR_FORTRESS_LEVEL_THREE = 368;
+  public static final int SWEET_ADE_LAKE = 370;
+  public static final int EAGER_RICE_BURROWS = 371;
+  public static final int GUMDROP_FOREST = 372;
   public static final int YE_OLDE_MEDIEVALE_VILLAGEE = 380;
   public static final int COPPERHEAD_CLUB = 383;
   public static final int ZEPPELIN_PROTESTORS = 384;

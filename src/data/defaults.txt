@@ -378,6 +378,8 @@ user	camelSpit	0
 user	cameraMonster
 user	camerasUsed	0
 user	campAwayDecoration	0
+user	candyWitchTurnsUsed	0
+user	candyWitchCandyTotal	0
 user	canteenUnlocked	false
 user	carboLoading	0
 user	cargoPocketsEmptied
@@ -1518,6 +1520,7 @@ user	wildfireDusted	false
 user	wildfireFracked	false
 user	wildfirePumpGreased	false
 user	wildfireSprinkled	false
+user	wolfTurnsUsed	0
 user	workteaClue
 user	writingDesksDefeated	0
 user	xoSkeleltonXProgress	8

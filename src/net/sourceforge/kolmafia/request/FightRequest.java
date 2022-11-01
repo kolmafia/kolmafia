@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
+import net.sourceforge.kolmafia.session.GrimstoneManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
@@ -3363,9 +3364,7 @@ public class FightRequest extends GenericRequest {
       Preferences.increment("_kolhsAdventures", 1);
     }
 
-    if (adventure == AdventurePool.YE_OLDE_MEDIEVALE_VILLAGEE) {
-      Preferences.increment("rumpelstiltskinTurnsUsed", 1);
-    }
+    GrimstoneManager.incrementFights(adventure);
 
     if (adventure == AdventurePool.DEEP_MACHINE_TUNNELS) {
       Preferences.decrement("encountersUntilDMTChoice");

@@ -5223,27 +5223,35 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 822:
-      case 823:
-      case 824:
-      case 825:
-      case 826:
-      case 827:
-        // stepmother
       case 829:
         // We all wear masks
-      case 830:
-      case 832:
-      case 833:
-      case 834:
+      case 822: // The Prince's Ball (In the Restroom)
+      case 823: // The Prince's Ball (On the Dance Floor)
+      case 824: // The Prince's Ball (The Kitchen)
+      case 825: // The Prince's Ball (On the Balcony)
+      case 826: // The Prince's Ball (The Lounge)
+      case 827: // The Prince's Ball (At the Canapés Table)
+        // stepmother
+      case 830: // Cooldown
+      case 832: // Shower Power
+      case 833: // Vendi, Vidi, Vici
+      case 834: // Back Room Dealings
         // wolf
-      case 844:
-      case 845:
-      case 846:
-      case 847:
-      case 848:
-      case 849:
-      case 850:
+      case 831: // Intrusion
+      case 837: // On Purple Pond
+      case 838: // General Mill
+      case 839: // The Sounds of the Undergrounds
+      case 840: // Hop on Rock Pops
+      case 841: // Building, Structure, Edifice
+      case 842: // The Gingerbread Warehouse
+        // witch
+      case 844: // The Portal to Horrible Parents
+      case 845: // Rumpelstiltskin's Workshop
+      case 846: // Bartering for the Future of Innocent Children
+      case 847: // Pick Your Poison
+      case 848: // Where the Magic Happens
+      case 849: // The Practice
+      case 850: // World of Bartercraft
         // gnome
         GrimstoneManager.postChoice2(text);
         break;
@@ -6778,17 +6786,36 @@ public abstract class ChoiceControl {
           break;
         }
 
-      case 822:
-      case 823:
-      case 824:
-      case 825:
-      case 826:
-      case 827:
-        // Cinderella
-      case 848:
-      case 849:
-      case 850:
-        // Rumplestiltskin
+      case 822: // The Prince's Ball (In the Restroom)
+      case 823: // The Prince's Ball (On the Dance Floor)
+      case 824: // The Prince's Ball (The Kitchen)
+      case 825: // The Prince's Ball (On the Balcony)
+      case 826: // The Prince's Ball (The Lounge)
+      case 827: // The Prince's Ball (At the Canapés Table)
+        // stepmother
+      case 829:
+        // We all wear masks
+      case 830: // Cooldown
+      case 832: // Shower Power
+      case 833: // Vendi, Vidi, Vici
+      case 834: // Back Room Dealings
+        // wolf
+      case 831: // Intrusion
+      case 837: // On Purple Pond
+      case 838: // General Mill
+      case 839: // The Sounds of the Undergrounds
+      case 840: // Hop on Rock Pops
+      case 841: // Building, Structure, Edifice
+      case 842: // The Gingerbread Warehouse
+        // witch
+      case 844: // The Portal to Horrible Parents
+      case 845: // Rumpelstiltskin's Workshop
+      case 846: // Bartering for the Future of Innocent Children
+      case 847: // Pick Your Poison
+      case 848: // Where the Magic Happens
+      case 849: // The Practice
+      case 850: // World of Bartercraft
+        // gnome
         GrimstoneManager.visitChoice(text);
         break;
 
