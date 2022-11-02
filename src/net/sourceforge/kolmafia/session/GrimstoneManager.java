@@ -178,6 +178,8 @@ public abstract class GrimstoneManager {
             Preferences.setString("grimstoneMaskPath", "stepmother");
           }
           case 2 -> {
+            Preferences.setInteger("wolfPigsEvicted", 0);
+            Preferences.setInteger("wolfTurnsUsed", 0);
             Preferences.setString("grimstoneMaskPath", "wolf");
           }
           case 3 -> {
@@ -190,6 +192,8 @@ public abstract class GrimstoneManager {
             Preferences.setString("grimstoneMaskPath", "gnome");
           }
           case 5 -> {
+            // We don't track turns in a property. Instead, turns of the
+            // Hare-Brained status effect count down.
             Preferences.setString("grimstoneMaskPath", "hare");
           }
         }
