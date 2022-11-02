@@ -7,6 +7,7 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
@@ -44,17 +45,17 @@ public class InventoryManagerTest {
 
       // Tell the InventoryManager to "retrieve" the item into inventory
       builder.client.addResponse(200, html("request/test_unequip_offhand.html"));
-      InventoryManager.retrieveItem(HOBO_CODE_BINDER);
+      assertTrue(InventoryManager.retrieveItem(HOBO_CODE_BINDER));
+
+      // It is now in inventory and not equipped
+      assertEquals(1, InventoryManager.getCount(HOBO_CODE_BINDER));
+      assertEquals(UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
 
       var requests = builder.client.getRequests();
       assertThat(requests, hasSize(2));
       assertPostRequest(
           requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
       assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-
-      // It is now in inventory and not equipped
-      assertEquals(1, InventoryManager.getCount(HOBO_CODE_BINDER));
-      assertEquals(UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
 
       builder.client.clear();
       builder.client.addResponse(200, html("request/test_equip_offhand.html"));

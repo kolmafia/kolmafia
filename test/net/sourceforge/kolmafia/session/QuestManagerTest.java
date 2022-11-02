@@ -883,8 +883,7 @@ public class QuestManagerTest {
     public void canDetectDuckAreaCleared() {
       var cleanups =
           new Cleanups(
-              withProperty("duckAreasCleared", ""),
-              withLastLocation(AdventureDatabase.getAdventureByName("McMillicancuddy's Granary")));
+              withProperty("duckAreasCleared", ""), withLastLocation("McMillicancuddy's Granary"));
       try (cleanups) {
         var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.THE_GRANARY);
         request.responseText = html("request/test_no_more_ducks.html");

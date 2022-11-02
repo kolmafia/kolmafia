@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -10,6 +11,33 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class GrimstoneManager {
 
   private GrimstoneManager() {}
+
+  public static boolean isGrimstoneAdventure(KoLAdventure adventure) {
+    if (adventure == null) {
+      return false;
+    }
+
+    switch (adventure.getAdventureNumber()) {
+      case -1 -> {
+        return adventure.getAdventureId().equals("ioty2014_wolf");
+      }
+      case AdventurePool.YE_OLDE_MEDIEVALE_VILLAGEE,
+          AdventurePool.A_DESERTED_STRETCH_OF_I_911,
+          AdventurePool.INNER_WOLF_GYM,
+          AdventurePool.SWEET_ADE_LAKE,
+          AdventurePool.EAGER_RICE_BURROWS,
+          AdventurePool.GUMDROP_FOREST,
+          AdventurePool.PRINCES_RESTROOM,
+          AdventurePool.PRINCES_DANCE_FLOOR,
+          AdventurePool.PRINCES_KITCHEN,
+          AdventurePool.PRINCES_BALCONY,
+          AdventurePool.PRINCES_LOUNGE,
+          AdventurePool.PRINCES_CANAPES_TABLE -> {
+        return true;
+      }
+    }
+    return false;
+  }
 
   public static void incrementFights(int adventureId) {
     switch (adventureId) {
@@ -53,6 +81,8 @@ public abstract class GrimstoneManager {
   // Your final candy total is: <b>684!</b>
   private static final Pattern FINAL_CANDY_PATTERN =
       Pattern.compile("Your final candy total is: <b>(\\d+)!</b>");
+
+  private static final Pattern LOSE_CANDY_PATTERN = Pattern.compile("<b>-(\\d+) Candy</b>");
 
   public static void visitChoice(String text) {
     switch (ChoiceManager.lastChoice) {
@@ -176,20 +206,29 @@ public abstract class GrimstoneManager {
 
       case 831: // Intrusion
         // witch
+        if (ChoiceManager.lastDecision == 1) {
+          // The only choice
 
-        // After 10 turns of preparation, the army of greedy children attack in
-        // three waves. Each wave diminishes your candy pile.
+          // After 10 turns of preparation, the army of greedy children attack in
+          // three waves. Each wave diminishes your candy pile.
 
-        // The game is over after the third such intrusion and your remaining
-        // candy total is your final score.
-
-        if (text.contains("Your final candy total is")) {
-          Matcher matcher = FINAL_CANDY_PATTERN.matcher(text);
-          if (matcher.find()) {
+          Matcher matcher = LOSE_CANDY_PATTERN.matcher(text);
+          while (matcher.find()) {
             int candy = StringUtilities.parseInt(matcher.group(1));
-            Preferences.setInteger("candyWitchCandyTotal", candy);
+            Preferences.decrement("candyWitchCandyTotal", candy);
           }
-          Preferences.setString("grimstoneMaskPath", "");
+
+          // The game is over after the third such intrusion and your remaining
+          // candy total is your final score.
+
+          if (text.contains("Your final candy total is")) {
+            matcher = FINAL_CANDY_PATTERN.matcher(text);
+            if (matcher.find()) {
+              int candy = StringUtilities.parseInt(matcher.group(1));
+              Preferences.setInteger("candyWitchCandyTotal", candy);
+            }
+            Preferences.setString("grimstoneMaskPath", "");
+          }
         }
         break;
 

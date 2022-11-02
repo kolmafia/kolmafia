@@ -1520,6 +1520,7 @@ user	wildfireDusted	false
 user	wildfireFracked	false
 user	wildfirePumpGreased	false
 user	wildfireSprinkled	false
+user	wolfPigsEvicted	0
 user	wolfTurnsUsed	0
 user	workteaClue
 user	writingDesksDefeated	0
