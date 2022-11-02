@@ -42,7 +42,7 @@ public class CharSheetRequestTest {
       new ParsedSkillInfo(5, "Stomach of Steel", PermStatus.NONE),
       new ParsedSkillInfo(10, "Powers of Observatiogn", PermStatus.HARDCORE),
       new ParsedSkillInfo(11, "Gnefarious Pickpocketing", PermStatus.HARDCORE),
-      new ParsedSkillInfo(12, "Torso Awaregness", PermStatus.HARDCORE),
+      new ParsedSkillInfo(12, "Torso Awareness", PermStatus.HARDCORE),
       new ParsedSkillInfo(13, "Gnomish Hardigness", PermStatus.HARDCORE),
       new ParsedSkillInfo(14, "Cosmic Ugnderstanding", PermStatus.HARDCORE),
       new ParsedSkillInfo(15, "CLEESH", PermStatus.NONE),
