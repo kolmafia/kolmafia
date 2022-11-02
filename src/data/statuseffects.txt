@@ -2725,3 +2725,13 @@
 2725	Bet Your Autumn Dollar	goldcoin.gif	f696596ddc94d295fc25da98d24f58ec	neutral	none	use 1 autumn dollar
 2726	Delighted by Autumn	cueball.gif	fc1fd3b808d9bda46a4d6f1e71a74e9a	neutral	none	chew 1 autumn breeze
 2727	Wisdom of the Autumn Years	xicrystal.gif	67ebd878570ed8315d4a4674e2eed291	neutral	none	use 1 autumn years wisdom
+2728
+2729
+2730
+2731
+2732
+2733
+2734	Gritty Soul	bbat_smoothie.gif	074a77cc3722a50e38d691306b66bf09	neutral	none	eat 1 St. Pete's sneaky smoothie
+2735
+2736	Rippin' Ricotta	bbat_ricotta.gif	d59c2d298ebfd8c99bf47fe68891e7ea	neutral	none	eat 1 Pete's rich ricotta
+2737	Feeling Fancy	bbat_focaccia.gif	69862d498ff6068ea6b31787d1a494b8	neutral	none	eat 1 roasted vegetable focaccia

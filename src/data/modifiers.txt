@@ -4157,6 +4157,7 @@ Item	chocolate bowtie	Familiar Weight: +5
 Item	chocolate leash	Familiar Weight: +10
 Item	chocolate spurs	Familiar Weight: +5
 Item	chocolate-stained collar	Candy Drop: +25, Generic
+Item	cookbookbat book	Familiar Weight: +5
 Item	cotton candy cordial	Familiar Weight: +5
 Item	cracker	Familiar Weight: +15
 Item	Crimbo dog sweater	Familiar Weight: +5
@@ -5779,6 +5780,7 @@ Effect	Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
 Effect	Feelin' the Rhythm!	Muscle: [pref(_feelinTheRhythm)], Mysticality: [pref(_feelinTheRhythm)], Moxie: [pref(_feelinTheRhythm)]
 Effect	Feeling a Little Wesley	Avatar: "Wesley J. "Wes" Campbell"
 Effect	Feeling Excited	Muscle: +25, Mysticality: +25, Moxie: +25
+Effect	Feeling Fancy	Experience (familiar): +10, Muscle: +15, Mysticality Percent: +200
 Effect	Feeling Insignificant	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 # Effect Feeling Nervous: Monsters are damaged by your nervous energy
 Effect	Feeling No Pain	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Damage Absorption: +100
@@ -5997,6 +5999,7 @@ Effect	Grilled	Muscle: -10
 Effect	Grillin' Like a Villain	Avatar: "toothy pirate"
 Effect	Grimace	Monster Level: +25, Slime Resistance: +1
 Effect	Gristlesphere	Monster Level: +20
+Effect	Gritty Soul	Moxie: +5, Moxie Percent: +50, Spooky Resistance: +5
 Effect	Grizzly Beard	Cold Resistance: +5, MP Regen Min: 25, MP Regen Max: 50, HP Regen Min: 50, HP Regen Max: 100
 Effect	Groast Out	Avatar: "groast"
 Effect	Grrrrrrreat!	Experience (Muscle): +10
@@ -6856,6 +6859,7 @@ Effect	Rhinestoned	Moxie: [T]
 Effect	Rictus of Yeg	Weapon Damage Percent: +200
 Effect	Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Effect	RIP AND TEAR	Avatar: "Space Marine"
+Effect	Rippin' Ricotta	Initiative: +200, Moxie: +10, Moxie Percent: +100
 Effect	Ripping, Dripping	Weapon Damage Percent: +50
 Effect	Riqueza de Pasta	Experience: +2
 Effect	Robbin' Like a Goblin	Avatar: "Knob Goblin Embezzler"
@@ -8717,6 +8721,7 @@ Item	one with everything	Effect: "Inner Dog", Effect Duration: 50
 Item	packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
 Item	pawn cookie	Effect: "Pwnd", Effect Duration: 30
 Item	pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
+Item	Pete's rich ricotta	Effect: "Rippin' Ricotta", Effect Duration: 30
 Item	petit 4.1	Effect: "Petit Force", Effect Duration: 20
 Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
 # pirate fork: (</font><font color=green>?</font><font color=red>?</font><font color=#999999>?</font><font color=blue>)</font></b>
@@ -8732,6 +8737,7 @@ Item	queen cookie	Effect: "Towering Strength"
 Item	rack of dinosaur ribs	Effect: "Meat the Flintstones", Effect Duration: 30
 Item	red drunki-bear	Effect: "Gummiheart", Effect Duration: 80
 Item	roasted marshmallow	Effect: "Mallowed Out", Effect Duration: 3
+Item	roasted vegetable focaccia	Effect: "Feeling Fancy", Effect Duration: 50
 Item	rocky road ice cream	Effect: "A Contender", Effect Duration: 40
 Item	rook cookie	Effect: "Towering Strength", Effect Duration: 30
 Item	rotting beefsteak	Effect: "Cowrruption", Effect Duration: 30
@@ -8757,6 +8763,7 @@ Item	square CRIMBCOOKIE	Effect: "Square to be Hip", Effect Duration: 10
 Item	squirmy violent party snack	Effect: "Broken Dancing", Effect Duration: 10
 Item	stinky hi mein	Effect: "Stinky Breath", Effect Duration: 5
 Item	Strix stix	Effect: "Sugar-Frosted Pet Guts", Effect Duration: 40
+Item	St. Pete's sneaky smoothie	Effect: "Gritty Soul", Effect Duration: 30
 Item	sun-dried tofu	Effect: "Oversaturated Palate", Effect Duration: 1
 Item	Swedish massage fish	Effect: "Like a Fish to Walter", Effect Duration: 40
 Item	sweet roll Alabama	Effect: "Helping Comes Second", Effect Duration: 30
@@ -11379,6 +11386,7 @@ Item	Moping Artistic Goth Kid	Free Pull
 # mountain lion skin: Adds +50% Moxie to your cowboy boots
 # Mountain Stream Code Black Alert: Restores 15-20 MP
 # Mountain Stream soda: Restores 30-40 MP
+Item	mummified entombed cookbookbat	Free Pull
 # mumming trunk: Dress your familiars up like weird old dramatic archetypes!
 # murderbot live wire: Deals <font color=red>Hot Damage</font> every round to every monster you fight today in the zone where you used it
 # murderbot memory chip: Worth 15 pages of Spacegate Research
