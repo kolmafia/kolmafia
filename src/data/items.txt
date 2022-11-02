@@ -10991,3 +10991,39 @@
 10963	autumn years wisdom	794318555	xicrystal.gif	potion, multiple	t,d	15
 10964
 10965	Oopsie IPA	439261217	beerbottle.gif	drink	t	0
+10966	mummified entombed cookbookbat	898160116	bbat_larva.gif	grow	t	0
+10964
+10965
+10966
+10967	Yeast of Boris	872378372	bbat_yeast.gif	none, cook, mix	t,d	50
+10968	St. Sneaky Pete's Whey	233475796	bbat_whey.gif	none, cook	t,d	50
+10969	Vegetable of Jarlsberg	629550840	bbat_vegetable.gif	none, cook	t,d	50
+10970
+10971
+10972
+10973	St. Pete's sneaky smoothie	740448073	bbat_smoothie.gif	food	d	75
+10974
+10975	Pete's rich ricotta	729897026	bbat_ricotta.gif	food, cook	d	100
+10976
+10977
+10978
+10979
+10980
+10981	Recipe of Yore: roasted vegetable of Jarlsberg	782778295	bbat_recipe.gif	usable	t,d	150
+10982	Recipe of Yore: St. Pete's sneaky smoothie	825252942	bbat_recipe.gif	usable	t,d	100
+10983
+10984
+10985
+10986
+10987	Recipe of Yore: Boris's bread	535986690	bbat_recipe.gif	usable	t,d	150
+10988
+10989
+10990	roasted vegetable focaccia	705913927	bbat_focaccia.gif	food, cook	d	200
+10991
+10992
+10993
+10994
+10995
+10996
+10997
+10998	cookbookbat book	230914563	book5.gif	familiar	t,d	75
