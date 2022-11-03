@@ -2957,6 +2957,9 @@ public class KoLAdventureValidationTest {
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
         assertEquals(QuestDatabase.getQuest(Quest.FRIAR), QuestDatabase.FINISHED);
+        assertEquals(0, InventoryManager.getCount(ItemPool.DODECAGRAM));
+        assertEquals(0, InventoryManager.getCount(ItemPool.CANDLES));
+        assertEquals(0, InventoryManager.getCount(ItemPool.BUTTERKNIFE));
         assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
 
         var requests = client.getRequests();
