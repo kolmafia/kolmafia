@@ -11005,7 +11005,7 @@
 10977
 10978
 10979	Recipe of Before Yore: ratatouille de Jarlsberg	682740116	bbat_recipe.gif	usable	t,d	100
-10980
+10980	Recipe of Before Yore: Jarlsberg's vegetable soup	276699943	bbat_recipe.gif	usable	t,d	100
 10981	Recipe of Before Yore: roasted vegetable of J.	782778295	bbat_recipe.gif	usable	t,d	150
 10982	Recipe of Before Yore: St. Pete's sneaky smoothie	825252942	bbat_recipe.gif	usable	t,d	100
 10983	Recipe of Before Yore: Pete's wily whey bar	335242148	bbat_recipe.gif	usable	t,d	100
