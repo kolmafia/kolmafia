@@ -2735,5 +2735,5 @@
 2735	Awfully Wily	bbat_wheybar.gif	82878450ce9d1a7f8b13cd26603a0b0d	neutral	none	eat 1 Pete's wiley whey bar
 2736	Rippin' Ricotta	bbat_ricotta.gif	d59c2d298ebfd8c99bf47fe68891e7ea	neutral	none	eat 1 Pete's rich ricotta
 2737	Feeling Fancy	bbat_focaccia.gif	69862d498ff6068ea6b31787d1a494b8	neutral	none	eat 1 roasted vegetable focaccia
-2738
+2738	Angering Pizza Purists	bbat_calzone1.gif	08f4024c1d6cf8ddbe0c52f4d8b86c33	neutral	none	eat 1 plain calzone
 2739	Pretty Delicious	bbat_casserole.gif	9f03022717f7b13fef44b5dab8289bba	neutral	none	eat 1 baked veggie ricotta casserole

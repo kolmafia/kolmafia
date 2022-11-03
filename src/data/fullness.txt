@@ -683,6 +683,7 @@ pirate fork	4	1	???	0	0	0	0	Consume one random 4-fullness food
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
 plain bagel	3	1	decent	5-7	0	0	0
+plain calzone	2	1	EPIC	0	0	0	0	Unspaded, 50 Angering Pizza Purists (+15 Moxie, +200% Muscle, +50 ML)
 plain candy cane	1	1	crappy	1	0	0	0
 plain pizza	2	1	decent	2-4	0	0	0	PIZZA
 plain snowcone	1	1	good	3	4-5	4-5	4-5

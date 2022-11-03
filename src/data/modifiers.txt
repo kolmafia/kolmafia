@@ -5033,6 +5033,7 @@ Effect	Ancient Annoying Serpent Poison	Muscle: -5, Mysticality: -5, Moxie: -5
 Effect	Ancient Fortitude	Maximum HP Percent: +100, HP Regen Min: 90, HP Regen Max: 100
 Effect	Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	And Your Family, Too	Familiar Weight: -10
+Effect	Angering Pizza Purists	Monster Level: +50, Moxie: +15, Muscle Percent: +200
 Effect	Angry	Combat Rate: +5
 # Angry Bone: +40 Damage vs. Undead
 Effect	Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
@@ -8742,6 +8743,7 @@ Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
 # pirate fork: Cannot be traded or discarded
 # pirate fork: Only one may be consumed per day<p><center><b><font color=blue>Usable once each day to steal some food!
 Item	pixel banana	Effect: "Going Ape", Effect Duration: 40
+Item	plain calzone	Effect: "Angering Pizza Purists", Effect Duration: 50
 Item	plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 Item	poisonous caviar	Effect: "Majorly Poisoned", Effect Duration: 50
 Item	powdered donut	Effect: "Powdered", Effect Duration: 5
