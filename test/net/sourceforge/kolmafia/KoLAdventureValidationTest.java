@@ -2894,14 +2894,42 @@ public class KoLAdventureValidationTest {
     // "finished - performed ritual
     //
     // I don't think you actually have to talk to the friars.
+    //
+    // Quest.AZAZEL
+    //
+    // "started" when you first visit Pandamonium.
+    // Until then, the zones are not open.
 
     @Test
-    public void canVisitPandamoniumWhenFriarsFinished() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.FRIAR, QuestDatabase.FINISHED));
+    public void canVisitPandamoniumWhenAzazelStarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.AZAZEL, QuestDatabase.STARTED));
       try (cleanups) {
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(LAUGH_FLOOR.canAdventure());
         assertTrue(INFERNAL_RACKETS.canAdventure());
+      }
+    }
+
+    @Test
+    public void canOpenPandamoniumWhenFriarsFinished() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.FRIAR, QuestDatabase.FINISHED),
+              withQuestProgress(Quest.AZAZEL, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_visit_pandamonium.html"));
+        client.addResponse(200, ""); // api.php
+        assertTrue(PANDAMONIUM_SLUMS.canAdventure());
+        assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertGetRequest(requests.get(0), "/pandamonium.php", null);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
@@ -2918,18 +2946,25 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.FRIAR, QuestDatabase.STARTED),
               withItem(ItemPool.DODECAGRAM),
               withItem(ItemPool.CANDLES),
-              withItem(ItemPool.BUTTERKNIFE));
+              withItem(ItemPool.BUTTERKNIFE),
+              withQuestProgress(Quest.AZAZEL, QuestDatabase.UNSTARTED));
       try (cleanups) {
         client.addResponse(200, html("request/test_visit_friars_ritual.html"));
         client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_visit_pandamonium.html"));
+        client.addResponse(200, ""); // api.php
+
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
         assertEquals(QuestDatabase.getQuest(Quest.FRIAR), QuestDatabase.FINISHED);
+        assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
 
         var requests = client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(4));
         assertPostRequest(requests.get(0), "/friars.php", "action=ritual&pwd=friars");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertGetRequest(requests.get(2), "/pandamonium.php", null);
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

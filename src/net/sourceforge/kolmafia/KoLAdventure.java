@@ -1160,7 +1160,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // The Pandamonium zones are available if you have completed the Friars quest
     if (this.zone.equals("Pandamonium")) {
-      return QuestDatabase.isQuestFinished(Quest.FRIAR)
+      return QuestDatabase.isQuestStarted(Quest.AZAZEL)
+          || QuestDatabase.isQuestFinished(Quest.FRIAR)
           || (InventoryManager.hasItem(DODECAGRAM)
               && InventoryManager.hasItem(CANDLES)
               && InventoryManager.hasItem(BUTTERKNIFE));
@@ -1895,7 +1896,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           }
           case "wolf" -> {
             // 30 turns to adventure in Skid Row.  The zone closes when you
-            // finish.  We do not seem to track them?
+            // finish.
             return Preferences.getInteger("wolfTurnsUsed") < 30;
           }
           case "stepmother" -> {
@@ -1915,8 +1916,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           }
           case "witch" -> {
             // 30 turns to adventure in The Candy Witch and the Relentless
-            // Child Thieves. The zone closes when you finish. We do not seem
-            // to track them?
+            // Child Thieves. The zone closes when you finish.
             return Preferences.getInteger("candyWitchTurnsUsed") < 30;
           }
         }
@@ -2200,14 +2200,25 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 6 quest
     if (this.zone.equals("Pandamonium")) {
-      if (QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+      // If we have completed the ritual and visited Pandammonium, Azazel's
+      // quest is started and the areas in that zone are available.
+      if (QuestDatabase.isQuestStarted(Quest.AZAZEL)) {
         return true;
       }
-      // If we get here, we have the ritual items.
-      // Do the ritual
-      var request = new GenericRequest("friars.php?action=ritual&pwd");
-      request.run();
-      return QuestDatabase.isQuestFinished(Quest.FRIAR);
+
+      // If we get here but have not finished the ritual, we must perform it.
+      if (!QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+        var request = new GenericRequest("friars.php?action=ritual&pwd");
+        request.run();
+      }
+
+      // If the quest is finished, visit Pandamonium to start Azazel's quest
+      if (QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+        var request = new GenericRequest("pandamonium.php", false);
+        request.run();
+      }
+
+      return QuestDatabase.isQuestStarted(Quest.AZAZEL);
     }
 
     if (this.formSource.equals("dwarffactory.php")
