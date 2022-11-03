@@ -10993,7 +10993,7 @@
 10965	Oopsie IPA	439261217	beerbottle.gif	drink	t	0
 10966	mummified entombed cookbookbat	898160116	bbat_larva.gif	grow	t	0
 10967	Yeast of Boris	872378372	bbat_yeast.gif	none, cook, mix	t,d	50	handfuls of handfuls of the Yeast of Boris
-10968	St. Sneaky Pete's Whey	233475796	bbat_whey.gif	none, cook	t,d	50	tubs of tubs of St. Sneaky Pete's Whey
+10968	St. Sneaky Pete's Whey	233475796	bbat_whey.gif	none, cook	t,d	50	tubs of St. Sneaky Pete's Whey
 10969	Vegetable of Jarlsberg	629550840	bbat_vegetable.gif	none, cook	t,d	50	Vegetables of Jarlsberg
 10970
 10971
@@ -11009,7 +11009,7 @@
 10981	Recipe of Before Yore: roasted vegetable of J.	782778295	bbat_recipe.gif	usable	t,d	150
 10982	Recipe of Before Yore: St. Pete's sneaky smoothie	825252942	bbat_recipe.gif	usable	t,d	100
 10983	Recipe of Before Yore: Pete's wily whey bar	335242148	bbat_recipe.gif	usable	t,d	100
-10984
+10984	Recipe of Before Yore: Pete's rich ricotta	186070874	bbat_recipe.gif	usable	t,d	150
 10985	Recipe of Before Yore: Boris's beer	895615926	bbat_recipe.gif	usable	t,d	100
 10986	Recipe of Before Yore: honey bun of Boris	439397272	bbat_recipe.gif	usable	t,d	100
 10987	Recipe of Before Yore: Boris's bread	535986690	bbat_recipe.gif	usable	t,d	150
