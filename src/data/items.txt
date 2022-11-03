@@ -10995,17 +10995,17 @@
 10967	Yeast of Boris	872378372	bbat_yeast.gif	none, cook, mix	t,d	50	handfuls of handfuls of the Yeast of Boris
 10968	St. Sneaky Pete's Whey	233475796	bbat_whey.gif	none, cook	t,d	50	tubs of St. Sneaky Pete's Whey
 10969	Vegetable of Jarlsberg	629550840	bbat_vegetable.gif	none, cook	t,d	50	Vegetables of Jarlsberg
-10970
-10971
-10972
+10970	ratatouille de Jarlsberg	238021108	bbat_casserole.gif	food	d	75
+10971	Jarlsberg's vegetable soup	552577865	bbat_soup.gif	food	d	75
+10972	roasted vegetable of Jarlsberg	236899776	bbat_roastveggie.gif	food, cook	d	100
 10973	St. Pete's sneaky smoothie	740448073	bbat_smoothie.gif	food	d	75
-10974
+10974	Pete's wiley whey bar	698294535	bbat_wheybar.gif	food	d	75
 10975	Pete's rich ricotta	729897026	bbat_ricotta.gif	food, cook	d	100
-10976
-10977
-10978
+10976	Boris's beer	530536491	bbat_beer.gif	drink	d	75
+10977	honey bun of Boris	564839555	bbat_honeybun.gif	food	d	75
+10978	Boris's bread	498380608	bbat_bread.gif	food, cook	d	100
 10979	Recipe of Before Yore: ratatouille de Jarlsberg	682740116	bbat_recipe.gif	usable	t,d	100
-10980
+10980	Recipe of Before Yore: Jarlsberg's vegetable soup	276699943	bbat_recipe.gif	usable	t,d	100
 10981	Recipe of Before Yore: roasted vegetable of J.	782778295	bbat_recipe.gif	usable	t,d	150
 10982	Recipe of Before Yore: St. Pete's sneaky smoothie	825252942	bbat_recipe.gif	usable	t,d	100
 10983	Recipe of Before Yore: Pete's wily whey bar	335242148	bbat_recipe.gif	usable	t,d	100
@@ -11013,14 +11013,14 @@
 10985	Recipe of Before Yore: Boris's beer	895615926	bbat_recipe.gif	usable	t,d	100
 10986	Recipe of Before Yore: honey bun of Boris	439397272	bbat_recipe.gif	usable	t,d	100
 10987	Recipe of Before Yore: Boris's bread	535986690	bbat_recipe.gif	usable	t,d	150
-10988
-10989
+10988	baked veggie ricotta casserole	855715134	bbat_casserole.gif	food, cook	d	200
+10989	plain calzone	392094485	bbat_calzone1.gif	food, cook	d	200
 10990	roasted vegetable focaccia	705913927	bbat_focaccia.gif	food, cook	d	200
 10991
 10992
 10993
 10994
-10995
-10996
-10997
+10995	Recipe of Before Yore: roasted vegetable focaccia	497528859	bbat_recipe.gif	usable	t,d	200
+10996	Recipe of Before Yore: plain calzone	115946584	bbat_recipe.gif	usable	t,d	200
+10997	Recipe of Before Yore: baked veggie ricotta	385781133	bbat_recipe.gif	usable	t,d	200
 10998	cookbookbat book	230914563	book5.gif	familiar	t,d	75
