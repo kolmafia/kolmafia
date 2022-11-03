@@ -5033,6 +5033,7 @@ Effect	Ancient Annoying Serpent Poison	Muscle: -5, Mysticality: -5, Moxie: -5
 Effect	Ancient Fortitude	Maximum HP Percent: +100, HP Regen Min: 90, HP Regen Max: 100
 Effect	Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	And Your Family, Too	Familiar Weight: -10
+Effect	Angering Pizza Purists	Monster Level: +50, Moxie: +15, Muscle Percent: +200
 Effect	Angry	Combat Rate: +5
 # Angry Bone: +40 Damage vs. Undead
 Effect	Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
@@ -5083,6 +5084,7 @@ Effect	Avatar of the Storm Tortoise	Initiative: +100, Maximum MP: +200, MP Regen
 # Avatar of the War Snapper: You take very little damage in combat
 # Avatar of the War Snapper: Your regular attacks always hit
 # Avatar of the War Snapper: You can unleash the Rage of the War Snapper
+Effect	Awfully Wily	Moxie: +5, Moxie Percent: +50, Sleaze Resistance: +5
 Effect	Axe Wound	Muscle: -5
 Effect	Aykrophobia	Item Drop: +25, Spooky Damage: +20, Monster Level: +15
 # B-b-brr!
@@ -5137,6 +5139,7 @@ Effect	Beefy	Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Slea
 Effect	Beer Barrel Polka	Booze Drop: +45
 # Beer in Your Shoes: More likely to fumble
 # Beer in Your Shoes: Continually take damage
+Effect	Beery Cool	Muscle: +5, Muscle Percent: +50, Hot Resistance: +5
 Effect	Beginning at Home	Avatar: "Charity the Zombie Hunter"
 Effect	Behind the Green Curtain	Spooky Resistance: +9
 Effect	Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
@@ -6227,6 +6230,7 @@ Effect	Inscrutable exoskeleton	Damage Absorption: +300
 Effect	Inscrutable Gaze	Experience Percent (Mysticality): +10
 # Inside The Snowglobe: You can access the Deep Machine Tunnels beneath Seaside Town
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
+Effect	Inspired Chef	Meat Drop: +100, Muscle: +10, Muscle Percent: +100
 Effect	Insulated	Maximum MP: +6
 Effect	Insulated Trousers	Cold Resistance: +1
 Effect	Internate Debatable	Monster Level: +10
@@ -6486,6 +6490,7 @@ Effect	More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Lim
 Effect	More Mansquito Than Man	Maximum HP: +100, Maximum HP Percent: +100, HP Regen Min: 20, HP Regen Max: 40
 Effect	Morninja	Initiative: +100
 Effect	Mortarfied	Damage Absorption: +100
+Effect	Motherly Loved	Muscle: +5, Muscle Percent: +50, Cold Resistance: +5
 Effect	Motion	Initiative: +100
 Effect	Motorhair	Avatar: "motorhead"
 Effect	Moxious Intentions	Experience (Moxie): +3
@@ -6747,6 +6752,7 @@ Effect	Prelude of Precision	Critical Hit Percent: +10
 Effect	Prestidigysfunction	Mysticality Percent: -95
 Effect	Pretending to Pretend	Weapon Damage Percent: +100
 Effect	Preternatural Greed	Meat Drop: +100
+Effect	Pretty Delicious	Mysticality: +15, Moxie Percent: +200, MP Regen Min: 20, MP Regen Max: 30, HP Regen Min: 20, HP Regen Max: 30
 Effect	Pride of the Puffin	Monster Level: +10
 Effect	Pride of the Vampire	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Prideful Strut	Experience: +10
@@ -6755,6 +6761,7 @@ Effect	Proficient Pressure	Experience: +8
 Effect	Pronounced Potency	Weapon Damage: +5
 Effect	Proprie Tea	Sleaze Resistance: +3
 Effect	Pros Only	Avatar: "sensitive poet-type"
+Effect	parfum d'herbes	Mysticality: +5, Mysticality Percent: +50, Stench Resistance: +5
 Effect	protect.enq	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Proto-Stimulated	Muscle: +20, Mysticality: +20, Moxie: +20
@@ -7099,6 +7106,7 @@ Effect	Song of the North	Weapon Damage Percent: +100, Cold Damage: +50
 # Soul Funk: Deal some <font color=green>Stench Damage</font> every round
 Effect	Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Effect	Soulerskates	Initiative: +30
+Effect	Souped Up	Mysticality: +5, Mysticality Percent: +50, Damage Absorption: +50
 Effect	Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
 Effect	Sour Grapes	Item Drop: +40
 Effect	Sour Softshoe	Item Drop: [min(T,50)], Meat Drop: [2*min(T,50)]
@@ -7648,6 +7656,7 @@ Effect	Wit Tea	Mysticality: +50
 Effect	Witch Breaded	Mysticality Percent: +100, Spell Damage Percent: +200, Spell Critical Percent: +20
 Effect	Witch's Brood	Hot Spell Damage: +50, Cold Spell Damage: +50, Stench Spell Damage: +50, Spooky Spell Damage: +50, Sleaze Spell Damage: +50
 Effect	Withered Heart	Item Drop: [min(T,20)], Mysticality: [min(T,20)]
+Effect	Wizard Sight	Item Drop: +100, Mysticality: +10, Mysticality Percent: +100
 Effect	Wizard Squint	Spell Critical Percent: +10
 Effect	Woad Warrior	Muscle: +25
 # Wolf's Bane: +50% Damage vs. Werewolves
@@ -8513,6 +8522,7 @@ Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
 # Baja sopapilla: NOTE: This item will stop working when Crimbo 2019 is over.
 # Baja sopapilla	Effect: "Baja, Humbug", Effect Duration: 30
 Item	baked stuffing	Effect: "Thanksgetting", Effect Duration: 20
+Item	baked veggie ricotta casserole	Effect: "Pretty Delicious", Effect Duration: 50
 Item	bar of freeze-dried water	Effect: "Ultrahydrated", Effect Duration: 10
 Item	barrel cracker	Effect: "Shortened", Effect Duration: 40
 Item	barrel pickle	Effect: "Briny Blood", Effect Duration: 50
@@ -8529,6 +8539,7 @@ Item	black pudding	Wiki Name: "black pudding (food)"
 Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10
 Item	blueberry muffin	Effect: "All Blued Up", Effect Duration: 25
 Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
+Item	Boris's bread	Effect: "Inspired Chef", Effect Duration: 30
 Item	bowl full of jelly	Effect: "Jowls Full, and Belly", Effect Duration: 30
 Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
@@ -8666,6 +8677,7 @@ Item	Hide-rox&trade; cookie	Effect: "Broken Bone Nubs", Effect Duration: 30
 Item	hippy herbal tea	Effect: "Sleepy", Effect Duration: 5
 Item	holiday cheese log	Effect: "Stands Alone", Effect Duration: 20
 Item	honey-dew	Effect: "Mmmmmelon", Effect Duration: 10
+Item	honey bun of Boris	Effect: "Motherly Loved", Effect Duration: 30
 Item	hot hi mein	Effect: "Hot Breath", Effect Duration: 5
 Item	hushed puppy	Effect: "Noise Cancelled", Effect Duration: 100
 Item	ice cream sandwich	Effect: "Cold Throat", Effect Duration: 20
@@ -8673,6 +8685,7 @@ Item	ice harvest	Effect: "Icy Demeanor", Effect Duration: 30
 Item	iceberg lettuce	Effect: "Headstrong", Effect Duration: 50
 Item	initiative shawarma	Effect: "Shawarma Initiative", Effect Duration: 30
 Item	irradiated candy cane	Effect: "Festive Radiation", Effect Duration: 10
+Item	Jarlsberg's vegetable soup	Effect: "Souped Up", Effect Duration: 30
 Item	java cookie	Effect: "Updated", Effect Duration: 10
 Item	jawbruiser	Effect: "Sugar Rush", Effect Duration: 5
 Item	jive turkey leg	Effect: "Hollow Inside", Effect Duration: 50
@@ -8722,6 +8735,7 @@ Item	packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
 Item	pawn cookie	Effect: "Pwnd", Effect Duration: 30
 Item	pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
 Item	Pete's rich ricotta	Effect: "Rippin' Ricotta", Effect Duration: 30
+Item	Pete's wiley whey bar	Effect: "Awfully Wily", Effect Duration: 30
 Item	petit 4.1	Effect: "Petit Force", Effect Duration: 20
 Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
 # pirate fork: (</font><font color=green>?</font><font color=red>?</font><font color=#999999>?</font><font color=blue>)</font></b>
@@ -8729,12 +8743,15 @@ Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
 # pirate fork: Cannot be traded or discarded
 # pirate fork: Only one may be consumed per day<p><center><b><font color=blue>Usable once each day to steal some food!
 Item	pixel banana	Effect: "Going Ape", Effect Duration: 40
+Item	plain calzone	Effect: "Angering Pizza Purists", Effect Duration: 50
 Item	plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 Item	poisonous caviar	Effect: "Majorly Poisoned", Effect Duration: 50
 Item	powdered donut	Effect: "Powdered", Effect Duration: 5
 Item	protein paste	Effect: "Pasty", Effect Duration: 10
 Item	queen cookie	Effect: "Towering Strength"
 Item	rack of dinosaur ribs	Effect: "Meat the Flintstones", Effect Duration: 30
+Item	ratatouille de Jarlsberg	Effect: "parfum d'herbes", Effect Duration: 30
+Item	roasted vegetable of Jarlsberg	Effect: "Wizard Sight", Effect Duration: 30
 Item	red drunki-bear	Effect: "Gummiheart", Effect Duration: 80
 Item	roasted marshmallow	Effect: "Mallowed Out", Effect Duration: 3
 Item	roasted vegetable focaccia	Effect: "Feeling Fancy", Effect Duration: 50
@@ -8852,6 +8869,7 @@ Item	Bloody Nora	Effect: "Fishtacular Vernacular", Effect Duration: 40
 Item	Boulevardier cocktail	Effect: "Ready to Roll", Effect Duration: 40
 Item	Bone's Farm &quot;wine&quot;	Effect: "Sticks and Stones", Effect Duration: 30
 Item	Bordeaux Marteaux	Effect: "Hammered", Effect Duration: 20
+Item	Boris's beer	Effect: "Beery Cool", Effect Duration: 30
 Item	bottle of Amontillado	Effect: "Bricked-In", Effect Duration: 100
 Item	bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
 Item	bottle of Evermore	Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 30

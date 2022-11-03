@@ -2725,13 +2725,15 @@
 2725	Bet Your Autumn Dollar	goldcoin.gif	f696596ddc94d295fc25da98d24f58ec	neutral	none	use 1 autumn dollar
 2726	Delighted by Autumn	cueball.gif	fc1fd3b808d9bda46a4d6f1e71a74e9a	neutral	none	chew 1 autumn breeze
 2727	Wisdom of the Autumn Years	xicrystal.gif	67ebd878570ed8315d4a4674e2eed291	neutral	none	use 1 autumn years wisdom
-2728
-2729
-2730
-2731
-2732
-2733
+2728	Beery Cool	bbat_beer.gif	0cc98f3aa974f1d58c645444e7d6fb91	neutral	none	drink 1 Boris's beer
+2729	Motherly Loved	bbat_honeybun.gif	1ff9b0ce7bbb6cc5b7a7017da14bc400	neutral	none	eat 1 honey bun of Boris
+2730	Inspired Chef	bbat_bread.gif	2d3e34beda54e4b52e1366d5aa78d540	neutral	none	eat 1 Boris's bread
+2731	parfum d'herbes	bbat_casserole.gif	64c172e308539ade2b033e4e1e1574d6	neutral	none	eat 1 ratatouille de Jarlsberg
+2732	Souped Up	bbat_soup.gif	affa5dd180402169934616dc25a51764	neutral	none	eat 1 Jarlsberg's vegetable soup
+2733	Wizard Sight	bbat_roastveggie.gif	bcbe062d063d71b56d043bda7f12969f	neutral	none	eat 1 roasted vegetable of Jarlsberg
 2734	Gritty Soul	bbat_smoothie.gif	074a77cc3722a50e38d691306b66bf09	neutral	none	eat 1 St. Pete's sneaky smoothie
-2735
+2735	Awfully Wily	bbat_wheybar.gif	82878450ce9d1a7f8b13cd26603a0b0d	neutral	none	eat 1 Pete's wiley whey bar
 2736	Rippin' Ricotta	bbat_ricotta.gif	d59c2d298ebfd8c99bf47fe68891e7ea	neutral	none	eat 1 Pete's rich ricotta
 2737	Feeling Fancy	bbat_focaccia.gif	69862d498ff6068ea6b31787d1a494b8	neutral	none	eat 1 roasted vegetable focaccia
+2738	Angering Pizza Purists	bbat_calzone1.gif	08f4024c1d6cf8ddbe0c52f4d8b86c33	neutral	none	eat 1 plain calzone
+2739	Pretty Delicious	bbat_casserole.gif	9f03022717f7b13fef44b5dab8289bba	neutral	none	eat 1 baked veggie ricotta casserole
