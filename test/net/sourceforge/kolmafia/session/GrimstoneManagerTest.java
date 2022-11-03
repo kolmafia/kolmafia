@@ -169,13 +169,13 @@ public class GrimstoneManagerTest {
           new Cleanups(
               withLastLocation("A Deserted Stretch of I-911"),
               withFight(3),
-              withProperty("hareMilliSecondsSaved", 0));
+              withProperty("hareMillisecondsSaved", 0));
       try (cleanups) {
         String URL = "fight.php?action=attack";
         String html = html("request/test_save_seconds.html");
         FightRequest.registerRequest(true, URL);
         FightRequest.updateCombatData(URL, "sketchy van", html);
-        assertEquals(12, Preferences.getInteger("hareMilliSecondsSaved"));
+        assertEquals(12, Preferences.getInteger("hareMillisecondsSaved"));
       }
     }
   }
