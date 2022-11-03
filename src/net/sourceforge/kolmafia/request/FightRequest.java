@@ -6972,7 +6972,7 @@ public class FightRequest extends GenericRequest {
         if (matcher.find()) {
           int seconds = StringUtilities.parseInt(matcher.group(1));
           int milliseconds = StringUtilities.parseInt(matcher.group(2));
-          Preferences.increment("hareMilliSecondsSaved", (seconds * 1000) + milliseconds);
+          Preferences.increment("hareMillisecondsSaved", (seconds * 1000) + milliseconds);
           break;
         }
         return false;
