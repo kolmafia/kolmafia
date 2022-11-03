@@ -1636,6 +1636,7 @@ Escalatormaster&trade;	1488	stairmaster.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 
 Legstrong&trade; stationary bicycle	1489	statbike.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a Manuel: "Legstrong™ stationary bicycle"	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
 rack of free weights	1486	weightrack.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
 treadmill	1485	treadmill.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
+
 Medieval dung peddler	1507	med_dung.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 5 P: dude EA: sleaze EA: stench Article: a	leather (0)	leather (0)	straw (0)	straw (0)
 Medieval leather mug salesman	1505	med_mugman.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude EA: hot Article: a	leather (0)	leather (0)	leather (0)	leather (0)
 Medieval mug apprentice	1509	med_muggirl.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 5 P: dude EA: hot Article: a	clay (0)	clay (0)	leather (0)	leather (0)
