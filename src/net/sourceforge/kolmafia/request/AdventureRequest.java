@@ -383,9 +383,10 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    Preferences.setString("lastEncounter", encounter);
-    RequestLogger.printLine("Encounter: " + encounter);
-    RequestLogger.updateSessionLog("Encounter: " + encounter);
+    String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+    Preferences.setString("lastEncounter", prettyEncounter);
+    RequestLogger.printLine("Encounter: " + prettyEncounter);
+    RequestLogger.updateSessionLog("Encounter: " + prettyEncounter);
     AdventureRequest.registerDemonName(encounter, responseText);
 
     // We are done registering the item's encounter.

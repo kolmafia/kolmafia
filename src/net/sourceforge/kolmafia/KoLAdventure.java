@@ -115,7 +115,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.zone = zone;
     this.adventureName = adventureName;
 
-    this.normalString = this.zone + ": " + this.adventureName;
+    this.normalString = StringUtilities.getEntityDecode(this.zone + ": " + this.adventureName);
     this.lowercaseString = this.normalString.toLowerCase();
 
     this.parentZone = AdventureDatabase.getParentZone(zone);
@@ -472,6 +472,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       EffectPool.get(EffectPool.FILTHWORM_DRONE_STENCH);
   private static final AdventureResult FILTHWORM_GUARD_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
+  private static final AdventureResult HARE_BRAINED = EffectPool.get(EffectPool.HARE_BRAINED);
 
   private static final Map<String, String> grimstoneZones =
       Map.ofEntries(
@@ -1884,9 +1885,45 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // One path at a time.
       String tale = grimstoneZones.get(this.zone);
       String current = Preferences.getString("grimstoneMaskPath");
-      // prepareForAdventure will NOT use a grimstone mask if necessary.
-      // *** Should it? They are not cheap.
-      return tale.equals(current) || InventoryManager.hasItem(item);
+      if (tale.equals(current)) {
+        // See if the tale is finished
+        switch (tale) {
+          case "hare" -> {
+            // 30 turns of the Hare-Brained effect. The zone closes when you
+            // lose the effect. You adventure at A Deserted Stretch of I-911
+            return KoLConstants.activeEffects.contains(HARE_BRAINED);
+          }
+          case "wolf" -> {
+            // 30 turns to adventure in Skid Row.  The zone closes when you
+            // finish.  We do not seem to track them?
+            return Preferences.getInteger("wolfTurnsUsed") < 30;
+          }
+          case "stepmother" -> {
+            // 30 turns to adventure at The Prince's Ball. The zone closes when
+            // you finish, although odd silver coins (not quest items) can
+            // still be spent.
+            return Preferences.getInteger("cinderellaMinutesToMidnight") > 0;
+          }
+          case "gnome" -> {
+            // 30 turns to adventure in Rumpelstiltskin's Home For Children.
+            // The zone remains open when you finish, although, you can only
+            // visit Rumplestiltskin's Workshop to craft things that use the
+            // RUMPLE crafting method to use up your crafting materials before
+            // starting another mini-game. ConcoctionsDatabase tracks this via
+            // the property.
+            return Preferences.getInteger("rumpelstiltskinTurnsUsed") < 30;
+          }
+          case "witch" -> {
+            // 30 turns to adventure in The Candy Witch and the Relentless
+            // Child Thieves. The zone closes when you finish. We do not seem
+            // to track them?
+            return Preferences.getInteger("candyWitchTurnsUsed") < 30;
+          }
+        }
+      }
+
+      // prepareForAdventure will NOT use a grimstone mask
+      return false;
     }
 
     if (this.zone.equals("The Snojo")) {
@@ -3087,6 +3124,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // If we are too drunk adventure, return now.
     if (tooDrunkToAdventure()) return;
+
+    // Unleash Your Inner Wolf redirects to a fight chain that takes 3 turns,
+    // regardless of how many fights are actually fought.
+    if (this.adventureId.equals("ioty2014_wolf")) {
+      Preferences.increment("wolfTurnsUsed", 3);
+    }
 
     switch (this.adventureNumber) {
       case AdventurePool.FCLE:
