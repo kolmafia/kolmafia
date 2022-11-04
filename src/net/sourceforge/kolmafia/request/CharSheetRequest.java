@@ -610,6 +610,10 @@ public class CharSheetRequest extends GenericRequest {
         if (skillIdMatcher.find()) {
           isSkillIdFound = true;
           skillId = StringUtilities.parseInt(skillIdMatcher.group(1));
+          // KoL bug - Summon Hilarious Objects has skillId 17 in charsheet
+          if ((skillId == 17) && skillName.equals("Summon Hilarious Objects")) {
+            skillId = 7226;
+          }
           break;
         }
       }

@@ -135,17 +135,11 @@ public class CharSheetRequestTest {
 
     ParsedSkillInfo[] expected = {
       new ParsedSkillInfo(12, "Torso Awareness", PermStatus.NONE),
-      new ParsedSkillInfo(17, "Summon Hilarious Objects", PermStatus.NONE)
+      new ParsedSkillInfo(7226, "Summon Hilarious Objects", PermStatus.NONE)
     };
     assertEquals(99, skillInfos.length);
     assertTrue(Arrays.asList(skillInfos).contains(expected[0]));
     assertTrue(Arrays.asList(skillInfos).contains(expected[1]));
-    for (ParsedSkillInfo skillInfo : skillInfos) {
-      assertEquals(
-          skillInfo.id,
-          SkillDatabase.getSkillId(skillInfo.name),
-          "Name/ID mismatch for " + skillInfo.id);
-    }
   }
 
   @ParameterizedTest
