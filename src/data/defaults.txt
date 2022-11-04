@@ -378,6 +378,8 @@ user	camelSpit	0
 user	cameraMonster
 user	camerasUsed	0
 user	campAwayDecoration	0
+user	candyWitchTurnsUsed	0
+user	candyWitchCandyTotal	0
 user	canteenUnlocked	false
 user	carboLoading	0
 user	cargoPocketsEmptied
@@ -437,6 +439,9 @@ user	cosmicBowlingBallReturnCombats	-1
 user	cozyCounter6332	0
 user	cozyCounter6333	0
 user	cozyCounter6334	0
+user	craftingClay	-1
+user	craftingLeather	-1
+user	craftingStraw	-1
 user	crappyCameraMonster
 user	crimbo16BeardChakraCleanliness	0
 user	crimbo16BootsChakraCleanliness	0
@@ -1515,6 +1520,8 @@ user	wildfireDusted	false
 user	wildfireFracked	false
 user	wildfirePumpGreased	false
 user	wildfireSprinkled	false
+user	wolfPigsEvicted	0
+user	wolfTurnsUsed	0
 user	workteaClue
 user	writingDesksDefeated	0
 user	xoSkeleltonXProgress	8

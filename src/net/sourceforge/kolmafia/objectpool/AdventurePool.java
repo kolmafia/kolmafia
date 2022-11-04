@@ -180,6 +180,17 @@ public class AdventurePool {
   public static final int OLD_LANDFILL = 356;
   public static final int ARID_DESERT = 364;
   public static final int WARBEAR_FORTRESS_LEVEL_THREE = 368;
+  public static final int INNER_WOLF_GYM = 369;
+  public static final int SWEET_ADE_LAKE = 370;
+  public static final int EAGER_RICE_BURROWS = 371;
+  public static final int GUMDROP_FOREST = 372;
+  public static final int A_DESERTED_STRETCH_OF_I_911 = 373;
+  public static final int PRINCES_RESTROOM = 374;
+  public static final int PRINCES_DANCE_FLOOR = 375;
+  public static final int PRINCES_KITCHEN = 376;
+  public static final int PRINCES_BALCONY = 377;
+  public static final int PRINCES_LOUNGE = 378;
+  public static final int PRINCES_CANAPES_TABLE = 379;
   public static final int YE_OLDE_MEDIEVALE_VILLAGEE = 380;
   public static final int COPPERHEAD_CLUB = 383;
   public static final int ZEPPELIN_PROTESTORS = 384;

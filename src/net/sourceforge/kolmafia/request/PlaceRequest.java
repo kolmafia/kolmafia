@@ -88,6 +88,7 @@ public class PlaceRequest extends GenericRequest {
         yield 0;
       }
       case "falloutshelter" -> action.equals("vault1") ? 1 : 0;
+      case "ioty2014_wolf" -> action.equals("wolf_houserun") ? 3 : 0;
       case "manor4" -> action.equals("manor4_chamberboss") ? 1 : 0;
       case "nemesiscave" -> action.equals("nmcave_boss") ? 1 : 0;
       case "nstower" -> switch (action) {

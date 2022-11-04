@@ -1465,7 +1465,7 @@ public class Player {
    * @return Restores previous value
    */
   public static Cleanups withLastLocation(final String lastLocationName) {
-    var location = AdventureDatabase.getAdventure(lastLocationName);
+    var location = AdventureDatabase.getAdventureByName(lastLocationName);
     return withLastLocation(location);
   }
 
