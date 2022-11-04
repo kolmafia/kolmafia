@@ -11017,10 +11017,12 @@
 10989	plain calzone	392094485	bbat_calzone1.gif	food, cook	d	200
 10990	roasted vegetable focaccia	705913927	bbat_focaccia.gif	food, cook	d	200
 10991
-10992
-10993
+10992	Calzone of Legend	463633597	bbat_calzone2.gif	food	d	400
+10993	Recipe of Before Yore: Calzone of Legend	897961264	bbat_recipe.gif	usable	t,d	300
 10994
 10995	Recipe of Before Yore: roasted vegetable focaccia	497528859	bbat_recipe.gif	usable	t,d	200
 10996	Recipe of Before Yore: plain calzone	115946584	bbat_recipe.gif	usable	t,d	200
 10997	Recipe of Before Yore: baked veggie ricotta	385781133	bbat_recipe.gif	usable	t,d	200
 10998	cookbookbat book	230914563	book5.gif	familiar	t,d	75
+10999	Recipe of Before Yore: Deep Dish of Legend	924225296	bbat_recipe.gif	usable	t,d	100
+11000	Deep Dish of Legend	394854595	bbat_pizza.gif	food	d	400

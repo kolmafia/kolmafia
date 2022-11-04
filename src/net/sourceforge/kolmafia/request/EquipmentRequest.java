@@ -1431,22 +1431,16 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     String descId = matcher.group(1) != null ? matcher.group(2) : "";
     String name = matcher.group(3).trim();
-    int itemId = ItemDatabase.getItemIdFromDescription(descId);
-    AdventureResult item;
-    if (slot == EquipmentManager.FAMILIAR
-        || slot == EquipmentManager.HOLSTER
-        || EquipmentDatabase.contains(itemId)) {
-      item = ItemPool.get(itemId);
-    } else {
+    // This will register a new item from the descid, if needed
+    int itemId = ItemDatabase.lookupItemIdFromDescription(descId);
+
+    if (slot != EquipmentManager.FAMILIAR
+        && slot != EquipmentManager.HOLSTER
+        && !EquipmentDatabase.contains(itemId)) {
       RequestLogger.printLine("Found unknown equipped item: \"" + name + "\" descid = " + descId);
-
-      // No itemId available for equipped items!
-      // ItemDatabase.registerItem( itemId, name, descId );
-
-      // Put in a dummy item. If it gets unequipped, we will
-      // find and identify it in inventory.
-      item = AdventureResult.tallyItem(name, 1, false);
     }
+
+    AdventureResult item = ItemPool.get(itemId);
 
     equipment[slot] = item;
 

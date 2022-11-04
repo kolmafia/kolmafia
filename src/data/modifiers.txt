@@ -6189,9 +6189,11 @@ Effect	Impregnably Delicious	Damage Reduction: 30
 Effect	Improprie Tea	Sleaze Damage: +30
 Effect	Improved Candy Vision	Candy Drop: +25
 Effect	In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50
+Effect	In the Depths	Familiar Weight: +15, Muscle: +25, Muscle Percent: +300, Maximum HP Percent: +100, Maximum MP Percent: +100
 Effect	In the Limelight	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	In the Saucestream	Mysticality Percent: +15
 Effect	In the Slimelight	Stench Damage: +50
+Effect	In the 'zone zone!	Spell Damage: +50, Mysticality: +25, Mysticality Percent: +300, Maximum HP Percent: +100, Maximum MP Percent: +100
 Effect	In Tuna	MP Regen Min: 3, MP Regen Max: 5
 Effect	In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # In Your Cups: Whoah...
@@ -8556,6 +8558,7 @@ Item	bucket of honey	Effect: "Sugar Rush", Effect Duration: 50
 # bu&ntilde;uelos Jaliscos: NOTE: This item will stop working when Crimbo 2019 is over.
 # bu&ntilde;uelos Jaliscos	Effect: "Fishy", Effect Duration: 30
 Item	C.H.U.M. chum	Effect: "Majorly Poisoned", Effect Duration: 20
+Item	Calzone of Legend	Effect: "In the 'zone zone!", Effect Duration: 100
 Item	campfire baked potato	Effect: "Trial by Campfire", Effect Duration: 60
 Item	campfire beans	Effect: "The More You Eat", Effect Duration: 40
 Item	campfire coffee	Effect: "Coffee Achiever", Effect Duration: 40
@@ -8594,6 +8597,7 @@ Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
 Item	cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
 Item	cursed sea biscuit	Effect: "Curse Magnet", Effect Duration: 10
 Item	D roll	Effect: "On a Roll", Effect Duration: 20
+Item	Deep Dish of Legend	Effect: "In the Depths", Effect Duration: 100
 Item	denastified haunch	Effect: "Faerie Fortune", Effect Duration: 30
 Item	devil dog	Effect: "Devil Inside", Effect Duration: 30
 Item	diabolic pizza	Lasts Until Rollover

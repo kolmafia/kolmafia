@@ -500,7 +500,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     while (matcher.find()) {
       int id = StringUtilities.parseInt(matcher.group(1));
       String desc = matcher.group(2);
-      String name = matcher.group(3);
+      String name = matcher.group(3).trim();
       String data = ItemDatabase.getItemDataName(id);
       String countString = matcher.group(4);
       int count = countString == null ? 1 : StringUtilities.parseInt(matcher.group(5));

@@ -753,6 +753,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           && !Preferences.getBoolean("_loveTunnelUsed");
     }
 
+    // Unleash Your Inner Wolf
+    if (this.adventureId.equals(AdventurePool.INNER_WOLF_ID)) {
+      // Grimstone path must be "wolf"
+      if (!Preferences.getString("grimstoneMaskPath").equals("wolf")) {
+        return false;
+      }
+      // It takes three turns to Release Your Inner Wolf.
+      // On turns 0-24, you may do it.
+      // On turns 25-26, you are directed to train more in the Gym
+      // On turn 27, you must do it.
+      int turnsUsed = Preferences.getInteger("wolfTurnsUsed");
+      return turnsUsed < 25 || turnsUsed == 27;
+    }
+
     /* Removed adventures.
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
       return Preferences.getBoolean("eldritchFissureAvailable");
@@ -1160,7 +1174,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // The Pandamonium zones are available if you have completed the Friars quest
     if (this.zone.equals("Pandamonium")) {
-      return QuestDatabase.isQuestFinished(Quest.FRIAR)
+      return QuestDatabase.isQuestStarted(Quest.AZAZEL)
+          || QuestDatabase.isQuestFinished(Quest.FRIAR)
           || (InventoryManager.hasItem(DODECAGRAM)
               && InventoryManager.hasItem(CANDLES)
               && InventoryManager.hasItem(BUTTERKNIFE));
@@ -1889,14 +1904,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // See if the tale is finished
         switch (tale) {
           case "hare" -> {
-            // 30 turns of the Hare-Brained effect. The zone closes when you
-            // lose the effect. You adventure at A Deserted Stretch of I-911
+            // 30 turns of the Hare-Brained effect.
+            // The zone closes when you lose the effect.
+            // You adventure at A Deserted Stretch of I-911
             return KoLConstants.activeEffects.contains(HARE_BRAINED);
           }
           case "wolf" -> {
-            // 30 turns to adventure in Skid Row.  The zone closes when you
-            // finish.  We do not seem to track them?
-            return Preferences.getInteger("wolfTurnsUsed") < 30;
+            // 30 turns to adventure in Skid Row.
+            // At turn 27, you must Release Your Inner Wolf.
+            // (Handled above, as that is not adventure.php)
+            // The zone closes when you finish.
+
+            return Preferences.getInteger("wolfTurnsUsed") < 27;
           }
           case "stepmother" -> {
             // 30 turns to adventure at The Prince's Ball. The zone closes when
@@ -1915,8 +1934,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           }
           case "witch" -> {
             // 30 turns to adventure in The Candy Witch and the Relentless
-            // Child Thieves. The zone closes when you finish. We do not seem
-            // to track them?
+            // Child Thieves. The zone closes when you finish.
             return Preferences.getInteger("candyWitchTurnsUsed") < 30;
           }
         }
@@ -2200,14 +2218,25 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 6 quest
     if (this.zone.equals("Pandamonium")) {
-      if (QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+      // If we have completed the ritual and visited Pandammonium, Azazel's
+      // quest is started and the areas in that zone are available.
+      if (QuestDatabase.isQuestStarted(Quest.AZAZEL)) {
         return true;
       }
-      // If we get here, we have the ritual items.
-      // Do the ritual
-      var request = new GenericRequest("friars.php?action=ritual&pwd");
-      request.run();
-      return QuestDatabase.isQuestFinished(Quest.FRIAR);
+
+      // If we get here but have not finished the ritual, we must perform it.
+      if (!QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+        var request = new GenericRequest("friars.php?action=ritual&pwd");
+        request.run();
+      }
+
+      // If the quest is finished, visit Pandamonium to start Azazel's quest
+      if (QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+        var request = new GenericRequest("pandamonium.php", false);
+        request.run();
+      }
+
+      return QuestDatabase.isQuestStarted(Quest.AZAZEL);
     }
 
     if (this.formSource.equals("dwarffactory.php")
