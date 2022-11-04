@@ -1214,6 +1214,10 @@ public abstract class KoLCharacter {
    * @param ascensionClass The name of the character's class
    */
   public static final void setAscensionClass(final AscensionClass ascensionClass) {
+    if (KoLCharacter.ascensionClass == ascensionClass) {
+      return;
+    }
+
     KoLCharacter.ascensionClass = ascensionClass;
 
     KoLCharacter.tripleReagent = isSauceror();
