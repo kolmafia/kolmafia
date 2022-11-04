@@ -2737,3 +2737,5 @@
 2737	Feeling Fancy	bbat_focaccia.gif	69862d498ff6068ea6b31787d1a494b8	neutral	none	eat 1 roasted vegetable focaccia
 2738	Angering Pizza Purists	bbat_calzone1.gif	08f4024c1d6cf8ddbe0c52f4d8b86c33	neutral	none	eat 1 plain calzone
 2739	Pretty Delicious	bbat_casserole.gif	9f03022717f7b13fef44b5dab8289bba	neutral	none	eat 1 baked veggie ricotta casserole
+2740	In the Depths	bbat_pizza.gif	4e1b5fb5d2e16e3bcf3d9013abdb4d5c	neutral	none	eat 1 Deep Dish of Legend
+2741	In the 'zone zone!	bbat_calzone2.gif	041f3562195a07294511006a50e1c9cb	neutral	none	eat 1 Calzone of Legend

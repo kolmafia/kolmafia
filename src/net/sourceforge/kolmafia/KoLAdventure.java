@@ -753,6 +753,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           && !Preferences.getBoolean("_loveTunnelUsed");
     }
 
+    // Unleash Your Inner Wolf
+    if (this.adventureId.equals(AdventurePool.INNER_WOLF_ID)) {
+      // Grimstone path must be "wolf"
+      if (!Preferences.getString("grimstoneMaskPath").equals("wolf")) {
+        return false;
+      }
+      // It takes three turns to Release Your Inner Wolf.
+      // On turns 0-24, you may do it.
+      // On turns 25-26, you are directed to train more in the Gym
+      // On turn 27, you must do it.
+      int turnsUsed = Preferences.getInteger("wolfTurnsUsed");
+      return turnsUsed < 25 || turnsUsed == 27;
+    }
+
     /* Removed adventures.
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
       return Preferences.getBoolean("eldritchFissureAvailable");
@@ -1890,14 +1904,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // See if the tale is finished
         switch (tale) {
           case "hare" -> {
-            // 30 turns of the Hare-Brained effect. The zone closes when you
-            // lose the effect. You adventure at A Deserted Stretch of I-911
+            // 30 turns of the Hare-Brained effect.
+            // The zone closes when you lose the effect.
+            // You adventure at A Deserted Stretch of I-911
             return KoLConstants.activeEffects.contains(HARE_BRAINED);
           }
           case "wolf" -> {
-            // 30 turns to adventure in Skid Row.  The zone closes when you
-            // finish.
-            return Preferences.getInteger("wolfTurnsUsed") < 30;
+            // 30 turns to adventure in Skid Row.
+            // At turn 27, you must Release Your Inner Wolf.
+            // (Handled above, as that is not adventure.php)
+            // The zone closes when you finish.
+
+            return Preferences.getInteger("wolfTurnsUsed") < 27;
           }
           case "stepmother" -> {
             // 30 turns to adventure at The Prince's Ball. The zone closes when
