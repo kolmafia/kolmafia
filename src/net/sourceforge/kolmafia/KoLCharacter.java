@@ -1214,18 +1214,20 @@ public abstract class KoLCharacter {
    * @param ascensionClass The name of the character's class
    */
   public static final void setAscensionClass(final AscensionClass ascensionClass) {
-    KoLCharacter.ascensionClass = ascensionClass;
+    if (KoLCharacter.ascensionClass != ascensionClass) {
+      KoLCharacter.ascensionClass = ascensionClass;
 
-    KoLCharacter.tripleReagent = isSauceror();
+      KoLCharacter.tripleReagent = isSauceror();
 
-    if (ascensionClass == AscensionClass.ASTRAL_SPIRIT) {
-      return;
+      if (ascensionClass == AscensionClass.ASTRAL_SPIRIT) {
+        return;
+      }
+
+      ConcoctionDatabase.resetConcoctionStatGains();
+
+      // Allow or disallow special fight actions
+      FightRequest.initialize();
     }
-
-    ConcoctionDatabase.resetConcoctionStatGains();
-
-    // Allow or disallow special fight actions
-    FightRequest.initialize();
   }
 
   public static final void setAscensionClass(final int classId) {
