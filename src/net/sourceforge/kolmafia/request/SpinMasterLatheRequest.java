@@ -172,7 +172,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
     while (matcher.find()) {
       int itemId = StringUtilities.parseInt(matcher.group(1));
       String descId = matcher.group(2);
-      String itemName = matcher.group(3);
+      String itemName = matcher.group(3).trim();
       String currency = matcher.group(4);
       int price = StringUtilities.parseInt(matcher.group(5));
       int row = StringUtilities.parseInt(matcher.group(6));

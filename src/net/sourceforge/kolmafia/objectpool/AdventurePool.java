@@ -7,6 +7,7 @@ public class AdventurePool {
   public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
   public static final String SHROUDED_PEAK_ID = "cloudypeak2";
   public static final String TUNNEL_OF_LOVE_ID = "townwrong_tunnel";
+  public static final String INNER_WOLF_ID = "ioty2014_wolf";
 
   public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
