@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
+import net.sourceforge.kolmafia.session.GrimstoneManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
@@ -3363,9 +3364,7 @@ public class FightRequest extends GenericRequest {
       Preferences.increment("_kolhsAdventures", 1);
     }
 
-    if (adventure == AdventurePool.YE_OLDE_MEDIEVALE_VILLAGEE) {
-      Preferences.increment("rumpelstiltskinTurnsUsed", 1);
-    }
+    GrimstoneManager.incrementFights(adventure);
 
     if (adventure == AdventurePool.DEEP_MACHINE_TUNNELS) {
       Preferences.decrement("encountersUntilDMTChoice");
@@ -5476,6 +5475,8 @@ public class FightRequest extends GenericRequest {
     public boolean hookah = false;
     public boolean meteors;
     public String location;
+    public KoLAdventure adventure;
+    public boolean grimstone;
     public int monsterId;
     public boolean greyYou;
     public int drones;
@@ -5571,6 +5572,8 @@ public class FightRequest extends GenericRequest {
       this.name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 
       this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
+      this.adventure = KoLAdventure.lastVisitedLocation;
+      this.grimstone = GrimstoneManager.isGrimstoneAdventure(this.adventure);
     }
 
     public void nextRound() {
@@ -6542,6 +6545,11 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    if (status.grimstone && FightRequest.handleGrimstone(node, inode, status)) {
+      status.grimstone = false;
+      return true;
+    }
+
     StringBuffer action = status.action;
     String str = node.getText().toString();
 
@@ -6933,6 +6941,45 @@ public class FightRequest extends GenericRequest {
 
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
+    return true;
+  }
+
+  private static final Pattern CANDY_PATTERN = Pattern.compile("\\+(\\d+) Candy");
+  private static final Pattern PIGS_PATTERN = Pattern.compile("\\+(\\d+) Pigs Evicted!");
+
+  private static boolean handleGrimstone(
+      final TagNode node, final TagNode inode, final TagStatus status) {
+
+    if (!status.won) return false;
+
+    String src = inode.getAttributeByName("src");
+    if (src == null) return false;
+    String image = src.substring(src.lastIndexOf("/") + 1);
+
+    String text = node.getText().toString();
+
+    switch (image) {
+      case "trophy.gif" -> {
+        Matcher matcher = PIGS_PATTERN.matcher(text);
+        if (!matcher.find()) return false;
+        int pigs = StringUtilities.parseInt(matcher.group(1));
+        Preferences.increment("wolfPigsEvicted", pigs);
+        break;
+      }
+      case "candypile.gif" -> {
+        Matcher matcher = CANDY_PATTERN.matcher(text);
+        if (!matcher.find()) return false;
+        int candy = StringUtilities.parseInt(matcher.group(1));
+        Preferences.increment("candyWitchCandyTotal", candy);
+        break;
+      }
+      default -> {
+        return false;
+      }
+    }
+
+    FightRequest.logText(text, status);
+    status.grimstone = false;
     return true;
   }
 

@@ -1636,41 +1636,49 @@ Escalatormaster&trade;	1488	stairmaster.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 
 Legstrong&trade; stationary bicycle	1489	statbike.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a Manuel: "Legstrong™ stationary bicycle"	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
 rack of free weights	1486	weightrack.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
 treadmill	1485	treadmill.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
+
 Medieval dung peddler	1507	med_dung.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 5 P: dude EA: sleaze EA: stench Article: a	leather (0)	leather (0)	straw (0)	straw (0)
 Medieval leather mug salesman	1505	med_mugman.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude EA: hot Article: a	leather (0)	leather (0)	leather (0)	leather (0)
 Medieval mug apprentice	1509	med_muggirl.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 5 P: dude EA: hot Article: a	clay (0)	clay (0)	leather (0)	leather (0)
 Medieval potter	1506	med_potter.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude EA: sleaze Article: a	clay (0)	clay (0)	clay (0)	clay (0)
 Medieval strawman debator	1504	med_strawman.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude Article: a	straw (0)	straw (0)	straw (0)	straw (0)	straw pole (c0)
 Medieval stucco artisan	1508	med_stucco.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 10 P: dude Article: a	clay (0)	clay (0)	straw (0)	straw (0)
+
 gummi plesiosaur	1491	plesio.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	small gummi fin (0)	gummi sword (0)
 lemonhead minnow	1492	lemonfish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish Article: a	lemonhead caviar (0)	lemony scales (0)	lemony scales (0)
 school of gummi piranhas	1490	gummifish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish Article: a	gummi fang (0)	chocolate cow bone (0)
+
 chocolate hare	1494	chocohare.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	chocolate rabbit's foot (0)	candy carrot (0)
 chocolate-cherry prairie dog	1495	ccprairie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	candy mountain oyster (0)	chocolate-stained collar (0)
 Rock Pop weasel	1493	popweasel.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	mulberry (0)	weasel stomping pants (0)
+
 candied pecan tree	1496	pecantree.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: plant Article: a	candied pecan (0)	candy stick (0)
 licorice snake	1497	licosnake.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast SNAKE Article: a	anise-flavored venom (0)	licorice whip (0)
 tricksy pixie	1498	trixiepixie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: humanoid Article: a	sour powder (0)	pixie axie (0)
+
 fire truck	1499	firetruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: hot Article: a	fireman's lunch (0)	fire hose (0)
 ice cream truck	1500	icecreamtruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct Article: an	ice cream sandwich (0)	plain paper hat (0)
 monster hearse	1502	monsterhearse.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: spooky Article: a	nachos of the night (0)	skull gearshift knob (0)
 sewer tanker	1501	sewertruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: stench Article: a	plumber's lunch (0)	&quot;honey&quot; dipper (0)
 sketchy van	1503	sketchyvan.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: sleaze Article: a	can of Adultwitch&trade; (0)	Sketcherz&trade; (0)
+
+steaming straw house	1470	straw_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
+frosty straw house	1471	straw_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold Article: a
+Dutch Angle straw house	1472	straw_spooky.gif	NOCOPY FREE Init: -10000 P: construct E: spooky Article: a
 befouled straw house	1473	straw_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench Article: a
-brick (suggestive pause) house	1484	brick_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
-brick icehouse	1481	brick_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold Article: a
+oily straw house	1474	straw_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: an
+
+glowing ash house	1475	wood_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
+cold ironwood house	1476	wood_cold.gif	NOCOPY FREE Init: -10000 P: construct ED: cold Article: a
+quaking aspen house	1477	wood_spooky.gif	NOCOPY FREE Init: -10000 P: construct ED: spooky Article: a
+pitch pine house	1478	wood_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench Article: a
+slippery elm house	1479	wood_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
+
 brick kiln	1480	brick_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
+brick icehouse	1481	brick_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold Article: a
 brick mausoleum	1482	brick_spooky.gif	NOCOPY FREE Init: -10000 P: construct E: spooky Article: a
 brick outhouse	1483	brick_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench Article: a
-cold ironwood house	1476	wood_cold.gif	NOCOPY FREE Init: -10000 P: construct ED: cold Article: a
-Dutch Angle straw house	1472	straw_spooky.gif	NOCOPY FREE Init: -10000 P: construct E: spooky Article: a
-frosty straw house	1471	straw_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold Article: a
-glowing ash house	1475	wood_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
-oily straw house	1474	straw_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: an
-pitch pine house	1478	wood_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench Article: a
-quaking aspen house	1477	wood_spooky.gif	NOCOPY FREE Init: -10000 P: construct ED: spooky Article: a
-slippery elm house	1479	wood_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
-steaming straw house	1470	straw_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
+brick (suggestive pause) house	1484	brick_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
 
 # Spring Break Beach (May 2014)
 Sloppy Seconds Burger	1566	ssd_burger.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 Meat: 250 P: weird ED: sleaze EA: hot EA: sleaze	Meat-inflating powder (0)

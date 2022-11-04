@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RumpleManager {
   // adventure.php?snarfblat=381 -> Portal to Terrible Parents
@@ -86,6 +87,184 @@ public abstract class RumpleManager {
   }
 
   private static State state = State.CLOSED;
+
+  private static final Pattern RUMPLE_MATERIAL_PATTERN =
+      Pattern.compile("alt=\"(.*?)\"></td><td valign=center>(\\d+)<");
+
+  public static void updateMaterials(String text) {
+    // Update remaining materials
+    Matcher matcher = RUMPLE_MATERIAL_PATTERN.matcher(text);
+    while (matcher.find()) {
+      String material = matcher.group(1);
+      int number = StringUtilities.parseInt(matcher.group(2));
+      switch (material) {
+        case "straw" -> {
+          int straw = InventoryManager.getCount(ItemPool.STRAW);
+          if (straw != number) {
+            ResultProcessor.processItem(ItemPool.STRAW, number - straw);
+          }
+        }
+        case "leather" -> {
+          int leather = InventoryManager.getCount(ItemPool.LEATHER);
+          if (leather != number) {
+            ResultProcessor.processItem(ItemPool.LEATHER, number - leather);
+          }
+        }
+        case "clay" -> {
+          int clay = InventoryManager.getCount(ItemPool.CLAY);
+          if (clay != number) {
+            ResultProcessor.processItem(ItemPool.CLAY, number - clay);
+          }
+        }
+        case "filling" -> {
+          int filling = InventoryManager.getCount(ItemPool.FILLING);
+          if (filling != number) {
+            ResultProcessor.processItem(ItemPool.FILLING, number - filling);
+          }
+        }
+        case "parchment" -> {
+          int parchment = InventoryManager.getCount(ItemPool.PARCHMENT);
+          if (parchment != number) {
+            ResultProcessor.processItem(ItemPool.PARCHMENT, number - parchment);
+          }
+        }
+        case "glass" -> {
+          int glass = InventoryManager.getCount(ItemPool.GLASS);
+          if (glass != number) {
+            ResultProcessor.processItem(ItemPool.GLASS, number - glass);
+          }
+        }
+      }
+    }
+  }
+
+  private static final Pattern MASTERY_PATTERN = Pattern.compile("(\\d+) more tries");
+
+  public static void updateMastery(String text, int decision) {
+    if (decision == 0) {
+      // Visiting choice
+
+      // You don't have enough straw to practice making filling.
+      // You don't have enough leather to practice making parchment.
+      // You don't have enough clay to practice making glass.
+
+      // craftingStraw, craftingLeather, craftingClay
+      //
+      // -1 unknown mastery
+      //  0 mastery (zero practices required)
+      // XX more practices needed for mastery
+
+      // You are already a master straw craftsman and no longer need to practice with it.
+      if (text.contains("master straw craftsman")) {
+        Preferences.setInteger("craftingStraw", 0);
+      }
+      // You are already a master leather craftsman and no longer need to practice with it.
+      if (text.contains("master leather craftsman")) {
+        Preferences.setInteger("craftingLeather", 0);
+      }
+      // You are already a master clay craftsman and no longer need to practice with it.
+      if (text.contains("master clay craftsman")) {
+        Preferences.setInteger("craftingClay", 0);
+      }
+      return;
+    }
+
+    String property =
+        switch (decision) {
+          case 1 -> "craftingStraw";
+          case 2 -> "craftingLeather";
+          case 3 -> "craftingClay";
+          default -> null;
+        };
+
+    if (property == null) {
+      // Not expected
+      return;
+    }
+
+    // You're pretty sure you'll figure it out after roughly, say, X more tries, though!
+    // You think one more try will get you there!
+    // That's it! You've figured it out!
+
+    if (text.contains("You've figured it out")) {
+      Preferences.setInteger(property, 0);
+    }
+    if (text.contains("one more try will get you there")) {
+      Preferences.setInteger(property, 1);
+    } else {
+      Matcher matcher = MASTERY_PATTERN.matcher(text);
+      if (matcher.find()) {
+        int tries = StringUtilities.parseInt(matcher.group(1));
+        Preferences.setInteger(property, tries);
+      }
+    }
+  }
+
+  public static void visitChoice(String text) {
+    Preferences.setString("grimstoneMaskPath", "gnome");
+    switch (ChoiceManager.lastChoice) {
+      case 848:
+        // Where the Magic Happens
+        updateMaterials(text);
+        break;
+      case 849:
+        // The Practice
+        updateMaterials(text);
+        updateMastery(text, 0);
+        break;
+      case 850:
+        // World of Bartercraft
+        updateMaterials(text);
+        break;
+    }
+  }
+
+  public static void postChoice2(String text) {
+    int choice = ChoiceManager.lastChoice;
+    int decision = ChoiceManager.lastDecision;
+
+    switch (choice) {
+      case 844:
+        // The Portal to Horrible Parents
+        if (decision == 1) {
+          RumpleManager.spyOnParents(text);
+        }
+        break;
+
+      case 846:
+        // Bartering for the Future of Innocent Children
+        RumpleManager.pickParent(decision);
+        break;
+
+      case 847:
+        // Pick Your Poison
+        RumpleManager.pickSin(decision);
+        break;
+
+      case 848:
+        // Where the Magic Happens
+        if (decision != 4) {
+          RumpleManager.recordTrade(text);
+        }
+        break;
+
+      case 849:
+        // The Practice
+        switch (decision) {
+          case 1 -> {
+            ResultProcessor.processItem(ItemPool.STRAW, -3);
+          }
+          case 2 -> {
+            ResultProcessor.processItem(ItemPool.LEATHER, -3);
+          }
+          case 3 -> {
+            ResultProcessor.processItem(ItemPool.CLAY, -3);
+          }
+        }
+        updateMastery(text, decision);
+        break;
+    }
+  }
 
   public static final void reset(final int choice) {
     if (choice == 4) {
