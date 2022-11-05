@@ -576,9 +576,9 @@ The Old Man's Past	adventure=318	DiffLevel: unknown Env: outdoor	The Old Man's B
 Skid Row	adventure=369	DiffLevel: unknown Env: indoor nowander Stat: 0	The Inner Wolf Gym
 Skid Row	place=ioty2014_wolf	DiffLevel: none Env: none Stat: 0 overdrunk	Unleash Your Inner Wolf
 
-The Candy Witch and the Relentless Child Thieves	adventure=370	DiffLevel: unknown Env: outdoor Stat: 0	Sweet-Ade Lake
-The Candy Witch and the Relentless Child Thieves	adventure=371	DiffLevel: unknown Env: outdoor Stat: 0	Eager Rice Burrows
-The Candy Witch and the Relentless Child Thieves	adventure=372	DiffLevel: unknown Env: outdoor Stat: 0	Gumdrop Forest
+The Candy Witch and the Relentless Child Thieves	adventure=370	DiffLevel: mid Env: outdoor Stat: 0	Sweet-Ade Lake
+The Candy Witch and the Relentless Child Thieves	adventure=371	DiffLevel: mid Env: outdoor Stat: 0	Eager Rice Burrows
+The Candy Witch and the Relentless Child Thieves	adventure=372	DiffLevel: mid Env: outdoor Stat: 0	Gumdrop Forest
 
 A Deserted Stretch of I-911	adventure=373	DiffLevel: unknown Env: outdoor Stat: 0	A Deserted Stretch of I-911
 
