@@ -72,8 +72,11 @@ public abstract class GrimstoneManager {
   // candyWitchCandyTotal
   // cinderellaMinutesToMidnight
   // cinderellaScore
-  // rumpelstiltskinTurnsUsed
+  // hareMillisecondsSaved
   // rumpelstiltskinKidsRescued
+  // rumpelstiltskinTurnsUsed
+  // wolfPigsEvicted
+  // wolfTurnsUsed
 
   private static final Pattern CINDERELLA_SCORE_PATTERN =
       Pattern.compile("score (?:is now|was) <b>(\\d+)</b>");
@@ -194,6 +197,7 @@ public abstract class GrimstoneManager {
           case 5 -> {
             // We don't track turns in a property. Instead, turns of the
             // Hare-Brained status effect count down.
+            Preferences.setInteger("hareMillisecondsSaved", 0);
             Preferences.setString("grimstoneMaskPath", "hare");
           }
         }

@@ -1040,6 +1040,210 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Grimstone {
+    @Nested
+    class Wolf {
+      private static final KoLAdventure GYM =
+          AdventureDatabase.getAdventureByName("The Inner Wolf Gym");
+      private static final KoLAdventure UNLEASH =
+          AdventureDatabase.getAdventureByName("Unleash Your Inner Wolf");
+
+      @Test
+      public void mustBeInWolfTale() {
+        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
+        try (cleanups) {
+          assertFalse(GYM.canAdventure());
+          assertFalse(UNLEASH.canAdventure());
+        }
+      }
+
+      @Test
+      public void mustHaveTimeLeft() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 30));
+        try (cleanups) {
+          assertFalse(GYM.canAdventure());
+          assertFalse(UNLEASH.canAdventure());
+        }
+      }
+
+      @Test
+      public void canTrainOrUnleashEarly() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 24));
+        try (cleanups) {
+          assertTrue(GYM.canAdventure());
+          assertTrue(UNLEASH.canAdventure());
+        }
+      }
+
+      @ParameterizedTest
+      @ValueSource(ints = {25, 26})
+      public void mustTrainNearEnd(int turns) {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", turns));
+        try (cleanups) {
+          assertTrue(GYM.canAdventure());
+          assertFalse(UNLEASH.canAdventure());
+        }
+      }
+
+      @Test
+      public void mustUnleashAtEnd() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "wolf"), withProperty("wolfTurnsUsed", 27));
+        try (cleanups) {
+          assertFalse(GYM.canAdventure());
+          assertTrue(UNLEASH.canAdventure());
+        }
+      }
+    }
+
+    @Nested
+    class Hare {
+      private static final KoLAdventure I911 =
+          AdventureDatabase.getAdventureByName("A Deserted Stretch of I-911");
+
+      @Test
+      public void mustBeInHareTale() {
+        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
+        try (cleanups) {
+          assertFalse(I911.canAdventure());
+        }
+      }
+
+      @Test
+      public void mustHaveHareBrained() {
+        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "hare"));
+        try (cleanups) {
+          assertFalse(I911.canAdventure());
+        }
+      }
+
+      @Test
+      public void canAdventureIfHareBrained() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "hare"), withEffect(EffectPool.HARE_BRAINED));
+        try (cleanups) {
+          assertTrue(I911.canAdventure());
+        }
+      }
+    }
+
+    @Nested
+    class Stepmother {
+      private static final KoLAdventure BALLROOM =
+          AdventureDatabase.getAdventureByName("The Prince's Dance Floor");
+
+      @Test
+      public void mustBeInStepmotherTale() {
+        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
+        try (cleanups) {
+          assertFalse(BALLROOM.canAdventure());
+        }
+      }
+
+      @Test
+      public void mustHaveTimeLeft() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "stepmother"),
+                withProperty("cinderellaMinutesToMidnight", 0));
+        try (cleanups) {
+          assertFalse(BALLROOM.canAdventure());
+        }
+      }
+
+      @Test
+      public void canAdventureWithTimeLeft() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "stepmother"),
+                withProperty("cinderellaMinutesToMidnight", 1));
+        try (cleanups) {
+          assertTrue(BALLROOM.canAdventure());
+        }
+      }
+    }
+
+    @Nested
+    class Gnome {
+      private static final KoLAdventure VILLAGE =
+          AdventureDatabase.getAdventureByName("Ye Olde Medievale Villagee");
+
+      @Test
+      public void mustBeInGnomeTale() {
+        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
+        try (cleanups) {
+          assertFalse(VILLAGE.canAdventure());
+        }
+      }
+
+      @Test
+      public void mustHaveTimeLeft() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "gnome"),
+                withProperty("rumpelstiltskinTurnsUsed", 30));
+        try (cleanups) {
+          assertFalse(VILLAGE.canAdventure());
+        }
+      }
+
+      @Test
+      public void canAdventureWithTimeLeft() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "gnome"),
+                withProperty("rumpelstiltskinTurnsUsed", 5));
+        try (cleanups) {
+          assertTrue(VILLAGE.canAdventure());
+        }
+      }
+    }
+
+    @Nested
+    class CandyWitch {
+      private static final KoLAdventure GUMDROP_FOREST =
+          AdventureDatabase.getAdventureByName("Gumdrop Forest");
+
+      @Test
+      public void mustBeInCandyWitchTale() {
+        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "none"));
+        try (cleanups) {
+          assertFalse(GUMDROP_FOREST.canAdventure());
+        }
+      }
+
+      @Test
+      public void mustHaveTimeLeft() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "witch"),
+                withProperty("candyWitchTurnsUsed", 30));
+        try (cleanups) {
+          assertFalse(GUMDROP_FOREST.canAdventure());
+        }
+      }
+
+      @Test
+      public void canAdventureWithTimeLeft() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "witch"), withProperty("candyWitchTurnsUsed", 5));
+        try (cleanups) {
+          assertTrue(GUMDROP_FOREST.canAdventure());
+        }
+      }
+    }
+  }
+
+  @Nested
   class Cola {
     private static final KoLAdventure COLA_NONE =
         AdventureDatabase.getAdventureByName("Battlefield (No Uniform)");
@@ -2894,14 +3098,42 @@ public class KoLAdventureValidationTest {
     // "finished - performed ritual
     //
     // I don't think you actually have to talk to the friars.
+    //
+    // Quest.AZAZEL
+    //
+    // "started" when you first visit Pandamonium.
+    // Until then, the zones are not open.
 
     @Test
-    public void canVisitPandamoniumWhenFriarsFinished() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.FRIAR, QuestDatabase.FINISHED));
+    public void canVisitPandamoniumWhenAzazelStarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.AZAZEL, QuestDatabase.STARTED));
       try (cleanups) {
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(LAUGH_FLOOR.canAdventure());
         assertTrue(INFERNAL_RACKETS.canAdventure());
+      }
+    }
+
+    @Test
+    public void canOpenPandamoniumWhenFriarsFinished() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.FRIAR, QuestDatabase.FINISHED),
+              withQuestProgress(Quest.AZAZEL, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_visit_pandamonium.html"));
+        client.addResponse(200, ""); // api.php
+        assertTrue(PANDAMONIUM_SLUMS.canAdventure());
+        assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
+        assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertGetRequest(requests.get(0), "/pandamonium.php", null);
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
@@ -2918,18 +3150,28 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.FRIAR, QuestDatabase.STARTED),
               withItem(ItemPool.DODECAGRAM),
               withItem(ItemPool.CANDLES),
-              withItem(ItemPool.BUTTERKNIFE));
+              withItem(ItemPool.BUTTERKNIFE),
+              withQuestProgress(Quest.AZAZEL, QuestDatabase.UNSTARTED));
       try (cleanups) {
         client.addResponse(200, html("request/test_visit_friars_ritual.html"));
         client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_visit_pandamonium.html"));
+        client.addResponse(200, ""); // api.php
+
         assertTrue(PANDAMONIUM_SLUMS.canAdventure());
         assertTrue(PANDAMONIUM_SLUMS.prepareForAdventure());
         assertEquals(QuestDatabase.getQuest(Quest.FRIAR), QuestDatabase.FINISHED);
+        assertEquals(0, InventoryManager.getCount(ItemPool.DODECAGRAM));
+        assertEquals(0, InventoryManager.getCount(ItemPool.CANDLES));
+        assertEquals(0, InventoryManager.getCount(ItemPool.BUTTERKNIFE));
+        assertEquals(QuestDatabase.getQuest(Quest.AZAZEL), QuestDatabase.STARTED);
 
         var requests = client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(4));
         assertPostRequest(requests.get(0), "/friars.php", "action=ritual&pwd=friars");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertGetRequest(requests.get(2), "/pandamonium.php", null);
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

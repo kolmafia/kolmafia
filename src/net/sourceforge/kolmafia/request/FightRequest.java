@@ -6946,25 +6946,36 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern CANDY_PATTERN = Pattern.compile("\\+(\\d+) Candy");
   private static final Pattern PIGS_PATTERN = Pattern.compile("\\+(\\d+) Pigs Evicted!");
+  private static final Pattern SECONDS_PATTERN = Pattern.compile("(\\d+)\\.(\\d+) Seconds Saved!");
 
   private static boolean handleGrimstone(
       final TagNode node, final TagNode inode, final TagStatus status) {
 
     if (!status.won) return false;
+    if (inode == null) return false;
 
     String src = inode.getAttributeByName("src");
     if (src == null) return false;
-    String image = src.substring(src.lastIndexOf("/") + 1);
 
+    String image = src.substring(src.lastIndexOf("/") + 1);
     String text = node.getText().toString();
 
     switch (image) {
       case "trophy.gif" -> {
         Matcher matcher = PIGS_PATTERN.matcher(text);
-        if (!matcher.find()) return false;
-        int pigs = StringUtilities.parseInt(matcher.group(1));
-        Preferences.increment("wolfPigsEvicted", pigs);
-        break;
+        if (matcher.find()) {
+          int pigs = StringUtilities.parseInt(matcher.group(1));
+          Preferences.increment("wolfPigsEvicted", pigs);
+          break;
+        }
+        matcher = SECONDS_PATTERN.matcher(text);
+        if (matcher.find()) {
+          int seconds = StringUtilities.parseInt(matcher.group(1));
+          int milliseconds = StringUtilities.parseInt(matcher.group(2));
+          Preferences.increment("hareMillisecondsSaved", (seconds * 1000) + milliseconds);
+          break;
+        }
+        return false;
       }
       case "candypile.gif" -> {
         Matcher matcher = CANDY_PATTERN.matcher(text);

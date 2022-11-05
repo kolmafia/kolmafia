@@ -240,7 +240,7 @@ public class ClanStashRequest extends TransferItemRequest {
       lastFindIndex = matcher.end();
       int itemId = StringUtilities.parseInt(matcher.group(1));
       String descId = matcher.group(2);
-      String itemString = matcher.group(3);
+      String itemName = matcher.group(3).trim();
 
       String quantityString = matcher.group(5);
       int quantity = 1;
@@ -251,7 +251,7 @@ public class ClanStashRequest extends TransferItemRequest {
 
       // If this is a previously unknown item, register it.
       if (ItemDatabase.getItemName(itemId) == null) {
-        ItemDatabase.registerItem(itemId, itemString, descId);
+        ItemDatabase.registerItem(itemId, itemName, descId);
       }
 
       items.add(ItemPool.get(itemId, quantity));

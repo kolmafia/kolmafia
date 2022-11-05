@@ -116,7 +116,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
         }
       }
       String desc = matcher.group(2);
-      String name = matcher.group(3);
+      String name = matcher.group(3).trim();
       String data = ItemDatabase.getItemDataName(id);
       // String price = matcher.group(4);
       if (data == null || !data.equals(name)) {
