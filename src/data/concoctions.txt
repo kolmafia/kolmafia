@@ -3224,3 +3224,24 @@ green marshmallow	COMBINE, SSPD	ten-leaf clover	marshmallow
 # Tiny stillsuit
 
 stillsuit distillate	STILLSUIT
+
+# Recipes of Before Yore
+
+Boris's beer	COOK	Yeast of Boris	bowl of cottage cheese
+honey bun of Boris	COOK	Yeast of Boris	flat dough
+ratatouille de Jarlsberg	COOK	Vegetable of Jarlsberg	spices
+Jarlsberg's vegetable soup	COOK	Vegetable of Jarlsberg	magicalness-in-a-can
+St. Pete's sneaky smoothie	COOK	St. Sneaky Pete's Whey	wad of dough
+Pete's wiley whey bar	COOK	St. Sneaky Pete's Whey	strawberry
+
+Boris's bread	COOK	Yeast of Boris	Yeast of Boris
+roasted vegetable of Jarlsberg	COOK	Vegetable of Jarlsberg	Vegetable of Jarlsberg
+Pete's rich ricotta	COOK	St. Sneaky Pete's Whey	St. Sneaky Pete's Whey
+
+baked veggie ricotta casserole	COOK	Boris's bread	roasted vegetable of Jarlsberg
+plain calzone	COOK	Boris's bread	Pete's rich ricotta
+roasted vegetable focaccia	COOK	roasted vegetable of Jarlsberg	Pete's rich ricotta
+
+Pizza of Legend	COOK	baked veggie ricotta casserole	Boris's bread
+Calzone of Legend	COOK	plain calzone	roasted vegetable focaccia
+Deep Dish of Legend	COOK	roasted vegetable focaccia	Pete's rich ricotta

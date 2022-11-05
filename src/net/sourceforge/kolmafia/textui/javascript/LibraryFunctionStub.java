@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.BaseFunction;
+import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -78,11 +79,12 @@ public class LibraryFunctionStub extends AshStub {
 
     if (bufferFunctions.stream().anyMatch(ashFunctionName::equals)
         && args.length > 0
-        && args[0] instanceof String str) {
+        && (args[0] instanceof String || args[0] instanceof ConsString)) {
       // Manually convert string to buffer, since AshStub.call() cannot match a string argument to a
       // buffer parameter.
+      CharSequence cs = (CharSequence) args[0];
       args = args.clone();
-      args[0] = new Value(DataTypes.BUFFER_TYPE, str, new StringBuffer(str));
+      args[0] = new Value(DataTypes.BUFFER_TYPE, cs.toString(), new StringBuffer(cs));
     }
 
     // Named function references don't really make sense in JavaScript, so for any function that is
