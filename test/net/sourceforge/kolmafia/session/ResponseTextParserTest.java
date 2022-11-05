@@ -235,9 +235,8 @@ class ResponseTextParserTest {
           request.run();
 
           // We did not refresh again because GOTO is not usable.
-          // However, we do refresh because we spent a turn.
           assertEquals(1, InventoryManager.getCount(GOTO));
-          assertThat("_concoctionDatabaseRefreshes", isSetTo(1));
+          assertThat("_concoctionDatabaseRefreshes", isSetTo(0));
 
           checkElementalRequests(builder);
         }
