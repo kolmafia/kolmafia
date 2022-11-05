@@ -1,16 +1,17 @@
 package net.sourceforge.kolmafia.swingui;
 
-import static internal.helpers.Player.withEquipped;
-import static internal.helpers.Player.withFamiliar;
-import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,63 @@ class GearChangeFrameTest {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("GearChangeFrameTest");
+  }
+
+  @Nested
+  class Update {
+    @BeforeAll
+    static void beforeAll() {
+      new GearChangeFrame();
+    }
+
+    @BeforeEach
+    void beforeEach() {
+      GearChangeFrame.updateSlot(EquipmentManager.HAT);
+    }
+
+    @Test
+    void doesUpdateList() {
+      var cleanups = withItem(ItemPool.RAVIOLI_HAT);
+      try (cleanups) {
+        var ravioliHat =
+            KoLConstants.inventory.get(
+                KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT)));
+        var equipCleanups = withEquipped(EquipmentManager.HAT, ravioliHat);
+        try (equipCleanups) {
+          GearChangeFrame.updateSlot(EquipmentManager.HAT);
+          assertThat(
+              ((AdventureResult) GearChangeFrame.getModel(EquipmentManager.HAT).getSelectedItem())
+                  .getItemId(),
+              equalTo(ItemPool.RAVIOLI_HAT));
+        }
+      }
+    }
+
+    @Test
+    void updatesWaitForDeferralResolution() {
+      var cleanups1 = withItem(ItemPool.RAVIOLI_HAT);
+      try (cleanups1) {
+        var ravioliHat =
+            KoLConstants.inventory.get(
+                KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT)));
+        GearChangeFrame.updateSlot(EquipmentManager.HAT);
+        GearChangeFrame.deferUpdate();
+        // withEquipped calls updateSlot again, which sets the equipped item but should defer
+        // updating the whole list.
+        var cleanups2 =
+            new Cleanups(
+                withEquipped(EquipmentManager.HAT, ravioliHat), withItem(ItemPool.HELMET_TURTLE));
+        try (cleanups2) {
+          var hatModel = GearChangeFrame.getModel(EquipmentManager.HAT);
+          // List should not be updated yet, so helmet turtle should not be in it.
+          assertThat(hatModel, not(contains(ItemPool.get(ItemPool.HELMET_TURTLE))));
+          GearChangeFrame.resolveDeferredUpdate();
+          assertThat(
+              ((AdventureResult) hatModel.getSelectedItem()).getItemId(),
+              equalTo(ItemPool.RAVIOLI_HAT));
+        }
+      }
+    }
   }
 
   @Nested

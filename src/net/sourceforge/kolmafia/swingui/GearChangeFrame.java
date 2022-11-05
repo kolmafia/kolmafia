@@ -60,6 +60,7 @@ public class GearChangeFrame extends GenericFrame {
   private JCheckBox weapon1H;
   private JRadioButton[] offhandTypes;
 
+  private int deferredUpdateLevel = 0;
   private final EquipmentComboBox[] equipment;
   private final List<SortedListModel<AdventureResult>> equipmentModels;
 
@@ -405,7 +406,7 @@ public class GearChangeFrame extends GenericFrame {
       GearChangeFrame.this.famLockCheckbox.setEnabled(isEnabled);
 
       if (isEnabled) {
-        GearChangeFrame.this.ensureValidSelections();
+        GearChangeFrame.this.updateAllModels();
       }
     }
 
@@ -714,7 +715,7 @@ public class GearChangeFrame extends GenericFrame {
       return;
     }
 
-    GearChangeFrame.INSTANCE.ensureValidSelections();
+    GearChangeFrame.INSTANCE.updateAllModels();
     GearChangeFrame.INSTANCE.equipmentPanel.hideOrShowElements();
   }
 
@@ -734,7 +735,19 @@ public class GearChangeFrame extends GenericFrame {
 
     model.setSelectedItem(EquipmentManager.getEquipment(slot));
 
-    GearChangeFrame.INSTANCE.ensureValidSelections();
+    GearChangeFrame.INSTANCE.updateAllModels();
+  }
+
+  public static final LockableListModel<AdventureResult> getModel(final int slot) {
+    if (GearChangeFrame.INSTANCE == null) {
+      return null;
+    }
+
+    if (slot < 0 || slot >= EquipmentManager.ALL_SLOTS) {
+      return null;
+    }
+
+    return GearChangeFrame.INSTANCE.equipmentModels.get(slot);
   }
 
   public static final void updateStickers(int st1, int st2, int st3) {
@@ -781,7 +794,7 @@ public class GearChangeFrame extends GenericFrame {
         // Simply re-validate what it is you need to
         // equip.
 
-        GearChangeFrame.this.ensureValidSelections();
+        GearChangeFrame.this.updateAllModels();
       }
     }
   }
@@ -825,7 +838,7 @@ public class GearChangeFrame extends GenericFrame {
 
     FamiliarData current = KoLCharacter.getFamiliar();
     GearChangeFrame.INSTANCE.familiars.setSelectedItem(current);
-    GearChangeFrame.INSTANCE.ensureValidSelections();
+    GearChangeFrame.INSTANCE.updateAllModels();
   }
 
   public static final void clearFamiliarList() {
@@ -912,7 +925,7 @@ public class GearChangeFrame extends GenericFrame {
   private class RefilterListener extends ThreadedListener {
     @Override
     protected void execute() {
-      GearChangeFrame.this.ensureValidSelections();
+      GearChangeFrame.this.updateAllModels();
     }
   }
 
@@ -1268,9 +1281,38 @@ public class GearChangeFrame extends GenericFrame {
     }
   }
 
-  private void ensureValidSelections() {
+  // For performance reasons, allow deferral of updateAllModels, which recomputes the lists that
+  // show in
+  // GearChangeFrame. This way we can perform multiple equipment updates at once without triggering
+  // several runs
+  // through the entire list of equipment in a player's inventory to see if it is equippable.
+  public static void deferUpdate() {
+    if (GearChangeFrame.INSTANCE == null) {
+      return;
+    }
+
+    GearChangeFrame.INSTANCE.deferredUpdateLevel++;
+  }
+
+  public static void resolveDeferredUpdate() {
+    if (GearChangeFrame.INSTANCE == null) {
+      return;
+    }
+
+    GearChangeFrame.INSTANCE.deferredUpdateLevel--;
+    if (GearChangeFrame.INSTANCE.deferredUpdateLevel == 0) {
+      GearChangeFrame.INSTANCE.updateAllModels();
+    }
+  }
+
+  private void updateAllModels() {
     // If we are still logging in, defer this
     if (KoLmafia.isRefreshing()) {
+      return;
+    }
+
+    // If we are deferring updates to the GCF UI, wait.
+    if (this.deferredUpdateLevel > 0) {
       return;
     }
 
