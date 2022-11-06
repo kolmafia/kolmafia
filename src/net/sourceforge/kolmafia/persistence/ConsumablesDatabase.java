@@ -144,8 +144,8 @@ public class ConsumablesDatabase {
 
       String[] rangeArray = rangeString.substring(invert ? 1 : 0).split("-");
       return new int[] {
-          (invert ? -1 : 1) * Integer.parseInt(rangeArray[0]),
-          (invert ? -1 : 1) * Integer.parseInt(rangeArray[rangeArray.length == 2 ? 1 : 0])
+        (invert ? -1 : 1) * Integer.parseInt(rangeArray[0]),
+        (invert ? -1 : 1) * Integer.parseInt(rangeArray[rangeArray.length == 2 ? 1 : 0])
       };
     }
 
@@ -324,9 +324,12 @@ public class ConsumablesDatabase {
   private ConsumablesDatabase() {}
 
   public static void reset() {
-    ConsumablesDatabase.readConsumptionData("fullness.txt", KoLConstants.FULLNESS_VERSION, KoLConstants.CONSUME_EAT);
-    ConsumablesDatabase.readConsumptionData("inebriety.txt", KoLConstants.INEBRIETY_VERSION, KoLConstants.CONSUME_DRINK);
-    ConsumablesDatabase.readConsumptionData("spleenhit.txt", KoLConstants.SPLEENHIT_VERSION, KoLConstants.CONSUME_SPLEEN);
+    ConsumablesDatabase.readConsumptionData(
+        "fullness.txt", KoLConstants.FULLNESS_VERSION, KoLConstants.CONSUME_EAT);
+    ConsumablesDatabase.readConsumptionData(
+        "inebriety.txt", KoLConstants.INEBRIETY_VERSION, KoLConstants.CONSUME_DRINK);
+    ConsumablesDatabase.readConsumptionData(
+        "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION, KoLConstants.CONSUME_SPLEEN);
     ConsumablesDatabase.readNonfillingData();
   }
 
@@ -1148,9 +1151,11 @@ public class ConsumablesDatabase {
 
   private static String floatToRange(double average) {
     // Adjust slightly to account for floating point errors.
-    long floor = (long)Math.floor(average + 0.0001);
+    long floor = (long) Math.floor(average + 0.0001);
     long ceiling = (long) Math.ceil(average - 0.0001);
-    return floor < ceiling ? String.format("%s%d-%d", floor < 0 ? "-" : "", floor, ceiling) : String.valueOf(floor);
+    return floor < ceiling
+        ? String.format("%s%d-%d", floor < 0 ? "-" : "", floor, ceiling)
+        : String.valueOf(floor);
   }
 
   public static void setLevelVariableConsumables() {

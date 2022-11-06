@@ -15,7 +15,6 @@ import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
-
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -43,6 +42,7 @@ class ConsumablesDatabaseTest {
   @Nested
   class Basic {
     private static final String nonexistent = "kjfdsalkjjlkfdalkjfdsa";
+
     @Test
     void fullness() {
       assertThat(ConsumablesDatabase.getRawFullness(nonexistent), nullValue());
@@ -82,12 +82,12 @@ class ConsumablesDatabaseTest {
 
     @Test
     void currentAdventuresFood() {
-      var cleanups = new Cleanups(
-          withProperty("milkOfMagnesiumActive", true),
-          withProperty("munchiesPillsUsed", 0),
-          withEffect(EffectPool.BARREL_OF_LAUGHS, 5),
-          withSkill("Gourmand")
-          );
+      var cleanups =
+          new Cleanups(
+              withProperty("milkOfMagnesiumActive", true),
+              withProperty("munchiesPillsUsed", 0),
+              withEffect(EffectPool.BARREL_OF_LAUGHS, 5),
+              withSkill("Gourmand"));
       try (cleanups) {
         assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), is(0.0));
         assertThat(ConsumablesDatabase.getAverageAdventures("jumping horseradish"), is(12.5));
@@ -97,10 +97,8 @@ class ConsumablesDatabaseTest {
 
     @Test
     void currentAdventuresBooze() {
-      var cleanups = new Cleanups(
-          withEffect(EffectPool.BEER_BARREL_POLKA, 5),
-          withEffect(EffectPool.ODE)
-          );
+      var cleanups =
+          new Cleanups(withEffect(EffectPool.BEER_BARREL_POLKA, 5), withEffect(EffectPool.ODE));
       try (cleanups) {
         assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), is(0.0));
         assertThat(ConsumablesDatabase.getAverageAdventures("jumping horseradish"), is(5.5));
@@ -190,10 +188,10 @@ class ConsumablesDatabaseTest {
         assertThat(ConsumablesDatabase.getMoxieRange("mushroom pizza"), equalTo("+0.0"));
       }
 
-      var cleanups2 = new Cleanups(
-          withEffect("Different Way of Seeing Things"),
-          withEffect(EffectPool.SYNTHESIS_LEARNING)
-      );
+      var cleanups2 =
+          new Cleanups(
+              withEffect("Different Way of Seeing Things"),
+              withEffect(EffectPool.SYNTHESIS_LEARNING));
       try (cleanups2) {
         KoLCharacter.recalculateAdjustments();
         assertThat(ConsumablesDatabase.getMuscleRange("mushroom pizza"), equalTo("+0.0"));
@@ -294,19 +292,21 @@ class ConsumablesDatabaseTest {
   class TCRS {
     @AfterAll
     static void afterAll() {
-      DebugDatabase.cacheItemDescriptionText(ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
+      DebugDatabase.cacheItemDescriptionText(
+          ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
       TCRSDatabase.resetModifiers();
     }
 
     @Test
     void appliesTcrsAdjustments() {
-      var cleanups = new Cleanups(
-          withPath(AscensionPath.Path.CRAZY_RANDOM_SUMMER_TWO),
-          withClass(AscensionClass.PASTAMANCER),
-          withSign(ZodiacSign.PACKRAT)
-      );
+      var cleanups =
+          new Cleanups(
+              withPath(AscensionPath.Path.CRAZY_RANDOM_SUMMER_TWO),
+              withClass(AscensionClass.PASTAMANCER),
+              withSign(ZodiacSign.PACKRAT));
       try (cleanups) {
-        DebugDatabase.cacheItemDescriptionText(ItemPool.RING, html("request/test_tcrs_desc_item_ring.html"));
+        DebugDatabase.cacheItemDescriptionText(
+            ItemPool.RING, html("request/test_tcrs_desc_item_ring.html"));
         TCRSDatabase.loadTCRSData();
 
         // Spleen items should now be size 1 and provide no adventures.
