@@ -3,9 +3,8 @@ package net.sourceforge.kolmafia.utilities;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import org.junit.jupiter.api.Test;
-
 import java.util.Map;
+import org.junit.jupiter.api.Test;
 
 class ArrayListMapTest {
   @Test
@@ -99,7 +98,10 @@ class ArrayListMapTest {
 
     var entrySet = map.entrySet();
     for (var entry : map.entrySet()) {
-      assertThat((entry.getKey() == 0 && entry.getValue() == 1) || (entry.getKey() == 5 && entry.getValue() == 2), is(true));
+      assertThat(
+          (entry.getKey() == 0 && entry.getValue() == 1)
+              || (entry.getKey() == 5 && entry.getValue() == 2),
+          is(true));
     }
   }
 }

@@ -9,8 +9,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Map from Integer to value backed by an ArrayList. Useful when keys are nonnegative integers and are dense, with very
- * fast reads.
+ * Map from Integer to value backed by an ArrayList. Useful when keys are nonnegative integers and
+ * are dense, with very fast reads.
+ *
  * @param <V> Type of map value.
  */
 public class ArrayListMap<V> extends AbstractMap<Integer, V> {
@@ -47,7 +48,7 @@ public class ArrayListMap<V> extends AbstractMap<Integer, V> {
     }
 
     Integer keyInt = (Integer) key;
-    if ( keyInt < 0 || keyInt >= this.contents.size()) {
+    if (keyInt < 0 || keyInt >= this.contents.size()) {
       return null;
     }
 
@@ -89,6 +90,9 @@ public class ArrayListMap<V> extends AbstractMap<Integer, V> {
 
   @Override
   public Set<Entry<Integer, V>> entrySet() {
-    return IntStream.range(0, this.contents.size()).mapToObj(i -> new SimpleImmutableEntry<>(i, this.contents.get(i))).filter(entry -> entry.getValue() != null).collect(Collectors.toUnmodifiableSet());
+    return IntStream.range(0, this.contents.size())
+        .mapToObj(i -> new SimpleImmutableEntry<>(i, this.contents.get(i)))
+        .filter(entry -> entry.getValue() != null)
+        .collect(Collectors.toUnmodifiableSet());
   }
 }

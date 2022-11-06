@@ -218,7 +218,8 @@ public class Concoction implements Comparable<Concoction> {
     final String range =
         switch (KoLCharacter.mainStat()) {
           case MUSCLE -> ConsumablesDatabase.getStatRange(Consumable.MUSCLE, this.consumable);
-          case MYSTICALITY -> ConsumablesDatabase.getStatRange(Consumable.MYSTICALITY, this.consumable);
+          case MYSTICALITY -> ConsumablesDatabase.getStatRange(
+              Consumable.MYSTICALITY, this.consumable);
           case MOXIE -> ConsumablesDatabase.getStatRange(Consumable.MOXIE, this.consumable);
           default -> "+0.0";
         };

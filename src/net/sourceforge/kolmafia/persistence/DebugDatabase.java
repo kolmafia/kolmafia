@@ -2738,9 +2738,7 @@ public class DebugDatabase {
   }
 
   private static void checkConsumables(
-      final PrintStream report,
-      final Collection<Consumable> consumables,
-      final String tag) {
+      final PrintStream report, final Collection<Consumable> consumables, final String tag) {
     if (consumables.size() == 0) {
       return;
     }
@@ -2754,8 +2752,7 @@ public class DebugDatabase {
     }
   }
 
-  private static void checkConsumable(
-      final PrintStream report, Consumable consumable) {
+  private static void checkConsumable(final PrintStream report, Consumable consumable) {
     int itemId = consumable.itemId;
     // It is valid for items to have no itemId: sushi, Cafe offerings, and so on
     String text = itemId == -1 ? "" : DebugDatabase.itemDescriptionText(itemId, false);

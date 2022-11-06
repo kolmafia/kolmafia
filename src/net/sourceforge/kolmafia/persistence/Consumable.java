@@ -1,11 +1,10 @@
 package net.sourceforge.kolmafia.persistence;
 
-import net.sourceforge.kolmafia.KoLConstants;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import net.sourceforge.kolmafia.KoLConstants;
 
 // Consumable represents the static attributes of a consumable as pulled out of a line in the
 // relevant data file.
@@ -91,15 +90,15 @@ public class Consumable {
 
   private static int[] rangeStringToArray(String rangeString) {
     if (rangeString.length() == 0) {
-      return new int[]{0, 0};
+      return new int[] {0, 0};
     }
 
     boolean invert = rangeString.charAt(0) == '-';
 
     String[] rangeArray = rangeString.substring(invert ? 1 : 0).split("-");
-    return new int[]{
-        (invert ? -1 : 1) * Integer.parseInt(rangeArray[0]),
-        (invert ? -1 : 1) * Integer.parseInt(rangeArray[rangeArray.length == 2 ? 1 : 0])
+    return new int[] {
+      (invert ? -1 : 1) * Integer.parseInt(rangeArray[0]),
+      (invert ? -1 : 1) * Integer.parseInt(rangeArray[rangeArray.length == 2 ? 1 : 0])
     };
   }
 
@@ -107,8 +106,8 @@ public class Consumable {
     return this.fullness != null
         ? KoLConstants.CONSUME_EAT
         : this.inebriety != null
-        ? KoLConstants.CONSUME_DRINK
-        : this.spleenHit != null ? KoLConstants.CONSUME_SPLEEN : KoLConstants.CONSUME_USE;
+            ? KoLConstants.CONSUME_DRINK
+            : this.spleenHit != null ? KoLConstants.CONSUME_SPLEEN : KoLConstants.CONSUME_USE;
   }
 
   public Integer getRawFullness() {
