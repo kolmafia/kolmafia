@@ -429,10 +429,6 @@ public class AdventureRequest extends GenericRequest {
 
     TurnCounter.handleTemporaryCounters(type, encounter);
 
-    if (!Preferences.getString("crystalBallPredictions").isEmpty()) {
-      CrystalBallManager.updateCrystalBallPredictions();
-    }
-
     return encounter;
   }
 
