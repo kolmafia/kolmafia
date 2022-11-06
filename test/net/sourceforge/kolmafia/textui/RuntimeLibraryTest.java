@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
@@ -9,6 +10,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withValueOfAdventure;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
@@ -554,8 +556,26 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     public void getConcoctionHalfPurse() {
-      String output = execute("concoction_price($item[Half a Purse])");
-      assertThat(output, endsWith("Returned: 102\n"));
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(2), withValueOfAdventure(0));
+
+      try (cleanups) {
+        String output = execute("concoction_price($item[Half a Purse])");
+        assertThat(output, endsWith("Returned: 102\n"));
+      }
+    }
+
+    @Test
+    public void getConcoctionHalfPurseWhenSmithingExpensive() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(2), withValueOfAdventure(10000));
+
+      try (cleanups) {
+        String output = execute("concoction_price($item[Half a Purse])");
+        assertThat(output, endsWith("Returned: 10102\n"));
+      }
     }
 
     private static void addNpcResults(int itemId) {

@@ -1736,4 +1736,18 @@ public class Player {
     AdventureSpentDatabase.setTurns(location, adventuresSpent);
     return new Cleanups(() -> AdventureSpentDatabase.setTurns(location, old));
   }
+
+  /**
+   * Sets the value of an adventure
+   *
+   * @param value The value in meat
+   * @return Returns value to previous value
+   */
+  public static Cleanups withValueOfAdventure(final int value) {
+    var cleanups = withProperty("valueOfAdventure", value);
+    // changing the value of an adventure changes the cost of creating an item
+    ConcoctionDatabase.refreshConcoctions();
+    cleanups.add(ConcoctionDatabase::refreshConcoctions);
+    return cleanups;
+  }
 }
