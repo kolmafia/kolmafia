@@ -171,15 +171,15 @@ public final class CrystalBallManager {
    * * your [lastadv] flag is the zone the prediction is in.
    */
   public static void updateCrystalBallPredictions() {
+    if (CrystalBallManager.predictions.isEmpty()) {
+      return;
+    }
+
     // We use the vanilla last adventure here as sometimes mafia does not recognize it
     // And we still want to invalidate the predictions, even if mafia doesn't recognize it
     String lastAdventureName = KoLAdventure.lastZoneName;
 
     if (lastAdventureName == null) {
-      return;
-    }
-
-    if (CrystalBallManager.predictions.isEmpty()) {
       return;
     }
 
