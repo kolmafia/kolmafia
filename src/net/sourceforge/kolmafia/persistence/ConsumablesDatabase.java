@@ -801,7 +801,9 @@ public class ConsumablesDatabase {
       boolean lunch =
           KoLConstants.activeEffects.contains(ConsumablesDatabase.GLORIOUS_LUNCH)
               || ConsumablesDatabase.BARREL_OF_LAUGHS.getCount(KoLConstants.activeEffects) >= 5;
-      boolean gourmand = KoLCharacter.hasSkill("Gourmand") || KoLCharacter.hasSkill("Neurogourmet");
+      boolean gourmand =
+          KoLCharacter.hasSkill(SkillPool.GOURMAND)
+              || KoLCharacter.hasSkill(SkillPool.NEUROGOURMET);
       boolean munchies = Preferences.getInteger("munchiesPillsUsed") > 0;
       range =
           ConsumablesDatabase.getAdventureMap(
@@ -817,7 +819,7 @@ public class ConsumablesDatabase {
     } else if (consumable.getRawInebriety() != null) {
       boolean odeEffect = KoLConstants.activeEffects.contains(ConsumablesDatabase.ODE);
       boolean rowdyDrinker =
-          KoLCharacter.hasSkill("Rowdy Drinker")
+          KoLCharacter.hasSkill(SkillPool.ROWDY_DRINKER)
               || ConsumablesDatabase.BEER_BARREL_POLKA.getCount(KoLConstants.activeEffects) >= 5;
       range =
           ConsumablesDatabase.getAdventureMap(
