@@ -1257,6 +1257,10 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.refreshNeeded = false;
 
     List<AdventureResult> availableIngredientsList = ConcoctionDatabase.getAvailableIngredients();
+
+    // In addition to the list, we create a second data structure here for better performance.
+    // Because we do many lookups to the available ingredients to see how many there are,
+    // having an O(1) lookup helps a lot.
     Map<Integer, AdventureResult> availableIngredients = new ArrayListMap<>();
     for (AdventureResult item : availableIngredientsList) {
       availableIngredients.put(item.getItemId(), item);
