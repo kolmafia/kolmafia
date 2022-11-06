@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
+import net.sourceforge.kolmafia.utilities.ArrayListMap;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1255,7 +1256,11 @@ public class ConcoctionDatabase {
     Preferences.increment("_concoctionDatabaseRefreshes");
     ConcoctionDatabase.refreshNeeded = false;
 
-    List<AdventureResult> availableIngredients = ConcoctionDatabase.getAvailableIngredients();
+    List<AdventureResult> availableIngredientsList = ConcoctionDatabase.getAvailableIngredients();
+    Map<Integer, AdventureResult> availableIngredients = new ArrayListMap<>();
+    for (AdventureResult item : availableIngredientsList) {
+      availableIngredients.put(item.getItemId(), item);
+    }
 
     // Iterate through the concoction table, Initialize each one
     // appropriately depending on whether it is an NPC item, a Coin
@@ -1308,8 +1313,8 @@ public class ConcoctionDatabase {
 
       // Set initial quantity of all remaining items.
 
-      // Switch to the better of any interchangeable ingredients
-      ConcoctionDatabase.getIngredients(item.getIngredients(), availableIngredients);
+      // Switch to the better of any interchangeable ingredients. Only mutates the first argument.
+      ConcoctionDatabase.getIngredients(item.getIngredients(), availableIngredientsList);
 
       item.initial = concoction.getCount(availableIngredients);
       item.price = 0;
@@ -1323,7 +1328,7 @@ public class ConcoctionDatabase {
     // chefs and bartenders automatically so a second call
     // is not needed.
 
-    ConcoctionDatabase.cachePermitted(availableIngredients);
+    ConcoctionDatabase.cachePermitted(availableIngredientsList);
 
     // Finally, increment through all of the things which are
     // created any other way, making sure that it's a permitted

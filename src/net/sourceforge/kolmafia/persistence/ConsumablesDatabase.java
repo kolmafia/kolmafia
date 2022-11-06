@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +28,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.ArrayListMap;
 import net.sourceforge.kolmafia.utilities.CaseInsensitiveHashMap;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -44,11 +44,9 @@ public class ConsumablesDatabase {
   public static final AdventureResult DRUNK_AVUNCULAR = EffectPool.get(EffectPool.DRUNK_AVUNCULAR);
   public static final AdventureResult REFINED_PALATE = EffectPool.get(EffectPool.REFINED_PALATE);
 
-  private static final List<Consumable> consumableByItemId = new ArrayList<>(12000);
+  private static final Map<Integer, Consumable> consumableByItemId = new ArrayListMap<>(13000);
   private static final Map<String, Consumable> consumableByName = new CaseInsensitiveHashMap<>();
   public static final Set<Consumable> allConsumables = new HashSet<>();
-  //  private static final Map<String, Consumable> consumableByInsensitiveName = new
-  // CaseInsensitiveHashMap<>();
 
   private static final ArrayList<Map<String, Double>> currentAverageAdventures =
       new ArrayList<>(1 << 5);
@@ -189,11 +187,7 @@ public class ConsumablesDatabase {
             aliases);
 
     if (consumable.itemId >= 0) {
-      if (ConsumablesDatabase.consumableByItemId.size() <= consumable.itemId) {
-        int needed = consumable.itemId - ConsumablesDatabase.consumableByItemId.size() + 1;
-        ConsumablesDatabase.consumableByItemId.addAll(Collections.nCopies(needed, null));
-      }
-      ConsumablesDatabase.consumableByItemId.set(consumable.itemId, consumable);
+      ConsumablesDatabase.consumableByItemId.put(consumable.itemId, consumable);
     }
     for (String alias : aliases) {
       ConsumablesDatabase.consumableByName.put(alias, consumable);
