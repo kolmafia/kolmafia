@@ -5713,6 +5713,7 @@ Effect	Emotional Vaccine	Monster Level: +30
 Effect	Empathy	Familiar Weight: +5
 Effect	Employee of the Month	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Empty Inside	Food Drop: +50, Booze Drop: +50
+Effect	Endless Drool	Pickpocket Chance: +50, Moxie: +25, Moxie Percent: +300, Maximum HP Percent: +100, Maximum MP Percent: +100
 Effect	Engorged Weapon	Weapon Damage: +10
 Effect	Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 # Enhanced Interrogation: Boosts psychological attack and defense in Bastille Battalion.
@@ -8747,6 +8748,7 @@ Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
 # pirate fork: Cannot be traded or discarded
 # pirate fork: Only one may be consumed per day<p><center><b><font color=blue>Usable once each day to steal some food!
 Item	pixel banana	Effect: "Going Ape", Effect Duration: 40
+Item	Pizza of Legend	Effect: "Endless Drool", Effect Duration: 100
 Item	plain calzone	Effect: "Angering Pizza Purists", Effect Duration: 50
 Item	plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 Item	poisonous caviar	Effect: "Majorly Poisoned", Effect Duration: 50

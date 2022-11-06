@@ -2739,3 +2739,4 @@
 2739	Pretty Delicious	bbat_casserole.gif	9f03022717f7b13fef44b5dab8289bba	neutral	none	eat 1 baked veggie ricotta casserole
 2740	In the Depths	bbat_pizza.gif	4e1b5fb5d2e16e3bcf3d9013abdb4d5c	neutral	none	eat 1 Deep Dish of Legend
 2741	In the 'zone zone!	bbat_calzone2.gif	041f3562195a07294511006a50e1c9cb	neutral	none	eat 1 Calzone of Legend
+2742	Endless Drool	bbat_pizza.gif	c7175e92210890972f54a3a4ebca2415	neutral	none	eat 1 Pizza of Legend
