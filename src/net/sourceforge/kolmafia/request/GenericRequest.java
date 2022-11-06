@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -109,6 +110,8 @@ public class GenericRequest implements Runnable {
       Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
       Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";");
+  private static final Pattern ADVENTURE_AGAIN =
+      Pattern.compile("\">Adventure Again \\(([^<]+)\\)</a>");
 
   protected String encounter = "";
 
@@ -2224,9 +2227,20 @@ public class GenericRequest implements Runnable {
     // happening change anything, even though KoL asks for a
     // charpane refresh for many of them.
 
-    if (this.responseText.contains("charpane.php") && !KoLmafia.isRefreshing()) {
-      ApiRequest.updateStatus(true);
-      RelayServer.updateStatus();
+    if (!KoLmafia.isRefreshing()) {
+      if (this.responseText.contains("charpane.php")) {
+        ApiRequest.updateStatus(true);
+        RelayServer.updateStatus();
+      } else {
+        // As the crystall ball depends on the [last adventure] being tracked, check if we can
+        // determine the zone from the provided text
+        Matcher matcher = ADVENTURE_AGAIN.matcher(this.responseText);
+
+        if (matcher.find()) {
+          KoLAdventure.lastZoneName = matcher.group(1);
+          CrystalBallManager.updateCrystalBallPredictions();
+        }
+      }
     }
   }
 
