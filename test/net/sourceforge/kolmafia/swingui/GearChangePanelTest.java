@@ -74,7 +74,7 @@ class GearChangePanelTest {
         try (cleanups2) {
           var hatModel = GearChangePanel.getModel(EquipmentManager.HAT);
           // List should not be updated yet, so helmet turtle should not be in it.
-          assertThat(hatModel, not(contains(ItemPool.get(ItemPool.HELMET_TURTLE))));
+          assertThat(hatModel, not(contains(ItemPool.get(ItemPool.HELMET_TURTLE, 1))));
           GearChangePanel.resolveDeferredUpdate();
           assertThat(
               ((AdventureResult) hatModel.getSelectedItem()).getItemId(),
