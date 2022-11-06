@@ -134,7 +134,6 @@ public class GearChangePanel extends JPanel {
     this.customizablePanel = new CustomizablePanel();
 
     this.tabs = KoLmafiaGUI.getTabbedPane();
-    this.tabs.setTabPlacement(SwingConstants.BOTTOM);
     this.tabs.addTab("Equipment", this.equipmentPanel);
     this.tabs.addTab("Customizable", this.customizablePanel);
 
