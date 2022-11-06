@@ -1,9 +1,8 @@
 package net.sourceforge.kolmafia.swingui;
 
-import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
-
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 
 public class GearChangeFrame extends GenericFrame {
   public GearChangeFrame() {

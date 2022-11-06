@@ -21,7 +21,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.LimitMode;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;

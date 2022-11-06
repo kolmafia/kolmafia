@@ -5,16 +5,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import org.junit.jupiter.api.BeforeAll;
