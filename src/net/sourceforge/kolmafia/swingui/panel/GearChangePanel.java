@@ -1262,10 +1262,9 @@ public class GearChangePanel extends JPanel {
   }
 
   // For performance reasons, allow deferral of updateAllModels, which recomputes the lists that
-  // show in
-  // GearChangeFrame. This way we can perform multiple equipment updates at once without triggering
-  // several runs
-  // through the entire list of equipment in a player's inventory to see if it is equippable.
+  // show in GearChangeFrame. This way we can perform multiple equipment updates at once without
+  // triggering several runs through the entire list of equipment in a player's inventory to see
+  // if it is equip-able.
   public static void deferUpdate() {
     if (GearChangePanel.INSTANCE == null) {
       return;
