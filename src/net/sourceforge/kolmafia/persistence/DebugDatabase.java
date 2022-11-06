@@ -2712,14 +2712,31 @@ public class DebugDatabase {
   }
 
   private static void checkConsumables(final PrintStream report) {
-    DebugDatabase.checkConsumables(report, ConsumablesDatabase.fullnessByName, "fullness");
-    DebugDatabase.checkConsumables(report, ConsumablesDatabase.inebrietyByName, "inebriety");
-    DebugDatabase.checkConsumables(report, ConsumablesDatabase.spleenHitByName, "spleenhit");
+    DebugDatabase.checkConsumables(
+        report,
+        ConsumablesDatabase.allConsumables.stream()
+            .filter(consumable -> consumable.getRawFullness() != null)
+            .toList(),
+        "fullness");
+    DebugDatabase.checkConsumables(
+        report,
+        ConsumablesDatabase.allConsumables.stream()
+            .filter(consumable -> consumable.getRawInebriety() != null)
+            .toList(),
+        "inebriety");
+    DebugDatabase.checkConsumables(
+        report,
+        ConsumablesDatabase.allConsumables.stream()
+            .filter(consumable -> consumable.getRawSpleenHit() != null)
+            .toList(),
+        "spleenhit");
   }
 
   private static void checkConsumables(
-      final PrintStream report, final Map<String, Integer> map, final String tag) {
-    if (map.size() == 0) {
+      final PrintStream report,
+      final Collection<ConsumablesDatabase.Consumable> consumables,
+      final String tag) {
+    if (consumables.size() == 0) {
       return;
     }
 
@@ -2727,31 +2744,21 @@ public class DebugDatabase {
     report.println("# Consumption data in " + tag + ".txt");
     report.println("#");
 
-    for (String name : map.keySet()) {
-      int size = map.get(name);
-      DebugDatabase.checkConsumable(report, name, size);
+    for (var consumable : consumables) {
+      DebugDatabase.checkConsumable(report, consumable);
     }
   }
 
-  private static void checkConsumable(final PrintStream report, final String name, final int size) {
-    int itemId = ItemDatabase.getItemId(name);
+  private static void checkConsumable(
+      final PrintStream report, ConsumablesDatabase.Consumable consumable) {
+    int itemId = consumable.itemId;
     // It is valid for items to have no itemId: sushi, Cafe offerings, and so on
     String text = itemId == -1 ? "" : DebugDatabase.itemDescriptionText(itemId, false);
     if (text == null) {
       return;
     }
 
-    int level = ConsumablesDatabase.getLevelReqByName(name);
-    String adv = ConsumablesDatabase.getAdvRangeByName(name);
-    var quality =
-        (itemId == -1) ? ConsumablesDatabase.getQuality(name) : DebugDatabase.parseQuality(text);
-    String mus = ConsumablesDatabase.getMuscleByName(name);
-    String mys = ConsumablesDatabase.getMysticalityByName(name);
-    String mox = ConsumablesDatabase.getMoxieByName(name);
-    String notes = ConsumablesDatabase.getNotes(name);
-
-    ConsumablesDatabase.writeConsumable(
-        report, name, size, level, quality, adv, mus, mys, mox, notes);
+    ConsumablesDatabase.writeConsumable(report, consumable);
   }
 
   // Type: <b>food <font color=#999999>(crappy)</font></b>
@@ -3432,7 +3439,7 @@ public class DebugDatabase {
       final Node element, final PrintStream writer, HashSet<Integer> seen) {
     String name = "";
     int id = -1;
-    int yield = -1;
+    int yield_ = -1;
     boolean cansmash = false;
     boolean confirmed = false;
     boolean twinkly = false;
@@ -3460,8 +3467,8 @@ public class DebugDatabase {
           id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
           seen.add(id);
           break;
-        case "yield":
-          yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
+        case "yield_":
+          yield_ = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
           break;
         case "cold":
           cold = !DebugDatabase.getStringValue(child).equals("0");
@@ -3507,42 +3514,42 @@ public class DebugDatabase {
       return;
     }
     if (pulver == ItemPool.USELESS_POWDER) {
-      if (yield != 1 || twinkly || hot || cold || stench || spooky || sleaze) {
+      if (yield_ != 1 || twinkly || hot || cold || stench || spooky || sleaze) {
         writer.println(name + ": anvil says something other than useless powder");
       }
       return;
     }
-    if (yield == 1 && !(twinkly || hot || cold || stench || spooky || sleaze)) {
+    if (yield_ == 1 && !(twinkly || hot || cold || stench || spooky || sleaze)) {
       writer.println(name + ": anvil says useless powder");
       return;
     }
     if (pulver == ItemPool.EPIC_WAD) {
-      if (yield != 10) {
+      if (yield_ != 10) {
         writer.println(name + ": anvil says something other than epic wad");
       }
       return;
     }
-    if (yield == 10) {
+    if (yield_ == 10) {
       writer.println(name + ": anvil says epic wad");
       return;
     }
     if (pulver == ItemPool.ULTIMATE_WAD) {
-      if (yield != 11) {
+      if (yield_ != 11) {
         writer.println(name + ": anvil says something other than ultimate wad");
       }
       return;
     }
-    if (yield == 11) {
+    if (yield_ == 11) {
       writer.println(name + ": anvil says ultimate wad");
       return;
     }
     if (pulver == ItemPool.SEA_SALT_CRYSTAL) {
-      if (yield != 12) {
+      if (yield_ != 12) {
         writer.println(name + ": anvil says something other than sea salt crystal");
       }
       return;
     }
-    if (yield == 12) {
+    if (yield_ == 12) {
       writer.println(name + ": anvil says sea salt crystal");
       return;
     }
@@ -3551,8 +3558,8 @@ public class DebugDatabase {
           name + ": I don't know how anvil would say " + ItemDatabase.getItemName(pulver));
       return;
     }
-    if (yield < 1 || yield > 12) {
-      writer.println(name + ": anvil said yield=" + yield + ", wut?");
+    if (yield_ < 1 || yield_ > 12) {
+      writer.println(name + ": anvil said yield_=" + yield_ + ", wut?");
       return;
     }
     if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) {
@@ -3614,8 +3621,8 @@ public class DebugDatabase {
     while ((pulver & EquipmentDatabase.YIELD_1P) == 0) {
       myyield++;
     }
-    if (yield != myyield) {
-      writer.println(name + ": anvil said yield is " + yield + ", not " + myyield);
+    if (yield_ != myyield) {
+      writer.println(name + ": anvil said yield_ is " + yield_ + ", not " + myyield);
     }
   }
 

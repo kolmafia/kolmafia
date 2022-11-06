@@ -444,7 +444,7 @@ public class ListCellRendererFactory {
       if (spleenhit != null) joiner.add(spleenhit + " spleen");
       stringForm.append(joiner);
 
-      this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(name), "adv");
+      this.appendRange(stringForm, ConsumablesDatabase.getAverageAdventures(name), "adv");
 
       if (Preferences.getBoolean("showGainsPerUnit")) {
         if (fullness != null && fullness > 0) {

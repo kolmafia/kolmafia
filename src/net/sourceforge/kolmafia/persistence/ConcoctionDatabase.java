@@ -1389,7 +1389,7 @@ public class ConcoctionDatabase {
     }
 
     if (ConcoctionDatabase.recalculateAdventureRange) {
-      ConsumablesDatabase.calculateAdventureRanges();
+      ConsumablesDatabase.calculateAllAverageAdventures();
       ConcoctionDatabase.recalculateAdventureRange = false;
 
       ConcoctionDatabase.queuedFood.touch();

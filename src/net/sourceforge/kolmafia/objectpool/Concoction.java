@@ -479,8 +479,8 @@ public class Concoction implements Comparable<Concoction> {
       }
     }
 
-    double adventures1 = ConsumablesDatabase.getAdventureRange(this.name);
-    double adventures2 = ConsumablesDatabase.getAdventureRange(o.name);
+    double adventures1 = ConsumablesDatabase.getAverageAdventures(this.name);
+    double adventures2 = ConsumablesDatabase.getAverageAdventures(o.name);
 
     if (adventures1 != adventures2) {
       return adventures2 > adventures1 ? 1 : -1;

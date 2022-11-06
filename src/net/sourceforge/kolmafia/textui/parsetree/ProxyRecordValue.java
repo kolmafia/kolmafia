@@ -322,7 +322,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return The range of adventures gained
      */
     public String get_adventures() {
-      return ConsumablesDatabase.getAdvRangeByName(this.contentString);
+      return ConsumablesDatabase.getBaseAdventureRange(this.contentString);
     }
 
     /**
@@ -333,7 +333,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return The range of muscle substats gained
      */
     public String get_muscle() {
-      return ConsumablesDatabase.getMuscleByName(this.contentString);
+      return ConsumablesDatabase.getBaseMuscleByName(this.contentString);
     }
 
     /**
@@ -344,7 +344,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return The range of mysticality substats gained
      */
     public String get_mysticality() {
-      return ConsumablesDatabase.getMysticalityByName(this.contentString);
+      return ConsumablesDatabase.getBaseMysticalityByName(this.contentString);
     }
 
     /**
@@ -355,7 +355,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return The range of moxie substats gained
      */
     public String get_moxie() {
-      return ConsumablesDatabase.getMoxieByName(this.contentString);
+      return ConsumablesDatabase.getBaseMoxieByName(this.contentString);
     }
 
     /**
