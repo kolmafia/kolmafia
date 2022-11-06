@@ -33,7 +33,6 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -543,10 +542,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @ParameterizedTest
     @CsvSource({
-        "level 1 couch, 551",
-        "level 2 couch, 1551",
-        "level 3 couch, 11551",
-        "level 1 ceiling fan, 50501",
+      "level 1 couch, 551",
+      "level 2 couch, 1551",
+      "level 3 couch, 11551",
+      "level 1 ceiling fan, 50501",
     })
     public void getConcoctionVykeaPrice(String vykea, int price) {
       String output = execute("concoction_price($vykea[" + vykea + "])");
@@ -560,13 +559,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     private static void addNpcResults(int itemId) {
-      List<PurchaseRequest> results = List.of(
-          Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
+      List<PurchaseRequest> results =
+          List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
       updateResults(itemId, results);
     }
 
     private static void addSearchResults(int itemId, int price) {
-      List<PurchaseRequest> results = List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
+      List<PurchaseRequest> results =
+          List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
       updateResults(itemId, results);
     }
 

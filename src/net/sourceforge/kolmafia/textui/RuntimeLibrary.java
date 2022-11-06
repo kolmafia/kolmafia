@@ -5344,7 +5344,8 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_VALUE;
     }
 
-    long cost = Arrays.stream(concoction.getIngredients()).mapToLong(MallPriceManager::getMallPrice).sum();
+    long cost =
+        Arrays.stream(concoction.getIngredients()).mapToLong(MallPriceManager::getMallPrice).sum();
     return new Value(cost);
   }
 
