@@ -20,6 +20,7 @@ import internal.helpers.HttpClientWrapper;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Objects;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
@@ -28,9 +29,11 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
@@ -527,6 +530,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       addSearchResults(ItemPool.VYKEA_PLANK, 100);
       addSearchResults(ItemPool.VYKEA_DOWEL, 1000);
       addSearchResults(ItemPool.VYKEA_BRACKET, 10000);
+
+      addSearchResults(ItemPool.LUMP_OF_BRITUMINOUS_COAL, 2);
+      addNpcResults(ItemPool.LOOSE_PURSE_STRINGS);
     }
 
     @AfterAll
@@ -547,8 +553,24 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(output, endsWith("Returned: " + price + "\n"));
     }
 
+    @Test
+    public void getConcoctionHalfPurse() {
+      String output = execute("concoction_price($item[Half a Purse])");
+      assertThat(output, endsWith("Returned: 102\n"));
+    }
+
+    private static void addNpcResults(int itemId) {
+      List<PurchaseRequest> results = List.of(
+          Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
+      updateResults(itemId, results);
+    }
+
     private static void addSearchResults(int itemId, int price) {
       List<PurchaseRequest> results = List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
+      updateResults(itemId, results);
+    }
+
+    private static void updateResults(int itemId, List<PurchaseRequest> results) {
       MallPriceManager.saveMallSearch(itemId, results);
       MallPriceManager.updateMallPrice(ItemPool.get(itemId), results);
     }

@@ -1098,6 +1098,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("concoction_price", DataTypes.INT_TYPE, params));
+
     params = new Type[] {DataTypes.VYKEA_TYPE};
     functions.add(new LibraryFunction("concoction_price", DataTypes.INT_TYPE, params));
 
@@ -5324,17 +5327,23 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value concoction_price(ScriptRuntime controller, final Value value) {
-    VYKEACompanionData companion = (VYKEACompanionData) value.rawValue();
+    Concoction concoction = null;
+    if (value.getType().equals(DataTypes.ITEM_TYPE)) {
+      concoction = ConcoctionPool.get((int) value.intValue());
+    } else if (value.getType().equals(DataTypes.VYKEA_TYPE)) {
+      VYKEACompanionData companion = (VYKEACompanionData) value.rawValue();
 
-    if (companion == null) {
-      return DataTypes.ZERO_VALUE;
+      if (companion == null) {
+        return DataTypes.ZERO_VALUE;
+      }
+
+      concoction = ConcoctionPool.get(-1, companion.toString());
     }
 
-    var concoction = ConcoctionPool.get(-1, companion.toString());
     if (concoction == null) {
       return DataTypes.ZERO_VALUE;
     }
-    
+
     long cost = Arrays.stream(concoction.getIngredients()).mapToLong(MallPriceManager::getMallPrice).sum();
     return new Value(cost);
   }
