@@ -454,6 +454,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
+  private static final AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
+      ItemPool.get(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -2676,6 +2678,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return true;
+    }
+
+    if (this.zone.equals("Memories")) {
+      // We know that an empty agua de vida bottle is accessible to us.
+      // Make sure it is in inventory.
+      InventoryManager.retrieveItem(EMPTY_AGUA_DE_VIDA_BOTTLE);
+      return InventoryManager.getCount(EMPTY_AGUA_DE_VIDA_BOTTLE) > 0;
     }
 
     if (this.zone.equals("Orchard")) {
