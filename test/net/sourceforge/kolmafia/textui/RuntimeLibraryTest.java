@@ -19,21 +19,30 @@ import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import net.sourceforge.kolmafia.utilities.NullStream;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
@@ -505,6 +514,43 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void diffLevelIsLowercase() {
       String output = execute("($location[Noob Cave].difficulty_level == 'low')");
       assertThat(output, endsWith("Returned: true\n"));
+    }
+  }
+
+  @Nested
+  class ConcoctionPrice {
+    @BeforeAll
+    public static void setupPrices() {
+      MallPriceDatabase.savePricesToFile = false;
+      addSearchResults(ItemPool.VYKEA_INSTRUCTIONS, 1);
+      addSearchResults(ItemPool.VYKEA_RAIL, 10);
+      addSearchResults(ItemPool.VYKEA_PLANK, 100);
+      addSearchResults(ItemPool.VYKEA_DOWEL, 1000);
+      addSearchResults(ItemPool.VYKEA_BRACKET, 10000);
+    }
+
+    @AfterAll
+    public static void tearDown() {
+      MallPriceDatabase.savePricesToFile = true;
+      MallPriceManager.reset();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "level 1 couch, 551",
+        "level 2 couch, 1551",
+        "level 3 couch, 11551",
+        "level 1 ceiling fan, 50501",
+    })
+    public void getConcoctionVykeaPrice(String vykea, int price) {
+      String output = execute("concoction_price($vykea[" + vykea + "])");
+      assertThat(output, endsWith("Returned: " + price + "\n"));
+    }
+
+    private static void addSearchResults(int itemId, int price) {
+      List<PurchaseRequest> results = List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
+      MallPriceManager.saveMallSearch(itemId, results);
+      MallPriceManager.updateMallPrice(ItemPool.get(itemId), results);
     }
   }
 }
