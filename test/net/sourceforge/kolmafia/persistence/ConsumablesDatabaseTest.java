@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,37 +41,37 @@ class ConsumablesDatabaseTest {
     void fullness() {
       assertThat(ConsumablesDatabase.getRawFullness(nonexistent), nullValue());
       assertThat(ConsumablesDatabase.getRawFullness("Sacramento wine"), nullValue());
-      assertThat(ConsumablesDatabase.getRawFullness("jumping horseradish"), equalTo(1));
-      assertThat(ConsumablesDatabase.getFullness(nonexistent), equalTo(0));
-      assertThat(ConsumablesDatabase.getFullness("Sacramento wine"), equalTo(0));
-      assertThat(ConsumablesDatabase.getFullness("jumping horseradish"), equalTo(1));
+      assertThat(ConsumablesDatabase.getRawFullness("jumping horseradish"), is(1));
+      assertThat(ConsumablesDatabase.getFullness(nonexistent), is(0));
+      assertThat(ConsumablesDatabase.getFullness("Sacramento wine"), is(0));
+      assertThat(ConsumablesDatabase.getFullness("jumping horseradish"), is(1));
     }
 
     @Test
     void inebriety() {
       assertThat(ConsumablesDatabase.getRawInebriety(nonexistent), nullValue());
       assertThat(ConsumablesDatabase.getRawInebriety("jumping horseradish"), nullValue());
-      assertThat(ConsumablesDatabase.getRawInebriety("Sacramento wine"), equalTo(1));
-      assertThat(ConsumablesDatabase.getInebriety(nonexistent), equalTo(0));
-      assertThat(ConsumablesDatabase.getInebriety("jumping horseradish"), equalTo(0));
-      assertThat(ConsumablesDatabase.getInebriety("Sacramento wine"), equalTo(1));
+      assertThat(ConsumablesDatabase.getRawInebriety("Sacramento wine"), is(1));
+      assertThat(ConsumablesDatabase.getInebriety(nonexistent), is(0));
+      assertThat(ConsumablesDatabase.getInebriety("jumping horseradish"), is(0));
+      assertThat(ConsumablesDatabase.getInebriety("Sacramento wine"), is(1));
     }
 
     @Test
     void spleen() {
       assertThat(ConsumablesDatabase.getRawSpleenHit(nonexistent), nullValue());
       assertThat(ConsumablesDatabase.getRawSpleenHit("jumping horseradish"), nullValue());
-      assertThat(ConsumablesDatabase.getRawSpleenHit("antimatter wad"), equalTo(2));
-      assertThat(ConsumablesDatabase.getSpleenHit(nonexistent), equalTo(0));
-      assertThat(ConsumablesDatabase.getSpleenHit("jumping horseradish"), equalTo(0));
-      assertThat(ConsumablesDatabase.getSpleenHit("antimatter wad"), equalTo(2));
+      assertThat(ConsumablesDatabase.getRawSpleenHit("antimatter wad"), is(2));
+      assertThat(ConsumablesDatabase.getSpleenHit(nonexistent), is(0));
+      assertThat(ConsumablesDatabase.getSpleenHit("jumping horseradish"), is(0));
+      assertThat(ConsumablesDatabase.getSpleenHit("antimatter wad"), is(2));
     }
 
     @Test
     void currentAdventures() {
-      assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), equalTo(0.0));
-      assertThat(ConsumablesDatabase.getAverageAdventures("cold wad"), equalTo(0.0));
-      assertThat(ConsumablesDatabase.getAverageAdventures("Sacramento wine"), equalTo(5.5));
+      assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), is(0.0));
+      assertThat(ConsumablesDatabase.getAverageAdventures("cold wad"), is(0.0));
+      assertThat(ConsumablesDatabase.getAverageAdventures("Sacramento wine"), is(5.5));
     }
 
     @Test
@@ -81,9 +83,9 @@ class ConsumablesDatabaseTest {
           withSkill("Gourmand")
           );
       try (cleanups) {
-        assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), equalTo(0.0));
-        assertThat(ConsumablesDatabase.getAverageAdventures("jumping horseradish"), equalTo(12.5));
-        assertThat(ConsumablesDatabase.getAverageAdventures("Sacramento wine"), equalTo(5.5));
+        assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), is(0.0));
+        assertThat(ConsumablesDatabase.getAverageAdventures("jumping horseradish"), is(12.5));
+        assertThat(ConsumablesDatabase.getAverageAdventures("Sacramento wine"), is(5.5));
       }
     }
 
@@ -94,9 +96,103 @@ class ConsumablesDatabaseTest {
           withEffect(EffectPool.ODE)
           );
       try (cleanups) {
-        assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), equalTo(0.0));
-        assertThat(ConsumablesDatabase.getAverageAdventures("jumping horseradish"), equalTo(5.5));
-        assertThat(ConsumablesDatabase.getAverageAdventures("Sacramento wine"), equalTo(7.5));
+        assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), is(0.0));
+        assertThat(ConsumablesDatabase.getAverageAdventures("jumping horseradish"), is(5.5));
+        assertThat(ConsumablesDatabase.getAverageAdventures("Sacramento wine"), is(7.5));
+      }
+    }
+
+    @Test
+    void notes() {
+      assertThat(ConsumablesDatabase.isMartini(-1), is(false));
+      assertThat(ConsumablesDatabase.isMartini(ItemPool.SACRAMENTO_WINE), is(false));
+      assertThat(ConsumablesDatabase.isMartini(ItemPool.MARTINI), is(true));
+
+      assertThat(ConsumablesDatabase.isWine(-1), is(false));
+      assertThat(ConsumablesDatabase.isWine(ItemPool.SACRAMENTO_WINE), is(true));
+      assertThat(ConsumablesDatabase.isWine(ItemPool.MARTINI), is(false));
+
+      assertThat(ConsumablesDatabase.isBeer(-1), is(false));
+      assertThat(ConsumablesDatabase.isBeer(ItemPool.GREEN_BEER), is(true));
+      assertThat(ConsumablesDatabase.isBeer(ItemPool.MARTINI), is(false));
+
+      assertThat(ConsumablesDatabase.isCannedBeer(-1), is(false));
+      assertThat(ConsumablesDatabase.isCannedBeer(41 /* ice-cold Sir Schlitz */), is(true));
+      assertThat(ConsumablesDatabase.isCannedBeer(ItemPool.GREEN_BEER), is(false));
+
+      assertThat(ConsumablesDatabase.isLasagna(-1), is(false));
+      assertThat(ConsumablesDatabase.isLasagna(ItemPool.FISHY_FISH_LASAGNA), is(true));
+      assertThat(ConsumablesDatabase.isLasagna(ItemPool.HELL_RAMEN), is(false));
+
+      assertThat(ConsumablesDatabase.isSaucy(-1), is(false));
+      assertThat(ConsumablesDatabase.isSaucy(ItemPool.FISHY_FISH_LASAGNA), is(false));
+      assertThat(ConsumablesDatabase.isSaucy(ItemPool.HELL_RAMEN), is(true));
+
+      assertThat(ConsumablesDatabase.isPizza(-1), is(false));
+      assertThat(ConsumablesDatabase.isPizza(ItemPool.DIABOLIC_PIZZA), is(true));
+      assertThat(ConsumablesDatabase.isPizza(ItemPool.HELL_RAMEN), is(false));
+
+      assertThat(ConsumablesDatabase.isBeans(-1), is(false));
+      assertThat(ConsumablesDatabase.isBeans(ItemPool.MUS_BEANS_PLATE), is(true));
+      assertThat(ConsumablesDatabase.isBeans(ItemPool.HELL_RAMEN), is(false));
+
+      assertThat(ConsumablesDatabase.isSalad(-1), is(false));
+      assertThat(ConsumablesDatabase.isSalad(ItemPool.KUDZU_SALAD), is(true));
+      assertThat(ConsumablesDatabase.isSalad(ItemPool.HELL_RAMEN), is(false));
+    }
+
+    @Test
+    void levelRequirement() {
+      assertThat(ConsumablesDatabase.getLevelReqByName("extra-greasy slider"), is(13));
+
+      var cleanups = withLevel(1);
+      try (cleanups) {
+        assertThat(ConsumablesDatabase.meetsLevelRequirement("extra-greasy slider"), is(false));
+      }
+
+      var cleanups2 = new Cleanups(withLevel(13), withInteractivity(true));
+      try (cleanups2) {
+        assertThat(ConsumablesDatabase.meetsLevelRequirement("extra-greasy slider"), is(true));
+      }
+    }
+
+    @Test
+    void baseStatGains() {
+      assertThat(ConsumablesDatabase.getBaseMuscleByName(nonexistent), equalTo(""));
+      assertThat(ConsumablesDatabase.getBaseMysticalityByName(nonexistent), equalTo(""));
+      assertThat(ConsumablesDatabase.getBaseMoxieByName(nonexistent), equalTo(""));
+
+      assertThat(ConsumablesDatabase.getBaseMuscleByName("mushroom pizza"), equalTo("0"));
+      assertThat(ConsumablesDatabase.getBaseMysticalityByName("mushroom pizza"), equalTo("15-18"));
+      assertThat(ConsumablesDatabase.getBaseMoxieByName("mushroom pizza"), equalTo("0"));
+    }
+
+    @Test
+    void calculatedStatGains() {
+      assertThat(ConsumablesDatabase.getMuscleRange(nonexistent), equalTo("+0.0"));
+      assertThat(ConsumablesDatabase.getMysticalityRange(nonexistent), equalTo("+0.0"));
+      assertThat(ConsumablesDatabase.getMoxieRange(nonexistent), equalTo("+0.0"));
+
+      assertThat(ConsumablesDatabase.getMuscleRange("mushroom pizza"), equalTo("+0.0"));
+      assertThat(ConsumablesDatabase.getMysticalityRange("mushroom pizza"), equalTo("+16.5"));
+      assertThat(ConsumablesDatabase.getMoxieRange("mushroom pizza"), equalTo("+0.0"));
+
+      var cleanups = withSkill("Pizza Lover");
+      try (cleanups) {
+        assertThat(ConsumablesDatabase.getMuscleRange("mushroom pizza"), equalTo("+0.0"));
+        assertThat(ConsumablesDatabase.getMysticalityRange("mushroom pizza"), equalTo("+33.0"));
+        assertThat(ConsumablesDatabase.getMoxieRange("mushroom pizza"), equalTo("+0.0"));
+      }
+
+      var cleanups2 = new Cleanups(
+          withEffect("Different Way of Seeing Things"),
+          withEffect(EffectPool.SYNTHESIS_LEARNING)
+      );
+      try (cleanups2) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(ConsumablesDatabase.getMuscleRange("mushroom pizza"), equalTo("+0.0"));
+        assertThat(ConsumablesDatabase.getMysticalityRange("mushroom pizza"), equalTo("+33.0"));
+        assertThat(ConsumablesDatabase.getMoxieRange("mushroom pizza"), equalTo("+0.0"));
       }
     }
   }

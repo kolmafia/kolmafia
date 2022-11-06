@@ -3467,7 +3467,7 @@ public class DebugDatabase {
           id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
           seen.add(id);
           break;
-        case "yield_":
+        case "yield":
           yield_ = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
           break;
         case "cold":
