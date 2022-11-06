@@ -721,6 +721,27 @@ public abstract class ChoiceControl {
 
         if (text.contains("Homina-homina")) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.SUPREME_BEING_GLOSSARY, -1));
+          QuestDatabase.setQuestProgress(Quest.FUTURE, "step1");
+        }
+        break;
+
+      case 390:
+        // Choice 390 is A Winning Pass
+
+        // "Um, okay," you say, and stomp off to kill some more time.
+
+        if (text.contains("to kill some more time")) {
+          QuestDatabase.setQuestProgress(Quest.FUTURE, "step2");
+        }
+        break;
+
+      case 391:
+        // Choice 391 is OMG KAWAIII
+
+        // "Damn it!" you say, and chase after her.
+
+        if (text.contains("and chase after her")) {
+          QuestDatabase.setQuestProgress(Quest.FUTURE, "step3");
         }
         break;
 
@@ -741,6 +762,7 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(ItemPool.get(ItemPool.ESSENCE_OF_FRIGHT, -1));
           ResultProcessor.processResult(ItemPool.get(ItemPool.ESSENCE_OF_CUTE, -1));
           ResultProcessor.processResult(ItemPool.get(ItemPool.SECRET_FROM_THE_FUTURE, 1));
+          QuestDatabase.setQuestProgress(Quest.FUTURE, QuestDatabase.FINISHED);
         }
         break;
 

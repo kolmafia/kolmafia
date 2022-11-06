@@ -1235,6 +1235,7 @@ public class ItemPool {
   public static final int ESSENCE_OF_FRIGHT = 4071;
   public static final int ESSENCE_OF_CUTE = 4072;
   public static final int SUPREME_BEING_GLOSSARY = 4073;
+  public static final int MULTI_PASS = 4074;
   public static final int GRISLY_SHIELD = 4080;
   public static final int CYBER_MATTOCK = 4086;
   public static final int GREEN_PEAWEE_MARBLE = 4095;
