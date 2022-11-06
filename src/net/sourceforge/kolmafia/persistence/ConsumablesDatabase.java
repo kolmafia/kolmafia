@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.CaseInsensitiveHashMap;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -44,7 +45,7 @@ public class ConsumablesDatabase {
   public static final AdventureResult REFINED_PALATE = EffectPool.get(EffectPool.REFINED_PALATE);
 
   private static final List<Consumable> consumableByItemId = new ArrayList<>(12000);
-  private static final Map<String, Consumable> consumableByName = new HashMap<>();
+  private static final Map<String, Consumable> consumableByName = new CaseInsensitiveHashMap<>();
   public static final Set<Consumable> allConsumables = new HashSet<>();
   //  private static final Map<String, Consumable> consumableByInsensitiveName = new
   // CaseInsensitiveHashMap<>();

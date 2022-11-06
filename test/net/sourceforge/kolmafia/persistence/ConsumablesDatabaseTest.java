@@ -1,24 +1,30 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.Month;
+
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -281,6 +287,32 @@ class ConsumablesDatabaseTest {
       }
 
       ConsumablesDatabase.reset();
+    }
+  }
+
+  @Nested
+  class TCRS {
+    @AfterAll
+    static void afterAll() {
+      DebugDatabase.cacheItemDescriptionText(ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
+      TCRSDatabase.resetModifiers();
+    }
+
+    @Test
+    void appliesTcrsAdjustments() {
+      var cleanups = new Cleanups(
+          withPath(AscensionPath.Path.CRAZY_RANDOM_SUMMER_TWO),
+          withClass(AscensionClass.PASTAMANCER),
+          withSign(ZodiacSign.PACKRAT)
+      );
+      try (cleanups) {
+        DebugDatabase.cacheItemDescriptionText(ItemPool.RING, html("request/test_tcrs_desc_item_ring.html"));
+        TCRSDatabase.loadTCRSData();
+
+        // Spleen items should now be size 1 and provide no adventures.
+        assertThat(ConsumablesDatabase.getSpleenHit("antimatter wad"), is(1));
+        assertThat(ConsumablesDatabase.getBaseAdventureRange("antimatter wad"), equalTo("0"));
+      }
     }
   }
 }

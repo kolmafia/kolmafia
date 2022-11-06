@@ -424,6 +424,11 @@ public class DebugDatabase {
         DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), forceReload));
   }
 
+  // Public for test access.
+  public static final void cacheItemDescriptionText(final int itemId, final String html) {
+    DebugDatabase.rawItems.put(itemId, html);
+  }
+
   public static final String cafeItemDescriptionText(final String descId) {
     if (descId == null) {
       return "";
@@ -459,7 +464,7 @@ public class DebugDatabase {
     if (itemId == -1) {
       itemId = DebugDatabase.parseItemId(request.responseText);
     }
-    DebugDatabase.rawItems.put(itemId, request.responseText);
+    cacheItemDescriptionText(itemId, request.responseText);
 
     return request.responseText;
   }
