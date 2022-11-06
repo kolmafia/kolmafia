@@ -16,6 +16,7 @@ import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withKingLiberated;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
@@ -1239,6 +1240,59 @@ public class KoLAdventureValidationTest {
         try (cleanups) {
           assertTrue(GUMDROP_FOREST.canAdventure());
         }
+      }
+    }
+  }
+
+  @Nested
+  class Memories {
+    private static final KoLAdventure PRIMORDIAL_SOUP =
+        AdventureDatabase.getAdventureByName("The Primordial Soup");
+    private static AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
+        ItemPool.get(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE);
+
+    @Test
+    public void mustHaveEmptyAguaDeVidaBottle() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        assertFalse(PRIMORDIAL_SOUP.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureWithBottleInInventory() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withItem(EMPTY_AGUA_DE_VIDA_BOTTLE));
+      try (cleanups) {
+        assertTrue(PRIMORDIAL_SOUP.canAdventure());
+        assertTrue(PRIMORDIAL_SOUP.prepareForAdventure());
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canRetrieveBottleAndAdventure() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItemInCloset(EMPTY_AGUA_DE_VIDA_BOTTLE),
+              withProperty("autoSatisfyWithCloset", true));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_uncloset_empty_agua_bottle.html"));
+
+        assertTrue(PRIMORDIAL_SOUP.canAdventure());
+        assertTrue(PRIMORDIAL_SOUP.prepareForAdventure());
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertGetRequest(
+            requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=4130&qty=1");
       }
     }
   }

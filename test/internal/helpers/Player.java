@@ -222,7 +222,27 @@ public class Player {
    */
   public static Cleanups withItemInCloset(final String itemName, final int count) {
     int itemId = ItemDatabase.getItemId(itemName, count, false);
-    AdventureResult item = ItemPool.get(itemId, count);
+    return withItemInCloset(itemId, count);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's closet
+   *
+   * @param itemId Item to give
+   * @param count Quantity of item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final int itemId, final int count) {
+    return withItemInCloset(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's closet
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final AdventureResult item) {
     return addToList(item, KoLConstants.closet);
   }
 
