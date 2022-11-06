@@ -10,11 +10,12 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.utilities.ArrayListMap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionPool {
   // ItemID -> Concoction
-  private static final Map<Integer, Concoction> items = new TreeMap<Integer, Concoction>();
+  private static final Map<Integer, Concoction> items = new ArrayListMap<>();
 
   // Name -> Concoction
   private static final Map<String, Concoction> nonitems = new TreeMap<String, Concoction>();
