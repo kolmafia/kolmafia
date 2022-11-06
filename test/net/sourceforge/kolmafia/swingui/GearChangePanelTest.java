@@ -5,12 +5,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -18,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class GearChangeFrameTest {
+class GearChangePanelTest {
   @BeforeEach
   void beforeEach() {
     // Simulate logging out and back in again.
@@ -30,12 +36,12 @@ class GearChangeFrameTest {
   class Update {
     @BeforeAll
     static void beforeAll() {
-      new GearChangeFrame();
+      new GearChangePanel();
     }
 
     @BeforeEach
     void beforeEach() {
-      GearChangeFrame.updateSlot(EquipmentManager.HAT);
+      GearChangePanel.updateSlot(EquipmentManager.HAT);
     }
 
     @Test
@@ -44,12 +50,12 @@ class GearChangeFrameTest {
       try (cleanups) {
         var ravioliHat =
             KoLConstants.inventory.get(
-                KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT)));
+                KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT, 1)));
         var equipCleanups = withEquipped(EquipmentManager.HAT, ravioliHat);
         try (equipCleanups) {
-          GearChangeFrame.updateSlot(EquipmentManager.HAT);
+          GearChangePanel.updateSlot(EquipmentManager.HAT);
           assertThat(
-              ((AdventureResult) GearChangeFrame.getModel(EquipmentManager.HAT).getSelectedItem())
+              ((AdventureResult) GearChangePanel.getModel(EquipmentManager.HAT).getSelectedItem())
                   .getItemId(),
               equalTo(ItemPool.RAVIOLI_HAT));
         }
@@ -62,19 +68,19 @@ class GearChangeFrameTest {
       try (cleanups1) {
         var ravioliHat =
             KoLConstants.inventory.get(
-                KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT)));
-        GearChangeFrame.updateSlot(EquipmentManager.HAT);
-        GearChangeFrame.deferUpdate();
+                KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT, 1)));
+        GearChangePanel.updateSlot(EquipmentManager.HAT);
+        GearChangePanel.deferUpdate();
         // withEquipped calls updateSlot again, which sets the equipped item but should defer
         // updating the whole list.
         var cleanups2 =
             new Cleanups(
                 withEquipped(EquipmentManager.HAT, ravioliHat), withItem(ItemPool.HELMET_TURTLE));
         try (cleanups2) {
-          var hatModel = GearChangeFrame.getModel(EquipmentManager.HAT);
+          var hatModel = GearChangePanel.getModel(EquipmentManager.HAT);
           // List should not be updated yet, so helmet turtle should not be in it.
           assertThat(hatModel, not(contains(ItemPool.get(ItemPool.HELMET_TURTLE))));
-          GearChangeFrame.resolveDeferredUpdate();
+          GearChangePanel.resolveDeferredUpdate();
           assertThat(
               ((AdventureResult) hatModel.getSelectedItem()).getItemId(),
               equalTo(ItemPool.RAVIOLI_HAT));
@@ -92,7 +98,7 @@ class GearChangeFrameTest {
     @Test
     void canShowBasicItemModifiers() {
       var mods =
-          GearChangeFrame.getModifiers(
+          GearChangePanel.getModifiers(
               ItemPool.get(ItemPool.RAVIOLI_HAT), EquipmentManager.HAT, false, 1);
       assertThat(
           modifierText(mods.toString()),
@@ -105,7 +111,7 @@ class GearChangeFrameTest {
       var cleanups = new Cleanups(withFamiliar(FamiliarPool.HATRACK));
       try (cleanups) {
         var mods =
-            GearChangeFrame.getModifiers(
+            GearChangePanel.getModifiers(
                 ItemPool.get(ItemPool.RAVIOLI_HAT), EquipmentManager.FAMILIAR, false, 1);
         assertThat(modifierText(mods.toString()), equalTo(""));
       }
@@ -114,7 +120,7 @@ class GearChangeFrameTest {
     @Test
     void weaponsInOffhandSlotGetPowerDamage() {
       var mods =
-          GearChangeFrame.getModifiers(
+          GearChangePanel.getModifiers(
               ItemPool.get(ItemPool.SEAL_CLUB), EquipmentManager.WEAPON, false, 1);
       assertThat(modifierText(mods.toString()), equalTo("Weapon Dmg:<div align=right>+1.50</div>"));
     }
@@ -122,7 +128,7 @@ class GearChangeFrameTest {
     @Test
     void offhandsInOffhandSlotDoNotGetPowerDamage() {
       var mods =
-          GearChangeFrame.getModifiers(
+          GearChangePanel.getModifiers(
               ItemPool.get(ItemPool.BONERDAGON_SKULL), EquipmentManager.OFFHAND, false, 1);
       assertThat(modifierText(mods.toString()), equalTo("Spooky Dmg:<div align=right>+5.00</div>"));
     }
@@ -140,7 +146,7 @@ class GearChangeFrameTest {
 
       try (cleanups) {
         var mods =
-            GearChangeFrame.getModifiers(
+            GearChangePanel.getModifiers(
                 ItemPool.get(ItemPool.COWBOY_BOOTS), EquipmentManager.ACCESSORY1, false, 1);
         assertThat(modifierText(mods.toString()), equalTo(expectedMods));
       }
@@ -156,7 +162,7 @@ class GearChangeFrameTest {
 
       try (cleanups) {
         var mods =
-            GearChangeFrame.getModifiers(
+            GearChangePanel.getModifiers(
                 ItemPool.get(ItemPool.BACKUP_CAMERA), EquipmentManager.ACCESSORY1, false, 1);
         assertThat(modifierText(mods.toString()), equalTo(expectedMods));
       }

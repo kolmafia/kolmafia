@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentRequest extends PasswordHashRequest {
@@ -1471,11 +1470,8 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     // Now update your equipment to make sure that selected items are properly selected in the
     // dropdowns.
-    // Defer updating so that we don't regenerate every list once for each slot.
 
-    GearChangeFrame.deferUpdate();
     EquipmentManager.setEquipment(newEquipment);
-    GearChangeFrame.resolveDeferredUpdate();
 
     return refresh;
   }
