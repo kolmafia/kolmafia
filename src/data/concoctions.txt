@@ -3238,10 +3238,10 @@ Boris's bread	COOK	Yeast of Boris	Yeast of Boris
 roasted vegetable of Jarlsberg	COOK	Vegetable of Jarlsberg	Vegetable of Jarlsberg
 Pete's rich ricotta	COOK	St. Sneaky Pete's Whey	St. Sneaky Pete's Whey
 
-baked veggie ricotta casserole	COOK	Boris's bread	roasted vegetable of Jarlsberg
+baked veggie ricotta casserole	COOK	roasted vegetable of Jarlsberg	Pete's rich ricotta
 plain calzone	COOK	Boris's bread	Pete's rich ricotta
-roasted vegetable focaccia	COOK	roasted vegetable of Jarlsberg	Pete's rich ricotta
+roasted vegetable focaccia	COOK	Boris's bread	roasted vegetable of Jarlsberg
 
-Pizza of Legend	COOK	baked veggie ricotta casserole	Boris's bread
-Calzone of Legend	COOK	plain calzone	roasted vegetable focaccia
-Deep Dish of Legend	COOK	roasted vegetable focaccia	Pete's rich ricotta
+Deep Dish of Legend	COOK	baked veggie ricotta casserole	Boris's bread
+Calzone of Legend	COOK	plain calzone	roasted vegetable of Jarlsberg
+Pizza of Legend	COOK	roasted vegetable focaccia	Pete's rich ricotta
