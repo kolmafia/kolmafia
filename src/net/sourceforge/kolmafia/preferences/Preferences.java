@@ -1127,7 +1127,8 @@ public class Preferences {
       try {
         List<Entry<String, Object>> entries = new ArrayList<>(data.entrySet());
         entries.sort(Comparator.comparing(Entry::getKey));
-        for (Entry<String, Object> current : entries) {          ostream.write(
+        for (Entry<String, Object> current : entries) {
+          ostream.write(
               Preferences.encodeProperty(current.getKey(), current.getValue().toString())
                   .getBytes(StandardCharsets.UTF_8));
           ostream.write(LINE_BREAK_AS_BYTES);
@@ -1241,10 +1242,6 @@ public class Preferences {
         Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalValues);
       }
     }
-  }
-
-  public static Set<String> allDefaults() {
-    return defaultsSet;
   }
 
   public static boolean containsDefault(String key) {
