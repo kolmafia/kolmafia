@@ -134,7 +134,7 @@ public final class CrystalBallManager {
       return;
     }
 
-    addPrediction(location, predictedMonsterData.getName());
+    addNewPrediction(location, predictedMonsterData.getName());
     updatePreference();
   }
 
@@ -143,12 +143,17 @@ public final class CrystalBallManager {
     CrystalBallManager.predictions.put(
         location.getAdventureName(),
         new Prediction(turnPredicted, location.getAdventureName(), predictedMonster));
+  }
+
+  private static void addNewPrediction(
+      final int turnPredicted, final KoLAdventure location, final String predictedMonster) {
+    addPrediction(turnPredicted, location, predictedMonster);
 
     AdventureQueueDatabase.enqueue(location, predictedMonster);
   }
 
-  private static void addPrediction(final KoLAdventure location, final String predictedMonster) {
-    addPrediction(KoLCharacter.getCurrentRun(), location, predictedMonster);
+  private static void addNewPrediction(final KoLAdventure location, final String predictedMonster) {
+    addNewPrediction(KoLCharacter.getCurrentRun(), location, predictedMonster);
   }
 
   private static String parseCrystalBallMonster(final String responseText) {
@@ -292,7 +297,7 @@ public final class CrystalBallManager {
       if (oldPrediction != null) {
         addPrediction(oldPrediction.turnCount, location, monster.getName());
       } else {
-        addPrediction(location, monster.getName());
+        addNewPrediction(location, monster.getName());
       }
     }
 
