@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
+import net.sourceforge.kolmafia.textui.command.TestCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -1074,6 +1075,22 @@ public class FightRequestTest {
       assertThat("_otoscopeUsed", isSetTo(0));
       assertThat("_reflexHammerUsed", isSetTo(0));
       assertThat("_chestXRayUsed", isSetTo(0));
+    }
+  }
+
+  @Test
+  public void canDetectEvilometerChange() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("cyrptNicheEvilness", 50),
+            withProperty("questL07Cyrptic", "started"));
+    try (cleanups) {
+      String html = html("request/evilometer_fight.txt");
+      TestCommand tc = new TestCommand();
+      tc.setContents(html);
+      tc.run("test", "fight 1");
+      assertThat("cyrptNicheEvilness", isSetTo(0));
     }
   }
 
