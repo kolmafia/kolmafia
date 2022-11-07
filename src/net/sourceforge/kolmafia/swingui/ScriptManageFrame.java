@@ -30,6 +30,12 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 public class ScriptManageFrame extends GenericPanelFrame {
+
+  static {
+    ScriptManager.updateRepoScripts(false);
+    ScriptManager.updateInstalledScripts();
+  }
+
   private class ScriptManageTable extends ShowDescriptionTable<Script> {
     public ScriptManageTable() {
       super(ScriptManager.getInstalledScripts(), 4, 4);
