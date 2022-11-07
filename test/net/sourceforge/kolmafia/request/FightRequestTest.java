@@ -53,8 +53,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
-import net.sourceforge.kolmafia.textui.command.TestCommand;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -1089,28 +1087,16 @@ public class FightRequestTest {
             withProperty("questL07Cyrptic", "started"));
     try (cleanups) {
       String html = html("request/evilometer_fight.txt");
-      String[] split = {"fight", "1"};
-      int round = split.length > 1 ? StringUtilities.parseInt(split[1].trim()) : -1;
-      String responseText = html;
-      if (round >= 0) {
-        String adventureName =
-            split.length > 2 ? split[2].trim() : Preferences.getString("nextAdventure");
-        KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure(adventureName));
-        String encounter =
-            split.length > 3
-                ? split[3].trim()
-                : AdventureRequest.parseCombatEncounter(responseText);
-        FightRequest.setCurrentEncounter(encounter);
-        MonsterData monster = AdventureRequest.extractMonster(encounter, responseText);
-        MonsterStatusTracker.setNextMonster(monster);
-        String monsterName = monster.getName();
-        FightRequest.currentRound = round;
-        FightRequest.processResults("fight.php", monsterName, html);
-        // tc.setContents(html);
-        // tc.run("test", "fight 1");
-        assertThat("cyrptNicheEvilness", isSetTo(0));
-      }
-      }
+      String encounter =
+              AdventureRequest.parseCombatEncounter(html);
+      FightRequest.setCurrentEncounter(encounter);
+      MonsterData monster = AdventureRequest.extractMonster(encounter, html);
+      MonsterStatusTracker.setNextMonster(monster);
+      String monsterName = monster.getName();
+      FightRequest.currentRound = 1;
+      FightRequest.processResults("fight.php", monsterName, html);
+      assertThat("cyrptNicheEvilness", isSetTo(0));
+    }
   }
 
   @Test
