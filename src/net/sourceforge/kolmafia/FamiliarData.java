@@ -1146,6 +1146,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
             "snowglobe",
             "_snowglobeDrops",
             1));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1));
   }
 
   public static DropInfo getDropInfo(int id) {
