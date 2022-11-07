@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -1096,6 +1097,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("concoction_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.VYKEA_TYPE};
+    functions.add(new LibraryFunction("concoction_price", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE};
     functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
@@ -5317,6 +5324,30 @@ public abstract class RuntimeLibrary {
 
   public static Value mall_price(ScriptRuntime controller, final Value item) {
     return new Value(MallPriceManager.getMallPrice((int) item.intValue()));
+  }
+
+  public static Value concoction_price(ScriptRuntime controller, final Value value) {
+    Concoction concoction = null;
+    if (value.getType().equals(DataTypes.ITEM_TYPE)) {
+      concoction = ConcoctionPool.get((int) value.intValue());
+    } else if (value.getType().equals(DataTypes.VYKEA_TYPE)) {
+      VYKEACompanionData companion = (VYKEACompanionData) value.rawValue();
+
+      if (companion == null) {
+        return DataTypes.ZERO_VALUE;
+      }
+
+      concoction = ConcoctionPool.get(-1, companion.toString());
+    }
+
+    if (concoction == null) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    long cost =
+        Arrays.stream(concoction.getIngredients()).mapToLong(MallPriceManager::getMallPrice).sum();
+    long creationCost = ConcoctionDatabase.getCreationCost(concoction.getMixingMethod());
+    return new Value(cost + creationCost);
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
