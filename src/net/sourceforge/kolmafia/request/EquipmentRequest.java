@@ -1468,8 +1468,8 @@ public class EquipmentRequest extends PasswordHashRequest {
       }
     }
 
-    // Now update your equipment to make sure that selected
-    // items are properly selected in the dropdowns.
+    // Now update your equipment to make sure that selected items are properly selected in the
+    // dropdowns.
 
     EquipmentManager.setEquipment(newEquipment);
 

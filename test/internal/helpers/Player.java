@@ -222,7 +222,27 @@ public class Player {
    */
   public static Cleanups withItemInCloset(final String itemName, final int count) {
     int itemId = ItemDatabase.getItemId(itemName, count, false);
-    AdventureResult item = ItemPool.get(itemId, count);
+    return withItemInCloset(itemId, count);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's closet
+   *
+   * @param itemId Item to give
+   * @param count Quantity of item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final int itemId, final int count) {
+    return withItemInCloset(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's closet
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final AdventureResult item) {
     return addToList(item, KoLConstants.closet);
   }
 
@@ -1471,6 +1491,8 @@ public class Player {
 
   public static Cleanups withLastLocation(final KoLAdventure lastLocation) {
     var old = KoLAdventure.lastVisitedLocation;
+    var oldVanilla = KoLAdventure.lastZoneName;
+
     var clearProperties =
         new Cleanups(
             withProperty("lastAdventure"),
@@ -1481,11 +1503,18 @@ public class Player {
 
     if (lastLocation == null) {
       KoLAdventure.setLastAdventure((String) null);
+      KoLAdventure.lastZoneName = null;
     } else {
       KoLAdventure.setLastAdventure(lastLocation);
+      KoLAdventure.lastZoneName = lastLocation.getAdventureName();
     }
 
-    var cleanups = new Cleanups(() -> KoLAdventure.setLastAdventure(old));
+    var cleanups =
+        new Cleanups(
+            () -> {
+              KoLAdventure.setLastAdventure(old);
+              KoLAdventure.lastZoneName = oldVanilla;
+            });
     cleanups.add(clearProperties);
     return cleanups;
   }
