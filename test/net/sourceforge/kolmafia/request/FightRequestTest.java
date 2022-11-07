@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1087,8 +1086,7 @@ public class FightRequestTest {
             withProperty("questL07Cyrptic", "started"));
     try (cleanups) {
       String html = html("request/evilometer_fight.txt");
-      String encounter =
-              AdventureRequest.parseCombatEncounter(html);
+      String encounter = AdventureRequest.parseCombatEncounter(html);
       FightRequest.setCurrentEncounter(encounter);
       MonsterData monster = AdventureRequest.extractMonster(encounter, html);
       MonsterStatusTracker.setNextMonster(monster);

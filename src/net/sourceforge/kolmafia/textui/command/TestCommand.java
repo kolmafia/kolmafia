@@ -110,6 +110,7 @@ public class TestCommand extends AbstractCommand {
     }
     return null;
   }
+
   @Override
   public void run(final String cmd, final String parameters) {
     String[] split = parameters.split(" +");
