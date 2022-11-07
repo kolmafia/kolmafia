@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,9 +18,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -44,13 +46,11 @@ public class Preferences {
   private static final String[] characterMap = new String[65536];
 
   private static final HashMap<String, String> globalNames = new HashMap<>();
-  private static final SortedMap<String, Object> globalValues =
-      Collections.synchronizedSortedMap(new TreeMap<>());
+  private static final Map<String, Object> globalValues = new ConcurrentHashMap<>();
   private static File globalPropertiesFile = null;
 
   private static final HashMap<String, String> userNames = new HashMap<>();
-  private static final SortedMap<String, Object> userValues =
-      Collections.synchronizedSortedMap(new TreeMap<>());
+  private static final Map<String, Object> userValues = new ConcurrentHashMap<>();
   private static File userPropertiesFile = null;
 
   private static final Set<String> defaultsSet = new HashSet<>();
@@ -1125,7 +1125,9 @@ public class Preferences {
       ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 
       try {
-        for (Entry<String, Object> current : data.entrySet()) {
+        List<Entry<String, Object>> entries = new ArrayList<>(data.entrySet());
+        entries.sort(Comparator.comparing(Entry::getKey));
+        for (Entry<String, Object> current : entries) {
           ostream.write(
               Preferences.encodeProperty(current.getKey(), current.getValue().toString())
                   .getBytes(StandardCharsets.UTF_8));

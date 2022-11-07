@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
@@ -9,6 +10,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withValueOfAdventure;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
@@ -19,21 +21,32 @@ import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
+import java.util.Objects;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import net.sourceforge.kolmafia.utilities.NullStream;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
@@ -505,6 +518,81 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void diffLevelIsLowercase() {
       String output = execute("($location[Noob Cave].difficulty_level == 'low')");
       assertThat(output, endsWith("Returned: true\n"));
+    }
+  }
+
+  @Nested
+  class ConcoctionPrice {
+    @BeforeAll
+    public static void setupPrices() {
+      MallPriceDatabase.savePricesToFile = false;
+      addSearchResults(ItemPool.VYKEA_INSTRUCTIONS, 1);
+      addSearchResults(ItemPool.VYKEA_RAIL, 10);
+      addSearchResults(ItemPool.VYKEA_PLANK, 100);
+      addSearchResults(ItemPool.VYKEA_DOWEL, 1000);
+      addSearchResults(ItemPool.VYKEA_BRACKET, 10000);
+
+      addSearchResults(ItemPool.LUMP_OF_BRITUMINOUS_COAL, 2);
+      addNpcResults(ItemPool.LOOSE_PURSE_STRINGS);
+    }
+
+    @AfterAll
+    public static void tearDown() {
+      MallPriceDatabase.savePricesToFile = true;
+      MallPriceManager.reset();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "level 1 couch, 551",
+      "level 2 couch, 1551",
+      "level 3 couch, 11551",
+      "level 1 ceiling fan, 50501",
+    })
+    public void getConcoctionVykeaPrice(String vykea, int price) {
+      String output = execute("concoction_price($vykea[" + vykea + "])");
+      assertThat(output, endsWith("Returned: " + price + "\n"));
+    }
+
+    @Test
+    public void getConcoctionHalfPurse() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(2), withValueOfAdventure(0));
+
+      try (cleanups) {
+        String output = execute("concoction_price($item[Half a Purse])");
+        assertThat(output, endsWith("Returned: 102\n"));
+      }
+    }
+
+    @Test
+    public void getConcoctionHalfPurseWhenSmithingExpensive() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(2), withValueOfAdventure(10000));
+
+      try (cleanups) {
+        String output = execute("concoction_price($item[Half a Purse])");
+        assertThat(output, endsWith("Returned: 10102\n"));
+      }
+    }
+
+    private static void addNpcResults(int itemId) {
+      List<PurchaseRequest> results =
+          List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
+      updateResults(itemId, results);
+    }
+
+    private static void addSearchResults(int itemId, int price) {
+      List<PurchaseRequest> results =
+          List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
+      updateResults(itemId, results);
+    }
+
+    private static void updateResults(int itemId, List<PurchaseRequest> results) {
+      MallPriceManager.saveMallSearch(itemId, results);
+      MallPriceManager.updateMallPrice(ItemPool.get(itemId), results);
     }
   }
 }
