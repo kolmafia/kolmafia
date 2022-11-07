@@ -1502,7 +1502,7 @@ public class Player {
             withProperty("hiddenBowlingAlleyProgress"));
 
     if (lastLocation == null) {
-      KoLAdventure.setLastAdventure((String) null);
+      KoLAdventure.setLastAdventure("None");
       KoLAdventure.lastZoneName = null;
     } else {
       KoLAdventure.setLastAdventure(lastLocation);
