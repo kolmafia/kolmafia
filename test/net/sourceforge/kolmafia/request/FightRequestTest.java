@@ -33,12 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
 import java.util.Set;
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1079,12 +1075,11 @@ public class FightRequestTest {
 
   @Test
   public void canDetectEvilometerChange() {
-    var cleanups =
-        new Cleanups(
-            withFight(),
-            withProperty("cyrptNicheEvilness", 50),
-            withProperty("questL07Cyrptic", "started"));
+    AdventureResult item = ItemPool.get(ItemPool.LIHC_EYE, 1);
+    assertEquals(0, item.getCount(KoLConstants.inventory));
+    var cleanups = new Cleanups(withFight(), withProperty("cyrptNicheEvilness", 50));
     try (cleanups) {
+      assertThat("cyrptNicheEvilness", isSetTo(50));
       String html = html("request/evilometer_fight.txt");
       String encounter = AdventureRequest.parseCombatEncounter(html);
       FightRequest.setCurrentEncounter(encounter);
@@ -1094,6 +1089,7 @@ public class FightRequestTest {
       FightRequest.currentRound = 1;
       FightRequest.processResults("fight.php", monsterName, html);
       assertThat("cyrptNicheEvilness", isSetTo(0));
+      assertEquals(2, item.getCount(KoLConstants.inventory));
     }
   }
 
