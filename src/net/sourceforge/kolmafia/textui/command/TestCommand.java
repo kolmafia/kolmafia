@@ -110,12 +110,6 @@ public class TestCommand extends AbstractCommand {
     }
     return null;
   }
-
-  // For testing only, when file is not in data
-  public void setContents(String newContents) {
-    contents = newContents;
-  }
-
   @Override
   public void run(final String cmd, final String parameters) {
     String[] split = parameters.split(" +");
