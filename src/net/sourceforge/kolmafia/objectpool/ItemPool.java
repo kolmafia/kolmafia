@@ -2156,12 +2156,14 @@ public class ItemPool {
   public static final int CHEMISTRY_LAB = 6967;
   public static final int WARBEAR_EMPATHY_CHIP = 6969;
   public static final int SMITH_BOOK = 7003;
+  public static final int LUMP_OF_BRITUMINOUS_COAL = 7005;
   public static final int HANDFUL_OF_SMITHEREENS = 7006;
   public static final int GOLDEN_LIGHT = 7013;
   public static final int LOUDER_THAN_BOMB = 7014;
   public static final int OUIJA_BOARD = 7025;
   public static final int SAUCEPANIC = 7027;
   public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;
+  public static final int LOOSE_PURSE_STRINGS = 7031;
   public static final int WARBEAR_BLACK_BOX = 7035;
   public static final int HIGH_EFFICIENCY_STILL = 7036;
   public static final int LP_ROM_BURNER = 7037;

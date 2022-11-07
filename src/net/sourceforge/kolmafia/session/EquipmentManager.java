@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
+import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import org.json.JSONArray;
@@ -160,7 +160,7 @@ public class EquipmentManager {
     }
 
     EquipmentManager.accessories.clear();
-    GearChangeFrame.clearEquipmentModels();
+    GearChangePanel.clearEquipmentModels();
 
     EquipmentManager.equipment.clear();
 
@@ -274,7 +274,7 @@ public class EquipmentManager {
       int equipmentType = EquipmentManager.consumeFilterToEquipmentType(consumeType);
       if (equipmentType != -1) {
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(equipmentType), item);
-        GearChangeFrame.updateSlot(equipmentType);
+        GearChangePanel.updateSlot(equipmentType);
       }
     }
 
@@ -361,7 +361,7 @@ public class EquipmentManager {
       KoLCharacter.currentFamiliar.setItem(item);
     }
     EquipmentManager.checkFamiliar(slot);
-    GearChangeFrame.updateSlot(slot);
+    GearChangePanel.updateSlot(slot);
 
     // Certain items provide additional skills when equipped.
     // Handle the addition / removal of those skills here.
@@ -1408,6 +1408,8 @@ public class EquipmentManager {
       return;
     }
 
+    // Defer updating so that we don't regenerate every GearChangeFrame list once for each slot.
+    GearChangePanel.deferUpdate();
     for (int i = 0; i < EquipmentManager.ALL_SLOTS && i < equipment.length; ++i) {
       if (equipment[i] == null) {
       } else if (equipment[i].equals(EquipmentRequest.UNEQUIP)) {
@@ -1416,6 +1418,7 @@ public class EquipmentManager {
         setEquipment(i, equipment[i]);
       }
     }
+    GearChangePanel.resolveDeferredUpdate();
   }
 
   public static final void setCustomOutfits(final List<SpecialOutfit> newOutfits) {
@@ -1522,7 +1525,7 @@ public class EquipmentManager {
       curr = minTurns;
     }
     EquipmentManager.turnsRemaining[slot - EquipmentManager.STICKER1] = curr;
-    GearChangeFrame.updateStickers(
+    GearChangePanel.updateStickers(
         EquipmentManager.turnsRemaining[0],
         EquipmentManager.turnsRemaining[1],
         EquipmentManager.turnsRemaining[2]);
@@ -1578,7 +1581,7 @@ public class EquipmentManager {
 
   public static final void decrementTurns() {
     if (usingStickerWeapon()) {
-      GearChangeFrame.updateStickers(
+      GearChangePanel.updateStickers(
           --EquipmentManager.turnsRemaining[0],
           --EquipmentManager.turnsRemaining[1],
           --EquipmentManager.turnsRemaining[2]);
