@@ -78,9 +78,9 @@ import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
+import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.DataFileCache;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -393,7 +393,7 @@ public abstract class KoLCharacter {
     DwarfFactoryRequest.reset();
     EquipmentManager.resetEquipment();
     EquipmentManager.resetCustomOutfits();
-    GearChangeFrame.clearFamiliarList();
+    GearChangePanel.clearFamiliarList();
     InventoryManager.resetInventory();
     LocketManager.clear();
     SkillDatabase.resetCasts();
@@ -1369,7 +1369,7 @@ public abstract class KoLCharacter {
     ChezSnooteeRequest.reset();
     MicroBreweryRequest.reset();
     HellKitchenRequest.reset();
-    GearChangeFrame.clearFamiliarList();
+    GearChangePanel.clearFamiliarList();
     InventoryManager.refresh();
     EquipmentManager.resetCustomOutfits();
     SkillBuffFrame.update();
@@ -2955,7 +2955,7 @@ public abstract class KoLCharacter {
 
       // All familiars can now be used
       RequestThread.postRequest(new FamiliarRequest());
-      GearChangeFrame.updateFamiliars();
+      GearChangePanel.updateFamiliars();
     }
 
     if (restricted || oldPath == Path.NUCLEAR_AUTUMN || oldPath == Path.YOU_ROBOT) {
@@ -4534,7 +4534,7 @@ public abstract class KoLCharacter {
             || KoLCharacter.currentFamiliar.getRace().equals("Scary Death Orb");
 
     EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-    GearChangeFrame.updateFamiliars();
+    GearChangePanel.updateFamiliars();
 
     KoLCharacter.effectiveFamiliar = familiar;
 
@@ -4599,7 +4599,7 @@ public abstract class KoLCharacter {
       EquipmentManager.processResult(familiar.getItem());
     }
 
-    GearChangeFrame.updateFamiliars();
+    GearChangePanel.updateFamiliars();
 
     return familiar;
   }
@@ -4625,7 +4625,7 @@ public abstract class KoLCharacter {
     }
 
     KoLCharacter.familiars.remove(familiar);
-    GearChangeFrame.updateFamiliars();
+    GearChangePanel.updateFamiliars();
   }
 
   /**

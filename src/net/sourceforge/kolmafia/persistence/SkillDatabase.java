@@ -586,10 +586,13 @@ public class SkillDatabase {
 
     AscensionClass classType = null;
     boolean thrallReduced = false;
-    boolean isCombat =
-        (SkillDatabase.isCombat(skillId) && !SkillDatabase.isNonCombat(skillId))
-            || (SkillDatabase.isCombat(skillId) && FightRequest.getCurrentRound() > 0);
     boolean terminal = false;
+
+    // The following funkiness seems to work around a compiler bug in 17.0.3
+    // and 17.0.5 that makes the JVM to crash.
+    boolean isNonCombat = SkillDatabase.isNonCombat(skillId);
+    boolean inFight = (FightRequest.getCurrentRound() > 0);
+    boolean isCombat = SkillDatabase.isCombat(skillId) && (!isNonCombat || inFight);
 
     switch (skillId) {
       case SkillPool.CLOBBER:
