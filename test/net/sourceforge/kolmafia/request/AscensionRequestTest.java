@@ -45,7 +45,6 @@ public class AscensionRequestTest {
     }
   }
 
-
   @Test
   void testAscensionsTodayTracked() {
     // Simple test to confirm that it resets our last run breakfast

@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Set;
@@ -22,7 +21,6 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -44,7 +42,6 @@ public class AdventureRequestTest {
       queueF.delete();
     }
   }
-
 
   @Test
   public void aboveWaterZonesCostOneAdventure() {
