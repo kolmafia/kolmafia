@@ -304,7 +304,7 @@ public class ChoiceManagerTest {
         client.addResponse(200, ""); // api.php
         client.addResponse(302, Map.of("location", List.of("choice.php")), "");
         client.addResponse(
-            200, html("request/test_visit_gc_midnight_civic_center_redirected.html"));
+            200, html("request/test_visit_gc_midnight_civic_center_refresh.html"));
 
         var url = "adventure.php?snarfblat=477";
         var request = new GenericRequest(url);
