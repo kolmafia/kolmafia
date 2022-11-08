@@ -43,6 +43,7 @@ public class ChoiceManagerTest {
 
   @BeforeEach
   public void beforeEach() {
+    KoLConstants.encounterList.clear();
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }
@@ -318,6 +319,7 @@ public class ChoiceManagerTest {
         // We "visit" the choice page.
         assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
         assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
 
         // If you refresh the page, it redirects to choice.php
         url = "place.php?whichplace=gingerbreadcity";
@@ -327,6 +329,7 @@ public class ChoiceManagerTest {
         // We do not "revisit" the choice page.
         assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
         assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(5));
