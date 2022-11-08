@@ -915,10 +915,6 @@ public class ConsumablesDatabase {
   }
 
   public static final boolean hasAttribute(final int itemId, final String attribute) {
-    if (itemId < 0 || itemId >= ConsumablesDatabase.consumableByItemId.size()) {
-      return false;
-    }
-
     Consumable consumable = ConsumablesDatabase.consumableByItemId.get(itemId);
     return consumable != null && consumable.notes != null && consumable.notes.contains(attribute);
   }

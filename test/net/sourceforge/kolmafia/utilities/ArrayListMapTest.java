@@ -52,13 +52,14 @@ class ArrayListMapTest {
   @Test
   void put() {
     Map<Integer, Integer> map = new ArrayListMap<>();
-    map.put(0, 1);
-    map.put(5, 2);
-    map.put(3, 3);
-    map.put(2, 4);
-    map.put(3, null);
-    map.put(5, null);
-    map.put(5, 5);
+    assertThat(map.put(-1, 0), nullValue()); // should be dropped
+    assertThat(map.put(0, 1), nullValue());
+    assertThat(map.put(5, 2), nullValue());
+    assertThat(map.put(3, 3), nullValue());
+    assertThat(map.put(2, 4), nullValue());
+    assertThat(map.put(3, null), is(3));
+    assertThat(map.put(5, null), is(2));
+    assertThat(map.put(5, 5), nullValue());
 
     assertThat(map.size(), is(3));
     assertThat(map.get(0), is(1));

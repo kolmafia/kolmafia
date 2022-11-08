@@ -12,6 +12,9 @@ import java.util.stream.IntStream;
  * Map from Integer to value backed by an ArrayList. Useful when keys are nonnegative integers and
  * are dense, with very fast reads.
  *
+ * <p>Silently drops elements with index < 0 to be consistent with existing behavior. Does not allow
+ * null values; null indicates the absence of a value.
+ *
  * @param <V> Type of map value.
  */
 public class ArrayListMap<V> extends AbstractMap<Integer, V> {
@@ -57,18 +60,23 @@ public class ArrayListMap<V> extends AbstractMap<Integer, V> {
 
   @Override
   public V put(Integer key, V value) {
+    if (key < 0) {
+      return null;
+    }
+
     if (this.contents.size() <= key) {
       int needed = key - this.contents.size() + 1;
       this.contents.addAll(Collections.nCopies(needed, null));
     }
 
-    if (this.contents.get(key) == null && value != null) {
+    V existing = this.contents.get(key);
+    if (existing == null && value != null) {
       this.size++;
-    } else if (this.contents.get(key) != null && value == null) {
+    } else if (existing != null && value == null) {
       this.size--;
     }
     this.contents.set(key, value);
-    return value;
+    return existing;
   }
 
   @Override
@@ -77,9 +85,7 @@ public class ArrayListMap<V> extends AbstractMap<Integer, V> {
       return null;
     }
 
-    V current = this.get(key);
-    this.put((Integer) key, null);
-    return current;
+    return this.put((Integer) key, null);
   }
 
   @Override
