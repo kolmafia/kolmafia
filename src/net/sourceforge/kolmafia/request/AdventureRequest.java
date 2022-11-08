@@ -668,6 +668,12 @@ public class AdventureRequest extends GenericRequest {
       return null;
     }
 
+    if (urlString.equals("choice.php")) {
+      // Since we cannot walk from this choice, this must have been KoL
+      // redirecting back to the choice after a page refresh
+      return null;
+    }
+
     return AdventureRequest.parseEncounter(responseText);
   }
 
