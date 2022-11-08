@@ -174,19 +174,11 @@ public class AdventureRequestTest {
         // <modifier> <dinosaur> " consumed " <prey>
         // <modifier> <dinosaur> " swallowed the soul of " <prey>
         for (String gluttony : AdventureRequest.dinoGluttony) {
-          String encounter = "a " +
-                  modifier +
-                  " " +
-                  dinosaur +
-                  " " +
-                  gluttony +
-                  " " +
-                  prey;
+          String encounter = "a " + modifier + " " + dinosaur + " " + gluttony + " " + prey;
           MonsterData swallowed = MonsterDatabase.findMonster(prey);
           int monsterId = swallowed.getId();
           String responseText = "<!-- MONSTERID: " + monsterId + " -->";
-          MonsterData extracted =
-              AdventureRequest.extractMonster(encounter, responseText);
+          MonsterData extracted = AdventureRequest.extractMonster(encounter, responseText);
           MonsterStatusTracker.setNextMonster(extracted);
 
           MonsterData monster = MonsterStatusTracker.getLastMonster();
