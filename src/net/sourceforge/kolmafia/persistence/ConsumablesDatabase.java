@@ -48,8 +48,9 @@ public class ConsumablesDatabase {
   private static final Map<String, Consumable> consumableByName = new CaseInsensitiveHashMap<>();
   public static final Set<Consumable> allConsumables = new HashSet<>();
 
+  private static final int AVERAGE_ADVENTURE_CACHE_SIZE = 1 << 5;
   private static final ArrayList<Map<String, Double>> currentAverageAdventures =
-      new ArrayList<>(1 << 5);
+      new ArrayList<>(AVERAGE_ADVENTURE_CACHE_SIZE);
 
   public enum ConsumableQuality {
     NONE(""),
@@ -137,7 +138,7 @@ public class ConsumablesDatabase {
   }
 
   static {
-    for (int i = 0; i < 1 << 5; ++i) {
+    for (int i = 0; i < AVERAGE_ADVENTURE_CACHE_SIZE; ++i) {
       ConsumablesDatabase.currentAverageAdventures.add(new HashMap<>());
     }
     ConsumablesDatabase.reset();
@@ -880,7 +881,8 @@ public class ConsumablesDatabase {
         switch (stat) {
           case Consumable.MUSCLE -> Modifiers.MUS_EXPERIENCE_PCT;
           case Consumable.MYSTICALITY -> Modifiers.MYS_EXPERIENCE_PCT;
-          default -> Modifiers.MOX_EXPERIENCE_PCT;
+          case Consumable.MOXIE -> Modifiers.MOX_EXPERIENCE_PCT;
+          default -> -1;
         };
     double statFactor = (KoLCharacter.currentNumericModifier(modifier) + 100.0) / 100.0;
     statFactor *= ConsumablesDatabase.conditionalStatMultiplier(consumable);
