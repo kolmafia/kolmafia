@@ -45,9 +45,14 @@ public class ConsumablesDatabase {
   public static final AdventureResult REFINED_PALATE = EffectPool.get(EffectPool.REFINED_PALATE);
 
   private static final Map<Integer, Consumable> consumableByItemId = new ArrayListMap<>(13000);
+  // Certain consumables are stored with inconsistent case in different places. Until that's fixed,
+  // this needs to be case-insensitive.
   private static final Map<String, Consumable> consumableByName = new CaseInsensitiveHashMap<>();
   public static final Set<Consumable> allConsumables = new HashSet<>();
 
+  // This is a cache which stores adventure information under different boosting-effect scenarios.
+  // The index into the ArrayList is a bit vector of flags that specify how adventures are boosted
+  // (e.g. Ode, munchies pill, etc). See calculateAverageAdventures.
   private static final int AVERAGE_ADVENTURE_CACHE_SIZE = 1 << 5;
   private static final ArrayList<Map<String, Double>> currentAverageAdventures =
       new ArrayList<>(AVERAGE_ADVENTURE_CACHE_SIZE);
