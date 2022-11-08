@@ -685,8 +685,8 @@ public class ResponseTextParser {
 
     String itemName = null;
 
-    for (int i = 0; i < RECIPE_PATTERNS.length; ++i) {
-      Matcher matcher = RECIPE_PATTERNS[i].matcher(responseText);
+    for (Pattern recipePattern : RECIPE_PATTERNS) {
+      Matcher matcher = recipePattern.matcher(responseText);
       if (matcher.find()) {
         itemName = matcher.group(1);
         break;
@@ -697,7 +697,7 @@ public class ResponseTextParser {
       return;
     }
 
-    int id = ItemDatabase.getItemId(itemName, 1, false);
+    int id = ItemDatabase.getItemId(itemName.trim(), 1, false);
 
     if (id <= 0) {
       return;
