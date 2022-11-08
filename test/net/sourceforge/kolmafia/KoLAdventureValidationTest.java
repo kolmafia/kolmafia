@@ -5785,8 +5785,8 @@ public class KoLAdventureValidationTest {
 
       var cleanups = new Cleanups(withQuestProgress(Quest.ISLAND_WAR, "step1"));
 
-      if (haveGland && chamber.getItemId() >= 0) cleanups.add(withItem(chamber.getItemId()));
-      if (haveEffect && chamber.getEffectId() >= 0) cleanups.add(withEffect(chamber.getEffectId()));
+      if (haveGland) cleanups.add(withItem(chamber.getItemId()));
+      if (haveEffect) cleanups.add(withEffect(chamber.getEffectId()));
 
       try (cleanups) {
         var success = chamber.prepareForAdventure();
