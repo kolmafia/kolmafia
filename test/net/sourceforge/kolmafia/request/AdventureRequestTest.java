@@ -8,10 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Set;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -19,6 +22,8 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
+//import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,6 +36,15 @@ public class AdventureRequestTest {
     KoLCharacter.reset("AdventureRequestTest");
     Preferences.reset("AdventureRequestTest");
   }
+
+  @AfterEach
+  public void deleteQueueFile() {
+    File queueF = new File(KoLConstants.DATA_LOCATION, "adventurerequesttest_queue.ser");
+    if (queueF.exists()) {
+      queueF.delete();
+    }
+  }
+
 
   @Test
   public void aboveWaterZonesCostOneAdventure() {

@@ -13,11 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +32,19 @@ public class AscensionRequestTest {
     // Fix another test not cleaning up
     FightRequest.currentRound = 0;
   }
+
+  @AfterAll
+  public static void deleteQueueAndTurnFiles() {
+    File queueF = new File(KoLConstants.DATA_LOCATION, "fakeprefuser_queue.ser");
+    if (queueF.exists()) {
+      queueF.delete();
+    }
+    File turnF = new File(KoLConstants.DATA_LOCATION, "fakeprefuser_turns.ser");
+    if (turnF.exists()) {
+      turnF.delete();
+    }
+  }
+
 
   @Test
   void testAscensionsTodayTracked() {
