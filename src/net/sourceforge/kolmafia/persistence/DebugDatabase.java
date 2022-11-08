@@ -999,23 +999,23 @@ public class DebugDatabase {
 
   private static final Pattern FULLNESS_PATTERN = Pattern.compile("Size: <b>(\\d+)</b>");
 
-  public static final int parseFullness(final String text) {
+  public static final Integer parseFullness(final String text) {
     Matcher matcher = DebugDatabase.FULLNESS_PATTERN.matcher(text);
-    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : 0;
+    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern INEBRIETY_PATTERN = Pattern.compile("Potency: <b>(\\d+)</b>");
 
-  public static final int parseInebriety(final String text) {
+  public static final Integer parseInebriety(final String text) {
     Matcher matcher = DebugDatabase.INEBRIETY_PATTERN.matcher(text);
-    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : 0;
+    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern TOXICITY_PATTERN = Pattern.compile("Toxicity: <b>(\\d+)</b>");
 
-  public static final int parseToxicity(final String text) {
+  public static final Integer parseToxicity(final String text) {
     Matcher matcher = DebugDatabase.TOXICITY_PATTERN.matcher(text);
-    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : 0;
+    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern FAMILIAR_PATTERN = Pattern.compile("Familiar: <b>(.*?)</b>");

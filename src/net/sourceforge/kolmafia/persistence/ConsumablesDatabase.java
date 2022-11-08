@@ -650,7 +650,6 @@ public class ConsumablesDatabase {
     return PvPFights;
   }
 
-
   private static double conditionalExtraAdventures(Consumable consumable, final boolean perUnit) {
     int fullness = consumable.getFullness();
     int inebriety = consumable.getInebriety();
@@ -990,9 +989,9 @@ public class ConsumablesDatabase {
 
     ConsumablesDatabase.setConsumptionData(
         name,
-        0,
+        null,
         size,
-        0,
+        null,
         1,
         ConsumableQuality.CHANGING,
         adventures,
@@ -1029,8 +1028,8 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.setConsumptionData(
         name,
         size,
-        0,
-        0,
+        null,
+        null,
         1,
         ConsumableQuality.CHANGING,
         adventures,
@@ -1058,8 +1057,8 @@ public class ConsumablesDatabase {
     note = "";
     ConsumablesDatabase.setConsumptionData(
         name,
-        0,
-        0,
+        null,
+        null,
         size,
         1,
         ConsumableQuality.CHANGING,
@@ -1086,8 +1085,8 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.setConsumptionData(
         name,
         size,
-        0,
-        0,
+        null,
+        null,
         1,
         ConsumableQuality.CHANGING,
         floatToRange(sbAdv),
@@ -1112,9 +1111,9 @@ public class ConsumablesDatabase {
     note = "";
     ConsumablesDatabase.setConsumptionData(
         name,
-        0,
+        null,
         size,
-        0,
+        null,
         1,
         ConsumableQuality.CHANGING,
         floatToRange(coAdv),
@@ -1136,8 +1135,8 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.setConsumptionData(
         name,
         size,
-        0,
-        0,
+        null,
+        null,
         1,
         ConsumableQuality.CRAPPY,
         adventures,
@@ -1159,7 +1158,17 @@ public class ConsumablesDatabase {
     String moxie = String.valueOf(30 * count);
     String note = "";
     ConsumablesDatabase.setConsumptionData(
-        name, size, 0, 0, 1, ConsumableQuality.GOOD, adventures, muscle, mysticality, moxie, note);
+        name,
+        size,
+        null,
+        null,
+        1,
+        ConsumableQuality.GOOD,
+        adventures,
+        muscle,
+        mysticality,
+        moxie,
+        note);
   }
 
   public static void setDistillateData() {
@@ -1170,9 +1179,9 @@ public class ConsumablesDatabase {
     final var effectTurns = Math.min(100, (int) Math.floor(drams / 5.0));
     ConsumablesDatabase.setConsumptionData(
         "stillsuit distillate",
-        0,
+        null,
         1,
-        0,
+        null,
         1,
         ConsumableQuality.CHANGING,
         String.valueOf(adventures),
