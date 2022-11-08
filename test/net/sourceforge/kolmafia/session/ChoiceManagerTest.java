@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -278,6 +279,58 @@ public class ChoiceManagerTest {
         assertThat(requests, hasSize(2));
         assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=4509&pwd=test");
         assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+  }
+
+  @Nested
+  class ChoiceRefresh {
+    @Test
+    public void canRefreshChoiceWithoutReVisiting() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("refresh"),
+              withProperty("_gingerbreadCityTurns", 19),
+              withProperty("choiceAdventure1202", 0),
+              withHandlingChoice(false),
+              // Avoid health warning
+              withHP(100, 100, 100));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_visit_gc_midnight_civic_center.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+        client.addResponse(
+            200, html("request/test_visit_gc_midnight_civic_center_redirected.html"));
+
+        var url = "adventure.php?snarfblat=477";
+        var request = new GenericRequest(url);
+        request.run();
+
+        // Since it redirected to choice.php, GenericRequest let ChoiceManager
+        // handle it. This is a visit to choice #1202, which is not automated.
+
+        // We "visit" the choice page.
+        assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
+
+        // If you refresh the page, it redirects to choice.php
+        url = "place.php?whichplace=gingerbreadcity";
+        request = new GenericRequest(url);
+        request.run();
+
+        // We do not "revisit" the choice page.
+        assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(5));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=477&pwd=refresh");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/place.php", "whichplace=gingerbreadcity&pwd=refresh");
+        assertGetRequest(requests.get(4), "/choice.php", null);
       }
     }
   }
