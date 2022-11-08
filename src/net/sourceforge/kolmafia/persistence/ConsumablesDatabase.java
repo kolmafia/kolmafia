@@ -192,7 +192,12 @@ public class ConsumablesDatabase {
     for (String alias : aliases) {
       ConsumablesDatabase.consumableByName.put(alias, consumable);
     }
+    if (existing != null) {
+      ConsumablesDatabase.allConsumables.remove(existing);
+    }
     ConsumablesDatabase.allConsumables.add(consumable);
+
+    ConsumablesDatabase.calculateAverageAdventures(consumable);
 
     Concoction c = ConcoctionPool.get(consumable.itemId, name);
     if (c != null) {
