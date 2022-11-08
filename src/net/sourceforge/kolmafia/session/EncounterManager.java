@@ -527,6 +527,10 @@ public abstract class EncounterManager {
       this.encounterCount++;
     }
 
+    public int getCount() {
+      return this.encounterCount;
+    }
+
     @Override
     public int compareTo(final RegisteredEncounter o) {
       if (o == null) {

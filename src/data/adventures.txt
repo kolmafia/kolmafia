@@ -368,8 +368,8 @@ BadMoon	adventure=148	DiffLevel: unknown Env: none	Heartbreaker's Hotel
 # Recurring Holidays
 
 Holiday	town=trickortreat	DiffLevel: none Env: none Stat: 0 overdrunk	Trick-or-Treating
-Holiday	adventure=23	DiffLevel: unknown Env: outdoor overdrunk	Drunken Stupor
-Holiday	adventure=84	DiffLevel: unknown Env: outdoor overdrunk	St. Sneaky Pete's Day Stupor
+Holiday	adventure=23	DiffLevel: low Env: outdoor overdrunk	Drunken Stupor
+Holiday	adventure=84	DiffLevel: low Env: outdoor overdrunk	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	DiffLevel: unknown Env: outdoor	The Yuletide Bonfire
 Holiday	adventure=174	DiffLevel: unknown Env: outdoor	The Arrrboretum
 Holiday	adventure=37	DiffLevel: unknown Env: indoor	The Spectral Pickle Factory
