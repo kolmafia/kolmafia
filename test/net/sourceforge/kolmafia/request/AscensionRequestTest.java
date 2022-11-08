@@ -50,7 +50,6 @@ public class AscensionRequestTest {
     // Simple test to confirm that it resets our last run breakfast
     String breakfastPref = "lastBreakfast";
     int breakfastBefore = 5;
-    int breakfastAfter = 0;
     int breakfastValhalla = -1;
     String ascensionsPref = "ascensionsToday";
     int ascensionBefore = 1;
