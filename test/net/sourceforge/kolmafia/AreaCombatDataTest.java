@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notANumber;
@@ -17,12 +18,16 @@ import java.io.File;
 import java.util.Map;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -38,6 +43,11 @@ public class AreaCombatDataTest {
   static final MonsterData PERVERT = MonsterDatabase.findMonster("smut orc pervert");
   static final MonsterData SNAKE = MonsterDatabase.findMonster("The Frattlesnake");
   static final MonsterData GHOST = MonsterDatabase.findMonster("The ghost of Richard Cockingham");
+  static final MonsterData EVIL_CULTIST = MonsterDatabase.findMonster("evil cultist");
+  static final MonsterData CYBORG_POLICEMAN = MonsterDatabase.findMonster("cyborg policeman");
+  static final MonsterData OBESE_TOURIST = MonsterDatabase.findMonster("obese tourist");
+  static final MonsterData TERRIFYING_ROBOT = MonsterDatabase.findMonster("terrifying robot");
+  static final AdventureResult MULTI_PASS = ItemPool.get(ItemPool.MULTI_PASS);
 
   @BeforeEach
   public void beforeEach() {
@@ -232,6 +242,69 @@ public class AreaCombatDataTest {
             hasEntry(
                 equalTo(MonsterDatabase.findMonster("The Large-Bellied Snitch")),
                 closeTo(100f / 6, 0.001))));
+  }
+
+  @Test
+  public void junglesOfAncientLoathing() {
+    AdventureQueueDatabase.resetQueue();
+
+    QuestDatabase.setQuestProgress(Quest.PRIMORDIAL, QuestDatabase.STARTED);
+
+    Map<MonsterData, Double> appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Jungles of Ancient Loathing").getMonsterData(true);
+
+    assertThat(appearanceRates.get(EVIL_CULTIST), equalTo(0.0));
+
+    QuestDatabase.setQuestProgress(Quest.PRIMORDIAL, QuestDatabase.FINISHED);
+
+    appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Jungles of Ancient Loathing").getMonsterData(true);
+
+    assertThat(appearanceRates.get(EVIL_CULTIST), greaterThan(0.0));
+  }
+
+  @Test
+  public void seasideMegalopolis() {
+    AdventureQueueDatabase.resetQueue();
+
+    QuestDatabase.setQuestProgress(Quest.FUTURE, QuestDatabase.STARTED);
+
+    Map<MonsterData, Double> appearanceRates =
+        AdventureDatabase.getAreaCombatData("Seaside Megalopolis").getMonsterData(true);
+
+    assertThat(
+        appearanceRates,
+        allOf(
+            hasEntry(CYBORG_POLICEMAN, 0.0),
+            hasEntry(OBESE_TOURIST, 0.0),
+            hasEntry(TERRIFYING_ROBOT, 0.0)));
+
+    ResultProcessor.processResult(true, MULTI_PASS);
+
+    appearanceRates =
+        AdventureDatabase.getAreaCombatData("Seaside Megalopolis").getMonsterData(true);
+
+    assertThat(appearanceRates.get(CYBORG_POLICEMAN), greaterThan(0.0));
+    assertThat(appearanceRates.get(OBESE_TOURIST), equalTo(0.0));
+    assertThat(appearanceRates.get(TERRIFYING_ROBOT), equalTo(0.0));
+
+    QuestDatabase.setQuestProgress(Quest.FUTURE, "step2");
+
+    appearanceRates =
+        AdventureDatabase.getAreaCombatData("Seaside Megalopolis").getMonsterData(true);
+
+    assertThat(appearanceRates.get(CYBORG_POLICEMAN), greaterThan(0.0));
+    assertThat(appearanceRates.get(OBESE_TOURIST), greaterThan(0.0));
+    assertThat(appearanceRates.get(TERRIFYING_ROBOT), greaterThan(0.0));
+
+    QuestDatabase.setQuestProgress(Quest.FUTURE, QuestDatabase.FINISHED);
+
+    appearanceRates =
+        AdventureDatabase.getAreaCombatData("Seaside Megalopolis").getMonsterData(true);
+
+    assertThat(appearanceRates.get(CYBORG_POLICEMAN), equalTo(0.0));
+    assertThat(appearanceRates.get(OBESE_TOURIST), greaterThan(0.0));
+    assertThat(appearanceRates.get(TERRIFYING_ROBOT), greaterThan(0.0));
   }
 
   @Nested

@@ -106,10 +106,10 @@ import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
+import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -958,7 +958,7 @@ public abstract class KoLmafia {
 
     // Retrieve the Terrarium
     RequestThread.postRequest(new FamiliarRequest());
-    GearChangeFrame.updateFamiliars();
+    GearChangePanel.updateFamiliars();
 
     // Available stuff in Clan may have changed, so check clan
     ClanLoungeRequest.updateLounge();
@@ -1049,7 +1049,7 @@ public abstract class KoLmafia {
     KoLmafia.setIsRefreshing(false);
 
     // Ensure Gear Changer accurate
-    GearChangeFrame.validateSelections();
+    GearChangePanel.validateSelections();
   }
 
   /** Used to reset the session tally to its original values. */

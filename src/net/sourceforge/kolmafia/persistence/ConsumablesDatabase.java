@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -25,6 +24,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.CaseInsensitiveHashMap;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -40,12 +40,9 @@ public class ConsumablesDatabase {
   public static final AdventureResult REFINED_PALATE = EffectPool.get(EffectPool.REFINED_PALATE);
 
   private static final Map<String, Integer> levelReqByName = new HashMap<String, Integer>();
-  public static final Map<String, Integer> fullnessByName =
-      new TreeMap<String, Integer>(KoLConstants.ignoreCaseComparator);
-  public static final Map<String, Integer> inebrietyByName =
-      new TreeMap<String, Integer>(KoLConstants.ignoreCaseComparator);
-  public static final Map<String, Integer> spleenHitByName =
-      new TreeMap<String, Integer>(KoLConstants.ignoreCaseComparator);
+  public static final Map<String, Integer> fullnessByName = new CaseInsensitiveHashMap<>();
+  public static final Map<String, Integer> inebrietyByName = new CaseInsensitiveHashMap<>();
+  public static final Map<String, Integer> spleenHitByName = new CaseInsensitiveHashMap<>();
   private static final Map<String, ConsumableQuality> qualityByName = new HashMap<>();
   private static final Map<String, String> notesByName = new HashMap<String, String>();
 

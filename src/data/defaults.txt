@@ -378,6 +378,8 @@ user	camelSpit	0
 user	cameraMonster
 user	camerasUsed	0
 user	campAwayDecoration	0
+user	candyWitchTurnsUsed	0
+user	candyWitchCandyTotal	0
 user	canteenUnlocked	false
 user	carboLoading	0
 user	cargoPocketsEmptied
@@ -437,6 +439,9 @@ user	cosmicBowlingBallReturnCombats	-1
 user	cozyCounter6332	0
 user	cozyCounter6333	0
 user	cozyCounter6334	0
+user	craftingClay	-1
+user	craftingLeather	-1
+user	craftingStraw	-1
 user	crappyCameraMonster
 user	crimbo16BeardChakraCleanliness	0
 user	crimbo16BootsChakraCleanliness	0
@@ -695,7 +700,20 @@ user	guzzlrQuestBooze
 user	guzzlrQuestLocation	
 user	guzzlrQuestTier	
 user	haciendaLayout	000000000000000000
+user	hallowiener8BitRealm	0
+user	hallowienerCoinspiracy	0
+user	hallowienerDefiledNook	false
+user	hallowienerGuanoJunction	false
+user	hallowienerKnollGym	false
+user	hallowienerMadnessBakery	false
+user	hallowienerMiddleChamber	false
+user	hallowienerOvergrownLot	false
+user	hallowienerSkeletonStore	false
+user	hallowienerSmutOrcs	false
+user	hallowienerSonofaBeach	false
+user	hallowienerVolcoino	false
 user	hardcorePVPWarning	false
+user	hareMillisecondsSaved	0
 user	harvestBatteriesHardcore	true
 user	harvestBatteriesSoftcore	true
 user	harvestGardenHardcore	none
@@ -1503,6 +1521,8 @@ user	wildfireDusted	false
 user	wildfireFracked	false
 user	wildfirePumpGreased	false
 user	wildfireSprinkled	false
+user	wolfPigsEvicted	0
+user	wolfTurnsUsed	0
 user	workteaClue
 user	writingDesksDefeated	0
 user	xoSkeleltonXProgress	8
@@ -3051,3 +3071,18 @@ user	unknownRecipe7755	true
 user	unknownRecipe7756	true
 user	unknownRecipe7757	true
 user	unknownRecipe7758	true
+user	unknownRecipe10970	true
+user	unknownRecipe10971	true
+user	unknownRecipe10972	true
+user	unknownRecipe10973	true
+user	unknownRecipe10974	true
+user	unknownRecipe10975	true
+user	unknownRecipe10976	true
+user	unknownRecipe10977	true
+user	unknownRecipe10978	true
+user	unknownRecipe10988	true
+user	unknownRecipe10989	true
+user	unknownRecipe10990	true
+user	unknownRecipe10991	true
+user	unknownRecipe10992	true
+user	unknownRecipe11000	true

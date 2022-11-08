@@ -274,7 +274,8 @@ public class FamiliarDatabase {
   // height=30><br><b>Bloovian Groose</b></a></td></tr></table>
 
   private static final Pattern FAMILIAR_PATTERN =
-      Pattern.compile("Hatches into:.*?<table.*?which=(\\d*).*?itemimages/(.*?) .*?<b>(.*?)</b>");
+      Pattern.compile(
+          "Hatches into:.*?<table.*?which=(\\d*).*?itemimages/([^\"]*?)\"? .*?<b>(.*?)</b>");
 
   public static final void registerFamiliar(final Integer larvaId, final String text) {
     Matcher matcher = FAMILIAR_PATTERN.matcher(text);

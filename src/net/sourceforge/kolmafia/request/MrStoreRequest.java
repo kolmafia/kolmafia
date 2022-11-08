@@ -122,7 +122,7 @@ public class MrStoreRequest extends CoinMasterRequest {
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
       String descId = matcher.group(1);
-      String itemName = matcher.group(2);
+      String itemName = matcher.group(2).trim();
       String currency = matcher.group(3);
       int price = StringUtilities.parseInt(matcher.group(4));
       int itemId = StringUtilities.parseInt(matcher.group(5));

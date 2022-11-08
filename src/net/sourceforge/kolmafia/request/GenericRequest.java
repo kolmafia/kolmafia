@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -109,6 +110,8 @@ public class GenericRequest implements Runnable {
       Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
       Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";");
+  private static final Pattern ADVENTURE_AGAIN =
+      Pattern.compile("\">Adventure Again \\(([^<]+)\\)</a>");
 
   protected String encounter = "";
 
@@ -1189,6 +1192,7 @@ public class GenericRequest implements Runnable {
             && !this.redirectLocation.equals("witchess.php")
             && !this.redirectLocation.equals("place.php?whichplace=monorail")
             && !this.redirectLocation.equals("place.php?whichplace=edunder")
+            && !this.redirectLocation.equals("place.php?whichplace=ioty2014_cindy")
             && !this.redirectLocation.equals("/shop.php?whichshop=fwshop")) {
           // Informational debug message
           KoLmafia.updateDisplay("Unhandled redirect to " + this.redirectLocation);
@@ -2223,9 +2227,20 @@ public class GenericRequest implements Runnable {
     // happening change anything, even though KoL asks for a
     // charpane refresh for many of them.
 
-    if (this.responseText.contains("charpane.php") && !KoLmafia.isRefreshing()) {
-      ApiRequest.updateStatus(true);
-      RelayServer.updateStatus();
+    if (!KoLmafia.isRefreshing()) {
+      if (this.responseText.contains("charpane.php")) {
+        ApiRequest.updateStatus(true);
+        RelayServer.updateStatus();
+      } else {
+        // As the crystall ball depends on the [last adventure] being tracked, check if we can
+        // determine the zone from the provided text
+        Matcher matcher = ADVENTURE_AGAIN.matcher(this.responseText);
+
+        if (matcher.find()) {
+          KoLAdventure.lastZoneName = matcher.group(1);
+          CrystalBallManager.updateCrystalBallPredictions();
+        }
+      }
     }
   }
 
@@ -2798,12 +2813,7 @@ public class GenericRequest implements Runnable {
       EncounterManager.registerAdventure(adventure);
     }
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + itemName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(itemName);
 
     GenericRequest.itemMonster = itemName;
   }
@@ -2846,12 +2856,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(name);
   }
 
   private static void checkSkillRedirection(final String location) {
@@ -2882,12 +2887,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + skillName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(skillName);
   }
 
   private static void checkOtherRedirection(final String location) {
@@ -2916,12 +2916,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + otherName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(otherName);
   }
 
   private static AdventureResult sealRitualCandles(final int itemId) {

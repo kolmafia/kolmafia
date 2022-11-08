@@ -114,7 +114,7 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
     while (matcher.find()) {
       String row = matcher.group(1);
       String descId = matcher.group(2);
-      String itemName = matcher.group(3);
+      String itemName = matcher.group(3).trim();
       int price = StringUtilities.parseInt(matcher.group(4));
 
       String match = ItemDatabase.getItemName(descId);

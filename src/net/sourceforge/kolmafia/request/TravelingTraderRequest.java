@@ -114,23 +114,15 @@ public class TravelingTraderRequest extends CoinMasterRequest {
     }
 
     // First, see what item he's trading for
-    String descId = "";
-    String plural1 = null;
-
     Matcher matcher = ACQUIRE_PATTERN.matcher(responseText);
-    if (matcher.find()) {
-      descId = matcher.group(1);
-      plural1 = matcher.group(2);
-    }
-
-    int itemId = ItemDatabase.getItemIdFromDescription(descId);
-    if (itemId == -1) {
-      // He wants something we don't know about?!  We have no
-      // way to register an item from just the descid, since
-      // the item number is not in the description text.
-      // ItemDatabase.registerItem( itemId, descId );
+    if (!matcher.find()) {
       return;
     }
+
+    String descId = matcher.group(1);
+    String plural1 = matcher.group(2);
+
+    int itemId = ItemDatabase.lookupItemIdFromDescription(descId);
 
     // We know the item. Set the item and token in the CoinmasterData
 
@@ -189,7 +181,7 @@ public class TravelingTraderRequest extends CoinMasterRequest {
     while (matcher.find()) {
       int id = StringUtilities.parseInt(matcher.group(1));
       String desc = matcher.group(2);
-      String name = matcher.group(3);
+      String name = matcher.group(3).trim();
       int price = StringUtilities.parseInt(matcher.group(4));
 
       String match = ItemDatabase.getItemDataName(itemId);

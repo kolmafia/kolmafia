@@ -73,10 +73,11 @@ public class PlaceRequest extends GenericRequest {
     }
 
     return switch (place) {
-      case "pyramid" -> action.startsWith("pyramid_state")
-          ? PyramidRequest.lowerChamberTurnsUsed()
+      case "bugbearship" -> action.equals("bb_bridge") ? 1 : 0;
+      case "campaway" -> action.startsWith("campaway_tent")
+              && KoLCharacter.freeRestsRemaining() == 0
+          ? 1
           : 0;
-      case "nemesiscave" -> action.equals("nmcave_boss") ? 1 : 0;
       case "chateau" -> {
         if (action.equals("chateau_painting")) {
           yield (Preferences.getBoolean("_chateauMonsterFought") ? 0 : 1);
@@ -86,12 +87,10 @@ public class PlaceRequest extends GenericRequest {
         }
         yield 0;
       }
-      case "manor4" -> action.equals("manor4_chamberboss") ? 1 : 0;
-      case "campaway" -> action.startsWith("campaway_tent")
-              && KoLCharacter.freeRestsRemaining() == 0
-          ? 1
-          : 0;
       case "falloutshelter" -> action.equals("vault1") ? 1 : 0;
+      case "ioty2014_wolf" -> action.equals("wolf_houserun") ? 3 : 0;
+      case "manor4" -> action.equals("manor4_chamberboss") ? 1 : 0;
+      case "nemesiscave" -> action.equals("nmcave_boss") ? 1 : 0;
       case "nstower" -> switch (action) {
         case "ns_01_crowd1",
             "ns_01_crowd2",
@@ -110,6 +109,9 @@ public class PlaceRequest extends GenericRequest {
             "ns_10_sorcfight" -> 1;
         default -> 0;
       };
+      case "pyramid" -> action.startsWith("pyramid_state")
+          ? PyramidRequest.lowerChamberTurnsUsed()
+          : 0;
       default -> 0;
     };
   }
@@ -454,6 +456,12 @@ public class PlaceRequest extends GenericRequest {
               case "airport3_kiosk" -> "Visiting the Employee Assignment Kiosk";
               default -> null;
             };
+      }
+      case "bugbearship" -> {
+        if (action.equals("bb_bridge")) {
+          message = "Bugbear Ship Bridge";
+          turns = true;
+        }
       }
       case "canadia" -> {
         message =

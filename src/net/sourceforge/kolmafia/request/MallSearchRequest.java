@@ -404,7 +404,7 @@ public class MallSearchRequest extends GenericRequest {
     Matcher itemMatcher = MallSearchRequest.ITEMDETAIL_PATTERN.matcher(storeListResult);
     while (itemMatcher.find()) {
       int itemId = StringUtilities.parseInt(itemMatcher.group(1));
-      String itemName = itemMatcher.group(3);
+      String itemName = itemMatcher.group(3).trim();
       if (!itemName.equals(ItemDatabase.getItemDataName(itemId))) {
         String descId = itemMatcher.group(2);
         ItemDatabase.registerItem(itemId, itemName, descId);

@@ -75,6 +75,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public static KoLAdventure lastVisitedLocation = null;
   public static boolean locationLogged = false;
+  // [Last Adventure] name as reported by KoL, unedited by mafia
+  public static String lastZoneName = null;
   public static String lastLocationName = null;
   public static String lastLocationURL = null;
 
@@ -115,7 +117,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.zone = zone;
     this.adventureName = adventureName;
 
-    this.normalString = this.zone + ": " + this.adventureName;
+    this.normalString = StringUtilities.getEntityDecode(this.zone + ": " + this.adventureName);
     this.lowercaseString = this.normalString.toLowerCase();
 
     this.parentZone = AdventureDatabase.getParentZone(zone);
@@ -452,6 +454,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
+  private static final AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
+      ItemPool.get(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -472,6 +476,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       EffectPool.get(EffectPool.FILTHWORM_DRONE_STENCH);
   private static final AdventureResult FILTHWORM_GUARD_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
+  private static final AdventureResult HARE_BRAINED = EffectPool.get(EffectPool.HARE_BRAINED);
 
   private static final Map<String, String> grimstoneZones =
       Map.ofEntries(
@@ -750,6 +755,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return (Preferences.getBoolean("loveTunnelAvailable")
               || Preferences.getBoolean("_loveTunnelToday"))
           && !Preferences.getBoolean("_loveTunnelUsed");
+    }
+
+    // Unleash Your Inner Wolf
+    if (this.adventureId.equals(AdventurePool.INNER_WOLF_ID)) {
+      // Grimstone path must be "wolf"
+      if (!Preferences.getString("grimstoneMaskPath").equals("wolf")) {
+        return false;
+      }
+      // It takes three turns to Release Your Inner Wolf.
+      // On turns 0-24, you may do it.
+      // On turns 25-26, you are directed to train more in the Gym
+      // On turn 27, you must do it.
+      int turnsUsed = Preferences.getInteger("wolfTurnsUsed");
+      return turnsUsed < 25 || turnsUsed == 27;
     }
 
     /* Removed adventures.
@@ -1159,7 +1178,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // The Pandamonium zones are available if you have completed the Friars quest
     if (this.zone.equals("Pandamonium")) {
-      return QuestDatabase.isQuestFinished(Quest.FRIAR)
+      return QuestDatabase.isQuestStarted(Quest.AZAZEL)
+          || QuestDatabase.isQuestFinished(Quest.FRIAR)
           || (InventoryManager.hasItem(DODECAGRAM)
               && InventoryManager.hasItem(CANDLES)
               && InventoryManager.hasItem(BUTTERKNIFE));
@@ -1648,22 +1668,35 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Mothership")) {
       // We already confirmed that you are on the BugBear Invasion path.
+      //
+      // There are nine zones: three each on levels one, two, and three
+      //
+      // Each level one zone is unlocked by defeating 3 wandering bugbeares
+      // Each level two zone is unlocked by defeating 6 wandering bugbeares
+      // Each level three zone is unlocked by defeating 9 wandering bugbeares
+      //
+      // You must clear level one before level two is open.
+      // You must clear level two before level three is open.
+      //
+      // Therefore, each zone goes from 0-{3,6,9), unlocked, open, cleared
+      //
+      // Zone are available for adventure only when they are "open"
 
-      // There are conditions by which the various areas become available.
-      // Do we track them?
+      String property =
+          switch (this.adventureNumber) {
+            case AdventurePool.MEDBAY -> "statusMedbay";
+            case AdventurePool.WASTE_PROCESSING -> "statusWasteProcessing";
+            case AdventurePool.SONAR -> "statusSonar";
+            case AdventurePool.SCIENCE_LAB -> "statusScienceLab";
+            case AdventurePool.MORGUE -> "statusMorgue";
+            case AdventurePool.SPECIAL_OPS -> "statusSpecialOps";
+            case AdventurePool.ENGINEERING -> "statusEngineering";
+            case AdventurePool.NAVIGATION -> "statusNavigation";
+            case AdventurePool.GALLEY -> "statusGalley";
+            default -> "";
+          };
 
-      // Medbay
-      // Waste Processing
-      // Sonar
-      // Science Lab
-      // Morgue
-      // Special Ops
-      // Engineering
-      // Navigation
-      // Galley
-
-      // Assume those zones are always available.
-      return true;
+      return Preferences.getString(property).equals("open");
     }
 
     if (this.zone.equals("KOL High School")) {
@@ -1871,9 +1904,48 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // One path at a time.
       String tale = grimstoneZones.get(this.zone);
       String current = Preferences.getString("grimstoneMaskPath");
-      // prepareForAdventure will NOT use a grimstone mask if necessary.
-      // *** Should it? They are not cheap.
-      return tale.equals(current) || InventoryManager.hasItem(item);
+      if (tale.equals(current)) {
+        // See if the tale is finished
+        switch (tale) {
+          case "hare" -> {
+            // 30 turns of the Hare-Brained effect.
+            // The zone closes when you lose the effect.
+            // You adventure at A Deserted Stretch of I-911
+            return KoLConstants.activeEffects.contains(HARE_BRAINED);
+          }
+          case "wolf" -> {
+            // 30 turns to adventure in Skid Row.
+            // At turn 27, you must Release Your Inner Wolf.
+            // (Handled above, as that is not adventure.php)
+            // The zone closes when you finish.
+
+            return Preferences.getInteger("wolfTurnsUsed") < 27;
+          }
+          case "stepmother" -> {
+            // 30 turns to adventure at The Prince's Ball. The zone closes when
+            // you finish, although odd silver coins (not quest items) can
+            // still be spent.
+            return Preferences.getInteger("cinderellaMinutesToMidnight") > 0;
+          }
+          case "gnome" -> {
+            // 30 turns to adventure in Rumpelstiltskin's Home For Children.
+            // The zone remains open when you finish, although, you can only
+            // visit Rumplestiltskin's Workshop to craft things that use the
+            // RUMPLE crafting method to use up your crafting materials before
+            // starting another mini-game. ConcoctionsDatabase tracks this via
+            // the property.
+            return Preferences.getInteger("rumpelstiltskinTurnsUsed") < 30;
+          }
+          case "witch" -> {
+            // 30 turns to adventure in The Candy Witch and the Relentless
+            // Child Thieves. The zone closes when you finish.
+            return Preferences.getInteger("candyWitchTurnsUsed") < 30;
+          }
+        }
+      }
+
+      // prepareForAdventure will NOT use a grimstone mask
+      return false;
     }
 
     if (this.zone.equals("The Snojo")) {
@@ -2150,14 +2222,25 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 6 quest
     if (this.zone.equals("Pandamonium")) {
-      if (QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+      // If we have completed the ritual and visited Pandammonium, Azazel's
+      // quest is started and the areas in that zone are available.
+      if (QuestDatabase.isQuestStarted(Quest.AZAZEL)) {
         return true;
       }
-      // If we get here, we have the ritual items.
-      // Do the ritual
-      var request = new GenericRequest("friars.php?action=ritual&pwd");
-      request.run();
-      return QuestDatabase.isQuestFinished(Quest.FRIAR);
+
+      // If we get here but have not finished the ritual, we must perform it.
+      if (!QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+        var request = new GenericRequest("friars.php?action=ritual&pwd");
+        request.run();
+      }
+
+      // If the quest is finished, visit Pandamonium to start Azazel's quest
+      if (QuestDatabase.isQuestFinished(Quest.FRIAR)) {
+        var request = new GenericRequest("pandamonium.php", false);
+        request.run();
+      }
+
+      return QuestDatabase.isQuestStarted(Quest.AZAZEL);
     }
 
     if (this.formSource.equals("dwarffactory.php")
@@ -2595,6 +2678,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return true;
+    }
+
+    if (this.zone.equals("Memories")) {
+      // We know that an empty agua de vida bottle is accessible to us.
+      // Make sure it is in inventory.
+      InventoryManager.retrieveItem(EMPTY_AGUA_DE_VIDA_BOTTLE);
+      return InventoryManager.getCount(EMPTY_AGUA_DE_VIDA_BOTTLE) > 0;
     }
 
     if (this.zone.equals("Orchard")) {
@@ -3074,6 +3164,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // If we are too drunk adventure, return now.
     if (tooDrunkToAdventure()) return;
+
+    // Unleash Your Inner Wolf redirects to a fight chain that takes 3 turns,
+    // regardless of how many fights are actually fought.
+    if (this.adventureId.equals("ioty2014_wolf")) {
+      Preferences.increment("wolfTurnsUsed", 3);
+    }
 
     switch (this.adventureNumber) {
       case AdventurePool.FCLE:

@@ -5,9 +5,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
 import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermStatus;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
@@ -40,7 +42,7 @@ public class CharSheetRequestTest {
       new ParsedSkillInfo(5, "Stomach of Steel", PermStatus.NONE),
       new ParsedSkillInfo(10, "Powers of Observatiogn", PermStatus.HARDCORE),
       new ParsedSkillInfo(11, "Gnefarious Pickpocketing", PermStatus.HARDCORE),
-      new ParsedSkillInfo(12, "Torso Awaregness", PermStatus.HARDCORE),
+      new ParsedSkillInfo(12, "Torso Awareness", PermStatus.HARDCORE),
       new ParsedSkillInfo(13, "Gnomish Hardigness", PermStatus.HARDCORE),
       new ParsedSkillInfo(14, "Cosmic Ugnderstanding", PermStatus.HARDCORE),
       new ParsedSkillInfo(15, "CLEESH", PermStatus.NONE),
@@ -111,8 +113,33 @@ public class CharSheetRequestTest {
       new ParsedSkillInfo(6045, "Paul's Passionate Pop Song", PermStatus.HARDCORE),
       new ParsedSkillInfo(19, "Transcendent Olfaction", PermStatus.HARDCORE),
     };
-
     assertArrayEquals(expected, skillInfos);
+    for (ParsedSkillInfo skillInfo : skillInfos) {
+      assertEquals(
+          skillInfo.id,
+          SkillDatabase.getSkillId(skillInfo.name),
+          "Name/ID mismatch for " + skillInfo.id);
+    }
+  }
+
+  @Test
+  public void parseOldSkills() throws ParserConfigurationException {
+    String html = html("request/test_charsheet_SHO_17.html");
+
+    HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+    DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
+    Document doc = domSerializer.createDOM(cleaner.clean(html));
+
+    ParsedSkillInfo[] skillInfos =
+        CharSheetRequest.parseSkills(doc).toArray(new ParsedSkillInfo[0]);
+
+    ParsedSkillInfo[] expected = {
+      new ParsedSkillInfo(12, "Torso Awareness", PermStatus.NONE),
+      new ParsedSkillInfo(7226, "Summon Hilarious Objects", PermStatus.NONE)
+    };
+    assertEquals(99, skillInfos.length);
+    assertTrue(Arrays.asList(skillInfos).contains(expected[0]));
+    assertTrue(Arrays.asList(skillInfos).contains(expected[1]));
   }
 
   @ParameterizedTest

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
@@ -303,6 +304,42 @@ public class FightRequestTest {
           new Cleanups(
               withFight(0),
               withProperty("crystalBallPredictions"),
+              withLastLocation("The Neverending Party"),
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
+
+      try (cleanups) {
+        CrystalBallManager.reset();
+        parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
+        assertThat("crystalBallPredictions", isSetTo("0:The Neverending Party:party girl"));
+      }
+    }
+
+    @Test
+    public void doesCrystalBallReplaceExistingPrediction() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("crystalBallPredictions", "0:The Neverending Party:burnout"),
+              withCurrentRun(1),
+              withLastLocation("The Neverending Party"),
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
+
+      try (cleanups) {
+        CrystalBallManager.reset();
+        parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
+        assertThat("crystalBallPredictions", isSetTo("1:The Neverending Party:party girl"));
+      }
+    }
+
+    @Test
+    public void testCrystalBallDoesntOverwriteExistingIdenticalPrediction() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("crystalBallPredictions", "0:The Neverending Party:party girl"),
+              withCurrentRun(1),
               withLastLocation("The Neverending Party"),
               withFamiliar(FamiliarPool.MOSQUITO),
               withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));

@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.YouRobotManager;
@@ -975,6 +976,9 @@ public class CharPaneRequest extends GenericRequest {
       final String adventureName,
       final String adventureURL,
       final String container) {
+    KoLAdventure.lastZoneName = adventureName;
+    CrystalBallManager.updateCrystalBallPredictions();
+
     if (KoLCharacter.inFight()) {
       return;
     }

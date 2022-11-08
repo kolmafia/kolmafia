@@ -728,10 +728,8 @@ public class ItemDatabase {
   public static final boolean parseNewItems(final String responseText) {
     Matcher m = DESC_PATTERN.matcher(responseText);
     while (m.find()) {
-      String descId = m.group(1);
-      if (ItemDatabase.getItemIdFromDescription(descId) == -1) {
-        ItemDatabase.registerItem(descId);
-      }
+      // This will register new items if they are unknown
+      ItemDatabase.lookupItemIdFromDescription(m.group(1));
     }
     return true;
   }
@@ -777,12 +775,12 @@ public class ItemDatabase {
     }
   }
 
-  public static void registerItem(String descId) {
-    // Pull the itemName from the item description, which will be cached
+  public static int registerItem(String descId) {
+    // Pull the itemId and itemName from the item description, which will be cached
     String text =
         DebugDatabase.itemDescriptionText(DebugDatabase.rawItemDescriptionText(descId, true));
     if (text == null) {
-      return;
+      return -1;
     }
 
     int itemId = DebugDatabase.parseItemId(text);
@@ -795,6 +793,8 @@ public class ItemDatabase {
     String itemName = DebugDatabase.parseName(text);
 
     ItemDatabase.registerItem(itemId, itemName, descId, null, 0, false);
+
+    return itemId;
   }
 
   public static final void registerItem(final int itemId, String itemName, String descId) {
@@ -1806,6 +1806,26 @@ public class ItemDatabase {
   public static final int getItemIdFromDescription(final String descriptionId) {
     Integer itemId = ItemDatabase.itemIdByDescription.get(descriptionId);
     return itemId == null ? -1 : itemId.intValue();
+  }
+
+  /**
+   * Returns the id for an item, given its description id. If the item is unknown, register a new
+   * item from the description text
+   *
+   * @param descId The description id of the item to lookup
+   * @return The item id of the corresponding item
+   */
+  public static final int lookupItemIdFromDescription(final String descId) {
+    if (descId.equals("")) {
+      return -1;
+    }
+    // See if we know the id already
+    Integer itemId = ItemDatabase.itemIdByDescription.get(descId);
+    if (itemId == null) {
+      // No. register a new item.
+      return ItemDatabase.registerItem(descId);
+    }
+    return itemId;
   }
 
   /**
