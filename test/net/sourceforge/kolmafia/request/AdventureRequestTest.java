@@ -128,7 +128,7 @@ public class AdventureRequestTest {
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
 
     // Can load queue
-    JuneCleaverManager.queue = new ArrayList();
+    JuneCleaverManager.queue = new ArrayList<>();
     Preferences.setString("juneCleaverQueue", "1467,1468,1469,1470,1471");
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1472&option=3");
     assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,1469,1470,1471,1472");
@@ -174,20 +174,19 @@ public class AdventureRequestTest {
         // <modifier> <dinosaur> " consumed " <prey>
         // <modifier> <dinosaur> " swallowed the soul of " <prey>
         for (String gluttony : AdventureRequest.dinoGluttony) {
-          StringBuilder encounter = new StringBuilder();
-          encounter.append("a ");
-          encounter.append(modifier);
-          encounter.append(" ");
-          encounter.append(dinosaur);
-          encounter.append(" ");
-          encounter.append(gluttony);
-          encounter.append(" ");
-          encounter.append(prey);
+          String encounter = "a " +
+                  modifier +
+                  " " +
+                  dinosaur +
+                  " " +
+                  gluttony +
+                  " " +
+                  prey;
           MonsterData swallowed = MonsterDatabase.findMonster(prey);
           int monsterId = swallowed.getId();
           String responseText = "<!-- MONSTERID: " + monsterId + " -->";
           MonsterData extracted =
-              AdventureRequest.extractMonster(encounter.toString(), responseText);
+              AdventureRequest.extractMonster(encounter, responseText);
           MonsterStatusTracker.setNextMonster(extracted);
 
           MonsterData monster = MonsterStatusTracker.getLastMonster();
