@@ -29,6 +29,7 @@ class ArrayListMapTest {
     map.put(0, 0);
     map.put(5, 0);
 
+    assertThat(map.containsKey(new Object()), is(false));
     assertThat(map.containsKey(0), is(true));
     assertThat(map.containsKey(5), is(true));
     assertThat(map.containsKey(1), is(false));
@@ -42,6 +43,7 @@ class ArrayListMapTest {
     map.put(0, 1);
     map.put(5, 2);
 
+    assertThat(map.get(new Object()), nullValue());
     assertThat(map.get(0), is(1));
     assertThat(map.get(5), is(2));
     assertThat(map.get(1), nullValue());
@@ -81,6 +83,7 @@ class ArrayListMapTest {
     assertThat(map.remove(5), is(2));
     map.put(5, 5);
     assertThat(map.remove(1), nullValue());
+    assertThat(map.remove(new Object()), nullValue());
 
     assertThat(map.size(), is(3));
     assertThat(map.get(0), is(1));
