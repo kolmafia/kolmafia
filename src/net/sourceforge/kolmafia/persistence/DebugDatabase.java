@@ -3441,7 +3441,7 @@ public class DebugDatabase {
       final Node element, final PrintStream writer, HashSet<Integer> seen) {
     String name = "";
     int id = -1;
-    int yield_ = -1;
+    int yield = -1;
     boolean cansmash = false;
     boolean confirmed = false;
     boolean twinkly = false;
@@ -3470,7 +3470,7 @@ public class DebugDatabase {
           seen.add(id);
           break;
         case "yield":
-          yield_ = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
+          yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
           break;
         case "cold":
           cold = !DebugDatabase.getStringValue(child).equals("0");
@@ -3516,42 +3516,42 @@ public class DebugDatabase {
       return;
     }
     if (pulver == ItemPool.USELESS_POWDER) {
-      if (yield_ != 1 || twinkly || hot || cold || stench || spooky || sleaze) {
+      if (yield != 1 || twinkly || hot || cold || stench || spooky || sleaze) {
         writer.println(name + ": anvil says something other than useless powder");
       }
       return;
     }
-    if (yield_ == 1 && !(twinkly || hot || cold || stench || spooky || sleaze)) {
+    if (yield == 1 && !(twinkly || hot || cold || stench || spooky || sleaze)) {
       writer.println(name + ": anvil says useless powder");
       return;
     }
     if (pulver == ItemPool.EPIC_WAD) {
-      if (yield_ != 10) {
+      if (yield != 10) {
         writer.println(name + ": anvil says something other than epic wad");
       }
       return;
     }
-    if (yield_ == 10) {
+    if (yield == 10) {
       writer.println(name + ": anvil says epic wad");
       return;
     }
     if (pulver == ItemPool.ULTIMATE_WAD) {
-      if (yield_ != 11) {
+      if (yield != 11) {
         writer.println(name + ": anvil says something other than ultimate wad");
       }
       return;
     }
-    if (yield_ == 11) {
+    if (yield == 11) {
       writer.println(name + ": anvil says ultimate wad");
       return;
     }
     if (pulver == ItemPool.SEA_SALT_CRYSTAL) {
-      if (yield_ != 12) {
+      if (yield != 12) {
         writer.println(name + ": anvil says something other than sea salt crystal");
       }
       return;
     }
-    if (yield_ == 12) {
+    if (yield == 12) {
       writer.println(name + ": anvil says sea salt crystal");
       return;
     }
@@ -3560,8 +3560,8 @@ public class DebugDatabase {
           name + ": I don't know how anvil would say " + ItemDatabase.getItemName(pulver));
       return;
     }
-    if (yield_ < 1 || yield_ > 12) {
-      writer.println(name + ": anvil said yield_=" + yield_ + ", wut?");
+    if (yield < 1 || yield > 12) {
+      writer.println(name + ": anvil said yield=" + yield + ", wut?");
       return;
     }
     if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) {
@@ -3623,8 +3623,8 @@ public class DebugDatabase {
     while ((pulver & EquipmentDatabase.YIELD_1P) == 0) {
       myyield++;
     }
-    if (yield_ != myyield) {
-      writer.println(name + ": anvil said yield_ is " + yield_ + ", not " + myyield);
+    if (yield != myyield) {
+      writer.println(name + ": anvil said yield is " + yield + ", not " + myyield);
     }
   }
 
