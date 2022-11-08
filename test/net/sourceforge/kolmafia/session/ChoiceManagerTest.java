@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -305,6 +306,8 @@ public class ChoiceManagerTest {
         client.addResponse(302, Map.of("location", List.of("choice.php")), "");
         client.addResponse(200, html("request/test_visit_gc_midnight_civic_center_refresh.html"));
 
+        assertThat(KoLConstants.encounterList.size(), is(0));
+
         var url = "adventure.php?snarfblat=477";
         var request = new GenericRequest(url);
         request.run();
@@ -314,6 +317,7 @@ public class ChoiceManagerTest {
 
         // We "visit" the choice page.
         assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
+        assertThat(KoLConstants.encounterList.size(), is(1));
 
         // If you refresh the page, it redirects to choice.php
         url = "place.php?whichplace=gingerbreadcity";
@@ -322,6 +326,7 @@ public class ChoiceManagerTest {
 
         // We do not "revisit" the choice page.
         assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
+        assertThat(KoLConstants.encounterList.size(), is(1));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(5));
