@@ -87,11 +87,6 @@ public class ScriptManager {
       // this will change
       "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/SVN/svnrepo.json";
 
-  static {
-    ScriptManager.updateRepoScripts(false);
-    ScriptManager.updateInstalledScripts();
-  }
-
   public static void updateRepoScripts(boolean force) {
     File repoFile = KoLConstants.SVN_REPO_FILE;
     if (force || !repoFile.exists() || !Preferences.getBoolean("_svnRepoFileFetched")) {
