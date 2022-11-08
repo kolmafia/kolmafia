@@ -229,20 +229,18 @@ public class ConsumablesDatabase {
         if (data.length < 2) continue;
 
         String name = data[0];
-        ConsumablesDatabase.consumableByName.put(
+        setConsumptionData(
             name,
-            new Consumable(
-                name,
-                null,
-                null,
-                null,
-                Integer.parseInt(data[1]),
-                ConsumableQuality.NONE,
-                "0",
-                new String[] {
-                  "0", "0", "0",
-                },
-                data.length >= 3 ? data[2] : null));
+            null,
+            null,
+            null,
+            Integer.parseInt(data[1]),
+            ConsumableQuality.NONE,
+            "0",
+            "0",
+            "0",
+            "0",
+            data.length >= 3 ? data[2] : null);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);

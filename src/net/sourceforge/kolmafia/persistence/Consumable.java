@@ -1,9 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 import net.sourceforge.kolmafia.KoLConstants;
 
 // Consumable represents the static attributes of a consumable as pulled out of a line in the
@@ -30,29 +28,6 @@ public class Consumable {
   public int[][] statRanges;
 
   public Set<String> aliases;
-
-  public Consumable(
-      String name,
-      Integer fullness,
-      Integer inebriety,
-      Integer spleenHit,
-      int level,
-      ConsumablesDatabase.ConsumableQuality quality,
-      String adventureRange,
-      String[] statRangeStrings,
-      String notes) {
-    this(
-        name,
-        fullness,
-        inebriety,
-        spleenHit,
-        level,
-        quality,
-        adventureRange,
-        statRangeStrings,
-        notes,
-        new TreeSet<>(List.of(name)));
-  }
 
   public Consumable(
       String name,
