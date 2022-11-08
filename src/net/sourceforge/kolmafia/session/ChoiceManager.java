@@ -2127,6 +2127,14 @@ public abstract class ChoiceManager {
    */
 
   public static final void preChoice(final GenericRequest request) {
+    if (ChoiceManager.handlingChoice) {
+      if (request.getURLString().equals("choice.php")) {
+        // Page refresh
+        return;
+      }
+      // Choice chain
+    }
+
     FightRequest.choiceFollowsFight = false;
     ChoiceManager.handlingChoice = true;
     FightRequest.currentRound = 0;
