@@ -1,79 +1,74 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import net.sourceforge.kolmafia.FamiliarData;
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class SnapperCommandTest extends AbstractCommandTestBase {
-  @BeforeEach
-  public void initEach() {
+  @BeforeAll
+  public static void init() {
     KoLCharacter.reset("testUser");
-    Preferences.resetToDefault("redSnapperPhylum");
-
-    // Stop requests from actually running
-    GenericRequest.sessionId = null;
+    Preferences.reset("testUser");
   }
 
   public SnapperCommandTest() {
     this.command = "snapper";
   }
 
-  static String getPhylum() {
-    return Preferences.getString("redSnapperPhylum");
-  }
-
-  static void setSnapper() {
-    var familiar = FamiliarData.registerFamiliar(FamiliarPool.RED_SNAPPER, 1);
-    KoLCharacter.setFamiliar(familiar);
-  }
-
   @Test
   void mustHaveSnapper() {
-    KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
     String output = execute("bug");
 
     assertTrue(output.contains("You need to take your Red-Nosed Snapper with you"));
     assertContinueState();
-    assertEquals("", getPhylum());
   }
 
   @Test
   void mustSpecifyPhylum() {
-    setSnapper();
-    execute("");
-    assertErrorState();
-    assertEquals("", getPhylum());
+    var cleanups = withFamiliar(FamiliarPool.RED_SNAPPER);
+    try (cleanups) {
+      String output = execute("");
+      assertErrorState();
+      assertTrue(output.contains("Which monster phylum do you want?"));
+    }
   }
 
   @Test
   void mustSpecifyValidPhylum() {
-    setSnapper();
-    execute("dog");
-    assertErrorState();
-    assertEquals("", getPhylum());
+    var cleanups = withFamiliar(FamiliarPool.RED_SNAPPER);
+    try (cleanups) {
+      String output = execute("dog");
+      assertErrorState();
+      assertTrue(output.contains("What kind of random monster is a dog?"));
+    }
   }
 
   @Test
   void alreadyTrackingPhylum() {
-    Preferences.setString("redSnapperPhylum", "beast");
-    setSnapper();
-    String output = execute("beast");
-    assertContinueState();
-    assertTrue(output.contains("already hot on the tail"));
+    var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.RED_SNAPPER), withProperty("redSnapperPhylum", "beast"));
+    try (cleanups) {
+      String output = execute("beast");
+      assertContinueState();
+      assertTrue(output.contains("already hot on the tail"));
+    }
   }
 
   @Test
   void changesPhylum() {
-    setSnapper();
-    String output = execute("beast");
-    assertContinueState();
-    assertTrue(output.contains("guiding you towards beasts"));
+    var cleanups = withFamiliar(FamiliarPool.RED_SNAPPER);
+    try (cleanups) {
+      String output = execute("beast");
+      assertContinueState();
+      assertTrue(output.contains("guiding you towards beasts"));
+    }
   }
 }
