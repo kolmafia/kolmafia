@@ -19,8 +19,7 @@ public class ConcoctionPool {
 
   // Name -> Concoction
   private static final Map<String, Concoction> nonitems = new HashMap<>();
-  private static final Map<String, Concoction> nonitemsCanonical =
-      new HashMap<>();
+  private static final Map<String, Concoction> nonitemsCanonical = new HashMap<>();
 
   // All concoctions
   private static Collection<Concoction> values = null;
