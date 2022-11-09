@@ -10,12 +10,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import internal.helpers.Cleanups;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RequestEditorKitTest {
@@ -130,5 +134,21 @@ public class RequestEditorKitTest {
 
       VioletFogManager.reset();
     }
+  }
+
+  @Nested
+  class DwarvishWarUniform {
+    private static Stream<Arguments> provideWarUniformArguments() {
+      return Stream.of(
+          Arguments.of(
+              ItemPool.DWARVISH_WAR_HELMET,
+              "<p>A small crystal lens flips down out of the helmet, covering your left eye. You hear a *bleep*, and glowing dwarvish runes appear in it, reading: </p>"),
+          Arguments.of(ItemPool.DWARVISH_WAR_KILT, "<p></p>"),
+          Arguments.of(ItemPool.DWARVISH_WAR_MATTOCK, "<p></p>"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideWarUniformArguments")
+    void addsWarUniformTextIfEquipped() {}
   }
 }
