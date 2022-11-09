@@ -275,6 +275,8 @@ class ConsumablesDatabaseTest {
 
       try (cleanups) {
         ConsumablesDatabase.reset();
+        assertThat(ConsumablesDatabase.getAverageAdventures("bottle of gin"), is(3.0));
+        assertThat(ConsumablesDatabase.getQuality("bottle of gin"), is(ConsumableQuality.CRAPPY));
         assertThat(ConsumablesDatabase.getAverageAdventures("cranberries"), is(3.0));
         assertThat(ConsumablesDatabase.getQuality("cranberries"), is(ConsumableQuality.GOOD));
         assertThat(ConsumablesDatabase.getAverageAdventures("redrum"), is(7.0));
