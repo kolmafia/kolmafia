@@ -43,6 +43,10 @@ class UseSkillRequestTest {
   @BeforeAll
   static void beforeAll() {
     KoLCharacter.reset("UseSkillRequestTest");
+  }
+
+  @BeforeEach
+  void beforeEach() {
     Preferences.reset("UseSkillRequestTest");
   }
 
@@ -153,6 +157,23 @@ class UseSkillRequestTest {
     }
   }
 
+  @Test
+  void incrementsUsageForLimitedSkills() {
+    var cleanups =
+        new Cleanups(
+            withMP(1000, 1000, 1000),
+            withSkill(SkillPool.DONHOS),
+            withProperty("_donhosCasts", 1),
+            withClass(AscensionClass.ACCORDION_THIEF),
+            withLevel(15),
+            withNextResponse(200, html("request/test_cast_donhos_bubbly_ballad.html")));
+    try (cleanups) {
+      UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.DONHOS, "me", 5);
+      req.run();
+      assertThat("_donhosCasts", isSetTo(6));
+    }
+  }
+
   @Nested
   class DesignerSweatpants {
     @BeforeEach
@@ -192,6 +213,24 @@ class UseSkillRequestTest {
             requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=10929");
         assertGetRequest(
             requests.get(1), "/runskillz.php", "action=Skillz&whichskill=7419&ajax=1&quantity=1");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void dontWearDesignerSweatpantsForSweatingOutBooze() {
+      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
+      InventoryManager.checkDesignerSweatpants();
+
+      try (cleanups) {
+        var req = UseSkillRequest.getInstance("Sweat Out Some Booze", 1);
+        req.run();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertGetRequest(
+            requests.get(0), "/runskillz.php", "action=Skillz&whichskill=7414&ajax=1&quantity=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
