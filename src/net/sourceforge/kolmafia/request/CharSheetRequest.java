@@ -388,6 +388,15 @@ public class CharSheetRequest extends GenericRequest {
     CharSheetRequest.parseAvatar(responseText);
   }
 
+  public static List<ParsedSkillInfo> parseSkills(final String responseText) {
+    try {
+      return parseSkills(domSerializer.createDOM(cleaner.clean(responseText)));
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+      return new ArrayList<ParsedSkillInfo>();
+    }
+  }
+
   private static final Pattern AVATAR_PATTERN =
       Pattern.compile(
           "<img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
