@@ -10,6 +10,9 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -21,9 +24,7 @@ import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -31,6 +32,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class CustomScriptTest {
   // Directory containing expected output.
   private static final File EXPECTED_LOCATION = new File(KoLConstants.ROOT_LOCATION, "expected/");
+
+  private static final String[] filesToMove = {"evilometer_fight.txt"};
 
   private static class ScriptNameFilter implements FilenameFilter {
     @Override
@@ -149,5 +152,22 @@ public class CustomScriptTest {
   @AfterEach
   void tearDown() {
     StaticEntity.overrideRevision(null);
+  }
+
+  @BeforeAll
+  static void copyDataFiles() throws IOException {
+    for (String s : filesToMove) {
+      Path source = Paths.get(KoLConstants.ROOT_LOCATION + "/request/" + s);
+      Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
+      Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING);
+    }
+  }
+
+  @AfterAll
+  static void deleteCopiedDataFiles() {
+    for (String s : filesToMove) {
+      Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
+      dest.toFile().delete();
+    }
   }
 }
