@@ -3324,6 +3324,26 @@ public class ResultProcessor {
         KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
         KoLCharacter.addAvailableSkill("Sip Some Sweat");
         break;
+      
+      case ItemPool.RECIPE_OF_BEFORE_YORE_RATATOUILLE_DE_JARLSBERG:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_JARLSBERGS_VEGETABLE_SOUP:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_ROASTED_VEGETABLE_OF_J:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_ST_PETES_SNEAKY_SMOOTHIE:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_PETES_WILY_WHEY_BAR:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_PETES_RICH_RICOTTA:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_BORISS_BEER:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_HONEY_BUN_OF_BORIS:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_BORISS_BREAD:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_CALZONE_OF_LEGEND:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_PIZZA_OF_LEGEND:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_ROASTED_VEGETABLE_FOCACCIA:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_PLAIN_CALZONE:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_BAKED_VEGGIE_RICOTTA:
+      case ItemPool.RECIPE_OF_BEFORE_YORE_DEEP_DISH_OF_LEGEND:
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.COOKBOOKBAT) {
+          Preferences.increment("_cookbookbatRecipeDrops", 1);
+        }
+        break;
     }
 
     // Gaining items can achieve goals.

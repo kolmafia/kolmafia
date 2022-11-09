@@ -1699,6 +1699,24 @@ public class FightRequestTest {
     }
   }
 
+  /*
+  @Nested
+  class CookBookBat {
+    @Test
+    public void canTrackRecipeDrop() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_cookbookbatRecipeDrops", 0),
+              withFamiliar(FamiliarPool.COOKBOOKBAT));
+
+      try (cleanups) {
+        String html = html("request/test_fight_cookbookbat_recipe.html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_cookbookbatRecipeDrops", isSetTo(1));
+      }
+    }
+  */
+
   @Nested
   class InvalidAttacks {
     @Test
