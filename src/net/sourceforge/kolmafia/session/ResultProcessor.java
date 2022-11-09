@@ -3340,7 +3340,7 @@ public class ResultProcessor {
       case ItemPool.ROBY_DEEP_DISH_OF_LEGEND:
       case ItemPool.ROBY_CALZONE_OF_LEGEND:
       case ItemPool.ROBY_PIZZA_OF_LEGEND:
-        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.COOKBOOKBAT) {
+        if (adventureResults) {
           Preferences.increment("_cookbookbatRecipeDrops");
         }
         break;

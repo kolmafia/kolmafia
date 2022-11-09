@@ -294,14 +294,14 @@ public class ResultProcessorTest {
     }
 
     @Test
-    public void cookbookbatPropertyNoUpdateIfNotActiveFamiliar() {
+    public void cookbookbatPropertyNoUpdateIfNotAdventureResult() {
       var cleanups =
           new Cleanups(
               withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT),
               withProperty("_cookbookbatRecipeDrops", ""));
 
       try (cleanups) {
-        ResultProcessor.processResult(true, ItemPool.get(ItemPool.ROBY_BAKED_VEGGIE_RICOTTA));
+        ResultProcessor.processResult(false, ItemPool.get(ItemPool.ROBY_BAKED_VEGGIE_RICOTTA));
 
         assertThat("_cookbookbatRecipeDrops", isSetTo(""));
       }
