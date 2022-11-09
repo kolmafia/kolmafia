@@ -911,7 +911,7 @@ public class TestCommand extends AbstractCommand {
     if (command.equals("charsheet-skills")) {
       var skills = CharSheetRequest.parseSkills(TestCommand.contents);
       for (var skill : skills) {
-	      RequestLogger.printLine(skill.toString());
+        RequestLogger.printLine(skill.toString());
       }
       TestCommand.contents = null;
       return;
