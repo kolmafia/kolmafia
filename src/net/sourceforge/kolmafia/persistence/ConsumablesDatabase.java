@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.ArrayListMap;
 import net.sourceforge.kolmafia.utilities.CaseInsensitiveHashMap;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -44,7 +43,7 @@ public class ConsumablesDatabase {
   public static final AdventureResult DRUNK_AVUNCULAR = EffectPool.get(EffectPool.DRUNK_AVUNCULAR);
   public static final AdventureResult REFINED_PALATE = EffectPool.get(EffectPool.REFINED_PALATE);
 
-  private static final Map<Integer, Consumable> consumableByItemId = new ArrayListMap<>(13000);
+  private static final Map<Integer, Consumable> consumableByItemId = new HashMap<>();
   // Certain consumables are stored with inconsistent case in different places. Until that's fixed,
   // this needs to be case-insensitive.
   private static final Map<String, Consumable> consumableByName = new CaseInsensitiveHashMap<>();

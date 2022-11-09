@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
-import net.sourceforge.kolmafia.utilities.ArrayListMap;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1260,8 +1259,9 @@ public class ConcoctionDatabase {
 
     // In addition to the list, we create a second data structure here for better performance.
     // Because we do many lookups to the available ingredients to see how many there are,
-    // having an O(1) lookup helps a lot.
-    Map<Integer, AdventureResult> availableIngredients = new ArrayListMap<>();
+    // having an O(1) lookup helps a lot. Initial size is set at list * 2 with default 0.75 load
+    // factor.
+    Map<Integer, AdventureResult> availableIngredients = new HashMap<>(availableIngredientsList.size() * 2);
     for (AdventureResult item : availableIngredientsList) {
       availableIngredients.put(item.getItemId(), item);
     }

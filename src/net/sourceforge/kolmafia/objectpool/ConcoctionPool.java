@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.objectpool;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -10,17 +11,16 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.utilities.ArrayListMap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionPool {
   // ItemID -> Concoction
-  private static final Map<Integer, Concoction> items = new ArrayListMap<>();
+  private static final Map<Integer, Concoction> items = new HashMap<>();
 
   // Name -> Concoction
-  private static final Map<String, Concoction> nonitems = new TreeMap<String, Concoction>();
+  private static final Map<String, Concoction> nonitems = new HashMap<>();
   private static final Map<String, Concoction> nonitemsCanonical =
-      new TreeMap<String, Concoction>();
+      new HashMap<>();
 
   // All concoctions
   private static Collection<Concoction> values = null;
