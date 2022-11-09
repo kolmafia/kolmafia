@@ -832,8 +832,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           }
         }
       }
-      case SkillPool.SWEAT_OUT_BOOZE,
-          SkillPool.MAKE_SWEATADE,
+      case SkillPool.MAKE_SWEATADE,
           SkillPool.DRENCH_YOURSELF_IN_SWEAT,
           SkillPool.SIP_SOME_SWEAT -> {
         AdventureResult item = UseSkillRequest.DESIGNER_SWEATPANTS;
@@ -1775,8 +1774,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       if (limitedMatcher.find()) {
         // parse the number of casts remaining and set the appropriate preference.
         int casts = Integer.parseInt(limitedMatcher.group(1));
-
-        limit.set(casts);
+        // We will increment this later. For now, just synch with KoL.
+        limit.set(casts - count);
       }
     }
 
