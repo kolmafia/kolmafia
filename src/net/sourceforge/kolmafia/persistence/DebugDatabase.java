@@ -424,6 +424,11 @@ public class DebugDatabase {
         DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), forceReload));
   }
 
+  // Public for test access.
+  public static final void cacheItemDescriptionText(final int itemId, final String html) {
+    DebugDatabase.rawItems.put(itemId, html);
+  }
+
   public static final String cafeItemDescriptionText(final String descId) {
     if (descId == null) {
       return "";
@@ -459,7 +464,7 @@ public class DebugDatabase {
     if (itemId == -1) {
       itemId = DebugDatabase.parseItemId(request.responseText);
     }
-    DebugDatabase.rawItems.put(itemId, request.responseText);
+    cacheItemDescriptionText(itemId, request.responseText);
 
     return request.responseText;
   }
@@ -994,23 +999,23 @@ public class DebugDatabase {
 
   private static final Pattern FULLNESS_PATTERN = Pattern.compile("Size: <b>(\\d+)</b>");
 
-  public static final int parseFullness(final String text) {
+  public static final Integer parseFullness(final String text) {
     Matcher matcher = DebugDatabase.FULLNESS_PATTERN.matcher(text);
-    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : 0;
+    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern INEBRIETY_PATTERN = Pattern.compile("Potency: <b>(\\d+)</b>");
 
-  public static final int parseInebriety(final String text) {
+  public static final Integer parseInebriety(final String text) {
     Matcher matcher = DebugDatabase.INEBRIETY_PATTERN.matcher(text);
-    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : 0;
+    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern TOXICITY_PATTERN = Pattern.compile("Toxicity: <b>(\\d+)</b>");
 
-  public static final int parseToxicity(final String text) {
+  public static final Integer parseToxicity(final String text) {
     Matcher matcher = DebugDatabase.TOXICITY_PATTERN.matcher(text);
-    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : 0;
+    return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern FAMILIAR_PATTERN = Pattern.compile("Familiar: <b>(.*?)</b>");
@@ -2712,14 +2717,29 @@ public class DebugDatabase {
   }
 
   private static void checkConsumables(final PrintStream report) {
-    DebugDatabase.checkConsumables(report, ConsumablesDatabase.fullnessByName, "fullness");
-    DebugDatabase.checkConsumables(report, ConsumablesDatabase.inebrietyByName, "inebriety");
-    DebugDatabase.checkConsumables(report, ConsumablesDatabase.spleenHitByName, "spleenhit");
+    DebugDatabase.checkConsumables(
+        report,
+        ConsumablesDatabase.allConsumables.stream()
+            .filter(consumable -> consumable.getRawFullness() != null)
+            .toList(),
+        "fullness");
+    DebugDatabase.checkConsumables(
+        report,
+        ConsumablesDatabase.allConsumables.stream()
+            .filter(consumable -> consumable.getRawInebriety() != null)
+            .toList(),
+        "inebriety");
+    DebugDatabase.checkConsumables(
+        report,
+        ConsumablesDatabase.allConsumables.stream()
+            .filter(consumable -> consumable.getRawSpleenHit() != null)
+            .toList(),
+        "spleenhit");
   }
 
   private static void checkConsumables(
-      final PrintStream report, final Map<String, Integer> map, final String tag) {
-    if (map.size() == 0) {
+      final PrintStream report, final Collection<Consumable> consumables, final String tag) {
+    if (consumables.size() == 0) {
       return;
     }
 
@@ -2727,31 +2747,20 @@ public class DebugDatabase {
     report.println("# Consumption data in " + tag + ".txt");
     report.println("#");
 
-    for (String name : map.keySet()) {
-      int size = map.get(name);
-      DebugDatabase.checkConsumable(report, name, size);
+    for (var consumable : consumables) {
+      DebugDatabase.checkConsumable(report, consumable);
     }
   }
 
-  private static void checkConsumable(final PrintStream report, final String name, final int size) {
-    int itemId = ItemDatabase.getItemId(name);
+  private static void checkConsumable(final PrintStream report, Consumable consumable) {
+    int itemId = consumable.itemId;
     // It is valid for items to have no itemId: sushi, Cafe offerings, and so on
     String text = itemId == -1 ? "" : DebugDatabase.itemDescriptionText(itemId, false);
     if (text == null) {
       return;
     }
 
-    int level = ConsumablesDatabase.getLevelReqByName(name);
-    String adv = ConsumablesDatabase.getAdvRangeByName(name);
-    var quality =
-        (itemId == -1) ? ConsumablesDatabase.getQuality(name) : DebugDatabase.parseQuality(text);
-    String mus = ConsumablesDatabase.getMuscleByName(name);
-    String mys = ConsumablesDatabase.getMysticalityByName(name);
-    String mox = ConsumablesDatabase.getMoxieByName(name);
-    String notes = ConsumablesDatabase.getNotes(name);
-
-    ConsumablesDatabase.writeConsumable(
-        report, name, size, level, quality, adv, mus, mys, mox, notes);
+    ConsumablesDatabase.writeConsumable(report, consumable);
   }
 
   // Type: <b>food <font color=#999999>(crappy)</font></b>
