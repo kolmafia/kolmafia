@@ -125,7 +125,8 @@ public class WikiUtilitiesTest {
         Arguments.of(
             "undead elbow macaroni",
             WikiUtilities.MONSTER_TYPE,
-            "Undead_elbow_macaroni_%28monster%29"));
+            "Undead_elbow_macaroni_%28monster%29"),
+        Arguments.of("Souped Up", WikiUtilities.EFFECT_TYPE, "Souped_Up_%28effect%29"));
   }
 
   @ParameterizedTest

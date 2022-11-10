@@ -57,7 +57,10 @@ public class WikiUtilities {
           }
           break;
         case EFFECT_TYPE:
-          if (inItemTable || inSkillTable || inMonsterTable) {
+          if (name.equals("Souped Up")) {
+            // also an adventure
+            name = name + " (effect)";
+          } else if (inItemTable || inSkillTable || inMonsterTable) {
             name = name + " (effect)";
           }
           break;
