@@ -31,6 +31,7 @@ class LimitModeTest {
   void requiresReset() {
     assertThat(LimitMode.SPELUNKY.requiresReset(), is(true));
     assertThat(LimitMode.BATMAN.requiresReset(), is(true));
+    assertThat(LimitMode.ASTRAL.requiresReset(), is(true));
     assertThat(LimitMode.ED.requiresReset(), is(false));
   }
 
@@ -159,7 +160,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "UNKNOWN"},
+        names = {"NONE", "UNKNOWN", "BIRD", "ROACH"},
         mode = EnumSource.Mode.EXCLUDE)
     void cantAccessRegularZonesInLimitModes(final LimitMode lm) {
       var adventure = AdventureDatabase.getAdventureByName("The Dire Warren");

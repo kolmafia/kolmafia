@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.QuestManager;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -1300,6 +1301,12 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class Astral {
+    @AfterEach
+    public void afterEach() {
+      KoLConstants.activeEffects.clear();
+      KoLCharacter.setLimitMode(LimitMode.NONE);
+    }
+
     private static final KoLAdventure BAD_TRIP =
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Bad Trip)");
     private static final KoLAdventure MEDIOCRE_TRIP =
