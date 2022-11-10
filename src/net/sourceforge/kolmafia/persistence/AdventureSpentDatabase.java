@@ -1,14 +1,14 @@
 package net.sourceforge.kolmafia.persistence;
 
-import java.io.Serializable;
-import java.io.Serial;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,8 +26,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
  */
 
 public class AdventureSpentDatabase implements Serializable {
-  @Serial
-  private static final long serialVersionUID = -180241952508113933L;
+  @Serial private static final long serialVersionUID = -180241952508113933L;
   private static Map<String, Integer> TURNS = new TreeMap<>();
 
   private static int lastTurnUpdated = -1;
