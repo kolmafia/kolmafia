@@ -1665,7 +1665,7 @@ user	_communismUsed	false
 user	_companionshipCasts	0
 user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
-user    _cookbookbatRecipeDrops 0
+user	_cookbookbatRecipeDrops 0
 user	_corruptedStardustUsed	false
 user	_cosmicBowlingSkillsUsed	0
 user	_cosmicSixPackConjured	false
