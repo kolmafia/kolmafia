@@ -328,8 +328,13 @@ public class ChoiceManagerTest {
 
         // We do not "revisit" the choice page.
         assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
-        assertThat(KoLConstants.encounterList.size(), is(1));
-        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
+
+        // The following is no longer true, since suppressing it prevented
+        // genuine encounters provoked by a simple "choice.php" from
+        // registering the first time they are visited.
+
+        // assertThat(KoLConstants.encounterList.size(), is(1));
+        // assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(5));

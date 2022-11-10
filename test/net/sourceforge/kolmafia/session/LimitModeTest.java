@@ -31,7 +31,6 @@ class LimitModeTest {
   void requiresReset() {
     assertThat(LimitMode.SPELUNKY.requiresReset(), is(true));
     assertThat(LimitMode.BATMAN.requiresReset(), is(true));
-    assertThat(LimitMode.ASTRAL.requiresReset(), is(true));
     assertThat(LimitMode.ED.requiresReset(), is(false));
   }
 
@@ -109,7 +108,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "ED"})
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitOutfits(final LimitMode lm) {
       assertThat(lm.limitOutfits(), is(false));
     }
@@ -128,7 +127,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "ED"})
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitFamiliars(final LimitMode lm) {
       assertThat(lm.limitFamiliars(), is(false));
     }
@@ -173,7 +172,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "ED"})
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitMeat(final LimitMode lm) {
       assertThat(lm.limitMeat(), is(false));
     }
@@ -192,7 +191,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "ED"})
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitMall(final LimitMode lm) {
       assertThat(lm.limitMall(), is(false));
     }
@@ -211,7 +210,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE"})
+        names = {"NONE", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitNPCStores(final LimitMode lm) {
       assertThat(lm.limitNPCStores(), is(false));
     }
@@ -230,7 +229,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "ED"})
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitCoinmasters(final LimitMode lm) {
       assertThat(lm.limitCoinmasters(), is(false));
     }
@@ -249,7 +248,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE"})
+        names = {"NONE", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitClan(final LimitMode lm) {
       assertThat(lm.limitClan(), is(false));
     }
@@ -268,7 +267,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE"})
+        names = {"NONE", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitCampground(final LimitMode lm) {
       assertThat(lm.limitCampground(), is(false));
     }
@@ -287,7 +286,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "ED"})
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitStorage(final LimitMode lm) {
       assertThat(lm.limitStorage(), is(false));
     }
@@ -306,7 +305,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE"})
+        names = {"NONE", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitEating(final LimitMode lm) {
       assertThat(lm.limitEating(), is(false));
     }
@@ -325,7 +324,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE"})
+        names = {"NONE", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitDrinking(final LimitMode lm) {
       assertThat(lm.limitDrinking(), is(false));
     }
@@ -344,7 +343,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE"})
+        names = {"NONE", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitSpleening(final LimitMode lm) {
       assertThat(lm.limitSpleening(), is(false));
     }
@@ -363,7 +362,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "ED"})
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitPickpocket(final LimitMode lm) {
       assertThat(lm.limitPickpocket(), is(false));
     }
@@ -382,7 +381,7 @@ class LimitModeTest {
     @ParameterizedTest
     @EnumSource(
         value = LimitMode.class,
-        names = {"NONE", "ED"})
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitMCD(final LimitMode lm) {
       assertThat(lm.limitMCD(), is(false));
     }
@@ -393,6 +392,25 @@ class LimitModeTest {
         names = {"SPELUNKY", "BATMAN"})
     void someLimitMCD(final LimitMode lm) {
       assertThat(lm.limitMCD(), is(true));
+    }
+  }
+
+  @Nested
+  class Recovery {
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"NONE", "ASTRAL", "BIRD", "MOLE", "ROACH"})
+    void someDontLimitRecovery(final LimitMode lm) {
+      assertThat(lm.limitCampground(), is(false));
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"SPELUNKY", "BATMAN", "ED"})
+    void someLimitRecovery(final LimitMode lm) {
+      assertThat(lm.limitCampground(), is(true));
     }
   }
 }
