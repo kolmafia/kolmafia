@@ -117,7 +117,7 @@ public class TableCellFactory {
             + ConsumablesDatabase.getInebriety(result.getValue())
             + ConsumablesDatabase.getSpleenHit(result.getValue());
       case 5:
-        return ConsumablesDatabase.getAdvRangeByName(
+        return ConsumablesDatabase.getBaseAdventureRange(
             ItemDatabase.getCanonicalName(result.getKey()));
       case 6:
         return ConsumablesDatabase.getLevelReqByName(result.getValue());
@@ -154,7 +154,7 @@ public class TableCellFactory {
                 + ConsumablesDatabase.getSpleenHit(advresult.getName());
         return fill > 0 ? fill : null;
       case 6:
-        double advRange = ConsumablesDatabase.getAdventureRange(advresult.getName());
+        double advRange = ConsumablesDatabase.getAverageAdventures(advresult.getName());
         fill =
             ConsumablesDatabase.getFullness(advresult.getName())
                 + ConsumablesDatabase.getInebriety(advresult.getName())
@@ -200,7 +200,7 @@ public class TableCellFactory {
                 + ConsumablesDatabase.getSpleenHit(advresult.getName());
         return fill > 0 ? fill : null;
       case 6:
-        double advRange = ConsumablesDatabase.getAdventureRange(advresult.getName());
+        double advRange = ConsumablesDatabase.getAverageAdventures(advresult.getName());
         fill =
             ConsumablesDatabase.getFullness(advresult.getName())
                 + ConsumablesDatabase.getInebriety(advresult.getName())
@@ -241,7 +241,7 @@ public class TableCellFactory {
                 + ConsumablesDatabase.getSpleenHit(CIRresult.getName());
         return fill > 0 ? fill : null;
       case 5:
-        double advRange = ConsumablesDatabase.getAdventureRange(CIRresult.getName());
+        double advRange = ConsumablesDatabase.getAverageAdventures(CIRresult.getName());
         fill =
             ConsumablesDatabase.getFullness(CIRresult.getName())
                 + ConsumablesDatabase.getInebriety(CIRresult.getName())

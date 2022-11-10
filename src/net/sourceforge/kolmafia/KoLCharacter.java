@@ -407,7 +407,7 @@ public abstract class KoLCharacter {
     ConcoctionDatabase.resetQueue();
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setVariableConsumables();
-    ConsumablesDatabase.calculateAdventureRanges();
+    ConsumablesDatabase.calculateAllAverageAdventures();
     DailyLimitDatabase.reset();
 
     RelayRequest.reset();
@@ -2670,7 +2670,7 @@ public abstract class KoLCharacter {
     if (Preferences.getBoolean("hasOven") != hasOven) {
       Preferences.setBoolean("hasOven", hasOven);
       ConcoctionDatabase.setRefreshNeeded(true);
-      ConsumablesDatabase.calculateAdventureRanges();
+      ConsumablesDatabase.calculateAllAverageAdventures();
     }
   }
 
