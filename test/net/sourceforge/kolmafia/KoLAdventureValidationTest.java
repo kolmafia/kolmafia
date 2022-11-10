@@ -1301,12 +1301,6 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class Astral {
-    @AfterEach
-    public void afterEach() {
-      KoLConstants.activeEffects.clear();
-      KoLCharacter.setLimitMode(LimitMode.NONE);
-    }
-
     private static final KoLAdventure BAD_TRIP =
         AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Bad Trip)");
     private static final KoLAdventure MEDIOCRE_TRIP =
