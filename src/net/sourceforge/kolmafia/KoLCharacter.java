@@ -4891,11 +4891,13 @@ public abstract class KoLCharacter {
   }
 
   public static final void updateSelectedLocation(KoLAdventure location) {
-    KoLCharacter.selectedLocation = location;
-    Modifiers.setLocation(location);
-    KoLCharacter.recalculateAdjustments();
-    KoLCharacter.updateStatus();
-    PreferenceListenerRegistry.firePreferenceChanged("(location)");
+    if (location != KoLCharacter.selectedLocation) {
+      KoLCharacter.selectedLocation = location;
+      Modifiers.setLocation(location);
+      KoLCharacter.recalculateAdjustments();
+      KoLCharacter.updateStatus();
+      PreferenceListenerRegistry.firePreferenceChanged("(location)");
+    }
   }
 
   public static final KoLAdventure getSelectedLocation() {
