@@ -11,11 +11,11 @@ public class CaseInsensitiveHashMap<V> extends HashMap<String, V> {
     super();
   }
 
-  CaseInsensitiveHashMap(int initialCapacity) {
+  public CaseInsensitiveHashMap(int initialCapacity) {
     super(initialCapacity);
   }
 
-  CaseInsensitiveHashMap(int initialCapacity, float loadFactor) {
+  public CaseInsensitiveHashMap(int initialCapacity, float loadFactor) {
     super(initialCapacity, loadFactor);
   }
 
