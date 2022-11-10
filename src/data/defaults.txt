@@ -478,6 +478,7 @@ user	currentPortalEnergy	0
 user	currentPVPSeason	none
 user	currentPvpVictories
 user	currentSpecialBountyItem
+user	currentTrip
 user	cursedMagnifyingGlassCount	0
 user	customCombatScript	default
 user	cyrptAlcoveEvilness	0

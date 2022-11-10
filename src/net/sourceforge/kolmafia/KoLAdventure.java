@@ -1751,7 +1751,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    if (this.zone.equals("Astral")) {
+    if (this.rootZone.equals("Astral")) {
       // astral mushroom grants 5 turns of Half-Astral
       // You can choose the type of trip to take.
       // You cannot adventure anywhere else until it expires.
@@ -1759,11 +1759,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // An Incredibly Strange Place (Bad Trip)
       // An Incredibly Strange Place (Mediocre Trip)
       // An Incredibly Strange Place (Great Trip)
-      //
-      // *** This should be a LimitMode
 
       // prepareForAdventure will use an astral mushroom, if necessary.
-      return KoLConstants.activeEffects.contains(HALF_ASTRAL) || InventoryManager.hasItem(item);
+      return KoLConstants.activeEffects.contains(HALF_ASTRAL)
+          || InventoryManager.hasItem(ASTRAL_MUSHROOM);
     }
 
     if (this.zone.equals("Shape of Mole")) {
@@ -2050,44 +2049,53 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED);
     }
 
-    if (this.zone.equals("Astral")) {
+    if (this.rootZone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need
       // to be Half-Astral or have access to an astral mushroom.
       // canAdventure ensured that one or the other is true
 
-      String option =
-          switch (this.adventureNumber) {
-            case AdventurePool.BAD_TRIP -> "1";
-            case AdventurePool.MEDIOCRE_TRIP -> "2";
-            case AdventurePool.GREAT_TRIP -> "3";
-            default -> null;
-          };
-      if (option == null) {
-        // This should not happen
-        return false;
-      }
-      Preferences.setString("choiceAdventure71", option);
+      if (!KoLConstants.activeEffects.contains(HALF_ASTRAL)) {
+        // We will use a mushroom and take the trip you requested
+        if (!InventoryManager.retrieveItem(ASTRAL_MUSHROOM)) {
+          // This shouldn't fail.
+          return false;
+        }
 
-      // To take a trip to the Astral Plane, you either need
-      // to be Half-Astral or have access to an astral mushroom.
+        RequestThread.postRequest(UseItemRequest.getInstance(ASTRAL_MUSHROOM));
 
-      if (KoLConstants.activeEffects.contains(HALF_ASTRAL)) {
-        return true;
+        if (!KoLConstants.activeEffects.contains(HALF_ASTRAL)) {
+          // This shouldn't fail.
+          return false;
+        }
       }
 
-      if (!InventoryManager.retrieveItem(ASTRAL_MUSHROOM)) {
-        // This shouldn't fail.
-        return false;
+      // We are Half-Astral. If we have not selected a trip, now is the time.
+
+      if (Preferences.getString("currentTrip").equals("")) {
+        String option =
+            switch (this.adventureNumber) {
+              case AdventurePool.BAD_TRIP -> "1";
+              case AdventurePool.MEDIOCRE_TRIP -> "2";
+              case AdventurePool.GREAT_TRIP -> "3";
+              default -> null;
+            };
+        if (option == null) {
+          // This should not happen
+          return false;
+        }
+
+        // Visit this KoLAdventure. You will not actually go there, but will be
+        // redirected to the choice where you pick your zone.
+        Preferences.setString("choiceAdventure71", option);
+        RequestThread.postRequest(this.getRequest());
       }
 
-      RequestThread.postRequest(UseItemRequest.getInstance(ASTRAL_MUSHROOM));
-
-      // This shouldn't fail.
-      return KoLConstants.activeEffects.contains(HALF_ASTRAL);
+      return Preferences.getString("currentTrip").equals(this.zone);
     }
 
     if (this.parentZone.equals("Grimstone")) {
-      // *** Should use grimstone mask and select correct path
+      // Could use grimstone mask and select correct path.
+      // We choose to not do that; you must already have done that.
       return true;
     }
 

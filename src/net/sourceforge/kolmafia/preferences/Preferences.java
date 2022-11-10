@@ -189,6 +189,7 @@ public class Preferences {
         "currentHippyStore",
         "currentPortalEnergy",
         "currentSpecialBountyItem",
+        "currentTrip",
         "cursedMagnifyingGlassCount",
         "cyrusAdjectives",
         "dampOldBootPurchased",

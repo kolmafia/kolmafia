@@ -4660,6 +4660,21 @@ public abstract class ChoiceControl {
         VioletFogManager.mapChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
         break;
 
+      case 71:
+        // A Journey to the Center of Your Mind
+        String tripZone =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "Bad Trip";
+              case 2 -> "Mediocre Trip";
+              case 3 -> "Great Trip";
+              default -> "";
+            };
+
+        // We are now in a pseudo LimitMode
+        Preferences.setString("currentTrip", tripZone);
+        KoLCharacter.setLimitMode(LimitMode.ASTRAL);
+        break;
+
       case 73:
         // Don't Fence Me In
         if (ChoiceManager.lastDecision == 3) {
