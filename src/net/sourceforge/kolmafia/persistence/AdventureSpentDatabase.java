@@ -32,6 +32,9 @@ public class AdventureSpentDatabase implements Serializable {
 
   private static boolean noncombatEncountered = false;
 
+  // for testing only, otherwise leave at true;
+  public static boolean allowSerializationWrite = true;
+
   // debugging tool
   public static void showTurns() {
     Set<String> keys = TURNS.keySet();
@@ -132,17 +135,19 @@ public class AdventureSpentDatabase implements Serializable {
   }
 
   public static void serialize() {
-    File file =
-        new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "turns.ser");
+    if (allowSerializationWrite) {
+      File file =
+          new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "turns.ser");
 
-    try {
-      FileOutputStream fileOut = new FileOutputStream(file);
-      ObjectOutputStream out = new ObjectOutputStream(fileOut);
+      try {
+        FileOutputStream fileOut = new FileOutputStream(file);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
-      out.writeObject(AdventureSpentDatabase.TURNS);
-      out.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+        out.writeObject(AdventureSpentDatabase.TURNS);
+        out.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
   }
 

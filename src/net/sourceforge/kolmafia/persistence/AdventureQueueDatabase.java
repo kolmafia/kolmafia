@@ -39,6 +39,9 @@ public class AdventureQueueDatabase implements Serializable {
   private static TreeMap<String, RollingLinkedList<String>> NONCOMBAT_QUEUE =
       new TreeMap<String, RollingLinkedList<String>>();
 
+  // for testing only, otherwise leave at true;
+  public static boolean allowSerializationWrite = true;
+
   // debugging tool
   public static void showQueue() {
     Set<String> keys = COMBAT_QUEUE.keySet();
@@ -187,22 +190,24 @@ public class AdventureQueueDatabase implements Serializable {
   }
 
   public static void serialize() {
-    File file =
-        new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "queue.ser");
+    if (allowSerializationWrite) {
+      File file =
+          new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "queue.ser");
 
-    try {
-      FileOutputStream fileOut = new FileOutputStream(file);
-      ObjectOutputStream out = new ObjectOutputStream(fileOut);
+      try {
+        FileOutputStream fileOut = new FileOutputStream(file);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
-      // make a collection with combat queue first
-      List<TreeMap<String, RollingLinkedList<String>>> queues =
-          new ArrayList<TreeMap<String, RollingLinkedList<String>>>();
-      queues.add(COMBAT_QUEUE);
-      queues.add(NONCOMBAT_QUEUE);
-      out.writeObject(queues);
-      out.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+        // make a collection with combat queue first
+        List<TreeMap<String, RollingLinkedList<String>>> queues =
+            new ArrayList<TreeMap<String, RollingLinkedList<String>>>();
+        queues.add(COMBAT_QUEUE);
+        queues.add(NONCOMBAT_QUEUE);
+        out.writeObject(queues);
+        out.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
   }
 

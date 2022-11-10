@@ -22,7 +22,7 @@ class PlaceRequestTest {
   // in this class.
   @BeforeEach
   public void initializeCharPrefs() {
-    KoLCharacter.reset("fakePrefUser");
+    KoLCharacter.reset("PlaceRequestTestFakePrefUser");
     KoLCharacter.reset(true);
   }
 
