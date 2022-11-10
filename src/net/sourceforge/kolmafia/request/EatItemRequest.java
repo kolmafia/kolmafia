@@ -247,7 +247,7 @@ public class EatItemRequest extends UseItemRequest {
         && !(minderSetting.equals("Mayodiol")
             && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety())
         && !(minderSetting.equals("Mayoflex")
-            && ConsumablesDatabase.getAdvRangeByName(name).equals("0"))
+            && ConsumablesDatabase.getBaseAdventureRange(name).equals("0"))
         && workshedItem != null
         && workshedItem.getItemId() == ItemPool.MAYO_CLINIC) {
       int mayoCount = Preferences.getString("mayoInMouth").equals("") ? 0 : 1;
@@ -441,7 +441,7 @@ public class EatItemRequest extends UseItemRequest {
 
     // If the item doesn't give any adventures, it won't benefit from using milk
     String note = ConsumablesDatabase.getNotes(name);
-    String advGain = ConsumablesDatabase.getAdvRangeByName(name);
+    String advGain = ConsumablesDatabase.getBaseAdventureRange(name);
     if (advGain.equals("0")) {
       if (note == null || !note.contains("Unspaded")) {
         return true;
@@ -910,7 +910,7 @@ public class EatItemRequest extends UseItemRequest {
       case ItemPool.SMORE:
         Preferences.increment("smoresEaten", 1);
         ConsumablesDatabase.setSmoresData();
-        ConsumablesDatabase.calculateAdventureRanges();
+        ConsumablesDatabase.calculateAllAverageAdventures();
         return;
 
       case ItemPool.AFFIRMATION_COOKIE:
@@ -918,7 +918,7 @@ public class EatItemRequest extends UseItemRequest {
         Preferences.increment("affirmationCookiesEaten", 1);
         Preferences.setBoolean("_affirmationCookieEaten", true);
         ConsumablesDatabase.setAffirmationCookieData();
-        ConsumablesDatabase.calculateAdventureRanges();
+        ConsumablesDatabase.calculateAllAverageAdventures();
         return;
 
       case ItemPool.KUDZU_SALAD:
