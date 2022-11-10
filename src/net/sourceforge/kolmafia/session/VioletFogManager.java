@@ -17,10 +17,6 @@ public abstract class VioletFogManager {
 
   private VioletFogManager() {}
 
-  public static void endTrip() {
-    Preferences.setString("currentTrip", "");
-  }
-
   private static final Pattern CHOICE_PATTERN = Pattern.compile("whichchoice value=(\\d+)");
 
   // Range of choice numbers within the fog

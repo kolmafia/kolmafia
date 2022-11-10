@@ -1250,10 +1250,17 @@ public class ResultProcessor {
           } else if (duration + result.getCount() <= 0) {
             KoLConstants.activeEffects.remove(i);
 
-            // If you lose Inigo's or Craft Tea, what you can craft changes
-            int effectId = effect.getEffectId();
-            if (effectId == EffectPool.INIGOS || effectId == EffectPool.CRAFT_TEA) {
-              ConcoctionDatabase.setRefreshNeeded(true);
+            switch (effect.getEffectId()) {
+              case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
+                // If you lose Inigo's or Craft Tea, what you can craft changes
+                ConcoctionDatabase.setRefreshNeeded(true);
+              }
+              case EffectPool.FORM_OF_ROACH,
+                  EffectPool.SHAPE_OF_MOLE,
+                  EffectPool.FORM_OF_BIRD,
+                  EffectPool.HALF_ASTRAL -> {
+                KoLCharacter.setLimitMode(LimitMode.NONE);
+              }
             }
           } else {
             KoLConstants.activeEffects.set(

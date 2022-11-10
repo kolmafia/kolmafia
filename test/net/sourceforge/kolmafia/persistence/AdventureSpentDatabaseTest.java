@@ -94,7 +94,7 @@ public class AdventureSpentDatabaseTest {
     // Investigate fallen foe. choice.php
     urlString = "choice.php";
     responseText = html("request/test_adventures_spent_fight_1_3.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -191,7 +191,7 @@ public class AdventureSpentDatabaseTest {
     // Investigate fallen foe. choice.php
     urlString = "choice.php";
     responseText = html("request/test_adventures_spent_fight_2_3.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -259,7 +259,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     String urlString = "choice.php?forceoption=0";
     String responseText = html("request/test_adventures_spent_binder_clip_1.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -345,7 +345,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
     responseText = html("request/test_adventures_spent_beehive_1.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -449,7 +449,7 @@ public class AdventureSpentDatabaseTest {
     // Arboreal respite
     String urlString = "choice.php?forceoption=0";
     String responseText = html("request/test_adventures_spent_spooky_forest_1_1.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -593,7 +593,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0 -> Fitting In
     String urlString = "choice.php?forceoption=0";
     String responseText = html("request/test_adventures_spent_hidden_temple_1.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -849,7 +849,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0 -> No Visible Means of Support
     urlString = "choice.php?forceoption=0";
     responseText = html("request/test_adventures_spent_hidden_temple_25.html");
-    request = new GenericRequest(urlString);
+    request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.setHasResult(true);

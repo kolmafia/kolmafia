@@ -1351,6 +1351,10 @@ public abstract class KoLCharacter {
           return;
         }
 
+        // The LimitMode can cleanup after itself without making requests
+        KoLCharacter.limitMode.finish();
+
+        // If it does require making request, can't do it in a fight or choice
         if (KoLCharacter.limitMode.requiresReset()
             && !GenericRequest.abortIfInFightOrChoice(true)) {
           KoLmafia.resetAfterLimitmode();

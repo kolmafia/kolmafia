@@ -669,9 +669,18 @@ public class AdventureRequest extends GenericRequest {
     }
 
     if (urlString.equals("choice.php")) {
-      // Since we cannot walk from this choice, this must have been KoL
-      // redirecting back to the choice after a page refresh
-      return null;
+      // Although KoL usually redirects to choice.php?forceoption=0, older
+      // pages redirect to just choice.php.
+      //
+      // If you refresh a choice page you cannot walk away from, that also
+      // redirects to just choice.php
+      //
+      // Ideally, we'd like to log an encounter for the first, but not for
+      // refreshes.
+      //
+      // Unfortunately, we cannot tell the difference.
+
+      // return null;
     }
 
     return AdventureRequest.parseEncounter(responseText);

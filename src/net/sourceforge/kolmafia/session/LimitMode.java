@@ -44,13 +44,28 @@ public enum LimitMode {
     return switch (this) {
       case SPELUNKY -> Optional.of(SpelunkyRequest::reset);
       case BATMAN -> Optional.of(BatManager::begin);
-      case ASTRAL -> Optional.of(VioletFogManager::endTrip);
       default -> Optional.empty();
     };
   }
 
   public boolean requiresReset() {
     return resetFunction().isPresent();
+  }
+
+  public void finish() {
+    switch (this) {
+      case ASTRAL -> {
+        Preferences.setString("currentTrip", "");
+      }
+      default -> {}
+    }
+  }
+
+  public boolean limitRecovery() {
+    return switch (this) {
+      case NONE, BIRD, ROACH, MOLE, ASTRAL -> false;
+      default -> true;
+    };
   }
 
   public void reset() {
