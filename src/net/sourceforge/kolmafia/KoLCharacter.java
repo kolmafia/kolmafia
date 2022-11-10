@@ -407,7 +407,7 @@ public abstract class KoLCharacter {
     ConcoctionDatabase.resetQueue();
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setVariableConsumables();
-    ConsumablesDatabase.calculateAdventureRanges();
+    ConsumablesDatabase.calculateAllAverageAdventures();
     DailyLimitDatabase.reset();
 
     RelayRequest.reset();
@@ -2670,7 +2670,7 @@ public abstract class KoLCharacter {
     if (Preferences.getBoolean("hasOven") != hasOven) {
       Preferences.setBoolean("hasOven", hasOven);
       ConcoctionDatabase.setRefreshNeeded(true);
-      ConsumablesDatabase.calculateAdventureRanges();
+      ConsumablesDatabase.calculateAllAverageAdventures();
     }
   }
 
@@ -4891,11 +4891,13 @@ public abstract class KoLCharacter {
   }
 
   public static final void updateSelectedLocation(KoLAdventure location) {
-    KoLCharacter.selectedLocation = location;
-    Modifiers.setLocation(location);
-    KoLCharacter.recalculateAdjustments();
-    KoLCharacter.updateStatus();
-    PreferenceListenerRegistry.firePreferenceChanged("(location)");
+    if (location != KoLCharacter.selectedLocation) {
+      KoLCharacter.selectedLocation = location;
+      Modifiers.setLocation(location);
+      KoLCharacter.recalculateAdjustments();
+      KoLCharacter.updateStatus();
+      PreferenceListenerRegistry.firePreferenceChanged("(location)");
+    }
   }
 
   public static final KoLAdventure getSelectedLocation() {

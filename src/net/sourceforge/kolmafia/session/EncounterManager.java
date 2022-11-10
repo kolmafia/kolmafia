@@ -260,7 +260,7 @@ public abstract class EncounterManager {
 
   public static final boolean isSaberForceZone(String monsterName, String zone) {
     MonsterData monster = MonsterDatabase.findMonster(monsterName);
-    return AdventureDatabase.getAreasWithMonster(monster).contains(zone);
+    return AdventureDatabase.getAreaCombatData(zone).hasMonster(monster);
   }
 
   public static final boolean isSaberForceZone(String zone) {
@@ -525,6 +525,10 @@ public abstract class EncounterManager {
 
     public void increment() {
       this.encounterCount++;
+    }
+
+    public int getCount() {
+      return this.encounterCount;
     }
 
     @Override
