@@ -55,7 +55,7 @@ public enum LimitMode {
   public void finish() {
     switch (this) {
       case ASTRAL -> {
-        Preferences.setString("currentTrip", "");
+        Preferences.setString("currentAstralTrip", "");
       }
       default -> {}
     }
@@ -138,7 +138,7 @@ public enum LimitMode {
   public boolean limitZone(String zoneName) {
     String rootZone = AdventureDatabase.getRootZone(zoneName, limitZones);
 
-    if (rootZone.equals("Astral") && Preferences.getString("currentTrip").equals("")) {
+    if (rootZone.equals("Astral") && Preferences.getString("currentAstralTrip").equals("")) {
       // If you have not selected a trip but want to take one, you must not
       // currently be in a LimitMode, but will be allowed to select one
       return this != LimitMode.NONE;
@@ -154,7 +154,7 @@ public enum LimitMode {
       case BIRD -> rootZone.equals("Shape of Mole") || rootZone.equals("Astral");
       case ROACH -> false;
       case MOLE -> !rootZone.equals("Shape of Mole");
-      case ASTRAL -> !zoneName.equals(Preferences.getString("currentTrip"));
+      case ASTRAL -> !zoneName.equals(Preferences.getString("currentAstralTrip"));
     };
   }
 

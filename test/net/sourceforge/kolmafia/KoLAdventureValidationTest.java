@@ -1327,8 +1327,8 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withEffect("Half-Astral", 5),
-              withLimitMode(LimitMode.ASTRAL),
-              withProperty("currentTrip", "Great Trip"));
+              withProperty("currentAstralTrip", "Great Trip"),
+              withLimitMode(LimitMode.ASTRAL));
       try (cleanups) {
         assertFalse(BAD_TRIP.canAdventure());
         assertFalse(MEDIOCRE_TRIP.canAdventure());
@@ -1349,8 +1349,8 @@ public class KoLAdventureValidationTest {
               withHttpClientBuilder(builder),
               withItem(ASTRAL_MUSHROOM),
               withNoEffects(),
+              withProperty("currentAstralTrip", ""),
               withLimitMode(LimitMode.NONE),
-              withProperty("currentTrip", ""),
               withPasswordHash("astral"),
               // If you have a password hash, KoL looks at your vinyl boots
               withGender(KoLCharacter.FEMALE));
@@ -1367,7 +1367,7 @@ public class KoLAdventureValidationTest {
         assertTrue(GREAT_TRIP.prepareForAdventure());
 
         assertEquals(5, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
-        assertThat(Preferences.getString("currentTrip"), is("Great Trip"));
+        assertThat(Preferences.getString("currentAstralTrip"), is("Great Trip"));
         assertEquals(KoLCharacter.getLimitMode(), LimitMode.ASTRAL);
 
         var requests = client.getRequests();

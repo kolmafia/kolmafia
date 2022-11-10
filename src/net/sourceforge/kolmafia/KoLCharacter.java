@@ -1331,19 +1331,19 @@ public abstract class KoLCharacter {
         // some of your options - adventuring zones or combat skills - are
         // restricted
 
-        if (KoLConstants.activeEffects.contains(BIRDFORM)) {
-          KoLCharacter.limitMode = LimitMode.BIRD;
-          return;
-        }
-
-        if (KoLConstants.activeEffects.contains(ROACHFORM)) {
-          KoLCharacter.limitMode = LimitMode.ROACH;
-          return;
-        }
-
-        if (KoLConstants.activeEffects.contains(MOLEFORM)) {
-          KoLCharacter.limitMode = LimitMode.MOLE;
-          return;
+        switch (Preferences.getString("currentLlamaForm")) {
+          case "bird" -> {
+            KoLCharacter.limitMode = LimitMode.BIRD;
+            return;
+          }
+          case "roach" -> {
+            KoLCharacter.limitMode = LimitMode.ROACH;
+            return;
+          }
+          case "mole" -> {
+            KoLCharacter.limitMode = LimitMode.MOLE;
+            return;
+          }
         }
 
         if (KoLConstants.activeEffects.contains(ASTRAL)) {

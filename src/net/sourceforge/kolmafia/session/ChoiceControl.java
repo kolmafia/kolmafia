@@ -4671,7 +4671,7 @@ public abstract class ChoiceControl {
             };
 
         // We are now in a pseudo LimitMode
-        Preferences.setString("currentTrip", tripZone);
+        Preferences.setString("currentAstralTrip", tripZone);
         KoLCharacter.setLimitMode(LimitMode.ASTRAL);
         break;
 
@@ -4755,6 +4755,27 @@ public abstract class ChoiceControl {
           KoLmafia.updateDisplay(
               MafiaState.PENDING, hobopolisBossName(ChoiceManager.lastChoice) + " waits for you.");
         }
+        break;
+
+      case 276:
+        // The Gong Has Been Bung
+        String form =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "Cockroach";
+              case 2 -> "Mole";
+              case 3 -> "Bird";
+              default -> "";
+            };
+
+        // We are now in a pseudo LimitMode
+        Preferences.setString("currentLlamaForm", form);
+        KoLCharacter.setLimitMode(LimitMode.NONE);
+        break;
+
+      case 277:
+        // Welcome Back!
+        Preferences.setString("currentLlamaForm", "");
+        KoLCharacter.setLimitMode(LimitMode.NONE);
         break;
 
       case 299:

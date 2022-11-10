@@ -1255,10 +1255,10 @@ public class ResultProcessor {
                 // If you lose Inigo's or Craft Tea, what you can craft changes
                 ConcoctionDatabase.setRefreshNeeded(true);
               }
-              case EffectPool.FORM_OF_ROACH,
-                  EffectPool.SHAPE_OF_MOLE,
-                  EffectPool.FORM_OF_BIRD,
-                  EffectPool.HALF_ASTRAL -> {
+
+              case EffectPool.HALF_ASTRAL -> {
+                // There is no "cool down" choice adventure for leaving this,
+                // unlike the various llama lama forms
                 KoLCharacter.setLimitMode(LimitMode.NONE);
               }
             }

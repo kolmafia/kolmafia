@@ -2071,7 +2071,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // We are Half-Astral. If we have not selected a trip, now is the time.
 
-      if (Preferences.getString("currentTrip").equals("")) {
+      if (Preferences.getString("currentAstralTrip").equals("")) {
         String option =
             switch (this.adventureNumber) {
               case AdventurePool.BAD_TRIP -> "1";
@@ -2090,7 +2090,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(this.getRequest());
       }
 
-      return Preferences.getString("currentTrip").equals(this.zone);
+      return Preferences.getString("currentAstralTrip").equals(this.zone);
     }
 
     if (this.parentZone.equals("Grimstone")) {

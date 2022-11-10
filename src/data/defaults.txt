@@ -463,6 +463,7 @@ user	crudeMonster
 user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
+user	currentAstralTrip
 user	currentDistillateMods
 user	currentEasyBountyItem	
 user	currentExtremity	0
@@ -471,6 +472,7 @@ user	currentHedgeMazeRoom	0
 user	currentHippyStore	none
 user	currentJunkyardTool
 user	currentJunkyardLocation
+user	currentLlamaForm
 user	currentMojoFilters	0
 user	currentMood	default
 user	currentNunneryMeat	0
@@ -478,7 +480,6 @@ user	currentPortalEnergy	0
 user	currentPVPSeason	none
 user	currentPvpVictories
 user	currentSpecialBountyItem
-user	currentTrip
 user	cursedMagnifyingGlassCount	0
 user	customCombatScript	default
 user	cyrptAlcoveEvilness	0
