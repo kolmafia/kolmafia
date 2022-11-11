@@ -74,6 +74,14 @@ class ConsumablesDatabaseTest {
     }
 
     @Test
+    void drunkibears() {
+      assertThat(ConsumablesDatabase.getRawFullness("green drunki-bear"), is(4));
+      assertThat(ConsumablesDatabase.getRawInebriety("green drunki-bear"), is(4));
+      assertThat(ConsumablesDatabase.getFullness("green drunki-bear"), is(4));
+      assertThat(ConsumablesDatabase.getInebriety("green drunki-bear"), is(4));
+    }
+
+    @Test
     void currentAdventures() {
       assertThat(ConsumablesDatabase.getAverageAdventures(nonexistent), is(0.0));
       assertThat(ConsumablesDatabase.getAverageAdventures("cold wad"), is(0.0));
