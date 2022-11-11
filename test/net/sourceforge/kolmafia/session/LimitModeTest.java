@@ -1,10 +1,31 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.printRequests;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLimitMode;
+import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -411,6 +432,67 @@ class LimitModeTest {
         names = {"SPELUNKY", "BATMAN", "ED"})
     void someLimitRecovery(final LimitMode lm) {
       assertThat(lm.limitRecovery(), is(true));
+    }
+  }
+
+  // Pseudo LimitModes
+  @Nested
+  class Astral {
+    @AfterEach
+    public void afterEach() {
+      KoLConstants.activeEffects.clear();
+    }
+
+    private static final AdventureResult ASTRAL_MUSHROOM =
+        ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
+    private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+
+    @Test
+    void gainingHalfAstralEntersAstralLimitMode() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ASTRAL_MUSHROOM),
+              withNoEffects(),
+              withProperty("currentAstralTrip", ""),
+              withLimitMode(LimitMode.NONE));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_astral_mushroom.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = UseItemRequest.getInstance(ASTRAL_MUSHROOM);
+        request.run();
+
+        assertEquals(5, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
+        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ASTRAL);
+
+        var requests = client.getRequests();
+        printRequests(requests);
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.ASTRAL_MUSHROOM + "&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void losingHalfAstralLeavesAstralLimitMode() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.HALF_ASTRAL, 1),
+              withProperty("currentAstralTrip", "Great Trip"),
+              withLimitMode(LimitMode.ASTRAL));
+      try (cleanups) {
+        AdventureResult adv = new AdventureResult(AdventureResult.ADV, -1);
+        ResultProcessor.processResult(true, adv);
+
+        assertEquals(0, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
+        assertEquals(KoLCharacter.getLimitMode(), LimitMode.NONE);
+        assertThat(Preferences.getString("currentAstralTrip"), is(""));
+      }
     }
   }
 }
