@@ -292,7 +292,8 @@ public class DailyDeedsPanelTest {
       var dd = new DailyDeedsPanel.DropsDaily();
       var cleanups =
           new Cleanups(
-              withFamiliar(FamiliarPool.COOKBOOKBAT), withProperty("_cookbookbatRecipeDrops", "1"));
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatRecipeDrops", true));
       try (cleanups) {
         dd.update();
         assertThat(dd.getText(), containsString("1/1 cookbookbat recipe"));

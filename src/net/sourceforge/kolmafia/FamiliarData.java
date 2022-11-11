@@ -1011,6 +1011,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     public int dropsToday() {
+      if (Preferences.getDefault(this.dropTracker).equals("false")) {
+        return Preferences.getBoolean(this.dropTracker) ? 1 : 0;
+      }
+
       return Preferences.getInteger(this.dropTracker);
     }
 

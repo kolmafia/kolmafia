@@ -3341,7 +3341,7 @@ public class ResultProcessor {
       case ItemPool.ROBY_CALZONE_OF_LEGEND:
       case ItemPool.ROBY_PIZZA_OF_LEGEND:
         if (adventureResults) {
-          Preferences.increment("_cookbookbatRecipeDrops");
+          Preferences.setBoolean("_cookbookbatRecipeDrops", true);
         }
         break;
     }
