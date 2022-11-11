@@ -1332,15 +1332,15 @@ public abstract class KoLCharacter {
         // restricted
 
         switch (Preferences.getString("currentLlamaForm")) {
-          case "bird" -> {
+          case "Bird" -> {
             KoLCharacter.limitMode = LimitMode.BIRD;
             return;
           }
-          case "roach" -> {
+          case "Roach" -> {
             KoLCharacter.limitMode = LimitMode.ROACH;
             return;
           }
-          case "mole" -> {
+          case "Mole" -> {
             KoLCharacter.limitMode = LimitMode.MOLE;
             return;
           }

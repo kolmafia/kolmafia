@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
@@ -451,6 +452,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult MACHINE_SNOWGLOBE = ItemPool.get(ItemPool.MACHINE_SNOWGLOBE);
   // Items that grant an effect and require configuration to give access
   private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
+  private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG);
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
@@ -1761,7 +1763,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // An Incredibly Strange Place (Great Trip)
 
       // prepareForAdventure will use an astral mushroom, if necessary.
-      return KoLConstants.activeEffects.contains(HALF_ASTRAL)
+      return KoLCharacter.getLimitMode() == LimitMode.ASTRAL
           || InventoryManager.hasItem(ASTRAL_MUSHROOM);
     }
 
@@ -1770,10 +1772,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // This grants 12 turns of Shape of...Mole!
       // You cannot use another gong if you are in Form of...Bird!
       // You cannot adventure anywhere except in Mt. Molehill while that effect is active.
-      //
-      // *** This should be a LimitMode
-      return KoLConstants.activeEffects.contains(SHAPE_OF_MOLE)
-          || (InventoryManager.hasItem(item) && !KoLConstants.activeEffects.contains(FORM_OF_BIRD));
+      return KoLCharacter.getLimitMode() == LimitMode.MOLE || InventoryManager.hasItem(GONG);
     }
 
     if (this.zone.equals("Spring Break Beach")) {
@@ -2050,11 +2049,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.rootZone.equals("Astral")) {
-      // To take a trip to the Astral Plane, you either need
-      // to be Half-Astral or have access to an astral mushroom.
+      // To take a trip to the Astral Plane, you either need to be in
+      // LimitMode.ASTRAL (Half-Astral is active) or have access to an astral
+      // mushroom. You also cannot be in a competing LimitMode.
       // canAdventure ensured that one or the other is true
 
-      if (!KoLConstants.activeEffects.contains(HALF_ASTRAL)) {
+      if (KoLCharacter.getLimitMode() != LimitMode.ASTRAL) {
         // We will use a mushroom and take the trip you requested
         if (!InventoryManager.retrieveItem(ASTRAL_MUSHROOM)) {
           // This shouldn't fail.
@@ -2063,7 +2063,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
         RequestThread.postRequest(UseItemRequest.getInstance(ASTRAL_MUSHROOM));
 
-        if (!KoLConstants.activeEffects.contains(HALF_ASTRAL)) {
+        if (KoLCharacter.getLimitMode() != LimitMode.ASTRAL) {
           // This shouldn't fail.
           return false;
         }
@@ -2100,8 +2100,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Shape of Mole")) {
-      // *** Should use llama lama gong and select correct form
-      return true;
+      // To take a trip to Mt. Molehill, LimitMode.MOLE (Shape of...Mole!) must
+      // be active or you have access to a llama lama gong. You also cannot be
+      // in a competing LimitMode.  canAdventure ensured those requirements.
+
+      if (KoLCharacter.getLimitMode() != LimitMode.MOLE) {
+        // We will use a gong and choose to be a mole.
+        if (!InventoryManager.retrieveItem(GONG)) {
+          // This shouldn't fail.
+          return false;
+        }
+
+        Preferences.setInteger("choiceAdventure276", 2);
+        RequestThread.postRequest(UseItemRequest.getInstance(GONG));
+        return true;
+      }
+
+      return KoLCharacter.getLimitMode() == LimitMode.MOLE;
     }
 
     if (this.zone.equals("The Spacegate")) {

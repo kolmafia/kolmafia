@@ -1388,6 +1388,78 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Mole {
+    private static final KoLAdventure MT_MOLEHILL =
+        AdventureDatabase.getAdventureByName("Mt. Molehill");
+    private static AdventureResult GONG = ItemPool.get(ItemPool.GONG, 1);
+    private static AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
+
+    @Test
+    public void mustHaveGongOrShapeOfMole() {
+      var cleanups = new Cleanups(withLimitMode(LimitMode.NONE));
+      try (cleanups) {
+        assertFalse(MT_MOLEHILL.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureIfInShapeOfMole() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withEffect("Shape of...Mole!", 12),
+              withProperty("currentLlamaForm", "Mole"),
+              withLimitMode(LimitMode.MOLE));
+      try (cleanups) {
+        assertTrue(MT_MOLEHILL.canAdventure());
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithGong() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(GONG),
+              withNoEffects(),
+              withProperty("currentLlamaForm", ""),
+              withLimitMode(LimitMode.NONE),
+              withPasswordHash("mole"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(KoLCharacter.FEMALE));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
+        client.addResponse(200, html("request/test_choose_mole_form.html"));
+        client.addResponse(200, ""); // api.php
+
+        assertTrue(MT_MOLEHILL.canAdventure());
+        assertTrue(MT_MOLEHILL.prepareForAdventure());
+
+        assertEquals(12, SHAPE_OF_MOLE.getCount(KoLConstants.activeEffects));
+        assertThat(Preferences.getString("currentLlamaForm"), is("Mole"));
+        assertEquals(KoLCharacter.getLimitMode(), LimitMode.MOLE);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.GONG + "&ajax=1&pwd=mole");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=276&option=2&pwd=mole");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
   class Cola {
     private static final KoLAdventure COLA_NONE =
         AdventureDatabase.getAdventureByName("Battlefield (No Uniform)");

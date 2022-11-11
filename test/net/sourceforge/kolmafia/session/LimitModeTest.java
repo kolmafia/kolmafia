@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
@@ -13,19 +13,26 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,6 +40,17 @@ import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class LimitModeTest {
+
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("LimitMode");
+  }
+
+  @BeforeEach
+  public void beforeEach() {
+    Preferences.reset("LimitMode");
+  }
+
   @Test
   void nameOfNoneIsBlank() {
     assertThat(LimitMode.NONE.getName(), is(""));
@@ -435,7 +453,8 @@ class LimitModeTest {
     }
   }
 
-  // Pseudo LimitModes
+  // *** Pseudo LimitModes
+
   @Nested
   class Astral {
     @AfterEach
@@ -469,7 +488,6 @@ class LimitModeTest {
         assertEquals(KoLCharacter.getLimitMode(), LimitMode.ASTRAL);
 
         var requests = client.getRequests();
-        printRequests(requests);
         assertThat(requests, hasSize(2));
 
         assertPostRequest(
@@ -492,6 +510,97 @@ class LimitModeTest {
         assertEquals(0, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
         assertEquals(KoLCharacter.getLimitMode(), LimitMode.NONE);
         assertThat(Preferences.getString("currentAstralTrip"), is(""));
+      }
+    }
+  }
+
+  @Nested
+  class Mole {
+    @AfterEach
+    public void afterEach() {
+      KoLConstants.activeEffects.clear();
+    }
+
+    private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG, 1);
+    private static final AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
+
+    @Test
+    void usingGongAndChoosingMoleEntersMoleLimitMode() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(GONG),
+              withNoEffects(),
+              withProperty("currentLlamaFormTrip", ""),
+              withLimitMode(LimitMode.NONE));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
+        client.addResponse(200, html("request/test_choose_mole_form.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = UseItemRequest.getInstance(GONG);
+        request.run();
+
+        assertTrue(ChoiceManager.handlingChoice);
+        assertEquals(276, ChoiceManager.lastChoice);
+
+        // Talk to the Llama
+        var choice = new GenericRequest("choice.php?whichchoice=276&option=2");
+        choice.run();
+
+        assertEquals(12, SHAPE_OF_MOLE.getCount(KoLConstants.activeEffects));
+        assertEquals(KoLCharacter.getLimitMode(), LimitMode.MOLE);
+        assertThat(Preferences.getString("currentLlamaForm"), is("Mole"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.GONG + "&ajax=1");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=276&option=2");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void talkingWithLlamaLeavesMoleLimitMode() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withNoEffects(),
+              withProperty("choiceAdventure277", 1),
+              withProperty("currentLlamaForm", "Mole"),
+              withLimitMode(LimitMode.MOLE));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+        client.addResponse(200, html("request/test_leave_reincarnation.html"));
+        client.addResponse(200, html("request/test_get_mole_reward.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MT_MOLEHILL);
+        request.run();
+
+        // Talk to the Llama
+        request = new GenericRequest("choice.php?whichchoice=277&option=1");
+        request.run();
+
+        assertEquals(KoLCharacter.getLimitMode(), LimitMode.NONE);
+        assertThat(Preferences.getString("currentLlamaForm"), is(""));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MT_MOLEHILL);
+        assertGetRequest(requests.get(1), "/choice.php", null);
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=277&option=1");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

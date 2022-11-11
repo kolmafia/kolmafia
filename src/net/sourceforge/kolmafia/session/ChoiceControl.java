@@ -4761,7 +4761,7 @@ public abstract class ChoiceControl {
         // The Gong Has Been Bung
         String form =
             switch (ChoiceManager.lastDecision) {
-              case 1 -> "Cockroach";
+              case 1 -> "Roach";
               case 2 -> "Mole";
               case 3 -> "Bird";
               default -> "";
