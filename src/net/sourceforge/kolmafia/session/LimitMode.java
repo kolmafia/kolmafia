@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
@@ -52,6 +53,10 @@ public enum LimitMode {
     return resetFunction().isPresent();
   }
 
+  public void reset() {
+    resetFunction().ifPresent(Runnable::run);
+  }
+
   public void finish() {
     switch (this) {
       case ASTRAL -> {
@@ -66,10 +71,6 @@ public enum LimitMode {
       case NONE, BIRD, ROACH, MOLE, ASTRAL -> false;
       default -> true;
     };
-  }
-
-  public void reset() {
-    resetFunction().ifPresent(Runnable::run);
   }
 
   public boolean limitSkill(final int skillId) {
@@ -92,7 +93,8 @@ public enum LimitMode {
       case SPELUNKY -> itemId < 8040 || itemId > 8062;
       case BATMAN -> itemId < 8797 || itemId > 8815 || itemId == 8800;
       case ED -> true;
-      case BIRD, ROACH, MOLE, ASTRAL -> false;
+      case BIRD, ROACH, MOLE, ASTRAL -> itemId == ItemPool.GONG
+          || itemId == ItemPool.ASTRAL_MUSHROOM;
     };
   }
 

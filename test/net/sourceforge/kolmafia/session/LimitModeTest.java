@@ -402,7 +402,7 @@ class LimitModeTest {
         value = LimitMode.class,
         names = {"NONE", "ASTRAL", "BIRD", "MOLE", "ROACH"})
     void someDontLimitRecovery(final LimitMode lm) {
-      assertThat(lm.limitCampground(), is(false));
+      assertThat(lm.limitRecovery(), is(false));
     }
 
     @ParameterizedTest
@@ -410,7 +410,7 @@ class LimitModeTest {
         value = LimitMode.class,
         names = {"SPELUNKY", "BATMAN", "ED"})
     void someLimitRecovery(final LimitMode lm) {
-      assertThat(lm.limitCampground(), is(true));
+      assertThat(lm.limitRecovery(), is(true));
     }
   }
 }
