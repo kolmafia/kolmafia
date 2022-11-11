@@ -91,6 +91,7 @@ public class WikiUtilitiesTest {
 
   private static Stream<Arguments> wikiPages() {
     return Stream.of(
+        Arguments.of("seal-clubbing club", WikiUtilities.ANY_TYPE, "Seal-clubbing_club"),
         Arguments.of("sweet tooth", WikiUtilities.ITEM_TYPE, "Sweet_tooth"),
         Arguments.of("water wings", WikiUtilities.ITEM_TYPE, "Water_wings"),
         Arguments.of("knuckle sandwich", WikiUtilities.ITEM_TYPE, "Knuckle_sandwich"),
@@ -125,7 +126,8 @@ public class WikiUtilitiesTest {
         Arguments.of(
             "undead elbow macaroni",
             WikiUtilities.MONSTER_TYPE,
-            "Undead_elbow_macaroni_%28monster%29"));
+            "Undead_elbow_macaroni_%28monster%29"),
+        Arguments.of("Souped Up", WikiUtilities.EFFECT_TYPE, "Souped_Up_%28effect%29"));
   }
 
   @ParameterizedTest
