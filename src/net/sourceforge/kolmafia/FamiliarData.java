@@ -1011,6 +1011,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     public int dropsToday() {
+      if (Preferences.getDefault(this.dropTracker).equals("false")) {
+        return Preferences.getBoolean(this.dropTracker) ? 1 : 0;
+      }
+
       return Preferences.getInteger(this.dropTracker);
     }
 
@@ -1146,6 +1150,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
             "snowglobe",
             "_snowglobeDrops",
             1));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1));
   }
 
   public static DropInfo getDropInfo(int id) {

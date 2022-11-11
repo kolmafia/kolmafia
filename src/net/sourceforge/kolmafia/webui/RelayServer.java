@@ -96,18 +96,34 @@ public class RelayServer implements Runnable {
   @Override
   public void run() {
     boolean startedSuccessfully = true;
-    Integer minPort = 60080;
-    Integer maxPort = minPort + 10;
-    RelayServer.port = minPort;
-    while (!this.openServerSocket()) {
-      if (RelayServer.port < maxPort) {
-        ++RelayServer.port;
-      } else {
+
+    int relayPort = Preferences.getInteger("relayPort");
+    if (relayPort != 0) {
+      RelayServer.port = relayPort;
+      if (!this.openServerSocket()) {
         KoLmafia.updateDisplay(
             KoLConstants.MafiaState.ERROR,
-            "Failed to find free port in range " + minPort + " to " + maxPort + ".");
+            "Port " + relayPort + " which is set as relayPort is already in use.");
         startedSuccessfully = false;
-        break;
+      }
+    } else {
+      int minPort = 60080;
+      int maxPort = minPort + 10;
+      RelayServer.port = minPort;
+      while (!this.openServerSocket()) {
+        if (RelayServer.port < maxPort) {
+          ++RelayServer.port;
+        } else {
+          KoLmafia.updateDisplay(
+              KoLConstants.MafiaState.ERROR,
+              "Failed to find free port in range "
+                  + minPort
+                  + " to "
+                  + maxPort
+                  + ". You can set 'relayPort' preference to choose a different port.");
+          startedSuccessfully = false;
+          break;
+        }
       }
     }
 
