@@ -1811,14 +1811,15 @@ public class Modifiers {
   }
 
   private static final Modifiers getModifiersInternal(
-      String type, final String name, final String lookup) {
-    Object modifier = Modifiers.modifiersByName.get(lookup);
-
+      String type, final String name, String lookup) {
     String changeType = null;
     if (type.equals("Bjorn")) {
       changeType = type;
       type = "Throne";
+      lookup = getLookupName(type, name);
     }
+
+    Object modifier = Modifiers.modifiersByName.get(lookup);
 
     if (modifier == null) {
       return null;
