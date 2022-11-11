@@ -1257,6 +1257,7 @@ user	recoveryScript
 user	redSnapperPhylum
 user	redSnapperProgress	0
 user	relayCounters
+user	relayPort	0
 user	relayShowSpoilers	false
 user	relayShowWarnings	true
 user	relocatePygmyJanitor	-1

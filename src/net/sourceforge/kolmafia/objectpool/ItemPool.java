@@ -924,6 +924,9 @@ public class ItemPool {
   public static final int TRAPEZOID = 3198;
   public static final int LUMP_OF_COAL = 3199;
   public static final int THICK_PADDED_ENVELOPE = 3201;
+  public static final int DWARVISH_WAR_HELMET = 3204;
+  public static final int DWARVISH_WAR_MATTOCK = 3205;
+  public static final int DWARVISH_WAR_KILT = 3206;
   public static final int DWARVISH_PUNCHCARD = 3207;
   public static final int SMALL_LAMINATED_CARD = 3208;
   public static final int LITTLE_LAMINATED_CARD = 3209;

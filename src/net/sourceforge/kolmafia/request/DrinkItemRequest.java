@@ -466,7 +466,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     // If the item doesn't give any adventures, it won't benefit from ode
-    String advGain = ConsumablesDatabase.getAdvRangeByName(itemName);
+    String advGain = ConsumablesDatabase.getBaseAdventureRange(itemName);
     if (advGain.equals("0")) {
       String note = ConsumablesDatabase.getNotes(itemName);
       if (note == null || (note != null && !note.contains("Unspaded"))) {

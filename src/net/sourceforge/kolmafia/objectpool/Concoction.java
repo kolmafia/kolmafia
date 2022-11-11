@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.Consumable;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -82,7 +83,7 @@ public class Concoction implements Comparable<Concoction> {
   public boolean speakeasy;
   public boolean steelOrgan;
 
-  private int fullness, inebriety, spleenhit;
+  private Consumable consumable;
   private String effectName;
   private double mainstatGain;
 
@@ -108,9 +109,6 @@ public class Concoction implements Comparable<Concoction> {
       this.name = "unknown";
       this.hashCode = 0;
       this.isReagentPotion = false;
-      this.fullness = 0;
-      this.inebriety = 0;
-      this.spleenhit = 0;
       this.mainstatGain = 0.0f;
       this.effectName = "";
     } else {
@@ -185,15 +183,15 @@ public class Concoction implements Comparable<Concoction> {
 
   public Priority getSortOrder() {
     int itemId = this.concoction == null ? -1 : this.concoction.getItemId();
-    if (this.fullness > 0 || itemId == ItemPool.QUANTUM_TACO) {
+    if (this.getRawFullness() != null || itemId == ItemPool.QUANTUM_TACO) {
       return Priority.FOOD;
     }
 
-    if (this.inebriety > 0 || itemId == ItemPool.SCHRODINGERS_THERMOS) {
+    if (this.getRawInebriety() != null || itemId == ItemPool.SCHRODINGERS_THERMOS) {
       return Priority.BOOZE;
     }
 
-    if (this.spleenhit > 0) {
+    if (this.getRawSpleenHit() != null) {
       return Priority.SPLEEN;
     }
 
@@ -201,9 +199,11 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void setConsumptionData() {
-    this.fullness = ConsumablesDatabase.getFullness(this.name);
-    this.inebriety = ConsumablesDatabase.getInebriety(this.name);
-    this.spleenhit = ConsumablesDatabase.getSpleenHit(this.name);
+    this.setConsumptionData(ConsumablesDatabase.getConsumableByName(this.name));
+  }
+
+  public void setConsumptionData(Consumable consumable) {
+    this.consumable = consumable;
 
     this.sortOrder = getSortOrder();
 
@@ -217,9 +217,10 @@ public class Concoction implements Comparable<Concoction> {
   public void setStatGain() {
     final String range =
         switch (KoLCharacter.mainStat()) {
-          case MUSCLE -> ConsumablesDatabase.getMuscleRange(this.name);
-          case MYSTICALITY -> ConsumablesDatabase.getMysticalityRange(this.name);
-          case MOXIE -> ConsumablesDatabase.getMoxieRange(this.name);
+          case MUSCLE -> ConsumablesDatabase.getStatRange(Consumable.MUSCLE, this.consumable);
+          case MYSTICALITY -> ConsumablesDatabase.getStatRange(
+              Consumable.MYSTICALITY, this.consumable);
+          case MOXIE -> ConsumablesDatabase.getStatRange(Consumable.MOXIE, this.consumable);
           default -> "+0.0";
         };
     this.mainstatGain = StringUtilities.parseDouble(range);
@@ -453,24 +454,24 @@ public class Concoction implements Comparable<Concoction> {
               KoLCharacter.getFullnessLimit()
                   - KoLCharacter.getFullness()
                   - ConcoctionDatabase.getQueuedFullness();
-          thisCantConsume = this.fullness > limit;
-          oCantConsume = o.fullness > limit;
+          thisCantConsume = this.getFullness() > limit;
+          oCantConsume = o.getFullness() > limit;
         }
         case BOOZE -> {
           limit =
               KoLCharacter.getInebrietyLimit()
                   - KoLCharacter.getInebriety()
                   - ConcoctionDatabase.getQueuedInebriety();
-          thisCantConsume = this.inebriety > limit;
-          oCantConsume = o.inebriety > limit;
+          thisCantConsume = this.getInebriety() > limit;
+          oCantConsume = o.getInebriety() > limit;
         }
         case SPLEEN -> {
           limit =
               KoLCharacter.getSpleenLimit()
                   - KoLCharacter.getSpleenUse()
                   - ConcoctionDatabase.getQueuedSpleenHit();
-          thisCantConsume = this.spleenhit > limit;
-          oCantConsume = o.spleenhit > limit;
+          thisCantConsume = this.getSpleenHit() > limit;
+          oCantConsume = o.getSpleenHit() > limit;
         }
       }
 
@@ -479,29 +480,29 @@ public class Concoction implements Comparable<Concoction> {
       }
     }
 
-    double adventures1 = ConsumablesDatabase.getAdventureRange(this.name);
-    double adventures2 = ConsumablesDatabase.getAdventureRange(o.name);
+    double adventures1 = ConsumablesDatabase.getAverageAdventures(this.consumable);
+    double adventures2 = ConsumablesDatabase.getAverageAdventures(o.consumable);
 
     if (adventures1 != adventures2) {
       return adventures2 > adventures1 ? 1 : -1;
     }
 
-    int fullness1 = this.fullness;
-    int fullness2 = o.fullness;
+    int fullness1 = this.getFullness();
+    int fullness2 = o.getFullness();
 
     if (fullness1 != fullness2) {
       return fullness2 - fullness1;
     }
 
-    int inebriety1 = this.inebriety;
-    int inebriety2 = o.inebriety;
+    int inebriety1 = this.getInebriety();
+    int inebriety2 = o.getInebriety();
 
     if (inebriety1 != inebriety2) {
       return inebriety2 - inebriety1;
     }
 
-    int spleenhit1 = this.spleenhit;
-    int spleenhit2 = o.spleenhit;
+    int spleenhit1 = this.getSpleenHit();
+    int spleenhit2 = o.getSpleenHit();
 
     if (spleenhit1 != spleenhit2) {
       return spleenhit2 - spleenhit1;
@@ -549,16 +550,28 @@ public class Concoction implements Comparable<Concoction> {
     return this.price;
   }
 
+  public Integer getRawFullness() {
+    return this.consumable != null ? this.consumable.getRawFullness() : null;
+  }
+
   public int getFullness() {
-    return this.fullness;
+    return this.consumable != null ? this.consumable.getFullness() : 0;
+  }
+
+  public Integer getRawInebriety() {
+    return this.consumable != null ? this.consumable.getRawInebriety() : null;
   }
 
   public int getInebriety() {
-    return this.inebriety;
+    return this.consumable != null ? this.consumable.getInebriety() : 0;
+  }
+
+  public Integer getRawSpleenHit() {
+    return this.consumable != null ? this.consumable.getRawSpleenHit() : null;
   }
 
   public int getSpleenHit() {
-    return this.spleenhit;
+    return this.consumable != null ? this.consumable.getSpleenHit() : 0;
   }
 
   public String getEffectName() {

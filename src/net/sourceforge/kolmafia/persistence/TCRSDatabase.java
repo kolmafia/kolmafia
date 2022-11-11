@@ -692,7 +692,6 @@ public class TCRSDatabase {
       comment = buf;
     }
 
-    ConsumablesDatabase.updateConsumableSize(itemName, usage, tcrs.size);
     ConsumablesDatabase.updateConsumable(
         itemName,
         tcrs.size,
@@ -728,7 +727,7 @@ public class TCRSDatabase {
     ConcoctionDatabase.resetEffects();
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setVariableConsumables();
-    ConsumablesDatabase.calculateAdventureRanges();
+    ConsumablesDatabase.calculateAllAverageAdventures();
 
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
