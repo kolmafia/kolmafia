@@ -3324,6 +3324,26 @@ public class ResultProcessor {
         KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
         KoLCharacter.addAvailableSkill("Sip Some Sweat");
         break;
+
+      case ItemPool.ROBY_BORIS_BEER:
+      case ItemPool.ROBY_HONEY_BUN_OF_BORIS:
+      case ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG:
+      case ItemPool.ROBY_JARLSBERGS_VEGETABLE_SOUP:
+      case ItemPool.ROBY_PETES_WILY_WHEY_BAR:
+      case ItemPool.ROBY_PETES_SNEAKY_SMOOTHIE:
+      case ItemPool.ROBY_BORIS_BREAD:
+      case ItemPool.ROBY_ROASTED_VEGETABLE_OF_J:
+      case ItemPool.ROBY_PETES_RICH_RICOTTA:
+      case ItemPool.ROBY_ROASTED_VEGETABLE_FOCACCIA:
+      case ItemPool.ROBY_PLAIN_CALZONE:
+      case ItemPool.ROBY_BAKED_VEGGIE_RICOTTA:
+      case ItemPool.ROBY_DEEP_DISH_OF_LEGEND:
+      case ItemPool.ROBY_CALZONE_OF_LEGEND:
+      case ItemPool.ROBY_PIZZA_OF_LEGEND:
+        if (adventureResults) {
+          Preferences.setBoolean("_cookbookbatRecipeDrops", true);
+        }
+        break;
     }
 
     // Gaining items can achieve goals.
