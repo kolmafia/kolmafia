@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.withDay;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
@@ -14,10 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -27,6 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class ResultProcessorTest {
@@ -249,6 +254,57 @@ public class ResultProcessorTest {
 
         assertThat(QuestDatabase.Quest.MAELSTROM, isFinished());
         assertThat("maelstromOfLoversBoss", isSetTo(""));
+      }
+    }
+  }
+
+  @Nested
+  class Cookbookbat {
+    private static Stream<AdventureResult> coobookbatRecipes() {
+      return Stream.of(
+          ItemPool.get(ItemPool.ROBY_BORIS_BEER),
+          ItemPool.get(ItemPool.ROBY_HONEY_BUN_OF_BORIS),
+          ItemPool.get(ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG),
+          ItemPool.get(ItemPool.ROBY_JARLSBERGS_VEGETABLE_SOUP),
+          ItemPool.get(ItemPool.ROBY_PETES_WILY_WHEY_BAR),
+          ItemPool.get(ItemPool.ROBY_PETES_SNEAKY_SMOOTHIE),
+          ItemPool.get(ItemPool.ROBY_BORIS_BREAD),
+          ItemPool.get(ItemPool.ROBY_ROASTED_VEGETABLE_OF_J),
+          ItemPool.get(ItemPool.ROBY_PETES_RICH_RICOTTA),
+          ItemPool.get(ItemPool.ROBY_ROASTED_VEGETABLE_FOCACCIA),
+          ItemPool.get(ItemPool.ROBY_PLAIN_CALZONE),
+          ItemPool.get(ItemPool.ROBY_BAKED_VEGGIE_RICOTTA),
+          ItemPool.get(ItemPool.ROBY_DEEP_DISH_OF_LEGEND),
+          ItemPool.get(ItemPool.ROBY_CALZONE_OF_LEGEND),
+          ItemPool.get(ItemPool.ROBY_PIZZA_OF_LEGEND));
+    }
+
+    @ParameterizedTest
+    @MethodSource("coobookbatRecipes")
+    public void cookbookbatPropertyGetsUpdated(AdventureResult recipe) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatRecipeDrops", false));
+
+      try (cleanups) {
+        ResultProcessor.processResult(true, recipe);
+
+        assertThat("_cookbookbatRecipeDrops", isSetTo(true));
+      }
+    }
+
+    @Test
+    public void cookbookbatPropertyNoUpdateIfNotAdventureResult() {
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatRecipeDrops", false));
+
+      try (cleanups) {
+        ResultProcessor.processResult(false, ItemPool.get(ItemPool.ROBY_BAKED_VEGGIE_RICOTTA));
+
+        assertThat("_cookbookbatRecipeDrops", isSetTo(false));
       }
     }
   }
