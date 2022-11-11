@@ -26,7 +26,7 @@ public class WikiUtilities {
 
   private WikiUtilities() {}
 
-  public static final String getWikiLocation(String name, int type, boolean dataPage) {
+  public static String getWikiLocation(String name, int type, boolean dataPage) {
     boolean checkOtherTables = true;
 
     if (type != ANY_TYPE) {
@@ -46,44 +46,7 @@ public class WikiUtilities {
     }
 
     if (checkOtherTables) {
-      boolean inItemTable = ItemDatabase.containsExactly(name);
-      boolean inEffectTable = EffectDatabase.containsExactly(name);
-      boolean inSkillTable = SkillDatabase.contains(name);
-      boolean inMonsterTable = MonsterDatabase.contains(name);
-      switch (type) {
-        case ITEM_TYPE:
-          if (inEffectTable || inSkillTable || inMonsterTable) {
-            name = name + " (item)";
-          }
-          break;
-        case EFFECT_TYPE:
-          if (inItemTable || inSkillTable || inMonsterTable) {
-            name = name + " (effect)";
-          }
-          break;
-        case SKILL_TYPE:
-          if (inItemTable || inEffectTable || inMonsterTable) {
-            name = name + " (skill)";
-          }
-          break;
-        case MONSTER_TYPE:
-          if (name.equals("ice porter")
-              || name.equals("licorice snake")
-              || name.equals("Porkpocket")
-              || name.equals("Tin of Submardines")) {
-            // Also an item.
-          } else if (name.equals("Frosty")) {
-            // Also an effect.
-          } else if (name.equals("rage flame")) {
-            // Also a skill.
-          } else if (name.equals("undead elbow macaroni")) {
-            // Also (formerly) a pasta guardian
-            name = name + " (monster)";
-          } else if (inItemTable || inEffectTable || inSkillTable) {
-            name = name + " (monster)";
-          }
-          break;
-      }
+      name = disambiguateTypes(type, name);
     }
 
     name = StringUtilities.globalStringReplace(name, "#", "");
@@ -108,11 +71,66 @@ public class WikiUtilities {
     return "https://kol.coldfront.net/thekolwiki/index.php/" + name;
   }
 
-  public static final String getWikiLocation(Object item) {
+  private static String disambiguateTypes(int type, String name) {
+    boolean inItemTable = ItemDatabase.containsExactly(name);
+    boolean inEffectTable = EffectDatabase.containsExactly(name);
+    boolean inSkillTable = SkillDatabase.contains(name);
+    boolean inMonsterTable = MonsterDatabase.contains(name);
+    switch (type) {
+      case ITEM_TYPE -> {
+        if (inEffectTable || inSkillTable || inMonsterTable) {
+          return name + " (item)";
+        }
+        return name;
+      }
+      case EFFECT_TYPE -> {
+        if (name.equals("Souped Up")) {
+          // also an adventure
+          return name + " (effect)";
+        }
+        if (inItemTable || inSkillTable || inMonsterTable) {
+          return name + " (effect)";
+        }
+        return name;
+      }
+      case SKILL_TYPE -> {
+        if (inItemTable || inEffectTable || inMonsterTable) {
+          return name + " (skill)";
+        }
+        return name;
+      }
+      case MONSTER_TYPE -> {
+        switch (name) {
+          case "ice porter":
+          case "licorice snake":
+          case "Porkpocket":
+          case "Tin of Submardines":
+            // Also an item.
+            return name;
+          case "Frosty":
+            // Also an effect.
+            return name;
+          case "rage flame":
+            // Also a skill.
+            return name;
+          case "undead elbow macaroni":
+            // Also (formerly) a pasta guardian
+            return name + " (monster)";
+        }
+        if (inItemTable || inEffectTable || inSkillTable) {
+          return name + " (monster)";
+        }
+        return name;
+      }
+    }
+    return name;
+  }
+
+  public static String getWikiLocation(Object item) {
     return getWikiLocation(item, false);
   }
 
-  public static final String getWikiLocation(Object item, boolean dataPage) {
+  public static String getWikiLocation(Object item, boolean dataPage) {
     if (item == null) {
       return null;
     }
@@ -129,8 +147,7 @@ public class WikiUtilities {
     if (item instanceof MonsterData) {
       name = ((MonsterData) item).getWikiName();
       type = WikiUtilities.MONSTER_TYPE;
-    } else if (item instanceof AdventureResult) {
-      AdventureResult result = (AdventureResult) item;
+    } else if (item instanceof AdventureResult result) {
       name = result.getDataName();
 
       type =
@@ -166,7 +183,7 @@ public class WikiUtilities {
     return WikiUtilities.getWikiLocation(name, type, dataPage);
   }
 
-  public static final void showWikiDescription(final Object item) {
+  public static void showWikiDescription(final Object item) {
     String location = WikiUtilities.getWikiLocation(item);
 
     if (location != null) {

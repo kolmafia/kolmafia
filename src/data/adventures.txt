@@ -513,7 +513,7 @@ Deep Machine Tunnels	adventure=458	DiffLevel: mid Env: underground Stat: 0	The D
 LT&T	adventure=474	DiffLevel: mid Env: outdoor Stat: 0	Investigating a Plaintive Telegram
 Neverending Party	adventure=528	DiffLevel: mid Env: indoor Stat: 0	The Neverending Party
 
-Shape of Mole	adventure=177	DiffLevel: unknown Env: underground Stat: 0	Mt. Molehill
+Shape of Mole	adventure=177	DiffLevel: low Env: underground Stat: 0	Mt. Molehill
 
 Video Game Dungeon	adventure=319	DiffLevel: mid Env: indoor Stat: 0	Video Game Level 1
 Video Game Dungeon	adventure=320	DiffLevel: mid Env: indoor Stat: 0	Video Game Level 2
@@ -649,17 +649,17 @@ The Snojo	adventure=460	DiffLevel: mid Env: indoor nowander	The X-32-F Combat Tr
 The Spacegate	adventure=494	DiffLevel: mid Env: outdoor nowander	Through the Spacegate
 
 Gingerbread City	adventure=477	DiffLevel: mid Env: indoor Stat: 0 nowander	Gingerbread Civic Center
-Gingerbread City	adventure=478	DiffLevel: unknown Env: indoor Stat: 0 nowander	Gingerbread Train Station
-Gingerbread City	adventure=479	DiffLevel: unknown Env: indoor Stat: 0 nowander	Gingerbread Industrial Zone
-Gingerbread City	adventure=480	DiffLevel: unknown Env: outdoor Stat: 0 nowander	Gingerbread Upscale Retail District
-Gingerbread City	adventure=481	DiffLevel: unknown Env: underground Stat: 0 nowander	Gingerbread Sewers
+Gingerbread City	adventure=478	DiffLevel: mid Env: indoor Stat: 0 nowander	Gingerbread Train Station
+Gingerbread City	adventure=479	DiffLevel: mid Env: indoor Stat: 0 nowander	Gingerbread Industrial Zone
+Gingerbread City	adventure=480	DiffLevel: mid Env: outdoor Stat: 0 nowander	Gingerbread Upscale Retail District
+Gingerbread City	adventure=481	DiffLevel: mid Env: underground Stat: 0 nowander	Gingerbread Sewers
 
 FantasyRealm	adventure=502	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Bandit Crossroads
-FantasyRealm	adventure=503	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Towering Mountains
-FantasyRealm	adventure=504	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Mystic Wood
+FantasyRealm	adventure=503	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Towering Mountains
+FantasyRealm	adventure=504	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Mystic Wood
 FantasyRealm	adventure=505	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Putrid Swamp
 FantasyRealm	adventure=506	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Cursed Village
-FantasyRealm	adventure=507	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Sprawling Cemetery
+FantasyRealm	adventure=507	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Sprawling Cemetery
 FantasyRealm	adventure=509	DiffLevel: unknown Env: underground Stat: 0 nowander	The Old Rubee Mine
 FantasyRealm	adventure=510	DiffLevel: unknown Env: underground Stat: 0 nowander	The Foreboding Cave
 FantasyRealm	adventure=511	DiffLevel: unknown Env: outdoor Stat: 0 nowander	The Faerie Cyrkle
