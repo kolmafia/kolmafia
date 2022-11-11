@@ -1236,8 +1236,7 @@ public class GearChangePanel extends JPanel {
       final LockableListModel<AdventureResult> currentItems,
       final List<AdventureResult> newItems,
       final AdventureResult equippedItem) {
-    currentItems.retainAll(newItems);
-    newItems.removeAll(currentItems);
+    currentItems.clear();
     currentItems.addAll(newItems);
     currentItems.setSelectedItem(equippedItem);
   }

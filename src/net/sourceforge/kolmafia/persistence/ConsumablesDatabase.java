@@ -181,9 +181,9 @@ public class ConsumablesDatabase {
     Consumable consumable =
         new Consumable(
             name,
-            fullness,
-            inebriety,
-            spleenHit,
+            fullness != null ? fullness : existing != null ? existing.getRawFullness() : null,
+            inebriety != null ? inebriety : existing != null ? existing.getRawInebriety() : null,
+            spleenHit != null ? spleenHit : existing != null ? existing.getRawSpleenHit() : null,
             level,
             quality,
             adventures,
