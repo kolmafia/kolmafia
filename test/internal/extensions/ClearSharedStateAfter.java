@@ -54,10 +54,9 @@ public class ClearSharedStateAfter implements AfterAllCallback {
     // test_stringbuffer_function_with_consstring.txt comes from the CustomScript
     // stringbuffer_function_with_consstring.js
     // content-types.properties has not been tracked down
-    String[] filesToDelete = {
-      "pulvereport.txt",
-      "test_stringbuffer_function_with_consstring.txt",
-      "content-types.properties"
+    String[] filesToDelete = {"pulvereport.txt", "test_stringbuffer_function_with_consstring.txt"
+      // ,
+      // "content-types.properties"
     };
     for (String s : filesToDelete) {
       Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
