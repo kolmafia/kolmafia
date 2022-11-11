@@ -285,12 +285,12 @@ public class ResultProcessorTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
-              withProperty("_cookbookbatRecipeDrops", "false"));
+              withProperty("_cookbookbatRecipeDrops", false));
 
       try (cleanups) {
         ResultProcessor.processResult(true, recipe);
 
-        assertThat("_cookbookbatRecipeDrops", isSetTo("true"));
+        assertThat("_cookbookbatRecipeDrops", isSetTo(true));
       }
     }
 
@@ -299,12 +299,12 @@ public class ResultProcessorTest {
       var cleanups =
           new Cleanups(
               withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT),
-              withProperty("_cookbookbatRecipeDrops", "false"));
+              withProperty("_cookbookbatRecipeDrops", false));
 
       try (cleanups) {
         ResultProcessor.processResult(false, ItemPool.get(ItemPool.ROBY_BAKED_VEGGIE_RICOTTA));
 
-        assertThat("_cookbookbatRecipeDrops", isSetTo("false"));
+        assertThat("_cookbookbatRecipeDrops", isSetTo(false));
       }
     }
   }
