@@ -11,13 +11,18 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
+import java.io.File;
+import java.nio.file.Path;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -297,6 +302,16 @@ class ConsumablesDatabaseTest {
       DebugDatabase.cacheItemDescriptionText(
           ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
       TCRSDatabase.resetModifiers();
+      File root = KoLConstants.DATA_LOCATION;
+      String[] contents = root.list();
+      if (contents != null) {
+        for (String content : contents) {
+          if (content.toLowerCase().startsWith("tcrs") && content.toLowerCase().endsWith(".txt")) {
+            Path pathToBeDeleted = new File(root, content).toPath();
+            pathToBeDeleted.toFile().delete();
+          }
+        }
+      }
     }
 
     @Test
