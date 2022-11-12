@@ -68,13 +68,8 @@ public class ApiRequest extends GenericRequest {
 
     // If in certain LimitModes, Noobcore, PokeFam, and Disguises Delimit, API
     // status is incomplete, so use Character Pane instead.
-    boolean specialLimitMode =
-        switch (KoLCharacter.getLimitMode()) {
-          case SPELUNKY, BATMAN -> true;
-          default -> false;
-        };
 
-    if (specialLimitMode
+    if (KoLCharacter.getLimitMode().requiresCharPane()
         || KoLCharacter.inNoobcore()
         || KoLCharacter.inPokefam()
         || KoLCharacter.inDisguise()) {

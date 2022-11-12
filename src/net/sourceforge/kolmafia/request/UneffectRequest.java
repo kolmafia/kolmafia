@@ -112,6 +112,8 @@ public class UneffectRequest extends GenericRequest {
       case -1:
         // So, what about the following?
       case EffectPool.CURSED_BY_RNG:
+      case EffectPool.FORM_OF_ROACH:
+      case EffectPool.SHAPE_OF_MOLE:
       case EffectPool.FORM_OF_BIRD:
 
       case EffectPool.GOOFBALL_WITHDRAWAL:

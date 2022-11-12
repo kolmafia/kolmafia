@@ -452,6 +452,25 @@ class LimitModeTest {
     }
   }
 
+  @Nested
+  class CharPane {
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"NONE", "ED", "ASTRAL", "BIRD", "MOLE", "ROACH"})
+    void someDontRequireCharPane(final LimitMode lm) {
+      assertThat(lm.requiresCharPane(), is(false));
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"SPELUNKY", "BATMAN"})
+    void someDoRequireCharPane(final LimitMode lm) {
+      assertThat(lm.requiresCharPane(), is(true));
+    }
+  }
+
   // *** Pseudo LimitModes
 
   @Nested

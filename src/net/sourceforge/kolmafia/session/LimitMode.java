@@ -69,6 +69,13 @@ public enum LimitMode {
     }
   }
 
+  public boolean requiresCharPane() {
+    return switch (this) {
+      case SPELUNKY, BATMAN -> true;
+      default -> false;
+    };
+  }
+
   public boolean limitRecovery() {
     return switch (this) {
       case NONE, BIRD, ROACH, MOLE, ASTRAL -> false;
