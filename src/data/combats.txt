@@ -193,6 +193,7 @@ Neckback Crick	100	deadly venomtrout	water spider	unearthed monstrosity: 0
 Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gremlin	batwinged gremlin (tool)	vegetable gremlin
 Noob Cave	100	crate
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
+An Unusually Quiet Barroom Brawl	100	gator-human hybrid	gangster's moll	goblin flapper	traveling hobo	undercover prohibition agent
 Old Crimbo Town Toy Factory	100	Mob Penguin enforcer	Mob Penguin goon (2008)	Mob Penguin hitpenguin	Mob Penguin psychopath	Mob Penguin racketeer
 Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin	vegetable gremlin (tool)
 Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
