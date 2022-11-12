@@ -188,23 +188,22 @@ public class AdventureQueueDatabase implements Serializable {
   }
 
   public static void serialize() {
-    if (allowSerializationWrite) {
-      File file =
-          new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "queue.ser");
+    if (!allowSerializationWrite) return;
+    File file =
+        new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "queue.ser");
 
-      try {
-        FileOutputStream fileOut = new FileOutputStream(file);
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+    try {
+      FileOutputStream fileOut = new FileOutputStream(file);
+      ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
-        // make a collection with combat queue first
-        List<TreeMap<String, RollingLinkedList<String>>> queues = new ArrayList<>();
-        queues.add(COMBAT_QUEUE);
-        queues.add(NONCOMBAT_QUEUE);
-        out.writeObject(queues);
-        out.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      // make a collection with combat queue first
+      List<TreeMap<String, RollingLinkedList<String>>> queues = new ArrayList<>();
+      queues.add(COMBAT_QUEUE);
+      queues.add(NONCOMBAT_QUEUE);
+      out.writeObject(queues);
+      out.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -239,13 +238,12 @@ public class AdventureQueueDatabase implements Serializable {
     } catch (FileNotFoundException e) {
       AdventureQueueDatabase.resetQueue(false);
     } catch (ClassNotFoundException | EOFException | ClassCastException e) {
-      // Found the file, but the contents did not contain a properly-serialized treemap.
+      // Found the file, but the contents did not contain a properly-serialized treemap or
+      // old version of the combat queue handling or some other kind of malformed data.
       // Wipe the bogus file.
       file.delete();
       AdventureQueueDatabase.resetQueue();
-    } // Old version of the combat queue handling.  Sorry, have to delete your queue.
-    // Malformed data. Wipe the bogus file.
-    catch (IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }

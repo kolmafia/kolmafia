@@ -136,19 +136,18 @@ public class AdventureSpentDatabase implements Serializable {
   }
 
   public static void serialize() {
-    if (allowSerializationWrite) {
-      File file =
-          new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "turns.ser");
+    if (!allowSerializationWrite) return;
+    File file =
+        new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "turns.ser");
 
-      try {
-        FileOutputStream fileOut = new FileOutputStream(file);
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+    try {
+      FileOutputStream fileOut = new FileOutputStream(file);
+      ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
-        out.writeObject(AdventureSpentDatabase.TURNS);
-        out.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+      out.writeObject(AdventureSpentDatabase.TURNS);
+      out.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -177,12 +176,12 @@ public class AdventureSpentDatabase implements Serializable {
     } catch (FileNotFoundException e) {
       AdventureSpentDatabase.resetTurns(false);
     } catch (ClassNotFoundException | ClassCastException e) {
-      // Found the file, but the contents did not contain a properly-serialized treemap.
+      // Found the file, but the contents did not contain a properly-serialized treemap or
+      // old version of the combat queue handling.
       // Wipe the bogus file.
       file.delete();
       AdventureSpentDatabase.resetTurns();
-    } // Old version of the combat queue handling.  Sorry, have to delete your queue.
-    catch (IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }

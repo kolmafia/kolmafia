@@ -23,7 +23,7 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -38,8 +38,8 @@ public class AdventureRequestTest {
     AdventureQueueDatabase.allowSerializationWrite = false;
   }
 
-  @AfterEach
-  public void restore() {
+  @AfterAll
+  static void restore() {
     AdventureQueueDatabase.allowSerializationWrite = true;
   }
 
