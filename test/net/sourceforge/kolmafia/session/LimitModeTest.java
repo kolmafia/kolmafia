@@ -30,7 +30,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -457,11 +456,6 @@ class LimitModeTest {
 
   @Nested
   class Astral {
-    @AfterEach
-    public void afterEach() {
-      KoLConstants.activeEffects.clear();
-    }
-
     private static final AdventureResult ASTRAL_MUSHROOM =
         ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
     private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
@@ -516,11 +510,6 @@ class LimitModeTest {
 
   @Nested
   class Mole {
-    @AfterEach
-    public void afterEach() {
-      KoLConstants.activeEffects.clear();
-    }
-
     private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG, 1);
     private static final AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
 

@@ -4769,6 +4769,7 @@ public abstract class ChoiceControl {
 
         // We are now in a pseudo LimitMode
         Preferences.setString("currentLlamaForm", form);
+        // This will look at the property and set actual LimitMode
         KoLCharacter.setLimitMode(LimitMode.NONE);
         break;
 

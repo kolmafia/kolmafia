@@ -62,6 +62,9 @@ public enum LimitMode {
       case ASTRAL -> {
         Preferences.setString("currentAstralTrip", "");
       }
+      case BIRD, ROACH, MOLE -> {
+        // These could clear currentLlamaForm, but that is handled in ChoiceControl
+      }
       default -> {}
     }
   }
