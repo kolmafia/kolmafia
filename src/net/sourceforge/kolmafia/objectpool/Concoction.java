@@ -1305,6 +1305,15 @@ public class Concoction implements Comparable<Concoction> {
                       + ConcoctionDatabase.getFreeSmithJewelTurns()),
           0);
     }
+    if (this.mixingMethod == CraftingType.COOK_FANCY) {
+      return Math.max(
+          runningTotal
+              - (!considerInigos
+                  ? 0
+                  : ConcoctionDatabase.getFreeCraftingTurns()
+                      + ConcoctionDatabase.getFreeCookingTurns()),
+          0);
+    }
     return Math.max(
         runningTotal - (!considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns()), 0);
   }

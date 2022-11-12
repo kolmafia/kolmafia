@@ -1859,13 +1859,13 @@ public abstract class InventoryManager {
 
     CraftingType mixingMethod = creator.concoction.getMixingMethod();
 
-    if (mixingMethod == CraftingType.JEWELRY) {
-      freeCrafts += ConcoctionDatabase.getFreeSmithJewelTurns();
-    }
-
-    if (mixingMethod == CraftingType.SMITH || mixingMethod == CraftingType.SSMITH) {
-      freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
-      freeCrafts += ConcoctionDatabase.getFreeSmithJewelTurns();
+    switch (mixingMethod) {
+      case JEWELRY -> freeCrafts += ConcoctionDatabase.getFreeSmithJewelTurns();
+      case SMITH, SSMITH -> {
+        freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
+        freeCrafts += ConcoctionDatabase.getFreeSmithJewelTurns();
+      }
+      case COOK_FANCY -> freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
     }
 
     if (needed <= freeCrafts) {
