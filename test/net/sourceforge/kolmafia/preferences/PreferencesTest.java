@@ -19,7 +19,7 @@ class PreferencesTest {
   // in this class.
   @BeforeEach
   public void initializeCharPrefs() {
-    KoLCharacter.reset("fakePrefUser");
+    KoLCharacter.reset("PreferencesTestFakeUser");
     KoLCharacter.reset(true);
   }
 
@@ -35,7 +35,7 @@ class PreferencesTest {
     String propName = "aTestProp";
     Preferences.setBoolean(propName, true);
     assertTrue(Preferences.getBoolean(propName), "Property Set but does not exist.");
-    Preferences.reset("fakePrefUser"); // reload from disk
+    Preferences.reset("PreferencesTestFakeUser"); // reload from disk
     assertFalse(Preferences.getBoolean(propName), "Property not restored from disk by reset.");
   }
 
@@ -516,7 +516,7 @@ class PreferencesTest {
     assertFalse(Preferences.isPerUserGlobalProperty("xyzzy"));
     assertFalse(Preferences.isPerUserGlobalProperty("xy..z.zy"));
     // property
-    assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.fakePrefUser"));
+    assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.PreferencesTestFakeUser"));
   }
 
   @Test
