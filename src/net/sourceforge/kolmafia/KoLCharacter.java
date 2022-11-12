@@ -1319,9 +1319,42 @@ public abstract class KoLCharacter {
     return ascensionClass == null ? Stat.NONE : ascensionClass.getMainStat();
   }
 
+  public static final AdventureResult BIRDFORM = EffectPool.get(EffectPool.FORM_OF_BIRD);
+  public static final AdventureResult ROACHFORM = EffectPool.get(EffectPool.FORM_OF_ROACH);
+  public static final AdventureResult MOLEFORM = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
+  public static final AdventureResult ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+
   public static void setLimitMode(final LimitMode limitmode) {
     switch (limitmode) {
       case NONE -> {
+        // Check for "pseudo" LimitModes - when certain effects are active,
+        // some of your options - adventuring zones or combat skills - are
+        // restricted
+
+        switch (Preferences.getString("currentLlamaForm")) {
+          case "Bird" -> {
+            KoLCharacter.limitMode = LimitMode.BIRD;
+            return;
+          }
+          case "Roach" -> {
+            KoLCharacter.limitMode = LimitMode.ROACH;
+            return;
+          }
+          case "Mole" -> {
+            KoLCharacter.limitMode = LimitMode.MOLE;
+            return;
+          }
+        }
+
+        if (KoLConstants.activeEffects.contains(ASTRAL)) {
+          KoLCharacter.limitMode = LimitMode.ASTRAL;
+          return;
+        }
+
+        // The LimitMode can cleanup after itself without making requests
+        KoLCharacter.limitMode.finish();
+
+        // If it does require making requests, can't do it in a fight or choice
         if (KoLCharacter.limitMode.requiresReset()
             && !GenericRequest.abortIfInFightOrChoice(true)) {
           KoLmafia.resetAfterLimitmode();
