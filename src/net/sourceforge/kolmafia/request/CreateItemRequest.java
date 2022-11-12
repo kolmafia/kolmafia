@@ -54,8 +54,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       Pattern.compile(
           "That rapid prototyping programming you downloaded is really paying dividends");
   public static final Pattern COOKBOOKBAT_PATTERN =
-      Pattern.compile(
-          "The advice from your cookbookbat is really saving time");
+      Pattern.compile("The advice from your cookbookbat is really saving time");
   public static final Pattern CORNER_CUTTER_PATTERN =
       Pattern.compile("You really crafted that item the LyleCo way");
   public static final Pattern HOMEBODYL_PATTERN =
@@ -1238,23 +1237,21 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
   }
 
   private static int getAdventuresUsed(final CraftingType mixingMethod, final int quantityNeeded) {
-    switch (mixingMethod) {
-      case SMITH:
-      case SSMITH:
-        return Math.max(
-            0,
-            (quantityNeeded
-                - ConcoctionDatabase.getFreeCraftingTurns()
-                - ConcoctionDatabase.getFreeSmithingTurns()
-                - ConcoctionDatabase.getFreeSmithJewelTurns()));
-
-      case COOK_FANCY:
-      case MIX_FANCY:
-        return Math.max(0, (quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()));
-
-      default:
-        return 0;
-    }
+    return switch (mixingMethod) {
+      case SMITH, SSMITH -> Math.max(
+          0,
+          (quantityNeeded
+              - ConcoctionDatabase.getFreeCraftingTurns()
+              - ConcoctionDatabase.getFreeSmithingTurns()
+              - ConcoctionDatabase.getFreeSmithJewelTurns()));
+      case COOK_FANCY -> Math.max(
+          0,
+          (quantityNeeded
+              - ConcoctionDatabase.getFreeCraftingTurns()
+              - ConcoctionDatabase.getFreeCookingTurns()));
+      case MIX_FANCY -> Math.max(0, (quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()));
+      default -> 0;
+    };
   }
 
   public static final boolean registerRequest(final boolean isExternal, final String urlString) {

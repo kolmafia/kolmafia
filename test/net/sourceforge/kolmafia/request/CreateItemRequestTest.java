@@ -22,10 +22,11 @@ public class CreateItemRequestTest {
     var cleanups = Player.withProperty("_cookbookbatCrafting");
 
     try (cleanups) {
-      CreateItemRequest.parseCrafting("craft.php?action=craft&qty=1&mode=cook&target=423&ajax=1", html("request/test_create_cookbookbat.html"));
+      CreateItemRequest.parseCrafting(
+          "craft.php?action=craft&qty=1&mode=cook&target=423&ajax=1",
+          html("request/test_create_cookbookbat.html"));
 
       assertThat("_cookbookbatCrafting", isSetTo(1));
     }
   }
-
 }
