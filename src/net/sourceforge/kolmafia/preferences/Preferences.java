@@ -799,6 +799,7 @@ public class Preferences {
       }
     }
     Preferences.maybeSaveToFileAfterUpdating(saveSettingsOnSet, name);
+    PreferenceListenerRegistry.firePreferenceChanged(name);
   }
 
   public static boolean isGlobalProperty(final String name) {
