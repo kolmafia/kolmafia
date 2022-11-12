@@ -45,6 +45,8 @@ Casino	casino=11	DiffLevel: none Env: none Stat: 0	Lemon Party
 Casino	adventure=70	DiffLevel: low Env: indoor Stat: 0	The Roulette Tables
 Casino	adventure=71	DiffLevel: low Env: indoor Stat: 0	The Poker Room
 
+Oliver's Place	adventure=558	DiffLevel: mid Env: outdoor Stat: 0	An Unusually Quiet Barroom Brawl
+
 Manor0	adventure=399	DiffLevel: high Env: underground Stat: 104	The Haunted Boiler Room	1 wine bomb
 Manor0	adventure=400	DiffLevel: high Env: underground Stat: 104	The Haunted Laundry Room	1 blasting soda
 Manor0	adventure=401	DiffLevel: high Env: underground Stat: 104	The Haunted Wine Cellar	1 bottle of Chateau de Vinegar
@@ -525,9 +527,9 @@ Suburbs	adventure=277	DiffLevel: unknown Env: outdoor Stat: 40	The Clumsiness Gr
 Suburbs	adventure=278	DiffLevel: unknown Env: outdoor Stat: 40	The Maelstrom of Lovers	1 lecherous stone, 1 jealousy stone
 Suburbs	adventure=279	DiffLevel: unknown Env: outdoor Stat: 40	The Glacier of Jerks	1 avarice stone, 1 gluttonous stone
 
-Astral	adventure=96	DiffLevel: low Env: outdoor Stat: 20	An Incredibly Strange Place (Bad Trip)
-Astral	adventure=98	DiffLevel: mid Env: outdoor Stat: 50	An Incredibly Strange Place (Mediocre Trip)
-Astral	adventure=97	DiffLevel: high Env: outdoor Stat: 145	An Incredibly Strange Place (Great Trip)
+Bad Trip	adventure=96	DiffLevel: low Env: outdoor Stat: 20	An Incredibly Strange Place (Bad Trip)
+Mediocre Trip	adventure=98	DiffLevel: mid Env: outdoor Stat: 50	An Incredibly Strange Place (Mediocre Trip)
+Great Trip	adventure=97	DiffLevel: high Env: outdoor Stat: 145	An Incredibly Strange Place (Great Trip)
 
 Wormwood	adventure=151	DiffLevel: low Env: indoor Stat: 0	The Stately Pleasure Dome	1 choiceadv
 Wormwood	adventure=152	DiffLevel: low Env: indoor Stat: 0	The Mouldering Mansion	1 choiceadv

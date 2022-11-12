@@ -2740,3 +2740,6 @@
 2740	In the Depths	bbat_pizza.gif	4e1b5fb5d2e16e3bcf3d9013abdb4d5c	neutral	none	eat 1 Deep Dish of Legend
 2741	In the 'zone zone!	bbat_calzone2.gif	041f3562195a07294511006a50e1c9cb	neutral	none	eat 1 Calzone of Legend
 2742	Endless Drool	bbat_pizza.gif	c7175e92210890972f54a3a4ebca2415	neutral	none	eat 1 Pizza of Legend
+2743	Speakin' Easy	martini.gif	32cc95082a2a1b94ada06b5e2ad50bc9	neutral	none	drink 1 Charleston Choo-Choo
+2744	Imported Strength	oliver_taffy.gif	0b8afe8139c2af58c1f71fbaf1c1566c	neutral	none	use 1 imported taffy
+2745	Speakin' Even Easier	eyemartini.gif	2f3cfa02c5faee908174defd321b4a75	neutral	none	drink 1 Strong, Silent Type

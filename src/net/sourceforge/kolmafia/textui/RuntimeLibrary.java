@@ -9879,7 +9879,9 @@ public abstract class RuntimeLibrary {
 
     int i = 0;
     for (var id : locs) {
-      Value location = DataTypes.makeLocationValue(AdventureDatabase.getAdventure(id));
+      var adv = AdventureDatabase.getAdventure(id);
+      if (adv == null) continue;
+      Value location = DataTypes.makeLocationValue(adv);
       value.aset(DataTypes.makeIntValue(i++), location);
     }
 

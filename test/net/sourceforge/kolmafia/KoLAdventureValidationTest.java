@@ -22,6 +22,7 @@ import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -1293,6 +1294,168 @@ public class KoLAdventureValidationTest {
         assertThat(requests, hasSize(1));
         assertGetRequest(
             requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=4130&qty=1");
+      }
+    }
+  }
+
+  @Nested
+  class Astral {
+    private static final KoLAdventure BAD_TRIP =
+        AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Bad Trip)");
+    private static final KoLAdventure MEDIOCRE_TRIP =
+        AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Mediocre Trip)");
+    private static final KoLAdventure GREAT_TRIP =
+        AdventureDatabase.getAdventureByName("An Incredibly Strange Place (Great Trip)");
+    private static AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM, 1);
+    private static AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+
+    @Test
+    public void mustHaveAstralMushroomOrHalfAstral() {
+      var cleanups = new Cleanups(withLimitMode(LimitMode.NONE));
+      try (cleanups) {
+        assertFalse(BAD_TRIP.canAdventure());
+        assertFalse(MEDIOCRE_TRIP.canAdventure());
+        assertFalse(GREAT_TRIP.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureIfHalfAstralWithTripSelected() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withEffect("Half-Astral", 5),
+              withProperty("currentAstralTrip", "Great Trip"),
+              withLimitMode(LimitMode.ASTRAL));
+      try (cleanups) {
+        assertFalse(BAD_TRIP.canAdventure());
+        assertFalse(MEDIOCRE_TRIP.canAdventure());
+        assertTrue(GREAT_TRIP.canAdventure());
+        assertTrue(GREAT_TRIP.prepareForAdventure());
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithAstralMushroom() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ASTRAL_MUSHROOM),
+              withNoEffects(),
+              withProperty("currentAstralTrip", ""),
+              withLimitMode(LimitMode.NONE),
+              withPasswordHash("astral"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(KoLCharacter.FEMALE));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_astral_mushroom.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_visit_astral_travel_agent.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_choose_great_trip.html"));
+        client.addResponse(200, ""); // api.php
+
+        assertTrue(GREAT_TRIP.canAdventure());
+        assertTrue(GREAT_TRIP.prepareForAdventure());
+
+        assertEquals(5, HALF_ASTRAL.getCount(KoLConstants.activeEffects));
+        assertThat(Preferences.getString("currentAstralTrip"), is("Great Trip"));
+        assertEquals(KoLCharacter.getLimitMode(), LimitMode.ASTRAL);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(7));
+
+        assertPostRequest(
+            requests.get(0),
+            "/inv_use.php",
+            "whichitem=" + ItemPool.ASTRAL_MUSHROOM + "&ajax=1&pwd=astral");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(2), "/adventure.php", "snarfblat=97&pwd=astral");
+        assertGetRequest(requests.get(3), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(5), "/choice.php", "whichchoice=71&option=3&pwd=astral");
+        assertPostRequest(requests.get(6), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class Mole {
+    private static final KoLAdventure MT_MOLEHILL =
+        AdventureDatabase.getAdventureByName("Mt. Molehill");
+    private static AdventureResult GONG = ItemPool.get(ItemPool.GONG, 1);
+    private static AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
+
+    @Test
+    public void mustHaveGongOrShapeOfMole() {
+      var cleanups = new Cleanups(withLimitMode(LimitMode.NONE));
+      try (cleanups) {
+        assertFalse(MT_MOLEHILL.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAdventureIfInShapeOfMole() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withEffect("Shape of...Mole!", 12),
+              withProperty("currentLlamaForm", "Mole"),
+              withLimitMode(LimitMode.MOLE));
+      try (cleanups) {
+        assertTrue(MT_MOLEHILL.canAdventure());
+        assertTrue(MT_MOLEHILL.prepareForAdventure());
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithGong() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(GONG),
+              withNoEffects(),
+              withProperty("currentLlamaForm", ""),
+              withLimitMode(LimitMode.NONE),
+              withPasswordHash("mole"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(KoLCharacter.FEMALE));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
+        client.addResponse(200, html("request/test_choose_mole_form.html"));
+        client.addResponse(200, ""); // api.php
+
+        assertTrue(MT_MOLEHILL.canAdventure());
+        assertTrue(MT_MOLEHILL.prepareForAdventure());
+
+        assertEquals(12, SHAPE_OF_MOLE.getCount(KoLConstants.activeEffects));
+        assertThat(Preferences.getString("currentLlamaForm"), is("Mole"));
+        assertEquals(KoLCharacter.getLimitMode(), LimitMode.MOLE);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + ItemPool.GONG + "&ajax=1&pwd=mole");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=276&option=2&pwd=mole");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }
