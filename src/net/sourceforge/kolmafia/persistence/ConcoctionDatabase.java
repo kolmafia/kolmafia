@@ -136,9 +136,9 @@ public class ConcoctionDatabase {
   public static final Concoction adventureLimit = new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction adventureSmithingLimit =
       new Concoction(null, CraftingType.NOCREATE);
-  public static final Concoction adventureJewelcraftingLimit =
-      new Concoction(null, CraftingType.NOCREATE);
+  public static final Concoction cookingLimit = new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction turnFreeLimit = new Concoction(null, CraftingType.NOCREATE);
+  public static final Concoction turnFreeCookingLimit = new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction turnFreeSmithingLimit =
       new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction meatLimit = new Concoction(null, CraftingType.NOCREATE);
@@ -1488,27 +1488,21 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.adventureSmithingLimit.total =
         KoLCharacter.getAdventuresLeft()
             + ConcoctionDatabase.getFreeCraftingTurns()
-            + ConcoctionDatabase.getFreeSmithingTurns()
-            + ConcoctionDatabase.getFreeSmithJewelTurns();
+            + ConcoctionDatabase.getFreeSmithingTurns();
     ConcoctionDatabase.adventureSmithingLimit.initial =
         ConcoctionDatabase.adventureSmithingLimit.total - ConcoctionDatabase.queuedAdventuresUsed;
     ConcoctionDatabase.adventureSmithingLimit.creatable = 0;
     ConcoctionDatabase.adventureSmithingLimit.visibleTotal =
         ConcoctionDatabase.adventureSmithingLimit.total;
 
-    // Adventures are considered Item #0 in the event that the
-    // concoction will use ADVs.
-
-    ConcoctionDatabase.adventureJewelcraftingLimit.total =
+    ConcoctionDatabase.cookingLimit.total =
         KoLCharacter.getAdventuresLeft()
             + ConcoctionDatabase.getFreeCraftingTurns()
-            + ConcoctionDatabase.getFreeSmithJewelTurns();
-    ConcoctionDatabase.adventureJewelcraftingLimit.initial =
-        ConcoctionDatabase.adventureJewelcraftingLimit.total
-            - ConcoctionDatabase.queuedAdventuresUsed;
-    ConcoctionDatabase.adventureJewelcraftingLimit.creatable = 0;
-    ConcoctionDatabase.adventureJewelcraftingLimit.visibleTotal =
-        ConcoctionDatabase.adventureJewelcraftingLimit.total;
+            + ConcoctionDatabase.getFreeCookingTurns();
+    ConcoctionDatabase.cookingLimit.initial =
+        ConcoctionDatabase.cookingLimit.total - ConcoctionDatabase.queuedAdventuresUsed;
+    ConcoctionDatabase.cookingLimit.creatable = 0;
+    ConcoctionDatabase.cookingLimit.visibleTotal = ConcoctionDatabase.cookingLimit.total;
 
     // If we want to do turn-free crafting, we can only use free turns in lieu of adventures.
 
@@ -1522,14 +1516,20 @@ public class ConcoctionDatabase {
     // Smithing can't be queued
 
     ConcoctionDatabase.turnFreeSmithingLimit.total =
-        ConcoctionDatabase.getFreeCraftingTurns()
-            + ConcoctionDatabase.getFreeSmithingTurns()
-            + ConcoctionDatabase.getFreeSmithJewelTurns();
+        ConcoctionDatabase.getFreeCraftingTurns() + ConcoctionDatabase.getFreeSmithingTurns();
     ConcoctionDatabase.turnFreeSmithingLimit.initial =
         ConcoctionDatabase.turnFreeSmithingLimit.total - ConcoctionDatabase.queuedFreeCraftingTurns;
     ConcoctionDatabase.turnFreeSmithingLimit.creatable = 0;
     ConcoctionDatabase.turnFreeSmithingLimit.visibleTotal =
         ConcoctionDatabase.turnFreeSmithingLimit.total;
+
+    ConcoctionDatabase.turnFreeCookingLimit.total =
+        ConcoctionDatabase.getFreeCraftingTurns() + ConcoctionDatabase.getFreeCookingTurns();
+    ConcoctionDatabase.turnFreeCookingLimit.initial =
+        ConcoctionDatabase.turnFreeCookingLimit.total - ConcoctionDatabase.queuedFreeCraftingTurns;
+    ConcoctionDatabase.turnFreeCookingLimit.creatable = 0;
+    ConcoctionDatabase.turnFreeCookingLimit.visibleTotal =
+        ConcoctionDatabase.turnFreeCookingLimit.total;
 
     // Stills are also considered Item #0 in the event that the
     // concoction will use stills.
@@ -2288,9 +2288,7 @@ public class ConcoctionDatabase {
         }
         int usableFreeCrafts = getFreeCraftingTurns();
         if (method == CraftingType.SMITH || method == CraftingType.SSMITH) {
-          usableFreeCrafts += getFreeSmithJewelTurns() + getFreeSmithingTurns();
-        } else if (method == CraftingType.JEWELRY) {
-          usableFreeCrafts += getFreeSmithJewelTurns();
+          usableFreeCrafts += getFreeSmithingTurns();
         } else if (method == CraftingType.COOK_FANCY) {
           usableFreeCrafts += getFreeCookingTurns();
         }
@@ -2345,21 +2343,18 @@ public class ConcoctionDatabase {
     return haveBat ? 5 - Preferences.getInteger("_cookbookbatCrafting") : 0;
   }
 
-  public static int getFreeSmithJewelTurns() {
-    boolean havePliers =
-        ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.closet) > 0
-            || ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.inventory) > 0
-            || InventoryManager.getEquippedCount(ConcoctionDatabase.THORS_PLIERS) > 0;
-    return havePliers ? 10 - Preferences.getInteger("_thorsPliersCrafting") : 0;
-  }
-
   public static int getFreeSmithingTurns() {
     AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
     boolean haveWarbearAutoanvil =
         workshedItem != null && workshedItem.getItemId() == ItemPool.AUTO_ANVIL;
     boolean haveJackhammer = InventoryManager.hasItem(ItemPool.LOATHING_LEGION_JACKHAMMER);
+    boolean havePliers =
+        ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.closet) > 0
+            || ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.inventory) > 0
+            || InventoryManager.getEquippedCount(ConcoctionDatabase.THORS_PLIERS) > 0;
     return (haveWarbearAutoanvil ? 5 - Preferences.getInteger("_warbearAutoAnvilCrafting") : 0)
-        + (haveJackhammer ? 3 - Preferences.getInteger("_legionJackhammerCrafting") : 0);
+        + (haveJackhammer ? 3 - Preferences.getInteger("_legionJackhammerCrafting") : 0)
+        + (havePliers ? 10 - Preferences.getInteger("_thorsPliersCrafting") : 0);
   }
 
   private static boolean isAvailable(final int servantId, final int clockworkId) {
