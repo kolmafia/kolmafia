@@ -16,8 +16,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
-import java.io.File;
-import java.nio.file.Path;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
@@ -306,20 +306,14 @@ class ConsumablesDatabaseTest {
   @Nested
   class TCRS {
     @AfterAll
-    static void afterAll() {
+    static void afterAll() throws IOException {
       DebugDatabase.cacheItemDescriptionText(
           ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
       TCRSDatabase.resetModifiers();
-      File root = KoLConstants.DATA_LOCATION;
-      String[] contents = root.list();
-      if (contents != null) {
-        for (String content : contents) {
-          if (content.toLowerCase().startsWith("tcrs") && content.toLowerCase().endsWith(".txt")) {
-            Path pathToBeDeleted = new File(root, content).toPath();
-            pathToBeDeleted.toFile().delete();
-          }
-        }
-      }
+      Files.walk(KoLConstants.DATA_LOCATION.toPath())
+          .filter(p -> p.toFile().getName().startsWith("TCRS_"))
+          .filter(p -> p.toFile().getName().endsWith(".txt"))
+          .forEach(p -> p.toFile().delete());
     }
 
     @Test
