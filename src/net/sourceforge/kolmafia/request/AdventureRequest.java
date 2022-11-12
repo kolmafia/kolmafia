@@ -668,22 +668,21 @@ public class AdventureRequest extends GenericRequest {
       return null;
     }
 
-    if (urlString.equals("choice.php")) {
-      // Although KoL usually redirects to choice.php?forceoption=0, older
-      // pages redirect to just choice.php.
-      //
-      // If you refresh a choice page you cannot walk away from, that also
-      // redirects to just choice.php
-      //
-      // Ideally, we'd like to log an encounter for the first, but not for
-      // refreshes.
-      //
-      // Unfortunately, we cannot tell the difference.
+    String encounter = AdventureRequest.parseEncounter(responseText);
 
-      // return null;
+    // If KoL redirects to exactly "choice.php", it might contain a new
+    // encounter (mostly on older choice pages) or the user could have
+    // refreshed a choice page that you cannot walk away from.
+    //
+    // If the encounter is identical to what we saved, assume it is a refresh.
+    if (urlString.equals("choice.php")) {
+      String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+      if (prettyEncounter.equals(Preferences.getString("lastEncounter"))) {
+        return null;
+      }
     }
 
-    return AdventureRequest.parseEncounter(responseText);
+    return encounter;
   }
 
   private static String choiceType(final int choice) {

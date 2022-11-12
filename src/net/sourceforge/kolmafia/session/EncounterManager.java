@@ -527,6 +527,10 @@ public abstract class EncounterManager {
       this.encounterCount++;
     }
 
+    public String getName() {
+      return this.name;
+    }
+
     public int getCount() {
       return this.encounterCount;
     }

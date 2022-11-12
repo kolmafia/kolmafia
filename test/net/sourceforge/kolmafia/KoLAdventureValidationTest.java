@@ -1414,6 +1414,7 @@ public class KoLAdventureValidationTest {
               withLimitMode(LimitMode.MOLE));
       try (cleanups) {
         assertTrue(MT_MOLEHILL.canAdventure());
+        assertTrue(MT_MOLEHILL.prepareForAdventure());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(0));

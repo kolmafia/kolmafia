@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -219,6 +220,36 @@ public class ChoiceManagerTest {
     }
 
     @Test
+    public void canRedirectToChoiceWithoutForceOption() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("lastEncounter", "No Sects in the Potion Room"),
+              withHandlingChoice(false));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+        client.addResponse(200, html("request/test_leave_reincarnation.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MT_MOLEHILL);
+        request.run();
+
+        assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getName(), is("Welcome Back!"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MT_MOLEHILL);
+        assertGetRequest(requests.get(1), "/choice.php", null);
+      }
+    }
+
+    @Test
     public void canProcessChoiceInGenericRequest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
@@ -328,13 +359,8 @@ public class ChoiceManagerTest {
 
         // We do not "revisit" the choice page.
         assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
-
-        // The following is no longer true, since suppressing it prevented
-        // genuine encounters provoked by a simple "choice.php" from
-        // registering the first time they are visited.
-
-        // assertThat(KoLConstants.encounterList.size(), is(1));
-        // assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
+        assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(5));
