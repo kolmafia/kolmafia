@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -2347,6 +2348,13 @@ public class ConcoctionDatabase {
         + (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cold Medicine Cabinet")
             ? Preferences.getInteger("homebodylCharges")
             : 0);
+  }
+
+  public static int getFreeCookingTurns() {
+    // assume bat works if allowed in standard & in terrarium, like the collective
+    boolean haveBat = StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Cookbookbat")
+        && KoLCharacter.ownedFamiliar(FamiliarPool.COOKBOOKBAT).isPresent();
+    return haveBat ? 5 - Preferences.getInteger("_cookbookbatCrafting") : 0;
   }
 
   public static int getFreeSmithJewelTurns() {
