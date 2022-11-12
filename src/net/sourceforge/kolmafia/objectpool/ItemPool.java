@@ -543,6 +543,7 @@ public class ItemPool {
   public static final int EXPRESS_CARD = 1687;
   public static final int MUCULENT_MACHETE = 1721;
   public static final int SWORD_PREPOSITIONS = 1734;
+  public static final int GOULAUNCHER = 1748;
   public static final int GALLERY_KEY = 1765;
   public static final int BALLROOM_KEY = 1766;
   public static final int PACK_OF_CHEWING_GUM = 1767;
@@ -770,6 +771,7 @@ public class ItemPool {
   public static final int TELESCOPE = 2599;
   public static final int TUESDAYS_RUBY = 2604;
   public static final int PALM_FROND = 2605;
+  public static final int PALM_FROND_FAN = 2606;
   public static final int MOJO_FILTER = 2614;
   public static final int WEAVING_MANUAL = 2630;
   public static final int PAT_A_CAKE_PENDANT = 2633;
@@ -1065,6 +1067,7 @@ public class ItemPool {
   public static final int POTION_OF_PUISSANCE = 3561;
   public static final int POTION_OF_PERSPICACITY = 3562;
   public static final int POTION_OF_PULCHRITUDE = 3563;
+  public static final int SPONGE_HELMET = 3568;
   public static final int SAND_DOLLAR = 3575;
   public static final int BEZOAR_RING = 3577;
   public static final int WRIGGLING_FLYTRAP_PELLET = 3580;
@@ -2299,6 +2302,7 @@ public class ItemPool {
   public static final int SPRINKLE_SHAKER = 7426;
   public static final int TACO_DAN_RECEIPT = 7428;
   public static final int BEACH_BUCK = 7429;
+  public static final int BEEFY_CRUNCH_PASTACO = 7438;
   public static final int OVERPOWERING_MUSHROOM_WINE = 7444;
   public static final int COMPLEX_MUSHROOM_WINE = 7445;
   public static final int SMOOTH_MUSHROOM_WINE = 7446;
