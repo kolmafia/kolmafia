@@ -11,13 +11,18 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -301,10 +306,14 @@ class ConsumablesDatabaseTest {
   @Nested
   class TCRS {
     @AfterAll
-    static void afterAll() {
+    static void afterAll() throws IOException {
       DebugDatabase.cacheItemDescriptionText(
           ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
       TCRSDatabase.resetModifiers();
+      Files.walk(KoLConstants.DATA_LOCATION.toPath())
+          .filter(p -> p.toFile().getName().startsWith("TCRS_"))
+          .filter(p -> p.toFile().getName().endsWith(".txt"))
+          .forEach(p -> p.toFile().delete());
     }
 
     @Test

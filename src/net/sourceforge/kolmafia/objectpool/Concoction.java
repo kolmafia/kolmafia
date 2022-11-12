@@ -1251,7 +1251,7 @@ public class Concoction implements Comparable<Concoction> {
     return this.getAdventuresNeeded(quantityNeeded, false);
   }
 
-  public int getAdventuresNeeded(final int quantityNeeded, boolean considerInigos) {
+  public int getAdventuresNeeded(final int quantityNeeded, boolean considerFree) {
     // If we can't make this item, it costs no adventures to use
     // the quantity on hand.
     if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)) {
@@ -1295,18 +1295,20 @@ public class Concoction implements Comparable<Concoction> {
       runningTotal += ingredient.getAdventuresNeeded(create);
     }
 
-    if (this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH) {
-      return Math.max(
-          runningTotal
-              - (!considerInigos
-                  ? 0
-                  : ConcoctionDatabase.getFreeCraftingTurns()
-                      + ConcoctionDatabase.getFreeSmithingTurns()
-                      + ConcoctionDatabase.getFreeSmithJewelTurns()),
-          0);
+    if (!considerFree) {
+      return runningTotal;
     }
-    return Math.max(
-        runningTotal - (!considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns()), 0);
+
+    int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
+
+    if (this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH) {
+      freeCrafts +=
+          ConcoctionDatabase.getFreeSmithingTurns() + ConcoctionDatabase.getFreeSmithJewelTurns();
+    }
+    if (this.mixingMethod == CraftingType.COOK_FANCY) {
+      freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
+    }
+    return Math.max(runningTotal - freeCrafts, 0);
   }
 
   /**

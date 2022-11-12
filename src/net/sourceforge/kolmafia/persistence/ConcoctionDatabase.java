@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1574,7 +1575,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.ADVENTURE_USAGE.clear();
     ConcoctionDatabase.CREATION_COST.clear();
     ConcoctionDatabase.EXCUSE.clear();
-    int Inigo = ConcoctionDatabase.getFreeCraftingTurns();
+    int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
 
     if (KoLCharacter.getGender() == KoLCharacter.MALE) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.MALE);
@@ -1765,14 +1766,6 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.CREATION_COST.put(
           CraftingType.COOK_FANCY, MallPriceDatabase.getPrice(ItemPool.CHEF) / 90);
     }
-    // If we don't have a chef, Inigo's makes cooking free
-    /*		else if ( Inigo > 0 )
-    {
-      ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = true;
-      ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
-      ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
-      ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
-    }*/
     // We might not care if cooking takes adventures
     else if (Preferences.getBoolean("requireBoxServants") && !KoLCharacter.inGLover()) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 0);
@@ -1783,7 +1776,7 @@ public class ConcoctionDatabase {
     }
     // Otherwise, spend those adventures!
     else {
-      if (KoLCharacter.getAdventuresLeft() + Inigo > 0) {
+      if (KoLCharacter.getAdventuresLeft() + freeCrafts + getFreeCookingTurns() > 0) {
         ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.COOK_FANCY);
       }
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 1);
@@ -1885,7 +1878,7 @@ public class ConcoctionDatabase {
     }
     // Otherwise, spend those adventures!
     else {
-      if (KoLCharacter.getAdventuresLeft() + Inigo > 0) {
+      if (KoLCharacter.getAdventuresLeft() + freeCrafts > 0) {
         ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MIX_FANCY);
       }
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 1);
@@ -2293,20 +2286,15 @@ public class ConcoctionDatabase {
         if (adv == 0) {
           continue;
         }
-        if (adv
-            > KoLCharacter.getAdventuresLeft()
-                + (method == CraftingType.SMITH
-                    ? ConcoctionDatabase.getFreeCraftingTurns()
-                        + ConcoctionDatabase.getFreeSmithJewelTurns()
-                        + ConcoctionDatabase.getFreeSmithingTurns()
-                    : method == CraftingType.SSMITH
-                        ? ConcoctionDatabase.getFreeCraftingTurns()
-                            + ConcoctionDatabase.getFreeSmithJewelTurns()
-                            + ConcoctionDatabase.getFreeSmithingTurns()
-                        : method == CraftingType.JEWELRY
-                            ? ConcoctionDatabase.getFreeCraftingTurns()
-                                + ConcoctionDatabase.getFreeSmithJewelTurns()
-                            : ConcoctionDatabase.getFreeCraftingTurns())) { //
+        int usableFreeCrafts = getFreeCraftingTurns();
+        if (method == CraftingType.SMITH || method == CraftingType.SSMITH) {
+          usableFreeCrafts += getFreeSmithJewelTurns() + getFreeSmithingTurns();
+        } else if (method == CraftingType.JEWELRY) {
+          usableFreeCrafts += getFreeSmithJewelTurns();
+        } else if (method == CraftingType.COOK_FANCY) {
+          usableFreeCrafts += getFreeCookingTurns();
+        }
+        if (adv > KoLCharacter.getAdventuresLeft() + usableFreeCrafts) { //
           ConcoctionDatabase.PERMIT_METHOD.remove(method);
           ConcoctionDatabase.EXCUSE.put(
               method, "You don't have enough adventures left to create that.");
@@ -2347,6 +2335,14 @@ public class ConcoctionDatabase {
         + (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cold Medicine Cabinet")
             ? Preferences.getInteger("homebodylCharges")
             : 0);
+  }
+
+  public static int getFreeCookingTurns() {
+    // assume bat works if allowed in standard & in terrarium, like the collective
+    boolean haveBat =
+        StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Cookbookbat")
+            && KoLCharacter.ownedFamiliar(FamiliarPool.COOKBOOKBAT).isPresent();
+    return haveBat ? 5 - Preferences.getInteger("_cookbookbatCrafting") : 0;
   }
 
   public static int getFreeSmithJewelTurns() {

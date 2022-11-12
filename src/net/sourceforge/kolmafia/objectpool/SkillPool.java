@@ -60,6 +60,7 @@ public class SkillPool {
   public static final int BELCH_THE_RAINBOW = 117;
   public static final int PIRATE_BELLOW = 118;
   public static final int HOLIDAY_FUN = 121;
+  public static final int RAPID_PROTOTYPING = 125;
   public static final int SUMMON_CARROT = 128;
   public static final int BEAR_ESSENCE = 135;
   public static final int SUMMON_KOKOMO_RESORT_PASS = 135;
@@ -84,6 +85,7 @@ public class SkillPool {
   public static final int STACK_LUMPS = 167;
   public static final int EVOKE_ELDRITCH_HORROR = 168;
   public static final int INCREDIBLE_SELF_ESTEEM = 174;
+  public static final int EXPERT_CORNER_CUTTER = 177;
   public static final int BUDGET_CONSCIOUS = 178;
   public static final int DRINKING_TO_DRINK = 179;
   public static final int EXPERIENCE_SAFARI = 180;
@@ -112,6 +114,7 @@ public class SkillPool {
   public static final int SILENT_HUNTER = 1041;
   public static final int GET_BIG = 1042;
   public static final int BLOOD_FRENZY = 1043;
+  public static final int ARMORCRAFTINESS = 2006;
   public static final int SPECTRAL_SNAPPER = 2022;
   public static final int TOSS = 2023;
   public static final int SPIRIT_VACATION = 2027;
@@ -133,6 +136,7 @@ public class SkillPool {
   public static final int BANDAGES = 3009;
   public static final int COCOON = 3012;
   public static final int FLAVOUR_OF_MAGIC = 3017;
+  public static final int TRANSCENDENTAL_NOODLECRAFTING = 3018;
   public static final int FEARFUL_FETTUCINI = 3019;
   public static final int SPAGHETTI_SPEAR = 3020;
   public static final int STRINGOZZI = 3023;
@@ -163,6 +167,7 @@ public class SkillPool {
   public static final int DISCO_NAP = 5007;
   public static final int ADVENTURER_OF_LEISURE = 5011;
   public static final int ADVANCED_COCKTAIL = 5014;
+  public static final int SUPER_COCKTAIL = 5018;
   public static final int TANGO_OF_TERROR = 5019;
   public static final int SUCKERPUNCH = 5021;
   public static final int THATS_NOT_A_KNIFE = 5028;
