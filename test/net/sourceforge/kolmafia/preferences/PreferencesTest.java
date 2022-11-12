@@ -6,11 +6,16 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
@@ -28,6 +33,10 @@ class PreferencesTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
+    File userFile = new File("settings/PreferencesTestFakeUser_prefs.txt");
+    if (userFile.exists()) {
+      userFile.delete();
+    }
   }
 
   @Test
@@ -603,6 +612,59 @@ class PreferencesTest {
       // Reset should save global.
       Preferences.reset("dot_is_....not_good");
       assertTrue(globalfile.exists());
+    }
+  }
+
+  @Nested
+  class SaveSettingsOnSet {
+    @Test
+    public void savesSettingsIfOn() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        File userFile = new File("settings/" + KoLCharacter.getUserName() + "_prefs.txt");
+        String contents =
+            new String(
+                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+        assertFalse(contents.contains("\nxyz=abc\n"));
+
+        try (var cleanups2 = withProperty("xyz", "abc")) {
+          contents =
+              new String(
+                  DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+          assertTrue(contents.contains("\nxyz=abc\n"));
+        }
+      }
+    }
+
+    @Test
+    public void canToggle() throws IOException {
+      File userFile = new File("settings/" + KoLCharacter.getUserName() + "_prefs.txt");
+      String contents =
+          new String(DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+      assertFalse(contents.contains("\nxyz=abc\n"));
+
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty("saveSettingsOnSet", false),
+              withProperty("xyz", "abc"));
+      try (cleanups) {
+        contents =
+            new String(
+                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+        assertFalse(contents.contains("\nxyz=abc\n"));
+
+        var cleanups2 =
+            new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
+        try (cleanups2) {
+          contents =
+              new String(
+                  DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+          assertTrue(contents.contains("\nxyz=abc\n"));
+          assertTrue(contents.contains("\nwxy=def\n"));
+        }
+      }
     }
   }
 }
