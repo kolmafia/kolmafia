@@ -1107,32 +1107,36 @@ public class ResultProcessor {
 
     if (result.isStatusEffect()) {
       switch (result.getEffectId()) {
-        case EffectPool.GARISH:
+        case EffectPool.GARISH -> {
           // If you gain or lose Gar-ish, and autoGarish
           // not set, benefit of Lasagna changes
           if (!Preferences.getBoolean("autoGarish")) {
             ConcoctionDatabase.setRefreshNeeded(true);
           }
-          break;
-        case EffectPool.INIGOS:
-        case EffectPool.CRAFT_TEA:
+        }
+        case EffectPool.HALF_ASTRAL -> {
+          if (result.getCount() > 0) {
+            KoLCharacter.setLimitMode(LimitMode.ASTRAL);
+          }
+        }
+        case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
           // If you gain or lose Inigo's or Craft Tea, what you can
           // craft changes
           ConcoctionDatabase.setRefreshNeeded(true);
-          break;
-        case EffectPool.RECORD_HUNGER:
-        case EffectPool.DRUNK_AVUNCULAR:
-        case EffectPool.BARREL_OF_LAUGHS:
-        case EffectPool.BEER_BARREL_POLKA:
-        case EffectPool.REFINED_PALATE:
+        }
+        case EffectPool.RECORD_HUNGER,
+            EffectPool.DRUNK_AVUNCULAR,
+            EffectPool.BARREL_OF_LAUGHS,
+            EffectPool.BEER_BARREL_POLKA,
+            EffectPool.REFINED_PALATE -> {
           // Turn generation from food and booze changes
           ConcoctionDatabase.setRefreshNeeded(true);
-          break;
-        case EffectPool.CHILLED_TO_THE_BONE:
+        }
+        case EffectPool.CHILLED_TO_THE_BONE -> {
           int duration = result.getCount();
           if (duration <= 0) break;
           Preferences.setInteger("chilledToTheBone", (int) Math.pow(3, duration));
-          break;
+        }
       }
 
       return shouldRefresh;
@@ -1250,10 +1254,16 @@ public class ResultProcessor {
           } else if (duration + result.getCount() <= 0) {
             KoLConstants.activeEffects.remove(i);
 
-            // If you lose Inigo's or Craft Tea, what you can craft changes
-            int effectId = effect.getEffectId();
-            if (effectId == EffectPool.INIGOS || effectId == EffectPool.CRAFT_TEA) {
-              ConcoctionDatabase.setRefreshNeeded(true);
+            switch (effect.getEffectId()) {
+              case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
+                // If you lose Inigo's or Craft Tea, what you can craft changes
+                ConcoctionDatabase.setRefreshNeeded(true);
+              }
+              case EffectPool.HALF_ASTRAL -> {
+                // There is no "cool down" choice adventure for leaving this,
+                // unlike the various llama lama forms
+                KoLCharacter.setLimitMode(LimitMode.NONE);
+              }
             }
           } else {
             KoLConstants.activeEffects.set(

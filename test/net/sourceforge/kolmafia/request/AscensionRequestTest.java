@@ -18,16 +18,27 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class AscensionRequestTest {
   @BeforeAll
   public static void initializeCharPrefs() {
-    KoLCharacter.reset("fakePrefUser");
+    KoLCharacter.reset("AscensionRequestFakeUser");
     KoLCharacter.reset(true);
     // Fix another test not cleaning up
     FightRequest.currentRound = 0;
+    AdventureQueueDatabase.allowSerializationWrite = false;
+    AdventureSpentDatabase.allowSerializationWrite = false;
+  }
+
+  @AfterAll
+  public static void restoreWritePermissions() {
+    AdventureQueueDatabase.allowSerializationWrite = true;
+    AdventureSpentDatabase.allowSerializationWrite = true;
   }
 
   @Test

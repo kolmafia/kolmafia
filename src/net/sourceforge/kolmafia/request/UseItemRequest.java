@@ -112,8 +112,6 @@ public class UseItemRequest extends GenericRequest {
       new HashMap<Integer, AdventureResult>();
 
   static {
-    UseItemRequest.LIMITED_USES.put(
-        ItemPool.ASTRAL_MUSHROOM, EffectPool.get(EffectPool.HALF_ASTRAL));
     UseItemRequest.LIMITED_USES.put(ItemPool.ABSINTHE, EffectPool.get(EffectPool.ABSINTHE));
     UseItemRequest.LIMITED_USES.put(ItemPool.ELEVEN_LEAF_CLOVER, EffectPool.get(EffectPool.LUCKY));
   }
@@ -377,6 +375,12 @@ public class UseItemRequest extends GenericRequest {
       return 0;
     }
 
+    // Check LimitMode
+    if (KoLCharacter.getLimitMode().limitItem(itemId)) {
+      UseItemRequest.limiter = "limit mode";
+      return 0;
+    }
+
     // Beecore path check
 
     switch (itemId) {
@@ -491,6 +495,7 @@ public class UseItemRequest extends GenericRequest {
         }
         break;
 
+      case ItemPool.ASTRAL_MUSHROOM:
       case ItemPool.GONG:
       case ItemPool.KETCHUP_HOUND:
         UseItemRequest.limiter = "usability";
@@ -856,11 +861,9 @@ public class UseItemRequest extends GenericRequest {
         return 3;
     }
 
-    Integer key = itemId;
-
-    if (UseItemRequest.LIMITED_USES.containsKey(key)) {
+    if (UseItemRequest.LIMITED_USES.containsKey(itemId)) {
       UseItemRequest.limiter = "unstackable effect";
-      return KoLConstants.activeEffects.contains(UseItemRequest.LIMITED_USES.get(key)) ? 0 : 1;
+      return KoLConstants.activeEffects.contains(UseItemRequest.LIMITED_USES.get(itemId)) ? 0 : 1;
     }
 
     return Integer.MAX_VALUE;
