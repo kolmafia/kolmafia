@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -15,7 +17,16 @@ public enum LimitMode {
   // Batfellow
   BATMAN("batman"),
   // Ed in the Underworld
-  ED("edunder");
+  ED("edunder"),
+  // Mutually exclusive pseudo Limit Modes
+  // Form of...Bird!
+  BIRD("bird"),
+  // Form of...Cockroach!
+  ROACH("cockroach"),
+  // Shape of...Mole!
+  MOLE("mole"),
+  // Half-Astral
+  ASTRAL("astral");
 
   public static LimitMode find(final String name) {
     return Arrays.stream(values())
@@ -46,11 +57,31 @@ public enum LimitMode {
     resetFunction().ifPresent(Runnable::run);
   }
 
+  public void finish() {
+    switch (this) {
+      case ASTRAL -> {
+        Preferences.setString("currentAstralTrip", "");
+      }
+      case BIRD, ROACH, MOLE -> {
+        // These could clear currentLlamaForm, but that is handled in ChoiceControl
+      }
+      default -> {}
+    }
+  }
+
+  public boolean limitRecovery() {
+    return switch (this) {
+      case NONE, BIRD, ROACH, MOLE, ASTRAL -> false;
+      default -> true;
+    };
+  }
+
   public boolean limitSkill(final int skillId) {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY -> skillId < 7238 || skillId > 7244;
       case BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -65,6 +96,8 @@ public enum LimitMode {
       case SPELUNKY -> itemId < 8040 || itemId > 8062;
       case BATMAN -> itemId < 8797 || itemId > 8815 || itemId == 8800;
       case ED -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> itemId == ItemPool.GONG
+          || itemId == ItemPool.ASTRAL_MUSHROOM;
     };
   }
 
@@ -80,6 +113,7 @@ public enum LimitMode {
         default -> true;
       };
       case ED, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -87,6 +121,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -94,6 +129,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -101,10 +137,26 @@ public enum LimitMode {
     return limitZone(adventure.getZone());
   }
 
-  private final List<String> limitZones = List.of("Batfellow Area", "Spelunky Area");
+  private final List<String> limitZones =
+      List.of("Batfellow Area", "Spelunky Area", "Shape of Mole", "Astral");
 
   public boolean limitZone(String zoneName) {
     String rootZone = AdventureDatabase.getRootZone(zoneName, limitZones);
+
+    switch (rootZone) {
+      case "Astral" -> {
+        if (Preferences.getString("currentAstralTrip").equals("")) {
+          // We can use an astral mushroom to go here
+          return this != LimitMode.NONE;
+        }
+      }
+      case "Shape of Mole" -> {
+        // We can use a llamma lama gong to go here
+        if (Preferences.getString("currentLlamaForm").equals("")) {
+          return this != LimitMode.NONE;
+        }
+      }
+    }
 
     return switch (this) {
       case UNKNOWN -> false;
@@ -112,6 +164,11 @@ public enum LimitMode {
       case SPELUNKY -> !rootZone.equals("Spelunky Area");
       case BATMAN -> !rootZone.equals("Batfellow Area");
       case ED -> true;
+        // Mutually exclusive pseudo Limit Modes
+      case BIRD -> zoneName.equals("Shape of Mole") || rootZone.equals("Astral");
+      case ROACH -> false;
+      case MOLE -> !zoneName.equals("Shape of Mole");
+      case ASTRAL -> !zoneName.equals(Preferences.getString("currentAstralTrip"));
     };
   }
 
@@ -119,6 +176,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -126,6 +184,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -133,6 +192,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -140,6 +200,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -147,6 +208,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -154,6 +216,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -161,6 +224,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -168,6 +232,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -175,6 +240,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -182,6 +248,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY, BATMAN, ED -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -189,6 +256,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 
@@ -196,6 +264,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE, ED -> false;
       case SPELUNKY, BATMAN -> true;
+      case BIRD, ROACH, MOLE, ASTRAL -> false;
     };
   }
 

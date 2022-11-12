@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.BreakfastManager;
-import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ManaBurnManager {
@@ -24,7 +23,7 @@ public class ManaBurnManager {
   public static final void burnExtraMana(final boolean isManualInvocation) {
     if (KoLmafia.refusesContinue()
         || KoLCharacter.inZombiecore()
-        || KoLCharacter.getLimitMode() != LimitMode.NONE) {
+        || KoLCharacter.getLimitMode().limitRecovery()) {
       return;
     }
 

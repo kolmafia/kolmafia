@@ -5,6 +5,7 @@ import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -12,7 +13,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junitpioneer.jupiter.cartesian.CartesianTest.Enum;
+import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpResponse;
@@ -26,15 +30,41 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 class UseItemRequestTest {
   @BeforeEach
   void beforeEach() {
     KoLCharacter.reset("UseItemRequestTest");
     Preferences.reset("UseItemRequestTest");
+  }
+
+  @Nested
+  class LimitModes {
+    @CartesianTest
+    void maxZeroIfInLimitMode(
+        @Enum(names = {"ASTRAL", "BIRD", "MOLE", "ROACH"}) LimitMode lm,
+        @Values(ints = {ItemPool.ASTRAL_MUSHROOM, ItemPool.GONG}) int itemId) {
+      var cleanups = new Cleanups(withLimitMode(lm), withItem(itemId));
+      try (cleanups) {
+        assertEquals(0, UseItemRequest.maximumUses(itemId));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {ItemPool.ASTRAL_MUSHROOM, ItemPool.GONG})
+    void maxOneIfNotInLimitMode(int itemId) {
+      var cleanups = new Cleanups(withLimitMode(LimitMode.NONE), withItem(itemId));
+      try (cleanups) {
+        assertEquals(1, UseItemRequest.maximumUses(itemId));
+      }
+    }
   }
 
   @Nested

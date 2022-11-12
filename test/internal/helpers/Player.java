@@ -578,6 +578,16 @@ public class Player {
   }
 
   /**
+   * Clears active effects
+   *
+   * @return Clears effects
+   */
+  public static Cleanups withNoEffects() {
+    KoLConstants.activeEffects.clear();
+    return new Cleanups(() -> KoLConstants.activeEffects.clear());
+  }
+
+  /**
    * Gives player a number of turns of the given effect
    *
    * @param effectId Effect to add
