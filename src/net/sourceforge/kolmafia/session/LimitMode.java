@@ -23,7 +23,7 @@ public enum LimitMode {
   BIRD("bird"),
   // Form of...Cockroach!
   ROACH("cockroach"),
-  // Half-Astral
+  // Shape of...Mole!
   MOLE("mole"),
   // Half-Astral
   ASTRAL("astral");
