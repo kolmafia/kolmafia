@@ -1760,7 +1760,7 @@ public class Modifiers {
       return null;
     }
     String name = "[" + id + "]";
-    return Modifiers.getModifiers("Item", name);
+    return Modifiers.getModifiers("Item", id, name);
   }
 
   /**
@@ -1793,21 +1793,32 @@ public class Modifiers {
       }
     }
     String name = "[" + id + "]";
-    return Modifiers.getModifiers("Effect", name);
+    return Modifiers.getModifiers("Effect", id, name);
   }
 
-  public static final Modifiers getModifiers(String type, final String name) {
-    String changeType = null;
+  public static final Modifiers getModifiers(final String type, final int id, final String name) {
+    String lookup = Modifiers.getLookupName(type, id);
+    return Modifiers.getModifiersInternal(type, name, lookup);
+  }
+
+  public static final Modifiers getModifiers(final String type, final String name) {
     if (name == null || name.isEmpty()) {
       return null;
     }
 
+    String lookup = Modifiers.getLookupName(type, name);
+    return Modifiers.getModifiersInternal(type, name, lookup);
+  }
+
+  private static final Modifiers getModifiersInternal(
+      String type, final String name, String lookup) {
+    String changeType = null;
     if (type.equals("Bjorn")) {
       changeType = type;
       type = "Throne";
+      lookup = getLookupName(type, name);
     }
 
-    String lookup = Modifiers.getLookupName(type, name);
     Object modifier = Modifiers.modifiersByName.get(lookup);
 
     if (modifier == null) {
@@ -3333,6 +3344,10 @@ public class Modifiers {
 
   public static void setFamiliar(FamiliarData fam) {
     Modifiers.currentFamiliar = fam == null ? "" : fam.getRace();
+  }
+
+  public static String getLookupName(final String type, final int id) {
+    return type + ":[" + id + "]";
   }
 
   public static String getLookupName(final String type, final String name) {
