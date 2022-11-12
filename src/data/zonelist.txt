@@ -96,8 +96,12 @@ Deep Machine Tunnels	Town	The Deep Machine Tunnels	Deep Machine Tunnels snowglob
 LT&T	Town	LT&T Telegrams	inflatable LT&T telegraph office
 Neverending Party	Town	The Neverending Party	Neverending Party guest pass
 
-Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Astral	Astral	Astral Plane	astral mushroom
+Bad Trip	Astral	Taking a Bad Trip
+Mediocre Trip	Astral	Taking a Mediocre Trip
+Great Trip	Astral	Taking a Great Trip
+
+Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Memories	Memories	Memories	empty agua de vida bottle
 Spaaace	Spaaace	Outer Space	transporter transponder
 Shape of Mole	Mountain	Mt. Molehill	llama lama gong
