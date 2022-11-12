@@ -17,7 +17,7 @@ class ForbiddenStoresTest {
   // in this class.
   @BeforeEach
   public void initializeCharPrefs() {
-    KoLCharacter.reset("fakePrefUser");
+    KoLCharacter.reset("ForbiddenStoresPrefUser");
     KoLCharacter.reset(true);
   }
 
@@ -166,7 +166,7 @@ class ForbiddenStoresTest {
 
     assertEquals("5", Preferences.getString("forbiddenStores"));
 
-    KoLCharacter.reset("fakePrefUserToo");
+    KoLCharacter.reset("ForbiddenStoresPrefUserToo");
 
     assertEquals("", Preferences.getString("forbiddenStores"));
 

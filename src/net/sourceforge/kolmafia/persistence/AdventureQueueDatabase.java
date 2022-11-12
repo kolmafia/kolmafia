@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,12 +33,13 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
  */
 
 public class AdventureQueueDatabase implements Serializable {
-  private static final long serialVersionUID = -180241952508113931L;
+  @Serial private static final long serialVersionUID = -180241952508113931L;
 
-  private static TreeMap<String, RollingLinkedList<String>> COMBAT_QUEUE =
-      new TreeMap<String, RollingLinkedList<String>>();
-  private static TreeMap<String, RollingLinkedList<String>> NONCOMBAT_QUEUE =
-      new TreeMap<String, RollingLinkedList<String>>();
+  private static TreeMap<String, RollingLinkedList<String>> COMBAT_QUEUE = new TreeMap<>();
+  private static TreeMap<String, RollingLinkedList<String>> NONCOMBAT_QUEUE = new TreeMap<>();
+
+  // for testing only, otherwise leave at true;
+  public static boolean allowSerializationWrite = true;
 
   // debugging tool
   public static void showQueue() {
@@ -82,16 +84,15 @@ public class AdventureQueueDatabase implements Serializable {
   }
 
   private static void resetQueue(boolean serializeAfterwards) {
-    AdventureQueueDatabase.COMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
-    AdventureQueueDatabase.NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList<String>>();
+    AdventureQueueDatabase.COMBAT_QUEUE = new TreeMap<>();
+    AdventureQueueDatabase.NONCOMBAT_QUEUE = new TreeMap<>();
 
     List<KoLAdventure> list = AdventureDatabase.getAsLockableListModel();
 
     for (KoLAdventure adv : list) {
-      AdventureQueueDatabase.COMBAT_QUEUE.put(
-          adv.getAdventureName(), new RollingLinkedList<String>(5));
+      AdventureQueueDatabase.COMBAT_QUEUE.put(adv.getAdventureName(), new RollingLinkedList<>(5));
       AdventureQueueDatabase.NONCOMBAT_QUEUE.put(
-          adv.getAdventureName(), new RollingLinkedList<String>(5));
+          adv.getAdventureName(), new RollingLinkedList<>(5));
     }
 
     if (serializeAfterwards) {
@@ -187,6 +188,7 @@ public class AdventureQueueDatabase implements Serializable {
   }
 
   public static void serialize() {
+    if (!allowSerializationWrite) return;
     File file =
         new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "queue.ser");
 
@@ -195,8 +197,7 @@ public class AdventureQueueDatabase implements Serializable {
       ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
       // make a collection with combat queue first
-      List<TreeMap<String, RollingLinkedList<String>>> queues =
-          new ArrayList<TreeMap<String, RollingLinkedList<String>>>();
+      List<TreeMap<String, RollingLinkedList<String>>> queues = new ArrayList<>();
       queues.add(COMBAT_QUEUE);
       queues.add(NONCOMBAT_QUEUE);
       out.writeObject(queues);
@@ -236,23 +237,12 @@ public class AdventureQueueDatabase implements Serializable {
       AdventureQueueDatabase.checkZones();
     } catch (FileNotFoundException e) {
       AdventureQueueDatabase.resetQueue(false);
-      return;
-    } catch (ClassNotFoundException e) {
-      // Found the file, but the contents did not contain a properly-serialized treemap.
+    } catch (ClassNotFoundException | EOFException | ClassCastException e) {
+      // Found the file, but the contents did not contain a properly-serialized treemap or
+      // old version of the combat queue handling or some other kind of malformed data.
       // Wipe the bogus file.
       file.delete();
       AdventureQueueDatabase.resetQueue();
-      return;
-    } catch (ClassCastException e) {
-      // Old version of the combat queue handling.  Sorry, have to delete your queue.
-      file.delete();
-      AdventureQueueDatabase.resetQueue();
-      return;
-    } catch (EOFException e) {
-      // Malformed data. Wipe the bogus file.
-      file.delete();
-      AdventureQueueDatabase.resetQueue();
-      return;
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -283,7 +273,7 @@ public class AdventureQueueDatabase implements Serializable {
     // a = weight of monsters in the zone
     // b = weight of monsters in the queue
 
-    HashSet<String> zoneSet = new HashSet<String>(zoneQueue); // just care about unique elements
+    HashSet<String> zoneSet = new HashSet<>(zoneQueue); // just care about unique elements
 
     // Ignore monsters in the queue that aren't actually part of the zone's normal monster list
     // This includes monsters that have special conditions to find and wandering monsters

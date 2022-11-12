@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.*;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withLastLocation;
+import static internal.helpers.Player.withNextMonster;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,6 +35,12 @@ public class AdventureRequestTest {
   public void init() {
     KoLCharacter.reset("AdventureRequestTest");
     Preferences.reset("AdventureRequestTest");
+    AdventureQueueDatabase.allowSerializationWrite = false;
+  }
+
+  @AfterAll
+  static void restore() {
+    AdventureQueueDatabase.allowSerializationWrite = true;
   }
 
   @Test
@@ -56,7 +67,7 @@ public class AdventureRequestTest {
   }
 
   @Test
-  public void regocgnizesSpookyWheelbarrow() {
+  public void recognizesSpookyWheelbarrow() {
     var cleanups =
         new Cleanups(withProperty("lastEncounter"), withLastLocation("The Spooky Gravy Burrow"));
 
@@ -117,7 +128,7 @@ public class AdventureRequestTest {
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
 
     // Can load queue
-    JuneCleaverManager.queue = new ArrayList();
+    JuneCleaverManager.queue = new ArrayList<>();
     Preferences.setString("juneCleaverQueue", "1467,1468,1469,1470,1471");
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1472&option=3");
     assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,1469,1470,1471,1472");
@@ -163,20 +174,11 @@ public class AdventureRequestTest {
         // <modifier> <dinosaur> " consumed " <prey>
         // <modifier> <dinosaur> " swallowed the soul of " <prey>
         for (String gluttony : AdventureRequest.dinoGluttony) {
-          StringBuilder encounter = new StringBuilder();
-          encounter.append("a ");
-          encounter.append(modifier);
-          encounter.append(" ");
-          encounter.append(dinosaur);
-          encounter.append(" ");
-          encounter.append(gluttony);
-          encounter.append(" ");
-          encounter.append(prey);
+          String encounter = "a " + modifier + " " + dinosaur + " " + gluttony + " " + prey;
           MonsterData swallowed = MonsterDatabase.findMonster(prey);
           int monsterId = swallowed.getId();
           String responseText = "<!-- MONSTERID: " + monsterId + " -->";
-          MonsterData extracted =
-              AdventureRequest.extractMonster(encounter.toString(), responseText);
+          MonsterData extracted = AdventureRequest.extractMonster(encounter, responseText);
           MonsterStatusTracker.setNextMonster(extracted);
 
           MonsterData monster = MonsterStatusTracker.getLastMonster();
