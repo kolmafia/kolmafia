@@ -13,6 +13,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -58,6 +59,8 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     StandardRequest.reset();
     KoLConstants.activeEffects.clear();
     KoLCharacter.setLimitMode(LimitMode.NONE);
+    FightRequest.currentRound = 0;
+    ChoiceManager.handlingChoice = false;
     ChoiceManager.reset();
   }
 
