@@ -43,6 +43,9 @@ public class Preferences {
 
   private static final HashMap<String, String> globalNames = new HashMap<>();
   private static final Map<String, Object> globalValues = new ConcurrentHashMap<>();
+  // user/globalEncodedValues cache the byte sequence corresponding to the on-disk representation
+  // of a line in the preferences file, so that writing out preferences is simply a matter of
+  // concatenating all the cached values.
   private static final SortedMap<String, byte[]> globalEncodedValues =
       Collections.synchronizedSortedMap(new TreeMap<>());
   private static File globalPropertiesFile = null;
@@ -541,7 +544,7 @@ public class Preferences {
     }
   }
 
-  /** Resets all settings so that the given user is represented whenever settings are modified. */
+  // Resets all settings so that the given user is represented whenever settings are modified.
   public static synchronized void reset(String username) {
     Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
     // Prevent anybody from manipulating the user map until we are
@@ -680,19 +683,21 @@ public class Preferences {
     return buffer.toString();
   }
 
-  private static void initializeEncodedValues() {
-    for (Map<String, Object> map : List.of(Preferences.globalValues, Preferences.userValues)) {
-      Map<String, byte[]> encodedValues =
-          map == Preferences.globalValues
-              ? Preferences.globalEncodedValues
-              : Preferences.userEncodedValues;
-      for (Entry<String, Object> entry : map.entrySet()) {
-        encodedValues.put(
-            entry.getKey(),
-            encodeProperty(entry.getKey(), entry.getValue().toString())
-                .getBytes(StandardCharsets.UTF_8));
-      }
+  private static void reinitializeEncodedValuesOn(
+      Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
+    for (Entry<String, Object> entry : valuesMap.entrySet()) {
+      encodedMap.put(
+          entry.getKey(),
+          encodeProperty(entry.getKey(), entry.getValue().toString())
+              .getBytes(StandardCharsets.UTF_8));
     }
+  }
+
+  /** Recompute all cached encoded values from the value maps. */
+  private static void reinitializeEncodedValues() {
+    Preferences.reinitializeEncodedValuesOn(
+        Preferences.globalValues, Preferences.globalEncodedValues);
+    Preferences.reinitializeEncodedValuesOn(Preferences.userValues, Preferences.userEncodedValues);
   }
 
   private static void encodeString(StringBuffer buffer, String string) {
@@ -1096,8 +1101,12 @@ public class Preferences {
     }
 
     boolean saveSettings = Preferences.getBoolean("saveSettingsOnSet");
+
+    // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
+    // many encoded values will be out of date, and we don't know which ones, so we have to
+    // recompute all of them.
     if (name == "saveSettingsOnSet" && (boolean) object) {
-      Preferences.initializeEncodedValues();
+      Preferences.reinitializeEncodedValues();
     }
 
     Preferences.put(user, name, object, saveSettings);

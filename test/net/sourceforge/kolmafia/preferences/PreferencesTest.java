@@ -21,12 +21,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
+  private String USER_NAME = "PreferencesTestFakeUser";
 
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
   @BeforeEach
   public void initializeCharPrefs() {
-    KoLCharacter.reset("PreferencesTestFakeUser");
+    KoLCharacter.reset(USER_NAME);
     KoLCharacter.reset(true);
   }
 
@@ -35,7 +36,7 @@ class PreferencesTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
-    File userFile = new File("settings/preferencestesfakeuser_prefs.txt");
+    File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
     if (userFile.exists()) {
       userFile.delete();
     }
