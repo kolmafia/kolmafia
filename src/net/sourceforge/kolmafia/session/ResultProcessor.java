@@ -2162,12 +2162,13 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step8");
         break;
 
-      case ItemPool.FIZZING_SPORE_POD:
-        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6) {
-          QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step14");
-        }
-        break;
-
+        case ItemPool.FIZZING_SPORE_POD:
+          if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6
+              && QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step9")) {
+            QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step14");
+          }
+          break;
+  
       case ItemPool.SCALP_OF_GORGOLOK:
       case ItemPool.ELDER_TURTLE_SHELL:
       case ItemPool.COLANDER_OF_EMERIL:
