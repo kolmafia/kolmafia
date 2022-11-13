@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.preferences;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
 import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -626,13 +628,13 @@ class PreferencesTest {
         String contents =
             new String(
                 DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-        assertFalse(contents.contains("\nxyz=abc\n"));
+        assertThat(contents, not(containsString("\nxyz=abc\n")));
 
         try (var cleanups2 = withProperty("xyz", "abc")) {
           contents =
               new String(
                   DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-          assertTrue(contents.contains("\nxyz=abc\n"));
+          assertThat(contents, containsString("\nxyz=abc\n"));
         }
       }
     }
@@ -642,7 +644,7 @@ class PreferencesTest {
       File userFile = new File("settings/" + KoLCharacter.getUserName() + "_prefs.txt");
       String contents =
           new String(DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-      assertFalse(contents.contains("\nxyz=abc\n"));
+      assertThat(contents, not(containsString("\nxyz=abc\n")));
 
       var cleanups =
           new Cleanups(
@@ -653,7 +655,7 @@ class PreferencesTest {
         contents =
             new String(
                 DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-        assertFalse(contents.contains("\nxyz=abc\n"));
+        assertThat(contents, not(containsString("\nxyz=abc\n")));
 
         var cleanups2 =
             new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
@@ -661,8 +663,8 @@ class PreferencesTest {
           contents =
               new String(
                   DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-          assertTrue(contents.contains("\nxyz=abc\n"));
-          assertTrue(contents.contains("\nwxy=def\n"));
+          assertThat(contents, containsString("\nxyz=abc\n"));
+          assertThat(contents, containsString("\nwxy=def\n"));
         }
       }
     }
