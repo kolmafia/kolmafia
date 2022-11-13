@@ -423,6 +423,7 @@ Item	pottery hat	Cold Resistance: +1, Hot Damage: +5, Familiar Effect: "hot atk,
 Item	powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "2xPotato, 1xGhuol, cap 17"
 # primitive alien mask: Reveals your inner alien
 Item	primitive alien mask	Mysticality: +10, Maximum MP: +20, Adventures: +2
+Item	prohie's hat	Booze Drop: +100
 Item	propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 Item	psychic's circlet	Adventures: +3, MP Regen Min: 3, MP Regen Max: 6
 Item	pumpkinhead mask	Familiar Effect: "1xVolley, 8xLep, cap 2"
@@ -2796,6 +2797,7 @@ Item	brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # bugbear communicator badge
 # bugbear detector: Detects Bugbears (Duh)
 Item	bugbear detector	Single Equip
+Item	bullet necklace	Mysticality: +30, Maximum MP: +30, Single Equip
 Item	burning paper slippers	Cold Resistance: +3, Maximum HP: +25, Maximum MP: +25, Initiative: +50, Single Equip, Lasts Until Rollover
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	cactus key	Maximum HP: +20, HP Regen Min: 9, HP Regen Max: 10
