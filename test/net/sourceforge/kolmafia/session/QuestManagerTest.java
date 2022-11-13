@@ -1735,7 +1735,8 @@ public class QuestManagerTest {
     @CsvSource({
       "daycareOpen, _daycareToday",
       "neverendingPartyAlways, _neverendingPartyToday",
-      "loveTunnelAvailable, _loveTunnelToday"
+      "loveTunnelAvailable, _loveTunnelToday",
+      "ownsOliversPlace, none"
     })
     public void checkDayPassesInTownWrong(String always, String today) {
       var html = html("request/test_visit_town_wrong.html");

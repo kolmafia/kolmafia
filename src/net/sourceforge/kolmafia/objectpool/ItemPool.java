@@ -3434,6 +3434,9 @@ public class ItemPool {
   public static final int ROBY_PLAIN_CALZONE = 10996;
   public static final int ROBY_BAKED_VEGGIE_RICOTTA = 10997;
   public static final int ROBY_DEEP_DISH_OF_LEGEND = 10999;
+  public static final int DEED_TO_OLIVERS_PLACE = 11001;
+  public static final int DRINK_CHIT = 11002;
+  public static final int MILK_CAP = 11012;
 
   private ItemPool() {}
 

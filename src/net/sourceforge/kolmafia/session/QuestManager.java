@@ -484,6 +484,10 @@ public class QuestManager {
           && !Preferences.getBoolean("loveTunnelAvailable")) {
         Preferences.setBoolean("_loveTunnelToday", true);
       }
+      // You can change the name of Oliver's Place
+      if (responseText.contains("olivers.gif")) {
+        Preferences.setBoolean("ownsOliversPlace", true);
+      }
       if (responseText.contains("Overgrown Lot")) {
         Preferences.setBoolean("overgrownLotAvailable", true);
       }

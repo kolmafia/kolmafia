@@ -535,12 +535,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (alwaysPref != null && Preferences.getBoolean(alwaysPref)) {
       return true;
     }
+
+    // If there is no day pass, looking at map might induce QuestManager to
+    // detect permanent access
+    if (todayPref == null) {
+      var request = new PlaceRequest(place);
+      RequestThread.postRequest(request);
+      return Preferences.getBoolean(alwaysPref);
+    }
+
     // If we don't know we have daily access, looking at the map
     // will induce QuestManager to detect it.
     if (!Preferences.getBoolean(todayPref)) {
       var request = new PlaceRequest(place);
       RequestThread.postRequest(request);
     }
+
     return Preferences.getBoolean(todayPref);
   }
 
@@ -583,6 +593,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return checkZone("prAlways", "_prToday", "monorail");
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
+      case "Oliver's Place":
+        return checkZone("ownsOliversPlace", null, "town_wrong");
       case "Twitch":
         // There is no permanent access to the Time Twitching Tower; it's
         // always day by day.
