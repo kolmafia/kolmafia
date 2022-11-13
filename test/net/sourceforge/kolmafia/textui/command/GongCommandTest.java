@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHandlingChoice;
@@ -23,8 +24,6 @@ import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -54,11 +53,6 @@ public class GongCommandTest extends AbstractCommandTestBase {
     Preferences.reset("gong");
   }
 
-  @BeforeEach
-  public void initEach() {
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-  }
-
   @Nested
   class Bird {
     @Test
@@ -69,8 +63,9 @@ public class GongCommandTest extends AbstractCommandTestBase {
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
-              withLimitMode(LimitMode.NONE),
               withHandlingChoice(false),
+              withContinuationState(),
+              withLimitMode(LimitMode.NONE),
               withPasswordHash("gong"),
               // If you have a password hash, KoL looks at your vinyl boots
               withGender(KoLCharacter.FEMALE));
@@ -108,13 +103,15 @@ public class GongCommandTest extends AbstractCommandTestBase {
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
-              withLimitMode(LimitMode.BIRD),
               withHandlingChoice(false),
+              withContinuationState(),
+              withLimitMode(LimitMode.BIRD),
               withNoEffects(),
               withEffect("Form of...Bird!", 1));
       try (cleanups) {
         String output = execute("bird");
         assertThat(output, containsString("You can't use a gong right now."));
+        assertErrorState();
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(0));
@@ -130,8 +127,9 @@ public class GongCommandTest extends AbstractCommandTestBase {
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
-              withLimitMode(LimitMode.BIRD),
               withHandlingChoice(false),
+              withContinuationState(),
+              withLimitMode(LimitMode.BIRD),
               withNoEffects(),
               withProperty("welcomeBackAdv", snarfblat),
               withPasswordHash("gong"),
