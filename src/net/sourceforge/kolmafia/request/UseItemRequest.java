@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
-import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -120,8 +119,8 @@ public class UseItemRequest extends GenericRequest {
   public static String limiter = "";
   private static AdventureResult lastFruit = null;
   private static AdventureResult lastUntinker = null;
-  private static boolean retrying = false;
 
+  protected boolean shouldFollowRedirect = true;
   protected final int consumptionType;
   protected AdventureResult itemUsed;
 
@@ -1281,9 +1280,14 @@ public class UseItemRequest extends GenericRequest {
     return InputFieldUtilities.confirm("Are you sure you want to replace your " + name + "?");
   }
 
+  public UseItemRequest followRedirect(boolean followRedirect) {
+    this.shouldFollowRedirect = followRedirect;
+    return this;
+  }
+
   @Override
   protected boolean shouldFollowRedirect() {
-    return true;
+    return this.shouldFollowRedirect;
   }
 
   public void useOnce(
@@ -2139,37 +2143,9 @@ public class UseItemRequest extends GenericRequest {
         // "You're already in the middle of a journey of reincarnation."
 
         if (responseText.contains("middle of a journey of reincarnation")) {
-          if (UseItemRequest.retrying
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SHAPE_OF_MOLE))
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_ROACH))) {
-            UseItemRequest.lastUpdate = "You're still under a gong effect.";
-            KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
-            return; // can't use another gong yet
-          }
-
-          try {
-            UseItemRequest.retrying = true; // prevent recursing more than once
-            int adv = Preferences.getInteger("welcomeBackAdv");
-            if (adv <= 0) {
-              adv = AdventurePool.NOOB_CAVE;
-            }
-            KoLAdventure req =
-                AdventureDatabase.getAdventureByURL("adventure.php?snarfblat=" + adv);
-            // Must do some trickery here to
-            // prevent the adventure location from
-            // being changed, and the conditions
-            // reset.
-            String next = Preferences.getString("nextAdventure");
-            KoLAdventure.setNextAdventure(req);
-            req.overrideAdventuresUsed(0); // don't trigger counters
-            RequestThread.postRequest(req);
-            req.overrideAdventuresUsed(-1);
-            KoLAdventure.setNextAdventure(next);
-            (UseItemRequest.getInstance(item)).run();
-          } finally {
-            UseItemRequest.retrying = false;
-          }
+          UseItemRequest.lastUpdate = "You're still under a gong effect.";
+          KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+          return; // can't use another gong yet
         }
 
         // We deduct the gong when we get the intro choice
