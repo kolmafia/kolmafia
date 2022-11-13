@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
-  private String USER_NAME = "PreferencesTestFakeUser";
+  private final String USER_NAME = "PreferencesTestFakeUser";
 
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
