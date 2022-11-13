@@ -2376,6 +2376,7 @@ brown plastic baby	20	none
 Brutal brogues	200	none
 bugbear communicator badge	0	none
 bugbear detector	0	none
+bullet necklace	0	Mys: 25
 burning paper slippers	0	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 cactus key	10	none
