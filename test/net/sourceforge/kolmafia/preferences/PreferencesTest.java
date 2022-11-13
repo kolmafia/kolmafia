@@ -35,7 +35,7 @@ class PreferencesTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
-    File userFile = new File("settings/PreferencesTestFakeUser_prefs.txt");
+    File userFile = new File("settings/preferencestesfakeuser_prefs.txt");
     if (userFile.exists()) {
       userFile.delete();
     }
@@ -624,7 +624,7 @@ class PreferencesTest {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       try (cleanups) {
-        File userFile = new File("settings/" + KoLCharacter.getUserName() + "_prefs.txt");
+        File userFile = new File("settings/" + KoLCharacter.getUserName().toLowerCase() + "_prefs.txt");
         String contents =
             new String(
                 DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
@@ -641,7 +641,7 @@ class PreferencesTest {
 
     @Test
     public void canToggle() throws IOException {
-      File userFile = new File("settings/" + KoLCharacter.getUserName() + "_prefs.txt");
+      File userFile = new File("settings/" + KoLCharacter.getUserName().toLowerCase() + "_prefs.txt");
       String contents =
           new String(DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
       assertThat(contents, not(containsString("\nxyz=abc\n")));
