@@ -1141,6 +1141,11 @@ public class Concoction implements Comparable<Concoction> {
             (turnFreeOnly
                 ? ConcoctionDatabase.turnFreeSmithingLimit
                 : ConcoctionDatabase.adventureSmithingLimit);
+      } else if (this.mixingMethod == CraftingType.COOK_FANCY) {
+        c =
+            turnFreeOnly
+                ? ConcoctionDatabase.turnFreeCookingLimit
+                : ConcoctionDatabase.cookingLimit;
       } else {
         c = (turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit);
       }
@@ -1302,8 +1307,7 @@ public class Concoction implements Comparable<Concoction> {
     int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
 
     if (this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH) {
-      freeCrafts +=
-          ConcoctionDatabase.getFreeSmithingTurns() + ConcoctionDatabase.getFreeSmithJewelTurns();
+      freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
     }
     if (this.mixingMethod == CraftingType.COOK_FANCY) {
       freeCrafts += ConcoctionDatabase.getFreeCookingTurns();

@@ -3,23 +3,31 @@ package net.sourceforge.kolmafia.preferences;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
 import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
+  private final String USER_NAME = "PreferencesTestFakeUser";
 
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
   @BeforeEach
   public void initializeCharPrefs() {
-    KoLCharacter.reset("PreferencesTestFakeUser");
+    KoLCharacter.reset(USER_NAME);
     KoLCharacter.reset(true);
   }
 
@@ -28,6 +36,10 @@ class PreferencesTest {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
+    File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
+    if (userFile.exists()) {
+      userFile.delete();
+    }
   }
 
   @Test
@@ -603,6 +615,61 @@ class PreferencesTest {
       // Reset should save global.
       Preferences.reset("dot_is_....not_good");
       assertTrue(globalfile.exists());
+    }
+  }
+
+  @Nested
+  class SaveSettingsOnSet {
+    @Test
+    public void savesSettingsIfOn() throws IOException {
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        File userFile =
+            new File("settings/" + KoLCharacter.getUserName().toLowerCase() + "_prefs.txt");
+        String contents =
+            new String(
+                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+        assertThat(contents, not(containsString("\nxyz=abc\n")));
+
+        try (var cleanups2 = withProperty("xyz", "abc")) {
+          contents =
+              new String(
+                  DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+          assertThat(contents, containsString("\nxyz=abc\n"));
+        }
+      }
+    }
+
+    @Test
+    public void canToggle() throws IOException {
+      File userFile =
+          new File("settings/" + KoLCharacter.getUserName().toLowerCase() + "_prefs.txt");
+      String contents =
+          new String(DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+      assertThat(contents, not(containsString("\nxyz=abc\n")));
+
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty("saveSettingsOnSet", false),
+              withProperty("xyz", "abc"));
+      try (cleanups) {
+        contents =
+            new String(
+                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+        assertThat(contents, not(containsString("\nxyz=abc\n")));
+
+        var cleanups2 =
+            new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
+        try (cleanups2) {
+          contents =
+              new String(
+                  DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+          assertThat(contents, containsString("\nxyz=abc\n"));
+          assertThat(contents, containsString("\nwxy=def\n"));
+        }
+      }
     }
   }
 }
