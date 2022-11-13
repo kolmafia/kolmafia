@@ -1562,6 +1562,10 @@ public class CharPaneRequest extends GenericRequest {
       ResultProcessor.processAdventuresUsed(turnsThisRun - mafiaTurnsThisRun);
     }
 
+    // Refresh effects before we set LimitMode since our "pseudo" LimitModes
+    // are derived from currently active effects.
+    CharPaneRequest.refreshEffects(JSON);
+
     Object lmo = JSON.get("limitmode");
     if (lmo instanceof Integer && lmo.equals(0)) {
       KoLCharacter.setLimitMode(LimitMode.NONE);
@@ -1628,8 +1632,6 @@ public class CharPaneRequest extends GenericRequest {
 
     int pvpFights = JSON.getInt("pvpfights");
     KoLCharacter.setAttacksLeft(pvpFights);
-
-    CharPaneRequest.refreshEffects(JSON);
 
     boolean hardcore = JSON.getInt("hardcore") == 1;
     KoLCharacter.setHardcore(hardcore);

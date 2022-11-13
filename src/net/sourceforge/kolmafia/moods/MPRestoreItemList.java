@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -23,6 +22,7 @@ import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -270,8 +270,7 @@ public abstract class MPRestoreItemList {
         return;
       }
 
-      if (this == MPRestoreItemList.MOTH
-          && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))) {
+      if (this == MPRestoreItemList.MOTH && KoLCharacter.getLimitMode() != LimitMode.BIRD) {
         return;
       }
 

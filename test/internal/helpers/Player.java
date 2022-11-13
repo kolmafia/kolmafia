@@ -2,6 +2,7 @@ package internal.helpers;
 
 import static org.mockito.Mockito.mockStatic;
 
+import internal.helpers.Cleanups.OrderedRunnable;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
@@ -578,6 +579,16 @@ public class Player {
   }
 
   /**
+   * Clears active effects
+   *
+   * @return Clears effects
+   */
+  public static Cleanups withNoEffects() {
+    KoLConstants.activeEffects.clear();
+    return new Cleanups(() -> KoLConstants.activeEffects.clear());
+  }
+
+  /**
    * Gives player a number of turns of the given effect
    *
    * @param effectId Effect to add
@@ -853,8 +864,7 @@ public class Player {
   /**
    * Sets King Liberated
    *
-   * @param level Required level
-   * @return Resets level to zero
+   * @return Resets King Liberated
    */
   public static Cleanups withKingLiberated() {
     var cleanups = new Cleanups(withProperty("lastKingLiberation"), withProperty("kingLiberated"));
@@ -1210,9 +1220,18 @@ public class Player {
    * @return Restores the previous value of the property
    */
   public static Cleanups withProperty(final String key, final int value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
     var oldValue = Preferences.getInteger(key);
     Preferences.setInteger(key, value);
-    return new Cleanups(() -> Preferences.setInteger(key, oldValue));
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setInteger(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
   }
 
   /**
@@ -1223,9 +1242,18 @@ public class Player {
    * @return Restores the previous value of the property
    */
   public static Cleanups withProperty(final String key, final String value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
     var oldValue = Preferences.getString(key);
     Preferences.setString(key, value);
-    return new Cleanups(() -> Preferences.setString(key, oldValue));
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setString(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
   }
 
   /**
@@ -1236,9 +1264,18 @@ public class Player {
    * @return Restores the previous value of the property
    */
   public static Cleanups withProperty(final String key, final boolean value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
     var oldValue = Preferences.getBoolean(key);
     Preferences.setBoolean(key, value);
-    return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setBoolean(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
   }
 
   /**
@@ -1778,5 +1815,10 @@ public class Player {
     ConcoctionDatabase.refreshConcoctions();
     cleanups.add(ConcoctionDatabase::refreshConcoctions);
     return cleanups;
+  }
+
+  public static Cleanups withConcoctionRefresh() {
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(new OrderedRunnable(ConcoctionDatabase::refreshConcoctions, 10));
   }
 }

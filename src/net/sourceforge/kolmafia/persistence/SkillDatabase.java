@@ -701,13 +701,16 @@ public class SkillDatabase {
    * @return true if it comes from a Libram
    */
   public static final boolean isLibramSkill(final int skillId) {
-    return skillId == SkillPool.CANDY_HEART
-        || skillId == SkillPool.PARTY_FAVOR
-        || skillId == SkillPool.LOVE_SONG
-        || skillId == SkillPool.BRICKOS
-        || skillId == SkillPool.DICE
-        || skillId == SkillPool.RESOLUTIONS
-        || skillId == SkillPool.TAFFY;
+    return switch (skillId) {
+      case SkillPool.CANDY_HEART,
+          SkillPool.PARTY_FAVOR,
+          SkillPool.LOVE_SONG,
+          SkillPool.BRICKOS,
+          SkillPool.DICE,
+          SkillPool.RESOLUTIONS,
+          SkillPool.TAFFY -> true;
+      default -> false;
+    };
   }
 
   /**

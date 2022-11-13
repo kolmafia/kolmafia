@@ -543,6 +543,7 @@ public class ItemPool {
   public static final int EXPRESS_CARD = 1687;
   public static final int MUCULENT_MACHETE = 1721;
   public static final int SWORD_PREPOSITIONS = 1734;
+  public static final int GOULAUNCHER = 1748;
   public static final int GALLERY_KEY = 1765;
   public static final int BALLROOM_KEY = 1766;
   public static final int PACK_OF_CHEWING_GUM = 1767;
@@ -770,6 +771,7 @@ public class ItemPool {
   public static final int TELESCOPE = 2599;
   public static final int TUESDAYS_RUBY = 2604;
   public static final int PALM_FROND = 2605;
+  public static final int PALM_FROND_FAN = 2606;
   public static final int MOJO_FILTER = 2614;
   public static final int WEAVING_MANUAL = 2630;
   public static final int PAT_A_CAKE_PENDANT = 2633;
@@ -924,6 +926,9 @@ public class ItemPool {
   public static final int TRAPEZOID = 3198;
   public static final int LUMP_OF_COAL = 3199;
   public static final int THICK_PADDED_ENVELOPE = 3201;
+  public static final int DWARVISH_WAR_HELMET = 3204;
+  public static final int DWARVISH_WAR_MATTOCK = 3205;
+  public static final int DWARVISH_WAR_KILT = 3206;
   public static final int DWARVISH_PUNCHCARD = 3207;
   public static final int SMALL_LAMINATED_CARD = 3208;
   public static final int LITTLE_LAMINATED_CARD = 3209;
@@ -1062,6 +1067,7 @@ public class ItemPool {
   public static final int POTION_OF_PUISSANCE = 3561;
   public static final int POTION_OF_PERSPICACITY = 3562;
   public static final int POTION_OF_PULCHRITUDE = 3563;
+  public static final int SPONGE_HELMET = 3568;
   public static final int SAND_DOLLAR = 3575;
   public static final int BEZOAR_RING = 3577;
   public static final int WRIGGLING_FLYTRAP_PELLET = 3580;
@@ -2296,6 +2302,7 @@ public class ItemPool {
   public static final int SPRINKLE_SHAKER = 7426;
   public static final int TACO_DAN_RECEIPT = 7428;
   public static final int BEACH_BUCK = 7429;
+  public static final int BEEFY_CRUNCH_PASTACO = 7438;
   public static final int OVERPOWERING_MUSHROOM_WINE = 7444;
   public static final int COMPLEX_MUSHROOM_WINE = 7445;
   public static final int SMOOTH_MUSHROOM_WINE = 7446;
@@ -3412,6 +3419,21 @@ public class ItemPool {
   public static final int DINOSAUR_DROPPINGS = 10945;
   public static final int JURASSIC_PARKA = 10952;
   public static final int AUTUMNATON = 10954;
+  public static final int ROBY_RATATOUILLE_DE_JARLSBERG = 10979;
+  public static final int ROBY_JARLSBERGS_VEGETABLE_SOUP = 10980;
+  public static final int ROBY_ROASTED_VEGETABLE_OF_J = 10981;
+  public static final int ROBY_PETES_SNEAKY_SMOOTHIE = 10982;
+  public static final int ROBY_PETES_WILY_WHEY_BAR = 10983;
+  public static final int ROBY_PETES_RICH_RICOTTA = 10984;
+  public static final int ROBY_BORIS_BEER = 10985;
+  public static final int ROBY_HONEY_BUN_OF_BORIS = 10986;
+  public static final int ROBY_BORIS_BREAD = 10987;
+  public static final int ROBY_CALZONE_OF_LEGEND = 10993;
+  public static final int ROBY_PIZZA_OF_LEGEND = 10994;
+  public static final int ROBY_ROASTED_VEGETABLE_FOCACCIA = 10995;
+  public static final int ROBY_PLAIN_CALZONE = 10996;
+  public static final int ROBY_BAKED_VEGGIE_RICOTTA = 10997;
+  public static final int ROBY_DEEP_DISH_OF_LEGEND = 10999;
 
   private ItemPool() {}
 

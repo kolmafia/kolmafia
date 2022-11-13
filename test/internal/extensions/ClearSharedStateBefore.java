@@ -16,6 +16,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -54,6 +56,9 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     AdventureSpentDatabase.setNoncombatEncountered(false);
     RelayRequest.reset();
     StandardRequest.reset();
+    KoLConstants.activeEffects.clear();
+    KoLCharacter.setLimitMode(LimitMode.NONE);
+    ChoiceManager.reset();
   }
 
   public void deleteDirectoriesAndContents() {

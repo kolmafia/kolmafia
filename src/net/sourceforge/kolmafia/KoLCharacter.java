@@ -407,7 +407,7 @@ public abstract class KoLCharacter {
     ConcoctionDatabase.resetQueue();
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setVariableConsumables();
-    ConsumablesDatabase.calculateAdventureRanges();
+    ConsumablesDatabase.calculateAllAverageAdventures();
     DailyLimitDatabase.reset();
 
     RelayRequest.reset();
@@ -1319,9 +1319,39 @@ public abstract class KoLCharacter {
     return ascensionClass == null ? Stat.NONE : ascensionClass.getMainStat();
   }
 
+  public static final AdventureResult ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+
   public static void setLimitMode(final LimitMode limitmode) {
     switch (limitmode) {
       case NONE -> {
+        // Check for "pseudo" LimitModes - when certain effects are active,
+        // some of your options - adventuring zones or combat skills - are
+        // restricted
+
+        switch (Preferences.getString("currentLlamaForm")) {
+          case "Bird" -> {
+            KoLCharacter.limitMode = LimitMode.BIRD;
+            return;
+          }
+          case "Roach" -> {
+            KoLCharacter.limitMode = LimitMode.ROACH;
+            return;
+          }
+          case "Mole" -> {
+            KoLCharacter.limitMode = LimitMode.MOLE;
+            return;
+          }
+        }
+
+        if (KoLConstants.activeEffects.contains(ASTRAL)) {
+          KoLCharacter.limitMode = LimitMode.ASTRAL;
+          return;
+        }
+
+        // The LimitMode can cleanup after itself without making requests
+        KoLCharacter.limitMode.finish();
+
+        // If it does require making requests, can't do it in a fight or choice
         if (KoLCharacter.limitMode.requiresReset()
             && !GenericRequest.abortIfInFightOrChoice(true)) {
           KoLmafia.resetAfterLimitmode();
@@ -2670,7 +2700,7 @@ public abstract class KoLCharacter {
     if (Preferences.getBoolean("hasOven") != hasOven) {
       Preferences.setBoolean("hasOven", hasOven);
       ConcoctionDatabase.setRefreshNeeded(true);
-      ConsumablesDatabase.calculateAdventureRanges();
+      ConsumablesDatabase.calculateAllAverageAdventures();
     }
   }
 
@@ -4374,7 +4404,7 @@ public abstract class KoLCharacter {
             || ascensionClass == AscensionClass.ACCORDION_THIEF
             || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
             || ascensionClass == AscensionClass.GELATINOUS_NOOB
-            || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))
+            || KoLCharacter.getLimitMode() == LimitMode.BIRD
             || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND)
             || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
   }

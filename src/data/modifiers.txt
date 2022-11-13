@@ -423,6 +423,7 @@ Item	pottery hat	Cold Resistance: +1, Hot Damage: +5, Familiar Effect: "hot atk,
 Item	powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "2xPotato, 1xGhuol, cap 17"
 # primitive alien mask: Reveals your inner alien
 Item	primitive alien mask	Mysticality: +10, Maximum MP: +20, Adventures: +2
+Item	prohie's hat	Booze Drop: +100
 Item	propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 Item	psychic's circlet	Adventures: +3, MP Regen Min: 3, MP Regen Max: 6
 Item	pumpkinhead mask	Familiar Effect: "1xVolley, 8xLep, cap 2"
@@ -1697,6 +1698,7 @@ Item	Rain-Doh yellow laser gun	Weakens Monster, Softcore Only
 Item	rainbow crossbow	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Item	ram stick	Moxie: +5
 Item	ram-battering staff	Hot Spell Damage: +10, Moxie: +5
+Item	rare oboe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Experience: +3
 Item	ratarang	Ranged Damage: +7, Moxie: +3
 Item	rattail whip	Moxie: +5, Monster Level: +5
 Item	rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
@@ -2795,6 +2797,7 @@ Item	brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # bugbear communicator badge
 # bugbear detector: Detects Bugbears (Duh)
 Item	bugbear detector	Single Equip
+Item	bullet necklace	Mysticality: +30, Maximum MP: +30, Single Equip
 Item	burning paper slippers	Cold Resistance: +3, Maximum HP: +25, Maximum MP: +25, Initiative: +50, Single Equip, Lasts Until Rollover
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	cactus key	Maximum HP: +20, HP Regen Min: 9, HP Regen Max: 10
@@ -2815,6 +2818,7 @@ Item	cement shoes	Mysticality: +20, Moxie: +20
 Item	chalk chain	Experience (Muscle): +2, Experience (familiar): +1, Single Equip
 # chalk choker: Weakens enemies who hit you
 Item	chalk choker	Experience (Moxie): +2, Pants Drop: +20, Single Equip
+Item	Charleston shoes	Moxie: +30, Item Drop: +10, Single Equip
 Item	cheap elven gloves	Mysticality: +1, Sleaze Resistance: +1
 Item	cheap studded belt	Damage Reduction: 1
 # cheap sunglasses: +60% Meat Drops from Tourists
@@ -3004,6 +3008,7 @@ Item	Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 2
 Item	Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen Max: 10, Single Equip, Lasts Until Rollover
 # gate transceiver: Allows you to negotiate magnetic storms without losing your way
 Item	gate transceiver	Single Equip, Lasts Until Rollover
+Item	gator shades	Muscle: +30, Spooky Damage: +30, Single Equip
 Item	Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	gearbox necklace	Mysticality: +11, Maximum MP: +50
 Item	genie's bracers	Mysticality: +5, Moxie: +5
@@ -7120,6 +7125,8 @@ Effect	Space Cowboy	Experience: +2
 Effect	Space Tripping	Experience (Muscle): +4, Experience (Mysticality): +4, Experience (Moxie): +4
 Effect	Space Warlord's Beard	Weapon Damage: +25, Critical Hit Percent: +10
 Effect	Spangled Star	Monster Level: +10
+Effect	Speakin' Easy	Muscle: +15, Mysticality: +15, Moxie: +15
+Effect	Speakin' Even Easier	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Spectacle Moustache	Item Drop: +50, Spooky Resistance: +5
 Effect	Sugary World View	Candy Drop: +100
 Effect	Sparkling Consciousness	Mysticality Percent: +100
@@ -8907,6 +8914,7 @@ Item	Cement Mixer	Effect: "Mortarfied", Effect Duration: 5
 Item	Centauri fish wine	Effect: "Fishy", Effect Duration: 60
 Item	chakra-mental wine	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	Chakra Libre	Effect: "Transcendental Wind", Effect Duration: 10
+Item	Charleston Choo-Choo	Effect: "Speakin' Easy", Effect Duration: 30
 Item	chocotini	Effect: "High Blood Chocolate Content", Effect Duration: 30
 Item	Churchill	Effect: "Big Ol' Glass of Rum", Effect Duration: 40
 Item	Cinco Mayo Lager	Effect: "Cinco Elementos", Effect Duration: 5
@@ -9120,6 +9128,7 @@ Item	soy cordial	Effect: "Electrolyte Fantastic", Effect Duration: 2
 Item	soyburger juice	Effect: "Oversaturated Palate", Effect Duration: 1
 Item	Steamboat	Effect: "Steamed", Effect Duration: 20
 Item	Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
+Item	Strong, Silent Type	Effect: "Speakin' Even Easier", Effect Duration: 30
 Item	Suffering Sinner	Effect: "Heart Aflame", Effect Duration: 5
 Item	Suppurating Sinner	Effect: "Heart Aflame", Effect Duration: 10
 Item	swirling mushroom wine	Effect: "Tremella Tremens", Effect Duration: 80
@@ -9798,6 +9807,7 @@ Item	humming El Vibrato drone	Effect: "El Vibrations", Effect Duration: 10
 Item	Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1
 Item	hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
 Item	imported lemon lozenge	Effect: "Hypersoothed Throat", Effect Duration: 15
+Item	imported taffy	Effect: "Imported Strength", Effect Duration: 30
 Item	incense bath ball	Effect: "Incensed", Effect Duration: 10
 Item	industrial frosting	Effect: "Industrially Frosted", Effect Duration: 5
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20, Wiki Name: "industrial strength starch"

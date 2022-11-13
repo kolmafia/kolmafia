@@ -463,7 +463,7 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, false);
     }
 
-    boolean inBirdForm = KoLConstants.activeEffects.contains(FightRequest.BIRDFORM);
+    boolean inBirdForm = KoLCharacter.getLimitMode() == LimitMode.BIRD;
     if (KoLCharacter.isSneakyPete()) {
       // If you are Sneaky Pete and can steal, you can also mug
       StationaryButtonDecorator.addFightButton(actionBuffer, "7201", FightRequest.canStillSteal());

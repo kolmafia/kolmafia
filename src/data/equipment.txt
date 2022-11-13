@@ -303,6 +303,7 @@ porkpie-mounted popper	50	none
 pottery hat	45	none
 powdered wig	70	Mox: 20
 primitive alien mask	50	Mox: 10
+prohie's hat	0	Mox: 25
 propeller beanie	30	none
 psychic's circlet	100	Mox: 35
 pumpkinhead mask	10	none
@@ -1438,6 +1439,7 @@ Rain-Doh yellow laser gun	100	Mox: 0	1-handed pistol
 rainbow crossbow	150	Mox: 60	1-handed crossbow
 ram stick	115	Mus: 42	2-handed staff
 ram-battering staff	135	Mus: 52	2-handed staff
+rare oboe	0	Mox: 25	1-handed woodwind
 ratarang	60	Mox: 15	1-handed boomerang
 rattail whip	30	Mus: 0	1-handed whip
 rave whistle	135	Mox: 52	1-handed whistle
@@ -2374,6 +2376,7 @@ brown plastic baby	20	none
 Brutal brogues	200	none
 bugbear communicator badge	0	none
 bugbear detector	0	none
+bullet necklace	0	Mys: 25
 burning paper slippers	0	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 cactus key	10	none
@@ -2388,6 +2391,7 @@ cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
 chalk chain	50	none
 chalk choker	50	none
+Charleston shoes	0	Mys: 25
 cheap elven gloves	30	none
 cheap studded belt	10	none
 cheap sunglasses	80	Mys: 20
@@ -2542,6 +2546,7 @@ Garland of Greatness	0	none
 Garter of the Turtle Poacher	150	Mus: 45
 Gary Claybender's Time Screwer	50	none
 gate transceiver	10	none
+gator shades	0	Mys: 25
 Gauntlets of the Blood Moon	120	none
 gearbox necklace	180	Mys: 75
 genie's bracers	50	Mys: 10

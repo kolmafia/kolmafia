@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +26,15 @@ import net.sourceforge.kolmafia.request.FightRequest;
  */
 
 public class AdventureSpentDatabase implements Serializable {
-  private static final long serialVersionUID = -180241952508113933L;
-  private static Map<String, Integer> TURNS = new TreeMap<String, Integer>();
+  @Serial private static final long serialVersionUID = -180241952508113933L;
+  private static Map<String, Integer> TURNS = new TreeMap<>();
 
   private static int lastTurnUpdated = -1;
 
   private static boolean noncombatEncountered = false;
+
+  // for testing only, otherwise leave at true;
+  public static boolean allowSerializationWrite = true;
 
   // debugging tool
   public static void showTurns() {
@@ -47,7 +51,7 @@ public class AdventureSpentDatabase implements Serializable {
   }
 
   public static void resetTurns(boolean serializeAfterwards) {
-    AdventureSpentDatabase.TURNS = new TreeMap<String, Integer>();
+    AdventureSpentDatabase.TURNS = new TreeMap<>();
 
     List<KoLAdventure> list = AdventureDatabase.getAsLockableListModel();
 
@@ -132,6 +136,7 @@ public class AdventureSpentDatabase implements Serializable {
   }
 
   public static void serialize() {
+    if (!allowSerializationWrite) return;
     File file =
         new File(KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "turns.ser");
 
@@ -170,36 +175,30 @@ public class AdventureSpentDatabase implements Serializable {
       AdventureSpentDatabase.checkZones();
     } catch (FileNotFoundException e) {
       AdventureSpentDatabase.resetTurns(false);
-      return;
-    } catch (ClassNotFoundException e) {
-      // Found the file, but the contents did not contain a properly-serialized treemap.
+    } catch (ClassNotFoundException | ClassCastException e) {
+      // Found the file, but the contents did not contain a properly-serialized treemap or
+      // old version of the combat queue handling.
       // Wipe the bogus file.
       file.delete();
       AdventureSpentDatabase.resetTurns();
-      return;
-    } catch (ClassCastException e) {
-      // Old version of the combat queue handling.  Sorry, have to delete your queue.
-      file.delete();
-      AdventureSpentDatabase.resetTurns();
-      return;
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public static final int getLastTurnUpdated() {
+  public static int getLastTurnUpdated() {
     return AdventureSpentDatabase.lastTurnUpdated;
   }
 
-  public static final void setLastTurnUpdated(final int turnUpdated) {
+  public static void setLastTurnUpdated(final int turnUpdated) {
     AdventureSpentDatabase.lastTurnUpdated = turnUpdated;
   }
 
-  public static final boolean getNoncombatEncountered() {
+  public static boolean getNoncombatEncountered() {
     return AdventureSpentDatabase.noncombatEncountered;
   }
 
-  public static final void setNoncombatEncountered(final boolean encountered) {
+  public static void setNoncombatEncountered(final boolean encountered) {
     if (encountered && FightRequest.edFightInProgress()) {
       return;
     }
