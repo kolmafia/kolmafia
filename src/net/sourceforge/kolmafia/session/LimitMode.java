@@ -69,6 +69,16 @@ public enum LimitMode {
     }
   }
 
+  public String effectName() {
+    return switch (this) {
+      case BIRD -> "Form of...Bird!";
+      case MOLE -> "Shape of...Mole!";
+      case ROACH -> "Form of...Cockroach!";
+      case ASTRAL -> "Half-Astral!";
+      default -> null;
+    };
+  }
+
   public boolean requiresCharPane() {
     return switch (this) {
       case SPELUNKY, BATMAN -> true;

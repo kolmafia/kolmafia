@@ -35,6 +35,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class GongCommandTest extends AbstractCommandTestBase {
@@ -95,8 +96,11 @@ public class GongCommandTest extends AbstractCommandTestBase {
       }
     }
 
-    @Test
-    public void birdModeOnJourney() {
+    @ParameterizedTest
+    @EnumSource(
+        value = LimitMode.class,
+        names = {"BIRD", "ROACH", "MOLE", "ASTRAL"})
+    public void birdModeOnJourney(LimitMode lm) {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
       var cleanups =
@@ -105,9 +109,9 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withItem(ItemPool.GONG),
               withHandlingChoice(false),
               withContinuationState(),
-              withLimitMode(LimitMode.BIRD),
+              withLimitMode(lm),
               withNoEffects(),
-              withEffect("Form of...Bird!", 1));
+              withEffect(lm.effectName(), 1));
       try (cleanups) {
         String output = execute("bird");
         assertThat(output, containsString("You can't use a gong right now."));
