@@ -1242,8 +1242,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
           0,
           (quantityNeeded
               - ConcoctionDatabase.getFreeCraftingTurns()
-              - ConcoctionDatabase.getFreeSmithingTurns()
-              - ConcoctionDatabase.getFreeSmithJewelTurns()));
+              - ConcoctionDatabase.getFreeSmithingTurns()));
       case COOK_FANCY -> Math.max(
           0,
           (quantityNeeded

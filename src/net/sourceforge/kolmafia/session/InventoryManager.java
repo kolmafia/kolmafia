@@ -1860,11 +1860,7 @@ public abstract class InventoryManager {
     CraftingType mixingMethod = creator.concoction.getMixingMethod();
 
     switch (mixingMethod) {
-      case JEWELRY -> freeCrafts += ConcoctionDatabase.getFreeSmithJewelTurns();
-      case SMITH, SSMITH -> {
-        freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
-        freeCrafts += ConcoctionDatabase.getFreeSmithJewelTurns();
-      }
+      case SMITH, SSMITH -> freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
       case COOK_FANCY -> freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
     }
 
