@@ -72,6 +72,7 @@ An Overgrown Shrine (Northwest)	100	dense liana
 An Overgrown Shrine (Southeast)	100	dense liana
 An Overgrown Shrine (Southwest)	100	dense liana
 An Unsettling Abyssal Portal	100	bulwark bull seal
+An Unusually Quiet Barroom Brawl	100	gator-human hybrid	gangster's moll	goblin flapper	traveling hobo	undercover prohibition agent
 Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0
@@ -193,7 +194,6 @@ Neckback Crick	100	deadly venomtrout	water spider	unearthed monstrosity: 0
 Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gremlin	batwinged gremlin (tool)	vegetable gremlin
 Noob Cave	100	crate
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
-An Unusually Quiet Barroom Brawl	100	gator-human hybrid	gangster's moll	goblin flapper	traveling hobo	undercover prohibition agent
 Old Crimbo Town Toy Factory	100	Mob Penguin enforcer	Mob Penguin goon (2008)	Mob Penguin hitpenguin	Mob Penguin psychopath	Mob Penguin racketeer
 Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin	vegetable gremlin (tool)
 Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
