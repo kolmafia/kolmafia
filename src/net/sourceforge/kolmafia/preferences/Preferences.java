@@ -544,7 +544,7 @@ public class Preferences {
     }
   }
 
-  // Resets all settings so that the given user is represented whenever settings are modified.
+  /** Resets all settings so that the given user is represented whenever settings are modified. */
   public static synchronized void reset(String username) {
     Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
     // Prevent anybody from manipulating the user map until we are
