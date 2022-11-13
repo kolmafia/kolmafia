@@ -463,6 +463,7 @@ user	crudeMonster
 user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
+user	currentAstralTrip
 user	currentDistillateMods
 user	currentEasyBountyItem	
 user	currentExtremity	0
@@ -471,6 +472,7 @@ user	currentHedgeMazeRoom	0
 user	currentHippyStore	none
 user	currentJunkyardTool
 user	currentJunkyardLocation
+user	currentLlamaForm
 user	currentMojoFilters	0
 user	currentMood	default
 user	currentNunneryMeat	0
@@ -1666,6 +1668,7 @@ user	_communismUsed	false
 user	_companionshipCasts	0
 user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
+user	_cookbookbatCrafting	0
 user	_cookbookbatRecipeDrops	false
 user	_corruptedStardustUsed	false
 user	_cosmicBowlingSkillsUsed	0

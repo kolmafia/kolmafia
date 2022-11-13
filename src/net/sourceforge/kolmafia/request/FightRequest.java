@@ -122,8 +122,6 @@ public class FightRequest extends GenericRequest {
   private static final AdventureResult AMNESIA = EffectPool.get(EffectPool.AMNESIA);
   private static final AdventureResult CUNCTATITIS = EffectPool.get(EffectPool.CUNCTATITIS);
   public static final AdventureResult ONTHETRAIL = EffectPool.get(EffectPool.ON_THE_TRAIL);
-  public static final AdventureResult BIRDFORM = EffectPool.get(EffectPool.FORM_OF_BIRD);
-  public static final AdventureResult MOLEFORM = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
   public static final AdventureResult INFERNO = EffectPool.get(EffectPool.TASTE_THE_INFERNO);
   public static final AdventureResult COWRRUPTION = EffectPool.get(EffectPool.COWRRUPTION, 0);
 
@@ -967,7 +965,7 @@ public class FightRequest extends GenericRequest {
       // since it's conditions-driven.
 
       else if (monsterName.equals("rampaging adding machine")
-          && !KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)
+          && KoLCharacter.getLimitMode() != LimitMode.BIRD
           && !FightRequest.waitingForSpecial) {
         this.handleAddingMachine();
       }
@@ -1240,8 +1238,8 @@ public class FightRequest extends GenericRequest {
 
     // If the player wants to use an item, make sure he has one
     if (!FightRequest.nextAction.startsWith("skill")) {
-      if (KoLConstants.activeEffects.contains(
-          FightRequest.BIRDFORM)) { // Can't use items in Birdform
+      if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
+        // Can't use items in Birdform
         this.skipRound();
         return;
       }
@@ -1566,7 +1564,7 @@ public class FightRequest extends GenericRequest {
         return;
       }
 
-      if (KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+      if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
         FightRequest.nextAction = "abort";
         return;
       }
@@ -8773,7 +8771,7 @@ public class FightRequest extends GenericRequest {
     if (!KoLConstants.inventory.contains(FightRequest.ANTIDOTE)) {
       return false;
     }
-    if (KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
       return false; // can't use items!
     }
     int minLevel = Preferences.getInteger("autoAntidote");

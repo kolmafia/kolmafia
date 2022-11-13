@@ -53,6 +53,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
   public static final Pattern RAPID_PROTOTYPING_PATTERN =
       Pattern.compile(
           "That rapid prototyping programming you downloaded is really paying dividends");
+  public static final Pattern COOKBOOKBAT_PATTERN =
+      Pattern.compile("The advice from your cookbookbat is really saving time");
   public static final Pattern CORNER_CUTTER_PATTERN =
       Pattern.compile("You really crafted that item the LyleCo way");
   public static final Pattern HOMEBODYL_PATTERN =
@@ -791,13 +793,20 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         }
       }
 
-      // Remove from Homebodyl, Rapid Prototyping, then Corner Cutter
+      // Remove from Homebodyl, Cookbookbat, Rapid Prototyping, then Corner Cutter
       freeTurn = HOMEBODYL_PATTERN.matcher(craftSection);
       if (freeTurn.find()) {
         int homebodylTurnsSaved =
             Math.min(Preferences.getInteger("homebodylCharges"), created - turnsSaved);
         Preferences.decrement("homebodylCharges", created - turnsSaved, 0);
         turnsSaved += homebodylTurnsSaved;
+      }
+      freeTurn = COOKBOOKBAT_PATTERN.matcher(craftSection);
+      if (freeTurn.find()) {
+        int cookBookBatTurnsSaved =
+            Math.min(5 - Preferences.getInteger("_cookbookbatCrafting"), created - turnsSaved);
+        Preferences.increment("_cookbookbatCrafting", created - turnsSaved, 5, false);
+        turnsSaved += cookBookBatTurnsSaved;
       }
       freeTurn = RAPID_PROTOTYPING_PATTERN.matcher(craftSection);
       if (freeTurn.find()) {
@@ -1228,23 +1237,21 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
   }
 
   private static int getAdventuresUsed(final CraftingType mixingMethod, final int quantityNeeded) {
-    switch (mixingMethod) {
-      case SMITH:
-      case SSMITH:
-        return Math.max(
-            0,
-            (quantityNeeded
-                - ConcoctionDatabase.getFreeCraftingTurns()
-                - ConcoctionDatabase.getFreeSmithingTurns()
-                - ConcoctionDatabase.getFreeSmithJewelTurns()));
-
-      case COOK_FANCY:
-      case MIX_FANCY:
-        return Math.max(0, (quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()));
-
-      default:
-        return 0;
-    }
+    return switch (mixingMethod) {
+      case SMITH, SSMITH -> Math.max(
+          0,
+          (quantityNeeded
+              - ConcoctionDatabase.getFreeCraftingTurns()
+              - ConcoctionDatabase.getFreeSmithingTurns()
+              - ConcoctionDatabase.getFreeSmithJewelTurns()));
+      case COOK_FANCY -> Math.max(
+          0,
+          (quantityNeeded
+              - ConcoctionDatabase.getFreeCraftingTurns()
+              - ConcoctionDatabase.getFreeCookingTurns()));
+      case MIX_FANCY -> Math.max(0, (quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()));
+      default -> 0;
+    };
   }
 
   public static final boolean registerRequest(final boolean isExternal, final String urlString) {

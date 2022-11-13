@@ -1,19 +1,27 @@
 package net.sourceforge.kolmafia.objectpool;
 
+import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withCocktailKit;
+import static internal.helpers.Player.withConcoctionRefresh;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRange;
+import static internal.helpers.Player.withSign;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -121,7 +129,7 @@ public class ConcoctionTest {
 
   @Nested
   class StillsuitDistillate {
-    private static Concoction DISTILLATE = ConcoctionPool.get(-1, "stillsuit distillate");
+    private static final Concoction DISTILLATE = ConcoctionPool.get(-1, "stillsuit distillate");
 
     @ParameterizedTest
     @ValueSource(ints = {0, 10, 20})
@@ -149,6 +157,147 @@ public class ConcoctionTest {
       try (cleanups) {
         DISTILLATE.calculate3();
         assertThat(DISTILLATE.freeTotal, is(hasStillSuit ? 1 : 0));
+      }
+    }
+  }
+
+  @Nested
+  public class AdventuresNeeded {
+    @Test
+    public void multiUseTakesNoAdventures() {
+      var con = ConcoctionPool.get(ItemPool.PALM_FROND_FAN);
+      assertThat(con.getAdventuresNeeded(1), is(0));
+    }
+
+    @Nested
+    public class Smithing {
+      @Test
+      public void smithingTakesAdventures() {
+        var cleanups =
+            new Cleanups(
+                withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(5), withConcoctionRefresh());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.CHELONIAN_MORNINGSTAR);
+          assertThat(con.getAdventuresNeeded(1), is(1));
+        }
+      }
+
+      @Test
+      public void smithingTakesManyAdventures() {
+        var cleanups =
+            new Cleanups(
+                withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(5), withConcoctionRefresh());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.GOULAUNCHER);
+          assertThat(con.getAdventuresNeeded(1), is(3));
+        }
+      }
+
+      @Test
+      public void innaboxCanFreeSimpleSmiths() {
+        var cleanups = new Cleanups(withSign(ZodiacSign.MONGOOSE), withConcoctionRefresh());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.GOULAUNCHER);
+          assertThat(con.getAdventuresNeeded(3), is(0));
+        }
+      }
+
+      @Test
+      public void innaboxCannotFreeComplexSmiths() {
+        var cleanups =
+            new Cleanups(
+                withItem(ItemPool.TENDER_HAMMER),
+                withSkill(SkillPool.ARMORCRAFTINESS),
+                withAdventuresLeft(5),
+                withSign(ZodiacSign.MONGOOSE),
+                withConcoctionRefresh());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.SPONGE_HELMET);
+          assertThat(con.getAdventuresNeeded(2), is(2));
+        }
+      }
+
+      @Test
+      public void freeCraftsCanSaveSmithingTurns() {
+        // set up free crafts: 3 from Thor's Pliers, 2 from Expert Corner-Cutter
+        var cleanups =
+            new Cleanups(
+                withItem(ItemPool.TENDER_HAMMER),
+                withAdventuresLeft(10),
+                withItem(ItemPool.THORS_PLIERS),
+                withProperty("_thorsPliersCrafting", 7),
+                withSkill(SkillPool.EXPERT_CORNER_CUTTER),
+                withProperty("_expertCornerCutterUsed", 3),
+                withConcoctionRefresh());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.GOULAUNCHER);
+          assertThat(con.getAdventuresNeeded(3, true), is(4));
+        }
+      }
+    }
+
+    @Nested
+    public class Cooking {
+      @Test
+      public void fancyCookingTakesAdventures() {
+        var cleanups = new Cleanups(withAdventuresLeft(1), withRange());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.KNOB_CAKE);
+          assertThat(con.getAdventuresNeeded(1), is(1));
+        }
+      }
+
+      @Test
+      public void freeCraftsSaveAdventures() {
+        var cleanups =
+            new Cleanups(
+                withAdventuresLeft(10),
+                withSkill(SkillPool.TRANSCENDENTAL_NOODLECRAFTING),
+                withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT),
+                withProperty("homebodylCharges", 3),
+                withSkill(SkillPool.RAPID_PROTOTYPING),
+                withProperty("_rapidPrototypingUsed", 4),
+                withRange());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.BEEFY_CRUNCH_PASTACO);
+          assertThat(con.getAdventuresNeeded(10, true), is(1));
+        }
+      }
+    }
+
+    @Nested
+    public class Mixing {
+      @Test
+      public void fancyMixingTakesAdventures() {
+        var cleanups = new Cleanups(withAdventuresLeft(1), withCocktailKit());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.COOL_MUSHROOM_WINE);
+          assertThat(con.getAdventuresNeeded(1), is(1));
+        }
+      }
+
+      @Test
+      public void freeCraftsOfRightTypeSaveAdventures() {
+        var cleanups =
+            new Cleanups(
+                withAdventuresLeft(10),
+                withSkill(SkillPool.SUPER_COCKTAIL),
+                withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT),
+                withProperty("homebodylCharges", 3),
+                withCocktailKit());
+
+        try (cleanups) {
+          var con = ConcoctionPool.get(ItemPool.OVERPOWERING_MUSHROOM_WINE);
+          assertThat(con.getAdventuresNeeded(10, true), is(7));
+        }
       }
     }
   }

@@ -95,6 +95,7 @@ public class AdventurePool {
   public static final int HOBOPOLIS_TOWN_SQUARE = 167;
   public static final int ARRRBORETUM = 174;
   public static final int MINE_OFFICE = 176;
+  public static final int MT_MOLEHILL = 177;
   public static final int JUNKYARD_BARREL = 182;
   public static final int JUNKYARD_REFRIGERATOR = 183;
   public static final int JUNKYARD_TIRES = 184;

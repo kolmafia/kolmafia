@@ -727,7 +727,7 @@ public class DiscoCombatHelper {
     }
 
     // If you are in Birdform, uh-uh
-    if (KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
       return;
     }
 

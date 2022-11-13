@@ -3,15 +3,26 @@ package internal.helpers;
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 public class Cleanups implements Closeable {
-  private final List<Runnable> cleanups = new ArrayList<>();
+  public record OrderedRunnable(Runnable runnable, int order) {
+    public OrderedRunnable(Runnable runnable) {
+      this(runnable, 1);
+    }
+  }
+
+  private final List<OrderedRunnable> cleanups = new ArrayList<>();
 
   public Cleanups() {}
 
   public Cleanups(Runnable r) {
-    cleanups.add(r);
+    this(new OrderedRunnable(r));
+  }
+
+  public Cleanups(OrderedRunnable o) {
+    cleanups.add(o);
   }
 
   public Cleanups(Cleanups... cleanups) {
@@ -20,24 +31,21 @@ public class Cleanups implements Closeable {
     }
   }
 
-  public Cleanups(Collection<Runnable> r) {
-    this.addAll(r);
-  }
-
   public void add(Runnable r) {
-    cleanups.add(r);
+    cleanups.add(new OrderedRunnable(r));
   }
 
   public void add(Cleanups c) {
     this.addAll(c.cleanups);
   }
 
-  public void addAll(Collection<Runnable> r) {
+  public void addAll(Collection<OrderedRunnable> r) {
     cleanups.addAll(r);
   }
 
   public void run() {
-    cleanups.forEach(Runnable::run);
+    cleanups.sort(Comparator.comparingInt(OrderedRunnable::order));
+    cleanups.forEach(c -> c.runnable.run());
   }
 
   @Override
