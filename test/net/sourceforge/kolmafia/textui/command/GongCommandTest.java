@@ -5,6 +5,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLimitMode;
@@ -56,7 +57,6 @@ public class GongCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
-    ChoiceManager.handlingChoice = false;
   }
 
   @Nested
@@ -70,6 +70,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
               withLimitMode(LimitMode.NONE),
+              withHandlingChoice(false),
               withPasswordHash("gong"),
               // If you have a password hash, KoL looks at your vinyl boots
               withGender(KoLCharacter.FEMALE));
@@ -108,6 +109,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
               withLimitMode(LimitMode.BIRD),
+              withHandlingChoice(false),
               withNoEffects(),
               withEffect("Form of...Bird!", 1));
       try (cleanups) {
@@ -129,6 +131,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withHttpClientBuilder(builder),
               withItem(ItemPool.GONG),
               withLimitMode(LimitMode.BIRD),
+              withHandlingChoice(false),
               withNoEffects(),
               withProperty("welcomeBackAdv", snarfblat),
               withPasswordHash("gong"),
