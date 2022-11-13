@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.webui;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1048,10 +1047,10 @@ public abstract class UseLinkDecorator {
             // *** what happens if you try to use a drum machine with no hooks?
             return null;
 
+          case ItemPool.ASTRAL_MUSHROOM:
           case ItemPool.GONG:
             // No use link if already under influence.
-            List<AdventureResult> active = KoLConstants.activeEffects;
-            if (active.contains(FightRequest.BIRDFORM) || active.contains(FightRequest.MOLEFORM)) {
+            if (KoLCharacter.getLimitMode().limitItem(itemId)) {
               return null;
             }
 

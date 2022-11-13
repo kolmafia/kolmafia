@@ -11029,12 +11029,12 @@
 11001	deed to Oliver's Place	790291349	oliver_deed.gif	usable	t	0
 11002	drink chit	835138088	oliver_chit.gif	none	t	0
 11003	government per-diem	527999205	envelope.gif	usable	t	0
-11004
+11004	prohie's hat	945313978	prohiehat.gif	hat	t	0
 11005	imported taffy	544720984	oliver_taffy.gif	potion, usable	t,d	5
 11006	Charleston shoes	977055253	oliver_shoes.gif	accessory	t	0
 11007	booze bindle	621976996	oliver_bindle.gif	usable	t,d	30
 11008	rare oboe	775305696	oliver_oboe.gif	weapon	t	0
-11009
+11009	bullet necklace	155116084	oliver_necklace.gif	accessory	t	0
 11010	swamp haunch	907779550	oliver_haunch.gif	food	t,d	5
 11011	gator shades	261571734	oliver_shades.gif	accessory	t	0
 11012	milk cap	635931962	oliver_milkcap.gif	none	q	0

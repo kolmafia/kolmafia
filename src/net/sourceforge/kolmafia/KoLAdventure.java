@@ -470,8 +470,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult INSIDE_THE_SNOWGLOBE =
       EffectPool.get(EffectPool.INSIDE_THE_SNOWGLOBE, 1);
   private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
-  private static final AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
-  private static final AdventureResult FORM_OF_BIRD = EffectPool.get(EffectPool.FORM_OF_BIRD);
   private static final AdventureResult FILTHWORM_LARVA_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_LARVA_STENCH);
   private static final AdventureResult FILTHWORM_DRONE_STENCH =
