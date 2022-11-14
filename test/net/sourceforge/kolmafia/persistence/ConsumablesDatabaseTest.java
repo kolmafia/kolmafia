@@ -12,12 +12,16 @@ import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
@@ -26,15 +30,18 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ConsumablesDatabaseTest {
   @BeforeEach
@@ -119,43 +126,85 @@ class ConsumablesDatabaseTest {
       }
     }
 
-    @Test
-    void notes() {
-      assertThat(ConsumablesDatabase.isMartini(-1), is(false));
-      assertThat(ConsumablesDatabase.isMartini(ItemPool.SACRAMENTO_WINE), is(false));
-      assertThat(ConsumablesDatabase.isMartini(ItemPool.MARTINI), is(true));
+    @Nested
+    class Notes {
+      @Test
+      void canGetListOfAttributes() {
+        var consumable = ConsumablesDatabase.getConsumableByName("beertini");
+        assertThat(
+            ConsumablesDatabase.getAttributes(consumable),
+            hasItems(Attribute.BEER, Attribute.MARTINI));
+      }
 
-      assertThat(ConsumablesDatabase.isWine(-1), is(false));
-      assertThat(ConsumablesDatabase.isWine(ItemPool.SACRAMENTO_WINE), is(true));
-      assertThat(ConsumablesDatabase.isWine(ItemPool.MARTINI), is(false));
+      @ParameterizedTest
+      @ValueSource(strings = {"Dump Truck", "herbal stuffing"})
+      void canGetBlankListOfAttributes(final String itemName) {
+        var consumable = ConsumablesDatabase.getConsumableByName(itemName);
+        assertThat(ConsumablesDatabase.getAttributes(consumable), hasSize(0));
+      }
 
-      assertThat(ConsumablesDatabase.isBeer(-1), is(false));
-      assertThat(ConsumablesDatabase.isBeer(ItemPool.GREEN_BEER), is(true));
-      assertThat(ConsumablesDatabase.isBeer(ItemPool.MARTINI), is(false));
+      @Test
+      void knowledgeOfMartinis() {
+        assertThat(ConsumablesDatabase.isMartini(-1), is(false));
+        assertThat(ConsumablesDatabase.isMartini(ItemPool.SACRAMENTO_WINE), is(false));
+        assertThat(ConsumablesDatabase.isMartini(ItemPool.MARTINI), is(true));
+      }
 
-      assertThat(ConsumablesDatabase.isCannedBeer(-1), is(false));
-      assertThat(ConsumablesDatabase.isCannedBeer(41 /* ice-cold Sir Schlitz */), is(true));
-      assertThat(ConsumablesDatabase.isCannedBeer(ItemPool.GREEN_BEER), is(false));
+      @Test
+      void knowledgeOfWines() {
+        assertThat(ConsumablesDatabase.isWine(-1), is(false));
+        assertThat(ConsumablesDatabase.isWine(ItemPool.SACRAMENTO_WINE), is(true));
+        assertThat(ConsumablesDatabase.isWine(ItemPool.MARTINI), is(false));
+      }
 
-      assertThat(ConsumablesDatabase.isLasagna(-1), is(false));
-      assertThat(ConsumablesDatabase.isLasagna(ItemPool.FISHY_FISH_LASAGNA), is(true));
-      assertThat(ConsumablesDatabase.isLasagna(ItemPool.HELL_RAMEN), is(false));
+      @Test
+      void knowledgeOfBeers() {
+        assertThat(ConsumablesDatabase.isBeer(-1), is(false));
+        assertThat(ConsumablesDatabase.isBeer(ItemPool.GREEN_BEER), is(true));
+        assertThat(ConsumablesDatabase.isBeer(ItemPool.MARTINI), is(false));
+      }
 
-      assertThat(ConsumablesDatabase.isSaucy(-1), is(false));
-      assertThat(ConsumablesDatabase.isSaucy(ItemPool.FISHY_FISH_LASAGNA), is(false));
-      assertThat(ConsumablesDatabase.isSaucy(ItemPool.HELL_RAMEN), is(true));
+      @Test
+      void knowledgeOfCannedBeers() {
+        assertThat(ConsumablesDatabase.isCannedBeer(-1), is(false));
+        assertThat(ConsumablesDatabase.isCannedBeer(41 /* ice-cold Sir Schlitz */), is(true));
+        assertThat(ConsumablesDatabase.isCannedBeer(ItemPool.GREEN_BEER), is(false));
+      }
 
-      assertThat(ConsumablesDatabase.isPizza(-1), is(false));
-      assertThat(ConsumablesDatabase.isPizza(ItemPool.DIABOLIC_PIZZA), is(true));
-      assertThat(ConsumablesDatabase.isPizza(ItemPool.HELL_RAMEN), is(false));
+      @Test
+      void knowledgeOfLasagnas() {
+        assertThat(ConsumablesDatabase.isLasagna(-1), is(false));
+        assertThat(ConsumablesDatabase.isLasagna(ItemPool.FISHY_FISH_LASAGNA), is(true));
+        assertThat(ConsumablesDatabase.isLasagna(ItemPool.HELL_RAMEN), is(false));
+      }
 
-      assertThat(ConsumablesDatabase.isBeans(-1), is(false));
-      assertThat(ConsumablesDatabase.isBeans(ItemPool.MUS_BEANS_PLATE), is(true));
-      assertThat(ConsumablesDatabase.isBeans(ItemPool.HELL_RAMEN), is(false));
+      @Test
+      void knowledgeOfSauciness() {
+        assertThat(ConsumablesDatabase.isSaucy(-1), is(false));
+        assertThat(ConsumablesDatabase.isSaucy(ItemPool.FISHY_FISH_LASAGNA), is(false));
+        assertThat(ConsumablesDatabase.isSaucy(ItemPool.HELL_RAMEN), is(true));
+      }
 
-      assertThat(ConsumablesDatabase.isSalad(-1), is(false));
-      assertThat(ConsumablesDatabase.isSalad(ItemPool.KUDZU_SALAD), is(true));
-      assertThat(ConsumablesDatabase.isSalad(ItemPool.HELL_RAMEN), is(false));
+      @Test
+      void knowledgeOfPizzas() {
+        assertThat(ConsumablesDatabase.isPizza(-1), is(false));
+        assertThat(ConsumablesDatabase.isPizza(ItemPool.DIABOLIC_PIZZA), is(true));
+        assertThat(ConsumablesDatabase.isPizza(ItemPool.HELL_RAMEN), is(false));
+      }
+
+      @Test
+      void knowledgeOfBeans() {
+        assertThat(ConsumablesDatabase.isBeans(-1), is(false));
+        assertThat(ConsumablesDatabase.isBeans(ItemPool.MUS_BEANS_PLATE), is(true));
+        assertThat(ConsumablesDatabase.isBeans(ItemPool.HELL_RAMEN), is(false));
+      }
+
+      @Test
+      void knowledgeOfSalads() {
+        assertThat(ConsumablesDatabase.isSalad(-1), is(false));
+        assertThat(ConsumablesDatabase.isSalad(ItemPool.KUDZU_SALAD), is(true));
+        assertThat(ConsumablesDatabase.isSalad(ItemPool.HELL_RAMEN), is(false));
+      }
     }
 
     @Test
@@ -305,33 +354,47 @@ class ConsumablesDatabaseTest {
 
   @Nested
   class TCRS {
+    static Cleanups CLEANUPS = new Cleanups();
+
+    @BeforeAll
+    static void beforeAll() {
+      CLEANUPS.add(withPath(AscensionPath.Path.CRAZY_RANDOM_SUMMER_TWO));
+      CLEANUPS.add(withClass(AscensionClass.PASTAMANCER));
+      CLEANUPS.add(withSign(ZodiacSign.PACKRAT));
+
+      DebugDatabase.cacheItemDescriptionText(
+          ItemPool.RING, html("request/test_tcrs_desc_item_ring.html"));
+      TCRSDatabase.loadTCRSData();
+    }
+
     @AfterAll
     static void afterAll() throws IOException {
+      CLEANUPS.close();
+
       DebugDatabase.cacheItemDescriptionText(
           ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
       TCRSDatabase.resetModifiers();
-      Files.walk(KoLConstants.DATA_LOCATION.toPath())
-          .filter(p -> p.toFile().getName().startsWith("TCRS_"))
-          .filter(p -> p.toFile().getName().endsWith(".txt"))
-          .forEach(p -> p.toFile().delete());
+      try (var walker = Files.walk(KoLConstants.DATA_LOCATION.toPath())) {
+        walker
+            .map(Path::toFile)
+            .filter(f -> f.getName().startsWith("TCRS_"))
+            .filter(f -> f.getName().endsWith(".txt"))
+            .forEach(File::delete);
+      }
     }
 
     @Test
-    void appliesTcrsAdjustments() {
-      var cleanups =
-          new Cleanups(
-              withPath(AscensionPath.Path.CRAZY_RANDOM_SUMMER_TWO),
-              withClass(AscensionClass.PASTAMANCER),
-              withSign(ZodiacSign.PACKRAT));
-      try (cleanups) {
-        DebugDatabase.cacheItemDescriptionText(
-            ItemPool.RING, html("request/test_tcrs_desc_item_ring.html"));
-        TCRSDatabase.loadTCRSData();
+    void spleenItemsAreModified() {
+      // Spleen items should now be size 1 and provide no adventures.
+      assertThat(ConsumablesDatabase.getSpleenHit("antimatter wad"), is(1));
+      assertThat(ConsumablesDatabase.getBaseAdventureRange("antimatter wad"), equalTo("0"));
+    }
 
-        // Spleen items should now be size 1 and provide no adventures.
-        assertThat(ConsumablesDatabase.getSpleenHit("antimatter wad"), is(1));
-        assertThat(ConsumablesDatabase.getBaseAdventureRange("antimatter wad"), equalTo("0"));
-      }
+    @Test
+    void consumableAttributesAreMaintained() {
+      // Attributes should be maintained
+      assertThat(ConsumablesDatabase.isWine(ItemPool.BUCKET_OF_WINE), is(true));
+      assertThat(ConsumablesDatabase.isCannedBeer(ItemPool.WILLER), is(true));
     }
   }
 }
