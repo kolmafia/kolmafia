@@ -548,6 +548,8 @@ public class Preferences {
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
   public static synchronized void reset(String username) {
+    // We might not have been tracking encoded values here before this save. Fix that.
+    Preferences.reinitializeEncodedValues();
     Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
     // Prevent anybody from manipulating the user map until we are
     // done bulk-loading it.
