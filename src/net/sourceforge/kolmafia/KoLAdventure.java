@@ -453,6 +453,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // Items that grant an effect and require configuration to give access
   private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
   private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG);
+  private static final AdventureResult MILK_CAP = ItemPool.get(ItemPool.MILK_CAP);
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
@@ -593,12 +594,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return checkZone("prAlways", "_prToday", "monorail");
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
-      case "Oliver's Place":
-        return checkZone("ownsOliversPlace", null, "town_wrong");
       case "Twitch":
         // There is no permanent access to the Time Twitching Tower; it's
         // always day by day.
         return checkZone(null, "timeTowerAvailable", "town");
+      case "Speakeasy":
+        // It's in the Wrong Side of the Tracks.
+        // You can get a quest item from an NPC in it.
+        if (InventoryManager.hasItem(MILK_CAP)) {
+          Preferences.setBoolean("ownsSpeakeasy", true);
+          return true;
+        }
+        // Otherwise, look at the map
+        return checkZone("ownsSpeakeasy", null, "town_wrong");
       case "The Spacegate":
         // Through the Spacegate
 

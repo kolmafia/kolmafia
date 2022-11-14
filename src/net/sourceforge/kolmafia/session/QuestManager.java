@@ -485,7 +485,7 @@ public class QuestManager {
         Preferences.setBoolean("_loveTunnelToday", true);
       }
       if (responseText.contains("Speakeasy")) {
-        Preferences.setBoolean("ownsOliversPlace", true);
+        Preferences.setBoolean("ownsSpeakeasy", true);
       }
       if (responseText.contains("Overgrown Lot")) {
         Preferences.setBoolean("overgrownLotAvailable", true);

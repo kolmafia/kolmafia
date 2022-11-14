@@ -45,7 +45,7 @@ Casino	casino=11	DiffLevel: none Env: none Stat: 0	Lemon Party
 Casino	adventure=70	DiffLevel: low Env: indoor Stat: 0	The Roulette Tables
 Casino	adventure=71	DiffLevel: low Env: indoor Stat: 0	The Poker Room
 
-Oliver's Place	adventure=558	DiffLevel: mid Env: indoor Stat: 0	An Unusually Quiet Barroom Brawl
+Speakeasy	adventure=558	DiffLevel: mid Env: indoor Stat: 0	An Unusually Quiet Barroom Brawl
 
 Manor0	adventure=399	DiffLevel: high Env: underground Stat: 104	The Haunted Boiler Room	1 wine bomb
 Manor0	adventure=400	DiffLevel: high Env: underground Stat: 104	The Haunted Laundry Room	1 blasting soda

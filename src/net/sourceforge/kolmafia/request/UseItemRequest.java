@@ -5863,7 +5863,7 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.DEED_TO_OLIVERS_PLACE:
         // You sign the deed, which instantly makes you the owner of the building.
-        Preferences.setBoolean("ownsOliversPlace", true);
+        Preferences.setBoolean("ownsSpeakeasy", true);
         if (!responseText.contains("sign the deed")) {
           return;
         }

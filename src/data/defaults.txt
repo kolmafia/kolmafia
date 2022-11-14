@@ -1079,7 +1079,7 @@ user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
-user	ownsOliversPlace	false
+user	ownsSpeakeasy	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
 user	parkaMode

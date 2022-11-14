@@ -1736,7 +1736,7 @@ public class QuestManagerTest {
       "daycareOpen, _daycareToday",
       "neverendingPartyAlways, _neverendingPartyToday",
       "loveTunnelAvailable, _loveTunnelToday",
-      "ownsOliversPlace, none"
+      "ownsSpeakeasy, none"
     })
     public void checkDayPassesInTownWrong(String always, String today) {
       var html = html("request/test_visit_town_wrong.html");

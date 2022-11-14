@@ -230,7 +230,7 @@ public class KoLAdventureValidationTest {
     @CsvSource({
       "The Neverending Party, neverendingPartyAlways, _neverendingPartyToday",
       "The Tunnel of L.O.V.E., loveTunnelAvailable, _loveTunnelToday",
-      "An Unusually Quiet Barroom Brawl, ownsOliversPlace, none"
+      "An Unusually Quiet Barroom Brawl, ownsSpeakeasy, none"
     })
     public void checkDayPassesInTownWrong(String adventureName, String always, String today) {
       checkDayPasses(adventureName, "town_wrong", always, today);
@@ -432,6 +432,30 @@ public class KoLAdventureValidationTest {
           assertPostRequest(requests.get(0), "/place.php", "whichplace=town");
           assertFalse(Preferences.getBoolean(today));
           assertFalse(success);
+        }
+      }
+    }
+
+    @Nested
+    class Speakeasy {
+      private static final KoLAdventure QUIET_BRAWL =
+          AdventureDatabase.getAdventureByName("An Unusually Quiet Barroom Brawl");
+      private static final AdventureResult MILK_CAP = ItemPool.get(ItemPool.MILK_CAP);
+      private static final String always = "ownsSpeakeasy";
+
+      @Test
+      public void canDetectSpeakeasyThroughQuestItem() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder), withProperty(always, false), withItem(MILK_CAP));
+        try (cleanups) {
+          assertTrue(QUIET_BRAWL.preValidateAdventure());
+          assertTrue(Preferences.getBoolean(always));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(0));
         }
       }
     }
