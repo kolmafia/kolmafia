@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -674,8 +675,9 @@ public class TCRSDatabase {
 
   private static void applyConsumableModifiers(
       final int usage, final String itemName, final TCRS tcrs) {
-    Integer lint = ConsumablesDatabase.getLevelReqByName(itemName);
-    int level = lint == null ? 0 : lint.intValue();
+    var consumable = ConsumablesDatabase.getConsumableByName(itemName);
+    Integer lint = ConsumablesDatabase.getLevelReq(consumable);
+    int level = lint == null ? 0 : lint;
     // Guess
     int adv =
         (usage == KoLConstants.CONSUME_SPLEEN) ? 0 : (tcrs.size * qualityMultiplier(tcrs.quality));
@@ -683,13 +685,16 @@ public class TCRSDatabase {
     int mys = 0;
     int mox = 0;
 
-    String comment = "Unspaded";
+    var comment = new StringJoiner(", ").add("Unspaded");
+
+    // Consumable attributes (like SAUCY, BEER, etc) are preserved
+    ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
+
     String effectName = Modifiers.getStringModifier("Item", itemName, "Effect");
-    if (effectName != null && !effectName.equals("")) {
+    if (effectName != null && !effectName.isEmpty()) {
       int duration = (int) Modifiers.getNumericModifier("Item", itemName, "Effect Duration");
       String effectModifiers = Modifiers.getStringModifier("Effect", effectName, "Modifiers");
-      String buf = comment + " " + duration + " " + effectName + " (" + effectModifiers + ")";
-      comment = buf;
+      comment.add(duration + " " + effectName + " (" + effectModifiers + ")");
     }
 
     ConsumablesDatabase.updateConsumable(
@@ -701,7 +706,7 @@ public class TCRSDatabase {
         String.valueOf(mus),
         String.valueOf(mys),
         String.valueOf(mox),
-        comment);
+        comment.toString());
   }
 
   public static void resetModifiers() {
