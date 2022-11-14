@@ -552,7 +552,7 @@ public abstract class ChoiceControl {
         // Chatterboxing
         if (ChoiceManager.lastDecision == 2
             && text.contains("find a valuable trinket that looks promising")) {
-          BanishManager.banishMonster("chatty pirate", BanishManager.Banisher.CHATTERBOXING);
+          BanishManager.banishMonster("chatty pirate", BanishManager.Banisher.CHATTERBOXING, true);
         }
         break;
 
@@ -6840,7 +6840,7 @@ public abstract class ChoiceControl {
           Matcher matcher = ICEHOUSE_PATTERN.matcher(text);
           if (matcher.find()) {
             String icehouseMonster = matcher.group(1);
-            BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE);
+            BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE, false);
           }
           break;
         }
