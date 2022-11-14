@@ -59,7 +59,10 @@ class BanishManagerTest {
 
   @Test
   void clearCache() {
-    var cleanups = new Cleanups(withCurrentRun(128), withProperty("banishedMonsters", "fluffy bunny:Be a Mind Master:119"));
+    var cleanups =
+        new Cleanups(
+            withCurrentRun(128),
+            withProperty("banishedMonsters", "fluffy bunny:Be a Mind Master:119"));
 
     try (cleanups) {
       BanishManager.loadBanishedMonsters();
@@ -94,6 +97,23 @@ class BanishManagerTest {
       assertTrue(BanishManager.isBanished("paper towelgeist"));
 
       assertFalse(BanishManager.isBanished("zmobie"));
+    }
+  }
+
+  @Test
+  void loadBanishedMonstersSkipsInvalidBanisher() {
+    var cleanups =
+        new Cleanups(
+            withCurrentRun(128),
+            withProperty(
+                "banishedMonsters",
+                "gingerbread lawyer:made up banisher:118:unhinged survivor:Feel Hatred:119"));
+
+    try (cleanups) {
+      BanishManager.loadBanishedMonsters();
+
+      assertFalse(BanishManager.isBanished("gingerbread lawyer"));
+      assertTrue(BanishManager.isBanished("unhinged survivor"));
     }
   }
 
@@ -223,6 +243,22 @@ class BanishManagerTest {
     try (cleanups) {
       BanishManager.banishCurrentMonster(Banisher.SMOKE_GRENADE);
       assertTrue(BanishManager.isBanished("W imp"));
+    }
+  }
+
+  @Test
+  void banishCurrentMonsterWithNoCurrentMonster() {
+    var cleanups =
+        new Cleanups(
+            withCurrentRun(123),
+            withProperty("banishedMonsters", "spooky vampire:ice house:0"),
+            withNextMonster((MonsterData) null));
+
+    try (cleanups) {
+      BanishManager.banishCurrentMonster(Banisher.SMOKE_GRENADE);
+
+      // Still well-formed
+      assertThat("banishedMonsters", isSetTo("spooky vampire:ice house:0"));
     }
   }
 
