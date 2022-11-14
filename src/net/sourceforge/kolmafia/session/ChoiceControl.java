@@ -6386,7 +6386,7 @@ public abstract class ChoiceControl {
         break;
 
       case 1483: // Direct Autumn-Aton
-        int location = StringUtilities.parseInt(request.getFormField("name"));
+        int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
         AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
         break;
 
