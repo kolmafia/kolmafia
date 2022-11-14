@@ -328,4 +328,41 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class Speakeasy {
+    @Test
+    void visitingPlaqueIdentifiesName() {
+      var cleanups =
+          new Cleanups(withProperty("speakeasyName", "Oliver's Place"), withPostChoice1(0, 0));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1484");
+        req.responseText = html("request/test_place_speakeasy_plaque.html");
+
+        ChoiceManager.visitChoice(req);
+
+        assertThat(
+            "speakeasyName",
+            isSetTo(
+                "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"));
+      }
+    }
+
+    @Test
+    void changingPlaqueRecordsNewName() {
+      var cleanups =
+          new Cleanups(withProperty("speakeasyName", "Oliver's Place"), withPostChoice2(0, 0));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1484&pwd&option=1&name=new+name");
+        req.responseText = html("request/test_place_speakeasy_plaque_changed.html");
+
+        ChoiceManager.preChoice(req);
+        ChoiceManager.postChoice2(req.getURLString(), req);
+
+        assertThat("speakeasyName", isSetTo("new name"));
+      }
+    }
+  }
 }
