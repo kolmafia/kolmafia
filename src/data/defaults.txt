@@ -1396,6 +1396,7 @@ user	spacegateVaccine3	false
 user	spaceInvaderDefeated	false
 user	spadingData
 user	spadingScript
+user	speakeasyName	Oliver's Place
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
 user	spelunkySacrifices	0
