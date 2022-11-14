@@ -2065,4 +2065,17 @@ public class QuestManagerTest {
       assertEquals(Preferences.getInteger(propertyName), 11);
     }
   }
+
+  @Test
+  public void canParseSpeakeasyName() {
+    var cleanup = new Cleanups(withProperty("speakeasyName", "Oliver's Place"));
+
+    try (cleanup) {
+      var request = new GenericRequest("place.php?whichplace=town_wrong");
+      request.responseText = html("request/test_visit_town_wrong.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat("speakeasyName", isSetTo("BLORP"));
+    }
+  }
 }

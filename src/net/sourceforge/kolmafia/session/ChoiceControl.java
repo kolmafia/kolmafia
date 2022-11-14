@@ -6389,6 +6389,13 @@ public abstract class ChoiceControl {
         int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
         AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
         break;
+
+      case 1484: // Conspicuous Plaque
+        if (ChoiceManager.lastDecision == 1 && text.contains("All right, you're the boss.")) {
+          var name = request.getFormField("name");
+          Preferences.setString("speakeasyName", name);
+        }
+        break;
     }
   }
 
@@ -8059,6 +8066,13 @@ public abstract class ChoiceControl {
       case 1483:
         AutumnatonManager.visitChoice(text);
         break;
+      case 1484: // Conspicuous Plaque
+        var pattern = Pattern.compile("The plaque currently reads: <b>(.*?)</b>");
+        var matcher = pattern.matcher(text);
+        if (matcher.find()) {
+          Preferences.setString("speakeasyName", matcher.group(1));
+        }
+        break;
     }
   }
 
@@ -9174,6 +9188,7 @@ public abstract class ChoiceControl {
       case 1463: // Reminiscing About Those Monsters You Fought
       case 1476: // Stillsuit
       case 1483: // Direct Autumn-Aton
+      case 1484: // Conspicuous Plaque
         return true;
 
       default:
