@@ -753,6 +753,19 @@ public class PlaceRequest extends GenericRequest {
       case "spacegate_portable" -> {
         message = "Visiting your portable Spacegate";
       }
+      case "speakeasy" -> {
+        message =
+            switch (action) {
+              case "olivers_pooltable" -> "Visiting the Pool Table";
+              case "olivers_sot" -> "Talking to the Milky-Eyed Sot";
+                // case "olivers_piano" -> "Examining the Piano";
+              case "olivers_sign" -> "Looking at the conspicuous plaque";
+                // case "olivers_codetable" -> "Looking at the scratched-Up Table";
+                // case "olivers_bouncer" -> "Talking to the  Bouncer";
+              case "" -> "Visiting " + Preferences.getString("speakeasyName");
+              default -> null;
+            };
+      }
       case "sea_oldman" -> {
         // place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6313[/code]
         if (action.equals("oldman_oldman")) {

@@ -484,10 +484,22 @@ public class QuestManager {
           && !Preferences.getBoolean("loveTunnelAvailable")) {
         Preferences.setBoolean("_loveTunnelToday", true);
       }
+      if (responseText.contains("Speakeasy")) {
+        handleSpeakeasyName(responseText);
+        Preferences.setBoolean("ownsSpeakeasy", true);
+      }
       if (responseText.contains("Overgrown Lot")) {
         Preferences.setBoolean("overgrownLotAvailable", true);
       }
     }
+  }
+
+  private static Pattern SPEAKEASY_NAME = Pattern.compile("whichplace=speakeasy.*?title=\"(.*?)\"");
+
+  private static void handleSpeakeasyName(final String text) {
+    var matcher = SPEAKEASY_NAME.matcher(text);
+    if (!matcher.find()) return;
+    Preferences.setString("speakeasyName", matcher.group(1));
   }
 
   private static void handleTownMarketChange(final String location, String responseText) {

@@ -4,7 +4,7 @@
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
 A Monorail Station	Town	A Monorail Station
-Oliver's Place	Town	Oliver's Place
+Speakeasy	Town	Speakeasy	deed to Oliver's Place
 
 # The following are in town but have their own sorting
 Manor	Town	Spookyraven Manor

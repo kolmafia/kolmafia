@@ -5860,6 +5860,23 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.BONE_WITH_A_PRICE_TAG:
         Preferences.setBoolean("skeletonStoreAvailable", true);
         break;
+
+      case ItemPool.DEED_TO_OLIVERS_PLACE:
+        // You sign the deed, which instantly makes you the owner of the building.
+        Preferences.setBoolean("ownsSpeakeasy", true);
+        if (!responseText.contains("sign the deed")) {
+          return;
+        }
+        break;
+
+      case ItemPool.GOVERNMENT_PER_DIEM:
+        // You open the envelop and collect your pay.
+        // You can't get more than one per-diem per diem. It's right there in the name.
+        Preferences.setBoolean("_governmentPerDiemUsed", true);
+        if (!responseText.contains("collect your pay")) {
+          return;
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

@@ -1073,3 +1073,11 @@ KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
 # The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
 # The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
 
+# Fancy Dan the Cocktail Man
+
+Fancy Dan the Cocktail Man	buy	1	Champagne Shimmy	ROW1294
+Fancy Dan the Cocktail Man	buy	1	Charleston Choo-Choo	ROW1289
+Fancy Dan the Cocktail Man	buy	1	Marltini	ROW1291
+Fancy Dan the Cocktail Man	buy	1	Mysterious Stranger	ROW1293
+Fancy Dan the Cocktail Man	buy	1	Strong, Silent Type	ROW1292
+Fancy Dan the Cocktail Man	buy	1	Velvet Veil	ROW1290

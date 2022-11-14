@@ -1032,6 +1032,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof FancyDanRequest)
+        && FancyDanRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof FantasyRealmRequest)
         && FantasyRealmRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;

@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -576,9 +577,13 @@ public class ConsumablesDatabase {
     return ConsumablesDatabase.consumableByName.get(name);
   }
 
+  public static Integer getLevelReq(final Consumable consumable) {
+    return consumable == null ? null : consumable.level;
+  }
+
   public static final Integer getLevelReqByName(final String name) {
     Consumable consumable = ConsumablesDatabase.consumableByName.get(name);
-    return consumable == null ? null : consumable.level;
+    return getLevelReq(consumable);
   }
 
   public static final boolean meetsLevelRequirement(final String name) {
@@ -918,45 +923,66 @@ public class ConsumablesDatabase {
     return getStatRange(Consumable.MOXIE, name);
   }
 
-  public static final boolean hasAttribute(final int itemId, final String attribute) {
+  public enum Attribute {
+    MARTINI,
+    LASAGNA,
+    SAUCY,
+    PIZZA,
+    BEANS,
+    WINE,
+    SALAD,
+    BEER,
+    CANNED
+  }
+
+  private static boolean hasAttribute(final int itemId, final Attribute attribute) {
     Consumable consumable = ConsumablesDatabase.consumableByItemId.get(itemId);
-    return consumable != null && consumable.notes != null && consumable.notes.contains(attribute);
+    return consumable != null
+        && consumable.notes != null
+        && consumable.notes.contains(attribute.name());
   }
 
-  public static final boolean isMartini(final int itemId) {
-    return hasAttribute(itemId, "MARTINI");
+  public static Set<Attribute> getAttributes(final Consumable consumable) {
+    if (consumable == null || consumable.notes == null) return Set.of();
+    return Arrays.stream(Attribute.values())
+        .filter(a -> consumable.notes.contains(a.name()))
+        .collect(Collectors.toSet());
   }
 
-  public static final boolean isLasagna(final int itemId) {
-    return hasAttribute(itemId, "LASAGNA");
+  public static boolean isMartini(final int itemId) {
+    return hasAttribute(itemId, Attribute.MARTINI);
   }
 
-  public static final boolean isSaucy(final int itemId) {
-    return hasAttribute(itemId, "SAUCY");
+  public static boolean isLasagna(final int itemId) {
+    return hasAttribute(itemId, Attribute.LASAGNA);
   }
 
-  public static final boolean isPizza(final int itemId) {
-    return hasAttribute(itemId, "PIZZA");
+  public static boolean isSaucy(final int itemId) {
+    return hasAttribute(itemId, Attribute.SAUCY);
   }
 
-  public static final boolean isBeans(final int itemId) {
-    return hasAttribute(itemId, "BEANS");
+  public static boolean isPizza(final int itemId) {
+    return hasAttribute(itemId, Attribute.PIZZA);
   }
 
-  public static final boolean isWine(final int itemId) {
-    return hasAttribute(itemId, "WINE");
+  public static boolean isBeans(final int itemId) {
+    return hasAttribute(itemId, Attribute.BEANS);
   }
 
-  public static final boolean isSalad(final int itemId) {
-    return hasAttribute(itemId, "SALAD");
+  public static boolean isWine(final int itemId) {
+    return hasAttribute(itemId, Attribute.WINE);
   }
 
-  public static final boolean isBeer(final int itemId) {
-    return hasAttribute(itemId, "BEER");
+  public static boolean isSalad(final int itemId) {
+    return hasAttribute(itemId, Attribute.SALAD);
   }
 
-  public static final boolean isCannedBeer(final int itemId) {
-    return hasAttribute(itemId, "CANNED");
+  public static boolean isBeer(final int itemId) {
+    return hasAttribute(itemId, Attribute.BEER);
+  }
+
+  public static boolean isCannedBeer(final int itemId) {
+    return hasAttribute(itemId, Attribute.CANNED);
   }
 
   // Support for astral consumables and other level dependant consumables

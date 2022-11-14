@@ -1079,6 +1079,7 @@ user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
+user	ownsSpeakeasy	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
 user	parkaMode
@@ -1395,6 +1396,7 @@ user	spacegateVaccine3	false
 user	spaceInvaderDefeated	false
 user	spadingData
 user	spadingScript
+user	speakeasyName	Oliver's Place
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
 user	spelunkySacrifices	0
@@ -1805,6 +1807,7 @@ user	_goldenMoneyCharge	0
 user	_gongDrops	0
 user	_gothKidCharge	0
 user	_gothKidFights	0
+user	_governmentPerDiemUsed	false
 user	_grimBuff	false
 user	_grimBrotherCharge	0
 user	_grimFairyTaleDrops	0
