@@ -453,6 +453,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // Items that grant an effect and require configuration to give access
   private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
   private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG);
+  private static final AdventureResult MILK_CAP = ItemPool.get(ItemPool.MILK_CAP);
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
@@ -535,12 +536,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (alwaysPref != null && Preferences.getBoolean(alwaysPref)) {
       return true;
     }
+
+    // If there is no day pass, looking at map might induce QuestManager to
+    // detect permanent access
+    if (todayPref == null) {
+      var request = new PlaceRequest(place);
+      RequestThread.postRequest(request);
+      return Preferences.getBoolean(alwaysPref);
+    }
+
     // If we don't know we have daily access, looking at the map
     // will induce QuestManager to detect it.
     if (!Preferences.getBoolean(todayPref)) {
       var request = new PlaceRequest(place);
       RequestThread.postRequest(request);
     }
+
     return Preferences.getBoolean(todayPref);
   }
 
@@ -587,6 +598,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // There is no permanent access to the Time Twitching Tower; it's
         // always day by day.
         return checkZone(null, "timeTowerAvailable", "town");
+      case "Speakeasy":
+        // It's in the Wrong Side of the Tracks.
+        // You can get a quest item from an NPC in it.
+        if (InventoryManager.hasItem(MILK_CAP)) {
+          Preferences.setBoolean("ownsSpeakeasy", true);
+          return true;
+        }
+        // Otherwise, look at the map
+        return checkZone("ownsSpeakeasy", null, "town_wrong");
       case "The Spacegate":
         // Through the Spacegate
 
