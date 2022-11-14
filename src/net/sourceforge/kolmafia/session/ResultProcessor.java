@@ -1372,6 +1372,9 @@ public class ResultProcessor {
       case ItemPool.WORMWOOD_STICK:
       case ItemPool.PURPLEHEART_LOGS:
       case ItemPool.DRIPWOOD_SLAB:
+        // Speakeasy currencies
+      case ItemPool.MILK_CAP:
+      case ItemPool.DRINK_CHIT:
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
 

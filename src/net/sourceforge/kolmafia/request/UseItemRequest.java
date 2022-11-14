@@ -5868,6 +5868,15 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         break;
+
+      case ItemPool.GOVERNMENT_PER_DIEM:
+        // You open the envelop and collect your pay.
+        // You can't get more than one per-diem per diem. It's right there in the name.
+        Preferences.setBoolean("_governmentPerDiemUsed", true);
+        if (!responseText.contains("collect your pay")) {
+          return;
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
