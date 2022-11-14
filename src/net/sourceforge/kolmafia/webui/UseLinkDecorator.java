@@ -2145,6 +2145,12 @@ public abstract class UseLinkDecorator {
         useLocation = "shop.php?whichshop=lathe";
         break;
 
+      case ItemPool.MILK_CAP:
+      case ItemPool.DRINK_CHIT:
+        useType = "spend";
+        useLocation = "shop.php?whichshop=olivers";
+        break;
+
       case ItemPool.DINOSAUR_DROPPINGS:
         useType = "turn in";
         useLocation = "place.php?whichplace=dinorf&action=dinorf_owner";
