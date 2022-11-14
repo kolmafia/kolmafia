@@ -897,6 +897,15 @@ public class Player {
   }
 
   /**
+   * Sets the player's current run
+   *
+   * @return Resets remaining adventures to previous value
+   */
+  public static Cleanups withCurrentRun() {
+    return withCurrentRun(KoLCharacter.getCurrentRun());
+  }
+
+  /**
    * Sets the player's ascensions
    *
    * @param ascensions Desired ascensions
