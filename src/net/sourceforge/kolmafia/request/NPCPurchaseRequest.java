@@ -885,7 +885,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (shopId.equals("oliver")) {
+    if (shopId.equals("olivers")) {
       FancyDanRequest.parseResponse(urlString, responseText);
       return;
     }
@@ -1327,7 +1327,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         return SpacegateFabricationRequest.registerRequest(urlString);
       }
 
-      if (shopId.equals("oliver")) {
+      if (shopId.equals("olivers")) {
         return FancyDanRequest.registerRequest(urlString);
       }
 

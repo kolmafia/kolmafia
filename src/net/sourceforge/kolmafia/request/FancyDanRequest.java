@@ -24,7 +24,7 @@ public class FancyDanRequest extends CoinMasterRequest {
   public static final CoinmasterData FANCY_DAN =
       new CoinmasterData(
           FancyDanRequest.master,
-          "oliver",
+          "olivers",
           FancyDanRequest.class,
           null,
           null,
@@ -33,7 +33,7 @@ public class FancyDanRequest extends CoinMasterRequest {
           null,
           null,
           FancyDanRequest.itemRows,
-          "shop.php?whichshop=oliver",
+          "shop.php?whichshop=olivers",
           "buyitem",
           FancyDanRequest.buyItems,
           FancyDanRequest.buyPrices,
@@ -115,7 +115,7 @@ public class FancyDanRequest extends CoinMasterRequest {
   }
 
   public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=oliver")) {
+    if (!location.contains("whichshop=olivers")) {
       return;
     }
 
@@ -140,7 +140,7 @@ public class FancyDanRequest extends CoinMasterRequest {
   }
 
   public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=oliver")) {
+    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=olivers")) {
       return false;
     }
 
