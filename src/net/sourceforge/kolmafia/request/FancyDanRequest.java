@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -12,35 +11,18 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class FancyDanRequest extends CoinMasterRequest {
   public static final String master = "Fancy Dan the Cocktail Man";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(FancyDanRequest.master);
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(FancyDanRequest.master);
+
+  // Since there are two different currencies, we need to have a map from
+  // itemId to item/count of currency; an AdventureResult.
+  private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
+
+  // Manually set up the map and change the currency, as need
 
   public static final AdventureResult MILK_CAP = ItemPool.get(ItemPool.MILK_CAP, 1);
   public static final AdventureResult DRINK_CHIT = ItemPool.get(ItemPool.DRINK_CHIT, 1);
 
-  public static final CoinmasterData FANCY_DAN =
-      new CoinmasterData(master, "olivers", FancyDanRequest.class) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          return FancyDanRequest.buyCosts.get(itemId);
-        }
-      }.withItemRows(itemRows)
-          .withBuyURL("shop.php?whichshop=olivers")
-          .withBuyItems(buyItems)
-          .withBuyPrices(buyPrices);
-
-  // Since there are two different currencies, we need to have a map from
-  // itemId to item/count of currency; an AdventureResult.
-  private static final Map<Integer, AdventureResult> buyCosts =
-      new TreeMap<Integer, AdventureResult>();
-
-  // Manually set up the map and change the currency, as need
   static {
-    for (Entry<Integer, Integer> entry :
-        CoinmastersDatabase.getBuyPrices(FancyDanRequest.master).entrySet()) {
+    for (Entry<Integer, Integer> entry : CoinmastersDatabase.getBuyPrices(master).entrySet()) {
       int itemId = entry.getKey().intValue();
       int price = entry.getValue().intValue();
       AdventureResult cost =
@@ -58,24 +40,35 @@ public class FancyDanRequest extends CoinMasterRequest {
     }
   }
 
+  public static final CoinmasterData FANCY_DAN =
+      new CoinmasterData(master, "olivers", FancyDanRequest.class) {
+        @Override
+        public AdventureResult itemBuyPrice(final int itemId) {
+          return FancyDanRequest.buyCosts.get(itemId);
+        }
+      }.withItemRows(master)
+          .withBuyURL("shop.php?whichshop=olivers")
+          .withBuyItems(master)
+          .withBuyPrices();
+
   public FancyDanRequest() {
-    super(FancyDanRequest.FANCY_DAN);
+    super(FANCY_DAN);
   }
 
   public FancyDanRequest(final String action) {
-    super(FancyDanRequest.FANCY_DAN, action);
+    super(FANCY_DAN, action);
   }
 
   public FancyDanRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FancyDanRequest.FANCY_DAN, buying, attachments);
+    super(FANCY_DAN, buying, attachments);
   }
 
   public FancyDanRequest(final boolean buying, final AdventureResult attachment) {
-    super(FancyDanRequest.FANCY_DAN, buying, attachment);
+    super(FANCY_DAN, buying, attachment);
   }
 
   public FancyDanRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FancyDanRequest.FANCY_DAN, buying, itemId, quantity);
+    super(FANCY_DAN, buying, itemId, quantity);
   }
 
   @Override
@@ -89,7 +82,7 @@ public class FancyDanRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    FancyDanRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -97,16 +90,14 @@ public class FancyDanRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = FancyDanRequest.FANCY_DAN;
-
     String action = GenericRequest.getAction(location);
     if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
+      CoinMasterRequest.parseResponse(FANCY_DAN, location, responseText);
       return;
     }
 
     // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    CoinMasterRequest.parseBalance(FANCY_DAN, responseText);
   }
 
   public static String accessible() {
@@ -122,7 +113,6 @@ public class FancyDanRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = FancyDanRequest.FANCY_DAN;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(FANCY_DAN, urlString, true);
   }
 }

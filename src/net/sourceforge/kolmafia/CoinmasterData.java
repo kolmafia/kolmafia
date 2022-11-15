@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -27,12 +26,12 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   // Optional fields
   // The token(s) that you exchange for items.
-  private String token = "";
-  private String tokenTest = "";
-  private boolean positiveTest = true;
+  private String token = null;
+  private String tokenTest = null;
+  private boolean positiveTest = false;
   private Pattern tokenPattern = null;
   private AdventureResult item = null;
-  private String property = "";
+  private String property = null;
 
   // For Coinmasters that deal with "rows", a map from item id to row number
   private Map<Integer, Integer> itemRows = null;
@@ -108,6 +107,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this;
   }
 
+  public CoinmasterData withItemRows(String master) {
+    return withItemRows(CoinmastersDatabase.getRows(master));
+  }
+
   public CoinmasterData withItemRows(Map<Integer, Integer> itemRows) {
     this.itemRows = itemRows;
     return this;
@@ -123,9 +126,21 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this;
   }
 
+  public CoinmasterData withBuyItems(String master) {
+    return withBuyItems(CoinmastersDatabase.getBuyItems(master));
+  }
+
   public CoinmasterData withBuyItems(List<AdventureResult> buyItems) {
     this.buyItems = buyItems;
     return this;
+  }
+
+  public CoinmasterData withBuyPrices() {
+    return withBuyPrices(CoinmastersDatabase.getNewMap());
+  }
+
+  public CoinmasterData withBuyPrices(String master) {
+    return withBuyPrices(CoinmastersDatabase.getBuyPrices(master));
   }
 
   public CoinmasterData withBuyPrices(Map<Integer, Integer> buyPrices) {
@@ -489,11 +504,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public Set<AdventureResult> currencies() {
     if (this.currencies == null) {
-      this.currencies =
-          this.buyItems.stream()
-              .map(item -> this.itemBuyPrice(item.getItemId()))
-              .sorted()
-              .collect(Collectors.toCollection(TreeSet::new));
+      this.currencies = new TreeSet<>();
+      for (AdventureResult item : this.buyItems) {
+        this.currencies.add(this.itemBuyPrice(item.getItemId()));
+      }
     }
     return this.currencies;
   }
