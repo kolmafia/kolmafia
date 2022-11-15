@@ -687,6 +687,10 @@ public class Preferences {
     return buffer.toString();
   }
 
+  private static boolean mustTrackEncodedValues() {
+    return Preferences.getBoolean("saveSettingsOnSet") && Preferences.saveSettingsToFile;
+  }
+
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
     for (Entry<String, Object> entry : valuesMap.entrySet()) {
@@ -699,6 +703,11 @@ public class Preferences {
 
   /** Recompute all cached encoded values from the value maps. */
   private static void reinitializeEncodedValues() {
+    // No need to do this at all if not writing to a file.
+    if (!Preferences.saveSettingsToFile) {
+      return;
+    }
+
     Preferences.reinitializeEncodedValuesOn(
         Preferences.globalValues, Preferences.globalEncodedValues);
     Preferences.reinitializeEncodedValuesOn(Preferences.userValues, Preferences.userEncodedValues);
@@ -788,7 +797,7 @@ public class Preferences {
   }
 
   public static void removeProperty(final String name, final boolean global) {
-    boolean saveSettingsOnSet = getBoolean("saveSettingsOnSet");
+    boolean trackEncoded = Preferences.mustTrackEncodedValues();
     // Remove only properties which do not have defaults
     if (global) {
       if (!Preferences.globalNames.containsKey(name)) {
@@ -796,7 +805,7 @@ public class Preferences {
         // globalValues is a synchronized map.
 
         Preferences.globalValues.remove(name);
-        if (saveSettingsOnSet) Preferences.globalEncodedValues.remove(name);
+        if (trackEncoded) Preferences.globalEncodedValues.remove(name);
       }
     } else {
       if (!Preferences.userNames.containsKey(name)) {
@@ -804,10 +813,10 @@ public class Preferences {
         // userValues is a synchronized map.
 
         Preferences.userValues.remove(name);
-        if (saveSettingsOnSet) Preferences.userEncodedValues.remove(name);
+        if (trackEncoded) Preferences.userEncodedValues.remove(name);
       }
     }
-    Preferences.maybeSaveToFileAfterUpdating(saveSettingsOnSet, name);
+    Preferences.maybeSaveToFileAfterUpdating(trackEncoded, name);
     PreferenceListenerRegistry.firePreferenceChanged(name);
   }
 
@@ -1104,17 +1113,18 @@ public class Preferences {
       }
     }
 
-    boolean saveSettings = Preferences.getBoolean("saveSettingsOnSet");
+    boolean trackEncoded = Preferences.mustTrackEncodedValues();
 
     // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
     // many encoded values will be out of date, and we don't know which ones, so we have to
     // recompute all of them.
     if (name == "saveSettingsOnSet" && (boolean) object) {
       Preferences.reinitializeEncodedValues();
+      trackEncoded |= Preferences.saveSettingsToFile;
     }
 
-    Preferences.put(user, name, object, saveSettings);
-    Preferences.maybeSaveToFileAfterUpdating(saveSettings, name);
+    Preferences.put(user, name, object, trackEncoded);
+    Preferences.maybeSaveToFileAfterUpdating(trackEncoded, name);
 
     PreferenceListenerRegistry.firePreferenceChanged(name);
 
