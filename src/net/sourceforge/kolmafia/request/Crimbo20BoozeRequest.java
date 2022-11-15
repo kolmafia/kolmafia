@@ -1,54 +1,20 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class Crimbo20BoozeRequest extends CoinMasterRequest {
   public static final String master = "Elf Booze Drive";
 
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(Crimbo20BoozeRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(Crimbo20BoozeRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(Crimbo20BoozeRequest.master);
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("([\\d,]+) (boxes of )?donated booze");
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.DONATED_BOOZE, 1);
 
   public static final CoinmasterData CRIMBO20BOOZE =
-      new CoinmasterData(
-          Crimbo20BoozeRequest.master,
-          "crimbo20booze",
-          Crimbo20BoozeRequest.class,
-          "donated booze",
-          "no boxes of donated booze",
-          false,
-          Crimbo20BoozeRequest.TOKEN_PATTERN,
-          Crimbo20BoozeRequest.TOKEN,
-          null,
-          Crimbo20BoozeRequest.itemRows,
-          "shop.php?whichshop=crimbo20booze",
-          "buyitem",
-          Crimbo20BoozeRequest.buyItems,
-          Crimbo20BoozeRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
+      new CoinmasterData(master, "crimbo20booze", Crimbo20BoozeRequest.class) {
         @Override
         public final boolean canBuyItem(final int itemId) {
           switch (itemId) {
@@ -60,22 +26,27 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
           }
           return super.canBuyItem(itemId);
         }
-      };
+      }.withToken("donated booze")
+          .withTokenTest("no boxes of donated booze")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(TOKEN)
+          .withRowShopFields(master, "crimbo20booze");
+  ;
 
   public Crimbo20BoozeRequest() {
-    super(Crimbo20BoozeRequest.CRIMBO20BOOZE);
+    super(CRIMBO20BOOZE);
   }
 
   public Crimbo20BoozeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(Crimbo20BoozeRequest.CRIMBO20BOOZE, buying, attachments);
+    super(CRIMBO20BOOZE, buying, attachments);
   }
 
   public Crimbo20BoozeRequest(final boolean buying, final AdventureResult attachment) {
-    super(Crimbo20BoozeRequest.CRIMBO20BOOZE, buying, attachment);
+    super(CRIMBO20BOOZE, buying, attachment);
   }
 
   public Crimbo20BoozeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(Crimbo20BoozeRequest.CRIMBO20BOOZE, buying, itemId, quantity);
+    super(CRIMBO20BOOZE, buying, itemId, quantity);
   }
 
   @Override
@@ -89,7 +60,7 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    Crimbo20BoozeRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -97,7 +68,7 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = Crimbo20BoozeRequest.CRIMBO20BOOZE;
+    CoinmasterData data = CRIMBO20BOOZE;
 
     String action = GenericRequest.getAction(location);
     if (action != null) {
@@ -118,7 +89,6 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = Crimbo20BoozeRequest.CRIMBO20BOOZE;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(CRIMBO20BOOZE, urlString, true);
   }
 }

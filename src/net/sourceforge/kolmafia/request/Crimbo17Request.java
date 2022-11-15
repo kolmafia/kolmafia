@@ -1,53 +1,19 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class Crimbo17Request extends CoinMasterRequest {
   public static final String master = "Cheer-o-Vend 3000";
 
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(Crimbo17Request.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(Crimbo17Request.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(Crimbo17Request.master);
   private static final Pattern CHEER_PATTERN = Pattern.compile("([\\d,]+) crystalline cheer");
   public static final AdventureResult CHEER = ItemPool.get(ItemPool.CRYSTALLINE_CHEER, 1);
 
   public static final CoinmasterData CRIMBO17 =
-      new CoinmasterData(
-          Crimbo17Request.master,
-          "crimbo17",
-          Crimbo17Request.class,
-          "crystalline cheer",
-          "no crystalline cheer",
-          false,
-          Crimbo17Request.CHEER_PATTERN,
-          Crimbo17Request.CHEER,
-          null,
-          Crimbo17Request.itemRows,
-          "shop.php?whichshop=crimbo17",
-          "buyitem",
-          Crimbo17Request.buyItems,
-          Crimbo17Request.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
+      new CoinmasterData(master, "crimbo17", Crimbo17Request.class) {
         @Override
         public final boolean canBuyItem(final int itemId) {
           switch (itemId) {
@@ -66,22 +32,26 @@ public class Crimbo17Request extends CoinMasterRequest {
           }
           return super.canBuyItem(itemId);
         }
-      };
+      }.withToken("crystalline cheer")
+          .withTokenTest("no crystalline cheer")
+          .withTokenPattern(CHEER_PATTERN)
+          .withItem(CHEER)
+          .withRowShopFields(master, "crimbo17");
 
   public Crimbo17Request() {
-    super(Crimbo17Request.CRIMBO17);
+    super(CRIMBO17);
   }
 
   public Crimbo17Request(final boolean buying, final AdventureResult[] attachments) {
-    super(Crimbo17Request.CRIMBO17, buying, attachments);
+    super(CRIMBO17, buying, attachments);
   }
 
   public Crimbo17Request(final boolean buying, final AdventureResult attachment) {
-    super(Crimbo17Request.CRIMBO17, buying, attachment);
+    super(CRIMBO17, buying, attachment);
   }
 
   public Crimbo17Request(final boolean buying, final int itemId, final int quantity) {
-    super(Crimbo17Request.CRIMBO17, buying, itemId, quantity);
+    super(CRIMBO17, buying, itemId, quantity);
   }
 
   @Override
@@ -95,7 +65,7 @@ public class Crimbo17Request extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    Crimbo17Request.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -103,7 +73,7 @@ public class Crimbo17Request extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = Crimbo17Request.CRIMBO17;
+    CoinmasterData data = CRIMBO17;
 
     String action = GenericRequest.getAction(location);
     if (action != null) {
@@ -124,7 +94,6 @@ public class Crimbo17Request extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = Crimbo17Request.CRIMBO17;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(CRIMBO17, urlString, true);
   }
 }
