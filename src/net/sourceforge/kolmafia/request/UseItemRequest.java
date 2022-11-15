@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
-import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -112,8 +111,6 @@ public class UseItemRequest extends GenericRequest {
       new HashMap<Integer, AdventureResult>();
 
   static {
-    UseItemRequest.LIMITED_USES.put(
-        ItemPool.ASTRAL_MUSHROOM, EffectPool.get(EffectPool.HALF_ASTRAL));
     UseItemRequest.LIMITED_USES.put(ItemPool.ABSINTHE, EffectPool.get(EffectPool.ABSINTHE));
     UseItemRequest.LIMITED_USES.put(ItemPool.ELEVEN_LEAF_CLOVER, EffectPool.get(EffectPool.LUCKY));
   }
@@ -122,8 +119,8 @@ public class UseItemRequest extends GenericRequest {
   public static String limiter = "";
   private static AdventureResult lastFruit = null;
   private static AdventureResult lastUntinker = null;
-  private static boolean retrying = false;
 
+  protected boolean shouldFollowRedirect = true;
   protected final int consumptionType;
   protected AdventureResult itemUsed;
 
@@ -377,6 +374,12 @@ public class UseItemRequest extends GenericRequest {
       return 0;
     }
 
+    // Check LimitMode
+    if (KoLCharacter.getLimitMode().limitItem(itemId)) {
+      UseItemRequest.limiter = "limit mode";
+      return 0;
+    }
+
     // Beecore path check
 
     switch (itemId) {
@@ -491,6 +494,7 @@ public class UseItemRequest extends GenericRequest {
         }
         break;
 
+      case ItemPool.ASTRAL_MUSHROOM:
       case ItemPool.GONG:
       case ItemPool.KETCHUP_HOUND:
         UseItemRequest.limiter = "usability";
@@ -856,11 +860,9 @@ public class UseItemRequest extends GenericRequest {
         return 3;
     }
 
-    Integer key = itemId;
-
-    if (UseItemRequest.LIMITED_USES.containsKey(key)) {
+    if (UseItemRequest.LIMITED_USES.containsKey(itemId)) {
       UseItemRequest.limiter = "unstackable effect";
-      return KoLConstants.activeEffects.contains(UseItemRequest.LIMITED_USES.get(key)) ? 0 : 1;
+      return KoLConstants.activeEffects.contains(UseItemRequest.LIMITED_USES.get(itemId)) ? 0 : 1;
     }
 
     return Integer.MAX_VALUE;
@@ -1278,9 +1280,14 @@ public class UseItemRequest extends GenericRequest {
     return InputFieldUtilities.confirm("Are you sure you want to replace your " + name + "?");
   }
 
+  public UseItemRequest followRedirect(boolean followRedirect) {
+    this.shouldFollowRedirect = followRedirect;
+    return this;
+  }
+
   @Override
   protected boolean shouldFollowRedirect() {
-    return true;
+    return this.shouldFollowRedirect;
   }
 
   public void useOnce(
@@ -2136,37 +2143,9 @@ public class UseItemRequest extends GenericRequest {
         // "You're already in the middle of a journey of reincarnation."
 
         if (responseText.contains("middle of a journey of reincarnation")) {
-          if (UseItemRequest.retrying
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SHAPE_OF_MOLE))
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_ROACH))) {
-            UseItemRequest.lastUpdate = "You're still under a gong effect.";
-            KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
-            return; // can't use another gong yet
-          }
-
-          try {
-            UseItemRequest.retrying = true; // prevent recursing more than once
-            int adv = Preferences.getInteger("welcomeBackAdv");
-            if (adv <= 0) {
-              adv = AdventurePool.NOOB_CAVE;
-            }
-            KoLAdventure req =
-                AdventureDatabase.getAdventureByURL("adventure.php?snarfblat=" + adv);
-            // Must do some trickery here to
-            // prevent the adventure location from
-            // being changed, and the conditions
-            // reset.
-            String next = Preferences.getString("nextAdventure");
-            KoLAdventure.setNextAdventure(req);
-            req.overrideAdventuresUsed(0); // don't trigger counters
-            RequestThread.postRequest(req);
-            req.overrideAdventuresUsed(-1);
-            KoLAdventure.setNextAdventure(next);
-            (UseItemRequest.getInstance(item)).run();
-          } finally {
-            UseItemRequest.retrying = false;
-          }
+          UseItemRequest.lastUpdate = "You're still under a gong effect.";
+          KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+          return; // can't use another gong yet
         }
 
         // We deduct the gong when we get the intro choice
@@ -5880,6 +5859,23 @@ public class UseItemRequest extends GenericRequest {
         break;
       case ItemPool.BONE_WITH_A_PRICE_TAG:
         Preferences.setBoolean("skeletonStoreAvailable", true);
+        break;
+
+      case ItemPool.DEED_TO_OLIVERS_PLACE:
+        // You sign the deed, which instantly makes you the owner of the building.
+        Preferences.setBoolean("ownsSpeakeasy", true);
+        if (!responseText.contains("sign the deed")) {
+          return;
+        }
+        break;
+
+      case ItemPool.GOVERNMENT_PER_DIEM:
+        // You open the envelop and collect your pay.
+        // You can't get more than one per-diem per diem. It's right there in the name.
+        Preferences.setBoolean("_governmentPerDiemUsed", true);
+        if (!responseText.contains("collect your pay")) {
+          return;
+        }
         break;
     }
 

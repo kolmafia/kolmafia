@@ -552,7 +552,7 @@ public abstract class ChoiceControl {
         // Chatterboxing
         if (ChoiceManager.lastDecision == 2
             && text.contains("find a valuable trinket that looks promising")) {
-          BanishManager.banishMonster("chatty pirate", BanishManager.Banisher.CHATTERBOXING);
+          BanishManager.banishMonster("chatty pirate", BanishManager.Banisher.CHATTERBOXING, true);
         }
         break;
 
@@ -4660,6 +4660,21 @@ public abstract class ChoiceControl {
         VioletFogManager.mapChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
         break;
 
+      case 71:
+        // A Journey to the Center of Your Mind
+        String tripZone =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "Bad Trip";
+              case 2 -> "Mediocre Trip";
+              case 3 -> "Great Trip";
+              default -> "";
+            };
+
+        // We are now in a pseudo LimitMode
+        Preferences.setString("currentAstralTrip", tripZone);
+        KoLCharacter.setLimitMode(LimitMode.ASTRAL);
+        break;
+
       case 73:
         // Don't Fence Me In
         if (ChoiceManager.lastDecision == 3) {
@@ -4740,6 +4755,28 @@ public abstract class ChoiceControl {
           KoLmafia.updateDisplay(
               MafiaState.PENDING, hobopolisBossName(ChoiceManager.lastChoice) + " waits for you.");
         }
+        break;
+
+      case 276:
+        // The Gong Has Been Bung
+        String form =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "Roach";
+              case 2 -> "Mole";
+              case 3 -> "Bird";
+              default -> "";
+            };
+
+        // We are now in a pseudo LimitMode
+        Preferences.setString("currentLlamaForm", form);
+        // This will look at the property and set actual LimitMode
+        KoLCharacter.setLimitMode(LimitMode.NONE);
+        break;
+
+      case 277:
+        // Welcome Back!
+        Preferences.setString("currentLlamaForm", "");
+        KoLCharacter.setLimitMode(LimitMode.NONE);
         break;
 
       case 299:
@@ -6352,6 +6389,13 @@ public abstract class ChoiceControl {
         int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
         AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
         break;
+
+      case 1484: // Conspicuous Plaque
+        if (ChoiceManager.lastDecision == 1 && text.contains("All right, you're the boss.")) {
+          var name = request.getFormField("name");
+          Preferences.setString("speakeasyName", name);
+        }
+        break;
     }
   }
 
@@ -6803,7 +6847,7 @@ public abstract class ChoiceControl {
           Matcher matcher = ICEHOUSE_PATTERN.matcher(text);
           if (matcher.find()) {
             String icehouseMonster = matcher.group(1);
-            BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE);
+            BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE, false);
           }
           break;
         }
@@ -8022,6 +8066,13 @@ public abstract class ChoiceControl {
       case 1483:
         AutumnatonManager.visitChoice(text);
         break;
+      case 1484: // Conspicuous Plaque
+        var pattern = Pattern.compile("The plaque currently reads: <b>(.*?)</b>");
+        var matcher = pattern.matcher(text);
+        if (matcher.find()) {
+          Preferences.setString("speakeasyName", matcher.group(1));
+        }
+        break;
     }
   }
 
@@ -9137,6 +9188,7 @@ public abstract class ChoiceControl {
       case 1463: // Reminiscing About Those Monsters You Fought
       case 1476: // Stillsuit
       case 1483: // Direct Autumn-Aton
+      case 1484: // Conspicuous Plaque
         return true;
 
       default:

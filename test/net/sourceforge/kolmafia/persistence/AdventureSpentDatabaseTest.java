@@ -94,7 +94,7 @@ public class AdventureSpentDatabaseTest {
     // Investigate fallen foe. choice.php
     urlString = "choice.php";
     responseText = html("request/test_adventures_spent_fight_1_3.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -191,7 +191,7 @@ public class AdventureSpentDatabaseTest {
     // Investigate fallen foe. choice.php
     urlString = "choice.php";
     responseText = html("request/test_adventures_spent_fight_2_3.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -259,7 +259,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     String urlString = "choice.php?forceoption=0";
     String responseText = html("request/test_adventures_spent_binder_clip_1.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -345,7 +345,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
     responseText = html("request/test_adventures_spent_beehive_1.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -449,7 +449,7 @@ public class AdventureSpentDatabaseTest {
     // Arboreal respite
     String urlString = "choice.php?forceoption=0";
     String responseText = html("request/test_adventures_spent_spooky_forest_1_1.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -593,7 +593,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0 -> Fitting In
     String urlString = "choice.php?forceoption=0";
     String responseText = html("request/test_adventures_spent_hidden_temple_1.html");
-    GenericRequest request = new GenericRequest(urlString);
+    GenericRequest request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.processResponse();
@@ -849,7 +849,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0 -> No Visible Means of Support
     urlString = "choice.php?forceoption=0";
     responseText = html("request/test_adventures_spent_hidden_temple_25.html");
-    request = new GenericRequest(urlString);
+    request = new GenericRequest(urlString, false);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
     request.setHasResult(true);
@@ -944,6 +944,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
     responseText = html("request/test_adventures_spent_airship_5.html");
+    choice.constructURLString(urlString, false);
     choice.responseText = responseText;
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
@@ -961,8 +962,9 @@ public class AdventureSpentDatabaseTest {
     assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
 
-    // urlString = "choice.php?whichchoice=182&option=1&pwd";
+    urlString = "choice.php?whichchoice=182&option=1&pwd";
     // This redirects into a fight.
+    choice.constructURLString(urlString);
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
     urlString = "fight.php?ireallymeanit=1653112281";
@@ -1008,6 +1010,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
     responseText = html("request/test_adventures_spent_airship_11.html");
+    choice.constructURLString(urlString, false);
     choice.responseText = responseText;
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
@@ -1025,8 +1028,9 @@ public class AdventureSpentDatabaseTest {
     assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
 
-    // urlString = "choice.php?whichchoice=182&option=1&pwd";
+    urlString = "choice.php?whichchoice=182&option=1&pwd";
     // This redirects into a fight.
+    choice.constructURLString(urlString);
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
     urlString = "fight.php?ireallymeanit=1653112283";
@@ -1115,6 +1119,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=343
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
+    choice.constructURLString(urlString, false);
     responseText = html("request/test_adventures_spent_office_5.html");
     choice.responseText = responseText;
     choice.setHasResult(true);
@@ -1133,8 +1138,9 @@ public class AdventureSpentDatabaseTest {
     assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(1333902, AdventureSpentDatabase.getLastTurnUpdated());
 
-    // urlString = "choice.php?whichchoice=786&option=3&pwd"
+    urlString = "choice.php?whichchoice=786&option=3&pwd";
     // This redirects into a fight.
+    choice.constructURLString(urlString);
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
     urlString = "fight.php?ireallymeanit=1653163462";

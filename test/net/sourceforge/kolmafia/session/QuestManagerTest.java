@@ -1735,7 +1735,8 @@ public class QuestManagerTest {
     @CsvSource({
       "daycareOpen, _daycareToday",
       "neverendingPartyAlways, _neverendingPartyToday",
-      "loveTunnelAvailable, _loveTunnelToday"
+      "loveTunnelAvailable, _loveTunnelToday",
+      "ownsSpeakeasy, none"
     })
     public void checkDayPassesInTownWrong(String always, String today) {
       var html = html("request/test_visit_town_wrong.html");
@@ -2062,6 +2063,19 @@ public class QuestManagerTest {
     try (cleanup) {
       QuestManager.handleQuestChange(request);
       assertEquals(Preferences.getInteger(propertyName), 11);
+    }
+  }
+
+  @Test
+  public void canParseSpeakeasyName() {
+    var cleanup = new Cleanups(withProperty("speakeasyName", "Oliver's Place"));
+
+    try (cleanup) {
+      var request = new GenericRequest("place.php?whichplace=town_wrong");
+      request.responseText = html("request/test_visit_town_wrong.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat("speakeasyName", isSetTo("BLORP"));
     }
   }
 }

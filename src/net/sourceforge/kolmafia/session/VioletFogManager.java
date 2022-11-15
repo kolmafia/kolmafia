@@ -14,6 +14,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 public abstract class VioletFogManager {
+
+  private VioletFogManager() {}
+
   private static final Pattern CHOICE_PATTERN = Pattern.compile("whichchoice value=(\\d+)");
 
   // Range of choice numbers within the fog

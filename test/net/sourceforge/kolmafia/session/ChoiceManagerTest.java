@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -215,6 +216,36 @@ public class ChoiceManagerTest {
         assertThat(requests, hasSize(2));
         assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=4509&pwd=test");
         assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+
+    @Test
+    public void canRedirectToChoiceWithoutForceOption() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("lastEncounter", "No Sects in the Potion Room"),
+              withHandlingChoice(false));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+        client.addResponse(200, html("request/test_leave_reincarnation.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MT_MOLEHILL);
+        request.run();
+
+        assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getName(), is("Welcome Back!"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MT_MOLEHILL);
+        assertGetRequest(requests.get(1), "/choice.php", null);
       }
     }
 

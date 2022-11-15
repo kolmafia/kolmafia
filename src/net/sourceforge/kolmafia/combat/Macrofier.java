@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
@@ -177,7 +178,7 @@ public class Macrofier {
     StringBuffer macro = new StringBuffer();
 
     if (monsterName.equals("rampaging adding machine")
-        && !KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)
+        && KoLCharacter.getLimitMode() != LimitMode.BIRD
         && !FightRequest.waitingForSpecial) {
       if (debug) {
         RequestLogger.printLine("(unable to macrofy vs. RAM)");
@@ -432,7 +433,7 @@ public class Macrofier {
       } else {
         Macrofier.macroSkill(macro, skillId);
       }
-    } else if (!KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+    } else if (KoLCharacter.getLimitMode() != LimitMode.BIRD) {
       // Must be an item use
       // Can't use items in Birdform
       int comma = action.indexOf(",");
@@ -540,7 +541,7 @@ public class Macrofier {
     if (!KoLConstants.inventory.contains(FightRequest.ANTIDOTE)) {
       return;
     }
-    if (KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
       return; // can't use items!
     }
     int minLevel = Preferences.getInteger("autoAntidote");
@@ -570,7 +571,7 @@ public class Macrofier {
   }
 
   public static void macroManaRestore(StringBuffer macro) {
-    if (KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
       macro.append("abort \"Cannot use combat items while in Birdform!\"\n");
       return;
     }

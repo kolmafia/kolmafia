@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -135,9 +136,9 @@ public class ConcoctionDatabase {
   public static final Concoction adventureLimit = new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction adventureSmithingLimit =
       new Concoction(null, CraftingType.NOCREATE);
-  public static final Concoction adventureJewelcraftingLimit =
-      new Concoction(null, CraftingType.NOCREATE);
+  public static final Concoction cookingLimit = new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction turnFreeLimit = new Concoction(null, CraftingType.NOCREATE);
+  public static final Concoction turnFreeCookingLimit = new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction turnFreeSmithingLimit =
       new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction meatLimit = new Concoction(null, CraftingType.NOCREATE);
@@ -1487,27 +1488,21 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.adventureSmithingLimit.total =
         KoLCharacter.getAdventuresLeft()
             + ConcoctionDatabase.getFreeCraftingTurns()
-            + ConcoctionDatabase.getFreeSmithingTurns()
-            + ConcoctionDatabase.getFreeSmithJewelTurns();
+            + ConcoctionDatabase.getFreeSmithingTurns();
     ConcoctionDatabase.adventureSmithingLimit.initial =
         ConcoctionDatabase.adventureSmithingLimit.total - ConcoctionDatabase.queuedAdventuresUsed;
     ConcoctionDatabase.adventureSmithingLimit.creatable = 0;
     ConcoctionDatabase.adventureSmithingLimit.visibleTotal =
         ConcoctionDatabase.adventureSmithingLimit.total;
 
-    // Adventures are considered Item #0 in the event that the
-    // concoction will use ADVs.
-
-    ConcoctionDatabase.adventureJewelcraftingLimit.total =
+    ConcoctionDatabase.cookingLimit.total =
         KoLCharacter.getAdventuresLeft()
             + ConcoctionDatabase.getFreeCraftingTurns()
-            + ConcoctionDatabase.getFreeSmithJewelTurns();
-    ConcoctionDatabase.adventureJewelcraftingLimit.initial =
-        ConcoctionDatabase.adventureJewelcraftingLimit.total
-            - ConcoctionDatabase.queuedAdventuresUsed;
-    ConcoctionDatabase.adventureJewelcraftingLimit.creatable = 0;
-    ConcoctionDatabase.adventureJewelcraftingLimit.visibleTotal =
-        ConcoctionDatabase.adventureJewelcraftingLimit.total;
+            + ConcoctionDatabase.getFreeCookingTurns();
+    ConcoctionDatabase.cookingLimit.initial =
+        ConcoctionDatabase.cookingLimit.total - ConcoctionDatabase.queuedAdventuresUsed;
+    ConcoctionDatabase.cookingLimit.creatable = 0;
+    ConcoctionDatabase.cookingLimit.visibleTotal = ConcoctionDatabase.cookingLimit.total;
 
     // If we want to do turn-free crafting, we can only use free turns in lieu of adventures.
 
@@ -1521,14 +1516,20 @@ public class ConcoctionDatabase {
     // Smithing can't be queued
 
     ConcoctionDatabase.turnFreeSmithingLimit.total =
-        ConcoctionDatabase.getFreeCraftingTurns()
-            + ConcoctionDatabase.getFreeSmithingTurns()
-            + ConcoctionDatabase.getFreeSmithJewelTurns();
+        ConcoctionDatabase.getFreeCraftingTurns() + ConcoctionDatabase.getFreeSmithingTurns();
     ConcoctionDatabase.turnFreeSmithingLimit.initial =
         ConcoctionDatabase.turnFreeSmithingLimit.total - ConcoctionDatabase.queuedFreeCraftingTurns;
     ConcoctionDatabase.turnFreeSmithingLimit.creatable = 0;
     ConcoctionDatabase.turnFreeSmithingLimit.visibleTotal =
         ConcoctionDatabase.turnFreeSmithingLimit.total;
+
+    ConcoctionDatabase.turnFreeCookingLimit.total =
+        ConcoctionDatabase.getFreeCraftingTurns() + ConcoctionDatabase.getFreeCookingTurns();
+    ConcoctionDatabase.turnFreeCookingLimit.initial =
+        ConcoctionDatabase.turnFreeCookingLimit.total - ConcoctionDatabase.queuedFreeCraftingTurns;
+    ConcoctionDatabase.turnFreeCookingLimit.creatable = 0;
+    ConcoctionDatabase.turnFreeCookingLimit.visibleTotal =
+        ConcoctionDatabase.turnFreeCookingLimit.total;
 
     // Stills are also considered Item #0 in the event that the
     // concoction will use stills.
@@ -1574,7 +1575,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.ADVENTURE_USAGE.clear();
     ConcoctionDatabase.CREATION_COST.clear();
     ConcoctionDatabase.EXCUSE.clear();
-    int Inigo = ConcoctionDatabase.getFreeCraftingTurns();
+    int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
 
     if (KoLCharacter.getGender() == KoLCharacter.MALE) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.MALE);
@@ -1765,14 +1766,6 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.CREATION_COST.put(
           CraftingType.COOK_FANCY, MallPriceDatabase.getPrice(ItemPool.CHEF) / 90);
     }
-    // If we don't have a chef, Inigo's makes cooking free
-    /*		else if ( Inigo > 0 )
-    {
-      ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = true;
-      ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
-      ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
-      ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
-    }*/
     // We might not care if cooking takes adventures
     else if (Preferences.getBoolean("requireBoxServants") && !KoLCharacter.inGLover()) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 0);
@@ -1783,7 +1776,7 @@ public class ConcoctionDatabase {
     }
     // Otherwise, spend those adventures!
     else {
-      if (KoLCharacter.getAdventuresLeft() + Inigo > 0) {
+      if (KoLCharacter.getAdventuresLeft() + freeCrafts + getFreeCookingTurns() > 0) {
         ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.COOK_FANCY);
       }
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 1);
@@ -1885,7 +1878,7 @@ public class ConcoctionDatabase {
     }
     // Otherwise, spend those adventures!
     else {
-      if (KoLCharacter.getAdventuresLeft() + Inigo > 0) {
+      if (KoLCharacter.getAdventuresLeft() + freeCrafts > 0) {
         ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MIX_FANCY);
       }
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 1);
@@ -2293,20 +2286,13 @@ public class ConcoctionDatabase {
         if (adv == 0) {
           continue;
         }
-        if (adv
-            > KoLCharacter.getAdventuresLeft()
-                + (method == CraftingType.SMITH
-                    ? ConcoctionDatabase.getFreeCraftingTurns()
-                        + ConcoctionDatabase.getFreeSmithJewelTurns()
-                        + ConcoctionDatabase.getFreeSmithingTurns()
-                    : method == CraftingType.SSMITH
-                        ? ConcoctionDatabase.getFreeCraftingTurns()
-                            + ConcoctionDatabase.getFreeSmithJewelTurns()
-                            + ConcoctionDatabase.getFreeSmithingTurns()
-                        : method == CraftingType.JEWELRY
-                            ? ConcoctionDatabase.getFreeCraftingTurns()
-                                + ConcoctionDatabase.getFreeSmithJewelTurns()
-                            : ConcoctionDatabase.getFreeCraftingTurns())) { //
+        int usableFreeCrafts = getFreeCraftingTurns();
+        if (method == CraftingType.SMITH || method == CraftingType.SSMITH) {
+          usableFreeCrafts += getFreeSmithingTurns();
+        } else if (method == CraftingType.COOK_FANCY) {
+          usableFreeCrafts += getFreeCookingTurns();
+        }
+        if (adv > KoLCharacter.getAdventuresLeft() + usableFreeCrafts) { //
           ConcoctionDatabase.PERMIT_METHOD.remove(method);
           ConcoctionDatabase.EXCUSE.put(
               method, "You don't have enough adventures left to create that.");
@@ -2349,12 +2335,12 @@ public class ConcoctionDatabase {
             : 0);
   }
 
-  public static int getFreeSmithJewelTurns() {
-    boolean havePliers =
-        ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.closet) > 0
-            || ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.inventory) > 0
-            || InventoryManager.getEquippedCount(ConcoctionDatabase.THORS_PLIERS) > 0;
-    return havePliers ? 10 - Preferences.getInteger("_thorsPliersCrafting") : 0;
+  public static int getFreeCookingTurns() {
+    // assume bat works if allowed in standard & in terrarium, like the collective
+    boolean haveBat =
+        StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Cookbookbat")
+            && KoLCharacter.ownedFamiliar(FamiliarPool.COOKBOOKBAT).isPresent();
+    return haveBat ? 5 - Preferences.getInteger("_cookbookbatCrafting") : 0;
   }
 
   public static int getFreeSmithingTurns() {
@@ -2362,8 +2348,13 @@ public class ConcoctionDatabase {
     boolean haveWarbearAutoanvil =
         workshedItem != null && workshedItem.getItemId() == ItemPool.AUTO_ANVIL;
     boolean haveJackhammer = InventoryManager.hasItem(ItemPool.LOATHING_LEGION_JACKHAMMER);
+    boolean havePliers =
+        ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.closet) > 0
+            || ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.inventory) > 0
+            || InventoryManager.getEquippedCount(ConcoctionDatabase.THORS_PLIERS) > 0;
     return (haveWarbearAutoanvil ? 5 - Preferences.getInteger("_warbearAutoAnvilCrafting") : 0)
-        + (haveJackhammer ? 3 - Preferences.getInteger("_legionJackhammerCrafting") : 0);
+        + (haveJackhammer ? 3 - Preferences.getInteger("_legionJackhammerCrafting") : 0)
+        + (havePliers ? 10 - Preferences.getInteger("_thorsPliersCrafting") : 0);
   }
 
   private static boolean isAvailable(final int servantId, final int clockworkId) {
