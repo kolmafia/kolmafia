@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -431,31 +432,38 @@ public class RelayAgent extends Thread {
       }
       this.request.pseudoResponse("HTTP/1.1 200 OK", fightResponse);
     } else if (this.path.equals("/choice.php?action=auto")) {
-      try {
-        this.request.setAllowOverride(false);
-        ChoiceManager.processChoiceAdventure(
-            this.request, "choice.php", ChoiceManager.lastResponseText);
-        if (StaticEntity.userAborted || KoLmafia.refusesContinue()) {
-          // Resubmit the choice request to let the user see it again
-          KoLmafia.forceContinue();
-          request.constructURLString("choice.php?forceoption=0");
-          RequestThread.postRequest(this.request);
-          RelayAgent.errorRequest = null;
-        } else if (this.request.responseText == null) {
-          // Force a refresh
-          this.request.pseudoResponse("HTTP/1.1 200 OK", ChoiceManager.lastDecoratedResponseText);
-        }
-      } finally {
-        this.request.setAllowOverride(true);
-      }
+      automateChoiceAdventure(this.request);
     } else if (this.path.equals("/leaflet.php?action=auto")) {
       this.request.pseudoResponse("HTTP/1.1 200 OK", LeafletManager.leafletWithMagic());
     } else if (this.path.startsWith("/loggedout.php")) {
       this.request.pseudoResponse("HTTP/1.1 200 OK", LogoutRequest.getLastResponse());
     } else if (this.path.startsWith("/actionbar.php")) {
       ActionBarManager.updateJSONString(this.request);
+    } else if (this.path.equals("/volcanomaze.php?autostep")) {
+      VolcanoMazeManager.autoStep(this.request);
     } else {
       RequestThread.postRequest(this.request);
+    }
+  }
+
+  public static void automateChoiceAdventure(RelayRequest request) {
+    // /choice.php?action=auto
+    try {
+      request.setAllowOverride(false);
+      ChoiceManager.processChoiceAdventure(
+          request, "choice.php", false, ChoiceManager.lastResponseText);
+      if (StaticEntity.userAborted || KoLmafia.refusesContinue()) {
+        // Resubmit the choice request to let the user see it again
+        KoLmafia.forceContinue();
+        request.constructURLString("choice.php?forceoption=0");
+        RequestThread.postRequest(request);
+        RelayAgent.errorRequest = null;
+      } else if (request.responseText == null) {
+        // Force a refresh
+        request.pseudoResponse("HTTP/1.1 200 OK", ChoiceManager.lastDecoratedResponseText);
+      }
+    } finally {
+      request.setAllowOverride(true);
     }
   }
 

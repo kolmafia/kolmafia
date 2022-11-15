@@ -224,16 +224,21 @@ public class JavascriptRuntime extends AbstractRuntime {
       returnValue = callback.get();
     } catch (WrappedException e) {
       Throwable unwrapped = e.getWrappedException();
-      if (stackOnAbort) {
-        StringBuilder message = new StringBuilder("Internal exception");
-        if (unwrapped.getMessage() != null) {
-          message.append(": ").append(e.getMessage());
-        }
-        message.append("\n").append(e.getScriptStackTrace());
-        String escapedMessage = escapeHtmlInMessage(message.toString());
+      if (unwrapped instanceof ScriptException) {
+        String escapedMessage = escapeHtmlInMessage("Script exception: " + unwrapped.getMessage());
         KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
+      } else {
+        if (stackOnAbort) {
+          StringBuilder message = new StringBuilder("Internal exception");
+          if (unwrapped.getMessage() != null) {
+            message.append(": ").append(e.getMessage());
+          }
+          message.append("\n").append(e.getScriptStackTrace());
+          String escapedMessage = escapeHtmlInMessage(message.toString());
+          KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
+        }
+        StaticEntity.printStackTrace(unwrapped);
       }
-      StaticEntity.printStackTrace(unwrapped);
     } catch (EvaluatorException e) {
       String escapedMessage =
           escapeHtmlInMessage(

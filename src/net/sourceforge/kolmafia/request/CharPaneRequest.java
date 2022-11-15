@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.YouRobotManager;
@@ -975,6 +976,9 @@ public class CharPaneRequest extends GenericRequest {
       final String adventureName,
       final String adventureURL,
       final String container) {
+    KoLAdventure.lastZoneName = adventureName;
+    CrystalBallManager.updateCrystalBallPredictions();
+
     if (KoLCharacter.inFight()) {
       return;
     }
@@ -1558,6 +1562,10 @@ public class CharPaneRequest extends GenericRequest {
       ResultProcessor.processAdventuresUsed(turnsThisRun - mafiaTurnsThisRun);
     }
 
+    // Refresh effects before we set LimitMode since our "pseudo" LimitModes
+    // are derived from currently active effects.
+    CharPaneRequest.refreshEffects(JSON);
+
     Object lmo = JSON.get("limitmode");
     if (lmo instanceof Integer && lmo.equals(0)) {
       KoLCharacter.setLimitMode(LimitMode.NONE);
@@ -1624,8 +1632,6 @@ public class CharPaneRequest extends GenericRequest {
 
     int pvpFights = JSON.getInt("pvpfights");
     KoLCharacter.setAttacksLeft(pvpFights);
-
-    CharPaneRequest.refreshEffects(JSON);
 
     boolean hardcore = JSON.getInt("hardcore") == 1;
     KoLCharacter.setHardcore(hardcore);

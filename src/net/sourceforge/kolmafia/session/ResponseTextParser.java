@@ -569,9 +569,7 @@ public class ResponseTextParser {
       SushiRequest.parseConsumption(location, responseText, true);
     } else if (location.startsWith("tavern.php")) {
       TavernRequest.parseResponse(location, responseText);
-    }
-
-    if (location.startsWith("tiles.php")) {
+    } else if (location.startsWith("tiles.php")) {
       if (responseText.contains("charpane.php")) {
         // Since a charpane refresh was requested, this might have taken a turn
         AdventureSpentDatabase.setNoncombatEncountered(true);
@@ -687,8 +685,8 @@ public class ResponseTextParser {
 
     String itemName = null;
 
-    for (int i = 0; i < RECIPE_PATTERNS.length; ++i) {
-      Matcher matcher = RECIPE_PATTERNS[i].matcher(responseText);
+    for (Pattern recipePattern : RECIPE_PATTERNS) {
+      Matcher matcher = recipePattern.matcher(responseText);
       if (matcher.find()) {
         itemName = matcher.group(1);
         break;
@@ -699,7 +697,7 @@ public class ResponseTextParser {
       return;
     }
 
-    int id = ItemDatabase.getItemId(itemName, 1, false);
+    int id = ItemDatabase.getItemId(itemName.trim(), 1, false);
 
     if (id <= 0) {
       return;
@@ -717,13 +715,9 @@ public class ResponseTextParser {
       Pattern.compile("on[cC]lick='(?:javascript:)?descitem\\(([\\d]*)\\)'");
 
   public static void findNewItems(final String responseText) {
-    Matcher itemDescMatcher = ResponseTextParser.ITEM_DESC_PATTERN.matcher(responseText);
-    while (itemDescMatcher.find()) {
-      String descId = itemDescMatcher.group(1);
-      // If we don't know this descid, it's an unknown item.
-      if (ItemDatabase.getItemIdFromDescription(descId) == -1) {
-        ItemDatabase.registerItem(descId);
-      }
+    Matcher matcher = ResponseTextParser.ITEM_DESC_PATTERN.matcher(responseText);
+    while (matcher.find()) {
+      ItemDatabase.lookupItemIdFromDescription(matcher.group(1));
     }
   }
 

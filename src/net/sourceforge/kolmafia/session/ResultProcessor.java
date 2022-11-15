@@ -1107,32 +1107,36 @@ public class ResultProcessor {
 
     if (result.isStatusEffect()) {
       switch (result.getEffectId()) {
-        case EffectPool.GARISH:
+        case EffectPool.GARISH -> {
           // If you gain or lose Gar-ish, and autoGarish
           // not set, benefit of Lasagna changes
           if (!Preferences.getBoolean("autoGarish")) {
             ConcoctionDatabase.setRefreshNeeded(true);
           }
-          break;
-        case EffectPool.INIGOS:
-        case EffectPool.CRAFT_TEA:
+        }
+        case EffectPool.HALF_ASTRAL -> {
+          if (result.getCount() > 0) {
+            KoLCharacter.setLimitMode(LimitMode.ASTRAL);
+          }
+        }
+        case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
           // If you gain or lose Inigo's or Craft Tea, what you can
           // craft changes
           ConcoctionDatabase.setRefreshNeeded(true);
-          break;
-        case EffectPool.RECORD_HUNGER:
-        case EffectPool.DRUNK_AVUNCULAR:
-        case EffectPool.BARREL_OF_LAUGHS:
-        case EffectPool.BEER_BARREL_POLKA:
-        case EffectPool.REFINED_PALATE:
+        }
+        case EffectPool.RECORD_HUNGER,
+            EffectPool.DRUNK_AVUNCULAR,
+            EffectPool.BARREL_OF_LAUGHS,
+            EffectPool.BEER_BARREL_POLKA,
+            EffectPool.REFINED_PALATE -> {
           // Turn generation from food and booze changes
           ConcoctionDatabase.setRefreshNeeded(true);
-          break;
-        case EffectPool.CHILLED_TO_THE_BONE:
+        }
+        case EffectPool.CHILLED_TO_THE_BONE -> {
           int duration = result.getCount();
           if (duration <= 0) break;
           Preferences.setInteger("chilledToTheBone", (int) Math.pow(3, duration));
-          break;
+        }
       }
 
       return shouldRefresh;
@@ -1250,10 +1254,16 @@ public class ResultProcessor {
           } else if (duration + result.getCount() <= 0) {
             KoLConstants.activeEffects.remove(i);
 
-            // If you lose Inigo's or Craft Tea, what you can craft changes
-            int effectId = effect.getEffectId();
-            if (effectId == EffectPool.INIGOS || effectId == EffectPool.CRAFT_TEA) {
-              ConcoctionDatabase.setRefreshNeeded(true);
+            switch (effect.getEffectId()) {
+              case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
+                // If you lose Inigo's or Craft Tea, what you can craft changes
+                ConcoctionDatabase.setRefreshNeeded(true);
+              }
+              case EffectPool.HALF_ASTRAL -> {
+                // There is no "cool down" choice adventure for leaving this,
+                // unlike the various llama lama forms
+                KoLCharacter.setLimitMode(LimitMode.NONE);
+              }
             }
           } else {
             KoLConstants.activeEffects.set(
@@ -1362,6 +1372,9 @@ public class ResultProcessor {
       case ItemPool.WORMWOOD_STICK:
       case ItemPool.PURPLEHEART_LOGS:
       case ItemPool.DRIPWOOD_SLAB:
+        // Speakeasy currencies
+      case ItemPool.MILK_CAP:
+      case ItemPool.DRINK_CHIT:
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
 
@@ -2153,7 +2166,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.FIZZING_SPORE_POD:
-        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6) {
+        if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) + count >= 6
+            && QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step9")) {
           QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step14");
         }
         break;
@@ -3323,6 +3337,26 @@ public class ResultProcessor {
         KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
         KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
         KoLCharacter.addAvailableSkill("Sip Some Sweat");
+        break;
+
+      case ItemPool.ROBY_BORIS_BEER:
+      case ItemPool.ROBY_HONEY_BUN_OF_BORIS:
+      case ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG:
+      case ItemPool.ROBY_JARLSBERGS_VEGETABLE_SOUP:
+      case ItemPool.ROBY_PETES_WILY_WHEY_BAR:
+      case ItemPool.ROBY_PETES_SNEAKY_SMOOTHIE:
+      case ItemPool.ROBY_BORIS_BREAD:
+      case ItemPool.ROBY_ROASTED_VEGETABLE_OF_J:
+      case ItemPool.ROBY_PETES_RICH_RICOTTA:
+      case ItemPool.ROBY_ROASTED_VEGETABLE_FOCACCIA:
+      case ItemPool.ROBY_PLAIN_CALZONE:
+      case ItemPool.ROBY_BAKED_VEGGIE_RICOTTA:
+      case ItemPool.ROBY_DEEP_DISH_OF_LEGEND:
+      case ItemPool.ROBY_CALZONE_OF_LEGEND:
+      case ItemPool.ROBY_PIZZA_OF_LEGEND:
+        if (adventureResults) {
+          Preferences.setBoolean("_cookbookbatRecipeDrops", true);
+        }
         break;
     }
 

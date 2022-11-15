@@ -28,7 +28,6 @@ class MoodCommandTest extends AbstractCommandTestBase {
   public void initializeState() throws IOException {
     KoLCharacter.reset("moody");
     KoLCharacter.reset(true);
-    Preferences.saveSettingsToFile = false;
 
     Preferences.setString("currentMood", "default");
     BufferedReader reader = mockedReader();
@@ -45,7 +44,6 @@ class MoodCommandTest extends AbstractCommandTestBase {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
-    Preferences.saveSettingsToFile = false;
   }
 
   public BufferedReader mockedReader() {

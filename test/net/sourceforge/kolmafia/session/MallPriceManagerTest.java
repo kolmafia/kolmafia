@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -145,13 +144,11 @@ public class MallPriceManagerTest {
     KoLCharacter.reset("mall price manager user");
     CharPaneRequest.setCanInteract(true);
     MallPriceDatabase.savePricesToFile = false;
-    Preferences.saveSettingsToFile = false;
   }
 
   @AfterAll
   public static void afterAll() {
     MallPriceDatabase.savePricesToFile = true;
-    Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach

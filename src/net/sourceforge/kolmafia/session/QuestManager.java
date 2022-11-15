@@ -24,9 +24,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
@@ -63,6 +61,25 @@ public class QuestManager {
       Pattern.compile("&quot;Paranormal disturbance reported (.*?).&quot;");
   private static final Pattern DJ_MEAT_PATTERN = Pattern.compile("collect (.*?) Meat for the DJ");
   private static final Pattern TRASH_PATTERN = Pattern.compile("you clean up (\\d+) ");
+
+  private static Set<String> friarElbowNCs =
+      Set.of(
+          "Deep Imp Act",
+          "Imp Art, Some Wisdom",
+          "A Secret, But Not the Secret You're Looking For",
+          "Butter Knife?  I'll Take the Knife");
+  private static Set<String> friarNeckNCs =
+      Set.of(
+          "How Do We Do It? Quaint and Curious Volume!",
+          "Strike One!",
+          "Olive My Love To You, Oh.",
+          "Dodecahedrariffic!");
+  private static Set<String> friarHeartNCs =
+      Set.of(
+          "Moon Over the Dark Heart",
+          "Running the Lode",
+          "I, Martin",
+          "Imp Be Nimble, Imp Be Quick");
 
   private QuestManager() {}
 
@@ -219,6 +236,11 @@ public class QuestManager {
         case AdventurePool.THE_SHADY_THICKET:
           handleFarmChange(location, responseText);
           break;
+        case AdventurePool.DARK_ELBOW_OF_THE_WOODS:
+        case AdventurePool.DARK_HEART_OF_THE_WOODS:
+        case AdventurePool.DARK_NECK_OF_THE_WOODS:
+          handleFriarsCopseChange(locationId, responseText);
+          break;
         default:
           if (KoLCharacter.getInebriety() > 25) {
             handleSneakyPeteChange(responseText);
@@ -318,6 +340,7 @@ public class QuestManager {
             if (responseText.contains("sr_brickhole.gif")) {
               QuestDatabase.setQuestIfBetter(Quest.MANOR, "step3");
             } else {
+              // sr_masonry.gif
               QuestDatabase.setQuestIfBetter(Quest.MANOR, "step1");
             }
             // Legacy code support
@@ -461,10 +484,22 @@ public class QuestManager {
           && !Preferences.getBoolean("loveTunnelAvailable")) {
         Preferences.setBoolean("_loveTunnelToday", true);
       }
+      if (responseText.contains("Speakeasy")) {
+        handleSpeakeasyName(responseText);
+        Preferences.setBoolean("ownsSpeakeasy", true);
+      }
       if (responseText.contains("Overgrown Lot")) {
         Preferences.setBoolean("overgrownLotAvailable", true);
       }
     }
+  }
+
+  private static Pattern SPEAKEASY_NAME = Pattern.compile("whichplace=speakeasy.*?title=\"(.*?)\"");
+
+  private static void handleSpeakeasyName(final String text) {
+    var matcher = SPEAKEASY_NAME.matcher(text);
+    if (!matcher.find()) return;
+    Preferences.setString("speakeasyName", matcher.group(1));
   }
 
   private static void handleTownMarketChange(final String location, String responseText) {
@@ -629,6 +664,28 @@ public class QuestManager {
         buffer.append(adventure.getAdventureId());
         Preferences.setString("duckAreasCleared", buffer.toString());
       }
+    }
+  }
+
+  private static void handleFriarsCopseChange(final int locationId, final String responseText) {
+    String encounterName = AdventureRequest.parseEncounter(responseText);
+    String location = AdventureDatabase.getAdventure(locationId).getAdventureName();
+    switch (location) {
+      case "The Dark Elbow of the Woods":
+        if (friarElbowNCs.contains(encounterName)) {
+          Preferences.setInteger("lastFriarsElbowNC", AdventureSpentDatabase.getTurns(location));
+        }
+        break;
+      case "The Dark Heart of the Woods":
+        if (friarHeartNCs.contains(encounterName)) {
+          Preferences.setInteger("lastFriarsHeartNC", AdventureSpentDatabase.getTurns(location));
+        }
+        break;
+      case "The Dark Neck of the Woods":
+        if (friarNeckNCs.contains(encounterName)) {
+          Preferences.setInteger("lastFriarsNeckNC", AdventureSpentDatabase.getTurns(location));
+        }
+        break;
     }
   }
 
@@ -2459,7 +2516,7 @@ public class QuestManager {
     new Hazard("toxic atmosphere", "Toxic environment", "filter helmet"),
     new Hazard("high gravity", "Extremely high gravity", "exo-servo leg braces"),
     new Hazard("irradiated", "High radiation levels", "rad cloak"),
-    new Hazard("magnetic storms", "High levels of magnetic interference", "gate tranceiver"),
+    new Hazard("magnetic storms", "High levels of magnetic interference", "gate transceiver"),
     new Hazard("high winds", "Intense winds", "high-friction boots"),
   };
 

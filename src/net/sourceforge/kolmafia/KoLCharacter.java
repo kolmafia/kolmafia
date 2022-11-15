@@ -78,9 +78,9 @@ import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
+import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.DataFileCache;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -393,7 +393,7 @@ public abstract class KoLCharacter {
     DwarfFactoryRequest.reset();
     EquipmentManager.resetEquipment();
     EquipmentManager.resetCustomOutfits();
-    GearChangeFrame.clearFamiliarList();
+    GearChangePanel.clearFamiliarList();
     InventoryManager.resetInventory();
     LocketManager.clear();
     SkillDatabase.resetCasts();
@@ -407,7 +407,7 @@ public abstract class KoLCharacter {
     ConcoctionDatabase.resetQueue();
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setVariableConsumables();
-    ConsumablesDatabase.calculateAdventureRanges();
+    ConsumablesDatabase.calculateAllAverageAdventures();
     DailyLimitDatabase.reset();
 
     RelayRequest.reset();
@@ -1214,6 +1214,10 @@ public abstract class KoLCharacter {
    * @param ascensionClass The name of the character's class
    */
   public static final void setAscensionClass(final AscensionClass ascensionClass) {
+    if (KoLCharacter.ascensionClass == ascensionClass) {
+      return;
+    }
+
     KoLCharacter.ascensionClass = ascensionClass;
 
     KoLCharacter.tripleReagent = isSauceror();
@@ -1315,9 +1319,39 @@ public abstract class KoLCharacter {
     return ascensionClass == null ? Stat.NONE : ascensionClass.getMainStat();
   }
 
+  public static final AdventureResult ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+
   public static void setLimitMode(final LimitMode limitmode) {
     switch (limitmode) {
       case NONE -> {
+        // Check for "pseudo" LimitModes - when certain effects are active,
+        // some of your options - adventuring zones or combat skills - are
+        // restricted
+
+        switch (Preferences.getString("currentLlamaForm")) {
+          case "Bird" -> {
+            KoLCharacter.limitMode = LimitMode.BIRD;
+            return;
+          }
+          case "Roach" -> {
+            KoLCharacter.limitMode = LimitMode.ROACH;
+            return;
+          }
+          case "Mole" -> {
+            KoLCharacter.limitMode = LimitMode.MOLE;
+            return;
+          }
+        }
+
+        if (KoLConstants.activeEffects.contains(ASTRAL)) {
+          KoLCharacter.limitMode = LimitMode.ASTRAL;
+          return;
+        }
+
+        // The LimitMode can cleanup after itself without making requests
+        KoLCharacter.limitMode.finish();
+
+        // If it does require making requests, can't do it in a fight or choice
         if (KoLCharacter.limitMode.requiresReset()
             && !GenericRequest.abortIfInFightOrChoice(true)) {
           KoLmafia.resetAfterLimitmode();
@@ -1365,7 +1399,7 @@ public abstract class KoLCharacter {
     ChezSnooteeRequest.reset();
     MicroBreweryRequest.reset();
     HellKitchenRequest.reset();
-    GearChangeFrame.clearFamiliarList();
+    GearChangePanel.clearFamiliarList();
     InventoryManager.refresh();
     EquipmentManager.resetCustomOutfits();
     SkillBuffFrame.update();
@@ -1651,7 +1685,7 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill("Adventurer of Leisure")) freerests += 2;
     if (KoLCharacter.hasSkill("Executive Narcolepsy")) ++freerests;
     // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
-    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective ")
+    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective")
         && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
       freerests += 3;
     if (KoLCharacter.hasSkill("Food Coma")) freerests += 10;
@@ -1668,7 +1702,7 @@ public abstract class KoLCharacter {
   public static int freeRestsRemaining() {
     int restsUsed = Preferences.getInteger("timesRested");
     int restsAvailable = KoLCharacter.freeRestsAvailable();
-    return Math.min(0, restsAvailable - restsUsed);
+    return Math.max(0, restsAvailable - restsUsed);
   }
 
   // If there are free rests remaining and KoLmafia thinks there are not, update that value
@@ -2225,7 +2259,7 @@ public abstract class KoLCharacter {
   /** Accessor method to retrieve the total current combat percent adjustment */
   public static final double getCombatRateAdjustment() {
     double rate = KoLCharacter.currentModifiers.get(Modifiers.COMBAT_RATE);
-    if ("underwater".equals(AdventureDatabase.getEnvironment(Modifiers.currentLocation))) {
+    if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
       rate += KoLCharacter.currentModifiers.get(Modifiers.UNDERWATER_COMBAT_RATE);
     }
     return rate;
@@ -2666,7 +2700,7 @@ public abstract class KoLCharacter {
     if (Preferences.getBoolean("hasOven") != hasOven) {
       Preferences.setBoolean("hasOven", hasOven);
       ConcoctionDatabase.setRefreshNeeded(true);
-      ConsumablesDatabase.calculateAdventureRanges();
+      ConsumablesDatabase.calculateAllAverageAdventures();
     }
   }
 
@@ -2951,7 +2985,7 @@ public abstract class KoLCharacter {
 
       // All familiars can now be used
       RequestThread.postRequest(new FamiliarRequest());
-      GearChangeFrame.updateFamiliars();
+      GearChangePanel.updateFamiliars();
     }
 
     if (restricted || oldPath == Path.NUCLEAR_AUTUMN || oldPath == Path.YOU_ROBOT) {
@@ -4370,7 +4404,7 @@ public abstract class KoLCharacter {
             || ascensionClass == AscensionClass.ACCORDION_THIEF
             || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
             || ascensionClass == AscensionClass.GELATINOUS_NOOB
-            || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))
+            || KoLCharacter.getLimitMode() == LimitMode.BIRD
             || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND)
             || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
   }
@@ -4530,7 +4564,7 @@ public abstract class KoLCharacter {
             || KoLCharacter.currentFamiliar.getRace().equals("Scary Death Orb");
 
     EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-    GearChangeFrame.updateFamiliars();
+    GearChangePanel.updateFamiliars();
 
     KoLCharacter.effectiveFamiliar = familiar;
 
@@ -4595,7 +4629,7 @@ public abstract class KoLCharacter {
       EquipmentManager.processResult(familiar.getItem());
     }
 
-    GearChangeFrame.updateFamiliars();
+    GearChangePanel.updateFamiliars();
 
     return familiar;
   }
@@ -4621,7 +4655,7 @@ public abstract class KoLCharacter {
     }
 
     KoLCharacter.familiars.remove(familiar);
-    GearChangeFrame.updateFamiliars();
+    GearChangePanel.updateFamiliars();
   }
 
   /**
@@ -4887,11 +4921,13 @@ public abstract class KoLCharacter {
   }
 
   public static final void updateSelectedLocation(KoLAdventure location) {
-    KoLCharacter.selectedLocation = location;
-    Modifiers.setLocation(location);
-    KoLCharacter.recalculateAdjustments();
-    KoLCharacter.updateStatus();
-    PreferenceListenerRegistry.firePreferenceChanged("(location)");
+    if (location != KoLCharacter.selectedLocation) {
+      KoLCharacter.selectedLocation = location;
+      Modifiers.setLocation(location);
+      KoLCharacter.recalculateAdjustments();
+      KoLCharacter.updateStatus();
+      PreferenceListenerRegistry.firePreferenceChanged("(location)");
+    }
   }
 
   public static final KoLAdventure getSelectedLocation() {
@@ -5128,15 +5164,9 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.getAscensions() == Preferences.getInteger("lastQuartetAscension")) {
       switch (Preferences.getInteger("lastQuartetRequest")) {
-        case 1:
-          newModifiers.add(Modifiers.MONSTER_LEVEL, 5, "Ballroom:quartet");
-          break;
-        case 2:
-          newModifiers.add(Modifiers.COMBAT_RATE, -5, "Ballroom:quartet");
-          break;
-        case 3:
-          newModifiers.add(Modifiers.ITEMDROP, 5, "Ballroom:quartet");
-          break;
+        case 1 -> newModifiers.add(Modifiers.MONSTER_LEVEL, 5, "Ballroom:quartet");
+        case 2 -> newModifiers.add(Modifiers.COMBAT_RATE, -5, "Ballroom:quartet");
+        case 3 -> newModifiers.add(Modifiers.ITEMDROP, 5, "Ballroom:quartet");
       }
     }
 
@@ -5155,7 +5185,8 @@ public abstract class KoLCharacter {
     // Boombox, no check for having one so it can work with Maximizer "show things you don't have"
     newModifiers.add(Modifiers.getModifiers("BoomBox", boomBox));
 
-    // Add modifiers from Florist Friar plants
+    // Apply variable location modifiers
+    newModifiers.applyAutumnatonModifiers();
     newModifiers.applyFloristModifiers();
 
     // Horsery

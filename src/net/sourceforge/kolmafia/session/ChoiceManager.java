@@ -109,7 +109,7 @@ public abstract class ChoiceManager {
    *
    * And by user actions:
    *
-   * - RelayRequest when the user hits the "auto" button on a choice page.
+   * - RelayAgent when the user hits the "auto" button on a choice page.
    * - The "choice" command from the gCLI
    * - The run_choice() function of ASH
    */
@@ -122,12 +122,15 @@ public abstract class ChoiceManager {
         }
       };
 
-  public static final void processRedirectedChoiceAdventure(final String redirectLocation) {
-    ChoiceManager.processChoiceAdventure(ChoiceManager.CHOICE_HANDLER, redirectLocation, null);
+  public static final void processRedirectedChoiceAdventure(
+      final String redirectLocation, final boolean usePostMethod) {
+    ChoiceManager.processChoiceAdventure(
+        ChoiceManager.CHOICE_HANDLER, redirectLocation, usePostMethod, null);
   }
 
   public static final void processChoiceAdventure(final String responseText) {
-    ChoiceManager.processChoiceAdventure(ChoiceManager.CHOICE_HANDLER, "choice.php", responseText);
+    ChoiceManager.processChoiceAdventure(
+        ChoiceManager.CHOICE_HANDLER, "choice.php", false, responseText);
   }
 
   public static final String processChoiceAdventure(
@@ -156,7 +159,7 @@ public abstract class ChoiceManager {
     request.run();
 
     if (tryToAutomate) {
-      ChoiceManager.processChoiceAdventure(request, "choice.php", request.responseText);
+      ChoiceManager.processChoiceAdventure(request, "choice.php", false, request.responseText);
       return "";
     }
 
@@ -186,13 +189,16 @@ public abstract class ChoiceManager {
   }
 
   public static final void processChoiceAdventure(
-      final GenericRequest request, final String initialURL, String responseText) {
+      final GenericRequest request,
+      final String initialURL,
+      boolean usePostMethod,
+      String responseText) {
     // You can no longer simply ignore a choice adventure.  One of
     // the options may have that effect, but we must at least run
     // choice.php to find out which choice it is.
 
     // Get rid of extra fields - like "action=auto"
-    request.constructURLString(initialURL);
+    request.constructURLString(initialURL, usePostMethod);
 
     if (responseText == null) {
       GoalManager.updateProgress(GoalManager.GOAL_CHOICE);
@@ -215,10 +221,36 @@ public abstract class ChoiceManager {
         !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice(responseText);
         ++stepCount) {
       int choice = ChoiceUtilities.extractChoice(responseText);
+
       if (choice == 0) {
         // choice.php did not offer us any choices.
-        // This would be a bug in KoL itself.
-        // Bail now and let the user finish by hand.
+        // This is sometimes legitimate.
+        // In particular, not dying at the first puzzle in the Hidden Temple.
+
+        // You wave your hands nonchalantly over your head, and your fingertips
+        // brush a stone bar that had lowered from the ceiling, unnoticed. You
+        // grab it, frantically, and it pulls you up through a trapdoor just as
+        // the walls slam together beneath your feet. That was too close -- you
+        // were almost a Veracity sandwich!
+        //
+        // <b>Now What?</b>
+        // <a href=choice.php>Continue down the corridor...</a>
+        if (responseText.contains("<b>Now What?</b>")) {
+          request.constructURLString("choice.php");
+          request.run();
+          String redirectLocation = request.redirectLocation;
+          String redirectMethod = request.redirectMethod;
+          if ("tiles.php".equals(redirectLocation)) {
+            // Follow the redirect, call DvorakManager to solve it, and return
+            request.constructURLString(redirectLocation, redirectMethod.equals("POST"));
+            request.run();
+            DvorakManager.solve();
+            request.constructURLString("choice.php");
+            request.responseText = responseText = ChoiceManager.lastResponseText;
+            continue;
+          }
+          return;
+        }
 
         KoLmafia.updateDisplay(MafiaState.ABORT, "Encountered choice adventure with no choices.");
         request.showInBrowser(true);
@@ -367,7 +399,7 @@ public abstract class ChoiceManager {
       return false;
     }
 
-    request.clearDataFields();
+    request.constructURLString("choice.php");
     request.addFormField("whichchoice", String.valueOf(choice));
     request.addFormField("option", decision);
     if (!extraFields.equals("")) {
@@ -2055,7 +2087,7 @@ public abstract class ChoiceManager {
   public static final String gotoGoal() {
     String responseText = ChoiceManager.lastResponseText;
     GenericRequest request = ChoiceManager.CHOICE_HANDLER;
-    ChoiceManager.processChoiceAdventure(request, "choice.php", responseText);
+    ChoiceManager.processChoiceAdventure(request, "choice.php", false, responseText);
     RelayRequest.specialCommandResponse = ChoiceManager.lastDecoratedResponseText;
     RelayRequest.specialCommandIsAdventure = true;
     return request.responseText;
@@ -2095,6 +2127,14 @@ public abstract class ChoiceManager {
    */
 
   public static final void preChoice(final GenericRequest request) {
+    if (ChoiceManager.handlingChoice) {
+      if (request.getURLString().equals("choice.php")) {
+        // Page refresh
+        return;
+      }
+      // Choice chain
+    }
+
     FightRequest.choiceFollowsFight = false;
     ChoiceManager.handlingChoice = true;
     FightRequest.currentRound = 0;

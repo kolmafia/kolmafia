@@ -80,23 +80,15 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
         CoinmastersDatabase.getBuyPrices(CosmicRaysBazaarRequest.master).entrySet()) {
       int itemId = entry.getKey().intValue();
       int price = entry.getValue().intValue();
-      AdventureResult cost = null;
-      switch (itemId) {
-        default:
-          cost = RARE_MEAT_ISOTOPE.getInstance(price);
-          break;
-        case ItemPool.DIGITAL_KEY:
-          cost = WHITE_PIXEL.getInstance(price);
-          break;
-        case ItemPool.BORIS_KEY:
-        case ItemPool.JARLSBERG_KEY:
-        case ItemPool.SNEAKY_PETE_KEY:
-          cost = FAT_LOOT_TOKEN.getInstance(price);
-          break;
-        case ItemPool.RARE_MEAT_ISOTOPE:
-          cost = MEAT.getInstance(price);
-          break;
-      }
+      AdventureResult cost =
+          switch (itemId) {
+            default -> RARE_MEAT_ISOTOPE.getInstance(price);
+            case ItemPool.DIGITAL_KEY -> WHITE_PIXEL.getInstance(price);
+            case ItemPool.BORIS_KEY,
+                ItemPool.JARLSBERG_KEY,
+                ItemPool.SNEAKY_PETE_KEY -> FAT_LOOT_TOKEN.getInstance(price);
+            case ItemPool.RARE_MEAT_ISOTOPE -> MEAT.getInstance(price);
+          };
       buyCosts.put(itemId, cost);
     }
   }

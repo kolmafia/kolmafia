@@ -112,6 +112,7 @@ global	relayAddsUseLinks	true
 global	relayAddsWikiLinks	false
 global	relayAllowRemoteAccess	false
 global	relayBrowserOnly	false
+global	relayCacheUncacheable	false
 global	relayDelayForSVN	5
 global	relayFormatsChatText	false
 global	relayHidesJunkMallItems	false
@@ -135,7 +136,7 @@ global	saveState
 global	saveStateActive
 global	scriptButtonPosition	0
 global	scriptList	restore hp | restore mp
-global	sharePriceData	false
+global	sharePriceData	true
 global	showAllRequests	false
 global	showExceptionalRequests	false
 global	statusDropdown	0
@@ -158,6 +159,7 @@ global	useLastUserAgent	false
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true
 global	useToolbars	true
+global	useCachedVolcanoMaps	true
 global	useZoneComboBox	false
 global	userAgent
 global	verboseSpeakeasy	false
@@ -203,6 +205,9 @@ user	autoSatisfyWithStorage	true
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false
+user	autumnatonQuestLocation
+user	autumnatonQuestTurn	-1
+user	autumnatonUpgrades
 user	availableCandyCredits	0
 user	availableDimes	0
 user	availableFunPoints	0
@@ -373,6 +378,8 @@ user	camelSpit	0
 user	cameraMonster
 user	camerasUsed	0
 user	campAwayDecoration	0
+user	candyWitchTurnsUsed	0
+user	candyWitchCandyTotal	0
 user	canteenUnlocked	false
 user	carboLoading	0
 user	cargoPocketsEmptied
@@ -432,6 +439,9 @@ user	cosmicBowlingBallReturnCombats	-1
 user	cozyCounter6332	0
 user	cozyCounter6333	0
 user	cozyCounter6334	0
+user	craftingClay	-1
+user	craftingLeather	-1
+user	craftingStraw	-1
 user	crappyCameraMonster
 user	crimbo16BeardChakraCleanliness	0
 user	crimbo16BootsChakraCleanliness	0
@@ -453,6 +463,7 @@ user	crudeMonster
 user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
+user	currentAstralTrip
 user	currentDistillateMods
 user	currentEasyBountyItem	
 user	currentExtremity	0
@@ -461,6 +472,7 @@ user	currentHedgeMazeRoom	0
 user	currentHippyStore	none
 user	currentJunkyardTool
 user	currentJunkyardLocation
+user	currentLlamaForm
 user	currentMojoFilters	0
 user	currentMood	default
 user	currentNunneryMeat	0
@@ -690,11 +702,25 @@ user	guzzlrQuestBooze
 user	guzzlrQuestLocation	
 user	guzzlrQuestTier	
 user	haciendaLayout	000000000000000000
+user	hallowiener8BitRealm	0
+user	hallowienerCoinspiracy	0
+user	hallowienerDefiledNook	false
+user	hallowienerGuanoJunction	false
+user	hallowienerKnollGym	false
+user	hallowienerMadnessBakery	false
+user	hallowienerMiddleChamber	false
+user	hallowienerOvergrownLot	false
+user	hallowienerSkeletonStore	false
+user	hallowienerSmutOrcs	false
+user	hallowienerSonofaBeach	false
+user	hallowienerVolcoino	false
 user	hardcorePVPWarning	false
+user	hareMillisecondsSaved	0
 user	harvestBatteriesHardcore	true
 user	harvestBatteriesSoftcore	true
 user	harvestGardenHardcore	none
 user	harvestGardenSoftcore	none
+user	hasAutumnaton	false
 user	hasBartender	false
 user	hasChef	false
 user	hasCocktailKit	false
@@ -832,6 +858,9 @@ user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
 user	lastFratboyCall	-1
 user	lastFriarCeremonyAscension	-1
+user	lastFriarElbowNC	-1
+user	lastFriarHeartNC	-1
+user	lastFriarNeckNC	-1
 user	lastHippyCall	-1
 user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
@@ -1050,6 +1079,7 @@ user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
+user	ownsSpeakeasy	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
 user	parkaMode
@@ -1230,6 +1260,7 @@ user	recoveryScript
 user	redSnapperPhylum
 user	redSnapperProgress	0
 user	relayCounters
+user	relayPort	0
 user	relayShowSpoilers	false
 user	relayShowWarnings	true
 user	relocatePygmyJanitor	-1
@@ -1365,6 +1396,7 @@ user	spacegateVaccine3	false
 user	spaceInvaderDefeated	false
 user	spadingData
 user	spadingScript
+user	speakeasyName	Oliver's Place
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
 user	spelunkySacrifices	0
@@ -1494,6 +1526,8 @@ user	wildfireDusted	false
 user	wildfireFracked	false
 user	wildfirePumpGreased	false
 user	wildfireSprinkled	false
+user	wolfPigsEvicted	0
+user	wolfTurnsUsed	0
 user	workteaClue
 user	writingDesksDefeated	0
 user	xoSkeleltonXProgress	8
@@ -1532,6 +1566,7 @@ user	_aprilShower	false
 user	_armyToddlerCast	false
 user	_astralDrops	0
 user	_authorsInkUsed	false
+user	_autumnatonQuests	0
 user	_backUpUses	0
 user	_baconMachineUsed	false
 user	_badlyRomanticArrows	0
@@ -1635,6 +1670,8 @@ user	_communismUsed	false
 user	_companionshipCasts	0
 user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
+user	_cookbookbatCrafting	0
+user	_cookbookbatRecipeDrops	false
 user	_corruptedStardustUsed	false
 user	_cosmicBowlingSkillsUsed	0
 user	_cosmicSixPackConjured	false
@@ -1770,6 +1807,7 @@ user	_goldenMoneyCharge	0
 user	_gongDrops	0
 user	_gothKidCharge	0
 user	_gothKidFights	0
+user	_governmentPerDiemUsed	false
 user	_grimBuff	false
 user	_grimBrotherCharge	0
 user	_grimFairyTaleDrops	0
@@ -3041,3 +3079,18 @@ user	unknownRecipe7755	true
 user	unknownRecipe7756	true
 user	unknownRecipe7757	true
 user	unknownRecipe7758	true
+user	unknownRecipe10970	true
+user	unknownRecipe10971	true
+user	unknownRecipe10972	true
+user	unknownRecipe10973	true
+user	unknownRecipe10974	true
+user	unknownRecipe10975	true
+user	unknownRecipe10976	true
+user	unknownRecipe10977	true
+user	unknownRecipe10978	true
+user	unknownRecipe10988	true
+user	unknownRecipe10989	true
+user	unknownRecipe10990	true
+user	unknownRecipe10991	true
+user	unknownRecipe10992	true
+user	unknownRecipe11000	true

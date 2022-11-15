@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withItem;
@@ -27,7 +28,6 @@ import org.junit.jupiter.api.Test;
 public class DailyDeedsPanelTest {
   @BeforeAll
   public static void beforeAll() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("fakeUserName");
   }
 
@@ -271,6 +271,32 @@ public class DailyDeedsPanelTest {
         assertThat(
             cld.getText(),
             containsString("3/3 locket: spooky vampire, Gnollish Flyslayer, scary clown"));
+      }
+    }
+  }
+
+  @Nested
+  class DropsFamiliars {
+    @Test
+    public void showsCookbookbat() {
+      var dd = new DailyDeedsPanel.DropsDaily();
+      var cleanups = withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT);
+      try (cleanups) {
+        dd.update();
+        assertThat(dd.getText(), containsString("0/1 cookbookbat recipe"));
+      }
+    }
+
+    @Test
+    public void cookbookbatRecipeDrop() {
+      var dd = new DailyDeedsPanel.DropsDaily();
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatRecipeDrops", true));
+      try (cleanups) {
+        dd.update();
+        assertThat(dd.getText(), containsString("1/1 cookbookbat recipe"));
       }
     }
   }

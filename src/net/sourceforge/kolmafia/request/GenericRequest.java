@@ -33,6 +33,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -60,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -108,6 +110,8 @@ public class GenericRequest implements Runnable {
       Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
       Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";");
+  private static final Pattern ADVENTURE_AGAIN =
+      Pattern.compile("\">Adventure Again \\(([^<]+)\\)</a>");
 
   protected String encounter = "";
 
@@ -1188,6 +1192,7 @@ public class GenericRequest implements Runnable {
             && !this.redirectLocation.equals("witchess.php")
             && !this.redirectLocation.equals("place.php?whichplace=monorail")
             && !this.redirectLocation.equals("place.php?whichplace=edunder")
+            && !this.redirectLocation.equals("place.php?whichplace=ioty2014_cindy")
             && !this.redirectLocation.equals("/shop.php?whichshop=fwshop")) {
           // Informational debug message
           KoLmafia.updateDisplay("Unhandled redirect to " + this.redirectLocation);
@@ -1907,7 +1912,7 @@ public class GenericRequest implements Runnable {
             continue;
           }
           if (FightRequest.choiceFollowsFight) {
-            RequestThread.postRequest(new GenericRequest("choice.php"));
+            RequestThread.postRequest(new GenericRequest("choice.php", false));
             // Fall through
           }
           if (ChoiceManager.handlingChoice) {
@@ -2013,7 +2018,10 @@ public class GenericRequest implements Runnable {
       }
 
       this.redirectHandled = true;
-      ChoiceManager.processRedirectedChoiceAdventure(this.redirectLocation);
+      String redirectLocation = this.redirectLocation;
+      boolean usePostMethod = this.redirectMethod.equals("POST");
+      ChoiceManager.processRedirectedChoiceAdventure(redirectLocation, usePostMethod);
+      this.responseText = ChoiceManager.CHOICE_HANDLER.responseText;
       return true;
     }
 
@@ -2039,7 +2047,9 @@ public class GenericRequest implements Runnable {
     }
 
     if (this instanceof AdventureRequest || this.formURLString.startsWith("choice.php")) {
-      AdventureRequest.handleServerRedirect(this.redirectLocation);
+      String redirectLocation = this.redirectLocation;
+      boolean usePostMethod = this.redirectMethod.equals("POST");
+      AdventureRequest.handleServerRedirect(redirectLocation, usePostMethod);
       return true;
     }
 
@@ -2217,9 +2227,20 @@ public class GenericRequest implements Runnable {
     // happening change anything, even though KoL asks for a
     // charpane refresh for many of them.
 
-    if (this.responseText.contains("charpane.php") && !KoLmafia.isRefreshing()) {
-      ApiRequest.updateStatus(true);
-      RelayServer.updateStatus();
+    if (!KoLmafia.isRefreshing()) {
+      if (this.responseText.contains("charpane.php")) {
+        ApiRequest.updateStatus(true);
+        RelayServer.updateStatus();
+      } else {
+        // As the crystall ball depends on the [last adventure] being tracked, check if we can
+        // determine the zone from the provided text
+        Matcher matcher = ADVENTURE_AGAIN.matcher(this.responseText);
+
+        if (matcher.find()) {
+          KoLAdventure.lastZoneName = matcher.group(1);
+          CrystalBallManager.updateCrystalBallPredictions();
+        }
+      }
     }
   }
 
@@ -2769,6 +2790,7 @@ public class GenericRequest implements Runnable {
       case ItemPool.UNCANNY_DESK_BELL:
       case ItemPool.NASTY_DESK_BELL:
       case ItemPool.GREASY_DESK_BELL:
+      case ItemPool.BASTILLE_LOANER_VOUCHER:
         itemName = item.getName();
         consumed = true;
         break;
@@ -2791,12 +2813,7 @@ public class GenericRequest implements Runnable {
       EncounterManager.registerAdventure(adventure);
     }
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + itemName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(itemName);
 
     GenericRequest.itemMonster = itemName;
   }
@@ -2839,12 +2856,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(name);
   }
 
   private static void checkSkillRedirection(final String location) {
@@ -2875,12 +2887,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + skillName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(skillName);
   }
 
   private static void checkOtherRedirection(final String location) {
@@ -2909,12 +2916,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + otherName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(otherName);
   }
 
   private static AdventureResult sealRitualCandles(final int itemId) {
@@ -3030,10 +3032,26 @@ public class GenericRequest implements Runnable {
     RequestLogger.updateDebugLog(requestProperties.size() + " request properties");
 
     for (Entry<String, List<String>> entry : requestProperties.entrySet()) {
-      RequestLogger.updateDebugLog("Field: " + entry.getKey() + " = " + entry.getValue());
+      List<String> value;
+      if ("Cookie".equalsIgnoreCase(entry.getKey())) {
+        value = filterCookieList(entry.getValue());
+      } else {
+        value = entry.getValue();
+      }
+      RequestLogger.updateDebugLog("Field: " + entry.getKey() + " = " + value);
     }
 
     RequestLogger.updateDebugLog();
+  }
+
+  private static List<String> filterCookieList(List<String> values) {
+    return values.stream()
+        .map(
+            s ->
+                Arrays.stream(s.split("\s*;\s*"))
+                    .map(t -> t.startsWith("PHPSESSID=") ? "PHPSESSID=OMITTED" : t)
+                    .collect(Collectors.joining("; ")))
+        .toList();
   }
 
   public void printHeaderFields() {

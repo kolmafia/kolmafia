@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,10 +66,10 @@ public class ApiRequest extends GenericRequest {
       return "afterlife.php";
     }
 
-    // If in limitmode, Noobcore, PokeFam, and Disguises Delimit,
-    // API status doesn't contain the full information, so use
-    // Character Pane instead.
-    if (KoLCharacter.getLimitMode() != LimitMode.NONE
+    // If in certain LimitModes, Noobcore, PokeFam, and Disguises Delimit, API
+    // status is incomplete, so use Character Pane instead.
+
+    if (KoLCharacter.getLimitMode().requiresCharPane()
         || KoLCharacter.inNoobcore()
         || KoLCharacter.inPokefam()
         || KoLCharacter.inDisguise()) {
@@ -393,7 +392,7 @@ public class ApiRequest extends GenericRequest {
     }
   }
 
-  private static Map<String, Map.Entry<String, String>> PREF_TO_COOL_ITEM =
+  private static final Map<String, Map.Entry<String, String>> PREF_TO_COOL_ITEM =
       Map.ofEntries(
           Map.entry("airport1", Map.entry("sleazeAirportAlways", "_sleazeAirportToday")),
           Map.entry("airport2", Map.entry("spookyAirportAlways", "_spookyAirportToday")),
@@ -410,9 +409,10 @@ public class ApiRequest extends GenericRequest {
           Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
           Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")),
           Map.entry("hascosmicball", Map.entry("hasCosmicBowlingBall", "")),
-          Map.entry("maydaykit", Map.entry("hasMaydayContract", "")));
+          Map.entry("maydaykit", Map.entry("hasMaydayContract", "")),
+          Map.entry("autumnaton", Map.entry("hasAutumnaton", "")));
 
-  private static final void parseCoolItems(final String coolItems) {
+  private static void parseCoolItems(final String coolItems) {
     if (coolItems == null) {
       return;
     }

@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
@@ -155,6 +156,65 @@ public class MaximizerTest {
       final var cleanups = new Cleanups(withEquippableItem("wreath of laurels"));
       try (cleanups) {
         assertTrue(maximize("2 min, mus"));
+      }
+    }
+  }
+
+  @Nested
+  class Effective {
+    @Test
+    public void useRangedWeaponWhenMoxieHigh() {
+      final var cleanups =
+          new Cleanups(
+              withStats(100, 100, 150),
+              withEquippableItem("disco ball"),
+              withEquippableItem("two-handed depthsword"));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon dmg, effective"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "disco ball");
+      }
+    }
+
+    @Test
+    public void useMeleeWeaponWhenMuscleHigh() {
+      final var cleanups =
+          new Cleanups(
+              withStats(150, 100, 100),
+              withEquippableItem("automatic catapult"),
+              withEquippableItem("seal-clubbing club"));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon dmg, effective"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "seal-clubbing club");
+      }
+    }
+
+    @Test
+    public void useJuneCleaverWhenMoxieHigh() {
+      final var cleanups =
+          new Cleanups(
+              withStats(100, 100, 150),
+              withEquippableItem("disco ball"),
+              withEquippableItem("June cleaver"));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon dmg, effective"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "June cleaver");
+      }
+    }
+
+    @Test
+    public void useCosplaySaberWhenMoxieHigh() {
+      final var cleanups =
+          new Cleanups(
+              withStats(100, 100, 150),
+              withEquippableItem("disco ball"),
+              withEquippableItem("Fourth of May Cosplay Saber"));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon dmg, effective"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "Fourth of May Cosplay Saber");
       }
     }
   }
@@ -593,7 +653,8 @@ public class MaximizerTest {
           new Cleanups(withLocation("The Ice Hole"), withEquippableItem("Mer-kin sneakmask"));
 
       try (cleanups) {
-        assertEquals(AdventureDatabase.getEnvironment(Modifiers.currentLocation), "underwater");
+        assertEquals(
+            AdventureDatabase.getEnvironment(Modifiers.currentLocation), Environment.UNDERWATER);
         assertTrue(maximize("-combat -tie"));
 
         recommendedSlotIs(EquipmentManager.HAT, "Mer-kin sneakmask");

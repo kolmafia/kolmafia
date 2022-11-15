@@ -357,12 +357,6 @@ public class EquipmentDatabase {
   private static final Pattern WEAPON_TYPE_PATTERN = Pattern.compile("\\(((\\d)-handed (.*?))\\)");
 
   public static final void registerItem(
-      final int itemId, final String itemName, final String text) {
-    int power = DebugDatabase.parsePower(text);
-    EquipmentDatabase.registerItem(itemId, itemName, text, power);
-  }
-
-  public static final void registerItem(
       final int itemId, final String itemName, final String text, final int power) {
     // A new item has been detected. Examine the item description
     // and decide what it is.

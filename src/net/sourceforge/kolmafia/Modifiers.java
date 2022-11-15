@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1759,7 +1760,7 @@ public class Modifiers {
       return null;
     }
     String name = "[" + id + "]";
-    return Modifiers.getModifiers("Item", name);
+    return Modifiers.getModifiers("Item", id, name);
   }
 
   /**
@@ -1792,21 +1793,32 @@ public class Modifiers {
       }
     }
     String name = "[" + id + "]";
-    return Modifiers.getModifiers("Effect", name);
+    return Modifiers.getModifiers("Effect", id, name);
   }
 
-  public static final Modifiers getModifiers(String type, final String name) {
-    String changeType = null;
+  public static final Modifiers getModifiers(final String type, final int id, final String name) {
+    String lookup = Modifiers.getLookupName(type, id);
+    return Modifiers.getModifiersInternal(type, name, lookup);
+  }
+
+  public static final Modifiers getModifiers(final String type, final String name) {
     if (name == null || name.isEmpty()) {
       return null;
     }
 
+    String lookup = Modifiers.getLookupName(type, name);
+    return Modifiers.getModifiersInternal(type, name, lookup);
+  }
+
+  private static final Modifiers getModifiersInternal(
+      String type, final String name, String lookup) {
+    String changeType = null;
     if (type.equals("Bjorn")) {
       changeType = type;
       type = "Throne";
+      lookup = getLookupName(type, name);
     }
 
-    String lookup = Modifiers.getLookupName(type, name);
     Object modifier = Modifiers.modifiersByName.get(lookup);
 
     if (modifier == null) {
@@ -2566,6 +2578,17 @@ public class Modifiers {
     }
   }
 
+  public final void applyAutumnatonModifiers() {
+    if (Modifiers.currentLocation == null || Modifiers.currentLocation.equals("")) return;
+
+    var questLocation = AutumnatonManager.getQuestLocation();
+    if (questLocation.equals("")) return;
+
+    if (Modifiers.currentLocation.equals(questLocation)) {
+      this.add(Modifiers.EXPERIENCE, 1, "Autumnaton");
+    }
+  }
+
   public void applySynergies() {
     int synergetic = this.getRawBitmap(Modifiers.SYNERGETIC);
     if (synergetic == 0) return; // nothing possible
@@ -3310,7 +3333,7 @@ public class Modifiers {
 
     Modifiers.currentLocation = location.getAdventureName();
     Modifiers.currentZone = location.getZone();
-    Modifiers.currentEnvironment = location.getEnvironment();
+    Modifiers.currentEnvironment = location.getEnvironment().toString();
     AreaCombatData data = location.getAreaSummary();
     Modifiers.currentML = Math.max(4.0, data == null ? 0.0 : data.getAverageML());
   }
@@ -3321,6 +3344,10 @@ public class Modifiers {
 
   public static void setFamiliar(FamiliarData fam) {
     Modifiers.currentFamiliar = fam == null ? "" : fam.getRace();
+  }
+
+  public static String getLookupName(final String type, final int id) {
+    return type + ":[" + id + "]";
   }
 
   public static String getLookupName(final String type, final String name) {

@@ -456,7 +456,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     } else if (location.startsWith("tiles.php")) {
       DvorakManager.decorate(buffer);
-    } else if (location.startsWith("volcanomaze.php")) {
+    } else if (location.contains("volcanomaze.php")) {
       VolcanoMazeManager.decorate(location, buffer);
     } else if (location.startsWith("wand.php") && !location.contains("notrim=1")) {
       ZapRequest.decorate(buffer);
@@ -1279,28 +1279,34 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     }
 
-    Matcher matcher = DwarfFactoryRequest.attackMessage(buffer);
-    if (matcher != null) {
-      int attack = DwarfFactoryRequest.deduceAttack(matcher);
-      buffer.insert(matcher.end(), "<p>(Attack rating = " + attack + ")</p>");
+    if (KoLCharacter.hasEquipped(ItemPool.DWARVISH_WAR_HELMET)) {
+      Matcher matcher = DwarfFactoryRequest.attackMessage(buffer);
+      if (matcher != null) {
+        int attack = DwarfFactoryRequest.deduceAttack(matcher);
+        buffer.insert(matcher.end(), "<p>(Attack rating = " + attack + ")</p>");
+      }
     }
 
-    matcher = DwarfFactoryRequest.defenseMessage(buffer);
-    if (matcher != null) {
-      int defense = DwarfFactoryRequest.deduceDefense(matcher);
-      buffer.insert(matcher.end(), "<p>(Defense rating = " + defense + ")</p>");
+    if (KoLCharacter.hasEquipped(ItemPool.DWARVISH_WAR_KILT)) {
+      Matcher matcher = DwarfFactoryRequest.defenseMessage(buffer);
+      if (matcher != null) {
+        int defense = DwarfFactoryRequest.deduceDefense(matcher);
+        buffer.insert(matcher.end(), "<p>(Defense rating = " + defense + ")</p>");
+      }
     }
 
-    matcher = DwarfFactoryRequest.hpMessage(buffer);
-    if (matcher != null) {
-      // Must iterate over a copy of the buffer, since we'll be modifying it
-      matcher = DwarfFactoryRequest.hpMessage(buffer.toString());
-      buffer.setLength(0);
-      do {
-        int hp = DwarfFactoryRequest.deduceHP(matcher);
-        matcher.appendReplacement(buffer, "$0<p>(Hit Points = " + hp + ")</p>");
-      } while (matcher.find());
-      matcher.appendTail(buffer);
+    if (KoLCharacter.hasEquipped((ItemPool.DWARVISH_WAR_MATTOCK))) {
+      Matcher matcher = DwarfFactoryRequest.hpMessage(buffer);
+      if (matcher != null) {
+        // Must iterate over a copy of the buffer, since we'll be modifying it
+        matcher = DwarfFactoryRequest.hpMessage(buffer.toString());
+        buffer.setLength(0);
+        do {
+          int hp = DwarfFactoryRequest.deduceHP(matcher);
+          matcher.appendReplacement(buffer, "$0<p>(Hit Points = " + hp + ")</p>");
+        } while (matcher.find());
+        matcher.appendTail(buffer);
+      }
     }
 
     MonsterData monster = MonsterStatusTracker.getLastMonster();

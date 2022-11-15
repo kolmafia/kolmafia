@@ -156,7 +156,7 @@ public class StationaryButtonDecorator {
                 + location
                 + "'><img src='"
                 + KoLmafia.imageServerPath()
-                + "itemimages/plexpock.gif'></td><td class=spacer></td>";
+                + "itemimages/plexpock.gif'></a></td><td class=spacer></td>";
         buffer.insert(imageIndex, script);
 
         // Give it either the "script" or "again" label
@@ -240,7 +240,7 @@ public class StationaryButtonDecorator {
         CAB.append(choice ? "choice.php?action=auto" : getAdventureAgainLocation(buffer));
         CAB.append("'><img src='");
         CAB.append(KoLmafia.imageServerPath());
-        CAB.append("itemimages/plexpock.gif'></td>");
+        CAB.append("itemimages/plexpock.gif'></a></td>");
         //     Column 2
         CAB.append("<td class=spacer></td>");
         //     Column 3
@@ -463,7 +463,7 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, false);
     }
 
-    boolean inBirdForm = KoLConstants.activeEffects.contains(FightRequest.BIRDFORM);
+    boolean inBirdForm = KoLCharacter.getLimitMode() == LimitMode.BIRD;
     if (KoLCharacter.isSneakyPete()) {
       // If you are Sneaky Pete and can steal, you can also mug
       StationaryButtonDecorator.addFightButton(actionBuffer, "7201", FightRequest.canStillSteal());

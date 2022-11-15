@@ -7,6 +7,7 @@ public class AdventurePool {
   public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
   public static final String SHROUDED_PEAK_ID = "cloudypeak2";
   public static final String TUNNEL_OF_LOVE_ID = "townwrong_tunnel";
+  public static final String INNER_WOLF_ID = "ioty2014_wolf";
 
   public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
@@ -94,6 +95,7 @@ public class AdventurePool {
   public static final int HOBOPOLIS_TOWN_SQUARE = 167;
   public static final int ARRRBORETUM = 174;
   public static final int MINE_OFFICE = 176;
+  public static final int MT_MOLEHILL = 177;
   public static final int JUNKYARD_BARREL = 182;
   public static final int JUNKYARD_REFRIGERATOR = 183;
   public static final int JUNKYARD_TIRES = 184;
@@ -133,6 +135,15 @@ public class AdventurePool {
   public static final int MAELSTROM_OF_LOVERS = 278;
   public static final int GLACIER_OF_JERKS = 279;
   public static final int HIDDEN_TEMPLE = 280;
+  public static final int MEDBAY = 281;
+  public static final int WASTE_PROCESSING = 282;
+  public static final int SONAR = 283;
+  public static final int SCIENCE_LAB = 284;
+  public static final int MORGUE = 285;
+  public static final int SPECIAL_OPS = 286;
+  public static final int ENGINEERING = 287;
+  public static final int NAVIGATION = 288;
+  public static final int GALLEY = 289;
   public static final int SMUT_ORC_LOGGING_CAMP = 295;
   public static final int ABOO_PEAK = 296;
   public static final int OIL_PEAK = 298;
@@ -171,6 +182,17 @@ public class AdventurePool {
   public static final int OLD_LANDFILL = 356;
   public static final int ARID_DESERT = 364;
   public static final int WARBEAR_FORTRESS_LEVEL_THREE = 368;
+  public static final int INNER_WOLF_GYM = 369;
+  public static final int SWEET_ADE_LAKE = 370;
+  public static final int EAGER_RICE_BURROWS = 371;
+  public static final int GUMDROP_FOREST = 372;
+  public static final int A_DESERTED_STRETCH_OF_I_911 = 373;
+  public static final int PRINCES_RESTROOM = 374;
+  public static final int PRINCES_DANCE_FLOOR = 375;
+  public static final int PRINCES_KITCHEN = 376;
+  public static final int PRINCES_BALCONY = 377;
+  public static final int PRINCES_LOUNGE = 378;
+  public static final int PRINCES_CANAPES_TABLE = 379;
   public static final int YE_OLDE_MEDIEVALE_VILLAGEE = 380;
   public static final int COPPERHEAD_CLUB = 383;
   public static final int ZEPPELIN_PROTESTORS = 384;

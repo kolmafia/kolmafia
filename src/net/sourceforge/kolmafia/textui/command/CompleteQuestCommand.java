@@ -33,7 +33,11 @@ public class CompleteQuestCommand extends AbstractCommand {
     }
 
     if (command.equals("dvorak")) {
-      DvorakManager.solve();
+      if (parameters.equals("step")) {
+        DvorakManager.step();
+      } else {
+        DvorakManager.solve();
+      }
       return;
     }
 

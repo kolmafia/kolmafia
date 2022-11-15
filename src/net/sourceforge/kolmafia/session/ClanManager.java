@@ -151,6 +151,7 @@ public abstract class ClanManager {
 
     // Visit lounge and rumpus room to see what is there
     if (clanName != null && !clanName.equals("")) {
+      RequestLogger.updateSessionLog("You are currently a member of " + clanName);
       RequestLogger.printLine("You are currently a member of " + clanName);
 
       if (!ClanManager.getClanRumpus().isEmpty()) {
@@ -716,13 +717,17 @@ public abstract class ClanManager {
     return list == null ? new ArrayList<String>() : list;
   }
 
-  public static final void addToRumpus(String it) {
-    List<String> list = ClanManager.clanRumpus.get(ClanManager.clanId);
-    if (list == null) {
-      ClanManager.clanRumpus.put(ClanManager.clanId, new ArrayList<String>());
-      list = ClanManager.clanRumpus.get(ClanManager.clanId);
-    }
-    list.add(it);
+  public static void addToRumpus(final String it) {
+    ClanManager.clanRumpus.computeIfAbsent(ClanManager.clanId, (id) -> new ArrayList<>()).add(it);
+  }
+
+  public static void removeFromRumpus(final String it) {
+    ClanManager.clanRumpus.computeIfPresent(
+        ClanManager.clanId,
+        (id, list) -> {
+          list.remove(it);
+          return list;
+        });
   }
 
   public static final List<String> getHotdogs() {

@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -120,6 +121,7 @@ import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
+import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -1095,6 +1097,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("concoction_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.VYKEA_TYPE};
+    functions.add(new LibraryFunction("concoction_price", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE};
     functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
@@ -2742,6 +2750,11 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("zap", DataTypes.ITEM_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction(
+            "get_autumnaton_locations", new AggregateType(DataTypes.LOCATION_TYPE, 0), params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -5311,6 +5324,30 @@ public abstract class RuntimeLibrary {
 
   public static Value mall_price(ScriptRuntime controller, final Value item) {
     return new Value(MallPriceManager.getMallPrice((int) item.intValue()));
+  }
+
+  public static Value concoction_price(ScriptRuntime controller, final Value value) {
+    Concoction concoction = null;
+    if (value.getType().equals(DataTypes.ITEM_TYPE)) {
+      concoction = ConcoctionPool.get((int) value.intValue());
+    } else if (value.getType().equals(DataTypes.VYKEA_TYPE)) {
+      VYKEACompanionData companion = (VYKEACompanionData) value.rawValue();
+
+      if (companion == null) {
+        return DataTypes.ZERO_VALUE;
+      }
+
+      concoction = ConcoctionPool.get(-1, companion.toString());
+    }
+
+    if (concoction == null) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    long cost =
+        Arrays.stream(concoction.getIngredients()).mapToLong(MallPriceManager::getMallPrice).sum();
+    long creationCost = ConcoctionDatabase.getCreationCost(concoction.getMixingMethod());
+    return new Value(cost + creationCost);
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
@@ -9826,5 +9863,28 @@ public abstract class RuntimeLibrary {
     int itemId = acquired == null ? -1 : acquired.getItemId();
 
     return DataTypes.makeItemValue(itemId, true);
+  }
+
+  public static Value get_autumnaton_locations(ScriptRuntime controller) {
+    if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
+      return new ArrayValue(new AggregateType(DataTypes.LOCATION_TYPE, 0));
+    }
+
+    var response = AutumnatonManager.useAutumnaton();
+    var locs = AutumnatonManager.parseLocations(response);
+
+    var size = locs.size();
+    AggregateType type = new AggregateType(DataTypes.LOCATION_TYPE, size);
+    ArrayValue value = new ArrayValue(type);
+
+    int i = 0;
+    for (var id : locs) {
+      var adv = AdventureDatabase.getAdventure(id);
+      if (adv == null) continue;
+      Value location = DataTypes.makeLocationValue(adv);
+      value.aset(DataTypes.makeIntValue(i++), location);
+    }
+
+    return value;
   }
 }

@@ -30,7 +30,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
+import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 
 public class ListCellRendererFactory {
   private ListCellRendererFactory() {}
@@ -75,7 +75,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value);
+        GearChangePanel.showModifiers(value);
       }
 
       if (toHTMLFunction != null) {
@@ -444,7 +444,7 @@ public class ListCellRendererFactory {
       if (spleenhit != null) joiner.add(spleenhit + " spleen");
       stringForm.append(joiner);
 
-      this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(name), "adv");
+      this.appendRange(stringForm, ConsumablesDatabase.getAverageAdventures(name), "adv");
 
       if (Preferences.getBoolean("showGainsPerUnit")) {
         if (fullness != null && fullness > 0) {
@@ -746,7 +746,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value, slot);
+        GearChangePanel.showModifiers(value, slot);
       }
 
       AdventureResult ar = (AdventureResult) value;
@@ -829,7 +829,7 @@ public class ListCellRendererFactory {
       }
 
       if (isSelected) {
-        GearChangeFrame.showModifiers(value);
+        GearChangePanel.showModifiers(value);
       }
 
       return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

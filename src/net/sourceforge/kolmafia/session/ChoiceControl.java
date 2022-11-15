@@ -552,7 +552,7 @@ public abstract class ChoiceControl {
         // Chatterboxing
         if (ChoiceManager.lastDecision == 2
             && text.contains("find a valuable trinket that looks promising")) {
-          BanishManager.banishMonster("chatty pirate", BanishManager.Banisher.CHATTERBOXING);
+          BanishManager.banishMonster("chatty pirate", BanishManager.Banisher.CHATTERBOXING, true);
         }
         break;
 
@@ -721,6 +721,27 @@ public abstract class ChoiceControl {
 
         if (text.contains("Homina-homina")) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.SUPREME_BEING_GLOSSARY, -1));
+          QuestDatabase.setQuestProgress(Quest.FUTURE, "step1");
+        }
+        break;
+
+      case 390:
+        // Choice 390 is A Winning Pass
+
+        // "Um, okay," you say, and stomp off to kill some more time.
+
+        if (text.contains("to kill some more time")) {
+          QuestDatabase.setQuestProgress(Quest.FUTURE, "step2");
+        }
+        break;
+
+      case 391:
+        // Choice 391 is OMG KAWAIII
+
+        // "Damn it!" you say, and chase after her.
+
+        if (text.contains("and chase after her")) {
+          QuestDatabase.setQuestProgress(Quest.FUTURE, "step3");
         }
         break;
 
@@ -741,6 +762,7 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(ItemPool.get(ItemPool.ESSENCE_OF_FRIGHT, -1));
           ResultProcessor.processResult(ItemPool.get(ItemPool.ESSENCE_OF_CUTE, -1));
           ResultProcessor.processResult(ItemPool.get(ItemPool.SECRET_FROM_THE_FUTURE, 1));
+          QuestDatabase.setQuestProgress(Quest.FUTURE, QuestDatabase.FINISHED);
         }
         break;
 
@@ -4561,8 +4583,6 @@ public abstract class ChoiceControl {
 
   private static final Pattern BENCH_WARRANT_PATTERN =
       Pattern.compile("creep <font color=blueviolet><b>(\\d+)</b></font> of them");
-  private static final Pattern CINDERELLA_SCORE_PATTERN =
-      Pattern.compile("score (?:is now|was) <b>(\\d+)</b>");
   private static final Pattern FOG_PATTERN = Pattern.compile("<font.*?><b>(.*?)</b></font>");
   private static final Pattern LOV_EXIT_PATTERN =
       Pattern.compile("a sign above it that says <b>(.*?)</b>");
@@ -4638,6 +4658,21 @@ public abstract class ChoiceControl {
       case 70:
         // Choices in the Violet Fog
         VioletFogManager.mapChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
+        break;
+
+      case 71:
+        // A Journey to the Center of Your Mind
+        String tripZone =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "Bad Trip";
+              case 2 -> "Mediocre Trip";
+              case 3 -> "Great Trip";
+              default -> "";
+            };
+
+        // We are now in a pseudo LimitMode
+        Preferences.setString("currentAstralTrip", tripZone);
+        KoLCharacter.setLimitMode(LimitMode.ASTRAL);
         break;
 
       case 73:
@@ -4720,6 +4755,28 @@ public abstract class ChoiceControl {
           KoLmafia.updateDisplay(
               MafiaState.PENDING, hobopolisBossName(ChoiceManager.lastChoice) + " waits for you.");
         }
+        break;
+
+      case 276:
+        // The Gong Has Been Bung
+        String form =
+            switch (ChoiceManager.lastDecision) {
+              case 1 -> "Roach";
+              case 2 -> "Mole";
+              case 3 -> "Bird";
+              default -> "";
+            };
+
+        // We are now in a pseudo LimitMode
+        Preferences.setString("currentLlamaForm", form);
+        // This will look at the property and set actual LimitMode
+        KoLCharacter.setLimitMode(LimitMode.NONE);
+        break;
+
+      case 277:
+        // Welcome Back!
+        Preferences.setString("currentLlamaForm", "");
+        KoLCharacter.setLimitMode(LimitMode.NONE);
         break;
 
       case 299:
@@ -5225,75 +5282,37 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 822:
-      case 823:
-      case 824:
-      case 825:
-      case 826:
-      case 827:
-        {
-          // The Prince's Ball
-          if (parseCinderellaTime() == false) {
-            Preferences.decrement("cinderellaMinutesToMidnight");
-          }
-          Matcher matcher = CINDERELLA_SCORE_PATTERN.matcher(text);
-          if (matcher.find()) {
-            int score = StringUtilities.parseInt(matcher.group(1));
-            if (score != -1) {
-              Preferences.setInteger("cinderellaScore", score);
-            }
-          }
-          if (text.contains("Your final score was")) {
-            Preferences.setInteger("cinderellaMinutesToMidnight", 0);
-            Preferences.setString("grimstoneMaskPath", "");
-          }
-          break;
-        }
-
       case 829:
         // We all wear masks
-        if (ChoiceManager.lastDecision != 6) {
-          ResultProcessor.processItem(ItemPool.GRIMSTONE_MASK, -1);
-          Preferences.setInteger("cinderellaMinutesToMidnight", 0);
-        }
-        if (ChoiceManager.lastDecision == 1) {
-          Preferences.setInteger("cinderellaMinutesToMidnight", 30);
-          Preferences.setInteger("cinderellaScore", 0);
-          Preferences.setString("grimstoneMaskPath", "stepmother");
-        } else if (ChoiceManager.lastDecision == 2) {
-          Preferences.setString("grimstoneMaskPath", "wolf");
-        } else if (ChoiceManager.lastDecision == 3) {
-          Preferences.setString("grimstoneMaskPath", "witch");
-        } else if (ChoiceManager.lastDecision == 4) {
-          Preferences.setString("grimstoneMaskPath", "gnome");
-        } else if (ChoiceManager.lastDecision == 5) {
-          Preferences.setString("grimstoneMaskPath", "hare");
-        }
-        RumpleManager.reset(ChoiceManager.lastDecision);
-        break;
-
-      case 844:
-        // The Portal to Horrible Parents
-        if (ChoiceManager.lastDecision == 1) {
-          RumpleManager.spyOnParents(text);
-        }
-        break;
-
-      case 846:
-        // Bartering for the Future of Innocent Children
-        RumpleManager.pickParent(ChoiceManager.lastDecision);
-        break;
-
-      case 847:
-        // Pick Your Poison
-        RumpleManager.pickSin(ChoiceManager.lastDecision);
-        break;
-
-      case 848:
-        // Where the Magic Happens
-        if (ChoiceManager.lastDecision != 4) {
-          RumpleManager.recordTrade(text);
-        }
+      case 822: // The Prince's Ball (In the Restroom)
+      case 823: // The Prince's Ball (On the Dance Floor)
+      case 824: // The Prince's Ball (The Kitchen)
+      case 825: // The Prince's Ball (On the Balcony)
+      case 826: // The Prince's Ball (The Lounge)
+      case 827: // The Prince's Ball (At the Canapés Table)
+        // stepmother
+      case 830: // Cooldown
+      case 832: // Shower Power
+      case 833: // Vendi, Vidi, Vici
+      case 834: // Back Room Dealings
+        // wolf
+      case 831: // Intrusion
+      case 837: // On Purple Pond
+      case 838: // General Mill
+      case 839: // The Sounds of the Undergrounds
+      case 840: // Hop on Rock Pops
+      case 841: // Building, Structure, Edifice
+      case 842: // The Gingerbread Warehouse
+        // witch
+      case 844: // The Portal to Horrible Parents
+      case 845: // Rumpelstiltskin's Workshop
+      case 846: // Bartering for the Future of Innocent Children
+      case 847: // Pick Your Poison
+      case 848: // Where the Magic Happens
+      case 849: // The Practice
+      case 850: // World of Bartercraft
+        // gnome
+        GrimstoneManager.postChoice2(text);
         break;
 
       case 854:
@@ -6365,6 +6384,18 @@ public abstract class ChoiceControl {
           StillSuitManager.handleDrink(text);
         }
         break;
+
+      case 1483: // Direct Autumn-Aton
+        int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
+        AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
+        break;
+
+      case 1484: // Conspicuous Plaque
+        if (ChoiceManager.lastDecision == 1 && text.contains("All right, you're the boss.")) {
+          var name = request.getFormField("name");
+          Preferences.setString("speakeasyName", name);
+        }
+        break;
     }
   }
 
@@ -6472,8 +6503,6 @@ public abstract class ChoiceControl {
   private static final Pattern REANIMATOR_WING_PATTERN = Pattern.compile("(\\d+) wings??<br>");
   private static final Pattern RED_SNAPPER_PATTERN =
       Pattern.compile("guiding you towards: <b>(.*?)</b>.  You've found <b>(\\d+)</b> of them");
-  private static final Pattern RUMPLE_MATERIAL_PATTERN =
-      Pattern.compile("alt=\"(.*?)\"></td><td valign=center>(\\d+)<");
   private static final Pattern SAUSAGE_PATTERN =
       Pattern.compile(
           "grinder needs (.*?) of the (.*?) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units.");
@@ -6533,6 +6562,11 @@ public abstract class ChoiceControl {
       case 440:
         // Puttin' on the Wax
         HaciendaManager.preRecording(text);
+        break;
+
+      case 443:
+        // A Chess Puzzle
+        RabbitHoleManager.parseChessPuzzle(text);
         break;
 
       case 460:
@@ -6813,67 +6847,43 @@ public abstract class ChoiceControl {
           Matcher matcher = ICEHOUSE_PATTERN.matcher(text);
           if (matcher.find()) {
             String icehouseMonster = matcher.group(1);
-            BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE);
+            BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE, false);
           }
           break;
         }
 
-      case 822:
-      case 823:
-      case 824:
-      case 825:
-      case 826:
-      case 827:
-        // The Prince's Ball
-        parseCinderellaTime();
-        Preferences.setString("grimstoneMaskPath", "stepmother");
+      case 822: // The Prince's Ball (In the Restroom)
+      case 823: // The Prince's Ball (On the Dance Floor)
+      case 824: // The Prince's Ball (The Kitchen)
+      case 825: // The Prince's Ball (On the Balcony)
+      case 826: // The Prince's Ball (The Lounge)
+      case 827: // The Prince's Ball (At the Canapés Table)
+        // stepmother
+      case 829:
+        // We all wear masks
+      case 830: // Cooldown
+      case 832: // Shower Power
+      case 833: // Vendi, Vidi, Vici
+      case 834: // Back Room Dealings
+        // wolf
+      case 831: // Intrusion
+      case 837: // On Purple Pond
+      case 838: // General Mill
+      case 839: // The Sounds of the Undergrounds
+      case 840: // Hop on Rock Pops
+      case 841: // Building, Structure, Edifice
+      case 842: // The Gingerbread Warehouse
+        // witch
+      case 844: // The Portal to Horrible Parents
+      case 845: // Rumpelstiltskin's Workshop
+      case 846: // Bartering for the Future of Innocent Children
+      case 847: // Pick Your Poison
+      case 848: // Where the Magic Happens
+      case 849: // The Practice
+      case 850: // World of Bartercraft
+        // gnome
+        GrimstoneManager.visitChoice(text);
         break;
-
-      case 848:
-      case 849:
-      case 850:
-        {
-          // Where the Magic Happens & The Practice & World of Bartercraft
-          Preferences.setString("grimstoneMaskPath", "gnome");
-          // Update remaining materials
-          Matcher matcher = RUMPLE_MATERIAL_PATTERN.matcher(text);
-          while (matcher.find()) {
-            String material = matcher.group(1);
-            int number = StringUtilities.parseInt(matcher.group(2));
-            if (material.equals("straw")) {
-              int straw = InventoryManager.getCount(ItemPool.STRAW);
-              if (straw != number) {
-                ResultProcessor.processItem(ItemPool.STRAW, number - straw);
-              }
-            } else if (material.equals("leather")) {
-              int leather = InventoryManager.getCount(ItemPool.LEATHER);
-              if (leather != number) {
-                ResultProcessor.processItem(ItemPool.LEATHER, number - leather);
-              }
-            } else if (material.equals("clay")) {
-              int clay = InventoryManager.getCount(ItemPool.CLAY);
-              if (clay != number) {
-                ResultProcessor.processItem(ItemPool.CLAY, number - clay);
-              }
-            } else if (material.equals("filling")) {
-              int filling = InventoryManager.getCount(ItemPool.FILLING);
-              if (filling != number) {
-                ResultProcessor.processItem(ItemPool.FILLING, number - filling);
-              }
-            } else if (material.equals("parchment")) {
-              int parchment = InventoryManager.getCount(ItemPool.PARCHMENT);
-              if (parchment != number) {
-                ResultProcessor.processItem(ItemPool.PARCHMENT, number - parchment);
-              }
-            } else if (material.equals("glass")) {
-              int glass = InventoryManager.getCount(ItemPool.GLASS);
-              if (glass != number) {
-                ResultProcessor.processItem(ItemPool.GLASS, number - glass);
-              }
-            }
-          }
-          break;
-        }
 
       case 851:
         {
@@ -8053,6 +8063,16 @@ public abstract class ChoiceControl {
       case 1476:
         StillSuitManager.parseChoice(text);
         break;
+      case 1483:
+        AutumnatonManager.visitChoice(text);
+        break;
+      case 1484: // Conspicuous Plaque
+        var pattern = Pattern.compile("The plaque currently reads: <b>(.*?)</b>");
+        var matcher = pattern.matcher(text);
+        if (matcher.find()) {
+          Preferences.setString("speakeasyName", matcher.group(1));
+        }
+        break;
     }
   }
 
@@ -8904,6 +8924,9 @@ public abstract class ChoiceControl {
         case 1445: // Reassembly Station
         case 1447: // Statbot 5000
           return YouRobotManager.registerRequest(urlString);
+
+        case 1483: // Direct Autumn-Aton
+          return AutumnatonManager.registerRequest(urlString);
       }
 
       if (decision != 0) {
@@ -8930,12 +8953,7 @@ public abstract class ChoiceControl {
           KoLAdventure.setNextAdventure("None");
           GenericRequest.itemMonster = "Time-Spinner";
 
-          String message = "[" + KoLAdventure.getAdventureCount() + "] Way Back in Time";
-          RequestLogger.printLine();
-          RequestLogger.printLine(message);
-
-          RequestLogger.updateSessionLog();
-          RequestLogger.updateSessionLog(message);
+          RequestLogger.registerLocation("Way Back in Time");
         }
         return true;
 
@@ -8948,12 +8966,7 @@ public abstract class ChoiceControl {
           KoLAdventure.setNextAdventure("None");
           GenericRequest.itemMonster = "Time-Spinner";
 
-          String message = "[" + KoLAdventure.getAdventureCount() + "] A Recent Fight";
-          RequestLogger.printLine();
-          RequestLogger.printLine(message);
-
-          RequestLogger.updateSessionLog();
-          RequestLogger.updateSessionLog(message);
+          RequestLogger.registerLocation("A Recent Fight");
         }
         return true;
     }
@@ -8984,7 +8997,6 @@ public abstract class ChoiceControl {
         break;
 
       case 437: // Flying In Circles
-        ResultProcessor.processAdventuresUsed(1);
         RequestLogger.registerLocation("The Nemesis' Lair");
         break;
 
@@ -9034,12 +9046,7 @@ public abstract class ChoiceControl {
       case 1310: // Granted a Boon
         {
           // Boon after fight, location is currently null, so don't log under that name
-          String message = "[" + KoLAdventure.getAdventureCount() + "] God Lobster";
-          RequestLogger.printLine();
-          RequestLogger.printLine(message);
-
-          RequestLogger.updateSessionLog();
-          RequestLogger.updateSessionLog(message);
+          RequestLogger.registerLocation("God Lobster");
           break;
         }
 
@@ -9049,21 +9056,6 @@ public abstract class ChoiceControl {
         RequestLogger.registerLocation("Boxing Daycare");
         break;
     }
-  }
-
-  private static final Pattern CINDERELLA_TIME_PATTERN =
-      Pattern.compile("<i>It is (\\d+) minute(?:s) to midnight.</i>");
-
-  private static boolean parseCinderellaTime() {
-    Matcher matcher = CINDERELLA_TIME_PATTERN.matcher(ChoiceManager.lastResponseText);
-    while (matcher.find()) {
-      int time = StringUtilities.parseInt(matcher.group(1));
-      if (time != -1) {
-        Preferences.setInteger("cinderellaMinutesToMidnight", time);
-        return true;
-      }
-    }
-    return false;
   }
 
   private static final Pattern FLUENCY_PATTERN = Pattern.compile("Fluency is now (\\d+)%");
@@ -9195,6 +9187,8 @@ public abstract class ChoiceControl {
       case 1460: // Toy Lab
       case 1463: // Reminiscing About Those Monsters You Fought
       case 1476: // Stillsuit
+      case 1483: // Direct Autumn-Aton
+      case 1484: // Conspicuous Plaque
         return true;
 
       default:

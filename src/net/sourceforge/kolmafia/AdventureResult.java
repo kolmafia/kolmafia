@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1110,6 +1111,12 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     int index = list.indexOf(this);
     if (index == -1) return 0;
     AdventureResult item = list.get(index);
+    if (item == null) return 0;
+    return item.getCount();
+  }
+
+  public int getCount(final Map<Integer, AdventureResult> map) {
+    AdventureResult item = map.get(this.getItemId());
     if (item == null) return 0;
     return item.getCount();
   }

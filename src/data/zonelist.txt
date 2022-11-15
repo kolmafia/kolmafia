@@ -4,6 +4,7 @@
 Town	Town	Seaside Town
 Casino	Town	Seaside Casino
 A Monorail Station	Town	A Monorail Station
+Speakeasy	Town	Speakeasy	deed to Oliver's Place
 
 # The following are in town but have their own sorting
 Manor	Town	Spookyraven Manor
@@ -96,8 +97,12 @@ Deep Machine Tunnels	Town	The Deep Machine Tunnels	Deep Machine Tunnels snowglob
 LT&T	Town	LT&T Telegrams	inflatable LT&T telegraph office
 Neverending Party	Town	The Neverending Party	Neverending Party guest pass
 
-Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Astral	Astral	Astral Plane	astral mushroom
+Bad Trip	Astral	Taking a Bad Trip
+Mediocre Trip	Astral	Taking a Mediocre Trip
+Great Trip	Astral	Taking a Great Trip
+
+Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Memories	Memories	Memories	empty agua de vida bottle
 Spaaace	Spaaace	Outer Space	transporter transponder
 Shape of Mole	Mountain	Mt. Molehill	llama lama gong
@@ -194,3 +199,5 @@ Crimbo18	Removed	Christmas 2018
 Crimbo19	Removed	Christmas 2019
 Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 Crimbo21	Removed	Christmas 2021
+
+Obsolete	Removed	Retired zones

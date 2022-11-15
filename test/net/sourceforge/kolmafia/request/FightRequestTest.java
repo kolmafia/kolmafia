@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
@@ -14,6 +15,7 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
@@ -23,7 +25,10 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
@@ -47,8 +52,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -65,7 +68,6 @@ public class FightRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("");
     KoLCharacter.reset("FightRequestTest");
-    Preferences.saveSettingsToFile = false;
     KoLConstants.availableCombatSkillsList.clear();
     KoLConstants.availableCombatSkillsSet.clear();
   }
@@ -200,6 +202,72 @@ public class FightRequestTest {
   }
 
   @Test
+  public void hareAdv() {
+    var cleanups =
+        new Cleanups(
+            withFamiliar(FamiliarPool.HARE),
+            withProperty("_hareCharge", 11),
+            withProperty("extraRolloverAdventures", 2),
+            withProperty("_hareAdv", 0),
+            withFight());
+    try (cleanups) {
+      parseCombatData("request/test_hare_rollover_adventure.html");
+      assertEquals(1, Preferences.getInteger("_hareAdv"));
+      assertEquals(3, Preferences.getInteger("extraRolloverAdventures"));
+      assertEquals(0, Preferences.getInteger("_hareCharge"));
+    }
+  }
+
+  @Nested
+  class Gibberer {
+    @Test
+    public void gibbererAdv() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.GIBBERER),
+              withProperty("_gibbererAdv", 0),
+              withProperty("extraRolloverAdventures", 0),
+              withProperty("_gibbererCharge", 14),
+              withLastLocation("Noob Cave"),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_gibberer_rollover_adventure.html");
+        assertEquals(1, Preferences.getInteger("_gibbererAdv"));
+        assertEquals(1, Preferences.getInteger("extraRolloverAdventures"));
+        assertEquals(0, Preferences.getInteger("_gibbererCharge"));
+      }
+    }
+
+    @Test
+    public void gibbererCharge() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.GIBBERER),
+              withProperty("_gibbererCharge", 12),
+              withLastLocation("Noob Cave"),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_feel_superior_pvp.html");
+        assertEquals(13, Preferences.getInteger("_gibbererCharge"));
+      }
+    }
+
+    @Test
+    public void gibbererChargeUnderwater() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.GIBBERER),
+              withProperty("_gibbererCharge", 12),
+              withLastLocation("The Ice Hole"),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_feel_superior_pvp.html");
+        assertEquals(14, Preferences.getInteger("_gibbererCharge"));
+      }
+    }
+  }
+
+  @Test
   public void mafiaThumbRingAdvs() {
     assertEquals(0, Preferences.getInteger("_mafiaThumbRingAdvs"));
     parseCombatData("request/test_fight_mafia_thumb_ring.html");
@@ -236,6 +304,42 @@ public class FightRequestTest {
           new Cleanups(
               withFight(0),
               withProperty("crystalBallPredictions"),
+              withLastLocation("The Neverending Party"),
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
+
+      try (cleanups) {
+        CrystalBallManager.reset();
+        parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
+        assertThat("crystalBallPredictions", isSetTo("0:The Neverending Party:party girl"));
+      }
+    }
+
+    @Test
+    public void doesCrystalBallReplaceExistingPrediction() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("crystalBallPredictions", "0:The Neverending Party:burnout"),
+              withCurrentRun(1),
+              withLastLocation("The Neverending Party"),
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
+
+      try (cleanups) {
+        CrystalBallManager.reset();
+        parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
+        assertThat("crystalBallPredictions", isSetTo("1:The Neverending Party:party girl"));
+      }
+    }
+
+    @Test
+    public void testCrystalBallDoesntOverwriteExistingIdenticalPrediction() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("crystalBallPredictions", "0:The Neverending Party:party girl"),
+              withCurrentRun(1),
               withLastLocation("The Neverending Party"),
               withFamiliar(FamiliarPool.MOSQUITO),
               withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
@@ -718,6 +822,34 @@ public class FightRequestTest {
   @Nested
   class CosmicBowlingBall {
     @ParameterizedTest
+    @CsvSource({
+      // Off in the distance, you hear your cosmic bowling ball rattling around in the ball
+      // return system.
+      "1, 7, 8",
+      "1, 10, 9",
+      // You hear your cosmic bowling ball rattling around in the ball return system.
+      "2, 9, 7",
+      "2, 2, 4",
+      // You hear your cosmic bowling ball rattling around in the ball return system nearby.
+      "3, 5, 3",
+      "3, 1, 2",
+      // You hear your cosmic bowling ball approaching.
+      "4, 6, 1",
+      // Your cosmic bowling ball clatters into the closest ball return and you grab it.
+      "5, 10, -1"
+    })
+    public void canTrackCosmicBowlingBall(int step, int previous, int expected) {
+      var cleanups =
+          new Cleanups(withProperty("cosmicBowlingBallReturnCombats", previous), withFight(0));
+
+      try (cleanups) {
+        String html = html("request/test_fight_bowling_ball_" + step + ".html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("cosmicBowlingBallReturnCombats", isSetTo(expected));
+      }
+    }
+
+    @ParameterizedTest
     @ValueSource(
         ints = {
           // Off in the distance, you hear your cosmic bowling ball rattling around in the ball
@@ -732,7 +864,7 @@ public class FightRequestTest {
           // Your cosmic bowling ball clatters into the closest ball return and you grab it.
           5
         })
-    public void canTrackCosmicBowlingBall(int step) {
+    public void canTrackCosmicBowlingBallSkills(int step) {
       var cleanups = new Cleanups(withFight());
       try (cleanups) {
         String html = html("request/test_fight_bowling_ball_" + step + ".html");
@@ -1202,16 +1334,6 @@ public class FightRequestTest {
 
   @Nested
   class LoveBugsPreferenceButtonGroupTest {
-    @BeforeAll
-    public static void beforeAll() {
-      Preferences.saveSettingsToFile = false;
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      Preferences.saveSettingsToFile = true;
-    }
-
     @BeforeEach
     public void beforeEach() {
       KoLCharacter.reset("lovebugs");
@@ -1548,6 +1670,72 @@ public class FightRequestTest {
     try (cleanups) {
       parseCombatData("request/test_fight_" + html + ".html", "fight.php?action=attack");
       assertThat("_lastCombatWon", isSetTo(prop));
+    }
+  }
+
+  @Nested
+  class Autumnaton {
+    @ParameterizedTest
+    @CsvSource({
+      "away_1, 29, The Fun-Guy Mansion",
+      "away_2, 30, The Fun-Guy Mansion",
+      "finished, 1, ''",
+      "same_location, 2, The Fun-Guy Mansion"
+    })
+    public void canUpdateQuestParamsFromFightInfo(
+        final String fixture, final int questTurn, final String questLocation) {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(1),
+              withProperty("autumnatonQuestTurn", 5),
+              withProperty("autumnatonQuestLocation", "The Spooky Forest"));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_autumnaton_" + fixture + ".html", "fight.php?action=attack");
+        assertThat("autumnatonQuestTurn", isSetTo(questTurn));
+        assertThat("autumnatonQuestLocation", isSetTo(questLocation));
+      }
+    }
+  }
+
+  @Nested
+  class InvalidAttacks {
+    @Test
+    public void validAttack() {
+      assertFalse(FightRequest.isInvalidAttack("skill Clobber"));
+    }
+
+    @Test
+    public void shieldbuttIsValidWithShield() {
+      var cleanups = withEquipped(EquipmentManager.OFFHAND, "vinyl shield");
+
+      try (cleanups) {
+        assertFalse(FightRequest.isInvalidAttack("skill Shieldbutt"));
+      }
+    }
+
+    @Test
+    public void shieldbuttIsInvalidWithoutShield() {
+      assertTrue(FightRequest.isInvalidAttack("skill Shieldbutt"));
+    }
+
+    @Test
+    public void summonLeviIsValidUnderWater() {
+      var cleanups = withLastLocation("The Ice Hole");
+
+      try (cleanups) {
+        assertFalse(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
+      }
+    }
+
+    @Test
+    public void summonLeviIsInvalidAboveWater() {
+      var cleanups = withLastLocation("Noob Cave");
+
+      try (cleanups) {
+        assertTrue(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
+      }
     }
   }
 }

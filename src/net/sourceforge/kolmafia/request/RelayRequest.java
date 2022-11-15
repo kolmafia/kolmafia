@@ -121,7 +121,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_ARCADE = "confirm9";
   private static final String CONFIRM_KUNGFU = "confirm10";
   private static final String CONFIRM_POOL_SKILL = "confirm11";
-  private static final String CONFIRM_WINEGLASS = "confirm12";
+  public static final String CONFIRM_WINEGLASS = "confirm12";
   private static final String CONFIRM_COLOSSEUM = "confirm13";
   private static final String CONFIRM_GREMLINS = "confirm14";
   private static final String CONFIRM_HARDCOREPVP = "confirm15";
@@ -155,6 +155,10 @@ public class RelayRequest extends PasswordHashRequest {
   public String lastWarning = "";
 
   public static final void reset() {
+    RelayRequest.specialCommandIsAdventure = false;
+    RelayRequest.specialCommandResponse = "";
+    RelayRequest.specialCommandStatus = "";
+    RelayRequest.redirectedCommandURL = "";
     RelayRequest.ignoreBoringDoorsWarning = false;
     RelayRequest.ignoreDesertWarning = false;
     RelayRequest.ignoreDesertWeaponWarning = false;
@@ -440,9 +444,8 @@ public class RelayRequest extends PasswordHashRequest {
         // Just in case, use this key even when using equals
         String ukey = key.toUpperCase();
 
-        // We generate our own Content-Type, Content-Length,
-        // Cache-Control, and Pragma headers.
-        if (ukey.startsWith("CONTENT") || ukey.startsWith("CACHE") || ukey.equals("PRAGMA")) {
+        // We redo the Content-Type and Content-Length encodings, and ignore Content-Encoding.
+        if (ukey.startsWith("CONTENT")) {
           continue;
         }
 
@@ -456,6 +459,11 @@ public class RelayRequest extends PasswordHashRequest {
           if (ukey.equals("SET-COOKIE")) {
             value = GenericRequest.mungeCookieDomain(value);
           }
+          if (ukey.equals("CACHE-CONTROL")) {
+            if (Preferences.getBoolean("relayCacheUncacheable")) {
+              value = value.replaceFirst("no-store(, )?", "");
+            }
+          }
 
           ostream.print(key);
           ostream.print(": ");
@@ -465,9 +473,11 @@ public class RelayRequest extends PasswordHashRequest {
 
       if (this.responseCode == 200 && this.rawByteBuffer != null) {
         ostream.print("Content-Type: ");
-        ostream.print(this.contentType);
+        var contentType =
+            this.response.headers().firstValue("Content-Type").orElse(this.contentType);
+        ostream.print(contentType);
 
-        if (this.contentType.startsWith("text")) {
+        if (contentType.startsWith("text") && !contentType.contains(";")) {
           ostream.print("; charset=UTF-8");
         }
 
@@ -476,9 +486,6 @@ public class RelayRequest extends PasswordHashRequest {
         ostream.print("Content-Length: ");
         ostream.print(this.rawByteBuffer.length);
         ostream.println();
-
-        ostream.println("Cache-Control: no-cache, must-revalidate");
-        ostream.println("Pragma: no-cache");
       }
     }
   }
@@ -2713,7 +2720,7 @@ public class RelayRequest extends PasswordHashRequest {
     return false;
   }
 
-  private boolean sendWineglassWarning(final KoLAdventure adventure) {
+  public boolean sendWineglassWarning(final KoLAdventure adventure) {
     if (adventure == null) {
       return false;
     }
@@ -2728,6 +2735,15 @@ public class RelayRequest extends PasswordHashRequest {
 
     // These don't need warning as they don't send you to a Drunken Stupor
     if (!adventure.hasSnarfblat()) {
+      return false;
+    }
+
+    // If it is is not in inventory, nothing we can do
+    if (InventoryManager.getCount(ItemPool.DRUNKULA_WINEGLASS) == 0) {
+      return false;
+    }
+
+    if (!EquipmentManager.canEquip(ItemPool.DRUNKULA_WINEGLASS)) {
       return false;
     }
 
@@ -2773,7 +2789,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)
+        || KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.FAMILIAR)) {
       return false;
     }
 
@@ -3066,12 +3083,21 @@ public class RelayRequest extends PasswordHashRequest {
       submitCommand(this.getFormField("cmd", false));
       this.pseudoResponse("HTTP/1.1 200 OK", "");
     } else if (path.endsWith("redirectedCommand")) {
-      submitCommand(this.getFormField("cmd"));
-      this.pseudoResponse("HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL);
+      boolean polled = path.endsWith("polledredirectedCommand");
+      String cmd = this.getFormField("cmd");
+      if (!polled || !cmd.equals("wait")) {
+        RelayRequest.specialCommandStatus = "";
+        submitCommand(cmd, false, !polled);
+      }
+      if (!polled || !pollForCompletion("polledredirectedCommand")) {
+        this.pseudoResponse("HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL);
+      }
     } else if (path.endsWith("sideCommand")) {
       submitCommand(this.getFormField("cmd", false), true);
       this.pseudoResponse("HTTP/1.1 302 Found", "/charpane.php");
-    } else if (path.endsWith("specialCommand") || path.endsWith("parameterizedCommand")) {
+    } else if (path.endsWith("specialCommand")
+        || path.endsWith("waitSpecialCommand")
+        || path.endsWith("parameterizedCommand")) {
       String cmd = this.getFormField("cmd");
       if (!cmd.equals("wait")) {
         RelayRequest.specialCommandIsAdventure = false;
@@ -3086,28 +3112,13 @@ public class RelayRequest extends PasswordHashRequest {
           String parameters = pwdEnd == -1 ? "" : commandURL.substring(pwdEnd + 1);
           submitCommand(cmd + " " + parameters);
         } else {
-          submitCommand(cmd, false, false);
+          boolean wait = path.endsWith("waitSpecialCommand");
+          submitCommand(cmd, false, wait);
         }
       }
 
       this.contentType = "text/html";
-      if (CommandDisplayFrame.hasQueuedCommands()) {
-        String refreshURL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
-
-        String buffer =
-            "<html><head>"
-                + "<meta http-equiv=\"refresh\" content=\"1; URL="
-                + refreshURL
-                + "\">"
-                + "</head><body>"
-                + "<a href=\""
-                + refreshURL
-                + "\">"
-                + "Automating (see CLI for details, click to refresh)..."
-                + "</a><p>"
-                + RelayRequest.specialCommandStatus
-                + "</p></body></html>";
-        this.pseudoResponse("HTTP/1.1 200 OK", buffer);
+      if (pollForCompletion("specialCommand")) {
       } else if (RelayRequest.specialCommandResponse.length() > 0) {
         StringBuilder buffer = new StringBuilder();
 
@@ -3162,6 +3173,31 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  public boolean pollForCompletion(String type) {
+    if (!CommandDisplayFrame.hasQueuedCommands()) {
+      return false;
+    }
+
+    String refreshURL = "/KoLmafia/" + type + "?cmd=wait&pwd=" + GenericRequest.passwordHash;
+    String buffer =
+        "<html><head>"
+            + "<meta http-equiv=\"refresh\" content=\"1; URL="
+            + refreshURL
+            + "\">"
+            + "</head><body>"
+            + "<a href=\""
+            + refreshURL
+            + "\">"
+            + "Automating (see CLI for details, click to refresh)..."
+            + "</a><p>"
+            + RelayRequest.specialCommandStatus
+            + "</p></body></html>";
+
+    this.contentType = "text/html";
+    this.pseudoResponse("HTTP/1.1 200 OK", buffer);
+    return true;
+  }
+
   private void submitCommand(String command) {
     submitCommand(command, false, true);
   }
@@ -3181,12 +3217,16 @@ public class RelayRequest extends PasswordHashRequest {
       CommandDisplayFrame.executeCommand(GenericRequest.decodeField(command));
 
       if (waitForCompletion) {
-        while (CommandDisplayFrame.hasQueuedCommands()) {
-          this.pauser.pause(500);
-        }
+        this.waitForCommandCompletion();
       }
     } finally {
       GenericRequest.suppressUpdate(false);
+    }
+  }
+
+  public void waitForCommandCompletion() {
+    while (CommandDisplayFrame.hasQueuedCommands()) {
+      this.pauser.pause(50);
     }
   }
 

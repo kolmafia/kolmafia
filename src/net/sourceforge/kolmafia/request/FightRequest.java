@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -61,6 +62,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
+import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
 import net.sourceforge.kolmafia.session.BatManager;
@@ -77,6 +79,7 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
+import net.sourceforge.kolmafia.session.GrimstoneManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
@@ -119,8 +122,6 @@ public class FightRequest extends GenericRequest {
   private static final AdventureResult AMNESIA = EffectPool.get(EffectPool.AMNESIA);
   private static final AdventureResult CUNCTATITIS = EffectPool.get(EffectPool.CUNCTATITIS);
   public static final AdventureResult ONTHETRAIL = EffectPool.get(EffectPool.ON_THE_TRAIL);
-  public static final AdventureResult BIRDFORM = EffectPool.get(EffectPool.FORM_OF_BIRD);
-  public static final AdventureResult MOLEFORM = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
   public static final AdventureResult INFERNO = EffectPool.get(EffectPool.TASTE_THE_INFERNO);
   public static final AdventureResult COWRRUPTION = EffectPool.get(EffectPool.COWRRUPTION, 0);
 
@@ -964,7 +965,7 @@ public class FightRequest extends GenericRequest {
       // since it's conditions-driven.
 
       else if (monsterName.equals("rampaging adding machine")
-          && !KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)
+          && KoLCharacter.getLimitMode() != LimitMode.BIRD
           && !FightRequest.waitingForSpecial) {
         this.handleAddingMachine();
       }
@@ -1237,8 +1238,8 @@ public class FightRequest extends GenericRequest {
 
     // If the player wants to use an item, make sure he has one
     if (!FightRequest.nextAction.startsWith("skill")) {
-      if (KoLConstants.activeEffects.contains(
-          FightRequest.BIRDFORM)) { // Can't use items in Birdform
+      if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
+        // Can't use items in Birdform
         this.skipRound();
         return;
       }
@@ -1563,7 +1564,7 @@ public class FightRequest extends GenericRequest {
         return;
       }
 
-      if (KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+      if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
         FightRequest.nextAction = "abort";
         return;
       }
@@ -1636,9 +1637,9 @@ public class FightRequest extends GenericRequest {
     }
 
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
-    String environment = location != null ? location.getEnvironment() : null;
+    Environment environment = location != null ? location.getEnvironment() : null;
 
-    if (environment != null && !environment.equals("underwater")) {
+    if (environment != null && !environment.isUnderwater()) {
       KoLmafia.updateDisplay(MafiaState.ABORT, "This skill is useless out of water.");
       return true;
     }
@@ -3361,9 +3362,7 @@ public class FightRequest extends GenericRequest {
       Preferences.increment("_kolhsAdventures", 1);
     }
 
-    if (adventure == AdventurePool.YE_OLDE_MEDIEVALE_VILLAGEE) {
-      Preferences.increment("rumpelstiltskinTurnsUsed", 1);
-    }
+    GrimstoneManager.incrementFights(adventure);
 
     if (adventure == AdventurePool.DEEP_MACHINE_TUNNELS) {
       Preferences.decrement("encountersUntilDMTChoice");
@@ -3453,8 +3452,7 @@ public class FightRequest extends GenericRequest {
           // <name> mutters dark secrets under his breath, and
           // you feel time slow down.
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
-          boolean underwater =
-              lastLocation != null && lastLocation.getEnvironment().equals("underwater");
+          boolean underwater = lastLocation != null && lastLocation.getEnvironment().isUnderwater();
           Preferences.increment("_gibbererCharge", underwater ? 2 : 1, 15, true);
           if (responseText.contains("you feel time slow down")) {
             Preferences.increment("extraRolloverAdventures", 1);
@@ -4215,6 +4213,9 @@ public class FightRequest extends GenericRequest {
     // Handle incrementing stillsuit sweat (this happens whether the fight is won or lost)
     StillSuitManager.handleSweat(responseText);
 
+    // Handle autumnaton checking (this happens whether the fight is won or lost)
+    AutumnatonManager.parseFight(responseText);
+
     FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
     FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();
 
@@ -4239,10 +4240,10 @@ public class FightRequest extends GenericRequest {
 
       symbol =
           switch (location.getEnvironment()) {
-            case "outdoor" -> "o";
-            case "indoor" -> "i";
-            case "underground" -> "u";
-            case "underwater" -> "x";
+            case OUTDOOR -> "o";
+            case INDOOR -> "i";
+            case UNDERGROUND -> "u";
+            case UNDERWATER -> "x";
             default -> "?";
           };
     }
@@ -5472,6 +5473,8 @@ public class FightRequest extends GenericRequest {
     public boolean hookah = false;
     public boolean meteors;
     public String location;
+    public KoLAdventure adventure;
+    public boolean grimstone;
     public int monsterId;
     public boolean greyYou;
     public int drones;
@@ -5567,6 +5570,8 @@ public class FightRequest extends GenericRequest {
       this.name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 
       this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
+      this.adventure = KoLAdventure.lastVisitedLocation;
+      this.grimstone = GrimstoneManager.isGrimstoneAdventure(this.adventure);
     }
 
     public void nextRound() {
@@ -6313,6 +6318,8 @@ public class FightRequest extends GenericRequest {
         return;
       }
 
+      if (handleCosmicBowlingBall(str)) return;
+
       FightRequest.handleVillainLairRadio(node, status);
 
       if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
@@ -6534,6 +6541,11 @@ public class FightRequest extends GenericRequest {
       RequestLogger.updateSessionLog(message);
       Preferences.setString("dolphinItem", result.getName());
       return false;
+    }
+
+    if (status.grimstone && FightRequest.handleGrimstone(node, inode, status)) {
+      status.grimstone = false;
+      return true;
     }
 
     StringBuffer action = status.action;
@@ -6927,6 +6939,56 @@ public class FightRequest extends GenericRequest {
 
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
+    return true;
+  }
+
+  private static final Pattern CANDY_PATTERN = Pattern.compile("\\+(\\d+) Candy");
+  private static final Pattern PIGS_PATTERN = Pattern.compile("\\+(\\d+) Pigs Evicted!");
+  private static final Pattern SECONDS_PATTERN = Pattern.compile("(\\d+)\\.(\\d+) Seconds Saved!");
+
+  private static boolean handleGrimstone(
+      final TagNode node, final TagNode inode, final TagStatus status) {
+
+    if (!status.won) return false;
+    if (inode == null) return false;
+
+    String src = inode.getAttributeByName("src");
+    if (src == null) return false;
+
+    String image = src.substring(src.lastIndexOf("/") + 1);
+    String text = node.getText().toString();
+
+    switch (image) {
+      case "trophy.gif" -> {
+        Matcher matcher = PIGS_PATTERN.matcher(text);
+        if (matcher.find()) {
+          int pigs = StringUtilities.parseInt(matcher.group(1));
+          Preferences.increment("wolfPigsEvicted", pigs);
+          break;
+        }
+        matcher = SECONDS_PATTERN.matcher(text);
+        if (matcher.find()) {
+          int seconds = StringUtilities.parseInt(matcher.group(1));
+          int milliseconds = StringUtilities.parseInt(matcher.group(2));
+          Preferences.increment("hareMillisecondsSaved", (seconds * 1000) + milliseconds);
+          break;
+        }
+        return false;
+      }
+      case "candypile.gif" -> {
+        Matcher matcher = CANDY_PATTERN.matcher(text);
+        if (!matcher.find()) return false;
+        int candy = StringUtilities.parseInt(matcher.group(1));
+        Preferences.increment("candyWitchCandyTotal", candy);
+        break;
+      }
+      default -> {
+        return false;
+      }
+    }
+
+    FightRequest.logText(text, status);
+    status.grimstone = false;
     return true;
   }
 
@@ -8006,6 +8068,39 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static boolean handleCosmicBowlingBall(String text) {
+    if (!text.toLowerCase().contains("you hear your cosmic bowling ball")) return false;
+
+    var combats = Preferences.getInteger("cosmicBowlingBallReturnCombats");
+
+    // 8+ combats
+    if (text.contains("Off in the distance")) {
+      Preferences.setInteger("cosmicBowlingBallReturnCombats", Math.max(combats, 8));
+      return true;
+    }
+
+    // 4-7 combats
+    if (text.contains("in the ball return system.")) {
+      Preferences.setInteger("cosmicBowlingBallReturnCombats", Math.min(Math.max(combats, 4), 7));
+      return true;
+    }
+
+    // 2-3 combats
+    if (text.contains("in the ball return system nearby.")) {
+      Preferences.setInteger("cosmicBowlingBallReturnCombats", Math.min(Math.max(combats, 2), 3));
+      return true;
+    }
+
+    // Next combat
+    if (text.contains("approaching.")) {
+      Preferences.setInteger("cosmicBowlingBallReturnCombats", 1);
+      return true;
+    }
+
+    // Maybe it's something else?
+    return false;
+  }
+
   private static void handleRaver(String text, TagStatus status) {
     if (status.ravers && NemesisDecorator.specialRaverMove(text)) {
       StringBuilder buffer = new StringBuilder();
@@ -8676,7 +8771,7 @@ public class FightRequest extends GenericRequest {
     if (!KoLConstants.inventory.contains(FightRequest.ANTIDOTE)) {
       return false;
     }
-    if (KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
       return false; // can't use items!
     }
     int minLevel = Preferences.getInteger("autoAntidote");
@@ -10613,7 +10708,10 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.nextAction = null;
 
-    if (urlString.equals("fight.php") || urlString.contains("ireallymeanit=")) {
+    if (urlString.equals("fight.php")
+        // The following happens when encountering a mariachi in The Island Barracks
+        || urlString.equals("fight.php?")
+        || urlString.contains("ireallymeanit=")) {
       if (FightRequest.inMultiFight || FightRequest.choiceFollowsFight) {
         RequestLogger.registerLastLocation();
       }

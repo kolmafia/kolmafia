@@ -586,10 +586,13 @@ public class SkillDatabase {
 
     AscensionClass classType = null;
     boolean thrallReduced = false;
-    boolean isCombat =
-        (SkillDatabase.isCombat(skillId) && !SkillDatabase.isNonCombat(skillId))
-            || (SkillDatabase.isCombat(skillId) && FightRequest.getCurrentRound() > 0);
     boolean terminal = false;
+
+    // The following funkiness seems to work around a compiler bug in 17.0.3
+    // and 17.0.5 that makes the JVM to crash.
+    boolean isNonCombat = SkillDatabase.isNonCombat(skillId);
+    boolean inFight = (FightRequest.getCurrentRound() > 0);
+    boolean isCombat = SkillDatabase.isCombat(skillId) && (!isNonCombat || inFight);
 
     switch (skillId) {
       case SkillPool.CLOBBER:
@@ -698,13 +701,16 @@ public class SkillDatabase {
    * @return true if it comes from a Libram
    */
   public static final boolean isLibramSkill(final int skillId) {
-    return skillId == SkillPool.CANDY_HEART
-        || skillId == SkillPool.PARTY_FAVOR
-        || skillId == SkillPool.LOVE_SONG
-        || skillId == SkillPool.BRICKOS
-        || skillId == SkillPool.DICE
-        || skillId == SkillPool.RESOLUTIONS
-        || skillId == SkillPool.TAFFY;
+    return switch (skillId) {
+      case SkillPool.CANDY_HEART,
+          SkillPool.PARTY_FAVOR,
+          SkillPool.LOVE_SONG,
+          SkillPool.BRICKOS,
+          SkillPool.DICE,
+          SkillPool.RESOLUTIONS,
+          SkillPool.TAFFY -> true;
+      default -> false;
+    };
   }
 
   /**

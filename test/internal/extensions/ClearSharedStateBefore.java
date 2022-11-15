@@ -13,8 +13,12 @@ import java.util.List;
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -51,7 +55,13 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     GenericRequest.sessionId = null;
     GenericRequest.passwordHash = "";
     AdventureSpentDatabase.setNoncombatEncountered(false);
+    RelayRequest.reset();
     StandardRequest.reset();
+    KoLConstants.activeEffects.clear();
+    KoLCharacter.setLimitMode(LimitMode.NONE);
+    FightRequest.currentRound = 0;
+    ChoiceManager.handlingChoice = false;
+    ChoiceManager.reset();
   }
 
   public void deleteDirectoriesAndContents() {

@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -42,12 +42,6 @@ public class FamiliarDataTest {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("familiar data test");
-    Preferences.saveSettingsToFile = false;
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @Test
@@ -174,6 +168,41 @@ public class FamiliarDataTest {
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN));
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_ENERGY));
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_POMADE));
+  }
+
+  @Test
+  public void dropsTodayFalse() {
+    var di =
+        new FamiliarData.DropInfo(
+            FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1);
+    new Cleanups(withProperty("_cookbookbatRecipeDrops", false));
+
+    assertThat(di.dropsToday(), equalTo(0));
+  }
+
+  @Test
+  public void dropsTodayTrue() {
+    var di =
+        new FamiliarData.DropInfo(
+            FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1);
+    new Cleanups(withProperty("_cookbookbatRecipeDrops", true));
+
+    assertThat(di.dropsToday(), equalTo(1));
+  }
+
+  @Test
+  public void dropsTodayNumeric() {
+    var di =
+        new FamiliarData.DropInfo(
+            FamiliarPool.MS_PUCK_MAN,
+            ItemPool.POWER_PILL,
+            "power pill",
+            "_powerPillDrops",
+            Math.min(1 + KoLCharacter.getCurrentDays(), 11));
+
+    new Cleanups(withProperty("_powerPillDrops", 7));
+
+    assertThat(di.dropsToday(), equalTo(7));
   }
 
   @ParameterizedTest

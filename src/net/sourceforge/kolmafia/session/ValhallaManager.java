@@ -202,7 +202,7 @@ public class ValhallaManager {
     ValhallaManager.resetMoonsignCafes();
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setVariableConsumables();
-    ConsumablesDatabase.calculateAdventureRanges();
+    ConsumablesDatabase.calculateAllAverageAdventures();
     HermitRequest.initialize();
 
     // Reset certain settings that the player almost certainly will

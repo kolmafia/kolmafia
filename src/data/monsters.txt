@@ -234,7 +234,7 @@ factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.
 Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: demon E: hot Article: a	demon skin (15)	evil golden arch (30)	infernal insoles (10)	pink slime (0)	heavy-duty bendy straw (c0)
 Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 Group: 2 P: constellation E: sleaze Article: The	star (30)	star (30)	star (30)
 fan dancer	1532	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 Meat: 100 P: dude Article: a	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
-Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS NOCOPY Atk: 75 Def: 67 HP: 80 Init: 100 P: plant E: spooky
+Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS NOCOPY Atk: 75 Def: 67 HP: 80 Init: 100 P: plant E: spooky	spooky bicycle chain (n100)	spooky cosmetics bag (n100)	miniature carton of clove cigarettes (c100)
 ferocious bugbear	531	haiku2.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 20 P: beast Article: a	bugbear beanie (20)	bugbear bungguard (20)
 fiendish can of asparagus	146	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 Meat: 5 P: undead E: stench Article: a	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)
 fiery mushroom guy	1805	mush_flaming.gif	Atk: 30 Def: 25 HP: 20 Init: 50 P: plant Article: a	hot spore pod (0)	flaming mushroom (0)
@@ -273,7 +273,7 @@ gelatinous cube	532	gelcube.gif	Atk: 3 Def: 2 HP: 6 Init: 50 Meat: 25 P: slime A
 generic duck	544	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 75 P: beast Article: a
 Georgepaul, the Balldodger	879	merkinballer2.gif	BOSS NOCOPY Atk: 1200 Def: 1150 HP: 1400 Init: 100 Meat: 100 P: mer-kin
 ghastly organist	403	phantom.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 50 P: undead EA: hot EA: spooky Article: a	opera mask (20)
-ghost miner	370	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 P: undead GHOST Phys: 100 E: spooky Article: a	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
+ghost miner	370	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 P: undead GHOST Phys: 100 E: spooky Article: a	bubblewrap ore (10)	bubblewrap ore (5)	cardboard ore (10)	cardboard ore (5)	styrofoam ore (10)	styrofoam ore (5)
 ghost of Elizabeth Spookyraven	1564	elizabeth.gif	NOCOPY Scale: 5 Cap: 300 Init: 100 P: undead GHOST Phys: 100 EA: hot EA: spooky Article: the	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
 ghuol	30	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 Init: 60 Meat: 34 P: undead ED: spooky EA: sleaze EA: spooky Article: a	ghuol egg (25)	ghuol ears (25)
 giant giant giant centipede	462	centipede.gif	Atk: 142 Def: 124 HP: 142 Init: 50 Meat: 150 P: bug Article: a	centipede eggs (20)	handful of sand (25)	handful of sand (15)
@@ -1636,41 +1636,49 @@ Escalatormaster&trade;	1488	stairmaster.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 
 Legstrong&trade; stationary bicycle	1489	statbike.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a Manuel: "Legstrong™ stationary bicycle"	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
 rack of free weights	1486	weightrack.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
 treadmill	1485	treadmill.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 50 Init: -10000 P: construct Article: a	pint of sweat (0)	Jerks' Health&trade; Magazine (0)	sweatband (0)	gym shorts (0)	ankleweights (0)	sweat socks (0)	Five Second Energy&trade; (0)
+
 Medieval dung peddler	1507	med_dung.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 5 P: dude EA: sleaze EA: stench Article: a	leather (0)	leather (0)	straw (0)	straw (0)
 Medieval leather mug salesman	1505	med_mugman.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude EA: hot Article: a	leather (0)	leather (0)	leather (0)	leather (0)
 Medieval mug apprentice	1509	med_muggirl.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 5 P: dude EA: hot Article: a	clay (0)	clay (0)	leather (0)	leather (0)
 Medieval potter	1506	med_potter.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude EA: sleaze Article: a	clay (0)	clay (0)	clay (0)	clay (0)
 Medieval strawman debator	1504	med_strawman.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude Article: a	straw (0)	straw (0)	straw (0)	straw (0)	straw pole (c0)
 Medieval stucco artisan	1508	med_stucco.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 10 P: dude Article: a	clay (0)	clay (0)	straw (0)	straw (0)
+
 gummi plesiosaur	1491	plesio.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	small gummi fin (0)	gummi sword (0)
 lemonhead minnow	1492	lemonfish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish Article: a	lemonhead caviar (0)	lemony scales (0)	lemony scales (0)
 school of gummi piranhas	1490	gummifish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish Article: a	gummi fang (0)	chocolate cow bone (0)
+
 chocolate hare	1494	chocohare.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	chocolate rabbit's foot (0)	candy carrot (0)
 chocolate-cherry prairie dog	1495	ccprairie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	candy mountain oyster (0)	chocolate-stained collar (0)
 Rock Pop weasel	1493	popweasel.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	mulberry (0)	weasel stomping pants (0)
+
 candied pecan tree	1496	pecantree.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: plant Article: a	candied pecan (0)	candy stick (0)
 licorice snake	1497	licosnake.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast SNAKE Article: a	anise-flavored venom (0)	licorice whip (0)
 tricksy pixie	1498	trixiepixie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: humanoid Article: a	sour powder (0)	pixie axie (0)
+
 fire truck	1499	firetruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: hot Article: a	fireman's lunch (0)	fire hose (0)
 ice cream truck	1500	icecreamtruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct Article: an	ice cream sandwich (0)	plain paper hat (0)
 monster hearse	1502	monsterhearse.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: spooky Article: a	nachos of the night (0)	skull gearshift knob (0)
 sewer tanker	1501	sewertruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: stench Article: a	plumber's lunch (0)	&quot;honey&quot; dipper (0)
 sketchy van	1503	sketchyvan.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: sleaze Article: a	can of Adultwitch&trade; (0)	Sketcherz&trade; (0)
+
+steaming straw house	1470	straw_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
+frosty straw house	1471	straw_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold Article: a
+Dutch Angle straw house	1472	straw_spooky.gif	NOCOPY FREE Init: -10000 P: construct E: spooky Article: a
 befouled straw house	1473	straw_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench Article: a
-brick (suggestive pause) house	1484	brick_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
-brick icehouse	1481	brick_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold Article: a
+oily straw house	1474	straw_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: an
+
+glowing ash house	1475	wood_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
+cold ironwood house	1476	wood_cold.gif	NOCOPY FREE Init: -10000 P: construct ED: cold Article: a
+quaking aspen house	1477	wood_spooky.gif	NOCOPY FREE Init: -10000 P: construct ED: spooky Article: a
+pitch pine house	1478	wood_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench Article: a
+slippery elm house	1479	wood_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
+
 brick kiln	1480	brick_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
+brick icehouse	1481	brick_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold Article: a
 brick mausoleum	1482	brick_spooky.gif	NOCOPY FREE Init: -10000 P: construct E: spooky Article: a
 brick outhouse	1483	brick_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench Article: a
-cold ironwood house	1476	wood_cold.gif	NOCOPY FREE Init: -10000 P: construct ED: cold Article: a
-Dutch Angle straw house	1472	straw_spooky.gif	NOCOPY FREE Init: -10000 P: construct E: spooky Article: a
-frosty straw house	1471	straw_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold Article: a
-glowing ash house	1475	wood_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
-oily straw house	1474	straw_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: an
-pitch pine house	1478	wood_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench Article: a
-quaking aspen house	1477	wood_spooky.gif	NOCOPY FREE Init: -10000 P: construct ED: spooky Article: a
-slippery elm house	1479	wood_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
-steaming straw house	1470	straw_hot.gif	NOCOPY FREE Init: -10000 P: construct E: hot Article: a
+brick (suggestive pause) house	1484	brick_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
 
 # Spring Break Beach (May 2014)
 Sloppy Seconds Burger	1566	ssd_burger.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 Meat: 250 P: weird ED: sleaze EA: hot EA: sleaze	Meat-inflating powder (0)
@@ -1986,7 +1994,7 @@ intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sg
 Genie	2029	genie_mad.gif	NOCOPY Scale: 37 Cap: 11000 Init: -10000 P: elemental Article: a	dropped scrap of paper (n100)
 
 # XO Skeleton (Oct 2017)
-amorphous blob	2032	xoblob.gif	NOCOPY Scale: 100 Init: -10000 P: slime Article: an	giant X (100n)	giant O (100n)
+amorphous blob	2032	xoblob.gif	NOCOPY Scale: 100 Init: -10000 P: slime Article: an	giant X (n100)	giant O (n100)
 giant amorphous blob	2033	xoblob_big.gif	NOCOPY Atk: 10000 Def: 9000 HP: 20000 Init: 500 P: slime Article: an
 
 # FantasyRealm (Apr 2018)
@@ -2064,6 +2072,13 @@ Burning Daughter	2196	ccs_daughter.gif	NOCOPY Scale: 15 Init: -10000 P: elementa
 Chosen of Yog-Urt	2199	ccs_disciple.gif	NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
 Herald of Fridgr	2197	ccs_herald.gif	NOCOPY Scale: 15 Init: -10000 P: dude Phys: 100 E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
 Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
+
+# Oliver's Place (Nov 2022)
+gator-human hybrid	2249	olivers_gator.gif	Atk: 70 Def: 50 HP: 60 Init: 80 P: beast Article: a
+gangster's moll	2250	olivers_moll.gif	Atk: 70 Def: 60 HP: 40 Init: 100 P: dude Article: a
+traveling hobo	2251	olivers_hobo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: dude Article: a
+goblin flapper	2252	olivers_gob.gif	Atk: 40 Def: 40 HP: 100 Init: 40 P: humanoid
+undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init: 50 P: dude Article: an
 
 # KoL Con
 
@@ -2213,21 +2228,21 @@ outlaw leader	1663	outlawboss.gif	NOCOPY Scale: 1 Cap: 1000 Floor: 5 Init: -1000
 tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 Meat: 15 P: dude Article: a	minin' dynamite (20)	minin' dynamite (1)	lump of goofball ore (c0)
 
 # Twitch 7 - Shakespeare (October 2015)
-ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 100 EA: spooky Article: a	ghost beer (0)	ghostly dagger (0)
+ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 100 EA: spooky Article: a	ghost beer (20)	ghostly dagger (5)
 Groundling	1842	groundling.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude EA: stench Article: a	stink-penny (0)
-Hamlet	1843	hamlet.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	hawk (0)	hamlet sandwich (0)
-Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (0)
+Hamlet	1843	hamlet.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	hawk (5)	hamlet sandwich (25)
+Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (20)	Othello's dagger (0)	Othello's handkerchief (0)	Othello's military jacket (0)
 Richard X	1841	richardx.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	heavy crown (0)	ear poison (0)
-Understudy	1846	understudy.gif	Scale: -2 Cap: 1000 Floor: 2 Init: -10000 P: dude Article: an	How to Play Othello (0)
-Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	grip key (0)
+Understudy	1846	understudy.gif	Scale: -2 Cap: 1000 Floor: 2 Init: -10000 P: dude Article: an	How to Play Othello (20)
+Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	grip key (10)
 
 # Twitch 8 - KoL Con 13 (September 2016)
-Arizona bark scorpion	1971	barkscorpion.gif	Scale: -10 Init: -10000 P: bug Article: an
-board games elemental	1967	boardgamesman.gif	Scale: 3 Init: -10000 P: construct Article: a
-nerd rapper	1968	nerdrapper.gif	Scale: 5 Init: -10000 P: dude Article: a
-stumbling-drunk congoer (female)	1972	congoerf1.gif,congoerf2.gif,congoerf3.gif	Scale: 5 Init: -10000 P: dude
-stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale: 5 Init: -10000 P: dude
-swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental EA: sleaze Article: a
+Arizona bark scorpion	1971	barkscorpion.gif	Scale: -10 Init: -10000 P: bug Article: an	baby bark scorpion (c0)
+board games elemental	1967	boardgamesman.gif	Scale: 3 Init: -10000 P: construct Article: a	extremely confusing manual (20)	foam pistol (5)
+nerd rapper	1968	nerdrapper.gif	Scale: 5 Init: -10000 P: dude Article: a	charisma potion (20)	droppable microphone (5)
+stumbling-drunk congoer (female)	1972	congoerf1.gif,congoerf2.gif,congoerf3.gif	Scale: 5 Init: -10000 P: dude	unidentified drink (15)	KoL Con 13 T-shirt (5)
+stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale: 5 Init: -10000 P: dude	unidentified drink (15)	KoL Con 13 T-shirt (5)
+swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental EA: sleaze Article: a	diluted makeup (20)	discarded swimming trunks (5)
 
 # Crimbo 2018
 wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	thick walrus blubber (10)	pristine walrus tusk (c0)

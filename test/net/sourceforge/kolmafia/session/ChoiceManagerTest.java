@@ -1,24 +1,34 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
+import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -29,19 +39,12 @@ public class ChoiceManagerTest {
   @BeforeAll
   public static void beforeAll() {
     // Simulate logging out and back in again.
-    GenericRequest.passwordHash = "";
-    KoLCharacter.reset("");
     KoLCharacter.reset("choice manager user");
-    Preferences.saveSettingsToFile = false;
-  }
-
-  @AfterAll
-  public static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
   public void beforeEach() {
+    KoLConstants.encounterList.clear();
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }
@@ -178,6 +181,194 @@ public class ChoiceManagerTest {
 
         assertThat(ChoiceManager.bogusChoice(urlString, request), is(true));
         assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+      }
+    }
+  }
+
+  @Nested
+  class ChoiceRedirection {
+    @Test
+    public void canRedirectToChoiceInGenericRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("test"),
+              // Avoid health warning
+              withHP(100, 100, 100));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, "test1");
+
+        var url = "inv_use.php?which=3&whichitem=4509&pwd=test";
+        var request =
+            new GenericRequest(url) {
+              @Override
+              protected boolean shouldFollowRedirect() {
+                return true;
+              }
+            };
+        request.run();
+        assertEquals("test1", request.responseText);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=4509&pwd=test");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+
+    @Test
+    public void canRedirectToChoiceWithoutForceOption() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("lastEncounter", "No Sects in the Potion Room"),
+              withHandlingChoice(false));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+        client.addResponse(200, html("request/test_leave_reincarnation.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MT_MOLEHILL);
+        request.run();
+
+        assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getName(), is("Welcome Back!"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MT_MOLEHILL);
+        assertGetRequest(requests.get(1), "/choice.php", null);
+      }
+    }
+
+    @Test
+    public void canProcessChoiceInGenericRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("test"),
+              // Avoid health warning
+              withHP(100, 100, 100));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, "test2");
+
+        var url = "inv_use.php?which=3&whichitem=4509&pwd=test";
+        var request =
+            new GenericRequest(url) {
+              @Override
+              protected boolean shouldFollowRedirect() {
+                return false;
+              }
+            };
+        request.run();
+        assertEquals("test2", request.responseText);
+
+        // Although shouldFollowRedirect() was false, since it redirected to
+        // choice.php, GenericRequest let ChoiceManager handle it
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=4509&pwd=test");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+
+    @Test
+    public void canNotRedirectToChoiceInRelayRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("test"),
+              // Avoid health warning
+              withHP(100, 100, 100));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, "test3");
+
+        var url = "inv_use.php?which=3&whichitem=4509&pwd=test";
+        var request = new RelayRequest(false);
+        request.constructURLString(url);
+        request.run();
+        assertEquals("", request.responseText);
+
+        var choice = new GenericRequest("choice.php?forceoption=0", false);
+        choice.run();
+        assertEquals("test3", choice.responseText);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=4509&pwd=test");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+  }
+
+  @Nested
+  class ChoiceRefresh {
+    @Test
+    public void canRefreshChoiceWithoutReVisiting() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPasswordHash("refresh"),
+              withProperty("_gingerbreadCityTurns", 19),
+              withProperty("choiceAdventure1202", 0),
+              withHandlingChoice(false),
+              // Avoid health warning
+              withHP(100, 100, 100));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_visit_gc_midnight_civic_center.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+        client.addResponse(200, html("request/test_visit_gc_midnight_civic_center_refresh.html"));
+
+        assertThat(KoLConstants.encounterList.size(), is(0));
+
+        var url = "adventure.php?snarfblat=477";
+        var request = new GenericRequest(url);
+        request.run();
+
+        // Since it redirected to choice.php, GenericRequest let ChoiceManager
+        // handle it. This is a visit to choice #1202, which is not automated.
+
+        // We "visit" the choice page.
+        assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
+        assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
+
+        // If you refresh the page, it redirects to choice.php
+        url = "place.php?whichplace=gingerbreadcity";
+        request = new GenericRequest(url);
+        request.run();
+
+        // We do not "revisit" the choice page.
+        assertThat(Preferences.getInteger("_gingerbreadCityTurns"), is(20));
+        assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(5));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=477&pwd=refresh");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/place.php", "whichplace=gingerbreadcity&pwd=refresh");
+        assertGetRequest(requests.get(4), "/choice.php", null);
       }
     }
   }

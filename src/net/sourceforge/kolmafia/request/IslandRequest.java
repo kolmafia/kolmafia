@@ -35,6 +35,16 @@ public class IslandRequest extends GenericRequest {
   };
 
   private static int effectToConcertNumber(final String completer, final String effect) {
+    if (effect.length() == 0) {
+      return 0;
+    }
+
+    String loser = Preferences.getString("sideDefeated");
+
+    if (loser.equals(completer) || loser.equals("both")) {
+      return 0;
+    }
+
     String[][] array =
         completer.equals("hippies")
             ? HIPPY_CONCERTS
@@ -101,7 +111,7 @@ public class IslandRequest extends GenericRequest {
       return "The arena's fans were defeated in the war.";
     }
 
-    if (Character.isDigit(arg.charAt(0))) {
+    if (arg.length() != 0 && Character.isDigit(arg.charAt(0))) {
       // Raw concert number
       int option = StringUtilities.parseInt(arg);
       if (option < 0 || option > 3) {
@@ -111,7 +121,7 @@ public class IslandRequest extends GenericRequest {
       // Effect name
       int option = IslandRequest.effectToConcertNumber(completer, arg);
       if (option == 0) {
-        return "The \"" + arg + "\" effect is not available to " + completer;
+        return "The \"" + arg + "\" effect is not available to " + completer + ".";
       }
     }
 

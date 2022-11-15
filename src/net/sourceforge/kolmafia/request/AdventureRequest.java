@@ -383,9 +383,10 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    Preferences.setString("lastEncounter", encounter);
-    RequestLogger.printLine("Encounter: " + encounter);
-    RequestLogger.updateSessionLog("Encounter: " + encounter);
+    String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+    Preferences.setString("lastEncounter", prettyEncounter);
+    RequestLogger.printLine("Encounter: " + prettyEncounter);
+    RequestLogger.updateSessionLog("Encounter: " + prettyEncounter);
     AdventureRequest.registerDemonName(encounter, responseText);
 
     // We are done registering the item's encounter.
@@ -427,10 +428,6 @@ public class AdventureRequest extends GenericRequest {
     }
 
     TurnCounter.handleTemporaryCounters(type, encounter);
-
-    if (!Preferences.getString("crystalBallPredictions").isEmpty()) {
-      CrystalBallManager.updateCrystalBallPredictions();
-    }
 
     return encounter;
   }
@@ -671,7 +668,21 @@ public class AdventureRequest extends GenericRequest {
       return null;
     }
 
-    return AdventureRequest.parseEncounter(responseText);
+    String encounter = AdventureRequest.parseEncounter(responseText);
+
+    // If KoL redirects to exactly "choice.php", it might contain a new
+    // encounter (mostly on older choice pages) or the user could have
+    // refreshed a choice page that you cannot walk away from.
+    //
+    // If the encounter is identical to what we saved, assume it is a refresh.
+    if (urlString.equals("choice.php")) {
+      String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+      if (prettyEncounter.equals(Preferences.getString("lastEncounter"))) {
+        return null;
+      }
+    }
+
+    return encounter;
   }
 
   private static String choiceType(final int choice) {
@@ -718,8 +729,7 @@ public class AdventureRequest extends GenericRequest {
     if (urlString.startsWith("adventure.php")) {
       int area = parseArea(urlString);
       switch (area) {
-        case 17:
-          // Hidden Temple
+        case AdventurePool.HIDDEN_TEMPLE:
           // Dvorak's revenge
           // You jump to the last letter, and put your pom-poms down with a sign of relief --
           // thank goodness that's over. Worst. Spelling bee. Ever.
@@ -728,8 +738,7 @@ public class AdventureRequest extends GenericRequest {
           }
           break;
 
-        case 19:
-          // Limerick Dungeon
+        case AdventurePool.LIMERICK_DUNGEON:
           for (int i = 0; i < LIMERICKS.length; ++i) {
             if (responseText.contains(LIMERICKS[i][1])) {
               return LIMERICKS[i][0];
@@ -737,7 +746,23 @@ public class AdventureRequest extends GenericRequest {
           }
           return "Unrecognized Limerick";
 
-        case 114: // Outskirts of The Knob
+        case AdventurePool.SPOOKY_GRAVY_BURROW:
+          // The Spooky Wheelbarrow no longer shows an encounter.
+          // Bug reported, but we can work around it.
+          //
+          // As you explore the Spooky Underground Caverns, you stop short when
+          // you hear a noise. You duck behind a pillar of rock, and peek out
+          // to see a Spooky Gravy Fairy pushing a small wheelbarrow, whistling
+          // a gloomy dirge. As he goes past, you sneak out and thump him on
+          // the head. He squeaks and falls over unconscious.
+          //
+          // His wheelbarrow has two little buckets in it. Score! (Maybe.)
+          if (responseText.contains("pushing a small wheelbarrow")) {
+            return "Spooky Wheelbarrow";
+          }
+          break;
+
+        case AdventurePool.OUTSKIRTS_OF_THE_KNOB:
           // Unstubbed
           // You go back to the tree where the wounded Knob Goblin guard was resting,
           // and find him just where you left him, continuing to whine about his stubbed toe.
@@ -759,7 +784,7 @@ public class AdventureRequest extends GenericRequest {
     return null;
   }
 
-  private static String parseEncounter(final String responseText) {
+  public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
     // bold text.
     int index = responseText.indexOf("<body>");
@@ -1012,7 +1037,7 @@ public class AdventureRequest extends GenericRequest {
     if (this.adventureName.equals("The Typical Tavern Cellar")) {
       return this.getURLString().contains("action=explore") ? 1 : 0;
     }
-    if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
+    if (AdventureDatabase.getEnvironment(this.adventureName).isUnderwater()) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }
     return 1;
@@ -1027,7 +1052,7 @@ public class AdventureRequest extends GenericRequest {
     return this.adventureName;
   }
 
-  public static final void handleServerRedirect(String redirectLocation) {
+  public static final void handleServerRedirect(String redirectLocation, boolean usePostMethod) {
     if (redirectLocation.contains("main.php")) {
       return;
     }
@@ -1037,7 +1062,7 @@ public class AdventureRequest extends GenericRequest {
       redirectLocation = "campground.php";
     }
 
-    AdventureRequest.ZONE_UNLOCK.constructURLString(redirectLocation);
+    AdventureRequest.ZONE_UNLOCK.constructURLString(redirectLocation, usePostMethod);
 
     if (redirectLocation.contains("palinshelves.php")) {
       AdventureRequest.ZONE_UNLOCK.run();
@@ -1092,6 +1117,12 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
+    if (redirectLocation.startsWith("inventory.php")) {
+      // Autumnaton's "Back to Inventory"
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
     RequestSynchFrame.showRequest(AdventureRequest.ZONE_UNLOCK);
     RequestLogger.printLine("Unrecognized choice.php redirect: " + redirectLocation);
     RequestLogger.updateSessionLog("Unrecognized choice.php redirect: " + redirectLocation);
@@ -1104,13 +1135,7 @@ public class AdventureRequest extends GenericRequest {
     RequestLogger.updateSessionLog("Encounter: Dvorak's Revenge");
 
     request.run();
-    request.constructURLString("tiles.php?action=jump&whichtile=4").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=6").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=3").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=5").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=7").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=6").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=3").run();
+    DvorakManager.solve();
   }
 
   private static String handleRandomModifiers(String monsterName, final String responseText) {

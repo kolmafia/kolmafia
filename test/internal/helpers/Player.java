@@ -2,11 +2,13 @@ package internal.helpers;
 
 import static org.mockito.Mockito.mockStatic;
 
+import internal.helpers.Cleanups.OrderedRunnable;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,15 +29,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.DateTimeManager;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -229,7 +223,27 @@ public class Player {
    */
   public static Cleanups withItemInCloset(final String itemName, final int count) {
     int itemId = ItemDatabase.getItemId(itemName, count, false);
-    AdventureResult item = ItemPool.get(itemId, count);
+    return withItemInCloset(itemId, count);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's closet
+   *
+   * @param itemId Item to give
+   * @param count Quantity of item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final int itemId, final int count) {
+    return withItemInCloset(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's closet
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final AdventureResult item) {
     return addToList(item, KoLConstants.closet);
   }
 
@@ -325,6 +339,48 @@ public class Player {
   public static Cleanups withClanLoungeItem(final int itemId) {
     ClanLoungeRequest.setClanLoungeItem(itemId, 1);
     return new Cleanups(() -> ClanLoungeRequest.setClanLoungeItem(itemId, 0));
+  }
+
+  /**
+   * Restores Clan Furniture after cleanup
+   *
+   * @return Resets to previous state
+   */
+  public static Cleanups withClanFurniture() {
+    var old = ClanManager.getClanRumpus();
+
+    return new Cleanups(
+        () -> {
+          var current = new ArrayList<>(ClanManager.getClanRumpus());
+          for (var item : current) {
+            if (!old.contains(item)) ClanManager.removeFromRumpus(item);
+          }
+        });
+  }
+
+  /**
+   * Adds the given set of furniture to the player's Clan Rumpus Room
+   *
+   * @param furniture Furniture items to install
+   * @return Resets to previous value
+   */
+  public static Cleanups withClanFurniture(final String... furniture) {
+    var cleanups = new Cleanups();
+    var rumpus = ClanManager.getClanRumpus();
+
+    for (var f : furniture) {
+      var old = rumpus.contains(f);
+      ClanManager.addToRumpus(f);
+
+      cleanups.add(
+          () -> {
+            if (!old) {
+              ClanManager.removeFromRumpus(f);
+            }
+          });
+    }
+
+    return cleanups;
   }
 
   /**
@@ -520,6 +576,16 @@ public class Player {
     var old = KoLCharacter.getEnthroned();
     KoLCharacter.setEnthroned(familiar);
     return new Cleanups(() -> KoLCharacter.setEnthroned(old));
+  }
+
+  /**
+   * Clears active effects
+   *
+   * @return Clears effects
+   */
+  public static Cleanups withNoEffects() {
+    KoLConstants.activeEffects.clear();
+    return new Cleanups(() -> KoLConstants.activeEffects.clear());
   }
 
   /**
@@ -798,8 +864,7 @@ public class Player {
   /**
    * Sets King Liberated
    *
-   * @param level Required level
-   * @return Resets level to zero
+   * @return Resets King Liberated
    */
   public static Cleanups withKingLiberated() {
     var cleanups = new Cleanups(withProperty("lastKingLiberation"), withProperty("kingLiberated"));
@@ -817,6 +882,27 @@ public class Player {
     var old = KoLCharacter.getAdventuresLeft();
     KoLCharacter.setAdventuresLeft(adventures);
     return new Cleanups(() -> KoLCharacter.setAdventuresLeft(old));
+  }
+
+  /**
+   * Sets the player's current run
+   *
+   * @param adventures How many adventures so far this run
+   * @return Resets remaining adventures to previous value
+   */
+  public static Cleanups withCurrentRun(final int adventures) {
+    var old = KoLCharacter.getCurrentRun();
+    KoLCharacter.setCurrentRun(adventures);
+    return new Cleanups(() -> KoLCharacter.setCurrentRun(old));
+  }
+
+  /**
+   * Sets the player's current run
+   *
+   * @return Resets remaining adventures to previous value
+   */
+  public static Cleanups withCurrentRun() {
+    return withCurrentRun(KoLCharacter.getCurrentRun());
   }
 
   /**
@@ -1143,9 +1229,18 @@ public class Player {
    * @return Restores the previous value of the property
    */
   public static Cleanups withProperty(final String key, final int value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
     var oldValue = Preferences.getInteger(key);
     Preferences.setInteger(key, value);
-    return new Cleanups(() -> Preferences.setInteger(key, oldValue));
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setInteger(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
   }
 
   /**
@@ -1156,9 +1251,18 @@ public class Player {
    * @return Restores the previous value of the property
    */
   public static Cleanups withProperty(final String key, final String value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
     var oldValue = Preferences.getString(key);
     Preferences.setString(key, value);
-    return new Cleanups(() -> Preferences.setString(key, oldValue));
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setString(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
   }
 
   /**
@@ -1169,9 +1273,18 @@ public class Player {
    * @return Restores the previous value of the property
    */
   public static Cleanups withProperty(final String key, final boolean value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
     var oldValue = Preferences.getBoolean(key);
     Preferences.setBoolean(key, value);
-    return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setBoolean(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
   }
 
   /**
@@ -1302,6 +1415,30 @@ public class Player {
   }
 
   /**
+   * Visits a choice with a given choice and response
+   *
+   * @param choice Choice to set
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withChoice(final int choice, final String responseText) {
+    var oldChoice = ChoiceManager.lastChoice;
+    var oldDecision = ChoiceManager.lastDecision;
+
+    var req = new GenericRequest("choice.php?whichchoice=" + choice);
+    req.responseText = responseText;
+
+    ChoiceManager.preChoice(req);
+    ChoiceControl.visitChoice(req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = oldChoice;
+          ChoiceManager.lastDecision = oldDecision;
+        });
+  }
+
+  /**
    * Runs postChoice1 with a given choice and decision and response
    *
    * @param choice Choice to set
@@ -1372,7 +1509,7 @@ public class Player {
   /**
    * Simulates a choice (postChoice1, processResults and then postChoice2)
    *
-   * <p>{@code @todo} Still needs some more choice handling (visitChoice, postChoice0)
+   * <p>{@code @todo} Still needs some more choice handling (postChoice0)
    *
    * @param choice Choice number
    * @param decision Decision number
@@ -1394,12 +1531,14 @@ public class Player {
    * @return Restores previous value
    */
   public static Cleanups withLastLocation(final String lastLocationName) {
-    var location = AdventureDatabase.getAdventure(lastLocationName);
+    var location = AdventureDatabase.getAdventureByName(lastLocationName);
     return withLastLocation(location);
   }
 
   public static Cleanups withLastLocation(final KoLAdventure lastLocation) {
     var old = KoLAdventure.lastVisitedLocation;
+    var oldVanilla = KoLAdventure.lastZoneName;
+
     var clearProperties =
         new Cleanups(
             withProperty("lastAdventure"),
@@ -1409,12 +1548,19 @@ public class Player {
             withProperty("hiddenBowlingAlleyProgress"));
 
     if (lastLocation == null) {
-      KoLAdventure.setLastAdventure((String) null);
+      KoLAdventure.setLastAdventure("None");
+      KoLAdventure.lastZoneName = null;
     } else {
       KoLAdventure.setLastAdventure(lastLocation);
+      KoLAdventure.lastZoneName = lastLocation.getAdventureName();
     }
 
-    var cleanups = new Cleanups(() -> KoLAdventure.setLastAdventure(old));
+    var cleanups =
+        new Cleanups(
+            () -> {
+              KoLAdventure.setLastAdventure(old);
+              KoLAdventure.lastZoneName = oldVanilla;
+            });
     cleanups.add(clearProperties);
     return cleanups;
   }
@@ -1641,5 +1787,47 @@ public class Player {
     var old = KoLCharacter.getLimitMode();
     KoLCharacter.setLimitMode(limitMode);
     return new Cleanups(() -> KoLCharacter.setLimitMode(old));
+  }
+
+  /**
+   * Saves preferences to a file.
+   *
+   * @return Stops saving preferences
+   */
+  public static Cleanups withSavePreferencesToFile() {
+    Preferences.saveSettingsToFile = true;
+    return new Cleanups(() -> Preferences.saveSettingsToFile = false);
+  }
+
+  /**
+   * Sets the adventures spent in a particular location
+   *
+   * @param location The name of the location, as a string
+   * @param adventuresSpent The number of adventures spent to set
+   * @return Returns adventures spent to previous value
+   */
+  public static Cleanups withAdventuresSpent(final String location, final int adventuresSpent) {
+    int old = AdventureSpentDatabase.getTurns(location);
+    AdventureSpentDatabase.setTurns(location, adventuresSpent);
+    return new Cleanups(() -> AdventureSpentDatabase.setTurns(location, old));
+  }
+
+  /**
+   * Sets the value of an adventure
+   *
+   * @param value The value in meat
+   * @return Returns value to previous value
+   */
+  public static Cleanups withValueOfAdventure(final int value) {
+    var cleanups = withProperty("valueOfAdventure", value);
+    // changing the value of an adventure changes the cost of creating an item
+    ConcoctionDatabase.refreshConcoctions();
+    cleanups.add(ConcoctionDatabase::refreshConcoctions);
+    return cleanups;
+  }
+
+  public static Cleanups withConcoctionRefresh() {
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(new OrderedRunnable(ConcoctionDatabase::refreshConcoctions, 10));
   }
 }

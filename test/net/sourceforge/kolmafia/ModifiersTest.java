@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.LatteRequest.Latte;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -703,13 +702,7 @@ public class ModifiersTest {
   class Noobcore {
     @BeforeAll
     public static void beforeAll() {
-      Preferences.saveSettingsToFile = false;
       Preferences.reset("noob");
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      Preferences.saveSettingsToFile = true;
     }
 
     @Test
@@ -760,13 +753,7 @@ public class ModifiersTest {
   class Voter {
     @BeforeAll
     public static void beforeAll() {
-      Preferences.saveSettingsToFile = false;
       Preferences.reset("voter");
-    }
-
-    @AfterAll
-    public static void afterAll() {
-      Preferences.saveSettingsToFile = true;
     }
 
     @Test

@@ -9,7 +9,9 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -26,6 +28,7 @@ import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -687,8 +690,8 @@ public class AreaCombatData {
   }
 
   public void getEncounterData(final StringBuffer buffer) {
-    String environment = AdventureDatabase.getEnvironment(this.zone);
-    if (environment == null) {
+    Environment environment = AdventureDatabase.getEnvironment(this.zone);
+    if (environment == Environment.UNKNOWN) {
       buffer.append("<br>");
       buffer.append("<b>Environment:</b> unknown");
     } else {
@@ -1716,6 +1719,22 @@ public class AreaCombatData {
           return (monster.equals(Preferences.getString("glacierOfJerksBoss"))) ? 1 : 0;
         }
         break;
+      case "The Jungles of Ancient Loathing":
+        if (monster.equals("evil cultist")) {
+          return QuestDatabase.isQuestFinished(Quest.PRIMORDIAL) ? 1 : 0;
+        }
+        break;
+      case "Seaside Megalopolis":
+        switch (monster) {
+          case "cyborg policeman":
+            return (InventoryManager.hasItem(ItemPool.MULTI_PASS)
+                    && !QuestDatabase.isQuestFinished(Quest.FUTURE))
+                ? 1
+                : 0;
+          case "obese tourist":
+          case "terrifying robot":
+            return QuestDatabase.isQuestLaterThan(Quest.FUTURE, "step1") ? 1 : 0;
+        }
     }
     return weighting;
   }

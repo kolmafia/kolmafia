@@ -42,6 +42,10 @@ public class QuantumTerrariumRequest extends GenericRequest {
   }
 
   public static void checkCounter(GenericRequest request) {
+    if (!KoLCharacter.inQuantum()) {
+      return;
+    }
+
     // No result, no check
     if (!request.hasResult()) {
       return;
@@ -51,11 +55,12 @@ public class QuantumTerrariumRequest extends GenericRequest {
       return;
     }
 
-    if (!KoLCharacter.inQuantum()) {
+    if (KoLCharacter.inFightOrChoice()) {
       return;
     }
 
-    if (KoLCharacter.inFightOrChoice()) {
+    String location = request.getURLString();
+    if (location.startsWith("tiles.php")) {
       return;
     }
 

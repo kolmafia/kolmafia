@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JComboBox;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -60,6 +61,25 @@ public class ScriptMRUList implements Listener {
 
   public void addItem(File file) {
     this.addItem(LoadScriptMenuItem.getRelativePath(file));
+  }
+
+  public void addItemInParallel(File file) {
+    RequestThread.runInParallel(new AddItemRunnable(this, file), true);
+  }
+
+  private class AddItemRunnable implements Runnable {
+    private final ScriptMRUList list;
+    private final File file;
+
+    public AddItemRunnable(ScriptMRUList list, File file) {
+      this.list = list;
+      this.file = file;
+    }
+
+    @Override
+    public void run() {
+      list.addItem(file);
+    }
   }
 
   public void addItem(String script) {

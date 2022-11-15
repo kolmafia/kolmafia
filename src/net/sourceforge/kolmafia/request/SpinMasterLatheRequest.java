@@ -172,7 +172,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
     while (matcher.find()) {
       int itemId = StringUtilities.parseInt(matcher.group(1));
       String descId = matcher.group(2);
-      String itemName = matcher.group(3);
+      String itemName = matcher.group(3).trim();
       String currency = matcher.group(4);
       int price = StringUtilities.parseInt(matcher.group(5));
       int row = StringUtilities.parseInt(matcher.group(6));
@@ -190,7 +190,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
         SpinMasterLatheRequest.buyCosts.put(iitemId, cost);
         SpinMasterLatheRequest.itemRows.put(iitemId, row);
         NPCPurchaseRequest.learnCoinmasterItem(
-            master, itemName, String.valueOf(price), String.valueOf(row));
+            master, ItemPool.get(itemId, 1), String.valueOf(price), String.valueOf(row));
         CoinmastersDatabase.registerPurchaseRequest(data, item, cost);
         changed = true;
       }

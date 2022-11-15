@@ -1,8 +1,16 @@
 package net.sourceforge.kolmafia;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,8 +20,11 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -118,6 +129,83 @@ public class DataFileConsistencyTest {
           String.format("%s is in familiars.txt but not in items.txt", name),
           ItemDatabase.getItemId(name),
           greaterThan(0));
+    }
+  }
+
+  @Test
+  public void testValidZonesForCombats() {
+    String file = "combats.txt";
+    int version = 1;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          continue;
+        }
+        // First field must be a string and a valid zone name
+        String zone = fields[0];
+        assertTrue(AdventureDatabase.validateAdventureArea(zone), "Problem with " + zone);
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from combats.txt");
+    }
+  }
+
+  @Test
+  public void testValidFrequencyForCombats() {
+    String file = "combats.txt";
+    int version = 1;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          continue;
+        }
+        // Second field is a Combat frequency - -1 or 0 <= x <= 100
+        String freq = fields[1];
+        int iFreq = StringUtilities.parseInt(freq);
+        assertThat(
+            "Problem with frequency " + freq + " on line beginning with " + fields[0],
+            iFreq,
+            greaterThanOrEqualTo(-1));
+        assertThat(
+            "Problem with frequency " + freq + " on line beginning with " + fields[0],
+            iFreq,
+            lessThanOrEqualTo(100));
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from combats.txt");
+    }
+  }
+
+  @Test
+  public void testValidMonstersForCombats() {
+    String file = "combats.txt";
+    int version = 1;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          continue;
+        }
+        // Third to end are monsters.
+        // Appearance weights proceeded by colon not checked.
+        for (int i = 2; i < fields.length; i++) {
+          String name;
+          String nameAll = fields[i];
+          if (nameAll.contains(":")) {
+            String[] parts = nameAll.split(":");
+            name = parts[0];
+          } else {
+            name = nameAll;
+          }
+          MonsterData monster = MonsterDatabase.findMonster(name);
+          assertNotNull(
+              monster, "Problem with monster " + name + " on line beginning with " + fields[0]);
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from combats.txt");
     }
   }
 }

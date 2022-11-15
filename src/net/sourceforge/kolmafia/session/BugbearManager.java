@@ -49,11 +49,11 @@ public class BugbearManager {
         2,
         "statusMorgue"),
     new Bugbear(
-        "Special Ops", 6, "black ops bugbear", "Lair of the Ninja Snowmen", 2, "statusSpecialOps"),
+        "Special Ops", 6, "Black Ops Bugbear", "Lair of the Ninja Snowmen", 2, "statusSpecialOps"),
     new Bugbear(
         "Engineering",
         7,
-        "battlesuit bugbear type",
+        "Battlesuit Bugbear Type",
         "The Penultimate Fantasy Airship",
         3,
         "statusEngineering"),

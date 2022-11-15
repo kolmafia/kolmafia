@@ -2382,13 +2382,13 @@
 2380	Berry Statistical	berry7.gif	b2d5b36903a6918769fc02b251d11c49	good	none	use 1 Snarf berry
 2381	Berry Defensive	berry8.gif	5420b4cff604f9ed359f27aa8ec25001	good	none	use 1 Keese berry
 2382	Berry Experiential	berry4.gif	644bbe5f4cdba76d224cbca0a58c8269	good	none	# use any Pokefam berry
-2383	Eggstraordinary Strength	neweggs.gif	2c7883265ade115090d1f842b25e5f9d	good	none	chew 1 magnificent oyster egg
-2384	Eggstraordinary Brilliance	neweggs.gif	3b08e01bbfb51228106328cda1f75105	good	none	chew 1 brilliant oyster egg
-2385	Eggstraordinary Style	neweggs.gif	3a189ec6d0cb1c990d8789c71f69b8f2	good	none	chew 1 glistening oyster egg
+2383	Eggstraordinary Strength	neweggs.gif	2c7883265ade115090d1f842b25e5f9d	good	nohookah	chew 1 magnificent oyster egg
+2384	Eggstraordinary Brilliance	neweggs.gif	3b08e01bbfb51228106328cda1f75105	good	nohookah	chew 1 brilliant oyster egg
+2385	Eggstraordinary Style	neweggs.gif	3a189ec6d0cb1c990d8789c71f69b8f2	good	nohookah	chew 1 glistening oyster egg
 2386	Eggscitingly Colorful	neweggs.gif	b729f441a75bfe11eb0393b09b1a9819	good	nohookah	chew 1 scintillating oyster egg
-2387	Pearly Vision	neweggs.gif	307a890ec5d91df8ca65ffbc46e91aa4	good	none	chew 1 pearlescent oyster egg
-2388	Lustre After Wealth	neweggs.gif	8cda15e07f8c94b919dcb5d5956ee526	good	none	chew 1 lustrous oyster egg
-2389	Gleam-Inducing	neweggs.gif	b70458b496853776868164e761a81060	good	none	chew 1 gleaming oyster egg
+2387	Pearly Vision	neweggs.gif	307a890ec5d91df8ca65ffbc46e91aa4	good	nohookah	chew 1 pearlescent oyster egg
+2388	Lustre After Wealth	neweggs.gif	8cda15e07f8c94b919dcb5d5956ee526	good	nohookah	chew 1 lustrous oyster egg
+2389	Gleam-Inducing	neweggs.gif	b70458b496853776868164e761a81060	good	nohookah	chew 1 gleaming oyster egg
 2390	Fantasy Faerie Blessing	faeriedust.gif	75ebf7c521ef696c582322f2b73ab000	neutral	nohookah	# Get Blessing in The Faerie Cyrkle
 2391	Poison For Blood	poison.gif	b1cff2cbb39833e32a059909ee9d784b	bad	nohookah	# Make Special Brew in Witch's House
 2392	Brewed Up	coffeecup.gif	cfe7d66865036bccaed8e9253288ba8d	good	nohookah	# Make Regular Brew in Witch's House
@@ -2549,7 +2549,7 @@
 2547	Mixed Nutrients	mixednuts.gif	6970d24f7f32c78045428a46a54c93a4	good	none	use 1 tiny handful of mixed nuts
 2548	Almond Allemande	candyalmond.gif	9370afc952907e7d4959a23c33bc954c	good	none	use 1 candied almond
 2549	Para-lyzed Jaw	para_pop.gif	bf2bcc1f7d2451b8ab11c24198c9a6ca	neutral	none	use 1 Para-Pop
-2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	good	none	use 1 terra panna cotta
+2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	good	nohookah	use 1 terra panna cotta
 2551	Blessing of the Bird	findbird.gif	8de6fb855433dc4b90fb4dbc2a5c919d	neutral	none	cast 1 Seek out a Bird
 2552	Blessing of your favorite Bird	favoritebird.gif	e9c3b4f9a7f9b24166b835481f15c875	neutral	none	cast 1 Visit your Favorite Bird
 2553	Scariersauce	scarysauce.gif	33e4e82db2376879224ab4d8d406325a	good	nohookah
@@ -2720,3 +2720,26 @@
 2720	Buzzed on Distillate	chinsweat.gif	d64eab33f648e1a77da23ae516353fb2	neutral	none	drink 1 stillsuit distillate
 2721	Dino Pheromoned	wbchemset.gif	395dfbcdb8accb94d462d1380d53e913	neutral	none
 2722	Prehistoric Potential	dna.gif	53927d1c7c90d775d1033fd12618cfa7	neutral	none	use 1 Dino DNAde&trade;
+2723	Crunching Leaves	leafflavor.gif	b645f760ab1a497da20faafbe90d3d29	neutral	none	use 1 autumn leaf
+2724	Whet Appetite	powderdonut.gif	bb374fa9f50dc7ce46f98632396161d8	neutral	none	eat 1 autumn-spice donut
+2725	Bet Your Autumn Dollar	goldcoin.gif	f696596ddc94d295fc25da98d24f58ec	neutral	none	use 1 autumn dollar
+2726	Delighted by Autumn	cueball.gif	fc1fd3b808d9bda46a4d6f1e71a74e9a	neutral	none	chew 1 autumn breeze
+2727	Wisdom of the Autumn Years	xicrystal.gif	67ebd878570ed8315d4a4674e2eed291	neutral	none	use 1 autumn years wisdom
+2728	Beery Cool	bbat_beer.gif	0cc98f3aa974f1d58c645444e7d6fb91	neutral	none	drink 1 Boris's beer
+2729	Motherly Loved	bbat_honeybun.gif	1ff9b0ce7bbb6cc5b7a7017da14bc400	neutral	none	eat 1 honey bun of Boris
+2730	Inspired Chef	bbat_bread.gif	2d3e34beda54e4b52e1366d5aa78d540	neutral	none	eat 1 Boris's bread
+2731	parfum d'herbes	bbat_casserole.gif	64c172e308539ade2b033e4e1e1574d6	neutral	none	eat 1 ratatouille de Jarlsberg
+2732	Souped Up	bbat_soup.gif	affa5dd180402169934616dc25a51764	neutral	none	eat 1 Jarlsberg's vegetable soup
+2733	Wizard Sight	bbat_roastveggie.gif	bcbe062d063d71b56d043bda7f12969f	neutral	none	eat 1 roasted vegetable of Jarlsberg
+2734	Gritty Soul	bbat_smoothie.gif	074a77cc3722a50e38d691306b66bf09	neutral	none	eat 1 St. Pete's sneaky smoothie
+2735	Awfully Wily	bbat_wheybar.gif	82878450ce9d1a7f8b13cd26603a0b0d	neutral	none	eat 1 Pete's wiley whey bar
+2736	Rippin' Ricotta	bbat_ricotta.gif	d59c2d298ebfd8c99bf47fe68891e7ea	neutral	none	eat 1 Pete's rich ricotta
+2737	Feeling Fancy	bbat_focaccia.gif	69862d498ff6068ea6b31787d1a494b8	neutral	none	eat 1 roasted vegetable focaccia
+2738	Angering Pizza Purists	bbat_calzone1.gif	08f4024c1d6cf8ddbe0c52f4d8b86c33	neutral	none	eat 1 plain calzone
+2739	Pretty Delicious	bbat_casserole.gif	9f03022717f7b13fef44b5dab8289bba	neutral	none	eat 1 baked veggie ricotta casserole
+2740	In the Depths	bbat_pizza.gif	4e1b5fb5d2e16e3bcf3d9013abdb4d5c	neutral	none	eat 1 Deep Dish of Legend
+2741	In the 'zone zone!	bbat_calzone2.gif	041f3562195a07294511006a50e1c9cb	neutral	none	eat 1 Calzone of Legend
+2742	Endless Drool	bbat_pizza.gif	c7175e92210890972f54a3a4ebca2415	neutral	none	eat 1 Pizza of Legend
+2743	Speakin' Easy	martini.gif	32cc95082a2a1b94ada06b5e2ad50bc9	neutral	none	drink 1 Charleston Choo-Choo
+2744	Imported Strength	oliver_taffy.gif	0b8afe8139c2af58c1f71fbaf1c1566c	neutral	none	use 1 imported taffy
+2745	Speakin' Even Easier	eyemartini.gif	2f3cfa02c5faee908174defd321b4a75	neutral	none	drink 1 Strong, Silent Type
