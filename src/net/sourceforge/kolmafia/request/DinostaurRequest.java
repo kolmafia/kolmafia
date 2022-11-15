@@ -21,32 +21,19 @@ public class DinostaurRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Dinodollars");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DINODOLLAR, 1);
   public static final CoinmasterData DINOSTAUR =
-      new CoinmasterData(
-          DinostaurRequest.master,
-          "Dinostaur",
-          DinostaurRequest.class,
-          "Dinodollars",
-          null,
-          false,
-          DinostaurRequest.TOKEN_PATTERN,
-          DinostaurRequest.COIN,
-          null,
-          DinostaurRequest.itemRows,
-          "shop.php?whichshop=dino",
-          "buyitem",
-          DinostaurRequest.buyItems,
-          DinostaurRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "Dinostaur", DinostaurRequest.class, "Dinodollars")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(COIN)
+          .withItemRows(itemRows)
+          .withBuyURL("shop.php?whichshop=dino")
+          .withBuyAction("buyitem")
+          .withBuyItems(buyItems)
+          .withBuyPrices(buyPrices)
+          .withItemField("whichrow")
+          .withItemPattern(GenericRequest.WHICHROW_PATTERN)
+          .withCountField("quantity")
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+          .withCanPurchase(true);
 
   public DinostaurRequest() {
     super(DinostaurRequest.DINOSTAUR);

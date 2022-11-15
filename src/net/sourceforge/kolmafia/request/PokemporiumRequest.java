@@ -62,7 +62,7 @@ public class PokemporiumRequest extends CoinMasterRequest {
       };
 
   static {
-    POKEMPORIUM.plural = "pok&eacute;dollar bills";
+    POKEMPORIUM.pluralToken = "pok&eacute;dollar bills";
   }
 
   public PokemporiumRequest() {

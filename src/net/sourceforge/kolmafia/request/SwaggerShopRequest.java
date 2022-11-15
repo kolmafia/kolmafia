@@ -153,7 +153,7 @@ public class SwaggerShopRequest extends CoinMasterRequest {
 
   static {
     ConcoctionPool.set(new Concoction("swagger", "availableSwagger"));
-    SWAGGER_SHOP.plural = "swagger";
+    SWAGGER_SHOP.pluralToken = "swagger";
   }
 
   public SwaggerShopRequest() {

@@ -50,7 +50,7 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
           true);
 
   static {
-    DINSEY_COMPANY_STORE.plural = "FunFunds&trade;";
+    DINSEY_COMPANY_STORE.pluralToken = "FunFunds&trade;";
   }
 
   public DinseyCompanyStoreRequest() {

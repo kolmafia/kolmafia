@@ -52,7 +52,7 @@ public class BURTRequest extends CoinMasterRequest {
           true);
 
   static {
-    BURT.plural = "BURTs";
+    BURT.pluralToken = "BURTs";
   }
 
   private static int priceToItemId(final int price) {

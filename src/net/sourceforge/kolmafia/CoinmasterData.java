@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -17,39 +18,175 @@ import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 
 public class CoinmasterData implements Comparable<CoinmasterData> {
+
+  // Mandatory fields
   private final String master;
   private final String nickname;
   private final Class<? extends CoinMasterRequest> requestClass;
+  private String token = "";
+
+  // Optional fields
   // The token(s) that you exchange for items.
-  // One, for now
-  private String token;
-  private final AdventureResult tokenItem;
-  public String plural;
-  private final String tokenTest;
-  private final boolean positiveTest;
-  private final Pattern tokenPattern;
-  private AdventureResult item;
-  private final String property;
+  private String tokenTest = "";
+  private boolean positiveTest = true;
+  private Pattern tokenPattern = null;
+  private AdventureResult item = null;
+  private String property = "";
+
   // For Coinmasters that deal with "rows", a map from item id to row number
-  private final Map<Integer, Integer> itemRows;
+  private Map<Integer, Integer> itemRows = null;
+
   // The base URL used to buy things from this Coinmaster
-  private final String buyURL;
-  private final String buyAction;
-  private final List<AdventureResult> buyItems;
-  private final Map<Integer, Integer> buyPrices;
+  private String buyURL = null;
+  private String buyAction = null;
+  private List<AdventureResult> buyItems = null;
+  private Map<Integer, Integer> buyPrices = null;
+
   // The base URL used to sell things to this Coinmaster
-  private final String sellURL;
-  private final String sellAction;
-  private final List<AdventureResult> sellItems;
-  private final Map<Integer, Integer> sellPrices;
+  private String sellURL = null;
+  private String sellAction = null;
+  private List<AdventureResult> sellItems = null;
+  private Map<Integer, Integer> sellPrices = null;
+
   // Fields assumed to be common to buying & selling
-  private final String itemField;
-  private final Pattern itemPattern;
-  private final String countField;
-  private final Pattern countPattern;
-  private final String storageAction;
-  private final String tradeAllAction;
-  private final boolean canPurchase;
+  private String itemField = "";
+  private Pattern itemPattern = null;
+  private String countField = null;
+  private Pattern countPattern = null;
+  private String storageAction = null;
+  private String tradeAllAction = null;
+
+  private boolean canPurchase = true;
+
+  // Derived fields
+  public String pluralToken = null;
+  private AdventureResult tokenItem = null;
+  private Set<AdventureResult> currencies = null;
+
+  // Base constructor for CoinmasterData with only the mandatory fields.
+  // Optional fields can be added fluidly.
+  // Derived fields are built lazily
+
+  public CoinmasterData(
+      String master,
+      final String nickname,
+      final Class<? extends CoinMasterRequest> requestClass,
+      final String token) {
+    this.master = master;
+    this.nickname = nickname;
+    this.requestClass = requestClass;
+    this.token = token;
+  }
+
+  // Fluid field construction
+
+  public CoinmasterData withTokenTest(String tokenTest) {
+    this.tokenTest = tokenTest;
+    return this;
+  }
+
+  public CoinmasterData withPositiveTest(boolean positiveTest) {
+    this.positiveTest = positiveTest;
+    return this;
+  }
+
+  public CoinmasterData withTokenPattern(Pattern tokenPattern) {
+    this.tokenPattern = tokenPattern;
+    return this;
+  }
+
+  public CoinmasterData withItem(AdventureResult item) {
+    this.item = item;
+    return this;
+  }
+
+  public CoinmasterData withProperty(String property) {
+    this.property = property;
+    return this;
+  }
+
+  public CoinmasterData withItemRows(Map<Integer, Integer> itemRows) {
+    this.itemRows = itemRows;
+    return this;
+  }
+
+  public CoinmasterData withBuyURL(String buyURL) {
+    this.buyURL = buyURL;
+    return this;
+  }
+
+  public CoinmasterData withBuyAction(String buyAction) {
+    this.buyAction = buyAction;
+    return this;
+  }
+
+  public CoinmasterData withBuyItems(List<AdventureResult> buyItems) {
+    this.buyItems = buyItems;
+    return this;
+  }
+
+  public CoinmasterData withBuyPrices(Map<Integer, Integer> buyPrices) {
+    this.buyPrices = buyPrices;
+    return this;
+  }
+
+  public CoinmasterData withSellURL(String sellURL) {
+    this.sellURL = sellURL;
+    return this;
+  }
+
+  public CoinmasterData withSellAction(String sellAction) {
+    this.sellAction = sellAction;
+    return this;
+  }
+
+  public CoinmasterData withSellItems(List<AdventureResult> sellItems) {
+    this.sellItems = sellItems;
+    return this;
+  }
+
+  public CoinmasterData withSellPrices(Map<Integer, Integer> sellPrices) {
+    this.sellPrices = sellPrices;
+    return this;
+  }
+
+  public CoinmasterData withItemField(String itemField) {
+    this.itemField = itemField;
+    return this;
+  }
+
+  public CoinmasterData withItemPattern(Pattern itemPattern) {
+    this.itemPattern = itemPattern;
+    return this;
+  }
+
+  public CoinmasterData withCountField(String countField) {
+    this.countField = countField;
+    return this;
+  }
+
+  public CoinmasterData withCountPattern(Pattern countPattern) {
+    this.countPattern = countPattern;
+    return this;
+  }
+
+  public CoinmasterData withStorageAction(String storageAction) {
+    this.storageAction = storageAction;
+    return this;
+  }
+
+  public CoinmasterData withTradeAllAction(String tradeAllAction) {
+    this.tradeAllAction = tradeAllAction;
+    return this;
+  }
+
+  public CoinmasterData withCanPurchase(boolean canPurchase) {
+    this.canPurchase = canPurchase;
+    return this;
+  }
+
+  // Ye Olde BOA Constructor for CoinmasterData
+  // To be removed, once all instances are built fluidly
 
   public CoinmasterData(
       final String master,
@@ -77,10 +214,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       final String storageAction,
       final String tradeAllAction,
       final boolean canPurchase) {
-    this.master = master;
-    this.nickname = nickname;
-    this.requestClass = requestClass;
-    this.token = token;
+    this(master, nickname, requestClass, token);
     this.tokenTest = tokenTest;
     this.positiveTest = positiveTest;
     this.tokenPattern = tokenPattern;
@@ -102,22 +236,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     this.storageAction = storageAction;
     this.tradeAllAction = tradeAllAction;
     this.canPurchase = canPurchase;
-
-    // Derived fields
-    this.plural = item != null ? ItemDatabase.getPluralName(token) : token + "s";
-    this.tokenItem = this.makeTokenItem();
   }
 
-  private AdventureResult makeTokenItem() {
-    AdventureResult item =
-        new AdventureResult(this.token, -1, 1, false) {
-          @Override
-          public String getPluralName(final int count) {
-            return count == 1 ? CoinmasterData.this.token : CoinmasterData.this.plural;
-          }
-        };
-    return item;
-  }
+  // Getters for mandatory fields
 
   public final String getMaster() {
     return this.master;
@@ -131,79 +252,16 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.requestClass;
   }
 
-  public final String getBuyURL() {
-    return this.buyURL;
-  }
-
-  public final String getSellURL() {
-    return this.sellURL;
-  }
-
   public final String getToken() {
     return this.token;
   }
 
-  public final String getPluralToken() {
-    return this.plural;
-  }
-
   public final void setToken(final String token) {
     this.token = token;
+    this.pluralToken = null;
   }
 
-  public final int availableTokens() {
-    AdventureResult item = this.item;
-    if (item != null) {
-      return item.getItemId() == ItemPool.WORTHLESS_ITEM
-          ? HermitRequest.getWorthlessItemCount()
-          : item.getCount(KoLConstants.inventory);
-    }
-    String property = this.property;
-    if (property != null) {
-      return Preferences.getInteger(property);
-    }
-    return 0;
-  }
-
-  public final int availableStorageTokens() {
-    return this.storageAction != null ? this.item.getCount(KoLConstants.storage) : 0;
-  }
-
-  public final int availableTokens(final AdventureResult currency) {
-    if (currency.isMeat()) {
-      return Concoction.getAvailableMeat();
-    }
-
-    int itemId = currency.getItemId();
-
-    if (itemId != -1) {
-      return itemId == ItemPool.WORTHLESS_ITEM
-          ? HermitRequest.getWorthlessItemCount()
-          : currency.getCount(KoLConstants.inventory);
-    }
-
-    if (this.property != null) {
-      return Preferences.getInteger(this.property);
-    }
-
-    return 0;
-  }
-
-  public final int availableStorageTokens(final AdventureResult currency) {
-    return this.storageAction != null && currency.getItemId() != -1
-        ? currency.getCount(KoLConstants.storage)
-        : 0;
-  }
-
-  public final int affordableTokens(final AdventureResult currency) {
-    if (currency.isMeat()) {
-      return Concoction.getAvailableMeat();
-    }
-
-    return currency.getItemId() == ItemPool.WORTHLESS_ITEM
-        ? HermitRequest.getAcquirableWorthlessItemCount()
-        : this.availableTokens(currency);
-  }
+  // Getters for optional fields
 
   public final String getTokenTest() {
     return this.tokenTest;
@@ -229,6 +287,54 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.property;
   }
 
+  public Map<Integer, Integer> getRows() {
+    return this.itemRows;
+  }
+
+  public final Integer getRow(int itemId) {
+    if (this.itemRows == null) {
+      return itemId;
+    }
+    Integer row = this.itemRows.get(itemId);
+    return row;
+  }
+
+  // The base URL used to buy things from this Coinmaster
+  public final String getBuyURL() {
+    return this.buyURL;
+  }
+
+  public final String getBuyAction() {
+    return this.buyAction;
+  }
+
+  public final List<AdventureResult> getBuyItems() {
+    return this.buyItems;
+  }
+
+  public final Map<Integer, Integer> getBuyPrices() {
+    return this.buyPrices;
+  }
+
+  // The base URL used to sell things to this Coinmaster
+  public final String getSellURL() {
+    return this.sellURL;
+  }
+
+  public final String getSellAction() {
+    return this.sellAction;
+  }
+
+  public final List<AdventureResult> getSellItems() {
+    return this.sellItems;
+  }
+
+  public final Map<Integer, Integer> getSellPrices() {
+    return this.sellPrices;
+  }
+
+  // Fields assumed to be common to buying & selling
+
   public final String getItemField() {
     return this.itemField;
   }
@@ -253,16 +359,95 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.countPattern == null ? null : this.countPattern.matcher(string);
   }
 
-  public final String getBuyAction() {
-    return this.buyAction;
+  public final String getStorageAction() {
+    return this.storageAction;
   }
 
-  public final List<AdventureResult> getBuyItems() {
-    return this.buyItems;
+  public final String getTradeAllAction() {
+    return this.tradeAllAction;
   }
 
-  public final Map<Integer, Integer> getBuyPrices() {
-    return this.buyPrices;
+  public final boolean getCanPurchase() {
+    return this.canPurchase;
+  }
+
+  // Getters for derived fields
+
+  public final String getPluralToken() {
+    if (this.pluralToken == null) {
+      this.pluralToken =
+          this.item != null ? ItemDatabase.getPluralName(this.token) : this.token + "s";
+    }
+    return this.pluralToken;
+  }
+
+  private AdventureResult getTokenItem() {
+    if (this.tokenItem == null) {
+      this.tokenItem =
+          new AdventureResult(this.token, -1, 1, false) {
+            @Override
+            public String getPluralName(final int count) {
+              return count == 1
+                  ? CoinmasterData.this.getToken()
+                  : CoinmasterData.this.getPluralToken();
+            }
+          };
+    }
+    return this.tokenItem;
+  }
+
+  public final int availableTokens() {
+    AdventureResult item = this.item;
+    if (item != null) {
+      return item.getItemId() == ItemPool.WORTHLESS_ITEM
+          ? HermitRequest.getWorthlessItemCount()
+          : item.getCount(KoLConstants.inventory);
+    }
+    String property = this.property;
+    if (property != null) {
+      return Preferences.getInteger(property);
+    }
+    return 0;
+  }
+
+  public final int availableTokens(final AdventureResult currency) {
+    if (currency.isMeat()) {
+      return Concoction.getAvailableMeat();
+    }
+
+    int itemId = currency.getItemId();
+
+    if (itemId != -1) {
+      return itemId == ItemPool.WORTHLESS_ITEM
+          ? HermitRequest.getWorthlessItemCount()
+          : currency.getCount(KoLConstants.inventory);
+    }
+
+    if (this.property != null) {
+      return Preferences.getInteger(this.property);
+    }
+
+    return 0;
+  }
+
+  public final int availableStorageTokens() {
+    return this.storageAction != null ? this.item.getCount(KoLConstants.storage) : 0;
+  }
+
+  public final int availableStorageTokens(final AdventureResult currency) {
+    return this.storageAction != null && currency.getItemId() != -1
+        ? currency.getCount(KoLConstants.storage)
+        : 0;
+  }
+
+  public final int affordableTokens(final AdventureResult currency) {
+    if (currency.isMeat()) {
+      return Concoction.getAvailableMeat();
+    }
+
+    return currency.getItemId() == ItemPool.WORTHLESS_ITEM
+        ? HermitRequest.getAcquirableWorthlessItemCount()
+        : this.availableTokens(currency);
   }
 
   public boolean availableItem(final int itemId) {
@@ -293,27 +478,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public AdventureResult itemBuyPrice(final int itemId) {
     int price = this.getBuyPrice(itemId);
-    return this.item == null ? this.tokenItem.getInstance(price) : this.item.getInstance(price);
+    return this.item == null
+        ? this.getTokenItem().getInstance(price)
+        : this.item.getInstance(price);
   }
 
   public Set<AdventureResult> currencies() {
-    Set<AdventureResult> currencies = new TreeSet<>();
-    for (AdventureResult item : this.buyItems) {
-      currencies.add(this.itemBuyPrice(item.getItemId()));
+    if (this.currencies == null) {
+      this.currencies =
+          this.buyItems.stream()
+              .map(item -> this.itemBuyPrice(item.getItemId()))
+              .sorted()
+              .collect(Collectors.toCollection(TreeSet::new));
     }
-    return currencies;
-  }
-
-  public final String getSellAction() {
-    return this.sellAction;
-  }
-
-  public final List<AdventureResult> getSellItems() {
-    return this.sellItems;
-  }
-
-  public final Map<Integer, Integer> getSellPrices() {
-    return this.sellPrices;
+    return this.currencies;
   }
 
   public final boolean canSellItem(final int itemId) {
@@ -336,26 +514,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.item == null
         ? AdventureResult.tallyItem(this.token, price, false)
         : this.item.getInstance(price);
-  }
-
-  public final String getStorageAction() {
-    return this.storageAction;
-  }
-
-  public final String getTradeAllAction() {
-    return this.tradeAllAction;
-  }
-
-  public Map<Integer, Integer> getRows() {
-    return this.itemRows;
-  }
-
-  public final Integer getRow(int itemId) {
-    if (this.itemRows == null) {
-      return itemId;
-    }
-    Integer row = this.itemRows.get(itemId);
-    return row;
   }
 
   public void registerPurchaseRequests() {

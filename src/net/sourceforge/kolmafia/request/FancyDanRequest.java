@@ -22,37 +22,20 @@ public class FancyDanRequest extends CoinMasterRequest {
   public static final AdventureResult DRINK_CHIT = ItemPool.get(ItemPool.DRINK_CHIT, 1);
 
   public static final CoinmasterData FANCY_DAN =
-      new CoinmasterData(
-          FancyDanRequest.master,
-          "olivers",
-          FancyDanRequest.class,
-          null,
-          null,
-          false,
-          null,
-          null,
-          null,
-          FancyDanRequest.itemRows,
-          "shop.php?whichshop=olivers",
-          "buyitem",
-          FancyDanRequest.buyItems,
-          FancyDanRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
+      new CoinmasterData(master, "olivers", FancyDanRequest.class, null) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
           return FancyDanRequest.buyCosts.get(itemId);
         }
-      };
+      }.withItemRows(itemRows)
+          .withBuyURL("shop.php?whichshop=olivers")
+          .withBuyAction("buyitem")
+          .withBuyItems(buyItems)
+          .withBuyPrices(buyPrices)
+          .withItemField("whichrow")
+          .withItemPattern(GenericRequest.WHICHROW_PATTERN)
+          .withCountField("quantity")
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
 
   // Since there are two different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.
