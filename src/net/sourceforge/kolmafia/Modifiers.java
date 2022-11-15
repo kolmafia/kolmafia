@@ -2523,40 +2523,30 @@ public class Modifiers {
     // modifier being set.
 
     if (Modifiers.passiveSkills.isEmpty()) {
-      for (String lookup : Modifiers.modifiersByName.keySet()) {
-        if (!Modifiers.getTypeFromLookup(lookup).equals("Skill")) {
-          continue;
-        }
-        String skill = Modifiers.getNameFromLookup(lookup);
-        if (!SkillDatabase.contains(skill)) {
-          continue;
-        }
-
-        if (SkillDatabase.isPassive(SkillDatabase.getSkillId(skill))) {
-          Modifiers.passiveSkills.add(UseSkillRequest.getUnmodifiedInstance(skill));
-        }
-      }
+      // For all modifiers...
+      Modifiers.modifiersByName.keySet().stream()
+          // ... that come from a skill...
+          .filter(l -> Modifiers.getTypeFromLookup(l).equals("Skill"))
+          .map(Modifiers::getNameFromLookup)
+          // ... that we have in our database...
+          .filter(SkillDatabase::contains)
+          .map(SkillDatabase::getSkillId)
+          // ... which are passive...
+          .filter(SkillDatabase::isPassive)
+          .map(UseSkillRequest::getUnmodifiedInstance)
+          // ... add to the list.
+          .forEach(Modifiers.passiveSkills::add);
     }
 
-    for (int i = Modifiers.passiveSkills.size() - 1; i >= 0; --i) {
-      UseSkillRequest skill = Modifiers.passiveSkills.get(i);
-      if (KoLCharacter.hasSkill(skill.getSkillId())) {
-        String name = skill.getSkillName();
-
-        // G-Lover shows passives on the char sheet,
-        // even though they are ineffective.
-        if (KoLCharacter.inGLover() && !KoLCharacter.hasGs(name)) {
-          continue;
-        }
-
-        this.add(Modifiers.getModifiers("Skill", name));
-      }
-    }
-
-    if (KoLCharacter.getFamiliar().getId() == FamiliarPool.DODECAPEDE
-        && KoLCharacter.hasAmphibianSympathy()) {
-      this.add(Modifiers.FAMILIAR_WEIGHT, -10, "Familiar:dodecapede sympathy");
-    }
+    // For all our passive skills...
+    Modifiers.passiveSkills.stream()
+        // ... that we actually have...
+        .filter(KoLCharacter::hasSkill)
+        .map(UseSkillRequest::getSkillName)
+        // ... and apply under our current restrictions...
+        .filter(s -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(s))
+        // ... add to this set of modifiers.
+        .forEach(s -> this.add(Modifiers.getModifiers("Skill", s)));
   }
 
   public final void applyFloristModifiers() {

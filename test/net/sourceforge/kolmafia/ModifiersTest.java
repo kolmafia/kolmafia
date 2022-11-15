@@ -9,11 +9,13 @@ import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
 import java.time.DayOfWeek;
@@ -60,7 +62,7 @@ public class ModifiersTest {
       assertEquals(0, mods.get(Modifiers.DAMAGE_REDUCTION));
       assertEquals(0, mods.get(Modifiers.FAMILIAR_WEIGHT));
       assertEquals(0, mods.get(Modifiers.RANGED_DAMAGE));
-      assertEquals(false, mods.getBoolean(Modifiers.FOUR_SONGS));
+      assertFalse(mods.getBoolean(Modifiers.FOUR_SONGS));
       assertEquals(0, mods.get(Modifiers.COMBAT_MANA_COST));
     }
   }
@@ -98,7 +100,7 @@ public class ModifiersTest {
 
     for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
       String name = entry.getKey();
-      int mask = entry.getValue().intValue();
+      int mask = entry.getValue();
 
       int manualMask = 0;
       for (String piece : name.split("/")) {
@@ -115,7 +117,7 @@ public class ModifiersTest {
     KoLCharacter.setAscensionClass(AscensionClass.SAUCEROR);
     for (int i = 1; i <= 11; i++) {
       int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
-      KoLCharacter.setStatPoints(0, 0, myst, myst * myst, 0, 0);
+      KoLCharacter.setStatPoints(0, 0, myst, (long) myst * myst, 0, 0);
       Modifiers mods = Modifiers.getModifiers("Skill", "Intrinsic Spiciness");
       assertEquals(Math.min(i, 10), mods.get(Modifiers.SAUCE_SPELL_DAMAGE));
     }
@@ -779,6 +781,22 @@ public class ModifiersTest {
         assertEquals(2, current.get(Modifiers.FAMILIAR_EXP));
         assertEquals(4, current.get(Modifiers.MUS_EXPERIENCE));
       }
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    FamiliarPool.DODECAPEDE + ", -5.0",
+    FamiliarPool.ALIEN + ", 5.0",
+  })
+  public void correctlyAppliesAmphibiousSympathyToDodecapede(
+      final int familiar, final double weightModifier) {
+    var cleanups = new Cleanups(withFamiliar(familiar), withSkill("Amphibian Sympathy"));
+    try (cleanups) {
+      KoLCharacter.recalculateAdjustments(false);
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+
+      assertThat(current.get(Modifiers.FAMILIAR_WEIGHT), equalTo(weightModifier));
     }
   }
 }
