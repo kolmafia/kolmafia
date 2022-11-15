@@ -4135,11 +4135,15 @@ public abstract class KoLCharacter {
   }
 
   /** Utility methods which looks up whether or not the character has a particular skill. */
-  public static final boolean hasSkill(final int skillId) {
+  public static boolean hasSkill(final int skillId) {
     return KoLConstants.availableSkillsSet.contains(skillId);
   }
 
-  public static final boolean hasSkill(final String skillName) {
+  public static boolean hasSkill(final UseSkillRequest skill) {
+    return KoLConstants.availableSkillsSet.contains(skill.getSkillId());
+  }
+
+  public static boolean hasSkill(final String skillName) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
     int skillId = SkillDatabase.getSkillId(skillName);
     return KoLCharacter.hasSkill(skillId);
