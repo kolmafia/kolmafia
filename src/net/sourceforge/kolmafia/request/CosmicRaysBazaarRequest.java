@@ -3,9 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -13,61 +11,19 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class CosmicRaysBazaarRequest extends CoinMasterRequest {
   public static final String master = "Cosmic Ray's Bazaar";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(CosmicRaysBazaarRequest.master);
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(CosmicRaysBazaarRequest.master);
 
   public static final AdventureResult RARE_MEAT_ISOTOPE =
       ItemPool.get(ItemPool.RARE_MEAT_ISOTOPE, 1);
   public static final AdventureResult WHITE_PIXEL = ItemPool.get(ItemPool.WHITE_PIXEL, 1);
   public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get(ItemPool.FAT_LOOT_TOKEN, 1);
-  public static final AdventureResult MEAT =
-      new AdventureLongCountResult(AdventureResult.MEAT, 1) {
-        @Override
-        public String toString() {
-          return this.getCount() + " Meat";
-        }
-
-        @Override
-        public String getPluralName(int price) {
-          return "Meat";
-        }
-      };
 
   public static final CoinmasterData COSMIC_RAYS_BAZAAR =
-      new CoinmasterData(
-          CosmicRaysBazaarRequest.master,
-          "exploathing",
-          CosmicRaysBazaarRequest.class,
-          null,
-          null,
-          false,
-          null,
-          null,
-          null,
-          CosmicRaysBazaarRequest.itemRows,
-          "shop.php?whichshop=exploathing",
-          "buyitem",
-          CosmicRaysBazaarRequest.buyItems,
-          CosmicRaysBazaarRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
+      new CoinmasterData(master, "exploathing", CosmicRaysBazaarRequest.class) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
-          return CosmicRaysBazaarRequest.buyCosts.get(itemId);
+          return buyCosts.get(itemId);
         }
-      };
+      }.withRowShopFields(master, "exploathing").withBuyPrices();
 
   // Since there are four different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.
@@ -76,8 +32,7 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
 
   // Manually set up the map and change the currency, as need
   static {
-    for (Entry<Integer, Integer> entry :
-        CoinmastersDatabase.getBuyPrices(CosmicRaysBazaarRequest.master).entrySet()) {
+    for (Entry<Integer, Integer> entry : CoinmastersDatabase.getBuyPrices(master).entrySet()) {
       int itemId = entry.getKey().intValue();
       int price = entry.getValue().intValue();
       AdventureResult cost =
@@ -87,30 +42,30 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
             case ItemPool.BORIS_KEY,
                 ItemPool.JARLSBERG_KEY,
                 ItemPool.SNEAKY_PETE_KEY -> FAT_LOOT_TOKEN.getInstance(price);
-            case ItemPool.RARE_MEAT_ISOTOPE -> MEAT.getInstance(price);
+            case ItemPool.RARE_MEAT_ISOTOPE -> CoinmasterData.MEAT.getInstance(price);
           };
       buyCosts.put(itemId, cost);
     }
   }
 
   public CosmicRaysBazaarRequest() {
-    super(CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR);
+    super(COSMIC_RAYS_BAZAAR);
   }
 
   public CosmicRaysBazaarRequest(final String action) {
-    super(CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR, action);
+    super(COSMIC_RAYS_BAZAAR, action);
   }
 
   public CosmicRaysBazaarRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR, buying, attachments);
+    super(COSMIC_RAYS_BAZAAR, buying, attachments);
   }
 
   public CosmicRaysBazaarRequest(final boolean buying, final AdventureResult attachment) {
-    super(CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR, buying, attachment);
+    super(COSMIC_RAYS_BAZAAR, buying, attachment);
   }
 
   public CosmicRaysBazaarRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR, buying, itemId, quantity);
+    super(COSMIC_RAYS_BAZAAR, buying, itemId, quantity);
   }
 
   @Override
@@ -124,7 +79,7 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    CosmicRaysBazaarRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -132,7 +87,7 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR;
+    CoinmasterData data = COSMIC_RAYS_BAZAAR;
 
     String action = GenericRequest.getAction(location);
     if (action != null) {
@@ -157,7 +112,6 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(COSMIC_RAYS_BAZAAR, urlString, true);
   }
 }

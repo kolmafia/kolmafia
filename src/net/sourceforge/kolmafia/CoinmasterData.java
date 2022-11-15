@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -18,6 +19,19 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 
 public class CoinmasterData implements Comparable<CoinmasterData> {
+
+  public static final AdventureResult MEAT =
+      new AdventureLongCountResult(AdventureResult.MEAT, 1) {
+        @Override
+        public String toString() {
+          return this.getCount() + " Meat";
+        }
+
+        @Override
+        public String getPluralName(int price) {
+          return "Meat";
+        }
+      };
 
   // Mandatory fields
   private final String master;
@@ -38,7 +52,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   // The base URL used to buy things from this Coinmaster
   private String buyURL = null;
-  private String buyAction = "buyitem";
+  private String buyAction = null;
   private List<AdventureResult> buyItems = null;
   private Map<Integer, Integer> buyPrices = null;
 
@@ -49,11 +63,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Map<Integer, Integer> sellPrices = null;
 
   // Fields assumed to be common to buying & selling
-  // These are correct for modern shop.php Coinmasters
-  private String itemField = "whichrow";
-  private Pattern itemPattern = GenericRequest.WHICHROW_PATTERN;
-  private String countField = "quantity";
-  private Pattern countPattern = GenericRequest.QUANTITY_PATTERN;
+  private String itemField = null;
+  private Pattern itemPattern = null;
+  private String countField = null;
+  private Pattern countPattern = null;
   private String storageAction = null;
   private String tradeAllAction = null;
 
@@ -79,6 +92,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public CoinmasterData withToken(String token) {
     this.token = token;
+    return this;
+  }
+
+  public CoinmasterData withPluralToken(String pluralToken) {
+    this.pluralToken = pluralToken;
     return this;
   }
 
@@ -201,6 +219,29 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public CoinmasterData withCanPurchase(boolean canPurchase) {
     this.canPurchase = canPurchase;
     return this;
+  }
+
+  // Convenience method for shop.php Coinmasters that use "rows"
+  public CoinmasterData withRowShopFields(String master, String shopId) {
+    return this.withItemRows(master)
+        .withBuyURL("shop.php?whichshop=" + shopId)
+        .withBuyAction("buyitem")
+        .withBuyItems(master)
+        .withBuyPrices(master)
+        .withItemField("whichrow")
+        .withItemPattern(GenericRequest.WHICHROW_PATTERN)
+        .withCountField("quantity")
+        .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+  }
+
+  // Convenience method for Coinmasters that use "whichitem"/"quantity"
+  public CoinmasterData withWhichItemFields(String master) {
+    return this.withBuyItems(master)
+        .withBuyPrices(master)
+        .withItemField("whichitem")
+        .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+        .withCountField("quantity")
+        .withCountPattern(GenericRequest.QUANTITY_PATTERN);
   }
 
   // Ye Olde BOA Constructor for CoinmasterData

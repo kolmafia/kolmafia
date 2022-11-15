@@ -13,56 +13,34 @@ public class GuzzlrRequest extends CoinMasterRequest {
   public static final String master = "Guzzlr Company Store Website";
 
   private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(GuzzlrRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(GuzzlrRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(GuzzlrRequest.master);
+      CoinmastersDatabase.getBuyItems(master);
+  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(master);
+  private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(master);
+
   private static final Pattern GUZZLR_PATTERN = Pattern.compile("([\\d,]+) Guzzlrbuck");
   public static final AdventureResult GUZZLRBUCK = ItemPool.get(ItemPool.GUZZLRBUCK, 1);
 
   public static final CoinmasterData GUZZLR =
-      new CoinmasterData(
-          GuzzlrRequest.master,
-          "guzzlr",
-          GuzzlrRequest.class,
-          "Guzzlrbuck",
-          null,
-          false,
-          GuzzlrRequest.GUZZLR_PATTERN,
-          GuzzlrRequest.GUZZLRBUCK,
-          null,
-          GuzzlrRequest.itemRows,
-          "shop.php?whichshop=guzzlr",
-          "buyitem",
-          GuzzlrRequest.buyItems,
-          GuzzlrRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "guzzlr", GuzzlrRequest.class)
+          .withToken("Guzzlrbuck")
+          .withTokenPattern(GUZZLR_PATTERN)
+          .withItem(GUZZLRBUCK)
+          .withRowShopFields(master, "guzzlr");
 
   public GuzzlrRequest() {
-    super(GuzzlrRequest.GUZZLR);
+    super(GUZZLR);
   }
 
   public GuzzlrRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(GuzzlrRequest.GUZZLR, buying, attachments);
+    super(GUZZLR, buying, attachments);
   }
 
   public GuzzlrRequest(final boolean buying, final AdventureResult attachment) {
-    super(GuzzlrRequest.GUZZLR, buying, attachment);
+    super(GUZZLR, buying, attachment);
   }
 
   public GuzzlrRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GuzzlrRequest.GUZZLR, buying, itemId, quantity);
+    super(GUZZLR, buying, itemId, quantity);
   }
 
   @Override
@@ -76,7 +54,7 @@ public class GuzzlrRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    GuzzlrRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -84,20 +62,18 @@ public class GuzzlrRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = GuzzlrRequest.GUZZLR;
-
     String action = GenericRequest.getAction(location);
     if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
+      CoinMasterRequest.parseResponse(GUZZLR, location, responseText);
       return;
     }
 
     // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    CoinMasterRequest.parseBalance(GUZZLR, responseText);
   }
 
   public static String accessible() {
-    return InventoryManager.getAccessibleCount(GuzzlrRequest.GUZZLRBUCK) > 0
+    return InventoryManager.getAccessibleCount(GUZZLRBUCK) > 0
         ? null
         : "Need access to your Getaway Campsite";
   }
@@ -107,7 +83,6 @@ public class GuzzlrRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = GuzzlrRequest.GUZZLR;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(GUZZLR, urlString, true);
   }
 }

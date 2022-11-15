@@ -11,15 +11,13 @@ public class DinostaurRequest extends CoinMasterRequest {
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Dinodollar");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DINODOLLAR, 1);
+
   public static final CoinmasterData DINOSTAUR =
       new CoinmasterData(master, "Dinostaur", DinostaurRequest.class)
           .withToken("Dinodollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withItemRows(master)
-          .withBuyURL("shop.php?whichshop=dino")
-          .withBuyItems(master)
-          .withBuyPrices(master);
+          .withRowShopFields(master, "dino");
 
   public DinostaurRequest() {
     super(DINOSTAUR);

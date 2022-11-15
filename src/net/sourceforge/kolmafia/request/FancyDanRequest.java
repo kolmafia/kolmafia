@@ -41,15 +41,12 @@ public class FancyDanRequest extends CoinMasterRequest {
   }
 
   public static final CoinmasterData FANCY_DAN =
-      new CoinmasterData(master, "olivers", FancyDanRequest.class) {
+      new CoinmasterData(master, "Speakeasy", FancyDanRequest.class) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
           return FancyDanRequest.buyCosts.get(itemId);
         }
-      }.withItemRows(master)
-          .withBuyURL("shop.php?whichshop=olivers")
-          .withBuyItems(master)
-          .withBuyPrices();
+      }.withRowShopFields(master, "olivers").withBuyPrices();
 
   public FancyDanRequest() {
     super(FANCY_DAN);
