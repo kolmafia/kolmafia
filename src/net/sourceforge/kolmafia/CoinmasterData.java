@@ -148,17 +148,21 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return withBuyItems(CoinmastersDatabase.getBuyItems(master));
   }
 
+  public CoinmasterData withBuyItems() {
+    return withBuyItems(CoinmastersDatabase.getNewList());
+  }
+
   public CoinmasterData withBuyItems(List<AdventureResult> buyItems) {
     this.buyItems = buyItems;
     return this;
   }
 
-  public CoinmasterData withBuyPrices() {
-    return withBuyPrices(CoinmastersDatabase.getNewMap());
-  }
-
   public CoinmasterData withBuyPrices(String master) {
     return withBuyPrices(CoinmastersDatabase.getBuyPrices(master));
+  }
+
+  public CoinmasterData withBuyPrices() {
+    return withBuyPrices(CoinmastersDatabase.getNewMap());
   }
 
   public CoinmasterData withBuyPrices(Map<Integer, Integer> buyPrices) {
@@ -181,9 +185,17 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this;
   }
 
+  public CoinmasterData withSellItems(String master) {
+    return withSellItems(CoinmastersDatabase.getSellItems(master));
+  }
+
   public CoinmasterData withSellPrices(Map<Integer, Integer> sellPrices) {
     this.sellPrices = sellPrices;
     return this;
+  }
+
+  public CoinmasterData withSellPrices(String master) {
+    return withSellPrices(CoinmastersDatabase.getSellPrices(master));
   }
 
   public CoinmasterData withItemField(String itemField) {
