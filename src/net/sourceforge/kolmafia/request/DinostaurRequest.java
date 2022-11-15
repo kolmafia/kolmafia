@@ -18,10 +18,11 @@ public class DinostaurRequest extends CoinMasterRequest {
   private static final Map<Integer, Integer> itemRows =
       CoinmastersDatabase.getRows(DinostaurRequest.master);
 
-  private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Dinodollars");
+  private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Dinodollar");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DINODOLLAR, 1);
   public static final CoinmasterData DINOSTAUR =
-      new CoinmasterData(master, "Dinostaur", DinostaurRequest.class, "Dinodollars")
+      new CoinmasterData(master, "Dinostaur", DinostaurRequest.class)
+          .withToken("Dinodollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withItemRows(itemRows)
@@ -32,8 +33,7 @@ public class DinostaurRequest extends CoinMasterRequest {
           .withItemField("whichrow")
           .withItemPattern(GenericRequest.WHICHROW_PATTERN)
           .withCountField("quantity")
-          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
-          .withCanPurchase(true);
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
 
   public DinostaurRequest() {
     super(DinostaurRequest.DINOSTAUR);

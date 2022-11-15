@@ -22,7 +22,7 @@ public class FancyDanRequest extends CoinMasterRequest {
   public static final AdventureResult DRINK_CHIT = ItemPool.get(ItemPool.DRINK_CHIT, 1);
 
   public static final CoinmasterData FANCY_DAN =
-      new CoinmasterData(master, "olivers", FancyDanRequest.class, null) {
+      new CoinmasterData(master, "olivers", FancyDanRequest.class) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
           return FancyDanRequest.buyCosts.get(itemId);

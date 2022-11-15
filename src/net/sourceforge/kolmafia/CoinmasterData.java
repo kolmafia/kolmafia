@@ -23,10 +23,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private final String master;
   private final String nickname;
   private final Class<? extends CoinMasterRequest> requestClass;
-  private String token = "";
 
   // Optional fields
   // The token(s) that you exchange for items.
+  private String token = "";
   private String tokenTest = "";
   private boolean positiveTest = true;
   private Pattern tokenPattern = null;
@@ -68,17 +68,18 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   // Derived fields are built lazily
 
   public CoinmasterData(
-      String master,
-      final String nickname,
-      final Class<? extends CoinMasterRequest> requestClass,
-      final String token) {
+      String master, final String nickname, final Class<? extends CoinMasterRequest> requestClass) {
     this.master = master;
     this.nickname = nickname;
     this.requestClass = requestClass;
-    this.token = token;
   }
 
   // Fluid field construction
+
+  public CoinmasterData withToken(String token) {
+    this.token = token;
+    return this;
+  }
 
   public CoinmasterData withTokenTest(String tokenTest) {
     this.tokenTest = tokenTest;
@@ -214,7 +215,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       final String storageAction,
       final String tradeAllAction,
       final boolean canPurchase) {
-    this(master, nickname, requestClass, token);
+    this(master, nickname, requestClass);
+    this.token = token;
     this.tokenTest = tokenTest;
     this.positiveTest = positiveTest;
     this.tokenPattern = tokenPattern;
