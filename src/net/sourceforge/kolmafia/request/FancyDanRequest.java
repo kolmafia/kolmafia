@@ -29,13 +29,8 @@ public class FancyDanRequest extends CoinMasterRequest {
         }
       }.withItemRows(itemRows)
           .withBuyURL("shop.php?whichshop=olivers")
-          .withBuyAction("buyitem")
           .withBuyItems(buyItems)
-          .withBuyPrices(buyPrices)
-          .withItemField("whichrow")
-          .withItemPattern(GenericRequest.WHICHROW_PATTERN)
-          .withCountField("quantity")
-          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+          .withBuyPrices(buyPrices);
 
   // Since there are two different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.

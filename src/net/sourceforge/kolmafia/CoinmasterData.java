@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 
 public class CoinmasterData implements Comparable<CoinmasterData> {
@@ -38,7 +39,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   // The base URL used to buy things from this Coinmaster
   private String buyURL = null;
-  private String buyAction = null;
+  private String buyAction = "buyitem";
   private List<AdventureResult> buyItems = null;
   private Map<Integer, Integer> buyPrices = null;
 
@@ -49,10 +50,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Map<Integer, Integer> sellPrices = null;
 
   // Fields assumed to be common to buying & selling
-  private String itemField = "";
-  private Pattern itemPattern = null;
-  private String countField = null;
-  private Pattern countPattern = null;
+  // These are correct for modern shop.php Coinmasters
+  private String itemField = "whichrow";
+  private Pattern itemPattern = GenericRequest.WHICHROW_PATTERN;
+  private String countField = "quantity";
+  private Pattern countPattern = GenericRequest.QUANTITY_PATTERN;
   private String storageAction = null;
   private String tradeAllAction = null;
 

@@ -27,13 +27,8 @@ public class DinostaurRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withItemRows(itemRows)
           .withBuyURL("shop.php?whichshop=dino")
-          .withBuyAction("buyitem")
           .withBuyItems(buyItems)
-          .withBuyPrices(buyPrices)
-          .withItemField("whichrow")
-          .withItemPattern(GenericRequest.WHICHROW_PATTERN)
-          .withCountField("quantity")
-          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+          .withBuyPrices(buyPrices);
 
   public DinostaurRequest() {
     super(DinostaurRequest.DINOSTAUR);
