@@ -3400,9 +3400,7 @@ public class FightRequest extends GenericRequest {
 
     if (adventure == AdventurePool.OLIVERS_SPEAKEASY_BRAWL) {
       if (free) {
-        Preferences.increment("_oliversPlaceFreeFights", 1, 5, false);
-      } else if (won) {
-        Preferences.setInteger("_oliversPlaceFreeFights", 5);
+        Preferences.increment("_oliversPlaceFreeFights", 1, 3, false);
       }
     }
 
