@@ -18,6 +18,7 @@ public class DimemasterRequest extends CoinMasterRequest {
   public static final String master = "Dimemaster";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You've.*?got ([\\d,]+) dime");
+
   public static final CoinmasterData HIPPY =
       new CoinmasterData(master, "dimemaster", DimemasterRequest.class) {
         @Override

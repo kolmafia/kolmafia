@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -19,11 +18,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MerchTableRequest extends CoinMasterRequest {
   public static final String master = "KoL Con 13 Merch Table";
-
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getNewList();
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-  private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getOrMakeRows(master);
 
   private static final Pattern MR_A_PATTERN =
       Pattern.compile("You have (\\w+) Mr. Accessor(?:y|ies) to trade.");

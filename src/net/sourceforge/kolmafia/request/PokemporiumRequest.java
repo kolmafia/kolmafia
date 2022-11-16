@@ -1,21 +1,14 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class PokemporiumRequest extends CoinMasterRequest {
   public static final String master = "The Pok&eacute;mporium";
 
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(master);
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(master);
-  private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(master);
   private static final Pattern POKEDOLLAR_PATTERN =
       Pattern.compile("([\\d,]+) 1,960 pok&eacute;dollar bills");
 
