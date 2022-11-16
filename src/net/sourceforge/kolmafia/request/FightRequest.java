@@ -3398,10 +3398,8 @@ public class FightRequest extends GenericRequest {
 
     final boolean free = responseText.contains("FREEFREEFREE");
 
-    if (adventure == AdventurePool.OLIVERS_SPEAKEASY_BRAWL) {
-      if (free) {
-        Preferences.increment("_oliversPlaceFreeFights", 1, 3, false);
-      }
+    if (free && adventure == AdventurePool.OLIVERS_SPEAKEASY_BRAWL) {
+      Preferences.increment("_oliversPlaceFreeFights", 1, 3, false);
     }
 
     if (free) {
