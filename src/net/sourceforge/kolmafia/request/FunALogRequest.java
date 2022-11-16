@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -18,9 +17,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class FunALogRequest extends CoinMasterRequest {
   public static final String master = "PirateRealm Fun-a-Log";
 
-  private static final List<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems(master);
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(master);
-  private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(master);
+  private static String unlockedItems = "";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<b>You have ([\\d,]+) FunPoints?\\.</b>");
@@ -35,13 +32,11 @@ public class FunALogRequest extends CoinMasterRequest {
           .withTokenTest("You have no FunPoints")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableFunPoints")
-          .withRowShopFields(master, "piraterealm");
+          .withShopRowFields(master, "piraterealm");
 
   static {
     ConcoctionPool.set(new Concoction("FunPoint", "availableFunPoints"));
   }
-
-  private static String unlockedItems = "";
 
   public FunALogRequest() {
     super(FUN_A_LOG);

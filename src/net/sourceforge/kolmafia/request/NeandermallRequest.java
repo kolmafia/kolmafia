@@ -19,7 +19,7 @@ public class NeandermallRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withRowShopFields(master, "caveshop");
+          .withShopRowFields(master, "caveshop");
 
   public NeandermallRequest() {
     super(NEANDERMALL);

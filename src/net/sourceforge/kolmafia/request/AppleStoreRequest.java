@@ -27,7 +27,7 @@ public class AppleStoreRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withRowShopFields(master, "applestore");
+          .withShopRowFields(master, "applestore");
 
   public AppleStoreRequest() {
     super(APPLE_STORE);

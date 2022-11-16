@@ -12,7 +12,7 @@ public class DollHawkerRequest extends CoinMasterRequest {
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
-          .withRowShopFields(master, "elvishp2");
+          .withShopRowFields(master, "elvishp2");
 
   public DollHawkerRequest() {
     super(DOLLHAWKER);

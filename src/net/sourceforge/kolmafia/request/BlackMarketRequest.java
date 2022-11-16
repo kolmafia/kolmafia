@@ -34,7 +34,7 @@ public class BlackMarketRequest extends CoinMasterRequest {
       }.withToken("priceless diamond")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withRowShopFields(master, "blackmarket");
+          .withShopRowFields(master, "blackmarket");
 
   public BlackMarketRequest() {
     super(BLACK_MARKET);

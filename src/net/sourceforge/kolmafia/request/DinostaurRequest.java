@@ -17,7 +17,7 @@ public class DinostaurRequest extends CoinMasterRequest {
           .withToken("Dinodollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withRowShopFields(master, "dino");
+          .withShopRowFields(master, "dino");
 
   public DinostaurRequest() {
     super(DINOSTAUR);

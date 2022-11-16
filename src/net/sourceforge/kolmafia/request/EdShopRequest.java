@@ -18,7 +18,7 @@ public class EdShopRequest extends CoinMasterRequest {
           .withToken("Ka coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(KA)
-          .withRowShopFields(master, "edunder_shopshop");
+          .withShopRowFields(master, "edunder_shopshop");
 
   public EdShopRequest() {
     super(EDSHOP);

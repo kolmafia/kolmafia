@@ -25,7 +25,7 @@ public class GuzzlrRequest extends CoinMasterRequest {
           .withToken("Guzzlrbuck")
           .withTokenPattern(GUZZLR_PATTERN)
           .withItem(GUZZLRBUCK)
-          .withRowShopFields(master, "guzzlr");
+          .withShopRowFields(master, "guzzlr");
 
   public GuzzlrRequest() {
     super(GUZZLR);

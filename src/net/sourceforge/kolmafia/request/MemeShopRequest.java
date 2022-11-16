@@ -56,7 +56,7 @@ public class MemeShopRequest extends CoinMasterRequest {
           .withTokenTest("Where's the bacon?")
           .withTokenPattern(BACON_PATTERN)
           .withItem(BACON)
-          .withRowShopFields(master, "bacon");
+          .withShopRowFields(master, "bacon");
 
   public MemeShopRequest() {
     super(BACON_STORE);

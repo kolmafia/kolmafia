@@ -30,7 +30,7 @@ public class Crimbo20FoodRequest extends CoinMasterRequest {
           .withTokenTest("no piles of donated food")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withRowShopFields(master, "crimbo20food");
+          .withShopRowFields(master, "crimbo20food");
 
   public Crimbo20FoodRequest() {
     super(CRIMBO20FOOD);

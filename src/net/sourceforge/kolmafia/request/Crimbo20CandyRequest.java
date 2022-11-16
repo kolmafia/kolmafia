@@ -30,7 +30,7 @@ public class Crimbo20CandyRequest extends CoinMasterRequest {
           .withTokenTest("no boxes of donated candy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withRowShopFields(master, "crimbo20candy");
+          .withShopRowFields(master, "crimbo20candy");
 
   public Crimbo20CandyRequest() {
     super(CRIMBO20CANDY);

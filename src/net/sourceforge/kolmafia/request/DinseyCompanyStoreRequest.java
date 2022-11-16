@@ -19,7 +19,7 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
           .withPluralToken("FunFunds&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withRowShopFields(master, "landfillstore");
+          .withShopRowFields(master, "landfillstore");
 
   public DinseyCompanyStoreRequest() {
     super(DINSEY_COMPANY_STORE);

@@ -16,24 +16,25 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.KIDNAPPED_ORPHAN, 1);
 
   public static final CoinmasterData GOTPORK_ORPHANAGE =
-      new CoinmasterData(master, "Gotpork Orphanage", GotporkOrphanageRequest.class) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          int price = GOTPORK_ORPHANAGE.getBuyPrices().get(itemId);
-          if (price == 1) {
-            return COIN;
-          }
-          // price increased by 3 each time you buy one
-          int count = InventoryManager.getCount(itemId);
-          if (count > 0) {
-            price = 3 * (count + 1);
-          }
-          return COIN.getInstance(price);
-        }
-      }.withToken("kidnapped orphan")
+      new CoinmasterData(master, "Gotpork Orphanage", GotporkOrphanageRequest.class)
+          .withToken("kidnapped orphan")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withRowShopFields(master, "batman_orphanage");
+          .withShopRowFields(master, "batman_orphanage")
+          .withItemBuyPrice(GotporkOrphanageRequest::itemBuyPrice);
+
+  private static AdventureResult itemBuyPrice(final Integer itemId) {
+    int price = GOTPORK_ORPHANAGE.getBuyPrices().get(itemId);
+    if (price == 1) {
+      return COIN;
+    }
+    // price increased by 3 each time you buy one
+    int count = InventoryManager.getCount(itemId);
+    if (count > 0) {
+      price = 3 * (count + 1);
+    }
+    return COIN.getInstance(price);
+  }
 
   public GotporkOrphanageRequest() {
     super(GOTPORK_ORPHANAGE);

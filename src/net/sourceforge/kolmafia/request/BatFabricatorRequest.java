@@ -16,18 +16,19 @@ public class BatFabricatorRequest extends CoinMasterRequest {
   public static final AdventureResult EXPLOSIVES = ItemPool.get(ItemPool.HIGH_GRADE_EXPLOSIVES, 1);
 
   public static final CoinmasterData BAT_FABRICATOR =
-      new CoinmasterData(master, "Bat-Fabricator", BatFabricatorRequest.class) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          int cost = BatManager.hasUpgrade(BatManager.IMPROVED_3D_BAT_PRINTER) ? 2 : 3;
-          return switch (itemId) {
-            case ItemPool.BAT_OOMERANG -> METAL.getInstance(cost);
-            case ItemPool.BAT_JUTE -> FIBERS.getInstance(cost);
-            case ItemPool.BAT_O_MITE -> EXPLOSIVES.getInstance(cost);
-            default -> null;
-          };
-        }
-      }.withRowShopFields(master, "batman_cave");
+      new CoinmasterData(master, "Bat-Fabricator", BatFabricatorRequest.class)
+          .withShopRowFields(master, "batman_cave")
+          .withItemBuyPrice(BatFabricatorRequest::itemBuyPrice);
+
+  public static AdventureResult itemBuyPrice(final Integer itemId) {
+    int cost = BatManager.hasUpgrade(BatManager.IMPROVED_3D_BAT_PRINTER) ? 2 : 3;
+    return switch (itemId) {
+      case ItemPool.BAT_OOMERANG -> METAL.getInstance(cost);
+      case ItemPool.BAT_JUTE -> FIBERS.getInstance(cost);
+      case ItemPool.BAT_O_MITE -> EXPLOSIVES.getInstance(cost);
+      default -> null;
+    };
+  }
 
   public BatFabricatorRequest() {
     super(BAT_FABRICATOR);

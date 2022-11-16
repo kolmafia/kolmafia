@@ -28,7 +28,7 @@ public class BrogurtRequest extends CoinMasterRequest {
       }.withToken("Beach Buck")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withRowShopFields(master, "sbb_brogurt");
+          .withShopRowFields(master, "sbb_brogurt");
 
   public BrogurtRequest() {
     super(BROGURT);

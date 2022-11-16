@@ -19,7 +19,7 @@ public class FishboneryRequest extends CoinMasterRequest {
           .withTokenTest("no freshwater fishbones")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FRESHWATER_FISHBONE)
-          .withRowShopFields(master, "fishbones");
+          .withShopRowFields(master, "fishbones");
 
   public FishboneryRequest() {
     super(FISHBONERY);

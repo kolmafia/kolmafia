@@ -19,7 +19,7 @@ public class FDKOLRequest extends CoinMasterRequest {
           .withToken("FDKOL commendation")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FDKOL_TOKEN)
-          .withRowShopFields(master, "fdkol");
+          .withShopRowFields(master, "fdkol");
 
   public FDKOLRequest() {
     super(FDKOL);

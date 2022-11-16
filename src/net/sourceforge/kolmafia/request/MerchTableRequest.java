@@ -34,19 +34,20 @@ public class MerchTableRequest extends CoinMasterRequest {
   public static final AdventureResult CHRONER = ItemPool.get(ItemPool.CHRONER, 1);
 
   public static final CoinmasterData MERCH_TABLE =
-      new CoinmasterData(master, "conmerch", MerchTableRequest.class) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          return buyCosts.get(itemId);
-        }
-      }.withToken("Mr. A")
+      new CoinmasterData(master, "conmerch", MerchTableRequest.class)
+          .withToken("Mr. A")
           .withTokenTest("You have no Mr. Accessories to trade")
           .withTokenPattern(MR_A_PATTERN)
           .withItem(MR_A)
-          .withRowShopFields(master, "conmerch")
+          .withShopRowFields(master, "conmerch")
           .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
           .withBuyItems()
-          .withBuyPrices();
+          .withBuyPrices()
+          .withItemBuyPrice(MerchTableRequest::itemBuyPrice);
+
+  private static AdventureResult itemBuyPrice(final Integer itemId) {
+    return buyCosts.get(itemId);
+  }
 
   // Since there are two different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.

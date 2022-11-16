@@ -15,7 +15,7 @@ public class LunarLunchRequest extends CoinMasterRequest {
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
-          .withRowShopFields(master, "elvishp3");
+          .withShopRowFields(master, "elvishp3");
 
   public LunarLunchRequest() {
     super(LUNAR_LUNCH);

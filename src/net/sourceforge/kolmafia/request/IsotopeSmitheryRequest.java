@@ -12,7 +12,7 @@ public class IsotopeSmitheryRequest extends CoinMasterRequest {
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
-          .withRowShopFields(master, "elvishp1");
+          .withShopRowFields(master, "elvishp1");
 
   public IsotopeSmitheryRequest() {
     super(ISOTOPE_SMITHERY);

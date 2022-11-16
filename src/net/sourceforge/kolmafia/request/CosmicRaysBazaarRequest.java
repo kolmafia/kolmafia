@@ -18,12 +18,14 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
   public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get(ItemPool.FAT_LOOT_TOKEN, 1);
 
   public static final CoinmasterData COSMIC_RAYS_BAZAAR =
-      new CoinmasterData(master, "exploathing", CosmicRaysBazaarRequest.class) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          return buyCosts.get(itemId);
-        }
-      }.withRowShopFields(master, "exploathing").withBuyPrices();
+      new CoinmasterData(master, "exploathing", CosmicRaysBazaarRequest.class)
+          .withShopRowFields(master, "exploathing")
+          .withBuyPrices()
+          .withItemBuyPrice(CosmicRaysBazaarRequest::itemBuyPrice);
+
+  private static AdventureResult itemBuyPrice(final Integer itemId) {
+    return buyCosts.get(itemId);
+  }
 
   // Since there are four different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.

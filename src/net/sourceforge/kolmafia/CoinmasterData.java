@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
@@ -76,6 +77,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public String pluralToken = null;
   private AdventureResult tokenItem = null;
   private Set<AdventureResult> currencies = null;
+
+  // Functional fields
+  private Function<Integer, AdventureResult> itemBuyPrice = x -> itemBuyPriceInternal(x);
 
   // Base constructor for CoinmasterData with only the mandatory fields.
   // Optional fields can be added fluidly.
@@ -233,8 +237,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this;
   }
 
+  public CoinmasterData withItemBuyPrice(Function<Integer, AdventureResult> function) {
+    this.itemBuyPrice = function;
+    return this;
+  }
+
   // Convenience method for shop.php Coinmasters that use "rows"
-  public CoinmasterData withRowShopFields(String master, String shopId) {
+  public CoinmasterData withShopRowFields(String master, String shopId) {
     return this.withItemRows(master)
         .withBuyURL("shop.php?whichshop=" + shopId)
         .withBuyAction("buyitem")
@@ -548,7 +557,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return price != null ? price : 0;
   }
 
-  public AdventureResult itemBuyPrice(final int itemId) {
+  public AdventureResult itemBuyPrice(final Integer itemId) {
+    return this.itemBuyPrice.apply(itemId);
+  }
+
+  private AdventureResult itemBuyPriceInternal(final Integer itemId) {
     int price = this.getBuyPrice(itemId);
     return this.item == null
         ? this.getTokenItem().getInstance(price)

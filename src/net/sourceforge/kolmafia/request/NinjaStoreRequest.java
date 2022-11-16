@@ -19,7 +19,7 @@ public class NinjaStoreRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withRowShopFields(master, "nina");
+          .withShopRowFields(master, "nina");
 
   public NinjaStoreRequest() {
     super(NINJA_STORE);

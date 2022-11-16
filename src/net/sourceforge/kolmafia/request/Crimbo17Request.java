@@ -36,7 +36,7 @@ public class Crimbo17Request extends CoinMasterRequest {
           .withTokenTest("no crystalline cheer")
           .withTokenPattern(CHEER_PATTERN)
           .withItem(CHEER)
-          .withRowShopFields(master, "crimbo17");
+          .withShopRowFields(master, "crimbo17");
 
   public Crimbo17Request() {
     super(CRIMBO17);

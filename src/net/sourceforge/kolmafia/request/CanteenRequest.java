@@ -26,7 +26,7 @@ public class CanteenRequest extends CoinMasterRequest {
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withRowShopFields(master, "si_shop2");
+          .withShopRowFields(master, "si_shop2");
 
   public CanteenRequest() {
     super(CANTEEN);

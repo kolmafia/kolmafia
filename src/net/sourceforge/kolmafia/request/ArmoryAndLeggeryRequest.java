@@ -24,15 +24,16 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
   private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
 
   public static final CoinmasterData ARMORY_AND_LEGGERY =
-      new CoinmasterData(master, "armory", ArmoryAndLeggeryRequest.class) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          return ArmoryAndLeggeryRequest.buyCosts.get(itemId);
-        }
-      }.withRowShopFields(master, "armory")
+      new CoinmasterData(master, "armory", ArmoryAndLeggeryRequest.class)
+          .withShopRowFields(master, "armory")
           .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
           .withBuyItems()
-          .withBuyPrices();
+          .withBuyPrices()
+          .withItemBuyPrice(ArmoryAndLeggeryRequest::itemBuyPrice);
+
+  private static AdventureResult itemBuyPrice(final int itemId) {
+    return buyCosts.get(itemId);
+  }
 
   public ArmoryAndLeggeryRequest() {
     super(ARMORY_AND_LEGGERY);

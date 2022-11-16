@@ -16,24 +16,25 @@ public class ChemiCorpRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DANGEROUS_CHEMICALS, 1);
 
   public static final CoinmasterData CHEMICORP =
-      new CoinmasterData(master, "ChemiCorp", ChemiCorpRequest.class) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          int price = CHEMICORP.getBuyPrices().get(itemId);
-          if (price == 1) {
-            return COIN;
-          }
-          // price increased by 3 each time you buy one
-          int count = InventoryManager.getCount(itemId);
-          if (count > 0) {
-            price = 3 * (count + 1);
-          }
-          return COIN.getInstance(price);
-        }
-      }.withToken("dangerous chemicals")
+      new CoinmasterData(master, "ChemiCorp", ChemiCorpRequest.class)
+          .withToken("dangerous chemicals")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withRowShopFields(master, "batman_chemicorp");
+          .withShopRowFields(master, "batman_chemicorp")
+          .withItemBuyPrice(ChemiCorpRequest::itemBuyPrice);
+
+  private static AdventureResult itemBuyPrice(final Integer itemId) {
+    int price = CHEMICORP.getBuyPrices().get(itemId);
+    if (price == 1) {
+      return COIN;
+    }
+    // price increased by 3 each time you buy one
+    int count = InventoryManager.getCount(itemId);
+    if (count > 0) {
+      price = 3 * (count + 1);
+    }
+    return COIN.getInstance(price);
+  }
 
   public ChemiCorpRequest() {
     super(CHEMICORP);

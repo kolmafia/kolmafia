@@ -17,7 +17,7 @@ public class Crimbo14Request extends CoinMasterRequest {
           .withToken("Crimbo Credit")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(CRIMBO_CREDIT)
-          .withRowShopFields(master, "crimbo14")
+          .withShopRowFields(master, "crimbo14")
           .withSellURL("shop.php?whichshop=crimbo14turnin")
           .withSellAction("buyitem")
           .withSellItems(master)

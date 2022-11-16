@@ -18,7 +18,7 @@ public class BuffJimmyRequest extends CoinMasterRequest {
           .withToken("Beach Buck")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withRowShopFields(master, "sbb_jimmy");
+          .withShopRowFields(master, "sbb_jimmy");
 
   public BuffJimmyRequest() {
     super(BUFF_JIMMY);

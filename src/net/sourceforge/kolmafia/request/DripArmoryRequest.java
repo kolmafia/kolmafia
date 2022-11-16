@@ -28,7 +28,7 @@ public class DripArmoryRequest extends CoinMasterRequest {
       }.withToken("Driplet")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withRowShopFields(master, "driparmory");
+          .withShopRowFields(master, "driparmory");
 
   public DripArmoryRequest() {
     super(DRIP_ARMORY);

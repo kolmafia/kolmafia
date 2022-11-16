@@ -38,7 +38,7 @@ public class PokemporiumRequest extends CoinMasterRequest {
           .withTokenTest("no pok&eacute;dollar bills")
           .withTokenPattern(POKEDOLLAR_PATTERN)
           .withItem(POKEDOLLAR)
-          .withRowShopFields(master, "pokefam");
+          .withShopRowFields(master, "pokefam");
 
   public PokemporiumRequest() {
     super(POKEMPORIUM);

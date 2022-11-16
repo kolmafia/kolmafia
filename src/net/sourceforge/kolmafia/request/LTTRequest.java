@@ -16,7 +16,7 @@ public class LTTRequest extends CoinMasterRequest {
           .withToken("buffalo dime")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withRowShopFields(master, "ltt");
+          .withShopRowFields(master, "ltt");
 
   public LTTRequest() {
     super(LTT);

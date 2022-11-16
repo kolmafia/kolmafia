@@ -25,7 +25,7 @@ public class GMartRequest extends CoinMasterRequest {
           .withTokenTest("no Gs")
           .withTokenPattern(G_PATTERN)
           .withItem(G)
-          .withRowShopFields(master, "glover");
+          .withShopRowFields(master, "glover");
 
   public GMartRequest() {
     super(GMART);

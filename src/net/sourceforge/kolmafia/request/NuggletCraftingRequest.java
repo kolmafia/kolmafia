@@ -18,7 +18,7 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
           .withTokenTest("no topiary nugglets")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOPIARY_NUGGLET)
-          .withRowShopFields(master, "topiary");
+          .withShopRowFields(master, "topiary");
 
   public NuggletCraftingRequest() {
     super(NUGGLETCRAFTING);
