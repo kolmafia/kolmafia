@@ -3431,7 +3431,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_item(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.makeItemValue((int) value.intValue(), true);
     }
 
@@ -3482,7 +3483,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_skill(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.makeSkillValue((int) value.intValue(), true);
     }
 
@@ -3509,7 +3511,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_effect(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.makeEffectValue((int) value.intValue(), true);
     }
 
@@ -3525,7 +3528,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_location(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.parseLocationValue((int) value.intValue(), true);
     } else {
       return DataTypes.parseLocationValue(value.toString(), true);
@@ -3533,7 +3537,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_familiar(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.makeFamiliarValue((int) value.intValue(), true);
     }
 
@@ -3541,7 +3546,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_monster(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.makeMonsterValue((int) value.intValue(), true);
     }
 
@@ -3604,7 +3610,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_thrall(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.makeThrallValue((int) value.intValue(), true);
     }
 
@@ -3612,7 +3619,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_servant(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.makeServantValue((int) value.intValue(), true);
     }
 
@@ -3624,7 +3632,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_path(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(DataTypes.TYPE_INT)
+        || value.getType().equals(DataTypes.TYPE_FLOAT)) {
       return DataTypes.parsePathValue((int) value.intValue(), true);
     }
 
@@ -6271,7 +6280,9 @@ public abstract class RuntimeLibrary {
     String arg =
         type.equals(DataTypes.TYPE_STRING)
             ? attackValue.toString()
-            : type.equals(DataTypes.TYPE_INT) ? String.valueOf(attackValue.intValue()) : "none";
+            : type.equals(DataTypes.TYPE_INT) || type.equals(DataTypes.TYPE_FLOAT)
+                ? String.valueOf(attackValue.intValue())
+                : "none";
 
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("autoattack", arg);
 
@@ -9678,7 +9689,7 @@ public abstract class RuntimeLibrary {
   public static Value pick_pocket(ScriptRuntime controller, final Value arg) {
     Type type = arg.getType();
     Pocket pocket =
-        type.equals(DataTypes.TYPE_INT)
+        type.equals(DataTypes.TYPE_INT) || type.equals(DataTypes.TYPE_FLOAT)
             ? PocketDatabase.pocketByNumber((int) arg.intValue())
             : PocketDatabase.firstUnpickedPocket(
                 RuntimeLibrary.sortedPockets(type, arg.toString()));
