@@ -61,4 +61,14 @@ public class AshInteropTest {
     String retS = ret.toString();
     assertEquals("heeheehee", retS);
   }
+
+  @Test
+  void getItemUsingFloat() {
+    var js = new JavascriptRuntime("toItem(1.0)");
+    assertNotNull(js, "JavascriptRuntime returned as null.");
+    Value ret = js.execute(null, null, true);
+    assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
+    String retS = ret.toString();
+    assertEquals("seal-clubbing club", retS);
+  }
 }
