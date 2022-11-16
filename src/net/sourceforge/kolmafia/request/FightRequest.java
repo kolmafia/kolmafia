@@ -3398,6 +3398,14 @@ public class FightRequest extends GenericRequest {
 
     final boolean free = responseText.contains("FREEFREEFREE");
 
+    if (adventure == AdventurePool.OLIVERS_SPEAKEASY_BRAWL) {
+      if (free) {
+        Preferences.increment("_oliversPlaceFreeFights", 1, 5, false);
+      } else if (won) {
+        Preferences.setInteger("_oliversPlaceFreeFights", 5);
+      }
+    }
+
     if (free) {
       String updateMessage = "This combat did not cost a turn";
       RequestLogger.updateSessionLog(updateMessage);
