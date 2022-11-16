@@ -80,6 +80,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   // Functional fields
   private Function<Integer, AdventureResult> itemBuyPrice = x -> itemBuyPriceInternal(x);
+  private Function<Integer, Boolean> canBuyItem = x -> canBuyItemInternal(x);
 
   // Base constructor for CoinmasterData with only the mandatory fields.
   // Optional fields can be added fluidly.
@@ -239,6 +240,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public CoinmasterData withItemBuyPrice(Function<Integer, AdventureResult> function) {
     this.itemBuyPrice = function;
+    return this;
+  }
+
+  public CoinmasterData withCanBuyItem(Function<Integer, Boolean> function) {
+    this.canBuyItem = function;
     return this;
   }
 
@@ -539,7 +545,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return (this.buyItems.contains(item));
   }
 
-  public boolean canBuyItem(final int itemId) {
+  public Boolean canBuyItem(final Integer itemId) {
+    return this.canBuyItem.apply(itemId);
+  }
+
+  public Boolean canBuyItemInternal(final Integer itemId) {
     if (this.buyItems == null) {
       return false;
     }

@@ -21,17 +21,18 @@ public class PokemporiumRequest extends CoinMasterRequest {
       };
 
   public static final CoinmasterData POKEMPORIUM =
-      new CoinmasterData(master, "pokefam", PokemporiumRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          return KoLCharacter.inPokefam();
-        }
-      }.withToken("pok&eacute;dollar bills")
+      new CoinmasterData(master, "pokefam", PokemporiumRequest.class)
+          .withToken("pok&eacute;dollar bills")
           .withPluralToken("pok&eacute;dollar bills")
           .withTokenTest("no pok&eacute;dollar bills")
           .withTokenPattern(POKEDOLLAR_PATTERN)
           .withItem(POKEDOLLAR)
-          .withShopRowFields(master, "pokefam");
+          .withShopRowFields(master, "pokefam")
+          .withCanBuyItem(PokemporiumRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return KoLCharacter.inPokefam();
+  }
 
   public PokemporiumRequest() {
     super(POKEMPORIUM);

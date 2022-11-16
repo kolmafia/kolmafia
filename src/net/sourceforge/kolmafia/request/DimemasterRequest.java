@@ -20,17 +20,8 @@ public class DimemasterRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You've.*?got ([\\d,]+) dime");
 
   public static final CoinmasterData HIPPY =
-      new CoinmasterData(master, "dimemaster", DimemasterRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          return switch (itemId) {
-            case ItemPool.PATCHOULI_OIL_BOMB, ItemPool.EXPLODING_HACKY_SACK -> Preferences
-                .getString("sidequestLighthouseCompleted")
-                .equals("hippy");
-            default -> super.canBuyItem(itemId);
-          };
-        }
-      }.withToken("dime")
+      new CoinmasterData(master, "dimemaster", DimemasterRequest.class)
+          .withToken("dime")
           .withTokenTest("You don't have any dimes")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableDimes")
@@ -45,7 +36,17 @@ public class DimemasterRequest extends CoinMasterRequest {
           .withItemField("whichitem")
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
-          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+          .withCanBuyItem(DimemasterRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.PATCHOULI_OIL_BOMB, ItemPool.EXPLODING_HACKY_SACK -> Preferences.getString(
+              "sidequestLighthouseCompleted")
+          .equals("hippy");
+      default -> ItemPool.get(itemId).getCount(HIPPY.getBuyItems()) > 0;
+    };
+  }
 
   static {
     ConcoctionPool.set(new Concoction("dime", "availableDimes"));

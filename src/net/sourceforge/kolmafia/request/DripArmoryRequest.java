@@ -15,20 +15,21 @@ public class DripArmoryRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Driplet");
 
   public static final CoinmasterData DRIP_ARMORY =
-      new CoinmasterData(master, "driparmory", DripArmoryRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.DRIPPY_SHIELD:
-              return Preferences.getBoolean("drippyShieldUnlocked")
-                  && !InventoryManager.hasItem(ItemPool.DRIPPY_SHIELD);
-          }
-          return super.canBuyItem(itemId);
-        }
-      }.withToken("Driplet")
+      new CoinmasterData(master, "driparmory", DripArmoryRequest.class)
+          .withToken("Driplet")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "driparmory");
+          .withShopRowFields(master, "driparmory")
+          .withCanBuyItem(DripArmoryRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    AdventureResult item = ItemPool.get(itemId);
+    return switch (itemId) {
+      case ItemPool.DRIPPY_SHIELD -> Preferences.getBoolean("drippyShieldUnlocked")
+          && !InventoryManager.hasItem(item);
+      default -> item.getCount(DRIP_ARMORY.getBuyItems()) > 0;
+    };
+  }
 
   public DripArmoryRequest() {
     super(DRIP_ARMORY);

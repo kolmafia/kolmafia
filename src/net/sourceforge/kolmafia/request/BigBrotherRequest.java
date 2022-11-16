@@ -23,28 +23,29 @@ public class BigBrotherRequest extends CoinMasterRequest {
   public static final AdventureResult BLACK_GLASS = ItemPool.get(ItemPool.BLACK_GLASS, 1);
 
   public static final CoinmasterData BIG_BROTHER =
-      new CoinmasterData(master, "bigbrother", BigBrotherRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          return switch (itemId) {
-            case ItemPool.MADNESS_REEF_MAP,
-                ItemPool.MARINARA_TRENCH_MAP,
-                ItemPool.ANEMONE_MINE_MAP,
-                ItemPool.DIVE_BAR_MAP,
-                ItemPool.SKATE_PARK_MAP -> !ItemDatabase.haveVirtualItem(itemId);
-            case ItemPool.DAMP_OLD_BOOT -> !Preferences.getBoolean("dampOldBootPurchased");
-            case ItemPool.BLACK_GLASS -> BLACK_GLASS.getCount(KoLConstants.inventory) == 0;
-            case ItemPool.FOLDER_19 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
-            default -> super.canBuyItem(itemId);
-          };
-        }
-      }.withToken("sand dollar")
+      new CoinmasterData(master, "bigbrother", BigBrotherRequest.class)
+          .withToken("sand dollar")
           .withTokenTest("You haven't got any sand dollars")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(SAND_DOLLAR)
           .withBuyURL("monkeycastle.php")
           .withBuyAction("buyitem")
-          .withWhichItemFields(master);
+          .withWhichItemFields(master)
+          .withCanBuyItem(BigBrotherRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.MADNESS_REEF_MAP,
+          ItemPool.MARINARA_TRENCH_MAP,
+          ItemPool.ANEMONE_MINE_MAP,
+          ItemPool.DIVE_BAR_MAP,
+          ItemPool.SKATE_PARK_MAP -> !ItemDatabase.haveVirtualItem(itemId);
+      case ItemPool.DAMP_OLD_BOOT -> !Preferences.getBoolean("dampOldBootPurchased");
+      case ItemPool.BLACK_GLASS -> BLACK_GLASS.getCount(KoLConstants.inventory) == 0;
+      case ItemPool.FOLDER_19 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
+      default -> ItemPool.get(itemId).getCount(BIG_BROTHER.getBuyItems()) > 0;
+    };
+  }
 
   public static final AdventureResult AERATED_DIVING_HELMET =
       ItemPool.get(ItemPool.AERATED_DIVING_HELMET);

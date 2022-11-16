@@ -14,21 +14,25 @@ public class BrogurtRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.BEACH_BUCK, 1);
 
   public static final CoinmasterData BROGURT =
-      new CoinmasterData(master, "brogurt", BrogurtRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          return switch (itemId) {
-            case ItemPool.BROBERRY_BROGURT,
-                ItemPool.BROCOLATE_BROGURT,
-                ItemPool.FRENCH_BRONILLA_BROGURT -> Preferences.getString("questESlBacteria")
-                == "finished";
-            default -> super.canBuyItem(itemId);
-          };
-        }
-      }.withToken("Beach Buck")
+      new CoinmasterData(master, "brogurt", BrogurtRequest.class)
+          .withToken("Beach Buck")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "sbb_brogurt");
+          .withShopRowFields(master, "sbb_brogurt")
+          .withCanBuyItem(BrogurtRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.BROBERRY_BROGURT,
+          ItemPool.BROCOLATE_BROGURT,
+          ItemPool.FRENCH_BRONILLA_BROGURT -> Preferences.getString("questESlBacteria")
+          .equals("finished");
+      default -> {
+        AdventureResult item = ItemPool.get(itemId, 1);
+        yield item.getCount(BROGURT.getBuyItems()) > 0;
+      }
+    };
+  }
 
   public BrogurtRequest() {
     super(BROGURT);

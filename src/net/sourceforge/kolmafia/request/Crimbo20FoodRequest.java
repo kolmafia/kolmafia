@@ -14,23 +14,24 @@ public class Crimbo20FoodRequest extends CoinMasterRequest {
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.DONATED_FOOD, 1);
 
   public static final CoinmasterData CRIMBO20FOOD =
-      new CoinmasterData(master, "crimbo20food", Crimbo20FoodRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.FOOD_DRIVE_BUTTON:
-            case ItemPool.FOOD_MAILING_LIST:
-              AdventureResult item = ItemPool.get(itemId);
-              return item.getCount(KoLConstants.closet) + item.getCount(KoLConstants.inventory)
-                  == 0;
-          }
-          return super.canBuyItem(itemId);
-        }
-      }.withToken("donated food")
+      new CoinmasterData(master, "crimbo20food", Crimbo20FoodRequest.class)
+          .withToken("donated food")
           .withTokenTest("no piles of donated food")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "crimbo20food");
+          .withShopRowFields(master, "crimbo20food")
+          .withCanBuyItem(Crimbo20FoodRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    AdventureResult item = ItemPool.get(itemId);
+    return switch (itemId) {
+      case ItemPool.FOOD_DRIVE_BUTTON, ItemPool.FOOD_MAILING_LIST -> item.getCount(
+                  KoLConstants.closet)
+              + item.getCount(KoLConstants.inventory)
+          == 0;
+      default -> item.getCount(CRIMBO20FOOD.getBuyItems()) > 0;
+    };
+  }
 
   public Crimbo20FoodRequest() {
     super(CRIMBO20FOOD);

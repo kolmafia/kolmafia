@@ -20,17 +20,8 @@ public class QuartersmasterRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You've.*?got ([\\d,]+) quarter");
 
   public static final CoinmasterData FRATBOY =
-      new CoinmasterData(master, "quartersmaster", QuartersmasterRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          return switch (itemId) {
-            case ItemPool.TEQUILA_GRENADE, ItemPool.MOLOTOV_COCKTAIL_COCKTAIL -> Preferences
-                .getString("sidequestLighthouseCompleted")
-                .equals("fratboy");
-            default -> super.canBuyItem(itemId);
-          };
-        }
-      }.withToken("quarter")
+      new CoinmasterData(master, "quartersmaster", QuartersmasterRequest.class)
+          .withToken("quarter")
           .withTokenTest("You don't have any quarters")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableQuarters")
@@ -45,7 +36,17 @@ public class QuartersmasterRequest extends CoinMasterRequest {
           .withItemField("whichitem")
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
-          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+          .withCanBuyItem(QuartersmasterRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.TEQUILA_GRENADE, ItemPool.MOLOTOV_COCKTAIL_COCKTAIL -> Preferences.getString(
+              "sidequestLighthouseCompleted")
+          .equals("fratboy");
+      default -> ItemPool.get(itemId).getCount(FRATBOY.getBuyItems()) > 0;
+    };
+  }
 
   static {
     ConcoctionPool.set(new Concoction("quarter", "availableQuarters"));

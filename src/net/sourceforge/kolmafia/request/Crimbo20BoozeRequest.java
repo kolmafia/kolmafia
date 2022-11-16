@@ -14,24 +14,24 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.DONATED_BOOZE, 1);
 
   public static final CoinmasterData CRIMBO20BOOZE =
-      new CoinmasterData(master, "crimbo20booze", Crimbo20BoozeRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.BOOZE_DRIVE_BUTTON:
-            case ItemPool.BOOZE_MAILING_LIST:
-              AdventureResult item = ItemPool.get(itemId);
-              return item.getCount(KoLConstants.closet) + item.getCount(KoLConstants.inventory)
-                  == 0;
-          }
-          return super.canBuyItem(itemId);
-        }
-      }.withToken("donated booze")
+      new CoinmasterData(master, "crimbo20booze", Crimbo20BoozeRequest.class)
+          .withToken("donated booze")
           .withTokenTest("no boxes of donated booze")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "crimbo20booze");
-  ;
+          .withShopRowFields(master, "crimbo20booze")
+          .withCanBuyItem(Crimbo20BoozeRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    AdventureResult item = ItemPool.get(itemId);
+    return switch (itemId) {
+      case ItemPool.BOOZE_DRIVE_BUTTON, ItemPool.BOOZE_MAILING_LIST -> item.getCount(
+                  KoLConstants.closet)
+              + item.getCount(KoLConstants.inventory)
+          == 0;
+      default -> item.getCount(CRIMBO20BOOZE.getBuyItems()) > 0;
+    };
+  }
 
   public Crimbo20BoozeRequest() {
     super(CRIMBO20BOOZE);

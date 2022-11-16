@@ -101,14 +101,6 @@ public class SwaggerShopRequest extends CoinMasterRequest {
         }
 
         @Override
-        public final boolean canBuyItem(final int itemId) {
-          Season season = itemIdToSeason.get(itemId);
-          return (season != null)
-              ? Preferences.getBoolean(season.available)
-              : super.canBuyItem(itemId);
-        }
-
-        @Override
         public final boolean availableItem(final int itemId) {
           Season season = itemIdToSeason.get(itemId);
           return (season == Season.NONE)
@@ -129,7 +121,17 @@ public class SwaggerShopRequest extends CoinMasterRequest {
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern(GenericRequest.WHICHITEM_PATTERN);
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCanBuyItem(SwaggerShopRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    Season season = itemIdToSeason.get(itemId);
+    if (season != null) {
+      return Preferences.getBoolean(season.available);
+    }
+    AdventureResult item = ItemPool.get(itemId, 1);
+    return item.getCount(SWAGGER_SHOP.getBuyItems()) > 0;
+  }
 
   static {
     ConcoctionPool.set(new Concoction("swagger", "availableSwagger"));

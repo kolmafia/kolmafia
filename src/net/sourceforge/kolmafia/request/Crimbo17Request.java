@@ -13,30 +13,25 @@ public class Crimbo17Request extends CoinMasterRequest {
   public static final AdventureResult CHEER = ItemPool.get(ItemPool.CRYSTALLINE_CHEER, 1);
 
   public static final CoinmasterData CRIMBO17 =
-      new CoinmasterData(master, "crimbo17", Crimbo17Request.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.MIME_SCIENCE_VOL_1:
-              return KoLCharacter.isSealClubber();
-            case ItemPool.MIME_SCIENCE_VOL_2:
-              return KoLCharacter.isTurtleTamer();
-            case ItemPool.MIME_SCIENCE_VOL_3:
-              return KoLCharacter.isPastamancer();
-            case ItemPool.MIME_SCIENCE_VOL_4:
-              return KoLCharacter.isSauceror();
-            case ItemPool.MIME_SCIENCE_VOL_5:
-              return KoLCharacter.isDiscoBandit();
-            case ItemPool.MIME_SCIENCE_VOL_6:
-              return KoLCharacter.isAccordionThief();
-          }
-          return super.canBuyItem(itemId);
-        }
-      }.withToken("crystalline cheer")
+      new CoinmasterData(master, "crimbo17", Crimbo17Request.class)
+          .withToken("crystalline cheer")
           .withTokenTest("no crystalline cheer")
           .withTokenPattern(CHEER_PATTERN)
           .withItem(CHEER)
-          .withShopRowFields(master, "crimbo17");
+          .withShopRowFields(master, "crimbo17")
+          .withCanBuyItem(Crimbo17Request::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.MIME_SCIENCE_VOL_1 -> KoLCharacter.isSealClubber();
+      case ItemPool.MIME_SCIENCE_VOL_2 -> KoLCharacter.isTurtleTamer();
+      case ItemPool.MIME_SCIENCE_VOL_3 -> KoLCharacter.isPastamancer();
+      case ItemPool.MIME_SCIENCE_VOL_4 -> KoLCharacter.isSauceror();
+      case ItemPool.MIME_SCIENCE_VOL_5 -> KoLCharacter.isDiscoBandit();
+      case ItemPool.MIME_SCIENCE_VOL_6 -> KoLCharacter.isAccordionThief();
+      default -> ItemPool.get(itemId).getCount(CRIMBO17.getBuyItems()) > 0;
+    };
+  }
 
   public Crimbo17Request() {
     super(CRIMBO17);

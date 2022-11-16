@@ -14,19 +14,20 @@ public class BlackMarketRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) priceless diamond");
 
   public static final CoinmasterData BLACK_MARKET =
-      new CoinmasterData(master, "blackmarket", BlackMarketRequest.class) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.ZEPPELIN_TICKET:
-              return InventoryManager.getCount(itemId) == 0;
-          }
-          return super.canBuyItem(itemId);
-        }
-      }.withToken("priceless diamond")
+      new CoinmasterData(master, "blackmarket", BlackMarketRequest.class)
+          .withToken("priceless diamond")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "blackmarket");
+          .withShopRowFields(master, "blackmarket")
+          .withCanBuyItem(BlackMarketRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    AdventureResult item = ItemPool.get(itemId);
+    return switch (itemId) {
+      case ItemPool.ZEPPELIN_TICKET -> InventoryManager.getCount(item) == 0;
+      default -> item.getCount(BLACK_MARKET.getBuyItems()) > 0;
+    };
+  }
 
   public BlackMarketRequest() {
     super(BLACK_MARKET);
