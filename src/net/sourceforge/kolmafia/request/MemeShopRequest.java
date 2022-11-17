@@ -21,31 +21,26 @@ public class MemeShopRequest extends CoinMasterRequest {
           .withCanBuyItem(MemeShopRequest::canBuyItem)
           .withPurchasedItem(MemeShopRequest::purchasedItem);
 
+  private static String itemProperty(final int itemId) {
+    return switch (itemId) {
+      case ItemPool.VIRAL_VIDEO -> "_internetViralVideoBought";
+      case ItemPool.PLUS_ONE -> "_internetPlusOneBought";
+      case ItemPool.GALLON_OF_MILK -> "_internetGallonOfMilkBought";
+      case ItemPool.PRINT_SCREEN -> "_internetPrintScreenButtonBought";
+      case ItemPool.DAILY_DUNGEON_MALWARE -> "_internetDailyDungeonMalwareBought";
+      default -> null;
+    };
+  }
+
   private static Boolean canBuyItem(final Integer itemId) {
-    String property =
-        switch (itemId) {
-          case ItemPool.VIRAL_VIDEO -> "_internetViralVideoBought";
-          case ItemPool.PLUS_ONE -> "_internetPlusOneBought";
-          case ItemPool.GALLON_OF_MILK -> "_internetGallonOfMilkBought";
-          case ItemPool.PRINT_SCREEN -> "_internetPrintScreenButtonBought";
-          case ItemPool.DAILY_DUNGEON_MALWARE -> "_internetDailyDungeonMalwareBought";
-          default -> null;
-        };
+    String property = itemProperty(itemId);
     return (property != null)
         ? !Preferences.getBoolean(property)
         : ItemPool.get(itemId).getCount(BACON_STORE.getBuyItems()) > 0;
   }
 
   private static Boolean purchasedItem(AdventureResult item, boolean storage) {
-    String property =
-        switch (item.getItemId()) {
-          case ItemPool.VIRAL_VIDEO -> "_internetViralVideoBought";
-          case ItemPool.PLUS_ONE -> "_internetPlusOneBought";
-          case ItemPool.GALLON_OF_MILK -> "_internetGallonOfMilkBought";
-          case ItemPool.PRINT_SCREEN -> "_internetPrintScreenButtonBought";
-          case ItemPool.DAILY_DUNGEON_MALWARE -> "_internetDailyDungeonMalwareBought";
-          default -> null;
-        };
+    String property = itemProperty(item.getItemId());
     if (property != null) {
       Preferences.setBoolean(property, true);
     }
