@@ -1,62 +1,33 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class DollHawkerRequest extends CoinMasterRequest {
   public static final String master = "Dollhawker's Emporium";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(DollHawkerRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(DollHawkerRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(DollHawkerRequest.master);
 
   public static final CoinmasterData DOLLHAWKER =
-      new CoinmasterData(
-          DollHawkerRequest.master,
-          "dollhawker",
-          DollHawkerRequest.class,
-          "isotope",
-          "You have 0 lunar isotopes",
-          false,
-          SpaaaceRequest.TOKEN_PATTERN,
-          SpaaaceRequest.ISOTOPE,
-          null,
-          DollHawkerRequest.itemRows,
-          "shop.php?whichshop=elvishp2",
-          "buyitem",
-          DollHawkerRequest.buyItems,
-          DollHawkerRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "dollhawker", DollHawkerRequest.class)
+          .withToken("isotope")
+          .withTokenTest("You have 0 lunar isotopes")
+          .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
+          .withItem(SpaaaceRequest.ISOTOPE)
+          .withShopRowFields(master, "elvishp2");
 
   public DollHawkerRequest() {
-    super(DollHawkerRequest.DOLLHAWKER);
+    super(DOLLHAWKER);
   }
 
   public DollHawkerRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DollHawkerRequest.DOLLHAWKER, buying, attachments);
+    super(DOLLHAWKER, buying, attachments);
   }
 
   public DollHawkerRequest(final boolean buying, final AdventureResult attachment) {
-    super(DollHawkerRequest.DOLLHAWKER, buying, attachment);
+    super(DOLLHAWKER, buying, attachment);
   }
 
   public DollHawkerRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DollHawkerRequest.DOLLHAWKER, buying, itemId, quantity);
+    super(DOLLHAWKER, buying, itemId, quantity);
   }
 
   public static final boolean registerRequest(final String urlString) {
@@ -64,8 +35,7 @@ public class DollHawkerRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = DollHawkerRequest.DOLLHAWKER;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(DOLLHAWKER, urlString, true);
   }
 
   public static String accessible() {
