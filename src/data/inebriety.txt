@@ -640,7 +640,7 @@ stillsuit distillate	1	1	???	0	0	0	0	Buzzed on Distillate
 stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30
 stinky mushroom wine	3	6	awesome	10-14	0	0	12-15	WINE
 strawberry daiquiri	3	1	decent	5-6	0	0	8-10
-strawberry wine	3	1	decent	5-6	0	0	8-10
+strawberry wine	3	1	decent	5-6	0	0	8-10	WINE
 Strikes Again Bigmouth	2	1	awesome	7-9	0	0	7-9	50 Smithsness Cheer (Smithsness: +10)
 Strong, Silent Type	3	1	awesome	0	0	0	0	Unspaded, 30 Speakin' Even Easier (+30 Mus / Mys / Mox)
 Suffering Sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame (+50 Hot Dam)

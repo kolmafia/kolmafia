@@ -7749,7 +7749,7 @@ Skill	Alien Source Code	Maximum MP: +5
 Skill	Aluminum Nerves	MP Regen Min: 8, MP Regen Max: 10
 Skill	Always Never Not Guzzling	Booze Drop: +25
 # Ambidextrous Funkslinging: You can use two combat items per round
-Skill	Amphibian Sympathy	Familiar Weight: +5
+Skill	Amphibian Sympathy	Familiar Weight: [-10*(fam(Inflatable Dodecapede)-0.5)]
 # Ancient Crimbo Lore: +3 Stats Per Fight in December
 Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 Skill	Ankle Joints	Initiative: +20
