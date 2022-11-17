@@ -73,8 +73,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private String tradeAllAction = null;
   private boolean needsPasswordHash = false;
 
-  // False if the coinmster doesn't sell anything that goes into
-  // inventory. I.e., whether we need too construct PurchaseRequests.
+  // False if the coinmaster doesn't sell anything that goes into
+  // inventory. I.e., whether we need to construct PurchaseRequests.
   private boolean canPurchase = true;
 
   // Derived fields
@@ -142,9 +142,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * none are available, provide it here. If it is present, we need not do a pattern search to
    * calculate the number of available tokens.
    *
-   * <p>This is mutually exclusive with <code>positive</code>. Provide one or the other (or
-   * neither).
-   *
    * @param tokenTest - String indicating zero tokens available
    * @return this - Allows fluid chaining of fields
    */
@@ -154,15 +151,12 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
-   * Defines text that indicates you have at least one token available.
+   * Defines whether tokenTest is positive or negative.
    *
    * <p>Occasionally (we have one example), a coinmaster has a single token, but instead of a simple
    * string indicating no tokens are available, there is a string indicating you have at least one.
    *
-   * <p>This is mutually exclusive with <code>tokenTest</code>. Provide one or the other (or
-   * neither).
-   *
-   * @param positiveTest - String indicating at least one token is available
+   * @param positiveTest - true if tokenTest is positive, false if negative
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withPositiveTest(boolean positiveTest) {
@@ -195,8 +189,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    *
    * <p>If the coinmaster uses an actual item from inventory (or, rarely, storage), this is it.
    *
-   * <p>This is mutually exclusive with <code>property</code>. Provide one or the other (or
-   * neither).
+   * <p>This is mutually exclusive with <code>property</code>. Provide one or the other.
    *
    * @param item - An AdventureResult for the item used as currency
    * @return this - Allows fluid chaining of fields
@@ -212,7 +205,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * <p>If the coinmaster uses a virtual item for currency, this property holds the available
    * balance.
    *
-   * <p>This is mutually exclusive with <code>item</code>. Provide one or the other (or neither).
+   * <p>This is mutually exclusive with <code>item</code>. Provide one or the other.
    *
    * @param property - The name of a property with the balance of virtual tokens
    * @return this - Allows fluid chaining of fields
@@ -226,7 +219,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * Specifies that the "rows" of this <code>shop.php</code> coinmaster are all listed in <code>
    * coinmasters.txt</code>.
    *
-   * <p>If the coinmaster uses modern <code>shop.php</code>, every purchasble item has a "row"
+   * <p>If the coinmaster uses modern <code>shop.php</code>, every purchasable item has a "row"
    * associated with it. These are unique across all shops, even if they refer to the same item.
    *
    * <p>If the rows are all provided in <code>coinmasters.txt</code>, pass in the "master" name to
@@ -243,7 +236,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * Provides the "rows" of this <code>shop.php</code> coinmaster when they are not (all) specified
    * in <code>coinmasters.txt</code>.
    *
-   * <p>If the coinmaster uses modern <code>shop.php</code>, every purchasble item has a "row"
+   * <p>If the coinmaster uses modern <code>shop.php</code>, every purchasable item has a "row"
    * associated with it. These are unique across all shops, even if they refer to the same item.
    *
    * <p>If the rows are not (all) specified in <code>coinmasters.txt</code> - usually because they
@@ -316,9 +309,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>List</code> has
    * been created ahead of time elsewhere - pass it in here.
    *
-   * <p>*** It is important that the <code>List</code> be a <code>LockableListModel</code>, since it
-   * will be used as the model for this coinmaster in <code>CoinmastersFrame</code> (I need to
-   * figure out how to enforce this, since that will not be the case if we are running headless)
+   * <p>It is important that the <code>List</code> be created by <code>LockableListFactory</code>
+   * since it will be used as the model for this coinmaster in <code>CoinmastersFrame</code>
    *
    * @param buyItems - The <code>List</code> of items you can buy
    * @return this - Allows fluid chaining of fields
