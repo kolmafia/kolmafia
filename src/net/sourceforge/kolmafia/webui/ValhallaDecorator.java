@@ -314,7 +314,10 @@ public class ValhallaDecorator {
 
   private static boolean developerGift(
       final StringBuffer buffer, final int itemId, final String developer) {
-    int giftCount = InventoryManager.getAccessibleCount(itemId);
+    // We excluse the stash here because the user may hit clan karma limits, which will cause mafia
+    // to attempt to
+    // acquire the difference from the mall.
+    int giftCount = InventoryManager.getAccessibleCount(itemId, false);
     if (giftCount <= 0) {
       return false;
     }
