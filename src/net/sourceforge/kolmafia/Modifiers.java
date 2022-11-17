@@ -54,7 +54,7 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Modifiers {
-  private static final Map<String, Object> modifiersByName = new HashMap<>();
+  private static final Map<String, Modifiers> modifiersByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static final List<UseSkillRequest> passiveSkills = new ArrayList<>();
@@ -1146,12 +1146,16 @@ public class Modifiers {
     return Modifiers.modifiersByName.keySet();
   }
 
-  public static final void overrideModifier(String lookup, Object value) {
-    if (value != null) {
-      Modifiers.modifiersByName.put(lookup, value);
-    } else {
-      Modifiers.modifiersByName.remove(lookup);
-    }
+  public static final void overrideModifier(String lookup, String value) {
+    overrideModifier(lookup, Modifiers.parseModifiers(lookup, value));
+  }
+
+  public static final void overrideModifier(String lookup, Modifiers value) {
+    Modifiers.modifiersByName.put(lookup, value);
+  }
+
+  public static final void overrideRemoveModifier(String lookup) {
+    Modifiers.modifiersByName.remove(lookup);
   }
 
   public static final String getModifierName(final int index) {
@@ -1293,7 +1297,8 @@ public class Modifiers {
   private final double[] extras;
 
   public Modifiers() {
-    this.variable = false;
+    // Assume modifiers are variable until proven otherwise.
+    this.variable = true;
     this.doubles = new double[Modifiers.DOUBLE_MODIFIERS];
     this.bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
     this.strings = new String[Modifiers.STRING_MODIFIERS];
@@ -1307,13 +1312,8 @@ public class Modifiers {
   }
 
   public Modifiers(String name, ModifierList mods) {
+    this();
     this.name = name;
-    this.variable = false;
-    this.doubles = new double[Modifiers.DOUBLE_MODIFIERS];
-    this.bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
-    this.strings = new String[Modifiers.STRING_MODIFIERS];
-    this.extras = new double[Modifiers.DOUBLE_MODIFIERS];
-    this.reset();
 
     for (Modifier m : mods) {
       this.add(m);
@@ -1819,38 +1819,20 @@ public class Modifiers {
       lookup = getLookupName(type, name);
     }
 
-    Object modifier = Modifiers.modifiersByName.get(lookup);
+    Modifiers modifiers = Modifiers.modifiersByName.get(lookup);
 
-    if (modifier == null) {
+    if (modifiers == null) {
       return null;
     }
 
-    if (modifier instanceof Modifiers) {
-      Modifiers mods = (Modifiers) modifier;
-      if (mods.variable) {
-        mods.override(lookup);
-        if (changeType != null) {
-          mods.name = changeType + ":" + name;
-        }
+    if (modifiers.variable) {
+      // If it's not actually variable, record that now.
+      modifiers.variable = modifiers.override(lookup);
+      if (changeType != null) {
+        modifiers.name = changeType + ":" + name;
       }
-      return mods;
     }
-
-    if (!(modifier instanceof String)) {
-      return null;
-    }
-
-    Modifiers newMods = Modifiers.parseModifiers(lookup, (String) modifier);
-
-    if (changeType != null) {
-      newMods.name = changeType + ":" + name;
-    }
-
-    newMods.variable = newMods.override(lookup) || type.equals("Loc") || type.equals("Zone");
-
-    Modifiers.modifiersByName.put(lookup, newMods);
-
-    return newMods;
+    return modifiers;
   }
 
   public static final Modifiers parseModifiers(final String lookup, final String string) {
@@ -2426,6 +2408,9 @@ public class Modifiers {
         return overrideSkill(name);
       case "Throne":
         return overrideThrone(name);
+      case "Loc":
+      case "Zone":
+        return true;
     }
     return false;
   }
@@ -3265,19 +3250,16 @@ public class Modifiers {
   }
 
   public static final void checkModifiers() {
-    for (Entry<String, Object> entry : Modifiers.modifiersByName.entrySet()) {
+    for (Entry<String, Modifiers> entry : Modifiers.modifiersByName.entrySet()) {
       String lookup = entry.getKey();
-      Object modifiers = entry.getValue();
+      Modifiers modifiers = entry.getValue();
 
       if (modifiers == null) {
         RequestLogger.printLine("Key \"" + lookup + "\" has no modifiers");
         continue;
       }
 
-      String modifierString =
-          (modifiers instanceof Modifiers)
-              ? ((Modifiers) modifiers).getString(Modifiers.MODIFIERS)
-              : (modifiers instanceof String) ? (String) modifiers : null;
+      String modifierString = modifiers.getString(Modifiers.MODIFIERS);
 
       if (modifierString == null) {
         RequestLogger.printLine(
@@ -3399,7 +3381,9 @@ public class Modifiers {
         }
 
         String modifiers = data[2];
-        Modifiers.modifiersByName.put(lookup, modifiers);
+
+        Modifiers newMods = Modifiers.parseModifiers(lookup, modifiers);
+        Modifiers.modifiersByName.put(lookup, newMods);
 
         Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
         if (matcher.find()) {
@@ -3413,7 +3397,8 @@ public class Modifiers {
           if (matcher.find()) {
             effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
           }
-          Modifiers.modifiersByName.put("FamEq:" + name, effect);
+          String famLookup = "FamEq:" + name;
+          Modifiers.modifiersByName.put(famLookup, Modifiers.parseModifiers(famLookup, effect));
         }
 
         if (type.equals("Synergy")) {
@@ -3824,7 +3809,7 @@ public class Modifiers {
 
   public static final void updateItem(final String name, final String known) {
     String lookup = Modifiers.getLookupName("Item", name);
-    Modifiers.modifiersByName.put(lookup, known);
+    Modifiers.modifiersByName.put(lookup, Modifiers.parseModifiers(lookup, known));
   }
 
   private static void registerObject(
@@ -3847,9 +3832,7 @@ public class Modifiers {
       RequestLogger.updateSessionLog(printMe);
 
       String lookup = Modifiers.getLookupName(type, name);
-      if (!Modifiers.modifiersByName.containsKey(lookup)) {
-        Modifiers.modifiersByName.put(lookup, known);
-      }
+      Modifiers.modifiersByName.putIfAbsent(lookup, Modifiers.parseModifiers(lookup, known));
     }
   }
 }
