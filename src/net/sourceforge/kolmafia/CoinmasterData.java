@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,9 +81,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private AdventureResult tokenItem = null;
   private Set<AdventureResult> currencies = null;
 
-  // Functional fields
+  // Functional fields to obviate overriding methods
+  private Function<Integer, Integer> getBuyPrice = x -> getBuyPriceInternal(x);
   private Function<Integer, AdventureResult> itemBuyPrice = x -> itemBuyPriceInternal(x);
   private Function<Integer, Boolean> canBuyItem = x -> canBuyItemInternal(x);
+  private Function<Integer, Boolean> availableItem = x -> availableItemInternal(x);
+  private BiFunction<AdventureResult, Boolean, Boolean> purchasedItem =
+      (x, y) -> purchasedItemInternal(x, y);
 
   // Base constructor for CoinmasterData with only the mandatory fields.
   // Optional fields can be added fluidly.
@@ -240,6 +245,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this;
   }
 
+  // Functional fields to obviate overriding methods
+
+  public CoinmasterData withGetBuyPrice(Function<Integer, Integer> function) {
+    this.getBuyPrice = function;
+    return this;
+  }
+
   public CoinmasterData withItemBuyPrice(Function<Integer, AdventureResult> function) {
     this.itemBuyPrice = function;
     return this;
@@ -247,6 +259,16 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public CoinmasterData withCanBuyItem(Function<Integer, Boolean> function) {
     this.canBuyItem = function;
+    return this;
+  }
+
+  public CoinmasterData withAvailableItem(Function<Integer, Boolean> function) {
+    this.availableItem = function;
+    return this;
+  }
+
+  public CoinmasterData withPurchasedItem(BiFunction<AdventureResult, Boolean, Boolean> function) {
+    this.purchasedItem = function;
     return this;
   }
 
@@ -485,7 +507,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         : this.availableTokens(currency);
   }
 
-  public boolean availableItem(final int itemId) {
+  public Boolean availableItem(final Integer itemId) {
+    return this.availableItem.apply(itemId);
+  }
+
+  private Boolean availableItemInternal(final Integer itemId) {
     if (this.buyItems == null) {
       return false;
     }
@@ -506,7 +532,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return item.getCount(this.buyItems) > 0;
   }
 
-  public int getBuyPrice(final int itemId) {
+  public Integer getBuyPrice(final Integer itemId) {
+    return this.getBuyPrice.apply(itemId);
+  }
+
+  private Integer getBuyPriceInternal(final Integer itemId) {
     if (this.buyPrices == null) {
       return 0;
     }
@@ -676,5 +706,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     }
   }
 
-  public void purchaseItem(AdventureResult item, boolean storage) {}
+  public Boolean purchasedItem(final AdventureResult item, final Boolean storage) {
+    return this.purchasedItem.apply(item, storage);
+  }
+
+  private Boolean purchasedItemInternal(AdventureResult item, boolean storage) {
+    return true;
+  }
 }

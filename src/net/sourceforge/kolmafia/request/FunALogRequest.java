@@ -23,16 +23,17 @@ public class FunALogRequest extends CoinMasterRequest {
       Pattern.compile("<b>You have ([\\d,]+) FunPoints?\\.</b>");
 
   public static final CoinmasterData FUN_A_LOG =
-      new CoinmasterData(master, "Fun-a-Log", FunALogRequest.class) {
-        @Override
-        public final boolean availableItem(final int itemId) {
-          return unlockedItems.contains(ItemDatabase.getItemName(itemId));
-        }
-      }.withToken("FunPoint")
+      new CoinmasterData(master, "Fun-a-Log", FunALogRequest.class)
+          .withToken("FunPoint")
           .withTokenTest("You have no FunPoints")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableFunPoints")
-          .withShopRowFields(master, "piraterealm");
+          .withShopRowFields(master, "piraterealm")
+          .withAvailableItem(FunALogRequest::availableItem);
+
+  private static Boolean availableItem(final Integer itemId) {
+    return unlockedItems.contains(ItemDatabase.getItemName(itemId));
+  }
 
   static {
     ConcoctionPool.set(new Concoction("FunPoint", "availableFunPoints"));

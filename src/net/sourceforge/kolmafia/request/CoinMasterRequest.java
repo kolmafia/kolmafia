@@ -496,7 +496,7 @@ public class CoinMasterRequest extends GenericRequest {
       }
     }
 
-    data.purchaseItem(ItemPool.get(itemId, count), storage);
+    data.purchasedItem(ItemPool.get(itemId, count), storage);
   }
 
   public static final void sellStuff(final CoinmasterData data, final String urlString) {

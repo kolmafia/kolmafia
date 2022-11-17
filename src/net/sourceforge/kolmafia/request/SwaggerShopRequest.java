@@ -93,25 +93,8 @@ public class SwaggerShopRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You have ([\\d,]+) swagger");
 
   public static final CoinmasterData SWAGGER_SHOP =
-      new CoinmasterData(master, "swagger", SwaggerShopRequest.class) {
-        @Override
-        public final int getBuyPrice(final int itemId) {
-          Season season = itemIdToSeason.get(itemId);
-          return (season != null) ? Preferences.getInteger(season.cost) : super.getBuyPrice(itemId);
-        }
-
-        @Override
-        public final boolean availableItem(final int itemId) {
-          Season season = itemIdToSeason.get(itemId);
-          return (season == Season.NONE)
-              ? Preferences.getBoolean(season.available)
-              : (season == currentSeason)
-                  ? Preferences.getBoolean(season.available)
-                      && Preferences.getInteger(season.swagger)
-                          >= Preferences.getInteger(season.cost)
-                  : super.availableItem(itemId);
-        }
-      }.withToken("swagger")
+      new CoinmasterData(master, "swagger", SwaggerShopRequest.class)
+          .withToken("swagger")
           .withPluralToken("swagger")
           .withTokenTest("You have 0 swagger")
           .withTokenPattern(TOKEN_PATTERN)
@@ -122,15 +105,36 @@ public class SwaggerShopRequest extends CoinMasterRequest {
           .withBuyPrices(master)
           .withItemField("whichitem")
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
-          .withCanBuyItem(SwaggerShopRequest::canBuyItem);
+          .withCanBuyItem(SwaggerShopRequest::canBuyItem)
+          .withGetBuyPrice(SwaggerShopRequest::getBuyPrice)
+          .withAvailableItem(SwaggerShopRequest::availableItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
     Season season = itemIdToSeason.get(itemId);
     if (season != null) {
       return Preferences.getBoolean(season.available);
     }
-    AdventureResult item = ItemPool.get(itemId, 1);
+    AdventureResult item = ItemPool.get(itemId);
     return item.getCount(SWAGGER_SHOP.getBuyItems()) > 0;
+  }
+
+  private static Integer getBuyPrice(final Integer itemId) {
+    Season season = itemIdToSeason.get(itemId);
+    return (season != null)
+        ? Preferences.getInteger(season.cost)
+        : SWAGGER_SHOP.getBuyPrices().getOrDefault(itemId, 0);
+  }
+
+  private static Boolean availableItem(final Integer itemId) {
+    Season season = itemIdToSeason.get(itemId);
+    if (season == Season.NONE) {
+      return Preferences.getBoolean(season.available);
+    }
+    if (season == currentSeason) {
+      return Preferences.getBoolean(season.available)
+          && Preferences.getInteger(season.swagger) >= Preferences.getInteger(season.cost);
+    }
+    return SWAGGER_SHOP.getBuyItems().contains(ItemPool.get(itemId));
   }
 
   static {

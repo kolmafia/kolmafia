@@ -13,28 +13,13 @@ public class MemeShopRequest extends CoinMasterRequest {
   public static final AdventureResult BACON = ItemPool.get(ItemPool.BACON, 1);
 
   public static final CoinmasterData BACON_STORE =
-      new CoinmasterData(master, "bacon", MemeShopRequest.class) {
-        @Override
-        public void purchaseItem(AdventureResult item, boolean storage) {
-          String property =
-              switch (item.getItemId()) {
-                case ItemPool.VIRAL_VIDEO -> "_internetViralVideoBought";
-                case ItemPool.PLUS_ONE -> "_internetPlusOneBought";
-                case ItemPool.GALLON_OF_MILK -> "_internetGallonOfMilkBought";
-                case ItemPool.PRINT_SCREEN -> "_internetPrintScreenButtonBought";
-                case ItemPool.DAILY_DUNGEON_MALWARE -> "_internetDailyDungeonMalwareBought";
-                default -> null;
-              };
-          if (property != null) {
-            Preferences.setBoolean(property, true);
-          }
-        }
-      }.withToken("BACON")
+      new CoinmasterData(master, "bacon", MemeShopRequest.class) {}.withToken("BACON")
           .withTokenTest("Where's the bacon?")
           .withTokenPattern(BACON_PATTERN)
           .withItem(BACON)
           .withShopRowFields(master, "bacon")
-          .withCanBuyItem(MemeShopRequest::canBuyItem);
+          .withCanBuyItem(MemeShopRequest::canBuyItem)
+          .withPurchasedItem(MemeShopRequest::purchasedItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
     String property =
@@ -49,6 +34,22 @@ public class MemeShopRequest extends CoinMasterRequest {
     return (property != null)
         ? !Preferences.getBoolean(property)
         : ItemPool.get(itemId).getCount(BACON_STORE.getBuyItems()) > 0;
+  }
+
+  private static Boolean purchasedItem(AdventureResult item, boolean storage) {
+    String property =
+        switch (item.getItemId()) {
+          case ItemPool.VIRAL_VIDEO -> "_internetViralVideoBought";
+          case ItemPool.PLUS_ONE -> "_internetPlusOneBought";
+          case ItemPool.GALLON_OF_MILK -> "_internetGallonOfMilkBought";
+          case ItemPool.PRINT_SCREEN -> "_internetPrintScreenButtonBought";
+          case ItemPool.DAILY_DUNGEON_MALWARE -> "_internetDailyDungeonMalwareBought";
+          default -> null;
+        };
+    if (property != null) {
+      Preferences.setBoolean(property, true);
+    }
+    return true;
   }
 
   public MemeShopRequest() {

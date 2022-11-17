@@ -14,32 +14,7 @@ public class CrimboCartelRequest extends CoinMasterRequest {
   public static final AdventureResult CRIMBUCK = ItemPool.get(ItemPool.CRIMBUCK, 1);
 
   public static final CoinmasterData CRIMBO_CARTEL =
-      new CoinmasterData(master, "cartel", CrimboCartelRequest.class) {
-        @Override
-        public final boolean availableItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.CRIMBO_CAROL_V1:
-              return KoLCharacter.isSealClubber();
-
-            case ItemPool.CRIMBO_CAROL_V2:
-              return KoLCharacter.isTurtleTamer();
-
-            case ItemPool.CRIMBO_CAROL_V3:
-              return KoLCharacter.isPastamancer();
-
-            case ItemPool.CRIMBO_CAROL_V4:
-              return KoLCharacter.isSauceror();
-
-            case ItemPool.CRIMBO_CAROL_V5:
-              return KoLCharacter.isDiscoBandit();
-
-            case ItemPool.CRIMBO_CAROL_V6:
-              return KoLCharacter.isAccordionThief();
-          }
-
-          return super.availableItem(itemId);
-        }
-      }.withToken("Crimbuck")
+      new CoinmasterData(master, "cartel", CrimboCartelRequest.class) {}.withToken("Crimbuck")
           .withTokenTest("You do not currently have any Crimbux")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(CRIMBUCK)
@@ -50,7 +25,20 @@ public class CrimboCartelRequest extends CoinMasterRequest {
           .withItemField("whichitem")
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("howmany")
-          .withCountPattern(GenericRequest.HOWMANY_PATTERN);
+          .withCountPattern(GenericRequest.HOWMANY_PATTERN)
+          .withAvailableItem(CrimboCartelRequest::availableItem);
+
+  private static Boolean availableItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.CRIMBO_CAROL_V1 -> KoLCharacter.isSealClubber();
+      case ItemPool.CRIMBO_CAROL_V2 -> KoLCharacter.isTurtleTamer();
+      case ItemPool.CRIMBO_CAROL_V3 -> KoLCharacter.isPastamancer();
+      case ItemPool.CRIMBO_CAROL_V4 -> KoLCharacter.isSauceror();
+      case ItemPool.CRIMBO_CAROL_V5 -> KoLCharacter.isDiscoBandit();
+      case ItemPool.CRIMBO_CAROL_V6 -> KoLCharacter.isAccordionThief();
+      default -> CRIMBO_CARTEL.getBuyItems().contains(ItemPool.get(itemId));
+    };
+  }
 
   public CrimboCartelRequest() {
     super(CRIMBO_CARTEL);

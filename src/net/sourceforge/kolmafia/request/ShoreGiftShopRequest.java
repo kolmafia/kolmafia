@@ -15,17 +15,8 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
   public static final AdventureResult SHIP_TRIP_SCRIP = ItemPool.get(ItemPool.SHIP_TRIP_SCRIP, 1);
 
   public static final CoinmasterData SHORE_GIFT_SHOP =
-      new CoinmasterData(master, "shore", ShoreGiftShopRequest.class) {
-        @Override
-        public void purchaseItem(AdventureResult item, boolean storage) {
-          int itemId = item.getItemId();
-          switch (itemId) {
-            case ItemPool.TOASTER:
-              Preferences.setBoolean("itemBoughtPerAscension637", true);
-              break;
-          }
-        }
-      }.withToken("Shore Inc. Ship Trip Scrip")
+      new CoinmasterData(master, "shore", ShoreGiftShopRequest.class)
+          .withToken("Shore Inc. Ship Trip Scrip")
           .withTokenTest("no Shore Inc. Ship Trip Scrip")
           .withTokenPattern(SCRIP_PATTERN)
           .withItem(SHIP_TRIP_SCRIP)
@@ -39,6 +30,16 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
       case ItemPool.UV_RESISTANT_COMPASS -> !InventoryManager.hasItem(itemId);
       default -> item.getCount(SHORE_GIFT_SHOP.getBuyItems()) > 0;
     };
+  }
+
+  private static Boolean purchasedItem(AdventureResult item, Boolean storage) {
+    int itemId = item.getItemId();
+    switch (itemId) {
+      case ItemPool.TOASTER:
+        Preferences.setBoolean("itemBoughtPerAscension637", true);
+        break;
+    }
+    return true;
   }
 
   public ShoreGiftShopRequest() {
