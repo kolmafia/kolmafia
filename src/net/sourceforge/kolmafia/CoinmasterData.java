@@ -71,6 +71,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Pattern countPattern = null;
   private String storageAction = null;
   private String tradeAllAction = null;
+  private boolean needsPasswordHash = false;
 
   // False if the coinmster doesn't sell anything that goes into
   // inventory. I.e., whether we need too construct PurchaseRequests.
@@ -237,6 +238,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public CoinmasterData withTradeAllAction(String tradeAllAction) {
     this.tradeAllAction = tradeAllAction;
+    return this;
+  }
+
+  public CoinmasterData withNeedsPasswordHash(boolean needsPasswordHash) {
+    this.needsPasswordHash = needsPasswordHash;
     return this;
   }
 
@@ -422,6 +428,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public final String getTradeAllAction() {
     return this.tradeAllAction;
+  }
+
+  public final boolean needsPasswordHash() {
+    return this.needsPasswordHash;
   }
 
   public final boolean getCanPurchase() {

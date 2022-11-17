@@ -19,7 +19,8 @@ public class AppleStoreRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withShopRowFields(master, "applestore");
+          .withShopRowFields(master, "applestore")
+          .withNeedsPasswordHash(true);
 
   public AppleStoreRequest() {
     super(APPLE_STORE);
@@ -35,15 +36,6 @@ public class AppleStoreRequest extends CoinMasterRequest {
 
   public AppleStoreRequest(final boolean buying, final int itemId, final int quantity) {
     super(APPLE_STORE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

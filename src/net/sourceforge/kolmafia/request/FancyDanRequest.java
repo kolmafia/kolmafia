@@ -44,7 +44,8 @@ public class FancyDanRequest extends CoinMasterRequest {
       new CoinmasterData(master, "Speakeasy", FancyDanRequest.class)
           .withShopRowFields(master, "olivers")
           .withBuyPrices()
-          .withItemBuyPrice(FancyDanRequest::itemBuyPrice);
+          .withItemBuyPrice(FancyDanRequest::itemBuyPrice)
+          .withNeedsPasswordHash(true);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);
@@ -68,15 +69,6 @@ public class FancyDanRequest extends CoinMasterRequest {
 
   public FancyDanRequest(final boolean buying, final int itemId, final int quantity) {
     super(FANCY_DAN, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

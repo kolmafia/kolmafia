@@ -19,7 +19,8 @@ public class ShoeRepairRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withShopRowFields(master, "shoeshop");
+          .withShopRowFields(master, "shoeshop")
+          .withNeedsPasswordHash(true);
 
   public ShoeRepairRequest() {
     super(SHOE_REPAIR);
@@ -35,15 +36,6 @@ public class ShoeRepairRequest extends CoinMasterRequest {
 
   public ShoeRepairRequest(final boolean buying, final int itemId, final int quantity) {
     super(SHOE_REPAIR, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

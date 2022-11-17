@@ -19,7 +19,8 @@ public class YourCampfireRequest extends CoinMasterRequest {
           .withTokenTest("no sticks of firewood")
           .withTokenPattern(FIREWOOD_PATTERN)
           .withItem(STICK_OF_FIREWOOD)
-          .withShopRowFields(master, "campfire");
+          .withShopRowFields(master, "campfire")
+          .withNeedsPasswordHash(true);
 
   public YourCampfireRequest() {
     super(YOUR_CAMPFIRE);
@@ -35,15 +36,6 @@ public class YourCampfireRequest extends CoinMasterRequest {
 
   public YourCampfireRequest(final boolean buying, final int itemId, final int quantity) {
     super(YOUR_CAMPFIRE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

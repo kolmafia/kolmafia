@@ -20,6 +20,7 @@ public class Crimbo20CandyRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "crimbo20candy")
+          .withNeedsPasswordHash(true)
           .withCanBuyItem(Crimbo20CandyRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -47,15 +48,6 @@ public class Crimbo20CandyRequest extends CoinMasterRequest {
 
   public Crimbo20CandyRequest(final boolean buying, final int itemId, final int quantity) {
     super(CRIMBO20CANDY, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

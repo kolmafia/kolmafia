@@ -16,7 +16,8 @@ public class ThankShopRequest extends CoinMasterRequest {
           .withToken("cashew")
           .withTokenPattern(CASHEW_PATTERN)
           .withItem(CASHEW)
-          .withShopRowFields(master, "thankshop");
+          .withShopRowFields(master, "thankshop")
+          .withNeedsPasswordHash(true);
 
   public ThankShopRequest() {
     super(CASHEW_STORE);
@@ -32,15 +33,6 @@ public class ThankShopRequest extends CoinMasterRequest {
 
   public ThankShopRequest(final boolean buying, final int itemId, final int quantity) {
     super(CASHEW_STORE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

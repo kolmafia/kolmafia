@@ -21,6 +21,7 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
           .withTokenPattern(SCRIP_PATTERN)
           .withItem(SHIP_TRIP_SCRIP)
           .withShopRowFields(master, "shore")
+          .withNeedsPasswordHash(true)
           .withCanBuyItem(ShoreGiftShopRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -56,15 +57,6 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
 
   public ShoreGiftShopRequest(final boolean buying, final int itemId, final int quantity) {
     super(SHORE_GIFT_SHOP, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

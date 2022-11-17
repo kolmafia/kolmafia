@@ -17,7 +17,8 @@ public class GMartRequest extends CoinMasterRequest {
           .withTokenTest("no Gs")
           .withTokenPattern(G_PATTERN)
           .withItem(G)
-          .withShopRowFields(master, "glover");
+          .withShopRowFields(master, "glover")
+          .withNeedsPasswordHash(true);
 
   public GMartRequest() {
     super(GMART);
@@ -33,15 +34,6 @@ public class GMartRequest extends CoinMasterRequest {
 
   public GMartRequest(final boolean buying, final int itemId, final int quantity) {
     super(GMART, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

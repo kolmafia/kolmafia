@@ -19,6 +19,7 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
+          .withNeedsPasswordHash(true)
           .withShopRowFields(master, "shakeshop");
 
   public YeNeweSouvenirShoppeRequest() {
@@ -35,15 +36,6 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
 
   public YeNeweSouvenirShoppeRequest(final boolean buying, final int itemId, final int quantity) {
     super(SHAKE_SHOP, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

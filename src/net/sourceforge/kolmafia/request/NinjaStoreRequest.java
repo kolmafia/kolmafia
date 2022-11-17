@@ -19,7 +19,8 @@ public class NinjaStoreRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withShopRowFields(master, "nina");
+          .withShopRowFields(master, "nina")
+          .withNeedsPasswordHash(true);
 
   public NinjaStoreRequest() {
     super(NINJA_STORE);
@@ -35,15 +36,6 @@ public class NinjaStoreRequest extends CoinMasterRequest {
 
   public NinjaStoreRequest(final boolean buying, final int itemId, final int quantity) {
     super(NINJA_STORE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

@@ -171,6 +171,9 @@ public class CoinMasterRequest extends GenericRequest {
         KoLmafia.updateDisplay(MafiaState.ERROR, reason);
         return;
       }
+      if (data.needsPasswordHash()) {
+        this.addFormField("pwd");
+      }
     }
 
     try (Checkpoint checkpoint = new Checkpoint()) {

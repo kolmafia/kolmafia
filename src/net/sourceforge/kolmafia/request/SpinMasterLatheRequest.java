@@ -26,7 +26,8 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
       new CoinmasterData(master, "lathe", SpinMasterLatheRequest.class)
           .withShopRowFields(master, "lathe")
           .withBuyPrices()
-          .withItemBuyPrice(SpinMasterLatheRequest::itemBuyPrice);
+          .withItemBuyPrice(SpinMasterLatheRequest::itemBuyPrice)
+          .withNeedsPasswordHash(true);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);
@@ -49,30 +50,16 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
     for (Entry<Integer, Integer> entry : CoinmastersDatabase.getBuyPrices(master).entrySet()) {
       int itemId = entry.getKey().intValue();
       int price = entry.getValue().intValue();
-      AdventureResult cost = null;
-      switch (itemId) {
-        default:
-          cost = FLIMSY_HARDWOOD_SCRAPS.getInstance(price);
-          break;
-        case ItemPool.HEMLOCK_HELM:
-          cost = DREADSYLVANIAN_HEMLOCK.getInstance(price);
-          break;
-        case ItemPool.BALSAM_BARREL:
-          cost = SWEATY_BALSAM.getInstance(price);
-          break;
-        case ItemPool.REDWOOD_RAIN_STICK:
-          cost = ANCIENT_REDWOOD.getInstance(price);
-          break;
-        case ItemPool.PURPLEHEART_PANTS:
-          cost = PURPLEHEART_LOGS.getInstance(price);
-          break;
-        case ItemPool.WORMWOOD_WEDDING_RING:
-          cost = WORMWOOD_STICK.getInstance(price);
-          break;
-        case ItemPool.DRIPPY_DIADEM:
-          cost = DRIPWOOD_SLAB.getInstance(price);
-          break;
-      }
+      AdventureResult cost =
+          switch (itemId) {
+            default -> FLIMSY_HARDWOOD_SCRAPS.getInstance(price);
+            case ItemPool.HEMLOCK_HELM -> DREADSYLVANIAN_HEMLOCK.getInstance(price);
+            case ItemPool.BALSAM_BARREL -> SWEATY_BALSAM.getInstance(price);
+            case ItemPool.REDWOOD_RAIN_STICK -> ANCIENT_REDWOOD.getInstance(price);
+            case ItemPool.PURPLEHEART_PANTS -> PURPLEHEART_LOGS.getInstance(price);
+            case ItemPool.WORMWOOD_WEDDING_RING -> WORMWOOD_STICK.getInstance(price);
+            case ItemPool.DRIPPY_DIADEM -> DRIPWOOD_SLAB.getInstance(price);
+          };
       buyCosts.put(itemId, cost);
     }
   }
@@ -95,15 +82,6 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
 
   public SpinMasterLatheRequest(final boolean buying, final int itemId, final int quantity) {
     super(YOUR_SPINMASTER_LATHE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

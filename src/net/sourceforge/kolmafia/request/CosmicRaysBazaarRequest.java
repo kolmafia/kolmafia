@@ -21,7 +21,8 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
       new CoinmasterData(master, "exploathing", CosmicRaysBazaarRequest.class)
           .withShopRowFields(master, "exploathing")
           .withBuyPrices()
-          .withItemBuyPrice(CosmicRaysBazaarRequest::itemBuyPrice);
+          .withItemBuyPrice(CosmicRaysBazaarRequest::itemBuyPrice)
+          .withNeedsPasswordHash(true);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);
@@ -68,15 +69,6 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
 
   public CosmicRaysBazaarRequest(final boolean buying, final int itemId, final int quantity) {
     super(COSMIC_RAYS_BAZAAR, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

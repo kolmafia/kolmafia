@@ -20,6 +20,7 @@ public class VendingMachineRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FAT_LOOT_TOKEN)
           .withShopRowFields(master, "damachine")
+          .withNeedsPasswordHash(true)
           .withCanBuyItem(VendingMachineRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -44,15 +45,6 @@ public class VendingMachineRequest extends CoinMasterRequest {
 
   public VendingMachineRequest(final boolean buying, final int itemId, final int quantity) {
     super(VENDING_MACHINE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

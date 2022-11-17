@@ -18,6 +18,7 @@ public class MemeShopRequest extends CoinMasterRequest {
           .withTokenPattern(BACON_PATTERN)
           .withItem(BACON)
           .withShopRowFields(master, "bacon")
+          .withNeedsPasswordHash(true)
           .withCanBuyItem(MemeShopRequest::canBuyItem)
           .withPurchasedItem(MemeShopRequest::purchasedItem);
 
@@ -39,7 +40,7 @@ public class MemeShopRequest extends CoinMasterRequest {
         : ItemPool.get(itemId).getCount(BACON_STORE.getBuyItems()) > 0;
   }
 
-  private static Boolean purchasedItem(AdventureResult item, boolean storage) {
+  private static Boolean purchasedItem(AdventureResult item, Boolean storage) {
     String property = itemProperty(item.getItemId());
     if (property != null) {
       Preferences.setBoolean(property, true);
@@ -61,15 +62,6 @@ public class MemeShopRequest extends CoinMasterRequest {
 
   public MemeShopRequest(final boolean buying, final int itemId, final int quantity) {
     super(BACON_STORE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

@@ -19,7 +19,8 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
           .withTokenTest("no pages of Spacegate Research")
           .withTokenPattern(RESEARCH_PATTERN)
           .withItem(RESEARCH)
-          .withShopRowFields(master, "spacegate");
+          .withShopRowFields(master, "spacegate")
+          .withNeedsPasswordHash(true);
 
   public SpacegateFabricationRequest() {
     super(SPACEGATE_STORE);
@@ -35,15 +36,6 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
 
   public SpacegateFabricationRequest(final boolean buying, final int itemId, final int quantity) {
     super(SPACEGATE_STORE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

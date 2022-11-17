@@ -17,7 +17,8 @@ public class GuzzlrRequest extends CoinMasterRequest {
           .withToken("Guzzlrbuck")
           .withTokenPattern(GUZZLR_PATTERN)
           .withItem(GUZZLRBUCK)
-          .withShopRowFields(master, "guzzlr");
+          .withShopRowFields(master, "guzzlr")
+          .withNeedsPasswordHash(true);
 
   public GuzzlrRequest() {
     super(GUZZLR);
@@ -33,15 +34,6 @@ public class GuzzlrRequest extends CoinMasterRequest {
 
   public GuzzlrRequest(final boolean buying, final int itemId, final int quantity) {
     super(GUZZLR, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

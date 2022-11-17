@@ -19,7 +19,8 @@ public class NeandermallRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withShopRowFields(master, "caveshop");
+          .withShopRowFields(master, "caveshop")
+          .withNeedsPasswordHash(true);
 
   public NeandermallRequest() {
     super(NEANDERMALL);
@@ -35,15 +36,6 @@ public class NeandermallRequest extends CoinMasterRequest {
 
   public NeandermallRequest(final boolean buying, final int itemId, final int quantity) {
     super(NEANDERMALL, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

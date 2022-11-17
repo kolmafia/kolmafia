@@ -28,7 +28,8 @@ public class PokemporiumRequest extends CoinMasterRequest {
           .withTokenPattern(POKEDOLLAR_PATTERN)
           .withItem(POKEDOLLAR)
           .withShopRowFields(master, "pokefam")
-          .withCanBuyItem(PokemporiumRequest::canBuyItem);
+          .withCanBuyItem(PokemporiumRequest::canBuyItem)
+          .withNeedsPasswordHash(true);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return KoLCharacter.inPokefam();
@@ -48,15 +49,6 @@ public class PokemporiumRequest extends CoinMasterRequest {
 
   public PokemporiumRequest(final boolean buying, final int itemId, final int quantity) {
     super(POKEMPORIUM, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override

@@ -18,7 +18,8 @@ public class PlumberItemRequest extends CoinMasterRequest {
           .withTokenTest("no coins")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "marioitems");
+          .withShopRowFields(master, "marioitems")
+          .withNeedsPasswordHash(true);
 
   public PlumberItemRequest() {
     super(PLUMBER_ITEMS);
@@ -34,15 +35,6 @@ public class PlumberItemRequest extends CoinMasterRequest {
 
   public PlumberItemRequest(final boolean buying, final int itemId, final int quantity) {
     super(PLUMBER_ITEMS, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
   }
 
   @Override
