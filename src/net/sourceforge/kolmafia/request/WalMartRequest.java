@@ -1,74 +1,45 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class WalMartRequest extends CoinMasterRequest {
   public static final String master = "Wal-Mart";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(WalMartRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(WalMartRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(WalMartRequest.master);
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<td>([\\d,]+) Wal-Mart gift certificates");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.WALMART_GIFT_CERTIFICATE, 1);
+
   public static final CoinmasterData WALMART =
-      new CoinmasterData(
-          WalMartRequest.master,
-          "Wal-Mart",
-          WalMartRequest.class,
-          "Wal-Mart gift certificate",
-          null,
-          false,
-          WalMartRequest.TOKEN_PATTERN,
-          WalMartRequest.COIN,
-          null,
-          WalMartRequest.itemRows,
-          "shop.php?whichshop=glaciest",
-          "buyitem",
-          WalMartRequest.buyItems,
-          WalMartRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "Wal-Mart", WalMartRequest.class)
+          .withToken("Wal-Mart gift certificate")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(COIN)
+          .withShopRowFields(master, "glaciest");
 
   public WalMartRequest() {
-    super(WalMartRequest.WALMART);
+    super(WALMART);
   }
 
   public WalMartRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(WalMartRequest.WALMART, buying, attachments);
+    super(WALMART, buying, attachments);
   }
 
   public WalMartRequest(final boolean buying, final AdventureResult attachment) {
-    super(WalMartRequest.WALMART, buying, attachment);
+    super(WALMART, buying, attachment);
   }
 
   public WalMartRequest(final boolean buying, final int itemId, final int quantity) {
-    super(WalMartRequest.WALMART, buying, itemId, quantity);
+    super(WALMART, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    WalMartRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
@@ -76,7 +47,7 @@ public class WalMartRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = WalMartRequest.WALMART;
+    CoinmasterData data = WALMART;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
@@ -93,8 +64,7 @@ public class WalMartRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = WalMartRequest.WALMART;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(WALMART, urlString, true);
   }
 
   public static String accessible() {

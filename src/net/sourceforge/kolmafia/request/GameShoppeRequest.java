@@ -1,78 +1,59 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GameShoppeRequest extends CoinMasterRequest {
   public static final String master = "Game Shoppe";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(GameShoppeRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(GameShoppeRequest.master);
-  private static final LockableListModel<AdventureResult> sellItems =
-      CoinmastersDatabase.getSellItems(GameShoppeRequest.master);
-  private static final Map<Integer, Integer> sellPrices =
-      CoinmastersDatabase.getSellPrices(GameShoppeRequest.master);
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("You currently have ([\\d,]+) store credit");
+
   public static final CoinmasterData GAMESHOPPE =
-      new CoinmasterData(
-          GameShoppeRequest.master,
-          "gameshoppe",
-          GameShoppeRequest.class,
-          "store credit",
-          "You currently have no store credit",
-          false,
-          GameShoppeRequest.TOKEN_PATTERN,
-          null,
-          "availableStoreCredits",
-          null,
-          "gamestore.php",
-          "redeem",
-          GameShoppeRequest.buyItems,
-          GameShoppeRequest.buyPrices,
-          "gamestore.php",
-          "tradein",
-          GameShoppeRequest.sellItems,
-          GameShoppeRequest.sellPrices,
-          "whichitem",
-          GenericRequest.WHICHITEM_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "gameshoppe", GameShoppeRequest.class)
+          .withToken("store credit")
+          .withTokenTest("You currently have no store credit")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withProperty("availableStoreCredits")
+          .withBuyURL("gamestore.php")
+          .withBuyAction("redeem")
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withSellURL("gamestore.php")
+          .withSellAction("tradein")
+          .withSellItems(master)
+          .withSellPrices(master)
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCountField("quantity")
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
 
   static {
     ConcoctionPool.set(new Concoction("store credit", "availableStoreCredits"));
   }
 
   public GameShoppeRequest() {
-    super(GameShoppeRequest.GAMESHOPPE);
+    super(GAMESHOPPE);
   }
 
   public GameShoppeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(GameShoppeRequest.GAMESHOPPE, buying, attachments);
+    super(GAMESHOPPE, buying, attachments);
   }
 
   public GameShoppeRequest(final boolean buying, final AdventureResult attachment) {
-    super(GameShoppeRequest.GAMESHOPPE, buying, attachment);
+    super(GAMESHOPPE, buying, attachment);
   }
 
   public GameShoppeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GameShoppeRequest.GAMESHOPPE, buying, itemId, quantity);
+    super(GAMESHOPPE, buying, itemId, quantity);
   }
 
   public static String canBuy() {
@@ -89,7 +70,7 @@ public class GameShoppeRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    GameShoppeRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   private static final Pattern ITEM_PATTERN =
@@ -117,7 +98,7 @@ public class GameShoppeRequest extends CoinMasterRequest {
       }
     }
 
-    GameShoppeRequest.parseGameShoppeVisit(urlString, responseText);
+    parseGameShoppeVisit(urlString, responseText);
   }
 
   public static void parseGameShoppeVisit(final String location, final String responseText) {
@@ -127,12 +108,12 @@ public class GameShoppeRequest extends CoinMasterRequest {
         return;
       }
     } else if (action.equals("redeem")) {
-      CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+      CoinmasterData data = GAMESHOPPE;
       if (responseText.indexOf("You don't have enough") == -1) {
         CoinMasterRequest.completePurchase(data, location);
       }
     } else if (action.equals("tradein")) {
-      CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+      CoinmasterData data = GAMESHOPPE;
       // The teenager scowls. "You can't trade in cards you don't have."
       if (responseText.indexOf("You can't trade in cards you don't have") == -1) {
         CoinMasterRequest.completeSale(data, location);
@@ -145,7 +126,7 @@ public class GameShoppeRequest extends CoinMasterRequest {
     }
 
     // Parse current store credit and free snack balance
-    CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
+    CoinmasterData data = GAMESHOPPE;
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
@@ -169,7 +150,6 @@ public class GameShoppeRequest extends CoinMasterRequest {
       RequestLogger.updateSessionLog(message);
     }
 
-    CoinmasterData data = GameShoppeRequest.GAMESHOPPE;
-    return CoinMasterRequest.registerRequest(data, urlString);
+    return CoinMasterRequest.registerRequest(GAMESHOPPE, urlString);
   }
 }

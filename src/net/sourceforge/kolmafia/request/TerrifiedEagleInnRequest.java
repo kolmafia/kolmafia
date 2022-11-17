@@ -1,16 +1,13 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -18,78 +15,48 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TerrifiedEagleInnRequest extends CoinMasterRequest {
   public static final String master = "The Terrified Eagle Inn";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(TerrifiedEagleInnRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(TerrifiedEagleInnRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(TerrifiedEagleInnRequest.master);
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<td>(\\w+) Freddy Kruegerand(?:s?)</td>");
   public static final AdventureResult KRUEGERAND = ItemPool.get(ItemPool.KRUEGERAND, 1);
+
   public static final CoinmasterData TERRIFIED_EAGLE_INN =
-      new CoinmasterData(
-          TerrifiedEagleInnRequest.master,
-          "dreadsylvania",
-          TerrifiedEagleInnRequest.class,
-          "Freddy Kruegerand",
-          null,
-          false,
-          TerrifiedEagleInnRequest.TOKEN_PATTERN,
-          TerrifiedEagleInnRequest.KRUEGERAND,
-          null,
-          TerrifiedEagleInnRequest.itemRows,
-          "shop.php?whichshop=dv",
-          "buyitem",
-          TerrifiedEagleInnRequest.buyItems,
-          TerrifiedEagleInnRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.TALES_OF_DREAD:
-              return !Preferences.getBoolean("itemBoughtPerCharacter6423");
-            case ItemPool.BRASS_DREAD_FLASK:
-              return !Preferences.getBoolean("itemBoughtPerCharacter6428");
-            case ItemPool.SILVER_DREAD_FLASK:
-              return !Preferences.getBoolean("itemBoughtPerCharacter6429");
-            case ItemPool.FOLDER_21:
-              return KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
-          }
-          return super.canBuyItem(itemId);
-        }
-      };
+      new CoinmasterData(master, "dreadsylvania", TerrifiedEagleInnRequest.class)
+          .withToken("Freddy Kruegerand")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(KRUEGERAND)
+          .withShopRowFields(master, "dv")
+          .withCanBuyItem(TerrifiedEagleInnRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.TALES_OF_DREAD -> !Preferences.getBoolean("itemBoughtPerCharacter6423");
+      case ItemPool.BRASS_DREAD_FLASK -> !Preferences.getBoolean("itemBoughtPerCharacter6428");
+      case ItemPool.SILVER_DREAD_FLASK -> !Preferences.getBoolean("itemBoughtPerCharacter6429");
+      case ItemPool.FOLDER_21 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
+      default -> ItemPool.get(itemId).getCount(TERRIFIED_EAGLE_INN.getBuyItems()) > 0;
+    };
+  }
 
   public TerrifiedEagleInnRequest() {
-    super(TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN);
+    super(TERRIFIED_EAGLE_INN);
   }
 
   public TerrifiedEagleInnRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, buying, attachments);
+    super(TERRIFIED_EAGLE_INN, buying, attachments);
   }
 
   public TerrifiedEagleInnRequest(final boolean buying, final AdventureResult attachment) {
-    super(TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, buying, attachment);
+    super(TERRIFIED_EAGLE_INN, buying, attachment);
   }
 
   public TerrifiedEagleInnRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN, buying, itemId, quantity);
+    super(TERRIFIED_EAGLE_INN, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    TerrifiedEagleInnRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   private static final Pattern ITEM_PATTERN =
@@ -101,7 +68,7 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN;
+    CoinmasterData data = TERRIFIED_EAGLE_INN;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
@@ -124,14 +91,7 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
 
         // Print what goes in coinmasters.txt
         String message =
-            KoLConstants.LINE_BREAK
-                + TerrifiedEagleInnRequest.master
-                + "\tbuy\t"
-                + price
-                + "\t"
-                + itemName
-                + "\tROW"
-                + row;
+            KoLConstants.LINE_BREAK + master + "\tbuy\t" + price + "\t" + itemName + "\tROW" + row;
         RequestLogger.printLine(message);
         RequestLogger.updateSessionLog(message);
       }
@@ -151,7 +111,6 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(TERRIFIED_EAGLE_INN, urlString, true);
   }
 }

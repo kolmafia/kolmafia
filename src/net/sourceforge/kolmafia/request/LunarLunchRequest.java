@@ -1,65 +1,36 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 public class LunarLunchRequest extends CoinMasterRequest {
   public static final String master = "Lunar Lunch-o-Mat";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(LunarLunchRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(LunarLunchRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(LunarLunchRequest.master);
 
   public static final CoinmasterData LUNAR_LUNCH =
-      new CoinmasterData(
-          LunarLunchRequest.master,
-          "lunarlunch",
-          LunarLunchRequest.class,
-          "isotope",
-          "You have 0 lunar isotopes",
-          false,
-          SpaaaceRequest.TOKEN_PATTERN,
-          SpaaaceRequest.ISOTOPE,
-          null,
-          LunarLunchRequest.itemRows,
-          "shop.php?whichshop=elvishp3",
-          "buyitem",
-          LunarLunchRequest.buyItems,
-          LunarLunchRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "lunarlunch", LunarLunchRequest.class)
+          .withToken("isotope")
+          .withTokenTest("You have 0 lunar isotopes")
+          .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
+          .withItem(SpaaaceRequest.ISOTOPE)
+          .withShopRowFields(master, "elvishp3");
 
   public LunarLunchRequest() {
-    super(LunarLunchRequest.LUNAR_LUNCH);
+    super(LUNAR_LUNCH);
   }
 
   public LunarLunchRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(LunarLunchRequest.LUNAR_LUNCH, buying, attachments);
+    super(LUNAR_LUNCH, buying, attachments);
   }
 
   public LunarLunchRequest(final boolean buying, final AdventureResult attachment) {
-    super(LunarLunchRequest.LUNAR_LUNCH, buying, attachment);
+    super(LUNAR_LUNCH, buying, attachment);
   }
 
   public LunarLunchRequest(final boolean buying, final int itemId, final int quantity) {
-    super(LunarLunchRequest.LUNAR_LUNCH, buying, itemId, quantity);
+    super(LUNAR_LUNCH, buying, itemId, quantity);
   }
 
   public static final void buy(final int itemId, final int count) {
@@ -71,8 +42,7 @@ public class LunarLunchRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = LunarLunchRequest.LUNAR_LUNCH;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(LUNAR_LUNCH, urlString, true);
   }
 
   public static String accessible() {

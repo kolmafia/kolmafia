@@ -1,89 +1,60 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 
 public class ChemiCorpRequest extends CoinMasterRequest {
   public static final String master = "ChemiCorp";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(ChemiCorpRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(ChemiCorpRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(ChemiCorpRequest.master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) dangerous chemicals");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DANGEROUS_CHEMICALS, 1);
+
   public static final CoinmasterData CHEMICORP =
-      new CoinmasterData(
-          ChemiCorpRequest.master,
-          "ChemiCorp",
-          ChemiCorpRequest.class,
-          "dangerous chemicals",
-          null,
-          false,
-          ChemiCorpRequest.TOKEN_PATTERN,
-          ChemiCorpRequest.COIN,
-          null,
-          ChemiCorpRequest.itemRows,
-          "shop.php?whichshop=batman_chemicorp",
-          "buyitem",
-          ChemiCorpRequest.buyItems,
-          ChemiCorpRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          int price = ChemiCorpRequest.buyPrices.get(itemId);
-          if (price == 1) {
-            return ChemiCorpRequest.COIN;
-          }
-          // price increased by 3 each time you buy one
-          int count = InventoryManager.getCount(itemId);
-          if (count > 0) {
-            price = 3 * (count + 1);
-          }
-          return ChemiCorpRequest.COIN.getInstance(price);
-        }
-      };
+      new CoinmasterData(master, "ChemiCorp", ChemiCorpRequest.class)
+          .withToken("dangerous chemicals")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(COIN)
+          .withShopRowFields(master, "batman_chemicorp")
+          .withItemBuyPrice(ChemiCorpRequest::itemBuyPrice);
+
+  private static AdventureResult itemBuyPrice(final Integer itemId) {
+    int price = CHEMICORP.getBuyPrices().get(itemId);
+    if (price == 1) {
+      return COIN;
+    }
+    // price increased by 3 each time you buy one
+    int count = InventoryManager.getCount(itemId);
+    if (count > 0) {
+      price = 3 * (count + 1);
+    }
+    return COIN.getInstance(price);
+  }
 
   public ChemiCorpRequest() {
-    super(ChemiCorpRequest.CHEMICORP);
+    super(CHEMICORP);
   }
 
   public ChemiCorpRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(ChemiCorpRequest.CHEMICORP, buying, attachments);
+    super(CHEMICORP, buying, attachments);
   }
 
   public ChemiCorpRequest(final boolean buying, final AdventureResult attachment) {
-    super(ChemiCorpRequest.CHEMICORP, buying, attachment);
+    super(CHEMICORP, buying, attachment);
   }
 
   public ChemiCorpRequest(final boolean buying, final int itemId, final int quantity) {
-    super(ChemiCorpRequest.CHEMICORP, buying, itemId, quantity);
+    super(CHEMICORP, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    ChemiCorpRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
@@ -91,7 +62,7 @@ public class ChemiCorpRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = ChemiCorpRequest.CHEMICORP;
+    CoinmasterData data = CHEMICORP;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
@@ -108,8 +79,7 @@ public class ChemiCorpRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = ChemiCorpRequest.CHEMICORP;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(CHEMICORP, urlString, true);
   }
 
   public static String accessible() {

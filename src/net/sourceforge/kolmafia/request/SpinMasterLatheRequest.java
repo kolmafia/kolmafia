@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
@@ -18,48 +17,21 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpinMasterLatheRequest extends CoinMasterRequest {
   public static final String master = "Your SpinMaster&trade; lathe";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(SpinMasterLatheRequest.master);
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(SpinMasterLatheRequest.master);
 
   // Since there are four different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.
   private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
 
   public static final CoinmasterData YOUR_SPINMASTER_LATHE =
-      new CoinmasterData(
-          SpinMasterLatheRequest.master,
-          "lathe",
-          SpinMasterLatheRequest.class,
-          null,
-          null,
-          false,
-          null,
-          null,
-          null,
-          SpinMasterLatheRequest.itemRows,
-          "shop.php?whichshop=lathe",
-          "buyitem",
-          SpinMasterLatheRequest.buyItems,
-          SpinMasterLatheRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          return SpinMasterLatheRequest.buyCosts.get(itemId);
-        }
-      };
+      new CoinmasterData(master, "lathe", SpinMasterLatheRequest.class)
+          .withShopRowFields(master, "lathe")
+          .withBuyPrices()
+          .withItemBuyPrice(SpinMasterLatheRequest::itemBuyPrice)
+          .withNeedsPasswordHash(true);
+
+  private static AdventureResult itemBuyPrice(final Integer itemId) {
+    return buyCosts.get(itemId);
+  }
 
   public static final AdventureResult SPINMASTER = ItemPool.get(ItemPool.SPINMASTER, 1);
   public static final AdventureResult FLIMSY_HARDWOOD_SCRAPS =
@@ -74,71 +46,47 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
 
   // Manually set up the map and change the currency, as need
   static {
-    Map<Integer, Integer> map = CoinmastersDatabase.getBuyPrices(SpinMasterLatheRequest.master);
-    for (Entry<Integer, Integer> entry :
-        CoinmastersDatabase.getBuyPrices(SpinMasterLatheRequest.master).entrySet()) {
+    Map<Integer, Integer> map = CoinmastersDatabase.getBuyPrices(master);
+    for (Entry<Integer, Integer> entry : CoinmastersDatabase.getBuyPrices(master).entrySet()) {
       int itemId = entry.getKey().intValue();
       int price = entry.getValue().intValue();
-      AdventureResult cost = null;
-      switch (itemId) {
-        default:
-          cost = FLIMSY_HARDWOOD_SCRAPS.getInstance(price);
-          break;
-        case ItemPool.HEMLOCK_HELM:
-          cost = DREADSYLVANIAN_HEMLOCK.getInstance(price);
-          break;
-        case ItemPool.BALSAM_BARREL:
-          cost = SWEATY_BALSAM.getInstance(price);
-          break;
-        case ItemPool.REDWOOD_RAIN_STICK:
-          cost = ANCIENT_REDWOOD.getInstance(price);
-          break;
-        case ItemPool.PURPLEHEART_PANTS:
-          cost = PURPLEHEART_LOGS.getInstance(price);
-          break;
-        case ItemPool.WORMWOOD_WEDDING_RING:
-          cost = WORMWOOD_STICK.getInstance(price);
-          break;
-        case ItemPool.DRIPPY_DIADEM:
-          cost = DRIPWOOD_SLAB.getInstance(price);
-          break;
-      }
+      AdventureResult cost =
+          switch (itemId) {
+            default -> FLIMSY_HARDWOOD_SCRAPS.getInstance(price);
+            case ItemPool.HEMLOCK_HELM -> DREADSYLVANIAN_HEMLOCK.getInstance(price);
+            case ItemPool.BALSAM_BARREL -> SWEATY_BALSAM.getInstance(price);
+            case ItemPool.REDWOOD_RAIN_STICK -> ANCIENT_REDWOOD.getInstance(price);
+            case ItemPool.PURPLEHEART_PANTS -> PURPLEHEART_LOGS.getInstance(price);
+            case ItemPool.WORMWOOD_WEDDING_RING -> WORMWOOD_STICK.getInstance(price);
+            case ItemPool.DRIPPY_DIADEM -> DRIPWOOD_SLAB.getInstance(price);
+          };
       buyCosts.put(itemId, cost);
     }
   }
 
   public SpinMasterLatheRequest() {
-    super(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE);
+    super(YOUR_SPINMASTER_LATHE);
   }
 
   public SpinMasterLatheRequest(final String action) {
-    super(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE, action);
+    super(YOUR_SPINMASTER_LATHE, action);
   }
 
   public SpinMasterLatheRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE, buying, attachments);
+    super(YOUR_SPINMASTER_LATHE, buying, attachments);
   }
 
   public SpinMasterLatheRequest(final boolean buying, final AdventureResult attachment) {
-    super(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE, buying, attachment);
+    super(YOUR_SPINMASTER_LATHE, buying, attachment);
   }
 
   public SpinMasterLatheRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
+    super(YOUR_SPINMASTER_LATHE, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    SpinMasterLatheRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   // <tr rel="10587"><td valign=center></td><td><img
@@ -165,7 +113,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
     // Learn new items by simply visiting the SpinMaster Lathe
     // Refresh the Coin Master inventory every time we visit.
 
-    CoinmasterData data = SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE;
+    CoinmasterData data = YOUR_SPINMASTER_LATHE;
 
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     boolean changed = false;
@@ -183,12 +131,12 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
       }
 
       Integer iitemId = itemId;
-      if (!SpinMasterLatheRequest.itemRows.containsKey(iitemId)) {
+      if (!data.getRows().containsKey(iitemId)) {
+        data.getRows().put(iitemId, row);
         AdventureResult item = ItemPool.get(itemId, PurchaseRequest.MAX_QUANTITY);
-        SpinMasterLatheRequest.buyItems.add(item);
+        data.getBuyItems().add(item);
         AdventureResult cost = ItemPool.get(currency, price);
-        SpinMasterLatheRequest.buyCosts.put(iitemId, cost);
-        SpinMasterLatheRequest.itemRows.put(iitemId, row);
+        buyCosts.put(iitemId, cost);
         NPCPurchaseRequest.learnCoinmasterItem(
             master, ItemPool.get(itemId, 1), String.valueOf(price), String.valueOf(row));
         CoinmastersDatabase.registerPurchaseRequest(data, item, cost);
@@ -213,8 +161,8 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    if (!InventoryManager.hasItem(SpinMasterLatheRequest.SPINMASTER)) {
-      return "You don't own a " + SpinMasterLatheRequest.SPINMASTER.getName();
+    if (!InventoryManager.hasItem(SPINMASTER)) {
+      return "You don't own a " + SPINMASTER.getName();
     }
 
     return null;
@@ -225,7 +173,6 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(YOUR_SPINMASTER_LATHE, urlString, true);
   }
 }

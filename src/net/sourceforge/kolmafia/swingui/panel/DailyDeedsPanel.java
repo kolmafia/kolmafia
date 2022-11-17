@@ -2678,7 +2678,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       if (et) addFightCounter(buffer, "tentacle");
       if (gm) addFightCounter(buffer, "%monster%");
       if (op)
-        addFightCounter(buffer, Preferences.getInteger("_oliversPlaceFreeFights") + "/3 Oliver's");
+        addFightCounter(buffer, Preferences.getInteger("_speakeasyFreeFights") + "/3 Oliver's");
       buffer.append("</html>");
 
       this.setShown(shown);

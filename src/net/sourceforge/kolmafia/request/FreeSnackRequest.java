@@ -1,20 +1,13 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class FreeSnackRequest extends CoinMasterRequest {
   public static final String master = "Game Shoppe Snacks";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(FreeSnackRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(FreeSnackRequest.master);
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("You have ([\\d,]+) free snack voucher");
@@ -22,47 +15,33 @@ public class FreeSnackRequest extends CoinMasterRequest {
   public static final AdventureResult VOUCHER = ItemPool.get(ItemPool.SNACK_VOUCHER, 1);
 
   public static final CoinmasterData FREESNACKS =
-      new CoinmasterData(
-          FreeSnackRequest.master,
-          "snacks",
-          FreeSnackRequest.class,
-          "snack voucher",
-          "The teen glances at your snack voucher",
-          true,
-          FreeSnackRequest.TOKEN_PATTERN,
-          FreeSnackRequest.VOUCHER,
-          null,
-          null,
-          "gamestore.php",
-          "buysnack",
-          FreeSnackRequest.buyItems,
-          FreeSnackRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichsnack",
-          FreeSnackRequest.SNACK_PATTERN,
-          null,
-          null,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "snacks", FreeSnackRequest.class)
+          .withToken("snack voucher")
+          .withTokenTest("The teen glances at your snack voucher")
+          .withPositiveTest(true)
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(VOUCHER)
+          .withBuyURL("gamestore.php")
+          .withBuyAction("buysnack")
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withItemField("whichsnack")
+          .withItemPattern(SNACK_PATTERN);
 
   public FreeSnackRequest() {
-    super(FreeSnackRequest.FREESNACKS);
+    super(FREESNACKS);
   }
 
   public FreeSnackRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FreeSnackRequest.FREESNACKS, buying, attachments);
+    super(FREESNACKS, buying, attachments);
   }
 
   public FreeSnackRequest(final boolean buying, final AdventureResult attachment) {
-    super(FreeSnackRequest.FREESNACKS, buying, attachment);
+    super(FREESNACKS, buying, attachment);
   }
 
   public FreeSnackRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FreeSnackRequest.FREESNACKS, buying, itemId, quantity);
+    super(FREESNACKS, buying, itemId, quantity);
   }
 
   @Override
@@ -72,7 +51,7 @@ public class FreeSnackRequest extends CoinMasterRequest {
 
   public static void parseFreeSnackVisit(final String location, final String responseText) {
     if (responseText.indexOf("You acquire") != -1) {
-      CoinmasterData data = FreeSnackRequest.FREESNACKS;
+      CoinmasterData data = FREESNACKS;
       CoinMasterRequest.completePurchase(data, location);
     }
   }
@@ -91,7 +70,7 @@ public class FreeSnackRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = FreeSnackRequest.FREESNACKS;
+    CoinmasterData data = FREESNACKS;
     return CoinMasterRequest.registerRequest(data, urlString);
   }
 }
