@@ -40,12 +40,11 @@ public class MemeShopRequest extends CoinMasterRequest {
         : ItemPool.get(itemId).getCount(BACON_STORE.getBuyItems()) > 0;
   }
 
-  private static Boolean purchasedItem(AdventureResult item, Boolean storage) {
+  private static void purchasedItem(AdventureResult item, Boolean storage) {
     String property = itemProperty(item.getItemId());
     if (property != null) {
       Preferences.setBoolean(property, true);
     }
-    return true;
   }
 
   public MemeShopRequest() {

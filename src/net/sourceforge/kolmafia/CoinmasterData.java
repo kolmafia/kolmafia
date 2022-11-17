@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.BiFunction;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -87,7 +87,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Function<Integer, AdventureResult> itemBuyPrice = x -> itemBuyPriceInternal(x);
   private Function<Integer, Boolean> canBuyItem = x -> canBuyItemInternal(x);
   private Function<Integer, Boolean> availableItem = x -> availableItemInternal(x);
-  private BiFunction<AdventureResult, Boolean, Boolean> purchasedItem =
+  private BiConsumer<AdventureResult, Boolean> purchasedItem =
       (x, y) -> purchasedItemInternal(x, y);
 
   // Base constructor for CoinmasterData with only the mandatory fields.
@@ -273,8 +273,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this;
   }
 
-  public CoinmasterData withPurchasedItem(BiFunction<AdventureResult, Boolean, Boolean> function) {
-    this.purchasedItem = function;
+  public CoinmasterData withPurchasedItem(BiConsumer<AdventureResult, Boolean> consumer) {
+    this.purchasedItem = consumer;
     return this;
   }
 
@@ -716,11 +716,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     }
   }
 
-  public Boolean purchasedItem(final AdventureResult item, final Boolean storage) {
-    return this.purchasedItem.apply(item, storage);
+  public void purchasedItem(final AdventureResult item, final Boolean storage) {
+    this.purchasedItem.accept(item, storage);
   }
 
-  private Boolean purchasedItemInternal(AdventureResult item, boolean storage) {
-    return true;
-  }
+  private void purchasedItemInternal(AdventureResult item, boolean storage) {}
 }

@@ -33,14 +33,13 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
     };
   }
 
-  private static Boolean purchasedItem(AdventureResult item, Boolean storage) {
+  private static void purchasedItem(AdventureResult item, Boolean storage) {
     int itemId = item.getItemId();
     switch (itemId) {
       case ItemPool.TOASTER:
         Preferences.setBoolean("itemBoughtPerAscension637", true);
         break;
     }
-    return true;
   }
 
   public ShoreGiftShopRequest() {
