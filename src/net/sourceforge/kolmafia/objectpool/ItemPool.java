@@ -3444,6 +3444,7 @@ public class ItemPool {
   public static final int STRONG_SILENT_TYPE = 11016;
   public static final int MYSTERIOUS_STRANGER = 11017;
   public static final int CHAMPAGNE_SHIMMY = 11018;
+  public static final int THE_SOTS_PARCEL = 11019;
 
   private ItemPool() {}
 

@@ -697,18 +697,26 @@ public class ResponseTextParser {
       return;
     }
 
-    int id = ItemDatabase.getItemId(itemName.trim(), 1, false);
+    learnRecipe(itemName);
+  }
 
-    if (id <= 0) {
+  public static void learnRecipe(String itemName) {
+    int itemId = ItemDatabase.getItemId(itemName.trim(), 1, false);
+    if (itemId <= 0) {
       return;
     }
 
-    String message = "Learned recipe: " + itemName + " (" + id + ")";
-    RequestLogger.printLine(message);
-    RequestLogger.updateSessionLog(message);
+    String property = "unknownRecipe" + itemId;
+    if (Preferences.getBoolean(property)) {
+      // Get the pretty "display name" with HTML entities decoded
+      itemName = ItemDatabase.getItemName(itemId);
+      String message = "Learned recipe: " + itemName + " (" + itemId + ")";
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
 
-    Preferences.setBoolean("unknownRecipe" + id, false);
-    ConcoctionDatabase.setRefreshNeeded(false);
+      Preferences.setBoolean(property, false);
+      ConcoctionDatabase.setRefreshNeeded(false);
+    }
   }
 
   public static final Pattern ITEM_DESC_PATTERN =
