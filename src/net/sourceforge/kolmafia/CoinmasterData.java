@@ -71,6 +71,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private String storageAction = null;
   private String tradeAllAction = null;
 
+  // False if the coinmster doesn't sell anything that goes into
+  // inventory. I.e., whether we need too construct PurchaseRequests.
   private boolean canPurchase = true;
 
   // Derived fields
@@ -269,60 +271,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
         .withCountField("quantity")
         .withCountPattern(GenericRequest.QUANTITY_PATTERN);
-  }
-
-  // Ye Olde BOA Constructor for CoinmasterData
-  // To be removed, once all instances are built fluidly
-
-  public CoinmasterData(
-      final String master,
-      final String nickname,
-      final Class<? extends CoinMasterRequest> requestClass,
-      final String token,
-      final String tokenTest,
-      final boolean positiveTest,
-      final Pattern tokenPattern,
-      final AdventureResult item,
-      final String property,
-      final Map<Integer, Integer> itemRows,
-      final String buyURL,
-      final String buyAction,
-      final List<AdventureResult> buyItems,
-      final Map<Integer, Integer> buyPrices,
-      final String sellURL,
-      final String sellAction,
-      final List<AdventureResult> sellItems,
-      final Map<Integer, Integer> sellPrices,
-      final String itemField,
-      final Pattern itemPattern,
-      final String countField,
-      final Pattern countPattern,
-      final String storageAction,
-      final String tradeAllAction,
-      final boolean canPurchase) {
-    this(master, nickname, requestClass);
-    this.token = token;
-    this.tokenTest = tokenTest;
-    this.positiveTest = positiveTest;
-    this.tokenPattern = tokenPattern;
-    this.item = item;
-    this.property = property;
-    this.itemRows = itemRows;
-    this.buyURL = buyURL;
-    this.buyAction = buyAction;
-    this.buyItems = buyItems;
-    this.buyPrices = buyPrices;
-    this.sellURL = sellURL;
-    this.sellAction = sellAction;
-    this.sellItems = sellItems;
-    this.sellPrices = sellPrices;
-    this.itemField = itemField;
-    this.itemPattern = itemPattern;
-    this.countField = countField;
-    this.countPattern = countPattern;
-    this.storageAction = storageAction;
-    this.tradeAllAction = tradeAllAction;
-    this.canPurchase = canPurchase;
   }
 
   // Getters for mandatory fields

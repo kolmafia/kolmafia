@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -14,57 +13,36 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class TrapperRequest extends CoinMasterRequest {
   public static String master = "The Trapper";
+
   public static LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(TrapperRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(TrapperRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(TrapperRequest.master);
+      CoinmastersDatabase.getBuyItems(master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) yeti fur");
   public static final AdventureResult YETI_FUR = ItemPool.get(ItemPool.YETI_FUR, 1);
+
   public static final CoinmasterData TRAPPER =
-      new CoinmasterData(
-          TrapperRequest.master,
-          "trapper",
-          TrapperRequest.class,
-          "yeti fur",
-          "no yeti furs",
-          false,
-          TrapperRequest.TOKEN_PATTERN,
-          TrapperRequest.YETI_FUR,
-          null,
-          TrapperRequest.itemRows,
-          "shop.php?whichshop=trapper",
-          "buyitem",
-          TrapperRequest.buyItems,
-          TrapperRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "trapper", TrapperRequest.class)
+          .withToken("yeti fur")
+          .withTokenTest("no yeti furs")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(YETI_FUR)
+          .withShopRowFields(master, "trapper")
+          .withBuyItems(buyItems);
 
   public TrapperRequest() {
-    super(TrapperRequest.TRAPPER);
+    super(TRAPPER);
   }
 
   public TrapperRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TrapperRequest.TRAPPER, buying, attachments);
+    super(TRAPPER, buying, attachments);
   }
 
   public TrapperRequest(final boolean buying, final AdventureResult attachment) {
-    super(TrapperRequest.TRAPPER, buying, attachment);
+    super(TRAPPER, buying, attachment);
   }
 
   public TrapperRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TrapperRequest.TRAPPER, buying, itemId, quantity);
+    super(TRAPPER, buying, itemId, quantity);
   }
 
   public TrapperRequest(final int itemId, final int quantity) {
@@ -78,7 +56,7 @@ public class TrapperRequest extends CoinMasterRequest {
       Preferences.setInteger("lastTr4pz0rQuest", KoLCharacter.getAscensions());
       QuestDatabase.setQuestProgress(Quest.TRAPPER, QuestDatabase.FINISHED);
     }
-    CoinMasterRequest.parseResponse(TrapperRequest.TRAPPER, urlString, responseText);
+    CoinMasterRequest.parseResponse(TRAPPER, urlString, responseText);
   }
 
   public static final boolean registerRequest(final String urlString) {
@@ -87,8 +65,7 @@ public class TrapperRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = TrapperRequest.TRAPPER;
-    return CoinMasterRequest.registerRequest(data, urlString);
+    return CoinMasterRequest.registerRequest(TRAPPER, urlString);
   }
 
   public static String accessible() {
