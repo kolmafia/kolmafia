@@ -30,7 +30,12 @@ public class BigBrotherRequest extends CoinMasterRequest {
           .withItem(SAND_DOLLAR)
           .withBuyURL("monkeycastle.php")
           .withBuyAction("buyitem")
-          .withWhichItemFields(master)
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCountField("quantity")
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
           .withCanBuyItem(BigBrotherRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {

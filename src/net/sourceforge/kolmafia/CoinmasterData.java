@@ -90,7 +90,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private BiConsumer<AdventureResult, Boolean> purchasedItem =
       (x, y) -> purchasedItemInternal(x, y);
 
-  // Base constructor for CoinmasterData with only the mandatory fields.
+  // Constructor for CoinmasterData with only mandatory fields.
   // Optional fields can be added fluidly.
   // Derived fields are built lazily
 
@@ -103,149 +103,459 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   // Fluid field construction
 
+  /**
+   * Defines the token used by the coinmaster,
+   *
+   * <p>A coinmaster deals in currencies other than Meat. If there is only one such currency, we
+   * call it the "token"
+   *
+   * @param token - Token used
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withToken(String token) {
     this.token = token;
     return this;
   }
 
+  /**
+   * Defines the plural name of the coinmaster's token.
+   *
+   * <p>The plural name is ordinarily lazily derived by adding "s" to the end of the token's name,
+   * or, if it is an item, using the item's plural name. If that does not suffice, specifying it
+   * here overrides lazy derivation.
+   *
+   * @param pluralToken - Plural name for the token.
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withPluralToken(String pluralToken) {
     this.pluralToken = pluralToken;
     return this;
   }
 
+  /**
+   * Defines text that indicates you have no tokens available to spend.
+   *
+   * <p>When examining the responseText that shows the coinmaster's inventory, usually the available
+   * amount of each currency is displayed.
+   *
+   * <p>If there is only one currency - the token - and there is a simple string indicating that
+   * none are available, provide it here. If it is present, we need not do a pattern search to
+   * calculate the number of available tokens.
+   *
+   * <p>This is mutually exclusive with <code>positive</code>. Provide one or the other (or
+   * neither).
+   *
+   * @param tokenTest - String indicating zero tokens available
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withTokenTest(String tokenTest) {
     this.tokenTest = tokenTest;
     return this;
   }
 
+  /**
+   * Defines text that indicates you have at least one token available.
+   *
+   * <p>Occasionally (we have one example), a coinmaster has a single token, but instead of a simple
+   * string indicating no tokens are available, there is a string indicating you have at least one.
+   *
+   * <p>This is mutually exclusive with <code>tokenTest</code>. Provide one or the other (or
+   * neither).
+   *
+   * @param positiveTest - String indicating at least one token is available
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withPositiveTest(boolean positiveTest) {
     this.positiveTest = positiveTest;
     return this;
   }
 
+  /**
+   * Defines a <code>Pattern</code> that determines the number of available tokens.
+   *
+   * <p>Every coinmaster with a single currency has text informing you of how much of the currency
+   * you have available. We use this pattern to extract that number (in <code>group(1)</code>.
+   *
+   * <p>If the token is a number, this should equal the quantity in inventory. We do not expect
+   * inventory to get out of sync, but this allows us to check.
+   *
+   * <p>If the token is virtual (balance stored in a property), this allows us to set (correct) the
+   * property
+   *
+   * @param tokenPattern - <code>Pattern</code> where <code>group(1)</code> is available tokens
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withTokenPattern(Pattern tokenPattern) {
     this.tokenPattern = tokenPattern;
     return this;
   }
 
+  /**
+   * Defines a real item that the coinmaster uses as currency.
+   *
+   * <p>If the coinmaster uses an actual item from inventory (or, rarely, storage), this is it.
+   *
+   * <p>This is mutually exclusive with <code>property</code>. Provide one or the other (or
+   * neither).
+   *
+   * @param item - An AdventureResult for the item used as currency
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withItem(AdventureResult item) {
     this.item = item;
     return this;
   }
 
+  /**
+   * Defines the property for the balance of a virtual item used as currency
+   *
+   * <p>If the coinmaster uses a virtual item for currency, this property holds the available
+   * balance.
+   *
+   * <p>This is mutually exclusive with <code>item</code>. Provide one or the other (or neither).
+   *
+   * @param property - The name of a property with the balance of virtual tokens
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withProperty(String property) {
     this.property = property;
     return this;
   }
 
+  /**
+   * Specifies that the "rows" of this <code>shop.php</code> coinmaster are all listed in <code>
+   * coinmasters.txt</code>.
+   *
+   * <p>If the coinmaster uses modern <code>shop.php</code>, every purchasble item has a "row"
+   * associated with it. These are unique across all shops, even if they refer to the same item.
+   *
+   * <p>If the rows are all provided in <code>coinmasters.txt</code>, pass in the "master" name to
+   * get all the rows for that coinmaster.
+   *
+   * @param master - The name of the shop in <code>coinmasters.txt</code>
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withItemRows(String master) {
     return withItemRows(CoinmastersDatabase.getRows(master));
   }
 
+  /**
+   * Provides the "rows" of this <code>shop.php</code> coinmaster when they are not (all) specified
+   * in <code>coinmasters.txt</code>.
+   *
+   * <p>If the coinmaster uses modern <code>shop.php</code>, every purchasble item has a "row"
+   * associated with it. These are unique across all shops, even if they refer to the same item.
+   *
+   * <p>If the rows are not (all) specified in <code>coinmasters.txt</code> - usually because they
+   * are variable or seasonal (see Mr. Store or The Swagger Shop), this is how you provide a
+   * runtime-constructed map from itemId -> row #.
+   *
+   * @param itemRows - A map from itemId -> row # for shop inventory
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withItemRows(Map<Integer, Integer> itemRows) {
     this.itemRows = itemRows;
     return this;
   }
 
+  /**
+   * Provides the base URL for purchasing from this coinmaster. It will be augmented with additional
+   * fields for action, item, and quantity
+   *
+   * @param buyURL - The URL for purchasing from this coinmaster
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withBuyURL(String buyURL) {
     this.buyURL = buyURL;
     return this;
   }
 
+  /**
+   * Provides the value of the "action" field specifying that you are buying an item from this
+   * coinmaster.
+   *
+   * @param buyAction - The "action" field specifying a purchase
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withBuyAction(String buyAction) {
     this.buyAction = buyAction;
     return this;
   }
 
+  /**
+   * Provides a <code>List</code> of <code>AdventureResult</code>s of the items that you can buy
+   * from this coinmaster.
+   *
+   * <p>If the items are all provided in <code>coinmasters.txt</code>, pass in the "master" name to
+   * get all the items for that coinmaster.
+   *
+   * @param master - The name of the shop in <code>coinmasters.txt</code>
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withBuyItems(String master) {
     return withBuyItems(CoinmastersDatabase.getBuyItems(master));
   }
 
+  /**
+   * Provides an empty <code>List</code> of <code>AdventureResult</code>s of the items that you can
+   * buy from this coinmaster.
+   *
+   * <p>The <code>List</code> is expected to be filled in programmatically at runtime when you visit
+   * the coinmaster and see what is for sale.
+   *
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withBuyItems() {
     return withBuyItems(CoinmastersDatabase.getNewList());
   }
 
+  /**
+   * Provides a <code>List</code> of <code>AdventureResult</code>s of the items that you can buy
+   * from this coinmaster.
+   *
+   * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>List</code> has
+   * been created ahead of time elsewhere - pass it in here.
+   *
+   * <p>*** It is important that the <code>List</code> be a <code>LockableListModel</code>, since it
+   * will be used as the model for this coinmaster in <code>CoinmastersFrame</code> (I need to
+   * figure out how to enforce this, since that will not be the case if we are running headless)
+   *
+   * @param buyItems - The <code>List</code> of items you can buy
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withBuyItems(List<AdventureResult> buyItems) {
     this.buyItems = buyItems;
     return this;
   }
 
+  /**
+   * Provides a <code>Map</code> from itemId to cost of the items that you can buy from this
+   * coinmaster.
+   *
+   * <p>If the items are all provided in <code>coinmasters.txt</code>, pass in the "master" name to
+   * get all the items for that coinmaster.
+   *
+   * @param master - The name of the shop in <code>coinmasters.txt</code>
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withBuyPrices(String master) {
     return withBuyPrices(CoinmastersDatabase.getBuyPrices(master));
   }
 
+  /**
+   * Provides an empty <code>Map</code> from itemId to cost of the items that you can buy from this
+   * coinmaster.
+   *
+   * <p>The <code>Map</code> is expected to be filled in programmatically at runtime when you visit
+   * the coinmaster and see what is for sale.
+   *
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withBuyPrices() {
     return withBuyPrices(CoinmastersDatabase.getNewMap());
   }
 
+  /**
+   * Provides a <code>Map</code> from itemId to cost of the items that you can buy from this
+   * coinmaster.
+   *
+   * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>Map</code> has been
+   * created ahead of time elsewhere - pass it in here.
+   *
+   * @param buyPrices - The <code>Map</code> from itemId -> cost of items you can buy
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withBuyPrices(Map<Integer, Integer> buyPrices) {
     this.buyPrices = buyPrices;
     return this;
   }
 
+  /**
+   * Provides the base URL for selling to this coinmaster. It will be augmented with additional
+   * fields for action, item, and quantity
+   *
+   * @param sellURL - The URL for selling to this coinmaster
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withSellURL(String sellURL) {
     this.sellURL = sellURL;
     return this;
   }
 
+  /**
+   * Provides the value of the "action" field specifying that you are selling an item to this
+   * coinmaster.
+   *
+   * @param sellAction - The "action" field specifying a sale
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withSellAction(String sellAction) {
     this.sellAction = sellAction;
     return this;
   }
 
+  /**
+   * Provides a <code>List</code> of <code>AdventureResult</code>s of the items that you can sell to
+   * this coinmaster.
+   *
+   * <p>If the items are all provided in <code>coinmasters.txt</code>, pass in the "master" name to
+   * get all the items for that coinmaster.
+   *
+   * @param master - The name of the shop in <code>coinmasters.txt</code>
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withSellItems(String master) {
+    return withSellItems(CoinmastersDatabase.getSellItems(master));
+  }
+
+  /**
+   * Provides a <code>List</code> of <code>AdventureResult</code>s of the items that you can sell to
+   * this coinmaster.
+   *
+   * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>List</code> has
+   * been created ahead of time elsewhere - pass it in here.
+   *
+   * <p>*** It is important that the <code>List</code> be a <code>LockableListModel</code>, since it
+   * will be used as the model for this coinmaster in <code>CoinmastersFrame</code> (I need to
+   * figure out how to enforce this, since that will not be the case if we are running headless)
+   *
+   * @param sellItems - The <code>List</code> of items you can sell
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withSellItems(List<AdventureResult> sellItems) {
     this.sellItems = sellItems;
     return this;
   }
 
-  public CoinmasterData withSellItems(String master) {
-    return withSellItems(CoinmastersDatabase.getSellItems(master));
+  /**
+   * Provides a <code>Map</code> from itemId to cost of the items that you can sell to this
+   * coinmaster.
+   *
+   * <p>If the items are all provided in <code>coinmasters.txt</code>, pass in the "master" name to
+   * get all the items for that coinmaster.
+   *
+   * @param master - The name of the shop in <code>coinmasters.txt</code>
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withSellPrices(String master) {
+    return withSellPrices(CoinmastersDatabase.getSellPrices(master));
   }
 
+  /**
+   * Provides a <code>Map</code> from itemId to cost of the items that you can sell to this
+   * coinmaster.
+   *
+   * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>Map</code> has been
+   * created ahead of time elsewhere - pass it in here.
+   *
+   * @param sellPrices - The <code>Map</code> from itemId -> cost of items you can buy
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withSellPrices(Map<Integer, Integer> sellPrices) {
     this.sellPrices = sellPrices;
     return this;
   }
 
-  public CoinmasterData withSellPrices(String master) {
-    return withSellPrices(CoinmastersDatabase.getSellPrices(master));
-  }
-
+  /**
+   * Provides the value of the field specifying the itemId of an item you are buying from or selling
+   * to the coinmaster.
+   *
+   * @param itemField - The field specifying an itemId
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withItemField(String itemField) {
     this.itemField = itemField;
     return this;
   }
 
+  /**
+   * Provides the <code>Pattern</code> for extracting the itemID from a URL when buying from or
+   * selling to the coinmaster.
+   *
+   * @param itemPattern - The <code>Pattern</code> for extracting itemId in <code>group(1)</code>
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withItemPattern(Pattern itemPattern) {
     this.itemPattern = itemPattern;
     return this;
   }
 
+  /**
+   * Provides the value of the field specifying the number of items you are buying from or selling
+   * to the coinmaster.
+   *
+   * @param countField - The field specifying athe count
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withCountField(String countField) {
     this.countField = countField;
     return this;
   }
 
+  /**
+   * Provides the <code>Pattern</code> for extracting the number of items from a URL when buying
+   * from or selling to the coinmaster.
+   *
+   * @param countPattern - The <code>Pattern</code> for extracting count in <code>group(1)</code>
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withCountPattern(Pattern countPattern) {
     this.countPattern = countPattern;
     return this;
   }
 
+  /**
+   * Provides the value of the field specifying that the coinmaster should take tokens from storage
+   *
+   * @param storageAction - The field appended to the base URL to specify using storage
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withStorageAction(String storageAction) {
     this.storageAction = storageAction;
     return this;
   }
 
+  /**
+   * Provides the value of the field specifying that the coinmaster should trade as many tokens for
+   * items as inventory (or storage) allows.
+   *
+   * @param tradeAllAction - The field appended to the base URL to specify maximum purchase
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withTradeAllAction(String tradeAllAction) {
     this.tradeAllAction = tradeAllAction;
     return this;
   }
 
+  /**
+   * Specifies that transactions with this coinmaster need to provide the a "pwd" field for the
+   * password hash.
+   *
+   * <p>When you look at the HTML for visiting a coinmaster, sometimes the buttons include a "pwd"
+   * field and sometimes they do not. If the former, call this with <code>true</code>. (<code>false
+   * </code> is the default.)
+   *
+   * @param needsPasswordHash - "true" if password hash needed.
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withNeedsPasswordHash(boolean needsPasswordHash) {
     this.needsPasswordHash = needsPasswordHash;
     return this;
   }
 
+  /**
+   * Specifies that at least some transactions with this coinmaster deal with actual items from
+   * inventory.
+   *
+   * <p>We've seen at least one coinmaster where purchases did not result in acquiring an item in
+   * inventory; instead the item was send as a "gift" to another player.
+   *
+   * <p>Specify <code>false</code> here to indicate that we do not need to construct <code>
+   * PurchaseRequest</code>s for the items you can buy.
+   *
+   * @param canPurchase - "false" if buying does not provide an item in inventory
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withCanPurchase(boolean canPurchase) {
     this.canPurchase = canPurchase;
     return this;
@@ -253,32 +563,91 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   // Functional fields to obviate overriding methods
 
+  /**
+   * Specifies a static method that will be invoked by <code>int getBuyPrice(int itemId)</code>
+   *
+   * @param function - a Function object to be called by getBuyPrice
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withGetBuyPrice(Function<Integer, Integer> function) {
     this.getBuyPrice = function;
     return this;
   }
 
+  /**
+   * Specifies a static method that will be invoked by <code>
+   * AdventureResult itemBuyPrice(int itemId)</code>
+   *
+   * @param function - a Function object to be called by itemBuyPrice
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withItemBuyPrice(Function<Integer, AdventureResult> function) {
     this.itemBuyPrice = function;
     return this;
   }
 
+  /**
+   * Specifies a static method that will be invoked by <code>boolean canBuyItem(int itemId)</code>
+   *
+   * @param function - a Function object to be called by getBuyPrice
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withCanBuyItem(Function<Integer, Boolean> function) {
     this.canBuyItem = function;
     return this;
   }
 
+  /**
+   * Specifies a static method that will be invoked by <code>boolean availableItem(int itemId)
+   * </code>
+   *
+   * @param function - a Function object to be called by availableItem
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withAvailableItem(Function<Integer, Boolean> function) {
     this.availableItem = function;
     return this;
   }
 
+  /**
+   * Specifies a static method that will be invoked by <code>void
+   * purchasedItem(AdventureResult item, boolean storage)</code>
+   *
+   * <p>Use this if you want to, for example, set properties for once-per-day (or
+   * once-per-ascension) purchases
+   *
+   * @param function - a BiConsumer object to be called by purchasedItem
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withPurchasedItem(BiConsumer<AdventureResult, Boolean> consumer) {
     this.purchasedItem = consumer;
     return this;
   }
 
-  // Convenience method for shop.php Coinmasters that use "rows"
+  /**
+   * Populates the nine fields for a standard <code>shop.php</code> coinmaster that uses row #s.
+   *
+   * <ul>
+   *   <li>itemRows
+   *   <li>buyURL
+   *   <li>buyAction
+   *   <li>buyItems from <code>coinmasters.txt</code>
+   *   <li>buyPrices from <code>coinmasters.txt</code>
+   *   <li>itemField
+   *   <li>itemPattern
+   *   <li>countField
+   *   <li>countPattern
+   * </ul>
+   *
+   * <p>Note that if your coinmaster has multiple currencies and/or variable inventory (which means
+   * you will be programmatically building rows/items/prices at runtime), you can still use this to
+   * fill in the fields; you will simply need to follow up with withItemRows, withBuyItems,
+   * withBuyPrices as needed.
+   *
+   * @param master - The name of the shop in <code>coinmasters.txt</code>
+   * @param shopId - The value of the shopId parameter in <code>shop.php</code>
+   * @return this - Allows fluid chaining of fields
+   */
   public CoinmasterData withShopRowFields(String master, String shopId) {
     return this.withItemRows(master)
         .withBuyURL("shop.php?whichshop=" + shopId)
@@ -287,16 +656,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         .withBuyPrices(master)
         .withItemField("whichrow")
         .withItemPattern(GenericRequest.WHICHROW_PATTERN)
-        .withCountField("quantity")
-        .withCountPattern(GenericRequest.QUANTITY_PATTERN);
-  }
-
-  // Convenience method for Coinmasters that use "whichitem"/"quantity"
-  public CoinmasterData withWhichItemFields(String master) {
-    return this.withBuyItems(master)
-        .withBuyPrices(master)
-        .withItemField("whichitem")
-        .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
         .withCountField("quantity")
         .withCountPattern(GenericRequest.QUANTITY_PATTERN);
   }

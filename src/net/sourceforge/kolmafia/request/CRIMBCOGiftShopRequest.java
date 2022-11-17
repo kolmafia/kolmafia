@@ -20,7 +20,12 @@ public class CRIMBCOGiftShopRequest extends CoinMasterRequest {
           .withItem(CRIMBCO_SCRIP)
           .withBuyURL("crimbo10.php")
           .withBuyAction("buygift")
-          .withWhichItemFields(master);
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCountField("quantity")
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
 
   public CRIMBCOGiftShopRequest() {
     super(CRIMBCO_GIFT_SHOP);
