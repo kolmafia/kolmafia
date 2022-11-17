@@ -39,10 +39,11 @@ public class PreferenceWatcherTable extends JTable {
     JMenuItem menuItem;
 
     menuItem = new JMenuItem("Add new watcher");
-    menuItem.addActionListener((e) -> {
-      var value = InputFieldUtilities.input("Preference to watch");
-      this.model.addPreference(value);
-    });
+    menuItem.addActionListener(
+        (e) -> {
+          var value = InputFieldUtilities.input("Preference to watch");
+          this.model.addPreference(value);
+        });
     popup.add(menuItem);
 
     menuItem = new JMenuItem("Remove this watcher");
@@ -112,7 +113,7 @@ public class PreferenceWatcherTable extends JTable {
 
     private String[] getWatchedPreferences() {
       String preferencesString = Preferences.getString("watchedPreferences");
-      if (preferencesString.isEmpty()) return new String[]{};
+      if (preferencesString.isEmpty()) return new String[] {};
       return preferencesString.split(",");
     }
 
