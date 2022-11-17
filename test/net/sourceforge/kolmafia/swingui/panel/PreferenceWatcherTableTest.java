@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withoutProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -72,6 +73,22 @@ class PreferenceWatcherTableTest {
       Preferences.setString("testPrefA", "b");
 
       assertThat(model.getValueAt(0, 1), is("b"));
+    }
+  }
+
+  @Test
+  void reactsToPrefCreation() {
+    var cleanups =
+        new Cleanups(withoutProperty("testPrefA"), withProperty("watchedPreferences", "testPrefA"));
+
+    try (cleanups) {
+      var table = new PreferenceWatcherTable();
+      var model = table.getModel();
+      assertThat(model.getValueAt(0, 1), equalTo(null));
+
+      Preferences.setString("testPrefA", "a");
+
+      assertThat(model.getValueAt(0, 1), is("a"));
     }
   }
 
