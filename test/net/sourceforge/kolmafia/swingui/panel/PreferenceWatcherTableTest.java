@@ -59,7 +59,7 @@ class PreferenceWatcherTableTest {
   }
 
   @Test
-  void valueChanges() {
+  void reactsToValueChanges() {
     var cleanups =
         new Cleanups(
             withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"));
@@ -72,6 +72,28 @@ class PreferenceWatcherTableTest {
       Preferences.setString("testPrefA", "b");
 
       assertThat(model.getValueAt(0, 1), is("b"));
+    }
+  }
+
+  @Test
+  void reactsToWatchedPrefChanges() {
+    var cleanups =
+        new Cleanups(
+            withProperty("testPrefA", "a"),
+            withProperty("testPrefB", "b"),
+            withProperty("watchedPreferences", "testPrefA"));
+
+    try (cleanups) {
+      var table = new PreferenceWatcherTable();
+      var model = table.getModel();
+
+      assertThat(table.getRowCount(), is(1));
+      assertThat(model.getValueAt(0, 1), is("a"));
+
+      Preferences.setString("watchedPreferences", "testPrefA,testPrefB");
+
+      assertThat(table.getRowCount(), is(2));
+      assertThat(model.getValueAt(1, 1), is("b"));
     }
   }
 }
