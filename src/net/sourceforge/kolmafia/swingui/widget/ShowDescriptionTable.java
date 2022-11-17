@@ -9,8 +9,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,6 +60,7 @@ import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
+import net.sourceforge.kolmafia.swingui.listener.PopupListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -201,7 +200,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       this.addKeyListener(new RemoveTriggerListener());
     }
 
-    this.addMouseListener(new PopupListener());
+    this.addMouseListener(new PopupListener(this.contextMenu));
 
     // Add functionality for scrolling to an entry when the user types in a partial name.
     // This is provided natively by JList, but needs to be added here because tables do not natively
@@ -419,35 +418,6 @@ public class ShowDescriptionTable<E> extends JXTable {
       }
 
       return this;
-    }
-  }
-
-  private class PopupListener extends MouseAdapter {
-    @Override
-    public void mousePressed(final MouseEvent e) {
-      this.maybeShowPopup(e);
-    }
-
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-      this.maybeShowPopup(e);
-    }
-
-    private void maybeShowPopup(final MouseEvent e) {
-      if (e.isPopupTrigger()) {
-        int index = ShowDescriptionTable.this.rowAtPoint((e.getPoint()));
-        if (index == -1) {
-          return;
-        }
-        ShowDescriptionTable.this.lastSelectIndex = index;
-
-        if (!ShowDescriptionTable.this.isRowSelected((index))) {
-          ShowDescriptionTable.this.clearSelection();
-          ShowDescriptionTable.this.setRowSelectionInterval(index, index);
-        }
-
-        ShowDescriptionTable.this.contextMenu.show(e.getComponent(), e.getX(), e.getY());
-      }
     }
   }
 

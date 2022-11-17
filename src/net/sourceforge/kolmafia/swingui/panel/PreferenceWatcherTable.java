@@ -2,25 +2,58 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.JLabel;
-import javax.swing.JTable;
+import java.util.stream.Collectors;
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.listener.PopupListener;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public class PreferenceWatcherPanel extends JTable {
-  public PreferenceWatcherPanel() {
-    super(new PreferenceTableModel());
+public class PreferenceWatcherTable extends JTable {
+  PreferenceTableModel model = new PreferenceTableModel();
+
+  public PreferenceWatcherTable() {
+    super();
+    this.setModel(model);
     this.getColumnModel().getColumn(1).setCellRenderer(new PreferenceValueCellRenderer());
+    this.createPopupMenu();
     this.setFillsViewportHeight(true);
+    this.setCellSelectionEnabled(false);
+    this.setRowSelectionAllowed(true);
   }
 
-  public static class PreferenceValueCellRenderer extends DefaultTableCellRenderer {
+  private void removePreference() {
+    this.model.removePreference(this.getSelectedRow());
+  }
+
+  private void createPopupMenu() {
+    var popup = new JPopupMenu();
+
+    JMenuItem menuItem;
+
+    menuItem = new JMenuItem("Add new watcher");
+    menuItem.addActionListener((e) -> {
+      var value = InputFieldUtilities.input("Preference to watch");
+      this.model.addPreference(value);
+    });
+    popup.add(menuItem);
+
+    menuItem = new JMenuItem("Remove this watcher");
+    menuItem.addActionListener((e) -> this.removePreference());
+    popup.add(menuItem);
+
+    var listener = new PopupListener(popup);
+    this.addMouseListener(listener);
+  }
+
+  private static class PreferenceValueCellRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(
         JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
@@ -39,7 +72,7 @@ public class PreferenceWatcherPanel extends JTable {
     }
   }
 
-  public static class PreferenceTableModel extends AbstractTableModel implements Listener {
+  private static class PreferenceTableModel extends AbstractTableModel implements Listener {
     private final List<WatchedPreference> preferences = new ArrayList<>();
     private final Map<String, Integer> prefToIndex = new HashMap<>();
 
@@ -77,15 +110,18 @@ public class PreferenceWatcherPanel extends JTable {
       };
     }
 
+    private String[] getWatchedPreferences() {
+      String preferencesString = Preferences.getString("watchedPreferences");
+      if (preferencesString.isEmpty()) return new String[]{};
+      return preferencesString.split(",");
+    }
+
     @Override
     public void update() {
-      String preferencesString = Preferences.getString("watchedPreferences");
-      String[] preferences = preferencesString.split(",");
-
       this.preferences.clear();
       this.prefToIndex.clear();
 
-      for (var pref : preferences) {
+      for (var pref : getWatchedPreferences()) {
         var watchedPref = new WatchedPreference(this, pref);
         this.preferences.add(watchedPref);
         this.prefToIndex.put(pref, this.preferences.size());
@@ -97,6 +133,20 @@ public class PreferenceWatcherPanel extends JTable {
       this.fireTableDataChanged();
     }
 
+    public void addPreference(final String pref) {
+      var current = Preferences.getString("watchedPreferences");
+      Preferences.setString("watchedPreferences", (current.isBlank() ? "" : current + ",") + pref);
+    }
+
+    public void removePreference(final int rowIndex) {
+      var pref = preferences.get(rowIndex);
+      Preferences.setString(
+          "watchedPreferences",
+          Arrays.stream(getWatchedPreferences())
+              .filter(p -> !p.equals(pref.getPreference()))
+              .collect(Collectors.joining(",")));
+    }
+
     public void firePreferenceChanged(final String preference) {
       var index = prefToIndex.get(preference);
       if (index != null) {
@@ -105,7 +155,7 @@ public class PreferenceWatcherPanel extends JTable {
     }
   }
 
-  public static class WatchedPreference implements Listener {
+  private static class WatchedPreference implements Listener {
     private final PreferenceTableModel model;
     private final String preference;
     private String value = null;
