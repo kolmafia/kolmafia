@@ -1738,4 +1738,39 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class OliversPlace {
+    @BeforeEach
+    public void beforeEach() {
+      Preferences.resetToDefault("_oliversPlaceFreeFights");
+    }
+
+    @Test
+    public void oliversFreeFights() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_free.html");
+        assertEquals(Preferences.getInteger("_oliversPlaceFreeFights"), 1);
+      }
+    }
+
+    @Test
+    public void oliversHeatingUp() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_heating_up.html");
+        assertEquals(Preferences.getInteger("_oliversPlaceFreeFights"), 3);
+      }
+    }
+
+    @Test
+    public void oliversNotFree() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_not_free.html");
+        assertEquals(Preferences.getInteger("_oliversPlaceFreeFights"), 0);
+      }
+    }
+  }
 }
