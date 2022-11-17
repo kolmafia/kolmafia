@@ -1740,36 +1740,36 @@ public class FightRequestTest {
   }
 
   @Nested
-  class OliversPlace {
+  class Speakeasy {
     @BeforeEach
     public void beforeEach() {
-      Preferences.resetToDefault("_oliversPlaceFreeFights");
+      Preferences.resetToDefault("_speakeasyFreeFights");
     }
 
     @Test
-    public void oliversFreeFights() {
+    public void speakeasyFreeFights() {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_free.html");
-        assertEquals(Preferences.getInteger("_oliversPlaceFreeFights"), 1);
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 1);
       }
     }
 
     @Test
-    public void oliversHeatingUp() {
+    public void speakeasyHeatingUp() {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_heating_up.html");
-        assertEquals(Preferences.getInteger("_oliversPlaceFreeFights"), 3);
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
       }
     }
 
     @Test
-    public void oliversNotFree() {
+    public void speakeasyNotFree() {
       var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
       try (cleanups) {
         parseCombatData("request/test_oliver_not_free.html");
-        assertEquals(Preferences.getInteger("_oliversPlaceFreeFights"), 0);
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
       }
     }
   }
