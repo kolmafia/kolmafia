@@ -22,7 +22,8 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
           .withItem(SHIP_TRIP_SCRIP)
           .withShopRowFields(master, "shore")
           .withNeedsPasswordHash(true)
-          .withCanBuyItem(ShoreGiftShopRequest::canBuyItem);
+          .withCanBuyItem(ShoreGiftShopRequest::canBuyItem)
+          .withPurchasedItem(ShoreGiftShopRequest::purchasedItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult item = ItemPool.get(itemId);
