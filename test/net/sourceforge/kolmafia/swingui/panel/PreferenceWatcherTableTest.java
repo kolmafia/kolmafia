@@ -57,4 +57,21 @@ class PreferenceWatcherTableTest {
       assertThat(component.isEnabled(), is(expected));
     }
   }
+
+  @Test
+  void valueChanges() {
+    var cleanups =
+        new Cleanups(
+            withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"));
+
+    try (cleanups) {
+      var table = new PreferenceWatcherTable();
+      var model = table.getModel();
+      assertThat(model.getValueAt(0, 1), is("a"));
+
+      Preferences.setString("testPrefA", "b");
+
+      assertThat(model.getValueAt(0, 1), is("b"));
+    }
+  }
 }
