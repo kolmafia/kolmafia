@@ -2524,8 +2524,7 @@ public class Modifiers {
               .filter(SkillDatabase::isPassive)
               .map(UseSkillRequest::getUnmodifiedInstance)
               .filter(Objects::nonNull)
-              // Filter out inactive G-Lover skills.
-              .filter(skill -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(skill.getSkillName()))
+              .filter(UseSkillRequest::isEffective)
               .collect(
                   Collectors.partitioningBy(
                       skill -> {
