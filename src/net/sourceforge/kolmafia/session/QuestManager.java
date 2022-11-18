@@ -504,7 +504,7 @@ public class QuestManager {
   }
 
   private static void handleSpeakeasyChange(final String text) {
-    if (text.contains("Unusually Quiet Barroom Brawl (1)")) {
+    if (!text.contains("olivers_nocost")) {
       Preferences.setInteger("_speakeasyFreeFights", 3);
     }
   }
