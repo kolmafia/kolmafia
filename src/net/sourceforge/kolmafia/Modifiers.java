@@ -2257,136 +2257,131 @@ public class Modifiers {
 
   private boolean overrideItem(final int itemId) {
     switch (itemId) {
-      case ItemPool.TUESDAYS_RUBY:
-        {
-          // Set modifiers depending on what KoL day of the week it is
-          var dotw = DateTimeManager.getArizonaDateTime().getDayOfWeek();
+      case ItemPool.TUESDAYS_RUBY -> {
+        // Set modifiers depending on what KoL day of the week it is
+        var dotw = DateTimeManager.getArizonaDateTime().getDayOfWeek();
 
-          this.set(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
-          this.set(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
-          this.set(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
-          this.set(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
-          this.set(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
-          this.set(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
-          return true;
-        }
+        this.set(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
+        this.set(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
+        this.set(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
+        this.set(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
+        this.set(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
+        this.set(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
+        this.set(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
+        this.set(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
+        this.set(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
+        return true;
+      }
+      case ItemPool.PANTSGIVING -> {
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
+        return true;
+      }
+      case ItemPool.PATRIOT_SHIELD -> {
+        // Muscle classes
+        this.set(Modifiers.HP_REGEN_MIN, 0.0);
+        this.set(Modifiers.HP_REGEN_MAX, 0.0);
+        // Seal clubber
+        this.set(Modifiers.WEAPON_DAMAGE, 0.0);
+        this.set(Modifiers.DAMAGE_REDUCTION, 0.0);
+        // Turtle Tamer
+        this.set(Modifiers.FAMILIAR_WEIGHT, 0.0);
+        // Disco Bandit
+        this.set(Modifiers.RANGED_DAMAGE, 0.0);
+        // Accordion Thief
+        this.set(Modifiers.FOUR_SONGS, false);
+        // Mysticality classes
+        this.set(Modifiers.MP_REGEN_MIN, 0.0);
+        this.set(Modifiers.MP_REGEN_MAX, 0.0);
+        // Pastamancer
+        this.set(Modifiers.COMBAT_MANA_COST, 0.0);
+        // Sauceror
+        this.set(Modifiers.SPELL_DAMAGE, 0.0);
 
-      case ItemPool.PANTSGIVING:
-        {
-          this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
-          return true;
-        }
-
-      case ItemPool.PATRIOT_SHIELD:
-        {
-          // Muscle classes
-          this.set(Modifiers.HP_REGEN_MIN, 0.0);
-          this.set(Modifiers.HP_REGEN_MAX, 0.0);
-          // Seal clubber
-          this.set(Modifiers.WEAPON_DAMAGE, 0.0);
-          this.set(Modifiers.DAMAGE_REDUCTION, 0.0);
-          // Turtle Tamer
-          this.set(Modifiers.FAMILIAR_WEIGHT, 0.0);
-          // Disco Bandit
-          this.set(Modifiers.RANGED_DAMAGE, 0.0);
-          // Accordion Thief
-          this.set(Modifiers.FOUR_SONGS, false);
-          // Mysticality classes
-          this.set(Modifiers.MP_REGEN_MIN, 0.0);
-          this.set(Modifiers.MP_REGEN_MAX, 0.0);
-          // Pastamancer
-          this.set(Modifiers.COMBAT_MANA_COST, 0.0);
-          // Sauceror
-          this.set(Modifiers.SPELL_DAMAGE, 0.0);
-
-          // Set modifiers depending on Character class
-          AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
-          if (ascensionClass != null) {
-            switch (ascensionClass) {
-              case SEAL_CLUBBER:
-              case ZOMBIE_MASTER:
-              case ED:
-              case COWPUNCHER:
-              case BEANSLINGER:
-              case SNAKE_OILER:
-                this.set(Modifiers.HP_REGEN_MIN, 10.0);
-                this.set(Modifiers.HP_REGEN_MAX, 12.0);
-                this.set(Modifiers.WEAPON_DAMAGE, 15.0);
-                this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
-                break;
-              case TURTLE_TAMER:
-                this.set(Modifiers.HP_REGEN_MIN, 10.0);
-                this.set(Modifiers.HP_REGEN_MAX, 12.0);
-                this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
-                break;
-              case DISCO_BANDIT:
-              case AVATAR_OF_SNEAKY_PETE:
-                this.set(Modifiers.RANGED_DAMAGE, 20.0);
-                break;
-              case ACCORDION_THIEF:
-                this.set(Modifiers.FOUR_SONGS, true);
-                break;
-              case PASTAMANCER:
-                this.set(Modifiers.MP_REGEN_MIN, 5.0);
-                this.set(Modifiers.MP_REGEN_MAX, 6.0);
-                this.set(Modifiers.COMBAT_MANA_COST, -3.0);
-                break;
-              case SAUCEROR:
-              case AVATAR_OF_JARLSBERG:
-                this.set(Modifiers.MP_REGEN_MIN, 5.0);
-                this.set(Modifiers.MP_REGEN_MAX, 6.0);
-                this.set(Modifiers.SPELL_DAMAGE, 20.0);
-                break;
+        // Set modifiers depending on Character class
+        AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+        if (ascensionClass != null) {
+          switch (ascensionClass) {
+            case SEAL_CLUBBER, ZOMBIE_MASTER, ED, COWPUNCHER, BEANSLINGER, SNAKE_OILER -> {
+              this.set(Modifiers.HP_REGEN_MIN, 10.0);
+              this.set(Modifiers.HP_REGEN_MAX, 12.0);
+              this.set(Modifiers.WEAPON_DAMAGE, 15.0);
+              this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
+            }
+            case TURTLE_TAMER -> {
+              this.set(Modifiers.HP_REGEN_MIN, 10.0);
+              this.set(Modifiers.HP_REGEN_MAX, 12.0);
+              this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
+            }
+            case DISCO_BANDIT, AVATAR_OF_SNEAKY_PETE -> this.set(Modifiers.RANGED_DAMAGE, 20.0);
+            case ACCORDION_THIEF -> this.set(Modifiers.FOUR_SONGS, true);
+            case PASTAMANCER -> {
+              this.set(Modifiers.MP_REGEN_MIN, 5.0);
+              this.set(Modifiers.MP_REGEN_MAX, 6.0);
+              this.set(Modifiers.COMBAT_MANA_COST, -3.0);
+            }
+            case SAUCEROR, AVATAR_OF_JARLSBERG -> {
+              this.set(Modifiers.MP_REGEN_MIN, 5.0);
+              this.set(Modifiers.MP_REGEN_MAX, 6.0);
+              this.set(Modifiers.SPELL_DAMAGE, 20.0);
             }
           }
-          return true;
         }
+        return true;
+      }
     }
     return false;
   }
 
   private boolean overrideSkill(final String name) {
-    switch (name) {
-      case "Ferocity":
-        if (KoLCharacter.isVampyre()) {
-          this.set(Modifiers.HP, -10.0);
-        } else if (KoLCharacter.isAvatarOfBoris()) {
-          this.set(Modifiers.CRITICAL_PCT, 25.0);
-        }
-        return true;
+    if ("Ferocity".equals(name)) {
+      if (KoLCharacter.isVampyre()) {
+        this.set(Modifiers.HP, -10.0);
+      } else if (KoLCharacter.isAvatarOfBoris()) {
+        this.set(Modifiers.CRITICAL_PCT, 25.0);
+      }
+      return true;
     }
     return false;
   }
 
   private boolean overrideThrone(final String name) {
     switch (name) {
-      case "Adventurous Spelunker":
+      case "Adventurous Spelunker" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
         return true;
-      case "Garbage Fire":
+      }
+      case "Garbage Fire" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_garbageFireDropsCrown") < 3);
         return true;
-      case "Grimstone Golem":
+      }
+      case "Grimstone Golem" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimstoneMaskDropsCrown") < 1);
         return true;
-      case "Grim Brother":
+      }
+      case "Grim Brother" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimFairyTaleDropsCrown") < 2);
         return true;
-      case "Machine Elf":
+      }
+      case "Machine Elf" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_abstractionDropsCrown") < 25);
         return true;
-      case "Optimistic Candle":
+      }
+      case "Puck Man", "Ms. Puck Man" -> {
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_yellowPixelDropsCrown") < 25);
+        return true;
+      }
+      case "Optimistic Candle" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_optimisticCandleDropsCrown") < 3);
         return true;
-      case "Trick-or-Treating Tot":
+      }
+      case "Trick-or-Treating Tot" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_hoardedCandyDropsCrown") < 3);
         return true;
-      case "Twitching Space Critter":
+      }
+      case "Twitching Space Critter" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_spaceFurDropsCrown") < 1);
         return true;
+      }
     }
     return false;
   }
