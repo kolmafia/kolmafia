@@ -804,4 +804,17 @@ public class ModifiersTest {
 
     assertThat(current.get(Modifiers.FAMILIAR_WEIGHT), equalTo(0.0));
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "Amphibian Sympathy, true",
+    "Disco Greed, true",
+    "Expert Panhandling, true",
+    "Slimy Sinews, true",
+    "Mad Looting Skillz, false",
+    "Overdeveloped Sense of Self Preservation, false",
+  })
+  public void identifiesVariableModifiers(String skillName, boolean variable) {
+    assertThat(Modifiers.getModifiers("Skill", skillName).variable, equalTo(variable));
+  }
 }
