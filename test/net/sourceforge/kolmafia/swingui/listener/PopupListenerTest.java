@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicListUI;
 import javax.swing.plaf.basic.BasicTableUI;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class PopupListenerTest {
   private static class MockJPopupMenu extends JPopupMenu {
@@ -43,10 +45,16 @@ class PopupListenerTest {
         MouseEvent.BUTTON1);
   }
 
-  @Test
-  void showsPopupForListOnMousePressed() {
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void showsPopupForListOnMousePressed(final boolean alreadySelected) {
     var source = new JList<>(new String[] {"Item 1", "Item 2", "Item 3"});
     source.setUI(new BasicListUI());
+
+    if (alreadySelected) {
+      source.setSelectedIndex(1);
+    }
+
     var location = source.indexToLocation(1);
 
     var popupMenu = new MockJPopupMenu();
@@ -87,13 +95,19 @@ class PopupListenerTest {
     assertThat(popupMenu.isShowing(), is(true));
   }
 
-  @Test
-  void showsPopupForTableOnMousePressed() {
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void showsPopupForTableOnMousePressed(final boolean alreadySelected) {
     var source =
         new JTable(
             new String[][] {{"1A", "1B"}, {"2A", "2B"}, {"3A", "3B"}},
             new String[] {"ColA", "ColB"});
     source.setUI(new BasicTableUI());
+
+    if (alreadySelected) {
+      source.setRowSelectionInterval(1, 1);
+    }
+
     var rect = source.getCellRect(1, 0, true);
     var location = new Point((int) rect.getCenterX(), (int) rect.getCenterY());
     SwingUtilities.convertPointToScreen(location, source);
@@ -160,5 +174,29 @@ class PopupListenerTest {
         createPopupTrigger(source, source.getLocation(), MouseEvent.MOUSE_RELEASED));
 
     assertThat(popupMenu.isShowing(), is(true));
+  }
+
+  @Test
+  void doesntPopOnRegularClick() {
+    var source = new JList<>(new String[] {"Item 1", "Item 2", "Item 3"});
+    source.setUI(new BasicListUI());
+    var location = source.indexToLocation(1);
+
+    var popupMenu = new MockJPopupMenu();
+    var listener = new PopupListener(popupMenu);
+    listener.mousePressed(
+        new MouseEvent(
+            source,
+            MouseEvent.MOUSE_PRESSED,
+            System.currentTimeMillis(),
+            0,
+            (int) location.getX(),
+            (int) location.getY(),
+            1,
+            false,
+            MouseEvent.BUTTON1));
+
+    assertThat(source.getSelectedIndex(), is(1));
+    assertThat(popupMenu.isShowing(), is(false));
   }
 }
