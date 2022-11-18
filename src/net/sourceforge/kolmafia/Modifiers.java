@@ -2514,10 +2514,7 @@ public class Modifiers {
     if (Modifiers.cachedPassiveModifiers == null) {
       Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive", new ModifierList());
       PreferenceListenerRegistry.registerPreferenceListener(
-          "(skill)",
-          () -> {
-            Modifiers.availableSkillsChanged = true;
-          });
+          new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
     }
 
     if (Modifiers.availableSkillsChanged || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
