@@ -142,7 +142,8 @@ public abstract class KoLmafia {
     System.setProperty("apple.laf.useScreenMenuBar", "true");
   }
 
-  private static void ensureContentTypes() {
+  // Visible for testing
+  public static void ensureContentTypes() {
     var contentTypesFile = KoLConstants.DATA_LOCATION.toPath().resolve("content-types.properties");
     if (!Files.exists(contentTypesFile)) {
       FileUtilities.loadLibrary(
