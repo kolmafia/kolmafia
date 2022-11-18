@@ -2404,18 +2404,13 @@ public class Modifiers {
     String name = Modifiers.getNameFromLookup(lookup);
     String type = Modifiers.getTypeFromLookup(lookup);
 
-    switch (type) {
-      case "Item":
-        return overrideItem(ItemDatabase.getItemId(name));
-      case "Skill":
-        return overrideSkill(name);
-      case "Throne":
-        return overrideThrone(name);
-      case "Loc":
-      case "Zone":
-        return true;
-    }
-    return false;
+    return switch (type) {
+      case "Item" -> overrideItem(ItemDatabase.getItemId(name));
+      case "Skill" -> overrideSkill(name);
+      case "Throne" -> overrideThrone(name);
+      case "Loc", "Zone" -> true;
+      default -> false;
+    };
   }
 
   public static final double getNumericModifier(final String type, final int id, final String mod) {
