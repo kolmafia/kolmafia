@@ -4153,6 +4153,10 @@ public abstract class KoLCharacter {
     return KoLConstants.availableCombatSkillsSet.contains(skillId);
   }
 
+  public static final Set<Integer> getAvailableSkillIds() {
+    return Collections.unmodifiableSet(KoLConstants.availableSkillsSet);
+  }
+
   /**
    * Accessor method to get the current familiar.
    *

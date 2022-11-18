@@ -16,12 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -57,7 +59,10 @@ public class Modifiers {
   private static final Map<String, Modifiers> modifiersByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
-  private static final List<UseSkillRequest> passiveSkills = new ArrayList<>();
+  private static boolean availableSkillsChanged = false;
+  private static final Map<Boolean, List<UseSkillRequest>> availablePassiveSkillsByVariable =
+      new TreeMap<>();
+  private static Modifiers cachedPassiveModifiers = null;
   private static final Map<String, Integer> synergies = new HashMap<>();
   private static final List<String> mutexes = new ArrayList<>();
   private static final Map<String, Set<String>> uniques = new HashMap<>();
@@ -2503,35 +2508,53 @@ public class Modifiers {
   }
 
   public void applyPassiveModifiers() {
-    // You'd think this could be done at class initialization time,
-    // but no: the SkillDatabase depends on the Mana Cost
-    // modifier being set.
-
-    if (Modifiers.passiveSkills.isEmpty()) {
-      // For all modifiers...
-      Modifiers.modifiersByName.keySet().stream()
-          // ... that come from a skill...
-          .filter(l -> Modifiers.getTypeFromLookup(l).equals("Skill"))
-          .map(Modifiers::getNameFromLookup)
-          // ... that we have in our database...
-          .filter(SkillDatabase::contains)
-          .map(SkillDatabase::getSkillId)
-          // ... which are passive...
-          .filter(SkillDatabase::isPassive)
-          .map(UseSkillRequest::getUnmodifiedInstance)
-          // ... add to the list.
-          .forEach(Modifiers.passiveSkills::add);
+    if (Modifiers.cachedPassiveModifiers == null) {
+      Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive", new ModifierList());
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "(skill)",
+          () -> {
+            Modifiers.availableSkillsChanged = true;
+          });
     }
 
-    // For all our passive skills...
-    Modifiers.passiveSkills.stream()
-        // ... that we actually have...
-        .filter(KoLCharacter::hasSkill)
-        .map(UseSkillRequest::getSkillName)
-        // ... and apply under our current restrictions...
-        .filter(s -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(s))
-        // ... add to this set of modifiers.
-        .forEach(s -> this.add(Modifiers.getModifiers("Skill", s)));
+    if (Modifiers.availableSkillsChanged || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
+      // Collect all passive skills currently on the character.
+      List<UseSkillRequest> allPassives =
+          KoLCharacter.getAvailableSkillIds().stream()
+              .filter(SkillDatabase::isPassive)
+              .map(UseSkillRequest::getUnmodifiedInstance)
+              .collect(Collectors.toList());
+      for (boolean variable : List.of(false, true)) {
+        // Split available passives into variable and not-variable, and cache the result.
+        Modifiers.availablePassiveSkillsByVariable.put(
+            variable,
+            allPassives.stream()
+                .filter(
+                    skill -> {
+                      String lookup = Modifiers.getLookupName("Skill", skill.getSkillName());
+                      return variable == override(lookup);
+                    })
+                .collect(Collectors.toList()));
+      }
+
+      // Recompute sum of cached constant passive skills.
+      Modifiers.cachedPassiveModifiers.reset();
+      Modifiers.availablePassiveSkillsByVariable.get(false).stream()
+          // Filter out inactive G-Lover skills.
+          .filter(skill -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(skill.getSkillName()))
+          .forEach(
+              skill ->
+                  Modifiers.cachedPassiveModifiers.add(
+                      getModifiers("Skill", skill.getSkillName())));
+      Modifiers.availableSkillsChanged = false;
+    }
+
+    // Add constant and variable modifiers.
+    this.add(Modifiers.cachedPassiveModifiers);
+    Modifiers.availablePassiveSkillsByVariable.get(true).stream()
+        // Filter out inactive G-Lover skills.
+        .filter(skill -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(skill.getSkillName()))
+        .forEach(skill -> this.add(getModifiers("Skill", skill.getSkillName())));
   }
 
   public final void applyFloristModifiers() {
@@ -3357,7 +3380,7 @@ public class Modifiers {
   public static void resetModifiers() {
     Modifiers.modifiersByName.clear();
     Modifiers.familiarEffectByName.clear();
-    Modifiers.passiveSkills.clear();
+    Modifiers.availablePassiveSkillsByVariable.clear();
     Modifiers.synergies.clear();
     Modifiers.mutexes.clear();
     Modifiers.uniques.clear();

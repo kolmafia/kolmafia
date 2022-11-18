@@ -789,7 +789,7 @@ public class ModifiersTest {
     FamiliarPool.DODECAPEDE + ", -5.0",
     FamiliarPool.ALIEN + ", 5.0",
   })
-  public void correctlyAppliesAmphibiousSympathyToDodecapede(
+  public void correctlyAppliesAmphibianSympathyToDodecapede(
       final int familiar, final double weightModifier) {
     var cleanups = new Cleanups(withFamiliar(familiar), withSkill("Amphibian Sympathy"));
     try (cleanups) {
@@ -798,5 +798,10 @@ public class ModifiersTest {
 
       assertThat(current.get(Modifiers.FAMILIAR_WEIGHT), equalTo(weightModifier));
     }
+
+    KoLCharacter.recalculateAdjustments(false);
+    Modifiers current = KoLCharacter.getCurrentModifiers();
+
+    assertThat(current.get(Modifiers.FAMILIAR_WEIGHT), equalTo(0.0));
   }
 }
