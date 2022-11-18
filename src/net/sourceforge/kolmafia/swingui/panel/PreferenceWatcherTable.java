@@ -17,11 +17,8 @@ import net.sourceforge.kolmafia.swingui.listener.PopupListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class PreferenceWatcherTable extends JTable {
-  PreferenceTableModel model = new PreferenceTableModel();
-
   public PreferenceWatcherTable() {
-    super();
-    this.setModel(model);
+    super(new PreferenceTableModel());
     this.getColumnModel().getColumn(1).setCellRenderer(new PreferenceValueCellRenderer());
     this.createPopupMenu();
     this.setFillsViewportHeight(true);
@@ -29,8 +26,14 @@ public class PreferenceWatcherTable extends JTable {
     this.setRowSelectionAllowed(true);
   }
 
+  public PreferenceTableModel getModel() {
+    return (PreferenceTableModel) super.getModel();
+  }
+
   private void removePreference() {
-    this.model.removePreference(this.getSelectedRow());
+    var row = this.getSelectedRow();
+    if (row < 0) return;
+    this.getModel().removePreference(row);
   }
 
   private void createPopupMenu() {
@@ -42,11 +45,11 @@ public class PreferenceWatcherTable extends JTable {
     menuItem.addActionListener(
         (e) -> {
           var value = InputFieldUtilities.input("Preference to watch");
-          this.model.addPreference(value);
+          this.getModel().addPreference(value);
         });
     popup.add(menuItem);
 
-    menuItem = new JMenuItem("Remove this watcher");
+    menuItem = new JMenuItem("Remove selected watcher");
     menuItem.addActionListener((e) -> this.removePreference());
     popup.add(menuItem);
 
@@ -73,7 +76,7 @@ public class PreferenceWatcherTable extends JTable {
     }
   }
 
-  private static class PreferenceTableModel extends AbstractTableModel implements Listener {
+  public static class PreferenceTableModel extends AbstractTableModel implements Listener {
     private final List<WatchedPreference> preferences = new ArrayList<>();
     private final Map<String, Integer> prefToIndex = new HashMap<>();
 
@@ -141,6 +144,7 @@ public class PreferenceWatcherTable extends JTable {
 
     public void removePreference(final int rowIndex) {
       var pref = preferences.get(rowIndex);
+
       Preferences.setString(
           "watchedPreferences",
           Arrays.stream(getWatchedPreferences())
