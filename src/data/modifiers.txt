@@ -11020,6 +11020,7 @@ Item	fat loot token	No Pull
 # fat stacks of cash: Does Not Impress Most Monsters
 # ferret bait: Deals 45-60 Physical Damage
 # fetid feather: Deals 80-120 <font color=green>Stench Damage</font>
+Item	fettucini &eacute;pines Inconnu recipe	Recipe: "fettucini &eacute;pines Inconnu"
 Item	Field Guide to Skeletal Anatomy	Skill: "Natural Born Skeleton Killer"
 Item	Field Guide to Skeletal Anatomy (shredded)	Skill: "Natural Born Skeleton Killer"
 Item	figurine of a charred seal	Class: "Seal Clubber"
@@ -11063,6 +11064,7 @@ Item	fresh can of paint	Free Pull
 # Frosty's iceball: Deals 200-300 <font color=blue>Cold Damage</font>
 # Frosty's iceball: (you can use it 2 times a day without melting it)
 # frozen feather: Deals 80-120 <font color=blue>Cold Damage</font>
+Item	fumble formula	Recipe: "concoction of clumsiness"
 Item	Fuzzby	Free Pull
 Item	GameInformPowerDailyPro subscription card	Free Pull
 # gas balloon: Stuns your opponent for a few rounds
@@ -11417,6 +11419,7 @@ Item	mint-in-box Powerful Glove	Free Pull
 Item	Monster Manuel	Free Pull
 Item	Moping Artistic Goth Kid	Free Pull
 # mossy stone sphere: Mysterious, Deprecated
+Item	mother's secret recipe	Recipe: "white chocolate chip brownies"
 # mountain lion skin: Adds +50% Moxie to your cowboy boots
 # Mountain Stream Code Black Alert: Restores 15-20 MP
 # Mountain Stream soda: Restores 30-40 MP
@@ -11547,6 +11550,13 @@ Item	PirateRealm membership packet	Free Pull
 # pixel stopwatch: Stuns your opponent for a few rounds
 # pixie axie: Helps witches find more candy
 # plaid bandage: Restores 120-150 HP
+Item	plans for depleted Grimacite astrolabe	Recipe: "depleted Grimacite astrolabe"
+Item	plans for depleted Grimacite grappling hook	Recipe: "depleted Grimacite grappling hook"
+Item	plans for depleted Grimacite gravy boat	Recipe: "depleted Grimacite gravy boat"
+Item	plans for depleted Grimacite hammer	Recipe: "depleted Grimacite hammer"
+Item	plans for depleted Grimacite ninja mask	Recipe: "depleted Grimacite ninja mask"
+Item	plans for depleted Grimacite shinguards	Recipe: "depleted Grimacite shinguards"
+Item	plans for depleted Grimacite weightlifting belt	Recipe: "depleted Grimacite weightlifting belt"
 # plastic cup of flat beer: Deals 30-40 <font color=blueviolet>Sleaze Damage</font> and increases Item Drops by 15% if you win
 # plot hole: Deals 20-25 Physical Damage
 # plump juicy grub: Restores 90-100 HP
@@ -11622,6 +11632,21 @@ Item	Really Expensive Jewelry and You	Skill: "Really Expensive Jewelrycrafting"
 # really really sticky spider web: Weakens enemies a little bit
 # really sticky spider web: Weakens enemies slightly
 # really thick bandage: Restores 100-120 HP
+Item	Recipe of Before Yore: baked veggie ricotta	Recipe: "baked veggie ricotta"
+Item	Recipe of Before Yore: Boris's beer	Recipe: "Boris's beer"
+Item	Recipe of Before Yore: Boris's bread	Recipe: "Boris's bread"
+Item	Recipe of Before Yore: Calzone of Legend	Recipe: "Calzone of Legend"
+Item	Recipe of Before Yore: Deep Dish of Legend	Recipe: "Deep Dish of Legend"
+Item	Recipe of Before Yore: honey bun of Boris	Recipe: "honey bun of Boris"
+Item	Recipe of Before Yore: Jarlsberg's vegetable soup	Recipe: "Jarlsberg's vegetable soup"
+Item	Recipe of Before Yore: Pete's rich ricotta	Recipe: "Pete's rich ricotta"
+Item	Recipe of Before Yore: Pete's wily whey bar	Recipe: "Pete's wiley whey bar"
+Item	Recipe of Before Yore: Pizza of Legend	Recipe: "Pizza of Legend"
+Item	Recipe of Before Yore: plain calzone	Recipe: "plain calzone"
+Item	Recipe of Before Yore: ratatouille de Jarlsberg	Recipe: "ratatouille de Jarlsberg"
+Item	Recipe of Before Yore: roasted vegetable focaccia	Recipe: "roasted vegetable focaccia"
+Item	Recipe of Before Yore: roasted vegetable of J.	Recipe: "roasted vegetable of J."
+Item	Recipe of Before Yore: St. Pete's sneaky smoothie	Recipe: "St. Pete's sneaky smoothie"
 Item	record of infuriating silence	Skill: "Silent Slam"
 Item	record of infuriating silence (used)	Skill: "Silent Slam"
 Item	record of menacing silence	Skill: "Silent Slice"
@@ -11740,6 +11765,7 @@ Item	sinistral homunculus	Free Pull
 # skeletal skiff: <b>Allows Travel to The Mysterious Island of Mystery</b>
 # skull with a fuse in it: Deals 400-500 Physical Damage
 # Skullhead's Screw: Deals 10-20 <font color=blueviolet>Sleaze Damage</font>
+Item	slap and slap again recipe	Recipe: "slap and slap again"
 # sleaze clusterbomb: Deals <font color=blueviolet>Sleaze Damage</font> based on your highest stat
 # sleaze clusterbomb: (more effective against groups)
 Item	sleeping piano cat	Free Pull

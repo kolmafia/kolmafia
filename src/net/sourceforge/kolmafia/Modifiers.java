@@ -918,6 +918,7 @@ public class Modifiers {
   public static final int FLOOR_BUFFED_MYST = 18;
   public static final int FLOOR_BUFFED_MOXIE = 19;
   public static final int PLUMBER_STAT = 20;
+  public static final int RECIPE = 21;
 
   private static final StringModifier[] stringModifiers = {
     new StringModifier(
@@ -965,6 +966,7 @@ public class Modifiers {
         "Floor Buffed Mysticality", Pattern.compile("Floor Buffed Mysticality: \"(.*?)\"")),
     new StringModifier("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
     new StringModifier("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
+    new StringModifier("Recipe", Pattern.compile("Recipe: \"(.*?)\"")),
   };
 
   public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
