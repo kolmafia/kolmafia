@@ -7968,7 +7968,7 @@ public abstract class RuntimeLibrary {
     // if is present and false otherwise
     String name = nameValue.toString();
 
-    if (Preferences.propertyExists(name, true) || Preferences.propertyExists(name, false)) {
+    if (Preferences.propertyExists(name)) {
       return DataTypes.TRUE_VALUE;
     }
 

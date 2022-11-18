@@ -5877,6 +5877,42 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         break;
+
+      case ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG:
+      case ItemPool.ROBY_JARLSBERGS_VEGETABLE_SOUP:
+      case ItemPool.ROBY_ROASTED_VEGETABLE_OF_J:
+      case ItemPool.ROBY_PETES_SNEAKY_SMOOTHIE:
+      case ItemPool.ROBY_PETES_WILY_WHEY_BAR:
+      case ItemPool.ROBY_PETES_RICH_RICOTTA:
+      case ItemPool.ROBY_BORIS_BEER:
+      case ItemPool.ROBY_HONEY_BUN_OF_BORIS:
+      case ItemPool.ROBY_BORIS_BREAD:
+      case ItemPool.ROBY_CALZONE_OF_LEGEND:
+      case ItemPool.ROBY_PIZZA_OF_LEGEND:
+      case ItemPool.ROBY_ROASTED_VEGETABLE_FOCACCIA:
+      case ItemPool.ROBY_PLAIN_CALZONE:
+      case ItemPool.ROBY_BAKED_VEGGIE_RICOTTA:
+      case ItemPool.ROBY_DEEP_DISH_OF_LEGEND:
+      case ItemPool.PLANS_FOR_GRIMACITE_HAMMER:
+      case ItemPool.PLANS_FOR_GRIMACITE_GRAVY_BOAT:
+      case ItemPool.PLANS_FOR_GRIMACITE_WEIGHTLIFTING_BELT:
+      case ItemPool.PLANS_FOR_GRIMACITE_GRAPPLING_HOOK:
+      case ItemPool.PLANS_FOR_GRIMACITE_NINJA_MASK:
+      case ItemPool.PLANS_FOR_GRIMACITE_SHINGUARDS:
+      case ItemPool.PLANS_FOR_GRIMACITE_ASTROLABE:
+      case ItemPool.FETTUCINI_EPINES_INCONNU_RECIPE:
+      case ItemPool.SLAP_AND_SLAP_AGAIN_RECIPE:
+      case ItemPool.FUMBLE_FORMULA:
+      case ItemPool.MOTHERS_SECRET_RECIPE:
+        if (!responseText.contains("You learn to craft a new item")) {
+          // If we didn't see you use the recipe the first time, learn it now.
+          String recipeName = UseItemRequest.itemToRecipe(itemId);
+          ResponseTextParser.learnRecipe(recipeName);
+          // Item is not consumed
+          return;
+        }
+        // ResponseTextParser learned this recipe
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
@@ -5922,6 +5958,11 @@ public class UseItemRequest extends GenericRequest {
   private static String itemToSkill(final int itemId) {
     String skillName = Modifiers.getStringModifier("Item", itemId, "Skill");
     return skillName.equals("") ? null : skillName;
+  }
+
+  private static String itemToRecipe(final int itemId) {
+    String recipeName = Modifiers.getStringModifier("Item", itemId, "Recipe");
+    return recipeName.equals("") ? null : recipeName;
   }
 
   private static void getEvilLevels(final String responseText) {

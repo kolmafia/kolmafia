@@ -1288,6 +1288,31 @@ public class Player {
   }
 
   /**
+   * Ensures that property does not exist, restoring afterward if necessary
+   *
+   * @param key Key of property
+   * @return Restores the previous value of the property if it existed
+   */
+  public static Cleanups withoutProperty(final String key) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key);
+    var oldValue = Preferences.getString(key);
+
+    if (exists) {
+      Preferences.removeProperty(key, global);
+    }
+
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setString(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
+  }
+
+  /**
    * Does nothing, but ensures the given quest is reverted as part of cleanup
    *
    * @param quest Quest to set
