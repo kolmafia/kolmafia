@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
@@ -228,6 +229,8 @@ public class ProxyRecordValue extends RecordValue {
             .add("name_length", DataTypes.INT_TYPE)
             .add("noob_skill", DataTypes.SKILL_TYPE)
             .add("tcrs_name", DataTypes.STRING_TYPE)
+            .add("skill", DataTypes.SKILL_TYPE)
+            .add("recipe", DataTypes.ITEM_TYPE)
             .finish("item proxy");
 
     public ItemProxy(Value obj) {
@@ -649,6 +652,28 @@ public class ProxyRecordValue extends RecordValue {
      */
     public Value get_noob_skill() {
       return DataTypes.makeSkillValue(ItemDatabase.getNoobSkillId((int) this.contentLong), true);
+    }
+
+    /**
+     * Returns the Skill granted by using this Item.
+     *
+     * @return The Skill granted
+     */
+    public Value get_skill() {
+      String skillName = Modifiers.getStringModifier("Item", (int) this.contentLong, "Skill");
+      return skillName.equals("")
+          ? DataTypes.SKILL_INIT
+          : DataTypes.makeSkillValue(SkillDatabase.getSkillId(skillName), true);
+    }
+
+    /**
+     * Returns the Recipe granted by using this Item.
+     *
+     * @return The Recipe learned
+     */
+    public Value get_recipe() {
+      String recipeName = Modifiers.getStringModifier("Item", (int) this.contentLong, "Recipe");
+      return recipeName.equals("") ? DataTypes.ITEM_INIT : DataTypes.makeItemValue(recipeName);
     }
   }
 
