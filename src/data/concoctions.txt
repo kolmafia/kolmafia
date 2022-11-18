@@ -3231,8 +3231,8 @@ Boris's beer	COOK	Yeast of Boris	bowl of cottage cheese
 honey bun of Boris	COOK	Yeast of Boris	flat dough
 ratatouille de Jarlsberg	COOK	Vegetable of Jarlsberg	spices
 Jarlsberg's vegetable soup	COOK	Vegetable of Jarlsberg	magicalness-in-a-can
-St. Pete's sneaky smoothie	COOK	St. Sneaky Pete's Whey	wad of dough
-Pete's wiley whey bar	COOK	St. Sneaky Pete's Whey	strawberry
+St. Pete's sneaky smoothie	COOK	St. Sneaky Pete's Whey	strawberry
+Pete's wiley whey bar	COOK	St. Sneaky Pete's Whey	wad of dough
 
 Boris's bread	COOK	Yeast of Boris	Yeast of Boris
 roasted vegetable of Jarlsberg	COOK	Vegetable of Jarlsberg	Vegetable of Jarlsberg
