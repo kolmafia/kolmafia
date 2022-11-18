@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -2521,29 +2522,24 @@ public class Modifiers {
 
     if (Modifiers.availableSkillsChanged || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
       // Collect all passive skills currently on the character.
-      List<UseSkillRequest> allPassives =
+      Modifiers.availablePassiveSkillsByVariable.putAll(
           KoLCharacter.getAvailableSkillIds().stream()
               .filter(SkillDatabase::isPassive)
               .map(UseSkillRequest::getUnmodifiedInstance)
-              .collect(Collectors.toList());
-      for (boolean variable : List.of(false, true)) {
-        // Split available passives into variable and not-variable, and cache the result.
-        Modifiers.availablePassiveSkillsByVariable.put(
-            variable,
-            allPassives.stream()
-                .filter(
-                    skill -> {
-                      String lookup = Modifiers.getLookupName("Skill", skill.getSkillName());
-                      return variable == override(lookup);
-                    })
-                .collect(Collectors.toList()));
-      }
+              .filter(Objects::nonNull)
+              // Filter out inactive G-Lover skills.
+              .filter(skill -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(skill.getSkillName()))
+              .collect(
+                  Collectors.partitioningBy(
+                      skill -> {
+                        String lookup = Modifiers.getLookupName("Skill", skill.getSkillName());
+                        return override(lookup);
+                      })));
 
       // Recompute sum of cached constant passive skills.
       Modifiers.cachedPassiveModifiers.reset();
-      Modifiers.availablePassiveSkillsByVariable.get(false).stream()
-          // Filter out inactive G-Lover skills.
-          .filter(skill -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(skill.getSkillName()))
+      Modifiers.availablePassiveSkillsByVariable
+          .get(false)
           .forEach(
               skill ->
                   Modifiers.cachedPassiveModifiers.add(
@@ -2553,9 +2549,8 @@ public class Modifiers {
 
     // Add constant and variable modifiers.
     this.add(Modifiers.cachedPassiveModifiers);
-    Modifiers.availablePassiveSkillsByVariable.get(true).stream()
-        // Filter out inactive G-Lover skills.
-        .filter(skill -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(skill.getSkillName()))
+    Modifiers.availablePassiveSkillsByVariable
+        .get(true)
         .forEach(skill -> this.add(getModifiers("Skill", skill.getSkillName())));
   }
 
