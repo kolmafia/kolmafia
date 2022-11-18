@@ -789,7 +789,7 @@ public class ModifiersTest {
     FamiliarPool.DODECAPEDE + ", -5.0",
     FamiliarPool.ALIEN + ", 5.0",
   })
-  public void correctlyAppliesAmphibiousSympathyToDodecapede(
+  public void correctlyAppliesAmphibianSympathyToDodecapede(
       final int familiar, final double weightModifier) {
     var cleanups = new Cleanups(withFamiliar(familiar), withSkill("Amphibian Sympathy"));
     try (cleanups) {
@@ -798,5 +798,23 @@ public class ModifiersTest {
 
       assertThat(current.get(Modifiers.FAMILIAR_WEIGHT), equalTo(weightModifier));
     }
+
+    KoLCharacter.recalculateAdjustments(false);
+    Modifiers current = KoLCharacter.getCurrentModifiers();
+
+    assertThat(current.get(Modifiers.FAMILIAR_WEIGHT), equalTo(0.0));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "Amphibian Sympathy, true",
+    "Disco Greed, true",
+    "Expert Panhandling, true",
+    "Slimy Sinews, true",
+    "Mad Looting Skillz, false",
+    "Overdeveloped Sense of Self Preservation, false",
+  })
+  public void identifiesVariableModifiers(String skillName, boolean variable) {
+    assertThat(Modifiers.getModifiers("Skill", skillName).variable, equalTo(variable));
   }
 }
