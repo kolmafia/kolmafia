@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class PreferenceWatcherTableTest {
@@ -139,21 +140,22 @@ class PreferenceWatcherTableTest {
       }
     }
 
-    @Test
-    void canAddProperty() {
+    @ParameterizedTest
+    @CsvSource({"testPrefB, 2, 'testPrefB,testPrefA'", "'', 1, 'testPrefA'"})
+    void canAddProperty(final String initial, final int expectedCount, final String expected) {
       var cleanups =
           new Cleanups(
               withProperty("testPrefA", "a"),
               withProperty("testPrefB", "b"),
-              withProperty("watchedPreferences", "testPrefB"));
+              withProperty("watchedPreferences", initial));
 
       try (cleanups) {
         var table = new PreferenceWatcherTable();
         table.getModel().addPreference("testPrefA");
 
-        assertThat(table.getRowCount(), is(2));
-        assertThat(table.getModel().getValueAt(1, 1), is("a"));
-        assertThat("watchedPreferences", isSetTo("testPrefB,testPrefA"));
+        assertThat(table.getRowCount(), is(expectedCount));
+        assertThat(table.getModel().getValueAt(expectedCount - 1, 1), is("a"));
+        assertThat("watchedPreferences", isSetTo(expected));
       }
     }
   }
