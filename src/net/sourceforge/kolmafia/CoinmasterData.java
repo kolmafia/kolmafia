@@ -310,7 +310,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * been created ahead of time elsewhere - pass it in here.
    *
    * <p>It is important that the <code>List</code> be created by <code>LockableListFactory</code>
-   * since it will be used as the model for this coinmaster in <code>CoinmastersFrame</code>
+   * since it will be used as the model for this coinmaster in the <code>CoinmastersFrame</code>
    *
    * @param buyItems - The <code>List</code> of items you can buy
    * @return this - Allows fluid chaining of fields
@@ -407,9 +407,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>List</code> has
    * been created ahead of time elsewhere - pass it in here.
    *
-   * <p>*** It is important that the <code>List</code> be a <code>LockableListModel</code>, since it
-   * will be used as the model for this coinmaster in <code>CoinmastersFrame</code> (I need to
-   * figure out how to enforce this, since that will not be the case if we are running headless)
+   * <p>It is important that the <code>List</code> be created by <code>LockableListFactory</code>
+   * since it will be used as the model for this coinmaster in the <code>CoinmastersFrame</code>
    *
    * @param sellItems - The <code>List</code> of items you can sell
    * @return this - Allows fluid chaining of fields
