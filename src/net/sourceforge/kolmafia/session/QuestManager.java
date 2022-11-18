@@ -372,6 +372,7 @@ public class QuestManager {
           case "realm_pirate" -> handlePirateRealmChange(location, responseText);
           case "sea_oldman" -> handleSeaChange(location, responseText);
           case "spacegate" -> handleSpacegateChange(location, responseText);
+          case "speakeasy" -> handleSpeakeasyChange(responseText);
             // don't catch town_wrong, town_right, or town_market
           case "town" -> handleTownChange(location, responseText);
           case "town_right" -> handleTownRightChange(location, responseText);
@@ -500,6 +501,12 @@ public class QuestManager {
     var matcher = SPEAKEASY_NAME.matcher(text);
     if (!matcher.find()) return;
     Preferences.setString("speakeasyName", matcher.group(1));
+  }
+
+  private static void handleSpeakeasyChange(final String text) {
+    if (!text.contains("olivers_nocost")) {
+      Preferences.setInteger("_speakeasyFreeFights", 3);
+    }
   }
 
   private static void handleTownMarketChange(final String location, String responseText) {

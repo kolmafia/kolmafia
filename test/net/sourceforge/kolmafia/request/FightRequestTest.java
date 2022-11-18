@@ -1738,4 +1738,39 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class Speakeasy {
+    @BeforeEach
+    public void beforeEach() {
+      Preferences.resetToDefault("_speakeasyFreeFights");
+    }
+
+    @Test
+    public void speakeasyFreeFights() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_free.html");
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 1);
+      }
+    }
+
+    @Test
+    public void speakeasyHeatingUp() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_heating_up.html");
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+      }
+    }
+
+    @Test
+    public void speakeasyNotFree() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_not_free.html");
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+      }
+    }
+  }
 }

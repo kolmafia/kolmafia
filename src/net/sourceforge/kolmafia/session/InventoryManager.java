@@ -160,10 +160,19 @@ public abstract class InventoryManager {
   }
 
   public static final int getAccessibleCount(final int itemId) {
-    return InventoryManager.getAccessibleCount(ItemPool.get(itemId, 1));
+    return getAccessibleCount(itemId, true);
+  }
+
+  public static final int getAccessibleCount(final int itemId, final boolean includeStash) {
+    return InventoryManager.getAccessibleCount(ItemPool.get(itemId, 1), includeStash);
   }
 
   public static final int getAccessibleCount(final AdventureResult item) {
+    return getAccessibleCount(item, true);
+  }
+
+  public static final int getAccessibleCount(
+      final AdventureResult item, final boolean includeStash) {
     if (item == null) {
       return 0;
     }
@@ -202,7 +211,7 @@ public abstract class InventoryManager {
       count += item.getCount(KoLConstants.storage);
     }
 
-    if (InventoryManager.canUseClanStash()) {
+    if (InventoryManager.canUseClanStash() && includeStash) {
       count += item.getCount(ClanManager.getStash());
     }
 

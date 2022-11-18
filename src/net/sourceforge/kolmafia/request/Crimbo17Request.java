@@ -1,101 +1,58 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class Crimbo17Request extends CoinMasterRequest {
   public static final String master = "Cheer-o-Vend 3000";
 
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(Crimbo17Request.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(Crimbo17Request.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(Crimbo17Request.master);
   private static final Pattern CHEER_PATTERN = Pattern.compile("([\\d,]+) crystalline cheer");
   public static final AdventureResult CHEER = ItemPool.get(ItemPool.CRYSTALLINE_CHEER, 1);
 
   public static final CoinmasterData CRIMBO17 =
-      new CoinmasterData(
-          Crimbo17Request.master,
-          "crimbo17",
-          Crimbo17Request.class,
-          "crystalline cheer",
-          "no crystalline cheer",
-          false,
-          Crimbo17Request.CHEER_PATTERN,
-          Crimbo17Request.CHEER,
-          null,
-          Crimbo17Request.itemRows,
-          "shop.php?whichshop=crimbo17",
-          "buyitem",
-          Crimbo17Request.buyItems,
-          Crimbo17Request.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.MIME_SCIENCE_VOL_1:
-              return KoLCharacter.isSealClubber();
-            case ItemPool.MIME_SCIENCE_VOL_2:
-              return KoLCharacter.isTurtleTamer();
-            case ItemPool.MIME_SCIENCE_VOL_3:
-              return KoLCharacter.isPastamancer();
-            case ItemPool.MIME_SCIENCE_VOL_4:
-              return KoLCharacter.isSauceror();
-            case ItemPool.MIME_SCIENCE_VOL_5:
-              return KoLCharacter.isDiscoBandit();
-            case ItemPool.MIME_SCIENCE_VOL_6:
-              return KoLCharacter.isAccordionThief();
-          }
-          return super.canBuyItem(itemId);
-        }
-      };
+      new CoinmasterData(master, "crimbo17", Crimbo17Request.class)
+          .withToken("crystalline cheer")
+          .withTokenTest("no crystalline cheer")
+          .withTokenPattern(CHEER_PATTERN)
+          .withItem(CHEER)
+          .withShopRowFields(master, "crimbo17")
+          .withNeedsPasswordHash(true)
+          .withCanBuyItem(Crimbo17Request::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.MIME_SCIENCE_VOL_1 -> KoLCharacter.isSealClubber();
+      case ItemPool.MIME_SCIENCE_VOL_2 -> KoLCharacter.isTurtleTamer();
+      case ItemPool.MIME_SCIENCE_VOL_3 -> KoLCharacter.isPastamancer();
+      case ItemPool.MIME_SCIENCE_VOL_4 -> KoLCharacter.isSauceror();
+      case ItemPool.MIME_SCIENCE_VOL_5 -> KoLCharacter.isDiscoBandit();
+      case ItemPool.MIME_SCIENCE_VOL_6 -> KoLCharacter.isAccordionThief();
+      default -> ItemPool.get(itemId).getCount(CRIMBO17.getBuyItems()) > 0;
+    };
+  }
 
   public Crimbo17Request() {
-    super(Crimbo17Request.CRIMBO17);
+    super(CRIMBO17);
   }
 
   public Crimbo17Request(final boolean buying, final AdventureResult[] attachments) {
-    super(Crimbo17Request.CRIMBO17, buying, attachments);
+    super(CRIMBO17, buying, attachments);
   }
 
   public Crimbo17Request(final boolean buying, final AdventureResult attachment) {
-    super(Crimbo17Request.CRIMBO17, buying, attachment);
+    super(CRIMBO17, buying, attachment);
   }
 
   public Crimbo17Request(final boolean buying, final int itemId, final int quantity) {
-    super(Crimbo17Request.CRIMBO17, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
+    super(CRIMBO17, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    Crimbo17Request.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -103,7 +60,7 @@ public class Crimbo17Request extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = Crimbo17Request.CRIMBO17;
+    CoinmasterData data = CRIMBO17;
 
     String action = GenericRequest.getAction(location);
     if (action != null) {
@@ -124,7 +81,6 @@ public class Crimbo17Request extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = Crimbo17Request.CRIMBO17;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(CRIMBO17, urlString, true);
   }
 }

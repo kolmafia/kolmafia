@@ -16,78 +16,56 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TicketCounterRequest extends CoinMasterRequest {
   public static final String master = "Arcade Ticket Counter";
+
   private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(TicketCounterRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(TicketCounterRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(TicketCounterRequest.master);
+      CoinmastersDatabase.getBuyItems(master);
+  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(master);
+  private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(master);
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("You currently have ([\\d,]+) Game Grid redemption ticket");
   public static final AdventureResult TICKET = ItemPool.get(ItemPool.GG_TICKET, 1);
+
   public static final CoinmasterData TICKET_COUNTER =
-      new CoinmasterData(
-          TicketCounterRequest.master,
-          "arcade",
-          TicketCounterRequest.class,
-          "ticket",
-          "You currently have no Game Grid redemption tickets",
-          false,
-          TicketCounterRequest.TOKEN_PATTERN,
-          TicketCounterRequest.TICKET,
-          null,
-          TicketCounterRequest.itemRows,
-          "shop.php?whichshop=arcade",
-          "buyitem",
-          TicketCounterRequest.buyItems,
-          TicketCounterRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.FOLDER_14:
-              return KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
-            case ItemPool.SINISTER_DEMON_MASK:
-            case ItemPool.CHAMPION_BELT:
-            case ItemPool.SPACE_TRIP_HEADPHONES:
-            case ItemPool.DUNGEON_FIST_GAUNTLET:
-            case ItemPool.METEOID_ICE_BEAM:
-              return !Preferences.getBoolean("lockedItem" + itemId);
-          }
-          return super.canBuyItem(itemId);
-        }
-      };
+      new CoinmasterData(master, "arcade", TicketCounterRequest.class)
+          .withToken("ticket")
+          .withTokenTest("You currently have no Game Grid redemption tickets")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(TICKET)
+          .withShopRowFields(master, "arcade")
+          .withCanBuyItem(TicketCounterRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.FOLDER_14 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
+      case ItemPool.SINISTER_DEMON_MASK,
+          ItemPool.CHAMPION_BELT,
+          ItemPool.SPACE_TRIP_HEADPHONES,
+          ItemPool.DUNGEON_FIST_GAUNTLET,
+          ItemPool.METEOID_ICE_BEAM -> !Preferences.getBoolean("lockedItem" + itemId);
+      default -> ItemPool.get(itemId).getCount(TICKET_COUNTER.getBuyItems()) > 0;
+    };
+  }
 
   public TicketCounterRequest() {
-    super(TicketCounterRequest.TICKET_COUNTER);
+    super(TICKET_COUNTER);
   }
 
   public TicketCounterRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TicketCounterRequest.TICKET_COUNTER, buying, attachments);
+    super(TICKET_COUNTER, buying, attachments);
   }
 
   public TicketCounterRequest(final boolean buying, final AdventureResult attachment) {
-    super(TicketCounterRequest.TICKET_COUNTER, buying, attachment);
+    super(TICKET_COUNTER, buying, attachment);
   }
 
   public TicketCounterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TicketCounterRequest.TICKET_COUNTER, buying, itemId, quantity);
+    super(TICKET_COUNTER, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    TicketCounterRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   private static final Pattern ITEM_PATTERN =
@@ -109,8 +87,8 @@ public class TicketCounterRequest extends CoinMasterRequest {
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
       int id = StringUtilities.parseInt(matcher.group(1));
-      for (int i = 0; i < TicketCounterRequest.unlockables.length; i++) {
-        if (id == TicketCounterRequest.unlockables[i]) {
+      for (int i = 0; i < unlockables.length; i++) {
+        if (id == unlockables[i]) {
           Preferences.setBoolean("lockedItem" + id, false);
           break;
         }
@@ -124,7 +102,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
       }
     }
 
-    CoinMasterRequest.parseResponse(TicketCounterRequest.TICKET_COUNTER, urlString, responseText);
+    CoinMasterRequest.parseResponse(TICKET_COUNTER, urlString, responseText);
 
     return true;
   }
@@ -139,7 +117,6 @@ public class TicketCounterRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = TicketCounterRequest.TICKET_COUNTER;
-    return CoinMasterRequest.registerRequest(data, urlString);
+    return CoinMasterRequest.registerRequest(TICKET_COUNTER, urlString);
   }
 }

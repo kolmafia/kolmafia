@@ -3310,7 +3310,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Cancel any combat modifiers
-    Modifiers.overrideModifier("Generated:fightMods", null);
+    Modifiers.overrideRemoveModifier("Generated:fightMods");
 
     if (KoLCharacter.isSauceror()) {
       // Check for Soulsauce gain
@@ -3397,6 +3397,15 @@ public class FightRequest extends GenericRequest {
     }
 
     final boolean free = responseText.contains("FREEFREEFREE");
+
+    if (adventure == AdventurePool.OLIVERS_SPEAKEASY_BRAWL) {
+      if (responseText.contains(
+          "Looks like the fight is brawl is heating up, further encounters here will cost an adventure.")) {
+        Preferences.setInteger("_speakeasyFreeFights", 3);
+      } else if (free) {
+        Preferences.increment("_speakeasyFreeFights", 1, 3, false);
+      }
+    }
 
     if (free) {
       String updateMessage = "This combat did not cost a turn";

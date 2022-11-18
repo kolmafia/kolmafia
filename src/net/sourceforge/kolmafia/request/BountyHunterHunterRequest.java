@@ -1,9 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -13,7 +11,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -21,75 +18,60 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BountyHunterHunterRequest extends CoinMasterRequest {
   public static final String master = "Bounty Hunter Hunter";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(BountyHunterHunterRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(BountyHunterHunterRequest.master);
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("You have.*?<b>([\\d,]+)</b> filthy lucre");
+
   public static final AdventureResult LUCRE = ItemPool.get(ItemPool.LUCRE, 1);
+
   public static final CoinmasterData BHH =
-      new CoinmasterData(
-          BountyHunterHunterRequest.master,
-          "hunter",
-          BountyHunterHunterRequest.class,
-          "lucre",
-          "You don't have any filthy lucre",
-          false,
-          BountyHunterHunterRequest.TOKEN_PATTERN,
-          BountyHunterHunterRequest.LUCRE,
-          null,
-          null,
-          "bounty.php",
-          "buy",
-          BountyHunterHunterRequest.buyItems,
-          BountyHunterHunterRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichitem",
-          GenericRequest.WHICHITEM_PATTERN,
-          "howmany",
-          GenericRequest.HOWMANY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "hunter", BountyHunterHunterRequest.class)
+          .withToken("lucre")
+          .withTokenTest("You don't have any filthy lucre")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(LUCRE)
+          .withBuyURL("bounty.php")
+          .withBuyAction("buy")
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCountField("howmany")
+          .withCountPattern(GenericRequest.HOWMANY_PATTERN);
 
   public BountyHunterHunterRequest() {
-    super(BountyHunterHunterRequest.BHH);
+    super(BHH);
   }
 
   public BountyHunterHunterRequest(final String action) {
-    super(BountyHunterHunterRequest.BHH, action);
+    super(BHH, action);
   }
 
   public BountyHunterHunterRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BountyHunterHunterRequest.BHH, buying, attachments);
+    super(BHH, buying, attachments);
   }
 
   public BountyHunterHunterRequest(final boolean buying, final AdventureResult attachment) {
-    super(BountyHunterHunterRequest.BHH, buying, attachment);
+    super(BHH, buying, attachment);
   }
 
   public BountyHunterHunterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BountyHunterHunterRequest.BHH, buying, itemId, quantity);
+    super(BHH, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    BountyHunterHunterRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   private static final Pattern COMPLETED_PATTERN =
       Pattern.compile("turn in your (\\d+) (.*?) to the Bounty Hunter Hunter");
 
   public static void parseResponse(final String location, final String responseText) {
-    CoinmasterData data = BountyHunterHunterRequest.BHH;
+    CoinmasterData data = BHH;
 
     // Check for completed bounties
-    Matcher completedMatcher = BountyHunterHunterRequest.COMPLETED_PATTERN.matcher(responseText);
+    Matcher completedMatcher = COMPLETED_PATTERN.matcher(responseText);
 
     while (completedMatcher.find()) {
       int bountyCount = StringUtilities.parseInt(completedMatcher.group(1));
@@ -103,9 +85,9 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
 
     String action = GenericRequest.getAction(location);
     if (action == null) {
-      BountyHunterHunterRequest.parseEasy(responseText);
-      BountyHunterHunterRequest.parseHard(responseText);
-      BountyHunterHunterRequest.parseSpecial(responseText);
+      parseEasy(responseText);
+      parseHard(responseText);
+      parseSpecial(responseText);
       return;
     }
 
@@ -231,11 +213,11 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       Pattern.compile("Easy Bounty.*?You have collected (\\d+) .*?giveup_low");
 
   private static void parseEasy(final String responseText) {
-    BountyHunterHunterRequest.parseBounty(
+    parseBounty(
         responseText,
-        BountyHunterHunterRequest.EASY_PATTERN,
-        BountyHunterHunterRequest.UNTAKEN_EASY_PATTERN,
-        BountyHunterHunterRequest.EASY_QTY_PATTERN,
+        EASY_PATTERN,
+        UNTAKEN_EASY_PATTERN,
+        EASY_QTY_PATTERN,
         "currentEasyBountyItem",
         "_untakenEasyBountyItem",
         "_unknownEasyBountyItem");
@@ -249,11 +231,11 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       Pattern.compile("Hard Bounty.*?You have collected (\\d+) .*?giveup_high");
 
   private static void parseHard(final String responseText) {
-    BountyHunterHunterRequest.parseBounty(
+    parseBounty(
         responseText,
-        BountyHunterHunterRequest.HARD_PATTERN,
-        BountyHunterHunterRequest.UNTAKEN_HARD_PATTERN,
-        BountyHunterHunterRequest.HARD_QTY_PATTERN,
+        HARD_PATTERN,
+        UNTAKEN_HARD_PATTERN,
+        HARD_QTY_PATTERN,
         "currentHardBountyItem",
         "_untakenHardBountyItem",
         "_unknownHardBountyItem");
@@ -268,11 +250,11 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       Pattern.compile("Specialty Bounty.*?You have collected (\\d+) .*?giveup_spe");
 
   private static void parseSpecial(final String responseText) {
-    BountyHunterHunterRequest.parseBounty(
+    parseBounty(
         responseText,
-        BountyHunterHunterRequest.SPECIAL_PATTERN,
-        BountyHunterHunterRequest.UNTAKEN_SPECIAL_PATTERN,
-        BountyHunterHunterRequest.SPECIAL_QTY_PATTERN,
+        SPECIAL_PATTERN,
+        UNTAKEN_SPECIAL_PATTERN,
+        SPECIAL_QTY_PATTERN,
         "currentSpecialBountyItem",
         "_untakenSpecialBountyItem",
         "_unknownSpecialBountyItem");
@@ -296,8 +278,7 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
     }
 
     // If known bounty item we can set the preference correctly based on number found so far
-    Matcher bountyItemMatcher =
-        BountyHunterHunterRequest.BOUNTY_ITEM_PATTERN.matcher(reducedResponseText);
+    Matcher bountyItemMatcher = BOUNTY_ITEM_PATTERN.matcher(reducedResponseText);
     if (bountyItemMatcher.find()) {
       String bountyItem = bountyItemMatcher.group(2);
       int bountyCount = StringUtilities.parseInt(bountyItemMatcher.group(3));
@@ -520,7 +501,6 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       return true;
     }
 
-    CoinmasterData data = BountyHunterHunterRequest.BHH;
-    return CoinMasterRequest.registerRequest(data, urlString);
+    return CoinMasterRequest.registerRequest(BHH, urlString);
   }
 }

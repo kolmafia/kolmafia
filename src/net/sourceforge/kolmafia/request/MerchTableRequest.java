@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -20,12 +19,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MerchTableRequest extends CoinMasterRequest {
   public static final String master = "KoL Con 13 Merch Table";
 
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getNewList();
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getOrMakeRows(MerchTableRequest.master);
-
   private static final Pattern MR_A_PATTERN =
       Pattern.compile("You have (\\w+) Mr. Accessor(?:y|ies) to trade.");
   public static final AdventureResult MR_A = ItemPool.get(ItemPool.MR_ACCESSORY, 1);
@@ -35,37 +28,20 @@ public class MerchTableRequest extends CoinMasterRequest {
   public static final AdventureResult CHRONER = ItemPool.get(ItemPool.CHRONER, 1);
 
   public static final CoinmasterData MERCH_TABLE =
-      new CoinmasterData(
-          MerchTableRequest.master,
-          "conmerch",
-          MerchTableRequest.class,
-          "Mr. A",
-          "You have no Mr. Accessories to trade",
-          false,
-          MerchTableRequest.MR_A_PATTERN,
-          MerchTableRequest.MR_A,
-          null,
-          MerchTableRequest.itemRows,
-          "shop.php?whichshop=conmerch",
-          "buyitem",
-          MerchTableRequest.buyItems,
-          MerchTableRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          return MerchTableRequest.buyCosts.get(itemId);
-        }
-      };
+      new CoinmasterData(master, "conmerch", MerchTableRequest.class)
+          .withToken("Mr. A")
+          .withTokenTest("You have no Mr. Accessories to trade")
+          .withTokenPattern(MR_A_PATTERN)
+          .withItem(MR_A)
+          .withShopRowFields(master, "conmerch")
+          .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
+          .withBuyItems()
+          .withBuyPrices()
+          .withItemBuyPrice(MerchTableRequest::itemBuyPrice);
+
+  private static AdventureResult itemBuyPrice(final Integer itemId) {
+    return buyCosts.get(itemId);
+  }
 
   // Since there are two different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.
@@ -74,8 +50,7 @@ public class MerchTableRequest extends CoinMasterRequest {
 
   // Manually set up the map and change the currency, as need
   static {
-    for (Entry<Integer, Integer> entry :
-        CoinmastersDatabase.getBuyPrices(MerchTableRequest.master).entrySet()) {
+    for (Entry<Integer, Integer> entry : CoinmastersDatabase.getBuyPrices(master).entrySet()) {
       int itemId = entry.getKey().intValue();
       int price = entry.getValue().intValue();
       AdventureResult cost =
@@ -88,28 +63,28 @@ public class MerchTableRequest extends CoinMasterRequest {
   }
 
   public MerchTableRequest() {
-    super(MerchTableRequest.MERCH_TABLE);
+    super(MERCH_TABLE);
   }
 
   public MerchTableRequest(final String action) {
-    super(MerchTableRequest.MERCH_TABLE, action);
+    super(MERCH_TABLE, action);
   }
 
   public MerchTableRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(MerchTableRequest.MERCH_TABLE, buying, attachments);
+    super(MERCH_TABLE, buying, attachments);
   }
 
   public MerchTableRequest(final boolean buying, final AdventureResult attachment) {
-    super(MerchTableRequest.MERCH_TABLE, buying, attachment);
+    super(MERCH_TABLE, buying, attachment);
   }
 
   public MerchTableRequest(final boolean buying, final int itemId, final int quantity) {
-    super(MerchTableRequest.MERCH_TABLE, buying, itemId, quantity);
+    super(MERCH_TABLE, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    MerchTableRequest.parseResponse(this.getURLString(), responseText);
+    parseResponse(this.getURLString(), responseText);
   }
 
   // <tr rel="9148"><td valign=center></td><td><img
@@ -142,10 +117,10 @@ public class MerchTableRequest extends CoinMasterRequest {
     // Learn new items by simply visiting the Merch Table
     // Refresh the Coin Master inventory every time we visit.
 
-    CoinmasterData data = MerchTableRequest.MERCH_TABLE;
-    List<AdventureResult> items = new ArrayList<AdventureResult>();
-    Map<Integer, AdventureResult> costs = new TreeMap<Integer, AdventureResult>();
-    Map<Integer, Integer> rows = new TreeMap<Integer, Integer>();
+    CoinmasterData data = MERCH_TABLE;
+    List<AdventureResult> items = new ArrayList<>();
+    Map<Integer, AdventureResult> costs = new TreeMap<>();
+    Map<Integer, Integer> rows = new TreeMap<>();
 
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
@@ -169,12 +144,12 @@ public class MerchTableRequest extends CoinMasterRequest {
       rows.put(iitemId, row);
     }
 
-    MerchTableRequest.buyItems.clear();
-    MerchTableRequest.buyItems.addAll(items);
-    MerchTableRequest.buyCosts.clear();
-    MerchTableRequest.buyCosts.putAll(costs);
-    MerchTableRequest.itemRows.clear();
-    MerchTableRequest.itemRows.putAll(rows);
+    MERCH_TABLE.getRows().clear();
+    MERCH_TABLE.getRows().putAll(rows);
+    MERCH_TABLE.getBuyItems().clear();
+    MERCH_TABLE.getBuyItems().addAll(items);
+    buyCosts.clear();
+    buyCosts.putAll(costs);
 
     // Register the purchase requests, now that we know what is available
     data.registerPurchaseRequests();
@@ -201,7 +176,6 @@ public class MerchTableRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = MerchTableRequest.MERCH_TABLE;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(MERCH_TABLE, urlString, true);
   }
 }

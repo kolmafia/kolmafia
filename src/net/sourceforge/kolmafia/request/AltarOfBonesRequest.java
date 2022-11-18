@@ -1,68 +1,47 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class AltarOfBonesRequest extends CoinMasterRequest {
   public static final String master = "Altar of Bones";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(AltarOfBonesRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(AltarOfBonesRequest.master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You have ([\\d,]+).*?bone chips");
   public static final AdventureResult BONE_CHIPS = ItemPool.get(ItemPool.BONE_CHIPS, 1);
+
   public static final CoinmasterData ALTAR_OF_BONES =
-      new CoinmasterData(
-          AltarOfBonesRequest.master,
-          "bonealtar",
-          AltarOfBonesRequest.class,
-          "bone chips",
-          "You have no bone chips",
-          false,
-          AltarOfBonesRequest.TOKEN_PATTERN,
-          AltarOfBonesRequest.BONE_CHIPS,
-          null,
-          null,
-          "bone_altar.php",
-          "buy",
-          AltarOfBonesRequest.buyItems,
-          AltarOfBonesRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichitem",
-          GenericRequest.WHICHITEM_PATTERN,
-          null,
-          null,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "bonealtar", AltarOfBonesRequest.class)
+          .withToken("bone chips")
+          .withTokenTest("You have no bone chips")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(BONE_CHIPS)
+          .withBuyURL("bone_altar.php")
+          .withBuyAction("buy")
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN);
 
   public AltarOfBonesRequest() {
-    super(AltarOfBonesRequest.ALTAR_OF_BONES);
+    super(ALTAR_OF_BONES);
   }
 
   public AltarOfBonesRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(AltarOfBonesRequest.ALTAR_OF_BONES, buying, attachments);
+    super(ALTAR_OF_BONES, buying, attachments);
   }
 
   public AltarOfBonesRequest(final boolean buying, final AdventureResult attachment) {
-    super(AltarOfBonesRequest.ALTAR_OF_BONES, buying, attachment);
+    super(ALTAR_OF_BONES, buying, attachment);
   }
 
   public AltarOfBonesRequest(final boolean buying, final int itemId, final int quantity) {
-    super(AltarOfBonesRequest.ALTAR_OF_BONES, buying, itemId, quantity);
+    super(ALTAR_OF_BONES, buying, itemId, quantity);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
-    CoinMasterRequest.parseResponse(AltarOfBonesRequest.ALTAR_OF_BONES, urlString, responseText);
+    CoinMasterRequest.parseResponse(ALTAR_OF_BONES, urlString, responseText);
   }
 
   public static final boolean registerRequest(final String urlString) {
@@ -71,8 +50,7 @@ public class AltarOfBonesRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = AltarOfBonesRequest.ALTAR_OF_BONES;
-    return CoinMasterRequest.registerRequest(data, urlString);
+    return CoinMasterRequest.registerRequest(ALTAR_OF_BONES, urlString);
   }
 
   public static String accessible() {

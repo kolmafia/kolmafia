@@ -1,95 +1,58 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class Crimbo20FoodRequest extends CoinMasterRequest {
   public static final String master = "Elf Food Drive";
 
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(Crimbo20FoodRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(Crimbo20FoodRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(Crimbo20FoodRequest.master);
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("([\\d,]+) (piles of )?donated food");
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.DONATED_FOOD, 1);
 
   public static final CoinmasterData CRIMBO20FOOD =
-      new CoinmasterData(
-          Crimbo20FoodRequest.master,
-          "crimbo20food",
-          Crimbo20FoodRequest.class,
-          "donated food",
-          "no piles of donated food",
-          false,
-          Crimbo20FoodRequest.TOKEN_PATTERN,
-          Crimbo20FoodRequest.TOKEN,
-          null,
-          Crimbo20FoodRequest.itemRows,
-          "shop.php?whichshop=crimbo20food",
-          "buyitem",
-          Crimbo20FoodRequest.buyItems,
-          Crimbo20FoodRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.FOOD_DRIVE_BUTTON:
-            case ItemPool.FOOD_MAILING_LIST:
-              AdventureResult item = ItemPool.get(itemId);
-              return item.getCount(KoLConstants.closet) + item.getCount(KoLConstants.inventory)
-                  == 0;
-          }
-          return super.canBuyItem(itemId);
-        }
-      };
+      new CoinmasterData(master, "crimbo20food", Crimbo20FoodRequest.class)
+          .withToken("donated food")
+          .withTokenTest("no piles of donated food")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(TOKEN)
+          .withShopRowFields(master, "crimbo20food")
+          .withNeedsPasswordHash(true)
+          .withCanBuyItem(Crimbo20FoodRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    AdventureResult item = ItemPool.get(itemId);
+    return switch (itemId) {
+      case ItemPool.FOOD_DRIVE_BUTTON, ItemPool.FOOD_MAILING_LIST -> item.getCount(
+                  KoLConstants.closet)
+              + item.getCount(KoLConstants.inventory)
+          == 0;
+      default -> item.getCount(CRIMBO20FOOD.getBuyItems()) > 0;
+    };
+  }
 
   public Crimbo20FoodRequest() {
-    super(Crimbo20FoodRequest.CRIMBO20FOOD);
+    super(CRIMBO20FOOD);
   }
 
   public Crimbo20FoodRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(Crimbo20FoodRequest.CRIMBO20FOOD, buying, attachments);
+    super(CRIMBO20FOOD, buying, attachments);
   }
 
   public Crimbo20FoodRequest(final boolean buying, final AdventureResult attachment) {
-    super(Crimbo20FoodRequest.CRIMBO20FOOD, buying, attachment);
+    super(CRIMBO20FOOD, buying, attachment);
   }
 
   public Crimbo20FoodRequest(final boolean buying, final int itemId, final int quantity) {
-    super(Crimbo20FoodRequest.CRIMBO20FOOD, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
+    super(CRIMBO20FOOD, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    Crimbo20FoodRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -97,7 +60,7 @@ public class Crimbo20FoodRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = Crimbo20FoodRequest.CRIMBO20FOOD;
+    CoinmasterData data = CRIMBO20FOOD;
 
     String action = GenericRequest.getAction(location);
     if (action != null) {
@@ -118,7 +81,6 @@ public class Crimbo20FoodRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = Crimbo20FoodRequest.CRIMBO20FOOD;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(CRIMBO20FOOD, urlString, true);
   }
 }

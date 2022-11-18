@@ -2634,6 +2634,11 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean vm =
           StandardRequest.isAllowed(RestrictedItemType.ITEMS, "cursed magnifying glass")
               && InventoryManager.hasItem(ItemPool.CURSED_MAGNIFYING_GLASS);
+      boolean op =
+          StandardRequest.isAllowed(RestrictedItemType.ITEMS, "deed to Oliver's Place")
+              && !KoLCharacter.getLimitMode().limitZone("Town")
+              && !KoLCharacter.inBadMoon()
+              && Preferences.getBoolean("ownsSpeakeasy");
 
       StringBuilder buffer = new StringBuilder();
       count = 0;
@@ -2672,6 +2677,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       if (vm) addFightCounter(buffer, Preferences.getInteger("_voidFreeFights") + "/5 void");
       if (et) addFightCounter(buffer, "tentacle");
       if (gm) addFightCounter(buffer, "%monster%");
+      if (op)
+        addFightCounter(buffer, Preferences.getInteger("_speakeasyFreeFights") + "/3 Oliver's");
       buffer.append("</html>");
 
       this.setShown(shown);

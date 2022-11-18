@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.util.ArrayList;
 import javax.swing.JTabbedPane;
@@ -276,5 +277,23 @@ public class KoLmafiaGUI {
   public static Boolean isDarkTheme() {
     String currentTheme = UIManager.getLookAndFeel().getClass().getName();
     return KoLGUIConstants.FLATMAP_DARK_LOOKS.containsValue(currentTheme);
+  }
+
+  public static Color getEnabledColor() {
+    return KoLmafiaGUI.isDarkTheme()
+        ? KoLGUIConstants.ENABLED_COLOR_DARK
+        : KoLGUIConstants.ENABLED_COLOR;
+  }
+
+  public static Color getErrorColor() {
+    return KoLmafiaGUI.isDarkTheme()
+        ? KoLGUIConstants.ERROR_COLOR_DARK
+        : KoLGUIConstants.ERROR_COLOR;
+  }
+
+  public static Color getDisabledColor() {
+    return (KoLmafiaGUI.isDarkTheme())
+        ? KoLGUIConstants.DISABLED_COLOR_DARK
+        : KoLGUIConstants.DISABLED_COLOR;
   }
 }

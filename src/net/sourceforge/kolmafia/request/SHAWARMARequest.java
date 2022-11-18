@@ -1,73 +1,44 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class SHAWARMARequest extends CoinMasterRequest {
   public static final String master = "The SHAWARMA Initiative";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(SHAWARMARequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(SHAWARMARequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(SHAWARMARequest.master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Coins-spiracy");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.COINSPIRACY, 1);
+
   public static final CoinmasterData SHAWARMA =
-      new CoinmasterData(
-          SHAWARMARequest.master,
-          "SHAWARMA",
-          SHAWARMARequest.class,
-          "Coinspiracy",
-          null,
-          false,
-          SHAWARMARequest.TOKEN_PATTERN,
-          SHAWARMARequest.COIN,
-          null,
-          SHAWARMARequest.itemRows,
-          "shop.php?whichshop=si_shop1",
-          "buyitem",
-          SHAWARMARequest.buyItems,
-          SHAWARMARequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "SHAWARMA", SHAWARMARequest.class)
+          .withToken("Coinspiracy")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(COIN)
+          .withShopRowFields(master, "si_shop1");
 
   public SHAWARMARequest() {
-    super(SHAWARMARequest.SHAWARMA);
+    super(SHAWARMA);
   }
 
   public SHAWARMARequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SHAWARMARequest.SHAWARMA, buying, attachments);
+    super(SHAWARMA, buying, attachments);
   }
 
   public SHAWARMARequest(final boolean buying, final AdventureResult attachment) {
-    super(SHAWARMARequest.SHAWARMA, buying, attachment);
+    super(SHAWARMA, buying, attachment);
   }
 
   public SHAWARMARequest(final boolean buying, final int itemId, final int quantity) {
-    super(SHAWARMARequest.SHAWARMA, buying, itemId, quantity);
+    super(SHAWARMA, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    SHAWARMARequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
@@ -75,7 +46,7 @@ public class SHAWARMARequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = SHAWARMARequest.SHAWARMA;
+    CoinmasterData data = SHAWARMA;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
@@ -92,8 +63,7 @@ public class SHAWARMARequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = SHAWARMARequest.SHAWARMA;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(SHAWARMA, urlString, true);
   }
 
   public static String accessible() {

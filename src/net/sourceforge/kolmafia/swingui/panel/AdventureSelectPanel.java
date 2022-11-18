@@ -527,6 +527,10 @@ public class AdventureSelectPanel extends JPanel {
     resultSelect.addItem("Daily Deeds");
     resultPanel.add(new GenericScrollPane(new DailyDeedsPanel()), String.valueOf(cardCount++));
 
+    resultSelect.addItem("Watched Preferences");
+    resultPanel.add(
+        new GenericScrollPane(new PreferenceWatcherTable()), String.valueOf(cardCount++));
+
     resultSelect.addActionListener(
         new ResultSelectListener(resultCards, resultPanel, resultSelect, property));
 
