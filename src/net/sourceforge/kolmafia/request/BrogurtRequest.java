@@ -1,86 +1,58 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class BrogurtRequest extends CoinMasterRequest {
   public static final String master = "The Frozen Brogurt Stand";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(BrogurtRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(BrogurtRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(BrogurtRequest.master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Beach Bucks");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.BEACH_BUCK, 1);
-  public static final CoinmasterData BROGURT =
-      new CoinmasterData(
-          BrogurtRequest.master,
-          "brogurt",
-          BrogurtRequest.class,
-          "Beach Buck",
-          null,
-          false,
-          BrogurtRequest.TOKEN_PATTERN,
-          BrogurtRequest.COIN,
-          null,
-          BrogurtRequest.itemRows,
-          "shop.php?whichshop=sbb_brogurt",
-          "buyitem",
-          BrogurtRequest.buyItems,
-          BrogurtRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.BROBERRY_BROGURT:
-            case ItemPool.BROCOLATE_BROGURT:
-            case ItemPool.FRENCH_BRONILLA_BROGURT:
-              return Preferences.getString("questESlBacteria") == "finished";
 
-            default:
-              return super.canBuyItem(itemId);
-          }
-        }
-      };
+  public static final CoinmasterData BROGURT =
+      new CoinmasterData(master, "brogurt", BrogurtRequest.class)
+          .withToken("Beach Buck")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(COIN)
+          .withShopRowFields(master, "sbb_brogurt")
+          .withCanBuyItem(BrogurtRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.BROBERRY_BROGURT,
+          ItemPool.BROCOLATE_BROGURT,
+          ItemPool.FRENCH_BRONILLA_BROGURT -> Preferences.getString("questESlBacteria")
+          .equals("finished");
+      default -> {
+        AdventureResult item = ItemPool.get(itemId, 1);
+        yield item.getCount(BROGURT.getBuyItems()) > 0;
+      }
+    };
+  }
 
   public BrogurtRequest() {
-    super(BrogurtRequest.BROGURT);
+    super(BROGURT);
   }
 
   public BrogurtRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BrogurtRequest.BROGURT, buying, attachments);
+    super(BROGURT, buying, attachments);
   }
 
   public BrogurtRequest(final boolean buying, final AdventureResult attachment) {
-    super(BrogurtRequest.BROGURT, buying, attachment);
+    super(BROGURT, buying, attachment);
   }
 
   public BrogurtRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BrogurtRequest.BROGURT, buying, itemId, quantity);
+    super(BROGURT, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    BrogurtRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
@@ -88,7 +60,7 @@ public class BrogurtRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = BrogurtRequest.BROGURT;
+    CoinmasterData data = BROGURT;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
@@ -105,8 +77,7 @@ public class BrogurtRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = BrogurtRequest.BROGURT;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(BROGURT, urlString, true);
   }
 
   public static String accessible() {

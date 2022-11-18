@@ -1,83 +1,46 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.QuestManager;
 
 public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
   public static final String master = "Ye Newe Souvenir Shoppe";
 
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(YeNeweSouvenirShoppeRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(YeNeweSouvenirShoppeRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(YeNeweSouvenirShoppeRequest.master);
   private static final Pattern CHRONER_PATTERN = Pattern.compile("([\\d,]+) Chroner");
   public static final AdventureResult CHRONER = ItemPool.get(ItemPool.CHRONER, 1);
 
   public static final CoinmasterData SHAKE_SHOP =
-      new CoinmasterData(
-          YeNeweSouvenirShoppeRequest.master,
-          "shakeshop",
-          YeNeweSouvenirShoppeRequest.class,
-          "Chroner",
-          "no Chroner",
-          false,
-          YeNeweSouvenirShoppeRequest.CHRONER_PATTERN,
-          YeNeweSouvenirShoppeRequest.CHRONER,
-          null,
-          YeNeweSouvenirShoppeRequest.itemRows,
-          "shop.php?whichshop=shakeshop",
-          "buyitem",
-          YeNeweSouvenirShoppeRequest.buyItems,
-          YeNeweSouvenirShoppeRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "shakeshop", YeNeweSouvenirShoppeRequest.class)
+          .withToken("Chroner")
+          .withTokenTest("no Chroner")
+          .withTokenPattern(CHRONER_PATTERN)
+          .withItem(CHRONER)
+          .withNeedsPasswordHash(true)
+          .withShopRowFields(master, "shakeshop");
 
   public YeNeweSouvenirShoppeRequest() {
-    super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP);
+    super(SHAKE_SHOP);
   }
 
   public YeNeweSouvenirShoppeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP, buying, attachments);
+    super(SHAKE_SHOP, buying, attachments);
   }
 
   public YeNeweSouvenirShoppeRequest(final boolean buying, final AdventureResult attachment) {
-    super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP, buying, attachment);
+    super(SHAKE_SHOP, buying, attachment);
   }
 
   public YeNeweSouvenirShoppeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP, buying, itemId, quantity);
-  }
-
-  @Override
-  public void run() {
-    if (this.action != null) {
-      this.addFormField("pwd");
-    }
-
-    super.run();
+    super(SHAKE_SHOP, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    YeNeweSouvenirShoppeRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -92,7 +55,7 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
 
     QuestManager.handleTimeTower(true);
 
-    CoinmasterData data = YeNeweSouvenirShoppeRequest.SHAKE_SHOP;
+    CoinmasterData data = SHAKE_SHOP;
 
     String action = GenericRequest.getAction(location);
     if (action != null) {
@@ -116,7 +79,6 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = YeNeweSouvenirShoppeRequest.SHAKE_SHOP;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(SHAKE_SHOP, urlString, true);
   }
 }

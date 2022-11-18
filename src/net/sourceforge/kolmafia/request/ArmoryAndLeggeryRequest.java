@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
@@ -18,70 +17,43 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
   public static final String master = "Armory & Leggery";
 
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getNewList();
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getOrMakeRows(ArmoryAndLeggeryRequest.master);
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");
 
   // Since there are multiple, we need to have a map from itemId to
   // item/count of currency; an AdventureResult.
-  private static final Map<Integer, AdventureResult> buyCosts =
-      new TreeMap<Integer, AdventureResult>();
+  private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
 
   public static final CoinmasterData ARMORY_AND_LEGGERY =
-      new CoinmasterData(
-          ArmoryAndLeggeryRequest.master,
-          "armory",
-          ArmoryAndLeggeryRequest.class,
-          null,
-          null,
-          false,
-          null,
-          null,
-          null,
-          ArmoryAndLeggeryRequest.itemRows,
-          "shop.php?whichshop=armory",
-          "buyitem",
-          ArmoryAndLeggeryRequest.buyItems,
-          ArmoryAndLeggeryRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public AdventureResult itemBuyPrice(final int itemId) {
-          return ArmoryAndLeggeryRequest.buyCosts.get(itemId);
-        }
-      };
+      new CoinmasterData(master, "armory", ArmoryAndLeggeryRequest.class)
+          .withShopRowFields(master, "armory")
+          .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
+          .withBuyItems()
+          .withBuyPrices()
+          .withItemBuyPrice(ArmoryAndLeggeryRequest::itemBuyPrice);
+
+  private static AdventureResult itemBuyPrice(final int itemId) {
+    return buyCosts.get(itemId);
+  }
 
   public ArmoryAndLeggeryRequest() {
-    super(ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY);
+    super(ARMORY_AND_LEGGERY);
   }
 
   public ArmoryAndLeggeryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY, buying, attachments);
+    super(ARMORY_AND_LEGGERY, buying, attachments);
   }
 
   public ArmoryAndLeggeryRequest(final boolean buying, final AdventureResult attachment) {
-    super(ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY, buying, attachment);
+    super(ARMORY_AND_LEGGERY, buying, attachment);
   }
 
   public ArmoryAndLeggeryRequest(final boolean buying, final int itemId, final int quantity) {
-    super(ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY, buying, itemId, quantity);
+    super(ARMORY_AND_LEGGERY, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    ArmoryAndLeggeryRequest.parseResponse(this.getURLString(), responseText);
+    parseResponse(this.getURLString(), responseText);
   }
 
   // <tr rel="7985"><td valign=center></td><td><img
@@ -106,7 +78,8 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     // Learn new items by simply visiting the Armory & Leggery
     // Refresh the Coin Master inventory every time we visit.
 
-    CoinmasterData data = ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY;
+    CoinmasterData data = ARMORY_AND_LEGGERY;
+
     List<AdventureResult> items = new ArrayList<AdventureResult>();
     Map<Integer, AdventureResult> costs = new TreeMap<Integer, AdventureResult>();
     Map<Integer, Integer> rows = new TreeMap<Integer, Integer>();
@@ -137,12 +110,12 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
       rows.put(iitemId, row);
     }
 
-    ArmoryAndLeggeryRequest.buyItems.clear();
-    ArmoryAndLeggeryRequest.buyItems.addAll(items);
-    ArmoryAndLeggeryRequest.buyCosts.clear();
-    ArmoryAndLeggeryRequest.buyCosts.putAll(costs);
-    ArmoryAndLeggeryRequest.itemRows.clear();
-    ArmoryAndLeggeryRequest.itemRows.putAll(rows);
+    data.getRows().clear();
+    data.getRows().putAll(rows);
+    data.getBuyItems().clear();
+    data.getBuyItems().addAll(items);
+    buyCosts.clear();
+    buyCosts.putAll(costs);
 
     // Register the purchase requests, now that we know what is available
     data.registerPurchaseRequests();
@@ -170,8 +143,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
       return true;
     }
 
-    CoinmasterData data = ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY;
-    int itemId = CoinMasterRequest.extractItemId(data, urlString);
+    int itemId = CoinMasterRequest.extractItemId(ARMORY_AND_LEGGERY, urlString);
 
     if (itemId == -1) {
       // Presumably this is a purchase for Meat.
@@ -182,6 +154,6 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
       return NPCPurchaseRequest.registerShopRequest(urlString, true);
     }
 
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(ARMORY_AND_LEGGERY, urlString, true);
   }
 }

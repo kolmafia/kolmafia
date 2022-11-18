@@ -1,8 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
@@ -11,7 +9,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -19,78 +16,61 @@ import net.sourceforge.kolmafia.session.IslandManager;
 
 public class DimemasterRequest extends CoinMasterRequest {
   public static final String master = "Dimemaster";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(DimemasterRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(DimemasterRequest.master);
-  private static final LockableListModel<AdventureResult> sellItems =
-      CoinmastersDatabase.getSellItems(DimemasterRequest.master);
-  private static final Map<Integer, Integer> sellPrices =
-      CoinmastersDatabase.getSellPrices(DimemasterRequest.master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You've.*?got ([\\d,]+) dime");
+
   public static final CoinmasterData HIPPY =
-      new CoinmasterData(
-          DimemasterRequest.master,
-          "dimemaster",
-          DimemasterRequest.class,
-          "dime",
-          "You don't have any dimes",
-          false,
-          DimemasterRequest.TOKEN_PATTERN,
-          null,
-          "availableDimes",
-          null,
-          "bigisland.php?place=camp&whichcamp=1",
-          "getgear",
-          DimemasterRequest.buyItems,
-          DimemasterRequest.buyPrices,
-          "bigisland.php?place=camp&whichcamp=1",
-          "turnin",
-          DimemasterRequest.sellItems,
-          DimemasterRequest.sellPrices,
-          "whichitem",
-          GenericRequest.WHICHITEM_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.PATCHOULI_OIL_BOMB:
-            case ItemPool.EXPLODING_HACKY_SACK:
-              return Preferences.getString("sidequestLighthouseCompleted").equals("hippy");
-          }
-          return super.canBuyItem(itemId);
-        }
-      };
+      new CoinmasterData(master, "dimemaster", DimemasterRequest.class)
+          .withToken("dime")
+          .withTokenTest("You don't have any dimes")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withProperty("availableDimes")
+          .withBuyURL("bigisland.php?place=camp&whichcamp=1")
+          .withBuyAction("getgear")
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withSellURL("bigisland.php?place=camp&whichcamp=1")
+          .withSellAction("turnin")
+          .withSellItems(master)
+          .withSellPrices(master)
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCountField("quantity")
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+          .withCanBuyItem(DimemasterRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    return switch (itemId) {
+      case ItemPool.PATCHOULI_OIL_BOMB, ItemPool.EXPLODING_HACKY_SACK -> Preferences.getString(
+              "sidequestLighthouseCompleted")
+          .equals("hippy");
+      default -> ItemPool.get(itemId).getCount(HIPPY.getBuyItems()) > 0;
+    };
+  }
 
   static {
     ConcoctionPool.set(new Concoction("dime", "availableDimes"));
   }
 
   public DimemasterRequest() {
-    super(DimemasterRequest.HIPPY);
+    super(HIPPY);
   }
 
   public DimemasterRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DimemasterRequest.HIPPY, buying, attachments);
+    super(HIPPY, buying, attachments);
   }
 
   public DimemasterRequest(final boolean buying, final AdventureResult attachment) {
-    super(DimemasterRequest.HIPPY, buying, attachment);
+    super(HIPPY, buying, attachment);
   }
 
   public DimemasterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DimemasterRequest.HIPPY, buying, itemId, quantity);
+    super(HIPPY, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    CoinMasterRequest.parseResponse(
-        DimemasterRequest.HIPPY, this.getURLString(), this.responseText);
+    CoinMasterRequest.parseResponse(HIPPY, this.getURLString(), this.responseText);
   }
 
   public static final boolean registerRequest(final String urlString) {
@@ -98,9 +78,8 @@ public class DimemasterRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = DimemasterRequest.HIPPY;
-    IslandRequest.lastCampVisited = data;
-    return CoinMasterRequest.registerRequest(data, urlString);
+    IslandRequest.lastCampVisited = HIPPY;
+    return CoinMasterRequest.registerRequest(HIPPY, urlString);
   }
 
   public static String accessible() {
