@@ -2,10 +2,10 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -90,86 +89,72 @@ public class SwaggerShopRequest extends CoinMasterRequest {
   }
 
   public static final String master = "The Swagger Shop";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(SwaggerShopRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(SwaggerShopRequest.master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You have ([\\d,]+) swagger");
 
   public static final CoinmasterData SWAGGER_SHOP =
-      new CoinmasterData(
-          SwaggerShopRequest.master,
-          "swagger",
-          SwaggerShopRequest.class,
-          "swagger",
-          "You have 0 swagger",
-          false,
-          SwaggerShopRequest.TOKEN_PATTERN,
-          null,
-          "availableSwagger",
-          null,
-          "peevpee.php?place=shop",
-          "buy",
-          SwaggerShopRequest.buyItems,
-          SwaggerShopRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichitem",
-          GenericRequest.WHICHITEM_PATTERN,
-          null,
-          null,
-          null,
-          null,
-          true) {
-        @Override
-        public final int getBuyPrice(final int itemId) {
-          Season season = itemIdToSeason.get(itemId);
-          return (season != null) ? Preferences.getInteger(season.cost) : super.getBuyPrice(itemId);
-        }
+      new CoinmasterData(master, "swagger", SwaggerShopRequest.class)
+          .withToken("swagger")
+          .withPluralToken("swagger")
+          .withTokenTest("You have 0 swagger")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withProperty("availableSwagger")
+          .withBuyURL("peevpee.php?place=shop")
+          .withBuyAction("buy")
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCanBuyItem(SwaggerShopRequest::canBuyItem)
+          .withGetBuyPrice(SwaggerShopRequest::getBuyPrice)
+          .withAvailableItem(SwaggerShopRequest::availableItem);
 
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          Season season = itemIdToSeason.get(itemId);
-          return (season != null)
-              ? Preferences.getBoolean(season.available)
-              : super.canBuyItem(itemId);
-        }
+  private static Boolean canBuyItem(final Integer itemId) {
+    Season season = itemIdToSeason.get(itemId);
+    if (season != null) {
+      return Preferences.getBoolean(season.available);
+    }
+    AdventureResult item = ItemPool.get(itemId);
+    return item.getCount(SWAGGER_SHOP.getBuyItems()) > 0;
+  }
 
-        @Override
-        public final boolean availableItem(final int itemId) {
-          Season season = itemIdToSeason.get(itemId);
-          return (season == Season.NONE)
-              ? Preferences.getBoolean(season.available)
-              : (season == currentSeason)
-                  ? Preferences.getBoolean(season.available)
-                      && Preferences.getInteger(season.swagger)
-                          >= Preferences.getInteger(season.cost)
-                  : super.availableItem(itemId);
-        }
-      };
+  private static Integer getBuyPrice(final Integer itemId) {
+    Season season = itemIdToSeason.get(itemId);
+    return (season != null)
+        ? Preferences.getInteger(season.cost)
+        : SWAGGER_SHOP.getBuyPrices().getOrDefault(itemId, 0);
+  }
+
+  private static Boolean availableItem(final Integer itemId) {
+    Season season = itemIdToSeason.get(itemId);
+    if (season == Season.NONE) {
+      return Preferences.getBoolean(season.available);
+    }
+    if (season == currentSeason) {
+      return Preferences.getBoolean(season.available)
+          && Preferences.getInteger(season.swagger) >= Preferences.getInteger(season.cost);
+    }
+    return SWAGGER_SHOP.getBuyItems().contains(ItemPool.get(itemId));
+  }
 
   static {
     ConcoctionPool.set(new Concoction("swagger", "availableSwagger"));
-    SWAGGER_SHOP.plural = "swagger";
   }
 
   public SwaggerShopRequest() {
-    super(SwaggerShopRequest.SWAGGER_SHOP);
+    super(SWAGGER_SHOP);
   }
 
   public SwaggerShopRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SwaggerShopRequest.SWAGGER_SHOP, buying, attachments);
+    super(SWAGGER_SHOP, buying, attachments);
   }
 
   public SwaggerShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(SwaggerShopRequest.SWAGGER_SHOP, buying, attachment);
+    super(SWAGGER_SHOP, buying, attachment);
   }
 
   public SwaggerShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SwaggerShopRequest.SWAGGER_SHOP, buying, itemId, quantity);
+    super(SWAGGER_SHOP, buying, itemId, quantity);
   }
 
   @Override
@@ -192,7 +177,7 @@ public class SwaggerShopRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    SwaggerShopRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   // You've earned 600 swagger during a pirate season, yarrr.
@@ -227,7 +212,7 @@ public class SwaggerShopRequest extends CoinMasterRequest {
           Pattern.DOTALL);
 
   public static void parseResponse(final String urlString, final String responseText) {
-    CoinmasterData data = SwaggerShopRequest.SWAGGER_SHOP;
+    CoinmasterData data = SWAGGER_SHOP;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
@@ -238,8 +223,8 @@ public class SwaggerShopRequest extends CoinMasterRequest {
     // Learn new items by simply visiting the Swagger Shop
     // Refresh the Coin Master inventory every time we visit.
 
-    LockableListModel<AdventureResult> items = SwaggerShopRequest.buyItems;
-    Map<Integer, Integer> prices = SwaggerShopRequest.buyPrices;
+    List<AdventureResult> items = data.getBuyItems();
+    Map<Integer, Integer> prices = data.getBuyPrices();
     items.clear();
     prices.clear();
 
@@ -278,14 +263,14 @@ public class SwaggerShopRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
 
     // If this is a special season, determine how much swagger has been found
-    Matcher seasonMatcher = SwaggerShopRequest.SEASON_PATTERN.matcher(responseText);
+    Matcher seasonMatcher = SEASON_PATTERN.matcher(responseText);
     if (seasonMatcher.find()) {
       int seasonSwagger = StringUtilities.parseInt(seasonMatcher.group(1));
       String seasonName = seasonMatcher.group(2);
       Preferences.setString("currentPVPSeason", seasonName);
       Season season = nameToSeason.get(seasonName);
       if (season != null) {
-        SwaggerShopRequest.currentSeason = season;
+        currentSeason = season;
         Preferences.setInteger(season.swagger, seasonSwagger);
       } else {
         String message = "*** Unknown PVP season: " + seasonName;
@@ -305,8 +290,7 @@ public class SwaggerShopRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = SwaggerShopRequest.SWAGGER_SHOP;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(SWAGGER_SHOP, urlString, true);
   }
 
   public static String accessible() {

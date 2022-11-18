@@ -1,69 +1,40 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FDKOLRequest extends CoinMasterRequest {
   public static final String master = "FDKOL Tent";
+
   public static final AdventureResult FDKOL_TOKEN = ItemPool.get(ItemPool.FDKOL_COMMENDATION, 1);
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");
-  public static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(FDKOLRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(FDKOLRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(FDKOLRequest.master);
 
   public static final CoinmasterData FDKOL =
-      new CoinmasterData(
-          FDKOLRequest.master,
-          "FDKOL",
-          FDKOLRequest.class,
-          "FDKOL commendation",
-          null,
-          false,
-          FDKOLRequest.TOKEN_PATTERN,
-          FDKOLRequest.FDKOL_TOKEN,
-          null,
-          FDKOLRequest.itemRows,
-          "shop.php?whichshop=fdkol",
-          "buyitem",
-          FDKOLRequest.buyItems,
-          FDKOLRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "FDKOL", FDKOLRequest.class)
+          .withToken("FDKOL commendation")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(FDKOL_TOKEN)
+          .withShopRowFields(master, "fdkol");
 
   public FDKOLRequest() {
-    super(FDKOLRequest.FDKOL);
+    super(FDKOL);
   }
 
   public FDKOLRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FDKOLRequest.FDKOL, buying, attachments);
+    super(FDKOL, buying, attachments);
   }
 
   public FDKOLRequest(final boolean buying, final AdventureResult attachment) {
-    super(FDKOLRequest.FDKOL, buying, attachment);
+    super(FDKOL, buying, attachment);
   }
 
   public FDKOLRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FDKOLRequest.FDKOL, buying, itemId, quantity);
+    super(FDKOL, buying, itemId, quantity);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -71,7 +42,7 @@ public class FDKOLRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = FDKOLRequest.FDKOL;
+    CoinmasterData data = FDKOL;
 
     Matcher m = TransferItemRequest.ITEMID_PATTERN.matcher(location);
     if (!m.find()) {
@@ -89,7 +60,7 @@ public class FDKOLRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    if (FDKOLRequest.FDKOL_TOKEN.getCount(KoLConstants.inventory) == 0) {
+    if (FDKOL_TOKEN.getCount(KoLConstants.inventory) == 0) {
       return "You do not have an FDKOL commendation in inventory";
     }
     return null;
@@ -112,7 +83,7 @@ public class FDKOLRequest extends CoinMasterRequest {
       return true;
     }
 
-    CoinmasterData data = FDKOLRequest.FDKOL;
+    CoinmasterData data = FDKOL;
     int itemId = StringUtilities.parseInt(m.group(1));
     AdventureResult item = AdventureResult.findItem(itemId, data.getBuyItems());
     if (item == null) {

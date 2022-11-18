@@ -1,82 +1,53 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class BlackMarketRequest extends CoinMasterRequest {
   public static final String master = "The Black Market";
+
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.PRICELESS_DIAMOND, 1);
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) priceless diamond");
-  public static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(BlackMarketRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(BlackMarketRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(BlackMarketRequest.master);
 
   public static final CoinmasterData BLACK_MARKET =
-      new CoinmasterData(
-          BlackMarketRequest.master,
-          "blackmarket",
-          BlackMarketRequest.class,
-          "priceless diamond",
-          null,
-          false,
-          BlackMarketRequest.TOKEN_PATTERN,
-          BlackMarketRequest.TOKEN,
-          null,
-          BlackMarketRequest.itemRows,
-          "shop.php?whichshop=blackmarket",
-          "buyitem",
-          BlackMarketRequest.buyItems,
-          BlackMarketRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.ZEPPELIN_TICKET:
-              return InventoryManager.getCount(itemId) == 0;
-          }
-          return super.canBuyItem(itemId);
-        }
-      };
+      new CoinmasterData(master, "blackmarket", BlackMarketRequest.class)
+          .withToken("priceless diamond")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(TOKEN)
+          .withShopRowFields(master, "blackmarket")
+          .withCanBuyItem(BlackMarketRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    AdventureResult item = ItemPool.get(itemId);
+    return switch (itemId) {
+      case ItemPool.ZEPPELIN_TICKET -> InventoryManager.getCount(item) == 0;
+      default -> item.getCount(BLACK_MARKET.getBuyItems()) > 0;
+    };
+  }
 
   public BlackMarketRequest() {
-    super(BlackMarketRequest.BLACK_MARKET);
+    super(BLACK_MARKET);
   }
 
   public BlackMarketRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BlackMarketRequest.BLACK_MARKET, buying, attachments);
+    super(BLACK_MARKET, buying, attachments);
   }
 
   public BlackMarketRequest(final boolean buying, final AdventureResult attachment) {
-    super(BlackMarketRequest.BLACK_MARKET, buying, attachment);
+    super(BLACK_MARKET, buying, attachment);
   }
 
   public BlackMarketRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BlackMarketRequest.BLACK_MARKET, buying, itemId, quantity);
+    super(BLACK_MARKET, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    BlackMarketRequest.parseResponse(this.getURLString(), responseText);
+    parseResponse(this.getURLString(), responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -84,7 +55,7 @@ public class BlackMarketRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = BlackMarketRequest.BLACK_MARKET;
+    CoinmasterData data = BLACK_MARKET;
     int itemId = CoinMasterRequest.extractItemId(data, location);
 
     if (itemId == -1) {
@@ -114,7 +85,7 @@ public class BlackMarketRequest extends CoinMasterRequest {
       return true;
     }
 
-    CoinmasterData data = BlackMarketRequest.BLACK_MARKET;
+    CoinmasterData data = BLACK_MARKET;
     int itemId = CoinMasterRequest.extractItemId(data, urlString);
 
     if (itemId == -1) {

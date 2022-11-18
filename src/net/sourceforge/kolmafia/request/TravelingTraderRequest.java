@@ -1,70 +1,53 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TravelingTraderRequest extends CoinMasterRequest {
   public static final String master = "Traveling Trader";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getNewList();
-  private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
 
   // traveler.php?action=For Gnomeregan!&whichitem=xxxx&quantity=1&tradeall=1&usehagnk=1&pwd
   private static final AdventureResult item = ItemPool.get(ItemPool.TWINKLY_WAD, 1);
 
   public static final CoinmasterData TRAVELER =
-      new CoinmasterData(
-          TravelingTraderRequest.master,
-          "trader",
-          TravelingTraderRequest.class,
-          "twinkly wad",
-          null,
-          false,
-          null,
-          TravelingTraderRequest.item,
-          null,
-          null,
-          "traveler.php",
-          "For Gnomeregan!",
-          TravelingTraderRequest.buyItems,
-          TravelingTraderRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichitem",
-          GenericRequest.WHICHITEM_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          "usehagnk=1",
-          "tradeall=1",
-          true);
+      new CoinmasterData(master, "trader", TravelingTraderRequest.class)
+          .withToken("twinkly wad")
+          .withItem(item)
+          .withBuyURL("traveler.php")
+          .withBuyAction("For Gnomeregan!")
+          .withBuyItems()
+          .withBuyPrices()
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCountField("quantity")
+          .withItemPattern(GenericRequest.QUANTITY_PATTERN)
+          .withStorageAction("usehagnk=1")
+          .withTradeAllAction("tradeall=1");
 
   public TravelingTraderRequest() {
-    super(TravelingTraderRequest.TRAVELER);
+    super(TRAVELER);
   }
 
   public TravelingTraderRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TravelingTraderRequest.TRAVELER, buying, attachments);
+    super(TRAVELER, buying, attachments);
   }
 
   public TravelingTraderRequest(final boolean buying, final AdventureResult attachment) {
-    super(TravelingTraderRequest.TRAVELER, buying, attachment);
+    super(TRAVELER, buying, attachment);
   }
 
   public TravelingTraderRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TravelingTraderRequest.TRAVELER, buying, itemId, quantity);
+    super(TRAVELER, buying, itemId, quantity);
   }
 
   @Override
@@ -73,7 +56,7 @@ public class TravelingTraderRequest extends CoinMasterRequest {
       KoLmafia.updateDisplay(MafiaState.ERROR, "The Traveling Trader is not in the Market Square.");
       return;
     }
-    TravelingTraderRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   // The traveling trader is looking to acquire:<br><img class='hand
@@ -126,7 +109,7 @@ public class TravelingTraderRequest extends CoinMasterRequest {
 
     // We know the item. Set the item and token in the CoinmasterData
 
-    CoinmasterData data = TravelingTraderRequest.TRAVELER;
+    CoinmasterData data = TRAVELER;
     AdventureResult item = ItemPool.get(itemId, PurchaseRequest.MAX_QUANTITY);
     data.setItem(item);
     data.setToken(item.getName());
@@ -172,8 +155,8 @@ public class TravelingTraderRequest extends CoinMasterRequest {
     // Refresh the coinmaster lists every time we visit.
     // Learn new trade items by simply visiting the Traveling Trader
 
-    LockableListModel<AdventureResult> items = TravelingTraderRequest.buyItems;
-    Map<Integer, Integer> prices = TravelingTraderRequest.buyPrices;
+    List<AdventureResult> items = TRAVELER.getBuyItems();
+    Map<Integer, Integer> prices = TRAVELER.getBuyPrices();
     items.clear();
     prices.clear();
 
@@ -210,7 +193,6 @@ public class TravelingTraderRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = TravelingTraderRequest.TRAVELER;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(TRAVELER, urlString, true);
   }
 }
