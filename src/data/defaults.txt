@@ -1519,6 +1519,7 @@ user	walfordBucketItem
 user	walfordBucketProgress	0
 user	warProgress	unstarted
 user	warehouseProgress	0
+user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
 user	wildfireBarrelCaulked	false

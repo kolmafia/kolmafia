@@ -574,30 +574,18 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     boolean enabled;
 
     switch (displayState) {
-      case ABORT:
-      case ERROR:
-        color =
-            (KoLmafiaGUI.isDarkTheme())
-                ? KoLGUIConstants.ERROR_COLOR_DARK
-                : KoLGUIConstants.ERROR_COLOR;
+      case ABORT, ERROR -> {
+        color = KoLmafiaGUI.getErrorColor();
         enabled = true;
-        break;
-
-      case ENABLE:
-        color =
-            (KoLmafiaGUI.isDarkTheme())
-                ? KoLGUIConstants.ENABLED_COLOR_DARK
-                : KoLGUIConstants.ENABLED_COLOR;
+      }
+      case ENABLE -> {
+        color = KoLmafiaGUI.getEnabledColor();
         enabled = true;
-        break;
-
-      default:
-        color =
-            (KoLmafiaGUI.isDarkTheme())
-                ? KoLGUIConstants.DISABLED_COLOR_DARK
-                : KoLGUIConstants.DISABLED_COLOR;
+      }
+      default -> {
+        color = KoLmafiaGUI.getDisabledColor();
         enabled = false;
-        break;
+      }
     }
 
     if (this.sidepane != null) {
