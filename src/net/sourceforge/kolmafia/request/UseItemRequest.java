@@ -5893,17 +5893,24 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.ROBY_PLAIN_CALZONE:
       case ItemPool.ROBY_BAKED_VEGGIE_RICOTTA:
       case ItemPool.ROBY_DEEP_DISH_OF_LEGEND:
-        // You already know how to craft that item!
-        if (responseText.contains("You already know how to craft that item")) {
+      case ItemPool.PLANS_FOR_GRIMACITE_HAMMER:
+      case ItemPool.PLANS_FOR_GRIMACITE_GRAVY_BOAT:
+      case ItemPool.PLANS_FOR_GRIMACITE_WEIGHTLIFTING_BELT:
+      case ItemPool.PLANS_FOR_GRIMACITE_GRAPPLING_HOOK:
+      case ItemPool.PLANS_FOR_GRIMACITE_NINJA_MASK:
+      case ItemPool.PLANS_FOR_GRIMACITE_SHINGUARDS:
+      case ItemPool.PLANS_FOR_GRIMACITE_ASTROLABE:
+      case ItemPool.FETTUCINI_EPINES_INCONNU_RECIPE:
+      case ItemPool.SLAP_AND_SLAP_AGAIN_RECIPE:
+      case ItemPool.FUMBLE_FORMULA:
+      case ItemPool.MOTHERS_SECRET_RECIPE:
+        if (!responseText.contains("You learn to craft a new item")) {
           // If we didn't see you use the recipe the first time, learn it now.
           String recipeName = UseItemRequest.itemToRecipe(itemId);
           ResponseTextParser.learnRecipe(recipeName);
           // Item is not consumed
           return;
         }
-        // You can probably make this.
-        // You learn to craft a new item: <b>roasted vegetable focaccia</b>.
-        //
         // ResponseTextParser learned this recipe
         break;
     }
