@@ -196,7 +196,7 @@ class PopupListenerTest {
             false,
             MouseEvent.BUTTON1));
 
-    assertThat(source.getSelectedIndex(), is(1));
+    assertThat(source.getSelectedIndex(), is(-1));
     assertThat(popupMenu.isShowing(), is(false));
   }
 }
