@@ -474,8 +474,12 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   private static final AdventureResult TAINTED_LOVE_POTION =
       EffectPool.get(EffectPool.TAINTED_LOVE_POTION);
 
+  public boolean isEffective() {
+    return !KoLCharacter.inGLover() || KoLCharacter.hasGs(this.getSkillName());
+  }
+
   public long getMaximumCast() {
-    if (KoLCharacter.inGLover() && !KoLCharacter.hasGs(this.getSkillName())) {
+    if (!isEffective()) {
       return 0;
     }
 
