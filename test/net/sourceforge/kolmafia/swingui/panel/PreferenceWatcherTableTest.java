@@ -6,6 +6,7 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
 import javax.swing.*;
@@ -117,6 +118,40 @@ class PreferenceWatcherTableTest {
 
         assertThat(table.getRowCount(), is(2));
         assertThat(model.getValueAt(1, 1), is("b"));
+      }
+    }
+
+    // Some silly tests for coverage
+    @Test
+    void handlesInvalidColumnHeader() {
+      var table = new PreferenceWatcherTable();
+      var model = table.getModel();
+      assertThat(model.getColumnName(3), nullValue());
+    }
+
+    @Test
+    void handlesInvalidColumnValue() {
+      var cleanups =
+          new Cleanups(
+              withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"));
+
+      try (cleanups) {
+        var table = new PreferenceWatcherTable();
+        var model = table.getModel();
+        assertThat(model.getValueAt(0, 3), nullValue());
+      }
+    }
+
+    @Test
+    void handlesInvalidRowValue() {
+      var cleanups =
+          new Cleanups(
+              withProperty("testPrefA", "a"), withProperty("watchedPreferences", "testPrefA"));
+
+      try (cleanups) {
+        var table = new PreferenceWatcherTable();
+        var model = table.getModel();
+        assertThat(model.getValueAt(50, 1), nullValue());
       }
     }
   }

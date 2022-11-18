@@ -108,6 +108,7 @@ public class PreferenceWatcherTable extends JTable {
 
     @Override
     public String getValueAt(int rowIndex, int columnIndex) {
+      if (rowIndex >= preferences.size()) return null;
       var pref = preferences.get(rowIndex);
       return switch (columnIndex) {
         case 0 -> pref.getPreference();
