@@ -2084,6 +2084,6 @@ public class QuestManagerTest {
     var request = new GenericRequest("place.php?whichplace=speakeasy");
     request.responseText = html("request/test_speakeasy_brawl_(1).html");
     QuestManager.handleQuestChange(request);
-    assertEquals(Preferences.getInteger("_oliversPlaceFreeFights"), 3);
+    assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
   }
 }
