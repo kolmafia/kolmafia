@@ -9,10 +9,10 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 
 public class PopupListener extends MouseAdapter {
-  JPopupMenu popup;
+  final JPopupMenu popupMenu;
 
   public PopupListener(JPopupMenu popupMenu) {
-    popup = popupMenu;
+    this.popupMenu = popupMenu;
   }
 
   public void mousePressed(MouseEvent e) {
@@ -32,22 +32,17 @@ public class PopupListener extends MouseAdapter {
         select(list, point);
       } else if (source instanceof JTable table) {
         select(table, point);
-      } else {
-        return;
       }
 
-      popup.show(e.getComponent(), e.getX(), e.getY());
+      popupMenu.show(e.getComponent(), e.getX(), e.getY());
     }
   }
 
   private void select(JList<?> list, Point point) {
     int index = list.locationToIndex(point);
 
-    if (index < 0) {
-      var size = list.getModel().getSize();
-      if (size == 0) return;
-      index = size - 1;
-    }
+    // Lists return -1 when empty, otherwise they return the last index
+    if (index < 0) return;
 
     if (!list.isSelectedIndex(index)) {
       list.clearSelection();
@@ -58,6 +53,7 @@ public class PopupListener extends MouseAdapter {
   private void select(JTable table, Point point) {
     int row = table.rowAtPoint(point);
 
+    // Emulate list's behaviour of selecting the final row unless empty
     if (row < 0) {
       var size = table.getModel().getRowCount();
       if (size == 0) return;
