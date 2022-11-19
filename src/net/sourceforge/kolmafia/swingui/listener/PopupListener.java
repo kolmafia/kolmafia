@@ -62,7 +62,7 @@ public class PopupListener extends MouseAdapter {
 
     if (!table.isRowSelected(row)) {
       table.clearSelection();
-      table.addRowSelectionInterval(row, row);
+      table.setRowSelectionInterval(row, row);
     }
   }
 }
