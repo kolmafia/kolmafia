@@ -79,7 +79,6 @@ and all the "List-specific" methods will be provided in adapter methods.
 */
 
 public class ShowDescriptionTable<E> extends JXTable {
-  public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
@@ -159,14 +158,14 @@ public class ShowDescriptionTable<E> extends JXTable {
     if (displayModel == KoLConstants.activeEffects) {
       this.contextMenu.add(new ContextMenuItem("Remove this effect", new ShrugOffRunnable()));
       this.contextMenu.add(
-          new ContextMenuItem("Add to current mood", new AddToMoodEffectRunnable()));
+              new ContextMenuItem("Add to current mood", new AddToMoodEffectRunnable()));
       this.contextMenu.add(new ContextMenuItem("Extend this effect", new ExtendEffectRunnable()));
     }
 
     if (displayModel == KoLConstants.usableSkills || displayModel == KoLConstants.availableSkills) {
       this.contextMenu.add(new ContextMenuItem("Cast the skill once", new CastSkillRunnable()));
       this.contextMenu.add(
-          new ContextMenuItem("Add to current mood", new AddToMoodSkillRunnable()));
+              new ContextMenuItem("Add to current mood", new AddToMoodSkillRunnable()));
     }
 
     if (displayModel == KoLConstants.tally) {
@@ -175,9 +174,9 @@ public class ShowDescriptionTable<E> extends JXTable {
 
       this.contextMenu.add(new ContextMenuItem("Add to junk list", new AddToJunkListRunnable()));
       this.contextMenu.add(
-          new ContextMenuItem("Add to singleton list", new AddToSingletonListRunnable()));
+              new ContextMenuItem("Add to singleton list", new AddToSingletonListRunnable()));
       this.contextMenu.add(
-          new ContextMenuItem("Add to memento list", new AddToMementoListRunnable()));
+              new ContextMenuItem("Add to memento list", new AddToMementoListRunnable()));
 
       this.contextMenu.add(new JSeparator());
 
@@ -190,9 +189,9 @@ public class ShowDescriptionTable<E> extends JXTable {
         || (isEncyclopedia && !isMonster)) {
       this.contextMenu.add(new ContextMenuItem("Add to junk list", new AddToJunkListRunnable()));
       this.contextMenu.add(
-          new ContextMenuItem("Add to singleton list", new AddToSingletonListRunnable()));
+              new ContextMenuItem("Add to singleton list", new AddToSingletonListRunnable()));
       this.contextMenu.add(
-          new ContextMenuItem("Add to memento list", new AddToMementoListRunnable()));
+              new ContextMenuItem("Add to memento list", new AddToMementoListRunnable()));
     } else if (isMoodList) {
       this.contextMenu.add(new ContextMenuItem("Force execution", new ForceExecuteRunnable()));
       this.contextMenu.add(new ContextMenuItem("Remove selected", new RemoveTriggerRunnable()));
@@ -506,7 +505,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     }
   }
 
-  private class ContextMenuItem extends ThreadedMenuItem {
+  private static class ContextMenuItem extends ThreadedMenuItem {
     public ContextMenuItem(final String title, final ThreadedListener action) {
       super(title, action);
     }
@@ -518,20 +517,12 @@ public class ShowDescriptionTable<E> extends JXTable {
 
     @Override
     protected void execute() {
-      this.index =
-          ShowDescriptionTable.this.lastSelectIndex == -1
-              ? ShowDescriptionTable.this.getSelectedRow()
-              : ShowDescriptionTable.this.lastSelectIndex;
-
-      this.item =
-          ShowDescriptionTable.this.displayModel.getElementAt(
-              ShowDescriptionTable.this.convertRowIndexToModel(this.index));
+      this.index = ShowDescriptionTable.this.getSelectedIndex();
+      this.item = ShowDescriptionTable.this.displayModel.getElementAt(this.index);
 
       if (this.item == null) {
         return;
       }
-
-      // ShowDescriptionTable.this.ensureIndexIsVisible( this.index );
 
       this.executeAction();
     }
