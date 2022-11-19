@@ -158,14 +158,14 @@ public class ShowDescriptionTable<E> extends JXTable {
     if (displayModel == KoLConstants.activeEffects) {
       this.contextMenu.add(new ContextMenuItem("Remove this effect", new ShrugOffRunnable()));
       this.contextMenu.add(
-              new ContextMenuItem("Add to current mood", new AddToMoodEffectRunnable()));
+          new ContextMenuItem("Add to current mood", new AddToMoodEffectRunnable()));
       this.contextMenu.add(new ContextMenuItem("Extend this effect", new ExtendEffectRunnable()));
     }
 
     if (displayModel == KoLConstants.usableSkills || displayModel == KoLConstants.availableSkills) {
       this.contextMenu.add(new ContextMenuItem("Cast the skill once", new CastSkillRunnable()));
       this.contextMenu.add(
-              new ContextMenuItem("Add to current mood", new AddToMoodSkillRunnable()));
+          new ContextMenuItem("Add to current mood", new AddToMoodSkillRunnable()));
     }
 
     if (displayModel == KoLConstants.tally) {
@@ -174,9 +174,9 @@ public class ShowDescriptionTable<E> extends JXTable {
 
       this.contextMenu.add(new ContextMenuItem("Add to junk list", new AddToJunkListRunnable()));
       this.contextMenu.add(
-              new ContextMenuItem("Add to singleton list", new AddToSingletonListRunnable()));
+          new ContextMenuItem("Add to singleton list", new AddToSingletonListRunnable()));
       this.contextMenu.add(
-              new ContextMenuItem("Add to memento list", new AddToMementoListRunnable()));
+          new ContextMenuItem("Add to memento list", new AddToMementoListRunnable()));
 
       this.contextMenu.add(new JSeparator());
 
@@ -189,9 +189,9 @@ public class ShowDescriptionTable<E> extends JXTable {
         || (isEncyclopedia && !isMonster)) {
       this.contextMenu.add(new ContextMenuItem("Add to junk list", new AddToJunkListRunnable()));
       this.contextMenu.add(
-              new ContextMenuItem("Add to singleton list", new AddToSingletonListRunnable()));
+          new ContextMenuItem("Add to singleton list", new AddToSingletonListRunnable()));
       this.contextMenu.add(
-              new ContextMenuItem("Add to memento list", new AddToMementoListRunnable()));
+          new ContextMenuItem("Add to memento list", new AddToMementoListRunnable()));
     } else if (isMoodList) {
       this.contextMenu.add(new ContextMenuItem("Force execution", new ForceExecuteRunnable()));
       this.contextMenu.add(new ContextMenuItem("Remove selected", new RemoveTriggerRunnable()));
