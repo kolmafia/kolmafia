@@ -2171,7 +2171,7 @@ stuffed can of asparagus	10	none
 stuffed caterpillar	10	none
 stuffed Cheshire bitten	10	none
 stuffed cocoabo	10	none
-stuffed dinosaur	0	none
+stuffed dinosaur	10	none
 stuffed dodecapede	10	none
 stuffed dodo	10	none
 stuffed flaming gravy fairy	10	none
