@@ -79,7 +79,6 @@ and all the "List-specific" methods will be provided in adapter methods.
 */
 
 public class ShowDescriptionTable<E> extends JXTable {
-  public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
@@ -506,7 +505,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     }
   }
 
-  private class ContextMenuItem extends ThreadedMenuItem {
+  private static class ContextMenuItem extends ThreadedMenuItem {
     public ContextMenuItem(final String title, final ThreadedListener action) {
       super(title, action);
     }
@@ -518,20 +517,12 @@ public class ShowDescriptionTable<E> extends JXTable {
 
     @Override
     protected void execute() {
-      this.index =
-          ShowDescriptionTable.this.lastSelectIndex == -1
-              ? ShowDescriptionTable.this.getSelectedRow()
-              : ShowDescriptionTable.this.lastSelectIndex;
-
-      this.item =
-          ShowDescriptionTable.this.displayModel.getElementAt(
-              ShowDescriptionTable.this.convertRowIndexToModel(this.index));
+      this.index = ShowDescriptionTable.this.getSelectedIndex();
+      this.item = ShowDescriptionTable.this.displayModel.getElementAt(this.index);
 
       if (this.item == null) {
         return;
       }
-
-      // ShowDescriptionTable.this.ensureIndexIsVisible( this.index );
 
       this.executeAction();
     }
