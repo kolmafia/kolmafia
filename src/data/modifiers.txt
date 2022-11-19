@@ -11632,7 +11632,7 @@ Item	Really Expensive Jewelry and You	Skill: "Really Expensive Jewelrycrafting"
 # really really sticky spider web: Weakens enemies a little bit
 # really sticky spider web: Weakens enemies slightly
 # really thick bandage: Restores 100-120 HP
-Item	Recipe of Before Yore: baked veggie ricotta	Recipe: "baked veggie ricotta"
+Item	Recipe of Before Yore: baked veggie ricotta	Recipe: "baked veggie ricotta casserole"
 Item	Recipe of Before Yore: Boris's beer	Recipe: "Boris's beer"
 Item	Recipe of Before Yore: Boris's bread	Recipe: "Boris's bread"
 Item	Recipe of Before Yore: Calzone of Legend	Recipe: "Calzone of Legend"

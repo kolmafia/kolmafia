@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.DefaultListCellRenderer;
@@ -43,9 +42,6 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmastersFrame extends GenericFrame implements ChangeListener {
-  private static final List<AdventureResult> conditionalItems =
-      CoinmastersDatabase.getItems("Conditional");
-
   private CardLayoutSelectorPanel selectorPanel = null;
 
   private CoinmasterPanel BURTPanel = null;

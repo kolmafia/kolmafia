@@ -1,21 +1,16 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class TrapperRequest extends CoinMasterRequest {
   public static String master = "The Trapper";
-
-  public static LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) yeti fur");
   public static final AdventureResult YETI_FUR = ItemPool.get(ItemPool.YETI_FUR, 1);
@@ -27,7 +22,7 @@ public class TrapperRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(YETI_FUR)
           .withShopRowFields(master, "trapper")
-          .withBuyItems(buyItems);
+          .withBuyItems(master);
 
   public TrapperRequest() {
     super(TRAPPER);
