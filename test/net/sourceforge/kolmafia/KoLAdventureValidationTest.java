@@ -1771,6 +1771,99 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Gingerbread {
+    private static final KoLAdventure CIVIC_CENTER =
+        AdventureDatabase.getAdventureByName("Gingerbread Civic Center");
+    private static final KoLAdventure TRAIN_STATION =
+        AdventureDatabase.getAdventureByName("Gingerbread Train Station");
+    private static final KoLAdventure INDUSTRIAL_ZONE =
+        AdventureDatabase.getAdventureByName("Gingerbread Industrial Zone");
+    private static final KoLAdventure RETAIL_DISTRICT =
+        AdventureDatabase.getAdventureByName("Gingerbread Upscale Retail District");
+    private static final KoLAdventure SEWERS =
+        AdventureDatabase.getAdventureByName("Gingerbread Sewers");
+
+    @Test
+    public void mustHaveAccessToTheCity() {
+      var cleanups =
+          new Cleanups(
+              withProperty("gingerbreadCityAvailable", false),
+              withProperty("_gingerbreadCityTurns", 0));
+      try (cleanups) {
+        assertFalse(CIVIC_CENTER.canAdventure());
+        assertFalse(TRAIN_STATION.canAdventure());
+        assertFalse(INDUSTRIAL_ZONE.canAdventure());
+        assertFalse(RETAIL_DISTRICT.canAdventure());
+        assertFalse(SEWERS.canAdventure());
+      }
+    }
+
+    @Test
+    public void someZonesRequireUnlocking() {
+      var cleanups =
+          new Cleanups(
+              withProperty("gingerbreadCityAvailable", true),
+              withProperty("_gingerbreadCityTurns", 0));
+      try (cleanups) {
+        assertTrue(CIVIC_CENTER.canAdventure());
+        assertTrue(TRAIN_STATION.canAdventure());
+        assertTrue(INDUSTRIAL_ZONE.canAdventure());
+        assertFalse(RETAIL_DISTRICT.canAdventure());
+        assertFalse(SEWERS.canAdventure());
+      }
+    }
+
+    @Test
+    public void sewersCanBeUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withProperty("gingerbreadCityAvailable", true),
+              withProperty("gingerSewersUnlocked", true),
+              withProperty("_gingerbreadCityTurns", 0));
+      try (cleanups) {
+        assertTrue(SEWERS.canAdventure());
+      }
+    }
+
+    @Test
+    public void retailDistrictCanBeUnlocked() {
+      var cleanups =
+          new Cleanups(
+              withProperty("gingerbreadCityAvailable", true),
+              withProperty("gingerRetailUnlocked", true),
+              withProperty("_gingerbreadCityTurns", 0));
+      try (cleanups) {
+        assertTrue(RETAIL_DISTRICT.canAdventure());
+      }
+    }
+
+    private void testTurnsAvailableVsUsed(int turnsAvailable, int turnsUsed) {
+      var cleanups = new Cleanups(withProperty("_gingerbreadCityTurns", turnsUsed));
+      try (cleanups) {
+        assertThat(CIVIC_CENTER.canAdventure(), is(turnsUsed < turnsAvailable));
+      }
+    }
+
+    @CartesianTest
+    public void canAdventureWithTurnsLeft(
+        @Values(booleans = {false, true}) final boolean extraTurns,
+        @Values(booleans = {false, true}) final boolean clockAdvanced) {
+      var cleanups =
+          new Cleanups(
+              withProperty("gingerbreadCityAvailable", true),
+              withProperty("gingerExtraAdventures", extraTurns),
+              withProperty("_gingerbreadClockAdvanced", clockAdvanced));
+      try (cleanups) {
+        int available = 20;
+        if (extraTurns) available += 10;
+        if (clockAdvanced) available -= 5;
+        testTurnsAvailableVsUsed(available, available);
+        testTurnsAvailableVsUsed(available, available - 5);
+      }
+    }
+  }
+
+  @Nested
   class Spookyraven {
     private static final KoLAdventure HAUNTED_PANTRY =
         AdventureDatabase.getAdventureByName("The Haunted Pantry");
