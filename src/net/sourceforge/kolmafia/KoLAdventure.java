@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.DifficultyLevel;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -1624,29 +1625,43 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // We track individual aspects of the various quests.
-      // Perhaps we could deduce what is and is not unlocked.
-      // Just assume everything is open, for now.
-
-      // The Briny Deeps
-      // The Brinier Deepers
-      // The Briniest Deepests
-      // An Octopus's Garden
-      // The Wreck of the Edgar Fitzsimmons
-      // Madness Reef
-      // The Mer-Kin Outpost
-      // The Skate Park
-      // The Marinara Trench
-      // Anemone Mine
-      // The Dive Bar
-      // The Coral Corral
-      // Mer-kin Elementary School
-      // Mer-kin Library
-      // Mer-kin Gymnasium
-      // Mer-kin Colosseum
-      // The Caliginous Abyss
-      // Anemone Mine (Mining)
-
-      return true;
+      return switch (this.adventureNumber) {
+          // Always open.
+        case AdventurePool.THE_BRINY_DEEPS,
+            AdventurePool.THE_BRINIER_DEEPERS,
+            AdventurePool.THE_BRINIEST_DEEPESTS -> true;
+          // Initially open: Little Brother
+        case AdventurePool.AN_OCTOPUS_GARDEN -> true;
+          // Big Brother
+        case AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS -> QuestDatabase.isQuestLaterThan(
+            Quest.SEA_MONKEES, QuestDatabase.STARTED);
+          // Grandpa
+          // Free for Muscle classes. Otherwise, must buy map.
+        case AdventurePool.ANENOME_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
+          // Free for Mysticality classes Otherwise, must buy map.
+        case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
+            ItemPool.MARINARA_TRENCH_MAP);
+          // Free for Moxie classes Otherwise, must buy map.
+        case AdventurePool.DIVE_BAR -> ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
+          // Grandma. Open when ask grandpa about Grandma.
+        case AdventurePool.MERKIN_OUTPOST -> QuestDatabase.isQuestLaterThan(
+            Quest.SEA_MONKEES, "step5");
+          // Currents (seahorse). Open when ask Grandpa about currents.
+        case AdventurePool.THE_CORAL_CORRAL -> Preferences.getBoolean("corralUnlocked");
+          // Dad. Open when you have a seahorse
+        case AdventurePool.MERKIN_ELEMENTARY_SCHOOL,
+            AdventurePool.MERKIN_LIBRARY,
+            AdventurePool.MERKIN_GYMNASIUM,
+            AdventurePool.MERKIN_COLOSSEUM -> !Preferences.getString("seahorseName").equals("");
+          // Mom. Open when you have black glass - which you must equip
+        case AdventurePool.THE_CALIGINOUS_ABYSS -> QuestDatabase.isQuestLaterThan(
+            Quest.SEA_MONKEES, "step11");
+          // Optional maps you can purchase from Big Brother.
+        case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
+        case AdventurePool.THE_SKATE_PARK -> ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP);
+          // That's all. If a new zone appears, assume you can get to it.
+        default -> true;
+      };
     }
 
     // The following zones depend on your clan, your permissions, and the

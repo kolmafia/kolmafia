@@ -1268,6 +1268,13 @@ public class QuestManager {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step1");
       } else if (responseText.contains("Wanna help me find Grandpa?")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step4");
+        if (KoLCharacter.isMuscleClass()) {
+          Preferences.setBoolean("mapToAnemoneMinePurchased", true);
+        } else if (KoLCharacter.isMysticalityClass()) {
+          Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
+        } else if (KoLCharacter.isMoxieClass()) {
+          Preferences.setBoolean("mapToTheDiveBarPurchased", true);
+        }
       } else if (responseText.contains("he's been actin' awful weird lately")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step10");
       }
