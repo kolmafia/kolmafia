@@ -57,7 +57,8 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Modifiers {
-  private static final Map<String, Modifiers> modifiersByName = new HashMap<>();
+  private static final Map<String, String> modifierStringsByName = new HashMap<>();
+  private static Map<String, Modifiers> modifiersByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
@@ -1151,7 +1152,7 @@ public class Modifiers {
   }
 
   public static final Set<String> getAllModifiers() {
-    return Modifiers.modifiersByName.keySet();
+    return Modifiers.modifierStringsByName.keySet();
   }
 
   public static final void overrideModifier(String lookup, String value) {
@@ -1249,7 +1250,7 @@ public class Modifiers {
   public static List<AdventureResult> getPotentialChanges(final int index) {
     ArrayList<AdventureResult> available = new ArrayList<>();
 
-    for (String check : Modifiers.modifiersByName.keySet()) {
+    for (String check : Modifiers.getAllModifiers()) {
       String effectName = check.replace("Effect:", "");
       int effectId = EffectDatabase.getEffectId(effectName);
 
@@ -1830,16 +1831,30 @@ public class Modifiers {
     Modifiers modifiers = Modifiers.modifiersByName.get(lookup);
 
     if (modifiers == null) {
-      return null;
+      String modifierString = Modifiers.modifierStringsByName.get(lookup);
+
+      if (modifierString == null) {
+        return null;
+      }
+
+      modifiers = Modifiers.parseModifiers(lookup, modifierString);
+
+      if (changeType != null) {
+        modifiers.name = changeType + ":" + name;
+      }
+
+      modifiers.variable = modifiers.override(lookup);
+
+      Modifiers.modifiersByName.put(lookup, modifiers);
     }
 
     if (modifiers.variable) {
-      // If it's not actually variable, record that now.
-      modifiers.variable = modifiers.override(lookup);
+      modifiers.override(lookup);
       if (changeType != null) {
         modifiers.name = changeType + ":" + name;
       }
     }
+
     return modifiers;
   }
 
@@ -2257,136 +2272,119 @@ public class Modifiers {
 
   private boolean overrideItem(final int itemId) {
     switch (itemId) {
-      case ItemPool.TUESDAYS_RUBY:
-        {
-          // Set modifiers depending on what KoL day of the week it is
-          var dotw = DateTimeManager.getArizonaDateTime().getDayOfWeek();
+      case ItemPool.TUESDAYS_RUBY -> {
+        // Set modifiers depending on what KoL day of the week it is
+        var dotw = DateTimeManager.getArizonaDateTime().getDayOfWeek();
 
-          this.set(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
-          this.set(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
-          this.set(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
-          this.set(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
-          this.set(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
-          this.set(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
-          this.set(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
-          return true;
-        }
+        this.set(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
+        this.set(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
+        this.set(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
+        this.set(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
+        this.set(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
+        this.set(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
+        this.set(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
+        this.set(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
+        this.set(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
+        return true;
+      }
+      case ItemPool.PANTSGIVING -> {
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
+        return true;
+      }
+      case ItemPool.PATRIOT_SHIELD -> {
+        // Muscle classes
+        this.set(Modifiers.HP_REGEN_MIN, 0.0);
+        this.set(Modifiers.HP_REGEN_MAX, 0.0);
+        // Seal clubber
+        this.set(Modifiers.WEAPON_DAMAGE, 0.0);
+        this.set(Modifiers.DAMAGE_REDUCTION, 0.0);
+        // Turtle Tamer
+        this.set(Modifiers.FAMILIAR_WEIGHT, 0.0);
+        // Disco Bandit
+        this.set(Modifiers.RANGED_DAMAGE, 0.0);
+        // Accordion Thief
+        this.set(Modifiers.FOUR_SONGS, false);
+        // Mysticality classes
+        this.set(Modifiers.MP_REGEN_MIN, 0.0);
+        this.set(Modifiers.MP_REGEN_MAX, 0.0);
+        // Pastamancer
+        this.set(Modifiers.COMBAT_MANA_COST, 0.0);
+        // Sauceror
+        this.set(Modifiers.SPELL_DAMAGE, 0.0);
 
-      case ItemPool.PANTSGIVING:
-        {
-          this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
-          return true;
-        }
-
-      case ItemPool.PATRIOT_SHIELD:
-        {
-          // Muscle classes
-          this.set(Modifiers.HP_REGEN_MIN, 0.0);
-          this.set(Modifiers.HP_REGEN_MAX, 0.0);
-          // Seal clubber
-          this.set(Modifiers.WEAPON_DAMAGE, 0.0);
-          this.set(Modifiers.DAMAGE_REDUCTION, 0.0);
-          // Turtle Tamer
-          this.set(Modifiers.FAMILIAR_WEIGHT, 0.0);
-          // Disco Bandit
-          this.set(Modifiers.RANGED_DAMAGE, 0.0);
-          // Accordion Thief
-          this.set(Modifiers.FOUR_SONGS, false);
-          // Mysticality classes
-          this.set(Modifiers.MP_REGEN_MIN, 0.0);
-          this.set(Modifiers.MP_REGEN_MAX, 0.0);
-          // Pastamancer
-          this.set(Modifiers.COMBAT_MANA_COST, 0.0);
-          // Sauceror
-          this.set(Modifiers.SPELL_DAMAGE, 0.0);
-
-          // Set modifiers depending on Character class
-          AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
-          if (ascensionClass != null) {
-            switch (ascensionClass) {
-              case SEAL_CLUBBER:
-              case ZOMBIE_MASTER:
-              case ED:
-              case COWPUNCHER:
-              case BEANSLINGER:
-              case SNAKE_OILER:
-                this.set(Modifiers.HP_REGEN_MIN, 10.0);
-                this.set(Modifiers.HP_REGEN_MAX, 12.0);
-                this.set(Modifiers.WEAPON_DAMAGE, 15.0);
-                this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
-                break;
-              case TURTLE_TAMER:
-                this.set(Modifiers.HP_REGEN_MIN, 10.0);
-                this.set(Modifiers.HP_REGEN_MAX, 12.0);
-                this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
-                break;
-              case DISCO_BANDIT:
-              case AVATAR_OF_SNEAKY_PETE:
-                this.set(Modifiers.RANGED_DAMAGE, 20.0);
-                break;
-              case ACCORDION_THIEF:
-                this.set(Modifiers.FOUR_SONGS, true);
-                break;
-              case PASTAMANCER:
-                this.set(Modifiers.MP_REGEN_MIN, 5.0);
-                this.set(Modifiers.MP_REGEN_MAX, 6.0);
-                this.set(Modifiers.COMBAT_MANA_COST, -3.0);
-                break;
-              case SAUCEROR:
-              case AVATAR_OF_JARLSBERG:
-                this.set(Modifiers.MP_REGEN_MIN, 5.0);
-                this.set(Modifiers.MP_REGEN_MAX, 6.0);
-                this.set(Modifiers.SPELL_DAMAGE, 20.0);
-                break;
+        // Set modifiers depending on Character class
+        AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+        if (ascensionClass != null) {
+          switch (ascensionClass) {
+            case SEAL_CLUBBER, ZOMBIE_MASTER, ED, COWPUNCHER, BEANSLINGER, SNAKE_OILER -> {
+              this.set(Modifiers.HP_REGEN_MIN, 10.0);
+              this.set(Modifiers.HP_REGEN_MAX, 12.0);
+              this.set(Modifiers.WEAPON_DAMAGE, 15.0);
+              this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
+            }
+            case TURTLE_TAMER -> {
+              this.set(Modifiers.HP_REGEN_MIN, 10.0);
+              this.set(Modifiers.HP_REGEN_MAX, 12.0);
+              this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
+            }
+            case DISCO_BANDIT, AVATAR_OF_SNEAKY_PETE -> this.set(Modifiers.RANGED_DAMAGE, 20.0);
+            case ACCORDION_THIEF -> this.set(Modifiers.FOUR_SONGS, true);
+            case PASTAMANCER -> {
+              this.set(Modifiers.MP_REGEN_MIN, 5.0);
+              this.set(Modifiers.MP_REGEN_MAX, 6.0);
+              this.set(Modifiers.COMBAT_MANA_COST, -3.0);
+            }
+            case SAUCEROR, AVATAR_OF_JARLSBERG -> {
+              this.set(Modifiers.MP_REGEN_MIN, 5.0);
+              this.set(Modifiers.MP_REGEN_MAX, 6.0);
+              this.set(Modifiers.SPELL_DAMAGE, 20.0);
             }
           }
-          return true;
-        }
-    }
-    return false;
-  }
-
-  private boolean overrideSkill(final String name) {
-    switch (name) {
-      case "Ferocity":
-        if (KoLCharacter.isVampyre()) {
-          this.set(Modifiers.HP, -10.0);
-        } else if (KoLCharacter.isAvatarOfBoris()) {
-          this.set(Modifiers.CRITICAL_PCT, 25.0);
         }
         return true;
+      }
     }
     return false;
   }
 
   private boolean overrideThrone(final String name) {
     switch (name) {
-      case "Adventurous Spelunker":
+      case "Adventurous Spelunker" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
         return true;
-      case "Garbage Fire":
+      }
+      case "Garbage Fire" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_garbageFireDropsCrown") < 3);
         return true;
-      case "Grimstone Golem":
+      }
+      case "Grimstone Golem" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimstoneMaskDropsCrown") < 1);
         return true;
-      case "Grim Brother":
+      }
+      case "Grim Brother" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimFairyTaleDropsCrown") < 2);
         return true;
-      case "Machine Elf":
+      }
+      case "Machine Elf" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_abstractionDropsCrown") < 25);
         return true;
-      case "Optimistic Candle":
+      }
+      case "Puck Man", "Ms. Puck Man" -> {
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_yellowPixelDropsCrown") < 25);
+        return true;
+      }
+      case "Optimistic Candle" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_optimisticCandleDropsCrown") < 3);
         return true;
-      case "Trick-or-Treating Tot":
+      }
+      case "Trick-or-Treating Tot" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_hoardedCandyDropsCrown") < 3);
         return true;
-      case "Twitching Space Critter":
+      }
+      case "Twitching Space Critter" -> {
         this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_spaceFurDropsCrown") < 1);
         return true;
+      }
     }
     return false;
   }
@@ -2409,18 +2407,12 @@ public class Modifiers {
     String name = Modifiers.getNameFromLookup(lookup);
     String type = Modifiers.getTypeFromLookup(lookup);
 
-    switch (type) {
-      case "Item":
-        return overrideItem(ItemDatabase.getItemId(name));
-      case "Skill":
-        return overrideSkill(name);
-      case "Throne":
-        return overrideThrone(name);
-      case "Loc":
-      case "Zone":
-        return true;
-    }
-    return false;
+    return switch (type) {
+      case "Item" -> overrideItem(ItemDatabase.getItemId(name));
+      case "Throne" -> overrideThrone(name);
+      case "Loc", "Zone" -> true;
+      default -> false;
+    };
   }
 
   public static final double getNumericModifier(final String type, final int id, final String mod) {
@@ -2510,14 +2502,16 @@ public class Modifiers {
     return mods.getString(mod);
   }
 
-  public void applyPassiveModifiers() {
+  public void applyPassiveModifiers(final boolean debug) {
     if (Modifiers.cachedPassiveModifiers == null) {
       Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive", new ModifierList());
       PreferenceListenerRegistry.registerPreferenceListener(
           new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
     }
 
-    if (Modifiers.availableSkillsChanged || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
+    if (debug
+        || Modifiers.availableSkillsChanged
+        || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
       // Collect all passive skills currently on the character.
       Modifiers.availablePassiveSkillsByVariable.putAll(
           KoLCharacter.getAvailableSkillIds().stream()
@@ -2537,17 +2531,28 @@ public class Modifiers {
       Modifiers.availablePassiveSkillsByVariable
           .get(false)
           .forEach(
-              skill ->
-                  Modifiers.cachedPassiveModifiers.add(
-                      getModifiers("Skill", skill.getSkillName())));
+              skill -> {
+                var mods = getModifiers("Skill", skill.getSkillId(), skill.getSkillName());
+                Modifiers.cachedPassiveModifiers.add(mods);
+
+                // If we are debugging, add them directly. Also add them to the cache though
+                if (debug) {
+                  this.add(mods);
+                }
+              });
       Modifiers.availableSkillsChanged = false;
     }
 
-    // Add constant and variable modifiers.
-    this.add(Modifiers.cachedPassiveModifiers);
+    // If we're debugging we've already added the modifiers while building the passive cache.
+    if (!debug) {
+      this.add(Modifiers.cachedPassiveModifiers);
+    }
+
+    // Add variable modifiers.
     Modifiers.availablePassiveSkillsByVariable
         .get(true)
-        .forEach(skill -> this.add(getModifiers("Skill", skill.getSkillName())));
+        .forEach(
+            skill -> this.add(getModifiers("Skill", skill.getSkillId(), skill.getSkillName())));
   }
 
   public final void applyFloristModifiers() {
@@ -3266,24 +3271,18 @@ public class Modifiers {
   }
 
   public static final void checkModifiers() {
-    for (Entry<String, Modifiers> entry : Modifiers.modifiersByName.entrySet()) {
+    for (Entry<String, String> entry : Modifiers.modifierStringsByName.entrySet()) {
       String lookup = entry.getKey();
-      Modifiers modifiers = entry.getValue();
+      String modifierString = entry.getValue();
 
-      if (modifiers == null) {
+      if (modifierString == null) {
         RequestLogger.printLine("Key \"" + lookup + "\" has no modifiers");
         continue;
       }
 
-      String modifierString = modifiers.getString(Modifiers.MODIFIERS);
-
-      if (modifierString == null) {
-        RequestLogger.printLine(
-            "Key \""
-                + lookup
-                + "\" has bogus modifiers of class "
-                + modifiers.getClass().toString());
-        continue;
+      Modifiers modifiers = Modifiers.modifiersByName.get(lookup);
+      if (modifiers != null) {
+        modifierString = modifiers.getString(Modifiers.MODIFIERS);
       }
 
       ModifierList list = Modifiers.splitModifiers(modifierString);
@@ -3339,19 +3338,15 @@ public class Modifiers {
   }
 
   public static String getLookupName(final String type, final String name) {
-    if (type.equals("Item")) {
-      int itemId = ItemDatabase.getItemId(name);
-      if (itemId >= 0) {
-        return "Item:[" + itemId + "]";
-      }
-    }
-    if (type.equals("Effect")) {
-      int effectId = EffectDatabase.getEffectId(name);
-      if (effectId >= 0) {
-        return "Effect:[" + effectId + "]";
-      }
-    }
-    return type + ":" + name;
+    var id =
+        switch (type) {
+          case "Item" -> ItemDatabase.getItemId(name);
+          case "Effect" -> EffectDatabase.getEffectId(name);
+          case "Skill" -> SkillDatabase.getSkillId(name);
+          default -> -1;
+        };
+
+    return type + ":" + (id >= 0 ? "[" + id + "]" : name);
   }
 
   public static String getTypeFromLookup(final String lookup) {
@@ -3370,15 +3365,7 @@ public class Modifiers {
     return lookup;
   }
 
-  public static void resetModifiers() {
-    Modifiers.modifiersByName.clear();
-    Modifiers.familiarEffectByName.clear();
-    Modifiers.availablePassiveSkillsByVariable.clear();
-    Modifiers.synergies.clear();
-    Modifiers.mutexes.clear();
-    Modifiers.uniques.clear();
-    Arrays.fill(Modifiers.bitmapMasks, 1);
-
+  public static void loadAllModifiers() {
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("modifiers.txt", KoLConstants.MODIFIERS_VERSION)) {
       String[] data;
@@ -3391,15 +3378,12 @@ public class Modifiers {
 
         String type = data[0];
         String name = data[1];
-        String lookup = Modifiers.getLookupName(type, name);
-        if (Modifiers.modifiersByName.containsKey(lookup)) {
-          KoLmafia.updateDisplay("Duplicate modifiers for: " + lookup);
-        }
-
         String modifiers = data[2];
 
-        Modifiers newMods = Modifiers.parseModifiers(lookup, modifiers);
-        Modifiers.modifiersByName.put(lookup, newMods);
+        String lookup = Modifiers.getLookupName(type, name);
+        if (Modifiers.modifierStringsByName.put(lookup, modifiers) != null) {
+          KoLmafia.updateDisplay("Duplicate modifiers for: " + lookup);
+        }
 
         Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
         if (matcher.find()) {
@@ -3414,62 +3398,80 @@ public class Modifiers {
             effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
           }
           String famLookup = "FamEq:" + name;
-          Modifiers.modifiersByName.put(famLookup, Modifiers.parseModifiers(famLookup, effect));
+          Modifiers.modifierStringsByName.put(famLookup, effect);
         }
 
-        if (type.equals("Synergy")) {
-          String[] pieces = name.split("/");
-          if (pieces.length < 2) {
-            KoLmafia.updateDisplay(name + " contain less than 2 elements.");
-            continue;
-          }
-          int mask = 0;
-          for (String piece : pieces) {
-            Modifiers mods = Modifiers.getModifiers("Item", piece);
-            if (mods == null) {
-              KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
-              continue loop;
+        switch (type) {
+          case "Synergy" -> {
+            String[] pieces = name.split("/");
+            if (pieces.length < 2) {
+              KoLmafia.updateDisplay(name + " contain less than 2 elements.");
+              continue;
             }
-            int emask = mods.bitmaps[Modifiers.SYNERGETIC];
-            if (emask == 0) {
-              KoLmafia.updateDisplay(
-                  name + " contains element " + piece + " that isn't Synergetic.");
-              continue loop;
+            int mask = 0;
+            for (String piece : pieces) {
+              Modifiers mods = Modifiers.getModifiers("Item", piece);
+              if (mods == null) {
+                KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
+                continue loop;
+              }
+              int emask = mods.bitmaps[Modifiers.SYNERGETIC];
+              if (emask == 0) {
+                KoLmafia.updateDisplay(
+                    name + " contains element " + piece + " that isn't Synergetic.");
+                continue loop;
+              }
+              mask |= emask;
             }
-            mask |= emask;
+            Modifiers.synergies.put(name, mask);
           }
-          Modifiers.synergies.put(name, mask);
-        } else if (type.startsWith("Mutex")) {
-          String[] pieces = name.split("/");
-          if (pieces.length < 2) {
-            KoLmafia.updateDisplay(name + " contain less than 2 elements.");
-            continue;
-          }
-          int bit = 1 << Modifiers.mutexes.size();
-          for (String piece : pieces) {
-            Modifiers mods = null;
-            if (type.equals("MutexI")) {
-              mods = Modifiers.getModifiers("Item", piece);
-            } else if (type.equals("MutexE")) {
-              mods = Modifiers.getModifiers("Effect", piece);
+          case "MutexI", "MutexE" -> {
+            String[] pieces = name.split("/");
+            if (pieces.length < 2) {
+              KoLmafia.updateDisplay(name + " contain less than 2 elements.");
+              continue;
             }
-            if (mods == null) {
-              KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
-              continue loop;
+            int bit = 1 << Modifiers.mutexes.size();
+            for (String piece : pieces) {
+              Modifiers mods =
+                  switch (type) {
+                    case "MutexI" -> Modifiers.getModifiers("Item", piece);
+                    case "MutexE" -> Modifiers.getModifiers("Effect", piece);
+                    default -> null;
+                  };
+              if (mods == null) {
+                KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
+                continue loop;
+              }
+              mods.bitmaps[Modifiers.MUTEX] |= bit;
             }
-            mods.bitmaps[Modifiers.MUTEX] |= bit;
+            Modifiers.mutexes.add(name);
           }
-          Modifiers.mutexes.add(name);
-        } else if (type.equals("Unique")) {
-          if (Modifiers.uniques.containsKey(name)) {
-            KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
-            continue;
+          case "Unique" -> {
+            if (Modifiers.uniques.containsKey(name)) {
+              KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
+              continue;
+            }
+            Modifiers.uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
           }
-          Modifiers.uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
         }
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
+    }
+  }
+
+  public static void resetModifiers() {
+    Modifiers.modifiersByName.clear();
+    Modifiers.familiarEffectByName.clear();
+    Modifiers.availablePassiveSkillsByVariable.clear();
+    Modifiers.synergies.clear();
+    Modifiers.mutexes.clear();
+    Modifiers.uniques.clear();
+    Arrays.fill(Modifiers.bitmapMasks, 1);
+
+    if (Modifiers.modifierStringsByName.size() == 0) {
+      loadAllModifiers();
     }
   }
 
@@ -3746,23 +3748,19 @@ public class Modifiers {
 
     for (String name : set) {
       String lookup = Modifiers.getLookupName(type, name);
-      Object modifiers = Modifiers.modifiersByName.get(lookup);
-      Modifiers.writeModifierItem(writer, type, name, modifiers);
+      String modifierString = Modifiers.modifierStringsByName.get(lookup);
+      Modifiers.writeModifierItem(writer, type, name, modifierString);
     }
   }
 
   public static void writeModifierItem(
-      final PrintStream writer, final String type, final String name, Object modifiers) {
-    if (modifiers == null) {
+      final PrintStream writer, final String type, final String name, String modifierString) {
+    if (modifierString == null) {
       Modifiers.writeModifierComment(writer, type, name);
       return;
     }
 
-    if (modifiers instanceof Modifiers) {
-      modifiers = ((Modifiers) modifiers).getString(Modifiers.MODIFIERS);
-    }
-
-    Modifiers.writeModifierString(writer, type, name, (String) modifiers);
+    Modifiers.writeModifierString(writer, type, name, modifierString);
   }
 
   public static void writeModifierString(
@@ -3825,7 +3823,7 @@ public class Modifiers {
 
   public static final void updateItem(final String name, final String known) {
     String lookup = Modifiers.getLookupName("Item", name);
-    Modifiers.modifiersByName.put(lookup, Modifiers.parseModifiers(lookup, known));
+    Modifiers.overrideModifier(lookup, Modifiers.parseModifiers(lookup, known));
   }
 
   private static void registerObject(
@@ -3848,7 +3846,7 @@ public class Modifiers {
       RequestLogger.updateSessionLog(printMe);
 
       String lookup = Modifiers.getLookupName(type, name);
-      Modifiers.modifiersByName.putIfAbsent(lookup, Modifiers.parseModifiers(lookup, known));
+      Modifiers.modifierStringsByName.putIfAbsent(lookup, known);
     }
   }
 }
