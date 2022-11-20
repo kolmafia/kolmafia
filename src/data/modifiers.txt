@@ -3008,7 +3008,7 @@ Item	Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 2
 Item	Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen Max: 10, Single Equip, Lasts Until Rollover
 # gate transceiver: Allows you to negotiate magnetic storms without losing your way
 Item	gate transceiver	Single Equip, Lasts Until Rollover
-Item	gator shades	Muscle: +30, Spooky Damage: +30, Single Equip
+Item	gator shades	Muscle: +3, Spooky Damage: +3, Single Equip
 Item	Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	gearbox necklace	Mysticality: +11, Maximum MP: +50
 Item	genie's bracers	Mysticality: +5, Moxie: +5
@@ -11632,7 +11632,7 @@ Item	Really Expensive Jewelry and You	Skill: "Really Expensive Jewelrycrafting"
 # really really sticky spider web: Weakens enemies a little bit
 # really sticky spider web: Weakens enemies slightly
 # really thick bandage: Restores 100-120 HP
-Item	Recipe of Before Yore: baked veggie ricotta	Recipe: "baked veggie ricotta"
+Item	Recipe of Before Yore: baked veggie ricotta	Recipe: "baked veggie ricotta casserole"
 Item	Recipe of Before Yore: Boris's beer	Recipe: "Boris's beer"
 Item	Recipe of Before Yore: Boris's bread	Recipe: "Boris's bread"
 Item	Recipe of Before Yore: Calzone of Legend	Recipe: "Calzone of Legend"

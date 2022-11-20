@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class ShowDescriptionList<E> extends JList<E> {
-  public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
@@ -235,7 +234,7 @@ public class ShowDescriptionList<E> extends JList<E> {
     }
   }
 
-  private class ContextMenuItem extends ThreadedMenuItem {
+  private static class ContextMenuItem extends ThreadedMenuItem {
     public ContextMenuItem(final String title, final ThreadedListener action) {
       super(title, action);
     }
@@ -247,11 +246,7 @@ public class ShowDescriptionList<E> extends JList<E> {
 
     @Override
     protected void execute() {
-      this.index =
-          ShowDescriptionList.this.lastSelectIndex == -1
-              ? ShowDescriptionList.this.getSelectedIndex()
-              : ShowDescriptionList.this.lastSelectIndex;
-
+      this.index = ShowDescriptionList.this.getSelectedIndex();
       this.item = ShowDescriptionList.this.displayModel.getElementAt(this.index);
 
       if (this.item == null) {
