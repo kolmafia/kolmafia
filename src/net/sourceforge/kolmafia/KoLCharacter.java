@@ -5107,7 +5107,7 @@ public abstract class KoLCharacter {
     }
 
     // Add modifiers from Passive Skills
-    newModifiers.applyPassiveModifiers();
+    newModifiers.applyPassiveModifiers(debug);
 
     // For the sake of easier maintenance, execute a lot of extra
     // string comparisons when looking at status effects.
