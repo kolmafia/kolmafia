@@ -1654,7 +1654,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             AdventurePool.MERKIN_GYMNASIUM,
             AdventurePool.MERKIN_COLOSSEUM -> !Preferences.getString("seahorseName").equals("");
           // Mom. Open when you have black glass - which you must equip
-        case AdventurePool.THE_CALIGINOUS_ABYSS -> QuestDatabase.isQuestLaterThan(
+        case AdventurePool.CALIGINOUS_ABYSS -> QuestDatabase.isQuestLaterThan(
             Quest.SEA_MONKEES, "step11");
           // Optional maps you can purchase from Big Brother.
         case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);

@@ -100,7 +100,6 @@ public class AdventurePool {
   public static final int JUNKYARD_REFRIGERATOR = 183;
   public static final int JUNKYARD_TIRES = 184;
   public static final int JUNKYARD_CAR = 185;
-
   public static final int THE_BRINY_DEEPS = 186;
   public static final int THE_BRINIER_DEEPERS = 187;
   public static final int THE_SKATE_PARK = 188;
@@ -120,8 +119,6 @@ public class AdventurePool {
   public static final int MERKIN_LIBRARY = 208;
   public static final int MERKIN_GYMNASIUM = 209;
   public static final int MERKIN_COLOSSEUM = 210;
-  public static final int THE_CALIGINOUS_ABYSS = 337;
-
   public static final int BROODLING_GROUNDS = 214;
   public static final int OUTER_COMPOUND = 215;
   public static final int TEMPLE_PORTICO = 217;
