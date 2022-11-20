@@ -57,7 +57,8 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Modifiers {
-  private static final Map<String, Modifiers> modifiersByName = new HashMap<>();
+  private static final Map<String, String> modifierStringsByName = new HashMap<>();
+  private static Map<String, Modifiers> modifiersByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
@@ -1151,7 +1152,7 @@ public class Modifiers {
   }
 
   public static final Set<String> getAllModifiers() {
-    return Modifiers.modifiersByName.keySet();
+    return Modifiers.modifierStringsByName.keySet();
   }
 
   public static final void overrideModifier(String lookup, String value) {
@@ -1249,7 +1250,7 @@ public class Modifiers {
   public static List<AdventureResult> getPotentialChanges(final int index) {
     ArrayList<AdventureResult> available = new ArrayList<>();
 
-    for (String check : Modifiers.modifiersByName.keySet()) {
+    for (String check : Modifiers.getAllModifiers()) {
       String effectName = check.replace("Effect:", "");
       int effectId = EffectDatabase.getEffectId(effectName);
 
@@ -1830,16 +1831,30 @@ public class Modifiers {
     Modifiers modifiers = Modifiers.modifiersByName.get(lookup);
 
     if (modifiers == null) {
-      return null;
+      String modifierString = Modifiers.modifierStringsByName.get(lookup);
+
+      if (modifierString == null) {
+        return null;
+      }
+
+      modifiers = Modifiers.parseModifiers(lookup, modifierString);
+
+      if (changeType != null) {
+        modifiers.name = changeType + ":" + name;
+      }
+
+      modifiers.variable = modifiers.override(lookup);
+
+      Modifiers.modifiersByName.put(lookup, modifiers);
     }
 
     if (modifiers.variable) {
-      // If it's not actually variable, record that now.
-      modifiers.variable = modifiers.override(lookup);
+      modifiers.override(lookup);
       if (changeType != null) {
         modifiers.name = changeType + ":" + name;
       }
     }
+
     return modifiers;
   }
 
@@ -3256,24 +3271,18 @@ public class Modifiers {
   }
 
   public static final void checkModifiers() {
-    for (Entry<String, Modifiers> entry : Modifiers.modifiersByName.entrySet()) {
+    for (Entry<String, String> entry : Modifiers.modifierStringsByName.entrySet()) {
       String lookup = entry.getKey();
-      Modifiers modifiers = entry.getValue();
+      String modifierString = entry.getValue();
 
-      if (modifiers == null) {
+      if (modifierString == null) {
         RequestLogger.printLine("Key \"" + lookup + "\" has no modifiers");
         continue;
       }
 
-      String modifierString = modifiers.getString(Modifiers.MODIFIERS);
-
-      if (modifierString == null) {
-        RequestLogger.printLine(
-            "Key \""
-                + lookup
-                + "\" has bogus modifiers of class "
-                + modifiers.getClass().toString());
-        continue;
+      Modifiers modifiers = Modifiers.modifiersByName.get(lookup);
+      if (modifiers != null) {
+        modifierString = modifiers.getString(Modifiers.MODIFIERS);
       }
 
       ModifierList list = Modifiers.splitModifiers(modifierString);
@@ -3356,15 +3365,7 @@ public class Modifiers {
     return lookup;
   }
 
-  public static void resetModifiers() {
-    Modifiers.modifiersByName.clear();
-    Modifiers.familiarEffectByName.clear();
-    Modifiers.availablePassiveSkillsByVariable.clear();
-    Modifiers.synergies.clear();
-    Modifiers.mutexes.clear();
-    Modifiers.uniques.clear();
-    Arrays.fill(Modifiers.bitmapMasks, 1);
-
+  public static void loadAllModifiers() {
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("modifiers.txt", KoLConstants.MODIFIERS_VERSION)) {
       String[] data;
@@ -3377,15 +3378,12 @@ public class Modifiers {
 
         String type = data[0];
         String name = data[1];
-        String lookup = Modifiers.getLookupName(type, name);
-        if (Modifiers.modifiersByName.containsKey(lookup)) {
-          KoLmafia.updateDisplay("Duplicate modifiers for: " + lookup);
-        }
-
         String modifiers = data[2];
 
-        Modifiers newMods = Modifiers.parseModifiers(lookup, modifiers);
-        Modifiers.modifiersByName.put(lookup, newMods);
+        String lookup = Modifiers.getLookupName(type, name);
+        if (Modifiers.modifierStringsByName.put(lookup, modifiers) != null) {
+          KoLmafia.updateDisplay("Duplicate modifiers for: " + lookup);
+        }
 
         Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
         if (matcher.find()) {
@@ -3400,7 +3398,7 @@ public class Modifiers {
             effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
           }
           String famLookup = "FamEq:" + name;
-          Modifiers.modifiersByName.put(famLookup, Modifiers.parseModifiers(famLookup, effect));
+          Modifiers.modifierStringsByName.put(famLookup, effect);
         }
 
         switch (type) {
@@ -3460,6 +3458,20 @@ public class Modifiers {
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
+    }
+  }
+
+  public static void resetModifiers() {
+    Modifiers.modifiersByName.clear();
+    Modifiers.familiarEffectByName.clear();
+    Modifiers.availablePassiveSkillsByVariable.clear();
+    Modifiers.synergies.clear();
+    Modifiers.mutexes.clear();
+    Modifiers.uniques.clear();
+    Arrays.fill(Modifiers.bitmapMasks, 1);
+
+    if (Modifiers.modifierStringsByName.size() == 0) {
+      loadAllModifiers();
     }
   }
 
@@ -3736,23 +3748,19 @@ public class Modifiers {
 
     for (String name : set) {
       String lookup = Modifiers.getLookupName(type, name);
-      Object modifiers = Modifiers.modifiersByName.get(lookup);
-      Modifiers.writeModifierItem(writer, type, name, modifiers);
+      String modifierString = Modifiers.modifierStringsByName.get(lookup);
+      Modifiers.writeModifierItem(writer, type, name, modifierString);
     }
   }
 
   public static void writeModifierItem(
-      final PrintStream writer, final String type, final String name, Object modifiers) {
-    if (modifiers == null) {
+      final PrintStream writer, final String type, final String name, String modifierString) {
+    if (modifierString == null) {
       Modifiers.writeModifierComment(writer, type, name);
       return;
     }
 
-    if (modifiers instanceof Modifiers) {
-      modifiers = ((Modifiers) modifiers).getString(Modifiers.MODIFIERS);
-    }
-
-    Modifiers.writeModifierString(writer, type, name, (String) modifiers);
+    Modifiers.writeModifierString(writer, type, name, modifierString);
   }
 
   public static void writeModifierString(
@@ -3815,7 +3823,7 @@ public class Modifiers {
 
   public static final void updateItem(final String name, final String known) {
     String lookup = Modifiers.getLookupName("Item", name);
-    Modifiers.modifiersByName.put(lookup, Modifiers.parseModifiers(lookup, known));
+    Modifiers.overrideModifier(lookup, Modifiers.parseModifiers(lookup, known));
   }
 
   private static void registerObject(
@@ -3838,7 +3846,7 @@ public class Modifiers {
       RequestLogger.updateSessionLog(printMe);
 
       String lookup = Modifiers.getLookupName(type, name);
-      Modifiers.modifiersByName.putIfAbsent(lookup, Modifiers.parseModifiers(lookup, known));
+      Modifiers.modifierStringsByName.putIfAbsent(lookup, known);
     }
   }
 }
