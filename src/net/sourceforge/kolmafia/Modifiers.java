@@ -2332,18 +2332,6 @@ public class Modifiers {
     return false;
   }
 
-  private boolean overrideSkill(final String name) {
-    if ("Ferocity".equals(name)) {
-      if (KoLCharacter.isVampyre()) {
-        this.set(Modifiers.HP, -10.0);
-      } else if (KoLCharacter.isAvatarOfBoris()) {
-        this.set(Modifiers.CRITICAL_PCT, 25.0);
-      }
-      return true;
-    }
-    return false;
-  }
-
   private boolean overrideThrone(final String name) {
     switch (name) {
       case "Adventurous Spelunker" -> {
@@ -2406,7 +2394,6 @@ public class Modifiers {
 
     return switch (type) {
       case "Item" -> overrideItem(ItemDatabase.getItemId(name));
-      case "Skill" -> overrideSkill(name);
       case "Throne" -> overrideThrone(name);
       case "Loc", "Zone" -> true;
       default -> false;
@@ -2500,14 +2487,16 @@ public class Modifiers {
     return mods.getString(mod);
   }
 
-  public void applyPassiveModifiers() {
+  public void applyPassiveModifiers(final boolean debug) {
     if (Modifiers.cachedPassiveModifiers == null) {
       Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive", new ModifierList());
       PreferenceListenerRegistry.registerPreferenceListener(
           new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
     }
 
-    if (Modifiers.availableSkillsChanged || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
+    if (debug
+        || Modifiers.availableSkillsChanged
+        || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
       // Collect all passive skills currently on the character.
       Modifiers.availablePassiveSkillsByVariable.putAll(
           KoLCharacter.getAvailableSkillIds().stream()
@@ -2527,17 +2516,28 @@ public class Modifiers {
       Modifiers.availablePassiveSkillsByVariable
           .get(false)
           .forEach(
-              skill ->
-                  Modifiers.cachedPassiveModifiers.add(
-                      getModifiers("Skill", skill.getSkillName())));
+              skill -> {
+                var mods = getModifiers("Skill", skill.getSkillId(), skill.getSkillName());
+                Modifiers.cachedPassiveModifiers.add(mods);
+
+                // If we are debugging, add them directly. Also add them to the cache though
+                if (debug) {
+                  this.add(mods);
+                }
+              });
       Modifiers.availableSkillsChanged = false;
     }
 
-    // Add constant and variable modifiers.
-    this.add(Modifiers.cachedPassiveModifiers);
+    // If we're debugging we've already added the modifiers while building the passive cache.
+    if (!debug) {
+      this.add(Modifiers.cachedPassiveModifiers);
+    }
+
+    // Add variable modifiers.
     Modifiers.availablePassiveSkillsByVariable
         .get(true)
-        .forEach(skill -> this.add(getModifiers("Skill", skill.getSkillName())));
+        .forEach(
+            skill -> this.add(getModifiers("Skill", skill.getSkillId(), skill.getSkillName())));
   }
 
   public final void applyFloristModifiers() {
@@ -3329,19 +3329,15 @@ public class Modifiers {
   }
 
   public static String getLookupName(final String type, final String name) {
-    if (type.equals("Item")) {
-      int itemId = ItemDatabase.getItemId(name);
-      if (itemId >= 0) {
-        return "Item:[" + itemId + "]";
-      }
-    }
-    if (type.equals("Effect")) {
-      int effectId = EffectDatabase.getEffectId(name);
-      if (effectId >= 0) {
-        return "Effect:[" + effectId + "]";
-      }
-    }
-    return type + ":" + name;
+    var id =
+        switch (type) {
+          case "Item" -> ItemDatabase.getItemId(name);
+          case "Effect" -> EffectDatabase.getEffectId(name);
+          case "Skill" -> SkillDatabase.getSkillId(name);
+          default -> -1;
+        };
+
+    return type + ":" + (id >= 0 ? "[" + id + "]" : name);
   }
 
   public static String getTypeFromLookup(final String lookup) {
@@ -3407,55 +3403,59 @@ public class Modifiers {
           Modifiers.modifiersByName.put(famLookup, Modifiers.parseModifiers(famLookup, effect));
         }
 
-        if (type.equals("Synergy")) {
-          String[] pieces = name.split("/");
-          if (pieces.length < 2) {
-            KoLmafia.updateDisplay(name + " contain less than 2 elements.");
-            continue;
-          }
-          int mask = 0;
-          for (String piece : pieces) {
-            Modifiers mods = Modifiers.getModifiers("Item", piece);
-            if (mods == null) {
-              KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
-              continue loop;
+        switch (type) {
+          case "Synergy" -> {
+            String[] pieces = name.split("/");
+            if (pieces.length < 2) {
+              KoLmafia.updateDisplay(name + " contain less than 2 elements.");
+              continue;
             }
-            int emask = mods.bitmaps[Modifiers.SYNERGETIC];
-            if (emask == 0) {
-              KoLmafia.updateDisplay(
-                  name + " contains element " + piece + " that isn't Synergetic.");
-              continue loop;
+            int mask = 0;
+            for (String piece : pieces) {
+              Modifiers mods = Modifiers.getModifiers("Item", piece);
+              if (mods == null) {
+                KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
+                continue loop;
+              }
+              int emask = mods.bitmaps[Modifiers.SYNERGETIC];
+              if (emask == 0) {
+                KoLmafia.updateDisplay(
+                    name + " contains element " + piece + " that isn't Synergetic.");
+                continue loop;
+              }
+              mask |= emask;
             }
-            mask |= emask;
+            Modifiers.synergies.put(name, mask);
           }
-          Modifiers.synergies.put(name, mask);
-        } else if (type.startsWith("Mutex")) {
-          String[] pieces = name.split("/");
-          if (pieces.length < 2) {
-            KoLmafia.updateDisplay(name + " contain less than 2 elements.");
-            continue;
-          }
-          int bit = 1 << Modifiers.mutexes.size();
-          for (String piece : pieces) {
-            Modifiers mods = null;
-            if (type.equals("MutexI")) {
-              mods = Modifiers.getModifiers("Item", piece);
-            } else if (type.equals("MutexE")) {
-              mods = Modifiers.getModifiers("Effect", piece);
+          case "MutexI", "MutexE" -> {
+            String[] pieces = name.split("/");
+            if (pieces.length < 2) {
+              KoLmafia.updateDisplay(name + " contain less than 2 elements.");
+              continue;
             }
-            if (mods == null) {
-              KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
-              continue loop;
+            int bit = 1 << Modifiers.mutexes.size();
+            for (String piece : pieces) {
+              Modifiers mods =
+                  switch (type) {
+                    case "MutexI" -> Modifiers.getModifiers("Item", piece);
+                    case "MutexE" -> Modifiers.getModifiers("Effect", piece);
+                    default -> null;
+                  };
+              if (mods == null) {
+                KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
+                continue loop;
+              }
+              mods.bitmaps[Modifiers.MUTEX] |= bit;
             }
-            mods.bitmaps[Modifiers.MUTEX] |= bit;
+            Modifiers.mutexes.add(name);
           }
-          Modifiers.mutexes.add(name);
-        } else if (type.equals("Unique")) {
-          if (Modifiers.uniques.containsKey(name)) {
-            KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
-            continue;
+          case "Unique" -> {
+            if (Modifiers.uniques.containsKey(name)) {
+              KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
+              continue;
+            }
+            Modifiers.uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
           }
-          Modifiers.uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
         }
       }
     } catch (IOException e) {
