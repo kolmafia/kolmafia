@@ -1052,6 +1052,13 @@ public class ItemPool {
   public static final int STICKER_BOOK = 3507;
   public static final int STICKER_SWORD = 3508;
   public static final int STICKER_CROSSBOW = 3526;
+  public static final int PLANS_FOR_GRIMACITE_HAMMER = 3535;
+  public static final int PLANS_FOR_GRIMACITE_GRAVY_BOAT = 3536;
+  public static final int PLANS_FOR_GRIMACITE_WEIGHTLIFTING_BELT = 3537;
+  public static final int PLANS_FOR_GRIMACITE_GRAPPLING_HOOK = 3538;
+  public static final int PLANS_FOR_GRIMACITE_NINJA_MASK = 3539;
+  public static final int PLANS_FOR_GRIMACITE_SHINGUARDS = 3540;
+  public static final int PLANS_FOR_GRIMACITE_ASTROLABE = 3541;
   public static final int GRIMACITE_HAMMER = 3542;
   public static final int GRIMACITE_GRAVY_BOAT = 3543;
   public static final int GRIMACITE_WEIGHTLIFTING_BELT = 3544;
@@ -1114,6 +1121,8 @@ public class ItemPool {
   public static final int GNOLL_EYE = 3731;
   public static final int BOOZEHOUND_TOKEN = 3739;
   public static final int UNSTABLE_QUARK = 3743;
+  public static final int FUMBLE_FORMULA = 3745;
+  public static final int MOTHERS_SECRET_RECIPE = 3747;
   public static final int LOVE_BOOK = 3753;
   public static final int VAGUE_AMBIGUITY = 3754;
   public static final int SMOLDERING_PASSION = 3755;
@@ -1762,6 +1771,8 @@ public class ItemPool {
   public static final int BORIS_HELM_ASKEW = 5650;
   public static final int MIME_SOUL_FRAGMENT = 5651;
   public static final int KEYOTRON = 5653;
+  public static final int FETTUCINI_EPINES_INCONNU_RECIPE = 5657;
+  public static final int SLAP_AND_SLAP_AGAIN_RECIPE = 5658;
   public static final int CLAN_SWIMMING_POOL = 5662;
   public static final int CURSED_MICROWAVE = 5663;
   public static final int CURSED_KEG = 5664;
@@ -3444,6 +3455,7 @@ public class ItemPool {
   public static final int STRONG_SILENT_TYPE = 11016;
   public static final int MYSTERIOUS_STRANGER = 11017;
   public static final int CHAMPAGNE_SHIMMY = 11018;
+  public static final int THE_SOTS_PARCEL = 11019;
 
   private ItemPool() {}
 

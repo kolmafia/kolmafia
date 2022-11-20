@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.DefaultListCellRenderer;
@@ -43,9 +42,6 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmastersFrame extends GenericFrame implements ChangeListener {
-  private static final List<AdventureResult> conditionalItems =
-      CoinmastersDatabase.getItems("Conditional");
-
   private CardLayoutSelectorPanel selectorPanel = null;
 
   private CoinmasterPanel BURTPanel = null;
@@ -486,26 +482,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(warbearBoxPanel);
     this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
 
-    panel = new JPanel(new BorderLayout());
-    crimbo17Panel = new Crimbo17Panel();
-    panel.add(crimbo17Panel);
-    this.selectorPanel.addPanel(crimbo17Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20boozePanel = new Crimbo20BoozePanel();
-    panel.add(crimbo20boozePanel);
-    this.selectorPanel.addPanel(crimbo20boozePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20candyPanel = new Crimbo20CandyPanel();
-    panel.add(crimbo20candyPanel);
-    this.selectorPanel.addPanel(crimbo20candyPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20foodPanel = new Crimbo20FoodPanel();
-    panel.add(crimbo20foodPanel);
-    this.selectorPanel.addPanel(crimbo20foodPanel.getPanelSelector(), panel);
-
     // Removed coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Removed");
@@ -534,6 +510,26 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     crimbo14Panel = new Crimbo14Panel();
     panel.add(crimbo14Panel);
     this.selectorPanel.addPanel(crimbo14Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo17Panel = new Crimbo17Panel();
+    panel.add(crimbo17Panel);
+    this.selectorPanel.addPanel(crimbo17Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20boozePanel = new Crimbo20BoozePanel();
+    panel.add(crimbo20boozePanel);
+    this.selectorPanel.addPanel(crimbo20boozePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20candyPanel = new Crimbo20CandyPanel();
+    panel.add(crimbo20candyPanel);
+    this.selectorPanel.addPanel(crimbo20candyPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20foodPanel = new Crimbo20FoodPanel();
+    panel.add(crimbo20foodPanel);
+    this.selectorPanel.addPanel(crimbo20foodPanel.getPanelSelector(), panel);
 
     this.selectorPanel.addChangeListener(this);
     this.selectorPanel.setSelectedIndex(Preferences.getInteger("coinMasterIndex"));

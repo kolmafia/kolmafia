@@ -1,73 +1,44 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class BuffJimmyRequest extends CoinMasterRequest {
   public static final String master = "Buff Jimmy's Souvenir Shop";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(BuffJimmyRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(BuffJimmyRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(BuffJimmyRequest.master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Beach Bucks");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.BEACH_BUCK, 1);
+
   public static final CoinmasterData BUFF_JIMMY =
-      new CoinmasterData(
-          BuffJimmyRequest.master,
-          "BuffJimmy",
-          BuffJimmyRequest.class,
-          "Beach Buck",
-          null,
-          false,
-          BuffJimmyRequest.TOKEN_PATTERN,
-          BuffJimmyRequest.COIN,
-          null,
-          BuffJimmyRequest.itemRows,
-          "shop.php?whichshop=sbb_jimmy",
-          "buyitem",
-          BuffJimmyRequest.buyItems,
-          BuffJimmyRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "BuffJimmy", BuffJimmyRequest.class)
+          .withToken("Beach Buck")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(COIN)
+          .withShopRowFields(master, "sbb_jimmy");
 
   public BuffJimmyRequest() {
-    super(BuffJimmyRequest.BUFF_JIMMY);
+    super(BUFF_JIMMY);
   }
 
   public BuffJimmyRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BuffJimmyRequest.BUFF_JIMMY, buying, attachments);
+    super(BUFF_JIMMY, buying, attachments);
   }
 
   public BuffJimmyRequest(final boolean buying, final AdventureResult attachment) {
-    super(BuffJimmyRequest.BUFF_JIMMY, buying, attachment);
+    super(BUFF_JIMMY, buying, attachment);
   }
 
   public BuffJimmyRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BuffJimmyRequest.BUFF_JIMMY, buying, itemId, quantity);
+    super(BUFF_JIMMY, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    BuffJimmyRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
@@ -75,7 +46,7 @@ public class BuffJimmyRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = BuffJimmyRequest.BUFF_JIMMY;
+    CoinmasterData data = BUFF_JIMMY;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
@@ -92,8 +63,7 @@ public class BuffJimmyRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = BuffJimmyRequest.BUFF_JIMMY;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(BUFF_JIMMY, urlString, true);
   }
 
   public static String accessible() {

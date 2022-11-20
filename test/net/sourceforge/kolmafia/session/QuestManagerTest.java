@@ -2078,4 +2078,20 @@ public class QuestManagerTest {
       assertThat("speakeasyName", isSetTo("BLORP"));
     }
   }
+
+  @Test
+  public void canParseSpeakeasyBeingNotFree() {
+    var request = new GenericRequest("place.php?whichplace=speakeasy");
+    request.responseText = html("request/test_speakeasy_brawl_(1).html");
+    QuestManager.handleQuestChange(request);
+    assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+  }
+
+  @Test
+  public void canParseSpeakeasyBeingFree() {
+    var request = new GenericRequest("place.php?whichplace=speakeasy");
+    request.responseText = html("request/test_speakeasy_brawl_(0).html");
+    QuestManager.handleQuestChange(request);
+    assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+  }
 }

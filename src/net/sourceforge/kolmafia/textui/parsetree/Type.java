@@ -213,8 +213,8 @@ public class Type extends Symbol {
       case DataTypes.TYPE_LOCATION -> DataTypes.parseLocationValue(id, returnDefault);
       case DataTypes.TYPE_SLOT -> DataTypes.makeSlotValue(id, returnDefault);
       case DataTypes.TYPE_PATH -> DataTypes.makePathValue(id, returnDefault);
+      case DataTypes.TYPE_CLASS -> DataTypes.makeClassValue(id, returnDefault);
         // The following don't have an integer -> object mapping
-      case DataTypes.TYPE_CLASS -> DataTypes.CLASS_INIT;
       case DataTypes.TYPE_STAT -> DataTypes.STAT_INIT;
       case DataTypes.TYPE_ELEMENT -> DataTypes.ELEMENT_INIT;
       case DataTypes.TYPE_COINMASTER -> DataTypes.COINMASTER_INIT;

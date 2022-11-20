@@ -762,6 +762,10 @@ public class Preferences {
                         : "\\u" + Integer.toHexString(ch);
   }
 
+  public static boolean propertyExists(final String name) {
+    return propertyExists(name, true) || propertyExists(name, false);
+  }
+
   public static boolean propertyExists(final String name, final boolean global) {
     return global
         ? Preferences.globalValues.containsKey(name)

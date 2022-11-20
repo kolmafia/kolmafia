@@ -10,80 +10,54 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FunALogRequest extends CoinMasterRequest {
   public static final String master = "PirateRealm Fun-a-Log";
-  private static final List<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(FunALogRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(FunALogRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(FunALogRequest.master);
+
+  private static String unlockedItems = "";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<b>You have ([\\d,]+) FunPoints?\\.</b>");
+
   public static final CoinmasterData FUN_A_LOG =
-      new CoinmasterData(
-          FunALogRequest.master,
-          "Fun-a-Log",
-          FunALogRequest.class,
-          "FunPoint",
-          "You have no FunPoints",
-          false,
-          FunALogRequest.TOKEN_PATTERN,
-          null,
-          "availableFunPoints",
-          FunALogRequest.itemRows,
-          "shop.php?whichshop=piraterealm",
-          "buyitem",
-          FunALogRequest.buyItems,
-          FunALogRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean availableItem(final int itemId) {
-          return unlockedItems.contains(ItemDatabase.getItemName(itemId));
-        }
-      };
+      new CoinmasterData(master, "Fun-a-Log", FunALogRequest.class)
+          .withToken("FunPoint")
+          .withTokenTest("You have no FunPoints")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withProperty("availableFunPoints")
+          .withShopRowFields(master, "piraterealm")
+          .withAvailableItem(FunALogRequest::availableItem);
+
+  private static Boolean availableItem(final Integer itemId) {
+    return unlockedItems.contains(ItemDatabase.getItemName(itemId));
+  }
 
   static {
     ConcoctionPool.set(new Concoction("FunPoint", "availableFunPoints"));
   }
 
-  private static String unlockedItems = "";
-
   public FunALogRequest() {
-    super(FunALogRequest.FUN_A_LOG);
+    super(FUN_A_LOG);
   }
 
   public FunALogRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FunALogRequest.FUN_A_LOG, buying, attachments);
+    super(FUN_A_LOG, buying, attachments);
   }
 
   public FunALogRequest(final boolean buying, final AdventureResult attachment) {
-    super(FunALogRequest.FUN_A_LOG, buying, attachment);
+    super(FUN_A_LOG, buying, attachment);
   }
 
   public FunALogRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FunALogRequest.FUN_A_LOG, buying, itemId, quantity);
+    super(FUN_A_LOG, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    FunALogRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   // <tr rel="10231"><td valign=center><input type=radio name=whichrow value=1064></td><td><img
@@ -105,12 +79,12 @@ public class FunALogRequest extends CoinMasterRequest {
     // Learn new Fun-a-Log simply visiting the shop
     // Refresh the Coin Master inventory every time we visit.
 
-    CoinmasterData data = FunALogRequest.FUN_A_LOG;
+    CoinmasterData data = FUN_A_LOG;
 
-    Set<Integer> originalItems = FunALogRequest.buyPrices.keySet();
-    List<AdventureResult> items = FunALogRequest.buyItems;
-    Map<Integer, Integer> prices = FunALogRequest.buyPrices;
-    Map<Integer, Integer> rows = FunALogRequest.itemRows;
+    Set<Integer> originalItems = data.getBuyPrices().keySet();
+    List<AdventureResult> items = data.getBuyItems();
+    Map<Integer, Integer> prices = data.getBuyPrices();
+    Map<Integer, Integer> rows = data.getRows();
 
     StringBuilder unlocked = new StringBuilder();
 
@@ -161,8 +135,7 @@ public class FunALogRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = FunALogRequest.FUN_A_LOG;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(FUN_A_LOG, urlString, true);
   }
 
   public static String accessible() {

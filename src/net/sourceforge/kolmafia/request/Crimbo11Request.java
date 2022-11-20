@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -17,58 +16,43 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Crimbo11Request extends CoinMasterRequest {
   public static final String master = "Crimbo 2011";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(Crimbo11Request.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(Crimbo11Request.master);
-  private static final LockableListModel<AdventureResult> sellItems =
-      CoinmastersDatabase.getSellItems(Crimbo11Request.master);
-  private static final Map<Integer, Integer> sellPrices =
-      CoinmastersDatabase.getSellPrices(Crimbo11Request.master);
+
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("You currently have.*?<b>([\\d,]+)</b> Candy Credit", Pattern.DOTALL);
+
   public static final CoinmasterData CRIMBO11 =
-      new CoinmasterData(
-          Crimbo11Request.master,
-          "crimbo11",
-          Crimbo11Request.class,
-          "Candy Credit",
-          null,
-          false,
-          Crimbo11Request.TOKEN_PATTERN,
-          null,
-          "availableCandyCredits",
-          null,
-          "crimbo11.php",
-          "reallybuygifts",
-          Crimbo11Request.buyItems,
-          Crimbo11Request.buyPrices,
-          "crimbo11.php",
-          "tradecandy",
-          Crimbo11Request.sellItems,
-          Crimbo11Request.sellPrices,
-          "whichitem",
-          GenericRequest.WHICHITEM_PATTERN,
-          "howmany",
-          GenericRequest.HOWMANY_PATTERN,
-          null,
-          null,
-          false);
+      new CoinmasterData(master, "crimbo11", Crimbo11Request.class)
+          .withToken("Candy Credit")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withProperty("availableCandyCredits")
+          .withBuyURL("crimbo11.php")
+          .withBuyAction("reallybuygifts")
+          .withBuyItems(master)
+          .withBuyPrices(master)
+          .withSellURL("crimbo11.php")
+          .withSellAction("tradecandy")
+          .withSellItems(master)
+          .withSellPrices(master)
+          .withItemField("whichitem")
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withCountField("howmany")
+          .withCountPattern(GenericRequest.HOWMANY_PATTERN)
+          .withCanPurchase(false);
 
   public Crimbo11Request() {
-    super(Crimbo11Request.CRIMBO11);
+    super(CRIMBO11);
   }
 
   public Crimbo11Request(final boolean buying, final AdventureResult[] attachments) {
-    super(Crimbo11Request.CRIMBO11, buying, attachments);
+    super(CRIMBO11, buying, attachments);
   }
 
   public Crimbo11Request(final boolean buying, final AdventureResult attachment) {
-    super(Crimbo11Request.CRIMBO11, buying, attachment);
+    super(CRIMBO11, buying, attachment);
   }
 
   public Crimbo11Request(final boolean buying, final int itemId, final int quantity) {
-    super(Crimbo11Request.CRIMBO11, buying, itemId, quantity);
+    super(CRIMBO11, buying, itemId, quantity);
   }
 
   private static String placeString(final String urlString) {
@@ -93,7 +77,7 @@ public class Crimbo11Request extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    Crimbo11Request.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   // <b>Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid
@@ -106,11 +90,11 @@ public class Crimbo11Request extends CoinMasterRequest {
       return;
     }
 
-    Crimbo11Request.parseCrimbo11Visit(urlString, responseText);
+    parseCrimbo11Visit(urlString, responseText);
   }
 
   public static void parseCrimbo11Visit(final String location, final String responseText) {
-    CoinmasterData data = Crimbo11Request.CRIMBO11;
+    CoinmasterData data = CRIMBO11;
 
     String action = GenericRequest.getAction(location);
     if (action == null) {
@@ -158,7 +142,7 @@ public class Crimbo11Request extends CoinMasterRequest {
         String itemId = itemMatcher.find() ? itemMatcher.group(1) : "unknown";
         KoLmafia.updateDisplay(MafiaState.ERROR, "Item #" + itemId + " is not a valid gift");
       } else {
-        Matcher failureMatcher = Crimbo11Request.FAILURE_PATTERN.matcher(responseText);
+        Matcher failureMatcher = FAILURE_PATTERN.matcher(responseText);
         String message =
             failureMatcher.find() ? failureMatcher.group(1) : "Unknown gifting failure";
         KoLmafia.updateDisplay(MafiaState.ERROR, message);
@@ -181,7 +165,7 @@ public class Crimbo11Request extends CoinMasterRequest {
   public static final Pattern TOWHO_PATTERN = Pattern.compile("towho=([^&]*)");
 
   private static boolean registerDonation(final String urlString) {
-    CoinmasterData data = Crimbo11Request.CRIMBO11;
+    CoinmasterData data = CRIMBO11;
 
     Matcher itemMatcher = data.getItemMatcher(urlString);
     if (!itemMatcher.find()) {
@@ -203,7 +187,7 @@ public class Crimbo11Request extends CoinMasterRequest {
     String tokenName = (cost != 1) ? data.getPluralToken() : data.getToken();
     String itemName = (count != 1) ? ItemDatabase.getPluralName(itemId) : name;
 
-    Matcher victimMatcher = Crimbo11Request.TOWHO_PATTERN.matcher(urlString);
+    Matcher victimMatcher = TOWHO_PATTERN.matcher(urlString);
     String victim =
         victimMatcher.find() ? GenericRequest.decodeField(victimMatcher.group(1).trim()) : "0";
     if (victim.equals("") || victim.equals("0")) {
@@ -221,7 +205,7 @@ public class Crimbo11Request extends CoinMasterRequest {
       return false;
     }
 
-    String place = Crimbo11Request.placeString(urlString);
+    String place = placeString(urlString);
     String action = GenericRequest.getAction(urlString);
     if (place != null && action == null) {
       String message = "Visiting " + place;
@@ -235,12 +219,11 @@ public class Crimbo11Request extends CoinMasterRequest {
       return true;
     }
 
-    CoinmasterData data = Crimbo11Request.CRIMBO11;
-    if (action.equals(data.getBuyAction())) {
-      return Crimbo11Request.registerDonation(urlString);
+    if (action.equals(CRIMBO11.getBuyAction())) {
+      return registerDonation(urlString);
     }
 
-    return CoinMasterRequest.registerRequest(data, urlString);
+    return CoinMasterRequest.registerRequest(CRIMBO11, urlString);
   }
 
   public static String accessible() {

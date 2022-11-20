@@ -2,8 +2,6 @@ package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -43,6 +41,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
+import net.sourceforge.kolmafia.swingui.listener.PopupListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -50,7 +49,6 @@ import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class ShowDescriptionList<E> extends JList<E> {
-  public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
@@ -138,7 +136,7 @@ public class ShowDescriptionList<E> extends JList<E> {
       this.addKeyListener(new RemoveTriggerListener());
     }
 
-    this.addMouseListener(new PopupListener());
+    this.addMouseListener(new PopupListener(this.contextMenu));
 
     this.originalModel = displayModel;
     this.displayModel =
@@ -172,36 +170,6 @@ public class ShowDescriptionList<E> extends JList<E> {
       result[i] = (PurchaseRequest) values.get(i);
     }
     return result;
-  }
-
-  /**
-   * Shows and hides the applicable context menu item. Actually all it does is show it -- the VM
-   * will handle hiding it.
-   */
-  private class PopupListener extends MouseAdapter {
-    @Override
-    public void mousePressed(final MouseEvent e) {
-      this.maybeShowPopup(e);
-    }
-
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-      this.maybeShowPopup(e);
-    }
-
-    private void maybeShowPopup(final MouseEvent e) {
-      if (e.isPopupTrigger()) {
-        int index = ShowDescriptionList.this.locationToIndex(e.getPoint());
-        ShowDescriptionList.this.lastSelectIndex = index;
-
-        if (!ShowDescriptionList.this.isSelectedIndex(index)) {
-          ShowDescriptionList.this.clearSelection();
-          ShowDescriptionList.this.addSelectionInterval(index, index);
-        }
-
-        ShowDescriptionList.this.contextMenu.show(e.getComponent(), e.getX(), e.getY());
-      }
-    }
   }
 
   public static final void showGameDescription(Object item) {
@@ -266,7 +234,7 @@ public class ShowDescriptionList<E> extends JList<E> {
     }
   }
 
-  private class ContextMenuItem extends ThreadedMenuItem {
+  private static class ContextMenuItem extends ThreadedMenuItem {
     public ContextMenuItem(final String title, final ThreadedListener action) {
       super(title, action);
     }
@@ -278,11 +246,7 @@ public class ShowDescriptionList<E> extends JList<E> {
 
     @Override
     protected void execute() {
-      this.index =
-          ShowDescriptionList.this.lastSelectIndex == -1
-              ? ShowDescriptionList.this.getSelectedIndex()
-              : ShowDescriptionList.this.lastSelectIndex;
-
+      this.index = ShowDescriptionList.this.getSelectedIndex();
       this.item = ShowDescriptionList.this.displayModel.getElementAt(this.index);
 
       if (this.item == null) {

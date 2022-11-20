@@ -578,7 +578,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // Unlimited adventuring if available
         return checkZone("coldAirportAlways", "_coldAirportToday", "airport");
       case "Gingerbread City":
-        // Unlimited adventuring if available
+        // One daily visit if available
         return checkZone("gingerbreadCityAvailable", "_gingerbreadCityToday", "mountains");
       case "LT&T":
         // One quest from a day pass, geometric cost for permanent
@@ -1995,9 +1995,26 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Gingerbread City")) {
-      // *** You have limited turns available per day.
-      return Preferences.getBoolean("gingerbreadCityAvailable")
-          || Preferences.getBoolean("_gingerbreadCityToday");
+      if (!Preferences.getBoolean("gingerbreadCityAvailable")
+          && !Preferences.getBoolean("_gingerbreadCityToday")) {
+        return false;
+      }
+
+      int turnsAvailable = 20;
+      if (Preferences.getBoolean("gingerExtraAdventures")) turnsAvailable += 10;
+      if (Preferences.getBoolean("_gingerbreadClockAdvanced")) turnsAvailable -= 5;
+      int turnsUsed = Preferences.getInteger("_gingerbreadCityTurns");
+
+      if (turnsUsed >= turnsAvailable) {
+        return false;
+      }
+
+      return switch (this.adventureNumber) {
+        case AdventurePool.GINGERBREAD_SEWERS -> Preferences.getBoolean("gingerSewersUnlocked");
+        case AdventurePool.GINGERBREAD_RETAIL_DISTRICT -> Preferences.getBoolean(
+            "gingerRetailUnlocked");
+        default -> true;
+      };
     }
 
     if (this.zone.equals("FantasyRealm")) {

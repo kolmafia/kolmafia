@@ -1,3 +1,4 @@
 internal.extensions.ForbidNetworkAccess
 internal.extensions.ClearSharedStateBefore
 internal.extensions.ClearSharedStateAfter
+internal.extensions.TimeTests

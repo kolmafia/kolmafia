@@ -1519,6 +1519,7 @@ user	walfordBucketItem
 user	walfordBucketProgress	0
 user	warProgress	unstarted
 user	warehouseProgress	0
+user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
 user	wildfireBarrelCaulked	false
@@ -1999,6 +2000,7 @@ user	_noobSkillCount	0
 user	_nuclearStockpileUsed	0
 user	_oilExtracted	0
 user	_olfactionsUsed	0
+user	_speakeasyFreeFights	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
 user	_optimisticCandleDropsCrown	0
