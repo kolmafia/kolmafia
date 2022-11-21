@@ -460,6 +460,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
   private static final AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
       ItemPool.get(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE);
+  private static final AdventureResult BLACK_GLASS = ItemPool.get(ItemPool.BLACK_GLASS);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -764,6 +765,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Fernswarthy's Basement
     if (this.formSource.equals("basement.php")) {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step4");
+    }
+
+    // Fernswarthy's Basement
+    if (this.formSource.equals("sea_merkin.php")) {
+      // If you have a seahorse, you can get to the Mer-Kin Deepcity.
+      // Whether or not you can enter the temple is a separate question.
+      return !Preferences.getString("seahorseName").equals("");
     }
 
     // Dwarven Factory Warehouse
@@ -2047,8 +2055,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // Currents (seahorse). Open when ask Grandpa about currents.
       case AdventurePool.THE_CORAL_CORRAL -> Preferences.getBoolean("corralUnlocked");
         // Mom. Open when you have black glass - which you must equip
-      case AdventurePool.CALIGINOUS_ABYSS -> QuestDatabase.isQuestLaterThan(
-          Quest.SEA_MONKEES, "step11");
+      case AdventurePool.CALIGINOUS_ABYSS -> InventoryManager.hasItem(BLACK_GLASS);
         // Optional maps you can purchase from Big Brother.
       case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
       case AdventurePool.THE_SKATE_PARK -> ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP)
@@ -3899,6 +3906,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure("extreme cold makes it impossible", "You need more cold resistance."),
     new AdventureFailure(
         "This zone is too old to visit on this path.", "That zone is out of Standard."),
+
+    // Mer-Kin Temple
+    // Looks like you've gotta be somebody special to get in there.
+    // Even as High Priest of the Mer-kin, they're not gonna let you in dressed like this.
+    // Even as the Champion of the Mer-kin Colosseum, they're not gonna let you in dressed like
+    // this.
+    // The temple is empty.
+    new AdventureFailure("you've gotta be somebody special", "You're not allowed to go there."),
+    new AdventureFailure(
+        "they're not gonna let you in dressed like this", "You're not dressed appropriately."),
+    new AdventureFailure("The temple is empty", "Nothing more to do here.", MafiaState.PENDING),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =
