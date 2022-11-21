@@ -2026,11 +2026,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   private boolean seaFloorZoneAvailable() {
-    // Sanity check
-    if (!this.zone.equals("The Sea Floor")) {
-      return false;
-    }
-
     // We track individual aspects of the various quests.
     return switch (this.adventureNumber) {
         // Initially open: Little Brother

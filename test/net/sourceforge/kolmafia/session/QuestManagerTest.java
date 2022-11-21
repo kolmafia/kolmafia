@@ -1525,6 +1525,38 @@ public class QuestManagerTest {
   }
 
   /*
+   * The Sea
+   */
+
+  @Nested
+  class TheSea {
+    public void seeingSeaFloorOpensZones() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
+              withProperty("mapToAnemoneMinePurchased", false),
+              withProperty("mapToMadnessReefPurchased", false),
+              withProperty("mapToTheDiveBarPurchased", false),
+              withProperty("mapToTheMarinaraTrenchPurchased", false),
+              withProperty("mapToTheSkateParkPurchased", false),
+              withProperty("corralUnlocked", false));
+      try (cleanups) {
+        var request = new GenericRequest("seafloor.php");
+        request.responseText = html("request/test_visit_sea_floor.html");
+        QuestManager.handleQuestChange(request);
+
+        assertThat(Quest.SEA_MONKEES, isStep("step12"));
+        assertThat("mapToAnemoneMinePurchased", isSetTo(true));
+        assertThat("mapToMadnessReefPurchased", isSetTo(true));
+        assertThat("mapToTheDiveBarPurchased", isSetTo(true));
+        assertThat("mapToTheMarinaraTrenchPurchased", isSetTo(true));
+        assertThat("mapToTheSkateParkPurchased", isSetTo(true));
+        assertThat("corralUnlocked", isSetTo(true));
+      }
+    }
+  }
+
+  /*
    * Spacegate
    */
 
