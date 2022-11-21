@@ -1618,50 +1618,28 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
-    if (this.zone.equals("The Sea")) {
+    if (this.rootZone.equals("The Sea")) {
       // The Sea opens when you speak to The Old Man
       if (!QuestDatabase.isQuestStarted(Quest.SEA_OLD_GUY)) {
         return false;
       }
 
-      // We track individual aspects of the various quests.
-      return switch (this.adventureNumber) {
-          // Always open.
-        case AdventurePool.THE_BRINY_DEEPS,
-            AdventurePool.THE_BRINIER_DEEPERS,
-            AdventurePool.THE_BRINIEST_DEEPESTS -> true;
-          // Initially open: Little Brother
-        case AdventurePool.AN_OCTOPUS_GARDEN -> true;
-          // Big Brother
-        case AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS -> QuestDatabase.isQuestLaterThan(
-            Quest.SEA_MONKEES, QuestDatabase.STARTED);
-          // Grandpa
-          // Free for Muscle classes. Otherwise, must buy map.
-        case AdventurePool.ANENOME_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
-          // Free for Mysticality classes Otherwise, must buy map.
-        case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
-            ItemPool.MARINARA_TRENCH_MAP);
-          // Free for Moxie classes Otherwise, must buy map.
-        case AdventurePool.DIVE_BAR -> ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
-          // Grandma. Open when ask grandpa about Grandma.
-        case AdventurePool.MERKIN_OUTPOST -> QuestDatabase.isQuestLaterThan(
-            Quest.SEA_MONKEES, "step5");
-          // Currents (seahorse). Open when ask Grandpa about currents.
-        case AdventurePool.THE_CORAL_CORRAL -> Preferences.getBoolean("corralUnlocked");
-          // Dad. Open when you have a seahorse
-        case AdventurePool.MERKIN_ELEMENTARY_SCHOOL,
-            AdventurePool.MERKIN_LIBRARY,
-            AdventurePool.MERKIN_GYMNASIUM,
-            AdventurePool.MERKIN_COLOSSEUM -> !Preferences.getString("seahorseName").equals("");
-          // Mom. Open when you have black glass - which you must equip
-        case AdventurePool.CALIGINOUS_ABYSS -> QuestDatabase.isQuestLaterThan(
-            Quest.SEA_MONKEES, "step11");
-          // Optional maps you can purchase from Big Brother.
-        case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
-        case AdventurePool.THE_SKATE_PARK -> ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP);
-          // That's all. If a new zone appears, assume you can get to it.
-        default -> true;
-      };
+      if (this.zone.equals("The Sea")) {
+        // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
+        return true;
+      }
+
+      if (this.zone.equals("The Sea Floor")) {
+        return this.seaFloorZoneAvailable();
+      }
+
+      if (this.zone.equals("The Mer-Kin Deepcity")) {
+        // Open when you have a seahorse
+        return !Preferences.getString("seahorseName").equals("");
+      }
+
+      // There are currently no more adventuring areas in The Sea
+      return true;
     }
 
     // The following zones depend on your clan, your permissions, and the
@@ -2045,6 +2023,44 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Assume that any areas we did not call out above are available
     return true;
+  }
+
+  private boolean seaFloorZoneAvailable() {
+    // Sanity check
+    if (!this.zone.equals("The Sea Floor")) {
+      return false;
+    }
+
+    // We track individual aspects of the various quests.
+    return switch (this.adventureNumber) {
+        // Initially open: Little Brother
+      case AdventurePool.AN_OCTOPUS_GARDEN -> true;
+        // Big Brother
+      case AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS -> QuestDatabase.isQuestLaterThan(
+          Quest.SEA_MONKEES, QuestDatabase.STARTED);
+        // Grandpa
+        // Free for Muscle classes. Otherwise, must buy map.
+      case AdventurePool.ANENOME_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
+        // Free for Mysticality classes Otherwise, must buy map.
+      case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
+          ItemPool.MARINARA_TRENCH_MAP);
+        // Free for Moxie classes Otherwise, must buy map.
+      case AdventurePool.DIVE_BAR -> ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
+        // Grandma. Open when ask grandpa about Grandma.
+      case AdventurePool.MERKIN_OUTPOST -> QuestDatabase.isQuestLaterThan(
+          Quest.SEA_MONKEES, "step5");
+        // Currents (seahorse). Open when ask Grandpa about currents.
+      case AdventurePool.THE_CORAL_CORRAL -> Preferences.getBoolean("corralUnlocked");
+        // Mom. Open when you have black glass - which you must equip
+      case AdventurePool.CALIGINOUS_ABYSS -> QuestDatabase.isQuestLaterThan(
+          Quest.SEA_MONKEES, "step11");
+        // Optional maps you can purchase from Big Brother.
+      case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
+      case AdventurePool.THE_SKATE_PARK -> ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP)
+          && !Preferences.getString("skateParkStatus").equals("peace");
+        // That's all. If a new zone appears, assume you can get to it.
+      default -> true;
+    };
   }
 
   private boolean hasRequiredOutfit() {
