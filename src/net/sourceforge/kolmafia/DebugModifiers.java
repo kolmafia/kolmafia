@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class DebugModifiers extends Modifiers {
   private static HashMap<Integer, String> wanted, adjustments;
@@ -30,17 +31,20 @@ public class DebugModifiers extends Modifiers {
     return DebugModifiers.wanted.size();
   }
 
+  private static String getDesc() {
+    return switch (DebugModifiers.currentType) {
+      case "Item" -> ItemDatabase.getItemDisplayName(DebugModifiers.currentDesc);
+      case "Effect" -> EffectDatabase.getEffectDisplayName(DebugModifiers.currentDesc);
+      case "Skill" -> SkillDatabase.getSkillDisplayName(DebugModifiers.currentDesc);
+      default -> DebugModifiers.currentDesc;
+    };
+  }
+
   private static void flushRow() {
     DebugModifiers.buffer.append("<tr><td>");
     DebugModifiers.buffer.append(DebugModifiers.currentType);
     DebugModifiers.buffer.append("</td><td>");
-    if (DebugModifiers.currentType.equals("Item")) {
-      DebugModifiers.buffer.append(ItemDatabase.getItemDisplayName(DebugModifiers.currentDesc));
-    } else if (DebugModifiers.currentType.equals("Effect")) {
-      DebugModifiers.buffer.append(EffectDatabase.getEffectDisplayName(DebugModifiers.currentDesc));
-    } else {
-      DebugModifiers.buffer.append(DebugModifiers.currentDesc);
-    }
+    DebugModifiers.buffer.append(DebugModifiers.getDesc());
     DebugModifiers.buffer.append("</td>");
     for (Integer key : DebugModifiers.wanted.keySet()) {
       String item = DebugModifiers.adjustments.get(key);

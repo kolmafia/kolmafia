@@ -332,7 +332,7 @@ public class SkillDatabase {
     return SkillDatabase.nameById.get(skillId);
   }
 
-  public static final String getSkillDataName(final String skillName) {
+  public static final String getSkillDisplayName(final String skillName) {
     if (skillName.startsWith("[")) {
       int ind = skillName.indexOf("]");
       if (ind > 0) {
