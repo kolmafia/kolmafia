@@ -802,7 +802,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Mer-kin Temple
     if (this.formSource.equals("sea_merkin.php")) {
-      // If you have a seahorse, you can get to the Mer-kin Deepcity.
+      // If you have a seahorse, you can get to the Mer-Kin Deepcity.
       // Whether or not you can enter the temple is a separate question.
       return !Preferences.getString("seahorseName").equals("");
     }
@@ -1674,7 +1674,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return this.seaFloorZoneAvailable();
       }
 
-      if (this.zone.equals("The Mer-kin Deepcity")) {
+      if (this.zone.equals("The Mer-Kin Deepcity")) {
         // Open when you have a seahorse
         return !Preferences.getString("seahorseName").equals("");
       }

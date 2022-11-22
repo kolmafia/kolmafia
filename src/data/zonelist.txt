@@ -53,7 +53,7 @@ Junkyard	IsleWar	Wartime Junkyard
 
 The Sea	The Sea	The Sea
 The Sea Floor	The Sea	The Sea Floor
-The Mer-kin Deepcity	The Sea	The Mer-Kin Deepcity
+The Mer-Kin Deepcity	The Sea	The Mer-Kin Deepcity
 
 Campground	Campground	Campground
 
