@@ -295,11 +295,11 @@ The Sea Floor	adventure=188	DiffLevel: unknown Env: underwater Stat: 410	The Ska
 The Sea Floor	adventure=194	DiffLevel: unknown Env: underwater	Madness Reef	+1 dragonfish caviar|+1 seaweed
 The Sea Floor	mining=3	DiffLevel: none Env: none Stat: 0	Anemone Mine (Mining)
 # Shub-Jigguwatt/Yog-Urt/Dad
-The Mer-Kin Deepcity	adventure=207	DiffLevel: unknown Env: underwater	Mer-kin Elementary School
-The Mer-Kin Deepcity	adventure=208	DiffLevel: unknown Env: underwater	Mer-kin Library
-The Mer-Kin Deepcity	adventure=209	DiffLevel: unknown Env: underwater	Mer-kin Gymnasium
-The Mer-Kin Deepcity	adventure=210	DiffLevel: unknown Env: underwater	Mer-kin Colosseum
-The Mer-Kin Deepcity	sea_merkin=temple	DiffLevel: unknown Env: underwater overdrunk	Mer-kin Temple
+The Mer-kin Deepcity	adventure=207	DiffLevel: unknown Env: underwater	Mer-kin Elementary School
+The Mer-kin Deepcity	adventure=208	DiffLevel: unknown Env: underwater	Mer-kin Library
+The Mer-kin Deepcity	adventure=209	DiffLevel: unknown Env: underwater	Mer-kin Gymnasium
+The Mer-kin Deepcity	adventure=210	DiffLevel: unknown Env: underwater	Mer-kin Colosseum
+The Mer-kin Deepcity	sea_merkin=temple	DiffLevel: unknown Env: underwater overdrunk	Mer-kin Temple
 
 # Nemesis areas
 
