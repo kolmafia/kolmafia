@@ -802,7 +802,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Mer-kin Temple
     if (this.formSource.equals("sea_merkin.php")) {
-      // If you have a seahorse, you can get to the Mer-Kin Deepcity.
+      // If you have a seahorse, you can get to the Mer-kin Deepcity.
       // Whether or not you can enter the temple is a separate question.
       return !Preferences.getString("seahorseName").equals("");
     }
@@ -1674,7 +1674,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return this.seaFloorZoneAvailable();
       }
 
-      if (this.zone.equals("The Mer-Kin Deepcity")) {
+      if (this.zone.equals("The Mer-kin Deepcity")) {
         // Open when you have a seahorse
         return !Preferences.getString("seahorseName").equals("");
       }
@@ -3967,7 +3967,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure(
         "This zone is too old to visit on this path.", "That zone is out of Standard."),
 
-    // Mer-Kin Temple
+    // Mer-kin Temple
     // Looks like you've gotta be somebody special to get in there.
     // Even as High Priest of the Mer-kin, they're not gonna let you in dressed like this.
     // Even as the Champion of the Mer-kin Colosseum, they're not gonna let you in dressed like
