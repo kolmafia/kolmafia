@@ -30,7 +30,7 @@ public class BigBrotherRequest extends CoinMasterRequest {
           .withTokenTest("You haven't got any sand dollars")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(SAND_DOLLAR)
-          .withBuyURL("monkeycastle.php&who=2")
+          .withBuyURL("monkeycastle.php")
           .withBuyAction("buyitem")
           .withBuyItems(master)
           .withBuyPrices(master)
@@ -75,6 +75,7 @@ public class BigBrotherRequest extends CoinMasterRequest {
 
   public BigBrotherRequest() {
     super(BIG_BROTHER);
+    this.addFormField("who", "2");
   }
 
   public BigBrotherRequest(final boolean buying, final AdventureResult[] attachments) {
