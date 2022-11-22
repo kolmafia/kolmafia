@@ -800,7 +800,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step4");
     }
 
-    // Fernswarthy's Basement
+    // Mer-kin Temple
     if (this.formSource.equals("sea_merkin.php")) {
       // If you have a seahorse, you can get to the Mer-Kin Deepcity.
       // Whether or not you can enter the temple is a separate question.
