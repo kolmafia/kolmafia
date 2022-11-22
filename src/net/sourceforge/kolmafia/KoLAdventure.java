@@ -610,34 +610,67 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // Otherwise, look at the map
         return checkZone("ownsSpeakeasy", null, "town_wrong");
       case "The Spacegate":
-        // Through the Spacegate
+        {
+          // Through the Spacegate
 
-        // It's in the mountains and Exploded Loathing does not have that zone.
-        if (KoLCharacter.isKingdomOfExploathing()) {
-          return false;
-        }
+          // It's in the mountains and Exploded Loathing does not have that zone.
+          if (KoLCharacter.isKingdomOfExploathing()) {
+            return false;
+          }
 
-        if (Preferences.getBoolean("spacegateAlways")
-            || Preferences.getBoolean("_spacegateToday")) {
-          return true;
-        }
-
-        if (!Preferences.getBoolean("_spacegateToday")) {
-          if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
-            Preferences.setBoolean("_spacegateToday", true);
-            // There is no way to tell how many turns you have
-            // left today in an open portable spacegate.
-            // I think.
-            Preferences.setInteger("_spacegateTurnsLeft", 20);
+          if (Preferences.getBoolean("spacegateAlways")
+              || Preferences.getBoolean("_spacegateToday")) {
             return true;
           }
+
+          if (!Preferences.getBoolean("_spacegateToday")) {
+            if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
+              Preferences.setBoolean("_spacegateToday", true);
+              // There is no way to tell how many turns you have
+              // left today in an open portable spacegate.
+              // I think.
+              Preferences.setInteger("_spacegateTurnsLeft", 20);
+              return true;
+            }
+          }
+
+          // Take a look at the mountains.
+          var request = new PlaceRequest("mountains");
+          RequestThread.postRequest(request);
+
+          return Preferences.getBoolean("spacegateAlways");
         }
+      case "The Sea Floor":
+        {
+          // There are 10 adventuring areas available in this zone.
+          //
+          // Some open via quest progress, some by purchasing maps from big
+          // brother sea monkee, and some through other mechanisms.
+          //
+          // If you have done any of those things outside of the watchful eye of
+          // KoLmafia, visiting the map will update everything.
 
-        // Take a look at the mountains.
-        var request = new PlaceRequest("mountains");
-        RequestThread.postRequest(request);
+          // Unless we have talked to the old guy, we cannot enter the sea.
+          if (!QuestDatabase.isQuestStarted(Quest.SEA_OLD_GUY)) {
+            return false;
+          }
 
-        return Preferences.getBoolean("spacegateAlways");
+          // If we know the zone is available, no need to visit the map
+          if (this.seaFloorZoneAvailable()) {
+            return true;
+          }
+
+          // The Caliginous Abyss is enabled via item. No need to go to map.
+          if (this.adventureNumber == AdventurePool.CALIGINOUS_ABYSS) {
+            return false;
+          }
+
+          // Take a look at The Sea Floor .
+          var request = new GenericRequest("seafloor.php");
+          RequestThread.postRequest(request);
+
+          return this.seaFloorZoneAvailable();
+        }
     }
 
     return true;
