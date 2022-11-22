@@ -6,6 +6,7 @@ import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withEquippableItem;
@@ -49,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -6124,6 +6126,35 @@ public class KoLAdventureValidationTest {
       }
     }
 
+    @Test
+    public void mustBreathUnderwater() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED), withContinuationState());
+      try (cleanups) {
+        assertTrue(DEEPS.canAdventure());
+        assertFalse(DEEPS.prepareForAdventure());
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+        assertEquals("You can't breathe underwater.", KoLmafia.lastMessage);
+      }
+    }
+
+    @Test
+    public void familiarMustBreathUnderwater() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+              withContinuationState(),
+              withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
+              withFamiliar(FamiliarPool.PARROT));
+      try (cleanups) {
+        assertTrue(DEEPS.canAdventure());
+        assertFalse(DEEPS.prepareForAdventure());
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+        assertEquals("Your familiar can't breathe underwater.", KoLmafia.lastMessage);
+      }
+    }
+
     @Nested
     class TheSeaFloor {
       private static final KoLAdventure GARDEN =
@@ -6200,7 +6231,7 @@ public class KoLAdventureValidationTest {
         }
 
         @Test
-        public void abyssOpenIfHaveBlackGlass() {
+        public void abyssOpenWithBlackGlass() {
           var builder = new FakeHttpClientBuilder();
           var client = builder.client;
           var cleanups =
@@ -6215,7 +6246,7 @@ public class KoLAdventureValidationTest {
         }
 
         @Test
-        public void abyssNotOpenIfHaveBlackGlass() {
+        public void abyssNotOpenWithoutBlackGlass() {
           var builder = new FakeHttpClientBuilder();
           var client = builder.client;
           var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties());
@@ -6401,9 +6432,7 @@ public class KoLAdventureValidationTest {
 
       @Test
       public void abyssRequiresBlackGlass() {
-        var cleanups =
-            new Cleanups(
-                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
+        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
         try (cleanups) {
           assertFalse(ABYSS.canAdventure());
         }
@@ -6414,9 +6443,29 @@ public class KoLAdventureValidationTest {
         var cleanups =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withContinuationState(),
+                withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
                 withItem(BLACK_GLASS));
         try (cleanups) {
           assertTrue(ABYSS.canAdventure());
+          assertFalse(ABYSS.prepareForAdventure());
+          assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+          assertEquals("Equip your black glass in order to go there.", KoLmafia.lastMessage);
+        }
+      }
+
+      @Test
+      public void abbyssRequiresEquippedBlackGlass() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withContinuationState(),
+                withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
+                withEquipped(EquipmentManager.ACCESSORY1, BLACK_GLASS));
+        try (cleanups) {
+          assertTrue(ABYSS.canAdventure());
+          assertTrue(ABYSS.prepareForAdventure());
+          assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
         }
       }
     }

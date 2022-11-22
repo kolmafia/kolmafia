@@ -2538,6 +2538,33 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
+    if (this.rootZone.equals("The Sea")) {
+      if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+        // In theory, we could choose equipment or effects.
+        // It's complicated. Let the user do that.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
+        return false;
+      }
+
+      if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+        // In theory, we could choose equipment or effects or even another familiar.
+        // It's complicated. Let the user do that.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Your familiar can't breathe underwater.");
+        return false;
+      }
+
+      if (this.adventureNumber == AdventurePool.CALIGINOUS_ABYSS
+          && !KoLCharacter.hasEquipped(BLACK_GLASS)) {
+        // We could equip black glass in an accessory slot.  It's complicated,
+        // since we can't unequip an item which lets us breathe underwater.
+        // Let the user do it.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Equip your black glass in order to go there.");
+        return false;
+      }
+
+      return true;
+    }
+
     if (this.zone.equals("Portal")) {
       // El Vibrato Island
       if (InventoryManager.hasItem(TRAPEZOID)) {
