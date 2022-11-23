@@ -1268,6 +1268,13 @@ public class QuestManager {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step1");
       } else if (responseText.contains("Wanna help me find Grandpa?")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step4");
+        if (KoLCharacter.isMuscleClass()) {
+          Preferences.setBoolean("mapToAnemoneMinePurchased", true);
+        } else if (KoLCharacter.isMysticalityClass()) {
+          Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
+        } else if (KoLCharacter.isMoxieClass()) {
+          Preferences.setBoolean("mapToTheDiveBarPurchased", true);
+        }
       } else if (responseText.contains("he's been actin' awful weird lately")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step10");
       }
@@ -1309,15 +1316,39 @@ public class QuestManager {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step12");
       } else if (responseText.contains("outpost")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step6");
-      } else if (responseText.contains("mine") && KoLCharacter.isMuscleClass()) {
-        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-      } else if (responseText.contains("trench") && KoLCharacter.isMysticalityClass()) {
-        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-      } else if (responseText.contains("divebar") && KoLCharacter.isMoxieClass()) {
-        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
       } else if (responseText.contains("shipwreck")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step1");
       }
+
+      if (responseText.contains("mine")) {
+        if (KoLCharacter.isMuscleClass()) {
+          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
+        }
+        Preferences.setBoolean("mapToAnemoneMinePurchased", true);
+      }
+
+      if (responseText.contains("trench")) {
+        if (KoLCharacter.isMysticalityClass()) {
+          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
+        }
+        Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
+      }
+
+      if (responseText.contains("divebar")) {
+        if (KoLCharacter.isMoxieClass()) {
+          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
+        }
+        Preferences.setBoolean("mapToTheDiveBarPurchased", true);
+      }
+
+      if (responseText.contains("reefa")) {
+        Preferences.setBoolean("mapToMadnessReefPurchased", true);
+      }
+
+      if (responseText.contains("skatepark")) {
+        Preferences.setBoolean("mapToTheSkateParkPurchased", true);
+      }
+
       if (responseText.contains("corral")) {
         Preferences.setBoolean("corralUnlocked", true);
       }

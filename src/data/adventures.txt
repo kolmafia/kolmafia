@@ -270,26 +270,36 @@ Island	adventure=155	DiffLevel: high Env: outdoor Stat: 170	McMillicancuddy's Fa
 # Sonofa Beach is available both during the war and after it
 Island	adventure=136	DiffLevel: high Env: outdoor Stat: 170	Sonofa Beach	5 barrel of gunpowder|+3 figurine of a sleek seal
 
-# The Sea areas
+# The Sea
 
+# Initial areas
 The Sea	adventure=186	DiffLevel: unknown Env: underwater Stat: 310	The Briny Deeps	14 any fish meat
 The Sea	adventure=187	DiffLevel: unknown Env: underwater Stat: 375	The Brinier Deepers
 The Sea	adventure=189	DiffLevel: unknown Env: underwater Stat: 400	The Briniest Deepests
-The Sea	adventure=190	DiffLevel: unknown Env: underwater Stat: 400	An Octopus's Garden	1 wriggling flytrap pellet|1 straw hat|1 octopus's spade|+1 giant pearl
-The Sea	adventure=191	DiffLevel: unknown Env: underwater Stat: 540	The Wreck of the Edgar Fitzsimmons	1 aerated diving helmet|1 rusty compass|1 rusty diving helmet|+1 long-forgotten necklace
-The Sea	adventure=194	DiffLevel: unknown Env: underwater	Madness Reef	+1 dragonfish caviar|+1 seaweed
-The Sea	adventure=198	DiffLevel: unknown Env: underwater Stat: 650	The Mer-Kin Outpost	1 Grandma's Chartreuse Yarn|1 Mer-kin lockkey
-The Sea	adventure=188	DiffLevel: unknown Env: underwater Stat: 410	The Skate Park
-The Sea	adventure=195	DiffLevel: unknown Env: underwater Stat: 480	The Marinara Trench	+3 bubbling tempura batter|+1 globe of Deep Sauce
-The Sea	adventure=196	DiffLevel: unknown Env: underwater Stat: 450	Anemone Mine	1 Mer-kin digpick|1 midget clownfish
-The Sea	adventure=197	DiffLevel: unknown Env: underwater Stat: 480	The Dive Bar	+3 seaode|1 choiceadv|1 Shavin' razor
-The Sea	adventure=199	DiffLevel: unknown Env: underwater Stat: 585	The Coral Corral
-The Sea	adventure=207	DiffLevel: unknown Env: underwater	Mer-kin Elementary School
-The Sea	adventure=208	DiffLevel: unknown Env: underwater	Mer-kin Library
-The Sea	adventure=209	DiffLevel: unknown Env: underwater	Mer-kin Gymnasium
-The Sea	adventure=210	DiffLevel: unknown Env: underwater	Mer-kin Colosseum
-The Sea	adventure=337	DiffLevel: unknown Env: underwater Stat: 600	The Caliginous Abyss
-The Sea	mining=3	DiffLevel: none Env: none Stat: 0	Anemone Mine (Mining)
+# Little Brother
+The Sea Floor	adventure=190	DiffLevel: unknown Env: underwater Stat: 400	An Octopus's Garden	1 wriggling flytrap pellet|1 straw hat|1 octopus's spade|+1 giant pearl
+# Big Brother
+The Sea Floor	adventure=191	DiffLevel: unknown Env: underwater Stat: 540	The Wreck of the Edgar Fitzsimmons	1 aerated diving helmet|1 rusty compass|1 rusty diving helmet|+1 long-forgotten necklace
+# Grandad
+The Sea Floor	adventure=195	DiffLevel: unknown Env: underwater Stat: 480	The Marinara Trench	+3 bubbling tempura batter|+1 globe of Deep Sauce
+The Sea Floor	adventure=196	DiffLevel: unknown Env: underwater Stat: 450	Anemone Mine	1 Mer-kin digpick|1 midget clownfish
+The Sea Floor	adventure=197	DiffLevel: unknown Env: underwater Stat: 480	The Dive Bar	+3 seaode|1 choiceadv|1 Shavin' razor
+# Grandma
+The Sea Floor	adventure=198	DiffLevel: unknown Env: underwater Stat: 650	The Mer-Kin Outpost	1 Grandma's Chartreuse Yarn|1 Mer-kin lockkey
+# Currents
+The Sea Floor	adventure=199	DiffLevel: unknown Env: underwater Stat: 585	The Coral Corral
+# Mom
+The Sea Floor	adventure=337	DiffLevel: unknown Env: underwater Stat: 600	The Caliginous Abyss
+# Optional areas
+The Sea Floor	adventure=188	DiffLevel: unknown Env: underwater Stat: 410	The Skate Park
+The Sea Floor	adventure=194	DiffLevel: unknown Env: underwater	Madness Reef	+1 dragonfish caviar|+1 seaweed
+The Sea Floor	mining=3	DiffLevel: none Env: none Stat: 0	Anemone Mine (Mining)
+# Shub-Jigguwatt/Yog-Urt/Dad
+The Mer-Kin Deepcity	adventure=207	DiffLevel: unknown Env: underwater	Mer-kin Elementary School
+The Mer-Kin Deepcity	adventure=208	DiffLevel: unknown Env: underwater	Mer-kin Library
+The Mer-Kin Deepcity	adventure=209	DiffLevel: unknown Env: underwater	Mer-kin Gymnasium
+The Mer-Kin Deepcity	adventure=210	DiffLevel: unknown Env: underwater	Mer-kin Colosseum
+The Mer-Kin Deepcity	sea_merkin=temple	DiffLevel: unknown Env: underwater overdrunk	Mer-kin Temple
 
 # Nemesis areas
 

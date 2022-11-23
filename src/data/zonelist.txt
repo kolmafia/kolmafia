@@ -52,6 +52,8 @@ Orchard	IsleWar	Organic Orchard
 Junkyard	IsleWar	Wartime Junkyard
 
 The Sea	The Sea	The Sea
+The Sea Floor	The Sea	The Sea Floor
+The Mer-Kin Deepcity	The Sea	The Mer-Kin Deepcity
 
 Campground	Campground	Campground
 

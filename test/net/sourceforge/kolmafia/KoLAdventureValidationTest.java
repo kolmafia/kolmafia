@@ -6,6 +6,7 @@ import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withEquippableItem;
@@ -49,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -6090,6 +6092,437 @@ public class KoLAdventureValidationTest {
         }
 
         assertThat(success, is(nothingToDo || haveGland));
+      }
+    }
+  }
+
+  @Nested
+  class TheSea {
+
+    private static final KoLAdventure DEEPS =
+        AdventureDatabase.getAdventureByName("The Briny Deeps");
+    private static final KoLAdventure DEEPERS =
+        AdventureDatabase.getAdventureByName("The Brinier Deepers");
+    private static final KoLAdventure DEEPESTS =
+        AdventureDatabase.getAdventureByName("The Briniest Deepests");
+
+    @Test
+    public void noAccessWithoutOldGuy() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        assertFalse(DEEPS.canAdventure());
+        assertFalse(DEEPERS.canAdventure());
+        assertFalse(DEEPESTS.canAdventure());
+      }
+    }
+
+    @Test
+    public void accessWithOldGuy() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(DEEPS.canAdventure());
+        assertTrue(DEEPERS.canAdventure());
+        assertTrue(DEEPESTS.canAdventure());
+      }
+    }
+
+    @Test
+    public void mustBreathUnderwater() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED), withContinuationState());
+      try (cleanups) {
+        assertTrue(DEEPS.canAdventure());
+        assertFalse(DEEPS.prepareForAdventure());
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+        assertEquals("You can't breathe underwater.", KoLmafia.lastMessage);
+      }
+    }
+
+    @Test
+    public void familiarMustBreathUnderwater() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+              withContinuationState(),
+              withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
+              withFamiliar(FamiliarPool.PARROT));
+      try (cleanups) {
+        assertTrue(DEEPS.canAdventure());
+        assertFalse(DEEPS.prepareForAdventure());
+        assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+        assertEquals("Your familiar can't breathe underwater.", KoLmafia.lastMessage);
+      }
+    }
+
+    @Nested
+    class TheSeaFloor {
+      private static final KoLAdventure GARDEN =
+          AdventureDatabase.getAdventureByName("An Octopus's Garden");
+      private static final KoLAdventure WRECK =
+          AdventureDatabase.getAdventureByName("The Wreck of the Edgar Fitzsimmons");
+      private static final KoLAdventure TRENCH =
+          AdventureDatabase.getAdventureByName("The Marinara Trench");
+      private static final KoLAdventure MINE = AdventureDatabase.getAdventureByName("Anemone Mine");
+      private static final KoLAdventure BAR = AdventureDatabase.getAdventureByName("The Dive Bar");
+      private static final KoLAdventure OUTPOST =
+          AdventureDatabase.getAdventureByName("The Mer-Kin Outpost");
+      private static final KoLAdventure CORRAL =
+          AdventureDatabase.getAdventureByName("The Coral Corral");
+      private static final KoLAdventure ABYSS =
+          AdventureDatabase.getAdventureByName("The Caliginous Abyss");
+      private static final KoLAdventure PARK =
+          AdventureDatabase.getAdventureByName("The Skate Park");
+      private static final KoLAdventure REEF = AdventureDatabase.getAdventureByName("Madness Reef");
+
+      private static final AdventureResult BLACK_GLASS = ItemPool.get(ItemPool.BLACK_GLASS);
+
+      @Nested
+      class PreValidation {
+        private Cleanups withSeaFloorProperties() {
+          return new Cleanups(
+              withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+              withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
+              withProperty("mapToAnemoneMinePurchased", false),
+              withProperty("mapToMadnessReefPurchased", false),
+              withProperty("mapToTheDiveBarPurchased", false),
+              withProperty("mapToTheMarinaraTrenchPurchased", false),
+              withProperty("mapToTheSkateParkPurchased", false),
+              withProperty("corralUnlocked", false));
+        }
+
+        @Test
+        public void noAccessWithoutOldGuy() {
+          var builder = new FakeHttpClientBuilder();
+          var client = builder.client;
+          var cleanups =
+              new Cleanups(
+                  withHttpClientBuilder(builder),
+                  withSeaFloorProperties(),
+                  withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
+          try (cleanups) {
+            assertFalse(GARDEN.preValidateAdventure());
+            assertFalse(WRECK.preValidateAdventure());
+            assertFalse(TRENCH.preValidateAdventure());
+            assertFalse(MINE.preValidateAdventure());
+            assertFalse(BAR.preValidateAdventure());
+            assertFalse(OUTPOST.preValidateAdventure());
+            assertFalse(CORRAL.preValidateAdventure());
+            assertFalse(ABYSS.preValidateAdventure());
+            assertFalse(PARK.preValidateAdventure());
+            assertFalse(REEF.preValidateAdventure());
+
+            var requests = client.getRequests();
+            assertThat(requests, hasSize(0));
+          }
+        }
+
+        @Test
+        public void alwaysOpenAreasNeedNoMapVisit() {
+          var builder = new FakeHttpClientBuilder();
+          var client = builder.client;
+          var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties());
+          try (cleanups) {
+            assertTrue(GARDEN.preValidateAdventure());
+
+            var requests = client.getRequests();
+            assertThat(requests, hasSize(0));
+          }
+        }
+
+        @Test
+        public void abyssOpenWithBlackGlass() {
+          var builder = new FakeHttpClientBuilder();
+          var client = builder.client;
+          var cleanups =
+              new Cleanups(
+                  withHttpClientBuilder(builder), withSeaFloorProperties(), withItem(BLACK_GLASS));
+          try (cleanups) {
+            assertTrue(ABYSS.preValidateAdventure());
+
+            var requests = client.getRequests();
+            assertThat(requests, hasSize(0));
+          }
+        }
+
+        @Test
+        public void abyssNotOpenWithoutBlackGlass() {
+          var builder = new FakeHttpClientBuilder();
+          var client = builder.client;
+          var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties());
+          try (cleanups) {
+            assertFalse(ABYSS.preValidateAdventure());
+
+            var requests = client.getRequests();
+            assertThat(requests, hasSize(0));
+          }
+        }
+
+        @Test
+        public void checkAccessByVisitingMap() {
+          var builder = new FakeHttpClientBuilder();
+          var client = builder.client;
+          var cleanups = new Cleanups(withHttpClientBuilder(builder), withSeaFloorProperties());
+          try (cleanups) {
+            client.addResponse(200, html("request/test_visit_sea_floor.html"));
+
+            assertTrue(WRECK.preValidateAdventure());
+            assertTrue(TRENCH.preValidateAdventure());
+            assertTrue(MINE.preValidateAdventure());
+            assertTrue(BAR.preValidateAdventure());
+            assertTrue(OUTPOST.preValidateAdventure());
+            assertTrue(CORRAL.preValidateAdventure());
+            assertTrue(PARK.preValidateAdventure());
+            assertTrue(REEF.preValidateAdventure());
+
+            var requests = client.getRequests();
+            assertThat(requests, hasSize(1));
+            assertGetRequest(requests.get(0), "/seafloor.php", null);
+          }
+        }
+      }
+
+      @Test
+      public void noAccessWithoutOldGuy() {
+        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          assertFalse(GARDEN.canAdventure());
+          assertFalse(WRECK.canAdventure());
+          assertFalse(TRENCH.canAdventure());
+          assertFalse(MINE.canAdventure());
+          assertFalse(BAR.canAdventure());
+          assertFalse(OUTPOST.canAdventure());
+          assertFalse(CORRAL.canAdventure());
+          assertFalse(ABYSS.canAdventure());
+          assertFalse(PARK.canAdventure());
+          assertFalse(REEF.canAdventure());
+        }
+      }
+
+      @Test
+      public void gardenIsAlwaysAvailable() {
+        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
+        try (cleanups) {
+          assertTrue(GARDEN.canAdventure());
+        }
+      }
+
+      @Test
+      public void someZonesRequireMaps() {
+        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
+        try (cleanups) {
+          assertFalse(TRENCH.canAdventure());
+          assertFalse(MINE.canAdventure());
+          assertFalse(BAR.canAdventure());
+          assertFalse(PARK.canAdventure());
+          assertFalse(REEF.canAdventure());
+        }
+      }
+
+      @Test
+      public void anemoneMineHasMap() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("mapToAnemoneMinePurchased", true));
+        try (cleanups) {
+          assertTrue(MINE.canAdventure());
+        }
+      }
+
+      @Test
+      public void marinaraTrenchHasMap() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("mapToTheMarinaraTrenchPurchased", true));
+        try (cleanups) {
+          assertTrue(TRENCH.canAdventure());
+        }
+      }
+
+      @Test
+      public void divebarHasMap() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("mapToTheDiveBarPurchased", true));
+        try (cleanups) {
+          assertTrue(BAR.canAdventure());
+        }
+      }
+
+      @Test
+      public void skateParkasMap() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("mapToTheSkateParkPurchased", true));
+        try (cleanups) {
+          assertTrue(PARK.canAdventure());
+        }
+      }
+
+      @Test
+      public void madnessReefHasMap() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("mapToMadnessReefPurchased", true));
+        try (cleanups) {
+          assertTrue(REEF.canAdventure());
+        }
+      }
+
+      @Test
+      public void someZonesRequireQuestProgress() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          assertFalse(WRECK.canAdventure());
+          assertFalse(OUTPOST.canAdventure());
+        }
+      }
+
+      @Test
+      public void wreckRequiresQuest() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, "step1"));
+        try (cleanups) {
+          assertTrue(WRECK.canAdventure());
+        }
+      }
+
+      @Test
+      public void outpostRequiresQuest() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withQuestProgress(Quest.SEA_MONKEES, "step6"));
+        try (cleanups) {
+          assertTrue(OUTPOST.canAdventure());
+        }
+      }
+
+      @Test
+      public void corralRequiresUnlock() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("corralUnlocked", false));
+        try (cleanups) {
+          assertFalse(CORRAL.canAdventure());
+        }
+      }
+
+      @Test
+      public void corralCanBeUnlocked() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("corralUnlocked", true));
+        try (cleanups) {
+          assertTrue(CORRAL.canAdventure());
+        }
+      }
+
+      @Test
+      public void abyssRequiresBlackGlass() {
+        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED));
+        try (cleanups) {
+          assertFalse(ABYSS.canAdventure());
+        }
+      }
+
+      @Test
+      public void abbyssAvailableWithBlackGlass() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withContinuationState(),
+                withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
+                withItem(BLACK_GLASS));
+        try (cleanups) {
+          assertTrue(ABYSS.canAdventure());
+          assertFalse(ABYSS.prepareForAdventure());
+          assertEquals(MafiaState.ERROR, StaticEntity.getContinuationState());
+          assertEquals("Equip your black glass in order to go there.", KoLmafia.lastMessage);
+        }
+      }
+
+      @Test
+      public void abbyssRequiresEquippedBlackGlass() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withContinuationState(),
+                withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
+                withEquipped(EquipmentManager.ACCESSORY1, BLACK_GLASS));
+        try (cleanups) {
+          assertTrue(ABYSS.canAdventure());
+          assertTrue(ABYSS.prepareForAdventure());
+          assertEquals(MafiaState.CONTINUE, StaticEntity.getContinuationState());
+        }
+      }
+    }
+
+    @Nested
+    class MerkinDeepcity {
+      private static final KoLAdventure SCHOOL =
+          AdventureDatabase.getAdventureByName("Mer-kin Elementary School");
+      private static final KoLAdventure LIBRARY =
+          AdventureDatabase.getAdventureByName("Mer-kin Library");
+      private static final KoLAdventure GYMNASIUM =
+          AdventureDatabase.getAdventureByName("Mer-kin Gymnasium");
+      private static final KoLAdventure COLOSSEUM =
+          AdventureDatabase.getAdventureByName("Mer-kin Colosseum");
+      private static final KoLAdventure TEMPLE =
+          AdventureDatabase.getAdventureByName("Mer-kin Temple");
+
+      @Test
+      public void noAccessWithoutOldGuy() {
+        var cleanups = new Cleanups(withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          assertFalse(SCHOOL.canAdventure());
+          assertFalse(LIBRARY.canAdventure());
+          assertFalse(GYMNASIUM.canAdventure());
+          assertFalse(COLOSSEUM.canAdventure());
+          assertFalse(TEMPLE.canAdventure());
+        }
+      }
+
+      @Test
+      public void noAccessWithoutSeahorse() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("seahorseName", ""));
+        try (cleanups) {
+          assertFalse(SCHOOL.canAdventure());
+          assertFalse(LIBRARY.canAdventure());
+          assertFalse(GYMNASIUM.canAdventure());
+          assertFalse(COLOSSEUM.canAdventure());
+          assertFalse(TEMPLE.canAdventure());
+        }
+      }
+
+      @Test
+      public void accessWithSeahorse() {
+        var cleanups =
+            new Cleanups(
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
+                withProperty("seahorseName", "Shimmerwings"));
+        try (cleanups) {
+          assertTrue(SCHOOL.canAdventure());
+          assertTrue(LIBRARY.canAdventure());
+          assertTrue(GYMNASIUM.canAdventure());
+          assertTrue(COLOSSEUM.canAdventure());
+          assertTrue(TEMPLE.canAdventure());
+        }
       }
     }
   }
