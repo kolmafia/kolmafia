@@ -1530,6 +1530,7 @@ public class QuestManagerTest {
 
   @Nested
   class TheSea {
+    @Test
     public void seeingSeaFloorOpensZones() {
       var cleanups =
           new Cleanups(
@@ -1552,6 +1553,92 @@ public class QuestManagerTest {
         assertThat("mapToTheMarinaraTrenchPurchased", isSetTo(true));
         assertThat("mapToTheSkateParkPurchased", isSetTo(true));
         assertThat("corralUnlocked", isSetTo(true));
+      }
+    }
+
+    @Nested
+    class Seahorse {
+      @Test
+      public void tamingSeahorseLearnsName() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withItem(ItemPool.get(ItemPool.SEA_COWBELL, 3)),
+                withItem(ItemPool.get(ItemPool.SEA_LASSO, 1)),
+                withProperty("seahorseName", ""));
+        try (cleanups) {
+          // adventure.php?snarfblat=199
+          builder.client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1669055563")), "");
+          // fight.php?ireallymeanit=1669055563
+          builder.client.addResponse(200, html("request/test_tame_seahorse_0.html"));
+          builder.client.addResponse(200, ""); // api.php
+          // fight.php?action=useitem&whichitem=4196
+          builder.client.addResponse(200, html("request/test_tame_seahorse_1.html"));
+          // fight.php?action=useitem&whichitem=4196
+          builder.client.addResponse(200, html("request/test_tame_seahorse_2.html"));
+          // fight.php?action=useitem&whichitem=4196
+          builder.client.addResponse(200, html("request/test_tame_seahorse_3.html"));
+          // fight.php?action=useitem&whichitem=4198
+          builder.client.addResponse(200, html("request/test_tame_seahorse_4.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          String URL = "adventure.php?snarfblat=" + AdventurePool.THE_CORAL_CORRAL;
+          var request = new GenericRequest(URL);
+          request.run();
+          request.constructURLString("fight.php?action=useitem&whichitem=4196");
+          request.run();
+          request.constructURLString("fight.php?action=useitem&whichitem=4196");
+          request.run();
+          request.constructURLString("fight.php?action=useitem&whichitem=4196");
+          request.run();
+          request.constructURLString("fight.php?action=useitem&whichitem=4198");
+          request.run();
+
+          assertEquals(0, FightRequest.currentRound);
+          assertThat(InventoryManager.getCount(ItemPool.SEA_COWBELL), is(0));
+          assertThat(InventoryManager.getCount(ItemPool.SEA_LASSO), is(0));
+          assertThat("seahorseName", isSetTo("Shimmerswim"));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(8));
+
+          assertPostRequest(
+              requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.THE_CORAL_CORRAL);
+          assertGetRequest(requests.get(1), "/fight.php", "ireallymeanit=1669055563");
+          assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+          assertPostRequest(requests.get(3), "/fight.php", "action=useitem&whichitem=4196");
+          assertPostRequest(requests.get(4), "/fight.php", "action=useitem&whichitem=4196");
+          assertPostRequest(requests.get(5), "/fight.php", "action=useitem&whichitem=4196");
+          assertPostRequest(requests.get(6), "/fight.php", "action=useitem&whichitem=4198");
+          assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void followingCurrentsLearnsSeahorseName() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(withHttpClientBuilder(builder), withProperty("seahorseName", ""));
+        try (cleanups) {
+          // seafloor.php?action=currents
+          builder.client.addResponse(
+              302, Map.of("location", List.of("sea_merkin.php?seahorse=1")), "");
+          // sea_merkin.php?seahorse=1
+          builder.client.addResponse(200, html("request/test_visit_mer_kin_deepcity.html"));
+
+          var request = new GenericRequest("seafloor.php?action=currents");
+          request.run();
+
+          assertThat("seahorseName", isSetTo("Shimmerswim"));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+
+          assertPostRequest(requests.get(0), "/seafloor.php", "action=currents");
+          assertGetRequest(requests.get(1), "/sea_merkin.php", "seahorse=1");
+        }
       }
     }
   }

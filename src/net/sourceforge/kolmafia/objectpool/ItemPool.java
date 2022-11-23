@@ -1301,6 +1301,8 @@ public class ItemPool {
   public static final int RAVE_VISOR = 4193;
   public static final int BAGGY_RAVE_PANTS = 4194;
   public static final int PACIFIER_NECKLACE = 4195;
+  public static final int SEA_COWBELL = 4196;
+  public static final int SEA_LASSO = 4198;
   public static final int MERKIN_CHEATSHEET = 4204;
   public static final int MERKIN_WORDQUIZ = 4205;
   public static final int SKATE_PARK_MAP = 4222;

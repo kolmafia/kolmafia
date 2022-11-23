@@ -388,6 +388,8 @@ public class QuestManager {
       }
     } else if (location.startsWith("questlog")) {
       QuestLogRequest.registerQuests(false, location, responseText);
+    } else if (location.startsWith("sea_merkin")) {
+      handleSeaChange(location, responseText);
     } else if (location.startsWith("seafloor")) {
       handleSeaChange(location, responseText);
     } else if (location.startsWith("tavern")) {
@@ -1256,6 +1258,12 @@ public class QuestManager {
     }
   }
 
+  // Easily navigating the intense currents atop your trusty seahorse
+  // <b>Shimmerswim</b>, you crest an undersea ridge and discover, spread
+  // out beneath you, a magnificent Mer-kin City!
+  private static final Pattern SEAHORSE_PATTERN =
+      Pattern.compile("atop your trusty seahorse <b>(.*?)</b>");
+
   private static void handleSeaChange(final String location, final String responseText) {
     int area = AdventureRequest.parseArea(location);
     if (location.contains("action=oldman_oldman")
@@ -1363,6 +1371,13 @@ public class QuestManager {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step5");
       } else if (responseText.contains("who=2")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step2");
+      }
+    }
+    // Learn seahorse name is visiting Mer-Kin Deepcity
+    else if (location.startsWith("sea_merkin")) {
+      Matcher m = SEAHORSE_PATTERN.matcher(responseText);
+      if (m.find()) {
+        Preferences.setString("seahorseName", m.group(1));
       }
     }
   }
