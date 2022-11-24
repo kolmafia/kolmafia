@@ -1546,6 +1546,7 @@ public class QuestManagerTest {
               withProperty("mapToTheDiveBarPurchased", false),
               withProperty("mapToTheMarinaraTrenchPurchased", false),
               withProperty("mapToTheSkateParkPurchased", false),
+              withProperty("intenseCurrents", false),
               withProperty("corralUnlocked", false));
       try (cleanups) {
         var request = new GenericRequest("seafloor.php");
@@ -1558,6 +1559,7 @@ public class QuestManagerTest {
         assertThat("mapToTheDiveBarPurchased", isSetTo(true));
         assertThat("mapToTheMarinaraTrenchPurchased", isSetTo(true));
         assertThat("mapToTheSkateParkPurchased", isSetTo(true));
+        assertThat("intenseCurrents", isSetTo(true));
         assertThat("corralUnlocked", isSetTo(true));
       }
     }
@@ -1693,9 +1695,112 @@ public class QuestManagerTest {
     // ***** Mer-Kin Deepcity Quest *****
     //
     // - Expose Intense Currents
+    // - Open Corral
     // - Tame a Seahorse
     //
     // Do one of {Mer-kin scholar, Mer-kin gladiator, Dad}
+
+    @Nested
+    class Currents {
+      private static final AdventureResult MERKIN_TRAILMAP = ItemPool.get(ItemPool.MERKIN_TRAILMAP);
+
+      @Test
+      public void usingTrailmapExposesCurrents() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withItem(MERKIN_TRAILMAP),
+                withProperty("intenseCurrents", false),
+                withPasswordHash("MERKIN"),
+                withGender(KoLCharacter.FEMALE));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_intense_currents_1.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("inv_use.php?which=3&whichitem=3808&pwd&ajax=1");
+          request.run();
+
+          assertThat("intenseCurrents", isSetTo(true));
+          assertFalse(InventoryManager.hasItem(MERKIN_TRAILMAP));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertPostRequest(
+              requests.get(0), "/inv_use.php", "which=3&whichitem=3808&ajax=1&pwd=MERKIN");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void visitingSeaFloorSeesCurrents() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(withHttpClientBuilder(builder), withProperty("intenseCurrents", false));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_intense_currents_2.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("seafloor.php", false);
+          request.run();
+
+          assertThat("intenseCurrents", isSetTo(true));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertGetRequest(requests.get(0), "/seafloor.php", null);
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+    }
+
+    @Nested
+    class Corral {
+      @Test
+      public void talkingToGrandpaOpensCorral() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(withHttpClientBuilder(builder), withProperty("corralUnlocked", false));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_coral_corral_1.html"));
+          builder.client.addResponse(200, html("request/test_quest_coral_corral_2.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("monkeycastle.php?who=3", false);
+          request.run();
+          request = new GenericRequest("monkeycastle.php?action=grandpastory&topic=currents");
+          request.run();
+
+          assertThat("corralUnlocked", isSetTo(true));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(3));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", "who=3");
+          assertPostRequest(
+              requests.get(1), "/monkeycastle.php", "action=grandpastory&topic=currents");
+          assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void visitingSeaFloorSeesCorral() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(withHttpClientBuilder(builder), withProperty("corralUnlocked", false));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_coral_corral_3.html"));
+
+          var request = new GenericRequest("seafloor.php", false);
+          request.run();
+
+          assertThat("corralUnlocked", isSetTo(true));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(requests.get(0), "/seafloor.php", null);
+        }
+      }
+    }
 
     @Nested
     class Seahorse {

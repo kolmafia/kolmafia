@@ -2101,7 +2101,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BUBBLIN_STONE:
-        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step3");
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step3");
         break;
 
       case ItemPool.DAS_BOOT:

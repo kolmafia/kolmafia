@@ -1141,6 +1141,7 @@ public class ItemPool {
   public static final int AQUAVIOLET_JUBJUB_BIRD = 3800;
   public static final int CRIMSILION_JUBJUB_BIRD = 3801;
   public static final int CHARPUCE_JUBJUB_BIRD = 3802;
+  public static final int MERKIN_TRAILMAP = 3808;
   public static final int MERKIN_LOCKKEY = 3810;
   public static final int MERKIN_STASHBOX = 3811;
   public static final int SEA_RADISH = 3817;

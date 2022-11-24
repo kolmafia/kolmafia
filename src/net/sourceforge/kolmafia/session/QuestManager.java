@@ -1359,6 +1359,10 @@ public class QuestManager {
         Preferences.setBoolean("mapToTheSkateParkPurchased", true);
       }
 
+      if (responseText.contains("currents")) {
+        Preferences.setBoolean("intenseCurrents", true);
+      }
+
       if (responseText.contains("corral")) {
         Preferences.setBoolean("corralUnlocked", true);
       }
