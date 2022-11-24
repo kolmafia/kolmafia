@@ -1326,6 +1326,8 @@ public class QuestManager {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step6");
       } else if (responseText.contains("shipwreck")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step1");
+      } else if (responseText.contains("monkeycastle")) {
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);
       }
 
       if (responseText.contains("mine")) {
@@ -1349,7 +1351,7 @@ public class QuestManager {
         Preferences.setBoolean("mapToTheDiveBarPurchased", true);
       }
 
-      if (responseText.contains("reefa")) {
+      if (responseText.contains("reef")) {
         Preferences.setBoolean("mapToMadnessReefPurchased", true);
       }
 
@@ -1364,16 +1366,23 @@ public class QuestManager {
     // Learn about quest progress if visiting sea monkey castle
     else if (location.startsWith("monkeycastle")) {
       if (responseText.contains("who=4")) {
+        // Mom
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
       } else if (responseText.contains("whichshop=grandma")) {
+        // Grandma
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step9");
       } else if (responseText.contains("who=3")) {
+        // Grandpa
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step5");
       } else if (responseText.contains("who=2")) {
+        // Big Brother
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step2");
+      } else if (responseText.contains("who=1")) {
+        // Little Brother
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);
       }
     }
-    // Learn seahorse name is visiting Mer-Kin Deepcity
+    // Learn seahorse name by visiting Mer-Kin Deepcity
     else if (location.startsWith("sea_merkin")) {
       Matcher m = SEAHORSE_PATTERN.matcher(responseText);
       if (m.find()) {

@@ -5913,6 +5913,10 @@ public class UseItemRequest extends GenericRequest {
         }
         // ResponseTextParser learned this recipe
         break;
+
+      case ItemPool.WRIGGLING_FLYTRAP_PELLET:
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.STARTED);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

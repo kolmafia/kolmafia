@@ -9,6 +9,7 @@ import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -1530,8 +1532,12 @@ public class QuestManagerTest {
 
   @Nested
   class TheSea {
+
+    // This test uses a complete map of The Sea Floor.
+    // I.e., every zone has been opened.
+
     @Test
-    public void seeingSeaFloorOpensZones() {
+    public void seeingCompleteSeaFloorOpensAllZones() {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
@@ -1555,6 +1561,141 @@ public class QuestManagerTest {
         assertThat("corralUnlocked", isSetTo(true));
       }
     }
+
+    // This test uses a the Sea Floor as you first see it.
+    // I.e., Only An Octopus's Garden is open.
+
+    @Test
+    public void seeingEmptySeaFloorOpensNoZones() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        var request = new GenericRequest("seafloor.php");
+        request.responseText = html("request/test_quest_sea_monkee_unstarted.html");
+        QuestManager.handleQuestChange(request);
+        assertThat(Quest.SEA_MONKEES, isUnstarted());
+      }
+    }
+
+    // ***** The Sea Monkee Quest *****
+    //
+    // - Rescue Little Brother
+    // - Rescue Big Brother
+    // - Rescue Grandpa
+    // - Rescue Grandma
+    // - Rescue Mom
+
+    @Nested
+    class LittleBrother {
+      private static final AdventureResult WRIGGLING_FLYTRAP_PELLET =
+          ItemPool.get(ItemPool.WRIGGLING_FLYTRAP_PELLET);
+
+      @Test
+      public void gettingWrigglingPelletStartsQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(1),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          // fight.php?action=attack
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_started_1.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("fight.php?action=attack");
+          request.run();
+
+          assertEquals(0, FightRequest.currentRound);
+          assertTrue(InventoryManager.hasItem(WRIGGLING_FLYTRAP_PELLET));
+          assertThat(Quest.SEA_MONKEES, isStarted());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertPostRequest(requests.get(0), "/fight.php", "action=attack");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void usingWrigglingPelletStartsQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withItem(WRIGGLING_FLYTRAP_PELLET),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
+                withPasswordHash("SEAMONKEES"),
+                withGender(KoLCharacter.FEMALE));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_started_2.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("inv_use.php?which=3&whichitem=3580&pwd&ajax=1");
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStarted());
+          assertFalse(InventoryManager.hasItem(WRIGGLING_FLYTRAP_PELLET));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertPostRequest(
+              requests.get(0), "/inv_use.php", "which=3&whichitem=3580&ajax=1&pwd=SEAMONKEES");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void seeingOnlySeaMonkeeCastleStartsQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_started_3.html"));
+
+          var request = new GenericRequest("seafloor.php", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStarted());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(requests.get(0), "/seafloor.php", null);
+        }
+      }
+
+      @Test
+      public void seeingLittleBrotherInCastleStartsQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
+                withPasswordHash("SEAMONKEES"));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_started_4.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("monkeycastle.php", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStarted());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", null);
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+    }
+
+    // ***** Mer-Kin Deepcity Quest *****
+    //
+    // - Expose Intense Currents
+    // - Tame a Seahorse
+    //
+    // Do one of {Mer-kin scholar, Mer-kin gladiator, Dad}
 
     @Nested
     class Seahorse {
