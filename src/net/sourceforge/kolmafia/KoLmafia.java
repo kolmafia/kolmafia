@@ -764,16 +764,7 @@ public abstract class KoLmafia {
       RequestThread.postRequest(new ScrapheapRequest("sh_configure"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1445&show=cpus"));
     } else if (KoLCharacter.inNoobcore()) {
-      // GNoob does not track how many absorbs were complete in the character sheet, and doesn't
-      // track this in the api.php?what=status.
-      // As such, to fetch this information we need to make a charpane request.
-      // This information can be seen as requested earlier in refreshSession() method, however it
-      // does not perform as expected when logging in.
-      // When logging in, at the point the charpane request is made the client is unaware what class
-      // the player currently is, so it does not count how many absorbs were made at this point as
-      // it is unaware that the player is a GNoob.
-      // Which is why the charpane request is performed here, so that players logging in will now
-      // have their absorb count properly tracked.
+      // Charpane contains the only absorb count tracking, thus we read it there
       RequestThread.postRequest(new CharPaneRequest());
     }
 
