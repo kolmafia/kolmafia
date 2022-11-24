@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.DifficultyLevel;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -459,6 +460,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
   private static final AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
       ItemPool.get(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE);
+  private static final AdventureResult BLACK_GLASS = ItemPool.get(ItemPool.BLACK_GLASS);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -608,34 +610,67 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // Otherwise, look at the map
         return checkZone("ownsSpeakeasy", null, "town_wrong");
       case "The Spacegate":
-        // Through the Spacegate
+        {
+          // Through the Spacegate
 
-        // It's in the mountains and Exploded Loathing does not have that zone.
-        if (KoLCharacter.isKingdomOfExploathing()) {
-          return false;
-        }
+          // It's in the mountains and Exploded Loathing does not have that zone.
+          if (KoLCharacter.isKingdomOfExploathing()) {
+            return false;
+          }
 
-        if (Preferences.getBoolean("spacegateAlways")
-            || Preferences.getBoolean("_spacegateToday")) {
-          return true;
-        }
-
-        if (!Preferences.getBoolean("_spacegateToday")) {
-          if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
-            Preferences.setBoolean("_spacegateToday", true);
-            // There is no way to tell how many turns you have
-            // left today in an open portable spacegate.
-            // I think.
-            Preferences.setInteger("_spacegateTurnsLeft", 20);
+          if (Preferences.getBoolean("spacegateAlways")
+              || Preferences.getBoolean("_spacegateToday")) {
             return true;
           }
+
+          if (!Preferences.getBoolean("_spacegateToday")) {
+            if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
+              Preferences.setBoolean("_spacegateToday", true);
+              // There is no way to tell how many turns you have
+              // left today in an open portable spacegate.
+              // I think.
+              Preferences.setInteger("_spacegateTurnsLeft", 20);
+              return true;
+            }
+          }
+
+          // Take a look at the mountains.
+          var request = new PlaceRequest("mountains");
+          RequestThread.postRequest(request);
+
+          return Preferences.getBoolean("spacegateAlways");
         }
+      case "The Sea Floor":
+        {
+          // There are 10 adventuring areas available in this zone.
+          //
+          // Some open via quest progress, some by purchasing maps from big
+          // brother sea monkee, and some through other mechanisms.
+          //
+          // If you have done any of those things outside of the watchful eye of
+          // KoLmafia, visiting the map will update everything.
 
-        // Take a look at the mountains.
-        var request = new PlaceRequest("mountains");
-        RequestThread.postRequest(request);
+          // Unless we have talked to the old guy, we cannot enter the sea.
+          if (!QuestDatabase.isQuestStarted(Quest.SEA_OLD_GUY)) {
+            return false;
+          }
 
-        return Preferences.getBoolean("spacegateAlways");
+          // If we know the zone is available, no need to visit the map
+          if (this.seaFloorZoneAvailable()) {
+            return true;
+          }
+
+          // The Caliginous Abyss is enabled via item. No need to go to map.
+          if (this.adventureNumber == AdventurePool.CALIGINOUS_ABYSS) {
+            return false;
+          }
+
+          // Take a look at The Sea Floor .
+          var request = new GenericRequest("seafloor.php");
+          RequestThread.postRequest(request);
+
+          return this.seaFloorZoneAvailable();
+        }
     }
 
     return true;
@@ -763,6 +798,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Fernswarthy's Basement
     if (this.formSource.equals("basement.php")) {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step4");
+    }
+
+    // Mer-kin Temple
+    if (this.formSource.equals("sea_merkin.php")) {
+      // If you have a seahorse, you can get to the Mer-Kin Deepcity.
+      // Whether or not you can enter the temple is a separate question.
+      return !Preferences.getString("seahorseName").equals("");
     }
 
     // Dwarven Factory Warehouse
@@ -1617,35 +1659,27 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
-    if (this.zone.equals("The Sea")) {
+    if (this.rootZone.equals("The Sea")) {
       // The Sea opens when you speak to The Old Man
       if (!QuestDatabase.isQuestStarted(Quest.SEA_OLD_GUY)) {
         return false;
       }
 
-      // We track individual aspects of the various quests.
-      // Perhaps we could deduce what is and is not unlocked.
-      // Just assume everything is open, for now.
+      if (this.zone.equals("The Sea")) {
+        // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
+        return true;
+      }
 
-      // The Briny Deeps
-      // The Brinier Deepers
-      // The Briniest Deepests
-      // An Octopus's Garden
-      // The Wreck of the Edgar Fitzsimmons
-      // Madness Reef
-      // The Mer-Kin Outpost
-      // The Skate Park
-      // The Marinara Trench
-      // Anemone Mine
-      // The Dive Bar
-      // The Coral Corral
-      // Mer-kin Elementary School
-      // Mer-kin Library
-      // Mer-kin Gymnasium
-      // Mer-kin Colosseum
-      // The Caliginous Abyss
-      // Anemone Mine (Mining)
+      if (this.zone.equals("The Sea Floor")) {
+        return this.seaFloorZoneAvailable();
+      }
 
+      if (this.zone.equals("The Mer-Kin Deepcity")) {
+        // Open when you have a seahorse
+        return !Preferences.getString("seahorseName").equals("");
+      }
+
+      // There are currently no more adventuring areas in The Sea
       return true;
     }
 
@@ -2030,6 +2064,38 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Assume that any areas we did not call out above are available
     return true;
+  }
+
+  private boolean seaFloorZoneAvailable() {
+    // We track individual aspects of the various quests.
+    return switch (this.adventureNumber) {
+        // Initially open: Little Brother
+      case AdventurePool.AN_OCTOPUS_GARDEN -> true;
+        // Big Brother
+      case AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS -> QuestDatabase.isQuestLaterThan(
+          Quest.SEA_MONKEES, QuestDatabase.STARTED);
+        // Grandpa
+        // Free for Muscle classes. Otherwise, must buy map.
+      case AdventurePool.ANENOME_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
+        // Free for Mysticality classes Otherwise, must buy map.
+      case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
+          ItemPool.MARINARA_TRENCH_MAP);
+        // Free for Moxie classes Otherwise, must buy map.
+      case AdventurePool.DIVE_BAR -> ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
+        // Grandma. Open when ask grandpa about Grandma.
+      case AdventurePool.MERKIN_OUTPOST -> QuestDatabase.isQuestLaterThan(
+          Quest.SEA_MONKEES, "step5");
+        // Currents (seahorse). Open when ask Grandpa about currents.
+      case AdventurePool.THE_CORAL_CORRAL -> Preferences.getBoolean("corralUnlocked");
+        // Mom. Open when you have black glass - which you must equip
+      case AdventurePool.CALIGINOUS_ABYSS -> InventoryManager.hasItem(BLACK_GLASS);
+        // Optional maps you can purchase from Big Brother.
+      case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
+      case AdventurePool.THE_SKATE_PARK -> ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP)
+          && !Preferences.getString("skateParkStatus").equals("peace");
+        // That's all. If a new zone appears, assume you can get to it.
+      default -> true;
+    };
   }
 
   private boolean hasRequiredOutfit() {
@@ -2468,6 +2534,33 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // This will pick an empty slot, or accessory1, if all are full
       RequestThread.postRequest(new EquipmentRequest(TALISMAN));
+
+      return true;
+    }
+
+    if (this.rootZone.equals("The Sea")) {
+      if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+        // In theory, we could choose equipment or effects.
+        // It's complicated. Let the user do that.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
+        return false;
+      }
+
+      if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+        // In theory, we could choose equipment or effects or even another familiar.
+        // It's complicated. Let the user do that.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Your familiar can't breathe underwater.");
+        return false;
+      }
+
+      if (this.adventureNumber == AdventurePool.CALIGINOUS_ABYSS
+          && !KoLCharacter.hasEquipped(BLACK_GLASS)) {
+        // We could equip black glass in an accessory slot.  It's complicated,
+        // since we can't unequip an item which lets us breathe underwater.
+        // Let the user do it.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Equip your black glass in order to go there.");
+        return false;
+      }
 
       return true;
     }
@@ -3873,6 +3966,17 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure("extreme cold makes it impossible", "You need more cold resistance."),
     new AdventureFailure(
         "This zone is too old to visit on this path.", "That zone is out of Standard."),
+
+    // Mer-kin Temple
+    // Looks like you've gotta be somebody special to get in there.
+    // Even as High Priest of the Mer-kin, they're not gonna let you in dressed like this.
+    // Even as the Champion of the Mer-kin Colosseum, they're not gonna let you in dressed like
+    // this.
+    // The temple is empty.
+    new AdventureFailure("you've gotta be somebody special", "You're not allowed to go there."),
+    new AdventureFailure(
+        "they're not gonna let you in dressed like this", "You're not dressed appropriately."),
+    new AdventureFailure("The temple is empty", "Nothing more to do here.", MafiaState.PENDING),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =

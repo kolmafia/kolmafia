@@ -814,13 +814,6 @@ public class AdventureDatabase {
       return null;
     }
 
-    if (urlString.startsWith("sea_merkin.php")) {
-      if (urlString.contains("action=temple")) {
-        return "Mer-kin Temple";
-      }
-      return null;
-    }
-
     if (urlString.startsWith("town.php")) {
       if (urlString.contains("action=trickortreat")) {
         return "Trick-or-Treating";
