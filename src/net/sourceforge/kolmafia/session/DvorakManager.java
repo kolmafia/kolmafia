@@ -191,7 +191,7 @@ public abstract class DvorakManager {
     span.append(stepButton);
 
     StringBuffer solveButton = new StringBuffer();
-    url = "/KoLmafia/specialCommand?cmd=dvorak&pwd==" + GenericRequest.passwordHash;
+    url = "/KoLmafia/specialCommand?cmd=dvorak&pwd=" + GenericRequest.passwordHash;
     solveButton.append("<td>");
     solveButton.append("<form name=solveform action='").append(url).append("' method=post>");
     solveButton

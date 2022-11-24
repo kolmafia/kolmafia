@@ -9,6 +9,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -73,6 +75,7 @@ public class BigBrotherRequest extends CoinMasterRequest {
 
   public BigBrotherRequest() {
     super(BIG_BROTHER);
+    this.addFormField("who", "2");
   }
 
   public BigBrotherRequest(final boolean buying, final AdventureResult[] attachments) {
@@ -108,15 +111,25 @@ public class BigBrotherRequest extends CoinMasterRequest {
       CoinMasterRequest.parseBalance(data, responseText);
 
       // Look at his inventory
-      Preferences.setBoolean("dampOldBootPurchased", !responseText.contains("damp old boot"));
+      if (!responseText.contains("damp old boot")) {
+        Preferences.setBoolean("dampOldBootPurchased", true);
+        QuestDatabase.setQuestIfBetter(Quest.SEA_OLD_GUY, "step1");
+      }
+      if (!responseText.contains("map to Anemone Mine") && !KoLCharacter.isMuscleClass()) {
+        // Little Brother unlocks Anemone Mine for Muscle classes
+        Preferences.setBoolean("mapToAnemoneMinePurchased", true);
+      }
+      if (!responseText.contains("map to the Marinara Trench")
+          && !KoLCharacter.isMysticalityClass()) {
+        // Little Brother unlocks the Marinara Trench for Mysticality classes
+        Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
+      }
+      if (!responseText.contains("map to the Dive Bar") && !KoLCharacter.isMoxieClass()) {
+        // Little Brother unlocks The Dive Bar for Moxie classes
+        Preferences.setBoolean("mapToTheDiveBarPurchased", true);
+      }
       Preferences.setBoolean(
           "mapToMadnessReefPurchased", !responseText.contains("map to Madness Reef"));
-      Preferences.setBoolean(
-          "mapToTheMarinaraTrenchPurchased", !responseText.contains("map to the Marinara Trench"));
-      Preferences.setBoolean(
-          "mapToAnemoneMinePurchased", !responseText.contains("map to Anemone Mine"));
-      Preferences.setBoolean(
-          "mapToTheDiveBarPurchased", !responseText.contains("map to the Dive Bar"));
       Preferences.setBoolean(
           "mapToTheSkateParkPurchased", !responseText.contains("map to the Skate Park"));
 

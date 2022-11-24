@@ -121,6 +121,8 @@ public class AdventureRequest extends GenericRequest {
       } else if (adventureId.equals("manor4_chamberboss")) {
         this.addFormField("whichplace", "manor4");
         this.addFormField("action", adventureId);
+      } else if (formSource.equals("sea_merkin.php")) {
+        this.addFormField("action", "temple");
       } else if (adventureId.equals("townwrong_tunnel")) {
         this.addFormField("whichplace", "town_wrong");
         this.addFormField("action", "townwrong_tunnel");

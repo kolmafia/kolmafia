@@ -7877,10 +7877,9 @@ Skill	Extra Muscles	Muscle Percent: +50
 # Extra-Thick Skin: Reduces physical damage against you by 20%
 # Eye of the Stoat Improves your Smacks
 Skill	Fashionably Late	Adventures: +1
-# Ferocity: Your combat skills do 50% more damage
-# Ferocity (Boris)	Critical Hit Percent: +25
+Skill	[11002]Ferocity	Critical Hit Percent: +25
 # Ferocity (Vampyre)	Your combat skills do 50% more damage
-Skill	Ferocity	Variable
+Skill	[24017]Ferocity	Spell Damage Percent: +50, Maximum HP: -10
 Skill	Financial Ambition	Meat Drop: +40
 Skill	Financial Spreadsheets	Meat Drop: +40
 Skill	Fingernails	Weapon Damage: +7
