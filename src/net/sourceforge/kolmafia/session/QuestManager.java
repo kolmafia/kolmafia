@@ -1382,6 +1382,7 @@ public class QuestManager {
       } else if (responseText.contains("who=2")) {
         // Big Brother
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step2");
+        Preferences.setBoolean("bigBrotherRescued", true);
       } else if (responseText.contains("who=1")) {
         // Little Brother
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);

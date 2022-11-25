@@ -1823,6 +1823,119 @@ public class QuestManagerTest {
       }
     }
 
+    @Nested
+    class BigBrother {
+      @Test
+      public void talkingToLittleBrotherAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
+                withPasswordHash("SEAMONKEES"));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_1_1.html"));
+
+          var request = new GenericRequest("monkeycastle.php?who=1", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(1));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", "who=1");
+        }
+      }
+
+      @Test
+      public void seeingWreckOnSeaFloorAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_1_2.html"));
+
+          var request = new GenericRequest("seafloor.php", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(1));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(requests.get(0), "/seafloor.php", null);
+        }
+      }
+
+      @Test
+      void rescuingBigBrotherAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
+                withProperty("bigBrotherRescued", false),
+                withPasswordHash("SEAMONKEES"),
+                withGender(KoLCharacter.FEMALE));
+        try (cleanups) {
+          builder.client.addResponse(
+              302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_2_1.html"));
+          builder.client.addResponse(200, ""); // api.php
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_2_2.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          String URL =
+              "adventure.php?snarfblat=" + AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS;
+          var request = new GenericRequest(URL);
+          request.run();
+
+          URL = "choice.php?whichchoice=299&option=1";
+          request.constructURLString(URL);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(2));
+          assertThat("bigBrotherRescued", isSetTo(true));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(5));
+          assertPostRequest(
+              requests.get(0),
+              "/adventure.php",
+              "snarfblat=" + AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS + "&pwd=SEAMONKEES");
+          assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+          assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+          assertPostRequest(
+              requests.get(3), "/choice.php", "whichchoice=299&option=1&pwd=SEAMONKEES");
+          assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      void seeingBigBrotherInCastleAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withProperty("bigBrotherRescued", false),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_2_3.html"));
+
+          var request = new GenericRequest("monkeycastle.php", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(2));
+          assertThat("bigBrotherRescued", isSetTo(true));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", null);
+        }
+      }
+    }
+
     // ***** Mer-Kin Deepcity Quest *****
     //
     // - Expose Intense Currents

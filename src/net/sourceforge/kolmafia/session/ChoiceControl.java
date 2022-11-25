@@ -4781,12 +4781,12 @@ public abstract class ChoiceControl {
 
       case 299:
         // Down at the Hatch
-        if (ChoiceManager.lastDecision == 2) {
-          // The first time you take option 2, you
+        if (ChoiceManager.lastDecision == 1) {
+          // The first time you take option 1, you
           // release Big Brother. Subsequent times, you
           // release other creatures.
+          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step2");
           Preferences.setBoolean("bigBrotherRescued", true);
-          QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step2");
           ConcoctionDatabase.setRefreshNeeded(false);
         }
         break;
