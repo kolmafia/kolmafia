@@ -165,6 +165,18 @@ public class EatItemRequest extends UseItemRequest {
       case ItemPool.PIRATE_FORK:
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_pirateForkUsed") ? 0 : 1;
+
+      case ItemPool.PIZZA_OF_LEGEND:
+        UseItemRequest.limiter = "ascension limit";
+        return Preferences.getBoolean("pizzaOfLegendEaten") ? 0 : 1;
+
+      case ItemPool.DEEP_DISH_OF_LEGEND:
+        UseItemRequest.limiter = "ascension limit";
+        return Preferences.getBoolean("deepDishOfLegendEaten") ? 0 : 1;
+
+      case ItemPool.CALZONE_OF_LEGEND:
+        UseItemRequest.limiter = "ascension limit";
+        return Preferences.getBoolean("calzoneOfLegendEaten") ? 0 : 1;
     }
 
     int limit = KoLCharacter.getFullnessLimit();
@@ -955,6 +967,16 @@ public class EatItemRequest extends UseItemRequest {
           }
           break;
         }
+
+      case ItemPool.PIZZA_OF_LEGEND:
+        Preferences.setBoolean("pizzaOfLegendEaten", true);
+        return;
+      case ItemPool.CALZONE_OF_LEGEND:
+        Preferences.setBoolean("calzoneOfLegendEaten", true);
+        return;
+      case ItemPool.DEEP_DISH_OF_LEGEND:
+        Preferences.setBoolean("deepDishOfLegendEaten", true);
+        return;
     }
   }
 
