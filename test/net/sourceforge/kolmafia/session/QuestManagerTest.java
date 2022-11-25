@@ -1617,6 +1617,29 @@ public class QuestManagerTest {
       }
 
       @Test
+      public void talkingToOldManAgainStartsQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_visit_old_man_1A.html"));
+
+          var URL = "place.php?whichplace=sea_oldman&action=oldman_oldman";
+          var request = new GenericRequest(URL, false);
+          request.run();
+
+          assertThat(Quest.SEA_OLD_GUY, isStarted());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(
+              requests.get(0), "/place.php", "whichplace=sea_oldman&action=oldman_oldman");
+        }
+      }
+
+      @Test
       public void buyingDampOldBootAdvancesQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
