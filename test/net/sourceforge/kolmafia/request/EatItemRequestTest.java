@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -72,11 +73,14 @@ class EatItemRequestTest {
     "11000, deepDishOfLegendEaten"
   })
   public void canTrackCookbookbatFoodsSuccess(Integer itemId, String prefname) {
-    assertFalse(Preferences.getBoolean(prefname));
-    var req = new EatItemRequest(ItemPool.get(itemId));
-    req.responseText = "";
-    req.processResults();
-    assertTrue(Preferences.getBoolean(prefname));
+    var cleanups = withProperty(prefname, false);
+    try (cleanups) {
+      assertFalse(Preferences.getBoolean(prefname));
+      var req = new EatItemRequest(ItemPool.get(itemId));
+      req.responseText = "";
+      req.processResults();
+      assertTrue(Preferences.getBoolean(prefname));
+    }
   }
 
   @ParameterizedTest
@@ -86,11 +90,14 @@ class EatItemRequestTest {
     "11000, deepDishOfLegendEaten"
   })
   public void canTrackCookbookbatFoodsFailure(Integer itemId, String prefname) {
-    assertFalse(Preferences.getBoolean(prefname));
-    var req = new EatItemRequest(ItemPool.get(itemId));
-    req.responseText = "You may only eat one of those per lifetime";
-    req.processResults();
-    assertTrue(Preferences.getBoolean(prefname));
+    var cleanups = withProperty(prefname, false);
+    try (cleanups) {
+      assertFalse(Preferences.getBoolean(prefname));
+      var req = new EatItemRequest(ItemPool.get(itemId));
+      req.responseText = "You may only eat one of those per lifetime";
+      req.processResults();
+      assertTrue(Preferences.getBoolean(prefname));
+    }
   }
 
   @ParameterizedTest
@@ -100,8 +107,11 @@ class EatItemRequestTest {
     "11000, deepDishOfLegendEaten"
   })
   public void canPredictCookbookbatFoodsLimit(Integer itemId, String prefname) {
-    assertEquals(1, EatItemRequest.maximumUses(itemId));
-    Preferences.setBoolean(prefname, true);
-    assertEquals(0, EatItemRequest.maximumUses(itemId));
+    var cleanups = withProperty(prefname, false);
+    try (cleanups) {
+      assertEquals(1, EatItemRequest.maximumUses(itemId));
+      Preferences.setBoolean(prefname, true);
+      assertEquals(0, EatItemRequest.maximumUses(itemId));
+    }
   }
 }
