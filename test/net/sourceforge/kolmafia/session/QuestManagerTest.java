@@ -1804,8 +1804,7 @@ public class QuestManagerTest {
         var cleanups =
             new Cleanups(
                 withHttpClientBuilder(builder),
-                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
-                withPasswordHash("SEAMONKEES"));
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_started_4.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -1831,8 +1830,7 @@ public class QuestManagerTest {
         var cleanups =
             new Cleanups(
                 withHttpClientBuilder(builder),
-                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
-                withPasswordHash("SEAMONKEES"));
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_1_1.html"));
 
@@ -1932,6 +1930,27 @@ public class QuestManagerTest {
           var requests = builder.client.getRequests();
           assertThat(requests, hasSize(1));
           assertGetRequest(requests.get(0), "/monkeycastle.php", null);
+        }
+      }
+
+      @Test
+      public void talkingToBigBrotherAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_3.html"));
+
+          var request = new GenericRequest("monkeycastle.php?who=2", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(3));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", "who=2");
         }
       }
     }
