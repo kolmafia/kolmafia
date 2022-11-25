@@ -694,6 +694,17 @@ public class EatItemRequest extends UseItemRequest {
       return;
     }
 
+    if (responseText.contains("You may only eat one of those per lifetime")) {
+      UseItemRequest.lastUpdate = "You may only eat one of those per lifetime.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+      switch (itemId) {
+        case ItemPool.DEEP_DISH_OF_LEGEND -> Preferences.setBoolean("deepDishOfLegendEaten", true);
+        case ItemPool.CALZONE_OF_LEGEND -> Preferences.setBoolean("calzoneOfLegendEaten", true);
+        case ItemPool.PIZZA_OF_LEGEND -> Preferences.setBoolean("pizzaOfLegendEaten", true);
+      }
+      return;
+    }
+
     // You can only use one pirate fork per day.
     if (responseText.contains("only use one pirate fork per day")) {
       UseItemRequest.lastUpdate = "You may only eat from the pirate fork once per day.";
