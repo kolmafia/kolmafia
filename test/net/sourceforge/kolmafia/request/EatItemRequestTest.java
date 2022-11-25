@@ -66,7 +66,11 @@ class EatItemRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"10991, pizzaOfLegendEaten", "10992, calzoneOfLegendEaten", "11000, deepDishOfLegendEaten"})
+  @CsvSource({
+    "10991, pizzaOfLegendEaten",
+    "10992, calzoneOfLegendEaten",
+    "11000, deepDishOfLegendEaten"
+  })
   public void canTrackCookbookbatFoodsSuccess(Integer itemId, String prefname) {
     assertFalse(Preferences.getBoolean(prefname));
     var req = new EatItemRequest(ItemPool.get(itemId));
@@ -76,7 +80,11 @@ class EatItemRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"10991, pizzaOfLegendEaten", "10992, calzoneOfLegendEaten", "11000, deepDishOfLegendEaten"})
+  @CsvSource({
+    "10991, pizzaOfLegendEaten",
+    "10992, calzoneOfLegendEaten",
+    "11000, deepDishOfLegendEaten"
+  })
   public void canTrackCookbookbatFoodsFailure(Integer itemId, String prefname) {
     assertFalse(Preferences.getBoolean(prefname));
     var req = new EatItemRequest(ItemPool.get(itemId));
@@ -86,7 +94,11 @@ class EatItemRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"10991, pizzaOfLegendEaten", "10992, calzoneOfLegendEaten", "11000, deepDishOfLegendEaten"})
+  @CsvSource({
+    "10991, pizzaOfLegendEaten",
+    "10992, calzoneOfLegendEaten",
+    "11000, deepDishOfLegendEaten"
+  })
   public void canPredictCookbookbatFoodsLimit(Integer itemId, String prefname) {
     assertEquals(1, EatItemRequest.maximumUses(itemId));
     Preferences.setBoolean(prefname, true);
