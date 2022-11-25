@@ -374,6 +374,7 @@ user	burnoutsDefeated	0
 user	burrowgrubHiveUsed	false
 user	burrowgrubSummonsRemaining	0
 user	buyScript
+user	calzoneOfLegendEaten	false
 user	camelSpit	0
 user	cameraMonster
 user	camerasUsed	0
@@ -499,6 +500,7 @@ user	daycareToddlers	0
 user	dbNemesisSkill1	0
 user	dbNemesisSkill2	0
 user	dbNemesisSkill3	0
+user	deepDishOfLegendEaten	false
 user	defaultFlowerLossMessage
 user	defaultFlowerWinMessage
 user	demonName1
@@ -1103,6 +1105,7 @@ user	peteMotorbikeSeat
 user	photocopyMonster
 user	pieStuffing
 user	pirateSwagger	0
+user	pizzaOfLegendEaten	false
 user	plantingDate
 user	plantingDay	-1
 user	plantingLength
