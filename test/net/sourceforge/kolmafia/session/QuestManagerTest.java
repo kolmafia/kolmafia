@@ -1534,6 +1534,7 @@ public class QuestManagerTest {
   class TheSea {
 
     // This test uses a complete map of The Sea Floor.
+    // It was captured while wearing "black glass".
     // I.e., every zone has been opened.
 
     @Test
@@ -1575,6 +1576,113 @@ public class QuestManagerTest {
         request.responseText = html("request/test_quest_sea_monkee_unstarted.html");
         QuestManager.handleQuestChange(request);
         assertThat(Quest.SEA_MONKEES, isUnstarted());
+      }
+    }
+
+    // ***** The Old Guy Quest *****
+    //
+    // Talk to the Old Man
+    // Buy a damp old boot from Big Brother
+    // Give the Old Man the boot and pick a reward.
+
+    @Nested
+    class OldMan {
+      private static final AdventureResult DAMP_OLD_BOOT = ItemPool.get(ItemPool.DAMP_OLD_BOOT);
+      private static final AdventureResult SAND_DOLLAR = ItemPool.get(ItemPool.SAND_DOLLAR);
+      private static final AdventureResult FISHY_PIPE = ItemPool.get(ItemPool.FISHY_PIPE);
+
+      @Test
+      public void talkingToOldManStartsQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_visit_old_man_1.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var URL = "place.php?whichplace=sea_oldman&action=oldman_oldman";
+          var request = new GenericRequest(URL, false);
+          request.run();
+
+          assertThat(Quest.SEA_OLD_GUY, isStarted());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertGetRequest(
+              requests.get(0), "/place.php", "whichplace=sea_oldman&action=oldman_oldman");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void buyingDampOldBootAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withItem(SAND_DOLLAR.getInstance(3102)),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED),
+                withPasswordHash("SEAMONKEES"),
+                withGender(KoLCharacter.FEMALE));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_buy_damp_old_boot.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          String URL = "monkeycastle.php?action=buyitem&whichitem=3471&quantity=1";
+          var request = new GenericRequest(URL);
+          request.run();
+
+          assertThat(Quest.SEA_OLD_GUY, isStep(1));
+          System.out.println(InventoryManager.getCount(SAND_DOLLAR));
+          assertTrue(InventoryManager.hasItem(DAMP_OLD_BOOT));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertPostRequest(
+              requests.get(0),
+              "/monkeycastle.php",
+              "action=buyitem&whichitem=3471&quantity=1&pwd=SEAMONKEES");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void givingBootToOldManFinishesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withItem(DAMP_OLD_BOOT),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_visit_old_man_2.html"));
+          builder.client.addResponse(200, html("request/test_visit_old_man_3.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var URL = "place.php?whichplace=sea_oldman&action=oldman_oldman";
+          var request = new GenericRequest(URL, false);
+          request.run();
+          URL =
+              "place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6314";
+          request.constructURLString(URL);
+          request.run();
+
+          assertThat(Quest.SEA_OLD_GUY, isFinished());
+          assertFalse(InventoryManager.hasItem(DAMP_OLD_BOOT));
+          assertTrue(InventoryManager.hasItem(FISHY_PIPE));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(3));
+          assertGetRequest(
+              requests.get(0), "/place.php", "whichplace=sea_oldman&action=oldman_oldman");
+          assertPostRequest(
+              requests.get(1),
+              "/place.php",
+              "whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6314");
+          assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        }
       }
     }
 

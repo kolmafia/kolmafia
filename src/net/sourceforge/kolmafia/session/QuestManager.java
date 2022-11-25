@@ -1267,7 +1267,8 @@ public class QuestManager {
   private static void handleSeaChange(final String location, final String responseText) {
     int area = AdventureRequest.parseArea(location);
     if (location.contains("action=oldman_oldman")
-        && responseText.contains("have you found my boot yet?")) {
+        && (responseText.contains("I lost my favorite boot, you see.")
+            || responseText.contains("have you found my boot yet?"))) {
       QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
     }
     // Little Brother
