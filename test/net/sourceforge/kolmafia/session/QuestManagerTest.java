@@ -1647,6 +1647,7 @@ public class QuestManagerTest {
                 withHttpClientBuilder(builder),
                 withItem(SAND_DOLLAR.getInstance(3102)),
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED),
+                withProperty("dampOldBootPurchased", false),
                 withPasswordHash("SEAMONKEES"),
                 withGender(KoLCharacter.FEMALE));
         try (cleanups) {
@@ -1658,7 +1659,7 @@ public class QuestManagerTest {
           request.run();
 
           assertThat(Quest.SEA_OLD_GUY, isStep(1));
-          System.out.println(InventoryManager.getCount(SAND_DOLLAR));
+          assertThat("dampOldBootPurchased", isSetTo(true));
           assertTrue(InventoryManager.hasItem(DAMP_OLD_BOOT));
 
           var requests = builder.client.getRequests();
