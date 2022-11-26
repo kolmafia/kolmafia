@@ -2422,9 +2422,8 @@ public class RelayRequest extends PasswordHashRequest {
     list.removeModifier("Modifiers");
     list.removeModifier("Outfit");
     ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
-    if (!(type == ConsumptionType.EQUIP_HAT
-            && KoLCharacter.usableFamiliar(FamiliarPool.HATRACK) != null)
-        && !(type == ConsumptionType.EQUIP_PANTS
+    if (!(type == ConsumptionType.HAT && KoLCharacter.usableFamiliar(FamiliarPool.HATRACK) != null)
+        && !(type == ConsumptionType.PANTS
             && KoLCharacter.usableFamiliar(FamiliarPool.SCARECROW) != null)) {
       list.removeModifier("Familiar Effect");
     }

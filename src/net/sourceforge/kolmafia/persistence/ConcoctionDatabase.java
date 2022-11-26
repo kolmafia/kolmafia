@@ -493,7 +493,7 @@ public class ConcoctionDatabase {
     ConsumptionType consumpt = ItemDatabase.getConsumptionType(id);
 
     if (c.getFullness() > 0
-        || consumpt == ConsumptionType.CONSUME_FOOD_HELPER
+        || consumpt == ConsumptionType.FOOD_HELPER
         || ConcoctionDatabase.canQueueFood(id)) {
       queue = ConcoctionDatabase.queuedFood;
       queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
@@ -502,7 +502,7 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.queuedInebriety++;
       }
     } else if (c.getInebriety() > 0
-        || consumpt == ConsumptionType.CONSUME_DRINK_HELPER
+        || consumpt == ConsumptionType.DRINK_HELPER
         || ConcoctionDatabase.canQueueBooze(id)) {
       queue = ConcoctionDatabase.queuedBooze;
       queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
@@ -887,9 +887,9 @@ public class ConcoctionDatabase {
       Concoction c = currentItem.getConcoction();
       int quantity = currentItem.getCount();
 
-      if (consumptionType != ConsumptionType.CONSUME_EAT
-          && consumptionType != ConsumptionType.CONSUME_DRINK
-          && consumptionType != ConsumptionType.CONSUME_SPLEEN) {
+      if (consumptionType != ConsumptionType.EAT
+          && consumptionType != ConsumptionType.DRINK
+          && consumptionType != ConsumptionType.SPLEEN) {
         // Binge familiar or create only
 
         // If it's not an actual item, it's a purchase from a cafe.
@@ -902,18 +902,16 @@ public class ConcoctionDatabase {
 
         // Skip consumption helpers; we cannot binge a
         // familiar with them and we don't "create" them
-        if (consumpt == ConsumptionType.CONSUME_FOOD_HELPER
-            || consumpt == ConsumptionType.CONSUME_DRINK_HELPER) {
+        if (consumpt == ConsumptionType.FOOD_HELPER || consumpt == ConsumptionType.DRINK_HELPER) {
           continue;
         }
 
         // Certain items are virtual consumption
         // helpers, but are "used" first. Skip if
         // bingeing familiar.
-        if ((consumptionType == ConsumptionType.CONSUME_GHOST
-                && consumpt != ConsumptionType.CONSUME_EAT)
-            || (consumptionType == ConsumptionType.CONSUME_HOBO
-                && consumpt != ConsumptionType.CONSUME_DRINK)) {
+        if ((consumptionType == ConsumptionType.GLUTTONOUS_GHOST && consumpt != ConsumptionType.EAT)
+            || (consumptionType == ConsumptionType.SPIRIT_HOBO
+                && consumpt != ConsumptionType.DRINK)) {
           continue;
         }
 
@@ -921,14 +919,14 @@ public class ConcoctionDatabase {
         AdventureResult toConsume = c.getItem().getInstance(quantity);
         InventoryManager.retrieveItem(toConsume);
 
-        if (consumptionType == ConsumptionType.CONSUME_GHOST
-            | consumptionType == ConsumptionType.CONSUME_HOBO) {
+        if (consumptionType == ConsumptionType.GLUTTONOUS_GHOST
+            | consumptionType == ConsumptionType.SPIRIT_HOBO) {
           // Binge the familiar!
           RequestThread.postRequest(UseItemRequest.getInstance(consumptionType, toConsume));
           continue;
         }
 
-        if (consumptionType == ConsumptionType.NO_CONSUME) {
+        if (consumptionType == ConsumptionType.NONE) {
           // Create only
           continue;
         }
@@ -1001,7 +999,7 @@ public class ConcoctionDatabase {
     String minderSetting = Preferences.getString("mayoMinderSetting");
     AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
     if (item != null
-        && consumptionType == ConsumptionType.CONSUME_EAT
+        && consumptionType == ConsumptionType.EAT
         && !ConcoctionDatabase.isMayo(item.getItemId())
         && !minderSetting.equals("")
         && Preferences.getBoolean("autoFillMayoMinder")
@@ -1161,13 +1159,13 @@ public class ConcoctionDatabase {
 
   public static final void setRefreshNeeded(int itemId) {
     switch (ItemDatabase.getConsumptionType(itemId)) {
-      case CONSUME_EAT:
-      case CONSUME_DRINK:
-      case CONSUME_SPLEEN:
-      case CONSUME_USE:
-      case CONSUME_MULTIPLE:
-      case CONSUME_FOOD_HELPER:
-      case CONSUME_DRINK_HELPER:
+      case EAT:
+      case DRINK:
+      case SPLEEN:
+      case USE:
+      case USE_MULTIPLE:
+      case FOOD_HELPER:
+      case DRINK_HELPER:
         ConcoctionDatabase.setRefreshNeeded(false);
         return;
     }

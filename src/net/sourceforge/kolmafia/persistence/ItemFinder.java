@@ -186,34 +186,32 @@ public class ItemFinder {
         case FOOD:
           ItemFinder.conditionalRemove(
               nameIterator,
-              useType != ConsumptionType.CONSUME_EAT
-                  && useType != ConsumptionType.CONSUME_FOOD_HELPER);
+              useType != ConsumptionType.EAT && useType != ConsumptionType.FOOD_HELPER);
           break;
         case BOOZE:
           ItemFinder.conditionalRemove(
               nameIterator,
-              useType != ConsumptionType.CONSUME_DRINK
-                  && useType != ConsumptionType.CONSUME_DRINK_HELPER);
+              useType != ConsumptionType.DRINK && useType != ConsumptionType.DRINK_HELPER);
           break;
         case SPLEEN:
-          ItemFinder.conditionalRemove(nameIterator, useType != ConsumptionType.CONSUME_SPLEEN);
+          ItemFinder.conditionalRemove(nameIterator, useType != ConsumptionType.SPLEEN);
           break;
         case EQUIP:
           switch (useType) {
-            case EQUIP_FAMILIAR:
-            case EQUIP_ACCESSORY:
-            case EQUIP_HAT:
-            case EQUIP_PANTS:
-            case EQUIP_SHIRT:
-            case EQUIP_WEAPON:
-            case EQUIP_OFFHAND:
-            case EQUIP_CONTAINER:
-            case CONSUME_STICKER:
-            case CONSUME_CARD:
-            case CONSUME_FOLDER:
-            case CONSUME_BOOTSKIN:
-            case CONSUME_BOOTSPUR:
-            case CONSUME_SIXGUN:
+            case FAMILIAR_EQUIPMENT:
+            case ACCESSORY:
+            case HAT:
+            case PANTS:
+            case SHIRT:
+            case WEAPON:
+            case OFFHAND:
+            case CONTAINER:
+            case STICKER:
+            case CARD:
+            case FOLDER:
+            case BOOTSKIN:
+            case BOOTSPUR:
+            case SIXGUN:
               break;
 
             default:

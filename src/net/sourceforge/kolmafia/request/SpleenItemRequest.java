@@ -141,7 +141,7 @@ public class SpleenItemRequest extends UseItemRequest {
   }
 
   private boolean singleConsume() {
-    return this.consumptionType == ConsumptionType.CONSUME_USE;
+    return this.consumptionType == ConsumptionType.USE;
   }
 
   private boolean allowSpleenConsumption() {

@@ -79,10 +79,10 @@ public class Consumable {
 
   public ConsumptionType getConsumptionType() {
     return this.fullness != null
-        ? ConsumptionType.CONSUME_EAT
+        ? ConsumptionType.EAT
         : this.inebriety != null
-            ? ConsumptionType.CONSUME_DRINK
-            : this.spleenHit != null ? ConsumptionType.CONSUME_SPLEEN : ConsumptionType.CONSUME_USE;
+            ? ConsumptionType.DRINK
+            : this.spleenHit != null ? ConsumptionType.SPLEEN : ConsumptionType.USE;
   }
 
   public Integer getRawFullness() {

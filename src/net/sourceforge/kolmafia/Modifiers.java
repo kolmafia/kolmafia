@@ -2454,8 +2454,8 @@ public class Modifiers {
     // Fancypants Scarecrow ... pants do not give their normal modifiers
     int itemId = item.getItemId();
     ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
-    if ((familiarId != FamiliarPool.HATRACK || type != ConsumptionType.EQUIP_HAT)
-        && (familiarId != FamiliarPool.SCARECROW || type != ConsumptionType.EQUIP_PANTS)) {
+    if ((familiarId != FamiliarPool.HATRACK || type != ConsumptionType.HAT)
+        && (familiarId != FamiliarPool.SCARECROW || type != ConsumptionType.PANTS)) {
       // Add in all the modifiers bestowed by this item
       tempMods.add(Modifiers.getItemModifiers(itemId));
 
@@ -3511,40 +3511,40 @@ public class Modifiers {
       ConsumptionType type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
-        case EQUIP_HAT:
+        case HAT:
           hats.add(name);
           break;
-        case EQUIP_PANTS:
+        case PANTS:
           pants.add(name);
           break;
-        case EQUIP_SHIRT:
+        case SHIRT:
           shirts.add(name);
           break;
-        case EQUIP_WEAPON:
+        case WEAPON:
           weapons.add(name);
           break;
-        case EQUIP_OFFHAND:
+        case OFFHAND:
           offhands.add(name);
           break;
-        case EQUIP_ACCESSORY:
+        case ACCESSORY:
           accessories.add(name);
           break;
-        case EQUIP_CONTAINER:
+        case CONTAINER:
           containers.add(name);
           break;
-        case EQUIP_FAMILIAR:
+        case FAMILIAR_EQUIPMENT:
           famitems.add(name);
           break;
-        case CONSUME_SIXGUN:
+        case SIXGUN:
           sixguns.add(name);
           break;
-        case CONSUME_STICKER:
+        case STICKER:
           bedazzlements.add(name);
           break;
-        case CONSUME_CARD:
+        case CARD:
           cards.add(name);
           break;
-        case CONSUME_FOLDER:
+        case FOLDER:
           folders.add(name);
           break;
         default:

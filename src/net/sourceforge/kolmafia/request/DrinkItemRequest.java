@@ -203,7 +203,7 @@ public class DrinkItemRequest extends UseItemRequest {
       return;
     }
 
-    if (this.consumptionType == ConsumptionType.CONSUME_DRINK_HELPER) {
+    if (this.consumptionType == ConsumptionType.DRINK_HELPER) {
       int count = this.itemUsed.getCount();
 
       if (!InventoryManager.retrieveItem(this.itemUsed)) {
@@ -744,7 +744,7 @@ public class DrinkItemRequest extends UseItemRequest {
     // In the event that the item is not used, then proceed to
     // undo the consumption.
 
-    if (consumptionType == ConsumptionType.CONSUME_DRINK_HELPER) {
+    if (consumptionType == ConsumptionType.DRINK_HELPER) {
       // Consumption helpers are removed above when you
       // successfully eat or drink.
       return;

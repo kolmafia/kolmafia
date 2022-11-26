@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia;
 
-import static net.sourceforge.kolmafia.KoLConstants.ConsumptionType.EQUIP_FAMILIAR;
+import static net.sourceforge.kolmafia.KoLConstants.ConsumptionType.FAMILIAR_EQUIPMENT;
 
 import java.awt.Color;
 import java.io.File;
@@ -272,14 +272,8 @@ public interface KoLConstants extends UtilityConstants {
   static boolean isEquipmentType(
       final ConsumptionType type, final boolean includeFamiliarEquipment) {
     return switch (type) {
-      case EQUIP_ACCESSORY,
-          EQUIP_CONTAINER,
-          EQUIP_HAT,
-          EQUIP_SHIRT,
-          EQUIP_PANTS,
-          EQUIP_WEAPON,
-          EQUIP_OFFHAND -> true;
-      default -> includeFamiliarEquipment && type == EQUIP_FAMILIAR;
+      case ACCESSORY, CONTAINER, HAT, SHIRT, PANTS, WEAPON, OFFHAND -> true;
+      default -> includeFamiliarEquipment && type == FAMILIAR_EQUIPMENT;
     };
   }
 
@@ -355,58 +349,58 @@ public interface KoLConstants extends UtilityConstants {
   enum ConsumptionType {
     UNKNOWN,
     // Cannot be "used" in any way by itself
-    NO_CONSUME,
+    NONE,
 
     // Consumables
-    CONSUME_EAT,
-    CONSUME_DRINK,
-    CONSUME_SPLEEN,
+    EAT,
+    DRINK,
+    SPLEEN,
 
     // Usables
-    CONSUME_USE,
-    CONSUME_MULTIPLE,
-    INFINITE_USES,
-    MESSAGE_DISPLAY,
+    USE,
+    USE_MULTIPLE,
+    USE_INFINITE,
+    USE_MESSAGE_DISPLAY,
 
     // Familiar hatchlings
-    GROW_FAMILIAR,
+    FAMILIAR_HATCHLING,
 
     // Equipment
-    EQUIP_HAT,
-    EQUIP_WEAPON,
-    EQUIP_OFFHAND,
-    EQUIP_CONTAINER,
-    EQUIP_SHIRT,
-    EQUIP_PANTS,
-    EQUIP_ACCESSORY,
-    EQUIP_FAMILIAR,
+    HAT,
+    WEAPON,
+    OFFHAND,
+    CONTAINER,
+    SHIRT,
+    PANTS,
+    ACCESSORY,
+    FAMILIAR_EQUIPMENT,
 
     // Customizable "equipment"
-    CONSUME_STICKER,
-    CONSUME_CARD,
-    CONSUME_FOLDER,
-    CONSUME_BOOTSKIN,
-    CONSUME_BOOTSPUR,
-    CONSUME_SIXGUN,
+    STICKER,
+    CARD,
+    FOLDER,
+    BOOTSKIN,
+    BOOTSPUR,
+    SIXGUN,
 
     // Special "uses"
-    CONSUME_FOOD_HELPER,
-    CONSUME_DRINK_HELPER,
-    CONSUME_ZAP,
-    CONSUME_SPHERE,
-    CONSUME_GUARDIAN,
-    CONSUME_POKEPILL,
+    FOOD_HELPER,
+    DRINK_HELPER,
+    ZAP,
+    EL_VIBRATO_SPHERE,
+    PASTA_GUARDIAN,
+    POKEPILL,
 
     // Potions
-    CONSUME_POTION,
-    CONSUME_AVATAR,
+    POTION,
+    AVATAR_POTION,
 
     // Familiar "uses"
-    CONSUME_ROBO,
-    CONSUME_MIMIC,
-    CONSUME_SLIME,
-    CONSUME_HOBO,
-    CONSUME_GHOST
+    ROBORTENDER,
+    STOCKING_MIMIC,
+    SLIMELING,
+    SPIRIT_HOBO,
+    GLUTTONOUS_GHOST
   }
 
   enum CraftingType {

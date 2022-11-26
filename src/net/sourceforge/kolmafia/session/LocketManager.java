@@ -115,7 +115,7 @@ public class LocketManager {
 
     // The plan here is to parse the locket description...
     DebugDatabase.parseItemEnchantments(
-        responseText, mods, new ArrayList<>(), ConsumptionType.EQUIP_ACCESSORY);
+        responseText, mods, new ArrayList<>(), ConsumptionType.ACCESSORY);
 
     // ...find the first modifier that can indicate the phylum...
     var indicativeMod =

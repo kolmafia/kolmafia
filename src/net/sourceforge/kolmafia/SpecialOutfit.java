@@ -116,8 +116,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
       }
     } else if (type == EquipmentManager.WEAPON
         || (type == EquipmentManager.OFFHAND
-            && ItemDatabase.getConsumptionType(piece.getItemId())
-                == ConsumptionType.EQUIP_WEAPON)) {
+            && ItemDatabase.getConsumptionType(piece.getItemId()) == ConsumptionType.WEAPON)) {
       int weaponCount =
           (KoLCharacter.hasEquipped(piece, EquipmentManager.WEAPON) ? 1 : 0)
               + (KoLCharacter.hasEquipped(piece, EquipmentManager.OFFHAND) ? 1 : 0);

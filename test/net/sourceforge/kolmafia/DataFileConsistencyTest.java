@@ -105,7 +105,7 @@ public class DataFileConsistencyTest {
     var hatchlings = datafileItems("familiars.txt", 4, 4);
     var items = allItems();
     for (var id : items) {
-      if (ItemDatabase.getConsumptionType(id) == ConsumptionType.GROW_FAMILIAR) {
+      if (ItemDatabase.getConsumptionType(id) == ConsumptionType.FAMILIAR_HATCHLING) {
         var name = ItemDatabase.getItemDataName(id);
         assertThat(
             String.format("%s is in items.txt but not in familiars.txt", name),

@@ -388,7 +388,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != ConsumptionType.CONSUME_STICKER) {
+    if (this.equipmentType != ConsumptionType.STICKER) {
       this.error =
           "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " in a sticker slot.";
       return;
@@ -422,7 +422,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != ConsumptionType.CONSUME_CARD) {
+    if (this.equipmentType != ConsumptionType.CARD) {
       this.error =
           "You can't slide a " + ItemDatabase.getItemName(this.itemId) + " into a card sleeze.";
       return;
@@ -458,7 +458,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != ConsumptionType.CONSUME_FOLDER) {
+    if (this.equipmentType != ConsumptionType.FOLDER) {
       this.error =
           "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " in a folder slot.";
       return;
@@ -484,21 +484,21 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != ConsumptionType.CONSUME_BOOTSKIN
-        && this.equipmentType != ConsumptionType.CONSUME_BOOTSPUR) {
+    if (this.equipmentType != ConsumptionType.BOOTSKIN
+        && this.equipmentType != ConsumptionType.BOOTSPUR) {
       this.error =
           "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " on your cowboy boots.";
       return;
     }
 
     if (this.equipmentSlot == EquipmentManager.BOOTSKIN
-        && this.equipmentType == ConsumptionType.CONSUME_BOOTSPUR) {
+        && this.equipmentType == ConsumptionType.BOOTSPUR) {
       this.error = ItemDatabase.getItemName(this.itemId) + " is a spur, not a skin.";
       return;
     }
 
     if (this.equipmentSlot == EquipmentManager.BOOTSPUR
-        && this.equipmentType == ConsumptionType.CONSUME_BOOTSKIN) {
+        && this.equipmentType == ConsumptionType.BOOTSKIN) {
       this.error = ItemDatabase.getItemName(this.itemId) + " is a skin, not a spur.";
       return;
     }
@@ -529,7 +529,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != ConsumptionType.CONSUME_SIXGUN) {
+    if (this.equipmentType != ConsumptionType.SIXGUN) {
       this.error = "You can't holster a " + ItemDatabase.getItemName(this.itemId);
       return;
     }
@@ -546,62 +546,62 @@ public class EquipmentRequest extends PasswordHashRequest {
   private String getAction(final boolean force) {
     switch (this.equipmentSlot) {
       case EquipmentManager.HAT:
-        if (this.equipmentType == ConsumptionType.EQUIP_HAT) {
+        if (this.equipmentType == ConsumptionType.HAT) {
           return "equip";
         }
         break;
 
       case EquipmentManager.WEAPON:
-        if (this.equipmentType == ConsumptionType.EQUIP_WEAPON) {
+        if (this.equipmentType == ConsumptionType.WEAPON) {
           return "equip";
         }
         break;
 
       case EquipmentManager.OFFHAND:
-        if (this.equipmentType == ConsumptionType.EQUIP_OFFHAND) {
+        if (this.equipmentType == ConsumptionType.OFFHAND) {
           return "equip";
         }
 
-        if (this.equipmentType == ConsumptionType.EQUIP_WEAPON
+        if (this.equipmentType == ConsumptionType.WEAPON
             && EquipmentDatabase.getHands(this.itemId) == 1) {
           return "dualwield";
         }
         break;
 
       case EquipmentManager.CONTAINER:
-        if (this.equipmentType == ConsumptionType.EQUIP_CONTAINER) {
+        if (this.equipmentType == ConsumptionType.CONTAINER) {
           return "equip";
         }
         break;
 
       case EquipmentManager.SHIRT:
-        if (this.equipmentType == ConsumptionType.EQUIP_SHIRT) {
+        if (this.equipmentType == ConsumptionType.SHIRT) {
           return "equip";
         }
         break;
 
       case EquipmentManager.PANTS:
-        if (this.equipmentType == ConsumptionType.EQUIP_PANTS) {
+        if (this.equipmentType == ConsumptionType.PANTS) {
           return "equip";
         }
         break;
 
       case EquipmentManager.ACCESSORY1:
-        if (this.equipmentType == ConsumptionType.EQUIP_ACCESSORY) {
+        if (this.equipmentType == ConsumptionType.ACCESSORY) {
           this.addFormField("slot", "1");
           return "equip";
         }
         break;
 
       case EquipmentManager.ACCESSORY2:
-        if (this.equipmentType == ConsumptionType.EQUIP_ACCESSORY) {
+        if (this.equipmentType == ConsumptionType.ACCESSORY) {
           this.addFormField("slot", "2");
           return "equip";
         }
         break;
 
       case EquipmentManager.ACCESSORY3:
-        if (this.equipmentType == ConsumptionType.EQUIP_ACCESSORY) {
+        if (this.equipmentType == ConsumptionType.ACCESSORY) {
           this.addFormField("slot", "3");
           return "equip";
         }
@@ -609,13 +609,13 @@ public class EquipmentRequest extends PasswordHashRequest {
 
       case EquipmentManager.FAMILIAR:
         switch (this.equipmentType) {
-          case EQUIP_FAMILIAR:
+          case FAMILIAR_EQUIPMENT:
             return "equip";
 
-          case EQUIP_HAT:
-          case EQUIP_WEAPON:
-          case EQUIP_OFFHAND:
-          case EQUIP_PANTS:
+          case HAT:
+          case WEAPON:
+          case OFFHAND:
+          case PANTS:
             return "hatrack";
         }
         break;
@@ -665,40 +665,40 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     ConsumptionType equipmentType = ItemDatabase.getConsumptionType(itemId);
     switch (equipmentType) {
-      case EQUIP_HAT:
+      case HAT:
         return EquipmentManager.HAT;
 
-      case EQUIP_WEAPON:
+      case WEAPON:
         return EquipmentManager.WEAPON;
 
-      case EQUIP_OFFHAND:
+      case OFFHAND:
         return itemId == ItemPool.FAKE_HAND ? EquipmentManager.FAKEHAND : EquipmentManager.OFFHAND;
 
-      case EQUIP_CONTAINER:
+      case CONTAINER:
         return EquipmentManager.CONTAINER;
 
-      case EQUIP_SHIRT:
+      case SHIRT:
         return EquipmentManager.SHIRT;
 
-      case EQUIP_PANTS:
+      case PANTS:
         return EquipmentManager.PANTS;
 
-      case EQUIP_ACCESSORY:
+      case ACCESSORY:
         return EquipmentRequest.availableAccessory();
 
-      case EQUIP_FAMILIAR:
+      case FAMILIAR_EQUIPMENT:
         return EquipmentManager.FAMILIAR;
 
-      case CONSUME_STICKER:
+      case STICKER:
         return EquipmentRequest.availableSticker();
 
-      case CONSUME_CARD:
+      case CARD:
         return EquipmentManager.CARDSLEEVE;
 
-      case CONSUME_FOLDER:
+      case FOLDER:
         return EquipmentRequest.availableFolder();
 
-      case CONSUME_SIXGUN:
+      case SIXGUN:
         return EquipmentManager.HOLSTER;
 
       default:
@@ -855,7 +855,7 @@ public class EquipmentRequest extends PasswordHashRequest {
           && EquipmentDatabase.getHands(itemId) == 1) {
         int offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND).getItemId();
 
-        if (ItemDatabase.getConsumptionType(offhand) == ConsumptionType.EQUIP_WEAPON
+        if (ItemDatabase.getConsumptionType(offhand) == ConsumptionType.WEAPON
             && EquipmentDatabase.getWeaponType(itemId)
                 != EquipmentDatabase.getWeaponType(offhand)) {
           (new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND)).run();
@@ -871,7 +871,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
         int weaponItemId = weapon.getItemId();
 
-        if (itemType == ConsumptionType.EQUIP_WEAPON && weaponItemId <= 0) {
+        if (itemType == ConsumptionType.WEAPON && weaponItemId <= 0) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR, "You can't dual wield unless you already have a main weapon.");
           return;
@@ -879,7 +879,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
         if (EquipmentDatabase.getHands(weaponItemId) > 1) {
           String message =
-              itemType == ConsumptionType.EQUIP_WEAPON
+              itemType == ConsumptionType.WEAPON
                   ? ("You can't wield a "
                       + this.changeItem.getName()
                       + " in your off-hand while wielding a 2-handed weapon.")
@@ -890,7 +890,7 @@ public class EquipmentRequest extends PasswordHashRequest {
           return;
         }
 
-        if (itemType == ConsumptionType.EQUIP_WEAPON
+        if (itemType == ConsumptionType.WEAPON
             && EquipmentDatabase.getWeaponType(itemId)
                 != EquipmentDatabase.getWeaponType(weaponItemId)) {
           KoLmafia.updateDisplay(

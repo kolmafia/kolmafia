@@ -34,15 +34,15 @@ public class SingleUseRequest extends CreateItemRequest {
     ConsumptionType type = ItemDatabase.getConsumptionType(use);
     int count = this.getQuantityNeeded();
 
-    if (type == ConsumptionType.CONSUME_USE
+    if (type == ConsumptionType.USE
         || ItemDatabase.getAttribute(use, ItemDatabase.ATTR_USABLE)
         || count == 1) {
       this.constructURLString("inv_use.php");
       this.addFormField("which", "3");
       this.addFormField("whichitem", String.valueOf(use));
       this.addFormField("ajax", "1");
-    } else if (type == ConsumptionType.CONSUME_MULTIPLE
-        || type == ConsumptionType.CONSUME_AVATAR
+    } else if (type == ConsumptionType.USE_MULTIPLE
+        || type == ConsumptionType.AVATAR_POTION
         || ItemDatabase.getAttribute(use, ItemDatabase.ATTR_MULTIPLE)) {
       this.constructURLString("multiuse.php");
       this.addFormField("action", "useitem");
@@ -85,7 +85,7 @@ public class SingleUseRequest extends CreateItemRequest {
     int count = (quantity + yield - 1) / yield;
 
     if (count > 1
-        && (type == ConsumptionType.CONSUME_USE
+        && (type == ConsumptionType.USE
             || ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_USABLE))) {
       // We have to create one at a time.
       for (int i = 1; i <= count; ++i) {

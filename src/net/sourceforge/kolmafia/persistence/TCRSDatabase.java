@@ -535,14 +535,14 @@ public class TCRSDatabase {
       Integer id = entry.getKey();
       TCRS tcrs = entry.getValue();
       String name = CafeDatabase.getCafeBoozeName(id.intValue());
-      applyConsumableModifiers(ConsumptionType.CONSUME_DRINK, name, tcrs);
+      applyConsumableModifiers(ConsumptionType.DRINK, name, tcrs);
     }
 
     for (Entry<Integer, TCRS> entry : TCRSFoodMap.entrySet()) {
       Integer id = entry.getKey();
       TCRS tcrs = entry.getValue();
       String name = CafeDatabase.getCafeFoodName(id.intValue());
-      applyConsumableModifiers(ConsumptionType.CONSUME_EAT, name, tcrs);
+      applyConsumableModifiers(ConsumptionType.EAT, name, tcrs);
     }
 
     // Fix all the consumables whose adv yield varies by level
@@ -594,9 +594,9 @@ public class TCRSDatabase {
 
     // *** Do this after modifiers are set so can log effect modifiers
     ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
-    if (usage == ConsumptionType.CONSUME_EAT
-        || usage == ConsumptionType.CONSUME_DRINK
-        || usage == ConsumptionType.CONSUME_SPLEEN) {
+    if (usage == ConsumptionType.EAT
+        || usage == ConsumptionType.DRINK
+        || usage == ConsumptionType.SPLEEN) {
       applyConsumableModifiers(usage, itemName, tcrs);
     }
 
@@ -626,11 +626,11 @@ public class TCRSDatabase {
       return;
     }
     String verb =
-        (usage == ConsumptionType.CONSUME_EAT)
+        (usage == ConsumptionType.EAT)
             ? "eat "
-            : (usage == ConsumptionType.CONSUME_DRINK)
+            : (usage == ConsumptionType.DRINK)
                 ? "drink "
-                : (usage == ConsumptionType.CONSUME_SPLEEN) ? "chew " : "use ";
+                : (usage == ConsumptionType.SPLEEN) ? "chew " : "use ";
     String actions = EffectDatabase.getActions(effectId);
     boolean added = false;
     StringBuilder buffer = new StringBuilder();
@@ -680,10 +680,7 @@ public class TCRSDatabase {
     Integer lint = ConsumablesDatabase.getLevelReq(consumable);
     int level = lint == null ? 0 : lint;
     // Guess
-    int adv =
-        (usage == ConsumptionType.CONSUME_SPLEEN)
-            ? 0
-            : (tcrs.size * qualityMultiplier(tcrs.quality));
+    int adv = (usage == ConsumptionType.SPLEEN) ? 0 : (tcrs.size * qualityMultiplier(tcrs.quality));
     int mus = 0;
     int mys = 0;
     int mox = 0;

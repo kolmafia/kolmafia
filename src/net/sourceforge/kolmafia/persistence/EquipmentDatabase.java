@@ -252,25 +252,25 @@ public class EquipmentDatabase {
       ConsumptionType type = ItemDatabase.getConsumptionType(key.intValue());
 
       switch (type) {
-        case EQUIP_HAT:
+        case HAT:
           hats.put(name, key);
           break;
-        case EQUIP_PANTS:
+        case PANTS:
           pants.put(name, key);
           break;
-        case EQUIP_SHIRT:
+        case SHIRT:
           shirts.put(name, key);
           break;
-        case EQUIP_WEAPON:
+        case WEAPON:
           weapons.put(name, key);
           break;
-        case EQUIP_OFFHAND:
+        case OFFHAND:
           offhands.put(name, key);
           break;
-        case EQUIP_ACCESSORY:
+        case ACCESSORY:
           accessories.put(name, key);
           break;
-        case EQUIP_CONTAINER:
+        case CONTAINER:
           containers.put(name, key);
           break;
       }
@@ -311,7 +311,7 @@ public class EquipmentDatabase {
       int power = EquipmentDatabase.getPower(itemId);
       String req = EquipmentDatabase.getEquipRequirement(itemId);
       ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
-      boolean isWeapon = usage == ConsumptionType.EQUIP_WEAPON;
+      boolean isWeapon = usage == ConsumptionType.WEAPON;
       String type = EquipmentDatabase.itemTypes.get(itemId);
       boolean isShield = type != null && type.equals("shield");
       String weaponType = "";
@@ -467,8 +467,8 @@ public class EquipmentDatabase {
     while (++prevId <= limit) {
       String req = EquipmentDatabase.statRequirements.get(prevId);
       if ((req != null && req.length() > 0)
-          || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.EQUIP_FAMILIAR
-          || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.CONSUME_SIXGUN) {
+          || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.FAMILIAR_EQUIPMENT
+          || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.SIXGUN) {
         return prevId;
       }
     }
@@ -530,59 +530,59 @@ public class EquipmentDatabase {
 
   public static final String getItemType(final int itemId) {
     switch (ItemDatabase.getConsumptionType(itemId)) {
-      case CONSUME_EAT:
+      case EAT:
         return "food";
-      case CONSUME_DRINK:
+      case DRINK:
         return "booze";
-      case CONSUME_SPLEEN:
+      case SPLEEN:
         return "spleen item";
-      case CONSUME_FOOD_HELPER:
+      case FOOD_HELPER:
         return "food helper";
-      case CONSUME_DRINK_HELPER:
+      case DRINK_HELPER:
         return "drink helper";
-      case CONSUME_STICKER:
+      case STICKER:
         return "sticker";
-      case CONSUME_CARD:
+      case CARD:
         return "card";
-      case CONSUME_FOLDER:
+      case FOLDER:
         return "folder";
-      case CONSUME_BOOTSKIN:
+      case BOOTSKIN:
         return "bootskin";
-      case CONSUME_BOOTSPUR:
+      case BOOTSPUR:
         return "bootspur";
-      case CONSUME_SIXGUN:
+      case SIXGUN:
         return "sixgun";
-      case CONSUME_POTION:
+      case POTION:
         return "potion";
-      case CONSUME_AVATAR:
+      case AVATAR_POTION:
         return "avatar potion";
-      case GROW_FAMILIAR:
+      case FAMILIAR_HATCHLING:
         return "familiar larva";
-      case CONSUME_ZAP:
+      case ZAP:
         return "zap wand";
-      case EQUIP_FAMILIAR:
+      case FAMILIAR_EQUIPMENT:
         return "familiar equipment";
-      case EQUIP_ACCESSORY:
+      case ACCESSORY:
         return "accessory";
-      case EQUIP_HAT:
+      case HAT:
         return "hat";
-      case EQUIP_PANTS:
+      case PANTS:
         return "pants";
-      case EQUIP_SHIRT:
+      case SHIRT:
         return "shirt";
-      case EQUIP_WEAPON:
+      case WEAPON:
         {
           String type = EquipmentDatabase.itemTypes.get(itemId);
           return type != null ? type : "weapon";
         }
-      case EQUIP_OFFHAND:
+      case OFFHAND:
         {
           String type = EquipmentDatabase.itemTypes.get(itemId);
           return type != null ? type : "offhand";
         }
-      case EQUIP_CONTAINER:
+      case CONTAINER:
         return "container";
-      case CONSUME_GUARDIAN:
+      case PASTA_GUARDIAN:
         return "pasta guardian";
       default:
         return "";
@@ -603,7 +603,7 @@ public class EquipmentDatabase {
   public static final Stat getWeaponStat(final int itemId) {
     ConsumptionType consumptionType = ItemDatabase.getConsumptionType(itemId);
 
-    if (consumptionType != ConsumptionType.EQUIP_WEAPON) {
+    if (consumptionType != ConsumptionType.WEAPON) {
       return Stat.NONE;
     }
 
@@ -693,11 +693,11 @@ public class EquipmentDatabase {
   }
 
   public static final boolean isShirt(final AdventureResult item) {
-    return ItemDatabase.getConsumptionType(item.getItemId()) == ConsumptionType.EQUIP_SHIRT;
+    return ItemDatabase.getConsumptionType(item.getItemId()) == ConsumptionType.SHIRT;
   }
 
   public static final boolean isContainer(final AdventureResult item) {
-    return ItemDatabase.getConsumptionType(item.getItemId()) == ConsumptionType.EQUIP_CONTAINER;
+    return ItemDatabase.getConsumptionType(item.getItemId()) == ConsumptionType.CONTAINER;
   }
 
   public static final boolean isMainhandOnly(final AdventureResult item) {
@@ -724,16 +724,16 @@ public class EquipmentDatabase {
     }
 
     switch (ItemDatabase.getConsumptionType(id)) {
-      case EQUIP_ACCESSORY:
-      case EQUIP_HAT:
-      case EQUIP_PANTS:
-      case EQUIP_SHIRT:
-      case EQUIP_WEAPON:
-      case EQUIP_OFFHAND:
-      case EQUIP_CONTAINER:
+      case ACCESSORY:
+      case HAT:
+      case PANTS:
+      case SHIRT:
+      case WEAPON:
+      case OFFHAND:
+      case CONTAINER:
         break;
 
-      case EQUIP_FAMILIAR:
+      case FAMILIAR_EQUIPMENT:
       default:
         return false;
     }

@@ -143,35 +143,35 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
       }
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case EQUIP_WEAPON:
+        case WEAPON:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(0).isSelected();
           break;
 
-        case EQUIP_OFFHAND:
+        case OFFHAND:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(1).isSelected();
           break;
 
-        case EQUIP_HAT:
+        case HAT:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(2).isSelected();
           break;
 
-        case EQUIP_CONTAINER:
+        case CONTAINER:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(3).isSelected();
           break;
 
-        case EQUIP_SHIRT:
+        case SHIRT:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(4).isSelected();
           break;
 
-        case EQUIP_PANTS:
+        case PANTS:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(5).isSelected();
           break;
 
-        case EQUIP_ACCESSORY:
+        case ACCESSORY:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(6).isSelected();
           break;
 
-        case EQUIP_FAMILIAR:
+        case FAMILIAR_EQUIPMENT:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(7).isSelected();
           break;
 
@@ -197,7 +197,7 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
       for (int i = 0; i < items.length; ++i) {
         AdventureResult item = items[i];
 
-        RequestThread.postRequest(UseItemRequest.getInstance(ConsumptionType.CONSUME_SLIME, item));
+        RequestThread.postRequest(UseItemRequest.getInstance(ConsumptionType.SLIMELING, item));
       }
     }
 

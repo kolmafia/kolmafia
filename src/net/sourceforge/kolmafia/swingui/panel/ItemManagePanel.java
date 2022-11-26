@@ -468,9 +468,9 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       id = ((AdventureResult) item).getItemId();
     }
     switch (ItemDatabase.getConsumptionType(id)) {
-      case EQUIP_HAT:
+      case HAT:
         return Preferences.getInteger("usableHats");
-      case EQUIP_WEAPON:
+      case WEAPON:
         switch (EquipmentDatabase.getHands(id)) {
           case 3:
             return Preferences.getInteger("usable3HWeapons");
@@ -479,13 +479,13 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
           default:
             return Preferences.getInteger("usable1HWeapons");
         }
-      case EQUIP_OFFHAND:
+      case OFFHAND:
         return Preferences.getInteger("usableOffhands");
-      case EQUIP_SHIRT:
+      case SHIRT:
         return Preferences.getInteger("usableShirts");
-      case EQUIP_PANTS:
+      case PANTS:
         return Preferences.getInteger("usablePants");
-      case EQUIP_ACCESSORY:
+      case ACCESSORY:
         Modifiers mods = Modifiers.getItemModifiers(id);
         if (mods != null && mods.getBoolean(Modifiers.SINGLE)) {
           return Preferences.getInteger("usable1xAccs");
@@ -575,14 +575,14 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         ConsumptionType usageType = ItemDatabase.getConsumptionType(item.getItemId());
 
         switch (usageType) {
-          case EQUIP_FAMILIAR:
-          case EQUIP_ACCESSORY:
-          case EQUIP_HAT:
-          case EQUIP_PANTS:
-          case EQUIP_CONTAINER:
-          case EQUIP_SHIRT:
-          case EQUIP_WEAPON:
-          case EQUIP_OFFHAND:
+          case FAMILIAR_EQUIPMENT:
+          case ACCESSORY:
+          case HAT:
+          case PANTS:
+          case CONTAINER:
+          case SHIRT:
+          case WEAPON:
+          case OFFHAND:
             RequestThread.postRequest(
                 new EquipmentRequest(
                     item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
@@ -819,22 +819,22 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
               : ItemDatabase.getItemId(name, 1, false);
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case CONSUME_EAT:
+        case EAT:
           isVisibleWithFilter = FilterItemField.this.food;
           break;
 
-        case CONSUME_DRINK:
+        case DRINK:
           isVisibleWithFilter = FilterItemField.this.booze;
           break;
 
-        case EQUIP_HAT:
-        case EQUIP_SHIRT:
-        case EQUIP_WEAPON:
-        case EQUIP_OFFHAND:
-        case EQUIP_PANTS:
-        case EQUIP_CONTAINER:
-        case EQUIP_ACCESSORY:
-        case EQUIP_FAMILIAR:
+        case HAT:
+        case SHIRT:
+        case WEAPON:
+        case OFFHAND:
+        case PANTS:
+        case CONTAINER:
+        case ACCESSORY:
+        case FAMILIAR_EQUIPMENT:
           isVisibleWithFilter = FilterItemField.this.equip;
           break;
 

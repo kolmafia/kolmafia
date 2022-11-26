@@ -135,11 +135,11 @@ public class ConsumablesDatabase {
 
   public static void reset() {
     ConsumablesDatabase.readConsumptionData(
-        "fullness.txt", KoLConstants.FULLNESS_VERSION, ConsumptionType.CONSUME_EAT);
+        "fullness.txt", KoLConstants.FULLNESS_VERSION, ConsumptionType.EAT);
     ConsumablesDatabase.readConsumptionData(
-        "inebriety.txt", KoLConstants.INEBRIETY_VERSION, ConsumptionType.CONSUME_DRINK);
+        "inebriety.txt", KoLConstants.INEBRIETY_VERSION, ConsumptionType.DRINK);
     ConsumablesDatabase.readConsumptionData(
-        "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION, ConsumptionType.CONSUME_SPLEEN);
+        "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION, ConsumptionType.SPLEEN);
     ConsumablesDatabase.readNonfillingData();
   }
 
@@ -291,9 +291,9 @@ public class ConsumablesDatabase {
     Consumable consumable =
         setConsumptionData(
             name,
-            usage == ConsumptionType.CONSUME_EAT ? size : null,
-            usage == ConsumptionType.CONSUME_DRINK ? size : null,
-            usage == ConsumptionType.CONSUME_SPLEEN ? size : null,
+            usage == ConsumptionType.EAT ? size : null,
+            usage == ConsumptionType.DRINK ? size : null,
+            usage == ConsumptionType.SPLEEN ? size : null,
             level,
             quality,
             adventures,
@@ -350,7 +350,7 @@ public class ConsumablesDatabase {
     int advs = (c == null) ? 0 : c.getAdventuresNeeded(1, true);
 
     if (KoLCharacter.inNuclearAutumn()) {
-      if (consumable.getConsumptionType() == ConsumptionType.CONSUME_EAT) {
+      if (consumable.getConsumptionType() == ConsumptionType.EAT) {
         int multiplier = 1;
         if (KoLCharacter.hasSkill("Extra Gall Bladder")) multiplier += 1;
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.RECORD_HUNGER)))
@@ -359,7 +359,7 @@ public class ConsumablesDatabase {
         end *= multiplier;
       }
       // && KoLCharacter.hasSkill( "Extra Kidney" )
-      else if (consumable.getConsumptionType() == ConsumptionType.CONSUME_DRINK) {
+      else if (consumable.getConsumptionType() == ConsumptionType.DRINK) {
         int multiplier = 1;
         if (KoLCharacter.hasSkill("Extra Kidney")) multiplier += 1;
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.DRUNK_AVUNCULAR)))
@@ -401,7 +401,7 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.addCurrentAdventures(name, size, true, true, false, false, gain2);
 
     // Only foods have effects 3-4
-    if (consumable.getConsumptionType() != ConsumptionType.CONSUME_EAT) {
+    if (consumable.getConsumptionType() != ConsumptionType.EAT) {
       return;
     }
 
@@ -520,9 +520,9 @@ public class ConsumablesDatabase {
   public static void registerConsumable(
       final String itemName, final ConsumptionType usage, final String text) {
     // Get information from description
-    if (usage != ConsumptionType.CONSUME_EAT
-        && usage != ConsumptionType.CONSUME_DRINK
-        && usage != ConsumptionType.CONSUME_SPLEEN) {
+    if (usage != ConsumptionType.EAT
+        && usage != ConsumptionType.DRINK
+        && usage != ConsumptionType.SPLEEN) {
       return;
     }
 

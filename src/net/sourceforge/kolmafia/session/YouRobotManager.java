@@ -589,15 +589,15 @@ public abstract class YouRobotManager {
   // Used by EquipmentManager.canEquip
   public static boolean canEquip(final ConsumptionType type) {
     switch (type) {
-      case EQUIP_HAT:
+      case HAT:
         return hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
-      case EQUIP_WEAPON:
+      case WEAPON:
         return hasEquipped(RobotUpgrade.VICE_GRIPS);
-      case EQUIP_OFFHAND:
+      case OFFHAND:
         return hasEquipped(RobotUpgrade.OMNI_CLAW);
-      case EQUIP_SHIRT:
+      case SHIRT:
         return hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
-      case EQUIP_PANTS:
+      case PANTS:
         return hasEquipped(RobotUpgrade.ROBO_LEGS);
     }
 

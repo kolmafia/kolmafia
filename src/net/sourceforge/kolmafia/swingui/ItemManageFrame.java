@@ -483,12 +483,12 @@ public class ItemManageFrame extends GenericFrame {
       ConsumptionType consumptionType =
           ItemDatabase.getConsumptionType(((AdventureResult) item).getItemId());
       switch (consumptionType) {
-        case EQUIP_HAT:
-        case EQUIP_PANTS:
-        case EQUIP_SHIRT:
-        case EQUIP_CONTAINER:
-        case EQUIP_WEAPON:
-        case EQUIP_OFFHAND:
+        case HAT:
+        case PANTS:
+        case SHIRT:
+        case CONTAINER:
+        case WEAPON:
+        case OFFHAND:
           return 1;
 
         default:

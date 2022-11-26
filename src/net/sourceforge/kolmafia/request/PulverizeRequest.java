@@ -97,13 +97,13 @@ public class PulverizeRequest extends GenericRequest {
     }
 
     switch (ItemDatabase.getConsumptionType(this.item.getItemId())) {
-      case EQUIP_ACCESSORY:
-      case EQUIP_HAT:
-      case EQUIP_PANTS:
-      case EQUIP_SHIRT:
-      case EQUIP_WEAPON:
-      case EQUIP_OFFHAND:
-      case EQUIP_CONTAINER:
+      case ACCESSORY:
+      case HAT:
+      case PANTS:
+      case SHIRT:
+      case WEAPON:
+      case OFFHAND:
+      case CONTAINER:
         break;
 
       default:

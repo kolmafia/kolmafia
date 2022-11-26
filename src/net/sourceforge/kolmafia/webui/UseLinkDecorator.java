@@ -368,7 +368,7 @@ public abstract class UseLinkDecorator {
 
     // Skip items which are multi-use.
     ConsumptionType consumeMethod = ItemDatabase.getConsumptionType(itemId);
-    if (consumeMethod == ConsumptionType.CONSUME_MULTIPLE) {
+    if (consumeMethod == ConsumptionType.USE_MULTIPLE) {
       return CraftingType.NOCREATE;
     }
 
@@ -562,7 +562,7 @@ public abstract class UseLinkDecorator {
       return getCreateLink(itemId, itemCount, mixingMethod);
     }
 
-    if (consumeMethod == ConsumptionType.NO_CONSUME) {
+    if (consumeMethod == ConsumptionType.NONE) {
       return getNavigationLink(itemId, location);
     }
 
@@ -611,7 +611,7 @@ public abstract class UseLinkDecorator {
     boolean combatResults = location.startsWith("fight.php");
 
     switch (consumeMethod) {
-      case GROW_FAMILIAR:
+      case FAMILIAR_HATCHLING:
         if (itemId == ItemPool.MOSQUITO_LARVA) {
           return getCouncilLink(itemId);
         }
@@ -630,7 +630,7 @@ public abstract class UseLinkDecorator {
 
         return new UseLink(itemId, "grow", "inv_familiar.php?whichitem=");
 
-      case CONSUME_EAT:
+      case EAT:
         switch (itemId) {
           case ItemPool.GOAT_CHEESE:
             return new UseLink(
@@ -725,7 +725,7 @@ public abstract class UseLinkDecorator {
 
         return new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=");
 
-      case CONSUME_DRINK:
+      case DRINK:
         if (!KoLCharacter.canDrink()) {
           return null;
         }
@@ -759,20 +759,20 @@ public abstract class UseLinkDecorator {
         }
         return new UseLink(itemId, itemCount, "drink", "inv_booze.php?which=1&whichitem=");
 
-      case CONSUME_FOOD_HELPER:
+      case FOOD_HELPER:
         if (!KoLCharacter.canEat()) {
           return null;
         }
         return new UseLink(itemId, 1, "eat with", "inv_use.php?which=1&whichitem=");
 
-      case CONSUME_DRINK_HELPER:
+      case DRINK_HELPER:
         if (!KoLCharacter.canDrink()) {
           return null;
         }
         return new UseLink(itemId, 1, "drink with", "inv_use.php?which=1&whichitem=");
 
-      case CONSUME_POTION:
-      case CONSUME_AVATAR:
+      case POTION:
+      case AVATAR_POTION:
         {
           int count = InventoryManager.getCount(itemId);
           int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
@@ -803,7 +803,7 @@ public abstract class UseLinkDecorator {
           return new UseLink(itemId, useCount, use, "multiuse.php?passitem=");
         }
 
-      case CONSUME_MULTIPLE:
+      case USE_MULTIPLE:
         {
           int count = InventoryManager.getCount(itemId);
           int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
@@ -840,7 +840,7 @@ public abstract class UseLinkDecorator {
           }
 
           if (useCount == 1) {
-            String page = (consumeMethod == ConsumptionType.CONSUME_MULTIPLE) ? "3" : "1";
+            String page = (consumeMethod == ConsumptionType.USE_MULTIPLE) ? "3" : "1";
             return new UseLink(
                 itemId,
                 useCount,
@@ -856,14 +856,14 @@ public abstract class UseLinkDecorator {
           return new UseLink(itemId, useCount, use, "multiuse.php?passitem=");
         }
 
-      case CONSUME_FOLDER:
+      case FOLDER:
 
         // Not inline, since the redirection to a choice
         // doesn't work ajaxified.
 
         return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
 
-      case CONSUME_SPLEEN:
+      case SPLEEN:
         {
           int count = InventoryManager.getCount(itemId);
           int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
@@ -890,9 +890,9 @@ public abstract class UseLinkDecorator {
               itemId, useCount, getPotionSpeculation("chew", itemId), "inv_spleen.php?whichitem=");
         }
 
-      case CONSUME_USE:
-      case MESSAGE_DISPLAY:
-      case INFINITE_USES:
+      case USE:
+      case USE_MESSAGE_DISPLAY:
+      case USE_INFINITE:
         if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
           return null;
         }
@@ -1136,7 +1136,7 @@ public abstract class UseLinkDecorator {
                 "inv_use.php?which=3&whichitem=");
         }
 
-      case CONSUME_GUARDIAN:
+      case PASTA_GUARDIAN:
         if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
           return null;
         }
@@ -1146,15 +1146,15 @@ public abstract class UseLinkDecorator {
         }
         return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=");
 
-      case EQUIP_HAT:
-      case EQUIP_WEAPON:
-      case CONSUME_SIXGUN:
-      case EQUIP_OFFHAND:
-      case EQUIP_SHIRT:
-      case EQUIP_PANTS:
-      case EQUIP_CONTAINER:
-      case EQUIP_ACCESSORY:
-      case EQUIP_FAMILIAR:
+      case HAT:
+      case WEAPON:
+      case SIXGUN:
+      case OFFHAND:
+      case SHIRT:
+      case PANTS:
+      case CONTAINER:
+      case ACCESSORY:
+      case FAMILIAR_EQUIPMENT:
         switch (itemId) {
           case ItemPool.BATSKIN_BELT:
           case ItemPool.BONERDAGON_SKULL:
@@ -1323,8 +1323,7 @@ public abstract class UseLinkDecorator {
 
         // Don't offer an "equip" link for weapons or offhands
         // in Fistcore or Axecore
-        if ((consumeMethod == ConsumptionType.EQUIP_WEAPON
-                || consumeMethod == ConsumptionType.EQUIP_OFFHAND)
+        if ((consumeMethod == ConsumptionType.WEAPON || consumeMethod == ConsumptionType.OFFHAND)
             && (KoLCharacter.inFistcore() || KoLCharacter.inAxecore())) {
           return null;
         }
@@ -1342,7 +1341,7 @@ public abstract class UseLinkDecorator {
                   "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit));
         }
 
-        if (consumeMethod == ConsumptionType.EQUIP_ACCESSORY
+        if (consumeMethod == ConsumptionType.ACCESSORY
             && !EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1)
                 .equals(EquipmentRequest.UNEQUIP)
             && !EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2)
@@ -1367,7 +1366,7 @@ public abstract class UseLinkDecorator {
                   itemCount,
                   getEquipmentSpeculation("acc3", itemId, EquipmentManager.ACCESSORY3),
                   "inv_equip.php?which=2&action=equip&slot=3&whichitem="));
-        } else if (consumeMethod == ConsumptionType.CONSUME_SIXGUN) {
+        } else if (consumeMethod == ConsumptionType.SIXGUN) {
           // Only as WOL class
           if (KoLCharacter.getAscensionClass() != AscensionClass.COWPUNCHER
               && KoLCharacter.getAscensionClass() != AscensionClass.BEANSLINGER
@@ -1397,13 +1396,13 @@ public abstract class UseLinkDecorator {
           // triumphantly and trying really hard not to think about how oddly
           // chilly it has suddenly become.
 
-          if (consumeMethod == ConsumptionType.EQUIP_PANTS
+          if (consumeMethod == ConsumptionType.PANTS
               && text.contains("steal the pants from your unsuspecting self")) {
             uses.add(new UseLink(itemId, "guild", "guild.php?place=challenge"));
           }
         }
 
-        if (consumeMethod == ConsumptionType.EQUIP_WEAPON
+        if (consumeMethod == ConsumptionType.WEAPON
             && EquipmentDatabase.getHands(itemId) == 1
             && EquipmentDatabase.getHands(
                     EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId())
@@ -1417,7 +1416,7 @@ public abstract class UseLinkDecorator {
                   "inv_equip.php?which=2&action=dualwield&whichitem="));
         }
 
-        if (consumeMethod != ConsumptionType.EQUIP_FAMILIAR
+        if (consumeMethod != ConsumptionType.FAMILIAR_EQUIPMENT
             && KoLCharacter.getFamiliar().canEquip(ItemPool.get(itemId, 1))) {
           uses.add(
               new UseLink(
@@ -1477,7 +1476,7 @@ public abstract class UseLinkDecorator {
           return new UsesLink(uses.toArray(new UseLink[uses.size()]));
         }
 
-      case CONSUME_ZAP:
+      case ZAP:
         return new UseLink(itemId, itemCount, "zap", "wand.php?whichwand=");
     }
 

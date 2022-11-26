@@ -756,7 +756,7 @@ public class ListCellRendererFactory {
       int power = EquipmentDatabase.getPower(ar.getItemId());
       String stringForm;
 
-      if (equipmentType == ConsumptionType.EQUIP_FAMILIAR) {
+      if (equipmentType == ConsumptionType.FAMILIAR_EQUIPMENT) {
         stringForm = ar.getName();
 
         String effect = Modifiers.getFamiliarEffect(ar.getName());
@@ -770,7 +770,7 @@ public class ListCellRendererFactory {
       } else if (ar.equals(EquipmentRequest.UNEQUIP)) {
         stringForm = ar.getName();
       } else {
-        if (equipmentType == ConsumptionType.EQUIP_ACCESSORY) {
+        if (equipmentType == ConsumptionType.ACCESSORY) {
           int count;
           Modifiers mods = Modifiers.getItemModifiers(ar.getItemId());
           if (mods != null && mods.getBoolean(Modifiers.SINGLE)) {

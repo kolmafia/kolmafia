@@ -88,29 +88,29 @@ public class UseItemCommand extends AbstractCommand {
 
     // Now, handle the instance where the first item is actually
     // the quantity desired, and the next is the amount to use
-    ConsumptionType consumptionType = ConsumptionType.NO_CONSUME;
+    ConsumptionType consumptionType = ConsumptionType.NONE;
     Match filter;
 
     if (command.equals("eat") || command.equals("eatsilent")) {
-      consumptionType = ConsumptionType.CONSUME_EAT;
+      consumptionType = ConsumptionType.EAT;
       filter = Match.FOOD;
     } else if (command.equals("ghost")) {
-      consumptionType = ConsumptionType.CONSUME_GHOST;
+      consumptionType = ConsumptionType.GLUTTONOUS_GHOST;
       filter = Match.FOOD;
     } else if (command.equals("drink") || command.equals("overdrink")) {
-      consumptionType = ConsumptionType.CONSUME_DRINK;
+      consumptionType = ConsumptionType.DRINK;
       filter = Match.BOOZE;
     } else if (command.equals("hobo")) {
-      consumptionType = ConsumptionType.CONSUME_HOBO;
+      consumptionType = ConsumptionType.SPIRIT_HOBO;
       filter = Match.BOOZE;
     } else if (command.equals("chew")) {
-      consumptionType = ConsumptionType.CONSUME_SPLEEN;
+      consumptionType = ConsumptionType.SPLEEN;
       filter = Match.SPLEEN;
     } else if (command.equals("slimeling")) {
-      consumptionType = ConsumptionType.CONSUME_SLIME;
+      consumptionType = ConsumptionType.SLIMELING;
       filter = Match.EQUIP;
     } else if (command.equals("robo")) {
-      consumptionType = ConsumptionType.CONSUME_ROBO;
+      consumptionType = ConsumptionType.ROBORTENDER;
       filter = Match.ROBO;
     } else {
       filter = Match.USE;
@@ -151,25 +151,24 @@ public class UseItemCommand extends AbstractCommand {
 
         ConsumptionType consumpt = ItemDatabase.getConsumptionType(itemId);
 
-        if (command.equals("eat") && consumpt == ConsumptionType.CONSUME_FOOD_HELPER) { // allowed
+        if (command.equals("eat") && consumpt == ConsumptionType.FOOD_HELPER) { // allowed
         } else if (command.equals("eat") || command.equals("ghost")) {
-          if (consumpt != ConsumptionType.CONSUME_EAT) {
+          if (consumpt != ConsumptionType.EAT) {
             KoLmafia.updateDisplay(
                 MafiaState.ERROR, currentMatch.getName() + " cannot be consumed.");
             return false;
           }
         }
 
-        if (command.equals("drink")
-            && consumpt == ConsumptionType.CONSUME_DRINK_HELPER) { // allowed
+        if (command.equals("drink") && consumpt == ConsumptionType.DRINK_HELPER) { // allowed
         } else if (command.equals("drink") || command.equals("hobo")) {
-          if (consumpt != ConsumptionType.CONSUME_DRINK) {
+          if (consumpt != ConsumptionType.DRINK) {
             KoLmafia.updateDisplay(
                 MafiaState.ERROR, currentMatch.getName() + " is not an alcoholic beverage.");
             return false;
           }
         } else if (command.equals("chew")) {
-          if (consumpt != ConsumptionType.CONSUME_SPLEEN) {
+          if (consumpt != ConsumptionType.SPLEEN) {
             KoLmafia.updateDisplay(
                 MafiaState.ERROR, currentMatch.getName() + " is not a spleen toxin.");
             return false;
@@ -179,9 +178,9 @@ public class UseItemCommand extends AbstractCommand {
         if (command.equals("use") && !ItemDatabase.isUsable(itemId)) {
           var correctedUsage =
               switch (consumpt) {
-                case CONSUME_EAT, CONSUME_FOOD_HELPER -> "eaten";
-                case CONSUME_DRINK, CONSUME_DRINK_HELPER -> "drunk";
-                case CONSUME_SPLEEN -> "chewed";
+                case EAT, FOOD_HELPER -> "eaten";
+                case DRINK, DRINK_HELPER -> "drunk";
+                case SPLEEN -> "chewed";
                 default -> null;
               };
           if (correctedUsage != null) {
@@ -200,7 +199,7 @@ public class UseItemCommand extends AbstractCommand {
             RequestLogger.printLine(currentMatch.toString());
           } else {
             UseItemRequest request =
-                consumptionType != ConsumptionType.NO_CONSUME
+                consumptionType != ConsumptionType.NONE
                     ? UseItemRequest.getInstance(consumptionType, currentMatch)
                     : UseItemRequest.getInstance(currentMatch);
 

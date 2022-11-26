@@ -226,9 +226,9 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
       while (st.hasMoreTokens()
           && EquipmentDatabase.contains(itemId = ItemDatabase.getItemId(token = st.nextToken()))) {
         switch (ItemDatabase.getConsumptionType(itemId)) {
-          case EQUIP_HAT:
-          case EQUIP_PANTS:
-          case EQUIP_SHIRT:
+          case HAT:
+          case PANTS:
+          case SHIRT:
             this.equipmentPower += EquipmentDatabase.getPower(itemId);
             break;
         }

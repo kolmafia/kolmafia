@@ -1310,7 +1310,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.HATRACK:
         // Hatrack can wear Hats as well as familiar items, but not Crown of Thrones
         if (itemId != ItemPool.HATSEAT
-            && ItemDatabase.getConsumptionType(itemId) == ConsumptionType.EQUIP_HAT) {
+            && ItemDatabase.getConsumptionType(itemId) == ConsumptionType.HAT) {
           return true;
         }
         break;
@@ -1325,14 +1325,14 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
       case FamiliarPool.LEFT_HAND:
         // Left-Hand Man can wear Offhand items as well as familiar items
-        if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.EQUIP_OFFHAND) {
+        if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.OFFHAND) {
           return true;
         }
         break;
 
       case FamiliarPool.SCARECROW:
         // Scarecrow can wear Pants as well as familiar items
-        if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.EQUIP_PANTS) {
+        if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.PANTS) {
           return true;
         }
         break;
@@ -1372,15 +1372,15 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public ConsumptionType specialEquipmentType() {
     switch (this.id) {
       case FamiliarPool.HATRACK:
-        return ConsumptionType.EQUIP_HAT;
+        return ConsumptionType.HAT;
       case FamiliarPool.HAND:
-        return ConsumptionType.EQUIP_WEAPON;
+        return ConsumptionType.WEAPON;
       case FamiliarPool.LEFT_HAND:
-        return ConsumptionType.EQUIP_OFFHAND;
+        return ConsumptionType.OFFHAND;
       case FamiliarPool.SCARECROW:
-        return ConsumptionType.EQUIP_PANTS;
+        return ConsumptionType.PANTS;
       default:
-        return ConsumptionType.NO_CONSUME;
+        return ConsumptionType.NONE;
     }
   }
 

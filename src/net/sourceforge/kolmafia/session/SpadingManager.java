@@ -33,19 +33,19 @@ public class SpadingManager {
 
     public static SpadingEvent fromKoLConstant(final ConsumptionType constant) {
       switch (constant) {
-        case CONSUME_EAT:
+        case EAT:
           return SpadingEvent.CONSUME_EAT;
-        case CONSUME_DRINK:
+        case DRINK:
           return SpadingEvent.CONSUME_DRINK;
-        case CONSUME_SPLEEN:
+        case SPLEEN:
           return SpadingEvent.CONSUME_SPLEEN;
-        case CONSUME_USE:
+        case USE:
           return SpadingEvent.CONSUME_USE;
-        case CONSUME_MULTIPLE:
+        case USE_MULTIPLE:
           return SpadingEvent.CONSUME_MULTIPLE;
-        case INFINITE_USES:
+        case USE_INFINITE:
           return SpadingEvent.CONSUME_REUSABLE;
-        case MESSAGE_DISPLAY:
+        case USE_MESSAGE_DISPLAY:
           return SpadingEvent.CONSUME_MESSAGE;
         default:
           return null;

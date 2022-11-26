@@ -523,7 +523,7 @@ public class ProxyRecordValue extends RecordValue {
      */
     public boolean get_reusable() {
       int id = (int) this.contentLong;
-      return ItemDatabase.getConsumptionType(id) == ConsumptionType.INFINITE_USES
+      return ItemDatabase.getConsumptionType(id) == ConsumptionType.USE_INFINITE
           || ItemDatabase.getAttribute(id, ItemDatabase.ATTR_REUSABLE);
     }
 

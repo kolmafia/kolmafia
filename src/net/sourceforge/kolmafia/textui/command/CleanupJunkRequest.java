@@ -130,11 +130,11 @@ public class CleanupJunkRequest extends AbstractCommand {
 
         if (itemCount > 0 && !NPCStoreDatabase.contains(itemId, false)) {
           switch (ItemDatabase.getConsumptionType(itemId)) {
-            case EQUIP_HAT:
-            case EQUIP_PANTS:
-            case EQUIP_SHIRT:
-            case EQUIP_WEAPON:
-            case EQUIP_OFFHAND:
+            case HAT:
+            case PANTS:
+            case SHIRT:
+            case WEAPON:
+            case OFFHAND:
               if (InventoryManager.hasItem(ItemPool.TENDER_HAMMER) && itemPower >= 100
                   || hasMalusAccess && itemPower > 10) {
                 RequestThread.postRequest(new PulverizeRequest(currentItem.getInstance(itemCount)));
@@ -142,8 +142,8 @@ public class CleanupJunkRequest extends AbstractCommand {
 
               break;
 
-            case EQUIP_FAMILIAR:
-            case EQUIP_ACCESSORY:
+            case FAMILIAR_EQUIPMENT:
+            case ACCESSORY:
               if (InventoryManager.hasItem(ItemPool.TENDER_HAMMER)) {
                 RequestThread.postRequest(new PulverizeRequest(currentItem.getInstance(itemCount)));
               }
