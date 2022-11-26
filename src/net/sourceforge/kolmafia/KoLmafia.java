@@ -763,6 +763,9 @@ public abstract class KoLmafia {
       RequestThread.postRequest(new CharPaneRequest());
       RequestThread.postRequest(new ScrapheapRequest("sh_configure"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1445&show=cpus"));
+    } else if (KoLCharacter.inNoobcore()) {
+      // Charpane contains the only absorb count tracking, thus we read it there
+      RequestThread.postRequest(new CharPaneRequest());
     }
 
     // Refresh fire levels
