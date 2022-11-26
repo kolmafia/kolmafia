@@ -210,9 +210,6 @@ public class QuestManager {
         case AdventurePool.ICE_HOLE:
           handleAirportChange(location, responseText);
           break;
-        case AdventurePool.MARINARA_TRENCH:
-        case AdventurePool.ANENOME_MINE:
-        case AdventurePool.DIVE_BAR:
         case AdventurePool.MERKIN_OUTPOST:
         case AdventurePool.CALIGINOUS_ABYSS:
           handleSeaChange(location, responseText);
@@ -1266,10 +1263,13 @@ public class QuestManager {
 
   private static void handleSeaChange(final String location, final String responseText) {
     int area = AdventureRequest.parseArea(location);
-    if (location.contains("action=oldman_oldman")
-        && (responseText.contains("I lost my favorite boot, you see.")
-            || responseText.contains("have you found my boot yet?"))) {
-      QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
+    if (location.contains("action=oldman_oldman")) {
+      if (responseText.contains("I lost my favorite boot, you see.")
+          || responseText.contains("have you found my boot yet?")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
+      } else if (responseText.contains("The old man snores fitfully")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.FINISHED);
+      }
     }
     // Little Brother
     else if (location.contains("who=1")) {
@@ -1301,23 +1301,15 @@ public class QuestManager {
       } else if (responseText.contains("Gonna need one of them seahorses")) {
         Preferences.setBoolean("corralUnlocked", true);
       }
-    } else if (area == AdventurePool.MARINARA_TRENCH
-        && responseText.contains("Show me what you've found, Old Timer")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.ANENOME_MINE
-        && responseText.contains("Sure, kid. I can teach you a thing or two")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.DIVE_BAR
-        && (responseText.contains("What causes these things to form?")
-            || responseText.contains("what is that divine instrument?"))) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.MERKIN_OUTPOST
-        && responseText.contains("Phew, that was a close one")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step9");
-      ConcoctionDatabase.setRefreshNeeded(false);
-    } else if (area == AdventurePool.CALIGINOUS_ABYSS
-        && responseText.contains("I should get dinner on the table for the boys")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
+    } else if (area == AdventurePool.MERKIN_OUTPOST) {
+      if (responseText.contains("Phew, that was a close one")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step9");
+        ConcoctionDatabase.setRefreshNeeded(false);
+      }
+    } else if (area == AdventurePool.CALIGINOUS_ABYSS) {
+      if (responseText.contains("I should get dinner on the table for the boys")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
+      }
     }
     // Learn about quest progress if visiting sea floor
     else if (location.startsWith("seafloor")) {

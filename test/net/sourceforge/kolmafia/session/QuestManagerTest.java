@@ -1711,6 +1711,29 @@ public class QuestManagerTest {
           assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
         }
       }
+
+      @Test
+      public void seeingOldManSnoringFinishesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_visit_old_man_4.html"));
+
+          var URL = "place.php?whichplace=sea_oldman&action=oldman_oldman";
+          var request = new GenericRequest(URL, false);
+          request.run();
+
+          assertThat(Quest.SEA_OLD_GUY, isFinished());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(
+              requests.get(0), "/place.php", "whichplace=sea_oldman&action=oldman_oldman");
+        }
+      }
     }
 
     // ***** The Sea Monkee Quest *****
