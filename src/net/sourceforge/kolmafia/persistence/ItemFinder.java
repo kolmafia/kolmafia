@@ -186,7 +186,8 @@ public class ItemFinder {
         case FOOD:
           ItemFinder.conditionalRemove(
               nameIterator,
-              useType != ConsumptionType.CONSUME_EAT && useType != ConsumptionType.CONSUME_FOOD_HELPER);
+              useType != ConsumptionType.CONSUME_EAT
+                  && useType != ConsumptionType.CONSUME_FOOD_HELPER);
           break;
         case BOOZE:
           ItemFinder.conditionalRemove(

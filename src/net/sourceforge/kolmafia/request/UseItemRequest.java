@@ -145,7 +145,7 @@ public class UseItemRequest extends GenericRequest {
   }
 
   public static final UseItemRequest getInstance(
-          final ConsumptionType consumptionType, final AdventureResult item) {
+      final ConsumptionType consumptionType, final AdventureResult item) {
     switch (consumptionType) {
       case CONSUME_DRINK:
       case CONSUME_DRINK_HELPER:

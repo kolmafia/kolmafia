@@ -160,7 +160,8 @@ public class UseItemCommand extends AbstractCommand {
           }
         }
 
-        if (command.equals("drink") && consumpt == ConsumptionType.CONSUME_DRINK_HELPER) { // allowed
+        if (command.equals("drink")
+            && consumpt == ConsumptionType.CONSUME_DRINK_HELPER) { // allowed
         } else if (command.equals("drink") || command.equals("hobo")) {
           if (consumpt != ConsumptionType.CONSUME_DRINK) {
             KoLmafia.updateDisplay(

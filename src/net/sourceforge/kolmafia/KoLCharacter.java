@@ -4866,24 +4866,18 @@ public abstract class KoLCharacter {
           equipment, item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
       case EQUIP_OFFHAND -> KoLCharacter.hasEquipped(
           equipment, item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
-      case EQUIP_HAT -> KoLCharacter.hasEquipped(
-          equipment, item, EquipmentManager.HAT);
-      case EQUIP_SHIRT -> KoLCharacter.hasEquipped(
-          equipment, item, EquipmentManager.SHIRT);
-      case EQUIP_PANTS -> KoLCharacter.hasEquipped(
-          equipment, item, EquipmentManager.PANTS);
-      case EQUIP_CONTAINER -> KoLCharacter.hasEquipped(
-          equipment, item, EquipmentManager.CONTAINER);
+      case EQUIP_HAT -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.HAT);
+      case EQUIP_SHIRT -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.SHIRT);
+      case EQUIP_PANTS -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.PANTS);
+      case EQUIP_CONTAINER -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.CONTAINER);
       case EQUIP_ACCESSORY -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.ACCESSORY_SLOTS);
       case CONSUME_STICKER -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.STICKER_SLOTS);
-      case CONSUME_CARD -> KoLCharacter.hasEquipped(
-          equipment, item, EquipmentManager.CARDSLEEVE);
+      case CONSUME_CARD -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.CARDSLEEVE);
       case CONSUME_FOLDER -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.FOLDER_SLOTS);
-      case EQUIP_FAMILIAR -> KoLCharacter.hasEquipped(
-          equipment, item, EquipmentManager.FAMILIAR);
+      case EQUIP_FAMILIAR -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FAMILIAR);
       default -> false;
     };
   }
@@ -4908,15 +4902,11 @@ public abstract class KoLCharacter {
       case EQUIP_HAT -> equipmentSlotFromSubset(item, EquipmentManager.HAT);
       case EQUIP_SHIRT -> equipmentSlotFromSubset(item, EquipmentManager.SHIRT);
       case EQUIP_PANTS -> equipmentSlotFromSubset(item, EquipmentManager.PANTS);
-      case EQUIP_CONTAINER -> equipmentSlotFromSubset(
-          item, EquipmentManager.CONTAINER);
-      case EQUIP_ACCESSORY -> equipmentSlotFromSubset(
-          item, EquipmentManager.ACCESSORY_SLOTS);
-      case CONSUME_STICKER -> equipmentSlotFromSubset(
-          item, EquipmentManager.STICKER_SLOTS);
+      case EQUIP_CONTAINER -> equipmentSlotFromSubset(item, EquipmentManager.CONTAINER);
+      case EQUIP_ACCESSORY -> equipmentSlotFromSubset(item, EquipmentManager.ACCESSORY_SLOTS);
+      case CONSUME_STICKER -> equipmentSlotFromSubset(item, EquipmentManager.STICKER_SLOTS);
       case CONSUME_CARD -> equipmentSlotFromSubset(item, EquipmentManager.CARDSLEEVE);
-      case CONSUME_FOLDER -> equipmentSlotFromSubset(
-          item, EquipmentManager.FOLDER_SLOTS);
+      case CONSUME_FOLDER -> equipmentSlotFromSubset(item, EquipmentManager.FOLDER_SLOTS);
       case EQUIP_FAMILIAR -> equipmentSlotFromSubset(item, EquipmentManager.FAMILIAR);
       default -> EquipmentManager.NONE;
     };

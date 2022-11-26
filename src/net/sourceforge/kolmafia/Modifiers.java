@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
@@ -3794,7 +3793,8 @@ public class Modifiers {
     writer.println(Modifiers.modifierCommentString(type, name));
   }
 
-  public static final void registerItem(final String name, final String text, final ConsumptionType type) {
+  public static final void registerItem(
+      final String name, final String text, final ConsumptionType type) {
     // Examine the item description and decide what it is.
     ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseItemEnchantments(text, unknown, type);

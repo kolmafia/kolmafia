@@ -172,8 +172,7 @@ public class ItemDatabase {
   public static final int ATTR_MIX = 0x00400000;
 
   private static final HashMap<String, ConsumptionType> PRIMARY_USE = new HashMap<>();
-  private static final HashMap<ConsumptionType, String> INVERSE_PRIMARY_USE =
-      new HashMap<>();
+  private static final HashMap<ConsumptionType, String> INVERSE_PRIMARY_USE = new HashMap<>();
   private static final HashMap<String, Integer> SECONDARY_USE = new HashMap<String, Integer>();
   private static final TreeMap<Integer, String> INVERSE_SECONDARY_USE =
       new TreeMap<Integer, String>();
@@ -899,7 +898,8 @@ public class ItemDatabase {
   }
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     if (multi) {
@@ -1857,7 +1857,8 @@ public class ItemDatabase {
   public static boolean isUsable(final int itemId) {
     // Anything that you can manipulate with inv_use.php
 
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     return switch (useType) {
@@ -1889,64 +1890,76 @@ public class ItemDatabase {
   }
 
   public static final boolean isPotion(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return (useType == ConsumptionType.CONSUME_POTION || useType == ConsumptionType.CONSUME_AVATAR);
   }
 
   public static final boolean isEquipment(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return KoLConstants.isEquipmentType(useType, true);
   }
 
   public static final boolean isFood(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.CONSUME_EAT;
   }
 
   public static final boolean isBooze(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.CONSUME_DRINK;
   }
 
   public static final boolean isHat(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.EQUIP_HAT;
   }
 
   public static final boolean isWeapon(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.EQUIP_WEAPON;
   }
 
   public static final boolean isOffHand(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.EQUIP_OFFHAND;
   }
 
   public static final boolean isShirt(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.EQUIP_SHIRT;
   }
 
   public static final boolean isPants(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.EQUIP_PANTS;
   }
 
   public static final boolean isAccessory(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.EQUIP_ACCESSORY;
   }
 
   public static final boolean isFamiliarEquipment(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     return useType == ConsumptionType.EQUIP_FAMILIAR;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
     // Anything that you can manipulate with multiuse.php
 
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     switch (useType) {
@@ -1962,9 +1975,11 @@ public class ItemDatabase {
   }
 
   public static final boolean isReusable(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    ConsumptionType useType =
+        ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
     int attributes = ItemDatabase.getAttributes(itemId);
-    return useType == ConsumptionType.INFINITE_USES || (attributes & ItemDatabase.ATTR_REUSABLE) != 0;
+    return useType == ConsumptionType.INFINITE_USES
+        || (attributes & ItemDatabase.ATTR_REUSABLE) != 0;
   }
 
   /**
@@ -2060,7 +2075,9 @@ public class ItemDatabase {
    * @return The consumption associated with the item
    */
   public static final ConsumptionType getConsumptionType(final int itemId) {
-    return itemId <= 0 ? ConsumptionType.NO_CONSUME : ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
+    return itemId <= 0
+        ? ConsumptionType.NO_CONSUME
+        : ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NO_CONSUME);
   }
 
   public static final ConsumptionType getConsumptionType(final AdventureResult item) {

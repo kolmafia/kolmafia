@@ -681,7 +681,9 @@ public class TCRSDatabase {
     int level = lint == null ? 0 : lint;
     // Guess
     int adv =
-        (usage == ConsumptionType.CONSUME_SPLEEN) ? 0 : (tcrs.size * qualityMultiplier(tcrs.quality));
+        (usage == ConsumptionType.CONSUME_SPLEEN)
+            ? 0
+            : (tcrs.size * qualityMultiplier(tcrs.quality));
     int mus = 0;
     int mys = 0;
     int mox = 0;

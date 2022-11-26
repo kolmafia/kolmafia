@@ -1701,7 +1701,9 @@ public class EquipmentManager {
       // If we want off-hand items and we can dual wield,
       // allow one-handed weapons of same type
 
-      if (filterId == ConsumptionType.EQUIP_OFFHAND && type == ConsumptionType.EQUIP_WEAPON && dual) {
+      if (filterId == ConsumptionType.EQUIP_OFFHAND
+          && type == ConsumptionType.EQUIP_WEAPON
+          && dual) {
         if (EquipmentDatabase.isMainhandOnly(itemId)
             || EquipmentDatabase.getWeaponType(itemId) != weaponType) {
           continue;

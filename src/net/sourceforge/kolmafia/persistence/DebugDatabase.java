@@ -766,8 +766,10 @@ public class DebugDatabase {
   private static void checkConsumableItems(final PrintStream report) {
     RequestLogger.printLine("Checking level requirements...");
 
-    DebugDatabase.checkConsumableMap(report, DebugDatabase.findItemMap(ConsumptionType.CONSUME_EAT));
-    DebugDatabase.checkConsumableMap(report, DebugDatabase.findItemMap(ConsumptionType.CONSUME_DRINK));
+    DebugDatabase.checkConsumableMap(
+        report, DebugDatabase.findItemMap(ConsumptionType.CONSUME_EAT));
+    DebugDatabase.checkConsumableMap(
+        report, DebugDatabase.findItemMap(ConsumptionType.CONSUME_DRINK));
     DebugDatabase.checkConsumableMap(
         report, DebugDatabase.findItemMap(ConsumptionType.CONSUME_SPLEEN));
   }
@@ -864,8 +866,10 @@ public class DebugDatabase {
     DebugDatabase.checkEquipmentMap(report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_HAT));
     DebugDatabase.checkEquipmentMap(report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_PANTS));
     DebugDatabase.checkEquipmentMap(report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_SHIRT));
-    DebugDatabase.checkEquipmentMap(report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_WEAPON));
-    DebugDatabase.checkEquipmentMap(report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_OFFHAND));
+    DebugDatabase.checkEquipmentMap(
+        report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_WEAPON));
+    DebugDatabase.checkEquipmentMap(
+        report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_OFFHAND));
     DebugDatabase.checkEquipmentMap(
         report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_ACCESSORY));
     DebugDatabase.checkEquipmentMap(
@@ -1029,9 +1033,12 @@ public class DebugDatabase {
   private static void checkItemModifiers(final PrintStream report) {
     RequestLogger.printLine("Checking modifiers...");
 
-    DebugDatabase.checkItemModifierMap(report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_HAT));
-    DebugDatabase.checkItemModifierMap(report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_PANTS));
-    DebugDatabase.checkItemModifierMap(report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_SHIRT));
+    DebugDatabase.checkItemModifierMap(
+        report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_HAT));
+    DebugDatabase.checkItemModifierMap(
+        report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_PANTS));
+    DebugDatabase.checkItemModifierMap(
+        report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_SHIRT));
     DebugDatabase.checkItemModifierMap(
         report, DebugDatabase.findItemMap(ConsumptionType.EQUIP_WEAPON));
     DebugDatabase.checkItemModifierMap(
@@ -1052,7 +1059,8 @@ public class DebugDatabase {
         report, DebugDatabase.findItemMap(ConsumptionType.CONSUME_POTION), false);
     DebugDatabase.checkItemModifierMap(
         report, DebugDatabase.findItemMap(ConsumptionType.CONSUME_AVATAR), false);
-    DebugDatabase.checkItemModifierMap(report, DebugDatabase.findItemMap(ConsumptionType.UNKNOWN), false);
+    DebugDatabase.checkItemModifierMap(
+        report, DebugDatabase.findItemMap(ConsumptionType.UNKNOWN), false);
   }
 
   private static void checkItemModifierMap(final PrintStream report, final ItemMap imap) {
@@ -1261,7 +1269,10 @@ public class DebugDatabase {
           Pattern.DOTALL);
 
   public static final void parseItemEnchantments(
-      String text, final ModifierList known, final ArrayList<String> unknown, final ConsumptionType type) {
+      String text,
+      final ModifierList known,
+      final ArrayList<String> unknown,
+      final ConsumptionType type) {
     // KoL now includes the enchantments of the effect in the item
     // descriptions. Strip them out.
     int eindex = text.indexOf("Effect:");
@@ -1991,7 +2002,8 @@ public class DebugDatabase {
   private static final String SKILL_HTML = "skillhtml.txt";
   private static final String SKILL_DATA = "skilldata.txt";
   private static final Map<Integer, String> rawSkills = new HashMap<>();
-  private static final ItemMap passiveSkills = new ItemMap("Passive Skills", ConsumptionType.NO_CONSUME);
+  private static final ItemMap passiveSkills =
+      new ItemMap("Passive Skills", ConsumptionType.NO_CONSUME);
 
   public static final void checkSkills(final int skillId) {
     RequestLogger.printLine("Loading previous data...");

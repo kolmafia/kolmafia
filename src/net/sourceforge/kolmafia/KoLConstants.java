@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static net.sourceforge.kolmafia.KoLConstants.ConsumptionType.EQUIP_FAMILIAR;
+
 import java.awt.Color;
 import java.io.File;
 import java.text.DecimalFormat;
@@ -21,8 +23,6 @@ import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.swingui.menu.PartialMRUList;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
-
-import static net.sourceforge.kolmafia.KoLConstants.ConsumptionType.EQUIP_FAMILIAR;
 
 public interface KoLConstants extends UtilityConstants {
   // General constants used for calculations and formatting of
@@ -269,7 +269,8 @@ public interface KoLConstants extends UtilityConstants {
    * @param type Consumption type constant
    * @return True if the type relates to equipment
    */
-  static boolean isEquipmentType(final ConsumptionType type, final boolean includeFamiliarEquipment) {
+  static boolean isEquipmentType(
+      final ConsumptionType type, final boolean includeFamiliarEquipment) {
     return switch (type) {
       case EQUIP_ACCESSORY,
           EQUIP_CONTAINER,

@@ -517,7 +517,8 @@ public class ConsumablesDatabase {
         (isNegative ? 1 : statFactor) * num / statUnit);
   }
 
-  public static void registerConsumable(final String itemName, final ConsumptionType usage, final String text) {
+  public static void registerConsumable(
+      final String itemName, final ConsumptionType usage, final String text) {
     // Get information from description
     if (usage != ConsumptionType.CONSUME_EAT
         && usage != ConsumptionType.CONSUME_DRINK

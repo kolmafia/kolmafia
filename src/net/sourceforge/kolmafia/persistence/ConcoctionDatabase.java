@@ -910,7 +910,8 @@ public class ConcoctionDatabase {
         // Certain items are virtual consumption
         // helpers, but are "used" first. Skip if
         // bingeing familiar.
-        if ((consumptionType == ConsumptionType.CONSUME_GHOST && consumpt != ConsumptionType.CONSUME_EAT)
+        if ((consumptionType == ConsumptionType.CONSUME_GHOST
+                && consumpt != ConsumptionType.CONSUME_EAT)
             || (consumptionType == ConsumptionType.CONSUME_HOBO
                 && consumpt != ConsumptionType.CONSUME_DRINK)) {
           continue;

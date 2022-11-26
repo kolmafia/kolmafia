@@ -599,7 +599,11 @@ public abstract class UseLinkDecorator {
   }
 
   private static UseLink getUseLink(
-      int itemId, int itemCount, String location, ConsumptionType consumeMethod, final String text) {
+      int itemId,
+      int itemCount,
+      String location,
+      ConsumptionType consumeMethod,
+      final String text) {
     if (!ConsumablesDatabase.meetsLevelRequirement(ItemDatabase.getItemName(itemId))) {
       return null;
     }

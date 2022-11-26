@@ -480,7 +480,8 @@ public class ItemManageFrame extends GenericFrame {
         return super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
       }
 
-      ConsumptionType consumptionType = ItemDatabase.getConsumptionType(((AdventureResult) item).getItemId());
+      ConsumptionType consumptionType =
+          ItemDatabase.getConsumptionType(((AdventureResult) item).getItemId());
       switch (consumptionType) {
         case EQUIP_HAT:
         case EQUIP_PANTS:
