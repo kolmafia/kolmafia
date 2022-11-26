@@ -4791,6 +4791,18 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 302:
+      case 303:
+        // You've Hit Bottom (Pastamancer, Sauceror)
+      case 306:
+        // Not a Micro Fish (Seal Clubber, Turtle Tamer)
+      case 307:
+        // Ode to the Sea (Disco Bandit)
+      case 308:
+        // Boxing the Juke (Accordion Thief)
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step5");
+        break;
+
       case 304:
         // A Vent Horizon
 
