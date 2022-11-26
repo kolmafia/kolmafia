@@ -24,6 +24,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
@@ -2452,9 +2454,9 @@ public class Modifiers {
     // Mad Hatrack ... hats do not give their normal modifiers
     // Fancypants Scarecrow ... pants do not give their normal modifiers
     int itemId = item.getItemId();
-    int type = ItemDatabase.getConsumptionType(itemId);
-    if ((familiarId != FamiliarPool.HATRACK || type != KoLConstants.EQUIP_HAT)
-        && (familiarId != FamiliarPool.SCARECROW || type != KoLConstants.EQUIP_PANTS)) {
+    ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
+    if ((familiarId != FamiliarPool.HATRACK || type != ConsumptionType.EQUIP_HAT)
+        && (familiarId != FamiliarPool.SCARECROW || type != ConsumptionType.EQUIP_PANTS)) {
       // Add in all the modifiers bestowed by this item
       tempMods.add(Modifiers.getItemModifiers(itemId));
 
@@ -3507,43 +3509,43 @@ public class Modifiers {
     for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
       Integer key = entry.getKey();
       String name = entry.getValue();
-      int type = ItemDatabase.getConsumptionType(key);
+      ConsumptionType type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
-        case KoLConstants.EQUIP_HAT:
+        case EQUIP_HAT:
           hats.add(name);
           break;
-        case KoLConstants.EQUIP_PANTS:
+        case EQUIP_PANTS:
           pants.add(name);
           break;
-        case KoLConstants.EQUIP_SHIRT:
+        case EQUIP_SHIRT:
           shirts.add(name);
           break;
-        case KoLConstants.EQUIP_WEAPON:
+        case EQUIP_WEAPON:
           weapons.add(name);
           break;
-        case KoLConstants.EQUIP_OFFHAND:
+        case EQUIP_OFFHAND:
           offhands.add(name);
           break;
-        case KoLConstants.EQUIP_ACCESSORY:
+        case EQUIP_ACCESSORY:
           accessories.add(name);
           break;
-        case KoLConstants.EQUIP_CONTAINER:
+        case EQUIP_CONTAINER:
           containers.add(name);
           break;
-        case KoLConstants.EQUIP_FAMILIAR:
+        case EQUIP_FAMILIAR:
           famitems.add(name);
           break;
-        case KoLConstants.CONSUME_SIXGUN:
+        case CONSUME_SIXGUN:
           sixguns.add(name);
           break;
-        case KoLConstants.CONSUME_STICKER:
+        case CONSUME_STICKER:
           bedazzlements.add(name);
           break;
-        case KoLConstants.CONSUME_CARD:
+        case CONSUME_CARD:
           cards.add(name);
           break;
-        case KoLConstants.CONSUME_FOLDER:
+        case CONSUME_FOLDER:
           folders.add(name);
           break;
         default:
@@ -3792,7 +3794,7 @@ public class Modifiers {
     writer.println(Modifiers.modifierCommentString(type, name));
   }
 
-  public static final void registerItem(final String name, final String text, final int type) {
+  public static final void registerItem(final String name, final String text, final ConsumptionType type) {
     // Examine the item description and decide what it is.
     ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseItemEnchantments(text, unknown, type);

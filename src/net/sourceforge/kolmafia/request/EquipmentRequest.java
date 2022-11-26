@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -178,7 +179,7 @@ public class EquipmentRequest extends PasswordHashRequest {
   private int equipmentSlot;
   private AdventureResult changeItem;
   private int itemId;
-  private int equipmentType;
+  private ConsumptionType equipmentType;
   private SpecialOutfit outfit;
   private String outfitName;
   private String error;
@@ -387,7 +388,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != KoLConstants.CONSUME_STICKER) {
+    if (this.equipmentType != ConsumptionType.CONSUME_STICKER) {
       this.error =
           "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " in a sticker slot.";
       return;
@@ -421,7 +422,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != KoLConstants.CONSUME_CARD) {
+    if (this.equipmentType != ConsumptionType.CONSUME_CARD) {
       this.error =
           "You can't slide a " + ItemDatabase.getItemName(this.itemId) + " into a card sleeze.";
       return;
@@ -457,7 +458,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != KoLConstants.CONSUME_FOLDER) {
+    if (this.equipmentType != ConsumptionType.CONSUME_FOLDER) {
       this.error =
           "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " in a folder slot.";
       return;
@@ -483,21 +484,21 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != KoLConstants.CONSUME_BOOTSKIN
-        && this.equipmentType != KoLConstants.CONSUME_BOOTSPUR) {
+    if (this.equipmentType != ConsumptionType.CONSUME_BOOTSKIN
+        && this.equipmentType != ConsumptionType.CONSUME_BOOTSPUR) {
       this.error =
           "You can't equip a " + ItemDatabase.getItemName(this.itemId) + " on your cowboy boots.";
       return;
     }
 
     if (this.equipmentSlot == EquipmentManager.BOOTSKIN
-        && this.equipmentType == KoLConstants.CONSUME_BOOTSPUR) {
+        && this.equipmentType == ConsumptionType.CONSUME_BOOTSPUR) {
       this.error = ItemDatabase.getItemName(this.itemId) + " is a spur, not a skin.";
       return;
     }
 
     if (this.equipmentSlot == EquipmentManager.BOOTSPUR
-        && this.equipmentType == KoLConstants.CONSUME_BOOTSKIN) {
+        && this.equipmentType == ConsumptionType.CONSUME_BOOTSKIN) {
       this.error = ItemDatabase.getItemName(this.itemId) + " is a skin, not a spur.";
       return;
     }
@@ -528,7 +529,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Find out what kind of item it is
     this.equipmentType = ItemDatabase.getConsumptionType(this.itemId);
 
-    if (this.equipmentType != KoLConstants.CONSUME_SIXGUN) {
+    if (this.equipmentType != ConsumptionType.CONSUME_SIXGUN) {
       this.error = "You can't holster a " + ItemDatabase.getItemName(this.itemId);
       return;
     }
@@ -545,62 +546,62 @@ public class EquipmentRequest extends PasswordHashRequest {
   private String getAction(final boolean force) {
     switch (this.equipmentSlot) {
       case EquipmentManager.HAT:
-        if (this.equipmentType == KoLConstants.EQUIP_HAT) {
+        if (this.equipmentType == ConsumptionType.EQUIP_HAT) {
           return "equip";
         }
         break;
 
       case EquipmentManager.WEAPON:
-        if (this.equipmentType == KoLConstants.EQUIP_WEAPON) {
+        if (this.equipmentType == ConsumptionType.EQUIP_WEAPON) {
           return "equip";
         }
         break;
 
       case EquipmentManager.OFFHAND:
-        if (this.equipmentType == KoLConstants.EQUIP_OFFHAND) {
+        if (this.equipmentType == ConsumptionType.EQUIP_OFFHAND) {
           return "equip";
         }
 
-        if (this.equipmentType == KoLConstants.EQUIP_WEAPON
+        if (this.equipmentType == ConsumptionType.EQUIP_WEAPON
             && EquipmentDatabase.getHands(this.itemId) == 1) {
           return "dualwield";
         }
         break;
 
       case EquipmentManager.CONTAINER:
-        if (this.equipmentType == KoLConstants.EQUIP_CONTAINER) {
+        if (this.equipmentType == ConsumptionType.EQUIP_CONTAINER) {
           return "equip";
         }
         break;
 
       case EquipmentManager.SHIRT:
-        if (this.equipmentType == KoLConstants.EQUIP_SHIRT) {
+        if (this.equipmentType == ConsumptionType.EQUIP_SHIRT) {
           return "equip";
         }
         break;
 
       case EquipmentManager.PANTS:
-        if (this.equipmentType == KoLConstants.EQUIP_PANTS) {
+        if (this.equipmentType == ConsumptionType.EQUIP_PANTS) {
           return "equip";
         }
         break;
 
       case EquipmentManager.ACCESSORY1:
-        if (this.equipmentType == KoLConstants.EQUIP_ACCESSORY) {
+        if (this.equipmentType == ConsumptionType.EQUIP_ACCESSORY) {
           this.addFormField("slot", "1");
           return "equip";
         }
         break;
 
       case EquipmentManager.ACCESSORY2:
-        if (this.equipmentType == KoLConstants.EQUIP_ACCESSORY) {
+        if (this.equipmentType == ConsumptionType.EQUIP_ACCESSORY) {
           this.addFormField("slot", "2");
           return "equip";
         }
         break;
 
       case EquipmentManager.ACCESSORY3:
-        if (this.equipmentType == KoLConstants.EQUIP_ACCESSORY) {
+        if (this.equipmentType == ConsumptionType.EQUIP_ACCESSORY) {
           this.addFormField("slot", "3");
           return "equip";
         }
@@ -608,13 +609,13 @@ public class EquipmentRequest extends PasswordHashRequest {
 
       case EquipmentManager.FAMILIAR:
         switch (this.equipmentType) {
-          case KoLConstants.EQUIP_FAMILIAR:
+          case EQUIP_FAMILIAR:
             return "equip";
 
-          case KoLConstants.EQUIP_HAT:
-          case KoLConstants.EQUIP_WEAPON:
-          case KoLConstants.EQUIP_OFFHAND:
-          case KoLConstants.EQUIP_PANTS:
+          case EQUIP_HAT:
+          case EQUIP_WEAPON:
+          case EQUIP_OFFHAND:
+          case EQUIP_PANTS:
             return "hatrack";
         }
         break;
@@ -662,42 +663,42 @@ public class EquipmentRequest extends PasswordHashRequest {
         }
     }
 
-    int equipmentType = ItemDatabase.getConsumptionType(itemId);
+    ConsumptionType equipmentType = ItemDatabase.getConsumptionType(itemId);
     switch (equipmentType) {
-      case KoLConstants.EQUIP_HAT:
+      case EQUIP_HAT:
         return EquipmentManager.HAT;
 
-      case KoLConstants.EQUIP_WEAPON:
+      case EQUIP_WEAPON:
         return EquipmentManager.WEAPON;
 
-      case KoLConstants.EQUIP_OFFHAND:
+      case EQUIP_OFFHAND:
         return itemId == ItemPool.FAKE_HAND ? EquipmentManager.FAKEHAND : EquipmentManager.OFFHAND;
 
-      case KoLConstants.EQUIP_CONTAINER:
+      case EQUIP_CONTAINER:
         return EquipmentManager.CONTAINER;
 
-      case KoLConstants.EQUIP_SHIRT:
+      case EQUIP_SHIRT:
         return EquipmentManager.SHIRT;
 
-      case KoLConstants.EQUIP_PANTS:
+      case EQUIP_PANTS:
         return EquipmentManager.PANTS;
 
-      case KoLConstants.EQUIP_ACCESSORY:
+      case EQUIP_ACCESSORY:
         return EquipmentRequest.availableAccessory();
 
-      case KoLConstants.EQUIP_FAMILIAR:
+      case EQUIP_FAMILIAR:
         return EquipmentManager.FAMILIAR;
 
-      case KoLConstants.CONSUME_STICKER:
+      case CONSUME_STICKER:
         return EquipmentRequest.availableSticker();
 
-      case KoLConstants.CONSUME_CARD:
+      case CONSUME_CARD:
         return EquipmentManager.CARDSLEEVE;
 
-      case KoLConstants.CONSUME_FOLDER:
+      case CONSUME_FOLDER:
         return EquipmentRequest.availableFolder();
 
-      case KoLConstants.CONSUME_SIXGUN:
+      case CONSUME_SIXGUN:
         return EquipmentManager.HOLSTER;
 
       default:
@@ -854,7 +855,7 @@ public class EquipmentRequest extends PasswordHashRequest {
           && EquipmentDatabase.getHands(itemId) == 1) {
         int offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND).getItemId();
 
-        if (ItemDatabase.getConsumptionType(offhand) == KoLConstants.EQUIP_WEAPON
+        if (ItemDatabase.getConsumptionType(offhand) == ConsumptionType.EQUIP_WEAPON
             && EquipmentDatabase.getWeaponType(itemId)
                 != EquipmentDatabase.getWeaponType(offhand)) {
           (new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND)).run();
@@ -866,11 +867,11 @@ public class EquipmentRequest extends PasswordHashRequest {
       // main weapon.
 
       if (this.equipmentSlot == EquipmentManager.OFFHAND) {
-        int itemType = ItemDatabase.getConsumptionType(itemId);
+        ConsumptionType itemType = ItemDatabase.getConsumptionType(itemId);
         AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
         int weaponItemId = weapon.getItemId();
 
-        if (itemType == KoLConstants.EQUIP_WEAPON && weaponItemId <= 0) {
+        if (itemType == ConsumptionType.EQUIP_WEAPON && weaponItemId <= 0) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR, "You can't dual wield unless you already have a main weapon.");
           return;
@@ -878,7 +879,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
         if (EquipmentDatabase.getHands(weaponItemId) > 1) {
           String message =
-              itemType == KoLConstants.EQUIP_WEAPON
+              itemType == ConsumptionType.EQUIP_WEAPON
                   ? ("You can't wield a "
                       + this.changeItem.getName()
                       + " in your off-hand while wielding a 2-handed weapon.")
@@ -889,7 +890,7 @@ public class EquipmentRequest extends PasswordHashRequest {
           return;
         }
 
-        if (itemType == KoLConstants.EQUIP_WEAPON
+        if (itemType == ConsumptionType.EQUIP_WEAPON
             && EquipmentDatabase.getWeaponType(itemId)
                 != EquipmentDatabase.getWeaponType(weaponItemId)) {
           KoLmafia.updateDisplay(

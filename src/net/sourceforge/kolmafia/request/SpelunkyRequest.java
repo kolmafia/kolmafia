@@ -223,13 +223,13 @@ public class SpelunkyRequest extends GenericRequest {
       int itemId = ItemDatabase.getItemIdFromDescription(descId);
       AdventureResult item = ItemPool.get(itemId, 1);
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case KoLConstants.EQUIP_HAT:
+        case EQUIP_HAT:
           EquipmentManager.setEquipment(EquipmentManager.HAT, item);
           break;
-        case KoLConstants.EQUIP_WEAPON:
+        case EQUIP_WEAPON:
           EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
           break;
-        case KoLConstants.EQUIP_OFFHAND:
+        case EQUIP_OFFHAND:
           EquipmentManager.setEquipment(EquipmentManager.OFFHAND, item);
           switch (itemId) {
             case ItemPool.SPELUNKY_SKULL:
@@ -265,10 +265,10 @@ public class SpelunkyRequest extends GenericRequest {
               break;
           }
           break;
-        case KoLConstants.EQUIP_CONTAINER:
+        case EQUIP_CONTAINER:
           EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
           break;
-        case KoLConstants.EQUIP_ACCESSORY:
+        case EQUIP_ACCESSORY:
           EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
           break;
       }

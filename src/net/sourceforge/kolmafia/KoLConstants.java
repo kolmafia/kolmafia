@@ -22,6 +22,8 @@ import net.sourceforge.kolmafia.swingui.menu.PartialMRUList;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
+import static net.sourceforge.kolmafia.KoLConstants.ConsumptionType.EQUIP_FAMILIAR;
+
 public interface KoLConstants extends UtilityConstants {
   // General constants used for calculations and formatting of
   // strings, as well as for string parsing.
@@ -267,7 +269,7 @@ public interface KoLConstants extends UtilityConstants {
    * @param type Consumption type constant
    * @return True if the type relates to equipment
    */
-  static boolean isEquipmentType(final int type, final boolean includeFamiliarEquipment) {
+  static boolean isEquipmentType(final ConsumptionType type, final boolean includeFamiliarEquipment) {
     return switch (type) {
       case EQUIP_ACCESSORY,
           EQUIP_CONTAINER,
@@ -349,59 +351,62 @@ public interface KoLConstants extends UtilityConstants {
     OTHER
   }
 
-  // Cannot be "used" in any way by itself
-  int NO_CONSUME = 0;
+  enum ConsumptionType {
+    UNKNOWN,
+    // Cannot be "used" in any way by itself
+    NO_CONSUME,
 
-  // Consumables
-  int CONSUME_EAT = 1;
-  int CONSUME_DRINK = 2;
-  int CONSUME_SPLEEN = 3;
+    // Consumables
+    CONSUME_EAT,
+    CONSUME_DRINK,
+    CONSUME_SPLEEN,
 
-  // Usables
-  int CONSUME_USE = 4;
-  int CONSUME_MULTIPLE = 5;
-  int INFINITE_USES = 6;
-  int MESSAGE_DISPLAY = 7;
+    // Usables
+    CONSUME_USE,
+    CONSUME_MULTIPLE,
+    INFINITE_USES,
+    MESSAGE_DISPLAY,
 
-  // Familiar hatchlings
-  int GROW_FAMILIAR = 8;
+    // Familiar hatchlings
+    GROW_FAMILIAR,
 
-  // Equipment
-  int EQUIP_HAT = 9;
-  int EQUIP_WEAPON = 10;
-  int EQUIP_OFFHAND = 11;
-  int EQUIP_CONTAINER = 12;
-  int EQUIP_SHIRT = 13;
-  int EQUIP_PANTS = 14;
-  int EQUIP_ACCESSORY = 15;
-  int EQUIP_FAMILIAR = 16;
+    // Equipment
+    EQUIP_HAT,
+    EQUIP_WEAPON,
+    EQUIP_OFFHAND,
+    EQUIP_CONTAINER,
+    EQUIP_SHIRT,
+    EQUIP_PANTS,
+    EQUIP_ACCESSORY,
+    EQUIP_FAMILIAR,
 
-  // Customizable "equipment"
-  int CONSUME_STICKER = 17;
-  int CONSUME_CARD = 18;
-  int CONSUME_FOLDER = 19;
-  int CONSUME_BOOTSKIN = 20;
-  int CONSUME_BOOTSPUR = 21;
-  int CONSUME_SIXGUN = 22;
+    // Customizable "equipment"
+    CONSUME_STICKER,
+    CONSUME_CARD,
+    CONSUME_FOLDER,
+    CONSUME_BOOTSKIN,
+    CONSUME_BOOTSPUR,
+    CONSUME_SIXGUN,
 
-  // Special "uses"
-  int CONSUME_FOOD_HELPER = 30;
-  int CONSUME_DRINK_HELPER = 31;
-  int CONSUME_ZAP = 32;
-  int CONSUME_SPHERE = 33;
-  int CONSUME_GUARDIAN = 34;
-  int CONSUME_POKEPILL = 35;
+    // Special "uses"
+    CONSUME_FOOD_HELPER,
+    CONSUME_DRINK_HELPER,
+    CONSUME_ZAP,
+    CONSUME_SPHERE,
+    CONSUME_GUARDIAN,
+    CONSUME_POKEPILL,
 
-  // Potions
-  int CONSUME_POTION = 40;
-  int CONSUME_AVATAR = 41;
+    // Potions
+    CONSUME_POTION,
+    CONSUME_AVATAR,
 
-  // Familiar "uses"
-  int CONSUME_ROBO = 95;
-  int CONSUME_MIMIC = 96;
-  int CONSUME_SLIME = 97;
-  int CONSUME_HOBO = 98;
-  int CONSUME_GHOST = 99;
+    // Familiar "uses"
+    CONSUME_ROBO,
+    CONSUME_MIMIC,
+    CONSUME_SLIME,
+    CONSUME_HOBO,
+    CONSUME_GHOST
+  }
 
   enum CraftingType {
     SUBCLASS, // ???

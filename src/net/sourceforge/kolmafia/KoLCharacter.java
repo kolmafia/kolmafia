@@ -14,6 +14,7 @@ import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
@@ -4861,27 +4862,27 @@ public abstract class KoLCharacter {
 
   public static boolean hasEquipped(AdventureResult[] equipment, final AdventureResult item) {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case KoLConstants.EQUIP_WEAPON -> KoLCharacter.hasEquipped(
+      case EQUIP_WEAPON -> KoLCharacter.hasEquipped(
           equipment, item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
-      case KoLConstants.EQUIP_OFFHAND -> KoLCharacter.hasEquipped(
+      case EQUIP_OFFHAND -> KoLCharacter.hasEquipped(
           equipment, item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
-      case KoLConstants.EQUIP_HAT -> KoLCharacter.hasEquipped(
+      case EQUIP_HAT -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.HAT);
-      case KoLConstants.EQUIP_SHIRT -> KoLCharacter.hasEquipped(
+      case EQUIP_SHIRT -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.SHIRT);
-      case KoLConstants.EQUIP_PANTS -> KoLCharacter.hasEquipped(
+      case EQUIP_PANTS -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.PANTS);
-      case KoLConstants.EQUIP_CONTAINER -> KoLCharacter.hasEquipped(
+      case EQUIP_CONTAINER -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.CONTAINER);
-      case KoLConstants.EQUIP_ACCESSORY -> KoLCharacter.hasEquipped(
+      case EQUIP_ACCESSORY -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.ACCESSORY_SLOTS);
-      case KoLConstants.CONSUME_STICKER -> KoLCharacter.hasEquipped(
+      case CONSUME_STICKER -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.STICKER_SLOTS);
-      case KoLConstants.CONSUME_CARD -> KoLCharacter.hasEquipped(
+      case CONSUME_CARD -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.CARDSLEEVE);
-      case KoLConstants.CONSUME_FOLDER -> KoLCharacter.hasEquipped(
+      case CONSUME_FOLDER -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.FOLDER_SLOTS);
-      case KoLConstants.EQUIP_FAMILIAR -> KoLCharacter.hasEquipped(
+      case EQUIP_FAMILIAR -> KoLCharacter.hasEquipped(
           equipment, item, EquipmentManager.FAMILIAR);
       default -> false;
     };
@@ -4900,23 +4901,23 @@ public abstract class KoLCharacter {
 
   public static final int equipmentSlot(final AdventureResult item) {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case KoLConstants.EQUIP_WEAPON -> equipmentSlotFromSubset(
+      case EQUIP_WEAPON -> equipmentSlotFromSubset(
           item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
-      case KoLConstants.EQUIP_OFFHAND -> equipmentSlotFromSubset(
+      case EQUIP_OFFHAND -> equipmentSlotFromSubset(
           item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
-      case KoLConstants.EQUIP_HAT -> equipmentSlotFromSubset(item, EquipmentManager.HAT);
-      case KoLConstants.EQUIP_SHIRT -> equipmentSlotFromSubset(item, EquipmentManager.SHIRT);
-      case KoLConstants.EQUIP_PANTS -> equipmentSlotFromSubset(item, EquipmentManager.PANTS);
-      case KoLConstants.EQUIP_CONTAINER -> equipmentSlotFromSubset(
+      case EQUIP_HAT -> equipmentSlotFromSubset(item, EquipmentManager.HAT);
+      case EQUIP_SHIRT -> equipmentSlotFromSubset(item, EquipmentManager.SHIRT);
+      case EQUIP_PANTS -> equipmentSlotFromSubset(item, EquipmentManager.PANTS);
+      case EQUIP_CONTAINER -> equipmentSlotFromSubset(
           item, EquipmentManager.CONTAINER);
-      case KoLConstants.EQUIP_ACCESSORY -> equipmentSlotFromSubset(
+      case EQUIP_ACCESSORY -> equipmentSlotFromSubset(
           item, EquipmentManager.ACCESSORY_SLOTS);
-      case KoLConstants.CONSUME_STICKER -> equipmentSlotFromSubset(
+      case CONSUME_STICKER -> equipmentSlotFromSubset(
           item, EquipmentManager.STICKER_SLOTS);
-      case KoLConstants.CONSUME_CARD -> equipmentSlotFromSubset(item, EquipmentManager.CARDSLEEVE);
-      case KoLConstants.CONSUME_FOLDER -> equipmentSlotFromSubset(
+      case CONSUME_CARD -> equipmentSlotFromSubset(item, EquipmentManager.CARDSLEEVE);
+      case CONSUME_FOLDER -> equipmentSlotFromSubset(
           item, EquipmentManager.FOLDER_SLOTS);
-      case KoLConstants.EQUIP_FAMILIAR -> equipmentSlotFromSubset(item, EquipmentManager.FAMILIAR);
+      case EQUIP_FAMILIAR -> equipmentSlotFromSubset(item, EquipmentManager.FAMILIAR);
       default -> EquipmentManager.NONE;
     };
   }
@@ -5472,10 +5473,10 @@ public abstract class KoLCharacter {
     }
 
     int itemId = item.getItemId();
-    int consume = ItemDatabase.getConsumptionType(itemId);
+    ConsumptionType consume = ItemDatabase.getConsumptionType(itemId);
 
     if (slot == EquipmentManager.FAMILIAR
-        && (consume == KoLConstants.EQUIP_HAT || consume == KoLConstants.EQUIP_PANTS)) {
+        && (consume == ConsumptionType.EQUIP_HAT || consume == ConsumptionType.EQUIP_PANTS)) {
       // Hatrack hats don't get their normal enchantments
       // Scarecrow pants don't get their normal enchantments
       return;
@@ -5484,10 +5485,10 @@ public abstract class KoLCharacter {
     Modifiers imod;
 
     if (slot == EquipmentManager.FAMILIAR
-        && (consume == KoLConstants.EQUIP_WEAPON || consume == KoLConstants.EQUIP_OFFHAND)) {
+        && (consume == ConsumptionType.EQUIP_WEAPON || consume == ConsumptionType.EQUIP_OFFHAND)) {
       imod = Modifiers.getItemModifiersInFamiliarSlot(itemId);
 
-      if (consume == KoLConstants.EQUIP_WEAPON) {
+      if (consume == ConsumptionType.EQUIP_WEAPON) {
         newModifiers.add(
             Modifiers.WEAPON_DAMAGE,
             EquipmentDatabase.getPower(itemId) * 0.15f,
@@ -5604,7 +5605,7 @@ public abstract class KoLCharacter {
     // Add modifiers that depend on equipment power
     switch (slot) {
       case EquipmentManager.OFFHAND:
-        if (consume != KoLConstants.EQUIP_WEAPON) {
+        if (consume != ConsumptionType.EQUIP_WEAPON) {
           break;
         }
         /*FALLTHRU*/

@@ -14,6 +14,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
@@ -467,9 +468,9 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       id = ((AdventureResult) item).getItemId();
     }
     switch (ItemDatabase.getConsumptionType(id)) {
-      case KoLConstants.EQUIP_HAT:
+      case EQUIP_HAT:
         return Preferences.getInteger("usableHats");
-      case KoLConstants.EQUIP_WEAPON:
+      case EQUIP_WEAPON:
         switch (EquipmentDatabase.getHands(id)) {
           case 3:
             return Preferences.getInteger("usable3HWeapons");
@@ -478,13 +479,13 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
           default:
             return Preferences.getInteger("usable1HWeapons");
         }
-      case KoLConstants.EQUIP_OFFHAND:
+      case EQUIP_OFFHAND:
         return Preferences.getInteger("usableOffhands");
-      case KoLConstants.EQUIP_SHIRT:
+      case EQUIP_SHIRT:
         return Preferences.getInteger("usableShirts");
-      case KoLConstants.EQUIP_PANTS:
+      case EQUIP_PANTS:
         return Preferences.getInteger("usablePants");
-      case KoLConstants.EQUIP_ACCESSORY:
+      case EQUIP_ACCESSORY:
         Modifiers mods = Modifiers.getItemModifiers(id);
         if (mods != null && mods.getBoolean(Modifiers.SINGLE)) {
           return Preferences.getInteger("usable1xAccs");
@@ -571,17 +572,17 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
       for (int i = 0; i < items.length; ++i) {
         AdventureResult item = items[i];
-        int usageType = ItemDatabase.getConsumptionType(item.getItemId());
+        ConsumptionType usageType = ItemDatabase.getConsumptionType(item.getItemId());
 
         switch (usageType) {
-          case KoLConstants.EQUIP_FAMILIAR:
-          case KoLConstants.EQUIP_ACCESSORY:
-          case KoLConstants.EQUIP_HAT:
-          case KoLConstants.EQUIP_PANTS:
-          case KoLConstants.EQUIP_CONTAINER:
-          case KoLConstants.EQUIP_SHIRT:
-          case KoLConstants.EQUIP_WEAPON:
-          case KoLConstants.EQUIP_OFFHAND:
+          case EQUIP_FAMILIAR:
+          case EQUIP_ACCESSORY:
+          case EQUIP_HAT:
+          case EQUIP_PANTS:
+          case EQUIP_CONTAINER:
+          case EQUIP_SHIRT:
+          case EQUIP_WEAPON:
+          case EQUIP_OFFHAND:
             RequestThread.postRequest(
                 new EquipmentRequest(
                     item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
@@ -818,22 +819,22 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
               : ItemDatabase.getItemId(name, 1, false);
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case KoLConstants.CONSUME_EAT:
+        case CONSUME_EAT:
           isVisibleWithFilter = FilterItemField.this.food;
           break;
 
-        case KoLConstants.CONSUME_DRINK:
+        case CONSUME_DRINK:
           isVisibleWithFilter = FilterItemField.this.booze;
           break;
 
-        case KoLConstants.EQUIP_HAT:
-        case KoLConstants.EQUIP_SHIRT:
-        case KoLConstants.EQUIP_WEAPON:
-        case KoLConstants.EQUIP_OFFHAND:
-        case KoLConstants.EQUIP_PANTS:
-        case KoLConstants.EQUIP_CONTAINER:
-        case KoLConstants.EQUIP_ACCESSORY:
-        case KoLConstants.EQUIP_FAMILIAR:
+        case EQUIP_HAT:
+        case EQUIP_SHIRT:
+        case EQUIP_WEAPON:
+        case EQUIP_OFFHAND:
+        case EQUIP_PANTS:
+        case EQUIP_CONTAINER:
+        case EQUIP_ACCESSORY:
+        case EQUIP_FAMILIAR:
           isVisibleWithFilter = FilterItemField.this.equip;
           break;
 

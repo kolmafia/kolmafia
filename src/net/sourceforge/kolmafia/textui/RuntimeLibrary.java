@@ -3562,21 +3562,21 @@ public abstract class RuntimeLibrary {
       return DataTypes.parseSlotValue(item.toString(), true);
     }
     switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
-      case KoLConstants.EQUIP_HAT:
+      case EQUIP_HAT:
         return DataTypes.parseSlotValue("hat", true);
-      case KoLConstants.EQUIP_WEAPON:
+      case EQUIP_WEAPON:
         return DataTypes.parseSlotValue("weapon", true);
-      case KoLConstants.EQUIP_OFFHAND:
+      case EQUIP_OFFHAND:
         return DataTypes.parseSlotValue("off-hand", true);
-      case KoLConstants.EQUIP_SHIRT:
+      case EQUIP_SHIRT:
         return DataTypes.parseSlotValue("shirt", true);
-      case KoLConstants.EQUIP_PANTS:
+      case EQUIP_PANTS:
         return DataTypes.parseSlotValue("pants", true);
-      case KoLConstants.EQUIP_CONTAINER:
+      case EQUIP_CONTAINER:
         return DataTypes.parseSlotValue("container", true);
-      case KoLConstants.EQUIP_FAMILIAR:
+      case EQUIP_FAMILIAR:
         return DataTypes.parseSlotValue("familiar", true);
-      case KoLConstants.EQUIP_ACCESSORY:
+      case EQUIP_ACCESSORY:
         return DataTypes.parseSlotValue("acc1", true);
       default:
         return DataTypes.parseSlotValue("none", true);
@@ -6602,14 +6602,14 @@ public abstract class RuntimeLibrary {
     if (itemOrFamiliar.getType().equals(DataTypes.ITEM_TYPE)) {
       int itemId = (int) itemOrFamiliar.intValue();
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case KoLConstants.EQUIP_HAT:
-        case KoLConstants.EQUIP_WEAPON:
-        case KoLConstants.EQUIP_OFFHAND:
-        case KoLConstants.EQUIP_SHIRT:
-        case KoLConstants.EQUIP_PANTS:
-        case KoLConstants.EQUIP_CONTAINER:
-        case KoLConstants.EQUIP_FAMILIAR:
-        case KoLConstants.EQUIP_ACCESSORY:
+        case EQUIP_HAT:
+        case EQUIP_WEAPON:
+        case EQUIP_OFFHAND:
+        case EQUIP_SHIRT:
+        case EQUIP_PANTS:
+        case EQUIP_CONTAINER:
+        case EQUIP_FAMILIAR:
+        case EQUIP_ACCESSORY:
           break;
         default:
           return DataTypes.FALSE_VALUE;

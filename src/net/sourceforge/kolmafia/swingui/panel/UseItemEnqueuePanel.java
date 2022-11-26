@@ -19,6 +19,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -442,21 +443,21 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
       switch (type) {
         case FOOD -> {
-          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_EAT);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.CONSUME_EAT);
           UseItemEnqueuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
         }
         case BOOZE -> {
-          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_DRINK);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.CONSUME_DRINK);
           UseItemEnqueuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
         }
         case SPLEEN -> {
-          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_SPLEEN);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.CONSUME_SPLEEN);
           UseItemEnqueuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
         }
-        case POTION -> ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_USE);
+        case POTION -> ConcoctionDatabase.handleQueue(type, ConsumptionType.CONSUME_USE);
       }
       ConcoctionDatabase.getUsables().sort();
     }
@@ -475,7 +476,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     @Override
     public void handleQueue() {
-      ConcoctionDatabase.handleQueue(ConcoctionType.FOOD, KoLConstants.CONSUME_GHOST);
+      ConcoctionDatabase.handleQueue(ConcoctionType.FOOD, ConsumptionType.CONSUME_GHOST);
     }
 
     @Override
@@ -497,7 +498,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     @Override
     public void handleQueue() {
-      ConcoctionDatabase.handleQueue(ConcoctionType.BOOZE, KoLConstants.CONSUME_HOBO);
+      ConcoctionDatabase.handleQueue(ConcoctionType.BOOZE, ConsumptionType.CONSUME_HOBO);
     }
 
     @Override
@@ -706,19 +707,19 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         }
       } else
         switch (ItemDatabase.getConsumptionType(creation.getItemId())) {
-          case KoLConstants.CONSUME_FOOD_HELPER:
+          case CONSUME_FOOD_HELPER:
             if (type != ConcoctionType.FOOD) {
               return false;
             }
             return super.isVisible(element);
 
-          case KoLConstants.CONSUME_DRINK_HELPER:
+          case CONSUME_DRINK_HELPER:
             if (type != ConcoctionType.BOOZE) {
               return false;
             }
             return super.isVisible(element);
 
-          case KoLConstants.CONSUME_USE:
+          case CONSUME_USE:
             if (type == ConcoctionType.BOOZE) {
               if (creation.getItemId() != ItemPool.ICE_STEIN) {
                 return false;
@@ -734,7 +735,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
             }
             return super.isVisible(element);
 
-          case KoLConstants.CONSUME_MULTIPLE:
+          case CONSUME_MULTIPLE:
             if ((type == ConcoctionType.BOOZE) || (type == ConcoctionType.SPLEEN)) {
               return false;
             }
@@ -747,8 +748,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
             }
             return super.isVisible(element);
 
-          case KoLConstants.CONSUME_POTION:
-          case KoLConstants.CONSUME_AVATAR:
+          case CONSUME_POTION:
+          case CONSUME_AVATAR:
             if (type != ConcoctionType.POTION) {
               return false;
             }
