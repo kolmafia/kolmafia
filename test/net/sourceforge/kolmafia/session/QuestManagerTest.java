@@ -2203,7 +2203,7 @@ public class QuestManagerTest {
       }
 
       @Test
-      void findingGrandpaAdvancesQuest() {
+      void rescuingGrandmaAdvancesQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2328,6 +2328,76 @@ public class QuestManagerTest {
               requests.get(0),
               "/monkeycastle.php",
               "action=buyitem&whichitem=6398&quantity=1&pwd=SEAMONKEES");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      void rescuingMomFinishesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_finished_1.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          String URL = "adventure.php?snarfblat=" + AdventurePool.CALIGINOUS_ABYSS;
+          var request = new GenericRequest(URL);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isFinished());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertPostRequest(
+              requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.CALIGINOUS_ABYSS);
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      void seeingMomInCastleFinishesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_finished_2.html"));
+
+          var request = new GenericRequest("monkeycastle.php", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isFinished());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(1));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", null);
+        }
+      }
+
+      @Test
+      void gettingBuffFromMomFinishesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_finished_3.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          String URL = "monkeycastle.php?action=mombuff&whichbuff=7";
+          var request = new GenericRequest(URL);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isFinished());
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertPostRequest(requests.get(0), "/monkeycastle.php", "action=mombuff&whichbuff=7");
           assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
         }
       }
