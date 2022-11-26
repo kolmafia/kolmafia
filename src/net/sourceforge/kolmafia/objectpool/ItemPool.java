@@ -3439,12 +3439,15 @@ public class ItemPool {
   public static final int ROBY_BORIS_BEER = 10985;
   public static final int ROBY_HONEY_BUN_OF_BORIS = 10986;
   public static final int ROBY_BORIS_BREAD = 10987;
+  public static final int PIZZA_OF_LEGEND = 10991;
+  public static final int CALZONE_OF_LEGEND = 10992;
   public static final int ROBY_CALZONE_OF_LEGEND = 10993;
   public static final int ROBY_PIZZA_OF_LEGEND = 10994;
   public static final int ROBY_ROASTED_VEGETABLE_FOCACCIA = 10995;
   public static final int ROBY_PLAIN_CALZONE = 10996;
   public static final int ROBY_BAKED_VEGGIE_RICOTTA = 10997;
   public static final int ROBY_DEEP_DISH_OF_LEGEND = 10999;
+  public static final int DEEP_DISH_OF_LEGEND = 11000;
   public static final int DEED_TO_OLIVERS_PLACE = 11001;
   public static final int DRINK_CHIT = 11002;
   public static final int GOVERNMENT_PER_DIEM = 11003;
