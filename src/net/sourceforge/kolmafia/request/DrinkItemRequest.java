@@ -238,7 +238,7 @@ public class DrinkItemRequest extends UseItemRequest {
     int itemId = this.itemUsed.getItemId();
     UseItemRequest.lastUpdate = "";
 
-    int maximumUses = UseItemRequest.maximumUses(itemId);
+    int maximumUses = UseItemRequest.maximumUses(itemId, this.consumptionType);
     if (maximumUses < this.itemUsed.getCount()) {
       KoLmafia.updateDisplay(
           "(usable quantity of "
