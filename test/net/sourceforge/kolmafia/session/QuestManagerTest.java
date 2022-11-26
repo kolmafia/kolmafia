@@ -1581,6 +1581,8 @@ public class QuestManagerTest {
       }
     }
 
+    private static final AdventureResult SAND_DOLLAR = ItemPool.get(ItemPool.SAND_DOLLAR);
+
     // ***** The Old Guy Quest *****
     //
     // Talk to the Old Man
@@ -1590,7 +1592,6 @@ public class QuestManagerTest {
     @Nested
     class OldMan {
       private static final AdventureResult DAMP_OLD_BOOT = ItemPool.get(ItemPool.DAMP_OLD_BOOT);
-      private static final AdventureResult SAND_DOLLAR = ItemPool.get(ItemPool.SAND_DOLLAR);
       private static final AdventureResult FISHY_PIPE = ItemPool.get(ItemPool.FISHY_PIPE);
 
       @Test
@@ -1726,7 +1727,7 @@ public class QuestManagerTest {
           ItemPool.get(ItemPool.WRIGGLING_FLYTRAP_PELLET);
 
       @Test
-      public void gettingWrigglingPelletStartsQuest() {
+      public void gettingWrigglingPelletDoesNotStartQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -1743,7 +1744,7 @@ public class QuestManagerTest {
 
           assertEquals(0, FightRequest.currentRound);
           assertTrue(InventoryManager.hasItem(WRIGGLING_FLYTRAP_PELLET));
-          assertThat(Quest.SEA_MONKEES, isStarted());
+          assertThat(Quest.SEA_MONKEES, isUnstarted());
 
           var requests = builder.client.getRequests();
           assertThat(requests, hasSize(2));
@@ -1961,7 +1962,7 @@ public class QuestManagerTest {
     @Nested
     class Grandpa {
       @Test
-      public void talkingToLittleBrotherAdvancesQuest() {
+      public void talkingToLittleBrotherStartsQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2052,7 +2053,6 @@ public class QuestManagerTest {
         var cleanups =
             new Cleanups(
                 withHttpClientBuilder(builder),
-                withProperty("bigBrotherRescued", false),
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_5_3.html"));
@@ -2128,10 +2128,7 @@ public class QuestManagerTest {
         var cleanups =
             new Cleanups(
                 withHttpClientBuilder(builder),
-                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
-                withProperty("bigBrotherRescued", false),
-                withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_7_1.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -2146,9 +2143,7 @@ public class QuestManagerTest {
           var requests = builder.client.getRequests();
           assertThat(requests, hasSize(2));
           assertPostRequest(
-              requests.get(0),
-              "/adventure.php",
-              "snarfblat=" + AdventurePool.MERKIN_OUTPOST + "&pwd=SEAMONKEES");
+              requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MERKIN_OUTPOST);
           assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
         }
       }
@@ -2206,10 +2201,137 @@ public class QuestManagerTest {
           assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
         }
       }
+
+      @Test
+      void findingGrandpaAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_9_1.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          String URL = "adventure.php?snarfblat=" + AdventurePool.MERKIN_OUTPOST;
+          var request = new GenericRequest(URL);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(9));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertPostRequest(
+              requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MERKIN_OUTPOST);
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      void seeingGrandmaInCastleAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_9_2.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("monkeycastle.php", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(9));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", null);
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
     }
 
     @Nested
-    class Mom {}
+    class Mom {
+      private static final AdventureResult BLACK_GLASS = ItemPool.get(ItemPool.BLACK_GLASS);
+
+      @Test
+      public void talkingToLittleBrotherStartsQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_10.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("monkeycastle.php?who=1", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(10));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", "who=1");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void talkingToBigBrotherAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_11.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("monkeycastle.php?who=2", false);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(11));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertGetRequest(requests.get(0), "/monkeycastle.php", "who=2");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void buyingBlackGlassAdvancesQuest() {
+        var builder = new FakeHttpClientBuilder();
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withItem(SAND_DOLLAR.getInstance(2887)),
+                withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
+                withPasswordHash("SEAMONKEES"),
+                withGender(KoLCharacter.FEMALE));
+        try (cleanups) {
+          builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_12.html"));
+          builder.client.addResponse(200, ""); // api.php
+
+          String URL = "monkeycastle.php?pwd&action=buyitem&whichitem=6398&quantity=1";
+          var request = new GenericRequest(URL);
+          request.run();
+
+          assertThat(Quest.SEA_MONKEES, isStep(12));
+          assertTrue(InventoryManager.hasItem(BLACK_GLASS));
+
+          var requests = builder.client.getRequests();
+          assertThat(requests, hasSize(2));
+          assertPostRequest(
+              requests.get(0),
+              "/monkeycastle.php",
+              "action=buyitem&whichitem=6398&quantity=1&pwd=SEAMONKEES");
+          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+    }
 
     // ***** Mer-Kin Deepcity Quest *****
     //
