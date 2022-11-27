@@ -128,14 +128,12 @@ class TCRSDatabaseTest {
         TCRSDatabase.load(ascensionClass, sign, true);
         for (var i : ItemDatabase.entrySet()) {
           var itemId = i.getKey();
-          var itemName = i.getValue();
           if (!EquipmentDatabase.getItemType(itemId).contains("potion")
-              || itemName.contains("jazz soap")
-              || itemName.contains("Binarrrca")
-              || itemName.contains("Love Potion #")
-              || itemId >= 10950 // database files only go up to here as of now
-          ) continue;
+              || !TCRSDatabase.hasData(itemId)) continue;
           var expected = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
+
+          if (expected == null) continue;
+
           assertThat(
               ascensionClass + "/" + sign + " " + itemId,
               expected.name,
