@@ -842,15 +842,15 @@ public class ConcoctionDatabase {
   public static final void handleQueue(ConcoctionType type, ConsumptionType consumptionType) {
     // consumptionType can be:
     //
-    // ConsumptionType.NO_CONSUME - create or retrieve items
-    // ConsumptionType.CONSUME_EAT - eat food items
-    // ConsumptionType.CONSUME_DRINK - drink booze items
-    // ConsumptionType.CONSUME_SPLEEN - use spleen items
-    // ConsumptionType.CONSUME_GHOST - binge ghost with food
-    // ConsumptionType.CONSUME_HOBO - binge hobo with booze
-    // ConsumptionType.CONSUME_USE - use potions
-    // ConsumptionType.CONSUME_MULTIPLE - use potions
-    // ConsumptionType.CONSUME_AVATAR - use potions
+    // ConsumptionType.NONE - create or retrieve items
+    // ConsumptionType.EAT - eat food items
+    // ConsumptionType.DRINK - drink booze items
+    // ConsumptionType.SPLEEN - use spleen items
+    // ConsumptionType.GLUTTONOUS_GHOST - binge ghost with food
+    // ConsumptionType.SPIRIT_HOBO - binge hobo with booze
+    // ConsumptionType.USE - use potions
+    // ConsumptionType.USE_MULTIPLE - use potions
+    // ConsumptionType.AVATAR_POTION - use potions
 
     QueuedConcoction currentItem;
     Stack<QueuedConcoction> toProcess = new Stack<QueuedConcoction>();
