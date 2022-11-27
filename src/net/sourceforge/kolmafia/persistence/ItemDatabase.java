@@ -20,6 +20,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
@@ -53,7 +54,7 @@ public class ItemDatabase {
   private static int maxItemId = 0;
 
   private static String[] canonicalNames = new String[0];
-  private static final Map<Integer, Integer> useTypeById = new HashMap<>();
+  private static final Map<Integer, ConsumptionType> useTypeById = new HashMap<>();
   private static final Map<Integer, Integer> attributesById = new HashMap<>();
   private static final Map<Integer, Integer> priceById = new HashMap<>();
   private static final Map<Integer, Integer> nameLength = new HashMap<>();
@@ -170,17 +171,15 @@ public class ItemDatabase {
   public static final int ATTR_COOK = 0x00200000;
   public static final int ATTR_MIX = 0x00400000;
 
-  private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
-  private static final HashMap<Integer, String> INVERSE_PRIMARY_USE =
-      new HashMap<Integer, String>();
+  private static final HashMap<String, ConsumptionType> PRIMARY_USE = new HashMap<>();
+  private static final HashMap<ConsumptionType, String> INVERSE_PRIMARY_USE = new HashMap<>();
   private static final HashMap<String, Integer> SECONDARY_USE = new HashMap<String, Integer>();
   private static final TreeMap<Integer, String> INVERSE_SECONDARY_USE =
       new TreeMap<Integer, String>();
 
-  private static void definePrimaryUse(final String key, final int usage) {
-    Integer val = usage;
-    PRIMARY_USE.put(key, val);
-    INVERSE_PRIMARY_USE.put(val, key);
+  private static void definePrimaryUse(final String key, final ConsumptionType usage) {
+    PRIMARY_USE.put(key, usage);
+    INVERSE_PRIMARY_USE.put(usage, key);
   }
 
   private static void defineSecondaryUse(final String key, final int usage) {
@@ -190,44 +189,44 @@ public class ItemDatabase {
   }
 
   static {
-    ItemDatabase.definePrimaryUse("none", KoLConstants.NO_CONSUME);
+    ItemDatabase.definePrimaryUse("none", ConsumptionType.NONE);
 
-    ItemDatabase.definePrimaryUse("food", KoLConstants.CONSUME_EAT);
-    ItemDatabase.definePrimaryUse("drink", KoLConstants.CONSUME_DRINK);
-    ItemDatabase.definePrimaryUse("spleen", KoLConstants.CONSUME_SPLEEN);
+    ItemDatabase.definePrimaryUse("food", ConsumptionType.EAT);
+    ItemDatabase.definePrimaryUse("drink", ConsumptionType.DRINK);
+    ItemDatabase.definePrimaryUse("spleen", ConsumptionType.SPLEEN);
 
-    ItemDatabase.definePrimaryUse("usable", KoLConstants.CONSUME_USE);
-    ItemDatabase.definePrimaryUse("multiple", KoLConstants.CONSUME_MULTIPLE);
-    ItemDatabase.definePrimaryUse("reusable", KoLConstants.INFINITE_USES);
-    ItemDatabase.definePrimaryUse("message", KoLConstants.MESSAGE_DISPLAY);
+    ItemDatabase.definePrimaryUse("usable", ConsumptionType.USE);
+    ItemDatabase.definePrimaryUse("multiple", ConsumptionType.USE_MULTIPLE);
+    ItemDatabase.definePrimaryUse("reusable", ConsumptionType.USE_INFINITE);
+    ItemDatabase.definePrimaryUse("message", ConsumptionType.USE_MESSAGE_DISPLAY);
 
-    ItemDatabase.definePrimaryUse("grow", KoLConstants.GROW_FAMILIAR);
+    ItemDatabase.definePrimaryUse("grow", ConsumptionType.FAMILIAR_HATCHLING);
 
-    ItemDatabase.definePrimaryUse("hat", KoLConstants.EQUIP_HAT);
-    ItemDatabase.definePrimaryUse("weapon", KoLConstants.EQUIP_WEAPON);
-    ItemDatabase.definePrimaryUse("offhand", KoLConstants.EQUIP_OFFHAND);
-    ItemDatabase.definePrimaryUse("container", KoLConstants.EQUIP_CONTAINER);
-    ItemDatabase.definePrimaryUse("shirt", KoLConstants.EQUIP_SHIRT);
-    ItemDatabase.definePrimaryUse("pants", KoLConstants.EQUIP_PANTS);
-    ItemDatabase.definePrimaryUse("accessory", KoLConstants.EQUIP_ACCESSORY);
-    ItemDatabase.definePrimaryUse("familiar", KoLConstants.EQUIP_FAMILIAR);
+    ItemDatabase.definePrimaryUse("hat", ConsumptionType.HAT);
+    ItemDatabase.definePrimaryUse("weapon", ConsumptionType.WEAPON);
+    ItemDatabase.definePrimaryUse("offhand", ConsumptionType.OFFHAND);
+    ItemDatabase.definePrimaryUse("container", ConsumptionType.CONTAINER);
+    ItemDatabase.definePrimaryUse("shirt", ConsumptionType.SHIRT);
+    ItemDatabase.definePrimaryUse("pants", ConsumptionType.PANTS);
+    ItemDatabase.definePrimaryUse("accessory", ConsumptionType.ACCESSORY);
+    ItemDatabase.definePrimaryUse("familiar", ConsumptionType.FAMILIAR_EQUIPMENT);
 
-    ItemDatabase.definePrimaryUse("sticker", KoLConstants.CONSUME_STICKER);
-    ItemDatabase.definePrimaryUse("card", KoLConstants.CONSUME_CARD);
-    ItemDatabase.definePrimaryUse("folder", KoLConstants.CONSUME_FOLDER);
-    ItemDatabase.definePrimaryUse("bootskin", KoLConstants.CONSUME_BOOTSKIN);
-    ItemDatabase.definePrimaryUse("bootspur", KoLConstants.CONSUME_BOOTSPUR);
-    ItemDatabase.definePrimaryUse("sixgun", KoLConstants.CONSUME_SIXGUN);
+    ItemDatabase.definePrimaryUse("sticker", ConsumptionType.STICKER);
+    ItemDatabase.definePrimaryUse("card", ConsumptionType.CARD);
+    ItemDatabase.definePrimaryUse("folder", ConsumptionType.FOLDER);
+    ItemDatabase.definePrimaryUse("bootskin", ConsumptionType.BOOTSKIN);
+    ItemDatabase.definePrimaryUse("bootspur", ConsumptionType.BOOTSPUR);
+    ItemDatabase.definePrimaryUse("sixgun", ConsumptionType.SIXGUN);
 
-    ItemDatabase.definePrimaryUse("food helper", KoLConstants.CONSUME_FOOD_HELPER);
-    ItemDatabase.definePrimaryUse("drink helper", KoLConstants.CONSUME_DRINK_HELPER);
-    ItemDatabase.definePrimaryUse("zap", KoLConstants.CONSUME_ZAP);
-    ItemDatabase.definePrimaryUse("sphere", KoLConstants.CONSUME_SPHERE);
-    ItemDatabase.definePrimaryUse("guardian", KoLConstants.CONSUME_GUARDIAN);
-    ItemDatabase.definePrimaryUse("pokepill", KoLConstants.CONSUME_POKEPILL);
+    ItemDatabase.definePrimaryUse("food helper", ConsumptionType.FOOD_HELPER);
+    ItemDatabase.definePrimaryUse("drink helper", ConsumptionType.DRINK_HELPER);
+    ItemDatabase.definePrimaryUse("zap", ConsumptionType.ZAP);
+    ItemDatabase.definePrimaryUse("sphere", ConsumptionType.EL_VIBRATO_SPHERE);
+    ItemDatabase.definePrimaryUse("guardian", ConsumptionType.PASTA_GUARDIAN);
+    ItemDatabase.definePrimaryUse("pokepill", ConsumptionType.POKEPILL);
 
-    ItemDatabase.definePrimaryUse("potion", KoLConstants.CONSUME_POTION);
-    ItemDatabase.definePrimaryUse("avatar", KoLConstants.CONSUME_AVATAR);
+    ItemDatabase.definePrimaryUse("potion", ConsumptionType.POTION);
+    ItemDatabase.definePrimaryUse("avatar", ConsumptionType.AVATAR_POTION);
 
     ItemDatabase.defineSecondaryUse("usable", ItemDatabase.ATTR_USABLE);
     ItemDatabase.defineSecondaryUse("multiple", ItemDatabase.ATTR_MULTIPLE);
@@ -270,7 +269,6 @@ public class ItemDatabase {
       return;
     }
 
-    ItemDatabase.itemIdSetByName.clear();
     ItemDatabase.itemSourceByNoobSkillId.clear();
 
     ItemDatabase.readItems();
@@ -389,7 +387,7 @@ public class ItemDatabase {
         int price = StringUtilities.parseInt(data[6]);
 
         String usage = usages[0];
-        Integer useType = ItemDatabase.PRIMARY_USE.get(usage);
+        ConsumptionType useType = ItemDatabase.PRIMARY_USE.get(usage);
         if (useType == null) {
           RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
         } else {
@@ -399,11 +397,11 @@ public class ItemDatabase {
         int attrs = 0;
         for (int i = 1; i < usages.length; ++i) {
           usage = usages[i];
-          useType = ItemDatabase.SECONDARY_USE.get(usage);
-          if (useType == null) {
+          Integer secUse = ItemDatabase.SECONDARY_USE.get(usage);
+          if (secUse == null) {
             RequestLogger.printLine("Unknown secondary usage for " + name + ": " + usage);
           } else {
-            attrs |= useType;
+            attrs |= secUse;
             CandyDatabase.registerCandy(id, usage);
           }
         }
@@ -500,7 +498,7 @@ public class ItemDatabase {
       String image = ItemDatabase.getImage(itemId);
       // Intentionally get a null if there is not an explicit plural in the database
       String plural = ItemDatabase.getPluralById(itemId);
-      int type = ItemDatabase.getConsumptionType(itemId);
+      ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
       int attrs = ItemDatabase.getAttributes(itemId);
       String access = ItemDatabase.getAccessById(nextInteger);
       int price = ItemDatabase.getPriceById(itemId);
@@ -518,7 +516,7 @@ public class ItemDatabase {
       final String name,
       final String descId,
       final String image,
-      final int type,
+      final ConsumptionType type,
       final int attrs,
       final String access,
       final int autosell,
@@ -900,20 +898,20 @@ public class ItemDatabase {
   }
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     if (multi) {
       // We think the item is single usable but it really is multiusable
-      if (useType == KoLConstants.CONSUME_USE) {
-        ItemDatabase.useTypeById.put(itemId, KoLConstants.CONSUME_MULTIPLE);
+      if (useType == ConsumptionType.USE) {
+        ItemDatabase.useTypeById.put(itemId, ConsumptionType.USE_MULTIPLE);
       } else {
         ItemDatabase.attributesById.put(itemId, attributes | ItemDatabase.ATTR_MULTIPLE);
       }
     } else {
       // We think the item is multi usable but it really is single usable
-      if (useType == KoLConstants.CONSUME_MULTIPLE) {
-        ItemDatabase.useTypeById.put(itemId, KoLConstants.CONSUME_USE);
+      if (useType == ConsumptionType.USE_MULTIPLE) {
+        ItemDatabase.useTypeById.put(itemId, ConsumptionType.USE);
       } else {
         ItemDatabase.attributesById.put(itemId, attributes | ItemDatabase.ATTR_USABLE);
       }
@@ -928,7 +926,7 @@ public class ItemDatabase {
     String text = DebugDatabase.itemDescriptionText(rawText);
     if (text == null) {
       // Assume defaults
-      ItemDatabase.useTypeById.put(itemId, KoLConstants.NO_CONSUME);
+      ItemDatabase.useTypeById.put(itemId, ConsumptionType.NONE);
       ItemDatabase.attributesById.put(itemId, 0);
       ItemDatabase.accessById.put(id, TRADE_FLAG + "," + DISCARD_FLAG);
       ItemDatabase.priceById.put(itemId, 0);
@@ -942,9 +940,9 @@ public class ItemDatabase {
 
     // Parse use type, access, and price from description
     String type = DebugDatabase.parseType(text);
-    int usage = DebugDatabase.typeToPrimary(type, multi);
+    ConsumptionType usage = DebugDatabase.typeToPrimary(type, multi);
     if (text.contains("blue\">Makes you look like")) {
-      usage = KoLConstants.CONSUME_AVATAR;
+      usage = ConsumptionType.AVATAR_POTION;
     }
     ItemDatabase.useTypeById.put(itemId, usage);
 
@@ -956,7 +954,7 @@ public class ItemDatabase {
     attrs |= access.contains(GIFT_FLAG) ? ItemDatabase.ATTR_GIFT : 0;
     attrs |= access.contains(QUEST_FLAG) ? ItemDatabase.ATTR_QUEST : 0;
     attrs |= access.contains(DISCARD_FLAG) ? ItemDatabase.ATTR_DISCARDABLE : 0;
-    if (multi && usage != KoLConstants.CONSUME_MULTIPLE) {
+    if (multi && usage != ConsumptionType.USE_MULTIPLE) {
       attrs |= ItemDatabase.ATTR_MULTIPLE;
     }
     ItemDatabase.attributesById.put(itemId, attrs);
@@ -988,9 +986,9 @@ public class ItemDatabase {
 
       // Let equipment database do what it wishes with this item
       EquipmentDatabase.registerItem(itemId, itemName, text, power);
-    } else if (usage == KoLConstants.CONSUME_EAT
-        || usage == KoLConstants.CONSUME_DRINK
-        || usage == KoLConstants.CONSUME_SPLEEN) {
+    } else if (usage == ConsumptionType.EAT
+        || usage == ConsumptionType.DRINK
+        || usage == ConsumptionType.SPLEEN) {
       ConsumablesDatabase.registerConsumable(itemName, usage, text);
     }
 
@@ -1017,11 +1015,12 @@ public class ItemDatabase {
     if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
       String effectDescid = DebugDatabase.parseEffectDescid(rawText);
       String command =
-          usage == KoLConstants.CONSUME_EAT
-              ? "eat 1 "
-              : usage == KoLConstants.CONSUME_DRINK
-                  ? "drink 1 "
-                  : usage == KoLConstants.CONSUME_SPLEEN ? "chew 1 " : "use 1 ";
+          switch (usage) {
+            case EAT -> "eat 1 ";
+            case DRINK -> "drink 1 ";
+            case SPLEEN -> "chew 1 ";
+            default -> "use 1 ";
+          };
       EffectDatabase.registerEffect(effectName, effectDescid, command + itemName);
     }
 
@@ -1858,22 +1857,22 @@ public class ItemDatabase {
   public static boolean isUsable(final int itemId) {
     // Anything that you can manipulate with inv_use.php
 
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     return switch (useType) {
       case
           // Explicit "use"
-          KoLConstants.CONSUME_USE,
-          KoLConstants.MESSAGE_DISPLAY,
-          KoLConstants.INFINITE_USES,
+          USE,
+          USE_MESSAGE_DISPLAY,
+          USE_INFINITE,
           // Multi-use
-          KoLConstants.CONSUME_MULTIPLE,
+          USE_MULTIPLE,
           // Grow is a type of use
-          KoLConstants.GROW_FAMILIAR,
+          FAMILIAR_HATCHLING,
           // Any potion
-          KoLConstants.CONSUME_POTION,
-          KoLConstants.CONSUME_AVATAR -> true;
+          POTION,
+          AVATAR_POTION -> true;
       default -> (attributes
               & (ItemDatabase.ATTR_USABLE
                   | ItemDatabase.ATTR_MULTIPLE
@@ -1890,72 +1889,72 @@ public class ItemDatabase {
   }
 
   public static final boolean isPotion(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return (useType == KoLConstants.CONSUME_POTION || useType == KoLConstants.CONSUME_AVATAR);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return (useType == ConsumptionType.POTION || useType == ConsumptionType.AVATAR_POTION);
   }
 
   public static final boolean isEquipment(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     return KoLConstants.isEquipmentType(useType, true);
   }
 
   public static final boolean isFood(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.CONSUME_EAT;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.EAT;
   }
 
   public static final boolean isBooze(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.CONSUME_DRINK;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.DRINK;
   }
 
   public static final boolean isHat(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.EQUIP_HAT;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.HAT;
   }
 
   public static final boolean isWeapon(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.EQUIP_WEAPON;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.WEAPON;
   }
 
   public static final boolean isOffHand(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.EQUIP_OFFHAND;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.OFFHAND;
   }
 
   public static final boolean isShirt(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.EQUIP_SHIRT;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.SHIRT;
   }
 
   public static final boolean isPants(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.EQUIP_PANTS;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.PANTS;
   }
 
   public static final boolean isAccessory(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.EQUIP_ACCESSORY;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.ACCESSORY;
   }
 
   public static final boolean isFamiliarEquipment(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
-    return useType == KoLConstants.EQUIP_FAMILIAR;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.FAMILIAR_EQUIPMENT;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
     // Anything that you can manipulate with multiuse.php
 
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     switch (useType) {
-      case KoLConstants.CONSUME_MULTIPLE:
+      case USE_MULTIPLE:
         return true;
-      case KoLConstants.CONSUME_POTION:
-      case KoLConstants.CONSUME_AVATAR:
-      case KoLConstants.CONSUME_SPLEEN:
+      case POTION:
+      case AVATAR_POTION:
+      case SPLEEN:
         return (attributes & ItemDatabase.ATTR_USABLE) == 0;
       default:
         return (attributes & ItemDatabase.ATTR_MULTIPLE) != 0;
@@ -1963,9 +1962,10 @@ public class ItemDatabase {
   }
 
   public static final boolean isReusable(final int itemId) {
-    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     int attributes = ItemDatabase.getAttributes(itemId);
-    return useType == KoLConstants.INFINITE_USES || (attributes & ItemDatabase.ATTR_REUSABLE) != 0;
+    return useType == ConsumptionType.USE_INFINITE
+        || (attributes & ItemDatabase.ATTR_REUSABLE) != 0;
   }
 
   /**
@@ -2060,15 +2060,17 @@ public class ItemDatabase {
    *
    * @return The consumption associated with the item
    */
-  public static final int getConsumptionType(final int itemId) {
-    return itemId <= 0 ? KoLConstants.NO_CONSUME : ItemDatabase.useTypeById.getOrDefault(itemId, 0);
+  public static final ConsumptionType getConsumptionType(final int itemId) {
+    return itemId <= 0
+        ? ConsumptionType.NONE
+        : ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
   }
 
-  public static final int getConsumptionType(final AdventureResult item) {
+  public static final ConsumptionType getConsumptionType(final AdventureResult item) {
     return ItemDatabase.getConsumptionType(item.getItemId());
   }
 
-  public static final String typeToPrimaryUsage(final int type) {
+  public static final String typeToPrimaryUsage(final ConsumptionType type) {
     return ItemDatabase.INVERSE_PRIMARY_USE.get(type);
   }
 
@@ -2207,8 +2209,7 @@ public class ItemDatabase {
 
   public static void parseVampireVintnerWine(final String idesc) {
     String iEnchantments =
-        DebugDatabase.parseItemEnchantments(
-            idesc, new ArrayList<String>(), KoLConstants.CONSUME_DRINK);
+        DebugDatabase.parseItemEnchantments(idesc, new ArrayList<String>(), ConsumptionType.DRINK);
     String iname = DebugDatabase.parseName(idesc);
     Modifiers imods = Modifiers.parseModifiers(iname, iEnchantments);
 

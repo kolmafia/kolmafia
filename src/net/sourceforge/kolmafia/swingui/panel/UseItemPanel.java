@@ -57,33 +57,33 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
       boolean filter = false;
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case KoLConstants.CONSUME_EAT:
+        case EAT:
           filter = UsableItemFilterField.this.food;
           break;
 
-        case KoLConstants.CONSUME_DRINK:
+        case DRINK:
           filter = UsableItemFilterField.this.booze;
           break;
 
-        case KoLConstants.CONSUME_USE:
-        case KoLConstants.CONSUME_SPLEEN:
-        case KoLConstants.MESSAGE_DISPLAY:
-        case KoLConstants.INFINITE_USES:
-        case KoLConstants.CONSUME_MULTIPLE:
-        case KoLConstants.CONSUME_AVATAR:
-        case KoLConstants.GROW_FAMILIAR:
-        case KoLConstants.CONSUME_ZAP:
+        case USE:
+        case SPLEEN:
+        case USE_MESSAGE_DISPLAY:
+        case USE_INFINITE:
+        case USE_MULTIPLE:
+        case AVATAR_POTION:
+        case FAMILIAR_HATCHLING:
+        case ZAP:
           filter = UsableItemFilterField.this.other;
           break;
 
-        case KoLConstants.EQUIP_FAMILIAR:
-        case KoLConstants.EQUIP_ACCESSORY:
-        case KoLConstants.EQUIP_HAT:
-        case KoLConstants.EQUIP_PANTS:
-        case KoLConstants.EQUIP_CONTAINER:
-        case KoLConstants.EQUIP_SHIRT:
-        case KoLConstants.EQUIP_WEAPON:
-        case KoLConstants.EQUIP_OFFHAND:
+        case FAMILIAR_EQUIPMENT:
+        case ACCESSORY:
+        case HAT:
+        case PANTS:
+        case CONTAINER:
+        case SHIRT:
+        case WEAPON:
+        case OFFHAND:
           filter = UsableItemFilterField.this.equip;
           break;
 

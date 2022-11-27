@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
@@ -587,17 +587,17 @@ public abstract class YouRobotManager {
   }
 
   // Used by EquipmentManager.canEquip
-  public static boolean canEquip(final int type) {
+  public static boolean canEquip(final ConsumptionType type) {
     switch (type) {
-      case KoLConstants.EQUIP_HAT:
+      case HAT:
         return hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
-      case KoLConstants.EQUIP_WEAPON:
+      case WEAPON:
         return hasEquipped(RobotUpgrade.VICE_GRIPS);
-      case KoLConstants.EQUIP_OFFHAND:
+      case OFFHAND:
         return hasEquipped(RobotUpgrade.OMNI_CLAW);
-      case KoLConstants.EQUIP_SHIRT:
+      case SHIRT:
         return hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
-      case KoLConstants.EQUIP_PANTS:
+      case PANTS:
         return hasEquipped(RobotUpgrade.ROBO_LEGS);
     }
 

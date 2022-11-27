@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -195,7 +196,7 @@ public class EatItemRequest extends UseItemRequest {
     String name = this.itemUsed.getName();
     int itemId = this.itemUsed.getItemId();
 
-    if (this.consumptionType == KoLConstants.CONSUME_FOOD_HELPER) {
+    if (this.consumptionType == ConsumptionType.FOOD_HELPER) {
       if (!InventoryManager.retrieveItem(this.itemUsed)) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Helper not available.");
         return;
@@ -251,7 +252,7 @@ public class EatItemRequest extends UseItemRequest {
     // Don't get Mayoflex if the food does not give adventures
     String minderSetting = Preferences.getString("mayoMinderSetting");
     AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
-    if (consumptionType == KoLConstants.CONSUME_EAT
+    if (consumptionType == ConsumptionType.EAT
         && !ConcoctionDatabase.isMayo(itemId)
         && !minderSetting.equals("")
         && Preferences.getBoolean("autoFillMayoMinder")
@@ -314,7 +315,7 @@ public class EatItemRequest extends UseItemRequest {
       return;
     }
 
-    if (this.consumptionType == KoLConstants.CONSUME_MULTIPLE && this.itemUsed.getCount() > 1) {
+    if (this.consumptionType == ConsumptionType.USE_MULTIPLE && this.itemUsed.getCount() > 1) {
       this.addFormField("action", "useitem");
     }
 
@@ -816,8 +817,8 @@ public class EatItemRequest extends UseItemRequest {
       ResultProcessor.processResult(helper.getNegation());
     }
 
-    int consumptionType = UseItemRequest.getConsumptionType(item);
-    if (consumptionType == KoLConstants.CONSUME_FOOD_HELPER) {
+    ConsumptionType consumptionType = UseItemRequest.getConsumptionType(item);
+    if (consumptionType == ConsumptionType.FOOD_HELPER) {
       // Consumption helpers are removed above when you
       // successfully eat or drink.
       return;

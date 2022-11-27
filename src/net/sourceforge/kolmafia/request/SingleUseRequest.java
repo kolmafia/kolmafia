@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -30,18 +31,18 @@ public class SingleUseRequest extends CreateItemRequest {
     }
 
     int use = this.ingredients[0].getItemId();
-    int type = ItemDatabase.getConsumptionType(use);
+    ConsumptionType type = ItemDatabase.getConsumptionType(use);
     int count = this.getQuantityNeeded();
 
-    if (type == KoLConstants.CONSUME_USE
+    if (type == ConsumptionType.USE
         || ItemDatabase.getAttribute(use, ItemDatabase.ATTR_USABLE)
         || count == 1) {
       this.constructURLString("inv_use.php");
       this.addFormField("which", "3");
       this.addFormField("whichitem", String.valueOf(use));
       this.addFormField("ajax", "1");
-    } else if (type == KoLConstants.CONSUME_MULTIPLE
-        || type == KoLConstants.CONSUME_AVATAR
+    } else if (type == ConsumptionType.USE_MULTIPLE
+        || type == ConsumptionType.AVATAR_POTION
         || ItemDatabase.getAttribute(use, ItemDatabase.ATTR_MULTIPLE)) {
       this.constructURLString("multiuse.php");
       this.addFormField("action", "useitem");
@@ -78,13 +79,13 @@ public class SingleUseRequest extends CreateItemRequest {
       return;
     }
 
-    int type = ItemDatabase.getConsumptionType(itemId);
+    ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
     int quantity = this.getQuantityNeeded();
     int yield = this.getYield();
     int count = (quantity + yield - 1) / yield;
 
     if (count > 1
-        && (type == KoLConstants.CONSUME_USE
+        && (type == ConsumptionType.USE
             || ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_USABLE))) {
       // We have to create one at a time.
       for (int i = 1; i <= count; ++i) {

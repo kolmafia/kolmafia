@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -227,9 +226,9 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
       while (st.hasMoreTokens()
           && EquipmentDatabase.contains(itemId = ItemDatabase.getItemId(token = st.nextToken()))) {
         switch (ItemDatabase.getConsumptionType(itemId)) {
-          case KoLConstants.EQUIP_HAT:
-          case KoLConstants.EQUIP_PANTS:
-          case KoLConstants.EQUIP_SHIRT:
+          case HAT:
+          case PANTS:
+          case SHIRT:
             this.equipmentPower += EquipmentDatabase.getPower(itemId);
             break;
         }

@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static net.sourceforge.kolmafia.KoLConstants.ConsumptionType.FAMILIAR_EQUIPMENT;
+
 import java.awt.Color;
 import java.io.File;
 import java.text.DecimalFormat;
@@ -267,16 +269,11 @@ public interface KoLConstants extends UtilityConstants {
    * @param type Consumption type constant
    * @return True if the type relates to equipment
    */
-  static boolean isEquipmentType(final int type, final boolean includeFamiliarEquipment) {
+  static boolean isEquipmentType(
+      final ConsumptionType type, final boolean includeFamiliarEquipment) {
     return switch (type) {
-      case EQUIP_ACCESSORY,
-          EQUIP_CONTAINER,
-          EQUIP_HAT,
-          EQUIP_SHIRT,
-          EQUIP_PANTS,
-          EQUIP_WEAPON,
-          EQUIP_OFFHAND -> true;
-      default -> includeFamiliarEquipment && type == EQUIP_FAMILIAR;
+      case ACCESSORY, CONTAINER, HAT, SHIRT, PANTS, WEAPON, OFFHAND -> true;
+      default -> includeFamiliarEquipment && type == FAMILIAR_EQUIPMENT;
     };
   }
 
@@ -349,59 +346,76 @@ public interface KoLConstants extends UtilityConstants {
     OTHER
   }
 
-  // Cannot be "used" in any way by itself
-  int NO_CONSUME = 0;
+  /**
+   * Ways to use items.
+   *
+   * <p>A conflation of a few concepts. Most are "primary uses" as appear in items.txt
+   *
+   * <p>Primary uses determine how you can interact with an item. Some items are "usable" in
+   * addition to their primary use (for example, the fortune cookie or glitch season reward).
+   *
+   * <p>ConsumptionType is also used for how the user /intends/ to interact with an item. This is
+   * what the "Familiar 'uses'" are used for: when the user uses a command specifically for feeding
+   * a familiar.
+   *
+   * <p>Most of this is handled in UseItemRequest.
+   */
+  enum ConsumptionType {
+    UNKNOWN,
+    // Cannot be "used" in any way by itself
+    NONE,
 
-  // Consumables
-  int CONSUME_EAT = 1;
-  int CONSUME_DRINK = 2;
-  int CONSUME_SPLEEN = 3;
+    // Consumables
+    EAT,
+    DRINK,
+    SPLEEN,
 
-  // Usables
-  int CONSUME_USE = 4;
-  int CONSUME_MULTIPLE = 5;
-  int INFINITE_USES = 6;
-  int MESSAGE_DISPLAY = 7;
+    // Usables
+    USE,
+    USE_MULTIPLE,
+    USE_INFINITE,
+    USE_MESSAGE_DISPLAY,
 
-  // Familiar hatchlings
-  int GROW_FAMILIAR = 8;
+    // Familiar hatchlings
+    FAMILIAR_HATCHLING,
 
-  // Equipment
-  int EQUIP_HAT = 9;
-  int EQUIP_WEAPON = 10;
-  int EQUIP_OFFHAND = 11;
-  int EQUIP_CONTAINER = 12;
-  int EQUIP_SHIRT = 13;
-  int EQUIP_PANTS = 14;
-  int EQUIP_ACCESSORY = 15;
-  int EQUIP_FAMILIAR = 16;
+    // Equipment
+    HAT,
+    WEAPON,
+    OFFHAND,
+    CONTAINER,
+    SHIRT,
+    PANTS,
+    ACCESSORY,
+    FAMILIAR_EQUIPMENT,
 
-  // Customizable "equipment"
-  int CONSUME_STICKER = 17;
-  int CONSUME_CARD = 18;
-  int CONSUME_FOLDER = 19;
-  int CONSUME_BOOTSKIN = 20;
-  int CONSUME_BOOTSPUR = 21;
-  int CONSUME_SIXGUN = 22;
+    // Customizable "equipment"
+    STICKER,
+    CARD,
+    FOLDER,
+    BOOTSKIN,
+    BOOTSPUR,
+    SIXGUN,
 
-  // Special "uses"
-  int CONSUME_FOOD_HELPER = 30;
-  int CONSUME_DRINK_HELPER = 31;
-  int CONSUME_ZAP = 32;
-  int CONSUME_SPHERE = 33;
-  int CONSUME_GUARDIAN = 34;
-  int CONSUME_POKEPILL = 35;
+    // Special "uses"
+    FOOD_HELPER,
+    DRINK_HELPER,
+    ZAP,
+    EL_VIBRATO_SPHERE,
+    PASTA_GUARDIAN,
+    POKEPILL,
 
-  // Potions
-  int CONSUME_POTION = 40;
-  int CONSUME_AVATAR = 41;
+    // Potions
+    POTION,
+    AVATAR_POTION,
 
-  // Familiar "uses"
-  int CONSUME_ROBO = 95;
-  int CONSUME_MIMIC = 96;
-  int CONSUME_SLIME = 97;
-  int CONSUME_HOBO = 98;
-  int CONSUME_GHOST = 99;
+    // Familiar "uses"
+    ROBORTENDER,
+    STOCKING_MIMIC,
+    SLIMELING,
+    SPIRIT_HOBO,
+    GLUTTONOUS_GHOST
+  }
 
   enum CraftingType {
     SUBCLASS, // ???

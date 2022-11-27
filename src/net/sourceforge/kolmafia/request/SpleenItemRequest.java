@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -141,7 +141,7 @@ public class SpleenItemRequest extends UseItemRequest {
   }
 
   private boolean singleConsume() {
-    return this.consumptionType == KoLConstants.CONSUME_USE;
+    return this.consumptionType == ConsumptionType.USE;
   }
 
   private boolean allowSpleenConsumption() {

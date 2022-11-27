@@ -11,6 +11,7 @@ import javax.swing.JRadioButton;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -142,35 +143,35 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
       }
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case KoLConstants.EQUIP_WEAPON:
+        case WEAPON:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(0).isSelected();
           break;
 
-        case KoLConstants.EQUIP_OFFHAND:
+        case OFFHAND:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(1).isSelected();
           break;
 
-        case KoLConstants.EQUIP_HAT:
+        case HAT:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(2).isSelected();
           break;
 
-        case KoLConstants.EQUIP_CONTAINER:
+        case CONTAINER:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(3).isSelected();
           break;
 
-        case KoLConstants.EQUIP_SHIRT:
+        case SHIRT:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(4).isSelected();
           break;
 
-        case KoLConstants.EQUIP_PANTS:
+        case PANTS:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(5).isSelected();
           break;
 
-        case KoLConstants.EQUIP_ACCESSORY:
+        case ACCESSORY:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(6).isSelected();
           break;
 
-        case KoLConstants.EQUIP_FAMILIAR:
+        case FAMILIAR_EQUIPMENT:
           isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(7).isSelected();
           break;
 
@@ -196,7 +197,7 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
       for (int i = 0; i < items.length; ++i) {
         AdventureResult item = items[i];
 
-        RequestThread.postRequest(UseItemRequest.getInstance(KoLConstants.CONSUME_SLIME, item));
+        RequestThread.postRequest(UseItemRequest.getInstance(ConsumptionType.SLIMELING, item));
       }
     }
 
