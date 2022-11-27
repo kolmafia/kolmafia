@@ -512,6 +512,7 @@ public class ItemPool {
   public static final int SPOOKY_HI_MEIN = 1594;
   public static final int STINKY_HI_MEIN = 1595;
   public static final int SLEAZY_HI_MEIN = 1596;
+  public static final int JAZZ_SOAP = 1599;
   public static final int CATALYST = 1605;
   public static final int ULTIMATE_WAD = 1606;
   public static final int C_CLOCHE = 1615;
@@ -582,6 +583,7 @@ public class ItemPool {
   public static final int INKWELL = 1958;
   public static final int SCRAP_OF_PAPER = 1959;
   public static final int EVIL_SCROLL = 1960;
+  public static final int CAN_OF_BINARRRCA = 1961;
   public static final int DANCE_CARD = 1963;
   public static final int OPERA_MASK = 1964;
   public static final int PUMPKIN_BUCKET = 1971;

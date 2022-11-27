@@ -18,6 +18,7 @@ import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -105,6 +106,10 @@ public class TCRSDatabase {
     TCRSFoodMap.clear();
     TCRSEffectPool.clear();
     getEffectPool();
+  }
+
+  public static boolean hasData(int itemId) {
+    return TCRSMap.containsKey(itemId);
   }
 
   public static String getTCRSName(int itemId) {
@@ -591,6 +596,9 @@ public class TCRSDatabase {
               "cursed",
               "stained"));
 
+  private static Set<Integer> FAKE_POTIONS =
+      Set.of(ItemPool.JAZZ_SOAP, ItemPool.CAN_OF_BINARRRCA, ItemPool.LOVE_POTION_XYZ);
+
   public static void getEffectPool() {
     EffectDatabase.entrySet().stream()
         .map(Map.Entry::getKey)
@@ -611,9 +619,10 @@ public class TCRSDatabase {
     return String.join(" ", words.stream().filter(w -> !ADJECTIVES.contains(w)).toList());
   }
 
-  public static TCRS guessItem(
-      final AscensionClass ascensionClass, final ZodiacSign sign, final int itemId) {
-    var item = ItemPool.get(itemId);
+  public static TCRS guessPotion(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var itemId = item.getItemId();
+
     var seed = (50 * itemId) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
@@ -622,7 +631,9 @@ public class TCRSDatabase {
     var cosmeticMods = new ArrayList<String>();
 
     //   Roll 1d6 on whether to add a color
-    var color = mtRng.nextInt(1, 6) == 1 ? mtRng.pickOne(COLOR_MODS) : null;
+    if (mtRng.nextInt(1, 6) == 1) {
+      cosmeticMods.add(mtRng.pickOne(COLOR_MODS));
+    }
 
     //   Work out how many cosmetic modifiers to add
     var numCosmeticMods = 0;
@@ -630,7 +641,6 @@ public class TCRSDatabase {
     if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
     if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
 
-    if (color != null) cosmeticMods.add(color);
     //   Pick and add cosmetic modifiers
     for (var i = 0; i < numCosmeticMods; i++) {
       cosmeticMods.add(mtRng.pickOne(COSMETIC_MODS));
@@ -641,6 +651,8 @@ public class TCRSDatabase {
     Collections.reverse(cosmeticMods);
 
     var cosmeticsString = String.join(" ", cosmeticMods);
+
+    String effectName;
 
     // Determine potion modifiers
     var potionMods = new ArrayList<String>();
@@ -657,8 +669,6 @@ public class TCRSDatabase {
 
     // Pick effect (note that purposely pick a number that can overflow the pool by 1)
     var roll = mtRng.nextInt(0, TCRSEffectPool.size());
-
-    String effectName;
 
     if (roll == TCRSEffectPool.size()) {
       //   If we picked an overflow size, the item retains its original effect
@@ -690,12 +700,26 @@ public class TCRSDatabase {
     var mods = "Effect: \"" + effectName + "\", Effect Duration: " + duration;
 
     var name =
-        potionString
-            + " "
+        (potionString.isBlank() ? "" : potionString + " ")
             + (cosmeticsString.isBlank() ? "" : cosmeticsString + " ")
             + removeAdjectives(item.getName());
 
     return new TCRS(name, 0, null, mods);
+  }
+
+  public static TCRS guessItem(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final int itemId) {
+    var item = ItemPool.get(itemId);
+    var type = EquipmentDatabase.getItemType(itemId);
+
+    if (FAKE_POTIONS.contains(itemId)) {
+      type = "other";
+    }
+
+    return switch (type) {
+      case "potion", "avatar potion" -> guessPotion(ascensionClass, sign, item);
+      default -> null;
+    };
   }
 
   private static boolean deriveCafe(final boolean verbose) {
