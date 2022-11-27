@@ -19,6 +19,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -439,7 +440,7 @@ public class TCRSDatabase {
     int size = DebugDatabase.parseConsumableSize(text);
     var quality = DebugDatabase.parseQuality(text);
     ArrayList<String> unknown = new ArrayList<String>();
-    String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, -1);
+    String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN);
 
     // Create and return the TCRS object
     return new TCRS(name, size, quality, modifiers);
@@ -534,14 +535,14 @@ public class TCRSDatabase {
       Integer id = entry.getKey();
       TCRS tcrs = entry.getValue();
       String name = CafeDatabase.getCafeBoozeName(id.intValue());
-      applyConsumableModifiers(KoLConstants.CONSUME_DRINK, name, tcrs);
+      applyConsumableModifiers(ConsumptionType.DRINK, name, tcrs);
     }
 
     for (Entry<Integer, TCRS> entry : TCRSFoodMap.entrySet()) {
       Integer id = entry.getKey();
       TCRS tcrs = entry.getValue();
       String name = CafeDatabase.getCafeFoodName(id.intValue());
-      applyConsumableModifiers(KoLConstants.CONSUME_EAT, name, tcrs);
+      applyConsumableModifiers(ConsumptionType.EAT, name, tcrs);
     }
 
     // Fix all the consumables whose adv yield varies by level
@@ -592,10 +593,10 @@ public class TCRSDatabase {
     Modifiers.updateItem(itemName, tcrs.modifiers);
 
     // *** Do this after modifiers are set so can log effect modifiers
-    int usage = ItemDatabase.getConsumptionType(itemId);
-    if (usage == KoLConstants.CONSUME_EAT
-        || usage == KoLConstants.CONSUME_DRINK
-        || usage == KoLConstants.CONSUME_SPLEEN) {
+    ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
+    if (usage == ConsumptionType.EAT
+        || usage == ConsumptionType.DRINK
+        || usage == ConsumptionType.SPLEEN) {
       applyConsumableModifiers(usage, itemName, tcrs);
     }
 
@@ -619,17 +620,18 @@ public class TCRSDatabase {
   }
 
   private static void addEffectSource(
-      final String itemName, final int usage, final String effectName) {
+      final String itemName, final ConsumptionType usage, final String effectName) {
     int effectId = EffectDatabase.getEffectId(effectName);
     if (effectId == -1) {
       return;
     }
     String verb =
-        (usage == KoLConstants.CONSUME_EAT)
-            ? "eat "
-            : (usage == KoLConstants.CONSUME_DRINK)
-                ? "drink "
-                : (usage == KoLConstants.CONSUME_SPLEEN) ? "chew " : "use ";
+        switch (usage) {
+          case EAT -> "eat ";
+          case DRINK -> "drink ";
+          case SPLEEN -> "chew ";
+          default -> "use ";
+        };
     String actions = EffectDatabase.getActions(effectId);
     boolean added = false;
     StringBuilder buffer = new StringBuilder();
@@ -674,13 +676,12 @@ public class TCRSDatabase {
   }
 
   private static void applyConsumableModifiers(
-      final int usage, final String itemName, final TCRS tcrs) {
+      final ConsumptionType usage, final String itemName, final TCRS tcrs) {
     var consumable = ConsumablesDatabase.getConsumableByName(itemName);
     Integer lint = ConsumablesDatabase.getLevelReq(consumable);
     int level = lint == null ? 0 : lint;
     // Guess
-    int adv =
-        (usage == KoLConstants.CONSUME_SPLEEN) ? 0 : (tcrs.size * qualityMultiplier(tcrs.quality));
+    int adv = (usage == ConsumptionType.SPLEEN) ? 0 : (tcrs.size * qualityMultiplier(tcrs.quality));
     int mus = 0;
     int mys = 0;
     int mox = 0;

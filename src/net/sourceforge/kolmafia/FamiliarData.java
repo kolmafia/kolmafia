@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1309,7 +1310,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.HATRACK:
         // Hatrack can wear Hats as well as familiar items, but not Crown of Thrones
         if (itemId != ItemPool.HATSEAT
-            && ItemDatabase.getConsumptionType(itemId) == KoLConstants.EQUIP_HAT) {
+            && ItemDatabase.getConsumptionType(itemId) == ConsumptionType.HAT) {
           return true;
         }
         break;
@@ -1324,14 +1325,14 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
       case FamiliarPool.LEFT_HAND:
         // Left-Hand Man can wear Offhand items as well as familiar items
-        if (ItemDatabase.getConsumptionType(itemId) == KoLConstants.EQUIP_OFFHAND) {
+        if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.OFFHAND) {
           return true;
         }
         break;
 
       case FamiliarPool.SCARECROW:
         // Scarecrow can wear Pants as well as familiar items
-        if (ItemDatabase.getConsumptionType(itemId) == KoLConstants.EQUIP_PANTS) {
+        if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.PANTS) {
           return true;
         }
         break;
@@ -1368,18 +1369,18 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return false;
   }
 
-  public int specialEquipmentType() {
+  public ConsumptionType specialEquipmentType() {
     switch (this.id) {
       case FamiliarPool.HATRACK:
-        return KoLConstants.EQUIP_HAT;
+        return ConsumptionType.HAT;
       case FamiliarPool.HAND:
-        return KoLConstants.EQUIP_WEAPON;
+        return ConsumptionType.WEAPON;
       case FamiliarPool.LEFT_HAND:
-        return KoLConstants.EQUIP_OFFHAND;
+        return ConsumptionType.OFFHAND;
       case FamiliarPool.SCARECROW:
-        return KoLConstants.EQUIP_PANTS;
+        return ConsumptionType.PANTS;
       default:
-        return KoLConstants.NO_CONSUME;
+        return ConsumptionType.NONE;
     }
   }
 

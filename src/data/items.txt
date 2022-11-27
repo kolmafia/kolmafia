@@ -4,7 +4,7 @@
 #	PRIMARY_USE:
 #	none,
 #	food, drink, spleen,
-#	potion
+#	potion, avatar
 #	usable, multiple, reusable, message,
 #	grow, pokepill
 #	hat, weapon, sixgun, offhand, container, shirt, pants, accessory, familiar,

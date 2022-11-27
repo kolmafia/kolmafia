@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.Modeable;
@@ -971,15 +972,15 @@ public class GearChangePanel extends JPanel {
 
     // Certain familiars can carry non-familiar-items
     FamiliarData myFamiliar = KoLCharacter.getFamiliar();
-    int specialFamiliarType = myFamiliar.specialEquipmentType();
-    boolean specialFamiliar = (specialFamiliarType != KoLConstants.NO_CONSUME);
+    ConsumptionType specialFamiliarType = myFamiliar.specialEquipmentType();
+    boolean specialFamiliar = (specialFamiliarType != ConsumptionType.NONE);
 
     // Look at every item in inventory
     for (AdventureResult item : KoLConstants.inventory) {
-      int consumption = ItemDatabase.getConsumptionType(item.getItemId());
+      ConsumptionType consumption = ItemDatabase.getConsumptionType(item.getItemId());
       int slot = EquipmentManager.consumeFilterToEquipmentType(consumption);
       switch (consumption) {
-        case KoLConstants.EQUIP_WEAPON:
+        case WEAPON:
           if (this.shouldAddItem(item, consumption, EquipmentManager.WEAPON)) {
             lists.get(EquipmentManager.WEAPON).add(item);
           }
@@ -988,7 +989,7 @@ public class GearChangePanel extends JPanel {
           }
           break;
 
-        case KoLConstants.EQUIP_ACCESSORY:
+        case ACCESSORY:
           if (this.shouldAddItem(item, consumption, slot)) {
             lists.get(EquipmentManager.ACCESSORY1).add(item);
             lists.get(EquipmentManager.ACCESSORY2).add(item);
@@ -997,7 +998,7 @@ public class GearChangePanel extends JPanel {
           break;
 
           /*
-          case KoLConstants.CONSUME_STICKER:
+          case CONSUME_STICKER:
             if (this.shouldAddItem(item, consumption, slot)) {
               lists.get(EquipmentManager.STICKER1).add(item);
               lists.get(EquipmentManager.STICKER2).add(item);
@@ -1005,7 +1006,7 @@ public class GearChangePanel extends JPanel {
             }
             break;
 
-          case KoLConstants.CONSUME_FOLDER:
+          case CONSUME_FOLDER:
             if (this.shouldAddItem(item, consumption, slot)) {
               lists.get(EquipmentManager.FOLDER1).add(item);
               lists.get(EquipmentManager.FOLDER2).add(item);
@@ -1075,37 +1076,37 @@ public class GearChangePanel extends JPanel {
     return this.shouldAddItem(item, ItemDatabase.getConsumptionType(item.getItemId()), slot);
   }
 
-  private boolean shouldAddItem(AdventureResult item, int consumption, int slot) {
+  private boolean shouldAddItem(AdventureResult item, ConsumptionType consumption, int slot) {
     switch (consumption) {
         // The following lists are local to GearChanger
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.CONSUME_BOOTSKIN:
-      case KoLConstants.CONSUME_BOOTSPUR:
-      case KoLConstants.CONSUME_SIXGUN:
+      case HAT:
+      case SHIRT:
+      case CONTAINER:
+      case PANTS:
+      case ACCESSORY:
+      case BOOTSKIN:
+      case BOOTSPUR:
+      case SIXGUN:
         break;
-      case KoLConstants.EQUIP_WEAPON:
+      case WEAPON:
         if (!this.filterWeapon(item, slot)) {
           return false;
         }
         break;
-      case KoLConstants.EQUIP_OFFHAND:
-        if (!this.filterOffhand(item, KoLConstants.EQUIP_OFFHAND)) {
+      case OFFHAND:
+        if (!this.filterOffhand(item, ConsumptionType.OFFHAND)) {
           return false;
         }
         break;
-      case KoLConstants.EQUIP_FAMILIAR:
+      case FAMILIAR_EQUIPMENT:
         if (!KoLCharacter.getFamiliar().canEquip(item)) {
           return false;
         }
         break;
         // The following lists are in EquipmentManager
-      case KoLConstants.CONSUME_STICKER:
-      case KoLConstants.CONSUME_CARD:
-      case KoLConstants.CONSUME_FOLDER:
+      case STICKER:
+      case CARD:
+      case FOLDER:
         break;
       default:
         return false;
@@ -1120,7 +1121,7 @@ public class GearChangePanel extends JPanel {
     }
 
     if (slot == EquipmentManager.OFFHAND) {
-      return this.filterOffhand(weapon, KoLConstants.EQUIP_WEAPON);
+      return this.filterOffhand(weapon, ConsumptionType.WEAPON);
     }
 
     if (KoLCharacter.inAxecore()) {
@@ -1145,7 +1146,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private boolean filterOffhand(final AdventureResult offhand, int consumption) {
+  private boolean filterOffhand(final AdventureResult offhand, ConsumptionType consumption) {
     // In Fistcore, you must have both hands free.
     // In Axecore, you can equip only Trusty, a two-handed axe
     if (KoLCharacter.inFistcore() || KoLCharacter.inAxecore()) {
@@ -1160,7 +1161,7 @@ public class GearChangePanel extends JPanel {
     }
 
     // Do not even consider weapons unless we can dual-wield
-    if (consumption == KoLConstants.EQUIP_WEAPON) {
+    if (consumption == ConsumptionType.WEAPON) {
       if (!KoLCharacter.hasSkill("Double-Fisted Skull Smashing")) {
         return false;
       }
@@ -1198,7 +1199,7 @@ public class GearChangePanel extends JPanel {
       return true;
     }
 
-    if (consumption == KoLConstants.EQUIP_WEAPON) {
+    if (consumption == ConsumptionType.WEAPON) {
       return this.offhandTypes[1].isSelected();
     }
 
@@ -1216,7 +1217,7 @@ public class GearChangePanel extends JPanel {
     return false;
   }
 
-  private boolean shouldAddItem(final AdventureResult item, final int type) {
+  private boolean shouldAddItem(final AdventureResult item, final ConsumptionType type) {
     // Only add items of specified type
     if (type != ItemDatabase.getConsumptionType(item.getItemId())) {
       return false;

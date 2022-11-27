@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.EdServantData.Servant;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
@@ -523,7 +523,7 @@ public class ProxyRecordValue extends RecordValue {
      */
     public boolean get_reusable() {
       int id = (int) this.contentLong;
-      return ItemDatabase.getConsumptionType(id) == KoLConstants.INFINITE_USES
+      return ItemDatabase.getConsumptionType(id) == ConsumptionType.USE_INFINITE
           || ItemDatabase.getAttribute(id, ItemDatabase.ATTR_REUSABLE);
     }
 

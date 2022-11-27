@@ -3562,21 +3562,21 @@ public abstract class RuntimeLibrary {
       return DataTypes.parseSlotValue(item.toString(), true);
     }
     switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
-      case KoLConstants.EQUIP_HAT:
+      case HAT:
         return DataTypes.parseSlotValue("hat", true);
-      case KoLConstants.EQUIP_WEAPON:
+      case WEAPON:
         return DataTypes.parseSlotValue("weapon", true);
-      case KoLConstants.EQUIP_OFFHAND:
+      case OFFHAND:
         return DataTypes.parseSlotValue("off-hand", true);
-      case KoLConstants.EQUIP_SHIRT:
+      case SHIRT:
         return DataTypes.parseSlotValue("shirt", true);
-      case KoLConstants.EQUIP_PANTS:
+      case PANTS:
         return DataTypes.parseSlotValue("pants", true);
-      case KoLConstants.EQUIP_CONTAINER:
+      case CONTAINER:
         return DataTypes.parseSlotValue("container", true);
-      case KoLConstants.EQUIP_FAMILIAR:
+      case FAMILIAR_EQUIPMENT:
         return DataTypes.parseSlotValue("familiar", true);
-      case KoLConstants.EQUIP_ACCESSORY:
+      case ACCESSORY:
         return DataTypes.parseSlotValue("acc1", true);
       default:
         return DataTypes.parseSlotValue("none", true);
@@ -6602,14 +6602,14 @@ public abstract class RuntimeLibrary {
     if (itemOrFamiliar.getType().equals(DataTypes.ITEM_TYPE)) {
       int itemId = (int) itemOrFamiliar.intValue();
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case KoLConstants.EQUIP_HAT:
-        case KoLConstants.EQUIP_WEAPON:
-        case KoLConstants.EQUIP_OFFHAND:
-        case KoLConstants.EQUIP_SHIRT:
-        case KoLConstants.EQUIP_PANTS:
-        case KoLConstants.EQUIP_CONTAINER:
-        case KoLConstants.EQUIP_FAMILIAR:
-        case KoLConstants.EQUIP_ACCESSORY:
+        case HAT:
+        case WEAPON:
+        case OFFHAND:
+        case SHIRT:
+        case PANTS:
+        case CONTAINER:
+        case FAMILIAR_EQUIPMENT:
+        case ACCESSORY:
           break;
         default:
           return DataTypes.FALSE_VALUE;
