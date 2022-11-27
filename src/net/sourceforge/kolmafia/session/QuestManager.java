@@ -210,9 +210,6 @@ public class QuestManager {
         case AdventurePool.ICE_HOLE:
           handleAirportChange(location, responseText);
           break;
-        case AdventurePool.MARINARA_TRENCH:
-        case AdventurePool.ANENOME_MINE:
-        case AdventurePool.DIVE_BAR:
         case AdventurePool.MERKIN_OUTPOST:
         case AdventurePool.CALIGINOUS_ABYSS:
           handleSeaChange(location, responseText);
@@ -388,6 +385,8 @@ public class QuestManager {
       }
     } else if (location.startsWith("questlog")) {
       QuestLogRequest.registerQuests(false, location, responseText);
+    } else if (location.startsWith("sea_merkin")) {
+      handleSeaChange(location, responseText);
     } else if (location.startsWith("seafloor")) {
       handleSeaChange(location, responseText);
     } else if (location.startsWith("tavern")) {
@@ -1256,11 +1255,21 @@ public class QuestManager {
     }
   }
 
+  // Easily navigating the intense currents atop your trusty seahorse
+  // <b>Shimmerswim</b>, you crest an undersea ridge and discover, spread
+  // out beneath you, a magnificent Mer-kin City!
+  private static final Pattern SEAHORSE_PATTERN =
+      Pattern.compile("atop your trusty seahorse <b>(.*?)</b>");
+
   private static void handleSeaChange(final String location, final String responseText) {
     int area = AdventureRequest.parseArea(location);
-    if (location.contains("action=oldman_oldman")
-        && responseText.contains("have you found my boot yet?")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
+    if (location.contains("action=oldman_oldman")) {
+      if (responseText.contains("I lost my favorite boot, you see.")
+          || responseText.contains("have you found my boot yet?")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
+      } else if (responseText.contains("The old man snores fitfully")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.FINISHED);
+      }
     }
     // Little Brother
     else if (location.contains("who=1")) {
@@ -1292,23 +1301,15 @@ public class QuestManager {
       } else if (responseText.contains("Gonna need one of them seahorses")) {
         Preferences.setBoolean("corralUnlocked", true);
       }
-    } else if (area == AdventurePool.MARINARA_TRENCH
-        && responseText.contains("Show me what you've found, Old Timer")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.ANENOME_MINE
-        && responseText.contains("Sure, kid. I can teach you a thing or two")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.DIVE_BAR
-        && (responseText.contains("What causes these things to form?")
-            || responseText.contains("what is that divine instrument?"))) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.MERKIN_OUTPOST
-        && responseText.contains("Phew, that was a close one")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step9");
-      ConcoctionDatabase.setRefreshNeeded(false);
-    } else if (area == AdventurePool.CALIGINOUS_ABYSS
-        && responseText.contains("I should get dinner on the table for the boys")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
+    } else if (area == AdventurePool.MERKIN_OUTPOST) {
+      if (responseText.contains("Phew, that was a close one")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step9");
+        ConcoctionDatabase.setRefreshNeeded(false);
+      }
+    } else if (area == AdventurePool.CALIGINOUS_ABYSS) {
+      if (responseText.contains("I should get dinner on the table for the boys")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
+      }
     }
     // Learn about quest progress if visiting sea floor
     else if (location.startsWith("seafloor")) {
@@ -1318,6 +1319,8 @@ public class QuestManager {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step6");
       } else if (responseText.contains("shipwreck")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step1");
+      } else if (responseText.contains("monkeycastle")) {
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);
       }
 
       if (responseText.contains("mine")) {
@@ -1341,12 +1344,16 @@ public class QuestManager {
         Preferences.setBoolean("mapToTheDiveBarPurchased", true);
       }
 
-      if (responseText.contains("reefa")) {
+      if (responseText.contains("reef")) {
         Preferences.setBoolean("mapToMadnessReefPurchased", true);
       }
 
       if (responseText.contains("skatepark")) {
         Preferences.setBoolean("mapToTheSkateParkPurchased", true);
+      }
+
+      if (responseText.contains("currents")) {
+        Preferences.setBoolean("intenseCurrents", true);
       }
 
       if (responseText.contains("corral")) {
@@ -1356,13 +1363,28 @@ public class QuestManager {
     // Learn about quest progress if visiting sea monkey castle
     else if (location.startsWith("monkeycastle")) {
       if (responseText.contains("who=4")) {
+        // Mom
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
       } else if (responseText.contains("whichshop=grandma")) {
+        // Grandma
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step9");
       } else if (responseText.contains("who=3")) {
+        // Grandpa
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step5");
       } else if (responseText.contains("who=2")) {
+        // Big Brother
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step2");
+        Preferences.setBoolean("bigBrotherRescued", true);
+      } else if (responseText.contains("who=1")) {
+        // Little Brother
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);
+      }
+    }
+    // Learn seahorse name by visiting Mer-Kin Deepcity
+    else if (location.startsWith("sea_merkin")) {
+      Matcher m = SEAHORSE_PATTERN.matcher(responseText);
+      if (m.find()) {
+        Preferences.setString("seahorseName", m.group(1));
       }
     }
   }

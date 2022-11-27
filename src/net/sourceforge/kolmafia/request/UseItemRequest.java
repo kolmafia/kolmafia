@@ -4666,6 +4666,12 @@ public class UseItemRequest extends GenericRequest {
         // Otherwise, it is not consumed
         return;
 
+      case ItemPool.MERKIN_TRAILMAP:
+        // You follow the Mer-kin trailmap to an area of the sea floor where the currents are
+        // powerful enough to rip a map right out of your hands.
+        Preferences.setBoolean("intenseCurrents", true);
+        break;
+
       case ItemPool.MERKIN_STASHBOX:
         ResultProcessor.removeItem(ItemPool.MERKIN_LOCKKEY);
         break;
@@ -5912,6 +5918,10 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
         // ResponseTextParser learned this recipe
+        break;
+
+      case ItemPool.WRIGGLING_FLYTRAP_PELLET:
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.STARTED);
         break;
     }
 

@@ -296,6 +296,7 @@ public class Preferences {
         "highTopPumped",
         "homebodylCharges",
         "iceSculptureMonster",
+        "intenseCurrents",
         "itemBoughtPerAscension10790",
         "itemBoughtPerAscension10794",
         "itemBoughtPerAscension10795",

@@ -4781,14 +4781,26 @@ public abstract class ChoiceControl {
 
       case 299:
         // Down at the Hatch
-        if (ChoiceManager.lastDecision == 2) {
-          // The first time you take option 2, you
+        if (ChoiceManager.lastDecision == 1) {
+          // The first time you take option 1, you
           // release Big Brother. Subsequent times, you
           // release other creatures.
+          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step2");
           Preferences.setBoolean("bigBrotherRescued", true);
-          QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step2");
           ConcoctionDatabase.setRefreshNeeded(false);
         }
+        break;
+
+      case 302:
+      case 303:
+        // You've Hit Bottom (Pastamancer, Sauceror)
+      case 306:
+        // Not a Micro Fish (Seal Clubber, Turtle Tamer)
+      case 307:
+        // Ode to the Sea (Disco Bandit)
+      case 308:
+        // Boxing the Juke (Accordion Thief)
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step5");
         break;
 
       case 304:
