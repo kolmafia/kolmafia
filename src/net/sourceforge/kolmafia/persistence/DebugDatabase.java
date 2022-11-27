@@ -320,7 +320,7 @@ public class DebugDatabase {
               + ".");
     }
 
-    EnumSet<Attribute> attrs = EnumSet.copyOf(ItemDatabase.getAttributes(itemId));
+    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
     EnumSet<Attribute> descAttrs =
         DebugDatabase.typeToSecondary(descType, descPrimary, text, false);
     if (!DebugDatabase.attributesMatch(attrs, descAttrs)) {

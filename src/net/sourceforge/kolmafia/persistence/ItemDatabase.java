@@ -253,9 +253,6 @@ public class ItemDatabase {
     ItemDatabase.defineSecondaryUse("mix", Attribute.MIX);
   }
 
-  private static final Set<Entry<Attribute, String>> secondaryUsageEntrySet =
-      INVERSE_SECONDARY_USE.entrySet();
-
   public static boolean newItems = false;
 
   static {
@@ -901,7 +898,7 @@ public class ItemDatabase {
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    EnumSet<Attribute> attributes = EnumSet.copyOf(ItemDatabase.getAttributes(itemId));
+    EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
 
     if (multi) {
       // We think the item is single usable but it really is multiusable
@@ -1556,7 +1553,8 @@ public class ItemDatabase {
   }
 
   public static final EnumSet<Attribute> getAttributes(int itemId) {
-    return ItemDatabase.attributesById.getOrDefault(itemId, EnumSet.noneOf(Attribute.class));
+    return EnumSet.copyOf(
+        ItemDatabase.attributesById.getOrDefault(itemId, EnumSet.noneOf(Attribute.class)));
   }
 
   public static final String attrsToSecondaryUsage(EnumSet<Attribute> attrs) {
@@ -1571,10 +1569,8 @@ public class ItemDatabase {
 
     // Otherwise, iterate over bits
     StringBuilder result = new StringBuilder();
-    Iterator<Entry<Attribute, String>> it = ItemDatabase.secondaryUsageEntrySet.iterator();
 
-    while (it.hasNext()) {
-      Entry<Attribute, String> entry = it.next();
+    for (Entry<Attribute, String> entry : ItemDatabase.INVERSE_SECONDARY_USE.entrySet()) {
       Attribute bit = entry.getKey();
 
       if (cloned.contains(bit)) {
