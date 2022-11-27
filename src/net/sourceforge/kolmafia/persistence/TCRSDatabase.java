@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
+import net.sourceforge.kolmafia.utilities.PHPMTRandom;
+import net.sourceforge.kolmafia.utilities.PHPRandom;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TCRSDatabase {
@@ -88,6 +91,8 @@ public class TCRSDatabase {
   private static final Map<Integer, TCRS> TCRSFoodMap =
       new TreeMap<Integer, TCRS>(new CafeDatabase.InverseIntegerOrder());
 
+  private static final List<Integer> TCRSEffectPool = new ArrayList<Integer>();
+
   static {
     TCRSDatabase.reset();
   }
@@ -97,6 +102,8 @@ public class TCRSDatabase {
     TCRSMap.clear();
     TCRSBoozeMap.clear();
     TCRSFoodMap.clear();
+    TCRSEffectPool.clear();
+    getEffectPool();
   }
 
   public static String getTCRSName(int itemId) {
@@ -444,6 +451,207 @@ public class TCRSDatabase {
 
     // Create and return the TCRS object
     return new TCRS(name, size, quality, modifiers);
+  }
+
+  private static final List<String> COLOR_MODS =
+      List.of(
+          "red",
+          "lime green",
+          "blue",
+          "gray",
+          "maroon",
+          "yellow",
+          "olive",
+          "cyan",
+          "teal",
+          "green",
+          "fuchsia",
+          "purple");
+
+  private static final List<String> COSMETIC_MODS =
+      List.of(
+          "narrow",
+          "huge",
+          "skewed",
+          "blinking",
+          "upside-down",
+          "mirror",
+          "wobbly",
+          "twirling",
+          "pulsating",
+          "jittery",
+          "squat",
+          "spinning",
+          "tumbling",
+          "shaking",
+          "ghostly",
+          "blurry",
+          "bouncing");
+
+  private static final List<String> POTION_MODS =
+      List.of(
+          "galvanized",
+          "liquefied",
+          "magnetized",
+          "nitrogenated",
+          "oxidized",
+          "polarized",
+          "polymerized",
+          "quantum",
+          "tarnished",
+          "vacuum-sealed",
+          "energized",
+          "frozen",
+          "diffused",
+          "electrified",
+          "concentrated",
+          "colloidal",
+          "activated",
+          "aerosolized",
+          "anodized",
+          "alkaline",
+          "ionized",
+          "deionized",
+          "denatured",
+          "pickled",
+          "cold-filtered",
+          "boiled",
+          "modified",
+          "altered",
+          "corrupted",
+          "unsweetened",
+          "improved",
+          "adjusted",
+          "enhanced",
+          "moist",
+          "dry",
+          "chilled",
+          "warmed",
+          "ionized",
+          "Vulcanized",
+          "wet",
+          "dry",
+          "pressed",
+          "flattened",
+          "irradiated");
+
+  private static final List<String> POTION_PREFIXES =
+      List.of("double", "triple", "quadruple", "extra", "non", "super");
+
+  private static final List<String> ADJECTIVES = List.of("cold", "hot", "sleazy", "spooky", "stinky", "red", "yellow", "gold", "black");
+
+  public static void getEffectPool() {
+    EffectDatabase.entrySet().stream()
+        .map(Map.Entry::getKey)
+        // Effects must be marked as good
+        .filter(id -> EffectDatabase.getQuality(id) == EffectDatabase.GOOD)
+        // Effects must be hookah/wish-able
+        .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah"))
+        // Some effects seem to be unavailable without any obvious reason, and so are tagged thusly
+        .filter(id -> !EffectDatabase.hasAttribute(id, "notcrs"))
+        // TCRS effects are limited to whatever was available at the time of the path (Tiki
+        // Temerity)
+        .filter(id -> id <= 2468)
+        .forEachOrdered(TCRSEffectPool::add);
+  }
+
+  private static String removeAdjectives(final String name) {
+    var words = new ArrayList<>(Arrays.asList(name.split(" ")));
+    for (var w : words) {
+      if (!ADJECTIVES.contains(w)) break;
+      words.remove(0);
+    }
+    return String.join(" ", words);
+  }
+
+  public static TCRS guessItem(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final int itemId) {
+    var item = ItemPool.get(itemId);
+    var seed = (50 * itemId) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    // Determine cosmetic modifiers
+    var cosmeticMods = new ArrayList<String>();
+
+    //   Roll 1d6 on whether to add a color
+    if (mtRng.nextInt(1, 6) == 1) cosmeticMods.add(mtRng.pickOne(COLOR_MODS));
+
+    //   Work out how many cosmetic modifiers to add
+    var numCosmeticMods = 0;
+    if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
+    if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
+    if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
+
+    //   Pick and add cosmetic modifiers
+    for (var i = 0; i < numCosmeticMods; i++) {
+      cosmeticMods.add(mtRng.pickOne(COSMETIC_MODS));
+    }
+
+    if (cosmeticMods.size() > 1) {
+      rng.nextDouble();
+      rng.nextDouble();
+      rng.nextDouble();
+      rng.nextDouble();
+      rng.shuffle(cosmeticMods);
+    }
+
+    var cosmeticsString = String.join(" ", cosmeticMods);
+
+    // Determine potion modifiers
+    var potionMods = new ArrayList<String>();
+
+    //   Work out how many potion modifiers to add
+    var numPotionMods = 1;
+    if (mtRng.nextInt(1, 3) == 1) numPotionMods++;
+    if (mtRng.nextInt(1, 3) == 1) numPotionMods++;
+
+    //   Pick and add potion modifiers
+    for (var i = 0; i < numPotionMods; i++) {
+      potionMods.add(mtRng.pickOne(POTION_MODS));
+    }
+
+    // Pick effect (note that purposely pick a number that can overflow the pool by 1)
+    var roll = mtRng.nextInt(0, TCRSEffectPool.size());
+
+    String effectName;
+
+    if (roll == TCRSEffectPool.size()) {
+      //   If we picked an overflow size, the item retains its original effect
+      effectName = Modifiers.getStringModifier("Item", item.getDisambiguatedName(), "Effect");
+    } else {
+      //   Otherwise use the roll we got
+      var effectId = TCRSEffectPool.get(roll);
+      effectName = EffectDatabase.getEffectName(effectId);
+    }
+
+    // Pick duration of effect
+    var duration = mtRng.nextInt(11, 69);
+
+    // Pick potion mod prefixes
+    var prefixedPotionMods = new ArrayList<String>();
+
+    for (var mod : potionMods) {
+      var prefixRoll = mtRng.nextInt(1, 40);
+      if (prefixRoll <= 6) {
+        mod = POTION_PREFIXES.get(prefixRoll - 1) + "-" + mod;
+      }
+
+      // They get rendered in reverse
+      prefixedPotionMods.add(0, mod);
+    }
+
+    var potionString = String.join(" ", prefixedPotionMods);
+
+    var mods = "Effect: \"" + effectName + "\", Effect Duration: " + duration;
+
+    var name =
+        potionString
+            + " "
+            + (cosmeticsString.isBlank() ? "" : cosmeticsString + " ")
+            + removeAdjectives(item.getName());
+
+    return new TCRS(name, 0, null, mods);
   }
 
   private static boolean deriveCafe(final boolean verbose) {
