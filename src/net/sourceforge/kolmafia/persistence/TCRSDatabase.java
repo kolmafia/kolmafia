@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -538,7 +539,57 @@ public class TCRSDatabase {
   private static final List<String> POTION_PREFIXES =
       List.of("double", "triple", "quadruple", "extra", "non", "super");
 
-  private static final List<String> ADJECTIVES = List.of("cold", "hot", "sleazy", "spooky", "stinky", "red", "yellow", "gold", "black");
+  private static final Set<String> ADJECTIVES =
+      new HashSet<>(
+          List.of(
+              "cold",
+              "sleazy",
+              "spooky",
+              "stinky",
+              "red",
+              "blue",
+              "maroon",
+              "yellow",
+              "green",
+              "fuchsia",
+              "purple",
+              "gold",
+              "black",
+              "orange",
+              "white",
+              "lavender",
+              "silver",
+              "big",
+              "candied",
+              "cheap",
+              "delicious",
+              "disintegrating",
+              "fancy",
+              "fishy",
+              "floaty",
+              "giant",
+              "glowing",
+              "little",
+              "powdered",
+              "tiny",
+              "enchanted",
+              "lucky",
+              "metal",
+              "old",
+              "creepy",
+              "sour",
+              "portable",
+              "haunted",
+              "electric",
+              "porcelain",
+              "spicy",
+              "leather",
+              "miniature",
+              "sticky",
+              "frozen",
+              "primitive",
+              "cursed",
+              "stained"));
 
   public static void getEffectPool() {
     EffectDatabase.entrySet().stream()
@@ -556,12 +607,8 @@ public class TCRSDatabase {
   }
 
   private static String removeAdjectives(final String name) {
-    var words = new ArrayList<>(Arrays.asList(name.split(" ")));
-    for (var w : words) {
-      if (!ADJECTIVES.contains(w)) break;
-      words.remove(0);
-    }
-    return String.join(" ", words);
+    var words = Arrays.asList(name.split(" "));
+    return String.join(" ", words.stream().filter(w -> !ADJECTIVES.contains(w)).toList());
   }
 
   public static TCRS guessItem(
@@ -583,16 +630,15 @@ public class TCRSDatabase {
     if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
     if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
 
+    if (color != null) cosmeticMods.add(color);
     //   Pick and add cosmetic modifiers
     for (var i = 0; i < numCosmeticMods; i++) {
-      cosmeticMods.add(0, mtRng.pickOne(COSMETIC_MODS));
+      cosmeticMods.add(mtRng.pickOne(COSMETIC_MODS));
     }
 
-    if (color != null) cosmeticMods.add(color);
+    rng.shuffle(cosmeticMods);
 
-    if (cosmeticMods.size() > 1) {
-      rng.shuffle(cosmeticMods);
-    }
+    Collections.reverse(cosmeticMods);
 
     var cosmeticsString = String.join(" ", cosmeticMods);
 
@@ -631,7 +677,7 @@ public class TCRSDatabase {
 
     for (var mod : potionMods) {
       var prefixRoll = mtRng.nextInt(1, 40);
-      if (prefixRoll <= 6) {
+      if (prefixRoll <= POTION_PREFIXES.size()) {
         mod = POTION_PREFIXES.get(prefixRoll - 1) + "-" + mod;
       }
 
