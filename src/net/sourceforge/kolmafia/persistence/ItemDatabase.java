@@ -1015,11 +1015,12 @@ public class ItemDatabase {
     if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
       String effectDescid = DebugDatabase.parseEffectDescid(rawText);
       String command =
-          usage == ConsumptionType.EAT
-              ? "eat 1 "
-              : usage == ConsumptionType.DRINK
-                  ? "drink 1 "
-                  : usage == ConsumptionType.SPLEEN ? "chew 1 " : "use 1 ";
+          switch (usage) {
+            case EAT -> "eat 1 ";
+            case DRINK -> "drink 1 ";
+            case SPLEEN -> "chew 1 ";
+            default -> "use 1 ";
+          };
       EffectDatabase.registerEffect(effectName, effectDescid, command + itemName);
     }
 
