@@ -901,7 +901,7 @@ public class ItemDatabase {
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
+    EnumSet<Attribute> attributes = EnumSet.copyOf(ItemDatabase.getAttributes(itemId));
 
     if (multi) {
       // We think the item is single usable but it really is multiusable
@@ -1560,11 +1560,12 @@ public class ItemDatabase {
   }
 
   public static final String attrsToSecondaryUsage(EnumSet<Attribute> attrs) {
-    attrs.removeAll(
+    var cloned = EnumSet.copyOf(attrs);
+    cloned.removeAll(
         EnumSet.of(Attribute.TRADEABLE, Attribute.GIFT, Attribute.QUEST, Attribute.DISCARDABLE));
 
     // If there are no other attributes, return empty string
-    if (attrs.isEmpty()) {
+    if (cloned.isEmpty()) {
       return "";
     }
 
@@ -1576,7 +1577,7 @@ public class ItemDatabase {
       Entry<Attribute, String> entry = it.next();
       Attribute bit = entry.getKey();
 
-      if (attrs.contains(bit)) {
+      if (cloned.contains(bit)) {
         result.append(", ");
         result.append(entry.getValue());
       }
