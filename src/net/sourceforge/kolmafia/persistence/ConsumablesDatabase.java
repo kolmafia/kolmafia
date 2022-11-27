@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -134,11 +135,11 @@ public class ConsumablesDatabase {
 
   public static void reset() {
     ConsumablesDatabase.readConsumptionData(
-        "fullness.txt", KoLConstants.FULLNESS_VERSION, KoLConstants.CONSUME_EAT);
+        "fullness.txt", KoLConstants.FULLNESS_VERSION, ConsumptionType.EAT);
     ConsumablesDatabase.readConsumptionData(
-        "inebriety.txt", KoLConstants.INEBRIETY_VERSION, KoLConstants.CONSUME_DRINK);
+        "inebriety.txt", KoLConstants.INEBRIETY_VERSION, ConsumptionType.DRINK);
     ConsumablesDatabase.readConsumptionData(
-        "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION, KoLConstants.CONSUME_SPLEEN);
+        "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION, ConsumptionType.SPLEEN);
     ConsumablesDatabase.readNonfillingData();
   }
 
@@ -153,7 +154,7 @@ public class ConsumablesDatabase {
     writer.println(consumable.toString());
   }
 
-  private static void readConsumptionData(String filename, int version, int usage) {
+  private static void readConsumptionData(String filename, int version, ConsumptionType usage) {
     try (BufferedReader reader = FileUtilities.getVersionedReader(filename, version)) {
       String[] data;
 
@@ -247,7 +248,7 @@ public class ConsumablesDatabase {
     }
   }
 
-  private static void saveConsumptionValues(String[] data, int usage) {
+  private static void saveConsumptionValues(String[] data, ConsumptionType usage) {
     if (data.length < 2) {
       return;
     }
@@ -290,9 +291,9 @@ public class ConsumablesDatabase {
     Consumable consumable =
         setConsumptionData(
             name,
-            usage == KoLConstants.CONSUME_EAT ? size : null,
-            usage == KoLConstants.CONSUME_DRINK ? size : null,
-            usage == KoLConstants.CONSUME_SPLEEN ? size : null,
+            usage == ConsumptionType.EAT ? size : null,
+            usage == ConsumptionType.DRINK ? size : null,
+            usage == ConsumptionType.SPLEEN ? size : null,
             level,
             quality,
             adventures,
@@ -349,7 +350,7 @@ public class ConsumablesDatabase {
     int advs = (c == null) ? 0 : c.getAdventuresNeeded(1, true);
 
     if (KoLCharacter.inNuclearAutumn()) {
-      if (consumable.getConsumptionType() == KoLConstants.CONSUME_EAT) {
+      if (consumable.getConsumptionType() == ConsumptionType.EAT) {
         int multiplier = 1;
         if (KoLCharacter.hasSkill("Extra Gall Bladder")) multiplier += 1;
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.RECORD_HUNGER)))
@@ -358,7 +359,7 @@ public class ConsumablesDatabase {
         end *= multiplier;
       }
       // && KoLCharacter.hasSkill( "Extra Kidney" )
-      else if (consumable.getConsumptionType() == KoLConstants.CONSUME_DRINK) {
+      else if (consumable.getConsumptionType() == ConsumptionType.DRINK) {
         int multiplier = 1;
         if (KoLCharacter.hasSkill("Extra Kidney")) multiplier += 1;
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.DRUNK_AVUNCULAR)))
@@ -400,7 +401,7 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.addCurrentAdventures(name, size, true, true, false, false, gain2);
 
     // Only foods have effects 3-4
-    if (consumable.getConsumptionType() != KoLConstants.CONSUME_EAT) {
+    if (consumable.getConsumptionType() != ConsumptionType.EAT) {
       return;
     }
 
@@ -516,11 +517,12 @@ public class ConsumablesDatabase {
         (isNegative ? 1 : statFactor) * num / statUnit);
   }
 
-  public static void registerConsumable(final String itemName, final int usage, final String text) {
+  public static void registerConsumable(
+      final String itemName, final ConsumptionType usage, final String text) {
     // Get information from description
-    if (usage != KoLConstants.CONSUME_EAT
-        && usage != KoLConstants.CONSUME_DRINK
-        && usage != KoLConstants.CONSUME_SPLEEN) {
+    if (usage != ConsumptionType.EAT
+        && usage != ConsumptionType.DRINK
+        && usage != ConsumptionType.SPLEEN) {
       return;
     }
 

@@ -23,6 +23,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -479,14 +480,15 @@ public class ItemManageFrame extends GenericFrame {
         return super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
       }
 
-      int consumptionType = ItemDatabase.getConsumptionType(((AdventureResult) item).getItemId());
+      ConsumptionType consumptionType =
+          ItemDatabase.getConsumptionType(((AdventureResult) item).getItemId());
       switch (consumptionType) {
-        case KoLConstants.EQUIP_HAT:
-        case KoLConstants.EQUIP_PANTS:
-        case KoLConstants.EQUIP_SHIRT:
-        case KoLConstants.EQUIP_CONTAINER:
-        case KoLConstants.EQUIP_WEAPON:
-        case KoLConstants.EQUIP_OFFHAND:
+        case HAT:
+        case PANTS:
+        case SHIRT:
+        case CONTAINER:
+        case WEAPON:
+        case OFFHAND:
           return 1;
 
         default:

@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.Modifiers;
@@ -248,28 +249,28 @@ public class EquipmentDatabase {
       Entry<Integer, String> entry = it.next();
       Integer key = entry.getKey();
       String name = entry.getValue();
-      int type = ItemDatabase.getConsumptionType(key.intValue());
+      ConsumptionType type = ItemDatabase.getConsumptionType(key.intValue());
 
       switch (type) {
-        case KoLConstants.EQUIP_HAT:
+        case HAT:
           hats.put(name, key);
           break;
-        case KoLConstants.EQUIP_PANTS:
+        case PANTS:
           pants.put(name, key);
           break;
-        case KoLConstants.EQUIP_SHIRT:
+        case SHIRT:
           shirts.put(name, key);
           break;
-        case KoLConstants.EQUIP_WEAPON:
+        case WEAPON:
           weapons.put(name, key);
           break;
-        case KoLConstants.EQUIP_OFFHAND:
+        case OFFHAND:
           offhands.put(name, key);
           break;
-        case KoLConstants.EQUIP_ACCESSORY:
+        case ACCESSORY:
           accessories.put(name, key);
           break;
-        case KoLConstants.EQUIP_CONTAINER:
+        case CONTAINER:
           containers.put(name, key);
           break;
       }
@@ -309,8 +310,8 @@ public class EquipmentDatabase {
       int itemId = val.intValue();
       int power = EquipmentDatabase.getPower(itemId);
       String req = EquipmentDatabase.getEquipRequirement(itemId);
-      int usage = ItemDatabase.getConsumptionType(itemId);
-      boolean isWeapon = usage == KoLConstants.EQUIP_WEAPON;
+      ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
+      boolean isWeapon = usage == ConsumptionType.WEAPON;
       String type = EquipmentDatabase.itemTypes.get(itemId);
       boolean isShield = type != null && type.equals("shield");
       String weaponType = "";
@@ -466,8 +467,8 @@ public class EquipmentDatabase {
     while (++prevId <= limit) {
       String req = EquipmentDatabase.statRequirements.get(prevId);
       if ((req != null && req.length() > 0)
-          || ItemDatabase.getConsumptionType(prevId) == KoLConstants.EQUIP_FAMILIAR
-          || ItemDatabase.getConsumptionType(prevId) == KoLConstants.CONSUME_SIXGUN) {
+          || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.FAMILIAR_EQUIPMENT
+          || ItemDatabase.getConsumptionType(prevId) == ConsumptionType.SIXGUN) {
         return prevId;
       }
     }
@@ -529,59 +530,59 @@ public class EquipmentDatabase {
 
   public static final String getItemType(final int itemId) {
     switch (ItemDatabase.getConsumptionType(itemId)) {
-      case KoLConstants.CONSUME_EAT:
+      case EAT:
         return "food";
-      case KoLConstants.CONSUME_DRINK:
+      case DRINK:
         return "booze";
-      case KoLConstants.CONSUME_SPLEEN:
+      case SPLEEN:
         return "spleen item";
-      case KoLConstants.CONSUME_FOOD_HELPER:
+      case FOOD_HELPER:
         return "food helper";
-      case KoLConstants.CONSUME_DRINK_HELPER:
+      case DRINK_HELPER:
         return "drink helper";
-      case KoLConstants.CONSUME_STICKER:
+      case STICKER:
         return "sticker";
-      case KoLConstants.CONSUME_CARD:
+      case CARD:
         return "card";
-      case KoLConstants.CONSUME_FOLDER:
+      case FOLDER:
         return "folder";
-      case KoLConstants.CONSUME_BOOTSKIN:
+      case BOOTSKIN:
         return "bootskin";
-      case KoLConstants.CONSUME_BOOTSPUR:
+      case BOOTSPUR:
         return "bootspur";
-      case KoLConstants.CONSUME_SIXGUN:
+      case SIXGUN:
         return "sixgun";
-      case KoLConstants.CONSUME_POTION:
+      case POTION:
         return "potion";
-      case KoLConstants.CONSUME_AVATAR:
+      case AVATAR_POTION:
         return "avatar potion";
-      case KoLConstants.GROW_FAMILIAR:
+      case FAMILIAR_HATCHLING:
         return "familiar larva";
-      case KoLConstants.CONSUME_ZAP:
+      case ZAP:
         return "zap wand";
-      case KoLConstants.EQUIP_FAMILIAR:
+      case FAMILIAR_EQUIPMENT:
         return "familiar equipment";
-      case KoLConstants.EQUIP_ACCESSORY:
+      case ACCESSORY:
         return "accessory";
-      case KoLConstants.EQUIP_HAT:
+      case HAT:
         return "hat";
-      case KoLConstants.EQUIP_PANTS:
+      case PANTS:
         return "pants";
-      case KoLConstants.EQUIP_SHIRT:
+      case SHIRT:
         return "shirt";
-      case KoLConstants.EQUIP_WEAPON:
+      case WEAPON:
         {
           String type = EquipmentDatabase.itemTypes.get(itemId);
           return type != null ? type : "weapon";
         }
-      case KoLConstants.EQUIP_OFFHAND:
+      case OFFHAND:
         {
           String type = EquipmentDatabase.itemTypes.get(itemId);
           return type != null ? type : "offhand";
         }
-      case KoLConstants.EQUIP_CONTAINER:
+      case CONTAINER:
         return "container";
-      case KoLConstants.CONSUME_GUARDIAN:
+      case PASTA_GUARDIAN:
         return "pasta guardian";
       default:
         return "";
@@ -600,9 +601,9 @@ public class EquipmentDatabase {
   }
 
   public static final Stat getWeaponStat(final int itemId) {
-    int consumptionType = ItemDatabase.getConsumptionType(itemId);
+    ConsumptionType consumptionType = ItemDatabase.getConsumptionType(itemId);
 
-    if (consumptionType != KoLConstants.EQUIP_WEAPON) {
+    if (consumptionType != ConsumptionType.WEAPON) {
       return Stat.NONE;
     }
 
@@ -692,11 +693,11 @@ public class EquipmentDatabase {
   }
 
   public static final boolean isShirt(final AdventureResult item) {
-    return ItemDatabase.getConsumptionType(item.getItemId()) == KoLConstants.EQUIP_SHIRT;
+    return ItemDatabase.getConsumptionType(item.getItemId()) == ConsumptionType.SHIRT;
   }
 
   public static final boolean isContainer(final AdventureResult item) {
-    return ItemDatabase.getConsumptionType(item.getItemId()) == KoLConstants.EQUIP_CONTAINER;
+    return ItemDatabase.getConsumptionType(item.getItemId()) == ConsumptionType.CONTAINER;
   }
 
   public static final boolean isMainhandOnly(final AdventureResult item) {
@@ -723,16 +724,16 @@ public class EquipmentDatabase {
     }
 
     switch (ItemDatabase.getConsumptionType(id)) {
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_WEAPON:
-      case KoLConstants.EQUIP_OFFHAND:
-      case KoLConstants.EQUIP_CONTAINER:
+      case ACCESSORY:
+      case HAT:
+      case PANTS:
+      case SHIRT:
+      case WEAPON:
+      case OFFHAND:
+      case CONTAINER:
         break;
 
-      case KoLConstants.EQUIP_FAMILIAR:
+      case FAMILIAR_EQUIPMENT:
       default:
         return false;
     }

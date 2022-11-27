@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -179,39 +180,38 @@ public class ItemFinder {
         continue;
       }
 
-      int useType = ItemDatabase.getConsumptionType(itemId);
+      ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
 
       switch (filterType) {
         case FOOD:
           ItemFinder.conditionalRemove(
               nameIterator,
-              useType != KoLConstants.CONSUME_EAT && useType != KoLConstants.CONSUME_FOOD_HELPER);
+              useType != ConsumptionType.EAT && useType != ConsumptionType.FOOD_HELPER);
           break;
         case BOOZE:
           ItemFinder.conditionalRemove(
               nameIterator,
-              useType != KoLConstants.CONSUME_DRINK
-                  && useType != KoLConstants.CONSUME_DRINK_HELPER);
+              useType != ConsumptionType.DRINK && useType != ConsumptionType.DRINK_HELPER);
           break;
         case SPLEEN:
-          ItemFinder.conditionalRemove(nameIterator, useType != KoLConstants.CONSUME_SPLEEN);
+          ItemFinder.conditionalRemove(nameIterator, useType != ConsumptionType.SPLEEN);
           break;
         case EQUIP:
           switch (useType) {
-            case KoLConstants.EQUIP_FAMILIAR:
-            case KoLConstants.EQUIP_ACCESSORY:
-            case KoLConstants.EQUIP_HAT:
-            case KoLConstants.EQUIP_PANTS:
-            case KoLConstants.EQUIP_SHIRT:
-            case KoLConstants.EQUIP_WEAPON:
-            case KoLConstants.EQUIP_OFFHAND:
-            case KoLConstants.EQUIP_CONTAINER:
-            case KoLConstants.CONSUME_STICKER:
-            case KoLConstants.CONSUME_CARD:
-            case KoLConstants.CONSUME_FOLDER:
-            case KoLConstants.CONSUME_BOOTSKIN:
-            case KoLConstants.CONSUME_BOOTSPUR:
-            case KoLConstants.CONSUME_SIXGUN:
+            case FAMILIAR_EQUIPMENT:
+            case ACCESSORY:
+            case HAT:
+            case PANTS:
+            case SHIRT:
+            case WEAPON:
+            case OFFHAND:
+            case CONTAINER:
+            case STICKER:
+            case CARD:
+            case FOLDER:
+            case BOOTSKIN:
+            case BOOTSPUR:
+            case SIXGUN:
               break;
 
             default:

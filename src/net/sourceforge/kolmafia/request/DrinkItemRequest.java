@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -202,7 +203,7 @@ public class DrinkItemRequest extends UseItemRequest {
       return;
     }
 
-    if (this.consumptionType == KoLConstants.CONSUME_DRINK_HELPER) {
+    if (this.consumptionType == ConsumptionType.DRINK_HELPER) {
       int count = this.itemUsed.getCount();
 
       if (!InventoryManager.retrieveItem(this.itemUsed)) {
@@ -737,13 +738,13 @@ public class DrinkItemRequest extends UseItemRequest {
       ResultProcessor.processResult(helper.getNegation());
     }
 
-    int consumptionType = UseItemRequest.getConsumptionType(item);
+    ConsumptionType consumptionType = UseItemRequest.getConsumptionType(item);
 
     // Assume initially that this causes the item to disappear.
     // In the event that the item is not used, then proceed to
     // undo the consumption.
 
-    if (consumptionType == KoLConstants.CONSUME_DRINK_HELPER) {
+    if (consumptionType == ConsumptionType.DRINK_HELPER) {
       // Consumption helpers are removed above when you
       // successfully eat or drink.
       return;

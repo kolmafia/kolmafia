@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -87,29 +88,29 @@ public class UseItemCommand extends AbstractCommand {
 
     // Now, handle the instance where the first item is actually
     // the quantity desired, and the next is the amount to use
-    int consumptionType = KoLConstants.NO_CONSUME;
+    ConsumptionType consumptionType = ConsumptionType.NONE;
     Match filter;
 
     if (command.equals("eat") || command.equals("eatsilent")) {
-      consumptionType = KoLConstants.CONSUME_EAT;
+      consumptionType = ConsumptionType.EAT;
       filter = Match.FOOD;
     } else if (command.equals("ghost")) {
-      consumptionType = KoLConstants.CONSUME_GHOST;
+      consumptionType = ConsumptionType.GLUTTONOUS_GHOST;
       filter = Match.FOOD;
     } else if (command.equals("drink") || command.equals("overdrink")) {
-      consumptionType = KoLConstants.CONSUME_DRINK;
+      consumptionType = ConsumptionType.DRINK;
       filter = Match.BOOZE;
     } else if (command.equals("hobo")) {
-      consumptionType = KoLConstants.CONSUME_HOBO;
+      consumptionType = ConsumptionType.SPIRIT_HOBO;
       filter = Match.BOOZE;
     } else if (command.equals("chew")) {
-      consumptionType = KoLConstants.CONSUME_SPLEEN;
+      consumptionType = ConsumptionType.SPLEEN;
       filter = Match.SPLEEN;
     } else if (command.equals("slimeling")) {
-      consumptionType = KoLConstants.CONSUME_SLIME;
+      consumptionType = ConsumptionType.SLIMELING;
       filter = Match.EQUIP;
     } else if (command.equals("robo")) {
-      consumptionType = KoLConstants.CONSUME_ROBO;
+      consumptionType = ConsumptionType.ROBORTENDER;
       filter = Match.ROBO;
     } else {
       filter = Match.USE;
@@ -148,26 +149,26 @@ public class UseItemCommand extends AbstractCommand {
           continue;
         }
 
-        int consumpt = ItemDatabase.getConsumptionType(itemId);
+        ConsumptionType consumpt = ItemDatabase.getConsumptionType(itemId);
 
-        if (command.equals("eat") && consumpt == KoLConstants.CONSUME_FOOD_HELPER) { // allowed
+        if (command.equals("eat") && consumpt == ConsumptionType.FOOD_HELPER) { // allowed
         } else if (command.equals("eat") || command.equals("ghost")) {
-          if (consumpt != KoLConstants.CONSUME_EAT) {
+          if (consumpt != ConsumptionType.EAT) {
             KoLmafia.updateDisplay(
                 MafiaState.ERROR, currentMatch.getName() + " cannot be consumed.");
             return false;
           }
         }
 
-        if (command.equals("drink") && consumpt == KoLConstants.CONSUME_DRINK_HELPER) { // allowed
+        if (command.equals("drink") && consumpt == ConsumptionType.DRINK_HELPER) { // allowed
         } else if (command.equals("drink") || command.equals("hobo")) {
-          if (consumpt != KoLConstants.CONSUME_DRINK) {
+          if (consumpt != ConsumptionType.DRINK) {
             KoLmafia.updateDisplay(
                 MafiaState.ERROR, currentMatch.getName() + " is not an alcoholic beverage.");
             return false;
           }
         } else if (command.equals("chew")) {
-          if (consumpt != KoLConstants.CONSUME_SPLEEN) {
+          if (consumpt != ConsumptionType.SPLEEN) {
             KoLmafia.updateDisplay(
                 MafiaState.ERROR, currentMatch.getName() + " is not a spleen toxin.");
             return false;
@@ -177,9 +178,9 @@ public class UseItemCommand extends AbstractCommand {
         if (command.equals("use") && !ItemDatabase.isUsable(itemId)) {
           var correctedUsage =
               switch (consumpt) {
-                case KoLConstants.CONSUME_EAT, KoLConstants.CONSUME_FOOD_HELPER -> "eaten";
-                case KoLConstants.CONSUME_DRINK, KoLConstants.CONSUME_DRINK_HELPER -> "drunk";
-                case KoLConstants.CONSUME_SPLEEN -> "chewed";
+                case EAT, FOOD_HELPER -> "eaten";
+                case DRINK, DRINK_HELPER -> "drunk";
+                case SPLEEN -> "chewed";
                 default -> null;
               };
           if (correctedUsage != null) {
@@ -198,7 +199,7 @@ public class UseItemCommand extends AbstractCommand {
             RequestLogger.printLine(currentMatch.toString());
           } else {
             UseItemRequest request =
-                consumptionType != KoLConstants.NO_CONSUME
+                consumptionType != ConsumptionType.NONE
                     ? UseItemRequest.getInstance(consumptionType, currentMatch)
                     : UseItemRequest.getInstance(currentMatch);
 

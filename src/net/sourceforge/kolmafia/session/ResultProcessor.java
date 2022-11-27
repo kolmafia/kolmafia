@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -3209,8 +3210,7 @@ public class ResultProcessor {
           String rawText =
               DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), true);
           String mod =
-              DebugDatabase.parseItemEnchantments(
-                  rawText, new ArrayList<>(), KoLConstants.EQUIP_HAT);
+              DebugDatabase.parseItemEnchantments(rawText, new ArrayList<>(), ConsumptionType.HAT);
           Modifiers.overrideModifier("Item:[" + itemId + "]", mod);
           Preferences.setString("_noHatModifier", mod);
         }

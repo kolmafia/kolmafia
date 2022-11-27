@@ -9,7 +9,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
@@ -143,22 +143,22 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
     protected void execute() {
       switch (UseItemDequeuePanel.this.type) {
         case FOOD:
-          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_EAT);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.EAT);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
           break;
         case BOOZE:
-          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_DRINK);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.DRINK);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
           break;
         case SPLEEN:
-          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_SPLEEN);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.SPLEEN);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
           break;
         case POTION:
-          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_USE);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.USE);
           break;
       }
       ConcoctionDatabase.getUsables().sort();
@@ -175,17 +175,17 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
     protected void execute() {
       switch (UseItemDequeuePanel.this.type) {
         case FOOD:
-          ConcoctionDatabase.handleQueue(type, KoLConstants.NO_CONSUME);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.NONE);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
           break;
         case BOOZE:
-          ConcoctionDatabase.handleQueue(type, KoLConstants.NO_CONSUME);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.NONE);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
           break;
         case POTION:
-          ConcoctionDatabase.handleQueue(type, KoLConstants.NO_CONSUME);
+          ConcoctionDatabase.handleQueue(type, ConsumptionType.NONE);
           break;
       }
       ConcoctionDatabase.getUsables().sort();

@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -104,7 +105,7 @@ public class DataFileConsistencyTest {
     var hatchlings = datafileItems("familiars.txt", 4, 4);
     var items = allItems();
     for (var id : items) {
-      if (ItemDatabase.getConsumptionType(id) == KoLConstants.GROW_FAMILIAR) {
+      if (ItemDatabase.getConsumptionType(id) == ConsumptionType.FAMILIAR_HATCHLING) {
         var name = ItemDatabase.getItemDataName(id);
         assertThat(
             String.format("%s is in items.txt but not in familiars.txt", name),
