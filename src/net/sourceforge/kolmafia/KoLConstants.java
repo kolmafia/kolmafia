@@ -346,6 +346,21 @@ public interface KoLConstants extends UtilityConstants {
     OTHER
   }
 
+  /**
+   * Ways to use items.
+   *
+   * A conflation of a few concepts. Most are "primary uses" as appear in items.txt
+   *
+   * Primary uses determine how you can interact with an item. Some items are "usable"
+   * in addition to their primary use (for example, the fortune cookie or glitch season 
+   * reward).
+   *
+   * ConsumptionType is also used for how the user /intends/ to interact with an item.
+   * This is what the "Familiar 'uses'" are used for: when the user uses a command specifically
+   * for feeding a familiar.
+   *
+   * Most of this is handled in UseItemRequest.
+   */
   enum ConsumptionType {
     UNKNOWN,
     // Cannot be "used" in any way by itself
