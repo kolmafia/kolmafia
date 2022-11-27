@@ -33,7 +33,7 @@ public class ThrowItemCommand extends AbstractCommand {
     parameters = parameters.substring(0, splitPos).trim();
     AdventureResult item = ItemFinder.getFirstMatchingItem(parameters, Match.ANY);
     if (item != null) {
-      if (!ItemDatabase.getAttribute(item.getItemId(), Attribute.ATTR_CURSE)) {
+      if (!ItemDatabase.getAttribute(item.getItemId(), Attribute.CURSE)) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "The " + item.getName() + " is not properly balanced for throwing.");
         return;

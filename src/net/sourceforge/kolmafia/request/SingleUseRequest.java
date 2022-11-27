@@ -36,7 +36,7 @@ public class SingleUseRequest extends CreateItemRequest {
     int count = this.getQuantityNeeded();
 
     if (type == ConsumptionType.USE
-        || ItemDatabase.getAttribute(use, Attribute.ATTR_USABLE)
+        || ItemDatabase.getAttribute(use, Attribute.USABLE)
         || count == 1) {
       this.constructURLString("inv_use.php");
       this.addFormField("which", "3");
@@ -44,7 +44,7 @@ public class SingleUseRequest extends CreateItemRequest {
       this.addFormField("ajax", "1");
     } else if (type == ConsumptionType.USE_MULTIPLE
         || type == ConsumptionType.AVATAR_POTION
-        || ItemDatabase.getAttribute(use, Attribute.ATTR_MULTIPLE)) {
+        || ItemDatabase.getAttribute(use, Attribute.MULTIPLE)) {
       this.constructURLString("multiuse.php");
       this.addFormField("action", "useitem");
       this.addFormField("quantity", String.valueOf(count));
@@ -86,8 +86,7 @@ public class SingleUseRequest extends CreateItemRequest {
     int count = (quantity + yield - 1) / yield;
 
     if (count > 1
-        && (type == ConsumptionType.USE
-            || ItemDatabase.getAttribute(itemId, Attribute.ATTR_USABLE))) {
+        && (type == ConsumptionType.USE || ItemDatabase.getAttribute(itemId, Attribute.USABLE))) {
       // We have to create one at a time.
       for (int i = 1; i <= count; ++i) {
         KoLmafia.updateDisplay("Creating " + this.getName() + " (" + i + " of " + count + ")...");

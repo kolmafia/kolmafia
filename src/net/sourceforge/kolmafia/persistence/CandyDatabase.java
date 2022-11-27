@@ -147,11 +147,11 @@ public class CandyDatabase {
     // We could look in our various candy sets, but more efficient
     // to just look at item attributes
     EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
-    return attributes.contains(Attribute.ATTR_CANDY0)
+    return attributes.contains(Attribute.CANDY0)
         ? UNSPADED
-        : attributes.contains(Attribute.ATTR_CANDY1)
+        : attributes.contains(Attribute.CANDY1)
             ? SIMPLE
-            : attributes.contains(Attribute.ATTR_CANDY2) ? COMPLEX : NONE;
+            : attributes.contains(Attribute.CANDY2) ? COMPLEX : NONE;
   }
 
   public static final int getEffectTier(final int itemId1, final int itemId2) {

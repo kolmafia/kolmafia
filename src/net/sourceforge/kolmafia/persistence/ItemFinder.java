@@ -276,10 +276,7 @@ public class ItemFinder {
           nameIterator,
           itemId != -1
               && !ItemDatabase.getAttribute(
-                  itemId,
-                  EnumSet.of(Attribute.ATTR_TRADEABLE
-                      , Attribute.ATTR_MATCHABLE
-                      , Attribute.ATTR_QUEST))
+                  itemId, EnumSet.of(Attribute.TRADEABLE, Attribute.MATCHABLE, Attribute.QUEST))
               && !NPCStoreDatabase.contains(itemId));
     }
 

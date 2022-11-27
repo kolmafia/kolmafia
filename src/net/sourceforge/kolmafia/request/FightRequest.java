@@ -1612,11 +1612,11 @@ public class FightRequest extends GenericRequest {
   }
 
   private boolean singleUseCombatItem(int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_SINGLE);
+    return ItemDatabase.getAttribute(itemId, Attribute.SINGLE);
   }
 
   private boolean soloUseCombatItem(int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_SOLO);
+    return ItemDatabase.getAttribute(itemId, Attribute.SOLO);
   }
 
   public static final boolean isInvalidShieldlessAttack(final String action) {
@@ -8380,7 +8380,7 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
-    if (ItemDatabase.getAttribute(itemId, Attribute.ATTR_COMBAT_REUSABLE)) {
+    if (ItemDatabase.getAttribute(itemId, Attribute.COMBAT_REUSABLE)) {
       return false;
     }
 

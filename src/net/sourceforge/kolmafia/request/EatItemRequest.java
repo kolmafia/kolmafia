@@ -839,7 +839,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
-    if (!timeSpinnerUsed && !attrs.contains(Attribute.ATTR_REUSABLE)) {
+    if (!timeSpinnerUsed && !attrs.contains(Attribute.REUSABLE)) {
       ResultProcessor.processResult(item.getNegation());
     }
     KoLCharacter.updateStatus();

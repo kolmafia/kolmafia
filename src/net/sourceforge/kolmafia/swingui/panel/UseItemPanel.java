@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.util.EnumSet;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -9,8 +10,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.webui.RelayLoader;
-
-import java.util.EnumSet;
 
 public class UseItemPanel extends InventoryPanel<AdventureResult> {
   public UseItemPanel() {
@@ -95,10 +94,11 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
               UsableItemFilterField.this.other
                   && ItemDatabase.getAttribute(
                       itemId,
-                      EnumSet.of(Attribute.ATTR_USABLE
-                          , Attribute.ATTR_MULTIPLE
-                          , Attribute.ATTR_REUSABLE
-                          , Attribute.ATTR_CURSE));
+                      EnumSet.of(
+                          Attribute.USABLE,
+                          Attribute.MULTIPLE,
+                          Attribute.REUSABLE,
+                          Attribute.CURSE));
       }
 
       return filter && super.isVisible(element);

@@ -628,8 +628,7 @@ public abstract class CombatActionManager {
     for (int i = 0; i < count; ++i) {
       String name = matchingNames.get(i);
       int id = ItemDatabase.getItemId(name);
-      if (ItemDatabase.getAttribute(
-          id, EnumSet.of(Attribute.ATTR_COMBAT, Attribute.ATTR_COMBAT_REUSABLE))) {
+      if (ItemDatabase.getAttribute(id, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE))) {
         return id;
       }
     }

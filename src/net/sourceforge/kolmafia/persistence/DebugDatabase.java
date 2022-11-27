@@ -321,7 +321,8 @@ public class DebugDatabase {
     }
 
     EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
-    EnumSet<Attribute> descAttrs = DebugDatabase.typeToSecondary(descType, descPrimary, text, false);
+    EnumSet<Attribute> descAttrs =
+        DebugDatabase.typeToSecondary(descType, descPrimary, text, false);
     if (!DebugDatabase.attributesMatch(attrs, descAttrs)) {
       String secondary = ItemDatabase.attrsToSecondaryUsage(attrs);
       String descSecondary = ItemDatabase.attrsToSecondaryUsage(descAttrs);
@@ -339,11 +340,8 @@ public class DebugDatabase {
 
     // Adjust crafting attributes to match description
     EnumSet<Attribute> crafting =
-        EnumSet.of(Attribute.ATTR_FANCY
-            , Attribute.ATTR_PASTE
-            , Attribute.ATTR_SMITH
-            , Attribute.ATTR_COOK
-            , Attribute.ATTR_MIX);
+        EnumSet.of(
+            Attribute.FANCY, Attribute.PASTE, Attribute.SMITH, Attribute.COOK, Attribute.MIX);
     attrs.removeAll(crafting);
     descAttrs.retainAll(crafting);
     attrs.addAll(descAttrs);
@@ -353,10 +351,10 @@ public class DebugDatabase {
     if (descPrimary == ConsumptionType.POTION) {
       if (type == ConsumptionType.USE) {
         type = ConsumptionType.POTION;
-        attrs.add(Attribute.ATTR_USABLE);
+        attrs.add(Attribute.USABLE);
       } else if (type == ConsumptionType.USE_MULTIPLE) {
         type = ConsumptionType.POTION;
-        attrs.add(Attribute.ATTR_MULTIPLE);
+        attrs.add(Attribute.MULTIPLE);
       }
     }
 
@@ -634,35 +632,35 @@ public class DebugDatabase {
             || type.contains("potion")
             || type.equals("gift package");
     if (type.contains("combat") && type.contains("reusable")) {
-      attributes.add(Attribute.ATTR_COMBAT_REUSABLE);
+      attributes.add(Attribute.COMBAT_REUSABLE);
     } else if (type.contains("combat")) {
-      attributes.add(Attribute.ATTR_COMBAT);
+      attributes.add(Attribute.COMBAT);
     } else if (type.contains("reusable")) {
-      attributes.add(Attribute.ATTR_REUSABLE);
+      attributes.add(Attribute.REUSABLE);
     }
     if (multi && primary != ConsumptionType.USE_MULTIPLE && usable) {
-      attributes.add(Attribute.ATTR_MULTIPLE);
+      attributes.add(Attribute.MULTIPLE);
     }
     if (!multi && primary != ConsumptionType.USE && usable) {
-      attributes.add(Attribute.ATTR_USABLE);
+      attributes.add(Attribute.USABLE);
     }
     if (type.contains("self or others")) {
-      attributes.add(Attribute.ATTR_CURSE);
+      attributes.add(Attribute.CURSE);
     }
     if (text.contains("(Fancy")) {
-      attributes.add(Attribute.ATTR_FANCY);
+      attributes.add(Attribute.FANCY);
     }
     if (text.contains("Meat Pasting component")) {
-      attributes.add(Attribute.ATTR_PASTE);
+      attributes.add(Attribute.PASTE);
     }
     if (text.contains("Meatsmithing component")) {
-      attributes.add(Attribute.ATTR_SMITH);
+      attributes.add(Attribute.SMITH);
     }
     if (text.contains("Cooking ingredient")) {
-      attributes.add(Attribute.ATTR_COOK);
+      attributes.add(Attribute.COOK);
     }
     if (text.contains("Cocktailcrafting ingredient")) {
-      attributes.add(Attribute.ATTR_MIX);
+      attributes.add(Attribute.MIX);
     }
     return attributes;
   }
@@ -712,54 +710,57 @@ public class DebugDatabase {
     return true;
   }
 
-  private static boolean attributesMatch(final EnumSet<Attribute> attrs, final EnumSet<Attribute> descAttrs) {
+  private static boolean attributesMatch(
+      final EnumSet<Attribute> attrs, final EnumSet<Attribute> descAttrs) {
     // If the description says an item is "combat", "(reusable)" or "(on self or others)",
     // our database must mark the item as ATTR_COMBAT, ATTR_COMBAT_REUSABLE, ATTR_CURSE,
     //
     // However, there are quite a few items that we mark with those secondary attributes that are
     // not tagged that way by KoL itself. Assume those are correct.
 
-    if (descAttrs.contains(Attribute.ATTR_COMBAT)
-            && !(attrs.contains(Attribute.ATTR_COMBAT) || attrs.contains(Attribute.ATTR_COMBAT_REUSABLE) || attrs.contains(Attribute.ATTR_CURSE))) {
+    if (descAttrs.contains(Attribute.COMBAT)
+        && !(attrs.contains(Attribute.COMBAT)
+            || attrs.contains(Attribute.COMBAT_REUSABLE)
+            || attrs.contains(Attribute.CURSE))) {
       return false;
     }
 
-    if (descAttrs.contains(Attribute.ATTR_COMBAT_REUSABLE)
-        && !attrs.contains(Attribute.ATTR_COMBAT_REUSABLE)) {
+    if (descAttrs.contains(Attribute.COMBAT_REUSABLE)
+        && !attrs.contains(Attribute.COMBAT_REUSABLE)) {
       return false;
     }
 
-    if (descAttrs.contains(Attribute.ATTR_CURSE) && !attrs.contains(Attribute.ATTR_CURSE)) {
+    if (descAttrs.contains(Attribute.CURSE) && !attrs.contains(Attribute.CURSE)) {
       return false;
     }
 
     // If the item is a (Fancy Cooking ingredient) or (Fancy Cocktailcrafting ingredient)
     // we must mark the item with ATTR_FANCY
-    if (descAttrs.contains(Attribute.ATTR_FANCY) != attrs.contains(Attribute.ATTR_FANCY)) {
+    if (descAttrs.contains(Attribute.FANCY) != attrs.contains(Attribute.FANCY)) {
       return false;
     }
 
     // If the item is a Meat Pasting component
     // we must mark the item with ATTR_PASTE
-    if (descAttrs.contains(Attribute.ATTR_PASTE) != attrs.contains(Attribute.ATTR_PASTE)) {
+    if (descAttrs.contains(Attribute.PASTE) != attrs.contains(Attribute.PASTE)) {
       return false;
     }
 
     // If the item is a Meatsmithing component
     // we must mark the item with ATTR_SMITH
-    if (descAttrs.contains(Attribute.ATTR_SMITH) != attrs.contains(Attribute.ATTR_SMITH)) {
+    if (descAttrs.contains(Attribute.SMITH) != attrs.contains(Attribute.SMITH)) {
       return false;
     }
 
     // If the item is a Cooking ingredient
     // we must mark the item with ATTR_COOK
-    if (descAttrs.contains(Attribute.ATTR_COOK) != attrs.contains(Attribute.ATTR_COOK)) {
+    if (descAttrs.contains(Attribute.COOK) != attrs.contains(Attribute.COOK)) {
       return false;
     }
 
     // If the item is a Cocktailcrafting ingredient
     // we must mark the item with ATTR_MIX
-    return descAttrs.contains(Attribute.ATTR_MIX) == attrs.contains(Attribute.ATTR_MIX);
+    return descAttrs.contains(Attribute.MIX) == attrs.contains(Attribute.MIX);
   }
 
   private static void checkConsumableItems(final PrintStream report) {

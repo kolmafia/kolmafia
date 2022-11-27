@@ -149,29 +149,29 @@ public class ItemDatabase {
   private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
 
   public enum Attribute {
-    ATTR_QUEST,
-    ATTR_GIFT,
-    ATTR_TRADEABLE,
-    ATTR_DISCARDABLE,
-    ATTR_COMBAT,
-    ATTR_COMBAT_REUSABLE,
-    ATTR_USABLE,
-    ATTR_MULTIPLE,
-    ATTR_REUSABLE,
-    ATTR_SINGLE,
-    ATTR_SOLO,
-    ATTR_CURSE,
-    ATTR_BOUNTY,
-    ATTR_CANDY0,
-    ATTR_CANDY1,
-    ATTR_CANDY2,
-    ATTR_MATCHABLE,
-    ATTR_FANCY,
-    ATTR_CHOCOLATE,
-    ATTR_PASTE,
-    ATTR_SMITH,
-    ATTR_COOK,
-    ATTR_MIX,
+    QUEST,
+    GIFT,
+    TRADEABLE,
+    DISCARDABLE,
+    COMBAT,
+    COMBAT_REUSABLE,
+    USABLE,
+    MULTIPLE,
+    REUSABLE,
+    SINGLE,
+    SOLO,
+    CURSE,
+    BOUNTY,
+    CANDY0,
+    CANDY1,
+    CANDY2,
+    MATCHABLE,
+    FANCY,
+    CHOCOLATE,
+    PASTE,
+    SMITH,
+    COOK,
+    MIX,
   }
 
   private static final HashMap<String, ConsumptionType> PRIMARY_USE = new HashMap<>();
@@ -229,28 +229,28 @@ public class ItemDatabase {
     ItemDatabase.definePrimaryUse("potion", ConsumptionType.POTION);
     ItemDatabase.definePrimaryUse("avatar", ConsumptionType.AVATAR_POTION);
 
-    ItemDatabase.defineSecondaryUse("usable", Attribute.ATTR_USABLE);
-    ItemDatabase.defineSecondaryUse("multiple", Attribute.ATTR_MULTIPLE);
-    ItemDatabase.defineSecondaryUse("reusable", Attribute.ATTR_REUSABLE);
+    ItemDatabase.defineSecondaryUse("usable", Attribute.USABLE);
+    ItemDatabase.defineSecondaryUse("multiple", Attribute.MULTIPLE);
+    ItemDatabase.defineSecondaryUse("reusable", Attribute.REUSABLE);
 
-    ItemDatabase.defineSecondaryUse("combat", Attribute.ATTR_COMBAT);
-    ItemDatabase.defineSecondaryUse("combat reusable", Attribute.ATTR_COMBAT_REUSABLE);
+    ItemDatabase.defineSecondaryUse("combat", Attribute.COMBAT);
+    ItemDatabase.defineSecondaryUse("combat reusable", Attribute.COMBAT_REUSABLE);
 
-    ItemDatabase.defineSecondaryUse("single", Attribute.ATTR_SINGLE);
-    ItemDatabase.defineSecondaryUse("solo", Attribute.ATTR_SOLO);
+    ItemDatabase.defineSecondaryUse("single", Attribute.SINGLE);
+    ItemDatabase.defineSecondaryUse("solo", Attribute.SOLO);
 
-    ItemDatabase.defineSecondaryUse("curse", Attribute.ATTR_CURSE);
-    ItemDatabase.defineSecondaryUse("bounty", Attribute.ATTR_BOUNTY);
-    ItemDatabase.defineSecondaryUse("candy", Attribute.ATTR_CANDY0);
-    ItemDatabase.defineSecondaryUse("candy1", Attribute.ATTR_CANDY1);
-    ItemDatabase.defineSecondaryUse("candy2", Attribute.ATTR_CANDY2);
-    ItemDatabase.defineSecondaryUse("matchable", Attribute.ATTR_MATCHABLE);
-    ItemDatabase.defineSecondaryUse("fancy", Attribute.ATTR_FANCY);
-    ItemDatabase.defineSecondaryUse("chocolate", Attribute.ATTR_CHOCOLATE);
-    ItemDatabase.defineSecondaryUse("paste", Attribute.ATTR_PASTE);
-    ItemDatabase.defineSecondaryUse("smith", Attribute.ATTR_SMITH);
-    ItemDatabase.defineSecondaryUse("cook", Attribute.ATTR_COOK);
-    ItemDatabase.defineSecondaryUse("mix", Attribute.ATTR_MIX);
+    ItemDatabase.defineSecondaryUse("curse", Attribute.CURSE);
+    ItemDatabase.defineSecondaryUse("bounty", Attribute.BOUNTY);
+    ItemDatabase.defineSecondaryUse("candy", Attribute.CANDY0);
+    ItemDatabase.defineSecondaryUse("candy1", Attribute.CANDY1);
+    ItemDatabase.defineSecondaryUse("candy2", Attribute.CANDY2);
+    ItemDatabase.defineSecondaryUse("matchable", Attribute.MATCHABLE);
+    ItemDatabase.defineSecondaryUse("fancy", Attribute.FANCY);
+    ItemDatabase.defineSecondaryUse("chocolate", Attribute.CHOCOLATE);
+    ItemDatabase.defineSecondaryUse("paste", Attribute.PASTE);
+    ItemDatabase.defineSecondaryUse("smith", Attribute.SMITH);
+    ItemDatabase.defineSecondaryUse("cook", Attribute.COOK);
+    ItemDatabase.defineSecondaryUse("mix", Attribute.MIX);
   }
 
   private static final Set<Entry<Attribute, String>> secondaryUsageEntrySet =
@@ -412,10 +412,10 @@ public class ItemDatabase {
         ItemDatabase.nameById.put(id, displayName);
 
         ItemDatabase.accessById.put(id, access);
-        if (access.contains(TRADE_FLAG)) attrs.add(Attribute.ATTR_TRADEABLE);
-        if (access.contains(GIFT_FLAG)) attrs.add(Attribute.ATTR_GIFT);
-        if (access.contains(QUEST_FLAG)) attrs.add(Attribute.ATTR_QUEST);
-        if (access.contains(DISCARD_FLAG)) attrs.add(Attribute.ATTR_DISCARDABLE);
+        if (access.contains(TRADE_FLAG)) attrs.add(Attribute.TRADEABLE);
+        if (access.contains(GIFT_FLAG)) attrs.add(Attribute.GIFT);
+        if (access.contains(QUEST_FLAG)) attrs.add(Attribute.QUEST);
+        if (access.contains(DISCARD_FLAG)) attrs.add(Attribute.DISCARDABLE);
 
         ItemDatabase.attributesById.put(itemId, attrs);
 
@@ -908,7 +908,7 @@ public class ItemDatabase {
       if (useType == ConsumptionType.USE) {
         ItemDatabase.useTypeById.put(itemId, ConsumptionType.USE_MULTIPLE);
       } else {
-        attributes.add(Attribute.ATTR_MULTIPLE);
+        attributes.add(Attribute.MULTIPLE);
         ItemDatabase.attributesById.put(itemId, attributes);
       }
     } else {
@@ -916,7 +916,7 @@ public class ItemDatabase {
       if (useType == ConsumptionType.USE_MULTIPLE) {
         ItemDatabase.useTypeById.put(itemId, ConsumptionType.USE);
       } else {
-        attributes.add(Attribute.ATTR_USABLE);
+        attributes.add(Attribute.USABLE);
         ItemDatabase.attributesById.put(itemId, attributes);
       }
     }
@@ -954,12 +954,12 @@ public class ItemDatabase {
     ItemDatabase.accessById.put(id, access);
 
     EnumSet<Attribute> attrs = DebugDatabase.typeToSecondary(type, usage, text, multi);
-    if (access.contains(TRADE_FLAG)) attrs.add(Attribute.ATTR_TRADEABLE);
-    if (access.contains(GIFT_FLAG)) attrs.add(Attribute.ATTR_GIFT);
-    if (access.contains(QUEST_FLAG)) attrs.add(Attribute.ATTR_QUEST);
-    if (access.contains(DISCARD_FLAG)) attrs.add(Attribute.ATTR_DISCARDABLE);
+    if (access.contains(TRADE_FLAG)) attrs.add(Attribute.TRADEABLE);
+    if (access.contains(GIFT_FLAG)) attrs.add(Attribute.GIFT);
+    if (access.contains(QUEST_FLAG)) attrs.add(Attribute.QUEST);
+    if (access.contains(DISCARD_FLAG)) attrs.add(Attribute.DISCARDABLE);
     if (multi && usage != ConsumptionType.USE_MULTIPLE) {
-      attrs.add(Attribute.ATTR_MULTIPLE);
+      attrs.add(Attribute.MULTIPLE);
     }
     ItemDatabase.attributesById.put(itemId, attrs);
 
@@ -1560,7 +1560,8 @@ public class ItemDatabase {
   }
 
   public static final String attrsToSecondaryUsage(EnumSet<Attribute> attrs) {
-    attrs.removeAll(EnumSet.of(Attribute.ATTR_TRADEABLE, Attribute.ATTR_GIFT, Attribute.ATTR_QUEST, Attribute.ATTR_DISCARDABLE));
+    attrs.removeAll(
+        EnumSet.of(Attribute.TRADEABLE, Attribute.GIFT, Attribute.QUEST, Attribute.DISCARDABLE));
 
     // If there are no other attributes, return empty string
     if (attrs.isEmpty()) {
@@ -1603,7 +1604,7 @@ public class ItemDatabase {
    * @return true if item is a quest item
    */
   public static final boolean isQuestItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_QUEST);
+    return ItemDatabase.getAttribute(itemId, Attribute.QUEST);
   }
 
   /**
@@ -1612,7 +1613,7 @@ public class ItemDatabase {
    * @return true if item is a gift item
    */
   public static final boolean isGiftItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_GIFT);
+    return ItemDatabase.getAttribute(itemId, Attribute.GIFT);
   }
 
   /**
@@ -1671,7 +1672,7 @@ public class ItemDatabase {
    * @return true if item is tradeable
    */
   public static final boolean isTradeable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_TRADEABLE);
+    return ItemDatabase.getAttribute(itemId, Attribute.TRADEABLE);
   }
 
   /**
@@ -1680,7 +1681,7 @@ public class ItemDatabase {
    * @return true if item is giftable
    */
   public static final boolean isGiftable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, EnumSet.of(Attribute.ATTR_TRADEABLE, Attribute.ATTR_GIFT));
+    return ItemDatabase.getAttribute(itemId, EnumSet.of(Attribute.TRADEABLE, Attribute.GIFT));
   }
 
   /**
@@ -1689,7 +1690,7 @@ public class ItemDatabase {
    * @return true if item is discardable
    */
   public static final boolean isDiscardable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_DISCARDABLE);
+    return ItemDatabase.getAttribute(itemId, Attribute.DISCARDABLE);
   }
 
   /**
@@ -1698,7 +1699,7 @@ public class ItemDatabase {
    * @return true if item is a bounty
    */
   public static final boolean isBountyItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_BOUNTY);
+    return ItemDatabase.getAttribute(itemId, Attribute.BOUNTY);
   }
 
   /**
@@ -1707,7 +1708,7 @@ public class ItemDatabase {
    * @return true if item is a Meat Pasting Component
    */
   public static final boolean isPasteable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_PASTE);
+    return ItemDatabase.getAttribute(itemId, Attribute.PASTE);
   }
 
   /**
@@ -1716,7 +1717,7 @@ public class ItemDatabase {
    * @return true if item is a Meatsmithing Component
    */
   public static final boolean isSmithable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_SMITH);
+    return ItemDatabase.getAttribute(itemId, Attribute.SMITH);
   }
 
   /**
@@ -1725,7 +1726,7 @@ public class ItemDatabase {
    * @return true if item is a Cooking Ingredient
    */
   public static final boolean isCookable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_COOK);
+    return ItemDatabase.getAttribute(itemId, Attribute.COOK);
   }
 
   /**
@@ -1734,7 +1735,7 @@ public class ItemDatabase {
    * @return true if item is a Cocktailcrafting ingredient
    */
   public static final boolean isMixable(int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_MIX);
+    return ItemDatabase.getAttribute(itemId, Attribute.MIX);
   }
 
   /**
@@ -1743,7 +1744,7 @@ public class ItemDatabase {
    * @return true if item is a fancy ingredient
    */
   public static final boolean isFancyItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_FANCY);
+    return ItemDatabase.getAttribute(itemId, Attribute.FANCY);
   }
 
   /**
@@ -1753,7 +1754,7 @@ public class ItemDatabase {
    */
   public static final boolean isCandyItem(final int itemId) {
     return ItemDatabase.getAttribute(
-            itemId, EnumSet.of(Attribute.ATTR_CANDY0, Attribute.ATTR_CANDY1, Attribute.ATTR_CANDY2));
+        itemId, EnumSet.of(Attribute.CANDY0, Attribute.CANDY1, Attribute.CANDY2));
   }
 
   /**
@@ -1762,7 +1763,7 @@ public class ItemDatabase {
    * @return true if item is a chocolate
    */
   public static final boolean isChocolateItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, Attribute.ATTR_CHOCOLATE);
+    return ItemDatabase.getAttribute(itemId, Attribute.CHOCOLATE);
   }
 
   /**
@@ -1884,8 +1885,9 @@ public class ItemDatabase {
           // Any potion
           POTION,
           AVATAR_POTION -> true;
-      default ->
-        attributes.contains(Attribute.ATTR_USABLE) || attributes.contains(Attribute.ATTR_MULTIPLE) || attributes.contains(Attribute.ATTR_REUSABLE);
+      default -> attributes.contains(Attribute.USABLE)
+          || attributes.contains(Attribute.MULTIPLE)
+          || attributes.contains(Attribute.REUSABLE);
     };
   }
 
@@ -1963,9 +1965,9 @@ public class ItemDatabase {
       case POTION:
       case AVATAR_POTION:
       case SPLEEN:
-        return !attributes.contains(Attribute.ATTR_USABLE);
+        return !attributes.contains(Attribute.USABLE);
       default:
-        return attributes.contains(Attribute.ATTR_MULTIPLE);
+        return attributes.contains(Attribute.MULTIPLE);
     }
   }
 
@@ -1973,7 +1975,7 @@ public class ItemDatabase {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     if (useType == ConsumptionType.USE_INFINITE) return true;
     EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
-    return attributes.contains(Attribute.ATTR_REUSABLE);
+    return attributes.contains(Attribute.REUSABLE);
   }
 
   /**
