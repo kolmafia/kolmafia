@@ -18,9 +18,20 @@ class TCRSDatabaseTest {
   private static Stream<Arguments> guesses() {
     // Tea Tree teas are useful because there are a lot of them, and they're all already in ItemPool
     return Stream.of(
-        // Arguments.of(AscensionClass.SEAL_CLUBBER, ZodiacSign.MONGOOSE, 340, "nitrogenated wobbly Knob Goblin steroids", "Effect: \"Healthy Blue Glow\", Effect Duration: 23"),
-        Arguments.of(AscensionClass.SEAL_CLUBBER, ZodiacSign.MONGOOSE, 418, "enhanced quadruple-magnetized spinning maroon jittery Ferrigno's Elixir of Power", "Effect: \"Orchid Blood\", Effect Duration: 12"),
-        Arguments.of(AscensionClass.SEAL_CLUBBER, ZodiacSign.MONGOOSE, 422, "altered galvanized twirling huge potion of potency", "Effect: \"Sparkly!\", Effect Duration: 26"),
+        // Arguments.of(AscensionClass.SEAL_CLUBBER, ZodiacSign.MONGOOSE, 340, "nitrogenated wobbly
+        // Knob Goblin steroids", "Effect: \"Healthy Blue Glow\", Effect Duration: 23"),
+        Arguments.of(
+            AscensionClass.SEAL_CLUBBER,
+            ZodiacSign.MONGOOSE,
+            418,
+            "enhanced quadruple-magnetized spinning maroon jittery Ferrigno's Elixir of Power",
+            "Effect: \"Orchid Blood\", Effect Duration: 12"),
+        Arguments.of(
+            AscensionClass.SEAL_CLUBBER,
+            ZodiacSign.MONGOOSE,
+            422,
+            "altered galvanized twirling huge potion of potency",
+            "Effect: \"Sparkly!\", Effect Duration: 26"),
         Arguments.of(
             AscensionClass.SAUCEROR,
             ZodiacSign.MARMOT,
@@ -117,9 +128,18 @@ class TCRSDatabaseTest {
         TCRSDatabase.load(ascensionClass, sign, true);
         for (var i : ItemDatabase.entrySet()) {
           var itemId = i.getKey();
-          if (!EquipmentDatabase.getItemType(itemId).contains("potion")) continue;
+          var itemName = i.getValue();
+          if (!EquipmentDatabase.getItemType(itemId).contains("potion")
+              || itemName.contains("jazz soap")
+              || itemName.contains("Binarrrca")
+              || itemName.contains("Love Potion #")
+              || itemId >= 10950 // database files only go up to here as of now
+          ) continue;
           var expected = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
-          assertThat(ascensionClass + "/" + sign + " " + itemId, expected.name, equalTo(TCRSDatabase.getTCRSName(itemId)));
+          assertThat(
+              ascensionClass + "/" + sign + " " + itemId,
+              expected.name,
+              equalTo(TCRSDatabase.getTCRSName(itemId)));
         }
       }
     }
