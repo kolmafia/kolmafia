@@ -575,7 +575,7 @@ public class TCRSDatabase {
     var cosmeticMods = new ArrayList<String>();
 
     //   Roll 1d6 on whether to add a color
-    if (mtRng.nextInt(1, 6) == 1) cosmeticMods.add(mtRng.pickOne(COLOR_MODS));
+    var color = mtRng.nextInt(1, 6) == 1 ? mtRng.pickOne(COLOR_MODS) : null;
 
     //   Work out how many cosmetic modifiers to add
     var numCosmeticMods = 0;
@@ -585,14 +585,12 @@ public class TCRSDatabase {
 
     //   Pick and add cosmetic modifiers
     for (var i = 0; i < numCosmeticMods; i++) {
-      cosmeticMods.add(mtRng.pickOne(COSMETIC_MODS));
+      cosmeticMods.add(0, mtRng.pickOne(COSMETIC_MODS));
     }
 
+    if (color != null) cosmeticMods.add(color);
+
     if (cosmeticMods.size() > 1) {
-      rng.nextDouble();
-      rng.nextDouble();
-      rng.nextDouble();
-      rng.nextDouble();
       rng.shuffle(cosmeticMods);
     }
 
