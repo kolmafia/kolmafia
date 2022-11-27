@@ -762,6 +762,7 @@ user	hpAutoRecoveryTarget	1.0
 user	iceSculptureMonster
 user	iceSwagger	0
 user	implementGlitchItem	false
+user	intenseCurrents	false
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	itemBoughtPerAscension637	false
 user	itemBoughtPerAscension8266	false

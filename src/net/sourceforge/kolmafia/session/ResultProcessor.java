@@ -2096,12 +2096,8 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
         break;
 
-      case ItemPool.WRIGGLING_FLYTRAP_PELLET:
-        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.STARTED);
-        break;
-
       case ItemPool.BUBBLIN_STONE:
-        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step3");
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step3");
         break;
 
       case ItemPool.DAS_BOOT:
