@@ -626,11 +626,12 @@ public class TCRSDatabase {
       return;
     }
     String verb =
-        (usage == ConsumptionType.EAT)
-            ? "eat "
-            : (usage == ConsumptionType.DRINK)
-                ? "drink "
-                : (usage == ConsumptionType.SPLEEN) ? "chew " : "use ";
+        switch (usage) {
+          case EAT -> "eat ";
+          case DRINK -> "drink ";
+          case SPLEEN -> "chew ";
+          default -> "use ";
+        };
     String actions = EffectDatabase.getActions(effectId);
     boolean added = false;
     StringBuilder buffer = new StringBuilder();
