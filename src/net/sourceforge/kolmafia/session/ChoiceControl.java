@@ -838,6 +838,7 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.ORQUETTES_PHONE_NUMBER, -count);
           ResultProcessor.processItem(ItemPool.KEGGER_MAP, -1);
         }
+        break;
 
       case 460:
       case 461:

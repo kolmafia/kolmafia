@@ -7823,6 +7823,7 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_lovebugsWalmart");
           return true;
         }
+        break;
       case "lb_worm.gif":
         // A wriggling love worm approaches you, burps out a wadded-up Beach Buck, then burrows out
         // of sight.

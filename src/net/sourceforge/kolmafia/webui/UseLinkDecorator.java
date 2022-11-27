@@ -754,6 +754,7 @@ public abstract class UseLinkDecorator {
                 && InventoryManager.getCount(ItemPool.AZAZELS_UNICORN) == 0) {
               return UseLinkDecorator.svenLink(itemId);
             }
+            break;
           case ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR:
             return null;
         }
@@ -1087,6 +1088,7 @@ public abstract class UseLinkDecorator {
               return UseLinkDecorator.svenLink(itemId);
             }
 
+            break;
           case ItemPool.BARLEY:
           case ItemPool.HOPS:
           case ItemPool.FANCY_BEER_BOTTLE:
@@ -1462,6 +1464,7 @@ public abstract class UseLinkDecorator {
               uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
             }
 
+            break;
           case ItemPool.CARGO_CULTIST_SHORTS:
             {
               // Not inline, since the redirection to a choice
