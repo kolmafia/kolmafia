@@ -6661,7 +6661,7 @@
 6773	jittery tin roof (rusted)	0		
 6774	skewed teal tin snips	0		
 6775	tin lizzie	0		
-6776	alkaline alkaline electrified foetid seal tear	0		Effect: "The Style... of the Future", Effect Duration: 18
+6776	alkaline alkaline electrified foetid seal tear	0		Effect: "The Style...  of the Future", Effect Duration: 18
 6777	cold-filtered triple-irradiated blurry cyan seal sweat	0		Effect: "meat.enh", Effect Duration: 13
 6778	super-tarnished boiling seal blood	0		Effect: "Capricorn Rising", Effect Duration: 27
 6779	mirror crystalline seal eye	0		Single Equip

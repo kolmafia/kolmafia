@@ -1923,7 +1923,7 @@
 1946	ribald coward's accordion pin	0		Monster Level: -20, Sleaze Damage: +10, Class: "Accordion Thief", Single Equip
 1947	Lo Pan's worn tophat of the detective	0		Spell Critical Percent: +30, Item Drop: +20
 1948	lard-coated flame-wreathed tap shoes	0		Hot Spell Damage: +10, Sleaze Spell Damage: +25, Single Equip
-1949	adequate enchanted thick wobbly Manetwich	5	good	Effect: "The Wisdom... of the Future", Effect Duration: 30
+1949	adequate enchanted thick wobbly Manetwich	5	good	Effect: "The Wisdom...  of the Future", Effect Duration: 30
 1950	tumbling bottle of Vangoghbitussin	0		
 1951	practically non-alcoholic mediocre bottle of Pinot Renoir	1	decent	
 1952	moldy enchanted bouncing desiccated apricot	3	crappy	Effect: "Puzzle Fury", Effect Duration: 30
@@ -5676,7 +5676,7 @@
 5778	enchanted decent squat idiot brain	3	good	Effect: "Human-Slime Hybrid", Effect Duration: 10
 5779	reassuring keel-haulin' knife	0		Spooky Resistance: +1
 5780	tumbling stanky ice cream scoop	0		Stench Spell Damage: +25
-5781	practically non-alcoholic special tolerable soft echo eyedrop antidote martini	1	good	Effect: "The Style... of the Future", Effect Duration: 40
+5781	practically non-alcoholic special tolerable soft echo eyedrop antidote martini	1	good	Effect: "The Style...  of the Future", Effect Duration: 40
 5782	morningwood plank	0		
 5783	raging hardwood plank	0		
 5784	mirror weirdwood plank	0		
@@ -6680,7 +6680,7 @@
 6795	concentrated tumbling disco horoscope (Aquarius)	0		Effect: "Stench Jellied", Effect Duration: 29
 6796	chilled ionized blinking disco horoscope (Pisces)	0		Effect: "In the Limelight", Effect Duration: 26
 6797	altered cold-filtered spinning disco horoscope (Aries)	0		Effect: "Impregnably Delicious", Effect Duration: 68
-6798	pickled activated disco horoscope (Taurus)	0		Effect: "The Style... of the Future", Effect Duration: 45
+6798	pickled activated disco horoscope (Taurus)	0		Effect: "The Style...  of the Future", Effect Duration: 45
 6799	dry disco horoscope (Gemini)	0		Effect: "Analog Drunk", Effect Duration: 25
 6800	vacuum-sealed ghostly disco horoscope (Cancer)	0		Effect: "Tea-hee", Effect Duration: 69
 6801	enhanced polymerized wobbly disco horoscope (Leo)	0		Effect: "Dances with Tweedles", Effect Duration: 44
@@ -9150,7 +9150,7 @@
 9288	narrow gallstone	0		Familiar Weight: +5
 9289	resourceful stylish Uncle Crimbo's hat of the brute	0		Moxie: +25, Muscle Percent: +30, Maximum MP: +50
 9290	normal small Eldritch snap	2	good	
-9291	compressed hot jelly	1		Effect: "The Wisdom... of the Future", Effect Duration: 30
+9291	compressed hot jelly	1		Effect: "The Wisdom...  of the Future", Effect Duration: 30
 9292	distilled olive jelly	1		
 9293	dried mirror jittery jelly	1		
 9294	compressed sleaze jelly	1		

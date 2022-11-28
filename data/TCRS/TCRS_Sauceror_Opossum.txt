@@ -3238,7 +3238,7 @@
 3266	bag of Saccharine Maple saplings	0		
 3267	bouncing narrow bag of Laughing Willow saplings	0		
 3268	double-adjusted handful of Crotchety Pine needles	0		Effect: "Booing Radly", Effect Duration: 38
-3269	enhanced quantum red lump of Saccharine Maple sap	0		Effect: "The Style... of the Future", Effect Duration: 58
+3269	enhanced quantum red lump of Saccharine Maple sap	0		Effect: "The Style...  of the Future", Effect Duration: 58
 3270	improved fuchsia handful of Laughing Willow bark	0		Effect: "Egged On", Effect Duration: 68
 3271	olive personal trainer's crotchety pants	0		Experience Percent (Muscle): +10
 3272	crafty Saccharine Maple pendant	0		Maximum MP: +10
@@ -8763,7 +8763,7 @@
 8898	huge realistic cap gun	0		
 8899	tainted milk	1	good	
 8900	gun parts	0		
-8901	frozen mirror triggerfingerbone	0		Effect: "The Style... of the Future", Effect Duration: 61
+8901	frozen mirror triggerfingerbone	0		Effect: "The Style...  of the Future", Effect Duration: 61
 8902	unsweetened ghost bit	0		Effect: "Stuck-Up Hair", Effect Duration: 41
 8903	pressed red buzzard feather	0		Effect: "Night Vision", Effect Duration: 67
 8904	tarnished blurry twirling squat lion musk	0		Effect: "Yuletide Industry", Effect Duration: 69

@@ -894,7 +894,7 @@
 903	hand-crafted Spasmi Dolorosi Del Rene Champagne	3	EPIC	
 904	tumbling Socratic school Mafia knickerbockers of extreme caution of courage	0		Experience (Mysticality): +1, Monster Level: -25, Spooky Resistance: +3
 905	wet Yummy Tummy bean	0		Effect: "Triangle, Man", Effect Duration: 51
-906	double-pickled enhanced skewed Rock Pops	0		Effect: "The Wisdom... of the Future", Effect Duration: 48
+906	double-pickled enhanced skewed Rock Pops	0		Effect: "The Wisdom...  of the Future", Effect Duration: 48
 907	altered colloidal upside-down Mr. Mediocrebar	0		Effect: "So You Can Work More...", Effect Duration: 52
 908	quantum double-corrupted concentrated pulsating Cold Hots candy	0		Effect: "Bear Clawed", Effect Duration: 19
 909	quadruple-nitrogenated energized maroon Wint-O-Fresh mint	0		Effect: "Morbidi Tea", Effect Duration: 30
@@ -7164,7 +7164,7 @@
 7279	chilled wind-up Whatsian robot	0		Effect: "Yeah, It's Just Gasoline", Effect Duration: 34
 7280	polymerized wind-up vampire teeth	0		Effect: "Outer Wolf&trade;", Effect Duration: 64
 7281	non-flattened moist super-concentrated wind-up navigation droid	0		Effect: "Polka of Plenty", Effect Duration: 25
-7282	energized shaking wind-up owl	0		Effect: "The Wisdom... of the Future", Effect Duration: 32
+7282	energized shaking wind-up owl	0		Effect: "The Wisdom...  of the Future", Effect Duration: 32
 7283	deionized alkaline wind-up ensign	0		Effect: "Flagrantly Fragrant", Effect Duration: 13
 7284	strapping crying statue earrings of terror	0		Muscle: +5, Spooky Spell Damage: +10, Single Equip, Lasts Until Rollover
 7285	Jack Frost's plastic Duskwalker necklace of the early riser	0		Cold Spell Damage: +50, Adventures: +7, Single Equip, Lasts Until Rollover

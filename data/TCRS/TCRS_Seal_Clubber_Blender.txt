@@ -787,7 +787,7 @@
 792	huge Jim Carey's Golden Mr. Accessory	0		Monster Level: +25, Softcore Only
 793	enhanced liquefied lime green oil of stability	0		Effect: "Scorpio Rising", Effect Duration: 45
 794	modified ionized oil of slipperiness	0		Effect: "Bilious Briskness", Effect Duration: 46
-795	special bad Acque Luride Grezze Cabernet	3	decent	Effect: "The Style... of the Future", Effect Duration: 15
+795	special bad Acque Luride Grezze Cabernet	3	decent	Effect: "The Style...  of the Future", Effect Duration: 15
 796	jittery vibrating occult stylish cement shoes	0		Moxie: +25, Spell Damage Percent: +25, Maximum MP Percent: +10
 797	drinkable practically non-alcoholic rockin' wagon	1	good	
 798	acceptable narrow ocean motion	3	good	
@@ -5159,7 +5159,7 @@
 5257	altered potion of the field gar	0		Effect: "Al Dente Inferno", Effect Duration: 11
 5258	polymerized too legit potion	0		Effect: "Stuck-Up Hair", Effect Duration: 65
 5259	polymerized blinking blue tumbling Bright Water	0		Effect: "Poker Faced", Effect Duration: 47
-5260	magnetized cold-filtered water	0		Effect: "The Style... of the Future", Effect Duration: 48
+5260	magnetized cold-filtered water	0		Effect: "The Style...  of the Future", Effect Duration: 48
 5261	Vulcanized pressed graveyard snowglobe	0		Effect: "Powder Power", Effect Duration: 31
 5262	frozen warmed blue cool cat elixir	0		Effect: "Memento Moir&eacute;", Effect Duration: 49
 5263	chilled potion of the captain's hammer	0		Effect: "Belch the Rainbow&trade;", Effect Duration: 17
@@ -7546,7 +7546,7 @@
 7661	dumb mud	0		
 7662	spoiled super-sized Sogg-Os	5	crappy	
 7663	Sherlock's therapeutic Lord Soggyraven's Slippers of doom	0		Spooky Spell Damage: +50, Item Drop: +25, HP Regen Min: 5, HP Regen Max: 7, Single Equip
-7664	galvanized Ancient Protector Soda	0		Effect: "The Wisdom... of the Future", Effect Duration: 66
+7664	galvanized Ancient Protector Soda	0		Effect: "The Wisdom...  of the Future", Effect Duration: 66
 7665	corrupted liquid ice	0		Effect: "Phorcefullness", Effect Duration: 66
 7666	practically non-alcoholic hand-crafted Wet Russian	1	EPIC	
 7667	flavorless fancy filet of The Fish	3	decent	Effect: "Mystically Oiled", Effect Duration: 35
@@ -10431,7 +10431,7 @@
 10591	blue sweaty balsam	0		
 10592	hale balsam barrel of dire peril of vim and vigor	0		Weapon Damage: +20, Maximum HP Percent: +50, Maximum HP: +20
 10593	olive redwood	0		
-10594	liquefied moist quantum ghostly redwood rain stick	0		Effect: "The Wisdom... of the Future", Effect Duration: 22
+10594	liquefied moist quantum ghostly redwood rain stick	0		Effect: "The Wisdom...  of the Future", Effect Duration: 22
 10595	purpleheart logs	0		
 10596	Usain Bolt's extremely unsafe Sinatra's purpleheart &quot;pants&quot;	0		Experience (Moxie): +5, Weapon Damage Percent: +100, Initiative: +80
 10597	wormwood stick	0		

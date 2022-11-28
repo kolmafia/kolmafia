@@ -7352,7 +7352,7 @@
 7469	Usain Bolt's rosewater-soaked forbidden extremely wet T-shirt	0		Spell Damage Percent: +50, Stench Resistance: +3, Initiative: +80
 7470	Oprah's hardy shrimp fork of the overflowing toilet	0		Maximum HP: +50, Maximum MP Percent: +50, Stench Spell Damage: +50
 7471	denatured quadruple-colloidal alkaline BROS Energy Drink	0		Effect: "You're High as a Crow, Marty", Effect Duration: 46
-7472	cold-filtered go-go potion	0		Effect: "The Style... of the Future", Effect Duration: 39
+7472	cold-filtered go-go potion	0		Effect: "The Style...  of the Future", Effect Duration: 39
 7473	energized shrimp cocktail	0		Effect: "Big Meat Big Prizes", Effect Duration: 18
 7474	electrified Yolo&trade; chocolates	0		Effect: "Aspect of the GravyPlum Fairy", Effect Duration: 12
 7475	twirling steel-toed string of moist beads	0		Damage Reduction: 9
@@ -8174,7 +8174,7 @@
 8307	extra-boiled adjusted ionized lime green &Uuml;berraschthexengebr&auml;u	0		Effect: "Sugar, Hello", Effect Duration: 23
 8308	dry colloidal tumbling piggy tattoo	0		Effect: "Feet of Grapefruit", Effect Duration: 34
 8309	boiled magnetized twirling baggie of regular-sized tardigrades	0		Effect: "Man's Worst Enemy", Effect Duration: 26
-8310	aerosolized activated purple .epub file	0		Effect: "The Style... of the Future", Effect Duration: 20
+8310	aerosolized activated purple .epub file	0		Effect: "The Style...  of the Future", Effect Duration: 20
 8311	oxidized BUBBLE GUM	0		Effect: "The Living Hitpoints", Effect Duration: 15
 8312	adjusted hustler shades	0		Effect: "Cold Jellied", Effect Duration: 67
 8313	super-magnetized blurry jerky stick	0		Effect: "Pisces in the Skyces", Effect Duration: 29
@@ -9107,7 +9107,7 @@
 9247	narrow plastic Your Brain of the cheetah	0		Initiative: +60
 9248	jittery shaking olive plastic Krampus	0		Item Drop: +5
 9249	modified Inner Wisdom	0		Effect: "Spookyravin'", Effect Duration: 28
-9250	improved moist Inner Strength	0		Effect: "The Style... of the Future", Effect Duration: 20
+9250	improved moist Inner Strength	0		Effect: "The Style...  of the Future", Effect Duration: 20
 9251	non-improved Inner Truth	0		Effect: "Boon of the War Snapper", Effect Duration: 68
 9252	spoiled spiritual candy cane	3	crappy	
 9253	hand-crafted weak huge spiritual eggnog	2	EPIC	

@@ -4849,7 +4849,7 @@
 4947	skewed Cobb's Knob Menagerie key	0		
 4948	GOTO	0		
 4949	double-frozen energized adjusted spinning weremoose spit	0		Effect: "Reptilian Fortitude", Effect Duration: 50
-4950	warmed alkaline abominable blubber	0		Effect: "The Wisdom... of the Future", Effect Duration: 15
+4950	warmed alkaline abominable blubber	0		Effect: "The Wisdom...  of the Future", Effect Duration: 15
 4951	asbestos-lined flimsy clipboard	0		Hot Resistance: +5, Damage Reduction: 3
 4952	energized spinning purple baggie of sugar	0		Effect: "Gunky Dory", Effect Duration: 18
 4953	huge narrow wicked whalebone corset of doom	0		Spell Damage: +5, Spooky Spell Damage: +50, Single Equip
@@ -5703,7 +5703,7 @@
 5805	flattened quadruple-magnetized spinning breath mint	0		Effect: "Puddingface", Effect Duration: 44
 5806	irradiated muesli	0		Effect: "Gamer Rage", Effect Duration: 53
 5807	ionized glass of warm milk	0		Effect: "Pasta Oneness", Effect Duration: 61
-5808	super-ionized ionized glass of gnat milk	0		Effect: "The Wisdom... of the Future", Effect Duration: 11
+5808	super-ionized ionized glass of gnat milk	0		Effect: "The Wisdom...  of the Future", Effect Duration: 11
 5809	extra-Vulcanized Knob Goblin Mutagen	0		Effect: "Chilblains of the Corn", Effect Duration: 16
 5810	ionized frozen Tears of the Quiet Healer	0		Effect: "Phorcefullness", Effect Duration: 43
 5811	non-Vulcanized tube of lipstick	0		Effect: "Egg on your Face", Effect Duration: 58
@@ -6252,7 +6252,7 @@
 6358	jittery purple Mer-kin darkbook	0		Skill: "Deep Dark Visions"
 6359	Mer-kin begsign of terror	0		Spooky Spell Damage: +10, Meat Drop: +40
 6360	Libram of Pulled Taffy	0		Free Pull
-6361	nitrogenated wet tarnished lime green pulled taffy	0		Effect: "The Style... of the Future", Effect Duration: 68
+6361	nitrogenated wet tarnished lime green pulled taffy	0		Effect: "The Style...  of the Future", Effect Duration: 68
 6362	frozen huge pulled indigo taffy	0		Effect: "Egg-cellent Vocabulary", Effect Duration: 54
 6363	cold-filtered shaking pulled taffy	0		Effect: "Transcendental Wind", Effect Duration: 51
 6364	activated moist jittery pulled taffy	0		Effect: "Berry Experiential", Effect Duration: 18
@@ -10268,7 +10268,7 @@
 10425	moldy enchanted twirling tempura and bean	4	crappy	Effect: "Feroci Tea", Effect Duration: 45
 10426	smooth salt plum sake	3	awesome	
 10427	unsweetened fuchsia pressurized potion of possessiveness	0		Effect: "Spiritually Awake", Effect Duration: 44
-10428	cold-filtered dry skewed almond	0		Effect: "The Style... of the Future", Effect Duration: 18
+10428	cold-filtered dry skewed almond	0		Effect: "The Style...  of the Future", Effect Duration: 18
 10429	altered handful of mixed nuts	0		Effect: "Chorale of Companionship", Effect Duration: 12
 10430	huge blinking gray nutcracking pliers	0		
 10431	Retrospecs try-at-home kit	0		Free Pull

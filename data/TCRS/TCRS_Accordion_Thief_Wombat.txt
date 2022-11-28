@@ -3519,7 +3519,7 @@
 3552	jittery executive crafty octopus's spade of chilblains	0		Maximum MP: +10, Cold Damage: +25, Meat Drop: +40
 3553	soggy seed packet	0		
 3554	glob of slime	0		
-3555	enchanted flavorless sea carrot	3	decent	Effect: "The Style... of the Future", Effect Duration: 30
+3555	enchanted flavorless sea carrot	3	decent	Effect: "The Style...  of the Future", Effect Duration: 30
 3556	decent fancy sea cucumber	4	good	Effect: "Gemini Rising", Effect Duration: 35
 3557	adequate sea avocado	4	good	
 3558	bland sea lychee	4	decent	
@@ -9687,7 +9687,7 @@
 9831	twisted scintillating oyster egg	1		Effect: "Coy to the Hurled", Effect Duration: 35
 9832	mixed blinking pearlescent oyster egg	1		
 9833	boiled jittery lustrous oyster egg	1		Effect: "Work For Hours a Week", Effect Duration: 30
-9834	denatured wobbly blinking gleaming oyster egg	1		Effect: "The Wisdom... of the Future", Effect Duration: 5
+9834	denatured wobbly blinking gleaming oyster egg	1		Effect: "The Wisdom...  of the Future", Effect Duration: 5
 9835	narrow FantasyRealm membership packet	0		Free Pull
 9836	shaking FantasyRealm guest pass	0		
 9837	fireproof educational FantasyRealm G. E. M. of doom	0		Experience: +1, Spooky Spell Damage: +50, Hot Resistance: +3, Lasts Until Rollover

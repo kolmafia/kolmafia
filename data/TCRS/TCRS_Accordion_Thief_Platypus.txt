@@ -419,7 +419,7 @@
 421	polarized philter of phorce	0		Effect: "Tingling Feeling", Effect Duration: 55
 422	non-altered boiled unsweetened blurry spinning potion of potency	0		Effect: "Springy Fusilli", Effect Duration: 13
 423	dry improved pulsating cordial of concentration	0		Effect: "Stench Jellied", Effect Duration: 31
-424	altered ointment of the occult	0		Effect: "The Wisdom... of the Future", Effect Duration: 62
+424	altered ointment of the occult	0		Effect: "The Wisdom...  of the Future", Effect Duration: 62
 425	tarnished oil of expertise	0		Effect: "Spell Transfer Complete", Effect Duration: 68
 426	concentrated wobbly potion of temporary gr8ness	0		Effect: "Moon-Eyed", Effect Duration: 55
 427	padded box	0		Damage Absorption: +20
@@ -5911,7 +5911,7 @@
 6014	hale screwing pooch	0		Maximum HP: +20
 6015	wet anodized narrow blurry orcish hand lotion	0		Effect: "Bilious Briskness", Effect Duration: 47
 6016	electrified tarnished orcish rubber	0		Effect: "Balls of Ectoplasm", Effect Duration: 53
-6017	double-Vulcanized ionized green orcish nailing lube	0		Effect: "The Wisdom... of the Future", Effect Duration: 50
+6017	double-Vulcanized ionized green orcish nailing lube	0		Effect: "The Wisdom...  of the Future", Effect Duration: 50
 6018	artisanal backwoods screwdriver	4	EPIC	
 6019	narrow squat Rosewater's loadstone	0		Mysticality Percent: +30
 6020	Tesla Claybender glasses of the pedagogue	0		Experience: +3, MP Regen Min: 7, MP Regen Max: 10, Single Equip
@@ -7353,7 +7353,7 @@
 7468	zippy scandalous flame-wreathed 8-billed baseball cap	0		Hot Spell Damage: +10, Sleaze Damage: +5, Initiative: +20
 7469	miser's Sherlock's vibrating extremely wet T-shirt	0		Maximum MP Percent: +10, Item Drop: +25, Meat Drop: +10
 7470	executive double-paned scorching shrimp fork	0		Hot Damage: +25, Cold Resistance: +5, Meat Drop: +40
-7471	ionized concentrated BROS Energy Drink	0		Effect: "The Wisdom... of the Future", Effect Duration: 39
+7471	ionized concentrated BROS Energy Drink	0		Effect: "The Wisdom...  of the Future", Effect Duration: 39
 7472	ionized go-go potion	0		Effect: "Corona de la Salsa", Effect Duration: 16
 7473	irradiated pickled skewed shrimp cocktail	0		Effect: "Updated", Effect Duration: 67
 7474	warmed spinning Yolo&trade; chocolates	0		Effect: "Amplified Fabulousness", Effect Duration: 40

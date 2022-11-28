@@ -6316,7 +6316,7 @@
 6425	twirling Official Seal of Dreadsylvania	0		
 6426	adequate Dreadsylvanian stew	3	good	
 6427	artisanal fuchsia Dreadsylvanian	3	EPIC	
-6428	cold-filtered dry skewed Dreadsylvanian flask	0		Effect: "The Style... of the Future", Effect Duration: 18
+6428	cold-filtered dry skewed Dreadsylvanian flask	0		Effect: "The Style...  of the Future", Effect Duration: 18
 6429	altered Dreadsylvanian flask	0		Effect: "Chorale of Companionship", Effect Duration: 12
 6430	huge blinking gray reassuring dreadful fedora of incineration	0		Hot Spell Damage: +50, Spooky Resistance: +1, Kruegerand Drop: 5
 6431	dreadful sweater of the detective	0		Item Drop: +20, Kruegerand Drop: 5
@@ -7314,7 +7314,7 @@
 7429	Beach Buck	0		
 7430	polarized colloidal Fun-Guy spore	0		Effect: "Electrolit Up", Effect Duration: 26
 7431	polymerized concentrated yellow Boletus Broletus mushroom	0		Effect: "Greasy Peasy", Effect Duration: 68
-7432	Vulcanized skewed Omphalotus Omphaloskepsis mushroom	0		Effect: "The Wisdom... of the Future", Effect Duration: 61
+7432	Vulcanized skewed Omphalotus Omphaloskepsis mushroom	0		Effect: "The Wisdom...  of the Future", Effect Duration: 61
 7433	super-altered chilled Gyromitra Dynomita mushroom	0		Effect: "Neuroplastici Tea", Effect Duration: 47
 7434	anodized wet ghostly Helvella Haemophilia mushroom	0		Effect: "Patent Avarice", Effect Duration: 42
 7435	aerosolized polarized Stemonitis Staticus mushroom	0		Effect: "Greasy Visage", Effect Duration: 60

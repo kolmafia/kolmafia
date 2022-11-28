@@ -2394,7 +2394,7 @@
 2420	adjusted electrified upside-down teeny-tiny magic scroll	0		Effect: "Balls of Ectoplasm", Effect Duration: 48
 2421	cold-filtered bottle of pirate juice	0		Effect: "Fungal Flambé", Effect Duration: 25
 2422	double-aerosolized boiled irradiated pet snacks	0		Effect: "Abyssal Blood", Effect Duration: 53
-2423	pressed diffused Mick's IcyVapoHotness Inhaler	0		Effect: "The Wisdom... of the Future", Effect Duration: 15
+2423	pressed diffused Mick's IcyVapoHotness Inhaler	0		Effect: "The Wisdom...  of the Future", Effect Duration: 15
 2424	wet cyan cyclops eyedrops	0		Effect: "Stinking Cloud", Effect Duration: 17
 2425	alkaline maroon can of spinach	0		Effect: "Memory of Resilience", Effect Duration: 38
 2426	pickled shaking fire flower	0		Effect: "Greedy Resolve", Effect Duration: 19
@@ -4204,7 +4204,7 @@
 4253	nitrogenated olive potion of speed	0		Effect: "Gummiskin", Effect Duration: 66
 4254	pulsating bark	0		
 4255	Wolfman Nardz	0		
-4256	concentrated galvanized squat sap	0		Effect: "The Style... of the Future", Effect Duration: 26
+4256	concentrated galvanized squat sap	0		Effect: "The Style...  of the Future", Effect Duration: 26
 4257	bouncing petrified wood	0		
 4258	rotten shaking olive chocolate-covered scarab beetle	3	crappy	
 4259	tolerable mulled cider	4	good	

@@ -5787,7 +5787,7 @@
 5889	auxiliary backbone of the bloodbag	0		Maximum HP: +100
 5890	bouncing skulldozer egg	0		
 5891	ribcage rollcage	0		Familiar Weight: +5
-5892	altered frozen upside-down that gum you like	0		Effect: "The Style... of the Future", Effect Duration: 42
+5892	altered frozen upside-down that gum you like	0		Effect: "The Style...  of the Future", Effect Duration: 42
 5893	dreaming Jung man	0		Free Pull
 5894	jittery Little Crimson Book	0		Familiar Weight: +5
 5895	avatar of the Unconscious Collective	0		Free Pull
@@ -6083,7 +6083,7 @@
 6188	decent big consummate bagel	5	good	
 6189	special rotten small consummate sliced bread	2	crappy	Effect: "Livin' Large", Effect Duration: 30
 6190	snack-sized stale upside-down consummate hot dog bun	2	decent	
-6191	miniature fancy stale consummate brownie	2	decent	Effect: "The Wisdom... of the Future", Effect Duration: 5
+6191	miniature fancy stale consummate brownie	2	decent	Effect: "The Wisdom...  of the Future", Effect Duration: 5
 6192	snack-sized flavorless consummate toast	2	decent	
 6193	bad weak passable stout	2	decent	
 6194	gigantic bland huge consummate soup	10	decent	
@@ -7316,7 +7316,7 @@
 7431	nitrogenated chilled Boletus Broletus mushroom	0		Effect: "Empathy", Effect Duration: 62
 7432	galvanized Omphalotus Omphaloskepsis mushroom	0		Effect: "Hombre Muerto Caminando", Effect Duration: 20
 7433	altered bouncing Gyromitra Dynomita mushroom	0		Effect: "L'instinct F&eacute;lin", Effect Duration: 31
-7434	nitrogenated cyan Helvella Haemophilia mushroom	0		Effect: "The Style... of the Future", Effect Duration: 25
+7434	nitrogenated cyan Helvella Haemophilia mushroom	0		Effect: "The Style...  of the Future", Effect Duration: 25
 7435	dry modified pulsating Stemonitis Staticus mushroom	0		Effect: "Petit Forbearance", Effect Duration: 34
 7436	cold-filtered denatured Tremella Tarantella mushroom	0		Effect: "Neutered Nostrils", Effect Duration: 33
 7437	Pastaco shell	0		
@@ -10500,7 +10500,7 @@
 10661	groovy SalesCo sample kit	0		Moxie Percent: [+10*event(December)]
 10662	deionized unsweetened candy harmonica	0		Effect: "Weird Flavor", Effect Duration: 48
 10663	alkaline Vulcanized narrow sugar	0		Effect: "Greedy Resolve", Effect Duration: 63
-10664	denatured non-dry multi-level marzipan	0		Effect: "The Wisdom... of the Future", Effect Duration: 36
+10664	denatured non-dry multi-level marzipan	0		Effect: "The Wisdom...  of the Future", Effect Duration: 36
 10665	thinker's plastic Crimbo caroler	0		Mysticality: +10
 10666	twirling healthy plastic multi-level marketer	0		Maximum HP Percent: +20
 10667	extremely unsafe plastic Crimbo cheer	0		Weapon Damage Percent: +100

@@ -8504,7 +8504,7 @@
 8638	skewed wool manspreader's wizardly Royal scepter	0		Mysticality: +25, Monster Level: +10, Cold Resistance: +1
 8639	doghouse	0		Free Pull
 8640	Ghost Dog Chow	0		
-8641	stale enchanted bowl of eyeballs	3	decent	Effect: "The Wisdom... of the Future", Effect Duration: 25
+8641	stale enchanted bowl of eyeballs	3	decent	Effect: "The Wisdom...  of the Future", Effect Duration: 25
 8642	toothsome bowl of mummy guts	3	awesome	
 8643	moldy bowl of maggots	3	crappy	
 8644	acceptable weak blurry blood and blood	2	good	

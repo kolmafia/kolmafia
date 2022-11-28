@@ -7359,7 +7359,7 @@
 7474	super-flattened jittery Yolo&trade; chocolates	0		Effect: "Heart of Yellow", Effect Duration: 57
 7475	red hardy string of moist beads	0		Maximum HP: +50
 7476	Ultimate Mind Destroyer	0		
-7477	pressed modified Meat-inflating powder	0		Effect: "The Wisdom... of the Future", Effect Duration: 61
+7477	pressed modified Meat-inflating powder	0		Effect: "The Wisdom...  of the Future", Effect Duration: 61
 7478	upside-down possessed sugar cube	0		
 7479	colloidal electrified bouncing olive sugar fairy	0		Effect: "Tingly Elbows", Effect Duration: 38
 7480	tarnished enhanced sugar bunny	0		Effect: "Cringle's Curative Carol", Effect Duration: 27
@@ -7532,7 +7532,7 @@
 7647	narrow aquaconda brain	0		
 7648	thunder thigh	0		
 7649	ionized gourmet gourami oil	0		Effect: "Orchid Blood", Effect Duration: 15
-7650	colloidal polarized catfish whiskers	0		Effect: "The Style... of the Future", Effect Duration: 23
+7650	colloidal polarized catfish whiskers	0		Effect: "The Style...  of the Future", Effect Duration: 23
 7651	gray freshwater fishbone	0		
 7652	fishbone catcher's mitt	0		
 7653	tumbling fishbone kneepads	0		Initiative: +60, Single Equip

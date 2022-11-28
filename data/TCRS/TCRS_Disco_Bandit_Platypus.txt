@@ -421,7 +421,7 @@
 423	denatured triple-dry modified narrow cordial of concentration	0		Effect: "Aloysius' Antiphon of Aptitude", Effect Duration: 34
 424	polymerized wet chilled ointment of the occult	0		Effect: "Superhuman Sarcasm", Effect Duration: 58
 425	corrupted polarized oil of expertise	0		Effect: "Moose Wisdom", Effect Duration: 14
-426	concentrated denatured activated purple potion of temporary gr8ness	0		Effect: "The Wisdom... of the Future", Effect Duration: 31
+426	concentrated denatured activated purple potion of temporary gr8ness	0		Effect: "The Wisdom...  of the Future", Effect Duration: 31
 427	wicked box	0		Spell Damage: +5
 428	narrow squat nothing-in-the-box	0		
 429	beanbag chair	0		
@@ -2395,7 +2395,7 @@
 2421	polarized bottle of pirate juice	0		Effect: "Tingling Feeling", Effect Duration: 55
 2422	non-altered boiled unsweetened blurry spinning irradiated pet snacks	0		Effect: "Springy Fusilli", Effect Duration: 13
 2423	dry improved pulsating Mick's IcyVapoHotness Inhaler	0		Effect: "Stench Jellied", Effect Duration: 31
-2424	altered cyclops eyedrops	0		Effect: "The Wisdom... of the Future", Effect Duration: 62
+2424	altered cyclops eyedrops	0		Effect: "The Wisdom...  of the Future", Effect Duration: 62
 2425	tarnished can of spinach	0		Effect: "Spell Transfer Complete", Effect Duration: 68
 2426	concentrated wobbly fire flower	0		Effect: "Moon-Eyed", Effect Duration: 55
 2427	anodized moist freezerburned ice cube	0		Effect: "Spooky Blur", Effect Duration: 58
@@ -2651,7 +2651,7 @@
 2678	cyan spectre scepter	0		
 2679	tarnished mirror sparkler	0		Effect: "Belch the Rainbow&trade;", Effect Duration: 29
 2680	non-activated energized snake	0		Effect: "Fever From the Flavor", Effect Duration: 55
-2681	liquefied dry purple pulsating M-242	0		Effect: "The Wisdom... of the Future", Effect Duration: 21
+2681	liquefied dry purple pulsating M-242	0		Effect: "The Wisdom...  of the Future", Effect Duration: 21
 2682	detuned radio	0		
 2683	Warehouse 23 crate	0		
 2684	occult brainy armgun	0		Mysticality: +5, Spell Damage Percent: +25
@@ -3441,7 +3441,7 @@
 3474	super-flattened jittery cranberry cordial	0		Effect: "Heart of Yellow", Effect Duration: 57
 3475	nitrogenated red blackberry polite	0		Effect: "Antarctic Memories", Effect Duration: 40
 3476	dry plum lozenge	0		Effect: "Bananas!", Effect Duration: 51
-3477	pressed modified pear lozenge	0		Effect: "The Wisdom... of the Future", Effect Duration: 61
+3477	pressed modified pear lozenge	0		Effect: "The Wisdom...  of the Future", Effect Duration: 61
 3478	deionized unsweetened upside-down peach lozenge	0		Effect: "Robocamo", Effect Duration: 55
 3479	bouncing olive balloon shield	0		Damage Reduction: 3
 3480	spot	0		
@@ -6447,7 +6447,7 @@
 6557	super-boiled blinking phial of coldness	0		Effect: "Elbow Sauce", Effect Duration: 21
 6558	enhanced liquefied cyan phial of spookiness	0		Effect: "Black Eyes", Effect Duration: 28
 6559	deionized boiled blinking phial of stench	0		Effect: "Penguinny Flavor", Effect Duration: 11
-6560	concentrated wet huge phial of sleaziness	0		Effect: "The Style... of the Future", Effect Duration: 13
+6560	concentrated wet huge phial of sleaziness	0		Effect: "The Style...  of the Future", Effect Duration: 13
 6561	adventurer clone egg	0		Free Pull
 6562	mini-Mr. Accessory	0		Familiar Weight: +5
 6563	smartaleck's hand of Mr. Cards	0		Moxie Percent: +30
@@ -7892,7 +7892,7 @@
 8014	Crimbot ROM: Mathematical Precision (dirty)	0		Skill: "Mathematical Precision"
 8015	narrow blurry Crimbot ROM: Ruthless Efficiency (dirty)	0		Skill: "Ruthless Efficiency"
 8016	electrified tarnished fitness wristband	0		Effect: "Balls of Ectoplasm", Effect Duration: 53
-8017	double-Vulcanized ionized green flask of tainted mining oil	0		Effect: "The Wisdom... of the Future", Effect Duration: 50
+8017	double-Vulcanized ionized green flask of tainted mining oil	0		Effect: "The Wisdom...  of the Future", Effect Duration: 50
 8018	alkaline and rain stick	0		Effect: "Tingly Biceps", Effect Duration: 41
 8019	narrow squat Chateau Mantegna room key	0		Free Pull
 8020	moldy miniature Choco-Mint patty	2	crappy	
@@ -9922,7 +9922,7 @@
 10068	extra-dry delicious hot watered rum	5	awesome	
 10069	hand-crafted narrow bottle of Crimbognac	4	EPIC	
 10070	adequate Crimboysters Rockefeller	4	good	
-10071	compressed Crimbeau de toilette	1		Effect: "The Wisdom... of the Future", Effect Duration: 5
+10071	compressed Crimbeau de toilette	1		Effect: "The Wisdom...  of the Future", Effect Duration: 5
 10072	Crimbo candle	0		
 10073	gray Carol of the Bulls	0		Skill: "Carol of the Bulls"
 10075	Carol of the Hells	0		Skill: "Carol of the Hells"

@@ -2634,7 +2634,7 @@
 2661	smooth flask of Amontillado	3	awesome	
 2662	Van der Graaf ball mask	0		MP Regen Min: 5, MP Regen Max: 7
 2663	narrow careful Can-Can skirt	0		Monster Level: -10
-2664	denatured non-dry sensitive poetry journal	0		Effect: "The Wisdom... of the Future", Effect Duration: 36
+2664	denatured non-dry sensitive poetry journal	0		Effect: "The Wisdom...  of the Future", Effect Duration: 36
 2665	non-warmed flattened jittery bottled inspiration	0		Effect: "Big", Effect Duration: 40
 2666	modified ionized twirling bellhop bell	0		Effect: "Disco Inferno", Effect Duration: 30
 2667	aerosolized energized blinking spiky collar	0		Effect: "Night Vision", Effect Duration: 58
@@ -5734,7 +5734,7 @@
 5836	activated ghostly embezzler's oil	0		Effect: "Fan-Cooled", Effect Duration: 39
 5837	ionized unsweetened jittery Fu Manchu Wax	0		Effect: "Mighty Shout", Effect Duration: 16
 5838	corrupted electrified Iiti Kitty Gumdrop	0		Effect: "Floundering", Effect Duration: 13
-5839	boiled dry pulsating ravenous eye	0		Effect: "The Style... of the Future", Effect Duration: 45
+5839	boiled dry pulsating ravenous eye	0		Effect: "The Style...  of the Future", Effect Duration: 45
 5840	alkaline gray huge skewed Rogue Windmill Rouge	0		Effect: "Third Based", Effect Duration: 62
 5841	colloidal tarnished polarized A muse-bouche	0		Effect: "In the Slimelight", Effect Duration: 26
 5842	double-warmed liquefied narrow toothbrush	0		Effect: "The Living Hitpoints", Effect Duration: 42
@@ -6269,7 +6269,7 @@
 6378	narrow eraser nubbin	0		
 6379	chlorine crystal	0		
 6380	wet flattened oxidized ph balancer	0		Effect: "Beta Carotene Overdose", Effect Duration: 42
-6381	aerosolized mysterious chemical residue	0		Effect: "The Style... of the Future", Effect Duration: 66
+6381	aerosolized mysterious chemical residue	0		Effect: "The Style...  of the Future", Effect Duration: 66
 6382	squat nugget of sodium	0		
 6383	root beer	1	decent	
 6384	jigsaw blade	0		
@@ -8174,7 +8174,7 @@
 8305	shaking pumps	0		
 8306	quadruple-denatured altered sludgesicle	0		Effect: "Norwhalloped", Effect Duration: 61
 8307	cold-filtered blue &Uuml;berraschthexengebr&auml;u	0		Effect: "Eye of the Seal", Effect Duration: 27
-8308	galvanized upside-down piggy tattoo	0		Effect: "The Style... of the Future", Effect Duration: 35
+8308	galvanized upside-down piggy tattoo	0		Effect: "The Style...  of the Future", Effect Duration: 35
 8309	double-flattened baggie of regular-sized tardigrades	0		Effect: "You Read The Manual", Effect Duration: 51
 8310	tarnished oxidized bouncing .epub file	0		Effect: "Turtle Power", Effect Duration: 54
 8311	concentrated irradiated triple-cold-filtered BUBBLE GUM	0		Effect: "Disdain of the War Snapper", Effect Duration: 31
@@ -8472,7 +8472,7 @@
 8605	modified squat purple cuppa Improprie tea	0		Effect: "Curse of the Black Pearl Onion", Effect Duration: 52
 8606	triple-cold-filtered cuppa Frost tea	0		Effect: "Hopped Up on Goofballs", Effect Duration: 34
 8607	altered cuppa Toast tea	0		Effect: "Hoity Toity", Effect Duration: 57
-8608	galvanized galvanized cuppa Net tea	0		Effect: "The Wisdom... of the Future", Effect Duration: 42
+8608	galvanized galvanized cuppa Net tea	0		Effect: "The Wisdom...  of the Future", Effect Duration: 42
 8609	ionized cuppa Proprie tea	0		Effect: "Mint-Condition Breath", Effect Duration: 56
 8610	deionized spinning cuppa Morbidi tea	0		Effect: "Radiant Personality", Effect Duration: 59
 8611	galvanized narrow cuppa Chari tea	0		Effect: "Cosmic Flavor", Effect Duration: 58
@@ -10491,7 +10491,7 @@
 10652	subscription cocoa dispenser	0		
 10653	liquefied deionized maroon fortifying hot cocoa	0		Effect: "Abyssal Blood", Effect Duration: 43
 10654	unsweetened super-magnetized boiling hot cocoa	0		Effect: "Riboflavin'", Effect Duration: 62
-10655	adjusted chilled cool hot cocoa	0		Effect: "The Wisdom... of the Future", Effect Duration: 13
+10655	adjusted chilled cool hot cocoa	0		Effect: "The Wisdom...  of the Future", Effect Duration: 13
 10656	energized twirling overly-fancy hot cocoa	0		Effect: "Pwnd", Effect Duration: 50
 10657	quadruple-activated fuchsia hot cocoa au beurre	0		Effect: "Influence of Sphere", Effect Duration: 38
 10658	tarnished pressed lime green hot cocoa with rainbow marshmallows	0		Effect: "Walberg's Dim Bulb", Effect Duration: 33

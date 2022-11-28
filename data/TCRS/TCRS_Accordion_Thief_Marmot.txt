@@ -895,7 +895,7 @@
 904	knitted scandalous school Mafia knickerbockers of Tarzan	0		Experience (Muscle): +3, Sleaze Damage: +5, Cold Resistance: +3
 905	moist vacuum-sealed teal Yummy Tummy bean	0		Effect: "Vitamin-Maxed", Effect Duration: 47
 906	anodized super-corrupted narrow blurry Rock Pops	0		Effect: "Deadly Lampblade", Effect Duration: 50
-907	irradiated jittery Mr. Mediocrebar	0		Effect: "The Style... of the Future", Effect Duration: 67
+907	irradiated jittery Mr. Mediocrebar	0		Effect: "The Style...  of the Future", Effect Duration: 67
 908	galvanized wet Cold Hots candy	0		Effect: "Toothy Grin", Effect Duration: 53
 909	polarized warmed pressed Wint-O-Fresh mint	0		Effect: "Cat Class, Cat Style", Effect Duration: 68
 910	normal dwarf bread	3	good	
@@ -1532,7 +1532,7 @@
 1552	high-proof artisanal bottle of Definit	10	EPIC	
 1553	tolerable practically non-alcoholic bottle of Calcutta Emerald	1	good	
 1554	lousy bottle of Lieutenant Freeman	4	decent	
-1555	acceptable weak special tumbling bottle of Jorge Sinsonte	2	good	Effect: "The Style... of the Future", Effect Duration: 50
+1555	acceptable weak special tumbling bottle of Jorge Sinsonte	2	good	Effect: "The Style...  of the Future", Effect Duration: 50
 1556	triple-distilled perfectly mixed boxed champagne	7	EPIC	
 1557	stale huge shaking huge kumquat	7	decent	
 1558	bland tangerine	3	decent	
@@ -4691,7 +4691,7 @@
 4744	moist PlexiPips	0		Effect: "Stop the Presses!", Effect Duration: 21
 4745	nitrogenated vacuum-sealed Wax Flask	0		Effect: "Oxygenated Blood", Effect Duration: 19
 4746	altered electrified Pain Dip	0		Effect: "Night Vision", Effect Duration: 62
-4747	stale diet special bone meal	1	decent	Effect: "The Wisdom... of the Future", Effect Duration: 15
+4747	stale diet special bone meal	1	decent	Effect: "The Wisdom...  of the Future", Effect Duration: 15
 4748	bad bone aperitif	3	decent	
 4749	twirling aromatic bonerang	0		Stench Resistance: +1
 4750	fortified bone and arrows	0		Damage Absorption: +60
@@ -5315,7 +5315,7 @@
 5413	candycaine powder	0		
 5414	huge licorice boa	0		Familiar Weight: +5
 5415	unsweetened mirror licorice root	0		Effect: "Quantum of Moxie", Effect Duration: 41
-5416	chilled non-corrupted ghostly jittery banana supersucker	0		Effect: "The Style... of the Future", Effect Duration: 38
+5416	chilled non-corrupted ghostly jittery banana supersucker	0		Effect: "The Style...  of the Future", Effect Duration: 38
 5417	improved wobbly pear supersucker	0		Effect: "New and Improved", Effect Duration: 21
 5418	denatured energized lime supersucker	0		Effect: "Slimed Stomach", Effect Duration: 36
 5419	galvanized quadruple-tarnished kumquat supersucker	0		Effect: "Spiro Gyro", Effect Duration: 56

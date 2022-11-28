@@ -5733,7 +5733,7 @@
 5835	electrified alkaline scrunchie tourniquet	0		Effect: "Bone Chilling", Effect Duration: 57
 5836	modified ionized embezzler's oil	0		Effect: "[800]Chocolate Reign", Effect Duration: 50
 5837	super-chilled Fu Manchu Wax	0		Effect: "Whole Latte Love", Effect Duration: 68
-5838	warmed wobbly Iiti Kitty Gumdrop	0		Effect: "The Wisdom... of the Future", Effect Duration: 67
+5838	warmed wobbly Iiti Kitty Gumdrop	0		Effect: "The Wisdom...  of the Future", Effect Duration: 67
 5839	pickled modified cyan ravenous eye	0		Effect: "Egged On", Effect Duration: 50
 5840	enhanced pulsating Rogue Windmill Rouge	0		Effect: "20/20 Vision", Effect Duration: 20
 5841	oxidized oxidized modified huge A muse-bouche	0		Effect: "All Is Forgiven", Effect Duration: 43
@@ -8472,7 +8472,7 @@
 8606	unsweetened colloidal cyan cuppa Frost tea	0		Effect: "Spooky Weapon", Effect Duration: 47
 8607	polarized quadruple-altered cuppa Toast tea	0		Effect: "Steroid Boost", Effect Duration: 38
 8608	polymerized altered cuppa Net tea	0		Effect: "Sweet, Nuts", Effect Duration: 59
-8609	corrupted oxidized warmed ghostly cuppa Proprie tea	0		Effect: "The Style... of the Future", Effect Duration: 63
+8609	corrupted oxidized warmed ghostly cuppa Proprie tea	0		Effect: "The Style...  of the Future", Effect Duration: 63
 8610	boiled unsweetened galvanized yellow cuppa Morbidi tea	0		Effect: "Elron's Explosive Etude", Effect Duration: 37
 8611	activated pressed adjusted huge cuppa Chari tea	0		Effect: "Booing Radly", Effect Duration: 42
 8612	polarized Vulcanized cuppa Serendipi tea	0		Effect: "Buff as a Baobab", Effect Duration: 59
@@ -9951,7 +9951,7 @@
 10101	blue Usain Bolt's pendant of chilblains	0		Cold Damage: +25, Initiative: +80, Single Equip
 10102	mirror ribald thinker's palazzos	0		Mysticality: +10, Sleaze Damage: +10
 10103	red mansplainer's healthy pseudoaccordion	0		Maximum HP Percent: +20, Monster Level: +15, Song Duration: 5
-10104	diluted upside-down pieces	1		Effect: "The Wisdom... of the Future", Effect Duration: 20
+10104	diluted upside-down pieces	1		Effect: "The Wisdom...  of the Future", Effect Duration: 20
 10105	energized yellow Para-Pop	0		Effect: "Berry Critical", Effect Duration: 69
 10106	scandalous deadly terra cotta truss	0		Weapon Damage: +5, Sleaze Damage: +5, Single Equip
 10107	wobbly nippy quilted terra cotta trousers	0		Damage Absorption: +40, Cold Damage: +10
@@ -10114,7 +10114,7 @@
 10266	pressed spinning magenta seashell	0		Effect: "Familial Ties", Effect Duration: 29
 10267	corrupted magnetized cyan seashell	0		Effect: "Cool Spirit", Effect Duration: 57
 10268	liquefied polarized green gray seashell	0		Effect: "Spiky Frozen Hair", Effect Duration: 15
-10269	irradiated seashell	0		Effect: "The Style... of the Future", Effect Duration: 31
+10269	irradiated seashell	0		Effect: "The Style...  of the Future", Effect Duration: 31
 10270	polarized galvanized blurry seashell	0		Effect: "Happy Trails", Effect Duration: 31
 10271	bunch of sea grapes	0		
 10272	hand-crafted bottle of sea wine	4	EPIC	

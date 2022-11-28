@@ -5116,7 +5116,7 @@
 5214	boiled wobbly slimy paste	1	decent	Effect: "Mushroom Magicalness", Effect Duration: 35
 5215	denatured huge ghostly fuchsia penguin paste	1	decent	
 5216	boiled blinking elemental paste	1	EPIC	Effect: "Cool Spirit", Effect Duration: 25
-5217	twisted yellow cosmic paste	1	EPIC	Effect: "The Wisdom... of the Future", Effect Duration: 35
+5217	twisted yellow cosmic paste	1	EPIC	Effect: "The Wisdom...  of the Future", Effect Duration: 35
 5218	dried upside-down hobo paste	1	decent	
 5219	dehydrated Crimbo paste	1	EPIC	Effect: "Once Bitten Twice Fried", Effect Duration: 25
 5220	Teachings of the Fist	0		
@@ -8286,7 +8286,7 @@
 8417	decent Mt. McLargeHuge oyster	3	good	
 8418	oyster sauce	0		
 8419	flavorless linguini immondizia bianco	3	decent	
-8420	moldy enchanted yellow shells a la shellfish	4	crappy	Effect: "The Wisdom... of the Future", Effect Duration: 25
+8420	moldy enchanted yellow shells a la shellfish	4	crappy	Effect: "The Wisdom...  of the Future", Effect Duration: 25
 8421	upside-down Jick's autograph	0		
 8422	high-temperature mining drill	0		
 8423	huge unsmoothed velvet	0		
@@ -8428,7 +8428,7 @@
 8560	polarized activated oxidized twirling Aerheads	0		Effect: "Slimily Speedy", Effect Duration: 50
 8561	magnetized colloidal Wrotz	0		Effect: "Eyes of the Dragon", Effect Duration: 54
 8562	moist altered bouncing narrow Gabarbar	0		Effect: "Trufflin'", Effect Duration: 23
-8563	denatured fiberglass insulation	0		Effect: "The Wisdom... of the Future", Effect Duration: 57
+8563	denatured fiberglass insulation	0		Effect: "The Wisdom...  of the Future", Effect Duration: 57
 8564	shrine to the Barrel god	0		Free Pull
 8565	miser's barrel lid of the empath of the businessman	0		Familiar Weight: +5, Meat Drop: 60, Damage Reduction: 9, Lasts Until Rollover
 8566	smelly sizzling Herculean barrel hoop earring	0		Experience (Muscle): +1, Hot Damage: +10, Stench Spell Damage: +10, Lasts Until Rollover
@@ -9410,7 +9410,7 @@
 9549	normal Hide-rox&trade; cookie	4	good	
 9550	artisanal jug of booze	3	EPIC	
 9551	energized moist pair of candy glasses	0		Effect: "Newt Gets In Your Eyes", Effect Duration: 41
-9552	enhanced vacuum-sealed temporary X tattoos	0		Effect: "The Wisdom... of the Future", Effect Duration: 38
+9552	enhanced vacuum-sealed temporary X tattoos	0		Effect: "The Wisdom...  of the Future", Effect Duration: 38
 9553	altered lime green glyph of athleticism	1		Effect: "Dreadful Smell", Effect Duration: 5
 9554	pair of scissors	0		
 9555	extra-polarized new habit	0		Effect: "Bricked-In", Effect Duration: 44
@@ -10578,7 +10578,7 @@
 10740	denatured shaking battery (AA)	0		Effect: "Virgo Rising", Effect Duration: 25
 10741	warmed narrow gray battery (D)	0		Effect: "Wreathed in Merriment", Effect Duration: 68
 10742	oxidized deionized irradiated battery (9-Volt)	0		Effect: "Fancy Feasted", Effect Duration: 26
-10743	altered battery (lantern)	0		Effect: "The Style... of the Future", Effect Duration: 23
+10743	altered battery (lantern)	0		Effect: "The Style...  of the Future", Effect Duration: 23
 10744	altered alkaline red battery (car)	0		Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 56
 10746	marshmallow	0		
 10747	practically non-alcoholic tolerable yellow marshmallow bomb	1	good	

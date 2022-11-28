@@ -7893,7 +7893,7 @@
 8015	mirror purple Crimbot ROM: Ruthless Efficiency (dirty)	0		Skill: "Ruthless Efficiency"
 8016	ionized narrow fitness wristband	0		Effect: "Mariachi Mood", Effect Duration: 11
 8017	nitrogenated polarized green flask of tainted mining oil	0		Effect: "Norwhalloped", Effect Duration: 57
-8018	super-energized polarized and rain stick	0		Effect: "The Wisdom... of the Future", Effect Duration: 60
+8018	super-energized polarized and rain stick	0		Effect: "The Wisdom...  of the Future", Effect Duration: 60
 8019	Chateau Mantegna room key	0		Free Pull
 8020	yummy fancy snack-sized Choco-Mint patty	2	awesome	Effect: "Make Meat FA$T!", Effect Duration: 15
 8021	fancy perfectly mixed hot mint schnocolate	3	EPIC	Effect: "Punchy, Murdery", Effect Duration: 5
@@ -9185,7 +9185,7 @@
 9323	twirling teal skewed LOV Enamorang	0		
 9324	yellow LOV Emotionizer	0		
 9325	LOV Extraterrestrial Chocolate	0		
-9326	dried mirror LOV Echinacea Bouquet	1		Effect: "The Wisdom... of the Future", Effect Duration: 15
+9326	dried mirror LOV Echinacea Bouquet	1		Effect: "The Wisdom...  of the Future", Effect Duration: 15
 9327	jittery LOV Elephant of the sewer	0		Stench Damage: +25, Damage Reduction: 6
 9328	upside-down eldritch scanner of the sewer	0		Stench Damage: +25
 9329	alkaline warmed bouncing tumbling eldritch alignment spray	0		Effect: "Taurus Rising", Effect Duration: 51

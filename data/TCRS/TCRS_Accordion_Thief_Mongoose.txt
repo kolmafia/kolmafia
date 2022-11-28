@@ -9410,7 +9410,7 @@
 9549	stale Hide-rox&trade; cookie	3	decent	
 9550	smooth jug of booze	3	awesome	
 9551	concentrated improved activated pair of candy glasses	0		Effect: "Fungal Fortification", Effect Duration: 29
-9552	super-concentrated extra-colloidal temporary X tattoos	0		Effect: "The Wisdom... of the Future", Effect Duration: 55
+9552	super-concentrated extra-colloidal temporary X tattoos	0		Effect: "The Wisdom...  of the Future", Effect Duration: 55
 9553	diluted glyph of athleticism	1		Effect: "Impregnabili Tea", Effect Duration: 50
 9554	pair of scissors	0		
 9555	anodized quadruple-tarnished mirror tumbling cyan new habit	0		Effect: "Salamander In Your Stomach", Effect Duration: 57
@@ -10415,7 +10415,7 @@
 10575	drippy candy bar	0		
 10576	cold-filtered boiled ghostly salty drippy candy bar	0		Effect: "So Fresh and So Clean", Effect Duration: 56
 10577	alkaline oxidized energized blurry cyan writhing drippy candy bar	0		Effect: "Fishy", Effect Duration: 29
-10578	quantum gooey drippy candy bar	0		Effect: "The Wisdom... of the Future", Effect Duration: 66
+10578	quantum gooey drippy candy bar	0		Effect: "The Wisdom...  of the Future", Effect Duration: 66
 10579	baby camelCalf	0		Free Pull
 10580	dromedary drinking helmet	0		
 10581	packaged SpinMaster&trade; lathe	0		Free Pull

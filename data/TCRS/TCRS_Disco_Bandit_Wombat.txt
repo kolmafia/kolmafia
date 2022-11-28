@@ -4452,7 +4452,7 @@
 4505	quadruple-dry huge Northern pemmican	0		Effect: "Grumpy and Ornery", Effect Duration: 53
 4506	maroon puzzling ribbon	0		
 4507	Clan looking glass	0		Free Pull
-4508	ionized &quot;DRINK ME&quot; potion	0		Effect: "The Wisdom... of the Future", Effect Duration: 14
+4508	ionized &quot;DRINK ME&quot; potion	0		Effect: "The Wisdom...  of the Future", Effect Duration: 14
 4509	reflection of a map	0		
 4510	flavorless walrus ice cream	3	decent	
 4511	decent blinking beautiful soup	3	good	
@@ -6720,7 +6720,7 @@
 6835	ionized non-anodized bag of W&Ws	0		Effect: "Quaaaaaaa", Effect Duration: 65
 6836	galvanized double-adjusted PEEZ dispenser	0		Effect: "Vitali Tea", Effect Duration: 22
 6837	anodized galvanized Swizzler	0		Effect: "A Taste of Rainbow", Effect Duration: 56
-6838	oxidized pickled Bugbearclaw Donut	0		Effect: "The Style... of the Future", Effect Duration: 30
+6838	oxidized pickled Bugbearclaw Donut	0		Effect: "The Style...  of the Future", Effect Duration: 30
 6839	dry aerosolized blurry jam	0		Effect: "Fangs and Pangs", Effect Duration: 68
 6840	liquefied blue shaking Whenchamacallit bar	0		Effect: "Bonelording", Effect Duration: 64
 6841	extra-corrupted 8-bit banana	0		Effect: "Hairless and Airless", Effect Duration: 32
@@ -7430,7 +7430,7 @@
 7546	mansplainer's space needle of Calamity Jane	0		Critical Hit Percent: +15, Monster Level: +15
 7547	polarized ionized dry blurry buffed alien drugs	0		Effect: "The Power of Positive Thinking", Effect Duration: 18
 7548	hot ashes	0		
-7549	wet colloidal narrow ash soda	0		Effect: "The Wisdom... of the Future", Effect Duration: 30
+7549	wet colloidal narrow ash soda	0		Effect: "The Wisdom...  of the Future", Effect Duration: 30
 7550	dry liquid smoke	0		Effect: "Riboflavin'", Effect Duration: 13
 7551	oxidized quantum modified dollop of barbecue sauce	0		Effect: "Jittery", Effect Duration: 16
 7552	pressed blurry bowl of marinade	0		Effect: "Tea-hee", Effect Duration: 69

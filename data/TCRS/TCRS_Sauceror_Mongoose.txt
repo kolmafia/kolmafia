@@ -4112,7 +4112,7 @@
 4161	moldy immense blinking pulsating rocky road ice cream	6	crappy	
 4162	tumbling extra-strength rubber bands	0		Familiar Weight: +5
 4163	non-tarnished dry double-activated children of the candy corn	0		Effect: "In the Slimelight", Effect Duration: 68
-4164	galvanized twirling Good 'n' Slimy	0		Effect: "The Wisdom... of the Future", Effect Duration: 44
+4164	galvanized twirling Good 'n' Slimy	0		Effect: "The Wisdom...  of the Future", Effect Duration: 44
 4165	gray tumbling toasty ruddy Staff of the Soupbone of Calamity Jane	0		Maximum HP Percent: +40, Critical Hit Percent: +15, Hot Damage: +5
 4166	Voluminous Radio Pants of Leguizamo	0		Monster Level: +20
 4167	pulsating huge hardened Voluminous Radio Hat	0		Damage Reduction: 3
@@ -7434,7 +7434,7 @@
 7549	boiled shaking ash soda	0		Effect: "Creepin' Up on You", Effect Duration: 30
 7550	triple-activated liquid smoke	0		Effect: "Sugary Tongue", Effect Duration: 33
 7551	energized moist dollop of barbecue sauce	0		Effect: "Newt Gets In Your Eyes", Effect Duration: 41
-7552	enhanced vacuum-sealed bowl of marinade	0		Effect: "The Wisdom... of the Future", Effect Duration: 38
+7552	enhanced vacuum-sealed bowl of marinade	0		Effect: "The Wisdom...  of the Future", Effect Duration: 38
 7553	shaker of dry rub	0		
 7554	double-moist bottle of lighter fluid	0		Effect: "Human-Beast Hybrid", Effect Duration: 29
 7555	page	0		
@@ -8607,7 +8607,7 @@
 8740	hand-crafted perfect mimosa	3	EPIC	
 8741	enchanted lousy jittery perfect old-fashioned	4	decent	Effect: "Cold, Dead Hands", Effect Duration: 15
 8742	lousy watered-down special perfect paloma	2	decent	Effect: "Cranberry Cordiality", Effect Duration: 50
-8743	altered That 70s Cologne	0		Effect: "The Style... of the Future", Effect Duration: 23
+8743	altered That 70s Cologne	0		Effect: "The Style...  of the Future", Effect Duration: 23
 8744	altered alkaline red Wal-Mart &quot;diamond&quot; ring	0		Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 56
 8745	extra-galvanized pulsating huge Puffstone cigar	0		Effect: "Amorous", Effect Duration: 19
 8746	warmed irradiated narrow upside-down Conspiracy&trade; mascara	0		Effect: "Expert Vacationer", Effect Duration: 36
@@ -10415,7 +10415,7 @@
 10575	twirling drippy candy bar	0		
 10576	Vulcanized quadruple-activated enhanced salty drippy candy bar	0		Effect: "It Didn't Kill You", Effect Duration: 27
 10577	chilled improved maroon writhing drippy candy bar	0		Effect: "All Is Forgiven", Effect Duration: 52
-10578	activated ionized gooey drippy candy bar	0		Effect: "The Wisdom... of the Future", Effect Duration: 64
+10578	activated ionized gooey drippy candy bar	0		Effect: "The Wisdom...  of the Future", Effect Duration: 64
 10579	mirror baby camelCalf	0		Free Pull
 10580	skewed dromedary drinking helmet	0		
 10581	blurry packaged SpinMaster&trade; lathe	0		Free Pull
@@ -10663,7 +10663,7 @@
 10826	hand-crafted Doc's Limbering Wine	4	EPIC	
 10827	delicious Doc's Medical-Grade Wine	3	awesome	
 10828	mixed Homebodyl&trade;	1		
-10829	pickled Extrovermectin&trade;	1		Effect: "The Wisdom... of the Future", Effect Duration: 50
+10829	pickled Extrovermectin&trade;	1		Effect: "The Wisdom...  of the Future", Effect Duration: 50
 10830	denatured ghostly shaking Breathitin&trade;	1		
 10831	boiled narrow tumbling Fleshazole&trade;	1		
 10832	unsweetened wet anti-burn cream	0		Effect: "Super Vision", Effect Duration: 52

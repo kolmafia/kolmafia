@@ -8150,7 +8150,7 @@
 8281	dry Kokomo Resort Brand Suntan Oil	0		Effect: "Pyromania", Effect Duration: 38
 8282	Kokomo Resort Order Pad	0		
 8283	The Cocktail Shaker	0		
-8284	magnetized magnetized Kokomo Resort Pass	0		Effect: "The Style... of the Future", Effect Duration: 13
+8284	magnetized magnetized Kokomo Resort Pass	0		Effect: "The Style...  of the Future", Effect Duration: 13
 8285	olive Mayo Minder&trade;	0		
 8286	diffused anodized twirling tumbling Mayo de Mayo&trade; mayo	0		Effect: "White Blooded", Effect Duration: 41
 8287	puck	0		Free Pull
@@ -10008,7 +10008,7 @@
 10157	groovy discarded bowtie of the scaredy-cat	0		Moxie Percent: +10, Monster Level: -15, Lasts Until Rollover
 10158	distilled perfectly mixed martiny	5	EPIC	
 10159	jittery tryptophan dart	0		
-10160	warmed narrow licorice snake	0		Effect: "The Style... of the Future", Effect Duration: 28
+10160	warmed narrow licorice snake	0		Effect: "The Style...  of the Future", Effect Duration: 28
 10161	quadruple-moist tumbling virgin jello shot	0		Effect: "Haunted Liver", Effect Duration: 13
 10162	pressed improved diffused mutated candy lump	0		Effect: "Feroci Tea", Effect Duration: 14
 10163	double-polymerized liquefied government-issued candy	0		Effect: "Tomato Power", Effect Duration: 35

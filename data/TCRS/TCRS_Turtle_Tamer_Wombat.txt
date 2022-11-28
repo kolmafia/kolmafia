@@ -5104,7 +5104,7 @@
 5202	diluted greasy paste	1	awesome	
 5203	twisted bug paste	1	awesome	
 5204	twisted huge hippy paste	1	good	
-5205	altered blurry lime green orc paste	1	crappy	Effect: "The Style... of the Future", Effect Duration: 45
+5205	altered blurry lime green orc paste	1	crappy	Effect: "The Style...  of the Future", Effect Duration: 45
 5206	altered olive huge demonic paste	1	decent	
 5207	modified skewed huge lime green indescribably horrible paste	1	decent	Effect: "Dance Interpreter", Effect Duration: 40
 5208	altered skewed paste	1	EPIC	
@@ -7673,7 +7673,7 @@
 7788	ice-cold Cloaca Zero	0		
 7789	knitted first-aid pouch of mayonnaise	0		Sleaze Spell Damage: +50, Cold Resistance: +3
 7790	jittery khaki duffel bag	0		
-7791	improved cyan airborne mutagen	0		Effect: "The Style... of the Future", Effect Duration: 25
+7791	improved cyan airborne mutagen	0		Effect: "The Style...  of the Future", Effect Duration: 25
 7792	mirror SHAWARMA Initiative Keycard	0		
 7793	bottle-opener keycard	0		
 7794	Armory keycard	0		

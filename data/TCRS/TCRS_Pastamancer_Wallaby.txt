@@ -3841,7 +3841,7 @@
 3889	Vulcanized moist liquefied vial of slime	0		Effect: "Fudge Headache", Effect Duration: 12
 3890	improved polarized bouncing vial of violet slime	0		Effect: "Crotchety, Pining", Effect Duration: 38
 3891	moist cold-filtered narrow vial of vermilion slime	0		Effect: "Prince of Seaside Town", Effect Duration: 30
-3892	altered frozen upside-down vial of amber slime	0		Effect: "The Style... of the Future", Effect Duration: 42
+3892	altered frozen upside-down vial of amber slime	0		Effect: "The Style...  of the Future", Effect Duration: 42
 3893	improved vial of chartreuse slime	0		Effect: "Wolf's Bane", Effect Duration: 21
 3894	wet alkaline double-pressed jittery spinning vial of teal slime	0		Effect: "Infernal Thirst", Effect Duration: 54
 3895	galvanized boiled vial of indigo slime	0		Effect: "Ready to Snap", Effect Duration: 12

@@ -2393,7 +2393,7 @@
 2419	activated pickled bottle of rhinoceros hormones	0		Effect: "Don't Step to Your Stepmother", Effect Duration: 12
 2420	flattened jittery blinking teeny-tiny magic scroll	0		Effect: "Weird Vibrations", Effect Duration: 63
 2421	quantum quadruple-concentrated polymerized bottle of pirate juice	0		Effect: "Ancient Protected", Effect Duration: 69
-2422	warmed irradiated pet snacks	0		Effect: "The Style... of the Future", Effect Duration: 12
+2422	warmed irradiated pet snacks	0		Effect: "The Style...  of the Future", Effect Duration: 12
 2423	improved modified Mick's IcyVapoHotness Inhaler	0		Effect: "Shredding, Sweating", Effect Duration: 23
 2424	quantum squat green cyclops eyedrops	0		Effect: "Piratastic", Effect Duration: 18
 2425	boiled can of spinach	0		Effect: "The Sweats", Effect Duration: 23
@@ -5738,7 +5738,7 @@
 5840	unsweetened dry olive squat Rogue Windmill Rouge	0		Effect: "Human-Undead Hybrid", Effect Duration: 48
 5841	concentrated cold-filtered wobbly A muse-bouche	0		Effect: "Slimy Flavor", Effect Duration: 43
 5842	nitrogenated flattened non-cold-filtered shaking toothbrush	0		Effect: "Egg-headedness", Effect Duration: 66
-5843	double-anodized narrow pirate cream pie	0		Effect: "The Style... of the Future", Effect Duration: 29
+5843	double-anodized narrow pirate cream pie	0		Effect: "The Style...  of the Future", Effect Duration: 29
 5844	pickled diffused una poca de gracia	0		Effect: "Inigo's Incantation of Inspiration", Effect Duration: 69
 5845	non-pickled quantum spinning compressed air canister	0		Effect: "Emotion Sickness", Effect Duration: 35
 5846	altered salt water taffy	0		Effect: "Spooky Blur", Effect Duration: 36

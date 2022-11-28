@@ -2399,7 +2399,7 @@
 2425	magnetized unsweetened twirling can of spinach	0		Effect: "Aloofah", Effect Duration: 60
 2426	corrupted fire flower	0		Effect: "Square to be Hip", Effect Duration: 48
 2427	unsweetened fuchsia freezerburned ice cube	0		Effect: "Spiritually Awake", Effect Duration: 44
-2428	cold-filtered dry skewed fake blood	0		Effect: "The Style... of the Future", Effect Duration: 18
+2428	cold-filtered dry skewed fake blood	0		Effect: "The Style...  of the Future", Effect Duration: 18
 2429	altered Eau de Guaneau	0		Effect: "Chorale of Companionship", Effect Duration: 12
 2430	corrupted huge blinking gray bag of lard	0		Effect: "Leash of Linguini", Effect Duration: 37
 2431	liquefied liquefied tumbling purple bottle of Mystic Shell	0		Effect: "Arcane in the Brain", Effect Duration: 18
@@ -7484,7 +7484,7 @@
 7600	activated energized pulsating flame	0		Effect: "Flimsy Shield of the Pastalord", Effect Duration: 42
 7601	polymerized bouncing temporary yak tattoo	0		Effect: "Sauce Monocle", Effect Duration: 14
 7602	triple-pressed diffused Fitspiration&trade; poster	0		Effect: "Armored Innards", Effect Duration: 13
-7603	electrified polymerized neckbeard	0		Effect: "The Wisdom... of the Future", Effect Duration: 54
+7603	electrified polymerized neckbeard	0		Effect: "The Wisdom...  of the Future", Effect Duration: 54
 7604	dry polymerized artisanal hand-squeezed wheatgrass juice	0		Effect: "Aries Rising", Effect Duration: 12
 7605	polymerized blue twirling narrow punk patch	0		Effect: "Wolf's Bane", Effect Duration: 14
 7606	double-alkaline triple-ionized tumbling steampunk potion	0		Effect: "Warm Belly", Effect Duration: 69
