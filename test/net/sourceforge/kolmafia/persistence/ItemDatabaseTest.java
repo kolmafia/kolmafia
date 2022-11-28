@@ -86,6 +86,9 @@ public class ItemDatabaseTest {
 
   @Test
   public void checksItemFlags() {
+    assertThat(
+        ItemDatabase.typeToPrimaryUsage(ItemDatabase.getConsumptionType(ItemPool.SEAL_CLUB)),
+        is("weapon"));
     assertThat(ItemDatabase.isTradeable(ItemPool.SEAL_CLUB), is(true));
     assertThat(ItemDatabase.isGiftItem(ItemPool.SEAL_CLUB), is(false));
     assertThat(ItemDatabase.isPasteable(ItemPool.SEAL_CLUB), is(true));

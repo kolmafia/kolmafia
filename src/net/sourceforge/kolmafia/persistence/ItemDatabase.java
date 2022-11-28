@@ -196,55 +196,6 @@ public class ItemDatabase {
     }
   }
 
-  private static final HashMap<String, ConsumptionType> PRIMARY_USE = new HashMap<>();
-  private static final HashMap<ConsumptionType, String> INVERSE_PRIMARY_USE = new HashMap<>();
-
-  private static void definePrimaryUse(final String key, final ConsumptionType usage) {
-    PRIMARY_USE.put(key, usage);
-    INVERSE_PRIMARY_USE.put(usage, key);
-  }
-
-  static {
-    ItemDatabase.definePrimaryUse("none", ConsumptionType.NONE);
-
-    ItemDatabase.definePrimaryUse("food", ConsumptionType.EAT);
-    ItemDatabase.definePrimaryUse("drink", ConsumptionType.DRINK);
-    ItemDatabase.definePrimaryUse("spleen", ConsumptionType.SPLEEN);
-
-    ItemDatabase.definePrimaryUse("usable", ConsumptionType.USE);
-    ItemDatabase.definePrimaryUse("multiple", ConsumptionType.USE_MULTIPLE);
-    ItemDatabase.definePrimaryUse("reusable", ConsumptionType.USE_INFINITE);
-    ItemDatabase.definePrimaryUse("message", ConsumptionType.USE_MESSAGE_DISPLAY);
-
-    ItemDatabase.definePrimaryUse("grow", ConsumptionType.FAMILIAR_HATCHLING);
-
-    ItemDatabase.definePrimaryUse("hat", ConsumptionType.HAT);
-    ItemDatabase.definePrimaryUse("weapon", ConsumptionType.WEAPON);
-    ItemDatabase.definePrimaryUse("offhand", ConsumptionType.OFFHAND);
-    ItemDatabase.definePrimaryUse("container", ConsumptionType.CONTAINER);
-    ItemDatabase.definePrimaryUse("shirt", ConsumptionType.SHIRT);
-    ItemDatabase.definePrimaryUse("pants", ConsumptionType.PANTS);
-    ItemDatabase.definePrimaryUse("accessory", ConsumptionType.ACCESSORY);
-    ItemDatabase.definePrimaryUse("familiar", ConsumptionType.FAMILIAR_EQUIPMENT);
-
-    ItemDatabase.definePrimaryUse("sticker", ConsumptionType.STICKER);
-    ItemDatabase.definePrimaryUse("card", ConsumptionType.CARD);
-    ItemDatabase.definePrimaryUse("folder", ConsumptionType.FOLDER);
-    ItemDatabase.definePrimaryUse("bootskin", ConsumptionType.BOOTSKIN);
-    ItemDatabase.definePrimaryUse("bootspur", ConsumptionType.BOOTSPUR);
-    ItemDatabase.definePrimaryUse("sixgun", ConsumptionType.SIXGUN);
-
-    ItemDatabase.definePrimaryUse("food helper", ConsumptionType.FOOD_HELPER);
-    ItemDatabase.definePrimaryUse("drink helper", ConsumptionType.DRINK_HELPER);
-    ItemDatabase.definePrimaryUse("zap", ConsumptionType.ZAP);
-    ItemDatabase.definePrimaryUse("sphere", ConsumptionType.EL_VIBRATO_SPHERE);
-    ItemDatabase.definePrimaryUse("guardian", ConsumptionType.PASTA_GUARDIAN);
-    ItemDatabase.definePrimaryUse("pokepill", ConsumptionType.POKEPILL);
-
-    ItemDatabase.definePrimaryUse("potion", ConsumptionType.POTION);
-    ItemDatabase.definePrimaryUse("avatar", ConsumptionType.AVATAR_POTION);
-  }
-
   public static boolean newItems = false;
 
   static {
@@ -377,7 +328,7 @@ public class ItemDatabase {
         int price = StringUtilities.parseInt(data[6]);
 
         String usage = usages[0];
-        ConsumptionType useType = ItemDatabase.PRIMARY_USE.get(usage);
+        ConsumptionType useType = ConsumptionType.byDescription(usage);
         if (useType == null) {
           RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
         } else {
@@ -2064,7 +2015,7 @@ public class ItemDatabase {
   }
 
   public static final String typeToPrimaryUsage(final ConsumptionType type) {
-    return ItemDatabase.INVERSE_PRIMARY_USE.get(type);
+    return type.description;
   }
 
   /**
