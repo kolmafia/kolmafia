@@ -15,33 +15,23 @@ public class CookbookbatManager {
             Pattern.compile("looks off in the distance before speaking, \"As I recall, (?<ingredient>.*) was common in (?<location>.*), back in my day.  Perhaps if you kill (?<monster>), you'll"),
             Pattern.compile( "My recollection is that (?<ingredient>.*) was often collected from (?<monster>.*)\\. If I recall correctly, you can hunt them in (?<location>.*)\\.\""),
             Pattern.compile("If memory serves, (?<ingredient>.*) was very popular in (?<location>.*), during my time\\. Perhaps if you find (?<monster>.*), you'll collect one,"),
-            Pattern.compile("rattles, \"If my ancient memory serves, I suggested looking in (?<location>.*)\\."),
-            Pattern.compile("croaks, \"If I recall, I suggested that you look for (?<monster>.*)\\.\""),
-            Pattern.compile("According to my memories, (?<monster>.*) at (?<location>.*) may have what")
     };
 
     private static void wipeQuest() {
         Preferences.resetToDefault("cookbookbatQuestIngredient");
         Preferences.resetToDefault("cookbookbatQuestLocation");
         Preferences.resetToDefault("cookbookbatQuestMonster");
+        Preferences.resetToDefault("cookbookbatQuestTurns");
     }
 
     private static void updateQuestData(String ingredient, String location, String monster) {
-        String currentIngredient = Preferences.getString("cookbookbatQuestIngredient");
-        String currentLocation = Preferences.getString("cookbookbatQuestLocation");
-        String currentMonster = Preferences.getString("cookbookbatQuestMonster");
-        if ((ingredient != null && currentIngredient != "" && ingredient != currentIngredient) || (location != null && currentLocation != "" && location != currentLocation) || (monster != null && currentMonster != "" && monster != currentMonster)) {
-            CookbookbatManager.wipeQuest();
-            Preferences.resetToDefault("cookbookbatQuestTurns");
-        }
-
-        if (ingredient != null) Preferences.setString("cookbookbatQuestIngredient", ingredient);
-        if (location != null) Preferences.setString("cookbookbatQuestLocation", location);
-        if (monster != null) Preferences.setString("cookbookbatQuestMonster", monster);
+        CookbookbatManager.wipeQuest();
+        Preferences.setString("cookbookbatQuestIngredient", ingredient);
+        Preferences.setString("cookbookbatQuestLocation", location);
+        Preferences.setString("cookbookbatQuestMonster", monster);
     }
 
     public static void parseResponse(String responseText) {
-
         Matcher questCompletedMatcher = Pattern.compile("As I recall, this is where I told you to look").matcher(responseText);
         if (questCompletedMatcher.find()) {
             wipeQuest();
