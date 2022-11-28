@@ -421,6 +421,10 @@ user	commerceGhostItem
 user	commerceGhostCombats	0
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
+user	cookbookbatQuestReward
+user	cookbookbatQuestLocation
+user	cookbookbatQuestMonster
+user	cookbookbatQuestTurns	0
 user	counterScript
 user	concertVisited	false
 user	controlPanel1	false

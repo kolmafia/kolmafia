@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.CookbookbatManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -4038,6 +4039,10 @@ public class FightRequest extends GenericRequest {
             familiar.setCharges(Preferences.increment("vintnerCharge", 1, 13, false));
           }
           break;
+
+        case FamiliarPool.COOKBOOKBAT:
+          Preferences.increment("cookbookbatQuestTurns");
+          CookbookbatManager.parseResponse(responseText);
       }
 
       if (KoLCharacter.inRaincore()) {
