@@ -4452,7 +4452,7 @@
 4505	chilled flattened moist Northern pemmican	0		Effect: "Bear Clawed", Effect Duration: 17
 4506	tumbling puzzling ribbon	0		
 4507	shaking huge Clan looking glass	0		Free Pull
-4508	double-oxidized yellow &quot;DRINK ME&quot; potion	0		Effect: "The Wisdom... of the Future", Effect Duration: 55
+4508	double-oxidized yellow &quot;DRINK ME&quot; potion	0		Effect: "The Wisdom...  of the Future", Effect Duration: 55
 4509	reflection of a map	0		
 4510	flavorless thick walrus ice cream	5	decent	
 4511	delicious tiny beautiful soup	1	awesome	
@@ -5707,7 +5707,7 @@
 5809	nitrogenated polarized Knob Goblin Mutagen	0		Effect: "Wit Tea", Effect Duration: 54
 5810	unsweetened cold-filtered ghostly skewed yellow Tears of the Quiet Healer	0		Effect: "Mushroom Moxiousness", Effect Duration: 43
 5811	electrified oxidized tube of lipstick	0		Effect: "Orc Chops", Effect Duration: 35
-5812	adjusted quantum skelelton spine	0		Effect: "The Wisdom... of the Future", Effect Duration: 19
+5812	adjusted quantum skelelton spine	0		Effect: "The Wisdom...  of the Future", Effect Duration: 19
 5813	oxidized frozen smut orc sunglasses	0		Effect: "Flashing Eyes", Effect Duration: 15
 5814	alkaline blob of acid	0		Effect: "Turkey-Friendly", Effect Duration: 13
 5815	aerosolized extra-activated flayed mind	0		Effect: "Stemonitis Storm", Effect Duration: 22
@@ -10580,7 +10580,7 @@
 10743	galvanized altered battery (lantern)	0		Effect: "Booing Radly", Effect Duration: 68
 10744	moist battery (car)	0		Effect: "Stop the Presses!", Effect Duration: 21
 10746	marshmallow	0		
-10747	drinkable practically non-alcoholic special marshmallow bomb	1	good	Effect: "The Wisdom... of the Future", Effect Duration: 15
+10747	drinkable practically non-alcoholic special marshmallow bomb	1	good	Effect: "The Wisdom...  of the Future", Effect Duration: 15
 10748	packaged backup camera	0		Free Pull
 10749	backup camera	0		Maximum HP: +20, Maximum MP: +20, Meat Drop: +50, Single Equip
 10750	shortest-order cook	0		Free Pull
@@ -10757,7 +10757,7 @@
 10923	snack-sized moldy fire-roasted lake trout	2	crappy	
 10924	massive flavorless guilty sprout	10	decent	
 10925	wholesome savvy mother's necklace	0		Mysticality Percent: +20, Maximum HP Percent: +10
-10926	electrified flattened trampled ticket stub	0		Effect: "The Style... of the Future", Effect Duration: 33
+10926	electrified flattened trampled ticket stub	0		Effect: "The Style...  of the Future", Effect Duration: 33
 10927	boiled fuchsia savings bond	0		Effect: "All Blued Up", Effect Duration: 57
 10928	designer sweatpants (new stock)	0		Free Pull
 10929	narrow designer sweatpants	0		

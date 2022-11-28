@@ -5243,7 +5243,7 @@
 5342	watered-down artisanal The Cooler Out of Space	2	EPIC	
 5343	squat The Necbronomicon (used)	0		Skill: "Summon &quot;Boner Battalion&quot;"
 5344	blinking upside-down sorority girl's box	0		
-5345	irradiated Necbro wafers	0		Effect: "The Wisdom... of the Future", Effect Duration: 14
+5345	irradiated Necbro wafers	0		Effect: "The Wisdom...  of the Future", Effect Duration: 14
 5346	purple death blossom	0		
 5347	A Crimbo Carol, Ch. 1 (used)	0		Skill: "Holiday Weight Gain"
 5348	A Crimbo Carol, Ch. 2 (used)	0		Skill: "Jingle Bells"
@@ -7281,7 +7281,7 @@
 7397	dry pulsating Gene Tonic: Plant	0		Effect: "Puddingface", Effect Duration: 29
 7398	non-alkaline huge green Gene Tonic: Weird	0		Effect: "Hella Smooth", Effect Duration: 25
 7399	boiled blurry Gene Tonic: Elf	0		Effect: "Cold Blooded", Effect Duration: 35
-7400	electrified magnetized skewed lime green Gene Tonic: Mer-kin	0		Effect: "The Wisdom... of the Future", Effect Duration: 44
+7400	electrified magnetized skewed lime green Gene Tonic: Mer-kin	0		Effect: "The Wisdom...  of the Future", Effect Duration: 44
 7401	enhanced moist blurry Gene Tonic: Slime	0		Effect: "Human-Elemental Hybrid", Effect Duration: 44
 7402	boiled Gene Tonic: Penguin	0		Effect: "Radiated and Grodiated", Effect Duration: 23
 7403	non-polarized pulsating Gene Tonic: Elemental	0		Effect: "Deadly Lampblade", Effect Duration: 62
@@ -7978,7 +7978,7 @@
 8109	teal occult ascot of the sweet-tooth	0		Spell Damage Percent: +25, Candy Drop: +100, Single Equip
 8110	blinking therapeutic supercool attache case	0		Moxie Percent: +20, HP Regen Min: 5, HP Regen Max: 7
 8111	fireproof accordion of Gandalf	0		Spell Critical Percent: +20, Hot Resistance: +3, Song Duration: 10
-8112	dehydrated blinking aerosolized	1		Effect: "The Style... of the Future", Effect Duration: 10
+8112	dehydrated blinking aerosolized	1		Effect: "The Style...  of the Future", Effect Duration: 10
 8113	twirling wig of the dark arts of the businessman	0		Spell Damage Percent: +100, Meat Drop: +50
 8114	winch crank of the blizzard of Flo-Jo	0		Cold Spell Damage: +25, Initiative: +100, Single Equip
 8115	Rosewater's widget of Leguizamo	0		Mysticality Percent: +30, Monster Level: +20, Single Equip
@@ -8472,7 +8472,7 @@
 8606	moist improved ghostly cuppa Frost tea	0		Effect: "Human-Insect Hybrid", Effect Duration: 34
 8607	activated cuppa Toast tea	0		Effect: "Mucilaginous Moxiousness", Effect Duration: 21
 8608	quantum non-moist cuppa Net tea	0		Effect: "Jelly Combed", Effect Duration: 13
-8609	double-denatured green cuppa Proprie tea	0		Effect: "The Style... of the Future", Effect Duration: 24
+8609	double-denatured green cuppa Proprie tea	0		Effect: "The Style...  of the Future", Effect Duration: 24
 8610	galvanized enhanced cuppa Morbidi tea	0		Effect: "One Very Clear Eye", Effect Duration: 34
 8611	unsweetened anodized squat cuppa Chari tea	0		Effect: "Hyphemariffic", Effect Duration: 25
 8612	oxidized blue cuppa Serendipi tea	0		Effect: "Holiday Disappointment", Effect Duration: 16

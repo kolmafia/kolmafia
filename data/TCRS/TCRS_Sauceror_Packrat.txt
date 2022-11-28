@@ -3716,7 +3716,7 @@
 3751	bite-sized normal chocolate chip brownies	1	good	
 3753	yellow Libram of Love Songs	0		
 3754	activated love song of vague ambiguity	0		Effect: "Soles of Glass", Effect Duration: 31
-3755	deionized love song of smoldering passion	0		Effect: "The Style... of the Future", Effect Duration: 17
+3755	deionized love song of smoldering passion	0		Effect: "The Style...  of the Future", Effect Duration: 17
 3756	extra-flattened love song of icy revenge	0		Effect: "Wreathed in Smoke", Effect Duration: 27
 3757	colloidal love song of sugary cuteness	0		Effect: "Super Vision", Effect Duration: 32
 3758	magnetized love song of disturbing obsession	0		Effect: "Tomato Power", Effect Duration: 55
@@ -5069,7 +5069,7 @@
 5167	mirror synthetic dog hair pill	0		
 5168	distention pill	0		
 5169	blurry elven medi-pack	0		
-5170	nitrogenated mirror transporter transponder	0		Effect: "The Style... of the Future", Effect Duration: 25
+5170	nitrogenated mirror transporter transponder	0		Effect: "The Style...  of the Future", Effect Duration: 25
 5171	shaking Map to Safety Shelter Ronald Prime	0		
 5172	Map to Safety Shelter Grimace Prime	0		
 5173	elven magi-pack	0		
@@ -9152,7 +9152,7 @@
 9290	adequate half-sized Eldritch snap	2	good	
 9291	diluted hot jelly	1		
 9292	pickled mirror fuchsia jelly	1		
-9293	boiled spinning jelly	1		Effect: "The Style... of the Future", Effect Duration: 20
+9293	boiled spinning jelly	1		Effect: "The Style...  of the Future", Effect Duration: 20
 9294	twisted spinning sleaze jelly	1		
 9295	vaporized wobbly stench jelly	1		
 9296	huge space planula	0		Free Pull

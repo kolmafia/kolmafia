@@ -3239,7 +3239,7 @@
 3267	bag of Laughing Willow saplings	0		
 3268	irradiated galvanized blue handful of Crotchety Pine needles	0		Effect: "Fratty Flavor", Effect Duration: 13
 3269	polymerized pressed anodized lump of Saccharine Maple sap	0		Effect: "Heart of Yellow", Effect Duration: 22
-3270	galvanized lime green handful of Laughing Willow bark	0		Effect: "The Wisdom... of the Future", Effect Duration: 45
+3270	galvanized lime green handful of Laughing Willow bark	0		Effect: "The Wisdom...  of the Future", Effect Duration: 45
 3271	Herculean crotchety pants	0		Experience (Muscle): +1
 3272	pulsating hardy Saccharine Maple pendant	0		Maximum HP: +50
 3273	wizardly willowy bonnet	0		Mysticality: +25
@@ -4920,7 +4920,7 @@
 5018	mediocre watered-down natto-infused sake	2	decent	
 5019	Vulcanized unsweetened upside-down wasabi marble soda	0		Effect: "Gunky Dory", Effect Duration: 62
 5020	dry magnetized red tobiko marble soda	0		Effect: "Burnt 'n' Turnt", Effect Duration: 69
-5021	polymerized nitrogenated natto marble soda	0		Effect: "The Style... of the Future", Effect Duration: 40
+5021	polymerized nitrogenated natto marble soda	0		Effect: "The Style...  of the Future", Effect Duration: 40
 5022	Alice's Army booster box	0		
 5023	aerosolized mirror elderly jawbreaker	0		Effect: "Empty Inside", Effect Duration: 34
 5024	lousy weak shaking olive marshmallow flamb&eacute;	2	decent	
@@ -7509,7 +7509,7 @@
 7624	nitrogenated extra-dry tumbling lynyrd skinner toothblack	0		Effect: "Saucegoggles", Effect Duration: 20
 7625	super-aerosolized ionized extra-denatured blue upside-down flask of rainwater	0		Effect: "Squatting and Thrusting", Effect Duration: 27
 7626	dry fuchsia oyster badge	0		Effect: "L'instinct F&eacute;lin", Effect Duration: 68
-7627	magnetized polymerized plastic Jefferson wings	0		Effect: "The Style... of the Future", Effect Duration: 16
+7627	magnetized polymerized plastic Jefferson wings	0		Effect: "The Style...  of the Future", Effect Duration: 16
 7628	double-altered dancing fan	0		Effect: "Purpose", Effect Duration: 46
 7629	wet teal page of the Necrohobocon	0		Effect: "Hairy Palms", Effect Duration: 26
 7630	magnetized blue magic powder	0		Effect: "A Few Extra Pounds", Effect Duration: 32

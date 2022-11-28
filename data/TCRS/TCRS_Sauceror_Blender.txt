@@ -417,7 +417,7 @@
 419	activated pickled serum of sarcasm	0		Effect: "Don't Step to Your Stepmother", Effect Duration: 12
 420	flattened jittery blinking tomato juice of powerful power	0		Effect: "Weird Vibrations", Effect Duration: 63
 421	quantum quadruple-concentrated polymerized philter of phorce	0		Effect: "Ancient Protected", Effect Duration: 69
-422	warmed potion of potency	0		Effect: "The Style... of the Future", Effect Duration: 12
+422	warmed potion of potency	0		Effect: "The Style...  of the Future", Effect Duration: 12
 423	improved modified cordial of concentration	0		Effect: "Shredding, Sweating", Effect Duration: 23
 424	quantum squat green ointment of the occult	0		Effect: "Piratastic", Effect Duration: 18
 425	boiled oil of expertise	0		Effect: "The Sweats", Effect Duration: 23

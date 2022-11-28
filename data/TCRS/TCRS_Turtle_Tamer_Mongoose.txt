@@ -1571,7 +1571,7 @@
 1591	spoiled huge olive lo mein	10	crappy	
 1592	rotten hot hi mein	3	crappy	
 1593	moldy red upside-down hi mein	3	crappy	
-1594	special normal hi mein	4	good	Effect: "The Style... of the Future", Effect Duration: 40
+1594	special normal hi mein	4	good	Effect: "The Style...  of the Future", Effect Duration: 40
 1595	normal blue hi mein	3	good	
 1596	delicious sleazy hi mein	3	awesome	
 1597	green Junior LAAAAME merit badge of bravery	0		Spooky Resistance: +5

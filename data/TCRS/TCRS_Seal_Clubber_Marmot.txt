@@ -1428,7 +1428,7 @@
 1446	cold-filtered blinking nuggets	0		Effect: "Cool Spirit", Effect Duration: 23
 1447	aerosolized irradiated red nuggets	0		Effect: "Mighty Shout", Effect Duration: 23
 1448	super-galvanized cold-filtered quantum stench nuggets	0		Effect: "Flambé-a-thon", Effect Duration: 68
-1449	polymerized sleaze nuggets	0		Effect: "The Style... of the Future", Effect Duration: 63
+1449	polymerized sleaze nuggets	0		Effect: "The Style...  of the Future", Effect Duration: 63
 1450	compressed blinking blurry twinkly wad	1		
 1451	distilled hot wad	1		
 1452	altered jittery spinning wad	1		
@@ -2407,7 +2407,7 @@
 2433	super-quantum warmed narrow bottle of antifreeze	0		Effect: "Trufflin'", Effect Duration: 57
 2434	unsweetened eyedrops	0		Effect: "Squid Squint", Effect Duration: 54
 2435	corrupted unsweetened tumbling Dogsgotnonoz pills	0		Effect: "Sweet and Yellow", Effect Duration: 46
-2436	colloidal electrified ionized donkey flipbook	0		Effect: "The Wisdom... of the Future", Effect Duration: 48
+2436	colloidal electrified ionized donkey flipbook	0		Effect: "The Wisdom...  of the Future", Effect Duration: 48
 2437	narrow New Cloaca-Cola	0		
 2438	blinking scented massage oil	0		
 2439	poltergeist-in-the-jar-o	0		
@@ -6269,7 +6269,7 @@
 6378	eraser nubbin	0		
 6379	narrow chlorine crystal	0		
 6380	Vulcanized lime green ph balancer	0		Effect: "Pyromania", Effect Duration: 48
-6381	deionized mysterious chemical residue	0		Effect: "The Wisdom... of the Future", Effect Duration: 22
+6381	deionized mysterious chemical residue	0		Effect: "The Wisdom...  of the Future", Effect Duration: 22
 6382	tumbling nugget of sodium	0		
 6383	root beer	1	EPIC	
 6384	jigsaw blade	0		
@@ -7272,7 +7272,7 @@
 7387	oxidized squat Gene Tonic: Undead	0		Effect: "Crotchety, Pining", Effect Duration: 69
 7388	dry adjusted huge skewed Gene Tonic: Humanoid	0		Effect: "Ready to Snap", Effect Duration: 57
 7389	adjusted Gene Tonic: Insect	0		Effect: "Egg-stra Arm", Effect Duration: 39
-7390	dry Gene Tonic: Hippy	0		Effect: "The Style... of the Future", Effect Duration: 51
+7390	dry Gene Tonic: Hippy	0		Effect: "The Style...  of the Future", Effect Duration: 51
 7391	energized aerosolized Gene Tonic: Orc	0		Effect: "Creepypasted", Effect Duration: 61
 7392	wet Gene Tonic: Demon	0		Effect: "Voracious Gorging", Effect Duration: 35
 7393	nitrogenated frozen Gene Tonic: Horror	0		Effect: "Dilated Pupils", Effect Duration: 51
@@ -8374,7 +8374,7 @@
 8505	half-melted hula girl	0		
 8506	tumbling glass ceiling fragments	0		
 8507	diluted huge shaking narrow SMOOCH coffee cup	1	good	
-8508	double-oxidized yellow labrador cookie	0		Effect: "The Wisdom... of the Future", Effect Duration: 55
+8508	double-oxidized yellow labrador cookie	0		Effect: "The Wisdom...  of the Future", Effect Duration: 55
 8509	banded Herculean Mr. Cheeng's spectacles of the sewer	0		Experience (Muscle): +1, Damage Absorption: +100, Stench Damage: +25, Single Equip
 8510	smartaleck's grease cannon of the storm	0		Moxie Percent: +30, Maximum MP Percent: +40
 8511	extra-liquefied liquefied demon makeup kit	0		Effect: "Feroci Tea", Effect Duration: 46
@@ -9348,7 +9348,7 @@
 9487	ghostly License To Kill	0		
 9488	maroon Thwaitgold bug statuette	0		
 9489	cyan Victor's Spoils	0		
-9490	energized Threatening Missive	0		Effect: "The Wisdom... of the Future", Effect Duration: 29
+9490	energized Threatening Missive	0		Effect: "The Wisdom...  of the Future", Effect Duration: 29
 9491	Targeted Plague Vector	0		
 9492	spinning suspicious package	0		Free Pull
 9493	bouncing scandalous Kremlin's Greatest Briefcase of vim and vigor of chilblains	0		Maximum HP Percent: +50, Cold Damage: +25, Sleaze Damage: +5, Single Equip

@@ -7272,7 +7272,7 @@
 7387	energized Gene Tonic: Undead	0		Effect: "Disdain of the War Snapper", Effect Duration: 60
 7388	improved shaking Gene Tonic: Humanoid	0		Effect: "White Knuckles", Effect Duration: 49
 7389	quadruple-aerosolized electrified Gene Tonic: Insect	0		Effect: "Capricorn Rising", Effect Duration: 65
-7390	boiled pressed squat Gene Tonic: Hippy	0		Effect: "The Wisdom... of the Future", Effect Duration: 43
+7390	boiled pressed squat Gene Tonic: Hippy	0		Effect: "The Wisdom...  of the Future", Effect Duration: 43
 7391	electrified cold-filtered upside-down Gene Tonic: Orc	0		Effect: "Graham Crackling", Effect Duration: 61
 7392	tarnished squat ghostly Gene Tonic: Demon	0		Effect: "The Power of Negative Thinking", Effect Duration: 26
 7393	anodized modified Gene Tonic: Horror	0		Effect: "Old School Pompadour", Effect Duration: 63
@@ -7874,7 +7874,7 @@
 7996	narrow energetic personal trainer's phantom mask	0		Experience Percent (Muscle): +10, Maximum MP Percent: +20, Single Equip
 7997	altered polyesterene powder	1		Effect: "Barbecue Saucy", Effect Duration: 45
 7998	powdered powder	1		
-7999	corrupted diffused choco-Crimbot	0		Effect: "The Style... of the Future", Effect Duration: 67
+7999	corrupted diffused choco-Crimbot	0		Effect: "The Style...  of the Future", Effect Duration: 67
 8000	dry Vulcanized smart watch	0		Effect: "Al Dente Inferno", Effect Duration: 69
 8001	quantum flattened narrow augmented-reality shades	0		Effect: "Ooh, Umami!", Effect Duration: 50
 8002	dangerous toy Crimbot mega face	0		Weapon Damage: +10, Crimbot Outfit Power: +1
@@ -8026,7 +8026,7 @@
 8157	Skeleton Store office key	0		
 8158	bone with a price tag on it	0		
 8159	jittery half of a tooth	0		
-8160	warmed narrow mouse skull	0		Effect: "The Style... of the Future", Effect Duration: 28
+8160	warmed narrow mouse skull	0		Effect: "The Style...  of the Future", Effect Duration: 28
 8161	quadruple-moist tumbling really thick spine	0		Effect: "Haunted Liver", Effect Duration: 13
 8162	dog trainer's vibrating skullcap	0		Maximum MP Percent: +10, Experience (familiar): +1
 8163	shellacked Socratic three-legged pants	0		Experience (Mysticality): +1, Damage Reduction: 7

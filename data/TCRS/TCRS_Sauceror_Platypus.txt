@@ -12,7 +12,7 @@
 12	twirling mariachi pants	0		
 14	dehydrated blinking ghostly moxie weed	1		Effect: "Human-Fish Hybrid", Effect Duration: 40
 15	modified shaking blue strongness elixir	1		
-16	dehydrated magicalness-in-a-can	1		Effect: "The Wisdom... of the Future", Effect Duration: 25
+16	dehydrated magicalness-in-a-can	1		Effect: "The Wisdom...  of the Future", Effect Duration: 25
 17	rotten diet squat noodles	1	crappy	
 18	tortoise's blessing	0		
 19	twirling asparagus knife of the businessman	0		Meat Drop: +50
@@ -2397,7 +2397,7 @@
 2423	denatured triple-dry modified narrow Mick's IcyVapoHotness Inhaler	0		Effect: "Aloysius' Antiphon of Aptitude", Effect Duration: 34
 2424	polymerized wet chilled cyclops eyedrops	0		Effect: "Superhuman Sarcasm", Effect Duration: 58
 2425	corrupted polarized can of spinach	0		Effect: "Moose Wisdom", Effect Duration: 14
-2426	concentrated denatured activated purple fire flower	0		Effect: "The Wisdom... of the Future", Effect Duration: 31
+2426	concentrated denatured activated purple fire flower	0		Effect: "The Wisdom...  of the Future", Effect Duration: 31
 2427	flattened alkaline freezerburned ice cube	0		Effect: "Goldentongue", Effect Duration: 67
 2428	ionized narrow squat fake blood	0		Effect: "Briny Blood", Effect Duration: 11
 2429	moist Eau de Guaneau	0		Effect: "Towering Strength", Effect Duration: 29
@@ -5376,7 +5376,7 @@
 5474	gummi ingot	0		
 5475	red gummi ingot	0		
 5476	dry gummi salamander	0		Effect: "Bananas!", Effect Duration: 51
-5477	pressed modified gummi snake	0		Effect: "The Wisdom... of the Future", Effect Duration: 61
+5477	pressed modified gummi snake	0		Effect: "The Wisdom...  of the Future", Effect Duration: 61
 5478	deionized unsweetened upside-down gummi canary	0		Effect: "Robocamo", Effect Duration: 55
 5479	tasty snack-sized bouncing olive gummi bear	2	awesome	
 5480	moldy gummi bear	3	crappy	
@@ -8425,7 +8425,7 @@
 8557	blinking The Emperor's new cookie	0		
 8558	enhanced liquefied cyan Wickers bar	0		Effect: "Black Eyes", Effect Duration: 28
 8559	deionized boiled blinking bakelite-covered bacon	0		Effect: "Penguinny Flavor", Effect Duration: 11
-8560	concentrated wet huge Aerheads	0		Effect: "The Style... of the Future", Effect Duration: 13
+8560	concentrated wet huge Aerheads	0		Effect: "The Style...  of the Future", Effect Duration: 13
 8561	electrified unsweetened diffused Wrotz	0		Effect: "Winklered", Effect Duration: 26
 8562	enhanced diffused huge fuchsia Gabarbar	0		Effect: "Paging Betty", Effect Duration: 56
 8563	modified polymerized fiberglass insulation	0		Effect: "Alchemical, Brother", Effect Duration: 20
@@ -8763,7 +8763,7 @@
 8898	realistic cap gun	0		
 8899	tainted milk	1	decent	
 8900	gun parts	0		
-8901	Vulcanized triple-energized spinning narrow triggerfingerbone	0		Effect: "The Wisdom... of the Future", Effect Duration: 57
+8901	Vulcanized triple-energized spinning narrow triggerfingerbone	0		Effect: "The Wisdom...  of the Future", Effect Duration: 57
 8902	activated concentrated improved mirror spinning ghost bit	0		Effect: "Bonelording", Effect Duration: 22
 8903	super-deionized red buzzard feather	0		Effect: "Rootin' Around", Effect Duration: 34
 8904	tarnished double-altered narrow lion musk	0		Effect: "Dragged Through the Coals", Effect Duration: 38

@@ -1434,7 +1434,7 @@
 1452	boiled wad	1		
 1453	modified jittery wad	1		Effect: "Far Out", Effect Duration: 25
 1454	distilled olive shaking stench wad	1		
-1455	boiled sleaze wad	1		Effect: "The Wisdom... of the Future", Effect Duration: 5
+1455	boiled sleaze wad	1		Effect: "The Wisdom...  of the Future", Effect Duration: 5
 1456	double daisy	0		
 1457	Goth Giant	0		
 1458	decent half-sized blinking Valentine's Day cake	2	good	
@@ -5570,7 +5570,7 @@
 5668	purple bagged &quot;L&quot;	0		
 5669	club	0		
 5670	fancy moldy fettucini &eacute;pines Inconnu	3	crappy	Effect: "Sweet and Red", Effect Duration: 20
-5671	artisanal special slap and slap again	3	EPIC	Effect: "The Style... of the Future", Effect Duration: 10
+5671	artisanal special slap and slap again	3	EPIC	Effect: "The Style...  of the Future", Effect Duration: 10
 5672	gunpowder burrito	2	good	
 5673	beery blood	2	good	
 5674	&quot;L&quot;	0		

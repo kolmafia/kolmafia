@@ -418,7 +418,7 @@
 420	adjusted electrified upside-down tomato juice of powerful power	0		Effect: "Balls of Ectoplasm", Effect Duration: 48
 421	cold-filtered philter of phorce	0		Effect: "Fungal Flambé", Effect Duration: 25
 422	double-aerosolized boiled potion of potency	0		Effect: "Abyssal Blood", Effect Duration: 53
-423	pressed diffused cordial of concentration	0		Effect: "The Wisdom... of the Future", Effect Duration: 15
+423	pressed diffused cordial of concentration	0		Effect: "The Wisdom...  of the Future", Effect Duration: 15
 424	wet cyan ointment of the occult	0		Effect: "Stinking Cloud", Effect Duration: 17
 425	alkaline maroon oil of expertise	0		Effect: "Memory of Resilience", Effect Duration: 38
 426	pickled shaking potion of temporary gr8ness	0		Effect: "Greedy Resolve", Effect Duration: 19
@@ -636,7 +636,7 @@
 638	skewed manspreader's wizardly asshat	0		Mysticality: +25, Monster Level: +10
 639	flavorless abominable snowcone	4	decent	
 640	Ent cider	1	good	
-641	stale enchanted toast	3	decent	Effect: "The Wisdom... of the Future", Effect Duration: 25
+641	stale enchanted toast	3	decent	Effect: "The Wisdom...  of the Future", Effect Duration: 25
 642	skeleton key	0		
 643	skeleton key ring	0		
 644	blurry Crimbo pressie	0		
@@ -10619,7 +10619,7 @@
 10782	scorching veiny Abracandalabra	0		Maximum HP: +10, Hot Damage: +25, Lasts Until Rollover
 10783	cyan asbestos-lined ribald extra-wide head candle	0		Sleaze Damage: +10, Hot Resistance: +5, Lasts Until Rollover
 10784	irradiated natural magick candle	0		Effect: "Fit To Be Tide", Effect Duration: 20
-10785	boiled galvanized rainbow glitter candle	0		Effect: "The Wisdom... of the Future", Effect Duration: 23
+10785	boiled galvanized rainbow glitter candle	0		Effect: "The Wisdom...  of the Future", Effect Duration: 23
 10786	energized super-deionized ghostly wobbly banana candle	0		Effect: "Broken Fast", Effect Duration: 13
 10787	extra-galvanized triple-quantum ear candle	0		Effect: "Vented Spleen", Effect Duration: 60
 10788	polarized colloidal votive of confidence	0		Effect: "Mer-kinny Flavor", Effect Duration: 14

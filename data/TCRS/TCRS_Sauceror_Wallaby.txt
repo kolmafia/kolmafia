@@ -8181,7 +8181,7 @@
 8312	super-diffused spinning hustler shades	0		Effect: "Turn On, Tune In, Play Ball!", Effect Duration: 59
 8313	nitrogenated electrified jerky stick	0		Effect: "Jammin'", Effect Duration: 52
 8314	frozen denatured non-colloidal costume rental shop	0		Effect: "Christmessy", Effect Duration: 14
-8315	tarnished muscle oil	0		Effect: "The Style... of the Future", Effect Duration: 15
+8315	tarnished muscle oil	0		Effect: "The Style...  of the Future", Effect Duration: 15
 8316	non-corrupted bottle of Red-Out	0		Effect: "Wet Rub", Effect Duration: 18
 8317	pressed activated pickpocket protector	0		Effect: "Perception", Effect Duration: 19
 8318	magnetized sinister-looking cat	0		Effect: "Heal Thy Nanoself", Effect Duration: 55
@@ -9960,7 +9960,7 @@
 10109	teal occult terra cotta train of the sweet-tooth	0		Spell Damage Percent: +25, Candy Drop: +100
 10110	blinking therapeutic supercool terra cotta tie tack	0		Moxie Percent: +20, HP Regen Min: 5, HP Regen Max: 7, Single Equip
 10111	fireproof terra cotta tambourine of Gandalf	0		Spell Critical Percent: +20, Hot Resistance: +3
-10112	dehydrated blinking terra cotta tidbits	1		Effect: "The Style... of the Future", Effect Duration: 10
+10112	dehydrated blinking terra cotta tidbits	1		Effect: "The Style...  of the Future", Effect Duration: 10
 10113	super-warmed dry twirling terra panna cotta	0		Effect: "Bubblin' Rage", Effect Duration: 20
 10114	velour voulge of the blizzard of Flo-Jo	0		Cold Spell Damage: +25, Initiative: +100
 10115	Rosewater's velour vambraces of Leguizamo	0		Mysticality Percent: +30, Monster Level: +20, Single Equip

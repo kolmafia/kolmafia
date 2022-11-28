@@ -7052,7 +7052,7 @@
 7167	Vulcanized quadruple-dry mirror smudge stick	0		Effect: "Painted-On Bikini", Effect Duration: 21
 7168	diffused dry warmed wall	0		Effect: "Think Win-Lose", Effect Duration: 54
 7169	hand-crafted tankard of ale	3	EPIC	
-7170	nitrogenated mirror scroll case	0		Effect: "The Style... of the Future", Effect Duration: 25
+7170	nitrogenated mirror scroll case	0		Effect: "The Style...  of the Future", Effect Duration: 25
 7171	extra-moist altered diffused shaking jug of &quot;wine&quot;	0		Effect: "Spring Training", Effect Duration: 12
 7172	juggling ball	0		
 7173	crappy camera	0		
@@ -8193,7 +8193,7 @@
 8324	colloidal modified purple disposable lighter	0		Effect: "Don't Rest Ye, Bold Adventurer", Effect Duration: 29
 8325	modified ghostly coal contact lenses	0		Effect: "Goldentongue", Effect Duration: 15
 8326	magnetized super-ionized skewed conjured ice cream	0		Effect: "Ooh, Bitter!", Effect Duration: 16
-8327	triple-activated Iceberglar scarf	0		Effect: "The Style... of the Future", Effect Duration: 28
+8327	triple-activated Iceberglar scarf	0		Effect: "The Style...  of the Future", Effect Duration: 28
 8328	flattened skewed icy hairspray	0		Effect: "Quaaaaaaa", Effect Duration: 28
 8329	deionized alkaline chilled blurry smellbook	0		Effect: "Painted-On Bikini", Effect Duration: 41
 8330	galvanized quantum assassin's cheese knife	0		Effect: "Weasels Underfoot", Effect Duration: 58

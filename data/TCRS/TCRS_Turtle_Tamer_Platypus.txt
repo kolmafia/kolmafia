@@ -569,7 +569,7 @@
 571	Jumbo Dr. Lucifer	1	EPIC	
 572	adequate fancy Children's Meal of the Damned	3	good	Effect: "Super Skill", Effect Duration: 5
 573	bland bouncing noodles	4	decent	
-574	special jumbo spoiled noodles	5	crappy	Effect: "The Wisdom... of the Future", Effect Duration: 10
+574	special jumbo spoiled noodles	5	crappy	Effect: "The Wisdom...  of the Future", Effect Duration: 10
 575	stale painful penne pasta	3	decent	
 576	super-sized moldy ravioli della hippy	5	crappy	
 577	stale small huge pr0n m4nic0tti	2	decent	
@@ -2775,7 +2775,7 @@
 2802	red blurry flask of Gnomochloric acid	0		
 2803	jug of Gnomochloric acid	0		
 2804	moist vial of hamethyst juice	0		Effect: "Black Eyes", Effect Duration: 48
-2805	pressed activated twirling vial of baconstone juice	0		Effect: "The Style... of the Future", Effect Duration: 47
+2805	pressed activated twirling vial of baconstone juice	0		Effect: "The Style...  of the Future", Effect Duration: 47
 2806	improved double-modified Vulcanized ghostly vial of porquoise juice	0		Effect: "Deadly Flashing Blade", Effect Duration: 62
 2807	colloidal flask of hamethyst juice	0		Effect: "Barbecue Saucy", Effect Duration: 62
 2808	nitrogenated olive flask of baconstone juice	0		Effect: "Voracious Gorging", Effect Duration: 16
@@ -7059,7 +7059,7 @@
 7174	moldy enchanted small humble pie	2	crappy	Effect: "Belch the Rainbow&trade;", Effect Duration: 10
 7175	small golem	0		
 7176	shaking crappy camera	0		
-7177	cold-filtered wobbly crappy waiter disguise	0		Effect: "The Style... of the Future", Effect Duration: 50
+7177	cold-filtered wobbly crappy waiter disguise	0		Effect: "The Style...  of the Future", Effect Duration: 50
 7178	twirling Copperhead Charm	0		
 7179	jittery The First Pizza	0		
 7180	The Lacrosse Stick of Lacoronado	0		
@@ -8572,7 +8572,7 @@
 8705	X-32-F snowman crate	0		Free Pull
 8706	mirror machine elf capsule	0		Free Pull
 8707	skewed self-dribbling basketball	0		Familiar Weight: +10
-8708	twisted abstraction: action	1		Effect: "The Style... of the Future", Effect Duration: 30
+8708	twisted abstraction: action	1		Effect: "The Style...  of the Future", Effect Duration: 30
 8709	modified gray abstraction: thought	1		Effect: "Human-Orc Hybrid", Effect Duration: 30
 8710	powdered huge abstraction: sensation	1		
 8711	pickled abstraction: purpose	1		
@@ -10113,7 +10113,7 @@
 10264	hourglass	0		
 10265	etched hourglass	0		
 10266	enhanced cold-filtered denatured magenta seashell	0		Effect: "On the Shoulders of Giants", Effect Duration: 56
-10267	improved polymerized cyan seashell	0		Effect: "The Wisdom... of the Future", Effect Duration: 59
+10267	improved polymerized cyan seashell	0		Effect: "The Wisdom...  of the Future", Effect Duration: 59
 10268	liquefied energized gray seashell	0		Effect: "Heightened Senses", Effect Duration: 18
 10269	chilled pickled energized seashell	0		Effect: "Berry Statistical", Effect Duration: 57
 10270	aerosolized deionized ghostly seashell	0		Effect: "Crimbo Epiphany", Effect Duration: 44

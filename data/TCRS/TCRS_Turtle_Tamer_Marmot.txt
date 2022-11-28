@@ -4038,7 +4038,7 @@
 4086	manspreader's smooth cyber-mattock	0		Moxie: +15, Monster Level: +10
 4087	maroon facehugging alien	0		
 4088	X-37 gun	0		
-4089	magnetized adjusted alkaline blurry neurostim pill	0		Effect: "The Wisdom... of the Future", Effect Duration: 59
+4089	magnetized adjusted alkaline blurry neurostim pill	0		Effect: "The Wisdom...  of the Future", Effect Duration: 59
 4090	electrified quadruple-wet physiostim pill	0		Effect: "Hood Ridin'", Effect Duration: 18
 4091	slimy cyst	0		
 4092	small slimy cyst	0		
@@ -5158,7 +5158,7 @@
 5256	flavorless toasted brie	3	decent	
 5257	pressed quantum potion of the field gar	0		Effect: "Holiday Bliss", Effect Duration: 35
 5258	boiled polymerized too legit potion	0		Effect: "Violent Night", Effect Duration: 67
-5259	activated spinning Bright Water	0		Effect: "The Style... of the Future", Effect Duration: 62
+5259	activated spinning Bright Water	0		Effect: "The Style...  of the Future", Effect Duration: 62
 5260	polarized triple-corrupted yellow cold-filtered water	0		Effect: "In the Limelight", Effect Duration: 30
 5261	triple-oxidized extra-unsweetened graveyard snowglobe	0		Effect: "Stimulated Brain", Effect Duration: 16
 5262	denatured cool cat elixir	0		Effect: "Mushroom Might", Effect Duration: 13
@@ -5695,7 +5695,7 @@
 5798	quadruple-anodized Vulcanized non-diffused Gnollish Crossdress	0		Effect: "Fiery Spirit", Effect Duration: 58
 5799	quadruple-unsweetened aerosolized teal eldritch dough	0		Effect: "Polka of Plenty", Effect Duration: 34
 5800	galvanized tumbling Charity's choker	0		Effect: "In the Saucestream", Effect Duration: 58
-5801	aerosolized huge Smart Bone Dust	0		Effect: "The Wisdom... of the Future", Effect Duration: 46
+5801	aerosolized huge Smart Bone Dust	0		Effect: "The Wisdom...  of the Future", Effect Duration: 46
 5802	adjusted magnetized perpendicular guano	0		Effect: "Barking Mad", Effect Duration: 68
 5803	aerosolized warmed White Chocolate Golem Seeds	0		Effect: "Shoesauce", Effect Duration: 32
 5804	energized quadruple-pickled jittery Shivering Ch&egrave;vre	0		Effect: "On the Shoulders of Giants", Effect Duration: 40
@@ -8768,7 +8768,7 @@
 8904	energized aerosolized pressed lion musk	0		Effect: "Buggy Flavor", Effect Duration: 53
 8905	decent bear claw	4	good	
 8906	anodized super-corrupted narrow blurry rattler gland	0		Effect: "Deadly Lampblade", Effect Duration: 50
-8907	irradiated jittery half-digested coal	0		Effect: "The Style... of the Future", Effect Duration: 67
+8907	irradiated jittery half-digested coal	0		Effect: "The Style...  of the Future", Effect Duration: 67
 8908	galvanized wet tightly-wound spine	0		Effect: "Toothy Grin", Effect Duration: 53
 8909	miniature moldy rotting beefsteak	2	crappy	
 8910	aged firemilk	3	awesome	

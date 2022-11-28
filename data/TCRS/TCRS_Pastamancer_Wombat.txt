@@ -3553,7 +3553,7 @@
 3587	polarized sugar plum	0		Effect: "Bilious Brawn", Effect Duration: 28
 3588	adjusted ionized sugar banana	0		Effect: "You Drank Fish Wine", Effect Duration: 39
 3589	unsweetened oxidized tumbling tumbling sugar lime	0		Effect: "El Tango de la Maldita Suegra", Effect Duration: 40
-3590	wet sugar cherry	0		Effect: "The Style... of the Future", Effect Duration: 64
+3590	wet sugar cherry	0		Effect: "The Style...  of the Future", Effect Duration: 64
 3591	quilted beefy Mer-kin hookspear	0		Muscle: +10, Damage Absorption: +40
 3592	Mer-kin takebag	0		Item Drop: +5
 3593	blinking Mer-kin thingpouch	0		
@@ -8374,7 +8374,7 @@
 8505	huge half-melted hula girl	0		
 8506	maroon glass ceiling fragments	0		
 8507	twisted SMOOCH coffee cup	1	EPIC	
-8508	ionized labrador cookie	0		Effect: "The Wisdom... of the Future", Effect Duration: 14
+8508	ionized labrador cookie	0		Effect: "The Wisdom...  of the Future", Effect Duration: 14
 8509	auspicious hardened padded Mr. Cheeng's spectacles	0		Damage Absorption: +20, Damage Reduction: 3, Item Drop: +10, Single Equip
 8510	vibrating studded grease cannon	0		Damage Absorption: +80, Maximum MP Percent: +10
 8511	tarnished blinking demon makeup kit	0		Effect: "Gr8ness", Effect Duration: 47

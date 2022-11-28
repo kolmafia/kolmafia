@@ -7504,7 +7504,7 @@
 7619	extra-cold-filtered anodized ghostly copperhead potion	0		Effect: "Mariachi Mood", Effect Duration: 35
 7620	warmed ninja fear powder	0		Effect: "Morbidi Tea", Effect Duration: 25
 7621	frozen extra-wet ninja eyeblack	0		Effect: "You Drank Fish Wine", Effect Duration: 60
-7622	electrified skewed button rouge	0		Effect: "The Style... of the Future", Effect Duration: 63
+7622	electrified skewed button rouge	0		Effect: "The Style...  of the Future", Effect Duration: 63
 7623	adjusted ghostly Red Army camouflage kit	0		Effect: "Chain Chain Chains", Effect Duration: 30
 7624	quadruple-wet super-aerosolized lynyrd skinner toothblack	0		Effect: "Drunk With Power", Effect Duration: 19
 7625	flattened green spinning flask of rainwater	0		Effect: "Almost Cool", Effect Duration: 20

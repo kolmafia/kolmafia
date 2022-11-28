@@ -415,7 +415,7 @@
 417	extra-oxidized henna tattoo	0		Effect: "Sweet and Green", Effect Duration: 53
 418	concentrated wobbly Ferrigno's Elixir of Power	0		Effect: "Wasabi With You", Effect Duration: 15
 419	triple-tarnished extra-irradiated serum of sarcasm	0		Effect: "Chock Full o' Nanites", Effect Duration: 55
-420	quadruple-unsweetened chilled pickled narrow tomato juice of powerful power	0		Effect: "The Wisdom... of the Future", Effect Duration: 60
+420	quadruple-unsweetened chilled pickled narrow tomato juice of powerful power	0		Effect: "The Wisdom...  of the Future", Effect Duration: 60
 421	anodized huge philter of phorce	0		Effect: "Spooky Blur", Effect Duration: 66
 422	quadruple-vacuum-sealed super-ionized olive potion of potency	0		Effect: "Rad-ish", Effect Duration: 25
 423	aerosolized triple-irradiated non-concentrated cordial of concentration	0		Effect: "Human-Orc Hybrid", Effect Duration: 28
@@ -5707,7 +5707,7 @@
 5809	oxidized blurry lime green Knob Goblin Mutagen	0		Effect: "Chari Tea", Effect Duration: 42
 5810	polymerized irradiated Tears of the Quiet Healer	0		Effect: "Ninja, Please", Effect Duration: 65
 5811	liquefied tube of lipstick	0		Effect: "Jammin'", Effect Duration: 29
-5812	deionized mirror skelelton spine	0		Effect: "The Style... of the Future", Effect Duration: 11
+5812	deionized mirror skelelton spine	0		Effect: "The Style...  of the Future", Effect Duration: 11
 5813	magnetized pulsating teal smut orc sunglasses	0		Effect: "Crud&eacute;", Effect Duration: 38
 5814	polymerized blob of acid	0		Effect: "Night Vision", Effect Duration: 21
 5815	cold-filtered enhanced mirror flayed mind	0		Effect: "Elemental Flavor", Effect Duration: 69
@@ -9150,7 +9150,7 @@
 9288	gallstone	0		Familiar Weight: +5
 9289	yellow brawny weightlifter's Uncle Crimbo's hat of the pedagogue	0		Muscle: +15, Muscle Percent: +20, Experience: +3
 9290	rotten big Eldritch snap	5	crappy	
-9291	powdered blinking mirror hot jelly	1		Effect: "The Wisdom... of the Future", Effect Duration: 20
+9291	powdered blinking mirror hot jelly	1		Effect: "The Wisdom...  of the Future", Effect Duration: 20
 9292	compressed fuchsia squat jelly	1		
 9293	altered jelly	1		Effect: "Aries Rising", Effect Duration: 15
 9294	pickled skewed sleaze jelly	1		Effect: "Hot Buttoned", Effect Duration: 15

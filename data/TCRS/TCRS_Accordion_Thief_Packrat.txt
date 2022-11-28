@@ -2298,7 +2298,7 @@
 2324	purple Staff of Ed, almost	0		
 2325	ghostly Staff of Ed	0		
 2326	skewed stone rose	0		
-2327	triple-activated can of paint	0		Effect: "The Style... of the Future", Effect Duration: 28
+2327	triple-activated can of paint	0		Effect: "The Style...  of the Future", Effect Duration: 28
 2328	skewed drum machine	0		
 2329	blurry handful of confetti	0		
 2330	chocolate-covered diamond-studded roses	0		
@@ -6455,7 +6455,7 @@
 6565	spoiled Dreadsylvanian pocket	3	crappy	
 6566	spoiled skewed Dreadsylvanian pocket	3	crappy	
 6567	spoiled Dreadsylvanian stink pocket	4	crappy	
-6568	moldy enchanted Dreadsylvanian sleaze pocket	4	crappy	Effect: "The Style... of the Future", Effect Duration: 40
+6568	moldy enchanted Dreadsylvanian sleaze pocket	4	crappy	Effect: "The Style...  of the Future", Effect Duration: 40
 6569	aged watered-down wobbly skewed Dreadsylvanian hot toddy	2	awesome	
 6570	weak tolerable spinning Dreadsylvanian cold-fashioned	2	good	
 6571	mediocre Dreadsylvanian grimlet	3	decent	
@@ -8494,7 +8494,7 @@
 8627	unsweetened flattened cuppa Vitali tea	0		Effect: "Hippy Flavor", Effect Duration: 37
 8628	polymerized red cuppa Mana tea	0		Effect: "It's Electric!", Effect Duration: 56
 8629	triple-ionized blinking cuppa Monstrosi tea	0		Effect: "Unrunnable Face", Effect Duration: 36
-8630	adjusted yellow cuppa Twen tea	0		Effect: "The Style... of the Future", Effect Duration: 66
+8630	adjusted yellow cuppa Twen tea	0		Effect: "The Style...  of the Future", Effect Duration: 66
 8631	denatured pickled twirling cuppa Gill tea	0		Effect: "Your Interest is Peaked", Effect Duration: 57
 8632	quantum cuppa Uncertain tea	0		Effect: "Bonelording", Effect Duration: 46
 8633	cuppa Voraci tea	0		
@@ -8683,7 +8683,7 @@
 8817	diluted green Mansquito Serum	1		
 8818	tolerable Miss Graves' vermouth	4	good	
 8819	stale The Plumber's mushroom stew	3	decent	
-8820	compressed lime green The Author's ink	1		Effect: "The Style... of the Future", Effect Duration: 5
+8820	compressed lime green The Author's ink	1		Effect: "The Style...  of the Future", Effect Duration: 5
 8821	smooth The Mad Liquor	4	awesome	
 8822	tolerable Doc Clock's thyme cocktail	3	good	
 8823	spoiled Mr. Burnsger	3	crappy	

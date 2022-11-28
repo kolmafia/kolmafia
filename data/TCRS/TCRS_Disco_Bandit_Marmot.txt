@@ -5407,7 +5407,7 @@
 5505	maroon jittery wobbly pack of pogs	0		
 5506	adequate jerky coins	3	good	
 5507	fancy hand-crafted Go-Wassail	3	EPIC	Effect: "Castaway Physique", Effect Duration: 20
-5508	flattened skewed Uncle Greenspan's Bathroom Finance Guide	0		Effect: "The Style... of the Future", Effect Duration: 54
+5508	flattened skewed Uncle Greenspan's Bathroom Finance Guide	0		Effect: "The Style...  of the Future", Effect Duration: 54
 5509	adjusted upside-down bottle of bubbles	0		Effect: "Unrunnable Face", Effect Duration: 65
 5510	electrified wind-up meatcar	0		Effect: "Cookie Backup", Effect Duration: 61
 5511	yellow wobbly wobbly Trivial Avocations Card: What?	0		
@@ -6307,7 +6307,7 @@
 6416	snack-sized moldy mana curds	2	crappy	
 6417	twist of lime	0		
 6418	pencil stub	0		
-6419	ionized corrupted triple-frozen mirror moth dust	0		Effect: "The Style... of the Future", Effect Duration: 25
+6419	ionized corrupted triple-frozen mirror moth dust	0		Effect: "The Style...  of the Future", Effect Duration: 25
 6420	cold-filtered pulsating glob of spoiled mayo	0		Effect: "So Fresh and So Clean", Effect Duration: 44
 6421	tonic djinn	0		
 6422	rotten jumbo vampire chowder	5	crappy	
@@ -8019,7 +8019,7 @@
 8150	dry concentrated sugar sphere	0		Effect: "Phorcefullness", Effect Duration: 64
 8151	modified Shrubble Bubble	0		Effect: "Frosty the Hitman", Effect Duration: 46
 8152	super-concentrated flattened fuchsia polyeaster egg	0		Effect: "Sugar, Hello", Effect Duration: 63
-8153	colloidal candy dish	0		Effect: "The Style... of the Future", Effect Duration: 43
+8153	colloidal candy dish	0		Effect: "The Style...  of the Future", Effect Duration: 43
 8154	warmed concentrated spinning Spechunky bar	0		Effect: "Dreadful Smell", Effect Duration: 62
 8155	tarnished mirror talisman of Horus	0		Effect: "Creepypasted", Effect Duration: 22
 8156	check to the Meatsmith	0		
@@ -8115,7 +8115,7 @@
 8246	inspector's chilly Dinsey mascot mask of James Dean	0		Experience (Moxie): +3, Cold Damage: +5, Item Drop: +15
 8247	yummy Dinsey food-cone	3	awesome	
 8248	smooth Dinsey Whinskey	4	awesome	
-8249	polymerized Dinsey face paint	0		Effect: "The Style... of the Future", Effect Duration: 50
+8249	polymerized Dinsey face paint	0		Effect: "The Style...  of the Future", Effect Duration: 50
 8250	sinister deadly fannypack	0		Weapon Damage: +5, Spell Damage: +10
 8251	grievous experienced educational weightlifter's garbage sticker of Calamity Jane of temperance	0		Muscle: +15, Experience: 3, Weapon Damage Percent: +50, Critical Hit Percent: +15, Sleaze Resistance: +5
 8252	teal skewed sharpshooter's curative Samson's brawny hazmat helmet of the blizzard	0		Muscle Percent: +20, Experience (Muscle): +5, Critical Hit Percent: +10, Cold Spell Damage: +25, HP Regen Min: 3, HP Regen Max: 5
@@ -9553,7 +9553,7 @@
 9693	yellow educational tinsel tights of the glutton	0		Experience: +1, Food Drop: +100
 9694	censurious Jeselnik's beefcake's wad of used tape	0		Muscle: +25, Sleaze Damage: +25, Sleaze Resistance: +3
 9695	olive spinning auspicious banded smartaleck's silent nightlight of incineration	0		Moxie Percent: +30, Damage Absorption: +100, Hot Spell Damage: +50, Item Drop: +10
-9696	activated tumbling bouncing sweetened reindeer fat	0		Effect: "The Style... of the Future", Effect Duration: 60
+9696	activated tumbling bouncing sweetened reindeer fat	0		Effect: "The Style...  of the Future", Effect Duration: 60
 9697	aerosolized activated blurry Good 'n' Quiet	0		Effect: "Dirge of Dreadfulness", Effect Duration: 32
 9698	quadruple-alkaline hot button candy	0		Effect: "Vitali Tea", Effect Duration: 22
 9699	smelly cool makeshift garbage shirt of the empath	0		Moxie: +5, Familiar Weight: +5, Stench Spell Damage: +10

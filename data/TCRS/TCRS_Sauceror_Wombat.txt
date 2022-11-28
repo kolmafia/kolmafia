@@ -990,7 +990,7 @@
 1003	soda water	0		
 1004	artisanal weak bottle of tequila	2	EPIC	
 1005	bad boxed wine	3	decent	
-1006	normal special blurry cherry	4	good	Effect: "The Wisdom... of the Future", Effect Duration: 45
+1006	normal special blurry cherry	4	good	Effect: "The Wisdom...  of the Future", Effect Duration: 45
 1007	boxer's coconut shell	0		Muscle Percent: +10
 1008	zippy ice cubes	0		Initiative: +20
 1009	irresponsibly strong bad vodka martini	7	decent	
@@ -2208,7 +2208,7 @@
 2233	forbidden bow tie	0		Spell Damage Percent: +50, Clowniness: 75
 2234	jittery calavera concertina of the boozehound	0		Booze Drop: +100, Song Duration: 7
 2235	greedy ratarang of chilblains	0		Cold Damage: +25, Meat Drop: +20
-2236	magnetized teal mirror turtle pheromones	0		Effect: "The Wisdom... of the Future", Effect Duration: 14
+2236	magnetized teal mirror turtle pheromones	0		Effect: "The Wisdom...  of the Future", Effect Duration: 14
 2237	shaking maroon pygmy blowgun	0		
 2238	squat pygmy nose-bone of the brute	0		Muscle Percent: +30, Single Equip
 2239	huge jittery gravedigger's bad voodoo mask of the brute	0		Muscle Percent: +30, Spooky Damage: +10
@@ -3130,7 +3130,7 @@
 3158	sparking El Vibrato drone	0		
 3159	extra-dry fuchsia warm El Vibrato drone	0		
 3160	activated humming El Vibrato drone	0		Effect: "You're Not Cooking", Effect Duration: 38
-3161	aerosolized El Vibrato drone	0		Effect: "The Wisdom... of the Future", Effect Duration: 62
+3161	aerosolized El Vibrato drone	0		Effect: "The Wisdom...  of the Future", Effect Duration: 62
 3162	skewed El Vibrato helmet	0		
 3163	El Vibrato energy spear	0		
 3164	gray tumbling El Vibrato leg guards	0		

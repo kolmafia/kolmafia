@@ -1420,7 +1420,7 @@
 1438	corrupted twinkly powder	0		Effect: "Don't Step to Your Stepmother", Effect Duration: 40
 1439	pressed triple-dry ghostly hot powder	0		Effect: "Cold Throat", Effect Duration: 31
 1440	concentrated dry powder	0		Effect: "Berry Elemental", Effect Duration: 33
-1441	deionized tumbling powder	0		Effect: "The Style... of the Future", Effect Duration: 19
+1441	deionized tumbling powder	0		Effect: "The Style...  of the Future", Effect Duration: 19
 1442	boiled flattened stench powder	0		Effect: "Hardened Fabric", Effect Duration: 66
 1443	ionized non-aerosolized shaking sleaze powder	0		Effect: "Trivia Master", Effect Duration: 18
 1444	super-frozen colloidal wobbly twinkly nuggets	0		Effect: "Mmmmmelon", Effect Duration: 61
@@ -3128,7 +3128,7 @@
 3156	El Vibrato punchcard (104 holes)	0		
 3157	El Vibrato drone	0		
 3158	squat sparking El Vibrato drone	0		
-3159	ionized twirling warm El Vibrato drone	0		Effect: "The Style... of the Future", Effect Duration: 67
+3159	ionized twirling warm El Vibrato drone	0		Effect: "The Style...  of the Future", Effect Duration: 67
 3160	oxidized yellow skewed skewed humming El Vibrato drone	0		Effect: "Craft Tea", Effect Duration: 46
 3161	energized improved maroon El Vibrato drone	0		Effect: "Phairly Balanced", Effect Duration: 24
 3162	El Vibrato helmet	0		
@@ -5158,7 +5158,7 @@
 5256	miniature rotten toasted brie	2	crappy	
 5257	triple-pressed alkaline gray potion of the field gar	0		Effect: "Spiky Hair", Effect Duration: 34
 5258	anodized too legit potion	0		Effect: "Executive Greed", Effect Duration: 61
-5259	galvanized spinning Bright Water	0		Effect: "The Wisdom... of the Future", Effect Duration: 56
+5259	galvanized spinning Bright Water	0		Effect: "The Wisdom...  of the Future", Effect Duration: 56
 5260	enhanced denatured wobbly wobbly cold-filtered water	0		Effect: "Appeteyes", Effect Duration: 46
 5261	non-alkaline tarnished graveyard snowglobe	0		Effect: "Crimbo Epiphany", Effect Duration: 42
 5262	improved adjusted galvanized spinning cool cat elixir	0		Effect: "Bread Burps", Effect Duration: 68
@@ -7285,7 +7285,7 @@
 7400	aerosolized jittery Gene Tonic: Mer-kin	0		Effect: "Healthy, Elfy, and Wise", Effect Duration: 43
 7401	moist polarized Gene Tonic: Slime	0		Effect: "Pockets of Fire", Effect Duration: 27
 7402	nitrogenated double-ionized narrow Gene Tonic: Penguin	0		Effect: "Eye of the Seal", Effect Duration: 16
-7403	quadruple-polymerized Gene Tonic: Elemental	0		Effect: "The Wisdom... of the Future", Effect Duration: 18
+7403	quadruple-polymerized Gene Tonic: Elemental	0		Effect: "The Wisdom...  of the Future", Effect Duration: 18
 7404	non-flattened flattened dry spinning Gene Tonic: Constellation	0		Effect: "Guts Feeling", Effect Duration: 60
 7405	energized modified skewed spinning Gene Tonic: Hobo	0		Effect: "Swordholder", Effect Duration: 11
 7406	upside-down Steam Card: Dungeon Fist (#1)	0		
@@ -8767,7 +8767,7 @@
 8903	corrupted ionized lime green buzzard feather	0		Effect: "Patent Alacrity", Effect Duration: 62
 8904	magnetized tumbling lion musk	0		Effect: "Baconstoned", Effect Duration: 68
 8905	normal bear claw	4	good	
-8906	double-pickled enhanced skewed rattler gland	0		Effect: "The Wisdom... of the Future", Effect Duration: 48
+8906	double-pickled enhanced skewed rattler gland	0		Effect: "The Wisdom...  of the Future", Effect Duration: 48
 8907	altered colloidal upside-down half-digested coal	0		Effect: "So You Can Work More...", Effect Duration: 52
 8908	quantum double-corrupted concentrated pulsating tightly-wound spine	0		Effect: "Bear Clawed", Effect Duration: 19
 8909	small decent maroon rotting beefsteak	2	good	
@@ -10011,7 +10011,7 @@
 10161	flattened magnetized blinking pulsating virgin jello shot	0		Effect: "Boletus Swoletus", Effect Duration: 23
 10162	vacuum-sealed dry tumbling mutated candy lump	0		Effect: "Bark of the Dog", Effect Duration: 52
 10163	non-tarnished dry double-activated government-issued candy	0		Effect: "In the Slimelight", Effect Duration: 68
-10164	galvanized twirling Pneumo bar	0		Effect: "The Wisdom... of the Future", Effect Duration: 44
+10164	galvanized twirling Pneumo bar	0		Effect: "The Wisdom...  of the Future", Effect Duration: 44
 10165	gray tumbling mint condition Lil' Doctor&trade; bag	0		Free Pull
 10166	frightening padded Lil' Doctor&trade; bag	0		Damage Absorption: +20, Spooky Damage: +5, Single Equip
 10168	blood bag	0		

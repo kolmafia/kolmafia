@@ -1143,7 +1143,7 @@
 1159	skewed mariachi G-string	0		
 1160	rosewater-soaked irate sombrero	0		Stench Resistance: +3
 1161	pile of candy	0		
-1162	wet double-dry wobbly handsomeness potion	0		Effect: "The Wisdom... of the Future", Effect Duration: 48
+1162	wet double-dry wobbly handsomeness potion	0		Effect: "The Wisdom...  of the Future", Effect Duration: 48
 1163	Vulcanized quantum marzipan skull	0		Effect: "Pasta Oneness", Effect Duration: 28
 1164	poultrygeist	0		
 1165	hovering sombrero	0		
@@ -7500,11 +7500,11 @@
 7616	dry pygmy witchhazel	0		Effect: "Weird Vibrations", Effect Duration: 39
 7617	polarized warmed pulsating short deposition	0		Effect: "Florid Cheeks", Effect Duration: 23
 7618	deionized extra-enhanced purple straw pole	0		Effect: "Marinated", Effect Duration: 48
-7619	pressed nitrogenated copperhead potion	0		Effect: "The Style... of the Future", Effect Duration: 29
+7619	pressed nitrogenated copperhead potion	0		Effect: "The Style...  of the Future", Effect Duration: 29
 7620	liquefied ninja fear powder	0		Effect: "Blood-Rich", Effect Duration: 29
 7621	boiled altered ninja eyeblack	0		Effect: "Heart of Lavender", Effect Duration: 60
 7622	modified magnetized button rouge	0		Effect: "Spirit Bubble", Effect Duration: 36
-7623	diffused tumbling Red Army camouflage kit	0		Effect: "The Wisdom... of the Future", Effect Duration: 33
+7623	diffused tumbling Red Army camouflage kit	0		Effect: "The Wisdom...  of the Future", Effect Duration: 33
 7624	pressed double-wet blinking jittery lynyrd skinner toothblack	0		Effect: "Brother Corsican's Blessing", Effect Duration: 68
 7625	activated extra-electrified blinking flask of rainwater	0		Effect: "Tomato Power", Effect Duration: 31
 7626	altered oyster badge	0		Effect: "You Read The Manual", Effect Duration: 66
@@ -8182,7 +8182,7 @@
 8314	concentrated yellow costume rental shop	0		Effect: "Oily Flavor", Effect Duration: 18
 8315	improved muscle oil	0		Effect: "You Liver", Effect Duration: 18
 8316	double-quantum deionized blinking squat bottle of Red-Out	0		Effect: "Educated (Sorta)", Effect Duration: 60
-8317	ionized dry shaking teal pickpocket protector	0		Effect: "The Style... of the Future", Effect Duration: 37
+8317	ionized dry shaking teal pickpocket protector	0		Effect: "The Style...  of the Future", Effect Duration: 37
 8318	modified aerosolized sinister-looking cat	0		Effect: "Eagle Eyes", Effect Duration: 42
 8319	polymerized chilled jazzy cigarette holder	0		Effect: "Puzzle Fury", Effect Duration: 30
 8320	alkaline quantum one glove	0		Effect: "Icy Demeanor", Effect Duration: 53
@@ -8478,7 +8478,7 @@
 8612	aerosolized chilled yellow cuppa Serendipi tea	0		Effect: "Chalked Weapon", Effect Duration: 53
 8613	enhanced dry cuppa Feroci tea	0		Effect: "French Bronilla Brogueishness", Effect Duration: 16
 8614	adjusted energized cuppa Physicali tea	0		Effect: "Blood-Gorged", Effect Duration: 14
-8615	alkaline activated upside-down cuppa Wit tea	0		Effect: "The Style... of the Future", Effect Duration: 48
+8615	alkaline activated upside-down cuppa Wit tea	0		Effect: "The Style...  of the Future", Effect Duration: 48
 8616	concentrated olive cuppa Neuroplastici tea	0		Effect: "Twenty-three Squid, Ew", Effect Duration: 12
 8617	pickled upside-down cuppa Dexteri tea	0		Effect: "Devil Inside", Effect Duration: 52
 8618	liquefied cuppa Flexibili tea	0		Effect: "The Smile of Mr. A.", Effect Duration: 44
@@ -9290,7 +9290,7 @@
 9429	alien animal milk	0		
 9430	spant egg casing	0		
 9431	yellow murderbot data core	0		
-9432	Vulcanized skewed alien medicine	0		Effect: "The Wisdom... of the Future", Effect Duration: 61
+9432	Vulcanized skewed alien medicine	0		Effect: "The Wisdom...  of the Future", Effect Duration: 61
 9433	moldy alien salad	4	crappy	
 9434	practically non-alcoholic hand-crafted alien booze	1	EPIC	
 9435	Usain Bolt's sharpshooter's alien mask of vim and vigor	0		Maximum HP Percent: +50, Critical Hit Percent: +10, Initiative: +80
