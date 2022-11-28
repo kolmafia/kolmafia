@@ -16,7 +16,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.TreeMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -31,6 +34,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -115,6 +119,10 @@ public class TCRSDatabase {
   public static String getTCRSName(int itemId) {
     TCRS tcrs = TCRSMap.get(itemId);
     return (tcrs == null) ? ItemDatabase.getDataName(itemId) : tcrs.name;
+  }
+
+  public static TCRS getData(int itemId) {
+    return TCRSMap.get(itemId);
   }
 
   public static String filename() {
@@ -594,10 +602,21 @@ public class TCRSDatabase {
               "frozen",
               "primitive",
               "cursed",
-              "stained"));
-
-  private static Set<Integer> FAKE_POTIONS =
-      Set.of(ItemPool.JAZZ_SOAP, ItemPool.CAN_OF_BINARRRCA, ItemPool.LOVE_POTION_XYZ);
+              "stained",
+              "striped",
+              "polka-dot",
+              "paisley",
+              "antique",
+              "ancient",
+              "oily",
+              "strange",
+              "bakelite",
+              "aerogel",
+              "wrought-iron",
+              "gabardine",
+              "cute",
+              "paraffin",
+              "oversized"));
 
   public static void getEffectPool() {
     EffectDatabase.entrySet().stream()
@@ -619,27 +638,20 @@ public class TCRSDatabase {
     return String.join(" ", words.stream().filter(w -> !ADJECTIVES.contains(w)).toList());
   }
 
-  public static TCRS guessPotion(
-      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
-    var itemId = item.getItemId();
-
-    var seed = (50 * itemId) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
-    var mtRng = new PHPMTRandom(seed);
-    var rng = new PHPRandom(seed);
-
+  private static String rollCosmetics(final PHPMTRandom mtRng, final PHPRandom rng, final int max) {
     // Determine cosmetic modifiers
     var cosmeticMods = new ArrayList<String>();
 
     //   Roll 1d6 on whether to add a color
-    if (mtRng.nextInt(1, 6) == 1) {
+    if (mtRng.nextInt(1, max) == 1) {
       cosmeticMods.add(mtRng.pickOne(COLOR_MODS));
     }
 
     //   Work out how many cosmetic modifiers to add
     var numCosmeticMods = 0;
-    if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
-    if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
-    if (mtRng.nextInt(1, 6) == 1) numCosmeticMods++;
+    if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
+    if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
+    if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
 
     //   Pick and add cosmetic modifiers
     for (var i = 0; i < numCosmeticMods; i++) {
@@ -650,9 +662,32 @@ public class TCRSDatabase {
 
     Collections.reverse(cosmeticMods);
 
-    var cosmeticsString = String.join(" ", cosmeticMods);
+    return String.join(" ", cosmeticMods);
+  }
 
-    String effectName;
+  private static String rollConsumableEnchantment(final PHPMTRandom mtRng) {
+    var roll = mtRng.nextInt(0, TCRSEffectPool.size());
+    // We'll see what happens here
+    if (roll != TCRSEffectPool.size()) {
+      var effectName = EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
+      if (!effectName.isBlank()) {
+        var duration = 5 * mtRng.nextInt(1, 10);
+        return "Effect: \"" + effectName + "\", Effect Duration: " + duration;
+      } else {
+        System.out.println(roll);
+      }
+    }
+
+    return "";
+  }
+
+  public static TCRS guessPotion(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 6);
 
     // Determine potion modifiers
     var potionMods = new ArrayList<String>();
@@ -670,13 +705,18 @@ public class TCRSDatabase {
     // Pick effect (note that purposely pick a number that can overflow the pool by 1)
     var roll = mtRng.nextInt(0, TCRSEffectPool.size());
 
-    if (roll == TCRSEffectPool.size()) {
-      //   If we picked an overflow size, the item retains its original effect
-      effectName = Modifiers.getStringModifier("Item", item.getDisambiguatedName(), "Effect");
-    } else {
-      //   Otherwise use the roll we got
-      var effectId = TCRSEffectPool.get(roll);
-      effectName = EffectDatabase.getEffectName(effectId);
+    var effectName =
+        (roll == TCRSEffectPool.size())
+            ?
+            //   If we picked an overflow size, the item retains its original effect
+            Modifiers.getStringModifier("Item", item.getDisambiguatedName(), "Effect")
+            :
+            //   Otherwise use the roll we got
+            EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
+
+    // @TODO check this
+    if (item.getItemId() == 3159 && roll == TCRSEffectPool.size()) {
+      effectName = "";
     }
 
     // Pick duration of effect
@@ -697,14 +737,230 @@ public class TCRSDatabase {
 
     var potionString = String.join(" ", prefixedPotionMods);
 
-    var mods = "Effect: \"" + effectName + "\", Effect Duration: " + duration;
+    var mods = "";
+    if (!effectName.isBlank()) {
+      mods = "Effect: \"" + effectName + "\", Effect Duration: " + duration;
+    }
 
     var name =
-        (potionString.isBlank() ? "" : potionString + " ")
-            + (cosmeticsString.isBlank() ? "" : cosmeticsString + " ")
-            + removeAdjectives(item.getName());
+        Stream.of(potionString, cosmeticsString, removeAdjectives(item.getName()))
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
 
-    return new TCRS(name, 0, null, mods);
+    return new TCRS(name, 0, ConsumableQuality.NONE, mods);
+  }
+
+  private static ConsumableQuality determineFoodQuality(
+      final int qualityRoll, final boolean beverage, final PHPMTRandom mtRng) {
+    return switch (qualityRoll) {
+      case 1, 2 -> beverage ? ConsumableQuality.DECENT : ConsumableQuality.CRAPPY;
+      case 3, 4 -> beverage
+          ? mtRng.pickOne(List.of(ConsumableQuality.DECENT, ConsumableQuality.GOOD))
+          : ConsumableQuality.DECENT;
+      case 5, 6 -> beverage ? ConsumableQuality.AWESOME : ConsumableQuality.GOOD;
+      case 7 -> beverage ? ConsumableQuality.EPIC : ConsumableQuality.AWESOME;
+      default -> null;
+    };
+  }
+
+  private static ConsumableQuality determineBoozeQuality(final int qualityRoll) {
+    return switch (qualityRoll) {
+      case 1, 2 -> ConsumableQuality.DECENT;
+      case 3, 4 -> ConsumableQuality.GOOD;
+      case 5 -> ConsumableQuality.AWESOME;
+      case 6, 7 -> ConsumableQuality.EPIC;
+      default -> null;
+    };
+  }
+
+  private static ConsumableQuality determineSpleenQuality(final int qualityRoll) {
+    return switch (qualityRoll) {
+      case 1 -> ConsumableQuality.CRAPPY;
+      case 2, 3 -> ConsumableQuality.DECENT;
+      case 4, 5 -> ConsumableQuality.GOOD;
+      case 6 -> ConsumableQuality.AWESOME;
+      case 7 -> ConsumableQuality.EPIC;
+      default -> null;
+    };
+  }
+
+  private static final List<List<String>> FOOD_SIZE_DESCRIPTORS =
+      List.of(
+          List.of("tiny", "bite-sized", "diet", "low-calorie"),
+          List.of("small", "snack-sized", "half-sized", "miniature"),
+          List.of(""),
+          List.of(""),
+          List.of("big", "thick", "super-sized", "jumbo"),
+          List.of("massive", "gigantic", "huge", "immense"));
+
+  private static final List<List<String>> BOOZE_SIZE_DESCRIPTORS =
+      List.of(
+          List.of("practically non-alcoholic"),
+          List.of("weak", "watered-down"),
+          List.of(""),
+          List.of(""),
+          List.of("strong", "spirit-forward", "fortified", "boozy", "distilled", "extra-dry"),
+          List.of("irresponsibly strong", "high-proof", "triple-distilled"));
+
+  private static final List<String> FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR =
+      List.of("special", "fancy", "enchanted");
+
+  private static final Map<ConsumableQuality, List<String>> FOOD_QUALITY_DESCRIPTORS =
+      Map.ofEntries(
+          Map.entry(ConsumableQuality.CRAPPY, List.of("rotten", "spoiled", "moldy")),
+          Map.entry(ConsumableQuality.DECENT, List.of("bland", "stale", "flavorless")),
+          Map.entry(ConsumableQuality.GOOD, List.of("decent", "adequate", "normal")),
+          Map.entry(ConsumableQuality.AWESOME, List.of("delicious", "tasty", "toothsome", "yummy")),
+          Map.entry(ConsumableQuality.EPIC, List.of("")));
+
+  private static final Map<ConsumableQuality, List<String>> BOOZE_QUALITY_DESCRIPTORS =
+      Map.ofEntries(
+          Map.entry(ConsumableQuality.CRAPPY, List.of("")),
+          Map.entry(ConsumableQuality.DECENT, List.of("bad", "lousy", "mediocre")),
+          Map.entry(ConsumableQuality.GOOD, List.of("acceptable", "mediocre", "tolerable")),
+          Map.entry(ConsumableQuality.AWESOME, List.of("delicious", "smooth", "aged")),
+          Map.entry(
+              ConsumableQuality.EPIC, List.of("perfectly mixed", "artisanal", "hand-crafted")));
+
+  private static TCRS guessFoodBooze(
+      final AscensionClass ascensionClass,
+      final ZodiacSign sign,
+      final AdventureResult item,
+      final boolean isFood) {
+    var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var beverage = ConsumablesDatabase.isBeverage(item.getItemId());
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 10);
+
+    var qualityRoll = mtRng.nextInt(1, 7);
+    var quality =
+        isFood
+            ? determineFoodQuality(qualityRoll, beverage, mtRng)
+            : determineBoozeQuality(qualityRoll);
+
+    // Does it roll the size if a beverage?
+    var size =
+        beverage
+            ? 1
+            : switch (mtRng.nextInt(1, 10)) {
+              case 1 -> 1;
+              case 2, 3 -> 2;
+              case 4, 5, 6 -> 3;
+              case 7, 8 -> 4;
+              case 9 -> 5;
+              case 10 -> 5 + mtRng.nextInt(1, 5);
+              default -> 0;
+            };
+
+    var mods = "";
+    var adjectives = new ArrayList<String>();
+
+    if (!beverage) {
+      var sizeDescriptors =
+          (isFood ? FOOD_SIZE_DESCRIPTORS : BOOZE_SIZE_DESCRIPTORS).get(Math.min(size - 1, 5));
+      var sizeDescriptor =
+          sizeDescriptors.size() > 1 ? mtRng.pickOne(sizeDescriptors) : sizeDescriptors.get(0);
+      adjectives.add(sizeDescriptor);
+
+      var qualityDescriptors =
+          (isFood ? FOOD_QUALITY_DESCRIPTORS : BOOZE_QUALITY_DESCRIPTORS).get(quality);
+      var qualityDescriptor =
+          qualityDescriptors.size() > 1
+              ? mtRng.pickOne(qualityDescriptors)
+              : qualityDescriptors.get(0);
+      adjectives.add(qualityDescriptor);
+
+      var a = mtRng.nextInt(1, 10) == 1;
+      var b = mtRng.nextInt(1, 10) == 1;
+      var shouldEnchant = isFood ? a || b : a && b;
+
+      var enchantmentDescriptor = "";
+      if (shouldEnchant) {
+        enchantmentDescriptor = mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR);
+        adjectives.add(enchantmentDescriptor);
+      }
+
+      mods = enchantmentDescriptor.equals("enchanted") ? rollConsumableEnchantment(mtRng) : "";
+
+      rng.shuffle(adjectives);
+      Collections.reverse(adjectives);
+    }
+
+    adjectives.add(cosmeticsString);
+    adjectives.add(removeAdjectives(item.getName()));
+
+    var name =
+        adjectives.stream().filter(Predicate.not(String::isBlank)).collect(Collectors.joining(" "));
+
+    return new TCRS(name, size, quality, mods);
+  }
+
+  private static final List<String> SPLEEN_MODIFIERS =
+      List.of(
+          "boiled",
+          "dried",
+          "dehydrated",
+          "diluted",
+          "powdered",
+          "mixed",
+          "distilled",
+          "altered",
+          "modified",
+          "twisted",
+          "vaporized",
+          "denatured",
+          "compressed",
+          "pickled");
+
+  /** Items whose item types are ignored for TCRS */
+  private static final Set<Integer> TCRS_GENERIC =
+      Set.of(
+          // Potions
+          ItemPool.JAZZ_SOAP, ItemPool.CAN_OF_BINARRRCA, ItemPool.LOVE_POTION_XYZ);
+
+  /** Items that are entirely unaffected by TCRS */
+  private static final Set<Integer> TCRS_IMMUNE =
+      Set.of(
+          // Spleen
+          ItemPool.EXPERIMENTAL_CRIMBO_SPLEEN);
+
+  private static TCRS guessSpleen(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 4);
+
+    var quality = determineSpleenQuality(mtRng.nextInt(1, 7));
+
+    var adjective = mtRng.pickOne(SPLEEN_MODIFIERS);
+
+    // Some unknown machinations here, only CDM can explain
+    {
+      if (quality == ConsumableQuality.CRAPPY) {
+        if (mtRng.nextInt(1, 6) == 6) {
+          mtRng.nextDouble();
+        }
+      } else {
+        mtRng.nextDouble();
+        mtRng.nextDouble();
+      }
+
+      mtRng.nextInt();
+    }
+
+    var mods = (mtRng.nextInt(1, 3) == 1) ? rollConsumableEnchantment(mtRng) : "";
+
+    var name =
+        Stream.of(adjective, cosmeticsString, removeAdjectives(item.getName()))
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
+
+    return new TCRS(name, 1, quality, mods);
   }
 
   public static TCRS guessItem(
@@ -712,12 +968,15 @@ public class TCRSDatabase {
     var item = ItemPool.get(itemId);
     var type = EquipmentDatabase.getItemType(itemId);
 
-    if (FAKE_POTIONS.contains(itemId)) {
+    if (TCRS_GENERIC.contains(itemId) || TCRS_IMMUNE.contains(itemId)) {
       type = "other";
     }
 
     return switch (type) {
       case "potion", "avatar potion" -> guessPotion(ascensionClass, sign, item);
+      case "food" -> guessFoodBooze(ascensionClass, sign, item, true);
+      case "booze" -> guessFoodBooze(ascensionClass, sign, item, false);
+      case "spleen item" -> guessSpleen(ascensionClass, sign, item);
       default -> null;
     };
   }

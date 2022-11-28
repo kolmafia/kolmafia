@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.stream.Stream;
@@ -128,16 +129,24 @@ class TCRSDatabaseTest {
         TCRSDatabase.load(ascensionClass, sign, true);
         for (var i : ItemDatabase.entrySet()) {
           var itemId = i.getKey();
-          if (!EquipmentDatabase.getItemType(itemId).contains("potion")
-              || !TCRSDatabase.hasData(itemId)) continue;
-          var expected = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
+          if (!TCRSDatabase.hasData(itemId)) continue;
 
-          if (expected == null) continue;
+          var dataSays = TCRSDatabase.getData(itemId);
+          var weGuessed = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
 
-          assertThat(
-              ascensionClass + "/" + sign + " " + itemId,
-              expected.name,
-              equalTo(TCRSDatabase.getTCRSName(itemId)));
+          if (dataSays == null || weGuessed == null) continue;
+
+          assertAll(
+              String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
+              () -> assertThat("Name", weGuessed.name, equalTo(dataSays.name)),
+              () -> assertThat("Size", weGuessed.size, equalTo(dataSays.size)),
+              () -> {
+                if (dataSays.quality != ConsumablesDatabase.ConsumableQuality.NONE)
+                  assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
+              },
+              () ->
+                  assertThat(
+                      "Modifiers", dataSays.modifiers.endsWith(weGuessed.modifiers), is(true)));
         }
       }
     }
