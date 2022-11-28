@@ -157,6 +157,10 @@ public class Consumable {
     return this.notes != null && this.notes.contains("SAUCY");
   }
 
+  public boolean isBeverage() {
+    return this.notes != null && this.notes.contains("BEVERAGE");
+  }
+
   public boolean isPizza() {
     return this.notes != null && this.notes.contains("PIZZA");
   }
