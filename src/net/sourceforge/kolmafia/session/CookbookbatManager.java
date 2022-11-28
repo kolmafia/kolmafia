@@ -17,7 +17,7 @@ public class CookbookbatManager {
             Pattern.compile("If memory serves, (?<ingredient>.*) was very popular in (?<location>.*), during my time\\. Perhaps if you find (?<monster>.*), you'll collect one,"),
     };
 
-    private static void wipeQuest() {
+    public static void wipeQuest() {
         Preferences.resetToDefault("cookbookbatQuestIngredient");
         Preferences.resetToDefault("cookbookbatQuestLocation");
         Preferences.resetToDefault("cookbookbatQuestMonster");
@@ -25,10 +25,10 @@ public class CookbookbatManager {
     }
 
     private static void updateQuestData(String ingredient, String location, String monster) {
-        CookbookbatManager.wipeQuest();
         Preferences.setString("cookbookbatQuestIngredient", ingredient);
         Preferences.setString("cookbookbatQuestLocation", location);
         Preferences.setString("cookbookbatQuestMonster", monster);
+        Preferences.resetToDefault("cookbookbatQuestTurns");
     }
 
     public static void parseResponse(String responseText) {

@@ -4042,6 +4042,9 @@ public class FightRequest extends GenericRequest {
 
         case FamiliarPool.COOKBOOKBAT:
           Preferences.increment("cookbookbatQuestTurns");
+          if (Preferences.getInteger("cookbookbatQuestTurns") >= 6 && locationName != Preferences.getString("cookbookbatQuestLocation") && Preferences.getString("cookbookbatQuestLocation") != "") {
+            CookbookbatManager.wipeQuest();
+          }
           CookbookbatManager.parseResponse(responseText);
       }
 
