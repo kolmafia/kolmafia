@@ -934,7 +934,8 @@ public class ConsumablesDatabase {
     WINE,
     SALAD,
     BEER,
-    CANNED
+    CANNED,
+    BEVERAGE,
   }
 
   private static boolean hasAttribute(final int itemId, final Attribute attribute) {
@@ -961,6 +962,10 @@ public class ConsumablesDatabase {
 
   public static boolean isSaucy(final int itemId) {
     return hasAttribute(itemId, Attribute.SAUCY);
+  }
+
+  public static boolean isBeverage(final int itemId) {
+    return hasAttribute(itemId, Attribute.BEVERAGE);
   }
 
   public static boolean isPizza(final int itemId) {
