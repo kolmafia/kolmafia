@@ -149,44 +149,59 @@ public class ItemDatabase {
   private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
 
   public enum Attribute {
-    QUEST,
-    GIFT,
-    TRADEABLE,
-    DISCARDABLE,
-    COMBAT,
-    COMBAT_REUSABLE,
-    USABLE,
-    MULTIPLE,
-    REUSABLE,
-    SINGLE,
-    SOLO,
-    CURSE,
-    BOUNTY,
-    CANDY0,
-    CANDY1,
-    CANDY2,
-    MATCHABLE,
-    FANCY,
-    CHOCOLATE,
-    PASTE,
-    SMITH,
-    COOK,
-    MIX,
+    QUEST("q"),
+    GIFT("g"),
+    TRADEABLE("t"),
+    DISCARDABLE("d"),
+
+    COMBAT("combat"),
+    COMBAT_REUSABLE("combat reusable"),
+
+    USABLE("usable"),
+    MULTIPLE("multiple"),
+    REUSABLE("reusable"),
+
+    SINGLE("single"),
+    SOLO("solo"),
+
+    CURSE("curse"),
+    BOUNTY("bounty"),
+    CANDY0("candy"),
+    CANDY1("candy1"),
+    CANDY2("candy2"),
+    MATCHABLE("matchable"),
+    FANCY("fancy"),
+    CHOCOLATE("chocolate"),
+    PASTE("paste"),
+    SMITH("smith"),
+    COOK("cook"),
+    MIX("mix");
+
+    public final String description;
+    private static final Map<String, Attribute> attributeByDescription = new HashMap<>();
+
+    Attribute(String description) {
+      this.description = description;
+    }
+
+    public static Attribute byDescription(String description) {
+      var lookup = attributeByDescription.get(description);
+      if (lookup != null) return lookup;
+      var search =
+          Arrays.stream(Attribute.values())
+              .filter(x -> x.description.equals(description))
+              .findAny();
+      search.ifPresent(x -> attributeByDescription.put(description, x));
+      return search.orElse(null);
+    }
   }
 
   private static final HashMap<String, ConsumptionType> PRIMARY_USE = new HashMap<>();
   private static final HashMap<ConsumptionType, String> INVERSE_PRIMARY_USE = new HashMap<>();
-  private static final HashMap<String, Attribute> SECONDARY_USE = new HashMap<>();
-  private static final TreeMap<Attribute, String> INVERSE_SECONDARY_USE = new TreeMap<>();
 
   private static void definePrimaryUse(final String key, final ConsumptionType usage) {
     PRIMARY_USE.put(key, usage);
     INVERSE_PRIMARY_USE.put(usage, key);
-  }
-
-  private static void defineSecondaryUse(final String key, final Attribute usage) {
-    SECONDARY_USE.put(key, usage);
-    INVERSE_SECONDARY_USE.put(usage, key);
   }
 
   static {
@@ -228,29 +243,6 @@ public class ItemDatabase {
 
     ItemDatabase.definePrimaryUse("potion", ConsumptionType.POTION);
     ItemDatabase.definePrimaryUse("avatar", ConsumptionType.AVATAR_POTION);
-
-    ItemDatabase.defineSecondaryUse("usable", Attribute.USABLE);
-    ItemDatabase.defineSecondaryUse("multiple", Attribute.MULTIPLE);
-    ItemDatabase.defineSecondaryUse("reusable", Attribute.REUSABLE);
-
-    ItemDatabase.defineSecondaryUse("combat", Attribute.COMBAT);
-    ItemDatabase.defineSecondaryUse("combat reusable", Attribute.COMBAT_REUSABLE);
-
-    ItemDatabase.defineSecondaryUse("single", Attribute.SINGLE);
-    ItemDatabase.defineSecondaryUse("solo", Attribute.SOLO);
-
-    ItemDatabase.defineSecondaryUse("curse", Attribute.CURSE);
-    ItemDatabase.defineSecondaryUse("bounty", Attribute.BOUNTY);
-    ItemDatabase.defineSecondaryUse("candy", Attribute.CANDY0);
-    ItemDatabase.defineSecondaryUse("candy1", Attribute.CANDY1);
-    ItemDatabase.defineSecondaryUse("candy2", Attribute.CANDY2);
-    ItemDatabase.defineSecondaryUse("matchable", Attribute.MATCHABLE);
-    ItemDatabase.defineSecondaryUse("fancy", Attribute.FANCY);
-    ItemDatabase.defineSecondaryUse("chocolate", Attribute.CHOCOLATE);
-    ItemDatabase.defineSecondaryUse("paste", Attribute.PASTE);
-    ItemDatabase.defineSecondaryUse("smith", Attribute.SMITH);
-    ItemDatabase.defineSecondaryUse("cook", Attribute.COOK);
-    ItemDatabase.defineSecondaryUse("mix", Attribute.MIX);
   }
 
   public static boolean newItems = false;
@@ -395,12 +387,12 @@ public class ItemDatabase {
         EnumSet<Attribute> attrs = EnumSet.noneOf(Attribute.class);
         for (int i = 1; i < usages.length; ++i) {
           usage = usages[i];
-          Attribute secUse = ItemDatabase.SECONDARY_USE.get(usage);
+          Attribute secUse = Attribute.byDescription(usage);
           if (secUse == null) {
             RequestLogger.printLine("Unknown secondary usage for " + name + ": " + usage);
           } else {
             attrs.add(secUse);
-            CandyDatabase.registerCandy(id, usage);
+            CandyDatabase.registerCandy(id, secUse);
           }
         }
 
@@ -1558,24 +1550,18 @@ public class ItemDatabase {
   }
 
   public static final String attrsToSecondaryUsage(EnumSet<Attribute> attrs) {
-    var cloned = EnumSet.copyOf(attrs);
-    cloned.removeAll(
-        EnumSet.of(Attribute.TRADEABLE, Attribute.GIFT, Attribute.QUEST, Attribute.DISCARDABLE));
-
-    // If there are no other attributes, return empty string
-    if (cloned.isEmpty()) {
-      return "";
-    }
-
-    // Otherwise, iterate over bits
     StringBuilder result = new StringBuilder();
 
-    for (Entry<Attribute, String> entry : ItemDatabase.INVERSE_SECONDARY_USE.entrySet()) {
-      Attribute bit = entry.getKey();
-
-      if (cloned.contains(bit)) {
-        result.append(", ");
-        result.append(entry.getValue());
+    for (var attr : attrs) {
+      switch (attr) {
+        case TRADEABLE:
+        case GIFT:
+        case QUEST:
+        case DISCARDABLE:
+          continue;
+        default:
+          result.append(", ");
+          result.append(attr.description);
       }
     }
 

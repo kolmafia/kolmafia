@@ -92,23 +92,22 @@ public class CandyDatabase {
     MallPriceManager.getMallPrices(CandyDatabase.otherCandies, 0.0f);
   }
 
-  public static void registerCandy(final Integer itemId, final String type) {
-    if (type.equals("candy")) {
-      // Unspaded candy
-      CandyDatabase.tier0Candy.add(itemId);
-      return;
-    }
-
-    if (type.equals("candy1")) {
-      // Simple candy
-      CandyDatabase.tier1Candy.add(itemId);
-      CandyDatabase.tier2Candy.add(itemId);
-    } else if (type.equals("candy2")) {
-      // Complex candy
-      CandyDatabase.tier3Candy.add(itemId);
-      CandyDatabase.tier2Candy.add(itemId);
-    } else {
-      return;
+  public static void registerCandy(final Integer itemId, final Attribute type) {
+    switch (type) {
+      case CANDY0 -> {
+        // Unspaded candy
+        CandyDatabase.tier0Candy.add(itemId);
+      }
+      case CANDY1 -> {
+        // Simple candy
+        CandyDatabase.tier1Candy.add(itemId);
+        CandyDatabase.tier2Candy.add(itemId);
+      }
+      case CANDY2 -> {
+        // Complex candy
+        CandyDatabase.tier3Candy.add(itemId);
+        CandyDatabase.tier2Candy.add(itemId);
+      }
     }
   }
 

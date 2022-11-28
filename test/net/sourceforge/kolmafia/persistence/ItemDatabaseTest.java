@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.EnumSet;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -81,5 +82,13 @@ public class ItemDatabaseTest {
         item,
         is(
             "1959\ttattered scrap of paper\t695577512\ttatpaper.gif\tnone, combat, solo, paste\tt,d\t45\ttattered scraps of paper"));
+  }
+
+  @Test
+  public void checksItemFlags() {
+    assertThat(ItemDatabase.isTradeable(ItemPool.SEAL_CLUB), is(true));
+    assertThat(ItemDatabase.isGiftItem(ItemPool.SEAL_CLUB), is(false));
+    assertThat(ItemDatabase.isPasteable(ItemPool.SEAL_CLUB), is(true));
+    assertThat(ItemDatabase.isChocolateItem(ItemPool.SEAL_CLUB), is(false));
   }
 }
