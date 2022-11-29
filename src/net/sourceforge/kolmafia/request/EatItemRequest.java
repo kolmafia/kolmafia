@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -19,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -836,8 +838,8 @@ public class EatItemRequest extends UseItemRequest {
       Preferences.setBoolean("universalSeasoningActive", false);
     }
 
-    int attrs = ItemDatabase.getAttributes(itemId);
-    if (!timeSpinnerUsed && ((attrs & ItemDatabase.ATTR_REUSABLE) == 0)) {
+    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
+    if (!timeSpinnerUsed && !attrs.contains(Attribute.REUSABLE)) {
       ResultProcessor.processResult(item.getNegation());
     }
     KoLCharacter.updateStatus();

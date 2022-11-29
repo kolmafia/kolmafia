@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -1611,11 +1612,11 @@ public class FightRequest extends GenericRequest {
   }
 
   private boolean singleUseCombatItem(int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_SINGLE);
+    return ItemDatabase.getAttribute(itemId, Attribute.SINGLE);
   }
 
   private boolean soloUseCombatItem(int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_SOLO);
+    return ItemDatabase.getAttribute(itemId, Attribute.SOLO);
   }
 
   public static final boolean isInvalidShieldlessAttack(final String action) {
@@ -8379,7 +8380,7 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
-    if (ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_COMBAT_REUSABLE)) {
+    if (ItemDatabase.getAttribute(itemId, Attribute.COMBAT_REUSABLE)) {
       return false;
     }
 
