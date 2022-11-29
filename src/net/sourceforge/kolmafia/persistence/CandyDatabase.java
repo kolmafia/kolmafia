@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +10,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -90,23 +92,22 @@ public class CandyDatabase {
     MallPriceManager.getMallPrices(CandyDatabase.otherCandies, 0.0f);
   }
 
-  public static void registerCandy(final Integer itemId, final String type) {
-    if (type.equals("candy")) {
-      // Unspaded candy
-      CandyDatabase.tier0Candy.add(itemId);
-      return;
-    }
-
-    if (type.equals("candy1")) {
-      // Simple candy
-      CandyDatabase.tier1Candy.add(itemId);
-      CandyDatabase.tier2Candy.add(itemId);
-    } else if (type.equals("candy2")) {
-      // Complex candy
-      CandyDatabase.tier3Candy.add(itemId);
-      CandyDatabase.tier2Candy.add(itemId);
-    } else {
-      return;
+  public static void registerCandy(final Integer itemId, final Attribute type) {
+    switch (type) {
+      case CANDY0 -> {
+        // Unspaded candy
+        CandyDatabase.tier0Candy.add(itemId);
+      }
+      case CANDY1 -> {
+        // Simple candy
+        CandyDatabase.tier1Candy.add(itemId);
+        CandyDatabase.tier2Candy.add(itemId);
+      }
+      case CANDY2 -> {
+        // Complex candy
+        CandyDatabase.tier3Candy.add(itemId);
+        CandyDatabase.tier2Candy.add(itemId);
+      }
     }
   }
 
@@ -144,12 +145,12 @@ public class CandyDatabase {
   public static final String getCandyType(final int itemId) {
     // We could look in our various candy sets, but more efficient
     // to just look at item attributes
-    int attributes = ItemDatabase.getAttributes(itemId);
-    return (attributes & ItemDatabase.ATTR_CANDY0) != 0
+    EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
+    return attributes.contains(Attribute.CANDY0)
         ? UNSPADED
-        : (attributes & ItemDatabase.ATTR_CANDY1) != 0
+        : attributes.contains(Attribute.CANDY1)
             ? SIMPLE
-            : (attributes & ItemDatabase.ATTR_CANDY2) != 0 ? COMPLEX : NONE;
+            : attributes.contains(Attribute.CANDY2) ? COMPLEX : NONE;
   }
 
   public static final int getEffectTier(final int itemId1, final int itemId2) {

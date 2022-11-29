@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -274,10 +276,7 @@ public class ItemFinder {
           nameIterator,
           itemId != -1
               && !ItemDatabase.getAttribute(
-                  itemId,
-                  ItemDatabase.ATTR_TRADEABLE
-                      | ItemDatabase.ATTR_MATCHABLE
-                      | ItemDatabase.ATTR_QUEST)
+                  itemId, EnumSet.of(Attribute.TRADEABLE, Attribute.MATCHABLE, Attribute.QUEST))
               && !NPCStoreDatabase.contains(itemId));
     }
 

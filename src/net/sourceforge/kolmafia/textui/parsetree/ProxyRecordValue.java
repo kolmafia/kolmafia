@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +25,7 @@ import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -493,7 +495,7 @@ public class ProxyRecordValue extends RecordValue {
      */
     public boolean get_combat() {
       return ItemDatabase.getAttribute(
-          (int) this.contentLong, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE);
+          (int) this.contentLong, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
     }
 
     /**
@@ -503,7 +505,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return Whether the Item is combat reusable
      */
     public boolean get_combat_reusable() {
-      return ItemDatabase.getAttribute((int) this.contentLong, ItemDatabase.ATTR_COMBAT_REUSABLE);
+      return ItemDatabase.getAttribute((int) this.contentLong, Attribute.COMBAT_REUSABLE);
     }
 
     /**
@@ -524,7 +526,7 @@ public class ProxyRecordValue extends RecordValue {
     public boolean get_reusable() {
       int id = (int) this.contentLong;
       return ItemDatabase.getConsumptionType(id) == ConsumptionType.USE_INFINITE
-          || ItemDatabase.getAttribute(id, ItemDatabase.ATTR_REUSABLE);
+          || ItemDatabase.getAttribute(id, Attribute.REUSABLE);
     }
 
     /**

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,6 +19,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -626,8 +628,7 @@ public abstract class CombatActionManager {
     for (int i = 0; i < count; ++i) {
       String name = matchingNames.get(i);
       int id = ItemDatabase.getItemId(name);
-      if (ItemDatabase.getAttribute(
-          id, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE)) {
+      if (ItemDatabase.getAttribute(id, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE))) {
         return id;
       }
     }
