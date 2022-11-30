@@ -436,6 +436,15 @@ public class UseItemRequest extends GenericRequest {
       case PASTA_GUARDIAN:
         UseItemRequest.limiter = "character class";
         return KoLCharacter.isPastamancer() ? 1 : 0;
+      case EAT:
+        return EatItemRequest.maximumUses(
+            itemId, itemName, ConsumablesDatabase.getFullness(itemName));
+      case DRINK:
+        return DrinkItemRequest.maximumUses(
+            itemId, itemName, ConsumablesDatabase.getInebriety(itemName), allowOverDrink);
+      case SPLEEN:
+        return SpleenItemRequest.maximumUses(
+            itemId, itemName, ConsumablesDatabase.getSpleenHit(itemName));
     }
 
     // Delegate to specialized classes as appropriate
