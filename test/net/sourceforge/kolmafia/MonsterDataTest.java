@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,6 +13,7 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -329,6 +331,27 @@ public class MonsterDataTest {
         var matcher = contains(EncounterType.FREE_COMBAT);
         assertThat(monster.getType(), free ? matcher : not(matcher));
       }
+    }
+  }
+
+  @Nested
+  class ItemDrops {
+    @ParameterizedTest
+    @CsvSource({
+      // Test regular drops
+      "skeleton with a mop, 'beer-soaked mop (10), ice-cold Willer (30), ice-cold Willer (30)'",
+      // Test mix of pp and no pp
+      "cheerless mime executive, 'crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), warehouse key (0 pp only)'",
+      // Test mix of item drops and bounty drops
+      "novelty tropical skeleton, 'cherry (0), cherry (0), grapefruit (0), grapefruit (0), orange (0), orange (0), strawberry (0), strawberry (0), lemon (0), lemon (0), novelty fruit hat (0 cond), cherry stem (bounty)'",
+    })
+    void itemDropsAreRenderedProperly(final String monsterName, final String itemDropString) {
+      var monster = MonsterDatabase.findMonster(monsterName);
+
+      var builder = new StringBuilder();
+      monster.appendItemDrops(builder);
+
+      assertThat(builder.toString(), equalTo("<br />Item Drops: " + itemDropString));
     }
   }
 }
