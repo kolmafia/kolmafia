@@ -1676,13 +1676,22 @@ public class MonsterData extends AdventureResult {
   }
 
   public EnumSet<EncounterType> getType() {
-    // Only the first 10 Snowmen are free
-    if (this.name.equals("X-32-F Combat Training Snowman")
-        && Preferences.getInteger("_snojoFreeFights") < 10) {
-      EnumSet<EncounterType> temp = this.type.clone();
+    // Some monsters are conditionally free
+    var forceFree =
+        switch (this.name) {
+          case "X-32-F Combat Training Snowman" -> Preferences.getInteger("_snojoFreeFights") < 10;
+          case "biker", "\"plain\" girl", "jock", "party girl", "burnout" -> Preferences.getInteger(
+                  "_neverendingPartyFreeTurns")
+              < 10;
+          default -> false;
+        };
+
+    if (forceFree) {
+      var temp = this.type.clone();
       temp.add(EncounterType.FREE_COMBAT);
       return temp;
     }
+
     return this.type;
   }
 
