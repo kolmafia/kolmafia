@@ -865,6 +865,10 @@ public class TCRSDatabase {
           sizeDescriptors.size() > 1 ? mtRng.pickOne(sizeDescriptors) : sizeDescriptors.get(0);
       adjectives.add(sizeDescriptor);
 
+      if (item.getItemId() == 237) {
+        mtRng.nextDouble();
+      }
+
       var qualityDescriptors =
           (isFood ? FOOD_QUALITY_DESCRIPTORS : BOOZE_QUALITY_DESCRIPTORS).get(quality);
       var qualityDescriptor =
@@ -873,9 +877,16 @@ public class TCRSDatabase {
               : qualityDescriptors.get(0);
       adjectives.add(qualityDescriptor);
 
-      var a = mtRng.nextInt(1, 10) == 1;
-      var b = mtRng.nextInt(1, 10) == 1;
-      var shouldEnchant = isFood ? a || b : a && b;
+      if (quality != ConsumableQuality.CRAPPY) {
+        mtRng.nextDouble();
+      }
+
+      if (item.getItemId() == 251) {
+        mtRng.nextDouble();
+      }
+
+      var enchantRoll = mtRng.nextInt(1, 10) == 1;
+      var shouldEnchant = isFood ? enchantRoll : enchantRoll && mtRng.nextInt(1, 10) == 1;
 
       var enchantmentDescriptor = "";
       if (shouldEnchant) {
