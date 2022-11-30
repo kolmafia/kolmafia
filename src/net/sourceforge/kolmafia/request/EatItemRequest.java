@@ -165,6 +165,10 @@ public class EatItemRequest extends UseItemRequest {
         UseItemRequest.limiter = "daily limit";
         return 23 - Preferences.getInteger("_sausagesEaten");
 
+      case ItemPool.GLITCH_ITEM:
+        UseItemRequest.limiter = "daily limit";
+        return 1 - Preferences.getInteger("_glitchMonsterFights");
+
       case ItemPool.PIRATE_FORK:
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_pirateForkUsed") ? 0 : 1;
@@ -225,7 +229,7 @@ public class EatItemRequest extends UseItemRequest {
 
     UseItemRequest.lastUpdate = "";
 
-    int maximumUses = UseItemRequest.maximumUses(itemId);
+    int maximumUses = UseItemRequest.maximumUses(itemId, this.consumptionType);
     if (maximumUses < count) {
       KoLmafia.updateDisplay(
           "(usable quantity of "
