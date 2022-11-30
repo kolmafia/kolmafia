@@ -1,19 +1,33 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class MonsterDataTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("MonsterDataTest");
+    Preferences.reset("MonsterDataTest");
+  }
 
   @Nested
   class Attributes {
@@ -289,6 +303,32 @@ public class MonsterDataTest {
       Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
       String normalized = MonsterData.attributeMapToString(attributeMap);
       assertEquals("Atk: 13 EA: sleaze EA: spooky", normalized);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, true", "5, true", "9, true", "10, false"})
+    void firstTenSnowmenAreFree(final int freeFights, final boolean free) {
+      var cleanups = new Cleanups(withProperty("_snojoFreeFights", freeFights));
+
+      try (cleanups) {
+        var monster = new MonsterData("X-32-F Combat Training Snowman", 0, new String[] {}, "");
+
+        var matcher = contains(EncounterType.FREE_COMBAT);
+        assertThat(monster.getType(), free ? matcher : not(matcher));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, true", "5, true", "9, true", "10, false"})
+    void firstTenNEPMonstersFree(final int freeTurns, final boolean free) {
+      var cleanups = new Cleanups(withProperty("_neverendingPartyFreeTurns", freeTurns));
+
+      try (cleanups) {
+        var monster = new MonsterData("biker", 0, new String[] {}, "");
+
+        var matcher = contains(EncounterType.FREE_COMBAT);
+        assertThat(monster.getType(), free ? matcher : not(matcher));
+      }
     }
   }
 }
