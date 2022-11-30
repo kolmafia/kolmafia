@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -25,9 +27,6 @@ import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterData extends AdventureResult {
-
-  public static Map<String, Attribute> optionToAttribute = new HashMap<>();
-
   public enum Attribute {
     // Non-scaling monsters
     ATTACK("Atk:"),
@@ -75,11 +74,18 @@ public class MonsterData extends AdventureResult {
     MANUEL_NAME("Manuel:"),
     WIKI_NAME("Wiki:");
 
+    public static final Map<String, Attribute> optionToAttribute =
+        Arrays.stream(Attribute.values())
+            .collect(Collectors.toUnmodifiableMap(a -> a.option, Function.identity()));
+
+    public static Attribute find(final String option) {
+      return optionToAttribute.get(option);
+    }
+
     private final String option;
 
     Attribute(String option) {
       this.option = option;
-      optionToAttribute.put(option, this);
     }
 
     public String getOption() {
@@ -107,7 +113,7 @@ public class MonsterData extends AdventureResult {
       String option = tokens.nextToken();
       Object value;
 
-      Attribute attribute = MonsterData.optionToAttribute.get(option);
+      Attribute attribute = Attribute.find(option);
 
       if (attribute == null) {
         // Special cases:
