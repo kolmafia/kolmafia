@@ -87,10 +87,6 @@ public class MonsterData extends AdventureResult {
     }
   }
 
-  static {
-    Attribute[] attributes = Attribute.values();
-  }
-
   // ***********************************************************
   // Parsing an attribute string - from monsters.txt or manually
   // crafted by MonsterManuelManager - into a map from Attribute
@@ -146,35 +142,27 @@ public class MonsterData extends AdventureResult {
 
       try {
         switch (attribute) {
-          case ATTACK:
-          case DEFENSE:
-          case HP:
-          case INITIATIVE:
-          case EXPERIENCE:
-          case MLMULT:
-          case ITEM:
-          case SKILL:
-          case SPELLS:
-          case SPRINKLE_MIN:
-          case SPRINKLE_MAX:
-          case ELEM:
-          case PHYS:
+          case ATTACK,
+              DEFENSE,
+              HP,
+              INITIATIVE,
+              EXPERIENCE,
+              MLMULT,
+              ITEM,
+              SKILL,
+              SPELLS,
+              SPRINKLE_MIN,
+              SPRINKLE_MAX,
+              ELEM,
+              PHYS -> {
             value = parseNumeric(tokens);
             attributeMap.put(attribute, value);
-            continue;
-          case SCALE:
+          }
+          case SCALE, CAP, FLOOR -> {
             value = parseDefaultedNumeric(tokens);
             attributeMap.put(attribute, value);
-            continue;
-          case CAP:
-            value = parseDefaultedNumeric(tokens);
-            attributeMap.put(attribute, value);
-            continue;
-          case FLOOR:
-            value = parseDefaultedNumeric(tokens);
-            attributeMap.put(attribute, value);
-            continue;
-          case EA:
+          }
+          case EA -> {
             if (tokens.hasMoreTokens()) {
               String next = parseString(tokens.nextToken(), tokens);
               Element element = parseElement(next);
@@ -184,15 +172,14 @@ public class MonsterData extends AdventureResult {
               Object current = attributeMap.get(attribute);
               if (current == null) {
                 attributeMap.put(attribute, element);
-              } else if (current instanceof Element) {
-                Element first = (Element) current;
+              } else if (current instanceof Element first) {
                 attributeMap.put(attribute, EnumSet.of(first, element));
               } else if (current instanceof EnumSet) {
                 ((EnumSet<Element>) current).add(element);
               }
             }
-            continue;
-          case ED:
+          }
+          case ED -> {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
               Element element = parseElement(next);
@@ -200,14 +187,14 @@ public class MonsterData extends AdventureResult {
                 attributeMap.put(attribute, element);
               }
             }
-            continue;
-          case GROUP:
+          }
+          case GROUP -> {
             if (tokens.hasMoreTokens()) {
               value = StringUtilities.parseInt(tokens.nextToken());
               attributeMap.put(attribute, value);
             }
-            continue;
-          case PHYLUM:
+          }
+          case PHYLUM -> {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
               Phylum num = parsePhylum(next);
@@ -215,11 +202,11 @@ public class MonsterData extends AdventureResult {
                 attributeMap.put(attribute, num);
               }
             }
-            continue;
-          case MEAT:
+          }
+          case MEAT -> {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
-              if (next.indexOf("-") >= 0) {
+              if (next.contains("-")) {
                 // RequestLogger.printLine("Monster: \"" + name + "\" has meat range " + next);
                 // Let user calculate average
                 value = next;
@@ -228,24 +215,20 @@ public class MonsterData extends AdventureResult {
               }
               attributeMap.put(attribute, value);
             }
-            continue;
-
-          case ARTICLE:
+          }
+          case ARTICLE -> {
             if (tokens.hasMoreTokens()) {
               value = tokens.nextToken();
               attributeMap.put(attribute, value);
             }
-            continue;
-
-          case MANUEL_NAME:
-          case WIKI_NAME:
+          }
+          case MANUEL_NAME, WIKI_NAME -> {
             if (tokens.hasMoreTokens()) {
               value = parseString(tokens.nextToken(), tokens);
               attributeMap.put(attribute, value);
             }
-            continue;
-
-          case POISON:
+          }
+          case POISON -> {
             if (tokens.hasMoreTokens()) {
               String poisonType = parseString(tokens.nextToken(), tokens);
               int poison = EffectDatabase.getPoisonLevel(poisonType);
@@ -255,29 +238,20 @@ public class MonsterData extends AdventureResult {
               }
               attributeMap.put(attribute, poison);
             }
-            continue;
-
-          case BOSS:
-          case NOBANISH:
-          case NOCOPY:
-          case NOMANUEL:
-            attributeMap.put(attribute, true);
-            continue;
-
-          case WANDERER:
-          case ULTRARARE:
-          case LUCKY:
-          case SUPERLIKELY:
-          case FREE:
-          case NOWANDER:
-            attributeMap.put(attribute, true);
-            continue;
-
-          case GHOST:
-          case SNAKE:
-          case DRIPPY:
-            attributeMap.put(attribute, true);
-            continue;
+          }
+          case BOSS,
+              NOBANISH,
+              NOCOPY,
+              NOMANUEL,
+              WANDERER,
+              ULTRARARE,
+              LUCKY,
+              SUPERLIKELY,
+              FREE,
+              NOWANDER,
+              GHOST,
+              SNAKE,
+              DRIPPY -> attributeMap.put(attribute, true);
         }
       } catch (Exception e) {
         // This should not happen.  Therefore, print
@@ -342,7 +316,7 @@ public class MonsterData extends AdventureResult {
     return temp.toString();
   }
 
-  public static final Element parseElement(final String s) {
+  public static Element parseElement(final String s) {
     for (Element elem : Element.values()) {
       if (elem.toString().equals(s)) {
         return elem;
@@ -351,7 +325,7 @@ public class MonsterData extends AdventureResult {
     return Element.NONE;
   }
 
-  public static final Phylum parsePhylum(final String s) {
+  public static Phylum parsePhylum(final String s) {
     for (Phylum phylum : Phylum.values()) {
       if (phylum.toString().equals(s)) {
         return phylum;
@@ -413,7 +387,7 @@ public class MonsterData extends AdventureResult {
 
     Object EA = attributeMap.get(Attribute.EA);
     Object ED = attributeMap.get(Attribute.ED);
-    if (EA != null && ED != null && EA == ED) {
+    if (EA != null && EA == ED) {
       buf.append("E: ");
       buf.append(ED);
       buf.append(" ");
@@ -466,8 +440,7 @@ public class MonsterData extends AdventureResult {
       buf.append(attribute.getOption());
       buf.append(" ");
       Object value = attributeMap.get(attribute);
-      if (value instanceof String) {
-        String string = (String) value;
+      if (value instanceof String string) {
         if (string.equals("?")) {
           buf.append(value);
         } else {
@@ -616,8 +589,8 @@ public class MonsterData extends AdventureResult {
   private Object physicalResistance;
   private Object elementalResistance;
   private int meat;
-  private Object minSprinkles;
-  private Object maxSprinkles;
+  private final Object minSprinkles;
+  private final Object maxSprinkles;
   private final int group;
   private final Phylum phylum;
   private final int poison;
@@ -629,9 +602,9 @@ public class MonsterData extends AdventureResult {
   private final EnumSet<EncounterType> type;
   private final String image;
   private final String[] images;
-  private String manuelName = null;
-  private String wikiName = null;
-  private String article = null;
+  private String manuelName;
+  private final String wikiName;
+  private String article;
   private final Set<String> subTypes;
   private final String attributes;
   private final int beeCount;
@@ -709,10 +682,9 @@ public class MonsterData extends AdventureResult {
 
   private Object getDefaultedNumber(Object value, int def) {
     if (value instanceof Integer) {
-      return (Integer) value;
+      return value;
     }
-    if (value instanceof String) {
-      String string = (String) value;
+    if (value instanceof String string) {
       if (string.equals("?")) {
         return def;
       }
@@ -724,8 +696,7 @@ public class MonsterData extends AdventureResult {
     if (value instanceof Integer) {
       return (Integer) value;
     }
-    if (value instanceof String) {
-      String range = (String) value;
+    if (value instanceof String range) {
       int dash = range.indexOf("-");
       int minMeat = StringUtilities.parseInt(range.substring(0, dash));
       int maxMeat = StringUtilities.parseInt(range.substring(dash + 1));
@@ -760,6 +731,7 @@ public class MonsterData extends AdventureResult {
     this.health = monster.health;
     this.attack = monster.attack;
     this.defense = monster.defense;
+    this.article = monster.article;
     this.initiative = monster.initiative;
     this.experience = monster.experience;
     this.scale = monster.scale;
@@ -811,7 +783,7 @@ public class MonsterData extends AdventureResult {
     // based on the integral provided by Buttons on the HCO forums.
     // http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
 
-    double probability = 0.0;
+    double probability;
     double[] coefficients = new double[this.items.size()];
 
     for (int i = 0; i < this.items.size(); ++i) {
@@ -1055,10 +1027,6 @@ public class MonsterData extends AdventureResult {
     String[] modifiers = new String[MonsterData.lastRandomModifiers.size()];
     MonsterData.lastRandomModifiers.toArray(modifiers);
 
-    if (modifiers == null || modifiers.length == 0) {
-      return this;
-    }
-
     // Clone the monster so we don't munge the template
     MonsterData monster;
     try {
@@ -1084,18 +1052,17 @@ public class MonsterData extends AdventureResult {
           monster.meat = 5;
           break;
         case "cloned":
+        case "huge":
           monster.health = monster.getRawHP() * 2;
           monster.attack = monster.getRawAttack() * 2;
           monster.defense = monster.getRawDefense() * 2;
           break;
         case "dancin'":
+        case "floating":
           monster.defense = monster.getRawDefense() * 3 / 2;
           break;
         case "filthy":
           // Stench Aura
-          break;
-        case "floating":
-          monster.defense = monster.getRawDefense() * 3 / 2;
           break;
         case "foul-mouthed":
           // Sleaze Aura
@@ -1104,6 +1071,9 @@ public class MonsterData extends AdventureResult {
           monster.health = 1;
           break;
         case "frozen":
+        case "ice-cold":
+        case "cold-blooded":
+        case "chilling":
           monster.setElement(Element.COLD);
           break;
         case "ghostly":
@@ -1117,21 +1087,14 @@ public class MonsterData extends AdventureResult {
         case "hot":
           // Hot Aura
           break;
-        case "huge":
-          monster.health = monster.getRawHP() * 2;
-          monster.attack = monster.getRawAttack() * 2;
-          monster.defense = monster.getRawDefense() * 2;
-          break;
-        case "ice-cold":
-          monster.setElement(Element.COLD);
-          break;
         case "left-handed":
-          Object originalAttack = monster.attack;
-          Object originalDefense = monster.defense;
-          monster.attack = originalDefense;
-          monster.defense = originalAttack;
+          var temp = monster.attack;
+          monster.attack = monster.defense;
+          monster.defense = temp;
           break;
         case "red-hot":
+        case "hot-blooded":
+        case "steamy":
           monster.setElement(Element.HOT);
           break;
         case "short":
@@ -1143,15 +1106,21 @@ public class MonsterData extends AdventureResult {
           monster.defense = monster.getRawDefense() / 2;
           break;
         case "sleazy":
+        case "slimy":
+        case "sweaty":
           monster.setElement(Element.SLEAZE);
           break;
         case "solid gold":
           monster.meat = 1000;
           break;
         case "spooky":
+        case "carrion-eating":
+        case "mist-shrouded":
           monster.setElement(Element.SPOOKY);
           break;
         case "stinky":
+        case "swamp":
+        case "foul-smelling":
           monster.setElement(Element.STENCH);
           break;
         case "throbbing":
@@ -1229,8 +1198,6 @@ public class MonsterData extends AdventureResult {
           monster.defense = 1;
           break;
         case "dilophosaur":
-          // Elemental damage each round?
-          break;
         case "flatusaurus":
           // Elemental damage each round?
           break;
@@ -1248,26 +1215,6 @@ public class MonsterData extends AdventureResult {
           break;
         case "velociraptor":
           // Runs away if lose initiative, lots of +item when killed
-          break;
-        case "hot-blooded":
-        case "steamy":
-          monster.setElement(Element.HOT);
-          break;
-        case "cold-blooded":
-        case "chilling":
-          monster.setElement(Element.COLD);
-          break;
-        case "swamp":
-        case "foul-smelling":
-          monster.setElement(Element.STENCH);
-          break;
-        case "carrion-eating":
-        case "mist-shrouded":
-          monster.setElement(Element.SPOOKY);
-          break;
-        case "slimy":
-        case "sweaty":
-          monster.setElement(Element.SLEAZE);
           break;
       }
     }
@@ -1589,7 +1536,7 @@ public class MonsterData extends AdventureResult {
     return jumpChance > 100 ? 100 : Math.max(jumpChance, 0);
   }
 
-  public static final int initPenalty(final int monsterLevel) {
+  public static int initPenalty(final int monsterLevel) {
     return monsterLevel <= 20
         ? 0
         : monsterLevel <= 40
@@ -1774,17 +1721,11 @@ public class MonsterData extends AdventureResult {
 
     if (itemIndex != -1) {
       item = this.items.get(itemIndex);
-      switch ((char) item.getCount() & 0xFFFF) {
-        case 'p':
-          return true;
-        case 'n':
-        case 'c':
-        case 'f':
-        case 'b':
-          return false;
-        default:
-          return (item.getCount() >> 16) * dropModifier < 100.0;
-      }
+      return switch ((char) item.getCount() & 0xFFFF) {
+        case 'p' -> true;
+        case 'n', 'c', 'f', 'b' -> false;
+        default -> (item.getCount() >> 16) * dropModifier < 100.0;
+      };
     }
 
     // If the item does not drop, check to see if maybe
@@ -1847,51 +1788,33 @@ public class MonsterData extends AdventureResult {
   }
 
   public void appendItemDrops(StringBuilder buffer) {
-    boolean first = true;
-
-    for (AdventureResult item : this.items) {
-      buffer.append(first ? "<br />Item Drops: " : ", ");
-      first = false;
-
-      int rate = item.getCount() >> 16;
-      buffer.append(item.getName());
-      switch ((char) item.getCount() & 0xFFFF) {
-        case 'p':
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(" pp only)");
-          break;
-        case 'n':
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(" no pp)");
-          break;
-        case 'c':
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(" cond)");
-          break;
-        case 'f':
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(" no mod)");
-          break;
-        case 'a':
-          buffer.append(" (stealable accordion)");
-          break;
-        default:
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(")");
-      }
-    }
+    var items =
+        new ArrayList<>(
+            this.items.stream()
+                .map(
+                    item -> {
+                      int rate = item.getCount() >> 16;
+                      return item.getName()
+                          + " ("
+                          + switch ((char) item.getCount() & 0xFFFF) {
+                            case 'p' -> rate + " pp only";
+                            case 'n' -> rate + " no pp";
+                            case 'c' -> rate + " cond";
+                            case 'f' -> rate + " no mod";
+                            case 'a' -> "stealable accordion";
+                            default -> rate;
+                          }
+                          + ")";
+                    })
+                .toList());
 
     String bounty = BountyDatabase.getNameByMonster(this.getName());
     if (bounty != null) {
-      buffer.append(first ? "<br />Item Drops: " : ", ");
-      first = false;
-      buffer.append(bounty);
-      buffer.append(" (bounty)");
+      items.add(bounty + " (bounty)");
+    }
+
+    if (items.size() > 0) {
+      buffer.append("<br />Item Drops: ").append(String.join(", ", items));
     }
   }
 
@@ -1990,9 +1913,8 @@ public class MonsterData extends AdventureResult {
         int cap = evaluate(stats.cap, MonsterData.DEFAULT_CAP);
         int floor = evaluate(stats.floor, MonsterData.DEFAULT_FLOOR);
 
-        String attb =
+        description =
             "Attack Power scale: (Moxie +" + scale + ", floor " + floor + ", cap " + cap + ")";
-        description = attb;
       } else if (stats.attack instanceof Integer) {
         description = "Attack Power (approximate)";
       } else {
@@ -2079,9 +2001,8 @@ public class MonsterData extends AdventureResult {
         int cap = evaluate(stats.cap, MonsterData.DEFAULT_CAP);
         int floor = evaluate(stats.floor, MonsterData.DEFAULT_FLOOR);
 
-        String defb =
+        description =
             "Defense scale: (Muscle +" + scale + ", floor " + floor + ", cap " + cap + ")";
-        description = defb;
       } else if (stats.defense instanceof Integer) {
         description = "Defense (approximate)";
       } else {
@@ -2135,7 +2056,7 @@ public class MonsterData extends AdventureResult {
         int cap = evaluate(stats.cap, MonsterData.DEFAULT_CAP);
         int floor = evaluate(stats.floor, MonsterData.DEFAULT_FLOOR);
 
-        String hpb =
+        description =
             "Hit Points scale: 0.75 * (Muscle +"
                 + scale
                 + ", floor "
@@ -2143,7 +2064,6 @@ public class MonsterData extends AdventureResult {
                 + ", cap "
                 + cap
                 + ")";
-        description = hpb;
       } else if (stats.health instanceof Integer) {
         description = "Hit Points (approximate)";
       } else {
