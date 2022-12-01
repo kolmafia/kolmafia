@@ -817,7 +817,7 @@ public class TCRSDatabase {
       Map.ofEntries(
           Map.entry(ConsumableQuality.CRAPPY, List.of("")),
           Map.entry(ConsumableQuality.DECENT, List.of("bad", "lousy", "mediocre")),
-          Map.entry(ConsumableQuality.GOOD, List.of("acceptable", "mediocre", "tolerable")),
+          Map.entry(ConsumableQuality.GOOD, List.of("acceptable", "drinkable", "tolerable")),
           Map.entry(ConsumableQuality.AWESOME, List.of("delicious", "smooth", "aged")),
           Map.entry(
               ConsumableQuality.EPIC, List.of("perfectly mixed", "artisanal", "hand-crafted")));
@@ -865,7 +865,7 @@ public class TCRSDatabase {
           sizeDescriptors.size() > 1 ? mtRng.pickOne(sizeDescriptors) : sizeDescriptors.get(0);
       adjectives.add(sizeDescriptor);
 
-      if (item.getItemId() == 237) {
+      if (item.getItemId() == 237 || item.getItemId() == 470) {
         mtRng.nextDouble();
       }
 
@@ -878,18 +878,15 @@ public class TCRSDatabase {
       adjectives.add(qualityDescriptor);
 
       if (quality != ConsumableQuality.CRAPPY) {
-        mtRng.nextDouble();
+        if (mtRng.nextInt(1, 6) == 6) {
+          if (mtRng.nextInt(1, 6) == 6) {
+            mtRng.nextDouble();
+          }
+        }
       }
-
-      if (item.getItemId() == 251) {
-        mtRng.nextDouble();
-      }
-
-      var enchantRoll = mtRng.nextInt(1, 10) == 1;
-      var shouldEnchant = isFood ? enchantRoll : enchantRoll && mtRng.nextInt(1, 10) == 1;
 
       var enchantmentDescriptor = "";
-      if (shouldEnchant) {
+      if (mtRng.nextInt(1, 10) == 1) {
         enchantmentDescriptor = mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR);
         adjectives.add(enchantmentDescriptor);
       }
