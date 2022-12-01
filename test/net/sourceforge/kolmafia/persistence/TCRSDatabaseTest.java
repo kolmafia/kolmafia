@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -138,10 +139,14 @@ class TCRSDatabaseTest {
 
           assertAll(
               String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
-              () -> assertThat("Name", weGuessed.name, equalTo(dataSays.name)),
+              () ->
+                  assertThat(
+                      "Name",
+                      weGuessed.name,
+                      equalTo(StringUtilities.getEntityDecode(dataSays.name))),
               () -> assertThat("Size", weGuessed.size, equalTo(dataSays.size)),
               () -> {
-                if (dataSays.quality != ConsumablesDatabase.ConsumableQuality.NONE)
+                if (dataSays.quality.getValue() > 0)
                   assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
               },
               () ->

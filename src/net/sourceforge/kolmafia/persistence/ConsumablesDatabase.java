@@ -60,11 +60,11 @@ public class ConsumablesDatabase {
 
   public enum ConsumableQuality {
     NONE(""),
-    CRAPPY("crappy", "#999999"),
-    DECENT("decent"),
-    GOOD("good", "green"),
-    AWESOME("awesome", "blue"),
-    EPIC("EPIC", "#8a2be2"),
+    CRAPPY("crappy", "#999999", 1),
+    DECENT("decent", null, 2),
+    GOOD("good", "green", 3),
+    AWESOME("awesome", "blue", 4),
+    EPIC("EPIC", "#8a2be2", 5),
     QUEST("quest"),
     CHANGING("???"),
     DRIPPY("drippy", "#964B00"),
@@ -82,10 +82,16 @@ public class ConsumablesDatabase {
 
     private final String name;
     private final String color;
+    private final int value;
 
-    ConsumableQuality(final String name, final String color) {
+    ConsumableQuality(final String name, final String color, final int value) {
       this.name = name;
       this.color = color;
+      this.value = value;
+    }
+
+    ConsumableQuality(final String name, final String color) {
+      this(name, color, -1);
     }
 
     ConsumableQuality(final String name) {
@@ -103,6 +109,10 @@ public class ConsumablesDatabase {
 
     public String getColor() {
       return color;
+    }
+
+    public int getValue() {
+      return value;
     }
   }
 
