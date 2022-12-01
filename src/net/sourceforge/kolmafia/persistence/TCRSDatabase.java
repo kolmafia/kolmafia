@@ -555,68 +555,77 @@ public class TCRSDatabase {
   private static final Set<String> ADJECTIVES =
       new HashSet<>(
           List.of(
-              "cold",
-              "sleazy",
-              "spooky",
-              "stinky",
-              "red",
-              "blue",
-              "maroon",
-              "yellow",
-              "green",
-              "fuchsia",
-              "purple",
-              "gold",
-              "black",
-              "orange",
-              "white",
-              "lavender",
-              "silver",
+              "Brimstone",
+              "Spooky",
+              "aerogel",
+              "ancient",
+              "antique",
+              "bakelite",
               "big",
+              "black",
+              "blue",
               "candied",
               "cheap",
+              "cold",
+              "creepy",
+              "cursed",
+              "cute",
               "delicious",
+              "dirty",
               "disintegrating",
+              "dusty",
+              "electric",
+              "enchanted",
               "fancy",
               "fishy",
+              "flaming",
               "floaty",
+              "frozen",
+              "fuchsia",
+              "gabardine",
               "giant",
               "glowing",
-              "little",
-              "powdered",
-              "tiny",
-              "enchanted",
-              "lucky",
-              "metal",
-              "old",
-              "creepy",
-              "sour",
-              "portable",
+              "gold",
+              "golden",
+              "green",
               "haunted",
-              "electric",
-              "porcelain",
-              "spicy",
+              "large",
+              "lavender",
               "leather",
+              "little",
+              "long",
+              "lucky",
+              "magical",
+              "maroon",
+              "metal",
               "miniature",
-              "sticky",
-              "frozen",
-              "primitive",
-              "cursed",
-              "stained",
-              "striped",
-              "polka-dot",
-              "paisley",
-              "antique",
-              "ancient",
               "oily",
-              "strange",
-              "bakelite",
-              "aerogel",
-              "wrought-iron",
-              "gabardine",
-              "cute",
+              "old",
+              "orange",
+              "oversized",
+              "paisley",
               "paraffin",
-              "oversized"));
+              "polka-dot",
+              "porcelain",
+              "portable",
+              "powdered",
+              "primitive",
+              "purple",
+              "red",
+              "silver",
+              "sour",
+              "spicy",
+              "spooky",
+              "stained",
+              "sticky",
+              "stinky",
+              "strange",
+              "striped",
+              "stuffed",
+              "tiny",
+              "white",
+              "wrought-iron",
+              "yellow"));
 
   public static void getEffectPool() {
     EffectDatabase.entrySet().stream()
@@ -658,7 +667,9 @@ public class TCRSDatabase {
       cosmeticMods.add(mtRng.pickOne(COSMETIC_MODS));
     }
 
-    rng.shuffle(cosmeticMods);
+    if (cosmeticMods.size() > 0) {
+      rng.shuffle(cosmeticMods);
+    }
 
     Collections.reverse(cosmeticMods);
 
@@ -714,7 +725,7 @@ public class TCRSDatabase {
             //   Otherwise use the roll we got
             EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
 
-    // @TODO check this
+    // @TODO what is going on here
     if (item.getItemId() == 3159 && roll == TCRSEffectPool.size()) {
       effectName = "";
     }
@@ -743,7 +754,10 @@ public class TCRSDatabase {
     }
 
     var name =
-        Stream.of(potionString, cosmeticsString, removeAdjectives(item.getName()))
+        Stream.of(
+                potionString,
+                cosmeticsString,
+                removeAdjectives(ItemDatabase.getItemName(item.getItemId())))
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
 
@@ -751,13 +765,14 @@ public class TCRSDatabase {
   }
 
   private static ConsumableQuality determineFoodQuality(
-      final int qualityRoll, final boolean beverage, final PHPMTRandom mtRng) {
+      final int qualityRoll, final boolean beverage) {
     return switch (qualityRoll) {
-      case 1, 2 -> beverage ? ConsumableQuality.DECENT : ConsumableQuality.CRAPPY;
-      case 3, 4 -> beverage
-          ? mtRng.pickOne(List.of(ConsumableQuality.DECENT, ConsumableQuality.GOOD))
-          : ConsumableQuality.DECENT;
-      case 5, 6 -> beverage ? ConsumableQuality.AWESOME : ConsumableQuality.GOOD;
+      case 1 -> ConsumableQuality.CRAPPY;
+      case 2 -> beverage ? ConsumableQuality.DECENT : ConsumableQuality.CRAPPY;
+      case 3 -> ConsumableQuality.DECENT;
+      case 4 -> beverage ? ConsumableQuality.GOOD : ConsumableQuality.DECENT;
+      case 5 -> ConsumableQuality.GOOD;
+      case 6 -> beverage ? ConsumableQuality.AWESOME : ConsumableQuality.GOOD;
       case 7 -> beverage ? ConsumableQuality.EPIC : ConsumableQuality.AWESOME;
       default -> null;
     };
@@ -788,8 +803,8 @@ public class TCRSDatabase {
       List.of(
           List.of("tiny", "bite-sized", "diet", "low-calorie"),
           List.of("small", "snack-sized", "half-sized", "miniature"),
-          List.of(""),
-          List.of(""),
+          List.of(),
+          List.of(),
           List.of("big", "thick", "super-sized", "jumbo"),
           List.of("massive", "gigantic", "huge", "immense"));
 
@@ -797,8 +812,8 @@ public class TCRSDatabase {
       List.of(
           List.of("practically non-alcoholic"),
           List.of("weak", "watered-down"),
-          List.of(""),
-          List.of(""),
+          List.of(),
+          List.of(),
           List.of("strong", "spirit-forward", "fortified", "boozy", "distilled", "extra-dry"),
           List.of("irresponsibly strong", "high-proof", "triple-distilled"));
 
@@ -837,9 +852,7 @@ public class TCRSDatabase {
 
     var qualityRoll = mtRng.nextInt(1, 7);
     var quality =
-        isFood
-            ? determineFoodQuality(qualityRoll, beverage, mtRng)
-            : determineBoozeQuality(qualityRoll);
+        isFood ? determineFoodQuality(qualityRoll, beverage) : determineBoozeQuality(qualityRoll);
 
     // Does it roll the size if a beverage?
     var size =
@@ -861,12 +874,9 @@ public class TCRSDatabase {
     if (!beverage) {
       var sizeDescriptors =
           (isFood ? FOOD_SIZE_DESCRIPTORS : BOOZE_SIZE_DESCRIPTORS).get(Math.min(size - 1, 5));
-      var sizeDescriptor =
-          sizeDescriptors.size() > 1 ? mtRng.pickOne(sizeDescriptors) : sizeDescriptors.get(0);
-      adjectives.add(sizeDescriptor);
-
-      if (item.getItemId() == 237 || item.getItemId() == 470) {
-        mtRng.nextDouble();
+      if (sizeDescriptors.size() > 0) {
+        var sizeDescriptor = mtRng.pickOne(sizeDescriptors);
+        adjectives.add(sizeDescriptor);
       }
 
       var qualityDescriptors =
@@ -877,28 +887,25 @@ public class TCRSDatabase {
               : qualityDescriptors.get(0);
       adjectives.add(qualityDescriptor);
 
-      if (quality != ConsumableQuality.CRAPPY) {
-        if (mtRng.nextInt(1, 6) == 6) {
-          if (mtRng.nextInt(1, 6) == 6) {
-            mtRng.nextDouble();
-          }
-        }
+      if (quality.getValue() * size >= 5) {
+        mtRng.nextDouble();
       }
-
-      var enchantmentDescriptor = "";
-      if (mtRng.nextInt(1, 10) == 1) {
-        enchantmentDescriptor = mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR);
-        adjectives.add(enchantmentDescriptor);
-      }
-
-      mods = enchantmentDescriptor.equals("enchanted") ? rollConsumableEnchantment(mtRng) : "";
-
-      rng.shuffle(adjectives);
-      Collections.reverse(adjectives);
     }
 
+    var enchantmentDescriptor = "";
+    if (mtRng.nextInt(1, 10) == 1) {
+      enchantmentDescriptor = mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR);
+      adjectives.add(enchantmentDescriptor);
+    }
+
+    mods = enchantmentDescriptor.equals("enchanted") ? rollConsumableEnchantment(mtRng) : "";
+
+    rng.shuffle(adjectives);
+
+    Collections.reverse(adjectives);
+
     adjectives.add(cosmeticsString);
-    adjectives.add(removeAdjectives(item.getName()));
+    adjectives.add(removeAdjectives(ItemDatabase.getItemName(item.getItemId())));
 
     var name =
         adjectives.stream().filter(Predicate.not(String::isBlank)).collect(Collectors.joining(" "));
@@ -927,13 +934,31 @@ public class TCRSDatabase {
   private static final Set<Integer> TCRS_GENERIC =
       Set.of(
           // Potions
-          ItemPool.JAZZ_SOAP, ItemPool.CAN_OF_BINARRRCA, ItemPool.LOVE_POTION_XYZ);
+          ItemPool.JAZZ_SOAP,
+          ItemPool.CAN_OF_BINARRRCA,
+          ItemPool.LOVE_POTION_XYZ,
+          // Food
+          ItemPool.LUCIFER,
+          1555,
+          5672,
+          7091,
+          8462,
+          8899,
+          // Booze
+          5673);
 
   /** Items that are entirely unaffected by TCRS */
   private static final Set<Integer> TCRS_IMMUNE =
       Set.of(
-          // Spleen
-          ItemPool.EXPERIMENTAL_CRIMBO_SPLEEN);
+          ItemPool.EXPERIMENTAL_CRIMBO_FOOD,
+          ItemPool.EXPERIMENTAL_CRIMBO_BOOZE,
+          ItemPool.EXPERIMENTAL_CRIMBO_SPLEEN,
+          ItemPool.QUANTUM_TACO,
+          ItemPool.SCHRODINGERS_THERMOS,
+          ItemPool.SMORE,
+          ItemPool.GLITCH_ITEM,
+          ItemPool.DIABOLIC_PIZZA,
+          ItemPool.VAMPIRE_VINTNER_WINE);
 
   private static TCRS guessSpleen(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
@@ -964,7 +989,10 @@ public class TCRSDatabase {
     var mods = (mtRng.nextInt(1, 3) == 1) ? rollConsumableEnchantment(mtRng) : "";
 
     var name =
-        Stream.of(adjective, cosmeticsString, removeAdjectives(item.getName()))
+        Stream.of(
+                adjective,
+                cosmeticsString,
+                removeAdjectives(ItemDatabase.getItemName(item.getItemId())))
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
 
