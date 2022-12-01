@@ -128,6 +128,7 @@ Bustle Hustler	1	4	good	3	20-40	20-40	20-40	40 Bustle Hustlin' (+5 Pool skill)
 Buttery Boy	3	1	awesome	12	15-30	15-30	15-30	20 Buttery, Boy (+3 Sleaze Resist, +20 Sleaze Dam, +100% Moxie)
 Buttery Knob	2	1	good	4-5	0	0	10-20	5 Gutterminded (+50 Sleaze Dam)
 buzzing mushroom wine	4	3	EPIC	22-26	0	50-100	0	80 Stemonitis Storm, WINE
+cabooze	5	1	good	0	0	0	0	Unspaded
 caipifruta	3	3	good	5-10	16-20	0	0
 Caipiranha	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 calle de miel	4	4	good	10-14	8-10	0	25-27
