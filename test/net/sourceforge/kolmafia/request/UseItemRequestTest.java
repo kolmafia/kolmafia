@@ -236,7 +236,8 @@ class UseItemRequestTest {
       var cleanups = withFullness(fullness);
 
       try (cleanups) {
-        assertThat(UseItemRequest.maximumUses(ItemPool.BASH_OS_CEREAL, ConsumptionType.EAT), is(maxUses));
+        assertThat(
+            UseItemRequest.maximumUses(ItemPool.BASH_OS_CEREAL, ConsumptionType.EAT), is(maxUses));
       }
     }
 
@@ -256,7 +257,9 @@ class UseItemRequestTest {
       var cleanups = withInebriety(drunk);
 
       try (cleanups) {
-        assertThat(UseItemRequest.maximumUses(ItemPool.OREILLE_DIVISEE_BRANDY, ConsumptionType.DRINK), is(maxUses));
+        assertThat(
+            UseItemRequest.maximumUses(ItemPool.OREILLE_DIVISEE_BRANDY, ConsumptionType.DRINK),
+            is(maxUses));
       }
     }
 
@@ -276,7 +279,9 @@ class UseItemRequestTest {
       var cleanups = withSpleenUse(spleenUsed);
 
       try (cleanups) {
-        assertThat(UseItemRequest.maximumUses(ItemPool.EXTROVERMECTIN, ConsumptionType.SPLEEN), is(maxUses));
+        assertThat(
+            UseItemRequest.maximumUses(ItemPool.EXTROVERMECTIN, ConsumptionType.SPLEEN),
+            is(maxUses));
       }
     }
   }
