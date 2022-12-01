@@ -684,6 +684,7 @@ public class ItemPool {
   public static final int REINFORCED_BEADED_HEADBAND = 2337;
   public static final int BLACK_PUDDING = 2338;
   public static final int BLACKFLY_CHARDONNAY = 2339;
+  public static final int BLACK_TAN = 2340;
   public static final int FILTHWORM_HATCHLING_GLAND = 2344;
   public static final int FILTHWORM_DRONE_GLAND = 2345;
   public static final int FILTHWORM_GUARD_GLAND = 2346;
@@ -725,6 +726,7 @@ public class ItemPool {
   public static final int BAR_WHIP = 2455;
   public static final int ODOR_EXTRACTOR = 2462;
   public static final int OLFACTION_BOOK = 2463;
+  public static final int OREILLE_DIVISEE_BRANDY = 2465;
   public static final int TUXEDO_SHIRT = 2489;
   public static final int SHIRT_KIT = 2491;
   public static final int TROPICAL_ORCHID = 2492;
@@ -1037,6 +1039,7 @@ public class ItemPool {
   public static final int COTTON_CANDY_PILLOW = 3454;
   public static final int COTTON_CANDY_BALE = 3455;
   public static final int STYX_SPRAY = 3458;
+  public static final int BASH_OS_CEREAL = 3465;
   public static final int HAIKU_KATANA = 3466;
   public static final int BATHYSPHERE = 3470;
   public static final int DAMP_OLD_BOOT = 3471;
