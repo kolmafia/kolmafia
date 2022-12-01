@@ -343,17 +343,19 @@ public class UseItemRequest extends GenericRequest {
   }
 
   public static final int maximumUses(final int itemId) {
-    String itemName = ItemDatabase.getItemName(itemId);
-    return UseItemRequest.maximumUses(itemId, itemName, ConsumptionType.NONE, true);
+    return UseItemRequest.maximumUses(itemId, ConsumptionType.NONE);
   }
 
   public static final int maximumUses(final int itemId, final ConsumptionType consumptionType) {
-    String itemName = ItemDatabase.getItemName(itemId);
+    String itemName = ItemDatabase.getItemDataName(itemId);
     return UseItemRequest.maximumUses(itemId, itemName, consumptionType, true);
   }
 
-  public static final int maximumUses(final String itemName) {
+  public static final int maximumUses(String itemName) {
     int itemId = ItemDatabase.getItemId(itemName);
+    if (itemId > 0) {
+      itemName = ItemDatabase.getItemDataName(itemId);
+    }
     return UseItemRequest.maximumUses(itemId, itemName, ConsumptionType.NONE, false);
   }
 
