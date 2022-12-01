@@ -176,6 +176,7 @@ chocolate Ogre Chieftain	1	1	decent	2	70-90	0	0
 chocolate Spider Queen	1	1	decent	2	0	0	70-90
 chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
+chocomotive	5	1	good	0	0	0	0	Unspaded
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25
@@ -363,6 +364,7 @@ forbidden danish	1	4	awesome	3-5	0	45-75	0	30 Danish Cunning (+25% pickpocket)
 forbidden sausage	2	6	awesome	8	40	40	40	Hot Damage
 fortune cookie	1	1	crappy	1	0	0	0	semi-rare numbers
 frat brats	1	10	good	2-4	0	0	22-30
+freightcake	5	1	good	0	0	0	0	Unspaded
 fricasseed brains	3	1	decent	3-5	0	4-5	0	Zombie Slayer
 frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
 frozen danish	1	4	awesome	3-5	0	0	45-75	30 Danish Cunning (+25% pickpocket)
