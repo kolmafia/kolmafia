@@ -3,11 +3,14 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSpleenUse;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -23,6 +26,7 @@ import internal.network.FakeHttpResponse;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -31,16 +35,17 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 class UseItemRequestTest {
-  @BeforeEach
-  void beforeEach() {
+  @BeforeAll
+  static void beforeAll() {
     KoLCharacter.reset("UseItemRequestTest");
     Preferences.reset("UseItemRequestTest");
   }
@@ -209,6 +214,74 @@ class UseItemRequestTest {
 
         assertThat("homemadeRobotUpgrades", isSetTo(9));
         assertThat(fam.getWeight(), equalTo(100));
+      }
+    }
+  }
+
+  @Nested
+  class MaximumUses {
+    @ParameterizedTest
+    @CsvSource({"0, 5", "15, 0", "8, 2"})
+    void maxUsesWorksForHtmlFood(int fullness, int maxUses) {
+      var cleanups = withFullness(fullness);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(ItemPool.BASH_OS_CEREAL), is(maxUses));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 5", "15, 0", "8, 2"})
+    void maxUsesWorksForHtmlFoodWithConsumptionType(int fullness, int maxUses) {
+      var cleanups = withFullness(fullness);
+
+      try (cleanups) {
+        assertThat(
+            UseItemRequest.maximumUses(ItemPool.BASH_OS_CEREAL, ConsumptionType.EAT), is(maxUses));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 5", "15, 0", "8, 3"})
+    void maxUsesWorksForHtmlBooze(int drunk, int maxUses) {
+      var cleanups = withInebriety(drunk);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(ItemPool.OREILLE_DIVISEE_BRANDY), is(maxUses));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 5", "15, 0", "8, 3"})
+    void maxUsesWorksForHtmlBoozeWithConsumptionType(int drunk, int maxUses) {
+      var cleanups = withInebriety(drunk);
+
+      try (cleanups) {
+        assertThat(
+            UseItemRequest.maximumUses(ItemPool.OREILLE_DIVISEE_BRANDY, ConsumptionType.DRINK),
+            is(maxUses));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 7", "15, 0", "8, 3"})
+    void maxUsesWorksForHtmlSpleenItems(int spleenUsed, int maxUses) {
+      var cleanups = withSpleenUse(spleenUsed);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(ItemPool.EXTROVERMECTIN), is(maxUses));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 7", "15, 0", "8, 3"})
+    void maxUsesWorksForHtmlSpleenItemsWithConsumptionType(int spleenUsed, int maxUses) {
+      var cleanups = withSpleenUse(spleenUsed);
+
+      try (cleanups) {
+        assertThat(
+            UseItemRequest.maximumUses(ItemPool.EXTROVERMECTIN, ConsumptionType.SPLEEN),
+            is(maxUses));
       }
     }
   }
