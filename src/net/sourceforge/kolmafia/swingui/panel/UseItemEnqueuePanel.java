@@ -861,10 +861,6 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
             && !KoLConstants.cafeItems.contains(creation.getName())) {
           return false;
         }
-        // Can't even drink a dusty bottle of great wine in G Lover
-        if (name.startsWith("dusty bottle")) {
-          return false;
-        }
       }
 
       if (KoLCharacter.isPlumber()) {

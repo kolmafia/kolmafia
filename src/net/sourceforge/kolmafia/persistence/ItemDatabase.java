@@ -35,7 +35,6 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.DustyBottle;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
@@ -525,17 +524,6 @@ public class ItemDatabase {
     ItemDatabase.dataNameById.put(id, "worthless item");
     ItemDatabase.nameById.put(id, "worthless item");
     ItemDatabase.addIdToName("worthless item", id);
-
-    // Set aliases for the dusty bottles
-    for (DustyBottle dusty : ConsumablesDatabase.DUSTY_BOTTLES) {
-      id = dusty.id();
-      String name = StringUtilities.getCanonicalName(dusty.name());
-      String alias = StringUtilities.getCanonicalName(dusty.alias());
-      String plural = StringUtilities.singleStringReplace(alias, "bottle", "bottles");
-      ItemDatabase.addIdToName(alias, id);
-      ItemDatabase.itemIdByPlural.put(plural, id);
-      ConsumablesDatabase.cloneConsumptionData(name, alias);
-    }
 
     // Set aliases for the El Vibrato punch cards
     for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
