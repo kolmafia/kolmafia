@@ -142,10 +142,8 @@ class TCRSDatabaseTest {
             continue;
           }
 
-          // Let's strip the other crap for now
+          var dataSaysMods = dataSays.modifiers;
           var weGuessedMods = weGuessed.modifiers;
-          var m = SIMPLE_MODS.matcher(dataSays.modifiers);
-          var dataSaysMods = m.find() ? m.group() : dataSays.modifiers;
           if (!dataSaysMods.contains("Effect Duration")) {
             // if we have no effect duration, something messed up is going on
             var m2 = EFFECT_ONLY.matcher(weGuessed.modifiers);

@@ -565,6 +565,7 @@ public class TCRSDatabase {
               "black",
               "blue",
               "candied",
+              "cardboard",
               "cheap",
               "cold",
               "creepy",
@@ -580,6 +581,7 @@ public class TCRSDatabase {
               "fishy",
               "flaming",
               "floaty",
+              "frigid",
               "frozen",
               "fuchsia",
               "gabardine",
@@ -614,8 +616,10 @@ public class TCRSDatabase {
               "purple",
               "red",
               "rusty",
+              "shiny",
               "silver",
               "sour",
+              "solid",
               "spicy",
               "spooky",
               "stained",
@@ -702,7 +706,14 @@ public class TCRSDatabase {
           + (this.duration > 0 ? ", Effect Duration: " + this.duration : "");
     }
   }
-  ;
+
+  private static final Set<String> RETAINED_MODIFIERS = Set.of("Free Pull", "Single Equip");
+
+  private static String getRetainedModifiers(final int itemId) {
+    return RETAINED_MODIFIERS.stream()
+        .filter(m -> Modifiers.getBooleanModifier("Item", itemId, m))
+        .collect(Collectors.joining(", "));
+  }
 
   private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
     var roll = mtRng.nextInt(0, TCRSEffectPool.size());
@@ -972,8 +983,6 @@ public class TCRSDatabase {
           ItemPool.CAN_OF_BINARRRCA,
           ItemPool.LOVE_POTION_XYZ,
           // Food
-          ItemPool.LUCIFER,
-          1555,
           5672,
           7091,
           8462,
@@ -1066,18 +1075,27 @@ public class TCRSDatabase {
 
   private static TCRS guessGeneric(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
-    var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
     var cosmeticsString = rollCosmetics(mtRng, rng, 8);
 
     var name =
-        Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(item.getItemId())))
+        Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
 
-    return new TCRS(name, 0, null, "");
+    var mods = "";
+
+    if (ItemDatabase.getConsumptionType(id) == ConsumptionType.POTION) {
+      mods = Modifiers.getStringModifier("Item", id, "Modifiers");
+    } else {
+      mods = getRetainedModifiers(id);
+    }
+
+    return new TCRS(name, 0, null, mods);
   }
 
   public static TCRS guessItem(
@@ -1085,7 +1103,21 @@ public class TCRSDatabase {
     var item = ItemPool.get(itemId);
     var type = ItemDatabase.getConsumptionType(itemId);
 
-    if (TCRS_GENERIC.contains(itemId) || TCRS_IMMUNE.contains(itemId)) {
+    if (TCRS_IMMUNE.contains(itemId)) {
+      var name = ItemDatabase.getItemName(itemId);
+
+      var size =
+          switch (type) {
+            case EAT -> ConsumablesDatabase.getFullness(name);
+            case DRINK -> ConsumablesDatabase.getInebriety(name);
+            case SPLEEN -> ConsumablesDatabase.getSpleenHit(name);
+            default -> 0;
+          };
+
+      return new TCRS(name, size, ConsumablesDatabase.getQuality(name), "");
+    }
+
+    if (TCRS_GENERIC.contains(itemId)) {
       type = ConsumptionType.NONE;
     }
 
@@ -1094,8 +1126,7 @@ public class TCRSDatabase {
       case EAT, DRINK -> guessFoodBooze(ascensionClass, sign, item, type == ConsumptionType.EAT);
       case SPLEEN -> guessSpleen(ascensionClass, sign, item);
       case HAT, SHIRT, CONTAINER, WEAPON, OFFHAND, PANTS, ACCESSORY, FAMILIAR_EQUIPMENT -> null;
-      default -> null;
-        // default -> guessGeneric(ascensionClass, sign, item);
+      default -> guessGeneric(ascensionClass, sign, item);
     };
   }
 
