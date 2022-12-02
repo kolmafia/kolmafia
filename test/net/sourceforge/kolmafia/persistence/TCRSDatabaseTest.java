@@ -135,7 +135,9 @@ class TCRSDatabaseTest {
           var dataSays = TCRSDatabase.getData(itemId);
           var weGuessed = TCRSDatabase.guessItem(ascensionClass, sign, itemId);
 
-          if (dataSays == null || weGuessed == null) continue;
+          if (weGuessed == null) {
+            continue;
+          }
 
           assertAll(
               String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
@@ -151,7 +153,13 @@ class TCRSDatabaseTest {
               },
               () ->
                   assertThat(
-                      "Modifiers", dataSays.modifiers.endsWith(weGuessed.modifiers), is(true)));
+                      "Modifiers should be \""
+                          + dataSays.modifiers
+                          + "\" but is \""
+                          + weGuessed.modifiers
+                          + "\"",
+                      dataSays.modifiers.endsWith(weGuessed.modifiers),
+                      is(true)));
         }
       }
     }

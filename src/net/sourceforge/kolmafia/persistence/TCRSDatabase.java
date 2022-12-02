@@ -676,16 +676,26 @@ public class TCRSDatabase {
     return String.join(" ", cosmeticMods);
   }
 
-  private static String rollConsumableEnchantment(final PHPMTRandom mtRng) {
+  private static String rollConsumableEnchantment(final PHPMTRandom mtRng, final int itemId) {
+    var hardcodedEffect = HARDCODED_EFFECT.contains(itemId);
+    var hardcodedEffectDuration = HARDCODED_EFFECT_DURATION.contains(itemId);
     var roll = mtRng.nextInt(0, TCRSEffectPool.size());
-    // We'll see what happens here
+
     if (roll != TCRSEffectPool.size()) {
       var effectName = EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
+
+      if (hardcodedEffect) {
+        effectName = Modifiers.getStringModifier("Item", itemId, "Effect");
+      }
+
       if (!effectName.isBlank()) {
         var duration = 5 * mtRng.nextInt(1, 10);
+
+        if (hardcodedEffectDuration) {
+          duration = (int) Modifiers.getNumericModifier("Item", itemId, "Effect Duration");
+        }
+
         return "Effect: \"" + effectName + "\", Effect Duration: " + duration;
-      } else {
-        System.out.println(roll);
       }
     }
 
@@ -868,7 +878,6 @@ public class TCRSDatabase {
               default -> 0;
             };
 
-    var mods = "";
     var adjectives = new ArrayList<String>();
 
     if (!beverage) {
@@ -886,10 +895,10 @@ public class TCRSDatabase {
               ? mtRng.pickOne(qualityDescriptors)
               : qualityDescriptors.get(0);
       adjectives.add(qualityDescriptor);
+    }
 
-      if (quality.getValue() * size >= 5) {
-        mtRng.nextDouble();
-      }
+    if (quality.getValue() * size >= 5) {
+      mtRng.nextDouble();
     }
 
     var enchantmentDescriptor = "";
@@ -898,7 +907,10 @@ public class TCRSDatabase {
       adjectives.add(enchantmentDescriptor);
     }
 
-    mods = enchantmentDescriptor.equals("enchanted") ? rollConsumableEnchantment(mtRng) : "";
+    var mods =
+        enchantmentDescriptor.equals("enchanted")
+            ? rollConsumableEnchantment(mtRng, item.getItemId())
+            : "";
 
     rng.shuffle(adjectives);
 
@@ -960,6 +972,49 @@ public class TCRSDatabase {
           ItemPool.DIABOLIC_PIZZA,
           ItemPool.VAMPIRE_VINTNER_WINE);
 
+  /** Items that keep their effect despite rolling for a new one */
+  private static final Set<Integer> HARDCODED_EFFECT =
+      Set.of(
+          ItemPool.WREATH_CRIMBO_COOKIE,
+          ItemPool.BELL_CRIMBO_COOKIE,
+          ItemPool.TREE_CRIMBO_COOKIE,
+          ItemPool.BAT_CRIMBOWEEN_COOKIE,
+          ItemPool.SKULL_CRIMBOWEEN_COOKIE,
+          ItemPool.TOMBSTONE_CRIMBOWEEN_COOKIE,
+          ItemPool.BEEFY_FISH_MEAT,
+          ItemPool.GLISTENING_FISH_MEAT,
+          ItemPool.BLOB_CRIMBCOOKIE,
+          ItemPool.QUEEN_COOKIE,
+          ItemPool.SUN_DRIED_TOFU,
+          ItemPool.SOYBURGER_JUICE,
+          ItemPool.CIRCULAR_CRIMBCOOKIE,
+          ItemPool.TRIANGULAR_CRIMBCOOKIE,
+          ItemPool.SQUARE_CRIMBCOOKIE,
+          ItemPool.CHAOS_POPCORN,
+          ItemPool.TEMPS_TEMPRANILLO,
+          ItemPool.THYME_JELLY_DONUT);
+
+  /** Items that keep their effect duration despite rolling for a new one */
+  private static final Set<Integer> HARDCODED_EFFECT_DURATION =
+      Set.of(
+          ItemPool.WREATH_CRIMBO_COOKIE,
+          ItemPool.BELL_CRIMBO_COOKIE,
+          ItemPool.TREE_CRIMBO_COOKIE,
+          ItemPool.BAT_CRIMBOWEEN_COOKIE,
+          ItemPool.SKULL_CRIMBOWEEN_COOKIE,
+          ItemPool.TOMBSTONE_CRIMBOWEEN_COOKIE,
+          ItemPool.BEEFY_FISH_MEAT,
+          ItemPool.GLISTENING_FISH_MEAT,
+          ItemPool.BLOB_CRIMBCOOKIE,
+          ItemPool.SUN_DRIED_TOFU,
+          ItemPool.SOYBURGER_JUICE,
+          ItemPool.CIRCULAR_CRIMBCOOKIE,
+          ItemPool.TRIANGULAR_CRIMBCOOKIE,
+          ItemPool.SQUARE_CRIMBCOOKIE,
+          ItemPool.CHAOS_POPCORN,
+          ItemPool.TEMPS_TEMPRANILLO,
+          ItemPool.THYME_JELLY_DONUT);
+
   private static TCRS guessSpleen(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
@@ -986,7 +1041,7 @@ public class TCRSDatabase {
       mtRng.nextInt();
     }
 
-    var mods = (mtRng.nextInt(1, 3) == 1) ? rollConsumableEnchantment(mtRng) : "";
+    var mods = (mtRng.nextInt(1, 3) == 1) ? rollConsumableEnchantment(mtRng, item.getItemId()) : "";
 
     var name =
         Stream.of(
