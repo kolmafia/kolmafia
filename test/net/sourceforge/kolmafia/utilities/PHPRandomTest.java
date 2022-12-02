@@ -1,9 +1,12 @@
 package net.sourceforge.kolmafia.utilities;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -41,5 +44,13 @@ class PHPRandomTest {
     assertThat(pick[0], is(0));
     assertThat(pick[1], is(2));
     assertThat(pick[2], is(3));
+  }
+
+  @Test
+  void shuffle() {
+    var rng = new PHPRandom(1721991);
+    var array = new ArrayList<>(List.of(1, 2, 3, 4, 5));
+    rng.shuffle(array);
+    assertThat(array, contains(3, 5, 2, 1, 4));
   }
 }
