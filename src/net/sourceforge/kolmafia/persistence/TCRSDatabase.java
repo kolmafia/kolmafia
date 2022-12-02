@@ -1054,7 +1054,7 @@ public class TCRSDatabase {
         mtRng.nextDouble();
       }
 
-      mtRng.nextInt();
+      mtRng.nextDouble();
     }
 
     var mods =
