@@ -848,7 +848,7 @@ public class TCRSDatabase {
 
     var beverage = ConsumablesDatabase.isBeverage(item.getItemId());
 
-    var cosmeticsString = rollCosmetics(mtRng, rng, 10);
+    var cosmeticsString = rollCosmetics(mtRng, rng, beverage ? 8 : 10);
 
     var qualityRoll = mtRng.nextInt(1, 7);
     var quality =
