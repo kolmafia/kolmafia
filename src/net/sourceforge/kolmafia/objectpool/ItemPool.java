@@ -2760,7 +2760,6 @@ public class ItemPool {
   public static final int VYKEA_INSTRUCTIONS = 8730;
   public static final int PERFECT_NEGRONI = 8738;
   public static final int MACHINE_SNOWGLOBE = 8749;
-  public static final int RED_ALE = 8755;
   public static final int BACON = 8763;
   public static final int BUNDLE_OF_FRAGRANT_HERBS = 8777;
   public static final int NUCLEAR_STOCKPILE = 8778;
