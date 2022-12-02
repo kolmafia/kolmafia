@@ -2095,6 +2095,14 @@ public class Modifiers {
       this.list.add(new Modifier(name, value));
     }
 
+    public void addStringModifier(final String name, final String value) {
+      this.list.add(new Modifier(name, "\"" + value + "\""));
+    }
+
+    public void addModifier(final String name, final int value) {
+      this.list.add(new Modifier(name, String.valueOf(value)));
+    }
+
     public void addToModifier(final Modifier modifier) {
       String name = modifier.getName();
       String current = this.getModifierValue(name);
@@ -2157,15 +2165,7 @@ public class Modifiers {
 
     @Override
     public String toString() {
-      StringBuilder buffer = new StringBuilder();
-      for (Modifier modifier : this.list) {
-        if (buffer.length() > 0) {
-          buffer.append(", ");
-        }
-
-        modifier.toString(buffer);
-      }
-      return buffer.toString();
+      return this.list.stream().map(Modifier::toString).sorted().collect(Collectors.joining(", "));
     }
   }
 

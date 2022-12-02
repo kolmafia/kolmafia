@@ -4,9 +4,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -123,9 +123,6 @@ class TCRSDatabaseTest {
     assertThat(item.modifiers, equalTo(expectedMods));
   }
 
-  private static Pattern SIMPLE_MODS = Pattern.compile("Effect: \".*?\", Effect Duration: \\d+");
-  private static Pattern EFFECT_ONLY = Pattern.compile("Effect: \".*?\"");
-
   @Test
   void guessAll() {
     for (var ascensionClass : AscensionClass.standardClasses) {
@@ -142,15 +139,12 @@ class TCRSDatabaseTest {
             continue;
           }
 
-          var dataSaysMods = dataSays.modifiers;
-          var weGuessedMods = weGuessed.modifiers;
-          if (!dataSaysMods.contains("Effect Duration")) {
-            // if we have no effect duration, something messed up is going on
-            var m2 = EFFECT_ONLY.matcher(weGuessed.modifiers);
-            if (m2.find()) weGuessedMods = m2.group();
-          }
-
-          String finalWeGuessedMods = weGuessedMods;
+          var checkMods =
+              !TCRSDatabase.DYNAMICALLY_NAMED.contains(itemId)
+                  && switch (ItemDatabase.getConsumptionType(itemId)) {
+                    case USE, USE_INFINITE, USE_MULTIPLE, USE_MESSAGE_DISPLAY -> false;
+                    default -> true;
+                  };
 
           assertAll(
               String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
@@ -164,7 +158,28 @@ class TCRSDatabaseTest {
                 if (dataSays.quality.getValue() > 0)
                   assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
               },
-              () -> assertThat("Modifiers", finalWeGuessedMods, equalTo(dataSaysMods)));
+              () -> {
+                if (checkMods) {
+                  var dataSaysMods = Modifiers.splitModifiers(dataSays.modifiers);
+                  var weGuessedMods = Modifiers.splitModifiers(weGuessed.modifiers);
+
+                  assertAll(
+                      () ->
+                          assertThat(
+                              "Effect",
+                              weGuessedMods.getModifierValue("Effect"),
+                              equalTo(dataSaysMods.getModifierValue("Effect"))),
+                      () -> {
+                        // @TODO Queen cookie sometimes has no effect duration. Is this right?
+                        if (dataSaysMods.containsModifier("Effect Duration")) {
+                          assertThat(
+                              "Effect Duration",
+                              weGuessedMods.getModifierValue("Effect Duration"),
+                              equalTo(dataSaysMods.getModifierValue("Effect Duration")));
+                        }
+                      });
+                }
+              });
         }
       }
     }

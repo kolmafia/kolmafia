@@ -622,8 +622,18 @@ public class ConsumablesDatabase {
     return consumable == null ? null : consumable.getRawFullness();
   }
 
+  public static final Integer getRawFullness(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
+    return consumable == null ? null : consumable.getRawFullness();
+  }
+
   public static final int getFullness(final String name) {
     Integer fullness = ConsumablesDatabase.getRawFullness(name);
+    return fullness == null ? 0 : fullness;
+  }
+
+  public static final int getFullness(final int id) {
+    Integer fullness = ConsumablesDatabase.getRawFullness(id);
     return fullness == null ? 0 : fullness;
   }
 
@@ -632,8 +642,18 @@ public class ConsumablesDatabase {
     return consumable == null ? null : consumable.getRawInebriety();
   }
 
+  public static final Integer getRawInebriety(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
+    return consumable == null ? null : consumable.getRawInebriety();
+  }
+
   public static final int getInebriety(final String name) {
     Integer inebriety = ConsumablesDatabase.getRawInebriety(name);
+    return inebriety == null ? 0 : inebriety;
+  }
+
+  public static final int getInebriety(final int id) {
+    Integer inebriety = ConsumablesDatabase.getRawInebriety(id);
     return inebriety == null ? 0 : inebriety;
   }
 
@@ -642,13 +662,28 @@ public class ConsumablesDatabase {
     return consumable == null ? null : consumable.getRawSpleenHit();
   }
 
+  public static final Integer getRawSpleenHit(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
+    return consumable == null ? null : consumable.getRawSpleenHit();
+  }
+
   public static final int getSpleenHit(final String name) {
     Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
     return spleenhit == null ? 0 : spleenhit;
   }
 
+  public static final int getSpleenHit(final int id) {
+    Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(id);
+    return spleenhit == null ? 0 : spleenhit;
+  }
+
   public static final ConsumableQuality getQuality(final String name) {
     Consumable consumable = ConsumablesDatabase.consumableByName.get(name);
+    return consumable == null ? ConsumableQuality.NONE : consumable.quality;
+  }
+
+  public static final ConsumableQuality getQuality(final int id) {
+    Consumable consumable = ConsumablesDatabase.consumableByItemId.get(id);
     return consumable == null ? ConsumableQuality.NONE : consumable.quality;
   }
 
