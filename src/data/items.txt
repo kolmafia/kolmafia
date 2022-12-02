@@ -2117,7 +2117,7 @@
 2089	Crimboween memo	785037568	scroll2.gif	message	t,d	10
 2090	pilgrim shield	299955309	pilshield.gif	offhand	t	0
 2091	fancy bath salts	990835255	potion4.gif	none, combat	t,d	200	bottles of fancy bath salts
-2092	antique hand mirror	443142276	handmirror.gif	none, combat	t,d	100
+2092	antique hand mirror	443142276	handmirror.gif	usable, combat	t,d	100
 2093	hors d'oeuvre tray	175828184	trayshield.gif	offhand	t,d	95
 2094	ballroom blintz	211405194	blintz.gif	food	t,d	33	ballroom blintzes
 2095	towel	295111879	towel.gif	none, usable	t,d	1000
@@ -3922,7 +3922,7 @@
 3894	vial of teal slime	867609165	vial.gif	potion, multiple, cook	q,d	99	vials of teal slime
 3895	vial of indigo slime	455694019	vial.gif	potion, multiple, cook	q,d	99	vials of indigo slime
 3896	vial of purple slime	553670862	vial.gif	potion, multiple, cook	q,d	99	vials of purple slime
-3897	vial of brown slime	615023386	vial.gif	multiple, usable, cook	q,d	3	vials of brown slime
+3897	vial of brown slime	615023386	vial.gif	potion, multiple, cook	q,d	3	vials of brown slime
 3898	bottle of G&uuml;-Gone	959190225	cleaner.gif	none, combat reusable	q	0
 3899
 3900
@@ -3938,7 +3938,7 @@
 3910	figurine of a cold seal	325101579	sealfig9.gif	usable	d	150	figurines of cold seals
 3911	figurine of a slippery seal	623716453	sealfig10.gif	usable	d	150	figurines of slippery seals
 3912	imbued seal-blubber candle	920030991	iblubbercandle.gif	none	d	50
-3913	blended frozen swill with a fly in it	395554500	daquiri.gif	message	g,d	5	glasses of blended frozen swill with flies in them
+3913	blended frozen swill with a fly in it	395554500	daquiri.gif	drink, message	g,d	5	glasses of blended frozen swill with flies in them
 3914	turtle wax	688744545	waxblob.gif	usable	t,d	7	globs of turtle wax
 3915	turtle wax shield	490908351	waxshield.gif	offhand, usable	t,d	7
 3916	turtle wax helmet	760962787	waxhat.gif	hat, usable	t,d	7
@@ -6453,8 +6453,8 @@
 6425	Official Seal of Dreadsylvania	158915306	dvtat.gif	usable		0	Official Seals of Dreadsylvania
 6426	Dreadsylvanian stew	768933176	soupbowl.gif	food		0	bowls of Dreadsylvanian stew
 6427	white Dreadsylvanian	990659022	whitedrink.gif	drink		0
-6428	brass Dreadsylvanian flask	660945598	flask.gif	reusable		0
-6429	silver Dreadsylvanian flask	277786143	flask.gif	reusable		0
+6428	brass Dreadsylvanian flask	660945598	flask.gif	potion, reusable		0
+6429	silver Dreadsylvanian flask	277786143	flask.gif	potion, reusable		0
 6430	dreadful fedora	982873908	dv_freddyhat.gif	hat		0
 6431	dreadful sweater	794701101	dv_freddysweater.gif	shirt		0
 6432	dreadful glove	763468382	dv_freddyglove.gif	weapon		0
@@ -8043,7 +8043,7 @@
 8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	reusable		0	Crimbot ROMs: Ruthless Efficiency (dirty)
 8016	fitness wristband	515708282	fitbit.gif	potion, usable	t	0
 8017	flask of tainted mining oil	639229886	flask.gif	potion, multiple	t,d	10	flasks of tainted mining oil
-8018	red and green rain stick	121053600	rainstick.gif	reusable		0
+8018	red and green rain stick	121053600	rainstick.gif	potion, reusable		0
 8019	Chateau Mantegna room key	667086316	cmkey.gif	usable	t	0
 8020	Choco-Mint patty	561293201	mintpatty.gif	food	t,d	5	Choco-Mint patties
 8021	hot mint schnocolate	654738040	coffeecup.gif	drink	t,d	5

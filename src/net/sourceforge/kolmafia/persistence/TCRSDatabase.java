@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -564,6 +565,7 @@ public class TCRSDatabase {
               "big",
               "black",
               "blue",
+              "brass",
               "candied",
               "cardboard",
               "cheap",
@@ -581,6 +583,7 @@ public class TCRSDatabase {
               "fishy",
               "flaming",
               "floaty",
+              "foam",
               "frigid",
               "frozen",
               "fuchsia",
@@ -592,6 +595,7 @@ public class TCRSDatabase {
               "green",
               "haunted",
               "heavy",
+              "intricate",
               "large",
               "lavender",
               "leather",
@@ -692,27 +696,23 @@ public class TCRSDatabase {
       this.duration = duration;
     }
 
-    Enchantment() {
-      this.effect = "";
-      this.duration = 0;
-    }
-
     @Override
     public String toString() {
       if (this.effect.isBlank()) return "";
-      return "Effect: \""
-          + this.effect
-          + "\""
-          + (this.duration > 0 ? ", Effect Duration: " + this.duration : "");
+      return "Effect: \"" + this.effect + "\", Effect Duration: " + this.duration;
     }
   }
 
-  private static final Set<String> RETAINED_MODIFIERS = Set.of("Free Pull", "Single Equip");
+  private static ModifierList getRetainedModifiers(final int itemId) {
+    var list = Modifiers.getModifierList("Item", itemId);
+    switch (ItemDatabase.getConsumptionType(itemId)) {
+      case EAT, DRINK, SPLEEN, POTION, AVATAR_POTION -> {
+        while (list.containsModifier("Effect")) list.removeModifier("Effect");
+        while (list.containsModifier("Effect Duration")) list.removeModifier("Effect Duration");
+      }
+    }
 
-  private static String getRetainedModifiers(final int itemId) {
-    return RETAINED_MODIFIERS.stream()
-        .filter(m -> Modifiers.getBooleanModifier("Item", itemId, m))
-        .collect(Collectors.joining(", "));
+    return list;
   }
 
   private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
@@ -729,11 +729,24 @@ public class TCRSDatabase {
 
   public static TCRS guessPotion(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
-    var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
     var cosmeticsString = rollCosmetics(mtRng, rng, 6);
+
+    var mods = getRetainedModifiers(id);
+
+    if (TCRS_GENERIC.contains(id)) {
+      mods = Modifiers.getModifierList("Item", id);
+      var name =
+          Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+              .filter(Predicate.not(String::isBlank))
+              .collect(Collectors.joining(" "));
+
+      return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
+    }
 
     // Determine potion modifiers
     var potionMods = new ArrayList<String>();
@@ -783,9 +796,9 @@ public class TCRSDatabase {
 
     var potionString = String.join(" ", prefixedPotionMods);
 
-    var mods = "";
     if (!effectName.isBlank()) {
-      mods = "Effect: \"" + effectName + "\", Effect Duration: " + duration;
+      mods.addStringModifier("Effect", effectName);
+      mods.addModifier("Effect Duration", duration);
     }
 
     var name =
@@ -796,7 +809,7 @@ public class TCRSDatabase {
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
 
-    return new TCRS(name, 0, ConsumableQuality.NONE, mods);
+    return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
   }
 
   private static ConsumableQuality determineFoodQuality(
@@ -886,6 +899,28 @@ public class TCRSDatabase {
 
     var cosmeticsString = rollCosmetics(mtRng, rng, beverage ? 8 : 10);
 
+    switch (id) {
+      case ItemPool.GUNPOWDER_BURRITO, ItemPool.BEERY_BLOOD -> {
+        var name =
+            Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+                .filter(Predicate.not(String::isBlank))
+                .collect(Collectors.joining(" "));
+
+        var mods = getRetainedModifiers(id);
+
+        var size =
+            switch (ItemDatabase.getConsumptionType(id)) {
+              case EAT -> ConsumablesDatabase.getFullness(id);
+              case DRINK -> ConsumablesDatabase.getInebriety(id);
+              default -> 0;
+            };
+
+        var quality = ConsumablesDatabase.getQuality(id);
+
+        return new TCRS(name, size, quality, mods.toString());
+      }
+    }
+
     var qualityRoll = mtRng.nextInt(1, 7);
     var quality =
         isFood ? determineFoodQuality(qualityRoll, beverage) : determineBoozeQuality(qualityRoll);
@@ -927,6 +962,8 @@ public class TCRSDatabase {
       mtRng.nextDouble();
     }
 
+    var mods = getRetainedModifiers(id);
+
     var enchanted = mtRng.nextInt(1, 10) == 1;
     if (enchanted) {
       adjectives.add(mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR));
@@ -943,7 +980,16 @@ public class TCRSDatabase {
       }
     }
 
-    var mods = enchanted ? enchantment.toString() : "";
+    if (enchanted && !enchantment.effect.isBlank()) {
+      mods.addStringModifier("Effect", enchantment.effect);
+      mods.addModifier("Effect Duration", enchantment.duration);
+    }
+
+    if (id == ItemPool.QUANTUM_TACO
+        || id == ItemPool.SCHRODINGERS_THERMOS
+        || id == ItemPool.SMORE) {
+      size = 0;
+    }
 
     rng.shuffle(adjectives);
 
@@ -955,7 +1001,7 @@ public class TCRSDatabase {
     var name =
         adjectives.stream().filter(Predicate.not(String::isBlank)).collect(Collectors.joining(" "));
 
-    return new TCRS(name, size, quality, mods);
+    return new TCRS(name, size, quality, mods.toString());
   }
 
   private static final List<String> SPLEEN_MODIFIERS =
@@ -981,25 +1027,17 @@ public class TCRSDatabase {
           // Potions
           ItemPool.JAZZ_SOAP,
           ItemPool.CAN_OF_BINARRRCA,
-          ItemPool.LOVE_POTION_XYZ,
           // Food
-          5672,
-          7091,
           8462,
-          8899,
-          // Booze
-          5673);
+          8899);
 
-  /** Items that are entirely unaffected by TCRS */
-  private static final Set<Integer> TCRS_IMMUNE =
+  /** Dynamically named items aren't renamed by TCRS */
+  public static final Set<Integer> DYNAMICALLY_NAMED =
       Set.of(
           ItemPool.EXPERIMENTAL_CRIMBO_FOOD,
           ItemPool.EXPERIMENTAL_CRIMBO_BOOZE,
           ItemPool.EXPERIMENTAL_CRIMBO_SPLEEN,
-          ItemPool.QUANTUM_TACO,
-          ItemPool.SCHRODINGERS_THERMOS,
-          ItemPool.SMORE,
-          ItemPool.GLITCH_ITEM,
+          ItemPool.LOVE_POTION_XYZ,
           ItemPool.DIABOLIC_PIZZA,
           ItemPool.VAMPIRE_VINTNER_WINE);
 
@@ -1009,6 +1047,7 @@ public class TCRSDatabase {
           ItemPool.WREATH_CRIMBO_COOKIE,
           ItemPool.BELL_CRIMBO_COOKIE,
           ItemPool.TREE_CRIMBO_COOKIE,
+          ItemPool.JAZZ_SOAP,
           ItemPool.BAT_CRIMBOWEEN_COOKIE,
           ItemPool.SKULL_CRIMBOWEEN_COOKIE,
           ItemPool.TOMBSTONE_CRIMBOWEEN_COOKIE,
@@ -1033,7 +1072,8 @@ public class TCRSDatabase {
 
   private static TCRS guessSpleen(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
-    var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
@@ -1057,16 +1097,18 @@ public class TCRSDatabase {
       mtRng.nextDouble();
     }
 
-    var mods =
-        (mtRng.nextInt(1, 3) == 1)
-            ? rollConsumableEnchantment(item.getItemId(), mtRng)
-            : new Enchantment();
+    var mods = getRetainedModifiers(id);
+
+    if ((mtRng.nextInt(1, 3) == 1)) {
+      var enchantment = rollConsumableEnchantment(id, mtRng);
+      if (!enchantment.effect.isBlank()) {
+        mods.addStringModifier("Effect", enchantment.effect);
+        mods.addModifier("Effect Duration", enchantment.duration);
+      }
+    }
 
     var name =
-        Stream.of(
-                adjective,
-                cosmeticsString,
-                removeAdjectives(ItemDatabase.getItemName(item.getItemId())))
+        Stream.of(adjective, cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
 
@@ -1087,15 +1129,19 @@ public class TCRSDatabase {
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
 
-    var mods = "";
+    var mods = getRetainedModifiers(id);
 
-    if (ItemDatabase.getConsumptionType(id) == ConsumptionType.POTION) {
-      mods = Modifiers.getStringModifier("Item", id, "Modifiers");
-    } else {
-      mods = getRetainedModifiers(id);
-    }
+    var size =
+        switch (ItemDatabase.getConsumptionType(id)) {
+          case EAT -> ConsumablesDatabase.getFullness(id);
+          case DRINK -> ConsumablesDatabase.getInebriety(id);
+          case SPLEEN -> ConsumablesDatabase.getSpleenHit(id);
+          default -> 0;
+        };
 
-    return new TCRS(name, 0, null, mods);
+    var quality = ConsumablesDatabase.getQuality(id);
+
+    return new TCRS(name, size, quality, mods.toString());
   }
 
   public static TCRS guessItem(
@@ -1103,7 +1149,7 @@ public class TCRSDatabase {
     var item = ItemPool.get(itemId);
     var type = ItemDatabase.getConsumptionType(itemId);
 
-    if (TCRS_IMMUNE.contains(itemId)) {
+    if (DYNAMICALLY_NAMED.contains(itemId)) {
       var name = ItemDatabase.getItemName(itemId);
 
       var size =
@@ -1117,8 +1163,10 @@ public class TCRSDatabase {
       return new TCRS(name, size, ConsumablesDatabase.getQuality(name), "");
     }
 
-    if (TCRS_GENERIC.contains(itemId)) {
-      type = ConsumptionType.NONE;
+    switch (itemId) {
+      case
+      // Glitch item isn't really a food
+      ItemPool.GLITCH_ITEM -> type = ConsumptionType.NONE;
     }
 
     return switch (type) {

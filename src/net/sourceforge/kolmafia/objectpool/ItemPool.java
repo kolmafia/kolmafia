@@ -1804,6 +1804,8 @@ public class ItemPool {
   public static final int CURSED_KEG = 5664;
   public static final int JERK_BOOK = 5665;
   public static final int GRUDGE_BOOK = 5666;
+  public static final int GUNPOWDER_BURRITO = 5672;
+  public static final int BEERY_BLOOD = 5673;
   public static final int LOST_KEY = 5680;
   public static final int NOTE_FROM_CLANCY = 5682;
   public static final int BURT = 5683;
