@@ -928,6 +928,7 @@ public class ItemPool {
   public static final int BROKEN_DRONE = 3165;
   public static final int REPAIRED_DRONE = 3166;
   public static final int AUGMENTED_DRONE = 3167;
+  public static final int TURTLE_SOUP = 3169;
   public static final int FORTUNE_TELLER = 3193;
   public static final int ORIGAMI_MAGAZINE = 3194;
   public static final int PAPER_SHURIKEN = 3195;
@@ -1057,6 +1058,7 @@ public class ItemPool {
   public static final int PRISTINE_FISH_SCALE = 3488;
   public static final int BEEFY_FISH_MEAT = 3489;
   public static final int GLISTENING_FISH_MEAT = 3490;
+  public static final int SLICK_FISH_MEAT = 3491;
   public static final int FISH_SCIMITAR = 3492;
   public static final int FISH_STICK = 3493;
   public static final int FISH_BAZOOKA = 3494;
@@ -2758,6 +2760,7 @@ public class ItemPool {
   public static final int VYKEA_INSTRUCTIONS = 8730;
   public static final int PERFECT_NEGRONI = 8738;
   public static final int MACHINE_SNOWGLOBE = 8749;
+  public static final int RED_ALE = 8755;
   public static final int BACON = 8763;
   public static final int BUNDLE_OF_FRAGRANT_HERBS = 8777;
   public static final int NUCLEAR_STOCKPILE = 8778;

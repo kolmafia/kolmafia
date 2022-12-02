@@ -2,9 +2,9 @@ package net.sourceforge.kolmafia.persistence;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.ZodiacSign;
@@ -123,6 +123,9 @@ class TCRSDatabaseTest {
     assertThat(item.modifiers, equalTo(expectedMods));
   }
 
+  private static Pattern SIMPLE_MODS = Pattern.compile("Effect: \".*?\", Effect Duration: \\d+");
+  private static Pattern EFFECT_ONLY = Pattern.compile("Effect: \".*?\"");
+
   @Test
   void guessAll() {
     for (var ascensionClass : AscensionClass.standardClasses) {
@@ -139,6 +142,18 @@ class TCRSDatabaseTest {
             continue;
           }
 
+          // Let's strip the other crap for now
+          var weGuessedMods = weGuessed.modifiers;
+          var m = SIMPLE_MODS.matcher(dataSays.modifiers);
+          var dataSaysMods = m.find() ? m.group() : dataSays.modifiers;
+          if (!dataSaysMods.contains("Effect Duration")) {
+            // if we have no effect duration, something messed up is going on
+            var m2 = EFFECT_ONLY.matcher(weGuessed.modifiers);
+            if (m2.find()) weGuessedMods = m2.group();
+          }
+
+          String finalWeGuessedMods = weGuessedMods;
+
           assertAll(
               String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
               () ->
@@ -151,15 +166,7 @@ class TCRSDatabaseTest {
                 if (dataSays.quality.getValue() > 0)
                   assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
               },
-              () ->
-                  assertThat(
-                      "Modifiers should be \""
-                          + dataSays.modifiers
-                          + "\" but is \""
-                          + weGuessed.modifiers
-                          + "\"",
-                      dataSays.modifiers.endsWith(weGuessed.modifiers),
-                      is(true)));
+              () -> assertThat("Modifiers", finalWeGuessedMods, equalTo(dataSaysMods)));
         }
       }
     }

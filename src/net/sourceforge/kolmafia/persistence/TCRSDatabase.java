@@ -589,6 +589,7 @@ public class TCRSDatabase {
               "golden",
               "green",
               "haunted",
+              "heavy",
               "large",
               "lavender",
               "leather",
@@ -612,6 +613,7 @@ public class TCRSDatabase {
               "primitive",
               "purple",
               "red",
+              "rusty",
               "silver",
               "sour",
               "spicy",
@@ -624,6 +626,7 @@ public class TCRSDatabase {
               "stuffed",
               "tiny",
               "white",
+              "wooden",
               "wrought-iron",
               "yellow"));
 
@@ -676,30 +679,41 @@ public class TCRSDatabase {
     return String.join(" ", cosmeticMods);
   }
 
-  private static String rollConsumableEnchantment(final PHPMTRandom mtRng, final int itemId) {
-    var hardcodedEffect = HARDCODED_EFFECT.contains(itemId);
-    var hardcodedEffectDuration = HARDCODED_EFFECT_DURATION.contains(itemId);
-    var roll = mtRng.nextInt(0, TCRSEffectPool.size());
+  static class Enchantment {
+    String effect;
+    int duration;
 
-    if (roll != TCRSEffectPool.size()) {
-      var effectName = EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
-
-      if (hardcodedEffect) {
-        effectName = Modifiers.getStringModifier("Item", itemId, "Effect");
-      }
-
-      if (!effectName.isBlank()) {
-        var duration = 5 * mtRng.nextInt(1, 10);
-
-        if (hardcodedEffectDuration) {
-          duration = (int) Modifiers.getNumericModifier("Item", itemId, "Effect Duration");
-        }
-
-        return "Effect: \"" + effectName + "\", Effect Duration: " + duration;
-      }
+    Enchantment(String effect, int duration) {
+      this.effect = effect;
+      this.duration = duration;
     }
 
-    return "";
+    Enchantment() {
+      this.effect = "";
+      this.duration = 0;
+    }
+
+    @Override
+    public String toString() {
+      if (this.effect.isBlank()) return "";
+      return "Effect: \""
+          + this.effect
+          + "\""
+          + (this.duration > 0 ? ", Effect Duration: " + this.duration : "");
+    }
+  }
+  ;
+
+  private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
+    var roll = mtRng.nextInt(0, TCRSEffectPool.size());
+
+    var effectName =
+        (roll != TCRSEffectPool.size())
+            ? EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName()
+            : Modifiers.getStringModifier("Item", itemId, "Effect");
+    var duration = 5 * mtRng.nextInt(1, 10);
+
+    return new Enchantment(effectName, duration);
   }
 
   public static TCRS guessPotion(
@@ -852,11 +866,12 @@ public class TCRSDatabase {
       final ZodiacSign sign,
       final AdventureResult item,
       final boolean isFood) {
-    var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
-    var beverage = ConsumablesDatabase.isBeverage(item.getItemId());
+    var beverage = ConsumablesDatabase.isBeverage(id);
 
     var cosmeticsString = rollCosmetics(mtRng, rng, beverage ? 8 : 10);
 
@@ -901,16 +916,23 @@ public class TCRSDatabase {
       mtRng.nextDouble();
     }
 
-    var enchantmentDescriptor = "";
-    if (mtRng.nextInt(1, 10) == 1) {
-      enchantmentDescriptor = mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR);
-      adjectives.add(enchantmentDescriptor);
+    var enchanted = mtRng.nextInt(1, 10) == 1;
+    if (enchanted) {
+      adjectives.add(mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR));
     }
 
-    var mods =
-        enchantmentDescriptor.equals("enchanted")
-            ? rollConsumableEnchantment(mtRng, item.getItemId())
-            : "";
+    var enchantment = rollConsumableEnchantment(id, mtRng);
+
+    if (HARDCODED_EFFECT.contains(id)) {
+      enchanted = true;
+      enchantment.effect = Modifiers.getStringModifier("Item", id, "Effect");
+
+      if (!HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
+        enchantment.duration = (int) Modifiers.getNumericModifier("Item", id, "Effect Duration");
+      }
+    }
+
+    var mods = enchanted ? enchantment.toString() : "";
 
     rng.shuffle(adjectives);
 
@@ -972,7 +994,7 @@ public class TCRSDatabase {
           ItemPool.DIABOLIC_PIZZA,
           ItemPool.VAMPIRE_VINTNER_WINE);
 
-  /** Items that keep their effect despite rolling for a new one */
+  /** Items that keep their Effect despite rolling for a new one */
   private static final Set<Integer> HARDCODED_EFFECT =
       Set.of(
           ItemPool.WREATH_CRIMBO_COOKIE,
@@ -981,8 +1003,10 @@ public class TCRSDatabase {
           ItemPool.BAT_CRIMBOWEEN_COOKIE,
           ItemPool.SKULL_CRIMBOWEEN_COOKIE,
           ItemPool.TOMBSTONE_CRIMBOWEEN_COOKIE,
+          ItemPool.TURTLE_SOUP,
           ItemPool.BEEFY_FISH_MEAT,
           ItemPool.GLISTENING_FISH_MEAT,
+          ItemPool.SLICK_FISH_MEAT,
           ItemPool.BLOB_CRIMBCOOKIE,
           ItemPool.QUEEN_COOKIE,
           ItemPool.SUN_DRIED_TOFU,
@@ -994,26 +1018,9 @@ public class TCRSDatabase {
           ItemPool.TEMPS_TEMPRANILLO,
           ItemPool.THYME_JELLY_DONUT);
 
-  /** Items that keep their effect duration despite rolling for a new one */
-  private static final Set<Integer> HARDCODED_EFFECT_DURATION =
-      Set.of(
-          ItemPool.WREATH_CRIMBO_COOKIE,
-          ItemPool.BELL_CRIMBO_COOKIE,
-          ItemPool.TREE_CRIMBO_COOKIE,
-          ItemPool.BAT_CRIMBOWEEN_COOKIE,
-          ItemPool.SKULL_CRIMBOWEEN_COOKIE,
-          ItemPool.TOMBSTONE_CRIMBOWEEN_COOKIE,
-          ItemPool.BEEFY_FISH_MEAT,
-          ItemPool.GLISTENING_FISH_MEAT,
-          ItemPool.BLOB_CRIMBCOOKIE,
-          ItemPool.SUN_DRIED_TOFU,
-          ItemPool.SOYBURGER_JUICE,
-          ItemPool.CIRCULAR_CRIMBCOOKIE,
-          ItemPool.TRIANGULAR_CRIMBCOOKIE,
-          ItemPool.SQUARE_CRIMBCOOKIE,
-          ItemPool.CHAOS_POPCORN,
-          ItemPool.TEMPS_TEMPRANILLO,
-          ItemPool.THYME_JELLY_DONUT);
+  /** Items that keep their Effect but take on a new Effect Duration */
+  private static final Set<Integer> HARDCODED_EFFECT_DYNAMIC_DURATION =
+      Set.of(ItemPool.QUEEN_COOKIE, ItemPool.TURTLE_SOUP);
 
   private static TCRS guessSpleen(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
@@ -1041,7 +1048,10 @@ public class TCRSDatabase {
       mtRng.nextInt();
     }
 
-    var mods = (mtRng.nextInt(1, 3) == 1) ? rollConsumableEnchantment(mtRng, item.getItemId()) : "";
+    var mods =
+        (mtRng.nextInt(1, 3) == 1)
+            ? rollConsumableEnchantment(item.getItemId(), mtRng)
+            : new Enchantment();
 
     var name =
         Stream.of(
@@ -1051,24 +1061,41 @@ public class TCRSDatabase {
             .filter(Predicate.not(String::isBlank))
             .collect(Collectors.joining(" "));
 
-    return new TCRS(name, 1, quality, mods);
+    return new TCRS(name, 1, quality, mods.toString());
+  }
+
+  private static TCRS guessGeneric(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var seed = (50 * item.getItemId()) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 8);
+
+    var name =
+        Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(item.getItemId())))
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
+
+    return new TCRS(name, 0, null, "");
   }
 
   public static TCRS guessItem(
       final AscensionClass ascensionClass, final ZodiacSign sign, final int itemId) {
     var item = ItemPool.get(itemId);
-    var type = EquipmentDatabase.getItemType(itemId);
+    var type = ItemDatabase.getConsumptionType(itemId);
 
     if (TCRS_GENERIC.contains(itemId) || TCRS_IMMUNE.contains(itemId)) {
-      type = "other";
+      type = ConsumptionType.NONE;
     }
 
     return switch (type) {
-      case "potion", "avatar potion" -> guessPotion(ascensionClass, sign, item);
-      case "food" -> guessFoodBooze(ascensionClass, sign, item, true);
-      case "booze" -> guessFoodBooze(ascensionClass, sign, item, false);
-      case "spleen item" -> guessSpleen(ascensionClass, sign, item);
+      case POTION, AVATAR_POTION -> guessPotion(ascensionClass, sign, item);
+      case EAT, DRINK -> guessFoodBooze(ascensionClass, sign, item, type == ConsumptionType.EAT);
+      case SPLEEN -> guessSpleen(ascensionClass, sign, item);
+      case HAT, SHIRT, CONTAINER, WEAPON, OFFHAND, PANTS, ACCESSORY, FAMILIAR_EQUIPMENT -> null;
       default -> null;
+        // default -> guessGeneric(ascensionClass, sign, item);
     };
   }
 
