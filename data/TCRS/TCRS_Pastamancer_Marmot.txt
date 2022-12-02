@@ -8816,7 +8816,7 @@
 8952	yellow blinking nicksilver spurs	0		
 8953	blurry ticksilver spurs	0		
 8954	skewed special edition Batfellow comic	0		Free Pull
-8955	Tales of the West:  Cow Punching	0		
+8955	Tales of the West: Cow Punching	0
 8956	Tales of the West: Beanslinging	0		
 8957	blurry Tales of the West: Snake Oiling	0		
 8958	blinking red briefcase full of snakes	0		
