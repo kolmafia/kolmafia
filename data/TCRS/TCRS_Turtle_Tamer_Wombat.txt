@@ -8817,7 +8817,7 @@
 8952	narrow nicksilver spurs	0		
 8953	ticksilver spurs	0		
 8954	wobbly special edition Batfellow comic	0		Free Pull
-8955	shaking Tales of the West:  Cow Punching	0		
+8955	shaking Tales of the West: Cow Punching	0
 8956	blurry Tales of the West: Beanslinging	0		
 8957	Tales of the West: Snake Oiling	0		
 8958	briefcase full of snakes	0		
