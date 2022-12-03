@@ -3,14 +3,18 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -80,6 +84,21 @@ class DrinkCommandTest extends AbstractCommandTestBase {
         assertErrorState();
         assertThat(requests, hasSize(0));
       }
+    }
+  }
+
+  @Test
+  public void canDrinkInGreyYou() {
+    var cleanups =
+        new Cleanups(
+            withPath(AscensionPath.Path.GREY_YOU),
+            withClass(AscensionClass.GREY_GOO),
+            withItem(ItemPool.BOTTLE_OF_GIN));
+
+    try (cleanups) {
+      String output = execute("bottle of gin");
+      assertContinueState();
+      assertThat(output, containsString("Drinking 1 bottle of gin"));
     }
   }
 }
