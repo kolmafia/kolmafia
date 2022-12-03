@@ -9,10 +9,13 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -361,60 +364,79 @@ public interface KoLConstants extends UtilityConstants {
    * <p>Most of this is handled in UseItemRequest.
    */
   enum ConsumptionType {
-    UNKNOWN,
+    UNKNOWN("unknown"),
     // Cannot be "used" in any way by itself
-    NONE,
+    NONE("none"),
 
     // Consumables
-    EAT,
-    DRINK,
-    SPLEEN,
+    EAT("food"),
+    DRINK("drink"),
+    SPLEEN("spleen"),
 
     // Usables
-    USE,
-    USE_MULTIPLE,
-    USE_INFINITE,
-    USE_MESSAGE_DISPLAY,
+    USE("usable"),
+    USE_MULTIPLE("multiple"),
+    USE_INFINITE("reusable"),
+    USE_MESSAGE_DISPLAY("message"),
 
     // Familiar hatchlings
-    FAMILIAR_HATCHLING,
+    FAMILIAR_HATCHLING("grow"),
 
     // Equipment
-    HAT,
-    WEAPON,
-    OFFHAND,
-    CONTAINER,
-    SHIRT,
-    PANTS,
-    ACCESSORY,
-    FAMILIAR_EQUIPMENT,
+    HAT("hat"),
+    WEAPON("weapon"),
+    OFFHAND("offhand"),
+    CONTAINER("container"),
+    SHIRT("shirt"),
+    PANTS("pants"),
+    ACCESSORY("accessory"),
+    FAMILIAR_EQUIPMENT("familiar"),
 
     // Customizable "equipment"
-    STICKER,
-    CARD,
-    FOLDER,
-    BOOTSKIN,
-    BOOTSPUR,
-    SIXGUN,
+    STICKER("sticker"),
+    CARD("card"),
+    FOLDER("folder"),
+    BOOTSKIN("bootskin"),
+    BOOTSPUR("bootspur"),
+    SIXGUN("sixgun"),
 
     // Special "uses"
-    FOOD_HELPER,
-    DRINK_HELPER,
-    ZAP,
-    EL_VIBRATO_SPHERE,
-    PASTA_GUARDIAN,
-    POKEPILL,
+    FOOD_HELPER("food helper"),
+    DRINK_HELPER("drink helper"),
+    ZAP("zap"),
+    EL_VIBRATO_SPHERE("sphere"),
+    PASTA_GUARDIAN("guardian"),
+    POKEPILL("pokepill"),
 
     // Potions
-    POTION,
-    AVATAR_POTION,
+    POTION("potion"),
+    AVATAR_POTION("avatar"),
 
     // Familiar "uses"
-    ROBORTENDER,
-    STOCKING_MIMIC,
-    SLIMELING,
-    SPIRIT_HOBO,
-    GLUTTONOUS_GHOST
+    ROBORTENDER("robortender"),
+    STOCKING_MIMIC("stocking mimic"),
+    SLIMELING("slimeling"),
+    SPIRIT_HOBO("spirit hobo"),
+    GLUTTONOUS_GHOST("gluttonous ghost");
+
+    public final String description;
+    private static final Map<String, ConsumptionType> consumptionTypeByDescription =
+        new HashMap<>();
+
+    ConsumptionType(String description) {
+      this.description = description;
+    }
+
+    public static ConsumptionType byDescription(String description) {
+      var lookup = consumptionTypeByDescription.get(description);
+      if (lookup != null) return lookup;
+      var search =
+          Arrays.stream(ConsumptionType.values())
+              .filter(x -> x.description.equals(description))
+              .findAny();
+      search.ifPresent(x -> consumptionTypeByDescription.put(description, x));
+      return search.orElse(null);
+    }
   }
 
   enum CraftingType {

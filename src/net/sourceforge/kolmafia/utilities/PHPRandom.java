@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * PHP < 7.1.0 uses glibc's rand function which is explained very clearly at
- * https://www.mscs.dal.ca/~selinger/random/. This is mostly derived directly from PHP's source code
- * by Gausie.
+ * PHP < 7.1.0 uses glibc's rand function which is explained very clearly at <a
+ * href="https://www.mscs.dal.ca/~selinger/random/">...</a>. This is mostly derived directly from
+ * PHP's source code by Gausie.
  */
 public class PHPRandom extends Random {
-  public static final long serialVersionUID = 0l;
+  public static final long serialVersionUID = 0L;
   public ArrayList<Integer> state;
 
   @Override
@@ -33,21 +33,20 @@ public class PHPRandom extends Random {
   @SuppressWarnings("PMD.MissingOverride")
   public int nextInt(final int min, final int max) {
     double clamped = (max - min + 1.0) * nextDouble();
-    int val = min + (int) clamped;
-    return val;
+    return min + (int) clamped;
   }
 
   @Override
   public synchronized void setSeed(long seed) {
     if (state == null) {
-      state = new ArrayList<Integer>();
+      state = new ArrayList<>();
     }
 
     state.clear();
     state.add((int) seed);
 
     for (int i = 1; i < 31; i++) {
-      int value = (int) ((16_807l * state.get(i - 1)) % Integer.MAX_VALUE);
+      int value = (int) ((16_807L * state.get(i - 1)) % Integer.MAX_VALUE);
       if (value < 0) {
         value += Integer.MAX_VALUE;
       }

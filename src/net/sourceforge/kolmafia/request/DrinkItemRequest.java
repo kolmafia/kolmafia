@@ -68,6 +68,12 @@ public class DrinkItemRequest extends UseItemRequest {
 
   public static final int maximumUses(
       final int itemId, final String itemName, final int inebriety, boolean allowOverDrink) {
+    if (KoLCharacter.isGreyGoo()) {
+      // If we ever track what items have already been absorbed this ascension, this is a great
+      // place to use those data.
+      return 1;
+    }
+
     if (KoLCharacter.isJarlsberg()
         && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS
         && !itemName.equals("steel margarita")
@@ -238,7 +244,7 @@ public class DrinkItemRequest extends UseItemRequest {
     int itemId = this.itemUsed.getItemId();
     UseItemRequest.lastUpdate = "";
 
-    int maximumUses = UseItemRequest.maximumUses(itemId);
+    int maximumUses = UseItemRequest.maximumUses(itemId, this.consumptionType);
     if (maximumUses < this.itemUsed.getCount()) {
       KoLmafia.updateDisplay(
           "(usable quantity of "

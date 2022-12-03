@@ -952,6 +952,18 @@ public class Player {
   }
 
   /**
+   * Sets the player's spleen use
+   *
+   * @param spleenUse Desired spleen use
+   * @return Resets spleen use to previous value
+   */
+  public static Cleanups withSpleenUse(final int spleenUse) {
+    var old = KoLCharacter.getSpleenUse();
+    KoLCharacter.setSpleenUse(spleenUse);
+    return new Cleanups(() -> KoLCharacter.setSpleenUse(old));
+  }
+
+  /**
    * Sets the player's class
    *
    * @param ascensionClass Desired class
