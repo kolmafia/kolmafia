@@ -1115,6 +1115,31 @@ public class TCRSDatabase {
     return new TCRS(name, 1, quality, mods.toString());
   }
 
+  private static record EquipmentEnchantment(final String adjective, final String modifier) {}
+
+  private static Set<EquipmentEnchantment> equipmentEnchantments = Set.of(
+          new EquipmentEnchantment()
+  )
+
+  private static TCRS guessEquipment(
+          final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId()) ;
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 8);
+
+    var name =
+            Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+                    .filter(Predicate.not(String::isBlank))
+                    .collect(Collectors.joining(" "));
+
+    var mods = getRetainedModifiers(id);
+
+    return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
+  }
+
   private static TCRS guessGeneric(
       final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
@@ -1173,7 +1198,7 @@ public class TCRSDatabase {
       case POTION, AVATAR_POTION -> guessPotion(ascensionClass, sign, item);
       case EAT, DRINK -> guessFoodBooze(ascensionClass, sign, item, type == ConsumptionType.EAT);
       case SPLEEN -> guessSpleen(ascensionClass, sign, item);
-      case HAT, SHIRT, CONTAINER, WEAPON, OFFHAND, PANTS, ACCESSORY, FAMILIAR_EQUIPMENT -> null;
+      case HAT, SHIRT, CONTAINER, WEAPON, OFFHAND, PANTS, ACCESSORY, FAMILIAR_EQUIPMENT -> guessEquipment(ascensionClass, sign, item);
       default -> guessGeneric(ascensionClass, sign, item);
     };
   }
