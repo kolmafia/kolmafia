@@ -205,6 +205,11 @@ public class AccountRequest extends PasswordHashRequest {
     KoLCharacter.setAutoAttackAction(autoAttackAction);
   }
 
+  private static final Pattern TIMEZONE_PATTERN =
+      Pattern.compile("<select name=\"timezone\">.*?</select>", Pattern.DOTALL);
+  private static final Pattern SELECTED_PATTERN_2 =
+      Pattern.compile("<option selected='selected'>(.*?)</option>");
+
   private static void parseAccountOptions(final String responseText) {
     // Whether or not a player is currently in Bad Moon or hardcore
     // is also found here through the presence of buttons.
@@ -235,6 +240,17 @@ public class AccountRequest extends PasswordHashRequest {
             && !responseText.contains(
                 "<input class=button name=\"action\" type=\"submit\" value=\"Recall Skills\">");
     KoLCharacter.setSkillsRecalled(recalled);
+
+    Matcher selectMatcher = AccountRequest.TIMEZONE_PATTERN.matcher(responseText);
+
+    if (selectMatcher.find()) {
+      Matcher optionMatcher = AccountRequest.SELECTED_PATTERN_2.matcher(selectMatcher.group());
+      if (optionMatcher.find()) {
+        String timezone = optionMatcher.group(1);
+
+        Preferences.setString("timezone", timezone);
+      }
+    }
   }
 
   private static void parseProfileOptions(final String responseText) {}
