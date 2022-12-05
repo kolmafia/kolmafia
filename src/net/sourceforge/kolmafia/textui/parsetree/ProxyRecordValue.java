@@ -1713,6 +1713,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("buys", DataTypes.BOOLEAN_TYPE)
             .add("sells", DataTypes.BOOLEAN_TYPE)
             .add("nickname", DataTypes.STRING_TYPE)
+            .add("multiple_tokens", DataTypes.STRING_TYPE)
             .finish("coinmaster proxy");
 
     public CoinmasterProxy(Value obj) {
@@ -1721,6 +1722,35 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_token() {
       return this.content != null ? ((CoinmasterData) this.content).getToken() : "";
+    }
+
+    public String get_multiple_tokens() {
+      if (this.content == null) return "";
+      String cmName;
+      cmName = this.content.toString();
+      String retVal = "";
+      switch (cmName) {
+        case "Armory & Leggery":
+          retVal =
+              "wickerbits, bakelite bits, aerosolized aerogel, wrought-iron flakes, chalk chunks, marble molecules, paraffin pieces, terra cotta tidbits, velour veneer, stained glass shards, loofah lumps, flagstone flagments";
+          break;
+        case "Bat-Fabricator":
+          retVal = "high-grade metal, high-tensile-strength fibers, high-grade explosives";
+          break;
+        case "Cosmic Ray's Bazaar":
+          retVal = "rare Meat isotope, white pixel, fat loot token";
+          break;
+        case "Fancy Dan the Cocktail Man":
+          retVal = "milk cap, drink chit";
+          break;
+        case "Your SpinMaster&trade; lathe":
+          retVal =
+              "flimsy hardwood scraps, Dreadsylvanian hemlock, sweaty balsam, purpleheart logs, wormwood stick, ancient redwood, Dripwood slab ";
+          break;
+        default:
+          retVal = "";
+      }
+      return retVal;
     }
 
     public Value get_item() {
