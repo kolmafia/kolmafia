@@ -1777,14 +1777,13 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_image() {
       return switch ((Element) this.content) {
-        case NONE, SUPERCOLD -> "circle.gif";
+          // No image for Slime or Supercold in Manuel
+        case NONE, SLIME, SUPERCOLD -> "circle.gif";
         case COLD -> "snowflake.gif";
         case HOT -> "fire.gif";
         case SLEAZE -> "wink.gif";
         case SPOOKY -> "skull.gif";
         case STENCH -> "stench.gif";
-        // No image for Slime or Supercold in Manuel
-        case SLIME -> "circle.gif";
         default -> "";
       };
     }
