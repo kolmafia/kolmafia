@@ -891,7 +891,7 @@ suggestive strozzapreti	5	7	awesome	16-19	0	0	20-30
 sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
 super ka-bob	3	11	awesome	12-15	30-38	0	0
 super salad	3	11	awesome	13-16	30-50	32-40	31-40	SALAD
-swamp haunch	3	1	good	0	0	0	0	Unspaded
+swamp haunch	3	1	good	9	10-15	10-15	10-15
 Swedish massage fish	1	4	good	3	20-40	20-40	20-40	40 Like a Fish to Walter (+5 Fishing skill)
 sweet party mix	1	4	EPIC	5-6	0	0	0
 sweet roll Alabama	4	4	good	9-11	15-20	5-10	0	30 Helping Comes Second (+20 Meat Drop, +25 Food Drop, +25 Booze Drop, +25 Candy Drop)
