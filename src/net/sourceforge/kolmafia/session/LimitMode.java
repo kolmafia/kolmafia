@@ -154,10 +154,13 @@ public enum LimitMode {
   public boolean limitAdventure(KoLAdventure adventure) {
     if (this == LimitMode.ASTRAL) {
       String trip = Preferences.getString("currentAstralTrip");
+      boolean chosen = !trip.equals("");
+      // If we're Half-Astral and have not chosen a trip, any Astral area is
+      // allowed, since attempting to automate any of them will choose.
       return switch (adventure.getAdventureNumber()) {
-        case AdventurePool.BAD_TRIP -> !trip.equals("Bad Trip");
-        case AdventurePool.MEDIOCRE_TRIP -> !trip.equals("Mediocre Trip");
-        case AdventurePool.GREAT_TRIP -> !trip.equals("Great Trip");
+        case AdventurePool.BAD_TRIP -> chosen && !trip.equals("Bad Trip");
+        case AdventurePool.MEDIOCRE_TRIP -> chosen && !trip.equals("Mediocre Trip");
+        case AdventurePool.GREAT_TRIP -> chosen && !trip.equals("Great Trip");
         default -> true;
       };
     }
