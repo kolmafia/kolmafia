@@ -32,7 +32,7 @@ public class MrStoreRequest extends CoinMasterRequest {
 
   public static final CoinmasterData MR_STORE =
       new CoinmasterData(master, "mrstore", MrStoreRequest.class)
-          .withToken("Mr. A")
+          .withToken("Mr. Accessory")
           .withTokenTest("You have no Mr. Accessories to trade")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(MR_A)

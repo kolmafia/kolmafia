@@ -22,7 +22,7 @@ public class PokemporiumRequest extends CoinMasterRequest {
 
   public static final CoinmasterData POKEMPORIUM =
       new CoinmasterData(master, "pokefam", PokemporiumRequest.class)
-          .withToken("pok&eacute;dollar bills")
+          .withToken("1,960 pok&eacute;dollar bills")
           .withPluralToken("pok&eacute;dollar bills")
           .withTokenTest("no pok&eacute;dollar bills")
           .withTokenPattern(POKEDOLLAR_PATTERN)

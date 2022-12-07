@@ -20,7 +20,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
 
   public static final CoinmasterData TICKET_COUNTER =
       new CoinmasterData(master, "arcade", TicketCounterRequest.class)
-          .withToken("ticket")
+          .withToken("Game Grid ticket")
           .withTokenTest("You currently have no Game Grid redemption tickets")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TICKET)

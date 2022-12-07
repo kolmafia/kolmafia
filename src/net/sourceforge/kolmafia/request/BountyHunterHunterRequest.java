@@ -22,11 +22,11 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("You have.*?<b>([\\d,]+)</b> filthy lucre");
 
-  public static final AdventureResult LUCRE = ItemPool.get(ItemPool.LUCRE, 1);
+  public static final AdventureResult LUCRE = ItemPool.get(ItemPool.FILTHY_LUCRE, 1);
 
   public static final CoinmasterData BHH =
       new CoinmasterData(master, "hunter", BountyHunterHunterRequest.class)
-          .withToken("lucre")
+          .withToken("filthy lucre")
           .withTokenTest("You don't have any filthy lucre")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(LUCRE)

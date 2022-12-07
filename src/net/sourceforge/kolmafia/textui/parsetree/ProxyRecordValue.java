@@ -1728,11 +1728,11 @@ public class ProxyRecordValue extends RecordValue {
       String cmName;
       cmName = this.content.toString();
       return switch (cmName) {
-        case "Armory & Leggery" -> "wickerbits, bakelite bits, aerosolized aerogel, wrought-iron flakes, chalk chunks, marble molecules, paraffin pieces, terra cotta tidbits, velour veneer, stained glass shards, loofah lumps, flagstone flagments";
-        case "Bat-Fabricator" -> "high-grade metal, high-tensile-strength fibers, high-grade explosives";
-        case "Cosmic Ray's Bazaar" -> "rare Meat isotope, white pixel, fat loot token";
-        case "Fancy Dan the Cocktail Man" -> "milk cap, drink chit";
-        case "Your SpinMaster&trade; lathe" -> "flimsy hardwood scraps, Dreadsylvanian hemlock, sweaty balsam, purpleheart logs, wormwood stick, ancient redwood, Dripwood slab ";
+        case "Armory & Leggery" -> "wickerbits,bakelite bits,aerosolized aerogel,wrought-iron flakes,chalk chunks,marble molecules,paraffin pieces,terra cotta tidbits,velour veneer,stained glass shards,loofah lumps,flagstone flagments";
+        case "Bat-Fabricator" -> "high-grade metal,high-tensile-strength fibers,high-grade explosives";
+        case "Cosmic Ray's Bazaar" -> "rare Meat isotope,white pixel,fat loot token";
+        case "Fancy Dan the Cocktail Man" -> "milk cap,drink chit";
+        case "Your SpinMaster&trade; lathe" -> "flimsy hardwood scraps,Dreadsylvanian hemlock,sweaty balsam,purpleheart logs,wormwood stick,ancient redwood,Dripwood slab";
         default -> "";
       };
     }

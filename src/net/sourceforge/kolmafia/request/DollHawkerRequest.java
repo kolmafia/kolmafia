@@ -8,7 +8,7 @@ public class DollHawkerRequest extends CoinMasterRequest {
 
   public static final CoinmasterData DOLLHAWKER =
       new CoinmasterData(master, "dollhawker", DollHawkerRequest.class)
-          .withToken("isotope")
+          .withToken("lunar isotope")
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)

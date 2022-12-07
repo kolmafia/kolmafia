@@ -8,7 +8,7 @@ public class IsotopeSmitheryRequest extends CoinMasterRequest {
 
   public static final CoinmasterData ISOTOPE_SMITHERY =
       new CoinmasterData(master, "isotopesmithery", IsotopeSmitheryRequest.class)
-          .withToken("isotope")
+          .withToken("lunar isotope")
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)

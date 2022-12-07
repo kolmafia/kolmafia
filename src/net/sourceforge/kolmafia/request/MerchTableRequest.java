@@ -29,7 +29,7 @@ public class MerchTableRequest extends CoinMasterRequest {
 
   public static final CoinmasterData MERCH_TABLE =
       new CoinmasterData(master, "conmerch", MerchTableRequest.class)
-          .withToken("Mr. A")
+          .withToken("Mr. Accessory")
           .withTokenTest("You have no Mr. Accessories to trade")
           .withTokenPattern(MR_A_PATTERN)
           .withItem(MR_A)

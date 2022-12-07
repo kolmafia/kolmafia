@@ -20,7 +20,7 @@ public class AWOLQuartermasterRequest extends CoinMasterRequest {
 
   public static final CoinmasterData AWOL =
       new CoinmasterData(master, "awol", AWOLQuartermasterRequest.class)
-          .withToken("commendation")
+          .withToken("A. W. O. L. commendation")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COMMENDATION)
           .withBuyURL("inv_use.php?whichitem=5116&ajax=1")

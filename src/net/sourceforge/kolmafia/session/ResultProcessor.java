@@ -1310,7 +1310,7 @@ public class ResultProcessor {
       case ItemPool.WORTHLESS_GEWGAW:
       case ItemPool.WORTHLESS_KNICK_KNACK:
       case ItemPool.YETI_FUR:
-      case ItemPool.LUCRE:
+      case ItemPool.FILTHY_LUCRE:
       case ItemPool.SAND_DOLLAR:
       case ItemPool.CRIMBUCK:
       case ItemPool.BONE_CHIPS:
