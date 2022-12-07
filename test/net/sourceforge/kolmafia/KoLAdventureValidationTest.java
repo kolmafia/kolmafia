@@ -1374,6 +1374,43 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void canAdventureIfHalfAstralWithTripUnSelected() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withEffect("Half-Astral", 5),
+              withProperty("currentAstralTrip", ""),
+              withLimitMode(LimitMode.ASTRAL),
+              withPasswordHash("astral"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(KoLCharacter.FEMALE));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_visit_astral_travel_agent.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_choose_great_trip.html"));
+        client.addResponse(200, ""); // api.php
+
+        assertTrue(BAD_TRIP.canAdventure());
+        assertTrue(MEDIOCRE_TRIP.canAdventure());
+        assertTrue(GREAT_TRIP.canAdventure());
+        assertTrue(GREAT_TRIP.prepareForAdventure());
+        assertThat(Preferences.getString("currentAstralTrip"), is("Great Trip"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(5));
+
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=97&pwd=astral");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/choice.php", "whichchoice=71&option=3&pwd=astral");
+        assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
     public void canAdventureWithAstralMushroom() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;

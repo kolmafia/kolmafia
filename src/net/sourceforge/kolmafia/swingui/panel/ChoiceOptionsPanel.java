@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -721,16 +722,23 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       if (location == null) {
         return;
       }
+
       String zone = location.getZone();
+
+      // Spelunky Area and Batfellow Area are sub-zones of "Item-Driven".
+      // There are no adventuring areas that are directly under Item-Driven.
       if (zone.equals("Item-Driven")) {
         ChoiceOptionsPanel.this.setSelectedIndex(1);
         ChoiceOptionsPanel.this.choiceCards.show(ChoiceOptionsPanel.this.choicePanel, "");
-      } else {
-        ChoiceOptionsPanel.this.setSelectedIndex(0);
-        ChoiceOptionsPanel.this.choiceCards.show(
-            ChoiceOptionsPanel.this.choicePanel,
-            ChoiceOptionsPanel.this.choiceMap.containsKey(zone) ? zone : "");
+        return;
       }
+
+      Map map = ChoiceOptionsPanel.this.choiceMap;
+      String parent = location.getParentZone();
+      String key = map.containsKey(zone) ? zone : map.containsKey(parent) ? parent : "";
+
+      ChoiceOptionsPanel.this.setSelectedIndex(0);
+      ChoiceOptionsPanel.this.choiceCards.show(ChoiceOptionsPanel.this.choicePanel, key);
       KoLCharacter.updateSelectedLocation(location);
     }
   }
