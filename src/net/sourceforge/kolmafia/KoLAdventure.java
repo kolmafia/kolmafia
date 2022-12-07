@@ -1805,7 +1805,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    if (this.rootZone.equals("Astral")) {
+    if (this.zone.equals("Astral")) {
       // astral mushroom grants 5 turns of Half-Astral
       // You can choose the type of trip to take.
       // You cannot adventure anywhere else until it expires.
@@ -2149,7 +2149,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED);
     }
 
-    if (this.rootZone.equals("Astral")) {
+    if (this.zone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need to be in
       // LimitMode.ASTRAL (Half-Astral is active) or have access to an astral
       // mushroom. You also cannot be in a competing LimitMode.
@@ -2189,9 +2189,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // redirected to the choice where you pick your zone.
         Preferences.setString("choiceAdventure71", option);
         RequestThread.postRequest(this.getRequest());
+
+        if (Preferences.getString("currentAstralTrip").equals("")) {
+          // This should not happen
+          return false;
+        }
       }
 
-      return Preferences.getString("currentAstralTrip").equals(this.zone);
+      return !LimitMode.ASTRAL.limitAdventure(this);
     }
 
     if (this.parentZone.equals("Grimstone")) {
