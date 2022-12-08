@@ -2743,3 +2743,19 @@
 2743	Speakin' Easy	martini.gif	32cc95082a2a1b94ada06b5e2ad50bc9	neutral	none	drink 1 Charleston Choo-Choo
 2744	Imported Strength	oliver_taffy.gif	0b8afe8139c2af58c1f71fbaf1c1566c	neutral	none	use 1 imported taffy
 2745	Speakin' Even Easier	eyemartini.gif	2f3cfa02c5faee908174defd321b4a75	neutral	none	drink 1 Strong, Silent Type
+2746	Carbonated	bubbles.gif	2f8fc15a821f5a33769bc2d36e07d055	neutral	none
+2747	Double Carbonated	bubbles.gif	81fbb7a8e63af3ea8b121a177d74fb46	neutral	none
+2748	Frozen	ice.gif	1e1544b950e61ccbe19a698ade26110d	neutral	none
+2749	Double Frozen	ice.gif	bd6d48f6b357aa96d7ad8e027998c350	neutral	none
+2750	Shivering Spine	vertebra.gif	75519a122a97c131e81e21497b457b2d	neutral	none
+2751	Doubly Shivering Spine	vertebra.gif	0eb5e4600458866e159226f76fe63b8f	neutral	none
+2752	Hot Soupy Garbage	stench.gif	31e00c4500435608eb22b00848496c68	neutral	none
+2753	Double Hot Soupy Garbage	stench.gif	52ce1a36ca8a3e28147282f5f2954c2d	neutral	none
+2754	Spookily Greasy	famspirit.gif	582f55599a1f90b293a1905782c3000e	neutral	none
+2755	Doubly Spookily Greasy	famspirit.gif	a06f83fafc8802fb18f3c33949dc0f2b	neutral	none
+2756	Burningly Oiled	flame.gif	ab6a3eddeaa950fba719db9ffa1753c6	neutral	none
+2757	Doubly Burningly Oiled	flame.gif	7a2bef32f788b01e73b7c5adfc89aa7d	neutral	none
+2758	Troubled Waters	waves.gif	4285310af68b67c84bafa043eb8d49b6	neutral	none
+2759	Doubly Troubled Waters	waves.gif	c388c771af9d67b28cdd509c4b5167e8	neutral	none
+2760	Craving Prawns	armorprawn.gif	3c67e88f9fb8d30ed47beff76ee53e4e	neutral	none
+2761	Doubly Craving Prawns	armorprawn.gif	90d86b82dbc1a95523dc5d888b994fd6	neutral	none
