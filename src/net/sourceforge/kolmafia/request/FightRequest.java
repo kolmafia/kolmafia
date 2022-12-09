@@ -5574,10 +5574,8 @@ public class FightRequest extends GenericRequest {
       this.lovebugProperty = null;
 
       // If you have a toy train in your workshed
-      this.toyTrain =
-          (currentRound == 1)
-              && (CampgroundRequest.getCurrentWorkshedItem().getItemId()
-                  == ItemPool.MODEL_TRAIN_SET);
+      AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
+      this.toyTrain = workshed != null && workshed.getItemId() == ItemPool.MODEL_TRAIN_SET;
 
       this.ghost = null;
 
