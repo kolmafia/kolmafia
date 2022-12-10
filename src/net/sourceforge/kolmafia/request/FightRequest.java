@@ -5491,6 +5491,7 @@ public class FightRequest extends GenericRequest {
     public boolean carnivorous;
     public boolean lovebugs;
     public String lovebugProperty;
+    public boolean toyTrain;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5571,6 +5572,10 @@ public class FightRequest extends GenericRequest {
       // If you have lovebugs
       this.lovebugs = Preferences.getBoolean("lovebugsUnlocked");
       this.lovebugProperty = null;
+
+      // If you have a toy train in your workshed
+      AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
+      this.toyTrain = workshed != null && workshed.getItemId() == ItemPool.MODEL_TRAIN_SET;
 
       this.ghost = null;
 
@@ -6719,6 +6724,10 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    if (status.toyTrain) {
+      FightRequest.handleToyTrain(src, str, status);
+    }
+
     // Attempt to identify combat items
     String itemName = inode.getAttributeByName("title");
     int itemId = ItemDatabase.getItemId(itemName);
@@ -7000,6 +7009,14 @@ public class FightRequest extends GenericRequest {
     FightRequest.logText(text, status);
     status.grimstone = false;
     return true;
+  }
+
+  private static void handleToyTrain(String image, String str, TagStatus status) {
+    if (image == null || !image.contains("modeltrain")) {
+      return;
+    }
+    FightRequest.logText(str, status);
+    status.toyTrain = false;
   }
 
   private static boolean handleEldritchHorror(TagNode node, TagStatus status) {
