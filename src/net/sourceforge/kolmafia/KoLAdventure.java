@@ -479,7 +479,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       EffectPool.get(EffectPool.FILTHWORM_DRONE_STENCH);
   private static final AdventureResult FILTHWORM_GUARD_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
-  private static final AdventureResult HARE_BRAINED = EffectPool.get(EffectPool.HARE_BRAINED);
 
   private static final Map<String, String> grimstoneZones =
       Map.ofEntries(
@@ -1958,10 +1957,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // See if the tale is finished
         switch (tale) {
           case "hare" -> {
-            // 30 turns of the Hare-Brained effect.
-            // The zone closes when you lose the effect.
-            // You adventure at A Deserted Stretch of I-911
-            return KoLConstants.activeEffects.contains(HARE_BRAINED);
+            // 30 turns to adventure in A Deserted Stretch of I-911.
+            // The zone closes when you finish.
+            //
+            // Note that you will be given turns of the Hare-Brained effect
+            // when you attempt to adventure in that zone.  The duration of the
+            // effect equals the number of turns remaining to adventure.
+            return Preferences.getInteger("hareTurnsUsed") < 30;
           }
           case "wolf" -> {
             // 30 turns to adventure in Skid Row.
