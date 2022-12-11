@@ -8086,6 +8086,9 @@ public abstract class ChoiceControl {
           Preferences.setString("speakeasyName", matcher.group(1));
         }
         break;
+      case 1485:
+        CampgroundRequest.setCurrentWorkshedItem(ItemPool.MODEL_TRAIN_SET);
+        break;
     }
   }
 

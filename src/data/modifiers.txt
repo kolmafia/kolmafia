@@ -5322,6 +5322,7 @@ Effect	Bureaucratized	Familiar Weight: +10
 Effect	Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
 Effect	Burning Hands	Hot Damage: +33, Hot Spell Damage: +33, Cold Resistance: +3
 Effect	Burning Heart	Hot Damage: +10, Damage Reduction: -2
+Effect	Burningly Oiled	Hot Damage: +10, Sleaze Resistance: +2
 # Burning Soul: Sizzle!
 # Burning Tongue: Lets you spit fireballs!
 # Burning, Man: Sizzle!
@@ -5349,6 +5350,7 @@ Effect	Candied Teeth	Candy Drop: +50
 Effect	Capricorn Rising	Item Drop: +5
 Effect	Car-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, Item Drop: +100, Meat Drop: +100, MP Regen Min: 5, MP Regen Max: 10
 Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1, Damage Absorption: +20, Damage Reduction: 3
+Effect	Carbonated	MP Regen Min: 8, MP Regen Max: 10
 Effect	Carlweather's Cantata of Confrontation	Combat Rate: [5*(1+equipped(fiberglass fedora))]
 Effect	Carne Obsesionada	Meat Drop: +20
 Effect	Carol of the Bones	Muscle Percent: +10
@@ -5498,6 +5500,7 @@ Effect	Cowrruption	Muscle Limit: [30-30*class(Cow Puncher)], Moxie Limit: [30-30
 Effect	Cranberry Cordiality	Meat Drop: +10
 # Crappily Disguised as a Waiter: You almost look sort of like a waiter.
 Effect	Cravin' for a Ravin'	Meat Drop: +100
+Effect	Craving Prawns	Food Drop: +50
 Effect	Creepin' Up on You	Spooky Damage: +20, Spooky Spell Damage: +20
 Effect	Creepypasted	Spooky Damage: +50
 Effect	Crimbeau'd	Familiar Weight: +10, Item Drop: +25, Meat Drop: +50
@@ -5626,8 +5629,16 @@ Effect	Doing The Hustle	Item Drop: +100
 Effect	Don't Step to Your Stepmother	Experience Percent (Moxie): +5, Moxie Percent: +25
 # Donho's Bubbly Ballad: Makes you a better diver
 Effect	Donho's Bubbly Ballad	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Double Carbonated	MP Regen Min: 16, MP Regen Max: 20
+Effect	Double Frozen	Cold Damage: +20, Hot Resistance: +4
+Effect	Double Hot Soupy Garbage	Stench Damage: +20, Cold Resistance: +4
 Effect	Double Negavision	Item Drop: +50
 Effect	Double-Barreled	Ranged Damage Percent: +150
+Effect	Doubly Burningly Oiled	Hot Damage: +20, Sleaze Resistance: +4
+Effect	Doubly Craving Prawns	Food Drop: +100
+Effect	Doubly Shivering Spine	Spooky Damage: +20, Stench Resistance: +4
+Effect	Doubly Spookily Greasy	Sleaze Damage: +20, Spooky Resistance: +4
+Effect	Doubly Troubled Waters	Monster Level: +50
 # Down the Rabbit Hole: Lets you adventure in The Rabbit Hole in The Nearby Plains
 Effect	Down With Chow	Familiar Weight: +10
 Effect	Dragged Through the Coals	Hot Damage: +100
@@ -5911,6 +5922,7 @@ Effect	Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level:
 # Frosty the Hitman: +0-2 <font color=blueviolet>Sleaze Damage</font>
 Effect	Frosty Hand	Cold Resistance: +5
 Effect	Frown	Combat Rate: +5
+Effect	Frozen	Cold Damage: +10, Hot Resistance: +2
 Effect	Frozen Hands	Cold Damage: +11
 Effect	Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
 Effect	Fruited	Maximum HP: +100, Maximum MP: +100
@@ -6138,6 +6150,7 @@ Effect	Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent:
 Effect	Hot Buttoned	Hot Damage: +10, Hot Spell Damage: +10
 Effect	Hot Hands	Hot Damage: +10, Hot Spell Damage: +20, Cold Resistance: +2, Spooky Resistance: +2
 Effect	Hot Jellied	Experience (Muscle): +3, Hot Damage: +5, Muscle Percent: +30
+Effect	Hot Soupy Garbage	Stench Damage: +10, Cold Resistance: +2
 Effect	Hot Sweat	Hot Resistance: +7
 Effect	Hotcaked	Hot Resistance: +3
 # Hotform: Hot, Hot, Hot!
@@ -6968,6 +6981,7 @@ Effect	Shiny Happy Gladiator	Avatar: "Gladiator"
 Effect	Shiny Happy Weapon	Muscle: +20
 # Shirtless in Seattle: Extra-Vulnerable to Cold and Sleaze
 Effect	Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
+Effect	Shivering Spine	Spooky Damage: +10, Stench Resistance: +2
 Effect	Shocking Biology	Avatar: "unholy diver"
 Effect	Shoesauce	Initiative: +30
 Effect	Shopkeeperrific	Avatar: "shopkeeper"
@@ -7166,6 +7180,7 @@ Effect	Spiritually Aware	MP Regen Min: 5, MP Regen Max: 7
 Effect	Spiritually Awash	MP Regen Min: 8, MP Regen Max: 10
 Effect	Spiro Gyro	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Spit Upon	Weapon Damage Percent: +100, Spell Damage Percent: +100, Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Spookily Greasy	Sleaze Damage: +10, Spooky Resistance: +2
 Effect	Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
 Effect	Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
@@ -7503,6 +7518,7 @@ Effect	Triangle, Man	Muscle Percent: +10
 Effect	Triple-Sized	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Tropical Contact High: Grants Access to Kokomo
+Effect	Troubled Waters	Monster Level: +25
 Effect	Truffle Tango	Item Drop: +50
 Effect	Trufflin'	Meat Drop: +100
 Effect	Truly Gritty	Weapon Damage: +20, Muscle: +20

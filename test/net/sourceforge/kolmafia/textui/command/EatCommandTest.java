@@ -3,13 +3,17 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -60,6 +64,19 @@ class EatCommandTest extends AbstractCommandTestBase {
         assertThat(requests, hasSize(1));
         assertPostRequest(requests.get(0), "/inv_eat.php", "whichitem=10207&ajax=1&quantity=1");
       }
+    }
+  }
+
+  @Test
+  public void canEatInGreyYou() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.GREY_YOU), withClass(AscensionClass.GREY_GOO), withItem(ItemPool.TOMATO));
+
+    try (cleanups) {
+      String output = execute("tomato");
+      assertContinueState();
+      assertThat(output, containsString("Eating 1 tomato"));
     }
   }
 }

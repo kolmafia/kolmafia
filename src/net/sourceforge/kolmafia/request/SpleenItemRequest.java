@@ -31,6 +31,12 @@ public class SpleenItemRequest extends UseItemRequest {
 
   public static final int maximumUses(
       final int itemId, final String itemName, final int spleenHit) {
+    if (KoLCharacter.isGreyGoo()) {
+      // If we ever track what items have already been absorbed this ascension, this is a great
+      // place to use those data.
+      return 1;
+    }
+
     if (KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getSpleenHit(itemName) > 1) {
       return 0;
     }
