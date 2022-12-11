@@ -47,6 +47,9 @@ public abstract class GrimstoneManager {
       case AdventurePool.INNER_WOLF_GYM -> {
         Preferences.increment("wolfTurnsUsed", 1);
       }
+      case AdventurePool.A_DESERTED_STRETCH_OF_I_911 -> {
+        Preferences.increment("hareTurnsUsed", 1);
+      }
       case AdventurePool.SWEET_ADE_LAKE,
           AdventurePool.EAGER_RICE_BURROWS,
           AdventurePool.GUMDROP_FOREST -> {
@@ -195,9 +198,8 @@ public abstract class GrimstoneManager {
             Preferences.setString("grimstoneMaskPath", "gnome");
           }
           case 5 -> {
-            // We don't track turns in a property. Instead, turns of the
-            // Hare-Brained status effect count down.
             Preferences.setInteger("hareMillisecondsSaved", 0);
+            Preferences.setInteger("hareTurnsUsed", 0);
             Preferences.setString("grimstoneMaskPath", "hare");
           }
         }

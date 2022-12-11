@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.QuestManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -1152,20 +1153,37 @@ public class KoLAdventureValidationTest {
       }
 
       @Test
-      public void mustHaveHareBrained() {
-        var cleanups = new Cleanups(withProperty("grimstoneMaskPath", "hare"));
+      public void mustHaveTurnsLeft() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "hare"), withProperty("hareTurnsUsed", 30));
         try (cleanups) {
           assertFalse(I911.canAdventure());
         }
       }
 
       @Test
-      public void canAdventureIfHareBrained() {
+      public void canAdventureWithTurnsLeft() {
         var cleanups =
             new Cleanups(
-                withProperty("grimstoneMaskPath", "hare"), withEffect(EffectPool.HARE_BRAINED));
+                withProperty("grimstoneMaskPath", "hare"), withProperty("hareTurnsUsed", 29));
         try (cleanups) {
           assertTrue(I911.canAdventure());
+        }
+      }
+
+      @Test
+      public void gainingHareBrainedSetsTurnsUsed() {
+        var cleanups =
+            new Cleanups(
+                withProperty("grimstoneMaskPath", "hare"),
+                withProperty("hareTurnsUsed", 0),
+                withNoEffects());
+        try (cleanups) {
+          assertTrue(I911.canAdventure());
+          assertThat("hareTurnsUsed", isSetTo(0));
+          ResultProcessor.processResult(true, EffectPool.get(EffectPool.HARE_BRAINED, 10));
+          assertThat("hareTurnsUsed", isSetTo(20));
         }
       }
     }
