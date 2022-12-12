@@ -11852,7 +11852,6 @@ Item	smoking talon	Class: "Pastamancer"
 Item	Snarf berry	Effect: "Berry Statistical", Effect Duration: 20
 # sneaky wrapping paper: Hide gifts for other players in various locations
 # snow boards: Useful for Bridge-Building
-Item	snow machine	Free Pull
 # soda water: Restores 3-5 MP
 # soft green echo eyedrop antidote: Allows you to remove an Effect
 # software glitch: <b>Fatal Error:</b> Unexpected } in line 17
@@ -11896,7 +11895,7 @@ Item	Spelunker of Fortune (used)	Skill: "Speluck"
 # spices: Deals 1 Physical Damage
 # spider web: Weakens enemies very slightly
 Item	spinal-fluid-covered emotion chip	Skill: "Emotionally Chipped"
-Item	spinning wheel	Free Pull
+# spinning wheel: Turns air into Meat (once per day)
 # spirit beer: Restores 40-50 MP
 Item	spirit beer	Effect: "Spiritually Aware", Effect Duration: 10
 # spooky alphabet block: Mysterious and spooky
@@ -12129,14 +12128,14 @@ Item	vampyric cloake pattern	Free Pull
 Item	voter registration form	Free Pull
 Item	walkie-talkie	Free Pull
 # wand of pigification: Turns your foe into a pig
-Item	warbear auto-anvil	Free Pull
-Item	warbear chemistry lab	Free Pull
+# warbear auto-anvil: Allows Meatsmithing without using an Adventure
+# warbear auto-anvil: (5x / day)
+# warbear chemistry lab: Lets you occasionally cook extra Potions
 Item	warbear empathy chip	Skill: "Psychokinetic Hug"
 Item	warbear empathy chip (used)	Skill: "Psychokinetic Hug"
-Item	warbear high-efficiency still	Free Pull
-Item	warbear induction oven	Free Pull
-Item	warbear jackhammer drill press	Free Pull
-Item	warbear LP-ROM burner	Free Pull
+# warbear high-efficiency still: Sometimes recovers ingredients when you craft cocktails
+# warbear jackhammer drill press: Increases the effectiveness of Pulverize
+# warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
 Item	warbear metalworking primer	Skill: "Shrap"
 Item	warbear metalworking primer (used)	Skill: "Shrap"
 Item	warbear procedural hilarity drone	Free Pull
