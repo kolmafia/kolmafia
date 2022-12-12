@@ -76,6 +76,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     "Bowl Full of Jelly",
     "Eye and a Twist",
     "Chubby and Plump",
+    "Canticle of Carboloading"
   };
 
   // These are skills where someone would not care if they are in-run,
