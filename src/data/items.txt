@@ -11065,3 +11065,9 @@
 11037	freightcake	930577194	freightcake.gif	food	t,d	10
 11038	cabooze	454104733	cabooze.gif	drink	t,d	10
 11039
+11040
+11041
+11042
+11043
+11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
+11045	model train set	959599372	modeltrain.gif	usable		0

@@ -1120,6 +1120,9 @@ public class ResultProcessor {
             KoLCharacter.setLimitMode(LimitMode.ASTRAL);
           }
         }
+        case EffectPool.HARE_BRAINED -> {
+          Preferences.setInteger("hareTurnsUsed", 30 - result.getCount());
+        }
         case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
           // If you gain or lose Inigo's or Craft Tea, what you can
           // craft changes
