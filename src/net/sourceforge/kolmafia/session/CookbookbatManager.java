@@ -50,7 +50,7 @@ public class CookbookbatManager {
         true)
   };
 
-  private static void wipeQuest() {
+  public static void wipeQuest() {
     Preferences.resetToDefault("cookbookbatQuestIngredient");
     Preferences.resetToDefault("cookbookbatQuestLocation");
     Preferences.resetToDefault("cookbookbatQuestMonster");
