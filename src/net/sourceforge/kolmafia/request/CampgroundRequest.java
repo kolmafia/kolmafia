@@ -133,6 +133,7 @@ public class CampgroundRequest extends GenericRequest {
     ItemPool.ASDON_MARTIN,
     ItemPool.DIABOLIC_PIZZA_CUBE,
     ItemPool.COLD_MEDICINE_CABINET,
+    ItemPool.MODEL_TRAIN_SET,
 
     // Outside dwelling
     ItemPool.MEAT_GOLEM,
@@ -353,7 +354,8 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.MAYO_CLINIC,
           ItemPool.ASDON_MARTIN,
           ItemPool.DIABOLIC_PIZZA_CUBE,
-          ItemPool.COLD_MEDICINE_CABINET);
+          ItemPool.COLD_MEDICINE_CABINET,
+          ItemPool.MODEL_TRAIN_SET);
 
   public static final AdventureResult[] CROPS = {
     CampgroundRequest.PUMPKIN,

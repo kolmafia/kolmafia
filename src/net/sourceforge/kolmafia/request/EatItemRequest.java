@@ -86,6 +86,12 @@ public class EatItemRequest extends UseItemRequest {
   }
 
   public static final int maximumUses(final int itemId, final String itemName, final int fullness) {
+    if (KoLCharacter.isGreyGoo()) {
+      // If we ever track what items have already been absorbed this ascension, this is a great
+      // place to use those data.
+      return 1;
+    }
+
     if (KoLCharacter.isJarlsberg()
         && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS) {
       UseItemRequest.limiter = "its non-Jarlsbergian nature";
