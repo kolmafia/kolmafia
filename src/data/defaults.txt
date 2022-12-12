@@ -722,6 +722,7 @@ user	hallowienerSonofaBeach	false
 user	hallowienerVolcoino	false
 user	hardcorePVPWarning	false
 user	hareMillisecondsSaved	0
+user	hareTurnsUsed	0
 user	harvestBatteriesHardcore	true
 user	harvestBatteriesSoftcore	true
 user	harvestGardenHardcore	none
