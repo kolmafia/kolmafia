@@ -10687,7 +10687,7 @@ Item	arrowgram	Free Pull
 # Artist's Cr&egrave;me Brul&eacute;e Torch of Fury: Deals 10-20 Physical Damage
 # Artist's Spatula of Despair: Deals 10-20 Physical Damage
 # Artist's Whisk of Misery: Deals 10-20 Physical Damage
-# Asdon Martin keyfob
+Item	Asdon Martin keyfob	Free Pull
 Item	Asleep in the Cemetery	Skill: "Creepy Lullaby"
 Item	astral badger	Free Pull
 Item	Autobiography Of Dynamite Superman Jones (used)	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
@@ -10880,6 +10880,7 @@ Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # cold clusterbomb: (more effective against groups)
 Item	Cold Fang	Skill: "Frost Bite"
+Item	cold medicine cabinet	Free Pull
 # Colon Annihilation Hot Sauce: Deals 6-8 <font color=red>Hot Damage</font> per round for the rest of the fight
 # comfy pillow: Restores 20-30 HP
 Item	Comma Chameleon egg	Free Pull
@@ -10987,6 +10988,7 @@ Item	deflated inflatable dodecapede	Free Pull
 # Desert Bus pass: <b>Allows Travel to Desert Beach</b>
 Item	detective school application	Free Pull
 # detective tattoo
+Item	diabolic pizza cube	Free Pull
 # diamondback skin: Adds +20 Monster Level to your cowboy boots
 # dictionary: Most Enemies Don't Care About It
 # Diet Cloaca Cola: Restores 7-9 MP
@@ -11357,6 +11359,7 @@ Item	Libram of Pulled Taffy	Free Pull, Skill: "Summon Taffy"
 Item	Libram of Resolutions	Free Pull, Skill: "Summon Resolutions"
 # License To Kill: ???
 # linen bandages: Restores 10-20 HP
+Item	Little Geneticist DNA-Splicing Lab	Free Pull
 # little parachute guy: Eventually restores 10-20 HP and MP
 # little piece of steel: Deals <font color=red>Hot</font> and Physical Damage based on your Muscle
 # little red book: Weakens enemies by 5% and briefly stuns them.
@@ -11646,7 +11649,7 @@ Item	Pok&eacute;fam Guide to Capturing All of Them	Free Pull
 # pool torpedo: (underwater only)
 # pool torpedo: (has a chance to not go away when used)
 Item	Pop Art: a Guide	Skill: "Fifteen Minutes of Flame"
-# portable Mayo Clinic: Installs a mayonnaise-centered medical clinic in your workshed
+Item	portable Mayo Clinic	Free Pull
 # portable photocopier: Makes a photocopy of an enemy
 # portable Spacegate: Provides one day's access to a random Spacegate planet
 # portable steam unit: Clears Your Sinuses (once per day)
@@ -11849,6 +11852,7 @@ Item	smoking talon	Class: "Pastamancer"
 Item	Snarf berry	Effect: "Berry Statistical", Effect Duration: 20
 # sneaky wrapping paper: Hide gifts for other players in various locations
 # snow boards: Useful for Bridge-Building
+Item	snow machine	Free Pull
 # soda water: Restores 3-5 MP
 # soft green echo eyedrop antidote: Allows you to remove an Effect
 # software glitch: <b>Fatal Error:</b> Unexpected } in line 17
@@ -11892,7 +11896,7 @@ Item	Spelunker of Fortune (used)	Skill: "Speluck"
 # spices: Deals 1 Physical Damage
 # spider web: Weakens enemies very slightly
 Item	spinal-fluid-covered emotion chip	Skill: "Emotionally Chipped"
-# spinning wheel: Turns air into Meat (once per day)
+Item	spinning wheel	Free Pull
 # spirit beer: Restores 40-50 MP
 Item	spirit beer	Effect: "Spiritually Aware", Effect Duration: 10
 # spooky alphabet block: Mysterious and spooky
@@ -12125,14 +12129,14 @@ Item	vampyric cloake pattern	Free Pull
 Item	voter registration form	Free Pull
 Item	walkie-talkie	Free Pull
 # wand of pigification: Turns your foe into a pig
-# warbear auto-anvil: Allows Meatsmithing without using an Adventure
-# warbear auto-anvil: (5x / day)
-# warbear chemistry lab: Lets you occasionally cook extra Potions
+Item	warbear auto-anvil	Free Pull
+Item	warbear chemistry lab	Free Pull
 Item	warbear empathy chip	Skill: "Psychokinetic Hug"
 Item	warbear empathy chip (used)	Skill: "Psychokinetic Hug"
-# warbear high-efficiency still: Sometimes recovers ingredients when you craft cocktails
-# warbear jackhammer drill press: Increases the effectiveness of Pulverize
-# warbear LP-ROM burner: Lets you make recordings of your Accordion Thief buffs
+Item	warbear high-efficiency still	Free Pull
+Item	warbear induction oven	Free Pull
+Item	warbear jackhammer drill press	Free Pull
+Item	warbear LP-ROM burner	Free Pull
 Item	warbear metalworking primer	Skill: "Shrap"
 Item	warbear metalworking primer (used)	Skill: "Shrap"
 Item	warbear procedural hilarity drone	Free Pull

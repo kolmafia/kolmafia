@@ -5971,7 +5971,10 @@ public class UseItemRequest extends GenericRequest {
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
-      Preferences.setBoolean("_workshedItemUsed", true);
+      if (CampgroundRequest.getCurrentWorkshedItem() == null) {
+        // an item placed in an empty workshed does not prevent replacing it
+        Preferences.setBoolean("_workshedItemUsed", true);
+      }
       if (responseText.contains("already rearranged your workshed")) {
         return;
       }
