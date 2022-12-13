@@ -1762,7 +1762,7 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_image() {
       return switch ((Element) this.content) {
-        // No image for Slime or Supercold in Manuel
+          // No image for Slime or Supercold in Manuel
         case NONE, SLIME, SUPERCOLD -> "circle.gif";
         case COLD -> "snowflake.gif";
         case HOT -> "fire.gif";
