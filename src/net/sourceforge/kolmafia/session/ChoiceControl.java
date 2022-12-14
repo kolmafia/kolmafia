@@ -8088,6 +8088,7 @@ public abstract class ChoiceControl {
         break;
       case 1485:
         CampgroundRequest.setCurrentWorkshedItem(ItemPool.MODEL_TRAIN_SET);
+        TrainsetManager.visitChoice(text);
         break;
     }
   }

@@ -6335,6 +6335,10 @@ public class FightRequest extends GenericRequest {
 
       if (handleCosmicBowlingBall(str)) return;
 
+      if (FightRequest.handleTrainset(str)) {
+        return;
+      }
+
       FightRequest.handleVillainLairRadio(node, status);
 
       if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
@@ -8127,6 +8131,21 @@ public class FightRequest extends GenericRequest {
 
     // Maybe it's something else?
     return false;
+  }
+
+  private static boolean handleTrainset(String text) {
+    if (!text.contains("Your toy train moves ahead to the")) {
+      return false;
+    }
+
+    Preferences.increment("trainsetPosition");
+
+    if (text.contains("What a coincidence, the diner is serving more of that food you just found!")
+        || text.contains("Somebody dropped some food by the tracks, you pick it up!")) {
+      Preferences.setString("lastFoodDropped", "-1");
+    }
+
+    return true;
   }
 
   private static void handleRaver(String text, TagStatus status) {
