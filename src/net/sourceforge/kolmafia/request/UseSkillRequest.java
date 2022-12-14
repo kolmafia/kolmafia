@@ -62,6 +62,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final String[] BREAKFAST_SKILLS = {
     "Advanced Cocktailcrafting",
     "Advanced Saucecrafting",
+    "Canticle of Carboloading",
     "Pastamastery",
     "Summon Crimbo Candy",
     "Lunch Break",
@@ -75,7 +76,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     "Prevent Scurvy and Sobriety",
     "Bowl Full of Jelly",
     "Eye and a Twist",
-    "Chubby and Plump",
+    "Chubby and Plump"
   };
 
   // These are skills where someone would not care if they are in-run,
