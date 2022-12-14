@@ -77,32 +77,32 @@ public class ProxyRecordValue extends RecordValue {
       return (Value) rv;
     }
 
-    if (rv instanceof Integer) {
-      return DataTypes.makeIntValue((Integer) rv);
+    if (rv instanceof Integer iv) {
+      return DataTypes.makeIntValue(iv);
     }
 
-    if (rv instanceof Long) {
-      return DataTypes.makeIntValue((Long) rv);
+    if (rv instanceof Long lv) {
+      return DataTypes.makeIntValue(lv);
     }
 
-    if (rv instanceof Float) {
-      return DataTypes.makeFloatValue((Float) rv);
+    if (rv instanceof Float fv) {
+      return DataTypes.makeFloatValue(fv);
     }
 
-    if (rv instanceof Double) {
-      return DataTypes.makeFloatValue((Double) rv);
+    if (rv instanceof Double dv) {
+      return DataTypes.makeFloatValue(dv);
     }
 
     if (rv instanceof String) {
       return new Value(rv.toString());
     }
 
-    if (rv instanceof Boolean) {
-      return DataTypes.makeBooleanValue((Boolean) rv);
+    if (rv instanceof Boolean bv) {
+      return DataTypes.makeBooleanValue(bv);
     }
 
-    if (rv instanceof CoinmasterData) {
-      return DataTypes.makeCoinmasterValue((CoinmasterData) rv);
+    if (rv instanceof CoinmasterData cv) {
+      return DataTypes.makeCoinmasterValue(cv);
     }
 
     throw interpreter.runtimeException(
