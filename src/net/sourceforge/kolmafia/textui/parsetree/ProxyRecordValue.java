@@ -73,8 +73,8 @@ public class ProxyRecordValue extends RecordValue {
       return type.getFieldTypes()[index].initialValue();
     }
 
-    if (rv instanceof Value) {
-      return (Value) rv;
+    if (rv instanceof Value vv) {
+      return vv;
     }
 
     if (rv instanceof Integer iv) {
