@@ -6200,6 +6200,15 @@ public abstract class ChoiceAdventures {
         new Option("Muscle substats", 2),
         new Option("Two random effects", 3),
         new Option("Do nothing", 4));
+
+    // Choose an Action During a Caboose Distraction
+    new ChoiceAdventure(
+        1486,
+        "Crimbo22",
+        "Crimbo Train (Caboose)",
+        new Option("acquire 6 Trainbot potions", 1),
+        new Option("+3 Elf Gratitude", 2),
+        new Option("acquire a ping-pong bat then acquire 3-5 ping-pong balls", 3));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.

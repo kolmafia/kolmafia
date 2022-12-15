@@ -173,6 +173,7 @@ Override	Unsorted	Discoveries
 
 Events	Events	Events
 Twitch	Town	Time-Twitching Tower
+Crimbo22	Holiday	Christmas 2022
 
 # The following zones are all retired Events or Holidays
 

@@ -2259,6 +2259,11 @@ gooified tree	2224	goo_tree.gif	Atk: 150 Def: 50 HP: 1000 Init: -10000 P: plant 
 gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 250 HP: 500 Init: -10000 P: elemental Article: a	gooified mineral matter (100)	gooified mineral matter (100)
 massive goo construct	2226		Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	gooified animal matter (100)	gooified vegetable matter (100)	gooified mineral matter (100)
 
+# Crimbo 2022
+Brake-Operating Trainbot	2254	trainbot_brake.gif	Init: -10000 P: construct NOCOPY Article: a	Crimbo train emergency brake (0)	Trainbot harness (0)
+Track-Switching Trainbot	2255	trainbot_switch.gif	Init: -10000 P: construct NOCOPY Article: a	pile of Trainbot parts (0)
+Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	Init: -10000 P: construct NOCOPY Article: a	ping-pong ball (0)	portable ping-pong table (0)
+
 # Old Events
 
 # White Wednesday (October 26, 2005)
