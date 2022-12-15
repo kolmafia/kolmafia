@@ -1395,6 +1395,7 @@ pernicious cudgel	200	Mus: 150	1-handed club
 pestoblade	50	Mus: 10	1-handed sword
 pewter claymore	155	Mus: 62	2-handed sword
 Pigsticker of Violence	200	Mus: 100	1-handed knife
+ping-pong paddle	50	Mus: 0	1-handed paddle
 pipe wrench	150	Mus: 60	1-handed club
 piratical blunderbuss	80	Mox: 0	2-handed rifle
 pitchfork	75	Mus: 22	1-handed spear
@@ -3478,6 +3479,7 @@ Time Bandit Time Towel	10	none
 Time Cape	100	none
 Time Cloak	100	none
 toy jet pack	175	Mys: 75
+Trainbot harness	0	none
 unwrapped knock-off retro superhero cape	100	none
 vampyric cloake	100	none
 whatsit-covered turtle shell	50	Mus: 20
