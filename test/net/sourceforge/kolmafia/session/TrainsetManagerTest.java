@@ -150,7 +150,7 @@ public class TrainsetManagerTest {
 
   @Test
   public void canTrackDinerDroppedFood() {
-    // Track when the tower dupes our food
+    // Track when the diner dupes our food
     var cleanups = new Cleanups(withProperty("lastFoodDropped", 49), withFight(0));
 
     try (cleanups) {
@@ -191,7 +191,7 @@ public class TrainsetManagerTest {
       assertThat(
           "trainsetConfiguration",
           isSetTo(
-              "coal_hopper,meat_mine,logging_mill,ore_hopper,prawn_silo,trackside_diner,candy_factory,fizzy_tower"));
+              "coal_hopper,meat_mine,logging_mill,ore_hopper,prawn_silo,trackside_diner,candy_factory,tower_fizzy"));
       assertThat("lastTrainsetConfiguration", isSetTo(20));
     }
   }

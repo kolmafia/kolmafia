@@ -11,14 +11,14 @@ public class TrainsetManager {
     UNKNOWN("unknown", -1),
     EMPTY_TRACK("empty", 0),
     MEAT_MINE("meat_mine", 1),
-    TOWER_FIZZY("fizzy_tower", 2),
+    TOWER_FIZZY("tower_fizzy", 2),
     VIEWING_PLATFORM("viewing_platform", 3),
-    TOWER_FROZEN("frozen_tower", 4),
+    TOWER_FROZEN("tower_frozen", 4),
     SPOOKY_GRAVEYARD("spooky_graveyard", 5),
     LOGGING_MILL("logging_mill", 6),
     CANDY_FACTORY("candy_factory", 7),
     COAL_HOPPER("coal_hopper", 8),
-    TOWER_SEWAGE("sewage_tower", 9),
+    TOWER_SEWAGE("tower_sewage", 9),
     OIL_REFINERY("oil_refinery", 11),
     OIL_BRIDGE("oil_bridge", 12),
     WATER_BRIDGE("water_bridge", 13),
@@ -45,6 +45,16 @@ public class TrainsetManager {
     public int getId() {
       return id;
     }
+
+    public static TrainsetPiece findPiece(int id) {
+      for (TrainsetPiece piece : values()) {
+        if (piece.getId() != id) continue;
+
+        return piece;
+      }
+
+      return TrainsetPiece.UNKNOWN;
+    }
   }
 
   private static final Pattern SELECTED_STATION =
@@ -66,16 +76,7 @@ public class TrainsetManager {
       int index = Integer.parseInt(matcher.group(1));
       int pieceId = Integer.parseInt(matcher.group(2));
       // Set it to UNKNOWN so that if a piece is not found, it'll be marked as unknown and not empty
-      pieces[index] = TrainsetPiece.UNKNOWN;
-
-      for (TrainsetPiece piece : TrainsetPiece.values()) {
-        if (piece.getId() != pieceId) {
-          continue;
-        }
-
-        pieces[index] = piece;
-        break;
-      }
+      pieces[index] = TrainsetPiece.findPiece(pieceId);
     }
 
     return pieces;

@@ -8134,7 +8134,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean handleTrainset(String text) {
-    if (!text.contains("Your toy train moves ahead to the")) {
+    if (!text.startsWith("Your toy train moves ahead to the")) {
       return false;
     }
 
