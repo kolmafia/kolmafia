@@ -120,14 +120,6 @@ public abstract class PurchaseRequest extends GenericRequest
   @Override
   public String toString() {
     StringBuilder buffer = new StringBuilder();
-    String color = this.color();
-
-    buffer.append("<html><nobr>");
-    if (color != null) {
-      buffer.append("<font color=\"");
-      buffer.append(color);
-      buffer.append("\">");
-    }
 
     buffer.append(this.item.getName());
     buffer.append(" (");
@@ -149,12 +141,6 @@ public abstract class PurchaseRequest extends GenericRequest
     buffer.append(this.getPriceString());
     buffer.append("): ");
     buffer.append(this.shopName);
-
-    if (color != null) {
-      buffer.append("</font>");
-    }
-
-    buffer.append("</nobr></html>");
 
     return buffer.toString();
   }
