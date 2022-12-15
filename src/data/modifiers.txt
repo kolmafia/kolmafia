@@ -7511,8 +7511,8 @@ Effect	Traditional Eating	Meat Drop: +25
 Effect	Trainbot Circuitry	MP: [T], MP Regen Min: [T/5], MP Regen Max: [T/5]
 Effect	Trainbot Tubing	HP: [T], HP Regen Min: [T/5], HP Regen Max: [T/5]
 Effect	Trainbot Plating	Damage Reduction: [3*T]
-Effect	Trainbot Optics	Spell Damage: [6*T]
-Effect	Trainbot Servomotors	Weapon Damage: [6*T]
+Effect	Trainbot Optics	Spell Damage: [3*T]
+Effect	Trainbot Servomotors	Weapon Damage: [3*T]
 Effect	Trainbot Linkages	Initiative: [5*T]
 Effect	Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 Effect	Transcendental Wind	Mysticality: +50
