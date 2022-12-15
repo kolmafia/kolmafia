@@ -11071,3 +11071,15 @@
 11043
 11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
 11045	model train set	959599372	modeltrain.gif	usable		0
+11049	pile of Trainbot parts	410098387	trainparts.gif	usable	t	0
+11050	Trainbot circuitry	729961257	traincircuit.gif	potion, multiple	t	0
+11051	Trainbot tubing	744569512	traintube.gif	potion, multiple	t	0
+11052	Trainbot plating	986908923	trainplate.gif	potion, multiple	t	0
+11053	Trainbot optics	728418168	trainlenses.gif	potion, multiple	t	0
+11054	Trainbot servomotors	865078467	trainservo.gif	potion, multiple	t	0
+11055	Trainbot linkages	642834278	trainsprings.gif	potion, multiple	t	0
+11056	ping-pong paddle	693067251	pingpongpaddle.gif	weapon	t	0
+11057	ping-pong ball	941815404	pingpongball.gif	none, combat	t	0
+11058	Trainbot harness	711380214	trainharness.gif	container	t	0
+11059	portable ping-pong table	454745356	pingpongtable.gif	none, usable, curse	t	0
+11060	Crimbo train emergency brake	781085744	trainbrake.gif	none, combat	t,d	0
