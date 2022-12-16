@@ -34,12 +34,18 @@ class PHPRandomTest {
     assertThat(rng.nextInt(-5, 100), is(79));
   }
 
-  @Test
-  void array() {
-    var rng = new PHPRandom(6969);
+  @ParameterizedTest
+  @CsvSource({
+    "6969, 0, 2, 3, 1, 2, 4",
+    "2147483647, 0, 2, 3, 1, 3, 4",
+    "-8008135, 0, 2, 3, 0, 1, 3"
+  })
+  void array(int seed, int n1, int n2, int n3, int n4, int n5, int n6) {
+    var rng = new PHPRandom(seed);
     var pick = rng.array(5, 3);
-    assertThat(pick[0], is(0));
-    assertThat(pick[1], is(2));
-    assertThat(pick[2], is(3));
+    assertThat(pick, equalTo(new int[] {n1, n2, n3}));
+
+    pick = rng.array(5, 3);
+    assertThat(pick, equalTo(new int[] {n4, n5, n6}));
   }
 }
