@@ -1106,6 +1106,7 @@ user	peteMotorbikeMuffler
 user	peteMotorbikeSeat
 user	photocopyMonster
 user	pieStuffing
+user	pingpongSkill	0
 user	pirateSwagger	0
 user	pizzaOfLegendEaten	false
 user	plantingDate
