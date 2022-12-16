@@ -1649,6 +1649,7 @@ Item	pestoblade	Muscle: +3, Stench Damage: +3
 Item	pewter claymore	HP Regen Min: 6, HP Regen Max: 12, MP Regen Min: 6, MP Regen Max: 12
 # Pigsticker of Violence: Lets you stab opponents as they fail to attack you
 Item	Pigsticker of Violence	HP Regen Min: 20, HP Regen Max: 30, Critical Hit Percent: +10, Weapon Damage Percent: +60
+Item	ping-pong paddle	Single Equip
 Item	pipe wrench	Weapon Damage: +8
 Item	piratical blunderbuss	Familiar Weight: +5, Booze Drop: +30
 Item	pitchfork	Weapon Damage: +7
@@ -4097,6 +4098,7 @@ Item	thermal blanket	Cold Resistance: +2, Spooky Resistance: +1, Combat Rate: +5
 Item	Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +1
 Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
+Item	Trainbot harness	Initiative: -200
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 # vampyric cloake: Improves the effectiveness of various Dark Gyffte skills
 Item	vampyric cloake	Item Drop: +15, Maximum HP: [min(10*L,1300)], Initiative: +25, Adventures: +4, Experience: +3
@@ -7506,6 +7508,12 @@ Effect	Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+
 Effect	Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Toxic Vengeance	Muscle: [-T], Mysticality: [-T], Moxie: [-T], Stench Damage: [3*T], Spell Damage Percent: [3*T]
 Effect	Traditional Eating	Meat Drop: +25
+Effect	Trainbot Circuitry	MP: [T], MP Regen Min: [T/5], MP Regen Max: [T/5]
+Effect	Trainbot Tubing	HP: [T], HP Regen Min: [T/5], HP Regen Max: [T/5]
+Effect	Trainbot Plating	Damage Reduction: [3*T]
+Effect	Trainbot Optics	Spell Damage: [3*T]
+Effect	Trainbot Servomotors	Weapon Damage: [3*T]
+Effect	Trainbot Linkages	Initiative: [5*T]
 Effect	Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 Effect	Transcendental Wind	Mysticality: +50
 # Transpondent: Gives access to A Transporter Booth
@@ -10288,6 +10296,12 @@ Item	tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 Item	tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 Item	tonic o' Banderas	Effect: "Bandersnatched", Effect Duration: 20
 Item	too legit potion	Effect: "Hammertime", Effect Duration: 30
+Item	Trainbot circuitry	Effect: "Trainbot Circuitry", Effect Duration: 10
+Item	Trainbot linkages	Effect: "Trainbot Linkages", Effect Duration: 10
+Item	Trainbot optics	Effect: "Trainbot Optics", Effect Duration: 10
+Item	Trainbot plating	Effect: "Trainbot Plating", Effect Duration: 10
+Item	Trainbot servomotors	Effect: "Trainbot Servomotors", Effect Duration: 10
+Item	Trainbot tubing	Effect: "Trainbot Tubing", Effect Duration: 10
 Item	trampled ticket stub	Effect: "Feeling Sneaky", Effect Duration: 30
 Item	transporter transponder	Effect: "Transpondent", Effect Duration: 30
 Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
