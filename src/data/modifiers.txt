@@ -7853,6 +7853,17 @@ Skill	Cool Heels	Cold Damage: +5
 Skill	Cooling Tubules	Cold Damage: +10
 Skill	Cosmic Ugnderstanding	Maximum MP Percent: +5
 # Crab Claw Technique: Makes your accordion attacks significantly more accurate
+Skill	Crimbo Training:  Waiter	Food Drop: +15
+Skill	Crimbo Training: Bartender	Booze Drop: +15
+Skill	Crimbo Training: Coal Taster	Hot Resistance: +1
+Skill	Crimbo Training: Concierge	Familiar Weight: +1
+Skill	Crimbo Training: Dessert Steward	Cold Resistance: +1
+Skill	Crimbo Training: First Aid Technician	Maximum HP: +10
+Skill	Crimbo Training: Graffiti Censor	Sleaze Resistance: +1
+Skill	Crimbo Training: Night Watchman	Spooky Resistance: +1
+Skill	Crimbo Training: Passenger Greeter	Experience: +1
+Skill	Crimbo Training: Sanitation Consultant	Stench Resistance: +1
+Skill	Crimbo Training: Track Switcher	Initiative: +10
 Skill	Crush	Maximum HP: -20
 Skill	Cryocurrency	Cold Damage: +5
 Skill	Curses Library	Spooky Damage: +5
