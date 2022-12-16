@@ -2759,9 +2759,9 @@
 2759	Doubly Troubled Waters	waves.gif	c388c771af9d67b28cdd509c4b5167e8	neutral	none
 2760	Craving Prawns	armorprawn.gif	3c67e88f9fb8d30ed47beff76ee53e4e	neutral	none
 2761	Doubly Craving Prawns	armorprawn.gif	90d86b82dbc1a95523dc5d888b994fd6	neutral	none
-2762	Trainbot Circuitry	traincircuit.gif	171bfed5b0c797e659094ff8f8c11a4e	neutral	none	use 1 Trainbot circuitry
-2763	Trainbot Tubing	traintube.gif	6a83ff52554f36c0d2bb80780c405c2a	neutral	none	use 1 Trainbot tubing
-2764	Trainbot Plating	trainplate.gif	6b9866ed06676b18cbc8b0cd53b46f2d	neutral	none	use 1 Trainbot plating
-2765	Trainbot Optics	trainlenses.gif	5a8d6169935ce08a3dc5561d6ecb4bd3	neutral	none	use 1 Trainbot optics
-2766	Trainbot Servomotors	trainservo.gif	3560d08f2fc6da9002bc31ba3ef355a3	neutral	none	use 1 Trainbot servomotors
-2767	Trainbot Linkages	trainsprings.gif	98164c716227a7540cc5f5cbb9553277	neutral	none	use 1 Trainbot linkages
+2762	Trainbot Circuitry	traincircuit.gif	171bfed5b0c797e659094ff8f8c11a4e	good	nohookah	use 1 Trainbot circuitry
+2763	Trainbot Tubing	traintube.gif	6a83ff52554f36c0d2bb80780c405c2a	good	nohookah	use 1 Trainbot tubing
+2764	Trainbot Plating	trainplate.gif	6b9866ed06676b18cbc8b0cd53b46f2d	good	nohookah	use 1 Trainbot plating
+2765	Trainbot Optics	trainlenses.gif	5a8d6169935ce08a3dc5561d6ecb4bd3	good	nohookah	use 1 Trainbot optics
+2766	Trainbot Servomotors	trainservo.gif	3560d08f2fc6da9002bc31ba3ef355a3	good	nohookah	use 1 Trainbot servomotors
+2767	Trainbot Linkages	trainsprings.gif	98164c716227a7540cc5f5cbb9553277	good	nohookah	use 1 Trainbot linkages
