@@ -11071,6 +11071,9 @@
 11043
 11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
 11045	model train set	959599372	modeltrain.gif	usable		0
+11046	Crimbo training manual	990145553	trainmanual.gif	reusable		0
+11047
+11048
 11049	pile of Trainbot parts	410098387	trainparts.gif	usable	t	0
 11050	Trainbot circuitry	729961257	traincircuit.gif	potion, multiple	t	0
 11051	Trainbot tubing	744569512	traintube.gif	potion, multiple	t	0
