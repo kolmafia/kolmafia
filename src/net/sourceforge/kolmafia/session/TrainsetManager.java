@@ -8,33 +8,35 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class TrainsetManager {
   public enum TrainsetPiece {
-    UNKNOWN("unknown", -1),
-    EMPTY_TRACK("empty", 0),
-    MEAT_MINE("meat_mine", 1),
-    TOWER_FIZZY("tower_fizzy", 2),
-    VIEWING_PLATFORM("viewing_platform", 3),
-    TOWER_FROZEN("tower_frozen", 4),
-    SPOOKY_GRAVEYARD("spooky_graveyard", 5),
-    LOGGING_MILL("logging_mill", 6),
-    CANDY_FACTORY("candy_factory", 7),
-    COAL_HOPPER("coal_hopper", 8),
-    TOWER_SEWAGE("tower_sewage", 9),
-    OIL_REFINERY("oil_refinery", 11),
-    OIL_BRIDGE("oil_bridge", 12),
-    WATER_BRIDGE("water_bridge", 13),
-    GROIN_SILO("groin_silo", 14),
-    GRAIN_SILO("grain_silo", 15),
-    BRAIN_SILO("brain_silo", 16),
-    BRAWN_SILO("brawn_silo", 17),
-    PRAWN_SILO("prawn_silo", 18),
-    TRACKSIDE_DINER("trackside_diner", 19),
-    ORE_HOPPER("ore_hopper", 20);
+    UNKNOWN("", "unknown", -1), // This shouldn't be seen, but is kept for sanity
+    EMPTY_TRACK("Empty track", "empty", 0),
+    MEAT_MINE("Meat Mine Sluice", "meat_mine", 1),
+    TOWER_FIZZY("Water Tower, Fizzy", "tower_fizzy", 2),
+    VIEWING_PLATFORM("Viewing Platform", "viewing_platform", 3),
+    TOWER_FROZEN("Water Tower, Frozen", "tower_frozen", 4),
+    SPOOKY_GRAVEYARD("Spooky Graveyard", "spooky_graveyard", 5),
+    LOGGING_MILL("Logging Mill", "logging_mill", 6),
+    CANDY_FACTORY("Candy Factory", "candy_factory", 7),
+    COAL_HOPPER("Coal Hopper", "coal_hopper", 8),
+    TOWER_SEWAGE("Water Tower, Sewage", "tower_sewage", 9),
+    OIL_REFINERY("Ectoplasmic Oil Refinery", "oil_refinery", 11),
+    OIL_BRIDGE("Bridge over Flaming Oil", "oil_bridge", 12),
+    WATER_BRIDGE("Bridge over Troubled Water", "water_bridge", 13),
+    GROIN_SILO("Groin Silo", "groin_silo", 14),
+    GRAIN_SILO("Grain Silo", "grain_silo", 15),
+    BRAIN_SILO("Brain Silo", "brain_silo", 16),
+    BRAWN_SILO("Brawn Silo", "brawn_silo", 17),
+    PRAWN_SILO("Prawn Silo", "prawn_silo", 18),
+    TRACKSIDE_DINER("Trackside Diner", "trackside_diner", 19),
+    ORE_HOPPER("Ore Hopper Feeder", "ore_hopper", 20);
 
     private final String name;
+    private final String shortenedName;
     private final int id;
 
-    TrainsetPiece(String name, int id) {
+    TrainsetPiece(String name, String shortenedName, int id) {
       this.name = name;
+      this.shortenedName = shortenedName;
       this.id = id;
     }
 
@@ -42,13 +44,31 @@ public class TrainsetManager {
       return name;
     }
 
+    public String getShortenedName() {
+      return shortenedName;
+    }
+
     public int getId() {
       return id;
     }
 
-    public static TrainsetPiece findPiece(int id) {
+    public static TrainsetPiece getById(int id) {
       for (TrainsetPiece piece : values()) {
-        if (piece.getId() != id) continue;
+        if (piece.getId() != id) {
+          continue;
+        }
+
+        return piece;
+      }
+
+      return TrainsetPiece.UNKNOWN;
+    }
+
+    public static TrainsetPiece getByName(String name) {
+      for (TrainsetPiece piece : values()) {
+        if (!piece.getName().equals(name) && !piece.getShortenedName().equals(name)) {
+          continue;
+        }
 
         return piece;
       }
@@ -67,6 +87,32 @@ public class TrainsetManager {
       Pattern.compile("Let the train finish (\\d) more laps before rearranging it.</p>");
   private static final int TURNS_BETWEEN_CONFIGURE = 40;
 
+  public static void onTrainsetMove(String pieceName) {
+    int newPosition = Preferences.increment("trainsetPosition");
+
+    TrainsetPiece[] pieces = getTrainsetPieces();
+
+    // If trainset configuration is unknown
+    if (pieces.length != 8) {
+      return;
+    }
+
+    TrainsetPiece piece = TrainsetPiece.getByName(pieceName);
+
+    // If trainset piece is as expected
+    if (pieces[newPosition % 8] == piece) {
+      return;
+    }
+
+    // If trainset piece is unexpected, do nothing.
+  }
+
+  public static TrainsetPiece[] getTrainsetPieces() {
+    return Arrays.stream(Preferences.getString("trainsetConfiguration").split(","))
+        .map(TrainsetPiece::getByName)
+        .toArray(TrainsetPiece[]::new);
+  }
+
   private static TrainsetPiece[] getTrainsetPieces(String html) {
     Matcher matcher = SELECTED_STATION.matcher(html);
     TrainsetPiece[] pieces = new TrainsetPiece[8];
@@ -76,7 +122,7 @@ public class TrainsetManager {
       int index = Integer.parseInt(matcher.group(1));
       int pieceId = Integer.parseInt(matcher.group(2));
       // Set it to UNKNOWN so that if a piece is not found, it'll be marked as unknown and not empty
-      pieces[index] = TrainsetPiece.findPiece(pieceId);
+      pieces[index] = TrainsetPiece.getById(pieceId);
     }
 
     return pieces;
@@ -87,8 +133,8 @@ public class TrainsetManager {
 
     Matcher matcher = CURRENT_STATION.matcher(html);
 
-    // The station cannot be read while the configuration is locked
-    // This is likely a bug in kol
+    // The accessibility station cannot be read when the configuration cannot be modified
+    // This is a bug in kol
     if (matcher.find()) {
       // Retrieve the current position of the train, subtract 1 so the range is 0 to 7
       int currentPosition = Integer.parseInt(matcher.group(1)) - 1;
@@ -145,7 +191,7 @@ public class TrainsetManager {
     TrainsetPiece[] pieces = getTrainsetPieces(html);
 
     String trainsetConfiguration =
-        Arrays.stream(pieces).map(TrainsetPiece::getName).collect(Collectors.joining(","));
+        Arrays.stream(pieces).map(TrainsetPiece::getShortenedName).collect(Collectors.joining(","));
 
     Preferences.setString("trainsetConfiguration", trainsetConfiguration);
   }

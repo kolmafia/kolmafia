@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.StillSuitManager;
+import net.sourceforge.kolmafia.session.TrainsetManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
@@ -6335,7 +6336,7 @@ public class FightRequest extends GenericRequest {
 
       if (handleCosmicBowlingBall(str)) return;
 
-      if (FightRequest.handleTrainset(str)) {
+      if (FightRequest.handleTrainset(node)) {
         return;
       }
 
@@ -8133,17 +8134,19 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
-  private static boolean handleTrainset(String text) {
-    if (!text.startsWith("Your toy train moves ahead to the")) {
+  private static final Pattern TRAINSET_MOVE =
+      Pattern.compile("^Your toy train moves ahead to the (.+?)\\.");
+
+  private static boolean handleTrainset(TagNode node) {
+    String text = node.getText().toString();
+
+    Matcher matcher = TRAINSET_MOVE.matcher(node.getText().toString());
+
+    if (!matcher.find()) {
       return false;
     }
 
-    Preferences.increment("trainsetPosition");
-
-    if (text.contains("What a coincidence, the diner is serving more of that food you just found!")
-        || text.contains("Somebody dropped some food by the tracks, you pick it up!")) {
-      Preferences.setString("lastFoodDropped", "-1");
-    }
+    TrainsetManager.onTrainsetMove(matcher.group(1));
 
     return true;
   }

@@ -135,48 +135,6 @@ public class TrainsetManagerTest {
   }
 
   @Test
-  public void canTrackFightDroppedFood() {
-    // Track when we have a valid target for the diner food drop
-    var cleanups = new Cleanups(withProperty("lastFoodDropped", 11), withFight(0));
-
-    try (cleanups) {
-      String html = html("request/test_trainset_fight_dropped_food.html");
-
-      FightRequest.updateCombatData(null, null, html);
-
-      assertThat("lastFoodDropped", isSetTo(49));
-    }
-  }
-
-  @Test
-  public void canTrackDinerDroppedFood() {
-    // Track when the diner dupes our food
-    var cleanups = new Cleanups(withProperty("lastFoodDropped", 49), withFight(0));
-
-    try (cleanups) {
-      String html = html("request/test_trainset_fight_diner_food.html");
-
-      FightRequest.updateCombatData(null, null, html);
-
-      assertThat("lastFoodDropped", isSetTo(-1));
-    }
-  }
-
-  @Test
-  public void doesNotSetLastFoodDroppedIfDinerDropped() {
-    // Ensure that lastFoodDropped is not updated to the food that the diner dropped
-    var cleanups = new Cleanups(withProperty("lastFoodDropped", -1), withFight(0));
-
-    try (cleanups) {
-      String html = html("request/test_trainset_fight_diner_food.html");
-
-      FightRequest.updateCombatData(null, null, html);
-
-      assertThat("lastFoodDropped", isSetTo(-1));
-    }
-  }
-
-  @Test
   public void canTrackConfigurationChanged() {
     // Track when we've just reconfigured our trainset
     var cleanups =

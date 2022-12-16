@@ -857,7 +857,6 @@ user	lastEVHelmetReset	-1
 user	lastEmptiedStorage	-1
 user	lastEncounter
 user	lastFilthClearance	-1
-user	lastFoodDropped	-1
 user	lastGoofballBuy	-1
 user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
