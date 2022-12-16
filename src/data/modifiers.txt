@@ -4098,8 +4098,9 @@ Item	thermal blanket	Cold Resistance: +2, Spooky Resistance: +1, Combat Rate: +5
 Item	Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +1
 Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
-Item	Trainbot harness	Initiative: -200
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
+# Trainbot harness: Lets you rescue elves from passenger-occupied Crimbo train cars
+Item	Trainbot harness	Initiative: -200
 # vampyric cloake: Improves the effectiveness of various Dark Gyffte skills
 Item	vampyric cloake	Item Drop: +15, Maximum HP: [min(10*L,1300)], Initiative: +25, Adventures: +4, Experience: +3
 Item	whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"

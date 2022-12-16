@@ -76,6 +76,7 @@ public abstract class GrimstoneManager {
   // cinderellaMinutesToMidnight
   // cinderellaScore
   // hareMillisecondsSaved
+  // hareTurnsUsed
   // rumpelstiltskinKidsRescued
   // rumpelstiltskinTurnsUsed
   // wolfPigsEvicted

@@ -389,6 +389,7 @@ public class Preferences {
         "pastaThrall8",
         "pendingMapReflections",
         "photocopyMonster",
+        "pingpongSkill",
         "pizzaOfLegendEaten",
         "plantingDate",
         "plantingDay",
