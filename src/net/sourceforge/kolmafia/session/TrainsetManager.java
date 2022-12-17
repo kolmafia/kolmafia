@@ -89,24 +89,29 @@ public class TrainsetManager {
 
   private TrainsetManager() {}
 
-  public static void onTrainsetMove(String pieceName) {
+  /**
+   * @param pieceName
+   * @return true if the station is the expected train piece
+   */
+  public static boolean onTrainsetMove(String pieceName) {
     int newPosition = Preferences.increment("trainsetPosition");
 
     TrainsetPiece[] pieces = getTrainsetPieces();
 
     // If trainset configuration is unknown
     if (pieces.length != 8) {
-      return;
+      return false;
     }
 
     TrainsetPiece piece = TrainsetPiece.getByName(pieceName);
 
     // If trainset piece is as expected
     if (pieces[newPosition % 8] == piece) {
-      return;
+      return true;
     }
 
-    // If trainset piece is unexpected, do nothing.
+    // If trainset piece is unexpected, return false
+    return false;
   }
 
   public static TrainsetPiece[] getTrainsetPieces() {

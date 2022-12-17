@@ -6,6 +6,7 @@ import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -13,6 +14,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class TrainsetManagerTest {
   @BeforeEach
@@ -48,6 +51,24 @@ public class TrainsetManagerTest {
       FightRequest.updateCombatData(null, null, html);
 
       assertThat("trainsetPosition", isSetTo(43));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"84, Trackside Diner, true", "83, Trackside Diner, false"})
+  public void canDetectExpectedTrainpiece(
+      int stationPosition, String stationName, boolean expectedResult) {
+    var cleanups =
+        new Cleanups(
+            withProperty("trainsetPosition", stationPosition),
+            withProperty(
+                "trainsetConfiguration",
+                "coal_hopper,meat_mine,brawn_silo,grain_silo,candy_factory,trackside_diner,logging_mill,viewing_platform"));
+
+    try (cleanups) {
+      boolean result = TrainsetManager.onTrainsetMove(stationName);
+
+      assertEquals(expectedResult, result);
     }
   }
 
