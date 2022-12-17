@@ -229,6 +229,17 @@
 204
 205	Dead Nostrils	stinknose.gif	0	0	0
 206	Ancient Crymbo Lore	crimbohat.gif	0	0	0
+207	Crimbo Training: First Aid Technician	trainskill1.gif	0	0	0
+208	Crimbo Training: Passenger Greeter	trainskill2.gif	0	0	0
+209	Crimbo Training: Concierge	trainskill3.gif	0	0	0
+210	Crimbo Training: Track Switcher	trainskill4.gif	0	0	0
+211	Crimbo Training: Bartender	trainskill5.gif	0	0	0
+212	Crimbo Training:  Waiter	trainskill6.gif	0	0	0
+213	Crimbo Training: Coal Taster	trainskill7.gif	0	0	0
+214	Crimbo Training: Dessert Steward	trainskill8.gif	0	0	0
+215	Crimbo Training: Night Watchman	trainskill9.gif	0	0	0
+216	Crimbo Training: Sanitation Consultant	trainskill10.gif	0	0	0
+217	Crimbo Training: Graffiti Censor	trainskill11.gif	0	0	0
 
 # Skills available to Clubbers
 

@@ -389,6 +389,7 @@ public class Preferences {
         "pastaThrall8",
         "pendingMapReflections",
         "photocopyMonster",
+        "pingpongSkill",
         "pizzaOfLegendEaten",
         "plantingDate",
         "plantingDay",
@@ -703,11 +704,13 @@ public class Preferences {
 
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
-    for (Entry<String, Object> entry : valuesMap.entrySet()) {
-      encodedMap.put(
-          entry.getKey(),
-          encodeProperty(entry.getKey(), entry.getValue().toString())
-              .getBytes(StandardCharsets.UTF_8));
+    synchronized (valuesMap) {
+      for (Entry<String, Object> entry : valuesMap.entrySet()) {
+        encodedMap.put(
+            entry.getKey(),
+            encodeProperty(entry.getKey(), entry.getValue().toString())
+                .getBytes(StandardCharsets.UTF_8));
+      }
     }
   }
 
@@ -1213,8 +1216,10 @@ public class Preferences {
       OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        for (Entry<String, byte[]> current : encodedData.entrySet()) {
-          fstream.write(current.getValue());
+        synchronized (encodedData) {
+          for (Entry<String, byte[]> current : encodedData.entrySet()) {
+            fstream.write(current.getValue());
+          }
         }
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to write preferences as byte array.");
