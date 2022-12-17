@@ -29,6 +29,7 @@
 
 QUEST_LOG	chatLiterate	You have proven yourself literate	chatLiterate=true
 QUEST_LOG	seahorseName	You have tamed the mighty seahorse <b>(.*?)</b>	seahorseName=$1
+QUEST_LOG	pingpongSkill	You have achieved a skill level of ([\d,]+) at playing ping-pong	pingpongSkill=$1
 QUEST_LOG	lastPlusSignUnlock	You have discovered the secret of the Dungeons of Doom	lastPlusSignUnlock=ascensions
 QUEST_LOG	lastTempleUnlock	You have discovered the Hidden Temple	lastTempleUnlock=ascensions
 
@@ -45,7 +46,7 @@ QUEST_LOG	demonName11	;&middot;([^<]*?), Friend of Gary<br	demonName11=$1
 
 DESC_ITEM	Adventurer bobblehead	Attributes \+(\d+)%	nuclearAutumnPoints=$1
 DESC_ITEM	bishop cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
-DESC_ITEM	bone abacus	defeated (\d+) opponent	boneAbacusVictories=$1
+DESC_ITEM	bone abacus	defeated ([\d,]+) opponent	boneAbacusVictories=$1
 DESC_ITEM	brainwave-controlled unicorn horn	(\d+)% inflated	unicornHornInflation=$1
 DESC_ITEM	briefcase full of snakes	Venom Level: (\d+)<br>Medicine Level: (\d+)	awolVenom=$1	awolMedicine=$2
 DESC_ITEM	crude monster sculpture	crude sculpture of (a|an|something <i>totally</i> unrecognizable|)\s*(.*?)\.	crudeMonster=$2

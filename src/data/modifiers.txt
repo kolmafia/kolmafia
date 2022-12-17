@@ -4098,8 +4098,9 @@ Item	thermal blanket	Cold Resistance: +2, Spooky Resistance: +1, Combat Rate: +5
 Item	Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +1
 Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
-Item	Trainbot harness	Initiative: -200
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
+# Trainbot harness: Lets you rescue elves from passenger-occupied Crimbo train cars
+Item	Trainbot harness	Initiative: -200
 # vampyric cloake: Improves the effectiveness of various Dark Gyffte skills
 Item	vampyric cloake	Item Drop: +15, Maximum HP: [min(10*L,1300)], Initiative: +25, Adventures: +4, Experience: +3
 Item	whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"
@@ -7852,6 +7853,17 @@ Skill	Cool Heels	Cold Damage: +5
 Skill	Cooling Tubules	Cold Damage: +10
 Skill	Cosmic Ugnderstanding	Maximum MP Percent: +5
 # Crab Claw Technique: Makes your accordion attacks significantly more accurate
+Skill	Crimbo Training:  Waiter	Food Drop: +15
+Skill	Crimbo Training: Bartender	Booze Drop: +15
+Skill	Crimbo Training: Coal Taster	Hot Resistance: +1
+Skill	Crimbo Training: Concierge	Familiar Weight: +1
+Skill	Crimbo Training: Dessert Steward	Cold Resistance: +1
+Skill	Crimbo Training: First Aid Technician	Maximum HP: +10
+Skill	Crimbo Training: Graffiti Censor	Sleaze Resistance: +1
+Skill	Crimbo Training: Night Watchman	Spooky Resistance: +1
+Skill	Crimbo Training: Passenger Greeter	Experience: +1
+Skill	Crimbo Training: Sanitation Consultant	Stench Resistance: +1
+Skill	Crimbo Training: Track Switcher	Initiative: +10
 Skill	Crush	Maximum HP: -20
 Skill	Cryocurrency	Cold Damage: +5
 Skill	Curses Library	Spooky Damage: +5
