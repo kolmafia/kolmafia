@@ -87,6 +87,8 @@ public class TrainsetManager {
       Pattern.compile("Let the train finish (\\d) more laps before rearranging it.</p>");
   private static final int TURNS_BETWEEN_CONFIGURE = 40;
 
+  private TrainsetManager() {}
+
   public static void onTrainsetMove(String pieceName) {
     int newPosition = Preferences.increment("trainsetPosition");
 
