@@ -68,7 +68,7 @@ public class PHPRandom extends Random {
     int[] result = new int[required];
     int j = 0;
 
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count && j < required; i++) {
       double chance = ((required - j) / (double) (count - i));
       if (nextDouble() < chance) {
         result[j++] = i;
