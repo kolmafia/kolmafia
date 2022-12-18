@@ -11073,7 +11073,7 @@
 11045	model train set	959599372	modeltrain.gif	usable		0
 11046	Crimbo training manual	990145553	trainmanual.gif	reusable		0
 11047
-11048
+11048	Trainbot radar monocle	589333447	trainmonocle.gif	accessory	t	0
 11049	pile of Trainbot parts	410098387	trainparts.gif	usable	t	0	piles of Trainbot parts
 11050	Trainbot circuitry	729961257	traincircuit.gif	potion, multiple	t	0	Trainbot circuits
 11051	Trainbot tubing	744569512	traintube.gif	potion, multiple	t	0	Trainbot tubes
@@ -11086,3 +11086,12 @@
 11058	Trainbot harness	711380214	trainharness.gif	container	t	0
 11059	portable ping-pong table	454745356	pingpongtable.gif	none, usable, curse	t	0
 11060	Crimbo train emergency brake	781085744	trainbrake.gif	none, combat	t,d	0
+11061
+11062
+11063
+11064
+11065	cinnamon machine oil	497085839	cinnamonoil.gif	none, combat	t	0
+11066	Crimbo crystal shards	719160229	crystalshards.gif	none	t	0
+11067	dregs of a Crimbo cocktail	136802765	crimbodreg.gif	drink	t	0
+11068	lost elf luggage	141072401	elfluggage.gif	usable	t	0
+11069	Trainbot luggage hook	906799695	luggagehook.gif	accessory	t	0
