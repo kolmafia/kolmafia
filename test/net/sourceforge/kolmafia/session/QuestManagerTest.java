@@ -3193,4 +3193,28 @@ public class QuestManagerTest {
     QuestManager.handleQuestChange(request);
     assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
   }
+
+  @Nested
+  class ElfGratitude {
+    @Test
+    public void canDetectElfGratitudeFromQuestLog() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty("elfGratitude", 0));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_questlog_elf_gratitude.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("questlog.php?which=3");
+        request.run();
+
+        assertThat("elfGratitude", isSetTo(219));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+
+        assertPostRequest(requests.get(0), "/questlog.php", "which=3");
+      }
+    }
+  }
 }
