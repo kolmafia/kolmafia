@@ -3466,7 +3466,9 @@ public class ItemPool {
   public static final int CHAMPAGNE_SHIMMY = 11018;
   public static final int THE_SOTS_PARCEL = 11019;
   public static final int MODEL_TRAIN_SET = 11045;
+  public static final int CRIMBO_TRAINING_MANUAL = 11046;
   public static final int PING_PONG_PADDLE = 11056;
+  public static final int TRAINBOT_HARNESS = 11058;
 
   private ItemPool() {}
 

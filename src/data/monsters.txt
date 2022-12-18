@@ -2263,6 +2263,9 @@ massive goo construct	2226		Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct 
 Brake-Operating Trainbot	2254	trainbot_brake.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	pile of Trainbot parts (0)	Crimbo train emergency brake (0)	Trainbot harness (0)
 Track-Switching Trainbot	2255	trainbot_switch.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	pile of Trainbot parts (0)	pile of Trainbot parts (0)
 Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	pile of Trainbot parts (0)	ping-pong ball (0)	portable ping-pong table (0)
+Drink-Delivery Trainbot	2257	trainbot_drinks.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: cold NOCOPY Article: a	cinnamon machine oil (0)	dregs of a Crimbo cocktail (0)	Crimbo crystal shards (0)
+Luggage-Handling Trainbot	2258	trainbot_bags.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot NOCOPY Article: a	cinnamon machine oil (0)	lost elf luggage (0)	Trainbot luggage hook (0)
+Ticket-Checking Trainbot	2259	trainbot_check.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot NOCOPY Article: a	cinnamon machine oil (0)	Trainbot radar monocle (0)
 
 # Old Events
 

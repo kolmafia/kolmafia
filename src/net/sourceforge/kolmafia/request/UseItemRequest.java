@@ -5930,6 +5930,29 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.WRIGGLING_FLYTRAP_PELLET:
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.STARTED);
         break;
+
+      case ItemPool.CRIMBO_TRAINING_MANUAL:
+        // The first time you use this, you train yourself:
+        //
+        // You read the parts of the book that aren't burnt.
+        // You acquire a skill: ...
+        if (responseText.contains("You acquire a skill")) {
+          ResponseTextParser.learnSkillFromResponse(responseText);
+          Preferences.setBoolean("_crimboTraining", false);
+          return;
+        }
+
+        // If you have already trained somebody else:
+        //
+        // You've already trained somebody today.  Take the rest of the day off.
+        if (responseText.contains("You've already trained somebody today")) {
+          Preferences.setBoolean("_crimboTraining", true);
+          return;
+        }
+
+        // If you've not already trained somebody, KoL does a Javascript redirects to curse.pjp
+        Preferences.setBoolean("_crimboTraining", false);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

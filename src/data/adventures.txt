@@ -411,6 +411,7 @@ Tammy's Offshore Platform	adventure=537	DiffLevel: unknown Env: underwater Stat:
 Tammy's Offshore Platform	adventure=538	DiffLevel: unknown Env: underwater Stat: 0	The Impenetrable Kelp-Holly Forest
 
 Crimbo22	adventure=559	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Caboose)
+Crimbo22	adventure=560	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Passenger Car)
 
 Crimbo21	adventure=554	DiffLevel: unknown Env: indoor Stat: 0	Site Alpha Dormitory
 Crimbo21	adventure=555	DiffLevel: unknown Env: indoor Stat: 0	Site Alpha Greenhouse

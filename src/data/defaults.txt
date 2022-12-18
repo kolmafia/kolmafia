@@ -569,6 +569,7 @@ user	eldritchFissureAvailable	false
 user	eldritchHorrorAvailable	false
 user	eldritchTentaclesFought	0
 user	electricKoolAidEaten	0
+user	elfGratitude	0
 user	encountersUntilDMTChoice	5
 user	encountersUntilNEPChoice	7
 user	enamorangMonster
@@ -1685,6 +1686,7 @@ user	_cosmicSixPackConjured	false
 user	_crappyCameraUsed	false
 user	_creepyVoodooDollUsed	false
 user	_crimbo21ColdResistance	0
+user	_crimboTraining	false
 user	_crimboTree	false
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
@@ -3034,6 +3036,7 @@ user	choiceAdventure1473	0
 user	choiceAdventure1474	0
 user	choiceAdventure1475	0
 user	choiceAdventure1486	0
+user	choiceAdventure1487	1
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

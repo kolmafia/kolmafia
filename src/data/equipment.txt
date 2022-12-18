@@ -3308,6 +3308,8 @@ tourmalime tourniquet	0	none
 toy crazy train	60	Mys: 15
 toy maglev monorail	60	Mys: 15
 toy train	60	Mys: 15
+Trainbot luggage hook	0	none
+Trainbot radar monocle	0	none
 training belt	100	Mus: 10
 training legwarmers	100	Mys: 10
 Treads of Loathing	200	Mus: 150

@@ -23,7 +23,6 @@ public class CurseRequest extends GenericRequest {
 
   private final AdventureResult itemUsed;
 
-  private static final AdventureResult SMORE_GUN = ItemPool.get(ItemPool.SMORE_GUN, 1);
   private static final AdventureResult MARSHMALLLOW = ItemPool.get(ItemPool.MARSHMALLOW, 1);
 
   public CurseRequest(final AdventureResult item) {
@@ -43,13 +42,16 @@ public class CurseRequest extends GenericRequest {
   public void run() {
     InventoryManager.retrieveItem(this.itemUsed);
 
+    String action =
+        switch (this.itemUsed.getItemId()) {
+          case ItemPool.CRIMBO_TRAINING_MANUAL -> "Training ";
+          default -> "Throwing " + this.itemUsed.getName() + " at ";
+        };
+
+    String message = action + this.getFormField("targetplayer") + "...";
+
     for (int i = this.itemUsed.getCount(); KoLmafia.permitsContinue() && i > 0; --i) {
-      KoLmafia.updateDisplay(
-          "Throwing "
-              + this.itemUsed.getName()
-              + " at "
-              + this.getFormField("targetplayer")
-              + "...");
+      KoLmafia.updateDisplay(message);
       super.run();
     }
   }
@@ -64,46 +66,16 @@ public class CurseRequest extends GenericRequest {
       return;
     }
 
-    Matcher m = CurseRequest.ITEM_PATTERN.matcher(location);
-    if (!m.find()) {
+    Matcher playerMatcher = CurseRequest.PLAYER_PATTERN.matcher(location);
+    if (!playerMatcher.find()) {
       return;
     }
-    AdventureResult item = ItemPool.get(StringUtilities.parseInt(m.group(1)), 1);
-    if (item.equals(CurseRequest.SMORE_GUN)) {
-      // When you "throw" a s'more gun at someone, marshmallows get used up
-      item = CurseRequest.MARSHMALLLOW;
-    }
-
-    m = CurseRequest.QTY_PATTERN.matcher(responseText);
-    if (!m.find()) {
-      return;
-    }
-    int qty = m.group(1) == null ? 0 : StringUtilities.parseInt(m.group(1));
-    qty = item.getCount(KoLConstants.inventory) - qty;
-    if (qty != 0) {
-      item = item.getInstance(qty);
-      ResultProcessor.processResult(item.getNegation());
-    }
-
-    m = CurseRequest.PLAYER_PATTERN.matcher(location);
-    if (!m.find()) {
-      return;
-    }
-
-    if (responseText.contains("You don't have that item")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Have not, throw not.");
-      return;
-    }
-
-    if (responseText.contains("No message?") || responseText.contains("no message")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "That item requires a message.");
-      return;
-    }
+    String player = playerMatcher.group(1);
 
     if (responseText.contains("That player could not be found")) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR,
-          m.group(1) + " evaded your thrown item by the unusual strategy of being nonexistent.");
+          player + " evaded your thrown item by the unusual strategy of being nonexistent.");
       return;
     }
 
@@ -120,6 +92,69 @@ public class CurseRequest extends GenericRequest {
       return;
     }
 
+    if (responseText.contains("They already know that skill.")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "They already know that skill.");
+      return;
+    }
+
+    if (responseText.contains("You've already trained somebody today.")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You've already trained somebody today.");
+      Preferences.setBoolean("_crimboTraining", true);
+      return;
+    }
+
+    Matcher itemMatcher = CurseRequest.ITEM_PATTERN.matcher(location);
+    if (!itemMatcher.find()) {
+      return;
+    }
+    AdventureResult item = ItemPool.get(StringUtilities.parseInt(itemMatcher.group(1)), 1);
+
+    // Special items require special processing
+    switch (item.getItemId()) {
+      case ItemPool.SMORE_GUN -> {
+        // When you "throw" a s'more gun at someone, marshmallows get used up
+        item = CurseRequest.MARSHMALLLOW;
+      }
+      case ItemPool.CRIMBO_TRAINING_MANUAL -> {
+        // Usable once per day on another player
+
+        String message = "Training " + player;
+
+        // You train Veracity.
+        if (responseText.contains("You train")) {
+          RequestLogger.updateSessionLog(message);
+          RequestLogger.updateSessionLog("You train " + player + ".");
+          Preferences.setBoolean("_crimboTraining", true);
+          return;
+        }
+
+        // No count and is not consumed.
+        return;
+      }
+    }
+
+    Matcher quantityMatcher = CurseRequest.QTY_PATTERN.matcher(responseText);
+    if (!quantityMatcher.find()) {
+      return;
+    }
+    int qty =
+        quantityMatcher.group(1) == null ? 0 : StringUtilities.parseInt(quantityMatcher.group(1));
+    qty = item.getCount(KoLConstants.inventory) - qty;
+    if (qty != 0) {
+      item = item.getInstance(qty);
+      ResultProcessor.processResult(item.getNegation());
+    }
+
+    if (responseText.contains("You don't have that item")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Have not, throw not.");
+      return;
+    }
+
+    if (responseText.contains("No message?") || responseText.contains("no message")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "That item requires a message.");
+      return;
+    }
+
     if (responseText.contains("FAA regulations prevent")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You've already used a Warbear Gyrocopter today.");
       Preferences.setBoolean("_warbearGyrocopterUsed", true);
@@ -130,7 +165,7 @@ public class CurseRequest extends GenericRequest {
       Preferences.setBoolean("_warbearGyrocopterUsed", true);
     }
 
-    RequestLogger.updateSessionLog("throw " + item + " at " + m.group(1));
+    RequestLogger.updateSessionLog("throw " + item + " at " + player);
   }
 
   public static final boolean registerRequest(final String urlString) {
