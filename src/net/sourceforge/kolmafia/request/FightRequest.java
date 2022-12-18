@@ -8138,8 +8138,6 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("^Your toy train moves ahead to the (.+?)\\.");
 
   private static boolean handleTrainset(TagNode node) {
-    String text = node.getText().toString();
-
     Matcher matcher = TRAINSET_MOVE.matcher(node.getText().toString());
 
     if (!matcher.find()) {
