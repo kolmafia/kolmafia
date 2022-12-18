@@ -6731,6 +6731,8 @@ Effect	Pigulated	Avatar: "piggy"
 Effect	Pill Party!	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Pill Power	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # PING...  PING...  PING...: Increased chance of dolphin "orphan" encounters
+Effect	Ping-Pong Persistence	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
+Effect	Ping-Pong Prowess	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Piranha Power	Maximum HP: +20, Maximum MP: +20, MP Regen Min: 3, MP Regen Max: 5, HP Regen Min: 3, HP Regen Max: 5
 Effect	Piratastic	Moxie: +100
 Effect	Piratey Flavor	Critical Hit Percent: +5
