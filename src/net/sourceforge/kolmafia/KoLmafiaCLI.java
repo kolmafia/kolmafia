@@ -606,6 +606,7 @@ public class KoLmafiaCLI {
         .register("smith")
         .register("tinker")
         .register("ply");
+    new CrimboTrainCommand().register("crimbotrain");
     new CrimboTreeCommand().register("crimbotree");
     new CrossStreamsCommand().register("crossstreams");
     new DadCommand().register("dad");

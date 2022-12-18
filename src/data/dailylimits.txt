@@ -145,6 +145,7 @@ Use	Chester's bag of candy	_bagOfCandyUsed
 Use	Chroner cross	_chronerCrossUsed
 Use	Chroner trigger	_chronerTriggerUsed
 Use	Clara's bell	_claraBellUsed
+Use	Crimbo training manual	_crimboTraining
 Use	Cuppa Sobrie tea	_sobrieTeaUsed
 Use	Cuppa Voraci tea	_voraciTeaUsed
 Use	Emblem of Ak'gyxoth	_akgyxothUsed
