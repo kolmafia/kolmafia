@@ -6209,6 +6209,10 @@ public abstract class ChoiceAdventures {
         new Option("acquire 6 Trainbot potions", 1),
         new Option("+3 Elf Gratitude", 2),
         new Option("acquire a ping-pong paddle then acquire 3-5 ping-pong balls", 3));
+
+    // A Passenger Among Passengers
+    new ChoiceAdventure(
+        1487, "Crimbo22", "Crimbo Train (Passenger Car)", new Option("+5 Elf Gratitude", 1));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
