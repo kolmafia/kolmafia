@@ -6336,10 +6336,6 @@ public class FightRequest extends GenericRequest {
 
       if (handleCosmicBowlingBall(str)) return;
 
-      if (FightRequest.handleTrainset(node)) {
-        return;
-      }
-
       FightRequest.handleVillainLairRadio(node, status);
 
       if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
@@ -7016,11 +7012,22 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
+  private static final Pattern TRAINSET_MOVE =
+      Pattern.compile("^Your toy train moves ahead to the (.+?)\\.");
+
   private static void handleToyTrain(String image, String str, TagStatus status) {
     if (image == null || !image.contains("modeltrain")) {
       return;
     }
+
     FightRequest.logText(str, status);
+
+    Matcher matcher = TRAINSET_MOVE.matcher(str);
+
+    if (matcher.find()) {
+      TrainsetManager.onTrainsetMove(matcher.group(1));
+    }
+
     status.toyTrain = false;
   }
 
@@ -8132,21 +8139,6 @@ public class FightRequest extends GenericRequest {
 
     // Maybe it's something else?
     return false;
-  }
-
-  private static final Pattern TRAINSET_MOVE =
-      Pattern.compile("^Your toy train moves ahead to the (.+?)\\.");
-
-  private static boolean handleTrainset(TagNode node) {
-    Matcher matcher = TRAINSET_MOVE.matcher(node.getText().toString());
-
-    if (!matcher.find()) {
-      return false;
-    }
-
-    TrainsetManager.onTrainsetMove(matcher.group(1));
-
-    return true;
   }
 
   private static void handleRaver(String text, TagStatus status) {

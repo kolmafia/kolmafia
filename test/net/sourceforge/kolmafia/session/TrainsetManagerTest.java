@@ -4,12 +4,14 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withChoice;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withWorkshedItem;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +45,11 @@ public class TrainsetManagerTest {
 
   @Test
   public void canDetectTrainStationMovement() {
-    var cleanups = new Cleanups(withProperty("trainsetPosition", 42), withFight(0));
+    var cleanups =
+        new Cleanups(
+            withProperty("trainsetPosition", 42),
+            withWorkshedItem(ItemPool.MODEL_TRAIN_SET),
+            withFight(0));
 
     try (cleanups) {
       String html = html("request/test_trainset_fight_diner_food.html");
