@@ -1,13 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Networking.assertGetRequest;
-import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withHandlingChoice;
-import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLimitMode;
@@ -18,7 +15,6 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,7 +22,6 @@ import static org.junitpioneer.jupiter.cartesian.CartesianTest.Enum;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
-import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -327,179 +322,6 @@ class UseItemRequestTest {
       req.run();
 
       assertThat(InventoryManager.getCount(ItemPool.BASTILLE_LOANER_VOUCHER), is(1));
-    }
-  }
-
-  @Nested
-  class CrimboTraining {
-    @Test
-    public void canTrainYourselfFirstTime() {
-      var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder),
-              withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
-        client.addResponse(200, html("request/test_use_crimbo_training_1.html"));
-        client.addResponse(200, ""); // api.php
-
-        var request = new GenericRequest("inv_use.php?which=3&whichitem=11046&ajax=1");
-        request.run();
-
-        // Does not use up daily use
-        assertThat("_crimboTraining", isSetTo(false));
-        assertTrue(KoLCharacter.hasSkill(SkillPool.TRACK_SWITCHER));
-
-        var requests = client.getRequests();
-        assertThat(requests, hasSize(2));
-
-        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11046&ajax=1");
-        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-      }
-    }
-
-    @Test
-    public void canTrainAnotherPersonOncePerDay() {
-      var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder),
-              withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
-        client.addResponse(200, html("request/test_use_crimbo_training_1b.html"));
-        client.addResponse(200, ""); // api.php
-        client.addResponse(200, html("request/test_use_crimbo_training_2.html"));
-        client.addResponse(200, html("request/test_use_crimbo_training_3.html"));
-        client.addResponse(200, ""); // api.php
-
-        assertThat(UseItemRequest.maximumUses(ItemPool.CRIMBO_TRAINING_MANUAL), is(1));
-
-        var request = new GenericRequest("inv_use.php?which=3&whichitem=11046&ajax=1");
-        request.run();
-        request = new GenericRequest("curse.php?whichitem=11046", false);
-        request.run();
-        request = new GenericRequest("curse.php?action=use&whichitem=11046&targetplayer=121572");
-        request.run();
-
-        // Detects daily use
-        assertThat("_crimboTraining", isSetTo(true));
-        assertThat(UseItemRequest.maximumUses(ItemPool.CRIMBO_TRAINING_MANUAL), is(0));
-
-        var requests = client.getRequests();
-        assertThat(requests, hasSize(5));
-
-        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11046&ajax=1");
-        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-        assertGetRequest(requests.get(2), "/curse.php", "whichitem=11046");
-        assertPostRequest(
-            requests.get(3), "/curse.php", "action=use&whichitem=11046&targetplayer=121572");
-        assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
-      }
-    }
-
-    @Test
-    public void canDetectOtherPlayerAlreadyTrained() {
-      var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder),
-              withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
-        client.addResponse(200, html("request/test_use_crimbo_training_1.html"));
-        client.addResponse(200, ""); // api.php
-        client.addResponse(200, html("request/test_use_crimbo_training_2.html"));
-        client.addResponse(200, html("request/test_use_crimbo_training_3c.html"));
-        client.addResponse(200, ""); // api.php
-
-        assertThat(UseItemRequest.maximumUses(ItemPool.CRIMBO_TRAINING_MANUAL), is(1));
-
-        var request = new GenericRequest("inv_use.php?which=3&whichitem=11046&ajax=1");
-        request.run();
-        request = new GenericRequest("curse.php?whichitem=11046", false);
-        request.run();
-        request = new GenericRequest("curse.php?action=use&whichitem=11046&targetplayer=121572");
-        request.run();
-
-        // Not used if target already knows skill
-        assertThat("_crimboTraining", isSetTo(false));
-        assertThat(UseItemRequest.maximumUses(ItemPool.CRIMBO_TRAINING_MANUAL), is(1));
-
-        var requests = client.getRequests();
-        assertThat(requests, hasSize(4));
-
-        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11046&ajax=1");
-        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-        assertGetRequest(requests.get(2), "/curse.php", "whichitem=11046");
-        assertPostRequest(
-            requests.get(3), "/curse.php", "action=use&whichitem=11046&targetplayer=121572");
-      }
-    }
-
-    @Test
-    public void canTrainOnlyOneOtherPersonPerDay() {
-      var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder),
-              withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
-        client.addResponse(200, html("request/test_use_crimbo_training_1c.html"));
-        client.addResponse(200, ""); // api.php
-
-        assertThat(UseItemRequest.maximumUses(ItemPool.CRIMBO_TRAINING_MANUAL), is(1));
-
-        var request = new GenericRequest("inv_use.php?which=3&whichitem=11046&ajax=1");
-        request.run();
-
-        // Detects daily use
-        assertThat("_crimboTraining", isSetTo(true));
-        assertThat(UseItemRequest.maximumUses(ItemPool.CRIMBO_TRAINING_MANUAL), is(0));
-
-        var requests = client.getRequests();
-        assertThat(requests, hasSize(2));
-
-        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11046&ajax=1");
-        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-      }
-    }
-
-    @Test
-    public void canTrainOnlyOneOtherPersonPerDayFromCursePHP() {
-      var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder),
-              withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
-              withProperty("_crimboTraining", false));
-      try (cleanups) {
-        client.addResponse(200, html("request/test_use_crimbo_training_3b.html"));
-        client.addResponse(200, ""); // api.php
-
-        assertThat(UseItemRequest.maximumUses(ItemPool.CRIMBO_TRAINING_MANUAL), is(1));
-
-        var request =
-            new GenericRequest("curse.php?action=use&whichitem=11046&targetplayer=115875");
-        request.run();
-
-        // Detects daily use
-        assertThat("_crimboTraining", isSetTo(true));
-        assertThat(UseItemRequest.maximumUses(ItemPool.CRIMBO_TRAINING_MANUAL), is(0));
-
-        var requests = client.getRequests();
-        assertThat(requests, hasSize(1));
-
-        assertPostRequest(
-            requests.get(0), "/curse.php", "action=use&whichitem=11046&targetplayer=115875");
-      }
     }
   }
 }

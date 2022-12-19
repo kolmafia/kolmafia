@@ -5494,6 +5494,7 @@ public class FightRequest extends GenericRequest {
     public boolean toyTrain;
     public boolean pingpong;
     public boolean harness;
+    public boolean luggage;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5581,6 +5582,7 @@ public class FightRequest extends GenericRequest {
 
       this.pingpong = KoLCharacter.hasEquipped(ItemPool.PING_PONG_PADDLE);
       this.harness = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_HARNESS);
+      this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
 
       this.ghost = null;
 
@@ -6292,7 +6294,11 @@ public class FightRequest extends GenericRequest {
       String str = FightRequest.getContentNodeText(node);
 
       if (won && status.harness) {
-        FightRequest.handleTrainbotHarness(node, str, status);
+        FightRequest.handleTrainbotHarness(str, status);
+      }
+
+      if (won && status.luggage) {
+        FightRequest.handleTrainbotLuggageHook(str, status);
       }
 
       if (containsMacroError(str)) {
@@ -7036,13 +7042,20 @@ public class FightRequest extends GenericRequest {
     }
   }
 
-  private static void handleTrainbotHarness(TagNode node, String str, TagStatus status) {
+  private static void handleTrainbotHarness(String str, TagStatus status) {
     // You grab a nearby elf, toss it into your backpack, and drop it off safely outside of the
     // train.
     if (str.contains("You grab a nearby elf")) {
       FightRequest.logText(str, status);
       FightRequest.logText("You've earned 1 Elf Gratitude.", status);
       Preferences.increment("elfGratitude");
+    }
+  }
+
+  private static void handleTrainbotLuggageHook(String str, TagStatus status) {
+    // You snag a nearby piece of luggage with your handy-dandy hook.
+    if (str.contains("handy-dandy hook")) {
+      FightRequest.logText(str, status);
     }
   }
 

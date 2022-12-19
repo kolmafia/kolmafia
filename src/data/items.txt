@@ -11084,7 +11084,7 @@
 11056	ping-pong paddle	693067251	pingpongpaddle.gif	weapon	t	0
 11057	ping-pong ball	941815404	pingpongball.gif	none, combat	t	0
 11058	Trainbot harness	711380214	trainharness.gif	container	t	0
-11059	portable ping-pong table	454745356	pingpongtable.gif	none, usable, curse	t	0
+11059	portable ping-pong table	454745356	pingpongtable.gif	none, reusable, curse	t	0
 11060	Crimbo train emergency brake	781085744	trainbrake.gif	none, combat	t,d	0
 11061
 11062
