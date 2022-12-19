@@ -2035,6 +2035,7 @@ user	_photocopyUsed	false
 user	_pickyTweezersUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0
+user	_pingPongGame	false
 user	_pirateBellowUsed	false
 user	_pirateForkUsed	false
 user	_pixelOrbUsed	false
