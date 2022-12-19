@@ -1736,6 +1736,7 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 A Light that Never Goes Out	100	none
 Abracandalabra	100	none
 Adventurer bobblehead	100	none
+Abuela Crimbo's special magnet	10	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
 aerogel attache case	50	none
