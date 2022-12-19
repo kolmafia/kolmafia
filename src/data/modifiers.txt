@@ -2046,6 +2046,7 @@ Item	9-ball	Weapon Damage: +8, Ranged Damage: +8, Spell Damage: +8
 # A Light that Never Goes Out: (+Item Drops based on Smithsness)
 Item	A Light that Never Goes Out	Mysticality: +5, Hot Damage: +5, Smithsness: +5, Item Drop: [K]
 Item	Abracandalabra	Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 10, Maximum MP Percent: +100, Lasts Until Rollover
+# Abuela Crimbo's special magnet: Get more items from Trainbots
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
 Item	Adventurer bobblehead	Muscle Percent: [pref(nuclearAutumnPoints)], Mysticality Percent: [pref(nuclearAutumnPoints)], Moxie Percent: [pref(nuclearAutumnPoints)]
