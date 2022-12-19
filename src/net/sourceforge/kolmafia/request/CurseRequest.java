@@ -92,17 +92,6 @@ public class CurseRequest extends GenericRequest {
       return;
     }
 
-    if (responseText.contains("They already know that skill.")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "They already know that skill.");
-      return;
-    }
-
-    if (responseText.contains("You've already trained somebody today.")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "You've already trained somebody today.");
-      Preferences.setBoolean("_crimboTraining", true);
-      return;
-    }
-
     Matcher itemMatcher = CurseRequest.ITEM_PATTERN.matcher(location);
     if (!itemMatcher.find()) {
       return;
@@ -118,6 +107,17 @@ public class CurseRequest extends GenericRequest {
       case ItemPool.CRIMBO_TRAINING_MANUAL -> {
         // Usable once per day on another player
 
+        if (responseText.contains("They already know that skill.")) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "They already know that skill.");
+          return;
+        }
+
+        if (responseText.contains("You've already trained somebody today.")) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "You've already trained somebody today.");
+          Preferences.setBoolean("_crimboTraining", true);
+          return;
+        }
+
         String message = "Training " + player;
 
         // You train Veracity.
@@ -125,6 +125,29 @@ public class CurseRequest extends GenericRequest {
           RequestLogger.updateSessionLog(message);
           RequestLogger.updateSessionLog("You train " + player + ".");
           Preferences.setBoolean("_crimboTraining", true);
+          return;
+        }
+
+        // No count and is not consumed.
+        return;
+      }
+      case ItemPool.PING_PONG_TABLE -> {
+        // Usable once per day on another player
+
+        String message = "Playing ping-pong with " + player;
+
+        // You aren't up for another ping-pong game today.
+        if (responseText.contains("You aren't up for another ping-pong game today.")) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "You've already played ping-pong today.");
+          Preferences.setBoolean("_pingPongGame", true);
+          return;
+        }
+
+        // You're able to use your ping-pong skill to defeat Blippy Bloppy. Yay!
+        // You're unable to use your ping-pong skill to defeat Veracity. Boo.
+        if (responseText.contains("use your ping-pong skill")) {
+          RequestLogger.updateSessionLog(message);
+          Preferences.setBoolean("_pingPongGame", true);
           return;
         }
 
