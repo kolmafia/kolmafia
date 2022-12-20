@@ -926,6 +926,7 @@ user	lastTempleUnlock	-1
 user	lastThingWithNoNameDefeated	-1
 user	lastTowelAscension	-1
 user	lastTr4pz0rQuest	-1
+user	lastTrainsetConfiguration	-40
 user	lastVioletFogMap	0
 user	lastVoteMonsterTurn	0
 user	lastWartDinseyDefeated	-1
@@ -1475,6 +1476,8 @@ user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trackLightsOut	false
 user	trackVoteMonster	false
+user	trainsetConfiguration	
+user	trainsetPosition	0
 user	turtleBlessingTurns	0
 user	trapperOre
 user	twinPeakProgress	0

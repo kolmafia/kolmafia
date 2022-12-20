@@ -1,0 +1,461 @@
+<html><head>
+<script language=Javascript>
+<!--if (parent.frames.length == 0) location.href="game.php";//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.5.1.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20130705.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20161111.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=08f60e09a3c3481c7802d54e7270e39e" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=08f60e09a3c3481c7802d54e7270e39e" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script><script>
+
+var currentkey = 49;
+$(document).ready(function () {
+	$('form').each(function () {
+		var form = this;
+		defaultBind(currentkey++, NONE, function () { form.submit(); });
+		return currentkey < 58;
+	});
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20151006.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<Center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Play with your train</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><style>
+.trainpart { position: relative; height: 80px; width: 80px; display: inline-block;  text-align: center;}
+.trainpart img { width: 80px; height; 80px;}
+
+.depot .trainpart { 
+      width: 176px; 
+      height: 110px;
+      vertical-align: top; 
+      border: 1px solid gray; 
+      margin: 1em 1em 0 0; 
+      padding 0.5em;
+      touch-action: none;
+}
+.depot .info { display: block; }
+.info { display: none }
+.info small { color: blue; }
+
+.draggable-container--over { outline: 2px solid blue;  background-color: rgba(100,100,255,0.10);  }
+.draggable-source--is-dragging { visibility: hidden; }
+.draggable-mirror { opacity: 0.7; z-index: 9999; border: 1px solid gray; height: 80px !important; width: 80px !important; }
+
+.notouching { pointer-events: none; }
+.draggable--is-dragging .dragtospot:empty, .draggable-container--is-dragging { background-color: rgba(100,100,255,0.10); } 
+.draggable--is-dragging #scroller { overflow: hidden;  -webkit-overflow-scrolling: auto; }
+.draggable--is-dragging body{ overflow: hidden;  -webkit-overflow-scrolling: auto; }
+
+
+
+.mytrain { 
+   animation: chugachuga 20s 1 linear; 
+   height: 70px;
+   width: 72px;
+   position: absolute; 
+   left: 302px; 
+   top: 51px; 
+   }
+.mytrain img { position: absolute; top: 50px; left: 0px; }
+
+@keyframes chugachuga {
+  0% { left: 228px; }
+  100% { left: 302px; }
+}
+
+.puff {
+  position:absolute;
+  top: 44px;
+  left: 62px;
+  height: 11px; width: 11px;
+  background-image: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/puff1.png);
+  background-repeat: no-repeat;
+  animation: puff 1s infinite linear;
+  opacity: 1;
+  height: 11px;
+  width: 11px;
+
+}
+
+@keyframes puff {
+  0% { top: 44px; left: 62px opacity: 1; }
+  90% { top: 24px; left: 35px; opacity: 0; }
+  100% { top: 44px; left: 62px; opacity: 0; }
+}
+        
+.depot {font-size: 0.8em; }
+
+
+@media only screen and (max-width: 600px) {
+   .depot img { height: 40px; width: 40px; }
+   .depot small { font-size: 0.8em; }
+   .depot .trainpart b { white-space: nowrap; overflow: hidden} 
+   .depot .trainpart { 
+      width: 170px; 
+      height: 80px;
+      vertical-align: top; 
+      border: 1px solid gray; 
+      margin: 0.5em 0.5em 0 0; 
+      padding 0.25em;
+    }
+}
+
+#slot0slot:empty::after {
+   content: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/trees1.png);
+}
+#slot1slot:empty::after {
+   content: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/trees2.png);
+}
+#slot2slot:empty::after {
+   content: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/trees3.png);
+}
+#slot3slot:empty::after {
+   content: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/trees4.png);
+}
+#slot4slot:empty::after {
+   content: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/trees5.png);
+}
+#slot5slot:empty::after {
+   content: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/trees6.png);
+}
+#slot6slot:empty::after {
+   content: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/trees7.png);
+}
+#slot7slot:empty::after {
+   content: url(https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/trees8.png);
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.10/lib/draggable.bundle.js"></script>
+
+<div id="fml">
+<div class="trainslot depot" data-limit="99" style="position: relative; margin: 20px auto; padding: 1em; border: 1px solid black; text-align: center" >
+    <b style="display: block; width: 100%; text-align: center">Unused Scale Models Bin</b>
+
+          <div data-id="12" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/bridge_oil.png"  title="Bridge over Flaming Oil - Sleaze Resist, Hot Damage" alt="Bridge over Flaming Oil - Sleaze Resist, Hot Damage" />
+            <div class="info"><b>Bridge over Flaming Oil</b><br /><small>Sleaze Resist, Hot Damage</small></div>  
+         </div>
+
+          <div data-id="13" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/bridge_water.png"  title="Bridge over Troubled Water - Increased Monster Level" alt="Bridge over Troubled Water - Increased Monster Level" />
+            <div class="info"><b>Bridge over Troubled Water</b><br /><small>Increased Monster Level</small></div>  
+         </div>
+
+          <div data-id="11" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/refinery.png"  title="Ectoplasmic Oil Refinery - Spooky Resist, Sleaze Damage" alt="Ectoplasmic Oil Refinery - Spooky Resist, Sleaze Damage" />
+            <div class="info"><b>Ectoplasmic Oil Refinery</b><br /><small>Spooky Resist, Sleaze Damage</small></div>  
+         </div>
+
+          <div data-id="14" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/silo_groin.png"  title="Groin Silo - Gain Moxie" alt="Groin Silo - Gain Moxie" />
+            <div class="info"><b>Groin Silo</b><br /><small>Gain Moxie</small></div>  
+         </div>
+
+          <div data-id="15" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/silo_grain.png"  title="Grain Silo - Collect booze" alt="Grain Silo - Collect booze" />
+            <div class="info"><b>Grain Silo</b><br /><small>Collect booze</small></div>  
+         </div>
+
+          <div data-id="16" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/silo_brain.png"  title="Brain Silo - Gain Mysticality" alt="Brain Silo - Gain Mysticality" />
+            <div class="info"><b>Brain Silo</b><br /><small>Gain Mysticality</small></div>  
+         </div>
+
+          <div data-id="17" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/silo_brawn.png"  title="Brawn Silo - Gain Muscle" alt="Brawn Silo - Gain Muscle" />
+            <div class="info"><b>Brawn Silo</b><br /><small>Gain Muscle</small></div>  
+         </div>
+
+          <div data-id="5" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/spookyscenery.png"  title="Spooky Graveyard - Stench Resist, Spooky Damage" alt="Spooky Graveyard - Stench Resist, Spooky Damage" />
+            <div class="info"><b>Spooky Graveyard</b><br /><small>Stench Resist, Spooky Damage</small></div>  
+         </div>
+
+          <div data-id="9" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/watertower2.png"  title="Water Tower, Sewage - Cold Resist, Stench Damage" alt="Water Tower, Sewage - Cold Resist, Stench Damage" />
+            <div class="info"><b>Water Tower, Sewage</b><br /><small>Cold Resist, Stench Damage</small></div>  
+         </div>
+
+          <div data-id="4" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/watertower3.png"  title="Water Tower, Frozen - Hot Resist, Cold Damage" alt="Water Tower, Frozen - Hot Resist, Cold Damage" />
+            <div class="info"><b>Water Tower, Frozen</b><br /><small>Hot Resist, Cold Damage</small></div>  
+         </div>
+
+          <div data-id="3" class="trainpart">
+            <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/viewingplatform.png"  title="Viewing Platform - Bonus stats" alt="Viewing Platform - Bonus stats" />
+            <div class="info"><b>Viewing Platform</b><br /><small>Bonus stats</small></div>  
+         </div>
+
+ </div>
+
+<form method="post">
+<input type="hidden" name="whichchoice" value="1485" />
+<input type="hidden" name="option" value="1" />
+<input type="hidden" name="pwd" value="08f60e09a3c3481c7802d54e7270e39e" />
+
+<div style="margin: 0px auto; height: 250px; width: 550px; background-size: cover; background-image: url(https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/modeltrain/background.png?r=2); position: relative;" id="choochoo">
+       <input id="slot0"  type="hidden" style="width: 40px" value="8" name="slot[0]">
+
+   <div id="slot0slot" data-limit="1" data-slot="0" class="trainslot dragtospot" style="position: absolute; left: 110px; top: 50px; height: 80px; width: 80px;"><div data-id="8" class="trainpart">
+          <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/coalhopper.png" title="Coal Hopper - Doubles the next station"  alt="Coal Hopper - Doubles the next station" />
+          <div class="info"><b>Coal Hopper</b><br /><small>Doubles the next station</small></div>  
+         </div></div> 
+          <input id="slot1"  type="hidden" style="width: 40px" value="1" name="slot[1]">
+
+   <div id="slot1slot" data-limit="1" data-slot="1" class="trainslot dragtospot" style="position: absolute; left: 194px; top: 50px; height: 80px; width: 80px;"><div data-id="1" class="trainpart">
+          <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/meatsluice.png" title="Meat Mine Sluice - Get some meat"  alt="Meat Mine Sluice - Get some meat" />
+          <div class="info"><b>Meat Mine Sluice</b><br /><small>Get some meat</small></div>  
+         </div></div> 
+          <input id="slot2"  type="hidden" style="width: 40px" value="6" name="slot[2]">
+
+   <div id="slot2slot" data-limit="1" data-slot="2" class="trainslot dragtospot" style="position: absolute; left: 278px; top: 50px; height: 80px; width: 80px;"><div data-id="6" class="trainpart">
+          <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/loggingmill.png" title="Logging Mill - Wood, joiners, or stats"  alt="Logging Mill - Wood, joiners, or stats" />
+          <div class="info"><b>Logging Mill</b><br /><small>Wood, joiners, or stats</small></div>  
+         </div></div> 
+          <input id="slot3"  type="hidden" style="width: 40px" value="20" name="slot[3]">
+
+   <div id="slot3slot" data-limit="1" data-slot="3" class="trainslot dragtospot" style="position: absolute; left: 362px; top: 50px; height: 80px; width: 80px;"><div data-id="20" class="trainpart">
+          <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/orehopper.png" title="Ore Hopper Feeder - Get some ore"  alt="Ore Hopper Feeder - Get some ore" />
+          <div class="info"><b>Ore Hopper Feeder</b><br /><small>Get some ore</small></div>  
+         </div></div> 
+      <img class="notouching" src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/modeltrain/midground.png?r=2" style="position: absolute; top:0px; left: 0px; height: 250px; width: 550px;" />
+          <input id="slot4"  type="hidden" style="width: 40px" value="18" name="slot[4]">
+
+   <div id="slot4slot" data-limit="1" data-slot="4" class="trainslot dragtospot" style="position: absolute; left: 362px; top: 135px; height: 80px; width: 80px;"><div data-id="18" class="trainpart">
+          <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/silo_prawn.png" title="Prawn Silo - Find more food"  alt="Prawn Silo - Find more food" />
+          <div class="info"><b>Prawn Silo</b><br /><small>Find more food</small></div>  
+         </div></div> 
+          <input id="slot5"  type="hidden" style="width: 40px" value="19" name="slot[5]">
+
+   <div id="slot5slot" data-limit="1" data-slot="5" class="trainslot dragtospot" style="position: absolute; left: 278px; top: 135px; height: 80px; width: 80px;"><div data-id="19" class="trainpart">
+          <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/diner.png" title="Trackside Diner - Serves the last food you found"  alt="Trackside Diner - Serves the last food you found" />
+          <div class="info"><b>Trackside Diner</b><br /><small>Serves the last food you found</small></div>  
+         </div></div> 
+          <input id="slot6"  type="hidden" style="width: 40px" value="7" name="slot[6]">
+
+   <div id="slot6slot" data-limit="1" data-slot="6" class="trainslot dragtospot" style="position: absolute; left: 194px; top: 135px; height: 80px; width: 80px;"><div data-id="7" class="trainpart">
+          <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/candyfactory.png" title="Candy Factory - Get some candy"  alt="Candy Factory - Get some candy" />
+          <div class="info"><b>Candy Factory</b><br /><small>Get some candy</small></div>  
+         </div></div> 
+          <input id="slot7"  type="hidden" style="width: 40px" value="2" name="slot[7]">
+
+   <div id="slot7slot" data-limit="1" data-slot="7" class="trainslot dragtospot" style="position: absolute; left: 110px; top: 135px; height: 80px; width: 80px;"><div data-id="2" class="trainpart">
+          <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/watertower1.png" title="Water Tower, Fizzy - Keep your MP topped up"  alt="Water Tower, Fizzy - Keep your MP topped up" />
+          <div class="info"><b>Water Tower, Fizzy</b><br /><small>Keep your MP topped up</small></div>  
+         </div></div> 
+   <img class="notouching" src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/modeltrain/foreground.png?r=2" style="position: absolute; top:0px; left: 0px; height: 250px; width: 550px;" />
+<div class="notouching mytrain" style=""><div class="puff"></div><img  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/modeltrain/train.png"  /></div>
+
+</div>
+
+
+<center>
+<p>
+<i>Drag your model buildings into position or back to unused bin.</i>
+<p>
+Let the train finish 5 more laps before rearranging it.</p>
+<br><br><i>(<a href="#" aria-label="toggle accessibility mode" id="amode">toggle accessible mode</a>)</i>
+
+<p>
+<p>
+<a href="campground.php">Back to Your Campsite</a>
+</center>
+
+
+<script>
+jQuery( function ($) {
+
+$('#amode').toggle(function () {
+   $('#fml').hide();
+   $('#amodeform').show();
+}, function () {
+   $('#fml').show();
+   $('#amodeform').hide();
+});
+ 
+var sortable = new Draggable.Sortable(document.querySelectorAll('.trainslot'), {
+    draggable: '.trainpart',
+    mirror: {
+      constrainDimensions: true,
+      appendTo: document.getElementById('fml'),
+      cursorOffsetX: 40,
+      cursorOffsetY: 40,
+    }
+  //  plugins: [Draggable.Plugins.ResizeMirror]
+});
+
+ sortable.on('sortable:sort', function (e) {
+    var from = $(e.data.dragEvent.sourceContainer);
+    var to = $(e.data.dragEvent.overContainer);
+    var limit = parseInt(to.data('limit'));
+    var current = to.find('.trainpart').length;
+    if (current >= limit) {
+       e.cancel();
+       return;
+    }
+
+ });
+ sortable.on('sortable:sorted', function (e) {
+    var from = $(e.data.oldContainer);
+    var to = $(e.data.newContainer);
+    var part = $(e.data.dragEvent.data.source);
+    if (from.data('slot') !== null) {
+       $('#slot' + from.data('slot')).val(0);
+    }
+    $('#slot' + to.data('slot')).val(part.data('id'));
+ });
+
+sortable.on("mirror:attached", function(event) {
+    event.mirror.style.position = "fixed";
+});
+
+sortable.on('sortable:stop', function() { console.log('sortable:stop') });
+
+
+});
+</script>
+</td></tr></table></center></td></tr><tr><td height=4></td></tr></table><!--faaaaaaart--></body></html>

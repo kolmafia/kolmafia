@@ -8096,8 +8096,9 @@ public abstract class ChoiceControl {
           Preferences.setString("speakeasyName", matcher.group(1));
         }
         break;
-      case 1485:
+      case 1485: // Play with your train
         CampgroundRequest.setCurrentWorkshedItem(ItemPool.MODEL_TRAIN_SET);
+        TrainsetManager.visitChoice(text);
         break;
     }
   }
@@ -9215,6 +9216,7 @@ public abstract class ChoiceControl {
       case 1476: // Stillsuit
       case 1483: // Direct Autumn-Aton
       case 1484: // Conspicuous Plaque
+      case 1485: // Play with your train
         return true;
 
       default:
