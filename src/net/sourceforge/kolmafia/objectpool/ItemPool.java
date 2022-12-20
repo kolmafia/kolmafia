@@ -3472,6 +3472,7 @@ public class ItemPool {
   public static final int PING_PONG_TABLE = 11059;
   public static final int LOST_ELF_LUGGAGE = 11068;
   public static final int TRAINBOT_LUGGAGE_HOOK = 11069;
+  public static final int WHITE_ARM_TOWEL = 11073;
 
   private ItemPool() {}
 

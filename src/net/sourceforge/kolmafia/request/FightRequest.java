@@ -5495,6 +5495,7 @@ public class FightRequest extends GenericRequest {
     public boolean pingpong;
     public boolean harness;
     public boolean luggage;
+    public boolean armtowel;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5583,6 +5584,7 @@ public class FightRequest extends GenericRequest {
       this.pingpong = KoLCharacter.hasEquipped(ItemPool.PING_PONG_PADDLE);
       this.harness = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_HARNESS);
       this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
+      this.armtowel = KoLCharacter.hasEquipped(ItemPool.WHITE_ARM_TOWEL);
 
       this.ghost = null;
 
@@ -6299,6 +6301,10 @@ public class FightRequest extends GenericRequest {
 
       if (won && status.luggage) {
         FightRequest.handleTrainbotLuggageHook(str, status);
+      }
+
+      if (won && status.armtowel) {
+        FightRequest.handleWhiteArmTowel(str, status);
       }
 
       if (containsMacroError(str)) {
@@ -7055,6 +7061,13 @@ public class FightRequest extends GenericRequest {
   private static void handleTrainbotLuggageHook(String str, TagStatus status) {
     // You snag a nearby piece of luggage with your handy-dandy hook.
     if (str.contains("handy-dandy hook")) {
+      FightRequest.logText(str, status);
+    }
+  }
+
+  private static void handleWhiteArmTowel(String str, TagStatus status) {
+    // Your familiar grabs you something from the dining car.
+    if (str.contains("Your familiar grabs you something")) {
       FightRequest.logText(str, status);
     }
   }
