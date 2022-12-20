@@ -2266,6 +2266,9 @@ Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	Scale: 0 Cap: ? Init: -10000 P
 Drink-Delivery Trainbot	2257	trainbot_drinks.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: cold NOCOPY Article: a	cinnamon machine oil (0)	dregs of a Crimbo cocktail (0)	Crimbo crystal shards (0)
 Luggage-Handling Trainbot	2258	trainbot_bags.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot NOCOPY Article: a	cinnamon machine oil (0)	lost elf luggage (0)	Trainbot luggage hook (0)
 Ticket-Checking Trainbot	2259	trainbot_check.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot NOCOPY Article: a	cinnamon machine oil (0)	Trainbot radar monocle (0)
+Table-Waiting Trainbot	2260	trainbot_wait.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	honey-drenched ham slice (0)	white arm towel (0)
+Wine-Pairing Trainbot	2261	trainbot_wine.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	mostly-empty bottle of cookie wine (0)	automatic wine thief (0)
+Table-Bussing Trainbot	2262	trainbot_bus.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	Crimbo food scraps (0)	silver table-scraper (0)
 
 # Old Events
 

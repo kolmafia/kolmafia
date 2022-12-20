@@ -2714,6 +2714,7 @@ Item	astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, M
 Item	atlas of local maps	Combat Rate: -5, Lasts Until Rollover
 # attorney's badge: OBJECTION!
 Item	attorney's badge	Single Equip
+Item	automatic wine thief	Single Equip
 Item	autumn leaf pendant	Familiar Weight: +5, Familiar Damage: +10, Experience (familiar): +1, Lasts Until Rollover
 Item	backup camera	Maximum HP: +20, Maximum MP: +20, Single Equip
 Item	baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
@@ -3504,6 +3505,7 @@ Item	sicksilver ring	Stench Damage: +20, Stench Spell Damage: +40, Muscle: +10, 
 Item	signal jammer	Single Equip
 Item	silent nightlight	Muscle: +5, Mysticality: +5, Moxie: +5, Rollover Effect: "Nightlit", Rollover Effect Duration: 50
 Item	silver detective badge	Maximum HP: +30, Maximum MP: +30, Item Drop: +15, Meat Drop: +25
+Item	silver table-scraper	Single Equip
 Item	silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 # Sister Accessory: (minimum of +20 Meat)
 Item	Sister Accessory	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +25, Softcore Only
@@ -4448,6 +4450,7 @@ Item	vicious spiked collar	Familiar Damage: +20, Generic
 # warbear drone codes: Makes the drone better, faster, stronger
 Item	wax lips	Experience: +3, Softcore Only, Generic
 # weegee sqouija: Hobo's Booze Is More Effective
+Item	white arm towel	Generic
 Item	woimbook	Familiar Weight: +5
 Item	woolen cravat	Familiar Weight: +5
 Item	Xiblaxian holo-bowtie	Familiar Weight: +5
