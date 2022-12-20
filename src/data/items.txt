@@ -11095,3 +11095,9 @@
 11067	dregs of a Crimbo cocktail	136802765	crimbodreg.gif	drink	t	0
 11068	lost elf luggage	141072401	elfluggage.gif	usable	t	0	lost elf trunks
 11069	Trainbot luggage hook	906799695	luggagehook.gif	accessory	t	0
+11070	honey-drenched ham slice	282203937	wetham.gif	food	t	0
+11071	mostly-empty bottle of cookie wine	994939649	cookiewine.gif	drink	t	0
+11072	Crimbo food scraps	572979044	crimboscraps.gif	food	t	0
+11073	white arm towel	878129314	waitertowel.gif	familiar	t	0
+11074	automatic wine thief	291533165	winethief.gif	accessory	t	0
+11075	silver table-scraper	551850812	tablescraper.gif	accessory	t	0

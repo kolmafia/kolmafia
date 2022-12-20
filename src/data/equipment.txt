@@ -2303,6 +2303,7 @@ astral mask	50	none
 astral ring	50	none
 atlas of local maps	100	none
 attorney's badge	170	Mys: 70
+automatic wine thief	0	none
 autumn leaf pendant	100	none
 backup camera	100	none
 baconstone bracelet	50	Mys: 10
@@ -2959,6 +2960,7 @@ sicksilver ring	100	Mys: 10
 signal jammer	0	none
 silent nightlight	10	none
 silver detective badge	0	none
+silver table-scraper	0	none
 silver tongue charrrm bracelet	190	Mys: 80
 Sister Accessory	0	none
 sk8board	70	Mys: 20

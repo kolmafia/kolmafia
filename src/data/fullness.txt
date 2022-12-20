@@ -237,6 +237,7 @@ CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	5	1	good	12-13	0	0	0	l
 CRIMBCO Reconstituted Gruel	3	1	decent	4-5	0	0	0	lose 10% boredom
 CRIMBCOIDS mints	1	1	good	3	10-20	10-20	10-20
 CRIMBCOLOAF	3	1	decent	4-5	15-20	15-20	15-20
+Crimbo food scraps	4	1	decent	0	0	0	0	Unspaded
 Crimbo pie	3	7	awesome	8-14	25-45	0	0
 Crimbo salad	2	1	good	5-7	10-20	0	0	40 Salad Days (+50 HP, +2 muscle stats/fight), SALAD
 Crimboysters Rockefeller	3	1	EPIC	18-21	10-40	10-40	10-40
@@ -466,6 +467,7 @@ high-calorie sugar substitute	1	4	awesome	3-4	0	20-25	0
 hippy herbal tea	1	1	decent	2	0	4-7	0	5 Sleepy (-30% mus)
 holiday cheese log	3	1	good	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench dmg)
 honey-dew	2	2	good	4-7	13-15	0	0	10 Mmmmmelon (+30% item drop)
+honey-drenched ham slice	1	1	EPIC	0	0	0	0	Unspaded
 honey bun of Boris	1	1	EPIC	5-7	0	0	0	Unspaded, 30 Motherly Loved (+5 Muscle, +50% Muscle, +5 Cold Res)
 hot buttered roll	1	1	crappy	1	0	0	0
 hot date	2	7	good	4-5	0	0	20-30

@@ -107,6 +107,7 @@ Crimbo Town Toy Factory (2009)	100	amateur elf	auteur elf	bolt-cuttin' elf	monke
 Crimbo Town Toy Factory (2012)	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
 Crimbo Train (Caboose)	100	Brake-Operating Trainbot	Ping-Pong-Playing Trainbot	Track-Switching Trainbot
 Crimbo Train (Passenger Car)	100	Drink-Delivery Trainbot	Luggage-Handling Trainbot	Ticket-Checking Trainbot
+Crimbo Train (Dining Car)	100	Table-Bussing Trainbot	Table-Waiting Trainbot	Wine-Pairing Trainbot
 Crimbo's Beard	100	the Crimborg	penguin mafioso	angry viking warriors
 Crimbo's Boots	100	endless winter	bottle of cheap whiskey	the Crimborg
 Crimbo's Hat	100	simple hobo	bottle of cheap whiskey	angry viking warriors	The Krampus: 0
