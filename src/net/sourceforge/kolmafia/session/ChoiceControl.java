@@ -6409,6 +6409,16 @@ public abstract class ChoiceControl {
           Preferences.setString("speakeasyName", name);
         }
         break;
+
+      case 1486: // Choose an Action During a Caboose Distraction
+        if (ChoiceManager.lastDecision == 2) {
+          Preferences.increment("elfGratitude", 3);
+        }
+        break;
+
+      case 1487: // A Passenger Among Passengers
+        Preferences.increment("elfGratitude", 5);
+        break;
     }
   }
 

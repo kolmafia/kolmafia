@@ -5494,6 +5494,8 @@ public class FightRequest extends GenericRequest {
     public String lovebugProperty;
     public boolean toyTrain;
     public boolean pingpong;
+    public boolean harness;
+    public boolean luggage;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5580,6 +5582,8 @@ public class FightRequest extends GenericRequest {
       this.toyTrain = workshed != null && workshed.getItemId() == ItemPool.MODEL_TRAIN_SET;
 
       this.pingpong = KoLCharacter.hasEquipped(ItemPool.PING_PONG_PADDLE);
+      this.harness = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_HARNESS);
+      this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
 
       this.ghost = null;
 
@@ -6289,6 +6293,14 @@ public class FightRequest extends GenericRequest {
       }
 
       String str = FightRequest.getContentNodeText(node);
+
+      if (won && status.harness) {
+        FightRequest.handleTrainbotHarness(str, status);
+      }
+
+      if (won && status.luggage) {
+        FightRequest.handleTrainbotLuggageHook(str, status);
+      }
 
       if (containsMacroError(str)) {
         FightRequest.macroErrorMessage = str;
@@ -7039,6 +7051,23 @@ public class FightRequest extends GenericRequest {
     if (status.pingpong && str.contains("+1 Ping-Pong Skill")) {
       FightRequest.logText("You gain +1 Ping-Pong Skill", status);
       Preferences.increment("pingpongSkill");
+    }
+  }
+
+  private static void handleTrainbotHarness(String str, TagStatus status) {
+    // You grab a nearby elf, toss it into your backpack, and drop it off safely outside of the
+    // train.
+    if (str.contains("You grab a nearby elf")) {
+      FightRequest.logText(str, status);
+      FightRequest.logText("You've earned 1 Elf Gratitude.", status);
+      Preferences.increment("elfGratitude");
+    }
+  }
+
+  private static void handleTrainbotLuggageHook(String str, TagStatus status) {
+    // You snag a nearby piece of luggage with your handy-dandy hook.
+    if (str.contains("handy-dandy hook")) {
+      FightRequest.logText(str, status);
     }
   }
 

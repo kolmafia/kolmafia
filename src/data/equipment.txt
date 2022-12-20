@@ -1735,7 +1735,9 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 9-ball	60	Mys: 15
 A Light that Never Goes Out	100	none
 Abracandalabra	100	none
+Abuela Crimbo's special magnet	0	none
 Adventurer bobblehead	100	none
+Abuela Crimbo's special magnet	10	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
 aerogel attache case	50	none
@@ -2301,6 +2303,7 @@ astral mask	50	none
 astral ring	50	none
 atlas of local maps	100	none
 attorney's badge	170	Mys: 70
+automatic wine thief	20	none
 autumn leaf pendant	100	none
 backup camera	100	none
 baconstone bracelet	50	Mys: 10
@@ -2957,6 +2960,7 @@ sicksilver ring	100	Mys: 10
 signal jammer	0	none
 silent nightlight	10	none
 silver detective badge	0	none
+silver table-scraper	20	none
 silver tongue charrrm bracelet	190	Mys: 80
 Sister Accessory	0	none
 sk8board	70	Mys: 20
@@ -3308,6 +3312,8 @@ tourmalime tourniquet	0	none
 toy crazy train	60	Mys: 15
 toy maglev monorail	60	Mys: 15
 toy train	60	Mys: 15
+Trainbot luggage hook	10	none
+Trainbot radar monocle	10	none
 training belt	100	Mus: 10
 training legwarmers	100	Mys: 10
 Treads of Loathing	200	Mus: 150
@@ -3479,7 +3485,7 @@ Time Bandit Time Towel	10	none
 Time Cape	100	none
 Time Cloak	100	none
 toy jet pack	175	Mys: 75
-Trainbot harness	0	none
+Trainbot harness	10	none
 unwrapped knock-off retro superhero cape	100	none
 vampyric cloake	100	none
 whatsit-covered turtle shell	50	Mus: 20

@@ -569,6 +569,7 @@ user	eldritchFissureAvailable	false
 user	eldritchHorrorAvailable	false
 user	eldritchTentaclesFought	0
 user	electricKoolAidEaten	0
+user	elfGratitude	0
 user	encountersUntilDMTChoice	5
 user	encountersUntilNEPChoice	7
 user	enamorangMonster
@@ -2037,6 +2038,7 @@ user	_photocopyUsed	false
 user	_pickyTweezersUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0
+user	_pingPongGame	false
 user	_pirateBellowUsed	false
 user	_pirateForkUsed	false
 user	_pixelOrbUsed	false
@@ -3038,6 +3040,8 @@ user	choiceAdventure1473	0
 user	choiceAdventure1474	0
 user	choiceAdventure1475	0
 user	choiceAdventure1486	0
+user	choiceAdventure1487	1
+user	choiceAdventure1488	0
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

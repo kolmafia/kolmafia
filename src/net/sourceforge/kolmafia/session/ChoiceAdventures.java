@@ -5985,7 +5985,7 @@ public abstract class ChoiceAdventures {
         "The Hidden Junction",
         // Option...
         new Option("fight screambat", 1),
-        new Option("gain ~360 meat", 2));
+        new Option("gain 300-400 meat", 2));
 
     // Choice 1428 is Your Neck of the Woods
     new ChoiceAdventure(
@@ -6209,6 +6209,18 @@ public abstract class ChoiceAdventures {
         new Option("acquire 6 Trainbot potions", 1),
         new Option("+3 Elf Gratitude", 2),
         new Option("acquire a ping-pong paddle then acquire 3-5 ping-pong balls", 3));
+
+    // A Passenger Among Passengers
+    new ChoiceAdventure(
+        1487, "Crimbo22", "Crimbo Train (Passenger Car)", new Option("+5 Elf Gratitude", 1));
+
+    // Pre-Dinner Activities
+    new ChoiceAdventure(
+        1488,
+        "Crimbo22",
+        "Crimbo Train (Dining Car)",
+        new Option("acquire 3 lost elf trunks", 1),
+        new Option("decrease Trainbot strength", 2));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.

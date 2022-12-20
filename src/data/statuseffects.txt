@@ -2765,3 +2765,5 @@
 2765	Trainbot Optics	trainlenses.gif	5a8d6169935ce08a3dc5561d6ecb4bd3	good	nohookah	use 1 Trainbot optics
 2766	Trainbot Servomotors	trainservo.gif	3560d08f2fc6da9002bc31ba3ef355a3	good	nohookah	use 1 Trainbot servomotors
 2767	Trainbot Linkages	trainsprings.gif	98164c716227a7540cc5f5cbb9553277	good	nohookah	use 1 Trainbot linkages
+2768	Ping-Pong Prowess	pingpongbuff.gif	efafe9f6fb5b0d34900c796a8b042da2	good	nohookah
+2769	Ping-Pong Persistence	pingpongbuff.gif	c82861d9ae3605762926e613c660a273	good	nohookah

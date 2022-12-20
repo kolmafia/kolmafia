@@ -29,6 +29,7 @@
 
 QUEST_LOG	chatLiterate	You have proven yourself literate	chatLiterate=true
 QUEST_LOG	seahorseName	You have tamed the mighty seahorse <b>(.*?)</b>	seahorseName=$1
+QUEST_LOG	elfGratitude	You earned ([\d,]+) Elf Gratitude during Crimbo 2022.	elfGratitude=$1
 QUEST_LOG	pingpongSkill	You have achieved a skill level of ([\d,]+) at playing ping-pong	pingpongSkill=$1
 QUEST_LOG	lastPlusSignUnlock	You have discovered the secret of the Dungeons of Doom	lastPlusSignUnlock=ascensions
 QUEST_LOG	lastTempleUnlock	You have discovered the Hidden Temple	lastTempleUnlock=ascensions

@@ -5953,6 +5953,13 @@ public class UseItemRequest extends GenericRequest {
         // If you've not already trained somebody, KoL does a Javascript redirects to curse.pjp
         Preferences.setBoolean("_crimboTraining", false);
         return;
+
+      case ItemPool.LOST_ELF_LUGGAGE:
+        // You take the luggage to the hospital in Crimbo Town and track down its owner.
+        if (responseText.contains("track down its owner")) {
+          Preferences.increment("elfGratitude");
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
