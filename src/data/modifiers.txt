@@ -12052,6 +12052,7 @@ Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
 # toy sixgun: Bang!
 # toy soldier: Deals 30-35 Damage (Requires Tequila)
 # toy soldier: (Not consumed when used)
+# Trainbot autoassembly module: Gives you a piece of the Trainbot outfit
 Item	training scroll:  Shattering Punch	Skill: "Shattering Punch"
 Item	training scroll:  Shivering Monkey Technique	Skill: "Shivering Monkey Technique"
 Item	training scroll:  Snokebomb	Skill: "Snokebomb"

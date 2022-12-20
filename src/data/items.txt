@@ -11086,7 +11086,7 @@
 11058	Trainbot harness	711380214	trainharness.gif	container	t	0
 11059	portable ping-pong table	454745356	pingpongtable.gif	none, reusable, curse	t	0
 11060	Crimbo train emergency brake	781085744	trainbrake.gif	none, combat	t,d	0
-11061
+11061	Trainbot autoassembly module	926072076	tbot0.gif	usable	t	0
 11062
 11063
 11064
