@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.StillSuitManager;
+import net.sourceforge.kolmafia.session.TrainsetManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
@@ -7027,11 +7028,22 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
+  private static final Pattern TRAINSET_MOVE =
+      Pattern.compile("^Your toy train moves ahead to the (.+?)\\.");
+
   private static void handleToyTrain(String image, String str, TagStatus status) {
     if (image == null || !image.contains("modeltrain")) {
       return;
     }
+
     FightRequest.logText(str, status);
+
+    Matcher matcher = TRAINSET_MOVE.matcher(str);
+
+    if (matcher.find()) {
+      TrainsetManager.onTrainsetMove(matcher.group(1));
+    }
+
     status.toyTrain = false;
   }
 
