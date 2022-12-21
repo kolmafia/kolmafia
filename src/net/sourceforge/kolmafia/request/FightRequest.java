@@ -6296,16 +6296,19 @@ public class FightRequest extends GenericRequest {
 
       String str = FightRequest.getContentNodeText(node);
 
-      if (won && status.harness) {
-        FightRequest.handleTrainbotHarness(str, status);
-      }
+      // Crimbo2022 Trainbot features
+      if (won) {
+        if (status.harness) {
+          FightRequest.handleTrainbotHarness(str, status);
+        }
 
-      if (won && status.luggage) {
-        FightRequest.handleTrainbotLuggageHook(str, status);
-      }
+        if (status.luggage) {
+          FightRequest.handleTrainbotLuggageHook(str, status);
+        }
 
-      if (won && status.armtowel) {
-        FightRequest.handleWhiteArmTowel(str, status);
+        if (status.armtowel) {
+          FightRequest.handleWhiteArmTowel(str, status);
+        }
       }
 
       if (containsMacroError(str)) {
