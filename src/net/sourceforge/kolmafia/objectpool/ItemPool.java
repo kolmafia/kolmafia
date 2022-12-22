@@ -3470,9 +3470,12 @@ public class ItemPool {
   public static final int PING_PONG_PADDLE = 11056;
   public static final int TRAINBOT_HARNESS = 11058;
   public static final int PING_PONG_TABLE = 11059;
+  public static final int TRAINBOT_AUTOASSEMBLY_MODULE = 11061;
+  public static final int CRIMBO_CRYSTAL_SHARDS = 11066;
   public static final int LOST_ELF_LUGGAGE = 11068;
   public static final int TRAINBOT_LUGGAGE_HOOK = 11069;
   public static final int WHITE_ARM_TOWEL = 11073;
+  public static final int TRAINBOT_SLAG = 11076;
 
   private ItemPool() {}
 

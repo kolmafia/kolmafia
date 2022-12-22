@@ -11064,8 +11064,8 @@
 11036	chocomotive	925688122	chocomotoive.gif	food	t,d	10
 11037	freightcake	930577194	freightcake.gif	food	t,d	10
 11038	cabooze	454104733	cabooze.gif	drink	t,d	10
-11039
-11040
+11039	tiny plastic caboose	945352490	c22_tp5.gif	accessory	t	0
+11040	tiny plastic passenger car	540277464	c22_tp4.gif	accessory	t	0
 11041
 11042
 11043
@@ -11087,9 +11087,9 @@
 11059	portable ping-pong table	454745356	pingpongtable.gif	none, reusable, curse	t	0
 11060	Crimbo train emergency brake	781085744	trainbrake.gif	none, combat	t,d	0
 11061	Trainbot autoassembly module	926072076	tbot0.gif	usable	t	0
-11062
-11063
-11064
+11062	head-mounted Trainbot	603555109	tbot1.gif	hat		0
+11063	leg-mounted Trainbots	797495750	tbot2.gif	pants		0
+11064	shoulder-mounted Trainbot	411957097	tbot3.gif	accessory		0
 11065	cinnamon machine oil	497085839	cinnamonoil.gif	none, combat	t	0	cans of cinnamon machine oil
 11066	Crimbo crystal shards	719160229	crystalshards.gif	none	t	0	piles of Crimbo crystal shards
 11067	dregs of a Crimbo cocktail	136802765	crimbodreg.gif	drink	t	0
@@ -11101,3 +11101,14 @@
 11073	white arm towel	878129314	waitertowel.gif	familiar	t	0
 11074	automatic wine thief	291533165	winethief.gif	accessory	t	0
 11075	silver table-scraper	551850812	tablescraper.gif	accessory	t	0
+11076	Trainbot slag	734616813	crimboslag.gif	none	t	0
+11077	industrially-crushed ice	728200658	trainice.gif	none, combat	t	0
+11078	steamed oyster	430732320	steamoyster.gif	food	t	0
+11079
+11080	deactivated mini-Trainbot	870545906	tbot_off.gif	grow	t	0
+11081	portable steam unit	945628546	steamunit.gif	usable	t	0
+11082	crystal Crimbo goblet	539925082	crimgoblet.gif	usable	t	0
+11083	crystal Crimbo platter	779956577	crimplatter.gif	usable	t	0
+11084	Crimbosmopolitan	965534353	crimbosmo.gif	drink	t	0
+11085	Crimbo dinner	343926636	crimbodinner.gif	food	t	0
+11086	overloaded Yule battery	858172004	battery.gif	familiar	t,d	75

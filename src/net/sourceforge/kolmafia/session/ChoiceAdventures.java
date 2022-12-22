@@ -6221,6 +6221,15 @@ public abstract class ChoiceAdventures {
         "Crimbo Train (Dining Car)",
         new Option("acquire 3 lost elf trunks", 1),
         new Option("decrease Trainbot strength", 2));
+
+    // Slagging Off
+    new ChoiceAdventure(
+        1489,
+        "Crimbo22",
+        "Crimbo Train (Coal Car)",
+        new Option("acquire crystal Crimbo Goblet", 1),
+        new Option("acquire crystal Crimbo platter", 2),
+        new Option("(skip choice with no crystal shards)", 3));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.

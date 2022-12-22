@@ -276,6 +276,7 @@ Item	Hat O' Nine Tails	Moxie Percent: +9
 # hazmat helmet: 75% Chance of Preventing Negative Status Attacks
 # hazmat helmet: Changes Your Avatar
 Item	hazmat helmet	Damage Absorption: +50, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 40, HP Regen Max: 60
+Item	head-mounted Trainbot	Item Drop: +5, Maximum MP: +5, Moxie: +5
 Item	headlamp	Item Drop: +15, Lasts Until Rollover
 Item	heavy crown	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Damage: +5, Initiative: +15, Familiar Effect: "atk, 1xGhuol, cap 27"
 Item	Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "spooky atk, 1xFairy, cap 30"
@@ -721,6 +722,7 @@ Item	lava-proof pants	Hot Resistance: +5, Muscle Percent: -50, Mysticality Perce
 Item	Leapin' Trousers	Adventures: +1, Muscle: +4, Mysticality: +4, Moxie: +4
 Item	leather chaps	Moxie: +8, Muscle: -4, Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
 Item	Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief", Familiar Effect: "atk, 2xGhuol, cap 31"
+Item	leg-mounted Trainbots	Maximum HP: +5, Damage Reduction: 5, Muscle: +5
 Item	leggings of the Spider Queen	Moxie: +15, Moxie Percent: +25, Maximum HP: +50, Maximum MP: +50
 Item	lemon drop trousers	Candy Drop: +50, Lasts Until Rollover, Familiar Effect: "atk, 1xPotato, cap 12"
 Item	leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 2xPotato, cap 22"
@@ -3501,6 +3503,7 @@ Item	shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	shiny tribal beads	Mysticality: +6
 # shock belt: Shocks enemies that hit you
 Item	shock belt	Single Equip
+Item	shoulder-mounted Trainbot	Meat Drop: +5, Monster Level: -5, Mysticality: +5, Single Equip
 Item	sicksilver ring	Stench Damage: +20, Stench Spell Damage: +40, Muscle: +10, Single Equip
 # signal jammer: Repels Skeleton Astronauts
 Item	signal jammer	Single Equip
@@ -3708,6 +3711,7 @@ Item	tiny plastic briefcase bat	Monster Level: +1
 Item	tiny plastic bugaboo	Monster Level: +1
 Item	tiny plastic Bugbear Captain	Maximum HP: +20, Maximum MP: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 Item	tiny plastic buzzerker	Monster Level: +1
+Item	tiny plastic caboose	Damage Reduction: 3
 Item	tiny plastic Caf&eacute; Elf	Hot Resistance: +1
 Item	tiny plastic Captain Kerkard	Monster Level: +1
 Item	tiny plastic cavebugbear	Monster Level: +1
@@ -3817,6 +3821,7 @@ Item	tiny plastic nog lab	Booze Drop: +20, Single Equip
 Item	tiny plastic Norville Rogers	Monster Level: +1
 Item	tiny plastic Orcish Frat Boy	Monster Level: +1
 Item	tiny plastic orphan	Stench Resistance: +1
+Item	tiny plastic passenger car	Familiar Weight: +3
 Item	tiny plastic pastamancer	Mysticality: +2, Muscle: +1
 Item	tiny plastic peacannon	Ranged Damage: +5
 Item	tiny plastic Penny	Meat Drop: +10
@@ -4332,6 +4337,7 @@ Item	nosy nose ringy ring	Familiar Weight: +15
 # origami &quot;gentlemen's&quot; magazine: +10 lbs. of Ghuol Whelp
 Item	origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
 Item	overclocked avian microprocessor	Familiar Weight: +5
+Item	overloaded Yule battery	Familiar Weight: +25
 # oversized fish scaler: Allows familiar to scale fish
 Item	oversized fish scaler	Generic, Familiar Effect: "attack"
 Item	oversized sparkler	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Item Drop: +20, Lasts Until Rollover
@@ -8426,6 +8432,7 @@ Outfit	Thousandth Birthday Suit	Spooky Damage: +15
 Outfit	Time Trappings	Adventures: +3
 Outfit	Topiaria	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Outfit	Toxic Togs	Stench Damage: +20, Stench Spell Damage: +20
+Outfit	Trainbot Trappings	Hot Resistance: +2, Cold Resistance: +2
 Outfit	Transparent Trappings	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Outfit	Tropical Crimbo Duds	Muscle: +10, Mysticality: +10, Moxie: +10
 Outfit	Unblemished Uniform	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -11642,6 +11649,7 @@ Item	Pop Art: a Guide	Skill: "Fifteen Minutes of Flame"
 # portable Mayo Clinic: Installs a mayonnaise-centered medical clinic in your workshed
 # portable photocopier: Makes a photocopy of an enemy
 # portable Spacegate: Provides one day's access to a random Spacegate planet
+# portable steam unit: Clears Your Sinuses (once per day)
 # portable table: You can hide behind it
 # possessed tomato: Deals 6-8 <font color=gray>Spooky Damage</font> per round for the rest of the fight
 # possessed top: Weakens enemies a little bit
