@@ -2767,3 +2767,4 @@
 2767	Trainbot Linkages	trainsprings.gif	98164c716227a7540cc5f5cbb9553277	good	nohookah	use 1 Trainbot linkages
 2768	Ping-Pong Prowess	pingpongbuff.gif	efafe9f6fb5b0d34900c796a8b042da2	good	nohookah
 2769	Ping-Pong Persistence	pingpongbuff.gif	c82861d9ae3605762926e613c660a273	good	nohookah
+2770	Steamed Sinuses	stench.gif	03fb99fbeb925d2ddfda99a2b2f92845	neutral	none	use 1 portable steam unit
