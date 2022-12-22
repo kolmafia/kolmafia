@@ -413,6 +413,7 @@ Tammy's Offshore Platform	adventure=538	DiffLevel: unknown Env: underwater Stat:
 Crimbo22	adventure=559	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Caboose)
 Crimbo22	adventure=560	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Passenger Car)
 Crimbo22	adventure=561	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Dining Car)
+Crimbo22	adventure=562	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Coal Car)
 
 Crimbo21	adventure=554	DiffLevel: unknown Env: indoor Stat: 0	Site Alpha Dormitory
 Crimbo21	adventure=555	DiffLevel: unknown Env: indoor Stat: 0	Site Alpha Greenhouse

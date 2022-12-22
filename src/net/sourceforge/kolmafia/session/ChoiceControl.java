@@ -6419,6 +6419,12 @@ public abstract class ChoiceControl {
       case 1487: // A Passenger Among Passengers
         Preferences.increment("elfGratitude", 5);
         break;
+
+      case 1489: // Slagging Off
+        switch (ChoiceManager.lastDecision) {
+          case 1, 2 -> ResultProcessor.removeItem(ItemPool.CRIMBO_CRYSTAL_SHARDS);
+        }
+        break;
     }
   }
 
