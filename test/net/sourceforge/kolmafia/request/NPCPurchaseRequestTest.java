@@ -13,7 +13,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -30,6 +29,8 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class NPCPurchaseRequestTest {
   @BeforeEach
@@ -153,10 +154,10 @@ class NPCPurchaseRequestTest {
     }
   }
 
-  @Test
-  public void testLimitedQuantityNpcPurchasesSuccessInRonin() {
-    // This test is verifying that an attempt to purchase a zeppelin ticket in ronin will be marked
-    // as a success.
+  @ParameterizedTest
+  @CsvSource({"false", "true"})
+  public void testLimitedQuantityNpcPurchases(boolean canInteract) {
+    CharPaneRequest.setCanInteract(canInteract);
 
     var cleanups =
         new Cleanups(
@@ -165,8 +166,8 @@ class NPCPurchaseRequestTest {
             withNextResponse(200, html("request/test_npc_purchase_zeppelin_ticket.html")));
 
     try (cleanups) {
-      // Assert that the character is in ronin
-      assertFalse(KoLCharacter.canInteract());
+      // Assert that the character is in the expected interaction state
+      assertEquals(canInteract, KoLCharacter.canInteract());
 
       // Look up the item we desire to purchase
       var ticket = ItemPool.get(ItemPool.ZEPPELIN_TICKET);
