@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -36,8 +37,14 @@ class NPCPurchaseRequestTest {
   @BeforeEach
   public void beforeEach() {
     HttpClientWrapper.setupFakeClient();
+
     KoLCharacter.reset("NPCPurchaseTest");
     Preferences.reset("NPCPurchaseTest");
+  }
+
+  @AfterEach
+  public void afterEach() {
+    KoLCharacter.reset(true);
   }
 
   @Test
