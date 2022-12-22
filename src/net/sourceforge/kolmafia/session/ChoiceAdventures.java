@@ -6227,7 +6227,7 @@ public abstract class ChoiceAdventures {
         1489,
         "Crimbo22",
         "Crimbo Train (Coal Car)",
-        new Option("acquire crystal Crimbo Goblet", 1),
+        new Option("acquire crystal Crimbo goblet", 1),
         new Option("acquire crystal Crimbo platter", 2),
         new Option("(skip choice with no crystal shards)", 3));
   }

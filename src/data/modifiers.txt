@@ -7238,6 +7238,7 @@ Effect	Started Your Day Right	Experience: +3, Muscle Percent: +25, Mysticality P
 Effect	stats.enq	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Staying Frosty	Cold Damage: +100
 Effect	Steamed	Hot Resistance: +3, Hot Damage: +30, Item Drop: +20
+Effect	Steamed Sinuses	Item Drop: +25
 Effect	Steely-Eyed Squint	Item Drop: [mod(Item Drop)]
 Effect	Stemonitis Storm	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10
 # Stenchform: P. U.

@@ -11104,7 +11104,7 @@
 11076	Trainbot slag	734616813	crimboslag.gif	none	t	0
 11077	industrially-crushed ice	728200658	trainice.gif	none, combat	t	0
 11078	steamed oyster	430732320	steamoyster.gif	food	t	0
-11079
+11079	really nice lump of coal	815883582	nicecoal.gif	none	g	0
 11080	deactivated mini-Trainbot	870545906	tbot_off.gif	grow	t	0
 11081	portable steam unit	945628546	steamunit.gif	usable	t	0
 11082	crystal Crimbo goblet	539925082	crimgoblet.gif	usable	t	0
