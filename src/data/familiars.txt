@@ -315,3 +315,4 @@
 286	Synthetic Rock	synthrock.gif	none	synthetic rock		0	0	0	0
 287	Grey Goose	greygoose.gif	item0	grey gosling	grey down vest	1	2	3	3
 288	Cookbookbat	bbat_fam.gif	drop	mummified entombed cookbookbat	cookbookbat book	0	0	0	0
+289	Mini-Trainbot	tbot_on.gif	combat0,hp1, mp1	deactivated mini-Trainbot	overloaded Yule battery	0	0	0	0

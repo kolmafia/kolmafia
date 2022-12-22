@@ -2269,6 +2269,9 @@ Ticket-Checking Trainbot	2259	trainbot_check.gif	Scale: 0 Cap: ? Init: -10000 P:
 Table-Waiting Trainbot	2260	trainbot_wait.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	Trainbot autoassembly module (0)	honey-drenched ham slice (0)	white arm towel (0)
 Wine-Pairing Trainbot	2261	trainbot_wine.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: sleaze NOCOPY Article: a	Trainbot autoassembly module (0)	mostly-empty bottle of cookie wine (0)	automatic wine thief (0)
 Table-Bussing Trainbot	2262	trainbot_bus.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	Trainbot autoassembly module (0)	Crimbo food scraps (0)	silver table-scraper (0)
+Coal-Shoveling Trainbot	2263	trainbot_coal.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	industrially-crushed ice (0)
+Slag-Processing Trainbot	2264	trainbot_steam.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	Trainbot slag (0)
+Steam-Routing Trainbot	2265	trainbot_steam.gif	Scale: 0 Cap: ? Init: -10000 P: construct NOCOPY Article: a	steamed oyster (0)	portable steam unit (0)
 
 # Old Events
 

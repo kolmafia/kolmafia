@@ -179,6 +179,7 @@ CRIMBCO wine	3	1	decent	4-8	10-20	10-20	10-20	WINE
 Crimbo Saketini	3	1	decent	3-6	0	0	0
 Crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 Crimboku Drop	4	1	decent	6-10	0	0	0
+Crimbosmopolitan	3	11	EPIC	0	0	0	0	Unspaded
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg), WINE
 crystal skeleton vodka	3	3	EPIC	15-17	15-35	15-35	15-35	20 Aykrophobia (+25% Item Drop, +20 spooky dmg, +15 ML)
 CSA cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50	BEER, CANNED
