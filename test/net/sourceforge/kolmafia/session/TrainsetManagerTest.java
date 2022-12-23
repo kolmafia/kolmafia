@@ -60,6 +60,23 @@ public class TrainsetManagerTest {
     }
   }
 
+  @Test
+  public void canDetectTrainStationMovementEmptyTrack() {
+    var cleanups =
+        new Cleanups(
+            withProperty("trainsetPosition", 42),
+            withWorkshedItem(ItemPool.MODEL_TRAIN_SET),
+            withFight(0));
+
+    try (cleanups) {
+      String html = html("request/test_trainset_detects_movement_empty_track.html");
+
+      FightRequest.updateCombatData(null, null, html);
+
+      assertThat("trainsetPosition", isSetTo(43));
+    }
+  }
+
   @ParameterizedTest
   @CsvSource({"84, Trackside Diner, true", "83, Trackside Diner, false"})
   public void canDetectExpectedTrainpiece(
