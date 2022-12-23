@@ -5,7 +5,10 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withNPCStoreReset;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withQuestProgress;
@@ -23,10 +26,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,17 +36,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class NPCPurchaseRequestTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("NPCPurchaseTest");
+  }
+
   @BeforeEach
   public void beforeEach() {
     HttpClientWrapper.setupFakeClient();
-
-    KoLCharacter.reset("NPCPurchaseTest");
-    Preferences.reset("NPCPurchaseTest");
-  }
-
-  @AfterEach
-  public void afterEach() {
-    KoLCharacter.reset(true);
   }
 
   @Test
@@ -164,11 +163,12 @@ class NPCPurchaseRequestTest {
   @ParameterizedTest
   @CsvSource({"false", "true"})
   public void testLimitedQuantityNpcPurchases(boolean canInteract) {
-    CharPaneRequest.setCanInteract(canInteract);
-
     var cleanups =
         new Cleanups(
+            withNPCStoreReset(),
+            withInteractivity(canInteract),
             withMeat(50000),
+            withItem(ItemPool.ZEPPELIN_TICKET, 0),
             withQuestProgress(QuestDatabase.Quest.MACGUFFIN, "finished"),
             withNextResponse(200, html("request/test_npc_purchase_zeppelin_ticket.html")));
 
