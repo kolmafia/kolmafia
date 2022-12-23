@@ -405,6 +405,7 @@ public abstract class KoLCharacter {
     WumpusManager.reset();
 
     CoinmasterRegistry.reset();
+    NPCStoreDatabase.reset();
     ConcoctionDatabase.resetQueue();
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setVariableConsumables();
