@@ -66,7 +66,8 @@ public class TrainsetManager {
 
     public static TrainsetPiece getByName(String name) {
       for (TrainsetPiece piece : values()) {
-        if (!piece.getName().equals(name) && !piece.getShortenedName().equals(name)) {
+        if (!piece.getName().equalsIgnoreCase(name)
+            && !piece.getShortenedName().equalsIgnoreCase(name)) {
           continue;
         }
 

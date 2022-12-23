@@ -6360,6 +6360,13 @@ public class FightRequest extends GenericRequest {
 
       if (handleCosmicBowlingBall(str)) return;
 
+      // As empty track does not have an image, it is specially handled to pass it to the appropiate
+      // handler
+      if (str.equals("You toy train moves ahead to some empty track")) {
+        handleToyTrain("modeltrain", str, status);
+        return;
+      }
+
       FightRequest.handleVillainLairRadio(node, status);
 
       if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
@@ -7037,8 +7044,9 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
+  // We use regex for the r in `Your?` due to a typo in the empty track message we're sent
   private static final Pattern TRAINSET_MOVE =
-      Pattern.compile("^Your toy train moves ahead to the (.+?)\\.");
+      Pattern.compile("^Your? toy train moves ahead to (?:(?:the)|(?:some)) (.+?)(?:\\.|$)");
 
   private static void handleToyTrain(String image, String str, TagStatus status) {
     if (image == null || !image.contains("modeltrain")) {
