@@ -285,8 +285,6 @@ public class ValhallaDecorator {
 
     ValhallaDecorator.switchCorrespondent(buffer);
 
-    ValhallaDecorator.switchWorkshed(buffer);
-
     ValhallaDecorator.switchFolderHolder(buffer);
 
     ValhallaDecorator.checkIceHouse(buffer);
@@ -529,65 +527,6 @@ public class ValhallaDecorator {
     buffer.append("</nobr><br><nobr>");
     buffer.append("(currently ").append(activeCorrespondent.getItem()).append(")");
     buffer.append("</nobr><br>");
-  }
-
-  private static String shortWorkshedName(String name) {
-    name = name.replace("warbear ", "");
-    name = name.replace("Little Geneticist ", "");
-    return name;
-  }
-
-  private static void switchWorkshed(StringBuffer buffer) {
-    boolean display = false;
-    boolean canChange = !Preferences.getBoolean("_workshedItemUsed");
-    StringBuilder workshedBuffer = new StringBuilder();
-
-    workshedBuffer.append("<nobr>Workshed: ");
-
-    if (canChange) {
-      workshedBuffer.append(
-          "<form style=\"margin: 0; padding: 0; display: inline;\"><select onchange=\"if (this.value) window.location.href=this.value\">");
-      workshedBuffer.append(
-          "<option value=\"\" style=\"background-color: #eeeeff\">Pick one</option>");
-
-      for (Integer workshedItem : CampgroundRequest.workshedItems) {
-        AdventureResult item = ItemPool.get(workshedItem, 1);
-        if (InventoryManager.hasItem(item)) {
-          workshedBuffer.append("<option style=\"background-color: #eeeeff\" ");
-          workshedBuffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+");
-          String name = item.getName();
-          workshedBuffer.append(name.replaceAll(" ", "+"));
-          workshedBuffer.append(";+use+");
-          workshedBuffer.append(name.replaceAll(" ", "+"));
-          workshedBuffer.append("&pwd=");
-          workshedBuffer.append(GenericRequest.passwordHash);
-          workshedBuffer.append("\">");
-          workshedBuffer.append(ValhallaDecorator.shortWorkshedName(name));
-          workshedBuffer.append("</option>");
-
-          display = true;
-        }
-      }
-
-      workshedBuffer.append("</select></form>");
-    } else {
-      workshedBuffer.append("already changed today");
-    }
-
-    if (!display && canChange) {
-      return;
-    }
-
-    AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
-
-    if (workshedItem != null) {
-      workshedBuffer.append("</nobr><br><nobr>");
-      workshedBuffer.append("(currently ");
-      workshedBuffer.append(workshedItem.getName());
-      workshedBuffer.append(")");
-    }
-    workshedBuffer.append("</nobr><br>");
-    buffer.append(workshedBuffer);
   }
 
   private static void switchFolderHolder(StringBuffer buffer) {

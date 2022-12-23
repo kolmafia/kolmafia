@@ -5960,10 +5960,21 @@ public class UseItemRequest extends GenericRequest {
           Preferences.increment("elfGratitude", count);
         }
         break;
+
+      case ItemPool.TRAINBOT_AUTOASSEMBLY_MODULE:
+        // The module scans you, whirrs for a moment, then reassembles your pile of Trainbot slag
+        // into a small robot you can wear.
+        if (responseText.contains("reassembles your pile of Trainbot slag")) {
+          ResultProcessor.removeItem(ItemPool.TRAINBOT_SLAG);
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
-      Preferences.setBoolean("_workshedItemUsed", true);
+      if (CampgroundRequest.getCurrentWorkshedItem() != null) {
+        // an item placed in an empty workshed does not prevent replacing it
+        Preferences.setBoolean("_workshedItemUsed", true);
+      }
       if (responseText.contains("already rearranged your workshed")) {
         return;
       }

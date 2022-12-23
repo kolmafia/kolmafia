@@ -177,6 +177,7 @@ hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
 Hat O' Nine Tails	10	none
 hazmat helmet	200	Mox: 85
+head-mounted Trainbot	50	none
 headlamp	100	none
 heavy crown	110	Mox: 40
 Helm of the Scream Emperor	120	none
@@ -571,6 +572,7 @@ Krakrox's Loincloth	125	Mus: 30
 lava-proof pants	100	Mox: 35
 Leapin' Trousers	12	none
 leather chaps	160	Mox: 65
+leg-mounted Trainbots	50	none
 Lederhosen of the Night	125	Mox: 30
 leggings of the Spider Queen	200	Mox: 40
 lemon drop trousers	50	Mox: 10
@@ -2956,6 +2958,7 @@ shiny hood ornament	190	Mys: 80
 shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
 shock belt	80	none
+shoulder-mounted Trainbot	50	none
 sicksilver ring	100	Mys: 10
 signal jammer	0	none
 silent nightlight	10	none
@@ -3134,6 +3137,7 @@ tiny plastic briefcase bat	10	none
 tiny plastic bugaboo	10	none
 tiny plastic Bugbear Captain	50	Mys: 10
 tiny plastic buzzerker	10	none
+tiny plastic caboose	10	none
 tiny plastic Caf&eacute; Elf	10	none
 tiny plastic Captain Kerkard	10	none
 tiny plastic cavebugbear	10	none
@@ -3243,6 +3247,7 @@ tiny plastic nog lab	10	none
 tiny plastic Norville Rogers	10	none
 tiny plastic Orcish Frat Boy	10	none
 tiny plastic orphan	10	none
+tiny plastic passenger car	10	none
 tiny plastic pastamancer	20	none
 tiny plastic peacannon	30	none
 tiny plastic Penny	10	none
