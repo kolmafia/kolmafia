@@ -108,6 +108,7 @@ Crimbo Town Toy Factory (2012)	100	circuit-soldering animelf	plastic-extruding a
 Crimbo Train (Caboose)	100	Brake-Operating Trainbot	Ping-Pong-Playing Trainbot	Track-Switching Trainbot
 Crimbo Train (Passenger Car)	100	Drink-Delivery Trainbot	Luggage-Handling Trainbot	Ticket-Checking Trainbot
 Crimbo Train (Dining Car)	100	Table-Bussing Trainbot	Table-Waiting Trainbot	Wine-Pairing Trainbot
+Crimbo Train (Coal Car)	100	Coal-Shoveling Trainbot	Slag-Processing Trainbot	Steam-Routing Trainbot
 Crimbo's Beard	100	the Crimborg	penguin mafioso	angry viking warriors
 Crimbo's Boots	100	endless winter	bottle of cheap whiskey	the Crimborg
 Crimbo's Hat	100	simple hobo	bottle of cheap whiskey	angry viking warriors	The Krampus: 0

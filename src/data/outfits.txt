@@ -170,3 +170,4 @@
 # Treats: Random booze from specific subset
 159	Guzzlr Uniform	guzzlrtat.gif	Guzzlr hat, Guzzlr shoes, Guzzlr pants
 160	Lathed Livery	lathetat.gif	hemlock helm, balsam barrel, purpleheart &quot;pants&quot;, wormwood wedding ring	fistful of wood shavings
+161	Trainbot Trappings	tbottat.gif	head-mounted Trainbot, leg-mounted Trainbots, shoulder-mounted Trainbot
