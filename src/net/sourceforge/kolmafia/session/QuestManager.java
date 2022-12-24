@@ -1774,6 +1774,7 @@ public class QuestManager {
           "The Avatar of Jarlsberg",
           "The Rain King",
           "One Thousand Source Agents",
+          "Jerry Bradford, Pok&eacute;fam World Champion",
           "\"Blofeld\"",
           "Nautomatic Sorceress",
           "%alucard%" -> {
@@ -1984,7 +1985,6 @@ public class QuestManager {
           "fantasy forest faerie",
           "swamp monster",
           "cursed villager",
-          "spooky ghost",
           "mining grobold",
           "rubber bat",
           "quadfaerie",
@@ -2005,8 +2005,11 @@ public class QuestManager {
           "Ogre Chieftain",
           "Ted Schwartz, Master Thief",
           "Skeleton Lord" -> {
-        if (!monsterName.equals("spooky ghost")
-            || KoLAdventure.lastAdventureId() != AdventurePool.DREAD_VILLAGE) {
+        QuestManager.addFantasyRealmKill(monsterName);
+      }
+      case "spooky ghost" -> {
+        // A monster with this name appears in both Dreadsylvania and FantasyRealm
+        if (KoLAdventure.lastAdventureId() != AdventurePool.DREAD_VILLAGE) {
           QuestManager.addFantasyRealmKill(monsterName);
         }
       }
@@ -2119,11 +2122,14 @@ public class QuestManager {
       case "The Superconductor" -> {
         Preferences.setBoolean("superconductorDefeated", true);
       }
-      default -> {
-        if ((monsterName.startsWith("Jerry Bradford") && monsterName.contains("World Champion"))
-            || responseText.contains("Thwaitgold bee statuette")) {
+      case "Guy Made Of Bees" -> {
+        // In addition to appearing in the Haunted Bathroom, this monster
+        // replaces the Naughty Sorceress in Bees Hate You.
+        if (responseText.contains("Thwaitgold bee statuette")) {
           QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
         }
+        // Interestingly enough, we track defeating the other one by
+        // detecting his item drop in ResultProcessor
       }
     }
 
