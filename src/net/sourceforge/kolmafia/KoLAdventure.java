@@ -832,6 +832,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return turnsUsed < 25 || turnsUsed == 27;
     }
 
+    // Crimbo Train (Locomotive)
+    if (this.adventureId.equals(AdventurePool.LOCOMOTIVE_ID)) {
+      return !Preferences.getBoolean("superconductorDefeated");
+    }
+
     /* Removed adventures.
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
       return Preferences.getBoolean("eldritchFissureAvailable");
@@ -3984,6 +3989,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure(
         "they're not gonna let you in dressed like this", "You're not dressed appropriately."),
     new AdventureFailure("The temple is empty", "Nothing more to do here.", MafiaState.PENDING),
+
+    // You've already defeated the Trainbot boss.
+    new AdventureFailure(
+        "You've already defeated the Trainbot boss.",
+        "Nothing more to do here.",
+        MafiaState.PENDING),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =
