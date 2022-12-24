@@ -84,8 +84,6 @@ public class BreakfastManager {
 
   private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get(ItemPool.VIP_LOUNGE_KEY, 1);
 
-  private BreakfastManager() {}
-
   private static List<Runnable> ACTIONS =
       List.of(
           BreakfastManager::checkRumpusRoom,
@@ -105,6 +103,8 @@ public class BreakfastManager {
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
           BreakfastManager::useBookOfEverySkill);
+
+  private BreakfastManager() {}
 
   public static void getBreakfast(final boolean runComplete) {
     var limitmode = KoLCharacter.getLimitMode();
