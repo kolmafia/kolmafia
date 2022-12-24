@@ -3053,6 +3053,7 @@ the Ley Incursion's waist	200	Mys: 40
 The Lost Glasses	0	Mys: 25
 The One Mood Ring	150	Mys: 60
 The Ring	150	Mys: 60
+The Superconductor's CPU	0	none
 thicksilver ring	100	Mys: 10
 third ear	50	none
 ticksilver ring	100	Mys: 10
@@ -3148,6 +3149,7 @@ tiny plastic Cheshire bat	10	none
 tiny plastic ChibiBuddy&trade;	0	none
 tiny plastic chunk of depleted Grimacite	0	none
 tiny plastic Clancy the Minstrel	30	none
+tiny plastic coal car	10	none
 tiny plastic cocoabo	10	none
 tiny plastic coffee pixie	10	none
 tiny plastic colollilossus	0	none
@@ -3167,6 +3169,7 @@ tiny plastic Crimbot	10	none
 tiny plastic Crimboween pentagram	20	none
 tiny plastic cubist bull	10	none
 tiny plastic demoninja	10	none
+tiny plastic dining car	10	none
 tiny plastic disco bandit	20	none
 tiny plastic Dolph Bossin	10	none
 tiny plastic dolphin &quot;orphan&quot;	10	none

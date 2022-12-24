@@ -11066,8 +11066,8 @@
 11038	cabooze	454104733	cabooze.gif	drink	t,d	10
 11039	tiny plastic caboose	945352490	c22_tp5.gif	accessory	t	0
 11040	tiny plastic passenger car	540277464	c22_tp4.gif	accessory	t	0
-11041
-11042
+11041	tiny plastic dining car	588750573	c22_tp3.gif	accessory	t	0
+11042	tiny plastic coal car	499960592	c22_tp2.gif	accessory	t	0
 11043
 11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
 11045	model train set	959599372	modeltrain.gif	usable		0
@@ -11112,3 +11112,5 @@
 11084	Crimbosmopolitan	965534353	crimbosmo.gif	drink	t	0
 11085	Crimbo dinner	343926636	crimbodinner.gif	food	t	0
 11086	overloaded Yule battery	858172004	battery.gif	familiar	t,d	75
+11087
+11088	The Superconductor's CPU	952525089	cpu.gif	accessory		0
