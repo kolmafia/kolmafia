@@ -2080,7 +2080,7 @@ public class QuestManager {
       QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.UNSTARTED);
 
       Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
-    } else if (monsterName.equals("The SuperConductor")) {
+    } else if (monsterName.equals("The Superconductor")) {
       Preferences.setBoolean("superconductorDefeated", true);
     }
 
