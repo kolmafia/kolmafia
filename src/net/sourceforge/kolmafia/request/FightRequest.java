@@ -7045,7 +7045,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static final Pattern TRAINSET_MOVE =
-      Pattern.compile("^Your toy train moves ahead to (?:(?:the)|(?:some)) (.+?)\\.");
+      Pattern.compile("^Your toy train moves ahead to (?:the|some) (.+?)\\.");
 
   private static void handleToyTrain(String image, String str, TagStatus status) {
     if (image == null || !image.contains("modeltrain")) {
