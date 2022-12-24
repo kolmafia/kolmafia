@@ -133,7 +133,6 @@ public class BreakfastManager {
             KoLmafia.updateDisplay(MafiaState.ABORT, "Breakfast aborted by user.");
             return;
           }
-          ;
           BreakfastManager.ignoreErrors();
         }
       }
