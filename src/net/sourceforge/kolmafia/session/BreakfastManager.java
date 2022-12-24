@@ -770,6 +770,7 @@ public class BreakfastManager {
     IslandRequest request = IslandRequest.getPyroRequest();
     if (request != null) {
       RequestThread.postRequest(request);
+      BreakfastManager.ignoreErrors();
     }
   }
 
