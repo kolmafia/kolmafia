@@ -48,6 +48,10 @@ public abstract class MPRestoreItemList {
       new MPRestoreItemItem("Oscus's neverending soda", 250, false);
   private static final MPRestoreItem QUARK =
       new MPRestoreItemAction("unstable quark + junk item", 100, false);
+  private static final MPRestoreItem GENERIC_MANA =
+      new MPRestoreItemItem("generic mana potion", Integer.MAX_VALUE, false);
+  private static final MPRestoreItem GENERIC_RESTORATIVE =
+      new MPRestoreItemItem("generic restorative potion", Integer.MAX_VALUE, false);
   public static final MPRestoreItem MYSTERY_JUICE =
       new MPRestoreItemItem("magical mystery juice", Integer.MAX_VALUE, 100, true);
   public static final MPRestoreItem SELTZER =
@@ -78,34 +82,34 @@ public abstract class MPRestoreItemList {
         new MPRestoreItemItem("Monstar energy beverage", 75, false),
         new MPRestoreItemItem("carbonated soy milk", 75, false),
         new MPRestoreItemItem("carbonated water lily", 65, false),
-        new MPRestoreItemItem("Nardz energy beverage", 65, false),
         new MPRestoreItemItem("blue pixel potion", 65, true),
         new MPRestoreItemItem("cotton candy bale", 61, false),
-        new MPRestoreItemItem("bottle of Monsieur Bubble", 56, true),
+        new MPRestoreItemItem("Nardz energy beverage", 60, false),
+        new MPRestoreItemItem("bottle of Monsieur Bubble", 55, true),
         new MPRestoreItemItem("ancient Magi-Wipes", 55, false),
         new MPRestoreItemItem("unrefined mountain stream syrup", 55, true),
         new MPRestoreItemItem("cotton candy pillow", 51, false),
-        new MPRestoreItemItem("blue potion", 50, false),
         new MPRestoreItemItem("phonics down", 48, false),
         new MPRestoreItemItem("elven magi-pack", 45, false),
-        new MPRestoreItemItem("generic mana potion", 44, false),
-        new MPRestoreItemItem("generic restorative potion", 44, false),
+        MPRestoreItemList.GENERIC_MANA,
+        MPRestoreItemList.GENERIC_RESTORATIVE,
         new MPRestoreItemItem("tonic water", 40, false),
+        new MPRestoreItemItem("palm-frond fan", 40, false),
         new MPRestoreItemItem("cotton candy cone", 39, false),
-        new MPRestoreItemItem("palm-frond fan", 37, false),
         new MPRestoreItemItem("Okee-Dokee soda", 37, false),
-        new MPRestoreItemItem("honey-dipped locust", 36, false),
+        new MPRestoreItemItem("honey-dipped locust", 35, false),
         new MPRestoreItemItem("Marquis de Poivre soda", 35, false),
         MPRestoreItemList.MOTH,
         new MPRestoreItemItem("green pixel potion", 35, true),
-        new MPRestoreItemItem("blue paisley oyster egg", 33, false),
-        new MPRestoreItemItem("blue polka-dot oyster egg", 33, false),
-        new MPRestoreItemItem("blue striped oyster egg", 33, false),
+        new MPRestoreItemItem("blue paisley oyster egg", 32, false),
+        new MPRestoreItemItem("blue polka-dot oyster egg", 32, false),
+        new MPRestoreItemItem("blue striped oyster egg", 32, false),
         new MPRestoreItemItem("cotton candy plug", 28, false),
         new MPRestoreItemItem("Knob Goblin superseltzer", 27, true),
         new MPRestoreItemItem("psychokinetic energy blob", 25, false),
+        new MPRestoreItemItem("blue potion", 25, false),
         new MPRestoreItemItem("gold star", 25, false),
-        new MPRestoreItemItem("Blatantly Canadian", 23, false),
+        new MPRestoreItemItem("Blatantly Canadian", 22, false),
         new MPRestoreItemItem("cotton candy skoshe", 22, false),
         new MPRestoreItemItem("tiny house", 22, false),
         new MPRestoreItemItem("cotton candy smidgen", 17, false),
@@ -113,8 +117,8 @@ public abstract class MPRestoreItemList {
         new MPRestoreItemItem("Cloaca-Cola", 12, true),
         new MPRestoreItemItem("Regular Cloaca Cola", 8, true),
         new MPRestoreItemItem("Diet Cloaca Cola", 8, true),
-        new MPRestoreItemItem("cotton candy pinch", 12, false),
-        new MPRestoreItemItem("sugar shard", 8, false),
+        new MPRestoreItemItem("cotton candy pinch", 11, false),
+        new MPRestoreItemItem("sugar shard", 7, false),
         new MPRestoreItemItem("Mountain Stream soda", 35, true),
         MPRestoreItemList.MYSTERY_JUICE,
         new MPRestoreItemItem("black cherry soda", 10, 80, false),
@@ -151,7 +155,9 @@ public abstract class MPRestoreItemList {
                 ? 125
                 : KoLCharacter.getRestingMP();
     MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
-    MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) (KoLCharacter.getLevel() * 1.5f + 4.0f);
+    MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) (KoLCharacter.getLevel() * 1.5f) + 5;
+    MPRestoreItemList.GENERIC_MANA.manaPerUse = (int) (KoLCharacter.getLevel() * 2.5f);
+    MPRestoreItemList.GENERIC_RESTORATIVE.manaPerUse = (int) (KoLCharacter.getLevel() * 2.5f);
     MPRestoreItemList.DOCS_TONIC.purchaseCost = QuestDatabase.isQuestFinished(Quest.DOC) ? 60 : 90;
   }
 
@@ -381,9 +387,7 @@ public abstract class MPRestoreItemList {
         }
       }
 
-      if (this == MPRestoreItemList.MYSTERY_JUICE) {
-        this.manaPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
-      }
+      MPRestoreItemList.updateManaRestored();
 
       long mpShort = needed - KoLCharacter.getCurrentMP();
       if (mpShort <= 0) {
