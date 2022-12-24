@@ -569,6 +569,13 @@ public class AdventureDatabase {
       if (adventureURL.contains("action=wolf_houserun")) {
         return AdventureDatabase.getAdventure("Unleash Your Inner Wolf");
       }
+
+      // place.php?whichplace=crimbo22&action=crimbo22_engine
+      // place.php?whichplace=crimbo22&action=c22_locobox
+      if (adventureURL.contains("action=crimbo22_engine")
+          || adventureURL.contains("action=c22_locobox")) {
+        return AdventureDatabase.getAdventure("Crimbo Train (Locomotive)");
+      }
     }
 
     // Adventuring in the barracks after the Nemesis has been defeated

@@ -3621,6 +3621,8 @@ Item	the Ley Incursion's waist	Mysticality: +15, Mysticality Percent: +25, Exper
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
+# Item The Superconductor's CPU: (based on Crimbo 22 Elf Gratitude)
+Item	The Superconductor's CPU	Maximum HP: [floor(sqrt(pref(elfGratitude)))], Maximum MP: [floor(sqrt(pref(elfGratitude)))]
 Item	thicksilver ring	Damage Absorption: +30, Damage Reduction: 60, Single Equip
 Item	third ear	Initiative: +50, Single Equip
 Item	ticksilver ring	Adventures: +6, PvP Fights: +4, Single Equip
@@ -3721,6 +3723,7 @@ Item	tiny plastic Cheshire bat	Familiar Weight: +1
 Item	tiny plastic ChibiBuddy&trade;	Familiar Weight: +2
 Item	tiny plastic chunk of depleted Grimacite	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 Item	tiny plastic Clancy the Minstrel	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
+Item	tiny plastic coal car	Hot Damage: +5, Hot Spell Damage: +5
 Item	tiny plastic cocoabo	Familiar Weight: +1
 Item	tiny plastic coffee pixie	Familiar Weight: +1
 Item	tiny plastic colollilossus	HP Regen Min: 3, HP Regen Max: 5
@@ -3741,6 +3744,7 @@ Item	tiny plastic Crimbot	Monster Level: +1
 Item	tiny plastic Crimboween pentagram	MP Regen Min: 1, MP Regen Max: 2, Single Equip
 Item	tiny plastic cubist bull	Monster Level: +1
 Item	tiny plastic demoninja	Monster Level: +1
+Item	tiny plastic dining car	Food Drop: +10
 Item	tiny plastic disco bandit	Moxie: +2, Muscle: +1
 Item	tiny plastic Dolph Bossin	Experience (familiar): +1
 Item	tiny plastic dolphin &quot;orphan&quot;	Familiar Weight: +3, Single Equip
