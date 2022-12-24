@@ -609,4 +609,16 @@ public class NPCStoreDatabase {
     PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest(itemId);
     return item != null && (!validate || item.canPurchaseIgnoringMeat());
   }
+
+  public static void reset() {
+    for (int itemId : NPCStoreDatabase.NPC_ITEMS.keySet()) {
+      for (NPCPurchaseRequest request : NPCStoreDatabase.NPC_ITEMS.get(itemId)) {
+        int quantity = NPCStoreDatabase.limitQuantity(itemId);
+
+        request.setQuantity(quantity);
+        request.setLimit(quantity);
+        request.setCanPurchase(true);
+      }
+    }
+  }
 }
