@@ -331,8 +331,6 @@ public class BreakfastManager {
       if (count > 0) {
         KoLmafiaCLI.DEFAULT_SHELL.executeLine("hermit " + count + " 11-leaf clover");
       }
-
-      BreakfastManager.ignoreErrors();
     }
   }
 
