@@ -1703,8 +1703,7 @@ public abstract class KoLmafia {
     PurchaseRequest firstRequest = purchases[firstIndex];
 
     List<AdventureResult> destination =
-        // Only NPC stores have an infinite supply
-        (KoLCharacter.canInteract() || firstRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY)
+        (KoLCharacter.canInteract() || !firstRequest.isMallStore)
             ? KoLConstants.inventory
             : StorageRequest.isFreePull(firstRequest.getItem())
                 ? KoLConstants.freepulls
@@ -1768,7 +1767,7 @@ public abstract class KoLmafia {
           }
         }
 
-        // If this is not an NPC store, remove purchased items
+        // If this is not unlimited, remove purchased items
         if (currentRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY) {
           currentRequest.setQuantity(currentRequest.getQuantity() - purchased);
         }
