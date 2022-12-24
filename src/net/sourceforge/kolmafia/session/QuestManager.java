@@ -1780,6 +1780,15 @@ public class QuestManager {
           "%alucard%" -> {
         QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
       }
+      case "Guy Made Of Bees" -> {
+        // In addition to appearing in the Haunted Bathroom, this monster
+        // replaces the Naughty Sorceress in Bees Hate You.
+        if (responseText.contains("Thwaitgold bee statuette")) {
+          QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
+        }
+        // Interestingly enough, we track defeating the other one by
+        // detecting his item drop in ResultProcessor
+      }
       case "The Unknown Seal Clubber",
           "The Unknown Turtle Tamer",
           "The Unknown Pastamancer",
@@ -2121,15 +2130,6 @@ public class QuestManager {
       }
       case "The Superconductor" -> {
         Preferences.setBoolean("superconductorDefeated", true);
-      }
-      case "Guy Made Of Bees" -> {
-        // In addition to appearing in the Haunted Bathroom, this monster
-        // replaces the Naughty Sorceress in Bees Hate You.
-        if (responseText.contains("Thwaitgold bee statuette")) {
-          QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
-        }
-        // Interestingly enough, we track defeating the other one by
-        // detecting his item drop in ResultProcessor
       }
     }
 
