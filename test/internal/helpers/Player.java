@@ -1867,4 +1867,10 @@ public class Player {
     ConcoctionDatabase.refreshConcoctions();
     return new Cleanups(new OrderedRunnable(ConcoctionDatabase::refreshConcoctions, 10));
   }
+
+  public static Cleanups withNPCStoreReset() {
+    NPCStoreDatabase.reset();
+
+    return new Cleanups(NPCStoreDatabase::reset);
+  }
 }

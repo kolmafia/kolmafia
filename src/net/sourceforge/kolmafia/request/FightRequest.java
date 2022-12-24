@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.StillSuitManager;
+import net.sourceforge.kolmafia.session.TrainsetManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
@@ -5493,6 +5494,9 @@ public class FightRequest extends GenericRequest {
     public String lovebugProperty;
     public boolean toyTrain;
     public boolean pingpong;
+    public boolean harness;
+    public boolean luggage;
+    public boolean armtowel;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5579,6 +5583,9 @@ public class FightRequest extends GenericRequest {
       this.toyTrain = workshed != null && workshed.getItemId() == ItemPool.MODEL_TRAIN_SET;
 
       this.pingpong = KoLCharacter.hasEquipped(ItemPool.PING_PONG_PADDLE);
+      this.harness = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_HARNESS);
+      this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
+      this.armtowel = KoLCharacter.hasEquipped(ItemPool.WHITE_ARM_TOWEL);
 
       this.ghost = null;
 
@@ -6288,6 +6295,21 @@ public class FightRequest extends GenericRequest {
       }
 
       String str = FightRequest.getContentNodeText(node);
+
+      // Crimbo2022 Trainbot features
+      if (won) {
+        if (status.harness) {
+          FightRequest.handleTrainbotHarness(str, status);
+        }
+
+        if (status.luggage) {
+          FightRequest.handleTrainbotLuggageHook(str, status);
+        }
+
+        if (status.armtowel) {
+          FightRequest.handleWhiteArmTowel(str, status);
+        }
+      }
 
       if (containsMacroError(str)) {
         FightRequest.macroErrorMessage = str;
@@ -7015,11 +7037,22 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
+  private static final Pattern TRAINSET_MOVE =
+      Pattern.compile("^Your toy train moves ahead to the (.+?)\\.");
+
   private static void handleToyTrain(String image, String str, TagStatus status) {
     if (image == null || !image.contains("modeltrain")) {
       return;
     }
+
     FightRequest.logText(str, status);
+
+    Matcher matcher = TRAINSET_MOVE.matcher(str);
+
+    if (matcher.find()) {
+      TrainsetManager.onTrainsetMove(matcher.group(1));
+    }
+
     status.toyTrain = false;
   }
 
@@ -7027,6 +7060,30 @@ public class FightRequest extends GenericRequest {
     if (status.pingpong && str.contains("+1 Ping-Pong Skill")) {
       FightRequest.logText("You gain +1 Ping-Pong Skill", status);
       Preferences.increment("pingpongSkill");
+    }
+  }
+
+  private static void handleTrainbotHarness(String str, TagStatus status) {
+    // You grab a nearby elf, toss it into your backpack, and drop it off safely outside of the
+    // train.
+    if (str.contains("You grab a nearby elf")) {
+      FightRequest.logText(str, status);
+      FightRequest.logText("You've earned 1 Elf Gratitude.", status);
+      Preferences.increment("elfGratitude");
+    }
+  }
+
+  private static void handleTrainbotLuggageHook(String str, TagStatus status) {
+    // You snag a nearby piece of luggage with your handy-dandy hook.
+    if (str.contains("handy-dandy hook")) {
+      FightRequest.logText(str, status);
+    }
+  }
+
+  private static void handleWhiteArmTowel(String str, TagStatus status) {
+    // Your familiar grabs you something from the dining car.
+    if (str.contains("Your familiar grabs you something")) {
+      FightRequest.logText(str, status);
     }
   }
 

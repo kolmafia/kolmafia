@@ -569,6 +569,7 @@ user	eldritchFissureAvailable	false
 user	eldritchHorrorAvailable	false
 user	eldritchTentaclesFought	0
 user	electricKoolAidEaten	0
+user	elfGratitude	0
 user	encountersUntilDMTChoice	5
 user	encountersUntilNEPChoice	7
 user	enamorangMonster
@@ -925,6 +926,7 @@ user	lastTempleUnlock	-1
 user	lastThingWithNoNameDefeated	-1
 user	lastTowelAscension	-1
 user	lastTr4pz0rQuest	-1
+user	lastTrainsetConfiguration	-40
 user	lastVioletFogMap	0
 user	lastVoteMonsterTurn	0
 user	lastWartDinseyDefeated	-1
@@ -1444,6 +1446,7 @@ user	sugarCounter4182	0
 user	sugarCounter4183	0
 user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
+user	superconductorDefeated	false
 user	superficiallyInterestedMonster
 user	suppressInappropriateNags	false
 user	suppressPowerPixellation	false
@@ -1474,6 +1477,8 @@ user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trackLightsOut	false
 user	trackVoteMonster	false
+user	trainsetConfiguration	
+user	trainsetPosition	0
 user	turtleBlessingTurns	0
 user	trapperOre
 user	twinPeakProgress	0
@@ -1685,6 +1690,7 @@ user	_cosmicSixPackConjured	false
 user	_crappyCameraUsed	false
 user	_creepyVoodooDollUsed	false
 user	_crimbo21ColdResistance	0
+user	_crimboTraining	false
 user	_crimboTree	false
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
@@ -2033,6 +2039,7 @@ user	_photocopyUsed	false
 user	_pickyTweezersUsed	false
 user	_pieDrops	0
 user	_piePartsCount	0
+user	_pingPongGame	false
 user	_pirateBellowUsed	false
 user	_pirateForkUsed	false
 user	_pixelOrbUsed	false
@@ -3034,6 +3041,9 @@ user	choiceAdventure1473	0
 user	choiceAdventure1474	0
 user	choiceAdventure1475	0
 user	choiceAdventure1486	0
+user	choiceAdventure1487	1
+user	choiceAdventure1488	0
+user	choiceAdventure1489	3
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

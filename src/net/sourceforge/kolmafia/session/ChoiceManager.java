@@ -933,6 +933,12 @@ public abstract class ChoiceManager {
   private static final AdventureResult MCCLUSKY_FILE_PAGE5 =
       ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE5, 1);
   private static final AdventureResult STONE_TRIANGLE = ItemPool.get(ItemPool.STONE_TRIANGLE, 1);
+  private static final AdventureResult CRIMBO_CRYSTAL_SHARDS =
+      ItemPool.get(ItemPool.CRIMBO_CRYSTAL_SHARDS, 1);
+  private static final AdventureResult CRYSTAL_CRIMBO_GOBLET =
+      ItemPool.get(ItemPool.CRYSTAL_CRIMBO_GOBLET, 1);
+  private static final AdventureResult CRYSTAL_CRIMBO_PLATTER =
+      ItemPool.get(ItemPool.CRYSTAL_CRIMBO_PLATTER, 1);
 
   private static final AdventureResult CURSE3_EFFECT = EffectPool.get(EffectPool.THRICE_CURSED);
   private static final AdventureResult JOCK_EFFECT =
@@ -1920,6 +1926,35 @@ public abstract class ChoiceManager {
           return "5";
         }
         return decision;
+
+      case 1489:
+        // Slagging Off
+        //
+        // If you have Crimbo crystal shards, you must take option 1 or 2
+        if (InventoryManager.getCount(CRIMBO_CRYSTAL_SHARDS) > 0) {
+          // If want specifically a goblet or platter, you got it.
+          if (decision.equals("1") || decision.equals("2")) {
+            return decision;
+          }
+
+          // You want whichever you have the fewest of
+          int goblets = InventoryManager.getCount(CRYSTAL_CRIMBO_GOBLET);
+          int platters = InventoryManager.getCount(CRYSTAL_CRIMBO_PLATTER);
+          if (goblets == platters) {
+            // When we display choice spoilers in the Relay Browser, a right
+            // arrow points to the option we will take if you automate.
+            //
+            // If you tell it to automate, this method will be called again to
+            // decide which option to take.
+            //
+            // I wanted to make a random choice, but that is very confusing if
+            // the two calls don't agree.
+            return "1";
+          }
+          return (goblets < platters) ? "1" : "2";
+        }
+        // If you have none, you must take option 3
+        return "3";
     }
     return decision;
   }

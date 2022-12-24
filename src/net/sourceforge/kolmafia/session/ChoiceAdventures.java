@@ -5985,7 +5985,7 @@ public abstract class ChoiceAdventures {
         "The Hidden Junction",
         // Option...
         new Option("fight screambat", 1),
-        new Option("gain ~360 meat", 2));
+        new Option("gain 300-400 meat", 2));
 
     // Choice 1428 is Your Neck of the Woods
     new ChoiceAdventure(
@@ -6209,6 +6209,27 @@ public abstract class ChoiceAdventures {
         new Option("acquire 6 Trainbot potions", 1),
         new Option("+3 Elf Gratitude", 2),
         new Option("acquire a ping-pong paddle then acquire 3-5 ping-pong balls", 3));
+
+    // A Passenger Among Passengers
+    new ChoiceAdventure(
+        1487, "Crimbo22", "Crimbo Train (Passenger Car)", new Option("+5 Elf Gratitude", 1));
+
+    // Pre-Dinner Activities
+    new ChoiceAdventure(
+        1488,
+        "Crimbo22",
+        "Crimbo Train (Dining Car)",
+        new Option("acquire 3 lost elf trunks", 1),
+        new Option("decrease Trainbot strength", 2));
+
+    // Slagging Off
+    new ChoiceAdventure(
+        1489,
+        "Crimbo22",
+        "Crimbo Train (Coal Car)",
+        new Option("shard -> crystal Crimbo goblet, or none", 1),
+        new Option("shard -> crystal Crimbo platter, or none", 2),
+        new Option("shard -> goblet or platter, or none", 3));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
@@ -7009,6 +7030,10 @@ public abstract class ChoiceAdventures {
       case 1411:
         // The Hall in the Hall
         return dynamicChoiceSpoilers(choice, "The Hall in the Hall");
+
+      case 1489:
+        // Slagging Off
+        return dynamicChoiceSpoilers(choice, "Slagging Off");
     }
 
     return null;
@@ -8886,6 +8911,16 @@ public abstract class ChoiceAdventures {
                     (steins > 0) ? "Trade a drippy stein for a drippy pilsner" : "Get nothing");
           }
           result[4] = new Option("Get some Driplets");
+          return result;
+        }
+
+      case 1489:
+        {
+          // Slagging Off
+          result = new Option[3];
+          result[0] = new Option("Get a crystal Crimbo goblet", "crystal Crimbo goblet");
+          result[1] = new Option("Get a crystal Crimbo platter", "crystal Crimbo platter");
+          result[2] = new Option("Walk away in disappointment");
           return result;
         }
     }

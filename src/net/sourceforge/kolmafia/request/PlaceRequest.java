@@ -148,6 +148,15 @@ public class PlaceRequest extends GenericRequest {
       ChateauRequest.parseResponse(urlString, responseText);
     } else if (place.equals("crimbo16m")) {
       // A Meditation Mat
+    } else if (place.equals("crimbo22")) {
+      if (action.equals("crimbo22_engine") || action.equals("c22_locobox")) {
+        // This redirects to a fight until you have defeated the boss
+        // If we are here now, we have done that.
+        //
+        // You've already defeated the Trainbot boss. There's nothing else of interest in that
+        // locomotive. Not even an explanation for why the train is still running!
+        Preferences.setBoolean("superconductorDefeated", true);
+      }
     } else if (place.equals("desertbeach")) {
       if (action.equals("db_nukehouse")) {
         if (responseText.contains("anticheese")) {

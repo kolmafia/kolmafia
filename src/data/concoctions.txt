@@ -3161,6 +3161,11 @@ tempura green and red bean bento box with mer-kin weaksauce	SUSHI	Mer-kin lunchb
 tempura green and red bean bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura green and red bean
 tempura green and red bean bento box with peppermint eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peppermint eel sauce	tempura green and red bean
 
+# Crimbo 2022
+
+Crimbosmopolitan	SUSE	crystal Crimbo goblet	dregs of a Crimbo cocktail	cinnamon machine oil	industrially-crushed ice
+Crimbo dinner	SUSE	crystal Crimbo platter	steamed oyster	Crimbo food scraps	honey-drenched ham slice
+
 # February 29
 
 # Only on February 29

@@ -276,6 +276,7 @@ Item	Hat O' Nine Tails	Moxie Percent: +9
 # hazmat helmet: 75% Chance of Preventing Negative Status Attacks
 # hazmat helmet: Changes Your Avatar
 Item	hazmat helmet	Damage Absorption: +50, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 40, HP Regen Max: 60
+Item	head-mounted Trainbot	Item Drop: +5, Maximum MP: +5, Moxie: +5
 Item	headlamp	Item Drop: +15, Lasts Until Rollover
 Item	heavy crown	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Damage: +5, Initiative: +15, Familiar Effect: "atk, 1xGhuol, cap 27"
 Item	Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "spooky atk, 1xFairy, cap 30"
@@ -721,6 +722,7 @@ Item	lava-proof pants	Hot Resistance: +5, Muscle Percent: -50, Mysticality Perce
 Item	Leapin' Trousers	Adventures: +1, Muscle: +4, Mysticality: +4, Moxie: +4
 Item	leather chaps	Moxie: +8, Muscle: -4, Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
 Item	Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief", Familiar Effect: "atk, 2xGhuol, cap 31"
+Item	leg-mounted Trainbots	Maximum HP: +5, Damage Reduction: 5, Muscle: +5
 Item	leggings of the Spider Queen	Moxie: +15, Moxie Percent: +25, Maximum HP: +50, Maximum MP: +50
 Item	lemon drop trousers	Candy Drop: +50, Lasts Until Rollover, Familiar Effect: "atk, 1xPotato, cap 12"
 Item	leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 2xPotato, cap 22"
@@ -2046,6 +2048,7 @@ Item	9-ball	Weapon Damage: +8, Ranged Damage: +8, Spell Damage: +8
 # A Light that Never Goes Out: (+Item Drops based on Smithsness)
 Item	A Light that Never Goes Out	Mysticality: +5, Hot Damage: +5, Smithsness: +5, Item Drop: [K]
 Item	Abracandalabra	Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 10, Maximum MP Percent: +100, Lasts Until Rollover
+# Abuela Crimbo's special magnet: Get more items from Trainbots
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
 Item	Adventurer bobblehead	Muscle Percent: [pref(nuclearAutumnPoints)], Mysticality Percent: [pref(nuclearAutumnPoints)], Moxie Percent: [pref(nuclearAutumnPoints)]
@@ -2713,6 +2716,8 @@ Item	astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, M
 Item	atlas of local maps	Combat Rate: -5, Lasts Until Rollover
 # attorney's badge: OBJECTION!
 Item	attorney's badge	Single Equip
+# automatic wine thief: Fully restore your MP after Crimbo Train fights
+Item	automatic wine thief	Single Equip
 Item	autumn leaf pendant	Familiar Weight: +5, Familiar Damage: +10, Experience (familiar): +1, Lasts Until Rollover
 Item	backup camera	Maximum HP: +20, Maximum MP: +20, Single Equip
 Item	baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
@@ -3498,11 +3503,14 @@ Item	shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	shiny tribal beads	Mysticality: +6
 # shock belt: Shocks enemies that hit you
 Item	shock belt	Single Equip
+Item	shoulder-mounted Trainbot	Meat Drop: +5, Monster Level: -5, Mysticality: +5, Single Equip
 Item	sicksilver ring	Stench Damage: +20, Stench Spell Damage: +40, Muscle: +10, Single Equip
 # signal jammer: Repels Skeleton Astronauts
 Item	signal jammer	Single Equip
 Item	silent nightlight	Muscle: +5, Mysticality: +5, Moxie: +5, Rollover Effect: "Nightlit", Rollover Effect Duration: 50
 Item	silver detective badge	Maximum HP: +30, Maximum MP: +30, Item Drop: +15, Meat Drop: +25
+# silver table-scraper: Fully restore your HP after Crimbo Train fights
+Item	silver table-scraper	Single Equip
 Item	silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 # Sister Accessory: (minimum of +20 Meat)
 Item	Sister Accessory	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +25, Softcore Only
@@ -3613,6 +3621,8 @@ Item	the Ley Incursion's waist	Mysticality: +15, Mysticality Percent: +25, Exper
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
+# Item The Superconductor's CPU: (based on Crimbo 22 Elf Gratitude)
+Item	The Superconductor's CPU	Maximum HP: [floor(sqrt(pref(elfGratitude)))], Maximum MP: [floor(sqrt(pref(elfGratitude)))]
 Item	thicksilver ring	Damage Absorption: +30, Damage Reduction: 60, Single Equip
 Item	third ear	Initiative: +50, Single Equip
 Item	ticksilver ring	Adventures: +6, PvP Fights: +4, Single Equip
@@ -3703,6 +3713,7 @@ Item	tiny plastic briefcase bat	Monster Level: +1
 Item	tiny plastic bugaboo	Monster Level: +1
 Item	tiny plastic Bugbear Captain	Maximum HP: +20, Maximum MP: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 Item	tiny plastic buzzerker	Monster Level: +1
+Item	tiny plastic caboose	Damage Reduction: 3
 Item	tiny plastic Caf&eacute; Elf	Hot Resistance: +1
 Item	tiny plastic Captain Kerkard	Monster Level: +1
 Item	tiny plastic cavebugbear	Monster Level: +1
@@ -3712,6 +3723,7 @@ Item	tiny plastic Cheshire bat	Familiar Weight: +1
 Item	tiny plastic ChibiBuddy&trade;	Familiar Weight: +2
 Item	tiny plastic chunk of depleted Grimacite	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 Item	tiny plastic Clancy the Minstrel	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
+Item	tiny plastic coal car	Hot Damage: +5, Hot Spell Damage: +5
 Item	tiny plastic cocoabo	Familiar Weight: +1
 Item	tiny plastic coffee pixie	Familiar Weight: +1
 Item	tiny plastic colollilossus	HP Regen Min: 3, HP Regen Max: 5
@@ -3732,6 +3744,7 @@ Item	tiny plastic Crimbot	Monster Level: +1
 Item	tiny plastic Crimboween pentagram	MP Regen Min: 1, MP Regen Max: 2, Single Equip
 Item	tiny plastic cubist bull	Monster Level: +1
 Item	tiny plastic demoninja	Monster Level: +1
+Item	tiny plastic dining car	Food Drop: +10
 Item	tiny plastic disco bandit	Moxie: +2, Muscle: +1
 Item	tiny plastic Dolph Bossin	Experience (familiar): +1
 Item	tiny plastic dolphin &quot;orphan&quot;	Familiar Weight: +3, Single Equip
@@ -3812,6 +3825,7 @@ Item	tiny plastic nog lab	Booze Drop: +20, Single Equip
 Item	tiny plastic Norville Rogers	Monster Level: +1
 Item	tiny plastic Orcish Frat Boy	Monster Level: +1
 Item	tiny plastic orphan	Stench Resistance: +1
+Item	tiny plastic passenger car	Familiar Weight: +3
 Item	tiny plastic pastamancer	Mysticality: +2, Muscle: +1
 Item	tiny plastic peacannon	Ranged Damage: +5
 Item	tiny plastic Penny	Meat Drop: +10
@@ -3881,6 +3895,10 @@ Item	tourmalime tourniquet	Single Equip
 Item	toy crazy train	Meat Drop: +10, Single Equip
 Item	toy maglev monorail	Meat Drop: +10, Single Equip
 Item	toy train	Meat Drop: +10, Single Equip
+# Trainbot luggage hook: Find extra elf luggage in the Crimbo Train Passenger Car
+Item	Trainbot luggage hook	Single Equip
+# Trainbot radar monocle: Get more items from Trainbots
+Item	Trainbot radar monocle	Single Equip
 Item	training belt	Weapon Damage Percent: -50, Monster Level: +25, Muscle Percent: +25, Single Equip
 Item	training legwarmers	Spell Damage Percent: -50, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Mysticality Percent: +25, Single Equip
 Item	Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip, Cloathing
@@ -4323,6 +4341,7 @@ Item	nosy nose ringy ring	Familiar Weight: +15
 # origami &quot;gentlemen's&quot; magazine: +10 lbs. of Ghuol Whelp
 Item	origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
 Item	overclocked avian microprocessor	Familiar Weight: +5
+Item	overloaded Yule battery	Familiar Weight: +25
 # oversized fish scaler: Allows familiar to scale fish
 Item	oversized fish scaler	Generic, Familiar Effect: "attack"
 Item	oversized sparkler	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Item Drop: +20, Lasts Until Rollover
@@ -4443,6 +4462,8 @@ Item	vicious spiked collar	Familiar Damage: +20, Generic
 # warbear drone codes: Makes the drone better, faster, stronger
 Item	wax lips	Experience: +3, Softcore Only, Generic
 # weegee sqouija: Hobo's Booze Is More Effective
+# white arm towel: Your familiar will find extra food and booze on the Crimbo Train
+Item	white arm towel	Generic
 Item	woimbook	Familiar Weight: +5
 Item	woolen cravat	Familiar Weight: +5
 Item	Xiblaxian holo-bowtie	Familiar Weight: +5
@@ -6731,6 +6752,8 @@ Effect	Pigulated	Avatar: "piggy"
 Effect	Pill Party!	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Pill Power	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # PING...  PING...  PING...: Increased chance of dolphin "orphan" encounters
+Effect	Ping-Pong Persistence	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
+Effect	Ping-Pong Prowess	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Piranha Power	Maximum HP: +20, Maximum MP: +20, MP Regen Min: 3, MP Regen Max: 5, HP Regen Min: 3, HP Regen Max: 5
 Effect	Piratastic	Moxie: +100
 Effect	Piratey Flavor	Critical Hit Percent: +5
@@ -7219,6 +7242,7 @@ Effect	Started Your Day Right	Experience: +3, Muscle Percent: +25, Mysticality P
 Effect	stats.enq	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Staying Frosty	Cold Damage: +100
 Effect	Steamed	Hot Resistance: +3, Hot Damage: +30, Item Drop: +20
+Effect	Steamed Sinuses	Item Drop: +25
 Effect	Steely-Eyed Squint	Item Drop: [mod(Item Drop)]
 Effect	Stemonitis Storm	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10
 # Stenchform: P. U.
@@ -7512,7 +7536,7 @@ Effect	Traditional Eating	Meat Drop: +25
 Effect	Trainbot Circuitry	MP: [T], MP Regen Min: [T/5], MP Regen Max: [T/5]
 Effect	Trainbot Tubing	HP: [T], HP Regen Min: [T/5], HP Regen Max: [T/5]
 Effect	Trainbot Plating	Damage Reduction: [3*T]
-Effect	Trainbot Optics	Spell Damage: [3*T]
+Effect	Trainbot Optics	Spell Damage Percent: [3*T]
 Effect	Trainbot Servomotors	Weapon Damage: [3*T]
 Effect	Trainbot Linkages	Initiative: [5*T]
 Effect	Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
@@ -8413,6 +8437,7 @@ Outfit	Thousandth Birthday Suit	Spooky Damage: +15
 Outfit	Time Trappings	Adventures: +3
 Outfit	Topiaria	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Outfit	Toxic Togs	Stench Damage: +20, Stench Spell Damage: +20
+Outfit	Trainbot Trappings	Hot Resistance: +2, Cold Resistance: +2
 Outfit	Transparent Trappings	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Outfit	Tropical Crimbo Duds	Muscle: +10, Mysticality: +10, Moxie: +10
 Outfit	Unblemished Uniform	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -11629,6 +11654,7 @@ Item	Pop Art: a Guide	Skill: "Fifteen Minutes of Flame"
 # portable Mayo Clinic: Installs a mayonnaise-centered medical clinic in your workshed
 # portable photocopier: Makes a photocopy of an enemy
 # portable Spacegate: Provides one day's access to a random Spacegate planet
+# portable steam unit: Clears Your Sinuses (once per day)
 # portable table: You can hide behind it
 # possessed tomato: Deals 6-8 <font color=gray>Spooky Damage</font> per round for the rest of the fight
 # possessed top: Weakens enemies a little bit
@@ -12039,6 +12065,7 @@ Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
 # toy sixgun: Bang!
 # toy soldier: Deals 30-35 Damage (Requires Tequila)
 # toy soldier: (Not consumed when used)
+# Trainbot autoassembly module: Gives you a piece of the Trainbot outfit
 Item	training scroll:  Shattering Punch	Skill: "Shattering Punch"
 Item	training scroll:  Shivering Monkey Technique	Skill: "Shivering Monkey Technique"
 Item	training scroll:  Snokebomb	Skill: "Snokebomb"
