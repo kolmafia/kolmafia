@@ -109,6 +109,9 @@ public class AdventureRequest extends GenericRequest {
       if (adventureId.equals("cloudypeak2")) {
         this.addFormField("whichplace", "mclargehuge");
         this.addFormField("action", adventureId);
+      } else if (adventureId.equals("crimbo22_engine")) {
+        this.addFormField("whichplace", "crimbo22");
+        this.addFormField("action", adventureId);
       } else if (adventureId.equals("pyramid_state")) {
         this.addFormField("whichplace", "pyramid");
         StringBuilder action = new StringBuilder();
@@ -218,11 +221,19 @@ public class AdventureRequest extends GenericRequest {
     }
 
     if (this.formSource.equals("place.php")) {
-      if (this.getURLString().contains("whichplace=nstower")) {
+      String location = this.getURLString();
+      if (location.contains("whichplace=nstower")) {
         // nstower locations redirect to a fight or choice. If
         // it didn't do that, you can't adventure there.
         KoLmafia.updateDisplay(MafiaState.PENDING, "You can't adventure there.");
         SorceressLairManager.parseTowerResponse("", this.responseText);
+        return;
+      }
+      if (location.contains("crimbo22_engine")) {
+        // The engine redirects to a fight. If it didn't do that, you have
+        // defeated the boss.
+        KoLmafia.updateDisplay(MafiaState.PENDING, "Nothing more to do here.");
+        Preferences.setBoolean("superconductorDefeated", true);
         return;
       }
     }
