@@ -342,23 +342,25 @@ public class DailyDeedsPanel extends Box implements Listener {
     // Add a method to return the proper version for the deed given.
     // i.e. if ( deed.equals( "Breakfast" ) ) return 1;
 
-    if (deed.equals("Terminal Educate")) return 13;
-    else if (deed.equals("Terminal Enhance")) return 13;
-    else if (deed.equals("Terminal Enquiry")) return 13;
-    else if (deed.equals("Terminal Extrude")) return 13;
-    else if (deed.equals("Terminal Summary")) return 13;
-    else if (deed.equals("Potted Tea Tree")) return 12;
-    else if (deed.equals("Shrine to the Barrel god")) return 11;
-    else if (deed.equals("Deck of Every Card")) return 10;
-    else if (deed.equals("Chateau Desk")) return 9;
-    else if (deed.equals("Ultra Mega Sour Ball")) return 8;
-    else if (deed.equals("Avatar of Jarlberg Staves")) return 6;
-    else if (deed.equals("Swimming Pool")) return 5;
-    else if (deed.equals("Banished Monsters")) return 4;
-    else if (deed.equals("Hatter")) return 3;
-    else if (deed.equals(("Romantic Arrow"))) return 2;
-    else if (deed.equals(("Feast"))) return 1;
-    else return 0;
+    return switch (deed) {
+      case "Terminal Educate",
+          "Terminal Summary",
+          "Terminal Enhance",
+          "Terminal Enquiry",
+          "Terminal Extrude" -> 13;
+      case "Potted Tea Tree" -> 12;
+      case "Shrine to the Barrel god" -> 11;
+      case "Deck of Every Card" -> 10;
+      case "Chateau Desk" -> 9;
+      case "Ultra Mega Sour Ball" -> 8;
+      case "Avatar of Jarlberg Staves" -> 6;
+      case "Swimming Pool" -> 5;
+      case "Banished Monsters" -> 4;
+      case "Hatter" -> 3;
+      case "Romantic Arrow" -> 2;
+      case "Feast" -> 1;
+      default -> 0;
+    };
   }
 
   public DailyDeedsPanel() {
@@ -634,9 +636,11 @@ public class DailyDeedsPanel extends Box implements Listener {
 
       // Additional arbitrary commands allowed
       if (split.length > 1) {
+        StringBuilder itemCommandBuilder = new StringBuilder(itemCommand);
         for (int i = 1; i < split.length; ++i) {
-          itemCommand += ";" + split[i];
+          itemCommandBuilder.append(";").append(split[i]);
         }
+        itemCommand = itemCommandBuilder.toString();
       }
     }
 
