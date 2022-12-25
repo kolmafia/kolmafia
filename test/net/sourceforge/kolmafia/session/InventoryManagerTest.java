@@ -2,8 +2,12 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,12 +16,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class InventoryManagerTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("InventoryManagerTest");
+  }
+
+  @BeforeEach
+  void beforeEach() {
+    Preferences.reset("InventoryManagerTest");
+  }
 
   @Test
   public void willLeaveCheckpointsIntact() {
@@ -72,6 +90,55 @@ public class InventoryManagerTest {
       // It is now equipped and not in inventory
       assertEquals(0, InventoryManager.getCount(HOBO_CODE_BINDER));
       assertEquals(HOBO_CODE_BINDER, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+    }
+  }
+
+  @Nested
+  class CrimboTrainingManual {
+    @Test
+    public void willDetectCrimboTrainingSkillFromItemDescription() {
+      var builder = new FakeHttpClientBuilder();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
+              withProperty("crimboTrainingSkill", 0));
+
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_check_crimbo_training_manual.html"));
+
+        InventoryManager.checkCrimboTrainingManual();
+        assertThat("crimboTrainingSkill", isSetTo(7));
+
+        var requests = builder.client.getRequests();
+        printRequests(requests);
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/desc_item.php", "whichitem=990145553");
+      }
+    }
+
+    @Test
+    public void willNotLookAtDescriptionWithValidSkill() {
+      var builder = new FakeHttpClientBuilder();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
+              withProperty("crimboTrainingSkill", 7));
+
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_check_crimbo_training_manual.html"));
+
+        InventoryManager.checkCrimboTrainingManual();
+
+        var requests = builder.client.getRequests();
+        printRequests(requests);
+
+        assertThat(requests, hasSize(0));
+      }
     }
   }
 }

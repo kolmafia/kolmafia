@@ -1615,6 +1615,7 @@ public abstract class InventoryManager {
     checkCoatOfPaint();
     checkUmbrella();
     checkBuzzedOnDistillate();
+    checkCrimboTrainingManual();
   }
 
   public static void checkNoHat() {
@@ -1757,6 +1758,22 @@ public abstract class InventoryManager {
     }
 
     DebugDatabase.readEffectDescriptionText(EffectPool.BUZZED_ON_DISTILLATE);
+  }
+
+  public static void checkCrimboTrainingManual() {
+    AdventureResult CRIMBO_TRAINING_MANUAL = ItemPool.get(ItemPool.CRIMBO_TRAINING_MANUAL, 1);
+    int skill = Preferences.getInteger("crimboTrainingSkill");
+    if (skill >= 1 && skill <= 11) {
+      // We have already recorded which skill we can train
+      return;
+    }
+
+    if (InventoryManager.getAccessibleCount(CRIMBO_TRAINING_MANUAL, false) == 0) {
+      // We don't have a Crimbo training manual
+      return;
+    }
+
+    checkItemDescription(ItemPool.CRIMBO_TRAINING_MANUAL);
   }
 
   public static Pattern BIRD_PATTERN = Pattern.compile("Seek out an? (.*)");

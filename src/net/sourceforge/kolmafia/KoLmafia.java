@@ -840,6 +840,10 @@ public abstract class KoLmafia {
     ResultProcessor.updateEntauntauned();
     CargoCultistShortsRequest.loadPockets();
 
+    // This needs to be checked once, to set the property.
+    // Once it is set, no further requests will be issued.
+    InventoryManager.checkCrimboTrainingManual();
+
     // Check items that vary per person
     // These won't actually generate a server hit if the item
     // has been seen at its current modifiers

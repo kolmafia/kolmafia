@@ -11068,7 +11068,7 @@
 11040	tiny plastic passenger car	540277464	c22_tp4.gif	accessory	t	0
 11041	tiny plastic dining car	588750573	c22_tp3.gif	accessory	t	0
 11042	tiny plastic coal car	499960592	c22_tp2.gif	accessory	t	0
-11043
+11043	tiny plastic locomotive	270326005	c22_tp1.gif	accessory	t	0
 11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
 11045	model train set	959599372	modeltrain.gif	usable		0
 11046	Crimbo training manual	990145553	trainmanual.gif	reusable		0

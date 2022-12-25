@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -33,8 +34,8 @@ class CurseRequestTest {
     KoLCharacter.reset("CurseRequestTest");
   }
 
-  @BeforeAll
-  static void beforeEach() {
+  @BeforeEach
+  void beforeEach() {
     Preferences.reset("CurseRequestTest");
   }
 
@@ -48,6 +49,7 @@ class CurseRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.CRIMBO_TRAINING_MANUAL),
+              withProperty("crimboTrainingSkill", 0),
               withProperty("_crimboTraining", false));
       try (cleanups) {
         client.addResponse(200, html("request/test_use_crimbo_training_1.html"));
@@ -59,6 +61,8 @@ class CurseRequestTest {
         // Does not use up daily use
         assertThat("_crimboTraining", isSetTo(false));
         assertTrue(KoLCharacter.hasSkill(SkillPool.TRACK_SWITCHER));
+        int index = (SkillPool.TRACK_SWITCHER - SkillPool.FIRST_CRIMBO_TRAINING_SKILL) + 1;
+        assertThat("crimboTrainingSkill", isSetTo(index));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
