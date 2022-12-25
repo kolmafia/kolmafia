@@ -3165,33 +3165,36 @@ public class QuestManagerTest {
     }
   }
 
-  @Test
-  public void canParseSpeakeasyName() {
-    var cleanup = new Cleanups(withProperty("speakeasyName", "Oliver's Place"));
+  @Nested
+  class Speakeasy {
+    @Test
+    public void canParseSpeakeasyName() {
+      var cleanup = new Cleanups(withProperty("speakeasyName", "Oliver's Place"));
 
-    try (cleanup) {
-      var request = new GenericRequest("place.php?whichplace=town_wrong");
-      request.responseText = html("request/test_visit_town_wrong.html");
-      QuestManager.handleQuestChange(request);
+      try (cleanup) {
+        var request = new GenericRequest("place.php?whichplace=town_wrong");
+        request.responseText = html("request/test_visit_town_wrong.html");
+        QuestManager.handleQuestChange(request);
 
-      assertThat("speakeasyName", isSetTo("BLORP"));
+        assertThat("speakeasyName", isSetTo("BLORP"));
+      }
     }
-  }
 
-  @Test
-  public void canParseSpeakeasyBeingNotFree() {
-    var request = new GenericRequest("place.php?whichplace=speakeasy");
-    request.responseText = html("request/test_speakeasy_brawl_(1).html");
-    QuestManager.handleQuestChange(request);
-    assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
-  }
+    @Test
+    public void canParseSpeakeasyBeingNotFree() {
+      var request = new GenericRequest("place.php?whichplace=speakeasy");
+      request.responseText = html("request/test_speakeasy_brawl_(1).html");
+      QuestManager.handleQuestChange(request);
+      assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+    }
 
-  @Test
-  public void canParseSpeakeasyBeingFree() {
-    var request = new GenericRequest("place.php?whichplace=speakeasy");
-    request.responseText = html("request/test_speakeasy_brawl_(0).html");
-    QuestManager.handleQuestChange(request);
-    assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+    @Test
+    public void canParseSpeakeasyBeingFree() {
+      var request = new GenericRequest("place.php?whichplace=speakeasy");
+      request.responseText = html("request/test_speakeasy_brawl_(0).html");
+      QuestManager.handleQuestChange(request);
+      assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+    }
   }
 
   @Nested
@@ -3215,6 +3218,41 @@ public class QuestManagerTest {
 
         assertPostRequest(requests.get(0), "/questlog.php", "which=3");
       }
+    }
+  }
+
+  @Test
+  public void canDefeatSuperconductor() {
+    var builder = new FakeHttpClientBuilder();
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withProperty("superconductorDefeated", false),
+            withLastLocation("Crimbo Train (Locomotive)"));
+    try (cleanups) {
+      builder.client.addResponse(
+          302, Map.of("location", List.of("fight.php?ireallymeanit=1671907453")), "");
+      builder.client.addResponse(200, html("request/test_fight_superconductor_1.html"));
+      builder.client.addResponse(200, ""); // api.php
+      builder.client.addResponse(200, html("request/test_fight_superconductor_2.html"));
+      builder.client.addResponse(200, ""); // api.php
+
+      var request = new GenericRequest("place.php?whichplace=crimbo22&action=crimbo22_engine");
+      request.run();
+      request = new GenericRequest("fight.php?action=skill&whichskill=4012");
+      request.run();
+
+      assertThat("superconductorDefeated", isSetTo(true));
+
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(5));
+
+      assertPostRequest(
+          requests.get(0), "/place.php", "whichplace=crimbo22&action=crimbo22_engine");
+      assertGetRequest(requests.get(1), "/fight.php", "ireallymeanit=1671907453");
+      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(requests.get(3), "/fight.php", "action=skill&whichskill=4012");
+      assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
     }
   }
 }
