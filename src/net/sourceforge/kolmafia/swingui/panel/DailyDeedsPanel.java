@@ -133,112 +133,66 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     public List<Daily> daily() {
-      if (displayText.equals("Submit Spading Data")) {
-        return List.of(new SpadeDaily());
-      } else if (displayText.equals("Crimbo Tree")) {
-        return List.of(new CrimboTreeDaily());
-      } else if (displayText.equals("Chips")) {
-        return List.of(new ChipsDaily());
-      } else if (displayText.equals("Telescope")) {
-        return List.of(new TelescopeDaily());
-      } else if (displayText.equals("Ball Pit")) {
-        return List.of(new PitDaily());
-      } else if (displayText.equals("Styx Pixie")) {
-        return List.of(new StyxDaily());
-      } else if (displayText.equals("VIP Pool")) {
-        return List.of(new PoolDaily());
-      } else if (displayText.equals("April Shower")) {
-        return List.of(new ShowerCombo());
-      } else if (displayText.equals("Friars")) {
-        return List.of(new FriarsDaily());
-      } else if (displayText.equals("Mom")) {
-        return List.of(new MomCombo());
-      } else if (displayText.equals("Skate Park")) {
-        return List.of(
+      return switch (displayText) {
+        case "Submit Spading Data" -> List.of(new SpadeDaily());
+        case "Crimbo Tree" -> List.of(new CrimboTreeDaily());
+        case "Chips" -> List.of(new ChipsDaily());
+        case "Telescope" -> List.of(new TelescopeDaily());
+        case "Ball Pit" -> List.of(new PitDaily());
+        case "Styx Pixie" -> List.of(new StyxDaily());
+        case "VIP Pool" -> List.of(new PoolDaily());
+        case "April Shower" -> List.of(new ShowerCombo());
+        case "Friars" -> List.of(new FriarsDaily());
+        case "Mom" -> List.of(new MomCombo());
+        case "Skate Park" -> List.of(
             new SkateDaily("lutz", "ice", "_skateBuff1", "Fishy"),
             new SkateDaily("comet", "roller", "_skateBuff2", "-30% to Sea penalties"),
             new SkateDaily("band shell", "peace", "_skateBuff3", "+sand dollars"),
             new SkateDaily("eels", "peace", "_skateBuff4", "+10 lbs. underwater"),
             new SkateDaily("merry-go-round", "peace", "_skateBuff5", "+25% items underwater"));
-      } else if (displayText.equals("Concert")) {
-        return List.of(new ConcertDaily());
-      } else if (displayText.equals("Demon Summoning")) {
-        return List.of(new DemonCombo());
-      } else if (displayText.equals("Free Rests")) {
-        return List.of(new RestsDaily());
-      } else if (displayText.equals("Hot Tub")) {
-        return List.of(new HotTubDaily());
-      } else if (displayText.equals("Nuns")) {
-        return List.of(new NunsDaily());
-      } else if (displayText.equals("Flush Mojo")) {
-        return List.of(new MojoDaily());
-      } else if (displayText.equals("Feast")) {
-        return List.of(new FeastDaily());
-      } else if (displayText.equals("Pudding")) {
-        return List.of(new PuddingDaily());
-      } else if (displayText.equals("Melange")) {
-        return List.of(new MelangeDaily());
-      } else if (displayText.equals("Ultra Mega Sour Ball")) {
-        return List.of(new UltraMegaSourBallDaily());
-      } else if (displayText.equals("Stills")) {
-        return List.of(new StillsDaily());
-      } else if (displayText.equals("Tea Party")) {
-        return List.of(new TeaPartyDaily());
-      } else if (displayText.equals("Photocopy")) {
-        return List.of(new PhotocopyDaily());
-      } else if (displayText.equals("Putty")) {
-        return List.of(new PuttyDaily());
-      } else if (displayText.equals("Camera")) {
-        return List.of(new CameraDaily());
-      } else if (displayText.equals("Combat Lover's Locket")) {
-        return List.of(new CombatLocketDaily());
-      } else if (displayText.equals("Envyfish Egg")) {
-        return List.of(new EnvyfishDaily());
-      } else if (displayText.equals("Romantic Arrow")) {
-        return List.of(new RomanticDaily());
-      } else if (displayText.equals("Bonus Adventures")) {
-        return List.of(new AdvsDaily());
-      } else if (displayText.equals("Familiar Drops")) {
-        return List.of(new DropsDaily());
-      } else if (displayText.equals("Free Fights")) {
-        return List.of(new FreeFightsDaily());
-      } else if (displayText.equals("Free Runaways")) {
-        return List.of(new RunawaysDaily());
-      } else if (displayText.equals("Hatter")) {
-        return List.of(new HatterDaily());
-      } else if (displayText.equals("Banished Monsters")) {
-        return List.of(new BanishedDaily());
-      } else if (displayText.equals("Swimming Pool")) {
-        return List.of(new SwimmingPoolDaily());
-      } else if (displayText.equals("Jick Jar")) {
-        return List.of(new JickDaily());
-      } else if (displayText.equals("Avatar of Jarlberg Staves")) {
-        return List.of(new JarlsbergStavesDaily());
-      } else if (displayText.equals("Defective Token")) {
-        return List.of(new DefectiveTokenDaily());
-      } else if (displayText.equals("Chateau Desk")) {
-        return List.of(new ChateauDeskDaily());
-      } else if (displayText.equals("Deck of Every Card")) {
-        return List.of(new DeckOfEveryCardDaily());
-      } else if (displayText.equals("Potted Tea Tree")) {
-        return List.of(new TeaTreeDaily());
-      } else if (displayText.equals("Shrine to the Barrel god")) {
-        return List.of(new BarrelGodDaily());
-      } else if (displayText.equals("Terminal Educate")) {
-        return List.of(new TerminalEducateDaily());
-      } else if (displayText.equals("Terminal Enhance")) {
-        return List.of(new TerminalEnhanceDaily());
-      } else if (displayText.equals("Terminal Enquiry")) {
-        return List.of(new TerminalEnquiryDaily());
-      } else if (displayText.equals("Terminal Extrude")) {
-        return List.of(new TerminalExtrudeDaily());
-      } else if (displayText.equals("Terminal Summary")) {
-        return List.of(new TerminalSummaryDaily());
-      } else { // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
-        RequestLogger.printLine(
-            "Couldn't match a deed: " + displayText + " does not have a built-in method.");
-        return List.of();
-      }
+        case "Concert" -> List.of(new ConcertDaily());
+        case "Demon Summoning" -> List.of(new DemonCombo());
+        case "Free Rests" -> List.of(new RestsDaily());
+        case "Hot Tub" -> List.of(new HotTubDaily());
+        case "Nuns" -> List.of(new NunsDaily());
+        case "Flush Mojo" -> List.of(new MojoDaily());
+        case "Feast" -> List.of(new FeastDaily());
+        case "Pudding" -> List.of(new PuddingDaily());
+        case "Melange" -> List.of(new MelangeDaily());
+        case "Ultra Mega Sour Ball" -> List.of(new UltraMegaSourBallDaily());
+        case "Stills" -> List.of(new StillsDaily());
+        case "Tea Party" -> List.of(new TeaPartyDaily());
+        case "Photocopy" -> List.of(new PhotocopyDaily());
+        case "Putty" -> List.of(new PuttyDaily());
+        case "Camera" -> List.of(new CameraDaily());
+        case "Combat Lover's Locket" -> List.of(new CombatLocketDaily());
+        case "Envyfish Egg" -> List.of(new EnvyfishDaily());
+        case "Romantic Arrow" -> List.of(new RomanticDaily());
+        case "Bonus Adventures" -> List.of(new AdvsDaily());
+        case "Familiar Drops" -> List.of(new DropsDaily());
+        case "Free Fights" -> List.of(new FreeFightsDaily());
+        case "Free Runaways" -> List.of(new RunawaysDaily());
+        case "Hatter" -> List.of(new HatterDaily());
+        case "Banished Monsters" -> List.of(new BanishedDaily());
+        case "Swimming Pool" -> List.of(new SwimmingPoolDaily());
+        case "Jick Jar" -> List.of(new JickDaily());
+        case "Avatar of Jarlberg Staves" -> List.of(new JarlsbergStavesDaily());
+        case "Defective Token" -> List.of(new DefectiveTokenDaily());
+        case "Chateau Desk" -> List.of(new ChateauDeskDaily());
+        case "Deck of Every Card" -> List.of(new DeckOfEveryCardDaily());
+        case "Potted Tea Tree" -> List.of(new TeaTreeDaily());
+        case "Shrine to the Barrel god" -> List.of(new BarrelGodDaily());
+        case "Terminal Educate" -> List.of(new TerminalEducateDaily());
+        case "Terminal Enhance" -> List.of(new TerminalEnhanceDaily());
+        case "Terminal Enquiry" -> List.of(new TerminalEnquiryDaily());
+        case "Terminal Extrude" -> List.of(new TerminalExtrudeDaily());
+        case "Terminal Summary" -> List.of(new TerminalSummaryDaily());
+        default -> { // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
+          RequestLogger.printLine(
+              "Couldn't match a deed: " + displayText + " does not have a built-in method.");
+          yield List.of();
+        }
+      };
     }
   }
 
