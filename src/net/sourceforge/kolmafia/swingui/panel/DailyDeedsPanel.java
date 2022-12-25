@@ -67,6 +67,181 @@ public class DailyDeedsPanel extends Box implements Listener {
 
   private static final String comboBoxSizeString = "Available Hatter Buffs: BLAH";
 
+  public interface BuiltinDeed {
+    String type();
+
+    String displayText();
+
+    List<Daily> daily();
+  }
+
+  record CommandDeed(
+      String displayText,
+      String pref,
+      String command,
+      int maxPref,
+      String toolTip,
+      String compMessage)
+      implements BuiltinDeed {
+    public String type() {
+      return "Command";
+    }
+
+    public List<Daily> daily() {
+      return List.of(new CommandDaily(displayText, pref, command, maxPref, toolTip, compMessage));
+    }
+  }
+
+  record ItemDeed(
+      String displayText, String pref, int itemId, int maxUses, String toolTip, String compMessage)
+      implements BuiltinDeed {
+    public String type() {
+      return "Item";
+    }
+
+    public List<Daily> daily() {
+      String itemCommand = "use " + ItemDatabase.getItemName(itemId);
+      return List.of(
+          new ItemDaily(displayText, pref, itemId, itemCommand, maxUses, toolTip, compMessage));
+    }
+  }
+
+  record SkillDeed(
+      String displayText,
+      String pref,
+      int skillId,
+      int maxCasts,
+      String toolTip,
+      String compMessage)
+      implements BuiltinDeed {
+    public String type() {
+      return "Skill";
+    }
+
+    public List<Daily> daily() {
+      String skillName = SkillDatabase.getSkillName(skillId);
+      String skillCommand = "cast " + skillName;
+      return List.of(
+          new SkillDaily(
+              displayText, pref, skillName, skillCommand, maxCasts, toolTip, compMessage));
+    }
+  }
+
+  record SpecialDeed(String displayText) implements BuiltinDeed {
+    public String type() {
+      return "Special";
+    }
+
+    public List<Daily> daily() {
+      if (displayText.equals("Submit Spading Data")) {
+        return List.of(new SpadeDaily());
+      } else if (displayText.equals("Crimbo Tree")) {
+        return List.of(new CrimboTreeDaily());
+      } else if (displayText.equals("Chips")) {
+        return List.of(new ChipsDaily());
+      } else if (displayText.equals("Telescope")) {
+        return List.of(new TelescopeDaily());
+      } else if (displayText.equals("Ball Pit")) {
+        return List.of(new PitDaily());
+      } else if (displayText.equals("Styx Pixie")) {
+        return List.of(new StyxDaily());
+      } else if (displayText.equals("VIP Pool")) {
+        return List.of(new PoolDaily());
+      } else if (displayText.equals("April Shower")) {
+        return List.of(new ShowerCombo());
+      } else if (displayText.equals("Friars")) {
+        return List.of(new FriarsDaily());
+      } else if (displayText.equals("Mom")) {
+        return List.of(new MomCombo());
+      } else if (displayText.equals("Skate Park")) {
+        return List.of(
+            new SkateDaily("lutz", "ice", "_skateBuff1", "Fishy"),
+            new SkateDaily("comet", "roller", "_skateBuff2", "-30% to Sea penalties"),
+            new SkateDaily("band shell", "peace", "_skateBuff3", "+sand dollars"),
+            new SkateDaily("eels", "peace", "_skateBuff4", "+10 lbs. underwater"),
+            new SkateDaily("merry-go-round", "peace", "_skateBuff5", "+25% items underwater"));
+      } else if (displayText.equals("Concert")) {
+        return List.of(new ConcertDaily());
+      } else if (displayText.equals("Demon Summoning")) {
+        return List.of(new DemonCombo());
+      } else if (displayText.equals("Free Rests")) {
+        return List.of(new RestsDaily());
+      } else if (displayText.equals("Hot Tub")) {
+        return List.of(new HotTubDaily());
+      } else if (displayText.equals("Nuns")) {
+        return List.of(new NunsDaily());
+      } else if (displayText.equals("Flush Mojo")) {
+        return List.of(new MojoDaily());
+      } else if (displayText.equals("Feast")) {
+        return List.of(new FeastDaily());
+      } else if (displayText.equals("Pudding")) {
+        return List.of(new PuddingDaily());
+      } else if (displayText.equals("Melange")) {
+        return List.of(new MelangeDaily());
+      } else if (displayText.equals("Ultra Mega Sour Ball")) {
+        return List.of(new UltraMegaSourBallDaily());
+      } else if (displayText.equals("Stills")) {
+        return List.of(new StillsDaily());
+      } else if (displayText.equals("Tea Party")) {
+        return List.of(new TeaPartyDaily());
+      } else if (displayText.equals("Photocopy")) {
+        return List.of(new PhotocopyDaily());
+      } else if (displayText.equals("Putty")) {
+        return List.of(new PuttyDaily());
+      } else if (displayText.equals("Camera")) {
+        return List.of(new CameraDaily());
+      } else if (displayText.equals("Combat Lover's Locket")) {
+        return List.of(new CombatLocketDaily());
+      } else if (displayText.equals("Envyfish Egg")) {
+        return List.of(new EnvyfishDaily());
+      } else if (displayText.equals("Romantic Arrow")) {
+        return List.of(new RomanticDaily());
+      } else if (displayText.equals("Bonus Adventures")) {
+        return List.of(new AdvsDaily());
+      } else if (displayText.equals("Familiar Drops")) {
+        return List.of(new DropsDaily());
+      } else if (displayText.equals("Free Fights")) {
+        return List.of(new FreeFightsDaily());
+      } else if (displayText.equals("Free Runaways")) {
+        return List.of(new RunawaysDaily());
+      } else if (displayText.equals("Hatter")) {
+        return List.of(new HatterDaily());
+      } else if (displayText.equals("Banished Monsters")) {
+        return List.of(new BanishedDaily());
+      } else if (displayText.equals("Swimming Pool")) {
+        return List.of(new SwimmingPoolDaily());
+      } else if (displayText.equals("Jick Jar")) {
+        return List.of(new JickDaily());
+      } else if (displayText.equals("Avatar of Jarlberg Staves")) {
+        return List.of(new JarlsbergStavesDaily());
+      } else if (displayText.equals("Defective Token")) {
+        return List.of(new DefectiveTokenDaily());
+      } else if (displayText.equals("Chateau Desk")) {
+        return List.of(new ChateauDeskDaily());
+      } else if (displayText.equals("Deck of Every Card")) {
+        return List.of(new DeckOfEveryCardDaily());
+      } else if (displayText.equals("Potted Tea Tree")) {
+        return List.of(new TeaTreeDaily());
+      } else if (displayText.equals("Shrine to the Barrel god")) {
+        return List.of(new BarrelGodDaily());
+      } else if (displayText.equals("Terminal Educate")) {
+        return List.of(new TerminalEducateDaily());
+      } else if (displayText.equals("Terminal Enhance")) {
+        return List.of(new TerminalEnhanceDaily());
+      } else if (displayText.equals("Terminal Enquiry")) {
+        return List.of(new TerminalEnquiryDaily());
+      } else if (displayText.equals("Terminal Extrude")) {
+        return List.of(new TerminalExtrudeDaily());
+      } else if (displayText.equals("Terminal Summary")) {
+        return List.of(new TerminalSummaryDaily());
+      } else { // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
+        RequestLogger.printLine(
+            "Couldn't match a deed: " + displayText + " does not have a built-in method.");
+        return List.of();
+      }
+    }
+  }
+
   /*
    * Built-in deeds. {Type, Name, ...otherArgs}
    * Type: one of { Command, Item, Skill, Special }
@@ -74,220 +249,139 @@ public class DailyDeedsPanel extends Box implements Listener {
    * NOTE: when adding a new built-in deed, also add an appropriate entry for it in getVersion and increment dailyDeedsVersion
    * in defaults.txt.
    */
-  public static final String[][] BUILTIN_DEEDS = {
-    {
-      "Command",
-      "Breakfast",
-      "breakfastCompleted",
-      "breakfast",
-      "1",
-      "Perform typical daily tasks - use 1/day items, visit 1/day locations like various clan furniture, use item creation skills, etc. Configurable in preferences.",
-      "You have completed breakfast"
-    },
-    {
-      "Command",
-      "Daily Dungeon",
-      "dailyDungeonDone",
-      "adv * Daily Dungeon",
-      "1",
-      "Adventure in Daily Dungeon",
-      "You have adventured in the Daily Dungeon"
-    },
-    {
-      "Special", "Submit Spading Data",
-    },
-    {
-      "Special", "Crimbo Tree",
-    },
-    {
-      "Special", "Chips",
-    },
-    {
-      "Item",
-      "Library Card",
-      "libraryCardUsed",
-      "Library Card",
-      "1",
-      "40-50 stat gain of one of Mus/Myst/Mox, randomly chosen"
-    },
-    {
-      "Special", "Telescope",
-    },
-    {
-      "Special", "Ball Pit",
-    },
-    {
-      "Special", "Styx Pixie",
-    },
-    {
-      "Special", "VIP Pool",
-    },
-    {
-      "Special", "April Shower",
-    },
-    {
-      "Item",
-      "Bag o' Tricks",
-      "_bagOTricksUsed",
-      "Bag o' Tricks",
-      "1",
-      "5 random current effects extended by 3 turns",
-      "Bag o' Tricked used"
-    },
-    {
-      "Item",
-      "Legendary Beat",
-      "_legendaryBeat",
-      "Legendary Beat",
-      "1",
-      "+50% items, 20 turns",
-      "Legendary Beat used"
-    },
-    {
-      "Item",
-      "Outrageous Sombrero",
-      "outrageousSombreroUsed",
-      "Outrageous Sombrero",
-      "1",
-      "+3% items, 5 turns",
-      "Outrageous Sombrero used"
-    },
-    {
-      "Special", "Friars",
-    },
-    {
-      "Special", "Mom",
-    },
-    {
-      "Special", "Skate Park",
-    },
-    {
-      "Item",
-      "Fishy Pipe",
-      "_fishyPipeUsed",
-      "Fishy Pipe",
-      "1",
-      "Fishy, 10 turns",
-      "Fishy Pipe used"
-    },
-    {
-      "Special", "Concert",
-    },
-    {
-      "Special", "Demon Summoning",
-    },
-    {
-      "Skill",
-      "Rage Gland",
-      "rageGlandVented",
-      "Rage Gland",
-      "1",
-      "-10% Mus/Myst/Mox, randomly chosen, and each turn of combat do level to 2*level damage, 5 turns",
-      "Rage Gland used"
-    },
-    {
-      "Special", "Free Rests",
-    },
-    {
-      "Special", "Hot Tub",
-    },
-    {
-      "Special", "Nuns",
-    },
-    {"Item", "Oscus' Soda", "oscusSodaUsed", "Oscus' Soda", "1", "200-300 MP", "Oscus' Soda used"},
-    {
-      "Item",
-      "Express Card",
-      "expressCardUsed",
-      "Express Card",
-      "1",
-      "extends duration of all current effects by 5 turns, restores all MP, cools zapped wands",
-      "Express Card used"
-    },
-    {
-      "Item",
-      "Brass Dreadsylvanian Flask",
-      "_brassDreadFlaskUsed",
-      "Brass Dreadsylvanian flask",
-      "1",
-      "100 turns of +100% Physical Damage in Dreadsylvania",
-      "Brass flask used"
-    },
-    {
-      "Item",
-      "Silver Dreadsylvanian Flask",
-      "_silverDreadFlaskUsed",
-      "Silver Dreadsylvanian flask",
-      "1",
-      "100 turns of +200 Spell Damage in Dreadsylvania",
-      "Silver flask used"
-    },
-    {
-      "Special", "Flush Mojo",
-    },
-    {
-      "Special", "Feast",
-    },
-    {
-      "Special", "Pudding",
-    },
-    {
-      "Special", "Melange",
-    },
-    {
-      "Special", "Ultra Mega Sour Ball",
-    },
-    {
-      "Special", "Stills",
-    },
-    {
-      "Special", "Tea Party",
-    },
-    {
-      "Special", "Photocopy",
-    },
-    {
-      "Special", "Putty",
-    },
-    {
-      "Special", "Envyfish Egg",
-    },
-    {
-      "Special", "Camera",
-    },
-    {
-      "Special", "Combat Lover's Locket",
-    },
-    {
-      "Special", "Romantic Arrow",
-    },
-    {
-      "Special", "Bonus Adventures",
-    },
-    {
-      "Special", "Familiar Drops",
-    },
-    {
-      "Special", "Free Fights",
-    },
-    {
-      "Special", "Free Runaways",
-    },
-    {"Special", "Hatter"},
-    {"Special", "Banished Monsters"},
-    {"Special", "Swimming Pool"},
-    {"Special", "Jick Jar"},
-    {"Special", "Avatar of Jarlberg Staves"},
-    {"Special", "Defective Token"},
-    {"Special", "Chateau Desk"},
-    {"Special", "Deck of Every Card"},
-    {"Special", "Shrine to the Barrel god"},
-    {"Special", "Potted Tea Tree"},
-    {"Special", "Terminal Educate"},
-    {"Special", "Terminal Enhance"},
-    {"Special", "Terminal Enquiry"},
-    {"Special", "Terminal Extrude"},
-    {"Special", "Terminal Summary"}
+  public static final BuiltinDeed[] BUILTIN_DEEDS = {
+    new CommandDeed(
+        "Breakfast",
+        "breakfastCompleted",
+        "breakfast",
+        1,
+        "Perform typical daily tasks - use 1/day items, visit 1/day locations like various clan furniture, use item creation skills, etc. Configurable in preferences.",
+        "You have completed breakfast"),
+    new CommandDeed(
+        "Daily Dungeon",
+        "dailyDungeonDone",
+        "adv * Daily Dungeon",
+        1,
+        "Adventure in Daily Dungeon",
+        "You have adventured in the Daily Dungeon"),
+    new SpecialDeed("Submit Spading Data"),
+    new SpecialDeed("Crimbo Tree"),
+    new SpecialDeed("Chips"),
+    new ItemDeed(
+        "Library Card",
+        "libraryCardUsed",
+        ItemPool.LIBRARY_CARD,
+        1,
+        "40-50 stat gain of one of Mus/Myst/Mox, randomly chosen",
+        "Library Card used"),
+    new SpecialDeed("Telescope"),
+    new SpecialDeed("Ball Pit"),
+    new SpecialDeed("Styx Pixie"),
+    new SpecialDeed("VIP Pool"),
+    new SpecialDeed("April Shower"),
+    new ItemDeed(
+        "Bag o' Tricks",
+        "_bagOTricksUsed",
+        ItemPool.BAG_O_TRICKS,
+        1,
+        "5 random current effects extended by 3 turns",
+        "Bag o' Tricked used"),
+    new ItemDeed(
+        "Legendary Beat",
+        "_legendaryBeat",
+        ItemPool.LEGENDARY_BEAT,
+        1,
+        "+50% items, 20 turns",
+        "Legendary Beat used"),
+    new ItemDeed(
+        "Outrageous Sombrero",
+        "outrageousSombreroUsed",
+        ItemPool.OUTRAGEOUS_SOMBRERO,
+        1,
+        "+3% items, 5 turns",
+        "Outrageous Sombrero used"),
+    new SpecialDeed("Friars"),
+    new SpecialDeed("Mom"),
+    new SpecialDeed("Skate Park"),
+    new ItemDeed(
+        "Fishy Pipe",
+        "_fishyPipeUsed",
+        ItemPool.FISHY_PIPE,
+        1,
+        "Fishy, 10 turns",
+        "Fishy Pipe used"),
+    new SpecialDeed("Concert"),
+    new SpecialDeed("Demon Summoning"),
+    new SkillDeed(
+        "Rage Gland",
+        "rageGlandVented",
+        SkillPool.RAGE_GLAND,
+        1,
+        "-10% Mus/Myst/Mox, randomly chosen, and each turn of combat do level to 2*level damage, 5 turns",
+        "Rage Gland used"),
+    new SpecialDeed("Free Rests"),
+    new SpecialDeed("Hot Tub"),
+    new SpecialDeed("Nuns"),
+    new ItemDeed(
+        "Oscus' Soda",
+        "oscusSodaUsed",
+        ItemPool.NEVERENDING_SODA,
+        1,
+        "200-300 MP",
+        "Oscus' Soda used"),
+    new ItemDeed(
+        "Express Card",
+        "expressCardUsed",
+        ItemPool.EXPRESS_CARD,
+        1,
+        "extends duration of all current effects by 5 turns, restores all MP, cools zapped wands",
+        "Express Card used"),
+    new ItemDeed(
+        "Brass Dreadsylvanian Flask",
+        "_brassDreadFlaskUsed",
+        ItemPool.BRASS_DREAD_FLASK,
+        1,
+        "100 turns of +100% Physical Damage in Dreadsylvania",
+        "Brass flask used"),
+    new ItemDeed(
+        "Silver Dreadsylvanian Flask",
+        "_silverDreadFlaskUsed",
+        ItemPool.SILVER_DREAD_FLASK,
+        1,
+        "100 turns of +200 Spell Damage in Dreadsylvania",
+        "Silver flask used"),
+    new SpecialDeed("Flush Mojo"),
+    new SpecialDeed("Feast"),
+    new SpecialDeed("Pudding"),
+    new SpecialDeed("Melange"),
+    new SpecialDeed("Ultra Mega Sour Ball"),
+    new SpecialDeed("Stills"),
+    new SpecialDeed("Tea Party"),
+    new SpecialDeed("Photocopy"),
+    new SpecialDeed("Putty"),
+    new SpecialDeed("Envyfish Egg"),
+    new SpecialDeed("Camera"),
+    new SpecialDeed("Combat Lover's Locket"),
+    new SpecialDeed("Romantic Arrow"),
+    new SpecialDeed("Bonus Adventures"),
+    new SpecialDeed("Familiar Drops"),
+    new SpecialDeed("Free Fights"),
+    new SpecialDeed("Free Runaways"),
+    new SpecialDeed("Hatter"),
+    new SpecialDeed("Banished Monsters"),
+    new SpecialDeed("Swimming Pool"),
+    new SpecialDeed("Jick Jar"),
+    new SpecialDeed("Avatar of Jarlberg Staves"),
+    new SpecialDeed("Defective Token"),
+    new SpecialDeed("Chateau Desk"),
+    new SpecialDeed("Deck of Every Card"),
+    new SpecialDeed("Shrine to the Barrel god"),
+    new SpecialDeed("Potted Tea Tree"),
+    new SpecialDeed("Terminal Educate"),
+    new SpecialDeed("Terminal Enhance"),
+    new SpecialDeed("Terminal Enquiry"),
+    new SpecialDeed("Terminal Extrude"),
+    new SpecialDeed("Terminal Summary")
   };
 
   private static int getVersion(String deed) {
@@ -324,8 +418,8 @@ public class DailyDeedsPanel extends Box implements Listener {
     // add deeds with newer version numbers to the end of dailyDeedsOptions.
 
     if (currentVersion < releaseVersion) {
-      for (String[] builtinDeed : BUILTIN_DEEDS) {
-        String builtinDeedName = builtinDeed[1];
+      for (BuiltinDeed builtinDeed : BUILTIN_DEEDS) {
+        String builtinDeedName = builtinDeed.displayText();
 
         if (getVersion(builtinDeedName) > currentVersion) {
           String oldString = Preferences.getString("dailyDeedsOptions");
@@ -362,37 +456,14 @@ public class DailyDeedsPanel extends Box implements Listener {
        * BooleanItem, Multipref, Skill, and Text types; all the other built-ins are marked as Special and require
        * their own function in dailyDeedsPanel to handle.
        */
-      for (String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
+      for (BuiltinDeed builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
         /*
          * Built-in handling
          */
-        if (deed.equals(builtinDeed[1])) {
-          /*
-           * Generalized handling
-           */
-          if (builtinDeed[0].equalsIgnoreCase("Command")) {
-            parseCommandDeed(builtinDeed);
-            break;
-          } else if (builtinDeed[0].equalsIgnoreCase("Item")) {
-            parseItemDeed(builtinDeed);
-            break;
-          } else if (builtinDeed[0].equalsIgnoreCase("Skill")) {
-            parseSkillDeed(builtinDeed);
-            break;
+        if (deed.equals(builtinDeed.displayText())) {
+          for (var daily : builtinDeed.daily()) {
+            this.add(daily);
           }
-
-          /*
-           * Special Handling
-           */
-          else if (builtinDeed[0].equalsIgnoreCase("Special")) {
-            parseSpecialDeed(builtinDeed);
-            break;
-          }
-
-          // we'll only get here if an unknown deed type was set in BUILTIN_DEEDS.
-          // Shouldn't happen.
-
-          RequestLogger.printLine("Unknown deed type: " + builtinDeed[0]);
           break;
         }
       }
@@ -847,114 +918,6 @@ public class DailyDeedsPanel extends Box implements Listener {
         RequestLogger.printLine(
             "Daily Deeds error: Simple deeds require an int for the fourth parameter.");
       }
-    }
-  }
-
-  private void parseSpecialDeed(String[] deedsString) {
-    if (deedsString[1].equals("Submit Spading Data")) {
-      this.add(new SpadeDaily());
-    } else if (deedsString[1].equals("Crimbo Tree")) {
-      this.add(new CrimboTreeDaily());
-    } else if (deedsString[1].equals("Chips")) {
-      this.add(new ChipsDaily());
-    } else if (deedsString[1].equals("Telescope")) {
-      this.add(new TelescopeDaily());
-    } else if (deedsString[1].equals("Ball Pit")) {
-      this.add(new PitDaily());
-    } else if (deedsString[1].equals("Styx Pixie")) {
-      this.add(new StyxDaily());
-    } else if (deedsString[1].equals("VIP Pool")) {
-      this.add(new PoolDaily());
-    } else if (deedsString[1].equals("April Shower")) {
-      this.add(new ShowerCombo());
-    } else if (deedsString[1].equals("Friars")) {
-      this.add(new FriarsDaily());
-    } else if (deedsString[1].equals("Mom")) {
-      this.add(new MomCombo());
-    } else if (deedsString[1].equals("Skate Park")) {
-      this.add(new SkateDaily("lutz", "ice", "_skateBuff1", "Fishy"));
-      this.add(new SkateDaily("comet", "roller", "_skateBuff2", "-30% to Sea penalties"));
-      this.add(new SkateDaily("band shell", "peace", "_skateBuff3", "+sand dollars"));
-      this.add(new SkateDaily("eels", "peace", "_skateBuff4", "+10 lbs. underwater"));
-      this.add(new SkateDaily("merry-go-round", "peace", "_skateBuff5", "+25% items underwater"));
-
-    } else if (deedsString[1].equals("Concert")) {
-      this.add(new ConcertDaily());
-    } else if (deedsString[1].equals("Demon Summoning")) {
-      this.add(new DemonCombo());
-    } else if (deedsString[1].equals("Free Rests")) {
-      this.add(new RestsDaily());
-    } else if (deedsString[1].equals("Hot Tub")) {
-      this.add(new HotTubDaily());
-    } else if (deedsString[1].equals("Nuns")) {
-      this.add(new NunsDaily());
-    } else if (deedsString[1].equals("Flush Mojo")) {
-      this.add(new MojoDaily());
-    } else if (deedsString[1].equals("Feast")) {
-      this.add(new FeastDaily());
-    } else if (deedsString[1].equals("Pudding")) {
-      this.add(new PuddingDaily());
-    } else if (deedsString[1].equals("Melange")) {
-      this.add(new MelangeDaily());
-    } else if (deedsString[1].equals("Ultra Mega Sour Ball")) {
-      this.add(new UltraMegaSourBallDaily());
-    } else if (deedsString[1].equals("Stills")) {
-      this.add(new StillsDaily());
-    } else if (deedsString[1].equals("Tea Party")) {
-      this.add(new TeaPartyDaily());
-    } else if (deedsString[1].equals("Photocopy")) {
-      this.add(new PhotocopyDaily());
-    } else if (deedsString[1].equals("Putty")) {
-      this.add(new PuttyDaily());
-    } else if (deedsString[1].equals("Camera")) {
-      this.add(new CameraDaily());
-    } else if (deedsString[1].equals("Combat Lover's Locket")) {
-      this.add(new CombatLocketDaily());
-    } else if (deedsString[1].equals("Envyfish Egg")) {
-      this.add(new EnvyfishDaily());
-    } else if (deedsString[1].equals("Romantic Arrow")) {
-      this.add(new RomanticDaily());
-    } else if (deedsString[1].equals("Bonus Adventures")) {
-      this.add(new AdvsDaily());
-    } else if (deedsString[1].equals("Familiar Drops")) {
-      this.add(new DropsDaily());
-    } else if (deedsString[1].equals("Free Fights")) {
-      this.add(new FreeFightsDaily());
-    } else if (deedsString[1].equals("Free Runaways")) {
-      this.add(new RunawaysDaily());
-    } else if (deedsString[1].equals("Hatter")) {
-      this.add(new HatterDaily());
-    } else if (deedsString[1].equals("Banished Monsters")) {
-      this.add(new BanishedDaily());
-    } else if (deedsString[1].equals("Swimming Pool")) {
-      this.add(new SwimmingPoolDaily());
-    } else if (deedsString[1].equals("Jick Jar")) {
-      this.add(new JickDaily());
-    } else if (deedsString[1].equals("Avatar of Jarlberg Staves")) {
-      this.add(new JarlsbergStavesDaily());
-    } else if (deedsString[1].equals("Defective Token")) {
-      this.add(new DefectiveTokenDaily());
-    } else if (deedsString[1].equals("Chateau Desk")) {
-      this.add(new ChateauDeskDaily());
-    } else if (deedsString[1].equals("Deck of Every Card")) {
-      this.add(new DeckOfEveryCardDaily());
-    } else if (deedsString[1].equals("Potted Tea Tree")) {
-      this.add(new TeaTreeDaily());
-    } else if (deedsString[1].equals("Shrine to the Barrel god")) {
-      this.add(new BarrelGodDaily());
-    } else if (deedsString[1].equals("Terminal Educate")) {
-      this.add(new TerminalEducateDaily());
-    } else if (deedsString[1].equals("Terminal Enhance")) {
-      this.add(new TerminalEnhanceDaily());
-    } else if (deedsString[1].equals("Terminal Enquiry")) {
-      this.add(new TerminalEnquiryDaily());
-    } else if (deedsString[1].equals("Terminal Extrude")) {
-      this.add(new TerminalExtrudeDaily());
-    } else if (deedsString[1].equals("Terminal Summary")) {
-      this.add(new TerminalSummaryDaily());
-    } else { // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
-      RequestLogger.printLine(
-          "Couldn't match a deed: " + deedsString[1] + " does not have a built-in method.");
     }
   }
 

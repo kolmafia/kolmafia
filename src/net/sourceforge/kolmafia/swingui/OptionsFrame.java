@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.ConfigQueueingPanel;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
+import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel.BuiltinDeed;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
@@ -1333,8 +1334,8 @@ public class OptionsFrame extends GenericFrame {
       JPanel botPanel = new JPanel(new GridLayout(1, 0, 10, 0));
       JPanel centerPanel = new JPanel(new GridLayout(1, 2, 0, 0));
 
-      for (String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
-        this.builtInsList.add(builtinDeed[1]);
+      for (BuiltinDeed builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
+        this.builtInsList.add(builtinDeed.displayText());
       }
 
       centerPanel.add(new DeedsButtonPanel("Built-In Deeds", this.builtInsList));
@@ -1396,8 +1397,8 @@ public class OptionsFrame extends GenericFrame {
       KoLmafiaGUI.checkFrameSettings();
 
       for (String piece : pieces) {
-        for (String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
-          String builtinDeedName = builtinDeed[1];
+        for (BuiltinDeed builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
+          String builtinDeedName = builtinDeed.displayText();
 
           if (builtinDeedName.equals(piece) && !this.deedsList.contains(builtinDeedName)) {
             this.deedsList.add(builtinDeedName);
@@ -1455,8 +1456,8 @@ public class OptionsFrame extends GenericFrame {
           frameStrings.add(listedDeed);
           continue;
         }
-        for (String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
-          String builtinDeedName = builtinDeed[1];
+        for (BuiltinDeed builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
+          String builtinDeedName = builtinDeed.displayText();
 
           if (listedDeed.equals(builtinDeedName)) {
             frameStrings.add(builtinDeedName);
