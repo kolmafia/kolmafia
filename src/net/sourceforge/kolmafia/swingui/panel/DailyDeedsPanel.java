@@ -66,7 +66,6 @@ public class DailyDeedsPanel extends Box implements Listener {
   public static final AdventureResult STAFF_OF_CREAM = ItemPool.get(ItemPool.STAFF_OF_CREAM, 1);
 
   private static final String comboBoxSizeString = "Available Hatter Buffs: BLAH";
-  private static final String[] STRING_ARRAY = new String[0];
 
   /*
    * Built-in deeds. {Type, Name, ...otherArgs}
@@ -3752,7 +3751,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new DeckComboListener());
       space = this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Draw");
@@ -3834,7 +3833,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TeaTreeListener());
       space = this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Pick");
@@ -4004,7 +4003,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TerminalEnhanceComboListener());
       space = this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Enhance");
@@ -4091,7 +4090,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TerminalEnquiryComboListener());
       this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Enquiry");
@@ -4176,7 +4175,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TerminalExtrudeComboListener());
       space = this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Extrude");
@@ -4263,7 +4262,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TerminalEducateComboListener());
       this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Educate");
