@@ -248,6 +248,13 @@ public class DailyDeedsPanel extends Box implements Listener {
         "+50% items, 20 turns",
         "Legendary Beat used"),
     new ItemDeed(
+        "portable steam unit",
+        "_portableSteamUnitUsed",
+        ItemPool.PORTABLE_STEAM_UNIT,
+        1,
+        "+25% items, 30 turns",
+        "portable steam unit used"),
+    new ItemDeed(
         "Outrageous Sombrero",
         "outrageousSombreroUsed",
         ItemPool.OUTRAGEOUS_SOMBRERO,
