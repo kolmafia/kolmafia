@@ -1992,6 +1992,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("_legendaryBeat", true);
         return;
 
+      case ItemPool.PORTABLE_STEAM_UNIT:
+        Preferences.setBoolean("_portableSteamUnitUsed", true);
+        return;
+
       case ItemPool.JACKING_MAP:
         // The <fruit> disappears into the tube and begins
         // bouncing around noisily inside the machine.

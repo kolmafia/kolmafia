@@ -244,6 +244,7 @@ Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
 Use	pixel orb	_pixelOrbUsed
 Use	portable ping-pong table	_pingPongGame
+Use	portable steam unit	_portableSteamUnitUsed
 Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
 Use	pump-up high-tops	_highTopPumps	3
 Use	red and green rain stick	_rainStickUsed

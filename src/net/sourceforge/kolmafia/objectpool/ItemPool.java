@@ -3476,6 +3476,7 @@ public class ItemPool {
   public static final int TRAINBOT_LUGGAGE_HOOK = 11069;
   public static final int WHITE_ARM_TOWEL = 11073;
   public static final int TRAINBOT_SLAG = 11076;
+  public static final int PORTABLE_STEAM_UNIT = 11081;
   public static final int CRYSTAL_CRIMBO_GOBLET = 11082;
   public static final int CRYSTAL_CRIMBO_PLATTER = 11083;
 
