@@ -3803,6 +3803,7 @@ Item	tiny plastic lemon-in-the-box	Monster Level: +1
 Item	tiny plastic leprechaun	Familiar Weight: +1
 Item	tiny plastic levitating potato	Familiar Weight: +1
 Item	tiny plastic lobsterfrogman	Monster Level: +1
+Item	tiny plastic locomotive	Initiative: +10
 Item	tiny plastic Lord Flameface	Hot Damage: +20, Cold Resistance: +1, Single Equip
 Item	tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
 Item	tiny plastic MechaElf	Monster Level: +4
