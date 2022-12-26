@@ -7,19 +7,19 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CurseRequest;
 
-public class CrimboTrainCommand extends AbstractCommand {
-  public CrimboTrainCommand() {
-    this.usage = "<player> - Offer Crimbo Training to someone else";
+public class PingPongCommand extends AbstractCommand {
+  public PingPongCommand() {
+    this.usage = "<player> - Play ping-pong with somebody.";
   }
 
   @Override
   public void run(String command, String parameters) {
     if (parameters.equals("")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Train whom?");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Play ping-pong with whom?");
       return;
     }
 
-    AdventureResult item = ItemPool.get(ItemPool.CRIMBO_TRAINING_MANUAL);
+    AdventureResult item = ItemPool.get(ItemPool.PING_PONG_TABLE);
     String target = parameters.trim();
     RequestThread.postRequest(new CurseRequest(item, target, ""));
   }
