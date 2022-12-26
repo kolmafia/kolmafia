@@ -170,6 +170,11 @@ public class TrainsetManager {
 
       // If we can configure the train
       if (!laps.find()) {
+        // If the trainset has been configured this turn
+        if (lastPosition == lastConfiguration) {
+          return;
+        }
+
         // If we expected train to be unconfigurable
         if (lastPosition < expectedTurnConfigurable) {
           // Set the last configuration to a value 40 turns behind
@@ -177,16 +182,15 @@ public class TrainsetManager {
               "lastTrainsetConfiguration", lastPosition - TURNS_BETWEEN_CONFIGURE);
         }
       } else {
-        // If we cannot reconfigure the train, we will be assuming worse case scenario of a full 5
-        // laps.
+        // If we cannot reconfigure the train, we will be assuming worse case scenario of full laps
 
         // Get the expected laps remaining, and actual laps remaining
-        int expectedLapsRemaining =
-            5 - (int) Math.ceil((expectedTurnConfigurable - lastPosition) / 8D);
+        int expectedLapsRemaining = (int) Math.ceil((expectedTurnConfigurable - lastPosition) / 8D);
         int actualLapsRemaining = Integer.parseInt(laps.group(1));
 
         // If the expected laps is different from the actual laps
-        if (expectedLapsRemaining != actualLapsRemaining) {
+        // Or if the configuration should've been older
+        if (expectedLapsRemaining != actualLapsRemaining || lastConfiguration == lastPosition) {
           // Set the last configuration to laps x 8 behind.
           // So 5 laps remaining will set the last position to -39 if lastPosition is 0
           // We don't set it to -40 as it would indicate a full 5 laps has elapsed

@@ -116,17 +116,30 @@ public class TrainsetManagerTest {
     }
   }
 
-  @Test
-  public void canHandleUnexpectedConfigurationCooldownChange() {
+  @ParameterizedTest
+  @CsvSource({
+    "2, 17", // 2 is behind the expected position range, and should be reset to 17
+    "11, 11", // 11, 16 & 17 is inside the expected position range, and should remain unchanged
+    "16, 16", "17, 17",
+    "18, 17", // 18 & 20 is ahead of the expected position range, and should be reset to 17
+    "20, 17"
+  })
+  public void canHandleUnexpectedConfigurationCooldownChange(
+      int lastConfigured, int expectedConfigured) {
     // Test when we're not allowed to configure the trainset, and expected 3 laps remaining. But 5
-    // laps remained.
+    // laps remained. Which is inaccurate for lastTrainsetConfiguration.
     // An example is that a user played in mafia, reconfigured, then played outside of mafia and
     // reconfigured again.
+
+    // The trainset position in the html is 2, (8 x 2) + 2 = 18
+    // With 5 laps remaining, the last configured should be -1 to -7 turns behind.
+    // Therefore, lastTrainsetConfiguration is expected to be in the range 11 to 17
+
     var cleanups =
         new Cleanups(
             withProperty("trainsetConfiguration", ""),
-            withProperty("lastTrainsetConfiguration", 2),
-            withProperty("trainsetPosition", 20),
+            withProperty("lastTrainsetConfiguration", lastConfigured),
+            withProperty("trainsetPosition", 18),
             withChoice(
                 1485, html("request/test_trainset_detects_configuration_bad_tracking.html")));
 
@@ -135,7 +148,7 @@ public class TrainsetManagerTest {
       // assertThat("trainsetPosition", isSetTo(0));
 
       // As there are 5 laps remaining, we assume the configuration was changed last turn
-      assertThat("lastTrainsetConfiguration", isSetTo(19));
+      assertThat("lastTrainsetConfiguration", isSetTo(expectedConfigured));
     }
   }
 
@@ -195,6 +208,24 @@ public class TrainsetManagerTest {
           isSetTo(
               "coal_hopper,meat_mine,logging_mill,ore_hopper,prawn_silo,trackside_diner,candy_factory,tower_fizzy"));
       assertThat("lastTrainsetConfiguration", isSetTo(20));
+    }
+  }
+
+  @Test
+  public void canHandleTrainsetReconfiguredThisTurn() {
+    // If the trainset has been reconfigured this turn, kol does not inform the user of this if the
+    // workshed is visited.
+    // As such, we should be checking lastTrainsetConfiguration to determine if it has been
+    // modified.
+    // If lastTrainsetConfiguration is equal to trainsetPosition, it should not be updated.
+    var cleanups =
+        new Cleanups(
+            withProperty("lastTrainsetConfiguration", 0),
+            withProperty("trainsetPosition", 0),
+            withChoice(1485, html("request/test_trainset_detects_configuration.html")));
+
+    try (cleanups) {
+      assertThat("lastTrainsetConfiguration", isSetTo(0));
     }
   }
 }
