@@ -24,7 +24,7 @@ public class HermitRequestTest {
   }
 
   @Test
-  public void testClover() {
+  public void testCloverCountsAreKnown() {
     var cleanups =
         new Cleanups(
             withHermitReset(),
