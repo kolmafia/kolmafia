@@ -11068,7 +11068,7 @@
 11040	tiny plastic passenger car	540277464	c22_tp4.gif	accessory	t	0
 11041	tiny plastic dining car	588750573	c22_tp3.gif	accessory	t	0
 11042	tiny plastic coal car	499960592	c22_tp2.gif	accessory	t	0
-11043
+11043	tiny plastic locomotive	270326005	c22_tp1.gif	accessory	t	0
 11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
 11045	model train set	959599372	modeltrain.gif	usable		0
 11046	Crimbo training manual	990145553	trainmanual.gif	reusable		0
@@ -11093,7 +11093,7 @@
 11065	cinnamon machine oil	497085839	cinnamonoil.gif	none, combat	t	0	cans of cinnamon machine oil
 11066	Crimbo crystal shards	719160229	crystalshards.gif	none	t	0	piles of Crimbo crystal shards
 11067	dregs of a Crimbo cocktail	136802765	crimbodreg.gif	drink	t	0
-11068	lost elf luggage	141072401	elfluggage.gif	usable	t	0	lost elf trunks
+11068	lost elf luggage	141072401	elfluggage.gif	multiple	t	0	lost elf trunks
 11069	Trainbot luggage hook	906799695	luggagehook.gif	accessory	t	0
 11070	honey-drenched ham slice	282203937	wetham.gif	food	t	0
 11071	mostly-empty bottle of cookie wine	994939649	cookiewine.gif	drink	t	0

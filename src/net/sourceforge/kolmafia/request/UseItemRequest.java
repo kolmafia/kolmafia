@@ -26,11 +26,22 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
@@ -1990,6 +2001,10 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.LEGENDARY_BEAT:
         Preferences.setBoolean("_legendaryBeat", true);
+        return;
+
+      case ItemPool.PORTABLE_STEAM_UNIT:
+        Preferences.setBoolean("_portableSteamUnitUsed", true);
         return;
 
       case ItemPool.JACKING_MAP:
@@ -5937,7 +5952,13 @@ public class UseItemRequest extends GenericRequest {
         // You read the parts of the book that aren't burnt.
         // You acquire a skill: ...
         if (responseText.contains("You acquire a skill")) {
-          ResponseTextParser.learnSkillFromResponse(responseText);
+          int skillId = ResponseTextParser.learnSkillFromResponse(responseText);
+          // We do not expect a bogus skill to be learned, but sanity check.
+          if (skillId >= SkillPool.FIRST_CRIMBO_TRAINING_SKILL
+              && skillId <= SkillPool.LAST_CRIMBO_TRAINING_SKILL) {
+            int chapter = (skillId - SkillPool.FIRST_CRIMBO_TRAINING_SKILL) + 1;
+            Preferences.setInteger("crimboTrainingSkill", chapter);
+          }
           Preferences.setBoolean("_crimboTraining", false);
           return;
         }

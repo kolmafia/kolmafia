@@ -456,6 +456,7 @@ user	crimbo16NippleChakraCleanliness	0
 user	crimbo16NoseChakraCleanliness	0
 user	crimbo16ReindeerChakraCleanliness	0
 user	crimbo16SackChakraCleanliness	0
+user	crimboTrainingSkill	0
 user	crimboTreeDays	7
 user	crimbotChassis	
 user	crimbotArm
@@ -2050,6 +2051,7 @@ user	_pocketProfessorLectures	0
 user	_poisonArrows	0
 user	_pokeGrowFertilizerDrops	0
 user	_poolGames	0
+user	_portableSteamUnitUsed	false
 user	_pottedPowerPlant
 user	_pottedTeaTreeUsed	false
 user	_powderedGoldDrops	0
