@@ -729,9 +729,9 @@ public class ResponseTextParser {
     }
   }
 
-  public static void learnSkill(final String location, final String responseText) {
+  public static int learnSkill(final String location, final String responseText) {
     if (!ResponseTextParser.hasResult(location)) {
-      return;
+      return 0;
     }
 
     // Don't parse skill acquisition via item use here, since
@@ -743,7 +743,7 @@ public class ResponseTextParser {
         || location.startsWith("inv_booze.php")
         || location.startsWith("inv_spleen.php")
         || location.startsWith("showplayer.php")) {
-      return;
+      return 0;
     }
 
     // Unfortunately, if you learn a new skill from Frank
@@ -757,42 +757,38 @@ public class ResponseTextParser {
         int skillId = StringUtilities.parseInt(matcher.group(1));
         String skillName = SkillDatabase.getSkillName(skillId);
         ResponseTextParser.learnSkill(skillName);
-        return;
+        return 0;
       }
     }
 
-    ResponseTextParser.learnSkillFromResponse(responseText);
+    return ResponseTextParser.learnSkillFromResponse(responseText);
   }
 
-  public static void learnSkillFromResponse(final String responseText) {
-    boolean skillFound = false;
+  public static int learnSkillFromResponse(final String responseText) {
+    int skillFound = 0;
 
     Matcher matcher = ResponseTextParser.NEWSKILL1_PATTERN.matcher(responseText);
     while (matcher.find()) {
-      ResponseTextParser.learnSkill(matcher.group(1));
-      skillFound = true;
+      skillFound = ResponseTextParser.learnSkill(matcher.group(1));
     }
 
-    if (skillFound) {
-      return;
+    if (skillFound != 0) {
+      return skillFound;
     }
 
     matcher = ResponseTextParser.NEWSKILL3_PATTERN.matcher(responseText);
     while (matcher.find()) {
-      ResponseTextParser.learnSkill(Integer.parseInt(matcher.group(1)));
-      skillFound = true;
+      skillFound = ResponseTextParser.learnSkill(Integer.parseInt(matcher.group(1)));
     }
 
-    if (skillFound) {
-      return;
-    }
+    return skillFound;
   }
 
-  public static final void learnSkill(final String skillName) {
-    learnSkill(SkillDatabase.getSkillId(skillName));
+  public static final int learnSkill(final String skillName) {
+    return learnSkill(SkillDatabase.getSkillId(skillName));
   }
 
-  public static final void learnSkill(final int skillId) {
+  public static final int learnSkill(final int skillId) {
     // The following skills are found in battle and result in
     // losing an item from inventory.
     var levelPref = "skillLevel" + skillId;
@@ -905,6 +901,8 @@ public class ResponseTextParser {
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.resetCurrentPP();
     }
+
+    return skillId;
   }
 
   public static final String[][] COMBAT_MOVE_DATA = {

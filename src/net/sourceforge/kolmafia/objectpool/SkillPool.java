@@ -103,7 +103,9 @@ public class SkillPool {
   public static final int EYE_AND_A_TWIST = 200;
   public static final int CHUBBY_AND_PLUMP = 202;
   public static final int EMOTIONALLY_CHIPPED = 203;
+  public static final int FIRST_CRIMBO_TRAINING_SKILL = 207;
   public static final int TRACK_SWITCHER = 210;
+  public static final int LAST_CRIMBO_TRAINING_SKILL = 217;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
   public static final int SNARL_OF_THE_TIMBERWOLF = 1020;
