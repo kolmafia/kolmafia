@@ -11112,5 +11112,5 @@
 11084	Crimbosmopolitan	965534353	crimbosmo.gif	drink	t	0
 11085	Crimbo dinner	343926636	crimbodinner.gif	food	t	0
 11086	overloaded Yule battery	858172004	battery.gif	familiar	t,d	75
-11087
+11087	train whistle	561292467	trainwhistle.gif	none, combat reusable		0
 11088	The Superconductor's CPU	952525089	cpu.gif	accessory		0
