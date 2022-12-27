@@ -26,7 +26,7 @@ public class LocketManager {
       Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max", "Single Equip");
 
   private static void addFoughtMonster(int monsterId) {
-    Set<Integer> foughtMonsters = getFoughtMonsters();
+    Set<Integer> foughtMonsters = new TreeSet<>(getFoughtMonsters());
     foughtMonsters.add(monsterId);
 
     // Add monster id to pref ensuring distinct

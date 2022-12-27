@@ -8,18 +8,25 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.LocketManager;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ReminisceCommandTest extends AbstractCommandTestBase {
-  @BeforeEach
-  public void initEach() {
-    LocketManager.clear();
+  @BeforeAll
+  public static void beforeAll() {
+    Preferences.reset("ReminisceCommandTest");
 
     // Stop requests from actually running
     GenericRequest.sessionId = null;
+  }
+
+  @BeforeEach
+  public void beforeEach() {
+    LocketManager.clear();
   }
 
   public ReminisceCommandTest() {

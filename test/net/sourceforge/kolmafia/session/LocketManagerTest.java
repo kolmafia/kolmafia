@@ -8,10 +8,17 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LocketManagerTest {
+  @BeforeAll
+  public static void beforeAll() {
+    Preferences.reset("ReminisceCommandTest");
+  }
+
   @BeforeEach
   public void beforeEach() {
     LocketManager.clear();
