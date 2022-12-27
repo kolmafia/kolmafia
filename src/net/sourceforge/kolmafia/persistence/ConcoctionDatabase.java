@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -854,7 +856,7 @@ public class ConcoctionDatabase {
       Stack<QueuedConcoction> toProcess, ConcoctionType type, ConsumptionType consumptionType) {
     // Keep track of current consumption helper. These can be
     // "queued" by simply "using" them. Account for that.
-    AdventureResult helper = ConcoctionDatabase.currentConsumptionHelper(type);
+    AdventureResult helper; // = ConcoctionDatabase.currentConsumptionHelper(type);
 
     // Since items were pushed in inverse order from the queue,
     // popping the stack will get items in actual queued order.
@@ -957,7 +959,6 @@ public class ConcoctionDatabase {
         // Done queuing items
         KoLmafia.forceContinue();
         ConcoctionDatabase.refreshConcoctions();
-        ConcoctionDatabase.getUsables().sort();
         break;
       }
 
@@ -1223,6 +1224,26 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.refreshConcoctionsNow();
   }
 
+  private static void fastSortUsableList() {
+    // Concoctions are fully sorted at initialization time. The first sorting parameter is the
+    // sortOrder, and concoctions with sortOrder NONE are sorted only by name. Name doesn't
+    // ever change, and so there is no reason to resort the approximately 80% of items that have
+    // sortOrder NONE. NB when new items are discovered, they are added via addUsableConcotion,
+    // which does a full sort.
+    List<Concoction> sortNone =
+        ConcoctionDatabase.usableList.stream()
+            .filter(c -> c.sortOrder == Concoction.Priority.NONE)
+            .collect(Collectors.toList());
+    List<Concoction> sortSome =
+        ConcoctionDatabase.usableList.stream()
+            .filter(c -> c.sortOrder != Concoction.Priority.NONE)
+            .collect(Collectors.toList());
+    Collections.sort(sortSome);
+    ConcoctionDatabase.usableList.clear();
+    ConcoctionDatabase.usableList.addAll(sortNone);
+    ConcoctionDatabase.usableList.addAll(sortSome);
+  }
+
   public static final synchronized void refreshConcoctionsNow() {
     Preferences.increment("_concoctionDatabaseRefreshes");
     ConcoctionDatabase.refreshNeeded = false;
@@ -1380,7 +1401,7 @@ public class ConcoctionDatabase {
     }
 
     ConcoctionDatabase.creatableList.sort();
-    ConcoctionDatabase.usableList.sort();
+    fastSortUsableList();
 
     // Now tell the GUI about the changes
     ConcoctionDatabase.creatableList.updateFilter(changeDetected);
