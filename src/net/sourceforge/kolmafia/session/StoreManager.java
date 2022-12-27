@@ -444,7 +444,7 @@ public abstract class StoreManager {
 
     @Override
     public synchronized boolean equals(final Object o) {
-      return o instanceof SoldItem && ((SoldItem) o).itemId == this.itemId;
+      return o instanceof SoldItem si && si.itemId == this.itemId;
     }
 
     @Override

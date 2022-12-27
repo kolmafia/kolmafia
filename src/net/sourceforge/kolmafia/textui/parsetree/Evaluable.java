@@ -22,7 +22,7 @@ public abstract class Evaluable extends Command implements TypedNode {
    *     as {@code value}
    */
   public boolean evaluatesTo(final Value value) {
-    return this instanceof Constant && ((Constant) this).value == value;
+    return this instanceof Constant c && c.value == value;
   }
 
   public final void growLocation(final Location location) {

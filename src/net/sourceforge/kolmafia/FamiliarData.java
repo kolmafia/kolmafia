@@ -1256,7 +1256,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof FamiliarData && this.id == ((FamiliarData) o).id;
+    return o instanceof FamiliarData data && this.id == data.id;
   }
 
   @Override

@@ -2172,11 +2172,11 @@ public class Parser {
           currentInteger = currentIndex;
         }
 
-        if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {
-          if (labels.get(((Constant) test).value) != null) {
+        if (test instanceof Constant c && c.value.getClass() == Value.class) {
+          if (labels.get(c.value) != null) {
             caseErrors.submitError(this.error(test.getLocation(), "Duplicate case label: " + test));
           } else if (!test.evaluatesTo(Value.BAD_VALUE)) {
-            labels.put(((Constant) test).value, currentInteger);
+            labels.put(c.value, currentInteger);
           }
         } else {
           constantLabels = false;

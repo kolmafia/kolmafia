@@ -476,7 +476,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
 
     @Override
     public boolean equals(final Object o) {
-      return (o instanceof EveryCard) && ((EveryCard) o).id == this.id;
+      return (o instanceof EveryCard ec) && ec.id == this.id;
     }
 
     @Override

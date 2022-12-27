@@ -275,7 +275,7 @@ public class EdServantData implements Comparable<EdServantData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof EdServantData && this.id == ((EdServantData) o).id;
+    return o instanceof EdServantData data && this.id == data.id;
   }
 
   @Override

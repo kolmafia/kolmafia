@@ -452,16 +452,16 @@ public class ShowDescriptionList<E> extends JList<E> {
       for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e
+            && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -486,16 +486,16 @@ public class ShowDescriptionList<E> extends JList<E> {
       for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e
+            && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -523,16 +523,16 @@ public class ShowDescriptionList<E> extends JList<E> {
       for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e
+            && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
