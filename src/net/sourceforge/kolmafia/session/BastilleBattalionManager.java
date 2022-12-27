@@ -310,33 +310,21 @@ public abstract class BastilleBattalionManager {
     }
 
     public boolean boosted(Stat stat) {
-      switch (stat) {
-        case MA:
-        case MD:
-          return this.military != null;
-        case CA:
-        case CD:
-          return this.castle != null;
-        case PA:
-        case PD:
-          return this.psychological != null;
-      }
-      return false;
+      return switch (stat) {
+        case MA, MD -> this.military != null;
+        case CA, CD -> this.castle != null;
+        case PA, PD -> this.psychological != null;
+        default -> false;
+      };
     }
 
     public int boostedBy(Stat stat) {
-      switch (stat) {
-        case MA:
-        case MD:
-          return this.military == null ? 0 : this.military.getCount();
-        case CA:
-        case CD:
-          return this.castle == null ? 0 : this.castle.getCount();
-        case PA:
-        case PD:
-          return this.psychological == null ? 0 : this.psychological.getCount();
-      }
-      return 0;
+      return switch (stat) {
+        case MA, MD -> this.military == null ? 0 : this.military.getCount();
+        case CA, CD -> this.castle == null ? 0 : this.castle.getCount();
+        case PA, PD -> this.psychological == null ? 0 : this.psychological.getCount();
+        default -> 0;
+      };
     }
 
     @Override
@@ -542,7 +530,7 @@ public abstract class BastilleBattalionManager {
 
   public static int stylesToKey(Style... styles) {
     assert styles.length == 4;
-    return Arrays.stream(styles).mapToInt(style -> style.getScaledDigit()).sum();
+    return Arrays.stream(styles).mapToInt(Style::getScaledDigit).sum();
   }
 
   public static Collection<Style> keyToStyleSet(int key) {
@@ -1187,15 +1175,9 @@ public abstract class BastilleBattalionManager {
       aggressor = matcher.group(3).equals("attack strength");
       boolean won = matcher.group(4).equals("higher");
       switch (matcher.group(1)) {
-        case "Military":
-          military = won;
-          break;
-        case "Castle":
-          castle = won;
-          break;
-        case "Psychological":
-          psychological = won;
-          break;
+        case "Military" -> military = won;
+        case "Castle" -> castle = won;
+        case "Psychological" -> psychological = won;
       }
     }
 
@@ -1536,28 +1518,16 @@ public abstract class BastilleBattalionManager {
         break;
       case 1314: // Bastille Battalion (Master of None)
         switch (decision) {
-          case 1:
-            logAction(buf, "Improving offense.");
-            break;
-          case 2:
-            logAction(buf, "Focusing on defense.");
-            break;
-          case 3:
-            logAction(buf, "Looking for cheese.");
-            break;
+          case 1 -> logAction(buf, "Improving offense.");
+          case 2 -> logAction(buf, "Focusing on defense.");
+          case 3 -> logAction(buf, "Looking for cheese.");
         }
         break;
       case 1315: // Castle vs. Castle
         switch (decision) {
-          case 1:
-            logAction(buf, "Charge!");
-            break;
-          case 2:
-            logAction(buf, "Watch warily.");
-            break;
-          case 3:
-            logAction(buf, "Wait to be attacked.");
-            break;
+          case 1 -> logAction(buf, "Charge!");
+          case 2 -> logAction(buf, "Watch warily.");
+          case 3 -> logAction(buf, "Wait to be attacked.");
         }
         break;
       case 1316: // GAME OVER

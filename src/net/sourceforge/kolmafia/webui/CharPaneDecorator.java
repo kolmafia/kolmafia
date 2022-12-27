@@ -35,7 +35,7 @@ public class CharPaneDecorator {
   private static final Pattern FONT_TAG_PATTERN =
       Pattern.compile("^((?:<font .*?>)?)(.*?)((?:</font>)?)$", Pattern.DOTALL);
 
-  private static final ArrayList<String> recentLocations = new ArrayList<String>();
+  private static final ArrayList<String> recentLocations = new ArrayList<>();
 
   private static final String[][] BIRDFORM_STRINGS = {
     {
@@ -441,15 +441,15 @@ public class CharPaneDecorator {
     }
 
     switch (familiar.getId()) {
-      case FamiliarPool.BANDER:
+      case FamiliarPool.BANDER -> {
         if (!KoLCharacter.inBigcore()) {
           buffer.append(Preferences.getString("_banderRunaways"));
           buffer.append("/");
           buffer.append(familiar.getModifiedWeight() / 5);
         }
         return buffer;
-
-      case FamiliarPool.BOOTS:
+      }
+      case FamiliarPool.BOOTS -> {
         if (!KoLCharacter.inBigcore()) {
           buffer.append(Preferences.getString("_banderRunaways"));
           buffer.append("/");
@@ -467,16 +467,16 @@ public class CharPaneDecorator {
           buffer.append("!");
         }
         return buffer;
-
-      case FamiliarPool.GIBBERER:
+      }
+      case FamiliarPool.GIBBERER -> {
         buffer.append(Preferences.getString("_gibbererAdv"));
         buffer.append(" adv");
         buffer.append("<br>");
         buffer.append(Preferences.getString("_gibbererCharge"));
         buffer.append("/15 charges");
         return buffer;
-
-      case FamiliarPool.HARE:
+      }
+      case FamiliarPool.HARE -> {
         buffer.append(Preferences.getString("_hareAdv"));
         buffer.append(" adv");
         buffer.append("<br>");
@@ -489,33 +489,31 @@ public class CharPaneDecorator {
                 : "15");
         buffer.append(" charges");
         return buffer;
+      }
+      case FamiliarPool.SLIMELING -> {
+        buffer.append("~");
+        buffer.append(Preferences.getFloat("slimelingFullness"));
+        buffer.append(" full");
 
-      case FamiliarPool.SLIMELING:
-        {
-          buffer.append("~");
-          buffer.append(Preferences.getFloat("slimelingFullness"));
-          buffer.append(" full");
+        int due = Preferences.getInteger("slimelingStacksDue");
+        int got = Preferences.getInteger("slimelingStacksDropped");
+        if (due > got) {
+          // N stacks drop in N * (N + 1)/2 combats according to
+          // <http://ben.bloomroad.com/kol/tower_monsters.html>
+          // free runaways do not count
+          // each stack drops on the turn it's expected to with
+          // no variance
+          // int expectedTurns = ( got + 1 ) * ( got // + 2 ) / 2;
 
-          int due = Preferences.getInteger("slimelingStacksDue");
-          int got = Preferences.getInteger("slimelingStacksDropped");
-          if (due > got) {
-            // N stacks drop in N * (N + 1)/2 combats according to
-            // <http://ben.bloomroad.com/kol/tower_monsters.html>
-            // free runaways do not count
-            // each stack drops on the turn it's expected to with
-            // no variance
-            // int expectedTurns = ( got + 1 ) * ( got // + 2 ) / 2;
-
-            buffer.append("; ");
-            buffer.append(got);
-            buffer.append("/");
-            buffer.append(due);
-            buffer.append(" stacks");
-          }
-          return buffer;
+          buffer.append("; ");
+          buffer.append(got);
+          buffer.append("/");
+          buffer.append(due);
+          buffer.append(" stacks");
         }
-
-      case FamiliarPool.ARTISTIC_GOTH_KID:
+        return buffer;
+      }
+      case FamiliarPool.ARTISTIC_GOTH_KID -> {
         if (KoLCharacter.getHippyStoneBroken()) {
           buffer.append("<br>");
           buffer.append(Preferences.getString("_gothKidCharge"));
@@ -524,8 +522,8 @@ public class CharPaneDecorator {
           buffer.append(" charges");
         }
         return buffer;
-
-      case FamiliarPool.GRINDER:
+      }
+      case FamiliarPool.GRINDER -> {
         buffer.append(Preferences.getString("_pieDrops"));
         buffer.append(" pie");
         if (Preferences.getInteger("_pieDrops") != 1) {
@@ -552,22 +550,21 @@ public class CharPaneDecorator {
           buffer.append("s");
         }
         return buffer;
-
-      case FamiliarPool.HAPPY_MEDIUM:
+      }
+      case FamiliarPool.HAPPY_MEDIUM -> {
         buffer.append(Preferences.getString("_mediumSiphons"));
         buffer.append(" siphon");
-
         if (Preferences.getInteger("_mediumSiphons") != 1) {
           buffer.append("s");
         }
         return buffer;
-
-      case FamiliarPool.JACK_IN_THE_BOX:
+      }
+      case FamiliarPool.JACK_IN_THE_BOX -> {
         buffer.append(Preferences.getString("_jitbCharge"));
         buffer.append("/2 charges");
         return buffer;
-
-      case FamiliarPool.ANGRY_JUNG_MAN:
+      }
+      case FamiliarPool.ANGRY_JUNG_MAN -> {
         String jDrops = Preferences.getString("_jungDrops");
         buffer.append(jDrops);
         buffer.append("/1");
@@ -578,27 +575,27 @@ public class CharPaneDecorator {
           else buffer.append("@ " + (30 - charges));
         }
         return buffer;
-
-      case FamiliarPool.STEAM_CHEERLEADER:
+      }
+      case FamiliarPool.STEAM_CHEERLEADER -> {
         double steamLevel = Preferences.getInteger("_cheerleaderSteam") / 2.0;
         buffer.append(steamLevel);
         buffer.append("% steam");
         return buffer;
-
-      case FamiliarPool.NANORHINO:
+      }
+      case FamiliarPool.NANORHINO -> {
         int nanorhinoCharge = Preferences.getInteger("_nanorhinoCharge");
         buffer.append(nanorhinoCharge);
         buffer.append("% charge");
         return buffer;
-
-      case FamiliarPool.CUBELING:
+      }
+      case FamiliarPool.CUBELING -> {
         int cubelingProgress = Preferences.getInteger("cubelingProgress");
         int cubelingDrops = Math.min(Math.max(cubelingProgress - 3, 0) / 3, 3);
         buffer.append(cubelingDrops);
         buffer.append("/3 drops");
         return buffer;
-
-      case FamiliarPool.GRIMSTONE_GOLEM:
+      }
+      case FamiliarPool.GRIMSTONE_GOLEM -> {
         String gDrops = Preferences.getString("_grimstoneMaskDrops");
         buffer.append(gDrops);
         buffer.append("/1");
@@ -609,8 +606,8 @@ public class CharPaneDecorator {
           else buffer.append("@ " + (50 - charges));
         }
         return buffer;
-
-      case FamiliarPool.CRIMBO_SHRUB:
+      }
+      case FamiliarPool.CRIMBO_SHRUB -> {
         if (KoLCharacter.getHippyStoneBroken()
             && Preferences.getString("shrubGarland").equals("PvP")) {
           buffer.append(Preferences.getString("_shrubCharge"));
@@ -618,111 +615,111 @@ public class CharPaneDecorator {
           return buffer;
         }
         return null;
-
-      case FamiliarPool.ROCKIN_ROBIN:
+      }
+      case FamiliarPool.ROCKIN_ROBIN -> {
         buffer.append(Preferences.getString("rockinRobinProgress"));
         buffer.append("/30 charges");
         return buffer;
-      case FamiliarPool.SPACE_JELLYFISH:
+      }
+      case FamiliarPool.SPACE_JELLYFISH -> {
         buffer.append(Preferences.getString("_spaceJellyfishDrops"));
         buffer.append(" jelly harvested");
         return buffer;
-      case FamiliarPool.CANDLE:
+      }
+      case FamiliarPool.CANDLE -> {
         buffer.append(Preferences.getString("optimisticCandleProgress"));
         buffer.append("/30 charges");
         return buffer;
-      case FamiliarPool.XO_SKELETON:
+      }
+      case FamiliarPool.XO_SKELETON -> {
         buffer.append(Preferences.getString("xoSkeleltonXProgress"));
         buffer.append("/9 X, ");
         buffer.append(Preferences.getString("xoSkeleltonOProgress"));
         buffer.append("/9 O");
         return buffer;
-      case FamiliarPool.GARBAGE_FIRE:
+      }
+      case FamiliarPool.GARBAGE_FIRE -> {
         buffer.append(Preferences.getString("garbageFireProgress"));
         buffer.append("/30 charges");
         return buffer;
-      case FamiliarPool.CAT_BURGLAR:
-        {
-          // Calculate total charges available
-          int charge = Preferences.getInteger("_catBurglarCharge");
-          int minChargeCost = 10;
-          int totalHeists = 0;
-          while (charge >= minChargeCost) {
-            totalHeists++;
-            charge -= minChargeCost;
-            minChargeCost *= 2;
-          }
-          int heistsComplete = Preferences.getInteger("_catBurglarHeistsComplete");
-          int bankHeists = Preferences.getInteger("catBurglarBankHeists");
-          if (totalHeists + bankHeists > heistsComplete) {
-            buffer.append(charge);
-            buffer.append("/");
-            buffer.append(minChargeCost);
-            buffer.append(" to heist<br>");
-            buffer.append(heistsComplete);
-            buffer.append("/");
-            buffer.append(totalHeists + bankHeists);
-            buffer.append(" heists");
-          } else {
-            buffer.append(charge);
-            buffer.append("/");
-            buffer.append(minChargeCost);
-            buffer.append(" to heist");
-          }
-          return buffer;
+      }
+      case FamiliarPool.CAT_BURGLAR -> {
+        // Calculate total charges available
+        int charge = Preferences.getInteger("_catBurglarCharge");
+        int minChargeCost = 10;
+        int totalHeists = 0;
+        while (charge >= minChargeCost) {
+          totalHeists++;
+          charge -= minChargeCost;
+          minChargeCost *= 2;
         }
-      case FamiliarPool.POCKET_PROFESSOR:
-        {
-          buffer.append(Preferences.getString("_pocketProfessorLectures"));
+        int heistsComplete = Preferences.getInteger("_catBurglarHeistsComplete");
+        int bankHeists = Preferences.getInteger("catBurglarBankHeists");
+        if (totalHeists + bankHeists > heistsComplete) {
+          buffer.append(charge);
           buffer.append("/");
-          int lectures = (int) Math.ceil(Math.sqrt(familiar.getModifiedWeight()));
-          AdventureResult chip = ItemPool.get(ItemPool.POCKET_PROFESSOR_MEMORY_CHIP, 1);
-          if (EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(chip)) {
-            lectures += 2;
+          buffer.append(minChargeCost);
+          buffer.append(" to heist<br>");
+          buffer.append(heistsComplete);
+          buffer.append("/");
+          buffer.append(totalHeists + bankHeists);
+          buffer.append(" heists");
+        } else {
+          buffer.append(charge);
+          buffer.append("/");
+          buffer.append(minChargeCost);
+          buffer.append(" to heist");
+        }
+        return buffer;
+      }
+      case FamiliarPool.POCKET_PROFESSOR -> {
+        buffer.append(Preferences.getString("_pocketProfessorLectures"));
+        buffer.append("/");
+        int lectures = (int) Math.ceil(Math.sqrt(familiar.getModifiedWeight()));
+        AdventureResult chip = ItemPool.get(ItemPool.POCKET_PROFESSOR_MEMORY_CHIP, 1);
+        if (EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(chip)) {
+          lectures += 2;
+        }
+        buffer.append(lectures);
+        buffer.append(" lectures");
+        return buffer;
+      }
+      case FamiliarPool.RED_SNAPPER -> {
+        String phylum = Preferences.getString("redSnapperPhylum");
+        int progress = Preferences.getInteger("redSnapperProgress");
+        buffer.append(progress);
+        buffer.append("/11 ");
+        buffer.append(phylum.equals("") ? "(none)" : phylum);
+        return buffer;
+      }
+      case FamiliarPool.MELODRAMEDARY -> {
+        int spit = Preferences.getInteger("camelSpit");
+        buffer.append(spit).append("% charged");
+
+        if (spit < 100) {
+          double spitPerTurn = 10 / 3.0;
+          AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
+          boolean wearingHelmet =
+              EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(helmet);
+
+          if (wearingHelmet) {
+            spitPerTurn += 1;
           }
-          buffer.append(lectures);
-          buffer.append(" lectures");
-          return buffer;
+
+          double turnsRemaining = Math.max((100 - spit) / spitPerTurn, 1.0);
+          boolean estimate = wearingHelmet && turnsRemaining > 1;
+
+          buffer
+              .append("<br>(")
+              .append(estimate ? "~" : "")
+              .append(HUMAN_READABLE_FORMAT.format(turnsRemaining))
+              .append(" combat")
+              .append(turnsRemaining > 1 ? "s" : "")
+              .append(")");
         }
-      case FamiliarPool.RED_SNAPPER:
-        {
-          String phylum = Preferences.getString("redSnapperPhylum");
-          int progress = Preferences.getInteger("redSnapperProgress");
-          buffer.append(progress);
-          buffer.append("/11 ");
-          buffer.append(phylum.equals("") ? "(none)" : phylum);
-          return buffer;
-        }
 
-      case FamiliarPool.MELODRAMEDARY:
-        {
-          int spit = Preferences.getInteger("camelSpit");
-          buffer.append(spit).append("% charged");
-
-          if (spit < 100) {
-            double spitPerTurn = 10 / 3.0;
-            AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
-            boolean wearingHelmet =
-                EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(helmet);
-
-            if (wearingHelmet) {
-              spitPerTurn += 1;
-            }
-
-            double turnsRemaining = Math.max((100 - spit) / spitPerTurn, 1.0);
-            boolean estimate = wearingHelmet && turnsRemaining > 1;
-
-            buffer
-                .append("<br>(")
-                .append(estimate ? "~" : "")
-                .append(HUMAN_READABLE_FORMAT.format(turnsRemaining))
-                .append(" combat")
-                .append(turnsRemaining > 1 ? "s" : "")
-                .append(")");
-          }
-
-          return buffer;
-        }
+        return buffer;
+      }
     }
 
     if (familiar.hasDrop()) {

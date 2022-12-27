@@ -218,20 +218,14 @@ public class MonsterDatabase {
 
   public static final boolean elementalVulnerability(
       final Element element1, final Element element2) {
-    switch (element1) {
-      case COLD:
-        return element2 == Element.HOT || element2 == Element.SPOOKY;
-      case HOT:
-        return element2 == Element.SLEAZE || element2 == Element.STENCH;
-      case SLEAZE:
-        return element2 == Element.COLD || element2 == Element.SPOOKY;
-      case SPOOKY:
-        return element2 == Element.HOT || element2 == Element.STENCH;
-      case STENCH:
-        return element2 == Element.SLEAZE || element2 == Element.COLD;
-      default:
-        return false;
-    }
+    return switch (element1) {
+      case COLD -> element2 == Element.HOT || element2 == Element.SPOOKY;
+      case HOT -> element2 == Element.SLEAZE || element2 == Element.STENCH;
+      case SLEAZE -> element2 == Element.COLD || element2 == Element.SPOOKY;
+      case SPOOKY -> element2 == Element.HOT || element2 == Element.STENCH;
+      case STENCH -> element2 == Element.SLEAZE || element2 == Element.COLD;
+      default -> false;
+    };
   }
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {

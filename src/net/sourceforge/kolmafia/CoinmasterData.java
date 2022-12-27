@@ -83,12 +83,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Set<AdventureResult> currencies = null;
 
   // Functional fields to obviate overriding methods
-  private Function<Integer, Integer> getBuyPrice = x -> getBuyPriceInternal(x);
-  private Function<Integer, AdventureResult> itemBuyPrice = x -> itemBuyPriceInternal(x);
-  private Function<Integer, Boolean> canBuyItem = x -> canBuyItemInternal(x);
-  private Function<Integer, Boolean> availableItem = x -> availableItemInternal(x);
-  private BiConsumer<AdventureResult, Boolean> purchasedItem =
-      (x, y) -> purchasedItemInternal(x, y);
+  private Function<Integer, Integer> getBuyPrice = this::getBuyPriceInternal;
+  private Function<Integer, AdventureResult> itemBuyPrice = this::itemBuyPriceInternal;
+  private Function<Integer, Boolean> canBuyItem = this::canBuyItemInternal;
+  private Function<Integer, Boolean> availableItem = this::availableItemInternal;
+  private BiConsumer<AdventureResult, Boolean> purchasedItem = this::purchasedItemInternal;
 
   // Constructor for CoinmasterData with only mandatory fields.
   // Optional fields can be added fluidly.
@@ -168,7 +167,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * Defines a <code>Pattern</code> that determines the number of available tokens.
    *
    * <p>Every coinmaster with a single currency has text informing you of how much of the currency
-   * you have available. We use this pattern to extract that number (in <code>group(1)</code>.
+   * you have available. We use this pattern to extract that number in <code>group(1)</code>.
    *
    * <p>If the token is a number, this should equal the quantity in inventory. We do not expect
    * inventory to get out of sync, but this allows us to check.
@@ -306,8 +305,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * Provides a <code>List</code> of <code>AdventureResult</code>s of the items that you can buy
    * from this coinmaster.
    *
-   * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>List</code> has
-   * been created ahead of time elsewhere - pass it in here.
+   * <p>If not all the items are in <code>coinmasters.txt</code> - or a <code>List</code> has been
+   * created ahead of time elsewhere - pass it in here.
    *
    * <p>It is important that the <code>List</code> be created by <code>LockableListFactory</code>
    * since it will be used as the model for this coinmaster in the <code>CoinmastersFrame</code>
@@ -351,7 +350,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * Provides a <code>Map</code> from itemId to cost of the items that you can buy from this
    * coinmaster.
    *
-   * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>Map</code> has been
+   * <p>If not all the items are in <code>coinmasters.txt</code> - or a <code>Map</code> has been
    * created ahead of time elsewhere - pass it in here.
    *
    * @param buyPrices - The <code>Map</code> from itemId -> cost of items you can buy
@@ -404,8 +403,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * Provides a <code>List</code> of <code>AdventureResult</code>s of the items that you can sell to
    * this coinmaster.
    *
-   * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>List</code> has
-   * been created ahead of time elsewhere - pass it in here.
+   * <p>If not all the items are in <code>coinmasters.txt</code> - or a <code>List</code> has been
+   * created ahead of time elsewhere - pass it in here.
    *
    * <p>It is important that the <code>List</code> be created by <code>LockableListFactory</code>
    * since it will be used as the model for this coinmaster in the <code>CoinmastersFrame</code>
@@ -436,7 +435,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * Provides a <code>Map</code> from itemId to cost of the items that you can sell to this
    * coinmaster.
    *
-   * <p>If not all of the items are in <code>coinmasters.txt</code> - or a <code>Map</code> has been
+   * <p>If not all the items are in <code>coinmasters.txt</code> - or a <code>Map</code> has been
    * created ahead of time elsewhere - pass it in here.
    *
    * @param sellPrices - The <code>Map</code> from itemId -> cost of items you can buy
@@ -475,7 +474,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * Provides the value of the field specifying the number of items you are buying from or selling
    * to the coinmaster.
    *
-   * @param countField - The field specifying athe count
+   * @param countField - The field specifying the count
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withCountField(String countField) {
@@ -519,7 +518,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
-   * Specifies that transactions with this coinmaster need to provide the a "pwd" field for the
+   * Specifies that transactions with this coinmaster need to provide the "pwd" field for the
    * password hash.
    *
    * <p>When you look at the HTML for visiting a coinmaster, sometimes the buttons include a "pwd"
@@ -539,7 +538,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * inventory.
    *
    * <p>We've seen at least one coinmaster where purchases did not result in acquiring an item in
-   * inventory; instead the item was send as a "gift" to another player.
+   * inventory; instead the item was sent as a "gift" to another player.
    *
    * <p>Specify <code>false</code> here to indicate that we do not need to construct <code>
    * PurchaseRequest</code>s for the items you can buy.
@@ -607,7 +606,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * <p>Use this if you want to, for example, set properties for once-per-day (or
    * once-per-ascension) purchases
    *
-   * @param function - a BiConsumer object to be called by purchasedItem
+   * @param consumer - a BiConsumer object to be called by purchasedItem
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withPurchasedItem(BiConsumer<AdventureResult, Boolean> consumer) {

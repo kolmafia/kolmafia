@@ -215,29 +215,21 @@ public abstract class RabbitHoleManager {
         this.side = UNKNOWN;
       } else {
         String pieceString = matcher.group(5);
-        if (pieceString.equals("p")) {
-          this.piece = PAWN;
-        } else if (pieceString.equals("r")) {
-          this.piece = ROOK;
-        } else if (pieceString.equals("n")) {
-          this.piece = KNIGHT;
-        } else if (pieceString.equals("b")) {
-          this.piece = BISHOP;
-        } else if (pieceString.equals("k")) {
-          this.piece = KING;
-        } else if (pieceString.equals("q")) {
-          this.piece = QUEEN;
-        } else {
-          this.piece = UNKNOWN;
+        switch (pieceString) {
+          case "p" -> this.piece = PAWN;
+          case "r" -> this.piece = ROOK;
+          case "n" -> this.piece = KNIGHT;
+          case "b" -> this.piece = BISHOP;
+          case "k" -> this.piece = KING;
+          case "q" -> this.piece = QUEEN;
+          default -> this.piece = UNKNOWN;
         }
 
         String sideString = matcher.group(6);
-        if (sideString.equals("w")) {
-          this.side = WHITE;
-        } else if (sideString.equals("b")) {
-          this.side = BLACK;
-        } else {
-          this.side = UNKNOWN;
+        switch (sideString) {
+          case "w" -> this.side = WHITE;
+          case "b" -> this.side = BLACK;
+          default -> this.side = UNKNOWN;
         }
       }
     }
@@ -364,67 +356,43 @@ public abstract class RabbitHoleManager {
     }
 
     public String pieceCode() {
-      switch (this.piece) {
-        case PAWN:
-          return "P";
-        case ROOK:
-          return "R";
-        case KNIGHT:
-          return "N";
-        case BISHOP:
-          return "B";
-        case KING:
-          return "K";
-        case QUEEN:
-          return "Q";
-      }
-      return "";
+      return switch (this.piece) {
+        case PAWN -> "P";
+        case ROOK -> "R";
+        case KNIGHT -> "N";
+        case BISHOP -> "B";
+        case KING -> "K";
+        case QUEEN -> "Q";
+        default -> "";
+      };
     }
 
     public static int codeToPiece(final String code) {
-      switch (code.charAt(0)) {
-        case 'P':
-        case 'p':
-          return PAWN;
-        case 'R':
-        case 'r':
-          return ROOK;
-        case 'N':
-        case 'n':
-          return KNIGHT;
-        case 'B':
-        case 'b':
-          return BISHOP;
-        case 'K':
-        case 'k':
-          return KING;
-        case 'Q':
-        case 'q':
-          return QUEEN;
-      }
-      return UNKNOWN;
+      return switch (code.charAt(0)) {
+        case 'P', 'p' -> PAWN;
+        case 'R', 'r' -> ROOK;
+        case 'N', 'n' -> KNIGHT;
+        case 'B', 'b' -> BISHOP;
+        case 'K', 'k' -> KING;
+        case 'Q', 'q' -> QUEEN;
+        default -> UNKNOWN;
+      };
     }
 
     public String sideCode() {
-      switch (this.side) {
-        case BLACK:
-          return "B";
-        case WHITE:
-          return "W";
-      }
-      return "";
+      return switch (this.side) {
+        case BLACK -> "B";
+        case WHITE -> "W";
+        default -> "";
+      };
     }
 
     public static int codeToSide(final String code) {
-      switch (code.charAt(0)) {
-        case 'B':
-        case 'b':
-          return BLACK;
-        case 'W':
-        case 'w':
-          return WHITE;
-      }
-      return UNKNOWN;
+      return switch (code.charAt(0)) {
+        case 'B', 'b' -> BLACK;
+        case 'W', 'w' -> WHITE;
+        default -> UNKNOWN;
+      };
     }
 
     public static String coords(final int square) {
@@ -654,12 +622,12 @@ public abstract class RabbitHoleManager {
       int col = this.current % 8;
 
       switch (square.getPiece()) {
-        case Square.PAWN:
+        case Square.PAWN -> {
           // Pawns capture diagonally forward one row
           this.addMove(list, row - 1, col - 1);
           this.addMove(list, row - 1, col + 1);
-          break;
-        case Square.KING:
+        }
+        case Square.KING -> {
           // Kings move one in any direction
           this.addMove(list, row - 1, col - 1);
           this.addMove(list, row - 1, col);
@@ -669,8 +637,8 @@ public abstract class RabbitHoleManager {
           this.addMove(list, row + 1, col - 1);
           this.addMove(list, row + 1, col);
           this.addMove(list, row + 1, col + 1);
-          break;
-        case Square.KNIGHT:
+        }
+        case Square.KNIGHT -> {
           // Knights wiggle
           this.addMove(list, row - 2, col - 1);
           this.addMove(list, row - 2, col + 1);
@@ -680,17 +648,13 @@ public abstract class RabbitHoleManager {
           this.addMove(list, row + 2, col - 1);
           this.addMove(list, row + 1, col - 2);
           this.addMove(list, row - 1, col - 2);
-          break;
-        case Square.ROOK:
-          this.addRookMoves(list, row, col);
-          break;
-        case Square.BISHOP:
-          this.addBishopMoves(list, row, col);
-          break;
-        case Square.QUEEN:
+        }
+        case Square.ROOK -> this.addRookMoves(list, row, col);
+        case Square.BISHOP -> this.addBishopMoves(list, row, col);
+        case Square.QUEEN -> {
           this.addRookMoves(list, row, col);
           this.addBishopMoves(list, row, col);
-          break;
+        }
       }
 
       return list;
@@ -1267,7 +1231,7 @@ public abstract class RabbitHoleManager {
 
     List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
     AdventureResult curHat = EquipmentManager.getEquipment(EquipmentManager.HAT);
-    TreeMap<Integer, String> options = new TreeMap<Integer, String>();
+    TreeMap<Integer, String> options = new TreeMap<>();
     for (AdventureResult hat : hats) {
       if (hat.equals(EquipmentRequest.UNEQUIP)) { // no buff without a hat!
         continue;
@@ -1308,7 +1272,7 @@ public abstract class RabbitHoleManager {
       hats.add(current.getItem());
     }
 
-    TreeMap<Integer, StringBuffer> lengths = new TreeMap<Integer, StringBuffer>();
+    TreeMap<Integer, StringBuffer> lengths = new TreeMap<>();
     for (AdventureResult hat : hats) {
       if (hat.equals(EquipmentRequest.UNEQUIP)) { // no buff without a hat!
         continue;

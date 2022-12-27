@@ -40,8 +40,7 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseSkillRequest extends GenericRequest implements Comparable<UseSkillRequest> {
-  private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS =
-      new HashMap<Integer, UseSkillRequest>();
+  private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS = new HashMap<>();
   private static final Pattern SKILLID_PATTERN = Pattern.compile("whichskill=(\\d+)");
   private static final Pattern BOOKID_PATTERN =
       Pattern.compile("preaction=(?:summon|combine)([^&]*)");

@@ -189,23 +189,21 @@ public class DwarfFactoryRequest extends GenericRequest {
     String equipment = null;
 
     switch (itemId) {
-      case ItemPool.LINOLEUM_ORE:
-      case ItemPool.ASBESTOS_ORE:
-      case ItemPool.CHROME_ORE:
-      case ItemPool.LUMP_OF_COAL:
+      case ItemPool.LINOLEUM_ORE,
+          ItemPool.ASBESTOS_ORE,
+          ItemPool.CHROME_ORE,
+          ItemPool.LUMP_OF_COAL -> {
         ores = Preferences.getString("lastDwarfOreRunes");
         if (ores.length() == 4) {
           typeRunes = ores;
         }
-        break;
-      case ItemPool.MINERS_HELMET:
-      case ItemPool.MINERS_PANTS:
-      case ItemPool.MATTOCK:
+      }
+      case ItemPool.MINERS_HELMET, ItemPool.MINERS_PANTS, ItemPool.MATTOCK -> {
         equipment = Preferences.getString("lastDwarfEquipmentRunes");
         if (equipment.length() == 3) {
           typeRunes = equipment;
         }
-        break;
+      }
     }
 
     String setting = "lastDwarfFactoryItem" + itemId;
@@ -292,24 +290,22 @@ public class DwarfFactoryRequest extends GenericRequest {
     // See if we've identified the penultimate item and can thus
     // deduce the final item.
     switch (itemId) {
-      case ItemPool.LINOLEUM_ORE:
-      case ItemPool.ASBESTOS_ORE:
-      case ItemPool.CHROME_ORE:
-      case ItemPool.LUMP_OF_COAL:
+      case ItemPool.LINOLEUM_ORE,
+          ItemPool.ASBESTOS_ORE,
+          ItemPool.CHROME_ORE,
+          ItemPool.LUMP_OF_COAL -> {
         String ores = Preferences.getString("lastDwarfOreRunes");
         if (ores.length() == 4) {
           DwarfFactoryRequest.checkForLastRune(ores, DwarfFactoryRequest.ORES, "ores");
         }
-        break;
-      case ItemPool.MINERS_HELMET:
-      case ItemPool.MINERS_PANTS:
-      case ItemPool.MATTOCK:
+      }
+      case ItemPool.MINERS_HELMET, ItemPool.MINERS_PANTS, ItemPool.MATTOCK -> {
         String equipment = Preferences.getString("lastDwarfEquipmentRunes");
         if (equipment.length() == 3) {
           DwarfFactoryRequest.checkForLastRune(
               equipment, DwarfFactoryRequest.EQUIPMENT, "pieces of equipment");
         }
-        break;
+      }
     }
 
     // If the length is 1, that rune has been matched with an

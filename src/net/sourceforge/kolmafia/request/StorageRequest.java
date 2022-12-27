@@ -681,7 +681,7 @@ public class StorageRequest extends TransferItemRequest {
     Matcher matcher2 = StorageRequest.PULL_ITEM_PATTERN.matcher(responseText);
 
     // Transfer items from storage and/or freepulls
-    ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<AdventureResult>() : null;
+    ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<>() : null;
     int pulls = 0;
 
     while (matcher1.find() && matcher2.find()) {

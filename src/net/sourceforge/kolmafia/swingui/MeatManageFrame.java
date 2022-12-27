@@ -46,7 +46,7 @@ public class MeatManageFrame extends GenericFrame {
           new Dimension(80, 20),
           new Dimension(240, 20));
 
-      LockableListModel<String> heroes = new LockableListModel<String>();
+      LockableListModel<String> heroes = new LockableListModel<>();
       heroes.add("Statue of Boris");
       heroes.add("Statue of Jarlsberg");
       heroes.add("Statue of Sneaky Pete");

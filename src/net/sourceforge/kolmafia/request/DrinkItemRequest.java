@@ -814,68 +814,66 @@ public class DrinkItemRequest extends UseItemRequest {
     // Perform item-specific processing
 
     switch (itemId) {
-      case ItemPool.STEEL_LIVER:
+      case ItemPool.STEEL_LIVER -> {
         if (responseText.contains("You acquire a skill")) {
           ResponseTextParser.learnSkill("Liver of Steel");
         }
         return;
-
-      case ItemPool.FERMENTED_PICKLE_JUICE:
+      }
+      case ItemPool.FERMENTED_PICKLE_JUICE -> {
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
         return;
-
-      case ItemPool.MINI_MARTINI:
+      }
+      case ItemPool.MINI_MARTINI -> {
         Preferences.increment("miniMartinisDrunk", item.getCount());
         return;
-
-      case ItemPool.BLOODWEISER:
+      }
+      case ItemPool.BLOODWEISER -> {
         Preferences.increment("bloodweiserDrunk", item.getCount());
         return;
-
-      case ItemPool.MISS_GRAVES_VERMOUTH:
+      }
+      case ItemPool.MISS_GRAVES_VERMOUTH -> {
         Preferences.setBoolean("_missGravesVermouthDrunk", true);
         return;
-
-      case ItemPool.MAD_LIQUOR:
+      }
+      case ItemPool.MAD_LIQUOR -> {
         Preferences.setBoolean("_madLiquorDrunk", true);
         return;
-
-      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL:
+      }
+      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL -> {
         Preferences.setBoolean("_docClocksThymeCocktailDrunk", true);
         return;
-
-      case ItemPool.DRIPPY_PILSNER:
+      }
+      case ItemPool.DRIPPY_PILSNER -> {
         Preferences.setBoolean("_drippyPilsnerUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.DRIPPY_WINE:
+      }
+      case ItemPool.DRIPPY_WINE -> {
         Preferences.setBoolean("_drippyWineUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.EVERFULL_GLASS:
-        {
-          // You drink the liquid in the cup.  Someone must have poured some of their horizontal
-          // tango into it.
-          if (responseText.contains("You drink the liquid in the cup")) {
-            Matcher m = EVERFULL_GLASS_PATTERN.matcher(responseText);
-            if (m.find()) {
-              String booze = m.group(1);
-              String message = "Your everfull glass contained some " + booze + "!";
-              RequestLogger.printLine(message);
-              RequestLogger.updateSessionLog(message);
-            }
+      }
+      case ItemPool.EVERFULL_GLASS -> {
+        // You drink the liquid in the cup.  Someone must have poured some of their horizontal
+        // tango into it.
+        if (responseText.contains("You drink the liquid in the cup")) {
+          Matcher m = EVERFULL_GLASS_PATTERN.matcher(responseText);
+          if (m.find()) {
+            String booze = m.group(1);
+            String message = "Your everfull glass contained some " + booze + "!";
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
           }
-          break;
         }
-
-      case ItemPool.VAMPIRE_VINTNER_WINE:
+        break;
+      }
+      case ItemPool.VAMPIRE_VINTNER_WINE -> {
         // The charge only starts recounting when the wine is drunk
         Preferences.setInteger("vintnerCharge", 0);
         KoLCharacter.usableFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
-        break;
+      }
     }
   }
 

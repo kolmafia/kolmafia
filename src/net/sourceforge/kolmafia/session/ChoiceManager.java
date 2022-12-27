@@ -1996,7 +1996,7 @@ public abstract class ChoiceManager {
     boolean items = false;
     for (int i = 0; i < options.length; ++i) {
       Option opt = options[i];
-      AdventureResult item[] = opt.getItems();
+      AdventureResult[] item = opt.getItems();
       if (item.length == 0) {
         continue;
       }
@@ -2025,7 +2025,7 @@ public abstract class ChoiceManager {
     // Pick an item that the player doesn't have yet
     for (int i = 0; i < options.length; ++i) {
       Option opt = options[i];
-      AdventureResult item[] = opt.getItems();
+      AdventureResult[] item = opt.getItems();
       if (item.length == 0) {
         continue;
       }

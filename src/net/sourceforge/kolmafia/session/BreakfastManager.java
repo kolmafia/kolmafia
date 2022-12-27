@@ -852,7 +852,7 @@ public class BreakfastManager {
       RequestThread.postRequest(
           new GenericRequest("inv_use.php?pwd&whichitem=" + plant.getItemId()));
 
-      String status[] = Preferences.getString("_pottedPowerPlant").split(",");
+      String[] status = Preferences.getString("_pottedPowerPlant").split(",");
 
       for (int pp = 0; pp < status.length; pp++) {
         if (!status[pp].equals("0")) {

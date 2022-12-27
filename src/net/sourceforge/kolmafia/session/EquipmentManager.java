@@ -137,17 +137,12 @@ public class EquipmentManager {
       EquipmentManager.historyLists.add(new ArrayList<>());
 
       switch (i) {
-        case EquipmentManager.ACCESSORY1:
-        case EquipmentManager.ACCESSORY2:
-        case EquipmentManager.ACCESSORY3:
-          EquipmentManager.equipmentLists.add(
-              LockableListFactory.getMirror(EquipmentManager.accessories));
-          break;
-
-        default:
-          EquipmentManager.equipmentLists.add(
-              LockableListFactory.getSortedInstance(AdventureResult.class));
-          break;
+        case EquipmentManager.ACCESSORY1,
+            EquipmentManager.ACCESSORY2,
+            EquipmentManager.ACCESSORY3 -> EquipmentManager.equipmentLists.add(
+            LockableListFactory.getMirror(EquipmentManager.accessories));
+        default -> EquipmentManager.equipmentLists.add(
+            LockableListFactory.getSortedInstance(AdventureResult.class));
       }
     }
   }
@@ -1680,7 +1675,7 @@ public class EquipmentManager {
 
   private static void updateEquipmentList(
       final ConsumptionType filterId, final List<AdventureResult> currentList) {
-    ArrayList<AdventureResult> temporary = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> temporary = new ArrayList<>();
     temporary.add(EquipmentRequest.UNEQUIP);
 
     // If the character is currently equipped with a one-handed

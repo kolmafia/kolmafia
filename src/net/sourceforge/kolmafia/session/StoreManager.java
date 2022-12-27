@@ -74,11 +74,9 @@ public abstract class StoreManager {
   private static final long REALISTIC_PRICE_THRESHOLD = 50000000;
   private static long potentialEarnings = 0;
 
-  private static final LockableListModel<StoreLogEntry> storeLog =
-      new LockableListModel<StoreLogEntry>();
-  private static final LockableListModel<SoldItem> soldItemList = new LockableListModel<SoldItem>();
-  private static final LockableListModel<SoldItem> sortedSoldItemList =
-      new LockableListModel<SoldItem>();
+  private static final LockableListModel<StoreLogEntry> storeLog = new LockableListModel<>();
+  private static final LockableListModel<SoldItem> soldItemList = new LockableListModel<>();
+  private static final LockableListModel<SoldItem> sortedSoldItemList = new LockableListModel<>();
 
   public static boolean soldItemsRetrieved = false;
 
@@ -213,7 +211,7 @@ public abstract class StoreManager {
     }
 
     StoreManager.potentialEarnings = 0;
-    ArrayList<SoldItem> newItems = new ArrayList<SoldItem>();
+    ArrayList<SoldItem> newItems = new ArrayList<>();
 
     switch (type) {
       case ADDER:
@@ -339,7 +337,7 @@ public abstract class StoreManager {
         return;
       }
 
-      ArrayList<StoreLogEntry> currentLog = new ArrayList<StoreLogEntry>();
+      ArrayList<StoreLogEntry> currentLog = new ArrayList<>();
 
       String[] entries = logMatcher.group().split("<br>");
 

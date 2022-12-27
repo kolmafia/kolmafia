@@ -38,7 +38,6 @@ public class BasementRequest extends AdventureRequest {
     MOXIE,
     MPDRAIN,
     HPDRAIN,
-    ;
   }
 
   private static int basementLevel = 0;

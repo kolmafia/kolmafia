@@ -125,7 +125,7 @@ public class CampAwayRequest extends PlaceRequest {
   private static final Pattern CLOUD_TALK_PATTERN =
       Pattern.compile("<img .*?otherimages/smoke2/([^\"]*)\"", Pattern.DOTALL);
 
-  private static final Map<String, Character> cloudLetters = new HashMap<String, Character>();
+  private static final Map<String, Character> cloudLetters = new HashMap<>();
 
   static {
     cloudLetters.put("a.png", 'A');

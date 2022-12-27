@@ -788,13 +788,7 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    String encounter = parseEncounter(responseText);
-
-    if (encounter != null) {
-      return encounter;
-    }
-
-    return null;
+    return parseEncounter(responseText);
   }
 
   public static String parseEncounter(final String responseText) {
@@ -1177,7 +1171,7 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    ArrayList<String> internal = new ArrayList<String>();
+    ArrayList<String> internal = new ArrayList<>();
     String[] temp = text.split("\"");
 
     for (int i = 1; i < temp.length - 1; i++) { // The first and last elements are never useful

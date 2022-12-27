@@ -264,7 +264,7 @@ public class ChatFrame extends GenericFrame {
       this.chatDisplay.addHyperlinkListener(new ChatLinkClickedListener());
 
       this.associatedContact = associatedContact;
-      this.commandHistory = new ArrayList<String>();
+      this.commandHistory = new ArrayList<>();
 
       ChatEntryListener listener = new ChatEntryListener();
 

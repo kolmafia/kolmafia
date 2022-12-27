@@ -97,7 +97,7 @@ public class QuestLogRequest extends GenericRequest {
 
   private static void parseResponse(final String responseText, final int source) {
     Matcher headers = QuestLogRequest.HEADER_PATTERN.matcher(responseText);
-    HashMap<Integer, String> map = new HashMap<Integer, String>();
+    HashMap<Integer, String> map = new HashMap<>();
 
     while (headers.find()) {
       map.put(headers.end(), headers.group(1));

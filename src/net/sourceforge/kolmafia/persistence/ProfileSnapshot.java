@@ -42,12 +42,11 @@ public class ProfileSnapshot {
     "Number of days idle"
   };
 
-  private static final Map<String, String> levelMap = new TreeMap<String, String>();
-  private static final Map<String, String> profileMap = new TreeMap<String, String>();
-  private static final Map<String, String> rosterMap = new TreeMap<String, String>();
+  private static final Map<String, String> levelMap = new TreeMap<>();
+  private static final Map<String, String> profileMap = new TreeMap<>();
+  private static final Map<String, String> rosterMap = new TreeMap<>();
 
-  private static final LockableListModel<ProfileRequest> filterList =
-      new LockableListModel<ProfileRequest>();
+  private static final LockableListModel<ProfileRequest> filterList = new LockableListModel<>();
   private static final ClanMembersRequest request = new ClanMembersRequest(true);
 
   private ProfileSnapshot() {}
@@ -104,7 +103,7 @@ public class ProfileSnapshot {
     }
 
     ProfileSnapshot.filterList.clear();
-    ArrayList<ProfileRequest> interimList = new ArrayList<ProfileRequest>();
+    ArrayList<ProfileRequest> interimList = new ArrayList<>();
 
     String[] names = new String[ProfileSnapshot.profileMap.size()];
     ProfileSnapshot.profileMap.keySet().toArray(names);
@@ -230,7 +229,7 @@ public class ProfileSnapshot {
     strbuf.append("</h2>");
     strbuf.append(KoLConstants.LINE_BREAK);
 
-    ArrayList<String> rankList = new ArrayList<String>();
+    ArrayList<String> rankList = new ArrayList<>();
 
     ProfileRequest memberLookup;
     for (int i = 0; i < members.length; ++i) {
@@ -381,17 +380,17 @@ public class ProfileSnapshot {
   private static String getStatsSummary(final String[] members) {
     StringBuilder strbuf = new StringBuilder();
 
-    ArrayList<String> classList = new ArrayList<String>();
-    ArrayList<Integer> powerList = new ArrayList<Integer>();
+    ArrayList<String> classList = new ArrayList<>();
+    ArrayList<Integer> powerList = new ArrayList<>();
     // ArrayList karmaList = new ArrayList();
 
     // ArrayList meatList = new ArrayList();
-    ArrayList<Integer> turnsList = new ArrayList<Integer>();
-    ArrayList<Integer> pvpList = new ArrayList<Integer>();
+    ArrayList<Integer> turnsList = new ArrayList<>();
+    ArrayList<Integer> pvpList = new ArrayList<>();
 
-    ArrayList<Integer> musList = new ArrayList<Integer>();
-    ArrayList<Integer> mysList = new ArrayList<Integer>();
-    ArrayList<Integer> moxList = new ArrayList<Integer>();
+    ArrayList<Integer> musList = new ArrayList<>();
+    ArrayList<Integer> mysList = new ArrayList<>();
+    ArrayList<Integer> moxList = new ArrayList<>();
 
     // Iterate through the list of clan members
     // and populate the lists.
@@ -606,8 +605,8 @@ public class ProfileSnapshot {
   private static String getSocialSummary(final String[] members) {
     StringBuilder strbuf = new StringBuilder();
 
-    ArrayList<String> foodList = new ArrayList<String>();
-    ArrayList<String> drinkList = new ArrayList<String>();
+    ArrayList<String> foodList = new ArrayList<>();
+    ArrayList<String> drinkList = new ArrayList<>();
 
     ProfileRequest memberLookup;
 

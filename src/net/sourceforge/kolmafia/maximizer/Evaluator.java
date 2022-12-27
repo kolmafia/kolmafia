@@ -1018,8 +1018,8 @@ public class Evaluator {
     // Items to be considered based on their score
     List<List<CheckedItem>> ranked = new ArrayList<>(slots);
     for (int i = 0; i < slots; ++i) {
-      automatic.add(new ArrayList<CheckedItem>());
-      ranked.add(new ArrayList<CheckedItem>());
+      automatic.add(new ArrayList<>());
+      ranked.add(new ArrayList<>());
     }
 
     double nullScore = this.getScore(new Modifiers());
@@ -1694,7 +1694,7 @@ public class Evaluator {
 
     List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
     for (int i = 0; i < ranked.size(); ++i) {
-      speculationList.add(new ArrayList<MaximizerSpeculation>());
+      speculationList.add(new ArrayList<>());
     }
 
     for (int slot = 0; slot < ranked.size(); ++slot) {

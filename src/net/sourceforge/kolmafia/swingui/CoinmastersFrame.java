@@ -1269,13 +1269,10 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     @Override
     public int buyMax(final AdventureResult item, final int max) {
-      switch (item.getItemId()) {
-        case ItemPool.TALES_OF_DREAD:
-        case ItemPool.BRASS_DREAD_FLASK:
-        case ItemPool.SILVER_DREAD_FLASK:
-          return 1;
-      }
-      return max;
+      return switch (item.getItemId()) {
+        case ItemPool.TALES_OF_DREAD, ItemPool.BRASS_DREAD_FLASK, ItemPool.SILVER_DREAD_FLASK -> 1;
+        default -> max;
+      };
     }
   }
 
@@ -1305,15 +1302,14 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     @Override
     public int buyMax(final AdventureResult item, final int max) {
-      switch (item.getItemId()) {
-        case ItemPool.VIRAL_VIDEO:
-        case ItemPool.PLUS_ONE:
-        case ItemPool.GALLON_OF_MILK:
-        case ItemPool.PRINT_SCREEN:
-        case ItemPool.DAILY_DUNGEON_MALWARE:
-          return 1;
-      }
-      return max;
+      return switch (item.getItemId()) {
+        case ItemPool.VIRAL_VIDEO,
+            ItemPool.PLUS_ONE,
+            ItemPool.GALLON_OF_MILK,
+            ItemPool.PRINT_SCREEN,
+            ItemPool.DAILY_DUNGEON_MALWARE -> 1;
+        default -> max;
+      };
     }
   }
 
@@ -1613,8 +1609,8 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
 
       CoinmasterData data = this.data;
-      Map<Integer, Integer> originalBalances = new TreeMap<Integer, Integer>();
-      Map<Integer, Integer> balances = new TreeMap<Integer, Integer>();
+      Map<Integer, Integer> originalBalances = new TreeMap<>();
+      Map<Integer, Integer> balances = new TreeMap<>();
       int neededSize = items.length;
 
       for (int i = 0; i < items.length; ++i) {

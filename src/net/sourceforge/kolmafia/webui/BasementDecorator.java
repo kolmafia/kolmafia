@@ -100,21 +100,19 @@ public class BasementDecorator {
     }
 
     for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
-      boolean useful = false;
-      switch (fam.getId()) {
-        case FamiliarPool.HAND:
-        case FamiliarPool.SANDWORM:
-        case FamiliarPool.PARROT:
-        case FamiliarPool.PRESSIE:
-        case FamiliarPool.RIFTLET:
-        case FamiliarPool.GIBBERER:
-        case FamiliarPool.HARE:
-          useful = true;
-          break;
-        case FamiliarPool.SOMBRERO:
-          useful = !KoLCharacter.usableFamiliars().contains(BasementRequest.SANDWORM);
-          break;
-      }
+      boolean useful =
+          switch (fam.getId()) {
+            case FamiliarPool.HAND,
+                FamiliarPool.SANDWORM,
+                FamiliarPool.PARROT,
+                FamiliarPool.PRESSIE,
+                FamiliarPool.RIFTLET,
+                FamiliarPool.GIBBERER,
+                FamiliarPool.HARE -> true;
+            case FamiliarPool.SOMBRERO -> !KoLCharacter.usableFamiliars()
+                .contains(BasementRequest.SANDWORM);
+            default -> false;
+          };
 
       if (fam.hasDrop()) {
         useful = fam.dropsToday() < fam.dropDailyCap();

@@ -49,7 +49,7 @@ public abstract class ChoiceAdventures {
   public static class Option {
     private final String name;
     private final int option;
-    private final AdventureResult items[];
+    private final AdventureResult[] items;
 
     public Option(final String name) {
       this(name, 0, NO_ITEM_NAMES);
@@ -6480,30 +6480,35 @@ public abstract class ChoiceAdventures {
       String photo = matcher.group(1);
       String find = matcher.group(0);
       String replace = null;
-      if (photo.equals("photo1")) {
-        if (find.contains("2259")) {
-          replace =
-              StringUtilities.singleStringReplace(
-                  find, "<option value=\"2259\">", "<option value=\"2259\" selected>");
-        }
-      } else if (photo.equals("photo2")) {
-        if (find.contains("7264")) {
-          replace =
-              StringUtilities.singleStringReplace(
-                  find, "<option value=\"7264\">", "<option value=\"7264\" selected>");
-        }
-      } else if (photo.equals("photo3")) {
-        if (find.contains("7263")) {
-          replace =
-              StringUtilities.singleStringReplace(
-                  find, "<option value=\"7263\">", "<option value=\"7263\" selected>");
-        }
-      } else if (photo.equals("photo4")) {
-        if (find.contains("7265")) {
-          replace =
-              StringUtilities.singleStringReplace(
-                  find, "<option value=\"7265\">", "<option value=\"7265\" selected>");
-        }
+      switch (photo) {
+        case "photo1":
+          if (find.contains("2259")) {
+            replace =
+                StringUtilities.singleStringReplace(
+                    find, "<option value=\"2259\">", "<option value=\"2259\" selected>");
+          }
+          break;
+        case "photo2":
+          if (find.contains("7264")) {
+            replace =
+                StringUtilities.singleStringReplace(
+                    find, "<option value=\"7264\">", "<option value=\"7264\" selected>");
+          }
+          break;
+        case "photo3":
+          if (find.contains("7263")) {
+            replace =
+                StringUtilities.singleStringReplace(
+                    find, "<option value=\"7263\">", "<option value=\"7263\" selected>");
+          }
+          break;
+        case "photo4":
+          if (find.contains("7265")) {
+            replace =
+                StringUtilities.singleStringReplace(
+                    find, "<option value=\"7265\">", "<option value=\"7265\" selected>");
+          }
+          break;
       }
 
       if (replace != null) {

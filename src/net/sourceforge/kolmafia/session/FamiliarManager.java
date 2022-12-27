@@ -44,7 +44,7 @@ public abstract class FamiliarManager {
 
     List<AdventureResult> closetItems = new ArrayList<>();
     List<AdventureResult> storageItems = new ArrayList<>();
-    ArrayList<GenericRequest> requests = new ArrayList<GenericRequest>();
+    ArrayList<GenericRequest> requests = new ArrayList<>();
 
     // there is one case where you might want to equip a familiar its own item when it isn't usable:
     // blue plate on Shorter-Order Cook in a path where it's not usable (e.g. Zombie Slayer)

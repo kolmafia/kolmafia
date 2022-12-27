@@ -40,7 +40,7 @@ public abstract class WumpusManager {
     null, // z
   };
 
-  public static TreeMap<String, Room> rooms = new TreeMap<String, Room>();
+  public static TreeMap<String, Room> rooms = new TreeMap<>();
 
   static {
     // Initialize all rooms to unknown

@@ -1285,10 +1285,10 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.turns = 0;
 
       // Initialize set of weights
-      this.weights = new TreeSet<Integer>();
+      this.weights = new TreeSet<>();
 
       // Initialize the list of GearSets
-      this.gearSets = new ArrayList<GearSet>();
+      this.gearSets = new ArrayList<>();
 
       // Check skills and equipment
       this.updateStatus();

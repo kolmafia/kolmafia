@@ -399,7 +399,7 @@ public class Expression {
         case '\u0092':
           AscensionPath.Path p =
               AscensionPath.nameToPath((String) this.literals.get((int) s[--sp]));
-          v = KoLCharacter.getPath().equals(p) ? 1 : 0;
+          v = KoLCharacter.getPath() == p ? 1 : 0;
           break;
           // Valid with ModifierExpression:
         case '\u0093':

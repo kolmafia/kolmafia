@@ -121,9 +121,8 @@ public class AreaCombatData {
       }
       // If any relevant Daily Candle familiar-tracking potions are active, add two(?) to the
       // encounter pool
-      if ((monsterPhylum.equals(Phylum.HUMANOID)
-              && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
-          || (monsterPhylum.equals(Phylum.BEAST)
+      if ((monsterPhylum == Phylum.HUMANOID && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
+          || (monsterPhylum == Phylum.BEAST
               && KoLConstants.activeEffects.contains(A_BEASTLY_ODOR))) {
         currentWeighting += 2 * baseWeighting;
       }

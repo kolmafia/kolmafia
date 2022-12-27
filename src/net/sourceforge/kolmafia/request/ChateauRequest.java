@@ -121,54 +121,54 @@ public class ChateauRequest extends PlaceRequest {
 
   public static final void gainItem(final AdventureResult result) {
     switch (result.getItemId()) {
-      case ItemPool.CHATEAU_MUSCLE:
+      case ItemPool.CHATEAU_MUSCLE -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_MUSCLE);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_MYST);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_MOXIE);
-        break;
-      case ItemPool.CHATEAU_MYST:
+      }
+      case ItemPool.CHATEAU_MYST -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_MYST);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_MUSCLE);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_MOXIE);
-        break;
-      case ItemPool.CHATEAU_MOXIE:
+      }
+      case ItemPool.CHATEAU_MOXIE -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_MOXIE);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_MUSCLE);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_MYST);
-        break;
-      case ItemPool.CHATEAU_FAN:
+      }
+      case ItemPool.CHATEAU_FAN -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_FAN);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_CHANDELIER);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_SKYLIGHT);
         ChateauRequest.ceiling = "ceiling fan";
-        break;
-      case ItemPool.CHATEAU_CHANDELIER:
+      }
+      case ItemPool.CHATEAU_CHANDELIER -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_CHANDELIER);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_FAN);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_SKYLIGHT);
         ChateauRequest.ceiling = "antler chandelier";
-        break;
-      case ItemPool.CHATEAU_SKYLIGHT:
+      }
+      case ItemPool.CHATEAU_SKYLIGHT -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_SKYLIGHT);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_FAN);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_CHANDELIER);
         ChateauRequest.ceiling = "artificial skylight";
-        break;
-      case ItemPool.CHATEAU_BANK:
+      }
+      case ItemPool.CHATEAU_BANK -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_BANK);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_JUICE_BAR);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_PENS);
-        break;
-      case ItemPool.CHATEAU_JUICE_BAR:
+      }
+      case ItemPool.CHATEAU_JUICE_BAR -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_JUICE_BAR);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_BANK);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_PENS);
-        break;
-      case ItemPool.CHATEAU_PENS:
+      }
+      case ItemPool.CHATEAU_PENS -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_PENS);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_JUICE_BAR);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_BANK);
-        break;
+      }
     }
   }
 

@@ -65,7 +65,7 @@ public class KGBRequest extends GenericRequest {
   private static final Pattern ENCHANT_PATTERN =
       Pattern.compile("<s>(.*?)</s><br><br><b>(.*?)</b>");
 
-  private static final HashMap<String, ModifierList> modMap = new HashMap<String, ModifierList>();
+  private static final HashMap<String, ModifierList> modMap = new HashMap<>();
 
   static {
     ModifierList list1 = new ModifierList();

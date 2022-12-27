@@ -145,13 +145,10 @@ public class ClosetRequest extends TransferItemRequest {
   }
 
   private static String pickURL(final int moveType) {
-    switch (moveType) {
-      case INVENTORY_TO_CLOSET:
-      case CLOSET_TO_INVENTORY:
-        return "inventory.php";
-      default:
-        return "closet.php";
-    }
+    return switch (moveType) {
+      case INVENTORY_TO_CLOSET, CLOSET_TO_INVENTORY -> "inventory.php";
+      default -> "closet.php";
+    };
   }
 
   @Override
@@ -377,27 +374,14 @@ public class ClosetRequest extends TransferItemRequest {
 
   @Override
   public String getStatusMessage() {
-    switch (this.moveType) {
-      case REFRESH:
-        return "Examining Meat in closet";
-
-      case INVENTORY_TO_CLOSET:
-        return "Placing items into closet";
-
-      case CLOSET_TO_INVENTORY:
-        return "Removing items from closet";
-
-      case MEAT_TO_CLOSET:
-        return "Placing meat into closet";
-
-      case MEAT_TO_INVENTORY:
-        return "Removing meat from closet";
-
-      case EMPTY_CLOSET:
-        return "Emptying closet";
-
-      default:
-        return "Unknown request type";
-    }
+    return switch (this.moveType) {
+      case REFRESH -> "Examining Meat in closet";
+      case INVENTORY_TO_CLOSET -> "Placing items into closet";
+      case CLOSET_TO_INVENTORY -> "Removing items from closet";
+      case MEAT_TO_CLOSET -> "Placing meat into closet";
+      case MEAT_TO_INVENTORY -> "Removing meat from closet";
+      case EMPTY_CLOSET -> "Emptying closet";
+      default -> "Unknown request type";
+    };
   }
 }

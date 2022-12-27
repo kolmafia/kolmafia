@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PlaceRequest extends GenericRequest {
-  public static TreeSet<String> places = new TreeSet<String>();
+  public static TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
 
   private String place = null;
@@ -533,7 +533,6 @@ public class PlaceRequest extends GenericRequest {
             // message = "Visiting the Small Pyramid";
           }
         }
-        ;
       }
       case "dinorf" -> {
         message =

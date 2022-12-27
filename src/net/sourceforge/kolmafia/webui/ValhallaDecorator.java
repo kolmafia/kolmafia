@@ -71,8 +71,8 @@ public class ValhallaDecorator {
     reminders.append("</table>");
     reminders.append("<br><table cellspacing=10 cellpadding=10><tr>");
 
-    ArrayList<String> skillList = new ArrayList<String>();
-    ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<UseSkillRequest>();
+    ArrayList<String> skillList = new ArrayList<>();
+    ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<>();
     for (int i = 0; i < KoLConstants.availableSkills.size(); ++i) {
       UseSkillRequest skill = KoLConstants.availableSkills.get(i);
       skillList.add(String.valueOf(skill.getSkillId()));

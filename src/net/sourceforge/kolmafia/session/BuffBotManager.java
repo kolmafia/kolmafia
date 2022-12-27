@@ -47,17 +47,17 @@ public abstract class BuffBotManager {
   private static int initialRestores = 0;
   private static boolean isInitializing = false;
 
-  private static final ArrayList<KoLMailMessage> saveList = new ArrayList<KoLMailMessage>();
-  private static final ArrayList<KoLMailMessage> deleteList = new ArrayList<KoLMailMessage>();
-  private static final ArrayList<SendMailRequest> sendList = new ArrayList<SendMailRequest>();
+  private static final ArrayList<KoLMailMessage> saveList = new ArrayList<>();
+  private static final ArrayList<KoLMailMessage> deleteList = new ArrayList<>();
+  private static final ArrayList<SendMailRequest> sendList = new ArrayList<>();
 
   private static int messageDisposalSetting;
   private static String refundMessage;
   private static String thanksMessage;
-  private static List<String> whiteList = new ArrayList<String>();
+  private static List<String> whiteList = new ArrayList<>();
 
-  private static final Map<Integer, Offering> buffCostMap = new TreeMap<Integer, Offering>();
-  private static final SortedListModel<Offering> buffCostTable = new SortedListModel<Offering>();
+  private static final Map<Integer, Offering> buffCostMap = new TreeMap<>();
+  private static final SortedListModel<Offering> buffCostTable = new SortedListModel<>();
 
   public static final Pattern MEAT_PATTERN =
       Pattern.compile(

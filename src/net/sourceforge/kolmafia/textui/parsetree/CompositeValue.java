@@ -87,7 +87,7 @@ public abstract class CompositeValue extends Value {
       AggregateType atype = (AggregateType) dataType;
       if (atype.getSize() == 0) {
         Type dtype = atype.getDataType();
-        ArrayList<Value> values = new ArrayList<Value>();
+        ArrayList<Value> values = new ArrayList<>();
         for (int i = index + 1; i < data.length; i++) {
           values.add(Value.readValue(dtype, data[i], filename, line));
         }

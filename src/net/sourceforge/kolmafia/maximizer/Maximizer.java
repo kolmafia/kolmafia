@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class Maximizer {
   private static boolean firstTime = true;
 
-  public static final LockableListModel<Boost> boosts = new LockableListModel<Boost>();
+  public static final LockableListModel<Boost> boosts = new LockableListModel<>();
   public static Evaluator eval;
 
   public static String[] maximizationCategories = {

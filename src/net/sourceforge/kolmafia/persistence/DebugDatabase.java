@@ -820,7 +820,7 @@ public class DebugDatabase {
 
     var quality = ConsumablesDatabase.getQuality(name);
     var descQuality = DebugDatabase.parseQuality(text);
-    if (!quality.equals(descQuality)) {
+    if (quality != descQuality) {
       report.println(
           "# *** " + name + " is quality " + quality + " but should be " + descQuality + ".");
     }
@@ -3219,27 +3219,13 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "advs":
-          advs = DebugDatabase.getNumericValue(child);
-          break;
-        case "musc":
-          musc = DebugDatabase.getNumericValue(child);
-          break;
-        case "myst":
-          myst = DebugDatabase.getNumericValue(child);
-          break;
-        case "mox":
-          mox = DebugDatabase.getNumericValue(child);
-          break;
-        case "fullness":
-          fullness = DebugDatabase.getNumericValue(child);
-          break;
-        case "level":
-          level = DebugDatabase.getNumericValue(child);
-          break;
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "advs" -> advs = DebugDatabase.getNumericValue(child);
+        case "musc" -> musc = DebugDatabase.getNumericValue(child);
+        case "myst" -> myst = DebugDatabase.getNumericValue(child);
+        case "mox" -> mox = DebugDatabase.getNumericValue(child);
+        case "fullness" -> fullness = DebugDatabase.getNumericValue(child);
+        case "level" -> level = DebugDatabase.getNumericValue(child);
       }
     }
 
@@ -3315,27 +3301,13 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "advs":
-          advs = DebugDatabase.getNumericValue(child);
-          break;
-        case "musc":
-          musc = DebugDatabase.getNumericValue(child);
-          break;
-        case "myst":
-          myst = DebugDatabase.getNumericValue(child);
-          break;
-        case "mox":
-          mox = DebugDatabase.getNumericValue(child);
-          break;
-        case "drunk":
-          drunk = DebugDatabase.getNumericValue(child);
-          break;
-        case "level":
-          level = DebugDatabase.getNumericValue(child);
-          break;
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "advs" -> advs = DebugDatabase.getNumericValue(child);
+        case "musc" -> musc = DebugDatabase.getNumericValue(child);
+        case "myst" -> myst = DebugDatabase.getNumericValue(child);
+        case "mox" -> mox = DebugDatabase.getNumericValue(child);
+        case "drunk" -> drunk = DebugDatabase.getNumericValue(child);
+        case "level" -> level = DebugDatabase.getNumericValue(child);
       }
     }
 
@@ -3454,40 +3426,20 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "cansmash":
-          cansmash = DebugDatabase.getStringValue(child).equals("y");
-          break;
-        case "confirmed":
-          confirmed = DebugDatabase.getStringValue(child).equals("y");
-          break;
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "kolid":
+        case "cansmash" -> cansmash = DebugDatabase.getStringValue(child).equals("y");
+        case "confirmed" -> confirmed = DebugDatabase.getStringValue(child).equals("y");
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "kolid" -> {
           id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
           seen.add(id);
-          break;
-        case "yield":
-          yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
-          break;
-        case "cold":
-          cold = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "hot":
-          hot = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "sleazy":
-          sleaze = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "spooky":
-          spooky = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "stinky":
-          stench = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "twinkly":
-          twinkly = !DebugDatabase.getStringValue(child).equals("0");
-          break;
+        }
+        case "yield" -> yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
+        case "cold" -> cold = !DebugDatabase.getStringValue(child).equals("0");
+        case "hot" -> hot = !DebugDatabase.getStringValue(child).equals("0");
+        case "sleazy" -> sleaze = !DebugDatabase.getStringValue(child).equals("0");
+        case "spooky" -> spooky = !DebugDatabase.getStringValue(child).equals("0");
+        case "stinky" -> stench = !DebugDatabase.getStringValue(child).equals("0");
+        case "twinkly" -> twinkly = !DebugDatabase.getStringValue(child).equals("0");
       }
     }
 

@@ -429,14 +429,11 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
   }
 
   private String getLouvreDirection(final int i) {
-    switch (i) {
-      case 1:
-        return "up";
-      case 2:
-        return "down";
-      default:
-        return "side";
-    }
+    return switch (i) {
+      case 1 -> "up";
+      case 2 -> "down";
+      default -> "side";
+    };
   }
 
   private void addChoiceSelect(final String zone, final String name, final JComponent option) {
@@ -985,24 +982,12 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.oceanDestSelect.saveSettings();
 
     switch (this.oceanActionSelect.getSelectedIndex()) {
-      case 0:
-        Preferences.setString("oceanAction", "continue");
-        break;
-      case 1:
-        Preferences.setString("oceanAction", "show");
-        break;
-      case 2:
-        Preferences.setString("oceanAction", "stop");
-        break;
-      case 3:
-        Preferences.setString("oceanAction", "savecontinue");
-        break;
-      case 4:
-        Preferences.setString("oceanAction", "saveshow");
-        break;
-      case 5:
-        Preferences.setString("oceanAction", "savestop");
-        break;
+      case 0 -> Preferences.setString("oceanAction", "continue");
+      case 1 -> Preferences.setString("oceanAction", "show");
+      case 2 -> Preferences.setString("oceanAction", "stop");
+      case 3 -> Preferences.setString("oceanAction", "savecontinue");
+      case 4 -> Preferences.setString("oceanAction", "saveshow");
+      case 5 -> Preferences.setString("oceanAction", "savestop");
     }
 
     this.isAdjusting = false;
@@ -1254,18 +1239,13 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.oceanDestSelect.loadSettings();
 
     String action = Preferences.getString("oceanAction");
-    if (action.equals("continue")) {
-      this.oceanActionSelect.setSelectedIndex(0);
-    } else if (action.equals("show")) {
-      this.oceanActionSelect.setSelectedIndex(1);
-    } else if (action.equals("stop")) {
-      this.oceanActionSelect.setSelectedIndex(2);
-    } else if (action.equals("savecontinue")) {
-      this.oceanActionSelect.setSelectedIndex(3);
-    } else if (action.equals("saveshow")) {
-      this.oceanActionSelect.setSelectedIndex(4);
-    } else if (action.equals("savestop")) {
-      this.oceanActionSelect.setSelectedIndex(5);
+    switch (action) {
+      case "continue" -> this.oceanActionSelect.setSelectedIndex(0);
+      case "show" -> this.oceanActionSelect.setSelectedIndex(1);
+      case "stop" -> this.oceanActionSelect.setSelectedIndex(2);
+      case "savecontinue" -> this.oceanActionSelect.setSelectedIndex(3);
+      case "saveshow" -> this.oceanActionSelect.setSelectedIndex(4);
+      case "savestop" -> this.oceanActionSelect.setSelectedIndex(5);
     }
 
     this.isAdjusting = false;

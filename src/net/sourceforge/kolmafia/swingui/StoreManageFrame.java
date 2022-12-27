@@ -434,7 +434,7 @@ public class StoreManageFrame extends GenericPanelFrame {
                 renderer.setForeground(getForeground());
               }
               if (UNDERLINE_FONT == null) {
-                Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+                Map<TextAttribute, Integer> fontAttributes = new HashMap<>();
                 fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
                 UNDERLINE_FONT = renderer.getFont().deriveFont(fontAttributes);
               }

@@ -46,8 +46,7 @@ public class ClanLogRequest extends GenericRequest {
   private static final Pattern LOGENTRY_PATTERN =
       Pattern.compile("\t<li class=\"(.*?)\">(.*?): (.*?)</li>");
 
-  private final Map<String, List<StashLogEntry>> stashMap =
-      new TreeMap<String, List<StashLogEntry>>();
+  private final Map<String, List<StashLogEntry>> stashMap = new TreeMap<>();
 
   public ClanLogRequest() {
     super("clan_log.php");
@@ -223,7 +222,7 @@ public class ClanLogRequest extends GenericRequest {
         currentMember = entryMatcher.group(2).trim();
 
         if (!this.stashMap.containsKey(currentMember)) {
-          this.stashMap.put(currentMember, new ArrayList<StashLogEntry>());
+          this.stashMap.put(currentMember, new ArrayList<>());
         }
 
         entryList = this.stashMap.get(currentMember);
@@ -265,7 +264,7 @@ public class ClanLogRequest extends GenericRequest {
       try {
         currentMember = entryMatcher.group(2).trim();
         if (!this.stashMap.containsKey(currentMember)) {
-          this.stashMap.put(currentMember, new ArrayList<StashLogEntry>());
+          this.stashMap.put(currentMember, new ArrayList<>());
         }
 
         entryList = this.stashMap.get(currentMember);
@@ -313,7 +312,7 @@ public class ClanLogRequest extends GenericRequest {
       try {
         currentMember = entryMatcher.group(descriptionString.endsWith(" ") ? 3 : 2).trim();
         if (!this.stashMap.containsKey(currentMember)) {
-          this.stashMap.put(currentMember, new ArrayList<StashLogEntry>());
+          this.stashMap.put(currentMember, new ArrayList<>());
         }
 
         entryList = this.stashMap.get(currentMember);

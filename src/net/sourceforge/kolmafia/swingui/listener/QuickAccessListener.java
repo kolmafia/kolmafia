@@ -19,7 +19,7 @@ public class QuickAccessListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     JRootPane rootPane = (JRootPane) e.getSource();
 
-    Map<String, Object> quickAccessItems = new TreeMap<String, Object>();
+    Map<String, Object> quickAccessItems = new TreeMap<>();
 
     addMenuElement(quickAccessItems, rootPane.getJMenuBar());
 

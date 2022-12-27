@@ -1554,30 +1554,16 @@ public abstract class KoLmafia {
     for (int i = 0; i < utfString.length(); ++i) {
       currentCharacter = utfString.charAt(i);
       switch (currentCharacter) {
-        case '-':
-          encodedString.append("2D");
-          break;
-        case '.':
-          encodedString.append("2E");
-          break;
-        case '*':
-          encodedString.append("2A");
-          break;
-        case '_':
-          encodedString.append("5F");
-          break;
-        case '+':
-          encodedString.append("20");
-          break;
-
-        case '%':
+        case '-' -> encodedString.append("2D");
+        case '.' -> encodedString.append("2E");
+        case '*' -> encodedString.append("2A");
+        case '_' -> encodedString.append("5F");
+        case '+' -> encodedString.append("20");
+        case '%' -> {
           encodedString.append(utfString.charAt(++i));
           encodedString.append(utfString.charAt(++i));
-          break;
-
-        default:
-          encodedString.append(Integer.toHexString(currentCharacter).toUpperCase());
-          break;
+        }
+        default -> encodedString.append(Integer.toHexString(currentCharacter).toUpperCase());
       }
     }
 

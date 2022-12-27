@@ -493,7 +493,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     // pack up the rest of the deed into an ArrayList.
     // .get( element ) gives a string array containing { "$ITEM", displayText, preference, command }
 
-    ArrayList<String[]> packedDeed = new ArrayList<String[]>();
+    ArrayList<String[]> packedDeed = new ArrayList<>();
     for (int i = (isMulti ? 4 : 3); i < deedsString.length; i += 4) {
       if (!deedsString[i].equals("$ITEM")) {
         RequestLogger.printLine(
@@ -939,7 +939,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       button.putClientProperty("JButton.buttonType", "segmented");
 
       if (this.buttons == null) {
-        this.buttons = new ArrayList<JButton>();
+        this.buttons = new ArrayList<>();
         button.putClientProperty("JButton.segmentPosition", "only");
       } else {
         button.putClientProperty("JButton.segmentPosition", "last");
@@ -966,7 +966,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       button.setDefaultCapable(false);
       button.putClientProperty("JButton.buttonType", "segmented");
       if (this.buttons == null) {
-        this.buttons = new ArrayList<JButton>();
+        this.buttons = new ArrayList<>();
         button.putClientProperty("JButton.segmentPosition", "only");
       } else {
         button.putClientProperty("JButton.segmentPosition", "last");
@@ -1081,7 +1081,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     JButton btn;
 
     public ShowerCombo() {
-      List<String> ttips = new ArrayList<String>();
+      List<String> ttips = new ArrayList<>();
       String[] choices = {"April Shower", "Muscle", "Mysticality", "Moxie", "Ice", "MP"};
       String[] tips = {
         "Take a shower",
@@ -1153,7 +1153,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     public DemonCombo() {
       int len = KoLAdventure.DEMON_TYPES.length;
-      List<String> ttips = new ArrayList<String>();
+      List<String> ttips = new ArrayList<>();
       String[] choices = new String[len + 1];
       choices[0] = "Summoning Chamber";
       String[] tips = {
@@ -1240,7 +1240,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.preference = pref;
 
       int len = packedDeed.size();
-      List<String> ttips = new ArrayList<String>();
+      List<String> ttips = new ArrayList<>();
       String[] tips = new String[len + 1];
       String[] choices = new String[len + 1];
       choices[0] = displayText;
@@ -2134,7 +2134,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     public MomCombo() {
       int len = MomRequest.FOOD.length;
-      List<String> ttips = new ArrayList<String>();
+      List<String> ttips = new ArrayList<>();
       String[] choices = new String[len + 1];
       choices[0] = "Mom Food";
       String[] tips = {
@@ -2749,7 +2749,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
       buffer.append("<html>");
 
-      HashSet<String> dropTrackers = new HashSet<String>();
+      HashSet<String> dropTrackers = new HashSet<>();
       for (FamiliarData.DropInfo info : FamiliarData.DROP_FAMILIARS) {
         if (!dropTrackers.contains(info.dropTracker)) {
           FamiliarData fam = KoLCharacter.usableFamiliar(info.id);
@@ -3212,8 +3212,8 @@ public class DailyDeedsPanel extends Box implements Listener {
     private final Component space;
     private final JButton button;
 
-    private final List<String> effectHats = new ArrayList<String>();
-    private final List<String> modifiers = new ArrayList<String>();
+    private final List<String> effectHats = new ArrayList<>();
+    private final List<String> modifiers = new ArrayList<>();
 
     private final HatterComboListener listener = new HatterComboListener();
 
@@ -3564,24 +3564,24 @@ public class DailyDeedsPanel extends Box implements Listener {
 
       for (AdventureResult item : KoLConstants.chateau) {
         switch (item.getItemId()) {
-          case ItemPool.CHATEAU_BANK:
+          case ItemPool.CHATEAU_BANK -> {
             this.setText("1,000 meat");
             this.button.setActionCommand(
                 "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk1\",false);");
             this.button.setVisible(true);
-            break;
-          case ItemPool.CHATEAU_JUICE_BAR:
+          }
+          case ItemPool.CHATEAU_JUICE_BAR -> {
             this.setText("3 random potions");
             this.button.setActionCommand(
                 "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk2\",false);");
             this.button.setVisible(true);
-            break;
-          case ItemPool.CHATEAU_PENS:
+          }
+          case ItemPool.CHATEAU_PENS -> {
             this.setText("3 fancy calligraphy pens");
             this.button.setActionCommand(
                 "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk3\",false);");
             this.button.setVisible(true);
-            break;
+          }
         }
       }
     }
@@ -3650,9 +3650,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class DeckOfEveryCardDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
@@ -3732,9 +3732,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   }
 
   public static class TeaTreeDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     static {
       choices.add("Potted Tea Tree:");
@@ -3859,24 +3859,13 @@ public class DailyDeedsPanel extends Box implements Listener {
       AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
       if (ascensionClass != null) {
         switch (ascensionClass) {
-          case SEAL_CLUBBER:
-            buffText = "Weapon Damage +150%";
-            break;
-          case TURTLE_TAMER:
-            buffText = "Maximum HP +90, Makes food more delicious!";
-            break;
-          case PASTAMANCER:
-            buffText = "+90% Item Drops from Monsters";
-            break;
-          case SAUCEROR:
-            buffText = "Spell Damage +150%";
-            break;
-          case DISCO_BANDIT:
-            buffText = "Ranged Damage +150%";
-            break;
-          case ACCORDION_THIEF:
-            buffText = "+45% Booze Drops from Monsters, Makes booze more effective!";
-            break;
+          case SEAL_CLUBBER -> buffText = "Weapon Damage +150%";
+          case TURTLE_TAMER -> buffText = "Maximum HP +90, Makes food more delicious!";
+          case PASTAMANCER -> buffText = "+90% Item Drops from Monsters";
+          case SAUCEROR -> buffText = "Spell Damage +150%";
+          case DISCO_BANDIT -> buffText = "Ranged Damage +150%";
+          case ACCORDION_THIEF -> buffText =
+              "+45% Booze Drops from Monsters, Makes booze more effective!";
         }
       }
 
@@ -3908,9 +3897,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class TerminalEnhanceDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
@@ -3997,9 +3986,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class TerminalEnquiryDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     JButton btn;
@@ -4081,9 +4070,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class TerminalExtrudeDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
@@ -4169,9 +4158,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class TerminalEducateDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     JButton btn;

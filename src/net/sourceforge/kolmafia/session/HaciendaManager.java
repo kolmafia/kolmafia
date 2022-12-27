@@ -223,7 +223,7 @@ public class HaciendaManager {
   }
 
   private static boolean verifyReward(final String text) {
-    List<AdventureResult> items = new ArrayList<AdventureResult>();
+    List<AdventureResult> items = new ArrayList<>();
     ResultProcessor.processItems(false, text, items);
     if (items.size() > 0) {
       String itemName = items.get(0).getName();

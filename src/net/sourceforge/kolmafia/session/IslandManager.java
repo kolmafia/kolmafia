@@ -1019,27 +1019,13 @@ public class IslandManager {
     IslandManager.quest = IslandManager.parseQuest(location);
 
     switch (IslandManager.quest) {
-      case ARENA:
-        IslandManager.parseArena(responseText);
-        break;
-      case JUNKYARD:
-        IslandManager.parseJunkyard(responseText);
-        break;
-      case ORCHARD:
-        IslandManager.parseOrchard(responseText);
-        break;
-      case FARM:
-        IslandManager.parseFarm(responseText);
-        break;
-      case NUNS:
-        IslandManager.parseNunnery(responseText);
-        break;
-      case LIGHTHOUSE:
-        IslandManager.parseLighthouse(responseText);
-        break;
-      case CAMP:
-        IslandManager.parseCamp(location, responseText);
-        break;
+      case ARENA -> IslandManager.parseArena(responseText);
+      case JUNKYARD -> IslandManager.parseJunkyard(responseText);
+      case ORCHARD -> IslandManager.parseOrchard(responseText);
+      case FARM -> IslandManager.parseFarm(responseText);
+      case NUNS -> IslandManager.parseNunnery(responseText);
+      case LIGHTHOUSE -> IslandManager.parseLighthouse(responseText);
+      case CAMP -> IslandManager.parseCamp(location, responseText);
     }
   }
 
@@ -1356,12 +1342,8 @@ public class IslandManager {
     IslandManager.quest = IslandManager.parseQuest(location);
 
     switch (IslandManager.quest) {
-      case ARENA:
-        IslandManager.parseArena(responseText);
-        break;
-      case NUNS:
-        IslandManager.parseNunnery(responseText);
-        break;
+      case ARENA -> IslandManager.parseArena(responseText);
+      case NUNS -> IslandManager.parseNunnery(responseText);
     }
   }
 

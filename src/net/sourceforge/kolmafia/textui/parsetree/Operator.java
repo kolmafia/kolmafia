@@ -423,7 +423,7 @@ public class Operator extends Command {
     }
     interpreter.traceUnindent();
 
-    if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+    if (interpreter.getState() == ScriptRuntime.State.EXIT) {
       interpreter.traceUnindent();
       return null;
     }
@@ -510,7 +510,7 @@ public class Operator extends Command {
     }
     interpreter.traceUnindent();
 
-    if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+    if (interpreter.getState() == ScriptRuntime.State.EXIT) {
       interpreter.traceUnindent();
       return null;
     }
@@ -543,7 +543,7 @@ public class Operator extends Command {
         interpreter.trace("[" + interpreter.getState() + "] <- " + rightValue.toQuotedString());
       }
       interpreter.traceUnindent();
-      if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+      if (interpreter.getState() == ScriptRuntime.State.EXIT) {
         interpreter.traceUnindent();
         return null;
       }
@@ -575,7 +575,7 @@ public class Operator extends Command {
         interpreter.trace("[" + interpreter.getState() + "] <- " + rightValue.toQuotedString());
       }
       interpreter.traceUnindent();
-      if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+      if (interpreter.getState() == ScriptRuntime.State.EXIT) {
         interpreter.traceUnindent();
         return null;
       }
@@ -609,7 +609,7 @@ public class Operator extends Command {
         interpreter.trace("[" + interpreter.getState() + "] <- " + rightValue.toQuotedString());
       }
       interpreter.traceUnindent();
-      if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+      if (interpreter.getState() == ScriptRuntime.State.EXIT) {
         interpreter.traceUnindent();
         return null;
       }
@@ -635,7 +635,7 @@ public class Operator extends Command {
       interpreter.trace("[" + interpreter.getState() + "] <- " + rightValue.toQuotedString());
     }
     interpreter.traceUnindent();
-    if (interpreter.getState().equals(ScriptRuntime.State.EXIT)) {
+    if (interpreter.getState() == ScriptRuntime.State.EXIT) {
       interpreter.traceUnindent();
       return null;
     }

@@ -182,15 +182,9 @@ public class IslandRequest extends GenericRequest {
   @Override
   public void run() {
     switch (this.quest) {
-      case ARENA:
-        KoLmafia.updateDisplay("Visiting the Mysterious Island Arena...");
-        break;
-      case LIGHTHOUSE:
-        KoLmafia.updateDisplay("Visiting the Lighthouse Keeper...");
-        break;
-      case FARM:
-        KoLmafia.updateDisplay("Visiting the Farmer...");
-        break;
+      case ARENA -> KoLmafia.updateDisplay("Visiting the Mysterious Island Arena...");
+      case LIGHTHOUSE -> KoLmafia.updateDisplay("Visiting the Lighthouse Keeper...");
+      case FARM -> KoLmafia.updateDisplay("Visiting the Farmer...");
     }
 
     super.run();

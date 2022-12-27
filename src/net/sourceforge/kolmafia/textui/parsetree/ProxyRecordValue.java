@@ -1828,7 +1828,7 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_image() {
       Phylum phylum = (Phylum) this.content;
-      if (phylum == null || phylum.equals(Phylum.NONE)) {
+      if (phylum == null || phylum == Phylum.NONE) {
         return "";
       }
 

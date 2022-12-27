@@ -2213,8 +2213,8 @@ public abstract class ChoiceControl {
       case 994:
         // Hide a gift!
         if (text.contains("You hide")) {
-          HashMap<Integer, Integer> idMap = new HashMap<Integer, Integer>(3);
-          HashMap<Integer, Integer> qtyMap = new HashMap<Integer, Integer>(3);
+          HashMap<Integer, Integer> idMap = new HashMap<>(3);
+          HashMap<Integer, Integer> qtyMap = new HashMap<>(3);
           int index;
           int id;
           int giftQty;
@@ -3695,23 +3695,28 @@ public abstract class ChoiceControl {
               Preferences.setString("_questPartyFairProgress", "");
             } else {
               QuestDatabase.setQuestProgress(Quest.PARTY_FAIR, "step1");
-              if (quest.equals("woots")) {
-                Preferences.setInteger("_questPartyFairProgress", 10);
-              } else if (quest.equals("partiers")) {
-                if (hard) {
-                  Preferences.setInteger("_questPartyFairProgress", 100);
-                } else {
-                  Preferences.setInteger("_questPartyFairProgress", 50);
-                }
-              } else if (quest.equals("dj")) {
-                if (hard) {
-                  Preferences.setInteger("_questPartyFairProgress", 10000);
-                } else {
-                  Preferences.setInteger("_questPartyFairProgress", 5000);
-                }
-              } else if (quest.equals("trash")) {
-                // The amount isn't known, so check quest log
-                (new GenericRequest("questlog.php?which=1")).run();
+              switch (quest) {
+                case "woots":
+                  Preferences.setInteger("_questPartyFairProgress", 10);
+                  break;
+                case "partiers":
+                  if (hard) {
+                    Preferences.setInteger("_questPartyFairProgress", 100);
+                  } else {
+                    Preferences.setInteger("_questPartyFairProgress", 50);
+                  }
+                  break;
+                case "dj":
+                  if (hard) {
+                    Preferences.setInteger("_questPartyFairProgress", 10000);
+                  } else {
+                    Preferences.setInteger("_questPartyFairProgress", 5000);
+                  }
+                  break;
+                case "trash":
+                  // The amount isn't known, so check quest log
+                  (new GenericRequest("questlog.php?which=1")).run();
+                  break;
               }
             }
           } else if (ChoiceManager.lastDecision == 2) {
@@ -7437,78 +7442,43 @@ public abstract class ChoiceControl {
           Matcher matcher = capitalPattern.matcher(text);
           while (matcher.find()) {
             if (matcher.group(2).contains("Active") || matcher.group(2).contains("Connected")) {
-              if (matcher.group(1).equals("Super-Accurate Spy Watch")) {
-                bondAdv = true;
-              } else if (matcher.group(1).equals("Razor-Sharp Tie")) {
-                bondWpn = true;
-              } else if (matcher.group(1).equals("Jet-Powered Skis")) {
-                bondInit = true;
-              } else if (matcher.group(1).equals("Kevlar-Lined Pants")) {
-                bondDR = true;
-              } else if (matcher.group(1).equals("Injected Nanobots")) {
-                bondHP = true;
-              } else if (matcher.group(1).equals("Sticky Climbing Gloves")) {
-                bondItem2 = true;
-              } else if (matcher.group(1).equals("Retinal Knowledge HUD")) {
-                bondStat = true;
-              } else if (matcher.group(1).equals("Belt-Implanted Still")) {
-                bondDrunk1 = true;
-              } else if (matcher.group(1).equals("Alcohol Absorbent Underwear")) {
-                bondBooze = true;
-              } else if (matcher.group(1).equals("Universal Symbology Guide")) {
-                bondSymbols = true;
-              } else if (matcher.group(1).equals("Soberness Injection Pen")) {
-                bondDrunk2 = true;
-              } else if (matcher.group(1).equals("Short-Range Jetpack")) {
-                bondJetpack = true;
-              } else if (matcher.group(1).equals("Invisible Meat Car, the Vanish")) {
-                bondStealth = true;
-              } else if (matcher.group(1).equals("Portable Pocket Bridge")) {
-                bondBridge = true;
-              } else if (matcher.group(1).equals("Static-Inducing, Bug-Shorting Underpants")) {
-                bondMPregen = true;
-              } else if (matcher.group(1).equals("Exotic Bartender, Barry L. Eagle")) {
-                bondMartiniTurn = true;
-              } else if (matcher.group(1).equals("Renowned Meat Thief, Ivanna Cuddle")) {
-                bondMeat = true;
-              } else if (matcher.group(1).equals("Master Art Thief, Sly Richard")) {
-                bondItem1 = true;
-              } else if (matcher.group(1).equals("Personal Trainer, Debbie Dallas")) {
-                bondMus1 = true;
-              } else if (matcher.group(1).equals("Rocket Scientist, Crimbo Jones")) {
-                bondMys1 = true;
-              } else if (matcher.group(1).equals("Licensed Masseur, Oliver Closehoff")) {
-                bondMox1 = true;
-              } else if (matcher.group(1).equals("Professional Cabbie, Rock Hardy")) {
-                bondBeach = true;
-              } else if (matcher.group(1).equals("Fellow Spy, Daisy Duke")) {
-                bondBeat = true;
-              } else if (matcher.group(1).equals("Fellow Spy, Prince O'Toole")) {
-                bondMartiniDelivery = true;
-              } else if (matcher.group(1).equals("Personal Kinesiologist, Doctor Kittie")) {
-                bondMus2 = true;
-              } else if (matcher.group(1).equals("Computer Hacker, Mitt Jobs")) {
-                bondMys2 = true;
-              } else if (matcher.group(1).equals("Spa Owner, Fatima Jiggles")) {
-                bondMox2 = true;
-              } else if (matcher.group(1).equals("Exotic Olive Procurer, Ben Dover")) {
-                bondMartiniPlus = true;
-              } else if (matcher.group(1).equals("Trained Sniper, Felicity Snuggles")) {
-                bondWar = true;
-              } else if (matcher.group(1).equals("Martial Arts Trainer, Jaques Trappe")) {
-                bondWeapon2 = true;
-              } else if (matcher.group(1).equals("Electromagnetic Ring")) {
-                bondItem3 = true;
-              } else if (matcher.group(1).equals("Robo-Spleen")) {
-                bondSpleen = true;
-              } else if (matcher.group(1).equals("Universal GPS")) {
-                bondDesert = true;
-              } else if (matcher.group(1).equals("Mission Controller, Maeby Moneypenny")) {
-                bondStealth2 = true;
-              } else if (matcher.group(1).equals("Sage Advisor, London McBrittishman")) {
-                bondStat2 = true;
-              } else if (matcher.group(1).equals("True Love, Honey Potts")) {
-                bondHoney = true;
+              switch (matcher.group(1)) {
+                case "Super-Accurate Spy Watch" -> bondAdv = true;
+                case "Razor-Sharp Tie" -> bondWpn = true;
+                case "Jet-Powered Skis" -> bondInit = true;
+                case "Kevlar-Lined Pants" -> bondDR = true;
+                case "Injected Nanobots" -> bondHP = true;
+                case "Sticky Climbing Gloves" -> bondItem2 = true;
+                case "Retinal Knowledge HUD" -> bondStat = true;
+                case "Belt-Implanted Still" -> bondDrunk1 = true;
+                case "Alcohol Absorbent Underwear" -> bondBooze = true;
+                case "Universal Symbology Guide" -> bondSymbols = true;
+                case "Soberness Injection Pen" -> bondDrunk2 = true;
+                case "Short-Range Jetpack" -> bondJetpack = true;
+                case "Invisible Meat Car, the Vanish" -> bondStealth = true;
+                case "Portable Pocket Bridge" -> bondBridge = true;
+                case "Static-Inducing, Bug-Shorting Underpants" -> bondMPregen = true;
+                case "Exotic Bartender, Barry L. Eagle" -> bondMartiniTurn = true;
+                case "Renowned Meat Thief, Ivanna Cuddle" -> bondMeat = true;
+                case "Master Art Thief, Sly Richard" -> bondItem1 = true;
+                case "Personal Trainer, Debbie Dallas" -> bondMus1 = true;
+                case "Rocket Scientist, Crimbo Jones" -> bondMys1 = true;
+                case "Licensed Masseur, Oliver Closehoff" -> bondMox1 = true;
+                case "Professional Cabbie, Rock Hardy" -> bondBeach = true;
+                case "Fellow Spy, Daisy Duke" -> bondBeat = true;
+                case "Fellow Spy, Prince O'Toole" -> bondMartiniDelivery = true;
+                case "Personal Kinesiologist, Doctor Kittie" -> bondMus2 = true;
+                case "Computer Hacker, Mitt Jobs" -> bondMys2 = true;
+                case "Spa Owner, Fatima Jiggles" -> bondMox2 = true;
+                case "Exotic Olive Procurer, Ben Dover" -> bondMartiniPlus = true;
+                case "Trained Sniper, Felicity Snuggles" -> bondWar = true;
+                case "Martial Arts Trainer, Jaques Trappe" -> bondWeapon2 = true;
+                case "Electromagnetic Ring" -> bondItem3 = true;
+                case "Robo-Spleen" -> bondSpleen = true;
+                case "Universal GPS" -> bondDesert = true;
+                case "Mission Controller, Maeby Moneypenny" -> bondStealth2 = true;
+                case "Sage Advisor, London McBrittishman" -> bondStat2 = true;
+                case "True Love, Honey Potts" -> bondHoney = true;
               }
             }
           }
@@ -7853,12 +7823,10 @@ public abstract class ChoiceControl {
           while (matcher.find()) {
             String costume = matcher.group(2);
             cost = StringUtilities.parseInt(matcher.group(3));
-            if (costume.equals("Carpenter")) {
-              carpenter = true;
-            } else if (costume.equals("Gardener")) {
-              gardener = true;
-            } else if (costume.equals("Ballerina")) {
-              ballerina = true;
+            switch (costume) {
+              case "Carpenter" -> carpenter = true;
+              case "Gardener" -> gardener = true;
+              case "Ballerina" -> ballerina = true;
             }
           }
           String wearing =
@@ -8179,65 +8147,59 @@ public abstract class ChoiceControl {
     if (decisionText == null) {
       return 0;
     }
-    if (decisionText.equals("Ask the Question")
-        || decisionText.equals("Talk to the Ghosts")
-        || decisionText.equals("I Wanna Know What Love Is")
-        || decisionText.equals("Tap Him on the Back")
-        || decisionText.equals("Avert Your Eyes")
-        || decisionText.equals("Approach a Raider")
-        || decisionText.equals("Approach the Argument")
-        || decisionText.equals("Approach the Ghost")
-        || decisionText.equals("Approach the Accountant Ghost")
-        || decisionText.equals("Ask if He's Lost")) {
-      return 1;
-    } else if (decisionText.equals("Enter the Crypt")
-        || decisionText.equals("Try to Talk Some Sense into Them")
-        || decisionText.equals("Put Your Two Cents In")
-        || decisionText.equals("Talk to the Ghost")
-        || decisionText.equals("Tell Them What Werewolves Are")
-        || decisionText.equals("Scream in Terror")
-        || decisionText.equals("Check out the Duel")
-        || decisionText.equals("Watch the Fight")
-        || decisionText.equals("Approach and Reproach")
-        || decisionText.equals("Talk Back to the Robot")) {
-      return 2;
-    } else if (decisionText.equals("Go down the Steps")
-        || decisionText.equals("Make a Suggestion")
-        || decisionText.equals("Tell Them About True Love")
-        || decisionText.equals("Scold the Ghost")
-        || decisionText.equals("Examine the Pipe")
-        || decisionText.equals("Say What?")
-        || decisionText.equals("Listen to the Lesson")
-        || decisionText.equals("Listen in on the Discussion")
-        || decisionText.equals("Point out the Malefactors")
-        || decisionText.equals("Ask for Information")) {
-      return 3;
-    } else if (decisionText.equals("Hurl Some Spells of Your Own")
-        || decisionText.equals("Take Command")
-        || decisionText.equals("Lose Your Patience")
-        || decisionText.equals("Fail to Stifle a Sneeze")
-        || decisionText.equals("Ask for Help")
-        || decisionText.equals(
-            "Ask How Duskwalker Basketball Is Played, Against Your Better Judgment")
-        || decisionText.equals("Knights in White Armor, Never Reaching an End")
-        || decisionText.equals("Own up to It")
-        || decisionText.equals("Approach the Poor Waifs")
-        || decisionText.equals("Look Behind You")) {
-      return 4;
-    } else if (decisionText.equals("Read the Book")
-        || decisionText.equals("Join the Conversation")
-        || decisionText.equals("Speak of the Pompatus of Love")
-        || decisionText.equals("Ask What's Going On")
-        || decisionText.equals("Interrupt the Rally")
-        || decisionText.equals("Ask What She's Doing Up There")
-        || decisionText.equals("Point Out an Unfortunate Fact")
-        || decisionText.equals("Try to Talk Sense")
-        || decisionText.equals("Ask for Directional Guidance")
-        || decisionText.equals("What?")) {
-      return 5;
-    }
-
-    return 0;
+    return switch (decisionText) {
+      case "Ask the Question",
+          "Talk to the Ghosts",
+          "I Wanna Know What Love Is",
+          "Tap Him on the Back",
+          "Avert Your Eyes",
+          "Approach a Raider",
+          "Approach the Argument",
+          "Approach the Ghost",
+          "Approach the Accountant Ghost",
+          "Ask if He's Lost" -> 1;
+      case "Enter the Crypt",
+          "Try to Talk Some Sense into Them",
+          "Put Your Two Cents In",
+          "Talk to the Ghost",
+          "Tell Them What Werewolves Are",
+          "Scream in Terror",
+          "Check out the Duel",
+          "Watch the Fight",
+          "Approach and Reproach",
+          "Talk Back to the Robot" -> 2;
+      case "Go down the Steps",
+          "Make a Suggestion",
+          "Tell Them About True Love",
+          "Scold the Ghost",
+          "Examine the Pipe",
+          "Say What?",
+          "Listen to the Lesson",
+          "Listen in on the Discussion",
+          "Point out the Malefactors",
+          "Ask for Information" -> 3;
+      case "Hurl Some Spells of Your Own",
+          "Take Command",
+          "Lose Your Patience",
+          "Fail to Stifle a Sneeze",
+          "Ask for Help",
+          "Ask How Duskwalker Basketball Is Played, Against Your Better Judgment",
+          "Knights in White Armor, Never Reaching an End",
+          "Own up to It",
+          "Approach the Poor Waifs",
+          "Look Behind You" -> 4;
+      case "Read the Book",
+          "Join the Conversation",
+          "Speak of the Pompatus of Love",
+          "Ask What's Going On",
+          "Interrupt the Rally",
+          "Ask What She's Doing Up There",
+          "Point Out an Unfortunate Fact",
+          "Try to Talk Sense",
+          "Ask for Directional Guidance",
+          "What?" -> 5;
+      default -> 0;
+    };
   }
 
   private static void checkGuyMadeOfBees(final GenericRequest request) {

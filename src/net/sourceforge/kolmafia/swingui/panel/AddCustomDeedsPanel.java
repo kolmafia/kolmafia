@@ -638,7 +638,7 @@ public class AddCustomDeedsPanel extends JPanel {
     protected ThreadedButton undoButton;
     protected ThreadedButton clearButton;
 
-    protected final List<String> textDeed = new ArrayList<String>();
+    protected final List<String> textDeed = new ArrayList<>();
 
     public TextDeedConstructor() {
       super("Text", 1);

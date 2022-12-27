@@ -32,7 +32,7 @@ public class BatManager {
   public static final String INDUSTRIAL_DISTRICT = "Industrial District (High Crime)";
   public static final String DOWNTOWN = "Downtown";
 
-  private static final TreeSet<BatUpgrade> upgrades = new TreeSet<BatUpgrade>();
+  private static final TreeSet<BatUpgrade> upgrades = new TreeSet<>();
   private static final BatStats stats = new BatStats();
   private static int DwayneCoFunds = 0;
   private static int DwayneCoBonusFunds = 0;
@@ -511,18 +511,13 @@ public class BatManager {
 
   public static void gainItem(final AdventureResult item) {
     switch (item.getItemId()) {
-      case ItemPool.EXPERIMENTAL_GENE_THERAPY:
-        BatManager.stats.increment("Maximum Bat-Health", 10);
-        break;
-
-      case ItemPool.SELF_DEFENSE_TRAINING:
-        BatManager.stats.increment("Bat-Armor", 1);
-        break;
-
-      case ItemPool.CONFIDENCE_BUILDING_HUG:
+      case ItemPool.EXPERIMENTAL_GENE_THERAPY -> BatManager.stats.increment(
+          "Maximum Bat-Health", 10);
+      case ItemPool.SELF_DEFENSE_TRAINING -> BatManager.stats.increment("Bat-Armor", 1);
+      case ItemPool.CONFIDENCE_BUILDING_HUG -> {
         BatManager.stats.increment("Bat-Punch Modifier", 1);
         BatManager.stats.increment("Bat-Kick Modifier", 1);
-        break;
+      }
     }
   }
 

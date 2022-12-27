@@ -278,20 +278,14 @@ public class AfterLifeRequest extends GenericRequest {
       builder.append("Ascend as a ");
 
       switch (type) {
-        case 1:
-          builder.append("Casual");
-          break;
-        case 2:
-          builder.append("Normal");
-          break;
-        case 3:
-          builder.append("Hardcore");
-          break;
-        default:
+        case 1 -> builder.append("Casual");
+        case 2 -> builder.append("Normal");
+        case 3 -> builder.append("Hardcore");
+        default -> {
           builder.append("(Type ");
           builder.append(type);
           builder.append(")");
-          break;
+        }
       }
 
       m = GENDER_PATTERN.matcher(urlString);
@@ -303,17 +297,13 @@ public class AfterLifeRequest extends GenericRequest {
       builder.append(" ");
 
       switch (gender) {
-        case 1:
-          builder.append("Male");
-          break;
-        case 2:
-          builder.append("Female");
-          break;
-        default:
+        case 1 -> builder.append("Male");
+        case 2 -> builder.append("Female");
+        default -> {
           builder.append("(Gender ");
           builder.append(gender);
           builder.append(")");
-          break;
+        }
       }
 
       m = CLASS_PATTERN.matcher(urlString);
@@ -325,65 +315,29 @@ public class AfterLifeRequest extends GenericRequest {
       builder.append(" ");
 
       switch (pclass) {
-        case 1:
-          builder.append("Seal Clubber");
-          break;
-        case 2:
-          builder.append("Turtle Tamer");
-          break;
-        case 3:
-          builder.append("Pastamancer");
-          break;
-        case 4:
-          builder.append("Sauceror");
-          break;
-        case 5:
-          builder.append("Disco Bandit");
-          break;
-        case 6:
-          builder.append("Accordion Thief");
-          break;
-        case 11:
-          builder.append("Avatar of Boris");
-          break;
-        case 12:
-          builder.append("Zombie Master");
-          break;
-        case 14:
-          builder.append("Avatar of Jarlsberg");
-          break;
-        case 15:
-          builder.append("Avatar of Sneaky Pete");
-          break;
-        case 17:
-          builder.append("Ed the Undying");
-          break;
-        case 18:
-          builder.append("Cow Puncher");
-          break;
-        case 19:
-          builder.append("Beanslinger");
-          break;
-        case 20:
-          builder.append("Snake Oiler");
-          break;
-        case 23:
-          builder.append("Gelatinous Noob");
-          break;
-        case 24:
-          builder.append("Vampyre");
-          break;
-        case 25:
-          builder.append("Plumber");
-          break;
-        case 27:
-          builder.append("Grey Goo");
-          break;
-        default:
+        case 1 -> builder.append("Seal Clubber");
+        case 2 -> builder.append("Turtle Tamer");
+        case 3 -> builder.append("Pastamancer");
+        case 4 -> builder.append("Sauceror");
+        case 5 -> builder.append("Disco Bandit");
+        case 6 -> builder.append("Accordion Thief");
+        case 11 -> builder.append("Avatar of Boris");
+        case 12 -> builder.append("Zombie Master");
+        case 14 -> builder.append("Avatar of Jarlsberg");
+        case 15 -> builder.append("Avatar of Sneaky Pete");
+        case 17 -> builder.append("Ed the Undying");
+        case 18 -> builder.append("Cow Puncher");
+        case 19 -> builder.append("Beanslinger");
+        case 20 -> builder.append("Snake Oiler");
+        case 23 -> builder.append("Gelatinous Noob");
+        case 24 -> builder.append("Vampyre");
+        case 25 -> builder.append("Plumber");
+        case 27 -> builder.append("Grey Goo");
+        default -> {
           builder.append("(Class ");
           builder.append(pclass);
           builder.append(")");
-          break;
+        }
       }
 
       m = SIGN_PATTERN.matcher(urlString);

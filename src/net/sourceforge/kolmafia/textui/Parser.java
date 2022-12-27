@@ -5065,41 +5065,40 @@ public class Parser {
   }
 
   private boolean tokenChar(final char ch) {
-    switch (ch) {
-      case ' ':
-      case '\t':
-      case '.':
-      case ',':
-      case '{':
-      case '}':
-      case '(':
-      case ')':
-      case '$':
-      case '!':
-      case '~':
-      case '+':
-      case '-':
-      case '=':
-      case '"':
-      case '`':
-      case '\'':
-      case '*':
-      case '/':
-      case '%':
-      case '|':
-      case '^':
-      case '&':
-      case '[':
-      case ']':
-      case ';':
-      case '<':
-      case '>':
-      case '?':
-      case ':':
-      case '\u2248':
-        return true;
-    }
-    return false;
+    return switch (ch) {
+      case ' ',
+          '\t',
+          '.',
+          ',',
+          '{',
+          '}',
+          '(',
+          ')',
+          '$',
+          '!',
+          '~',
+          '+',
+          '-',
+          '=',
+          '"',
+          '`',
+          '\'',
+          '*',
+          '/',
+          '%',
+          '|',
+          '^',
+          '&',
+          '[',
+          ']',
+          ';',
+          '<',
+          '>',
+          '?',
+          ':',
+          '\u2248' -> true;
+      default -> false;
+    };
   }
 
   private boolean tokenString(final String s) {

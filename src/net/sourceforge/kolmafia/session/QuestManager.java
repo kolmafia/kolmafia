@@ -99,12 +99,9 @@ public class QuestManager {
     if (redirectLocation != null) {
       if (location.startsWith("adventure")) {
         switch (locationId) {
-          case AdventurePool.PALINDOME:
-            QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
-            break;
-          case AdventurePool.EL_VIBRATO_ISLAND:
-            handleElVibratoChange(location, "");
-            break;
+          case AdventurePool.PALINDOME -> QuestDatabase.setQuestIfBetter(
+              Quest.PALINDOME, QuestDatabase.STARTED);
+          case AdventurePool.EL_VIBRATO_ISLAND -> handleElVibratoChange(location, "");
         }
       }
       return;
@@ -2402,53 +2399,38 @@ public class QuestManager {
 
   public static void updateQuestFightLost(String responseText, String monsterName) {
     switch (monsterName) {
-      case "menacing thug":
-        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step18");
+      case "menacing thug" -> QuestDatabase.setQuestProgress(Quest.NEMESIS, "step18");
+      case "Mob Penguin hitman" -> QuestDatabase.setQuestProgress(Quest.NEMESIS, "step20");
+      case "Naughty Sorceress (3)" -> QuestDatabase.setQuestProgress(Quest.FINAL, "step12");
+      case "hunting seal",
+          "turtle trapper",
+          "evil spaghetti cult assassin",
+          "b&eacute;arnaise zombie",
+          "flock of seagulls",
+          "mariachi bandolero" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step22");
         break;
-      case "Mob Penguin hitman":
-        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step20");
+      }
+      case "Argarggagarg the Dire Hellseal",
+          "Safari Jack, Small-Game Hunter",
+          "Yakisoba the Executioner",
+          "Heimandatz, Nacho Golem",
+          "Jocko Homo",
+          "The Mariachi With No Name" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step24");
         break;
-      case "Naughty Sorceress (3)":
-        QuestDatabase.setQuestProgress(Quest.FINAL, "step12");
-        break;
-      case "hunting seal":
-      case "turtle trapper":
-      case "evil spaghetti cult assassin":
-      case "b&eacute;arnaise zombie":
-      case "flock of seagulls":
-      case "mariachi bandolero":
-        {
-          QuestDatabase.setQuestProgress(Quest.NEMESIS, "step22");
-          break;
+      }
+      case "mother hellseal" -> Preferences.decrement("_sealScreeches", 1, 0);
+      case "Cyrus the Virus" -> {
+        QuestDatabase.setQuestIfBetter(Quest.PRIMORDIAL, "step2");
+        Matcher matcher = CYRUS_PATTERN.matcher(responseText);
+        if (matcher.find()) {
+          QuestManager.updateCyrusAdjective(matcher.group(1));
         }
-      case "Argarggagarg the Dire Hellseal":
-      case "Safari Jack, Small-Game Hunter":
-      case "Yakisoba the Executioner":
-      case "Heimandatz, Nacho Golem":
-      case "Jocko Homo":
-      case "The Mariachi With No Name":
-        {
-          QuestDatabase.setQuestProgress(Quest.NEMESIS, "step24");
-          break;
-        }
-      case "mother hellseal":
-        Preferences.decrement("_sealScreeches", 1, 0);
         break;
-      case "Cyrus the Virus":
-        {
-          QuestDatabase.setQuestIfBetter(Quest.PRIMORDIAL, "step2");
-          Matcher matcher = CYRUS_PATTERN.matcher(responseText);
-          if (matcher.find()) {
-            QuestManager.updateCyrusAdjective(matcher.group(1));
-          }
-          break;
-        }
-      case "Travoltron":
-        Preferences.setBoolean("_infernoDiscoVisited", false);
-        break;
-      case "Source Agent":
-        Preferences.decrement("sourceAgentsDefeated", 1, 0);
-        break;
+      }
+      case "Travoltron" -> Preferences.setBoolean("_infernoDiscoVisited", false);
+      case "Source Agent" -> Preferences.decrement("sourceAgentsDefeated", 1, 0);
     }
   }
 
@@ -2571,33 +2553,14 @@ public class QuestManager {
 
   public static void updateQuestItemEquipped(final int itemId) {
     switch (itemId) {
-      case ItemPool.GORE_BUCKET:
-        QuestDatabase.setQuestIfBetter(Quest.GORE, "step1");
-        break;
-
-      case ItemPool.MINI_CASSETTE_RECORDER:
-        QuestDatabase.setQuestIfBetter(Quest.JUNGLE_PUN, "step1");
-        break;
-
-      case ItemPool.GPS_WATCH:
-        QuestDatabase.setQuestIfBetter(Quest.OUT_OF_ORDER, "step1");
-        break;
-
-      case ItemPool.TRASH_NET:
-        QuestDatabase.setQuestIfBetter(Quest.FISH_TRASH, "step1");
-        break;
-
-      case ItemPool.LUBE_SHOES:
-        QuestDatabase.setQuestIfBetter(Quest.SUPER_LUBER, "step1");
-        break;
-
-      case ItemPool.MASCOT_MASK:
-        QuestDatabase.setQuestIfBetter(Quest.ZIPPITY_DOO_DAH, "step1");
-        break;
-
-      case ItemPool.WALFORDS_BUCKET:
-        QuestDatabase.setQuestIfBetter(Quest.BUCKET, "step1");
-        break;
+      case ItemPool.GORE_BUCKET -> QuestDatabase.setQuestIfBetter(Quest.GORE, "step1");
+      case ItemPool.MINI_CASSETTE_RECORDER -> QuestDatabase.setQuestIfBetter(
+          Quest.JUNGLE_PUN, "step1");
+      case ItemPool.GPS_WATCH -> QuestDatabase.setQuestIfBetter(Quest.OUT_OF_ORDER, "step1");
+      case ItemPool.TRASH_NET -> QuestDatabase.setQuestIfBetter(Quest.FISH_TRASH, "step1");
+      case ItemPool.LUBE_SHOES -> QuestDatabase.setQuestIfBetter(Quest.SUPER_LUBER, "step1");
+      case ItemPool.MASCOT_MASK -> QuestDatabase.setQuestIfBetter(Quest.ZIPPITY_DOO_DAH, "step1");
+      case ItemPool.WALFORDS_BUCKET -> QuestDatabase.setQuestIfBetter(Quest.BUCKET, "step1");
     }
   }
 

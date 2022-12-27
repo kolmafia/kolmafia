@@ -31,7 +31,7 @@ public class JuneCleaverManager {
     }
 
     Preferences.setString(
-        "juneCleaverQueue", queue.stream().map(x -> x.toString()).collect(Collectors.joining(",")));
+        "juneCleaverQueue", queue.stream().map(Object::toString).collect(Collectors.joining(",")));
   }
 
   public static final Pattern[] MESSAGES = {
