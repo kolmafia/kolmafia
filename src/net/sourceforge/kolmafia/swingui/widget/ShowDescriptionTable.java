@@ -753,8 +753,7 @@ public class ShowDescriptionTable<E> extends JXTable {
         } else if (item instanceof String s && ItemDatabase.contains(s)) {
           int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry e
-            && ItemDatabase.contains((String) e.getValue())) {
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
           int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
@@ -787,8 +786,7 @@ public class ShowDescriptionTable<E> extends JXTable {
         } else if (item instanceof String s && ItemDatabase.contains(s)) {
           int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry e
-            && ItemDatabase.contains((String) e.getValue())) {
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
           int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
@@ -824,8 +822,7 @@ public class ShowDescriptionTable<E> extends JXTable {
         } else if (item instanceof String s && ItemDatabase.contains(s)) {
           int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry e
-            && ItemDatabase.contains((String) e.getValue())) {
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
           int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }

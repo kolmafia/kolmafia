@@ -186,8 +186,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       editor.addKeyListener(listener);
       this.listenerMap.put(editor, new WeakReference<>(listener));
     } else if (component instanceof JComboBox<?> jcb && jcb.isEditable()) {
-      JTextComponent editor =
-          (JTextComponent) jcb.getEditor().getEditorComponent();
+      JTextComponent editor = (JTextComponent) jcb.getEditor().getEditorComponent();
 
       editor.addKeyListener(listener);
       this.listenerMap.put(editor, new WeakReference<>(listener));
@@ -237,8 +236,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
 
       editor.removeKeyListener(listener);
     } else if (component instanceof JComboBox<?> jcb && jcb.isEditable()) {
-      JTextComponent editor =
-          (JTextComponent) jcb.getEditor().getEditorComponent();
+      JTextComponent editor = (JTextComponent) jcb.getEditor().getEditorComponent();
 
       editor.removeKeyListener(listener);
     }
