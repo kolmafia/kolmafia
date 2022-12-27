@@ -3812,8 +3812,7 @@ public class Parser {
           this.parseVariableReference(scope, new VariableReference(result.getLocation(), current));
     }
 
-    if (result instanceof VariableReference) {
-      VariableReference ref = (VariableReference) result;
+    if (result instanceof VariableReference ref) {
       result = this.parseAssignment(scope, ref);
       if (result == null) {
         result = this.parsePostIncDec(ref);

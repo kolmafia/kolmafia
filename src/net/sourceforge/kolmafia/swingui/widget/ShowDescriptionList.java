@@ -177,8 +177,7 @@ public class ShowDescriptionList<E> extends JList<E> {
       item = ((Boost) item).getItem();
     }
 
-    if (item instanceof AdventureResult) {
-      AdventureResult ar = (AdventureResult) item;
+    if (item instanceof AdventureResult ar) {
       if (ar.isItem()) {
         int itemId = ar.getItemId();
         String descId =
@@ -191,16 +190,14 @@ public class ShowDescriptionList<E> extends JList<E> {
         String descId = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(ar.getName()));
         StaticEntity.openDescriptionFrame("desc_effect.php?whicheffect=" + descId);
       }
-    } else if (item instanceof Concoction) {
-      Concoction c = (Concoction) item;
+    } else if (item instanceof Concoction c) {
       int itemId = c.getItemId();
       String descId =
           (itemId != -1)
               ? ItemDatabase.getDescriptionId(itemId)
               : CafeDatabase.nameToDescId(c.getName());
       StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
-    } else if (item instanceof QueuedConcoction) {
-      QueuedConcoction c = (QueuedConcoction) item;
+    } else if (item instanceof QueuedConcoction c) {
       int itemId = c.getItemId();
       String descId =
           (itemId != -1)

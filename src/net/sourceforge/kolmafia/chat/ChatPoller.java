@@ -234,7 +234,7 @@ public class ChatPoller extends Thread {
 
   private static void addValidEntry(
       final List<HistoryEntry> newEntries, final HistoryEntry entry, final boolean isRelayRequest) {
-    if (!(entry instanceof SentMessageEntry)) {
+    if (!(entry instanceof SentMessageEntry sentEntry)) {
       newEntries.add(entry);
       return;
     }
@@ -242,8 +242,6 @@ public class ChatPoller extends Thread {
     if (!isRelayRequest) {
       return;
     }
-
-    SentMessageEntry sentEntry = (SentMessageEntry) entry;
 
     if (sentEntry.isRelayRequest()) {
       return;
