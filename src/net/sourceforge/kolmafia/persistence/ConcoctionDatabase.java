@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.OptionalInt;
 import java.util.Set;
 import java.util.Stack;
-import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -1225,21 +1224,57 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.refreshConcoctionsNow();
   }
 
+  /**
+   * Get first index of usableList that has sortOrder non-NONE, assuming the list is sorted by
+   * sortOrder.
+   */
+  private static OptionalInt getFirstIndexNotNone() {
+    int low = 0;
+    int high = ConcoctionDatabase.usableList.size();
+    while (low < high) {
+      int mid = (low + high) / 2;
+      if (ConcoctionDatabase.usableList.get(mid).sortOrder == Concoction.Priority.NONE) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
+    }
+    if (ConcoctionDatabase.usableList.get(low).sortOrder == Concoction.Priority.NONE) {
+      return OptionalInt.empty();
+    } else {
+      return OptionalInt.of(low);
+    }
+  }
+
   private static void fastSortUsableList() {
     // Concoctions are fully sorted at initialization time. The first sorting parameter is the
     // sortOrder, and concoctions with sortOrder NONE are sorted only by name. Name doesn't
     // ever change, and so there is no reason to resort the approximately 80% of items that have
-    // sortOrder NONE. NB when new items are discovered, they are added via addUsableConcotion,
-    // which does a full sort.
-    OptionalInt firstIndexNotNone =
-        IntStream.range(0, ConcoctionDatabase.usableList.size())
-            .filter(i -> ConcoctionDatabase.usableList.get(i).sortOrder != Concoction.Priority.NONE)
-            .findFirst();
-    if (firstIndexNotNone.isPresent()) {
-      Collections.sort(
-          ConcoctionDatabase.usableList.subList(
-              firstIndexNotNone.getAsInt(), ConcoctionDatabase.usableList.size()));
-      ConcoctionDatabase.usableList.updateFilter(false);
+    // sortOrder NONE. This method checks to see whether concoctions are in fact sorted by
+    // sortOrder, and if they are it only resorts the ones with sortOrder not-NONE.
+    Concoction last = null;
+    boolean partitionedBySortOrder = true;
+    for (Concoction concoction : ConcoctionDatabase.usableList) {
+      if (last != null && last.sortOrder.compareTo(concoction.sortOrder) > 0) {
+        partitionedBySortOrder = false;
+        break;
+      }
+      last = concoction;
+    }
+
+    if (partitionedBySortOrder) {
+      OptionalInt firstIndexNotNone = ConcoctionDatabase.getFirstIndexNotNone();
+      if (firstIndexNotNone.isPresent()) {
+        Collections.sort(
+            ConcoctionDatabase.usableList.subList(
+                firstIndexNotNone.getAsInt(), ConcoctionDatabase.usableList.size()));
+
+        // LockableListModel's implementation of subList does not have the updateFilter call that
+        // addAll and others have, so we have to do it manually here.
+        ConcoctionDatabase.usableList.updateFilter(false);
+      }
+    } else {
+      ConcoctionDatabase.usableList.sort();
     }
   }
 
@@ -1365,7 +1400,7 @@ public class ConcoctionDatabase {
         item.setPullable(0);
       }
 
-      CreateItemRequest instance = CreateItemRequest.getInstance(ar, false);
+      CreateItemRequest instance = CreateItemRequest.getInstance(item, false);
 
       if (instance == null) {
         continue;
