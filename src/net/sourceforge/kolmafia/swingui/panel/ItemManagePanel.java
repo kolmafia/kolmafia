@@ -127,10 +127,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       final boolean equip,
       final boolean other,
       final boolean notrade) {
-    if (this.filterField instanceof ItemManagePanel.FilterItemField) {
-      ItemManagePanel<?, ?>.FilterItemField itemFilter =
-          (ItemManagePanel<?, ?>.FilterItemField) this.filterField;
-
+    if (this.filterField instanceof ItemManagePanel<?, ?>.FilterItemField itemFilter) {
       itemFilter.food = food;
       itemFilter.booze = booze;
       itemFilter.equip = equip;
@@ -310,8 +307,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         continue;
       }
 
-      if (items[i] instanceof AdventureResult) {
-        AdventureResult item = (AdventureResult) items[i];
+      if (items[i] instanceof AdventureResult item) {
         itemName = item.getName();
         itemCount = isTally ? item.getCount(KoLConstants.inventory) : item.getCount();
       } else {
@@ -803,8 +799,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
     @Override
     public boolean isVisible(final Object element) {
-      if (element instanceof AdventureResult) {
-        AdventureResult ar = (AdventureResult) element;
+      if (element instanceof AdventureResult ar) {
         if (ar.getCount() < 0) {
           // return false
         }

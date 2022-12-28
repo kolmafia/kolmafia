@@ -64,12 +64,10 @@ public class ScriptManager {
 
       for (int i = 0; i < jArray.length(); i++) {
         Object next = jArray.get(i);
-        if (!(next instanceof JSONObject)) {
+        if (!(next instanceof JSONObject jNext)) {
           throw new JSONException(
               "The JSON input file was not properly formatted: " + next.toString());
         }
-
-        JSONObject jNext = (JSONObject) next;
 
         SVNURL fromRepo = SVNURL.parseURIEncoded(jNext.getString("repo"));
 
@@ -147,12 +145,10 @@ public class ScriptManager {
     try {
       for (int i = 0; i < jArray.length(); i++) {
         Object next = jArray.get(i);
-        if (!(next instanceof JSONObject)) {
+        if (!(next instanceof JSONObject jNext)) {
           throw new JSONException(
               "The JSON input file was not properly formatted: " + next.toString());
         }
-
-        JSONObject jNext = (JSONObject) next;
 
         Script script = ScriptFactory.fromJSON(jNext);
 

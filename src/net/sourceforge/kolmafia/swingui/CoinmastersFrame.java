@@ -1779,10 +1779,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       private class SellableFilterField extends FilterItemField {
         @Override
         public boolean isVisible(final Object element) {
-          if (!(element instanceof AdventureResult)) {
+          if (!(element instanceof AdventureResult ar)) {
             return false;
           }
-          AdventureResult ar = (AdventureResult) element;
           int price =
               CoinmastersDatabase.getPrice(
                   ar.getItemId(), CoinmasterPanel.this.data.getSellPrices());
@@ -1903,10 +1902,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       private class BuyableFilterField extends FilterItemField {
         @Override
         public boolean isVisible(final Object element) {
-          if (!(element instanceof AdventureResult)) {
+          if (!(element instanceof AdventureResult ar)) {
             return false;
           }
-          AdventureResult ar = (AdventureResult) element;
           return CoinmasterPanel.this.canBuyItem(ar) && super.isVisible(element);
         }
       }

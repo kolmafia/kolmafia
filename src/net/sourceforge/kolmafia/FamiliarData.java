@@ -1256,7 +1256,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof FamiliarData && this.id == ((FamiliarData) o).id;
+    return o instanceof FamiliarData data && this.id == data.id;
   }
 
   @Override
@@ -1581,7 +1581,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       JLabel defaultComponent =
           (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-      if (!(value instanceof FamiliarData) || ((FamiliarData) value).id == -1) {
+      if (!(value instanceof FamiliarData familiar) || familiar.id == -1) {
         defaultComponent.setIcon(JComponentUtilities.getImage("debug.gif"));
         defaultComponent.setText(
             StaticEntity.getVersion() + ", the 0 lb. \"No Familiar Plz\" Placeholder");
@@ -1591,7 +1591,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
         return defaultComponent;
       }
 
-      FamiliarData familiar = (FamiliarData) value;
       defaultComponent.setIcon(FamiliarDatabase.getFamiliarImage(familiar.id));
       defaultComponent.setText(
           familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace());

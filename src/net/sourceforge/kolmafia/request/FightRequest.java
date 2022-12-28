@@ -5677,8 +5677,7 @@ public class FightRequest extends GenericRequest {
 
     for (Object bnode : node.getElementListByName("b", true)) {
       // Should be unnecessary. We need a more modern version of this package
-      if (bnode instanceof TagNode) {
-        TagNode b = (TagNode) bnode;
+      if (bnode instanceof TagNode b) {
         if (b.getText().toString().contains(" Team:")) {
           return b.getParent();
         }
@@ -5708,8 +5707,7 @@ public class FightRequest extends GenericRequest {
     int pokindex = 0;
     while (it.hasNext() && !done) {
       BaseToken child = it.next();
-      if (child instanceof TagNode) {
-        TagNode tnode = (TagNode) child;
+      if (child instanceof TagNode tnode) {
         String name = tnode.getName();
 
         // Each familiar is in a table
@@ -6435,14 +6433,12 @@ public class FightRequest extends GenericRequest {
   private static void processChildren(final TagNode node, final TagStatus status) {
     StringBuffer action = status.action;
     for (BaseToken child : node.getAllChildren()) {
-      if (child instanceof CommentNode) {
-        CommentNode object = (CommentNode) child;
+      if (child instanceof CommentNode object) {
         FightRequest.processComment(object, status);
         continue;
       }
 
-      if (child instanceof ContentNode) {
-        ContentNode object = (ContentNode) child;
+      if (child instanceof ContentNode object) {
         String str = object.getContent().trim();
 
         if (str.equals("")) {
@@ -6517,8 +6513,7 @@ public class FightRequest extends GenericRequest {
         continue;
       }
 
-      if (child instanceof TagNode) {
-        TagNode object = (TagNode) child;
+      if (child instanceof TagNode object) {
         FightRequest.processNode(object, status);
       }
     }
@@ -7341,8 +7336,7 @@ public class FightRequest extends GenericRequest {
 
   private static void processComments(TagNode node, TagStatus status) {
     for (BaseToken child : node.getAllChildren()) {
-      if (child instanceof CommentNode) {
-        CommentNode object = (CommentNode) child;
+      if (child instanceof CommentNode object) {
         FightRequest.processComment(object, status);
       }
     }

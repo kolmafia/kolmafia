@@ -98,19 +98,16 @@ public class AnsiSerializer {
   }
 
   protected void serialize(HtmlNode htmlNode) {
-    if (htmlNode instanceof TagNode) {
-      TagNode tagNode = (TagNode) htmlNode;
+    if (htmlNode instanceof TagNode tagNode) {
       serialize(tagNode);
-    } else if (htmlNode instanceof ContentNode) {
-      ContentNode textNode = (ContentNode) htmlNode;
+    } else if (htmlNode instanceof ContentNode textNode) {
       ansi.a(textNode.getContent());
     }
   }
 
   protected final void serializeChildren(TagNode tagNode) {
     for (BaseToken child : tagNode.getAllChildren()) {
-      if (child instanceof HtmlNode) {
-        HtmlNode htmlNode = (HtmlNode) child;
+      if (child instanceof HtmlNode htmlNode) {
         serialize(htmlNode);
       }
     }

@@ -121,7 +121,7 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
         return super.isVisible(element);
       }
 
-      if (element instanceof AdventureResult && !((AdventureResult) element).isItem()) {
+      if (element instanceof AdventureResult ar && !ar.isItem()) {
         return false;
       }
 

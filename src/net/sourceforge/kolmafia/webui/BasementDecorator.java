@@ -370,7 +370,7 @@ public class BasementDecorator {
 
     @Override
     public boolean equals(final Object o) {
-      return o instanceof StatBooster && this.name.equals(((StatBooster) o).name);
+      return o instanceof StatBooster sb && this.name.equals(sb.name);
     }
 
     @Override

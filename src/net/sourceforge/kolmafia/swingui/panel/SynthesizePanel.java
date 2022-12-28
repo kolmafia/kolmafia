@@ -291,8 +291,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
       int flags = CandyDatabase.makeFlags(available, chocolate, noblacklist);
 
       for (Component component : this.getComponents()) {
-        if (component instanceof EffectButton) {
-          EffectButton button = (EffectButton) component;
+        if (component instanceof EffectButton button) {
           boolean enabled = !available;
 
           if (!enabled) {
@@ -637,9 +636,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
 
       @Override
       public boolean isVisible(final Object o) {
-        if (o instanceof Candy) {
-          Candy candy = (Candy) o;
-
+        if (o instanceof Candy candy) {
           boolean available = SynthesizePanel.this.availableChecked;
           boolean chocolate = SynthesizePanel.this.chocolateChecked;
           boolean noblacklist = !SynthesizePanel.this.blacklistChecked;
@@ -703,9 +700,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
 
       @Override
       public boolean isVisible(final Object o) {
-        if (o instanceof Candy) {
-          Candy candy = (Candy) o;
-
+        if (o instanceof Candy candy) {
           boolean available = SynthesizePanel.this.availableChecked;
           boolean chocolate = SynthesizePanel.this.chocolateChecked;
           boolean noblacklist = !SynthesizePanel.this.blacklistChecked;

@@ -2628,8 +2628,8 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       Frame[] frames = Frame.getFrames();
       for (Frame frame : frames) {
-        if (frame instanceof RequestFrame && ((RequestFrame) frame).mainDisplay == c) {
-          return (RequestFrame) frame;
+        if (frame instanceof RequestFrame rf && rf.mainDisplay == c) {
+          return rf;
         }
       }
       return null;
