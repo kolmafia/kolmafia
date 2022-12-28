@@ -159,7 +159,7 @@ public class CakeArenaManager {
 
     @Override
     public boolean equals(final Object o) {
-      return o instanceof ArenaOpponent && this.id == ((ArenaOpponent) o).id;
+      return o instanceof ArenaOpponent ao && this.id == ao.id;
     }
 
     @Override

@@ -904,11 +904,10 @@ public abstract class BuffBotManager {
 
     @Override
     public boolean equals(final Object o) {
-      if (!(o instanceof Offering)) {
+      if (!(o instanceof Offering off)) {
         return false;
       }
 
-      Offering off = (Offering) o;
       return this.botName.equalsIgnoreCase(off.botName)
           && this.price == off.price
           && this.turns == off.turns

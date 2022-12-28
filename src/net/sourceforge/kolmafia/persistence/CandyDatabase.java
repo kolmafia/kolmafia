@@ -385,7 +385,7 @@ public class CandyDatabase {
 
     @Override
     public boolean equals(final Object o) {
-      return (o instanceof Candy) && (this.itemId == ((Candy) o).itemId);
+      return (o instanceof Candy c) && (this.itemId == c.itemId);
     }
 
     @Override

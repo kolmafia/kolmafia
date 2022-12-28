@@ -224,11 +224,10 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
 
   @Override
   public boolean equals(final Object o) {
-    if (!(o instanceof MoodTrigger)) {
+    if (!(o instanceof MoodTrigger mt)) {
       return false;
     }
 
-    MoodTrigger mt = (MoodTrigger) o;
     if (!this.type.equals(mt.type)) {
       return false;
     }

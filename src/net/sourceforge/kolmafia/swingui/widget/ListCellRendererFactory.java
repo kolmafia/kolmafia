@@ -742,7 +742,7 @@ public class ListCellRendererFactory {
         final int index,
         final boolean isSelected,
         final boolean cellHasFocus) {
-      if (!(value instanceof AdventureResult)) {
+      if (!(value instanceof AdventureResult ar)) {
         return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
       }
 
@@ -750,7 +750,6 @@ public class ListCellRendererFactory {
         GearChangePanel.showModifiers(value, slot);
       }
 
-      AdventureResult ar = (AdventureResult) value;
       ConsumptionType equipmentType = ItemDatabase.getConsumptionType(ar.getItemId());
 
       int power = EquipmentDatabase.getPower(ar.getItemId());

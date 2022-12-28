@@ -260,11 +260,10 @@ public class FaxBotDatabase {
 
     @Override
     public boolean equals(final Object o) {
-      if (!(o instanceof FaxBot)) {
+      if (!(o instanceof FaxBot that)) {
         return false;
       }
 
-      FaxBot that = (FaxBot) o;
       return this.name.equals(that.name);
     }
 
@@ -329,11 +328,10 @@ public class FaxBotDatabase {
 
     @Override
     public boolean equals(final Object o) {
-      if (!(o instanceof Monster)) {
+      if (!(o instanceof Monster that)) {
         return false;
       }
 
-      Monster that = (Monster) o;
       return this.name.equals(that.name);
     }
 

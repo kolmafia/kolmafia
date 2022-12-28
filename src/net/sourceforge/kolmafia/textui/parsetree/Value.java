@@ -303,7 +303,7 @@ public class Value implements TypedNode, Comparable<Value> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof Value && this.compareTo((Value) o) == 0;
+    return o instanceof Value v && this.compareTo(v) == 0;
   }
 
   @Override
