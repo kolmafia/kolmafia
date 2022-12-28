@@ -37,7 +37,7 @@ public class ContactListFrame extends GenericFrame {
     this.contactsDisplay.setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     this.contactsDisplay.addMouseListener(new SendInstantMessageAdapter());
 
-    this.setCenterComponent( new ContactListPanel( this.contactsDisplay ) );
+    this.setCenterComponent(new ContactListPanel(this.contactsDisplay));
     this.getToolbar();
 
     // Choose an appropriate size based on what is in the contact list

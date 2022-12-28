@@ -478,7 +478,7 @@ public class ClanManageFrame extends GenericFrame {
       Vector<Serializable> value = new Vector<>();
 
       JButton profileButton = new JButton(JComponentUtilities.getImage("icon_warning_sml.gif"));
-      profileButton.addMouseListener( new ShowProfileListener( p ) );
+      profileButton.addMouseListener(new ShowProfileListener(p));
       JComponentUtilities.setComponentSize(profileButton, 20, 20);
 
       value.add(profileButton);

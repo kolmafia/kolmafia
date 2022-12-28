@@ -39,14 +39,14 @@ public class BuffBotFrame extends GenericFrame {
 
     // Initialize the display log buffer and the file log
 
-    this.tabs.addTab("Run Buffbot", new MainBuffPanel() );
+    this.tabs.addTab("Run Buffbot", new MainBuffPanel());
 
     JPanel optionsContainer = new JPanel(new BorderLayout(10, 10));
     optionsContainer.add(new BuffOptionsPanel(), BorderLayout.NORTH);
     optionsContainer.add(new BuffListPanel(), BorderLayout.CENTER);
 
     this.tabs.addTab("Edit Offerings", optionsContainer);
-    this.addTab("Change Settings", new MainSettingsPanel() );
+    this.addTab("Change Settings", new MainSettingsPanel());
 
     this.setCenterComponent(this.tabs);
   }

@@ -126,9 +126,9 @@ public class GearChangePanel extends JPanel {
     this.crownSelect = new ThroneComboBox(this.crownFamiliars);
     this.bjornSelect = new BjornComboBox(this.bjornFamiliars);
     this.outfitSelect =
-			new OutfitComboBox( (LockableListModel<SpecialOutfit>) EquipmentManager.getOutfits() );
+        new OutfitComboBox((LockableListModel<SpecialOutfit>) EquipmentManager.getOutfits());
     this.customSelect =
-			new OutfitComboBox( (LockableListModel<SpecialOutfit>) EquipmentManager.getCustomOutfits() );
+        new OutfitComboBox((LockableListModel<SpecialOutfit>) EquipmentManager.getCustomOutfits());
 
     this.equipmentPanel = new EquipmentPanel();
     this.customizablePanel = new CustomizablePanel();
@@ -1450,7 +1450,8 @@ public class GearChangePanel extends JPanel {
     currentFamiliars.setSelectedItem(activeFamiliar);
   }
 
-  private static class FakeHandsSpinner extends AutoHighlightSpinner implements ChangeListener, Listener {
+  private static class FakeHandsSpinner extends AutoHighlightSpinner
+      implements ChangeListener, Listener {
     private int currentFakeHands = 0;
     private int availableFakeHands = 0;
 

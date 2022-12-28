@@ -78,7 +78,7 @@ public class CakeArenaFrame extends GenericFrame {
         CakeArenaFrame.this.familiarTable.setDefaultEditor(
             CakeArenaFrame.this.familiarTable.getColumnClass(i), null);
         CakeArenaFrame.this.familiarTable.setDefaultRenderer(
-            CakeArenaFrame.this.familiarTable.getColumnClass(i), new OpponentRenderer() );
+            CakeArenaFrame.this.familiarTable.getColumnClass(i), new OpponentRenderer());
       }
 
       JPanel familiarPanel = new JPanel(new BorderLayout());
@@ -111,7 +111,7 @@ public class CakeArenaFrame extends GenericFrame {
 
       for (int i = 0; i < 5; ++i) {
         opponentTable.setDefaultEditor(opponentTable.getColumnClass(i), null);
-        opponentTable.setDefaultRenderer(opponentTable.getColumnClass(i), new OpponentRenderer() );
+        opponentTable.setDefaultRenderer(opponentTable.getColumnClass(i), new OpponentRenderer());
       }
 
       JPanel opponentPanel = new JPanel(new BorderLayout());

@@ -144,7 +144,7 @@ public class SkillBuffFrame extends GenericFrame {
 
       SkillBuffFrame.this.typeSelect = new SkillTypeComboBox();
       SkillBuffFrame.this.skillSelect =
-			  new SkillSelectComboBox( (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills );
+          new SkillSelectComboBox((LockableListModel<UseSkillRequest>) KoLConstants.usableSkills);
       SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
       SkillBuffFrame.this.contacts = ContactManager.getMailContacts().getMirrorImage();

@@ -79,7 +79,7 @@ public class FaxRequestFrame extends GenericFrame {
       }
 
       this.categorySelect = new MonsterCategoryComboBox(this, bot);
-      this.monsterSelect = new MonsterSelectPanel( this.monsterLists.get( 0 ) );
+      this.monsterSelect = new MonsterSelectPanel(this.monsterLists.get(0));
       this.monsterIndex = 0;
 
       VerifiableElement[] elements = new VerifiableElement[1];

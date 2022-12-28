@@ -31,8 +31,8 @@ public class LoginFrame extends GenericFrame {
   private static LoginFrame INSTANCE = null;
 
   private LoginPanel loginPanel = new LoginPanel();
-  private ProxyOptionsPanel httpProxyOptions = new ProxyOptionsPanel( "http" );
-  private ProxyOptionsPanel httpsProxyOptions = new ProxyOptionsPanel( "https" );
+  private ProxyOptionsPanel httpProxyOptions = new ProxyOptionsPanel("http");
+  private ProxyOptionsPanel httpsProxyOptions = new ProxyOptionsPanel("https");
 
   public LoginFrame() {
     super(StaticEntity.getVersion() + ": Login");
@@ -41,7 +41,7 @@ public class LoginFrame extends GenericFrame {
 
     JPanel proxyPanel = new JPanel();
     proxyPanel.setLayout(new BoxLayout(proxyPanel, BoxLayout.Y_AXIS));
-    proxyPanel.add( new ProxySetPanel() );
+    proxyPanel.add(new ProxySetPanel());
     proxyPanel.add(httpProxyOptions);
     proxyPanel.add(httpsProxyOptions);
 

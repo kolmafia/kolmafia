@@ -93,8 +93,8 @@ public class StoreManageFrame extends GenericPanelFrame {
 
     this.tabs.add("Price Setup", new StoreManagePanel());
     this.tabs.add("Additions", new StoreAddPanel());
-    this.tabs.add("Removals", new StoreRemovePanel() );
-    this.tabs.add("Store Log", new StoreLogPanel() );
+    this.tabs.add("Removals", new StoreRemovePanel());
+    this.tabs.add("Store Log", new StoreLogPanel());
 
     this.setCenterComponent(this.tabs);
 
@@ -318,7 +318,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
 
     private void setRenderers() {
-      this.setDefaultRenderer(Boolean.class, new BoolRenderer() );
+      this.setDefaultRenderer(Boolean.class, new BoolRenderer());
       IntegerRenderer rend = new IntegerRenderer();
       rend.setHorizontalAlignment(JLabel.RIGHT);
       this.setDefaultRenderer(Integer.class, rend);
@@ -558,7 +558,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
         JButton removeSomeButton = new JButton(JComponentUtilities.getImage("xgray.gif"));
         removeSomeButton.setToolTipText("remove some of item from store");
-        removeSomeButton.addActionListener( new RemoveSomeListener( value ) );
+        removeSomeButton.addActionListener(new RemoveSomeListener(value));
         JComponentUtilities.setComponentSize(removeSomeButton, new Dimension(20, 20));
         value.add(removeSomeButton);
 
@@ -629,8 +629,8 @@ public class StoreManageFrame extends GenericPanelFrame {
   private class StoreAddPanel extends JTabbedPane {
     public StoreAddPanel() {
       super(JTabbedPane.LEFT);
-      this.addTab("Inventory", new StoreAddFromInventoryPanel() );
-      this.addTab("Storage", new StoreAddFromStoragePanel() );
+      this.addTab("Inventory", new StoreAddFromInventoryPanel());
+      this.addTab("Storage", new StoreAddFromStoragePanel());
     }
   }
 

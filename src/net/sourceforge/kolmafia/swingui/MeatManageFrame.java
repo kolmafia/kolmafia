@@ -18,7 +18,7 @@ public class MeatManageFrame extends GenericFrame {
     super("Meat Manager");
 
     JPanel container = new JPanel(new GridLayout(4, 1));
-    container.add( new HeroDonationPanel() );
+    container.add(new HeroDonationPanel());
     container.add(new MeatTransferPanel(MeatTransferPanel.MEAT_TO_CLOSET));
     container.add(new MeatTransferPanel(MeatTransferPanel.MEAT_TO_INVENTORY));
     container.add(new MeatTransferPanel(MeatTransferPanel.PULL_MEAT_FROM_STORAGE));

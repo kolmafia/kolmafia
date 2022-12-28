@@ -517,7 +517,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     // No error handling here, really.  0-length strings don't do anything;
     // blank strings end up working like a \n
 
-    this.add( new TextDeed( deedsString ) );
+    this.add(new TextDeed(deedsString));
   }
 
   private void parseCommandDeed(String[] deedsString) {
@@ -1340,7 +1340,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.preference = "_simpleDeed" + sCount;
       this.addListener(preference);
       button = this.addComboButton(command, command);
-      button.addActionListener( new SimpleListener( this.preference ) );
+      button.addActionListener(new SimpleListener(this.preference));
       this.addLabel("");
     }
 
@@ -1353,7 +1353,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.preference = "_simpleDeed" + sCount;
       this.addListener(preference);
       button = this.addComboButton(command, displayText);
-      button.addActionListener( new SimpleListener( this.preference ) );
+      button.addActionListener(new SimpleListener(this.preference));
       this.addLabel("");
     }
 
@@ -1368,7 +1368,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.maxPref = maxPref;
       this.addListener(preference);
       button = this.addComboButton(command, displayText);
-      button.addActionListener( new SimpleListener( this.preference ) );
+      button.addActionListener(new SimpleListener(this.preference));
       this.addLabel("");
     }
 
@@ -1390,7 +1390,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.compMessage = compMessage;
       this.addListener(preference);
       button = this.addComboButton(command, displayText);
-      button.addActionListener( new SimpleListener( this.preference ) );
+      button.addActionListener(new SimpleListener(this.preference));
       button.setToolTipText(tooltip);
       this.addLabel("");
     }

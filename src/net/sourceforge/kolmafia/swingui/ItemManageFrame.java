@@ -99,13 +99,13 @@ public class ItemManageFrame extends GenericFrame {
     selectorPanel.addPanel(
         " - Closet",
         new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.closet, false));
-    selectorPanel.addPanel(" - Storage", new HagnkStoragePanel( false ) );
+    selectorPanel.addPanel(" - Storage", new HagnkStoragePanel(false));
     selectorPanel.addPanel(
         " - Unlimited",
-			new ViewOnlyPanel( (SortedListModel<AdventureResult>) KoLConstants.unlimited ) );
-    selectorPanel.addPanel(" - Free Pulls", new FreePullsPanel() );
+        new ViewOnlyPanel((SortedListModel<AdventureResult>) KoLConstants.unlimited));
+    selectorPanel.addPanel(" - Free Pulls", new FreePullsPanel());
     selectorPanel.addPanel(
-        " - No Pull", new ViewOnlyPanel( (SortedListModel<AdventureResult>) KoLConstants.nopulls ) );
+        " - No Pull", new ViewOnlyPanel((SortedListModel<AdventureResult>) KoLConstants.nopulls));
 
     selectorPanel.addSeparator();
 
@@ -122,8 +122,8 @@ public class ItemManageFrame extends GenericFrame {
         new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.inventory, true));
     selectorPanel.addPanel(
         " - Storage ",
-			new HagnkStoragePanel(
-					true ) ); // the extra end space is used to distinguish it for serializing purposes
+        new HagnkStoragePanel(
+            true)); // the extra end space is used to distinguish it for serializing purposes
     selectorPanel.addPanel(" - Create", new CreateItemPanel(false, false, true, false));
     selectorPanel.addPanel(" - Pulverize", new PulverizePanel());
 
@@ -133,9 +133,9 @@ public class ItemManageFrame extends GenericFrame {
     selectorPanel.addSeparator();
 
     selectorPanel.addPanel("Item Filters", new ItemFilterPanel());
-    selectorPanel.addPanel(" - Mementos", new MementoItemsPanel() );
-    selectorPanel.addPanel(" - Cleanup", new JunkItemsPanel() );
-    selectorPanel.addPanel(" - Keep One", new SingletonItemsPanel() );
+    selectorPanel.addPanel(" - Mementos", new MementoItemsPanel());
+    selectorPanel.addPanel(" - Cleanup", new JunkItemsPanel());
+    selectorPanel.addPanel(" - Keep One", new SingletonItemsPanel());
     selectorPanel.addPanel(" - Restock", new RestockPanel());
 
     selectorPanel.setSelectedIndex(Preferences.getInteger("itemManagerIndex"));

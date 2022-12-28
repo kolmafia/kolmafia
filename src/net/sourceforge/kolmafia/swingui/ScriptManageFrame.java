@@ -117,7 +117,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
           .repoTable
           .getSelectionModel()
           .addListSelectionListener(
-                  new LongDescriptionListener( ScriptManageFrame.this.repoTable, textPane ) );
+              new LongDescriptionListener(ScriptManageFrame.this.repoTable, textPane));
 
       this.setContent(this.elements, true);
       this.container.remove(this.eastContainer);
@@ -232,7 +232,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
           .scriptTable
           .getSelectionModel()
           .addListSelectionListener(
-                  new LongDescriptionListener( ScriptManageFrame.this.scriptTable, textPane ) );
+              new LongDescriptionListener(ScriptManageFrame.this.scriptTable, textPane));
 
       this.setContent(this.elements, true);
       this.container.remove(this.eastContainer);

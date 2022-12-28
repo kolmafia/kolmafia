@@ -199,7 +199,7 @@ public class MuseumFrame extends GenericFrame {
     @Override
     public PanelListCell constructPanelListCell(final Object value, final int index) {
       MuseumShelfPanel toConstruct =
-              new MuseumShelfPanel( index, (SortedListModel<AdventureResult>) value );
+          new MuseumShelfPanel(index, (SortedListModel<AdventureResult>) value);
       return toConstruct;
     }
 

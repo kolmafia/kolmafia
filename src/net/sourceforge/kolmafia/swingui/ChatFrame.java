@@ -516,7 +516,8 @@ public class ChatFrame extends GenericFrame {
     }
   }
 
-  private static class AwayPanel extends JXCollapsiblePane implements MouseListener, Listener, Runnable {
+  private static class AwayPanel extends JXCollapsiblePane
+      implements MouseListener, Listener, Runnable {
     public AwayPanel() {
       NamedListenerRegistry.registerNamedListener("[chatAway]", this);
     }

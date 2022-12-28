@@ -267,12 +267,12 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     // Hidden City Non-combats
 
     this.hiddenShrineNWSelect =
-			new ShrineComboBox( "choiceAdventure781", "Blessing of Bulbazinalli" );
+        new ShrineComboBox("choiceAdventure781", "Blessing of Bulbazinalli");
     this.hiddenShrineSWSelect =
-			new ShrineComboBox( "choiceAdventure783", "Blessing of Squirtlcthulli" );
+        new ShrineComboBox("choiceAdventure783", "Blessing of Squirtlcthulli");
     this.hiddenShrineNESelect =
-			new ShrineComboBox( "choiceAdventure785", "Blessing of Pikachutlotal" );
-    this.hiddenShrineSESelect = new ShrineComboBox( "choiceAdventure787", "Blessing of Charcoatl" );
+        new ShrineComboBox("choiceAdventure785", "Blessing of Pikachutlotal");
+    this.hiddenShrineSESelect = new ShrineComboBox("choiceAdventure787", "Blessing of Charcoatl");
 
     this.hiddenApartmentSelect = new JComboBox<>();
     this.hiddenApartmentSelect.addItem("show in browser");

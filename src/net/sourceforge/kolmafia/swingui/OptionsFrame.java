@@ -667,7 +667,7 @@ public class OptionsFrame extends GenericFrame {
               new PreferenceCheckBox(
                   "maximizerSingleFilter",
                   "Treat filter checkboxes as an exclusive group (will close Maximizer)"))
-          .addActionListener( new CloseMaximizerListener() );
+          .addActionListener(new CloseMaximizerListener());
 
       this.makeLayout();
     }

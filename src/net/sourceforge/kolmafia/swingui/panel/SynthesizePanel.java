@@ -565,7 +565,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         private final LockableListModel<Candy> model;
 
         public CandyTable(LockableListModel<Candy> model) {
-          super( new CandyTableModel( model ) );
+          super(new CandyTableModel(model));
           this.model = model;
 
           // Magic number! Make the name column wide.

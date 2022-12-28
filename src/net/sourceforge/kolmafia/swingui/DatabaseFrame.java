@@ -39,12 +39,12 @@ public class DatabaseFrame extends GenericFrame {
 
     this.tabs.addTab("Items", new ExamineItemsPanel());
     this.tabs.addTab(
-        "Familiars", new ItemLookupPanel<>( DatabaseFrame.allFamiliars, "familiar", "which" ) );
+        "Familiars", new ItemLookupPanel<>(DatabaseFrame.allFamiliars, "familiar", "which"));
     this.tabs.addTab(
-        "Skills", new ItemLookupPanel<>( DatabaseFrame.allSkills, "skill", "whichskill" ) );
+        "Skills", new ItemLookupPanel<>(DatabaseFrame.allSkills, "skill", "whichskill"));
     this.tabs.addTab("Effects", new ExamineEffectsPanel());
     this.tabs.addTab(
-        "Outfits", new ItemLookupPanel<>( DatabaseFrame.allOutfits, "outfit", "whichoutfit" ) );
+        "Outfits", new ItemLookupPanel<>(DatabaseFrame.allOutfits, "outfit", "whichoutfit"));
     this.tabs.addTab("Monsters", new ExamineMonstersPanel());
 
     this.setCenterComponent(this.tabs);

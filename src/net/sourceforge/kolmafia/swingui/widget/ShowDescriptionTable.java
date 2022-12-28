@@ -279,7 +279,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     this.setIntercellSpacing(new Dimension(0, 0));
 
     // install a handler to provide saner clipboard behavior
-    this.setTransferHandler( new ClipboardHandler() );
+    this.setTransferHandler(new ClipboardHandler());
   }
 
   protected void fireSearch(String searchField) {
