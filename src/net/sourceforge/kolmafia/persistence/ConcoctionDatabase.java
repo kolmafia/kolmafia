@@ -10,9 +10,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.Stack;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -1230,18 +1231,16 @@ public class ConcoctionDatabase {
     // ever change, and so there is no reason to resort the approximately 80% of items that have
     // sortOrder NONE. NB when new items are discovered, they are added via addUsableConcotion,
     // which does a full sort.
-    List<Concoction> sortNone =
-        ConcoctionDatabase.usableList.stream()
-            .filter(c -> c.sortOrder == Concoction.Priority.NONE)
-            .collect(Collectors.toList());
-    List<Concoction> sortSome =
-        ConcoctionDatabase.usableList.stream()
-            .filter(c -> c.sortOrder != Concoction.Priority.NONE)
-            .collect(Collectors.toList());
-    Collections.sort(sortSome);
-    ConcoctionDatabase.usableList.clear();
-    ConcoctionDatabase.usableList.addAll(sortNone);
-    ConcoctionDatabase.usableList.addAll(sortSome);
+    OptionalInt firstIndexNotNone =
+        IntStream.range(0, ConcoctionDatabase.usableList.size())
+            .filter(i -> ConcoctionDatabase.usableList.get(i).sortOrder != Concoction.Priority.NONE)
+            .findFirst();
+    if (firstIndexNotNone.isPresent()) {
+      Collections.sort(
+          ConcoctionDatabase.usableList.subList(
+              firstIndexNotNone.getAsInt(), ConcoctionDatabase.usableList.size()));
+      ConcoctionDatabase.usableList.updateFilter(false);
+    }
   }
 
   public static final synchronized void refreshConcoctionsNow() {
