@@ -856,7 +856,7 @@ public class ConcoctionDatabase {
       Stack<QueuedConcoction> toProcess, ConcoctionType type, ConsumptionType consumptionType) {
     // Keep track of current consumption helper. These can be
     // "queued" by simply "using" them. Account for that.
-    AdventureResult helper; // = ConcoctionDatabase.currentConsumptionHelper(type);
+    AdventureResult helper = ConcoctionDatabase.currentConsumptionHelper(type);
 
     // Since items were pushed in inverse order from the queue,
     // popping the stack will get items in actual queued order.
