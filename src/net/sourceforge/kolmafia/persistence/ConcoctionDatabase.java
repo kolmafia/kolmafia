@@ -1268,10 +1268,8 @@ public class ConcoctionDatabase {
         Collections.sort(
             ConcoctionDatabase.usableList.subList(
                 firstIndexNotNone.getAsInt(), ConcoctionDatabase.usableList.size()));
-
-        // LockableListModel's implementation of subList does not have the updateFilter call that
-        // addAll and others have, so we have to do it manually here.
-        ConcoctionDatabase.usableList.updateFilter(false);
+      } else {
+        ConcoctionDatabase.usableList.sort();
       }
     } else {
       ConcoctionDatabase.usableList.sort();
