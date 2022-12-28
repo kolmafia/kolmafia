@@ -83,8 +83,7 @@ public abstract class CompositeValue extends Value {
     // If data is a zero-length array, read all remaining fields
     // into it and set the length of the array appropriately.
 
-    if (dataType instanceof AggregateType) {
-      AggregateType atype = (AggregateType) dataType;
+    if (dataType instanceof AggregateType atype) {
       if (atype.getSize() == 0) {
         Type dtype = atype.getDataType();
         ArrayList<Value> values = new ArrayList<Value>();

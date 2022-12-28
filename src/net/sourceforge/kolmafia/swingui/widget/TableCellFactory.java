@@ -40,9 +40,7 @@ public class TableCellFactory {
       boolean[] flags,
       boolean isSelected,
       boolean raw) {
-    if (result instanceof AdventureResult) {
-      AdventureResult advresult = (AdventureResult) result;
-
+    if (result instanceof AdventureResult advresult) {
       if (flags[0]) { // Equipment panel
         return getEquipmentCell(columnIndex, isSelected, advresult, raw);
       }

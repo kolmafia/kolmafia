@@ -116,9 +116,8 @@ public class Macrofier {
 
       Value returnValue;
 
-      if (Macrofier.macroInterpreter instanceof JavascriptRuntime) {
+      if (Macrofier.macroInterpreter instanceof JavascriptRuntime interpreter) {
         // Execute a function from the JavaScript runtime maintaining the scope, thisObj etc
-        JavascriptRuntime interpreter = (JavascriptRuntime) Macrofier.macroInterpreter;
         returnValue =
             interpreter.executeFunction(
                 macroScope,

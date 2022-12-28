@@ -972,7 +972,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof CoinmasterData && this.master == ((CoinmasterData) o).master;
+    return o instanceof CoinmasterData data && this.master == data.master;
   }
 
   @Override

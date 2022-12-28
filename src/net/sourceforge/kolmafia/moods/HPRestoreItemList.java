@@ -263,11 +263,9 @@ public abstract class HPRestoreItemList {
 
     @Override
     public int compareTo(final RestoreItem o) {
-      if (!(o instanceof HPRestoreItem)) {
+      if (!(o instanceof HPRestoreItem hpi)) {
         return super.compareTo(o);
       }
-
-      HPRestoreItem hpi = (HPRestoreItem) o;
 
       // Health restores are special because skills are preferred
       // over items, so test for that first.

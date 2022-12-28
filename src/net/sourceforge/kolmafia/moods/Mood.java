@@ -176,11 +176,9 @@ public class Mood implements Comparable<Mood> {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof Mood)) {
+    if (!(o instanceof Mood m)) {
       return false;
     }
-
-    Mood m = (Mood) o;
 
     return this.name.equals(m.name);
   }

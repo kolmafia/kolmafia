@@ -1324,9 +1324,7 @@ public class MonsterData extends AdventureResult {
     if (this.health instanceof Integer) {
       int hp = (Integer) this.health;
 
-      if (hp == 0
-          && (this.attack == null
-              || (this.attack instanceof Integer && (Integer) this.attack == 0))) {
+      if (hp == 0 && (this.attack == null || (this.attack instanceof Integer i && i == 0))) {
         // The monster is unknown, so do not apply modifiers
         return 0;
       }

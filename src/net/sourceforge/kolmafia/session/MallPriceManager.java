@@ -168,8 +168,7 @@ public abstract class MallPriceManager {
     Iterator<PurchaseRequest> i = search.iterator();
     while (i.hasNext()) {
       PurchaseRequest purchase = i.next();
-      if (purchase instanceof MallPurchaseRequest) {
-        MallPurchaseRequest mallPurchase = (MallPurchaseRequest) purchase;
+      if (purchase instanceof MallPurchaseRequest mallPurchase) {
         if (shopId == mallPurchase.getShopId()) {
           i.remove();
           MallPriceManager.updateMallPrice(itemId, search);
