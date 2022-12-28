@@ -508,20 +508,20 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.isAWoLClass()) {
       limit = 10;
-      if (KoLCharacter.hasSkill("Prodigious Appetite")) {
+      if (KoLCharacter.hasSkill(SkillPool.PRODIGIOUS_APPETITE)) {
         limit += 5;
       }
     } else if (KoLCharacter.isEd()) {
       limit = 0;
-      if (KoLCharacter.hasSkill("Replacement Stomach")) {
+      if (KoLCharacter.hasSkill(SkillPool.REPLACEMENT_STOMACH)) {
         limit += 5;
       }
     } else if (KoLCharacter.inZombiecore()) {
-      if (KoLCharacter.hasSkill("Insatiable Hunger")) {
+      if (KoLCharacter.hasSkill(SkillPool.INSATIABLE_HUNGER)) {
         limit += 5;
       }
 
-      if (KoLCharacter.hasSkill("Ravenous Pounce")) {
+      if (KoLCharacter.hasSkill(SkillPool.RAVENOUS_POUNCE)) {
         limit += 5;
       }
     }
@@ -530,13 +530,13 @@ public abstract class KoLCharacter {
     else if (KoLCharacter.inAxecore()) {
       limit = 20;
 
-      if (KoLCharacter.hasSkill("Legendary Appetite")) {
+      if (KoLCharacter.hasSkill(SkillPool.LEGENDARY_APPETITE)) {
         limit += 5;
       }
     } else if (KoLCharacter.isJarlsberg()) {
       limit = 10;
 
-      if (KoLCharacter.hasSkill("Lunch Like a King")) {
+      if (KoLCharacter.hasSkill(SkillPool.LUNCH_LIKE_A_KING)) {
         limit += 5;
       }
     } else if (KoLCharacter.isSneakyPete()) {
@@ -548,10 +548,10 @@ public abstract class KoLCharacter {
     } else if (KoLCharacter.isPlumber()) {
       limit = 20;
     } else if (KoLCharacter.inBadMoon()) {
-      if (KoLCharacter.hasSkill("Pride")) {
+      if (KoLCharacter.hasSkill(SkillPool.PRIDE)) {
         limit -= 1;
       }
-      if (KoLCharacter.hasSkill("Gluttony")) {
+      if (KoLCharacter.hasSkill(SkillPool.GLUTTONY)) {
         limit += 2;
       }
     }
@@ -566,7 +566,7 @@ public abstract class KoLCharacter {
     //  those would similarly not work."
 
     if (!KoLCharacter.isVampyre()) {
-      if (KoLCharacter.hasSkill("Stomach of Steel")) {
+      if (KoLCharacter.hasSkill(SkillPool.STEEL_STOMACH)) {
         limit += 5;
       }
 
@@ -641,7 +641,7 @@ public abstract class KoLCharacter {
       }
     } else if (KoLCharacter.isJarlsberg()) {
       limit = 9;
-      if (KoLCharacter.hasSkill("Nightcap")) {
+      if (KoLCharacter.hasSkill(SkillPool.NIGHTCAP)) {
         limit += 5;
       }
     } else if (KoLCharacter.isSneakyPete()) {
@@ -651,7 +651,7 @@ public abstract class KoLCharacter {
       }
     } else if (KoLCharacter.isEd()) {
       limit = 0;
-      if (KoLCharacter.hasSkill("Replacement Liver")) {
+      if (KoLCharacter.hasSkill(SkillPool.REPLACEMENT_LIVER)) {
         limit += 4;
       }
     } else if (KoLCharacter.inAxecore() || KoLCharacter.inZombiecore()) {
@@ -670,15 +670,15 @@ public abstract class KoLCharacter {
       limit = 4;
     }
 
-    if (KoLCharacter.hasSkill("Liver of Steel")) {
+    if (KoLCharacter.hasSkill(SkillPool.STEEL_LIVER)) {
       limit += 5;
     }
 
-    if (KoLCharacter.hasSkill("Hollow Leg")) {
+    if (KoLCharacter.hasSkill(SkillPool.HOLLOW_LEG)) {
       limit += 1;
     }
 
-    if (KoLCharacter.hasSkill("Drinking to Drink")) {
+    if (KoLCharacter.hasSkill(SkillPool.DRINKING_TO_DRINK)) {
       limit += 1;
     }
 
@@ -724,27 +724,27 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.isAWoLClass()) {
       limit = 10;
-      if (KoLCharacter.hasSkill("Tolerant Constitution")) {
+      if (KoLCharacter.hasSkill(SkillPool.TOLERANT_CONSTITUTION)) {
         limit += 5;
       }
     } else if (KoLCharacter.isEd()) {
       limit = 5;
-      if (KoLCharacter.hasSkill("Okay Seriously, This is the Last Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.OKAY_SERIOUSLY_THIS_IS_THE_LAST_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Just One More Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.JUST_ONE_MORE_EXTRA_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Still Another Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.STILL_ANOTHER_EXTRA_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Yet Another Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.YET_ANOTHER_EXTRA_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Another Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.ANOTHER_EXTRA_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.EXTRA_SPLEEN)) {
         limit += 5;
       }
     } else if (KoLCharacter.inNuclearAutumn()) {
@@ -755,7 +755,7 @@ public abstract class KoLCharacter {
       limit += 2;
     }
 
-    if (KoLCharacter.hasSkill("Spleen of Steel")) {
+    if (KoLCharacter.hasSkill(SkillPool.STEEL_SPLEEN)) {
       limit += 5;
     }
 
