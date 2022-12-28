@@ -1921,12 +1921,10 @@ public class QuestManager {
         Preferences.setInteger("_snojoFreeFights", Math.min(snowparts, 10));
         if (snowparts <= 10) {
           String snojoSetting = Preferences.getString("snojoSetting");
-          if (snojoSetting.equals("MUSCLE")) {
-            Preferences.increment("snojoMuscleWins");
-          } else if (snojoSetting.equals("MYSTICALITY")) {
-            Preferences.increment("snojoMysticalityWins");
-          } else if (snojoSetting.equals("MOXIE")) {
-            Preferences.increment("snojoMoxieWins");
+          switch (snojoSetting) {
+            case "MUSCLE" -> Preferences.increment("snojoMuscleWins");
+            case "MYSTICALITY" -> Preferences.increment("snojoMysticalityWins");
+            case "MOXIE" -> Preferences.increment("snojoMoxieWins");
           }
         }
       }
@@ -2409,7 +2407,6 @@ public class QuestManager {
           "flock of seagulls",
           "mariachi bandolero" -> {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step22");
-        break;
       }
       case "Argarggagarg the Dire Hellseal",
           "Safari Jack, Small-Game Hunter",
@@ -2418,7 +2415,6 @@ public class QuestManager {
           "Jocko Homo",
           "The Mariachi With No Name" -> {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step24");
-        break;
       }
       case "mother hellseal" -> Preferences.decrement("_sealScreeches", 1, 0);
       case "Cyrus the Virus" -> {
@@ -2427,7 +2423,6 @@ public class QuestManager {
         if (matcher.find()) {
           QuestManager.updateCyrusAdjective(matcher.group(1));
         }
-        break;
       }
       case "Travoltron" -> Preferences.setBoolean("_infernoDiscoVisited", false);
       case "Source Agent" -> Preferences.decrement("sourceAgentsDefeated", 1, 0);
@@ -2484,38 +2479,44 @@ public class QuestManager {
       return;
     }
 
-    if (monsterName.equals("Gorgolok, the Infernal Seal (Volcanic Cave)")
-        || monsterName.equals("Stella, the Turtle Poacher (Volcanic Cave)")
-        || monsterName.equals("Spaghetti Elemental (Volcanic Cave)")
-        || monsterName.equals("Lumpy, the Sinister Sauceblob (Volcanic Cave)")
-        || monsterName.equals("Spirit of New Wave (Volcanic Cave)")
-        || monsterName.equals("Somerset Lopez, Dread Mariachi (Volcanic Cave)")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step28");
-    } else if (monsterName.equals("Cake Lord")) {
-      QuestDatabase.setQuestProgress(Quest.ARMORER, "step2");
-    } else if (monsterName.equals("GNG-3-R")) {
-      if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO))
-          == EquipmentManager.NONE) {
-        // Remove it from equipment if it is equipped, otherwise remove it from inventory
-        ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERSERVO, -1));
-      }
-    } else if (monsterName.equals("X-32-F Combat Training Snowman")) {
-      int snowParts = -2;
-      Matcher snowmanMatcher = SNOWMAN_PATTERN.matcher(responseText);
-      while (snowmanMatcher.find()) {
-        snowParts++;
-      }
-      Preferences.setInteger("_snojoParts", snowParts);
-    } else if (monsterName.equals("angry ghost")
-        || monsterName.equals("annoyed snake")
-        || monsterName.equals("government bureaucrat")
-        || monsterName.equals("terrible mutant")
-        || monsterName.equals("slime blob")) {
-      Preferences.increment("_voteFreeFights", 1, 3, false);
-      Preferences.setInteger("lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed());
-      Preferences.setString("_voteMonster", monsterName);
-      TurnCounter.stopCounting("Vote Monster");
-      VoteMonsterManager.checkCounter();
+    switch (monsterName) {
+      case "Gorgolok, the Infernal Seal (Volcanic Cave)":
+      case "Stella, the Turtle Poacher (Volcanic Cave)":
+      case "Spaghetti Elemental (Volcanic Cave)":
+      case "Lumpy, the Sinister Sauceblob (Volcanic Cave)":
+      case "Spirit of New Wave (Volcanic Cave)":
+      case "Somerset Lopez, Dread Mariachi (Volcanic Cave)":
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step28");
+        break;
+      case "Cake Lord":
+        QuestDatabase.setQuestProgress(Quest.ARMORER, "step2");
+        break;
+      case "GNG-3-R":
+        if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO))
+            == EquipmentManager.NONE) {
+          // Remove it from equipment if it is equipped, otherwise remove it from inventory
+          ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERSERVO, -1));
+        }
+        break;
+      case "X-32-F Combat Training Snowman":
+        int snowParts = -2;
+        Matcher snowmanMatcher = SNOWMAN_PATTERN.matcher(responseText);
+        while (snowmanMatcher.find()) {
+          snowParts++;
+        }
+        Preferences.setInteger("_snojoParts", snowParts);
+        break;
+      case "angry ghost":
+      case "annoyed snake":
+      case "government bureaucrat":
+      case "terrible mutant":
+      case "slime blob":
+        Preferences.increment("_voteFreeFights", 1, 3, false);
+        Preferences.setInteger("lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed());
+        Preferences.setString("_voteMonster", monsterName);
+        TurnCounter.stopCounting("Vote Monster");
+        VoteMonsterManager.checkCounter();
+        break;
     }
   }
 
@@ -2612,8 +2613,8 @@ public class QuestManager {
         gear.add(hazard.gear);
       }
     }
-    Preferences.setString("_spacegateHazards", hazards.stream().collect(Collectors.joining("|")));
-    Preferences.setString("_spacegateGear", gear.stream().collect(Collectors.joining("|")));
+    Preferences.setString("_spacegateHazards", String.join("|", hazards));
+    Preferences.setString("_spacegateGear", String.join("|", gear));
   }
 
   public static void parseSpacegateTerminal(final String text, final boolean print) {

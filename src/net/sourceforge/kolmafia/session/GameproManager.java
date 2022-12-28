@@ -113,49 +113,33 @@ public class GameproManager {
   }
 
   private static String compareDirections(String direction1, String direction2) {
-    if (direction1.equals("north")) {
-      if (direction2.equals("west")) {
-        return "1";
-      } else if (direction2.equals("north")) {
-        return "2";
-      } else if (direction2.equals("east")) {
-        return "3";
-      } else {
-        return "0";
-      }
-    } else if (direction1.equals("east")) {
-      if (direction2.equals("north")) {
-        return "1";
-      } else if (direction2.equals("east")) {
-        return "2";
-      } else if (direction2.equals("south")) {
-        return "3";
-      } else {
-        return "0";
-      }
-    } else if (direction1.equals("south")) {
-      if (direction2.equals("east")) {
-        return "1";
-      } else if (direction2.equals("south")) {
-        return "2";
-      } else if (direction2.equals("west")) {
-        return "3";
-      } else {
-        return "0";
-      }
-    } else if (direction1.equals("west")) {
-      if (direction2.equals("south")) {
-        return "1";
-      } else if (direction2.equals("west")) {
-        return "2";
-      } else if (direction2.equals("north")) {
-        return "3";
-      } else {
-        return "0";
-      }
-    }
-
-    return "0";
+    return switch (direction1) {
+      case "north" -> switch (direction2) {
+        case "west" -> "1";
+        case "north" -> "2";
+        case "east" -> "3";
+        default -> "0";
+      };
+      case "east" -> switch (direction2) {
+        case "north" -> "1";
+        case "east" -> "2";
+        case "south" -> "3";
+        default -> "0";
+      };
+      case "south" -> switch (direction2) {
+        case "east" -> "1";
+        case "south" -> "2";
+        case "west" -> "3";
+        default -> "0";
+      };
+      case "west" -> switch (direction2) {
+        case "south" -> "1";
+        case "west" -> "2";
+        case "north" -> "3";
+        default -> "0";
+      };
+      default -> "0";
+    };
   }
 
   public static String autoSolve(int stepCount) {

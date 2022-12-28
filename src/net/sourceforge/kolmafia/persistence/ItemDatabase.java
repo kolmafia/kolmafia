@@ -742,12 +742,10 @@ public class ItemDatabase {
     while (matcher.find()) {
       String tag = matcher.group(1);
       String value = matcher.group(2);
-      if (tag.equals("id")) {
-        itemId = StringUtilities.parseInt(value);
-      } else if (tag.equals("n")) {
-        count = StringUtilities.parseInt(value);
-      } else if (tag.equals("m")) {
-        multi = value.equals("1");
+      switch (tag) {
+        case "id" -> itemId = StringUtilities.parseInt(value);
+        case "n" -> count = StringUtilities.parseInt(value);
+        case "m" -> multi = value.equals("1");
       }
     }
 

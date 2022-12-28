@@ -667,7 +667,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     // Print available buffs and items and current buffs
     FamiliarTrainingFrame.results.append(status.printCurrentBuffs());
-    FamiliarTrainingFrame.results.append(status.printAvailableBuffs());
+    FamiliarTrainingFrame.results.append(FamiliarStatus.printAvailableBuffs());
     FamiliarTrainingFrame.results.append(status.printCurrentEquipment());
     FamiliarTrainingFrame.results.append(status.printAvailableEquipment());
     FamiliarTrainingFrame.results.append("<br>");
@@ -797,7 +797,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     // Print available buffs and items and current buffs
     FamiliarTrainingFrame.results.append(status.printCurrentBuffs());
-    FamiliarTrainingFrame.results.append(status.printAvailableBuffs());
+    FamiliarTrainingFrame.results.append(FamiliarStatus.printAvailableBuffs());
     FamiliarTrainingFrame.results.append(status.printCurrentEquipment());
     FamiliarTrainingFrame.results.append(status.printAvailableEquipment());
     FamiliarTrainingFrame.results.append("<br>");
@@ -1296,7 +1296,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     public void updateStatus() {
       // Check available skills
-      this.checkSkills();
+      FamiliarStatus.checkSkills();
 
       // Check current equipment
       this.checkCurrentEquipment();
@@ -1305,7 +1305,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.checkAvailableEquipment((SortedListModel<AdventureResult>) KoLConstants.inventory);
     }
 
-    private void checkSkills() {
+    private static void checkSkills() {
       // Look at skills to decide which ones are possible
       FamiliarTrainingFrame.sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
       FamiliarTrainingFrame.empathyAvailable =
@@ -1473,13 +1473,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
     }
 
     private void checkAccessory(final int index, final AdventureResult accessory) {
-      if (this.isTinyPlasticItem(accessory)) {
+      if (FamiliarStatus.isTinyPlasticItem(accessory)) {
         this.acc[index] = accessory;
         this.tp[this.tpCount++] = accessory;
       }
     }
 
-    public boolean isTinyPlasticItem(final AdventureResult ar) {
+    public static boolean isTinyPlasticItem(final AdventureResult ar) {
       if (ar == null) {
         return false;
       }
@@ -2150,13 +2150,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
         weight += 2;
       }
 
-      if (this.isTinyPlasticItem(acc1)) {
+      if (FamiliarStatus.isTinyPlasticItem(acc1)) {
         weight += 1;
       }
-      if (this.isTinyPlasticItem(acc2)) {
+      if (FamiliarStatus.isTinyPlasticItem(acc2)) {
         weight += 1;
       }
-      if (this.isTinyPlasticItem(acc3)) {
+      if (FamiliarStatus.isTinyPlasticItem(acc3)) {
         weight += 1;
       }
 
@@ -2354,7 +2354,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       return Math.max(weight, 1);
     }
 
-    public String printAvailableBuffs() {
+    public static String printAvailableBuffs() {
       StringBuilder text = new StringBuilder();
 
       text.append("Castable buffs:");
@@ -2489,9 +2489,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       text.append("Available equipment:");
 
-      for (int i = 0; i < this.whipCount; ++i) {
-        text.append(" bar whip (+2)");
-      }
+      text.append(" bar whip (+2)".repeat(Math.max(0, this.whipCount)));
 
       if (this.hat == FamiliarTrainingFrame.CRUMPLED_FEDORA) {
         text.append(" crumpled felt fedora (+10)");

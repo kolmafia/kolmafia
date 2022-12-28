@@ -718,7 +718,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
   }
 
-  private void addGreyGooseSkills() {
+  private static void addGreyGooseSkills() {
     if (KoLCharacter.inGreyYou()) {
       KoLCharacter.addAvailableCombatSkill(SkillPool.RE_PROCESS_MATTER);
     }
@@ -731,7 +731,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     KoLCharacter.addAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_POMADE);
   }
 
-  private void removeGreyGooseSkills() {
+  private static void removeGreyGooseSkills() {
     KoLCharacter.removeAvailableCombatSkill(SkillPool.RE_PROCESS_MATTER);
     KoLCharacter.removeAvailableCombatSkill(SkillPool.MEATIFY_MATTER);
     KoLCharacter.removeAvailableCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES);

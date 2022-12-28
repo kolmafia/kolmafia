@@ -691,12 +691,10 @@ public class CharPaneRequest extends GenericRequest {
       pattern = Pattern.compile("<b>(\\d+ )?(Love|Hate|Bored)</td>");
       matcher = pattern.matcher(responseText);
       if (matcher != null && matcher.find()) {
-        if (matcher.group(2).equals("Love")) {
-          KoLCharacter.setAudience(StringUtilities.parseInt(matcher.group(1)));
-        } else if (matcher.group(2).equals("Hate")) {
-          KoLCharacter.setAudience(-StringUtilities.parseInt(matcher.group(1)));
-        } else if (matcher.group(2).equals("Bored")) {
-          KoLCharacter.setAudience(0);
+        switch (matcher.group(2)) {
+          case "Love" -> KoLCharacter.setAudience(StringUtilities.parseInt(matcher.group(1)));
+          case "Hate" -> KoLCharacter.setAudience(-StringUtilities.parseInt(matcher.group(1)));
+          case "Bored" -> KoLCharacter.setAudience(0);
         }
       } else {
         KoLCharacter.setAudience(0);

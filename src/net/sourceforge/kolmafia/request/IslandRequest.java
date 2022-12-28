@@ -373,31 +373,34 @@ public class IslandRequest extends GenericRequest {
       return true;
     }
 
-    if (action.equals("concert")) {
-      Matcher matcher = OPTION_PATTERN.matcher(urlString);
-      if (!matcher.find()) {
-        return true;
+    switch (action) {
+      case "concert" -> {
+        Matcher matcher = OPTION_PATTERN.matcher(urlString);
+        if (!matcher.find()) {
+          return true;
+        }
+        message = "concert " + matcher.group(1);
       }
-      message = "concert " + matcher.group(1);
-    } else if (action.equals("junkman")) {
-      message = "Visiting Yossarian";
-    } else if (action.equals("stand")) {
-      message = "Visiting The Organic Produce Stand";
-      gcli = true; // Part of Breakfast
-    } else if (action.equals("farmer")) {
-      message = "Visiting Farmer McMillicancuddy";
-      gcli = true; // Part of Breakfast
-    } else if (action.equals("nuns")) {
-      message = "Visiting Our Lady of Perpetual Indecision ";
-    } else if (action.equals("pyro")) {
-      int count = IslandRequest.GUNPOWDER.getCount(KoLConstants.inventory);
-      message =
-          "Visiting the lighthouse keeper with "
-              + count
-              + " barrel"
-              + (count == 1 ? "" : "s")
-              + " of gunpowder.";
-      gcli = true; // Part of Breakfast
+      case "junkman" -> message = "Visiting Yossarian";
+      case "stand" -> {
+        message = "Visiting The Organic Produce Stand";
+        gcli = true; // Part of Breakfast
+      }
+      case "farmer" -> {
+        message = "Visiting Farmer McMillicancuddy";
+        gcli = true; // Part of Breakfast
+      }
+      case "nuns" -> message = "Visiting Our Lady of Perpetual Indecision ";
+      case "pyro" -> {
+        int count = IslandRequest.GUNPOWDER.getCount(KoLConstants.inventory);
+        message =
+            "Visiting the lighthouse keeper with "
+                + count
+                + " barrel"
+                + (count == 1 ? "" : "s")
+                + " of gunpowder.";
+        gcli = true; // Part of Breakfast
+      }
     }
 
     if (message == null) {

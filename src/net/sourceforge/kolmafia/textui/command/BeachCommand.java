@@ -192,7 +192,7 @@ public class BeachCommand extends AbstractCommand {
     }
   }
 
-  private void printBeachLayout() {
+  private static void printBeachLayout() {
     RequestLogger.printLine("Beach at " + Preferences.getInteger("_beachMinutes"));
     RequestLogger.printLine("");
 

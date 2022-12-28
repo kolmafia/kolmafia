@@ -432,7 +432,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       return COPY;
     }
 
-    class Selection implements Transferable {
+    static class Selection implements Transferable {
       private final JTable delegate;
       private final List<DataFlavor> flavors = new ArrayList<>();
 

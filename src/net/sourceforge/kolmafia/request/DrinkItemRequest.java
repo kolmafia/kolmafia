@@ -867,7 +867,6 @@ public class DrinkItemRequest extends UseItemRequest {
             RequestLogger.updateSessionLog(message);
           }
         }
-        break;
       }
       case ItemPool.VAMPIRE_VINTNER_WINE -> {
         // The charge only starts recounting when the wine is drunk

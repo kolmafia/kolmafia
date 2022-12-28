@@ -154,7 +154,6 @@ public class EnumeratedWrapper extends ScriptableObject {
     ValueConverter coercer = new ValueConverter(cx, scope);
 
     return cx.newArray(
-        scope,
-        Arrays.asList((Value[]) type.allValues().content).stream().map(coercer::asJava).toArray());
+        scope, Arrays.stream((Value[]) type.allValues().content).map(coercer::asJava).toArray());
   }
 }

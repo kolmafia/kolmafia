@@ -1772,37 +1772,45 @@ public class CampgroundRequest extends GenericRequest {
 
     String message = null;
 
-    if (action.equals("garden")) {
-      message = "Harvesting your garden";
-    } else if (action.equals("spinningwheel")) {
-      message = "Spinning Meat from air";
-    } else if (action.equals("dnapotion")) {
-      message = "Making a Gene Tonic";
-    } else if (action.equals("dnainject")) {
-      message = "Hybridizing yourself";
-    } else if (action.equals("rest")) {
-      message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
-    } else if (action.equals("witchess")) {
-      KoLAdventure.lastVisitedLocation = null;
-      KoLAdventure.lastLocationName = null;
-      KoLAdventure.lastLocationURL = urlString;
-      KoLAdventure.setLastAdventure("None");
-      KoLAdventure.setNextAdventure("None");
-      message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
-    } else if (action.equals("fuelconvertor")) {
-      Matcher fuelMatcher = FUEL_PATTERN_3.matcher(urlString);
-      if (fuelMatcher.find()) {
-        int qty = StringUtilities.parseInt(fuelMatcher.group(1));
-        int itemId = StringUtilities.parseInt(fuelMatcher.group(2));
-        if (qty > 1) {
-          message = "Converting " + qty + " " + ItemDatabase.getPluralName(itemId) + " into Fuel";
-        } else {
-          message = "Converting " + ItemDatabase.getItemName(itemId) + " into Fuel";
+    switch (action) {
+      case "garden":
+        message = "Harvesting your garden";
+        break;
+      case "spinningwheel":
+        message = "Spinning Meat from air";
+        break;
+      case "dnapotion":
+        message = "Making a Gene Tonic";
+        break;
+      case "dnainject":
+        message = "Hybridizing yourself";
+        break;
+      case "rest":
+        message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
+        break;
+      case "witchess":
+        KoLAdventure.lastVisitedLocation = null;
+        KoLAdventure.lastLocationName = null;
+        KoLAdventure.lastLocationURL = urlString;
+        KoLAdventure.setLastAdventure("None");
+        KoLAdventure.setNextAdventure("None");
+        message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
+        break;
+      case "fuelconvertor":
+        Matcher fuelMatcher = FUEL_PATTERN_3.matcher(urlString);
+        if (fuelMatcher.find()) {
+          int qty = StringUtilities.parseInt(fuelMatcher.group(1));
+          int itemId = StringUtilities.parseInt(fuelMatcher.group(2));
+          if (qty > 1) {
+            message = "Converting " + qty + " " + ItemDatabase.getPluralName(itemId) + " into Fuel";
+          } else {
+            message = "Converting " + ItemDatabase.getItemName(itemId) + " into Fuel";
+          }
         }
-      }
-    } else {
-      // Unknown action.
-      return false;
+        break;
+      default:
+        // Unknown action.
+        return false;
     }
 
     RequestLogger.printLine("");

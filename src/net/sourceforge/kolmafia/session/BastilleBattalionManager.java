@@ -253,13 +253,13 @@ public abstract class BastilleBattalionManager {
     private final AdventureResult psychological;
 
     public Boosts() {
-      this.military = this.getBoost(SHARK_TOOTH_GRIN);
-      this.castle = this.getBoost(BOILING_DETERMINATION);
-      this.psychological = this.getBoost(ENHANCED_INTERROGATION);
+      this.military = Boosts.getBoost(SHARK_TOOTH_GRIN);
+      this.castle = Boosts.getBoost(BOILING_DETERMINATION);
+      this.psychological = Boosts.getBoost(ENHANCED_INTERROGATION);
       this.boosts = this.makeBoostString();
     }
 
-    private AdventureResult getBoost(AdventureResult effect) {
+    private static AdventureResult getBoost(AdventureResult effect) {
       int index = KoLConstants.activeEffects.indexOf(effect);
       return index >= 0 ? KoLConstants.activeEffects.get(index) : null;
     }
@@ -1068,7 +1068,6 @@ public abstract class BastilleBattalionManager {
       Style style = imageToStyle.get(image);
       if (style != null) {
         style.apply();
-        continue;
       }
     }
     saveStyles(currentStyles);
@@ -1579,7 +1578,7 @@ public abstract class BastilleBattalionManager {
   private static final String BATTLE_FILE_NAME = "Bastille.battles.txt";
 
   private static String joinFields(String separator, String... fields) {
-    return Arrays.stream(fields).collect(Collectors.joining(separator));
+    return String.join(separator, fields);
   }
 
   private static String generateKey(int game, int number) {

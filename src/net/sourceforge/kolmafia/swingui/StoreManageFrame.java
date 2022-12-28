@@ -626,7 +626,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreAddPanel extends JTabbedPane {
+  private static class StoreAddPanel extends JTabbedPane {
     public StoreAddPanel() {
       super(JTabbedPane.LEFT);
       this.addTab("Inventory", new StoreAddFromInventoryPanel());

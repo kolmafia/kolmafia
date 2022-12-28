@@ -464,7 +464,7 @@ public class ClanManageFrame extends GenericFrame {
     }
   }
 
-  private class MemberTableModel extends ListWrapperTableModel<ProfileRequest> {
+  private static class MemberTableModel extends ListWrapperTableModel<ProfileRequest> {
     public MemberTableModel() {
       super(
           new String[] {" ", "Name", "Clan Title", "Total Karma", "Boot"},

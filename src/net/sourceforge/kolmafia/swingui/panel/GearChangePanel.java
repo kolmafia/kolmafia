@@ -861,7 +861,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class ThroneComboBox extends CarriedFamiliarComboBox implements Listener {
+  private static class ThroneComboBox extends CarriedFamiliarComboBox implements Listener {
     public ThroneComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       NamedListenerRegistry.registerNamedListener("(throne)", this);
@@ -878,7 +878,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class BjornComboBox extends CarriedFamiliarComboBox implements Listener {
+  private static class BjornComboBox extends CarriedFamiliarComboBox implements Listener {
     public BjornComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       NamedListenerRegistry.registerNamedListener("(bjorn)", this);
@@ -1499,7 +1499,7 @@ public class GearChangePanel extends JPanel {
       this.update();
     }
 
-    private class LockFamiliarItemListener extends ThreadedListener {
+    private static class LockFamiliarItemListener extends ThreadedListener {
       @Override
       protected void execute() {
         RequestThread.postRequest(new FamiliarRequest(true));

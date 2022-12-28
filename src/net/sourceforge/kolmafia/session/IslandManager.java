@@ -886,19 +886,23 @@ public class IslandManager {
     String message;
 
     int total = KoLCharacter.isKingdomOfExploathing() ? 333 : 1000;
-    if (loser.equals("fratboys")) {
-      Preferences.setInteger("fratboysDefeated", total);
-      message = "War finished: fratboys defeated";
-    } else if (loser.equals("hippies")) {
-      Preferences.setInteger("hippiesDefeated", total);
-      message = "War finished: hippies defeated";
-    } else if (loser.equals("both")) {
-      Preferences.setInteger("fratboysDefeated", 1000);
-      Preferences.setInteger("hippiesDefeated", 1000);
-      message = "War finished: both sides defeated";
-    } else {
-      // Say what?
-      return;
+    switch (loser) {
+      case "fratboys":
+        Preferences.setInteger("fratboysDefeated", total);
+        message = "War finished: fratboys defeated";
+        break;
+      case "hippies":
+        Preferences.setInteger("hippiesDefeated", total);
+        message = "War finished: hippies defeated";
+        break;
+      case "both":
+        Preferences.setInteger("fratboysDefeated", 1000);
+        Preferences.setInteger("hippiesDefeated", 1000);
+        message = "War finished: both sides defeated";
+        break;
+      default:
+        // Say what?
+        return;
     }
 
     RequestLogger.updateSessionLog(message);

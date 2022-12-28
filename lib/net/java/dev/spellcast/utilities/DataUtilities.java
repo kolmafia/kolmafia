@@ -458,10 +458,7 @@ public class DataUtilities
 
 		StringBuffer hexBuffer = new StringBuffer( digitCount );
 		int zeroesToAdd = digitCount - hexString.length();
-		for ( int i = 0; i < zeroesToAdd; ++i )
-		{
-			hexBuffer.append( 0 );
-		}
+		hexBuffer.append( "0".repeat( zeroesToAdd ) );
 		hexBuffer.append( hexString );
 		return hexBuffer.toString();
 	}

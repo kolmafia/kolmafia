@@ -130,17 +130,15 @@ public class QuestLogRequest extends GenericRequest {
       String header = map.get(key);
       String cut = responseText.substring(key.intValue()).split("</blockquote>")[0];
 
-      if (header.equals("Council Quests:")) {
-        handleQuestText(cut);
-      } else if (header.equals("Guild Quests:")) {
-        handleQuestText(cut);
-      }
-      // First time I opened this today it said Miscellaneous quests, now says Other quests, so
-      // check for both
-      else if (header.equals("Other Quests:") || header.equals("Miscellaneous Quests:")) {
-        handleQuestText(cut);
-      } else {
-        // encountered a section in questlog we don't know how to handle.
+      switch (header) {
+        case "Council Quests:" -> handleQuestText(cut);
+        case "Guild Quests:" -> handleQuestText(cut);
+
+          // First time I opened this today it said Miscellaneous quests, now says Other quests, so
+          // check for both
+        case "Other Quests:", "Miscellaneous Quests:" -> handleQuestText(cut);
+        default -> {}
+          // encountered a section in questlog we don't know how to handle.
       }
     }
 

@@ -449,7 +449,7 @@ public class Expression {
           {
             v =
                 KoLConstants.activeEffects.stream()
-                    .map(e -> e.getCount())
+                    .map(AdventureResult::getCount)
                     .filter(d -> d < Integer.MAX_VALUE)
                     .count();
             break;

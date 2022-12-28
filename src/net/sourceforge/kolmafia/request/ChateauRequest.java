@@ -197,14 +197,11 @@ public class ChateauRequest extends PlaceRequest {
         return true;
       }
 
-      if (action.equals("chateau_desk1")) {
-        message = "Collecting Meat from Swiss piggy bank";
-      } else if (action.equals("chateau_desk2")) {
-        message = "Collecting potions from continental juice bar";
-      } else if (action.equals("chateau_desk3")) {
-        message = "Collecting pens from fancy stationery set";
-      } else if (action.equals("chateau_desk")) {
-        message = "Collecting swag from the item on your desk";
+      switch (action) {
+        case "chateau_desk1" -> message = "Collecting Meat from Swiss piggy bank";
+        case "chateau_desk2" -> message = "Collecting potions from continental juice bar";
+        case "chateau_desk3" -> message = "Collecting pens from fancy stationery set";
+        case "chateau_desk" -> message = "Collecting swag from the item on your desk";
       }
     }
     if (action.startsWith("chateau_nightstand") || action.startsWith("chateau_ceiling")) {

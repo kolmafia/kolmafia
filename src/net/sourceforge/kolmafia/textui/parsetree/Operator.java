@@ -431,54 +431,60 @@ public class Operator extends Command {
     Value result;
 
     // Unary Operators
-    if (this.operator.equals("!")) {
-      result = DataTypes.makeBooleanValue(leftValue.intValue() == 0);
-    } else if (this.operator.equals("~")) {
-      long val = leftValue.intValue();
-      result =
-          leftValue.getType().equals(DataTypes.TYPE_BOOLEAN)
-              ? DataTypes.makeBooleanValue(val == 0)
-              : DataTypes.makeIntValue(~val);
-    } else if (this.operator.equals("-")) {
-      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
-        result = DataTypes.makeIntValue(0 - leftValue.intValue());
-      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
-        result = DataTypes.makeFloatValue(0.0 - leftValue.floatValue());
-      } else {
+    switch (this.operator) {
+      case "!":
+        result = DataTypes.makeBooleanValue(leftValue.intValue() == 0);
+        break;
+      case "~":
+        long val = leftValue.intValue();
+        result =
+            leftValue.getType().equals(DataTypes.TYPE_BOOLEAN)
+                ? DataTypes.makeBooleanValue(val == 0)
+                : DataTypes.makeIntValue(~val);
+        break;
+      case "-":
+        if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+          result = DataTypes.makeIntValue(0 - leftValue.intValue());
+        } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+          result = DataTypes.makeFloatValue(0.0 - leftValue.floatValue());
+        } else {
+          throw interpreter.runtimeException(
+              "Internal error: Unary minus can only be applied to numbers",
+              this.fileName,
+              this.lineNumber);
+        }
+        break;
+      case Parser.PRE_INCREMENT:
+      case Parser.POST_INCREMENT:
+        if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+          result = DataTypes.makeIntValue(leftValue.intValue() + 1);
+        } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+          result = DataTypes.makeFloatValue(leftValue.floatValue() + 1.0);
+        } else {
+          throw interpreter.runtimeException(
+              "Internal error: pre/post increment can only be applied to numbers",
+              this.fileName,
+              this.lineNumber);
+        }
+        break;
+      case Parser.PRE_DECREMENT:
+      case Parser.POST_DECREMENT:
+        if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+          result = DataTypes.makeIntValue(leftValue.intValue() - 1);
+        } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+          result = DataTypes.makeFloatValue(leftValue.floatValue() - 1.0);
+        } else {
+          throw interpreter.runtimeException(
+              "Internal error: pre/post increment can only be applied to numbers",
+              this.fileName,
+              this.lineNumber);
+        }
+        break;
+      default:
         throw interpreter.runtimeException(
-            "Internal error: Unary minus can only be applied to numbers",
+            "Internal error: unknown unary operator \"" + this.operator + "\"",
             this.fileName,
             this.lineNumber);
-      }
-    } else if (this.operator.equals(Parser.PRE_INCREMENT)
-        || this.operator.equals(Parser.POST_INCREMENT)) {
-      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
-        result = DataTypes.makeIntValue(leftValue.intValue() + 1);
-      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
-        result = DataTypes.makeFloatValue(leftValue.floatValue() + 1.0);
-      } else {
-        throw interpreter.runtimeException(
-            "Internal error: pre/post increment can only be applied to numbers",
-            this.fileName,
-            this.lineNumber);
-      }
-    } else if (this.operator.equals(Parser.PRE_DECREMENT)
-        || this.operator.equals(Parser.POST_DECREMENT)) {
-      if (lhs.getType().equals(DataTypes.TYPE_INT)) {
-        result = DataTypes.makeIntValue(leftValue.intValue() - 1);
-      } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
-        result = DataTypes.makeFloatValue(leftValue.floatValue() - 1.0);
-      } else {
-        throw interpreter.runtimeException(
-            "Internal error: pre/post increment can only be applied to numbers",
-            this.fileName,
-            this.lineNumber);
-      }
-    } else {
-      throw interpreter.runtimeException(
-          "Internal error: unknown unary operator \"" + this.operator + "\"",
-          this.fileName,
-          this.lineNumber);
     }
 
     if (ScriptRuntime.isTracing()) {

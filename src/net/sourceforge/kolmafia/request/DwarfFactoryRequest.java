@@ -685,22 +685,30 @@ public class DwarfFactoryRequest extends GenericRequest {
     while (matcher.find()) {
       String color = matcher.group(1);
       int digit = -1;
-      if (color.equals("red")) {
-        digit = 0;
-      } else if (color.equals("orange")) {
-        digit = 1;
-      } else if (color.equals("yellow")) {
-        digit = 2;
-      } else if (color.equals("green")) {
-        digit = 3;
-      } else if (color.equals("blue")) {
-        digit = 4;
-      } else if (color.equals("indigo")) {
-        digit = 5;
-      } else if (color.equals("violet")) {
-        digit = 6;
-      } else {
-        return -1;
+      switch (color) {
+        case "red":
+          digit = 0;
+          break;
+        case "orange":
+          digit = 1;
+          break;
+        case "yellow":
+          digit = 2;
+          break;
+        case "green":
+          digit = 3;
+          break;
+        case "blue":
+          digit = 4;
+          break;
+        case "indigo":
+          digit = 5;
+          break;
+        case "violet":
+          digit = 6;
+          break;
+        default:
+          return -1;
       }
       number = (number * 7) + digit;
     }

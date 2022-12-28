@@ -296,7 +296,7 @@ public class AddCustomDeedsPanel extends JPanel {
     }
   }
 
-  private class SimpleDeedConstructor extends CustomDeedConstructor {
+  private static class SimpleDeedConstructor extends CustomDeedConstructor {
     public SimpleDeedConstructor() {
       super("Simple", 5);
 
@@ -326,7 +326,7 @@ public class AddCustomDeedsPanel extends JPanel {
     }
   }
 
-  private class CommandDeedConstructor extends CustomDeedConstructor {
+  private static class CommandDeedConstructor extends CustomDeedConstructor {
     public CommandDeedConstructor() {
       super("Command", 6);
 
@@ -360,7 +360,7 @@ public class AddCustomDeedsPanel extends JPanel {
     }
   }
 
-  private class ItemDeedConstructor extends CustomDeedConstructor {
+  private static class ItemDeedConstructor extends CustomDeedConstructor {
     public ItemDeedConstructor() {
       super("Item", 6);
 
@@ -501,7 +501,7 @@ public class AddCustomDeedsPanel extends JPanel {
     }
   }
 
-  private class SkillDeedConstructor extends CustomDeedConstructor {
+  private static class SkillDeedConstructor extends CustomDeedConstructor {
     public SkillDeedConstructor() {
       super("Skill", 6);
 
@@ -631,7 +631,7 @@ public class AddCustomDeedsPanel extends JPanel {
     }
   }
 
-  private class TextDeedConstructor extends CustomDeedConstructor {
+  private static class TextDeedConstructor extends CustomDeedConstructor {
     protected JTextArea textArea;
 
     protected ThreadedButton addTextButton;

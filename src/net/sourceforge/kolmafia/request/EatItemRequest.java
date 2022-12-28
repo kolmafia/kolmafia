@@ -984,7 +984,6 @@ public class EatItemRequest extends UseItemRequest {
             RequestLogger.updateSessionLog(message);
           }
         }
-        break;
       }
       case ItemPool.PIZZA_OF_LEGEND -> {
         Preferences.setBoolean("pizzaOfLegendEaten", true);

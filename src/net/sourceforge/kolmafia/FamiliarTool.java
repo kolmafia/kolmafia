@@ -86,7 +86,8 @@ public class FamiliarTool {
           }
 
           // optimal weight for equal skill is +3
-          if (this.betterWeightDifference(ownPower - (opponentPower + 3), this.difference)) {
+          if (FamiliarTool.betterWeightDifference(
+              ownPower - (opponentPower + 3), this.difference)) {
             this.difference = ownPower - (opponentPower + 3);
             this.bestOpponent = opp;
             this.bestMatch = match;
@@ -134,7 +135,7 @@ public class FamiliarTool {
     return this.difference;
   }
 
-  private boolean betterWeightDifference(final int newVal, final int oldVal) {
+  private static boolean betterWeightDifference(final int newVal, final int oldVal) {
     // In order to reduce the probability for accidental loss,
     // do not consider priority values less than -2, but make
     // it lower priority than 3.

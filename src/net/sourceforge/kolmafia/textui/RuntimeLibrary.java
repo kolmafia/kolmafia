@@ -5184,106 +5184,108 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
     String which = type.toString();
 
-    if (which.equals("zap")) {
-      List<String> zapgroup = ZapRequest.getZapGroup((int) item.intValue());
-      for (int i = zapgroup.size() - 1; i >= 0; --i) {
-        Value key = DataTypes.parseItemValue(zapgroup.get(i), true);
-        if (key.intValue() != item.intValue()) {
-          value.aset(key, DataTypes.ZERO_VALUE);
-        }
-      }
-    } else if (which.equals("fold")) {
-      FoldGroup list = ItemDatabase.getFoldGroup(item.toString());
-      if (list == null) return value;
-      for (int i = list.names.size() - 1; i >= 0; --i) {
-        value.aset(DataTypes.parseItemValue(list.names.get(i), true), new Value(i + 1));
-      }
-    } else if (which.equals("pulverize")) { // All values scaled up by one million
-      int pulver = EquipmentDatabase.getPulverization((int) item.intValue());
-      if (pulver == -1 || (pulver & EquipmentDatabase.MALUS_UPGRADE) != 0) {
-        return value;
-      }
-      if (pulver > 0) {
-        value.aset(DataTypes.makeItemValue(pulver, true), DataTypes.makeIntValue(1000000));
-        return value;
-      }
-
-      ArrayList<Integer> elems = new ArrayList<>();
-      boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
-      if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
-        elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
-        elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
-        elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
-        elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
-        elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
-        elems.add(ItemPool.TWINKLY_WAD);
-      }
-      int nelems = elems.size();
-      if (nelems == 0) {
-        return value; // shouldn't happen
-      }
-
-      int powders = 0, nuggets = 0, wads = 0;
-      if ((pulver & EquipmentDatabase.YIELD_3W) != 0) {
-        wads = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1W3N_2W) != 0) {
-        wads = 1500000;
-        nuggets = 1500000;
-      } else if ((pulver & EquipmentDatabase.YIELD_4N_1W) != 0) {
-        wads = 500000;
-        nuggets = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_3N) != 0) {
-        nuggets = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1N3P_2N) != 0) {
-        nuggets = 1500000;
-        powders = 1500000;
-      } else if ((pulver & EquipmentDatabase.YIELD_4P_1N) != 0) {
-        nuggets = 500000;
-        powders = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_3P) != 0) {
-        powders = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_2P) != 0) {
-        powders = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1P) != 0) {
-        powders = 1000000;
-      }
-      int gems = wads / 100;
-      wads -= gems;
-
-      for (int wad : elems) {
-        if (powders > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2POWDER, true),
-              DataTypes.makeIntValue(powders / nelems));
-        }
-        if (nuggets > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2NUGGET, true),
-              DataTypes.makeIntValue(nuggets / nelems));
-        }
-        if (wads > 0) {
-          if (wad == ItemPool.TWINKLY_WAD) { // no twinkly gem!
-            wads += gems;
-            gems = 0;
+    switch (which) {
+      case "zap" -> {
+        List<String> zapgroup = ZapRequest.getZapGroup((int) item.intValue());
+        for (int i = zapgroup.size() - 1; i >= 0; --i) {
+          Value key = DataTypes.parseItemValue(zapgroup.get(i), true);
+          if (key.intValue() != item.intValue()) {
+            value.aset(key, DataTypes.ZERO_VALUE);
           }
-          value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(wads / nelems));
         }
-        if (gems > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2GEM, true), DataTypes.makeIntValue(gems / nelems));
+      }
+      case "fold" -> {
+        FoldGroup list = ItemDatabase.getFoldGroup(item.toString());
+        if (list == null) return value;
+        for (int i = list.names.size() - 1; i >= 0; --i) {
+          value.aset(DataTypes.parseItemValue(list.names.get(i), true), new Value(i + 1));
         }
-        if (clusters) {
-          value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(1000000));
+      }
+      case "pulverize" -> { // All values scaled up by one million
+        int pulver = EquipmentDatabase.getPulverization((int) item.intValue());
+        if (pulver == -1 || (pulver & EquipmentDatabase.MALUS_UPGRADE) != 0) {
+          return value;
+        }
+        if (pulver > 0) {
+          value.aset(DataTypes.makeItemValue(pulver, true), DataTypes.makeIntValue(1000000));
+          return value;
+        }
+        ArrayList<Integer> elems = new ArrayList<>();
+        boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
+        if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
+          elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
+          elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
+          elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
+          elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
+          elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
+          elems.add(ItemPool.TWINKLY_WAD);
+        }
+        int nelems = elems.size();
+        if (nelems == 0) {
+          return value; // shouldn't happen
+        }
+        int powders = 0, nuggets = 0, wads = 0;
+        if ((pulver & EquipmentDatabase.YIELD_3W) != 0) {
+          wads = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1W3N_2W) != 0) {
+          wads = 1500000;
+          nuggets = 1500000;
+        } else if ((pulver & EquipmentDatabase.YIELD_4N_1W) != 0) {
+          wads = 500000;
+          nuggets = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_3N) != 0) {
+          nuggets = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1N3P_2N) != 0) {
+          nuggets = 1500000;
+          powders = 1500000;
+        } else if ((pulver & EquipmentDatabase.YIELD_4P_1N) != 0) {
+          nuggets = 500000;
+          powders = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_3P) != 0) {
+          powders = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_2P) != 0) {
+          powders = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1P) != 0) {
+          powders = 1000000;
+        }
+        int gems = wads / 100;
+        wads -= gems;
+        for (int wad : elems) {
+          if (powders > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2POWDER, true),
+                DataTypes.makeIntValue(powders / nelems));
+          }
+          if (nuggets > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2NUGGET, true),
+                DataTypes.makeIntValue(nuggets / nelems));
+          }
+          if (wads > 0) {
+            if (wad == ItemPool.TWINKLY_WAD) { // no twinkly gem!
+              wads += gems;
+              gems = 0;
+            }
+            value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(wads / nelems));
+          }
+          if (gems > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2GEM, true),
+                DataTypes.makeIntValue(gems / nelems));
+          }
+          if (clusters) {
+            value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(1000000));
+          }
         }
       }
     }

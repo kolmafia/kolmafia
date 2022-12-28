@@ -116,7 +116,6 @@ public class CargoCultCommand extends AbstractCommand {
             List<Pocket> sorted = PocketDatabase.sortPockets(type, pockets);
             printPockets(sorted);
           }
-          break;
         }
         case "monster" -> {
           String monster = parseMonster(parameters);
@@ -130,7 +129,6 @@ public class CargoCultCommand extends AbstractCommand {
           } else {
             printPocket(pocket);
           }
-          break;
         }
         case "effect" -> {
           String effect = parseEffect(parameters);
@@ -155,7 +153,6 @@ public class CargoCultCommand extends AbstractCommand {
             List<Pocket> sorted = PocketDatabase.sortResults(effect, pockets);
             printPockets(sorted);
           }
-          break;
         }
         case "item" -> {
           String item = parseItem(parameters);
@@ -180,7 +177,6 @@ public class CargoCultCommand extends AbstractCommand {
             List<Pocket> sorted = PocketDatabase.sortResults(item, pockets);
             printPockets(sorted);
           }
-          break;
         }
         case "stat" -> {
           String stat = parseStat(parameters);
@@ -205,7 +201,6 @@ public class CargoCultCommand extends AbstractCommand {
             List<Pocket> sorted = PocketDatabase.sortStats(stat, pockets);
             printPockets(sorted);
           }
-          break;
         }
         default -> {
           KoLmafia.updateDisplay(MafiaState.ERROR, usage);

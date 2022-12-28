@@ -13,7 +13,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -888,7 +887,7 @@ public class MonsterDatabase {
         data[3] = attributeString;
         count++;
 
-        writer.println(Arrays.stream(data).collect(Collectors.joining("\t")));
+        writer.println(String.join("\t", data));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);

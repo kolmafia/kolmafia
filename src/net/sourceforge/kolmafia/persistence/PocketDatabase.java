@@ -697,7 +697,6 @@ public class PocketDatabase {
         PocketDatabase.addResultPocket(
             PocketDatabase.effectPockets, orp.getResult1().getName(), orp);
         PocketDatabase.allEffectPockets.add(orp.getPocket());
-        break;
       }
       case CANDY, CHIPS, GUM, LENS, NEEDLE, TEETH -> {
         TwoResultPocket trp = (TwoResultPocket) pocket;
@@ -706,26 +705,22 @@ public class PocketDatabase {
         PocketDatabase.addResultPocket(
             PocketDatabase.effectPockets, trp.getResult2().getName(), trp);
         PocketDatabase.allEffectPockets.add(trp.getPocket());
-        break;
       }
       case ITEM, AVATAR, BELL, BOOZE, CASH, CHESS, CHOCO, FOOD, FRUIT, OYSTER, POTION, YEG -> {
         OneResultPocket orp = (OneResultPocket) pocket;
         PocketDatabase.addResultPocket(PocketDatabase.itemPockets, orp.getResult1().getName(), orp);
         PocketDatabase.allItemPockets.add(orp.getPocket());
-        break;
       }
       case ITEM2 -> {
         TwoResultPocket trp = (TwoResultPocket) pocket;
         PocketDatabase.addResultPocket(PocketDatabase.itemPockets, trp.getResult1().getName(), trp);
         PocketDatabase.addResultPocket(PocketDatabase.itemPockets, trp.getResult2().getName(), trp);
         PocketDatabase.allItemPockets.add(trp.getPocket());
-        break;
       }
       case MONSTER -> {
         MonsterPocket mp = (MonsterPocket) pocket;
         PocketDatabase.addMonsterPocket(mp);
         PocketDatabase.allMonsterPockets.add(mp.getPocket());
-        break;
       }
       case STATS -> {
         StatsPocket sp = (StatsPocket) pocket;
@@ -733,7 +728,6 @@ public class PocketDatabase {
         PocketDatabase.addStatsPocket("mysticality", sp.getMysticality(), sp);
         PocketDatabase.addStatsPocket("moxie", sp.getMoxie(), sp);
         PocketDatabase.allStatsPockets.add(sp.getPocket());
-        break;
       }
     }
     return true;

@@ -179,12 +179,10 @@ public class MoodOptionsPanel extends JPanel {
 
       // Update the selected type
 
-      if (type.equals("lose_effect")) {
-        this.typeSelect.setSelectedIndex(0);
-      } else if (type.equals("gain_effect")) {
-        this.typeSelect.setSelectedIndex(1);
-      } else if (type.equals("unconditional")) {
-        this.typeSelect.setSelectedIndex(2);
+      switch (type) {
+        case "lose_effect" -> this.typeSelect.setSelectedIndex(0);
+        case "gain_effect" -> this.typeSelect.setSelectedIndex(1);
+        case "unconditional" -> this.typeSelect.setSelectedIndex(2);
       }
 
       // Update the selected effect

@@ -441,7 +441,7 @@ public class ItemManageFrame extends GenericFrame {
       }
     }
 
-    private class EmptyStorageButton extends InvocationButton implements Listener {
+    private static class EmptyStorageButton extends InvocationButton implements Listener {
       public EmptyStorageButton() {
         super("empty", StorageRequest.class, "emptyStorage");
         NamedListenerRegistry.registerNamedListener("(hardcore)", this);

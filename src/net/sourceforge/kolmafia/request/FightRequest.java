@@ -2170,7 +2170,6 @@ public class FightRequest extends GenericRequest {
       switch (familiarId) {
         case FamiliarPool.GHOST_COMMERCE -> {
           Preferences.increment("commerceGhostCombats");
-          break;
         }
         default -> {}
       }
@@ -7019,7 +7018,6 @@ public class FightRequest extends GenericRequest {
         if (!matcher.find()) return false;
         int candy = StringUtilities.parseInt(matcher.group(1));
         Preferences.increment("candyWitchCandyTotal", candy);
-        break;
       }
       default -> {
         return false;

@@ -191,7 +191,7 @@ public class MuseumFrame extends GenericFrame {
     }
   }
 
-  public class MuseumShelfList extends PanelList {
+  public static class MuseumShelfList extends PanelList {
     public MuseumShelfList() {
       super(1, 480, 200, DisplayCaseManager.getShelves(), true);
     }
