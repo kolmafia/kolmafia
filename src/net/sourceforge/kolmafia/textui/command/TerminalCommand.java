@@ -54,7 +54,6 @@ public class TerminalCommand extends AbstractCommand {
               KoLConstants.MafiaState.ERROR, input + " is not a valid enhance target.");
           return;
         }
-        break;
       }
       case "enquiry" -> {
         String files = Preferences.getString("sourceTerminalEnquiryKnown");
@@ -72,7 +71,6 @@ public class TerminalCommand extends AbstractCommand {
               KoLConstants.MafiaState.ERROR, input + " is not a valid enquiry target.");
           return;
         }
-        break;
       }
       case "educate" -> {
         String files = Preferences.getString("sourceTerminalEducateKnown");
@@ -94,7 +92,6 @@ public class TerminalCommand extends AbstractCommand {
               KoLConstants.MafiaState.ERROR, input + " is not a valid educate target.");
           return;
         }
-        break;
       }
       case "extrude" -> {
         if (Preferences.getInteger("_sourceTerminalExtrudes") >= 3) {
@@ -130,7 +127,6 @@ public class TerminalCommand extends AbstractCommand {
               KoLConstants.MafiaState.ERROR, input + " is not a valid extrude target.");
           return;
         }
-        break;
       }
       default -> {
         KoLmafia.updateDisplay(

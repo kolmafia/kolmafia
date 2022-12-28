@@ -2878,6 +2878,7 @@ public abstract class KoLCharacter {
       case GLOVER:
         // Fall-through on purpose!
         Preferences.increment("garlandUpgrades", 1, 10, false);
+        //noinspection fallthrough
       default:
         oldPath.incrementPoints(points);
         break;
@@ -3883,7 +3884,6 @@ public abstract class KoLCharacter {
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_SUPERIOR);
             break;
         }
-        break;
       }
       case SkillDatabase.SUMMON -> {
         KoLConstants.usableSkills.add(skill);
@@ -5501,7 +5501,6 @@ public abstract class KoLCharacter {
           if (card != null && card != EquipmentRequest.UNEQUIP) {
             newModifiers.add(Modifiers.getItemModifiers(card.getItemId()));
           }
-          break;
         }
         case ItemPool.FOLDER_HOLDER ->
         // Apply folders

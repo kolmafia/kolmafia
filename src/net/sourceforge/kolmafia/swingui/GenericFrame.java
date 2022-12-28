@@ -373,7 +373,6 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
         toolbarPanel = new JToolBar("KoLmafia Toolbar");
         if (this instanceof LoginFrame || this instanceof ChatFrame) {
           this.framePanel.add(toolbarPanel, BorderLayout.NORTH);
-          break;
         }
       }
     }

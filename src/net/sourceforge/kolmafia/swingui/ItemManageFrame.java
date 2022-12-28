@@ -242,17 +242,18 @@ public class ItemManageFrame extends GenericFrame {
     }
 
     switch (pullsRemaining) {
-      case 0:
+      case 0 -> {
         ItemManageFrame.pullsRemainingLabel1.setText("No Pulls Left");
         ItemManageFrame.pullsRemainingLabel2.setText("No Pulls Left");
-        break;
-      case 1:
+      }
+      case 1 -> {
         ItemManageFrame.pullsRemainingLabel1.setText("1 Pull Left");
         ItemManageFrame.pullsRemainingLabel2.setText("1 Pull Left");
-        break;
-      default:
+      }
+      default -> {
         ItemManageFrame.pullsRemainingLabel1.setText(pullsRemaining + " Pulls Left");
         ItemManageFrame.pullsRemainingLabel2.setText(pullsRemaining + " Pulls Left");
+      }
     }
   }
 
@@ -482,18 +483,10 @@ public class ItemManageFrame extends GenericFrame {
 
       ConsumptionType consumptionType =
           ItemDatabase.getConsumptionType(((AdventureResult) item).getItemId());
-      switch (consumptionType) {
-        case HAT:
-        case PANTS:
-        case SHIRT:
-        case CONTAINER:
-        case WEAPON:
-        case OFFHAND:
-          return 1;
-
-        default:
-          return super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
-      }
+      return switch (consumptionType) {
+        case HAT, PANTS, SHIRT, CONTAINER, WEAPON, OFFHAND -> 1;
+        default -> super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
+      };
     }
 
     private AdventureResult[] pullItems(final boolean isPullingForUse) {

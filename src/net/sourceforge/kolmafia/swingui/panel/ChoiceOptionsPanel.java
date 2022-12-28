@@ -985,6 +985,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.isAdjusting = false;
   }
 
+  @SuppressWarnings("fallthrough")
   public synchronized void loadSettings() {
     this.isAdjusting = true;
     ActionPanel.enableActions(false); // prevents recursive actions from being triggered

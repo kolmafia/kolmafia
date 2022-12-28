@@ -202,7 +202,6 @@ public class AfterLifeRequest extends GenericRequest {
                 + " Karma (initial balance = "
                 + karma
                 + ")";
-        break;
       }
 
         // Returning a skill
@@ -242,7 +241,6 @@ public class AfterLifeRequest extends GenericRequest {
                 + " Karma (initial balance = "
                 + karma
                 + ")";
-        break;
       }
 
         // Buying from the Deli
@@ -258,7 +256,6 @@ public class AfterLifeRequest extends GenericRequest {
         String itemName = ItemDatabase.getItemName(itemId);
         String cost = action.equals("buydeli") ? "1" : "10";
         message = "Buy " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
-        break;
       }
 
         // Returning an item to the Deli
@@ -275,7 +272,6 @@ public class AfterLifeRequest extends GenericRequest {
         String cost = action.startsWith("deli") ? "1" : "10";
         message =
             "Return " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
-        break;
       }
 
         // Ascending
@@ -395,7 +391,6 @@ public class AfterLifeRequest extends GenericRequest {
         builder.append(" Karma.");
 
         message = builder.toString();
-        break;
       }
     }
 

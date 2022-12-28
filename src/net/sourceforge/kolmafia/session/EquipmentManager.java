@@ -373,7 +373,6 @@ public class EquipmentManager {
           AdventureResult hat = EquipmentManager.getEquipment(HAT);
           AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
           removed = hat.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
-          break;
         }
         case EquipmentManager.WEAPON -> {
           // Disembodied Hand wields weapons and grants conditional skills
@@ -381,7 +380,6 @@ public class EquipmentManager {
           AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
           removed =
               offhand.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
-          break;
         }
         case EquipmentManager.OFFHAND -> {
           // Left-Hand Man Hand wields offhand items and grants conditional skills
@@ -392,14 +390,12 @@ public class EquipmentManager {
               weapon.getItemId() != old.getItemId()
                   && offhand.getItemId() != old.getItemId()
                   && familiar.getItemId() != old.getItemId();
-          break;
         }
         case EquipmentManager.PANTS -> {
           // Fancypants Scarecrow wears pants and grants conditional skills
           AdventureResult pants = EquipmentManager.getEquipment(PANTS);
           AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
           removed = pants.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
-          break;
         }
         case EquipmentManager.FAMILIAR -> {
           // Mad Hatrack wears hats and grants conditional skills
@@ -409,38 +405,29 @@ public class EquipmentManager {
           AdventureResult weapon = EquipmentManager.getEquipment(WEAPON);
           AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
           AdventureResult pants = EquipmentManager.getEquipment(PANTS);
-          switch (consumption) {
-            case HAT:
-              removed = hat.getItemId() != old.getItemId();
-              break;
-            case WEAPON:
-            case OFFHAND:
-              removed =
-                  weapon.getItemId() != old.getItemId() && offhand.getItemId() != old.getItemId();
-              break;
-            case PANTS:
-              removed = pants.getItemId() != old.getItemId();
-              break;
-          }
-          break;
+          removed =
+              switch (consumption) {
+                case HAT -> hat.getItemId() != old.getItemId();
+                case WEAPON, OFFHAND -> weapon.getItemId() != old.getItemId()
+                    && offhand.getItemId() != old.getItemId();
+                case PANTS -> pants.getItemId() != old.getItemId();
+                default -> removed;
+              };
         }
         case EquipmentManager.ACCESSORY1 -> {
           AdventureResult acc2 = EquipmentManager.getEquipment(ACCESSORY2);
           AdventureResult acc3 = EquipmentManager.getEquipment(ACCESSORY3);
           removed = acc2.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
-          break;
         }
         case EquipmentManager.ACCESSORY2 -> {
           AdventureResult acc1 = EquipmentManager.getEquipment(ACCESSORY1);
           AdventureResult acc3 = EquipmentManager.getEquipment(ACCESSORY3);
           removed = acc1.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
-          break;
         }
         case EquipmentManager.ACCESSORY3 -> {
           AdventureResult acc1 = EquipmentManager.getEquipment(ACCESSORY1);
           AdventureResult acc2 = EquipmentManager.getEquipment(ACCESSORY2);
           removed = acc1.getItemId() != old.getItemId() && acc2.getItemId() != old.getItemId();
-          break;
         }
       }
 

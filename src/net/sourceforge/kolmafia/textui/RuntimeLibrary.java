@@ -9777,17 +9777,14 @@ public abstract class RuntimeLibrary {
           Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
           String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
           value.aset(new Value(sp.getScrap()), new Value(syllable));
-          break;
         }
         case POEM -> {
           PoemPocket pp = (PoemPocket) p;
           value.aset(new Value(pp.getIndex()), new Value(pp.getText()));
-          break;
         }
         case MEAT -> {
           MeatPocket mp = (MeatPocket) p;
           value.aset(new Value(mp.getMeat()), new Value(mp.getText()));
-          break;
         }
       }
     }

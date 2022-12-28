@@ -179,7 +179,7 @@ public abstract class UseLinkDecorator {
 
   private static void addNormalUseLinks(
       String location, String text, StringBuffer buffer, boolean deferring, boolean usedMacro) {
-    // Get a list of of items via "rel" strings
+    // Get a list of items via "rel" strings
     LinkedList<AdventureResult> items = ResultProcessor.parseItems(text);
 
     // Get a list of effects via descid
@@ -1125,6 +1125,8 @@ public abstract class UseLinkDecorator {
                 getPotionSpeculation("use", itemId),
                 "inv_use.php?which=3&whichitem=");
         }
+        // How is there a "fallthrough"?
+        return null;
 
       case PASTA_GUARDIAN:
         if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {

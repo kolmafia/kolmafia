@@ -1896,16 +1896,15 @@ public class Modifiers {
       }
       int mask = Modifiers.bitmapMasks[i];
       switch (bitcount) {
-        case 1:
-          Modifiers.bitmapMasks[i] <<= 1;
-          break;
-        case 2:
+        case 1 -> Modifiers.bitmapMasks[i] <<= 1;
+        case 2 -> {
           mask |= mask << 1;
           Modifiers.bitmapMasks[i] <<= 2;
-          break;
-        default:
+        }
+        default -> {
           KoLmafia.updateDisplay("ERROR: invalid count for bitmap modifier in " + lookup);
           continue;
+        }
       }
       if (Modifiers.bitmapMasks[i] == 0) {
         KoLmafia.updateDisplay(

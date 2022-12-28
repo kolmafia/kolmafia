@@ -1740,7 +1740,6 @@ public class RequestEditorKit extends HTMLEditorKit {
           buffer.insert(m.end(), progress);
           return;
         }
-        break;
       }
       case "trash" -> {
         Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
@@ -1752,7 +1751,6 @@ public class RequestEditorKit extends HTMLEditorKit {
           buffer.insert(m.end(), progress);
           return;
         }
-        break;
       }
       case "dj" -> {
         Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
@@ -1762,7 +1760,6 @@ public class RequestEditorKit extends HTMLEditorKit {
           buffer.insert(m.end(), progress);
           return;
         }
-        break;
       }
 
         // No special text, just append to You win the fight if on clear the party quest
@@ -1774,7 +1771,6 @@ public class RequestEditorKit extends HTMLEditorKit {
           buffer.insert(m.end(), progress);
           return;
         }
-        break;
       }
     }
   }

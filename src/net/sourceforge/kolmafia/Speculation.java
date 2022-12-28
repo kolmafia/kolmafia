@@ -195,7 +195,6 @@ public class Speculation {
             }
           }
           this.equip(slot, match);
-          break;
         }
         case "unequip" -> {
           int slot = EquipmentRequest.slotNumber(params);
@@ -204,7 +203,6 @@ public class Speculation {
             return true;
           }
           this.equip(slot, EquipmentRequest.UNEQUIP);
-          break;
         }
         case "familiar" -> {
           int id = FamiliarDatabase.getFamiliarId(params);
@@ -217,7 +215,6 @@ public class Speculation {
             fam = new FamiliarData(id);
           }
           this.setFamiliar(fam);
-          break;
         }
         case "enthrone" -> {
           int id = FamiliarDatabase.getFamiliarId(params);
@@ -228,7 +225,6 @@ public class Speculation {
           FamiliarData fam = new FamiliarData(id);
           this.setEnthroned(fam);
           this.equip(EquipmentManager.HAT, ItemPool.get(ItemPool.HATSEAT));
-          break;
         }
         case "bjornify" -> {
           int id = FamiliarDatabase.getFamiliarId(params);
@@ -239,7 +235,6 @@ public class Speculation {
           FamiliarData fam = new FamiliarData(id);
           this.setBjorned(fam);
           this.equip(EquipmentManager.CONTAINER, ItemPool.get(ItemPool.BUDDY_BJORN));
-          break;
         }
         case "up" -> {
           List<String> effects = EffectDatabase.getMatchingNames(params);
@@ -253,7 +248,6 @@ public class Speculation {
           if (!this.hasEffect(effect)) {
             this.addEffect(effect);
           }
-          break;
         }
         case "uneffect" -> {
           List<String> effects = EffectDatabase.getMatchingNames(params);
@@ -265,7 +259,6 @@ public class Speculation {
           int effectId = EffectDatabase.getEffectId(effects.get(0));
           AdventureResult effect = EffectPool.get(effectId);
           this.removeEffect(effect);
-          break;
         }
         case "quiet" -> quiet = true;
         default -> {

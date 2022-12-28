@@ -248,7 +248,6 @@ public abstract class StoreManager {
           newItems.add(
               StoreManager.registerItem(item.getItemId(), item.getCount(), price, limit, 0));
         }
-        break;
       }
       case PRICER -> {
         int itemId, quantity, price, limit, lowest;
@@ -279,7 +278,6 @@ public abstract class StoreManager {
 
           newItems.add(StoreManager.registerItem(itemId, quantity, price, limit, lowest));
         }
-        break;
       }
       case DEETS -> {
         Matcher rowMatcher = StoreManager.INVENTORY_ROW_PATTERN.matcher(storeText);
@@ -296,7 +294,6 @@ public abstract class StoreManager {
 
           newItems.add(StoreManager.registerItem(itemId, count, price, limit, 0));
         }
-        break;
       }
     }
 

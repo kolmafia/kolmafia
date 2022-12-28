@@ -369,30 +369,21 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       final int quantityType) {
     int quantity = 0;
     switch (quantityType) {
-      case TAKE_ALL:
-        quantity = itemCount;
-        break;
-
-      case TAKE_ALL_BUT_USABLE:
-        quantity = itemCount - this.getUsableItemAmount(item, itemName);
-        break;
-
-      case TAKE_MULTIPLE:
-        {
-          Integer value =
-              InputFieldUtilities.getQuantity(message + " " + itemName + "...", itemCount);
-          if (value == null) {
-            return Integer.MIN_VALUE;
-          }
-
-          quantity = value.intValue();
-
-          break;
+      case TAKE_ALL -> quantity = itemCount;
+      case TAKE_ALL_BUT_USABLE -> quantity = itemCount - this.getUsableItemAmount(item, itemName);
+      case TAKE_MULTIPLE -> {
+        Integer value =
+            InputFieldUtilities.getQuantity(message + " " + itemName + "...", itemCount);
+        if (value == null) {
+          return Integer.MIN_VALUE;
         }
 
-      case USE_MULTIPLE:
-        int standard = itemCount;
+        quantity = value.intValue();
 
+        break;
+      }
+      case USE_MULTIPLE -> {
+        int standard = itemCount;
         if (!message.equals("Feed")) {
           if (item instanceof Concoction) {
             int previous = 0, capacity = itemCount, unit = 0, shotglass = 0;
@@ -434,7 +425,6 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
           standard = Math.min(standard, maximum);
         }
-
         quantity = standard;
         if (standard >= 2) {
           Integer value =
@@ -445,12 +435,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
           }
           quantity = value.intValue();
         }
-
-        break;
-
-      default:
-        quantity = 1;
-        break;
+      }
+      default -> quantity = 1;
     }
 
     return quantity;
@@ -467,14 +453,11 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       case HAT:
         return Preferences.getInteger("usableHats");
       case WEAPON:
-        switch (EquipmentDatabase.getHands(id)) {
-          case 3:
-            return Preferences.getInteger("usable3HWeapons");
-          case 2:
-            return Preferences.getInteger("usable2HWeapons");
-          default:
-            return Preferences.getInteger("usable1HWeapons");
-        }
+        return switch (EquipmentDatabase.getHands(id)) {
+          case 3 -> Preferences.getInteger("usable3HWeapons");
+          case 2 -> Preferences.getInteger("usable2HWeapons");
+          default -> Preferences.getInteger("usable1HWeapons");
+        };
       case OFFHAND:
         return Preferences.getInteger("usableOffhands");
       case SHIRT:
@@ -571,17 +554,15 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         ConsumptionType usageType = ItemDatabase.getConsumptionType(item.getItemId());
 
         switch (usageType) {
-          case FAMILIAR_EQUIPMENT:
-          case ACCESSORY:
-          case HAT:
-          case PANTS:
-          case CONTAINER:
-          case SHIRT:
-          case WEAPON:
-          case OFFHAND:
-            RequestThread.postRequest(
-                new EquipmentRequest(
-                    item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
+          case FAMILIAR_EQUIPMENT,
+              ACCESSORY,
+              HAT,
+              PANTS,
+              CONTAINER,
+              SHIRT,
+              WEAPON,
+              OFFHAND -> RequestThread.postRequest(
+              new EquipmentRequest(item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
         }
       }
     }
@@ -835,26 +816,13 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
         default:
           if (element instanceof CreateItemRequest) {
-            switch (ConcoctionDatabase.getMixingMethod(itemId)) {
-              case COOK:
-              case COOK_FANCY:
-                isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
-                break;
-
-              case SUSHI:
-                isVisibleWithFilter = FilterItemField.this.food;
-                break;
-
-              case MIX:
-              case MIX_FANCY:
-              case STILL:
-                isVisibleWithFilter = FilterItemField.this.booze;
-                break;
-
-              default:
-                isVisibleWithFilter = FilterItemField.this.other;
-                break;
-            }
+            isVisibleWithFilter =
+                switch (ConcoctionDatabase.getMixingMethod(itemId)) {
+                  case COOK, COOK_FANCY -> FilterItemField.this.food || FilterItemField.this.other;
+                  case SUSHI -> FilterItemField.this.food;
+                  case MIX, MIX_FANCY, STILL -> FilterItemField.this.booze;
+                  default -> FilterItemField.this.other;
+                };
           } else {
             // Milk of magnesium is marked as food,
             // as are munchies pills; all others

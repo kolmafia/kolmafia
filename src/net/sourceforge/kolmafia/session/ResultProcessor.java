@@ -1774,6 +1774,7 @@ public class ResultProcessor {
 
       case ItemPool.LIT_BIRTHDAY_CAKE:
         ResultProcessor.processItem(ItemPool.UNLIT_BIRTHDAY_CAKE, -1);
+        //noinspection fallthrough
       case ItemPool.UNLIT_BIRTHDAY_CAKE:
         // Yes, they are the same quest step!
         QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.STARTED);

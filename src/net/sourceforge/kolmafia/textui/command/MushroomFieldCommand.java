@@ -45,7 +45,6 @@ public class MushroomFieldCommand extends AbstractCommand {
         }
 
         MushroomManager.plantMushroom(square, spore);
-        break;
       }
       case "pick" -> {
         if (split.length < 2) {
@@ -57,7 +56,6 @@ public class MushroomFieldCommand extends AbstractCommand {
 
         int square = StringUtilities.parseInt(squareString);
         MushroomManager.pickMushroom(square, true);
-        break;
       }
       case "harvest" -> MushroomManager.harvestMushrooms();
     }

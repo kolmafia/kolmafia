@@ -5856,17 +5856,14 @@ public class FightRequest extends GenericRequest {
           // Familiar Image:
           TagNode inode = tdnode.findElementByName("img", true);
           image = imgToString(inode);
-          break;
         }
         case 2 -> {
           // Familiar name
           name = tdnode.getText().toString();
-          break;
         }
         case 3 -> {
           // Familiar power: one image (blacksword.gif) per
           power = tdnode.getElementsByName("img", true).length;
-          break;
         }
         case 4 -> {
           // Familiar attribute: distinct images, can have two
@@ -5879,12 +5876,10 @@ public class FightRequest extends GenericRequest {
               attributes.add(aname);
             }
           }
-          break;
         }
         case 5 -> {
           // Familiar HP: one image (blackheart.gif) per
           hp = tdnode.getElementsByName("img", true).length;
-          break;
         }
       }
     }
@@ -6129,7 +6124,6 @@ public class FightRequest extends GenericRequest {
         if (m.find()) {
           status.mosquito = true;
         }
-        break;
       }
       case FamiliarPool.ADORABLE_SEAL_LARVA -> {
         Matcher m = FightRequest.ADORABLE_SEAL_PATTERN.matcher(text);
@@ -6137,7 +6131,6 @@ public class FightRequest extends GenericRequest {
         if (m.find()) {
           status.mosquito = true;
         }
-        break;
       }
       case FamiliarPool.STAB_BAT -> {
         Matcher m = FightRequest.STABBAT_PATTERN.matcher(text);
@@ -6146,7 +6139,6 @@ public class FightRequest extends GenericRequest {
           String message = "You lose " + m.group(1) + " hit points";
           FightRequest.logPlayerAttribute(status, message);
         }
-        break;
       }
       case FamiliarPool.ORB -> {
         Matcher m = FightRequest.CARBS_PATTERN.matcher(text);
@@ -6155,7 +6147,6 @@ public class FightRequest extends GenericRequest {
           String message = "You lose " + m.group(1) + " hit points";
           FightRequest.logPlayerAttribute(status, message);
         }
-        break;
       }
     }
   }
