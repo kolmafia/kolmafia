@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -364,7 +364,7 @@ public abstract class YouRobotManager {
   // *** Current state of Configuration
 
   private static final Map<Part, RobotUpgrade> currentParts = new HashMap<>();
-  private static final Set<RobotUpgrade> currentCPU = new HashSet<>();
+  private static final Set<RobotUpgrade> currentCPU = EnumSet.noneOf(RobotUpgrade.class);
 
   // For testing
   public static void reset() {

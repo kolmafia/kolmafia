@@ -106,7 +106,7 @@ public class SkillBuffFrame extends GenericFrame {
     }
   }
 
-  private class SkillSelectComboBox extends AutoFilterComboBox<UseSkillRequest>
+  private static class SkillSelectComboBox extends AutoFilterComboBox<UseSkillRequest>
       implements Listener {
     public SkillSelectComboBox(final LockableListModel<UseSkillRequest> model) {
       super(model);
@@ -144,7 +144,7 @@ public class SkillBuffFrame extends GenericFrame {
 
       SkillBuffFrame.this.typeSelect = new SkillTypeComboBox();
       SkillBuffFrame.this.skillSelect =
-          new SkillSelectComboBox((LockableListModel<UseSkillRequest>) KoLConstants.usableSkills);
+			  new SkillSelectComboBox( (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills );
       SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
       SkillBuffFrame.this.contacts = ContactManager.getMailContacts().getMirrorImage();

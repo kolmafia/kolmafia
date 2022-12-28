@@ -494,11 +494,11 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
 
     // Scripts are added to a new panel on right
     // You are allowed to have zero buttons in it.
-    ScriptBar scriptBar = new ScriptBar(scriptList, scriptButtonPosition);
+    ScriptBar scriptBar = new ScriptBar( scriptList, scriptButtonPosition );
     this.framePanel.add(scriptBar, BorderLayout.EAST);
   }
 
-  private class ScriptBar extends JToolBar implements Listener {
+  private static class ScriptBar extends JToolBar implements Listener {
     private String scriptList = "";
     private boolean showScriptList = false;
 

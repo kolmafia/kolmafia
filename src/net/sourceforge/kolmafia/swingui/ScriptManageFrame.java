@@ -36,7 +36,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
     ScriptManager.updateInstalledScripts();
   }
 
-  private class ScriptManageTable extends ShowDescriptionTable<Script> {
+  private static class ScriptManageTable extends ShowDescriptionTable<Script> {
     public ScriptManageTable() {
       super(ScriptManager.getInstalledScripts(), 4, 4);
 
@@ -62,7 +62,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class RepoManageTable extends ShowDescriptionTable<Script> {
+  private static class RepoManageTable extends ShowDescriptionTable<Script> {
     public RepoManageTable() {
       super(ScriptManager.getRepoScripts(), 4, 4);
 
@@ -117,7 +117,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
           .repoTable
           .getSelectionModel()
           .addListSelectionListener(
-              new LongDescriptionListener(ScriptManageFrame.this.repoTable, textPane));
+                  new LongDescriptionListener( ScriptManageFrame.this.repoTable, textPane ) );
 
       this.setContent(this.elements, true);
       this.container.remove(this.eastContainer);
@@ -180,7 +180,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
     public void actionCancelled() {}
   }
 
-  private class LongDescriptionListener implements ListSelectionListener {
+  private static class LongDescriptionListener implements ListSelectionListener {
     private final JTextComponent comp;
     private final JXTable table;
 
@@ -232,7 +232,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
           .scriptTable
           .getSelectionModel()
           .addListSelectionListener(
-              new LongDescriptionListener(ScriptManageFrame.this.scriptTable, textPane));
+                  new LongDescriptionListener( ScriptManageFrame.this.scriptTable, textPane ) );
 
       this.setContent(this.elements, true);
       this.container.remove(this.eastContainer);

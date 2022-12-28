@@ -517,7 +517,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     // No error handling here, really.  0-length strings don't do anything;
     // blank strings end up working like a \n
 
-    this.add(new TextDeed(deedsString));
+    this.add( new TextDeed( deedsString ) );
   }
 
   private void parseCommandDeed(String[] deedsString) {
@@ -1081,7 +1081,6 @@ public class DailyDeedsPanel extends Box implements Listener {
     JButton btn;
 
     public ShowerCombo() {
-      List<String> ttips = new ArrayList<>();
       String[] choices = {"April Shower", "Muscle", "Mysticality", "Moxie", "Ice", "MP"};
       String[] tips = {
         "Take a shower",
@@ -1092,7 +1091,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         "mp or amazing idea"
       };
 
-      ttips.addAll(Arrays.asList(tips));
+      List<String> ttips = new ArrayList<>(Arrays.asList(tips));
 
       this.addItem(ItemPool.VIP_LOUNGE_KEY);
       this.addListener("_aprilShower");
@@ -1153,7 +1152,6 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     public DemonCombo() {
       int len = KoLAdventure.DEMON_TYPES.length;
-      List<String> ttips = new ArrayList<>();
       String[] choices = new String[len + 1];
       choices[0] = "Summoning Chamber";
       String[] tips = {
@@ -1176,7 +1174,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         choices[i] = KoLAdventure.DEMON_TYPES[i - 1][1];
       }
 
-      ttips.addAll(Arrays.asList(tips));
+      List<String> ttips = new ArrayList<>(Arrays.asList(tips));
 
       this.addListener("(character)");
       this.addListener("demonSummoned");
@@ -1240,7 +1238,6 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.preference = pref;
 
       int len = packedDeed.size();
-      List<String> ttips = new ArrayList<>();
       String[] tips = new String[len + 1];
       String[] choices = new String[len + 1];
       choices[0] = displayText;
@@ -1258,7 +1255,7 @@ public class DailyDeedsPanel extends Box implements Listener {
           lengthString = item[1];
         }
       }
-      ttips.addAll(Arrays.asList(tips));
+      List<String> ttips = new ArrayList<>(Arrays.asList(tips));
 
       this.addListener(pref);
       this.box = this.addComboBox(choices, ttips, lengthString + " ");
@@ -1343,7 +1340,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.preference = "_simpleDeed" + sCount;
       this.addListener(preference);
       button = this.addComboButton(command, command);
-      button.addActionListener(new SimpleListener(this.preference));
+      button.addActionListener( new SimpleListener( this.preference ) );
       this.addLabel("");
     }
 
@@ -1356,7 +1353,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.preference = "_simpleDeed" + sCount;
       this.addListener(preference);
       button = this.addComboButton(command, displayText);
-      button.addActionListener(new SimpleListener(this.preference));
+      button.addActionListener( new SimpleListener( this.preference ) );
       this.addLabel("");
     }
 
@@ -1371,7 +1368,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.maxPref = maxPref;
       this.addListener(preference);
       button = this.addComboButton(command, displayText);
-      button.addActionListener(new SimpleListener(this.preference));
+      button.addActionListener( new SimpleListener( this.preference ) );
       this.addLabel("");
     }
 
@@ -1393,7 +1390,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.compMessage = compMessage;
       this.addListener(preference);
       button = this.addComboButton(command, displayText);
-      button.addActionListener(new SimpleListener(this.preference));
+      button.addActionListener( new SimpleListener( this.preference ) );
       button.setToolTipText(tooltip);
       this.addLabel("");
     }
@@ -1432,7 +1429,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       }
     }
 
-    private class SimpleListener implements ActionListener {
+    private static class SimpleListener implements ActionListener {
       String preference;
 
       public SimpleListener(String pref) {
@@ -1876,7 +1873,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
   }
 
-  public class TextDeed extends Daily {
+  public static class TextDeed extends Daily {
     String[] deedsString;
 
     public TextDeed(String[] deedString) {
@@ -2134,7 +2131,6 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     public MomCombo() {
       int len = MomRequest.FOOD.length;
-      List<String> ttips = new ArrayList<>();
       String[] choices = new String[len + 1];
       choices[0] = "Mom Food";
       String[] tips = {
@@ -2152,7 +2148,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         choices[i] = MomRequest.EFFECT[i - 1];
       }
 
-      ttips.addAll(Arrays.asList(tips));
+      List<String> ttips = new ArrayList<>(Arrays.asList(tips));
 
       this.addListener("_momFoodReceived");
       this.addListener("questS02Monkees");

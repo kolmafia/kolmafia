@@ -375,7 +375,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
   // Why can't this be inside CandyTableModel?
   private static final String[] columnNames = {"candy", "have", "cost"};
 
-  public class CandyTableModel extends AbstractTableAdapter {
+  public static class CandyTableModel extends AbstractTableAdapter {
     private static final int NAME = 0;
     private static final int COUNT = 1;
     private static final int COST = 2;
@@ -565,7 +565,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         private final LockableListModel<Candy> model;
 
         public CandyTable(LockableListModel<Candy> model) {
-          super(new CandyTableModel(model));
+          super( new CandyTableModel( model ) );
           this.model = model;
 
           // Magic number! Make the name column wide.

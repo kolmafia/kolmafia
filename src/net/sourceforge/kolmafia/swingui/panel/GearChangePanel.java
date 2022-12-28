@@ -126,9 +126,9 @@ public class GearChangePanel extends JPanel {
     this.crownSelect = new ThroneComboBox(this.crownFamiliars);
     this.bjornSelect = new BjornComboBox(this.bjornFamiliars);
     this.outfitSelect =
-        new OutfitComboBox((LockableListModel<SpecialOutfit>) EquipmentManager.getOutfits());
+			new OutfitComboBox( (LockableListModel<SpecialOutfit>) EquipmentManager.getOutfits() );
     this.customSelect =
-        new OutfitComboBox((LockableListModel<SpecialOutfit>) EquipmentManager.getCustomOutfits());
+			new OutfitComboBox( (LockableListModel<SpecialOutfit>) EquipmentManager.getCustomOutfits() );
 
     this.equipmentPanel = new EquipmentPanel();
     this.customizablePanel = new CustomizablePanel();
@@ -269,7 +269,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private abstract class EquipmentTabPanel extends GenericPanel {
+  private abstract static class EquipmentTabPanel extends GenericPanel {
     protected JLabel modifiersLabel;
     protected int modifiersWidth;
 
@@ -803,7 +803,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class OutfitComboBox extends JComboBox<SpecialOutfit> {
+  private static class OutfitComboBox extends JComboBox<SpecialOutfit> {
     public OutfitComboBox(final LockableListModel<SpecialOutfit> model) {
       super(model);
 
@@ -853,7 +853,7 @@ public class GearChangePanel extends JPanel {
     GearChangePanel.INSTANCE.familiars.clear();
   }
 
-  private class CarriedFamiliarComboBox extends JComboBox<FamiliarData> {
+  private static class CarriedFamiliarComboBox extends JComboBox<FamiliarData> {
     public CarriedFamiliarComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
@@ -1450,7 +1450,7 @@ public class GearChangePanel extends JPanel {
     currentFamiliars.setSelectedItem(activeFamiliar);
   }
 
-  private class FakeHandsSpinner extends AutoHighlightSpinner implements ChangeListener, Listener {
+  private static class FakeHandsSpinner extends AutoHighlightSpinner implements ChangeListener, Listener {
     private int currentFakeHands = 0;
     private int availableFakeHands = 0;
 
@@ -1490,7 +1490,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class FamLockCheckbox extends JCheckBox implements Listener {
+  private static class FamLockCheckbox extends JCheckBox implements Listener {
     public FamLockCheckbox() {
       super("familiar item locked");
       this.addActionListener(new LockFamiliarItemListener());

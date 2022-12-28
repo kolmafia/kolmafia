@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
 
 public class YouRobotManagerTest {
 
-  private class TestListener implements Listener {
+  private static class TestListener implements Listener {
     private int calls = 0;
 
     public TestListener(String signal) {
@@ -624,7 +624,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void willAllowPotionUsage() {
-    TestListener potionListener = new TestListener("(potions)");
+    TestListener potionListener = new TestListener( "(potions)" );
 
     var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
     try (cleanups) {
@@ -670,7 +670,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void canSetAvatarAndGetSignal() {
-    TestListener avatarListener = new TestListener("(avatar)");
+    TestListener avatarListener = new TestListener( "(avatar)" );
 
     var cleanups = new Cleanups(withPath(Path.YOU_ROBOT));
     try (cleanups) {

@@ -64,10 +64,10 @@ public class ScriptMRUList implements Listener {
   }
 
   public void addItemInParallel(File file) {
-    RequestThread.runInParallel(new AddItemRunnable(this, file), true);
+    RequestThread.runInParallel( new AddItemRunnable( this, file ), true);
   }
 
-  private class AddItemRunnable implements Runnable {
+  private static class AddItemRunnable implements Runnable {
     private final ScriptMRUList list;
     private final File file;
 

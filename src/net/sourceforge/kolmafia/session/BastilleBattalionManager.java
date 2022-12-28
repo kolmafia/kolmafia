@@ -3,14 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -537,7 +530,7 @@ public abstract class BastilleBattalionManager {
     // Base 3 digits: [barbican][drawbridge][murder holes][moat]
     int[] digits = {key % 3, (key / 3) % 3 * 3, (key / 9) % 3 * 9, (key / 27) % 3 * 27};
 
-    Set<Style> styleSet = new TreeSet<>();
+    Set<Style> styleSet = EnumSet.noneOf(Style.class);
     for (Style style : Style.values()) {
       int digit = style.getUpgrade().getDigitIndex();
       if (digits[digit] == style.getScaledDigit()) {

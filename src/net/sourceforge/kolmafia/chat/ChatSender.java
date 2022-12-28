@@ -40,9 +40,8 @@ public class ChatSender {
 
     ChatRequest request = new ChatRequest(macro, false);
 
-    List<ChatMessage> accumulatedMessages = new LinkedList<>();
-
-    accumulatedMessages.addAll(ChatSender.sendRequest(request, false));
+    List<ChatMessage> accumulatedMessages =
+        new LinkedList<>(ChatSender.sendRequest(request, false));
 
     ChatPoller.addSentEntry(request.responseText, false);
 

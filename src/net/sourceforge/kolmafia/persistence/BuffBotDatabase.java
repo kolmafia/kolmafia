@@ -187,8 +187,7 @@ public class BuffBotDatabase {
   }
 
   public static final String[] getCompleteBotList() {
-    ArrayList<String> completeList = new ArrayList<>();
-    completeList.addAll(BuffBotDatabase.normalOfferings.keySet());
+    ArrayList<String> completeList = new ArrayList<>(BuffBotDatabase.normalOfferings.keySet());
 
     for (String bot : BuffBotDatabase.freeOfferings.keySet()) {
       if (!completeList.contains(bot)) {

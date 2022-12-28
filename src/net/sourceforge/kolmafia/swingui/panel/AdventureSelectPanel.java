@@ -181,7 +181,7 @@ public class AdventureSelectPanel extends JPanel {
 
       buttonHolder.add(this.begin);
       buttonHolder.add(new InvocationButton("stop now", RequestThread.class, "declareWorldPeace"));
-      buttonHolder.add(new StopButton());
+      buttonHolder.add( new StopButton() );
 
       JPanel buttonPanel = new JPanel(new BorderLayout());
       buttonPanel.add(buttonHolder, BorderLayout.NORTH);
@@ -270,7 +270,7 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class RedoFreeAdventuresCheckbox extends JCheckBox implements ActionListener, Listener {
+  private static class RedoFreeAdventuresCheckbox extends JCheckBox implements ActionListener, Listener {
     public RedoFreeAdventuresCheckbox() {
       super();
       this.setToolTipText("Don't count free adventures towards turn count maximum");
@@ -336,7 +336,7 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class StopButton extends JButton implements ActionListener {
+  private static class StopButton extends JButton implements ActionListener {
     public StopButton() {
       super("stop after");
       this.addActionListener(this);
@@ -629,7 +629,7 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class AdventureCountSpinner extends AutoHighlightSpinner implements ChangeListener {
+  private static class AdventureCountSpinner extends AutoHighlightSpinner implements ChangeListener {
     public AdventureCountSpinner() {
       super();
       this.addChangeListener(this);

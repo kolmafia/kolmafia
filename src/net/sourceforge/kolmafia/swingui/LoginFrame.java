@@ -31,8 +31,8 @@ public class LoginFrame extends GenericFrame {
   private static LoginFrame INSTANCE = null;
 
   private LoginPanel loginPanel = new LoginPanel();
-  private ProxyOptionsPanel httpProxyOptions = new ProxyOptionsPanel("http");
-  private ProxyOptionsPanel httpsProxyOptions = new ProxyOptionsPanel("https");
+  private ProxyOptionsPanel httpProxyOptions = new ProxyOptionsPanel( "http" );
+  private ProxyOptionsPanel httpsProxyOptions = new ProxyOptionsPanel( "https" );
 
   public LoginFrame() {
     super(StaticEntity.getVersion() + ": Login");
@@ -41,7 +41,7 @@ public class LoginFrame extends GenericFrame {
 
     JPanel proxyPanel = new JPanel();
     proxyPanel.setLayout(new BoxLayout(proxyPanel, BoxLayout.Y_AXIS));
-    proxyPanel.add(new ProxySetPanel());
+    proxyPanel.add( new ProxySetPanel() );
     proxyPanel.add(httpProxyOptions);
     proxyPanel.add(httpsProxyOptions);
 
@@ -345,7 +345,7 @@ public class LoginFrame extends GenericFrame {
     }
   }
 
-  private class ProxySetPanel extends OptionsPanel {
+  private static class ProxySetPanel extends OptionsPanel {
     private final String[][] options = {
       {"proxySet", "KoLmafia needs to connect through a proxy server"},
     };
@@ -398,7 +398,7 @@ public class LoginFrame extends GenericFrame {
   }
 
   /** This panel handles all of the things related to proxy options (if applicable). */
-  private class ProxyOptionsPanel extends LabeledPanel {
+  private static class ProxyOptionsPanel extends LabeledPanel {
     private final String protocol;
 
     private final AutoHighlightTextField proxyHost;

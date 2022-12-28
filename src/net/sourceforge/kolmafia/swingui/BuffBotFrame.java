@@ -39,14 +39,14 @@ public class BuffBotFrame extends GenericFrame {
 
     // Initialize the display log buffer and the file log
 
-    this.tabs.addTab("Run Buffbot", new MainBuffPanel());
+    this.tabs.addTab("Run Buffbot", new MainBuffPanel() );
 
     JPanel optionsContainer = new JPanel(new BorderLayout(10, 10));
     optionsContainer.add(new BuffOptionsPanel(), BorderLayout.NORTH);
     optionsContainer.add(new BuffListPanel(), BorderLayout.CENTER);
 
     this.tabs.addTab("Edit Offerings", optionsContainer);
-    this.addTab("Change Settings", new MainSettingsPanel());
+    this.addTab("Change Settings", new MainSettingsPanel() );
 
     this.setCenterComponent(this.tabs);
   }
@@ -57,7 +57,7 @@ public class BuffBotFrame extends GenericFrame {
   }
 
   /** Internal class used to handle everything related to operating the buffbot. */
-  private class MainBuffPanel extends ScrollablePanel<JList<?>> {
+  private static class MainBuffPanel extends ScrollablePanel<JList<?>> {
     public MainBuffPanel() {
       super("BuffBot Activities", "start", "stop", new JList<>(BuffBotHome.getMessages()));
 
@@ -154,7 +154,7 @@ public class BuffBotFrame extends GenericFrame {
   }
 
   /** Internal class used to handle everything related to BuffBot White List management */
-  private class MainSettingsPanel extends GenericPanel {
+  private static class MainSettingsPanel extends GenericPanel {
     private final JTextArea invalidPriceMessage, thanksMessage;
     private final JComboBox<String> philanthropyModeSelect;
     private final JComboBox<String> messageDisposalSelect;

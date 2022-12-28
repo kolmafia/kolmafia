@@ -49,8 +49,7 @@ public class Profiler {
 
   public static String summary() {
     StringBuffer buff = new StringBuffer();
-    ArrayList<Profiler> list = new ArrayList<>();
-    list.addAll(Profiler.totals.values());
+    ArrayList<Profiler> list = new ArrayList<>(Profiler.totals.values());
     Profiler.totals.clear();
 
     buff.append("<br>");

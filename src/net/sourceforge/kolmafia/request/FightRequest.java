@@ -2140,23 +2140,22 @@ public class FightRequest extends GenericRequest {
 
       // Adventuring in the Mer-kin Colosseum
       switch (adventure) {
-        case AdventurePool.MERKIN_COLOSSEUM:
+        case AdventurePool.MERKIN_COLOSSEUM -> {
           Matcher roundMatcher = FightRequest.ROUND_PATTERN.matcher(responseText);
           if (roundMatcher.find()) {
             int round = StringUtilities.parseInt(roundMatcher.group(1));
             Preferences.setInteger("lastColosseumRoundWon", round - 1);
           }
-          break;
-        case AdventurePool.THE_DAILY_DUNGEON:
+        }
+        case AdventurePool.THE_DAILY_DUNGEON -> {
           Matcher chamberMatcher = FightRequest.CHAMBER_PATTERN.matcher(responseText);
           if (chamberMatcher.find()) {
             int round = StringUtilities.parseInt(chamberMatcher.group(1));
             Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
           }
-          break;
-        case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE:
-          ResultProcessor.processItem(ItemPool.WARBEAR_BADGE, -1);
-          break;
+        }
+        case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE -> ResultProcessor.processItem(
+            ItemPool.WARBEAR_BADGE, -1);
       }
 
       // Wearing any piece of papier equipment really messes up the results
@@ -2169,13 +2168,11 @@ public class FightRequest extends GenericRequest {
       // If other familiars also end up getting charged at start of fight rather than end we can put
       // them here
       switch (familiarId) {
-        case FamiliarPool.GHOST_COMMERCE:
-          {
-            Preferences.increment("commerceGhostCombats");
-            break;
-          }
-        default:
+        case FamiliarPool.GHOST_COMMERCE -> {
+          Preferences.increment("commerceGhostCombats");
           break;
+        }
+        default -> {}
       }
 
       FightRequest.haveFought = true;
@@ -2960,15 +2957,10 @@ public class FightRequest extends GenericRequest {
     }
 
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
-      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
-      case AdventurePool.EXPLOADED_BATTLEFIELD:
-        IslandManager.handleBattlefield(responseText);
-        break;
-
-      case AdventurePool.HOBOPOLIS_TOWN_SQUARE:
-        HobopolisDecorator.handleTownSquare(responseText);
-        break;
+      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD,
+          AdventurePool.HIPPY_UNIFORM_BATTLEFIELD,
+          AdventurePool.EXPLOADED_BATTLEFIELD -> IslandManager.handleBattlefield(responseText);
+      case AdventurePool.HOBOPOLIS_TOWN_SQUARE -> HobopolisDecorator.handleTownSquare(responseText);
     }
 
     // Reset round information if the battle is complete.

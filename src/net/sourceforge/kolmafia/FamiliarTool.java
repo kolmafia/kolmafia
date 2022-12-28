@@ -31,7 +31,7 @@ public class FamiliarTool {
     this.opponents = new Opponent[opponentCount];
     for (int i = 0; i < opponentCount; ++i) {
       ArenaOpponent opponent = opponents.get(i);
-      this.opponents[i] = new Opponent(opponent);
+      this.opponents[i] = new Opponent( opponent );
     }
   }
 
@@ -163,7 +163,7 @@ public class FamiliarTool {
     }
   }
 
-  private class Opponent {
+  private static class Opponent {
     // Cake Arena data structure
     private final ArenaOpponent opponent;
 

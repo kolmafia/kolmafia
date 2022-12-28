@@ -47,7 +47,7 @@ public class CardLayoutSelectorPanel extends JPanel {
 
     this.panelList.addListSelectionListener(new CardSwitchListener());
     this.panelList.setPrototypeCellValue(prototype);
-    this.panelList.setCellRenderer(new OptionRenderer());
+    this.panelList.setCellRenderer( new OptionRenderer() );
 
     JPanel listHolder = new JPanel(new CardLayout(10, 10));
     listHolder.add(new GenericScrollPane(this.panelList), "");
@@ -132,7 +132,7 @@ public class CardLayoutSelectorPanel extends JPanel {
     }
   }
 
-  private class OptionRenderer extends DefaultListCellRenderer {
+  private static class OptionRenderer extends DefaultListCellRenderer {
     public OptionRenderer() {
       this.setOpaque(true);
     }

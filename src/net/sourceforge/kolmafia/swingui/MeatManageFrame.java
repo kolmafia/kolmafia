@@ -18,7 +18,7 @@ public class MeatManageFrame extends GenericFrame {
     super("Meat Manager");
 
     JPanel container = new JPanel(new GridLayout(4, 1));
-    container.add(new HeroDonationPanel());
+    container.add( new HeroDonationPanel() );
     container.add(new MeatTransferPanel(MeatTransferPanel.MEAT_TO_CLOSET));
     container.add(new MeatTransferPanel(MeatTransferPanel.MEAT_TO_INVENTORY));
     container.add(new MeatTransferPanel(MeatTransferPanel.PULL_MEAT_FROM_STORAGE));
@@ -34,7 +34,7 @@ public class MeatManageFrame extends GenericFrame {
   /**
    * An internal class which represents the panel used for donations to the statues in the shrine.
    */
-  private class HeroDonationPanel extends LabeledPanel {
+  private static class HeroDonationPanel extends LabeledPanel {
     private final JComboBox<String> heroField;
     private final AutoHighlightTextField amountField;
 

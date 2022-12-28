@@ -54,7 +54,7 @@ public class AddCustomDeedsPanel extends JPanel {
     AddCustomDeedsPanel.selectorPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
   }
 
-  private abstract class CustomDeedConstructor {
+  private abstract static class CustomDeedConstructor {
     final String kind;
 
     final JPanel panel;

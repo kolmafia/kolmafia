@@ -667,12 +667,12 @@ public class OptionsFrame extends GenericFrame {
               new PreferenceCheckBox(
                   "maximizerSingleFilter",
                   "Treat filter checkboxes as an exclusive group (will close Maximizer)"))
-          .addActionListener(new CloseMaximizerListener());
+          .addActionListener( new CloseMaximizerListener() );
 
       this.makeLayout();
     }
 
-    private class CloseMaximizerListener implements ActionListener {
+    private static class CloseMaximizerListener implements ActionListener {
       @Override
       public void actionPerformed(final ActionEvent e) {
         // redraw Maximizer
@@ -1476,7 +1476,7 @@ public class OptionsFrame extends GenericFrame {
   }
 
   /** Allows the user to select to select the framing mode to use. */
-  protected class UserInterfacePanel extends OptionsPanel implements Listener {
+  protected static class UserInterfacePanel extends OptionsPanel implements Listener {
     private JCheckBox[] optionBoxes;
 
     private final String[][] options =

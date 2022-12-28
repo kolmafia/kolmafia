@@ -2696,7 +2696,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
    * An internal class used to handle requests which resets a property for the duration of the
    * current session.
    */
-  public class LocalSettingChanger extends JButton implements ActionListener {
+  public static class LocalSettingChanger extends JButton implements ActionListener {
     private final String title;
     private final String property;
 

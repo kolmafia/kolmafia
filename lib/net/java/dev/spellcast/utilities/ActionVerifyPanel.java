@@ -446,7 +446,7 @@ public abstract class ActionVerifyPanel
 		}
 	}
 
-	protected class HideablePanel
+	protected static class HideablePanel
 		extends JXCollapsiblePane
 	{
 		public HideablePanel()

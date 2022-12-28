@@ -267,12 +267,12 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     // Hidden City Non-combats
 
     this.hiddenShrineNWSelect =
-        new ShrineComboBox("choiceAdventure781", "Blessing of Bulbazinalli");
+			new ShrineComboBox( "choiceAdventure781", "Blessing of Bulbazinalli" );
     this.hiddenShrineSWSelect =
-        new ShrineComboBox("choiceAdventure783", "Blessing of Squirtlcthulli");
+			new ShrineComboBox( "choiceAdventure783", "Blessing of Squirtlcthulli" );
     this.hiddenShrineNESelect =
-        new ShrineComboBox("choiceAdventure785", "Blessing of Pikachutlotal");
-    this.hiddenShrineSESelect = new ShrineComboBox("choiceAdventure787", "Blessing of Charcoatl");
+			new ShrineComboBox( "choiceAdventure785", "Blessing of Pikachutlotal" );
+    this.hiddenShrineSESelect = new ShrineComboBox( "choiceAdventure787", "Blessing of Charcoatl" );
 
     this.hiddenApartmentSelect = new JComboBox<>();
     this.hiddenApartmentSelect.addItem("show in browser");
@@ -496,7 +496,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     public void setEnabled(final boolean isEnabled) {}
   }
 
-  private class ShrineComboBox extends JComboBox<String> {
+  private static class ShrineComboBox extends JComboBox<String> {
     final String setting;
 
     public ShrineComboBox(final String setting, final String blessing) {
@@ -530,7 +530,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
   }
 
-  private class OceanDestinationComboBox extends JComboBox<String> {
+  private static class OceanDestinationComboBox extends JComboBox<String> {
     public OceanDestinationComboBox() {
       super();
       this.createMenu(Preferences.getString("oceanDestination"));

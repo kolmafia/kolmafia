@@ -59,7 +59,7 @@ public class MallPriceManagerTest {
   // We need to be able to set its responseText and call processResults()
   // on it to convert the search results into a list of PurchaseRequests
 
-  private class MockMallSearchRequest extends MallSearchRequest {
+  private static class MockMallSearchRequest extends MallSearchRequest {
 
     private String[] responseTexts = null;
 
@@ -357,7 +357,7 @@ public class MallPriceManagerTest {
     int shopId4 = 400;
 
     // Add Mall stores that carry the 3 items
-    MallSearchRequest request = new MockMallSearchRequest("", 0);
+    MallSearchRequest request = new MockMallSearchRequest( "", 0 );
     try (var cleanups = mockMallSearchRequest(request)) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
@@ -428,7 +428,7 @@ public class MallPriceManagerTest {
   @Test
   public void canFlushPurchaseRequestsByItem() {
     List<PurchaseRequest> results = new ArrayList<>();
-    MallSearchRequest request = new MockMallSearchRequest("", 0, results);
+    MallSearchRequest request = new MockMallSearchRequest( "", 0, results );
 
     try (var cleanups = mockMallSearchRequest(request)) {
       // Add 5 Mall stores that carry the item
@@ -525,7 +525,7 @@ public class MallPriceManagerTest {
   @Test
   public void canHandleMallSearchesWithNoResults() {
     List<PurchaseRequest> results = new ArrayList<>();
-    MallSearchRequest request = new MockMallSearchRequest("", 0, results);
+    MallSearchRequest request = new MockMallSearchRequest( "", 0, results );
 
     try (var cleanups = mockMallSearchRequest(request)) {
       long timestamp = 1_000_000;
@@ -559,7 +559,7 @@ public class MallPriceManagerTest {
 
     // Make a mocked MallSearchResponse with the responseText preloaded
 
-    MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
+    MallSearchRequest request = new MockMallSearchRequest( "Hell ramen", 0 );
     request.responseText = html("request/test_mall_search_hell_ramen.html");
 
     try (var cleanups = mockMallSearchRequest(request)) {
@@ -576,7 +576,7 @@ public class MallPriceManagerTest {
   @Test
   public void canGetMallPricesByCategory() {
     // Test with category = "unlockers" since that only has two pages of results
-    MallSearchRequest request = new MockMallSearchRequest("unlockers", "");
+    MallSearchRequest request = new MockMallSearchRequest( "unlockers", "" );
     request.setResponseTexts(
         html("request/test_mall_search_unlockers_page_1.html"),
         html("request/test_mall_search_unlockers_page_2.html"));
@@ -599,7 +599,7 @@ public class MallPriceManagerTest {
     // (last) form of a MallSearchRequest
 
     // This is Clerk's - one of the bigger stores. :)
-    MallSearchRequest request = new MockMallSearchRequest(1053259);
+    MallSearchRequest request = new MockMallSearchRequest( 1053259 );
     request.setResponseTexts(html("request/test_mall_search_store.html"));
 
     try (var cleanups = mockMallSearchRequest(request)) {
