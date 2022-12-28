@@ -3559,26 +3559,17 @@ public abstract class RuntimeLibrary {
     if (!item.getType().equals(DataTypes.TYPE_ITEM)) {
       return DataTypes.parseSlotValue(item.toString(), true);
     }
-    switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
-      case HAT:
-        return DataTypes.parseSlotValue("hat", true);
-      case WEAPON:
-        return DataTypes.parseSlotValue("weapon", true);
-      case OFFHAND:
-        return DataTypes.parseSlotValue("off-hand", true);
-      case SHIRT:
-        return DataTypes.parseSlotValue("shirt", true);
-      case PANTS:
-        return DataTypes.parseSlotValue("pants", true);
-      case CONTAINER:
-        return DataTypes.parseSlotValue("container", true);
-      case FAMILIAR_EQUIPMENT:
-        return DataTypes.parseSlotValue("familiar", true);
-      case ACCESSORY:
-        return DataTypes.parseSlotValue("acc1", true);
-      default:
-        return DataTypes.parseSlotValue("none", true);
-    }
+    return switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
+      case HAT -> DataTypes.parseSlotValue("hat", true);
+      case WEAPON -> DataTypes.parseSlotValue("weapon", true);
+      case OFFHAND -> DataTypes.parseSlotValue("off-hand", true);
+      case SHIRT -> DataTypes.parseSlotValue("shirt", true);
+      case PANTS -> DataTypes.parseSlotValue("pants", true);
+      case CONTAINER -> DataTypes.parseSlotValue("container", true);
+      case FAMILIAR_EQUIPMENT -> DataTypes.parseSlotValue("familiar", true);
+      case ACCESSORY -> DataTypes.parseSlotValue("acc1", true);
+      default -> DataTypes.parseSlotValue("none", true);
+    };
   }
 
   public static Value to_element(ScriptRuntime controller, final Value value) {
@@ -8976,20 +8967,14 @@ public abstract class RuntimeLibrary {
 
   public static Value dad_sea_monkee_weakness(ScriptRuntime controller, final Value arg) {
     DadManager.Element element = DadManager.weakness((int) arg.intValue());
-    switch (element) {
-      case HOT:
-        return new Value(DataTypes.ELEMENT_TYPE, "hot", element);
-      case COLD:
-        return new Value(DataTypes.ELEMENT_TYPE, "cold", element);
-      case STENCH:
-        return new Value(DataTypes.ELEMENT_TYPE, "stench", element);
-      case SPOOKY:
-        return new Value(DataTypes.ELEMENT_TYPE, "spooky", element);
-      case SLEAZE:
-        return new Value(DataTypes.ELEMENT_TYPE, "sleaze", element);
-      default:
-        return DataTypes.ELEMENT_INIT;
-    }
+    return switch (element) {
+      case HOT -> new Value(DataTypes.ELEMENT_TYPE, "hot", element);
+      case COLD -> new Value(DataTypes.ELEMENT_TYPE, "cold", element);
+      case STENCH -> new Value(DataTypes.ELEMENT_TYPE, "stench", element);
+      case SPOOKY -> new Value(DataTypes.ELEMENT_TYPE, "spooky", element);
+      case SLEAZE -> new Value(DataTypes.ELEMENT_TYPE, "sleaze", element);
+      default -> DataTypes.ELEMENT_INIT;
+    };
   }
 
   public static Value unusual_construct_disc(ScriptRuntime controller) {
@@ -9787,26 +9772,23 @@ public abstract class RuntimeLibrary {
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null) {
       switch (p.getType()) {
-        case SCRAP:
-          {
-            ScrapPocket sp = (ScrapPocket) p;
-            Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
-            String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
-            value.aset(new Value(sp.getScrap()), new Value(syllable));
-            break;
-          }
-        case POEM:
-          {
-            PoemPocket pp = (PoemPocket) p;
-            value.aset(new Value(pp.getIndex()), new Value(pp.getText()));
-            break;
-          }
-        case MEAT:
-          {
-            MeatPocket mp = (MeatPocket) p;
-            value.aset(new Value(mp.getMeat()), new Value(mp.getText()));
-            break;
-          }
+        case SCRAP -> {
+          ScrapPocket sp = (ScrapPocket) p;
+          Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
+          String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
+          value.aset(new Value(sp.getScrap()), new Value(syllable));
+          break;
+        }
+        case POEM -> {
+          PoemPocket pp = (PoemPocket) p;
+          value.aset(new Value(pp.getIndex()), new Value(pp.getText()));
+          break;
+        }
+        case MEAT -> {
+          MeatPocket mp = (MeatPocket) p;
+          value.aset(new Value(mp.getMeat()), new Value(mp.getText()));
+          break;
+        }
       }
     }
     return value;

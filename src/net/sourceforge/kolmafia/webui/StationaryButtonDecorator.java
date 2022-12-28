@@ -49,14 +49,10 @@ public class StationaryButtonDecorator {
       return true;
     }
 
-    switch (skillNumber) {
-      case SkillPool.OLFACTION:
-      case SkillPool.CANHANDLE:
-      case SkillPool.SHOOT:
-        return true;
-    }
-
-    return false;
+    return switch (skillNumber) {
+      case SkillPool.OLFACTION, SkillPool.CANHANDLE, SkillPool.SHOOT -> true;
+      default -> false;
+    };
   }
 
   public static final void addSkillButton(final String skillId) {
@@ -703,12 +699,9 @@ public class StationaryButtonDecorator {
         isEnabled &= KoLCharacter.hasCombatSkill(skillID);
         // Some skills cannot be used but KoL does not remove them
         switch (skillID) {
-          case SkillPool.LASH_OF_COBRA:
-            isEnabled = !Preferences.getBoolean("edUsedLash");
-            break;
-          case SkillPool.GINGERBREAD_MOB_HIT:
-            isEnabled = !Preferences.getBoolean("_gingerbreadMobHitUsed");
-            break;
+          case SkillPool.LASH_OF_COBRA -> isEnabled = !Preferences.getBoolean("edUsedLash");
+          case SkillPool.GINGERBREAD_MOB_HIT -> isEnabled =
+              !Preferences.getBoolean("_gingerbreadMobHitUsed");
         }
       }
     }

@@ -491,12 +491,10 @@ public abstract class BuffBotManager {
     // the message (save, delete, etc.)
 
     switch (BuffBotManager.messageDisposalSetting) {
-      case SAVEBOX:
+      case SAVEBOX -> {
         String messageText = message.getMessageHTML().replaceAll("<.*?>", "");
         boolean willDelete = messageText.length() < 10;
-
         BuffBotManager.queueIncomingMessage(message, willDelete);
-
         if (willDelete) {
           BuffBotHome.update(
               BuffBotHome.NONBUFFCOLOR,
@@ -506,21 +504,21 @@ public abstract class BuffBotManager {
               BuffBotHome.NONBUFFCOLOR,
               "Saving non-buff message from [" + message.getSenderName() + "]");
         }
-
         return null;
-
-      case DISPOSE:
+      }
+      case DISPOSE -> {
         BuffBotManager.queueIncomingMessage(message, true);
         BuffBotHome.update(
             BuffBotHome.NONBUFFCOLOR,
             "Deleting non-buff message from [" + message.getSenderName() + "]");
         return null;
-
-      default:
+      }
+      default -> {
         BuffBotHome.update(
             BuffBotHome.NONBUFFCOLOR,
             "Ignoring non-buff message from [" + message.getSenderName() + "]");
         return null;
+      }
     }
   }
 
@@ -639,15 +637,15 @@ public abstract class BuffBotManager {
     // and check to see that it's okay to send it.
 
     switch (Preferences.getInteger("buffBotPhilanthropyType")) {
-      case 0:
+      case 0 -> {
         BuffBotHome.update(
             BuffBotHome.NONBUFFCOLOR, "Philanthropic buff request from " + recipient);
         BuffBotHome.update(
             BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient);
         UseSkillRequest.lastUpdate = "Philanthropic buffs temporarily disabled.";
         return false;
-
-      case 1:
+      }
+      case 1 -> {
         int instanceCount = BuffBotHome.getInstanceCount(meatSent, recipient);
         if (instanceCount == 0
             || buff.casts.length == 1
@@ -664,11 +662,10 @@ public abstract class BuffBotManager {
             BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + recipient);
         BuffBotHome.update(
             BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient);
-
         UseSkillRequest.lastUpdate = "Philanthropy limit exceeded.";
         return false;
-
-      case 2:
+      }
+      case 2 -> {
         if (BuffBotManager.onWhiteList(recipient)) {
           break;
         }
@@ -682,6 +679,7 @@ public abstract class BuffBotManager {
             BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient);
         UseSkillRequest.lastUpdate = "Philanthropic buffs temporarily disabled.";
         return false;
+      }
     }
 
     // Under all other circumstances, you go ahead and

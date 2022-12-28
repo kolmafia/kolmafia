@@ -140,28 +140,15 @@ public class FamiliarTool {
     // do not consider priority values less than -2, but make
     // it lower priority than 3.
 
-    switch (oldVal) {
-      case 0:
-        return false;
-
-      case 1:
-        return newVal == 0;
-
-      case -1:
-        return newVal == 0 || newVal == 1;
-
-      case 2:
-        return newVal == 0 || newVal == 1 || newVal == -1;
-
-      case 3:
-        return newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2;
-
-      case -2:
-        return newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2 || newVal == 3;
-
-      default:
-        return newVal == 0 || newVal < oldVal && newVal >= -2;
-    }
+    return switch (oldVal) {
+      case 0 -> false;
+      case 1 -> newVal == 0;
+      case -1 -> newVal == 0 || newVal == 1;
+      case 2 -> newVal == 0 || newVal == 1 || newVal == -1;
+      case 3 -> newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2;
+      case -2 -> newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2 || newVal == 3;
+      default -> newVal == 0 || newVal < oldVal && newVal >= -2;
+    };
   }
 
   private static class Opponent {

@@ -54,34 +54,24 @@ public class JourneyCommand extends AbstractCommand {
   }
 
   private AscensionClass parseClass(String[] params) {
-    switch (params[1].toLowerCase().trim()) {
-      case "sc":
-        return AscensionClass.SEAL_CLUBBER;
-      case "tt":
-        return AscensionClass.TURTLE_TAMER;
-      case "pm":
-        return AscensionClass.PASTAMANCER;
-      case "s":
-        return AscensionClass.SAUCEROR;
-      case "db":
-        return AscensionClass.DISCO_BANDIT;
-      case "at":
-        return AscensionClass.ACCORDION_THIEF;
-    }
-
-    return null;
+    return switch (params[1].toLowerCase().trim()) {
+      case "sc" -> AscensionClass.SEAL_CLUBBER;
+      case "tt" -> AscensionClass.TURTLE_TAMER;
+      case "pm" -> AscensionClass.PASTAMANCER;
+      case "s" -> AscensionClass.SAUCEROR;
+      case "db" -> AscensionClass.DISCO_BANDIT;
+      case "at" -> AscensionClass.ACCORDION_THIEF;
+      default -> null;
+    };
   }
 
   private boolean unreachableZone(KoLAdventure zone) {
-    switch (zone.getZone()) {
-      case "MoxSign":
-        return KoLCharacter.getSignZone() != ZodiacZone.GNOMADS;
-      case "MusSign":
-        return KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
-      case "Little Canadia":
-        return KoLCharacter.getSignZone() != ZodiacZone.CANADIA;
-    }
-    return false;
+    return switch (zone.getZone()) {
+      case "MoxSign" -> KoLCharacter.getSignZone() != ZodiacZone.GNOMADS;
+      case "MusSign" -> KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
+      case "Little Canadia" -> KoLCharacter.getSignZone() != ZodiacZone.CANADIA;
+      default -> false;
+    };
   }
 
   private void zonesCommand(String[] params) {

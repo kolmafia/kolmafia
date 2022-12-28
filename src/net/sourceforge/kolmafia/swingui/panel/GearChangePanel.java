@@ -97,26 +97,26 @@ public class GearChangePanel extends JPanel {
 
       // We maintain our own lists for certain slots
       switch (i) {
-        case EquipmentManager.HAT:
-        case EquipmentManager.PANTS:
-        case EquipmentManager.SHIRT:
-        case EquipmentManager.CONTAINER:
-        case EquipmentManager.WEAPON:
-        case EquipmentManager.OFFHAND:
-        case EquipmentManager.ACCESSORY1:
-        case EquipmentManager.ACCESSORY2:
-        case EquipmentManager.ACCESSORY3:
-        case EquipmentManager.FAMILIAR:
-        case EquipmentManager.BOOTSKIN:
-        case EquipmentManager.BOOTSPUR:
-        case EquipmentManager.HOLSTER:
+        case EquipmentManager.HAT,
+            EquipmentManager.PANTS,
+            EquipmentManager.SHIRT,
+            EquipmentManager.CONTAINER,
+            EquipmentManager.WEAPON,
+            EquipmentManager.OFFHAND,
+            EquipmentManager.ACCESSORY1,
+            EquipmentManager.ACCESSORY2,
+            EquipmentManager.ACCESSORY3,
+            EquipmentManager.FAMILIAR,
+            EquipmentManager.BOOTSKIN,
+            EquipmentManager.BOOTSPUR,
+            EquipmentManager.HOLSTER -> {
           list = new SortedListModel<>();
           this.equipmentModels.add((SortedListModel<AdventureResult>) list);
-          break;
-        default:
+        }
+        default -> {
           list = (LockableListModel<AdventureResult>) lists.get(i);
           this.equipmentModels.add(null);
-          break;
+        }
       }
 
       this.equipment[i] = new EquipmentComboBox(list, i);
@@ -934,15 +934,13 @@ public class GearChangePanel extends JPanel {
   }
 
   private boolean slotItemCanBeNone(final int slot) {
-    switch (slot) {
-      case EquipmentManager.BOOTSKIN:
-      case EquipmentManager.BOOTSPUR:
-        // You cannot remove the item in this slot, but if
-        // nothing is equipped, need a placeholder
-        return EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
-      default:
-        return true;
-    }
+    return switch (slot) {
+      case EquipmentManager.BOOTSKIN, EquipmentManager.BOOTSPUR ->
+      // You cannot remove the item in this slot, but if
+      // nothing is equipped, need a placeholder
+      EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
+      default -> true;
+    };
   }
 
   private Optional<FamiliarData> familiarCarryingEquipment(final int slot) {
@@ -1136,14 +1134,11 @@ public class GearChangePanel extends JPanel {
       return true;
     }
 
-    switch (EquipmentDatabase.getWeaponType(weapon.getItemId())) {
-      case MELEE:
-        return this.weaponTypes[1].isSelected();
-      case RANGED:
-        return this.weaponTypes[2].isSelected();
-      default:
-        return false;
-    }
+    return switch (EquipmentDatabase.getWeaponType(weapon.getItemId())) {
+      case MELEE -> this.weaponTypes[1].isSelected();
+      case RANGED -> this.weaponTypes[2].isSelected();
+      default -> false;
+    };
   }
 
   private boolean filterOffhand(final AdventureResult offhand, ConsumptionType consumption) {

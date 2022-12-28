@@ -223,13 +223,9 @@ public class SpelunkyRequest extends GenericRequest {
       int itemId = ItemDatabase.getItemIdFromDescription(descId);
       AdventureResult item = ItemPool.get(itemId, 1);
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case HAT:
-          EquipmentManager.setEquipment(EquipmentManager.HAT, item);
-          break;
-        case WEAPON:
-          EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
-          break;
-        case OFFHAND:
+        case HAT -> EquipmentManager.setEquipment(EquipmentManager.HAT, item);
+        case WEAPON -> EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
+        case OFFHAND -> {
           EquipmentManager.setEquipment(EquipmentManager.OFFHAND, item);
           switch (itemId) {
             case ItemPool.SPELUNKY_SKULL:
@@ -264,13 +260,9 @@ public class SpelunkyRequest extends GenericRequest {
               KoLCharacter.removeAvailableSkill("Throw Torch");
               break;
           }
-          break;
-        case CONTAINER:
-          EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
-          break;
-        case ACCESSORY:
-          EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
-          break;
+        }
+        case CONTAINER -> EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
+        case ACCESSORY -> EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
       }
     }
     if (gear.contains(">hat<")) {

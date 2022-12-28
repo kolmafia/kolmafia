@@ -5852,45 +5852,40 @@ public class FightRequest extends GenericRequest {
     int td = 1;
     for (TagNode tdnode : row1Tags) {
       switch (td++) {
-        case 1:
-          {
-            // Familiar Image:
-            TagNode inode = tdnode.findElementByName("img", true);
-            image = imgToString(inode);
-            break;
-          }
-        case 2:
-          {
-            // Familiar name
-            name = tdnode.getText().toString();
-            break;
-          }
-        case 3:
-          {
-            // Familiar power: one image (blacksword.gif) per
-            power = tdnode.getElementsByName("img", true).length;
-            break;
-          }
-        case 4:
-          {
-            // Familiar attribute: distinct images, can have two
-            TagNode[] inodes = tdnode.getElementsByName("img", true);
-            for (TagNode inode : inodes) {
-              String title = inode.getAttributeByName("title");
-              if (title != null) {
-                int colon = title.indexOf(":");
-                String aname = title.substring(0, colon);
-                attributes.add(aname);
-              }
+        case 1 -> {
+          // Familiar Image:
+          TagNode inode = tdnode.findElementByName("img", true);
+          image = imgToString(inode);
+          break;
+        }
+        case 2 -> {
+          // Familiar name
+          name = tdnode.getText().toString();
+          break;
+        }
+        case 3 -> {
+          // Familiar power: one image (blacksword.gif) per
+          power = tdnode.getElementsByName("img", true).length;
+          break;
+        }
+        case 4 -> {
+          // Familiar attribute: distinct images, can have two
+          TagNode[] inodes = tdnode.getElementsByName("img", true);
+          for (TagNode inode : inodes) {
+            String title = inode.getAttributeByName("title");
+            if (title != null) {
+              int colon = title.indexOf(":");
+              String aname = title.substring(0, colon);
+              attributes.add(aname);
             }
-            break;
           }
-        case 5:
-          {
-            // Familiar HP: one image (blackheart.gif) per
-            hp = tdnode.getElementsByName("img", true).length;
-            break;
-          }
+          break;
+        }
+        case 5 -> {
+          // Familiar HP: one image (blackheart.gif) per
+          hp = tdnode.getElementsByName("img", true).length;
+          break;
+        }
       }
     }
 
@@ -5910,18 +5905,9 @@ public class FightRequest extends GenericRequest {
     // Power, HP, Armor, Regenerating, Smart, Spiked
     PokeBoost boost = myFamiliar ? FamTeamRequest.getPokeBoost(race) : PokeBoost.NONE;
     switch (boost) {
-      case POWER:
-        power -= 1;
-        break;
-      case HP:
-        hp -= 1;
-        break;
-      case ARMOR:
-      case REGENERATING:
-      case SMART:
-      case SPIKED:
-        attributes.remove(boost.toString());
-        break;
+      case POWER -> power -= 1;
+      case HP -> hp -= 1;
+      case ARMOR, REGENERATING, SMART, SPIKED -> attributes.remove(boost.toString());
     }
 
     if (attributes.size() > 0) {
@@ -6128,10 +6114,7 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.anapest || FightRequest.haiku) {
       switch (familiarId) {
-        case FamiliarPool.MOSQUITO:
-        case FamiliarPool.ADORABLE_SEAL_LARVA:
-          status.mosquito = true;
-          break;
+        case FamiliarPool.MOSQUITO, FamiliarPool.ADORABLE_SEAL_LARVA -> status.mosquito = true;
       }
 
       return;
@@ -6141,46 +6124,39 @@ public class FightRequest extends GenericRequest {
     // normal text.
 
     switch (familiarId) {
-      case FamiliarPool.MOSQUITO:
-        {
-          Matcher m = FightRequest.MOSQUITO_PATTERN.matcher(text);
-          if (m.find()) {
-            status.mosquito = true;
-          }
-          break;
+      case FamiliarPool.MOSQUITO -> {
+        Matcher m = FightRequest.MOSQUITO_PATTERN.matcher(text);
+        if (m.find()) {
+          status.mosquito = true;
         }
+        break;
+      }
+      case FamiliarPool.ADORABLE_SEAL_LARVA -> {
+        Matcher m = FightRequest.ADORABLE_SEAL_PATTERN.matcher(text);
 
-      case FamiliarPool.ADORABLE_SEAL_LARVA:
-        {
-          Matcher m = FightRequest.ADORABLE_SEAL_PATTERN.matcher(text);
-
-          if (m.find()) {
-            status.mosquito = true;
-          }
-          break;
+        if (m.find()) {
+          status.mosquito = true;
         }
+        break;
+      }
+      case FamiliarPool.STAB_BAT -> {
+        Matcher m = FightRequest.STABBAT_PATTERN.matcher(text);
 
-      case FamiliarPool.STAB_BAT:
-        {
-          Matcher m = FightRequest.STABBAT_PATTERN.matcher(text);
-
-          if (m.find()) {
-            String message = "You lose " + m.group(1) + " hit points";
-            FightRequest.logPlayerAttribute(status, message);
-          }
-          break;
+        if (m.find()) {
+          String message = "You lose " + m.group(1) + " hit points";
+          FightRequest.logPlayerAttribute(status, message);
         }
+        break;
+      }
+      case FamiliarPool.ORB -> {
+        Matcher m = FightRequest.CARBS_PATTERN.matcher(text);
 
-      case FamiliarPool.ORB:
-        {
-          Matcher m = FightRequest.CARBS_PATTERN.matcher(text);
-
-          if (m.find()) {
-            String message = "You lose " + m.group(1) + " hit points";
-            FightRequest.logPlayerAttribute(status, message);
-          }
-          break;
+        if (m.find()) {
+          String message = "You lose " + m.group(1) + " hit points";
+          FightRequest.logPlayerAttribute(status, message);
         }
+        break;
+      }
     }
   }
 
@@ -6531,15 +6507,9 @@ public class FightRequest extends GenericRequest {
           cell = cells[i];
           int value = StringUtilities.parseInt(cell.getText().toString());
           switch (stat) {
-            case "Enemy's Attack Power":
-              attack = value;
-              break;
-            case "Enemy's Defense":
-              defense = value;
-              break;
-            case "Enemy's Hit Points":
-              hp = value;
-              break;
+            case "Enemy's Attack Power" -> attack = value;
+            case "Enemy's Defense" -> defense = value;
+            case "Enemy's Hit Points" -> hp = value;
           }
         }
         MonsterStatusTracker.setManuelStats(attack, defense, hp);
@@ -10600,22 +10570,12 @@ public class FightRequest extends GenericRequest {
 
     String action = m.group(1);
     switch (action) {
-      case "attack":
-        FightRequest.registerRequest(false, "fight.php?attack");
-        break;
-      case "runaway":
-        FightRequest.registerRequest(false, "fight.php?runaway");
-        break;
-      case "steal":
-        FightRequest.registerRequest(false, "fight.php?steal");
-        break;
-      case "chefstaff":
-        FightRequest.registerRequest(false, "fight.php?chefstaff");
-        break;
-      case "skill":
-        FightRequest.registerRequest(false, "fight.php?whichskill=" + m.group(2));
-        break;
-      case "use":
+      case "attack" -> FightRequest.registerRequest(false, "fight.php?attack");
+      case "runaway" -> FightRequest.registerRequest(false, "fight.php?runaway");
+      case "steal" -> FightRequest.registerRequest(false, "fight.php?steal");
+      case "chefstaff" -> FightRequest.registerRequest(false, "fight.php?chefstaff");
+      case "skill" -> FightRequest.registerRequest(false, "fight.php?whichskill=" + m.group(2));
+      case "use" -> {
         String item1 = m.group(2);
         String item2 = m.group(3);
         if (item2 == null) {
@@ -10624,10 +10584,8 @@ public class FightRequest extends GenericRequest {
           FightRequest.registerRequest(
               false, "fight.php?whichitem=" + item1 + "&whichitem2=" + item2);
         }
-        break;
-      default:
-        System.out.println("unrecognized macroaction: " + action);
-        break;
+      }
+      default -> System.out.println("unrecognized macroaction: " + action);
     }
   }
 

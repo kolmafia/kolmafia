@@ -50,21 +50,11 @@ public class JuneCleaverManager {
       if (matcher.find()) {
         Preferences.decrement("_juneCleaverFightsLeft");
         switch (matcher.group("color")) {
-          case "blue":
-            Preferences.increment("_juneCleaverCold");
-            break;
-          case "blueviolet":
-            Preferences.increment("_juneCleaverSleaze");
-            break;
-          case "gray":
-            Preferences.increment("_juneCleaverSpooky");
-            break;
-          case "green":
-            Preferences.increment("_juneCleaverStench");
-            break;
-          case "red":
-            Preferences.increment("_juneCleaverHot");
-            break;
+          case "blue" -> Preferences.increment("_juneCleaverCold");
+          case "blueviolet" -> Preferences.increment("_juneCleaverSleaze");
+          case "gray" -> Preferences.increment("_juneCleaverSpooky");
+          case "green" -> Preferences.increment("_juneCleaverStench");
+          case "red" -> Preferences.increment("_juneCleaverHot");
         }
         return;
       }

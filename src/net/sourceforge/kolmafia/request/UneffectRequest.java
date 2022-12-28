@@ -108,28 +108,26 @@ public class UneffectRequest extends GenericRequest {
     // Deep-Tainted Mind
     // Timer effects
 
-    switch (effectId) {
-      case -1:
-        // So, what about the following?
-      case EffectPool.CURSED_BY_RNG:
-      case EffectPool.FORM_OF_ROACH:
-      case EffectPool.SHAPE_OF_MOLE:
-      case EffectPool.FORM_OF_BIRD:
-
-      case EffectPool.GOOFBALL_WITHDRAWAL:
-      case EffectPool.SOUL_CRUSHING_HEADACHE:
-      case EffectPool.COATED_IN_SLIME:
-      case EffectPool.EVERYTHING_LOOKS_YELLOW:
-      case EffectPool.EVERYTHING_LOOKS_BLUE:
-      case EffectPool.EVERYTHING_LOOKS_RED:
-      case EffectPool.DEEP_TAINTED_MIND:
-      case EffectPool.SPIRIT_PARIAH:
-      case EffectPool.BORED_WITH_EXPLOSIONS:
-      case EffectPool.FEELING_QUEASY:
-        return false;
-      default:
-        return true;
-    }
+    return switch (effectId) {
+      case -1,
+          // So, what about the following?
+          EffectPool.CURSED_BY_RNG,
+          EffectPool.FORM_OF_ROACH,
+          EffectPool.SHAPE_OF_MOLE,
+          EffectPool.FORM_OF_BIRD,
+          // Known to be unremovable
+          EffectPool.GOOFBALL_WITHDRAWAL,
+          EffectPool.SOUL_CRUSHING_HEADACHE,
+          EffectPool.COATED_IN_SLIME,
+          EffectPool.EVERYTHING_LOOKS_YELLOW,
+          EffectPool.EVERYTHING_LOOKS_BLUE,
+          EffectPool.EVERYTHING_LOOKS_RED,
+          EffectPool.DEEP_TAINTED_MIND,
+          EffectPool.SPIRIT_PARIAH,
+          EffectPool.BORED_WITH_EXPLOSIONS,
+          EffectPool.FEELING_QUEASY -> false;
+      default -> true;
+    };
   }
 
   public static final boolean isShruggable(final int effectId) {
@@ -187,24 +185,23 @@ public class UneffectRequest extends GenericRequest {
   }
 
   public static final boolean needsCocoa(final int effectId) {
-    switch (effectId) {
-      case EffectPool.CURSE_OF_CLUMSINESS:
-      case EffectPool.CURSE_OF_DULLNESS:
-      case EffectPool.CURSE_OF_EXPOSURE:
-      case EffectPool.CURSE_OF_FORGETFULNESS:
-      case EffectPool.CURSE_OF_HOLLOWNESS:
-      case EffectPool.CURSE_OF_IMPOTENCE:
-      case EffectPool.CURSE_OF_LONELINESS:
-      case EffectPool.CURSE_OF_MISFORTUNE:
-      case EffectPool.CURSE_OF_SLUGGISHNESS:
-      case EffectPool.CURSE_OF_VULNERABILITY:
-      case EffectPool.CURSE_OF_WEAKNESS:
-      case EffectPool.TOUCHED_BY_A_GHOST:
-      case EffectPool.CHILLED_TO_THE_BONE:
-      case EffectPool.NAUSEATED:
-        return true;
-    }
-    return false;
+    return switch (effectId) {
+      case EffectPool.CURSE_OF_CLUMSINESS,
+          EffectPool.CURSE_OF_DULLNESS,
+          EffectPool.CURSE_OF_EXPOSURE,
+          EffectPool.CURSE_OF_FORGETFULNESS,
+          EffectPool.CURSE_OF_HOLLOWNESS,
+          EffectPool.CURSE_OF_IMPOTENCE,
+          EffectPool.CURSE_OF_LONELINESS,
+          EffectPool.CURSE_OF_MISFORTUNE,
+          EffectPool.CURSE_OF_SLUGGISHNESS,
+          EffectPool.CURSE_OF_VULNERABILITY,
+          EffectPool.CURSE_OF_WEAKNESS,
+          EffectPool.TOUCHED_BY_A_GHOST,
+          EffectPool.CHILLED_TO_THE_BONE,
+          EffectPool.NAUSEATED -> true;
+      default -> false;
+    };
   }
 
   public static final boolean isRemovableIntrinsic(final int effectId) {

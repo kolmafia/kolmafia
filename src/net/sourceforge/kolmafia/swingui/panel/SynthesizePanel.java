@@ -396,16 +396,12 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
     public Object getValueAt(int rowIndex, int columnIndex) {
       Candy candy = this.model.getElementAt(rowIndex);
 
-      switch (columnIndex) {
-        case NAME:
-          return candy.getName();
-        case COUNT:
-          return candy.getCount();
-        case COST:
-          return candy.getCost();
-        default:
-          throw new IllegalArgumentException("Invalid column index");
-      }
+      return switch (columnIndex) {
+        case NAME -> candy.getName();
+        case COUNT -> candy.getCount();
+        case COST -> candy.getCost();
+        default -> throw new IllegalArgumentException("Invalid column index");
+      };
     }
   }
 

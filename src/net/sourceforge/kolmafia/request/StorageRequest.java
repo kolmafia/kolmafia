@@ -203,27 +203,20 @@ public class StorageRequest extends TransferItemRequest {
     // different request types.
 
     switch (moveType) {
-      case REFRESH:
-        this.addFormField("which", "5");
-        break;
-
-      case EMPTY_STORAGE:
+      case REFRESH -> this.addFormField("which", "5");
+      case EMPTY_STORAGE -> {
         this.addFormField("action", "pullall");
         this.source = KoLConstants.storage;
         this.destination = KoLConstants.inventory;
-        break;
-
-      case STORAGE_TO_INVENTORY:
+      }
+      case STORAGE_TO_INVENTORY -> {
         // storage.php?action=pull&whichitem1=1649&howmany1=1&pwd
         this.addFormField("action", "pull");
         this.addFormField("ajax", "1");
         this.source = KoLConstants.storage;
         this.destination = KoLConstants.inventory;
-        break;
-
-      case PULL_MEAT_FROM_STORAGE:
-        this.addFormField("action", "takemeat");
-        break;
+      }
+      case PULL_MEAT_FROM_STORAGE -> this.addFormField("action", "takemeat");
     }
   }
 
@@ -455,11 +448,11 @@ public class StorageRequest extends TransferItemRequest {
   @Override
   public void processResults() {
     switch (this.moveType) {
-      case StorageRequest.REFRESH:
+      case StorageRequest.REFRESH -> {
         StorageRequest.parseStorage(this.getURLString(), this.responseText);
         return;
-      default:
-        super.processResults();
+      }
+      default -> super.processResults();
     }
   }
 
@@ -803,22 +796,13 @@ public class StorageRequest extends TransferItemRequest {
 
   @Override
   public String getStatusMessage() {
-    switch (this.moveType) {
-      case REFRESH:
-        return "Examining Meat and pulls in storage";
-
-      case EMPTY_STORAGE:
-        return "Emptying storage";
-
-      case STORAGE_TO_INVENTORY:
-        return "Pulling items from storage";
-
-      case PULL_MEAT_FROM_STORAGE:
-        return "Pulling meat from storage";
-
-      default:
-        return "Unknown request type";
-    }
+    return switch (this.moveType) {
+      case REFRESH -> "Examining Meat and pulls in storage";
+      case EMPTY_STORAGE -> "Emptying storage";
+      case STORAGE_TO_INVENTORY -> "Pulling items from storage";
+      case PULL_MEAT_FROM_STORAGE -> "Pulling meat from storage";
+      default -> "Unknown request type";
+    };
   }
 
   /**

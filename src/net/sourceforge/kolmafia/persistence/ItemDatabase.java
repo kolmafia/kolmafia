@@ -2301,27 +2301,27 @@ public class ItemDatabase {
   }
 
   public static boolean unusableInBeecore(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BALL_POLISH:
-      case ItemPool.FRATHOUSE_BLUEPRINTS:
-      case ItemPool.COBBS_KNOB_MAP:
-      case ItemPool.BINDER_CLIP:
-        // These "B" items ARE usable in Beecore.
-      case ItemPool.ICE_BABY:
-      case ItemPool.JUGGLERS_BALLS:
-      case ItemPool.EYEBALL_PENDANT:
-      case ItemPool.SPOOKY_PUTTY_BALL:
-      case ItemPool.LOATHING_LEGION_ABACUS:
-      case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
-      case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
-      case ItemPool.LOATHING_LEGION_ROLLERBLADES:
-        // And so are these IOTM foldables
-      case ItemPool.ENCHANTED_BEAN:
-        // "using" this is really planting
-        return false;
-    }
+    return switch (itemId) {
+      case
+          // These "B" items ARE usable in Beecore.
+          ItemPool.BALL_POLISH,
+          ItemPool.FRATHOUSE_BLUEPRINTS,
+          ItemPool.COBBS_KNOB_MAP,
+          ItemPool.BINDER_CLIP,
+          // And so are these IOTM foldables
+          ItemPool.ICE_BABY,
+          ItemPool.JUGGLERS_BALLS,
+          ItemPool.EYEBALL_PENDANT,
+          ItemPool.SPOOKY_PUTTY_BALL,
+          ItemPool.LOATHING_LEGION_ABACUS,
+          ItemPool.LOATHING_LEGION_DEFIBRILLATOR,
+          ItemPool.LOATHING_LEGION_DOUBLE_PRISM,
+          ItemPool.LOATHING_LEGION_ROLLERBLADES,
+          // "using" this is really planting
 
-    return KoLCharacter.hasBeeosity(ItemDatabase.getItemName(itemId));
+          ItemPool.ENCHANTED_BEAN -> false;
+      default -> KoLCharacter.hasBeeosity(ItemDatabase.getItemName(itemId));
+    };
   }
 
   public static boolean unusableInGLover(final int itemId) {

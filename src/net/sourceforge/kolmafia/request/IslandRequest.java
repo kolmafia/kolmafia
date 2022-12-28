@@ -200,7 +200,7 @@ public class IslandRequest extends GenericRequest {
     IslandRequest.parseResponse(this.getURLString(), this.responseText);
 
     switch (this.quest) {
-      case ARENA:
+      case ARENA -> {
         // Unfortunately, you think you've pretty much tapped out this
         // event's entertainment potential for today
         //
@@ -217,22 +217,14 @@ public class IslandRequest extends GenericRequest {
           KoLmafia.updateDisplay("Nobody is performing.");
           return;
         }
-
         if (!this.responseText.contains("You acquire an effect")) {
           KoLmafia.updateDisplay("You couldn't get to the Mysterious Island Arena.");
           return;
         }
-
         KoLmafia.updateDisplay("A music lover is you.");
-        break;
-
-      case LIGHTHOUSE:
-        KoLmafia.updateDisplay("Done visiting the Lighthouse Keeper.");
-        break;
-
-      case FARM:
-        KoLmafia.updateDisplay("Done visiting the Farmer.");
-        break;
+      }
+      case LIGHTHOUSE -> KoLmafia.updateDisplay("Done visiting the Lighthouse Keeper.");
+      case FARM -> KoLmafia.updateDisplay("Done visiting the Farmer.");
     }
   }
 

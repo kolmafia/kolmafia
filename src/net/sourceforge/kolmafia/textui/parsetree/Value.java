@@ -328,18 +328,10 @@ public class Value implements TypedNode, Comparable<Value> {
     for (int i = 0; i < length; i++) {
       char c = string.charAt(i);
       switch (c) {
-        case '\n':
-          buffer.append("\\n");
-          break;
-        case '\t':
-          buffer.append("\\t");
-          break;
-        case '\\':
-          buffer.append("\\\\");
-          break;
-        default:
-          buffer.append(c);
-          break;
+        case '\n' -> buffer.append("\\n");
+        case '\t' -> buffer.append("\\t");
+        case '\\' -> buffer.append("\\\\");
+        default -> buffer.append(c);
       }
     }
     return buffer.toString();
@@ -362,15 +354,9 @@ public class Value implements TypedNode, Comparable<Value> {
       }
 
       switch (c) {
-        case 'n':
-          buffer.append('\n');
-          break;
-        case 't':
-          buffer.append('\t');
-          break;
-        default:
-          buffer.append(c);
-          break;
+        case 'n' -> buffer.append('\n');
+        case 't' -> buffer.append('\t');
+        default -> buffer.append(c);
       }
 
       saw_backslash = false;

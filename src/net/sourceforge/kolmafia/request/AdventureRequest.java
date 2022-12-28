@@ -604,24 +604,27 @@ public class AdventureRequest extends GenericRequest {
     int urlOption = ChoiceUtilities.extractOptionFromURL(urlString);
 
     switch (urlChoice) {
-      case 1334: // Boxing Daycare (Lobby)
+      case 1334 -> { // Boxing Daycare (Lobby)
         if (urlOption == 1) {
           // Have a Boxing Daydream
           return "Have a Boxing Daydream";
         }
         return null;
-      case 1335: // Boxing Day Spa
+      }
+      case 1335 -> { // Boxing Day Spa
         if (urlOption >= 1 && urlOption <= 4) {
           // (Get a buff)
           return "Visit the Boxing Day Spa";
         }
         return null;
-      case 1336: // Boxing Daycare
+      }
+      case 1336 -> { // Boxing Daycare
         if (urlOption >= 1 && urlOption <= 4) {
           // (recruit, scavenge, hire, spar)
           return "Enter the Boxing Daycare";
         }
         return null;
+      }
     }
 
     switch (choice) {

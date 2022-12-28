@@ -1158,22 +1158,15 @@ public class AreaCombatData {
   }
 
   public static final String elementColor(final Element element) {
-    switch (element) {
-      case HOT:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#ff8a93" : "#ff0000";
-      case COLD:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#00d4ff" : "#0000ff";
-      case STENCH:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#39f0d0" : "#008000";
-      case SPOOKY:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#bebebe" : "#808080";
-      case SLEAZE:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#b980ee" : "#8a2be2";
-      case SLIME:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#1adde9" : "#006400";
-      default:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#FFFFFF" : "#000000";
-    }
+    return switch (element) {
+      case HOT -> (KoLmafiaGUI.isDarkTheme()) ? "#ff8a93" : "#ff0000";
+      case COLD -> (KoLmafiaGUI.isDarkTheme()) ? "#00d4ff" : "#0000ff";
+      case STENCH -> (KoLmafiaGUI.isDarkTheme()) ? "#39f0d0" : "#008000";
+      case SPOOKY -> (KoLmafiaGUI.isDarkTheme()) ? "#bebebe" : "#808080";
+      case SLEAZE -> (KoLmafiaGUI.isDarkTheme()) ? "#b980ee" : "#8a2be2";
+      case SLIME -> (KoLmafiaGUI.isDarkTheme()) ? "#1adde9" : "#006400";
+      default -> (KoLmafiaGUI.isDarkTheme()) ? "#FFFFFF" : "#000000";
+    };
   }
 
   public static final double hitPercent(final int attack, final int defense) {

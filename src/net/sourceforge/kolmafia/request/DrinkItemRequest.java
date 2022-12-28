@@ -369,18 +369,18 @@ public class DrinkItemRequest extends UseItemRequest {
   }
 
   private static boolean sequentialConsume(final int itemId) {
-    switch (itemId) {
-      case ItemPool.DIRTY_MARTINI:
-      case ItemPool.GROGTINI:
-      case ItemPool.CHERRY_BOMB:
-      case ItemPool.VESPER:
-      case ItemPool.BODYSLAM:
-      case ItemPool.SANGRIA_DEL_DIABLO:
-        // Allow player who owns a single tiny plastic sword to
-        // make and drink multiple drinks in succession.
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.DIRTY_MARTINI,
+          ItemPool.GROGTINI,
+          ItemPool.CHERRY_BOMB,
+          ItemPool.VESPER,
+          ItemPool.BODYSLAM,
+          ItemPool.SANGRIA_DEL_DIABLO ->
+      // Allow player who owns a single tiny plastic sword to
+      // make and drink multiple drinks in succession.
+      true;
+      default -> false;
+    };
   }
 
   private boolean allowBoozeConsumption() {

@@ -256,16 +256,12 @@ public class MoodOptionsPanel extends JPanel {
       }
 
       public String getSelectedType() {
-        switch (this.getSelectedIndex()) {
-          case 0:
-            return "lose_effect";
-          case 1:
-            return "gain_effect";
-          case 2:
-            return "unconditional";
-          default:
-            return null;
-        }
+        return switch (this.getSelectedIndex()) {
+          case 0 -> "lose_effect";
+          case 1 -> "gain_effect";
+          case 2 -> "unconditional";
+          default -> null;
+        };
       }
 
       private class TypeComboBoxListener implements ActionListener {

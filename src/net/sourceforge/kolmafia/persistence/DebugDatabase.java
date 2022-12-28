@@ -666,48 +666,33 @@ public class DebugDatabase {
   }
 
   private static boolean typesMatch(final ConsumptionType type, final ConsumptionType descType) {
-    switch (type) {
-      case NONE:
-      case FOOD_HELPER:
-      case DRINK_HELPER:
-      case STICKER:
-      case FOLDER:
-      case POKEPILL:
-        // We intentionally disallow certain items from being
-        // "used" through the GUI.
-        return descType == ConsumptionType.NONE || descType == ConsumptionType.USE;
-      case EAT:
-      case DRINK:
-      case SPLEEN:
-      case FAMILIAR_HATCHLING:
-      case FAMILIAR_EQUIPMENT:
-      case ACCESSORY:
-      case CONTAINER:
-      case HAT:
-      case PANTS:
-      case SHIRT:
-      case WEAPON:
-      case OFFHAND:
-        return descType == type;
-      case USE_MESSAGE_DISPLAY:
-      case USE:
-      case USE_MULTIPLE:
-      case USE_INFINITE:
-        return descType == ConsumptionType.USE
-            || descType == ConsumptionType.USE_MULTIPLE
-            || descType == ConsumptionType.EAT
-            || descType == ConsumptionType.DRINK
-            || descType == ConsumptionType.AVATAR_POTION
-            || descType == ConsumptionType.NONE;
-      case POTION:
-      case AVATAR_POTION:
-        return descType == ConsumptionType.POTION;
-      case CARD:
-      case EL_VIBRATO_SPHERE:
-      case ZAP:
-        return descType == ConsumptionType.NONE;
-    }
-    return true;
+    return switch (type) {
+      case NONE, FOOD_HELPER, DRINK_HELPER, STICKER, FOLDER, POKEPILL ->
+      // We intentionally disallow certain items from being
+      // "used" through the GUI.
+      descType == ConsumptionType.NONE || descType == ConsumptionType.USE;
+      case EAT,
+          DRINK,
+          SPLEEN,
+          FAMILIAR_HATCHLING,
+          FAMILIAR_EQUIPMENT,
+          ACCESSORY,
+          CONTAINER,
+          HAT,
+          PANTS,
+          SHIRT,
+          WEAPON,
+          OFFHAND -> descType == type;
+      case USE_MESSAGE_DISPLAY, USE, USE_MULTIPLE, USE_INFINITE -> descType == ConsumptionType.USE
+          || descType == ConsumptionType.USE_MULTIPLE
+          || descType == ConsumptionType.EAT
+          || descType == ConsumptionType.DRINK
+          || descType == ConsumptionType.AVATAR_POTION
+          || descType == ConsumptionType.NONE;
+      case POTION, AVATAR_POTION -> descType == ConsumptionType.POTION;
+      case CARD, EL_VIBRATO_SPHERE, ZAP -> descType == ConsumptionType.NONE;
+      default -> true;
+    };
   }
 
   private static boolean attributesMatch(

@@ -372,17 +372,16 @@ public class EatItemRequest extends UseItemRequest {
       return true;
     }
 
-    switch (itemId) {
-      case ItemPool.SMORE:
+    return switch (itemId) {
         // Multi-eating s'mores doesn't update the smoresEaten
         // preference correctly.
-      case ItemPool.BLACK_PUDDING:
-        // Eating a black pudding can lead to a combat with no
-        // feedback about how many were successfully eaten
-        // before the combat.
-        return true;
-    }
-    return false;
+      case ItemPool.SMORE,
+          // Eating a black pudding can lead to a combat with no
+          // feedback about how many were successfully eaten
+          // before the combat.
+          ItemPool.BLACK_PUDDING -> true;
+      default -> false;
+    };
   }
 
   private static boolean sequentialConsume(final int itemId) {

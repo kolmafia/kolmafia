@@ -850,18 +850,17 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
 
     switch (this.spookyForestSelect.getSelectedIndex()) {
-      case 0: // Manual Control
-        Preferences.setString("choiceAdventure502", "0");
-        break;
-      case 1: // Mosquito Larva or Spooky Mushrooms
+      case 0 -> // Manual Control
+      Preferences.setString("choiceAdventure502", "0");
+      case 1 -> { // Mosquito Larva or Spooky Mushrooms
         Preferences.setString("choiceAdventure502", "2");
         Preferences.setString("choiceAdventure505", "1");
-        break;
-      case 2: // Spooky-Gro Fertilizer
+      }
+      case 2 -> { // Spooky-Gro Fertilizer
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "2");
-        break;
-      case 3: // Spooky Sapling & Sell Bar Skins
+      }
+      case 3 -> { // Spooky Sapling & Sell Bar Skins
         Preferences.setString("choiceAdventure502", "1");
         Preferences.setString("choiceAdventure503", "3");
         // If we have no Spooky Sapling
@@ -870,8 +869,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         // Preferences.setString( "choiceAdventure504", "2" );
         // Exit choice
         Preferences.setString("choiceAdventure504", "4");
-        break;
-      case 4: // Spooky Temple Map then skip adventure
+      }
+      case 4 -> { // Spooky Temple Map then skip adventure
         // Without tree-holed coin
         Preferences.setString("choiceAdventure502", "2");
         Preferences.setString("choiceAdventure505", "2");
@@ -879,86 +878,79 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         // Preferences.setString( "choiceAdventure502", "3" );
         Preferences.setString("choiceAdventure506", "3");
         Preferences.setString("choiceAdventure507", "1");
-        break;
-      case 5: // Meet Vampire Hunter
+      }
+      case 5 -> { // Meet Vampire Hunter
         Preferences.setString("choiceAdventure502", "1");
         Preferences.setString("choiceAdventure503", "2");
-        break;
-      case 6: // Meet Vampire
+      }
+      case 6 -> { // Meet Vampire
         Preferences.setString("choiceAdventure502", "2");
         Preferences.setString("choiceAdventure505", "3");
-        break;
-      case 7: // Gain Meat
+      }
+      case 7 -> { // Gain Meat
         Preferences.setString("choiceAdventure502", "1");
         Preferences.setString("choiceAdventure503", "1");
-        break;
-      case 8: // Seal clubber corpse
+      }
+      case 8 -> { // Seal clubber corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "1");
         Preferences.setString("choiceAdventure27", "1");
-        break;
-      case 9: // Loot Turtle Tamer corpse
+      }
+      case 9 -> { // Loot Turtle Tamer corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "1");
         Preferences.setString("choiceAdventure27", "2");
-        break;
-      case 10: // Loot Pastamancer corpse
+      }
+      case 10 -> { // Loot Pastamancer corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "2");
         Preferences.setString("choiceAdventure28", "1");
-        break;
-      case 11: // Loot Sauceror corpse
+      }
+      case 11 -> { // Loot Sauceror corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "2");
         Preferences.setString("choiceAdventure28", "2");
-        break;
-      case 12: // Loot Disco Bandit corpse
+      }
+      case 12 -> { // Loot Disco Bandit corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "3");
         Preferences.setString("choiceAdventure29", "1");
-        break;
-      case 13: // Loot Accordion Thief corpse
+      }
+      case 13 -> { // Loot Accordion Thief corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "3");
         Preferences.setString("choiceAdventure29", "2");
-        break;
+      }
     }
 
     switch (this.riseSelect.getSelectedIndex()) {
-      case 0: // Ignore this adventure
-        Preferences.setString("choiceAdventure888", "4");
-        break;
-
-      case 1: // Mysticality
+      case 0 -> // Ignore this adventure
+      Preferences.setString("choiceAdventure888", "4");
+      case 1 -> { // Mysticality
         Preferences.setString("choiceAdventure888", "3");
         Preferences.setString("choiceAdventure88", "1");
-        break;
-
-      case 2: // Moxie
+      }
+      case 2 -> { // Moxie
         Preferences.setString("choiceAdventure888", "3");
         Preferences.setString("choiceAdventure88", "2");
-        break;
-
-      case 3: // Mysticality Class Skill
+      }
+      case 3 -> { // Mysticality Class Skill
         Preferences.setString("choiceAdventure888", "3");
         Preferences.setString("choiceAdventure88", "3");
-        break;
+      }
     }
 
     switch (this.fallSelect.getSelectedIndex()) {
-      case 0: // Ignore this adventure
-        Preferences.setString("choiceAdventure889", "5");
-        break;
-
-      case 1: // Muscle
-        Preferences.setString("choiceAdventure889", "3");
-        break;
+      case 0 -> // Ignore this adventure
+      Preferences.setString("choiceAdventure889", "5");
+      case 1 -> // Muscle
+      Preferences.setString("choiceAdventure889", "3");
     }
 
     // necessary for backwards-compatibility
@@ -1085,26 +1077,14 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
 
     switch (Preferences.getInteger("choiceAdventure692")) {
-      case 0:
-        this.dailyDungeonDoorSelect.setSelectedIndex(0);
-        break;
-      case 1:
-        this.dailyDungeonDoorSelect.setSelectedIndex(1);
-        break;
-      case 2:
-      case 3:
-      case 7:
-      case 11:
-        // unlock door
-        this.dailyDungeonDoorSelect.setSelectedIndex(2);
-        break;
-      case 4:
-      case 5:
-      case 6:
-      case 12:
-        // stat test
-        this.dailyDungeonDoorSelect.setSelectedIndex(3);
-        break;
+      case 0 -> this.dailyDungeonDoorSelect.setSelectedIndex(0);
+      case 1 -> this.dailyDungeonDoorSelect.setSelectedIndex(1);
+      case 2, 3, 7, 11 ->
+      // unlock door
+      this.dailyDungeonDoorSelect.setSelectedIndex(2);
+      case 4, 5, 6, 12 ->
+      // stat test
+      this.dailyDungeonDoorSelect.setSelectedIndex(3);
     }
 
     int paranormalLabIndex = Preferences.getInteger("choiceAdventure989");
@@ -1165,44 +1145,40 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         break;
 
       case 1:
-        switch (Preferences.getInteger("choiceAdventure503")) {
-          case 1: // Get Meat
-            index = 7;
-            break;
-          case 2: // Meet Vampire Hunter
-            index = 5;
-            break;
-          case 3: // Spooky Sapling & Sell Bar Skins
-            index = 3;
-            break;
-        }
+        index =
+            switch (Preferences.getInteger("choiceAdventure503")) {
+              case 1 -> // Get Meat
+              7;
+              case 2 -> // Meet Vampire Hunter
+              5;
+              case 3 -> // Spooky Sapling & Sell Bar Skins
+              3;
+              default -> index;
+            };
         break;
       case 2:
-        switch (Preferences.getInteger("choiceAdventure505")) {
-          case 1: // Mosquito Larva or Spooky Mushrooms
-            index = 1;
-            break;
-          case 2: // Tree-holed coin -> Spooky Temple Map
-            index = 4;
-            break;
-          case 3: // Meet Vampire
-            index = 6;
-            break;
-        }
+        index =
+            switch (Preferences.getInteger("choiceAdventure505")) {
+              case 1 -> // Mosquito Larva or Spooky Mushrooms
+              1;
+              case 2 -> // Tree-holed coin -> Spooky Temple Map
+              4;
+              case 3 -> // Meet Vampire
+              6;
+              default -> index;
+            };
         break;
       case 3:
         switch (Preferences.getInteger("choiceAdventure506")) {
-          case 1: // Forest Corpses
+          case 1 -> { // Forest Corpses
             index = Preferences.getInteger("choiceAdventure26");
             index = index * 2 + Preferences.getInteger("choiceAdventure" + (26 + index)) - 3;
             index += 8;
-            break;
-          case 2: // Spooky-Gro Fertilizer
-            index = 2;
-            break;
-          case 3: // Spooky Temple Map
-            index = 4;
-            break;
+          }
+          case 2 -> // Spooky-Gro Fertilizer
+          index = 2;
+          case 3 -> // Spooky Temple Map
+          index = 4;
         }
         break;
     }

@@ -125,25 +125,11 @@ public class ManageStoreRequest extends GenericRequest {
   @Override
   public void run() {
     switch (this.requestType) {
-      case ITEM_ADDITION:
-        this.addItems();
-        break;
-
-      case ITEM_REMOVAL:
-        this.removeItem();
-        break;
-
-      case PRICE_UPDATE:
-        this.priceUpdate();
-        break;
-
-      case REFRESH:
-        this.managePrices();
-        break;
-
-      case VIEW_STORE_LOG:
-        this.viewStoreLogs();
-        break;
+      case ITEM_ADDITION -> this.addItems();
+      case ITEM_REMOVAL -> this.removeItem();
+      case PRICE_UPDATE -> this.priceUpdate();
+      case REFRESH -> this.managePrices();
+      case VIEW_STORE_LOG -> this.viewStoreLogs();
     }
   }
 

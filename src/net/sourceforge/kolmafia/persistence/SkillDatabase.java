@@ -239,59 +239,48 @@ public class SkillDatabase {
       return;
     }
 
-    String category;
-    switch (skillId.intValue()) {
-      case SkillPool.SMILE_OF_MR_A:
-      case SkillPool.SNOWCONE:
-      case SkillPool.STICKER:
-      case SkillPool.SUGAR:
-      case SkillPool.CLIP_ART:
-      case SkillPool.RAD_LIB:
-      case SkillPool.SMITHSNESS:
-      case SkillPool.CANDY_HEART:
-      case SkillPool.PARTY_FAVOR:
-      case SkillPool.LOVE_SONG:
-      case SkillPool.BRICKOS:
-      case SkillPool.DICE:
-      case SkillPool.RESOLUTIONS:
-      case SkillPool.TAFFY:
-      case SkillPool.HILARIOUS:
-      case SkillPool.TASTEFUL:
-      case SkillPool.CARDS:
-      case SkillPool.GEEKY:
-      case SkillPool.CONFISCATOR:
-        category = SkillDatabase.MR_SKILLS;
-        break;
+    String category =
+        switch (skillId.intValue()) {
+          case SkillPool.SMILE_OF_MR_A,
+              SkillPool.SNOWCONE,
+              SkillPool.STICKER,
+              SkillPool.SUGAR,
+              SkillPool.CLIP_ART,
+              SkillPool.RAD_LIB,
+              SkillPool.SMITHSNESS,
+              SkillPool.CANDY_HEART,
+              SkillPool.PARTY_FAVOR,
+              SkillPool.LOVE_SONG,
+              SkillPool.BRICKOS,
+              SkillPool.DICE,
+              SkillPool.RESOLUTIONS,
+              SkillPool.TAFFY,
+              SkillPool.HILARIOUS,
+              SkillPool.TASTEFUL,
+              SkillPool.CARDS,
+              SkillPool.GEEKY,
+              SkillPool.CONFISCATOR -> SkillDatabase.MR_SKILLS;
+          case SkillPool.OBSERVATIOGN,
+              SkillPool.GNEFARIOUS_PICKPOCKETING,
+              SkillPool.TORSO,
+              SkillPool.GNOMISH_HARDINESS,
+              SkillPool.COSMIC_UNDERSTANDING -> SkillDatabase.GNOME_SKILLS; // Lust
+          case SkillPool.LUST,
+              SkillPool.GLUTTONY,
+              SkillPool.GREED,
+              SkillPool.SLOTH,
+              SkillPool.WRATH,
+              SkillPool.ENVY,
+              SkillPool.PRIDE -> SkillDatabase.BAD_MOON;
+          case SkillPool.MUG_FOR_THE_AUDIENCE -> // Pride
+          SkillDatabase.AVATAR_OF_SNEAKY_PETE;
+          default ->
 
-      case SkillPool.OBSERVATIOGN:
-      case SkillPool.GNEFARIOUS_PICKPOCKETING:
-      case SkillPool.TORSO:
-      case SkillPool.GNOMISH_HARDINESS:
-      case SkillPool.COSMIC_UNDERSTANDING:
-        category = SkillDatabase.GNOME_SKILLS;
-        break;
+          // Moxious maneuver has a 7000 id, but
+          // it's not gained by equipment.
 
-      case SkillPool.LUST: // Lust
-      case SkillPool.GLUTTONY: // Gluttony
-      case SkillPool.GREED: // Greed
-      case SkillPool.SLOTH: // Sloth
-      case SkillPool.WRATH: // Wrath
-      case SkillPool.ENVY: // Envy
-      case SkillPool.PRIDE: // Pride
-        category = SkillDatabase.BAD_MOON;
-        break;
-
-      case SkillPool.MUG_FOR_THE_AUDIENCE: // Pride
-        category = SkillDatabase.AVATAR_OF_SNEAKY_PETE;
-        break;
-
-      default:
-
-        // Moxious maneuver has a 7000 id, but
-        // it's not gained by equipment.
-
-        category = SkillDatabase.CATEGORIES[categoryId];
-    }
+          SkillDatabase.CATEGORIES[categoryId];
+        };
 
     SkillDatabase.skillCategoryById.put(skillId, category);
     SkillDatabase.skillsByCategory.get(category).add(name);
@@ -497,40 +486,24 @@ public class SkillDatabase {
       return 0;
     }
 
-    switch (SkillDatabase.getSkillLevel(skillId)) {
-      default:
-        return 0;
-      case 1:
-        return 125;
-      case 2:
-        return 250;
-      case 3:
-        return 500;
-      case 4:
-        return 750;
-      case 5:
-        return 1250;
-      case 6:
-        return 1750;
-      case 7:
-        return 2500;
-      case 8:
-        return 3250;
-      case 9:
-        return 4000;
-      case 10:
-        return 5000;
-      case 11:
-        return 6250;
-      case 12:
-        return 7500;
-      case 13:
-        return 10000;
-      case 14:
-        return 12500;
-      case 15:
-        return 15000;
-    }
+    return switch (SkillDatabase.getSkillLevel(skillId)) {
+      default -> 0;
+      case 1 -> 125;
+      case 2 -> 250;
+      case 3 -> 500;
+      case 4 -> 750;
+      case 5 -> 1250;
+      case 6 -> 1750;
+      case 7 -> 2500;
+      case 8 -> 3250;
+      case 9 -> 4000;
+      case 10 -> 5000;
+      case 11 -> 6250;
+      case 12 -> 7500;
+      case 13 -> 10000;
+      case 14 -> 12500;
+      case 15 -> 15000;
+    };
   }
 
   public static final int classSkillsBase() {
@@ -1078,21 +1051,14 @@ public class SkillDatabase {
   }
 
   public static final int getSoulsauceCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.SOUL_BUBBLE:
-      case SkillPool.SOUL_FOOD:
-        return 5;
-      case SkillPool.SOUL_FINGER:
-        return 40;
-      case SkillPool.SOUL_BLAZE:
-        return 100;
-      case SkillPool.SOUL_ROTATION:
-        return 25;
-      case SkillPool.SOUL_FUNK:
-        return 50;
-      default:
-        return 0;
-    }
+    return switch (skillId) {
+      case SkillPool.SOUL_BUBBLE, SkillPool.SOUL_FOOD -> 5;
+      case SkillPool.SOUL_FINGER -> 40;
+      case SkillPool.SOUL_BLAZE -> 100;
+      case SkillPool.SOUL_ROTATION -> 25;
+      case SkillPool.SOUL_FUNK -> 50;
+      default -> 0;
+    };
   }
 
   public static final boolean isThunderSkill(final int skillId) {
@@ -1100,21 +1066,14 @@ public class SkillDatabase {
   }
 
   public static final int getThunderCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.THUNDER_CLAP:
-        return 40;
-      case SkillPool.THUNDERCLOUD:
-      case SkillPool.THUNDERHEART:
-        return 20;
-      case SkillPool.THUNDER_BIRD:
-        return 1;
-      case SkillPool.THUNDERSTRIKE:
-        return 5;
-      case SkillPool.THUNDER_DOWN_UNDERWEAR:
-        return 60;
-      default:
-        return 0;
-    }
+    return switch (skillId) {
+      case SkillPool.THUNDER_CLAP -> 40;
+      case SkillPool.THUNDERCLOUD, SkillPool.THUNDERHEART -> 20;
+      case SkillPool.THUNDER_BIRD -> 1;
+      case SkillPool.THUNDERSTRIKE -> 5;
+      case SkillPool.THUNDER_DOWN_UNDERWEAR -> 60;
+      default -> 0;
+    };
   }
 
   public static final boolean isRainSkill(final int skillId) {
@@ -1122,21 +1081,14 @@ public class SkillDatabase {
   }
 
   public static final int getRainCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.RAIN_MAN:
-        return 50;
-      case SkillPool.RAINY_DAY:
-        return 20;
-      case SkillPool.MAKE_IT_RAIN:
-      case SkillPool.RAIN_DANCE:
-        return 10;
-      case SkillPool.RAINBOW:
-        return 3;
-      case SkillPool.RAINCOAT:
-        return 40;
-      default:
-        return 0;
-    }
+    return switch (skillId) {
+      case SkillPool.RAIN_MAN -> 50;
+      case SkillPool.RAINY_DAY -> 20;
+      case SkillPool.MAKE_IT_RAIN, SkillPool.RAIN_DANCE -> 10;
+      case SkillPool.RAINBOW -> 3;
+      case SkillPool.RAINCOAT -> 40;
+      default -> 0;
+    };
   }
 
   public static final boolean isLightningSkill(final int skillId) {
@@ -1144,20 +1096,13 @@ public class SkillDatabase {
   }
 
   public static final int getLightningCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.LIGHTNING_STRIKE:
-      case SkillPool.LIGHTNING_ROD:
-        return 20;
-      case SkillPool.CLEAN_HAIR_LIGHTNING:
-      case SkillPool.SHEET_LIGHTNING:
-        return 10;
-      case SkillPool.BALL_LIGHTNING:
-        return 5;
-      case SkillPool.LIGHTNING_BOLT_RAIN:
-        return 1;
-      default:
-        return 0;
-    }
+    return switch (skillId) {
+      case SkillPool.LIGHTNING_STRIKE, SkillPool.LIGHTNING_ROD -> 20;
+      case SkillPool.CLEAN_HAIR_LIGHTNING, SkillPool.SHEET_LIGHTNING -> 10;
+      case SkillPool.BALL_LIGHTNING -> 5;
+      case SkillPool.LIGHTNING_BOLT_RAIN -> 1;
+      default -> 0;
+    };
   }
 
   public static final boolean isAsdonMartinSkill(final int skillId) {
@@ -1165,16 +1110,12 @@ public class SkillDatabase {
   }
 
   public static final int getFuelCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.AM_MISSILE_LAUNCHER:
-        return 100;
-      case SkillPool.AM_BEAN_BAG_CANNON:
-        return 10;
-      case SkillPool.AM_FRONT_BUMPER:
-        return 50;
-      default:
-        return 0;
-    }
+    return switch (skillId) {
+      case SkillPool.AM_MISSILE_LAUNCHER -> 100;
+      case SkillPool.AM_BEAN_BAG_CANNON -> 10;
+      case SkillPool.AM_FRONT_BUMPER -> 50;
+      default -> 0;
+    };
   }
 
   public static final boolean isVampyreSkill(final int skillId) {
@@ -1182,76 +1123,49 @@ public class SkillDatabase {
   }
 
   public static final int getHPCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.BLOOD_SPIKE:
-      case SkillPool.PIERCING_GAZE:
-      case SkillPool.SAVAGE_BITE:
-        return 3;
-      case SkillPool.BLOOD_CHAINS:
-        return 5;
-      case SkillPool.CHILL_OF_THE_TOMB:
-        return 7;
-      case SkillPool.BLOOD_CLOAK:
-      case SkillPool.CEASELESS_SNARL:
-      case SkillPool.CRUSH:
-      case SkillPool.FLOCK_OF_BATS_FORM:
-      case SkillPool.MIST_FORM:
-      case SkillPool.SPECTRAL_AWARENESS:
-      case SkillPool.WOLF_FORM:
-      case SkillPool.BLOOD_BUCATINI:
-        return 10;
-      case SkillPool.PERCEIVE_SOUL:
-        return 15;
-      case SkillPool.BALEFUL_HOWL:
-      case SkillPool.ENSORCEL:
-        return 30;
+    return switch (skillId) {
+      case SkillPool.BLOOD_SPIKE, SkillPool.PIERCING_GAZE, SkillPool.SAVAGE_BITE -> 3;
+      case SkillPool.BLOOD_CHAINS -> 5;
+      case SkillPool.CHILL_OF_THE_TOMB -> 7;
+      case SkillPool.BLOOD_CLOAK,
+          SkillPool.CEASELESS_SNARL,
+          SkillPool.CRUSH,
+          SkillPool.FLOCK_OF_BATS_FORM,
+          SkillPool.MIST_FORM,
+          SkillPool.SPECTRAL_AWARENESS,
+          SkillPool.WOLF_FORM,
+          SkillPool.BLOOD_BUCATINI -> 10;
+      case SkillPool.PERCEIVE_SOUL -> 15;
+      case SkillPool.BALEFUL_HOWL, SkillPool.ENSORCEL -> 30;
 
         // Vampyre Book Skills
-      case SkillPool.BLOOD_FRENZY:
-      case SkillPool.BLOOD_BOND:
-      case SkillPool.BLOOD_BUBBLE:
-        return 30;
-      case SkillPool.BLOOD_BLADE:
-      case SkillPool.BRAMS_BLOODY_BAGATELLE:
-        return 50;
-
-      default:
-        return 0;
-    }
+      case SkillPool.BLOOD_FRENZY, SkillPool.BLOOD_BOND, SkillPool.BLOOD_BUBBLE -> 30;
+      case SkillPool.BLOOD_BLADE, SkillPool.BRAMS_BLOODY_BAGATELLE -> 50;
+      default -> 0;
+    };
   }
 
   public static final int getPPCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.HAMMER_THROW_COMBAT:
-      case SkillPool.JUGGLE_FIREBALLS_COMBAT:
-      case SkillPool.SPIN_JUMP_COMBAT:
-        return 1;
-
-      case SkillPool.ULTRA_SMASH_COMBAT:
-      case SkillPool.FIREBALL_BARRAGE_COMBAT:
-      case SkillPool.MULTI_BOUNCE_COMBAT:
-        return 2;
-
-      default:
-        return 0;
-    }
+    return switch (skillId) {
+      case SkillPool.HAMMER_THROW_COMBAT,
+          SkillPool.JUGGLE_FIREBALLS_COMBAT,
+          SkillPool.SPIN_JUMP_COMBAT -> 1;
+      case SkillPool.ULTRA_SMASH_COMBAT,
+          SkillPool.FIREBALL_BARRAGE_COMBAT,
+          SkillPool.MULTI_BOUNCE_COMBAT -> 2;
+      default -> 0;
+    };
   }
 
   public static final AdventureResult getManaItemCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.DARK_RITUAL:
-        return ItemPool.get(ItemPool.BLACK_MANA, 1);
-      case SkillPool.ANCESTRAL_RECALL:
-        return ItemPool.get(ItemPool.BLUE_MANA, 1);
-      case SkillPool.GIANT_GROWTH:
-        return ItemPool.get(ItemPool.GREEN_MANA, 1);
-      case SkillPool.LIGHTNING_BOLT_CARD:
-        return ItemPool.get(ItemPool.RED_MANA, 1);
-      case SkillPool.HEALING_SALVE:
-        return ItemPool.get(ItemPool.WHITE_MANA, 1);
-      default:
-        return null;
-    }
+    return switch (skillId) {
+      case SkillPool.DARK_RITUAL -> ItemPool.get(ItemPool.BLACK_MANA, 1);
+      case SkillPool.ANCESTRAL_RECALL -> ItemPool.get(ItemPool.BLUE_MANA, 1);
+      case SkillPool.GIANT_GROWTH -> ItemPool.get(ItemPool.GREEN_MANA, 1);
+      case SkillPool.LIGHTNING_BOLT_CARD -> ItemPool.get(ItemPool.RED_MANA, 1);
+      case SkillPool.HEALING_SALVE -> ItemPool.get(ItemPool.WHITE_MANA, 1);
+      default -> null;
+    };
   }
 
   public static final int getBlackManaCost(final int skillId) {
@@ -1275,19 +1189,17 @@ public class SkillDatabase {
   }
 
   public static final int getAdventureCost(final int skillId) {
-    switch (skillId) {
-      case SkillPool.HIBERNATE:
-      case SkillPool.SPIRIT_VACATION:
-      case SkillPool.TRANSCENDENTAL_DENTE:
-      case SkillPool.SIMMER:
-      case SkillPool.RECRUIT_ZOMBIE:
-      case SkillPool.CHECK_MIRROR:
-      case SkillPool.RAIN_MAN:
-      case SkillPool.EVOKE_ELDRITCH_HORROR:
-        return 1;
-      default:
-        return 0;
-    }
+    return switch (skillId) {
+      case SkillPool.HIBERNATE,
+          SkillPool.SPIRIT_VACATION,
+          SkillPool.TRANSCENDENTAL_DENTE,
+          SkillPool.SIMMER,
+          SkillPool.RECRUIT_ZOMBIE,
+          SkillPool.CHECK_MIRROR,
+          SkillPool.RAIN_MAN,
+          SkillPool.EVOKE_ELDRITCH_HORROR -> 1;
+      default -> 0;
+    };
   }
 
   /** Utility method used to determine if the given skill can be made permanent */
@@ -1416,46 +1328,27 @@ public class SkillDatabase {
   }
 
   public static final int skillToBook(final String skillName) {
-    switch (SkillDatabase.getSkillId(skillName)) {
-      case SkillPool.SNOWCONE:
-        return ItemPool.SNOWCONE_BOOK;
-      case SkillPool.STICKER:
-        return ItemPool.STICKER_BOOK;
-      case SkillPool.SUGAR:
-        return ItemPool.SUGAR_BOOK;
-      case SkillPool.CLIP_ART:
-        return ItemPool.CLIP_ART_BOOK;
-      case SkillPool.RAD_LIB:
-        return ItemPool.RAD_LIB_BOOK;
-      case SkillPool.SMITHSNESS:
-        return ItemPool.SMITH_BOOK;
-      case SkillPool.CANDY_HEART:
-        return ItemPool.CANDY_BOOK;
-      case SkillPool.PARTY_FAVOR:
-        return ItemPool.DIVINE_BOOK;
-      case SkillPool.LOVE_SONG:
-        return ItemPool.LOVE_BOOK;
-      case SkillPool.BRICKOS:
-        return ItemPool.BRICKO_BOOK;
-      case SkillPool.DICE:
-        return ItemPool.DICE_BOOK;
-      case SkillPool.RESOLUTIONS:
-        return ItemPool.RESOLUTION_BOOK;
-      case SkillPool.TAFFY:
-        return ItemPool.TAFFY_BOOK;
-      case SkillPool.HILARIOUS:
-        return ItemPool.HILARIOUS_BOOK;
-      case SkillPool.TASTEFUL:
-        return ItemPool.TASTEFUL_BOOK;
-      case SkillPool.CARDS:
-        return ItemPool.CARD_GAME_BOOK;
-      case SkillPool.GEEKY:
-        return ItemPool.GEEKY_BOOK;
-      case SkillPool.CONFISCATOR:
-        return ItemPool.CONFISCATOR_BOOK;
-    }
-
-    return -1;
+    return switch (SkillDatabase.getSkillId(skillName)) {
+      case SkillPool.SNOWCONE -> ItemPool.SNOWCONE_BOOK;
+      case SkillPool.STICKER -> ItemPool.STICKER_BOOK;
+      case SkillPool.SUGAR -> ItemPool.SUGAR_BOOK;
+      case SkillPool.CLIP_ART -> ItemPool.CLIP_ART_BOOK;
+      case SkillPool.RAD_LIB -> ItemPool.RAD_LIB_BOOK;
+      case SkillPool.SMITHSNESS -> ItemPool.SMITH_BOOK;
+      case SkillPool.CANDY_HEART -> ItemPool.CANDY_BOOK;
+      case SkillPool.PARTY_FAVOR -> ItemPool.DIVINE_BOOK;
+      case SkillPool.LOVE_SONG -> ItemPool.LOVE_BOOK;
+      case SkillPool.BRICKOS -> ItemPool.BRICKO_BOOK;
+      case SkillPool.DICE -> ItemPool.DICE_BOOK;
+      case SkillPool.RESOLUTIONS -> ItemPool.RESOLUTION_BOOK;
+      case SkillPool.TAFFY -> ItemPool.TAFFY_BOOK;
+      case SkillPool.HILARIOUS -> ItemPool.HILARIOUS_BOOK;
+      case SkillPool.TASTEFUL -> ItemPool.TASTEFUL_BOOK;
+      case SkillPool.CARDS -> ItemPool.CARD_GAME_BOOK;
+      case SkillPool.GEEKY -> ItemPool.GEEKY_BOOK;
+      case SkillPool.CONFISCATOR -> ItemPool.CONFISCATOR_BOOK;
+      default -> -1;
+    };
   }
 
   /** Returns all skills in the database of the given type. */
@@ -1837,24 +1730,21 @@ public class SkillDatabase {
 
     // Some Source Terminal skills are usable. Turbo for sure.
     // List all until we learn which ones are not usable
-    switch (skillId) {
-      case SkillPool.EXTRACT:
-      case SkillPool.DIGITIZE:
-      case SkillPool.COMPRESS:
-      case SkillPool.DUPLICATE:
-      case SkillPool.PORTSCAN:
-      case SkillPool.TURBO:
-        return true;
-    }
-    return false;
+    return switch (skillId) {
+      case SkillPool.EXTRACT,
+          SkillPool.DIGITIZE,
+          SkillPool.COMPRESS,
+          SkillPool.DUPLICATE,
+          SkillPool.PORTSCAN,
+          SkillPool.TURBO -> true;
+      default -> false;
+    };
   }
 
   public static boolean summonsMonster(int skillId) {
-    switch (skillId) {
-      case SkillPool.RAIN_MAN:
-      case SkillPool.EVOKE_ELDRITCH_HORROR:
-        return true;
-    }
-    return false;
+    return switch (skillId) {
+      case SkillPool.RAIN_MAN, SkillPool.EVOKE_ELDRITCH_HORROR -> true;
+      default -> false;
+    };
   }
 }

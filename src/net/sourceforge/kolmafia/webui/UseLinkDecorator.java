@@ -252,12 +252,10 @@ public abstract class UseLinkDecorator {
         if (location.startsWith("inventory.php")
             || (location.startsWith("inv_use.php") && location.contains("ajax=1"))) {
           switch (itemId) {
-            case ItemPool.FOIL_BOW:
-            case ItemPool.FOIL_RADAR:
-            case ItemPool.FOIL_CAT_EARS:
+            case ItemPool.FOIL_BOW, ItemPool.FOIL_RADAR, ItemPool.FOIL_CAT_EARS -> {
               specialLinkId = itemId;
               specialLinkText = "fold";
-              break;
+            }
           }
         }
 
@@ -571,23 +569,13 @@ public abstract class UseLinkDecorator {
 
   private static UseLink getCreateLink(
       final int itemId, final int itemCount, final CraftingType mixingMethod) {
-    switch (mixingMethod) {
-      case COMBINE:
-      case ACOMBINE:
-      case JEWELRY:
-        return new UseLink(itemId, itemCount, "combine", "craft.php?mode=combine&a=");
-
-      case MIX:
-      case MIX_FANCY:
-        return new UseLink(itemId, itemCount, "mix", "craft.php?mode=cocktail&a=");
-
-      case COOK:
-      case COOK_FANCY:
-        return new UseLink(itemId, itemCount, "cook", "craft.php?mode=cook&a=");
-
-      default:
-        return null;
-    }
+    return switch (mixingMethod) {
+      case COMBINE, ACOMBINE, JEWELRY -> new UseLink(
+          itemId, itemCount, "combine", "craft.php?mode=combine&a=");
+      case MIX, MIX_FANCY -> new UseLink(itemId, itemCount, "mix", "craft.php?mode=cocktail&a=");
+      case COOK, COOK_FANCY -> new UseLink(itemId, itemCount, "cook", "craft.php?mode=cook&a=");
+      default -> null;
+    };
   }
 
   private static UseLink getCouncilLink(int itemId) {
@@ -1429,48 +1417,38 @@ public abstract class UseLinkDecorator {
         }
 
         switch (itemId) {
-          case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK:
-          case ItemPool.LOATHING_LEGION_MOONDIAL:
-          case ItemPool.LOATHING_LEGION_NECKTIE:
-          case ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE:
-          case ItemPool.LOATHING_LEGION_CORKSCREW:
-          case ItemPool.LOATHING_LEGION_CAN_OPENER:
-          case ItemPool.LOATHING_LEGION_CHAINSAW:
-          case ItemPool.LOATHING_LEGION_ROLLERBLADES:
-          case ItemPool.LOATHING_LEGION_FLAMETHROWER:
-          case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
-          case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
-          case ItemPool.LOATHING_LEGION_TAPE_MEASURE:
-          case ItemPool.LOATHING_LEGION_KITCHEN_SINK:
-          case ItemPool.LOATHING_LEGION_ABACUS:
-          case ItemPool.LOATHING_LEGION_HELICOPTER:
-          case ItemPool.LOATHING_LEGION_PIZZA_STONE:
-          case ItemPool.LOATHING_LEGION_HAMMER:
-            uses.add(new UseLink(itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem="));
-            break;
-
-          case ItemPool.INSULT_PUPPET:
-          case ItemPool.OBSERVATIONAL_GLASSES:
-          case ItemPool.COMEDY_PROP:
-            uses.add(
-                new UseLink(
-                    itemId, itemCount, "visit mourn", "pandamonium.php?action=mourn&whichitem="));
-            break;
-
-          case ItemPool.GUZZLR_TABLET:
-            {
-              // Not inline, since the redirection to a choice
-              // doesn't work ajaxified.
-              uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
-            }
-
-            break;
-          case ItemPool.CARGO_CULTIST_SHORTS:
-            {
-              // Not inline, since the redirection to a choice
-              // doesn't work ajaxified.
-              uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
-            }
+          case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK,
+              ItemPool.LOATHING_LEGION_MOONDIAL,
+              ItemPool.LOATHING_LEGION_NECKTIE,
+              ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE,
+              ItemPool.LOATHING_LEGION_CORKSCREW,
+              ItemPool.LOATHING_LEGION_CAN_OPENER,
+              ItemPool.LOATHING_LEGION_CHAINSAW,
+              ItemPool.LOATHING_LEGION_ROLLERBLADES,
+              ItemPool.LOATHING_LEGION_FLAMETHROWER,
+              ItemPool.LOATHING_LEGION_DEFIBRILLATOR,
+              ItemPool.LOATHING_LEGION_DOUBLE_PRISM,
+              ItemPool.LOATHING_LEGION_TAPE_MEASURE,
+              ItemPool.LOATHING_LEGION_KITCHEN_SINK,
+              ItemPool.LOATHING_LEGION_ABACUS,
+              ItemPool.LOATHING_LEGION_HELICOPTER,
+              ItemPool.LOATHING_LEGION_PIZZA_STONE,
+              ItemPool.LOATHING_LEGION_HAMMER -> uses.add(
+              new UseLink(itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem="));
+          case ItemPool.INSULT_PUPPET, ItemPool.OBSERVATIONAL_GLASSES, ItemPool.COMEDY_PROP -> uses
+              .add(
+                  new UseLink(
+                      itemId, itemCount, "visit mourn", "pandamonium.php?action=mourn&whichitem="));
+          case ItemPool.GUZZLR_TABLET -> {
+            // Not inline, since the redirection to a choice
+            // doesn't work ajaxified.
+            uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
+          }
+          case ItemPool.CARGO_CULTIST_SHORTS -> {
+            // Not inline, since the redirection to a choice
+            // doesn't work ajaxified.
+            uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
+          }
         }
 
         if (uses.size() == 1) {

@@ -37,12 +37,14 @@ public class WildfireCampRequest extends PlaceRequest {
     }
 
     switch (action) {
-      case "wildfire_rainbarrel":
+      case "wildfire_rainbarrel" -> {
         parseRainbarrel(responseText);
         return;
-      case "wildfire_oldpump":
+      }
+      case "wildfire_oldpump" -> {
         parsePump(responseText);
         return;
+      }
     }
   }
 

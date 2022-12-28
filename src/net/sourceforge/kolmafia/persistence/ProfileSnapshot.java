@@ -144,36 +144,23 @@ public class ProfileSnapshot {
 
     try {
       switch (filterType) {
-        case NAME_FILTER:
-          compareValue = request.getPlayerName().compareToIgnoreCase(filter);
-          break;
-
-        case LEVEL_FILTER:
-          compareValue = request.getPlayerLevel().intValue() - StringUtilities.parseInt(filter);
-          break;
-
-        case PVP_FILTER:
-          compareValue = request.getPvpRank().intValue() - StringUtilities.parseInt(filter);
-          break;
-
-        case CLASS_FILTER:
-          compareValue = request.getClassType().compareToIgnoreCase(filter);
-          break;
-
-        case KARMA_FILTER:
-          compareValue = request.getKarma().intValue() - StringUtilities.parseInt(filter);
-          break;
-
-        case LOGIN_FILTER:
+        case NAME_FILTER -> compareValue = request.getPlayerName().compareToIgnoreCase(filter);
+        case LEVEL_FILTER -> compareValue =
+            request.getPlayerLevel().intValue() - StringUtilities.parseInt(filter);
+        case PVP_FILTER -> compareValue =
+            request.getPvpRank().intValue() - StringUtilities.parseInt(filter);
+        case CLASS_FILTER -> compareValue = request.getClassType().compareToIgnoreCase(filter);
+        case KARMA_FILTER -> compareValue =
+            request.getKarma().intValue() - StringUtilities.parseInt(filter);
+        case LOGIN_FILTER -> {
           int daysIdle = StringUtilities.parseInt(filter);
           long millisecondsIdle = 86400000L * daysIdle;
           Date cutoffDate = new Date(System.currentTimeMillis() - millisecondsIdle);
-
           compareValue =
               request.getLastLogin().after(cutoffDate)
                   ? -1
                   : request.getLastLogin().before(cutoffDate) ? 1 : 0;
-          break;
+        }
       }
     } catch (Exception e) {
       // This should not happen.  Therefore, print

@@ -1761,13 +1761,13 @@ public class Maximizer {
   }
 
   private static boolean excludedTCRSItem(int itemId) {
-    switch (itemId) {
-      case ItemPool.DIETING_PILL:
-        // Doubles adventures and stats from next food.  Also
-        // doubles fullness - which can be a surprise.
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.DIETING_PILL ->
+      // Doubles adventures and stats from next food.  Also
+      // doubles fullness - which can be a surprise.
+      true;
+      default -> false;
+    };
   }
 
   private static class Makeable {

@@ -1147,18 +1147,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
   }
 
   private static boolean goalMet(final FamiliarStatus status, final int goal, final int type) {
-    switch (type) {
-      case BASE:
-        return status.baseWeight() >= goal;
-
-      case BUFFED:
-        return status.maxWeight(true) >= goal;
-
-      case TURNS:
-        return status.turnsUsed() >= goal;
-    }
-
-    return false;
+    return switch (type) {
+      case BASE -> status.baseWeight() >= goal;
+      case BUFFED -> status.maxWeight(true) >= goal;
+      case TURNS -> status.turnsUsed() >= goal;
+      default -> false;
+    };
   }
 
   private static void printMatch(
@@ -1880,27 +1874,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     private void setItem(final int slot, final AdventureResult item) {
       switch (slot) {
-        case EquipmentManager.WEAPON:
-          this.weapon = item;
-          break;
-        case EquipmentManager.OFFHAND:
-          this.offhand = item;
-          break;
-        case EquipmentManager.HAT:
-          this.hat = item;
-          break;
-        case EquipmentManager.FAMILIAR:
-          this.item = item;
-          break;
-        case EquipmentManager.ACCESSORY1:
-          this.acc[0] = item;
-          break;
-        case EquipmentManager.ACCESSORY2:
-          this.acc[1] = item;
-          break;
-        case EquipmentManager.ACCESSORY3:
-          this.acc[2] = item;
-          break;
+        case EquipmentManager.WEAPON -> this.weapon = item;
+        case EquipmentManager.OFFHAND -> this.offhand = item;
+        case EquipmentManager.HAT -> this.hat = item;
+        case EquipmentManager.FAMILIAR -> this.item = item;
+        case EquipmentManager.ACCESSORY1 -> this.acc[0] = item;
+        case EquipmentManager.ACCESSORY2 -> this.acc[1] = item;
+        case EquipmentManager.ACCESSORY3 -> this.acc[2] = item;
       }
     }
 

@@ -203,19 +203,17 @@ public abstract class RumpleManager {
   public static void visitChoice(String text) {
     Preferences.setString("grimstoneMaskPath", "gnome");
     switch (ChoiceManager.lastChoice) {
-      case 848:
-        // Where the Magic Happens
-        updateMaterials(text);
-        break;
-      case 849:
+      case 848 ->
+      // Where the Magic Happens
+      updateMaterials(text);
+      case 849 -> {
         // The Practice
         updateMaterials(text);
         updateMastery(text, 0);
-        break;
-      case 850:
-        // World of Bartercraft
-        updateMaterials(text);
-        break;
+      }
+      case 850 ->
+      // World of Bartercraft
+      updateMaterials(text);
     }
   }
 
@@ -570,48 +568,29 @@ public abstract class RumpleManager {
 
   public static final void pickParent(final int choice) {
     switch (choice) {
-      case 1:
-        RumpleManager.parent = RumpleManager.FATHER;
-        break;
-      case 2:
-        RumpleManager.parent = RumpleManager.MOTHER;
-        break;
-      case 3:
-        RumpleManager.parent = RumpleManager.BOTH;
-        break;
-      case 4:
+      case 1 -> RumpleManager.parent = RumpleManager.FATHER;
+      case 2 -> RumpleManager.parent = RumpleManager.MOTHER;
+      case 3 -> RumpleManager.parent = RumpleManager.BOTH;
+      case 4 -> {
         if (Preferences.getInteger("rumpelstiltskinTurnsUsed") == 30) {
           RumpleManager.state = State.ENDED;
         }
         RumpleManager.resetSins();
-        break;
+      }
     }
   }
 
   public static final void pickSin(final int choice) {
     switch (choice) {
-      case 1:
-        RumpleManager.sin = RumpleManager.GREED;
-        break;
-      case 2:
-        RumpleManager.sin = RumpleManager.GLUTTONY;
-        break;
-      case 3:
-        RumpleManager.sin = RumpleManager.VANITY;
-        break;
-      case 4:
-        RumpleManager.sin = RumpleManager.LAZINESS;
-        break;
-      case 5:
-        RumpleManager.sin = RumpleManager.LUSTFULNESS;
-        break;
-      case 6:
-        RumpleManager.sin = RumpleManager.VIOLENCE;
-        break;
-      default:
-        // There should be no other choice options
-        RumpleManager.sin = RumpleManager.NONE;
-        break;
+      case 1 -> RumpleManager.sin = RumpleManager.GREED;
+      case 2 -> RumpleManager.sin = RumpleManager.GLUTTONY;
+      case 3 -> RumpleManager.sin = RumpleManager.VANITY;
+      case 4 -> RumpleManager.sin = RumpleManager.LAZINESS;
+      case 5 -> RumpleManager.sin = RumpleManager.LUSTFULNESS;
+      case 6 -> RumpleManager.sin = RumpleManager.VIOLENCE;
+      default ->
+      // There should be no other choice options
+      RumpleManager.sin = RumpleManager.NONE;
     }
   }
 
