@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
@@ -32,6 +33,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ListCellRendererFactory {
   private ListCellRendererFactory() {}
@@ -750,6 +752,9 @@ public class ListCellRendererFactory {
         GearChangePanel.showModifiers(value, slot);
       }
 
+      JLabel defaultComponent =
+          (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
       ConsumptionType equipmentType = ItemDatabase.getConsumptionType(ar.getItemId());
 
       int power = EquipmentDatabase.getPower(ar.getItemId());
@@ -764,7 +769,7 @@ public class ListCellRendererFactory {
         }
 
         if (KoLCharacter.getFamiliar() == null || !KoLCharacter.getFamiliar().canEquip(ar)) {
-          stringForm = "<font color=gray>" + stringForm + "</font>";
+          defaultComponent.setForeground(Color.GRAY);
         }
       } else if (ar.equals(EquipmentRequest.UNEQUIP)) {
         stringForm = ar.getName();
@@ -797,13 +802,11 @@ public class ListCellRendererFactory {
         // inside of an equipment filter.
 
         if (!EquipmentManager.canEquip(ar.getName())) {
-          stringForm = "<font color=gray>" + stringForm + "</font>";
+          defaultComponent.setForeground(Color.GRAY);
         }
       }
 
-      JLabel defaultComponent =
-          (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-      defaultComponent.setText("<html>" + stringForm + "</html>");
+      defaultComponent.setText(StringUtilities.getEntityDecode(stringForm));
       return defaultComponent;
     }
   }
