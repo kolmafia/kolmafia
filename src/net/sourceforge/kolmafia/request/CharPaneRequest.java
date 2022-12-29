@@ -1742,10 +1742,8 @@ public class CharPaneRequest extends GenericRequest {
     ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
 
     Object o = JSON.get("effects");
-    if (o instanceof JSONObject) {
+    if (o instanceof JSONObject effects) {
       // KoL returns an empty JSON array if there are no effects
-      JSONObject effects = (JSONObject) o;
-
       Iterator<String> keys = effects.keys();
       while (keys.hasNext()) {
         String descId = keys.next();
@@ -1761,9 +1759,7 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     o = JSON.get("intrinsics");
-    if (o instanceof JSONObject) {
-      JSONObject intrinsics = (JSONObject) o;
-
+    if (o instanceof JSONObject intrinsics) {
       Iterator<String> keys = intrinsics.keys();
       while (keys.hasNext()) {
         String descId = keys.next();

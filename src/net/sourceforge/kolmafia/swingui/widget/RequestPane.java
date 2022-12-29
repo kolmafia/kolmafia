@@ -63,9 +63,7 @@ public class RequestPane extends JEditorPane {
             Object attribute = iterator.nextElement();
             Object value = elem.getAttributes().getAttribute(attribute);
 
-            if (value instanceof SimpleAttributeSet) {
-              SimpleAttributeSet attributeSet = (SimpleAttributeSet) value;
-
+            if (value instanceof SimpleAttributeSet attributeSet) {
               String text = (String) attributeSet.getAttribute(HTML.Attribute.TITLE);
 
               if (text == null) {

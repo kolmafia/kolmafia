@@ -315,7 +315,7 @@ public class JavascriptRuntime extends AbstractRuntime {
     if (e.containsKey("default") && e.containsKey("__esModule")) {
       Object esm = e.get("__esModule");
 
-      if (esm instanceof Boolean && (Boolean) esm) {
+      if (esm instanceof Boolean b && b) {
         return ScriptableObject.getProperty(e, "default");
       }
     }

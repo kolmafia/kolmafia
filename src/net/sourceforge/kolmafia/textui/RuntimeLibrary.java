@@ -2796,11 +2796,10 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value get_stack_trace(ScriptRuntime controller) {
-    if (!(controller instanceof AshRuntime)) {
+    if (!(controller instanceof AshRuntime interpreter)) {
       throw controller.runtimeException("Stack trace only supported when called from ASH.");
     }
 
-    AshRuntime interpreter = (AshRuntime) controller;
     List<CallFrame> callStack = interpreter.getCallFrames();
 
     int frameCount = callStack.size();
@@ -3210,8 +3209,7 @@ public abstract class RuntimeLibrary {
     for (int i = 0; i < result.length; i++) {
       Object ob = result[i];
 
-      if (ob instanceof TagNode) {
-        TagNode tag = (TagNode) ob;
+      if (ob instanceof TagNode tag) {
         result[i] = serializer.getAsString(tag);
       }
 
@@ -7745,9 +7743,7 @@ public abstract class RuntimeLibrary {
 
     MapValue value = new MapValue(DataTypes.STRING_TO_BOOLEAN_TYPE);
     for (ChatMessage chatMessage : chatMessages) {
-      if (chatMessage instanceof WhoMessage) {
-        WhoMessage message = (WhoMessage) chatMessage;
-
+      if (chatMessage instanceof WhoMessage message) {
         for (Entry<String, Boolean> entry : message.getContacts().entrySet()) {
           value.aset(new Value(entry.getKey()), DataTypes.makeBooleanValue(entry.getValue()));
         }
@@ -9604,8 +9600,7 @@ public abstract class RuntimeLibrary {
   // monster pocket_monster( pocket p );
   public static Value pocket_monster(ScriptRuntime controller, final Value pocket) {
     Pocket p = PocketDatabase.pocketByNumber((int) pocket.intValue());
-    if (p instanceof MonsterPocket) {
-      MonsterPocket mp = (MonsterPocket) p;
+    if (p instanceof MonsterPocket mp) {
       return DataTypes.makeMonsterValue(mp.getMonster());
     }
     return DataTypes.MONSTER_INIT;
@@ -9741,14 +9736,12 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(PocketEffectsType);
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null && PocketDatabase.allEffectPockets.contains(p.getPocket())) {
-      if (p instanceof OneResultPocket) {
-        OneResultPocket orp = (OneResultPocket) p;
+      if (p instanceof OneResultPocket orp) {
         value.aset(
             DataTypes.makeEffectValue(orp.getResult1().getEffectId(), true),
             new Value(orp.getResult1().getCount()));
       }
-      if (p instanceof TwoResultPocket) {
-        TwoResultPocket trp = (TwoResultPocket) p;
+      if (p instanceof TwoResultPocket trp) {
         value.aset(
             DataTypes.makeEffectValue(trp.getResult2().getEffectId(), true),
             new Value(trp.getResult2().getCount()));
@@ -9761,14 +9754,12 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(PocketItemsType);
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null && PocketDatabase.allItemPockets.contains(p.getPocket())) {
-      if (p instanceof OneResultPocket) {
-        OneResultPocket orp = (OneResultPocket) p;
+      if (p instanceof OneResultPocket orp) {
         value.aset(
             DataTypes.makeItemValue(orp.getResult1().getItemId(), true),
             new Value(orp.getResult1().getCount()));
       }
-      if (p instanceof TwoResultPocket) {
-        TwoResultPocket trp = (TwoResultPocket) p;
+      if (p instanceof TwoResultPocket trp) {
         value.aset(
             DataTypes.makeItemValue(trp.getResult2().getItemId(), true),
             new Value(trp.getResult2().getCount()));

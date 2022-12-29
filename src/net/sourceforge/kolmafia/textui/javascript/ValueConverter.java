@@ -126,8 +126,7 @@ public class ValueConverter {
 
   private MapValue convertNativeObject(NativeObject nativeObject, Type typeHint) {
     if (nativeObject.size() == 0) {
-      if (typeHint instanceof AggregateType && ((AggregateType) typeHint).getSize() < 0) {
-        AggregateType aggregateTypeHint = (AggregateType) typeHint;
+      if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() < 0) {
         return new MapValue(
             new AggregateType(aggregateTypeHint.getDataType(), aggregateTypeHint.getIndexType()));
       } else {
@@ -173,8 +172,7 @@ public class ValueConverter {
 
   private ArrayValue convertNativeArray(NativeArray nativeArray, Type typeHint) {
     if (nativeArray.size() == 0) {
-      if (typeHint instanceof AggregateType && ((AggregateType) typeHint).getSize() >= 0) {
-        AggregateType aggregateTypeHint = (AggregateType) typeHint;
+      if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() >= 0) {
         return new ArrayValue(new AggregateType(aggregateTypeHint.getDataType(), 0));
       } else {
         return new ArrayValue(new AggregateType(DataTypes.ANY_TYPE, 0));

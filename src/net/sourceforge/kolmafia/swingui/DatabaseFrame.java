@@ -55,8 +55,8 @@ public class DatabaseFrame extends GenericFrame {
     public int compare(LowerCaseEntry<?, ?> o1, LowerCaseEntry<?, ?> o2) {
       Object key1 = o1.getKey();
       Object key2 = o2.getKey();
-      if (key1 instanceof Integer && key2 instanceof Integer) {
-        return ((Integer) key1).compareTo((Integer) key2);
+      if (key1 instanceof Integer k1 && key2 instanceof Integer k2) {
+        return k1.compareTo(k2);
       }
       return 0;
     }
