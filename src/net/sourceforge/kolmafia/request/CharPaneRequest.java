@@ -691,12 +691,10 @@ public class CharPaneRequest extends GenericRequest {
       pattern = Pattern.compile("<b>(\\d+ )?(Love|Hate|Bored)</td>");
       matcher = pattern.matcher(responseText);
       if (matcher != null && matcher.find()) {
-        if (matcher.group(2).equals("Love")) {
-          KoLCharacter.setAudience(StringUtilities.parseInt(matcher.group(1)));
-        } else if (matcher.group(2).equals("Hate")) {
-          KoLCharacter.setAudience(-StringUtilities.parseInt(matcher.group(1)));
-        } else if (matcher.group(2).equals("Bored")) {
-          KoLCharacter.setAudience(0);
+        switch (matcher.group(2)) {
+          case "Love" -> KoLCharacter.setAudience(StringUtilities.parseInt(matcher.group(1)));
+          case "Hate" -> KoLCharacter.setAudience(-StringUtilities.parseInt(matcher.group(1)));
+          case "Bored" -> KoLCharacter.setAudience(0);
         }
       } else {
         KoLCharacter.setAudience(0);
@@ -877,7 +875,7 @@ public class CharPaneRequest extends GenericRequest {
     int searchIndex = 0;
     int onClickIndex = 0;
 
-    ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
 
     while (onClickIndex != -1) {
       onClickIndex = responseText.indexOf("onClick='eff", onClickIndex + 1);
@@ -1312,117 +1310,43 @@ public class CharPaneRequest extends GenericRequest {
     Matcher matcher = pattern.matcher(responseText);
     if (matcher.find()) {
       switch (StringUtilities.parseInt(matcher.group(1))) {
-        case 1:
-          mask = "Mr. Mask";
-          break;
-        case 2:
-          mask = "devil mask";
-          break;
-        case 3:
-          mask = "protest mask";
-          break;
-        case 4:
-          mask = "batmask";
-          break;
-        case 5:
-          mask = "punk mask";
-          break;
-        case 6:
-          mask = "hockey mask";
-          break;
-        case 7:
-          mask = "bandit mask";
-          break;
-        case 8:
-          mask = "plague doctor mask";
-          break;
-        case 9:
-          mask = "robot mask";
-          break;
-        case 10:
-          mask = "skull mask";
-          break;
-        case 11:
-          mask = "monkey mask";
-          break;
-        case 12:
-          mask = "luchador mask";
-          break;
-        case 13:
-          mask = "welding mask";
-          break;
-        case 14:
-          mask = "ninja mask";
-          break;
-        case 15:
-          mask = "snowman mask";
-          break;
-        case 16:
-          mask = "gasmask";
-          break;
-        case 17:
-          mask = "fencing mask";
-          break;
-        case 18:
-          mask = "opera mask";
-          break;
-        case 19:
-          mask = "scary mask";
-          break;
-        case 20:
-          mask = "alien mask";
-          break;
-        case 21:
-          mask = "murderer mask";
-          break;
-        case 22:
-          mask = "pumpkin mask";
-          break;
-        case 23:
-          mask = "rabbit mask";
-          break;
-        case 24:
-          mask = "ski mask";
-          break;
-        case 25:
-          mask = "tiki mask";
-          break;
-        case 26:
-          mask = "motorcycle mask";
-          break;
-        case 27:
-          mask = "magical cartoon princess mask";
-          break;
-        case 28:
-          mask = "catcher's mask";
-          break;
-        case 29:
-          mask = "&quot;sexy&quot; mask";
-          break;
-        case 30:
-          mask = "werewolf mask";
-          break;
-        case 100:
-          mask = "Bonerdagon mask";
-          break;
-        case 101:
-          mask = "Naughty Sorceress mask";
-          break;
-        case 102:
-          mask = "Groar mask";
-          break;
-        case 103:
-          mask = "Ed the Undying mask";
-          break;
-        case 104:
-          mask = "Big Wisniewski mask";
-          break;
-        case 105:
-          mask = "The Man mask";
-          break;
-        case 106:
-          mask = "Boss Bat mask";
-          break;
+        case 1 -> mask = "Mr. Mask";
+        case 2 -> mask = "devil mask";
+        case 3 -> mask = "protest mask";
+        case 4 -> mask = "batmask";
+        case 5 -> mask = "punk mask";
+        case 6 -> mask = "hockey mask";
+        case 7 -> mask = "bandit mask";
+        case 8 -> mask = "plague doctor mask";
+        case 9 -> mask = "robot mask";
+        case 10 -> mask = "skull mask";
+        case 11 -> mask = "monkey mask";
+        case 12 -> mask = "luchador mask";
+        case 13 -> mask = "welding mask";
+        case 14 -> mask = "ninja mask";
+        case 15 -> mask = "snowman mask";
+        case 16 -> mask = "gasmask";
+        case 17 -> mask = "fencing mask";
+        case 18 -> mask = "opera mask";
+        case 19 -> mask = "scary mask";
+        case 20 -> mask = "alien mask";
+        case 21 -> mask = "murderer mask";
+        case 22 -> mask = "pumpkin mask";
+        case 23 -> mask = "rabbit mask";
+        case 24 -> mask = "ski mask";
+        case 25 -> mask = "tiki mask";
+        case 26 -> mask = "motorcycle mask";
+        case 27 -> mask = "magical cartoon princess mask";
+        case 28 -> mask = "catcher's mask";
+        case 29 -> mask = "&quot;sexy&quot; mask";
+        case 30 -> mask = "werewolf mask";
+        case 100 -> mask = "Bonerdagon mask";
+        case 101 -> mask = "Naughty Sorceress mask";
+        case 102 -> mask = "Groar mask";
+        case 103 -> mask = "Ed the Undying mask";
+        case 104 -> mask = "Big Wisniewski mask";
+        case 105 -> mask = "The Man mask";
+        case 106 -> mask = "Boss Bat mask";
       }
     }
     KoLCharacter.setMask(mask);
@@ -1671,18 +1595,10 @@ public class CharPaneRequest extends GenericRequest {
       if (JSON.has("jarlcompanion")) {
         int companion = JSON.getInt("jarlcompanion");
         switch (companion) {
-          case 1:
-            KoLCharacter.setCompanion(Companion.EGGMAN);
-            break;
-          case 2:
-            KoLCharacter.setCompanion(Companion.RADISH);
-            break;
-          case 3:
-            KoLCharacter.setCompanion(Companion.HIPPO);
-            break;
-          case 4:
-            KoLCharacter.setCompanion(Companion.CREAM);
-            break;
+          case 1 -> KoLCharacter.setCompanion(Companion.EGGMAN);
+          case 2 -> KoLCharacter.setCompanion(Companion.RADISH);
+          case 3 -> KoLCharacter.setCompanion(Companion.HIPPO);
+          case 4 -> KoLCharacter.setCompanion(Companion.CREAM);
         }
       } else {
         KoLCharacter.setCompanion(null);
@@ -1739,7 +1655,7 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   private static void refreshEffects(final JSONObject JSON) throws JSONException {
-    ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
 
     Object o = JSON.get("effects");
     if (o instanceof JSONObject effects) {

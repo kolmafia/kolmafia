@@ -308,14 +308,11 @@ public class ClanStashRequest extends TransferItemRequest {
 
   @Override
   public String getStatusMessage() {
-    switch (this.moveType) {
-      case ClanStashRequest.ITEMS_TO_STASH:
-        return "Dropping items into stash";
-      case ClanStashRequest.STASH_TO_ITEMS:
-        return "Pulling items from stash";
-      case ClanStashRequest.MEAT_TO_STASH:
-        return "Donating meat to stash";
-    }
-    return "Refreshing stash contents";
+    return switch (this.moveType) {
+      case ClanStashRequest.ITEMS_TO_STASH -> "Dropping items into stash";
+      case ClanStashRequest.STASH_TO_ITEMS -> "Pulling items from stash";
+      case ClanStashRequest.MEAT_TO_STASH -> "Donating meat to stash";
+      default -> "Refreshing stash contents";
+    };
   }
 }

@@ -179,7 +179,7 @@ public abstract class UseLinkDecorator {
 
   private static void addNormalUseLinks(
       String location, String text, StringBuffer buffer, boolean deferring, boolean usedMacro) {
-    // Get a list of of items via "rel" strings
+    // Get a list of items via "rel" strings
     LinkedList<AdventureResult> items = ResultProcessor.parseItems(text);
 
     // Get a list of effects via descid
@@ -252,12 +252,10 @@ public abstract class UseLinkDecorator {
         if (location.startsWith("inventory.php")
             || (location.startsWith("inv_use.php") && location.contains("ajax=1"))) {
           switch (itemId) {
-            case ItemPool.FOIL_BOW:
-            case ItemPool.FOIL_RADAR:
-            case ItemPool.FOIL_CAT_EARS:
+            case ItemPool.FOIL_BOW, ItemPool.FOIL_RADAR, ItemPool.FOIL_CAT_EARS -> {
               specialLinkId = itemId;
               specialLinkText = "fold";
-              break;
+            }
           }
         }
 
@@ -571,23 +569,13 @@ public abstract class UseLinkDecorator {
 
   private static UseLink getCreateLink(
       final int itemId, final int itemCount, final CraftingType mixingMethod) {
-    switch (mixingMethod) {
-      case COMBINE:
-      case ACOMBINE:
-      case JEWELRY:
-        return new UseLink(itemId, itemCount, "combine", "craft.php?mode=combine&a=");
-
-      case MIX:
-      case MIX_FANCY:
-        return new UseLink(itemId, itemCount, "mix", "craft.php?mode=cocktail&a=");
-
-      case COOK:
-      case COOK_FANCY:
-        return new UseLink(itemId, itemCount, "cook", "craft.php?mode=cook&a=");
-
-      default:
-        return null;
-    }
+    return switch (mixingMethod) {
+      case COMBINE, ACOMBINE, JEWELRY -> new UseLink(
+          itemId, itemCount, "combine", "craft.php?mode=combine&a=");
+      case MIX, MIX_FANCY -> new UseLink(itemId, itemCount, "mix", "craft.php?mode=cocktail&a=");
+      case COOK, COOK_FANCY -> new UseLink(itemId, itemCount, "cook", "craft.php?mode=cook&a=");
+      default -> null;
+    };
   }
 
   private static UseLink getCouncilLink(int itemId) {
@@ -640,7 +628,7 @@ public abstract class UseLinkDecorator {
 
           case ItemPool.FORTUNE_COOKIE:
             {
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
 
               if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
                 uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
@@ -657,7 +645,7 @@ public abstract class UseLinkDecorator {
 
           case ItemPool.HOT_WING:
             {
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
 
               if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
                 uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
@@ -675,7 +663,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.SNOW_BERRIES:
           case ItemPool.ICE_HARVEST:
             {
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
 
               if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
                 uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
@@ -907,7 +895,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
           case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
             {
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
               if (itemId == ItemPool.LOATHING_LEGION_TATTOO_NEEDLE) {
                 uses.add(new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem="));
               } else if (itemId == ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER) {
@@ -1115,7 +1103,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.MOULDERING_BARREL:
           case ItemPool.BARNACLED_BARREL:
             {
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
               uses.add(new UseLink(itemId, 1, "use", "inv_use.php?whichitem="));
               uses.add(
                   new UseLink(itemId, 1, "smash party", "inv_use.php?choice=1&whichitem=", false));
@@ -1124,7 +1112,7 @@ public abstract class UseLinkDecorator {
 
           case ItemPool.GLITCH_ITEM:
             {
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
               uses.add(new UseLink(itemId, itemCount, "implement", "inv_use.php?whichitem="));
               uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?whichitem=", false));
               return new UsesLink(uses.toArray(new UseLink[uses.size()]));
@@ -1137,6 +1125,8 @@ public abstract class UseLinkDecorator {
                 getPotionSpeculation("use", itemId),
                 "inv_use.php?which=3&whichitem=");
         }
+        // How is there a "fallthrough"?
+        return null;
 
       case PASTA_GUARDIAN:
         if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
@@ -1206,7 +1196,7 @@ public abstract class UseLinkDecorator {
                       getEquipmentSpeculation("equip", itemId, -1),
                       "inv_equip.php?which=2&action=equip&whichitem=");
               if (combatResults) {
-                ArrayList<UseLink> uses = new ArrayList<UseLink>();
+                ArrayList<UseLink> uses = new ArrayList<>();
                 // scg = Same Class in Guild
                 uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
                 uses.add(equipLink);
@@ -1225,7 +1215,7 @@ public abstract class UseLinkDecorator {
             // a fight, give a link to the guild to collect
             // the reward as well as "outfit" link.
             if (combatResults) {
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
               int outfit = EquipmentDatabase.getOutfitWithItem(itemId);
               // scg = Same Class in Guild
               uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
@@ -1265,7 +1255,7 @@ public abstract class UseLinkDecorator {
               // inv_use.php?pwd&which=f-1&whichitem=xxx
               UseLink plateLink =
                   new UseLink(itemId, itemCount, "plate", "inv_use.php?which=f-1&whichitem=");
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
               uses.add(equipLink);
               uses.add(plateLink);
               return new UsesLink(uses.toArray(new UseLink[uses.size()]));
@@ -1282,7 +1272,7 @@ public abstract class UseLinkDecorator {
               // inv_use.php?pwd&which=f-1&whichitem=xxx
               UseLink wringOutLink =
                   new UseLink(itemId, itemCount, "wring out", "inv_use.php?which=f-1&whichitem=");
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
               uses.add(equipLink);
               uses.add(wringOutLink);
               return new UsesLink(uses.toArray(new UseLink[uses.size()]));
@@ -1299,7 +1289,7 @@ public abstract class UseLinkDecorator {
               // inv_use.php?pwd&which=f-1&whichitem=xxx
               UseLink drainLink =
                   new UseLink(itemId, itemCount, "drain spit", "inv_use.php?which=f-1&whichitem=");
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
               uses.add(equipLink);
               uses.add(drainLink);
               return new UsesLink(uses.toArray(new UseLink[uses.size()]));
@@ -1316,7 +1306,7 @@ public abstract class UseLinkDecorator {
               // inv_use.php?pwd&which=f-1&whichitem=xxx
               UseLink useLink =
                   new UseLink(itemId, itemCount, "use", "inv_use.php?which=f-1&whichitem=");
-              ArrayList<UseLink> uses = new ArrayList<UseLink>();
+              ArrayList<UseLink> uses = new ArrayList<>();
               uses.add(equipLink);
               uses.add(useLink);
               return new UsesLink(uses.toArray(new UseLink[uses.size()]));
@@ -1332,7 +1322,7 @@ public abstract class UseLinkDecorator {
 
         int outfit = EquipmentDatabase.getOutfitWithItem(itemId);
 
-        ArrayList<UseLink> uses = new ArrayList<UseLink>();
+        ArrayList<UseLink> uses = new ArrayList<>();
 
         if (outfit != -1 && EquipmentManager.hasOutfit(outfit)) {
           uses.add(
@@ -1429,48 +1419,38 @@ public abstract class UseLinkDecorator {
         }
 
         switch (itemId) {
-          case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK:
-          case ItemPool.LOATHING_LEGION_MOONDIAL:
-          case ItemPool.LOATHING_LEGION_NECKTIE:
-          case ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE:
-          case ItemPool.LOATHING_LEGION_CORKSCREW:
-          case ItemPool.LOATHING_LEGION_CAN_OPENER:
-          case ItemPool.LOATHING_LEGION_CHAINSAW:
-          case ItemPool.LOATHING_LEGION_ROLLERBLADES:
-          case ItemPool.LOATHING_LEGION_FLAMETHROWER:
-          case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
-          case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
-          case ItemPool.LOATHING_LEGION_TAPE_MEASURE:
-          case ItemPool.LOATHING_LEGION_KITCHEN_SINK:
-          case ItemPool.LOATHING_LEGION_ABACUS:
-          case ItemPool.LOATHING_LEGION_HELICOPTER:
-          case ItemPool.LOATHING_LEGION_PIZZA_STONE:
-          case ItemPool.LOATHING_LEGION_HAMMER:
-            uses.add(new UseLink(itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem="));
-            break;
-
-          case ItemPool.INSULT_PUPPET:
-          case ItemPool.OBSERVATIONAL_GLASSES:
-          case ItemPool.COMEDY_PROP:
-            uses.add(
-                new UseLink(
-                    itemId, itemCount, "visit mourn", "pandamonium.php?action=mourn&whichitem="));
-            break;
-
-          case ItemPool.GUZZLR_TABLET:
-            {
-              // Not inline, since the redirection to a choice
-              // doesn't work ajaxified.
-              uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
-            }
-
-            break;
-          case ItemPool.CARGO_CULTIST_SHORTS:
-            {
-              // Not inline, since the redirection to a choice
-              // doesn't work ajaxified.
-              uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
-            }
+          case ItemPool.LOATHING_LEGION_MANY_PURPOSE_HOOK,
+              ItemPool.LOATHING_LEGION_MOONDIAL,
+              ItemPool.LOATHING_LEGION_NECKTIE,
+              ItemPool.LOATHING_LEGION_ELECTRIC_KNIFE,
+              ItemPool.LOATHING_LEGION_CORKSCREW,
+              ItemPool.LOATHING_LEGION_CAN_OPENER,
+              ItemPool.LOATHING_LEGION_CHAINSAW,
+              ItemPool.LOATHING_LEGION_ROLLERBLADES,
+              ItemPool.LOATHING_LEGION_FLAMETHROWER,
+              ItemPool.LOATHING_LEGION_DEFIBRILLATOR,
+              ItemPool.LOATHING_LEGION_DOUBLE_PRISM,
+              ItemPool.LOATHING_LEGION_TAPE_MEASURE,
+              ItemPool.LOATHING_LEGION_KITCHEN_SINK,
+              ItemPool.LOATHING_LEGION_ABACUS,
+              ItemPool.LOATHING_LEGION_HELICOPTER,
+              ItemPool.LOATHING_LEGION_PIZZA_STONE,
+              ItemPool.LOATHING_LEGION_HAMMER -> uses.add(
+              new UseLink(itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem="));
+          case ItemPool.INSULT_PUPPET, ItemPool.OBSERVATIONAL_GLASSES, ItemPool.COMEDY_PROP -> uses
+              .add(
+                  new UseLink(
+                      itemId, itemCount, "visit mourn", "pandamonium.php?action=mourn&whichitem="));
+          case ItemPool.GUZZLR_TABLET -> {
+            // Not inline, since the redirection to a choice
+            // doesn't work ajaxified.
+            uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
+          }
+          case ItemPool.CARGO_CULTIST_SHORTS -> {
+            // Not inline, since the redirection to a choice
+            // doesn't work ajaxified.
+            uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
+          }
         }
 
         if (uses.size() == 1) {
@@ -1596,7 +1576,7 @@ public abstract class UseLinkDecorator {
 
       case ItemPool.GUZZLRBUCK:
         {
-          ArrayList<UseLink> uses = new ArrayList<UseLink>();
+          ArrayList<UseLink> uses = new ArrayList<>();
           uses.add(new UseLink(itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr"));
           uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
           return new UsesLink(uses.toArray(new UseLink[uses.size()]));

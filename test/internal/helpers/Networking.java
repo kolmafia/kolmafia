@@ -40,12 +40,8 @@ public class Networking {
       var uri = req.uri();
       String path = uri.getPath();
       switch (method) {
-        case "GET":
-          System.out.println("GET " + path + " -> " + uri.getQuery());
-          break;
-        case "POST":
-          System.out.println("POST " + path + " -> " + getPostRequestBody(req));
-          break;
+        case "GET" -> System.out.println("GET " + path + " -> " + uri.getQuery());
+        case "POST" -> System.out.println("POST " + path + " -> " + getPostRequestBody(req));
       }
     }
   }

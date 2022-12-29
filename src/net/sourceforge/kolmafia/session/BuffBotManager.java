@@ -47,17 +47,17 @@ public abstract class BuffBotManager {
   private static int initialRestores = 0;
   private static boolean isInitializing = false;
 
-  private static final ArrayList<KoLMailMessage> saveList = new ArrayList<KoLMailMessage>();
-  private static final ArrayList<KoLMailMessage> deleteList = new ArrayList<KoLMailMessage>();
-  private static final ArrayList<SendMailRequest> sendList = new ArrayList<SendMailRequest>();
+  private static final ArrayList<KoLMailMessage> saveList = new ArrayList<>();
+  private static final ArrayList<KoLMailMessage> deleteList = new ArrayList<>();
+  private static final ArrayList<SendMailRequest> sendList = new ArrayList<>();
 
   private static int messageDisposalSetting;
   private static String refundMessage;
   private static String thanksMessage;
-  private static List<String> whiteList = new ArrayList<String>();
+  private static List<String> whiteList = new ArrayList<>();
 
-  private static final Map<Integer, Offering> buffCostMap = new TreeMap<Integer, Offering>();
-  private static final SortedListModel<Offering> buffCostTable = new SortedListModel<Offering>();
+  private static final Map<Integer, Offering> buffCostMap = new TreeMap<>();
+  private static final SortedListModel<Offering> buffCostTable = new SortedListModel<>();
 
   public static final Pattern MEAT_PATTERN =
       Pattern.compile(
@@ -491,12 +491,10 @@ public abstract class BuffBotManager {
     // the message (save, delete, etc.)
 
     switch (BuffBotManager.messageDisposalSetting) {
-      case SAVEBOX:
+      case SAVEBOX -> {
         String messageText = message.getMessageHTML().replaceAll("<.*?>", "");
         boolean willDelete = messageText.length() < 10;
-
         BuffBotManager.queueIncomingMessage(message, willDelete);
-
         if (willDelete) {
           BuffBotHome.update(
               BuffBotHome.NONBUFFCOLOR,
@@ -506,21 +504,21 @@ public abstract class BuffBotManager {
               BuffBotHome.NONBUFFCOLOR,
               "Saving non-buff message from [" + message.getSenderName() + "]");
         }
-
         return null;
-
-      case DISPOSE:
+      }
+      case DISPOSE -> {
         BuffBotManager.queueIncomingMessage(message, true);
         BuffBotHome.update(
             BuffBotHome.NONBUFFCOLOR,
             "Deleting non-buff message from [" + message.getSenderName() + "]");
         return null;
-
-      default:
+      }
+      default -> {
         BuffBotHome.update(
             BuffBotHome.NONBUFFCOLOR,
             "Ignoring non-buff message from [" + message.getSenderName() + "]");
         return null;
+      }
     }
   }
 
@@ -639,15 +637,15 @@ public abstract class BuffBotManager {
     // and check to see that it's okay to send it.
 
     switch (Preferences.getInteger("buffBotPhilanthropyType")) {
-      case 0:
+      case 0 -> {
         BuffBotHome.update(
             BuffBotHome.NONBUFFCOLOR, "Philanthropic buff request from " + recipient);
         BuffBotHome.update(
             BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient);
         UseSkillRequest.lastUpdate = "Philanthropic buffs temporarily disabled.";
         return false;
-
-      case 1:
+      }
+      case 1 -> {
         int instanceCount = BuffBotHome.getInstanceCount(meatSent, recipient);
         if (instanceCount == 0
             || buff.casts.length == 1
@@ -664,11 +662,10 @@ public abstract class BuffBotManager {
             BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + recipient);
         BuffBotHome.update(
             BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient);
-
         UseSkillRequest.lastUpdate = "Philanthropy limit exceeded.";
         return false;
-
-      case 2:
+      }
+      case 2 -> {
         if (BuffBotManager.onWhiteList(recipient)) {
           break;
         }
@@ -682,6 +679,7 @@ public abstract class BuffBotManager {
             BuffBotHome.ERRORCOLOR, " ---> Could not cast #" + meatSent + " on " + recipient);
         UseSkillRequest.lastUpdate = "Philanthropic buffs temporarily disabled.";
         return false;
+      }
     }
 
     // Under all other circumstances, you go ahead and

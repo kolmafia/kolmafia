@@ -33,18 +33,13 @@ public class GrandpaRequest extends GenericRequest {
   }
 
   public static final String findNPC(final int npc) {
-    switch (npc) {
-      case 1:
-        return "Little Brother";
-      case 2:
-        return "Big Brother";
-      case 3:
-        return "Grandpa";
-      case 4:
-        return "Grandma";
-    }
-
-    return "Unknown Sea Monkey";
+    return switch (npc) {
+      case 1 -> "Little Brother";
+      case 2 -> "Big Brother";
+      case 3 -> "Grandpa";
+      case 4 -> "Grandma";
+      default -> "Unknown Sea Monkey";
+    };
   }
 
   public static final boolean registerRequest(final String urlString) {

@@ -11,12 +11,11 @@ import java.util.ArrayList;
 public class ByteBufferUtilities {
   private static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
-  private static final ArrayList<byte[]> BYTEARRAYS = new ArrayList<byte[]>();
-  private static final ArrayList<Boolean> BYTEARRAYS_STATUS = new ArrayList<Boolean>();
+  private static final ArrayList<byte[]> BYTEARRAYS = new ArrayList<>();
+  private static final ArrayList<Boolean> BYTEARRAYS_STATUS = new ArrayList<>();
 
-  private static final ArrayList<ByteArrayOutputStream> BYTESTREAMS =
-      new ArrayList<ByteArrayOutputStream>();
-  private static final ArrayList<Boolean> BYTESTREAMS_STATUS = new ArrayList<Boolean>();
+  private static final ArrayList<ByteArrayOutputStream> BYTESTREAMS = new ArrayList<>();
+  private static final ArrayList<Boolean> BYTESTREAMS_STATUS = new ArrayList<>();
 
   private ByteBufferUtilities() {}
 

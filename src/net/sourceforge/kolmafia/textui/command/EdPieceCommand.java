@@ -56,7 +56,7 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
     public String getEffect() {
       return effect;
     }
-  };
+  }
 
   private static Animal getModeFromDecision(int decision) {
     return Arrays.stream(Animal.values())

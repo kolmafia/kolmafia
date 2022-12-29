@@ -137,7 +137,7 @@ public class ClanManageFrame extends GenericFrame {
    * An internal class which represents the panel used for clan buffs in the <code>ClanManageFrame
    * </code>.
    */
-  private class ClanBuffPanel extends LabeledPanel {
+  private static class ClanBuffPanel extends LabeledPanel {
     private final boolean isBuffing;
     private final JComboBox<ClanBuffRequest> buffField;
     private final AutoHighlightTextField countField;
@@ -180,7 +180,7 @@ public class ClanManageFrame extends GenericFrame {
    * An internal class which represents the panel used for clan buffs in the <code>ClanManageFrame
    * </code>.
    */
-  private class AttackPanel extends LabeledPanel {
+  private static class AttackPanel extends LabeledPanel {
     private final JLabel nextAttack;
     private final AutoFilterComboBox<ClanWarRequest> enemyList;
 
@@ -209,7 +209,7 @@ public class ClanManageFrame extends GenericFrame {
     }
   }
 
-  private class WarfarePanel extends LabeledPanel {
+  private static class WarfarePanel extends LabeledPanel {
     private final AutoHighlightTextField goodies;
     private final AutoHighlightTextField oatmeal, recliners;
     private final AutoHighlightTextField grunts, flyers, archers;
@@ -267,7 +267,7 @@ public class ClanManageFrame extends GenericFrame {
   }
 
   /** An internal class which represents the panel used for donations to the clan coffer. */
-  private class DonationPanel extends LabeledPanel {
+  private static class DonationPanel extends LabeledPanel {
     private final AutoHighlightTextField amountField;
 
     public DonationPanel() {
@@ -296,7 +296,7 @@ public class ClanManageFrame extends GenericFrame {
     }
   }
 
-  private class StoragePanel extends ItemListManagePanel<AdventureResult> {
+  private static class StoragePanel extends ItemListManagePanel<AdventureResult> {
     public StoragePanel() {
       super((SortedListModel<AdventureResult>) KoLConstants.inventory);
       this.setButtons(
@@ -325,7 +325,7 @@ public class ClanManageFrame extends GenericFrame {
   }
 
   /** Internal class used to handle everything related to placing items into the stash. */
-  private class WithdrawPanel extends ItemListManagePanel<AdventureResult> {
+  private static class WithdrawPanel extends ItemListManagePanel<AdventureResult> {
     public WithdrawPanel() {
       super(ClanManager.getStash());
 
@@ -464,7 +464,7 @@ public class ClanManageFrame extends GenericFrame {
     }
   }
 
-  private class MemberTableModel extends ListWrapperTableModel<ProfileRequest> {
+  private static class MemberTableModel extends ListWrapperTableModel<ProfileRequest> {
     public MemberTableModel() {
       super(
           new String[] {" ", "Name", "Clan Title", "Total Karma", "Boot"},
@@ -491,7 +491,7 @@ public class ClanManageFrame extends GenericFrame {
     }
   }
 
-  private class ShowProfileListener extends ThreadedListener {
+  private static class ShowProfileListener extends ThreadedListener {
     private final ProfileRequest profile;
 
     public ShowProfileListener(final ProfileRequest profile) {
@@ -505,7 +505,7 @@ public class ClanManageFrame extends GenericFrame {
     }
   }
 
-  private class SnapshotPanel extends LabeledPanel {
+  private static class SnapshotPanel extends LabeledPanel {
     private final AutoHighlightTextField mostAscensionsBoardSizeField;
     private final AutoHighlightTextField mainBoardSizeField;
     private final AutoHighlightTextField classBoardSizeField;

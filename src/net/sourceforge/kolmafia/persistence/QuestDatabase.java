@@ -190,7 +190,7 @@ public class QuestDatabase {
   public static void reset() {
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("questslog.txt", KoLConstants.QUESTSLOG_VERSION)) {
-      ArrayList<String[]> quests = new ArrayList<String[]>();
+      ArrayList<String[]> quests = new ArrayList<>();
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
@@ -205,7 +205,7 @@ public class QuestDatabase {
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("questscouncil.txt", KoLConstants.QUESTSCOUNCIL_VERSION)) {
-      ArrayList<String[]> quests = new ArrayList<String[]>();
+      ArrayList<String[]> quests = new ArrayList<>();
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {

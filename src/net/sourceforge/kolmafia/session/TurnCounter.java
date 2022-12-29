@@ -14,7 +14,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TurnCounter implements Comparable<TurnCounter> {
-  private static final ArrayList<TurnCounter> relayCounters = new ArrayList<TurnCounter>();
+  private static final ArrayList<TurnCounter> relayCounters = new ArrayList<>();
   private static final HashSet<String> ALL_LOCATIONS = new HashSet<>();
 
   private int value;

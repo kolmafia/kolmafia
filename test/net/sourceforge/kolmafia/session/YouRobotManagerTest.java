@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
 
 public class YouRobotManagerTest {
 
-  private class TestListener implements Listener {
+  private static class TestListener implements Listener {
     private int calls = 0;
 
     public TestListener(String signal) {

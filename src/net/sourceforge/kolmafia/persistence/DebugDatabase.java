@@ -666,48 +666,33 @@ public class DebugDatabase {
   }
 
   private static boolean typesMatch(final ConsumptionType type, final ConsumptionType descType) {
-    switch (type) {
-      case NONE:
-      case FOOD_HELPER:
-      case DRINK_HELPER:
-      case STICKER:
-      case FOLDER:
-      case POKEPILL:
-        // We intentionally disallow certain items from being
-        // "used" through the GUI.
-        return descType == ConsumptionType.NONE || descType == ConsumptionType.USE;
-      case EAT:
-      case DRINK:
-      case SPLEEN:
-      case FAMILIAR_HATCHLING:
-      case FAMILIAR_EQUIPMENT:
-      case ACCESSORY:
-      case CONTAINER:
-      case HAT:
-      case PANTS:
-      case SHIRT:
-      case WEAPON:
-      case OFFHAND:
-        return descType == type;
-      case USE_MESSAGE_DISPLAY:
-      case USE:
-      case USE_MULTIPLE:
-      case USE_INFINITE:
-        return descType == ConsumptionType.USE
-            || descType == ConsumptionType.USE_MULTIPLE
-            || descType == ConsumptionType.EAT
-            || descType == ConsumptionType.DRINK
-            || descType == ConsumptionType.AVATAR_POTION
-            || descType == ConsumptionType.NONE;
-      case POTION:
-      case AVATAR_POTION:
-        return descType == ConsumptionType.POTION;
-      case CARD:
-      case EL_VIBRATO_SPHERE:
-      case ZAP:
-        return descType == ConsumptionType.NONE;
-    }
-    return true;
+    return switch (type) {
+      case NONE, FOOD_HELPER, DRINK_HELPER, STICKER, FOLDER, POKEPILL ->
+      // We intentionally disallow certain items from being
+      // "used" through the GUI.
+      descType == ConsumptionType.NONE || descType == ConsumptionType.USE;
+      case EAT,
+          DRINK,
+          SPLEEN,
+          FAMILIAR_HATCHLING,
+          FAMILIAR_EQUIPMENT,
+          ACCESSORY,
+          CONTAINER,
+          HAT,
+          PANTS,
+          SHIRT,
+          WEAPON,
+          OFFHAND -> descType == type;
+      case USE_MESSAGE_DISPLAY, USE, USE_MULTIPLE, USE_INFINITE -> descType == ConsumptionType.USE
+          || descType == ConsumptionType.USE_MULTIPLE
+          || descType == ConsumptionType.EAT
+          || descType == ConsumptionType.DRINK
+          || descType == ConsumptionType.AVATAR_POTION
+          || descType == ConsumptionType.NONE;
+      case POTION, AVATAR_POTION -> descType == ConsumptionType.POTION;
+      case CARD, EL_VIBRATO_SPHERE, ZAP -> descType == ConsumptionType.NONE;
+      default -> true;
+    };
   }
 
   private static boolean attributesMatch(
@@ -820,7 +805,7 @@ public class DebugDatabase {
 
     var quality = ConsumablesDatabase.getQuality(name);
     var descQuality = DebugDatabase.parseQuality(text);
-    if (!quality.equals(descQuality)) {
+    if (quality != descQuality) {
       report.println(
           "# *** " + name + " is quality " + quality + " but should be " + descQuality + ".");
     }
@@ -3219,27 +3204,13 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "advs":
-          advs = DebugDatabase.getNumericValue(child);
-          break;
-        case "musc":
-          musc = DebugDatabase.getNumericValue(child);
-          break;
-        case "myst":
-          myst = DebugDatabase.getNumericValue(child);
-          break;
-        case "mox":
-          mox = DebugDatabase.getNumericValue(child);
-          break;
-        case "fullness":
-          fullness = DebugDatabase.getNumericValue(child);
-          break;
-        case "level":
-          level = DebugDatabase.getNumericValue(child);
-          break;
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "advs" -> advs = DebugDatabase.getNumericValue(child);
+        case "musc" -> musc = DebugDatabase.getNumericValue(child);
+        case "myst" -> myst = DebugDatabase.getNumericValue(child);
+        case "mox" -> mox = DebugDatabase.getNumericValue(child);
+        case "fullness" -> fullness = DebugDatabase.getNumericValue(child);
+        case "level" -> level = DebugDatabase.getNumericValue(child);
       }
     }
 
@@ -3315,27 +3286,13 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "advs":
-          advs = DebugDatabase.getNumericValue(child);
-          break;
-        case "musc":
-          musc = DebugDatabase.getNumericValue(child);
-          break;
-        case "myst":
-          myst = DebugDatabase.getNumericValue(child);
-          break;
-        case "mox":
-          mox = DebugDatabase.getNumericValue(child);
-          break;
-        case "drunk":
-          drunk = DebugDatabase.getNumericValue(child);
-          break;
-        case "level":
-          level = DebugDatabase.getNumericValue(child);
-          break;
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "advs" -> advs = DebugDatabase.getNumericValue(child);
+        case "musc" -> musc = DebugDatabase.getNumericValue(child);
+        case "myst" -> myst = DebugDatabase.getNumericValue(child);
+        case "mox" -> mox = DebugDatabase.getNumericValue(child);
+        case "drunk" -> drunk = DebugDatabase.getNumericValue(child);
+        case "level" -> level = DebugDatabase.getNumericValue(child);
       }
     }
 
@@ -3454,40 +3411,20 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "cansmash":
-          cansmash = DebugDatabase.getStringValue(child).equals("y");
-          break;
-        case "confirmed":
-          confirmed = DebugDatabase.getStringValue(child).equals("y");
-          break;
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "kolid":
+        case "cansmash" -> cansmash = DebugDatabase.getStringValue(child).equals("y");
+        case "confirmed" -> confirmed = DebugDatabase.getStringValue(child).equals("y");
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "kolid" -> {
           id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
           seen.add(id);
-          break;
-        case "yield":
-          yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
-          break;
-        case "cold":
-          cold = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "hot":
-          hot = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "sleazy":
-          sleaze = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "spooky":
-          spooky = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "stinky":
-          stench = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "twinkly":
-          twinkly = !DebugDatabase.getStringValue(child).equals("0");
-          break;
+        }
+        case "yield" -> yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
+        case "cold" -> cold = !DebugDatabase.getStringValue(child).equals("0");
+        case "hot" -> hot = !DebugDatabase.getStringValue(child).equals("0");
+        case "sleazy" -> sleaze = !DebugDatabase.getStringValue(child).equals("0");
+        case "spooky" -> spooky = !DebugDatabase.getStringValue(child).equals("0");
+        case "stinky" -> stench = !DebugDatabase.getStringValue(child).equals("0");
+        case "twinkly" -> twinkly = !DebugDatabase.getStringValue(child).equals("0");
       }
     }
 

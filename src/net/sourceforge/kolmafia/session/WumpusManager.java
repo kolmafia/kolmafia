@@ -40,7 +40,7 @@ public abstract class WumpusManager {
     null, // z
   };
 
-  public static TreeMap<String, Room> rooms = new TreeMap<String, Room>();
+  public static TreeMap<String, Room> rooms = new TreeMap<>();
 
   static {
     // Initialize all rooms to unknown
@@ -591,15 +591,9 @@ public abstract class WumpusManager {
     }
 
     switch (mask) {
-      case WARN_BATS:
-        WumpusManager.knownBats(exit, ELIMINATION);
-        break;
-      case WARN_PIT:
-        WumpusManager.knownPit(exit, ELIMINATION);
-        break;
-      case WARN_WUMPUS:
-        WumpusManager.knownWumpus(exit, ELIMINATION);
-        break;
+      case WARN_BATS -> WumpusManager.knownBats(exit, ELIMINATION);
+      case WARN_PIT -> WumpusManager.knownPit(exit, ELIMINATION);
+      case WARN_WUMPUS -> WumpusManager.knownWumpus(exit, ELIMINATION);
     }
   }
 

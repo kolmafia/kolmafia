@@ -687,9 +687,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // Do anything necessary when this familiar is banished to the Terrarium
     this.active = false;
     switch (this.id) {
-      case FamiliarPool.GREY_GOOSE:
-        removeGreyGooseSkills();
-        break;
+      case FamiliarPool.GREY_GOOSE -> removeGreyGooseSkills();
     }
   }
 
@@ -697,18 +695,18 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // Do anything necessary when this familiar is removed from the Terrarium
     this.active = true;
     switch (this.id) {
-      case FamiliarPool.GREY_GOOSE:
+      case FamiliarPool.GREY_GOOSE -> {
         if (this.weight >= 6) {
           addGreyGooseSkills();
         }
-        break;
+      }
     }
   }
 
   public void setWeight(final int weight) {
     this.weight = weight;
     switch (this.id) {
-      case FamiliarPool.GREY_GOOSE:
+      case FamiliarPool.GREY_GOOSE -> {
         if (this.active) {
           if (weight >= 6) {
             addGreyGooseSkills();
@@ -716,11 +714,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
             removeGreyGooseSkills();
           }
         }
-        break;
+      }
     }
   }
 
-  private void addGreyGooseSkills() {
+  private static void addGreyGooseSkills() {
     if (KoLCharacter.inGreyYou()) {
       KoLCharacter.addAvailableCombatSkill(SkillPool.RE_PROCESS_MATTER);
     }
@@ -733,7 +731,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     KoLCharacter.addAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_POMADE);
   }
 
-  private void removeGreyGooseSkills() {
+  private static void removeGreyGooseSkills() {
     KoLCharacter.removeAvailableCombatSkill(SkillPool.RE_PROCESS_MATTER);
     KoLCharacter.removeAvailableCombatSkill(SkillPool.MEATIFY_MATTER);
     KoLCharacter.removeAvailableCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES);
@@ -771,35 +769,30 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
     if (!KoLmafia.isRefreshing()) {
       switch (this.id) {
-        case FamiliarPool.HATRACK:
+        case FamiliarPool.HATRACK -> {
           // Mad Hatrack
           EquipmentManager.updateEquipmentList(EquipmentManager.HAT);
           EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
-
-        case FamiliarPool.HAND:
+        }
+        case FamiliarPool.HAND -> {
           // Disembodied Hand
           EquipmentManager.updateEquipmentList(EquipmentManager.WEAPON);
           EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
           EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
-
-        case FamiliarPool.LEFT_HAND:
+        }
+        case FamiliarPool.LEFT_HAND -> {
           // Left-Hand Man
           EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
           EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
-
-        case FamiliarPool.SCARECROW:
+        }
+        case FamiliarPool.SCARECROW -> {
           // Fancypants Scarecrow
           EquipmentManager.updateEquipmentList(EquipmentManager.PANTS);
           EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
-
-        default:
-          // Everything else
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
+        }
+        default ->
+        // Everything else
+        EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
       }
       EquipmentManager.lockFamiliarItem();
     }
@@ -978,22 +971,21 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public boolean canCarry() {
-    switch (this.id) {
-      case FamiliarPool.DOPPEL:
-      case FamiliarPool.CHAMELEON:
-      case FamiliarPool.HATRACK:
-      case FamiliarPool.HAND:
-      case FamiliarPool.LEFT_HAND:
-      case FamiliarPool.SCARECROW:
-      case FamiliarPool.UNSPEAKACHU:
-      case FamiliarPool.STOOPER:
-      case FamiliarPool.DISGEIST:
-      case FamiliarPool.BOWLET:
-      case FamiliarPool.CORNBEEFADON:
-      case FamiliarPool.MU:
-        return false;
-    }
-    return true;
+    return switch (this.id) {
+      case FamiliarPool.DOPPEL,
+          FamiliarPool.CHAMELEON,
+          FamiliarPool.HATRACK,
+          FamiliarPool.HAND,
+          FamiliarPool.LEFT_HAND,
+          FamiliarPool.SCARECROW,
+          FamiliarPool.UNSPEAKACHU,
+          FamiliarPool.STOOPER,
+          FamiliarPool.DISGEIST,
+          FamiliarPool.BOWLET,
+          FamiliarPool.CORNBEEFADON,
+          FamiliarPool.MU -> false;
+      default -> true;
+    };
   }
 
   public static class DropInfo {
@@ -1271,15 +1263,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   /** Returns whether or not the familiar can equip any familiar items. */
   public boolean canEquipAny() {
-    switch (this.id) {
-      case FamiliarPool.CHAMELEON:
-      case FamiliarPool.GHOST_CAROLS:
-      case FamiliarPool.GHOST_CHEER:
-      case FamiliarPool.GHOST_COMMERCE:
-        return false;
-    }
-
-    return true;
+    return switch (this.id) {
+      case FamiliarPool.CHAMELEON,
+          FamiliarPool.GHOST_CAROLS,
+          FamiliarPool.GHOST_CHEER,
+          FamiliarPool.GHOST_COMMERCE -> false;
+      default -> true;
+    };
   }
 
   /** Returns whether or not the familiar can equip the given familiar item. */
@@ -1370,18 +1360,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public ConsumptionType specialEquipmentType() {
-    switch (this.id) {
-      case FamiliarPool.HATRACK:
-        return ConsumptionType.HAT;
-      case FamiliarPool.HAND:
-        return ConsumptionType.WEAPON;
-      case FamiliarPool.LEFT_HAND:
-        return ConsumptionType.OFFHAND;
-      case FamiliarPool.SCARECROW:
-        return ConsumptionType.PANTS;
-      default:
-        return ConsumptionType.NONE;
-    }
+    return switch (this.id) {
+      case FamiliarPool.HATRACK -> ConsumptionType.HAT;
+      case FamiliarPool.HAND -> ConsumptionType.WEAPON;
+      case FamiliarPool.LEFT_HAND -> ConsumptionType.OFFHAND;
+      case FamiliarPool.SCARECROW -> ConsumptionType.PANTS;
+      default -> ConsumptionType.NONE;
+    };
   }
 
   public static boolean lockableItem(final AdventureResult item) {

@@ -242,17 +242,18 @@ public class ItemManageFrame extends GenericFrame {
     }
 
     switch (pullsRemaining) {
-      case 0:
+      case 0 -> {
         ItemManageFrame.pullsRemainingLabel1.setText("No Pulls Left");
         ItemManageFrame.pullsRemainingLabel2.setText("No Pulls Left");
-        break;
-      case 1:
+      }
+      case 1 -> {
         ItemManageFrame.pullsRemainingLabel1.setText("1 Pull Left");
         ItemManageFrame.pullsRemainingLabel2.setText("1 Pull Left");
-        break;
-      default:
+      }
+      default -> {
         ItemManageFrame.pullsRemainingLabel1.setText(pullsRemaining + " Pulls Left");
         ItemManageFrame.pullsRemainingLabel2.setText(pullsRemaining + " Pulls Left");
+      }
     }
   }
 
@@ -262,7 +263,7 @@ public class ItemManageFrame extends GenericFrame {
     ItemManageFrame.pullBudgetSpinner2.setValue(value);
   }
 
-  private class JunkItemsPanel extends OverlapPanel {
+  private static class JunkItemsPanel extends OverlapPanel {
     public JunkItemsPanel() {
       super("cleanup", "help", (LockableListModel<AdventureResult>) KoLConstants.junkList, true);
     }
@@ -279,7 +280,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class SingletonItemsPanel extends OverlapPanel {
+  private static class SingletonItemsPanel extends OverlapPanel {
     public SingletonItemsPanel() {
       super(
           "closet", "help", (LockableListModel<AdventureResult>) KoLConstants.singletonList, true);
@@ -305,7 +306,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class MementoItemsPanel extends OverlapPanel {
+  private static class MementoItemsPanel extends OverlapPanel {
     public MementoItemsPanel() {
       super("closet", "help", (LockableListModel<AdventureResult>) KoLConstants.mementoList, true);
     }
@@ -372,7 +373,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
+  private static class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
     private boolean isPullingForUse = false;
     private final EmptyStorageButton emptyButton;
 
@@ -441,7 +442,7 @@ public class ItemManageFrame extends GenericFrame {
       }
     }
 
-    private class EmptyStorageButton extends InvocationButton implements Listener {
+    private static class EmptyStorageButton extends InvocationButton implements Listener {
       public EmptyStorageButton() {
         super("empty", StorageRequest.class, "emptyStorage");
         NamedListenerRegistry.registerNamedListener("(hardcore)", this);
@@ -482,18 +483,10 @@ public class ItemManageFrame extends GenericFrame {
 
       ConsumptionType consumptionType =
           ItemDatabase.getConsumptionType(((AdventureResult) item).getItemId());
-      switch (consumptionType) {
-        case HAT:
-        case PANTS:
-        case SHIRT:
-        case CONTAINER:
-        case WEAPON:
-        case OFFHAND:
-          return 1;
-
-        default:
-          return super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
-      }
+      return switch (consumptionType) {
+        case HAT, PANTS, SHIRT, CONTAINER, WEAPON, OFFHAND -> 1;
+        default -> super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
+      };
     }
 
     private AdventureResult[] pullItems(final boolean isPullingForUse) {
@@ -548,7 +541,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class FreePullsPanel extends InventoryPanel<AdventureResult> {
+  private static class FreePullsPanel extends InventoryPanel<AdventureResult> {
     public FreePullsPanel() {
       super(
           "pull item",
@@ -592,7 +585,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class ViewOnlyPanel extends InventoryPanel<AdventureResult> {
+  private static class ViewOnlyPanel extends InventoryPanel<AdventureResult> {
     public ViewOnlyPanel(final LockableListModel<AdventureResult> elementModel) {
       super(elementModel);
     }

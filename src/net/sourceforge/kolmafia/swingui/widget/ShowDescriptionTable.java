@@ -90,7 +90,7 @@ public class ShowDescriptionTable<E> extends JXTable {
   private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
   private final Comparator<String[]> arrayComparator =
-      new Comparator<String[]>() {
+      new Comparator<>() {
         @Override
         public int compare(String[] o1, String[] o2) {
           if (o1.length != 2 || o2.length != 2) {
@@ -420,7 +420,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     }
   }
 
-  public class ClipboardHandler extends TransferHandler {
+  public static class ClipboardHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent c) {
       JTable t = (JTable) c;
@@ -432,9 +432,9 @@ public class ShowDescriptionTable<E> extends JXTable {
       return COPY;
     }
 
-    class Selection implements Transferable {
+    static class Selection implements Transferable {
       private final JTable delegate;
-      private final List<DataFlavor> flavors = new ArrayList<DataFlavor>();
+      private final List<DataFlavor> flavors = new ArrayList<>();
 
       public Selection(JTable t) {
         this.flavors.add(DataFlavor.stringFlavor);
@@ -1102,7 +1102,7 @@ public class ShowDescriptionTable<E> extends JXTable {
 
   public void setHeaderStates(String rawPref) {
     List<TableColumn> cols = this.getColumns(true);
-    ArrayList<String[]> sortCols = new ArrayList<String[]>();
+    ArrayList<String[]> sortCols = new ArrayList<>();
 
     // rawPref is a pipe-delimited list of (header name):(view index)
     String[] split1 = rawPref.split("\\|");

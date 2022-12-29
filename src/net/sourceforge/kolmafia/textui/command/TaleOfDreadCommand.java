@@ -45,37 +45,30 @@ public class TaleOfDreadCommand extends AbstractCommand {
     String element = split[0];
     String monster = split[1];
 
-    if (monster.equals("bugbear")) {
-      story = 1;
-    } else if (monster.equals("werewolf")) {
-      story = 6;
-    } else if (monster.equals("zombie")) {
-      story = 11;
-    } else if (monster.equals("ghost")) {
-      story = 16;
-    } else if (monster.equals("vampire")) {
-      story = 21;
-    } else if (monster.equals("skeleton")) {
-      story = 26;
-    } else {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "What kind of dreadful monster is a '" + monster + "'?");
-      return;
+    switch (monster) {
+      case "bugbear" -> story = 1;
+      case "werewolf" -> story = 6;
+      case "zombie" -> story = 11;
+      case "ghost" -> story = 16;
+      case "vampire" -> story = 21;
+      case "skeleton" -> story = 26;
+      default -> {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "What kind of dreadful monster is a '" + monster + "'?");
+        return;
+      }
     }
 
-    if (element.equals("hot")) {
-      story += 0;
-    } else if (element.equals("cold")) {
-      story += 1;
-    } else if (element.equals("spooky")) {
-      story += 2;
-    } else if (element.equals("stench")) {
-      story += 3;
-    } else if (element.equals("sleaze")) {
-      story += 4;
-    } else {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "What kind of element is '" + element + "'?");
-      return;
+    switch (element) {
+      case "hot" -> story += 0;
+      case "cold" -> story += 1;
+      case "spooky" -> story += 2;
+      case "stench" -> story += 3;
+      case "sleaze" -> story += 4;
+      default -> {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "What kind of element is '" + element + "'?");
+        return;
+      }
     }
 
     // inv_use.php?pwd&which=3&whichitem=6423&ajax=1

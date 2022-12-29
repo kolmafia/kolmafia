@@ -1066,27 +1066,13 @@ public class CampgroundRequest extends GenericRequest {
     if (jungMatcher.find()) {
       int jungLink = StringUtilities.parseInt(jungMatcher.group(1));
       switch (jungLink) {
-        case 1:
-          CampgroundRequest.setCampgroundItem(ItemPool.SUSPICIOUS_JAR, 1);
-          break;
-        case 2:
-          CampgroundRequest.setCampgroundItem(ItemPool.GOURD_JAR, 1);
-          break;
-        case 3:
-          CampgroundRequest.setCampgroundItem(ItemPool.MYSTIC_JAR, 1);
-          break;
-        case 4:
-          CampgroundRequest.setCampgroundItem(ItemPool.OLD_MAN_JAR, 1);
-          break;
-        case 5:
-          CampgroundRequest.setCampgroundItem(ItemPool.ARTIST_JAR, 1);
-          break;
-        case 6:
-          CampgroundRequest.setCampgroundItem(ItemPool.MEATSMITH_JAR, 1);
-          break;
-        case 7:
-          CampgroundRequest.setCampgroundItem(ItemPool.JICK_JAR, 1);
-          break;
+        case 1 -> CampgroundRequest.setCampgroundItem(ItemPool.SUSPICIOUS_JAR, 1);
+        case 2 -> CampgroundRequest.setCampgroundItem(ItemPool.GOURD_JAR, 1);
+        case 3 -> CampgroundRequest.setCampgroundItem(ItemPool.MYSTIC_JAR, 1);
+        case 4 -> CampgroundRequest.setCampgroundItem(ItemPool.OLD_MAN_JAR, 1);
+        case 5 -> CampgroundRequest.setCampgroundItem(ItemPool.ARTIST_JAR, 1);
+        case 6 -> CampgroundRequest.setCampgroundItem(ItemPool.MEATSMITH_JAR, 1);
+        case 7 -> CampgroundRequest.setCampgroundItem(ItemPool.JICK_JAR, 1);
       }
     } else {
       Preferences.setBoolean("_psychoJarUsed", false);
@@ -1303,64 +1289,30 @@ public class CampgroundRequest extends GenericRequest {
 
     int itemId = -1;
     switch (dwelling) {
-      case 0:
+      case 0 -> {
         // placeholder for "the ground"
         CampgroundRequest.currentDwelling = BIG_ROCK;
         CampgroundRequest.currentDwellingLevel = 0;
-        break;
-      case 1:
-        itemId = ItemPool.NEWBIESPORT_TENT;
-        break;
-      case 2:
-        itemId = ItemPool.BARSKIN_TENT;
-        break;
-      case 3:
-        itemId = ItemPool.COTTAGE;
-        break;
-      case 4:
-        itemId = ItemPool.HOUSE;
-        break;
-      case 5:
-        itemId = ItemPool.SANDCASTLE;
-        break;
-      case 6:
-        itemId = ItemPool.TWIG_HOUSE;
-        break;
-      case 7:
-        itemId = ItemPool.HOBO_FORTRESS;
-        break;
-      case 8:
-        itemId = ItemPool.GINGERBREAD_HOUSE;
-        break;
-      case 9:
-        itemId = ItemPool.BRICKO_PYRAMID;
-        break;
-      case 10:
-        itemId = ItemPool.GINORMOUS_PUMPKIN;
-        break;
-      case 11:
-        itemId = ItemPool.GIANT_FARADAY_CAGE;
-        break;
-      case 12:
-        itemId = ItemPool.SNOW_FORT;
-        break;
-      case 13:
-        itemId = ItemPool.ELEVENT;
-        break;
-      case 14:
-        itemId = ItemPool.RESIDENCE_CUBE;
-        break;
-      case 15:
-        itemId = ItemPool.GIANT_PILGRIM_HAT;
-        break;
-      case 16:
-        itemId = ItemPool.HOUSE_SIZED_MUSHROOM;
-        break;
-      default:
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR,
-            "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!");
-        break;
+      }
+      case 1 -> itemId = ItemPool.NEWBIESPORT_TENT;
+      case 2 -> itemId = ItemPool.BARSKIN_TENT;
+      case 3 -> itemId = ItemPool.COTTAGE;
+      case 4 -> itemId = ItemPool.HOUSE;
+      case 5 -> itemId = ItemPool.SANDCASTLE;
+      case 6 -> itemId = ItemPool.TWIG_HOUSE;
+      case 7 -> itemId = ItemPool.HOBO_FORTRESS;
+      case 8 -> itemId = ItemPool.GINGERBREAD_HOUSE;
+      case 9 -> itemId = ItemPool.BRICKO_PYRAMID;
+      case 10 -> itemId = ItemPool.GINORMOUS_PUMPKIN;
+      case 11 -> itemId = ItemPool.GIANT_FARADAY_CAGE;
+      case 12 -> itemId = ItemPool.SNOW_FORT;
+      case 13 -> itemId = ItemPool.ELEVENT;
+      case 14 -> itemId = ItemPool.RESIDENCE_CUBE;
+      case 15 -> itemId = ItemPool.GIANT_PILGRIM_HAT;
+      case 16 -> itemId = ItemPool.HOUSE_SIZED_MUSHROOM;
+      default -> KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!");
     }
 
     if (itemId != -1) {
@@ -1607,82 +1559,64 @@ public class CampgroundRequest extends GenericRequest {
   }
 
   public static boolean isDwelling(final int itemId) {
-    switch (itemId) {
-      case ItemPool.NEWBIESPORT_TENT:
-      case ItemPool.BARSKIN_TENT:
-      case ItemPool.COTTAGE:
-      case ItemPool.BRICKO_PYRAMID:
-      case ItemPool.HOUSE:
-      case ItemPool.SANDCASTLE:
-      case ItemPool.TWIG_HOUSE:
-      case ItemPool.GINGERBREAD_HOUSE:
-      case ItemPool.HOBO_FORTRESS:
-      case ItemPool.GINORMOUS_PUMPKIN:
-      case ItemPool.GIANT_FARADAY_CAGE:
-      case ItemPool.SNOW_FORT:
-      case ItemPool.ELEVENT:
-      case ItemPool.RESIDENCE_CUBE:
-      case ItemPool.GIANT_PILGRIM_HAT:
-      case ItemPool.HOUSE_SIZED_MUSHROOM:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.NEWBIESPORT_TENT,
+          ItemPool.BARSKIN_TENT,
+          ItemPool.COTTAGE,
+          ItemPool.BRICKO_PYRAMID,
+          ItemPool.HOUSE,
+          ItemPool.SANDCASTLE,
+          ItemPool.TWIG_HOUSE,
+          ItemPool.GINGERBREAD_HOUSE,
+          ItemPool.HOBO_FORTRESS,
+          ItemPool.GINORMOUS_PUMPKIN,
+          ItemPool.GIANT_FARADAY_CAGE,
+          ItemPool.SNOW_FORT,
+          ItemPool.ELEVENT,
+          ItemPool.RESIDENCE_CUBE,
+          ItemPool.GIANT_PILGRIM_HAT,
+          ItemPool.HOUSE_SIZED_MUSHROOM -> true;
+      default -> false;
+    };
   }
 
   public static int dwellingLevel(final int itemId) {
-    switch (itemId) {
-      case ItemPool.NEWBIESPORT_TENT:
-        return 1;
-      case ItemPool.BARSKIN_TENT:
-        return 2;
-      case ItemPool.COTTAGE:
-        return 3;
-      case ItemPool.BRICKO_PYRAMID:
-        return 4;
-      case ItemPool.HOUSE:
-        return 5;
-      case ItemPool.SANDCASTLE:
-        return 6;
-      case ItemPool.GINORMOUS_PUMPKIN:
-        return 7;
-      case ItemPool.TWIG_HOUSE:
-        return 8;
-      case ItemPool.GINGERBREAD_HOUSE:
-        return 9;
-      case ItemPool.HOBO_FORTRESS:
-        return 10;
-      case ItemPool.GIANT_FARADAY_CAGE:
-        return 11;
-      case ItemPool.SNOW_FORT:
-        return 12;
-      case ItemPool.ELEVENT:
-        return 13;
-      case ItemPool.RESIDENCE_CUBE:
-        return 14;
-      case ItemPool.GIANT_PILGRIM_HAT:
-        return 15;
-      case ItemPool.HOUSE_SIZED_MUSHROOM:
-        return 16;
-    }
-    return 0;
+    return switch (itemId) {
+      case ItemPool.NEWBIESPORT_TENT -> 1;
+      case ItemPool.BARSKIN_TENT -> 2;
+      case ItemPool.COTTAGE -> 3;
+      case ItemPool.BRICKO_PYRAMID -> 4;
+      case ItemPool.HOUSE -> 5;
+      case ItemPool.SANDCASTLE -> 6;
+      case ItemPool.GINORMOUS_PUMPKIN -> 7;
+      case ItemPool.TWIG_HOUSE -> 8;
+      case ItemPool.GINGERBREAD_HOUSE -> 9;
+      case ItemPool.HOBO_FORTRESS -> 10;
+      case ItemPool.GIANT_FARADAY_CAGE -> 11;
+      case ItemPool.SNOW_FORT -> 12;
+      case ItemPool.ELEVENT -> 13;
+      case ItemPool.RESIDENCE_CUBE -> 14;
+      case ItemPool.GIANT_PILGRIM_HAT -> 15;
+      case ItemPool.HOUSE_SIZED_MUSHROOM -> 16;
+      default -> 0;
+    };
   }
 
   public static boolean isBedding(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BEANBAG_CHAIR:
-      case ItemPool.GAUZE_HAMMOCK:
-      case ItemPool.LAZYBONES_RECLINER:
-      case ItemPool.SLEEPING_STOCKING:
-      case ItemPool.HOT_BEDDING:
-      case ItemPool.COLD_BEDDING:
-      case ItemPool.STENCH_BEDDING:
-      case ItemPool.SPOOKY_BEDDING:
-      case ItemPool.SLEAZE_BEDDING:
-      case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.BEANBAG_CHAIR,
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.LAZYBONES_RECLINER,
+          ItemPool.SLEEPING_STOCKING,
+          ItemPool.HOT_BEDDING,
+          ItemPool.COLD_BEDDING,
+          ItemPool.STENCH_BEDDING,
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.SALTWATERBED,
+          ItemPool.SPIRIT_BED -> true;
+      default -> false;
+    };
   }
 
   public static boolean isWorkshedItem(final int itemId) {
@@ -1838,37 +1772,45 @@ public class CampgroundRequest extends GenericRequest {
 
     String message = null;
 
-    if (action.equals("garden")) {
-      message = "Harvesting your garden";
-    } else if (action.equals("spinningwheel")) {
-      message = "Spinning Meat from air";
-    } else if (action.equals("dnapotion")) {
-      message = "Making a Gene Tonic";
-    } else if (action.equals("dnainject")) {
-      message = "Hybridizing yourself";
-    } else if (action.equals("rest")) {
-      message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
-    } else if (action.equals("witchess")) {
-      KoLAdventure.lastVisitedLocation = null;
-      KoLAdventure.lastLocationName = null;
-      KoLAdventure.lastLocationURL = urlString;
-      KoLAdventure.setLastAdventure("None");
-      KoLAdventure.setNextAdventure("None");
-      message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
-    } else if (action.equals("fuelconvertor")) {
-      Matcher fuelMatcher = FUEL_PATTERN_3.matcher(urlString);
-      if (fuelMatcher.find()) {
-        int qty = StringUtilities.parseInt(fuelMatcher.group(1));
-        int itemId = StringUtilities.parseInt(fuelMatcher.group(2));
-        if (qty > 1) {
-          message = "Converting " + qty + " " + ItemDatabase.getPluralName(itemId) + " into Fuel";
-        } else {
-          message = "Converting " + ItemDatabase.getItemName(itemId) + " into Fuel";
+    switch (action) {
+      case "garden":
+        message = "Harvesting your garden";
+        break;
+      case "spinningwheel":
+        message = "Spinning Meat from air";
+        break;
+      case "dnapotion":
+        message = "Making a Gene Tonic";
+        break;
+      case "dnainject":
+        message = "Hybridizing yourself";
+        break;
+      case "rest":
+        message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
+        break;
+      case "witchess":
+        KoLAdventure.lastVisitedLocation = null;
+        KoLAdventure.lastLocationName = null;
+        KoLAdventure.lastLocationURL = urlString;
+        KoLAdventure.setLastAdventure("None");
+        KoLAdventure.setNextAdventure("None");
+        message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
+        break;
+      case "fuelconvertor":
+        Matcher fuelMatcher = FUEL_PATTERN_3.matcher(urlString);
+        if (fuelMatcher.find()) {
+          int qty = StringUtilities.parseInt(fuelMatcher.group(1));
+          int itemId = StringUtilities.parseInt(fuelMatcher.group(2));
+          if (qty > 1) {
+            message = "Converting " + qty + " " + ItemDatabase.getPluralName(itemId) + " into Fuel";
+          } else {
+            message = "Converting " + ItemDatabase.getItemName(itemId) + " into Fuel";
+          }
         }
-      }
-    } else {
-      // Unknown action.
-      return false;
+        break;
+      default:
+        // Unknown action.
+        return false;
     }
 
     RequestLogger.printLine("");

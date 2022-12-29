@@ -64,19 +64,19 @@ public class GuildUnlockManager {
     AdventureResult item;
 
     switch (stat) {
-      case MUSCLE:
+      case MUSCLE -> {
         locationName = "Outskirts of The Knob";
         snarfblat = AdventurePool.OUTSKIRTS_OF_THE_KNOB;
         choice = "543";
         item = ItemPool.get(ItemPool.BIG_KNOB_SAUSAGE, 1);
-        break;
-      case MYSTICALITY:
+      }
+      case MYSTICALITY -> {
         locationName = "Haunted Pantry";
         snarfblat = AdventurePool.HAUNTED_PANTRY;
         choice = "544";
         item = ItemPool.get(ItemPool.EXORCISED_SANDWICH, 1);
-        break;
-      case MOXIE:
+      }
+      case MOXIE -> {
         locationName = "Sleazy Back Alley";
         snarfblat = AdventurePool.SLEAZY_BACK_ALLEY;
         choice = "542";
@@ -85,10 +85,11 @@ public class GuildUnlockManager {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Put on some pants and try again.");
           return;
         }
-        break;
-      default:
+      }
+      default -> {
         KoLmafia.updateDisplay(MafiaState.ERROR, "What class are you?");
         return;
+      }
     }
 
     // Make an adventure request

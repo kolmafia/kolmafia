@@ -223,41 +223,39 @@ public class FloristRequest extends GenericRequest {
     }
 
     switch (FloristRequest.getOption(urlString)) {
-      case 1:
-        {
-          int plant = FloristRequest.getPlant(urlString);
-          if (plant == 0) {
-            return;
-          }
-
-          // The location is already full of plants
-          if (responseText.contains("You need to dig up a space.")) {
-            return;
-          }
-
-          // It's the wrong location type for that plant
-          if (responseText.contains("Invalid plant")) {
-            return;
-          }
-
-          String location = FloristRequest.getLocation(responseText);
-          if (location == null) {
-            // Something went wrong and somehow wasn't caught by the previous cases
-            return;
-          }
-          FloristRequest.addPlant(location, plant);
+      case 1 -> {
+        int plant = FloristRequest.getPlant(urlString);
+        if (plant == 0) {
           return;
         }
 
-      case 2:
+        // The location is already full of plants
+        if (responseText.contains("You need to dig up a space.")) {
+          return;
+        }
+
+        // It's the wrong location type for that plant
+        if (responseText.contains("Invalid plant")) {
+          return;
+        }
+
+        String location = FloristRequest.getLocation(responseText);
+        if (location == null) {
+          // Something went wrong and somehow wasn't caught by the previous cases
+          return;
+        }
+        FloristRequest.addPlant(location, plant);
+        return;
+      }
+      case 2 -> {
         if (responseText.contains("You dig up a plant.")) {
           String location = FloristRequest.getLocation(responseText);
           int digIndex = FloristRequest.getDigIndex(urlString);
           FloristRequest.digPlant(location, digIndex);
         }
         return;
-
-      case 4:
+      }
+      case 4 -> {
         if (responseText.contains("The Florist Friar's Cottage")) {
           FloristRequest.setHaveFlorist(true);
         }
@@ -281,6 +279,7 @@ public class FloristRequest extends GenericRequest {
           FloristRequest.floristPlants.put(location, plantList);
         }
         return;
+      }
     }
   }
 

@@ -36,7 +36,7 @@ public class UneffectRequest extends GenericRequest {
   private final boolean isTimer;
   private final AdventureResult effect;
 
-  private static final Set<AdventureResult> currentEffectRemovals = new HashSet<AdventureResult>();
+  private static final Set<AdventureResult> currentEffectRemovals = new HashSet<>();
 
   private static final AdventureResult USED_REMEDY = ItemPool.get(ItemPool.REMEDY, -1);
   private static final AdventureResult USED_CURE_ALL = ItemPool.get(ItemPool.ANCIENT_CURE_ALL, -1);
@@ -108,28 +108,26 @@ public class UneffectRequest extends GenericRequest {
     // Deep-Tainted Mind
     // Timer effects
 
-    switch (effectId) {
-      case -1:
-        // So, what about the following?
-      case EffectPool.CURSED_BY_RNG:
-      case EffectPool.FORM_OF_ROACH:
-      case EffectPool.SHAPE_OF_MOLE:
-      case EffectPool.FORM_OF_BIRD:
-
-      case EffectPool.GOOFBALL_WITHDRAWAL:
-      case EffectPool.SOUL_CRUSHING_HEADACHE:
-      case EffectPool.COATED_IN_SLIME:
-      case EffectPool.EVERYTHING_LOOKS_YELLOW:
-      case EffectPool.EVERYTHING_LOOKS_BLUE:
-      case EffectPool.EVERYTHING_LOOKS_RED:
-      case EffectPool.DEEP_TAINTED_MIND:
-      case EffectPool.SPIRIT_PARIAH:
-      case EffectPool.BORED_WITH_EXPLOSIONS:
-      case EffectPool.FEELING_QUEASY:
-        return false;
-      default:
-        return true;
-    }
+    return switch (effectId) {
+      case -1,
+          // So, what about the following?
+          EffectPool.CURSED_BY_RNG,
+          EffectPool.FORM_OF_ROACH,
+          EffectPool.SHAPE_OF_MOLE,
+          EffectPool.FORM_OF_BIRD,
+          // Known to be unremovable
+          EffectPool.GOOFBALL_WITHDRAWAL,
+          EffectPool.SOUL_CRUSHING_HEADACHE,
+          EffectPool.COATED_IN_SLIME,
+          EffectPool.EVERYTHING_LOOKS_YELLOW,
+          EffectPool.EVERYTHING_LOOKS_BLUE,
+          EffectPool.EVERYTHING_LOOKS_RED,
+          EffectPool.DEEP_TAINTED_MIND,
+          EffectPool.SPIRIT_PARIAH,
+          EffectPool.BORED_WITH_EXPLOSIONS,
+          EffectPool.FEELING_QUEASY -> false;
+      default -> true;
+    };
   }
 
   public static final boolean isShruggable(final int effectId) {
@@ -187,24 +185,23 @@ public class UneffectRequest extends GenericRequest {
   }
 
   public static final boolean needsCocoa(final int effectId) {
-    switch (effectId) {
-      case EffectPool.CURSE_OF_CLUMSINESS:
-      case EffectPool.CURSE_OF_DULLNESS:
-      case EffectPool.CURSE_OF_EXPOSURE:
-      case EffectPool.CURSE_OF_FORGETFULNESS:
-      case EffectPool.CURSE_OF_HOLLOWNESS:
-      case EffectPool.CURSE_OF_IMPOTENCE:
-      case EffectPool.CURSE_OF_LONELINESS:
-      case EffectPool.CURSE_OF_MISFORTUNE:
-      case EffectPool.CURSE_OF_SLUGGISHNESS:
-      case EffectPool.CURSE_OF_VULNERABILITY:
-      case EffectPool.CURSE_OF_WEAKNESS:
-      case EffectPool.TOUCHED_BY_A_GHOST:
-      case EffectPool.CHILLED_TO_THE_BONE:
-      case EffectPool.NAUSEATED:
-        return true;
-    }
-    return false;
+    return switch (effectId) {
+      case EffectPool.CURSE_OF_CLUMSINESS,
+          EffectPool.CURSE_OF_DULLNESS,
+          EffectPool.CURSE_OF_EXPOSURE,
+          EffectPool.CURSE_OF_FORGETFULNESS,
+          EffectPool.CURSE_OF_HOLLOWNESS,
+          EffectPool.CURSE_OF_IMPOTENCE,
+          EffectPool.CURSE_OF_LONELINESS,
+          EffectPool.CURSE_OF_MISFORTUNE,
+          EffectPool.CURSE_OF_SLUGGISHNESS,
+          EffectPool.CURSE_OF_VULNERABILITY,
+          EffectPool.CURSE_OF_WEAKNESS,
+          EffectPool.TOUCHED_BY_A_GHOST,
+          EffectPool.CHILLED_TO_THE_BONE,
+          EffectPool.NAUSEATED -> true;
+      default -> false;
+    };
   }
 
   public static final boolean isRemovableIntrinsic(final int effectId) {
@@ -298,17 +295,15 @@ public class UneffectRequest extends GenericRequest {
   }
 
   private static Set<Entry<String, Set<Integer>>> REMOVABLE_BY_SKILL;
-  private static final Map<String, Set<Integer>> removeWithSkillMap =
-      new LinkedHashMap<String, Set<Integer>>();
+  private static final Map<String, Set<Integer>> removeWithSkillMap = new LinkedHashMap<>();
 
   private static Set<Entry<Integer, Set<Integer>>> REMOVABLE_BY_ITEM;
-  private static final Map<Integer, Set<Integer>> removeWithItemMap =
-      new LinkedHashMap<Integer, Set<Integer>>();
+  private static final Map<Integer, Set<Integer>> removeWithItemMap = new LinkedHashMap<>();
 
   public static final void reset() {
     Set<Integer> removableEffects;
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithItemMap.put(ItemPool.ANTIDOTE, removableEffects);
     removableEffects.add(EffectPool.HARDLY_POISONED);
     removableEffects.add(EffectPool.MAJORLY_POISONED);
@@ -316,7 +311,7 @@ public class UneffectRequest extends GenericRequest {
     removableEffects.add(EffectPool.SOMEWHAT_POISONED);
     removableEffects.add(EffectPool.REALLY_QUITE_POISONED);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithItemMap.put(ItemPool.TINY_HOUSE, removableEffects);
     removableEffects.add(EffectPool.BEATEN_UP);
     removableEffects.add(EffectPool.CONFUSED);
@@ -324,15 +319,15 @@ public class UneffectRequest extends GenericRequest {
     removableEffects.add(EffectPool.SUNBURNED);
     removableEffects.add(EffectPool.WUSSINESS);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithItemMap.put(ItemPool.TEARS, removableEffects);
     removableEffects.add(EffectPool.BEATEN_UP);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithItemMap.put(ItemPool.TRIPPLES, removableEffects);
     removableEffects.add(EffectPool.BEATEN_UP);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithItemMap.put(ItemPool.HOT_DREADSYLVANIAN_COCOA, removableEffects);
     removableEffects.add(EffectPool.TOUCHED_BY_A_GHOST);
     removableEffects.add(EffectPool.CHILLED_TO_THE_BONE);
@@ -351,7 +346,7 @@ public class UneffectRequest extends GenericRequest {
 
     UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Tongue of the Walrus", removableEffects);
     removableEffects.add(EffectPool.AXE_WOUND);
     removableEffects.add(EffectPool.BEATEN_UP);
@@ -360,7 +355,7 @@ public class UneffectRequest extends GenericRequest {
     removableEffects.add(EffectPool.MISSING_FINGERS);
     removableEffects.add(EffectPool.SUNBURNED);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Disco Nap", removableEffects);
     removableEffects.add(EffectPool.CONFUSED);
     removableEffects.add(EffectPool.EMBARRASSED);
@@ -387,7 +382,7 @@ public class UneffectRequest extends GenericRequest {
     }
 
     // If it can be removed by Shake It Off, it can also be removed by Hot Tub
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Shake It Off", removableEffects);
     removableEffects.add(EffectPool.A_REVOLUTION_IN_YOUR_MOUTH);
     removableEffects.add(EffectPool.AFFRONTED_DECENCY);
@@ -433,16 +428,16 @@ public class UneffectRequest extends GenericRequest {
     removableEffects.add(EffectPool.TWICE_CURSED);
     removableEffects.add(EffectPool.WUSSINESS);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Pep Talk", removableEffects);
     removableEffects.add(EffectPool.OVERCONFIDENT);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Blood Sugar Sauce Magic", removableEffects);
     removableEffects.add(EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE);
     removableEffects.add(EffectPool.BLOOD_SUGAR_SAUCE_MAGIC);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Spirit of Nothing", removableEffects);
     removableEffects.add(EffectPool.SPIRIT_OF_CAYENNE);
     removableEffects.add(EffectPool.SPIRIT_OF_PEPPERMINT);
@@ -450,27 +445,27 @@ public class UneffectRequest extends GenericRequest {
     removableEffects.add(EffectPool.SPIRIT_OF_WORMWOOD);
     removableEffects.add(EffectPool.SPIRIT_OF_BACON_GREASE);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Iron Palm Technique", removableEffects);
     removableEffects.add(EffectPool.IRON_PALMS);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Wolf Form", removableEffects);
     removableEffects.add(EffectPool.WOLF_FORM);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Mist Form", removableEffects);
     removableEffects.add(EffectPool.MIST_FORM);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Flock of Bats Form", removableEffects);
     removableEffects.add(EffectPool.BATS_FORM);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Absorb Cowrruption", removableEffects);
     removableEffects.add(EffectPool.COWRRUPTION);
 
-    removableEffects = new HashSet<Integer>();
+    removableEffects = new HashSet<>();
     removeWithSkillMap.put("Gelatinous Reconstruction", removableEffects);
     removableEffects.add(EffectPool.BEATEN_UP);
 

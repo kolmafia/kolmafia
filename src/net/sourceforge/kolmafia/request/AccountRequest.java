@@ -119,27 +119,34 @@ public class AccountRequest extends PasswordHashRequest {
 
   private static void parseOptionTab(final String location, final String responseText) {
     switch (AccountRequest.getTab(location)) {
-      case INTERFACE:
+      case INTERFACE -> {
         AccountRequest.parseInterfaceOptions(responseText);
         return;
-      case INVENTORY:
+      }
+      case INVENTORY -> {
         AccountRequest.parseInventoryOptions(responseText);
         return;
-      case CHAT:
+      }
+      case CHAT -> {
         AccountRequest.parseChatOptions(responseText);
         return;
-      case COMBAT:
+      }
+      case COMBAT -> {
         AccountRequest.parseCombatOptions(responseText);
         return;
-      case ACCOUNT:
+      }
+      case ACCOUNT -> {
         AccountRequest.parseAccountOptions(responseText);
         return;
-      case PROFILE:
+      }
+      case PROFILE -> {
         AccountRequest.parseProfileOptions(responseText);
         return;
-      case PRIVACY:
+      }
+      case PRIVACY -> {
         AccountRequest.parsePrivacyOptions(responseText);
         return;
+      }
     }
   }
 

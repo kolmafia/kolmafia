@@ -120,7 +120,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_TOKENS = "confirm7";
   private static final String CONFIRM_SEAL = "confirm8";
   private static final String CONFIRM_ARCADE = "confirm9";
-  private static final String CONFIRM_KUNGFU = "confirm10";
+  static final String CONFIRM_KUNGFU = "confirm10";
   private static final String CONFIRM_POOL_SKILL = "confirm11";
   public static final String CONFIRM_WINEGLASS = "confirm12";
   private static final String CONFIRM_COLOSSEUM = "confirm13";
@@ -790,15 +790,13 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     int outfitId = outfit.getOutfitId();
-    switch (outfitId) {
-      case 32:
-        // War Hippy Fatigues
-      case 33:
-        // Frat Warrior Fatigues
-        return checkBattle(outfitId);
-    }
-
-    return false;
+    return switch (outfitId) {
+      case 32, 33 ->
+      // War Hippy Fatigues
+      // Frat Warrior Fatigues
+      checkBattle(outfitId);
+      default -> false;
+    };
   }
 
   public boolean sendBreakPrismWarning(final String urlString) {
@@ -1092,21 +1090,21 @@ public class RelayRequest extends PasswordHashRequest {
     String opponent = null;
 
     switch (lastRound % 3) {
-      case 0:
+      case 0 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_DRAGNET, 1);
         image = "dragnet.gif";
         opponent = lastRound == 12 ? "Georgepaul, the Balldodger" : "a Mer-kin balldodger";
-        break;
-      case 1:
+      }
+      case 1 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_SWITCHBLADE, 1);
         image = "switchblade.gif";
         opponent = lastRound == 13 ? "Johnringo, the Netdragger" : "a Mer-kin netdragger";
-        break;
-      case 2:
+      }
+      case 2 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_DODGEBALL, 1);
         image = "dodgeball.gif";
         opponent = lastRound == 14 ? "Ringogeorge, the Bladeswitcher" : "a Mer-kin bladeswitcher";
-        break;
+      }
     }
 
     // If you are equipped with the correct weapon, nothing to warn about
@@ -2251,13 +2249,14 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendKungFuWarning() {
+  boolean sendKungFuWarning() {
     if (this.getFormField(CONFIRM_KUNGFU) != null) {
       return false;
     }
 
-    // If you don't have the first Kung Fu effect active, there's nothing to warn about
-    if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.KUNG_FU_FIGHTING))) {
+    // If you don't have the first Kung Fu intrinsic active, there's nothing to warn about
+    int index = KoLConstants.activeEffects.indexOf(EffectPool.get(EffectPool.KUNG_FU_FIGHTING));
+    if (index == -1 || KoLConstants.activeEffects.get(index).getCount() < Integer.MAX_VALUE) {
       return false;
     }
 
@@ -3756,17 +3755,13 @@ public class RelayRequest extends PasswordHashRequest {
       }
       image = expired.getImage();
       switch (expired.getLabel()) {
-        case "Spookyraven Lights Out":
-          lights = true;
-          break;
-        case "Vote Monster":
-          voteMonster = true;
-          break;
+        case "Spookyraven Lights Out" -> lights = true;
+        case "Vote Monster" -> voteMonster = true;
       }
       msg.append("The ");
       msg.append(expired.getLabel());
       switch (remain) {
-        case 0:
+        case 0 -> {
           msg.append(" counter has expired");
           if (isSkill) {
             msg.append(". Since the ");
@@ -3775,16 +3770,14 @@ public class RelayRequest extends PasswordHashRequest {
           } else {
             msg.append(", so you may wish to adventure somewhere else at this time.");
           }
-          break;
-        case 1:
-          msg.append(
-              " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
-          break;
-        default:
+        }
+        case 1 -> msg.append(
+            " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
+        default -> {
           msg.append(" counter will expire after ");
           msg.append(remain);
           msg.append(" more turns, so you may wish to adventure somewhere else for those turns.");
-          break;
+        }
       }
       expired = TurnCounter.getExpiredCounter(this, false);
     }

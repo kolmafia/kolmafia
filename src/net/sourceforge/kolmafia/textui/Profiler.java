@@ -49,14 +49,13 @@ public class Profiler {
 
   public static String summary() {
     StringBuffer buff = new StringBuffer();
-    ArrayList<Profiler> list = new ArrayList<Profiler>();
-    list.addAll(Profiler.totals.values());
+    ArrayList<Profiler> list = new ArrayList<>(Profiler.totals.values());
     Profiler.totals.clear();
 
     buff.append("<br>");
 
     list.sort(
-        new Comparator<Profiler>() {
+        new Comparator<>() {
           @Override
           public int compare(Profiler left, Profiler right) {
             return (int) Math.signum(right.total - left.total);
@@ -67,7 +66,7 @@ public class Profiler {
     buff.append("<br>");
 
     list.sort(
-        new Comparator<Profiler>() {
+        new Comparator<>() {
           @Override
           public int compare(Profiler left, Profiler right) {
             return (int) Math.signum(right.net - left.net);

@@ -79,8 +79,8 @@ public class ScriptManager {
     }
   }
 
-  private static final LockableListModel<Script> installedScripts = new LockableListModel<Script>();
-  private static final LockableListModel<Script> repoScripts = new LockableListModel<Script>();
+  private static final LockableListModel<Script> installedScripts = new LockableListModel<>();
+  private static final LockableListModel<Script> repoScripts = new LockableListModel<>();
   private static final String REPO_FILE_LOCATION =
       // this will change
       "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/SVN/svnrepo.json";
@@ -125,8 +125,8 @@ public class ScriptManager {
   private static void updateRepoState(JSONArray jArray) {
     if (jArray == null) return;
 
-    ArrayList<Script> scripts = new ArrayList<Script>();
-    Set<SVNURL> alreadyInstalled = new HashSet<SVNURL>();
+    ArrayList<Script> scripts = new ArrayList<>();
+    Set<SVNURL> alreadyInstalled = new HashSet<>();
 
     File[] currentWCs = KoLConstants.SVN_LOCATION.listFiles();
 

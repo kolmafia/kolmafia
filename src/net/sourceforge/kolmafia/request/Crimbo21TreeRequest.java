@@ -25,16 +25,12 @@ public class Crimbo21TreeRequest extends GenericRequest {
     }
 
     // Counts are -1 because using ammo results in item loss.
-    switch (GenericRequest.decodeField(matcher.group(1))) {
-      case "1":
-        return ItemPool.get(ItemPool.BIG_ROCK, -1);
-      case "2":
-        return ItemPool.get("Black Crimbo ball", -1);
-      case "3":
-        return ItemPool.get("White Crimbo ball", -1);
-      default:
-        return null;
-    }
+    return switch (GenericRequest.decodeField(matcher.group(1))) {
+      case "1" -> ItemPool.get(ItemPool.BIG_ROCK, -1);
+      case "2" -> ItemPool.get("Black Crimbo ball", -1);
+      case "3" -> ItemPool.get("White Crimbo ball", -1);
+      default -> null;
+    };
   }
 
   public static final void parseResponse(final String location, final String responseText) {

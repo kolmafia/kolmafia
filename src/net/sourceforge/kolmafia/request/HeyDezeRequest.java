@@ -24,25 +24,26 @@ public class HeyDezeRequest extends GenericRequest {
     this.addFormField("action", "styxbuff");
 
     switch (stat) {
-      case MUSCLE:
+      case MUSCLE -> {
         // Hella Tough
         this.effectId = 446;
         this.desc = "tougher";
-        break;
-      case MYSTICALITY:
+      }
+      case MYSTICALITY -> {
         // Hella Smart
         this.effectId = 447;
         this.desc = "smarter";
-        break;
-      case MOXIE:
+      }
+      case MOXIE -> {
         // Hella Smooth
         this.effectId = 448;
         this.desc = "smoother";
-        break;
-      default:
+      }
+      default -> {
         this.effectId = 0;
         this.desc = "";
         return;
+      }
     }
 
     this.addFormField("whichbuff", String.valueOf(this.effectId));
@@ -77,16 +78,12 @@ public class HeyDezeRequest extends GenericRequest {
       return null;
     }
 
-    switch (StringUtilities.parseInt(matcher.group(1))) {
-      case 446:
-        return "muscle";
-      case 447:
-        return "mysticality";
-      case 448:
-        return "moxie";
-    }
-
-    return null;
+    return switch (StringUtilities.parseInt(matcher.group(1))) {
+      case 446 -> "muscle";
+      case 447 -> "mysticality";
+      case 448 -> "moxie";
+      default -> null;
+    };
   }
 
   @Override

@@ -16,22 +16,10 @@ public class UseItemDecorator {
     int itemId = UseItemRequest.currentItemId();
 
     switch (itemId) {
-      case ItemPool.BOO_CLUE:
-      case ItemPool.GLUED_BOO_CLUE:
-        UseItemDecorator.decorateBooClue(buffer);
-        break;
-
-      case ItemPool.PALINDROME_BOOK_1:
-        UseItemDecorator.decorateVolume1(buffer);
-        break;
-
-      case ItemPool.PALINDROME_BOOK_2:
-        UseItemDecorator.decorateVolume2(buffer);
-        break;
-
-      case ItemPool.POKE_GROW_FERTILIZER:
-        UseItemDecorator.decorateFertilizer(buffer);
-        break;
+      case ItemPool.BOO_CLUE, ItemPool.GLUED_BOO_CLUE -> UseItemDecorator.decorateBooClue(buffer);
+      case ItemPool.PALINDROME_BOOK_1 -> UseItemDecorator.decorateVolume1(buffer);
+      case ItemPool.PALINDROME_BOOK_2 -> UseItemDecorator.decorateVolume2(buffer);
+      case ItemPool.POKE_GROW_FERTILIZER -> UseItemDecorator.decorateFertilizer(buffer);
     }
   }
 

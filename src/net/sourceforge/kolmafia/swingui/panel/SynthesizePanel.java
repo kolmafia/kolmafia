@@ -375,7 +375,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
   // Why can't this be inside CandyTableModel?
   private static final String[] columnNames = {"candy", "have", "cost"};
 
-  public class CandyTableModel extends AbstractTableAdapter {
+  public static class CandyTableModel extends AbstractTableAdapter {
     private static final int NAME = 0;
     private static final int COUNT = 1;
     private static final int COST = 2;
@@ -396,16 +396,12 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
     public Object getValueAt(int rowIndex, int columnIndex) {
       Candy candy = this.model.getElementAt(rowIndex);
 
-      switch (columnIndex) {
-        case NAME:
-          return candy.getName();
-        case COUNT:
-          return candy.getCount();
-        case COST:
-          return candy.getCost();
-        default:
-          throw new IllegalArgumentException("Invalid column index");
-      }
+      return switch (columnIndex) {
+        case NAME -> candy.getName();
+        case COUNT -> candy.getCount();
+        case COST -> candy.getCost();
+        default -> throw new IllegalArgumentException("Invalid column index");
+      };
     }
   }
 
@@ -426,7 +422,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
       private final TableRowSorter<CandyTableModel> rowSorter;
       private final ListSelectionModel selectionModel;
 
-      protected final LockableListModel<Candy> model = new LockableListModel<Candy>();
+      protected final LockableListModel<Candy> model = new LockableListModel<>();
       protected Candy candy = null;
 
       // Don't do anything with ListSelection events while we are sorting the candy list
@@ -483,10 +479,10 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
 
       public void sortCandy(final Candy selected) {
         this.sorting = true;
-        TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(this.table.getModel());
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(this.table.getModel());
         this.table.setRowSorter(sorter);
 
-        List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+        List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 
         if (KoLCharacter.canInteract()) {
           // Prefer cheapest candy, then most numerous

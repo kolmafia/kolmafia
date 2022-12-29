@@ -31,13 +31,11 @@ import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCStoreDatabase {
-  private static final HashMultimap<NPCPurchaseRequest> NPC_ITEMS =
-      new HashMultimap<NPCPurchaseRequest>();
-  private static final HashMultimap<NPCPurchaseRequest> ROW_ITEMS =
-      new HashMultimap<NPCPurchaseRequest>();
+  private static final HashMultimap<NPCPurchaseRequest> NPC_ITEMS = new HashMultimap<>();
+  private static final HashMultimap<NPCPurchaseRequest> ROW_ITEMS = new HashMultimap<>();
   private static final AdventureResult RABBIT_HOLE =
       new AdventureResult("Down the Rabbit Hole", 1, true);
-  private static final Map<String, String> storeNameById = new TreeMap<String, String>();
+  private static final Map<String, String> storeNameById = new TreeMap<>();
 
   static {
     try (BufferedReader reader =
@@ -125,52 +123,43 @@ public class NPCStoreDatabase {
   }
 
   public static Optional<Integer> getQuantity(int itemId) {
-    switch (itemId) {
-      case ItemPool.MIRACLE_WHIP:
-        return Optional.of(
-            Preferences.getBoolean("_mayoDeviceRented")
-                    || Preferences.getBoolean("itemBoughtPerAscension8266")
-                ? 0
-                : 1);
-      case ItemPool.SPHYGMAYOMANOMETER:
-      case ItemPool.REFLEX_HAMMER:
-      case ItemPool.MAYO_LANCE:
-        return Optional.of(Preferences.getBoolean("_mayoDeviceRented") ? 0 : 1);
-      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
-      case ItemPool.PORKPIE_MOUNTED_POPPER:
-      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
-        return Optional.of(Preferences.getBoolean("_fireworksShopHatBought") ? 0 : 1);
-      case ItemPool.CATHERINE_WHEEL:
-      case ItemPool.ROCKET_BOOTS:
-      case ItemPool.OVERSIZED_SPARKLER:
-        return Optional.of(Preferences.getBoolean("_fireworksShopEquipmentBought") ? 0 : 1);
-      case ItemPool.BLART:
-      case ItemPool.RAINPROOF_BARREL_CAULK:
-      case ItemPool.PUMP_GREASE:
-        return Optional.of(1);
-    }
-    return Optional.empty();
+    return switch (itemId) {
+      case ItemPool.MIRACLE_WHIP -> Optional.of(
+          Preferences.getBoolean("_mayoDeviceRented")
+                  || Preferences.getBoolean("itemBoughtPerAscension8266")
+              ? 0
+              : 1);
+      case ItemPool.SPHYGMAYOMANOMETER, ItemPool.REFLEX_HAMMER, ItemPool.MAYO_LANCE -> Optional.of(
+          Preferences.getBoolean("_mayoDeviceRented") ? 0 : 1);
+      case ItemPool.FEDORA_MOUNTED_FOUNTAIN,
+          ItemPool.PORKPIE_MOUNTED_POPPER,
+          ItemPool.SOMBRERO_MOUNTED_SPARKLER -> Optional.of(
+          Preferences.getBoolean("_fireworksShopHatBought") ? 0 : 1);
+      case ItemPool.CATHERINE_WHEEL, ItemPool.ROCKET_BOOTS, ItemPool.OVERSIZED_SPARKLER -> Optional
+          .of(Preferences.getBoolean("_fireworksShopEquipmentBought") ? 0 : 1);
+      case ItemPool.BLART, ItemPool.RAINPROOF_BARREL_CAULK, ItemPool.PUMP_GREASE -> Optional.of(1);
+      default -> Optional.empty();
+    };
   }
 
   private static int limitQuantity(int itemId) {
-    switch (itemId) {
-      case ItemPool.ABRIDGED:
-      case ItemPool.ZEPPELIN_TICKET:
-      case ItemPool.FORGED_ID_DOCUMENTS:
-      case ItemPool.SPARE_KIDNEY:
-      case ItemPool.MIRACLE_WHIP:
-      case ItemPool.SPHYGMAYOMANOMETER:
-      case ItemPool.REFLEX_HAMMER:
-      case ItemPool.MAYO_LANCE:
-      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
-      case ItemPool.PORKPIE_MOUNTED_POPPER:
-      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
-      case ItemPool.CATHERINE_WHEEL:
-      case ItemPool.ROCKET_BOOTS:
-      case ItemPool.OVERSIZED_SPARKLER:
-        return 1;
-    }
-    return PurchaseRequest.MAX_QUANTITY;
+    return switch (itemId) {
+      case ItemPool.ABRIDGED,
+          ItemPool.ZEPPELIN_TICKET,
+          ItemPool.FORGED_ID_DOCUMENTS,
+          ItemPool.SPARE_KIDNEY,
+          ItemPool.MIRACLE_WHIP,
+          ItemPool.SPHYGMAYOMANOMETER,
+          ItemPool.REFLEX_HAMMER,
+          ItemPool.MAYO_LANCE,
+          ItemPool.FEDORA_MOUNTED_FOUNTAIN,
+          ItemPool.PORKPIE_MOUNTED_POPPER,
+          ItemPool.SOMBRERO_MOUNTED_SPARKLER,
+          ItemPool.CATHERINE_WHEEL,
+          ItemPool.ROCKET_BOOTS,
+          ItemPool.OVERSIZED_SPARKLER -> 1;
+      default -> PurchaseRequest.MAX_QUANTITY;
+    };
   }
 
   private static boolean canPurchase(
@@ -205,16 +194,15 @@ public class NPCStoreDatabase {
       if (!QuestLogRequest.isBlackMarketAvailable()) {
         return false;
       }
-      switch (itemId) {
-        case ItemPool.ZEPPELIN_TICKET:
-          return !InventoryManager.hasItem(itemId);
-        case ItemPool.SPARE_KIDNEY:
-          // Should check for whether your kidney has been stolen
-          return KoLCharacter.inBadMoon() && !InventoryManager.hasItem(itemId);
-        case ItemPool.FORGED_ID_DOCUMENTS:
-          return !QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, "step1");
-      }
-      return true;
+      return switch (itemId) {
+        case ItemPool.ZEPPELIN_TICKET -> !InventoryManager.hasItem(itemId);
+        case ItemPool.SPARE_KIDNEY ->
+        // Should check for whether your kidney has been stolen
+        KoLCharacter.inBadMoon() && !InventoryManager.hasItem(itemId);
+        case ItemPool.FORGED_ID_DOCUMENTS -> !QuestDatabase.isQuestLaterThan(
+            Quest.MACGUFFIN, "step1");
+        default -> true;
+      };
     } else if (storeId.equals("chateau")) {
       // Chateau Mantenga
       return ChateauRequest.chateauAvailable();
@@ -497,18 +485,18 @@ public class NPCStoreDatabase {
         return false;
       }
 
-      switch (itemId) {
-        case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
-        case ItemPool.PORKPIE_MOUNTED_POPPER:
-        case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
-          return Preferences.getBoolean("_fireworksShopHatBought") == false;
-        case ItemPool.CATHERINE_WHEEL:
-        case ItemPool.ROCKET_BOOTS:
-        case ItemPool.OVERSIZED_SPARKLER:
-          return Preferences.getBoolean("_fireworksShopEquipmentBought") == false;
-      }
+      return switch (itemId) {
+        case ItemPool.FEDORA_MOUNTED_FOUNTAIN,
+            ItemPool.PORKPIE_MOUNTED_POPPER,
+            ItemPool.SOMBRERO_MOUNTED_SPARKLER -> Preferences.getBoolean("_fireworksShopHatBought")
+            == false;
+        case ItemPool.CATHERINE_WHEEL,
+            ItemPool.ROCKET_BOOTS,
+            ItemPool.OVERSIZED_SPARKLER -> Preferences.getBoolean("_fireworksShopEquipmentBought")
+            == false;
+        default -> true;
+      };
 
-      return true;
     } else if (storeId.equals("fdkol")) {
       return false;
     } else if (storeId.equals("hiddentavern")) {

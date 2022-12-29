@@ -26,8 +26,7 @@ public class GoalManager {
   public static final AdventureResult GOAL_SUBSTATS =
       new AdventureResult.AdventureMultiResult(AdventureResult.SUBSTATS, GOAL_SUBSTATS_COUNTS);
 
-  private static final LockableListModel<AdventureResult> goals =
-      new LockableListModel<AdventureResult>();
+  private static final LockableListModel<AdventureResult> goals = new LockableListModel<>();
 
   private GoalManager() {}
 

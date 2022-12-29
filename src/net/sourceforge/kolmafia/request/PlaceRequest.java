@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PlaceRequest extends GenericRequest {
-  public static TreeSet<String> places = new TreeSet<String>();
+  public static TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
 
   private String place = null;
@@ -533,7 +533,6 @@ public class PlaceRequest extends GenericRequest {
             // message = "Visiting the Small Pyramid";
           }
         }
-        ;
       }
       case "dinorf" -> {
         message =
@@ -925,32 +924,37 @@ public class PlaceRequest extends GenericRequest {
       action = "";
     }
 
-    if (place.equals("forestvillage")) {
-      // We decorate simple visits to the untinker and also
-      // accepting his quest
-      if (action.equals("fv_untinker") || urlString.contains("preaction=screwquest")) {
-        UntinkerRequest.decorate(buffer);
-      }
-    } else if (place.equals("manor1")) {
-      if (action.equals("manor1_ladys")) {
-        if (buffer.indexOf("ghost of a necklace") != -1) {
-          RequestEditorKit.addAdventureAgainSection(
-              buffer,
-              "place.php?whichplace=manor2&action=manor2_ladys",
-              "Talk to Lady Spookyraven on the Second Floor");
+    switch (place) {
+      case "forestvillage":
+        // We decorate simple visits to the untinker and also
+        // accepting his quest
+        if (action.equals("fv_untinker") || urlString.contains("preaction=screwquest")) {
+          UntinkerRequest.decorate(buffer);
         }
-      }
-    } else if (place.equals("rabbithole")) {
-      RabbitHoleManager.decorateRabbitHole(buffer);
-    } else if (place.equals("town_right")) {
-      if (action.equals("townright_vote")) {
-        String pref = Preferences.getString("_voteMonster");
-        if (pref.equals("")) {
-          pref = "unknown";
+        break;
+      case "manor1":
+        if (action.equals("manor1_ladys")) {
+          if (buffer.indexOf("ghost of a necklace") != -1) {
+            RequestEditorKit.addAdventureAgainSection(
+                buffer,
+                "place.php?whichplace=manor2&action=manor2_ladys",
+                "Talk to Lady Spookyraven on the Second Floor");
+          }
         }
-        String replace = "<br />(wanderer today is " + pref + ")</blockquote>";
-        StringUtilities.singleStringReplace(buffer, "</blockquote>", replace);
-      }
+        break;
+      case "rabbithole":
+        RabbitHoleManager.decorateRabbitHole(buffer);
+        break;
+      case "town_right":
+        if (action.equals("townright_vote")) {
+          String pref = Preferences.getString("_voteMonster");
+          if (pref.equals("")) {
+            pref = "unknown";
+          }
+          String replace = "<br />(wanderer today is " + pref + ")</blockquote>";
+          StringUtilities.singleStringReplace(buffer, "</blockquote>", replace);
+        }
+        break;
     }
   }
 }

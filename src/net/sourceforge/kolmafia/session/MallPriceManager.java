@@ -289,7 +289,7 @@ public abstract class MallPriceManager {
 
     if (itemId <= 0) {
       // This should not happen.
-      return new ArrayList<PurchaseRequest>();
+      return new ArrayList<>();
     }
 
     Integer id = itemId;
