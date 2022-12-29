@@ -791,8 +791,8 @@ public class RelayRequest extends PasswordHashRequest {
 
     int outfitId = outfit.getOutfitId();
     return switch (outfitId) {
-        // War Hippy Fatigues
       case 32, 33 ->
+      // War Hippy Fatigues
       // Frat Warrior Fatigues
       checkBattle(outfitId);
       default -> false;
