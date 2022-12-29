@@ -1271,21 +1271,18 @@ public class GenericRequest implements Runnable {
       String comedy;
       boolean offhand = false;
       switch (comedyItemID) {
-        case ItemPool.INSULT_PUPPET:
+        case ItemPool.INSULT_PUPPET -> {
           comedy = "insult";
           offhand = true;
-          break;
-        case ItemPool.OBSERVATIONAL_GLASSES:
-          comedy = "observe";
-          break;
-        case ItemPool.COMEDY_PROP:
-          comedy = "prop";
-          break;
-        default:
+        }
+        case ItemPool.OBSERVATIONAL_GLASSES -> comedy = "observe";
+        case ItemPool.COMEDY_PROP -> comedy = "prop";
+        default -> {
           KoLmafia.updateDisplay(
               MafiaState.ABORT,
               "\"" + comedyItemID + "\" is not a comedy item number that Mafia recognizes.");
           return false;
+        }
       }
 
       AdventureResult comedyItem = ItemPool.get(comedyItemID, 1);
@@ -2920,25 +2917,20 @@ public class GenericRequest implements Runnable {
   }
 
   private static AdventureResult sealRitualCandles(final int itemId) {
-    switch (itemId) {
-      case ItemPool.WRETCHED_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -1);
-      case ItemPool.CUTE_BABY_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -5);
-      case ItemPool.ARMORED_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -10);
-      case ItemPool.ANCIENT_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -3);
-      case ItemPool.SLEEK_SEAL:
-      case ItemPool.SHADOWY_SEAL:
-      case ItemPool.STINKING_SEAL:
-      case ItemPool.CHARRED_SEAL:
-      case ItemPool.COLD_SEAL:
-      case ItemPool.SLIPPERY_SEAL:
-      case ItemPool.DEPLETED_URANIUM_SEAL:
-        return ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
-    }
-    return null;
+    return switch (itemId) {
+      case ItemPool.WRETCHED_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -1);
+      case ItemPool.CUTE_BABY_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -5);
+      case ItemPool.ARMORED_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -10);
+      case ItemPool.ANCIENT_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -3);
+      case ItemPool.SLEEK_SEAL,
+          ItemPool.SHADOWY_SEAL,
+          ItemPool.STINKING_SEAL,
+          ItemPool.CHARRED_SEAL,
+          ItemPool.COLD_SEAL,
+          ItemPool.SLIPPERY_SEAL,
+          ItemPool.DEPLETED_URANIUM_SEAL -> ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
+      default -> null;
+    };
   }
 
   public final void loadResponseFromFile(final String filename) {

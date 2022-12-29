@@ -639,7 +639,7 @@ public abstract class StaticEntity {
 
   public static final String[] getPastUserList() {
     return Arrays.stream(DataUtilities.listFiles(KoLConstants.SETTINGS_LOCATION))
-        .map(f -> f.getName())
+        .map(File::getName)
         .filter(u -> !u.startsWith("GLOBAL") && u.endsWith("_prefs.txt"))
         .map(u -> u.substring(0, u.length() - 10))
         .distinct()

@@ -106,7 +106,7 @@ public class SkillBuffFrame extends GenericFrame {
     }
   }
 
-  private class SkillSelectComboBox extends AutoFilterComboBox<UseSkillRequest>
+  private static class SkillSelectComboBox extends AutoFilterComboBox<UseSkillRequest>
       implements Listener {
     public SkillSelectComboBox(final LockableListModel<UseSkillRequest> model) {
       super(model);
@@ -245,41 +245,34 @@ public class SkillBuffFrame extends GenericFrame {
       @Override
       public void actionPerformed(final ActionEvent e) {
         ComboBoxModel<UseSkillRequest> oldModel = SkillBuffFrame.this.skillSelect.getModel();
-        ComboBoxModel<UseSkillRequest> newModel = oldModel;
-        switch (SkillTypeComboBox.this.getSelectedIndex()) {
-          case 0:
-            // All skills
-            newModel = (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills;
-            break;
-          case 1:
-            // Summoning skills
-            newModel = (LockableListModel<UseSkillRequest>) KoLConstants.summoningSkills;
-            break;
-          case 2:
-            // Remedy skills
-            newModel = (LockableListModel<UseSkillRequest>) KoLConstants.remedySkills;
-            break;
-          case 3:
-            // Self-only skills
-            newModel = (LockableListModel<UseSkillRequest>) KoLConstants.selfOnlySkills;
-            break;
-          case 4:
-            // Buff skills
-            newModel = (LockableListModel<UseSkillRequest>) KoLConstants.buffSkills;
-            break;
-          case 5:
-            // Song skills
-            newModel = (LockableListModel<UseSkillRequest>) KoLConstants.songSkills;
-            break;
-          case 6:
-            // Expression skills
-            newModel = (LockableListModel<UseSkillRequest>) KoLConstants.expressionSkills;
-            break;
-          case 7:
-            // Walk skills
-            newModel = (LockableListModel<UseSkillRequest>) KoLConstants.walkSkills;
-            break;
-        }
+        ComboBoxModel<UseSkillRequest> newModel =
+            switch (SkillTypeComboBox.this.getSelectedIndex()) {
+              case 0 ->
+              // All skills
+              (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills;
+              case 1 ->
+              // Summoning skills
+              (LockableListModel<UseSkillRequest>) KoLConstants.summoningSkills;
+              case 2 ->
+              // Remedy skills
+              (LockableListModel<UseSkillRequest>) KoLConstants.remedySkills;
+              case 3 ->
+              // Self-only skills
+              (LockableListModel<UseSkillRequest>) KoLConstants.selfOnlySkills;
+              case 4 ->
+              // Buff skills
+              (LockableListModel<UseSkillRequest>) KoLConstants.buffSkills;
+              case 5 ->
+              // Song skills
+              (LockableListModel<UseSkillRequest>) KoLConstants.songSkills;
+              case 6 ->
+              // Expression skills
+              (LockableListModel<UseSkillRequest>) KoLConstants.expressionSkills;
+              case 7 ->
+              // Walk skills
+              (LockableListModel<UseSkillRequest>) KoLConstants.walkSkills;
+              default -> oldModel;
+            };
         if (newModel != oldModel) {
           int index = SkillTypeComboBox.this.getSelectedIndex();
           SkillBuffFrame.this.skillSelect.setModel(newModel);

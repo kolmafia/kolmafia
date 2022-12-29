@@ -902,16 +902,11 @@ public abstract class InventoryManager {
     }
 
     if (creator != null && mixingMethod != CraftingType.NOCREATE) {
-      switch (itemId) {
-        case ItemPool.DOUGH:
-        case ItemPool.DISASSEMBLED_CLOVER:
-        case ItemPool.JOLLY_BRACELET:
-          scriptSaysBuy = true;
-          break;
-        default:
-          scriptSaysBuy = false;
-          break;
-      }
+      scriptSaysBuy =
+          switch (itemId) {
+            case ItemPool.DOUGH, ItemPool.DISASSEMBLED_CLOVER, ItemPool.JOLLY_BRACELET -> true;
+            default -> false;
+          };
 
       AdventureResult instance = item.getInstance(missingCount);
       boolean defaultBuy =
@@ -1365,7 +1360,7 @@ public abstract class InventoryManager {
     Integer key = itemId;
 
     if (seen == null) {
-      seen = new HashSet<Integer>();
+      seen = new HashSet<>();
     } else if (seen.contains(key)) {
       return false;
     }

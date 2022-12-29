@@ -23,7 +23,7 @@ public class ConcoctionPool {
 
   // All concoctions
   private static Collection<Concoction> values = null;
-  private static final Map<Integer, Integer> rowCache = new TreeMap<Integer, Integer>();
+  private static final Map<Integer, Integer> rowCache = new TreeMap<>();
 
   static {
     // Pre-set concoctions for all items.
@@ -101,7 +101,7 @@ public class ConcoctionPool {
 
   public static Collection<Concoction> concoctions() {
     if (ConcoctionPool.values == null) {
-      ConcoctionPool.values = new ArrayList<Concoction>();
+      ConcoctionPool.values = new ArrayList<>();
       ConcoctionPool.values.addAll(ConcoctionPool.items.values());
       ConcoctionPool.values.addAll(ConcoctionPool.nonitems.values());
     }

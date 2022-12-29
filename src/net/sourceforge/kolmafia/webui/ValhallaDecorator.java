@@ -71,8 +71,8 @@ public class ValhallaDecorator {
     reminders.append("</table>");
     reminders.append("<br><table cellspacing=10 cellpadding=10><tr>");
 
-    ArrayList<String> skillList = new ArrayList<String>();
-    ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<UseSkillRequest>();
+    ArrayList<String> skillList = new ArrayList<>();
+    ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<>();
     for (int i = 0; i < KoLConstants.availableSkills.size(); ++i) {
       UseSkillRequest skill = KoLConstants.availableSkills.get(i);
       skillList.add(String.valueOf(skill.getSkillId()));
@@ -623,36 +623,16 @@ public class ValhallaDecorator {
       chateauBuffer.append(
           "<nobr><a href=\"shop.php?whichshop=chateau\" title=\"Change from giving ");
       switch (item.getItemId()) {
-        case ItemPool.CHATEAU_MUSCLE:
-          chateauBuffer.append("muscle stats when resting");
-          break;
-        case ItemPool.CHATEAU_MYST:
-          chateauBuffer.append("mysticality stats when resting");
-          break;
-        case ItemPool.CHATEAU_MOXIE:
-          chateauBuffer.append("moxie stats when resting");
-          break;
-        case ItemPool.CHATEAU_FAN:
-          chateauBuffer.append("+5 free rests per day");
-          break;
-        case ItemPool.CHATEAU_CHANDELIER:
-          chateauBuffer.append("+3 PvP fights at rollover");
-          break;
-        case ItemPool.CHATEAU_SKYLIGHT:
-          chateauBuffer.append("+3 adventures at rollover");
-          break;
-        case ItemPool.CHATEAU_BANK:
-          chateauBuffer.append("1,000 meat per day");
-          break;
-        case ItemPool.CHATEAU_JUICE_BAR:
-          chateauBuffer.append("3 random potions per day");
-          break;
-        case ItemPool.CHATEAU_PENS:
-          chateauBuffer.append("3 fancy calligraphy pens per day");
-          break;
-        default:
-          chateauBuffer.append("unknown");
-          break;
+        case ItemPool.CHATEAU_MUSCLE -> chateauBuffer.append("muscle stats when resting");
+        case ItemPool.CHATEAU_MYST -> chateauBuffer.append("mysticality stats when resting");
+        case ItemPool.CHATEAU_MOXIE -> chateauBuffer.append("moxie stats when resting");
+        case ItemPool.CHATEAU_FAN -> chateauBuffer.append("+5 free rests per day");
+        case ItemPool.CHATEAU_CHANDELIER -> chateauBuffer.append("+3 PvP fights at rollover");
+        case ItemPool.CHATEAU_SKYLIGHT -> chateauBuffer.append("+3 adventures at rollover");
+        case ItemPool.CHATEAU_BANK -> chateauBuffer.append("1,000 meat per day");
+        case ItemPool.CHATEAU_JUICE_BAR -> chateauBuffer.append("3 random potions per day");
+        case ItemPool.CHATEAU_PENS -> chateauBuffer.append("3 fancy calligraphy pens per day");
+        default -> chateauBuffer.append("unknown");
       }
       chateauBuffer.append("\">");
       chateauBuffer.append(item.getName());
@@ -768,34 +748,21 @@ public class ValhallaDecorator {
   }
 
   private static String tooltip(int itemId) {
-    switch (itemId) {
-      case ItemPool.MOUNTAIN_SKIN:
-        return "+50% Moxie";
-      case ItemPool.GRIZZLED_SKIN:
-        return "+50% Muscle";
-      case ItemPool.DIAMONDBACK_SKIN:
-        return "+20 Monster Level";
-      case ItemPool.COAL_SKIN:
-        return "Cowboy Kick does Spooky Damage";
-      case ItemPool.FRONTWINDER_SKIN:
-        return "+50% Mysticality";
-      case ItemPool.ROTTING_SKIN:
-        return "Cowboy Kick does 15% delevel, plus damage from Cowrruption";
-      case ItemPool.QUICKSILVER_SPURS:
-        return "+30% Initiative";
-      case ItemPool.THICKSILVER_SPURS:
-        return "+2 All Elemental Resistance";
-      case ItemPool.WICKSILVER_SPURS:
-        return "Cowboy Kick does Hot Damage";
-      case ItemPool.SLICKSILVER_SPURS:
-        return "Cowboy Kick does Sleaze Damage";
-      case ItemPool.SICKSILVER_SPURS:
-        return "Cowboy Kick does Stench Damage";
-      case ItemPool.NICKSILVER_SPURS:
-        return "+20% Item Drop";
-      case ItemPool.TICKSILVER_SPURS:
-        return "+5 Adventures";
-    }
-    return "";
+    return switch (itemId) {
+      case ItemPool.MOUNTAIN_SKIN -> "+50% Moxie";
+      case ItemPool.GRIZZLED_SKIN -> "+50% Muscle";
+      case ItemPool.DIAMONDBACK_SKIN -> "+20 Monster Level";
+      case ItemPool.COAL_SKIN -> "Cowboy Kick does Spooky Damage";
+      case ItemPool.FRONTWINDER_SKIN -> "+50% Mysticality";
+      case ItemPool.ROTTING_SKIN -> "Cowboy Kick does 15% delevel, plus damage from Cowrruption";
+      case ItemPool.QUICKSILVER_SPURS -> "+30% Initiative";
+      case ItemPool.THICKSILVER_SPURS -> "+2 All Elemental Resistance";
+      case ItemPool.WICKSILVER_SPURS -> "Cowboy Kick does Hot Damage";
+      case ItemPool.SLICKSILVER_SPURS -> "Cowboy Kick does Sleaze Damage";
+      case ItemPool.SICKSILVER_SPURS -> "Cowboy Kick does Stench Damage";
+      case ItemPool.NICKSILVER_SPURS -> "+20% Item Drop";
+      case ItemPool.TICKSILVER_SPURS -> "+5 Adventures";
+      default -> "";
+    };
   }
 }

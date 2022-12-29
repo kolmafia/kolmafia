@@ -886,19 +886,23 @@ public class IslandManager {
     String message;
 
     int total = KoLCharacter.isKingdomOfExploathing() ? 333 : 1000;
-    if (loser.equals("fratboys")) {
-      Preferences.setInteger("fratboysDefeated", total);
-      message = "War finished: fratboys defeated";
-    } else if (loser.equals("hippies")) {
-      Preferences.setInteger("hippiesDefeated", total);
-      message = "War finished: hippies defeated";
-    } else if (loser.equals("both")) {
-      Preferences.setInteger("fratboysDefeated", 1000);
-      Preferences.setInteger("hippiesDefeated", 1000);
-      message = "War finished: both sides defeated";
-    } else {
-      // Say what?
-      return;
+    switch (loser) {
+      case "fratboys":
+        Preferences.setInteger("fratboysDefeated", total);
+        message = "War finished: fratboys defeated";
+        break;
+      case "hippies":
+        Preferences.setInteger("hippiesDefeated", total);
+        message = "War finished: hippies defeated";
+        break;
+      case "both":
+        Preferences.setInteger("fratboysDefeated", 1000);
+        Preferences.setInteger("hippiesDefeated", 1000);
+        message = "War finished: both sides defeated";
+        break;
+      default:
+        // Say what?
+        return;
     }
 
     RequestLogger.updateSessionLog(message);
@@ -1019,27 +1023,13 @@ public class IslandManager {
     IslandManager.quest = IslandManager.parseQuest(location);
 
     switch (IslandManager.quest) {
-      case ARENA:
-        IslandManager.parseArena(responseText);
-        break;
-      case JUNKYARD:
-        IslandManager.parseJunkyard(responseText);
-        break;
-      case ORCHARD:
-        IslandManager.parseOrchard(responseText);
-        break;
-      case FARM:
-        IslandManager.parseFarm(responseText);
-        break;
-      case NUNS:
-        IslandManager.parseNunnery(responseText);
-        break;
-      case LIGHTHOUSE:
-        IslandManager.parseLighthouse(responseText);
-        break;
-      case CAMP:
-        IslandManager.parseCamp(location, responseText);
-        break;
+      case ARENA -> IslandManager.parseArena(responseText);
+      case JUNKYARD -> IslandManager.parseJunkyard(responseText);
+      case ORCHARD -> IslandManager.parseOrchard(responseText);
+      case FARM -> IslandManager.parseFarm(responseText);
+      case NUNS -> IslandManager.parseNunnery(responseText);
+      case LIGHTHOUSE -> IslandManager.parseLighthouse(responseText);
+      case CAMP -> IslandManager.parseCamp(location, responseText);
     }
   }
 
@@ -1356,12 +1346,8 @@ public class IslandManager {
     IslandManager.quest = IslandManager.parseQuest(location);
 
     switch (IslandManager.quest) {
-      case ARENA:
-        IslandManager.parseArena(responseText);
-        break;
-      case NUNS:
-        IslandManager.parseNunnery(responseText);
-        break;
+      case ARENA -> IslandManager.parseArena(responseText);
+      case NUNS -> IslandManager.parseNunnery(responseText);
     }
   }
 

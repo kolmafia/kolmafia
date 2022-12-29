@@ -139,6 +139,7 @@ public class SortedListModel<E>
 	@Override
 	public boolean contains( final Object o )
 	{
+		//noinspection ListIndexOfReplaceableByContains
 		return this.indexOf( o ) != -1;
 	}
 

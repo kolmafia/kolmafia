@@ -938,15 +938,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     if (shopId.equals("wildfire")) {
       if (responseText.contains("You acquire an item")) {
         switch (boughtItemId) {
-          case ItemPool.BLART:
-            Preferences.setBoolean("itemBoughtPerAscension10790", true);
-            break;
-          case ItemPool.RAINPROOF_BARREL_CAULK:
-            Preferences.setBoolean("itemBoughtPerAscension10794", true);
-            break;
-          case ItemPool.PUMP_GREASE:
-            Preferences.setBoolean("itemBoughtPerAscension10795", true);
-            break;
+          case ItemPool.BLART -> Preferences.setBoolean("itemBoughtPerAscension10790", true);
+          case ItemPool.RAINPROOF_BARREL_CAULK -> Preferences.setBoolean(
+              "itemBoughtPerAscension10794", true);
+          case ItemPool.PUMP_GREASE -> Preferences.setBoolean("itemBoughtPerAscension10795", true);
         }
       }
 

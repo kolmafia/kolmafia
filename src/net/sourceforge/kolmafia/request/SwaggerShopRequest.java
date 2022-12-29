@@ -74,8 +74,8 @@ public class SwaggerShopRequest extends CoinMasterRequest {
   public static Season currentSeason = Season.NONE;
 
   public static final EnumSet<Season> allSeasons = EnumSet.allOf(Season.class);
-  public static final Map<String, Season> nameToSeason = new HashMap<String, Season>();
-  public static final Map<Integer, Season> itemIdToSeason = new HashMap<Integer, Season>();
+  public static final Map<String, Season> nameToSeason = new HashMap<>();
+  public static final Map<Integer, Season> itemIdToSeason = new HashMap<>();
 
   static {
     for (Season season : allSeasons) {

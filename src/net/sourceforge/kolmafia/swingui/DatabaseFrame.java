@@ -62,7 +62,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ItemLookupPanel<E> extends ItemTableManagePanel<LowerCaseEntry<Integer, E>> {
+  private static class ItemLookupPanel<E> extends ItemTableManagePanel<LowerCaseEntry<Integer, E>> {
     public String type;
     public String which;
 
@@ -136,7 +136,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineItemsPanel extends ItemLookupPanel<String> {
+  private static class ExamineItemsPanel extends ItemLookupPanel<String> {
     public ExamineItemsPanel() {
       super(DatabaseFrame.allItems, "item", "whichitem");
     }
@@ -147,7 +147,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineEffectsPanel extends ItemLookupPanel<String> {
+  private static class ExamineEffectsPanel extends ItemLookupPanel<String> {
     public ExamineEffectsPanel() {
       super(DatabaseFrame.allEffects, "effect", "whicheffect");
     }
@@ -158,7 +158,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineMonstersPanel extends ItemLookupPanel<MonsterData> {
+  private static class ExamineMonstersPanel extends ItemLookupPanel<MonsterData> {
     public ExamineMonstersPanel() {
       super(DatabaseFrame.allMonsters, "monster", "whichmonster");
     }

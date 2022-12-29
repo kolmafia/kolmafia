@@ -292,20 +292,16 @@ public abstract class GreyYouManager {
 
       StringBuilder string = new StringBuilder();
       switch (type) {
-        case ADVENTURES:
+        case ADVENTURES -> {
           string.append("+");
           string.append(value);
           string.append(" Adventures");
-          break;
-        case MUSCLE:
-        case MYSTICALITY:
-        case MOXIE:
-        case MAX_HP:
-        case MAX_MP:
+        }
+        case MUSCLE, MYSTICALITY, MOXIE, MAX_HP, MAX_MP -> {
           string.append(type);
           string.append(" +");
           string.append(value);
-          break;
+        }
       }
       this.stringValue = string.toString();
     }
@@ -839,7 +835,7 @@ public abstract class GreyYouManager {
       }
       Set<Absorption> set = zoneAbsorptions.get(zone);
       if (set == null) {
-        set = new HashSet<Absorption>();
+        set = new HashSet<>();
         zoneAbsorptions.put(zone, set);
       }
       set.add(absorption);

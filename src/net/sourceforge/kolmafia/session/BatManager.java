@@ -32,7 +32,7 @@ public class BatManager {
   public static final String INDUSTRIAL_DISTRICT = "Industrial District (High Crime)";
   public static final String DOWNTOWN = "Downtown";
 
-  private static final TreeSet<BatUpgrade> upgrades = new TreeSet<BatUpgrade>();
+  private static final TreeSet<BatUpgrade> upgrades = new TreeSet<>();
   private static final BatStats stats = new BatStats();
   private static int DwayneCoFunds = 0;
   private static int DwayneCoBonusFunds = 0;
@@ -511,18 +511,13 @@ public class BatManager {
 
   public static void gainItem(final AdventureResult item) {
     switch (item.getItemId()) {
-      case ItemPool.EXPERIMENTAL_GENE_THERAPY:
-        BatManager.stats.increment("Maximum Bat-Health", 10);
-        break;
-
-      case ItemPool.SELF_DEFENSE_TRAINING:
-        BatManager.stats.increment("Bat-Armor", 1);
-        break;
-
-      case ItemPool.CONFIDENCE_BUILDING_HUG:
+      case ItemPool.EXPERIMENTAL_GENE_THERAPY -> BatManager.stats.increment(
+          "Maximum Bat-Health", 10);
+      case ItemPool.SELF_DEFENSE_TRAINING -> BatManager.stats.increment("Bat-Armor", 1);
+      case ItemPool.CONFIDENCE_BUILDING_HUG -> {
         BatManager.stats.increment("Bat-Punch Modifier", 1);
         BatManager.stats.increment("Bat-Kick Modifier", 1);
-        break;
+      }
     }
   }
 
@@ -531,49 +526,55 @@ public class BatManager {
   }
 
   public static void wonFight(final String monsterName, final String responseText) {
-    // Low Crime zones
-    if (monsterName.equals("vicious plant creature")) {
-      if (responseText.contains("(+1 Bat-Health regeneration per fight)")) {
-        BatManager.stats.increment("Bat-Health Regeneration", 1);
-      }
-    } else if (monsterName.equals("giant mosquito")) {
-      if (responseText.contains("(+3 Maximum Bat-Health)")) {
-        BatManager.stats.increment("Maximum Bat-Health", 3);
-      }
-    } else if (monsterName.equals("walking skeleton")) {
-      if (responseText.contains("(+1 Bat-Armor)")) {
-        BatManager.stats.increment("Bat-Armor", 1);
-      }
-    }
-    // Medium Crime zones
-    else if (monsterName.equals("former guard")) {
-      if (responseText.contains("(+1 Bat-Bulletproofing)")) {
-        BatManager.stats.increment("Bat-Bulletproofing", 1);
-      }
-    } else if (monsterName.equals("plumber's helper")) {
-      if (responseText.contains("(+10% Bat-Stench Resistance)")) {
-        BatManager.stats.increment("Bat-Stench Resistance", 10);
-      }
-    } else if (monsterName.equals("very [adjective] henchman")) {
-      if (responseText.contains("(+10% Bat-Spooky Resistance)")) {
-        BatManager.stats.increment("Bat-Spooky Resistance", 10);
-      }
-    }
-    // High Crime zones
-    if (monsterName.equals("time bandit")) {
-      if (responseText.contains("(+10 Bat-Minutes)")) {
-        BatManager.BatMinutes += 10;
-      }
-    }
-    if (monsterName.equals("burner")) {
-      if (responseText.contains("(+10% Bat-Heat Resistance)")) {
-        BatManager.stats.increment("Bat-Heat Resistance", 10);
-      }
-    }
-    if (monsterName.equals("inquisitee")) {
-      if (responseText.contains("(+1% Investigation Progress per fight)")) {
-        BatManager.stats.increment("Bat-Investigation Progress", 1);
-      }
+    switch (monsterName) {
+        // Low Crime zones
+      case "vicious plant creature":
+        if (responseText.contains("(+1 Bat-Health regeneration per fight)")) {
+          BatManager.stats.increment("Bat-Health Regeneration", 1);
+        }
+        break;
+      case "giant mosquito":
+        if (responseText.contains("(+3 Maximum Bat-Health)")) {
+          BatManager.stats.increment("Maximum Bat-Health", 3);
+        }
+        break;
+      case "walking skeleton":
+        if (responseText.contains("(+1 Bat-Armor)")) {
+          BatManager.stats.increment("Bat-Armor", 1);
+        }
+        break;
+        // Medium Crime zones
+      case "former guard":
+        if (responseText.contains("(+1 Bat-Bulletproofing)")) {
+          BatManager.stats.increment("Bat-Bulletproofing", 1);
+        }
+        break;
+      case "plumber's helper":
+        if (responseText.contains("(+10% Bat-Stench Resistance)")) {
+          BatManager.stats.increment("Bat-Stench Resistance", 10);
+        }
+        break;
+      case "very [adjective] henchman":
+        if (responseText.contains("(+10% Bat-Spooky Resistance)")) {
+          BatManager.stats.increment("Bat-Spooky Resistance", 10);
+        }
+        break;
+        // High Crime zones
+      case "time bandit":
+        if (responseText.contains("(+10 Bat-Minutes)")) {
+          BatManager.BatMinutes += 10;
+        }
+        break;
+      case "burner":
+        if (responseText.contains("(+10% Bat-Heat Resistance)")) {
+          BatManager.stats.increment("Bat-Heat Resistance", 10);
+        }
+        break;
+      case "inquisitee":
+        if (responseText.contains("(+1% Investigation Progress per fight)")) {
+          BatManager.stats.increment("Bat-Investigation Progress", 1);
+        }
+        break;
     }
 
     // (+3% Bat-Progress) or (+4% Bat-Progress)
@@ -708,53 +709,69 @@ public class BatManager {
 
     public int set(final String name, final int value) {
       int current = 0;
-      if (name.equals("Bat-Health")) {
-        current = this.BatHealth;
-        this.BatHealth = value;
-      } else if (name.equals("Maximum Bat-Health")) {
-        current = this.MaximumBatHealth;
-        this.MaximumBatHealth = value;
-      } else if (name.equals("Bat-Health Regeneration")) {
-        current = this.BatHealthRegeneration;
-        this.BatHealthRegeneration = value;
-      } else if (name.equals("Bat-Punch")) {
-        current = this.BatPunch;
-        this.BatPunch = value;
-      } else if (name.equals("Bat-Punch Modifier")) {
-        current = this.BatPunchModifier;
-        this.BatPunchModifier = value;
-      } else if (name.equals("Bat-Punch Multiplier")) {
-        current = this.BatPunchMultiplier;
-        this.BatPunchMultiplier = value;
-      } else if (name.equals("Bat-Kick")) {
-        current = this.BatKick;
-        this.BatKick = value;
-      } else if (name.equals("Bat-Kick Modifier")) {
-        current = this.BatKickModifier;
-        this.BatKickModifier = value;
-      } else if (name.equals("Bat-Kick Multiplier")) {
-        current = this.BatKickMultiplier;
-        this.BatKickMultiplier = value;
-      } else if (name.equals("Bat-Armor")) {
-        current = this.BatArmor;
-        this.BatArmor = value;
-      } else if (name.equals("Bat-Bulletproofing")) {
-        current = this.BatBulletproofing;
-        this.BatBulletproofing = value;
-      } else if (name.equals("Bat-Spooky Resistance")) {
-        current = this.BatSpookyResistance;
-        this.BatSpookyResistance = value;
-      } else if (name.equals("Bat-Heat Resistance")) {
-        current = this.BatHeatResistance;
-        this.BatHeatResistance = value;
-      } else if (name.equals("Bat-Stench Resistance")) {
-        current = this.BatStenchResistance;
-        this.BatStenchResistance = value;
-      } else if (name.equals("Bat-Investigation Progress")) {
-        current = this.BatInvestigationProgress;
-        this.BatInvestigationProgress = value;
-      } else {
-        return 0;
+      switch (name) {
+        case "Bat-Health":
+          current = this.BatHealth;
+          this.BatHealth = value;
+          break;
+        case "Maximum Bat-Health":
+          current = this.MaximumBatHealth;
+          this.MaximumBatHealth = value;
+          break;
+        case "Bat-Health Regeneration":
+          current = this.BatHealthRegeneration;
+          this.BatHealthRegeneration = value;
+          break;
+        case "Bat-Punch":
+          current = this.BatPunch;
+          this.BatPunch = value;
+          break;
+        case "Bat-Punch Modifier":
+          current = this.BatPunchModifier;
+          this.BatPunchModifier = value;
+          break;
+        case "Bat-Punch Multiplier":
+          current = this.BatPunchMultiplier;
+          this.BatPunchMultiplier = value;
+          break;
+        case "Bat-Kick":
+          current = this.BatKick;
+          this.BatKick = value;
+          break;
+        case "Bat-Kick Modifier":
+          current = this.BatKickModifier;
+          this.BatKickModifier = value;
+          break;
+        case "Bat-Kick Multiplier":
+          current = this.BatKickMultiplier;
+          this.BatKickMultiplier = value;
+          break;
+        case "Bat-Armor":
+          current = this.BatArmor;
+          this.BatArmor = value;
+          break;
+        case "Bat-Bulletproofing":
+          current = this.BatBulletproofing;
+          this.BatBulletproofing = value;
+          break;
+        case "Bat-Spooky Resistance":
+          current = this.BatSpookyResistance;
+          this.BatSpookyResistance = value;
+          break;
+        case "Bat-Heat Resistance":
+          current = this.BatHeatResistance;
+          this.BatHeatResistance = value;
+          break;
+        case "Bat-Stench Resistance":
+          current = this.BatStenchResistance;
+          this.BatStenchResistance = value;
+          break;
+        case "Bat-Investigation Progress":
+          current = this.BatInvestigationProgress;
+          this.BatInvestigationProgress = value;
+          break;
+        default:
+          return 0;
       }
 
       if (current != value) {
@@ -769,7 +786,7 @@ public class BatManager {
       return delta == 0 ? current : this.set(name, current + delta);
     }
 
-    private void appendStat(StringBuilder buffer, String tag, int stat) {
+    private static void appendStat(StringBuilder buffer, String tag, int stat) {
       if (buffer.length() > 0) {
         buffer.append(";");
       }
@@ -781,21 +798,21 @@ public class BatManager {
     private void calculateStringform(final boolean active) {
       StringBuilder buffer = new StringBuilder();
 
-      this.appendStat(buffer, "Bat-Health", this.BatHealth);
-      this.appendStat(buffer, "Maximum Bat-Health", this.MaximumBatHealth);
-      this.appendStat(buffer, "Bat-Health Regeneration", this.BatHealthRegeneration);
-      this.appendStat(buffer, "Bat-Punch", this.BatPunch);
-      this.appendStat(buffer, "Bat-Punch Modifier", this.BatPunchModifier);
-      this.appendStat(buffer, "Bat-Punch Multiplier", this.BatPunchMultiplier);
-      this.appendStat(buffer, "Bat-Kick", this.BatKick);
-      this.appendStat(buffer, "Bat-Kick Modifier", this.BatKickModifier);
-      this.appendStat(buffer, "Bat-Kick Multiplier", this.BatKickMultiplier);
-      this.appendStat(buffer, "Bat-Armor", this.BatArmor);
-      this.appendStat(buffer, "Bat-Bulletproofing", this.BatBulletproofing);
-      this.appendStat(buffer, "Bat-Spooky Resistance", this.BatSpookyResistance);
-      this.appendStat(buffer, "Bat-Heat Resistance", this.BatHeatResistance);
-      this.appendStat(buffer, "Bat-Stench Resistance", this.BatStenchResistance);
-      this.appendStat(buffer, "Bat-Investigation Progress", this.BatInvestigationProgress);
+      BatStats.appendStat(buffer, "Bat-Health", this.BatHealth);
+      BatStats.appendStat(buffer, "Maximum Bat-Health", this.MaximumBatHealth);
+      BatStats.appendStat(buffer, "Bat-Health Regeneration", this.BatHealthRegeneration);
+      BatStats.appendStat(buffer, "Bat-Punch", this.BatPunch);
+      BatStats.appendStat(buffer, "Bat-Punch Modifier", this.BatPunchModifier);
+      BatStats.appendStat(buffer, "Bat-Punch Multiplier", this.BatPunchMultiplier);
+      BatStats.appendStat(buffer, "Bat-Kick", this.BatKick);
+      BatStats.appendStat(buffer, "Bat-Kick Modifier", this.BatKickModifier);
+      BatStats.appendStat(buffer, "Bat-Kick Multiplier", this.BatKickMultiplier);
+      BatStats.appendStat(buffer, "Bat-Armor", this.BatArmor);
+      BatStats.appendStat(buffer, "Bat-Bulletproofing", this.BatBulletproofing);
+      BatStats.appendStat(buffer, "Bat-Spooky Resistance", this.BatSpookyResistance);
+      BatStats.appendStat(buffer, "Bat-Heat Resistance", this.BatHeatResistance);
+      BatStats.appendStat(buffer, "Bat-Stench Resistance", this.BatStenchResistance);
+      BatStats.appendStat(buffer, "Bat-Investigation Progress", this.BatInvestigationProgress);
 
       this.stringform = buffer.toString();
 

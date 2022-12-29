@@ -1149,15 +1149,10 @@ public class RequestEditorKit extends HTMLEditorKit {
       String group = omatcher.group(1);
       String options = omatcher.group(2);
       switch (group) {
-        case "Normal Outfits":
-          addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
-          break;
-        case "Custom Outfits":
-          addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
-          break;
-        case "Automatic Outfits":
-          addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
-          break;
+        case "Normal Outfits" -> addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
+        case "Custom Outfits" -> addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
+        case "Automatic Outfits" -> addOutfitGroup(
+            obuffer, "outfit3", "Automatic", "an automatic", options);
       }
     }
 
@@ -1328,13 +1323,8 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.THEMTHAR_HILLS:
-        IslandDecorator.decorateThemtharFight(buffer);
-        break;
-
-      case AdventurePool.SEASIDE_MEGALOPOLIS:
-        MemoriesDecorator.decorateMegalopolisFight(buffer);
-        break;
+      case AdventurePool.THEMTHAR_HILLS -> IslandDecorator.decorateThemtharFight(buffer);
+      case AdventurePool.SEASIDE_MEGALOPOLIS -> MemoriesDecorator.decorateMegalopolisFight(buffer);
     }
   }
 
@@ -1368,9 +1358,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.THEMTHAR_HILLS:
-        IslandDecorator.decorateThemtharFight(buffer);
-        break;
+      case AdventurePool.THEMTHAR_HILLS -> IslandDecorator.decorateThemtharFight(buffer);
     }
   }
 
@@ -1459,33 +1447,32 @@ public class RequestEditorKit extends HTMLEditorKit {
         int rate = item.getCount() >> 16;
         monsterData.append(item.getName());
         switch ((char) item.getCount() & 0xFFFF) {
-          case 'p':
+          case 'p' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" pp only)");
-            break;
-          case 'n':
+          }
+          case 'n' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" no pp)");
-            break;
-          case 'c':
+          }
+          case 'c' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" cond)");
-            break;
-          case 'f':
+          }
+          case 'f' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" no mod)");
-            break;
-          case 'a':
-            monsterData.append(" (stealable accordion)");
-            break;
-          default:
+          }
+          case 'a' -> monsterData.append(" (stealable accordion)");
+          default -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(")");
+          }
         }
       }
     }
@@ -1745,53 +1732,46 @@ public class RequestEditorKit extends HTMLEditorKit {
     String partyQuest = Preferences.getString("_questPartyFairQuest");
 
     switch (partyQuest) {
-      case "woots":
-        {
-          Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      case "woots" -> {
+        Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
+          buffer.insert(m.end(), progress);
+          return;
         }
-      case "trash":
-        {
-          Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (~"
-                    + Preferences.getString("_questPartyFairProgress")
-                    + " pieces of trash remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      }
+      case "trash" -> {
+        Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (~"
+                  + Preferences.getString("_questPartyFairProgress")
+                  + " pieces of trash remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
-      case "dj":
-        {
-          Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      }
+      case "dj" -> {
+        Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
+      }
+
         // No special text, just append to You win the fight if on clear the party quest
-      case "partiers":
-        {
-          Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      case "partiers" -> {
+        Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
+      }
     }
   }
 

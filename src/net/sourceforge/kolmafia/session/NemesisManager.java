@@ -238,8 +238,8 @@ public abstract class NemesisManager {
       return null;
     }
 
-    TreeMap<String, PaperStrip> left = new TreeMap<String, PaperStrip>();
-    TreeMap<String, PaperStrip> right = new TreeMap<String, PaperStrip>();
+    TreeMap<String, PaperStrip> left = new TreeMap<>();
+    TreeMap<String, PaperStrip> right = new TreeMap<>();
     for (int i = 0; i < PAPER_STRIPS.length; ++i) {
       PaperStrip strip = new PaperStrip(PAPER_STRIPS[i]);
       left.put(strip.left, strip);

@@ -40,8 +40,7 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseSkillRequest extends GenericRequest implements Comparable<UseSkillRequest> {
-  private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS =
-      new HashMap<Integer, UseSkillRequest>();
+  private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS = new HashMap<>();
   private static final Pattern SKILLID_PATTERN = Pattern.compile("whichskill=(\\d+)");
   private static final Pattern BOOKID_PATTERN =
       Pattern.compile("preaction=(?:summon|combine)([^&]*)");
@@ -310,83 +309,29 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   private void addFormFields() {
     switch (this.skillId) {
-      case SkillPool.SNOWCONE:
-        this.addFormField("preaction", "summonsnowcone");
-        break;
-
-      case SkillPool.STICKER:
-        this.addFormField("preaction", "summonstickers");
-        break;
-
-      case SkillPool.SUGAR:
-        this.addFormField("preaction", "summonsugarsheets");
-        break;
-
-      case SkillPool.CLIP_ART:
-        this.addFormField("preaction", "combinecliparts");
-        break;
-
-      case SkillPool.RAD_LIB:
-        this.addFormField("preaction", "summonradlibs");
-        break;
-
-      case SkillPool.SMITHSNESS:
-        this.addFormField("preaction", "summonsmithsness");
-        break;
-
-      case SkillPool.HILARIOUS:
-        this.addFormField("preaction", "summonhilariousitems");
-        break;
-
-      case SkillPool.TASTEFUL:
-        this.addFormField("preaction", "summonspencersitems");
-        break;
-
-      case SkillPool.CARDS:
-        this.addFormField("preaction", "summonaa");
-        break;
-
-      case SkillPool.GEEKY:
-        this.addFormField("preaction", "summonthinknerd");
-        break;
-
-      case SkillPool.CANDY_HEART:
-        this.addFormField("preaction", "summoncandyheart");
-        break;
-
-      case SkillPool.PARTY_FAVOR:
-        this.addFormField("preaction", "summonpartyfavor");
-        break;
-
-      case SkillPool.LOVE_SONG:
-        this.addFormField("preaction", "summonlovesongs");
-        break;
-
-      case SkillPool.BRICKOS:
-        this.addFormField("preaction", "summonbrickos");
-        break;
-
-      case SkillPool.DICE:
-        this.addFormField("preaction", "summongygax");
-        break;
-
-      case SkillPool.RESOLUTIONS:
-        this.addFormField("preaction", "summonresolutions");
-        break;
-
-      case SkillPool.TAFFY:
-        this.addFormField("preaction", "summontaffy");
-        break;
-
-      case SkillPool.CONFISCATOR:
-        this.addFormField("preaction", "summonconfiscators");
-        break;
-
-      default:
+      case SkillPool.SNOWCONE -> this.addFormField("preaction", "summonsnowcone");
+      case SkillPool.STICKER -> this.addFormField("preaction", "summonstickers");
+      case SkillPool.SUGAR -> this.addFormField("preaction", "summonsugarsheets");
+      case SkillPool.CLIP_ART -> this.addFormField("preaction", "combinecliparts");
+      case SkillPool.RAD_LIB -> this.addFormField("preaction", "summonradlibs");
+      case SkillPool.SMITHSNESS -> this.addFormField("preaction", "summonsmithsness");
+      case SkillPool.HILARIOUS -> this.addFormField("preaction", "summonhilariousitems");
+      case SkillPool.TASTEFUL -> this.addFormField("preaction", "summonspencersitems");
+      case SkillPool.CARDS -> this.addFormField("preaction", "summonaa");
+      case SkillPool.GEEKY -> this.addFormField("preaction", "summonthinknerd");
+      case SkillPool.CANDY_HEART -> this.addFormField("preaction", "summoncandyheart");
+      case SkillPool.PARTY_FAVOR -> this.addFormField("preaction", "summonpartyfavor");
+      case SkillPool.LOVE_SONG -> this.addFormField("preaction", "summonlovesongs");
+      case SkillPool.BRICKOS -> this.addFormField("preaction", "summonbrickos");
+      case SkillPool.DICE -> this.addFormField("preaction", "summongygax");
+      case SkillPool.RESOLUTIONS -> this.addFormField("preaction", "summonresolutions");
+      case SkillPool.TAFFY -> this.addFormField("preaction", "summontaffy");
+      case SkillPool.CONFISCATOR -> this.addFormField("preaction", "summonconfiscators");
+      default -> {
         this.addFormField("action", "Skillz");
         this.addFormField("whichskill", String.valueOf(this.skillId));
         this.addFormField("ajax", "1");
-        break;
+      }
     }
   }
 
@@ -1293,19 +1238,19 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       // the skill is able to restore.
 
       switch (this.skillId) {
-        case SkillPool.WALRUS_TONGUE:
-        case SkillPool.DISCO_NAP:
-        case SkillPool.BANDAGES:
-        case SkillPool.COCOON:
-        case SkillPool.SHAKE_IT_OFF:
-        case SkillPool.GELATINOUS_RECONSTRUCTION:
+        case SkillPool.WALRUS_TONGUE,
+            SkillPool.DISCO_NAP,
+            SkillPool.BANDAGES,
+            SkillPool.COCOON,
+            SkillPool.SHAKE_IT_OFF,
+            SkillPool.GELATINOUS_RECONSTRUCTION -> {
           int healthRestored = HPRestoreItemList.getHealthRestored(this.skillName);
           long maxPossible =
               Math.max(
                   1, (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP()) / healthRestored);
           castsRemaining = Math.min(castsRemaining, maxPossible);
           currentCast = Math.min(currentCast, castsRemaining);
-          break;
+        }
       }
 
       currentCast = Math.min(Math.min(currentCast, maximumCast), castsPerIteration);

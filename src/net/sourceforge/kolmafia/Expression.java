@@ -160,37 +160,24 @@ public class Expression {
           // 				KoLmafia.updateDisplay( b.toString() );
           // 				continue;
 
-        case 'r':
+        case 'r' -> {
           v = s[--sp];
           stackFactory(s); // recycle this stack
           return v;
-
-        case '+':
-          v = s[--sp] + s[--sp];
-          break;
-
-        case '-':
-          v = s[--sp] - s[--sp];
-          break;
-
-        case '*':
-          v = s[--sp] * s[--sp];
-          break;
-
-        case '/':
+        }
+        case '+' -> v = s[--sp] + s[--sp];
+        case '-' -> v = s[--sp] - s[--sp];
+        case '*' -> v = s[--sp] * s[--sp];
+        case '/' -> {
           double numerator = s[--sp];
           double denominator = s[--sp];
           if (denominator == 0.0) {
             throw new ArithmeticException("Can't divide by zero");
           }
           v = numerator / denominator;
-          break;
-
-        case '%':
-          v = s[--sp] % s[--sp];
-          break;
-
-        case '^':
+        }
+        case '%' -> v = s[--sp] % s[--sp];
+        case '^' -> {
           double base = s[--sp];
           double expt = s[--sp];
           v = Math.pow(base, expt);
@@ -198,21 +185,12 @@ public class Expression {
             throw new ArithmeticException(
                 "Invalid exponentiation: cannot take " + base + " ** " + expt);
           }
-          break;
-
-        case 'a':
-          v = Math.abs(s[--sp]);
-          break;
-        case 'c':
-          v = Math.ceil(s[--sp]);
-          break;
-        case 'f':
-          v = Math.floor(s[--sp]);
-          break;
-        case 'm':
-          v = Math.min(s[--sp], s[--sp]);
-          break;
-        case 'p':
+        }
+        case 'a' -> v = Math.abs(s[--sp]);
+        case 'c' -> v = Math.ceil(s[--sp]);
+        case 'f' -> v = Math.floor(s[--sp]);
+        case 'm' -> v = Math.min(s[--sp], s[--sp]);
+        case 'p' -> {
           String first = (String) this.literals.get((int) s[--sp]);
           String second = null;
           int commaIndex = first.indexOf(",");
@@ -229,36 +207,31 @@ public class Expression {
                     ? 1
                     : prefString.contains("false") ? 0 : StringUtilities.parseDouble(prefString);
           }
-          break;
-        case 's':
+        }
+        case 's' -> {
           v = Math.sqrt(s[--sp]);
           if (Double.isNaN(v)) {
             throw new ArithmeticException("Can't take square root of a negative value");
           }
-          break;
-        case 'x':
-          v = Math.max(s[--sp], s[--sp]);
-          break;
-
-        case '#':
-          v = (Double) this.literals.get((int) s[--sp]);
-          break;
+        }
+        case 'x' -> v = Math.max(s[--sp], s[--sp]);
+        case '#' -> v = (Double) this.literals.get((int) s[--sp]);
 
           // Valid with ModifierExpression:
-        case 'b':
+        case 'b' -> {
           String elem = (String) this.literals.get((int) s[--sp]);
           Element element = Element.fromString(elem);
           v = KoLCharacter.currentNumericModifier(Modifiers.elementalResistance(element));
-          break;
-        case 'd':
+        }
+        case 'd' -> {
           String skillName = (String) this.literals.get((int) s[--sp]);
           if (StringUtilities.isNumeric(skillName)) {
             int skillId = StringUtilities.parseInt(skillName);
             skillName = SkillDatabase.getSkillName(skillId);
           }
           v = KoLCharacter.hasSkill(skillName) ? 1 : 0;
-          break;
-        case 'e':
+        }
+        case 'e' -> {
           String effectName = (String) this.literals.get((int) s[--sp]);
           // If effect name is a number, convert to name
           int effectId =
@@ -267,55 +240,44 @@ public class Expression {
                   : EffectDatabase.getEffectId(effectName);
           AdventureResult eff = EffectPool.get(effectId);
           v = Math.max(0, eff.getCount(KoLConstants.activeEffects));
-          break;
-        case 'g':
+        }
+        case 'g' -> {
           String itemName = (String) this.literals.get((int) s[--sp]);
           int itemId = ItemDatabase.getItemId(itemName);
           AdventureResult item = ItemPool.get(itemId);
           v = KoLCharacter.hasEquipped(item) ? 1 : 0;
-          break;
-        case 'h':
-          v =
-              Modifiers.mainhandClass.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                  ? 1
-                  : 0;
-          break;
-        case 'i':
-          v =
-              FamiliarDatabase.hasAttribute(
-                      Modifiers.currentFamiliar, (String) this.literals.get((int) s[--sp]))
-                  ? 1
-                  : 0;
-          break;
-        case 'j':
-          v =
-              Modifiers.currentEnvironment.equalsIgnoreCase(
-                      (String) this.literals.get((int) s[--sp]))
-                  ? 1
-                  : 0;
-          break;
-        case 'l':
-          v =
-              Modifiers.currentLocation.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                  ? 1
-                  : 0;
-          break;
-        case 'n':
-          v =
-              KoLCharacter.getAscensionClassName()
-                      .equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                  ? 1
-                  : 0;
-          break;
-        case 'w':
+        }
+        case 'h' -> v =
+            Modifiers.mainhandClass.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
+                ? 1
+                : 0;
+        case 'i' -> v =
+            FamiliarDatabase.hasAttribute(
+                    Modifiers.currentFamiliar, (String) this.literals.get((int) s[--sp]))
+                ? 1
+                : 0;
+        case 'j' -> v =
+            Modifiers.currentEnvironment.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
+                ? 1
+                : 0;
+        case 'l' -> v =
+            Modifiers.currentLocation.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
+                ? 1
+                : 0;
+        case 'n' -> v =
+            KoLCharacter.getAscensionClassName()
+                    .equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
+                ? 1
+                : 0;
+        case 'w' -> {
           String fam = (String) this.literals.get((int) s[--sp]);
           String familiarName =
               (StringUtilities.isNumeric(fam))
                   ? FamiliarDatabase.getFamiliarName(StringUtilities.parseInt(fam))
                   : fam;
           v = Modifiers.currentFamiliar.equalsIgnoreCase(familiarName) ? 1 : 0;
-          break;
-        case 'z':
+        }
+        case 'z' -> {
           String expressionZone = (String) this.literals.get((int) s[--sp]);
           String currentZone = Modifiers.currentZone;
           v = 0;
@@ -330,10 +292,9 @@ public class Expression {
             }
             currentZone = parentZone;
           }
-          break;
-        case 'v':
+        }
+        case 'v' -> {
           String event = (String) this.literals.get((int) s[--sp]);
-
           switch (event) {
             case "December":
               v = HolidayDatabase.isDecember() ? 1 : 0;
@@ -344,178 +305,115 @@ public class Expression {
               }
               break;
           }
+        }
 
-          break;
+          // Valid with MonsterExpression:
+        case '\u0080' -> v = KoLCharacter.getAdjustedMuscle();
 
           // Valid with MonsterExpression:
-        case '\u0080':
-          v = KoLCharacter.getAdjustedMuscle();
-          break;
+        case '\u0081' -> v = KoLCharacter.getAdjustedMysticality();
+
           // Valid with MonsterExpression:
-        case '\u0081':
-          v = KoLCharacter.getAdjustedMysticality();
-          break;
+        case '\u0082' -> v = KoLCharacter.getAdjustedMoxie();
+
           // Valid with MonsterExpression:
-        case '\u0082':
-          v = KoLCharacter.getAdjustedMoxie();
-          break;
+        case '\u0083' -> v = KoLCharacter.getMonsterLevelAdjustment();
+
           // Valid with MonsterExpression:
-        case '\u0083':
-          v = KoLCharacter.getMonsterLevelAdjustment();
-          break;
-          // Valid with MonsterExpression:
-        case '\u0084':
-          v = KoLCharacter.getMindControlLevel();
-          break;
+        case '\u0084' -> v = KoLCharacter.getMindControlLevel();
+
           // Valid with MonsterExpression and RestoreExpression:
-        case '\u0085':
-          v = KoLCharacter.getMaximumHP();
-          break;
+        case '\u0085' -> v = KoLCharacter.getMaximumHP();
+
           // Valid with MonsterExpression:
-        case '\u0086':
-          v = BasementRequest.getBasementLevel();
-          break;
+        case '\u0086' -> v = BasementRequest.getBasementLevel();
+
           // Valid with MonsterExpression:
-        case '\u0087':
-          v = FightRequest.dreadKisses("Woods");
-          break;
+        case '\u0087' -> v = FightRequest.dreadKisses("Woods");
+
           // Valid with MonsterExpression:
-        case '\u0088':
-          v = FightRequest.dreadKisses("Village");
-          break;
+        case '\u0088' -> v = FightRequest.dreadKisses("Village");
+
           // Valid with MonsterExpression:
-        case '\u0089':
-          v = FightRequest.dreadKisses("Castle");
-          break;
+        case '\u0089' -> v = FightRequest.dreadKisses("Castle");
+
           // Valid with MonsterExpression:
-        case '\u0090':
-          v = KoLCharacter.getAdjustedHighestStat();
-          break;
+        case '\u0090' -> v = KoLCharacter.getAdjustedHighestStat();
+
           // Valid with RestoreExpression:
-        case '\u0091':
-          v = KoLCharacter.getMaximumMP();
-          break;
+        case '\u0091' -> v = KoLCharacter.getMaximumMP();
+
           // Valid with ModifierExpression and MonsterExpression:
-        case '\u0092':
+        case '\u0092' -> {
           AscensionPath.Path p =
               AscensionPath.nameToPath((String) this.literals.get((int) s[--sp]));
-          v = KoLCharacter.getPath().equals(p) ? 1 : 0;
-          break;
+          v = KoLCharacter.getPath() == p ? 1 : 0;
+        }
           // Valid with ModifierExpression:
-        case '\u0093':
+        case '\u0093' -> {
           Modifiers mods = KoLCharacter.getCurrentModifiers();
           String modName = (String) this.literals.get((int) s[--sp]);
           v = mods.getExtra(modName);
-          break;
+        }
           // Valid with ModifierExpression:
-        case '\u0094':
-          v = KoLCharacter.canInteract() ? 1 : 0;
-          break;
+        case '\u0094' -> v = KoLCharacter.canInteract() ? 1 : 0;
+
           // Valid with RestoreExpression:
-        case '\u0095':
-          v = KoLCharacter.getCurrentHP();
-          break;
+        case '\u0095' -> v = KoLCharacter.getCurrentHP();
+
           // Valid with Modifier Expression:
-        case '\u0096':
+        case '\u0096' -> {
           String arg = (String) this.literals.get((int) s[--sp]);
           v = StringUtilities.parseInt(arg.replaceAll(",", ""));
-          break;
+        }
           // Valid with Modifier Expression:
-        case '\u0097':
-          v = KoLCharacter.getBaseMuscle();
-          break;
-          // Valid with Modifier Expression:
-        case '\u0098':
-          v = KoLCharacter.getBaseMysticality();
-          break;
-          // Valid with Modifier Expression:
-        case '\u0099':
-          v = KoLCharacter.getBaseMoxie();
-          break;
+        case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 
-        case 'A':
-          v = KoLCharacter.getAscensions();
-          break;
-        case 'B':
-          v = HolidayDatabase.getBloodEffect();
-          break;
-        case 'C':
-          v = KoLCharacter.getMinstrelLevel();
-          break;
-        case 'D':
-          v = KoLCharacter.getInebriety();
-          break;
-        case 'E':
-          {
-            v =
-                KoLConstants.activeEffects.stream()
-                    .map(e -> e.getCount())
-                    .filter(d -> d < Integer.MAX_VALUE)
-                    .count();
-            break;
-          }
-        case 'F':
-          v = KoLCharacter.getFullness();
-          break;
-        case 'G':
-          v = HolidayDatabase.getGrimaciteEffect() / 10.0;
-          break;
-        case 'H':
-          v = Modifiers.hoboPower;
-          break;
-        case 'I':
-          v = KoLCharacter.getDiscoMomentum();
-          break;
-        case 'J':
-          v = HolidayDatabase.getHoliday().contains("Festival of Jarlsberg") ? 1.0 : 0.0;
-          break;
-        case 'K':
-          v = Modifiers.smithsness;
-          break;
-        case 'L':
-          v = KoLCharacter.getLevel();
-          break;
-        case 'M':
-          v = HolidayDatabase.getMoonlight();
-          break;
-        case 'N':
-          v = KoLCharacter.getAudience();
-          break;
-        case 'P':
-          v = KoLCharacter.currentPastaThrall.getLevel();
-          break;
-        case 'R':
-          v = KoLCharacter.getReagentPotionDuration();
-          break;
-        case 'S':
-          v = KoLCharacter.getSpleenUse();
-          break;
-        case 'T':
+          // Valid with Modifier Expression:
+        case '\u0098' -> v = KoLCharacter.getBaseMysticality();
+
+          // Valid with Modifier Expression:
+        case '\u0099' -> v = KoLCharacter.getBaseMoxie();
+        case 'A' -> v = KoLCharacter.getAscensions();
+        case 'B' -> v = HolidayDatabase.getBloodEffect();
+        case 'C' -> v = KoLCharacter.getMinstrelLevel();
+        case 'D' -> v = KoLCharacter.getInebriety();
+        case 'E' -> {
           v =
-              this.effect == null
-                  ? 0.0
-                  : Math.max(1, this.effect.getCount(KoLConstants.activeEffects));
+              KoLConstants.activeEffects.stream()
+                  .map(AdventureResult::getCount)
+                  .filter(d -> d < Integer.MAX_VALUE)
+                  .count();
           break;
-        case 'U':
-          v = KoLCharacter.getTelescopeUpgrades();
-          break;
-        case 'W':
-          v = Modifiers.currentWeight;
-          break;
-        case 'X':
-          v = KoLCharacter.getGender();
-          break;
-        case 'Y':
-          v = KoLCharacter.getFury();
-          break;
-
-        default:
+        }
+        case 'F' -> v = KoLCharacter.getFullness();
+        case 'G' -> v = HolidayDatabase.getGrimaciteEffect() / 10.0;
+        case 'H' -> v = Modifiers.hoboPower;
+        case 'I' -> v = KoLCharacter.getDiscoMomentum();
+        case 'J' -> v = HolidayDatabase.getHoliday().contains("Festival of Jarlsberg") ? 1.0 : 0.0;
+        case 'K' -> v = Modifiers.smithsness;
+        case 'L' -> v = KoLCharacter.getLevel();
+        case 'M' -> v = HolidayDatabase.getMoonlight();
+        case 'N' -> v = KoLCharacter.getAudience();
+        case 'P' -> v = KoLCharacter.currentPastaThrall.getLevel();
+        case 'R' -> v = KoLCharacter.getReagentPotionDuration();
+        case 'S' -> v = KoLCharacter.getSpleenUse();
+        case 'T' -> v =
+            this.effect == null
+                ? 0.0
+                : Math.max(1, this.effect.getCount(KoLConstants.activeEffects));
+        case 'U' -> v = KoLCharacter.getTelescopeUpgrades();
+        case 'W' -> v = Modifiers.currentWeight;
+        case 'X' -> v = KoLCharacter.getGender();
+        case 'Y' -> v = KoLCharacter.getFury();
+        default -> {
           if (inst > '\u00FF') {
             v = inst - 0x8000;
             break;
           }
           throw new RuntimeException(
               "Evaluator bytecode invalid at " + (pc - 1) + ": " + String.valueOf(this.bytecode));
+        }
       }
       s[sp++] = v;
     }

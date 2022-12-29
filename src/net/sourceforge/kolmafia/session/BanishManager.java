@@ -418,12 +418,12 @@ public class BanishManager {
   }
 
   public static void removeBanishByBanisher(final Banisher banisher) {
-    resetIf(m -> m.getBanisher().equals(banisher));
+    resetIf(m -> m.getBanisher() == banisher);
   }
 
   private static void removeOldestBanish(final Banisher banisher) {
     banishedMonsters.stream()
-        .filter(b -> b.getBanisher().equals(banisher))
+        .filter(b -> b.getBanisher() == banisher)
         .min(Comparator.comparingInt(BanishedMonster::getTurnBanished))
         .ifPresent(b -> resetIf(m -> m == b));
   }
@@ -437,7 +437,7 @@ public class BanishManager {
   }
 
   private static int countBanishes(final Banisher banisher) {
-    return (int) banishedMonsters.stream().filter(m -> m.getBanisher().equals(banisher)).count();
+    return (int) banishedMonsters.stream().filter(m -> m.getBanisher() == banisher).count();
   }
 
   public static List<String> getBanishedMonsters() {
@@ -452,7 +452,7 @@ public class BanishManager {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
-        .filter(m -> m.getBanisher().equals(banisher))
+        .filter(m -> m.getBanisher() == banisher)
         .map(BanishedMonster::getMonsterName)
         .collect(Collectors.toList());
   }

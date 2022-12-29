@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -93,7 +93,7 @@ public abstract class YouRobotManager {
   public static enum Effect {
     PASSIVE,
     COMBAT,
-    EQUIP;
+    EQUIP
   }
 
   public static enum Usable {
@@ -337,21 +337,11 @@ public abstract class YouRobotManager {
 
     private void addToIndexMaps() {
       switch (this.part) {
-        case TOP:
-          indexToTop.put(this.index, this);
-          break;
-        case LEFT:
-          indexToLeft.put(this.index, this);
-          break;
-        case RIGHT:
-          indexToRight.put(this.index, this);
-          break;
-        case BOTTOM:
-          indexToBottom.put(this.index, this);
-          break;
-        case CPU:
-          keywordToCPU.put(this.keyword, this);
-          break;
+        case TOP -> indexToTop.put(this.index, this);
+        case LEFT -> indexToLeft.put(this.index, this);
+        case RIGHT -> indexToRight.put(this.index, this);
+        case BOTTOM -> indexToBottom.put(this.index, this);
+        case CPU -> keywordToCPU.put(this.keyword, this);
       }
     }
   }
@@ -374,7 +364,7 @@ public abstract class YouRobotManager {
   // *** Current state of Configuration
 
   private static final Map<Part, RobotUpgrade> currentParts = new HashMap<>();
-  private static final Set<RobotUpgrade> currentCPU = new HashSet<>();
+  private static final Set<RobotUpgrade> currentCPU = EnumSet.noneOf(RobotUpgrade.class);
 
   // For testing
   public static void reset() {
@@ -389,16 +379,10 @@ public abstract class YouRobotManager {
 
   public static boolean hasEquipped(RobotUpgrade upgrade) {
     Part part = upgrade.getPart();
-    switch (part) {
-      case TOP:
-      case LEFT:
-      case RIGHT:
-      case BOTTOM:
-        return currentParts.get(part) == upgrade;
-      case CPU:
-        return currentCPU.contains(upgrade);
-    }
-    return false;
+    return switch (part) {
+      case TOP, LEFT, RIGHT, BOTTOM -> currentParts.get(part) == upgrade;
+      case CPU -> currentCPU.contains(upgrade);
+    };
   }
 
   // *** Public methods to parse robot info from KoL responses
@@ -505,13 +489,11 @@ public abstract class YouRobotManager {
     currentParts.put(part, upgrade);
 
     switch (upgrade.getEffect()) {
-      case COMBAT:
-        upgrade.addCombatSkill();
-        break;
-      case EQUIP:
+      case COMBAT -> upgrade.addCombatSkill();
+      case EQUIP -> {
         EquipmentManager.updateEquipmentList(part.getSlot());
         EquipmentManager.updateNormalOutfits();
-        break;
+      }
     }
 
     // Set the legacy properties for use by scripts
@@ -588,21 +570,15 @@ public abstract class YouRobotManager {
 
   // Used by EquipmentManager.canEquip
   public static boolean canEquip(final ConsumptionType type) {
-    switch (type) {
-      case HAT:
-        return hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
-      case WEAPON:
-        return hasEquipped(RobotUpgrade.VICE_GRIPS);
-      case OFFHAND:
-        return hasEquipped(RobotUpgrade.OMNI_CLAW);
-      case SHIRT:
-        return hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
-      case PANTS:
-        return hasEquipped(RobotUpgrade.ROBO_LEGS);
-    }
-
-    // Any other slot is allowed
-    return true;
+    return switch (type) {
+      case HAT -> hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
+      case WEAPON -> hasEquipped(RobotUpgrade.VICE_GRIPS);
+      case OFFHAND -> hasEquipped(RobotUpgrade.OMNI_CLAW);
+      case SHIRT -> hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
+      case PANTS -> hasEquipped(RobotUpgrade.ROBO_LEGS);
+        // Any other slot is allowed
+      default -> true;
+    };
   }
 
   // Used by KoLCharacter.canUsePotions

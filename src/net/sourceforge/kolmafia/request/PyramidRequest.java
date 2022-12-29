@@ -15,22 +15,16 @@ public class PyramidRequest {
   }
 
   public static final String getPyramidPositionString() {
-    switch (Preferences.getInteger("pyramidPosition")) {
-      case 1:
-        return !Preferences.getBoolean("pyramidBombUsed")
-            ? "Empty/Rubble"
-            : "Empty/Empty/Ed's Chamber";
-      case 2:
-        return "Rats/Token";
-      case 3:
-        return "Rubble/Bomb";
-      case 4:
-        return "Token/Empty";
-      case 5:
-        return "Bomb/Rats";
-    }
-
-    return "Unknown";
+    return switch (Preferences.getInteger("pyramidPosition")) {
+      case 1 -> !Preferences.getBoolean("pyramidBombUsed")
+          ? "Empty/Rubble"
+          : "Empty/Empty/Ed's Chamber";
+      case 2 -> "Rats/Token";
+      case 3 -> "Rubble/Bomb";
+      case 4 -> "Token/Empty";
+      case 5 -> "Bomb/Rats";
+      default -> "Unknown";
+    };
   }
 
   public static final int advancePyramidPosition() {

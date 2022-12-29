@@ -168,14 +168,11 @@ public class ApiRequest extends GenericRequest {
 
     String what = whatMatcher.group(1);
 
-    if (what.equals("status")) {
-      ApiRequest.parseStatus(responseText);
-    } else if (what.equals("inventory")) {
-      ApiRequest.parseInventory(responseText);
-    } else if (what.equals("closet")) {
-      ApiRequest.parseCloset(responseText);
-    } else if (what.equals("storage")) {
-      ApiRequest.parseStorage(responseText);
+    switch (what) {
+      case "status" -> ApiRequest.parseStatus(responseText);
+      case "inventory" -> ApiRequest.parseInventory(responseText);
+      case "closet" -> ApiRequest.parseCloset(responseText);
+      case "storage" -> ApiRequest.parseStorage(responseText);
     }
   }
 

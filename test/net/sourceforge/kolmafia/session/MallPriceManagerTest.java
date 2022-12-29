@@ -59,7 +59,7 @@ public class MallPriceManagerTest {
   // We need to be able to set its responseText and call processResults()
   // on it to convert the search results into a list of PurchaseRequests
 
-  private class MockMallSearchRequest extends MallSearchRequest {
+  private static class MockMallSearchRequest extends MallSearchRequest {
 
     private String[] responseTexts = null;
 

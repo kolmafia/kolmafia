@@ -67,7 +67,7 @@ public class ScriptMRUList implements Listener {
     RequestThread.runInParallel(new AddItemRunnable(this, file), true);
   }
 
-  private class AddItemRunnable implements Runnable {
+  private static class AddItemRunnable implements Runnable {
     private final ScriptMRUList list;
     private final File file;
 

@@ -37,9 +37,7 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
   private static void purchasedItem(AdventureResult item, Boolean storage) {
     int itemId = item.getItemId();
     switch (itemId) {
-      case ItemPool.TOASTER:
-        Preferences.setBoolean("itemBoughtPerAscension637", true);
-        break;
+      case ItemPool.TOASTER -> Preferences.setBoolean("itemBoughtPerAscension637", true);
     }
   }
 

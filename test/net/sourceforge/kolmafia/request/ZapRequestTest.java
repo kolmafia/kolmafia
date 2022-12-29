@@ -58,7 +58,6 @@ public class ZapRequestTest {
     LockableListModel<AdventureResult> items = ZapRequest.getZappableItems();
     assertThat(items, hasItem(bacon));
     List<String> zapGroup = ZapRequest.getZapGroup(ItemPool.BACONSTONE);
-    ;
     assertThat(zapGroup, contains("baconstone", "hamethyst", "porquoise"));
     assertThat(zapGroup, hasSize(3));
     zapGroup = ZapRequest.getZapGroup(ItemPool.HERMIT_PERMIT);
