@@ -21,14 +21,12 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LocketManager {
   private static final Set<Integer> knownMonsters = new TreeSet<>();
-  private static final Set<Integer> foughtMonsters = new TreeSet<>();
   private static final Pattern REMINISCABLE_MONSTER = Pattern.compile("<option value=\"(\\d+)\"");
   private static final Set<String> CONSTANT_MODS =
       Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max", "Single Equip");
 
   private static void addFoughtMonster(int monsterId) {
-    parseFoughtMonsters();
-
+    Set<Integer> foughtMonsters = new TreeSet<>(getFoughtMonsters());
     foughtMonsters.add(monsterId);
 
     // Add monster id to pref ensuring distinct
@@ -38,15 +36,6 @@ public class LocketManager {
   }
 
   private LocketManager() {}
-
-  public static void parseFoughtMonsters() {
-    foughtMonsters.clear();
-
-    Arrays.stream(Preferences.getString("_locketMonstersFought").split(","))
-        .filter(StringUtilities::isNumeric)
-        .map(Integer::parseInt)
-        .forEach(foughtMonsters::add);
-  }
 
   public static Set<Integer> getMonsters() {
     return Collections.unmodifiableSet(knownMonsters);
@@ -65,7 +54,7 @@ public class LocketManager {
   }
 
   public static boolean foughtMonster(int monsterId) {
-    return foughtMonsters.contains(monsterId);
+    return getFoughtMonsters().contains(monsterId);
   }
 
   public static boolean foughtMonster(MonsterData monster) {
@@ -73,7 +62,10 @@ public class LocketManager {
   }
 
   public static Set<Integer> getFoughtMonsters() {
-    return Collections.unmodifiableSet(foughtMonsters);
+    return Arrays.stream(Preferences.getString("_locketMonstersFought").split(","))
+        .filter(StringUtilities::isNumeric)
+        .map(Integer::parseInt)
+        .collect(Collectors.toUnmodifiableSet());
   }
 
   public static void parseMonsters(final String text) {
@@ -87,8 +79,7 @@ public class LocketManager {
     }
 
     // Add all the monsters you've fought today, which will not otherwise show on said page
-    parseFoughtMonsters();
-    knownMonsters.addAll(foughtMonsters);
+    knownMonsters.addAll(getFoughtMonsters());
   }
 
   public static void parseFight(final MonsterData monster, final String text) {
@@ -165,7 +156,6 @@ public class LocketManager {
 
   public static void clear() {
     knownMonsters.clear();
-    foughtMonsters.clear();
   }
 
   public static void reset() {
