@@ -1,15 +1,18 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withInebriety;
+import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withUnequipped;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
@@ -19,6 +22,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -99,6 +103,76 @@ public class RelayRequestWarningsTest {
       buf.append("=on");
     }
     return buf.toString();
+  }
+
+  @Nested
+  class KungFuFighting {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final String confirm = RelayRequest.CONFIRM_KUNGFU;
+
+    @Test
+    public void shouldNotWarnWithoutEffect() {
+      var cleanups = withEquipped(EquipmentManager.WEAPON, ItemPool.SEAL_CLUB);
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendKungFuWarning());
+      }
+    }
+
+    @Test
+    public void shouldWarnWithIntrinsicAndFullHands() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.WEAPON, ItemPool.SEAL_CLUB),
+              withIntrinsicEffect("Kung Fu Fighting"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertTrue(request.sendKungFuWarning());
+      }
+    }
+
+    @Test
+    public void shouldNotWarnWithIntrinsicAndEmptyHands() {
+      var cleanups =
+          new Cleanups(
+              withUnequipped(EquipmentManager.WEAPON),
+              withUnequipped(EquipmentManager.OFFHAND),
+              withIntrinsicEffect("Kung Fu Fighting"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendKungFuWarning());
+      }
+    }
+
+    @Test
+    public void shouldNotWarnWithNonIntrinsicEffect() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.WEAPON, ItemPool.SEAL_CLUB),
+              withEffect(EffectPool.KUNG_FU_FIGHTING));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendKungFuWarning());
+      }
+    }
+
+    @Test
+    public void shouldNotWarnWithIntrinsicIfAlreadyConfirmed() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.WEAPON, ItemPool.SEAL_CLUB),
+              withIntrinsicEffect("Kung Fu Fighting"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertFalse(request.sendKungFuWarning());
+      }
+    }
   }
 
   @Nested

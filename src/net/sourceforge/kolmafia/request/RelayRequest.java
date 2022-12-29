@@ -120,7 +120,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_TOKENS = "confirm7";
   private static final String CONFIRM_SEAL = "confirm8";
   private static final String CONFIRM_ARCADE = "confirm9";
-  private static final String CONFIRM_KUNGFU = "confirm10";
+  static final String CONFIRM_KUNGFU = "confirm10";
   private static final String CONFIRM_POOL_SKILL = "confirm11";
   public static final String CONFIRM_WINEGLASS = "confirm12";
   private static final String CONFIRM_COLOSSEUM = "confirm13";
@@ -2251,13 +2251,14 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendKungFuWarning() {
+  boolean sendKungFuWarning() {
     if (this.getFormField(CONFIRM_KUNGFU) != null) {
       return false;
     }
 
-    // If you don't have the first Kung Fu effect active, there's nothing to warn about
-    if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.KUNG_FU_FIGHTING))) {
+    // If you don't have the first Kung Fu intrinsic active, there's nothing to warn about
+    int index = KoLConstants.activeEffects.indexOf(EffectPool.get(EffectPool.KUNG_FU_FIGHTING));
+    if (index == -1 || KoLConstants.activeEffects.get(index).getCount() < Integer.MAX_VALUE) {
       return false;
     }
 
