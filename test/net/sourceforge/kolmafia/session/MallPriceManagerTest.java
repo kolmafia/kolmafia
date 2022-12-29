@@ -121,6 +121,7 @@ public class MallPriceManagerTest {
               request.setSearchString(searchString);
               request.setCheapestCount(cheapestCount);
               request.setResults(results);
+              request.maybeUpdateMallPrice();
               return request;
             });
     mocked
