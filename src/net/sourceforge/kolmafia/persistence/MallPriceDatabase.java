@@ -12,10 +12,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -33,7 +34,7 @@ public class MallPriceDatabase {
   // If false, blocks saving of mall prices. Do not modify outside of tests.
   public static boolean savePricesToFile = true;
 
-  private static final Map<Integer, Price> prices = new HashMap<>();
+  private static final SortedMap<Integer, Price> prices = new TreeMap<>();
   private static final HashSet<String> updated = new HashSet<>();
   private static final HashSet<String> submitted = new HashSet<>();
   private static int modCount = 0;
@@ -86,12 +87,11 @@ public class MallPriceDatabase {
         if (!ItemDatabase.isTradeable(id)) continue;
         Price p = MallPriceDatabase.prices.get(id);
         if (p == null) {
-          MallPriceDatabase.prices.put(id, new Price(price, timestamp));
+          MallPriceDatabase.prices.put(id, new Price(id, price, timestamp));
           ++count;
           ++MallPriceDatabase.modCount;
         } else if (timestamp > p.timestamp) {
-          p.price = price;
-          p.timestamp = timestamp;
+          p.update(price, timestamp);
           ++count;
           ++MallPriceDatabase.modCount;
         }
@@ -145,10 +145,9 @@ public class MallPriceDatabase {
     long timestamp = MallPriceManager.currentTimeMillis() / 1000L;
     Price p = MallPriceDatabase.prices.get(itemId);
     if (p == null) {
-      MallPriceDatabase.prices.put(itemId, new Price(price, timestamp));
+      MallPriceDatabase.prices.put(itemId, new Price(itemId, price, timestamp));
     } else {
-      p.price = price;
-      p.timestamp = timestamp;
+      p.update(price, timestamp);
     }
     ++MallPriceDatabase.modCount;
     if (!deferred) {
@@ -170,12 +169,11 @@ public class MallPriceDatabase {
     writer.println(KoLConstants.MALLPRICES_VERSION);
 
     MallPriceDatabase.prices.entrySet().stream()
-        .sorted(Map.Entry.comparingByKey())
         .forEach(
             entry -> {
               Price p = entry.getValue();
               if (p != null) {
-                writer.println(entry.getKey() + "\t" + p.timestamp + "\t" + p.price);
+                writer.writeBytes(p.encoded);
               }
             });
   }
@@ -264,12 +262,22 @@ public class MallPriceDatabase {
   }
 
   private static class Price {
+    int id;
     int price;
     long timestamp;
+    byte[] encoded;
 
-    public Price(int price, long timestamp) {
+    public Price(int id, int price, long timestamp) {
+      this.id = id;
+      this.update(price, timestamp);
+    }
+
+    public void update(int price, long timestamp) {
       this.price = price;
       this.timestamp = timestamp;
+      this.encoded =
+          (this.id + "\t" + this.timestamp + "\t" + this.price + KoLConstants.LINE_BREAK)
+              .getBytes(StandardCharsets.UTF_8);
     }
   }
 }
