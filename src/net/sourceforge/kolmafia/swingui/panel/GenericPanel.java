@@ -303,7 +303,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
     return shouldAddStatusLabel;
   }
 
-  private class StatusLabel extends JLabel {
+  private static class StatusLabel extends JLabel {
     public StatusLabel() {
       super(" ", SwingConstants.CENTER);
     }

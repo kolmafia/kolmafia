@@ -1228,24 +1228,16 @@ public class Modifiers {
       Modifiers.doubleModifiers[Modifiers.MP_REGEN_MAX].getTag() + ": ";
 
   public static int elementalResistance(final Element element) {
-    switch (element) {
-      case COLD:
-        return Modifiers.COLD_RESISTANCE;
-      case HOT:
-        return Modifiers.HOT_RESISTANCE;
-      case SLEAZE:
-        return Modifiers.SLEAZE_RESISTANCE;
-      case SPOOKY:
-        return Modifiers.SPOOKY_RESISTANCE;
-      case STENCH:
-        return Modifiers.STENCH_RESISTANCE;
-      case SLIME:
-        return Modifiers.SLIME_RESISTANCE;
-      case SUPERCOLD:
-        return Modifiers.SUPERCOLD_RESISTANCE;
-      default:
-        return -1;
-    }
+    return switch (element) {
+      case COLD -> Modifiers.COLD_RESISTANCE;
+      case HOT -> Modifiers.HOT_RESISTANCE;
+      case SLEAZE -> Modifiers.SLEAZE_RESISTANCE;
+      case SPOOKY -> Modifiers.SPOOKY_RESISTANCE;
+      case STENCH -> Modifiers.STENCH_RESISTANCE;
+      case SLIME -> Modifiers.SLIME_RESISTANCE;
+      case SUPERCOLD -> Modifiers.SUPERCOLD_RESISTANCE;
+      default -> -1;
+    };
   }
 
   public static List<AdventureResult> getPotentialChanges(final int index) {
@@ -1904,16 +1896,15 @@ public class Modifiers {
       }
       int mask = Modifiers.bitmapMasks[i];
       switch (bitcount) {
-        case 1:
-          Modifiers.bitmapMasks[i] <<= 1;
-          break;
-        case 2:
+        case 1 -> Modifiers.bitmapMasks[i] <<= 1;
+        case 2 -> {
           mask |= mask << 1;
           Modifiers.bitmapMasks[i] <<= 2;
-          break;
-        default:
+        }
+        default -> {
           KoLmafia.updateDisplay("ERROR: invalid count for bitmap modifier in " + lookup);
           continue;
+        }
       }
       if (Modifiers.bitmapMasks[i] == 0) {
         KoLmafia.updateDisplay(
@@ -2789,18 +2780,10 @@ public class Modifiers {
     }
 
     switch (companion) {
-      case EGGMAN:
-        this.add(Modifiers.ITEMDROP, 50 * multiplier, "Eggman");
-        break;
-      case RADISH:
-        this.add(Modifiers.INITIATIVE, 50 * multiplier, "Radish Horse");
-        break;
-      case HIPPO:
-        this.add(Modifiers.EXPERIENCE, 3 * multiplier, "Hippotatomous");
-        break;
-      case CREAM:
-        this.add(Modifiers.MONSTER_LEVEL, 20 * multiplier, "Cream Puff");
-        break;
+      case EGGMAN -> this.add(Modifiers.ITEMDROP, 50 * multiplier, "Eggman");
+      case RADISH -> this.add(Modifiers.INITIATIVE, 50 * multiplier, "Radish Horse");
+      case HIPPO -> this.add(Modifiers.EXPERIENCE, 3 * multiplier, "Hippotatomous");
+      case CREAM -> this.add(Modifiers.MONSTER_LEVEL, 20 * multiplier, "Cream Puff");
     }
   }
 
@@ -2828,13 +2811,10 @@ public class Modifiers {
     int type = companion.getType();
     int level = companion.getLevel();
     switch (type) {
-      case VYKEACompanionData.LAMP:
-        this.add(Modifiers.ITEMDROP, level * 10, "VYKEA Companion: Lamp");
-        break;
-
-      case VYKEACompanionData.COUCH:
-        this.add(Modifiers.MEATDROP, level * 10, "VYKEA Companion: Couch");
-        break;
+      case VYKEACompanionData.LAMP -> this.add(
+          Modifiers.ITEMDROP, level * 10, "VYKEA Companion: Lamp");
+      case VYKEACompanionData.COUCH -> this.add(
+          Modifiers.MEATDROP, level * 10, "VYKEA Companion: Couch");
     }
   }
 
@@ -3511,43 +3491,19 @@ public class Modifiers {
       ConsumptionType type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
-        case HAT:
-          hats.add(name);
-          break;
-        case PANTS:
-          pants.add(name);
-          break;
-        case SHIRT:
-          shirts.add(name);
-          break;
-        case WEAPON:
-          weapons.add(name);
-          break;
-        case OFFHAND:
-          offhands.add(name);
-          break;
-        case ACCESSORY:
-          accessories.add(name);
-          break;
-        case CONTAINER:
-          containers.add(name);
-          break;
-        case FAMILIAR_EQUIPMENT:
-          famitems.add(name);
-          break;
-        case SIXGUN:
-          sixguns.add(name);
-          break;
-        case STICKER:
-          bedazzlements.add(name);
-          break;
-        case CARD:
-          cards.add(name);
-          break;
-        case FOLDER:
-          folders.add(name);
-          break;
-        default:
+        case HAT -> hats.add(name);
+        case PANTS -> pants.add(name);
+        case SHIRT -> shirts.add(name);
+        case WEAPON -> weapons.add(name);
+        case OFFHAND -> offhands.add(name);
+        case ACCESSORY -> accessories.add(name);
+        case CONTAINER -> containers.add(name);
+        case FAMILIAR_EQUIPMENT -> famitems.add(name);
+        case SIXGUN -> sixguns.add(name);
+        case STICKER -> bedazzlements.add(name);
+        case CARD -> cards.add(name);
+        case FOLDER -> folders.add(name);
+        default -> {
           Modifiers mods = Modifiers.getModifiers("Item", name);
           if (mods == null) {
             break;
@@ -3559,7 +3515,7 @@ public class Modifiers {
           } else if (!mods.getString(Modifiers.WIKI_NAME).isEmpty()) {
             wikiname.add(name);
           }
-          break;
+        }
       }
     }
 

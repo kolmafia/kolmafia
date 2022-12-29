@@ -93,7 +93,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
     this.queueTabs = queueTabs;
 
-    List<ThreadedListener> listeners = new ArrayList<ThreadedListener>();
+    List<ThreadedListener> listeners = new ArrayList<>();
 
     if (this.hasCreationQueue) {
       listeners.add(new EnqueueListener());

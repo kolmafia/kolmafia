@@ -13,7 +13,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -218,20 +217,14 @@ public class MonsterDatabase {
 
   public static final boolean elementalVulnerability(
       final Element element1, final Element element2) {
-    switch (element1) {
-      case COLD:
-        return element2 == Element.HOT || element2 == Element.SPOOKY;
-      case HOT:
-        return element2 == Element.SLEAZE || element2 == Element.STENCH;
-      case SLEAZE:
-        return element2 == Element.COLD || element2 == Element.SPOOKY;
-      case SPOOKY:
-        return element2 == Element.HOT || element2 == Element.STENCH;
-      case STENCH:
-        return element2 == Element.SLEAZE || element2 == Element.COLD;
-      default:
-        return false;
-    }
+    return switch (element1) {
+      case COLD -> element2 == Element.HOT || element2 == Element.SPOOKY;
+      case HOT -> element2 == Element.SLEAZE || element2 == Element.STENCH;
+      case SLEAZE -> element2 == Element.COLD || element2 == Element.SPOOKY;
+      case SPOOKY -> element2 == Element.HOT || element2 == Element.STENCH;
+      case STENCH -> element2 == Element.SLEAZE || element2 == Element.COLD;
+      default -> false;
+    };
   }
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {
@@ -894,7 +887,7 @@ public class MonsterDatabase {
         data[3] = attributeString;
         count++;
 
-        writer.println(Arrays.stream(data).collect(Collectors.joining("\t")));
+        writer.println(String.join("\t", data));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);

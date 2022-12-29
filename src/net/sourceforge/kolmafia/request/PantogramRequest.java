@@ -34,25 +34,19 @@ public class PantogramRequest extends GenericRequest {
       // If the matcher doesn't find anything, then the user probably manually constructed
       // the URL in a different order.  For now at least, that is not handled.
       String stat = matcher.group(1);
-      if (stat.equals("1")) {
-        modList.addModifier("Muscle", "10");
-      } else if (stat.equals("2")) {
-        modList.addModifier("Mysticality", "10");
-      } else if (stat.equals("3")) {
-        modList.addModifier("Moxie", "10");
+      switch (stat) {
+        case "1" -> modList.addModifier("Muscle", "10");
+        case "2" -> modList.addModifier("Mysticality", "10");
+        case "3" -> modList.addModifier("Moxie", "10");
       }
 
       String element = matcher.group(2);
-      if (element.equals("1")) {
-        modList.addModifier("Hot Resistance", "2");
-      } else if (element.equals("2")) {
-        modList.addModifier("Cold Resistance", "2");
-      } else if (element.equals("3")) {
-        modList.addModifier("Spooky Resistance", "2");
-      } else if (element.equals("4")) {
-        modList.addModifier("Sleaze Resistance", "2");
-      } else if (element.equals("5")) {
-        modList.addModifier("Stench Resistance", "2");
+      switch (element) {
+        case "1" -> modList.addModifier("Hot Resistance", "2");
+        case "2" -> modList.addModifier("Cold Resistance", "2");
+        case "3" -> modList.addModifier("Spooky Resistance", "2");
+        case "4" -> modList.addModifier("Sleaze Resistance", "2");
+        case "5" -> modList.addModifier("Stench Resistance", "2");
       }
 
       // Bottom left

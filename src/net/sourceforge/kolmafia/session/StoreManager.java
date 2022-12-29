@@ -74,11 +74,9 @@ public abstract class StoreManager {
   private static final long REALISTIC_PRICE_THRESHOLD = 50000000;
   private static long potentialEarnings = 0;
 
-  private static final LockableListModel<StoreLogEntry> storeLog =
-      new LockableListModel<StoreLogEntry>();
-  private static final LockableListModel<SoldItem> soldItemList = new LockableListModel<SoldItem>();
-  private static final LockableListModel<SoldItem> sortedSoldItemList =
-      new LockableListModel<SoldItem>();
+  private static final LockableListModel<StoreLogEntry> storeLog = new LockableListModel<>();
+  private static final LockableListModel<SoldItem> soldItemList = new LockableListModel<>();
+  private static final LockableListModel<SoldItem> sortedSoldItemList = new LockableListModel<>();
 
   public static boolean soldItemsRetrieved = false;
 
@@ -185,15 +183,9 @@ public abstract class StoreManager {
   public static final void sortStoreLog(final boolean cycleSortType) {
     if (cycleSortType) {
       switch (StoreManager.currentLogSort) {
-        case RECENT_FIRST:
-          StoreManager.currentLogSort = StoreManager.OLDEST_FIRST;
-          break;
-        case OLDEST_FIRST:
-          StoreManager.currentLogSort = StoreManager.GROUP_BY_NAME;
-          break;
-        case GROUP_BY_NAME:
-          StoreManager.currentLogSort = StoreManager.RECENT_FIRST;
-          break;
+        case RECENT_FIRST -> StoreManager.currentLogSort = StoreManager.OLDEST_FIRST;
+        case OLDEST_FIRST -> StoreManager.currentLogSort = StoreManager.GROUP_BY_NAME;
+        case GROUP_BY_NAME -> StoreManager.currentLogSort = StoreManager.RECENT_FIRST;
       }
     }
 
@@ -213,102 +205,96 @@ public abstract class StoreManager {
     }
 
     StoreManager.potentialEarnings = 0;
-    ArrayList<SoldItem> newItems = new ArrayList<SoldItem>();
+    ArrayList<SoldItem> newItems = new ArrayList<>();
 
     switch (type) {
-      case ADDER:
-        {
-          AdventureResult item;
-          int itemId, price, limit;
+      case ADDER -> {
+        AdventureResult item;
+        int itemId, price, limit;
 
-          // The item matcher here examines each row in the table
-          // displayed in the standard item-addition page.
+        // The item matcher here examines each row in the table
+        // displayed in the standard item-addition page.
 
-          Matcher itemMatcher = StoreManager.ADDER_PATTERN.matcher(storeText);
+        Matcher itemMatcher = StoreManager.ADDER_PATTERN.matcher(storeText);
 
-          while (itemMatcher.find()) {
-            itemId = StringUtilities.parseInt(itemMatcher.group(6));
-            if (ItemDatabase.getItemName(itemId) == null) {
-              // Do not register new items discovered in your store,
-              // since the descid is not available
-              //
-              // ItemDatabase.registerItem( itemId, itemMatcher.group( 1 ), descId );
-              continue;
-            }
-
-            int count =
-                itemMatcher.group(2) == null ? 1 : StringUtilities.parseInt(itemMatcher.group(3));
-
-            // Register using item ID, since the name might have changed
-            item = ItemPool.get(itemId, count);
-            price = StringUtilities.parseInt(itemMatcher.group(4));
-
-            // In this case, the limit could appear as
-            // "unlimited", which equates to a limit of 0.
-
-            limit =
-                itemMatcher.group(5).startsWith("<")
-                    ? 0
-                    : StringUtilities.parseInt(itemMatcher.group(5));
-
-            // Now that all the data has been retrieved,
-            // register the item that was discovered.
-
-            newItems.add(
-                StoreManager.registerItem(item.getItemId(), item.getCount(), price, limit, 0));
+        while (itemMatcher.find()) {
+          itemId = StringUtilities.parseInt(itemMatcher.group(6));
+          if (ItemDatabase.getItemName(itemId) == null) {
+            // Do not register new items discovered in your store,
+            // since the descid is not available
+            //
+            // ItemDatabase.registerItem( itemId, itemMatcher.group( 1 ), descId );
+            continue;
           }
-          break;
+
+          int count =
+              itemMatcher.group(2) == null ? 1 : StringUtilities.parseInt(itemMatcher.group(3));
+
+          // Register using item ID, since the name might have changed
+          item = ItemPool.get(itemId, count);
+          price = StringUtilities.parseInt(itemMatcher.group(4));
+
+          // In this case, the limit could appear as
+          // "unlimited", which equates to a limit of 0.
+
+          limit =
+              itemMatcher.group(5).startsWith("<")
+                  ? 0
+                  : StringUtilities.parseInt(itemMatcher.group(5));
+
+          // Now that all the data has been retrieved,
+          // register the item that was discovered.
+
+          newItems.add(
+              StoreManager.registerItem(item.getItemId(), item.getCount(), price, limit, 0));
         }
-      case PRICER:
-        {
-          int itemId, quantity, price, limit, lowest;
+      }
+      case PRICER -> {
+        int itemId, quantity, price, limit, lowest;
 
-          // The item matcher here examines each row in the table
-          // displayed in the price management page.
+        // The item matcher here examines each row in the table
+        // displayed in the price management page.
 
-          Matcher priceMatcher = StoreManager.PRICER_PATTERN.matcher(storeText);
+        Matcher priceMatcher = StoreManager.PRICER_PATTERN.matcher(storeText);
 
-          while (priceMatcher.find()) {
-            itemId = StringUtilities.parseInt(priceMatcher.group(4));
-            if (ItemDatabase.getItemName(itemId) == null) {
-              // Do not register new items discovered in your store,
-              // since the descid is not available
-              //
-              // ItemDatabase.registerItem( itemId, priceMatcher.group( 1 ), descId );
-              continue;
-            }
-
-            quantity = StringUtilities.parseInt(priceMatcher.group(2));
-
-            price = StringUtilities.parseInt(priceMatcher.group(3));
-            limit = StringUtilities.parseInt(priceMatcher.group(5));
-            lowest = StringUtilities.parseInt(priceMatcher.group(6));
-
-            // Now that all the data has been retrieved, register
-            // the item that was discovered.
-
-            newItems.add(StoreManager.registerItem(itemId, quantity, price, limit, lowest));
+        while (priceMatcher.find()) {
+          itemId = StringUtilities.parseInt(priceMatcher.group(4));
+          if (ItemDatabase.getItemName(itemId) == null) {
+            // Do not register new items discovered in your store,
+            // since the descid is not available
+            //
+            // ItemDatabase.registerItem( itemId, priceMatcher.group( 1 ), descId );
+            continue;
           }
-          break;
+
+          quantity = StringUtilities.parseInt(priceMatcher.group(2));
+
+          price = StringUtilities.parseInt(priceMatcher.group(3));
+          limit = StringUtilities.parseInt(priceMatcher.group(5));
+          lowest = StringUtilities.parseInt(priceMatcher.group(6));
+
+          // Now that all the data has been retrieved, register
+          // the item that was discovered.
+
+          newItems.add(StoreManager.registerItem(itemId, quantity, price, limit, lowest));
         }
-      case DEETS:
-        {
-          Matcher rowMatcher = StoreManager.INVENTORY_ROW_PATTERN.matcher(storeText);
-          while (rowMatcher.find()) {
-            Matcher matcher = StoreManager.INVENTORY_PATTERN.matcher(rowMatcher.group(0));
-            if (!matcher.find()) {
-              continue;
-            }
-
-            int itemId = StringUtilities.parseInt(matcher.group(2));
-            int count = StringUtilities.parseInt(matcher.group(1));
-            int price = StringUtilities.parseInt(matcher.group(3));
-            int limit = StringUtilities.parseInt(matcher.group(4));
-
-            newItems.add(StoreManager.registerItem(itemId, count, price, limit, 0));
+      }
+      case DEETS -> {
+        Matcher rowMatcher = StoreManager.INVENTORY_ROW_PATTERN.matcher(storeText);
+        while (rowMatcher.find()) {
+          Matcher matcher = StoreManager.INVENTORY_PATTERN.matcher(rowMatcher.group(0));
+          if (!matcher.find()) {
+            continue;
           }
-          break;
+
+          int itemId = StringUtilities.parseInt(matcher.group(2));
+          int count = StringUtilities.parseInt(matcher.group(1));
+          int price = StringUtilities.parseInt(matcher.group(3));
+          int limit = StringUtilities.parseInt(matcher.group(4));
+
+          newItems.add(StoreManager.registerItem(itemId, count, price, limit, 0));
         }
+      }
     }
 
     StoreManageFrame.cancelTableEditing();
@@ -339,7 +325,7 @@ public abstract class StoreManager {
         return;
       }
 
-      ArrayList<StoreLogEntry> currentLog = new ArrayList<StoreLogEntry>();
+      ArrayList<StoreLogEntry> currentLog = new ArrayList<>();
 
       String[] entries = logMatcher.group().split("<br>");
 
@@ -378,16 +364,12 @@ public abstract class StoreManager {
         return -1;
       }
 
-      switch (StoreManager.currentLogSort) {
-        case RECENT_FIRST:
-          return o.id - this.id;
-        case OLDEST_FIRST:
-          return this.id - o.id;
-        case GROUP_BY_NAME:
-          return this.text.compareToIgnoreCase(o.text);
-        default:
-          return -1;
-      }
+      return switch (StoreManager.currentLogSort) {
+        case RECENT_FIRST -> o.id - this.id;
+        case OLDEST_FIRST -> this.id - o.id;
+        case GROUP_BY_NAME -> this.text.compareToIgnoreCase(o.text);
+        default -> -1;
+      };
     }
   }
 

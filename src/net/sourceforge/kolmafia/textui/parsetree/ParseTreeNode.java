@@ -14,6 +14,5 @@ public interface ParseTreeNode {
     public default Type getRawType() {
       return this.getType();
     }
-    ;
   }
 }

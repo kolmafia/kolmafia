@@ -306,8 +306,8 @@ public class ClanLoungeRequest extends GenericRequest {
         : ClanLoungeRequest.HOTDOG_DATA[index].unlocker;
   }
 
-  public static final ArrayList<String> HOTDOG_NAMES = new ArrayList<String>();
-  public static final ArrayList<Concoction> ALL_HOTDOGS = new ArrayList<Concoction>();
+  public static final ArrayList<String> HOTDOG_NAMES = new ArrayList<>();
+  public static final ArrayList<Concoction> ALL_HOTDOGS = new ArrayList<>();
 
   static {
     for (int i = 0; i < HOTDOG_DATA.length; ++i) {
@@ -392,7 +392,7 @@ public class ClanLoungeRequest extends GenericRequest {
         : ClanLoungeRequest.SPEAKEASY_DATA[index].cost;
   }
 
-  public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<Concoction>();
+  public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<>();
   private static final String[] CANONICAL_SPEAKEASY_ARRAY =
       new String[ClanLoungeRequest.SPEAKEASY_DATA.length];
 
@@ -448,7 +448,7 @@ public class ClanLoungeRequest extends GenericRequest {
     return null;
   }
 
-  public static final ArrayList<Concoction> ALL_FLOUNDRY = new ArrayList<Concoction>();
+  public static final ArrayList<Concoction> ALL_FLOUNDRY = new ArrayList<>();
 
   static {
     for (int i = 0; i < FLOUNDRY_DATA.length; ++i) {
@@ -572,53 +572,40 @@ public class ClanLoungeRequest extends GenericRequest {
   }
 
   public static final String prettyStanceName(final int stance) {
-    switch (stance) {
-      case AGGRESSIVE_STANCE:
-        return "an aggressive stance";
-      case STRATEGIC_STANCE:
-        return "a strategic stance";
-      case STYLISH_STANCE:
-        return "a stylish stance";
-    }
-    return "an unknown stance";
+    return switch (stance) {
+      case AGGRESSIVE_STANCE -> "an aggressive stance";
+      case STRATEGIC_STANCE -> "a strategic stance";
+      case STYLISH_STANCE -> "a stylish stance";
+      default -> "an unknown stance";
+    };
   }
 
   public static final String prettyFaxCommand(final int faxCommand) {
-    switch (faxCommand) {
-      case SEND_FAX:
-        return "Sending a fax.";
-      case RECEIVE_FAX:
-        return "Receiving a fax.";
-    }
-    return "Unknown fax command.";
+    return switch (faxCommand) {
+      case SEND_FAX -> "Sending a fax.";
+      case RECEIVE_FAX -> "Receiving a fax.";
+      default -> "Unknown fax command.";
+    };
   }
 
   public static final String prettyTemperatureName(final int temp) {
-    switch (temp) {
-      case COLD_SHOWER:
-        return "a cold";
-      case COOL_SHOWER:
-        return "a cool";
-      case LUKEWARM_SHOWER:
-        return "a lukewarm";
-      case WARM_SHOWER:
-        return "a warm";
-      case HOT_SHOWER:
-        return "a hot";
-    }
-    return "an unknown";
+    return switch (temp) {
+      case COLD_SHOWER -> "a cold";
+      case COOL_SHOWER -> "a cool";
+      case LUKEWARM_SHOWER -> "a lukewarm";
+      case WARM_SHOWER -> "a warm";
+      case HOT_SHOWER -> "a hot";
+      default -> "an unknown";
+    };
   }
 
   public static final String prettySwimmingName(final int action) {
-    switch (action) {
-      case CANNONBALL:
-        return "cannonball";
-      case LAPS:
-        return "swim laps";
-      case SPRINTS:
-        return "do submarine sprints";
-    }
-    return "do something";
+    return switch (action) {
+      case CANNONBALL -> "cannonball";
+      case LAPS -> "swim laps";
+      case SPRINTS -> "do submarine sprints";
+      default -> "do something";
+    };
   }
 
   private ClanLoungeRequest() {
@@ -877,21 +864,19 @@ public class ClanLoungeRequest extends GenericRequest {
 
         this.constructURLString("clan_viplounge.php");
         switch (this.option) {
-          case CANNONBALL:
+          case CANNONBALL -> {
             this.addFormField("preaction", "goswimming");
             this.addFormField("subaction", "screwaround");
-            break;
-          case LAPS:
+          }
+          case LAPS -> {
             this.addFormField("preaction", "goswimming");
             this.addFormField("subaction", "laps");
-            break;
-          case SPRINTS:
+          }
+          case SPRINTS -> {
             this.addFormField("preaction", "goswimming");
             this.addFormField("subaction", "submarine");
-            break;
-          default:
-            this.addFormField("action", "swimmingpool");
-            break;
+          }
+          default -> this.addFormField("action", "swimmingpool");
         }
         this.addFormField("whichfloor", "2");
         break;
@@ -1279,7 +1264,7 @@ public class ClanLoungeRequest extends GenericRequest {
     }
 
     // Make a list of all currently available hot dogs
-    ArrayList<Concoction> available = new ArrayList<Concoction>();
+    ArrayList<Concoction> available = new ArrayList<>();
 
     String stand = standMatcher.group(1);
     Matcher hotdogMatcher = HOTDOG_ROW_PATTERN.matcher(stand);
@@ -1354,7 +1339,7 @@ public class ClanLoungeRequest extends GenericRequest {
     }
 
     // Make a list of all currently available speakeasy drinks
-    ArrayList<Concoction> available = new ArrayList<Concoction>();
+    ArrayList<Concoction> available = new ArrayList<>();
 
     Matcher speakeasyMatcher = SPEAKEASY_ROW_PATTERN.matcher(responseText);
     while (speakeasyMatcher.find()) {
@@ -1403,7 +1388,7 @@ public class ClanLoungeRequest extends GenericRequest {
     ClanLoungeRequest.resetFloundry();
 
     // Make a list of all currently available floundry items
-    ArrayList<Concoction> available = new ArrayList<Concoction>();
+    ArrayList<Concoction> available = new ArrayList<>();
 
     Matcher fishStockMatcher = FISH_STOCK_PATTERN.matcher(responseText);
     while (fishStockMatcher.find()) {
@@ -1938,98 +1923,124 @@ public class ClanLoungeRequest extends GenericRequest {
       if (action == null) {
         return true;
       }
-      if (action.equals("poolgame")) {
-        Matcher m = STANCE_PATTERN.matcher(urlString);
-        if (!m.find()) {
+      switch (action) {
+        case "poolgame":
+          {
+            Matcher m = STANCE_PATTERN.matcher(urlString);
+            if (!m.find()) {
+              return false;
+            }
+            int stance = StringUtilities.parseInt(m.group(1));
+            if (stance < 1 || stance > POOL_GAMES.length) {
+              return false;
+            }
+            message = "pool " + POOL_GAMES[stance - 1].stance;
+            break;
+          }
+        case "sendfax":
+        case "receivefax":
+          {
+            Matcher m = FAX_PATTERN.matcher(urlString);
+            if (!m.find()) {
+              return false;
+            }
+            String faxCommand = m.group(1);
+            if (!faxCommand.equals("send") && !faxCommand.equals("receive")) {
+              return false;
+            }
+            message = "fax " + faxCommand;
+            break;
+          }
+        case "takeshower":
+          {
+            Matcher m = TEMPERATURE_PATTERN.matcher(urlString);
+            if (!m.find()) {
+              return false;
+            }
+            int temp = StringUtilities.parseInt(m.group(1));
+            if (temp < 1 || temp > SHOWER_OPTIONS.length) {
+              return false;
+            }
+            message = "shower " + SHOWER_OPTIONS[temp - 1].temp;
+            break;
+          }
+        case "goswimming":
+          {
+            Matcher m = SWIMMING_POOL_PATTERN.matcher(urlString);
+            if (!m.find()) {
+              return false;
+            }
+            String poolCommand = m.group(1);
+            if (!poolCommand.equals("screwaround")
+                && !poolCommand.equals("laps")
+                && !poolCommand.equals("submarine")) {
+              return false;
+            }
+            message = "swimming pool " + poolCommand;
+            break;
+          }
+        case "eathotdog":
+          {
+            //   clan_viplounge.php?preaction=eathotdog&whichdog=xxx
+            Matcher m = WHICHDOG_PATTERN.matcher(urlString);
+            if (!m.find()) {
+              return false;
+            }
+            String hotdog = ClanLoungeRequest.hotdogIdToName(StringUtilities.parseInt(m.group(1)));
+            if (hotdog == null) {
+              return false;
+            }
+            message = "eat 1 " + hotdog;
+            break;
+          }
+        case "hotdogsupply":
+          {
+            //   clan_viplounge.php?preaction=hotdogsupply&whichdog =-101&quantity=10
+            Matcher m = WHICHDOG_PATTERN.matcher(urlString);
+            if (!m.find()) {
+              return false;
+            }
+            int index = ClanLoungeRequest.hotdogIdToIndex(StringUtilities.parseInt(m.group(1)));
+            AdventureResult item = ClanLoungeRequest.hotdogIndexToItem(index);
+            if (item == null) {
+              return false;
+            }
+            m = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
+            int quantity = m.find() ? StringUtilities.parseInt(m.group(1)) : 1;
+            message = "stock Hot Dog Stand with " + quantity + " " + item.getPluralName(quantity);
+            break;
+          }
+        case "unlockhotdog":
+          {
+            //   clan_viplounge.php?preaction=unlockhotdog&whichdog=xxx
+            Matcher m = WHICHDOG_PATTERN.matcher(urlString);
+            if (!m.find()) {
+              return false;
+            }
+            String hotdog = ClanLoungeRequest.hotdogIdToName(StringUtilities.parseInt(m.group(1)));
+            if (hotdog == null) {
+              return false;
+            }
+            message = "unlock " + hotdog;
+            break;
+          }
+        case "speakeasydrink":
+          {
+            //   clan_viplounge.php?preaction=speakeasydrink&drink=xxx
+            Matcher m = WHICH_SPEAKEASY_PATTERN.matcher(urlString);
+            if (!m.find()) {
+              return false;
+            }
+            String speakeasyDrink =
+                ClanLoungeRequest.speakeasyIdToName(StringUtilities.parseInt(m.group(0)));
+            if (speakeasyDrink == null) {
+              return false;
+            }
+            message = "drink 1 " + speakeasyDrink;
+            break;
+          }
+        default:
           return false;
-        }
-        int stance = StringUtilities.parseInt(m.group(1));
-        if (stance < 1 || stance > POOL_GAMES.length) {
-          return false;
-        }
-        message = "pool " + POOL_GAMES[stance - 1].stance;
-      } else if (action.equals("sendfax") || action.equals("receivefax")) {
-        Matcher m = FAX_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return false;
-        }
-        String faxCommand = m.group(1);
-        if (!faxCommand.equals("send") && !faxCommand.equals("receive")) {
-          return false;
-        }
-        message = "fax " + faxCommand;
-      } else if (action.equals("takeshower")) {
-        Matcher m = TEMPERATURE_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return false;
-        }
-        int temp = StringUtilities.parseInt(m.group(1));
-        if (temp < 1 || temp > SHOWER_OPTIONS.length) {
-          return false;
-        }
-        message = "shower " + SHOWER_OPTIONS[temp - 1].temp;
-      } else if (action.equals("goswimming")) {
-        Matcher m = SWIMMING_POOL_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return false;
-        }
-        String poolCommand = m.group(1);
-        if (!poolCommand.equals("screwaround")
-            && !poolCommand.equals("laps")
-            && !poolCommand.equals("submarine")) {
-          return false;
-        }
-        message = "swimming pool " + poolCommand;
-      } else if (action.equals("eathotdog")) {
-        //   clan_viplounge.php?preaction=eathotdog&whichdog=xxx
-        Matcher m = WHICHDOG_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return false;
-        }
-        String hotdog = ClanLoungeRequest.hotdogIdToName(StringUtilities.parseInt(m.group(1)));
-        if (hotdog == null) {
-          return false;
-        }
-        message = "eat 1 " + hotdog;
-      } else if (action.equals("hotdogsupply")) {
-        //   clan_viplounge.php?preaction=hotdogsupply&whichdog =-101&quantity=10
-        Matcher m = WHICHDOG_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return false;
-        }
-        int index = ClanLoungeRequest.hotdogIdToIndex(StringUtilities.parseInt(m.group(1)));
-        AdventureResult item = ClanLoungeRequest.hotdogIndexToItem(index);
-        if (item == null) {
-          return false;
-        }
-        m = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
-        int quantity = m.find() ? StringUtilities.parseInt(m.group(1)) : 1;
-        message = "stock Hot Dog Stand with " + quantity + " " + item.getPluralName(quantity);
-      } else if (action.equals("unlockhotdog")) {
-        //   clan_viplounge.php?preaction=unlockhotdog&whichdog=xxx
-        Matcher m = WHICHDOG_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return false;
-        }
-        String hotdog = ClanLoungeRequest.hotdogIdToName(StringUtilities.parseInt(m.group(1)));
-        if (hotdog == null) {
-          return false;
-        }
-        message = "unlock " + hotdog;
-      } else if (action.equals("speakeasydrink")) {
-        //   clan_viplounge.php?preaction=speakeasydrink&drink=xxx
-        Matcher m = WHICH_SPEAKEASY_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return false;
-        }
-        String speakeasyDrink =
-            ClanLoungeRequest.speakeasyIdToName(StringUtilities.parseInt(m.group(0)));
-        if (speakeasyDrink == null) {
-          return false;
-        }
-        message = "drink 1 " + speakeasyDrink;
-      } else {
-        return false;
       }
     } else {
       RequestLogger.printLine(message);

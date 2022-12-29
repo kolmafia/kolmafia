@@ -42,12 +42,11 @@ public class ProfileSnapshot {
     "Number of days idle"
   };
 
-  private static final Map<String, String> levelMap = new TreeMap<String, String>();
-  private static final Map<String, String> profileMap = new TreeMap<String, String>();
-  private static final Map<String, String> rosterMap = new TreeMap<String, String>();
+  private static final Map<String, String> levelMap = new TreeMap<>();
+  private static final Map<String, String> profileMap = new TreeMap<>();
+  private static final Map<String, String> rosterMap = new TreeMap<>();
 
-  private static final LockableListModel<ProfileRequest> filterList =
-      new LockableListModel<ProfileRequest>();
+  private static final LockableListModel<ProfileRequest> filterList = new LockableListModel<>();
   private static final ClanMembersRequest request = new ClanMembersRequest(true);
 
   private ProfileSnapshot() {}
@@ -104,7 +103,7 @@ public class ProfileSnapshot {
     }
 
     ProfileSnapshot.filterList.clear();
-    ArrayList<ProfileRequest> interimList = new ArrayList<ProfileRequest>();
+    ArrayList<ProfileRequest> interimList = new ArrayList<>();
 
     String[] names = new String[ProfileSnapshot.profileMap.size()];
     ProfileSnapshot.profileMap.keySet().toArray(names);
@@ -145,36 +144,23 @@ public class ProfileSnapshot {
 
     try {
       switch (filterType) {
-        case NAME_FILTER:
-          compareValue = request.getPlayerName().compareToIgnoreCase(filter);
-          break;
-
-        case LEVEL_FILTER:
-          compareValue = request.getPlayerLevel().intValue() - StringUtilities.parseInt(filter);
-          break;
-
-        case PVP_FILTER:
-          compareValue = request.getPvpRank().intValue() - StringUtilities.parseInt(filter);
-          break;
-
-        case CLASS_FILTER:
-          compareValue = request.getClassType().compareToIgnoreCase(filter);
-          break;
-
-        case KARMA_FILTER:
-          compareValue = request.getKarma().intValue() - StringUtilities.parseInt(filter);
-          break;
-
-        case LOGIN_FILTER:
+        case NAME_FILTER -> compareValue = request.getPlayerName().compareToIgnoreCase(filter);
+        case LEVEL_FILTER -> compareValue =
+            request.getPlayerLevel().intValue() - StringUtilities.parseInt(filter);
+        case PVP_FILTER -> compareValue =
+            request.getPvpRank().intValue() - StringUtilities.parseInt(filter);
+        case CLASS_FILTER -> compareValue = request.getClassType().compareToIgnoreCase(filter);
+        case KARMA_FILTER -> compareValue =
+            request.getKarma().intValue() - StringUtilities.parseInt(filter);
+        case LOGIN_FILTER -> {
           int daysIdle = StringUtilities.parseInt(filter);
           long millisecondsIdle = 86400000L * daysIdle;
           Date cutoffDate = new Date(System.currentTimeMillis() - millisecondsIdle);
-
           compareValue =
               request.getLastLogin().after(cutoffDate)
                   ? -1
                   : request.getLastLogin().before(cutoffDate) ? 1 : 0;
-          break;
+        }
       }
     } catch (Exception e) {
       // This should not happen.  Therefore, print
@@ -230,7 +216,7 @@ public class ProfileSnapshot {
     strbuf.append("</h2>");
     strbuf.append(KoLConstants.LINE_BREAK);
 
-    ArrayList<String> rankList = new ArrayList<String>();
+    ArrayList<String> rankList = new ArrayList<>();
 
     ProfileRequest memberLookup;
     for (int i = 0; i < members.length; ++i) {
@@ -381,17 +367,17 @@ public class ProfileSnapshot {
   private static String getStatsSummary(final String[] members) {
     StringBuilder strbuf = new StringBuilder();
 
-    ArrayList<String> classList = new ArrayList<String>();
-    ArrayList<Integer> powerList = new ArrayList<Integer>();
+    ArrayList<String> classList = new ArrayList<>();
+    ArrayList<Integer> powerList = new ArrayList<>();
     // ArrayList karmaList = new ArrayList();
 
     // ArrayList meatList = new ArrayList();
-    ArrayList<Integer> turnsList = new ArrayList<Integer>();
-    ArrayList<Integer> pvpList = new ArrayList<Integer>();
+    ArrayList<Integer> turnsList = new ArrayList<>();
+    ArrayList<Integer> pvpList = new ArrayList<>();
 
-    ArrayList<Integer> musList = new ArrayList<Integer>();
-    ArrayList<Integer> mysList = new ArrayList<Integer>();
-    ArrayList<Integer> moxList = new ArrayList<Integer>();
+    ArrayList<Integer> musList = new ArrayList<>();
+    ArrayList<Integer> mysList = new ArrayList<>();
+    ArrayList<Integer> moxList = new ArrayList<>();
 
     // Iterate through the list of clan members
     // and populate the lists.
@@ -606,8 +592,8 @@ public class ProfileSnapshot {
   private static String getSocialSummary(final String[] members) {
     StringBuilder strbuf = new StringBuilder();
 
-    ArrayList<String> foodList = new ArrayList<String>();
-    ArrayList<String> drinkList = new ArrayList<String>();
+    ArrayList<String> foodList = new ArrayList<>();
+    ArrayList<String> drinkList = new ArrayList<>();
 
     ProfileRequest memberLookup;
 

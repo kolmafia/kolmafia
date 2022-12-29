@@ -657,12 +657,8 @@ public abstract class LeafletManager {
 
       case TREE:
         switch (LeafletManager.location) {
-          case BOTTOM:
-            LeafletManager.executeCommand("up");
-            break;
-          case TABLE:
-            LeafletManager.executeCommand("down");
-            break;
+          case BOTTOM -> LeafletManager.executeCommand("up");
+          case TABLE -> LeafletManager.executeCommand("down");
         }
 
         break;

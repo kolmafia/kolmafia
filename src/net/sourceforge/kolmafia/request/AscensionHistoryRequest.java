@@ -317,15 +317,9 @@ public class AscensionHistoryRequest extends GenericRequest
           this.ascensionData.add(lastField);
 
           switch (lastField.typeId) {
-            case AscensionSnapshot.NORMAL:
-              ++this.softcoreCount;
-              break;
-            case AscensionSnapshot.HARDCORE:
-              ++this.hardcoreCount;
-              break;
-            case AscensionSnapshot.CASUAL:
-              ++this.casualCount;
-              break;
+            case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
+            case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
+            case AscensionSnapshot.CASUAL -> ++this.casualCount;
           }
         } else if (columnsNew != null && columnsNew[0].equals(columnsOld[0])) {
           if (!fieldMatcher.find(lastFindIndex)) {
@@ -339,30 +333,18 @@ public class AscensionHistoryRequest extends GenericRequest
           this.ascensionData.add(lastField);
 
           switch (lastField.typeId) {
-            case AscensionSnapshot.NORMAL:
-              ++this.softcoreCount;
-              break;
-            case AscensionSnapshot.HARDCORE:
-              ++this.hardcoreCount;
-              break;
-            case AscensionSnapshot.CASUAL:
-              ++this.casualCount;
-              break;
+            case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
+            case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
+            case AscensionSnapshot.CASUAL -> ++this.casualCount;
           }
         } else {
           lastField = new AscensionDataField(this.playerName, this.playerId, columnsOld);
           this.ascensionData.add(lastField);
 
           switch (lastField.typeId) {
-            case AscensionSnapshot.NORMAL:
-              ++this.softcoreCount;
-              break;
-            case AscensionSnapshot.HARDCORE:
-              ++this.hardcoreCount;
-              break;
-            case AscensionSnapshot.CASUAL:
-              ++this.casualCount;
-              break;
+            case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
+            case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
+            case AscensionSnapshot.CASUAL -> ++this.casualCount;
           }
 
           try {
@@ -399,15 +381,9 @@ public class AscensionHistoryRequest extends GenericRequest
         this.ascensionData.add(lastField);
 
         switch (lastField.typeId) {
-          case AscensionSnapshot.NORMAL:
-            ++this.softcoreCount;
-            break;
-          case AscensionSnapshot.HARDCORE:
-            ++this.hardcoreCount;
-            break;
-          case AscensionSnapshot.CASUAL:
-            ++this.casualCount;
-            break;
+          case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
+          case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
+          case AscensionSnapshot.CASUAL -> ++this.casualCount;
         }
 
         lastFindIndex = fieldMatcher.end() - 5;
@@ -427,15 +403,9 @@ public class AscensionHistoryRequest extends GenericRequest
       this.ascensionData.add(lastField);
 
       switch (lastField.typeId) {
-        case AscensionSnapshot.NORMAL:
-          ++this.softcoreCount;
-          break;
-        case AscensionSnapshot.HARDCORE:
-          ++this.hardcoreCount;
-          break;
-        case AscensionSnapshot.CASUAL:
-          ++this.casualCount;
-          break;
+        case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
+        case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
+        case AscensionSnapshot.CASUAL -> ++this.casualCount;
       }
     }
   }

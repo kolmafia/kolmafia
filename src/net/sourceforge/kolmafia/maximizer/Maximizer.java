@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class Maximizer {
   private static boolean firstTime = true;
 
-  public static final LockableListModel<Boost> boosts = new LockableListModel<Boost>();
+  public static final LockableListModel<Boost> boosts = new LockableListModel<>();
   public static Evaluator eval;
 
   public static String[] maximizationCategories = {
@@ -1001,13 +1001,13 @@ public class Maximizer {
             text = "(equip Greatest American Pants for " + name + ")";
             cmd = "";
           }
-          if (name.equals("Super Skill")) {
-            duration = 5;
-          } else if (name.equals("Super Structure") || name.equals("Super Accuracy")) {
-            duration = 10;
-          } else if (name.equals("Super Vision") || name.equals("Super Speed")) {
-            duration = 20;
-          }
+          duration =
+              switch (name) {
+                case "Super Skill" -> 5;
+                case "Super Structure", "Super Accuracy" -> 10;
+                case "Super Vision", "Super Speed" -> 20;
+                default -> duration;
+              };
           usesRemaining = 5 - Preferences.getInteger("_gapBuffs");
         } else if (cmd.startsWith("spacegate")) {
           if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")) {
@@ -1680,15 +1680,14 @@ public class Maximizer {
         if (!method.equals("have")) {
           text = method + " & " + text;
         }
-        if (method.equals("uncloset")) {
-          cmd = "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
-        } else if (method.equals("unstash")) {
-          cmd = "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
-        }
-        // Should be only hitting this after Ronin I think
-        else if (method.equals("pull")) {
-          cmd = "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
-        }
+        cmd =
+            switch (method) {
+              case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
+              case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
+                // Should be only hitting this after Ronin I think
+              case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+              default -> cmd;
+            };
       } else if (checkedItem.creatable + checkedItem.initial > count) {
         text = "make & " + text;
         cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
@@ -1762,13 +1761,13 @@ public class Maximizer {
   }
 
   private static boolean excludedTCRSItem(int itemId) {
-    switch (itemId) {
-      case ItemPool.DIETING_PILL:
-        // Doubles adventures and stats from next food.  Also
-        // doubles fullness - which can be a surprise.
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.DIETING_PILL ->
+      // Doubles adventures and stats from next food.  Also
+      // doubles fullness - which can be a surprise.
+      true;
+      default -> false;
+    };
   }
 
   private static class Makeable {

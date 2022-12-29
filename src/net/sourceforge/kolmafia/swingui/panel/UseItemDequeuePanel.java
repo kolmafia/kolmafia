@@ -42,25 +42,23 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
     this.queueTabs = KoLmafiaGUI.getTabbedPane();
 
     switch (type) {
-      case FOOD:
+      case FOOD -> {
         this.queueTabs.addTab("0 Full Queued", this.centerPanel);
         this.queue = ConcoctionDatabase.queuedFood.getMirrorImage();
-        break;
-      case BOOZE:
+      }
+      case BOOZE -> {
         this.queueTabs.addTab("0 Drunk Queued", this.centerPanel);
         this.queue = ConcoctionDatabase.queuedBooze.getMirrorImage();
-        break;
-      case SPLEEN:
+      }
+      case SPLEEN -> {
         this.queueTabs.addTab("0 Spleen Queued", this.centerPanel);
         this.queue = ConcoctionDatabase.queuedSpleen.getMirrorImage();
-        break;
-      case POTION:
+      }
+      case POTION -> {
         this.queueTabs.addTab("Potions Queued", this.centerPanel);
         this.queue = ConcoctionDatabase.queuedPotions.getMirrorImage();
-        break;
-      default:
-        this.queue = null;
-        break;
+      }
+      default -> this.queue = null;
     }
 
     this.queueTabs.addTab(
@@ -106,23 +104,23 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
     int index = 0;
 
     switch (this.type) {
-      case FOOD:
+      case FOOD -> {
         boolean canEat = KoLCharacter.canEat();
         this.buttons[index++].setEnabled(canEat);
-        break;
-      case BOOZE:
+      }
+      case BOOZE -> {
         boolean canDrink = KoLCharacter.canDrink();
         this.buttons[index++].setEnabled(canDrink);
-        break;
-      case SPLEEN:
+      }
+      case SPLEEN -> {
         boolean canSpleen = KoLCharacter.canSpleen();
         this.buttons[index++].setEnabled(canSpleen);
-        break;
-      case POTION:
+      }
+      case POTION -> {
         // Potions.
         boolean canUsePotions = KoLCharacter.canUsePotions();
         this.buttons[index++].setEnabled(canUsePotions);
-        break;
+      }
     }
 
     // You may not be able to consume the item, but you may wish to create it
@@ -142,24 +140,22 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
     @Override
     protected void execute() {
       switch (UseItemDequeuePanel.this.type) {
-        case FOOD:
+        case FOOD -> {
           ConcoctionDatabase.handleQueue(type, ConsumptionType.EAT);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-          break;
-        case BOOZE:
+        }
+        case BOOZE -> {
           ConcoctionDatabase.handleQueue(type, ConsumptionType.DRINK);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-          break;
-        case SPLEEN:
+        }
+        case SPLEEN -> {
           ConcoctionDatabase.handleQueue(type, ConsumptionType.SPLEEN);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
-          break;
-        case POTION:
-          ConcoctionDatabase.handleQueue(type, ConsumptionType.USE);
-          break;
+        }
+        case POTION -> ConcoctionDatabase.handleQueue(type, ConsumptionType.USE);
       }
       ConcoctionDatabase.getUsables().sort();
     }
@@ -174,19 +170,17 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
     @Override
     protected void execute() {
       switch (UseItemDequeuePanel.this.type) {
-        case FOOD:
+        case FOOD -> {
           ConcoctionDatabase.handleQueue(type, ConsumptionType.NONE);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-          break;
-        case BOOZE:
+        }
+        case BOOZE -> {
           ConcoctionDatabase.handleQueue(type, ConsumptionType.NONE);
           UseItemDequeuePanel.this.queueTabs.setTitleAt(
               0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-          break;
-        case POTION:
-          ConcoctionDatabase.handleQueue(type, ConsumptionType.NONE);
-          break;
+        }
+        case POTION -> ConcoctionDatabase.handleQueue(type, ConsumptionType.NONE);
       }
       ConcoctionDatabase.getUsables().sort();
     }
@@ -205,18 +199,12 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
       ConcoctionDatabase.refreshConcoctions();
 
       switch (type) {
-        case FOOD:
-          UseItemDequeuePanel.this.queueTabs.setTitleAt(
-              0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-          break;
-        case BOOZE:
-          UseItemDequeuePanel.this.queueTabs.setTitleAt(
-              0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-          break;
-        case SPLEEN:
-          UseItemDequeuePanel.this.queueTabs.setTitleAt(
-              0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
-          break;
+        case FOOD -> UseItemDequeuePanel.this.queueTabs.setTitleAt(
+            0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
+        case BOOZE -> UseItemDequeuePanel.this.queueTabs.setTitleAt(
+            0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
+        case SPLEEN -> UseItemDequeuePanel.this.queueTabs.setTitleAt(
+            0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
       }
       ConcoctionDatabase.getUsables().sort();
     }

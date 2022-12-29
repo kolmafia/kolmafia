@@ -745,25 +745,26 @@ public class Preferences {
     }
 
     switch (ch) {
-      case '\t':
+      case '\t' -> {
         characterMap[ch] = "\\t";
         return;
-      case '\n':
+      }
+      case '\n' -> {
         characterMap[ch] = "\\n";
         return;
-      case '\f':
+      }
+      case '\f' -> {
         characterMap[ch] = "\\f";
         return;
-      case '\r':
+      }
+      case '\r' -> {
         characterMap[ch] = "\\r";
         return;
-      case '\\':
-      case '=':
-      case ':':
-      case '#':
-      case '!':
+      }
+      case '\\', '=', ':', '#', '!' -> {
         characterMap[ch] = "\\" + ch;
         return;
+      }
     }
 
     characterMap[ch] =

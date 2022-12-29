@@ -804,50 +804,23 @@ public class StringUtilities {
     for (int i = 0; i < decoded.length(); ++i) {
       char c = decoded.charAt(i);
       switch (c) {
-        case 'O':
-        case 'o':
-          b.append("0");
-          break;
-        case 'I':
-        case 'i':
-        case 'L':
-        case 'l':
-          b.append("1");
-          break;
-        case 'E':
-        case 'e':
-          b.append("3");
-          break;
-        case 'A':
-        case 'a':
-          b.append("4");
-          break;
-        case 'S':
-        case 's':
-          b.append("5");
-          break;
-        case 'T':
-        case 't':
-          b.append("7");
-          break;
-        default:
-          b.append(c);
+        case 'O', 'o' -> b.append("0");
+        case 'I', 'i', 'L', 'l' -> b.append("1");
+        case 'E', 'e' -> b.append("3");
+        case 'A', 'a' -> b.append("4");
+        case 'S', 's' -> b.append("5");
+        case 'T', 't' -> b.append("7");
+        default -> b.append(c);
       }
     }
     return b.toString();
   }
 
   public static boolean isVowel(char letter) {
-    switch (Character.toLowerCase(letter)) {
-      case 'a':
-      case 'e':
-      case 'i':
-      case 'o':
-      case 'u':
-        return true;
-      default:
-        return false;
-    }
+    return switch (Character.toLowerCase(letter)) {
+      case 'a', 'e', 'i', 'o', 'u' -> true;
+      default -> false;
+    };
   }
 
   public static int getBracketedId(final String name) {

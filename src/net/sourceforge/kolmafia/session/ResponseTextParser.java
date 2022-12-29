@@ -327,42 +327,18 @@ public class ResponseTextParser {
         boolean changesFromTimeToTime = true;
 
         switch (itemId) {
-          case ItemPool.YEARBOOK_CAMERA:
-            ItemDatabase.parseYearbookCamera(responseText);
-            break;
-          case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-            ItemDatabase.parseRetroCape(responseText);
-            break;
-          case ItemPool.HATSEAT:
-            ItemDatabase.parseCrownOfThrones(responseText);
-            break;
-          case ItemPool.BUDDY_BJORN:
-            ItemDatabase.parseBuddyBjorn(responseText);
-            break;
-          case ItemPool.FOURTH_SABER:
-            ItemDatabase.parseSaber(responseText);
-            break;
-          case ItemPool.VAMPIRE_VINTNER_WINE:
-            ItemDatabase.parseVampireVintnerWine(responseText);
-            break;
-          case ItemPool.COMBAT_LOVERS_LOCKET:
-            LocketManager.parseLocket(responseText);
-            break;
-          case ItemPool.UNBREAKABLE_UMBRELLA:
-            ItemDatabase.parseUmbrella(responseText);
-            break;
-          case ItemPool.JUNE_CLEAVER:
-            ItemDatabase.parseCleaver(responseText);
-            break;
-          case ItemPool.DESIGNER_SWEATPANTS:
-            ItemDatabase.parseDesignerSweatpants(responseText);
-            break;
-          case ItemPool.POWERFUL_GLOVE:
-            ItemDatabase.parsePowerfulGlove(responseText);
-            break;
-          default:
-            changesFromTimeToTime = false;
-            break;
+          case ItemPool.YEARBOOK_CAMERA -> ItemDatabase.parseYearbookCamera(responseText);
+          case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.parseRetroCape(responseText);
+          case ItemPool.HATSEAT -> ItemDatabase.parseCrownOfThrones(responseText);
+          case ItemPool.BUDDY_BJORN -> ItemDatabase.parseBuddyBjorn(responseText);
+          case ItemPool.FOURTH_SABER -> ItemDatabase.parseSaber(responseText);
+          case ItemPool.VAMPIRE_VINTNER_WINE -> ItemDatabase.parseVampireVintnerWine(responseText);
+          case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
+          case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);
+          case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
+          case ItemPool.DESIGNER_SWEATPANTS -> ItemDatabase.parseDesignerSweatpants(responseText);
+          case ItemPool.POWERFUL_GLOVE -> ItemDatabase.parsePowerfulGlove(responseText);
+          default -> changesFromTimeToTime = false;
         }
 
         if (changesFromTimeToTime) {
@@ -839,44 +815,35 @@ public class ResponseTextParser {
     }
 
     if (KoLCharacter.inNuclearAutumn()) {
-      int cost = 0;
-
-      switch (skillId) {
-        case SkillPool.BOILING_TEAR_DUCTS:
-        case SkillPool.PROJECTILE_SALIVARY_GLANDS:
-        case SkillPool.TRANSLUCENT_SKIN:
-        case SkillPool.SKUNK_GLANDS:
-        case SkillPool.THROAT_REFRIDGERANT:
-        case SkillPool.INTERNAL_SODA_MACHINE:
-          cost = 30;
-          break;
-        case SkillPool.STEROID_BLADDER:
-        case SkillPool.MAGIC_SWEAT:
-        case SkillPool.FLAPPY_EARS:
-        case SkillPool.SELF_COMBING_HAIR:
-        case SkillPool.INTRACRANIAL_EYE:
-        case SkillPool.MIND_BULLETS:
-        case SkillPool.EXTRA_KIDNEY:
-        case SkillPool.EXTRA_GALL_BLADDER:
-          cost = 60;
-          break;
-        case SkillPool.EXTRA_MUSCLES:
-        case SkillPool.ADIPOSE_POLYMERS:
-        case SkillPool.METALLIC_SKIN:
-        case SkillPool.HYPNO_EYES:
-        case SkillPool.EXTRA_BRAIN:
-        case SkillPool.MAGNETIC_EARS:
-        case SkillPool.EXTREMELY_PUNCHABLE_FACE:
-        case SkillPool.FIREFLY_ABDOMEN:
-        case SkillPool.BONE_SPRINGS:
-        case SkillPool.SQUID_GLANDS:
-          cost = 90;
-          break;
-        case SkillPool.SUCKER_FINGERS:
-        case SkillPool.BACKWARDS_KNEES:
-          cost = 120;
-          break;
-      }
+      int cost =
+          switch (skillId) {
+            case SkillPool.BOILING_TEAR_DUCTS,
+                SkillPool.PROJECTILE_SALIVARY_GLANDS,
+                SkillPool.TRANSLUCENT_SKIN,
+                SkillPool.SKUNK_GLANDS,
+                SkillPool.THROAT_REFRIDGERANT,
+                SkillPool.INTERNAL_SODA_MACHINE -> 30;
+            case SkillPool.STEROID_BLADDER,
+                SkillPool.MAGIC_SWEAT,
+                SkillPool.FLAPPY_EARS,
+                SkillPool.SELF_COMBING_HAIR,
+                SkillPool.INTRACRANIAL_EYE,
+                SkillPool.MIND_BULLETS,
+                SkillPool.EXTRA_KIDNEY,
+                SkillPool.EXTRA_GALL_BLADDER -> 60;
+            case SkillPool.EXTRA_MUSCLES,
+                SkillPool.ADIPOSE_POLYMERS,
+                SkillPool.METALLIC_SKIN,
+                SkillPool.HYPNO_EYES,
+                SkillPool.EXTRA_BRAIN,
+                SkillPool.MAGNETIC_EARS,
+                SkillPool.EXTREMELY_PUNCHABLE_FACE,
+                SkillPool.FIREFLY_ABDOMEN,
+                SkillPool.BONE_SPRINGS,
+                SkillPool.SQUID_GLANDS -> 90;
+            case SkillPool.SUCKER_FINGERS, SkillPool.BACKWARDS_KNEES -> 120;
+            default -> 0;
+          };
 
       ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -cost));
     }

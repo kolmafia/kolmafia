@@ -513,7 +513,7 @@ public class QuestManagerTest {
   /*
    * Level 11 - Palindome
    */
-  class Palindome {
+  static class Palindome {
     @Test
     public void canDetectPalindomeStartInPalindome() {
       assertThat(Quest.PALINDOME, isUnstarted());

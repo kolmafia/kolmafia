@@ -214,23 +214,15 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       }
       boolean usageUnderLimit;
       for (KoLConstants.filterType fType : KoLConstants.filterType.values()) {
-        switch (fType) {
-          case BOOZE:
-            usageUnderLimit =
-                (KoLCharacter.canDrink()
-                    && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit());
-            break;
-          case FOOD:
-            usageUnderLimit =
-                (KoLCharacter.canEat()
-                    && KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit());
-            break;
-          case SPLEEN:
-            usageUnderLimit = (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());
-            break;
-          default:
-            usageUnderLimit = true;
-        }
+        usageUnderLimit =
+            switch (fType) {
+              case BOOZE -> (KoLCharacter.canDrink()
+                  && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit());
+              case FOOD -> (KoLCharacter.canEat()
+                  && KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit());
+              case SPLEEN -> (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());
+              default -> true;
+            };
         boolean isLastUsedFilter =
             Preferences.getString("maximizerLastSingleFilter").equalsIgnoreCase(fType.name());
         if (Preferences.getBoolean("maximizerSingleFilter")) {

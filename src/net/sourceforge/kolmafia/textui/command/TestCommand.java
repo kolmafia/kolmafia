@@ -763,14 +763,14 @@ public class TestCommand extends AbstractCommand {
         String thing = parameters.substring(index + 1).trim();
         boolean old = false;
         switch (thing) {
-          case "hardcore":
+          case "hardcore" -> {
             old = KoLCharacter.isHardcore();
             KoLCharacter.setHardcore(!old);
-            break;
-          case "ronin":
+          }
+          case "ronin" -> {
             old = KoLCharacter.inRonin();
             KoLCharacter.setRonin(!old);
-            break;
+          }
         }
         RequestLogger.printLine(thing + ": " + old + " -> " + !old);
       }

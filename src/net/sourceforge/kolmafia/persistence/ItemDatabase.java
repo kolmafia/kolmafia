@@ -62,18 +62,18 @@ public class ItemDatabase {
   private static final Map<Integer, String> pluralById = new HashMap<>();
   private static final Map<Integer, String> imageById = new HashMap<>();
 
-  private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
-  private static final Map<Integer, String> dataNameById = new HashMap<Integer, String>();
-  private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
-  private static final Map<String, int[]> itemIdSetByName = new HashMap<String, int[]>();
-  private static final ArrayList<String> itemAliases = new ArrayList<String>();
-  private static final ArrayList<String> pluralAliases = new ArrayList<String>();
-  private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
+  private static final Map<Integer, String> nameById = new TreeMap<>();
+  private static final Map<Integer, String> dataNameById = new HashMap<>();
+  private static final Map<Integer, String> descriptionById = new TreeMap<>();
+  private static final Map<String, int[]> itemIdSetByName = new HashMap<>();
+  private static final ArrayList<String> itemAliases = new ArrayList<>();
+  private static final ArrayList<String> pluralAliases = new ArrayList<>();
+  private static final Map<String, Integer> itemIdByPlural = new HashMap<>();
 
-  private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
+  private static final Map<String, Integer> itemIdByDescription = new HashMap<>();
   private static final Map<String, FoldGroup> foldGroupsByName = new HashMap<>();
 
-  private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
+  private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<>();
   private static final Map<Integer, Integer> noobSkillIdByItemSource = new HashMap<>();
 
   public static final String QUEST_FLAG = "q";
@@ -146,7 +146,7 @@ public class ItemDatabase {
     return data;
   }
 
-  private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
+  private static final Map<Integer, String> accessById = new HashMap<>();
 
   public enum Attribute {
     QUEST("q"),
@@ -381,28 +381,17 @@ public class ItemDatabase {
                 || itemId == ItemPool.DIRTY_BOTTLECAP
                 || itemId == ItemPool.DISCARDED_BUTTON)) {
           int intDescId = StringUtilities.parseInt(descId);
-          int skillId = (intDescId % 125) + 23001;
-          // Override Robortender items
-          switch (itemId) {
-            case ItemPool.NOVELTY_HOT_SAUCE:
-              skillId = SkillPool.FROWN_MUSCLES;
-              break;
-            case ItemPool.COCKTAIL_MUSHROOM:
-              skillId = SkillPool.RETRACTABLE_TOES;
-              break;
-            case ItemPool.GRANOLA_LIQUEUR:
-              skillId = SkillPool.INK_GLAND;
-              break;
-            case ItemPool.GREGNADIGNE:
-              skillId = SkillPool.BENDABLE_KNEES;
-              break;
-            case ItemPool.BABY_OIL_SHOOTER:
-              skillId = SkillPool.POWERFUL_VOCAL_CHORDS;
-              break;
-            case ItemPool.LIMEPATCH:
-              skillId = SkillPool.ANGER_GLANDS;
-              break;
-          }
+          int skillId =
+              switch (itemId) {
+                  // Override Robortender items
+                case ItemPool.NOVELTY_HOT_SAUCE -> SkillPool.FROWN_MUSCLES;
+                case ItemPool.COCKTAIL_MUSHROOM -> SkillPool.RETRACTABLE_TOES;
+                case ItemPool.GRANOLA_LIQUEUR -> SkillPool.INK_GLAND;
+                case ItemPool.GREGNADIGNE -> SkillPool.BENDABLE_KNEES;
+                case ItemPool.BABY_OIL_SHOOTER -> SkillPool.POWERFUL_VOCAL_CHORDS;
+                case ItemPool.LIMEPATCH -> SkillPool.ANGER_GLANDS;
+                default -> (intDescId % 125) + 23001;
+              };
           ItemDatabase.addIdToNoobSkill(skillId, itemId);
           ItemDatabase.noobSkillIdByItemSource.put(itemId, skillId);
         }
@@ -753,12 +742,10 @@ public class ItemDatabase {
     while (matcher.find()) {
       String tag = matcher.group(1);
       String value = matcher.group(2);
-      if (tag.equals("id")) {
-        itemId = StringUtilities.parseInt(value);
-      } else if (tag.equals("n")) {
-        count = StringUtilities.parseInt(value);
-      } else if (tag.equals("m")) {
-        multi = value.equals("1");
+      switch (tag) {
+        case "id" -> itemId = StringUtilities.parseInt(value);
+        case "n" -> count = StringUtilities.parseInt(value);
+        case "m" -> multi = value.equals("1");
       }
     }
 
@@ -1408,40 +1395,37 @@ public class ItemDatabase {
   }
 
   public static final String getSmallImage(final int itemId) {
-    switch (itemId) {
-      case ItemPool.FOLDER_01:
-      case ItemPool.FOLDER_02:
-      case ItemPool.FOLDER_03:
-      case ItemPool.FOLDER_04:
-      case ItemPool.FOLDER_05:
-      case ItemPool.FOLDER_07:
-      case ItemPool.FOLDER_09:
-      case ItemPool.FOLDER_10:
-      case ItemPool.FOLDER_12:
-      case ItemPool.FOLDER_13:
-      case ItemPool.FOLDER_24:
-      case ItemPool.FOLDER_26:
-        return "folder2.gif";
-      case ItemPool.FOLDER_06:
-      case ItemPool.FOLDER_08:
-      case ItemPool.FOLDER_11:
-      case ItemPool.FOLDER_14:
-      case ItemPool.FOLDER_15:
-      case ItemPool.FOLDER_16:
-      case ItemPool.FOLDER_17:
-      case ItemPool.FOLDER_18:
-      case ItemPool.FOLDER_19:
-      case ItemPool.FOLDER_20:
-      case ItemPool.FOLDER_21:
-      case ItemPool.FOLDER_22:
-      case ItemPool.FOLDER_23:
-      case ItemPool.FOLDER_25:
-      case ItemPool.FOLDER_27:
-      case ItemPool.FOLDER_28:
-        return "folder1.gif";
-      default:
-        return imageById.getOrDefault(itemId, "");
-    }
+    return switch (itemId) {
+      case ItemPool.FOLDER_01,
+          ItemPool.FOLDER_02,
+          ItemPool.FOLDER_03,
+          ItemPool.FOLDER_04,
+          ItemPool.FOLDER_05,
+          ItemPool.FOLDER_07,
+          ItemPool.FOLDER_09,
+          ItemPool.FOLDER_10,
+          ItemPool.FOLDER_12,
+          ItemPool.FOLDER_13,
+          ItemPool.FOLDER_24,
+          ItemPool.FOLDER_26 -> "folder2.gif";
+      case ItemPool.FOLDER_06,
+          ItemPool.FOLDER_08,
+          ItemPool.FOLDER_11,
+          ItemPool.FOLDER_14,
+          ItemPool.FOLDER_15,
+          ItemPool.FOLDER_16,
+          ItemPool.FOLDER_17,
+          ItemPool.FOLDER_18,
+          ItemPool.FOLDER_19,
+          ItemPool.FOLDER_20,
+          ItemPool.FOLDER_21,
+          ItemPool.FOLDER_22,
+          ItemPool.FOLDER_23,
+          ItemPool.FOLDER_25,
+          ItemPool.FOLDER_27,
+          ItemPool.FOLDER_28 -> "folder1.gif";
+      default -> imageById.getOrDefault(itemId, "");
+    };
   }
 
   public static final String getItemImageLocation(final int itemId) {
@@ -1562,42 +1546,37 @@ public class ItemDatabase {
     // * "used" immediately.  Presently the only place the attribute is used is the
     // * ash function, is_displayable().  By definition, if it can't exist
     // * in inventory then it cannot be moved to a Display Case.
-    switch (itemId) {
-      case ItemPool.MADNESS_REEF_MAP:
-      case ItemPool.MARINARA_TRENCH_MAP:
-      case ItemPool.ANEMONE_MINE_MAP:
-      case ItemPool.DIVE_BAR_MAP:
-      case ItemPool.SKATE_PARK_MAP:
-      case ItemPool.GLASS_OF_MILK:
-      case ItemPool.CUP_OF_TEA:
-      case ItemPool.THERMOS_OF_WHISKEY:
-      case ItemPool.LUCKY_LINDY:
-      case ItemPool.BEES_KNEES:
-      case ItemPool.SOCKDOLLAGER:
-      case ItemPool.ISH_KABIBBLE:
-      case ItemPool.HOT_SOCKS:
-      case ItemPool.PHONUS_BALONUS:
-      case ItemPool.FLIVVER:
-      case ItemPool.SLOPPY_JALOPY:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.MADNESS_REEF_MAP,
+          ItemPool.MARINARA_TRENCH_MAP,
+          ItemPool.ANEMONE_MINE_MAP,
+          ItemPool.DIVE_BAR_MAP,
+          ItemPool.SKATE_PARK_MAP,
+          ItemPool.GLASS_OF_MILK,
+          ItemPool.CUP_OF_TEA,
+          ItemPool.THERMOS_OF_WHISKEY,
+          ItemPool.LUCKY_LINDY,
+          ItemPool.BEES_KNEES,
+          ItemPool.SOCKDOLLAGER,
+          ItemPool.ISH_KABIBBLE,
+          ItemPool.HOT_SOCKS,
+          ItemPool.PHONUS_BALONUS,
+          ItemPool.FLIVVER,
+          ItemPool.SLOPPY_JALOPY -> true;
+      default -> false;
+    };
   }
 
   public static final boolean haveVirtualItem(final int itemId) {
-    switch (itemId) {
-      case ItemPool.MADNESS_REEF_MAP:
-        return Preferences.getBoolean("mapToMadnessReefPurchased");
-      case ItemPool.MARINARA_TRENCH_MAP:
-        return Preferences.getBoolean("mapToTheMarinaraTrenchPurchased");
-      case ItemPool.ANEMONE_MINE_MAP:
-        return Preferences.getBoolean("mapToAnemoneMinePurchased");
-      case ItemPool.DIVE_BAR_MAP:
-        return Preferences.getBoolean("mapToTheDiveBarPurchased");
-      case ItemPool.SKATE_PARK_MAP:
-        return Preferences.getBoolean("mapToTheSkateParkPurchased");
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.MADNESS_REEF_MAP -> Preferences.getBoolean("mapToMadnessReefPurchased");
+      case ItemPool.MARINARA_TRENCH_MAP -> Preferences.getBoolean(
+          "mapToTheMarinaraTrenchPurchased");
+      case ItemPool.ANEMONE_MINE_MAP -> Preferences.getBoolean("mapToAnemoneMinePurchased");
+      case ItemPool.DIVE_BAR_MAP -> Preferences.getBoolean("mapToTheDiveBarPurchased");
+      case ItemPool.SKATE_PARK_MAP -> Preferences.getBoolean("mapToTheSkateParkPurchased");
+      default -> false;
+    };
   }
 
   /**
@@ -1893,16 +1872,11 @@ public class ItemDatabase {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
 
-    switch (useType) {
-      case USE_MULTIPLE:
-        return true;
-      case POTION:
-      case AVATAR_POTION:
-      case SPLEEN:
-        return !attributes.contains(Attribute.USABLE);
-      default:
-        return attributes.contains(Attribute.MULTIPLE);
-    }
+    return switch (useType) {
+      case USE_MULTIPLE -> true;
+      case POTION, AVATAR_POTION, SPLEEN -> !attributes.contains(Attribute.USABLE);
+      default -> attributes.contains(Attribute.MULTIPLE);
+    };
   }
 
   public static final boolean isReusable(final int itemId) {
@@ -1919,84 +1893,79 @@ public class ItemDatabase {
    * @return <code>true</code> if the item is grimacite
    */
   public static final boolean isGrimacite(int itemId) {
-    switch (itemId) {
+    return switch (itemId) {
         // Grimacite Generation 1
-      case ItemPool.GRIMACITE_GALOSHES:
-      case ItemPool.GRIMACITE_GARTER:
-      case ItemPool.GRIMACITE_GORGET:
-      case ItemPool.GRIMACITE_GREAVES:
-      case ItemPool.GRIMACITE_GUAYABERA:
-      case ItemPool.GRIMACITE_GOGGLES:
-      case ItemPool.GRIMACITE_GLAIVE:
-        // Grimacite Generation 2
-      case ItemPool.GRIMACITE_GASMASK:
-      case ItemPool.GRIMACITE_GAT:
-      case ItemPool.GRIMACITE_GIRDLE:
-      case ItemPool.GRIMACITE_GO_GO_BOOTS:
-      case ItemPool.GRIMACITE_GAUNTLETS:
-      case ItemPool.GRIMACITE_GAITERS:
-      case ItemPool.GRIMACITE_GOWN:
-        // Depleted Grimacite
-      case ItemPool.GRIMACITE_HAMMER:
-      case ItemPool.GRIMACITE_GRAVY_BOAT:
-      case ItemPool.GRIMACITE_WEIGHTLIFTING_BELT:
-      case ItemPool.GRIMACITE_GRAPPLING_HOOK:
-      case ItemPool.GRIMACITE_NINJA_MASK:
-      case ItemPool.GRIMACITE_SHINGUARDS:
-      case ItemPool.GRIMACITE_ASTROLABE:
-      case ItemPool.GRIMACITE_KNEECAPPING_STICK:
-        return true;
-    }
-
-    return false;
+      case ItemPool.GRIMACITE_GOGGLES,
+          ItemPool.GRIMACITE_GLAIVE,
+          ItemPool.GRIMACITE_GREAVES,
+          ItemPool.GRIMACITE_GARTER,
+          ItemPool.GRIMACITE_GALOSHES,
+          ItemPool.GRIMACITE_GORGET,
+          ItemPool.GRIMACITE_GUAYABERA,
+          // Grimacite Generation 2
+          ItemPool.GRIMACITE_GASMASK,
+          ItemPool.GRIMACITE_GAT,
+          ItemPool.GRIMACITE_GAITERS,
+          ItemPool.GRIMACITE_GAUNTLETS,
+          ItemPool.GRIMACITE_GO_GO_BOOTS,
+          ItemPool.GRIMACITE_GIRDLE,
+          ItemPool.GRIMACITE_GOWN,
+          // Depleted Grimacite
+          ItemPool.GRIMACITE_HAMMER,
+          ItemPool.GRIMACITE_GRAVY_BOAT,
+          ItemPool.GRIMACITE_WEIGHTLIFTING_BELT,
+          ItemPool.GRIMACITE_GRAPPLING_HOOK,
+          ItemPool.GRIMACITE_NINJA_MASK,
+          ItemPool.GRIMACITE_SHINGUARDS,
+          ItemPool.GRIMACITE_ASTROLABE,
+          ItemPool.GRIMACITE_KNEECAPPING_STICK -> true;
+      default -> false;
+    };
   }
 
   public static final boolean isSealFigurine(final int itemId) {
-    switch (itemId) {
-      case ItemPool.WRETCHED_SEAL:
-      case ItemPool.CUTE_BABY_SEAL:
-      case ItemPool.ARMORED_SEAL:
-      case ItemPool.ANCIENT_SEAL:
-      case ItemPool.SLEEK_SEAL:
-      case ItemPool.SHADOWY_SEAL:
-      case ItemPool.STINKING_SEAL:
-      case ItemPool.CHARRED_SEAL:
-      case ItemPool.COLD_SEAL:
-      case ItemPool.SLIPPERY_SEAL:
-      case ItemPool.DEPLETED_URANIUM_SEAL:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.WRETCHED_SEAL,
+          ItemPool.CUTE_BABY_SEAL,
+          ItemPool.ARMORED_SEAL,
+          ItemPool.ANCIENT_SEAL,
+          ItemPool.SLEEK_SEAL,
+          ItemPool.SHADOWY_SEAL,
+          ItemPool.STINKING_SEAL,
+          ItemPool.CHARRED_SEAL,
+          ItemPool.COLD_SEAL,
+          ItemPool.SLIPPERY_SEAL,
+          ItemPool.DEPLETED_URANIUM_SEAL -> true;
+      default -> false;
+    };
   }
 
   public static final boolean isBRICKOMonster(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BRICKO_OOZE:
-      case ItemPool.BRICKO_BAT:
-      case ItemPool.BRICKO_OYSTER:
-      case ItemPool.BRICKO_TURTLE:
-      case ItemPool.BRICKO_ELEPHANT:
-      case ItemPool.BRICKO_OCTOPUS:
-      case ItemPool.BRICKO_PYTHON:
-      case ItemPool.BRICKO_VACUUM_CLEANER:
-      case ItemPool.BRICKO_AIRSHIP:
-      case ItemPool.BRICKO_CATHEDRAL:
-      case ItemPool.BRICKO_CHICKEN:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.BRICKO_OOZE,
+          ItemPool.BRICKO_BAT,
+          ItemPool.BRICKO_OYSTER,
+          ItemPool.BRICKO_TURTLE,
+          ItemPool.BRICKO_ELEPHANT,
+          ItemPool.BRICKO_OCTOPUS,
+          ItemPool.BRICKO_PYTHON,
+          ItemPool.BRICKO_VACUUM_CLEANER,
+          ItemPool.BRICKO_AIRSHIP,
+          ItemPool.BRICKO_CATHEDRAL,
+          ItemPool.BRICKO_CHICKEN -> true;
+      default -> false;
+    };
   }
 
   public static final boolean isStinkyCheeseItem(final int itemId) {
-    switch (itemId) {
-      case ItemPool.STINKY_CHEESE_SWORD:
-      case ItemPool.STINKY_CHEESE_DIAPER:
-      case ItemPool.STINKY_CHEESE_WHEEL:
-      case ItemPool.STINKY_CHEESE_EYE:
-      case ItemPool.STINKY_CHEESE_STAFF:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.STINKY_CHEESE_SWORD,
+          ItemPool.STINKY_CHEESE_DIAPER,
+          ItemPool.STINKY_CHEESE_WHEEL,
+          ItemPool.STINKY_CHEESE_EYE,
+          ItemPool.STINKY_CHEESE_STAFF -> true;
+      default -> false;
+    };
   }
 
   /**
@@ -2153,7 +2122,7 @@ public class ItemDatabase {
 
   public static void parseVampireVintnerWine(final String idesc) {
     String iEnchantments =
-        DebugDatabase.parseItemEnchantments(idesc, new ArrayList<String>(), ConsumptionType.DRINK);
+        DebugDatabase.parseItemEnchantments(idesc, new ArrayList<>(), ConsumptionType.DRINK);
     String iname = DebugDatabase.parseName(idesc);
     Modifiers imods = Modifiers.parseModifiers(iname, iEnchantments);
 
@@ -2168,31 +2137,17 @@ public class ItemDatabase {
     }
 
     // The damage type that created this wine is implied by the effect the wine grants.
-    String type = "";
-
-    switch (effectId) {
-      case EffectPool.WINE_FORTIFIED:
-        type = "physical";
-        break;
-      case EffectPool.WINE_HOT:
-        type = "hot";
-        break;
-      case EffectPool.WINE_COLD:
-        type = "cold";
-        break;
-      case EffectPool.WINE_DARK:
-        type = "spooky";
-        break;
-      case EffectPool.WINE_BEFOULED:
-        type = "stench";
-        break;
-      case EffectPool.WINE_FRISKY:
-        type = "sleaze";
-        break;
-      case EffectPool.WINE_FRIENDLY:
-        type = "familiar";
-        break;
-    }
+    String type =
+        switch (effectId) {
+          case EffectPool.WINE_FORTIFIED -> "physical";
+          case EffectPool.WINE_HOT -> "hot";
+          case EffectPool.WINE_COLD -> "cold";
+          case EffectPool.WINE_DARK -> "spooky";
+          case EffectPool.WINE_BEFOULED -> "stench";
+          case EffectPool.WINE_FRISKY -> "sleaze";
+          case EffectPool.WINE_FRIENDLY -> "familiar";
+          default -> "";
+        };
 
     Preferences.setString("vintnerWineName", iname);
     Preferences.setString("vintnerWineEffect", effectName);
@@ -2346,27 +2301,27 @@ public class ItemDatabase {
   }
 
   public static boolean unusableInBeecore(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BALL_POLISH:
-      case ItemPool.FRATHOUSE_BLUEPRINTS:
-      case ItemPool.COBBS_KNOB_MAP:
-      case ItemPool.BINDER_CLIP:
-        // These "B" items ARE usable in Beecore.
-      case ItemPool.ICE_BABY:
-      case ItemPool.JUGGLERS_BALLS:
-      case ItemPool.EYEBALL_PENDANT:
-      case ItemPool.SPOOKY_PUTTY_BALL:
-      case ItemPool.LOATHING_LEGION_ABACUS:
-      case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
-      case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
-      case ItemPool.LOATHING_LEGION_ROLLERBLADES:
-        // And so are these IOTM foldables
-      case ItemPool.ENCHANTED_BEAN:
-        // "using" this is really planting
-        return false;
-    }
+    return switch (itemId) {
+      case
+          // These "B" items ARE usable in Beecore.
+          ItemPool.BALL_POLISH,
+          ItemPool.FRATHOUSE_BLUEPRINTS,
+          ItemPool.COBBS_KNOB_MAP,
+          ItemPool.BINDER_CLIP,
+          // And so are these IOTM foldables
+          ItemPool.ICE_BABY,
+          ItemPool.JUGGLERS_BALLS,
+          ItemPool.EYEBALL_PENDANT,
+          ItemPool.SPOOKY_PUTTY_BALL,
+          ItemPool.LOATHING_LEGION_ABACUS,
+          ItemPool.LOATHING_LEGION_DEFIBRILLATOR,
+          ItemPool.LOATHING_LEGION_DOUBLE_PRISM,
+          ItemPool.LOATHING_LEGION_ROLLERBLADES,
+          // "using" this is really planting
 
-    return KoLCharacter.hasBeeosity(ItemDatabase.getItemName(itemId));
+          ItemPool.ENCHANTED_BEAN -> false;
+      default -> KoLCharacter.hasBeeosity(ItemDatabase.getItemName(itemId));
+    };
   }
 
   public static boolean unusableInGLover(final int itemId) {
@@ -2391,14 +2346,10 @@ public class ItemDatabase {
   }
 
   public static boolean usableOnlyAsPlumber(final int itemId) {
-    switch (itemId) {
-      case ItemPool.MUSHROOM:
-      case ItemPool.DELUXE_MUSHROOM:
-      case ItemPool.SUPER_DELUXE_MUSHROOM:
-        return true;
-      default:
-        return false;
-    }
+    return switch (itemId) {
+      case ItemPool.MUSHROOM, ItemPool.DELUXE_MUSHROOM, ItemPool.SUPER_DELUXE_MUSHROOM -> true;
+      default -> false;
+    };
   }
 
   public static boolean isAllowed(final int itemId) {

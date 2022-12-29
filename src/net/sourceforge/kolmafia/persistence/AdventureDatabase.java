@@ -766,7 +766,7 @@ public class AdventureDatabase {
   }
 
   public static final ArrayList<String> getAreasWithMonster(MonsterData monster) {
-    ArrayList<String> zones = new ArrayList<String>();
+    ArrayList<String> zones = new ArrayList<>();
 
     for (Entry<String, AreaCombatData> entry : AdventureDatabase.areaCombatData.entrySet()) {
       AreaCombatData area = entry.getValue();

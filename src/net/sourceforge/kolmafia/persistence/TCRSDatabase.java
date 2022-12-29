@@ -82,11 +82,11 @@ public class TCRSDatabase {
   private static String currentClassSign; // Character class/Zodiac Sign
 
   // Sorted by itemId
-  private static final Map<Integer, TCRS> TCRSMap = new TreeMap<Integer, TCRS>();
+  private static final Map<Integer, TCRS> TCRSMap = new TreeMap<>();
   private static final Map<Integer, TCRS> TCRSBoozeMap =
-      new TreeMap<Integer, TCRS>(new CafeDatabase.InverseIntegerOrder());
+      new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
   private static final Map<Integer, TCRS> TCRSFoodMap =
-      new TreeMap<Integer, TCRS>(new CafeDatabase.InverseIntegerOrder());
+      new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
 
   static {
     TCRSDatabase.reset();
@@ -439,7 +439,7 @@ public class TCRSDatabase {
     String name = DebugDatabase.parseName(text);
     int size = DebugDatabase.parseConsumableSize(text);
     var quality = DebugDatabase.parseQuality(text);
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN);
 
     // Create and return the TCRS object
@@ -790,7 +790,7 @@ public class TCRSDatabase {
 
   // Remote files we have fetched this session
   private static final Set<String> remoteFetched =
-      new HashSet<String>(); // remote files fetched this session
+      new HashSet<>(); // remote files fetched this session
 
   // *** Fetching files from the SVN repository, in two parts, since the
   // non-cafe code was released a week before the cafe code, and some

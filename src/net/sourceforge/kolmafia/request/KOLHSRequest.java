@@ -8,41 +8,32 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
 public class KOLHSRequest extends CreateItemRequest {
   public static final boolean isKOLHSLocation(final int adventureId) {
-    switch (adventureId) {
-      case AdventurePool.THE_HALLOWED_HALLS:
-      case AdventurePool.SHOP_CLASS:
-      case AdventurePool.CHEMISTRY_CLASS:
-      case AdventurePool.ART_CLASS:
-        return true;
-    }
-    return false;
+    return switch (adventureId) {
+      case AdventurePool.THE_HALLOWED_HALLS,
+          AdventurePool.SHOP_CLASS,
+          AdventurePool.CHEMISTRY_CLASS,
+          AdventurePool.ART_CLASS -> true;
+      default -> false;
+    };
   }
 
   private static String getShopId(final Concoction conc) {
-    switch (conc.getMixingMethod()) {
-      case CHEMCLASS:
-        return "kolhs_chem";
-      case ARTCLASS:
-        return "kolhs_art";
-      case SHOPCLASS:
-        return "kolhs_shop";
-      default:
-        return "";
-    }
+    return switch (conc.getMixingMethod()) {
+      case CHEMCLASS -> "kolhs_chem";
+      case ARTCLASS -> "kolhs_art";
+      case SHOPCLASS -> "kolhs_shop";
+      default -> "";
+    };
   }
 
   private static String shopIDToClassName(final String shopID) {
     if (shopID == null) return null;
-    switch (shopID) {
-      case "kolhs_chem":
-        return "Chemistry Class";
-      case "kolhs_art":
-        return "Art Class";
-      case "kolhs_shop":
-        return "Shop Class";
-      default:
-        return shopID;
-    }
+    return switch (shopID) {
+      case "kolhs_chem" -> "Chemistry Class";
+      case "kolhs_art" -> "Art Class";
+      case "kolhs_shop" -> "Shop Class";
+      default -> shopID;
+    };
   }
 
   public KOLHSRequest(final Concoction conc) {

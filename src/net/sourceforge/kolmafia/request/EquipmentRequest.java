@@ -217,15 +217,11 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   private static String choosePage(final int requestType) {
-    switch (requestType) {
-      case EquipmentRequest.BEDAZZLEMENTS:
-        return "bedazzle.php";
-      case EquipmentRequest.SAVE_OUTFIT:
-      case EquipmentRequest.UNEQUIP_ALL:
-        return "inv_equip.php";
-      default:
-        return "inventory.php";
-    }
+    return switch (requestType) {
+      case EquipmentRequest.BEDAZZLEMENTS -> "bedazzle.php";
+      case EquipmentRequest.SAVE_OUTFIT, EquipmentRequest.UNEQUIP_ALL -> "inv_equip.php";
+      default -> "inventory.php";
+    };
   }
 
   public EquipmentRequest(final String changeName) {
@@ -664,46 +660,23 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     ConsumptionType equipmentType = ItemDatabase.getConsumptionType(itemId);
-    switch (equipmentType) {
-      case HAT:
-        return EquipmentManager.HAT;
-
-      case WEAPON:
-        return EquipmentManager.WEAPON;
-
-      case OFFHAND:
-        return itemId == ItemPool.FAKE_HAND ? EquipmentManager.FAKEHAND : EquipmentManager.OFFHAND;
-
-      case CONTAINER:
-        return EquipmentManager.CONTAINER;
-
-      case SHIRT:
-        return EquipmentManager.SHIRT;
-
-      case PANTS:
-        return EquipmentManager.PANTS;
-
-      case ACCESSORY:
-        return EquipmentRequest.availableAccessory();
-
-      case FAMILIAR_EQUIPMENT:
-        return EquipmentManager.FAMILIAR;
-
-      case STICKER:
-        return EquipmentRequest.availableSticker();
-
-      case CARD:
-        return EquipmentManager.CARDSLEEVE;
-
-      case FOLDER:
-        return EquipmentRequest.availableFolder();
-
-      case SIXGUN:
-        return EquipmentManager.HOLSTER;
-
-      default:
-        return -1;
-    }
+    return switch (equipmentType) {
+      case HAT -> EquipmentManager.HAT;
+      case WEAPON -> EquipmentManager.WEAPON;
+      case OFFHAND -> itemId == ItemPool.FAKE_HAND
+          ? EquipmentManager.FAKEHAND
+          : EquipmentManager.OFFHAND;
+      case CONTAINER -> EquipmentManager.CONTAINER;
+      case SHIRT -> EquipmentManager.SHIRT;
+      case PANTS -> EquipmentManager.PANTS;
+      case ACCESSORY -> EquipmentRequest.availableAccessory();
+      case FAMILIAR_EQUIPMENT -> EquipmentManager.FAMILIAR;
+      case STICKER -> EquipmentRequest.availableSticker();
+      case CARD -> EquipmentManager.CARDSLEEVE;
+      case FOLDER -> EquipmentRequest.availableFolder();
+      case SIXGUN -> EquipmentManager.HOLSTER;
+      default -> -1;
+    };
   }
 
   private static int availableAccessory() {
@@ -930,53 +903,35 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     switch (this.requestType) {
-      case EquipmentRequest.EQUIPMENT:
-        KoLmafia.updateDisplay("Retrieving equipment...");
-        break;
-
-      case EquipmentRequest.BEDAZZLEMENTS:
-        KoLmafia.updateDisplay("Refreshing stickers...");
-        break;
-
-      case EquipmentRequest.SAVE_OUTFIT:
-        KoLmafia.updateDisplay("Saving outfit: " + this.outfitName);
-        break;
-
-      case EquipmentRequest.CHANGE_OUTFIT:
-        KoLmafia.updateDisplay("Putting on outfit: " + this.outfit);
-        break;
-
-      case EquipmentRequest.CHANGE_ITEM:
-        KoLmafia.updateDisplay(
-            (this.equipmentSlot == EquipmentManager.WEAPON
-                    ? "Wielding "
-                    : this.equipmentSlot == EquipmentManager.OFFHAND
-                        ? "Holding "
-                        : this.equipmentSlot == EquipmentManager.CARDSLEEVE
-                            ? "Sliding in "
-                            : this.equipmentSlot == EquipmentManager.HOLSTER
-                                ? "Holstering "
-                                : "Putting on ")
-                + ItemDatabase.getItemName(this.itemId)
-                + "...");
-        break;
-
-      case EquipmentRequest.REMOVE_ITEM:
-        KoLmafia.updateDisplay(
-            (this.equipmentSlot == EquipmentManager.CARDSLEEVE
-                    ? "Sliding out "
-                    : this.equipmentSlot == EquipmentManager.HOLSTER
-                        ? "Unholstering "
-                        : "Taking off ")
-                + (this.equipmentSlot == EquipmentManager.FAKEHAND
-                    ? "fake hands"
-                    : EquipmentManager.getEquipment(this.equipmentSlot).getName())
-                + "...");
-        break;
-
-      case EquipmentRequest.UNEQUIP_ALL:
-        KoLmafia.updateDisplay("Taking off everything...");
-        break;
+      case EquipmentRequest.EQUIPMENT -> KoLmafia.updateDisplay("Retrieving equipment...");
+      case EquipmentRequest.BEDAZZLEMENTS -> KoLmafia.updateDisplay("Refreshing stickers...");
+      case EquipmentRequest.SAVE_OUTFIT -> KoLmafia.updateDisplay(
+          "Saving outfit: " + this.outfitName);
+      case EquipmentRequest.CHANGE_OUTFIT -> KoLmafia.updateDisplay(
+          "Putting on outfit: " + this.outfit);
+      case EquipmentRequest.CHANGE_ITEM -> KoLmafia.updateDisplay(
+          (this.equipmentSlot == EquipmentManager.WEAPON
+                  ? "Wielding "
+                  : this.equipmentSlot == EquipmentManager.OFFHAND
+                      ? "Holding "
+                      : this.equipmentSlot == EquipmentManager.CARDSLEEVE
+                          ? "Sliding in "
+                          : this.equipmentSlot == EquipmentManager.HOLSTER
+                              ? "Holstering "
+                              : "Putting on ")
+              + ItemDatabase.getItemName(this.itemId)
+              + "...");
+      case EquipmentRequest.REMOVE_ITEM -> KoLmafia.updateDisplay(
+          (this.equipmentSlot == EquipmentManager.CARDSLEEVE
+                  ? "Sliding out "
+                  : this.equipmentSlot == EquipmentManager.HOLSTER
+                      ? "Unholstering "
+                      : "Taking off ")
+              + (this.equipmentSlot == EquipmentManager.FAKEHAND
+                  ? "fake hands"
+                  : EquipmentManager.getEquipment(this.equipmentSlot).getName())
+              + "...");
+      case EquipmentRequest.UNEQUIP_ALL -> KoLmafia.updateDisplay("Taking off everything...");
     }
 
     // You can only change a card in the card sleeve while it is in inventory
@@ -1870,15 +1825,14 @@ public class EquipmentRequest extends PasswordHashRequest {
       AdventureResult item = ItemPool.get(itemId);
       int slot = EquipmentManager.itemIdToEquipmentType(itemId);
       switch (slot) {
-        case EquipmentManager.ACCESSORY1:
+        case EquipmentManager.ACCESSORY1 -> {
           if (accessoryIndex >= 3) {
             // KoL error: four accessories
             continue;
           }
           slot = accessories[accessoryIndex++];
-          break;
-
-        case EquipmentManager.WEAPON:
+        }
+        case EquipmentManager.WEAPON -> {
           if (weaponIndex >= 2) {
             // KoL error: three weapons
             continue;
@@ -1900,11 +1854,10 @@ public class EquipmentRequest extends PasswordHashRequest {
             }
           }
           weaponIndex++;
-          break;
-        default:
+        }
+        default -> {}
           // Everything else goes into an
           // unambiguous slot.
-          break;
       }
 
       newEquipment[slot] = item;
@@ -1928,24 +1881,12 @@ public class EquipmentRequest extends PasswordHashRequest {
     while (m.find()) {
       String text = m.group(2).trim();
       switch (m.group(1).toLowerCase().charAt(0)) {
-        case 'c':
-          KoLmafiaCLI.DEFAULT_SHELL.executeLine(text);
-          break;
-        case 'e':
-          KoLmafiaCLI.DEFAULT_SHELL.executeCommand("equip", "familiar " + text);
-          break;
-        case 'f':
-          KoLmafiaCLI.DEFAULT_SHELL.executeCommand("familiar", text);
-          break;
-        case 'm':
-          KoLmafiaCLI.DEFAULT_SHELL.executeCommand("mood", text);
-          break;
-        case 't':
-          KoLmafiaCLI.DEFAULT_SHELL.executeCommand("enthrone", text);
-          break;
-        case 'b':
-          KoLmafiaCLI.DEFAULT_SHELL.executeCommand("bjornify", text);
-          break;
+        case 'c' -> KoLmafiaCLI.DEFAULT_SHELL.executeLine(text);
+        case 'e' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("equip", "familiar " + text);
+        case 'f' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("familiar", text);
+        case 'm' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("mood", text);
+        case 't' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("enthrone", text);
+        case 'b' -> KoLmafiaCLI.DEFAULT_SHELL.executeCommand("bjornify", text);
       }
     }
   }
@@ -1999,17 +1940,13 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     // Accessories might specify the slot in the URL
-    switch (EquipmentRequest.parseSlot(location)) {
-      case 1:
-        return EquipmentManager.ACCESSORY1;
-      case 2:
-        return EquipmentManager.ACCESSORY2;
-      case 3:
-        return EquipmentManager.ACCESSORY3;
-    }
-
-    // Otherwise, KoL picks the first empty accessory slot.
-    return EquipmentRequest.availableAccessory();
+    return switch (EquipmentRequest.parseSlot(location)) {
+      case 1 -> EquipmentManager.ACCESSORY1;
+      case 2 -> EquipmentManager.ACCESSORY2;
+      case 3 -> EquipmentManager.ACCESSORY3;
+        // Otherwise, KoL picks the first empty accessory slot.
+      default -> EquipmentRequest.availableAccessory();
+    };
   }
 
   public static final boolean registerRequest(final String urlString) {

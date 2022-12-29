@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MoodTrigger implements Comparable<MoodTrigger> {
-  private static final Map<String, Set<String>> knownSources = new HashMap<String, Set<String>>();
+  private static final Map<String, Set<String>> knownSources = new HashMap<>();
 
   private int skillId = -1;
   private final AdventureResult effect;

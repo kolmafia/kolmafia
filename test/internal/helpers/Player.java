@@ -585,7 +585,7 @@ public class Player {
    */
   public static Cleanups withNoEffects() {
     KoLConstants.activeEffects.clear();
-    return new Cleanups(() -> KoLConstants.activeEffects.clear());
+    return new Cleanups(KoLConstants.activeEffects::clear);
   }
 
   /**
@@ -1178,7 +1178,7 @@ public class Player {
    */
   public static Cleanups withEmptyCampground() {
     CampgroundRequest.reset();
-    return new Cleanups(() -> CampgroundRequest.reset());
+    return new Cleanups(CampgroundRequest::reset);
   }
 
   /**

@@ -452,15 +452,12 @@ public abstract class TowerDoorManager {
   }
 
   private static int legendKeyIndex(AdventureResult key) {
-    switch (key.getItemId()) {
-      case ItemPool.BORIS_KEY:
-        return 1;
-      case ItemPool.JARLSBERG_KEY:
-        return 2;
-      case ItemPool.SNEAKY_PETE_KEY:
-        return 3;
-    }
-    return 0;
+    return switch (key.getItemId()) {
+      case ItemPool.BORIS_KEY -> 1;
+      case ItemPool.JARLSBERG_KEY -> 2;
+      case ItemPool.SNEAKY_PETE_KEY -> 3;
+      default -> 0;
+    };
   }
 
   public static boolean retrieveKey(Lock lock) {

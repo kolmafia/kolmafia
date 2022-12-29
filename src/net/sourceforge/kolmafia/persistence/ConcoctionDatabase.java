@@ -109,27 +109,23 @@ public class ConcoctionDatabase {
   public static int lastQueuedMayo = 0;
 
   private static int queuedFullness = 0;
-  public static final LockableListModel<QueuedConcoction> queuedFood =
-      new LockableListModel<QueuedConcoction>();
+  public static final LockableListModel<QueuedConcoction> queuedFood = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedFoodIngredients =
-      new SortedListModel<AdventureResult>();
+      new SortedListModel<>();
 
   private static int queuedInebriety = 0;
-  public static final LockableListModel<QueuedConcoction> queuedBooze =
-      new LockableListModel<QueuedConcoction>();
+  public static final LockableListModel<QueuedConcoction> queuedBooze = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedBoozeIngredients =
-      new SortedListModel<AdventureResult>();
+      new SortedListModel<>();
 
   private static int queuedSpleenHit = 0;
-  public static final LockableListModel<QueuedConcoction> queuedSpleen =
-      new LockableListModel<QueuedConcoction>();
+  public static final LockableListModel<QueuedConcoction> queuedSpleen = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedSpleenIngredients =
-      new SortedListModel<AdventureResult>();
+      new SortedListModel<>();
 
-  public static final LockableListModel<QueuedConcoction> queuedPotions =
-      new LockableListModel<QueuedConcoction>();
+  public static final LockableListModel<QueuedConcoction> queuedPotions = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedPotionIngredients =
-      new SortedListModel<AdventureResult>();
+      new SortedListModel<>();
 
   public static final Concoction stillsLimit = new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction clipArtLimit = new Concoction(null, CraftingType.NOCREATE);
@@ -148,11 +144,9 @@ public class ConcoctionDatabase {
 
   public static final EnumSet<CraftingType> PERMIT_METHOD = EnumSet.noneOf(CraftingType.class);
   public static final Map<CraftingType, Integer> ADVENTURE_USAGE =
-      new EnumMap<CraftingType, Integer>(CraftingType.class);
-  public static final Map<CraftingType, Integer> CREATION_COST =
-      new EnumMap<CraftingType, Integer>(CraftingType.class);
-  public static final Map<CraftingType, String> EXCUSE =
-      new EnumMap<CraftingType, String>(CraftingType.class);
+      new EnumMap<>(CraftingType.class);
+  public static final Map<CraftingType, Integer> CREATION_COST = new EnumMap<>(CraftingType.class);
+  public static final Map<CraftingType, String> EXCUSE = new EnumMap<>(CraftingType.class);
   public static final EnumSet<CraftingRequirements> REQUIREMENT_MET =
       EnumSet.noneOf(CraftingRequirements.class);
 
@@ -161,11 +155,11 @@ public class ConcoctionDatabase {
   public static final AdventureResult INIGO = EffectPool.get(EffectPool.INIGOS, 0);
   public static final AdventureResult CRAFT_TEA = EffectPool.get(EffectPool.CRAFT_TEA, 0);
 
-  private static final HashMap<Integer, Concoction> chefStaff = new HashMap<Integer, Concoction>();
-  private static final HashMap<Integer, Concoction> singleUse = new HashMap<Integer, Concoction>();
-  private static final HashMap<Integer, Concoction> multiUse = new HashMap<Integer, Concoction>();
-  private static final HashMap<Integer, Concoction> noodles = new HashMap<Integer, Concoction>();
-  private static final HashMap<Integer, Concoction> meatStack = new HashMap<Integer, Concoction>();
+  private static final HashMap<Integer, Concoction> chefStaff = new HashMap<>();
+  private static final HashMap<Integer, Concoction> singleUse = new HashMap<>();
+  private static final HashMap<Integer, Concoction> multiUse = new HashMap<>();
+  private static final HashMap<Integer, Concoction> noodles = new HashMap<>();
+  private static final HashMap<Integer, Concoction> meatStack = new HashMap<>();
 
   private static CraftingType mixingMethod = null;
   private static final EnumSet<CraftingRequirements> requirements =
@@ -432,17 +426,12 @@ public class ConcoctionDatabase {
   }
 
   public static final LockableListModel<AdventureResult> getQueuedIngredients(ConcoctionType type) {
-    switch (type) {
-      case FOOD:
-        return ConcoctionDatabase.queuedFoodIngredients;
-      case BOOZE:
-        return ConcoctionDatabase.queuedBoozeIngredients;
-      case SPLEEN:
-        return ConcoctionDatabase.queuedSpleenIngredients;
-      case POTION:
-        return ConcoctionDatabase.queuedPotionIngredients;
-    }
-    return null;
+    return switch (type) {
+      case FOOD -> ConcoctionDatabase.queuedFoodIngredients;
+      case BOOZE -> ConcoctionDatabase.queuedBoozeIngredients;
+      case SPLEEN -> ConcoctionDatabase.queuedSpleenIngredients;
+      case POTION -> ConcoctionDatabase.queuedPotionIngredients;
+    };
   }
 
   public static final boolean canQueueFood(final int id) {
@@ -466,23 +455,21 @@ public class ConcoctionDatabase {
   }
 
   public static final boolean isMayo(final int id) {
-    switch (id) {
-      case ItemPool.MAYONEX:
-      case ItemPool.MAYODIOL:
-      case ItemPool.MAYOSTAT:
-      case ItemPool.MAYOZAPINE:
-      case ItemPool.MAYOFLEX:
-        return true;
-    }
-    return false;
+    return switch (id) {
+      case ItemPool.MAYONEX,
+          ItemPool.MAYODIOL,
+          ItemPool.MAYOSTAT,
+          ItemPool.MAYOZAPINE,
+          ItemPool.MAYOFLEX -> true;
+      default -> false;
+    };
   }
 
   public static final boolean canQueueBooze(final int id) {
-    switch (id) {
-      case ItemPool.SCHRODINGERS_THERMOS:
-        return true;
-    }
-    return false;
+    return switch (id) {
+      case ItemPool.SCHRODINGERS_THERMOS -> true;
+      default -> false;
+    };
   }
 
   public static final void push(final Concoction c, final int quantity) {
@@ -529,7 +516,7 @@ public class ConcoctionDatabase {
     int advs = ConcoctionDatabase.queuedAdventuresUsed;
 
     // Queue the ingredients used by this concoction
-    ArrayList<AdventureResult> ingredients = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> ingredients = new ArrayList<>();
     c.queue(queuedIngredients, ingredients, quantity);
 
     // Adjust lists to account for what just changed
@@ -797,38 +784,27 @@ public class ConcoctionDatabase {
   }
 
   public static final LockableListModel<QueuedConcoction> getQueue(ConcoctionType type) {
-    switch (type) {
-      case FOOD:
-        return ConcoctionDatabase.queuedFood;
-      case BOOZE:
-        return ConcoctionDatabase.queuedBooze;
-      case SPLEEN:
-        return ConcoctionDatabase.queuedSpleen;
-      case POTION:
-        return ConcoctionDatabase.queuedPotions;
-    }
+    return switch (type) {
+      case FOOD -> ConcoctionDatabase.queuedFood;
+      case BOOZE -> ConcoctionDatabase.queuedBooze;
+      case SPLEEN -> ConcoctionDatabase.queuedSpleen;
+      case POTION -> ConcoctionDatabase.queuedPotions;
+    };
     // Unreachable
-    return null;
   }
 
   private static AdventureResult currentConsumptionHelper(ConcoctionType type) {
-    switch (type) {
-      case FOOD:
-        return EatItemRequest.currentFoodHelper();
-      case BOOZE:
-        return DrinkItemRequest.currentDrinkHelper();
-    }
-    return null;
+    return switch (type) {
+      case FOOD -> EatItemRequest.currentFoodHelper();
+      case BOOZE -> DrinkItemRequest.currentDrinkHelper();
+      default -> null;
+    };
   }
 
   private static void clearConsumptionHelper(ConcoctionType type) {
     switch (type) {
-      case FOOD:
-        EatItemRequest.clearFoodHelper();
-        break;
-      case BOOZE:
-        DrinkItemRequest.clearBoozeHelper();
-        break;
+      case FOOD -> EatItemRequest.clearFoodHelper();
+      case BOOZE -> DrinkItemRequest.clearBoozeHelper();
     }
   }
 
@@ -853,7 +829,7 @@ public class ConcoctionDatabase {
     // ConsumptionType.AVATAR_POTION - use potions
 
     QueuedConcoction currentItem;
-    Stack<QueuedConcoction> toProcess = new Stack<QueuedConcoction>();
+    Stack<QueuedConcoction> toProcess = new Stack<>();
 
     // Remove items in inverse order from the queue and push them on a stack.
     while ((currentItem = ConcoctionDatabase.pop(type)) != null) {
@@ -1099,7 +1075,7 @@ public class ConcoctionDatabase {
       return KoLConstants.inventory;
     }
 
-    SortedListModel<AdventureResult> availableIngredients = new SortedListModel<AdventureResult>();
+    SortedListModel<AdventureResult> availableIngredients = new SortedListModel<>();
     availableIngredients.addAll(KoLConstants.inventory);
 
     if (includeCloset) {
@@ -1159,15 +1135,10 @@ public class ConcoctionDatabase {
 
   public static final void setRefreshNeeded(int itemId) {
     switch (ItemDatabase.getConsumptionType(itemId)) {
-      case EAT:
-      case DRINK:
-      case SPLEEN:
-      case USE:
-      case USE_MULTIPLE:
-      case FOOD_HELPER:
-      case DRINK_HELPER:
+      case EAT, DRINK, SPLEEN, USE, USE_MULTIPLE, FOOD_HELPER, DRINK_HELPER -> {
         ConcoctionDatabase.setRefreshNeeded(false);
         return;
+      }
     }
 
     switch (itemId) {
@@ -2638,33 +2609,18 @@ public class ConcoctionDatabase {
 
     for (int i = 0; i < ingredients.length; ++i) {
       switch (ingredients[i].getItemId()) {
-        case ItemPool.SCHLITZ:
-        case ItemPool.WILLER:
-          ingredients[i] =
-              ConcoctionDatabase.getBetterIngredient(
-                  ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients);
-          break;
-
-        case ItemPool.KETCHUP:
-        case ItemPool.CATSUP:
-          ingredients[i] =
-              ConcoctionDatabase.getBetterIngredient(
-                  ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients);
-          break;
-
-        case ItemPool.DYSPEPSI_COLA:
-        case ItemPool.CLOACA_COLA:
-          ingredients[i] =
-              ConcoctionDatabase.getBetterIngredient(
-                  ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA, availableIngredients);
-          break;
-
-        case ItemPool.TITANIUM_UMBRELLA:
-        case ItemPool.GOATSKIN_UMBRELLA:
-          ingredients[i] =
-              ConcoctionDatabase.getBetterIngredient(
-                  ItemPool.TITANIUM_UMBRELLA, ItemPool.GOATSKIN_UMBRELLA, availableIngredients);
-          break;
+        case ItemPool.SCHLITZ, ItemPool.WILLER -> ingredients[i] =
+            ConcoctionDatabase.getBetterIngredient(
+                ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients);
+        case ItemPool.KETCHUP, ItemPool.CATSUP -> ingredients[i] =
+            ConcoctionDatabase.getBetterIngredient(
+                ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients);
+        case ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA -> ingredients[i] =
+            ConcoctionDatabase.getBetterIngredient(
+                ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA, availableIngredients);
+        case ItemPool.TITANIUM_UMBRELLA, ItemPool.GOATSKIN_UMBRELLA -> ingredients[i] =
+            ConcoctionDatabase.getBetterIngredient(
+                ItemPool.TITANIUM_UMBRELLA, ItemPool.GOATSKIN_UMBRELLA, availableIngredients);
       }
     }
     return ingredients;

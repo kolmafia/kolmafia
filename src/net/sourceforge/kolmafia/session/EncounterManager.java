@@ -97,7 +97,7 @@ public abstract class EncounterManager {
   }
 
   private static void resetEncounters() {
-    ArrayList<Encounter> encounters = new ArrayList<Encounter>();
+    ArrayList<Encounter> encounters = new ArrayList<>();
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
@@ -182,7 +182,7 @@ public abstract class EncounterManager {
       final String locationName, final EncounterType type) {
     return Arrays.stream(specialEncounters)
         .filter(e -> e.getLocation().equalsIgnoreCase(locationName))
-        .filter(e -> e.getEncounterType().equals(type))
+        .filter(e -> e.getEncounterType() == type)
         .findAny()
         .orElse(null);
   }
@@ -414,48 +414,51 @@ public abstract class EncounterManager {
 
   public static void handleSpecialEncounter(final String encounterName, final String responseText) {
     switch (encounterName.toLowerCase()) {
-      case "step up to the table, put the ball in play":
+      case "step up to the table, put the ball in play" -> {
         if (InventoryManager.hasItem(ItemPool.CARONCH_DENTURES)) {
           ResultProcessor.processItem(ItemPool.CARONCH_DENTURES, -1);
           QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step4");
         }
-
         if (InventoryManager.hasItem(ItemPool.FRATHOUSE_BLUEPRINTS)) {
           ResultProcessor.processItem(ItemPool.FRATHOUSE_BLUEPRINTS, -1);
         }
         return;
-      case "granny, does your dogfish bite?":
+      }
+      case "granny, does your dogfish bite?" -> {
         if (InventoryManager.hasItem(ItemPool.GRANDMAS_MAP)) {
           ResultProcessor.processItem(ItemPool.GRANDMAS_MAP, -1);
         }
         return;
-      case "meat for nothing and the harem for free":
+      }
+      case "meat for nothing and the harem for free" -> {
         Preferences.setBoolean("_treasuryEliteMeatCollected", true);
         return;
-      case "finally, the payoff":
+      }
+      case "finally, the payoff" -> {
         Preferences.setBoolean("_treasuryHaremMeatCollected", true);
         return;
-      case "faction traction = inaction":
+      }
+      case "faction traction = inaction" -> {
         Preferences.setInteger("booPeakProgress", 98);
         return;
-      case "daily done, john.":
+      }
+      case "daily done, john." -> {
         // Daily Dungeon Complete
         Preferences.setBoolean("dailyDungeonDone", true);
         Preferences.setInteger("_lastDailyDungeonRoom", 15);
         return;
-      case "a hidden surprise!":
+      }
+      case "a hidden surprise!" -> {
         // Since this content is short-lived, create the patterns here every time
         // the encounter is found instead of globally
         Pattern GIFT_SENDER_PATTERN = Pattern.compile("nounder><b>(.*?)</b></a>");
         Pattern NOTE_PATTERN = Pattern.compile("1px solid black;'>(.*?)</td></tr>", Pattern.DOTALL);
-
         Matcher senderMatcher = GIFT_SENDER_PATTERN.matcher(responseText);
         if (senderMatcher.find()) {
           String sender = senderMatcher.group(1);
           RequestLogger.printLine("Gift sender: " + sender);
           RequestLogger.updateSessionLog("Gift sender: " + sender);
         }
-
         Matcher noteMatcher = NOTE_PATTERN.matcher(responseText);
         if (noteMatcher.find()) {
           String note = noteMatcher.group(1);
@@ -463,42 +466,55 @@ public abstract class EncounterManager {
           RequestLogger.updateSessionLog("Gift note: " + note);
         }
         return;
-      case "labrador conspirator":
+      }
+      case "labrador conspirator" -> {
         Preferences.increment("hallowienerCoinspiracy");
         return;
-      case "lava dogs":
+      }
+      case "lava dogs" -> {
         Preferences.setBoolean("hallowienerVolcoino", true);
         return;
-      case "fruuuuuuuit":
+      }
+      case "fruuuuuuuit" -> {
         Preferences.setBoolean("hallowienerSkeletonStore", true);
         return;
-      case "boooooze hound":
+      }
+      case "boooooze hound" -> {
         Preferences.setBoolean("hallowienerOvergrownLot", true);
         return;
-      case "baker's dogzen":
+      }
+      case "baker's dogzen" -> {
         Preferences.setBoolean("hallowienerMadnessBakery", true);
         return;
-      case "dog needs food badly":
+      }
+      case "dog needs food badly" -> {
         Preferences.increment("hallowiener8BitRealm");
         return;
-      case "ratchet-catcher":
+      }
+      case "ratchet-catcher" -> {
         Preferences.setBoolean("hallowienerMiddleChamber", true);
         return;
-      case "seeing-eyes dog":
+      }
+      case "seeing-eyes dog" -> {
         Preferences.setBoolean("hallowienerDefiledNook", true);
         return;
-      case "carpenter dog":
+      }
+      case "carpenter dog" -> {
         Preferences.setBoolean("hallowienerSmutOrcs", true);
         return;
-      case "are they made of real dogs?":
+      }
+      case "are they made of real dogs?" -> {
         Preferences.setBoolean("hallowienerGuanoJunction", true);
         return;
-      case "gunbowwowder":
+      }
+      case "gunbowwowder" -> {
         Preferences.setBoolean("hallowienerSonofaBeach", true);
         return;
-      case "it isn't a poodle":
+      }
+      case "it isn't a poodle" -> {
         Preferences.setBoolean("hallowienerKnollGym", true);
         return;
+      }
     }
   }
 

@@ -49,11 +49,11 @@ public class ClanMembersRequest extends GenericRequest {
 
     this.isLookup = false;
     this.isDetailLookup = false;
-    this.rankList = new LockableListModel<String>();
+    this.rankList = new LockableListModel<>();
 
     this.addFormField("action", "modify");
 
-    ArrayList<String> fields = new ArrayList<String>();
+    ArrayList<String> fields = new ArrayList<>();
 
     String currentId;
     for (int i = 0; i < titleChange.length; ++i) {

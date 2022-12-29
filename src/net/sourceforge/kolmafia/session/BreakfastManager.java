@@ -553,27 +553,23 @@ public class BreakfastManager {
     // Determine total number of times we will try to use skills of
     // this type.
 
-    long totalCasts = 0;
-
-    switch (type) {
-      case TOME:
-        // In Ronin or Hardcore, Tomes can be used three times a day,
-        // spread among all available tomes.
-        // In other cases, all available tomes can be cast three times a day.
-        totalCasts = KoLCharacter.canInteract() ? skillCount * 3L : 3;
-        break;
-      case GRIMOIRE:
-        // Grimoires can be used once a day, each.
-        totalCasts = skillCount;
-        break;
-      case LIBRAM:
-        // Librams can be used as many times per day as you
-        // have mana available.
-        totalCasts = SkillDatabase.libramSkillCasts(KoLCharacter.getCurrentMP() - manaRemaining);
-        // Note that if we allow MP to be restored, we could
-        // potentially summon a lot more. Maybe someday...
-        break;
-    }
+    long totalCasts =
+        switch (type) {
+          case TOME ->
+          // In Ronin or Hardcore, Tomes can be used three times a day,
+          // spread among all available tomes.
+          // In other cases, all available tomes can be cast three times a day.
+          KoLCharacter.canInteract() ? skillCount * 3L : 3;
+          case GRIMOIRE ->
+          // Grimoires can be used once a day, each.
+          skillCount;
+          case LIBRAM ->
+          // Librams can be used as many times per day as you
+          // have mana available.
+          // Note that if we allow MP to be restored, we could
+          // potentially summon a lot more. Maybe someday...
+          SkillDatabase.libramSkillCasts(KoLCharacter.getCurrentMP() - manaRemaining);
+        };
 
     if (skillCount == 1) {
       // We are casting exactly one skill from this list.
@@ -852,7 +848,7 @@ public class BreakfastManager {
       RequestThread.postRequest(
           new GenericRequest("inv_use.php?pwd&whichitem=" + plant.getItemId()));
 
-      String status[] = Preferences.getString("_pottedPowerPlant").split(",");
+      String[] status = Preferences.getString("_pottedPowerPlant").split(",");
 
       for (int pp = 0; pp < status.length; pp++) {
         if (!status[pp].equals("0")) {

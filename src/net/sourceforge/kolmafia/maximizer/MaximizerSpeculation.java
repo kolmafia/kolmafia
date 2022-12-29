@@ -734,16 +734,12 @@ public class MaximizerSpeculation extends Speculation
       if (KoLCharacter.hasSkill("Double-Fisted Skull Smashing")) {
         weaponType = EquipmentDatabase.getWeaponType(weapon);
       }
-      switch (weaponType) {
-        case MELEE:
-          possible = possibles.get(Evaluator.OFFHAND_MELEE);
-          break;
-        case RANGED:
-          possible = possibles.get(Evaluator.OFFHAND_RANGED);
-          break;
-        default:
-          possible = possibles.get(EquipmentManager.OFFHAND);
-      }
+      possible =
+          switch (weaponType) {
+            case MELEE -> possibles.get(Evaluator.OFFHAND_MELEE);
+            case RANGED -> possibles.get(Evaluator.OFFHAND_RANGED);
+            default -> possibles.get(EquipmentManager.OFFHAND);
+          };
       boolean any = false;
 
       for (int pos = 0; pos < possible.size(); ++pos) {
