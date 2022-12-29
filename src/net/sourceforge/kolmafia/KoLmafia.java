@@ -186,7 +186,7 @@ public abstract class KoLmafia {
     return PREFERRED_IMAGE_SERVER_PATH;
   }
 
-  private static boolean acquireFileLock(final String suffix) {
+  public static boolean acquireFileLock(final String suffix) {
     try {
       KoLmafia.SESSION_FILE = new File(KoLConstants.SESSIONS_LOCATION, "active_session." + suffix);
 
@@ -205,6 +205,18 @@ public abstract class KoLmafia {
       return true;
     } catch (Exception e) {
       return false;
+    }
+  }
+
+  public static void releaseFileLock() {
+    try {
+      KoLmafia.SESSION_HOLDER.release();
+      KoLmafia.SESSION_CHANNEL.close();
+      KoLmafia.SESSION_FILE.delete();
+    } catch (Exception e) {
+      // That means the file either doesn't exist or
+      // the session holder was somehow closed.
+      // Ignore and fall through.
     }
   }
 
@@ -295,10 +307,6 @@ public abstract class KoLmafia {
 
     if (SwinglessUIUtils.isSwingAvailable()) {
       KoLmafia.initLookAndFeel();
-    }
-    if (!KoLmafia.acquireFileLock("1") && !KoLmafia.acquireFileLock("2")) {
-      System.out.println("Could not acquire file lock");
-      System.exit(-1);
     }
 
     FlaggedItems.initializeLists();
@@ -1875,15 +1883,7 @@ public abstract class KoLmafia {
       SystemTrayFrame.removeTrayIcon();
       RelayServer.stop();
 
-      try {
-        KoLmafia.SESSION_HOLDER.release();
-        KoLmafia.SESSION_CHANNEL.close();
-        KoLmafia.SESSION_FILE.delete();
-      } catch (Exception e) {
-        // That means the file either doesn't exist or
-        // the session holder was somehow closed.
-        // Ignore and fall through.
-      }
+      releaseFileLock();
     }
   }
 
