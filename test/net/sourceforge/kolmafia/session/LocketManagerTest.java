@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class LocketManagerTest {
   @BeforeAll
   public static void beforeAll() {
-    Preferences.reset("ReminisceCommandTest");
+    Preferences.reset("LocketManagerTest");
   }
 
   @BeforeEach
