@@ -117,16 +117,16 @@ public class ManaBurnManager {
       String effectName = currentEffect.getName();
       String skillName = UneffectRequest.effectToSkill(effectName);
 
+      int skillId = SkillDatabase.getSkillId(skillName);
+
       // Only cast if the player knows the skill
 
-      if (!KoLCharacter.hasSkill(skillName)) {
+      if (!KoLCharacter.hasSkill(skillId)) {
         continue;
       }
 
       // Only cast if the MP cost is non-zero, since otherwise you'd
       // be in an infinite loop
-
-      int skillId = SkillDatabase.getSkillId(skillName);
       long mpCost = SkillDatabase.getMPConsumptionById(skillId);
 
       if (mpCost <= 0) {

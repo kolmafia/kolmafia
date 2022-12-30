@@ -504,7 +504,7 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addFightButton(actionBuffer, String.valueOf(classStunId), enabled);
     }
 
-    if (!inBirdForm && KoLCharacter.hasSkill("Transcendent Olfaction")) {
+    if (!inBirdForm && KoLCharacter.hasSkill(SkillPool.OLFACTION)) {
       boolean enabled = FightRequest.getCurrentRound() > 0 && FightRequest.canOlfact();
       StationaryButtonDecorator.addFightButton(actionBuffer, "19", enabled);
     }

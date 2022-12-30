@@ -5614,7 +5614,7 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setBoolean("_canSeekBirds", true);
 
           // If we've not added the skill today, learn it now
-          if (!KoLCharacter.hasSkill("Seek out a Bird")) {
+          if (!KoLCharacter.hasSkill(SkillPool.SEEK_OUT_A_BIRD)) {
             ResponseTextParser.learnSkill("Seek out a Bird");
             DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_THE_BIRD);
           }

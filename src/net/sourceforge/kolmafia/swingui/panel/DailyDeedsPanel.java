@@ -2412,9 +2412,9 @@ public class DailyDeedsPanel extends Box implements Listener {
     public void update() {
       this.setShown(
           (KoLCharacter.isMoxieClass()
-                  && KoLCharacter.hasSkill("Superhuman Cocktailcrafting")
+                  && KoLCharacter.hasSkill(SkillPool.SUPER_COCKTAIL)
                   && KoLCharacter.getGuildStoreOpen())
-              || KoLCharacter.hasSkill("Mixologist"));
+              || KoLCharacter.hasSkill(SkillPool.MIXOLOGIST));
       this.setText((10 - KoLCharacter.getStillsAvailable()) + "/10 stills used");
     }
   }
@@ -2499,7 +2499,7 @@ public class DailyDeedsPanel extends Box implements Listener {
           (!KoLCharacter.isHardcore()
                   && !limited
                   && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Libram of BRICKOs"))
-              || KoLCharacter.hasSkill("Summon BRICKOs");
+              || KoLCharacter.hasSkill(SkillPool.BRICKOS);
       FamiliarData hipster = KoLCharacter.usableFamiliar(FamiliarPool.HIPSTER);
       FamiliarData goth = KoLCharacter.usableFamiliar(FamiliarPool.ARTISTIC_GOTH_KID);
       FamiliarData machineElf = KoLCharacter.usableFamiliar(FamiliarPool.MACHINE_ELF);

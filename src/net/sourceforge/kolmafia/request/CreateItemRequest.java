@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -804,7 +805,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         }
 
         // If we have a bartender, fancy mixing is now free
-        if (KoLCharacter.hasBartender() || KoLCharacter.hasSkill("Cocktail Magic")) {
+        if (KoLCharacter.hasBartender() || KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC)) {
           return true;
         }
         break;
@@ -1229,7 +1230,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         command = "Combine";
       } else if (urlString.contains("mode=cocktail")) {
         command = "Mix";
-        usesTurns = !KoLCharacter.hasBartender() && !KoLCharacter.hasSkill("Cocktail Magic");
+        usesTurns =
+            !KoLCharacter.hasBartender() && !KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC);
       } else if (urlString.contains("mode=cook")) {
         command = "Cook";
         usesTurns = !KoLCharacter.hasChef();

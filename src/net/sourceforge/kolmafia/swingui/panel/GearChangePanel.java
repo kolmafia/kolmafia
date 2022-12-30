@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -151,7 +152,7 @@ public class GearChangePanel extends JPanel {
 
     if (value instanceof AdventureResult item) {
       mods = new Modifiers();
-      var taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
+      var taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
       KoLCharacter.addItemAdjustment(
           mods,
           slot,
@@ -1157,7 +1158,7 @@ public class GearChangePanel extends JPanel {
 
     // Do not even consider weapons unless we can dual-wield
     if (consumption == ConsumptionType.WEAPON) {
-      if (!KoLCharacter.hasSkill("Double-Fisted Skull Smashing")) {
+      if (!KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)) {
         return false;
       }
 

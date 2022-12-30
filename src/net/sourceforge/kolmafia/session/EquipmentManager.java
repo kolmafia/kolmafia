@@ -1652,7 +1652,7 @@ public class EquipmentManager {
     // weapons, then also allow one-handed weapons in the off-hand.
 
     boolean dual =
-        getWeaponHandedness() == 1 && KoLCharacter.hasSkill("Double-Fisted Skull Smashing");
+        getWeaponHandedness() == 1 && KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING);
     WeaponType weaponType = EquipmentManager.getWeaponType();
     FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
@@ -1978,7 +1978,7 @@ public class EquipmentManager {
       default:
         if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
             && EquipmentManager.wieldingKnife()
-            && KoLCharacter.hasSkill("Tricky Knifework")) {
+            && KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK)) {
           return Stat.MOXIE;
         }
         if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId()
@@ -2011,7 +2011,7 @@ public class EquipmentManager {
       default:
       case MUSCLE:
         hitStat = KoLCharacter.getAdjustedMuscle();
-        if (Modifiers.unarmed && KoLCharacter.hasSkill("Master of the Surprising Fist")) {
+        if (Modifiers.unarmed && KoLCharacter.hasSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST)) {
           hitStat += 20;
         }
         return hitStat;
@@ -2019,7 +2019,8 @@ public class EquipmentManager {
         return KoLCharacter.getAdjustedMysticality();
       case MOXIE:
         hitStat = KoLCharacter.getAdjustedMoxie();
-        if (EquipmentManager.wieldingAccordion() && KoLCharacter.hasSkill("Crab Claw Technique")) {
+        if (EquipmentManager.wieldingAccordion()
+            && KoLCharacter.hasSkill(SkillPool.CRAB_CLAW_TECHNIQUE)) {
           hitStat += 50;
         }
         return hitStat;

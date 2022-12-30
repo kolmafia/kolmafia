@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -2775,7 +2776,7 @@ public class Modifiers {
 
   public void applyCompanionModifiers(Companion companion) {
     double multiplier = 1.0;
-    if (KoLCharacter.hasSkill("Working Lunch")) {
+    if (KoLCharacter.hasSkill(SkillPool.WORKING_LUNCH)) {
       multiplier = 1.5;
     }
 

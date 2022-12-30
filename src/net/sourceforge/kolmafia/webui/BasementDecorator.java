@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -147,7 +148,7 @@ public class BasementDecorator {
       changes.append("\" id=\"potion\" style=\"width: 100%;\" multiple size=5>");
 
       if (KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP()) {
-        if (KoLCharacter.hasSkill("Cannelloni Cocoon")) {
+        if (KoLCharacter.hasSkill(SkillPool.COCOON)) {
           changes.append("<option value=0>cast Cannelloni Cocoon (hp restore)</option>");
         } else {
           changes.append("<option value=0>use 1 scroll of drastic healing (hp restore)</option>");
@@ -358,12 +359,13 @@ public class BasementDecorator {
     public static void checkSkills() {
       StatBooster.moxieControlsMP = moxieControlsMP();
 
-      StatBooster.absOfTin = KoLCharacter.hasSkill("Abs of Tin");
-      StatBooster.gnomishHardigness = KoLCharacter.hasSkill("Gnomish Hardigness");
-      StatBooster.gnomishUgnderstanding = KoLCharacter.hasSkill("Cosmic Ugnderstanding");
-      StatBooster.marginallyInsane = KoLCharacter.hasSkill("Marginally Insane");
-      StatBooster.spiritOfRavioli = KoLCharacter.hasSkill("Spirit of Ravioli");
-      StatBooster.wisdomOfTheElderTortoise = KoLCharacter.hasSkill("Wisdom of the Elder Tortoises");
+      StatBooster.absOfTin = KoLCharacter.hasSkill(SkillPool.ABS_OF_TIN);
+      StatBooster.gnomishHardigness = KoLCharacter.hasSkill(SkillPool.GNOMISH_HARDINESS);
+      StatBooster.gnomishUgnderstanding = KoLCharacter.hasSkill(SkillPool.COSMIC_UNDERSTANDING);
+      StatBooster.marginallyInsane = KoLCharacter.hasSkill(SkillPool.MARGINALLY_INSANE);
+      StatBooster.spiritOfRavioli = KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RAVIOLI);
+      StatBooster.wisdomOfTheElderTortoise =
+          KoLCharacter.hasSkill(SkillPool.WISDOM_OF_THE_ELDER_TORTOISES);
     }
 
     @Override

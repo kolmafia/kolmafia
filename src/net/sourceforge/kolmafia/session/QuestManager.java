@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1600,7 +1601,7 @@ public class QuestManager {
     if (KoLCharacter.inFistcore()) {
       // You can actually get here without knowing Worldpunch
       // in Softcore by pulling ores.
-      if (!KoLCharacter.hasSkill("Worldpunch")) {
+      if (!KoLCharacter.hasSkill(SkillPool.WORLDPUNCH)) {
         KoLmafia.updateDisplay(MafiaState.ABORT, "Try again after you learn Worldpunch.");
         return;
       }
