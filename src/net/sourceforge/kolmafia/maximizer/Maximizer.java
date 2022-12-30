@@ -642,7 +642,7 @@ public class Maximizer {
             usesRemaining = skill.getMaximumCast();
           }
 
-          if (!KoLCharacter.hasSkill(skillName) || usesRemaining == 0) {
+          if (!KoLCharacter.hasSkill(skillId) || usesRemaining == 0) {
             if (includeAll) {
               boolean isBuff = SkillDatabase.isBuff(skillId);
               text = "(learn to " + cmd + (isBuff ? ", or get it from a buffbot)" : ")");

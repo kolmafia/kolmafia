@@ -132,7 +132,7 @@ public class JourneyCommand extends AbstractCommand {
       for (int i = 0; i < 6; ++i) {
         String skillName = skills[i];
         int skillId = SkillDatabase.getSkillId(skillName);
-        boolean known = me && KoLCharacter.hasSkill(skillName);
+        boolean known = me && KoLCharacter.hasSkill(skillId);
         output.append("<td>");
         // output.append("<a href=\"desc_skill.php?whichskill=");
         // output.append(skillId);
