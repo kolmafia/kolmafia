@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -83,6 +84,14 @@ public enum Modeable {
     this.mustEquipAfterChange = mustEquipAfterChange;
   }
 
+  private static final Map<Integer, Modeable> idToModeable = new TreeMap<>();
+
+  static {
+    for (Modeable m : values()) {
+      idToModeable.put(m.getItemId(), m);
+    }
+  }
+
   public String getCommand() {
     return this.command;
   }
@@ -139,10 +148,7 @@ public enum Modeable {
   }
 
   public static Modeable find(final int itemId) {
-    return Arrays.stream(values())
-        .filter(m -> m.getItem().getItemId() == itemId)
-        .findAny()
-        .orElse(null);
+    return idToModeable.get(itemId);
   }
 
   public static Map<Modeable, String> getStringMap(Function<Modeable, String> cb) {
