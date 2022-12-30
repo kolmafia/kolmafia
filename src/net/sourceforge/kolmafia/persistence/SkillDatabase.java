@@ -601,7 +601,7 @@ public class SkillDatabase {
       case SkillPool.STUFFED_MORTAR_SHELL:
       case SkillPool.WEAPON_PASTALORD:
         if (KoLCharacter.currentPastaThrall() != PastaThrallData.NO_THRALL
-            && KoLCharacter.hasSkill("Thrall Unit Tactics")) {
+            && KoLCharacter.hasSkill(SkillPool.THRALL_UNIT_TACTICS)) {
           thrallReduced = true;
         }
         break;

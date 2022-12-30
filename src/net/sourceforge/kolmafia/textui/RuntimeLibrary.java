@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
@@ -8477,7 +8478,7 @@ public abstract class RuntimeLibrary {
     int attack = monster.getAttack() + attackModifier;
     int defenseStat = KoLCharacter.getAdjustedMoxie();
 
-    if (KoLCharacter.hasSkill(SkillDatabase.getSkillId("Hero of the Half-Shell"))
+    if (KoLCharacter.hasSkill(SkillPool.HERO_OF_THE_HALF_SHELL)
         && EquipmentManager.usingShield()
         && KoLCharacter.getAdjustedMuscle() > defenseStat) {
       defenseStat = KoLCharacter.getAdjustedMuscle();

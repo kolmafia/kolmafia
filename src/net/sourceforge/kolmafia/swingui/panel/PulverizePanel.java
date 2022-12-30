@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
@@ -56,7 +57,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
   public void setEnabled(final boolean isEnabled) {
     super.setEnabled(isEnabled);
 
-    if (this.buttons != null && !KoLCharacter.hasSkill("Pulverize")) {
+    if (this.buttons != null && !KoLCharacter.hasSkill(SkillPool.PULVERIZE)) {
       this.buttons[3].setEnabled(false);
     }
   }

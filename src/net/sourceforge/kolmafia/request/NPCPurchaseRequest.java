@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -150,7 +151,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       factor = 67;
     }
     if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
-    if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
     return (int) ((this.price * factor) / 100);
   }
 
@@ -161,7 +162,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   public static int currentDiscountedPrice(String npcStoreId, int price) {
     long factor = 100;
     if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
-    if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
     return (int) ((price * factor) / 100);
   }
 

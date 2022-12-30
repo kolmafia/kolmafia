@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -166,7 +167,7 @@ public abstract class HPRestoreItemList {
                 : KoLCharacter.getRestingHP();
     HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
     HPRestoreItemList.DISCONAP.healthPerUse =
-        KoLCharacter.hasSkill("Adventurer of Leisure") ? 40 : 20;
+        KoLCharacter.hasSkill(SkillPool.ADVENTURER_OF_LEISURE) ? 40 : 20;
     HPRestoreItemList.DOCS_UNGUENT.purchaseCost =
         QuestDatabase.isQuestFinished(Quest.DOC) ? 20 : 30;
     HPRestoreItemList.DOCS_ELIXIR.purchaseCost =

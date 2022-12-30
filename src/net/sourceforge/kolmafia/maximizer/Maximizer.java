@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -667,7 +668,7 @@ public class Maximizer {
             continue;
           }
           // You must know the skill
-          if (!KoLCharacter.hasSkill("Sweet Synthesis")) {
+          if (!KoLCharacter.hasSkill(SkillPool.SWEET_SYNTHESIS)) {
             if (includeAll) {
               text = "(learn the Sweet Synthesis skill)";
               cmd = "";

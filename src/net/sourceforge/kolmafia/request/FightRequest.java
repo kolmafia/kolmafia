@@ -1247,7 +1247,7 @@ public class FightRequest extends GenericRequest {
       }
 
       int item1, item2;
-      boolean funksling = KoLCharacter.hasSkill("Ambidextrous Funkslinging");
+      boolean funksling = KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING);
 
       int commaIndex = FightRequest.nextAction.indexOf(",");
       if (commaIndex != -1) {
@@ -1876,7 +1876,7 @@ public class FightRequest extends GenericRequest {
       return this.createAddingScroll(part2);
     }
 
-    if (!KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+    if (!KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
       ++FightRequest.preparatoryRounds;
       FightRequest.nextAction = String.valueOf(part1.getItemId());
 
@@ -1905,7 +1905,7 @@ public class FightRequest extends GenericRequest {
     }
 
     ++FightRequest.preparatoryRounds;
-    if (!KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+    if (!KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
       FightRequest.nextAction = "3146";
     } else {
       FightRequest.nextAction = "3146,3155";
@@ -1921,31 +1921,31 @@ public class FightRequest extends GenericRequest {
     boolean isAcceptable = false;
 
     // Disco Eye-Poke
-    if (!isAcceptable && KoLCharacter.hasSkill("Disco Eye-Poke")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.DISCO_EYE_POKE)) {
       desiredSkill = 5003;
       isAcceptable = this.isAcceptable(-1, -1);
     }
 
     // Disco Dance of Doom
-    if (!isAcceptable && KoLCharacter.hasSkill("Disco Dance of Doom")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.DISCO_DANCE_OF_DOOM)) {
       desiredSkill = 5005;
       isAcceptable = this.isAcceptable(-3, -3);
     }
 
     // Disco Dance II: Electric Boogaloo
-    if (!isAcceptable && KoLCharacter.hasSkill("Disco Dance II: Electric Boogaloo")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.DISCO_DANCE_II_ELECTRIC_BOOGALOO)) {
       desiredSkill = 5008;
       isAcceptable = this.isAcceptable(-5, -5);
     }
 
     // Tango of Terror
-    if (!isAcceptable && KoLCharacter.hasSkill("Tango of Terror")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.TANGO_OF_TERROR)) {
       desiredSkill = 5019;
       isAcceptable = this.isAcceptable(-6, -6);
     }
 
     // Disco Face Stab
-    if (!isAcceptable && KoLCharacter.hasSkill("Disco Face Stab")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.DISCO_FACE_STAB)) {
       desiredSkill = 5012;
       isAcceptable = this.isAcceptable(-7, -7);
     }
@@ -4287,7 +4287,7 @@ public class FightRequest extends GenericRequest {
     if (!pref.equals("")
         && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ON_THE_TRAIL))) {
       boolean haveSkill =
-          KoLCharacter.hasSkill("Transcendent Olfaction")
+          KoLCharacter.hasSkill(SkillPool.OLFACTION)
               && !KoLCharacter.inGLover()
               && (Preferences.getBoolean("autoManaRestore"));
       boolean haveItem = KoLConstants.inventory.contains(FightRequest.EXTRACTOR);
@@ -4345,7 +4345,7 @@ public class FightRequest extends GenericRequest {
     int itemsSize = items.size();
     if (itemsSize == 0) {
       return null;
-    } else if (itemsSize == 1 || !KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+    } else if (itemsSize == 1 || !KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
       return String.valueOf(items.get(0));
     } else {
       return items.get(0) + "," + items.get(1);
@@ -5553,7 +5553,7 @@ public class FightRequest extends GenericRequest {
       this.ravers = (KoLAdventure.lastAdventureId() == AdventurePool.OUTSIDE_THE_CLUB);
 
       // If we have the Meteor Lore skill
-      this.meteors = KoLCharacter.hasSkill("Meteor Lore");
+      this.meteors = KoLCharacter.hasSkill(SkillPool.METEOR_LORE);
 
       // If goose drones are active
       this.drones = Preferences.getInteger("gooseDronesRemaining");
@@ -10510,7 +10510,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static final boolean canHandleCan() {
-    return EquipmentManager.usingCanOfBeans() && KoLCharacter.hasSkill("Canhandle");
+    return EquipmentManager.usingCanOfBeans() && KoLCharacter.hasSkill(SkillPool.CANHANDLE);
   }
 
   public static final boolean shotSixgun() {

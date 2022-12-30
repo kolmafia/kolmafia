@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -1399,7 +1400,7 @@ public abstract class UseLinkDecorator {
             && EquipmentDatabase.getHands(
                     EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId())
                 == 1
-            && KoLCharacter.hasSkill("Double-Fisted Skull Smashing")) {
+            && KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)) {
           uses.add(
               new UseLink(
                   itemId,

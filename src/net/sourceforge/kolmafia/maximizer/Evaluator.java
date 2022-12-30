@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -1197,7 +1198,7 @@ public class Evaluator {
               if (type.equals("chefstaff")) { // Don't allow chefstaves to displace other
                 // 1H weapons from the shortlist if you can't
                 // equip them anyway.
-                if (!KoLCharacter.hasSkill("Spirit of Rigatoni")
+                if (!KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
                     && !KoLCharacter.isJarlsberg()
                     && !(KoLCharacter.isSauceror() && gloveAvailable)) {
                   continue;
@@ -1232,7 +1233,7 @@ public class Evaluator {
                 if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
                     && weaponType != WeaponType.RANGED
                     && (!EquipmentDatabase.isKnife(id)
-                        || !KoLCharacter.hasSkill("Tricky Knifework"))) {
+                        || !KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK))) {
                   slot = auxSlot;
                 }
                 if (KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle()
@@ -1267,7 +1268,7 @@ public class Evaluator {
           case EquipmentManager.ACCESSORY1:
             if (id == ItemPool.SPECIAL_SAUCE_GLOVE
                 && KoLCharacter.isSauceror()
-                && !KoLCharacter.hasSkill("Spirit of Rigatoni")) {
+                && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)) {
               item.validate(maxPrice, priceLevel);
 
               if (item.getCount() == 0) {

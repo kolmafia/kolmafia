@@ -1059,7 +1059,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     if (this.skillId == SkillPool.SHAKE_IT_OFF
-        || (this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill("Devour Minions"))) {
+        || (this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill(SkillPool.DEVOUR_MINIONS))) {
       boolean cursed =
           KoLConstants.activeEffects.contains(UseSkillRequest.ONCE_CURSED)
               || KoLConstants.activeEffects.contains(UseSkillRequest.TWICE_CURSED)

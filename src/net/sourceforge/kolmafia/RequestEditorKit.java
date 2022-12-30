@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -651,9 +652,9 @@ public class RequestEditorKit extends HTMLEditorKit {
       if (newLevel % 3 == 0) {
         links.append(" [<a href=\"/place.php?whichplace=edbase&action=edbase_door\">servant</a>]");
       } else {
-        if (KoLCharacter.hasSkill("Bounty of Renenutet")
-            && KoLCharacter.hasSkill("Wrath of Ra")
-            && KoLCharacter.hasSkill("Curse of Stench")) {
+        if (KoLCharacter.hasSkill(SkillPool.BOUNTY_OF_RENENUTET)
+            && KoLCharacter.hasSkill(SkillPool.WRATH_OF_RA)
+            && KoLCharacter.hasSkill(SkillPool.CURSE_OF_STENCH)) {
           links.append(
               " [<a href=\"/place.php?whichplace=edbase&action=edbase_door\">servant xp</a>]");
         } else {

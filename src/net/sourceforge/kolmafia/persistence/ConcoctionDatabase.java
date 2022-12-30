@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -1762,11 +1763,11 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.REAGENT);
     }
 
-    if (KoLCharacter.hasSkill("The Way of Sauce")) {
+    if (KoLCharacter.hasSkill(SkillPool.THE_WAY_OF_SAUCE)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.WAY);
     }
 
-    if (KoLCharacter.hasSkill("Deep Saucery")) {
+    if (KoLCharacter.hasSkill(SkillPool.DEEP_SAUCERY)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.DEEP_SAUCERY);
     }
 
@@ -1774,19 +1775,19 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.PASTA);
     }
 
-    if (KoLCharacter.hasSkill("Transcendental Noodlecraft")) {
+    if (KoLCharacter.hasSkill(SkillPool.TRANSCENDENTAL_NOODLECRAFTING)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.TRANSNOODLE);
     }
 
-    if (KoLCharacter.hasSkill("Tempuramancy")) {
+    if (KoLCharacter.hasSkill(SkillPool.TEMPURAMANCY)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.TEMPURAMANCY);
     }
 
-    if (KoLCharacter.hasSkill("Patent Medicine")) {
+    if (KoLCharacter.hasSkill(SkillPool.PATENT_MEDICINE)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.PATENT);
     }
 
-    if (KoLCharacter.hasSkill("Eldritch Intellect")) {
+    if (KoLCharacter.hasSkill(SkillPool.ELDRITCH_INTELLECT)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.ELDRITCH);
     }
 
@@ -1825,7 +1826,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.EXCUSE.put(CraftingType.MIX_FANCY, null);
     }
     // If you are Sneaky Pete with Cocktail Magic, fancy mixing is free
-    else if (KoLCharacter.hasSkill("Cocktail Magic")) {
+    else if (KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC)) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MIX_FANCY);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 0);
       ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
@@ -1860,20 +1861,20 @@ public class ConcoctionDatabase {
 
     // Mixing may require an additional skill.
 
-    if (KoLCharacter.canSummonShore() || KoLCharacter.hasSkill("Mixologist")) {
+    if (KoLCharacter.canSummonShore() || KoLCharacter.hasSkill(SkillPool.MIXOLOGIST)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.AC);
     }
 
-    if (KoLCharacter.hasSkill("Superhuman Cocktailcrafting")
-        || KoLCharacter.hasSkill("Mixologist")) {
+    if (KoLCharacter.hasSkill(SkillPool.SUPER_COCKTAIL)
+        || KoLCharacter.hasSkill(SkillPool.MIXOLOGIST)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.SHC);
     }
 
-    if (KoLCharacter.hasSkill("Salacious Cocktailcrafting")) {
+    if (KoLCharacter.hasSkill(SkillPool.SALACIOUS_COCKTAILCRAFTING)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.SALACIOUS);
     }
 
-    if (KoLCharacter.hasSkill("Tiki Mixology")) {
+    if (KoLCharacter.hasSkill(SkillPool.TIKI_MIXOLOGY)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.TIKI);
     }
 
@@ -1896,7 +1897,7 @@ public class ConcoctionDatabase {
     // and isn't in Bad Moon
 
     boolean hasClipArt =
-        KoLCharacter.hasSkill("Summon Clip Art")
+        KoLCharacter.hasSkill(SkillPool.CLIP_ART)
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
     boolean clipArtSummonsRemaining =
         hasClipArt
@@ -2087,31 +2088,31 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.JARLS, 0);
       ConcoctionDatabase.CREATION_COST.put(CraftingType.JARLS, 0);
 
-      if (KoLCharacter.hasSkill("Bake")) {
+      if (KoLCharacter.hasSkill(SkillPool.BAKE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BAKE);
       }
-      if (KoLCharacter.hasSkill("Blend")) {
+      if (KoLCharacter.hasSkill(SkillPool.BLEND)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BLEND);
       }
-      if (KoLCharacter.hasSkill("Boil")) {
+      if (KoLCharacter.hasSkill(SkillPool.BOIL)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BOIL);
       }
-      if (KoLCharacter.hasSkill("Chop")) {
+      if (KoLCharacter.hasSkill(SkillPool.CHOP)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.CHOP);
       }
-      if (KoLCharacter.hasSkill("Curdle")) {
+      if (KoLCharacter.hasSkill(SkillPool.CURDLE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.CURDLE);
       }
-      if (KoLCharacter.hasSkill("Freeze")) {
+      if (KoLCharacter.hasSkill(SkillPool.FREEZE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.FREEZE);
       }
-      if (KoLCharacter.hasSkill("Fry")) {
+      if (KoLCharacter.hasSkill(SkillPool.FRY)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.FRY);
       }
-      if (KoLCharacter.hasSkill("Grill")) {
+      if (KoLCharacter.hasSkill(SkillPool.GRILL)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.GRILL);
       }
-      if (KoLCharacter.hasSkill("Slice")) {
+      if (KoLCharacter.hasSkill(SkillPool.SLICE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.SLICE);
       }
     }
@@ -2287,11 +2288,11 @@ public class ConcoctionDatabase {
 
   public static int getFreeCraftingTurns() {
     return ConcoctionDatabase.INIGO.getCount(KoLConstants.activeEffects) / 5
-        + (KoLCharacter.hasSkill("Rapid Prototyping")
+        + (KoLCharacter.hasSkill(SkillPool.RAPID_PROTOTYPING)
                 && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Rapid Prototyping")
             ? 5 - Preferences.getInteger("_rapidPrototypingUsed")
             : 0)
-        + (KoLCharacter.hasSkill("Expert Corner-Cutter")
+        + (KoLCharacter.hasSkill(SkillPool.EXPERT_CORNER_CUTTER)
                 && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Expert Corner-Cutter")
                 &&
                 // KoL bug: this is the only skill that does not work

@@ -189,7 +189,7 @@ public class Macrofier {
     if (monsterName.equals("hulking construct")) {
       // use ATTACK & WALL punchcards
       macro.append("if hascombatitem 3146 && hascombatitem 3155\n");
-      if (KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+      if (KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
         macro.append("  use 3146,3155\n");
       } else {
         macro.append("  use 3146; use 3155\n");

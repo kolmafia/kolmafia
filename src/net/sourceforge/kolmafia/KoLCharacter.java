@@ -508,20 +508,20 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.isAWoLClass()) {
       limit = 10;
-      if (KoLCharacter.hasSkill("Prodigious Appetite")) {
+      if (KoLCharacter.hasSkill(SkillPool.PRODIGIOUS_APPETITE)) {
         limit += 5;
       }
     } else if (KoLCharacter.isEd()) {
       limit = 0;
-      if (KoLCharacter.hasSkill("Replacement Stomach")) {
+      if (KoLCharacter.hasSkill(SkillPool.REPLACEMENT_STOMACH)) {
         limit += 5;
       }
     } else if (KoLCharacter.inZombiecore()) {
-      if (KoLCharacter.hasSkill("Insatiable Hunger")) {
+      if (KoLCharacter.hasSkill(SkillPool.INSATIABLE_HUNGER)) {
         limit += 5;
       }
 
-      if (KoLCharacter.hasSkill("Ravenous Pounce")) {
+      if (KoLCharacter.hasSkill(SkillPool.RAVENOUS_POUNCE)) {
         limit += 5;
       }
     }
@@ -530,13 +530,13 @@ public abstract class KoLCharacter {
     else if (KoLCharacter.inAxecore()) {
       limit = 20;
 
-      if (KoLCharacter.hasSkill("Legendary Appetite")) {
+      if (KoLCharacter.hasSkill(SkillPool.LEGENDARY_APPETITE)) {
         limit += 5;
       }
     } else if (KoLCharacter.isJarlsberg()) {
       limit = 10;
 
-      if (KoLCharacter.hasSkill("Lunch Like a King")) {
+      if (KoLCharacter.hasSkill(SkillPool.LUNCH_LIKE_A_KING)) {
         limit += 5;
       }
     } else if (KoLCharacter.isSneakyPete()) {
@@ -548,10 +548,10 @@ public abstract class KoLCharacter {
     } else if (KoLCharacter.isPlumber()) {
       limit = 20;
     } else if (KoLCharacter.inBadMoon()) {
-      if (KoLCharacter.hasSkill("Pride")) {
+      if (KoLCharacter.hasSkill(SkillPool.PRIDE)) {
         limit -= 1;
       }
-      if (KoLCharacter.hasSkill("Gluttony")) {
+      if (KoLCharacter.hasSkill(SkillPool.GLUTTONY)) {
         limit += 2;
       }
     }
@@ -566,7 +566,7 @@ public abstract class KoLCharacter {
     //  those would similarly not work."
 
     if (!KoLCharacter.isVampyre()) {
-      if (KoLCharacter.hasSkill("Stomach of Steel")) {
+      if (KoLCharacter.hasSkill(SkillPool.STEEL_STOMACH)) {
         limit += 5;
       }
 
@@ -641,7 +641,7 @@ public abstract class KoLCharacter {
       }
     } else if (KoLCharacter.isJarlsberg()) {
       limit = 9;
-      if (KoLCharacter.hasSkill("Nightcap")) {
+      if (KoLCharacter.hasSkill(SkillPool.NIGHTCAP)) {
         limit += 5;
       }
     } else if (KoLCharacter.isSneakyPete()) {
@@ -651,7 +651,7 @@ public abstract class KoLCharacter {
       }
     } else if (KoLCharacter.isEd()) {
       limit = 0;
-      if (KoLCharacter.hasSkill("Replacement Liver")) {
+      if (KoLCharacter.hasSkill(SkillPool.REPLACEMENT_LIVER)) {
         limit += 4;
       }
     } else if (KoLCharacter.inAxecore() || KoLCharacter.inZombiecore()) {
@@ -670,15 +670,15 @@ public abstract class KoLCharacter {
       limit = 4;
     }
 
-    if (KoLCharacter.hasSkill("Liver of Steel")) {
+    if (KoLCharacter.hasSkill(SkillPool.STEEL_LIVER)) {
       limit += 5;
     }
 
-    if (KoLCharacter.hasSkill("Hollow Leg")) {
+    if (KoLCharacter.hasSkill(SkillPool.HOLLOW_LEG)) {
       limit += 1;
     }
 
-    if (KoLCharacter.hasSkill("Drinking to Drink")) {
+    if (KoLCharacter.hasSkill(SkillPool.DRINKING_TO_DRINK)) {
       limit += 1;
     }
 
@@ -724,27 +724,27 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.isAWoLClass()) {
       limit = 10;
-      if (KoLCharacter.hasSkill("Tolerant Constitution")) {
+      if (KoLCharacter.hasSkill(SkillPool.TOLERANT_CONSTITUTION)) {
         limit += 5;
       }
     } else if (KoLCharacter.isEd()) {
       limit = 5;
-      if (KoLCharacter.hasSkill("Okay Seriously, This is the Last Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.OKAY_SERIOUSLY_THIS_IS_THE_LAST_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Just One More Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.JUST_ONE_MORE_EXTRA_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Still Another Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.STILL_ANOTHER_EXTRA_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Yet Another Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.YET_ANOTHER_EXTRA_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Another Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.ANOTHER_EXTRA_SPLEEN)) {
         limit += 5;
       }
-      if (KoLCharacter.hasSkill("Extra Spleen")) {
+      if (KoLCharacter.hasSkill(SkillPool.EXTRA_SPLEEN)) {
         limit += 5;
       }
     } else if (KoLCharacter.inNuclearAutumn()) {
@@ -755,7 +755,7 @@ public abstract class KoLCharacter {
       limit += 2;
     }
 
-    if (KoLCharacter.hasSkill("Spleen of Steel")) {
+    if (KoLCharacter.hasSkill(SkillPool.STEEL_SPLEEN)) {
       limit += 5;
     }
 
@@ -945,9 +945,9 @@ public abstract class KoLCharacter {
   public static final int getFuryLimit() {
     // 0 if not Seal Clubber, 3 with only Wrath of the Wolverine, 5 with Ire of the Orca in addition
     return (ascensionClass != AscensionClass.SEAL_CLUBBER
-            || !KoLCharacter.hasSkill("Wrath of the Wolverine"))
+            || !KoLCharacter.hasSkill(SkillPool.WRATH_OF_THE_WOLVERINE))
         ? 0
-        : KoLCharacter.hasSkill("Ire of the Orca") ? 5 : 3;
+        : KoLCharacter.hasSkill(SkillPool.IRE_OF_THE_ORCA) ? 5 : 3;
   }
 
   public static final void setFury(final int newFury) {
@@ -1243,7 +1243,7 @@ public abstract class KoLCharacter {
   }
 
   static final int getReagentPotionDuration() {
-    return 5 + (hasSkill("Impetuous Sauciness") ? 5 : 0) + (isSauceror() ? 5 : 0);
+    return 5 + (hasSkill(SkillPool.IMPETUOUS_SAUCINESS) ? 5 : 0) + (isSauceror() ? 5 : 0);
   }
 
   /**
@@ -1683,19 +1683,19 @@ public abstract class KoLCharacter {
 
   public static int freeRestsAvailable() {
     int freerests = 0;
-    if (KoLCharacter.hasSkill("Disco Nap")) ++freerests;
-    if (KoLCharacter.hasSkill("Adventurer of Leisure")) freerests += 2;
-    if (KoLCharacter.hasSkill("Executive Narcolepsy")) ++freerests;
+    if (KoLCharacter.hasSkill(SkillPool.DISCO_NAP)) ++freerests;
+    if (KoLCharacter.hasSkill(SkillPool.ADVENTURER_OF_LEISURE)) freerests += 2;
+    if (KoLCharacter.hasSkill(SkillPool.EXECUTIVE_NARCOLEPSY)) ++freerests;
     // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
     if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective")
         && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
       freerests += 3;
-    if (KoLCharacter.hasSkill("Food Coma")) freerests += 10;
-    if (KoLCharacter.hasSkill("Dog Tired")) freerests += 5;
+    if (KoLCharacter.hasSkill(SkillPool.FOOD_COMA)) freerests += 10;
+    if (KoLCharacter.hasSkill(SkillPool.DOG_TIRED)) freerests += 5;
     if (ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals("ceiling fan"))
       freerests += 5;
     if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
-    if (KoLCharacter.hasSkill("Long Winter's Nap")) freerests += 5;
+    if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
     return freerests;
@@ -3389,7 +3389,7 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.isEd() && !KoLCharacter.hasSkill("Replacement Stomach")) {
+    if (KoLCharacter.isEd() && !KoLCharacter.hasSkill(SkillPool.REPLACEMENT_STOMACH)) {
       return false;
     }
 
@@ -3409,7 +3409,7 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.isEd() && !KoLCharacter.hasSkill("Replacement Liver")) {
+    if (KoLCharacter.isEd() && !KoLCharacter.hasSkill(SkillPool.REPLACEMENT_LIVER)) {
       return false;
     }
 
@@ -4006,7 +4006,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if noodles can be summoned by this character
    */
   public static final boolean canSummonNoodles() {
-    return KoLCharacter.hasSkill("Pastamastery");
+    return KoLCharacter.hasSkill(SkillPool.PASTAMASTERY);
   }
 
   /**
@@ -4015,7 +4015,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if reagent can be summoned by this character
    */
   public static final boolean canSummonReagent() {
-    return KoLCharacter.hasSkill("Advanced Saucecrafting");
+    return KoLCharacter.hasSkill(SkillPool.ADVANCED_SAUCECRAFTING);
   }
 
   /**
@@ -4024,7 +4024,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if shore-based items can be summoned by this character
    */
   public static final boolean canSummonShore() {
-    return KoLCharacter.hasSkill("Advanced Cocktailcrafting");
+    return KoLCharacter.hasSkill(SkillPool.ADVANCED_COCKTAIL);
   }
 
   /**
@@ -4033,7 +4033,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if snowcones can be summoned by this character
    */
   public static final boolean canSummonSnowcones() {
-    return KoLCharacter.hasSkill("Summon Snowcones");
+    return KoLCharacter.hasSkill(SkillPool.SNOWCONE);
   }
 
   /**
@@ -4042,7 +4042,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if stickers can be summoned by this character
    */
   public static final boolean canSummonStickers() {
-    return KoLCharacter.hasSkill("Summon Stickers");
+    return KoLCharacter.hasSkill(SkillPool.STICKER);
   }
 
   /**
@@ -4051,7 +4051,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if clip art can be summoned by this character
    */
   public static final boolean canSummonClipArt() {
-    return KoLCharacter.hasSkill("Summon Clip Art");
+    return KoLCharacter.hasSkill(SkillPool.CLIP_ART);
   }
 
   /**
@@ -4060,7 +4060,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if clip art can be summoned by this character
    */
   public static final boolean canSummonRadLibs() {
-    return KoLCharacter.hasSkill("Summon Rad Libs");
+    return KoLCharacter.hasSkill(SkillPool.RAD_LIB);
   }
 
   /**
@@ -4069,7 +4069,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if this character can smith advanced weapons
    */
   public static final boolean canSmithWeapons() {
-    return KoLCharacter.hasSkill("Super-Advanced Meatsmithing");
+    return KoLCharacter.hasSkill(SkillPool.SUPER_ADVANCED_MEATSMITHING);
   }
 
   /**
@@ -4078,7 +4078,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if this character can smith advanced armor
    */
   public static final boolean canSmithArmor() {
-    return KoLCharacter.hasSkill("Armorcraftiness");
+    return KoLCharacter.hasSkill(SkillPool.ARMORCRAFTINESS);
   }
 
   /**
@@ -4087,7 +4087,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if this character can smith advanced weapons
    */
   public static final boolean canCraftExpensiveJewelry() {
-    return KoLCharacter.hasSkill("Really Expensive Jewelrycrafting");
+    return KoLCharacter.hasSkill(SkillPool.REALLY_EXPENSIVE_JEWELRYCRAFTING);
   }
 
   /**
@@ -4096,7 +4096,7 @@ public abstract class KoLCharacter {
    * @return <code>true</code> if this character has Amphibian Sympathy
    */
   public static final boolean hasAmphibianSympathy() {
-    return KoLCharacter.hasSkill("Amphibian Sympathy");
+    return KoLCharacter.hasSkill(SkillPool.AMPHIBIAN_SYMPATHY);
   }
 
   /** Utility methods which looks up whether or not the character has a particular skill. */
@@ -4269,8 +4269,8 @@ public abstract class KoLCharacter {
   }
 
   public static final int getStillsAvailable() {
-    if ((!KoLCharacter.hasSkill("Superhuman Cocktailcrafting")
-            && !KoLCharacter.hasSkill("Mixologist"))
+    if ((!KoLCharacter.hasSkill(SkillPool.SUPER_COCKTAIL)
+            && !KoLCharacter.hasSkill(SkillPool.MIXOLOGIST))
         || !KoLCharacter.isMoxieClass()) {
       return 0;
     }
@@ -4362,11 +4362,11 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canUseWok() {
-    return KoLCharacter.hasSkill("Transcendental Noodlecraft") && KoLCharacter.isMysticalityClass();
+    return KoLCharacter.hasSkill(SkillPool.TRANSCENDENTAL_NOODLECRAFTING) && KoLCharacter.isMysticalityClass();
   }
 
   public static final boolean canUseMalus() {
-    return KoLCharacter.hasSkill("Pulverize")
+    return KoLCharacter.hasSkill(SkillPool.PULVERIZE)
         && KoLCharacter.isMuscleClass()
         && KoLCharacter.getGuildStoreOpen();
   }
@@ -4383,7 +4383,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isTorsoAware() {
-    return KoLCharacter.hasSkill("Torso Awareness") || KoLCharacter.hasSkill("Best Dressed");
+    return KoLCharacter.hasSkill(SkillPool.TORSO) || KoLCharacter.hasSkill(SkillPool.BEST_DRESSED);
   }
 
   /**
@@ -4937,7 +4937,7 @@ public abstract class KoLCharacter {
       String boomBox,
       Map<Modeable, String> modeables,
       boolean speculation) {
-    int taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
+    int taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
 
     Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
     Modifiers.setFamiliar(familiar);
