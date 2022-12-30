@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -10,9 +11,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.OptionalInt;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -34,6 +36,7 @@ import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ConcoctionType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -64,28 +67,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionDatabase {
 
-  // Used for handling queued concoctions.
-  public static enum ConcoctionType {
-    FOOD("(food)"),
-    BOOZE("(booze)"),
-    SPLEEN("(spleen)"),
-    POTION("(potions)");
-
-    private String signal;
-
-    ConcoctionType(String signal) {
-      this.signal = signal;
-    }
-
-    public String getSignal() {
-      return this.signal;
-    }
-  }
-
   private static final Set<AdventureResult> EMPTY_SET = new HashSet<>();
   private static final LockableListModel<CreateItemRequest> creatableList =
       new LockableListModel<>();
-  private static final LockableListModel<Concoction> usableList = new LockableListModel<>();
+  private static final UsableConcoctions usableList = new UsableConcoctions();
 
   public static String excuse; // reason why creation is impossible
 
@@ -190,6 +175,13 @@ public class ConcoctionDatabase {
     }
   }
 
+  public static void resetUsableList() {
+    // Construct the usable list from all known concoctions.
+    // This includes all items
+    ConcoctionDatabase.usableList.fill();
+    ConcoctionDatabase.usableList.sort();
+  }
+
   static {
     // This begins by opening up the data file and preparing
     // a buffered reader; once this is done, every line is
@@ -206,12 +198,6 @@ public class ConcoctionDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
-
-    // Construct the usable list from all known concoctions.
-    // This includes all items
-    ConcoctionDatabase.usableList.clear();
-    ConcoctionDatabase.usableList.addAll(ConcoctionPool.concoctions());
-    ConcoctionDatabase.usableList.sort();
   }
 
   private static void addConcoction(final String[] data) {
@@ -777,7 +763,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.usableList.sort();
   }
 
-  public static final LockableListModel<Concoction> getUsables() {
+  public static final UsableConcoctions getUsables() {
     return ConcoctionDatabase.usableList;
   }
 
@@ -1224,58 +1210,6 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.refreshConcoctionsNow();
   }
 
-  /**
-   * Get first index of usableList that has sortOrder non-NONE, assuming the list is sorted by
-   * sortOrder.
-   */
-  private static OptionalInt getFirstIndexNotNone() {
-    int low = 0;
-    int high = ConcoctionDatabase.usableList.size();
-    while (low < high) {
-      int mid = (low + high) / 2;
-      if (ConcoctionDatabase.usableList.get(mid).sortOrder == Concoction.Priority.NONE) {
-        low = mid + 1;
-      } else {
-        high = mid;
-      }
-    }
-    if (ConcoctionDatabase.usableList.get(low).sortOrder == Concoction.Priority.NONE) {
-      return OptionalInt.empty();
-    } else {
-      return OptionalInt.of(low);
-    }
-  }
-
-  private static void fastSortUsableList() {
-    // Concoctions are fully sorted at initialization time. The first sorting parameter is the
-    // sortOrder, and concoctions with sortOrder NONE are sorted only by name. Name doesn't
-    // ever change, and so there is no reason to resort the approximately 80% of items that have
-    // sortOrder NONE. This method checks to see whether concoctions are in fact sorted by
-    // sortOrder, and if they are it only resorts the ones with sortOrder not-NONE.
-    Concoction last = null;
-    boolean partitionedBySortOrder = true;
-    for (Concoction concoction : ConcoctionDatabase.usableList) {
-      if (last != null && last.sortOrder.compareTo(concoction.sortOrder) > 0) {
-        partitionedBySortOrder = false;
-        break;
-      }
-      last = concoction;
-    }
-
-    if (partitionedBySortOrder) {
-      OptionalInt firstIndexNotNone = ConcoctionDatabase.getFirstIndexNotNone();
-      if (firstIndexNotNone.isPresent()) {
-        Collections.sort(
-            ConcoctionDatabase.usableList.subList(
-                firstIndexNotNone.getAsInt(), ConcoctionDatabase.usableList.size()));
-      } else {
-        ConcoctionDatabase.usableList.sort();
-      }
-    } else {
-      ConcoctionDatabase.usableList.sort();
-    }
-  }
-
   public static final synchronized void refreshConcoctionsNow() {
     Preferences.increment("_concoctionDatabaseRefreshes");
     ConcoctionDatabase.refreshNeeded = false;
@@ -1433,7 +1367,7 @@ public class ConcoctionDatabase {
     }
 
     ConcoctionDatabase.creatableList.sort();
-    fastSortUsableList();
+    ConcoctionDatabase.usableList.sort();
 
     // Now tell the GUI about the changes
     ConcoctionDatabase.creatableList.updateFilter(changeDetected);
@@ -3286,6 +3220,116 @@ public class ConcoctionDatabase {
       int hash = (this.concoction != null ? this.concoction.hashCode() : 0);
       hash = 31 * hash + this.count;
       return hash;
+    }
+  }
+
+  public static class UsableConcoctions {
+    private Map<ConcoctionType, LockableListModel<Concoction>> usableMap = new TreeMap<>();
+
+    public UsableConcoctions() {
+      for (ConcoctionType type : ConcoctionType.values()) {
+        usableMap.put(type, new LockableListModel<>());
+      }
+    }
+
+    public void fill() {
+      this.clear();
+      Collection<Concoction> allConcoctions = ConcoctionPool.concoctions();
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        entry
+            .getValue()
+            .addAll(
+                allConcoctions.stream()
+                    .filter(c -> c.type == entry.getKey())
+                    .collect(Collectors.toList()));
+      }
+    }
+
+    private static <T extends Comparable<T>> boolean isSorted(Iterable<T> iterable) {
+      T last = null;
+      boolean sorted = true;
+      for (T current : iterable) {
+        if (last != null && last.compareTo(current) > 0) {
+          sorted = false;
+        }
+        last = current;
+      }
+      return sorted;
+    }
+
+    public int size() {
+      return this.usableMap.values().stream().mapToInt(List::size).sum();
+    }
+
+    public boolean contains(Concoction c) {
+      return this.usableMap.get(c.type).contains(c);
+    }
+
+    public LockableListModel<Concoction> get(ConcoctionType type) {
+      return this.usableMap.get(type);
+    }
+
+    public Collection<LockableListModel<Concoction>> values() {
+      return this.usableMap.values();
+    }
+
+    public void clear() {
+      this.usableMap.values().stream().forEach(List::clear);
+    }
+
+    public void add(Concoction c) {
+      LockableListModel<Concoction> list = this.usableMap.get(c.type);
+      int index = Collections.binarySearch(list, c);
+      if (index < 0) {
+        index = -index - 1;
+      }
+      list.add(index, c);
+    }
+
+    public void addAll(Collection<Concoction> toAdd) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        LockableListModel<Concoction> list = entry.getValue();
+
+        Collection<Concoction> toAddWithOrder =
+            toAdd.stream().filter(c -> c.type == type).collect(Collectors.toList());
+        if (toAddWithOrder.size() > Math.log(list.size()) / Math.log(2)) {
+          // long list of additions. Append dumbly and then sort.
+          list.addAll(toAddWithOrder);
+          list.sort();
+        } else {
+          // short list. insert one-by-one.
+          for (Concoction c : toAddWithOrder) {
+            this.add(c);
+          }
+        }
+      }
+    }
+
+    public void removeAll(Collection<Concoction> toRemove) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        LockableListModel<Concoction> list = entry.getValue();
+
+        Collection<Concoction> toRemoveWithOrder =
+            toRemove.stream().filter(c -> c.type == type).collect(Collectors.toList());
+        list.removeAll(toRemoveWithOrder);
+      }
+    }
+
+    public void sort() {
+      for (List<Concoction> concoctions : this.usableMap.values()) {
+        if (!UsableConcoctions.isSorted(concoctions)) {
+          Collections.sort(concoctions);
+        }
+      }
+    }
+
+    public void updateFilter(boolean changeDetected) {
+      this.usableMap.values().stream().forEach(l -> l.updateFilter(changeDetected));
     }
   }
 }

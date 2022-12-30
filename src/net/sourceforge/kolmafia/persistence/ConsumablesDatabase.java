@@ -141,6 +141,9 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.readConsumptionData(
         "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION, ConsumptionType.SPLEEN);
     ConsumablesDatabase.readNonfillingData();
+
+    // Once we have all this data, we can init the ConcoctionDatabase.
+    ConcoctionDatabase.resetUsableList();
   }
 
   static {

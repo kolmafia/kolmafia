@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -2552,7 +2551,10 @@ public class DebugDatabase {
     int maxIndex;
     String msg;
     int[][] result;
-    LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
+    List<Concoction> usables =
+        ConcoctionDatabase.getUsables().values().stream()
+            .flatMap(l -> l.stream())
+            .collect(Collectors.toList());
     // size is all elements.  getSize is visible elements.
     maxIndex = usables.size();
     ids = new Concoction[maxIndex];
