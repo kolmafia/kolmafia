@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -32,6 +36,7 @@ import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ConcoctionType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -63,28 +68,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionDatabase {
 
-  // Used for handling queued concoctions.
-  public static enum ConcoctionType {
-    FOOD("(food)"),
-    BOOZE("(booze)"),
-    SPLEEN("(spleen)"),
-    POTION("(potions)");
-
-    private String signal;
-
-    ConcoctionType(String signal) {
-      this.signal = signal;
-    }
-
-    public String getSignal() {
-      return this.signal;
-    }
-  }
-
   private static final Set<AdventureResult> EMPTY_SET = new HashSet<>();
   private static final LockableListModel<CreateItemRequest> creatableList =
       new LockableListModel<>();
-  private static final LockableListModel<Concoction> usableList = new LockableListModel<>();
+  private static final UsableConcoctions usableList = new UsableConcoctions();
 
   public static String excuse; // reason why creation is impossible
 
@@ -189,6 +176,13 @@ public class ConcoctionDatabase {
     }
   }
 
+  public static void resetUsableList() {
+    // Construct the usable list from all known concoctions.
+    // This includes all items
+    ConcoctionDatabase.usableList.fill();
+    ConcoctionDatabase.usableList.sort(true);
+  }
+
   static {
     // This begins by opening up the data file and preparing
     // a buffered reader; once this is done, every line is
@@ -205,12 +199,6 @@ public class ConcoctionDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
-
-    // Construct the usable list from all known concoctions.
-    // This includes all items
-    ConcoctionDatabase.usableList.clear();
-    ConcoctionDatabase.usableList.addAll(ConcoctionPool.concoctions());
-    ConcoctionDatabase.usableList.sort();
   }
 
   private static void addConcoction(final String[] data) {
@@ -432,6 +420,7 @@ public class ConcoctionDatabase {
       case BOOZE -> ConcoctionDatabase.queuedBoozeIngredients;
       case SPLEEN -> ConcoctionDatabase.queuedSpleenIngredients;
       case POTION -> ConcoctionDatabase.queuedPotionIngredients;
+      default -> null;
     };
   }
 
@@ -776,7 +765,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.usableList.sort();
   }
 
-  public static final LockableListModel<Concoction> getUsables() {
+  public static final UsableConcoctions getUsables() {
     return ConcoctionDatabase.usableList;
   }
 
@@ -790,6 +779,7 @@ public class ConcoctionDatabase {
       case BOOZE -> ConcoctionDatabase.queuedBooze;
       case SPLEEN -> ConcoctionDatabase.queuedSpleen;
       case POTION -> ConcoctionDatabase.queuedPotions;
+      default -> null;
     };
     // Unreachable
   }
@@ -1346,7 +1336,7 @@ public class ConcoctionDatabase {
         item.setPullable(0);
       }
 
-      CreateItemRequest instance = CreateItemRequest.getInstance(ar, false);
+      CreateItemRequest instance = CreateItemRequest.getInstance(item, false);
 
       if (instance == null) {
         continue;
@@ -3234,6 +3224,124 @@ public class ConcoctionDatabase {
       int hash = (this.concoction != null ? this.concoction.hashCode() : 0);
       hash = 31 * hash + this.count;
       return hash;
+    }
+  }
+
+  public static class UsableConcoctions {
+    private Map<ConcoctionType, LockableListModel<Concoction>> usableMap = new TreeMap<>();
+
+    public UsableConcoctions() {
+      for (ConcoctionType type : ConcoctionType.values()) {
+        usableMap.put(type, new LockableListModel<>());
+      }
+    }
+
+    public void fill() {
+      this.usableMap.clear();
+      this.usableMap.putAll(
+          ConcoctionPool.concoctions().stream()
+              .collect(
+                  Collectors.groupingBy(
+                      c -> c.type, Collectors.toCollection(LockableListModel<Concoction>::new))));
+    }
+
+    private static <T extends Comparable<T>> boolean isSorted(Iterable<T> iterable) {
+      T last = null;
+      boolean sorted = true;
+      for (T current : iterable) {
+        if (last != null && last.compareTo(current) > 0) {
+          sorted = false;
+        }
+        last = current;
+      }
+      return sorted;
+    }
+
+    public int size() {
+      return this.usableMap.values().stream().mapToInt(List::size).sum();
+    }
+
+    public boolean contains(Concoction c) {
+      return this.usableMap.get(c.type).contains(c);
+    }
+
+    public LockableListModel<Concoction> get(ConcoctionType type) {
+      return this.usableMap.get(type);
+    }
+
+    public Collection<LockableListModel<Concoction>> values() {
+      return this.usableMap.values();
+    }
+
+    public void clear() {
+      this.usableMap.values().stream().forEach(List::clear);
+    }
+
+    public void add(Concoction c) {
+      // Insert the concoction so the list remains sorted.
+      LockableListModel<Concoction> list = this.usableMap.get(c.type);
+      int index = Collections.binarySearch(list, c);
+      if (index < 0) {
+        // binarySearch returns negative if it's not in the list, and tells us where to put it.
+        index = -index - 1;
+        list.add(index, c);
+      } else {
+        list.set(index, c);
+      }
+    }
+
+    public void addAll(Collection<Concoction> toAdd) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        LockableListModel<Concoction> list = entry.getValue();
+
+        Collection<Concoction> toAddWithOrder =
+            toAdd.stream().filter(c -> c.type == type).collect(Collectors.toList());
+        // Choose strategy based on size m of addition list. Adding/sorting takes O(m+nlogn), and
+        // inserting repeatedly takes O(mn), so the rough breakpoint is m=logn.
+        if (toAddWithOrder.size() > Math.log(list.size()) / Math.log(2)) {
+          // long list of additions. append dumbly and then sort.
+          list.addAll(toAddWithOrder);
+          list.sort();
+        } else {
+          // short list. insert one-by-one.
+          for (Concoction c : toAddWithOrder) {
+            this.add(c);
+          }
+        }
+      }
+    }
+
+    public void removeAll(Collection<Concoction> toRemove) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        LockableListModel<Concoction> list = entry.getValue();
+
+        Collection<Concoction> toRemoveWithOrder =
+            toRemove.stream().filter(c -> c.type == type).collect(Collectors.toList());
+        list.removeAll(toRemoveWithOrder);
+      }
+    }
+
+    public void sort() {
+      this.sort(false);
+    }
+
+    public void sort(boolean sortNone) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        List<Concoction> concoctions = entry.getValue();
+        if ((type != ConcoctionType.NONE || sortNone) && !UsableConcoctions.isSorted(concoctions)) {
+          Collections.sort(concoctions);
+        }
+      }
+    }
+
+    public void updateFilter(boolean changeDetected) {
+      this.usableMap.values().stream().forEach(l -> l.updateFilter(changeDetected));
     }
   }
 }

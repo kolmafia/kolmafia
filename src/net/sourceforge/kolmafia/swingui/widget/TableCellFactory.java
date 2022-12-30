@@ -350,7 +350,7 @@ public class TableCellFactory {
         "item name", "autosell", "quantity", "mallprice", "power", "fill", "adv/fill"
       };
     } else if (originalModel == ConcoctionDatabase.getCreatables()
-        || originalModel == ConcoctionDatabase.getUsables()) {
+        || ConcoctionDatabase.getUsables().values().contains(originalModel)) {
       return new String[] {
         "item name", "autosell", "quantity", "mallprice", "fill", "adv/fill", "level req"
       };

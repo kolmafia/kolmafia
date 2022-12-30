@@ -72,7 +72,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         || elementModel == KoLConstants.storage
         || elementModel == KoLConstants.freepulls
         || elementModel == ConcoctionDatabase.getCreatables()
-        || elementModel == ConcoctionDatabase.getUsables());
+        || ConcoctionDatabase.getUsables().values().contains(elementModel));
   }
 
   public ItemManagePanel(
@@ -863,7 +863,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         : (elementModel == KoLConstants.storage || elementModel == KoLConstants.freepulls)
             ? new InvocationListener(null, StorageRequest.class, "refresh")
             : (elementModel == ConcoctionDatabase.getCreatables()
-                    || elementModel == ConcoctionDatabase.getUsables())
+                    || ConcoctionDatabase.getUsables().values().contains(elementModel))
                 ? new InvocationListener(null, ConcoctionDatabase.class, "refreshConcoctions")
                 : new InvocationListener(null, InventoryManager.class, "refresh");
   }
