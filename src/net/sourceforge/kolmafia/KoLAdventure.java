@@ -2069,6 +2069,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return Preferences.getBoolean("prAlways") || Preferences.getBoolean("_prToday");
     }
 
+    if (this.zone.equals("Speakeasy")) {
+      return (Preferences.getBoolean("ownsSpeakeasy"));
+    }
+
     // Assume that any areas we did not call out above are available
     return true;
   }
