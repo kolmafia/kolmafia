@@ -8907,7 +8907,9 @@ public abstract class ChoiceAdventures {
                     ? "a drippy seed"
                     : KoLCharacter.hasSkill(SkillPool.DRIPPY_EYE_STONE)
                         ? "a drippy bezoar"
-                        : KoLCharacter.hasSkill(SkillPool.DRIPPY_EYE_BEETLE) ? "a drippy grub" : "nothing";
+                        : KoLCharacter.hasSkill(SkillPool.DRIPPY_EYE_BEETLE)
+                            ? "a drippy grub"
+                            : "nothing";
             result[2] = new Option("Get " + item);
           }
           {

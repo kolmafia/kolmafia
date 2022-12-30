@@ -1230,7 +1230,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         command = "Combine";
       } else if (urlString.contains("mode=cocktail")) {
         command = "Mix";
-        usesTurns = !KoLCharacter.hasBartender() && !KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC);
+        usesTurns =
+            !KoLCharacter.hasBartender() && !KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC);
       } else if (urlString.contains("mode=cook")) {
         command = "Cook";
         usesTurns = !KoLCharacter.hasChef();

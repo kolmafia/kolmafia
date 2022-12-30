@@ -364,7 +364,8 @@ public class BasementDecorator {
       StatBooster.gnomishUgnderstanding = KoLCharacter.hasSkill(SkillPool.COSMIC_UNDERSTANDING);
       StatBooster.marginallyInsane = KoLCharacter.hasSkill(SkillPool.MARGINALLY_INSANE);
       StatBooster.spiritOfRavioli = KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RAVIOLI);
-      StatBooster.wisdomOfTheElderTortoise = KoLCharacter.hasSkill(SkillPool.WISDOM_OF_THE_ELDER_TORTOISES);
+      StatBooster.wisdomOfTheElderTortoise =
+          KoLCharacter.hasSkill(SkillPool.WISDOM_OF_THE_ELDER_TORTOISES);
     }
 
     @Override

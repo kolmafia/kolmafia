@@ -2019,7 +2019,8 @@ public class EquipmentManager {
         return KoLCharacter.getAdjustedMysticality();
       case MOXIE:
         hitStat = KoLCharacter.getAdjustedMoxie();
-        if (EquipmentManager.wieldingAccordion() && KoLCharacter.hasSkill(SkillPool.CRAB_CLAW_TECHNIQUE)) {
+        if (EquipmentManager.wieldingAccordion()
+            && KoLCharacter.hasSkill(SkillPool.CRAB_CLAW_TECHNIQUE)) {
           hitStat += 50;
         }
         return hitStat;

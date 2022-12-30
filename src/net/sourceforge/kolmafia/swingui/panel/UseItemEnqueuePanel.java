@@ -584,9 +584,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     @Override
     public String toString() {
-      return KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH)
-          ? "glorious lunch"
-          : "barrel prayer";
+      return KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH) ? "glorious lunch" : "barrel prayer";
     }
   }
 

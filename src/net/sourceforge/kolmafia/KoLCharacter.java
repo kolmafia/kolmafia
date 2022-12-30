@@ -4362,7 +4362,8 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean canUseWok() {
-    return KoLCharacter.hasSkill(SkillPool.TRANSCENDENTAL_NOODLECRAFTING) && KoLCharacter.isMysticalityClass();
+    return KoLCharacter.hasSkill(SkillPool.TRANSCENDENTAL_NOODLECRAFTING)
+        && KoLCharacter.isMysticalityClass();
   }
 
   public static final boolean canUseMalus() {
