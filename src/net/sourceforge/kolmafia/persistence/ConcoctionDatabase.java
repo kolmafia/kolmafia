@@ -3281,12 +3281,16 @@ public class ConcoctionDatabase {
     }
 
     public void add(Concoction c) {
+      // Insert the concoction so the list remains sorted.
       LockableListModel<Concoction> list = this.usableMap.get(c.type);
       int index = Collections.binarySearch(list, c);
       if (index < 0) {
+        // binarySearch returns negative if it's not in the list, and tells us where to put it.
         index = -index - 1;
+        list.add(index, c);
+      } else {
+        list.set(index, c);
       }
-      list.add(index, c);
     }
 
     public void addAll(Collection<Concoction> toAdd) {
