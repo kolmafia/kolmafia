@@ -3237,16 +3237,12 @@ public class ConcoctionDatabase {
 
     public void fill() {
       this.clear();
-      Collection<Concoction> allConcoctions = ConcoctionPool.concoctions();
-      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
-          this.usableMap.entrySet()) {
-        entry
-            .getValue()
-            .addAll(
-                allConcoctions.stream()
-                    .filter(c -> c.type == entry.getKey())
-                    .collect(Collectors.toList()));
-      }
+      this.usableMap.clear();
+      this.usableMap.putAll(
+          ConcoctionPool.concoctions().stream()
+              .collect(
+                  Collectors.groupingBy(
+                      c -> c.type, Collectors.toCollection(LockableListModel<Concoction>::new))));
     }
 
     private static <T extends Comparable<T>> boolean isSorted(Iterable<T> iterable) {
@@ -3302,8 +3298,10 @@ public class ConcoctionDatabase {
 
         Collection<Concoction> toAddWithOrder =
             toAdd.stream().filter(c -> c.type == type).collect(Collectors.toList());
+        // Choose strategy based on size m of addition list. Adding/sorting takes O(m+nlogn), and
+        // inserting repeatedly takes O(mn), so the rough breakpoint is m=logn.
         if (toAddWithOrder.size() > Math.log(list.size()) / Math.log(2)) {
-          // long list of additions. Append dumbly and then sort.
+          // long list of additions. append dumbly and then sort.
           list.addAll(toAddWithOrder);
           list.sort();
         } else {
