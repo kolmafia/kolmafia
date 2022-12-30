@@ -179,7 +179,7 @@ public class ConcoctionDatabase {
     // Construct the usable list from all known concoctions.
     // This includes all items
     ConcoctionDatabase.usableList.fill();
-    ConcoctionDatabase.usableList.sort();
+    ConcoctionDatabase.usableList.sort(true);
   }
 
   static {
@@ -3323,8 +3323,15 @@ public class ConcoctionDatabase {
     }
 
     public void sort() {
-      for (List<Concoction> concoctions : this.usableMap.values()) {
-        if (!UsableConcoctions.isSorted(concoctions)) {
+      this.sort(false);
+    }
+
+    public void sort(boolean sortNone) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        List<Concoction> concoctions = entry.getValue();
+        if ((type != ConcoctionType.NONE || sortNone) && !UsableConcoctions.isSorted(concoctions)) {
           Collections.sort(concoctions);
         }
       }
