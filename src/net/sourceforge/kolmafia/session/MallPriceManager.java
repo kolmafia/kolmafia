@@ -310,6 +310,11 @@ public abstract class MallPriceManager {
 
     if (KoLmafia.permitsContinue()) {
       MallPriceManager.mallSearches.put(id, results);
+      // searchMall will have saved the mall price if we got any results back (otherwise it
+      // doesn't know the item ID). If no results, we should save it ourselves (as -1) here.
+      if (results.size() == 0) {
+        MallPriceManager.updateMallPrice(itemId, results);
+      }
     }
 
     return results;
@@ -483,8 +488,7 @@ public abstract class MallPriceManager {
 
     if (price == 0) {
       AdventureResult search = ItemPool.get(itemId, NTH_CHEAPEST_COUNT);
-      List<PurchaseRequest> results = MallPriceManager.searchMall(search);
-      MallPriceManager.updateMallPrice(itemId, results);
+      MallPriceManager.searchMall(search);
       price = MallPriceManager.mallPrices.getOrDefault(itemId, 0);
     }
 

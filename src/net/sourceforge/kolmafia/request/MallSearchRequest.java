@@ -230,13 +230,18 @@ public class MallSearchRequest extends GenericRequest {
       page++;
     }
 
+    this.maybeUpdateMallPrice();
+
+    KoLmafia.updateDisplay("Search complete.");
+  }
+
+  // Public for access from tests.
+  public void maybeUpdateMallPrice() {
     // If an exact match, we can think about updating mall_price().
     if (this.searchString.startsWith("\"") && this.results.size() > 0) {
       AdventureResult item = this.results.get(0).getItem();
       MallPriceManager.updateMallPrice(item, new ArrayList<>(this.results));
     }
-
-    KoLmafia.updateDisplay("Search complete.");
   }
 
   private boolean updateSearchString() {
