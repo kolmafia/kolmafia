@@ -3236,7 +3236,6 @@ public class ConcoctionDatabase {
     }
 
     public void fill() {
-      this.clear();
       this.usableMap.clear();
       this.usableMap.putAll(
           ConcoctionPool.concoctions().stream()
