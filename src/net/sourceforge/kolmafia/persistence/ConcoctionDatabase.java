@@ -947,6 +947,7 @@ public class ConcoctionDatabase {
         // Done queuing items
         KoLmafia.forceContinue();
         ConcoctionDatabase.refreshConcoctions();
+        ConcoctionDatabase.getUsables().sort();
         break;
       }
 
