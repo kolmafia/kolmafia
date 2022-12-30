@@ -419,6 +419,7 @@ public class ConcoctionDatabase {
       case BOOZE -> ConcoctionDatabase.queuedBoozeIngredients;
       case SPLEEN -> ConcoctionDatabase.queuedSpleenIngredients;
       case POTION -> ConcoctionDatabase.queuedPotionIngredients;
+      default -> null;
     };
   }
 
@@ -777,6 +778,7 @@ public class ConcoctionDatabase {
       case BOOZE -> ConcoctionDatabase.queuedBooze;
       case SPLEEN -> ConcoctionDatabase.queuedSpleen;
       case POTION -> ConcoctionDatabase.queuedPotions;
+      default -> null;
     };
     // Unreachable
   }
