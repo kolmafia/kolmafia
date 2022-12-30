@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -1108,7 +1109,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     // If we remove Special Sauce Glove, also remove Chefstaff
     if (oldItemId == ItemPool.SPECIAL_SAUCE_GLOVE
-        && !KoLCharacter.hasSkill("Spirit of Rigatoni")
+        && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
         && !KoLCharacter.isJarlsberg()
         && EquipmentManager.usingChefstaff()) {
       EquipmentManager.removeEquipment(

@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
@@ -1303,8 +1304,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
       // Look at skills to decide which ones are possible
       FamiliarTrainingFrame.sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
       FamiliarTrainingFrame.empathyAvailable =
-          KoLCharacter.hasSkill("Empathy of the Newt") && UseSkillRequest.hasTotem();
-      FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill("Leash of Linguini");
+          KoLCharacter.hasSkill(SkillPool.EMPATHY_OF_THE_NEWT) && UseSkillRequest.hasTotem();
+      FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill(SkillPool.LEASH_OF_LINGUINI);
 
       FamiliarTrainingFrame.bestialAvailable =
           InventoryManager.itemAvailable(FamiliarTrainingFrame.HALF_ORCHID);
@@ -1554,7 +1555,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       this.whipCount =
           Math.min(
-              KoLCharacter.hasSkill("Double-Fisted Skull Smashing") ? 2 : 1,
+              KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING) ? 2 : 1,
               this.whipCount + FamiliarTrainingFrame.BAR_WHIP.getCount(inventory));
 
       // If equipped with fewer than three tiny plastic items

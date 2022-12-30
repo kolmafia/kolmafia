@@ -352,16 +352,16 @@ public class ConsumablesDatabase {
     if (KoLCharacter.inNuclearAutumn()) {
       if (consumable.getConsumptionType() == ConsumptionType.EAT) {
         int multiplier = 1;
-        if (KoLCharacter.hasSkill("Extra Gall Bladder")) multiplier += 1;
+        if (KoLCharacter.hasSkill(SkillPool.EXTRA_GALL_BLADDER)) multiplier += 1;
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.RECORD_HUNGER)))
           multiplier += 1;
         start *= multiplier;
         end *= multiplier;
       }
-      // && KoLCharacter.hasSkill( "Extra Kidney" )
+      // && KoLCharacter.hasSkill(SkillPool.EXTRA_KIDNEY)
       else if (consumable.getConsumptionType() == ConsumptionType.DRINK) {
         int multiplier = 1;
-        if (KoLCharacter.hasSkill("Extra Kidney")) multiplier += 1;
+        if (KoLCharacter.hasSkill(SkillPool.EXTRA_KIDNEY)) multiplier += 1;
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.DRUNK_AVUNCULAR)))
           multiplier += 1;
         start *= multiplier;

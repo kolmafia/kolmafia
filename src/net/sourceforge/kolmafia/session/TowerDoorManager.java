@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -488,7 +489,7 @@ public abstract class TowerDoorManager {
     // If this is a legend key and you can Pick Locks, pick this one.
     int option = TowerDoorManager.legendKeyIndex(key);
     if (option > 0
-        && KoLCharacter.hasSkill("Lock Picking")
+        && KoLCharacter.hasSkill(SkillPool.LOCK_PICKING)
         && !Preferences.getBoolean("lockPicked")) {
       int previous = Preferences.getInteger("choiceAdventure1414");
       try {

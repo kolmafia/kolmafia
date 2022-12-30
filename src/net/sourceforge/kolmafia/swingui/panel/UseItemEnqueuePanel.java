@@ -243,7 +243,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         // The lunch listener is just after the seasoning listener
         boolean lunchAvailable =
             canEat
-                && (KoLCharacter.hasSkill("Song of the Glorious Lunch")
+                && (KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH)
                     || (Preferences.getBoolean("barrelShrineUnlocked")
                         && !KoLCharacter.isKingdomOfExploathing()
                         && !Preferences.getBoolean("_barrelPrayer")
@@ -571,7 +571,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   private static class LunchListener extends ThreadedListener {
     @Override
     protected void execute() {
-      if (KoLCharacter.hasSkill("Song of the Glorious Lunch")) {
+      if (KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH)) {
         RequestThread.postRequest(UseSkillRequest.getInstance("Song of the Glorious Lunch", 1));
       } else {
         // Barrel shrine request
@@ -584,9 +584,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     @Override
     public String toString() {
-      return KoLCharacter.hasSkill("Song of the Glorious Lunch")
-          ? "glorious lunch"
-          : "barrel prayer";
+      return KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH) ? "glorious lunch" : "barrel prayer";
     }
   }
 

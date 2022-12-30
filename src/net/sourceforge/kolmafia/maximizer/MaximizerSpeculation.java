@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
@@ -662,7 +663,7 @@ public class MaximizerSpeculation extends Speculation
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     boolean chefstaffable =
-        KoLCharacter.hasSkill("Spirit of Rigatoni") || KoLCharacter.isJarlsberg();
+        KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI) || KoLCharacter.isJarlsberg();
     if (!chefstaffable && KoLCharacter.isSauceror()) {
       chefstaffable =
           this.equipment[EquipmentManager.ACCESSORY1].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
@@ -731,7 +732,7 @@ public class MaximizerSpeculation extends Speculation
     if (this.equipment[EquipmentManager.OFFHAND] == null) {
       List<CheckedItem> possible;
       WeaponType weaponType = WeaponType.NONE;
-      if (KoLCharacter.hasSkill("Double-Fisted Skull Smashing")) {
+      if (KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)) {
         weaponType = EquipmentDatabase.getWeaponType(weapon);
       }
       possible =

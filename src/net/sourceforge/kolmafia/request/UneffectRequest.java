@@ -363,7 +363,7 @@ public class UneffectRequest extends GenericRequest {
     removableEffects.add(EffectPool.SUNBURNED);
     removableEffects.add(EffectPool.WUSSINESS);
     removableEffects.add(EffectPool.DISAVOWED);
-    if (KoLCharacter.hasSkill("Adventurer of Leisure")) {
+    if (KoLCharacter.hasSkill(SkillPool.ADVENTURER_OF_LEISURE)) {
       removableEffects.add(EffectPool.AFFRONTED_DECENCY);
       removableEffects.add(EffectPool.APATHY);
       removableEffects.add(EffectPool.CONSUMED_BY_FEAR);
