@@ -1663,9 +1663,12 @@ public class Modifiers {
     }
 
     // Make sure the modifiers apply to current class
-    AscensionClass ascensionClass = AscensionClass.find(mods.strings[Modifiers.CLASS]);
-    if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
-      return;
+    String className = mods.strings[Modifiers.CLASS];
+    if (className != null && !className.isEmpty()) {
+      AscensionClass ascensionClass = AscensionClass.findByExactName(className);
+      if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
+        return;
+      }
     }
 
     // Unarmed modifiers apply only if the character has no weapon or offhand
