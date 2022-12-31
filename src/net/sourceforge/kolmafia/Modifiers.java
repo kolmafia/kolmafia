@@ -1290,9 +1290,12 @@ public class Modifiers {
     return Modifiers.findName(Modifiers.booleanModifiers, name);
   }
 
+  public static final int SPARSE_DOUBLES_MAX_SIZE = 4;
+
   private String name;
   public boolean variable;
   private final double[] doubles;
+  private TreeMap<Integer, Double> sparseDoubles;
   private final int[] bitmaps;
   private final String[] strings;
   private ArrayList<Indexed<ModifierExpression>> expressions;
@@ -1303,6 +1306,7 @@ public class Modifiers {
     // Assume modifiers are variable until proven otherwise.
     this.variable = true;
     this.doubles = new double[Modifiers.DOUBLE_MODIFIERS];
+    this.sparseDoubles = new TreeMap<>();
     this.bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
     this.strings = new String[Modifiers.STRING_MODIFIERS];
     this.extras = new double[Modifiers.DOUBLE_MODIFIERS];
@@ -1332,21 +1336,22 @@ public class Modifiers {
     Arrays.fill(this.bitmaps, 0);
     Arrays.fill(this.strings, "");
     this.expressions = null;
+    this.sparseDoubles = new TreeMap<>();
   }
 
   private double derivePrismaticDamage() {
-    double damage = this.doubles[Modifiers.COLD_DAMAGE];
-    damage = Math.min(damage, this.doubles[Modifiers.HOT_DAMAGE]);
-    damage = Math.min(damage, this.doubles[Modifiers.SLEAZE_DAMAGE]);
-    damage = Math.min(damage, this.doubles[Modifiers.SPOOKY_DAMAGE]);
-    damage = Math.min(damage, this.doubles[Modifiers.STENCH_DAMAGE]);
-    this.doubles[Modifiers.PRISMATIC_DAMAGE] = damage;
+    double damage = this.getInternal(Modifiers.COLD_DAMAGE);
+    damage = Math.min(damage, this.getInternal(Modifiers.HOT_DAMAGE));
+    damage = Math.min(damage, this.getInternal(Modifiers.SLEAZE_DAMAGE));
+    damage = Math.min(damage, this.getInternal(Modifiers.SPOOKY_DAMAGE));
+    damage = Math.min(damage, this.getInternal(Modifiers.STENCH_DAMAGE));
+    this.set(Modifiers.PRISMATIC_DAMAGE, damage);
     return damage;
   }
 
   private double cappedCombatRate() {
     // Combat Rate has diminishing returns beyond + or - 25%
-    double rate = this.doubles[Modifiers.COMBAT_RATE];
+    double rate = this.getInternal(Modifiers.COMBAT_RATE);
     if (rate > 25.0) {
       double extra = rate - 25.0;
       return 25.0 + Math.floor(extra / 5.0);
@@ -1356,6 +1361,12 @@ public class Modifiers {
       return -25.0 + Math.ceil(extra / 5.0);
     }
     return rate;
+  }
+
+  private double getInternal(final int index) {
+    return this.sparseDoubles != null
+        ? this.sparseDoubles.getOrDefault(index, 0.0)
+        : this.doubles[index];
   }
 
   public double get(final int index) {
@@ -1370,7 +1381,7 @@ public class Modifiers {
       return 0.0;
     }
 
-    return this.doubles[index];
+    return this.getInternal(index);
   }
 
   public double get(final String name) {
@@ -1390,7 +1401,7 @@ public class Modifiers {
       return this.predict()[index];
     }
 
-    return this.doubles[index];
+    return this.get(index);
   }
 
   public int getRawBitmap(final int index) {
@@ -1488,14 +1499,32 @@ public class Modifiers {
     return this.extras[index];
   }
 
+  public void densify() {
+    if (this.sparseDoubles == null) return;
+    for (Entry<Integer, Double> entry : this.sparseDoubles.entrySet()) {
+      this.doubles[entry.getKey()] = entry.getValue();
+    }
+    this.sparseDoubles = null;
+  }
+
   public boolean set(final int index, final double mod) {
     if (index < 0 || index >= this.doubles.length) {
       return false;
     }
 
-    if (this.doubles[index] != mod) {
-      this.doubles[index] = mod;
-      return true;
+    if (this.sparseDoubles != null) {
+      Double oldValue = this.sparseDoubles.put(index, mod);
+
+      if (this.sparseDoubles.size() >= Modifiers.SPARSE_DOUBLES_MAX_SIZE) {
+        this.densify();
+      }
+
+      return oldValue == null || oldValue != mod;
+    } else {
+      if (this.doubles[index] != mod) {
+        this.doubles[index] = mod;
+        return true;
+      }
     }
     return false;
   }
@@ -1550,12 +1579,8 @@ public class Modifiers {
     boolean changed = false;
     this.name = mods.name;
 
-    double[] copyDoubles = mods.doubles;
     for (int index = 0; index < this.doubles.length; ++index) {
-      if (this.doubles[index] != copyDoubles[index]) {
-        this.doubles[index] = copyDoubles[index];
-        changed = true;
-      }
+      changed |= this.set(index, mods.getInternal(index));
     }
 
     int[] copyBitmaps = mods.bitmaps;
@@ -1578,6 +1603,8 @@ public class Modifiers {
   }
 
   public void add(final int index, final double mod, final String desc) {
+    // Anything being accumulated onto should be dense.
+    this.densify();
     switch (index) {
       case MANA_COST:
         // Total Mana Cost reduction cannot exceed 3
@@ -1601,6 +1628,8 @@ public class Modifiers {
         }
         break;
       case ITEMDROP:
+        // Only some things are doubled by squint/champagne, so we have to use extras to track
+        // which are allowable.
         String type = Modifiers.getTypeFromLookup(desc);
         if (type.equals("Ballroom")
             || type.equals("Bjorn")
@@ -1681,15 +1710,26 @@ public class Modifiers {
 
     // Add in the double modifiers
 
-    double[] addition = mods.doubles;
-
-    for (int i = 0; i < this.doubles.length; ++i) {
-      if (addition[i] != 0.0) {
+    if (mods.sparseDoubles != null) {
+      for (Entry<Integer, Double> entry : mods.sparseDoubles.entrySet()) {
+        int i = entry.getKey();
+        double addition = entry.getValue();
         if (i == Modifiers.ADVENTURES
             && (mods.bitmaps[0] & this.bitmaps[0] & (1 << Modifiers.NONSTACKABLE_WATCH)) != 0) {
           continue;
         }
-        this.add(i, addition[i], name);
+        this.add(i, addition, name);
+      }
+    } else {
+      double[] addition = mods.doubles;
+      for (int i = 0; i < this.doubles.length; ++i) {
+        if (addition[i] != 0.0) {
+          if (i == Modifiers.ADVENTURES
+              && (mods.bitmaps[0] & this.bitmaps[0] & (1 << Modifiers.NONSTACKABLE_WATCH)) != 0) {
+            continue;
+          }
+          this.add(i, addition[i], name);
+        }
       }
     }
 
@@ -2389,7 +2429,7 @@ public class Modifiers {
   private boolean override(final String lookup) {
     if (this.expressions != null) {
       for (Indexed<ModifierExpression> entry : this.expressions) {
-        this.doubles[entry.index] = entry.value.eval();
+        this.set(entry.index, entry.value.eval());
       }
     }
 
