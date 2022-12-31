@@ -156,7 +156,12 @@ public enum Modeable {
   }
 
   public static Map<Modeable, String> getStateMap() {
-    return getStringMap(Modeable::getState);
+    // This is performance-critical for the maximizer and needs to be written imperatively.
+    Map<Modeable, String> stateMap = new TreeMap<>();
+    for (Modeable modeable : values()) {
+      stateMap.put(modeable, modeable.getState());
+    }
+    return stateMap;
   }
 
   public static Map<Modeable, Boolean> getBooleanMap(final Function<Modeable, Boolean> cb) {
