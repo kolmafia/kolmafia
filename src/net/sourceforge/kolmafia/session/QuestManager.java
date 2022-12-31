@@ -1608,7 +1608,7 @@ public class QuestManager {
 
       // If you don't have Earthen Fist active, get it.
       if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.EARTHEN_FIST))) {
-        UseSkillRequest request = UseSkillRequest.getInstance("Worldpunch");
+        UseSkillRequest request = UseSkillRequest.getInstance(SkillPool.WORLDPUNCH);
         request.setBuffCount(1);
         RequestThread.postRequest(request);
       }

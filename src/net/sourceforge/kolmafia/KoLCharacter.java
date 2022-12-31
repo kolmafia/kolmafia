@@ -4726,15 +4726,15 @@ public abstract class KoLCharacter {
     }
 
     if (thrall == PastaThrallData.NO_THRALL) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Dismiss Pasta Thrall");
-      int skillId = skill.getSkillId();
+      int skillId = SkillPool.DISMISS_PASTA_THRALL;
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
       KoLConstants.availableSkills.remove(skill);
       KoLConstants.availableSkillsSet.remove(skillId);
       KoLConstants.usableSkills.remove(skill);
       KoLConstants.summoningSkills.remove(skill);
     } else if (KoLCharacter.currentPastaThrall == PastaThrallData.NO_THRALL) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Dismiss Pasta Thrall");
-      int skillId = skill.getSkillId();
+      int skillId = SkillPool.DISMISS_PASTA_THRALL;
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
       KoLConstants.availableSkills.add(skill);
       KoLConstants.availableSkillsSet.add(skillId);
       KoLConstants.usableSkills.add(skill);
