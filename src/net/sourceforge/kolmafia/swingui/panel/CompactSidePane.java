@@ -1102,7 +1102,11 @@ public class CompactSidePane extends JPanel implements Runnable {
       StringBuffer annotation = CharPaneDecorator.getFamiliarAnnotation();
       if (annotation != null) {
         annotated = true;
-        this.familiarAnnotationLabel.setText(annotation.toString());
+        String annotationString = annotation.toString();
+        this.familiarAnnotationLabel.setText(
+            annotationString.contains("<")
+                ? "<html><center>" + annotationString + "</center></html>"
+                : annotationString);
       }
 
       this.familiarLabel.update();
