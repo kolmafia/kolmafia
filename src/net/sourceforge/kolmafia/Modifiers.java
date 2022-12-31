@@ -1577,6 +1577,21 @@ public class Modifiers {
     return changed;
   }
 
+  private static final Set<String> doubledBySquintChampagne =
+      Set.of(
+          "Ballroom",
+          "Bjorn",
+          "Effect",
+          "Item",
+          "Local Vote",
+          "Outfit",
+          "Path",
+          "Sign",
+          "Skill",
+          "Synergy",
+          "Throne",
+          "UnbreakableUmbrella");
+
   public void add(final int index, final double mod, final String desc) {
     switch (index) {
       case MANA_COST:
@@ -1602,22 +1617,9 @@ public class Modifiers {
         break;
       case ITEMDROP:
         String type = Modifiers.getTypeFromLookup(desc);
-        if (type.equals("Ballroom")
-            || type.equals("Bjorn")
-            || type.equals("Effect")
-            || type.equals("Item")
-            || type.equals("Local Vote")
-            || type.equals("Outfit")
-            || type.equals("Path")
-            || type.equals("Sign")
-            || type.equals("Skill")
-            || type.equals("Synergy")
-            || type.equals("Throne")
-            || type.equals("UnbreakableUmbrella")) {
-          String name = Modifiers.getNameFromLookup(desc);
-          if (!name.equals("Steely-Eyed Squint") && !name.equals("broken champagne bottle")) {
-            this.extras[index] += mod;
-          }
+        if (Modifiers.doubledBySquintChampagne.contains(type)
+            || desc.equals("Generated:fightMods")) {
+          this.extras[index] += mod;
         }
         this.doubles[index] += mod;
         break;
@@ -1632,20 +1634,16 @@ public class Modifiers {
       case STENCH_SPELL_DAMAGE:
       case SPOOKY_SPELL_DAMAGE:
       case SLEAZE_SPELL_DAMAGE:
-        String name = Modifiers.getNameFromLookup(desc);
-        if (!name.equals("Bendin' Hell") && !name.equals("Bow-Legged Swagger")) {
-          this.extras[index] += mod;
-        }
-        this.doubles[index] += mod;
-        break;
       case EXPERIENCE:
       case MUS_EXPERIENCE:
       case MYS_EXPERIENCE:
       case MOX_EXPERIENCE:
-        name = Modifiers.getNameFromLookup(desc);
-        if (!name.equals("makeshift garbage shirt")) {
-          this.extras[index] += mod;
-        }
+      case MUS_EXPERIENCE_PCT:
+      case MYS_EXPERIENCE_PCT:
+      case MOX_EXPERIENCE_PCT:
+        // Possibly doubled by makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or
+        // Dirty Pear.
+        this.extras[index] += mod;
         this.doubles[index] += mod;
         break;
       case FAMILIAR_ACTION_BONUS:
