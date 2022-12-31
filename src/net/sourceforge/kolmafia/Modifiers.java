@@ -1295,7 +1295,7 @@ public class Modifiers {
   private final double[] doubles;
   private final int[] bitmaps;
   private final String[] strings;
-  private Map<Integer, ModifierExpression> expressions;
+  private ArrayList<Indexed<ModifierExpression>> expressions;
   // These are used for Steely-Eyed Squint and so on
   private final double[] extras;
 
@@ -1878,9 +1878,10 @@ public class Modifiers {
         newDoubles[i] = Double.parseDouble(matcher.group(1));
       } else {
         if (newMods.expressions == null) {
-          newMods.expressions = new TreeMap<>();
+          newMods.expressions = new ArrayList<>();
         }
-        newMods.expressions.put(i, ModifierExpression.getInstance(matcher.group(2), lookup));
+        newMods.expressions.add(
+            new Indexed<>(i, ModifierExpression.getInstance(matcher.group(2), lookup)));
       }
     }
 
@@ -2387,10 +2388,8 @@ public class Modifiers {
 
   private boolean override(final String lookup) {
     if (this.expressions != null) {
-      for (Entry<Integer, ModifierExpression> entry : this.expressions.entrySet()) {
-        int i = entry.getKey();
-        ModifierExpression expr = entry.getValue();
-        this.doubles[i] = expr.eval();
+      for (Indexed<ModifierExpression> entry : this.expressions) {
+        this.doubles[entry.index] = entry.value.eval();
       }
     }
 
@@ -3808,6 +3807,16 @@ public class Modifiers {
 
       String lookup = Modifiers.getLookupName(type, name);
       Modifiers.modifierStringsByName.putIfAbsent(lookup, known);
+    }
+  }
+
+  private static class Indexed<T> {
+    public int index;
+    public T value;
+
+    public Indexed(int index, T value) {
+      this.index = index;
+      this.value = value;
     }
   }
 }
