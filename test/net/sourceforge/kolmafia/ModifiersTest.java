@@ -151,21 +151,21 @@ public class ModifiersTest {
   @Test
   public void correctlyCalculatesCappedCombatRate() {
     Modifiers mod = new Modifiers();
-    mod.add(Modifiers.COMBAT_RATE, 25, "Start");
-    mod.add(Modifiers.COMBAT_RATE, 7, "32");
+    mod.add(Modifiers.COMBAT_RATE, 25, new Modifiers.Lookup("Start", ""));
+    mod.add(Modifiers.COMBAT_RATE, 7, new Modifiers.Lookup("32", ""));
     assertEquals(26, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, 9, "41");
+    mod.add(Modifiers.COMBAT_RATE, 9, new Modifiers.Lookup("41", ""));
     assertEquals(28, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, 9, "50");
+    mod.add(Modifiers.COMBAT_RATE, 9, new Modifiers.Lookup("50", ""));
     assertEquals(30, mod.get(Modifiers.COMBAT_RATE));
 
     mod = new Modifiers();
-    mod.add(Modifiers.COMBAT_RATE, -25, "Start");
-    mod.add(Modifiers.COMBAT_RATE, -7, "-32");
+    mod.add(Modifiers.COMBAT_RATE, -25, new Modifiers.Lookup("Start", ""));
+    mod.add(Modifiers.COMBAT_RATE, -7, new Modifiers.Lookup("-32", ""));
     assertEquals(-26, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, -9, "-41");
+    mod.add(Modifiers.COMBAT_RATE, -9, new Modifiers.Lookup("-41", ""));
     assertEquals(-28, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, -9, "-50");
+    mod.add(Modifiers.COMBAT_RATE, -9, new Modifiers.Lookup("-50", ""));
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
   }
 
@@ -307,7 +307,7 @@ public class ModifiersTest {
       var cleanups =
           new Cleanups(
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+              withOverrideModifiers("Generated", "fightMods", "Item Drop: +200"));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -322,7 +322,7 @@ public class ModifiersTest {
           new Cleanups(
               withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
-              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+              withOverrideModifiers("Generated", "fightMods", "Item Drop: +200"));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -338,7 +338,7 @@ public class ModifiersTest {
               withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+              withOverrideModifiers("Generated", "fightMods", "Item Drop: +200"));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -942,7 +942,7 @@ public class ModifiersTest {
     @Test
     void canEvaluateExperienceModifiers() {
       String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
-      String lookup = "Local Vote";
+      Modifiers.Lookup lookup = new Modifiers.Lookup("Local Vote", "");
 
       Modifiers mods = Modifiers.parseModifiers(lookup, setting);
       assertEquals(30, mods.get(Modifiers.MEATDROP));

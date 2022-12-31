@@ -3208,7 +3208,7 @@ public class ResultProcessor {
               DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), true);
           String mod =
               DebugDatabase.parseItemEnchantments(rawText, new ArrayList<>(), ConsumptionType.HAT);
-          Modifiers.overrideModifier("Item:[" + itemId + "]", mod);
+          Modifiers.overrideModifier(new Modifiers.Lookup("Item", itemId), mod);
           Preferences.setString("_noHatModifier", mod);
         }
         break;

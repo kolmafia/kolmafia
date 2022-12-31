@@ -80,7 +80,7 @@ public class SetPreferencesCommand extends AbstractCommand {
     }
 
     if (name.equals("_userMods")) {
-      Modifiers.overrideModifier("Generated:_userMods", value);
+      Modifiers.overrideModifier(new Modifiers.Lookup("Generated", "_userMods"), value);
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
     }

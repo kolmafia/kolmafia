@@ -1621,7 +1621,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.NO_HAT + "]", mod);
+      Modifiers.overrideModifier(new Modifiers.Lookup("Item", ItemPool.NO_HAT), mod);
       return;
     }
 
@@ -1632,7 +1632,7 @@ public abstract class InventoryManager {
     AdventureResult JICK_SWORD = ItemPool.get(ItemPool.JICK_SWORD, 1);
     String mod = Preferences.getString("jickSwordModifier");
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.JICK_SWORD + "]", mod);
+      Modifiers.overrideModifier(new Modifiers.Lookup("Item", ItemPool.JICK_SWORD), mod);
       return;
     }
     if (!KoLCharacter.hasEquipped(JICK_SWORD, EquipmentManager.WEAPON)
@@ -1654,7 +1654,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.PANTOGRAM_PANTS + "]", mod);
+      Modifiers.overrideModifier(new Modifiers.Lookup("Item", ItemPool.PANTOGRAM_PANTS), mod);
       return;
     }
 
@@ -1669,7 +1669,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.LATTE_MUG + "]", mod);
+      Modifiers.overrideModifier(new Modifiers.Lookup("Item", ItemPool.LATTE_MUG), mod);
       return;
     }
 
@@ -1734,7 +1734,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.COAT_OF_PAINT + "]", mod);
+      Modifiers.overrideModifier(new Modifiers.Lookup("Item", ItemPool.COAT_OF_PAINT), mod);
       return;
     }
 
@@ -1748,7 +1748,8 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Effect:[" + EffectPool.BUZZED_ON_DISTILLATE + "]", mod);
+      Modifiers.overrideModifier(
+          new Modifiers.Lookup("Effect", EffectPool.BUZZED_ON_DISTILLATE), mod);
       return;
     }
 

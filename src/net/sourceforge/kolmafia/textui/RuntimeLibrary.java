@@ -7530,7 +7530,7 @@ public abstract class RuntimeLibrary {
     if (expr.content instanceof ModifierExpression) {
       e = (ModifierExpression) expr.content;
     } else {
-      e = new ModifierExpression(expr.toString(), "modifier_eval()");
+      e = new ModifierExpression(expr.toString(), new Modifiers.Lookup("modifier_eval()", ""));
       String errors = e.getExpressionErrors();
       if (errors != null) {
         throw controller.runtimeException(errors);

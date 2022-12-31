@@ -96,7 +96,7 @@ public class Maximizer {
     }
 
     Modifiers mods = Maximizer.best.calculate();
-    Modifiers.overrideModifier("Generated:_spec", mods);
+    Modifiers.overrideModifier(new Modifiers.Lookup("Generated", "_spec"), mods);
 
     return !Maximizer.best.failed;
   }
@@ -195,11 +195,10 @@ public class Maximizer {
       return;
     }
 
-    for (String lookup : Modifiers.getAllModifiers()) {
+    for (Modifiers.Lookup lookup : Modifiers.getAllModifiers()) {
       // Include skills from absorbing items in Noobcore
-      if (KoLCharacter.inNoobcore() && lookup.startsWith("Skill:")) {
-        String name = lookup.substring(6);
-        int skillId = SkillDatabase.getSkillId(name);
+      if (KoLCharacter.inNoobcore() && lookup.type.equals("Skill")) {
+        int skillId = lookup.getIntKey();
         if (skillId < 23001 || skillId > 23125) {
           continue;
         }
@@ -211,7 +210,7 @@ public class Maximizer {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();
-        String mods = Modifiers.getModifierList("Skill", name).toString();
+        String mods = Modifiers.getModifierList(lookup).toString();
         spec.setCustom(mods);
         double delta = spec.getScore() - current;
         if (delta <= 0.0) {
@@ -238,9 +237,8 @@ public class Maximizer {
         }
       }
       // Include enchantments from absorbing equipment in Noobcore
-      else if (KoLCharacter.inNoobcore() && lookup.startsWith("Item:")) {
-        String name = lookup.substring(5);
-        int itemId = ItemDatabase.getItemId(name);
+      else if (KoLCharacter.inNoobcore() && lookup.type.equals("Item")) {
+        int itemId = lookup.getIntKey();
         int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
         if (absorbsLeft < 1) {
           continue;
@@ -311,7 +309,7 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
       }
 
-      if (lookup.startsWith("Horsery:")
+      if (lookup.type.equals("Horsery")
           && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
         // Must be available in your current path
         if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
@@ -319,7 +317,7 @@ public class Maximizer {
         }
         String cmd, text;
         int price = 0;
-        String name = lookup.substring(8);
+        String name = lookup.getStringKey();
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setHorsery(name);
         double delta = spec.getScore() - current;
@@ -347,10 +345,10 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
-      if (lookup.startsWith("BoomBox:")
+      if (lookup.type.equals("BoomBox")
           && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
         String cmd, text;
-        String name = lookup.substring(8);
+        String name = lookup.getStringKey();
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setBoomBox(name);
         double delta = spec.getScore() - current;
@@ -380,11 +378,10 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
       }
 
-      if (!lookup.startsWith("Effect:")) {
+      if (!lookup.type.equals("Effect")) {
         continue;
       }
-      String name = lookup.substring(7);
-      int effectId = EffectDatabase.getEffectId(name);
+      int effectId = lookup.getIntKey();
       if (effectId == -1) {
         continue;
       }
@@ -393,7 +390,7 @@ public class Maximizer {
       boolean isSpecial = false;
       MaximizerSpeculation spec = new MaximizerSpeculation();
       AdventureResult effect = EffectPool.get(effectId);
-      name = effect.getName();
+      String name = effect.getName();
       boolean hasEffect = KoLConstants.activeEffects.contains(effect);
       Iterator<String> sources;
 

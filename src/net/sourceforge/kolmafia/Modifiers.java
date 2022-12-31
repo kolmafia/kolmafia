@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -58,10 +59,13 @@ import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.TwoLevelHashMap;
 
 public class Modifiers {
-  private static final Map<String, String> modifierStringsByName = new HashMap<>();
-  private static Map<String, Modifiers> modifiersByName = new HashMap<>();
+  private static final TwoLevelHashMap<String, Object, String> modifierStringsByName =
+      new TwoLevelHashMap<>();
+  private static final TwoLevelHashMap<String, Object, Modifiers> modifiersByName =
+      new TwoLevelHashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
@@ -1154,20 +1158,31 @@ public class Modifiers {
     return rv;
   }
 
-  public static final Set<String> getAllModifiers() {
-    return Modifiers.modifierStringsByName.keySet();
+  public static final Collection<Lookup> getAllModifiers() {
+    ArrayList<Lookup> result = new ArrayList<>();
+    for (var entry : modifierStringsByName.entrySet()) {
+      String type = entry.getKey();
+      for (Object key : entry.getValue().values()) {
+        if (key instanceof Integer intKey) {
+          result.add(new Lookup(type, intKey));
+        } else if (key instanceof String stringKey) {
+          result.add(new Lookup(type, stringKey));
+        }
+      }
+    }
+    return result;
   }
 
-  public static final void overrideModifier(String lookup, String value) {
+  public static final void overrideModifier(Lookup lookup, String value) {
     overrideModifier(lookup, Modifiers.parseModifiers(lookup, value));
   }
 
-  public static final void overrideModifier(String lookup, Modifiers value) {
-    Modifiers.modifiersByName.put(lookup, value);
+  public static final void overrideModifier(Lookup lookup, Modifiers value) {
+    Modifiers.modifiersByName.put(lookup.type, lookup.getKey(), value);
   }
 
-  public static final void overrideRemoveModifier(String lookup) {
-    Modifiers.modifiersByName.remove(lookup);
+  public static final void overrideRemoveModifier(Lookup lookup) {
+    Modifiers.modifiersByName.remove(lookup.type, lookup.getKey());
   }
 
   public static final String getModifierName(final int index) {
@@ -1245,7 +1260,9 @@ public class Modifiers {
   public static List<AdventureResult> getPotentialChanges(final int index) {
     ArrayList<AdventureResult> available = new ArrayList<>();
 
-    for (String check : Modifiers.getAllModifiers()) {
+    for (Object checkObject : Modifiers.modifiersByName.getAll("Effect").keySet()) {
+      if (!(checkObject instanceof String check)) continue;
+
       String effectName = check.replace("Effect:", "");
       int effectId = EffectDatabase.getEffectId(effectName);
 
@@ -1291,7 +1308,7 @@ public class Modifiers {
     return Modifiers.findName(Modifiers.booleanModifiers, name);
   }
 
-  private String name;
+  private Lookup originalLookup;
   // Assume modifiers are variable until proven otherwise.
   public boolean variable = true;
   private DoubleModifierCollection doubles = new DoubleModifierCollection();
@@ -1310,18 +1327,18 @@ public class Modifiers {
     this.set(copy);
   }
 
-  public Modifiers(String name) {
+  public Modifiers(Lookup lookup) {
     this();
-    this.name = name;
+    this.originalLookup = lookup;
   }
 
-  public Modifiers(String name, ModifierList mods) {
-    this(name);
+  public Modifiers(Lookup lookup, ModifierList mods) {
+    this(lookup);
     mods.forEach(this::setModifier);
   }
 
-  public String getName() {
-    return this.name;
+  public Lookup getLookup() {
+    return this.originalLookup;
   }
 
   public final void reset() {
@@ -1456,7 +1473,8 @@ public class Modifiers {
     // Can't cache this as expressions can be dependent on things
     // that can change within a session, like character level.
     if (name.equals("Evaluated Modifiers")) {
-      return Modifiers.evaluateModifiers(this.name, this.strings[Modifiers.MODIFIERS]).toString();
+      return Modifiers.evaluateModifiers(this.originalLookup, this.strings[Modifiers.MODIFIERS])
+          .toString();
     }
 
     int index = Modifiers.findName(Modifiers.stringModifiers, name);
@@ -1541,7 +1559,7 @@ public class Modifiers {
     }
 
     boolean changed = false;
-    this.name = mods.name;
+    this.originalLookup = mods.originalLookup;
 
     for (int index = 0; index < Modifiers.DOUBLE_MODIFIERS; ++index) {
       changed |= this.setDouble(index, mods.doubles.get(index));
@@ -1581,7 +1599,8 @@ public class Modifiers {
           "Throne",
           "UnbreakableUmbrella");
 
-  public void add(final int index, final double mod, final String desc) {
+  public void add(final int index, final double mod, final Lookup lookup) {
+    int intKey = lookup.getIntKey();
     switch (index) {
       case MANA_COST:
         // Total Mana Cost reduction cannot exceed 3
@@ -1605,7 +1624,7 @@ public class Modifiers {
         }
         break;
       case ITEMDROP:
-        String type = Modifiers.getTypeFromLookup(desc);
+        String type = lookup.type;
         if (Modifiers.doubledBySquintChampagne.contains(type)) {
           this.doublerAccumulators[index] += mod;
         }
@@ -1622,6 +1641,11 @@ public class Modifiers {
       case STENCH_SPELL_DAMAGE:
       case SPOOKY_SPELL_DAMAGE:
       case SLEAZE_SPELL_DAMAGE:
+        if (intKey != EffectPool.BENDIN_HELL && intKey != EffectPool.BOWLEGGED_SWAGGER) {
+          this.doublerAccumulators[index] += mod;
+        }
+        this.doubles.add(index, mod);
+        break;
       case EXPERIENCE:
       case MUS_EXPERIENCE:
       case MYS_EXPERIENCE:
@@ -1664,7 +1688,7 @@ public class Modifiers {
       return;
     }
 
-    String name = mods.name;
+    Lookup lookup = mods.originalLookup;
 
     // Add in the double modifiers
 
@@ -1672,7 +1696,7 @@ public class Modifiers {
         (i, addition) -> {
           if (i != Modifiers.ADVENTURES
               || (mods.bitmaps[0] & this.bitmaps[0] & (1 << Modifiers.NONSTACKABLE_WATCH)) == 0) {
-            this.add(i, addition, name);
+            this.add(i, addition, lookup);
           }
         });
 
@@ -1748,8 +1772,7 @@ public class Modifiers {
     if (id <= 0) {
       return null;
     }
-    String name = "[" + id + "]";
-    return Modifiers.getModifiers("Item", id, name);
+    return Modifiers.getModifiers("Item", id);
   }
 
   /**
@@ -1781,13 +1804,11 @@ public class Modifiers {
         return null;
       }
     }
-    String name = "[" + id + "]";
-    return Modifiers.getModifiers("Effect", id, name);
+    return Modifiers.getModifiers("Effect", id);
   }
 
-  public static final Modifiers getModifiers(final String type, final int id, final String name) {
-    String lookup = Modifiers.getLookupName(type, id);
-    return Modifiers.getModifiersInternal(type, name, lookup, id);
+  public static final Modifiers getModifiers(final String type, final int id) {
+    return Modifiers.getModifiers(new Lookup(type, id));
   }
 
   public static final Modifiers getModifiers(final String type, final String name) {
@@ -1795,23 +1816,21 @@ public class Modifiers {
       return null;
     }
 
-    String lookup = Modifiers.getLookupName(type, name);
-    return Modifiers.getModifiersInternal(type, name, lookup, null);
+    return Modifiers.getModifiers(new Lookup(type, name));
   }
 
-  private static final Modifiers getModifiersInternal(
-      String type, final String name, String lookup, Integer id) {
+  public static final Modifiers getModifiers(final Lookup lookup) {
     String changeType = null;
-    if (type.equals("Bjorn")) {
-      changeType = type;
-      type = "Throne";
-      lookup = getLookupName(type, name);
+    String name = lookup.getKey().toString();
+    if (lookup.type.equals("Bjorn")) {
+      changeType = lookup.type;
+      lookup.type = "Throne";
     }
 
-    Modifiers modifiers = Modifiers.modifiersByName.get(lookup);
+    Modifiers modifiers = Modifiers.modifiersByName.get(lookup.type, lookup.getKey());
 
     if (modifiers == null) {
-      String modifierString = Modifiers.modifierStringsByName.get(lookup);
+      String modifierString = Modifiers.modifierStringsByName.get(lookup.type, lookup.getKey());
 
       if (modifierString == null) {
         return null;
@@ -1820,30 +1839,30 @@ public class Modifiers {
       modifiers = Modifiers.parseModifiers(lookup, modifierString);
 
       if (changeType != null) {
-        modifiers.name = changeType + ":" + name;
+        modifiers.originalLookup = new Lookup(changeType, name);
       }
 
-      modifiers.variable = modifiers.override(lookup, id);
+      modifiers.variable = modifiers.override(lookup);
 
-      Modifiers.modifiersByName.put(lookup, modifiers);
+      Modifiers.modifiersByName.put(lookup.type, lookup.getKey(), modifiers);
     }
 
     if (modifiers.variable) {
-      modifiers.override(lookup, id);
+      modifiers.override(lookup);
       if (changeType != null) {
-        modifiers.name = changeType + ":" + name;
+        modifiers.originalLookup = new Lookup(changeType, name);
       }
     }
 
     return modifiers;
   }
 
-  public static final Modifiers parseModifiers(final String lookup, final String string) {
+  public static final Modifiers parseModifiers(final Lookup lookup, final String string) {
     Modifiers newMods = new Modifiers();
     int[] newBitmaps = newMods.bitmaps;
     String[] newStrings = newMods.strings;
 
-    newMods.name = lookup;
+    newMods.originalLookup = lookup;
 
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
       Pattern pattern = Modifiers.doubleModifiers[i].getTagPattern();
@@ -1889,7 +1908,8 @@ public class Modifiers {
           Modifiers.bitmapMasks[i] <<= 2;
         }
         default -> {
-          KoLmafia.updateDisplay("ERROR: invalid count for bitmap modifier in " + lookup);
+          KoLmafia.updateDisplay(
+              "ERROR: invalid count for bitmap modifier in " + lookup.toString());
           continue;
         }
       }
@@ -1928,10 +1948,10 @@ public class Modifiers {
         continue;
       }
 
-      String key = Modifiers.stringModifiers[i].getName();
+      String modifierName = Modifiers.stringModifiers[i].getName();
       String value = matcher.group(1);
 
-      if (key.equals("Class")) {
+      if (modifierName.equals("Class")) {
         value = Modifiers.depluralizeClassName(value);
       }
 
@@ -1997,7 +2017,7 @@ public class Modifiers {
       this.value = value;
     }
 
-    public void eval(final String lookup) {
+    public void eval(final Lookup lookup) {
       if (this.value == null) {
         return;
       }
@@ -2147,13 +2167,8 @@ public class Modifiers {
     }
   }
 
-  public static final ModifierList getModifierList(final String type, final int id) {
-    String name = "[" + id + "]";
-    return Modifiers.getModifierList(type, name);
-  }
-
-  public static final ModifierList getModifierList(final String type, final String name) {
-    Modifiers mods = Modifiers.getModifiers(type, name);
+  public static final ModifierList getModifierList(final Lookup lookup) {
+    Modifiers mods = Modifiers.getModifiers(lookup);
     if (mods == null) {
       return new ModifierList();
     }
@@ -2222,11 +2237,11 @@ public class Modifiers {
     return list;
   }
 
-  public static final Modifiers evaluatedModifiers(final String lookup, final String modifiers) {
+  public static final Modifiers evaluatedModifiers(final Lookup lookup, final String modifiers) {
     return new Modifiers(lookup, evaluateModifiers(lookup, modifiers));
   }
 
-  public static final ModifierList evaluateModifiers(final String lookup, final String modifiers) {
+  public static final ModifierList evaluateModifiers(final Lookup lookup, final String modifiers) {
     ModifierList list = Modifiers.splitModifiers(modifiers);
     // Nothing to do if no expressions
     if (!modifiers.contains("[")) {
@@ -2327,8 +2342,8 @@ public class Modifiers {
     return false;
   }
 
-  private boolean overrideThrone(final String name) {
-    switch (name) {
+  private boolean overrideThrone(final Lookup lookup) {
+    switch (lookup.getStringKey()) {
       case "Adventurous Spelunker" -> {
         this.setBoolean(Modifiers.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
         return true;
@@ -2376,11 +2391,7 @@ public class Modifiers {
     return false;
   }
 
-  private boolean override(final String lookup) {
-    return override(lookup, null);
-  }
-
-  private boolean override(final String lookup, Integer id) {
+  private boolean override(final Lookup lookup) {
     if (this.expressions != null) {
       for (Indexed<ModifierExpression> entry : this.expressions) {
         this.setDouble(entry.index, entry.value.eval());
@@ -2392,12 +2403,9 @@ public class Modifiers {
       return this.expressions != null;
     }
 
-    String type = Modifiers.getTypeFromLookup(lookup);
-
-    return switch (type) {
-      case "Item" -> overrideItem(
-          id != null ? id : ItemDatabase.getItemId(Modifiers.getNameFromLookup(lookup)));
-      case "Throne" -> overrideThrone(Modifiers.getNameFromLookup(lookup));
+    return switch (lookup.type) {
+      case "Item" -> overrideItem(lookup.getIntKey());
+      case "Throne" -> overrideThrone(lookup);
       case "Loc", "Zone" -> true;
       default -> false;
     };
@@ -2492,7 +2500,8 @@ public class Modifiers {
 
   public void applyPassiveModifiers(final boolean debug) {
     if (Modifiers.cachedPassiveModifiers == null) {
-      Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive");
+      Modifiers.cachedPassiveModifiers =
+          new Modifiers(new Lookup("CachedPassive", ""));
       PreferenceListenerRegistry.registerPreferenceListener(
           new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
     }
@@ -2507,9 +2516,9 @@ public class Modifiers {
               .map(UseSkillRequest::getUnmodifiedInstance)
               .filter(Objects::nonNull)
               .filter(UseSkillRequest::isEffective)
-              .map(skill -> getModifiers("Skill", skill.getSkillId(), skill.getSkillName()))
+              .map(skill -> getModifiers("Skill", skill.getSkillId()))
               .filter(Objects::nonNull)
-              .collect(Collectors.partitioningBy(modifiers -> modifiers.override(modifiers.name))));
+              .collect(Collectors.partitioningBy(modifiers -> modifiers.override(modifiers.getLookup()))));
 
       // Recompute sum of cached constant passive skills.
       Modifiers.cachedPassiveModifiers.reset();
@@ -2562,7 +2571,7 @@ public class Modifiers {
     if (questLocation.equals("")) return;
 
     if (Modifiers.currentLocation.equals(questLocation)) {
-      this.add(Modifiers.EXPERIENCE, 1, "Autumnaton");
+      this.add(Modifiers.EXPERIENCE, 1, new Lookup("Autumnaton", ""));
     }
   }
 
@@ -2651,23 +2660,50 @@ public class Modifiers {
       if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MUSCLE)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
-        this.add(Modifiers.MUS_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball:" + race);
-        this.add(Modifiers.MYS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball:" + race);
-        this.add(Modifiers.MOX_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball:" + race);
+        this.add(
+            Modifiers.MUS_EXPERIENCE,
+            factor * mainstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(
+            Modifiers.MYS_EXPERIENCE,
+            factor * offstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(
+            Modifiers.MOX_EXPERIENCE,
+            factor * offstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
       } else if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MYSTICALITY)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
-        this.add(Modifiers.MUS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball:" + race);
-        this.add(Modifiers.MYS_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball:" + race);
-        this.add(Modifiers.MOX_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball:" + race);
+        this.add(
+            Modifiers.MUS_EXPERIENCE,
+            factor * offstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(
+            Modifiers.MYS_EXPERIENCE,
+            factor * mainstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(
+            Modifiers.MOX_EXPERIENCE,
+            factor * offstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
       } else if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MOXIE)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
-        this.add(Modifiers.MUS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball:" + race);
-        this.add(Modifiers.MYS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball:" + race);
-        this.add(Modifiers.MOX_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball:" + race);
+        this.add(
+            Modifiers.MUS_EXPERIENCE,
+            factor * offstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(
+            Modifiers.MYS_EXPERIENCE,
+            factor * offstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(
+            Modifiers.MOX_EXPERIENCE,
+            factor * mainstatFactor,
+            new Modifiers.Lookup("Tuned Volleyball", race));
       } else {
-        this.add(Modifiers.EXPERIENCE, factor, "Volleyball:" + race);
+        this.add(Modifiers.EXPERIENCE, factor, new Modifiers.Lookup("Volleyball", race));
       }
     }
 
@@ -2686,7 +2722,7 @@ public class Modifiers {
           Math.min(
               Math.max(factor * (Modifiers.currentML / 4) * (0.1 + 0.005 * effective), 1),
               maxStats),
-          "Familiar:" + race);
+          new Modifiers.Lookup("Familiar", race));
     }
 
     effective = cappedWeight * this.get(Modifiers.LEPRECHAUN_WEIGHT);
@@ -2699,7 +2735,7 @@ public class Modifiers {
       this.add(
           Modifiers.MEATDROP,
           factor * (Math.sqrt(220 * effective) + 2 * effective - 6),
-          "Familiar:" + race);
+          new Modifiers.Lookup("Familiar", race));
     }
 
     effective = cappedWeight * this.get(Modifiers.FAIRY_WEIGHT);
@@ -2713,7 +2749,7 @@ public class Modifiers {
       this.add(
           Modifiers.ITEMDROP,
           factor * (Math.sqrt(55 * effective) + effective - 3),
-          "Familiar:" + race);
+          new Modifiers.Lookup("Familiar", race));
     }
 
     if (FamiliarDatabase.isUnderwaterType(familiarId)) {
@@ -2723,14 +2759,18 @@ public class Modifiers {
     switch (familiarId) {
       case FamiliarPool.HATRACK:
         if (famItem == EquipmentRequest.UNEQUIP) {
-          this.add(Modifiers.HATDROP, 50.0, "Familiar:naked hatrack");
-          this.add(Modifiers.FAMILIAR_WEIGHT_CAP, 1, "Familiar:naked hatrack");
+          this.add(Modifiers.HATDROP, 50.0, new Modifiers.Lookup("Familiar", "naked hatrack"));
+          this.add(
+              Modifiers.FAMILIAR_WEIGHT_CAP, 1, new Modifiers.Lookup("Familiar", "naked hatrack"));
         }
         break;
       case FamiliarPool.SCARECROW:
         if (famItem == EquipmentRequest.UNEQUIP) {
-          this.add(Modifiers.PANTSDROP, 50.0, "Familiar:naked scarecrow");
-          this.add(Modifiers.FAMILIAR_WEIGHT_CAP, 1, "Familiar:naked scarecrow");
+          this.add(Modifiers.PANTSDROP, 50.0, new Modifiers.Lookup("Familiar", "naked scarecrow"));
+          this.add(
+              Modifiers.FAMILIAR_WEIGHT_CAP,
+              1,
+              new Modifiers.Lookup("Familiar", "naked scarecrow"));
         }
         break;
     }
@@ -2741,25 +2781,26 @@ public class Modifiers {
   }
 
   public void applyMinstrelModifiers(final int level, AdventureResult instrument) {
-    String name = instrument.getName();
-    Modifiers imods = Modifiers.getModifiers("Clancy", name);
+    String instrumentName = instrument.getName();
+    Lookup lookup = new Lookup("Clancy", instrumentName);
+    Modifiers imods = Modifiers.getModifiers(lookup);
 
     double effective = imods.get(Modifiers.VOLLEYBALL_WEIGHT);
     if (effective != 0.0) {
       double factor = 2 + effective / 5;
-      this.add(Modifiers.EXPERIENCE, factor, name);
+      this.add(Modifiers.EXPERIENCE, factor, lookup);
     }
 
     effective = imods.get(Modifiers.FAIRY_WEIGHT);
     if (effective != 0.0) {
       double factor = Math.sqrt(55 * effective) + effective - 3;
-      this.add(Modifiers.ITEMDROP, factor, name);
+      this.add(Modifiers.ITEMDROP, factor, lookup);
     }
 
-    this.add(Modifiers.HP_REGEN_MIN, imods.get(Modifiers.HP_REGEN_MIN), name);
-    this.add(Modifiers.HP_REGEN_MAX, imods.get(Modifiers.HP_REGEN_MAX), name);
-    this.add(Modifiers.MP_REGEN_MIN, imods.get(Modifiers.MP_REGEN_MIN), name);
-    this.add(Modifiers.MP_REGEN_MAX, imods.get(Modifiers.MP_REGEN_MAX), name);
+    this.add(Modifiers.HP_REGEN_MIN, imods.get(Modifiers.HP_REGEN_MIN), lookup);
+    this.add(Modifiers.HP_REGEN_MAX, imods.get(Modifiers.HP_REGEN_MAX), lookup);
+    this.add(Modifiers.MP_REGEN_MIN, imods.get(Modifiers.MP_REGEN_MIN), lookup);
+    this.add(Modifiers.MP_REGEN_MAX, imods.get(Modifiers.MP_REGEN_MAX), lookup);
   }
 
   public void applyCompanionModifiers(Companion companion) {
@@ -2769,10 +2810,14 @@ public class Modifiers {
     }
 
     switch (companion) {
-      case EGGMAN -> this.add(Modifiers.ITEMDROP, 50 * multiplier, "Eggman");
-      case RADISH -> this.add(Modifiers.INITIATIVE, 50 * multiplier, "Radish Horse");
-      case HIPPO -> this.add(Modifiers.EXPERIENCE, 3 * multiplier, "Hippotatomous");
-      case CREAM -> this.add(Modifiers.MONSTER_LEVEL, 20 * multiplier, "Cream Puff");
+      case EGGMAN -> this.add(
+          Modifiers.ITEMDROP, 50 * multiplier, new Lookup("Companion", "Eggman"));
+      case RADISH -> this.add(
+          Modifiers.INITIATIVE, 50 * multiplier, new Lookup("Companion", "Radish Horse"));
+      case HIPPO -> this.add(
+          Modifiers.EXPERIENCE, 3 * multiplier, new Lookup("Companion", "Hippotatomous"));
+      case CREAM -> this.add(
+          Modifiers.MONSTER_LEVEL, 20 * multiplier, new Lookup("Companion", "Cream Puff"));
     }
   }
 
@@ -2782,16 +2827,22 @@ public class Modifiers {
     switch (id) {
       case 1: // Cat
         if (servant.getLevel() >= 7) {
-          this.add(Modifiers.ITEMDROP, Math.sqrt(55 * level) + level - 3, "Servant: Cat");
+          this.add(
+              Modifiers.ITEMDROP,
+              Math.sqrt(55 * level) + level - 3,
+              new Modifiers.Lookup("Servant", "Cat"));
         }
         break;
 
       case 3: // Maid
-        this.add(Modifiers.MEATDROP, Math.sqrt(220 * level) + 2 * level - 6, "Servant: Maid");
+        this.add(
+            Modifiers.MEATDROP,
+            Math.sqrt(220 * level) + 2 * level - 6,
+            new Modifiers.Lookup("Servant", "Maid"));
         break;
 
       case 5: // Scribe
-        this.add(Modifiers.EXPERIENCE, 2 + level / 5, "Servant: Scribe");
+        this.add(Modifiers.EXPERIENCE, 2 + level / 5, new Modifiers.Lookup("Servant", "Scribe"));
         break;
     }
   }
@@ -2801,9 +2852,9 @@ public class Modifiers {
     int level = companion.getLevel();
     switch (type) {
       case VYKEACompanionData.LAMP -> this.add(
-          Modifiers.ITEMDROP, level * 10, "VYKEA Companion: Lamp");
+          Modifiers.ITEMDROP, level * 10, new Modifiers.Lookup("VYKEA Companion", "Lamp"));
       case VYKEACompanionData.COUCH -> this.add(
-          Modifiers.MEATDROP, level * 10, "VYKEA Companion: Couch");
+          Modifiers.MEATDROP, level * 10, new Modifiers.Lookup("VYKEA Companion", "Couch"));
     }
   }
 
@@ -2814,11 +2865,11 @@ public class Modifiers {
       Modifiers ensorcelMods =
           Modifiers.getModifiers("Ensorcel", ensorcelee.getPhylum().toString());
       if (ensorcelMods != null) {
-        String desc = "Item: vampyric cloake";
+        Lookup lookup = new Lookup("Item", ItemPool.VAMPYRIC_CLOAKE);
 
-        this.add(Modifiers.MEATDROP, ensorcelMods.get(Modifiers.MEATDROP) * 0.25, desc);
-        this.add(Modifiers.ITEMDROP, ensorcelMods.get(Modifiers.ITEMDROP) * 0.25, desc);
-        this.add(Modifiers.CANDYDROP, ensorcelMods.get(Modifiers.CANDYDROP) * 0.25, desc);
+        this.add(Modifiers.MEATDROP, ensorcelMods.get(Modifiers.MEATDROP) * 0.25, lookup);
+        this.add(Modifiers.ITEMDROP, ensorcelMods.get(Modifiers.ITEMDROP) * 0.25, lookup);
+        this.add(Modifiers.CANDYDROP, ensorcelMods.get(Modifiers.CANDYDROP) * 0.25, lookup);
       }
     }
   }
@@ -3241,41 +3292,46 @@ public class Modifiers {
   }
 
   public static final void checkModifiers() {
-    for (Entry<String, String> entry : Modifiers.modifierStringsByName.entrySet()) {
-      String lookup = entry.getKey();
-      String modifierString = entry.getValue();
+    for (Entry<String, Map<Object, String>> typeEntry :
+        Modifiers.modifierStringsByName.entrySet()) {
+      String type = typeEntry.getKey();
+      for (Entry<Object, String> entry : typeEntry.getValue().entrySet()) {
+        Object key = entry.getKey();
+        String modifierString = entry.getValue();
 
-      if (modifierString == null) {
-        RequestLogger.printLine("Key \"" + lookup + "\" has no modifiers");
-        continue;
-      }
-
-      Modifiers modifiers = Modifiers.modifiersByName.get(lookup);
-      if (modifiers != null) {
-        modifierString = modifiers.getString(Modifiers.MODIFIERS);
-      }
-
-      ModifierList list = Modifiers.splitModifiers(modifierString);
-
-      for (Modifier modifier : list) {
-        String mod = modifier.toString();
-
-        if (Modifiers.findModifier(Modifiers.doubleModifiers, mod)) {
+        if (modifierString == null) {
+          RequestLogger.printLine("Key \"" + type + ":" + key + "\" has no modifiers");
           continue;
         }
-        if (Modifiers.findModifier(Modifiers.bitmapModifiers, mod)) {
-          continue;
+
+        Modifiers modifiers = Modifiers.modifiersByName.get(type, key);
+        if (modifiers != null) {
+          modifierString = modifiers.getString(Modifiers.MODIFIERS);
         }
-        if (Modifiers.findModifier(Modifiers.booleanModifiers, mod)) {
-          continue;
+
+        ModifierList list = Modifiers.splitModifiers(modifierString);
+
+        for (Modifier modifier : list) {
+          String mod = modifier.toString();
+
+          if (Modifiers.findModifier(Modifiers.doubleModifiers, mod)) {
+            continue;
+          }
+          if (Modifiers.findModifier(Modifiers.bitmapModifiers, mod)) {
+            continue;
+          }
+          if (Modifiers.findModifier(Modifiers.booleanModifiers, mod)) {
+            continue;
+          }
+          if (Modifiers.findModifier(Modifiers.stringModifiers, mod)) {
+            continue;
+          }
+          if (type.equals("FamEq")) {
+            continue; // these may contain freeform text
+          }
+          RequestLogger.printLine(
+              "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"");
         }
-        if (Modifiers.findModifier(Modifiers.stringModifiers, mod)) {
-          continue;
-        }
-        if (lookup.startsWith("FamEq:")) {
-          continue; // these may contain freeform text
-        }
-        RequestLogger.printLine("Key \"" + lookup + "\" has unknown modifier: \"" + mod + "\"");
       }
     }
   }
@@ -3303,38 +3359,6 @@ public class Modifiers {
     Modifiers.currentFamiliar = fam == null ? "" : fam.getRace();
   }
 
-  public static String getLookupName(final String type, final int id) {
-    return type + ":[" + id + "]";
-  }
-
-  public static String getLookupName(final String type, final String name) {
-    var id =
-        switch (type) {
-          case "Item" -> ItemDatabase.getItemId(name);
-          case "Effect" -> EffectDatabase.getEffectId(name);
-          case "Skill" -> SkillDatabase.getSkillId(name);
-          default -> -1;
-        };
-
-    return type + ":" + (id >= 0 ? "[" + id + "]" : name);
-  }
-
-  public static String getTypeFromLookup(final String lookup) {
-    int index = lookup.indexOf(":");
-    if (index != -1) {
-      return lookup.substring(0, index);
-    }
-    return "";
-  }
-
-  public static String getNameFromLookup(final String lookup) {
-    int index = lookup.indexOf(":");
-    if (index != -1) {
-      return lookup.substring(index + 1);
-    }
-    return lookup;
-  }
-
   public static void loadAllModifiers() {
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("modifiers.txt", KoLConstants.MODIFIERS_VERSION)) {
@@ -3350,9 +3374,10 @@ public class Modifiers {
         String name = data[1];
         String modifiers = data[2];
 
-        String lookup = Modifiers.getLookupName(type, name);
-        if (Modifiers.modifierStringsByName.put(lookup, modifiers) != null) {
-          KoLmafia.updateDisplay("Duplicate modifiers for: " + lookup);
+        Lookup lookup = new Lookup(type, name);
+
+        if (Modifiers.modifierStringsByName.put(type, lookup.getKey(), modifiers) != null) {
+          KoLmafia.updateDisplay("Duplicate modifiers for: " + type + ":" + name);
         }
 
         Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
@@ -3367,8 +3392,7 @@ public class Modifiers {
           if (matcher.find()) {
             effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
           }
-          String famLookup = "FamEq:" + name;
-          Modifiers.modifierStringsByName.put(famLookup, effect);
+          Modifiers.modifierStringsByName.put("FamEq", name, effect);
         }
 
         switch (type) {
@@ -3693,8 +3717,7 @@ public class Modifiers {
     writer.println();
 
     for (String name : set) {
-      String lookup = Modifiers.getLookupName(type, name);
-      String modifierString = Modifiers.modifierStringsByName.get(lookup);
+      String modifierString = Modifiers.modifierStringsByName.get(type, name);
       Modifiers.writeModifierItem(writer, type, name, modifierString);
     }
   }
@@ -3768,8 +3791,8 @@ public class Modifiers {
     Modifiers.registerObject("Outfit", name, unknown, known);
   }
 
-  public static final void updateItem(final String name, final String known) {
-    String lookup = Modifiers.getLookupName("Item", name);
+  public static final void updateItem(final int itemId, final String known) {
+    Lookup lookup = new Lookup("Item", itemId);
     Modifiers.overrideModifier(lookup, Modifiers.parseModifiers(lookup, known));
   }
 
@@ -3792,8 +3815,62 @@ public class Modifiers {
       RequestLogger.printLine(printMe);
       RequestLogger.updateSessionLog(printMe);
 
-      String lookup = Modifiers.getLookupName(type, name);
-      Modifiers.modifierStringsByName.putIfAbsent(lookup, known);
+      Lookup lookup = new Lookup(type, name);
+      Modifiers.modifierStringsByName.putIfAbsent(lookup.type, lookup.getKey(), known);
+    }
+  }
+
+  public static class Lookup {
+    public String type;
+    private int intKey = -1; // int for Skill, Item, Effect; String otherwise.
+    private String stringKey;
+
+    public Lookup(String type, int key) {
+      this.type = type;
+      this.intKey = key;
+    }
+
+    public Lookup(String type, String name) {
+      this.type = type;
+      switch (type) {
+        case "Item" -> this.intKey = ItemDatabase.getItemId(name);
+        case "Effect" -> this.intKey = EffectDatabase.getEffectId(name);
+        case "Skill" -> this.intKey = SkillDatabase.getSkillId(name);
+        default -> this.stringKey = name;
+      }
+      ;
+    }
+
+    @Override
+    public String toString() {
+      return switch (this.type) {
+        case "Item", "Effect", "Skill" -> this.type + ":[" + this.intKey + "]";
+        default -> this.type + ":" + this.stringKey;
+      };
+    }
+
+    public Object getKey() {
+      return switch (this.type) {
+        case "Item", "Effect", "Skill" -> this.intKey;
+        default -> this.stringKey;
+      };
+    }
+
+    public int getIntKey() {
+      return this.intKey;
+    }
+
+    public String getStringKey() {
+      return this.stringKey;
+    }
+
+    public String getName() {
+      return switch (type) {
+        case "Item" -> ItemDatabase.getItemName(getIntKey());
+        case "Effect" -> EffectDatabase.getEffectName(getIntKey());
+        case "Skill" -> SkillDatabase.getSkillName(getIntKey());
+        default -> getStringKey();
+      };
     }
   }
 

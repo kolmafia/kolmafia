@@ -2124,7 +2124,8 @@ public class ItemDatabase {
     String iEnchantments =
         DebugDatabase.parseItemEnchantments(idesc, new ArrayList<>(), ConsumptionType.DRINK);
     String iname = DebugDatabase.parseName(idesc);
-    Modifiers imods = Modifiers.parseModifiers(iname, iEnchantments);
+    var lookup = new Modifiers.Lookup("Item", ItemPool.VAMPIRE_VINTNER_WINE);
+    Modifiers imods = Modifiers.parseModifiers(lookup, iEnchantments);
 
     // Validate this by seeing what effect this wine grants.
     String effectName = imods.getString("Effect");
@@ -2159,7 +2160,7 @@ public class ItemDatabase {
 
     // Override the modifiers for the 1950 Vampire Vintner wine to include the
     // effect that drinking this one will provide.
-    Modifiers.overrideModifier(Modifiers.getLookupName("Item", "1950 Vampire Vintner wine"), imods);
+    Modifiers.overrideModifier(lookup, imods);
   }
 
   public static int parseYearbookCamera(final String desc) {

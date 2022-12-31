@@ -120,7 +120,7 @@ public class AccordionsCommand extends AbstractCommand {
     private final String monster;
     private final int hands;
     private final int songDuration;
-    private final String modsLookup;
+    private final Modifiers.Lookup modsLookup;
     private final String enchantments;
 
     public Accordion(final int itemId, final String monster) {
@@ -132,7 +132,7 @@ public class AccordionsCommand extends AbstractCommand {
       Modifiers mods = Modifiers.getItemModifiers(itemId);
       if (mods != null) {
         this.songDuration = (int) mods.get(Modifiers.SONG_DURATION);
-        this.modsLookup = mods.getName();
+        this.modsLookup = mods.getLookup();
 
         if (itemId == ItemPool.AUTOCALLIOPE) {
           // Special case to prevent stretching table way wide
@@ -146,7 +146,7 @@ public class AccordionsCommand extends AbstractCommand {
       } else {
         // Handle items missing from modifiers.txt
         this.songDuration = 0;
-        this.modsLookup = "";
+        this.modsLookup = new Modifiers.Lookup("", "");
         this.enchantments = "";
       }
     }
@@ -171,7 +171,7 @@ public class AccordionsCommand extends AbstractCommand {
       return this.songDuration;
     }
 
-    public String getModsLookup() {
+    public Modifiers.Lookup getModsLookup() {
       return this.modsLookup;
     }
 

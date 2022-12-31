@@ -420,7 +420,8 @@ public abstract class KoLCharacter {
 
     RelayRequest.reset();
 
-    Modifiers.overrideModifier("Generated:_userMods", Preferences.getString("_userMods"));
+    Modifiers.overrideModifier(
+        new Modifiers.Lookup("Generated", "_userMods"), Preferences.getString("_userMods"));
 
     // Things that don't need to be reset when you ascend
     if (newCharacter) {
@@ -4968,7 +4969,7 @@ public abstract class KoLCharacter {
     newModifiers.add(Modifiers.getModifiers("Zone", Modifiers.currentZone));
 
     // Look at sign-specific adjustments
-    newModifiers.add(Modifiers.MONSTER_LEVEL, MCD, "MCD:MCD");
+    newModifiers.add(Modifiers.MONSTER_LEVEL, MCD, new Modifiers.Lookup("MCD", "MCD"));
     newModifiers.add(Modifiers.getModifiers("Sign", KoLCharacter.ascensionSign.getName()));
 
     // If we are out of ronin/hardcore, look at stat day adjustments
@@ -4994,34 +4995,58 @@ public abstract class KoLCharacter {
           if (level > 0)
             switch (i) {
               case 1:
-                newModifiers.add(Modifiers.WEAPON_DAMAGE, level * 20, "El Vibrato:ATTACK");
+                newModifiers.add(
+                    Modifiers.WEAPON_DAMAGE,
+                    level * 20,
+                    new Modifiers.Lookup("El Vibrato", "ATTACK"));
                 break;
               case 2:
-                newModifiers.add(Modifiers.HP, level * 100, "El Vibrato:BUILD");
+                newModifiers.add(
+                    Modifiers.HP, level * 100, new Modifiers.Lookup("El Vibrato", "BUILD"));
                 break;
               case 3:
-                newModifiers.add(Modifiers.MP, level * 100, "El Vibrato:BUFF");
+                newModifiers.add(
+                    Modifiers.MP, level * 100, new Modifiers.Lookup("El Vibrato", "BUFF"));
                 break;
               case 4:
-                newModifiers.add(Modifiers.MONSTER_LEVEL, level * 10, "El Vibrato:MODIFY");
+                newModifiers.add(
+                    Modifiers.MONSTER_LEVEL,
+                    level * 10,
+                    new Modifiers.Lookup("El Vibrato", "MODIFY"));
                 break;
               case 5:
-                newModifiers.add(Modifiers.HP_REGEN_MIN, level * 16, "El Vibrato:REPAIR");
-                newModifiers.add(Modifiers.HP_REGEN_MAX, level * 20, "El Vibrato:REPAIR");
+                newModifiers.add(
+                    Modifiers.HP_REGEN_MIN,
+                    level * 16,
+                    new Modifiers.Lookup("El Vibrato", "REPAIR"));
+                newModifiers.add(
+                    Modifiers.HP_REGEN_MAX,
+                    level * 20,
+                    new Modifiers.Lookup("El Vibrato", "REPAIR"));
                 break;
               case 6:
-                newModifiers.add(Modifiers.SPELL_DAMAGE_PCT, level * 10, "El Vibrato:TARGET");
+                newModifiers.add(
+                    Modifiers.SPELL_DAMAGE_PCT,
+                    level * 10,
+                    new Modifiers.Lookup("El Vibrato", "TARGET"));
                 break;
               case 7:
-                newModifiers.add(Modifiers.INITIATIVE, level * 20, "El Vibrato:SELF");
+                newModifiers.add(
+                    Modifiers.INITIATIVE, level * 20, new Modifiers.Lookup("El Vibrato", "SELF"));
                 break;
               case 8:
                 if (Modifiers.currentFamiliar.contains("megadrone")) {
-                  newModifiers.add(Modifiers.FAMILIAR_WEIGHT, level * 10, "El Vibrato:DRONE");
+                  newModifiers.add(
+                      Modifiers.FAMILIAR_WEIGHT,
+                      level * 10,
+                      new Modifiers.Lookup("El Vibrato", "DRONE"));
                 }
                 break;
               case 9:
-                newModifiers.add(Modifiers.DAMAGE_REDUCTION, level * 3, "El Vibrato:WALL");
+                newModifiers.add(
+                    Modifiers.DAMAGE_REDUCTION,
+                    level * 3,
+                    new Modifiers.Lookup("El Vibrato", "WALL"));
                 break;
             }
         }
@@ -5050,7 +5075,9 @@ public abstract class KoLCharacter {
     int fakeHands = EquipmentManager.getFakeHands();
     if (fakeHands > 0) {
       newModifiers.add(
-          Modifiers.WEAPON_DAMAGE, -1 * fakeHands, "Hands:fake hand (" + fakeHands + ")");
+          Modifiers.WEAPON_DAMAGE,
+          -1 * fakeHands,
+          new Modifiers.Lookup("Hands", "fake hand (" + fakeHands + ")"));
     }
 
     int brimstoneMonsterLevel = 1 << newModifiers.getBitmap(Modifiers.BRIMSTONE);
@@ -5058,19 +5085,29 @@ public abstract class KoLCharacter {
     // one is worn, but this is confirmed to not be true now.
     // Also affects item/meat drop, but only one is needed
     if (brimstoneMonsterLevel > 1) {
-      newModifiers.add(Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, "Outfit:brimstone");
-      newModifiers.add(Modifiers.MEATDROP, brimstoneMonsterLevel, "Outfit:brimstone");
-      newModifiers.add(Modifiers.ITEMDROP, brimstoneMonsterLevel, "Outfit:brimstone");
+      newModifiers.add(
+          Modifiers.MONSTER_LEVEL,
+          brimstoneMonsterLevel,
+          new Modifiers.Lookup("Outfit", "brimstone"));
+      newModifiers.add(
+          Modifiers.MEATDROP, brimstoneMonsterLevel, new Modifiers.Lookup("Outfit", "brimstone"));
+      newModifiers.add(
+          Modifiers.ITEMDROP, brimstoneMonsterLevel, new Modifiers.Lookup("Outfit", "brimstone"));
     }
 
     int cloathingLevel = 1 << newModifiers.getBitmap(Modifiers.CLOATHING);
     // Cloathing gives item/meat drop and all stats.
     if (cloathingLevel > 1) {
-      newModifiers.add(Modifiers.MOX_PCT, cloathingLevel, "Outfit:cloathing");
-      newModifiers.add(Modifiers.MUS_PCT, cloathingLevel, "Outfit:cloathing");
-      newModifiers.add(Modifiers.MYS_PCT, cloathingLevel, "Outfit:cloathing");
-      newModifiers.add(Modifiers.MEATDROP, cloathingLevel, "Outfit:cloathing");
-      newModifiers.add(Modifiers.ITEMDROP, cloathingLevel / 2, "Outfit:cloathing");
+      newModifiers.add(
+          Modifiers.MOX_PCT, cloathingLevel, new Modifiers.Lookup("Outfit", "cloathing"));
+      newModifiers.add(
+          Modifiers.MUS_PCT, cloathingLevel, new Modifiers.Lookup("Outfit", "cloathing"));
+      newModifiers.add(
+          Modifiers.MYS_PCT, cloathingLevel, new Modifiers.Lookup("Outfit", "cloathing"));
+      newModifiers.add(
+          Modifiers.MEATDROP, cloathingLevel, new Modifiers.Lookup("Outfit", "cloathing"));
+      newModifiers.add(
+          Modifiers.ITEMDROP, cloathingLevel / 2, new Modifiers.Lookup("Outfit", "cloathing"));
     }
 
     // Add modifiers from Passive Skills
@@ -5104,11 +5141,12 @@ public abstract class KoLCharacter {
     }
 
     if (HolidayDatabase.getRonaldPhase() == 5) {
-      newModifiers.add(Modifiers.RESTING_MP_PCT, 100, "Moons:Ronald full");
+      newModifiers.add(Modifiers.RESTING_MP_PCT, 100, new Modifiers.Lookup("Moons", "Ronald full"));
     }
 
     if (HolidayDatabase.getGrimacePhase() == 5) {
-      newModifiers.add(Modifiers.RESTING_HP_PCT, 100, "Moons:Grimace full");
+      newModifiers.add(
+          Modifiers.RESTING_HP_PCT, 100, new Modifiers.Lookup("Moons", "Grimace full"));
     }
 
     if (ChateauRequest.ceiling != null) {
@@ -5139,9 +5177,12 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.getAscensions() == Preferences.getInteger("lastQuartetAscension")) {
       switch (Preferences.getInteger("lastQuartetRequest")) {
-        case 1 -> newModifiers.add(Modifiers.MONSTER_LEVEL, 5, "Ballroom:quartet");
-        case 2 -> newModifiers.add(Modifiers.COMBAT_RATE, -5, "Ballroom:quartet");
-        case 3 -> newModifiers.add(Modifiers.ITEMDROP, 5, "Ballroom:quartet");
+        case 1 -> newModifiers.add(
+            Modifiers.MONSTER_LEVEL, 5, new Modifiers.Lookup("Ballroom", "quartet"));
+        case 2 -> newModifiers.add(
+            Modifiers.COMBAT_RATE, -5, new Modifiers.Lookup("Ballroom", "quartet"));
+        case 3 -> newModifiers.add(
+            Modifiers.ITEMDROP, 5, new Modifiers.Lookup("Ballroom", "quartet"));
       }
     }
 
@@ -5150,10 +5191,16 @@ public abstract class KoLCharacter {
 
     // Add modifiers from inventory
     if (InventoryManager.getCount(ItemPool.FISHING_POLE) > 0) {
-      newModifiers.add(Modifiers.FISHING_SKILL, 20, "Inventory Item:fishin' pole");
+      newModifiers.add(
+          Modifiers.FISHING_SKILL,
+          20,
+          new Modifiers.Lookup("Inventory Item", ItemPool.FISHING_POLE));
     }
     if (InventoryManager.getCount(ItemPool.ANTIQUE_TACKLE_BOX) > 0) {
-      newModifiers.add(Modifiers.FISHING_SKILL, 5, "Inventory Item:antique tacklebox");
+      newModifiers.add(
+          Modifiers.FISHING_SKILL,
+          5,
+          new Modifiers.Lookup("Inventory Item", ItemPool.ANTIQUE_TACKLE_BOX));
     }
 
     // Boombox, no check for having one so it can work with Maximizer "show things you don't have"
@@ -5177,7 +5224,8 @@ public abstract class KoLCharacter {
 
     // Temporary custom modifier
     if (custom != null) {
-      newModifiers.add(Modifiers.parseModifiers("Generated:custom", custom));
+      newModifiers.add(
+          Modifiers.parseModifiers(new Modifiers.Lookup("Generated", "custom"), custom));
     }
 
     // Store some modifiers as statics
@@ -5190,7 +5238,7 @@ public abstract class KoLCharacter {
         newModifiers.add(
             Modifiers.MONSTER_LEVEL,
             Math.min(1000, 15 * hatred * (hatred + 2)),
-            "Outfit:slime hatred");
+            new Modifiers.Lookup("Outfit", "slime hatred"));
       }
     }
 
@@ -5219,9 +5267,12 @@ public abstract class KoLCharacter {
     // If in Nuclear Autumn, add Radiation Sickness
 
     if (KoLCharacter.inNuclearAutumn() && KoLCharacter.getRadSickness() > 0) {
-      newModifiers.add(Modifiers.MUS, -KoLCharacter.getRadSickness(), "Path:Rads");
-      newModifiers.add(Modifiers.MYS, -KoLCharacter.getRadSickness(), "Path:Rads");
-      newModifiers.add(Modifiers.MOX, -KoLCharacter.getRadSickness(), "Path:Rads");
+      newModifiers.add(
+          Modifiers.MUS, -KoLCharacter.getRadSickness(), new Modifiers.Lookup("Path", "Rads"));
+      newModifiers.add(
+          Modifiers.MYS, -KoLCharacter.getRadSickness(), new Modifiers.Lookup("Path", "Rads"));
+      newModifiers.add(
+          Modifiers.MOX, -KoLCharacter.getRadSickness(), new Modifiers.Lookup("Path", "Rads"));
     }
 
     if (KoLCharacter.inAxecore() && KoLCharacter.currentInstrument != null) {
@@ -5276,7 +5327,9 @@ public abstract class KoLCharacter {
         WL += (int) KoLCharacter.currentModifiers.get(Modifiers.WATER_LEVEL);
         WL = WL < 1 ? 1 : Math.min(WL, 6);
         newModifiers.add(
-            Modifiers.EXPERIENCE, (double) WL * 10 / 3.0f, "Water Level:Water Level*10/3");
+            Modifiers.EXPERIENCE,
+            (double) WL * 10 / 3.0f,
+            new Modifiers.Lookup("Water Level", "Water Level*10/3"));
       }
     }
 
@@ -5309,20 +5362,25 @@ public abstract class KoLCharacter {
               .toArray();
 
       if (all) {
-        newModifiers.add(Modifiers.MUS_EXPERIENCE + prime, 1 + statExp[prime], "Class:EXP");
+        newModifiers.add(
+            Modifiers.MUS_EXPERIENCE + prime,
+            1 + statExp[prime],
+            new Modifiers.Lookup("Class", "EXP"));
       } else {
         // Adjust for prime stat
         // The base +1 Exp for mainstat IS tuned
         newModifiers.add(
-            Modifiers.MUS_EXPERIENCE + prime, 1 + statExp[prime] / 2.0f, "Class:EXP/2");
+            Modifiers.MUS_EXPERIENCE + prime,
+            1 + statExp[prime] / 2.0f,
+            new Modifiers.Lookup("Class", "EXP/2"));
         newModifiers.add(
             Modifiers.MUS_EXPERIENCE + ((prime + 1) % 3),
             statExp[(prime + 1) % 3] / 4.0f,
-            "Class:EXP/4");
+            new Modifiers.Lookup("Class", "EXP/4"));
         newModifiers.add(
             Modifiers.MUS_EXPERIENCE + ((prime + 2) % 3),
             statExp[(prime + 2) % 3] / 4.0f,
-            "Class:EXP/4");
+            new Modifiers.Lookup("Class", "EXP/4"));
       }
     }
 
@@ -5343,7 +5401,7 @@ public abstract class KoLCharacter {
         newModifiers.add(
             modifier,
             newModifiers.getDoublerAccumulator(modifier),
-            "Effect:[" + EffectPool.BENDIN_HELL + "]");
+            new Modifiers.Lookup("Effect", EffectPool.BENDIN_HELL));
       }
     }
     if (effects.contains(KoLCharacter.DIRTY_PEAR)) {
@@ -5351,14 +5409,14 @@ public abstract class KoLCharacter {
         newModifiers.add(
             modifier,
             newModifiers.getDoublerAccumulator(modifier),
-            "Effect:[" + EffectPool.DIRTY_PEAR + "]");
+            new Modifiers.Lookup("Effect", EffectPool.DIRTY_PEAR));
       }
     }
     if (effects.contains(KoLCharacter.BOWLEGGED_SWAGGER)) {
       newModifiers.add(
           Modifiers.INITIATIVE,
           newModifiers.getDoublerAccumulator(Modifiers.INITIATIVE),
-          "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]");
+          new Modifiers.Lookup("Effect", EffectPool.BOWLEGGED_SWAGGER));
       // Add "Physical Damage" here, when that is properly defined
     }
     if (equipment[EquipmentManager.SHIRT].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
@@ -5376,7 +5434,7 @@ public abstract class KoLCharacter {
         newModifiers.add(
             modifier,
             newModifiers.getDoublerAccumulator(modifier),
-            "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+            new Modifiers.Lookup("Item", ItemPool.MAKESHIFT_GARBAGE_SHIRT));
       }
     }
 
@@ -5391,19 +5449,19 @@ public abstract class KoLCharacter {
       newModifiers.add(
           Modifiers.ITEMDROP,
           newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
-          "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+          new Modifiers.Lookup("Item", ItemPool.BROKEN_CHAMPAGNE));
     }
     if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
       newModifiers.add(
           Modifiers.ITEMDROP,
           newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
-          "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
+          new Modifiers.Lookup("Effect", EffectPool.STEELY_EYED_SQUINT));
       // Add in fightMods to double Otoscope, since it's not otherwise included in extras.
       if (fightMods != null) {
         newModifiers.add(
             Modifiers.ITEMDROP,
             fightMods.get(Modifiers.ITEMDROP),
-            "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+            new Modifiers.Lookup("Item", ItemPool.BROKEN_CHAMPAGNE));
       }
     }
 
@@ -5450,7 +5508,7 @@ public abstract class KoLCharacter {
         newModifiers.add(
             Modifiers.WEAPON_DAMAGE,
             EquipmentDatabase.getPower(itemId) * 0.15f,
-            "15% weapon power");
+            new Modifiers.Lookup("15% weapon power", ""));
       }
     } else {
       imod = Modifiers.getItemModifiers(itemId);
@@ -5553,26 +5611,28 @@ public abstract class KoLCharacter {
         newModifiers.add(
             Modifiers.WEAPON_DAMAGE,
             EquipmentDatabase.getPower(itemId) * 0.15f,
-            "Item:15% weapon power");
+            new Modifiers.Lookup("Equipment", "15% weapon power"));
         break;
 
       case EquipmentManager.HAT:
         newModifiers.add(
             Modifiers.DAMAGE_ABSORPTION,
             taoFactor * EquipmentDatabase.getPower(itemId),
-            "Item:hat power");
+            new Modifiers.Lookup("Equipment", "hat power"));
         break;
 
       case EquipmentManager.PANTS:
         newModifiers.add(
             Modifiers.DAMAGE_ABSORPTION,
             taoFactor * EquipmentDatabase.getPower(itemId),
-            "Item:pants power");
+            new Modifiers.Lookup("Equipment", "pants power"));
         break;
 
       case EquipmentManager.SHIRT:
         newModifiers.add(
-            Modifiers.DAMAGE_ABSORPTION, EquipmentDatabase.getPower(itemId), "Item:shirt power");
+            Modifiers.DAMAGE_ABSORPTION,
+            EquipmentDatabase.getPower(itemId),
+            new Modifiers.Lookup("Equipment", "shirt power"));
         break;
     }
   }

@@ -55,29 +55,21 @@ public class DebugModifiers extends Modifiers {
   }
 
   @Override
-  public void add(final int index, final double mod, final String desc) {
+  public void add(final int index, final double mod, final Lookup lookup) {
     if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS || mod == 0.0) {
       return;
     }
 
-    super.add(index, mod, desc);
+    super.add(index, mod, lookup);
 
     Integer key = index;
     if (!DebugModifiers.wanted.containsKey(key)) {
       return;
     }
 
-    String type;
-    String name;
-    int ind = desc.indexOf(":");
-    if (ind > 0) {
-      type = desc.substring(0, ind);
-      name = desc.replace(type + ":", "");
-    } else {
-      type = "";
-      name = desc;
-    }
-    if (!desc.equals(DebugModifiers.currentDesc) || DebugModifiers.adjustments.containsKey(key)) {
+    String type = lookup.type;
+    String name = lookup.getName();
+    if (!lookup.equals(DebugModifiers.currentDesc) || DebugModifiers.adjustments.containsKey(key)) {
       DebugModifiers.flushRow();
     }
     DebugModifiers.currentType = type;
@@ -106,17 +98,9 @@ public class DebugModifiers extends Modifiers {
       String modifier = DebugModifiers.wanted.get(key);
       DebugModifiers.buffer.append(modifier);
       ArrayList<Change> modChangers = new ArrayList<>();
-      for (String lookup : Modifiers.getAllModifiers()) {
-        String type;
-        String name;
-        int ind = lookup.indexOf(":");
-        if (ind > 0) {
-          type = lookup.substring(0, ind);
-          name = lookup.replace(type + ":", "");
-        } else {
-          type = "";
-          name = lookup;
-        }
+      for (Lookup lookup : Modifiers.getAllModifiers()) {
+        String type = lookup.type;
+        String name = lookup.getName();
         Modifiers mods = Modifiers.getModifiers(type, name);
         if (mods == null) {
           continue;

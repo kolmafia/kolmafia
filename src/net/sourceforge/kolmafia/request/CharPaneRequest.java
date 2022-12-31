@@ -1295,7 +1295,8 @@ public class CharPaneRequest extends GenericRequest {
         }
       }
     }
-    Modifiers.overrideModifier("Generated:Enchantments Absorbed", modList.toString());
+    Modifiers.overrideModifier(
+        new Modifiers.Lookup("Generated", "Enchantments Absorbed"), modList.toString());
   }
 
   private static final Pattern disguisePattern = Pattern.compile("masks/mask(\\d+).png");

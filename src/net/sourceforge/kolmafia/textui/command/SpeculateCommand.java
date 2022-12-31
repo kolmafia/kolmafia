@@ -20,7 +20,7 @@ public class SpeculateCommand extends AbstractCommand {
     Speculation spec = new Speculation();
     boolean quiet = spec.parse(parameters);
     Modifiers mods = spec.calculate();
-    Modifiers.overrideModifier("Generated:_spec", mods);
+    Modifiers.overrideModifier(new Modifiers.Lookup("Generated", "_spec"), mods);
     if (quiet) {
       return;
     }

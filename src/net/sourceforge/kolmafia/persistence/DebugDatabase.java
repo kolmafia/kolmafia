@@ -1094,7 +1094,7 @@ public class DebugDatabase {
     //   of parsed modifiers in the order they appear in modifiers.txt
 
     // Get the existing modifiers for the name
-    ModifierList existing = Modifiers.getModifierList(type, name);
+    ModifierList existing = Modifiers.getModifierList(new Modifiers.Lookup(type, name));
 
     // Look at each modifier in known
     for (Modifier modifier : known) {
@@ -1123,7 +1123,7 @@ public class DebugDatabase {
             }
 
             ModifierExpression expr =
-                new ModifierExpression(expression, Modifiers.getLookupName(type, name));
+                new ModifierExpression(expression, new Modifiers.Lookup(type, name));
             if (expr.hasErrors()) {
               report.println(expr.getExpressionErrors());
             } else {

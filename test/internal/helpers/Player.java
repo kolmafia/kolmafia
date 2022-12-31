@@ -1874,7 +1874,14 @@ public class Player {
     return new Cleanups(NPCStoreDatabase::reset);
   }
 
-  public static Cleanups withOverrideModifiers(String lookup, String value) {
+  public static Cleanups withOverrideModifiers(String type, String key, String value) {
+    Modifiers.Lookup lookup = new Modifiers.Lookup(type, key);
+    Modifiers.overrideModifier(lookup, value);
+    return new Cleanups(() -> Modifiers.overrideRemoveModifier(lookup));
+  }
+
+  public static Cleanups withOverrideModifiers(String type, int key, String value) {
+    Modifiers.Lookup lookup = new Modifiers.Lookup(type, key);
     Modifiers.overrideModifier(lookup, value);
     return new Cleanups(() -> Modifiers.overrideRemoveModifier(lookup));
   }

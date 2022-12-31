@@ -328,7 +328,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
   private int level;
   private String name;
   private String mods;
-  private String modsLookup;
+  private Modifiers.Lookup modsLookup;
 
   public PastaThrallData(final PastaThrallType data) {
     this.data = data;
@@ -341,7 +341,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
       Modifiers mods = Modifiers.getModifiers("Thrall", this.type);
       if (mods != null) {
         this.mods = mods.getString("Modifiers");
-        this.modsLookup = mods.getName();
+        this.modsLookup = mods.getLookup();
       }
     }
   }

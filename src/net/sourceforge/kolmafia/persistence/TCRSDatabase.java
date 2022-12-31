@@ -590,7 +590,7 @@ public class TCRSDatabase {
     }
 
     // Set modifiers
-    Modifiers.updateItem(itemName, tcrs.modifiers);
+    Modifiers.updateItem(itemId, tcrs.modifiers);
 
     // *** Do this after modifiers are set so can log effect modifiers
     ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);

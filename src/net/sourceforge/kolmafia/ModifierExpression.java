@@ -1,15 +1,20 @@
 package net.sourceforge.kolmafia;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 public class ModifierExpression extends Expression {
-  public ModifierExpression(String text, String name) {
-    super(text, name);
+  private Modifiers.Lookup lookup;
+
+  public ModifierExpression(String text, String lookupString) {
+    super(text, lookupString);
   }
 
-  public static ModifierExpression getInstance(String text, String name) {
-    ModifierExpression expr = new ModifierExpression(text, name);
+  public ModifierExpression(String text, Modifiers.Lookup lookup) {
+    this(text, lookup.toString());
+  }
+
+  public static ModifierExpression getInstance(String text, Modifiers.Lookup lookup) {
+    ModifierExpression expr = new ModifierExpression(text, lookup);
     String errors = expr.getExpressionErrors();
     if (errors != null) {
       KoLmafia.updateDisplay(errors);
@@ -21,9 +26,9 @@ public class ModifierExpression extends Expression {
   protected void initialize() {
     // The first check also matches "[zone(The Slime Tube)]"
     // Hence the second check.
-    String type = Modifiers.getTypeFromLookup(this.name);
-    if (type.equals("Effect") && text.contains("T")) {
-      int effectId = EffectDatabase.getEffectId(Modifiers.getNameFromLookup(this.name));
+    if (name.startsWith("Effect:[") && text.contains("T")) {
+      String substring = name.substring(8);
+      int effectId = Integer.parseInt(substring.substring(0, substring.indexOf(']')));
       if (effectId != -1) {
         this.effect = EffectPool.get(effectId, 0);
       }

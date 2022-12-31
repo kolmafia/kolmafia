@@ -486,7 +486,7 @@ public abstract class GreyYouManager {
     private final int level;
 
     private String enchantments = "";
-    private String modsLookup = "";
+    private Modifiers.Lookup modsLookup = new Modifiers.Lookup("", "");
 
     public GooSkill(
         final int skillId, final String monsterName, PassiveEffect passiveEffect, int level) {
@@ -519,7 +519,7 @@ public abstract class GreyYouManager {
         mods = Modifiers.getModifiers("Skill", this.name);
         if (mods != null) {
           this.enchantments = mods.getString("Modifiers");
-          this.modsLookup = mods.getName();
+          this.modsLookup = mods.getLookup();
         } else {
           // This would be a KoLmafia bug.
           String message =
@@ -531,7 +531,6 @@ public abstract class GreyYouManager {
       } else {
         this.mpCost = SkillDatabase.getMPConsumptionById(skillId);
         this.enchantments = effects;
-        this.modsLookup = "";
       }
 
       allGooSkills.put(skillId, this);
