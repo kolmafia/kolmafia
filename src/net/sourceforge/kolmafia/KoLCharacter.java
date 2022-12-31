@@ -5576,32 +5576,6 @@ public abstract class KoLCharacter {
     }
   }
 
-  // For performance reasons, hard-code the list of items/effects that give Smithsness, and only
-  // consider those.
-  private static final Set<Integer> SMITHSNESS_ITEMS =
-      Set.of(
-          ItemPool.WORK_IS_A_FOUR_LETTER_SWORD,
-          ItemPool.STAFF_OF_THE_HEADMASTERS_VICTUALS,
-          ItemPool.SHEILA_TAKE_A_CROSSBOW,
-          ItemPool.A_LIGHT_THAT_NEVER_GOES_OUT,
-          ItemPool.HALF_A_PURSE,
-          ItemPool.HAIRPIECE_ON_FIRE,
-          ItemPool.VICARS_TUTU,
-          ItemPool.HAND_IN_GLOVE,
-          ItemPool.MEAT_TENDERIZER_IS_MURDER,
-          ItemPool.OUIJA_BOARD,
-          ItemPool.HAND_THAT_ROCKS_THE_LADLE,
-          ItemPool.SAUCEPANIC,
-          ItemPool.FRANKLY_MR_SHANK,
-          ItemPool.SHAKESPEARES_SISTERS_ACCORDION);
-  private static final Set<Integer> SMITHSNESS_EFFECTS =
-      Set.of(
-          EffectPool.VIDEO_GAMES,
-          EffectPool.MERRY_SMITHSNESS,
-          EffectPool.SMITHSNESS_PRESENCE,
-          EffectPool.SMITHSNESS_DINNER,
-          EffectPool.SMITHSNESS_CHEER);
-
   public static final double getSmithsnessModifier(
       AdventureResult[] equipment, List<AdventureResult> effects) {
     double smithsness = 0;

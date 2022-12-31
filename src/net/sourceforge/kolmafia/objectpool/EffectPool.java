@@ -254,8 +254,6 @@ public class EffectPool {
   public static final int BLOOD_SUGAR_SAUCE_MAGIC = 1458;
   public static final int SOULERSKATES = 1465;
   public static final int MERRY_SMITHSNESS = 1476;
-  public static final int SMITHSNESS_PRESENCE = 1477;
-  public static final int SMITHSNESS_DINNER = 1478;
   public static final int SMITHSNESS_CHEER = 1479;
   public static final int REASSURED = 1492;
   public static final int HARE_BRAINED = 1515;
