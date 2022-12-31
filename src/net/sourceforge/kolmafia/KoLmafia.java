@@ -204,6 +204,8 @@ public abstract class KoLmafia {
       KoLmafia.SESSION_HOLDER = KoLmafia.SESSION_CHANNEL.lock();
       return true;
     } catch (Exception e) {
+      KoLmafia.updateDisplay(
+          MafiaState.ABORT, "Could not acquire file lock for " + suffix + ": " + e);
       return false;
     }
   }
