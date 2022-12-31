@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -157,7 +158,7 @@ public enum Modeable {
 
   public static Map<Modeable, String> getStateMap() {
     // This is performance-critical for the maximizer and needs to be written imperatively.
-    Map<Modeable, String> stateMap = new TreeMap<>();
+    Map<Modeable, String> stateMap = new EnumMap<>(Modeable.class);
     for (Modeable modeable : values()) {
       stateMap.put(modeable, modeable.getState());
     }
