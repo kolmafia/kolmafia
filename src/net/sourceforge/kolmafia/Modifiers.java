@@ -1158,6 +1158,11 @@ public class Modifiers {
     return rv;
   }
 
+  public static final Collection<Entry<Object, String>> getAllModifiersOfType(String type) {
+    return Modifiers.modifierStringsByName.getAll(type).entrySet();
+  }
+
+  // WARNING: Slow. Don't use in code that runs repeatedly.
   public static final Collection<Lookup> getAllModifiers() {
     ArrayList<Lookup> result = new ArrayList<>();
     for (var entry : modifierStringsByName.entrySet()) {
@@ -1808,29 +1813,31 @@ public class Modifiers {
   }
 
   public static final Modifiers getModifiers(final String type, final int id) {
-    return Modifiers.getModifiers(new Lookup(type, id));
+    return Modifiers.getModifiersInternal(type, id);
   }
 
   public static final Modifiers getModifiers(final String type, final String name) {
-    if (name == null || name.isEmpty()) {
-      return null;
-    }
-
-    return Modifiers.getModifiers(new Lookup(type, name));
+    return Modifiers.getModifiersInternal(type, name);
   }
 
   public static final Modifiers getModifiers(final Lookup lookup) {
+    return Modifiers.getModifiersInternal(lookup.type, lookup.getKey());
+  }
+
+  public static final Modifiers getModifiersInternal(String type, final Object key) {
     String changeType = null;
-    String name = lookup.getKey().toString();
-    if (lookup.type.equals("Bjorn")) {
-      changeType = lookup.type;
-      lookup.type = "Throne";
+    String name = key.toString();
+    if (type.equals("Bjorn")) {
+      changeType = type;
+      type = "Throne";
     }
 
-    Modifiers modifiers = Modifiers.modifiersByName.get(lookup.type, lookup.getKey());
+    Modifiers modifiers = Modifiers.modifiersByName.get(type, key);
 
     if (modifiers == null) {
-      String modifierString = Modifiers.modifierStringsByName.get(lookup.type, lookup.getKey());
+      Lookup lookup = new Lookup(type, key);
+
+      String modifierString = Modifiers.modifierStringsByName.get(type, key);
 
       if (modifierString == null) {
         return null;
@@ -1844,11 +1851,11 @@ public class Modifiers {
 
       modifiers.variable = modifiers.override(lookup);
 
-      Modifiers.modifiersByName.put(lookup.type, lookup.getKey(), modifiers);
+      Modifiers.modifiersByName.put(type, key, modifiers);
     }
 
     if (modifiers.variable) {
-      modifiers.override(lookup);
+      modifiers.override(new Lookup(type, key));
       if (changeType != null) {
         modifiers.originalLookup = new Lookup(changeType, name);
       }
@@ -3825,6 +3832,15 @@ public class Modifiers {
     private int intKey = -1; // int for Skill, Item, Effect; String otherwise.
     private String stringKey;
 
+    private Lookup(String type, Object key) {
+      this.type = type;
+      if (key instanceof Integer intKey) {
+        this.intKey = intKey;
+      } else {
+        this.stringKey = key.toString();
+      }
+    }
+
     public Lookup(String type, int key) {
       this.type = type;
       this.intKey = key;
@@ -3838,7 +3854,6 @@ public class Modifiers {
         case "Skill" -> this.intKey = SkillDatabase.getSkillId(name);
         default -> this.stringKey = name;
       }
-      ;
     }
 
     @Override
