@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -27,7 +29,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
-import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPriceDatabase {
@@ -160,7 +161,9 @@ public class MallPriceDatabase {
       return;
     }
 
-    try (PrintStream writer = LogStream.openStream(PRICE_FILE, true)) {
+    try (PrintStream writer =
+        new PrintStream(
+            new BufferedOutputStream(DataUtilities.getOutputStream(PRICE_FILE)), false)) {
       writePrices(writer);
     }
   }
