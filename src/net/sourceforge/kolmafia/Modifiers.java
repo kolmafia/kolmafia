@@ -1294,6 +1294,8 @@ public class Modifiers {
 
   private String name;
   public boolean variable;
+  // If only a few values are set in doubles, we instead store all modifiers in a sparse TreeMap.
+  // When that map gets bigget than SPARSE_DOUBLES_MAX_SIZE, we copy it over to the dense array.
   private final double[] doubles;
   private TreeMap<Integer, Double> sparseDoubles;
   private final int[] bitmaps;
@@ -1897,13 +1899,12 @@ public class Modifiers {
 
   public static final Modifiers parseModifiers(final String lookup, final String string) {
     Modifiers newMods = new Modifiers();
-    double[] newDoubles = newMods.doubles;
     int[] newBitmaps = newMods.bitmaps;
     String[] newStrings = newMods.strings;
 
     newMods.name = lookup;
 
-    for (int i = 0; i < newDoubles.length; ++i) {
+    for (int i = 0; i < Modifiers.doubleModifiers.length; ++i) {
       Pattern pattern = Modifiers.doubleModifiers[i].getTagPattern();
       if (pattern == null) {
         continue;
@@ -1915,7 +1916,7 @@ public class Modifiers {
       }
 
       if (matcher.group(1) != null) {
-        newDoubles[i] = Double.parseDouble(matcher.group(1));
+        newMods.set(i, Double.parseDouble(matcher.group(1)));
       } else {
         if (newMods.expressions == null) {
           newMods.expressions = new ArrayList<>();
