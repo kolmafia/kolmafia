@@ -1295,7 +1295,7 @@ public class Modifiers {
   private final double[] doubles;
   private final int[] bitmaps;
   private final String[] strings;
-  private ModifierExpression[] expressions;
+  private Map<Integer, ModifierExpression> expressions;
   // These are used for Steely-Eyed Squint and so on
   private final double[] extras;
 
@@ -1875,9 +1875,9 @@ public class Modifiers {
         newDoubles[i] = Double.parseDouble(matcher.group(1));
       } else {
         if (newMods.expressions == null) {
-          newMods.expressions = new ModifierExpression[Modifiers.DOUBLE_MODIFIERS];
+          newMods.expressions = new TreeMap<>();
         }
-        newMods.expressions[i] = ModifierExpression.getInstance(matcher.group(2), lookup);
+        newMods.expressions.put(i, ModifierExpression.getInstance(matcher.group(2), lookup));
       }
     }
 
@@ -2384,11 +2384,10 @@ public class Modifiers {
 
   private boolean override(final String lookup) {
     if (this.expressions != null) {
-      for (int i = 0; i < this.expressions.length; ++i) {
-        ModifierExpression expr = this.expressions[i];
-        if (expr != null) {
-          this.doubles[i] = expr.eval();
-        }
+      for (Entry<Integer, ModifierExpression> entry : this.expressions.entrySet()) {
+        int i = entry.getKey();
+        ModifierExpression expr = entry.getValue();
+        this.doubles[i] = expr.eval();
       }
     }
 
