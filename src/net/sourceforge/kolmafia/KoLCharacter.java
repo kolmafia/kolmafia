@@ -5299,7 +5299,7 @@ public abstract class KoLCharacter {
       double finalExp = exp;
       double[] statExp =
           IntStream.range(0, 3)
-              .mapToDouble(i -> newModifiers.get(Modifiers.MUS_EXPERIENCE_PCT + i) / 100.0f)
+              .mapToDouble(i -> newModifiers.get(MUS_EXPERIENCE_PCT + i) / 100.0f)
               .map(expPct -> (finalBaseExp + finalExp) * (1 + expPct))
               .toArray();
 
@@ -5360,7 +5360,10 @@ public abstract class KoLCharacter {
               Modifiers.EXPERIENCE,
               Modifiers.MUS_EXPERIENCE,
               Modifiers.MYS_EXPERIENCE,
-              Modifiers.MOX_EXPERIENCE)) {
+              Modifiers.MOX_EXPERIENCE,
+              Modifiers.MUS_EXPERIENCE_PCT,
+              Modifiers.MYS_EXPERIENCE_PCT,
+              Modifiers.MOX_EXPERIENCE_PCT)) {
         newModifiers.add(
             modifier,
             newModifiers.getExtra(modifier),
