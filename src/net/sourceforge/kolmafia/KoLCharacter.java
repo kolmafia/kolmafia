@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.preferences.PreferenceModifiers;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -267,6 +268,11 @@ public abstract class KoLCharacter {
         ItemPool.get(ItemPool.ALUMINUM_WAND, 1),
         ItemPool.get(ItemPool.MARBLE_WAND, 1)
       };
+
+  private static final PreferenceModifiers mummeryMods =
+      new PreferenceModifiers("_mummeryMods", "Mummery");
+  private static final PreferenceModifiers voteMods =
+      new PreferenceModifiers("_voteModifier", "Local Vote");
 
   // Status pane data which is rendered whenever
   // the user changes equipment, effects, and familiar
@@ -5138,8 +5144,7 @@ public abstract class KoLCharacter {
     }
 
     // Mummery
-    newModifiers.add(
-        Modifiers.evaluatedModifiers("Mummery", Preferences.getString("_mummeryMods")));
+    newModifiers.add(mummeryMods.get());
 
     // Add modifiers from inventory
     if (InventoryManager.getCount(ItemPool.FISHING_POLE) > 0) {
@@ -5160,8 +5165,7 @@ public abstract class KoLCharacter {
     newModifiers.add(Modifiers.getModifiers("Horsery", horsery));
 
     // Voting Booth
-    newModifiers.add(
-        Modifiers.evaluatedModifiers("Local Vote", Preferences.getString("_voteModifier")));
+    newModifiers.add(voteMods.get());
 
     // Miscellaneous
 
