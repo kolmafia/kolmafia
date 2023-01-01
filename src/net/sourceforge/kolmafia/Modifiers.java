@@ -1290,7 +1290,7 @@ public class Modifiers {
     return Modifiers.findName(Modifiers.booleanModifiers, name);
   }
 
-  public static final int SPARSE_DOUBLES_MAX_SIZE = 10;
+  public static final int SPARSE_DOUBLES_MAX_SIZE = 32;
 
   private String name;
   public boolean variable;
