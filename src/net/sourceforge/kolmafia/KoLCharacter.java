@@ -5584,6 +5584,8 @@ public abstract class KoLCharacter {
       AdventureResult item = equipment[slot];
       if (item != null) {
         int itemId = item.getItemId();
+        // We know all items that give smithsness, and this code needs to be performant, so just
+        // check whether the id is between the first and last item.
         if (itemId < ItemPool.WORK_IS_A_FOUR_LETTER_SWORD
             || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) continue;
         Modifiers imod = Modifiers.getItemModifiers(itemId);
@@ -5601,6 +5603,8 @@ public abstract class KoLCharacter {
 
     for (AdventureResult effect : effects) {
       int effectId = effect.getEffectId();
+      // Same as above - we know all effects that give smithsness, so manually check the ranges
+      // those effect ids are in.
       if (effectId != EffectPool.VIDEO_GAMES
           && (effectId < EffectPool.MERRY_SMITHSNESS || effectId > EffectPool.SMITHSNESS_CHEER))
         continue;

@@ -2134,7 +2134,7 @@ public class EquipmentManager {
     // Go through any outfit that any worn item belongs to.
     int hash = SpecialOutfit.equipmentHash(equipment);
     List<Integer> checkedOutfits = new ArrayList<>();
-    for (int i = 0; i < EquipmentManager.FAMILIAR; i++) {
+    for (int i = EquipmentManager.HAT; i < EquipmentManager.FAMILIAR; i++) {
       AdventureResult item = equipment[i];
       if (item == null) continue;
       int outfitId = EquipmentDatabase.getOutfitWithItem(item.getItemId());
