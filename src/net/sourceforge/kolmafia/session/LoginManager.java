@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
@@ -45,8 +44,7 @@ public class LoginManager {
   public static void login(String username) {
     try {
       if (!KoLmafia.acquireFileLock(Preferences.baseUserName(username))) {
-        KoLmafia.updateDisplay(
-            MafiaState.ABORT, "Could not acquire file lock for " + username + ".");
+        // acquireFileLock should call updateDisplay with a more detailed error message.
         return;
       }
       KoLmafia.forceContinue();
