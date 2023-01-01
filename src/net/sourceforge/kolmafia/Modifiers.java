@@ -1295,7 +1295,8 @@ public class Modifiers {
   private String name;
   public boolean variable;
   // If only a few values are set in doubles, we instead store all modifiers in a sparse TreeMap.
-  // When that map gets bigget than SPARSE_DOUBLES_MAX_SIZE, we copy it over to the dense array.
+  // When that map gets bigger than SPARSE_DOUBLES_MAX_SIZE, we copy it over to the dense array.
+  // We track whether this is dense or not by whether sparseDoubles is null.
   private final double[] doubles;
   private TreeMap<Integer, Double> sparseDoubles;
   private final int[] bitmaps;
@@ -1502,6 +1503,8 @@ public class Modifiers {
   }
 
   public void densify() {
+    // When reset, this.doubles is set to all 0s, so all we have to do is copy all the sparse
+    // values over.
     if (this.sparseDoubles == null) return;
     for (Entry<Integer, Double> entry : this.sparseDoubles.entrySet()) {
       this.doubles[entry.getKey()] = entry.getValue();
@@ -1630,8 +1633,6 @@ public class Modifiers {
         }
         break;
       case ITEMDROP:
-        // Only some things are doubled by squint/champagne, so we have to use extras to track
-        // which are allowable.
         String type = Modifiers.getTypeFromLookup(desc);
         if (type.equals("Ballroom")
             || type.equals("Bjorn")
