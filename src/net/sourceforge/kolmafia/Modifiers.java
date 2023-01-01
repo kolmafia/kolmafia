@@ -1290,7 +1290,7 @@ public class Modifiers {
     return Modifiers.findName(Modifiers.booleanModifiers, name);
   }
 
-  public static final int SPARSE_DOUBLES_MAX_SIZE = 4;
+  public static final int SPARSE_DOUBLES_MAX_SIZE = 10;
 
   private String name;
   public boolean variable;
@@ -1518,7 +1518,8 @@ public class Modifiers {
     }
 
     if (this.sparseDoubles != null) {
-      Double oldValue = this.sparseDoubles.put(index, mod);
+      Double oldValue =
+          mod == 0.0 ? this.sparseDoubles.remove(index) : this.sparseDoubles.put(index, mod);
 
       if (this.sparseDoubles.size() >= Modifiers.SPARSE_DOUBLES_MAX_SIZE) {
         this.densify();
