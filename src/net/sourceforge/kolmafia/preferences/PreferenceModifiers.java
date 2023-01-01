@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.preferences;
 
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 public class PreferenceModifiers implements Listener {
   private String property;
@@ -12,6 +13,7 @@ public class PreferenceModifiers implements Listener {
   public PreferenceModifiers(String property, String modifierType) {
     this.property = property;
     this.modifierType = modifierType;
+    PreferenceListenerRegistry.registerPreferenceListener(property, this);
     this.update();
   }
 
