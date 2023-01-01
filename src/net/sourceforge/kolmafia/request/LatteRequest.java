@@ -695,7 +695,7 @@ public class LatteRequest extends GenericRequest {
 
     String value = modList.toString();
     Preferences.setString("latteModifier", value);
-    Modifiers.overrideModifier(new Modifiers.Lookup("Item", ItemPool.LATTE_MUG), value);
+    Modifiers.overrideModifier("Item", ItemPool.LATTE_MUG, value);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }

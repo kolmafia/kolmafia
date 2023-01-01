@@ -168,8 +168,7 @@ public class KGBRequest extends GenericRequest {
       for (Modifier modifier : newModList) {
         modList.addModifier(modifier);
       }
-      Modifiers.overrideModifier(
-          new Modifiers.Lookup("Item", ItemPool.KREMLIN_BRIEFCASE), modList.toString());
+      Modifiers.overrideModifier("Item", ItemPool.KREMLIN_BRIEFCASE, modList.toString());
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
     }

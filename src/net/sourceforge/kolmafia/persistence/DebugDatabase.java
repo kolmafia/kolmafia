@@ -1122,8 +1122,7 @@ public class DebugDatabase {
               expression = StringUtilities.singleStringReplace(expression, "R", "5");
             }
 
-            ModifierExpression expr =
-                new ModifierExpression(expression, new Modifiers.Lookup(type, name));
+            ModifierExpression expr = new ModifierExpression(expression, type, name);
             if (expr.hasErrors()) {
               report.println(expr.getExpressionErrors());
             } else {

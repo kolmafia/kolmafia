@@ -1178,16 +1178,45 @@ public class Modifiers {
     return result;
   }
 
-  public static final void overrideModifier(Lookup lookup, String value) {
-    overrideModifier(lookup, Modifiers.parseModifiers(lookup, value));
+  public static final void overrideModifier(final String type, final int key, final String value) {
+    overrideModifierInternal(type, key, value);
   }
 
-  public static final void overrideModifier(Lookup lookup, Modifiers value) {
-    Modifiers.modifiersByName.put(lookup.type, lookup.getKey(), value);
+  public static final void overrideModifier(
+      final String type, final String key, final String value) {
+    overrideModifierInternal(type, key, value);
   }
 
-  public static final void overrideRemoveModifier(Lookup lookup) {
-    Modifiers.modifiersByName.remove(lookup.type, lookup.getKey());
+  public static final void overrideModifier(
+      final String type, final int key, final Modifiers value) {
+    overrideModifierInternal(type, key, value);
+  }
+
+  public static final void overrideModifier(
+      final String type, final String key, final Modifiers value) {
+    overrideModifierInternal(type, key, value);
+  }
+
+  private static final void overrideModifierInternal(
+      final String type, final Object key, final String value) {
+    overrideModifierInternal(type, key, Modifiers.parseModifiers(new Lookup(type, key), value));
+  }
+
+  private static final void overrideModifierInternal(
+      final String type, final Object key, final Modifiers value) {
+    Modifiers.modifiersByName.put(type, key, value);
+  }
+
+  public static final void overrideRemoveModifier(final String type, final int key) {
+    overrideRemoveModifierInternal(type, key);
+  }
+
+  public static final void overrideRemoveModifier(final String type, final String key) {
+    overrideRemoveModifierInternal(type, key);
+  }
+
+  private static final void overrideRemoveModifierInternal(final String type, final Object key) {
+    Modifiers.modifiersByName.remove(type, key);
   }
 
   public static final String getModifierName(final int index) {
@@ -1605,7 +1634,10 @@ public class Modifiers {
           "UnbreakableUmbrella");
 
   public void add(final int index, final double mod, final Lookup lookup) {
-    int intKey = lookup.getIntKey();
+    add(index, mod, lookup.type);
+  }
+
+  public void add(final int index, final double mod, final String type) {
     switch (index) {
       case MANA_COST:
         // Total Mana Cost reduction cannot exceed 3
@@ -1629,7 +1661,6 @@ public class Modifiers {
         }
         break;
       case ITEMDROP:
-        String type = lookup.type;
         if (Modifiers.doubledBySquintChampagne.contains(type)) {
           this.doublerAccumulators[index] += mod;
         }
@@ -1646,11 +1677,6 @@ public class Modifiers {
       case STENCH_SPELL_DAMAGE:
       case SPOOKY_SPELL_DAMAGE:
       case SLEAZE_SPELL_DAMAGE:
-        if (intKey != EffectPool.BENDIN_HELL && intKey != EffectPool.BOWLEGGED_SWAGGER) {
-          this.doublerAccumulators[index] += mod;
-        }
-        this.doubles.add(index, mod);
-        break;
       case EXPERIENCE:
       case MUS_EXPERIENCE:
       case MYS_EXPERIENCE:
@@ -1824,7 +1850,7 @@ public class Modifiers {
     return Modifiers.getModifiersInternal(lookup.type, lookup.getKey());
   }
 
-  public static final Modifiers getModifiersInternal(String type, final Object key) {
+  private static final Modifiers getModifiersInternal(String type, final Object key) {
     String changeType = null;
     String name = key.toString();
     if (type.equals("Bjorn")) {
@@ -1862,6 +1888,16 @@ public class Modifiers {
     }
 
     return modifiers;
+  }
+
+  public static final Modifiers parseModifiers(
+      final String type, final int key, final String string) {
+    return parseModifiers(new Lookup(type, key), string);
+  }
+
+  public static final Modifiers parseModifiers(
+      final String type, final String key, final String string) {
+    return parseModifiers(new Lookup(type, key), string);
   }
 
   public static final Modifiers parseModifiers(final Lookup lookup, final String string) {
@@ -2578,7 +2614,7 @@ public class Modifiers {
     if (questLocation.equals("")) return;
 
     if (Modifiers.currentLocation.equals(questLocation)) {
-      this.add(Modifiers.EXPERIENCE, 1, new Lookup("Autumnaton", ""));
+      this.add(Modifiers.EXPERIENCE, 1, "Autumnaton");
     }
   }
 
@@ -2667,50 +2703,23 @@ public class Modifiers {
       if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MUSCLE)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
-        this.add(
-            Modifiers.MUS_EXPERIENCE,
-            factor * mainstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
-        this.add(
-            Modifiers.MYS_EXPERIENCE,
-            factor * offstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
-        this.add(
-            Modifiers.MOX_EXPERIENCE,
-            factor * offstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(Modifiers.MUS_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball");
+        this.add(Modifiers.MYS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball");
+        this.add(Modifiers.MOX_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball");
       } else if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MYSTICALITY)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
-        this.add(
-            Modifiers.MUS_EXPERIENCE,
-            factor * offstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
-        this.add(
-            Modifiers.MYS_EXPERIENCE,
-            factor * mainstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
-        this.add(
-            Modifiers.MOX_EXPERIENCE,
-            factor * offstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(Modifiers.MUS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball");
+        this.add(Modifiers.MYS_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball");
+        this.add(Modifiers.MOX_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball");
       } else if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MOXIE)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
-        this.add(
-            Modifiers.MUS_EXPERIENCE,
-            factor * offstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
-        this.add(
-            Modifiers.MYS_EXPERIENCE,
-            factor * offstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
-        this.add(
-            Modifiers.MOX_EXPERIENCE,
-            factor * mainstatFactor,
-            new Modifiers.Lookup("Tuned Volleyball", race));
+        this.add(Modifiers.MUS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball");
+        this.add(Modifiers.MYS_EXPERIENCE, factor * offstatFactor, "Tuned Volleyball");
+        this.add(Modifiers.MOX_EXPERIENCE, factor * mainstatFactor, "Tuned Volleyball");
       } else {
-        this.add(Modifiers.EXPERIENCE, factor, new Modifiers.Lookup("Volleyball", race));
+        this.add(Modifiers.EXPERIENCE, factor, "Volleyball");
       }
     }
 
@@ -2729,7 +2738,7 @@ public class Modifiers {
           Math.min(
               Math.max(factor * (Modifiers.currentML / 4) * (0.1 + 0.005 * effective), 1),
               maxStats),
-          new Modifiers.Lookup("Familiar", race));
+          "Familiar");
     }
 
     effective = cappedWeight * this.get(Modifiers.LEPRECHAUN_WEIGHT);
@@ -2742,7 +2751,7 @@ public class Modifiers {
       this.add(
           Modifiers.MEATDROP,
           factor * (Math.sqrt(220 * effective) + 2 * effective - 6),
-          new Modifiers.Lookup("Familiar", race));
+          "Familiar");
     }
 
     effective = cappedWeight * this.get(Modifiers.FAIRY_WEIGHT);
@@ -2754,9 +2763,7 @@ public class Modifiers {
       // The 0->1 factor for generic familiars conflicts with the JitB
       if (factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX) factor = 1.0;
       this.add(
-          Modifiers.ITEMDROP,
-          factor * (Math.sqrt(55 * effective) + effective - 3),
-          new Modifiers.Lookup("Familiar", race));
+          Modifiers.ITEMDROP, factor * (Math.sqrt(55 * effective) + effective - 3), "Familiar");
     }
 
     if (FamiliarDatabase.isUnderwaterType(familiarId)) {
@@ -2766,18 +2773,14 @@ public class Modifiers {
     switch (familiarId) {
       case FamiliarPool.HATRACK:
         if (famItem == EquipmentRequest.UNEQUIP) {
-          this.add(Modifiers.HATDROP, 50.0, new Modifiers.Lookup("Familiar", "naked hatrack"));
-          this.add(
-              Modifiers.FAMILIAR_WEIGHT_CAP, 1, new Modifiers.Lookup("Familiar", "naked hatrack"));
+          this.add(Modifiers.HATDROP, 50.0, "Familiar");
+          this.add(Modifiers.FAMILIAR_WEIGHT_CAP, 1, "Familiar");
         }
         break;
       case FamiliarPool.SCARECROW:
         if (famItem == EquipmentRequest.UNEQUIP) {
-          this.add(Modifiers.PANTSDROP, 50.0, new Modifiers.Lookup("Familiar", "naked scarecrow"));
-          this.add(
-              Modifiers.FAMILIAR_WEIGHT_CAP,
-              1,
-              new Modifiers.Lookup("Familiar", "naked scarecrow"));
+          this.add(Modifiers.PANTSDROP, 50.0, "Familiar");
+          this.add(Modifiers.FAMILIAR_WEIGHT_CAP, 1, "Familiar");
         }
         break;
     }
@@ -2817,14 +2820,10 @@ public class Modifiers {
     }
 
     switch (companion) {
-      case EGGMAN -> this.add(
-          Modifiers.ITEMDROP, 50 * multiplier, new Lookup("Companion", "Eggman"));
-      case RADISH -> this.add(
-          Modifiers.INITIATIVE, 50 * multiplier, new Lookup("Companion", "Radish Horse"));
-      case HIPPO -> this.add(
-          Modifiers.EXPERIENCE, 3 * multiplier, new Lookup("Companion", "Hippotatomous"));
-      case CREAM -> this.add(
-          Modifiers.MONSTER_LEVEL, 20 * multiplier, new Lookup("Companion", "Cream Puff"));
+      case EGGMAN -> this.add(Modifiers.ITEMDROP, 50 * multiplier, "Companion");
+      case RADISH -> this.add(Modifiers.INITIATIVE, 50 * multiplier, "Companion");
+      case HIPPO -> this.add(Modifiers.EXPERIENCE, 3 * multiplier, "Companion");
+      case CREAM -> this.add(Modifiers.MONSTER_LEVEL, 20 * multiplier, "Companion");
     }
   }
 
@@ -2834,22 +2833,16 @@ public class Modifiers {
     switch (id) {
       case 1: // Cat
         if (servant.getLevel() >= 7) {
-          this.add(
-              Modifiers.ITEMDROP,
-              Math.sqrt(55 * level) + level - 3,
-              new Modifiers.Lookup("Servant", "Cat"));
+          this.add(Modifiers.ITEMDROP, Math.sqrt(55 * level) + level - 3, "Servant");
         }
         break;
 
       case 3: // Maid
-        this.add(
-            Modifiers.MEATDROP,
-            Math.sqrt(220 * level) + 2 * level - 6,
-            new Modifiers.Lookup("Servant", "Maid"));
+        this.add(Modifiers.MEATDROP, Math.sqrt(220 * level) + 2 * level - 6, "Servant");
         break;
 
       case 5: // Scribe
-        this.add(Modifiers.EXPERIENCE, 2 + level / 5, new Modifiers.Lookup("Servant", "Scribe"));
+        this.add(Modifiers.EXPERIENCE, 2 + level / 5, "Servant");
         break;
     }
   }
@@ -2858,10 +2851,8 @@ public class Modifiers {
     int type = companion.getType();
     int level = companion.getLevel();
     switch (type) {
-      case VYKEACompanionData.LAMP -> this.add(
-          Modifiers.ITEMDROP, level * 10, new Modifiers.Lookup("VYKEA Companion", "Lamp"));
-      case VYKEACompanionData.COUCH -> this.add(
-          Modifiers.MEATDROP, level * 10, new Modifiers.Lookup("VYKEA Companion", "Couch"));
+      case VYKEACompanionData.LAMP -> this.add(Modifiers.ITEMDROP, level * 10, "VYKEA Companion");
+      case VYKEACompanionData.COUCH -> this.add(Modifiers.MEATDROP, level * 10, "VYKEA Companion");
     }
   }
 
@@ -2872,11 +2863,9 @@ public class Modifiers {
       Modifiers ensorcelMods =
           Modifiers.getModifiers("Ensorcel", ensorcelee.getPhylum().toString());
       if (ensorcelMods != null) {
-        Lookup lookup = new Lookup("Item", ItemPool.VAMPYRIC_CLOAKE);
-
-        this.add(Modifiers.MEATDROP, ensorcelMods.get(Modifiers.MEATDROP) * 0.25, lookup);
-        this.add(Modifiers.ITEMDROP, ensorcelMods.get(Modifiers.ITEMDROP) * 0.25, lookup);
-        this.add(Modifiers.CANDYDROP, ensorcelMods.get(Modifiers.CANDYDROP) * 0.25, lookup);
+        this.add(Modifiers.MEATDROP, ensorcelMods.get(Modifiers.MEATDROP) * 0.25, "Item");
+        this.add(Modifiers.ITEMDROP, ensorcelMods.get(Modifiers.ITEMDROP) * 0.25, "Item");
+        this.add(Modifiers.CANDYDROP, ensorcelMods.get(Modifiers.CANDYDROP) * 0.25, "Item");
       }
     }
   }
@@ -3799,8 +3788,7 @@ public class Modifiers {
   }
 
   public static final void updateItem(final int itemId, final String known) {
-    Lookup lookup = new Lookup("Item", itemId);
-    Modifiers.overrideModifier(lookup, Modifiers.parseModifiers(lookup, known));
+    Modifiers.overrideModifier("Item", itemId, known);
   }
 
   private static void registerObject(

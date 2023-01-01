@@ -3,14 +3,20 @@ package net.sourceforge.kolmafia;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 public class ModifierExpression extends Expression {
-  private Modifiers.Lookup lookup;
-
   public ModifierExpression(String text, String lookupString) {
     super(text, lookupString);
   }
 
   public ModifierExpression(String text, Modifiers.Lookup lookup) {
     this(text, lookup.toString());
+  }
+
+  public ModifierExpression(String text, String type, int key) {
+    this(text, type + ":" + key);
+  }
+
+  public ModifierExpression(String text, String type, String key) {
+    this(text, type + ":" + key);
   }
 
   public static ModifierExpression getInstance(String text, Modifiers.Lookup lookup) {

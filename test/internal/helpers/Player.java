@@ -1875,14 +1875,12 @@ public class Player {
   }
 
   public static Cleanups withOverrideModifiers(String type, String key, String value) {
-    Modifiers.Lookup lookup = new Modifiers.Lookup(type, key);
-    Modifiers.overrideModifier(lookup, value);
-    return new Cleanups(() -> Modifiers.overrideRemoveModifier(lookup));
+    Modifiers.overrideModifier(type, key, value);
+    return new Cleanups(() -> Modifiers.overrideRemoveModifier(type, key));
   }
 
   public static Cleanups withOverrideModifiers(String type, int key, String value) {
-    Modifiers.Lookup lookup = new Modifiers.Lookup(type, key);
-    Modifiers.overrideModifier(lookup, value);
-    return new Cleanups(() -> Modifiers.overrideRemoveModifier(lookup));
+    Modifiers.overrideModifier(type, key, value);
+    return new Cleanups(() -> Modifiers.overrideRemoveModifier(type, key));
   }
 }

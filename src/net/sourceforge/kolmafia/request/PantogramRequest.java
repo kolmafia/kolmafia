@@ -162,8 +162,7 @@ public class PantogramRequest extends GenericRequest {
       modList.addModifier("Lasts Until Rollover", "true");
 
       Preferences.setString("_pantogramModifier", modList.toString());
-      Modifiers.overrideModifier(
-          new Modifiers.Lookup("Item", ItemPool.PANTOGRAM_PANTS), modList.toString());
+      Modifiers.overrideModifier("Item", ItemPool.PANTOGRAM_PANTS, modList.toString());
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
     }

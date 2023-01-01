@@ -295,12 +295,12 @@ public abstract class ConsequenceManager {
           mods =
               DebugDatabase.parseItemEnchantments(
                   match.replaceFirst(match.group(0)), new ArrayList<>(), equipType);
-          Modifiers.overrideModifier(new Modifiers.Lookup("Item", itemId), mods);
+          Modifiers.overrideModifier("Item", itemId, mods);
         }
         case "DESC_EFFECT" -> {
           int effectId = EffectDatabase.getEffectId(this.getSpec());
           mods = DebugDatabase.parseEffectEnchantments(match.replaceFirst(match.group(0)));
-          Modifiers.overrideModifier(new Modifiers.Lookup("Effect", effectId), mods);
+          Modifiers.overrideModifier("Effect", effectId, mods);
         }
       }
 

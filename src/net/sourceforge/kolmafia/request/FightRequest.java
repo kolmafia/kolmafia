@@ -3303,7 +3303,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Cancel any combat modifiers
-    Modifiers.overrideRemoveModifier(new Modifiers.Lookup("Generated", "fightMods"));
+    Modifiers.overrideRemoveModifier("Generated", "fightMods");
 
     if (KoLCharacter.isSauceror()) {
       // Check for Soulsauce gain
@@ -8835,7 +8835,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void setFightModifiers(final String mods) {
-    Modifiers.overrideModifier(new Modifiers.Lookup("Generated", "fightMods"), mods);
+    Modifiers.overrideModifier("Generated", "fightMods", mods);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }

@@ -749,8 +749,7 @@ public class EffectDatabase {
 
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
     String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<>());
-    Modifiers emods =
-        Modifiers.parseModifiers(new Modifiers.Lookup("Effect", effectId), eEnchantments);
+    Modifiers emods = Modifiers.parseModifiers("Effect", effectId, eEnchantments);
 
     int level =
         switch (effectId) {

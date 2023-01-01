@@ -97,7 +97,7 @@ public class Maximizer {
     }
 
     Modifiers mods = Maximizer.best.calculate();
-    Modifiers.overrideModifier(new Modifiers.Lookup("Generated", "_spec"), mods);
+    Modifiers.overrideModifier("Generated", "_spec", mods);
 
     return !Maximizer.best.failed;
   }

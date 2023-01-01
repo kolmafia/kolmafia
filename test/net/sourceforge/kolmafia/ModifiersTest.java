@@ -151,21 +151,21 @@ public class ModifiersTest {
   @Test
   public void correctlyCalculatesCappedCombatRate() {
     Modifiers mod = new Modifiers();
-    mod.add(Modifiers.COMBAT_RATE, 25, new Modifiers.Lookup("Start", ""));
-    mod.add(Modifiers.COMBAT_RATE, 7, new Modifiers.Lookup("32", ""));
+    mod.add(Modifiers.COMBAT_RATE, 25, "Start");
+    mod.add(Modifiers.COMBAT_RATE, 7, "32");
     assertEquals(26, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, 9, new Modifiers.Lookup("41", ""));
+    mod.add(Modifiers.COMBAT_RATE, 9, "41");
     assertEquals(28, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, 9, new Modifiers.Lookup("50", ""));
+    mod.add(Modifiers.COMBAT_RATE, 9, "50");
     assertEquals(30, mod.get(Modifiers.COMBAT_RATE));
 
     mod = new Modifiers();
-    mod.add(Modifiers.COMBAT_RATE, -25, new Modifiers.Lookup("Start", ""));
-    mod.add(Modifiers.COMBAT_RATE, -7, new Modifiers.Lookup("-32", ""));
+    mod.add(Modifiers.COMBAT_RATE, -25, "Start");
+    mod.add(Modifiers.COMBAT_RATE, -7, "-32");
     assertEquals(-26, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, -9, new Modifiers.Lookup("-41", ""));
+    mod.add(Modifiers.COMBAT_RATE, -9, "-41");
     assertEquals(-28, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, -9, new Modifiers.Lookup("-50", ""));
+    mod.add(Modifiers.COMBAT_RATE, -9, "-50");
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
   }
 
