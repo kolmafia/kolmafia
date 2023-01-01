@@ -521,7 +521,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     // Check if character can cast Ode.
-    UseSkillRequest ode = UseSkillRequest.getInstance("The Ode to Booze");
+    UseSkillRequest ode = UseSkillRequest.getInstance(SkillPool.ODE_TO_BOOZE);
     boolean canOde =
         !KoLCharacter.inGLover()
             && KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE)

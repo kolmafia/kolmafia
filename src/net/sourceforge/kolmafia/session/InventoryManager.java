@@ -106,7 +106,7 @@ public abstract class InventoryManager {
           switch (itemId) {
             case ItemPool.BOOMBOX:
               if (!Preferences.getString("boomBoxSong").equals("")) {
-                KoLCharacter.addAvailableSkill("Sing Along");
+                KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
               }
               break;
           }
@@ -1831,8 +1831,8 @@ public abstract class InventoryManager {
     if (KoLCharacter.hasEquipped(UseSkillRequest.POWERFUL_GLOVE)
         || InventoryManager.hasItem(UseSkillRequest.POWERFUL_GLOVE, false)) {
       // *** Special case: the buffs are always available
-      KoLCharacter.addAvailableSkill("CHEAT CODE: Invisible Avatar");
-      KoLCharacter.addAvailableSkill("CHEAT CODE: Triple Size");
+      KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
+      KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
     }
   }
 
@@ -1840,10 +1840,10 @@ public abstract class InventoryManager {
     if (KoLCharacter.hasEquipped(UseSkillRequest.DESIGNER_SWEATPANTS)
         || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)) {
       // *** Special case: the buffs are always available
-      KoLCharacter.addAvailableSkill("Make Sweat-Ade");
-      KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
-      KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
-      KoLCharacter.addAvailableSkill("Sip Some Sweat");
+      KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
+      KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
+      KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
+      KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
     }
   }
 

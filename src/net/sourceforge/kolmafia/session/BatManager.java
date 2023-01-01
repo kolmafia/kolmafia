@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -285,32 +286,32 @@ public class BatManager {
   }
 
   public static void setCombatSkills() {
-    KoLCharacter.addAvailableCombatSkill("Bat-Punch");
-    KoLCharacter.addAvailableCombatSkill("Bat-Kick");
-    KoLCharacter.addAvailableCombatSkill("Bat-oomerang");
-    KoLCharacter.addAvailableCombatSkill("Bat-Jute");
-    KoLCharacter.addAvailableCombatSkill("Bat-o-mite");
-    KoLCharacter.addAvailableCombatSkill("Ultracoagulator");
-    KoLCharacter.addAvailableCombatSkill("Kickball");
-    KoLCharacter.addAvailableCombatSkill("Bat-Glue");
-    KoLCharacter.addAvailableCombatSkill("Bat-Bearing");
-    KoLCharacter.addAvailableCombatSkill("Use Bat-Aid");
+    KoLCharacter.addAvailableCombatSkill(SkillPool.BAT_PUNCH);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.BAT_KICK);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.BAT_OOMERANG);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.BAT_JUTE);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.BAT_O_MITE);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.ULTRACOAGULATOR);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.KICKBALL);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.BAT_GLUE);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.BAT_BEARING);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.USE_BAT_AID);
   }
 
   public static void end() {
     BatManager.reset(false);
 
     // You can no longer use Batfellow combat skills.
-    KoLCharacter.removeAvailableCombatSkill("Bat-Punch");
-    KoLCharacter.removeAvailableCombatSkill("Bat-Kick");
-    KoLCharacter.removeAvailableCombatSkill("Bat-oomerang");
-    KoLCharacter.removeAvailableCombatSkill("Bat-Jute");
-    KoLCharacter.removeAvailableCombatSkill("Bat-o-mite");
-    KoLCharacter.removeAvailableCombatSkill("Ultracoagulator");
-    KoLCharacter.removeAvailableCombatSkill("Kickball");
-    KoLCharacter.removeAvailableCombatSkill("Bat-Glue");
-    KoLCharacter.removeAvailableCombatSkill("Bat-Bearing");
-    KoLCharacter.removeAvailableCombatSkill("Use Bat-Aid");
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.BAT_PUNCH);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.BAT_KICK);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.BAT_OOMERANG);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.BAT_JUTE);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.BAT_O_MITE);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.ULTRACOAGULATOR);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.KICKBALL);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.BAT_GLUE);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.BAT_BEARING);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.USE_BAT_AID);
   }
 
   private static void resetItems() {
