@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
@@ -1167,7 +1168,7 @@ public class Modifiers {
     ArrayList<Lookup> result = new ArrayList<>();
     for (var entry : modifierStringsByName.entrySet()) {
       String type = entry.getKey();
-      for (Object key : entry.getValue().values()) {
+      for (Object key : entry.getValue().keySet()) {
         if (key instanceof Integer intKey) {
           result.add(new Lookup(type, intKey));
         } else if (key instanceof String stringKey) {
@@ -3837,9 +3838,16 @@ public class Modifiers {
     public Lookup(String type, String name) {
       this.type = type;
       switch (type) {
-        case "Item" -> this.intKey = ItemDatabase.getItemId(name);
-        case "Effect" -> this.intKey = EffectDatabase.getEffectId(name);
-        case "Skill" -> this.intKey = SkillDatabase.getSkillId(name);
+        case "Item" -> {
+          int hotDogIndex = ClanLoungeRequest.HOTDOG_NAMES.indexOf(name);
+          if (hotDogIndex >= 0) {
+            this.intKey = ClanLoungeRequest.HOTDOG_DATA[hotDogIndex].id();
+          } else {
+            this.intKey = ItemDatabase.getExactItemId(name);
+          }
+        }
+        case "Effect" -> this.intKey = EffectDatabase.getEffectId(name, true);
+        case "Skill" -> this.intKey = SkillDatabase.getSkillId(name, true);
         default -> this.stringKey = name;
       }
     }
@@ -3869,7 +3877,9 @@ public class Modifiers {
 
     public String getName() {
       return switch (type) {
-        case "Item" -> ItemDatabase.getItemName(getIntKey());
+        case "Item" -> getIntKey() < -1
+            ? ClanLoungeRequest.hotdogIdToName(getIntKey())
+            : ItemDatabase.getItemName(getIntKey());
         case "Effect" -> EffectDatabase.getEffectName(getIntKey());
         case "Skill" -> SkillDatabase.getSkillName(getIntKey());
         default -> getStringKey();
