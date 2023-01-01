@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -3236,7 +3237,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BOOMBOX:
-        KoLCharacter.addAvailableSkill("Sing Along");
+        KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
         break;
 
       case ItemPool.GARLAND_OF_GREATNESS:
@@ -3275,8 +3276,8 @@ public class ResultProcessor {
 
       case ItemPool.POWERFUL_GLOVE:
         // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill("CHEAT CODE: Invisible Avatar");
-        KoLCharacter.addAvailableSkill("CHEAT CODE: Triple Size");
+        KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
+        KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
         break;
 
       case ItemPool.POWDER_PUFF:
@@ -3325,10 +3326,10 @@ public class ResultProcessor {
 
       case ItemPool.DESIGNER_SWEATPANTS:
         // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill("Make Sweat-Ade");
-        KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
-        KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
-        KoLCharacter.addAvailableSkill("Sip Some Sweat");
+        KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
+        KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
+        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
+        KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
         break;
 
       case ItemPool.ROBY_BORIS_BEER:
