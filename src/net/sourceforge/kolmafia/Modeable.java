@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -83,6 +85,14 @@ public enum Modeable {
     this.mustEquipAfterChange = mustEquipAfterChange;
   }
 
+  private static final Map<Integer, Modeable> idToModeable = new TreeMap<>();
+
+  static {
+    for (Modeable m : values()) {
+      idToModeable.put(m.getItemId(), m);
+    }
+  }
+
   public String getCommand() {
     return this.command;
   }
@@ -139,10 +149,7 @@ public enum Modeable {
   }
 
   public static Modeable find(final int itemId) {
-    return Arrays.stream(values())
-        .filter(m -> m.getItem().getItemId() == itemId)
-        .findAny()
-        .orElse(null);
+    return idToModeable.get(itemId);
   }
 
   public static Map<Modeable, String> getStringMap(Function<Modeable, String> cb) {
@@ -150,7 +157,12 @@ public enum Modeable {
   }
 
   public static Map<Modeable, String> getStateMap() {
-    return getStringMap(Modeable::getState);
+    // This is performance-critical for the maximizer and needs to be written imperatively.
+    Map<Modeable, String> stateMap = new EnumMap<>(Modeable.class);
+    for (Modeable modeable : values()) {
+      stateMap.put(modeable, modeable.getState());
+    }
+    return stateMap;
   }
 
   public static Map<Modeable, Boolean> getBooleanMap(final Function<Modeable, Boolean> cb) {

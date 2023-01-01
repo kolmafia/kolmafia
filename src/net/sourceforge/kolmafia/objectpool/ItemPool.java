@@ -2183,6 +2183,7 @@ public class ItemPool {
   public static final int HANDFUL_OF_SMITHEREENS = 7006;
   public static final int GOLDEN_LIGHT = 7013;
   public static final int LOUDER_THAN_BOMB = 7014;
+  public static final int WORK_IS_A_FOUR_LETTER_SWORD = 7016;
   public static final int OUIJA_BOARD = 7025;
   public static final int SAUCEPANIC = 7027;
   public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;

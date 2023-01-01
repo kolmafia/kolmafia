@@ -1295,7 +1295,7 @@ public class Modifiers {
   private final double[] doubles;
   private final int[] bitmaps;
   private final String[] strings;
-  private ModifierExpression[] expressions;
+  private ArrayList<Indexed<ModifierExpression>> expressions;
   // These are used for Steely-Eyed Squint and so on
   private final double[] extras;
 
@@ -1663,9 +1663,12 @@ public class Modifiers {
     }
 
     // Make sure the modifiers apply to current class
-    AscensionClass ascensionClass = AscensionClass.find(mods.strings[Modifiers.CLASS]);
-    if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
-      return;
+    String className = mods.strings[Modifiers.CLASS];
+    if (className != null && !className.isEmpty()) {
+      AscensionClass ascensionClass = AscensionClass.findByExactName(className);
+      if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
+        return;
+      }
     }
 
     // Unarmed modifiers apply only if the character has no weapon or offhand
@@ -1875,9 +1878,10 @@ public class Modifiers {
         newDoubles[i] = Double.parseDouble(matcher.group(1));
       } else {
         if (newMods.expressions == null) {
-          newMods.expressions = new ModifierExpression[Modifiers.DOUBLE_MODIFIERS];
+          newMods.expressions = new ArrayList<>();
         }
-        newMods.expressions[i] = ModifierExpression.getInstance(matcher.group(2), lookup);
+        newMods.expressions.add(
+            new Indexed<>(i, ModifierExpression.getInstance(matcher.group(2), lookup)));
       }
     }
 
@@ -2384,11 +2388,8 @@ public class Modifiers {
 
   private boolean override(final String lookup) {
     if (this.expressions != null) {
-      for (int i = 0; i < this.expressions.length; ++i) {
-        ModifierExpression expr = this.expressions[i];
-        if (expr != null) {
-          this.doubles[i] = expr.eval();
-        }
+      for (Indexed<ModifierExpression> entry : this.expressions) {
+        this.doubles[entry.index] = entry.value.eval();
       }
     }
 
@@ -3806,6 +3807,16 @@ public class Modifiers {
 
       String lookup = Modifiers.getLookupName(type, name);
       Modifiers.modifierStringsByName.putIfAbsent(lookup, known);
+    }
+  }
+
+  private static class Indexed<T> {
+    public int index;
+    public T value;
+
+    public Indexed(int index, T value) {
+      this.index = index;
+      this.value = value;
     }
   }
 }

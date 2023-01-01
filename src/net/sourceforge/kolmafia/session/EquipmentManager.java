@@ -2131,13 +2131,21 @@ public class EquipmentManager {
   }
 
   public static final SpecialOutfit currentOutfit(AdventureResult[] equipment) {
+    // Go through any outfit that any worn item belongs to.
     int hash = SpecialOutfit.equipmentHash(equipment);
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
-      if (outfit == null) {
-        continue;
-      }
-      if (outfit.isWearing(equipment, hash)) {
-        return outfit;
+    List<Integer> checkedOutfits = new ArrayList<>();
+    for (int i = EquipmentManager.HAT; i < EquipmentManager.FAMILIAR; i++) {
+      AdventureResult item = equipment[i];
+      if (item == null) continue;
+      int outfitId = EquipmentDatabase.getOutfitWithItem(item.getItemId());
+      if (checkedOutfits.contains(outfitId)) continue;
+
+      SpecialOutfit outfit = EquipmentDatabase.getOutfit(outfitId);
+      if (outfit != null) {
+        if (outfit.isWearing(equipment, hash)) {
+          return outfit;
+        }
+        checkedOutfits.add(outfitId);
       }
     }
 

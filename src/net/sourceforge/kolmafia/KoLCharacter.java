@@ -1322,6 +1322,11 @@ public abstract class KoLCharacter {
   }
 
   public static final AdventureResult ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+  public static final AdventureResult BENDIN_HELL = EffectPool.get(EffectPool.BENDIN_HELL);
+  public static final AdventureResult BOWLEGGED_SWAGGER =
+      EffectPool.get(EffectPool.BOWLEGGED_SWAGGER);
+  public static final AdventureResult STEELY_EYED_SQUINT =
+      EffectPool.get(EffectPool.STEELY_EYED_SQUINT);
 
   public static void setLimitMode(final LimitMode limitmode) {
     switch (limitmode) {
@@ -5137,10 +5142,10 @@ public abstract class KoLCharacter {
         Modifiers.evaluatedModifiers("Mummery", Preferences.getString("_mummeryMods")));
 
     // Add modifiers from inventory
-    if (InventoryManager.hasItem(ItemPool.FISHING_POLE)) {
+    if (InventoryManager.getCount(ItemPool.FISHING_POLE) > 0) {
       newModifiers.add(Modifiers.FISHING_SKILL, 20, "Inventory Item:fishin' pole");
     }
-    if (InventoryManager.hasItem(ItemPool.ANTIQUE_TACKLE_BOX)) {
+    if (InventoryManager.getCount(ItemPool.ANTIQUE_TACKLE_BOX) > 0) {
       newModifiers.add(Modifiers.FISHING_SKILL, 5, "Inventory Item:antique tacklebox");
     }
 
@@ -5315,7 +5320,7 @@ public abstract class KoLCharacter {
     }
 
     // These depend on the modifiers from everything else, so they must be done last
-    if (effects.contains(EffectPool.get(EffectPool.BENDIN_HELL))) {
+    if (effects.contains(KoLCharacter.BENDIN_HELL)) {
       newModifiers.add(
           Modifiers.HOT_DAMAGE,
           newModifiers.getExtra(Modifiers.HOT_DAMAGE),
@@ -5357,7 +5362,7 @@ public abstract class KoLCharacter {
           newModifiers.getExtra(Modifiers.SLEAZE_SPELL_DAMAGE),
           "Effect:[" + EffectPool.BENDIN_HELL + "]");
     }
-    if (effects.contains(EffectPool.get(EffectPool.BOWLEGGED_SWAGGER))) {
+    if (effects.contains(KoLCharacter.BOWLEGGED_SWAGGER)) {
       newModifiers.add(
           Modifiers.INITIATIVE,
           newModifiers.getExtra(Modifiers.INITIATIVE),
@@ -5384,8 +5389,7 @@ public abstract class KoLCharacter {
           newModifiers.getExtra(Modifiers.MOX_EXPERIENCE),
           "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
     }
-    if (effects.contains(EffectPool.get(EffectPool.STEELY_EYED_SQUINT))
-        && !KoLCharacter.inGLover()) {
+    if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
       newModifiers.add(
           Modifiers.ITEMDROP,
           newModifiers.getExtra(Modifiers.ITEMDROP),
@@ -5580,6 +5584,10 @@ public abstract class KoLCharacter {
       AdventureResult item = equipment[slot];
       if (item != null) {
         int itemId = item.getItemId();
+        // We know all items that give smithsness, and this code needs to be performant, so just
+        // check whether the id is between the first and last item.
+        if (itemId < ItemPool.WORK_IS_A_FOUR_LETTER_SWORD
+            || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) continue;
         Modifiers imod = Modifiers.getItemModifiers(itemId);
         if (imod != null) {
           AscensionClass classType = AscensionClass.find(imod.getString(Modifiers.CLASS));
@@ -5594,6 +5602,12 @@ public abstract class KoLCharacter {
     }
 
     for (AdventureResult effect : effects) {
+      int effectId = effect.getEffectId();
+      // Same as above - we know all effects that give smithsness, so manually check the ranges
+      // those effect ids are in.
+      if (effectId != EffectPool.VIDEO_GAMES
+          && (effectId < EffectPool.MERRY_SMITHSNESS || effectId > EffectPool.SMITHSNESS_CHEER))
+        continue;
       Modifiers emod = Modifiers.getEffectModifiers(effect.getEffectId());
       if (emod != null) {
         smithsness += emod.get(Modifiers.SMITHSNESS);
