@@ -1643,6 +1643,7 @@ public class Modifiers {
       case MOX_EXPERIENCE_PCT:
         // Possibly doubled by makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or
         // Dirty Pear.
+        // TODO: Figure out which ones aren't doubled and exclude them. BoomBox?
         this.extras[index] += mod;
         this.doubles[index] += mod;
         break;
