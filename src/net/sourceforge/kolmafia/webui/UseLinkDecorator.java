@@ -1508,9 +1508,9 @@ public abstract class UseLinkDecorator {
     Speculation spec = new Speculation();
     spec.addEffect(EffectPool.get(effectId, Math.max(1, duration)));
     mods = spec.calculate();
-    mods.set(Modifiers.EFFECT, effect);
+    mods.setString(Modifiers.EFFECT, effect);
     if (duration > 0) {
-      mods.set(Modifiers.EFFECT_DURATION, (float) duration);
+      mods.setDouble(Modifiers.EFFECT_DURATION, (float) duration);
     }
     return getSpeculation(label, mods);
   }

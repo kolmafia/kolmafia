@@ -4981,7 +4981,7 @@ public abstract class KoLCharacter {
     // from the outfit counts towards a Hodgman offhand.
     SpecialOutfit outfit = EquipmentManager.currentOutfit(equipment);
     if (outfit != null) {
-      newModifiers.set(Modifiers.OUTFIT, outfit.getName());
+      newModifiers.setString(Modifiers.OUTFIT, outfit.getName());
       newModifiers.add(Modifiers.getModifiers("Outfit", outfit.getName()));
       // El Vibrato Relics may have additional benefits based on
       // punchcards inserted into the helmet:
@@ -5475,7 +5475,7 @@ public abstract class KoLCharacter {
             case Modifiers.SURGEONOSITY:
               continue;
           }
-          iModCopy.set(i, 0.0);
+          iModCopy.setDouble(i, 0.0);
         }
         newModifiers.add(iModCopy);
       } else {
