@@ -5,16 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
@@ -1295,7 +1286,7 @@ public class Modifiers {
   public static List<AdventureResult> getPotentialChanges(final int index) {
     ArrayList<AdventureResult> available = new ArrayList<>();
 
-    for (Object checkObject : Modifiers.modifiersByName.getAll("Effect").keySet()) {
+    for (Object checkObject : Modifiers.modifierStringsByName.getAll("Effect").keySet()) {
       if (!(checkObject instanceof String check)) continue;
 
       String effectName = check.replace("Effect:", "");
@@ -1844,7 +1835,7 @@ public class Modifiers {
   }
 
   public static final Modifiers getModifiers(final String type, final String name) {
-    return Modifiers.getModifiersInternal(type, name);
+    return Modifiers.getModifiers(new Lookup(type, name));
   }
 
   public static final Modifiers getModifiers(final Lookup lookup) {
@@ -2456,13 +2447,16 @@ public class Modifiers {
   }
 
   public static final double getNumericModifier(final String type, final int id, final String mod) {
-    String name = "[" + id + "]";
-    return Modifiers.getNumericModifier(type, name, mod);
+    return Modifiers.getNumericModifier(new Lookup(type, id), mod);
   }
 
   public static final double getNumericModifier(
       final String type, final String name, final String mod) {
-    Modifiers mods = Modifiers.getModifiers(type, name);
+    return Modifiers.getNumericModifier(new Lookup(type, name), mod);
+  }
+
+  public static final double getNumericModifier(final Lookup lookup, final String mod) {
+    Modifiers mods = Modifiers.getModifiers(lookup);
     if (mods == null) {
       return 0.0;
     }
@@ -2515,13 +2509,16 @@ public class Modifiers {
 
   public static final boolean getBooleanModifier(
       final String type, final int id, final String mod) {
-    String name = "[" + id + "]";
-    return Modifiers.getBooleanModifier(type, name, mod);
+    return Modifiers.getBooleanModifier(new Lookup(type, id), mod);
   }
 
   public static final boolean getBooleanModifier(
       final String type, final String name, final String mod) {
-    Modifiers mods = Modifiers.getModifiers(type, name);
+    return Modifiers.getBooleanModifier(new Lookup(type, name), mod);
+  }
+
+  public static final boolean getBooleanModifier(final Lookup lookup, final String mod) {
+    Modifiers mods = Modifiers.getModifiers(lookup);
     if (mods == null) {
       return false;
     }
@@ -2529,13 +2526,16 @@ public class Modifiers {
   }
 
   public static final String getStringModifier(final String type, final int id, final String mod) {
-    String name = "[" + id + "]";
-    return Modifiers.getStringModifier(type, name, mod);
+    return Modifiers.getStringModifier(new Lookup(type, id), mod);
   }
 
   public static final String getStringModifier(
       final String type, final String name, final String mod) {
-    Modifiers mods = Modifiers.getModifiers(type, name);
+    return Modifiers.getStringModifier(new Lookup(type, name), mod);
+  }
+
+  public static final String getStringModifier(final Lookup lookup, final String mod) {
+    Modifiers mods = Modifiers.getModifiers(lookup);
     if (mods == null) {
       return "";
     }
@@ -3839,11 +3839,13 @@ public class Modifiers {
       this.type = type;
       switch (type) {
         case "Item" -> {
-          int hotDogIndex = ClanLoungeRequest.HOTDOG_NAMES.indexOf(name);
-          if (hotDogIndex >= 0) {
-            this.intKey = ClanLoungeRequest.HOTDOG_DATA[hotDogIndex].id();
-          } else {
-            this.intKey = ItemDatabase.getExactItemId(name);
+          this.intKey = ItemDatabase.getExactItemId(name);
+          if (this.intKey < 0) {
+            Optional<ClanLoungeRequest.HotDogData> maybeHotDogData =
+                Arrays.stream(ClanLoungeRequest.HOTDOG_DATA)
+                    .filter(h -> name.equals(h.name()))
+                    .findFirst();
+            maybeHotDogData.ifPresent(hotDogData -> this.intKey = hotDogData.id());
           }
         }
         case "Effect" -> this.intKey = EffectDatabase.getEffectId(name, true);
@@ -3851,7 +3853,8 @@ public class Modifiers {
         default -> this.stringKey = name;
       }
       if (List.of("Item", "Effect", "Skill").contains(type) && this.intKey == -1) {
-        throw new IllegalArgumentException("Invalid " + type + " " + name);
+        this.type = "Pseudo" + type;
+        this.stringKey = name;
       }
     }
 

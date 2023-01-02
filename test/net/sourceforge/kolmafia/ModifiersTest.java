@@ -47,7 +47,7 @@ public class ModifiersTest {
     // Wide-reaching unit test for getModifiers
     var cleanup = withClass(AscensionClass.AVATAR_OF_JARLSBERG);
     try (cleanup) {
-      Modifiers mods = Modifiers.getModifiers("Item", "Patriot Shield");
+      Modifiers mods = Modifiers.getModifiers("Item", ItemPool.PATRIOT_SHIELD);
 
       // Always has
       assertEquals(3, mods.get(Modifiers.EXPERIENCE));

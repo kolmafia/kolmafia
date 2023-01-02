@@ -12,20 +12,24 @@ public class ModifierExpression extends Expression {
   }
 
   public ModifierExpression(String text, String type, int key) {
-    this(text, type + ":" + key);
+    this(text, new Modifiers.Lookup(type, key));
   }
 
   public ModifierExpression(String text, String type, String key) {
-    this(text, type + ":" + key);
+    this(text, new Modifiers.Lookup(type, key));
   }
 
-  public static ModifierExpression getInstance(String text, Modifiers.Lookup lookup) {
-    ModifierExpression expr = new ModifierExpression(text, lookup);
+  public static ModifierExpression getInstance(String text, String name) {
+    ModifierExpression expr = new ModifierExpression(text, name);
     String errors = expr.getExpressionErrors();
     if (errors != null) {
       KoLmafia.updateDisplay(errors);
     }
     return expr;
+  }
+
+  public static ModifierExpression getInstance(String text, Modifiers.Lookup lookup) {
+    return ModifierExpression.getInstance(text, lookup.toString());
   }
 
   @Override

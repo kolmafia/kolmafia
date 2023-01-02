@@ -99,14 +99,14 @@ public class DebugModifiers extends Modifiers {
       DebugModifiers.buffer.append(modifier);
       ArrayList<Change> modChangers = new ArrayList<>();
       for (Lookup lookup : Modifiers.getAllModifiers()) {
-        String type = lookup.type;
-        String name = lookup.getName();
-        Modifiers mods = Modifiers.getModifiers(type, name);
+        Modifiers mods = Modifiers.getModifiers(lookup);
         if (mods == null) {
           continue;
         }
         double value = mods.get(key);
         if (value != 0.0) {
+          String type = lookup.type;
+          String name = lookup.getName();
           modChangers.add(new Change(type, name, value, mods.variable));
         }
       }
