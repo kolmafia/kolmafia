@@ -1363,7 +1363,7 @@ public class Modifiers {
       return this.cappedCombatRate();
     }
 
-    if (index < 0 || index >= DOUBLE_MODIFIERS) {
+    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
       return 0.0;
     }
 
@@ -1379,7 +1379,7 @@ public class Modifiers {
     }
 
     int index = Modifiers.findName(name);
-    if (index < 0 || index >= DOUBLE_MODIFIERS) {
+    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
       index = Modifiers.findName(Modifiers.derivedModifiers, name);
       if (index < 0 || index >= Modifiers.DERIVED_MODIFIERS) {
         return this.getBitmap(name);
@@ -1387,7 +1387,7 @@ public class Modifiers {
       return this.predict()[index];
     }
 
-    return this.get(index);
+    return this.doubles.get(index);
   }
 
   public int getRawBitmap(final int index) {
@@ -1486,6 +1486,10 @@ public class Modifiers {
   }
 
   public boolean setDouble(final int index, final double mod) {
+    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
+      return false;
+    }
+
     return this.doubles.set(index, mod);
   }
 
@@ -1539,7 +1543,7 @@ public class Modifiers {
     boolean changed = false;
     this.name = mods.name;
 
-    for (int index = 0; index < DOUBLE_MODIFIERS; ++index) {
+    for (int index = 0; index < Modifiers.DOUBLE_MODIFIERS; ++index) {
       changed |= this.setDouble(index, mods.doubles.get(index));
     }
 
@@ -1843,7 +1847,7 @@ public class Modifiers {
 
     newMods.name = lookup;
 
-    for (int i = 0; i < Modifiers.doubleModifiers.length; ++i) {
+    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
       Pattern pattern = Modifiers.doubleModifiers[i].getTagPattern();
       if (pattern == null) {
         continue;
@@ -3814,7 +3818,7 @@ public class Modifiers {
     // If only a few values are set in doubles, we instead store all modifiers in a sparse TreeMap.
     // When that map gets bigger than SPARSE_DOUBLES_MAX_SIZE, we copy it over to the dense array.
     // We track whether this is dense or not by whether sparseDoubles is null.
-    private final double[] doubles = new double[DOUBLE_MODIFIERS];
+    private final double[] doubles = new double[Modifiers.DOUBLE_MODIFIERS];
     private TreeMap<Integer, Double> sparseDoubles = new TreeMap<>();
 
     public void reset() {
@@ -3839,10 +3843,6 @@ public class Modifiers {
     }
 
     public boolean set(final int index, final double mod) {
-      if (index < 0 || index >= DOUBLE_MODIFIERS) {
-        return false;
-      }
-
       if (this.sparseDoubles != null) {
         Double oldValue =
             mod == 0.0 ? this.sparseDoubles.remove(index) : this.sparseDoubles.put(index, mod);
