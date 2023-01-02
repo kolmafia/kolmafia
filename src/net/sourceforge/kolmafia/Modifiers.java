@@ -3850,6 +3850,9 @@ public class Modifiers {
         case "Skill" -> this.intKey = SkillDatabase.getSkillId(name, true);
         default -> this.stringKey = name;
       }
+      if (List.of("Item", "Effect", "Skill").contains(type) && this.intKey == -1) {
+        throw new IllegalArgumentException("Invalid " + type + " " + name);
+      }
     }
 
     @Override

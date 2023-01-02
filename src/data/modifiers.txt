@@ -7594,7 +7594,6 @@ Effect	Vampin'	Avatar: "sexy vampire"
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 # Venomous Weapon: Causes your regular attacks to poison foes
 Effect	Velougated	Spooky Damage: +20, Spooky Spell Damage: +20
-Effect	Vented Item	Weapon Damage: +25
 Effect	Vented Spleen	Weapon Damage: +25
 Effect	Very Attractive	Combat Rate: +10
 Effect	Very Clean Guns	Ranged Damage: +20
