@@ -5341,19 +5341,23 @@ public abstract class KoLCharacter {
               Modifiers.SPOOKY_SPELL_DAMAGE,
               Modifiers.SLEAZE_SPELL_DAMAGE)) {
         newModifiers.add(
-            modifier, newModifiers.getExtra(modifier), "Effect:[" + EffectPool.BENDIN_HELL + "]");
+            modifier,
+            newModifiers.getDoublerAccumulator(modifier),
+            "Effect:[" + EffectPool.BENDIN_HELL + "]");
       }
     }
     if (effects.contains(KoLCharacter.DIRTY_PEAR)) {
       for (int modifier : List.of(Modifiers.SLEAZE_DAMAGE, Modifiers.SLEAZE_SPELL_DAMAGE)) {
         newModifiers.add(
-            modifier, newModifiers.getExtra(modifier), "Effect:[" + EffectPool.DIRTY_PEAR + "]");
+            modifier,
+            newModifiers.getDoublerAccumulator(modifier),
+            "Effect:[" + EffectPool.DIRTY_PEAR + "]");
       }
     }
     if (effects.contains(KoLCharacter.BOWLEGGED_SWAGGER)) {
       newModifiers.add(
           Modifiers.INITIATIVE,
-          newModifiers.getExtra(Modifiers.INITIATIVE),
+          newModifiers.getDoublerAccumulator(Modifiers.INITIATIVE),
           "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]");
       // Add "Physical Damage" here, when that is properly defined
     }
@@ -5371,7 +5375,7 @@ public abstract class KoLCharacter {
               Modifiers.MOX_EXPERIENCE_PCT)) {
         newModifiers.add(
             modifier,
-            newModifiers.getExtra(modifier),
+            newModifiers.getDoublerAccumulator(modifier),
             "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
       }
     }
@@ -5386,13 +5390,13 @@ public abstract class KoLCharacter {
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
       newModifiers.add(
           Modifiers.ITEMDROP,
-          newModifiers.getExtra(Modifiers.ITEMDROP),
+          newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
           "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
     }
     if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
       newModifiers.add(
           Modifiers.ITEMDROP,
-          newModifiers.getExtra(Modifiers.ITEMDROP),
+          newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
           "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
       // Add in fightMods to double Otoscope, since it's not otherwise included in extras.
       if (fightMods != null) {
