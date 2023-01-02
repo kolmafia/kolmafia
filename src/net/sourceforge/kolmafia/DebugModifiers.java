@@ -67,12 +67,12 @@ public class DebugModifiers extends Modifiers {
       return;
     }
 
-    String type = lookup.type;
+    ModifierType type = lookup.type;
     String name = lookup.getName();
     if (!lookup.equals(DebugModifiers.currentDesc) || DebugModifiers.adjustments.containsKey(key)) {
       DebugModifiers.flushRow();
     }
-    DebugModifiers.currentType = type;
+    DebugModifiers.currentType = type.camelCaseName();
     DebugModifiers.currentDesc = name;
     DebugModifiers.adjustments.put(
         key,
@@ -105,9 +105,9 @@ public class DebugModifiers extends Modifiers {
         }
         double value = mods.get(key);
         if (value != 0.0) {
-          String type = lookup.type;
+          ModifierType type = lookup.type;
           String name = lookup.getName();
-          modChangers.add(new Change(type, name, value, mods.variable));
+          modChangers.add(new Change(type.camelCaseName(), name, value, mods.variable));
         }
       }
       if (modChangers.size() > 0) {

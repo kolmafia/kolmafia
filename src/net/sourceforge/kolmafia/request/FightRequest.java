@@ -15,25 +15,10 @@ import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
-import net.sourceforge.kolmafia.AreaCombatData;
-import net.sourceforge.kolmafia.AscensionClass;
-import net.sourceforge.kolmafia.EdServantData;
-import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.MonsterData;
-import net.sourceforge.kolmafia.RequestEditorKit;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -3303,7 +3288,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Cancel any combat modifiers
-    Modifiers.overrideRemoveModifier("Generated", "fightMods");
+    Modifiers.overrideRemoveModifier(ModifierType.GENERATED, "fightMods");
 
     if (KoLCharacter.isSauceror()) {
       // Check for Soulsauce gain
@@ -8835,7 +8820,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void setFightModifiers(final String mods) {
-    Modifiers.overrideModifier("Generated", "fightMods", mods);
+    Modifiers.overrideModifier(ModifierType.GENERATED, "fightMods", mods);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }

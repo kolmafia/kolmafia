@@ -11,11 +11,11 @@ public class ModifierExpression extends Expression {
     this(text, lookup.toString());
   }
 
-  public ModifierExpression(String text, String type, int key) {
+  public ModifierExpression(String text, ModifierType type, int key) {
     this(text, new Modifiers.Lookup(type, key));
   }
 
-  public ModifierExpression(String text, String type, String key) {
+  public ModifierExpression(String text, ModifierType type, String key) {
     this(text, new Modifiers.Lookup(type, key));
   }
 

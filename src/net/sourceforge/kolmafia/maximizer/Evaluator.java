@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -990,7 +991,7 @@ public class Evaluator {
         continue;
       }
 
-      Modifiers mods = Modifiers.getModifiers("Outfit", outfit.getName());
+      Modifiers mods = Modifiers.getModifiers(ModifierType.OUTFIT, outfit.getName());
       if (mods == null) continue;
 
       switch (this.checkConstraints(mods)) {
@@ -1008,7 +1009,7 @@ public class Evaluator {
 
     int usefulSynergies = 0;
     for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
-      Modifiers mods = Modifiers.getModifiers("Synergy", entry.getKey());
+      Modifiers mods = Modifiers.getModifiers(ModifierType.SYNERGY, entry.getKey());
       int value = entry.getValue().intValue();
       if (mods == null) continue;
       double delta = this.getScore(mods) - nullScore;
@@ -1017,7 +1018,7 @@ public class Evaluator {
 
     boolean hoboPowerUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_hoboPower");
+      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_hoboPower");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         hoboPowerUseful = true;
       }
@@ -1025,7 +1026,7 @@ public class Evaluator {
 
     boolean smithsnessUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_smithsness");
+      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_smithsness");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         smithsnessUseful = true;
       }
@@ -1033,7 +1034,7 @@ public class Evaluator {
 
     boolean brimstoneUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_brimstone");
+      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_brimstone");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         brimstoneUseful = true;
       }
@@ -1041,7 +1042,7 @@ public class Evaluator {
 
     boolean cloathingUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_cloathing");
+      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_cloathing");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         cloathingUseful = true;
       }
@@ -1049,7 +1050,7 @@ public class Evaluator {
 
     boolean slimeHateUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_slimeHate");
+      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_slimeHate");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         slimeHateUseful = true;
       }
@@ -1471,7 +1472,7 @@ public class Evaluator {
         if (intrinsic.length() > 0) {
           Modifiers newMods = new Modifiers();
           newMods.add(mods);
-          newMods.add(Modifiers.getModifiers("Effect", intrinsic));
+          newMods.add(Modifiers.getModifiers(ModifierType.EFFECT, intrinsic));
           mods = newMods;
         }
         double delta = this.getScore(mods, new AdventureResult[] {item}) - nullScore;

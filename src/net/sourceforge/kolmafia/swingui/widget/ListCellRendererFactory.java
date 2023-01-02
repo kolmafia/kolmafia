@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLGUIConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -470,7 +471,8 @@ public class ListCellRendererFactory {
       int effectId = EffectDatabase.getEffectId(effectName);
       AdventureResult effect = EffectPool.get(effectId, 0);
 
-      int effectDuration = (int) Modifiers.getNumericModifier("Item", name, "Effect Duration");
+      int effectDuration =
+          (int) Modifiers.getNumericModifier(ModifierType.ITEM, name, "Effect Duration");
       stringForm.append(effectDuration).append(" ").append(effectName);
 
       int active = effect.getCount(KoLConstants.activeEffects);

@@ -5,6 +5,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -146,7 +147,7 @@ public class AccordionsCommand extends AbstractCommand {
       } else {
         // Handle items missing from modifiers.txt
         this.songDuration = 0;
-        this.modsLookup = new Modifiers.Lookup("", "");
+        this.modsLookup = new Modifiers.Lookup(ModifierType.GENERATED, "");
         this.enchantments = "";
       }
     }

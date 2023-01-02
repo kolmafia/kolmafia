@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TwoLevelHashMap<K1, K2, V> {
-  private final Map<K1, Map<K2, V>> level1 = new HashMap<>();
+public class TwoLevelEnumHashMap<K1 extends Enum<K1>, K2, V> {
+  private final Map<K1, Map<K2, V>> level1;
+
+  public TwoLevelEnumHashMap(Class<K1> k1Class) {
+    this.level1 = new EnumMap<>(k1Class);
+  }
 
   public int size() {
     return this.level1.values().stream().mapToInt(Map::size).sum();

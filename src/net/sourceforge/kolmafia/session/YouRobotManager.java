@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
@@ -213,7 +214,7 @@ public abstract class YouRobotManager {
       this.part = part;
       this.effect = effect;
       this.cost = cost;
-      this.mods = Modifiers.getModifiers("Robot", name);
+      this.mods = Modifiers.getModifiers(ModifierType.ROBOT, name);
       this.index = 0;
       this.keyword = "";
       this.usable = Usable.NONE;

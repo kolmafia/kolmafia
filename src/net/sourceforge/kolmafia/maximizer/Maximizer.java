@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -97,7 +98,7 @@ public class Maximizer {
     }
 
     Modifiers mods = Maximizer.best.calculate();
-    Modifiers.overrideModifier("Generated", "_spec", mods);
+    Modifiers.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
     return !Maximizer.best.failed;
   }
@@ -198,7 +199,7 @@ public class Maximizer {
 
     // Include skills from absorbing items in Noobcore
     if (KoLCharacter.inNoobcore()) {
-      for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType("Skill")) {
+      for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType(ModifierType.SKILL)) {
         if (!(entry.getKey() instanceof Integer skillId)) continue;
         if (skillId < 23001 || skillId > 23125) {
           continue;
@@ -239,7 +240,7 @@ public class Maximizer {
       }
 
       // Include enchantments from absorbing equipment in Noobcore
-      for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType("Item")) {
+      for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType(ModifierType.ITEM)) {
         if (!(entry.getKey() instanceof Integer itemId)) continue;
         int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
         if (absorbsLeft < 1) {
@@ -313,7 +314,8 @@ public class Maximizer {
     }
 
     if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
-      for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType("Horsery")) {
+      for (Map.Entry<Object, String> entry :
+          Modifiers.getAllModifiersOfType(ModifierType.HORSERY)) {
         if (!(entry.getKey() instanceof String name)) continue;
         // Must be available in your current path
         if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
@@ -348,7 +350,8 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
-      for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType("BoomBox")) {
+      for (Map.Entry<Object, String> entry :
+          Modifiers.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
         if (!(entry.getKey() instanceof String name)) continue;
         String cmd, text;
         MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -381,7 +384,7 @@ public class Maximizer {
       }
     }
 
-    for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType("Effect")) {
+    for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
       if (!(entry.getKey() instanceof Integer effectId)) {
         continue;
       }
@@ -607,7 +610,7 @@ public class Maximizer {
                 && Preferences.getBoolean("_fancyHotDogEaten")) {
               continue;
             } else {
-              Modifiers effMod = Modifiers.getModifiers("Item", iName);
+              Modifiers effMod = Modifiers.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
                 duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
               }

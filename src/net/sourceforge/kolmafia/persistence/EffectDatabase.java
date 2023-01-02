@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -749,7 +750,7 @@ public class EffectDatabase {
 
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
     String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<>());
-    Modifiers emods = Modifiers.parseModifiers("Effect", effectId, eEnchantments);
+    Modifiers emods = Modifiers.parseModifiers(ModifierType.EFFECT, effectId, eEnchantments);
 
     int level =
         switch (effectId) {

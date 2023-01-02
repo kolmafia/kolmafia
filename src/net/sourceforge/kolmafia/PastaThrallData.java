@@ -338,7 +338,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     this.name = "";
 
     if (this.id != 0) {
-      Modifiers mods = Modifiers.getModifiers("Thrall", this.type);
+      Modifiers mods = Modifiers.getModifiers(ModifierType.THRALL, this.type);
       if (mods != null) {
         this.mods = mods.getString("Modifiers");
         this.modsLookup = mods.getLookup();

@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -1312,7 +1313,7 @@ public class FightRequestTest {
         String html = html("request/test_fight_ask_hobo_to_dance.html");
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
-        var fightMods = Modifiers.getModifiers("Generated", "fightMods");
+        var fightMods = Modifiers.getModifiers(ModifierType.GENERATED, "fightMods");
         assertThat(fightMods.get(Modifiers.ITEMDROP), equalTo(100.0));
       }
     }
@@ -1326,7 +1327,7 @@ public class FightRequestTest {
         String html = html("request/test_fight_ask_hobo_to_joke.html");
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
-        var fightMods = Modifiers.getModifiers("Generated", "fightMods");
+        var fightMods = Modifiers.getModifiers(ModifierType.GENERATED, "fightMods");
         assertThat(fightMods.get(Modifiers.MEATDROP), equalTo(100.0));
       }
     }

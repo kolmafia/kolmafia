@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -526,11 +527,11 @@ public class StorageRequest extends TransferItemRequest {
       return false;
     }
 
-    return Modifiers.getBooleanModifier("Item", itemId, "Free Pull");
+    return Modifiers.getBooleanModifier(ModifierType.ITEM, itemId, "Free Pull");
   }
 
   public static boolean isNoPull(final AdventureResult item) {
-    return Modifiers.getBooleanModifier("Item", item.getItemId(), "No Pull");
+    return Modifiers.getBooleanModifier(ModifierType.ITEM, item.getItemId(), "No Pull");
   }
 
   @Override

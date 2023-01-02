@@ -5,6 +5,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -415,7 +416,7 @@ public class TableCellFactory {
     if (name.length() > 0) {
       Modifiers newMods = new Modifiers();
       newMods.add(mods);
-      newMods.add(Modifiers.getModifiers("Effect", name));
+      newMods.add(Modifiers.getModifiers(ModifierType.EFFECT, name));
       mods = newMods;
     }
 

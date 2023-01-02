@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -1874,7 +1875,7 @@ public class Player {
     return new Cleanups(NPCStoreDatabase::reset);
   }
 
-  public static Cleanups withOverrideModifiers(String type, String key, String value) {
+  public static Cleanups withOverrideModifiers(ModifierType type, String key, String value) {
     Modifiers.overrideModifier(type, key, value);
     return new Cleanups(() -> Modifiers.overrideRemoveModifier(type, key));
   }
