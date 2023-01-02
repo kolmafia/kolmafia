@@ -1328,6 +1328,7 @@ public abstract class KoLCharacter {
   }
 
   public static final AdventureResult ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+  public static final AdventureResult DIRTY_PEAR = EffectPool.get(EffectPool.DIRTY_PEAR);
   public static final AdventureResult BENDIN_HELL = EffectPool.get(EffectPool.BENDIN_HELL);
   public static final AdventureResult BOWLEGGED_SWAGGER =
       EffectPool.get(EffectPool.BOWLEGGED_SWAGGER);
@@ -5171,7 +5172,8 @@ public abstract class KoLCharacter {
     // Miscellaneous
 
     newModifiers.add(Modifiers.getModifiers("Generated", "_userMods"));
-    newModifiers.add(Modifiers.getModifiers("Generated", "fightMods"));
+    Modifiers fightMods = Modifiers.getModifiers("Generated", "fightMods");
+    newModifiers.add(fightMods);
 
     // Temporary custom modifier
     if (custom != null) {
@@ -5326,80 +5328,61 @@ public abstract class KoLCharacter {
 
     // These depend on the modifiers from everything else, so they must be done last
     if (effects.contains(KoLCharacter.BENDIN_HELL)) {
-      newModifiers.add(
-          Modifiers.HOT_DAMAGE,
-          newModifiers.getExtra(Modifiers.HOT_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.COLD_DAMAGE,
-          newModifiers.getExtra(Modifiers.COLD_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.STENCH_DAMAGE,
-          newModifiers.getExtra(Modifiers.STENCH_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SPOOKY_DAMAGE,
-          newModifiers.getExtra(Modifiers.SPOOKY_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SLEAZE_DAMAGE,
-          newModifiers.getExtra(Modifiers.SLEAZE_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.HOT_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.HOT_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.COLD_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.COLD_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.STENCH_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.STENCH_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SPOOKY_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.SPOOKY_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SLEAZE_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.SLEAZE_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
+      for (int modifier :
+          List.of(
+              Modifiers.HOT_DAMAGE,
+              Modifiers.COLD_DAMAGE,
+              Modifiers.STENCH_DAMAGE,
+              Modifiers.SPOOKY_DAMAGE,
+              Modifiers.SLEAZE_DAMAGE,
+              Modifiers.HOT_SPELL_DAMAGE,
+              Modifiers.COLD_SPELL_DAMAGE,
+              Modifiers.STENCH_SPELL_DAMAGE,
+              Modifiers.SPOOKY_SPELL_DAMAGE,
+              Modifiers.SLEAZE_SPELL_DAMAGE)) {
+        newModifiers.add(
+            modifier,
+            newModifiers.getDoublerAccumulator(modifier),
+            "Effect:[" + EffectPool.BENDIN_HELL + "]");
+      }
+    }
+    if (effects.contains(KoLCharacter.DIRTY_PEAR)) {
+      for (int modifier : List.of(Modifiers.SLEAZE_DAMAGE, Modifiers.SLEAZE_SPELL_DAMAGE)) {
+        newModifiers.add(
+            modifier,
+            newModifiers.getDoublerAccumulator(modifier),
+            "Effect:[" + EffectPool.DIRTY_PEAR + "]");
+      }
     }
     if (effects.contains(KoLCharacter.BOWLEGGED_SWAGGER)) {
       newModifiers.add(
           Modifiers.INITIATIVE,
-          newModifiers.getExtra(Modifiers.INITIATIVE),
+          newModifiers.getDoublerAccumulator(Modifiers.INITIATIVE),
           "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]");
       // Add "Physical Damage" here, when that is properly defined
     }
     if (equipment[EquipmentManager.SHIRT].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
         && (Preferences.getInteger("garbageShirtCharge") > 0
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
-      newModifiers.add(
-          Modifiers.EXPERIENCE,
-          newModifiers.getExtra(Modifiers.EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MUS_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MUS_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MYS_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MYS_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MOX_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MOX_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+      for (int modifier :
+          List.of(
+              Modifiers.EXPERIENCE,
+              Modifiers.MUS_EXPERIENCE,
+              Modifiers.MYS_EXPERIENCE,
+              Modifiers.MOX_EXPERIENCE,
+              Modifiers.MUS_EXPERIENCE_PCT,
+              Modifiers.MYS_EXPERIENCE_PCT,
+              Modifiers.MOX_EXPERIENCE_PCT)) {
+        newModifiers.add(
+            modifier,
+            newModifiers.getDoublerAccumulator(modifier),
+            "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+      }
     }
-    if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
-      newModifiers.add(
-          Modifiers.ITEMDROP,
-          newModifiers.getExtra(Modifiers.ITEMDROP),
-          "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
-    }
+
+    // Some things are doubled by Squint and not champagne bottle, like Otoscope. So do champagne
+    // first and then add in any that aren't doubled by champagne (should just be fightMods).
+    // TOOD: double-check mummery, friar plants, meteor post-combat, crystal ball post-combat.
     if ((equipment[EquipmentManager.OFFHAND].getItemId() == ItemPool.BROKEN_CHAMPAGNE
             || equipment[EquipmentManager.WEAPON].getItemId() == ItemPool.BROKEN_CHAMPAGNE
             || equipment[EquipmentManager.FAMILIAR].getItemId() == ItemPool.BROKEN_CHAMPAGNE)
@@ -5407,8 +5390,21 @@ public abstract class KoLCharacter {
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
       newModifiers.add(
           Modifiers.ITEMDROP,
-          newModifiers.getExtra(Modifiers.ITEMDROP),
+          newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
           "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+    }
+    if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
+      newModifiers.add(
+          Modifiers.ITEMDROP,
+          newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
+          "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
+      // Add in fightMods to double Otoscope, since it's not otherwise included in extras.
+      if (fightMods != null) {
+        newModifiers.add(
+            Modifiers.ITEMDROP,
+            fightMods.get(Modifiers.ITEMDROP),
+            "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+      }
     }
 
     // Determine whether or not data has changed

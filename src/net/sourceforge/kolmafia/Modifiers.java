@@ -1297,7 +1297,7 @@ public class Modifiers {
   private final String[] strings;
   private ArrayList<Indexed<ModifierExpression>> expressions;
   // These are used for Steely-Eyed Squint and so on
-  private final double[] extras;
+  private final double[] doublerAccumulators;
 
   public Modifiers() {
     // Assume modifiers are variable until proven otherwise.
@@ -1305,7 +1305,7 @@ public class Modifiers {
     this.doubles = new double[Modifiers.DOUBLE_MODIFIERS];
     this.bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
     this.strings = new String[Modifiers.STRING_MODIFIERS];
-    this.extras = new double[Modifiers.DOUBLE_MODIFIERS];
+    this.doublerAccumulators = new double[Modifiers.DOUBLE_MODIFIERS];
     this.reset();
   }
 
@@ -1470,22 +1470,22 @@ public class Modifiers {
     return this.strings[index];
   }
 
-  public double getExtra(final int index) {
-    if (index < 0 || index >= this.extras.length) {
+  public double getDoublerAccumulator(final int index) {
+    if (index < 0 || index >= this.doublerAccumulators.length) {
       return -9999.0;
     }
-    return this.extras[index];
+    return this.doublerAccumulators[index];
   }
 
-  public double getExtra(final String name) {
-    // extras uses the same indexes as doubles, so the same lookup will work
+  public double getDoublerAccumulator(final String name) {
+    // doublerAccumulators uses the same indexes as doubles, so the same lookup will work
     int index = findName(name);
-    if (index < 0 || index >= this.extras.length) {
+    if (index < 0 || index >= this.doublerAccumulators.length) {
       // For now, make it obvious that something went wrong
       return -9999.0;
     }
 
-    return this.extras[index];
+    return this.doublerAccumulators[index];
   }
 
   public boolean set(final int index, final double mod) {
@@ -1577,6 +1577,21 @@ public class Modifiers {
     return changed;
   }
 
+  private static final Set<String> doubledBySquintChampagne =
+      Set.of(
+          "Ballroom",
+          "Bjorn",
+          "Effect",
+          "Item",
+          "Local Vote",
+          "Outfit",
+          "Path",
+          "Sign",
+          "Skill",
+          "Synergy",
+          "Throne",
+          "UnbreakableUmbrella");
+
   public void add(final int index, final double mod, final String desc) {
     switch (index) {
       case MANA_COST:
@@ -1602,22 +1617,8 @@ public class Modifiers {
         break;
       case ITEMDROP:
         String type = Modifiers.getTypeFromLookup(desc);
-        if (type.equals("Ballroom")
-            || type.equals("Bjorn")
-            || type.equals("Effect")
-            || type.equals("Item")
-            || type.equals("Local Vote")
-            || type.equals("Outfit")
-            || type.equals("Path")
-            || type.equals("Sign")
-            || type.equals("Skill")
-            || type.equals("Synergy")
-            || type.equals("Throne")
-            || type.equals("UnbreakableUmbrella")) {
-          String name = Modifiers.getNameFromLookup(desc);
-          if (!name.equals("Steely-Eyed Squint") && !name.equals("broken champagne bottle")) {
-            this.extras[index] += mod;
-          }
+        if (Modifiers.doubledBySquintChampagne.contains(type)) {
+          this.doublerAccumulators[index] += mod;
         }
         this.doubles[index] += mod;
         break;
@@ -1632,20 +1633,17 @@ public class Modifiers {
       case STENCH_SPELL_DAMAGE:
       case SPOOKY_SPELL_DAMAGE:
       case SLEAZE_SPELL_DAMAGE:
-        String name = Modifiers.getNameFromLookup(desc);
-        if (!name.equals("Bendin' Hell") && !name.equals("Bow-Legged Swagger")) {
-          this.extras[index] += mod;
-        }
-        this.doubles[index] += mod;
-        break;
       case EXPERIENCE:
       case MUS_EXPERIENCE:
       case MYS_EXPERIENCE:
       case MOX_EXPERIENCE:
-        name = Modifiers.getNameFromLookup(desc);
-        if (!name.equals("makeshift garbage shirt")) {
-          this.extras[index] += mod;
-        }
+      case MUS_EXPERIENCE_PCT:
+      case MYS_EXPERIENCE_PCT:
+      case MOX_EXPERIENCE_PCT:
+        // doublerAccumulators acts as an accumulator for modifiers that are possibly doubled by
+        // doublers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty Pear.
+        // TODO: Figure out which ones aren't doubled and exclude them. BoomBox?
+        this.doublerAccumulators[index] += mod;
         this.doubles[index] += mod;
         break;
       case FAMILIAR_ACTION_BONUS:
