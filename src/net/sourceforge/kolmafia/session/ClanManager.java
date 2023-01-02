@@ -154,11 +154,9 @@ public abstract class ClanManager {
         // All of this stuff has already been checked, but hot dogs and
         // such need to be re-added as concoctions for the returned-to clan
         for (AdventureResult item : ClanManager.getClanLounge()) {
-          if (ClanLoungeRequest.isSpeakeasyDrink(item.getName())) {
-            Concoction c = ClanLoungeRequest.addSpeakeasyDrink(item.getName());
-            if (c != null) {
-              ConcoctionDatabase.getUsables().add(c);
-            }
+          String name = item.getName();
+          if (ClanLoungeRequest.isSpeakeasyDrink(name)) {
+            ClanLoungeRequest.addSpeakeasyDrink(name);
           } else if (ClanLoungeRequest.isFloundryItem(item)) {
             Concoction c = ConcoctionPool.get(item);
             c.setMixingMethod(CraftingType.FLOUNDRY);
