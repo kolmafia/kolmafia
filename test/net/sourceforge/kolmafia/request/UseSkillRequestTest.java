@@ -204,7 +204,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Drench Yourself in Sweat", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
         req.run();
 
         var requests = getRequests();
@@ -223,7 +223,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Sweat Out Some Booze", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.SWEAT_OUT_BOOZE, 1);
         req.run();
 
         var requests = getRequests();
@@ -240,7 +240,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Drench Yourself in Sweat", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
         req.run();
 
         var requests = getRequests();

@@ -1031,14 +1031,14 @@ public class FamiliarTrainingFrame extends GenericFrame {
     }
 
     if (FamiliarTrainingFrame.leashAvailable && FamiliarTrainingFrame.leashActive == 0) {
-      RequestThread.postRequest(UseSkillRequest.getInstance("leash of linguini", 1));
+      RequestThread.postRequest(UseSkillRequest.getInstance(SkillPool.LEASH_OF_LINGUINI, 1));
       if (familiar.getModifiedWeight() >= weight) {
         return true;
       }
     }
 
     if (FamiliarTrainingFrame.empathyAvailable && FamiliarTrainingFrame.empathyActive == 0) {
-      RequestThread.postRequest(UseSkillRequest.getInstance("empathy of the newt", 1));
+      RequestThread.postRequest(UseSkillRequest.getInstance(SkillPool.EMPATHY_OF_THE_NEWT, 1));
       if (familiar.getModifiedWeight() >= weight) {
         return true;
       }
