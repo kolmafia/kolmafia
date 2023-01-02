@@ -1303,20 +1303,21 @@ public class Modifiers {
 
   public Modifiers() {
     Arrays.fill(this.strings, "");
+    // Everything else should be initialized above.
   }
 
   public Modifiers(Modifiers copy) {
-    this();
     this.set(copy);
   }
 
-  public Modifiers(String name, ModifierList mods) {
+  public Modifiers(String name) {
     this();
     this.name = name;
+  }
 
-    for (Modifier m : mods) {
-      this.setModifier(m);
-    }
+  public Modifiers(String name, ModifierList mods) {
+    this(name);
+    mods.forEach(this::setModifier);
   }
 
   public String getName() {
@@ -1565,8 +1566,7 @@ public class Modifiers {
     switch (index) {
       case MANA_COST:
         // Total Mana Cost reduction cannot exceed 3
-        this.doubles.add(index, mod);
-        if (this.doubles.get(index) < -3) {
+        if (this.doubles.add(index, mod) < -3) {
           this.doubles.set(index, -3);
         }
         break;
@@ -2486,7 +2486,7 @@ public class Modifiers {
 
   public void applyPassiveModifiers(final boolean debug) {
     if (Modifiers.cachedPassiveModifiers == null) {
-      Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive", new ModifierList());
+      Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive");
       PreferenceListenerRegistry.registerPreferenceListener(
           new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
     }
