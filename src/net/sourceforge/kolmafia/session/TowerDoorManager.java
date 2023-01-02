@@ -493,7 +493,7 @@ public abstract class TowerDoorManager {
         && !Preferences.getBoolean("lockPicked")) {
       int previous = Preferences.getInteger("choiceAdventure1414");
       try {
-        UseSkillRequest request = UseSkillRequest.getInstance("Lock Picking");
+        UseSkillRequest request = UseSkillRequest.getInstance(SkillPool.LOCK_PICKING);
         Preferences.setInteger("choiceAdventure1414", option);
         RequestThread.postRequest(request);
         if (!InventoryManager.hasItem(key)) {

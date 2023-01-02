@@ -3647,7 +3647,7 @@ public abstract class ChoiceControl {
             }
             if (!songChosen.equals("")) {
               if (!KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
-                KoLCharacter.addAvailableSkill("Sing Along");
+                KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
               }
               if (!Preferences.getString("boomBoxSong").equals(songChosen)) {
                 Preferences.setString("boomBoxSong", songChosen);
@@ -3658,7 +3658,7 @@ public abstract class ChoiceControl {
               }
             } else {
               if (KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
-                KoLCharacter.removeAvailableSkill("Sing Along");
+                KoLCharacter.removeAvailableSkill(SkillPool.SING_ALONG);
               }
               if (!Preferences.getString("boomBoxSong").equals("")) {
                 Preferences.setString("boomBoxSong", "");
