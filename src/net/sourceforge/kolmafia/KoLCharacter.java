@@ -5349,17 +5349,13 @@ public abstract class KoLCharacter {
               Modifiers.SPOOKY_SPELL_DAMAGE,
               Modifiers.SLEAZE_SPELL_DAMAGE)) {
         newModifiers.add(
-            modifier,
-            newModifiers.getDoublerAccumulator(modifier),
-            ModifierType.EFFECT);
+            modifier, newModifiers.getDoublerAccumulator(modifier), ModifierType.EFFECT);
       }
     }
     if (effects.contains(KoLCharacter.DIRTY_PEAR)) {
       for (int modifier : List.of(Modifiers.SLEAZE_DAMAGE, Modifiers.SLEAZE_SPELL_DAMAGE)) {
         newModifiers.add(
-            modifier,
-            newModifiers.getDoublerAccumulator(modifier),
-            ModifierType.EFFECT);
+            modifier, newModifiers.getDoublerAccumulator(modifier), ModifierType.EFFECT);
       }
     }
     if (effects.contains(KoLCharacter.BOWLEGGED_SWAGGER)) {
@@ -5381,10 +5377,7 @@ public abstract class KoLCharacter {
               Modifiers.MUS_EXPERIENCE_PCT,
               Modifiers.MYS_EXPERIENCE_PCT,
               Modifiers.MOX_EXPERIENCE_PCT)) {
-        newModifiers.add(
-            modifier,
-            newModifiers.getDoublerAccumulator(modifier),
-            ModifierType.ITEM);
+        newModifiers.add(modifier, newModifiers.getDoublerAccumulator(modifier), ModifierType.ITEM);
       }
     }
 
@@ -5408,10 +5401,7 @@ public abstract class KoLCharacter {
           ModifierType.EFFECT);
       // Add in fightMods to double Otoscope, since it's not otherwise included in extras.
       if (fightMods != null) {
-        newModifiers.add(
-            Modifiers.ITEMDROP,
-            fightMods.get(Modifiers.ITEMDROP),
-            ModifierType.ITEM);
+        newModifiers.add(Modifiers.ITEMDROP, fightMods.get(Modifiers.ITEMDROP), ModifierType.ITEM);
       }
     }
 

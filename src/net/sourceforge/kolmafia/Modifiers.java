@@ -1833,7 +1833,7 @@ public class Modifiers {
   }
 
   public static final Modifiers getModifiers(final ModifierType type, final int id) {
-    return Modifiers.getModifiersInternal(type, id);
+    return Modifiers.getModifiers(new Lookup(type, id));
   }
 
   public static final Modifiers getModifiers(final ModifierType type, final String name) {
@@ -1841,12 +1841,9 @@ public class Modifiers {
   }
 
   public static final Modifiers getModifiers(final Lookup lookup) {
-    return Modifiers.getModifiersInternal(lookup.type, lookup.getKey());
-  }
-
-  private static final Modifiers getModifiersInternal(ModifierType type, final Object key) {
     ModifierType changeType = null;
-    String name = key.toString();
+    ModifierType type = lookup.type;
+    Object key = lookup.getKey();
     if (type == ModifierType.BJORN) {
       changeType = type;
       type = ModifierType.THRONE;
@@ -1855,8 +1852,6 @@ public class Modifiers {
     Modifiers modifiers = Modifiers.modifiersByName.get(type, key);
 
     if (modifiers == null) {
-      Lookup lookup = new Lookup(type, key);
-
       String modifierString = Modifiers.modifierStringsByName.get(type, key);
 
       if (modifierString == null) {
@@ -1866,7 +1861,7 @@ public class Modifiers {
       modifiers = Modifiers.parseModifiers(lookup, modifierString);
 
       if (changeType != null) {
-        modifiers.originalLookup = new Lookup(changeType, name);
+        modifiers.originalLookup = new Lookup(changeType, key);
       }
 
       modifiers.variable = modifiers.override(lookup);
@@ -1875,9 +1870,9 @@ public class Modifiers {
     }
 
     if (modifiers.variable) {
-      modifiers.override(new Lookup(type, key));
+      modifiers.override(lookup);
       if (changeType != null) {
-        modifiers.originalLookup = new Lookup(changeType, name);
+        modifiers.originalLookup = new Lookup(changeType, key);
       }
     }
 
@@ -2566,7 +2561,9 @@ public class Modifiers {
               .filter(UseSkillRequest::isEffective)
               .map(skill -> getModifiers(ModifierType.SKILL, skill.getSkillId()))
               .filter(Objects::nonNull)
-              .collect(Collectors.partitioningBy(modifiers -> modifiers.override(modifiers.getLookup()))));
+              .collect(
+                  Collectors.partitioningBy(
+                      modifiers -> modifiers.override(modifiers.getLookup()))));
 
       // Recompute sum of cached constant passive skills.
       Modifiers.cachedPassiveModifiers.reset();
@@ -3887,8 +3884,8 @@ public class Modifiers {
     @Override
     public String toString() {
       return switch (this.type) {
-        case ITEM, EFFECT, SKILL -> this.type + ":[" + this.intKey + "]";
-        default -> this.type + ":" + this.stringKey;
+        case ITEM, EFFECT, SKILL -> this.type.camelCaseName() + ":[" + this.intKey + "]";
+        default -> this.type.camelCaseName() + ":" + this.stringKey;
       };
     }
 

@@ -1880,7 +1880,7 @@ public class Player {
     return new Cleanups(() -> Modifiers.overrideRemoveModifier(type, key));
   }
 
-  public static Cleanups withOverrideModifiers(String type, int key, String value) {
+  public static Cleanups withOverrideModifiers(ModifierType type, int key, String value) {
     Modifiers.overrideModifier(type, key, value);
     return new Cleanups(() -> Modifiers.overrideRemoveModifier(type, key));
   }
