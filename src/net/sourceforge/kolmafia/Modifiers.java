@@ -1617,8 +1617,7 @@ public class Modifiers {
         break;
       case ITEMDROP:
         String type = Modifiers.getTypeFromLookup(desc);
-        if (Modifiers.doubledBySquintChampagne.contains(type)
-            || desc.equals("Generated:fightMods")) {
+        if (Modifiers.doubledBySquintChampagne.contains(type)) {
           this.extras[index] += mod;
         }
         this.doubles[index] += mod;
@@ -1641,8 +1640,8 @@ public class Modifiers {
       case MUS_EXPERIENCE_PCT:
       case MYS_EXPERIENCE_PCT:
       case MOX_EXPERIENCE_PCT:
-        // Possibly doubled by makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or
-        // Dirty Pear.
+        // extras acts as an accumulator for modifiers that are possibly doubled by doublers like
+        // makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty Pear.
         // TODO: Figure out which ones aren't doubled and exclude them. BoomBox?
         this.extras[index] += mod;
         this.doubles[index] += mod;

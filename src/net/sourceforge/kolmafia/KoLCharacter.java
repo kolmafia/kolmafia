@@ -5372,8 +5372,8 @@ public abstract class KoLCharacter {
     }
 
     // Some things are doubled by Squint and not champagne bottle, like Otoscope. So do champagne
-    // first and subtract out the ones that aren't doubled (should just be fightMods).
-    // TOOD: figure out whether mummery is doubled.
+    // first and then add in any that aren't doubled by champagne (should just be fightMods).
+    // TOOD: double-check mummery, friar plants, meteor post-combat, crystal ball post-combat.
     if ((equipment[EquipmentManager.OFFHAND].getItemId() == ItemPool.BROKEN_CHAMPAGNE
             || equipment[EquipmentManager.WEAPON].getItemId() == ItemPool.BROKEN_CHAMPAGNE
             || equipment[EquipmentManager.FAMILIAR].getItemId() == ItemPool.BROKEN_CHAMPAGNE)
@@ -5383,19 +5383,19 @@ public abstract class KoLCharacter {
           Modifiers.ITEMDROP,
           newModifiers.getExtra(Modifiers.ITEMDROP),
           "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
-      // Subtract fightMods back out.
-      if (fightMods != null) {
-        newModifiers.add(
-            Modifiers.ITEMDROP,
-            -fightMods.get(Modifiers.ITEMDROP),
-            "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
-      }
     }
     if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
       newModifiers.add(
           Modifiers.ITEMDROP,
           newModifiers.getExtra(Modifiers.ITEMDROP),
           "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
+      // Add in fightMods to double Otoscope, since it's not otherwise included in extras.
+      if (fightMods != null) {
+        newModifiers.add(
+            Modifiers.ITEMDROP,
+            fightMods.get(Modifiers.ITEMDROP),
+            "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+      }
     }
 
     // Determine whether or not data has changed
