@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia;
 
-import static net.sourceforge.kolmafia.Modifiers.MUS_EXPERIENCE_PCT;
-
 import java.awt.Taskbar;
 import java.util.Arrays;
 import java.util.Collections;
@@ -5301,7 +5299,7 @@ public abstract class KoLCharacter {
       double finalExp = exp;
       double[] statExp =
           IntStream.range(0, 3)
-              .mapToDouble(i -> newModifiers.get(MUS_EXPERIENCE_PCT + i) / 100.0f)
+              .mapToDouble(i -> newModifiers.get(Modifiers.MUS_EXPERIENCE_PCT + i) / 100.0f)
               .map(expPct -> (finalBaseExp + finalExp) * (1 + expPct))
               .toArray();
 
