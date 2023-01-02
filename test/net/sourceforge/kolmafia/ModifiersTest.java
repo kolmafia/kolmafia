@@ -473,7 +473,7 @@ public class ModifiersTest {
         assertEquals(40, speculate.get(Modifiers.HP));
         // Suppose we want to replace the reinforced beaded headband (+40 HP)
         // with a nurse's hat (+300 HP)
-        speculate.set(Modifiers.HP, 300.0);
+        speculate.setDouble(Modifiers.HP, 300.0);
 
         int[] speculateStats = speculate.predict();
         assertEquals(476, speculateStats[Modifiers.BUFFED_HP]);
@@ -639,7 +639,7 @@ public class ModifiersTest {
         assertEquals(40, speculate.get(Modifiers.MP));
         // Suppose we want to replace the beer helmet (+40 HP)
         // with Covers-Your-Head (+100 MP)
-        speculate.set(Modifiers.MP, 100.0);
+        speculate.setDouble(Modifiers.MP, 100.0);
 
         int[] speculateStats = speculate.predict();
         assertEquals(186, speculateStats[Modifiers.BUFFED_MP]);
