@@ -1557,7 +1557,7 @@ public class Modifiers {
 
     String[] copyStrings = mods.strings;
     for (int index = 0; index < this.strings.length; ++index) {
-      if (!this.strings[index].equals(copyStrings[index])) {
+      if (this.strings[index] == null || !this.strings[index].equals(copyStrings[index])) {
         this.strings[index] = copyStrings[index];
         changed = true;
       }
