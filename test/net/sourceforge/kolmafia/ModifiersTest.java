@@ -400,6 +400,30 @@ public class ModifiersTest {
   }
 
   @Nested
+  class ExperienceDoublers {
+    @BeforeAll
+    public static void setup() {
+      Preferences.reset("ExperienceDoublers");
+    }
+
+    @Test
+    public void makeshiftGarbageShirtDoublesEffect() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.SHIRT, ItemPool.MAKESHIFT_GARBAGE_SHIRT),
+              withProperty("garbageShirtCharge", 37),
+              withEffect(EffectPool.FEELING_LOST));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        // 3 from garbage shirt, 30 from Feeling Lost, *2 = 66
+        assertThat(mods.get(Modifiers.EXPERIENCE), equalTo(66.0));
+      }
+    }
+  }
+
+  @Nested
   class BuffedHP {
     @AfterEach
     public void afterEach() {
