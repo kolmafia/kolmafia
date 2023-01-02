@@ -5361,7 +5361,7 @@ public abstract class KoLCharacter {
               Modifiers.MUS_EXPERIENCE,
               Modifiers.MYS_EXPERIENCE,
               Modifiers.MOX_EXPERIENCE,
-              MUS_EXPERIENCE_PCT,
+              Modifiers.MUS_EXPERIENCE_PCT,
               Modifiers.MYS_EXPERIENCE_PCT,
               Modifiers.MOX_EXPERIENCE_PCT)) {
         newModifiers.add(
