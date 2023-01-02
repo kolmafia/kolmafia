@@ -155,8 +155,10 @@ public abstract class ClanManager {
         // such need to be re-added as concoctions for the returned-to clan
         for (AdventureResult item : ClanManager.getClanLounge()) {
           if (ClanLoungeRequest.isSpeakeasyDrink(item.getName())) {
-            ConcoctionDatabase.getUsables()
-                .add(ClanLoungeRequest.addSpeakeasyDrink(item.getName()));
+            Concoction c = ClanLoungeRequest.addSpeakeasyDrink(item.getName());
+            if (c != null) {
+              ConcoctionDatabase.getUsables().add(c);
+            }
           } else if (ClanLoungeRequest.isFloundryItem(item)) {
             Concoction c = ConcoctionPool.get(item);
             c.setMixingMethod(CraftingType.FLOUNDRY);
@@ -165,7 +167,9 @@ public abstract class ClanManager {
         }
         for (String hotdog : ClanManager.getHotdogs()) {
           Concoction c = ClanLoungeRequest.addHotDog(hotdog);
-          ConcoctionDatabase.getUsables().add(c);
+          if (c != null) {
+            ConcoctionDatabase.getUsables().add(c);
+          }
         }
         ConcoctionDatabase.refreshConcoctions();
         KoLCharacter.recalculateAdjustments();
