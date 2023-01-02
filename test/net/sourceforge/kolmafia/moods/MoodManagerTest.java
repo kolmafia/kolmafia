@@ -13,7 +13,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -176,11 +176,11 @@ class MoodManagerTest {
       MoodManager.loadSettings(reader);
     }
     // Give Character skills
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("empathy of the newt"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("fat leon's phat loot lyric"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("leash of linguini"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("the polka of plenty"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("singer's faithful ocelot"));
+    KoLCharacter.addAvailableSkill(SkillPool.EMPATHY_OF_THE_NEWT);
+    KoLCharacter.addAvailableSkill(SkillPool.PHAT_LOOT);
+    KoLCharacter.addAvailableSkill(SkillPool.LEASH_OF_LINGUINI);
+    KoLCharacter.addAvailableSkill(SkillPool.POLKA_OF_PLENTY);
+    KoLCharacter.addAvailableSkill(SkillPool.SINGERS_FAITHFUL_OCELOT);
     // Get the cost of maintaining the current mood
     assertEquals(60L, MoodManager.getMaintenanceCost(), "Unexpected cost");
   }
@@ -238,10 +238,10 @@ class MoodManagerTest {
     MoodManager.maximalSet();
     assertEquals(0, MoodManager.getTriggers("default").size(), "Triggers already present");
     // Acquire some skills
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("empathy of the newt"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("fat leon's phat loot lyric"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("leash of linguini"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("the polka of plenty"));
+    KoLCharacter.addAvailableSkill(SkillPool.EMPATHY_OF_THE_NEWT);
+    KoLCharacter.addAvailableSkill(SkillPool.PHAT_LOOT);
+    KoLCharacter.addAvailableSkill(SkillPool.LEASH_OF_LINGUINI);
+    KoLCharacter.addAvailableSkill(SkillPool.POLKA_OF_PLENTY);
     MoodManager.maximalSet();
     assertEquals(4, MoodManager.getTriggers("default").size(), "Triggers already present");
   }

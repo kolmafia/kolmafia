@@ -353,7 +353,7 @@ public class Expression {
         case '\u0093' -> {
           Modifiers mods = KoLCharacter.getCurrentModifiers();
           String modName = (String) this.literals.get((int) s[--sp]);
-          v = mods.getExtra(modName);
+          v = mods.getDoublerAccumulator(modName);
         }
           // Valid with ModifierExpression:
         case '\u0094' -> v = KoLCharacter.canInteract() ? 1 : 0;

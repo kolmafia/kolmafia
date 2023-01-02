@@ -1873,4 +1873,9 @@ public class Player {
 
     return new Cleanups(NPCStoreDatabase::reset);
   }
+
+  public static Cleanups withOverrideModifiers(String lookup, String value) {
+    Modifiers.overrideModifier(lookup, value);
+    return new Cleanups(() -> Modifiers.overrideRemoveModifier(lookup));
+  }
 }

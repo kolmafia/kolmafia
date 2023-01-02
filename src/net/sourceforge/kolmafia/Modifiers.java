@@ -65,7 +65,7 @@ public class Modifiers {
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
-  private static final Map<Boolean, List<UseSkillRequest>> availablePassiveSkillsByVariable =
+  private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
       new TreeMap<>();
   private static Modifiers cachedPassiveModifiers = null;
   private static final Map<String, Integer> synergies = new HashMap<>();
@@ -1299,7 +1299,7 @@ public class Modifiers {
   private final String[] strings = new String[Modifiers.STRING_MODIFIERS];
   private ArrayList<Indexed<ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
-  private final double[] extras = new double[Modifiers.DOUBLE_MODIFIERS];
+  private final double[] doublerAccumulators = new double[Modifiers.DOUBLE_MODIFIERS];
 
   public Modifiers() {
     Arrays.fill(this.strings, "");
@@ -1467,22 +1467,22 @@ public class Modifiers {
     return this.strings[index];
   }
 
-  public double getExtra(final int index) {
-    if (index < 0 || index >= this.extras.length) {
+  public double getDoublerAccumulator(final int index) {
+    if (index < 0 || index >= this.doublerAccumulators.length) {
       return -9999.0;
     }
-    return this.extras[index];
+    return this.doublerAccumulators[index];
   }
 
-  public double getExtra(final String name) {
-    // extras uses the same indexes as doubles, so the same lookup will work
+  public double getDoublerAccumulator(final String name) {
+    // doublerAccumulators uses the same indexes as doubles, so the same lookup will work
     int index = findName(name);
-    if (index < 0 || index >= this.extras.length) {
+    if (index < 0 || index >= this.doublerAccumulators.length) {
       // For now, make it obvious that something went wrong
       return -9999.0;
     }
 
-    return this.extras[index];
+    return this.doublerAccumulators[index];
   }
 
   public boolean setDouble(final int index, final double mod) {
@@ -1566,6 +1566,21 @@ public class Modifiers {
     return changed;
   }
 
+  private static final Set<String> doubledBySquintChampagne =
+      Set.of(
+          "Ballroom",
+          "Bjorn",
+          "Effect",
+          "Item",
+          "Local Vote",
+          "Outfit",
+          "Path",
+          "Sign",
+          "Skill",
+          "Synergy",
+          "Throne",
+          "UnbreakableUmbrella");
+
   public void add(final int index, final double mod, final String desc) {
     switch (index) {
       case MANA_COST:
@@ -1591,22 +1606,8 @@ public class Modifiers {
         break;
       case ITEMDROP:
         String type = Modifiers.getTypeFromLookup(desc);
-        if (type.equals("Ballroom")
-            || type.equals("Bjorn")
-            || type.equals("Effect")
-            || type.equals("Item")
-            || type.equals("Local Vote")
-            || type.equals("Outfit")
-            || type.equals("Path")
-            || type.equals("Sign")
-            || type.equals("Skill")
-            || type.equals("Synergy")
-            || type.equals("Throne")
-            || type.equals("UnbreakableUmbrella")) {
-          String name = Modifiers.getNameFromLookup(desc);
-          if (!name.equals("Steely-Eyed Squint") && !name.equals("broken champagne bottle")) {
-            this.extras[index] += mod;
-          }
+        if (Modifiers.doubledBySquintChampagne.contains(type)) {
+          this.doublerAccumulators[index] += mod;
         }
         this.doubles.add(index, mod);
         break;
@@ -1621,20 +1622,17 @@ public class Modifiers {
       case STENCH_SPELL_DAMAGE:
       case SPOOKY_SPELL_DAMAGE:
       case SLEAZE_SPELL_DAMAGE:
-        String name = Modifiers.getNameFromLookup(desc);
-        if (!name.equals("Bendin' Hell") && !name.equals("Bow-Legged Swagger")) {
-          this.extras[index] += mod;
-        }
-        this.doubles.add(index, mod);
-        break;
       case EXPERIENCE:
       case MUS_EXPERIENCE:
       case MYS_EXPERIENCE:
       case MOX_EXPERIENCE:
-        name = Modifiers.getNameFromLookup(desc);
-        if (!name.equals("makeshift garbage shirt")) {
-          this.extras[index] += mod;
-        }
+      case MUS_EXPERIENCE_PCT:
+      case MYS_EXPERIENCE_PCT:
+      case MOX_EXPERIENCE_PCT:
+        // doublerAccumulators acts as an accumulator for modifiers that are possibly doubled by
+        // doublers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty Pear.
+        // TODO: Figure out which ones aren't doubled and exclude them. BoomBox?
+        this.doublerAccumulators[index] += mod;
         this.doubles.add(index, mod);
         break;
       case FAMILIAR_ACTION_BONUS:
@@ -1789,7 +1787,7 @@ public class Modifiers {
 
   public static final Modifiers getModifiers(final String type, final int id, final String name) {
     String lookup = Modifiers.getLookupName(type, id);
-    return Modifiers.getModifiersInternal(type, name, lookup);
+    return Modifiers.getModifiersInternal(type, name, lookup, id);
   }
 
   public static final Modifiers getModifiers(final String type, final String name) {
@@ -1798,11 +1796,11 @@ public class Modifiers {
     }
 
     String lookup = Modifiers.getLookupName(type, name);
-    return Modifiers.getModifiersInternal(type, name, lookup);
+    return Modifiers.getModifiersInternal(type, name, lookup, null);
   }
 
   private static final Modifiers getModifiersInternal(
-      String type, final String name, String lookup) {
+      String type, final String name, String lookup, Integer id) {
     String changeType = null;
     if (type.equals("Bjorn")) {
       changeType = type;
@@ -1825,13 +1823,13 @@ public class Modifiers {
         modifiers.name = changeType + ":" + name;
       }
 
-      modifiers.variable = modifiers.override(lookup);
+      modifiers.variable = modifiers.override(lookup, id);
 
       Modifiers.modifiersByName.put(lookup, modifiers);
     }
 
     if (modifiers.variable) {
-      modifiers.override(lookup);
+      modifiers.override(lookup, id);
       if (changeType != null) {
         modifiers.name = changeType + ":" + name;
       }
@@ -2379,6 +2377,10 @@ public class Modifiers {
   }
 
   private boolean override(final String lookup) {
+    return override(lookup, null);
+  }
+
+  private boolean override(final String lookup, Integer id) {
     if (this.expressions != null) {
       for (Indexed<ModifierExpression> entry : this.expressions) {
         this.setDouble(entry.index, entry.value.eval());
@@ -2390,12 +2392,12 @@ public class Modifiers {
       return this.expressions != null;
     }
 
-    String name = Modifiers.getNameFromLookup(lookup);
     String type = Modifiers.getTypeFromLookup(lookup);
 
     return switch (type) {
-      case "Item" -> overrideItem(ItemDatabase.getItemId(name));
-      case "Throne" -> overrideThrone(name);
+      case "Item" -> overrideItem(
+          id != null ? id : ItemDatabase.getItemId(Modifiers.getNameFromLookup(lookup)));
+      case "Throne" -> overrideThrone(Modifiers.getNameFromLookup(lookup));
       case "Loc", "Zone" -> true;
       default -> false;
     };
@@ -2497,28 +2499,24 @@ public class Modifiers {
 
     if (debug
         || Modifiers.availableSkillsChanged
-        || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
+        || Modifiers.availablePassiveSkillModifiersByVariable.isEmpty()) {
       // Collect all passive skills currently on the character.
-      Modifiers.availablePassiveSkillsByVariable.putAll(
+      Modifiers.availablePassiveSkillModifiersByVariable.putAll(
           KoLCharacter.getAvailableSkillIds().stream()
               .filter(SkillDatabase::isPassive)
               .map(UseSkillRequest::getUnmodifiedInstance)
               .filter(Objects::nonNull)
               .filter(UseSkillRequest::isEffective)
-              .collect(
-                  Collectors.partitioningBy(
-                      skill -> {
-                        String lookup = Modifiers.getLookupName("Skill", skill.getSkillName());
-                        return override(lookup);
-                      })));
+              .map(skill -> getModifiers("Skill", skill.getSkillId(), skill.getSkillName()))
+              .filter(Objects::nonNull)
+              .collect(Collectors.partitioningBy(modifiers -> modifiers.override(modifiers.name))));
 
       // Recompute sum of cached constant passive skills.
       Modifiers.cachedPassiveModifiers.reset();
-      Modifiers.availablePassiveSkillsByVariable
+      Modifiers.availablePassiveSkillModifiersByVariable
           .get(false)
           .forEach(
-              skill -> {
-                var mods = getModifiers("Skill", skill.getSkillId(), skill.getSkillName());
+              mods -> {
                 Modifiers.cachedPassiveModifiers.add(mods);
 
                 // If we are debugging, add them directly. Also add them to the cache though
@@ -2535,10 +2533,7 @@ public class Modifiers {
     }
 
     // Add variable modifiers.
-    Modifiers.availablePassiveSkillsByVariable
-        .get(true)
-        .forEach(
-            skill -> this.add(getModifiers("Skill", skill.getSkillId(), skill.getSkillName())));
+    Modifiers.availablePassiveSkillModifiersByVariable.get(true).forEach(this::add);
   }
 
   public final void applyFloristModifiers() {
@@ -3439,7 +3434,7 @@ public class Modifiers {
   public static void resetModifiers() {
     Modifiers.modifiersByName.clear();
     Modifiers.familiarEffectByName.clear();
-    Modifiers.availablePassiveSkillsByVariable.clear();
+    Modifiers.availablePassiveSkillModifiersByVariable.clear();
     Modifiers.synergies.clear();
     Modifiers.mutexes.clear();
     Modifiers.uniques.clear();

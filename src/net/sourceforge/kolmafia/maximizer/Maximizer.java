@@ -635,8 +635,8 @@ public class Maximizer {
             continue;
           }
 
-          UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillName);
           int skillId = SkillDatabase.getSkillId(skillName);
+          UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
 
           if (skill != null) {
             usesRemaining = skill.getMaximumCast();

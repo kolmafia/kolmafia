@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.preferences.PreferenceModifiers;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -267,6 +268,11 @@ public abstract class KoLCharacter {
         ItemPool.get(ItemPool.ALUMINUM_WAND, 1),
         ItemPool.get(ItemPool.MARBLE_WAND, 1)
       };
+
+  private static final PreferenceModifiers mummeryMods =
+      new PreferenceModifiers("_mummeryMods", "Mummery");
+  private static final PreferenceModifiers voteMods =
+      new PreferenceModifiers("_voteModifier", "Local Vote");
 
   // Status pane data which is rendered whenever
   // the user changes equipment, effects, and familiar
@@ -1322,6 +1328,7 @@ public abstract class KoLCharacter {
   }
 
   public static final AdventureResult ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
+  public static final AdventureResult DIRTY_PEAR = EffectPool.get(EffectPool.DIRTY_PEAR);
   public static final AdventureResult BENDIN_HELL = EffectPool.get(EffectPool.BENDIN_HELL);
   public static final AdventureResult BOWLEGGED_SWAGGER =
       EffectPool.get(EffectPool.BOWLEGGED_SWAGGER);
@@ -3823,23 +3830,23 @@ public abstract class KoLCharacter {
           case SkillPool.FLAVOUR_OF_MAGIC:
             // Flavour of Magic gives you access to five other
             // castable skills
-            KoLCharacter.addAvailableSkill("Spirit of Cayenne");
-            KoLCharacter.addAvailableSkill("Spirit of Peppermint");
-            KoLCharacter.addAvailableSkill("Spirit of Garlic");
-            KoLCharacter.addAvailableSkill("Spirit of Wormwood");
-            KoLCharacter.addAvailableSkill("Spirit of Bacon Grease");
-            KoLCharacter.addAvailableSkill("Spirit of Nothing");
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_CAYENNE);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_PEPPERMINT);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_GARLIC);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_WORMWOOD);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_BACON);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_NOTHING);
             break;
 
           case SkillPool.SOUL_SAUCERY:
             // Soul Saucery gives you access to six other skills if a Sauceror
             if (isSauceror()) {
-              KoLCharacter.addAvailableSkill("Soul Bubble");
-              KoLCharacter.addAvailableSkill("Soul Finger");
-              KoLCharacter.addAvailableSkill("Soul Blaze");
-              KoLCharacter.addAvailableSkill("Soul Food");
-              KoLCharacter.addAvailableSkill("Soul Rotation");
-              KoLCharacter.addAvailableSkill("Soul Funk");
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_BUBBLE);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FINGER);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_BLAZE);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FOOD);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_ROTATION);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FUNK);
             }
             break;
 
@@ -3971,6 +3978,7 @@ public abstract class KoLCharacter {
   }
 
   public static final void removeAvailableSkill(final String skillName) {
+    // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
     KoLCharacter.removeAvailableSkill(SkillDatabase.getSkillId(skillName));
   }
 
@@ -4726,15 +4734,15 @@ public abstract class KoLCharacter {
     }
 
     if (thrall == PastaThrallData.NO_THRALL) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Dismiss Pasta Thrall");
-      int skillId = skill.getSkillId();
+      int skillId = SkillPool.DISMISS_PASTA_THRALL;
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
       KoLConstants.availableSkills.remove(skill);
       KoLConstants.availableSkillsSet.remove(skillId);
       KoLConstants.usableSkills.remove(skill);
       KoLConstants.summoningSkills.remove(skill);
     } else if (KoLCharacter.currentPastaThrall == PastaThrallData.NO_THRALL) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Dismiss Pasta Thrall");
-      int skillId = skill.getSkillId();
+      int skillId = SkillPool.DISMISS_PASTA_THRALL;
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
       KoLConstants.availableSkills.add(skill);
       KoLConstants.availableSkillsSet.add(skillId);
       KoLConstants.usableSkills.add(skill);
@@ -5138,8 +5146,7 @@ public abstract class KoLCharacter {
     }
 
     // Mummery
-    newModifiers.add(
-        Modifiers.evaluatedModifiers("Mummery", Preferences.getString("_mummeryMods")));
+    newModifiers.add(mummeryMods.get());
 
     // Add modifiers from inventory
     if (InventoryManager.getCount(ItemPool.FISHING_POLE) > 0) {
@@ -5160,13 +5167,13 @@ public abstract class KoLCharacter {
     newModifiers.add(Modifiers.getModifiers("Horsery", horsery));
 
     // Voting Booth
-    newModifiers.add(
-        Modifiers.evaluatedModifiers("Local Vote", Preferences.getString("_voteModifier")));
+    newModifiers.add(voteMods.get());
 
     // Miscellaneous
 
     newModifiers.add(Modifiers.getModifiers("Generated", "_userMods"));
-    newModifiers.add(Modifiers.getModifiers("Generated", "fightMods"));
+    Modifiers fightMods = Modifiers.getModifiers("Generated", "fightMods");
+    newModifiers.add(fightMods);
 
     // Temporary custom modifier
     if (custom != null) {
@@ -5321,80 +5328,61 @@ public abstract class KoLCharacter {
 
     // These depend on the modifiers from everything else, so they must be done last
     if (effects.contains(KoLCharacter.BENDIN_HELL)) {
-      newModifiers.add(
-          Modifiers.HOT_DAMAGE,
-          newModifiers.getExtra(Modifiers.HOT_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.COLD_DAMAGE,
-          newModifiers.getExtra(Modifiers.COLD_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.STENCH_DAMAGE,
-          newModifiers.getExtra(Modifiers.STENCH_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SPOOKY_DAMAGE,
-          newModifiers.getExtra(Modifiers.SPOOKY_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SLEAZE_DAMAGE,
-          newModifiers.getExtra(Modifiers.SLEAZE_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.HOT_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.HOT_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.COLD_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.COLD_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.STENCH_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.STENCH_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SPOOKY_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.SPOOKY_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SLEAZE_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.SLEAZE_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
+      for (int modifier :
+          List.of(
+              Modifiers.HOT_DAMAGE,
+              Modifiers.COLD_DAMAGE,
+              Modifiers.STENCH_DAMAGE,
+              Modifiers.SPOOKY_DAMAGE,
+              Modifiers.SLEAZE_DAMAGE,
+              Modifiers.HOT_SPELL_DAMAGE,
+              Modifiers.COLD_SPELL_DAMAGE,
+              Modifiers.STENCH_SPELL_DAMAGE,
+              Modifiers.SPOOKY_SPELL_DAMAGE,
+              Modifiers.SLEAZE_SPELL_DAMAGE)) {
+        newModifiers.add(
+            modifier,
+            newModifiers.getDoublerAccumulator(modifier),
+            "Effect:[" + EffectPool.BENDIN_HELL + "]");
+      }
+    }
+    if (effects.contains(KoLCharacter.DIRTY_PEAR)) {
+      for (int modifier : List.of(Modifiers.SLEAZE_DAMAGE, Modifiers.SLEAZE_SPELL_DAMAGE)) {
+        newModifiers.add(
+            modifier,
+            newModifiers.getDoublerAccumulator(modifier),
+            "Effect:[" + EffectPool.DIRTY_PEAR + "]");
+      }
     }
     if (effects.contains(KoLCharacter.BOWLEGGED_SWAGGER)) {
       newModifiers.add(
           Modifiers.INITIATIVE,
-          newModifiers.getExtra(Modifiers.INITIATIVE),
+          newModifiers.getDoublerAccumulator(Modifiers.INITIATIVE),
           "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]");
       // Add "Physical Damage" here, when that is properly defined
     }
     if (equipment[EquipmentManager.SHIRT].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
         && (Preferences.getInteger("garbageShirtCharge") > 0
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
-      newModifiers.add(
-          Modifiers.EXPERIENCE,
-          newModifiers.getExtra(Modifiers.EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MUS_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MUS_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MYS_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MYS_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MOX_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MOX_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+      for (int modifier :
+          List.of(
+              Modifiers.EXPERIENCE,
+              Modifiers.MUS_EXPERIENCE,
+              Modifiers.MYS_EXPERIENCE,
+              Modifiers.MOX_EXPERIENCE,
+              Modifiers.MUS_EXPERIENCE_PCT,
+              Modifiers.MYS_EXPERIENCE_PCT,
+              Modifiers.MOX_EXPERIENCE_PCT)) {
+        newModifiers.add(
+            modifier,
+            newModifiers.getDoublerAccumulator(modifier),
+            "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+      }
     }
-    if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
-      newModifiers.add(
-          Modifiers.ITEMDROP,
-          newModifiers.getExtra(Modifiers.ITEMDROP),
-          "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
-    }
+
+    // Some things are doubled by Squint and not champagne bottle, like Otoscope. So do champagne
+    // first and then add in any that aren't doubled by champagne (should just be fightMods).
+    // TOOD: double-check mummery, friar plants, meteor post-combat, crystal ball post-combat.
     if ((equipment[EquipmentManager.OFFHAND].getItemId() == ItemPool.BROKEN_CHAMPAGNE
             || equipment[EquipmentManager.WEAPON].getItemId() == ItemPool.BROKEN_CHAMPAGNE
             || equipment[EquipmentManager.FAMILIAR].getItemId() == ItemPool.BROKEN_CHAMPAGNE)
@@ -5402,8 +5390,21 @@ public abstract class KoLCharacter {
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
       newModifiers.add(
           Modifiers.ITEMDROP,
-          newModifiers.getExtra(Modifiers.ITEMDROP),
+          newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
           "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+    }
+    if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
+      newModifiers.add(
+          Modifiers.ITEMDROP,
+          newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
+          "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
+      // Add in fightMods to double Otoscope, since it's not otherwise included in extras.
+      if (fightMods != null) {
+        newModifiers.add(
+            Modifiers.ITEMDROP,
+            fightMods.get(Modifiers.ITEMDROP),
+            "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+      }
     }
 
     // Determine whether or not data has changed

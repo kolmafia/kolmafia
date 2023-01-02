@@ -191,6 +191,7 @@ public class EffectPool {
   public static final int VAMPIN = 939;
   public static final int YIFFABLE_YOU = 940;
   public static final int BONE_US_ROUND = 941;
+  public static final int DIRTY_PEAR = 959;
   public static final int DIS_ABLED = 963;
   public static final int JUST_THE_BEST_ANAPESTS = 1003;
   public static final int GLORIOUS_LUNCH = 1005;
@@ -277,6 +278,7 @@ public class EffectPool {
   public static final int BEER_BARREL_POLKA = 1950;
   public static final int CRAFT_TEA = 1989;
   public static final int INSIDE_THE_SNOWGLOBE = 1999;
+  public static final int PAINTED_ON_BIKINI = 2017;
   public static final int COWRRUPTION = 2064;
   public static final int BOWLEGGED_SWAGGER = 2073;
   public static final int BENDIN_HELL = 2074;
