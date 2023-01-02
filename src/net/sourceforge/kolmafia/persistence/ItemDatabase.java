@@ -2251,12 +2251,12 @@ public class ItemDatabase {
 
   public static void setCapeSkills() {
     // Assume no skills are available
-    KoLCharacter.removeAvailableSkill("Smooch of the Daywalker");
-    KoLCharacter.removeAvailableSkill("Slay the Dead");
-    KoLCharacter.removeAvailableSkill("Unleash the Devil's Kiss");
-    KoLCharacter.removeAvailableSkill("Deploy Robo-Handcuffs");
-    KoLCharacter.removeAvailableSkill("Blow a Robo-Kiss");
-    KoLCharacter.removeAvailableSkill("Precision Shot");
+    KoLCharacter.removeAvailableSkill(SkillPool.SMOOCH_OF_THE_DAYWALKER);
+    KoLCharacter.removeAvailableSkill(SkillPool.SLAY_THE_DEAD);
+    KoLCharacter.removeAvailableSkill(SkillPool.UNLEASH_THE_DEVILS_KISS);
+    KoLCharacter.removeAvailableSkill(SkillPool.DEPLOY_ROBO_HANDCUFFS);
+    KoLCharacter.removeAvailableSkill(SkillPool.BLOW_A_ROBO_KISS);
+    KoLCharacter.removeAvailableSkill(SkillPool.PRECISION_SHOT);
 
     // If the cape is not equipped, that is correct
     if (!KoLCharacter.hasEquipped(
@@ -2272,29 +2272,29 @@ public class ItemDatabase {
       case "vampire":
         // Add Vampire Slicer skills
         if (instructions.equals("kiss")) {
-          KoLCharacter.addAvailableSkill("Smooch of the Daywalker");
+          KoLCharacter.addAvailableSkill(SkillPool.SMOOCH_OF_THE_DAYWALKER);
         }
 
         if (instructions.equals("kill") && EquipmentManager.wieldingSword()) {
-          KoLCharacter.addAvailableSkill("Slay the Dead");
+          KoLCharacter.addAvailableSkill(SkillPool.SLAY_THE_DEAD);
         }
         break;
       case "heck":
         // Add Heck General skills
         if (instructions.equals("kiss")) {
-          KoLCharacter.addAvailableSkill("Unleash the Devil's Kiss");
+          KoLCharacter.addAvailableSkill(SkillPool.UNLEASH_THE_DEVILS_KISS);
         }
         break;
       case "robot":
         // Add Robot Police skills
         if (instructions.equals("hold")) {
-          KoLCharacter.addAvailableSkill("Deploy Robo-Handcuffs");
+          KoLCharacter.addAvailableSkill(SkillPool.DEPLOY_ROBO_HANDCUFFS);
         }
         if (instructions.equals("kiss")) {
-          KoLCharacter.addAvailableSkill("Blow a Robo-Kiss");
+          KoLCharacter.addAvailableSkill(SkillPool.BLOW_A_ROBO_KISS);
         }
         if (instructions.equals("kill") && EquipmentManager.wieldingGun()) {
-          KoLCharacter.addAvailableSkill("Precision Shot");
+          KoLCharacter.addAvailableSkill(SkillPool.PRECISION_SHOT);
         }
         break;
     }
