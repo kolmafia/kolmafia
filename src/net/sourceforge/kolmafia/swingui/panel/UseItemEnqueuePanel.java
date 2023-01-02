@@ -511,7 +511,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     @Override
     protected void execute() {
       if (KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH)) {
-        RequestThread.postRequest(UseSkillRequest.getInstance("Song of the Glorious Lunch", 1));
+        RequestThread.postRequest(UseSkillRequest.getInstance(SkillPool.GLORIOUS_LUNCH, 1));
       } else {
         // Barrel shrine request
         GenericRequest request = new GenericRequest("da.php?barrelshrine=1");
@@ -530,7 +530,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   private static class OdeListener extends ThreadedListener {
     @Override
     protected void execute() {
-      RequestThread.postRequest(UseSkillRequest.getInstance("The Ode to Booze", 1));
+      RequestThread.postRequest(UseSkillRequest.getInstance(SkillPool.ODE_TO_BOOZE, 1));
       if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ODE))) {
         KoLmafia.updateDisplay(MafiaState.ABORT, "Failed to cast Ode.");
       }

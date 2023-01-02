@@ -3829,23 +3829,23 @@ public abstract class KoLCharacter {
           case SkillPool.FLAVOUR_OF_MAGIC:
             // Flavour of Magic gives you access to five other
             // castable skills
-            KoLCharacter.addAvailableSkill("Spirit of Cayenne");
-            KoLCharacter.addAvailableSkill("Spirit of Peppermint");
-            KoLCharacter.addAvailableSkill("Spirit of Garlic");
-            KoLCharacter.addAvailableSkill("Spirit of Wormwood");
-            KoLCharacter.addAvailableSkill("Spirit of Bacon Grease");
-            KoLCharacter.addAvailableSkill("Spirit of Nothing");
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_CAYENNE);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_PEPPERMINT);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_GARLIC);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_WORMWOOD);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_BACON);
+            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_NOTHING);
             break;
 
           case SkillPool.SOUL_SAUCERY:
             // Soul Saucery gives you access to six other skills if a Sauceror
             if (isSauceror()) {
-              KoLCharacter.addAvailableSkill("Soul Bubble");
-              KoLCharacter.addAvailableSkill("Soul Finger");
-              KoLCharacter.addAvailableSkill("Soul Blaze");
-              KoLCharacter.addAvailableSkill("Soul Food");
-              KoLCharacter.addAvailableSkill("Soul Rotation");
-              KoLCharacter.addAvailableSkill("Soul Funk");
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_BUBBLE);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FINGER);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_BLAZE);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FOOD);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_ROTATION);
+              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FUNK);
             }
             break;
 
@@ -3977,6 +3977,7 @@ public abstract class KoLCharacter {
   }
 
   public static final void removeAvailableSkill(final String skillName) {
+    // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
     KoLCharacter.removeAvailableSkill(SkillDatabase.getSkillId(skillName));
   }
 
@@ -4732,15 +4733,15 @@ public abstract class KoLCharacter {
     }
 
     if (thrall == PastaThrallData.NO_THRALL) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Dismiss Pasta Thrall");
-      int skillId = skill.getSkillId();
+      int skillId = SkillPool.DISMISS_PASTA_THRALL;
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
       KoLConstants.availableSkills.remove(skill);
       KoLConstants.availableSkillsSet.remove(skillId);
       KoLConstants.usableSkills.remove(skill);
       KoLConstants.summoningSkills.remove(skill);
     } else if (KoLCharacter.currentPastaThrall == PastaThrallData.NO_THRALL) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Dismiss Pasta Thrall");
-      int skillId = skill.getSkillId();
+      int skillId = SkillPool.DISMISS_PASTA_THRALL;
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
       KoLConstants.availableSkills.add(skill);
       KoLConstants.availableSkillsSet.add(skillId);
       KoLConstants.usableSkills.add(skill);

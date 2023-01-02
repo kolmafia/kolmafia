@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -1144,9 +1145,9 @@ public abstract class KoLmafia {
       } else if (effectId == EffectPool.COWRRUPTION) {
         if (KoLConstants.activeEffects.contains(effect)
             && KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER) {
-          KoLCharacter.addAvailableSkill("Absorb Cowrruption");
+          KoLCharacter.addAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
         } else {
-          KoLCharacter.removeAvailableSkill("Absorb Cowrruption");
+          KoLCharacter.removeAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
         }
       }
     }
