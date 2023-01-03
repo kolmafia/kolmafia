@@ -1153,4 +1153,23 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  public class Familiars {
+    @Test
+    public void leftHandManEquipsItem() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquippableItem(ItemPool.WICKER_SHIELD, 2),
+              withItem(ItemPool.STUFFED_CHEST) // equipment with no enchant to test modifiers crash
+              );
+
+      try (cleanups) {
+        assertTrue(maximize("moxie"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "wicker shield");
+        recommendedSlotIs(EquipmentManager.FAMILIAR, "wicker shield");
+      }
+    }
+  }
 }
