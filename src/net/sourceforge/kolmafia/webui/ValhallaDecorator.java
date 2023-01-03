@@ -351,6 +351,7 @@ public class ValhallaDecorator {
     boolean haveThanksGarden = InventoryManager.hasItem(ItemPool.THANKSGARDEN_SEEDS);
     boolean haveGrass = InventoryManager.hasItem(ItemPool.TALL_GRASS_SEEDS);
     boolean haveMushroom = InventoryManager.hasItem(ItemPool.MUSHROOM_SPORES);
+    boolean haveRock = InventoryManager.hasItem(ItemPool.ROCK_SEEDS);
     if (!havePumpkin
         && !havePeppermint
         && !haveSkeleton
@@ -358,7 +359,8 @@ public class ValhallaDecorator {
         && !haveWinter
         && !haveThanksGarden
         && !haveGrass
-        && !haveMushroom) {
+        && !haveMushroom
+        && !haveRock) {
       return;
     }
 
@@ -441,6 +443,15 @@ public class ValhallaDecorator {
       buffer.append("</option>");
     }
 
+    if (haveRock) {
+      buffer.append("<option style=\"background-color: #eeeeff\" ");
+      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+rock+seeds;");
+      buffer.append("+use+packet+of+rock+seeds&pwd=");
+      buffer.append(GenericRequest.passwordHash);
+      buffer.append("\">rock");
+      buffer.append("</option>");
+    }
+
     buffer.append("</select></form>");
 
     CropType cropType = CampgroundRequest.getCropType();
@@ -460,7 +471,9 @@ public class ValhallaDecorator {
                                   ? "Thanksgarden"
                                   : (cropType == CropType.GRASS)
                                       ? "Grass"
-                                      : (cropType == CropType.MUSHROOM) ? "Mushroom" : "Unknown";
+                                      : (cropType == CropType.MUSHROOM)
+                                          ? "Mushroom"
+                                          : (cropType == CropType.ROCK) ? "Rock" : "Unknown";
       buffer.append("</nobr><br><nobr>");
       buffer.append(" (currently ").append(cropString).append(")");
     }
