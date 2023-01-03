@@ -1286,8 +1286,8 @@ Chad Alacarte	2113	chadalacarte.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 2000 Init:
 Your Lack of Reflection	2115	towermirror.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 3000 Init: -10000 P: horror EA: spooky
 
 # Kingdom of Exploathing
-invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct Article: an
-skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead Article: a
+invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct Article: an	white pixel (40)	white pixel (20)	white pixel (10)	white pixel (5)
+skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead Article: a	skeleton bone (0)	loose teeth (0)	evil eye (0)
 the invader	2138	invader.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct EA: cold EA: hot EA: sleaze EA: spooky EA: stench
 
 # Glitch Season
