@@ -399,6 +399,9 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM,
     CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM,
     CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM,
+    CampgroundRequest.GROVELING_GRAVEL,
+    CampgroundRequest.MILESTONE,
+    CampgroundRequest.WHETSTONE,
   };
 
   public static final AdventureResult[] CROP_SEEDS = {
@@ -503,23 +506,17 @@ public class CampgroundRequest extends GenericRequest {
       count = StringUtilities.parseInt(crop.substring(paren + 2, crop.length() - 1));
     }
 
-    return name.equals("tall grass")
-        ? CampgroundRequest.TALL_GRASS.getInstance(count)
-        : name.equals("very tall grass")
-            ? CampgroundRequest.VERY_TALL_GRASS
-            : name.equals("free-range mushroom")
-                ? CampgroundRequest.FREE_RANGE_MUSHROOM
-                : name.equals("plump free-range mushroom")
-                    ? CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM
-                    : name.equals("bulky free-range mushroom")
-                        ? CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM
-                        : name.equals("giant free-range mushroom")
-                            ? CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM
-                            : name.equals("immense free-range mushroom")
-                                ? CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM
-                                : name.equals("colossal free-range mushroom")
-                                    ? CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM
-                                    : new AdventureResult(name, count, false);
+    return switch (name) {
+      case "tall grass" -> CampgroundRequest.TALL_GRASS.getInstance(count);
+      case "very tall grass" -> CampgroundRequest.VERY_TALL_GRASS;
+      case "free-range mushroom" -> CampgroundRequest.FREE_RANGE_MUSHROOM;
+      case "plump free-range mushroom" -> CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM;
+      case "bulky free-range mushroom" -> CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM;
+      case "giant free-range mushroom" -> CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM;
+      case "immense free-range mushroom" -> CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM;
+      case "colossal free-range mushroom" -> CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM;
+      default -> new AdventureResult(name, count, false);
+    };
   }
 
   public static boolean hasCropOrBetter(final String crop) {
