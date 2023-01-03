@@ -434,7 +434,7 @@ public class ClanLoungeRequest extends GenericRequest {
   private static final String[] CANONICAL_SPEAKEASY_ARRAY =
       allSpeakeasyDrinks.stream().map(SpeakeasyDrink::getCanonicalName).toArray(String[]::new);
 
-  private static final Set<Concoction> availableSpeakeasyDrinks = new HashSet<>();
+  public static final Set<Concoction> availableSpeakeasyDrinks = new HashSet<>();
 
   public static final void resetSpeakeasy() {
     // Remove all Speakeasy drinks from available drinks
