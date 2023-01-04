@@ -169,6 +169,7 @@ green cloth cap	50	none
 green traffic cone	60	Mox: 15
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
+grubby wool hat	50	none
 grungy bandana	150	Mox: 60
 guard turtle shell	160	Mox: 65
 Guzzlr hat	100	none
@@ -803,6 +804,7 @@ Grateful Undead T-shirt	70	Mus: 20
 Gregarious Gregorian Smock	100	none
 Grimacite gown	150	Mus: 40
 Grimacite guayabera	125	Mus: 47
+grubby wool trousers	50	none
 grungy flannel shirt	150	Mox: 60
 hairshirt	150	Mus: 40
 harem girl t-shirt	25	none
@@ -2593,6 +2595,8 @@ Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
 Groll doll	50	none
 groovy prism necklace	150	Mys: 60
+grubby wool gloves	0	none
+grubby wool scarf	0	none
 grumpy old man charrrm bracelet	150	Mys: 60
 gummi bowtie	0	none
 gumshoes	50	Mus: 10
