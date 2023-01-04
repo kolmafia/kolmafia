@@ -586,7 +586,7 @@ public class Player {
    */
   public static Cleanups withNoEffects() {
     KoLConstants.activeEffects.clear();
-    return new Cleanups(() -> KoLConstants.activeEffects.clear());
+    return new Cleanups(KoLConstants.activeEffects::clear);
   }
 
   /**
@@ -1179,7 +1179,7 @@ public class Player {
    */
   public static Cleanups withEmptyCampground() {
     CampgroundRequest.reset();
-    return new Cleanups(() -> CampgroundRequest.reset());
+    return new Cleanups(CampgroundRequest::reset);
   }
 
   /**
@@ -1873,6 +1873,11 @@ public class Player {
     NPCStoreDatabase.reset();
 
     return new Cleanups(NPCStoreDatabase::reset);
+  }
+
+  public static Cleanups withOverrideModifiers(String lookup, String value) {
+    Modifiers.overrideModifier(lookup, value);
+    return new Cleanups(() -> Modifiers.overrideRemoveModifier(lookup));
   }
 
   public static Cleanups withHermitReset() {

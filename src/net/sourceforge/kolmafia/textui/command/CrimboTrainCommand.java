@@ -15,7 +15,7 @@ public class CrimboTrainCommand extends AbstractCommand {
   @Override
   public void run(String command, String parameters) {
     if (parameters.equals("")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Train who?");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Train whom?");
       return;
     }
 

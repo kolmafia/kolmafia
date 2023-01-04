@@ -106,7 +106,7 @@ public abstract class InventoryManager {
           switch (itemId) {
             case ItemPool.BOOMBOX:
               if (!Preferences.getString("boomBoxSong").equals("")) {
-                KoLCharacter.addAvailableSkill("Sing Along");
+                KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
               }
               break;
           }
@@ -902,16 +902,11 @@ public abstract class InventoryManager {
     }
 
     if (creator != null && mixingMethod != CraftingType.NOCREATE) {
-      switch (itemId) {
-        case ItemPool.DOUGH:
-        case ItemPool.DISASSEMBLED_CLOVER:
-        case ItemPool.JOLLY_BRACELET:
-          scriptSaysBuy = true;
-          break;
-        default:
-          scriptSaysBuy = false;
-          break;
-      }
+      scriptSaysBuy =
+          switch (itemId) {
+            case ItemPool.DOUGH, ItemPool.DISASSEMBLED_CLOVER, ItemPool.JOLLY_BRACELET -> true;
+            default -> false;
+          };
 
       AdventureResult instance = item.getInstance(missingCount);
       boolean defaultBuy =
@@ -1365,7 +1360,7 @@ public abstract class InventoryManager {
     Integer key = itemId;
 
     if (seen == null) {
-      seen = new HashSet<Integer>();
+      seen = new HashSet<>();
     } else if (seen.contains(key)) {
       return false;
     }
@@ -1836,8 +1831,8 @@ public abstract class InventoryManager {
     if (KoLCharacter.hasEquipped(UseSkillRequest.POWERFUL_GLOVE)
         || InventoryManager.hasItem(UseSkillRequest.POWERFUL_GLOVE, false)) {
       // *** Special case: the buffs are always available
-      KoLCharacter.addAvailableSkill("CHEAT CODE: Invisible Avatar");
-      KoLCharacter.addAvailableSkill("CHEAT CODE: Triple Size");
+      KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
+      KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
     }
   }
 
@@ -1845,10 +1840,10 @@ public abstract class InventoryManager {
     if (KoLCharacter.hasEquipped(UseSkillRequest.DESIGNER_SWEATPANTS)
         || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)) {
       // *** Special case: the buffs are always available
-      KoLCharacter.addAvailableSkill("Make Sweat-Ade");
-      KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
-      KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
-      KoLCharacter.addAvailableSkill("Sip Some Sweat");
+      KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
+      KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
+      KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
+      KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
     }
   }
 

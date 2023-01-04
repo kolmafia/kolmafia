@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -223,54 +224,45 @@ public class SpelunkyRequest extends GenericRequest {
       int itemId = ItemDatabase.getItemIdFromDescription(descId);
       AdventureResult item = ItemPool.get(itemId, 1);
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case HAT:
-          EquipmentManager.setEquipment(EquipmentManager.HAT, item);
-          break;
-        case WEAPON:
-          EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
-          break;
-        case OFFHAND:
+        case HAT -> EquipmentManager.setEquipment(EquipmentManager.HAT, item);
+        case WEAPON -> EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
+        case OFFHAND -> {
           EquipmentManager.setEquipment(EquipmentManager.OFFHAND, item);
           switch (itemId) {
-            case ItemPool.SPELUNKY_SKULL:
-              KoLCharacter.addAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_ROCK:
-              KoLCharacter.addAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_POT:
-              KoLCharacter.addAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_TORCH:
-              KoLCharacter.addAvailableSkill("Throw Torch");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              break;
-            case ItemPool.SPELUNKY_COFFEE_CUP:
-            case ItemPool.SPELUNKY_PICKAXE:
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
+            case ItemPool.SPELUNKY_SKULL -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_ROCK -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_POT -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_TORCH -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_TORCH);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+            }
+            case ItemPool.SPELUNKY_COFFEE_CUP, ItemPool.SPELUNKY_PICKAXE -> {
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
           }
-          break;
-        case CONTAINER:
-          EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
-          break;
-        case ACCESSORY:
-          EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
-          break;
+        }
+        case CONTAINER -> EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
+        case ACCESSORY -> EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
       }
     }
     if (gear.contains(">hat<")) {
@@ -278,10 +270,10 @@ public class SpelunkyRequest extends GenericRequest {
     }
     if (gear.contains(">off<")) {
       EquipmentManager.setEquipment(EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP);
-      KoLCharacter.removeAvailableSkill("Throw Rock");
-      KoLCharacter.removeAvailableSkill("Throw Skull");
-      KoLCharacter.removeAvailableSkill("Throw Pot");
-      KoLCharacter.removeAvailableSkill("Throw Torch");
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
     }
     if (gear.contains(">back<")) {
       EquipmentManager.setEquipment(EquipmentManager.CONTAINER, EquipmentRequest.UNEQUIP);
@@ -306,19 +298,19 @@ public class SpelunkyRequest extends GenericRequest {
 
     // Make right skills available based on resources
     if (bombs > 0) {
-      KoLCharacter.addAvailableSkill("Throw Bomb");
+      KoLCharacter.addAvailableSkill(SkillPool.THROW_BOMB);
     } else {
-      KoLCharacter.removeAvailableSkill("Throw Bomb");
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_BOMB);
     }
     if (bombs >= 10) {
-      KoLCharacter.addAvailableSkill("Throw Ten Bombs");
+      KoLCharacter.addAvailableSkill(SkillPool.THROW_TEN_BOMBS);
     } else {
-      KoLCharacter.removeAvailableSkill("Throw Ten Bombs");
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_TEN_BOMBS);
     }
     if (ropes > 0) {
-      KoLCharacter.addAvailableSkill("Use Rope");
+      KoLCharacter.addAvailableSkill(SkillPool.USE_ROPE);
     } else {
-      KoLCharacter.removeAvailableSkill("Use Rope");
+      KoLCharacter.removeAvailableSkill(SkillPool.USE_ROPE);
     }
 
     // Have we gained a buddy? Log it
@@ -394,53 +386,48 @@ public class SpelunkyRequest extends GenericRequest {
       AdventureResult item = EquipmentManager.equippedItem(itemId);
 
       switch (slot) {
-        case EquipmentManager.HAT:
-          EquipmentManager.setEquipment(EquipmentManager.HAT, item);
-          break;
-        case EquipmentManager.WEAPON:
-          EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
-          break;
-        case EquipmentManager.OFFHAND:
+        case EquipmentManager.HAT -> EquipmentManager.setEquipment(EquipmentManager.HAT, item);
+        case EquipmentManager.WEAPON -> EquipmentManager.setEquipment(
+            EquipmentManager.WEAPON, item);
+        case EquipmentManager.OFFHAND -> {
           EquipmentManager.setEquipment(EquipmentManager.OFFHAND, item);
           switch (itemId) {
-            case ItemPool.SPELUNKY_SKULL:
-              KoLCharacter.addAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_ROCK:
-              KoLCharacter.addAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_POT:
-              KoLCharacter.addAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_TORCH:
-              KoLCharacter.addAvailableSkill("Throw Torch");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              break;
-            default:
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
+            case ItemPool.SPELUNKY_SKULL -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_ROCK -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_POT -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_TORCH -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_TORCH);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+            }
+            default -> {
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
           }
-          break;
-        case EquipmentManager.CONTAINER:
-          EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
-          break;
-        case EquipmentManager.ACCESSORY1:
-          EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
-          break;
+        }
+        case EquipmentManager.CONTAINER -> EquipmentManager.setEquipment(
+            EquipmentManager.CONTAINER, item);
+        case EquipmentManager.ACCESSORY1 -> EquipmentManager.setEquipment(
+            EquipmentManager.ACCESSORY1, item);
       }
     }
 
@@ -764,33 +751,15 @@ public class SpelunkyRequest extends GenericRequest {
       StringBuilder upgradeMessage = new StringBuilder();
       upgradeMessage.append("Spelunky Finished. Upgrade chosen is ");
       switch (choice) {
-        case 1:
-          upgradeMessage.append("Unlock Jungle.");
-          break;
-        case 2:
-          upgradeMessage.append("Unlock Ice Caves.");
-          break;
-        case 3:
-          upgradeMessage.append("Unlock Temple Ruins.");
-          break;
-        case 4:
-          upgradeMessage.append("Start with +2 bombs.");
-          break;
-        case 5:
-          upgradeMessage.append("More Shopkeeper items for sale.");
-          break;
-        case 6:
-          upgradeMessage.append("Begin with 100 gold.");
-          break;
-        case 7:
-          upgradeMessage.append("Start with +2 Ropes.");
-          break;
-        case 8:
-          upgradeMessage.append("Start with Fedora.");
-          break;
-        case 9:
-          upgradeMessage.append("Start with key.");
-          break;
+        case 1 -> upgradeMessage.append("Unlock Jungle.");
+        case 2 -> upgradeMessage.append("Unlock Ice Caves.");
+        case 3 -> upgradeMessage.append("Unlock Temple Ruins.");
+        case 4 -> upgradeMessage.append("Start with +2 bombs.");
+        case 5 -> upgradeMessage.append("More Shopkeeper items for sale.");
+        case 6 -> upgradeMessage.append("Begin with 100 gold.");
+        case 7 -> upgradeMessage.append("Start with +2 Ropes.");
+        case 8 -> upgradeMessage.append("Start with Fedora.");
+        case 9 -> upgradeMessage.append("Start with key.");
       }
       String message = upgradeMessage.toString();
       RequestLogger.printLine();

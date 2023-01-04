@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -144,40 +145,31 @@ public class Evaluator {
   }
 
   private int maxUseful(int slot) {
-    switch (slot) {
-      case Evaluator.WEAPON_1H:
-        return 1
-            + relevantSkill("Double-Fisted Skull Smashing")
-            + this.relevantFamiliar(FamiliarPool.HAND);
-      case EquipmentManager.OFFHAND:
-        return 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
-      case EquipmentManager.ACCESSORY1:
-        return 3;
-      case EquipmentManager.FAMILIAR:
-        // Familiar items include weapons, hats and pants, make sure we have enough to consider for
-        // other slots
-        return 1
-            + this.relevantFamiliar(FamiliarPool.SCARECROW)
-            + this.relevantFamiliar(FamiliarPool.HAND)
-            + this.relevantFamiliar(FamiliarPool.HATRACK);
-    }
-    return 1;
+    return switch (slot) {
+      case Evaluator.WEAPON_1H -> 1
+          + relevantSkill("Double-Fisted Skull Smashing")
+          + this.relevantFamiliar(FamiliarPool.HAND);
+      case EquipmentManager.OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
+      case EquipmentManager.ACCESSORY1 -> 3;
+      case EquipmentManager.FAMILIAR ->
+      // Familiar items include weapons, hats and pants, make sure we have enough to consider for
+      // other slots
+      1
+          + this.relevantFamiliar(FamiliarPool.SCARECROW)
+          + this.relevantFamiliar(FamiliarPool.HAND)
+          + this.relevantFamiliar(FamiliarPool.HATRACK);
+      default -> 1;
+    };
   }
 
   private static int toUseSlot(int slot) {
-    int useSlot = slot;
-    switch (slot) {
-      case Evaluator.OFFHAND_MELEE:
-      case Evaluator.OFFHAND_RANGED:
-        useSlot = EquipmentManager.OFFHAND;
-        break;
-      case Evaluator.WATCHES:
-        useSlot = EquipmentManager.ACCESSORY1;
-        break;
-      case Evaluator.WEAPON_1H:
-        useSlot = EquipmentManager.WEAPON;
-        break;
-    }
+    int useSlot =
+        switch (slot) {
+          case Evaluator.OFFHAND_MELEE, Evaluator.OFFHAND_RANGED -> EquipmentManager.OFFHAND;
+          case Evaluator.WATCHES -> EquipmentManager.ACCESSORY1;
+          case Evaluator.WEAPON_1H -> EquipmentManager.WEAPON;
+          default -> slot;
+        };
     return useSlot;
   }
 
@@ -581,17 +573,13 @@ public class Evaluator {
         } else if (keyword.startsWith("mox")) {
           index = Modifiers.MOX;
         } else if (keyword.startsWith("main")) {
-          switch (KoLCharacter.getPrimeIndex()) {
-            case 0:
-              index = Modifiers.MUS;
-              break;
-            case 1:
-              index = Modifiers.MYS;
-              break;
-            case 2:
-              index = Modifiers.MOX;
-              break;
-          }
+          index =
+              switch (KoLCharacter.getPrimeIndex()) {
+                case 0 -> Modifiers.MUS;
+                case 1 -> Modifiers.MYS;
+                case 2 -> Modifiers.MOX;
+                default -> index;
+              };
         } else if (keyword.startsWith("com")) {
           index = Modifiers.COMBAT_RATE;
           if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
@@ -697,25 +685,25 @@ public class Evaluator {
     boolean haveFancyBoots = InventoryManager.hasItem(fancyBoots);
 
     // Find the best plumber tool
-    switch (primeIndex) {
-      case 0: // Muscle
-        return !have ? heavyHammer : haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
-      case 1: // Mysticality
-        return !have
-            ? bonfireFlower
-            : haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
-      case 2: // Moxie
-        return !have ? fancyBoots : haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
-    }
-
-    // If you don't care about stat, pick the best item you own.
-    return haveHeavyHammer
-        ? heavyHammer
-        : haveBonfireFlower
-            ? bonfireFlower
-            : haveFancyBoots
-                ? fancyBoots
-                : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
+    return switch (primeIndex) {
+      case 0 -> // Muscle
+      !have ? heavyHammer : haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
+      case 1 -> // Mysticality
+      !have
+          ? bonfireFlower
+          : haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
+      case 2 -> // Moxie
+      !have ? fancyBoots : haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
+      default ->
+      // If you don't care about stat, pick the best item you own.
+      haveHeavyHammer
+          ? heavyHammer
+          : haveBonfireFlower
+              ? bonfireFlower
+              : haveFancyBoots
+                  ? fancyBoots
+                  : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
+    };
   }
 
   public double getScore(Modifiers mods, AdventureResult[] equipment) {
@@ -914,99 +902,65 @@ public class Evaluator {
 
   public static boolean checkEffectConstraints(int effectId) {
     // Return true if effect cannot be gained due to current other effects or class
-    switch (effectId) {
-      case EffectPool.NEARLY_SILENT_HUNTING:
-        return KoLCharacter.isSealClubber();
-
-      case EffectPool.SILENT_HUNTING:
-      case EffectPool.BARREL_CHESTED:
-        return !KoLCharacter.isSealClubber();
-
-      case EffectPool.BOON_OF_SHE_WHO_WAS:
-        return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.BOON_OF_THE_STORM_TORTOISE:
-        return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.BOON_OF_THE_WAR_SNAPPER:
-        return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.AVATAR_OF_SHE_WHO_WAS:
-        return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING
-            || KoLCharacter.getBlessingLevel() != 3;
-
-      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE:
-        return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING
-            || KoLCharacter.getBlessingLevel() != 3;
-
-      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER:
-        return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING
-            || KoLCharacter.getBlessingLevel() != 3;
-
-      case EffectPool.BLESSING_OF_SHE_WHO_WAS:
-        return !KoLCharacter.isTurtleTamer()
-            || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING
-            || KoLCharacter.getBlessingLevel() == -1
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE:
-        return !KoLCharacter.isTurtleTamer()
-            || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING
-            || KoLCharacter.getBlessingLevel() == -1
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER:
-        return !KoLCharacter.isTurtleTamer()
-            || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING
-            || KoLCharacter.getBlessingLevel() == -1
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.DISDAIN_OF_SHE_WHO_WAS:
-      case EffectPool.DISDAIN_OF_THE_STORM_TORTOISE:
-      case EffectPool.DISDAIN_OF_THE_WAR_SNAPPER:
-        return KoLCharacter.isTurtleTamer();
-
-      case EffectPool.BARREL_OF_LAUGHS:
-        return !KoLCharacter.isTurtleTamer();
-
-      case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD:
-      case EffectPool.BLOODY_POTATO_BITS:
-      case EffectPool.SLINKING_NOODLE_GLOB:
-      case EffectPool.WHISPERING_STRANDS:
-      case EffectPool.MACARONI_COATING:
-      case EffectPool.PENNE_FEDORA:
-      case EffectPool.PASTA_EYEBALL:
-      case EffectPool.SPICE_HAZE:
-        return KoLCharacter.isPastamancer();
-
-      case EffectPool.SHIELD_OF_THE_PASTALORD:
-      case EffectPool.PORK_BARREL:
-        return !KoLCharacter.isPastamancer();
-
-      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC:
-      case EffectPool.SOULERSKATES:
-      case EffectPool.WARLOCK_WARSTOCK_WARBARREL:
-        return !KoLCharacter.isSauceror();
-
-      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE:
-        return KoLCharacter.isSauceror();
-
-      case EffectPool.DOUBLE_BARRELED:
-        return !KoLCharacter.isDiscoBandit();
-
-      case EffectPool.BEER_BARREL_POLKA:
-        return !KoLCharacter.isAccordionThief();
-
-      case EffectPool.UNMUFFLED:
-        return !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Loud Muffler");
-
-      case EffectPool.MUFFLED:
-        return !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Quiet Muffler");
-    }
-    return false;
+    return switch (effectId) {
+      case EffectPool.NEARLY_SILENT_HUNTING -> KoLCharacter.isSealClubber();
+      case EffectPool.SILENT_HUNTING, EffectPool.BARREL_CHESTED -> !KoLCharacter.isSealClubber();
+      case EffectPool.BOON_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
+              != KoLCharacter.SHE_WHO_WAS_BLESSING
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.BOON_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
+              != KoLCharacter.STORM_BLESSING
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.BOON_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
+              != KoLCharacter.WAR_BLESSING
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.AVATAR_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
+              != KoLCharacter.SHE_WHO_WAS_BLESSING
+          || KoLCharacter.getBlessingLevel() != 3;
+      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
+              != KoLCharacter.STORM_BLESSING
+          || KoLCharacter.getBlessingLevel() != 3;
+      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
+              != KoLCharacter.WAR_BLESSING
+          || KoLCharacter.getBlessingLevel() != 3;
+      case EffectPool.BLESSING_OF_SHE_WHO_WAS -> !KoLCharacter.isTurtleTamer()
+          || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING
+          || KoLCharacter.getBlessingLevel() == -1
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE -> !KoLCharacter.isTurtleTamer()
+          || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING
+          || KoLCharacter.getBlessingLevel() == -1
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER -> !KoLCharacter.isTurtleTamer()
+          || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING
+          || KoLCharacter.getBlessingLevel() == -1
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.DISDAIN_OF_SHE_WHO_WAS,
+          EffectPool.DISDAIN_OF_THE_STORM_TORTOISE,
+          EffectPool.DISDAIN_OF_THE_WAR_SNAPPER -> KoLCharacter.isTurtleTamer();
+      case EffectPool.BARREL_OF_LAUGHS -> !KoLCharacter.isTurtleTamer();
+      case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD,
+          EffectPool.BLOODY_POTATO_BITS,
+          EffectPool.SLINKING_NOODLE_GLOB,
+          EffectPool.WHISPERING_STRANDS,
+          EffectPool.MACARONI_COATING,
+          EffectPool.PENNE_FEDORA,
+          EffectPool.PASTA_EYEBALL,
+          EffectPool.SPICE_HAZE -> KoLCharacter.isPastamancer();
+      case EffectPool.SHIELD_OF_THE_PASTALORD, EffectPool.PORK_BARREL -> !KoLCharacter
+          .isPastamancer();
+      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC,
+          EffectPool.SOULERSKATES,
+          EffectPool.WARLOCK_WARSTOCK_WARBARREL -> !KoLCharacter.isSauceror();
+      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE -> KoLCharacter.isSauceror();
+      case EffectPool.DOUBLE_BARRELED -> !KoLCharacter.isDiscoBandit();
+      case EffectPool.BEER_BARREL_POLKA -> !KoLCharacter.isAccordionThief();
+      case EffectPool.UNMUFFLED -> !Preferences.getString("peteMotorbikeMuffler")
+          .equals("Extra-Loud Muffler");
+      case EffectPool.MUFFLED -> !Preferences.getString("peteMotorbikeMuffler")
+          .equals("Extra-Quiet Muffler");
+      default -> false;
+    };
   }
 
   void enumerateEquipment(int equipScope, int maxPrice, int priceLevel)
@@ -1018,8 +972,8 @@ public class Evaluator {
     // Items to be considered based on their score
     List<List<CheckedItem>> ranked = new ArrayList<>(slots);
     for (int i = 0; i < slots; ++i) {
-      automatic.add(new ArrayList<CheckedItem>());
-      ranked.add(new ArrayList<CheckedItem>());
+      automatic.add(new ArrayList<>());
+      ranked.add(new ArrayList<>());
     }
 
     double nullScore = this.getScore(new Modifiers());
@@ -1135,12 +1089,11 @@ public class Evaluator {
 
           // Some items work differently with the Left Hand
           if (familiarId == FamiliarPool.LEFT_HAND) {
-            switch (id) {
-              case ItemPool.KOL_COL_13_SNOWGLOBE:
-              case ItemPool.GLOWING_ESCA:
-                familiarMods = null;
-                break;
-            }
+            familiarMods =
+                switch (id) {
+                  case ItemPool.KOL_COL_13_SNOWGLOBE, ItemPool.GLOWING_ESCA -> null;
+                  default -> familiarMods;
+                };
           }
         }
 
@@ -1245,7 +1198,7 @@ public class Evaluator {
               if (type.equals("chefstaff")) { // Don't allow chefstaves to displace other
                 // 1H weapons from the shortlist if you can't
                 // equip them anyway.
-                if (!KoLCharacter.hasSkill("Spirit of Rigatoni")
+                if (!KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
                     && !KoLCharacter.isJarlsberg()
                     && !(KoLCharacter.isSauceror() && gloveAvailable)) {
                   continue;
@@ -1253,15 +1206,9 @@ public class Evaluator {
                 // In any case, don't put this in an aux slot.
               } else if (!this.requireShield && !EquipmentDatabase.isMainhandOnly(id)) {
                 switch (weaponType) {
-                  case MELEE:
-                    auxSlot = Evaluator.OFFHAND_MELEE;
-                    break;
-                  case RANGED:
-                    auxSlot = Evaluator.OFFHAND_RANGED;
-                    break;
-                  case NONE:
-                  default:
-                    break;
+                  case MELEE -> auxSlot = Evaluator.OFFHAND_MELEE;
+                  case RANGED -> auxSlot = Evaluator.OFFHAND_RANGED;
+                  case NONE -> {}
                 }
               }
             }
@@ -1286,7 +1233,7 @@ public class Evaluator {
                 if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
                     && weaponType != WeaponType.RANGED
                     && (!EquipmentDatabase.isKnife(id)
-                        || !KoLCharacter.hasSkill("Tricky Knifework"))) {
+                        || !KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK))) {
                   slot = auxSlot;
                 }
                 if (KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle()
@@ -1321,7 +1268,7 @@ public class Evaluator {
           case EquipmentManager.ACCESSORY1:
             if (id == ItemPool.SPECIAL_SAUCE_GLOVE
                 && KoLCharacter.isSauceror()
-                && !KoLCharacter.hasSkill("Spirit of Rigatoni")) {
+                && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)) {
               item.validate(maxPrice, priceLevel);
 
               if (item.getCount() == 0) {
@@ -1694,7 +1641,7 @@ public class Evaluator {
 
     List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
     for (int i = 0; i < ranked.size(); ++i) {
-      speculationList.add(new ArrayList<MaximizerSpeculation>());
+      speculationList.add(new ArrayList<>());
     }
 
     for (int slot = 0; slot < ranked.size(); ++slot) {

@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -57,7 +58,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class Maximizer {
   private static boolean firstTime = true;
 
-  public static final LockableListModel<Boost> boosts = new LockableListModel<Boost>();
+  public static final LockableListModel<Boost> boosts = new LockableListModel<>();
   public static Evaluator eval;
 
   public static String[] maximizationCategories = {
@@ -634,14 +635,14 @@ public class Maximizer {
             continue;
           }
 
-          UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillName);
           int skillId = SkillDatabase.getSkillId(skillName);
+          UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
 
           if (skill != null) {
             usesRemaining = skill.getMaximumCast();
           }
 
-          if (!KoLCharacter.hasSkill(skillName) || usesRemaining == 0) {
+          if (!KoLCharacter.hasSkill(skillId) || usesRemaining == 0) {
             if (includeAll) {
               boolean isBuff = SkillDatabase.isBuff(skillId);
               text = "(learn to " + cmd + (isBuff ? ", or get it from a buffbot)" : ")");
@@ -667,7 +668,7 @@ public class Maximizer {
             continue;
           }
           // You must know the skill
-          if (!KoLCharacter.hasSkill("Sweet Synthesis")) {
+          if (!KoLCharacter.hasSkill(SkillPool.SWEET_SYNTHESIS)) {
             if (includeAll) {
               text = "(learn the Sweet Synthesis skill)";
               cmd = "";
@@ -1001,13 +1002,13 @@ public class Maximizer {
             text = "(equip Greatest American Pants for " + name + ")";
             cmd = "";
           }
-          if (name.equals("Super Skill")) {
-            duration = 5;
-          } else if (name.equals("Super Structure") || name.equals("Super Accuracy")) {
-            duration = 10;
-          } else if (name.equals("Super Vision") || name.equals("Super Speed")) {
-            duration = 20;
-          }
+          duration =
+              switch (name) {
+                case "Super Skill" -> 5;
+                case "Super Structure", "Super Accuracy" -> 10;
+                case "Super Vision", "Super Speed" -> 20;
+                default -> duration;
+              };
           usesRemaining = 5 - Preferences.getInteger("_gapBuffs");
         } else if (cmd.startsWith("spacegate")) {
           if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")) {
@@ -1680,15 +1681,14 @@ public class Maximizer {
         if (!method.equals("have")) {
           text = method + " & " + text;
         }
-        if (method.equals("uncloset")) {
-          cmd = "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
-        } else if (method.equals("unstash")) {
-          cmd = "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
-        }
-        // Should be only hitting this after Ronin I think
-        else if (method.equals("pull")) {
-          cmd = "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
-        }
+        cmd =
+            switch (method) {
+              case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
+              case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
+                // Should be only hitting this after Ronin I think
+              case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+              default -> cmd;
+            };
       } else if (checkedItem.creatable + checkedItem.initial > count) {
         text = "make & " + text;
         cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
@@ -1762,13 +1762,13 @@ public class Maximizer {
   }
 
   private static boolean excludedTCRSItem(int itemId) {
-    switch (itemId) {
-      case ItemPool.DIETING_PILL:
-        // Doubles adventures and stats from next food.  Also
-        // doubles fullness - which can be a surprise.
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.DIETING_PILL ->
+      // Doubles adventures and stats from next food.  Also
+      // doubles fullness - which can be a surprise.
+      true;
+      default -> false;
+    };
   }
 
   private static class Makeable {

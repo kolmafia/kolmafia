@@ -172,105 +172,110 @@ public class Speculation {
         continue;
       }
 
-      if (cmd.equals("mcd")) {
-        this.setMindControlLevel(StringUtilities.parseInt(params));
-      } else if (cmd.equals("equip")) {
-        piece = params.split(" ", 2);
-        int slot = EquipmentRequest.slotNumber(piece[0]);
-        if (slot != -1) {
-          params = piece[1];
-        }
+      switch (cmd) {
+        case "mcd" -> this.setMindControlLevel(StringUtilities.parseInt(params));
+        case "equip" -> {
+          piece = params.split(" ", 2);
+          int slot = EquipmentRequest.slotNumber(piece[0]);
+          if (slot != -1) {
+            params = piece[1];
+          }
 
-        AdventureResult match = ItemFinder.getFirstMatchingItem(params, Match.EQUIP);
-        if (match == null) {
-          return true;
-        }
-        if (slot == -1) {
-          slot = EquipmentRequest.chooseEquipmentSlot(match.getItemId());
-
-          // If it can't be equipped, give up
+          AdventureResult match = ItemFinder.getFirstMatchingItem(params, Match.EQUIP);
+          if (match == null) {
+            return true;
+          }
           if (slot == -1) {
-            KoLmafia.updateDisplay(MafiaState.ERROR, "You can't equip a " + match.getName());
+            slot = EquipmentRequest.chooseEquipmentSlot(match.getItemId());
+
+            // If it can't be equipped, give up
+            if (slot == -1) {
+              KoLmafia.updateDisplay(MafiaState.ERROR, "You can't equip a " + match.getName());
+              return true;
+            }
+          }
+          this.equip(slot, match);
+        }
+        case "unequip" -> {
+          int slot = EquipmentRequest.slotNumber(params);
+          if (slot == -1) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown slot: " + params);
             return true;
           }
+          this.equip(slot, EquipmentRequest.UNEQUIP);
         }
-        this.equip(slot, match);
-      } else if (cmd.equals("unequip")) {
-        int slot = EquipmentRequest.slotNumber(params);
-        if (slot == -1) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown slot: " + params);
-          return true;
+        case "familiar" -> {
+          int id = FamiliarDatabase.getFamiliarId(params);
+          if (id == -1 && !params.equals("none")) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + params);
+            return true;
+          }
+          FamiliarData fam = KoLCharacter.usableFamiliar(id);
+          if (fam == null) {
+            fam = new FamiliarData(id);
+          }
+          this.setFamiliar(fam);
         }
-        this.equip(slot, EquipmentRequest.UNEQUIP);
-      } else if (cmd.equals("familiar")) {
-        int id = FamiliarDatabase.getFamiliarId(params);
-        if (id == -1 && !params.equals("none")) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + params);
-          return true;
+        case "enthrone" -> {
+          int id = FamiliarDatabase.getFamiliarId(params);
+          if (id == -1 && !params.equals("none")) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + params);
+            return true;
+          }
+          FamiliarData fam = new FamiliarData(id);
+          this.setEnthroned(fam);
+          this.equip(EquipmentManager.HAT, ItemPool.get(ItemPool.HATSEAT));
         }
-        FamiliarData fam = KoLCharacter.usableFamiliar(id);
-        if (fam == null) {
-          fam = new FamiliarData(id);
+        case "bjornify" -> {
+          int id = FamiliarDatabase.getFamiliarId(params);
+          if (id == -1 && !params.equals("none")) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + params);
+            return true;
+          }
+          FamiliarData fam = new FamiliarData(id);
+          this.setBjorned(fam);
+          this.equip(EquipmentManager.CONTAINER, ItemPool.get(ItemPool.BUDDY_BJORN));
         }
-        this.setFamiliar(fam);
-      } else if (cmd.equals("enthrone")) {
-        int id = FamiliarDatabase.getFamiliarId(params);
-        if (id == -1 && !params.equals("none")) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + params);
-          return true;
-        }
-        FamiliarData fam = new FamiliarData(id);
-        this.setEnthroned(fam);
-        this.equip(EquipmentManager.HAT, ItemPool.get(ItemPool.HATSEAT));
-      } else if (cmd.equals("bjornify")) {
-        int id = FamiliarDatabase.getFamiliarId(params);
-        if (id == -1 && !params.equals("none")) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown familiar: " + params);
-          return true;
-        }
-        FamiliarData fam = new FamiliarData(id);
-        this.setBjorned(fam);
-        this.equip(EquipmentManager.CONTAINER, ItemPool.get(ItemPool.BUDDY_BJORN));
-      } else if (cmd.equals("up")) {
-        List<String> effects = EffectDatabase.getMatchingNames(params);
-        if (effects.isEmpty()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown effect: " + params);
-          return true;
-        }
-
-        int effectId = EffectDatabase.getEffectId(effects.get(0));
-        AdventureResult effect = EffectPool.get(effectId);
-        if (!this.hasEffect(effect)) {
-          this.addEffect(effect);
-        }
-      } else if (cmd.equals("uneffect")) {
-        List<String> effects = EffectDatabase.getMatchingNames(params);
-        if (effects.isEmpty()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown effect: " + params);
-          return true;
-        }
-
-        int effectId = EffectDatabase.getEffectId(effects.get(0));
-        AdventureResult effect = EffectPool.get(effectId);
-        this.removeEffect(effect);
-      } else if (cmd.equals("quiet")) {
-        quiet = true;
-      } else {
-        var modeable = Modeable.find(cmd);
-
-        if (modeable != null) {
-          if (!modeable.validate(cmd, params)) {
-            KoLmafia.updateDisplay(
-                MafiaState.ERROR, "Unknown parameter for " + cmd + ": " + params);
+        case "up" -> {
+          List<String> effects = EffectDatabase.getMatchingNames(params);
+          if (effects.isEmpty()) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown effect: " + params);
             return true;
           }
 
-          this.setModeable(modeable, params);
-          this.equip(KoLCharacter.equipmentSlot(modeable.getItem()), modeable.getItem());
+          int effectId = EffectDatabase.getEffectId(effects.get(0));
+          AdventureResult effect = EffectPool.get(effectId);
+          if (!this.hasEffect(effect)) {
+            this.addEffect(effect);
+          }
         }
+        case "uneffect" -> {
+          List<String> effects = EffectDatabase.getMatchingNames(params);
+          if (effects.isEmpty()) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown effect: " + params);
+            return true;
+          }
 
-        KoLmafia.updateDisplay(MafiaState.ERROR, "I don't know how to speculate about " + cmd);
-        return true;
+          int effectId = EffectDatabase.getEffectId(effects.get(0));
+          AdventureResult effect = EffectPool.get(effectId);
+          this.removeEffect(effect);
+        }
+        case "quiet" -> quiet = true;
+        default -> {
+          var modeable = Modeable.find(cmd);
+          if (modeable != null) {
+            if (!modeable.validate(cmd, params)) {
+              KoLmafia.updateDisplay(
+                  MafiaState.ERROR, "Unknown parameter for " + cmd + ": " + params);
+              return true;
+            }
+
+            this.setModeable(modeable, params);
+            this.equip(KoLCharacter.equipmentSlot(modeable.getItem()), modeable.getItem());
+          }
+          KoLmafia.updateDisplay(MafiaState.ERROR, "I don't know how to speculate about " + cmd);
+          return true;
+        }
       }
     }
     return quiet;

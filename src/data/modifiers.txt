@@ -3041,6 +3041,7 @@ Item	gold skull ring	PvP Fights: +7, Single Equip
 # gold wedding ring: 75% Chance of Preventing Negative Status Attacks
 Item	gold wedding ring	Adventures: +1, Single Equip
 Item	Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
+Item	Golden Mr. Eh?	Muscle: +12, Mysticality: +12, Moxie: +12
 Item	gory drippy orb	Drippy Damage: +5
 # government-issued necktie: +25% Damage vs. Zombies
 Item	government-issued necktie	Experience Percent (Mysticality): +10, Meat Drop: [5*G], Single Equip
@@ -11214,6 +11215,7 @@ Item	grey gosling	Free Pull
 Item	grolblin rum	Lasts Until Rollover
 # grouchy restless spirit: Deals 40-45 <font color=gray>Spooky Damage</font>
 # groupie lipstick: Deals 150-250 <font color=blueviolet>Sleaze Damage</font>
+# groveling gravel: &quot;Defeat&quot; your opponent for meat and stats, but no items.
 # Gummi-Memory: Your future Gelatinous Noob runs will start with 5 extra skills (up to 20)
 # gun parts: Maybe you can make a gun out of them?
 Item	Guzzlr application	Free Pull
@@ -11476,6 +11478,7 @@ Item	miniscule temporal rip	Free Pull
 Item	mint condition Lil' Doctor&trade; bag	Free Pull
 # mint condition magnifying glass: Helps you solve mysteries and is totally safe
 Item	mint-in-box Powerful Glove	Free Pull
+# milestone: Explores the Desert
 # Mob Penguin cellular phone: Lets You Talk to Penguins
 # modern picture frame: Put abstractions in it to create abstract art!
 # molotov cocktail cocktail: Deals 65-80 <font color=red>Hot Damage</font>
@@ -11766,6 +11769,7 @@ Item	Retrospecs try-at-home kit	Free Pull
 # rogue swarmer: Deals Physical Damage based on how many swarmers you have
 Item	roll of toilet paper	Free Pull
 # roller skate decoy: Put it down, and monsters will attack it instead of you
+Item	Rock Garden Guide	Free Pull
 Item	ROM of Optimality	Skill: "Toggle Optimality"
 # rotten tomato: Throw it at somebody to grant extra PvP fights
 # rotting cowskin: Adds Demonic Bovine Taint to your cowboy boots
@@ -12066,6 +12070,7 @@ Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
 # toy sixgun: Bang!
 # toy soldier: Deals 30-35 Damage (Requires Tequila)
 # toy soldier: (Not consumed when used)
+# train whistle: Blow it to weaken your foes
 # Trainbot autoassembly module: Gives you a piece of the Trainbot outfit
 Item	training scroll:  Shattering Punch	Skill: "Shattering Punch"
 Item	training scroll:  Shivering Monkey Technique	Skill: "Shivering Monkey Technique"

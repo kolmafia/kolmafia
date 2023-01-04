@@ -74,21 +74,14 @@ public class PandamoniumRequest extends GenericRequest {
 
   public PandamoniumRequest(final int where) {
     super("pandamonium.php");
-    String action = null;
-    switch (where) {
-      case MOAN:
-        action = "moan";
-        break;
-      case COMEDY:
-        action = "mourn";
-        break;
-      case ARENA:
-        action = "sven";
-        break;
-      case TEMPLE:
-        action = "temp";
-        break;
-    }
+    String action =
+        switch (where) {
+          case MOAN -> "moan";
+          case COMEDY -> "mourn";
+          case ARENA -> "sven";
+          case TEMPLE -> "temp";
+          default -> null;
+        };
 
     if (action != null) {
       this.addFormField("action", action);

@@ -589,6 +589,7 @@ public class ItemPool {
   public static final int STUFFED_COCOABO = 1974;
   public static final int RUBBER_WWTNSD_BRACELET = 1994;
   public static final int SPADE_NECKLACE = 2017;
+  public static final int WICKER_SHIELD = 2034;
   public static final int PATCHOULI_OIL_BOMB = 2040;
   public static final int EXPLODING_HACKY_SACK = 2042;
   public static final int MACGUFFIN_DIARY = 2044;
@@ -2183,6 +2184,7 @@ public class ItemPool {
   public static final int HANDFUL_OF_SMITHEREENS = 7006;
   public static final int GOLDEN_LIGHT = 7013;
   public static final int LOUDER_THAN_BOMB = 7014;
+  public static final int WORK_IS_A_FOUR_LETTER_SWORD = 7016;
   public static final int OUIJA_BOARD = 7025;
   public static final int SAUCEPANIC = 7027;
   public static final int SHAKESPEARES_SISTERS_ACCORDION = 7029;

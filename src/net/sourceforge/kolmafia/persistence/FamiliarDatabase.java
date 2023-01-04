@@ -93,7 +93,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.eventSkillByName = new ArrayList<>(4);
 
     for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName.add(new HashMap<String, Integer>());
+      FamiliarDatabase.eventSkillByName.add(new HashMap<>());
     }
     FamiliarDatabase.readFamiliars();
     FamiliarDatabase.saveCanonicalNames();

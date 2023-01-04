@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class VariableList implements Iterable<Variable> {
-  private final ArrayList<Variable> list = new ArrayList<Variable>();
+  private final ArrayList<Variable> list = new ArrayList<>();
 
   public boolean add(final Variable n) {
     if (this.find(n.getName()) != null) {

@@ -968,8 +968,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     AdventureResult current = sourceList.get(index);
 
     // Modify substats and fullstats in place
-    if (current instanceof AdventureMultiResult && result instanceof AdventureMultiResult) {
-      ((AdventureMultiResult) current).addResultInPlace((AdventureMultiResult) result);
+    if (current instanceof AdventureMultiResult c && result instanceof AdventureMultiResult r) {
+      c.addResultInPlace(r);
       return;
     }
 

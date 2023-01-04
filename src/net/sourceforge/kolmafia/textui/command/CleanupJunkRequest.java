@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -110,7 +111,7 @@ public class CleanupJunkRequest extends AbstractCommand {
 
     int itemPower;
 
-    if (KoLCharacter.hasSkill("Pulverize")) {
+    if (KoLCharacter.hasSkill(SkillPool.PULVERIZE)) {
       boolean hasMalusAccess = KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris();
 
       for (int i = 0; i < items.length; ++i) {

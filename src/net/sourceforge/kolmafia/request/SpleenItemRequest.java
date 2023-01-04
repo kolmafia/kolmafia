@@ -52,21 +52,26 @@ public class SpleenItemRequest extends UseItemRequest {
     int usableMaximum = spleenLeft / spleenHit;
 
     switch (itemId) {
-      case ItemPool.TURKEY_BLASTER:
+      case ItemPool.TURKEY_BLASTER -> {
         UseItemRequest.limiter = "daily limit";
         return Math.min(usableMaximum, (3 - Preferences.getInteger("_turkeyBlastersUsed")));
-      case ItemPool.MOJO_FILTER:
+      }
+      case ItemPool.MOJO_FILTER -> {
         UseItemRequest.limiter = "daily limit";
         return Math.min(usableMaximum, (3 - Preferences.getInteger("currentMojoFilters")));
-      case ItemPool.MANSQUITO_SERUM:
+      }
+      case ItemPool.MANSQUITO_SERUM -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_mansquitoSerumUsed") ? 0 : 1;
-      case ItemPool.AUTHORS_INK:
+      }
+      case ItemPool.AUTHORS_INK -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_authorsInkUsed") ? 0 : 1;
-      case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT:
+      }
+      case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_inquisitorsUnidentifiableObjectUsed") ? 0 : 1;
+      }
     }
 
     return (int) Math.min(restorationMaximum, usableMaximum);

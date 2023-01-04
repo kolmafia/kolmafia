@@ -10,6 +10,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -94,7 +95,7 @@ public class EquipmentManagerTest {
 
   @Test
   public void equippingDesignerSweatpantsGivesCombatSkills() {
-    assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(false));
+    assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(false));
 
     var cleanup =
         new Cleanups(
@@ -102,7 +103,7 @@ public class EquipmentManagerTest {
             withProperty("sweat", 100));
 
     try (cleanup) {
-      assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(true));
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));
     }
   }
 
@@ -114,9 +115,9 @@ public class EquipmentManagerTest {
             withProperty("sweat", 100));
 
     try (cleanup) {
-      assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(true));
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));
       EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
-      assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(false));
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(false));
     }
   }
 }

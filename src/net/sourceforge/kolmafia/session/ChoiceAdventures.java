@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -49,7 +50,7 @@ public abstract class ChoiceAdventures {
   public static class Option {
     private final String name;
     private final int option;
-    private final AdventureResult items[];
+    private final AdventureResult[] items;
 
     public Option(final String name) {
       this(name, 0, NO_ITEM_NAMES);
@@ -6480,30 +6481,35 @@ public abstract class ChoiceAdventures {
       String photo = matcher.group(1);
       String find = matcher.group(0);
       String replace = null;
-      if (photo.equals("photo1")) {
-        if (find.contains("2259")) {
-          replace =
-              StringUtilities.singleStringReplace(
-                  find, "<option value=\"2259\">", "<option value=\"2259\" selected>");
-        }
-      } else if (photo.equals("photo2")) {
-        if (find.contains("7264")) {
-          replace =
-              StringUtilities.singleStringReplace(
-                  find, "<option value=\"7264\">", "<option value=\"7264\" selected>");
-        }
-      } else if (photo.equals("photo3")) {
-        if (find.contains("7263")) {
-          replace =
-              StringUtilities.singleStringReplace(
-                  find, "<option value=\"7263\">", "<option value=\"7263\" selected>");
-        }
-      } else if (photo.equals("photo4")) {
-        if (find.contains("7265")) {
-          replace =
-              StringUtilities.singleStringReplace(
-                  find, "<option value=\"7265\">", "<option value=\"7265\" selected>");
-        }
+      switch (photo) {
+        case "photo1":
+          if (find.contains("2259")) {
+            replace =
+                StringUtilities.singleStringReplace(
+                    find, "<option value=\"2259\">", "<option value=\"2259\" selected>");
+          }
+          break;
+        case "photo2":
+          if (find.contains("7264")) {
+            replace =
+                StringUtilities.singleStringReplace(
+                    find, "<option value=\"7264\">", "<option value=\"7264\" selected>");
+          }
+          break;
+        case "photo3":
+          if (find.contains("7263")) {
+            replace =
+                StringUtilities.singleStringReplace(
+                    find, "<option value=\"7263\">", "<option value=\"7263\" selected>");
+          }
+          break;
+        case "photo4":
+          if (find.contains("7265")) {
+            replace =
+                StringUtilities.singleStringReplace(
+                    find, "<option value=\"7265\">", "<option value=\"7265\" selected>");
+          }
+          break;
       }
 
       if (replace != null) {
@@ -7512,7 +7518,7 @@ public abstract class ChoiceAdventures {
         }
         // Check for Eggman
         else if (KoLCharacter.getCompanion() == Companion.EGGMAN) {
-          bonus = KoLCharacter.hasSkill("Working Lunch") ? 75 : 50;
+          bonus = KoLCharacter.hasSkill(SkillPool.WORKING_LUNCH) ? 75 : 50;
         }
         // Check for Cat Servant
         else if (KoLCharacter.isEd()) {
@@ -8897,11 +8903,13 @@ public abstract class ChoiceAdventures {
           result[1] = new Option("Buy a drippy candy bar for 10,000 Meat or get Driplets");
           {
             String item =
-                KoLCharacter.hasSkill("Drippy Eye-Sprout")
+                KoLCharacter.hasSkill(SkillPool.DRIPPY_EYE_SPROUT)
                     ? "a drippy seed"
-                    : KoLCharacter.hasSkill("Drippy Eye-Stone")
+                    : KoLCharacter.hasSkill(SkillPool.DRIPPY_EYE_STONE)
                         ? "a drippy bezoar"
-                        : KoLCharacter.hasSkill("Drippy Eye-Beetle") ? "a drippy grub" : "nothing";
+                        : KoLCharacter.hasSkill(SkillPool.DRIPPY_EYE_BEETLE)
+                            ? "a drippy grub"
+                            : "nothing";
             result[2] = new Option("Get " + item);
           }
           {

@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
@@ -2796,11 +2797,10 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value get_stack_trace(ScriptRuntime controller) {
-    if (!(controller instanceof AshRuntime)) {
+    if (!(controller instanceof AshRuntime interpreter)) {
       throw controller.runtimeException("Stack trace only supported when called from ASH.");
     }
 
-    AshRuntime interpreter = (AshRuntime) controller;
     List<CallFrame> callStack = interpreter.getCallFrames();
 
     int frameCount = callStack.size();
@@ -3210,8 +3210,7 @@ public abstract class RuntimeLibrary {
     for (int i = 0; i < result.length; i++) {
       Object ob = result[i];
 
-      if (ob instanceof TagNode) {
-        TagNode tag = (TagNode) ob;
+      if (ob instanceof TagNode tag) {
         result[i] = serializer.getAsString(tag);
       }
 
@@ -3561,26 +3560,17 @@ public abstract class RuntimeLibrary {
     if (!item.getType().equals(DataTypes.TYPE_ITEM)) {
       return DataTypes.parseSlotValue(item.toString(), true);
     }
-    switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
-      case HAT:
-        return DataTypes.parseSlotValue("hat", true);
-      case WEAPON:
-        return DataTypes.parseSlotValue("weapon", true);
-      case OFFHAND:
-        return DataTypes.parseSlotValue("off-hand", true);
-      case SHIRT:
-        return DataTypes.parseSlotValue("shirt", true);
-      case PANTS:
-        return DataTypes.parseSlotValue("pants", true);
-      case CONTAINER:
-        return DataTypes.parseSlotValue("container", true);
-      case FAMILIAR_EQUIPMENT:
-        return DataTypes.parseSlotValue("familiar", true);
-      case ACCESSORY:
-        return DataTypes.parseSlotValue("acc1", true);
-      default:
-        return DataTypes.parseSlotValue("none", true);
-    }
+    return switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
+      case HAT -> DataTypes.parseSlotValue("hat", true);
+      case WEAPON -> DataTypes.parseSlotValue("weapon", true);
+      case OFFHAND -> DataTypes.parseSlotValue("off-hand", true);
+      case SHIRT -> DataTypes.parseSlotValue("shirt", true);
+      case PANTS -> DataTypes.parseSlotValue("pants", true);
+      case CONTAINER -> DataTypes.parseSlotValue("container", true);
+      case FAMILIAR_EQUIPMENT -> DataTypes.parseSlotValue("familiar", true);
+      case ACCESSORY -> DataTypes.parseSlotValue("acc1", true);
+      default -> DataTypes.parseSlotValue("none", true);
+    };
   }
 
   public static Value to_element(ScriptRuntime controller, final Value value) {
@@ -5186,106 +5176,108 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
     String which = type.toString();
 
-    if (which.equals("zap")) {
-      List<String> zapgroup = ZapRequest.getZapGroup((int) item.intValue());
-      for (int i = zapgroup.size() - 1; i >= 0; --i) {
-        Value key = DataTypes.parseItemValue(zapgroup.get(i), true);
-        if (key.intValue() != item.intValue()) {
-          value.aset(key, DataTypes.ZERO_VALUE);
-        }
-      }
-    } else if (which.equals("fold")) {
-      FoldGroup list = ItemDatabase.getFoldGroup(item.toString());
-      if (list == null) return value;
-      for (int i = list.names.size() - 1; i >= 0; --i) {
-        value.aset(DataTypes.parseItemValue(list.names.get(i), true), new Value(i + 1));
-      }
-    } else if (which.equals("pulverize")) { // All values scaled up by one million
-      int pulver = EquipmentDatabase.getPulverization((int) item.intValue());
-      if (pulver == -1 || (pulver & EquipmentDatabase.MALUS_UPGRADE) != 0) {
-        return value;
-      }
-      if (pulver > 0) {
-        value.aset(DataTypes.makeItemValue(pulver, true), DataTypes.makeIntValue(1000000));
-        return value;
-      }
-
-      ArrayList<Integer> elems = new ArrayList<>();
-      boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
-      if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
-        elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
-        elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
-        elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
-        elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
-        elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
-        elems.add(ItemPool.TWINKLY_WAD);
-      }
-      int nelems = elems.size();
-      if (nelems == 0) {
-        return value; // shouldn't happen
-      }
-
-      int powders = 0, nuggets = 0, wads = 0;
-      if ((pulver & EquipmentDatabase.YIELD_3W) != 0) {
-        wads = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1W3N_2W) != 0) {
-        wads = 1500000;
-        nuggets = 1500000;
-      } else if ((pulver & EquipmentDatabase.YIELD_4N_1W) != 0) {
-        wads = 500000;
-        nuggets = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_3N) != 0) {
-        nuggets = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1N3P_2N) != 0) {
-        nuggets = 1500000;
-        powders = 1500000;
-      } else if ((pulver & EquipmentDatabase.YIELD_4P_1N) != 0) {
-        nuggets = 500000;
-        powders = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_3P) != 0) {
-        powders = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_2P) != 0) {
-        powders = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1P) != 0) {
-        powders = 1000000;
-      }
-      int gems = wads / 100;
-      wads -= gems;
-
-      for (int wad : elems) {
-        if (powders > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2POWDER, true),
-              DataTypes.makeIntValue(powders / nelems));
-        }
-        if (nuggets > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2NUGGET, true),
-              DataTypes.makeIntValue(nuggets / nelems));
-        }
-        if (wads > 0) {
-          if (wad == ItemPool.TWINKLY_WAD) { // no twinkly gem!
-            wads += gems;
-            gems = 0;
+    switch (which) {
+      case "zap" -> {
+        List<String> zapgroup = ZapRequest.getZapGroup((int) item.intValue());
+        for (int i = zapgroup.size() - 1; i >= 0; --i) {
+          Value key = DataTypes.parseItemValue(zapgroup.get(i), true);
+          if (key.intValue() != item.intValue()) {
+            value.aset(key, DataTypes.ZERO_VALUE);
           }
-          value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(wads / nelems));
         }
-        if (gems > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2GEM, true), DataTypes.makeIntValue(gems / nelems));
+      }
+      case "fold" -> {
+        FoldGroup list = ItemDatabase.getFoldGroup(item.toString());
+        if (list == null) return value;
+        for (int i = list.names.size() - 1; i >= 0; --i) {
+          value.aset(DataTypes.parseItemValue(list.names.get(i), true), new Value(i + 1));
         }
-        if (clusters) {
-          value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(1000000));
+      }
+      case "pulverize" -> { // All values scaled up by one million
+        int pulver = EquipmentDatabase.getPulverization((int) item.intValue());
+        if (pulver == -1 || (pulver & EquipmentDatabase.MALUS_UPGRADE) != 0) {
+          return value;
+        }
+        if (pulver > 0) {
+          value.aset(DataTypes.makeItemValue(pulver, true), DataTypes.makeIntValue(1000000));
+          return value;
+        }
+        ArrayList<Integer> elems = new ArrayList<>();
+        boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
+        if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
+          elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
+          elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
+          elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
+          elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
+          elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
+          elems.add(ItemPool.TWINKLY_WAD);
+        }
+        int nelems = elems.size();
+        if (nelems == 0) {
+          return value; // shouldn't happen
+        }
+        int powders = 0, nuggets = 0, wads = 0;
+        if ((pulver & EquipmentDatabase.YIELD_3W) != 0) {
+          wads = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1W3N_2W) != 0) {
+          wads = 1500000;
+          nuggets = 1500000;
+        } else if ((pulver & EquipmentDatabase.YIELD_4N_1W) != 0) {
+          wads = 500000;
+          nuggets = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_3N) != 0) {
+          nuggets = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1N3P_2N) != 0) {
+          nuggets = 1500000;
+          powders = 1500000;
+        } else if ((pulver & EquipmentDatabase.YIELD_4P_1N) != 0) {
+          nuggets = 500000;
+          powders = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_3P) != 0) {
+          powders = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_2P) != 0) {
+          powders = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1P) != 0) {
+          powders = 1000000;
+        }
+        int gems = wads / 100;
+        wads -= gems;
+        for (int wad : elems) {
+          if (powders > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2POWDER, true),
+                DataTypes.makeIntValue(powders / nelems));
+          }
+          if (nuggets > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2NUGGET, true),
+                DataTypes.makeIntValue(nuggets / nelems));
+          }
+          if (wads > 0) {
+            if (wad == ItemPool.TWINKLY_WAD) { // no twinkly gem!
+              wads += gems;
+              gems = 0;
+            }
+            value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(wads / nelems));
+          }
+          if (gems > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2GEM, true),
+                DataTypes.makeIntValue(gems / nelems));
+          }
+          if (clusters) {
+            value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(1000000));
+          }
         }
       }
     }
@@ -7745,9 +7737,7 @@ public abstract class RuntimeLibrary {
 
     MapValue value = new MapValue(DataTypes.STRING_TO_BOOLEAN_TYPE);
     for (ChatMessage chatMessage : chatMessages) {
-      if (chatMessage instanceof WhoMessage) {
-        WhoMessage message = (WhoMessage) chatMessage;
-
+      if (chatMessage instanceof WhoMessage message) {
         for (Entry<String, Boolean> entry : message.getContacts().entrySet()) {
           value.aset(new Value(entry.getKey()), DataTypes.makeBooleanValue(entry.getValue()));
         }
@@ -8488,7 +8478,7 @@ public abstract class RuntimeLibrary {
     int attack = monster.getAttack() + attackModifier;
     int defenseStat = KoLCharacter.getAdjustedMoxie();
 
-    if (KoLCharacter.hasSkill(SkillDatabase.getSkillId("Hero of the Half-Shell"))
+    if (KoLCharacter.hasSkill(SkillPool.HERO_OF_THE_HALF_SHELL)
         && EquipmentManager.usingShield()
         && KoLCharacter.getAdjustedMuscle() > defenseStat) {
       defenseStat = KoLCharacter.getAdjustedMuscle();
@@ -8978,20 +8968,14 @@ public abstract class RuntimeLibrary {
 
   public static Value dad_sea_monkee_weakness(ScriptRuntime controller, final Value arg) {
     DadManager.Element element = DadManager.weakness((int) arg.intValue());
-    switch (element) {
-      case HOT:
-        return new Value(DataTypes.ELEMENT_TYPE, "hot", element);
-      case COLD:
-        return new Value(DataTypes.ELEMENT_TYPE, "cold", element);
-      case STENCH:
-        return new Value(DataTypes.ELEMENT_TYPE, "stench", element);
-      case SPOOKY:
-        return new Value(DataTypes.ELEMENT_TYPE, "spooky", element);
-      case SLEAZE:
-        return new Value(DataTypes.ELEMENT_TYPE, "sleaze", element);
-      default:
-        return DataTypes.ELEMENT_INIT;
-    }
+    return switch (element) {
+      case HOT -> new Value(DataTypes.ELEMENT_TYPE, "hot", element);
+      case COLD -> new Value(DataTypes.ELEMENT_TYPE, "cold", element);
+      case STENCH -> new Value(DataTypes.ELEMENT_TYPE, "stench", element);
+      case SPOOKY -> new Value(DataTypes.ELEMENT_TYPE, "spooky", element);
+      case SLEAZE -> new Value(DataTypes.ELEMENT_TYPE, "sleaze", element);
+      default -> DataTypes.ELEMENT_INIT;
+    };
   }
 
   public static Value unusual_construct_disc(ScriptRuntime controller) {
@@ -9604,8 +9588,7 @@ public abstract class RuntimeLibrary {
   // monster pocket_monster( pocket p );
   public static Value pocket_monster(ScriptRuntime controller, final Value pocket) {
     Pocket p = PocketDatabase.pocketByNumber((int) pocket.intValue());
-    if (p instanceof MonsterPocket) {
-      MonsterPocket mp = (MonsterPocket) p;
+    if (p instanceof MonsterPocket mp) {
       return DataTypes.makeMonsterValue(mp.getMonster());
     }
     return DataTypes.MONSTER_INIT;
@@ -9741,14 +9724,12 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(PocketEffectsType);
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null && PocketDatabase.allEffectPockets.contains(p.getPocket())) {
-      if (p instanceof OneResultPocket) {
-        OneResultPocket orp = (OneResultPocket) p;
+      if (p instanceof OneResultPocket orp) {
         value.aset(
             DataTypes.makeEffectValue(orp.getResult1().getEffectId(), true),
             new Value(orp.getResult1().getCount()));
       }
-      if (p instanceof TwoResultPocket) {
-        TwoResultPocket trp = (TwoResultPocket) p;
+      if (p instanceof TwoResultPocket trp) {
         value.aset(
             DataTypes.makeEffectValue(trp.getResult2().getEffectId(), true),
             new Value(trp.getResult2().getCount()));
@@ -9761,14 +9742,12 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(PocketItemsType);
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null && PocketDatabase.allItemPockets.contains(p.getPocket())) {
-      if (p instanceof OneResultPocket) {
-        OneResultPocket orp = (OneResultPocket) p;
+      if (p instanceof OneResultPocket orp) {
         value.aset(
             DataTypes.makeItemValue(orp.getResult1().getItemId(), true),
             new Value(orp.getResult1().getCount()));
       }
-      if (p instanceof TwoResultPocket) {
-        TwoResultPocket trp = (TwoResultPocket) p;
+      if (p instanceof TwoResultPocket trp) {
         value.aset(
             DataTypes.makeItemValue(trp.getResult2().getItemId(), true),
             new Value(trp.getResult2().getCount()));
@@ -9794,26 +9773,20 @@ public abstract class RuntimeLibrary {
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null) {
       switch (p.getType()) {
-        case SCRAP:
-          {
-            ScrapPocket sp = (ScrapPocket) p;
-            Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
-            String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
-            value.aset(new Value(sp.getScrap()), new Value(syllable));
-            break;
-          }
-        case POEM:
-          {
-            PoemPocket pp = (PoemPocket) p;
-            value.aset(new Value(pp.getIndex()), new Value(pp.getText()));
-            break;
-          }
-        case MEAT:
-          {
-            MeatPocket mp = (MeatPocket) p;
-            value.aset(new Value(mp.getMeat()), new Value(mp.getText()));
-            break;
-          }
+        case SCRAP -> {
+          ScrapPocket sp = (ScrapPocket) p;
+          Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
+          String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
+          value.aset(new Value(sp.getScrap()), new Value(syllable));
+        }
+        case POEM -> {
+          PoemPocket pp = (PoemPocket) p;
+          value.aset(new Value(pp.getIndex()), new Value(pp.getText()));
+        }
+        case MEAT -> {
+          MeatPocket mp = (MeatPocket) p;
+          value.aset(new Value(mp.getMeat()), new Value(mp.getText()));
+        }
       }
     }
     return value;

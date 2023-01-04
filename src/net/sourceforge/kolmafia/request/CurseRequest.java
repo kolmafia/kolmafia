@@ -40,17 +40,41 @@ public class CurseRequest extends GenericRequest {
 
   @Override
   public void run() {
-    InventoryManager.retrieveItem(this.itemUsed);
+    AdventureResult item = this.itemUsed;
+    String action;
 
-    String action =
-        switch (this.itemUsed.getItemId()) {
-          case ItemPool.CRIMBO_TRAINING_MANUAL -> "Training ";
-          default -> "Throwing " + this.itemUsed.getName() + " at ";
-        };
+    switch (item.getItemId()) {
+      case ItemPool.CRIMBO_TRAINING_MANUAL -> {
+        // Usable once per day
+        if (Preferences.getBoolean("_crimboTraining")) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "You've already trained somebody today.");
+          return;
+        }
+        item = item.getInstance(1);
+        action = "Training ";
+      }
+      case ItemPool.PING_PONG_TABLE -> {
+        // Usable once per day
+        if (Preferences.getBoolean("_pingPongGame")) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "You've already played ping-pong today.");
+          return;
+        }
+        item = item.getInstance(1);
+        action = "Playing ping-pong with ";
+      }
+      default -> {
+        action = "Throwing " + this.itemUsed.getName() + " at ";
+      }
+    }
+
+    // Ensure we have enough of the item in inventory
+    if (!InventoryManager.retrieveItem(item)) {
+      return;
+    }
 
     String message = action + this.getFormField("targetplayer") + "...";
 
-    for (int i = this.itemUsed.getCount(); KoLmafia.permitsContinue() && i > 0; --i) {
+    for (int i = item.getCount(); KoLmafia.permitsContinue() && i > 0; --i) {
       KoLmafia.updateDisplay(message);
       super.run();
     }
@@ -146,7 +170,11 @@ public class CurseRequest extends GenericRequest {
         // You're able to use your ping-pong skill to defeat Blippy Bloppy. Yay!
         // You're unable to use your ping-pong skill to defeat Veracity. Boo.
         if (responseText.contains("use your ping-pong skill")) {
+          String resultMessage =
+              "You " + (responseText.contains("unable") ? "lost" : "won") + " the ping-pong game.";
+          KoLmafia.updateDisplay(resultMessage);
           RequestLogger.updateSessionLog(message);
+          RequestLogger.updateSessionLog(resultMessage);
           Preferences.setBoolean("_pingPongGame", true);
           return;
         }

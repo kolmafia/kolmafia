@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -186,7 +187,7 @@ public abstract class KoLmafia {
     return PREFERRED_IMAGE_SERVER_PATH;
   }
 
-  private static boolean acquireFileLock(final String suffix) {
+  public static boolean acquireFileLock(final String suffix) {
     try {
       KoLmafia.SESSION_FILE = new File(KoLConstants.SESSIONS_LOCATION, "active_session." + suffix);
 
@@ -204,7 +205,21 @@ public abstract class KoLmafia {
       KoLmafia.SESSION_HOLDER = KoLmafia.SESSION_CHANNEL.lock();
       return true;
     } catch (Exception e) {
+      KoLmafia.updateDisplay(
+          MafiaState.ABORT, "Could not acquire file lock for " + suffix + ": " + e);
       return false;
+    }
+  }
+
+  public static void releaseFileLock() {
+    try {
+      KoLmafia.SESSION_HOLDER.release();
+      KoLmafia.SESSION_CHANNEL.close();
+      KoLmafia.SESSION_FILE.delete();
+    } catch (Exception e) {
+      // That means the file either doesn't exist or
+      // the session holder was somehow closed.
+      // Ignore and fall through.
     }
   }
 
@@ -295,10 +310,6 @@ public abstract class KoLmafia {
 
     if (SwinglessUIUtils.isSwingAvailable()) {
       KoLmafia.initLookAndFeel();
-    }
-    if (!KoLmafia.acquireFileLock("1") && !KoLmafia.acquireFileLock("2")) {
-      System.out.println("Could not acquire file lock");
-      System.exit(-1);
     }
 
     FlaggedItems.initializeLists();
@@ -1134,9 +1145,9 @@ public abstract class KoLmafia {
       } else if (effectId == EffectPool.COWRRUPTION) {
         if (KoLConstants.activeEffects.contains(effect)
             && KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER) {
-          KoLCharacter.addAvailableSkill("Absorb Cowrruption");
+          KoLCharacter.addAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
         } else {
-          KoLCharacter.removeAvailableSkill("Absorb Cowrruption");
+          KoLCharacter.removeAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
         }
       }
     }
@@ -1554,30 +1565,16 @@ public abstract class KoLmafia {
     for (int i = 0; i < utfString.length(); ++i) {
       currentCharacter = utfString.charAt(i);
       switch (currentCharacter) {
-        case '-':
-          encodedString.append("2D");
-          break;
-        case '.':
-          encodedString.append("2E");
-          break;
-        case '*':
-          encodedString.append("2A");
-          break;
-        case '_':
-          encodedString.append("5F");
-          break;
-        case '+':
-          encodedString.append("20");
-          break;
-
-        case '%':
+        case '-' -> encodedString.append("2D");
+        case '.' -> encodedString.append("2E");
+        case '*' -> encodedString.append("2A");
+        case '_' -> encodedString.append("5F");
+        case '+' -> encodedString.append("20");
+        case '%' -> {
           encodedString.append(utfString.charAt(++i));
           encodedString.append(utfString.charAt(++i));
-          break;
-
-        default:
-          encodedString.append(Integer.toHexString(currentCharacter).toUpperCase());
-          break;
+        }
+        default -> encodedString.append(Integer.toHexString(currentCharacter).toUpperCase());
       }
     }
 
@@ -1889,15 +1886,7 @@ public abstract class KoLmafia {
       SystemTrayFrame.removeTrayIcon();
       RelayServer.stop();
 
-      try {
-        KoLmafia.SESSION_HOLDER.release();
-        KoLmafia.SESSION_CHANNEL.close();
-        KoLmafia.SESSION_FILE.delete();
-      } catch (Exception e) {
-        // That means the file either doesn't exist or
-        // the session holder was somehow closed.
-        // Ignore and fall through.
-      }
+      releaseFileLock();
     }
   }
 

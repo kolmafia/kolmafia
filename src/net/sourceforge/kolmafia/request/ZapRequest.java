@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -85,7 +84,7 @@ public class ZapRequest extends GenericRequest {
       matchingItems.addAll(
           KoLConstants.inventory.stream()
               .filter(i -> ZapRequest.zapGroups.containsKey(i.getItemId()))
-              .collect(Collectors.toList()));
+              .toList());
     } else {
       matchingItems.addAll(KoLConstants.inventory);
     }

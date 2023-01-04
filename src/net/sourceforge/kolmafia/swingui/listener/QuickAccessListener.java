@@ -19,7 +19,7 @@ public class QuickAccessListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     JRootPane rootPane = (JRootPane) e.getSource();
 
-    Map<String, Object> quickAccessItems = new TreeMap<String, Object>();
+    Map<String, Object> quickAccessItems = new TreeMap<>();
 
     addMenuElement(quickAccessItems, rootPane.getJMenuBar());
 
@@ -33,11 +33,8 @@ public class QuickAccessListener implements ActionListener {
       return;
     }
 
-    if (selectedItem instanceof JMenuItem) {
-      JMenuItem menuItem = (JMenuItem) selectedItem;
-
+    if (selectedItem instanceof JMenuItem menuItem) {
       for (ActionListener actionListener : menuItem.getActionListeners()) {
-
         actionListener.actionPerformed(new ActionEvent(menuItem, e.getID(), e.getActionCommand()));
       }
     }
@@ -73,8 +70,7 @@ public class QuickAccessListener implements ActionListener {
       return;
     }
 
-    if ((menuElement instanceof JMenuItem) && !(menuElement instanceof JMenu)) {
-      JMenuItem menuItem = (JMenuItem) menuElement;
+    if ((menuElement instanceof JMenuItem menuItem) && !(menuElement instanceof JMenu)) {
       if (menuItem.isEnabled()) {
         quickAccessItems.put(menuItem.getText(), menuItem);
       }

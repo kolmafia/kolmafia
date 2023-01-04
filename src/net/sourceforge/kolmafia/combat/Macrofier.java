@@ -116,9 +116,8 @@ public class Macrofier {
 
       Value returnValue;
 
-      if (Macrofier.macroInterpreter instanceof JavascriptRuntime) {
+      if (Macrofier.macroInterpreter instanceof JavascriptRuntime interpreter) {
         // Execute a function from the JavaScript runtime maintaining the scope, thisObj etc
-        JavascriptRuntime interpreter = (JavascriptRuntime) Macrofier.macroInterpreter;
         returnValue =
             interpreter.executeFunction(
                 macroScope,
@@ -190,7 +189,7 @@ public class Macrofier {
     if (monsterName.equals("hulking construct")) {
       // use ATTACK & WALL punchcards
       macro.append("if hascombatitem 3146 && hascombatitem 3155\n");
-      if (KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+      if (KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
         macro.append("  use 3146,3155\n");
       } else {
         macro.append("  use 3146; use 3155\n");
@@ -285,7 +284,7 @@ public class Macrofier {
       RequestLogger.printLine("");
     }
 
-    HashSet<String> allCalls = new HashSet<String>();
+    HashSet<String> allCalls = new HashSet<>();
     Matcher m = Macrofier.ALLCALLS_PATTERN.matcher(macro);
 
     while (m.find()) {

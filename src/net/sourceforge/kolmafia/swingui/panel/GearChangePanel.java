@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -97,26 +98,26 @@ public class GearChangePanel extends JPanel {
 
       // We maintain our own lists for certain slots
       switch (i) {
-        case EquipmentManager.HAT:
-        case EquipmentManager.PANTS:
-        case EquipmentManager.SHIRT:
-        case EquipmentManager.CONTAINER:
-        case EquipmentManager.WEAPON:
-        case EquipmentManager.OFFHAND:
-        case EquipmentManager.ACCESSORY1:
-        case EquipmentManager.ACCESSORY2:
-        case EquipmentManager.ACCESSORY3:
-        case EquipmentManager.FAMILIAR:
-        case EquipmentManager.BOOTSKIN:
-        case EquipmentManager.BOOTSPUR:
-        case EquipmentManager.HOLSTER:
+        case EquipmentManager.HAT,
+            EquipmentManager.PANTS,
+            EquipmentManager.SHIRT,
+            EquipmentManager.CONTAINER,
+            EquipmentManager.WEAPON,
+            EquipmentManager.OFFHAND,
+            EquipmentManager.ACCESSORY1,
+            EquipmentManager.ACCESSORY2,
+            EquipmentManager.ACCESSORY3,
+            EquipmentManager.FAMILIAR,
+            EquipmentManager.BOOTSKIN,
+            EquipmentManager.BOOTSPUR,
+            EquipmentManager.HOLSTER -> {
           list = new SortedListModel<>();
           this.equipmentModels.add((SortedListModel<AdventureResult>) list);
-          break;
-        default:
+        }
+        default -> {
           list = (LockableListModel<AdventureResult>) lists.get(i);
           this.equipmentModels.add(null);
-          break;
+        }
       }
 
       this.equipment[i] = new EquipmentComboBox(list, i);
@@ -151,7 +152,7 @@ public class GearChangePanel extends JPanel {
 
     if (value instanceof AdventureResult item) {
       mods = new Modifiers();
-      var taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
+      var taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
       KoLCharacter.addItemAdjustment(
           mods,
           slot,
@@ -269,7 +270,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private abstract class EquipmentTabPanel extends GenericPanel {
+  private abstract static class EquipmentTabPanel extends GenericPanel {
     protected JLabel modifiersLabel;
     protected int modifiersWidth;
 
@@ -803,7 +804,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class OutfitComboBox extends JComboBox<SpecialOutfit> {
+  private static class OutfitComboBox extends JComboBox<SpecialOutfit> {
     public OutfitComboBox(final LockableListModel<SpecialOutfit> model) {
       super(model);
 
@@ -853,7 +854,7 @@ public class GearChangePanel extends JPanel {
     GearChangePanel.INSTANCE.familiars.clear();
   }
 
-  private class CarriedFamiliarComboBox extends JComboBox<FamiliarData> {
+  private static class CarriedFamiliarComboBox extends JComboBox<FamiliarData> {
     public CarriedFamiliarComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
@@ -861,7 +862,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class ThroneComboBox extends CarriedFamiliarComboBox implements Listener {
+  private static class ThroneComboBox extends CarriedFamiliarComboBox implements Listener {
     public ThroneComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       NamedListenerRegistry.registerNamedListener("(throne)", this);
@@ -878,7 +879,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class BjornComboBox extends CarriedFamiliarComboBox implements Listener {
+  private static class BjornComboBox extends CarriedFamiliarComboBox implements Listener {
     public BjornComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       NamedListenerRegistry.registerNamedListener("(bjorn)", this);
@@ -934,15 +935,13 @@ public class GearChangePanel extends JPanel {
   }
 
   private boolean slotItemCanBeNone(final int slot) {
-    switch (slot) {
-      case EquipmentManager.BOOTSKIN:
-      case EquipmentManager.BOOTSPUR:
-        // You cannot remove the item in this slot, but if
-        // nothing is equipped, need a placeholder
-        return EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
-      default:
-        return true;
-    }
+    return switch (slot) {
+      case EquipmentManager.BOOTSKIN, EquipmentManager.BOOTSPUR ->
+      // You cannot remove the item in this slot, but if
+      // nothing is equipped, need a placeholder
+      EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
+      default -> true;
+    };
   }
 
   private Optional<FamiliarData> familiarCarryingEquipment(final int slot) {
@@ -1136,14 +1135,11 @@ public class GearChangePanel extends JPanel {
       return true;
     }
 
-    switch (EquipmentDatabase.getWeaponType(weapon.getItemId())) {
-      case MELEE:
-        return this.weaponTypes[1].isSelected();
-      case RANGED:
-        return this.weaponTypes[2].isSelected();
-      default:
-        return false;
-    }
+    return switch (EquipmentDatabase.getWeaponType(weapon.getItemId())) {
+      case MELEE -> this.weaponTypes[1].isSelected();
+      case RANGED -> this.weaponTypes[2].isSelected();
+      default -> false;
+    };
   }
 
   private boolean filterOffhand(final AdventureResult offhand, ConsumptionType consumption) {
@@ -1162,7 +1158,7 @@ public class GearChangePanel extends JPanel {
 
     // Do not even consider weapons unless we can dual-wield
     if (consumption == ConsumptionType.WEAPON) {
-      if (!KoLCharacter.hasSkill("Double-Fisted Skull Smashing")) {
+      if (!KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)) {
         return false;
       }
 
@@ -1450,7 +1446,8 @@ public class GearChangePanel extends JPanel {
     currentFamiliars.setSelectedItem(activeFamiliar);
   }
 
-  private class FakeHandsSpinner extends AutoHighlightSpinner implements ChangeListener, Listener {
+  private static class FakeHandsSpinner extends AutoHighlightSpinner
+      implements ChangeListener, Listener {
     private int currentFakeHands = 0;
     private int availableFakeHands = 0;
 
@@ -1490,7 +1487,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class FamLockCheckbox extends JCheckBox implements Listener {
+  private static class FamLockCheckbox extends JCheckBox implements Listener {
     public FamLockCheckbox() {
       super("familiar item locked");
       this.addActionListener(new LockFamiliarItemListener());
@@ -1498,7 +1495,7 @@ public class GearChangePanel extends JPanel {
       this.update();
     }
 
-    private class LockFamiliarItemListener extends ThreadedListener {
+    private static class LockFamiliarItemListener extends ThreadedListener {
       @Override
       protected void execute() {
         RequestThread.postRequest(new FamiliarRequest(true));

@@ -34,7 +34,7 @@ public class MeatManageFrame extends GenericFrame {
   /**
    * An internal class which represents the panel used for donations to the statues in the shrine.
    */
-  private class HeroDonationPanel extends LabeledPanel {
+  private static class HeroDonationPanel extends LabeledPanel {
     private final JComboBox<String> heroField;
     private final AutoHighlightTextField amountField;
 
@@ -46,7 +46,7 @@ public class MeatManageFrame extends GenericFrame {
           new Dimension(80, 20),
           new Dimension(240, 20));
 
-      LockableListModel<String> heroes = new LockableListModel<String>();
+      LockableListModel<String> heroes = new LockableListModel<>();
       heroes.add("Statue of Boris");
       heroes.add("Statue of Jarlsberg");
       heroes.add("Statue of Sneaky Pete");

@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -166,21 +167,16 @@ public class ResultProcessor {
         MonsterData monster = MonsterStatusTracker.getLastMonster();
         for (AdventureResult monsterItem : monster.getItems()) {
           if (monsterItem.getItemId() == itemId) {
-            String message = null;
-            switch ((char) monsterItem.getCount() & 0xFFFF) {
-              case 'n':
-                message = "Pickpocketed item " + name + " which is marked as non pickpocketable.";
-                break;
-              case 'c':
-                message = "Pickpocketed item " + name + " which is marked as conditional.";
-                break;
-              case 'f':
-                message = "Pickpocketed item " + name + " which is marked as fixed chance.";
-                break;
-              case 'a':
-                message = "Pickpocketed item " + name + " which is marked as accordion steal.";
-                break;
-            }
+            String message =
+                switch ((char) monsterItem.getCount() & 0xFFFF) {
+                  case 'n' -> "Pickpocketed item "
+                      + name
+                      + " which is marked as non pickpocketable.";
+                  case 'c' -> "Pickpocketed item " + name + " which is marked as conditional.";
+                  case 'f' -> "Pickpocketed item " + name + " which is marked as fixed chance.";
+                  case 'a' -> "Pickpocketed item " + name + " which is marked as accordion steal.";
+                  default -> null;
+                };
             if (message != null) {
               RequestLogger.printLine(message);
               RequestLogger.updateSessionLog(message);
@@ -958,9 +954,7 @@ public class ResultProcessor {
       AdventureResult.addResultToList(KoLConstants.inventory, item);
       AdventureResult.addResultToList(KoLConstants.tally, item);
       switch (item.getItemId()) {
-        case ItemPool.INSTANT_KARMA:
-          Preferences.increment("bankedKarma", 11);
-          break;
+        case ItemPool.INSTANT_KARMA -> Preferences.increment("bankedKarma", 11);
       }
     }
   }
@@ -1205,16 +1199,17 @@ public class ResultProcessor {
     if (result.isItem()) {
       // Certain items that you "gain" don't really enter inventory
       switch (result.getItemId()) {
-        case ItemPool.CHATEAU_MUSCLE:
-        case ItemPool.CHATEAU_MYST:
-        case ItemPool.CHATEAU_MOXIE:
-        case ItemPool.CHATEAU_FAN:
-        case ItemPool.CHATEAU_CHANDELIER:
-        case ItemPool.CHATEAU_SKYLIGHT:
-        case ItemPool.CHATEAU_BANK:
-        case ItemPool.CHATEAU_JUICE_BAR:
+        case ItemPool.CHATEAU_MUSCLE,
+            ItemPool.CHATEAU_MYST,
+            ItemPool.CHATEAU_MOXIE,
+            ItemPool.CHATEAU_FAN,
+            ItemPool.CHATEAU_CHANDELIER,
+            ItemPool.CHATEAU_SKYLIGHT,
+            ItemPool.CHATEAU_BANK,
+            ItemPool.CHATEAU_JUICE_BAR -> {
           ChateauRequest.gainItem(result);
           return;
+        }
       }
 
       AdventureResult.addResultToList(KoLConstants.inventory, result);
@@ -1780,6 +1775,7 @@ public class ResultProcessor {
 
       case ItemPool.LIT_BIRTHDAY_CAKE:
         ResultProcessor.processItem(ItemPool.UNLIT_BIRTHDAY_CAKE, -1);
+        //noinspection fallthrough
       case ItemPool.UNLIT_BIRTHDAY_CAKE:
         // Yes, they are the same quest step!
         QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.STARTED);
@@ -2608,12 +2604,10 @@ public class ResultProcessor {
         }
         String lockkeyMonster = merkinMonster.getName();
         Preferences.setString("merkinLockkeyMonster", lockkeyMonster);
-        if (lockkeyMonster.equals("Mer-kin burglar")) {
-          Preferences.setInteger("choiceAdventure312", 1);
-        } else if (lockkeyMonster.equals("Mer-kin raider")) {
-          Preferences.setInteger("choiceAdventure312", 2);
-        } else if (lockkeyMonster.equals("Mer-kin healer")) {
-          Preferences.setInteger("choiceAdventure312", 3);
+        switch (lockkeyMonster) {
+          case "Mer-kin burglar" -> Preferences.setInteger("choiceAdventure312", 1);
+          case "Mer-kin raider" -> Preferences.setInteger("choiceAdventure312", 2);
+          case "Mer-kin healer" -> Preferences.setInteger("choiceAdventure312", 3);
         }
         break;
 
@@ -3243,7 +3237,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BOOMBOX:
-        KoLCharacter.addAvailableSkill("Sing Along");
+        KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
         break;
 
       case ItemPool.GARLAND_OF_GREATNESS:
@@ -3282,8 +3276,8 @@ public class ResultProcessor {
 
       case ItemPool.POWERFUL_GLOVE:
         // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill("CHEAT CODE: Invisible Avatar");
-        KoLCharacter.addAvailableSkill("CHEAT CODE: Triple Size");
+        KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
+        KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
         break;
 
       case ItemPool.POWDER_PUFF:
@@ -3332,10 +3326,10 @@ public class ResultProcessor {
 
       case ItemPool.DESIGNER_SWEATPANTS:
         // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill("Make Sweat-Ade");
-        KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
-        KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
-        KoLCharacter.addAvailableSkill("Sip Some Sweat");
+        KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
+        KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
+        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
+        KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
         break;
 
       case ItemPool.ROBY_BORIS_BEER:

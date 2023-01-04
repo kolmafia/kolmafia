@@ -48,7 +48,7 @@ public class MuseumFrame extends GenericFrame {
     this.setCenterComponent(this.tabs);
   }
 
-  private class DisplayCaseMatchPanel extends OverlapPanel {
+  private static class DisplayCaseMatchPanel extends OverlapPanel {
     public DisplayCaseMatchPanel() {
       super("display", "help", (SortedListModel<AdventureResult>) KoLConstants.collection, true);
     }
@@ -89,7 +89,7 @@ public class MuseumFrame extends GenericFrame {
    * Internal class used to handle everything related to placing items into the display and taking
    * items from the display.
    */
-  private class AddRemovePanel extends JPanel {
+  private static class AddRemovePanel extends JPanel {
     private final ScrollablePanel<ShowDescriptionList<AdventureResult>> inventoryPanel,
         displayPanel;
 
@@ -191,7 +191,7 @@ public class MuseumFrame extends GenericFrame {
     }
   }
 
-  public class MuseumShelfList extends PanelList {
+  public static class MuseumShelfList extends PanelList {
     public MuseumShelfList() {
       super(1, 480, 200, DisplayCaseManager.getShelves(), true);
     }
@@ -209,7 +209,7 @@ public class MuseumFrame extends GenericFrame {
     }
   }
 
-  public class MuseumShelfPanel extends ScrollablePanel<ShowDescriptionList<AdventureResult>>
+  public static class MuseumShelfPanel extends ScrollablePanel<ShowDescriptionList<AdventureResult>>
       implements PanelListCell {
     private final int index;
     private final ShowDescriptionList<AdventureResult> elementList;
@@ -255,7 +255,7 @@ public class MuseumFrame extends GenericFrame {
     public void updateDisplay(final PanelList list, final Object value, final int index) {}
   }
 
-  public class OrderingPanel extends ItemListManagePanel<String> {
+  public static class OrderingPanel extends ItemListManagePanel<String> {
     @SuppressWarnings("unchecked")
     // LockableListModel (the type of getHeaders())'s clone() method still claims to return an
     // Object, but we know its internal list has the same elements, so their types definitely match

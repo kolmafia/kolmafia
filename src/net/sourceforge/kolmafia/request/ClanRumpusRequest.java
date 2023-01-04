@@ -524,7 +524,7 @@ public class ClanRumpusRequest extends GenericRequest {
       return;
     }
 
-    List<String> rumpus = new ArrayList<String>(ClanManager.getClanRumpus());
+    List<String> rumpus = new ArrayList<>(ClanManager.getClanRumpus());
     for (String equip : rumpus) {
       Equipment equipment = Equipment.toEquip(equip);
       // Skip the Mr. Klaw game, since we ran it above

@@ -29,11 +29,9 @@ public class LogStream extends PrintStream implements Runnable {
     OutputStream ostream = DataUtilities.getOutputStream(file, !forceNewFile);
     PrintStream pstream = openStream(ostream, encoding);
 
-    if (!(pstream instanceof LogStream)) {
+    if (!(pstream instanceof LogStream newStream)) {
       return pstream;
     }
-
-    LogStream newStream = (LogStream) pstream;
 
     if (file.getName().startsWith("DEBUG")) {
       if (KoLDesktop.instanceExists()) {

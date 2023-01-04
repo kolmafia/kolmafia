@@ -291,23 +291,11 @@ public abstract class LouvreManager {
   }
 
   private static String choiceName(final int destination) {
-    switch (destination) {
-      case 0:
-        return "";
-
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-      case 7:
-      case 8:
-      case 9:
-        return LouvreManager.LouvreGoals[destination - 1];
-      default:
-        return LouvreManager.LouvreLocationNames[destination - LouvreManager.FIRST_CHOICE];
-    }
+    return switch (destination) {
+      case 0 -> "";
+      case 1, 2, 3, 4, 5, 6, 7, 8, 9 -> LouvreManager.LouvreGoals[destination - 1];
+      default -> LouvreManager.LouvreLocationNames[destination - LouvreManager.FIRST_CHOICE];
+    };
   }
 
   public static final void addGoalButton(final StringBuffer buffer) {

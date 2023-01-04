@@ -7,6 +7,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withMP;
+import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
@@ -23,6 +24,7 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -219,25 +221,204 @@ public class ModifiersTest {
   }
 
   @Nested
-  class Squint {
+  class SquintChampagne {
     @BeforeAll
     public static void setup() {
-      Preferences.reset("squinter");
+      Preferences.reset("SquintChampagne");
     }
 
     @Test
-    public void squintAffectsUmbrella() {
+    public void squintDoublesEffect() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"),
+              withEffect(EffectPool.STEELY_EYED_SQUINT),
+              withEffect(EffectPool.SYNTHESIS_COLLECTION));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.ITEMDROP), equalTo(300.0));
+      }
+    }
+
+    @Test
+    public void champagneDoublesEffect() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 11),
+              withEffect(EffectPool.SYNTHESIS_COLLECTION));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.ITEMDROP), equalTo(300.0));
+      }
+    }
+
+    @Test
+    public void squintDoesntDoubleMummery() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.STEELY_EYED_SQUINT),
+              withProperty("_mummeryMods", "Item Drop: +25"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.ITEMDROP), equalTo(25.0));
+      }
+    }
+
+    @Test
+    public void squintDoublesUmbrella() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.UNBREAKABLE_UMBRELLA),
               withProperty("umbrellaState", "bucket style"),
-              withEffect("Steely-Eyed Squint"));
+              withEffect(EffectPool.STEELY_EYED_SQUINT));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         var item = mods.get(Modifiers.ITEMDROP);
         assertThat(item, equalTo(50.0));
+      }
+    }
+
+    @Test
+    public void squintAndChampagneStack() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 11),
+              withEffect(EffectPool.STEELY_EYED_SQUINT),
+              withEffect(EffectPool.SYNTHESIS_COLLECTION));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.ITEMDROP), equalTo(600.0));
+      }
+    }
+
+    @Test
+    public void squintDoublesOtoscope() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.STEELY_EYED_SQUINT),
+              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.ITEMDROP), equalTo(400.0));
+      }
+    }
+
+    @Test
+    public void champagneDoesntDoubleOtoscope() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 11),
+              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.ITEMDROP), equalTo(200.0));
+      }
+    }
+
+    @Test
+    public void squintAndChampagneDoublesOtoscopeOnce() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 11),
+              withEffect(EffectPool.STEELY_EYED_SQUINT),
+              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.ITEMDROP), equalTo(400.0));
+      }
+    }
+  }
+
+  @Nested
+  class ElementalDoublers {
+    @BeforeAll
+    public static void setup() {
+      Preferences.reset("ElementalDoublers");
+    }
+
+    @Test
+    public void bendinHellDoublesEffect() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.BENDIN_HELL), withEffect(EffectPool.PAINTED_ON_BIKINI));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.SLEAZE_DAMAGE), equalTo(100.0));
+        assertThat(mods.get(Modifiers.SLEAZE_SPELL_DAMAGE), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void dirtyPearDoublesEffect() {
+      var cleanups =
+          new Cleanups(withEffect(EffectPool.DIRTY_PEAR), withEffect(EffectPool.PAINTED_ON_BIKINI));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.SLEAZE_DAMAGE), equalTo(100.0));
+        assertThat(mods.get(Modifiers.SLEAZE_SPELL_DAMAGE), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void bendinHellAndDirtyPearStack() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.BENDIN_HELL),
+              withEffect(EffectPool.DIRTY_PEAR),
+              withEffect(EffectPool.PAINTED_ON_BIKINI));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.get(Modifiers.SLEAZE_DAMAGE), equalTo(200.0));
+        assertThat(mods.get(Modifiers.SLEAZE_SPELL_DAMAGE), equalTo(200.0));
+      }
+    }
+  }
+
+  @Nested
+  class ExperienceDoublers {
+    @BeforeAll
+    public static void setup() {
+      Preferences.reset("ExperienceDoublers");
+    }
+
+    @Test
+    public void makeshiftGarbageShirtDoublesEffect() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.SHIRT, ItemPool.MAKESHIFT_GARBAGE_SHIRT),
+              withProperty("garbageShirtCharge", 37),
+              withEffect(EffectPool.FEELING_LOST));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        // 3 from garbage shirt, 30 from Feeling Lost, *2 = 66
+        assertThat(mods.get(Modifiers.EXPERIENCE), equalTo(66.0));
       }
     }
   }
@@ -473,7 +654,7 @@ public class ModifiersTest {
         assertEquals(40, speculate.get(Modifiers.HP));
         // Suppose we want to replace the reinforced beaded headband (+40 HP)
         // with a nurse's hat (+300 HP)
-        speculate.set(Modifiers.HP, 300.0);
+        speculate.setDouble(Modifiers.HP, 300.0);
 
         int[] speculateStats = speculate.predict();
         assertEquals(476, speculateStats[Modifiers.BUFFED_HP]);
@@ -639,7 +820,7 @@ public class ModifiersTest {
         assertEquals(40, speculate.get(Modifiers.MP));
         // Suppose we want to replace the beer helmet (+40 HP)
         // with Covers-Your-Head (+100 MP)
-        speculate.set(Modifiers.MP, 100.0);
+        speculate.setDouble(Modifiers.MP, 100.0);
 
         int[] speculateStats = speculate.predict();
         assertEquals(186, speculateStats[Modifiers.BUFFED_MP]);

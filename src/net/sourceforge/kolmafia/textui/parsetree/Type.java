@@ -432,15 +432,14 @@ public class Type extends Symbol {
 
   private void addValues(List<Value> results, Collection<?> values) {
     for (Object o : values) {
-      if (o instanceof Map.Entry) { // Some of the database entrySet() methods return
+      if (o instanceof Map.Entry<?, ?> e) { // Some of the database entrySet() methods return
         // Integer:String mappings, others String:<something>.
         // We prefer the former, but can handle either
-        Map.Entry<?, ?> e = (Map.Entry<?, ?>) o;
         o = e.getKey();
       }
-      if (o instanceof KoLAdventure) { // KoLAdventure.toString() returns "zone: location",
+      if (o instanceof KoLAdventure adv) { // KoLAdventure.toString() returns "zone: location",
         // which isn't parseable as an ASH location.
-        o = ((KoLAdventure) o).getAdventureName();
+        o = adv.getAdventureName();
       }
       Value v = this.coerceValue(o, false);
       if (v != null) results.add(v);

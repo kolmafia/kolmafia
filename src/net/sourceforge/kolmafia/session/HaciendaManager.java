@@ -223,7 +223,7 @@ public class HaciendaManager {
   }
 
   private static boolean verifyReward(final String text) {
-    List<AdventureResult> items = new ArrayList<AdventureResult>();
+    List<AdventureResult> items = new ArrayList<>();
     ResultProcessor.processItems(false, text, items);
     if (items.size() > 0) {
       String itemName = items.get(0).getName();
@@ -246,14 +246,13 @@ public class HaciendaManager {
     Option[] result = new Option[4];
 
     switch (choice) {
-      case 410:
+      case 410 -> {
         // choice of hallways
         result[0] = new Option(HaciendaManager.getWingSpoilers(0));
         result[1] = new Option(HaciendaManager.getWingSpoilers(9));
         result[2] = LEAVE_BARRACKS;
-        break;
-      case 411:
-      case 412:
+      }
+      case 411, 412 -> {
         // choice of rooms
         for (int i = 0; i < 3; i++) {
           String buffer =
@@ -265,14 +264,14 @@ public class HaciendaManager {
           result[i] = new Option(buffer);
         }
         result[3] = LEAVE_BARRACKS;
-        break;
-      default:
+      }
+      default -> {
         // choice of locations in rooms
         for (int i = 0; i < 3; i++) {
           result[i] = new Option(HaciendaManager.getSpoiler(choice * 3 + i - 1239));
         }
         result[3] = LEAVE_BARRACKS;
-        break;
+      }
     }
     return result;
   }

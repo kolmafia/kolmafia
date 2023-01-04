@@ -22,10 +22,10 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.objectpool.ConcoctionType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
 
 public class YouRobotManagerTest {
 
-  private class TestListener implements Listener {
+  private static class TestListener implements Listener {
     private int calls = 0;
 
     public TestListener(String signal) {

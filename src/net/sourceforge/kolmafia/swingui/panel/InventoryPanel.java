@@ -41,7 +41,7 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
     ActionListener useListener =
         isEquipmentOnly ? new EquipListener(isCloset) : new ConsumeListener(isCloset);
 
-    ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
+    ArrayList<ActionListener> listeners = new ArrayList<>();
     listeners.add(useListener);
     listeners.add(new AutoSellListener(isCloset, true));
     listeners.add(new AutoSellListener(isCloset, false));
@@ -121,7 +121,7 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
         return super.isVisible(element);
       }
 
-      if (element instanceof AdventureResult && !((AdventureResult) element).isItem()) {
+      if (element instanceof AdventureResult ar && !ar.isItem()) {
         return false;
       }
 

@@ -446,7 +446,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof PastaThrallData && this.id == ((PastaThrallData) o).id;
+    return o instanceof PastaThrallData data && this.id == data.id;
   }
 
   @Override

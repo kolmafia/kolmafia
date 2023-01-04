@@ -23,15 +23,11 @@ public class AscensionSnapshot {
   public static final int HARDCORE = 2;
   public static final int CASUAL = 3;
 
-  private static final Map<String, String> ascensionMap = new TreeMap<String, String>();
-  private static final List<AscensionHistoryRequest> ascensionDataList =
-      new ArrayList<AscensionHistoryRequest>();
-  private static final List<AscensionDataField> softcoreAscensionList =
-      new ArrayList<AscensionDataField>();
-  private static final List<AscensionDataField> hardcoreAscensionList =
-      new ArrayList<AscensionDataField>();
-  private static final List<AscensionDataField> casualAscensionList =
-      new ArrayList<AscensionDataField>();
+  private static final Map<String, String> ascensionMap = new TreeMap<>();
+  private static final List<AscensionHistoryRequest> ascensionDataList = new ArrayList<>();
+  private static final List<AscensionDataField> softcoreAscensionList = new ArrayList<>();
+  private static final List<AscensionDataField> hardcoreAscensionList = new ArrayList<>();
+  private static final List<AscensionDataField> casualAscensionList = new ArrayList<>();
 
   private static final Pattern LINK_PATTERN = Pattern.compile("</?a[^>]+>");
 
@@ -80,15 +76,9 @@ public class AscensionSnapshot {
     strbuf.append("<title>");
 
     switch (typeFilter) {
-      case AscensionSnapshot.NORMAL:
-        strbuf.append("Normal");
-        break;
-      case AscensionSnapshot.HARDCORE:
-        strbuf.append("Hardcore");
-        break;
-      case AscensionSnapshot.CASUAL:
-        strbuf.append("Casual");
-        break;
+      case AscensionSnapshot.NORMAL -> strbuf.append("Normal");
+      case AscensionSnapshot.HARDCORE -> strbuf.append("Hardcore");
+      case AscensionSnapshot.CASUAL -> strbuf.append("Casual");
     }
 
     String clanName = ClanManager.getClanName(true);
@@ -771,7 +761,7 @@ public class AscensionSnapshot {
     // satisfy the current filter so that the
     // total count can be displayed in the header.
 
-    List<AscensionDataField> resultsList = new ArrayList<AscensionDataField>();
+    List<AscensionDataField> resultsList = new ArrayList<>();
 
     for (AscensionDataField field : fields) {
       if (field.matchesFilter(typeFilter, pathFilter, classFilter, maxAge)) {
@@ -782,7 +772,7 @@ public class AscensionSnapshot {
     // Next, retrieve only the top ten list so that
     // a maximum of ten elements are printed.
 
-    List<AscensionDataField> leaderList = new ArrayList<AscensionDataField>();
+    List<AscensionDataField> leaderList = new ArrayList<>();
     int leaderListSize =
         classFilter == null
             ? (mainBoardSize == 0 ? 10 : mainBoardSize)

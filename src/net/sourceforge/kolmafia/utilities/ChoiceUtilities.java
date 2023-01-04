@@ -109,7 +109,7 @@ public class ChoiceUtilities {
   }
 
   public static Map<Integer, String> parseChoices(final String responseText) {
-    Map<Integer, String> rv = new TreeMap<Integer, String>();
+    Map<Integer, String> rv = new TreeMap<>();
     if (responseText == null) {
       return rv;
     }
@@ -231,7 +231,7 @@ public class ChoiceUtilities {
   public static Map<Integer, Map<String, Set<String>>> parseSelectInputs(
       final String responseText) {
     // Return a map from CHOICE => map from NAME => set of OPTIONS
-    Map<Integer, Map<String, Set<String>>> rv = new TreeMap<Integer, Map<String, Set<String>>>();
+    Map<Integer, Map<String, Set<String>>> rv = new TreeMap<>();
 
     if (responseText == null) {
       return rv;
@@ -250,7 +250,7 @@ public class ChoiceUtilities {
       }
 
       // Collect all the selects from this form
-      Map<String, Set<String>> choice = new TreeMap<String, Set<String>>();
+      Map<String, Set<String>> choice = new TreeMap<>();
 
       // Find all "select" tags within this form
       Matcher s = SELECT_PATTERN.matcher(form);
@@ -258,7 +258,7 @@ public class ChoiceUtilities {
         String name = s.group(1);
 
         // For each, extract all the options into a set
-        Set<String> options = new TreeSet<String>();
+        Set<String> options = new TreeSet<>();
 
         Matcher o = SELECT_OPTION_PATTERN.matcher(s.group(2));
         while (o.find()) {
@@ -279,8 +279,7 @@ public class ChoiceUtilities {
   public static Map<Integer, Map<String, Map<String, String>>> parseSelectInputsWithTags(
       final String responseText) {
     // Return a map from CHOICE => map from NAME => map from OPTION => SPOILER
-    Map<Integer, Map<String, Map<String, String>>> rv =
-        new TreeMap<Integer, Map<String, Map<String, String>>>();
+    Map<Integer, Map<String, Map<String, String>>> rv = new TreeMap<>();
 
     if (responseText == null) {
       return rv;
@@ -299,7 +298,7 @@ public class ChoiceUtilities {
       }
 
       // Collect all the selects from this form
-      Map<String, Map<String, String>> choice = new TreeMap<String, Map<String, String>>();
+      Map<String, Map<String, String>> choice = new TreeMap<>();
 
       // Find all "select" tags within this form
       Matcher s = SELECT_PATTERN.matcher(form);
@@ -307,7 +306,7 @@ public class ChoiceUtilities {
         String name = s.group(1);
 
         // For each, extract all the options into a map
-        Map<String, String> options = new TreeMap<String, String>();
+        Map<String, String> options = new TreeMap<>();
 
         Matcher o = SELECT_OPTION_PATTERN.matcher(s.group(2));
         while (o.find()) {
@@ -334,7 +333,7 @@ public class ChoiceUtilities {
 
   public static Map<Integer, Set<String>> parseTextInputs(final String responseText) {
     // Return a map from CHOICE => set of NAME
-    Map<Integer, Set<String>> rv = new TreeMap<Integer, Set<String>>();
+    Map<Integer, Set<String>> rv = new TreeMap<>();
 
     if (responseText == null) {
       return rv;
@@ -353,7 +352,7 @@ public class ChoiceUtilities {
       }
 
       // Collect all the text inputs from this form
-      Set<String> choice = new TreeSet<String>();
+      Set<String> choice = new TreeSet<>();
 
       // Find all "input" tags within this form
       Matcher i = INPUT_PATTERN.matcher(form);
@@ -431,7 +430,7 @@ public class ChoiceUtilities {
     StringBuilder errors = new StringBuilder();
 
     // Extract supplied extra fields
-    Set<String> extras = new TreeSet<String>();
+    Set<String> extras = new TreeSet<>();
     for (String field : extraFields.split("&")) {
       if (field.equals("")) {
       } else if (field.contains("=")) {
@@ -473,7 +472,7 @@ public class ChoiceUtilities {
     // There are select and/or text inputs available/required for this form.
 
     // Make a map from supplied field => value
-    Map<String, String> suppliedFields = new TreeMap<String, String>();
+    Map<String, String> suppliedFields = new TreeMap<>();
     for (String field : extras) {
       // We validated this above; only fields with '=' are included
       int equals = field.indexOf("=");

@@ -1,8 +1,11 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -41,6 +44,11 @@ public enum AscensionClass {
           AscensionClass.DISCO_BANDIT,
           AscensionClass.ACCORDION_THIEF);
 
+  private static final Map<String, AscensionClass> classesByName =
+      new HashMap<>(
+          Arrays.stream(values())
+              .collect(Collectors.toMap(AscensionClass::getName, Function.identity())));
+
   private final String name;
   private final int id;
   private final String image;
@@ -51,6 +59,10 @@ public enum AscensionClass {
 
   public static Set<AscensionClass> allClasses() {
     return Arrays.stream(values()).filter(a -> a.getId() > -1).collect(Collectors.toSet());
+  }
+
+  public static AscensionClass findByExactName(final String name) {
+    return classesByName.get(name);
   }
 
   public static AscensionClass findByPlural(final String plural) {

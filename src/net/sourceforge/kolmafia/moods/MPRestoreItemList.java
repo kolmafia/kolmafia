@@ -225,11 +225,9 @@ public abstract class MPRestoreItemList {
 
     @Override
     public int compareTo(final RestoreItem o) {
-      if (!(o instanceof MPRestoreItem)) {
+      if (!(o instanceof MPRestoreItem mpi)) {
         return super.compareTo(o);
       }
-
-      MPRestoreItem mpi = (MPRestoreItem) o;
 
       float restoreAmount = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
 

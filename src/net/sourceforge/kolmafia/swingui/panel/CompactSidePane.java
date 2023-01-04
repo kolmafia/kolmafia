@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -59,7 +60,8 @@ public class CompactSidePane extends JPanel implements Runnable {
   private final JLabel levelLabel, roninLabel, mcdLabel;
   private final int STAT_LABELS = 3;
   private final JLabel[] statLabel = new JLabel[STAT_LABELS];
-  private final JLabel[] statValueLabel = new JLabel[STAT_LABELS];
+  private final JLabel[] statAdjustedValueLabel = new JLabel[STAT_LABELS];
+  private final JLabel[] statBaseValueLabel = new JLabel[STAT_LABELS];
   private final int STATUS_LABELS = 8;
   private final JLabel[] statusLabel = new JLabel[STATUS_LABELS];
   private final JLabel[] statusValueLabel = new JLabel[STATUS_LABELS];
@@ -67,6 +69,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   private final JLabel[] consumptionLabel = new JLabel[CONSUMPTION_LABELS];
   private final JLabel[] consumptionValueLabel = new JLabel[CONSUMPTION_LABELS];
   private final FamiliarLabel familiarLabel;
+  private final JLabel familiarAnnotationLabel;
   private final int BONUS_LABELS = 10;
   private final JLabel[] bonusLabel = new JLabel[BONUS_LABELS];
   private final JLabel[] bonusValueLabel = new JLabel[BONUS_LABELS];
@@ -86,7 +89,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   public CompactSidePane() {
     super(new BorderLayout());
 
-    JPanel labelPanel, valuePanel;
+    JPanel labelPanel, valuePanel, adjustedValuePanel, baseValuePanel;
 
     JPanel[] panels = new JPanel[6];
     int panelCount = -1;
@@ -110,7 +113,8 @@ public class CompactSidePane extends JPanel implements Runnable {
     holderPanel.setOpaque(false);
     panels[panelCount].add(holderPanel, BorderLayout.SOUTH);
 
-    panels[++panelCount] = new JPanel(new BorderLayout());
+    panels[++panelCount] = new JPanel();
+    panels[panelCount].setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
     panels[panelCount].setOpaque(false);
 
     labelPanel = new JPanel(new GridLayout(this.STAT_LABELS, 1));
@@ -120,15 +124,19 @@ public class CompactSidePane extends JPanel implements Runnable {
       labelPanel.add(this.statLabel[i] = new JLabel(" ", JLabel.RIGHT));
     }
 
-    valuePanel = new JPanel(new GridLayout(this.STAT_LABELS, 1));
-    valuePanel.setOpaque(false);
+    adjustedValuePanel = new JPanel(new GridLayout(this.STAT_LABELS, 1));
+    adjustedValuePanel.setOpaque(false);
+    baseValuePanel = new JPanel(new GridLayout(this.STAT_LABELS, 1));
+    baseValuePanel.setOpaque(false);
 
     for (int i = 0; i < this.STAT_LABELS; i++) {
-      valuePanel.add(this.statValueLabel[i] = new JLabel(" ", JLabel.LEFT));
+      adjustedValuePanel.add(this.statAdjustedValueLabel[i] = new JLabel(" ", JLabel.RIGHT));
+      baseValuePanel.add(this.statBaseValueLabel[i] = new JLabel(" ", JLabel.LEFT));
     }
 
-    panels[panelCount].add(labelPanel, BorderLayout.WEST);
-    panels[panelCount].add(valuePanel, BorderLayout.CENTER);
+    panels[panelCount].add(labelPanel);
+    panels[panelCount].add(adjustedValuePanel);
+    panels[panelCount].add(baseValuePanel);
 
     panels[++panelCount] = new JPanel(new BorderLayout());
     panels[panelCount].setOpaque(false);
@@ -170,9 +178,15 @@ public class CompactSidePane extends JPanel implements Runnable {
     panels[panelCount].add(labelPanel, BorderLayout.WEST);
     panels[panelCount].add(valuePanel, BorderLayout.CENTER);
 
-    panels[++panelCount] = new JPanel(new GridLayout(2, 1));
+    JPanel familiarPanel = new JPanel();
+    familiarPanel.setLayout(new BoxLayout(familiarPanel, BoxLayout.Y_AXIS));
+    panels[++panelCount] = familiarPanel;
     panels[panelCount].add(this.familiarLabel = new FamiliarLabel());
+    this.familiarLabel.setAlignmentX(CENTER_ALIGNMENT);
+    panels[panelCount].add(this.familiarAnnotationLabel = new JLabel(" ", JLabel.CENTER));
+    this.familiarAnnotationLabel.setAlignmentX(CENTER_ALIGNMENT);
     panels[panelCount].add(this.quantumFamiliarPanel = new QuantumFamiliarPanel());
+    this.quantumFamiliarPanel.setAlignmentX(CENTER_ALIGNMENT);
 
     // Make a popup label for Sneaky Pete's motorcycle. Clicking on
     // the motorcycle image (which replaces the familiar icon)
@@ -700,35 +714,20 @@ public class CompactSidePane extends JPanel implements Runnable {
     }
   }
 
-  public String getStatText(final int adjusted, final int base) {
-    String statText;
+  public void setStatTextAndColor(final int index, final int adjusted, final int base) {
+    this.statAdjustedValueLabel[index].setText(adjusted + "\u00a0"); // non-breaking space
+    this.statBaseValueLabel[index].setText("(" + base + ")");
     if (KoLmafiaGUI.isDarkTheme()) {
-
-      statText =
+      this.statAdjustedValueLabel[index].setForeground(
           adjusted == base
-              ? "<html><font color=#dddddd>" + base + "</font>"
-              : adjusted > base
-                  ? "<html><font color=#00d4ff>"
-                      + adjusted
-                      + "</font> (<font color=#dddddd>"
-                      + base
-                      + "</font>"
-                      + ")"
-                  : "<html><font color=#ff8a93>"
-                      + adjusted
-                      + "</font> (<font color=#dddddd>"
-                      + base
-                      + "</font>"
-                      + ")";
+              ? new Color(0xdd, 0xdd, 0xdd)
+              : adjusted > base ? new Color(0x00, 0xd4, 0xff) : new Color(0xff, 0x8a, 0x93));
+      this.statBaseValueLabel[index].setForeground(new Color(0xdd, 0xdd, 0xdd));
     } else {
-      statText =
-          adjusted == base
-              ? "<html>" + base
-              : adjusted > base
-                  ? "<html><font color=blue>" + adjusted + "</font> (" + base + ")"
-                  : "<html><font color=red>" + adjusted + "</font> (" + base + ")";
+      this.statAdjustedValueLabel[index].setForeground(
+          adjusted == base ? Color.BLACK : adjusted > base ? Color.BLUE : Color.RED);
+      this.statBaseValueLabel[index].setForeground(Color.BLACK);
     }
-    return statText;
   }
 
   @Override
@@ -765,23 +764,21 @@ public class CompactSidePane extends JPanel implements Runnable {
 
     int count = 0;
     this.statLabel[count].setText("   Mus: ");
-    this.statValueLabel[count].setText(
-        this.getStatText(KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle()));
+    setStatTextAndColor(count, KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle());
     count++;
     if (limitMode != LimitMode.SPELUNKY) {
       this.statLabel[count].setText("   Mys: ");
-      this.statValueLabel[count].setText(
-          this.getStatText(
-              KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality()));
+      setStatTextAndColor(
+          count, KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality());
       count++;
     }
     this.statLabel[count].setText("   Mox: ");
-    this.statValueLabel[count].setText(
-        this.getStatText(KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie()));
+    setStatTextAndColor(count, KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie());
     count++;
     for (int i = count; i < STAT_LABELS; i++) {
       this.statLabel[i].setText("");
-      this.statValueLabel[i].setText("");
+      this.statAdjustedValueLabel[i].setText("");
+      this.statBaseValueLabel[i].setText("");
     }
 
     count = 0;
@@ -1040,6 +1037,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       this.levelPanel.setToolTipText("");
     }
 
+    boolean annotated = false;
     if (limitMode == LimitMode.SPELUNKY) {
       String imageName = SpelunkyRequest.getBuddyImageName();
       if (imageName == null) {
@@ -1084,7 +1082,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       }
 
       this.familiarLabel.setIcon(servant.getImage());
-      this.familiarLabel.setText("<HTML><center>level " + servant.getLevel() + "</center></HTML>");
+      this.familiarLabel.setText("level " + servant.getLevel());
     } else if (KoLCharacter.isVampyre()) {
       MonsterData ensorcelee = MonsterDatabase.findMonster(Preferences.getString("ensorcelee"));
 
@@ -1096,15 +1094,25 @@ public class CompactSidePane extends JPanel implements Runnable {
       this.familiarLabel.setToolTipText(ensorcelee.toString());
       this.familiarLabel.setIcon(ensorcelee.getPhylum().getImage());
       this.familiarLabel.setText(
-          "<HTML><center>level "
+          "level "
               + Preferences.getInteger("ensorceleeLevel")
               + " "
-              + ensorcelee.getPhylum().toString()
-              + "</center></HTML>");
+              + ensorcelee.getPhylum().toString());
     } else {
+      StringBuffer annotation = CharPaneDecorator.getFamiliarAnnotation();
+      if (annotation != null) {
+        annotated = true;
+        String annotationString = annotation.toString();
+        this.familiarAnnotationLabel.setText(
+            annotationString.contains("<")
+                ? "<html><center>" + annotationString + "</center></html>"
+                : annotationString);
+      }
+
       this.familiarLabel.update();
     }
 
+    this.familiarAnnotationLabel.setVisible(annotated);
     quantumFamiliarPanel.setVisible(KoLCharacter.inQuantum());
   }
 
@@ -1187,14 +1195,8 @@ public class CompactSidePane extends JPanel implements Runnable {
 
       this.setIcon(KoLCharacter.getFamiliarImage());
 
-      StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
       int weight = current.getModifiedWeight();
-      this.setText(
-          "<HTML><center>"
-              + weight
-              + (weight == 1 ? " lb." : " lbs.")
-              + (anno == null ? "" : "<br>" + anno.toString())
-              + "</center></HTML>");
+      this.setText(weight + (weight == 1 ? " lb." : " lbs."));
     }
   }
 
@@ -1223,7 +1225,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
   private class QuantumFamiliarLabel extends FamiliarLabel {
     public QuantumFamiliarLabel() {
-      this.setHorizontalTextPosition(JLabel.RIGHT);
+      this.setHorizontalTextPosition(JLabel.CENTER);
       this.setVerticalTextPosition(JLabel.CENTER);
     }
 
@@ -1235,11 +1237,11 @@ public class CompactSidePane extends JPanel implements Runnable {
 
       if (turns == 0) {
         this.setIcon((Icon) null);
-        this.setText("<html><center>checking...</center></html>");
+        this.setText("checking...");
         return;
       }
 
-      this.setText("<html><center>in " + turns + " turns</center></html>");
+      this.setText("in " + turns + " turns");
 
       String nextFamiliarRace = Preferences.getString("nextQuantumFamiliar");
 

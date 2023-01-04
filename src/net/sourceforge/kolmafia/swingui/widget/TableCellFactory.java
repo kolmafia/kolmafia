@@ -40,9 +40,7 @@ public class TableCellFactory {
       boolean[] flags,
       boolean isSelected,
       boolean raw) {
-    if (result instanceof AdventureResult) {
-      AdventureResult advresult = (AdventureResult) result;
-
+    if (result instanceof AdventureResult advresult) {
       if (flags[0]) { // Equipment panel
         return getEquipmentCell(columnIndex, isSelected, advresult, raw);
       }
@@ -75,54 +73,40 @@ public class TableCellFactory {
   }
 
   private static Object getScriptCell(int columnIndex, boolean isSelected, Script result) {
-    switch (columnIndex) {
-      case 0:
-        return result.getScriptName();
-      case 1:
-        return result.getAuthors();
-      case 2:
-        return result.getShortDesc();
-      case 3:
-        return result.getCategory();
-      case 4:
-        return result.getRepo();
-    }
-    return null;
+    return switch (columnIndex) {
+      case 0 -> result.getScriptName();
+      case 1 -> result.getAuthors();
+      case 2 -> result.getShortDesc();
+      case 3 -> result.getCategory();
+      case 4 -> result.getRepo();
+      default -> null;
+    };
   }
 
   private static Object getGeneralDatabaseCell(
       int columnIndex, boolean isSelected, LowerCaseEntry<Integer, ?> result, boolean raw) {
-    switch (columnIndex) {
-      case 0:
-        return result.getValue().toString();
-      case 1:
-        return result.getKey();
-    }
-    return null;
+    return switch (columnIndex) {
+      case 0 -> result.getValue().toString();
+      case 1 -> result.getKey();
+      default -> null;
+    };
   }
 
   private static Object getAllItemsCell(
       int columnIndex, boolean isSelected, LowerCaseEntry<Integer, String> result, boolean raw) {
-    switch (columnIndex) {
-      case 0:
-        return ItemDatabase.getDisplayName(result.getKey());
-      case 1:
-        return result.getKey();
-      case 2:
-        return ItemDatabase.getPriceById(result.getKey());
-      case 3:
-        return MallPriceDatabase.getPrice(result.getKey());
-      case 4:
-        return ConsumablesDatabase.getFullness(result.getValue())
-            + ConsumablesDatabase.getInebriety(result.getValue())
-            + ConsumablesDatabase.getSpleenHit(result.getValue());
-      case 5:
-        return ConsumablesDatabase.getBaseAdventureRange(
-            ItemDatabase.getCanonicalName(result.getKey()));
-      case 6:
-        return ConsumablesDatabase.getLevelReqByName(result.getValue());
-    }
-    return null;
+    return switch (columnIndex) {
+      case 0 -> ItemDatabase.getDisplayName(result.getKey());
+      case 1 -> result.getKey();
+      case 2 -> ItemDatabase.getPriceById(result.getKey());
+      case 3 -> MallPriceDatabase.getPrice(result.getKey());
+      case 4 -> ConsumablesDatabase.getFullness(result.getValue())
+          + ConsumablesDatabase.getInebriety(result.getValue())
+          + ConsumablesDatabase.getSpleenHit(result.getValue());
+      case 5 -> ConsumablesDatabase.getBaseAdventureRange(
+          ItemDatabase.getCanonicalName(result.getKey()));
+      case 6 -> ConsumablesDatabase.getLevelReqByName(result.getValue());
+      default -> null;
+    };
   }
 
   private static Object getGeneralCell(
@@ -366,7 +350,7 @@ public class TableCellFactory {
         "item name", "autosell", "quantity", "mallprice", "power", "fill", "adv/fill"
       };
     } else if (originalModel == ConcoctionDatabase.getCreatables()
-        || originalModel == ConcoctionDatabase.getUsables()) {
+        || ConcoctionDatabase.getUsables().values().contains(originalModel)) {
       return new String[] {
         "item name", "autosell", "quantity", "mallprice", "fill", "adv/fill", "level req"
       };

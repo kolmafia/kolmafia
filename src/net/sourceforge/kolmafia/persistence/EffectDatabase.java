@@ -33,13 +33,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EffectDatabase {
   private static String[] canonicalNames = new String[0];
-  private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
-  private static final Map<String, int[]> effectIdSetByName = new TreeMap<String, int[]>();
-  public static final HashMap<Integer, String> defaultActions = new HashMap<Integer, String>();
+  private static final Map<Integer, String> nameById = new TreeMap<>();
+  private static final Map<String, int[]> effectIdSetByName = new TreeMap<>();
+  public static final HashMap<Integer, String> defaultActions = new HashMap<>();
 
-  private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
-  private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
-  private static final Map<String, Integer> effectIdByDescription = new HashMap<String, Integer>();
+  private static final Map<Integer, String> imageById = new HashMap<>();
+  private static final Map<Integer, String> descriptionById = new TreeMap<>();
+  private static final Map<String, Integer> effectIdByDescription = new HashMap<>();
   private static final Map<Integer, Integer> qualityById = new HashMap<>();
   private static final Map<Integer, List<String>> attributesById = new HashMap<>();
 
@@ -109,27 +109,20 @@ public class EffectDatabase {
   }
 
   private static int parseQuality(final String quality) {
-    switch (quality) {
-      case "good":
-        return EffectDatabase.GOOD;
-      case "bad":
-        return EffectDatabase.BAD;
-      default:
-        return EffectDatabase.NEUTRAL;
-    }
+    return switch (quality) {
+      case "good" -> EffectDatabase.GOOD;
+      case "bad" -> EffectDatabase.BAD;
+      default -> EffectDatabase.NEUTRAL;
+    };
   }
 
   private static String describeQuality(final Integer quality) {
-    switch (quality) {
-      case EffectDatabase.GOOD:
-        return "good";
-      case EffectDatabase.BAD:
-        return "bad";
-      case EffectDatabase.NEUTRAL:
-        return "neutral";
-      default:
-        return "";
-    }
+    return switch (quality) {
+      case EffectDatabase.GOOD -> "good";
+      case EffectDatabase.BAD -> "bad";
+      case EffectDatabase.NEUTRAL -> "neutral";
+      default -> "";
+    };
   }
 
   private static void addToDatabase(
@@ -153,7 +146,7 @@ public class EffectDatabase {
     EffectDatabase.qualityById.put(effectId, EffectDatabase.parseQuality(quality));
 
     String[] list = attributes.split("\\s*,\\s*");
-    List<String> attrs = new LinkedList<String>(Arrays.asList(list));
+    List<String> attrs = new LinkedList<>(Arrays.asList(list));
     attrs.remove("none");
     EffectDatabase.attributesById.put(effectId, attrs);
 
@@ -234,7 +227,7 @@ public class EffectDatabase {
     if (actions == null) {
       return Collections.emptyIterator();
     }
-    ArrayList<String> rv = new ArrayList<String>();
+    ArrayList<String> rv = new ArrayList<>();
     String[] pieces = actions.split("\\|");
     for (int i = 0; i < pieces.length; ++i) {
       String action = pieces[i];
@@ -486,7 +479,7 @@ public class EffectDatabase {
         try {
           int effectId = StringUtilities.parseInt(idString);
           // It parsed to a number so is valid
-          List<String> list = new ArrayList<String>();
+          List<String> list = new ArrayList<>();
           list.add(substring);
           return list;
         } catch (NumberFormatException e) {
@@ -755,7 +748,7 @@ public class EffectDatabase {
   }
 
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
-    String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<String>());
+    String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<>());
     String ename = EffectDatabase.getEffectName(effectId);
     Modifiers emods = Modifiers.parseModifiers(ename, eEnchantments);
 

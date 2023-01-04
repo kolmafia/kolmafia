@@ -174,7 +174,7 @@ public class OceanManager {
     public String toString() {
       return this.desc;
     }
-  };
+  }
 
   static {
     // This forces the enum to be initialized, which will populate any sets and

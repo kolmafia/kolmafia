@@ -13,6 +13,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -1324,9 +1325,7 @@ public class MonsterData extends AdventureResult {
     if (this.health instanceof Integer) {
       int hp = (Integer) this.health;
 
-      if (hp == 0
-          && (this.attack == null
-              || (this.attack instanceof Integer && (Integer) this.attack == 0))) {
+      if (hp == 0 && (this.attack == null || (this.attack instanceof Integer i && i == 0))) {
         // The monster is unknown, so do not apply modifiers
         return 0;
       }
@@ -1531,7 +1530,7 @@ public class MonsterData extends AdventureResult {
     }
     int charInit = initBonus;
     // Overclocked helps against Source Monsters
-    if (this.name.contains("Source Agent") && KoLCharacter.hasSkill("Overclocked")) {
+    if (this.name.contains("Source Agent") && KoLCharacter.hasSkill(SkillPool.OVERCLOCKED)) {
       charInit += 200;
     }
     int jumpChance =

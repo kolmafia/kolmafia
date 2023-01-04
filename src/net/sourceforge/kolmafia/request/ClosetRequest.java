@@ -100,58 +100,49 @@ public class ClosetRequest extends TransferItemRequest {
     // different request types.
 
     switch (moveType) {
-      case REFRESH:
-        // It doesn't matter which page we visit to get Meat
-        this.addFormField("which", "1");
-        break;
-
-      case MEAT_TO_CLOSET:
+      case REFRESH ->
+      // It doesn't matter which page we visit to get Meat
+      this.addFormField("which", "1");
+      case MEAT_TO_CLOSET -> {
         // closet.php?action=addtakeclosetmeat&addtake=add&pwd&quantity=x
         this.addFormField("action", "addtakeclosetmeat");
         this.addFormField("addtake", "add");
-        break;
-
-      case MEAT_TO_INVENTORY:
+      }
+      case MEAT_TO_INVENTORY -> {
         // closet.php?action=addtakeclosetmeat&addtake=take&pwd&quantity=x
         this.addFormField("action", "addtakeclosetmeat");
         this.addFormField("addtake", "take");
-        break;
-
-      case INVENTORY_TO_CLOSET:
+      }
+      case INVENTORY_TO_CLOSET -> {
         // fillcloset.php?action=closetpush&whichitem=4511&qty=xxx&pwd&ajax=1
         // fillcloset.php?action=closetpush&whichitem=4511&qty=all&pwd&ajax=1
         this.addFormField("action", "closetpush");
         this.addFormField("ajax", "1");
         this.source = KoLConstants.inventory;
         this.destination = KoLConstants.closet;
-        break;
-
-      case CLOSET_TO_INVENTORY:
+      }
+      case CLOSET_TO_INVENTORY -> {
         // closet.php?action=closetpull&whichitem=4511&qty=xxx&pwd&ajax=1
         // closet.php?action=closetpull&whichitem=4511&qty=all&pwd&ajax=1
         this.addFormField("action", "closetpull");
         this.addFormField("ajax", "1");
         this.source = KoLConstants.closet;
         this.destination = KoLConstants.inventory;
-        break;
-
-      case EMPTY_CLOSET:
+      }
+      case EMPTY_CLOSET -> {
         // closet.php?action=pullallcloset&pwd
         this.addFormField("action", "pullallcloset");
         this.source = KoLConstants.closet;
         this.destination = KoLConstants.inventory;
-        break;
+      }
     }
   }
 
   private static String pickURL(final int moveType) {
-    switch (moveType) {
-      case INVENTORY_TO_CLOSET:
-      case CLOSET_TO_INVENTORY:
-        return "inventory.php";
-      default:
-        return "closet.php";
-    }
+    return switch (moveType) {
+      case INVENTORY_TO_CLOSET, CLOSET_TO_INVENTORY -> "inventory.php";
+      default -> "closet.php";
+    };
   }
 
   @Override
@@ -219,11 +210,11 @@ public class ClosetRequest extends TransferItemRequest {
   @Override
   public void processResults() {
     switch (this.moveType) {
-      case ClosetRequest.REFRESH:
+      case ClosetRequest.REFRESH -> {
         ClosetRequest.parseCloset(this.getURLString(), this.responseText);
         return;
-      default:
-        super.processResults();
+      }
+      default -> super.processResults();
     }
   }
 
@@ -377,27 +368,14 @@ public class ClosetRequest extends TransferItemRequest {
 
   @Override
   public String getStatusMessage() {
-    switch (this.moveType) {
-      case REFRESH:
-        return "Examining Meat in closet";
-
-      case INVENTORY_TO_CLOSET:
-        return "Placing items into closet";
-
-      case CLOSET_TO_INVENTORY:
-        return "Removing items from closet";
-
-      case MEAT_TO_CLOSET:
-        return "Placing meat into closet";
-
-      case MEAT_TO_INVENTORY:
-        return "Removing meat from closet";
-
-      case EMPTY_CLOSET:
-        return "Emptying closet";
-
-      default:
-        return "Unknown request type";
-    }
+    return switch (this.moveType) {
+      case REFRESH -> "Examining Meat in closet";
+      case INVENTORY_TO_CLOSET -> "Placing items into closet";
+      case CLOSET_TO_INVENTORY -> "Removing items from closet";
+      case MEAT_TO_CLOSET -> "Placing meat into closet";
+      case MEAT_TO_INVENTORY -> "Removing meat from closet";
+      case EMPTY_CLOSET -> "Emptying closet";
+      default -> "Unknown request type";
+    };
   }
 }

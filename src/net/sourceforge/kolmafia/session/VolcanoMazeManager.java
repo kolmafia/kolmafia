@@ -1206,7 +1206,7 @@ public abstract class VolcanoMazeManager {
     private final List<Integer> list;
 
     public Path(final Integer square) {
-      this.list = new ArrayList<Integer>();
+      this.list = new ArrayList<>();
       this.list.add(square);
     }
 

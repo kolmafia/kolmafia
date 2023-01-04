@@ -122,7 +122,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     switch (itemId) {
-      case ItemPool.SPAGHETTI_BREAKFAST:
+      case ItemPool.SPAGHETTI_BREAKFAST -> {
         // This is your breakfast, you need to eat it first thing
         if (KoLCharacter.getFullnessLimit() == 0) {
           UseItemRequest.limiter = "cannot eat";
@@ -136,60 +136,61 @@ public class EatItemRequest extends UseItemRequest {
         return Preferences.getBoolean("_spaghettiBreakfastEaten")
             ? 0
             : (1 - ConcoctionDatabase.queuedSpaghettiBreakfast);
-
-      case ItemPool.AFFIRMATION_COOKIE:
+      }
+      case ItemPool.AFFIRMATION_COOKIE -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_affirmationCookieEaten")
             ? 0
             : (1 - ConcoctionDatabase.queuedAffirmationCookies);
-
-      case ItemPool.KUDZU_SALAD:
+      }
+      case ItemPool.KUDZU_SALAD -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_kudzuSaladEaten") ? 0 : 1;
-
-      case ItemPool.PLUMBERS_MUSHROOM_STEW:
+      }
+      case ItemPool.PLUMBERS_MUSHROOM_STEW -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_plumbersMushroomStewEaten") ? 0 : 1;
-
-      case ItemPool.MR_BURNSGER:
+      }
+      case ItemPool.MR_BURNSGER -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_mrBurnsgerEaten") ? 0 : 1;
-
-      case ItemPool.DRIPPY_CAVIAR:
+      }
+      case ItemPool.DRIPPY_CAVIAR -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_drippyCaviarUsed") ? 0 : 1;
-
-      case ItemPool.DRIPPY_NUGGET:
+      }
+      case ItemPool.DRIPPY_NUGGET -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_drippyNuggetUsed") ? 0 : 1;
-
-      case ItemPool.DRIPPY_PLUM:
+      }
+      case ItemPool.DRIPPY_PLUM -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_drippyPlumUsed") ? 0 : 1;
-
-      case ItemPool.MAGICAL_SAUSAGE:
+      }
+      case ItemPool.MAGICAL_SAUSAGE -> {
         UseItemRequest.limiter = "daily limit";
         return 23 - Preferences.getInteger("_sausagesEaten");
-
-      case ItemPool.GLITCH_ITEM:
+      }
+      case ItemPool.GLITCH_ITEM -> {
         UseItemRequest.limiter = "daily limit";
         return 1 - Preferences.getInteger("_glitchMonsterFights");
-
-      case ItemPool.PIRATE_FORK:
+      }
+      case ItemPool.PIRATE_FORK -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_pirateForkUsed") ? 0 : 1;
-
-      case ItemPool.PIZZA_OF_LEGEND:
+      }
+      case ItemPool.PIZZA_OF_LEGEND -> {
         UseItemRequest.limiter = "ascension limit";
         return Preferences.getBoolean("pizzaOfLegendEaten") ? 0 : 1;
-
-      case ItemPool.DEEP_DISH_OF_LEGEND:
+      }
+      case ItemPool.DEEP_DISH_OF_LEGEND -> {
         UseItemRequest.limiter = "ascension limit";
         return Preferences.getBoolean("deepDishOfLegendEaten") ? 0 : 1;
-
-      case ItemPool.CALZONE_OF_LEGEND:
+      }
+      case ItemPool.CALZONE_OF_LEGEND -> {
         UseItemRequest.limiter = "ascension limit";
         return Preferences.getBoolean("calzoneOfLegendEaten") ? 0 : 1;
+      }
     }
 
     int limit = KoLCharacter.getFullnessLimit();
@@ -371,28 +372,24 @@ public class EatItemRequest extends UseItemRequest {
       return true;
     }
 
-    switch (itemId) {
-      case ItemPool.SMORE:
+    return switch (itemId) {
         // Multi-eating s'mores doesn't update the smoresEaten
         // preference correctly.
-      case ItemPool.BLACK_PUDDING:
-        // Eating a black pudding can lead to a combat with no
-        // feedback about how many were successfully eaten
-        // before the combat.
-        return true;
-    }
-    return false;
+      case ItemPool.SMORE,
+          // Eating a black pudding can lead to a combat with no
+          // feedback about how many were successfully eaten
+          // before the combat.
+          ItemPool.BLACK_PUDDING -> true;
+      default -> false;
+    };
   }
 
   private static boolean sequentialConsume(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BORIS_PIE:
-      case ItemPool.JARLSBERG_PIE:
-      case ItemPool.SNEAKY_PETE_PIE:
+    return switch (itemId) {
         // Allow multiple pies to be made and eaten with only one key.
-        return true;
-    }
-    return false;
+      case ItemPool.BORIS_PIE, ItemPool.JARLSBERG_PIE, ItemPool.SNEAKY_PETE_PIE -> true;
+      default -> false;
+    };
   }
 
   private boolean allowFoodConsumption() {
@@ -862,14 +859,14 @@ public class EatItemRequest extends UseItemRequest {
     // Perform item-specific processing
 
     switch (itemId) {
-      case ItemPool.LUCIFER:
+      case ItemPool.LUCIFER -> {
 
         // Jumbo Dr. Lucifer reduces your hit points to 1.
         ResultProcessor.processResult(
             new AdventureLongCountResult(AdventureResult.HP, 1 - KoLCharacter.getCurrentHP()));
         return;
-
-      case ItemPool.BLACK_PUDDING:
+      }
+      case ItemPool.BLACK_PUDDING -> {
 
         // "You screw up your courage and eat the black pudding.
         // It turns out to be the blood sausage sort of
@@ -906,101 +903,99 @@ public class EatItemRequest extends UseItemRequest {
         else if (responseText.contains("too beaten up")) {
           UseItemRequest.lastUpdate = "Too beaten up.";
         }
-
         if (!UseItemRequest.lastUpdate.equals("")) {
           KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
         }
-
         return;
-
-      case ItemPool.STEEL_STOMACH:
+      }
+      case ItemPool.STEEL_STOMACH -> {
         if (responseText.contains("You acquire a skill")) {
           ResponseTextParser.learnSkill("Stomach of Steel");
         }
         return;
-
-      case ItemPool.DRIPPY_CAVIAR:
+      }
+      case ItemPool.DRIPPY_CAVIAR -> {
         Preferences.setBoolean("_drippyCaviarUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.DRIPPY_NUGGET:
+      }
+      case ItemPool.DRIPPY_NUGGET -> {
         Preferences.setBoolean("_drippyNuggetUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.DRIPPY_PLUM:
+      }
+      case ItemPool.DRIPPY_PLUM -> {
         Preferences.setBoolean("_drippyPlumUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.EXTRA_GREASY_SLIDER:
+      }
+      case ItemPool.EXTRA_GREASY_SLIDER -> {
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
         return;
-
-      case ItemPool.SPAGHETTI_BREAKFAST:
+      }
+      case ItemPool.SPAGHETTI_BREAKFAST -> {
         Preferences.setBoolean("_spaghettiBreakfastEaten", true);
         return;
-
-      case ItemPool.SMORE:
+      }
+      case ItemPool.SMORE -> {
         Preferences.increment("smoresEaten", 1);
         ConsumablesDatabase.setSmoresData();
         ConsumablesDatabase.calculateAllAverageAdventures();
         return;
-
-      case ItemPool.AFFIRMATION_COOKIE:
+      }
+      case ItemPool.AFFIRMATION_COOKIE -> {
         // Not correcting based on actual consumption, as too many other things can affect it.
         Preferences.increment("affirmationCookiesEaten", 1);
         Preferences.setBoolean("_affirmationCookieEaten", true);
         ConsumablesDatabase.setAffirmationCookieData();
         ConsumablesDatabase.calculateAllAverageAdventures();
         return;
-
-      case ItemPool.KUDZU_SALAD:
+      }
+      case ItemPool.KUDZU_SALAD -> {
         Preferences.setBoolean("_kudzuSaladEaten", true);
         return;
-
-      case ItemPool.PLUMBERS_MUSHROOM_STEW:
+      }
+      case ItemPool.PLUMBERS_MUSHROOM_STEW -> {
         Preferences.setBoolean("_plumbersMushroomStewEaten", true);
         return;
-
-      case ItemPool.MR_BURNSGER:
+      }
+      case ItemPool.MR_BURNSGER -> {
         Preferences.setBoolean("_mrBurnsgerEaten", true);
         return;
-
-      case ItemPool.MAGICAL_SAUSAGE:
+      }
+      case ItemPool.MAGICAL_SAUSAGE -> {
         Preferences.increment("_sausagesEaten", item.getCount(), 23, false);
         return;
-
-      case ItemPool.ELECTRIC_KOOL_AID:
+      }
+      case ItemPool.ELECTRIC_KOOL_AID -> {
         Preferences.increment("electricKoolAidEaten", item.getCount());
         return;
-
-      case ItemPool.PIRATE_FORK:
-        {
-          // You reach over and grab some <food> off of a random passerby's plate. Yum!
-          if (responseText.contains("You reach over and grab")) {
-            Matcher m = PIRATE_FORK_PATTERN.matcher(responseText);
-            if (m.find()) {
-              String food = m.group(1);
-              String message = "Your pirate fork grabbed some " + food + "!";
-              RequestLogger.printLine(message);
-              RequestLogger.updateSessionLog(message);
-            }
+      }
+      case ItemPool.PIRATE_FORK -> {
+        // You reach over and grab some <food> off of a random passerby's plate. Yum!
+        if (responseText.contains("You reach over and grab")) {
+          Matcher m = PIRATE_FORK_PATTERN.matcher(responseText);
+          if (m.find()) {
+            String food = m.group(1);
+            String message = "Your pirate fork grabbed some " + food + "!";
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
           }
-          break;
         }
-
-      case ItemPool.PIZZA_OF_LEGEND:
+      }
+      case ItemPool.PIZZA_OF_LEGEND -> {
         Preferences.setBoolean("pizzaOfLegendEaten", true);
         return;
-      case ItemPool.CALZONE_OF_LEGEND:
+      }
+      case ItemPool.CALZONE_OF_LEGEND -> {
         Preferences.setBoolean("calzoneOfLegendEaten", true);
         return;
-      case ItemPool.DEEP_DISH_OF_LEGEND:
+      }
+      case ItemPool.DEEP_DISH_OF_LEGEND -> {
         Preferences.setBoolean("deepDishOfLegendEaten", true);
         return;
+      }
     }
   }
 
