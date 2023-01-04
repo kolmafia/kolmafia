@@ -286,6 +286,9 @@ public class CampgroundRequest extends GenericRequest {
   public static final AdventureResult GIANT_FREE_RANGE_MUSHROOM = new Mushroom(4);
   public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = new Mushroom(5);
   public static final AdventureResult COLOSSAL_FREE_RANGE_MUSHROOM = new Mushroom(11);
+  public static final AdventureResult GROVELING_GRAVEL = ItemPool.get(ItemPool.GROVELING_GRAVEL, 1);
+  public static final AdventureResult MILESTONE = ItemPool.get(ItemPool.MILESTONE, 1);
+  public static final AdventureResult WHETSTONE = ItemPool.get(ItemPool.WHETSTONE, 1);
 
   // Crop seeds
   public static final AdventureResult PUMPKIN_SEEDS = ItemPool.get(ItemPool.PUMPKIN_SEEDS, 1);
@@ -298,6 +301,7 @@ public class CampgroundRequest extends GenericRequest {
       ItemPool.get(ItemPool.THANKSGARDEN_SEEDS, 1);
   public static final AdventureResult TALL_GRASS_SEEDS = ItemPool.get(ItemPool.TALL_GRASS_SEEDS, 1);
   public static final AdventureResult MUSHROOM_SPORES = ItemPool.get(ItemPool.MUSHROOM_SPORES, 1);
+  public static final AdventureResult ROCK_SEEDS = ItemPool.get(ItemPool.ROCK_SEEDS, 1);
 
   public enum CropType {
     PUMPKIN,
@@ -308,6 +312,7 @@ public class CampgroundRequest extends GenericRequest {
     THANKSGARDEN,
     GRASS,
     MUSHROOM,
+    ROCK,
     ;
 
     @Override
@@ -338,6 +343,9 @@ public class CampgroundRequest extends GenericRequest {
     CROPMAP.put(GIANT_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
     CROPMAP.put(IMMENSE_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
     CROPMAP.put(COLOSSAL_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
+    CROPMAP.put(GROVELING_GRAVEL, CropType.ROCK);
+    CROPMAP.put(MILESTONE, CropType.ROCK);
+    CROPMAP.put(WHETSTONE, CropType.ROCK);
   }
 
   public static final List<Integer> workshedItems =
@@ -391,6 +399,9 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM,
     CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM,
     CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM,
+    CampgroundRequest.GROVELING_GRAVEL,
+    CampgroundRequest.MILESTONE,
+    CampgroundRequest.WHETSTONE,
   };
 
   public static final AdventureResult[] CROP_SEEDS = {
@@ -402,6 +413,7 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.THANKSGARDEN_SEEDS,
     CampgroundRequest.TALL_GRASS_SEEDS,
     CampgroundRequest.MUSHROOM_SPORES,
+    CampgroundRequest.ROCK_SEEDS,
   };
 
   public static void reset() {
@@ -494,23 +506,17 @@ public class CampgroundRequest extends GenericRequest {
       count = StringUtilities.parseInt(crop.substring(paren + 2, crop.length() - 1));
     }
 
-    return name.equals("tall grass")
-        ? CampgroundRequest.TALL_GRASS.getInstance(count)
-        : name.equals("very tall grass")
-            ? CampgroundRequest.VERY_TALL_GRASS
-            : name.equals("free-range mushroom")
-                ? CampgroundRequest.FREE_RANGE_MUSHROOM
-                : name.equals("plump free-range mushroom")
-                    ? CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM
-                    : name.equals("bulky free-range mushroom")
-                        ? CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM
-                        : name.equals("giant free-range mushroom")
-                            ? CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM
-                            : name.equals("immense free-range mushroom")
-                                ? CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM
-                                : name.equals("colossal free-range mushroom")
-                                    ? CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM
-                                    : new AdventureResult(name, count, false);
+    return switch (name) {
+      case "tall grass" -> CampgroundRequest.TALL_GRASS.getInstance(count);
+      case "very tall grass" -> CampgroundRequest.VERY_TALL_GRASS;
+      case "free-range mushroom" -> CampgroundRequest.FREE_RANGE_MUSHROOM;
+      case "plump free-range mushroom" -> CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM;
+      case "bulky free-range mushroom" -> CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM;
+      case "giant free-range mushroom" -> CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM;
+      case "immense free-range mushroom" -> CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM;
+      case "colossal free-range mushroom" -> CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM;
+      default -> new AdventureResult(name, count, false);
+    };
   }
 
   public static boolean hasCropOrBetter(final String crop) {
@@ -1268,7 +1274,19 @@ public class CampgroundRequest extends GenericRequest {
         || findImage(
             responseText,
             "mushgarden.gif",
-            new Mushroom(Preferences.getInteger("mushroomGardenCropLevel")));
+            new Mushroom(Preferences.getInteger("mushroomGardenCropLevel")))
+        || findImage(
+            responseText, "rockgarden/a0.gif", ItemPool.GROVELING_GRAVEL, 0, ItemPool.ROCK_SEEDS, 0)
+        || findImage(
+            responseText, "rockgarden/b0.gif", ItemPool.MILESTONE, 0, ItemPool.ROCK_SEEDS, 0)
+        || findImage(
+            responseText, "rockgarden/c0.gif", ItemPool.WHETSTONE, 0, ItemPool.ROCK_SEEDS, 0)
+        || findImage(
+            responseText, "rockgarden/a1.gif", ItemPool.GROVELING_GRAVEL, 1, ItemPool.ROCK_SEEDS, 1)
+        || findImage(
+            responseText, "rockgarden/b1.gif", ItemPool.MILESTONE, 1, ItemPool.ROCK_SEEDS, 1)
+        || findImage(
+            responseText, "rockgarden/c1.gif", ItemPool.WHETSTONE, 1, ItemPool.ROCK_SEEDS, 1);
   }
 
   private static void parseDwelling(final String responseText) {

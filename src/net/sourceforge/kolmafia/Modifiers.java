@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -64,7 +65,7 @@ public class Modifiers {
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
-  private static final Map<Boolean, List<UseSkillRequest>> availablePassiveSkillsByVariable =
+  private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
       new TreeMap<>();
   private static Modifiers cachedPassiveModifiers = null;
   private static final Map<String, Integer> synergies = new HashMap<>();
@@ -1291,22 +1292,18 @@ public class Modifiers {
   }
 
   private String name;
-  public boolean variable;
-  private final double[] doubles;
-  private final int[] bitmaps;
-  private final String[] strings;
-  private ArrayList<Indexed<ModifierExpression>> expressions;
+  // Assume modifiers are variable until proven otherwise.
+  public boolean variable = true;
+  private DoubleModifierCollection doubles = new DoubleModifierCollection();
+  private final int[] bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
+  private final String[] strings = new String[Modifiers.STRING_MODIFIERS];
+  private ArrayList<Indexed<ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
-  private final double[] extras;
+  private final double[] doublerAccumulators = new double[Modifiers.DOUBLE_MODIFIERS];
 
   public Modifiers() {
-    // Assume modifiers are variable until proven otherwise.
-    this.variable = true;
-    this.doubles = new double[Modifiers.DOUBLE_MODIFIERS];
-    this.bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
-    this.strings = new String[Modifiers.STRING_MODIFIERS];
-    this.extras = new double[Modifiers.DOUBLE_MODIFIERS];
-    this.reset();
+    Arrays.fill(this.strings, "");
+    // Everything else should be initialized above.
   }
 
   public Modifiers(Modifiers copy) {
@@ -1314,13 +1311,14 @@ public class Modifiers {
     this.set(copy);
   }
 
-  public Modifiers(String name, ModifierList mods) {
+  public Modifiers(String name) {
     this();
     this.name = name;
+  }
 
-    for (Modifier m : mods) {
-      this.add(m);
-    }
+  public Modifiers(String name, ModifierList mods) {
+    this(name);
+    mods.forEach(this::setModifier);
   }
 
   public String getName() {
@@ -1328,25 +1326,25 @@ public class Modifiers {
   }
 
   public final void reset() {
-    Arrays.fill(this.doubles, 0.0);
+    this.doubles.reset();
     Arrays.fill(this.bitmaps, 0);
     Arrays.fill(this.strings, "");
     this.expressions = null;
   }
 
   private double derivePrismaticDamage() {
-    double damage = this.doubles[Modifiers.COLD_DAMAGE];
-    damage = Math.min(damage, this.doubles[Modifiers.HOT_DAMAGE]);
-    damage = Math.min(damage, this.doubles[Modifiers.SLEAZE_DAMAGE]);
-    damage = Math.min(damage, this.doubles[Modifiers.SPOOKY_DAMAGE]);
-    damage = Math.min(damage, this.doubles[Modifiers.STENCH_DAMAGE]);
-    this.doubles[Modifiers.PRISMATIC_DAMAGE] = damage;
+    double damage = this.doubles.get(Modifiers.COLD_DAMAGE);
+    damage = Math.min(damage, this.doubles.get(Modifiers.HOT_DAMAGE));
+    damage = Math.min(damage, this.doubles.get(Modifiers.SLEAZE_DAMAGE));
+    damage = Math.min(damage, this.doubles.get(Modifiers.SPOOKY_DAMAGE));
+    damage = Math.min(damage, this.doubles.get(Modifiers.STENCH_DAMAGE));
+    this.setDouble(Modifiers.PRISMATIC_DAMAGE, damage);
     return damage;
   }
 
   private double cappedCombatRate() {
     // Combat Rate has diminishing returns beyond + or - 25%
-    double rate = this.doubles[Modifiers.COMBAT_RATE];
+    double rate = this.doubles.get(Modifiers.COMBAT_RATE);
     if (rate > 25.0) {
       double extra = rate - 25.0;
       return 25.0 + Math.floor(extra / 5.0);
@@ -1366,11 +1364,11 @@ public class Modifiers {
       return this.cappedCombatRate();
     }
 
-    if (index < 0 || index >= this.doubles.length) {
+    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
       return 0.0;
     }
 
-    return this.doubles[index];
+    return this.doubles.get(index);
   }
 
   public double get(final String name) {
@@ -1382,7 +1380,7 @@ public class Modifiers {
     }
 
     int index = Modifiers.findName(name);
-    if (index < 0 || index >= this.doubles.length) {
+    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
       index = Modifiers.findName(Modifiers.derivedModifiers, name);
       if (index < 0 || index >= Modifiers.DERIVED_MODIFIERS) {
         return this.getBitmap(name);
@@ -1390,7 +1388,7 @@ public class Modifiers {
       return this.predict()[index];
     }
 
-    return this.doubles[index];
+    return this.doubles.get(index);
   }
 
   public int getRawBitmap(final int index) {
@@ -1470,37 +1468,33 @@ public class Modifiers {
     return this.strings[index];
   }
 
-  public double getExtra(final int index) {
-    if (index < 0 || index >= this.extras.length) {
+  public double getDoublerAccumulator(final int index) {
+    if (index < 0 || index >= this.doublerAccumulators.length) {
       return -9999.0;
     }
-    return this.extras[index];
+    return this.doublerAccumulators[index];
   }
 
-  public double getExtra(final String name) {
-    // extras uses the same indexes as doubles, so the same lookup will work
+  public double getDoublerAccumulator(final String name) {
+    // doublerAccumulators uses the same indexes as doubles, so the same lookup will work
     int index = findName(name);
-    if (index < 0 || index >= this.extras.length) {
+    if (index < 0 || index >= this.doublerAccumulators.length) {
       // For now, make it obvious that something went wrong
       return -9999.0;
     }
 
-    return this.extras[index];
+    return this.doublerAccumulators[index];
   }
 
-  public boolean set(final int index, final double mod) {
-    if (index < 0 || index >= this.doubles.length) {
+  public boolean setDouble(final int index, final double mod) {
+    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
       return false;
     }
 
-    if (this.doubles[index] != mod) {
-      this.doubles[index] = mod;
-      return true;
-    }
-    return false;
+    return this.doubles.set(index, mod);
   }
 
-  public boolean set(final int index, final int mod) {
+  public boolean setBitmap(final int index, final int mod) {
     if (index < 0 || index >= this.bitmaps.length) {
       return false;
     }
@@ -1512,7 +1506,7 @@ public class Modifiers {
     return false;
   }
 
-  public boolean set(final int index, final boolean mod) {
+  public boolean setBoolean(final int index, final boolean mod) {
     if (index < 0 || index >= Modifiers.BOOLEAN_MODIFIERS) {
       return false;
     }
@@ -1526,7 +1520,7 @@ public class Modifiers {
     return false;
   }
 
-  public boolean set(final int index, String mod) {
+  public boolean setString(final int index, String mod) {
     if (index < 0 || index >= this.strings.length) {
       return false;
     }
@@ -1550,12 +1544,8 @@ public class Modifiers {
     boolean changed = false;
     this.name = mods.name;
 
-    double[] copyDoubles = mods.doubles;
-    for (int index = 0; index < this.doubles.length; ++index) {
-      if (this.doubles[index] != copyDoubles[index]) {
-        this.doubles[index] = copyDoubles[index];
-        changed = true;
-      }
+    for (int index = 0; index < Modifiers.DOUBLE_MODIFIERS; ++index) {
+      changed |= this.setDouble(index, mods.doubles.get(index));
     }
 
     int[] copyBitmaps = mods.bitmaps;
@@ -1577,49 +1567,50 @@ public class Modifiers {
     return changed;
   }
 
+  private static final Set<String> doubledBySquintChampagne =
+      Set.of(
+          "Ballroom",
+          "Bjorn",
+          "Effect",
+          "Item",
+          "Local Vote",
+          "Outfit",
+          "Path",
+          "Sign",
+          "Skill",
+          "Synergy",
+          "Throne",
+          "UnbreakableUmbrella");
+
   public void add(final int index, final double mod, final String desc) {
     switch (index) {
       case MANA_COST:
         // Total Mana Cost reduction cannot exceed 3
-        this.doubles[index] += mod;
-        if (this.doubles[index] < -3) {
-          this.doubles[index] = -3;
+        if (this.doubles.add(index, mod) < -3) {
+          this.doubles.set(index, -3);
         }
         break;
       case FAMILIAR_WEIGHT_PCT:
         // The three current sources of -wt% do not stack
-        if (this.doubles[index] > mod) {
-          this.doubles[index] = mod;
+        if (this.doubles.get(index) > mod) {
+          this.doubles.set(index, mod);
         }
         break;
       case MUS_LIMIT:
       case MYS_LIMIT:
       case MOX_LIMIT:
         // Only the lowest limiter applies
-        if ((this.doubles[index] == 0.0 || this.doubles[index] > mod) && mod > 0.0) {
-          this.doubles[index] = mod;
+        double current = this.doubles.get(index);
+        if ((current == 0.0 || current > mod) && mod > 0.0) {
+          this.doubles.set(index, mod);
         }
         break;
       case ITEMDROP:
         String type = Modifiers.getTypeFromLookup(desc);
-        if (type.equals("Ballroom")
-            || type.equals("Bjorn")
-            || type.equals("Effect")
-            || type.equals("Item")
-            || type.equals("Local Vote")
-            || type.equals("Outfit")
-            || type.equals("Path")
-            || type.equals("Sign")
-            || type.equals("Skill")
-            || type.equals("Synergy")
-            || type.equals("Throne")
-            || type.equals("UnbreakableUmbrella")) {
-          String name = Modifiers.getNameFromLookup(desc);
-          if (!name.equals("Steely-Eyed Squint") && !name.equals("broken champagne bottle")) {
-            this.extras[index] += mod;
-          }
+        if (Modifiers.doubledBySquintChampagne.contains(type)) {
+          this.doublerAccumulators[index] += mod;
         }
-        this.doubles[index] += mod;
+        this.doubles.add(index, mod);
         break;
       case INITIATIVE:
       case HOT_DAMAGE:
@@ -1632,27 +1623,24 @@ public class Modifiers {
       case STENCH_SPELL_DAMAGE:
       case SPOOKY_SPELL_DAMAGE:
       case SLEAZE_SPELL_DAMAGE:
-        String name = Modifiers.getNameFromLookup(desc);
-        if (!name.equals("Bendin' Hell") && !name.equals("Bow-Legged Swagger")) {
-          this.extras[index] += mod;
-        }
-        this.doubles[index] += mod;
-        break;
       case EXPERIENCE:
       case MUS_EXPERIENCE:
       case MYS_EXPERIENCE:
       case MOX_EXPERIENCE:
-        name = Modifiers.getNameFromLookup(desc);
-        if (!name.equals("makeshift garbage shirt")) {
-          this.extras[index] += mod;
-        }
-        this.doubles[index] += mod;
+      case MUS_EXPERIENCE_PCT:
+      case MYS_EXPERIENCE_PCT:
+      case MOX_EXPERIENCE_PCT:
+        // doublerAccumulators acts as an accumulator for modifiers that are possibly doubled by
+        // doublers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty Pear.
+        // TODO: Figure out which ones aren't doubled and exclude them. BoomBox?
+        this.doublerAccumulators[index] += mod;
+        this.doubles.add(index, mod);
         break;
       case FAMILIAR_ACTION_BONUS:
-        this.doubles[index] = Math.min(100, this.doubles[index] + mod);
+        this.doubles.set(index, Math.min(100, this.get(index) + mod));
         break;
       default:
-        this.doubles[index] += mod;
+        this.doubles.add(index, mod);
         break;
     }
   }
@@ -1681,17 +1669,13 @@ public class Modifiers {
 
     // Add in the double modifiers
 
-    double[] addition = mods.doubles;
-
-    for (int i = 0; i < this.doubles.length; ++i) {
-      if (addition[i] != 0.0) {
-        if (i == Modifiers.ADVENTURES
-            && (mods.bitmaps[0] & this.bitmaps[0] & (1 << Modifiers.NONSTACKABLE_WATCH)) != 0) {
-          continue;
-        }
-        this.add(i, addition[i], name);
-      }
-    }
+    mods.doubles.forEach(
+        (i, addition) -> {
+          if (i != Modifiers.ADVENTURES
+              || (mods.bitmaps[0] & this.bitmaps[0] & (1 << Modifiers.NONSTACKABLE_WATCH)) == 0) {
+            this.add(i, addition, name);
+          }
+        });
 
     // Add in string modifiers as appropriate.
 
@@ -1734,7 +1718,7 @@ public class Modifiers {
     }
   }
 
-  public boolean add(final Modifier mod) {
+  public boolean setModifier(final Modifier mod) {
     if (mod == null) {
       return false;
     }
@@ -1744,21 +1728,21 @@ public class Modifiers {
       return false;
     }
     if (index < DOUBLE_MODIFIERS) {
-      return this.set(index, Double.parseDouble(mod.getValue()));
+      return this.setDouble(index, Double.parseDouble(mod.getValue()));
     }
 
     index -= DOUBLE_MODIFIERS;
     if (index < BITMAP_MODIFIERS) {
-      return this.set(index, Integer.parseInt(mod.getValue()));
+      return this.setBitmap(index, Integer.parseInt(mod.getValue()));
     }
 
     index -= BITMAP_MODIFIERS;
     if (index < BOOLEAN_MODIFIERS) {
-      return this.set(index, mod.getValue().equals("true"));
+      return this.setBoolean(index, mod.getValue().equals("true"));
     }
 
     index -= BOOLEAN_MODIFIERS;
-    return this.set(index, mod.getValue());
+    return this.setString(index, mod.getValue());
   }
 
   public static final Modifiers getItemModifiers(final int id) {
@@ -1778,12 +1762,12 @@ public class Modifiers {
   public static final Modifiers getItemModifiersInFamiliarSlot(final int id) {
     Modifiers mods = new Modifiers(getItemModifiers(id));
 
-    mods.set(Modifiers.SLIME_HATES_IT, 0.0f);
-    mods.set(Modifiers.BRIMSTONE, 0);
-    mods.set(Modifiers.CLOATHING, 0);
-    mods.set(Modifiers.SYNERGETIC, 0);
-    mods.set(Modifiers.MOXIE_MAY_CONTROL_MP, false);
-    mods.set(Modifiers.MOXIE_CONTROLS_MP, false);
+    mods.setDouble(Modifiers.SLIME_HATES_IT, 0.0f);
+    mods.setBitmap(Modifiers.BRIMSTONE, 0);
+    mods.setBitmap(Modifiers.CLOATHING, 0);
+    mods.setBitmap(Modifiers.SYNERGETIC, 0);
+    mods.setBoolean(Modifiers.MOXIE_MAY_CONTROL_MP, false);
+    mods.setBoolean(Modifiers.MOXIE_CONTROLS_MP, false);
 
     return mods;
   }
@@ -1804,7 +1788,7 @@ public class Modifiers {
 
   public static final Modifiers getModifiers(final String type, final int id, final String name) {
     String lookup = Modifiers.getLookupName(type, id);
-    return Modifiers.getModifiersInternal(type, name, lookup);
+    return Modifiers.getModifiersInternal(type, name, lookup, id);
   }
 
   public static final Modifiers getModifiers(final String type, final String name) {
@@ -1813,11 +1797,11 @@ public class Modifiers {
     }
 
     String lookup = Modifiers.getLookupName(type, name);
-    return Modifiers.getModifiersInternal(type, name, lookup);
+    return Modifiers.getModifiersInternal(type, name, lookup, null);
   }
 
   private static final Modifiers getModifiersInternal(
-      String type, final String name, String lookup) {
+      String type, final String name, String lookup, Integer id) {
     String changeType = null;
     if (type.equals("Bjorn")) {
       changeType = type;
@@ -1840,13 +1824,13 @@ public class Modifiers {
         modifiers.name = changeType + ":" + name;
       }
 
-      modifiers.variable = modifiers.override(lookup);
+      modifiers.variable = modifiers.override(lookup, id);
 
       Modifiers.modifiersByName.put(lookup, modifiers);
     }
 
     if (modifiers.variable) {
-      modifiers.override(lookup);
+      modifiers.override(lookup, id);
       if (changeType != null) {
         modifiers.name = changeType + ":" + name;
       }
@@ -1857,13 +1841,12 @@ public class Modifiers {
 
   public static final Modifiers parseModifiers(final String lookup, final String string) {
     Modifiers newMods = new Modifiers();
-    double[] newDoubles = newMods.doubles;
     int[] newBitmaps = newMods.bitmaps;
     String[] newStrings = newMods.strings;
 
     newMods.name = lookup;
 
-    for (int i = 0; i < newDoubles.length; ++i) {
+    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
       Pattern pattern = Modifiers.doubleModifiers[i].getTagPattern();
       if (pattern == null) {
         continue;
@@ -1875,7 +1858,7 @@ public class Modifiers {
       }
 
       if (matcher.group(1) != null) {
-        newDoubles[i] = Double.parseDouble(matcher.group(1));
+        newMods.setDouble(i, Double.parseDouble(matcher.group(1)));
       } else {
         if (newMods.expressions == null) {
           newMods.expressions = new ArrayList<>();
@@ -2273,68 +2256,69 @@ public class Modifiers {
         // Set modifiers depending on what KoL day of the week it is
         var dotw = DateTimeManager.getArizonaDateTime().getDayOfWeek();
 
-        this.set(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
-        this.set(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
-        this.set(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
-        this.set(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
-        this.set(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
-        this.set(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
-        this.set(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
-        this.set(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
-        this.set(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
+        this.setDouble(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
+        this.setDouble(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
+        this.setDouble(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
+        this.setDouble(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
+        this.setDouble(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
+        this.setDouble(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
+        this.setDouble(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
+        this.setDouble(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
+        this.setDouble(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
         return true;
       }
       case ItemPool.PANTSGIVING -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
+        this.setBoolean(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
         return true;
       }
       case ItemPool.PATRIOT_SHIELD -> {
         // Muscle classes
-        this.set(Modifiers.HP_REGEN_MIN, 0.0);
-        this.set(Modifiers.HP_REGEN_MAX, 0.0);
+        this.setDouble(Modifiers.HP_REGEN_MIN, 0.0);
+        this.setDouble(Modifiers.HP_REGEN_MAX, 0.0);
         // Seal clubber
-        this.set(Modifiers.WEAPON_DAMAGE, 0.0);
-        this.set(Modifiers.DAMAGE_REDUCTION, 0.0);
+        this.setDouble(Modifiers.WEAPON_DAMAGE, 0.0);
+        this.setDouble(Modifiers.DAMAGE_REDUCTION, 0.0);
         // Turtle Tamer
-        this.set(Modifiers.FAMILIAR_WEIGHT, 0.0);
+        this.setDouble(Modifiers.FAMILIAR_WEIGHT, 0.0);
         // Disco Bandit
-        this.set(Modifiers.RANGED_DAMAGE, 0.0);
+        this.setDouble(Modifiers.RANGED_DAMAGE, 0.0);
         // Accordion Thief
-        this.set(Modifiers.FOUR_SONGS, false);
+        this.setBoolean(Modifiers.FOUR_SONGS, false);
         // Mysticality classes
-        this.set(Modifiers.MP_REGEN_MIN, 0.0);
-        this.set(Modifiers.MP_REGEN_MAX, 0.0);
+        this.setDouble(Modifiers.MP_REGEN_MIN, 0.0);
+        this.setDouble(Modifiers.MP_REGEN_MAX, 0.0);
         // Pastamancer
-        this.set(Modifiers.COMBAT_MANA_COST, 0.0);
+        this.setDouble(Modifiers.COMBAT_MANA_COST, 0.0);
         // Sauceror
-        this.set(Modifiers.SPELL_DAMAGE, 0.0);
+        this.setDouble(Modifiers.SPELL_DAMAGE, 0.0);
 
         // Set modifiers depending on Character class
         AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
         if (ascensionClass != null) {
           switch (ascensionClass) {
             case SEAL_CLUBBER, ZOMBIE_MASTER, ED, COWPUNCHER, BEANSLINGER, SNAKE_OILER -> {
-              this.set(Modifiers.HP_REGEN_MIN, 10.0);
-              this.set(Modifiers.HP_REGEN_MAX, 12.0);
-              this.set(Modifiers.WEAPON_DAMAGE, 15.0);
-              this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
+              this.setDouble(Modifiers.HP_REGEN_MIN, 10.0);
+              this.setDouble(Modifiers.HP_REGEN_MAX, 12.0);
+              this.setDouble(Modifiers.WEAPON_DAMAGE, 15.0);
+              this.setDouble(Modifiers.DAMAGE_REDUCTION, 1.0);
             }
             case TURTLE_TAMER -> {
-              this.set(Modifiers.HP_REGEN_MIN, 10.0);
-              this.set(Modifiers.HP_REGEN_MAX, 12.0);
-              this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
+              this.setDouble(Modifiers.HP_REGEN_MIN, 10.0);
+              this.setDouble(Modifiers.HP_REGEN_MAX, 12.0);
+              this.setDouble(Modifiers.FAMILIAR_WEIGHT, 5.0);
             }
-            case DISCO_BANDIT, AVATAR_OF_SNEAKY_PETE -> this.set(Modifiers.RANGED_DAMAGE, 20.0);
-            case ACCORDION_THIEF -> this.set(Modifiers.FOUR_SONGS, true);
+            case DISCO_BANDIT, AVATAR_OF_SNEAKY_PETE -> this.setDouble(
+                Modifiers.RANGED_DAMAGE, 20.0);
+            case ACCORDION_THIEF -> this.setBoolean(Modifiers.FOUR_SONGS, true);
             case PASTAMANCER -> {
-              this.set(Modifiers.MP_REGEN_MIN, 5.0);
-              this.set(Modifiers.MP_REGEN_MAX, 6.0);
-              this.set(Modifiers.COMBAT_MANA_COST, -3.0);
+              this.setDouble(Modifiers.MP_REGEN_MIN, 5.0);
+              this.setDouble(Modifiers.MP_REGEN_MAX, 6.0);
+              this.setDouble(Modifiers.COMBAT_MANA_COST, -3.0);
             }
             case SAUCEROR, AVATAR_OF_JARLSBERG -> {
-              this.set(Modifiers.MP_REGEN_MIN, 5.0);
-              this.set(Modifiers.MP_REGEN_MAX, 6.0);
-              this.set(Modifiers.SPELL_DAMAGE, 20.0);
+              this.setDouble(Modifiers.MP_REGEN_MIN, 5.0);
+              this.setDouble(Modifiers.MP_REGEN_MAX, 6.0);
+              this.setDouble(Modifiers.SPELL_DAMAGE, 20.0);
             }
           }
         }
@@ -2347,39 +2331,46 @@ public class Modifiers {
   private boolean overrideThrone(final String name) {
     switch (name) {
       case "Adventurous Spelunker" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
+        this.setBoolean(Modifiers.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
         return true;
       }
       case "Garbage Fire" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_garbageFireDropsCrown") < 3);
+        this.setBoolean(
+            Modifiers.DROPS_ITEMS, Preferences.getInteger("_garbageFireDropsCrown") < 3);
         return true;
       }
       case "Grimstone Golem" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimstoneMaskDropsCrown") < 1);
+        this.setBoolean(
+            Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimstoneMaskDropsCrown") < 1);
         return true;
       }
       case "Grim Brother" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimFairyTaleDropsCrown") < 2);
+        this.setBoolean(
+            Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimFairyTaleDropsCrown") < 2);
         return true;
       }
       case "Machine Elf" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_abstractionDropsCrown") < 25);
+        this.setBoolean(
+            Modifiers.DROPS_ITEMS, Preferences.getInteger("_abstractionDropsCrown") < 25);
         return true;
       }
       case "Puck Man", "Ms. Puck Man" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_yellowPixelDropsCrown") < 25);
+        this.setBoolean(
+            Modifiers.DROPS_ITEMS, Preferences.getInteger("_yellowPixelDropsCrown") < 25);
         return true;
       }
       case "Optimistic Candle" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_optimisticCandleDropsCrown") < 3);
+        this.setBoolean(
+            Modifiers.DROPS_ITEMS, Preferences.getInteger("_optimisticCandleDropsCrown") < 3);
         return true;
       }
       case "Trick-or-Treating Tot" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_hoardedCandyDropsCrown") < 3);
+        this.setBoolean(
+            Modifiers.DROPS_ITEMS, Preferences.getInteger("_hoardedCandyDropsCrown") < 3);
         return true;
       }
       case "Twitching Space Critter" -> {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_spaceFurDropsCrown") < 1);
+        this.setBoolean(Modifiers.DROPS_ITEMS, Preferences.getInteger("_spaceFurDropsCrown") < 1);
         return true;
       }
     }
@@ -2387,9 +2378,13 @@ public class Modifiers {
   }
 
   private boolean override(final String lookup) {
+    return override(lookup, null);
+  }
+
+  private boolean override(final String lookup, Integer id) {
     if (this.expressions != null) {
       for (Indexed<ModifierExpression> entry : this.expressions) {
-        this.doubles[entry.index] = entry.value.eval();
+        this.setDouble(entry.index, entry.value.eval());
       }
     }
 
@@ -2398,12 +2393,12 @@ public class Modifiers {
       return this.expressions != null;
     }
 
-    String name = Modifiers.getNameFromLookup(lookup);
     String type = Modifiers.getTypeFromLookup(lookup);
 
     return switch (type) {
-      case "Item" -> overrideItem(ItemDatabase.getItemId(name));
-      case "Throne" -> overrideThrone(name);
+      case "Item" -> overrideItem(
+          id != null ? id : ItemDatabase.getItemId(Modifiers.getNameFromLookup(lookup)));
+      case "Throne" -> overrideThrone(Modifiers.getNameFromLookup(lookup));
       case "Loc", "Zone" -> true;
       default -> false;
     };
@@ -2498,35 +2493,31 @@ public class Modifiers {
 
   public void applyPassiveModifiers(final boolean debug) {
     if (Modifiers.cachedPassiveModifiers == null) {
-      Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive", new ModifierList());
+      Modifiers.cachedPassiveModifiers = new Modifiers("CachedPassive");
       PreferenceListenerRegistry.registerPreferenceListener(
           new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
     }
 
     if (debug
         || Modifiers.availableSkillsChanged
-        || Modifiers.availablePassiveSkillsByVariable.isEmpty()) {
+        || Modifiers.availablePassiveSkillModifiersByVariable.isEmpty()) {
       // Collect all passive skills currently on the character.
-      Modifiers.availablePassiveSkillsByVariable.putAll(
+      Modifiers.availablePassiveSkillModifiersByVariable.putAll(
           KoLCharacter.getAvailableSkillIds().stream()
               .filter(SkillDatabase::isPassive)
               .map(UseSkillRequest::getUnmodifiedInstance)
               .filter(Objects::nonNull)
               .filter(UseSkillRequest::isEffective)
-              .collect(
-                  Collectors.partitioningBy(
-                      skill -> {
-                        String lookup = Modifiers.getLookupName("Skill", skill.getSkillName());
-                        return override(lookup);
-                      })));
+              .map(skill -> getModifiers("Skill", skill.getSkillId(), skill.getSkillName()))
+              .filter(Objects::nonNull)
+              .collect(Collectors.partitioningBy(modifiers -> modifiers.override(modifiers.name))));
 
       // Recompute sum of cached constant passive skills.
       Modifiers.cachedPassiveModifiers.reset();
-      Modifiers.availablePassiveSkillsByVariable
+      Modifiers.availablePassiveSkillModifiersByVariable
           .get(false)
           .forEach(
-              skill -> {
-                var mods = getModifiers("Skill", skill.getSkillId(), skill.getSkillName());
+              mods -> {
                 Modifiers.cachedPassiveModifiers.add(mods);
 
                 // If we are debugging, add them directly. Also add them to the cache though
@@ -2543,10 +2534,7 @@ public class Modifiers {
     }
 
     // Add variable modifiers.
-    Modifiers.availablePassiveSkillsByVariable
-        .get(true)
-        .forEach(
-            skill -> this.add(getModifiers("Skill", skill.getSkillId(), skill.getSkillName())));
+    Modifiers.availablePassiveSkillModifiersByVariable.get(true).forEach(this::add);
   }
 
   public final void applyFloristModifiers() {
@@ -2730,7 +2718,7 @@ public class Modifiers {
     }
 
     if (FamiliarDatabase.isUnderwaterType(familiarId)) {
-      this.set(Modifiers.UNDERWATER_FAMILIAR, true);
+      this.setBoolean(Modifiers.UNDERWATER_FAMILIAR, true);
     }
 
     switch (familiarId) {
@@ -3447,7 +3435,7 @@ public class Modifiers {
   public static void resetModifiers() {
     Modifiers.modifiersByName.clear();
     Modifiers.familiarEffectByName.clear();
-    Modifiers.availablePassiveSkillsByVariable.clear();
+    Modifiers.availablePassiveSkillModifiersByVariable.clear();
     Modifiers.synergies.clear();
     Modifiers.mutexes.clear();
     Modifiers.uniques.clear();
@@ -3817,6 +3805,75 @@ public class Modifiers {
     public Indexed(int index, T value) {
       this.index = index;
       this.value = value;
+    }
+  }
+
+  private static class DoubleModifierCollection {
+    public static final int SPARSE_DOUBLES_MAX_SIZE = 32;
+
+    // If only a few values are set in doubles, we instead store all modifiers in a sparse TreeMap.
+    // When that map gets bigger than SPARSE_DOUBLES_MAX_SIZE, we copy it over to the dense array.
+    // We track whether this is dense or not by whether sparseDoubles is null.
+    private final double[] doubles = new double[Modifiers.DOUBLE_MODIFIERS];
+    private TreeMap<Integer, Double> sparseDoubles = new TreeMap<>();
+
+    public void reset() {
+      Arrays.fill(this.doubles, 0.0);
+      this.sparseDoubles = new TreeMap<>();
+    }
+
+    public void densify() {
+      // When reset, this.doubles is set to all 0s, so all we have to do is copy all the sparse
+      // values over.
+      if (this.sparseDoubles == null) return;
+      for (Entry<Integer, Double> entry : this.sparseDoubles.entrySet()) {
+        this.doubles[entry.getKey()] = entry.getValue();
+      }
+      this.sparseDoubles = null;
+    }
+
+    public double get(final int index) {
+      return this.sparseDoubles != null
+          ? this.sparseDoubles.getOrDefault(index, 0.0)
+          : this.doubles[index];
+    }
+
+    public boolean set(final int index, final double mod) {
+      if (this.sparseDoubles != null) {
+        Double oldValue =
+            mod == 0.0 ? this.sparseDoubles.remove(index) : this.sparseDoubles.put(index, mod);
+
+        if (this.sparseDoubles.size() >= DoubleModifierCollection.SPARSE_DOUBLES_MAX_SIZE) {
+          this.densify();
+        }
+
+        return oldValue == null || oldValue != mod;
+      } else {
+        if (this.doubles[index] != mod) {
+          this.doubles[index] = mod;
+          return true;
+        }
+      }
+      return false;
+    }
+
+    public double add(final int index, final double mod) {
+      // Anything being accumulated onto should be dense.
+      this.densify();
+      return this.doubles[index] += mod;
+    }
+
+    public void forEach(BiConsumer<? super Integer, ? super Double> action) {
+      if (this.sparseDoubles != null) {
+        this.sparseDoubles.forEach(action);
+      } else {
+        for (int i = 0; i < this.doubles.length; ++i) {
+          double value = this.doubles[i];
+          if (value != 0.0) {
+            action.accept(i, value);
+          }
+        }
+      }
     }
   }
 }

@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -1872,5 +1873,16 @@ public class Player {
     NPCStoreDatabase.reset();
 
     return new Cleanups(NPCStoreDatabase::reset);
+  }
+
+  public static Cleanups withOverrideModifiers(String lookup, String value) {
+    Modifiers.overrideModifier(lookup, value);
+    return new Cleanups(() -> Modifiers.overrideRemoveModifier(lookup));
+  }
+
+  public static Cleanups withHermitReset() {
+    HermitRequest.initialize();
+
+    return new Cleanups(HermitRequest::initialize);
   }
 }
