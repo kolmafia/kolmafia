@@ -265,6 +265,7 @@ Item	green cloth cap	Stench Resistance: +1, Maximum HP: +15, Maximum MP: +15, Mo
 Item	green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 Item	Grimacite gasmask	Weapon Damage: +15, Muscle Percent: [10*G], Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Item	Grimacite goggles	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "1xVolley, 1xLep, cap 31"
+Item	grubby wool hat	Stench Damage: +5, Sleaze Damage: +5
 Item	grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
 Item	guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
 # Guzzlr hat: Earn 25% more stats from Guzzlr deliveries
@@ -697,6 +698,7 @@ Item	Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxi
 Item	Greaves of the Murk Lord	HP Regen Min: 2, HP Regen Max: 5, Familiar Weight: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "1xBarrr, cap 30"
 Item	Grimacite gaiters	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "3xBarrr, 2xGhoul, cap 37"
 Item	Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "2xBarrr, 3xGhoul, cap 37"
+Item	grubby wool trousers	Initiative: +25, Damage Reduction: 5
 # Guzzlr pants: Get more Guzzlrbucks for successful deliveries
 Item	gym shorts	PvP Fights: +2, Initiative: +20, Familiar Effect: "sleaze atk, 1xGhuol, cap 25"
 Item	hardened slime pants	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
@@ -3064,6 +3066,8 @@ Item	Grimacite gorget	Item Drop: +25, Muscle Percent: [10*G]
 Item	Groll doll	Single Equip
 # groovy prism necklace: Deals a rainbow of damage to attackers
 Item	groovy prism necklace	Single Equip
+Item	grubby wool gloves	Sleaze Resistance: +2, Item Drop: +10, Single Equip
+Item	grubby wool scarf	Cold Resistance: +2, Stench Resistance: +2, Single Equip
 Item	grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 Item	gummi bowtie	Moxie: +5
 Item	gumshoes	Muscle Percent: +25, Experience (Muscle): +2, Single Equip
@@ -4252,6 +4256,8 @@ Item	grey down vest	Experience (familiar): +2
 Item	Grim Brothers' story book	Familiar Weight: +5
 Item	grimstone galoshes	Familiar Weight: +5
 Item	guard turtle collar	Familiar Damage: +10, Generic
+# half-height cigar: Increase the rate at which wool is gathered
+Item	half-height cigar	Familiar Weight: +5
 Item	half-height unicycle	Familiar Weight: +5
 Item	hardware upgrade	Familiar Weight: +5
 Item	heavy-duty Crimbot aerial	Familiar Weight: +5
@@ -5039,6 +5045,7 @@ Effect	All Fired Up	Initiative: +30
 Effect	All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2
 Effect	All I Want For Crimbo Is Stuff	Item Drop: +30
 Effect	All Is Forgiven	Familiar Weight: +10
+Effect	All Rainbow-y	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2, Hot Damage: +10, Cold Damage: +10, Spooky Damage: +10, Stench Damage: +10, Sleaze Damage: +10, Hot Spell Damage: +10, Cold Spell Damage: +10, Spooky Spell Damage: +10, Stench Spell Damage: +10, Sleaze Spell Damage: +10
 Effect	All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
 Effect	Almond Allemande	Moxie: +5
@@ -6418,6 +6425,8 @@ Effect	Loaded Forwarbear	Supercold Resistance: +2
 Effect	Lobos Fresh	Muscle Percent: [10+25*M], Mysticality Percent: [10+25*M], Moxie Percent: [10+25*M]
 Effect	Locks Like the Raven	Moxie: +15
 Effect	Loco Motives	Weapon Damage: +10, Initiative: +10
+# Loded: Mine more quickly
+Effect	Loded	Meat Drop: +100
 # Long Live GORF: GORF is watching.
 # Long Live GORF: GORF approves.
 Effect	Long Winter's Napped	Weapon Damage Percent: +100, Spell Damage Percent: +100
@@ -9277,6 +9286,7 @@ Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 Item	fish sauce	Effect: "Fishy", Effect Duration: 30
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
 Item	fried air	Effect: "Well-Ventilated", Effect Duration: 30
+Item	fruity pebble	Effect: "All Rainbow-y", Effect Duration: 30
 # furry pill: Removes a Negative Effect<br />Restores 40-50 HP
 Item	gaseous gravy	Effect: "Gettin' the Goods", Effect Duration: 50
 Item	gleaming oyster egg	Effect: "Gleam-Inducing", Effect Duration: 50
@@ -11377,6 +11387,7 @@ Item	llama lama cria	Free Pull
 Item	Loathing Legion jackhammer	Softcore Only
 # locked mumming trunk: Dress your familiars up like weird old dramatic archetypes!
 Item	locked mumming trunk	Free Pull
+Item	lodestone	Effect: "Loded", Effect Duration: 5
 # LOLmec statuette: Sells for 1 Million Meat
 # Louder Than Bomb: Banishes a monster for a while
 Item	Love Potions and the Wizards who Mix Them	Skill: "Love Mixology"
@@ -12109,6 +12120,7 @@ Item	Unmotivator: Crashed Meat Car	Free Pull
 Item	Unmotivator: Crashed Orca	Free Pull
 Item	Unmotivator: Success Warrior	Free Pull
 # unnatural gas: Weakens enemies a lot
+Item	unoccupied sheep suit	Free Pull
 Item	unopened Bird-a-Day calendar	Free Pull
 Item	unopened diabolic pizza cube box	Free Pull
 Item	Unopened Eight Days a Week Pill Keeper	Free Pull

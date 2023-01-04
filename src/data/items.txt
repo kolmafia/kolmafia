@@ -11114,22 +11114,24 @@
 11086	overloaded Yule battery	858172004	battery.gif	familiar	t,d	75
 11087	train whistle	561292467	trainwhistle.gif	none, combat reusable		0
 11088	The Superconductor's CPU	952525089	cpu.gif	accessory		0
-11089
-11090
-11091
-11092
-11093
-11094
-11095
-11096
-11097
-11098
+11089	unoccupied sheep suit	757576526	hobosheepl.gif	grow	t	0
+11090	half-height cigar	586447977	stogie.gif	familiar	t	0
+11091	grubby wool	581491475	gwool.gif	usable	t	0
+11092	grubby wool hat	449271283	gwoolhat.gif	hat	d	20
+11093	grubby wool scarf	443375114	gwoolscarf.gif	accessory	d	20
+11094	grubby wool trousers	423567117	gwoolpants.gif	pants	d	20
+11095	grubby wool gloves	187300335	gwoolgloves.gif	accessory	d	20
+11096	grubby wool beerwarmer	983862791	gwoolcoozie.gif	none, mix		0
+11097	nice warm beer	497162291	gwoolbeer.gif	drink		0
+11098	grubby woolball	209701660	gwoolball.gif	none, combat	d	20
 11099	Rock Garden Guide	284291398	rockgardenbook.gif	usable	t	0
 11100	packet of rock seeds	463194562	rockgardenseeds.gif	usable		0
 11101	groveling gravel	324849068	rggravel.gif	none, combat	t,d	5
-11102
-11103
+11102	fruity pebble	363064873	rgpebble.gif	spleen, usable	t,d	25
+11103	lodestone	615109905	rglodestone.gif	usable	t,d	250
 11104	milestone	351352694	rgmilestone.gif	usable	t,d	5
 11105
-11106
+11106	molehill mountain	671315172	rgmountain.gif	usable	t,d	250
 11107	whet stone	689119937	rgwhetstone.gif	usable	t,d	5
+11108
+11109	strange stalagmite	720163663	rgstalagmite.gif	usable	t,d	250
