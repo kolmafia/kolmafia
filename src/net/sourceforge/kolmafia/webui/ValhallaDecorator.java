@@ -46,14 +46,16 @@ public class ValhallaDecorator {
 
     StringBuffer predictions = new StringBuffer();
 
-    predictions.append("</center></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>");
-    predictions.append(
-        "<td><div style=\"padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>");
+    predictions
+        .append("</center></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>")
+        .append(
+            "<td><div style=\"padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>");
     HolidayDatabase.addPredictionHTML(
         predictions, DateTimeManager.getRolloverDateTime(), HolidayDatabase.getPhaseStep(), false);
-    predictions.append("</font></div></td></tr><tr><td colspan=3><br>");
-    predictions.append(KoLConstants.LINE_BREAK);
-    predictions.append(KoLConstants.LINE_BREAK);
+    predictions
+        .append("</font></div></td></tr><tr><td colspan=3><br>")
+        .append(KoLConstants.LINE_BREAK)
+        .append(KoLConstants.LINE_BREAK);
 
     StringUtilities.singleStringReplace(buffer, "</center><p>", predictions.toString());
 
@@ -64,12 +66,13 @@ public class ValhallaDecorator {
         "<input type=submit class=button value=\"Ascend\"><input type=hidden name=confirm value=on><input type=hidden name=confirm2 value=on>";
 
     StringBuffer reminders = new StringBuffer();
-    reminders.append("<br><table>");
-    reminders.append("<tr><td>");
-    reminders.append(newButtons);
-    reminders.append("</td></tr>");
-    reminders.append("</table>");
-    reminders.append("<br><table cellspacing=10 cellpadding=10><tr>");
+    reminders
+        .append("<br><table>")
+        .append("<tr><td>")
+        .append(newButtons)
+        .append("</td></tr>")
+        .append("</table>")
+        .append("<br><table cellspacing=10 cellpadding=10><tr>");
 
     ArrayList<String> skillList = new ArrayList<>();
     ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<>();
@@ -101,9 +104,7 @@ public class ValhallaDecorator {
     reminders.append(
         "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">");
     ValhallaDecorator.listCommonTasks(reminders);
-    reminders.append("</font></td></tr></table></td>");
-
-    reminders.append("</tr></table><br><br>");
+    reminders.append("</font></td></tr></table></td>").append("</tr></table><br><br>");
 
     StringUtilities.singleStringReplace(buffer, oldButtons, reminders.toString());
 
@@ -112,8 +113,7 @@ public class ValhallaDecorator {
 
   private static void listPermableSkills(
       final StringBuffer buffer, final ArrayList<UseSkillRequest> unpermedSkills) {
-    for (int i = 0; i < unpermedSkills.size(); ++i) {
-      UseSkillRequest skill = unpermedSkills.get(i);
+    for (UseSkillRequest skill : unpermedSkills) {
       int skillId = skill.getSkillId();
 
       if (!SkillDatabase.isPermable(skillId)) {
@@ -122,13 +122,14 @@ public class ValhallaDecorator {
 
       String skillName = skill.getSkillName();
 
-      buffer.append("<nobr>");
-      buffer.append("<a onClick=\"skill('");
-      buffer.append(skillId);
-      buffer.append("');\">");
-      buffer.append(skillName);
-      buffer.append("</a>");
-      buffer.append("</nobr><br>");
+      buffer
+          .append("<nobr>")
+          .append("<a onClick=\"skill('")
+          .append(skillId)
+          .append("');\">")
+          .append(skillName)
+          .append("</a>")
+          .append("</nobr><br>");
     }
   }
 
@@ -159,11 +160,12 @@ public class ValhallaDecorator {
         buffer.append("<font color=darkgray><s>");
       }
 
-      buffer.append("<a onClick=\"skill('");
-      buffer.append(skillId);
-      buffer.append("');\">");
-      buffer.append(skillName);
-      buffer.append("</a>");
+      buffer
+          .append("<a onClick=\"skill('")
+          .append(skillId)
+          .append("');\">")
+          .append(skillName)
+          .append("</a>");
 
       if (alreadyPermed) {
         buffer.append("</s></font>");
@@ -189,31 +191,34 @@ public class ValhallaDecorator {
     int count = InventoryManager.getCount(ItemPool.INSTANT_KARMA);
     if (count > 0) {
       int banked = Preferences.getInteger("bankedKarma");
-      buffer.append(
-          "<nobr><a href=\"javascript:if(confirm('Are you sure you want to discard your Instant Karma?')) {singleUse('inventory.php?which=1&action=discard&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("&whichitem=");
-      buffer.append(ItemPool.INSTANT_KARMA);
-      buffer.append(
-          "&ajax=1');discardKarma();}void(0);\">discard karma</a> (have <span id='haveKarma'>");
-      buffer.append(count);
-      buffer.append("</span>, banked <span id='bankedKarma'>");
-      buffer.append(banked);
-      buffer.append("</span>)</nobr><br>");
+      buffer
+          .append(
+              "<nobr><a href=\"javascript:if(confirm('Are you sure you want to discard your Instant Karma?')) {singleUse('inventory.php?which=1&action=discard&pwd=")
+          .append(GenericRequest.passwordHash)
+          .append("&whichitem=")
+          .append(ItemPool.INSTANT_KARMA)
+          .append(
+              "&ajax=1');discardKarma();}void(0);\">discard karma</a> (have <span id='haveKarma'>")
+          .append(count)
+          .append("</span>, banked <span id='bankedKarma'>")
+          .append(banked)
+          .append("</span>)</nobr><br>");
     }
 
     if (KoLCharacter.getZapper() != null) {
-      buffer.append("<nobr><a href=\"wand.php?whichwand=");
-      buffer.append(KoLCharacter.getZapper().getItemId());
-      buffer.append("\">blow up your zap wand</a></nobr><br>");
+      buffer
+          .append("<nobr><a href=\"wand.php?whichwand=")
+          .append(KoLCharacter.getZapper().getItemId())
+          .append("\">blow up your zap wand</a></nobr><br>");
     }
 
     if (InventoryManager.hasItem(ItemPool.DEAD_MIMIC)) {
-      buffer.append("<nobr><a href=\"javascript:singleUse('inv_use.php?&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("&which=3&whichitem=");
-      buffer.append(ItemPool.DEAD_MIMIC);
-      buffer.append("&ajax=1')\">use your dead mimic</a></nobr><br>");
+      buffer
+          .append("<nobr><a href=\"javascript:singleUse('inv_use.php?&pwd=")
+          .append(GenericRequest.passwordHash)
+          .append("&which=3&whichitem=")
+          .append(ItemPool.DEAD_MIMIC)
+          .append("&ajax=1')\">use your dead mimic</a></nobr><br>");
     }
 
     ValhallaDecorator.checkForKeyLime(buffer, ItemPool.BORIS_KEY, "Boris&#39;s");
@@ -223,10 +228,11 @@ public class ValhallaDecorator {
     ValhallaDecorator.checkForKeyLime(buffer, ItemPool.STAR_KEY, "star");
 
     if (InventoryManager.hasItem(ItemPool.BUBBLIN_STONE)) {
-      buffer.append(
-          "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+1+aerated+diving+helmet&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">make an aerated diving helmet</a></nobr><br>");
+      buffer
+          .append(
+              "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+1+aerated+diving+helmet&pwd=")
+          .append(GenericRequest.passwordHash)
+          .append("\">make an aerated diving helmet</a></nobr><br>");
     }
 
     if (InventoryManager.hasItem(ItemPool.CITADEL_SATCHEL)) {
@@ -259,9 +265,10 @@ public class ValhallaDecorator {
 
     if (InventoryManager.hasItem(ItemPool.RAT_WHISKER)
         && QuestDatabase.isQuestFinished(Quest.ARTIST)) {
-      buffer.append(
-          "<nobr><a href=\"place.php?whichplace=town_wrong&action=townwrong_artist_quest&subaction=whiskers\">");
-      buffer.append("trade in rat whiskers for meat</a></nobr><br>");
+      buffer
+          .append(
+              "<nobr><a href=\"place.php?whichplace=town_wrong&action=townwrong_artist_quest&subaction=whiskers\">")
+          .append("trade in rat whiskers for meat</a></nobr><br>");
     }
 
     GenericRequest trophyCheck = new GenericRequest("trophy.php");
@@ -299,15 +306,16 @@ public class ValhallaDecorator {
       return;
     }
 
-    buffer.append("<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+");
-    buffer.append(InventoryManager.getAccessibleCount(itemId));
-    buffer.append("+");
-    buffer.append(StringUtilities.getURLEncode(keyType));
-    buffer.append("+key+lime&pwd=");
-    buffer.append(GenericRequest.passwordHash);
-    buffer.append("\">make a ");
-    buffer.append(keyType);
-    buffer.append(" key lime</a></nobr><br />");
+    buffer
+        .append("<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+")
+        .append(InventoryManager.getAccessibleCount(itemId))
+        .append("+")
+        .append(StringUtilities.getURLEncode(keyType))
+        .append("+key+lime&pwd=")
+        .append(GenericRequest.passwordHash)
+        .append("\">make a ")
+        .append(keyType)
+        .append(" key lime</a></nobr><br />");
   }
 
   private static boolean developerGift(
@@ -322,24 +330,41 @@ public class ValhallaDecorator {
     String itemName = StringUtilities.getURLEncode(ItemDatabase.getItemName(itemId));
     String plural = ItemDatabase.getPluralName(itemId);
 
-    buffer.append("<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=acquire+");
-    buffer.append(giftCount);
-    buffer.append("+");
-    buffer.append(itemName);
-    buffer.append(";csend+");
-    buffer.append(giftCount);
-    buffer.append("+");
-    buffer.append(itemName);
-    buffer.append("+to+");
-    buffer.append(developer);
-    buffer.append("&pwd=");
-    buffer.append(GenericRequest.passwordHash);
-    buffer.append("\">send your ");
-    buffer.append(plural);
-    buffer.append(" to ");
-    buffer.append(developer);
-    buffer.append("</a></nobr><br>");
+    buffer
+        .append("<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=acquire+")
+        .append(giftCount)
+        .append("+")
+        .append(itemName)
+        .append(";csend+")
+        .append(giftCount)
+        .append("+")
+        .append(itemName)
+        .append("+to+")
+        .append(developer)
+        .append("&pwd=")
+        .append(GenericRequest.passwordHash)
+        .append("\">send your ")
+        .append(plural)
+        .append(" to ")
+        .append(developer)
+        .append("</a></nobr><br>");
     return true;
+  }
+
+  private static void gardenOption(
+      final StringBuffer buffer, String seedsEncoded, String seedsShort) {
+    buffer
+        .append("<option style=\"background-color: #eeeeff\" ")
+        .append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+")
+        .append(seedsEncoded)
+        .append(";")
+        .append("+use+")
+        .append(seedsEncoded)
+        .append("&pwd=")
+        .append(GenericRequest.passwordHash)
+        .append("\">")
+        .append(seedsShort)
+        .append("</option>");
   }
 
   private static void switchSeeds(final StringBuffer buffer) {
@@ -351,6 +376,7 @@ public class ValhallaDecorator {
     boolean haveThanksGarden = InventoryManager.hasItem(ItemPool.THANKSGARDEN_SEEDS);
     boolean haveGrass = InventoryManager.hasItem(ItemPool.TALL_GRASS_SEEDS);
     boolean haveMushroom = InventoryManager.hasItem(ItemPool.MUSHROOM_SPORES);
+    boolean haveRock = InventoryManager.hasItem(ItemPool.ROCK_SEEDS);
     if (!havePumpkin
         && !havePeppermint
         && !haveSkeleton
@@ -358,7 +384,8 @@ public class ValhallaDecorator {
         && !haveWinter
         && !haveThanksGarden
         && !haveGrass
-        && !haveMushroom) {
+        && !haveMushroom
+        && !haveRock) {
       return;
     }
 
@@ -369,76 +396,39 @@ public class ValhallaDecorator {
     buffer.append("<option value=\"\" style=\"background-color: #eeeeff\">Plant one</option>");
 
     if (havePumpkin) {
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+pumpkin+seeds;");
-      buffer.append("+use+packet+of+pumpkin+seeds&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">pumpkin");
-      buffer.append("</option>");
+      gardenOption(buffer, "packet+of+pumpkin+seeds", "pumpkin");
     }
 
     if (havePeppermint) {
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+Peppermint+Pip+Packet;");
-      buffer.append("+use+Peppermint+Pip+Packet&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">peppermint");
-      buffer.append("</option>");
+      gardenOption(buffer, "Peppermint+Pip+Packet", "peppermint");
     }
 
     if (haveSkeleton) {
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+dragon's+teeth;");
-      buffer.append("+use+packet+of+dragon's+teeth&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">skeleton");
-      buffer.append("</option>");
+      gardenOption(buffer, "packet+of+dragon's+teeth", "skeleton");
     }
 
     if (haveBeer) {
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+beer+seeds;");
-      buffer.append("+use+packet+of+beer+seeds&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">beer");
-      buffer.append("</option>");
+      gardenOption(buffer, "packet+of+beer+seeds", "beer");
     }
 
     if (haveWinter) {
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+winter+seeds;");
-      buffer.append("+use+packet+of+winter+seeds&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">winter");
-      buffer.append("</option>");
+      gardenOption(buffer, "packet+of+winter+seeds", "winter");
     }
 
     if (haveThanksGarden) {
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append(
-          "value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+thanksgarden+seeds;");
-      buffer.append("+use+packet+of+thanksgarden+seeds&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">thanksgarden");
-      buffer.append("</option>");
+      gardenOption(buffer, "packet+of+thanksgarden+seeds", "thanksgarden");
     }
 
     if (haveGrass) {
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+tall+grass+seeds;");
-      buffer.append("+use+packet+of+tall+grass+seeds&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">grass");
-      buffer.append("</option>");
+      gardenOption(buffer, "packet+of+tall+grass+seeds", "grass");
     }
 
     if (haveMushroom) {
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+mushroom+spores;");
-      buffer.append("+use+packet+of+mushroom+spores&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">mushroom");
-      buffer.append("</option>");
+      gardenOption(buffer, "packet+of+mushroom+spores", "mushroom");
+    }
+
+    if (haveRock) {
+      gardenOption(buffer, "packet+of+rock+seeds", "rock");
     }
 
     buffer.append("</select></form>");
@@ -446,21 +436,18 @@ public class ValhallaDecorator {
     CropType cropType = CampgroundRequest.getCropType();
     if (cropType != null) {
       String cropString =
-          (cropType == CropType.PUMPKIN)
-              ? "Pumpkin"
-              : (cropType == CropType.PEPPERMINT)
-                  ? "Peppermint"
-                  : (cropType == CropType.SKELETON)
-                      ? "Skeleton"
-                      : (cropType == CropType.BEER)
-                          ? "Beer Garden"
-                          : (cropType == CropType.WINTER)
-                              ? "Winter Garden"
-                              : (cropType == CropType.THANKSGARDEN)
-                                  ? "Thanksgarden"
-                                  : (cropType == CropType.GRASS)
-                                      ? "Grass"
-                                      : (cropType == CropType.MUSHROOM) ? "Mushroom" : "Unknown";
+          switch (cropType) {
+            case PUMPKIN -> "Pumpkin";
+            case PEPPERMINT -> "Peppermint";
+            case SKELETON -> "Skeleton";
+            case BEER -> "Beer Garden";
+            case WINTER -> "Winter Garden";
+            case THANKSGARDEN -> "Thanksgarden";
+            case GRASS -> "Grass";
+            case MUSHROOM -> "Mushroom";
+            case ROCK -> "Rock";
+            default -> "Unknown";
+          };
       buffer.append("</nobr><br><nobr>");
       buffer.append(" (currently ").append(cropString).append(")");
     }
@@ -501,32 +488,35 @@ public class ValhallaDecorator {
       return;
     }
 
-    buffer.append("<nobr>Eudora: ");
-
-    buffer.append(
-        "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"garden\" onchange=\"if (this.value) window.location.href=this.value\">");
-    buffer.append("<option value=\"\" style=\"background-color: #eeeeff\">Select one</option>");
+    buffer
+        .append("<nobr>Eudora: ")
+        .append(
+            "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"garden\" onchange=\"if (this.value) window.location.href=this.value\">")
+        .append("<option value=\"\" style=\"background-color: #eeeeff\">Select one</option>");
 
     for (Correspondent correspondent : availableCorrespondents) {
       if (correspondent == Correspondent.NONE) {
         continue;
       }
 
-      buffer.append("<option style=\"background-color: #eeeeff\" ");
-      buffer.append("value=\"/KoLmafia/redirectedCommand?cmd=eudora+");
-      buffer.append(correspondent.getSlug());
-      buffer.append("&pwd=");
-      buffer.append(GenericRequest.passwordHash);
-      buffer.append("\">");
-      buffer.append(correspondent.getItem());
-      buffer.append("</option>");
+      buffer
+          .append("<option style=\"background-color: #eeeeff\" ")
+          .append("value=\"/KoLmafia/redirectedCommand?cmd=eudora+")
+          .append(correspondent.getSlug())
+          .append("&pwd=")
+          .append(GenericRequest.passwordHash)
+          .append("\">")
+          .append(correspondent.getItem())
+          .append("</option>");
     }
 
-    buffer.append("</select></form>");
-
-    buffer.append("</nobr><br><nobr>");
-    buffer.append("(currently ").append(activeCorrespondent.getItem()).append(")");
-    buffer.append("</nobr><br>");
+    buffer
+        .append("</select></form>")
+        .append("</nobr><br><nobr>")
+        .append("(currently ")
+        .append(activeCorrespondent.getItem())
+        .append(")")
+        .append("</nobr><br>");
   }
 
   private static void switchFolderHolder(StringBuffer buffer) {
@@ -552,12 +542,12 @@ public class ValhallaDecorator {
           name = "(empty)";
           enchantments = "none";
         }
-        folderHolderBuffer.append(
-            "<nobr><a href=\"inventory.php?action=useholder\" title=\"Change from ");
-        folderHolderBuffer.append(enchantments);
-        folderHolderBuffer.append("\">");
-        folderHolderBuffer.append(name);
-        folderHolderBuffer.append("</a></nobr> ");
+        folderHolderBuffer
+            .append("<nobr><a href=\"inventory.php?action=useholder\" title=\"Change from ")
+            .append(enchantments)
+            .append("\">")
+            .append(name)
+            .append("</a></nobr> ");
       }
     }
     folderHolderBuffer.append("<br>");
@@ -572,8 +562,7 @@ public class ValhallaDecorator {
     iceHouseBuffer.append(
         "<nobr>Ice House: <a href=\"museum.php?action=icehouse\" title=\"Check ice house monster\">");
     if (monster != null) {
-      iceHouseBuffer.append(monster);
-      iceHouseBuffer.append(" (currently)");
+      iceHouseBuffer.append(monster).append(" (currently)");
     } else {
       iceHouseBuffer.append("(none currently)");
     }
@@ -598,14 +587,16 @@ public class ValhallaDecorator {
       int heistsRemaining = totalHeists + bankHeists - heistsComplete;
       FamiliarData familiar = KoLCharacter.getFamiliar();
       if (familiar.getId() != FamiliarPool.CAT_BURGLAR) {
-        catHeistBuffer.append("<nobr><a href=\"familiar.php?action=newfam&newfam=267&pwd=");
-        catHeistBuffer.append(GenericRequest.passwordHash);
+        catHeistBuffer
+            .append("<nobr><a href=\"familiar.php?action=newfam&newfam=267&pwd=")
+            .append(GenericRequest.passwordHash);
       } else {
         catHeistBuffer.append("<nobr><a href=\"main.php?heist=1");
       }
-      catHeistBuffer.append("\">Use remaining Cat Burglar heists (");
-      catHeistBuffer.append(heistsRemaining);
-      catHeistBuffer.append(")</a></nobr><br>");
+      catHeistBuffer
+          .append("\">Use remaining Cat Burglar heists (")
+          .append(heistsRemaining)
+          .append(")</a></nobr><br>");
       buffer.append(catHeistBuffer);
     }
   }
@@ -634,20 +625,17 @@ public class ValhallaDecorator {
         case ItemPool.CHATEAU_PENS -> chateauBuffer.append("3 fancy calligraphy pens per day");
         default -> chateauBuffer.append("unknown");
       }
-      chateauBuffer.append("\">");
-      chateauBuffer.append(item.getName());
-      chateauBuffer.append("</a></nobr> ");
+      chateauBuffer.append("\">").append(item.getName()).append("</a></nobr> ");
     }
 
     String monster = Preferences.getString("chateauMonster");
-    chateauBuffer.append("<br>Chateau monster: ");
-    chateauBuffer.append(
-        "<nobr><a href=\"place.php?whichplace=chateau\" title=\"Check painted monster\">");
+    chateauBuffer
+        .append("<br>Chateau monster: ")
+        .append("<nobr><a href=\"place.php?whichplace=chateau\" title=\"Check painted monster\">");
     if (monster.equals("")) {
       chateauBuffer.append("(none currently)");
     } else {
-      chateauBuffer.append(monster);
-      chateauBuffer.append(" (currently)");
+      chateauBuffer.append(monster).append(" (currently)");
     }
     chateauBuffer.append("</a></nobr><br>");
 
@@ -666,78 +654,79 @@ public class ValhallaDecorator {
     AdventureResult skin = EquipmentManager.getEquipment(EquipmentManager.BOOTSKIN);
     AdventureResult spurs = EquipmentManager.getEquipment(EquipmentManager.BOOTSPUR);
 
-    cowboyBootsBuffer.append("<nobr>Cowboy Boot skin: ");
-
-    cowboyBootsBuffer.append(
-        "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"cowboy_boots_skin\" onchange=\"if (this.value) window.location.href=this.value\">");
-    cowboyBootsBuffer.append(
-        "<option value=\"\" style=\"background-color: #eeeeff\">Apply one</option>");
+    cowboyBootsBuffer
+        .append("<nobr>Cowboy Boot skin: ")
+        .append(
+            "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"cowboy_boots_skin\" onchange=\"if (this.value) window.location.href=this.value\">")
+        .append("<option value=\"\" style=\"background-color: #eeeeff\">Apply one</option>");
 
     for (int i = ItemPool.MOUNTAIN_SKIN; i <= ItemPool.ROTTING_SKIN; i++) {
       if (InventoryManager.hasItem(i) && !(skin != null && skin.getItemId() == i)) {
-        cowboyBootsBuffer.append("<option style=\"background-color: #eeeeff\" ");
-        cowboyBootsBuffer.append("title=\"");
-        cowboyBootsBuffer.append(ValhallaDecorator.tooltip(i));
-        cowboyBootsBuffer.append("\" value=\"/KoLmafia/redirectedCommand?cmd=acquire+");
         String name = ItemDatabase.getItemName(i);
-        cowboyBootsBuffer.append(name.replaceAll(" ", "+"));
-        cowboyBootsBuffer.append(";+use+");
-        cowboyBootsBuffer.append(name.replaceAll(" ", "+"));
-        cowboyBootsBuffer.append("&pwd=");
-        cowboyBootsBuffer.append(GenericRequest.passwordHash);
-        cowboyBootsBuffer.append("\">");
-        cowboyBootsBuffer.append(name);
-        cowboyBootsBuffer.append("</option>");
+        cowboyBootsBuffer
+            .append("<option style=\"background-color: #eeeeff\" ")
+            .append("title=\"")
+            .append(ValhallaDecorator.tooltip(i))
+            .append("\" value=\"/KoLmafia/redirectedCommand?cmd=acquire+")
+            .append(name.replaceAll(" ", "+"))
+            .append(";+use+")
+            .append(name.replaceAll(" ", "+"))
+            .append("&pwd=")
+            .append(GenericRequest.passwordHash)
+            .append("\">")
+            .append(name)
+            .append("</option>");
       }
     }
     cowboyBootsBuffer.append("</select></form>");
 
     if (skin != null && skin != EquipmentRequest.UNEQUIP) {
-      cowboyBootsBuffer.append("</nobr><br><nobr>");
-      cowboyBootsBuffer.append("(currently <span title=\"");
-      cowboyBootsBuffer.append(ValhallaDecorator.tooltip(skin.getItemId()));
-      cowboyBootsBuffer.append("\">");
-      cowboyBootsBuffer.append(skin.getName());
-      cowboyBootsBuffer.append("</span>)");
+      cowboyBootsBuffer
+          .append("</nobr><br><nobr>")
+          .append("(currently <span title=\"")
+          .append(ValhallaDecorator.tooltip(skin.getItemId()))
+          .append("\">")
+          .append(skin.getName())
+          .append("</span>)");
     } else {
       cowboyBootsBuffer.append("(none currently)");
     }
 
-    cowboyBootsBuffer.append("</a></nobr><br>");
-
-    cowboyBootsBuffer.append("<nobr>Cowboy Boot spurs: ");
-
-    cowboyBootsBuffer.append(
-        "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"cowboy_boots_spurs\" onchange=\"if (this.value) window.location.href=this.value\">");
-    cowboyBootsBuffer.append(
-        "<option value=\"\" style=\"background-color: #eeeeff\">Apply one</option>");
+    cowboyBootsBuffer
+        .append("</a></nobr><br>")
+        .append("<nobr>Cowboy Boot spurs: ")
+        .append(
+            "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"cowboy_boots_spurs\" onchange=\"if (this.value) window.location.href=this.value\">")
+        .append("<option value=\"\" style=\"background-color: #eeeeff\">Apply one</option>");
 
     for (int i = ItemPool.QUICKSILVER_SPURS; i <= ItemPool.TICKSILVER_SPURS; i++) {
       if (InventoryManager.hasItem(i) && !(spurs != null && spurs.getItemId() == i)) {
-        cowboyBootsBuffer.append("<option style=\"background-color: #eeeeff\" ");
-        cowboyBootsBuffer.append("title=\"");
-        cowboyBootsBuffer.append(ValhallaDecorator.tooltip(i));
-        cowboyBootsBuffer.append("\" value=\"/KoLmafia/redirectedCommand?cmd=acquire+");
         String name = ItemDatabase.getItemName(i);
-        cowboyBootsBuffer.append(name.replaceAll(" ", "+"));
-        cowboyBootsBuffer.append(";+use+");
-        cowboyBootsBuffer.append(name.replaceAll(" ", "+"));
-        cowboyBootsBuffer.append("&pwd=");
-        cowboyBootsBuffer.append(GenericRequest.passwordHash);
-        cowboyBootsBuffer.append("\">");
-        cowboyBootsBuffer.append(name);
-        cowboyBootsBuffer.append("</option>");
+        cowboyBootsBuffer
+            .append("<option style=\"background-color: #eeeeff\" ")
+            .append("title=\"")
+            .append(ValhallaDecorator.tooltip(i))
+            .append("\" value=\"/KoLmafia/redirectedCommand?cmd=acquire+")
+            .append(name.replaceAll(" ", "+"))
+            .append(";+use+")
+            .append(name.replaceAll(" ", "+"))
+            .append("&pwd=")
+            .append(GenericRequest.passwordHash)
+            .append("\">")
+            .append(name)
+            .append("</option>");
       }
     }
     cowboyBootsBuffer.append("</select></form>");
 
     if (spurs != null && spurs != EquipmentRequest.UNEQUIP) {
-      cowboyBootsBuffer.append("</nobr><br><nobr>");
-      cowboyBootsBuffer.append("(currently <span title=\"");
-      cowboyBootsBuffer.append(ValhallaDecorator.tooltip(spurs.getItemId()));
-      cowboyBootsBuffer.append("\">");
-      cowboyBootsBuffer.append(spurs.getName());
-      cowboyBootsBuffer.append("</span>)");
+      cowboyBootsBuffer
+          .append("</nobr><br><nobr>")
+          .append("(currently <span title=\"")
+          .append(ValhallaDecorator.tooltip(spurs.getItemId()))
+          .append("\">")
+          .append(spurs.getName())
+          .append("</span>)");
     } else {
       cowboyBootsBuffer.append("(none currently)");
     }

@@ -3481,6 +3481,10 @@ public class ItemPool {
   public static final int PORTABLE_STEAM_UNIT = 11081;
   public static final int CRYSTAL_CRIMBO_GOBLET = 11082;
   public static final int CRYSTAL_CRIMBO_PLATTER = 11083;
+  public static final int ROCK_SEEDS = 11100;
+  public static final int GROVELING_GRAVEL = 11101;
+  public static final int MILESTONE = 11104;
+  public static final int WHETSTONE = 11107;
 
   private ItemPool() {}
 
