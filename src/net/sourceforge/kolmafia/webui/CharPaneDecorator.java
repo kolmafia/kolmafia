@@ -436,8 +436,8 @@ public class CharPaneDecorator {
       if (familiar.fightDailyCap() != -1) {
         buffer.append("/");
         buffer.append(familiar.fightDailyCap());
-        buffer.append(" combats");
       }
+      buffer.append(" combats");
     }
 
     switch (familiar.getId()) {
@@ -731,9 +731,9 @@ public class CharPaneDecorator {
       if (familiar.dropDailyCap() != -1) {
         buffer.append("/");
         buffer.append(familiar.dropDailyCap());
-        buffer.append(" ");
-        buffer.append(familiar.dropName());
       }
+      buffer.append(" ");
+      buffer.append(familiar.dropName());
       return buffer;
     }
 
