@@ -1147,7 +1147,31 @@ public class FamiliarData implements Comparable<FamiliarData> {
             1));
     DROP_FAMILIARS.add(
         new DropInfo(
+            FamiliarPool.ROCKIN_ROBIN,
+            ItemPool.ROBIN_EGG,
+            "robin's egg",
+            "_robinEggDrops",
+            Integer.MAX_VALUE));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.CANDLE,
+            ItemPool.WAX_GLOB,
+            "wax glob",
+            "_waxGlobDrops",
+            Integer.MAX_VALUE));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.GARBAGE_FIRE, -1, "burning item", "_garbageFireDrops", Integer.MAX_VALUE));
+    DROP_FAMILIARS.add(
+        new DropInfo(
             FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.HOBO_IN_SHEEPS_CLOTHING,
+            ItemPool.GRUBBY_WOOL,
+            "grubby wool",
+            "_grubbyWoolDrops",
+            Integer.MAX_VALUE));
   }
 
   public static DropInfo getDropInfo(int id) {
