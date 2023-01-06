@@ -2822,6 +2822,8 @@ Item	Caveman Dan's favorite rock	Maximum HP: +60, Food Drop: +30, Experience (Mu
 Item	cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
 # cement shoes: Makes you sleep like the dead
 Item	cement shoes	Mysticality: +20, Moxie: +20
+# ceramic cestus: Punch a foe, dealing 30 damage and briefly stunning them
+Item	ceramic cestus	Muscle Percent: +20, Familiar Weight: +5, Single Equip
 # chalk chain: Weakens enemies who hit you
 Item	chalk chain	Experience (Muscle): +2, Experience (familiar): +1, Single Equip
 # chalk choker: Weakens enemies who hit you
