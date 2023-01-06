@@ -3250,3 +3250,7 @@ roasted vegetable focaccia	COOK	Boris's bread	roasted vegetable of Jarlsberg
 Deep Dish of Legend	COOK	baked veggie ricotta casserole	Boris's bread
 Calzone of Legend	COOK	plain calzone	roasted vegetable of Jarlsberg
 Pizza of Legend	COOK	roasted vegetable focaccia	Pete's rich ricotta
+
+# Hobo Sheep
+
+nice warm beer	MIX	ice-cold Sir Schlitz	grubby wool beerwarmer

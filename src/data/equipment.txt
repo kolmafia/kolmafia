@@ -2397,6 +2397,7 @@ Cat-Herding Prod	0	none
 Caveman Dan's favorite rock	100	Mus: 35
 cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
+ceramic cestus	0	Mus: 40
 chalk chain	50	none
 chalk choker	50	none
 Charleston shoes	100	Mys: 25
