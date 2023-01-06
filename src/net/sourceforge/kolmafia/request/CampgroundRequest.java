@@ -1064,10 +1064,6 @@ public class CampgroundRequest extends GenericRequest {
 
     CampgroundRequest.parseGarden(responseText);
 
-    boolean maidFound = false;
-    if (!maidFound) maidFound = findImage(responseText, "maid.gif", ItemPool.MAID);
-    if (!maidFound) maidFound = findImage(responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID);
-
     Matcher jungMatcher = JUNG_PATTERN.matcher(responseText);
     if (jungMatcher.find()) {
       int jungLink = StringUtilities.parseInt(jungMatcher.group(1));
@@ -1346,7 +1342,12 @@ public class CampgroundRequest extends GenericRequest {
     int startIndex = responseText.indexOf("Your dwelling has the following stuff");
     int endIndex = responseText.indexOf("<b>Your Campsite</b>", startIndex + 1);
     if (startIndex > 0 && endIndex > 0) {
-      m = FURNISHING_PATTERN.matcher(responseText.substring(startIndex, endIndex));
+      var relevantResponse = responseText.substring(startIndex, endIndex);
+
+      boolean maidFound = findImage(responseText, "maid.gif", ItemPool.MAID);
+      if (!maidFound) findImage(responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID);
+
+      m = FURNISHING_PATTERN.matcher(relevantResponse);
       while (m.find()) {
         String name = m.group(1);
 
