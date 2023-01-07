@@ -199,8 +199,10 @@ public class Maximizer {
 
     // Include skills from absorbing items in Noobcore
     if (KoLCharacter.inNoobcore()) {
-      for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType(ModifierType.SKILL)) {
-        if (!(entry.getKey() instanceof Integer skillId)) continue;
+      for (Map.Entry<Modifiers.IntOrString, String> entry :
+          Modifiers.getAllModifiersOfType(ModifierType.SKILL)) {
+        if (!entry.getKey().isInt()) continue;
+        int skillId = entry.getKey().getIntValue();
         if (skillId < 23001 || skillId > 23125) {
           continue;
         }
@@ -240,8 +242,10 @@ public class Maximizer {
       }
 
       // Include enchantments from absorbing equipment in Noobcore
-      for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType(ModifierType.ITEM)) {
-        if (!(entry.getKey() instanceof Integer itemId)) continue;
+      for (Map.Entry<Modifiers.IntOrString, String> entry :
+          Modifiers.getAllModifiersOfType(ModifierType.ITEM)) {
+        if (!entry.getKey().isInt()) continue;
+        int itemId = entry.getKey().getIntValue();
         int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
         if (absorbsLeft < 1) {
           continue;
@@ -314,9 +318,10 @@ public class Maximizer {
     }
 
     if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
-      for (Map.Entry<Object, String> entry :
+      for (Map.Entry<Modifiers.IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.HORSERY)) {
-        if (!(entry.getKey() instanceof String name)) continue;
+        if (!entry.getKey().isString()) continue;
+        String name = entry.getKey().getStringValue();
         // Must be available in your current path
         if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
           continue;
@@ -350,9 +355,10 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
-      for (Map.Entry<Object, String> entry :
+      for (Map.Entry<Modifiers.IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
-        if (!(entry.getKey() instanceof String name)) continue;
+        if (!entry.getKey().isString()) continue;
+        String name = entry.getKey().getStringValue();
         String cmd, text;
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setBoomBox(name);
@@ -384,10 +390,10 @@ public class Maximizer {
       }
     }
 
-    for (Map.Entry<Object, String> entry : Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
-      if (!(entry.getKey() instanceof Integer effectId)) {
-        continue;
-      }
+    for (Map.Entry<Modifiers.IntOrString, String> entry :
+        Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
+      if (!entry.getKey().isInt()) continue;
+      int effectId = entry.getKey().getIntValue();
       if (effectId == -1) {
         continue;
       }

@@ -5,9 +5,20 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.time.DayOfWeek;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -54,9 +65,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.TwoLevelEnumHashMap;
 
 public class Modifiers {
-  private static final TwoLevelEnumHashMap<ModifierType, Object, String> modifierStringsByName =
-      new TwoLevelEnumHashMap<>(ModifierType.class);
-  private static final TwoLevelEnumHashMap<ModifierType, Object, Modifiers> modifiersByName =
+  private static final TwoLevelEnumHashMap<ModifierType, IntOrString, String>
+      modifierStringsByName = new TwoLevelEnumHashMap<>(ModifierType.class);
+  private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
@@ -1150,7 +1161,7 @@ public class Modifiers {
     return rv;
   }
 
-  public static final Collection<Entry<Object, String>> getAllModifiersOfType(
+  public static final Collection<Entry<IntOrString, String>> getAllModifiersOfType(
       final ModifierType type) {
     return Modifiers.modifierStringsByName.getAll(type).entrySet();
   }
@@ -1173,45 +1184,42 @@ public class Modifiers {
 
   public static final void overrideModifier(
       final ModifierType type, final int key, final String value) {
-    overrideModifierInternal(type, key, value);
+    overrideModifierInternal(new Lookup(type, key), value);
   }
 
   public static final void overrideModifier(
       final ModifierType type, final String key, final String value) {
-    overrideModifierInternal(type, key, value);
+    overrideModifierInternal(new Lookup(type, key), value);
   }
 
   public static final void overrideModifier(
       final ModifierType type, final int key, final Modifiers value) {
-    overrideModifierInternal(type, key, value);
+    overrideModifierInternal(new Lookup(type, key), value);
   }
 
   public static final void overrideModifier(
       final ModifierType type, final String key, final Modifiers value) {
-    overrideModifierInternal(type, key, value);
+    overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  private static final void overrideModifierInternal(
-      final ModifierType type, final Object key, final String value) {
-    overrideModifierInternal(type, key, Modifiers.parseModifiers(new Lookup(type, key), value));
+  private static final void overrideModifierInternal(final Lookup lookup, final String value) {
+    overrideModifierInternal(lookup, Modifiers.parseModifiers(lookup, value));
   }
 
-  private static final void overrideModifierInternal(
-      final ModifierType type, final Object key, final Modifiers value) {
-    Modifiers.modifiersByName.put(type, key, value);
+  private static final void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
+    Modifiers.modifiersByName.put(lookup.type, lookup.getKey(), value);
   }
 
   public static final void overrideRemoveModifier(final ModifierType type, final int key) {
-    overrideRemoveModifierInternal(type, key);
+    overrideRemoveModifierInternal(new Lookup(type, key));
   }
 
   public static final void overrideRemoveModifier(final ModifierType type, final String key) {
-    overrideRemoveModifierInternal(type, key);
+    overrideRemoveModifierInternal(new Lookup(type, key));
   }
 
-  private static final void overrideRemoveModifierInternal(
-      final ModifierType type, final Object key) {
-    Modifiers.modifiersByName.remove(type, key);
+  private static final void overrideRemoveModifierInternal(final Lookup lookup) {
+    Modifiers.modifiersByName.remove(lookup.type, lookup.getKey());
   }
 
   public static final String getModifierName(final int index) {
@@ -1844,7 +1852,7 @@ public class Modifiers {
   public static final Modifiers getModifiers(final Lookup lookup) {
     ModifierType changeType = null;
     ModifierType type = lookup.type;
-    Object key = lookup.getKey();
+    IntOrString key = lookup.getKey();
     if (type == ModifierType.BJORN) {
       changeType = type;
       type = ModifierType.THRONE;
@@ -3298,11 +3306,11 @@ public class Modifiers {
   }
 
   public static final void checkModifiers() {
-    for (Entry<ModifierType, Map<Object, String>> typeEntry :
+    for (Entry<ModifierType, Map<IntOrString, String>> typeEntry :
         Modifiers.modifierStringsByName.entrySet()) {
       ModifierType type = typeEntry.getKey();
-      for (Entry<Object, String> entry : typeEntry.getValue().entrySet()) {
-        Object key = entry.getKey();
+      for (Entry<IntOrString, String> entry : typeEntry.getValue().entrySet()) {
+        IntOrString key = entry.getKey();
         String modifierString = entry.getValue();
 
         if (modifierString == null) {
@@ -3403,7 +3411,7 @@ public class Modifiers {
           if (matcher.find()) {
             effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
           }
-          Modifiers.modifierStringsByName.put(ModifierType.FAM_EQ, name, effect);
+          Modifiers.modifierStringsByName.put(ModifierType.FAM_EQ, new IntOrString(name), effect);
         }
 
         switch (type) {
@@ -3731,7 +3739,7 @@ public class Modifiers {
     writer.println();
 
     for (String name : set) {
-      String modifierString = Modifiers.modifierStringsByName.get(type, name);
+      String modifierString = Modifiers.modifierStringsByName.get(type, new IntOrString(name));
       Modifiers.writeModifierItem(writer, type, name, modifierString);
     }
   }
@@ -3839,70 +3847,102 @@ public class Modifiers {
     }
   }
 
+  public static class IntOrString {
+    private int intValue = -1;
+    private String stringValue = null;
+
+    public IntOrString(String stringValue) {
+      this.stringValue = stringValue;
+    }
+
+    public IntOrString(int intValue) {
+      this.intValue = intValue;
+    }
+
+    public boolean isInt() {
+      return stringValue == null;
+    }
+
+    public boolean isString() {
+      return stringValue != null;
+    }
+
+    public int getIntValue() {
+      return intValue;
+    }
+
+    public String getStringValue() {
+      return stringValue;
+    }
+
+    @Override
+    public int hashCode() {
+      return isInt() ? this.intValue : this.stringValue.hashCode();
+    }
+
+    @Override
+    public String toString() {
+      return isInt() ? Integer.toString(this.intValue) : this.stringValue;
+    }
+  }
+
   public static class Lookup {
     public ModifierType type;
-    private int intKey = -1; // int for Skill, Item, Effect; String otherwise.
-    private String stringKey;
+    private IntOrString key; // int for Skill, Item, Effect; String otherwise.
 
-    private Lookup(ModifierType type, Object key) {
+    private Lookup(ModifierType type, IntOrString key) {
       this.type = type;
-      if (key instanceof Integer intKey) {
-        this.intKey = intKey;
-      } else {
-        this.stringKey = key.toString();
-      }
+      this.key = key;
     }
 
     public Lookup(ModifierType type, int key) {
       this.type = type;
-      this.intKey = key;
+      this.key = new IntOrString(key);
     }
 
     public Lookup(ModifierType type, String name) {
       this.type = type;
       switch (type) {
         case ITEM -> {
-          this.intKey = ItemDatabase.getExactItemId(name);
-          if (this.intKey < 0) {
+          int intKey = ItemDatabase.getExactItemId(name);
+          if (intKey < 0) {
             Optional<ClanLoungeRequest.HotDogData> maybeHotDogData =
                 Arrays.stream(ClanLoungeRequest.HOTDOG_DATA)
                     .filter(h -> name.equals(h.name()))
                     .findFirst();
-            maybeHotDogData.ifPresent(hotDogData -> this.intKey = hotDogData.id());
+            if (maybeHotDogData.isPresent()) intKey = maybeHotDogData.get().id();
           }
+          this.key = new IntOrString(intKey);
         }
-        case EFFECT -> this.intKey = EffectDatabase.getEffectId(name, true);
-        case SKILL -> this.intKey = SkillDatabase.getSkillId(name, true);
-        default -> this.stringKey = name;
+        case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
+        case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
+        default -> this.key = new IntOrString(name);
       }
       if (EnumSet.of(ModifierType.ITEM, ModifierType.EFFECT, ModifierType.SKILL).contains(type)
-          && this.intKey == -1) {
+          && this.key.getIntValue() == -1) {
         this.type = ModifierType.fromString("PSEUDO_" + type.name());
-        this.stringKey = name;
+        this.key = new IntOrString(name);
       }
     }
 
     @Override
     public String toString() {
       return switch (this.type) {
-        case ITEM, EFFECT, SKILL -> this.type.camelCaseName() + ":[" + this.intKey + "]";
-        default -> this.type.camelCaseName() + ":" + this.stringKey;
+        case ITEM, EFFECT, SKILL -> this.type.camelCaseName() + ":[" + this.key + "]";
+        default -> this.type.camelCaseName() + ":" + this.key;
       };
     }
 
-    public Object getKey() {
-      return switch (this.type) {
-        case ITEM, EFFECT, SKILL -> this.intKey;
-        default -> this.stringKey;
-      };
+    public IntOrString getKey() {
+      return this.key;
     }
 
     public int getIntKey() {
-      return this.intKey;
+      return this.key.getIntValue();
     }
 
     public String getStringKey() {
-      return this.stringKey;
+      return this.key.getStringValue();
     }
 
     public String getName() {
