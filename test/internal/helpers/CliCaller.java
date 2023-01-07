@@ -1,6 +1,9 @@
 package internal.helpers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 
 public class CliCaller {
   public static String callCli(final String command, final String params) {
@@ -14,5 +17,17 @@ public class CliCaller {
     cli.executeCommand(command, params);
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
     return RequestLoggerOutput.stopStream();
+  }
+
+  public static Cleanups withCliOutput(StringBuffer buffer) {
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    PrintStream out = new PrintStream(ostream);
+
+    RequestLogger.openCustom(out);
+    return new Cleanups(
+        () -> {
+          RequestLogger.closeCustom();
+          buffer.append(ostream);
+        });
   }
 }

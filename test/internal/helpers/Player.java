@@ -1891,4 +1891,11 @@ public class Player {
 
     return new Cleanups(HermitRequest::initialize);
   }
+
+  public static Cleanups withMCD(int mcdLevel) {
+    final int original = KoLCharacter.getMindControlLevel();
+    KoLCharacter.setMindControlLevel(mcdLevel);
+
+    return new Cleanups(() -> KoLCharacter.setMindControlLevel(original));
+  }
 }
