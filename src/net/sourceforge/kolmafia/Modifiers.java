@@ -3798,12 +3798,12 @@ public class Modifiers {
 
   public static String modifierString(
       final ModifierType type, final String name, final String modifiers) {
-    return type.camelCaseName() + "\t" + name + "\t" + modifiers;
+    return type.pascalCaseName() + "\t" + name + "\t" + modifiers;
   }
 
   public static String modifierCommentString(
       final ModifierType type, final String name, final String value) {
-    return "# " + (type == null ? "" : type.camelCaseName() + " ") + name + ": " + value;
+    return "# " + (type == null ? "" : type.pascalCaseName() + " ") + name + ": " + value;
   }
 
   public static void writeModifierComment(
@@ -3812,7 +3812,7 @@ public class Modifiers {
   }
 
   public static String modifierCommentString(final ModifierType type, final String name) {
-    return "# " + (type == null ? "" : type.camelCaseName() + " ") + name;
+    return "# " + (type == null ? "" : type.pascalCaseName() + " ") + name;
   }
 
   public static void writeModifierComment(
@@ -3961,8 +3961,8 @@ public class Modifiers {
     @Override
     public String toString() {
       return switch (this.type) {
-        case ITEM, EFFECT, SKILL -> this.type.camelCaseName() + ":[" + this.key + "]";
-        default -> this.type.camelCaseName() + ":" + this.key;
+        case ITEM, EFFECT, SKILL -> this.type.pascalCaseName() + ":[" + this.key + "]";
+        default -> this.type.pascalCaseName() + ":" + this.key;
       };
     }
 

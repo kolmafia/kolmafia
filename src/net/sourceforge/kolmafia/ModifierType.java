@@ -80,7 +80,7 @@ public enum ModifierType {
     return stringToType.get(typeString.replace("_", "").toLowerCase());
   }
 
-  public String camelCaseName() {
+  public String pascalCaseName() {
     return StringUtilities.upperSnakeToPascalCase(this.name());
   }
 
