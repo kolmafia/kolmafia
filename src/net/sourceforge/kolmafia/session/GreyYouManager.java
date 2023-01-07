@@ -487,7 +487,7 @@ public abstract class GreyYouManager {
     private final int level;
 
     private String enchantments = "";
-    private Modifiers.Lookup modsLookup = new Modifiers.Lookup(ModifierType.GENERATED, "");
+    private Modifiers.Lookup modsLookup = new Modifiers.Lookup(ModifierType.NONE, "");
 
     public GooSkill(
         final int skillId, final String monsterName, PassiveEffect passiveEffect, int level) {

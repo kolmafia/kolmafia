@@ -147,7 +147,7 @@ public class AccordionsCommand extends AbstractCommand {
       } else {
         // Handle items missing from modifiers.txt
         this.songDuration = 0;
-        this.modsLookup = new Modifiers.Lookup(ModifierType.GENERATED, "");
+        this.modsLookup = new Modifiers.Lookup(ModifierType.NONE, "");
         this.enchantments = "";
       }
     }
