@@ -69,7 +69,7 @@ class ModeableTest {
   @Test
   void getModifier() {
     var modeable = Modeable.UMBRELLA;
-    assertThat(modeable.getModifierType(), equalTo("UnbreakableUmbrella"));
+    assertThat(modeable.getModifierType(), equalTo(ModifierType.UNBREAKABLE_UMBRELLA));
   }
 
   @Test

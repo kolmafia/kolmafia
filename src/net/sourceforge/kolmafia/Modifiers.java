@@ -1170,12 +1170,8 @@ public class Modifiers {
     ArrayList<Lookup> result = new ArrayList<>();
     for (var entry : modifierStringsByName.entrySet()) {
       ModifierType type = entry.getKey();
-      for (Object key : entry.getValue().keySet()) {
-        if (key instanceof Integer intKey) {
-          result.add(new Lookup(type, intKey));
-        } else if (key instanceof String stringKey) {
-          result.add(new Lookup(type, stringKey));
-        }
+      for (IntOrString key : entry.getValue().keySet()) {
+        result.add(new Lookup(type, key));
       }
     }
     return result;
