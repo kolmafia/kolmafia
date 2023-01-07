@@ -63,7 +63,7 @@ public class DebugModifiers extends Modifiers {
 
     Lookup lookup = new Lookup(type, key);
 
-    super.addDouble(index, mod, lookup);
+    super.addDouble(index, mod, type, key);
 
     if (!DebugModifiers.wanted.containsKey(index)) {
       return;

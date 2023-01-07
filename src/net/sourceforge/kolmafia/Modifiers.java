@@ -1621,20 +1621,20 @@ public class Modifiers {
     return changed;
   }
 
-  private static final Set<String> doubledBySquintChampagne =
+  private static final Set<ModifierType> doubledBySquintChampagne =
       Set.of(
-          "Ballroom",
-          "Bjorn",
-          "Effect",
-          "Item",
-          "Local Vote",
-          "Outfit",
-          "Path",
-          "Sign",
-          "Skill",
-          "Synergy",
-          "Throne",
-          "UnbreakableUmbrella");
+          ModifierType.BALLROOM,
+          ModifierType.BJORN,
+          ModifierType.EFFECT,
+          ModifierType.ITEM,
+          ModifierType.LOCAL_VOTE,
+          ModifierType.OUTFIT,
+          ModifierType.PATH,
+          ModifierType.SIGN,
+          ModifierType.SKILL,
+          ModifierType.SYNERGY,
+          ModifierType.THRONE,
+          ModifierType.UNBREAKABLE_UMBRELLA);
 
   public void addDouble(final int index, final double mod, final ModifierType type, final int key) {
     addDouble(index, mod, type, new IntOrString(key));
@@ -3922,6 +3922,14 @@ public class Modifiers {
     }
 
     @Override
+    public boolean equals(Object o) {
+      if (!(o instanceof IntOrString other)) return false;
+      return isInt() && other.isInt()
+          ? this.intValue == other.intValue
+          : this.stringValue.equals(other.stringValue);
+    }
+
+    @Override
     public String toString() {
       return isInt() ? Integer.toString(this.intValue) : this.stringValue;
     }
@@ -3955,8 +3963,8 @@ public class Modifiers {
           }
           this.key = new IntOrString(intKey);
         }
-        case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
-        case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
+        case EFFECT -> this.key = new IntOrString(EffectDatabase.getEffectId(name, true));
+        case SKILL -> this.key = new IntOrString(SkillDatabase.getSkillId(name, true));
         default -> this.key = new IntOrString(name);
       }
       if (EnumSet.of(ModifierType.ITEM, ModifierType.EFFECT, ModifierType.SKILL).contains(type)
