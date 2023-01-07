@@ -235,17 +235,14 @@ public class CampgroundRequest extends GenericRequest {
 
     @Override
     public String toString() {
-      return count == 1
-          ? "free-range mushroom"
-          : count == 2
-              ? "plump free-range mushroom"
-              : count == 3
-                  ? "bulky free-range mushroom"
-                  : count == 4
-                      ? "giant free-range mushroom"
-                      : count >= 5 && count < 11
-                          ? "immense free-range mushroom"
-                          : "colossal free-range mushroom";
+      return switch (count) {
+        case 1 -> "free-range mushroom";
+        case 2 -> "plump free-range mushroom";
+        case 3 -> "bulky free-range mushroom";
+        case 4 -> "giant free-range mushroom";
+        case 5, 6, 7, 8, 9, 10 -> "immense free-range mushroom";
+        default -> "colossal free-range mushroom";
+      };
     }
   }
 
@@ -550,7 +547,6 @@ public class CampgroundRequest extends GenericRequest {
 
     for (AdventureResult crop : CampgroundRequest.CROPS) {
       int cropID = crop.getItemId();
-      int cropCount = crop.getCount();
 
       // We found the current crop before we found the
       // desired crop. Not good enough.
@@ -628,8 +624,6 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.harvestMushrooms(false);
   }
 
-  private static final Pattern MUSHROOM_PATTERN = Pattern.compile("an? (.*? mushroom)");
-
   public static void harvestMushrooms(final boolean pick) {
     AdventureResult crop = CampgroundRequest.getCrop();
     if (crop == null || CampgroundRequest.getCropType(crop) != CropType.MUSHROOM) {
@@ -655,7 +649,7 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     // We expect redirection to either fight.php or choice.php
-    // We want to handle it ourself, so run it in a RelayRequest
+    // We want to handle it ourselves, so run it in a RelayRequest
     RelayRequest request = new RelayRequest(false);
 
     KoLAdventure.setNextAdventure("Your Mushroom Garden");
@@ -810,7 +804,7 @@ public class CampgroundRequest extends GenericRequest {
     return action != null && (action.equals("workshed") || action.equals("terminal"));
   }
 
-  public static final void parseResponse(final String urlString, final String responseText) {
+  public static void parseResponse(final String urlString, final String responseText) {
     // Workshed may redirect to shop.php
     if (urlString.startsWith("shop.php")) {
       NPCPurchaseRequest.parseShopResponse(urlString, responseText);
@@ -1063,10 +1057,6 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     CampgroundRequest.parseGarden(responseText);
-
-    boolean maidFound = false;
-    if (!maidFound) maidFound = findImage(responseText, "maid.gif", ItemPool.MAID);
-    if (!maidFound) maidFound = findImage(responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID);
 
     Matcher jungMatcher = JUNG_PATTERN.matcher(responseText);
     if (jungMatcher.find()) {
@@ -1346,7 +1336,12 @@ public class CampgroundRequest extends GenericRequest {
     int startIndex = responseText.indexOf("Your dwelling has the following stuff");
     int endIndex = responseText.indexOf("<b>Your Campsite</b>", startIndex + 1);
     if (startIndex > 0 && endIndex > 0) {
-      m = FURNISHING_PATTERN.matcher(responseText.substring(startIndex, endIndex));
+      var relevantResponse = responseText.substring(startIndex, endIndex);
+
+      boolean maidFound = findImage(relevantResponse, "maid.gif", ItemPool.MAID);
+      if (!maidFound) findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID);
+
+      m = FURNISHING_PATTERN.matcher(relevantResponse);
       while (m.find()) {
         String name = m.group(1);
 
@@ -1452,23 +1447,7 @@ public class CampgroundRequest extends GenericRequest {
 
   private static boolean findImage(
       final String responseText, final String filename, final int itemId) {
-    return CampgroundRequest.findImage(responseText, filename, itemId, false);
-  }
-
-  private static boolean findImage(
-      final String responseText, final String filename, final int itemId, boolean allowMultiple) {
-    int count = 0;
-    int i = responseText.indexOf(filename);
-    while (i != -1) {
-      ++count;
-      i = responseText.indexOf(filename, i + 1);
-    }
-
-    if (count > 0) {
-      CampgroundRequest.setCampgroundItem(itemId, allowMultiple ? count : 1);
-    }
-
-    return (count > 0);
+    return CampgroundRequest.findImage(responseText, filename, itemId, 1);
   }
 
   private static boolean findImage(
@@ -1576,28 +1555,6 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.removeCampgroundItem(CampgroundRequest.getCurrentWorkshedItem());
   }
 
-  public static boolean isDwelling(final int itemId) {
-    return switch (itemId) {
-      case ItemPool.NEWBIESPORT_TENT,
-          ItemPool.BARSKIN_TENT,
-          ItemPool.COTTAGE,
-          ItemPool.BRICKO_PYRAMID,
-          ItemPool.HOUSE,
-          ItemPool.SANDCASTLE,
-          ItemPool.TWIG_HOUSE,
-          ItemPool.GINGERBREAD_HOUSE,
-          ItemPool.HOBO_FORTRESS,
-          ItemPool.GINORMOUS_PUMPKIN,
-          ItemPool.GIANT_FARADAY_CAGE,
-          ItemPool.SNOW_FORT,
-          ItemPool.ELEVENT,
-          ItemPool.RESIDENCE_CUBE,
-          ItemPool.GIANT_PILGRIM_HAT,
-          ItemPool.HOUSE_SIZED_MUSHROOM -> true;
-      default -> false;
-    };
-  }
-
   public static int dwellingLevel(final int itemId) {
     return switch (itemId) {
       case ItemPool.NEWBIESPORT_TENT -> 1;
@@ -1653,42 +1610,34 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.asdonMartinFuel -= fuel;
   }
 
-  private static final String[][] BOOKS = {
-    {"Tome of Snowcone Summoning", "Summon Snowcones"},
-    {"Tome of Sticker Summoning", "Summon Stickers"},
-    {"Tome of Sugar Shummoning", "Summon Sugar Sheets"},
-    {"Tome of Clip Art", "Summon Clip Art"},
-    {"Tome of Rad Libs", "Summon Rad Libs"},
-    {"The Smith's Tome", "Summon Smithsness"},
-    {
-      // The bookshelf currently says:
-      // "McPhee's Grimoire of Hilarious Item Summoning"
-      // gives access to "Summon Hilarious Items".
-      //
-      // The item is currently named:
-      // "McPhee's Grimoire of Hilarious Object Summoning"
-      // and gives access to "Summon Hilarious Objects".
-      "McPhee's Grimoire", "Summon Hilarious Objects",
-    },
-    {
-      "Sp'n-Zor's Grimoire", "Summon Tasteful Items",
-    },
-    {
-      "Sorcerers of the Shore Grimoire", "Summon Alice's Army Cards",
-    },
-    {
-      "Thinknerd Grimoire", "Summon Geeky Gifts",
-    },
-    {
-      "Libram of Candy Heart Summoning", "Summon Candy Heart",
-    },
-    {"Libram of Divine Favors", "Summon Party Favor"},
-    {"Libram of Love Songs", "Summon Love Song"},
-    {"Libram of BRICKOs", "Summon BRICKOs"},
-    {"Gygaxian Libram", "Summon Dice"},
-    {"Libram of Resolutions", "Summon Resolutions"},
-    {"Libram of Pulled Taffy", "Summon Taffy"},
-    {"Confiscator's Grimoire", "Summon Confiscated Things"},
+  private record Book(String name, String skill) {}
+
+  private static final Book[] BOOKS = {
+    new Book("Tome of Snowcone Summoning", "Summon Snowcones"),
+    new Book("Tome of Sticker Summoning", "Summon Stickers"),
+    new Book("Tome of Sugar Shummoning", "Summon Sugar Sheets"),
+    new Book("Tome of Clip Art", "Summon Clip Art"),
+    new Book("Tome of Rad Libs", "Summon Rad Libs"),
+    new Book("The Smith's Tome", "Summon Smithsness"),
+    // The bookshelf currently says:
+    // "McPhee's Grimoire of Hilarious Item Summoning"
+    // gives access to "Summon Hilarious Items".
+    //
+    // The item is currently named:
+    // "McPhee's Grimoire of Hilarious Object Summoning"
+    // and gives access to "Summon Hilarious Objects".
+    new Book("McPhee's Grimoire", "Summon Hilarious Objects"),
+    new Book("Sp'n-Zor's Grimoire", "Summon Tasteful Items"),
+    new Book("Sorcerers of the Shore Grimoire", "Summon Alice's Army Cards"),
+    new Book("Thinknerd Grimoire", "Summon Geeky Gifts"),
+    new Book("Libram of Candy Heart Summoning", "Summon Candy Heart"),
+    new Book("Libram of Divine Favors", "Summon Party Favor"),
+    new Book("Libram of Love Songs", "Summon Love Song"),
+    new Book("Libram of BRICKOs", "Summon BRICKOs"),
+    new Book("Gygaxian Libram", "Summon Dice"),
+    new Book("Libram of Resolutions", "Summon Resolutions"),
+    new Book("Libram of Pulled Taffy", "Summon Taffy"),
+    new Book("Confiscator's Grimoire", "Summon Confiscated Things"),
   };
 
   private static void parseBookTitles(final String responseText) {
@@ -1706,10 +1655,10 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     String libram = null;
-    for (int i = 0; i < BOOKS.length; ++i) {
-      String book = BOOKS[i][0];
+    for (Book b : BOOKS) {
+      String book = b.name;
       if (responseText.contains(book)) {
-        String skill = BOOKS[i][1];
+        String skill = b.skill;
         KoLCharacter.addAvailableSkill(skill, true);
         if (book.contains("Libram")) {
           libram = skill;
@@ -1791,30 +1740,20 @@ public class CampgroundRequest extends GenericRequest {
     String message = null;
 
     switch (action) {
-      case "garden":
-        message = "Harvesting your garden";
-        break;
-      case "spinningwheel":
-        message = "Spinning Meat from air";
-        break;
-      case "dnapotion":
-        message = "Making a Gene Tonic";
-        break;
-      case "dnainject":
-        message = "Hybridizing yourself";
-        break;
-      case "rest":
-        message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
-        break;
-      case "witchess":
+      case "garden" -> message = "Harvesting your garden";
+      case "spinningwheel" -> message = "Spinning Meat from air";
+      case "dnapotion" -> message = "Making a Gene Tonic";
+      case "dnainject" -> message = "Hybridizing yourself";
+      case "rest" -> message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
+      case "witchess" -> {
         KoLAdventure.lastVisitedLocation = null;
         KoLAdventure.lastLocationName = null;
         KoLAdventure.lastLocationURL = urlString;
         KoLAdventure.setLastAdventure("None");
         KoLAdventure.setNextAdventure("None");
         message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
-        break;
-      case "fuelconvertor":
+      }
+      case "fuelconvertor" -> {
         Matcher fuelMatcher = FUEL_PATTERN_3.matcher(urlString);
         if (fuelMatcher.find()) {
           int qty = StringUtilities.parseInt(fuelMatcher.group(1));
@@ -1825,10 +1764,11 @@ public class CampgroundRequest extends GenericRequest {
             message = "Converting " + ItemDatabase.getItemName(itemId) + " into Fuel";
           }
         }
-        break;
-      default:
+      }
+      default -> {
         // Unknown action.
         return false;
+      }
     }
 
     RequestLogger.printLine("");

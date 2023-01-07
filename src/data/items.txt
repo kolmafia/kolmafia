@@ -11045,7 +11045,7 @@
 11017	Mysterious Stranger	467702286	boxingpunch.gif	drink	t	0
 11018	Champagne Shimmy	129328508	collins.gif	drink	t	0
 11019	the Sot's parcel	113613102	oliver_package.gif	none	q	0
-11020
+11020	ceramic cestus	301130325	ceracestus.gif	accessory		0
 11021
 11022
 11023
@@ -11130,8 +11130,8 @@
 11102	fruity pebble	363064873	rgpebble.gif	spleen, usable	t,d	25
 11103	lodestone	615109905	rglodestone.gif	usable	t,d	250
 11104	milestone	351352694	rgmilestone.gif	usable	t,d	5
-11105
+11105	bolder boulder	697310877	rgboulder.gif	usable	t,d	25
 11106	molehill mountain	671315172	rgmountain.gif	usable	t,d	250
 11107	whet stone	689119937	rgwhetstone.gif	usable	t,d	5
-11108
+11108	hard rock	878413969	rghardrock.gif	usable	t,d	25
 11109	strange stalagmite	720163663	rgstalagmite.gif	usable	t,d	250

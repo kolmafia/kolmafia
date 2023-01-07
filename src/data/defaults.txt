@@ -1799,6 +1799,7 @@ user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
 user	_gallapagosMonster
 user	_gapBuffs	0
+user	_garbageFireDrops	0
 user	_garbageFireDropsCrown	0
 user	_garbageItemChanged	false
 user	_genieFightsUsed	0
@@ -1834,6 +1835,7 @@ user	_grimstoneMaskDrops	0
 user	_grimstoneMaskDropsCrown	0
 user	_grooseCharge	0
 user	_grooseDrops	0
+user	_grubbyWoolDrops	0
 user	_guildManualUsed	false
 user	_guzzlrDeliveries	0
 user	_guzzlrGoldDeliveries	0
@@ -2083,6 +2085,7 @@ user	_resolutionAdv	0
 user	_resolutionRareSummons	0
 user	_rhinestonesAcquired	false
 user	_riftletAdv	0
+user	_robinEggDrops	0
 user	_roboDrinks
 user	_roboDrops	0
 user	_rogueProgramCharge	0
@@ -2271,6 +2274,7 @@ user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
 user	_warbearGyrocopterUsed	false
 user	_warbearSodaMachineUsed	false
+user	_waxGlobDrops	0
 user	_whiteRiceDrops	0
 user	_wildfireBarrelHarvested	false
 user	_witchessBuff	false
