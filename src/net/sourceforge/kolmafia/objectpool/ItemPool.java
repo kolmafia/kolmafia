@@ -589,6 +589,7 @@ public class ItemPool {
   public static final int STUFFED_COCOABO = 1974;
   public static final int RUBBER_WWTNSD_BRACELET = 1994;
   public static final int SPADE_NECKLACE = 2017;
+  public static final int WICKER_SHIELD = 2034;
   public static final int PATCHOULI_OIL_BOMB = 2040;
   public static final int EXPLODING_HACKY_SACK = 2042;
   public static final int MACGUFFIN_DIARY = 2044;
@@ -3480,6 +3481,11 @@ public class ItemPool {
   public static final int PORTABLE_STEAM_UNIT = 11081;
   public static final int CRYSTAL_CRIMBO_GOBLET = 11082;
   public static final int CRYSTAL_CRIMBO_PLATTER = 11083;
+  public static final int GRUBBY_WOOL = 11091;
+  public static final int ROCK_SEEDS = 11100;
+  public static final int GROVELING_GRAVEL = 11101;
+  public static final int MILESTONE = 11104;
+  public static final int WHETSTONE = 11107;
 
   private ItemPool() {}
 

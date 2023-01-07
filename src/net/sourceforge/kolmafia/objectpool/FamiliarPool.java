@@ -117,6 +117,7 @@ public class FamiliarPool {
   public static final int VAMPIRE_VINTNER = 284;
   public static final int GREY_GOOSE = 287;
   public static final int COOKBOOKBAT = 288;
+  public static final int HOBO_IN_SHEEPS_CLOTHING = 290;
 
   private FamiliarPool() {}
 }

@@ -2693,6 +2693,7 @@ public class ResultProcessor {
               .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("garbageFireProgress", -1);
+            Preferences.increment("_garbageFireDrops", 1);
           }
         }
         break;
@@ -2703,6 +2704,7 @@ public class ResultProcessor {
               .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("garbageFireProgress", -1);
+            Preferences.increment("_garbageFireDrops", 1);
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.GARBAGE_FIRE
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.GARBAGE_FIRE) {
             Preferences.increment("_garbageFireDropsCrown");
@@ -3140,6 +3142,7 @@ public class ResultProcessor {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.ROCKIN_ROBIN) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("rockinRobinProgress", -1);
+            Preferences.increment("_robinEggDrops", 1);
           }
         }
         break;
@@ -3149,6 +3152,7 @@ public class ResultProcessor {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.CANDLE) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("optimisticCandleProgress", -1);
+            Preferences.increment("_waxGlobDrops", 1);
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.CANDLE
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.CANDLE) {
             Preferences.increment("_optimisticCandleDropsCrown");
@@ -3350,6 +3354,13 @@ public class ResultProcessor {
       case ItemPool.ROBY_PIZZA_OF_LEGEND:
         if (adventureResults) {
           Preferences.setBoolean("_cookbookbatRecipeDrops", true);
+        }
+        break;
+
+      case ItemPool.GRUBBY_WOOL:
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.HOBO_IN_SHEEPS_CLOTHING) {
+          Preferences.increment("_grubbyWoolDrops", 1);
         }
         break;
     }

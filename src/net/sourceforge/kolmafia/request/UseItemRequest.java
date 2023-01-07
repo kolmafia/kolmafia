@@ -4270,6 +4270,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.THANKSGARDEN_SEEDS:
       case ItemPool.TALL_GRASS_SEEDS:
       case ItemPool.MUSHROOM_SPORES:
+      case ItemPool.ROCK_SEEDS:
         if (KoLCharacter.getLimitMode().limitCampground()
             || KoLCharacter.isEd()
             || KoLCharacter.inNuclearAutumn()) {
