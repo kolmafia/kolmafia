@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 public class DebugModifiers extends Modifiers {
   private static HashMap<Integer, String> wanted, adjustments;
   private static String currentType;
-  private static String currentDesc;
+  private static String currentName;
   private static StringBuilder buffer;
 
   public static int setup(String parameters) {
@@ -26,17 +26,17 @@ public class DebugModifiers extends Modifiers {
       }
     }
     DebugModifiers.currentType = "type";
-    DebugModifiers.currentDesc = "source";
+    DebugModifiers.currentName = "source";
     DebugModifiers.buffer = new StringBuilder("<table border=2>");
     return DebugModifiers.wanted.size();
   }
 
   private static String getDesc() {
     return switch (DebugModifiers.currentType) {
-      case "Item" -> ItemDatabase.getItemDisplayName(DebugModifiers.currentDesc);
-      case "Effect" -> EffectDatabase.getEffectDisplayName(DebugModifiers.currentDesc);
-      case "Skill" -> SkillDatabase.getSkillDisplayName(DebugModifiers.currentDesc);
-      default -> DebugModifiers.currentDesc;
+      case "Item" -> ItemDatabase.getItemDisplayName(DebugModifiers.currentName);
+      case "Effect" -> EffectDatabase.getEffectDisplayName(DebugModifiers.currentName);
+      case "Skill" -> SkillDatabase.getSkillDisplayName(DebugModifiers.currentName);
+      default -> DebugModifiers.currentName;
     };
   }
 
@@ -70,12 +70,11 @@ public class DebugModifiers extends Modifiers {
     }
 
     String name = lookup.getName();
-    if (!lookup.equals(DebugModifiers.currentDesc)
-        || DebugModifiers.adjustments.containsKey(index)) {
+    if (!name.equals(DebugModifiers.currentName) || DebugModifiers.adjustments.containsKey(index)) {
       DebugModifiers.flushRow();
     }
     DebugModifiers.currentType = type.camelCaseName();
-    DebugModifiers.currentDesc = name;
+    DebugModifiers.currentName = name;
     DebugModifiers.adjustments.put(
         index,
         "<td>"

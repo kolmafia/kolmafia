@@ -95,4 +95,23 @@ public class DebugModifiersTest {
     assertThat(
         output.toString().strip(), containsDebugRow("Effect", "Steely-Eyed Squint", 15.0, 30.0));
   }
+
+  @Test
+  void listsMultipleInOneRow() {
+    StringBuffer output = new StringBuffer();
+    try (var cleanups =
+        new Cleanups(withEffect(EffectPool.ELEMENTAL_SPHERE), withCliOutput(output))) {
+      DebugModifiers.setup("resistance");
+      KoLCharacter.recalculateAdjustments(true);
+    }
+    assertThat(output.toString().strip().split("<tr>"), arrayWithSize(3));
+    assertThat(
+        output.toString().strip(),
+        stringContainsInOrder(
+            "<td>+2.00</td><td>=&nbsp;+2.00</td>",
+            "<td>+2.00</td><td>=&nbsp;+2.00</td>",
+            "<td>+2.00</td><td>=&nbsp;+2.00</td>",
+            "<td>+2.00</td><td>=&nbsp;+2.00</td>",
+            "<td>+2.00</td><td>=&nbsp;+2.00</td>"));
+  }
 }
