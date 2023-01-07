@@ -5073,22 +5073,22 @@ public abstract class KoLCharacter {
     // Also affects item/meat drop, but only one is needed
     if (brimstoneMonsterLevel > 1) {
       newModifiers.addDouble(
-          Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, ModifierType.OUTFIT, "brimstone");
+          Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, ModifierType.OUTFIT, "Brimstone");
       newModifiers.addDouble(
-          Modifiers.MEATDROP, brimstoneMonsterLevel, ModifierType.OUTFIT, "brimstone");
+          Modifiers.MEATDROP, brimstoneMonsterLevel, ModifierType.OUTFIT, "Brimstone");
       newModifiers.addDouble(
-          Modifiers.ITEMDROP, brimstoneMonsterLevel, ModifierType.OUTFIT, "brimstone");
+          Modifiers.ITEMDROP, brimstoneMonsterLevel, ModifierType.OUTFIT, "Brimstone");
     }
 
     int cloathingLevel = 1 << newModifiers.getBitmap(Modifiers.CLOATHING);
     // Cloathing gives item/meat drop and all stats.
     if (cloathingLevel > 1) {
-      newModifiers.addDouble(Modifiers.MOX_PCT, cloathingLevel, ModifierType.OUTFIT, "cloathing");
-      newModifiers.addDouble(Modifiers.MUS_PCT, cloathingLevel, ModifierType.OUTFIT, "cloathing");
-      newModifiers.addDouble(Modifiers.MYS_PCT, cloathingLevel, ModifierType.OUTFIT, "cloathing");
-      newModifiers.addDouble(Modifiers.MEATDROP, cloathingLevel, ModifierType.OUTFIT, "cloathing");
+      newModifiers.addDouble(Modifiers.MOX_PCT, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
+      newModifiers.addDouble(Modifiers.MUS_PCT, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
+      newModifiers.addDouble(Modifiers.MYS_PCT, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
+      newModifiers.addDouble(Modifiers.MEATDROP, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
       newModifiers.addDouble(
-          Modifiers.ITEMDROP, cloathingLevel / 2, ModifierType.OUTFIT, "cloathing");
+          Modifiers.ITEMDROP, cloathingLevel / 2, ModifierType.OUTFIT, "Cloathing");
     }
 
     // Add modifiers from Passive Skills
@@ -5123,7 +5123,7 @@ public abstract class KoLCharacter {
 
     if (HolidayDatabase.getRonaldPhase() == 5) {
       newModifiers.addDouble(
-          Modifiers.RESTING_MP_PCT, 100, ModifierType.EVENT, "Moons (Ronald " + "full)");
+          Modifiers.RESTING_MP_PCT, 100, ModifierType.EVENT, "Moons (Ronald full)");
     }
 
     if (HolidayDatabase.getGrimacePhase() == 5) {

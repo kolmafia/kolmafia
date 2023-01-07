@@ -73,7 +73,7 @@ public class DebugModifiers extends Modifiers {
     if (!name.equals(DebugModifiers.currentName) || DebugModifiers.adjustments.containsKey(index)) {
       DebugModifiers.flushRow();
     }
-    DebugModifiers.currentType = type.camelCaseName();
+    DebugModifiers.currentType = type.wordsName();
     DebugModifiers.currentName = name;
     DebugModifiers.adjustments.put(
         index,

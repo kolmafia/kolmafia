@@ -19,15 +19,13 @@ public class CliCaller {
     return RequestLoggerOutput.stopStream();
   }
 
-  public static Cleanups withCliOutput(StringBuffer buffer) {
-    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-    PrintStream out = new PrintStream(ostream);
+  public static Cleanups withCliOutput(ByteArrayOutputStream ostream) {
+    PrintStream out = new PrintStream(ostream, true);
 
     RequestLogger.openCustom(out);
     return new Cleanups(
         () -> {
           RequestLogger.closeCustom();
-          buffer.append(ostream);
         });
   }
 }

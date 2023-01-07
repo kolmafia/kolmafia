@@ -9,10 +9,12 @@ import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -21,6 +23,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -35,6 +38,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -104,6 +108,32 @@ public class Player {
   }
 
   /**
+   * Equip the given item in its default slot
+   *
+   * @param itemId Item to equip
+   * @return Restores item previously equipped to slot
+   */
+  public static Cleanups withEquipped(final int itemId) {
+    return withAllEquipped(itemId);
+  }
+
+  /**
+   * Find slots to equip all the given items
+   *
+   * @param itemIds Items to equip
+   * @return Restores items previously equipped to slots
+   */
+  public static Cleanups withAllEquipped(final int... itemIds) {
+    var cleanups = new Cleanups();
+    cleanups.addCleanups(
+        Arrays.stream(itemIds)
+            .mapToObj(
+                id -> withEquipped(EquipmentRequest.chooseEquipmentSlot(id), ItemPool.get(id, 1)))
+            .collect(Collectors.toList()));
+    return cleanups;
+  }
+
+  /**
    * Equip the given slot with the given item
    *
    * @param slot Slot to equip
@@ -151,6 +181,33 @@ public class Player {
               ConcoctionDatabase.refreshConcoctions();
             }));
     return cleanups;
+  }
+
+  /**
+   * Equip the given outfit
+   *
+   * @param outfitId Outfit to equip
+   * @return Restores previous equipment
+   */
+  public static Cleanups withOutfit(final int outfitId) {
+    var cleanups = new Cleanups();
+    cleanups.addCleanups(
+        Arrays.stream(EquipmentDatabase.getOutfit(outfitId).getPieces())
+            .map(piece -> withEquipped(piece.getItemId()))
+            .collect(Collectors.toList()));
+    return cleanups;
+  }
+
+  /**
+   * Equip the given number of fake hands
+   *
+   * @param fakeHands Number of fake hands to equip
+   * @return Restores previous equipment
+   */
+  public static Cleanups withFakeHands(final int fakeHands) {
+    final int oldCount = EquipmentManager.getFakeHands();
+    EquipmentManager.setFakeHands(fakeHands);
+    return new Cleanups(() -> EquipmentManager.setFakeHands(oldCount));
   }
 
   /**
@@ -204,6 +261,19 @@ public class Player {
    */
   public static Cleanups withItem(final AdventureResult item) {
     return addToList(item, KoLConstants.inventory);
+  }
+
+  /**
+   * Puts the given items into the player's inventory
+   *
+   * @param itemIds Items to give
+   * @return Restores the number of these items to the old values
+   */
+  public static Cleanups withItems(final int... itemIds) {
+    var cleanups = new Cleanups();
+    cleanups.addCleanups(
+        Arrays.stream(itemIds).mapToObj(Player::withItem).collect(Collectors.toList()));
+    return cleanups;
   }
 
   /**
@@ -1031,6 +1101,19 @@ public class Player {
   }
 
   /**
+   * Sets the Monster Control Device
+   *
+   * @param mcdLevel Desired MCD level
+   * @return Resets the MCD to the previous value
+   */
+  public static Cleanups withMCD(int mcdLevel) {
+    final int original = KoLCharacter.getMindControlLevel();
+    KoLCharacter.setMindControlLevel(mcdLevel);
+
+    return new Cleanups(() -> KoLCharacter.setMindControlLevel(original));
+  }
+
+  /**
    * Sets the player's limit mode
    *
    * @param limitMode Desired limit mode
@@ -1114,6 +1197,18 @@ public class Player {
     HolidayDatabase.guessPhaseStep();
 
     return new Cleanups(mocked::close);
+  }
+
+  /**
+   * Sets the stat day to a given stat
+   *
+   * @param stat Stat to use for stat day
+   * @return Restores to the old value
+   */
+  public static Cleanups withStatDay(KoLConstants.Stat stat) {
+    final String old = KoLmafia.statDay;
+    KoLmafia.statDay = stat.toString() + " Day";
+    return new Cleanups(() -> KoLmafia.statDay = old);
   }
 
   /**
@@ -1221,6 +1316,40 @@ public class Player {
         () -> {
           KoLCharacter.setCocktailKit(false);
           ConcoctionDatabase.refreshConcoctions();
+        });
+  }
+
+  /**
+   * Sets the user as having this dwlling installed
+   *
+   * @param dwellingId Id of dwelling to have installed
+   * @return Restores the old dwelling state
+   */
+  public static Cleanups withDwelling(int dwellingId) {
+    final int oldDwelling = CampgroundRequest.getCurrentDwelling().getItemId();
+    CampgroundRequest.setCurrentDwelling(dwellingId);
+    return new Cleanups(
+        withCampgroundItem(dwellingId),
+        new Cleanups(() -> CampgroundRequest.setCurrentDwelling(oldDwelling)));
+  }
+
+  /**
+   * Sets the user as having this item installed in their Chateau Mantegna
+   *
+   * @param itemId Id of item to have installed
+   * @return Restores the old chateau state
+   */
+  public static Cleanups withChateau(int itemId) {
+    final String oldCeiling = ChateauRequest.ceiling;
+    final List<AdventureResult> oldChateau = new ArrayList<>(KoLConstants.chateau);
+
+    ChateauRequest.ceiling = ItemDatabase.getItemName(itemId);
+    AdventureResult.addResultToList(KoLConstants.chateau, ItemPool.get(itemId, 1));
+    return new Cleanups(
+        () -> {
+          ChateauRequest.ceiling = oldCeiling;
+          KoLConstants.chateau.clear();
+          KoLConstants.chateau.addAll(oldChateau);
         });
   }
 
@@ -1890,12 +2019,5 @@ public class Player {
     HermitRequest.initialize();
 
     return new Cleanups(HermitRequest::initialize);
-  }
-
-  public static Cleanups withMCD(int mcdLevel) {
-    final int original = KoLCharacter.getMindControlLevel();
-    KoLCharacter.setMindControlLevel(mcdLevel);
-
-    return new Cleanups(() -> KoLCharacter.setMindControlLevel(original));
   }
 }

@@ -3511,12 +3511,10 @@ public class Modifiers {
   }
 
   public static void resetModifiers() {
+    // Don't reset any variables that are set up by loadAllModifiers, as subsequent calls to
+    // resetModifiers then won't set them back up due to the if() guarding loadAllModifiers.
     Modifiers.modifiersByName.clear();
-    Modifiers.familiarEffectByName.clear();
     Modifiers.availablePassiveSkillModifiersByVariable.clear();
-    Modifiers.synergies.clear();
-    Modifiers.mutexes.clear();
-    Modifiers.uniques.clear();
     Arrays.fill(Modifiers.bitmapMasks, 1);
 
     if (Modifiers.modifierStringsByName.size() == 0) {
