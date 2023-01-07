@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -3951,22 +3950,13 @@ public class Modifiers {
 
     public Lookup(ModifierType type, String name) {
       this.type = type;
-      switch (type) {
-        case ITEM -> {
-          int intKey = ItemDatabase.getExactItemId(name);
-          if (intKey < 0) {
-            Optional<ClanLoungeRequest.HotDogData> maybeHotDogData =
-                Arrays.stream(ClanLoungeRequest.HOTDOG_DATA)
-                    .filter(h -> name.equals(h.name()))
-                    .findFirst();
-            if (maybeHotDogData.isPresent()) intKey = maybeHotDogData.get().id();
-          }
-          this.key = new IntOrString(intKey);
-        }
-        case EFFECT -> this.key = new IntOrString(EffectDatabase.getEffectId(name, true));
-        case SKILL -> this.key = new IntOrString(SkillDatabase.getSkillId(name, true));
-        default -> this.key = new IntOrString(name);
-      }
+      this.key =
+          switch (type) {
+            case ITEM -> new IntOrString(ItemDatabase.getExactItemId(name));
+            case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
+            case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
+            default -> new IntOrString(name);
+          };
       if (EnumSet.of(ModifierType.ITEM, ModifierType.EFFECT, ModifierType.SKILL).contains(type)
           && this.key.getIntValue() == -1) {
         this.type = ModifierType.fromString("PSEUDO_" + type.name());

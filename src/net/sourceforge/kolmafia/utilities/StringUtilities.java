@@ -923,9 +923,15 @@ public class StringUtilities {
     return s.substring(0, 1).toUpperCase() + s.substring(1);
   }
 
-  public static String pascalToCamelCase(final String s) {
+  public static String upperSnakeToPascalCase(final String s) {
     return Arrays.stream(s.split("_"))
         .map(c -> capitalize(c.toLowerCase()))
         .collect(Collectors.joining(""));
+  }
+
+  public static String upperSnakeToWords(final String s) {
+    return Arrays.stream(s.split("_"))
+        .map(c -> capitalize(c.toLowerCase()))
+        .collect(Collectors.joining(" "));
   }
 }

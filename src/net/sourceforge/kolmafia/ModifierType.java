@@ -81,6 +81,10 @@ public enum ModifierType {
   }
 
   public String camelCaseName() {
-    return StringUtilities.pascalToCamelCase(this.name());
+    return StringUtilities.upperSnakeToPascalCase(this.name());
+  }
+
+  public String wordsName() {
+    return StringUtilities.upperSnakeToWords(this.name());
   }
 }

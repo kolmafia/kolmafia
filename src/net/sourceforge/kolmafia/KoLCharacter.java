@@ -4969,7 +4969,8 @@ public abstract class KoLCharacter {
     newModifiers.add(Modifiers.getModifiers(ModifierType.ZONE, Modifiers.currentZone));
 
     // Look at sign-specific adjustments
-    newModifiers.addDouble(Modifiers.MONSTER_LEVEL, MCD, ModifierType.MCD, "");
+    newModifiers.addDouble(
+        Modifiers.MONSTER_LEVEL, MCD, ModifierType.MCD, "Monster Control Device");
     newModifiers.add(
         Modifiers.getModifiers(ModifierType.SIGN, KoLCharacter.ascensionSign.getName()));
 

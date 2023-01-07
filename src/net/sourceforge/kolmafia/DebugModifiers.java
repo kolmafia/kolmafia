@@ -108,7 +108,7 @@ public class DebugModifiers extends Modifiers {
         if (value != 0.0) {
           ModifierType type = lookup.type;
           String name = lookup.getName();
-          modChangers.add(new Change(type.camelCaseName(), name, value, mods.variable));
+          modChangers.add(new Change(type.wordsName(), name, value, mods.variable));
         }
       }
       if (modChangers.size() > 0) {
