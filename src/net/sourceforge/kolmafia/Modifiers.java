@@ -1292,9 +1292,10 @@ public class Modifiers {
   public static List<AdventureResult> getPotentialChanges(final int index) {
     ArrayList<AdventureResult> available = new ArrayList<>();
 
-    for (Object checkObject :
-        Modifiers.modifierStringsByName.getAll(ModifierType.EFFECT).keySet()) {
-      if (!(checkObject instanceof String effectName)) continue;
+    for (Entry<IntOrString, String> entry : Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
+      IntOrString key = entry.getKey();
+      if (!key.isString()) continue;
+      String effectName = key.getStringValue();
       int effectId = EffectDatabase.getEffectId(effectName);
 
       if (effectId == -1) {
