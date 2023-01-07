@@ -68,7 +68,7 @@ public class DebugModifiersTest {
       KoLCharacter.recalculateAdjustments(true);
     }
     assertThat(
-        output.toString().strip(), containsDebugRow("Mcd", "Monster Control Device", 10.0, 1.0));
+        output.toString().strip(), containsDebugRow("Mcd", "Monster Control Device", 10.0, 10.0));
   }
 
   @Test
