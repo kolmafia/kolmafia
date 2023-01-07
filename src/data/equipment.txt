@@ -759,10 +759,12 @@ bronze breastplate	105	Mus: 37
 camouflage T-shirt	100	Mus: 25
 camouflage vest	50	none
 cane-mail shirt	100	none
+ceramic cenobite's robe	120	Mox: 40
 chamoisole	200	Mus: 200
 cheerful Crimbo sweater	50	none
 chest barrel	50	Mus: 10
 Chester's muscle shirt	200	Mus: 200
+chiffon chemise	50	none
 clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
 coconut bikini top	100	Mus: 35
@@ -2407,6 +2409,7 @@ cheap sunglasses	80	Mys: 20
 Chester's Aquarius medallion	200	Mys: 200
 Chester's moustache	200	Mox: 200
 Chester's sunglasses	200	Mox: 200
+chiffon chevrons	0	none
 chintzy accordion pin	120	Mox: 45
 chintzy disco ball pendant	120	Mox: 45
 chintzy noodle ring	120	Mys: 45

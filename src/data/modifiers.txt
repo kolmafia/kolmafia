@@ -938,10 +938,14 @@ Item	bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
 Item	camouflage T-shirt	Mana Cost (combat): -3, Combat Rate: -5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +15
 Item	camouflage vest	Combat Rate: -10
 Item	cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15
+# ceramic cenobite's robe: Deal 30 damage and heal 30 HP
+Item	ceramic cenobite's robe	Experience (Moxie): +3, Maximum HP: +20, Maximum MP: +20, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8
 Item	chamoisole	Slime Resistance: +3
 Item	cheerful Crimbo sweater	Cold Resistance: +2, Moxie: -15
 Item	chest barrel	Damage Reduction: 5, Damage Absorption: +50
 Item	Chester's muscle shirt	Muscle Percent: +20, Damage Reduction: 10
+# chiffon chemise: Deals Sleaze Damage each round
+Item	chiffon chemise	Experience (Mysticality): +2, Cold Damage: +10, Cold Spell Damage: +10
 Item	clockwork trench coat	Damage Absorption: +15
 Item	clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clowniness: 50
 Item	coconut bikini top	Mysticality: +5
@@ -1512,7 +1516,7 @@ Item	iron pasta spoon	Spell Damage: +10
 Item	ironic battle spoon	Spell Damage: +10
 Item	jack flapper	Spell Damage: +5
 Item	Jacob's rung	Maximum MP: +15, Spell Damage: +15
-# Item June cleaver: Grows stronger the more you use it
+# June cleaver: Grows stronger the more you use it
 Item	June cleaver	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Adventures: +5, Hot Damage: [pref(_juneCleaverHot)], Spooky Damage: [pref(_juneCleaverSpooky)], Sleaze Damage: [pref(_juneCleaverSleaze)], Cold Damage: [pref(_juneCleaverCold)], Stench Damage: [pref(_juneCleaverStench)], Attacks Can't Miss
 Item	jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
 Item	keel-haulin' knife	Spell Damage: +17
@@ -1910,7 +1914,7 @@ Item	sugar shotgun	Weapon Damage Percent: +50, Breakable
 Item	Super Crimboman Ultra Mega Hypersword	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Item	Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: +5
 Item	super-sweet boom box	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Four Songs
-# Item survival knife: Aids in desert exploration
+# survival knife: Aids in desert exploration
 Item	survival knife	Muscle: +5, Mysticality: +5, Moxie: +5, Lasts Until Rollover
 # sweet ninja sword
 Item	sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
@@ -2632,7 +2636,7 @@ Item	Tuesday's ruby	Variable
 Item	turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
 Item	turtling rod	Class: "Turtle Tamer"
-# Item unbreakable umbrella: Can alter final enchantment by reconfiguring umbrella
+# unbreakable umbrella: Can alter final enchantment by reconfiguring umbrella
 Item	unbreakable umbrella	Maximum HP: +25, Maximum MP: +25, Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Initiative: +25, Meat Drop: +25
 # Unkillable Skeleton's shield: Deals damage to attackers
 Item	Unkillable Skeleton's shield	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Maximum MP: -300, Damage Reduction: 23
@@ -2838,6 +2842,8 @@ Item	Chester's Aquarius medallion	Sleaze Spell Damage: +30, Single Equip
 # Chester's moustache: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Item	Chester's moustache	DB Combat Damage: +20, Sleaze Damage: +20, Class: "Disco Bandit", Single Equip
 Item	Chester's sunglasses	Moxie Percent: +15, Sleaze Damage: +20, Reduce Enemy Defense: 15, Single Equip
+# chiffon chevrons: Delevels your foe each round
+Item	chiffon chevrons	Muscle: +10, Weapon Damage: +10, Spell Damage: +10, Single Equip
 Item	chintzy accordion pin	Moxie: +12, Mysticality: +6, Class: "Accordion Thief", Single Equip
 Item	chintzy disco ball pendant	Moxie: +12, Muscle: +6, Class: "Disco Bandit", Single Equip
 Item	chintzy noodle ring	Mysticality: +12, Muscle: +6, Class: "Pastamancer", Single Equip
@@ -3628,7 +3634,7 @@ Item	the Ley Incursion's waist	Mysticality: +15, Mysticality Percent: +25, Exper
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
-# Item The Superconductor's CPU: (based on Crimbo 22 Elf Gratitude)
+# The Superconductor's CPU: (based on Crimbo 22 Elf Gratitude)
 Item	The Superconductor's CPU	Maximum HP: [floor(sqrt(pref(elfGratitude)))], Maximum MP: [floor(sqrt(pref(elfGratitude)))]
 Item	thicksilver ring	Damage Absorption: +30, Damage Reduction: 60, Single Equip
 Item	third ear	Initiative: +50, Single Equip
@@ -8331,9 +8337,11 @@ Outfit	Bow Tux	Item Drop: +5
 Outfit	BRICKOfig Outfit	Item Drop: +10
 Outfit	Brogre Brouture	Muscle Percent: +50
 Outfit	Bugbear Costume	Mysticality: +3, Spell Damage: +3
+Outfit	Ceramic Clothing	Damage Reduction: 20
 Outfit	Ceramic Suit	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Outfit	Chalk Chostume	Experience: +5
 Outfit	Cheerful Reindeer Suit	Weapon Damage: +25
+Outfit	Chiffon Chiffinery	Moxie Percent: +25
 Outfit	Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus: I <i>Meant</i> To Do That!
 # Clothing of Loathing: ???
@@ -8715,7 +8723,7 @@ Item	evil ravioli della hippy	Effect: "[599]A Little Bit Evil", Effect Duration:
 Item	evil spicy noodles	Effect: "[599]A Little Bit Evil", Effect Duration: 10
 Item	exotic jungle fruit	Effect: "Full of Fruit, Yourself", Effect Duration: 25
 Item	expired can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration: 30
-# Item expired MRE gives 3 random effects
+# expired MRE gives 3 random effects
 Item	extra-toasted half sandwich	Effect: "Stop the Presses!", Effect Duration: 20
 Item	FDKOL hotcakes	Effect: "Hotcaked", Effect Duration: 50
 Item	festive sausage	Effect: "Sausage Festive", Effect Duration: 20
@@ -11419,7 +11427,7 @@ Item	March hat	Free Pull
 # Massive Manual of Marauder Mockery: Makes marauder mockery mossible
 # mauve plastic oyster egg: Deals 40-50 Physical Damage
 Item	Maxing, Relaxing	Skill: "Maximum Chill"
-# Item MayDay&trade; contract: Survival supplies will be delivered to you each day
+# MayDay&trade; contract: Survival supplies will be delivered to you each day
 Item	MayDay&trade; contract	Free Pull
 Item	MayDay&trade; supply package	Effect: "Ready to Survive", Effect Duration: 30
 # mayo lance: Unleash a torrent of inner mayonnaise.  The torrent will be yellow and ray-like.

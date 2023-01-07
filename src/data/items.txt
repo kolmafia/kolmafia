@@ -11050,13 +11050,13 @@
 11022
 11023
 11024
-11025
+11025	ceramic cenobite's robe	935849680	cerarobe.gif	shirt		0
 11026
 11027
-11028
+11028	chiffon chevrons	332021835	chifchevrons.gif	accessory		0
 11029
 11030
-11031
+11031	chiffon chemise	682610694	chifchemise.gif	shirt		0
 11032
 11033
 11034
