@@ -2851,7 +2851,7 @@ public class ItemPool {
   public static final int FISHING_LINE = 9010;
   public static final int FISHING_HAT = 9011;
   public static final int TROUT_FISHING_IN_LOATHING = 9012;
-  public static final int ANTIQUE_TACKLE_BOX = 9015;
+  public static final int ANTIQUE_TACKLEBOX = 9015;
   public static final int VIRAL_VIDEO = 9017;
   public static final int MEME_GENERATOR = 9019;
   public static final int PLUS_ONE = 9020;

@@ -151,21 +151,21 @@ public class ModifiersTest {
   @Test
   public void correctlyCalculatesCappedCombatRate() {
     Modifiers mod = new Modifiers();
-    mod.add(Modifiers.COMBAT_RATE, 25, ModifierType.NONE);
-    mod.add(Modifiers.COMBAT_RATE, 7, ModifierType.NONE);
+    mod.addDouble(Modifiers.COMBAT_RATE, 25, ModifierType.NONE, "");
+    mod.addDouble(Modifiers.COMBAT_RATE, 7, ModifierType.NONE, "");
     assertEquals(26, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, 9, ModifierType.NONE);
+    mod.addDouble(Modifiers.COMBAT_RATE, 9, ModifierType.NONE, "");
     assertEquals(28, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, 9, ModifierType.NONE);
+    mod.addDouble(Modifiers.COMBAT_RATE, 9, ModifierType.NONE, "");
     assertEquals(30, mod.get(Modifiers.COMBAT_RATE));
 
     mod = new Modifiers();
-    mod.add(Modifiers.COMBAT_RATE, -25, ModifierType.NONE);
-    mod.add(Modifiers.COMBAT_RATE, -7, ModifierType.NONE);
+    mod.addDouble(Modifiers.COMBAT_RATE, -25, ModifierType.NONE, "");
+    mod.addDouble(Modifiers.COMBAT_RATE, -7, ModifierType.NONE, "");
     assertEquals(-26, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, -9, ModifierType.NONE);
+    mod.addDouble(Modifiers.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-28, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, -9, ModifierType.NONE);
+    mod.addDouble(Modifiers.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
   }
 

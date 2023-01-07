@@ -55,27 +55,29 @@ public class DebugModifiers extends Modifiers {
   }
 
   @Override
-  public void add(final int index, final double mod, final Lookup lookup) {
+  protected void addDouble(
+      final int index, final double mod, final ModifierType type, final IntOrString key) {
     if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS || mod == 0.0) {
       return;
     }
 
-    super.add(index, mod, lookup);
+    Lookup lookup = new Lookup(type, key);
 
-    Integer key = index;
-    if (!DebugModifiers.wanted.containsKey(key)) {
+    super.addDouble(index, mod, lookup);
+
+    if (!DebugModifiers.wanted.containsKey(index)) {
       return;
     }
 
-    ModifierType type = lookup.type;
     String name = lookup.getName();
-    if (!lookup.equals(DebugModifiers.currentDesc) || DebugModifiers.adjustments.containsKey(key)) {
+    if (!lookup.equals(DebugModifiers.currentDesc)
+        || DebugModifiers.adjustments.containsKey(index)) {
       DebugModifiers.flushRow();
     }
     DebugModifiers.currentType = type.camelCaseName();
     DebugModifiers.currentDesc = name;
     DebugModifiers.adjustments.put(
-        key,
+        index,
         "<td>"
             + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(mod)
             + "</td><td>=&nbsp;"
