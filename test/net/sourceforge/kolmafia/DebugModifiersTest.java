@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.time.Month;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -60,7 +59,7 @@ public class DebugModifiersTest {
   }
 
   private String output() {
-    return outputStream.toString(StandardCharsets.UTF_8);
+    return outputStream.toString();
   }
 
   private void evaluateDebugModifiers(String name) {
