@@ -1033,15 +1033,14 @@ public class ModifiersTest {
       }
     }
 
+    StringBuilder message = new StringBuilder();
     if (writeModifiersLine != null) {
       int index = writeModifiersLines.indexOf(writeModifiersLine);
       for (int i = Math.min(3, index); i >= 0; i--) {
-        System.out.println(writeModifiersLines.get(index - i));
+        message.append("previous line: [" + writeModifiersLines.get(index - i) + "]\n");
       }
     }
-    assertThat(
-        "unmatched line: [" + writeModifiersLine + "]",
-        writeModifiersIterator.hasNext(),
-        is(false));
+    message.append("unmatched line: [" + writeModifiersLine + "]");
+    assertThat(message.toString(), writeModifiersIterator.hasNext(), is(false));
   }
 }
