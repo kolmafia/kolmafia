@@ -9,13 +9,17 @@ import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
 import java.time.Month;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -63,6 +67,7 @@ public class DebugModifiersTest {
   }
 
   private void evaluateDebugModifiers(String name) {
+    this.outputStream.reset();
     DebugModifiers.setup(name.toLowerCase());
     KoLCharacter.recalculateAdjustments(true);
   }
@@ -272,6 +277,14 @@ public class DebugModifiersTest {
   }
 
   @Test
+  void listsThrall() {
+    try (var cleanups = withThrall(SkillPool.BIND_SPICE_GHOST, 10)) {
+      evaluateDebugModifiers(Modifiers.ITEMDROP);
+      assertThat(output(), containsDebugRow("Thrall", "Spice Ghost", 20.0, 20.0));
+    }
+  }
+
+  @Test
   void listsBallroom() {
     try (var cleanups =
         new Cleanups(
@@ -309,6 +322,29 @@ public class DebugModifiersTest {
   }
 
   @Test
+  void listsAutumnaton() {
+    try (var cleanups =
+        new Cleanups(
+            withItem(ItemPool.AUTUMNATON),
+            withProperty("autumnatonQuestLocation", "Noob Cave"),
+            withProperty("autumnatonQuestTurn", 11),
+            withTurnsPlayed(0),
+            withLocation("Noob Cave"))) {
+      evaluateDebugModifiers(Modifiers.EXPERIENCE);
+      assertThat(output(), containsDebugRow("Autumnaton", "", 1.0, 1.0));
+    }
+  }
+
+  @Test
+  void listsFlorist() {
+    try (var cleanups =
+        withFlorist(AdventurePool.NOOB_CAVE, FloristRequest.Florist.HORN_OF_PLENTY)) {
+      evaluateDebugModifiers(Modifiers.ITEMDROP);
+      assertThat(output(), containsDebugRow("Florist", "Horn of Plenty", 25.0, 25.0));
+    }
+  }
+
+  @Test
   void listsHorsery() {
     try (var cleanups = withProperty("_horsery", "dark horse")) {
       evaluateDebugModifiers(Modifiers.COMBAT_RATE);
@@ -325,6 +361,45 @@ public class DebugModifiersTest {
   }
 
   @Test
+  void listsGenerated() {
+    try (var cleanups =
+        new Cleanups(
+            withOverrideModifiers(ModifierType.GENERATED, "_userMods", "Item Drop: +50"),
+            withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"))) {
+      evaluateDebugModifiers(Modifiers.ITEMDROP);
+      assertThat(output(), containsDebugRow("Generated", "_userMods", 50.0, 50.0));
+      assertThat(output(), containsDebugRow("Generated", "fightMods", 200.0, 250.0));
+    }
+  }
+
+  @Test
+  void listsHoboPower() {
+    try (var cleanups = withEquipped(ItemPool.HODGMANS_LOBSTERSKIN_PANTS)) {
+      evaluateDebugModifiers(Modifiers.HOBO_POWER);
+      assertThat(output(), containsDebugRow("Item", "Hodgman's lobsterskin pants", 25.0, 25.0));
+      assertThat(Modifiers.hoboPower, equalTo(25.0));
+    }
+  }
+
+  @Test
+  void listsSmithsness() {
+    try (var cleanups = withEffect(EffectPool.MERRY_SMITHSNESS)) {
+      evaluateDebugModifiers(Modifiers.SMITHSNESS);
+      assertThat(output(), containsDebugRow("Effect", "Merry Smithsness", 25.0, 25.0));
+      assertThat(Modifiers.smithsness, equalTo(25.0));
+    }
+  }
+
+  @Test
+  void listsSlimeHatesIt() {
+    try (var cleanups =
+        new Cleanups(withLocation("The Slime Tube"), withEquipped(ItemPool.GRISLY_SHIELD))) {
+      evaluateDebugModifiers(Modifiers.MONSTER_LEVEL);
+      assertThat(output(), containsDebugRow("Outfit", "Slime Hatred", 45.0, 45.0));
+    }
+  }
+
+  @Test
   void listsPath() {
     try (var cleanups = withPath(AscensionPath.Path.YOU_ROBOT)) {
       evaluateDebugModifiers(Modifiers.ENERGY);
@@ -332,6 +407,169 @@ public class DebugModifiersTest {
     }
   }
 
-  // TODO: Thrall, Autumnaton, Florist, Generated, Hobo Power, Smithsness, Slime Hates It, all
-  // specific path effects/path companions, VYKEA
+  @Test
+  void listsSneakyPeteMotorbike() {
+    try (var cleanups =
+        new Cleanups(
+            withPath(AscensionPath.Path.AVATAR_OF_SNEAKY_PETE),
+            withClass(AscensionClass.AVATAR_OF_SNEAKY_PETE),
+            withProperty("peteMotorbikeHeadlight", "Sweepy Red Light"))) {
+      evaluateDebugModifiers(Modifiers.EXPERIENCE);
+      assertThat(output(), containsDebugRow("Motorbike", "Sweepy Red Light", 5.0, 5.0));
+    }
+  }
+
+  @Test
+  void listsNuclearAutumnRadSickness() {
+    var oldRads = KoLCharacter.getRadSickness();
+    KoLCharacter.setRadSickness(100);
+    var radCleanups = new Cleanups(() -> KoLCharacter.setRadSickness(oldRads));
+    try (var cleanups = new Cleanups(withPath(AscensionPath.Path.NUCLEAR_AUTUMN), radCleanups)) {
+      evaluateDebugModifiers(Modifiers.MUS);
+      assertThat(output(), containsDebugRow("Path", "Rads", -100.0, -100.0));
+    }
+  }
+
+  @Test
+  void listsBorisMinstrel() {
+    try (var cleanups =
+        new Cleanups(
+            withPath(AscensionPath.Path.AVATAR_OF_BORIS),
+            withClass(AscensionClass.AVATAR_OF_BORIS))) {
+      var oldLevel = KoLCharacter.getMinstrelLevel();
+      var oldInstrument = KoLCharacter.getCurrentInstrument();
+      KoLCharacter.setMinstrelLevel(5);
+      KoLCharacter.setCurrentInstrument(ItemPool.get(ItemPool.CLANCY_LUTE, 1));
+      try (var minstrelCleanups =
+          new Cleanups(
+              () -> {
+                KoLCharacter.setMinstrelLevel(oldLevel);
+                KoLCharacter.setCurrentInstrument(oldInstrument);
+              })) {
+        evaluateDebugModifiers(Modifiers.ITEMDROP);
+        assertThat(output(), containsDebugRow("Clancy", "Clancy's lute", 59.08, 59.08));
+      }
+    }
+  }
+
+  @Test
+  void listsJarlsbergCompanion() {
+    var oldCompanion = KoLCharacter.getCompanion();
+    KoLCharacter.setCompanion(CharPaneRequest.Companion.EGGMAN);
+    var companionCleanups = new Cleanups(() -> KoLCharacter.setCompanion(oldCompanion));
+    try (var cleanups =
+        new Cleanups(
+            withPath(AscensionPath.Path.AVATAR_OF_JARLSBERG),
+            withClass(AscensionClass.AVATAR_OF_JARLSBERG),
+            companionCleanups)) {
+      evaluateDebugModifiers(Modifiers.ITEMDROP);
+      assertThat(output(), containsDebugRow("Companion", "Eggman", 50.0, 50.0));
+    }
+  }
+
+  @Test
+  void listsEdServant() {
+    EdServantData.initialize();
+    EdServantData.testSetupEdServant("Maid", "xxx", 196);
+    var servantCleanups = new Cleanups(EdServantData::initialize);
+    try (var cleanups =
+        new Cleanups(
+            withPath(AscensionPath.Path.ACTUALLY_ED_THE_UNDYING),
+            withClass(AscensionClass.ED),
+            servantCleanups)) {
+      evaluateDebugModifiers(Modifiers.MEATDROP);
+      assertThat(output(), containsDebugRow("Servant", "Maid", 77.50, 77.50));
+    }
+  }
+
+  @Test
+  void listsGelatinousNoobAbsorbs() {
+    try (var cleanups =
+        new Cleanups(
+            withPath(AscensionPath.Path.GELATINOUS_NOOB),
+            withOverrideModifiers(
+                ModifierType.GENERATED, "Enchantments Absorbed", "Item Drop: +50"))) {
+      evaluateDebugModifiers(Modifiers.ITEMDROP);
+      assertThat(output(), containsDebugRow("Generated", "Enchantments Absorbed", 50.0, 50.0));
+    }
+  }
+
+  @Test
+  void listsDisguisesDelimitMask() {
+    var oldMask = KoLCharacter.getMask();
+    KoLCharacter.setMask("protest mask");
+    var maskCleanups = new Cleanups(() -> KoLCharacter.setMask(oldMask));
+    try (var cleanups =
+        new Cleanups(withPath(AscensionPath.Path.DISGUISES_DELIMIT), maskCleanups)) {
+      evaluateDebugModifiers(Modifiers.MONSTER_LEVEL);
+      assertThat(output(), containsDebugRow("Mask", "protest mask", 30.0, 30.0));
+    }
+  }
+
+  @Test
+  void listsEnsorcel() {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.VAMPYRE),
+            withEquipped(ItemPool.VAMPYRIC_CLOAKE),
+            withProperty("ensorcelee", "Spant soldier"),
+            withProperty("ensorceleeLevel", 1500))) {
+      evaluateDebugModifiers(Modifiers.ITEMDROP);
+      assertThat(output(), containsDebugRow("Item", "vampyric cloake", 15.0, 15.0));
+      assertThat(output(), containsDebugRow("Item", "vampyric cloake", 75.0, 90.0));
+      assertThat(output(), containsDebugRow("Ensorcel", "bug", 300.0, 390.0));
+    }
+  }
+
+  @Test
+  void listsRobot() {
+    var robotCleanups = new Cleanups(YouRobotManager::reset);
+    try (var cleanups = new Cleanups(withPath(AscensionPath.Path.YOU_ROBOT), robotCleanups)) {
+      YouRobotManager.reset();
+      YouRobotManager.testInstallUpgrade(YouRobotManager.RobotUpgrade.IMPROVED_OPTICAL_PROCESSING);
+      evaluateDebugModifiers(Modifiers.ITEMDROP);
+      assertThat(output(), containsDebugRow("Robot", "Improved Optical Processing", 20.0, 20.0));
+    }
+  }
+
+  @Test
+  void listsVykea() {
+    try (var cleanups = withVykea(VYKEACompanionData.COUCH, 5)) {
+      evaluateDebugModifiers(Modifiers.MEATDROP);
+      assertThat(output(), containsDebugRow("Vykea", "Couch", 50.0, 50.0));
+    }
+  }
+
+  @Test
+  void listsWaterLevelExp() {
+    try (var cleanups =
+        new Cleanups(withPath(AscensionPath.Path.HEAVY_RAINS), withLocation("Noob Cave"))) {
+      evaluateDebugModifiers(Modifiers.EXPERIENCE);
+      assertThat(output(), containsDebugRow("Path", "Water Level*10/3", 10.58, 10.58));
+    }
+  }
+
+  @Test
+  void listsStatExpNormal() {
+    try (var cleanups =
+        new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withEquipped(ItemPool.SUGAR_SHIRT))) {
+      evaluateDebugModifiers(Modifiers.MUS_EXPERIENCE);
+      assertThat(output(), containsDebugRow("Class", "EXP/2", 3.0, 3.0));
+      evaluateDebugModifiers(Modifiers.MYS_EXPERIENCE);
+      assertThat(output(), containsDebugRow("Class", "EXP/4", 1.0, 1.0));
+      evaluateDebugModifiers(Modifiers.MOX_EXPERIENCE);
+      assertThat(output(), containsDebugRow("Class", "EXP/4", 1.0, 1.0));
+    }
+  }
+
+  @Test
+  void listsStatExpTuned() {
+    try (var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withAllEquipped(ItemPool.SUGAR_SHIRT, ItemPool.MIME_ARMY_INSIGNIA_INFANTRY))) {
+      evaluateDebugModifiers(Modifiers.MUS_EXPERIENCE);
+      assertThat(output(), containsDebugRow("Class", "EXP", 5.0, 5.0));
+    }
+  }
 }

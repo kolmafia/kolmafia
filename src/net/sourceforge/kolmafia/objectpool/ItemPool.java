@@ -3084,6 +3084,7 @@ public class ItemPool {
   public static final int DONATED_BOOZE = 9662;
   public static final int DONATED_FOOD = 9663;
   public static final int DONATED_CANDY = 9664;
+  public static final int MIME_ARMY_INSIGNIA_INFANTRY = 9667;
   public static final int MIME_ARMY_INFILTRATION_GLOVE = 9675;
   public static final int MIME_SHOTGLASS = 9676;
   public static final int TOASTED_HALF_SANDWICH = 9681;

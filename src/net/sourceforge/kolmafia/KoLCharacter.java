@@ -5214,7 +5214,7 @@ public abstract class KoLCharacter {
             Modifiers.MONSTER_LEVEL,
             Math.min(1000, 15 * hatred * (hatred + 2)),
             ModifierType.OUTFIT,
-            "slime hatred");
+            "Slime Hatred");
       }
     }
 

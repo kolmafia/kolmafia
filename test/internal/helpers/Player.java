@@ -27,8 +27,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -42,6 +44,7 @@ import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -648,6 +651,74 @@ public class Player {
     var old = KoLCharacter.getEnthroned();
     KoLCharacter.setEnthroned(familiar);
     return new Cleanups(() -> KoLCharacter.setEnthroned(old));
+  }
+
+  /**
+   * Takes thrall as player's current thrall, and sets class to Pastamancer
+   *
+   * @param bindSkillId Skill id for binding skill
+   * @param level Level for thrall to have
+   * @return Reset current familiar
+   */
+  public static Cleanups withThrall(int bindSkillId, int level) {
+    var type = PastaThrallData.skillIdToData(bindSkillId);
+    if (type == null) return new Cleanups();
+
+    PastaThrallData.initialize();
+
+    var classCleanups = withClass(AscensionClass.PASTAMANCER);
+    var old = KoLCharacter.currentPastaThrall();
+    var newThrall =
+        KoLCharacter.getPastaThrallList().stream()
+            .filter(thrall -> PastaThrallData.dataToId(thrall.getData()) == type.id)
+            .findAny()
+            .orElseThrow();
+    var propertyCleanups = withProperty(type.settingName, String.valueOf(level));
+    newThrall.updateFromSetting();
+    KoLCharacter.setPastaThrall(newThrall);
+    return new Cleanups(
+        classCleanups,
+        propertyCleanups,
+        new Cleanups(
+            () -> {
+              KoLCharacter.setPastaThrall(old);
+              old.updateFromSetting();
+            }));
+  }
+
+  /**
+   * Add florist, set up plants in a location, and go to that location
+   *
+   * @param locationId Location to put plants
+   * @param plants Plants to put there
+   * @return Reset location, florist status, plants
+   */
+  public static Cleanups withFlorist(int locationId, FloristRequest.Florist... plants) {
+    KoLAdventure location = AdventureDatabase.getAdventure(locationId);
+    FloristRequest.setHaveFlorist(true);
+    for (var plant : plants) {
+      FloristRequest.addPlant(location.getAdventureName(), plant.id());
+    }
+    return new Cleanups(
+        withLocation(location.getAdventureName()), new Cleanups(FloristRequest::reset));
+  }
+
+  /**
+   * Add VYKEA companion
+   *
+   * @param companionTypeId Id of companion type (e.g. VYKEACompanionData.LAMP)
+   * @param level Level of companion
+   * @return Reset to previous companion or no companion
+   */
+  public static Cleanups withVykea(int companionTypeId, int level) {
+    var propertyCleanups =
+        new Cleanups(
+            withProperty("_VYKEACompanionName", "DÕZEQÍRHRU"),
+            withProperty("_VYKEACompanionLevel", level),
+            withProperty("_VYKEACompanionType", VYKEACompanionData.typeToString(companionTypeId)));
+    VYKEACompanionData.settingsToVYKEACompanion();
+    return new Cleanups(
+        propertyCleanups, new Cleanups(VYKEACompanionData::settingsToVYKEACompanion));
   }
 
   /**

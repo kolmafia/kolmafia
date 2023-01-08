@@ -437,6 +437,25 @@ public class EdServantData implements Comparable<EdServantData> {
     return servant;
   }
 
+  // ** only for testing
+  public static EdServantData testSetupEdServant(
+      final String type, final String name, final int experience) {
+    EdServantData servant = EdServantData.findEdServant(type);
+    if (servant == null) {
+      // Add new familiar to list
+      servant = new EdServantData(type);
+      EdServantData.edServants.add(servant);
+    }
+
+    servant.name = name;
+    servant.level = (int) Math.sqrt(experience);
+    servant.experience = experience;
+
+    EdServantData.currentEdServant = servant;
+
+    return servant;
+  }
+
   private static final AdventureResult PURR_OF_THE_FELINE =
       EffectPool.get(EffectPool.PURR_OF_THE_FELINE);
 
