@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -137,7 +136,7 @@ public abstract class ChoiceAdventures {
         final String zone,
         final String name,
         final int ordering,
-        final ChoiceOption... options) {
+        ChoiceOption... options) {
       super(choice, ordering);
       this.zone = zone;
       if (!AdventureDatabase.ZONE_DESCRIPTIONS.containsKey(zone)) {
@@ -148,6 +147,7 @@ public abstract class ChoiceAdventures {
       if (options == null) {
         System.out.println("ChoiceAdventure # " + choice + " has no Options configured");
         missingChoiceAdventureOptions.add(choice);
+        options = new ChoiceOption[0];
       }
       this.options = options;
       this.property = "choiceAdventure" + String.valueOf(choice);
@@ -670,7 +670,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("muscle substats"),
         new ChoiceOption("white picket fence", "white picket fence"),
-        new ChoiceOption("wedding cake, white rice 3x (+2x w/ rice bowl)", "piece of wedding cake"));
+        new ChoiceOption(
+            "wedding cake, white rice 3x (+2x w/ rice bowl)", "piece of wedding cake"));
 
     // The Only Thing About Him is the Way That He Walks
     new ChoiceAdventure(
@@ -3411,7 +3412,8 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Ground Procrastination",
         // Option...
-        new ChoiceOption("very overdue library book, then skip adventure", "very overdue library book"),
+        new ChoiceOption(
+            "very overdue library book, then skip adventure", "very overdue library book"),
         new ChoiceOption("Trash-Wrapped"),
         SKIP_ADVENTURE);
 
@@ -4580,7 +4582,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("escape with spring boots", 1),
         new ChoiceOption("unlock The Beehive using bomb, take damage without sticky bomb", 2),
-        new ChoiceOption("unlock The Ancient Burial Ground using rope, take damage without back item", 3),
+        new ChoiceOption(
+            "unlock The Ancient Burial Ground using rope, take damage without back item", 3),
         new ChoiceOption("lose 30 hp", 6));
 
     // Choice 1033 is A Big Block of Ice
@@ -4891,7 +4894,8 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("acquire VYKEA meatballs and mead (1/day)", 1),
         new ChoiceOption("acquire VYKEA hex key", 2, "VYKEA hex key"),
         new ChoiceOption("fill bucket by 10-15%", 3),
-        new ChoiceOption("acquire 3 Wal-Mart gift certificates (1/day)", 4, "Wal-Mart gift certificate"),
+        new ChoiceOption(
+            "acquire 3 Wal-Mart gift certificates (1/day)", 4, "Wal-Mart gift certificate"),
         new ChoiceOption("acquire VYKEA rune", 5),
         new ChoiceOption("leave", 6));
 
@@ -4903,7 +4907,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("fill bucket by 10-15%", 3),
         new ChoiceOption("acquire cocktail ingredients", 4),
-        new ChoiceOption("acquire 3 Wal-Mart gift certificates (1/day)", 5, "Wal-Mart gift certificate"),
+        new ChoiceOption(
+            "acquire 3 Wal-Mart gift certificates (1/day)", 5, "Wal-Mart gift certificate"),
         new ChoiceOption("leave", 6));
 
     // Choice 1118 is X-32-F Combat Training Snowman Control Console
@@ -4959,7 +4964,8 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("fancy marzipan briefcase", 1, "fancy marzipan briefcase"),
         new ChoiceOption("acquire 50 sprinkles and unlock judge fudge", 2, "sprinkles"),
         new ChoiceOption("enter Civic Planning Office (costs 1000 sprinkles)", 3),
-        new ChoiceOption("acquire briefcase full of sprinkles (with gingerbread blackmail photos)", 4));
+        new ChoiceOption(
+            "acquire briefcase full of sprinkles (with gingerbread blackmail photos)", 4));
 
     // Choice 1203 is Midnight in Civic Center
     new ChoiceAdventure(
@@ -4973,7 +4979,8 @@ public abstract class ChoiceAdventures {
             "acquire gingerbread moneybag (with creme brulee torch)", 3, "gingerbread moneybag"),
         new ChoiceOption(
             "acquire 5 gingerbread cigarettes (costs 5 sprinkles)", 4, "gingerbread cigarette"),
-        new ChoiceOption("acquire chocolate puppy (with gingerbread dog treat)", 5, "chocolate puppy"));
+        new ChoiceOption(
+            "acquire chocolate puppy (with gingerbread dog treat)", 5, "chocolate puppy"));
 
     // Choice 1204 is Noon at the Train Station
     new ChoiceAdventure(
@@ -5007,11 +5014,14 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Noon in the Industrial Zone",
         // Option...
-        new ChoiceOption("acquire creme brulee torch (costs 25 sprinkles)", 1, "creme brulee torch"),
+        new ChoiceOption(
+            "acquire creme brulee torch (costs 25 sprinkles)", 1, "creme brulee torch"),
         new ChoiceOption("acquire candy crowbar (costs 50 sprinkles)", 2, "candy crowbar"),
         new ChoiceOption("acquire candy screwdriver (costs 100 sprinkles)", 3, "candy screwdriver"),
-        new ChoiceOption("acquire teethpick (costs 1000 sprinkles after studying law)", 4, "teethpick"),
-        new ChoiceOption("acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 5));
+        new ChoiceOption(
+            "acquire teethpick (costs 1000 sprinkles after studying law)", 4, "teethpick"),
+        new ChoiceOption(
+            "acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 5));
 
     // Choice 1207 is Midnight in the Industrial Zone
     new ChoiceAdventure(
@@ -5031,14 +5041,18 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption(
             "acquire gingerbread dog treat (costs 200 sprinkles)", 1, "gingerbread dog treat"),
-        new ChoiceOption("acquire pumpkin spice candle (costs 150 sprinkles)", 2, "pumpkin spice candle"),
+        new ChoiceOption(
+            "acquire pumpkin spice candle (costs 150 sprinkles)", 2, "pumpkin spice candle"),
         new ChoiceOption(
             "acquire gingerbread spice latte (costs 50 sprinkles)", 3, "gingerbread spice latte"),
-        new ChoiceOption("acquire gingerbread trousers (costs 500 sprinkles)", 4, "gingerbread trousers"),
+        new ChoiceOption(
+            "acquire gingerbread trousers (costs 500 sprinkles)", 4, "gingerbread trousers"),
         new ChoiceOption(
             "acquire gingerbread waistcoat (costs 500 sprinkles)", 5, "gingerbread waistcoat"),
-        new ChoiceOption("acquire gingerbread tophat (costs 500 sprinkles)", 6, "gingerbread tophat"),
-        new ChoiceOption("acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 7),
+        new ChoiceOption(
+            "acquire gingerbread tophat (costs 500 sprinkles)", 6, "gingerbread tophat"),
+        new ChoiceOption(
+            "acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 7),
         new ChoiceOption(
             "acquire gingerbread blackmail photos (drop off fruit-leather negatives and pick up next visit)",
             8,
@@ -5083,7 +5097,8 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Seedy Seedy Seedy",
         // Option...
-        new ChoiceOption("acquire gingerbread pistol (costs 300 sprinkles)", 1, "gingerbread pistol"),
+        new ChoiceOption(
+            "acquire gingerbread pistol (costs 300 sprinkles)", 1, "gingerbread pistol"),
         new ChoiceOption("gain 500 moxie", 2),
         new ChoiceOption("ginger beer (with gingerbread mug)", 3, "ginger beer"));
 
@@ -5181,7 +5196,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("acquire LOV Enamorang", 1, "LOV Enamorang"),
         new ChoiceOption("acquire LOV Emotionizer", 2, "LOV Emotionizer"),
-        new ChoiceOption("acquire LOV Extraterrestrial Chocolate", 3, "LOV Extraterrestrial Chocolate"),
+        new ChoiceOption(
+            "acquire LOV Extraterrestrial Chocolate", 3, "LOV Extraterrestrial Chocolate"),
         new ChoiceOption("acquire LOV Echinacea Bouquet", 4, "LOV Echinacea Bouquet"),
         new ChoiceOption("acquire LOV Elephant", 5, "LOV Elephant"),
         new ChoiceOption("acquire 2 pieces of toast (if have Space Jellyfish)", 6, "toast"),
@@ -5490,10 +5506,12 @@ public abstract class ChoiceAdventures {
         "It Takes a Cursed Village",
         // Option...
         new ChoiceOption("unlock The Evil Cathedral", 1),
-        new ChoiceOption("unlock The Cursed Village Thieves' Guild (using FantasyRealm Rogue's Mask)", 2),
+        new ChoiceOption(
+            "unlock The Cursed Village Thieves' Guild (using FantasyRealm Rogue's Mask)", 2),
         new ChoiceOption("unlock The Archwizard's Tower (with FantasyRealm Mage's Hat)", 3),
         new ChoiceOption("get 20 adv of +2-3 Rubee&trade; drop", 4),
-        new ChoiceOption("acquire 40-60 Rubees&trade; (with LyleCo premium rope)", 5, "Rubee&trade;"),
+        new ChoiceOption(
+            "acquire 40-60 Rubees&trade; (with LyleCo premium rope)", 5, "Rubee&trade;"),
         new ChoiceOption(
             "acquire dragon slaying sword (with dragon aluminum ore)", 6, "dragon slaying sword"),
         new ChoiceOption(
@@ -5512,7 +5530,8 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("unlock The Labyrinthine Crypt", 1),
         new ChoiceOption("unlock The Barrow Mounds", 2),
         new ChoiceOption("unlock Duke Vampire's Chateau (with FantasyRealm Rogue's Mask)", 3),
-        new ChoiceOption("acquire 40-60 Rubees&trade; (need LyleCo premium pickaxe)", 4, "Rubee&trade;"),
+        new ChoiceOption(
+            "acquire 40-60 Rubees&trade; (need LyleCo premium pickaxe)", 4, "Rubee&trade;"),
         new ChoiceOption(
             "acquire Chewsick Copperbottom's notes (with FantasyRealm Mage's Hat)",
             5,
@@ -5626,7 +5645,8 @@ public abstract class ChoiceAdventures {
             "acquire Cheswick Copperbottom's compass (with Chewsick Copperbottom's notes)",
             3,
             "Cheswick Copperbottom's compass"),
-        new ChoiceOption("acquire 40-60 Rubees&trade; (with LyleCo premium pickaxe)", 4, "Rubee&trade;"),
+        new ChoiceOption(
+            "acquire 40-60 Rubees&trade; (with LyleCo premium pickaxe)", 4, "Rubee&trade;"),
         new ChoiceOption("leave", 6));
 
     // Choice 1297 is Stick to the Crypt
@@ -5637,7 +5657,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("acquire hero's skull", 1, "hero's skull"),
         new ChoiceOption("acquire 40-60 Rubees&trade;", 2, "Rubee&trade;"),
-        new ChoiceOption("acquire arrest warrant (with FantasyRealm Rogue's Mask)", 3, "arrest warrant"),
+        new ChoiceOption(
+            "acquire arrest warrant (with FantasyRealm Rogue's Mask)", 3, "arrest warrant"),
         new ChoiceOption("leave", 6));
 
     // Choice 1298 is The "Phoenix"
@@ -5697,7 +5718,8 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Ley Lady Ley",
         // Option...
-        new ChoiceOption("fight Ley Incursion (with 500+ mys and Cheswick Copperbottom's compass)", 1),
+        new ChoiceOption(
+            "fight Ley Incursion (with 500+ mys and Cheswick Copperbottom's compass)", 1),
         new ChoiceOption("get beaten up", 2),
         new ChoiceOption("leave", 6));
 
@@ -6033,8 +6055,10 @@ public abstract class ChoiceAdventures {
             "&quot;caramel&quot; orange",
             "self-repairing earmuffs",
             "carnivorous potted plant"),
-        new ChoiceOption("universal biscuit", "universal biscuit", "yule hatchet", "potato alarm clock"),
-        new ChoiceOption("lab-grown meat", "lab-grown meat", "golden fleece", "boxed gumball machine"),
+        new ChoiceOption(
+            "universal biscuit", "universal biscuit", "yule hatchet", "potato alarm clock"),
+        new ChoiceOption(
+            "lab-grown meat", "lab-grown meat", "golden fleece", "boxed gumball machine"),
         new ChoiceOption("cloning kit", "cloning kit", "electric pants", "can of mixed everything"),
         new ChoiceOption("return to Site Alpha"));
 
@@ -7039,7 +7063,8 @@ public abstract class ChoiceAdventures {
         boolean rock = InventoryManager.getCount(ItemPool.INEXPLICABLY_GLOWING_ROCK) >= 1;
 
         result[0] =
-            new ChoiceOption("You " + (rock ? "" : "DON'T ") + " have an inexplicably glowing rock");
+            new ChoiceOption(
+                "You " + (rock ? "" : "DON'T ") + " have an inexplicably glowing rock");
         result[1] = SKIP_ADVENTURE;
 
         return result;
@@ -7106,7 +7131,8 @@ public abstract class ChoiceAdventures {
         result = new ChoiceOption[2];
         float odds = BeerPongRequest.pirateInsultOdds() * 100.0f;
 
-        result[0] = new ChoiceOption(KoLConstants.FLOAT_FORMAT.format(odds) + "% chance of winning");
+        result[0] =
+            new ChoiceOption(KoLConstants.FLOAT_FORMAT.format(odds) + "% chance of winning");
         result[1] = new ChoiceOption(odds == 100.0f ? "Oh come on. Do it!" : "Try later");
         return result;
 
@@ -7255,7 +7281,8 @@ public abstract class ChoiceAdventures {
         result[1] = new ChoiceOption("Sauceror/Accordion Thief item, or delicious comfit?");
         result[2] = new ChoiceOption("Disco Bandit/Turtle Tamer item, or fight croqueteer");
         result[3] =
-            new ChoiceOption("you have " + count + "/5 of the items needed for an ittah bittah hookah");
+            new ChoiceOption(
+                "you have " + count + "/5 of the items needed for an ittah bittah hookah");
         result[4] = new ChoiceOption("get a chess cookie");
         result[5] = SKIP_ADVENTURE;
         return result;
@@ -7347,7 +7374,8 @@ public abstract class ChoiceAdventures {
             (Preferences.getInteger("lastTempleAdventures") == KoLCharacter.getAscensions());
 
         result[0] = new ChoiceOption("mysticality substats");
-        result[1] = (gainNostril ? new ChoiceOption("gain the Nostril of the Serpent") : SKIP_ADVENTURE);
+        result[1] =
+            (gainNostril ? new ChoiceOption("gain the Nostril of the Serpent") : SKIP_ADVENTURE);
         result[2] = (templeAdvs ? SKIP_ADVENTURE : new ChoiceOption("gain 3 adventures"));
         return result;
 
@@ -7435,7 +7463,8 @@ public abstract class ChoiceAdventures {
             (Preferences.getBoolean("_templeHiddenPower") ? "skip adventure" : "Hidden Power");
 
         result[2] =
-            new ChoiceOption("gain a glowing fungus, " + powerAction + " or fight a clan of cave bars");
+            new ChoiceOption(
+                "gain a glowing fungus, " + powerAction + " or fight a clan of cave bars");
 
         return result;
 
@@ -7506,7 +7535,8 @@ public abstract class ChoiceAdventures {
                     + "%");
         result[2] = new ChoiceOption("need jar of oil", "jar of oil");
         result[3] =
-            new ChoiceOption("need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%");
+            new ChoiceOption(
+                "need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%");
         result[4] = null; // why is there a missing button 5?
         result[5] = new ChoiceOption("flee");
 
@@ -7757,9 +7787,11 @@ public abstract class ChoiceAdventures {
         // Delirium in the Cafeteria
         result = new ChoiceOption[9];
         result[0] =
-            new ChoiceOption(KoLConstants.activeEffects.contains(JOCK_EFFECT) ? "Gain stats" : "Lose HP");
+            new ChoiceOption(
+                KoLConstants.activeEffects.contains(JOCK_EFFECT) ? "Gain stats" : "Lose HP");
         result[1] =
-            new ChoiceOption(KoLConstants.activeEffects.contains(NERD_EFFECT) ? "Gain stats" : "Lose HP");
+            new ChoiceOption(
+                KoLConstants.activeEffects.contains(NERD_EFFECT) ? "Gain stats" : "Lose HP");
         result[2] =
             new ChoiceOption(
                 KoLConstants.activeEffects.contains(GREASER_EFFECT) ? "Gain stats" : "Lose HP");
@@ -8771,12 +8803,14 @@ public abstract class ChoiceAdventures {
               result[0] = new ChoiceOption("get cocktail ingredients");
             }
           } catch (ParseException ex) {
-            result[0] = new ChoiceOption("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
+            result[0] =
+                new ChoiceOption("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
             KoLmafia.updateDisplay("Unable to parse " + lastUMDDateString);
           }
         } else {
           // Change to "get Ultimate Mind Destroyer" after 12th August 2014
-          result[0] = new ChoiceOption("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
+          result[0] =
+              new ChoiceOption("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
         }
         result[1] = new ChoiceOption("get 5k meat and random item");
         result[2] = new ChoiceOption("get Beach Bucks");

@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public abstract class WumpusManager {

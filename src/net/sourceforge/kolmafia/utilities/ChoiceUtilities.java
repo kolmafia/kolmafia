@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
-import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 
 /** Utilities for extracting data from a choice.php response */
 public class ChoiceUtilities {

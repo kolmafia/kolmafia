@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
-import net.sourceforge.kolmafia.session.ChoiceOption;
 
 public abstract class LouvreManager {
 

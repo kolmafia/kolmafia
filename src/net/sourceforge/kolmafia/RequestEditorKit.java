@@ -1881,8 +1881,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       // Build spoiler text
       while (i > 0) {
         // Say what the choice will give you
-        ChoiceOption spoiler =
-            ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
+        ChoiceOption spoiler = ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
 
         // If we have nothing to say about this option, don't say anything
         if (spoiler == null) {

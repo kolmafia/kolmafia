@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceSpoiler;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
-import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2132,7 +2131,8 @@ public abstract class ChoiceManager {
     // If we have spoilers for this choice, use that
     Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, null);
     if (spoilers != null) {
-      ChoiceOption spoiler = ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
+      ChoiceOption spoiler =
+          ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
       if (spoiler != null) {
         return spoiler.toString();
       }
