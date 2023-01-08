@@ -1293,6 +1293,8 @@ public class CampgroundRequest extends GenericRequest {
       return false;
     }
 
+    var hasSomething = false;
+
     if (findImage(responseText, "rockgarden/a1.gif", ItemPool.GROVELING_GRAVEL, 1)
         || findImage(responseText, "rockgarden/a2.gif", ItemPool.GROVELING_GRAVEL, 2)
         || findImage(responseText, "rockgarden/a3.gif", ItemPool.GROVELING_GRAVEL, 3)
@@ -1300,10 +1302,9 @@ public class CampgroundRequest extends GenericRequest {
         || findImage(responseText, "rockgarden/a5.gif", ItemPool.FRUITY_PEBBLE, 2)
         || findImage(responseText, "rockgarden/a6.gif", ItemPool.FRUITY_PEBBLE, 3)
         || findImage(responseText, "rockgarden/a7.gif", ItemPool.LODESTONE, 1)) {
-      CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 1);
+      hasSomething = true;
     } else {
-      findImage(
-          responseText, "rockgarden/a0.gif", ItemPool.GROVELING_GRAVEL, 0, ItemPool.ROCK_SEEDS, 0);
+      findImage(responseText, "rockgarden/a0.gif", ItemPool.GROVELING_GRAVEL, 0);
     }
 
     if (findImage(responseText, "rockgarden/b1.gif", ItemPool.MILESTONE, 1)
@@ -1313,9 +1314,9 @@ public class CampgroundRequest extends GenericRequest {
         || findImage(responseText, "rockgarden/b5.gif", ItemPool.BOLDER_BOULDER, 2)
         || findImage(responseText, "rockgarden/b6.gif", ItemPool.BOLDER_BOULDER, 3)
         || findImage(responseText, "rockgarden/b7.gif", ItemPool.MOLEHILL_MOUNTAIN, 1)) {
-      CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 1);
+      hasSomething = true;
     } else {
-      findImage(responseText, "rockgarden/b0.gif", ItemPool.MILESTONE, 0, ItemPool.ROCK_SEEDS, 0);
+      findImage(responseText, "rockgarden/b0.gif", ItemPool.MILESTONE, 0);
     }
 
     if (findImage(responseText, "rockgarden/c1.gif", ItemPool.WHETSTONE, 1)
@@ -1325,9 +1326,15 @@ public class CampgroundRequest extends GenericRequest {
         || findImage(responseText, "rockgarden/c5.gif", ItemPool.HARD_ROCK, 2)
         || findImage(responseText, "rockgarden/c6.gif", ItemPool.HARD_ROCK, 3)
         || findImage(responseText, "rockgarden/c7.gif", ItemPool.STRANGE_STALAGMITE, 1)) {
+      hasSomething = true;
+    } else {
+      findImage(responseText, "rockgarden/c0.gif", ItemPool.WHETSTONE, 0);
+    }
+
+    if (hasSomething) {
       CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 1);
     } else {
-      findImage(responseText, "rockgarden/c0.gif", ItemPool.WHETSTONE, 0, ItemPool.ROCK_SEEDS, 0);
+      CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 0);
     }
 
     return true;
