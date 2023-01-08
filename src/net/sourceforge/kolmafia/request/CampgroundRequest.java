@@ -284,8 +284,16 @@ public class CampgroundRequest extends GenericRequest {
   public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = new Mushroom(5);
   public static final AdventureResult COLOSSAL_FREE_RANGE_MUSHROOM = new Mushroom(11);
   public static final AdventureResult GROVELING_GRAVEL = ItemPool.get(ItemPool.GROVELING_GRAVEL, 1);
+  public static final AdventureResult FRUITY_PEBBLE = ItemPool.get(ItemPool.FRUITY_PEBBLE, 1);
+  public static final AdventureResult LODESTONE = ItemPool.get(ItemPool.LODESTONE, 1);
   public static final AdventureResult MILESTONE = ItemPool.get(ItemPool.MILESTONE, 1);
+  public static final AdventureResult BOLDER_BOULDER = ItemPool.get(ItemPool.BOLDER_BOULDER, 1);
+  public static final AdventureResult MOLEHILL_MOUNTAIN =
+      ItemPool.get(ItemPool.MOLEHILL_MOUNTAIN, 1);
   public static final AdventureResult WHETSTONE = ItemPool.get(ItemPool.WHETSTONE, 1);
+  public static final AdventureResult HARD_ROCK = ItemPool.get(ItemPool.HARD_ROCK, 1);
+  public static final AdventureResult STRANGE_STALAGMITE =
+      ItemPool.get(ItemPool.STRANGE_STALAGMITE, 1);
 
   // Crop seeds
   public static final AdventureResult PUMPKIN_SEEDS = ItemPool.get(ItemPool.PUMPKIN_SEEDS, 1);
@@ -341,8 +349,14 @@ public class CampgroundRequest extends GenericRequest {
     CROPMAP.put(IMMENSE_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
     CROPMAP.put(COLOSSAL_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
     CROPMAP.put(GROVELING_GRAVEL, CropType.ROCK);
+    CROPMAP.put(FRUITY_PEBBLE, CropType.ROCK);
+    CROPMAP.put(LODESTONE, CropType.ROCK);
     CROPMAP.put(MILESTONE, CropType.ROCK);
+    CROPMAP.put(BOLDER_BOULDER, CropType.ROCK);
+    CROPMAP.put(MOLEHILL_MOUNTAIN, CropType.ROCK);
     CROPMAP.put(WHETSTONE, CropType.ROCK);
+    CROPMAP.put(HARD_ROCK, CropType.ROCK);
+    CROPMAP.put(STRANGE_STALAGMITE, CropType.ROCK);
   }
 
   public static final List<Integer> workshedItems =
@@ -397,8 +411,14 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM,
     CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM,
     CampgroundRequest.GROVELING_GRAVEL,
+    CampgroundRequest.FRUITY_PEBBLE,
+    CampgroundRequest.LODESTONE,
     CampgroundRequest.MILESTONE,
+    CampgroundRequest.BOLDER_BOULDER,
+    CampgroundRequest.MOLEHILL_MOUNTAIN,
     CampgroundRequest.WHETSTONE,
+    CampgroundRequest.HARD_ROCK,
+    CampgroundRequest.STRANGE_STALAGMITE,
   };
 
   public static final AdventureResult[] CROP_SEEDS = {
@@ -1265,18 +1285,59 @@ public class CampgroundRequest extends GenericRequest {
             responseText,
             "mushgarden.gif",
             new Mushroom(Preferences.getInteger("mushroomGardenCropLevel")))
-        || findImage(
-            responseText, "rockgarden/a0.gif", ItemPool.GROVELING_GRAVEL, 0, ItemPool.ROCK_SEEDS, 0)
-        || findImage(
-            responseText, "rockgarden/b0.gif", ItemPool.MILESTONE, 0, ItemPool.ROCK_SEEDS, 0)
-        || findImage(
-            responseText, "rockgarden/c0.gif", ItemPool.WHETSTONE, 0, ItemPool.ROCK_SEEDS, 0)
-        || findImage(
-            responseText, "rockgarden/a1.gif", ItemPool.GROVELING_GRAVEL, 1, ItemPool.ROCK_SEEDS, 1)
-        || findImage(
-            responseText, "rockgarden/b1.gif", ItemPool.MILESTONE, 1, ItemPool.ROCK_SEEDS, 1)
-        || findImage(
-            responseText, "rockgarden/c1.gif", ItemPool.WHETSTONE, 1, ItemPool.ROCK_SEEDS, 1);
+        || findRockGarden(responseText);
+  }
+
+  private static boolean findRockGarden(final String responseText) {
+    if (!responseText.contains("/rockgarden/")) {
+      return false;
+    }
+
+    var hasSomething = false;
+
+    if (findImage(responseText, "rockgarden/a1.gif", ItemPool.GROVELING_GRAVEL, 1)
+        || findImage(responseText, "rockgarden/a2.gif", ItemPool.GROVELING_GRAVEL, 2)
+        || findImage(responseText, "rockgarden/a3.gif", ItemPool.GROVELING_GRAVEL, 3)
+        || findImage(responseText, "rockgarden/a4.gif", ItemPool.FRUITY_PEBBLE, 1)
+        || findImage(responseText, "rockgarden/a5.gif", ItemPool.FRUITY_PEBBLE, 2)
+        || findImage(responseText, "rockgarden/a6.gif", ItemPool.FRUITY_PEBBLE, 3)
+        || findImage(responseText, "rockgarden/a7.gif", ItemPool.LODESTONE, 1)) {
+      hasSomething = true;
+    } else {
+      findImage(responseText, "rockgarden/a0.gif", ItemPool.GROVELING_GRAVEL, 0);
+    }
+
+    if (findImage(responseText, "rockgarden/b1.gif", ItemPool.MILESTONE, 1)
+        || findImage(responseText, "rockgarden/b2.gif", ItemPool.MILESTONE, 2)
+        || findImage(responseText, "rockgarden/b3.gif", ItemPool.MILESTONE, 3)
+        || findImage(responseText, "rockgarden/b4.gif", ItemPool.BOLDER_BOULDER, 1)
+        || findImage(responseText, "rockgarden/b5.gif", ItemPool.BOLDER_BOULDER, 2)
+        || findImage(responseText, "rockgarden/b6.gif", ItemPool.BOLDER_BOULDER, 3)
+        || findImage(responseText, "rockgarden/b7.gif", ItemPool.MOLEHILL_MOUNTAIN, 1)) {
+      hasSomething = true;
+    } else {
+      findImage(responseText, "rockgarden/b0.gif", ItemPool.MILESTONE, 0);
+    }
+
+    if (findImage(responseText, "rockgarden/c1.gif", ItemPool.WHETSTONE, 1)
+        || findImage(responseText, "rockgarden/c2.gif", ItemPool.WHETSTONE, 2)
+        || findImage(responseText, "rockgarden/c3.gif", ItemPool.WHETSTONE, 3)
+        || findImage(responseText, "rockgarden/c4.gif", ItemPool.HARD_ROCK, 1)
+        || findImage(responseText, "rockgarden/c5.gif", ItemPool.HARD_ROCK, 2)
+        || findImage(responseText, "rockgarden/c6.gif", ItemPool.HARD_ROCK, 3)
+        || findImage(responseText, "rockgarden/c7.gif", ItemPool.STRANGE_STALAGMITE, 1)) {
+      hasSomething = true;
+    } else {
+      findImage(responseText, "rockgarden/c0.gif", ItemPool.WHETSTONE, 0);
+    }
+
+    if (hasSomething) {
+      CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 1);
+    } else {
+      CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 0);
+    }
+
+    return true;
   }
 
   private static void parseDwelling(final String responseText) {

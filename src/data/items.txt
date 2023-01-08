@@ -11128,10 +11128,10 @@
 11100	packet of rock seeds	463194562	rockgardenseeds.gif	usable		0
 11101	groveling gravel	324849068	rggravel.gif	none, combat	t,d	5
 11102	fruity pebble	363064873	rgpebble.gif	spleen, usable	t,d	25
-11103	lodestone	615109905	rglodestone.gif	usable	t,d	250
+11103	lodestone	615109905	rglodestone.gif	reusable	t,d	250
 11104	milestone	351352694	rgmilestone.gif	usable	t,d	5
 11105	bolder boulder	697310877	rgboulder.gif	usable	t,d	25
-11106	molehill mountain	671315172	rgmountain.gif	usable	t,d	250
-11107	whet stone	689119937	rgwhetstone.gif	usable	t,d	5
+11106	molehill mountain	671315172	rgmountain.gif	reusable	t,d	250
+11107	whet stone	689119937	rgwhetstone.gif	multiple	t,d	5
 11108	hard rock	878413969	rghardrock.gif	usable	t,d	25
-11109	strange stalagmite	720163663	rgstalagmite.gif	usable	t,d	250
+11109	strange stalagmite	720163663	rgstalagmite.gif	reusable	t,d	250

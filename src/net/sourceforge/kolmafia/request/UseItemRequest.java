@@ -5940,6 +5940,18 @@ public class UseItemRequest extends GenericRequest {
           ResultProcessor.removeItem(ItemPool.TRAINBOT_SLAG);
         }
         break;
+
+      case ItemPool.LODESTONE:
+        Preferences.setBoolean("_lodestoneUsed", true);
+        return;
+
+      case ItemPool.MOLEHILL_MOUNTAIN:
+        Preferences.setBoolean("_molehillMountainUsed", true);
+        return;
+
+      case ItemPool.STRANGE_STALAGMITE:
+        Preferences.setBoolean("_strangeStalagmiteUsed", true);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
