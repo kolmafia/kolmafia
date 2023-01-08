@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.OceanManager.Destination;
 import net.sourceforge.kolmafia.session.OceanManager.Point;
@@ -105,7 +105,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     for (int i = 0; i < ChoiceAdventures.CHOICE_ADVS.length; ++i) {
       this.optionSelects.add(new JComboBox<>());
       this.optionSelects.get(i).addItem("show in browser");
-      Option[] options = ChoiceAdventures.CHOICE_ADVS[i].getOptions();
+      ChoiceOption[] options = ChoiceAdventures.CHOICE_ADVS[i].getOptions();
       for (int j = 0; j < options.length; ++j) {
         this.optionSelects.get(i).addItem(options[j]);
       }
@@ -843,8 +843,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       String setting = choiceAdventure.getSetting();
       int index = this.optionSelects.get(i).getSelectedIndex();
       Object option = this.optionSelects.get(i).getSelectedItem();
-      if (option instanceof Option) {
-        index = ((Option) option).getDecision(index);
+      if (option instanceof ChoiceOption co) {
+        index = co.getDecision(index);
       }
       Preferences.setString(setting, String.valueOf(index));
     }
@@ -1124,8 +1124,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       }
 
       if (index > 0) {
-        Option[] options = choiceAdventure.getOptions();
-        Option option = ChoiceAdventures.findOption(options, index);
+        ChoiceOption[] options = choiceAdventure.getOptions();
+        ChoiceOption option = ChoiceAdventures.findOption(options, index);
         if (option != null) {
           this.optionSelects.get(i).setSelectedItem(option);
           continue;

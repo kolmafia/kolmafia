@@ -234,10 +234,12 @@ Use	jar of psychoses (The Old Man)	_psychoJarUsed
 Use	jar of psychoses (The Pretentious Artist)	_psychoJarUsed
 Use	jar of psychoses (The Suspicious-Looking Guy)	_psychoJarUsed
 Use	jingle bell	_jingleBellUsed
+Use	lodestone	_lodestoneUsed
 Use	lupine appetite hormones	_lupineHormonesUsed
 Use	meatball machine	_meatballMachineUsed
 Use	milk of magnesium	_milkOfMagnesiumUsed
 Use	mojo filter	currentMojoFilters	3
+Use	molehill mountain	_molehillMountainUsed
 Use	moveable feast	_feastUsed	5
 Use	overflowing gift basket	_overflowingGiftBasketUsed
 Use	perfectly fair coin	_perfectlyFairCoinUsed
@@ -256,6 +258,7 @@ Use	silver Dreadsylvanian flask	_silverDreadFlaskUsed
 Use	snake	_fireworkUsed
 Use	sparkler	_fireworkUsed
 Use	spice melange	spiceMelangeUsed
+Use	strange stalagmite	_strangeStalagmiteUsed
 Use	stuffed pocketwatch	_stuffedPocketwatchUsed
 Use	subscription cocoa dispenser	_cocoaDispenserUsed
 Use	sweet tooth	_sweetToothUsed

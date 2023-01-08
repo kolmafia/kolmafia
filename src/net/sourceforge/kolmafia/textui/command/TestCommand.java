@@ -219,10 +219,11 @@ public class TestCommand extends AbstractCommand {
         return;
       }
       int choice = StringUtilities.parseInt(split[1]);
-      Object[] spoilers = ChoiceAdventures.dynamicChoiceOptions(choice);
-      if (spoilers != null) {
-        for (int i = 0; i < spoilers.length; ++i) {
-          RequestLogger.printLine("Option " + (i + 1) + ": " + spoilers[i]);
+      var adventure = ChoiceAdventures.choiceToChoiceAdventure.get(choice);
+      if (adventure != null) {
+        var options = adventure.getOptions();
+        for (int i = 0; i < options.length; i++) {
+          RequestLogger.printLine("Option " + (i + 1) + ": " + options[i]);
         }
       }
       return;

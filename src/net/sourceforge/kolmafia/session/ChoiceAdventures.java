@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -45,65 +44,12 @@ import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 
 public abstract class ChoiceAdventures {
 
-  private static final String[] NO_ITEM_NAMES = new String[0];
-
-  public static class Option {
-    private final String name;
-    private final int option;
-    private final AdventureResult[] items;
-
-    public Option(final String name) {
-      this(name, 0, NO_ITEM_NAMES);
-    }
-
-    public Option(final String name, final String... itemNames) {
-      this(name, 0, itemNames);
-    }
-
-    public Option(final String name, final int option) {
-      this(name, option, NO_ITEM_NAMES);
-    }
-
-    public Option(final String name, final int option, final String... itemNames) {
-      this.name = name;
-      this.option = option;
-
-      int count = itemNames.length;
-      this.items = new AdventureResult[count];
-
-      for (int index = 0; index < count; ++index) {
-        this.items[index] = ItemPool.get(ItemDatabase.getItemId(itemNames[index]));
-      }
-    }
-
-    public String getName() {
-      return this.name;
-    }
-
-    public int getOption() {
-      return this.option;
-    }
-
-    public int getDecision(final int def) {
-      return this.option == 0 ? def : this.option;
-    }
-
-    public AdventureResult[] getItems() {
-      return this.items;
-    }
-
-    @Override
-    public String toString() {
-      return this.name;
-    }
-  }
-
   public static class Spoilers {
     private final int choice;
     private final String name;
-    private final Option[] options;
+    private final ChoiceOption[] options;
 
-    public Spoilers(final int choice, final String name, final Option[] options) {
+    public Spoilers(final int choice, final String name, final ChoiceOption[] options) {
       this.choice = choice;
       this.name = name;
       this.options = options;
@@ -117,7 +63,7 @@ public abstract class ChoiceAdventures {
       return this.name;
     }
 
-    public Option[] getOptions() {
+    public ChoiceOption[] getOptions() {
       return this.options;
     }
   }
@@ -174,14 +120,14 @@ public abstract class ChoiceAdventures {
   public static class ChoiceAdventure extends Choice {
     private final String zone;
     private final String name;
-    private final Option[] options;
+    private final ChoiceOption[] options;
 
     // Derived fields
     protected final String property;
     private final Spoilers spoilers;
 
     public ChoiceAdventure(
-        final int choice, String zone, final String name, final Option... options) {
+        final int choice, String zone, final String name, final ChoiceOption... options) {
       this(choice, zone, name, 0, options);
     }
 
@@ -190,7 +136,7 @@ public abstract class ChoiceAdventures {
         final String zone,
         final String name,
         final int ordering,
-        final Option... options) {
+        ChoiceOption... options) {
       super(choice, ordering);
       this.zone = zone;
       if (!AdventureDatabase.ZONE_DESCRIPTIONS.containsKey(zone)) {
@@ -201,6 +147,7 @@ public abstract class ChoiceAdventures {
       if (options == null) {
         System.out.println("ChoiceAdventure # " + choice + " has no Options configured");
         missingChoiceAdventureOptions.add(choice);
+        options = new ChoiceOption[0];
       }
       this.options = options;
       this.property = "choiceAdventure" + String.valueOf(choice);
@@ -216,7 +163,7 @@ public abstract class ChoiceAdventures {
       return this.name;
     }
 
-    public Option[] getOptions() {
+    public ChoiceOption[] getOptions() {
       return (this.options.length == 0)
           ? ChoiceAdventures.dynamicChoiceOptions(this.choice)
           : this.options;
@@ -256,12 +203,12 @@ public abstract class ChoiceAdventures {
   // A ChoiceSpoiler is a ChoiceAdventure that isn't user-configurable.
   // The zone is optional, since it doesn't appear in the choiceadv GUI.
   public static class ChoiceSpoiler extends ChoiceAdventure {
-    public ChoiceSpoiler(final int choice, final String name, final Option... options) {
+    public ChoiceSpoiler(final int choice, final String name, final ChoiceOption... options) {
       super(choice, "Unsorted", name, options);
     }
 
     public ChoiceSpoiler(
-        final int choice, final String zone, final String name, final Option... options) {
+        final int choice, final String zone, final String name, final ChoiceOption... options) {
       super(choice, zone, name, options);
     }
 
@@ -344,9 +291,9 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static final Option findOption(final Option[] options, final int decision) {
+  public static final ChoiceOption findOption(final ChoiceOption[] options, final int decision) {
     for (int i = 0; i < options.length; ++i) {
-      Option opt = options[i];
+      ChoiceOption opt = options[i];
       if (opt != null && opt.getDecision(i + 1) == decision) {
         return opt;
       }
@@ -354,7 +301,7 @@ public abstract class ChoiceAdventures {
     return null;
   }
 
-  private static final Option SKIP_ADVENTURE = new Option("skip adventure");
+  private static final ChoiceOption SKIP_ADVENTURE = new ChoiceOption("skip adventure");
 
   static {
     // Choice 1 is unknown
@@ -364,8 +311,8 @@ public abstract class ChoiceAdventures {
         2,
         "Palindome",
         // Option...
-        new Option("denim axe", "denim axe"),
-        new Option("skip adventure", "rubber axe"));
+        new ChoiceOption("denim axe", "denim axe"),
+        new ChoiceOption("skip adventure", "rubber axe"));
     // Denim Axes Examined
     new ChoiceCost(2, new Cost(1, ItemPool.get(ItemPool.RUBBER_AXE, -1)));
 
@@ -375,8 +322,8 @@ public abstract class ChoiceAdventures {
         "Teleportitis",
         // Option...
         SKIP_ADVENTURE,
-        new Option("randomly sink 100 meat"),
-        new Option("make plus sign usable"));
+        new ChoiceOption("randomly sink 100 meat"),
+        new ChoiceOption("make plus sign usable"));
 
     // Finger-Lickin'... Death.
     new ChoiceAdventure(
@@ -384,8 +331,8 @@ public abstract class ChoiceAdventures {
         "Beach",
         "South of the Border",
         // Option...
-        new Option("small meat boost"),
-        new Option("try for poultrygeist", "poultrygeist"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("try for poultrygeist", "poultrygeist"),
         SKIP_ADVENTURE);
     // Finger-Lickin'... Death.
     new ChoiceCost(
@@ -399,7 +346,7 @@ public abstract class ChoiceAdventures {
         "MusSign",
         "Gravy Barrow",
         // Option...
-        new Option("fight the fairy queen"),
+        new ChoiceOption("fight the fairy queen"),
         SKIP_ADVENTURE);
 
     // Darker Than Dark
@@ -407,7 +354,7 @@ public abstract class ChoiceAdventures {
         6,
         "Gravy Barrow",
         // Option...
-        new Option("get Beaten Up"),
+        new ChoiceOption("get Beaten Up"),
         SKIP_ADVENTURE);
 
     // Choice 7 is How Depressing
@@ -417,45 +364,45 @@ public abstract class ChoiceAdventures {
         8,
         "Gravy Barrow",
         // Option...
-        new Option("enter the chamber"),
-        new Option("enter the chamber"),
-        new Option("enter the chamber"));
+        new ChoiceOption("enter the chamber"),
+        new ChoiceOption("enter the chamber"),
+        new ChoiceOption("enter the chamber"));
 
     // Wheel In the Sky Keep on Turning: Muscle Position
     new ChoiceSpoiler(
         9,
         "Castle Wheel",
         // Option...
-        new Option("Turn to mysticality"),
-        new Option("Turn to moxie"),
-        new Option("Leave at muscle"));
+        new ChoiceOption("Turn to mysticality"),
+        new ChoiceOption("Turn to moxie"),
+        new ChoiceOption("Leave at muscle"));
 
     // Wheel In the Sky Keep on Turning: Mysticality Position
     new ChoiceSpoiler(
         10,
         "Castle Wheel",
         // Option...
-        new Option("Turn to Map Quest"),
-        new Option("Turn to muscle"),
-        new Option("Leave at mysticality"));
+        new ChoiceOption("Turn to Map Quest"),
+        new ChoiceOption("Turn to muscle"),
+        new ChoiceOption("Leave at mysticality"));
 
     // Wheel In the Sky Keep on Turning: Map Quest Position
     new ChoiceSpoiler(
         11,
         "Castle Wheel",
         // Option...
-        new Option("Turn to moxie"),
-        new Option("Turn to mysticality"),
-        new Option("Leave at map quest"));
+        new ChoiceOption("Turn to moxie"),
+        new ChoiceOption("Turn to mysticality"),
+        new ChoiceOption("Leave at map quest"));
 
     // Wheel In the Sky Keep on Turning: Moxie Position
     new ChoiceSpoiler(
         12,
         "Castle Wheel",
         // Option...
-        new Option("Turn to muscle"),
-        new Option("Turn to map quest"),
-        new Option("Leave at moxie"));
+        new ChoiceOption("Turn to muscle"),
+        new ChoiceOption("Turn to map quest"),
+        new ChoiceOption("Leave at moxie"));
 
     // Choice 13 is unknown
 
@@ -465,10 +412,10 @@ public abstract class ChoiceAdventures {
         "Knob",
         "Cobb's Knob Harem",
         // Option...
-        new Option("Knob goblin harem veil", "Knob goblin harem veil"),
-        new Option("Knob goblin harem pants", "Knob goblin harem pants"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("Knob goblin harem veil", "Knob goblin harem veil"),
+        new ChoiceOption("Knob goblin harem pants", "Knob goblin harem pants"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // Yeti Nother Hippy
     new ChoiceAdventure(
@@ -476,10 +423,10 @@ public abstract class ChoiceAdventures {
         "McLarge",
         "eXtreme Slope",
         // Option...
-        new Option("eXtreme mittens", "eXtreme mittens"),
-        new Option("eXtreme scarf", "eXtreme scarf"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("eXtreme mittens", "eXtreme mittens"),
+        new ChoiceOption("eXtreme scarf", "eXtreme scarf"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // Saint Beernard
     new ChoiceAdventure(
@@ -487,10 +434,10 @@ public abstract class ChoiceAdventures {
         "McLarge",
         "eXtreme Slope",
         // Option...
-        new Option("snowboarder pants", "snowboarder pants"),
-        new Option("eXtreme scarf", "eXtreme scarf"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("snowboarder pants", "snowboarder pants"),
+        new ChoiceOption("eXtreme scarf", "eXtreme scarf"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // Generic Teen Comedy
     new ChoiceAdventure(
@@ -498,10 +445,10 @@ public abstract class ChoiceAdventures {
         "McLarge",
         "eXtreme Slope",
         // Option...
-        new Option("eXtreme mittens", "eXtreme mittens"),
-        new Option("snowboarder pants", "snowboarder pants"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("eXtreme mittens", "eXtreme mittens"),
+        new ChoiceOption("snowboarder pants", "snowboarder pants"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // A Flat Miner
     new ChoiceAdventure(
@@ -509,10 +456,10 @@ public abstract class ChoiceAdventures {
         "McLarge",
         "Itznotyerzitz Mine",
         // Option...
-        new Option("miner's pants", "miner's pants"),
-        new Option("7-Foot Dwarven mattock", "7-Foot Dwarven mattock"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("miner's pants", "miner's pants"),
+        new ChoiceOption("7-Foot Dwarven mattock", "7-Foot Dwarven mattock"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // 100% Legal
     new ChoiceAdventure(
@@ -520,10 +467,10 @@ public abstract class ChoiceAdventures {
         "McLarge",
         "Itznotyerzitz Mine",
         // Option...
-        new Option("miner's helmet", "miner's helmet"),
-        new Option("miner's pants", "miner's pants"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("miner's helmet", "miner's helmet"),
+        new ChoiceOption("miner's pants", "miner's pants"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // See You Next Fall
     new ChoiceAdventure(
@@ -531,10 +478,10 @@ public abstract class ChoiceAdventures {
         "McLarge",
         "Itznotyerzitz Mine",
         // Option...
-        new Option("miner's helmet", "miner's helmet"),
-        new Option("7-Foot Dwarven mattock", "7-Foot Dwarven mattock"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("miner's helmet", "miner's helmet"),
+        new ChoiceOption("7-Foot Dwarven mattock", "7-Foot Dwarven mattock"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // Under the Knife
     new ChoiceAdventure(
@@ -542,7 +489,7 @@ public abstract class ChoiceAdventures {
         "Town",
         "Sleazy Back Alley",
         // Option...
-        new Option("switch genders"),
+        new ChoiceOption("switch genders"),
         SKIP_ADVENTURE);
     // Under the Knife
     new ChoiceCost(21, new Cost(1, new AdventureResult(AdventureResult.MEAT, -500)));
@@ -553,10 +500,10 @@ public abstract class ChoiceAdventures {
         "Island",
         "Pirate's Cove",
         // Option...
-        new Option("eyepatch", "eyepatch"),
-        new Option("swashbuckling pants", "swashbuckling pants"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("eyepatch", "eyepatch"),
+        new ChoiceOption("swashbuckling pants", "swashbuckling pants"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // Barrie Me at Sea
     new ChoiceAdventure(
@@ -564,10 +511,10 @@ public abstract class ChoiceAdventures {
         "Island",
         "Pirate's Cove",
         // Option...
-        new Option("stuffed shoulder parrot", "stuffed shoulder parrot"),
-        new Option("swashbuckling pants", "swashbuckling pants"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("stuffed shoulder parrot", "stuffed shoulder parrot"),
+        new ChoiceOption("swashbuckling pants", "swashbuckling pants"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // Amatearrr Night
     new ChoiceAdventure(
@@ -575,10 +522,10 @@ public abstract class ChoiceAdventures {
         "Island",
         "Pirate's Cove",
         // Option...
-        new Option("stuffed shoulder parrot", "stuffed shoulder parrot"),
-        new Option("small meat boost"),
-        new Option("eyepatch", "eyepatch"),
-        new Option("complete the outfit"));
+        new ChoiceOption("stuffed shoulder parrot", "stuffed shoulder parrot"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("eyepatch", "eyepatch"),
+        new ChoiceOption("complete the outfit"));
 
     // Ouch! You bump into a door!
     new ChoiceAdventure(
@@ -586,8 +533,8 @@ public abstract class ChoiceAdventures {
         "Dungeon",
         "Dungeon of Doom",
         // Option...
-        new Option("magic lamp", "magic lamp"),
-        new Option("dead mimic", "dead mimic"),
+        new ChoiceOption("magic lamp", "magic lamp"),
+        new ChoiceOption("dead mimic", "dead mimic"),
         SKIP_ADVENTURE);
     // Ouch! You bump into a door!
     new ChoiceCost(
@@ -601,9 +548,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Spooky Forest",
         // Option...
-        new Option("muscle classes"),
-        new Option("mysticality classes"),
-        new Option("moxie classes"));
+        new ChoiceOption("muscle classes"),
+        new ChoiceOption("mysticality classes"),
+        new ChoiceOption("moxie classes"));
 
     // Footprints
     new ChoiceSpoiler(
@@ -611,8 +558,8 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Spooky Forest",
         // Option...
-        new Option(AscensionClass.SEAL_CLUBBER.toString()),
-        new Option(AscensionClass.TURTLE_TAMER.toString()));
+        new ChoiceOption(AscensionClass.SEAL_CLUBBER.toString()),
+        new ChoiceOption(AscensionClass.TURTLE_TAMER.toString()));
 
     // A Pair of Craters
     new ChoiceSpoiler(
@@ -620,8 +567,8 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Spooky Forest",
         // Option...
-        new Option(AscensionClass.PASTAMANCER.toString()),
-        new Option(AscensionClass.SAUCEROR.toString()));
+        new ChoiceOption(AscensionClass.PASTAMANCER.toString()),
+        new ChoiceOption(AscensionClass.SAUCEROR.toString()));
 
     // The Road Less Visible
     new ChoiceSpoiler(
@@ -629,8 +576,8 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Spooky Forest",
         // Option...
-        new Option(AscensionClass.DISCO_BANDIT.toString()),
-        new Option(AscensionClass.ACCORDION_THIEF.toString()));
+        new ChoiceOption(AscensionClass.DISCO_BANDIT.toString()),
+        new ChoiceOption(AscensionClass.ACCORDION_THIEF.toString()));
 
     // Choices 30 - 39 are unknown
 
@@ -640,9 +587,9 @@ public abstract class ChoiceAdventures {
         "Rift",
         "Cola Wars",
         // Option...
-        new Option("Cloaca-Cola fatigues", "Cloaca-Cola fatigues"),
-        new Option("Dyspepsi-Cola shield", "Dyspepsi-Cola shield"),
-        new Option("mysticality substats"));
+        new ChoiceOption("Cloaca-Cola fatigues", "Cloaca-Cola fatigues"),
+        new ChoiceOption("Dyspepsi-Cola shield", "Dyspepsi-Cola shield"),
+        new ChoiceOption("mysticality substats"));
 
     // Smells Like Team Spirit
     new ChoiceAdventure(
@@ -650,9 +597,9 @@ public abstract class ChoiceAdventures {
         "Rift",
         "Cola Wars",
         // Option...
-        new Option("Dyspepsi-Cola fatigues", "Dyspepsi-Cola fatigues"),
-        new Option("Cloaca-Cola helmet", "Cloaca-Cola helmet"),
-        new Option("muscle substats"));
+        new ChoiceOption("Dyspepsi-Cola fatigues", "Dyspepsi-Cola fatigues"),
+        new ChoiceOption("Cloaca-Cola helmet", "Cloaca-Cola helmet"),
+        new ChoiceOption("muscle substats"));
 
     // What is it Good For?
     new ChoiceAdventure(
@@ -660,9 +607,9 @@ public abstract class ChoiceAdventures {
         "Rift",
         "Cola Wars",
         // Option...
-        new Option("Dyspepsi-Cola helmet", "Dyspepsi-Cola helmet"),
-        new Option("Cloaca-Cola shield", "Cloaca-Cola shield"),
-        new Option("moxie substats"));
+        new ChoiceOption("Dyspepsi-Cola helmet", "Dyspepsi-Cola helmet"),
+        new ChoiceOption("Cloaca-Cola shield", "Cloaca-Cola shield"),
+        new ChoiceOption("moxie substats"));
 
     // Choices 43 - 44 are unknown
 
@@ -672,7 +619,7 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Spooky Forest",
         // Option...
-        new Option("Spooky Temple map", "Spooky Temple map"),
+        new ChoiceOption("Spooky Temple map", "Spooky Temple map"),
         SKIP_ADVENTURE,
         SKIP_ADVENTURE);
 
@@ -682,9 +629,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Spooky Forest Vampire",
         // Option...
-        new Option("moxie substats"),
-        new Option("muscle substats"),
-        new Option("vampire heart", "vampire heart"));
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("vampire heart", "vampire heart"));
 
     // Have a Heart
     new ChoiceAdventure(
@@ -692,8 +639,8 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Spooky Forest Vampire Hunter",
         // Option...
-        new Option("bottle of used blood", "bottle of used blood"),
-        new Option("skip adventure and keep vampire hearts", "vampire heart"));
+        new ChoiceOption("bottle of used blood", "bottle of used blood"),
+        new ChoiceOption("skip adventure and keep vampire hearts", "vampire heart"));
     // Have a Heart
     // This trades all vampire hearts for an equal number of
     // bottles of used blood.
@@ -708,8 +655,8 @@ public abstract class ChoiceAdventures {
         "Island",
         "Frat House",
         // Option...
-        new Option("around the world", "around the world"),
-        new Option("skip adventure", "Spanish fly"));
+        new ChoiceOption("around the world", "around the world"),
+        new ChoiceOption("skip adventure", "Spanish fly"));
     // Lording Over The Flies
     // This trades all Spanish flies for around the worlds,
     // in multiples of 5.  Excess flies are left in inventory.
@@ -721,9 +668,10 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Whitey's Grove",
         // Option...
-        new Option("muscle substats"),
-        new Option("white picket fence", "white picket fence"),
-        new Option("wedding cake, white rice 3x (+2x w/ rice bowl)", "piece of wedding cake"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("white picket fence", "white picket fence"),
+        new ChoiceOption(
+            "wedding cake, white rice 3x (+2x w/ rice bowl)", "piece of wedding cake"));
 
     // The Only Thing About Him is the Way That He Walks
     new ChoiceAdventure(
@@ -731,9 +679,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Whitey's Grove",
         // Option...
-        new Option("moxie substats"),
-        new Option("boxed wine", "boxed wine"),
-        new Option("mullet wig", "mullet wig"));
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("boxed wine", "boxed wine"),
+        new ChoiceOption("mullet wig", "mullet wig"));
 
     // Rapido!
     new ChoiceAdventure(
@@ -741,9 +689,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Whitey's Grove",
         // Option...
-        new Option("mysticality substats"),
-        new Option("white lightning", "white lightning"),
-        new Option("white collar", "white collar"));
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("white lightning", "white lightning"),
+        new ChoiceOption("white collar", "white collar"));
 
     // Junction in the Trunction
     new ChoiceAdventure(
@@ -751,43 +699,43 @@ public abstract class ChoiceAdventures {
         "Knob",
         "Knob Shaft",
         // Option...
-        new Option("cardboard ore", "cardboard ore"),
-        new Option("styrofoam ore", "styrofoam ore"),
-        new Option("bubblewrap ore", "bubblewrap ore"));
+        new ChoiceOption("cardboard ore", "cardboard ore"),
+        new ChoiceOption("styrofoam ore", "styrofoam ore"),
+        new ChoiceOption("bubblewrap ore", "bubblewrap ore"));
 
     // History is Fun!
     new ChoiceSpoiler(
         86,
         "Haunted Library",
         // Option...
-        new Option("Spookyraven Chapter 1"),
-        new Option("Spookyraven Chapter 2"),
-        new Option("Spookyraven Chapter 3"));
+        new ChoiceOption("Spookyraven Chapter 1"),
+        new ChoiceOption("Spookyraven Chapter 2"),
+        new ChoiceOption("Spookyraven Chapter 3"));
 
     // History is Fun!
     new ChoiceSpoiler(
         87,
         "Haunted Library",
         // Option...
-        new Option("Spookyraven Chapter 4"),
-        new Option("Spookyraven Chapter 5"),
-        new Option("Spookyraven Chapter 6"));
+        new ChoiceOption("Spookyraven Chapter 4"),
+        new ChoiceOption("Spookyraven Chapter 5"),
+        new ChoiceOption("Spookyraven Chapter 6"));
 
     // Naughty, Naughty
     new ChoiceSpoiler(
         88,
         "Haunted Library",
         // Option...
-        new Option("mysticality substats"),
-        new Option("moxie substats"),
-        new Option("Fettucini / Scarysauce"));
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("Fettucini / Scarysauce"));
     new ChoiceSpoiler(
         89,
         "Haunted Gallery",
         // Option...
-        new Option("Wolf Knight"),
-        new Option("Snake Knight"),
-        new Option("Dreams and Lights"),
+        new ChoiceOption("Wolf Knight"),
+        new ChoiceOption("Snake Knight"),
+        new ChoiceOption("Dreams and Lights"),
         SKIP_ADVENTURE);
 
     // Curtains
@@ -796,8 +744,8 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "Haunted Ballroom",
         // Option...
-        new Option("enter combat"),
-        new Option("moxie substats"),
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("moxie substats"),
         SKIP_ADVENTURE);
 
     // Having a Medicine Ball
@@ -806,9 +754,9 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "Haunted Bathroom",
         // Option...
-        new Option("mysticality substats"),
-        new Option("other options"),
-        new Option("guy made of bees"));
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("other options"),
+        new ChoiceOption("guy made of bees"));
 
     // Strung-Up Quartet
     new ChoiceAdventure(
@@ -816,10 +764,10 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "Haunted Ballroom",
         // Option...
-        new Option("increase monster level"),
-        new Option("decrease combat frequency"),
-        new Option("increase item drops"),
-        new Option("disable song"));
+        new ChoiceOption("increase monster level"),
+        new ChoiceOption("decrease combat frequency"),
+        new ChoiceOption("increase item drops"),
+        new ChoiceOption("disable song"));
 
     // Bad Medicine is What You Need
     new ChoiceAdventure(
@@ -827,9 +775,9 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "Haunted Bathroom",
         // Option...
-        new Option("antique bottle of cough syrup", "antique bottle of cough syrup"),
-        new Option("tube of hair oil", "tube of hair oil"),
-        new Option("bottle of ultravitamins", "bottle of ultravitamins"),
+        new ChoiceOption("antique bottle of cough syrup", "antique bottle of cough syrup"),
+        new ChoiceOption("tube of hair oil", "tube of hair oil"),
+        new ChoiceOption("bottle of ultravitamins", "bottle of ultravitamins"),
         SKIP_ADVENTURE);
 
     // Aww, Craps
@@ -838,9 +786,9 @@ public abstract class ChoiceAdventures {
         "Town",
         "Sleazy Back Alley",
         // Option...
-        new Option("moxie substats"),
-        new Option("meat and moxie"),
-        new Option("random effect"),
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("meat and moxie"),
+        new ChoiceOption("random effect"),
         SKIP_ADVENTURE);
 
     // Dumpster Diving
@@ -849,9 +797,9 @@ public abstract class ChoiceAdventures {
         "Town",
         "Sleazy Back Alley",
         // Option...
-        new Option("enter combat"),
-        new Option("meat and moxie"),
-        new Option("Mad Train wine", "Mad Train wine"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("meat and moxie"),
+        new ChoiceOption("Mad Train wine", "Mad Train wine"));
 
     // The Entertainer
     new ChoiceAdventure(
@@ -859,9 +807,9 @@ public abstract class ChoiceAdventures {
         "Town",
         "Sleazy Back Alley",
         // Option...
-        new Option("moxie substats"),
-        new Option("moxie and muscle"),
-        new Option("small meat boost"),
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("moxie and muscle"),
+        new ChoiceOption("small meat boost"),
         SKIP_ADVENTURE);
 
     // Malice in Chains
@@ -870,9 +818,9 @@ public abstract class ChoiceAdventures {
         "Knob",
         "Outskirts of The Knob",
         // Option...
-        new Option("muscle substats"),
-        new Option("muscle substats"),
-        new Option("enter combat"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("enter combat"));
 
     // Please, Hammer
     new ChoiceAdventure(
@@ -880,9 +828,9 @@ public abstract class ChoiceAdventures {
         "Town",
         "Sleazy Back Alley",
         // Option...
-        new Option("accept hammer quest"),
-        new Option("reject quest"),
-        new Option("muscle substats"));
+        new ChoiceOption("accept hammer quest"),
+        new ChoiceOption("reject quest"),
+        new ChoiceOption("muscle substats"));
 
     // Knob Goblin BBQ
     new ChoiceAdventure(
@@ -890,9 +838,9 @@ public abstract class ChoiceAdventures {
         "Knob",
         "Outskirts of The Knob",
         // Option...
-        new Option("complete cake quest"),
-        new Option("enter combat"),
-        new Option("get a random item"));
+        new ChoiceOption("complete cake quest"),
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("get a random item"));
 
     // The Baker's Dilemma
     new ChoiceAdventure(
@@ -900,9 +848,9 @@ public abstract class ChoiceAdventures {
         "Manor1",
         "Haunted Pantry",
         // Option...
-        new Option("accept cake quest"),
-        new Option("reject quest"),
-        new Option("moxie and meat"));
+        new ChoiceOption("accept cake quest"),
+        new ChoiceOption("reject quest"),
+        new ChoiceOption("moxie and meat"));
 
     // Oh No, Hobo
     new ChoiceAdventure(
@@ -910,9 +858,9 @@ public abstract class ChoiceAdventures {
         "Manor1",
         "Haunted Pantry",
         // Option...
-        new Option("enter combat"),
-        new Option("Good Karma"),
-        new Option("mysticality, moxie, and meat"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("Good Karma"),
+        new ChoiceOption("mysticality, moxie, and meat"));
 
     // The Singing Tree
     new ChoiceAdventure(
@@ -920,9 +868,9 @@ public abstract class ChoiceAdventures {
         "Manor1",
         "Haunted Pantry",
         // Option...
-        new Option("mysticality substats"),
-        new Option("moxie substats"),
-        new Option("random effect"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("random effect"),
         SKIP_ADVENTURE);
 
     // Tresspasser
@@ -931,9 +879,9 @@ public abstract class ChoiceAdventures {
         "Manor1",
         "Haunted Pantry",
         // Option...
-        new Option("enter combat"),
-        new Option("mysticality substats"),
-        new Option("get a random item"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("get a random item"));
 
     // When Rocks Attack
     new ChoiceAdventure(
@@ -941,7 +889,7 @@ public abstract class ChoiceAdventures {
         "Knob",
         "Outskirts of The Knob",
         // Option...
-        new Option("accept unguent quest"),
+        new ChoiceOption("accept unguent quest"),
         SKIP_ADVENTURE);
 
     // Choice 119 is Check It Out Now
@@ -952,9 +900,9 @@ public abstract class ChoiceAdventures {
         "Knob",
         "Outskirts of The Knob",
         // Option...
-        new Option("muscle and Pumped Up"),
-        new Option("ice cold Sir Schlitz", "ice cold Sir Schlitz"),
-        new Option("moxie and lemon", "lemon"),
+        new ChoiceOption("muscle and Pumped Up"),
+        new ChoiceOption("ice cold Sir Schlitz", "ice cold Sir Schlitz"),
+        new ChoiceOption("moxie and lemon", "lemon"),
         SKIP_ADVENTURE);
 
     // Choice 121 is Next Sunday, A.D.
@@ -965,9 +913,9 @@ public abstract class ChoiceAdventures {
         123,
         "Hidden Temple",
         // Option...
-        new Option("lose HP"),
-        new Option("Unlock Quest Puzzle"),
-        new Option("lose HP"));
+        new ChoiceOption("lose HP"),
+        new ChoiceOption("Unlock Quest Puzzle"),
+        new ChoiceOption("lose HP"));
 
     // Choice 124 is unknown
 
@@ -976,9 +924,9 @@ public abstract class ChoiceAdventures {
         125,
         "Hidden Temple",
         // Option...
-        new Option("lose HP"),
-        new Option("lose HP"),
-        new Option("Unlock Hidden City"));
+        new ChoiceOption("lose HP"),
+        new ChoiceOption("lose HP"),
+        new ChoiceOption("Unlock Hidden City"));
 
     // Sun at Noon, Tan Us
     new ChoiceAdventure(
@@ -986,9 +934,9 @@ public abstract class ChoiceAdventures {
         "Plains",
         "Palindome",
         // Option...
-        new Option("moxie"),
-        new Option("chance of more moxie"),
-        new Option("sunburned"));
+        new ChoiceOption("moxie"),
+        new ChoiceOption("chance of more moxie"),
+        new ChoiceOption("sunburned"));
 
     // No sir, away!  A papaya war is on!
     new ChoiceSpoiler(
@@ -996,9 +944,9 @@ public abstract class ChoiceAdventures {
         "Plains",
         "Palindome",
         // Option...
-        new Option("3 papayas", "papaya"),
-        new Option("trade 3 papayas for stats"),
-        new Option("stats"));
+        new ChoiceOption("3 papayas", "papaya"),
+        new ChoiceOption("trade 3 papayas for stats"),
+        new ChoiceOption("stats"));
     // No sir, away!  A papaya war is on!
     new ChoiceCost(127, new Cost(2, ItemPool.get(ItemPool.PAPAYA, -3)));
 
@@ -1010,7 +958,7 @@ public abstract class ChoiceAdventures {
         "Plains",
         "Palindome",
         // Option...
-        new Option("photograph of God", "photograph of God"),
+        new ChoiceOption("photograph of God", "photograph of God"),
         SKIP_ADVENTURE);
     // Do Geese See God?
     new ChoiceCost(129, new Cost(1, new AdventureResult(AdventureResult.MEAT, -500)));
@@ -1023,10 +971,10 @@ public abstract class ChoiceAdventures {
         "Island",
         "Hippy Camp",
         // Option...
-        new Option("filthy corduroys", "filthy corduroys"),
-        new Option("filthy knitted dread sack", "filthy knitted dread sack"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("filthy corduroys", "filthy corduroys"),
+        new ChoiceOption("filthy knitted dread sack", "filthy knitted dread sack"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // An Inconvenient Truth
     new ChoiceAdventure(
@@ -1034,10 +982,10 @@ public abstract class ChoiceAdventures {
         "Island",
         "Hippy Camp",
         // Option...
-        new Option("filthy knitted dread sack", "filthy knitted dread sack"),
-        new Option("filthy corduroys", "filthy corduroys"),
-        new Option("small meat boost"),
-        new Option("complete the outfit"));
+        new ChoiceOption("filthy knitted dread sack", "filthy knitted dread sack"),
+        new ChoiceOption("filthy corduroys", "filthy corduroys"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("complete the outfit"));
 
     // Purple Hazers
     new ChoiceAdventure(
@@ -1045,10 +993,10 @@ public abstract class ChoiceAdventures {
         "Island",
         "Frat House",
         // Option...
-        new Option("Orcish cargo shorts", "Orcish cargo shorts"),
-        new Option("Orcish baseball cap", "Orcish baseball cap"),
-        new Option("Orcish frat-paddle", "Orcish frat-paddle"),
-        new Option("complete the outfit"));
+        new ChoiceOption("Orcish cargo shorts", "Orcish cargo shorts"),
+        new ChoiceOption("Orcish baseball cap", "Orcish baseball cap"),
+        new ChoiceOption("Orcish frat-paddle", "Orcish frat-paddle"),
+        new ChoiceOption("complete the outfit"));
 
     // Bait and Switch
     new ChoiceAdventure(
@@ -1056,9 +1004,9 @@ public abstract class ChoiceAdventures {
         "IsleWar",
         "War Hippies",
         // Option...
-        new Option("muscle substats"),
-        new Option("ferret bait", "ferret bait"),
-        new Option("enter combat"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("ferret bait", "ferret bait"),
+        new ChoiceOption("enter combat"));
 
     // The Thin Tie-Dyed Line
     new ChoiceAdventure(
@@ -1066,9 +1014,9 @@ public abstract class ChoiceAdventures {
         "IsleWar",
         "War Hippies",
         // Option...
-        new Option("water pipe bombs", "water pipe bomb"),
-        new Option("moxie substats"),
-        new Option("enter combat"));
+        new ChoiceOption("water pipe bombs", "water pipe bomb"),
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("enter combat"));
 
     // Blockin' Out the Scenery
     new ChoiceAdventure(
@@ -1076,9 +1024,9 @@ public abstract class ChoiceAdventures {
         "IsleWar",
         "War Hippies",
         // Option...
-        new Option("mysticality substats"),
-        new Option("get some hippy food"),
-        new Option("waste a turn"));
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("get some hippy food"),
+        new ChoiceOption("waste a turn"));
 
     // Blockin' Out the Scenery
     new ChoiceAdventure(
@@ -1086,9 +1034,9 @@ public abstract class ChoiceAdventures {
         "IsleWar",
         "War Hippies",
         // Option...
-        new Option("mysticality substats"),
-        new Option("get some hippy food"),
-        new Option("start the war"));
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("get some hippy food"),
+        new ChoiceOption("start the war"));
 
     // Catching Some Zetas
     new ChoiceAdventure(
@@ -1096,9 +1044,9 @@ public abstract class ChoiceAdventures {
         "IsleWar",
         "War Fraternity",
         // Option...
-        new Option("muscle substats"),
-        new Option("sake bombs", "sake bomb"),
-        new Option("enter combat"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("sake bombs", "sake bomb"),
+        new ChoiceOption("enter combat"));
 
     // One Less Room Than In That Movie
     new ChoiceAdventure(
@@ -1106,9 +1054,9 @@ public abstract class ChoiceAdventures {
         "IsleWar",
         "War Fraternity",
         // Option...
-        new Option("moxie substats"),
-        new Option("beer bombs", "beer bomb"),
-        new Option("enter combat"));
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("beer bombs", "beer bomb"),
+        new ChoiceOption("enter combat"));
 
     // Fratacombs
     new ChoiceAdventure(
@@ -1116,9 +1064,9 @@ public abstract class ChoiceAdventures {
         "IsleWar",
         "War Fraternity",
         // Option...
-        new Option("muscle substats"),
-        new Option("get some frat food"),
-        new Option("waste a turn"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("get some frat food"),
+        new ChoiceOption("waste a turn"));
 
     // Fratacombs
     new ChoiceAdventure(
@@ -1126,9 +1074,9 @@ public abstract class ChoiceAdventures {
         "IsleWar",
         "War Fraternity",
         // Option...
-        new Option("muscle substats"),
-        new Option("get some frat food"),
-        new Option("start the war"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("get some frat food"),
+        new ChoiceOption("start the war"));
 
     // Cornered!
     new ChoiceAdventure(
@@ -1136,9 +1084,9 @@ public abstract class ChoiceAdventures {
         "Farm",
         "McMillicancuddy's Barn",
         // Option...
-        new Option("Open The Granary (meat)"),
-        new Option("Open The Bog (stench)"),
-        new Option("Open The Pond (cold)"));
+        new ChoiceOption("Open The Granary (meat)"),
+        new ChoiceOption("Open The Bog (stench)"),
+        new ChoiceOption("Open The Pond (cold)"));
 
     // Cornered Again!
     new ChoiceAdventure(
@@ -1146,8 +1094,8 @@ public abstract class ChoiceAdventures {
         "Farm",
         "McMillicancuddy's Barn",
         // Option...
-        new Option("Open The Back 40 (hot)"),
-        new Option("Open The Family Plot (spooky)"));
+        new ChoiceOption("Open The Back 40 (hot)"),
+        new ChoiceOption("Open The Family Plot (spooky)"));
 
     // How Many Corners Does this Stupid Barn Have!?
     new ChoiceAdventure(
@@ -1155,8 +1103,8 @@ public abstract class ChoiceAdventures {
         "Farm",
         "McMillicancuddy's Barn",
         // Option...
-        new Option("Open The Shady Thicket (booze)"),
-        new Option("Open The Other Back 40 (sleaze)"));
+        new ChoiceOption("Open The Shady Thicket (booze)"),
+        new ChoiceOption("Open The Other Back 40 (sleaze)"));
 
     // Choice 150 is Another Adventure About BorderTown
 
@@ -1166,7 +1114,7 @@ public abstract class ChoiceAdventures {
         "Plains",
         "Fun House",
         // Option...
-        new Option("fight the clownlord"),
+        new ChoiceOption("fight the clownlord"),
         SKIP_ADVENTURE);
 
     // Lurking at the Threshold
@@ -1175,7 +1123,7 @@ public abstract class ChoiceAdventures {
         "Plains",
         "Fun House",
         // Option...
-        new Option("fight the clownlord"),
+        new ChoiceOption("fight the clownlord"),
         SKIP_ADVENTURE);
 
     // Turn Your Head and Coffin
@@ -1184,9 +1132,9 @@ public abstract class ChoiceAdventures {
         "Cyrpt",
         "Defiled Alcove",
         // Option...
-        new Option("muscle substats"),
-        new Option("small meat boost"),
-        new Option("half-rotten brain", "half-rotten brain"),
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("half-rotten brain", "half-rotten brain"),
         SKIP_ADVENTURE);
 
     // Choice 154 used to be Doublewide
@@ -1197,10 +1145,10 @@ public abstract class ChoiceAdventures {
         "Cyrpt",
         "Defiled Nook",
         // Option...
-        new Option("moxie substats"),
-        new Option("small meat boost"),
-        new Option("rusty bonesaw", "rusty bonesaw"),
-        new Option("debonair deboner", "debonair deboner"),
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("rusty bonesaw", "rusty bonesaw"),
+        new ChoiceOption("debonair deboner", "debonair deboner"),
         SKIP_ADVENTURE);
 
     // Choice 156 used to be Pileup
@@ -1211,9 +1159,9 @@ public abstract class ChoiceAdventures {
         "Cyrpt",
         "Defiled Niche",
         // Option...
-        new Option("mysticality substats"),
-        new Option("plus-sized phylactery", "plus-sized phylactery"),
-        new Option("small meat boost"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("plus-sized phylactery", "plus-sized phylactery"),
+        new ChoiceOption("small meat boost"),
         SKIP_ADVENTURE);
 
     // Choice 158 used to be Lich in the Niche
@@ -1227,7 +1175,7 @@ public abstract class ChoiceAdventures {
         162,
         "Goatlet",
         // Option...
-        new Option("Open Goatlet"),
+        new ChoiceOption("Open Goatlet"),
         SKIP_ADVENTURE);
 
     // Melvil Dewey Would Be Ashamed
@@ -1236,9 +1184,9 @@ public abstract class ChoiceAdventures {
         "Manor1",
         "Haunted Library",
         // Option...
-        new Option("Necrotelicomnicon", "Necrotelicomnicon"),
-        new Option("Cookbook of the Damned", "Cookbook of the Damned"),
-        new Option("Sinful Desires", "Sinful Desires"),
+        new ChoiceOption("Necrotelicomnicon", "Necrotelicomnicon"),
+        new ChoiceOption("Cookbook of the Damned", "Cookbook of the Damned"),
+        new ChoiceOption("Sinful Desires", "Sinful Desires"),
         SKIP_ADVENTURE);
 
     // The Wormwood choices always come in order
@@ -1284,9 +1232,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Pleasure Dome",
         // Option...
-        new Option("muscle substats"),
-        new Option("MP & Spirit of Alph"),
-        new Option("enter combat"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("MP & Spirit of Alph"),
+        new ChoiceOption("enter combat"));
 
     // Beyond Any Measure
     new ChoiceAdventure(
@@ -1294,9 +1242,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Pleasure Dome",
         // Option...
-        new Option("Rat-Faced -> Night Vision"),
-        new Option("Bats in the Belfry -> Good with the Ladies"),
-        new Option("mysticality substats"),
+        new ChoiceOption("Rat-Faced -> Night Vision"),
+        new ChoiceOption("Bats in the Belfry -> Good with the Ladies"),
+        new ChoiceOption("mysticality substats"),
         SKIP_ADVENTURE);
 
     // Death is a Boat
@@ -1305,9 +1253,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Pleasure Dome",
         // Option...
-        new Option("No Vertigo -> S.T.L.T.", "S.T.L.T."),
-        new Option("moxie substats"),
-        new Option("Unusual Fashion Sense -> albatross necklace", "albatross necklace"));
+        new ChoiceOption("No Vertigo -> S.T.L.T.", "S.T.L.T."),
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("Unusual Fashion Sense -> albatross necklace", "albatross necklace"));
 
     // It's a Fixer-Upper
     new ChoiceAdventure(
@@ -1315,9 +1263,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Moulder Mansion",
         // Option...
-        new Option("enter combat"),
-        new Option("mysticality substats"),
-        new Option("HP & MP & Bats in the Belfry"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("HP & MP & Bats in the Belfry"));
 
     // Midst the Pallor of the Parlor
     new ChoiceAdventure(
@@ -1325,9 +1273,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Moulder Mansion",
         // Option...
-        new Option("moxie substats"),
-        new Option("Spirit of Alph -> Feelin' Philosophical"),
-        new Option("Rat-Faced -> Unusual Fashion Sense"));
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("Spirit of Alph -> Feelin' Philosophical"),
+        new ChoiceOption("Rat-Faced -> Unusual Fashion Sense"));
 
     // A Few Chintz Curtains, Some Throw Pillows, It
     new ChoiceAdventure(
@@ -1335,9 +1283,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Moulder Mansion",
         // Option...
-        new Option("Night Vision -> flask of Amontillado", "flask of Amontillado"),
-        new Option("muscle substats"),
-        new Option("Dancing Prowess -> fancy ball mask", "fancy ball mask"));
+        new ChoiceOption("Night Vision -> flask of Amontillado", "flask of Amontillado"),
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("Dancing Prowess -> fancy ball mask", "fancy ball mask"));
 
     // La Vie Boheme
     new ChoiceAdventure(
@@ -1345,9 +1293,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Rogue Windmill",
         // Option...
-        new Option("HP & Rat-Faced"),
-        new Option("enter combat"),
-        new Option("moxie substats"));
+        new ChoiceOption("HP & Rat-Faced"),
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("moxie substats"));
 
     // Backstage at the Rogue Windmill
     new ChoiceAdventure(
@@ -1355,9 +1303,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Rogue Windmill",
         // Option...
-        new Option("Bats in the Belfry -> No Vertigo"),
-        new Option("muscle substats"),
-        new Option("Spirit of Alph -> Dancing Prowess"));
+        new ChoiceOption("Bats in the Belfry -> No Vertigo"),
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("Spirit of Alph -> Dancing Prowess"));
 
     // Up in the Hippo Room
     new ChoiceAdventure(
@@ -1365,9 +1313,9 @@ public abstract class ChoiceAdventures {
         "Wormwood",
         "Rogue Windmill",
         // Option...
-        new Option("Good with the Ladies -> Can-Can skirt", "Can-Can skirt"),
-        new Option("Feelin' Philosophical -> not-a-pipe", "not-a-pipe"),
-        new Option("mysticality substats"));
+        new ChoiceOption("Good with the Ladies -> Can-Can skirt", "Can-Can skirt"),
+        new ChoiceOption("Feelin' Philosophical -> not-a-pipe", "not-a-pipe"),
+        new ChoiceOption("mysticality substats"));
 
     // Choice 173 is The Last Stand, Man
     // Choice 174 is The Last Stand, Bra
@@ -1381,7 +1329,7 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Fantasy Airship Shirt",
         // Option...
-        new Option("bronze breastplate", "bronze breastplate"),
+        new ChoiceOption("bronze breastplate", "bronze breastplate"),
         SKIP_ADVENTURE);
 
     // Choice 179 is unknown
@@ -1392,7 +1340,7 @@ public abstract class ChoiceAdventures {
         "Plains",
         "Palindome Shirt",
         // Option...
-        new Option("Ye Olde Navy Fleece", "Ye Olde Navy Fleece"),
+        new ChoiceOption("Ye Olde Navy Fleece", "Ye Olde Navy Fleece"),
         SKIP_ADVENTURE);
 
     // Chieftain of the Flies
@@ -1401,8 +1349,8 @@ public abstract class ChoiceAdventures {
         "Island",
         "Frat House (Stone Age)",
         // Option...
-        new Option("around the world", "around the world"),
-        new Option("skip adventure", "Spanish fly"));
+        new ChoiceOption("around the world", "around the world"),
+        new ChoiceOption("skip adventure", "Spanish fly"));
     // Chieftain of the Flies
     // This trades all Spanish flies for around the worlds,
     // in multiples of 5.  Excess flies are left in inventory.
@@ -1414,12 +1362,12 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Fantasy Airship",
         // Option...
-        new Option("enter combat"),
-        new Option("Penultimate Fantasy chest", "Penultimate Fantasy chest"),
-        new Option("stats"),
-        new Option("model airship and combat", "model airship"),
-        new Option("model airship and chest", "model airship"),
-        new Option("model airship and stats", "model airship"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("Penultimate Fantasy chest", "Penultimate Fantasy chest"),
+        new ChoiceOption("stats"),
+        new ChoiceOption("model airship and combat", "model airship"),
+        new ChoiceOption("model airship and chest", "model airship"),
+        new ChoiceOption("model airship and stats", "model airship"));
 
     // That Explains All The Eyepatches
     // Dynamically calculate options based on mainstat
@@ -1434,9 +1382,9 @@ public abstract class ChoiceAdventures {
         "Pirate",
         "Barrrney's Barrr",
         // Option...
-        new Option("stats"),
-        new Option("drunkenness and stats"),
-        new Option("moxie"));
+        new ChoiceOption("stats"),
+        new ChoiceOption("drunkenness and stats"),
+        new ChoiceOption("moxie"));
 
     // Choice 187 is Arrr You Man Enough?
 
@@ -1446,9 +1394,9 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Frathouse Blueprints",
         // Option...
-        new Option("frat boy ensemble"),
-        new Option("mullet wig and briefcase"),
-        new Option("frilly skirt and hot wings"));
+        new ChoiceOption("frat boy ensemble"),
+        new ChoiceOption("mullet wig and briefcase"),
+        new ChoiceOption("frilly skirt and hot wings"));
 
     // O Cap'm, My Cap'm
     new ChoiceCost(189, new Cost(1, new AdventureResult(AdventureResult.MEAT, -977)));
@@ -1461,14 +1409,14 @@ public abstract class ChoiceAdventures {
         "Pirate",
         "F'c'le",
         // Option...
-        new Option("moxie substats"),
-        new Option("use valuable trinket to banish, or lose hp"),
-        new Option("muscle substats"),
-        new Option("mysticality substats"),
-        new Option("use valuable trinket to banish, or moxie"),
-        new Option("use valuable trinket to banish, or muscle"),
-        new Option("use valuable trinket to banish, or mysticality"),
-        new Option("use valuable trinket to banish, or mainstat"));
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("use valuable trinket to banish, or lose hp"),
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("use valuable trinket to banish, or moxie"),
+        new ChoiceOption("use valuable trinket to banish, or muscle"),
+        new ChoiceOption("use valuable trinket to banish, or mysticality"),
+        new ChoiceOption("use valuable trinket to banish, or mainstat"));
     new ChoiceCost(191, new Cost(2, ItemPool.get(ItemPool.VALUABLE_TRINKET, -1)));
 
     // Choice 192 is unknown
@@ -1480,9 +1428,9 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "A Maze of Sewer Tunnels",
         // Option...
-        new Option("take the tunnel"),
-        new Option("sewer gator"),
-        new Option("turn the valve"));
+        new ChoiceOption("take the tunnel"),
+        new ChoiceOption("sewer gator"),
+        new ChoiceOption("turn the valve"));
 
     // Disgustin' Junction
     new ChoiceAdventure(
@@ -1490,9 +1438,9 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "A Maze of Sewer Tunnels",
         // Option...
-        new Option("take the tunnel"),
-        new Option("giant zombie goldfish"),
-        new Option("open the grate"));
+        new ChoiceOption("take the tunnel"),
+        new ChoiceOption("giant zombie goldfish"),
+        new ChoiceOption("open the grate"));
 
     // The Former or the Ladder
     new ChoiceAdventure(
@@ -1500,9 +1448,9 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "A Maze of Sewer Tunnels",
         // Option...
-        new Option("take the tunnel"),
-        new Option("C. H. U. M."),
-        new Option("head down the ladder"));
+        new ChoiceOption("take the tunnel"),
+        new ChoiceOption("C. H. U. M."),
+        new ChoiceOption("head down the ladder"));
 
     // Enter The Hoboverlord
     new ChoiceAdventure(
@@ -1510,7 +1458,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Hobopolis Town Square",
         // Option...
-        new Option("enter combat with Hodgman"),
+        new ChoiceOption("enter combat with Hodgman"),
         SKIP_ADVENTURE);
 
     // Home, Home in the Range
@@ -1519,7 +1467,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Burnbarrel Blvd.",
         // Option...
-        new Option("enter combat with Ol' Scratch"),
+        new ChoiceOption("enter combat with Ol' Scratch"),
         SKIP_ADVENTURE);
 
     // Bumpity Bump Bump
@@ -1528,7 +1476,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Exposure Esplanade",
         // Option...
-        new Option("enter combat with Frosty"),
+        new ChoiceOption("enter combat with Frosty"),
         SKIP_ADVENTURE);
 
     // Deep Enough to Dive
@@ -1537,7 +1485,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Heap",
         // Option...
-        new Option("enter combat with Oscus"),
+        new ChoiceOption("enter combat with Oscus"),
         SKIP_ADVENTURE);
 
     // Welcome To You!
@@ -1546,7 +1494,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Ancient Hobo Burial Ground",
         // Option...
-        new Option("enter combat with Zombo"),
+        new ChoiceOption("enter combat with Zombo"),
         SKIP_ADVENTURE);
 
     // Van, Damn
@@ -1555,7 +1503,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Purple Light District",
         // Option...
-        new Option("enter combat with Chester"),
+        new ChoiceOption("enter combat with Chester"),
         SKIP_ADVENTURE);
 
     // Getting Tired
@@ -1564,8 +1512,8 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Burnbarrel Blvd.",
         // Option...
-        new Option("start tirevalanche"),
-        new Option("add tire to stack"),
+        new ChoiceOption("start tirevalanche"),
+        new ChoiceOption("add tire to stack"),
         SKIP_ADVENTURE);
 
     // Hot Dog! I Mean... Door!
@@ -1574,7 +1522,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Burnbarrel Blvd.",
         // Option...
-        new Option("increase hot hobos & get clan meat"),
+        new ChoiceOption("increase hot hobos & get clan meat"),
         SKIP_ADVENTURE);
 
     // Ah, So That's Where They've All Gone
@@ -1583,7 +1531,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Ancient Hobo Burial Ground",
         // Option...
-        new Option("increase spooky hobos & decrease stench"),
+        new ChoiceOption("increase spooky hobos & decrease stench"),
         SKIP_ADVENTURE);
 
     // Choice 209 is Timbarrrr!
@@ -1595,7 +1543,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "A Maze of Sewer Tunnels",
         // Option...
-        new Option("gnaw through the bars"));
+        new ChoiceOption("gnaw through the bars"));
 
     // Choice 212 is also Despite All Your Rage, apparently after you've already
     // tried to wait for rescue?
@@ -1604,7 +1552,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "A Maze of Sewer Tunnels",
         // Option...
-        new Option("gnaw through the bars"));
+        new ChoiceOption("gnaw through the bars"));
 
     // Piping Hot
     new ChoiceAdventure(
@@ -1612,7 +1560,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Burnbarrel Blvd.",
         // Option...
-        new Option("increase sleaze hobos & decrease heat"),
+        new ChoiceOption("increase sleaze hobos & decrease heat"),
         SKIP_ADVENTURE);
 
     // You vs. The Volcano
@@ -1621,7 +1569,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Heap",
         // Option...
-        new Option("decrease stench hobos & increase stench"),
+        new ChoiceOption("decrease stench hobos & increase stench"),
         SKIP_ADVENTURE);
 
     // Piping Cold
@@ -1630,9 +1578,9 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Exposure Esplanade",
         // Option...
-        new Option("decrease heat"),
-        new Option("decrease sleaze hobos"),
-        new Option("increase number of icicles"));
+        new ChoiceOption("decrease heat"),
+        new ChoiceOption("decrease sleaze hobos"),
+        new ChoiceOption("increase number of icicles"));
 
     // The Compostal Service
     new ChoiceAdventure(
@@ -1640,7 +1588,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Heap",
         // Option...
-        new Option("decrease stench & spooky"),
+        new ChoiceOption("decrease stench & spooky"),
         SKIP_ADVENTURE);
 
     // There Goes Fritz!
@@ -1649,9 +1597,9 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Exposure Esplanade",
         // Option...
-        new Option("yodel a little"),
-        new Option("yodel a lot"),
-        new Option("yodel your heart out"));
+        new ChoiceOption("yodel a little"),
+        new ChoiceOption("yodel a lot"),
+        new ChoiceOption("yodel your heart out"));
 
     // I Refuse!
     new ChoiceAdventure(
@@ -1659,7 +1607,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Heap",
         // Option...
-        new Option("explore the junkpile"),
+        new ChoiceOption("explore the junkpile"),
         SKIP_ADVENTURE);
 
     // The Furtivity of My City
@@ -1668,9 +1616,9 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Purple Light District",
         // Option...
-        new Option("fight sleaze hobo"),
-        new Option("increase stench"),
-        new Option("increase sleaze hobos & get clan meat"));
+        new ChoiceOption("fight sleaze hobo"),
+        new ChoiceOption("increase stench"),
+        new ChoiceOption("increase sleaze hobos & get clan meat"));
 
     // Returning to the Tomb
     new ChoiceAdventure(
@@ -1678,7 +1626,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Ancient Hobo Burial Ground",
         // Option...
-        new Option("increase spooky hobos & get clan meat"),
+        new ChoiceOption("increase spooky hobos & get clan meat"),
         SKIP_ADVENTURE);
 
     // A Chiller Night
@@ -1687,8 +1635,8 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Ancient Hobo Burial Ground",
         // Option...
-        new Option("study the dance moves"),
-        new Option("dance with hobo zombies"),
+        new ChoiceOption("study the dance moves"),
+        new ChoiceOption("dance with hobo zombies"),
         SKIP_ADVENTURE);
 
     // A Chiller Night (2)
@@ -1697,7 +1645,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Ancient Hobo Burial Ground",
         // Option...
-        new Option("dance with hobo zombies"),
+        new ChoiceOption("dance with hobo zombies"),
         SKIP_ADVENTURE);
 
     // Getting Clubbed
@@ -1706,9 +1654,9 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Purple Light District",
         // Option...
-        new Option("try to get inside"),
-        new Option("try to bamboozle the crowd"),
-        new Option("try to flimflam the crowd"));
+        new ChoiceOption("try to get inside"),
+        new ChoiceOption("try to bamboozle the crowd"),
+        new ChoiceOption("try to flimflam the crowd"));
 
     // Exclusive!
     new ChoiceAdventure(
@@ -1716,9 +1664,9 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Purple Light District",
         // Option...
-        new Option("fight sleaze hobo"),
-        new Option("start barfight"),
-        new Option("gain stats"));
+        new ChoiceOption("fight sleaze hobo"),
+        new ChoiceOption("start barfight"),
+        new ChoiceOption("gain stats"));
 
     // Attention -- A Tent!
     new ChoiceAdventure(
@@ -1726,8 +1674,8 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Hobopolis Town Square",
         // Option...
-        new Option("perform on stage"),
-        new Option("join the crowd"),
+        new ChoiceOption("perform on stage"),
+        new ChoiceOption("join the crowd"),
         SKIP_ADVENTURE);
 
     // Choice 226 is Here You Are, Up On Stage (use the same system as 211 & 212)
@@ -1741,7 +1689,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Hobopolis Town Square",
         // Option...
-        new Option("hobo code binder", "hobo code binder"),
+        new ChoiceOption("hobo code binder", "hobo code binder"),
         SKIP_ADVENTURE);
     // Mind Yer Binder
     new ChoiceCost(230, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -30)));
@@ -1753,18 +1701,18 @@ public abstract class ChoiceAdventures {
         235,
         "Hobopolis Marketplace",
         // Option...
-        new Option("muscle food"),
-        new Option("mysticality food"),
-        new Option("moxie food"));
+        new ChoiceOption("muscle food"),
+        new ChoiceOption("mysticality food"),
+        new ChoiceOption("moxie food"));
 
     // Booze, Glorious Booze
     new ChoiceSpoiler(
         240,
         "Hobopolis Marketplace",
         // Option...
-        new Option("muscle booze"),
-        new Option("mysticality booze"),
-        new Option("moxie booze"));
+        new ChoiceOption("muscle booze"),
+        new ChoiceOption("mysticality booze"),
+        new ChoiceOption("moxie booze"));
 
     // The Guy Who Carves Driftwood Animals
     new ChoiceCost(247, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -10)));
@@ -1774,9 +1722,9 @@ public abstract class ChoiceAdventures {
         250,
         "Hobopolis Marketplace",
         // Option...
-        new Option("crumpled felt fedora", "crumpled felt fedora"),
-        new Option("battered old top-hat", "battered old top-hat"),
-        new Option("shapeless wide-brimmed hat", "shapeless wide-brimmed hat"));
+        new ChoiceOption("crumpled felt fedora", "crumpled felt fedora"),
+        new ChoiceOption("battered old top-hat", "battered old top-hat"),
+        new ChoiceOption("shapeless wide-brimmed hat", "shapeless wide-brimmed hat"));
     // A Hattery
     new ChoiceCost(
         250,
@@ -1789,9 +1737,9 @@ public abstract class ChoiceAdventures {
         251,
         "Hobopolis Marketplace",
         // Option...
-        new Option("mostly rat-hide leggings", "mostly rat-hide leggings"),
-        new Option("hobo dungarees", "hobo dungarees"),
-        new Option("old patched suit-pants", "old patched suit-pants"));
+        new ChoiceOption("mostly rat-hide leggings", "mostly rat-hide leggings"),
+        new ChoiceOption("hobo dungarees", "hobo dungarees"),
+        new ChoiceOption("old patched suit-pants", "old patched suit-pants"));
     // A Pantry
     new ChoiceCost(
         251,
@@ -1804,9 +1752,9 @@ public abstract class ChoiceAdventures {
         252,
         "Hobopolis Marketplace",
         // Option...
-        new Option("old soft shoes", "old soft shoes"),
-        new Option("hobo stogie", "hobo stogie"),
-        new Option("rope with some soap on it", "rope with some soap on it"));
+        new ChoiceOption("old soft shoes", "old soft shoes"),
+        new ChoiceOption("hobo stogie", "hobo stogie"),
+        new ChoiceOption("rope with some soap on it", "rope with some soap on it"));
     // Hobo Blanket Bingo
     new ChoiceCost(
         252,
@@ -1819,9 +1767,9 @@ public abstract class ChoiceAdventures {
         255,
         "Hobopolis Marketplace",
         // Option...
-        new Option("sharpened hubcap", "sharpened hubcap"),
-        new Option("very large caltrop", "very large caltrop"),
-        new Option("The Six-Pack of Pain", "The Six-Pack of Pain"));
+        new ChoiceOption("sharpened hubcap", "sharpened hubcap"),
+        new ChoiceOption("very large caltrop", "very large caltrop"),
+        new ChoiceOption("The Six-Pack of Pain", "The Six-Pack of Pain"));
     // Black-and-Blue-and-Decker
     new ChoiceCost(
         255,
@@ -1837,9 +1785,9 @@ public abstract class ChoiceAdventures {
         259,
         "Hobopolis Marketplace",
         // Option...
-        new Option("hobo monkey"),
-        new Option("stats"),
-        new Option("enter combat"));
+        new ChoiceOption("hobo monkey"),
+        new ChoiceOption("stats"),
+        new ChoiceOption("enter combat"));
 
     // Everybody's Got Something To Hide
     new ChoiceCost(261, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -1000)));
@@ -1849,8 +1797,8 @@ public abstract class ChoiceAdventures {
         264,
         "Hobopolis Marketplace",
         // Option...
-        new Option("20 adv of +50% moxie"),
-        new Option("20 adv of +50% mysticality"));
+        new ChoiceOption("20 adv of +50% moxie"),
+        new ChoiceOption("20 adv of +50% mysticality"));
     // Tanning Salon
     new ChoiceCost(
         264,
@@ -1862,8 +1810,8 @@ public abstract class ChoiceAdventures {
         267,
         "Hobopolis Marketplace",
         // Option...
-        new Option("20 adv of +5 spooky resistance"),
-        new Option("20 adv of +5 sleaze resistance"));
+        new ChoiceOption("20 adv of +5 spooky resistance"),
+        new ChoiceOption("20 adv of +5 sleaze resistance"));
     // Let's All Go To The Movies
     new ChoiceCost(
         267,
@@ -1875,8 +1823,8 @@ public abstract class ChoiceAdventures {
         268,
         "Hobopolis Marketplace",
         // Option...
-        new Option("20 adv of +5 stench resistance"),
-        new Option("20 adv of +50% muscle"));
+        new ChoiceOption("20 adv of +5 stench resistance"),
+        new ChoiceOption("20 adv of +50% muscle"));
     // It's Fun To Stay There
     new ChoiceCost(
         268,
@@ -1889,7 +1837,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Hobopolis Town Square",
         // Option...
-        new Option("enter marketplace"),
+        new ChoiceOption("enter marketplace"),
         SKIP_ADVENTURE);
 
     // Piping Cold
@@ -1898,8 +1846,8 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Exposure Esplanade",
         // Option...
-        new Option("frozen banquet"),
-        new Option("increase cold hobos & get clan meat"),
+        new ChoiceOption("frozen banquet"),
+        new ChoiceOption("increase cold hobos & get clan meat"),
         SKIP_ADVENTURE);
 
     // Choice 274 is Tattoo Redux, a subchoice of Choice 272 when
@@ -1917,134 +1865,134 @@ public abstract class ChoiceAdventures {
         276,
         "Gong",
         // Option...
-        new Option("3 adventures"),
-        new Option("12 adventures"),
-        new Option("15 adventures"));
+        new ChoiceOption("3 adventures"),
+        new ChoiceOption("12 adventures"),
+        new ChoiceOption("15 adventures"));
 
     // Welcome Back!
     new ChoiceSpoiler(
         277,
         "Gong",
         // Option...
-        new Option("finish journey"),
-        new Option("also finish journey"));
+        new ChoiceOption("finish journey"),
+        new ChoiceOption("also finish journey"));
 
     // Enter the Roach
     new ChoiceSpoiler(
         278,
         "Gong",
         // Option...
-        new Option("muscle substats"),
-        new Option("mysticality substats"),
-        new Option("moxie substats"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("moxie substats"));
 
     // It's Nukyuhlur - the 'S' is Silent.
     new ChoiceSpoiler(
         279,
         "Gong",
         // Option...
-        new Option("moxie substats"),
-        new Option("muscle substats"),
-        new Option("gain MP"));
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("gain MP"));
 
     // Eek! Eek!
     new ChoiceSpoiler(
         280,
         "Gong",
         // Option...
-        new Option("mysticality substats"),
-        new Option("muscle substats"),
-        new Option("gain MP"));
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("gain MP"));
 
     // A Meta-Metamorphosis
     new ChoiceSpoiler(
         281,
         "Gong",
         // Option...
-        new Option("moxie substats"),
-        new Option("mysticality substats"),
-        new Option("gain MP"));
+        new ChoiceOption("moxie substats"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("gain MP"));
 
     // You've Got Wings, But No Wingman
     new ChoiceSpoiler(
         282,
         "Gong",
         // Option...
-        new Option("+30% muscle"),
-        new Option("+10% all stats"),
-        new Option("+30 ML"));
+        new ChoiceOption("+30% muscle"),
+        new ChoiceOption("+10% all stats"),
+        new ChoiceOption("+30 ML"));
 
     // Time Enough at Last!
     new ChoiceSpoiler(
         283,
         "Gong",
         // Option...
-        new Option("+30% muscle"),
-        new Option("+10% all stats"),
-        new Option("+50% item drops"));
+        new ChoiceOption("+30% muscle"),
+        new ChoiceOption("+10% all stats"),
+        new ChoiceOption("+50% item drops"));
 
     // Scavenger Is Your Middle Name
     new ChoiceSpoiler(
         284,
         "Gong",
         // Option...
-        new Option("+30% muscle"),
-        new Option("+50% item drops"),
-        new Option("+30 ML"));
+        new ChoiceOption("+30% muscle"),
+        new ChoiceOption("+50% item drops"),
+        new ChoiceOption("+30 ML"));
 
     // Bugging Out
     new ChoiceSpoiler(
         285,
         "Gong",
         // Option...
-        new Option("+30% mysticality"),
-        new Option("+30 ML"),
-        new Option("+10% all stats"));
+        new ChoiceOption("+30% mysticality"),
+        new ChoiceOption("+30 ML"),
+        new ChoiceOption("+10% all stats"));
 
     // A Sweeping Generalization
     new ChoiceSpoiler(
         286,
         "Gong",
         // Option...
-        new Option("+50% item drops"),
-        new Option("+10% all stats"),
-        new Option("+30% mysticality"));
+        new ChoiceOption("+50% item drops"),
+        new ChoiceOption("+10% all stats"),
+        new ChoiceOption("+30% mysticality"));
 
     // In the Frigid Aire
     new ChoiceSpoiler(
         287,
         "Gong",
         // Option...
-        new Option("+30 ML"),
-        new Option("+30% mysticality"),
-        new Option("+50% item drops"));
+        new ChoiceOption("+30 ML"),
+        new ChoiceOption("+30% mysticality"),
+        new ChoiceOption("+50% item drops"));
 
     // Our House
     new ChoiceSpoiler(
         288,
         "Gong",
         // Option...
-        new Option("+30 ML"),
-        new Option("+30% moxie"),
-        new Option("+10% all stats"));
+        new ChoiceOption("+30 ML"),
+        new ChoiceOption("+30% moxie"),
+        new ChoiceOption("+10% all stats"));
 
     // Workin' For The Man
     new ChoiceSpoiler(
         289,
         "Gong",
         // Option...
-        new Option("+30 ML"),
-        new Option("+30% moxie"),
-        new Option("+50% item drops"));
+        new ChoiceOption("+30 ML"),
+        new ChoiceOption("+30% moxie"),
+        new ChoiceOption("+50% item drops"));
 
     // The World's Not Fair
     new ChoiceSpoiler(
         290,
         "Gong",
         // Option...
-        new Option("+30% moxie"),
-        new Option("+10% all stats"),
-        new Option("+50% item drops"));
+        new ChoiceOption("+30% moxie"),
+        new ChoiceOption("+10% all stats"),
+        new ChoiceOption("+50% item drops"));
 
     // A Tight Squeeze
     new ChoiceAdventure(
@@ -2052,7 +2000,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Burnbarrel Blvd.",
         // Option...
-        new Option("jar of squeeze", "jar of squeeze"),
+        new ChoiceOption("jar of squeeze", "jar of squeeze"),
         SKIP_ADVENTURE);
     // A Tight Squeeze - jar of squeeze
     new ChoiceCost(291, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)));
@@ -2063,7 +2011,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "Exposure Esplanade",
         // Option...
-        new Option("bowl of fishysoisse", "bowl of fishysoisse"),
+        new ChoiceOption("bowl of fishysoisse", "bowl of fishysoisse"),
         SKIP_ADVENTURE);
     // Cold Comfort - bowl of fishysoisse
     new ChoiceCost(292, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)));
@@ -2074,7 +2022,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Ancient Hobo Burial Ground",
         // Option...
-        new Option("deadly lampshade", "deadly lampshade"),
+        new ChoiceOption("deadly lampshade", "deadly lampshade"),
         SKIP_ADVENTURE);
     // Flowers for You - deadly lampshade
     new ChoiceCost(293, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)));
@@ -2085,7 +2033,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Purple Light District",
         // Option...
-        new Option("lewd playing card", "lewd playing card"),
+        new ChoiceOption("lewd playing card", "lewd playing card"),
         SKIP_ADVENTURE);
     // Maybe It's a Sexy Snake! - lewd playing card
     new ChoiceCost(294, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)));
@@ -2096,7 +2044,7 @@ public abstract class ChoiceAdventures {
         "Hobopolis",
         "The Heap",
         // Option...
-        new Option("concentrated garbage juice", "concentrated garbage juice"),
+        new ChoiceOption("concentrated garbage juice", "concentrated garbage juice"),
         SKIP_ADVENTURE);
     // Juicy! - concentrated garbage juice
     new ChoiceCost(295, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)));
@@ -2109,8 +2057,8 @@ public abstract class ChoiceAdventures {
         "Dungeon",
         "Haiku Dungeon",
         // Option...
-        new Option("mushrooms"),
-        new Option("fairy gravy boat", "fairy gravy boat"),
+        new ChoiceOption("mushrooms"),
+        new ChoiceOption("fairy gravy boat", "fairy gravy boat"),
         SKIP_ADVENTURE);
 
     // In the Shade
@@ -2119,7 +2067,7 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "An Octopus's Garden",
         // Option...
-        new Option("plant seeds"),
+        new ChoiceOption("plant seeds"),
         SKIP_ADVENTURE);
 
     // Down at the Hatch
@@ -2128,9 +2076,9 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "The Wreck of the Edgar Fitzsimmons",
         // Option...
-        new Option("release creatures"),
+        new ChoiceOption("release creatures"),
         SKIP_ADVENTURE,
-        new Option("unlock tarnished luggage key adventure"));
+        new ChoiceOption("unlock tarnished luggage key adventure"));
 
     // Choice 300 is Merry Crimbo!
     // Choice 301 is And to All a Good Night
@@ -2143,7 +2091,7 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "The Marinara Trench",
         // Option...
-        new Option("bubbling tempura batter", "bubbling tempura batter"),
+        new ChoiceOption("bubbling tempura batter", "bubbling tempura batter"),
         SKIP_ADVENTURE);
     // A Vent Horizon
     new ChoiceCost(304, new Cost(1, new AdventureLongCountResult(AdventureResult.MP, -200)));
@@ -2154,7 +2102,7 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "The Marinara Trench",
         // Option...
-        new Option("globe of Deep Sauce", "globe of Deep Sauce"),
+        new ChoiceOption("globe of Deep Sauce", "globe of Deep Sauce"),
         SKIP_ADVENTURE);
     // There is Sauce at the Bottom of the Ocean
     new ChoiceCost(305, new Cost(1, ItemPool.get(ItemPool.MERKIN_PRESSUREGLOBE, -1)));
@@ -2169,7 +2117,7 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "The Dive Bar",
         // Option...
-        new Option("seaode", "seaode"),
+        new ChoiceOption("seaode", "seaode"),
         SKIP_ADVENTURE);
 
     // The Economist of Scales
@@ -2178,11 +2126,11 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Madness Reef",
         // Option...
-        new Option("get 1 rough fish scale", 1, "rough fish scale"),
-        new Option("get 1 pristine fish scale", 2, "pristine fish scale"),
-        new Option("get multiple rough fish scales", 4, "rough fish scale"),
-        new Option("get multiple pristine fish scales", 5, "pristine fish scale"),
-        new Option("skip adventure", 6));
+        new ChoiceOption("get 1 rough fish scale", 1, "rough fish scale"),
+        new ChoiceOption("get 1 pristine fish scale", 2, "pristine fish scale"),
+        new ChoiceOption("get multiple rough fish scales", 4, "rough fish scale"),
+        new ChoiceOption("get multiple pristine fish scales", 5, "pristine fish scale"),
+        new ChoiceOption("skip adventure", 6));
     // The Economist of Scales
     // This trades 10 dull fish scales in.
     new ChoiceCost(
@@ -2198,7 +2146,7 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Madness Reef",
         // Option...
-        new Option("The Economist of Scales"),
+        new ChoiceOption("The Economist of Scales"),
         SKIP_ADVENTURE);
 
     // Choice 312 is unknown
@@ -2224,7 +2172,7 @@ public abstract class ChoiceAdventures {
         "Clan Basement",
         "The Slime Tube",
         // Option...
-        new Option("enter combat with Mother Slime"),
+        new ChoiceOption("enter combat with Mother Slime"),
         SKIP_ADVENTURE);
 
     // Choice 327 is Puttin' it on Wax
@@ -2237,8 +2185,8 @@ public abstract class ChoiceAdventures {
         "Manor1",
         "Haunted Billiards Room",
         // Option...
-        new Option("stats and pool skill"),
-        new Option("cube of billiard chalk", "cube of billiard chalk"));
+        new ChoiceOption("stats and pool skill"),
+        new ChoiceOption("cube of billiard chalk", "cube of billiard chalk"));
 
     // Choice 331 is Like That Time in Tortuga
     // Choice 332 is More eXtreme Than Usual
@@ -2253,8 +2201,8 @@ public abstract class ChoiceAdventures {
         "Clan Basement",
         "The Slime Tube",
         // Option...
-        new Option("+1 rusty -> slime-covered item conversion"),
-        new Option("raise area ML"),
+        new ChoiceOption("+1 rusty -> slime-covered item conversion"),
+        new ChoiceOption("raise area ML"),
         SKIP_ADVENTURE);
 
     // Choice 338 is Duel Nature
@@ -2276,9 +2224,9 @@ public abstract class ChoiceAdventures {
         "Memories",
         "The Primordial Soup",
         // Option...
-        new Option("swim upwards"),
-        new Option("swim in circles"),
-        new Option("swim downwards"));
+        new ChoiceOption("swim upwards"),
+        new ChoiceOption("swim in circles"),
+        new ChoiceOption("swim downwards"));
 
     // Soupercharged
     new ChoiceAdventure(
@@ -2286,7 +2234,7 @@ public abstract class ChoiceAdventures {
         "Memories",
         "The Primordial Soup",
         // Option...
-        new Option("Fight Cyrus"),
+        new ChoiceOption("Fight Cyrus"),
         SKIP_ADVENTURE);
 
     // Choice 351 is Beginner's Luck
@@ -2297,9 +2245,9 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Moxie -> Bad Reception Down Here"),
-        new Option("Muscle -> A Diseased Procurer"),
-        new Option("Mysticality -> Give it a Shot"));
+        new ChoiceOption("Moxie -> Bad Reception Down Here"),
+        new ChoiceOption("Muscle -> A Diseased Procurer"),
+        new ChoiceOption("Mysticality -> Give it a Shot"));
 
     // Bad Reception Down Here
     new ChoiceAdventure(
@@ -2307,8 +2255,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Indigo Party Invitation", "Indigo Party Invitation"),
-        new Option("Violet Hunt Invitation", "Violet Hunt Invitation"));
+        new ChoiceOption("Indigo Party Invitation", "Indigo Party Invitation"),
+        new ChoiceOption("Violet Hunt Invitation", "Violet Hunt Invitation"));
 
     // You Can Never Be Too Rich or Too in the Future
     new ChoiceAdventure(
@@ -2316,8 +2264,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Moxie"),
-        new Option("Serenity"));
+        new ChoiceOption("Moxie"),
+        new ChoiceOption("Serenity"));
 
     // I'm on the Hunt, I'm After You
     new ChoiceAdventure(
@@ -2325,8 +2273,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Stats"),
-        new Option("Phairly Pheromonal"));
+        new ChoiceOption("Stats"),
+        new ChoiceOption("Phairly Pheromonal"));
 
     // A Diseased Procurer
     new ChoiceAdventure(
@@ -2334,8 +2282,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Blue Milk Club Card", "Blue Milk Club Card"),
-        new Option("Mecha Mayhem Club Card", "Mecha Mayhem Club Card"));
+        new ChoiceOption("Blue Milk Club Card", "Blue Milk Club Card"),
+        new ChoiceOption("Mecha Mayhem Club Card", "Mecha Mayhem Club Card"));
 
     // Painful, Circuitous Logic
     new ChoiceAdventure(
@@ -2343,8 +2291,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Muscle"),
-        new Option("Nano-juiced"));
+        new ChoiceOption("Muscle"),
+        new ChoiceOption("Nano-juiced"));
 
     // Brings All the Boys to the Blue Yard
     new ChoiceAdventure(
@@ -2352,8 +2300,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Stats"),
-        new Option("Dance Interpreter"));
+        new ChoiceOption("Stats"),
+        new ChoiceOption("Dance Interpreter"));
 
     // Choice 359 is unknown
 
@@ -2363,7 +2311,7 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Jungles: Wumpus Cave",
         // Option...
-        new Option("skip adventure", 2));
+        new ChoiceOption("skip adventure", 2));
 
     // Give it a Shot
     new ChoiceAdventure(
@@ -2371,8 +2319,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("'Smuggler Shot First' Button", "'Smuggler Shot First' Button"),
-        new Option("Spacefleet Communicator Badge", "Spacefleet Communicator Badge"));
+        new ChoiceOption("'Smuggler Shot First' Button", "'Smuggler Shot First' Button"),
+        new ChoiceOption("Spacefleet Communicator Badge", "Spacefleet Communicator Badge"));
 
     // A Bridge Too Far
     new ChoiceAdventure(
@@ -2380,8 +2328,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Stats"),
-        new Option("Meatwise"));
+        new ChoiceOption("Stats"),
+        new ChoiceOption("Meatwise"));
 
     // Does This Bug You? Does This Bug You?
     new ChoiceAdventure(
@@ -2389,8 +2337,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Mysticality"),
-        new Option("In the Saucestream"));
+        new ChoiceOption("Mysticality"),
+        new ChoiceOption("In the Saucestream"));
 
     // 451 Degrees! Burning Down the House!
     new ChoiceAdventure(
@@ -2398,9 +2346,9 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Moxie"),
-        new Option("Supreme Being Glossary", "Supreme Being Glossary"),
-        new Option("Muscle"));
+        new ChoiceOption("Moxie"),
+        new ChoiceOption("Supreme Being Glossary", "Supreme Being Glossary"),
+        new ChoiceOption("Muscle"));
 
     // None Shall Pass
     new ChoiceAdventure(
@@ -2408,8 +2356,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Seaside Megalopolis",
         // Option...
-        new Option("Muscle"),
-        new Option("multi-pass", "multi-pass"));
+        new ChoiceOption("Muscle"),
+        new ChoiceOption("multi-pass", "multi-pass"));
 
     // Entrance to the Forgotten City
     new ChoiceAdventure(
@@ -2417,7 +2365,7 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Jungles: Forgotten City",
         // Option...
-        new Option("skip adventure", 2));
+        new ChoiceOption("skip adventure", 2));
 
     // Choice 367 is Ancient Temple (unlocked)
     // Choice 368 is City Center
@@ -2435,8 +2383,8 @@ public abstract class ChoiceAdventures {
         "Memories",
         "Jungles: Ancient Temple",
         // Option...
-        new Option("Enter the Temple"),
-        new Option("leave"));
+        new ChoiceOption("Enter the Temple"),
+        new ChoiceOption("leave"));
 
     // Choice 377 is Southern Abandoned Building
     // Choice 378 is Storehouse
@@ -2462,7 +2410,7 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "big bumboozer marble",
         // Option...
-        new Option("1 of each marble -> 32768 Meat"),
+        new ChoiceOption("1 of each marble -> 32768 Meat"),
         SKIP_ADVENTURE);
 
     // Choice 394 is Hellevator Music
@@ -2474,9 +2422,9 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Mer-kin Elementary School",
         // Option...
-        new Option("lose HP"),
-        new Option("lose HP"),
-        new Option("unlock janitor's closet"));
+        new ChoiceOption("lose HP"),
+        new ChoiceOption("lose HP"),
+        new ChoiceOption("unlock janitor's closet"));
 
     // Bored of Education
     new ChoiceAdventure(
@@ -2484,9 +2432,9 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Mer-kin Elementary School",
         // Option...
-        new Option("lose HP"),
-        new Option("unlock the bathrooms"),
-        new Option("lose HP"));
+        new ChoiceOption("lose HP"),
+        new ChoiceOption("unlock the bathrooms"),
+        new ChoiceOption("lose HP"));
 
     // A Mer-kin Graffiti
     new ChoiceAdventure(
@@ -2494,9 +2442,9 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Mer-kin Elementary School",
         // Option...
-        new Option("unlock teacher's lounge"),
-        new Option("lose HP"),
-        new Option("lose HP"));
+        new ChoiceOption("unlock teacher's lounge"),
+        new ChoiceOption("lose HP"),
+        new ChoiceOption("lose HP"));
 
     // The Case of the Closet
     new ChoiceAdventure(
@@ -2504,8 +2452,8 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Mer-kin Elementary School",
         // Option...
-        new Option("fight a Mer-kin monitor"),
-        new Option("Mer-kin sawdust", "Mer-kin sawdust"));
+        new ChoiceOption("fight a Mer-kin monitor"),
+        new ChoiceOption("Mer-kin sawdust", "Mer-kin sawdust"));
 
     // No Rest for the Room
     new ChoiceAdventure(
@@ -2513,8 +2461,8 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Mer-kin Elementary School",
         // Option...
-        new Option("fight a Mer-kin teacher"),
-        new Option("Mer-kin cancerstick", "Mer-kin cancerstick"));
+        new ChoiceOption("fight a Mer-kin teacher"),
+        new ChoiceOption("Mer-kin cancerstick", "Mer-kin cancerstick"));
 
     // Raising Cane
     new ChoiceAdventure(
@@ -2522,8 +2470,8 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Mer-kin Elementary School",
         // Option...
-        new Option("fight a Mer-kin punisher"),
-        new Option("Mer-kin wordquiz", "Mer-kin wordquiz"));
+        new ChoiceOption("fight a Mer-kin punisher"),
+        new ChoiceOption("Mer-kin wordquiz", "Mer-kin wordquiz"));
 
     // Don't Hold a Grudge
     new ChoiceAdventure(
@@ -2531,9 +2479,9 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "Haunted Bathroom",
         // Option...
-        new Option("muscle substats"),
-        new Option("mysticality substats"),
-        new Option("moxie substats"));
+        new ChoiceOption("muscle substats"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("moxie substats"));
 
     // Picking Sides
     new ChoiceAdventure(
@@ -2541,8 +2489,8 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Skate Park",
         // Option...
-        new Option("skate blade", "skate blade"),
-        new Option("brand new key", "brand new key"));
+        new ChoiceOption("skate blade", "skate blade"),
+        new ChoiceOption("brand new key", "brand new key"));
 
     // Choice 409 is The Island Barracks
     //	1 = only option
@@ -2593,12 +2541,12 @@ public abstract class ChoiceAdventures {
         "Rabbit Hole",
         "A Moment of Reflection",
         // Option...
-        new Option("Seal Clubber/Pastamancer/custard"),
-        new Option("Accordion Thief/Sauceror/comfit"),
-        new Option("Turtle Tamer/Disco Bandit/croqueteer"),
-        new Option("Ittah bittah hookah"),
-        new Option("Chessboard"),
-        new Option("nothing"));
+        new ChoiceOption("Seal Clubber/Pastamancer/custard"),
+        new ChoiceOption("Accordion Thief/Sauceror/comfit"),
+        new ChoiceOption("Turtle Tamer/Disco Bandit/croqueteer"),
+        new ChoiceOption("Ittah bittah hookah"),
+        new ChoiceOption("Chessboard"),
+        new ChoiceOption("nothing"));
 
     // Choice 443 is Chess Puzzle
 
@@ -2608,8 +2556,8 @@ public abstract class ChoiceAdventures {
         "Rabbit Hole",
         "Reflection of Map (Seal Clubber)",
         // Option...
-        new Option("walrus ice cream", "walrus ice cream"),
-        new Option("yellow matter custard", "yellow matter custard"));
+        new ChoiceOption("walrus ice cream", "walrus ice cream"),
+        new ChoiceOption("yellow matter custard", "yellow matter custard"));
 
     // Choice 445 is The Field of Strawberries (Pastamancer)
     new ChoiceAdventure(
@@ -2617,8 +2565,8 @@ public abstract class ChoiceAdventures {
         "Rabbit Hole",
         "Reflection of Map (Pastamancer)",
         // Option...
-        new Option("eggman noodles", "eggman noodles"),
-        new Option("yellow matter custard", "yellow matter custard"));
+        new ChoiceOption("eggman noodles", "eggman noodles"),
+        new ChoiceOption("yellow matter custard", "yellow matter custard"));
 
     // Choice 446 is The Caucus Racetrack (Accordion Thief)
     new ChoiceAdventure(
@@ -2626,8 +2574,8 @@ public abstract class ChoiceAdventures {
         "Rabbit Hole",
         "Reflection of Map (Accordion Thief)",
         // Option...
-        new Option("missing wine", "missing wine"),
-        new Option("delicious comfit?", "delicious comfit?"));
+        new ChoiceOption("missing wine", "missing wine"),
+        new ChoiceOption("delicious comfit?", "delicious comfit?"));
 
     // Choice 447 is The Caucus Racetrack (Sauceror)
     new ChoiceAdventure(
@@ -2635,8 +2583,8 @@ public abstract class ChoiceAdventures {
         "Rabbit Hole",
         "Reflection of Map (Sauceror)",
         // Option...
-        new Option("Vial of <i>jus de larmes</i>", "Vial of <i>jus de larmes</i>"),
-        new Option("delicious comfit?", "delicious comfit?"));
+        new ChoiceOption("Vial of <i>jus de larmes</i>", "Vial of <i>jus de larmes</i>"),
+        new ChoiceOption("delicious comfit?", "delicious comfit?"));
 
     // Choice 448 is The Croquet Grounds (Turtle Tamer)
     new ChoiceAdventure(
@@ -2644,8 +2592,8 @@ public abstract class ChoiceAdventures {
         "Rabbit Hole",
         "Reflection of Map (Turtle Tamer)",
         // Option...
-        new Option("beautiful soup", "beautiful soup"),
-        new Option("fight croqueteer"));
+        new ChoiceOption("beautiful soup", "beautiful soup"),
+        new ChoiceOption("fight croqueteer"));
 
     // Choice 449 is The Croquet Grounds (Disco Bandit)
     new ChoiceAdventure(
@@ -2653,8 +2601,8 @@ public abstract class ChoiceAdventures {
         "Rabbit Hole",
         "Reflection of Map (Disco Bandit)",
         // Option...
-        new Option("Lobster <i>qua</i> Grill", "Lobster <i>qua</i> Grill"),
-        new Option("fight croqueteer"));
+        new ChoiceOption("Lobster <i>qua</i> Grill", "Lobster <i>qua</i> Grill"),
+        new ChoiceOption("fight croqueteer"));
 
     // Choice 450 is The Duchess' Cottage
 
@@ -2664,11 +2612,11 @@ public abstract class ChoiceAdventures {
         "Dungeon",
         "Greater-Than Sign",
         // Option...
-        new Option("left parenthesis", "left parenthesis"),
-        new Option("moxie, alternately lose then gain meat"),
-        new Option("plus sign, then muscle", "plus sign"),
-        new Option("mysticality substats"),
-        new Option("get teleportitis"));
+        new ChoiceOption("left parenthesis", "left parenthesis"),
+        new ChoiceOption("moxie, alternately lose then gain meat"),
+        new ChoiceOption("plus sign, then muscle", "plus sign"),
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("get teleportitis"));
 
     // Leave a Message and I'll Call You Back
     new ChoiceAdventure(
@@ -2676,9 +2624,9 @@ public abstract class ChoiceAdventures {
         "Jacking",
         "Small-O-Fier",
         // Option...
-        new Option("combat"),
-        new Option("tiny fly glasses", "tiny fly glasses"),
-        new Option("fruit"));
+        new ChoiceOption("combat"),
+        new ChoiceOption("tiny fly glasses", "tiny fly glasses"),
+        new ChoiceOption("fruit"));
 
     // Getting a Leg Up
     new ChoiceAdventure(
@@ -2686,9 +2634,9 @@ public abstract class ChoiceAdventures {
         "Jacking",
         "Small-O-Fier",
         // Option...
-        new Option("combat"),
-        new Option("stats"),
-        new Option("hair of the calf", "hair of the calf"));
+        new ChoiceOption("combat"),
+        new ChoiceOption("stats"),
+        new ChoiceOption("hair of the calf", "hair of the calf"));
 
     // Just Like the Ocean Under the Moon
     new ChoiceAdventure(
@@ -2696,8 +2644,8 @@ public abstract class ChoiceAdventures {
         "Jacking",
         "Small-O-Fier",
         // Option...
-        new Option("combat"),
-        new Option("HP and MP"));
+        new ChoiceOption("combat"),
+        new ChoiceOption("HP and MP"));
 
     // Double Trouble in the Stubble
     new ChoiceAdventure(
@@ -2705,8 +2653,8 @@ public abstract class ChoiceAdventures {
         "Jacking",
         "Small-O-Fier",
         // Option...
-        new Option("stats"),
-        new Option("quest item"));
+        new ChoiceOption("stats"),
+        new ChoiceOption("quest item"));
 
     // Made it, Ma! Top of the World!
     new ChoiceAdventure(
@@ -2714,10 +2662,10 @@ public abstract class ChoiceAdventures {
         "Jacking",
         "Huge-A-Ma-tron",
         // Option...
-        new Option("combat"),
-        new Option("Hurricane Force"),
-        new Option("a dance upon the palate", "a dance upon the palate"),
-        new Option("stats"));
+        new ChoiceOption("combat"),
+        new ChoiceOption("Hurricane Force"),
+        new ChoiceOption("a dance upon the palate", "a dance upon the palate"),
+        new ChoiceOption("stats"));
 
     // Choice 457 is Oh, No! Five-Oh!
     // Choice 458 is ... Grow Unspeakable Horrors
@@ -2775,18 +2723,18 @@ public abstract class ChoiceAdventures {
         503,
         "Spooky Forest",
         // Option...
-        new Option("gain some meat"),
-        new Option("gain stakes or trade vampire hearts", "wooden stakes"),
-        new Option("gain spooky sapling or trade bar skins", "spooky sapling"));
+        new ChoiceOption("gain some meat"),
+        new ChoiceOption("gain stakes or trade vampire hearts", "wooden stakes"),
+        new ChoiceOption("gain spooky sapling or trade bar skins", "spooky sapling"));
 
     // Tree's Last Stand
     new ChoiceSpoiler(
         504,
         "Spooky Forest",
         // Option...
-        new Option("bar skin", "bar skin"),
-        new Option("bar skins", "bar skin"),
-        new Option("buy spooky sapling", "spooky sapling"),
+        new ChoiceOption("bar skin", "bar skin"),
+        new ChoiceOption("bar skins", "bar skin"),
+        new ChoiceOption("buy spooky sapling", "spooky sapling"),
         SKIP_ADVENTURE);
     // Tree's Last Stand
     new ChoiceCost(
@@ -2800,26 +2748,26 @@ public abstract class ChoiceAdventures {
         505,
         "Spooky Forest",
         // Option...
-        new Option("gain mosquito larva then 3 spooky mushrooms", "mosquito larva"),
-        new Option("gain 300 meat & tree-holed coin then nothing"),
-        new Option("fight a spooky vampire"));
+        new ChoiceOption("gain mosquito larva then 3 spooky mushrooms", "mosquito larva"),
+        new ChoiceOption("gain 300 meat & tree-holed coin then nothing"),
+        new ChoiceOption("fight a spooky vampire"));
 
     // Through Thicket and Thinnet
     new ChoiceSpoiler(
         506,
         "Spooky Forest",
         // Option...
-        new Option("gain a starter item"),
-        new Option("gain Spooky-Gro fertilizer", "Spooky-Gro fertilizer"),
-        new Option("gain spooky temple map", "spooky temple map"),
-        new Option("gain fake blood", "fake blood"));
+        new ChoiceOption("gain a starter item"),
+        new ChoiceOption("gain Spooky-Gro fertilizer", "Spooky-Gro fertilizer"),
+        new ChoiceOption("gain spooky temple map", "spooky temple map"),
+        new ChoiceOption("gain fake blood", "fake blood"));
 
     // O Lith, Mon
     new ChoiceSpoiler(
         507,
         "Spooky Forest",
         // Option...
-        new Option("gain Spooky Temple map"),
+        new ChoiceOption("gain Spooky Temple map"),
         SKIP_ADVENTURE,
         SKIP_ADVENTURE);
     // O Lith, Mon
@@ -2835,7 +2783,7 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Typical Tavern",
         // Option...
-        new Option("Baron von Ratsworth"),
+        new ChoiceOption("Baron von Ratsworth"),
         SKIP_ADVENTURE);
 
     // Hot and Cold Running Rats
@@ -2844,7 +2792,7 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Typical Tavern",
         // Option...
-        new Option("fight"),
+        new ChoiceOption("fight"),
         SKIP_ADVENTURE);
 
     // Choice 513 is Staring Down the Barrel
@@ -2863,7 +2811,7 @@ public abstract class ChoiceAdventures {
         "Crimbo10",
         "Elf Alley",
         // Option...
-        new Option("enter combat with Uncle Hobo"),
+        new ChoiceOption("enter combat with Uncle Hobo"),
         SKIP_ADVENTURE);
 
     // What a Tosser
@@ -2872,7 +2820,7 @@ public abstract class ChoiceAdventures {
         "Crimbo10",
         "Elf Alley",
         // Option...
-        new Option("gift-a-pult", "gift-a-pult"),
+        new ChoiceOption("gift-a-pult", "gift-a-pult"),
         SKIP_ADVENTURE);
     // What a Tosser - gift-a-pult
     new ChoiceCost(519, new Cost(1, ItemPool.get(ItemPool.HOBO_NICKEL, -50)));
@@ -2886,7 +2834,7 @@ public abstract class ChoiceAdventures {
         "Knob",
         "Cobb's Knob Barracks",
         // Option...
-        new Option("outfit piece or donut"),
+        new ChoiceOption("outfit piece or donut"),
         SKIP_ADVENTURE);
 
     // Death Rattlin'
@@ -2895,10 +2843,10 @@ public abstract class ChoiceAdventures {
         "Cyrpt",
         "Defiled Cranny",
         // Option...
-        new Option("small meat boost"),
-        new Option("stats & HP & MP"),
-        new Option("can of Ghuol-B-Gone&trade;", "can of Ghuol-B-Gone&trade;"),
-        new Option("fight swarm of ghuol whelps"),
+        new ChoiceOption("small meat boost"),
+        new ChoiceOption("stats & HP & MP"),
+        new ChoiceOption("can of Ghuol-B-Gone&trade;", "can of Ghuol-B-Gone&trade;"),
+        new ChoiceOption("fight swarm of ghuol whelps"),
         SKIP_ADVENTURE);
 
     // Choice 524 is The Adventures of Lars the Cyberian
@@ -2911,7 +2859,7 @@ public abstract class ChoiceAdventures {
         "Cyrpt",
         "Haert of the Cyrpt",
         // Option...
-        new Option("fight the Bonerdagon"),
+        new ChoiceOption("fight the Bonerdagon"),
         SKIP_ADVENTURE);
 
     // Choice 528 is It Was Then That a Hideous Monster Carried You
@@ -2922,9 +2870,9 @@ public abstract class ChoiceAdventures {
         "Events",
         "Skeleton Swarm",
         // Option...
-        new Option("Weapon Damage"),
-        new Option("Spell Damage"),
-        new Option("Ranged Damage"));
+        new ChoiceOption("Weapon Damage"),
+        new ChoiceOption("Spell Damage"),
+        new ChoiceOption("Ranged Damage"));
 
     // It Was Then That... Aaaaaaaah!
     new ChoiceAdventure(
@@ -2932,8 +2880,8 @@ public abstract class ChoiceAdventures {
         "Events",
         "Icy Peak",
         // Option...
-        new Option("hideous egg", "hideous egg"),
-        new Option("skip the adventure"));
+        new ChoiceOption("hideous egg", "hideous egg"),
+        new ChoiceOption("skip the adventure"));
 
     // The Bonewall Is In
     new ChoiceAdventure(
@@ -2941,8 +2889,8 @@ public abstract class ChoiceAdventures {
         "Events",
         "Bonewall",
         // Option...
-        new Option("Item Drop"),
-        new Option("HP Bonus"));
+        new ChoiceOption("Item Drop"),
+        new ChoiceOption("HP Bonus"));
 
     // You'll Sink His Battleship
     new ChoiceAdventure(
@@ -2950,8 +2898,8 @@ public abstract class ChoiceAdventures {
         "Events",
         "Battleship",
         // Option...
-        new Option("Class Skills"),
-        new Option("Accordion Thief Songs"));
+        new ChoiceOption("Class Skills"),
+        new ChoiceOption("Accordion Thief Songs"));
 
     // Train, Train, Choo-Choo Train
     new ChoiceAdventure(
@@ -2959,8 +2907,8 @@ public abstract class ChoiceAdventures {
         "Events",
         "Supply Train",
         // Option...
-        new Option("Meat Drop"),
-        new Option("Pressure Penalty Modifiers"));
+        new ChoiceOption("Meat Drop"),
+        new ChoiceOption("Pressure Penalty Modifiers"));
 
     // That's No Bone Moon...
     new ChoiceAdventure(
@@ -2968,9 +2916,9 @@ public abstract class ChoiceAdventures {
         "Events",
         "Bone Star",
         // Option...
-        new Option("Torpedos", "photoprotoneutron torpedo"),
-        new Option("Initiative"),
-        new Option("Monster Level"));
+        new ChoiceOption("Torpedos", "photoprotoneutron torpedo"),
+        new ChoiceOption("Initiative"),
+        new ChoiceOption("Monster Level"));
 
     // Deep Inside Ronald, Baby
     new ChoiceAdventure(535, "Spaaace", "Deep Inside Ronald", SafetyShelterManager.RonaldGoals);
@@ -2997,7 +2945,7 @@ public abstract class ChoiceAdventures {
         "Events",
         "Sorority House Necbromancer",
         // Option...
-        new Option("enter combat with The Necbromancer"),
+        new ChoiceOption("enter combat with The Necbromancer"),
         SKIP_ADVENTURE);
 
     // Dark in the Attic
@@ -3006,11 +2954,11 @@ public abstract class ChoiceAdventures {
         "Events",
         "Dark in the Attic",
         // Option...
-        new Option("staff guides", "Haunted Sorority House staff guide"),
-        new Option("ghost trap", "ghost trap"),
-        new Option("raise area ML"),
-        new Option("lower area ML"),
-        new Option("mass kill werewolves with silver shotgun shell", "silver shotgun shell"));
+        new ChoiceOption("staff guides", "Haunted Sorority House staff guide"),
+        new ChoiceOption("ghost trap", "ghost trap"),
+        new ChoiceOption("raise area ML"),
+        new ChoiceOption("lower area ML"),
+        new ChoiceOption("mass kill werewolves with silver shotgun shell", "silver shotgun shell"));
 
     // The Unliving Room
     new ChoiceSpoiler(
@@ -3018,11 +2966,11 @@ public abstract class ChoiceAdventures {
         "Events",
         "The Unliving Room",
         // Option...
-        new Option("raise area ML"),
-        new Option("lower area ML"),
-        new Option("mass kill zombies with chainsaw chain", "chainsaw chain"),
-        new Option("mass kill skeletons with funhouse mirror", "funhouse mirror"),
-        new Option("get costume item"));
+        new ChoiceOption("raise area ML"),
+        new ChoiceOption("lower area ML"),
+        new ChoiceOption("mass kill zombies with chainsaw chain", "chainsaw chain"),
+        new ChoiceOption("mass kill skeletons with funhouse mirror", "funhouse mirror"),
+        new ChoiceOption("get costume item"));
 
     // Debasement
     new ChoiceSpoiler(
@@ -3030,10 +2978,10 @@ public abstract class ChoiceAdventures {
         "Events",
         "Debasement",
         // Option...
-        new Option("Prop Deportment"),
-        new Option("mass kill vampires with plastic vampire fangs"),
-        new Option("raise area ML"),
-        new Option("lower area ML"));
+        new ChoiceOption("Prop Deportment"),
+        new ChoiceOption("mass kill vampires with plastic vampire fangs"),
+        new ChoiceOption("raise area ML"),
+        new ChoiceOption("lower area ML"));
 
     // Prop Deportment
     new ChoiceSpoiler(
@@ -3041,9 +2989,9 @@ public abstract class ChoiceAdventures {
         "Events",
         "Prop Deportment",
         // Option...
-        new Option("chainsaw chain", "chainsaw chain"),
-        new Option("create a silver shotgun shell", "silver shotgun shell"),
-        new Option("funhouse mirror", "funhouse mirror"));
+        new ChoiceOption("chainsaw chain", "chainsaw chain"),
+        new ChoiceOption("create a silver shotgun shell", "silver shotgun shell"),
+        new ChoiceOption("funhouse mirror", "funhouse mirror"));
 
     // Relocked and Reloaded
     new ChoiceSpoiler(
@@ -3051,12 +2999,12 @@ public abstract class ChoiceAdventures {
         "Events",
         "Relocked and Reloaded",
         // Option...
-        new Option("", "Maxwell's Silver hammer"),
-        new Option("", "silver tongue charrrm bracelet"),
-        new Option("", "silver cheese-slicer"),
-        new Option("", "silver shrimp fork"),
-        new Option("", "silver pat&eacute; knife"),
-        new Option("exit adventure"));
+        new ChoiceOption("", "Maxwell's Silver hammer"),
+        new ChoiceOption("", "silver tongue charrrm bracelet"),
+        new ChoiceOption("", "silver cheese-slicer"),
+        new ChoiceOption("", "silver shrimp fork"),
+        new ChoiceOption("", "silver pat&eacute; knife"),
+        new ChoiceOption("exit adventure"));
 
     // Behind the Spooky Curtain
     new ChoiceSpoiler(
@@ -3064,9 +3012,9 @@ public abstract class ChoiceAdventures {
         "Events",
         "Behind the Spooky Curtain",
         // Option...
-        new Option("staff guides, ghost trap, kill werewolves"),
-        new Option("kill zombies, kill skeletons, costume item"),
-        new Option("chainsaw chain, silver item, funhouse mirror, kill vampires"));
+        new ChoiceOption("staff guides, ghost trap, kill werewolves"),
+        new ChoiceOption("kill zombies, kill skeletons, costume item"),
+        new ChoiceOption("chainsaw chain, silver item, funhouse mirror, kill vampires"));
 
     // More Locker Than Morlock
     new ChoiceAdventure(
@@ -3074,7 +3022,7 @@ public abstract class ChoiceAdventures {
         "McLarge",
         "Itznotyerzitz Mine",
         // Option...
-        new Option("get an outfit piece"),
+        new ChoiceOption("get an outfit piece"),
         SKIP_ADVENTURE);
 
     // Gingerbread Homestead
@@ -3083,9 +3031,9 @@ public abstract class ChoiceAdventures {
         "The Candy Diorama",
         "Gingerbread Homestead",
         // Option...
-        new Option("get candies"),
-        new Option("licorice root", "licorice root"),
-        new Option("skip adventure or make a lollipop stick item", "lollipop stick"));
+        new ChoiceOption("get candies"),
+        new ChoiceOption("licorice root", "licorice root"),
+        new ChoiceOption("skip adventure or make a lollipop stick item", "lollipop stick"));
 
     // Tool Time
     new ChoiceAdventure(
@@ -3093,11 +3041,11 @@ public abstract class ChoiceAdventures {
         "The Candy Diorama",
         "Tool Time",
         // Option...
-        new Option("sucker bucket", "sucker bucket"),
-        new Option("sucker kabuto", "sucker kabuto"),
-        new Option("sucker hakama", "sucker hakama"),
-        new Option("sucker tachi", "sucker tachi"),
-        new Option("sucker scaffold", "sucker scaffold"),
+        new ChoiceOption("sucker bucket", "sucker bucket"),
+        new ChoiceOption("sucker kabuto", "sucker kabuto"),
+        new ChoiceOption("sucker hakama", "sucker hakama"),
+        new ChoiceOption("sucker tachi", "sucker tachi"),
+        new ChoiceOption("sucker scaffold", "sucker scaffold"),
         SKIP_ADVENTURE);
 
     // Fudge Mountain Breakdown
@@ -3106,10 +3054,10 @@ public abstract class ChoiceAdventures {
         "The Candy Diorama",
         "Fudge Mountain Breakdown",
         // Option...
-        new Option("fudge lily", "fudge lily"),
-        new Option("fight a swarm of fudgewasps or skip adventure"),
-        new Option("frigid fudgepuck or skip adventure", "frigid fudgepuck"),
-        new Option("superheated fudge or skip adventure", "superheated fudge"));
+        new ChoiceOption("fudge lily", "fudge lily"),
+        new ChoiceOption("fight a swarm of fudgewasps or skip adventure"),
+        new ChoiceOption("frigid fudgepuck or skip adventure", "frigid fudgepuck"),
+        new ChoiceOption("superheated fudge or skip adventure", "superheated fudge"));
 
     // Foreshadowing Demon!
     new ChoiceAdventure(
@@ -3117,7 +3065,7 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Clumsiness Grove",
         // Option...
-        new Option("head towards boss"),
+        new ChoiceOption("head towards boss"),
         SKIP_ADVENTURE);
 
     // You Must Choose Your Destruction!
@@ -3126,8 +3074,8 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Clumsiness Grove",
         // Option...
-        new Option("The Thorax"),
-        new Option("The Bat in the Spats"));
+        new ChoiceOption("The Thorax"),
+        new ChoiceOption("The Bat in the Spats"));
 
     // Choice 562 is You're the Fudge Wizard Now, Dog
 
@@ -3137,7 +3085,7 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Clumsiness Grove",
         // Option...
-        new Option("Fight Boss"),
+        new ChoiceOption("Fight Boss"),
         SKIP_ADVENTURE);
 
     // A Maelstrom of Trouble
@@ -3146,7 +3094,7 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Maelstrom of Lovers",
         // Option...
-        new Option("head towards boss"),
+        new ChoiceOption("head towards boss"),
         SKIP_ADVENTURE);
 
     // To Get Groped or Get Mugged?
@@ -3155,8 +3103,8 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Maelstrom of Lovers",
         // Option...
-        new Option("The Terrible Pinch"),
-        new Option("Thug 1 and Thug 2"));
+        new ChoiceOption("The Terrible Pinch"),
+        new ChoiceOption("Thug 1 and Thug 2"));
 
     // A Choice to be Made
     new ChoiceAdventure(
@@ -3164,7 +3112,7 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Maelstrom of Lovers",
         // Option...
-        new Option("Fight Boss"),
+        new ChoiceOption("Fight Boss"),
         SKIP_ADVENTURE);
 
     // You May Be on Thin Ice
@@ -3173,7 +3121,7 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Glacier of Jerks",
         // Option...
-        new Option("Fight Boss"),
+        new ChoiceOption("Fight Boss"),
         SKIP_ADVENTURE);
 
     // Some Sounds Most Unnerving
@@ -3182,8 +3130,8 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Glacier of Jerks",
         // Option...
-        new Option("Mammon the Elephant"),
-        new Option("The Large-Bellied Snitch"));
+        new ChoiceOption("Mammon the Elephant"),
+        new ChoiceOption("The Large-Bellied Snitch"));
 
     // One More Demon to Slay
     new ChoiceAdventure(
@@ -3191,7 +3139,7 @@ public abstract class ChoiceAdventures {
         "Suburbs",
         "The Glacier of Jerks",
         // Option...
-        new Option("head towards boss"),
+        new ChoiceOption("head towards boss"),
         SKIP_ADVENTURE);
 
     // Choice 571 is Your Minstrel Vamps
@@ -3205,10 +3153,10 @@ public abstract class ChoiceAdventures {
         "McLarge",
         "eXtreme Slope",
         // Option...
-        new Option("get an outfit piece"),
-        new Option("jar of frostigkraut", "jar of frostigkraut"),
+        new ChoiceOption("get an outfit piece"),
+        new ChoiceOption("jar of frostigkraut", "jar of frostigkraut"),
         SKIP_ADVENTURE,
-        new Option("lucky pill", "lucky pill"));
+        new ChoiceOption("lucky pill", "lucky pill"));
 
     // Choice 576 is Your Minstrel Camps
     // Choice 577 is Your Minstrel Scamp
@@ -3220,9 +3168,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Hidden Temple Heights",
         // Option...
-        new Option("mysticality substats"),
-        new Option("Nostril of the Serpent then skip adventure", "Nostril of the Serpent"),
-        new Option("gain 3 adv then skip adventure"));
+        new ChoiceOption("mysticality substats"),
+        new ChoiceOption("Nostril of the Serpent then skip adventure", "Nostril of the Serpent"),
+        new ChoiceOption("gain 3 adv then skip adventure"));
 
     // Choice 580 is The Hidden Heart of the Hidden Temple (4 variations)
 
@@ -3232,9 +3180,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Hidden Temple Depths",
         // Option...
-        new Option("glowing fungus", "glowing fungus"),
-        new Option("+15 mus/mys/mox then skip adventure"),
-        new Option("fight clan of cave bars"));
+        new ChoiceOption("glowing fungus", "glowing fungus"),
+        new ChoiceOption("+15 mus/mys/mox then skip adventure"),
+        new ChoiceOption("fight clan of cave bars"));
 
     // Fitting In
     new ChoiceAdventure(
@@ -3242,9 +3190,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Hidden Temple",
         // Option...
-        new Option("Such Great Heights"),
-        new Option("heart of the Hidden Temple"),
-        new Option("Such Great Depths"));
+        new ChoiceOption("Such Great Heights"),
+        new ChoiceOption("heart of the Hidden Temple"),
+        new ChoiceOption("Such Great Depths"));
 
     // Confusing Buttons
     new ChoiceSpoiler(
@@ -3252,7 +3200,7 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Hidden Temple",
         // Option...
-        new Option("Press a random button"));
+        new ChoiceOption("Press a random button"));
 
     // Unconfusing Buttons
     new ChoiceAdventure(
@@ -3260,10 +3208,10 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Hidden Temple",
         // Option...
-        new Option("Hidden Temple (Stone) - muscle substats"),
-        new Option("Hidden Temple (Sun) - gain ancient calendar fragment"),
-        new Option("Hidden Temple (Gargoyle) - MP"),
-        new Option("Hidden Temple (Pikachutlotal) - Hidden City unlock"));
+        new ChoiceOption("Hidden Temple (Stone) - muscle substats"),
+        new ChoiceOption("Hidden Temple (Sun) - gain ancient calendar fragment"),
+        new ChoiceOption("Hidden Temple (Gargoyle) - MP"),
+        new ChoiceOption("Hidden Temple (Pikachutlotal) - Hidden City unlock"));
 
     // Choice 585 is Screwing Around!
     // Choice 586 is All We Are Is Radio Huggler
@@ -3278,9 +3226,9 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Lost Key",
         // Option...
-        new Option("lost glasses", "lost glasses"),
-        new Option("lost comb", "lost comb"),
-        new Option("lost pill bottle", "lost pill bottle"));
+        new ChoiceOption("lost glasses", "lost glasses"),
+        new ChoiceOption("lost comb", "lost comb"),
+        new ChoiceOption("lost pill bottle", "lost pill bottle"));
 
     // Fire! I... have made... fire!
     new ChoiceAdventure(
@@ -3288,8 +3236,8 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "CSA fire-starting kit",
         // Option...
-        new Option("pvp fights"),
-        new Option("hp/mp regen"));
+        new ChoiceOption("pvp fights"),
+        new ChoiceOption("hp/mp regen"));
 
     // Choice 596 is Dawn of the D'oh
 
@@ -3299,11 +3247,11 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Reagnimated Gnome",
         // Option...
-        new Option("gnomish swimmer's ears (underwater)", "gnomish swimmer's ears"),
-        new Option("gnomish coal miner's lung (block)", "gnomish coal miner's lung"),
-        new Option("gnomish tennis elbow (damage)", "gnomish tennis elbow"),
-        new Option("gnomish housemaid's kgnee (gain advs)", "gnomish housemaid's kgnee"),
-        new Option("gnomish athlete's foot (delevel)", "gnomish athlete's foot"));
+        new ChoiceOption("gnomish swimmer's ears (underwater)", "gnomish swimmer's ears"),
+        new ChoiceOption("gnomish coal miner's lung (block)", "gnomish coal miner's lung"),
+        new ChoiceOption("gnomish tennis elbow (damage)", "gnomish tennis elbow"),
+        new ChoiceOption("gnomish housemaid's kgnee (gain advs)", "gnomish housemaid's kgnee"),
+        new ChoiceOption("gnomish athlete's foot (delevel)", "gnomish athlete's foot"));
 
     // Choice 598 is Recruitment Jive
     // Choice 599 is A Zombie Master's Bait
@@ -3317,12 +3265,12 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Skeleton",
         // Option...
-        new Option("warrior (dmg, delevel)"),
-        new Option("cleric (hot dmg, hp)"),
-        new Option("wizard (cold dmg, mp)"),
-        new Option("rogue (dmg, meat)"),
-        new Option("buddy (delevel, exp)"),
-        new Option("ignore this adventure"));
+        new ChoiceOption("warrior (dmg, delevel)"),
+        new ChoiceOption("cleric (hot dmg, hp)"),
+        new ChoiceOption("wizard (cold dmg, mp)"),
+        new ChoiceOption("rogue (dmg, meat)"),
+        new ChoiceOption("buddy (delevel, exp)"),
+        new ChoiceOption("ignore this adventure"));
 
     // Choice 604 is unknown
     // Choice 605 is Welcome to the Great Overlook Lodge
@@ -3368,11 +3316,11 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Snow Suit",
         // Option...
-        new Option("Familiar does physical damage"),
-        new Option("Familiar does cold damage"),
-        new Option("+10% item drops, can drop carrot nose"),
-        new Option("Heals 1-20 HP after combat"),
-        new Option("Restores 1-10 MP after combat"));
+        new ChoiceOption("Familiar does physical damage"),
+        new ChoiceOption("Familiar does cold damage"),
+        new ChoiceOption("+10% item drops, can drop carrot nose"),
+        new ChoiceOption("Heals 1-20 HP after combat"),
+        new ChoiceOption("Restores 1-10 MP after combat"));
 
     // Choice 641 is Stupid Pipes.
     // Choice 642 is You're Freaking Kidding Me
@@ -3397,7 +3345,7 @@ public abstract class ChoiceAdventures {
         "Psychoses",
         "Chinatown Tenement",
         // Option...
-        new Option("Fight Boss"),
+        new ChoiceOption("Fight Boss"),
         SKIP_ADVENTURE);
 
     // Choice 658 is Debasement
@@ -3418,10 +3366,10 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Basement Furry",
         // Option...
-        new Option("Open Ground Floor with titanium umbrella, otherwise Neckbeard Choice"),
-        new Option("200 Moxie substats"),
-        new Option("???"),
-        new Option("skip adventure and guarantee this adventure will reoccur"));
+        new ChoiceOption("Open Ground Floor with titanium umbrella, otherwise Neckbeard Choice"),
+        new ChoiceOption("200 Moxie substats"),
+        new ChoiceOption("???"),
+        new ChoiceOption("skip adventure and guarantee this adventure will reoccur"));
 
     // You Don't Mess Around with Gym
     new ChoiceAdventure(
@@ -3429,11 +3377,11 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Basement Fitness",
         // Option...
-        new Option("massive dumbbell, then skip adventure", "massive dumbbell"),
-        new Option("Muscle stats"),
-        new Option("Items"),
-        new Option("Open Ground Floor with amulet, otherwise skip"),
-        new Option("skip adventure and guarantee this adventure will reoccur"));
+        new ChoiceOption("massive dumbbell, then skip adventure", "massive dumbbell"),
+        new ChoiceOption("Muscle stats"),
+        new ChoiceOption("Items"),
+        new ChoiceOption("Open Ground Floor with amulet, otherwise skip"),
+        new ChoiceOption("skip adventure and guarantee this adventure will reoccur"));
 
     // Out in the Open Source
     new ChoiceAdventure(
@@ -3441,12 +3389,12 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Basement Neckbeard",
         // Option...
-        new Option(
+        new ChoiceOption(
             "With massive dumbbell, open Ground Floor, otherwise skip adventure",
             "massive dumbbell"),
-        new Option("200 Mysticality substats"),
-        new Option("O'RLY manual, open sauce"),
-        new Option("Fitness Choice"));
+        new ChoiceOption("200 Mysticality substats"),
+        new ChoiceOption("O'RLY manual, open sauce"),
+        new ChoiceOption("Fitness Choice"));
 
     // There's No Ability Like Possibility
     new ChoiceAdventure(
@@ -3454,8 +3402,8 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Ground Possibility",
         // Option...
-        new Option("3 random items"),
-        new Option("Nothing Is Impossible"),
+        new ChoiceOption("3 random items"),
+        new ChoiceOption("Nothing Is Impossible"),
         SKIP_ADVENTURE);
 
     // Putting Off Is Off-Putting
@@ -3464,8 +3412,9 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Ground Procrastination",
         // Option...
-        new Option("very overdue library book, then skip adventure", "very overdue library book"),
-        new Option("Trash-Wrapped"),
+        new ChoiceOption(
+            "very overdue library book, then skip adventure", "very overdue library book"),
+        new ChoiceOption("Trash-Wrapped"),
         SKIP_ADVENTURE);
 
     // Huzzah!
@@ -3474,8 +3423,8 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Ground Renaissance",
         // Option...
-        new Option("pewter claymore, then skip adventure", "pewter claymore"),
-        new Option("Pretending to Pretend"),
+        new ChoiceOption("pewter claymore, then skip adventure", "pewter claymore"),
+        new ChoiceOption("Pretending to Pretend"),
         SKIP_ADVENTURE);
 
     // Melon Collie and the Infinite Lameness
@@ -3484,10 +3433,10 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Top Goth",
         // Option...
-        new Option("Fight a Goth Giant"),
-        new Option("complete quest", "drum 'n' bass 'n' drum 'n' bass record"),
-        new Option("3 thin black candles", "thin black candle"),
-        new Option("Steampunk Choice"));
+        new ChoiceOption("Fight a Goth Giant"),
+        new ChoiceOption("complete quest", "drum 'n' bass 'n' drum 'n' bass record"),
+        new ChoiceOption("3 thin black candles", "thin black candle"),
+        new ChoiceOption("Steampunk Choice"));
 
     // Flavor of a Raver
     new ChoiceAdventure(
@@ -3495,12 +3444,12 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Top Raver",
         // Option...
-        new Option("Fight a Raver Giant"),
-        new Option("Restore 1000 hp & mp"),
-        new Option(
+        new ChoiceOption("Fight a Raver Giant"),
+        new ChoiceOption("Restore 1000 hp & mp"),
+        new ChoiceOption(
             "drum 'n' bass 'n' drum 'n' bass record, then skip adventure",
             "drum 'n' bass 'n' drum 'n' bass record"),
-        new Option("Punk Rock Choice"));
+        new ChoiceOption("Punk Rock Choice"));
 
     // Copper Feel
     new ChoiceAdventure(
@@ -3508,13 +3457,13 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Top Steampunk",
         // Option...
-        new Option(
+        new ChoiceOption(
             "With model airship, complete quest, otherwise fight Steampunk Giant", "model airship"),
-        new Option(
+        new ChoiceOption(
             "steam-powered model rocketship, then skip adventure",
             "steam-powered model rocketship"),
-        new Option("brass gear", "brass gear"),
-        new Option("Goth Choice"));
+        new ChoiceOption("brass gear", "brass gear"),
+        new ChoiceOption("Goth Choice"));
 
     // Yeah, You're for Me, Punk Rock Giant
     new ChoiceAdventure(
@@ -3522,10 +3471,10 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Top Punk Rock",
         // Option...
-        new Option("Wearing mohawk wig, turn wheel, otherwise fight Punk Rock Giant"),
-        new Option("500 meat"),
-        new Option("Steampunk Choice"),
-        new Option("Raver Choice"));
+        new ChoiceOption("Wearing mohawk wig, turn wheel, otherwise fight Punk Rock Giant"),
+        new ChoiceOption("500 meat"),
+        new ChoiceOption("Steampunk Choice"),
+        new ChoiceOption("Raver Choice"));
 
     // Choice 679 is Keep On Turnin' the Wheel in the Sky
     // Choice 680 is Are you a Man or a Mouse?
@@ -3540,7 +3489,7 @@ public abstract class ChoiceAdventures {
         "Dungeon",
         "Daily Dungeon: Chest 3",
         // Option...
-        new Option("Get fat loot token"));
+        new ChoiceOption("Get fat loot token"));
 
     // The First Chest Isn't the Deepest.
     new ChoiceAdventure(
@@ -3548,9 +3497,9 @@ public abstract class ChoiceAdventures {
         "Dungeon",
         "Daily Dungeon: Chest 1",
         // Option...
-        new Option("Get item"),
-        new Option("Skip to 8th chamber, no turn spent"),
-        new Option("Skip to 6th chamber, no turn spent"));
+        new ChoiceOption("Get item"),
+        new ChoiceOption("Skip to 8th chamber, no turn spent"),
+        new ChoiceOption("Skip to 6th chamber, no turn spent"));
 
     // Second Chest
     new ChoiceAdventure(
@@ -3558,9 +3507,9 @@ public abstract class ChoiceAdventures {
         "Dungeon",
         "Daily Dungeon: Chest 2",
         // Option...
-        new Option("Get item"),
-        new Option("Skip to 13th chamber, no turn spent"),
-        new Option("Skip to 11th chamber, no turn spent"));
+        new ChoiceOption("Get item"),
+        new ChoiceOption("Skip to 13th chamber, no turn spent"),
+        new ChoiceOption("Skip to 11th chamber, no turn spent"));
 
     // Choice 692 is I Wanna Be a Door
 
@@ -3570,9 +3519,9 @@ public abstract class ChoiceAdventures {
         "Dungeon",
         "Daily Dungeon: Traps",
         // Option...
-        new Option("Suffer elemental damage, get stats"),
-        new Option("Avoid trap with eleven-foot pole, no turn spent"),
-        new Option("Leave, no turn spent"));
+        new ChoiceOption("Suffer elemental damage, get stats"),
+        new ChoiceOption("Avoid trap with eleven-foot pole, no turn spent"),
+        new ChoiceOption("Leave, no turn spent"));
 
     // Choice 695 is A Drawer of Chests
 
@@ -3582,8 +3531,8 @@ public abstract class ChoiceAdventures {
         "Le Marais D&egrave;gueulasse",
         "Edge of the Swamp",
         // Option...
-        new Option("unlock The Dark and Spooky Swamp"),
-        new Option("unlock The Wildlife Sanctuarrrrrgh"));
+        new ChoiceOption("unlock The Dark and Spooky Swamp"),
+        new ChoiceOption("unlock The Wildlife Sanctuarrrrrgh"));
 
     // Choice 697 is Sophie's Choice
     new ChoiceAdventure(
@@ -3591,8 +3540,8 @@ public abstract class ChoiceAdventures {
         "Le Marais D&egrave;gueulasse",
         "Dark and Spooky Swamp",
         // Option...
-        new Option("unlock The Corpse Bog"),
-        new Option("unlock The Ruined Wizard Tower"));
+        new ChoiceOption("unlock The Corpse Bog"),
+        new ChoiceOption("unlock The Ruined Wizard Tower"));
 
     // Choice 698 is From Bad to Worst
     new ChoiceAdventure(
@@ -3600,8 +3549,8 @@ public abstract class ChoiceAdventures {
         "Le Marais D&egrave;gueulasse",
         "Wildlife Sanctuarrrrrgh",
         // Option...
-        new Option("unlock Swamp Beaver Territory"),
-        new Option("unlock The Weird Swamp Village"));
+        new ChoiceOption("unlock Swamp Beaver Territory"),
+        new ChoiceOption("unlock The Weird Swamp Village"));
 
     // Choice 701 is Ators Gonna Ate
     new ChoiceAdventure(
@@ -3609,7 +3558,7 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Mer-kin Gymnasium",
         // Option...
-        new Option("get an item"),
+        new ChoiceOption("get an item"),
         SKIP_ADVENTURE);
 
     // Choice 703 is Mer-kin dreadscroll
@@ -3621,10 +3570,10 @@ public abstract class ChoiceAdventures {
         "The Sea",
         "Mer-kin Elementary School",
         // Option...
-        new Option("fight a Mer-kin spectre"),
-        new Option("Mer-kin sawdust", "Mer-kin sawdust"),
-        new Option("Mer-kin cancerstick", "Mer-kin cancerstick"),
-        new Option("Mer-kin wordquiz", "Mer-kin wordquiz"));
+        new ChoiceOption("fight a Mer-kin spectre"),
+        new ChoiceOption("Mer-kin sawdust", "Mer-kin sawdust"),
+        new ChoiceOption("Mer-kin cancerstick", "Mer-kin cancerstick"),
+        new ChoiceOption("Mer-kin wordquiz", "Mer-kin wordquiz"));
 
     //     Shub-Jigguwatt (Violence) path
     // Choice 706 is In The Temple of Violence, Shine Like Thunder
@@ -3651,8 +3600,8 @@ public abstract class ChoiceAdventures {
         "Cabin",
         1,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 722 is The Kitchen in the Woods
     // Choice 723 is What Lies Beneath (the Cabin)
@@ -3665,8 +3614,8 @@ public abstract class ChoiceAdventures {
         "Tallest Tree",
         2,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 726 is Top of the Tree, Ma!
     // Choice 727 is All Along the Watchtower
@@ -3679,8 +3628,8 @@ public abstract class ChoiceAdventures {
         "Burrows",
         3,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 730 is Hot Coals
     // Choice 731 is The Heart of the Matter
@@ -3693,8 +3642,8 @@ public abstract class ChoiceAdventures {
         "Village Square",
         4,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 734 is Fright School
     // Choice 735 is Smith, Black as Night
@@ -3707,8 +3656,8 @@ public abstract class ChoiceAdventures {
         "Skid Row",
         5,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 738 is A Dreadful Smell
     // Choice 739 is The Tinker's. Damn.
@@ -3721,8 +3670,8 @@ public abstract class ChoiceAdventures {
         "Old Duke's Estate",
         6,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 742 is The Plot Thickens
     // Choice 743 is No Quarter
@@ -3735,8 +3684,8 @@ public abstract class ChoiceAdventures {
         "Great Hall",
         8,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 746 is The Belle of the Ballroom
     // Choice 747 is Cold Storage
@@ -3749,8 +3698,8 @@ public abstract class ChoiceAdventures {
         "Tower",
         7,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 750 is Working in the Lab, Late One Night
     // Choice 751 is Among the Quaint and Curious Tomes.
@@ -3763,8 +3712,8 @@ public abstract class ChoiceAdventures {
         "Dungeons",
         9,
         // Option...
-        new Option("learn shortcut", 5),
-        new Option("skip adventure", 6));
+        new ChoiceOption("learn shortcut", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 754 is Live from Dungeon Prison
     // Choice 755 is The Hot Bowels
@@ -3795,11 +3744,11 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Tonic Djinn",
         // Option...
-        new Option("gain 400-500 meat", 1),
-        new Option("gain 50-60 muscle stats", 2),
-        new Option("gain 50-60 mysticality stats", 3),
-        new Option("gain 50-60 moxie stats", 4),
-        new Option("don't use it", 6));
+        new ChoiceOption("gain 400-500 meat", 1),
+        new ChoiceOption("gain 50-60 muscle stats", 2),
+        new ChoiceOption("gain 50-60 mysticality stats", 3),
+        new ChoiceOption("gain 50-60 moxie stats", 4),
+        new ChoiceOption("don't use it", 6));
 
     // Choice 780 is Action Elevator
     // Choice 781 is Earthbound and Down
@@ -3818,9 +3767,9 @@ public abstract class ChoiceAdventures {
         "Beach",
         "The Shore",
         // Option...
-        new Option("Muscle Vacation"),
-        new Option("Mysticality Vacation"),
-        new Option("Moxie Vacation"));
+        new ChoiceOption("Muscle Vacation"),
+        new ChoiceOption("Mysticality Vacation"),
+        new ChoiceOption("Moxie Vacation"));
 
     // Choice 794 is Once More Unto the Junk
     new ChoiceAdventure(
@@ -3828,9 +3777,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "The Old Landfill",
         // Option...
-        new Option("The Bathroom of Ten Men"),
-        new Option("The Den of Iquity"),
-        new Option("Let's Workshop This a Little"));
+        new ChoiceOption("The Bathroom of Ten Men"),
+        new ChoiceOption("The Den of Iquity"),
+        new ChoiceOption("Let's Workshop This a Little"));
 
     // Choice 795 is The Bathroom of Ten Men
     new ChoiceAdventure(
@@ -3838,9 +3787,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "The Bathroom of Ten Men",
         // Option...
-        new Option("old claw-foot bathtub", "old claw-foot bathtub"),
-        new Option("fight junksprite"),
-        new Option("make lots of noise"));
+        new ChoiceOption("old claw-foot bathtub", "old claw-foot bathtub"),
+        new ChoiceOption("fight junksprite"),
+        new ChoiceOption("make lots of noise"));
 
     // Choice 796 is The Den of Iquity
     new ChoiceAdventure(
@@ -3848,9 +3797,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "The Den of Iquity",
         // Option...
-        new Option("make lots of noise"),
-        new Option("old clothesline pole", "old clothesline pole"),
-        new Option("tangle of copper wire", "tangle of copper wire"));
+        new ChoiceOption("make lots of noise"),
+        new ChoiceOption("old clothesline pole", "old clothesline pole"),
+        new ChoiceOption("tangle of copper wire", "tangle of copper wire"));
 
     // Choice 797 is Let's Workshop This a Little
     new ChoiceAdventure(
@@ -3858,9 +3807,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Let's Workshop This a Little",
         // Option...
-        new Option("Junk-Bond", "Junk-Bond"),
-        new Option("make lots of noise"),
-        new Option("antique cigar sign", "antique cigar sign"));
+        new ChoiceOption("Junk-Bond", "Junk-Bond"),
+        new ChoiceOption("make lots of noise"),
+        new ChoiceOption("antique cigar sign", "antique cigar sign"));
 
     // Choice 801 is A Reanimated Conversation
 
@@ -3870,11 +3819,11 @@ public abstract class ChoiceAdventures {
         "Events",
         "The Space Odyssey Discotheque",
         // Option...
-        new Option("gain 2-3 horoscopes", 1),
-        new Option("find interesting room", 3),
-        new Option("investigate interesting room", 4),
-        new Option("investigate trap door", 5),
-        new Option("investigate elevator", 6));
+        new ChoiceOption("gain 2-3 horoscopes", 1),
+        new ChoiceOption("find interesting room", 3),
+        new ChoiceOption("investigate interesting room", 4),
+        new ChoiceOption("investigate trap door", 5),
+        new ChoiceOption("investigate elevator", 6));
 
     // Choice 804 is Trick or Treat!
 
@@ -3884,7 +3833,7 @@ public abstract class ChoiceAdventures {
         "Beach",
         "Arid, Extra-Dry Desert",
         // Option...
-        new Option("talk to Gnasir"));
+        new ChoiceOption("talk to Gnasir"));
 
     // Choice 808 is Silence at Last.
     new ChoiceAdventure(
@@ -3892,8 +3841,8 @@ public abstract class ChoiceAdventures {
         "Events",
         "The Spirit World",
         // Option...
-        new Option("gain spirit bed piece"),
-        new Option("fight spirit alarm clock"));
+        new ChoiceOption("gain spirit bed piece"),
+        new ChoiceOption("fight spirit alarm clock"));
 
     // Choice 809 is Uncle Crimbo's Trailer
     // Choice 810 is K.R.A.M.P.U.S. facility
@@ -3904,7 +3853,7 @@ public abstract class ChoiceAdventures {
         "Crimbo13",
         "Warbear Fortress (First Level)",
         // Option...
-        new Option("Open K.R.A.M.P.U.S. facility"));
+        new ChoiceOption("Open K.R.A.M.P.U.S. facility"));
 
     // Choice 822 is The Prince's Ball (In the Restroom)
     // Choice 823 is The Prince's Ball (On the Dance Floor)
@@ -3921,10 +3870,10 @@ public abstract class ChoiceAdventures {
         "Skid Row",
         "Cooldown",
         // Option...
-        new Option("+Wolf Offence or +Wolf Defence"),
-        new Option("+Wolf Elemental Attacks or +Rabbit"),
-        new Option("Improved Howling! or +Wolf Lung Capacity"),
-        new Option("Leave", 6));
+        new ChoiceOption("+Wolf Offence or +Wolf Defence"),
+        new ChoiceOption("+Wolf Elemental Attacks or +Rabbit"),
+        new ChoiceOption("Improved Howling! or +Wolf Lung Capacity"),
+        new ChoiceOption("Leave", 6));
 
     // Choice 832 is Shower Power
     new ChoiceAdventure(
@@ -3932,8 +3881,8 @@ public abstract class ChoiceAdventures {
         "Skid Row",
         "Shower Power",
         // Option...
-        new Option("+Wolf Offence"),
-        new Option("+Wolf Defence"));
+        new ChoiceOption("+Wolf Offence"),
+        new ChoiceOption("+Wolf Defence"));
 
     // Choice 833 is Vendie, Vidi, Vici
     new ChoiceAdventure(
@@ -3941,8 +3890,8 @@ public abstract class ChoiceAdventures {
         "Skid Row",
         "Vendie, Vidi, Vici",
         // Option...
-        new Option("+Wolf Elemental Attacks"),
-        new Option("+Rabbit"));
+        new ChoiceOption("+Wolf Elemental Attacks"),
+        new ChoiceOption("+Rabbit"));
 
     // Choice 834 is Back Room Dealings
     new ChoiceAdventure(
@@ -3950,8 +3899,8 @@ public abstract class ChoiceAdventures {
         "Skid Row",
         "Back Room Dealings",
         // Option...
-        new Option("Improved Howling!", 2),
-        new Option("+Wolf Lung Capacity", 3));
+        new ChoiceOption("Improved Howling!", 2),
+        new ChoiceOption("+Wolf Lung Capacity", 3));
 
     // Choice 835 is Barely Tales
     new ChoiceAdventure(
@@ -3959,9 +3908,9 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Grim Brother",
         // Option...
-        new Option("30 turns of +20 initiative"),
-        new Option("30 turns of +20 max HP, +10 max MP"),
-        new Option("30 turns of +10 Weapon Damage, +20 Spell Damage"));
+        new ChoiceOption("30 turns of +20 initiative"),
+        new ChoiceOption("30 turns of +20 max HP, +10 max MP"),
+        new ChoiceOption("30 turns of +10 Weapon Damage, +20 Spell Damage"));
 
     // Choice 836 is Adventures Who Live in Ice Houses...
 
@@ -3971,9 +3920,9 @@ public abstract class ChoiceAdventures {
         "The Candy Witch and the Relentless Child Thieves",
         "On Purple Pond",
         // Option...
-        new Option("find out the two children not invading"),
-        new Option("+1 Moat"),
-        new Option("gain Candy"));
+        new ChoiceOption("find out the two children not invading"),
+        new ChoiceOption("+1 Moat"),
+        new ChoiceOption("gain Candy"));
 
     // Choice 838 is General Mill
     new ChoiceAdventure(
@@ -3981,8 +3930,8 @@ public abstract class ChoiceAdventures {
         "The Candy Witch and the Relentless Child Thieves",
         "General Mill",
         // Option...
-        new Option("+1 Moat"),
-        new Option("gain Candy"));
+        new ChoiceOption("+1 Moat"),
+        new ChoiceOption("gain Candy"));
 
     // Choice 839 is On The Sounds of the Undergrounds
     new ChoiceAdventure(
@@ -3990,9 +3939,9 @@ public abstract class ChoiceAdventures {
         "The Candy Witch and the Relentless Child Thieves",
         "The Sounds of the Undergrounds",
         // Option...
-        new Option("learn what the first two waves will be"),
-        new Option("+1 Minefield Strength"),
-        new Option("gain Candy"));
+        new ChoiceOption("learn what the first two waves will be"),
+        new ChoiceOption("+1 Minefield Strength"),
+        new ChoiceOption("gain Candy"));
 
     // Choice 840 is Hop on Rock Pops
     new ChoiceAdventure(
@@ -4000,8 +3949,8 @@ public abstract class ChoiceAdventures {
         "The Candy Witch and the Relentless Child Thieves",
         "Hop on Rock Pops",
         // Option...
-        new Option("+1 Minefield Strength"),
-        new Option("gain Candy"));
+        new ChoiceOption("+1 Minefield Strength"),
+        new ChoiceOption("gain Candy"));
 
     // Choice 841 is Building, Structure, Edifice
     new ChoiceAdventure(
@@ -4009,9 +3958,9 @@ public abstract class ChoiceAdventures {
         "The Candy Witch and the Relentless Child Thieves",
         "Building, Structure, Edifice",
         // Option...
-        new Option("increase candy in another location"),
-        new Option("+2 Random Defense"),
-        new Option("gain Candy"));
+        new ChoiceOption("increase candy in another location"),
+        new ChoiceOption("+2 Random Defense"),
+        new ChoiceOption("gain Candy"));
 
     // Choice 842 is The Gingerbread Warehouse
     new ChoiceAdventure(
@@ -4019,10 +3968,10 @@ public abstract class ChoiceAdventures {
         "The Candy Witch and the Relentless Child Thieves",
         "The Gingerbread Warehouse",
         // Option...
-        new Option("+1 Wall Strength"),
-        new Option("+1 Poison Jar"),
-        new Option("+1 Anti-Aircraft Turret"),
-        new Option("gain Candy"));
+        new ChoiceOption("+1 Wall Strength"),
+        new ChoiceOption("+1 Poison Jar"),
+        new ChoiceOption("+1 Anti-Aircraft Turret"),
+        new ChoiceOption("gain Candy"));
 
     // Choice 844 is The Portal to Horrible Parents
     // Choice 845 is Rumpelstiltskin's Workshop
@@ -4042,10 +3991,10 @@ public abstract class ChoiceAdventures {
         "Town",
         "Behind the 'Stache",
         // Option...
-        new Option("don't take initial damage in fights"),
-        new Option("can get priceless diamond"),
-        new Option("can make Flamin' Whatshisname"),
-        new Option("get 4-5 random items"));
+        new ChoiceOption("don't take initial damage in fights"),
+        new ChoiceOption("can get priceless diamond"),
+        new ChoiceOption("can make Flamin' Whatshisname"),
+        new ChoiceOption("get 4-5 random items"));
 
     // Choice 856 is This Looks Like a Good Bush for an Ambush
     new ChoiceAdventure(
@@ -4053,7 +4002,7 @@ public abstract class ChoiceAdventures {
         "The Red Zeppelin's Mooring",
         "This Looks Like a Good Bush for an Ambush",
         // Option...
-        new Option("scare protestors (more with lynyrd gear)"),
+        new ChoiceOption("scare protestors (more with lynyrd gear)"),
         SKIP_ADVENTURE);
 
     // Choice 857 is Bench Warrant
@@ -4062,7 +4011,7 @@ public abstract class ChoiceAdventures {
         "The Red Zeppelin's Mooring",
         "Bench Warrant",
         // Option...
-        new Option("creep protestors (more with sleaze damage/sleaze spell damage)"),
+        new ChoiceOption("creep protestors (more with sleaze damage/sleaze spell damage)"),
         SKIP_ADVENTURE);
 
     // Choice 858 is Fire Up Above
@@ -4071,7 +4020,7 @@ public abstract class ChoiceAdventures {
         "The Red Zeppelin's Mooring",
         "Fire Up Above",
         // Option...
-        new Option("set fire to protestors (more with Flamin' Whatshisname)"),
+        new ChoiceOption("set fire to protestors (more with Flamin' Whatshisname)"),
         SKIP_ADVENTURE);
 
     // Choice 866 is Methinks the Protesters Doth Protest Too Little
@@ -4080,9 +4029,9 @@ public abstract class ChoiceAdventures {
         "The Red Zeppelin's Mooring",
         "Methinks the Protesters Doth Protest Too Little",
         // Option...
-        new Option("scare protestors (more with lynyrd gear)"),
-        new Option("creep protestors (more with sleaze damage/sleaze spell damage)"),
-        new Option("set fire to protestors (more with Flamin' Whatshisname)"));
+        new ChoiceOption("scare protestors (more with lynyrd gear)"),
+        new ChoiceOption("creep protestors (more with sleaze damage/sleaze spell damage)"),
+        new ChoiceOption("set fire to protestors (more with Flamin' Whatshisname)"));
 
     // Rod Nevada, Vendor
     new ChoiceSpoiler(
@@ -4090,7 +4039,7 @@ public abstract class ChoiceAdventures {
         "Plains",
         "The Palindome",
         // Option...
-        new Option("photograph of a red nugget", "photograph of a red nugget"),
+        new ChoiceOption("photograph of a red nugget", "photograph of a red nugget"),
         SKIP_ADVENTURE);
     // Rod Nevada, Vendor
     new ChoiceCost(873, new Cost(1, new AdventureResult(AdventureResult.MEAT, -500)));
@@ -4101,9 +4050,9 @@ public abstract class ChoiceAdventures {
         "Manor1",
         "Pool Table",
         // Option...
-        new Option("try to beat ghost"),
-        new Option("improve pool skill"),
-        new Option("skip"));
+        new ChoiceOption("try to beat ghost"),
+        new ChoiceOption("improve pool skill"),
+        new ChoiceOption("skip"));
 
     // One Simple Nightstand
     new ChoiceAdventure(
@@ -4111,10 +4060,10 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "One Simple Nightstand",
         // Option...
-        new Option("old leather wallet", 1),
-        new Option("muscle substats", 2),
-        new Option("muscle substats (with ghost key)", 3),
-        new Option("skip", 6));
+        new ChoiceOption("old leather wallet", 1),
+        new ChoiceOption("muscle substats", 2),
+        new ChoiceOption("muscle substats (with ghost key)", 3),
+        new ChoiceOption("skip", 6));
 
     // One Mahogany Nightstand
     new ChoiceAdventure(
@@ -4122,11 +4071,11 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "One Mahogany Nightstand",
         // Option...
-        new Option("old coin purse or half a memo", 1),
-        new Option("take damage", 2),
-        new Option("quest item", 3),
-        new Option("gain more meat (with ghost key)", 4),
-        new Option("skip", 6));
+        new ChoiceOption("old coin purse or half a memo", 1),
+        new ChoiceOption("take damage", 2),
+        new ChoiceOption("quest item", 3),
+        new ChoiceOption("gain more meat (with ghost key)", 4),
+        new ChoiceOption("skip", 6));
 
     // One Ornate Nightstand
     new ChoiceAdventure(
@@ -4134,12 +4083,12 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "One Ornate Nightstand",
         // Option...
-        new Option("small meat boost", 1),
-        new Option("mysticality substats", 2),
-        new Option("Lord Spookyraven's spectacles", 3, "Lord Spookyraven's spectacles"),
-        new Option("disposable instant camera", 4, "disposable instant camera"),
-        new Option("mysticality substats (with ghost key)", 5),
-        new Option("skip", 6));
+        new ChoiceOption("small meat boost", 1),
+        new ChoiceOption("mysticality substats", 2),
+        new ChoiceOption("Lord Spookyraven's spectacles", 3, "Lord Spookyraven's spectacles"),
+        new ChoiceOption("disposable instant camera", 4, "disposable instant camera"),
+        new ChoiceOption("mysticality substats (with ghost key)", 5),
+        new ChoiceOption("skip", 6));
 
     // One Rustic Nightstand
     new ChoiceAdventure(
@@ -4147,12 +4096,12 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "One Rustic Nightstand",
         // Option...
-        new Option("moxie", 1),
-        new Option("grouchy restless spirit or empty drawer", 2, "grouchy restless spirit"),
-        new Option("enter combat with mistress (1)", 3),
-        new Option("Engorged Sausages and You or moxie", 4),
-        new Option("moxie substats (with ghost key)", 5),
-        new Option("skip", 6));
+        new ChoiceOption("moxie", 1),
+        new ChoiceOption("grouchy restless spirit or empty drawer", 2, "grouchy restless spirit"),
+        new ChoiceOption("enter combat with mistress (1)", 3),
+        new ChoiceOption("Engorged Sausages and You or moxie", 4),
+        new ChoiceOption("moxie substats (with ghost key)", 5),
+        new ChoiceOption("skip", 6));
 
     // One Elegant Nightstand
     new ChoiceAdventure(
@@ -4160,11 +4109,11 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "One Elegant Nightstand",
         // Option...
-        new Option(
+        new ChoiceOption(
             "Lady Spookyraven's finest gown (once only)", 1, "Lady Spookyraven's finest gown"),
-        new Option("elegant nightstick", 2, "elegant nightstick"),
-        new Option("stats (with ghost key)", 3),
-        new Option("skip", 6));
+        new ChoiceOption("elegant nightstick", 2, "elegant nightstick"),
+        new ChoiceOption("stats (with ghost key)", 3),
+        new ChoiceOption("skip", 6));
 
     // Off the Rack
     new ChoiceAdventure(
@@ -4172,17 +4121,17 @@ public abstract class ChoiceAdventures {
         "Manor2",
         "Bathroom Towel",
         // Option...
-        new Option("get towel"),
-        new Option("skip"));
+        new ChoiceOption("get towel"),
+        new ChoiceOption("skip"));
 
     // Take a Look, it's in a Book!
     new ChoiceSpoiler(
         888,
         "Haunted Library",
         // Option...
-        new Option("background history"),
-        new Option("cooking recipe"),
-        new Option("other options"),
+        new ChoiceOption("background history"),
+        new ChoiceOption("cooking recipe"),
+        new ChoiceOption("other options"),
         SKIP_ADVENTURE);
 
     // Take a Look, it's in a Book!
@@ -4190,11 +4139,11 @@ public abstract class ChoiceAdventures {
         889,
         "Haunted Library",
         // Option...
-        new Option("background history", 1),
-        new Option("cocktailcrafting recipe", 2),
-        new Option("muscle substats", 3),
-        new Option("dictionary", 4, "dictionary"),
-        new Option("skip", 5));
+        new ChoiceOption("background history", 1),
+        new ChoiceOption("cocktailcrafting recipe", 2),
+        new ChoiceOption("muscle substats", 3),
+        new ChoiceOption("dictionary", 4, "dictionary"),
+        new ChoiceOption("skip", 5));
 
     // Choice 890 is Lights Out in the Storage Room
     // Choice 891 is Lights Out in the Laundry Room
@@ -4218,7 +4167,7 @@ public abstract class ChoiceAdventures {
         914,
         "Haunted Gallery",
         // Option...
-        new Option("Enter the Drawing"),
+        new ChoiceOption("Enter the Drawing"),
         SKIP_ADVENTURE);
 
     // Choice 918 is Yachtzee!
@@ -4227,9 +4176,9 @@ public abstract class ChoiceAdventures {
         "Spring Break Beach",
         "Yachtzee!",
         // Option...
-        new Option("get cocktail ingredients (sometimes Ultimate Mind Destroyer)"),
-        new Option("get 5k meat and random item"),
-        new Option("get Beach Bucks"));
+        new ChoiceOption("get cocktail ingredients (sometimes Ultimate Mind Destroyer)"),
+        new ChoiceOption("get 5k meat and random item"),
+        new ChoiceOption("get Beach Bucks"));
 
     // Choice 919 is Break Time!
     new ChoiceAdventure(
@@ -4237,12 +4186,12 @@ public abstract class ChoiceAdventures {
         "Spring Break Beach",
         "Break Time!",
         // Option...
-        new Option("get Beach Bucks"),
-        new Option("+15ML on Sundaes"),
-        new Option("+15ML on Burgers"),
-        new Option("+15ML on Cocktails"),
-        new Option("reset ML on monsters"),
-        new Option("leave without using a turn"));
+        new ChoiceOption("get Beach Bucks"),
+        new ChoiceOption("+15ML on Sundaes"),
+        new ChoiceOption("+15ML on Burgers"),
+        new ChoiceOption("+15ML on Cocktails"),
+        new ChoiceOption("reset ML on monsters"),
+        new ChoiceOption("leave without using a turn"));
 
     // Choice 920 is Eraser
     new ChoiceAdventure(
@@ -4250,10 +4199,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Eraser",
         // Option...
-        new Option("reset Buff Jimmy quests"),
-        new Option("reset Taco Dan quests"),
-        new Option("reset Broden quests"),
-        new Option("don't use it"));
+        new ChoiceOption("reset Buff Jimmy quests"),
+        new ChoiceOption("reset Taco Dan quests"),
+        new ChoiceOption("reset Broden quests"),
+        new ChoiceOption("don't use it"));
 
     // Choice 921 is We'll All Be Flat
 
@@ -4263,10 +4212,10 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Black Forest",
         // Option...
-        new Option("fight blackberry bush, visit cobbler, or raid beehive"),
-        new Option("visit blacksmith"),
-        new Option("visit black gold mine"),
-        new Option("visit black church"));
+        new ChoiceOption("fight blackberry bush, visit cobbler, or raid beehive"),
+        new ChoiceOption("visit blacksmith"),
+        new ChoiceOption("visit black gold mine"),
+        new ChoiceOption("visit black church"));
 
     // Choice 924 is You Found Your Thrill
     new ChoiceAdventure(
@@ -4274,9 +4223,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Blackberry",
         // Option...
-        new Option("fight blackberry bush"),
-        new Option("visit cobbler"),
-        new Option("head towards beehive (1)"));
+        new ChoiceOption("fight blackberry bush"),
+        new ChoiceOption("visit cobbler"),
+        new ChoiceOption("head towards beehive (1)"));
 
     // Choice 925 is The Blackest Smith
     new ChoiceAdventure(
@@ -4284,11 +4233,11 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Blacksmith",
         // Option...
-        new Option("get black sword", 1, "black sword"),
-        new Option("get black shield", 2, "black shield"),
-        new Option("get black helmet", 3, "black helmet"),
-        new Option("get black greaves", 4, "black greaves"),
-        new Option("return to main choice", 6));
+        new ChoiceOption("get black sword", 1, "black sword"),
+        new ChoiceOption("get black shield", 2, "black shield"),
+        new ChoiceOption("get black helmet", 3, "black helmet"),
+        new ChoiceOption("get black greaves", 4, "black greaves"),
+        new ChoiceOption("return to main choice", 6));
 
     // Choice 926 is Be Mine
     new ChoiceAdventure(
@@ -4296,10 +4245,10 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Black Gold Mine",
         // Option...
-        new Option("get black gold", 1, "black gold"),
-        new Option("get Texas tea", 2, "Texas tea"),
-        new Option("get Black Lung effect", 3),
-        new Option("return to main choice", 6));
+        new ChoiceOption("get black gold", 1, "black gold"),
+        new ChoiceOption("get Texas tea", 2, "Texas tea"),
+        new ChoiceOption("get Black Lung effect", 3),
+        new ChoiceOption("return to main choice", 6));
 
     // Choice 927 is Sunday Black Sunday
     new ChoiceAdventure(
@@ -4307,9 +4256,9 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Black Church",
         // Option...
-        new Option("get 13 turns of Salsa Satanica or beaten up", 1),
-        new Option("get black kettle drum", 2, "black kettle drum"),
-        new Option("return to main choice", 6));
+        new ChoiceOption("get 13 turns of Salsa Satanica or beaten up", 1),
+        new ChoiceOption("get black kettle drum", 2, "black kettle drum"),
+        new ChoiceOption("return to main choice", 6));
 
     // Choice 928 is The Blackberry Cobbler
     new ChoiceAdventure(
@@ -4317,11 +4266,11 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Blackberry Cobbler",
         // Option...
-        new Option("get blackberry slippers", 1, "blackberry slippers"),
-        new Option("get blackberry moccasins", 2, "blackberry moccasins"),
-        new Option("get blackberry combat boots", 3, "blackberry combat boots"),
-        new Option("get blackberry galoshes", 4, "blackberry galoshes"),
-        new Option("return to main choice", 6));
+        new ChoiceOption("get blackberry slippers", 1, "blackberry slippers"),
+        new ChoiceOption("get blackberry moccasins", 2, "blackberry moccasins"),
+        new ChoiceOption("get blackberry combat boots", 3, "blackberry combat boots"),
+        new ChoiceOption("get blackberry galoshes", 4, "blackberry galoshes"),
+        new ChoiceOption("return to main choice", 6));
 
     // Choice 929 is Control Freak
     new ChoiceAdventure(
@@ -4329,10 +4278,10 @@ public abstract class ChoiceAdventures {
         "Pyramid",
         "Control Room",
         // Option...
-        new Option("turn lower chamber, lose wheel", 1),
-        new Option("turn lower chamber, lose ratchet", 2),
-        new Option("enter lower chamber", 5),
-        new Option("leave", 6));
+        new ChoiceOption("turn lower chamber, lose wheel", 1),
+        new ChoiceOption("turn lower chamber, lose ratchet", 2),
+        new ChoiceOption("enter lower chamber", 5),
+        new ChoiceOption("leave", 6));
 
     // Choice 930 is Another Errand I Mean Quest
     // Choice 931 is Life Ain't Nothin But Witches and Mummies
@@ -4348,12 +4297,12 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "white page",
         // Option...
-        new Option("fight whitesnake"),
-        new Option("fight white lion"),
-        new Option("fight white chocolate golem"),
-        new Option("fight white knight"),
-        new Option("fight white elephant"),
-        new Option("skip"));
+        new ChoiceOption("fight whitesnake"),
+        new ChoiceOption("fight white lion"),
+        new ChoiceOption("fight white chocolate golem"),
+        new ChoiceOption("fight white knight"),
+        new ChoiceOption("fight white elephant"),
+        new ChoiceOption("skip"));
 
     // Choice 950 is Time-Twitching Tower Voting / Phone Booth
 
@@ -4363,9 +4312,9 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "Time Cave",
         // Option...
-        new Option("fight Adventurer echo"),
-        new Option("twitching time capsule", "twitching time capsule"),
-        new Option("talk to caveman"));
+        new ChoiceOption("fight Adventurer echo"),
+        new ChoiceOption("twitching time capsule", "twitching time capsule"),
+        new ChoiceOption("talk to caveman"));
 
     // Choice 973 is Shoe Repair Store
     new ChoiceAdventure(
@@ -4373,9 +4322,9 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "Shoe Repair Store",
         // Option...
-        new Option("visit shop", 1),
-        new Option("exchange hooch for Chroners", 2),
-        new Option("leave", 6));
+        new ChoiceOption("visit shop", 1),
+        new ChoiceOption("exchange hooch for Chroners", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 974 is Around The World
     new ChoiceAdventure(
@@ -4383,8 +4332,8 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "Bohemian Party",
         // Option...
-        new Option("get up to 5 hooch"),
-        new Option("leave"));
+        new ChoiceOption("get up to 5 hooch"),
+        new ChoiceOption("leave"));
 
     // Choice 975 is Crazy Still After All These Years
     new ChoiceAdventure(
@@ -4392,8 +4341,8 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "Moonshriner's Woods",
         // Option...
-        new Option("swap 5 cocktail onions for 10 hooch"),
-        new Option("leave"));
+        new ChoiceOption("swap 5 cocktail onions for 10 hooch"),
+        new ChoiceOption("leave"));
 
     // Choice 979 is The Agora
     new ChoiceAdventure(
@@ -4401,9 +4350,9 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "The Agora",
         // Option...
-        new Option("get blessing", 1),
-        new Option("visit store", 2),
-        new Option("play dice", 6));
+        new ChoiceOption("get blessing", 1),
+        new ChoiceOption("visit store", 2),
+        new ChoiceOption("play dice", 6));
 
     // Choice 980 is Welcome to Blessings Hut
     new ChoiceAdventure(
@@ -4411,11 +4360,11 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "Blessings Hut",
         // Option...
-        new Option("Bruno's blessing of Mars", "Bruno's blessing of Mars"),
-        new Option("Dennis's blessing of Minerva", "Dennis's blessing of Minerva"),
-        new Option("Burt's blessing of Bacchus", "Burt's blessing of Bacchus"),
-        new Option("Freddie's blessing of Mercury", "Freddie's blessing of Mercury"),
-        new Option("return to Agora", 6));
+        new ChoiceOption("Bruno's blessing of Mars", "Bruno's blessing of Mars"),
+        new ChoiceOption("Dennis's blessing of Minerva", "Dennis's blessing of Minerva"),
+        new ChoiceOption("Burt's blessing of Bacchus", "Burt's blessing of Bacchus"),
+        new ChoiceOption("Freddie's blessing of Mercury", "Freddie's blessing of Mercury"),
+        new ChoiceOption("return to Agora", 6));
 
     // Choice 982 is The 99-Centurion Store
     new ChoiceAdventure(
@@ -4423,9 +4372,9 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "The 99-Centurion Store",
         // Option...
-        new Option("centurion helmet", "centurion helmet"),
-        new Option("pteruges", "pteruges"),
-        new Option("return to Agora", 6));
+        new ChoiceOption("centurion helmet", "centurion helmet"),
+        new ChoiceOption("pteruges", "pteruges"),
+        new ChoiceOption("return to Agora", 6));
 
     // Choice 983 is Playing Dice With Romans
     new ChoiceAdventure(
@@ -4433,8 +4382,8 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "Playing Dice With Romans",
         // Option...
-        new Option("make a bet and throw dice", 1),
-        new Option("return to Agora", 6));
+        new ChoiceOption("make a bet and throw dice", 1),
+        new ChoiceOption("return to Agora", 6));
 
     // Choice 984 is A Radio on a Beach
     // Choice 988 is The Containment Unit
@@ -4450,11 +4399,11 @@ public abstract class ChoiceAdventures {
         "Twitch",
         "Game of Cards",
         // Option...
-        new Option("Gain 7 Chroner"),
-        new Option("Gain 9 Chroner"),
-        new Option("Gain 13 Chroner (80% chance)"),
-        new Option("Gain 17 Chroner (60% chance)"),
-        new Option("Gain 21 Chroner, lose pocket ace"));
+        new ChoiceOption("Gain 7 Chroner"),
+        new ChoiceOption("Gain 9 Chroner"),
+        new ChoiceOption("Gain 13 Chroner (80% chance)"),
+        new ChoiceOption("Gain 17 Chroner (60% chance)"),
+        new ChoiceOption("Gain 21 Chroner, lose pocket ace"));
 
     // Choice 1000 is Everything in Moderation
     // Choice 1001 is Hot and Cold Dripping Rats
@@ -4469,8 +4418,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Hedge Maze 1",
         // Option...
-        new Option("topiary nugglet and advance to Room 2", "topiary nugglet"),
-        new Option("Test #1 and advance to Room 4"));
+        new ChoiceOption("topiary nugglet and advance to Room 2", "topiary nugglet"),
+        new ChoiceOption("Test #1 and advance to Room 4"));
 
     // One Small Step For Adventurer
     new ChoiceAdventure(
@@ -4478,8 +4427,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Hedge Maze 2",
         // Option...
-        new Option("topiary nugglet and advance to Room 3", "topiary nugglet"),
-        new Option("Fight topiary gopher and advance to Room 4"));
+        new ChoiceOption("topiary nugglet and advance to Room 3", "topiary nugglet"),
+        new ChoiceOption("Fight topiary gopher and advance to Room 4"));
 
     // Twisty Little Passages, All Hedge
     new ChoiceAdventure(
@@ -4487,8 +4436,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Hedge Maze 3",
         // Option...
-        new Option("topiary nugglet and advance to Room 4", "topiary nugglet"),
-        new Option("Fight topiary chihuahua herd and advance to Room 5"));
+        new ChoiceOption("topiary nugglet and advance to Room 4", "topiary nugglet"),
+        new ChoiceOption("Fight topiary chihuahua herd and advance to Room 5"));
 
     // Pooling Your Resources
     new ChoiceAdventure(
@@ -4496,8 +4445,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Hedge Maze 4",
         // Option...
-        new Option("topiary nugglet and advance to Room 5", "topiary nugglet"),
-        new Option("Test #2 and advance to Room 7"));
+        new ChoiceOption("topiary nugglet and advance to Room 5", "topiary nugglet"),
+        new ChoiceOption("Test #2 and advance to Room 7"));
 
     // Good Ol' 44% Duck
     new ChoiceAdventure(
@@ -4505,8 +4454,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Hedge Maze 5",
         // Option...
-        new Option("topiary nugglet and advance to Room 6", "topiary nugglet"),
-        new Option("Fight topiary duck and advance to Room 7"));
+        new ChoiceOption("topiary nugglet and advance to Room 6", "topiary nugglet"),
+        new ChoiceOption("Fight topiary duck and advance to Room 7"));
 
     // Another Day, Another Fork
     new ChoiceAdventure(
@@ -4514,8 +4463,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Hedge Maze 6",
         // Option...
-        new Option("topiary nugglet and advance to Room 7", "topiary nugglet"),
-        new Option("Fight topiary kiwi and advance to Room 8"));
+        new ChoiceOption("topiary nugglet and advance to Room 7", "topiary nugglet"),
+        new ChoiceOption("Fight topiary kiwi and advance to Room 8"));
 
     // Of Mouseholes and Manholes
     new ChoiceAdventure(
@@ -4523,8 +4472,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Hedge Maze 7",
         // Option...
-        new Option("topiary nugglet and advance to Room 8", "topiary nugglet"),
-        new Option("Test #3 and advance to Room 9"));
+        new ChoiceOption("topiary nugglet and advance to Room 8", "topiary nugglet"),
+        new ChoiceOption("Test #3 and advance to Room 9"));
 
     // The Last Temptation
     new ChoiceAdventure(
@@ -4532,8 +4481,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Hedge Maze 8",
         // Option...
-        new Option("topiary nugglet and advance to Room 9", "topiary nugglet"),
-        new Option("Lose HP for no benefit and advance to Room 9"));
+        new ChoiceOption("topiary nugglet and advance to Room 9", "topiary nugglet"),
+        new ChoiceOption("Lose HP for no benefit and advance to Room 9"));
 
     // Choice 1013 is Mazel Tov!
 
@@ -4543,8 +4492,8 @@ public abstract class ChoiceAdventures {
         "Sorceress",
         "Tower Mirror",
         // Option...
-        new Option("Gain Confidence! intrinsic until leave tower (1)"),
-        new Option("Make Sorceress tougher (0 turns)"));
+        new ChoiceOption("Gain Confidence! intrinsic until leave tower (1)"),
+        new ChoiceOption("Make Sorceress tougher (0 turns)"));
 
     // Choice 1016 is Frank Gets Earnest
     // Choice 1017 is Bear Verb Orgy
@@ -4555,8 +4504,8 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Bees 1",
         // Option...
-        new Option("head towards beehive (1)"),
-        new Option("give up"));
+        new ChoiceOption("head towards beehive (1)"),
+        new ChoiceOption("give up"));
 
     // Bee Rewarded
     new ChoiceAdventure(
@@ -4564,8 +4513,8 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Bees 2",
         // Option...
-        new Option("beehive (1)", "beehive"),
-        new Option("give up"));
+        new ChoiceOption("beehive (1)", "beehive"),
+        new ChoiceOption("give up"));
 
     // Choice 1020 is Closing Ceremony
     // Choice 1021 is Meet Frank
@@ -4579,8 +4528,8 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Ground Floor Foodie",
         // Option...
-        new Option("4 pieces of candy"),
-        new Option("electric boning knife, then skip adventure", "electric boning knife"),
+        new ChoiceOption("4 pieces of candy"),
+        new ChoiceOption("electric boning knife, then skip adventure", "electric boning knife"),
         SKIP_ADVENTURE);
 
     // Choice 1027 is The End of the Tale of Spelunking
@@ -4591,8 +4540,8 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "A Shop",
         // Option...
-        new Option("chance to fight shopkeeper", 5),
-        new Option("leave", 6));
+        new ChoiceOption("chance to fight shopkeeper", 5),
+        new ChoiceOption("leave", 6));
 
     // Choice 1029 is An Old Clay Pot
     new ChoiceAdventure(
@@ -4600,8 +4549,8 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "An Old Clay Pot",
         // Option...
-        new Option("gain 18-20 gold", 1),
-        new Option("gain pot", 5, "pot"));
+        new ChoiceOption("gain 18-20 gold", 1),
+        new ChoiceOption("gain pot", 5, "pot"));
 
     // Choice 1030 is It's a Trap!  A Dart Trap.
     new ChoiceAdventure(
@@ -4609,11 +4558,11 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "It's a Trap!  A Dart Trap.",
         // Option...
-        new Option("escape with whip", 1),
-        new Option("unlock The Snake Pit using bomb", 2),
-        new Option("unlock The Spider Hole using rope", 3),
-        new Option("escape using offhand item", 4),
-        new Option("take damage", 6));
+        new ChoiceOption("escape with whip", 1),
+        new ChoiceOption("unlock The Snake Pit using bomb", 2),
+        new ChoiceOption("unlock The Spider Hole using rope", 3),
+        new ChoiceOption("escape using offhand item", 4),
+        new ChoiceOption("take damage", 6));
 
     // Choice 1031 is A Tombstone
     new ChoiceAdventure(
@@ -4621,9 +4570,9 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "A Tombstone",
         // Option...
-        new Option("gain 20-25 gold or buddy", 1),
-        new Option("gain shotgun with pickaxe", 2, "shotgun"),
-        new Option("gain Clown Crown with x-ray specs", 3, "The Clown Crown"));
+        new ChoiceOption("gain 20-25 gold or buddy", 1),
+        new ChoiceOption("gain shotgun with pickaxe", 2, "shotgun"),
+        new ChoiceOption("gain Clown Crown with x-ray specs", 3, "The Clown Crown"));
 
     // Choice 1032 is It's a Trap!  A Tiki Trap.
     new ChoiceAdventure(
@@ -4631,10 +4580,11 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "It's a Trap!  A Tiki Trap.",
         // Option...
-        new Option("escape with spring boots", 1),
-        new Option("unlock The Beehive using bomb, take damage without sticky bomb", 2),
-        new Option("unlock The Ancient Burial Ground using rope, take damage without back item", 3),
-        new Option("lose 30 hp", 6));
+        new ChoiceOption("escape with spring boots", 1),
+        new ChoiceOption("unlock The Beehive using bomb, take damage without sticky bomb", 2),
+        new ChoiceOption(
+            "unlock The Ancient Burial Ground using rope, take damage without back item", 3),
+        new ChoiceOption("lose 30 hp", 6));
 
     // Choice 1033 is A Big Block of Ice
     new ChoiceAdventure(
@@ -4642,8 +4592,8 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "A Big Block of Ice",
         // Option...
-        new Option("gain 50-60 gold and restore health (with cursed coffee cup)", 1),
-        new Option("gain buddy (or 60-70 gold) with torch", 2));
+        new ChoiceOption("gain 50-60 gold and restore health (with cursed coffee cup)", 1),
+        new ChoiceOption("gain buddy (or 60-70 gold) with torch", 2));
 
     // Choice 1034 is A Landmine
     new ChoiceAdventure(
@@ -4651,9 +4601,9 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "A Landmine",
         // Option...
-        new Option("unlock An Ancient Altar and lose 10 HP", 2),
-        new Option("unlock The Crashed UFO using 3 ropes", 3),
-        new Option("lose 30 hp", 6));
+        new ChoiceOption("unlock An Ancient Altar and lose 10 HP", 2),
+        new ChoiceOption("unlock The Crashed UFO using 3 ropes", 3),
+        new ChoiceOption("lose 30 hp", 6));
 
     // Choice 1035 is A Crate
 
@@ -4663,11 +4613,11 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "Idolatry",
         // Option...
-        new Option("gain 250 gold with Resourceful Kid", 1),
-        new Option("gain 250 gold with spring boots and yellow cloak", 2),
-        new Option("gain 250 gold with jetpack", 3),
-        new Option("gain 250 gold and lose 50 hp", 4),
-        new Option("leave", 6));
+        new ChoiceOption("gain 250 gold with Resourceful Kid", 1),
+        new ChoiceOption("gain 250 gold with spring boots and yellow cloak", 2),
+        new ChoiceOption("gain 250 gold with jetpack", 3),
+        new ChoiceOption("gain 250 gold and lose 50 hp", 4),
+        new ChoiceOption("leave", 6));
 
     // Choice 1037 is It's a Trap!  A Smashy Trap.
     new ChoiceAdventure(
@@ -4675,8 +4625,8 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "It's a Trap!  A Smashy Trap.",
         // Option...
-        new Option("unlock The City of Goooold with key, or take damage", 2),
-        new Option("lose 40 hp", 6));
+        new ChoiceOption("unlock The City of Goooold with key, or take damage", 2),
+        new ChoiceOption("lose 40 hp", 6));
 
     // Choice 1038 is A Wicked Web
     new ChoiceAdventure(
@@ -4684,9 +4634,9 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "A Wicked Web",
         // Option...
-        new Option("gain 15-20 gold", 1),
-        new Option("gain buddy (or 20-30 gold) with machete", 2),
-        new Option("gain 30-50 gold with torch", 3));
+        new ChoiceOption("gain 15-20 gold", 1),
+        new ChoiceOption("gain buddy (or 20-30 gold) with machete", 2),
+        new ChoiceOption("gain 30-50 gold with torch", 3));
 
     // Choice 1039 is A Golden Chest
     new ChoiceAdventure(
@@ -4694,9 +4644,9 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "A Golden Chest",
         // Option...
-        new Option("gain 150 gold with key", 1),
-        new Option("gain 80-100 gold with bomb", 2),
-        new Option("gain 50-60 gold and lose 20 hp", 3));
+        new ChoiceOption("gain 150 gold with key", 1),
+        new ChoiceOption("gain 80-100 gold with bomb", 2),
+        new ChoiceOption("gain 50-60 gold and lose 20 hp", 3));
 
     // Choice 1040 is It's Lump. It's Lump.
     new ChoiceAdventure(
@@ -4704,8 +4654,8 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "It's Lump. It's Lump",
         // Option...
-        new Option("gain heavy pickaxe with bomb", 1, "heavy pickaxe"),
-        new Option("leave", 6));
+        new ChoiceOption("gain heavy pickaxe with bomb", 1, "heavy pickaxe"),
+        new ChoiceOption("leave", 6));
 
     // choice 1041 is Spelunkrifice
     new ChoiceAdventure(
@@ -4713,8 +4663,8 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "Spelunkrifice",
         // Option...
-        new Option("sacrifice buddy", 1),
-        new Option("leave", 6));
+        new ChoiceOption("sacrifice buddy", 1),
+        new ChoiceOption("leave", 6));
 
     // choice 1042 is Pick a Perk!
     // choice 1044 is The Gates of Hell
@@ -4724,8 +4674,8 @@ public abstract class ChoiceAdventures {
         "Spelunky Area",
         "Hostile Work Environment",
         // Option...
-        new Option("fight shopkeeper", 1),
-        new Option("take damage", 6));
+        new ChoiceOption("fight shopkeeper", 1),
+        new ChoiceOption("take damage", 6));
 
     // Choice 1046 is Actually Ed the Undying
     // Choice 1048 is Twitch Event #8 Time Period
@@ -4745,13 +4695,13 @@ public abstract class ChoiceAdventures {
         "Town",
         "Skeleton Store",
         // Option...
-        new Option("gain office key, then ~35 meat", 1, "Skeleton Store office key"),
-        new Option(
+        new ChoiceOption("gain office key, then ~35 meat", 1, "Skeleton Store office key"),
+        new ChoiceOption(
             "gain ring of telling skeletons what to do, then 300 meat, with skeleton key",
             2,
             "ring of telling skeletons what to do"),
-        new Option("gain muscle stats", 3),
-        new Option("fight former owner of the Skeleton Store, with office key", 4));
+        new ChoiceOption("gain muscle stats", 3),
+        new ChoiceOption("fight former owner of the Skeleton Store, with office key", 4));
 
     // Choice 1061 is Heart of Madness
     new ChoiceAdventure(
@@ -4759,11 +4709,11 @@ public abstract class ChoiceAdventures {
         "Town",
         "Madness Bakery",
         // Option...
-        new Option("try to enter office", 1),
-        new Option("bagel machine", 2),
-        new Option("popular machine", 3),
-        new Option("learn recipe", 4),
-        new Option("gain mysticality stats", 5));
+        new ChoiceOption("try to enter office", 1),
+        new ChoiceOption("bagel machine", 2),
+        new ChoiceOption("popular machine", 3),
+        new ChoiceOption("learn recipe", 4),
+        new ChoiceOption("gain mysticality stats", 5));
 
     // Choice 1062 is Lots of Options
     new ChoiceAdventure(
@@ -4771,25 +4721,25 @@ public abstract class ChoiceAdventures {
         "Town",
         "Overgrown Lot",
         // Option...
-        new Option("acquire flowers", 1),
-        new Option("acquire food", 2),
-        new Option("acquire drinks", 3),
-        new Option("gain moxie stats", 4),
-        new Option("acquire more booze with map", 5));
+        new ChoiceOption("acquire flowers", 1),
+        new ChoiceOption("acquire food", 2),
+        new ChoiceOption("acquire drinks", 3),
+        new ChoiceOption("gain moxie stats", 4),
+        new ChoiceOption("acquire more booze with map", 5));
 
     // Choice 1063 is Adjust your 'Edpiece
     new ChoiceSpoiler(
         1063,
         "Crown of Ed the Undying",
         // Option...
-        new Option("Muscle +20, +2 Muscle Stats Per Fight"),
-        new Option("Mysticality +20, +2 Mysticality Stats Per Fight"),
-        new Option("Moxie +20, +2 Moxie Stats Per Fight"),
-        new Option("+20 to Monster Level"),
-        new Option("+10% Item Drops from Monsters, +20% Meat from Monsters"),
-        new Option(
+        new ChoiceOption("Muscle +20, +2 Muscle Stats Per Fight"),
+        new ChoiceOption("Mysticality +20, +2 Mysticality Stats Per Fight"),
+        new ChoiceOption("Moxie +20, +2 Moxie Stats Per Fight"),
+        new ChoiceOption("+20 to Monster Level"),
+        new ChoiceOption("+10% Item Drops from Monsters, +20% Meat from Monsters"),
+        new ChoiceOption(
             "The first attack against you will always miss, Regenerate 10-20 HP per Adventure"),
-        new Option("Lets you breathe underwater"));
+        new ChoiceOption("Lets you breathe underwater"));
 
     // Choice 1065 is Lending a Hand (and a Foot)
     // Choice 1067 is Maint Misbehavin'
@@ -4803,8 +4753,8 @@ public abstract class ChoiceAdventures {
         "Dinseylandfill",
         "This Ride Is Like... A Rollercoaster Baby Baby",
         // Option...
-        new Option("gain stats and meat", 1),
-        new Option("skip adventure and guarantees this adventure will reoccur", 6));
+        new ChoiceOption("gain stats and meat", 1),
+        new ChoiceOption("skip adventure and guarantees this adventure will reoccur", 6));
 
     // Choice 1076 is Mayo Minder&trade;
 
@@ -4814,8 +4764,8 @@ public abstract class ChoiceAdventures {
         "Town",
         "Bagelmat-5000",
         // Option...
-        new Option("make 3 plain bagels using wad of dough", 1),
-        new Option("return to Madness Bakery", 2));
+        new ChoiceOption("make 3 plain bagels using wad of dough", 1),
+        new ChoiceOption("return to Madness Bakery", 2));
 
     // Choice 1081 is Assault and Baguettery
     new ChoiceAdventure(
@@ -4823,10 +4773,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "magical baguette",
         // Option...
-        new Option("breadwand", 1, "breadwand"),
-        new Option("loafers", 2, "loafers"),
-        new Option("bread basket", 3, "bread basket"),
-        new Option("make nothing", 4));
+        new ChoiceOption("breadwand", 1, "breadwand"),
+        new ChoiceOption("loafers", 2, "loafers"),
+        new ChoiceOption("bread basket", 3, "bread basket"),
+        new ChoiceOption("make nothing", 4));
 
     // Choice 1084 is The Popular Machine
     new ChoiceAdventure(
@@ -4834,8 +4784,8 @@ public abstract class ChoiceAdventures {
         "Town",
         "Popular Machine",
         // Option...
-        new Option("make popular tart", 1),
-        new Option("return to Madness Bakery", 2));
+        new ChoiceOption("make popular tart", 1),
+        new ChoiceOption("return to Madness Bakery", 2));
 
     // Choice 1090 is The Towering Inferno Discotheque
 
@@ -4845,18 +4795,18 @@ public abstract class ChoiceAdventures {
         "That 70s Volcano",
         "LavaCo Lamp Factory",
         // Option...
-        new Option("1,970 carat gold -> thin gold wire", 1, "thin gold wire"),
-        new Option("New Age healing crystal -> empty lava bottle", 2, "empty lava bottle"),
-        new Option("empty lava bottle -> full lava bottle", 3, "full lava bottle"),
-        new Option("make colored lava globs", 4),
-        new Option(
+        new ChoiceOption("1,970 carat gold -> thin gold wire", 1, "thin gold wire"),
+        new ChoiceOption("New Age healing crystal -> empty lava bottle", 2, "empty lava bottle"),
+        new ChoiceOption("empty lava bottle -> full lava bottle", 3, "full lava bottle"),
+        new ChoiceOption("make colored lava globs", 4),
+        new ChoiceOption(
             "glowing New Age crystal -> crystalline light bulb", 5, "crystalline light bulb"),
-        new Option(
+        new ChoiceOption(
             "crystalline light bulb + insulated wire + heat-resistant sheet metal -> LavaCo&trade; Lamp housing",
             6,
             "LavaCo&trade; Lamp housing"),
-        new Option("fused fuse", 7, "fused fuse"),
-        new Option("leave", 9));
+        new ChoiceOption("fused fuse", 7, "fused fuse"),
+        new ChoiceOption("leave", 9));
 
     // Choice 1092 is Dyer Maker
     // Choice 1093 is The WLF Bunker
@@ -4867,11 +4817,11 @@ public abstract class ChoiceAdventures {
         "That 70s Volcano",
         "The SMOOCH Army HQ",
         // Option...
-        new Option("fight Geve Smimmons", 1),
-        new Option("fight Raul Stamley", 2),
-        new Option("fight Pener Crisp", 3),
-        new Option("fight Deuce Freshly", 4),
-        new Option("acquire SMOOCH coffee cup", 5, "SMOOCH coffee cup"));
+        new ChoiceOption("fight Geve Smimmons", 1),
+        new ChoiceOption("fight Raul Stamley", 2),
+        new ChoiceOption("fight Pener Crisp", 3),
+        new ChoiceOption("fight Deuce Freshly", 4),
+        new ChoiceOption("acquire SMOOCH coffee cup", 5, "SMOOCH coffee cup"));
 
     // Choice 1095 is Tin Roof -- Melted
     new ChoiceAdventure(
@@ -4879,8 +4829,8 @@ public abstract class ChoiceAdventures {
         "That 70s Volcano",
         "The Velvet / Gold Mine",
         // Option...
-        new Option("fight Mr. Choch", 1),
-        new Option("acquire half-melted hula girl", 2, "half-melted hula girl"));
+        new ChoiceOption("fight Mr. Choch", 1),
+        new ChoiceOption("acquire half-melted hula girl", 2, "half-melted hula girl"));
 
     // Choice 1096 is Re-Factory Period
     new ChoiceAdventure(
@@ -4888,8 +4838,8 @@ public abstract class ChoiceAdventures {
         "That 70s Volcano",
         "LavaCo Lamp Factory",
         // Option...
-        new Option("fight Mr. Cheeng", 1),
-        new Option("acquire glass ceiling fragments", 2, "glass ceiling fragments"));
+        new ChoiceOption("fight Mr. Cheeng", 1),
+        new ChoiceOption("acquire glass ceiling fragments", 2, "glass ceiling fragments"));
 
     // Choice 1097 is Who You Gonna Caldera?
     new ChoiceAdventure(
@@ -4897,8 +4847,8 @@ public abstract class ChoiceAdventures {
         "That 70s Volcano",
         "The Bubblin' Caldera",
         // Option...
-        new Option("acquire The One Mood Ring", 1, "The One Mood Ring"),
-        new Option("fight Lavalos", 2));
+        new ChoiceOption("acquire The One Mood Ring", 1, "The One Mood Ring"),
+        new ChoiceOption("fight Lavalos", 2));
 
     // Choice 1102 is The Biggest Barrel
 
@@ -4908,9 +4858,9 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Haunted Doghouse 1",
         // Option...
-        new Option("gain stats", 1),
-        new Option("+50% all stats for 30 turns", 2),
-        new Option("acquire familiar food", 3, "Ghost Dog Chow"));
+        new ChoiceOption("gain stats", 1),
+        new ChoiceOption("+50% all stats for 30 turns", 2),
+        new ChoiceOption("acquire familiar food", 3, "Ghost Dog Chow"));
 
     // Choice 1107 is Playing Fetch*
     new ChoiceAdventure(
@@ -4918,9 +4868,9 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Haunted Doghouse 2",
         // Option...
-        new Option("acquire tennis ball", 1, "tennis ball"),
-        new Option("+50% init for 30 turns", 2),
-        new Option("acquire ~500 meat", 3));
+        new ChoiceOption("acquire tennis ball", 1, "tennis ball"),
+        new ChoiceOption("+50% init for 30 turns", 2),
+        new ChoiceOption("acquire ~500 meat", 3));
 
     // Choice 1108 is Your Dog Found Something Again
     new ChoiceAdventure(
@@ -4928,9 +4878,9 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Haunted Doghouse 3",
         // Option...
-        new Option("acquire food", 1),
-        new Option("acquire booze", 2),
-        new Option("acquire cursed thing", 3));
+        new ChoiceOption("acquire food", 1),
+        new ChoiceOption("acquire booze", 2),
+        new ChoiceOption("acquire cursed thing", 3));
 
     // Choice 1110 is Spoopy
     // Choice 1114 is Walford Rusley, Bucket Collector
@@ -4941,12 +4891,13 @@ public abstract class ChoiceAdventures {
         "The Glaciest",
         "VYKEA!",
         // Option...
-        new Option("acquire VYKEA meatballs and mead (1/day)", 1),
-        new Option("acquire VYKEA hex key", 2, "VYKEA hex key"),
-        new Option("fill bucket by 10-15%", 3),
-        new Option("acquire 3 Wal-Mart gift certificates (1/day)", 4, "Wal-Mart gift certificate"),
-        new Option("acquire VYKEA rune", 5),
-        new Option("leave", 6));
+        new ChoiceOption("acquire VYKEA meatballs and mead (1/day)", 1),
+        new ChoiceOption("acquire VYKEA hex key", 2, "VYKEA hex key"),
+        new ChoiceOption("fill bucket by 10-15%", 3),
+        new ChoiceOption(
+            "acquire 3 Wal-Mart gift certificates (1/day)", 4, "Wal-Mart gift certificate"),
+        new ChoiceOption("acquire VYKEA rune", 5),
+        new ChoiceOption("leave", 6));
 
     // Choice 1116 is All They Got Inside is Vacancy (and Ice)
     new ChoiceAdventure(
@@ -4954,10 +4905,11 @@ public abstract class ChoiceAdventures {
         "The Glaciest",
         "All They Got Inside is Vacancy (and Ice)",
         // Option...
-        new Option("fill bucket by 10-15%", 3),
-        new Option("acquire cocktail ingredients", 4),
-        new Option("acquire 3 Wal-Mart gift certificates (1/day)", 5, "Wal-Mart gift certificate"),
-        new Option("leave", 6));
+        new ChoiceOption("fill bucket by 10-15%", 3),
+        new ChoiceOption("acquire cocktail ingredients", 4),
+        new ChoiceOption(
+            "acquire 3 Wal-Mart gift certificates (1/day)", 5, "Wal-Mart gift certificate"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1118 is X-32-F Combat Training Snowman Control Console
     new ChoiceAdventure(
@@ -4965,11 +4917,11 @@ public abstract class ChoiceAdventures {
         "The Snojo",
         "Control Console",
         // Option...
-        new Option("muscle training", 1),
-        new Option("mysticality training", 2),
-        new Option("moxie training", 3),
-        new Option("tournament", 4),
-        new Option("leave", 6));
+        new ChoiceOption("muscle training", 1),
+        new ChoiceOption("mysticality training", 2),
+        new ChoiceOption("moxie training", 3),
+        new ChoiceOption("tournament", 4),
+        new ChoiceOption("leave", 6));
 
     // Choice 1119 is Shining Mauve Backwards In Time
     new ChoiceAdventure(
@@ -4977,11 +4929,11 @@ public abstract class ChoiceAdventures {
         "Town",
         "Deep Machine Tunnels",
         // Option...
-        new Option("acquire some abstractions", 1),
-        new Option("acquire abstraction: comprehension", 2, "abstraction: comprehension"),
-        new Option("acquire modern picture frame", 3, "modern picture frame"),
-        new Option("duplicate one food, booze, spleen or potion", 4),
-        new Option("leave", 6));
+        new ChoiceOption("acquire some abstractions", 1),
+        new ChoiceOption("acquire abstraction: comprehension", 2, "abstraction: comprehension"),
+        new ChoiceOption("acquire modern picture frame", 3, "modern picture frame"),
+        new ChoiceOption("duplicate one food, booze, spleen or potion", 4),
+        new ChoiceOption("leave", 6));
 
     // Choice 1120 is Some Assembly Required
     // Choice 1121 is Some Assembly Required
@@ -5009,10 +4961,11 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Noon in the Civic Center",
         // Option...
-        new Option("fancy marzipan briefcase", 1, "fancy marzipan briefcase"),
-        new Option("acquire 50 sprinkles and unlock judge fudge", 2, "sprinkles"),
-        new Option("enter Civic Planning Office (costs 1000 sprinkles)", 3),
-        new Option("acquire briefcase full of sprinkles (with gingerbread blackmail photos)", 4));
+        new ChoiceOption("fancy marzipan briefcase", 1, "fancy marzipan briefcase"),
+        new ChoiceOption("acquire 50 sprinkles and unlock judge fudge", 2, "sprinkles"),
+        new ChoiceOption("enter Civic Planning Office (costs 1000 sprinkles)", 3),
+        new ChoiceOption(
+            "acquire briefcase full of sprinkles (with gingerbread blackmail photos)", 4));
 
     // Choice 1203 is Midnight in Civic Center
     new ChoiceAdventure(
@@ -5020,13 +4973,14 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Midnight in the Civic Center",
         // Option...
-        new Option("gain 500 mysticality", 1),
-        new Option("acquire counterfeit city (costs 300 sprinkles)", 2, "counterfeit city"),
-        new Option(
+        new ChoiceOption("gain 500 mysticality", 1),
+        new ChoiceOption("acquire counterfeit city (costs 300 sprinkles)", 2, "counterfeit city"),
+        new ChoiceOption(
             "acquire gingerbread moneybag (with creme brulee torch)", 3, "gingerbread moneybag"),
-        new Option(
+        new ChoiceOption(
             "acquire 5 gingerbread cigarettes (costs 5 sprinkles)", 4, "gingerbread cigarette"),
-        new Option("acquire chocolate puppy (with gingerbread dog treat)", 5, "chocolate puppy"));
+        new ChoiceOption(
+            "acquire chocolate puppy (with gingerbread dog treat)", 5, "chocolate puppy"));
 
     // Choice 1204 is Noon at the Train Station
     new ChoiceAdventure(
@@ -5034,9 +4988,9 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Noon at the Train Station",
         // Option...
-        new Option("gain 8-11 candies", 1),
-        new Option("increase size of sewer gators (with sewer unlocked)", 2),
-        new Option("gain 250 mysticality", 3));
+        new ChoiceOption("gain 8-11 candies", 1),
+        new ChoiceOption("increase size of sewer gators (with sewer unlocked)", 2),
+        new ChoiceOption("gain 250 mysticality", 3));
 
     // Choice 1205 is Midnight at the Train Station
     new ChoiceAdventure(
@@ -5044,15 +4998,15 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Midnight at the Train Station",
         // Option...
-        new Option("gain 500 muscle and add track", 1),
-        new Option(
+        new ChoiceOption("gain 500 muscle and add track", 1),
+        new ChoiceOption(
             "acquire broken chocolate pocketwatch (with pumpkin spice candle)",
             2,
             "broken chocolate pocketwatch"),
-        new Option("enter The Currency Exchange (with candy crowbar)", 3),
-        new Option(
+        new ChoiceOption("enter The Currency Exchange (with candy crowbar)", 3),
+        new ChoiceOption(
             "acquire fruit-leather negatives (with track added)", 4, "fruit-leather negatives"),
-        new Option("acquire various items (with teethpick)", 5));
+        new ChoiceOption("acquire various items (with teethpick)", 5));
 
     // Choice 1206 is Noon in the Industrial Zone
     new ChoiceAdventure(
@@ -5060,11 +5014,14 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Noon in the Industrial Zone",
         // Option...
-        new Option("acquire creme brulee torch (costs 25 sprinkles)", 1, "creme brulee torch"),
-        new Option("acquire candy crowbar (costs 50 sprinkles)", 2, "candy crowbar"),
-        new Option("acquire candy screwdriver (costs 100 sprinkles)", 3, "candy screwdriver"),
-        new Option("acquire teethpick (costs 1000 sprinkles after studying law)", 4, "teethpick"),
-        new Option("acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 5));
+        new ChoiceOption(
+            "acquire creme brulee torch (costs 25 sprinkles)", 1, "creme brulee torch"),
+        new ChoiceOption("acquire candy crowbar (costs 50 sprinkles)", 2, "candy crowbar"),
+        new ChoiceOption("acquire candy screwdriver (costs 100 sprinkles)", 3, "candy screwdriver"),
+        new ChoiceOption(
+            "acquire teethpick (costs 1000 sprinkles after studying law)", 4, "teethpick"),
+        new ChoiceOption(
+            "acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 5));
 
     // Choice 1207 is Midnight in the Industrial Zone
     new ChoiceAdventure(
@@ -5072,9 +5029,9 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Midnight in the Industrial Zone",
         // Option...
-        new Option("enter Seedy Seedy Seedy", 1),
-        new Option("enter The Factory Factor", 2),
-        new Option("acquire tattoo (costs 100000 sprinkles)", 3));
+        new ChoiceOption("enter Seedy Seedy Seedy", 1),
+        new ChoiceOption("enter The Factory Factor", 2),
+        new ChoiceOption("acquire tattoo (costs 100000 sprinkles)", 3));
 
     // Choice 1208 is Upscale Noon
     new ChoiceAdventure(
@@ -5082,21 +5039,25 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Upscale Noon",
         // Option...
-        new Option(
+        new ChoiceOption(
             "acquire gingerbread dog treat (costs 200 sprinkles)", 1, "gingerbread dog treat"),
-        new Option("acquire pumpkin spice candle (costs 150 sprinkles)", 2, "pumpkin spice candle"),
-        new Option(
+        new ChoiceOption(
+            "acquire pumpkin spice candle (costs 150 sprinkles)", 2, "pumpkin spice candle"),
+        new ChoiceOption(
             "acquire gingerbread spice latte (costs 50 sprinkles)", 3, "gingerbread spice latte"),
-        new Option("acquire gingerbread trousers (costs 500 sprinkles)", 4, "gingerbread trousers"),
-        new Option(
+        new ChoiceOption(
+            "acquire gingerbread trousers (costs 500 sprinkles)", 4, "gingerbread trousers"),
+        new ChoiceOption(
             "acquire gingerbread waistcoat (costs 500 sprinkles)", 5, "gingerbread waistcoat"),
-        new Option("acquire gingerbread tophat (costs 500 sprinkles)", 6, "gingerbread tophat"),
-        new Option("acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 7),
-        new Option(
+        new ChoiceOption(
+            "acquire gingerbread tophat (costs 500 sprinkles)", 6, "gingerbread tophat"),
+        new ChoiceOption(
+            "acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 7),
+        new ChoiceOption(
             "acquire gingerbread blackmail photos (drop off fruit-leather negatives and pick up next visit)",
             8,
             "gingerbread blackmail photos"),
-        new Option("leave", 9));
+        new ChoiceOption("leave", 9));
 
     // Choice 1209 is Upscale Midnight
     new ChoiceAdventure(
@@ -5104,8 +5065,8 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Upscale Midnight",
         // Option...
-        new Option("acquire fake cocktail", 1, "fake cocktail"),
-        new Option("enter The Gingerbread Gallery (wearing Gingerbread Best", 2));
+        new ChoiceOption("acquire fake cocktail", 1, "fake cocktail"),
+        new ChoiceOption("enter The Gingerbread Gallery (wearing Gingerbread Best", 2));
 
     // Choice 1210 is Civic Planning Office
     new ChoiceAdventure(
@@ -5113,10 +5074,10 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Civic Planning Office",
         // Option...
-        new Option("unlock Gingerbread Upscale Retail District", 1),
-        new Option("unlock Gingerbread Sewers", 2),
-        new Option("unlock 10 extra City adventures", 3),
-        new Option("unlock City Clock", 4));
+        new ChoiceOption("unlock Gingerbread Upscale Retail District", 1),
+        new ChoiceOption("unlock Gingerbread Sewers", 2),
+        new ChoiceOption("unlock 10 extra City adventures", 3),
+        new ChoiceOption("unlock City Clock", 4));
 
     // Choice 1211 is The Currency Exchange
     new ChoiceAdventure(
@@ -5124,11 +5085,11 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "The Currency Exchange",
         // Option...
-        new Option("acquire 5000 meat", 1),
-        new Option("acquire fat loot token", 2, "fat loot token"),
-        new Option("acquire 250 sprinkles", 3, "sprinkles"),
-        new Option("acquire priceless diamond", 4, "priceless diamond"),
-        new Option("acquire 5 pristine fish scales)", 5, "pristine fish scales"));
+        new ChoiceOption("acquire 5000 meat", 1),
+        new ChoiceOption("acquire fat loot token", 2, "fat loot token"),
+        new ChoiceOption("acquire 250 sprinkles", 3, "sprinkles"),
+        new ChoiceOption("acquire priceless diamond", 4, "priceless diamond"),
+        new ChoiceOption("acquire 5 pristine fish scales)", 5, "pristine fish scales"));
 
     // Choice 1212 is Seedy Seedy Seedy
     new ChoiceAdventure(
@@ -5136,9 +5097,10 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Seedy Seedy Seedy",
         // Option...
-        new Option("acquire gingerbread pistol (costs 300 sprinkles)", 1, "gingerbread pistol"),
-        new Option("gain 500 moxie", 2),
-        new Option("ginger beer (with gingerbread mug)", 3, "ginger beer"));
+        new ChoiceOption(
+            "acquire gingerbread pistol (costs 300 sprinkles)", 1, "gingerbread pistol"),
+        new ChoiceOption("gain 500 moxie", 2),
+        new ChoiceOption("ginger beer (with gingerbread mug)", 3, "ginger beer"));
 
     // Choice 1213 is The Factory Factor
     new ChoiceAdventure(
@@ -5146,8 +5108,8 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "The Factory Factor",
         // Option...
-        new Option("acquire spare chocolate parts", 1, "spare chocolate parts"),
-        new Option("fight GNG-3-R (with gingerservo", 2));
+        new ChoiceOption("acquire spare chocolate parts", 1, "spare chocolate parts"),
+        new ChoiceOption("fight GNG-3-R (with gingerservo", 2));
 
     // Choice 1214 is The Gingerbread Gallery
     new ChoiceAdventure(
@@ -5155,13 +5117,13 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "The Gingerbread Gallery",
         // Option...
-        new Option("acquire high-end ginger wine", 1, "high-end ginger wine"),
-        new Option(
+        new ChoiceOption("acquire high-end ginger wine", 1, "high-end ginger wine"),
+        new ChoiceOption(
             "acquire fancy chocolate sculpture (costs 300 sprinkles)",
             2,
             "fancy chocolate sculpture"),
-        new Option("acquire Pop Art: a Guide (costs 1000 sprinkles)", 3, "Pop Art: a Guide"),
-        new Option("acquire No Hats as Art (costs 1000 sprinkles)", 4, "No Hats as Art"));
+        new ChoiceOption("acquire Pop Art: a Guide (costs 1000 sprinkles)", 3, "Pop Art: a Guide"),
+        new ChoiceOption("acquire No Hats as Art (costs 1000 sprinkles)", 4, "No Hats as Art"));
 
     // Choice 1215 is Setting the Clock
     new ChoiceAdventure(
@@ -5169,8 +5131,8 @@ public abstract class ChoiceAdventures {
         "Gingerbread City",
         "Setting the Clock",
         // Option...
-        new Option("move clock forward", 1),
-        new Option("leave", 2));
+        new ChoiceOption("move clock forward", 1),
+        new ChoiceOption("leave", 2));
 
     // Choice 1217 is Sweet Synthesis
     // Choice 1218 is Wax On
@@ -5183,8 +5145,8 @@ public abstract class ChoiceAdventures {
         "Tunnel of L.O.V.E.",
         "L.O.V.E Fight 1",
         // Option...
-        new Option("(free) fight LOV Enforcer", 1),
-        new Option("avoid fight", 2));
+        new ChoiceOption("(free) fight LOV Enforcer", 1),
+        new ChoiceOption("avoid fight", 2));
 
     // Choice 1224 is L.O.V. Equipment Room
     new ChoiceAdventure(
@@ -5192,10 +5154,10 @@ public abstract class ChoiceAdventures {
         "Tunnel of L.O.V.E.",
         "L.O.V.E Choice 1",
         // Option...
-        new Option("acquire LOV Eardigan", 1, "LOV Eardigan"),
-        new Option("acquire LOV Epaulettes", 2, "LOV Epaulettes"),
-        new Option("acquire LOV Earrings", 3, "LOV Earrings"),
-        new Option("take nothing", 4));
+        new ChoiceOption("acquire LOV Eardigan", 1, "LOV Eardigan"),
+        new ChoiceOption("acquire LOV Epaulettes", 2, "LOV Epaulettes"),
+        new ChoiceOption("acquire LOV Earrings", 3, "LOV Earrings"),
+        new ChoiceOption("take nothing", 4));
 
     // Choice 1225 is L.O.V. Engine Room
     new ChoiceAdventure(
@@ -5203,8 +5165,8 @@ public abstract class ChoiceAdventures {
         "Tunnel of L.O.V.E.",
         "L.O.V.E Fight 2",
         // Option...
-        new Option("(free) fight LOV Engineer", 1),
-        new Option("avoid fight", 2));
+        new ChoiceOption("(free) fight LOV Engineer", 1),
+        new ChoiceOption("avoid fight", 2));
 
     // Choice 1226 is L.O.V. Emergency Room
     new ChoiceAdventure(
@@ -5212,10 +5174,10 @@ public abstract class ChoiceAdventures {
         "Tunnel of L.O.V.E.",
         "L.O.V.E Choice 2",
         // Option...
-        new Option("50 adv of Lovebotamy (+10 stats/fight)", 1),
-        new Option("50 adv of Open Heart Surgery (+10 fam weight)", 2),
-        new Option("50 adv of Wandering Eye Surgery (+50 item drop)", 3),
-        new Option("get no buff", 4));
+        new ChoiceOption("50 adv of Lovebotamy (+10 stats/fight)", 1),
+        new ChoiceOption("50 adv of Open Heart Surgery (+10 fam weight)", 2),
+        new ChoiceOption("50 adv of Wandering Eye Surgery (+50 item drop)", 3),
+        new ChoiceOption("get no buff", 4));
 
     // Choice 1227 is L.O.V. Elbow Room
     new ChoiceAdventure(
@@ -5223,8 +5185,8 @@ public abstract class ChoiceAdventures {
         "Tunnel of L.O.V.E.",
         "L.O.V.E Fight 3",
         // Option...
-        new Option("(free) fight LOV Equivocator", 1),
-        new Option("avoid fight", 2));
+        new ChoiceOption("(free) fight LOV Equivocator", 1),
+        new ChoiceOption("avoid fight", 2));
 
     // Choice 1228 is L.O.V. Emporium
     new ChoiceAdventure(
@@ -5232,13 +5194,14 @@ public abstract class ChoiceAdventures {
         "Tunnel of L.O.V.E.",
         "L.O.V.E Choice 3",
         // Option...
-        new Option("acquire LOV Enamorang", 1, "LOV Enamorang"),
-        new Option("acquire LOV Emotionizer", 2, "LOV Emotionizer"),
-        new Option("acquire LOV Extraterrestrial Chocolate", 3, "LOV Extraterrestrial Chocolate"),
-        new Option("acquire LOV Echinacea Bouquet", 4, "LOV Echinacea Bouquet"),
-        new Option("acquire LOV Elephant", 5, "LOV Elephant"),
-        new Option("acquire 2 pieces of toast (if have Space Jellyfish)", 6, "toast"),
-        new Option("take nothing", 7));
+        new ChoiceOption("acquire LOV Enamorang", 1, "LOV Enamorang"),
+        new ChoiceOption("acquire LOV Emotionizer", 2, "LOV Emotionizer"),
+        new ChoiceOption(
+            "acquire LOV Extraterrestrial Chocolate", 3, "LOV Extraterrestrial Chocolate"),
+        new ChoiceOption("acquire LOV Echinacea Bouquet", 4, "LOV Echinacea Bouquet"),
+        new ChoiceOption("acquire LOV Elephant", 5, "LOV Elephant"),
+        new ChoiceOption("acquire 2 pieces of toast (if have Space Jellyfish)", 6, "toast"),
+        new ChoiceOption("take nothing", 7));
 
     // Choice 1229 is L.O.V. Exit
 
@@ -5248,10 +5211,10 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Space Cave",
         // Option...
-        new Option("acquire some alien rock samples", 1, "alien rock sample"),
-        new Option(
+        new ChoiceOption("acquire some alien rock samples", 1, "alien rock sample"),
+        new ChoiceOption(
             "acquire some more alien rock samples (with geology kit)", 2, "alien rock sample"),
-        new Option("skip adventure", 6));
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 1237 is A Simple Plant
     new ChoiceAdventure(
@@ -5259,10 +5222,10 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "A Simple Plant",
         // Option...
-        new Option("acquire edible alien plant bit", 1, "edible alien plant bit"),
-        new Option("acquire alien plant fibers", 2, "alien plant fibers"),
-        new Option("acquire alien plant sample (with botany kit)", 3, "alien plant sample"),
-        new Option("skip adventure", 6));
+        new ChoiceOption("acquire edible alien plant bit", 1, "edible alien plant bit"),
+        new ChoiceOption("acquire alien plant fibers", 2, "alien plant fibers"),
+        new ChoiceOption("acquire alien plant sample (with botany kit)", 3, "alien plant sample"),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 1238 is A Complicated Plant
     new ChoiceAdventure(
@@ -5270,13 +5233,13 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "A Complicated Plant",
         // Option...
-        new Option("acquire some edible alien plant bit", 1, "edible alien plant bit"),
-        new Option("acquire some alien plant fibers", 2, "alien plant fibers"),
-        new Option(
+        new ChoiceOption("acquire some edible alien plant bit", 1, "edible alien plant bit"),
+        new ChoiceOption("acquire some alien plant fibers", 2, "alien plant fibers"),
+        new ChoiceOption(
             "acquire complex alien plant sample (with botany kit)",
             3,
             "complex alien plant sample"),
-        new Option("skip adventure", 6));
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 1239 is What a Plant!
     new ChoiceAdventure(
@@ -5284,13 +5247,13 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "What a Plant!",
         // Option...
-        new Option("acquire some edible alien plant bit", 1, "edible alien plant bit"),
-        new Option("acquire some alien plant fibers", 2, "alien plant fibers"),
-        new Option(
+        new ChoiceOption("acquire some edible alien plant bit", 1, "edible alien plant bit"),
+        new ChoiceOption("acquire some alien plant fibers", 2, "alien plant fibers"),
+        new ChoiceOption(
             "acquire fascinating alien plant sample (with botany kit)",
             3,
             "fascinating alien plant sample"),
-        new Option("skip adventure", 6));
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 1240 is The Animals, The Animals
     new ChoiceAdventure(
@@ -5298,11 +5261,11 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "The Animals, The Animals",
         // Option...
-        new Option("acquire alien meat", 1, "alien meat"),
-        new Option("acquire alien toenails", 2, "alien toenails"),
-        new Option(
+        new ChoiceOption("acquire alien meat", 1, "alien meat"),
+        new ChoiceOption("acquire alien toenails", 2, "alien toenails"),
+        new ChoiceOption(
             "acquire alien zoological sample (with zoology kit)", 3, "alien zoological sample"),
-        new Option("skip adventure", 6));
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 1241 is Buffalo-Like Animal, Won't You Come Out Tonight
     new ChoiceAdventure(
@@ -5310,13 +5273,13 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Buffalo-Like Animal, Won't You Come Out Tonight",
         // Option...
-        new Option("acquire some alien meat", 1, "alien meat"),
-        new Option("acquire some alien toenails", 2, "alien toenails"),
-        new Option(
+        new ChoiceOption("acquire some alien meat", 1, "alien meat"),
+        new ChoiceOption("acquire some alien toenails", 2, "alien toenails"),
+        new ChoiceOption(
             "acquire complex alien zoological sample (with zoology kit)",
             3,
             "complex alien zoological sample"),
-        new Option("skip adventure", 6));
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 1242 is House-Sized Animal
     new ChoiceAdventure(
@@ -5324,13 +5287,13 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "House-Sized Animal",
         // Option...
-        new Option("acquire some alien meat", 1, "alien meat"),
-        new Option("acquire some alien toenails", 2, "alien toenails"),
-        new Option(
+        new ChoiceOption("acquire some alien meat", 1, "alien meat"),
+        new ChoiceOption("acquire some alien toenails", 2, "alien toenails"),
+        new ChoiceOption(
             "acquire fascinating alien zoological sample (with zoology kit)",
             3,
             "fascinating alien zoological sample"),
-        new Option("skip adventure", 6));
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 1243 is Interstellar Trade
     new ChoiceAdventure(
@@ -5338,8 +5301,8 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Interstellar Trade",
         // Option...
-        new Option("purchase item", 1),
-        new Option("leave", 6));
+        new ChoiceOption("purchase item", 1),
+        new ChoiceOption("leave", 6));
 
     // Choice 1244 is Here There Be No Spants
     new ChoiceAdventure(
@@ -5347,7 +5310,7 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Here There Be No Spants",
         // Option...
-        new Option("acquire spant egg casing", 1, "spant egg casing"));
+        new ChoiceOption("acquire spant egg casing", 1, "spant egg casing"));
 
     // Choice 1245 is Recovering the Satellites
     new ChoiceAdventure(
@@ -5355,7 +5318,7 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Recovering the Satellite",
         // Option...
-        new Option("acquire murderbot data core", 1, "murderbot data core"));
+        new ChoiceOption("acquire murderbot data core", 1, "murderbot data core"));
 
     // Choice 1246 is Land Ho
     new ChoiceAdventure(
@@ -5363,8 +5326,8 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Land Ho",
         // Option...
-        new Option("gain 10% Space Pirate language", 1),
-        new Option("leave", 6));
+        new ChoiceOption("gain 10% Space Pirate language", 1),
+        new ChoiceOption("leave", 6));
 
     // Choice 1247 is Half The Ship it Used to Be
     new ChoiceAdventure(
@@ -5372,11 +5335,11 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Half The Ship it Used to Be",
         // Option...
-        new Option(
+        new ChoiceOption(
             "acquire space pirate treasure map (with enough Space Pirate language)",
             1,
             "space pirate treasure map"),
-        new Option("leave", 6));
+        new ChoiceOption("leave", 6));
 
     // Choice 1248 is Paradise Under a Strange Sun
     new ChoiceAdventure(
@@ -5384,12 +5347,12 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Paradise Under a Strange Sun",
         // Option...
-        new Option(
+        new ChoiceOption(
             "acquire Space Pirate Astrogation Handbook (with space pirate treasure map)",
             1,
             "Space Pirate Astrogation Handbook"),
-        new Option("gain 1000 moxie stats", 2),
-        new Option("leave", 6));
+        new ChoiceOption("gain 1000 moxie stats", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1249 is That's No Moonlith, it's a Monolith!
     new ChoiceAdventure(
@@ -5397,8 +5360,8 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "That's No Moonlith, it's a Monolith!",
         // Option...
-        new Option("gain 20% procrastinator language (with murderbot data core)", 1),
-        new Option("leave", 6));
+        new ChoiceOption("gain 20% procrastinator language (with murderbot data core)", 1),
+        new ChoiceOption("leave", 6));
 
     // Choice 1250 is I'm Afraid It's Terminal
     new ChoiceAdventure(
@@ -5406,11 +5369,11 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "I'm Afraid It's Terminal",
         // Option...
-        new Option(
+        new ChoiceOption(
             "acquire procrastinator locker key (with enough procrastinator language)",
             1,
             "Procrastinator locker key"),
-        new Option("leave", 6));
+        new ChoiceOption("leave", 6));
 
     // Choice 1251 is Curses, a Hex
     new ChoiceAdventure(
@@ -5418,11 +5381,11 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Curses, a Hex",
         // Option...
-        new Option(
+        new ChoiceOption(
             "acquire Non-Euclidean Finance (with procrastinator locker key)",
             1,
             "Non-Euclidean Finance"),
-        new Option("leave", 6));
+        new ChoiceOption("leave", 6));
 
     // Choice 1252 is Time Enough at Last
     new ChoiceAdventure(
@@ -5430,8 +5393,8 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Time Enough at Last",
         // Option...
-        new Option("acquire Space Baby childrens' book", 1, "Space Baby childrens' book"),
-        new Option("leave", 6));
+        new ChoiceOption("acquire Space Baby childrens' book", 1, "Space Baby childrens' book"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1253 is Mother May I
     new ChoiceAdventure(
@@ -5439,9 +5402,9 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Mother May I",
         // Option...
-        new Option(
+        new ChoiceOption(
             "acquire Space Baby bawbaw (with enough Space Baby language)", 1, "Space Baby bawbaw"),
-        new Option("leave", 6));
+        new ChoiceOption("leave", 6));
 
     // Choice 1254 is Please Baby Baby Please
     new ChoiceAdventure(
@@ -5449,8 +5412,8 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Please Baby Baby Please",
         // Option...
-        new Option("acquire Peek-a-Boo! (with Space Baby bawbaw)", 1, "Peek-a-Boo!"),
-        new Option("leave", 6));
+        new ChoiceOption("acquire Peek-a-Boo! (with Space Baby bawbaw)", 1, "Peek-a-Boo!"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1255 is Cool Space Rocks
     new ChoiceAdventure(
@@ -5458,8 +5421,8 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Cool Space Rocks",
         // Option...
-        new Option("acquire some alien rock samples", 1, "alien rock sample"),
-        new Option(
+        new ChoiceOption("acquire some alien rock samples", 1, "alien rock sample"),
+        new ChoiceOption(
             "acquire some more alien rock samples (with geology kit)", 2, "alien rock sample"));
 
     // Choice 1256 is Wide Open Spaces
@@ -5468,8 +5431,8 @@ public abstract class ChoiceAdventures {
         "The Spacegate",
         "Wide Open Spaces",
         // Option...
-        new Option("acquire some alien rock samples", 1, "alien rock sample"),
-        new Option(
+        new ChoiceOption("acquire some alien rock samples", 1, "alien rock sample"),
+        new ChoiceOption(
             "acquire some more alien rock samples (with geology kit)", 2, "alien rock sample"));
 
     // Choice 1280 is Welcome to FantasyRealm
@@ -5478,10 +5441,10 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Welcome to FantasyRealm",
         // Option...
-        new Option("acquire FantasyRealm Warrior's Helm", 1, "FantasyRealm Warrior's Helm"),
-        new Option("acquire FantasyRealm Mage's Hat", 2, "FantasyRealm Mage's Hat"),
-        new Option("acquire FantasyRealm Rogue's Mask", 3, "FantasyRealm Rogue's Mask"),
-        new Option("leave", 6));
+        new ChoiceOption("acquire FantasyRealm Warrior's Helm", 1, "FantasyRealm Warrior's Helm"),
+        new ChoiceOption("acquire FantasyRealm Mage's Hat", 2, "FantasyRealm Mage's Hat"),
+        new ChoiceOption("acquire FantasyRealm Rogue's Mask", 3, "FantasyRealm Rogue's Mask"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1281 is You'll See You at the Crossroads
     new ChoiceAdventure(
@@ -5489,12 +5452,12 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "You'll See You at the Crossroads",
         // Option...
-        new Option("unlock The Towering Mountains", 1),
-        new Option("unlock The Mystic Wood", 2),
-        new Option("unlock The Putrid Swamp", 3),
-        new Option("unlock Cursed Village", 4),
-        new Option("unlock The Sprawling Cemetery", 5),
-        new Option("leave", 8));
+        new ChoiceOption("unlock The Towering Mountains", 1),
+        new ChoiceOption("unlock The Mystic Wood", 2),
+        new ChoiceOption("unlock The Putrid Swamp", 3),
+        new ChoiceOption("unlock Cursed Village", 4),
+        new ChoiceOption("unlock The Sprawling Cemetery", 5),
+        new ChoiceOption("leave", 8));
 
     // Choice 1282 is Out of Range
     new ChoiceAdventure(
@@ -5502,13 +5465,13 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Out of Range",
         // Option...
-        new Option("unlock The Old Rubee Mine (using FantasyRealm key)", 1),
-        new Option("unlock The Foreboding Cave", 2),
-        new Option("unlock The Master Thief's Chalet (with FantasyRealm Rogue's Mask)", 3),
-        new Option("charge druidic orb (need orb)", 4, "charged druidic orb"),
-        new Option("unlock The Ogre Chieftain's Keep (with FantasyRealm Warrior's Helm)", 5),
-        new Option("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
-        new Option("leave", 11));
+        new ChoiceOption("unlock The Old Rubee Mine (using FantasyRealm key)", 1),
+        new ChoiceOption("unlock The Foreboding Cave", 2),
+        new ChoiceOption("unlock The Master Thief's Chalet (with FantasyRealm Rogue's Mask)", 3),
+        new ChoiceOption("charge druidic orb (need orb)", 4, "charged druidic orb"),
+        new ChoiceOption("unlock The Ogre Chieftain's Keep (with FantasyRealm Warrior's Helm)", 5),
+        new ChoiceOption("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
+        new ChoiceOption("leave", 11));
 
     // Choice 1283 is Where Wood You Like to Go
     new ChoiceAdventure(
@@ -5516,12 +5479,12 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Where Wood You Like to Go",
         // Option...
-        new Option("unlock The Faerie Cyrkle", 1),
-        new Option("unlock The Druidic Campsite (with LyleCo premium rope)", 2),
-        new Option("unlock The Ley Nexus (with Cheswick Copperbottom's compass)", 3),
-        new Option("acquire plump purple mushroom", 5, "plump purple mushroom"),
-        new Option("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
-        new Option("leave", 11));
+        new ChoiceOption("unlock The Faerie Cyrkle", 1),
+        new ChoiceOption("unlock The Druidic Campsite (with LyleCo premium rope)", 2),
+        new ChoiceOption("unlock The Ley Nexus (with Cheswick Copperbottom's compass)", 3),
+        new ChoiceOption("acquire plump purple mushroom", 5, "plump purple mushroom"),
+        new ChoiceOption("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
+        new ChoiceOption("leave", 11));
 
     // Choice 1284 is Swamped with Leisure
     new ChoiceAdventure(
@@ -5529,12 +5492,12 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Swamped with Leisure",
         // Option...
-        new Option("unlock Near the Witch's House", 1),
-        new Option("unlock The Troll Fortress (using FantasyRealm key)", 2),
-        new Option("unlock The Dragon's Moor (with FantasyRealm Warrior's Helm)", 3),
-        new Option("acquire tainted marshmallow", 5, "tainted marshmallow"),
-        new Option("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
-        new Option("leave", 11));
+        new ChoiceOption("unlock Near the Witch's House", 1),
+        new ChoiceOption("unlock The Troll Fortress (using FantasyRealm key)", 2),
+        new ChoiceOption("unlock The Dragon's Moor (with FantasyRealm Warrior's Helm)", 3),
+        new ChoiceOption("acquire tainted marshmallow", 5, "tainted marshmallow"),
+        new ChoiceOption("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
+        new ChoiceOption("leave", 11));
 
     // Choice 1285 is It Takes a Cursed Village
     new ChoiceAdventure(
@@ -5542,19 +5505,21 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "It Takes a Cursed Village",
         // Option...
-        new Option("unlock The Evil Cathedral", 1),
-        new Option("unlock The Cursed Village Thieves' Guild (using FantasyRealm Rogue's Mask)", 2),
-        new Option("unlock The Archwizard's Tower (with FantasyRealm Mage's Hat)", 3),
-        new Option("get 20 adv of +2-3 Rubee&trade; drop", 4),
-        new Option("acquire 40-60 Rubees&trade; (with LyleCo premium rope)", 5, "Rubee&trade;"),
-        new Option(
+        new ChoiceOption("unlock The Evil Cathedral", 1),
+        new ChoiceOption(
+            "unlock The Cursed Village Thieves' Guild (using FantasyRealm Rogue's Mask)", 2),
+        new ChoiceOption("unlock The Archwizard's Tower (with FantasyRealm Mage's Hat)", 3),
+        new ChoiceOption("get 20 adv of +2-3 Rubee&trade; drop", 4),
+        new ChoiceOption(
+            "acquire 40-60 Rubees&trade; (with LyleCo premium rope)", 5, "Rubee&trade;"),
+        new ChoiceOption(
             "acquire dragon slaying sword (with dragon aluminum ore)", 6, "dragon slaying sword"),
-        new Option(
+        new ChoiceOption(
             "acquire notarized arrest warrant (with arrest warrant)",
             7,
             "notarized arrest warrant"),
-        new Option("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
-        new Option("leave", 11));
+        new ChoiceOption("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
+        new ChoiceOption("leave", 11));
 
     // Choice 1286 is Resting in Peace
     new ChoiceAdventure(
@@ -5562,16 +5527,17 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Resting in Peace",
         // Option...
-        new Option("unlock The Labyrinthine Crypt", 1),
-        new Option("unlock The Barrow Mounds", 2),
-        new Option("unlock Duke Vampire's Chateau (with FantasyRealm Rogue's Mask)", 3),
-        new Option("acquire 40-60 Rubees&trade; (need LyleCo premium pickaxe)", 4, "Rubee&trade;"),
-        new Option(
+        new ChoiceOption("unlock The Labyrinthine Crypt", 1),
+        new ChoiceOption("unlock The Barrow Mounds", 2),
+        new ChoiceOption("unlock Duke Vampire's Chateau (with FantasyRealm Rogue's Mask)", 3),
+        new ChoiceOption(
+            "acquire 40-60 Rubees&trade; (need LyleCo premium pickaxe)", 4, "Rubee&trade;"),
+        new ChoiceOption(
             "acquire Chewsick Copperbottom's notes (with FantasyRealm Mage's Hat)",
             5,
             "Chewsick Copperbottom's notes"),
-        new Option("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
-        new Option("leave", 11));
+        new ChoiceOption("1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10),
+        new ChoiceOption("leave", 11));
 
     // Choice 1288 is What's Yours is Yours
     new ChoiceAdventure(
@@ -5579,11 +5545,11 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "What's Yours is Yours",
         // Option...
-        new Option("acquire 20-30 Rubees&trade;", 1, "Rubee&trade;"),
-        new Option(
+        new ChoiceOption("acquire 20-30 Rubees&trade;", 1, "Rubee&trade;"),
+        new ChoiceOption(
             "acquire dragon aluminum ore (need LyleCo premium pickaxe)", 2, "dragon aluminum ore"),
-        new Option("acquire grolblin rum", 3, "grolblin rum"),
-        new Option("leave", 6));
+        new ChoiceOption("acquire grolblin rum", 3, "grolblin rum"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1289 is A Warm Place
     new ChoiceAdventure(
@@ -5591,10 +5557,10 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "A Warm Place",
         // Option...
-        new Option("acquire 90-110 Rubees&trade; (with FantasyRealm key)", 1, "Rubee&trade;"),
-        new Option("acquire sachet of strange powder", 2, "sachet of strange powder"),
-        new Option("unlock The Lair of the Phoenix (with FantasyRealm Mage's Hat)", 3),
-        new Option("leave", 6));
+        new ChoiceOption("acquire 90-110 Rubees&trade; (with FantasyRealm key)", 1, "Rubee&trade;"),
+        new ChoiceOption("acquire sachet of strange powder", 2, "sachet of strange powder"),
+        new ChoiceOption("unlock The Lair of the Phoenix (with FantasyRealm Mage's Hat)", 3),
+        new ChoiceOption("leave", 6));
 
     // Choice 1290 is The Cyrkle Is Compleat
     new ChoiceAdventure(
@@ -5602,10 +5568,10 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "The Cyrkle Is Compleat",
         // Option...
-        new Option("get 100 adv of Fantasy Faerie Blessing", 1),
-        new Option("acquire faerie dust", 2, "faerie dust"),
-        new Option("unlock The Spider Queen's Lair (with FantasyRealm Rogue's Mask)", 3),
-        new Option("leave", 6));
+        new ChoiceOption("get 100 adv of Fantasy Faerie Blessing", 1),
+        new ChoiceOption("acquire faerie dust", 2, "faerie dust"),
+        new ChoiceOption("unlock The Spider Queen's Lair (with FantasyRealm Rogue's Mask)", 3),
+        new ChoiceOption("leave", 6));
 
     // Choice 1291 is Dudes, Where's My Druids?
     new ChoiceAdventure(
@@ -5613,13 +5579,13 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Dudes, Where's My Druids?",
         // Option...
-        new Option("acquire druidic s'more", 1, "druidic s'more"),
-        new Option(
+        new ChoiceOption("acquire druidic s'more", 1, "druidic s'more"),
+        new ChoiceOption(
             "acquire poisoned druidic s'more (with tainted marshmallow)",
             2,
             "poisoned druidic s'more"),
-        new Option("acquire druidic orb (with FantasyRealm Mage's Hat)", 3, "druidic orb"),
-        new Option("leave", 6));
+        new ChoiceOption("acquire druidic orb (with FantasyRealm Mage's Hat)", 3, "druidic orb"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1292 is Witch One You Want?
     new ChoiceAdventure(
@@ -5627,11 +5593,11 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Witch One You Want?",
         // Option...
-        new Option("get 50 adv of +200% init", 1),
-        new Option("get 10 adv of Poison for Blood (with plump purple mushroom)", 2),
-        new Option("acquire to-go brew", 3, "to-go brew"),
-        new Option("acquire 40-60 Rubees&trade;", 4, "Rubee&trade;"),
-        new Option("leave", 6));
+        new ChoiceOption("get 50 adv of +200% init", 1),
+        new ChoiceOption("get 10 adv of Poison for Blood (with plump purple mushroom)", 2),
+        new ChoiceOption("acquire to-go brew", 3, "to-go brew"),
+        new ChoiceOption("acquire 40-60 Rubees&trade;", 4, "Rubee&trade;"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1293 is Altared States
     new ChoiceAdventure(
@@ -5639,12 +5605,12 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Altared States",
         // Option...
-        new Option("acquire 20-30 Rubees&trade;", 1, "Rubee&trade;"),
-        new Option("get 100 adv of +200% HP", 2),
-        new Option("acquire sanctified cola", 3, "sanctified cola"),
-        new Option(
+        new ChoiceOption("acquire 20-30 Rubees&trade;", 1, "Rubee&trade;"),
+        new ChoiceOption("get 100 adv of +200% HP", 2),
+        new ChoiceOption("acquire sanctified cola", 3, "sanctified cola"),
+        new ChoiceOption(
             "acquire flask of holy water (with FantasyRealm Mage's Hat)", 4, "flask of holy water"),
-        new Option("leave", 6));
+        new ChoiceOption("leave", 6));
 
     // Choice 1294 is Neither a Barrower Nor a Lender Be
     new ChoiceAdventure(
@@ -5652,10 +5618,10 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Neither a Barrower Nor a Lender Be",
         // Option...
-        new Option("acquire 20-30 Rubees&trade;", 1, "Rubee&trade;"),
-        new Option("acquire mourning wine", 2, "mourning wine"),
-        new Option("unlock The Ghoul King's Catacomb (with FantasyRealm Warrior's Helm)", 3),
-        new Option("leave", 6));
+        new ChoiceOption("acquire 20-30 Rubees&trade;", 1, "Rubee&trade;"),
+        new ChoiceOption("acquire mourning wine", 2, "mourning wine"),
+        new ChoiceOption("unlock The Ghoul King's Catacomb (with FantasyRealm Warrior's Helm)", 3),
+        new ChoiceOption("leave", 6));
 
     // Choice 1295 is Honor Among You
     new ChoiceAdventure(
@@ -5663,9 +5629,9 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Honor Among You",
         // Option...
-        new Option("acquire 40-60 Rubees&trade;", 1, "Rubee&trade;"),
-        new Option("acquire universal antivenin", 2, "universal antivenin"),
-        new Option("leave", 6));
+        new ChoiceOption("acquire 40-60 Rubees&trade;", 1, "Rubee&trade;"),
+        new ChoiceOption("acquire universal antivenin", 2, "universal antivenin"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1296 is For Whom the Bell Trolls
     new ChoiceAdventure(
@@ -5673,14 +5639,15 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "For Whom the Bell Trolls",
         // Option...
-        new Option("nothing happens", 1),
-        new Option("acquire nasty haunch", 2, "nasty haunch"),
-        new Option(
+        new ChoiceOption("nothing happens", 1),
+        new ChoiceOption("acquire nasty haunch", 2, "nasty haunch"),
+        new ChoiceOption(
             "acquire Cheswick Copperbottom's compass (with Chewsick Copperbottom's notes)",
             3,
             "Cheswick Copperbottom's compass"),
-        new Option("acquire 40-60 Rubees&trade; (with LyleCo premium pickaxe)", 4, "Rubee&trade;"),
-        new Option("leave", 6));
+        new ChoiceOption(
+            "acquire 40-60 Rubees&trade; (with LyleCo premium pickaxe)", 4, "Rubee&trade;"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1297 is Stick to the Crypt
     new ChoiceAdventure(
@@ -5688,10 +5655,11 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Stick to the Crypt",
         // Option...
-        new Option("acquire hero's skull", 1, "hero's skull"),
-        new Option("acquire 40-60 Rubees&trade;", 2, "Rubee&trade;"),
-        new Option("acquire arrest warrant (with FantasyRealm Rogue's Mask)", 3, "arrest warrant"),
-        new Option("leave", 6));
+        new ChoiceOption("acquire hero's skull", 1, "hero's skull"),
+        new ChoiceOption("acquire 40-60 Rubees&trade;", 2, "Rubee&trade;"),
+        new ChoiceOption(
+            "acquire arrest warrant (with FantasyRealm Rogue's Mask)", 3, "arrest warrant"),
+        new ChoiceOption("leave", 6));
 
     // Choice 1298 is The "Phoenix"
     new ChoiceAdventure(
@@ -5699,9 +5667,9 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "The \"Phoenix\"",
         // Option...
-        new Option("fight \"Phoenix\" (with 5+ hot res and flask of holy water)", 1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption("fight \"Phoenix\" (with 5+ hot res and flask of holy water)", 1),
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1299 is Stop Dragon Your Feet
     new ChoiceAdventure(
@@ -5709,10 +5677,10 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Stop Dragon Your Feet",
         // Option...
-        new Option(
+        new ChoiceOption(
             "fight Sewage Treatment Dragon (with 5+ stench res and dragon slaying sword)", 1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1300 is Just Vamping
     new ChoiceAdventure(
@@ -5720,9 +5688,9 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Just Vamping",
         // Option...
-        new Option("fight Duke Vampire (with 250%+ init and Poison for Blood)", 1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption("fight Duke Vampire (with 250%+ init and Poison for Blood)", 1),
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1301 is Now You've Spied Her
     new ChoiceAdventure(
@@ -5730,9 +5698,9 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Now You've Spied Her",
         // Option...
-        new Option("fight Spider Queen (with 500+ mox and Fantastic Immunity)", 1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption("fight Spider Queen (with 500+ mox and Fantastic Immunity)", 1),
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1302 is Don't Be Arch
     new ChoiceAdventure(
@@ -5740,9 +5708,9 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Don't Be Arch",
         // Option...
-        new Option("fight Archwizard (with 5+ cold res and charged druidic orb)", 1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption("fight Archwizard (with 5+ cold res and charged druidic orb)", 1),
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1303 is Ley Lady Ley
     new ChoiceAdventure(
@@ -5750,9 +5718,10 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "Ley Lady Ley",
         // Option...
-        new Option("fight Ley Incursion (with 500+ mys and Cheswick Copperbottom's compass)", 1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption(
+            "fight Ley Incursion (with 500+ mys and Cheswick Copperbottom's compass)", 1),
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1304 is He Is the Ghoul King, He Can Do Anything
     new ChoiceAdventure(
@@ -5760,9 +5729,9 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "He Is the Ghoul King, He Can Do Anything",
         // Option...
-        new Option("fight Ghoul King (with 5+ spooky res and Fantasy Faerie Blessing)", 1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption("fight Ghoul King (with 5+ spooky res and Fantasy Faerie Blessing)", 1),
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1305 is The Brogre's Progress
     new ChoiceAdventure(
@@ -5770,9 +5739,9 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "The Brogre's Progress",
         // Option...
-        new Option("fight Ogre Chieftain (with 500+ mus and poisoned druidic s'more)", 1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption("fight Ogre Chieftain (with 500+ mus and poisoned druidic s'more)", 1),
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1307 is It Takes a Thief
     new ChoiceAdventure(
@@ -5780,11 +5749,11 @@ public abstract class ChoiceAdventures {
         "FantasyRealm",
         "It Takes a Thief",
         // Option...
-        new Option(
+        new ChoiceOption(
             "fight Ted Schwartz, Master Thief (with 5+ sleaze res and notarized arrest warrant)",
             1),
-        new Option("get beaten up", 2),
-        new Option("leave", 6));
+        new ChoiceOption("get beaten up", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1310 is Granted a Boon
     // Choice 1312 is Choose a Soundtrack
@@ -5805,9 +5774,9 @@ public abstract class ChoiceAdventures {
         "Neverending Party",
         "Neverending Party Intro",
         // Option...
-        new Option("accept quest", 1),
-        new Option("reject quest", 2),
-        new Option("leave", 6));
+        new ChoiceOption("accept quest", 1),
+        new ChoiceOption("reject quest", 2),
+        new ChoiceOption("leave", 6));
 
     // Choice 1323 is All Done!
 
@@ -5817,13 +5786,13 @@ public abstract class ChoiceAdventures {
         "Neverending Party",
         "Neverending Party Pause",
         // Option...
-        new Option(
+        new ChoiceOption(
             "Full HP/MP heal, +Mys Exp (20adv), clear partiers (quest), DJ meat (quest), megawoots (quest)",
             1),
-        new Option("Mys stats, +Mus Exp (20 adv), snacks quest, burn trash (quest)", 2),
-        new Option("Mox stats, +30 ML (50 adv), clear partiers (quest), booze quest", 3),
-        new Option("Mus stats, +Mox Exp (20 adv), chainsaw, megawoots (quest)", 4),
-        new Option("fight random partier", 5));
+        new ChoiceOption("Mys stats, +Mus Exp (20 adv), snacks quest, burn trash (quest)", 2),
+        new ChoiceOption("Mox stats, +30 ML (50 adv), clear partiers (quest), booze quest", 3),
+        new ChoiceOption("Mus stats, +Mox Exp (20 adv), chainsaw, megawoots (quest)", 4),
+        new ChoiceOption("fight random partier", 5));
 
     // Choice 1325 is A Room With a View...  Of a Bed
     new ChoiceAdventure(
@@ -5831,11 +5800,11 @@ public abstract class ChoiceAdventures {
         "Neverending Party",
         "Neverending Party Bedroom",
         // Option...
-        new Option("full HP/MP heal", 1),
-        new Option("get 20 adv of +20% mys exp", 2),
-        new Option("remove partiers (with jam band bootleg)", 3),
-        new Option("get meat for dj (with 300 Moxie)", 4),
-        new Option("increase megawoots", 5));
+        new ChoiceOption("full HP/MP heal", 1),
+        new ChoiceOption("get 20 adv of +20% mys exp", 2),
+        new ChoiceOption("remove partiers (with jam band bootleg)", 3),
+        new ChoiceOption("get meat for dj (with 300 Moxie)", 4),
+        new ChoiceOption("increase megawoots", 5));
 
     // Choice 1326 is Gone Kitchin'
     new ChoiceAdventure(
@@ -5843,11 +5812,11 @@ public abstract class ChoiceAdventures {
         "Neverending Party",
         "Neverending Party Kitchen",
         // Option...
-        new Option("gain mys stats", 1),
-        new Option("get 20 adv of +20% Mus exp", 2),
-        new Option("find out food to collect", 3),
-        new Option("give collected food", 4),
-        new Option("reduce trash", 5));
+        new ChoiceOption("gain mys stats", 1),
+        new ChoiceOption("get 20 adv of +20% Mus exp", 2),
+        new ChoiceOption("find out food to collect", 3),
+        new ChoiceOption("give collected food", 4),
+        new ChoiceOption("reduce trash", 5));
 
     // Choice 1327 is Forward to the Back
     new ChoiceAdventure(
@@ -5855,11 +5824,11 @@ public abstract class ChoiceAdventures {
         "Neverending Party",
         "Neverending Party Back Yard",
         // Option...
-        new Option("gain mox stats", 1),
-        new Option("get 50 adv of +30 ML", 2),
-        new Option("find out booze to collect", 3),
-        new Option("give collected booze", 4),
-        new Option("remove partiers (with Purple Beast energy drink)", 5));
+        new ChoiceOption("gain mox stats", 1),
+        new ChoiceOption("get 50 adv of +30 ML", 2),
+        new ChoiceOption("find out booze to collect", 3),
+        new ChoiceOption("give collected booze", 4),
+        new ChoiceOption("remove partiers (with Purple Beast energy drink)", 5));
 
     // Choice 1328 is Basement Urges
     new ChoiceAdventure(
@@ -5867,10 +5836,10 @@ public abstract class ChoiceAdventures {
         "Neverending Party",
         "Neverending Party Basement",
         // Option...
-        new Option("gain mus stats", 1),
-        new Option("get 20 adv of +20% Mox exp", 2),
-        new Option("acquire intimidating chainsaw", 3, "intimidating chainsaw"),
-        new Option("increase megawoots", 4));
+        new ChoiceOption("gain mus stats", 1),
+        new ChoiceOption("get 20 adv of +20% Mox exp", 2),
+        new ChoiceOption("acquire intimidating chainsaw", 3, "intimidating chainsaw"),
+        new ChoiceOption("increase megawoots", 4));
 
     // Choice 1331 is Daily Loathing Ballot
     // Choice 1332 is government requisition form
@@ -5881,15 +5850,15 @@ public abstract class ChoiceAdventures {
         "Crimbo18",
         "Canadian Cabin",
         // Option...
-        new Option("gain 50 adv of +100% weapon and spell damage", 1),
-        new Option("acquire grilled mooseflank (with mooseflank)", 2, "grilled mooseflank"),
-        new Option(
+        new ChoiceOption("gain 50 adv of +100% weapon and spell damage", 1),
+        new ChoiceOption("acquire grilled mooseflank (with mooseflank)", 2, "grilled mooseflank"),
+        new ChoiceOption(
             "acquire antique Canadian lantern (with 10 thick walrus blubber)",
             3,
             "antique Canadian lantern"),
-        new Option("acquire muskox-skin cap (with 10 tiny bombs)", 4, "muskox-skin cap"),
-        new Option("acquire antique beer (with Yeast-Hungry)", 5, "antique beer"),
-        new Option("skip adventure", 10));
+        new ChoiceOption("acquire muskox-skin cap (with 10 tiny bombs)", 4, "muskox-skin cap"),
+        new ChoiceOption("acquire antique beer (with Yeast-Hungry)", 5, "antique beer"),
+        new ChoiceOption("skip adventure", 10));
 
     // Choice 1334 is Boxing Daycare (Lobby)
     // Choice 1335 is Boxing Day Spa
@@ -5898,12 +5867,12 @@ public abstract class ChoiceAdventures {
         "Town",
         "Boxing Day Spa",
         // Option...
-        new Option("gain 100 adv of +200% muscle and +15 ML"),
-        new Option("gain 100 adv of +200% moxie and +50% init"),
-        new Option("gain 100 adv of +200% myst and +25% item drop"),
-        new Option(
+        new ChoiceOption("gain 100 adv of +200% muscle and +15 ML"),
+        new ChoiceOption("gain 100 adv of +200% moxie and +50% init"),
+        new ChoiceOption("gain 100 adv of +200% myst and +25% item drop"),
+        new ChoiceOption(
             "gain 100 adv of +100 max hp, +50 max mp, +25 dr, 5-10 mp regen, 10-20 hp regen"),
-        new Option("skip"));
+        new ChoiceOption("skip"));
 
     // Choice 1336 is Boxing Daycare
     // Choice 1339 is A Little Pump and Grind
@@ -5914,9 +5883,9 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Lil' Doctor&trade; bag Quest",
         // Option...
-        new Option("get quest", 1),
-        new Option("refuse quest", 2),
-        new Option("stop offering quest", 3));
+        new ChoiceOption("get quest", 1),
+        new ChoiceOption("refuse quest", 2),
+        new ChoiceOption("stop offering quest", 3));
 
     // Choice 1341 is A Pound of Cure
     new ChoiceAdventure(
@@ -5924,7 +5893,7 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "Lil' Doctor&trade; bag Cure",
         // Option...
-        new Option("cure patient", 1));
+        new ChoiceOption("cure patient", 1));
 
     // Choice 1342 is Torpor
 
@@ -5934,18 +5903,18 @@ public abstract class ChoiceAdventures {
         "Mountain",
         "Blech House",
         // Option...
-        new Option("use muscle/weapon damage", 1),
-        new Option("use myst/spell damage", 2),
-        new Option("use mox/sleaze res", 3));
+        new ChoiceOption("use muscle/weapon damage", 1),
+        new ChoiceOption("use myst/spell damage", 2),
+        new ChoiceOption("use mox/sleaze res", 3));
 
     // Choice 1392 is Decorate your Tent
     new ChoiceSpoiler(
         1392,
         "Decorate your Tent",
         // Option...
-        new Option("gain 20 adv of +3 mus xp"),
-        new Option("gain 20 adv of +3 mys xp"),
-        new Option("gain 20 adv of +3 mox xp"));
+        new ChoiceOption("gain 20 adv of +3 mus xp"),
+        new ChoiceOption("gain 20 adv of +3 mys xp"),
+        new ChoiceOption("gain 20 adv of +3 mox xp"));
 
     // Choice 1397 is Kringle workshop
     new ChoiceAdventure(
@@ -5953,9 +5922,9 @@ public abstract class ChoiceAdventures {
         "Tammy's Offshore Platform",
         "Kringle workshop",
         // Option...
-        new Option("craft stuff", 1),
-        new Option("get waterlogged items", 2),
-        new Option("fail at life", 3));
+        new ChoiceOption("craft stuff", 1),
+        new ChoiceOption("get waterlogged items", 2),
+        new ChoiceOption("fail at life", 3));
 
     // Choice 1411 is The Hall in the Hall
     new ChoiceAdventure(
@@ -5963,11 +5932,11 @@ public abstract class ChoiceAdventures {
         "The Drip",
         "The Hall in the Hall",
         // Option...
-        new Option("drippy pool table", 1),
-        new Option("drippy vending machine", 2),
-        new Option("drippy humanoid", 3),
-        new Option("drippy keg", 4),
-        new Option("Driplets", 5));
+        new ChoiceOption("drippy pool table", 1),
+        new ChoiceOption("drippy vending machine", 2),
+        new ChoiceOption("drippy humanoid", 3),
+        new ChoiceOption("drippy keg", 4),
+        new ChoiceOption("Driplets", 5));
 
     // Choice 1415 is Revolting Vending
     new ChoiceAdventure(
@@ -5975,8 +5944,8 @@ public abstract class ChoiceAdventures {
         "The Drip",
         "Revolting Vending",
         // Option...
-        new Option("drippy candy bar", 1, "drippy candy bar"),
-        new Option("Driplets", 2));
+        new ChoiceOption("drippy candy bar", 1, "drippy candy bar"),
+        new ChoiceOption("Driplets", 2));
     new ChoiceCost(1415, new Cost(1, new AdventureResult(AdventureResult.MEAT, -10000)));
 
     // Choice 1427 is The Hidden Junction
@@ -5985,8 +5954,8 @@ public abstract class ChoiceAdventures {
         "BatHole",
         "The Hidden Junction",
         // Option...
-        new Option("fight screambat", 1),
-        new Option("gain 300-400 meat", 2));
+        new ChoiceOption("fight screambat", 1),
+        new ChoiceOption("gain 300-400 meat", 2));
 
     // Choice 1428 is Your Neck of the Woods
     new ChoiceAdventure(
@@ -5994,8 +5963,8 @@ public abstract class ChoiceAdventures {
         "Friars",
         "Your Neck of the Woods",
         // Option...
-        new Option("advance quest 1 step and gain 1000 meat", 1),
-        new Option("advance quest 2 steps", 2));
+        new ChoiceOption("advance quest 1 step and gain 1000 meat", 1),
+        new ChoiceOption("advance quest 2 steps", 2));
 
     // Choice 1429 is No Nook Unknown
     new ChoiceAdventure(
@@ -6003,8 +5972,8 @@ public abstract class ChoiceAdventures {
         "Cyrpt",
         "No Nook Unknown",
         // Option...
-        new Option("acquire 2 evil eyes", 1),
-        new Option("fight party skeleton", 2));
+        new ChoiceOption("acquire 2 evil eyes", 1),
+        new ChoiceOption("fight party skeleton", 2));
 
     // Choice 1430 is Ghostly Memories
     new ChoiceAdventure(
@@ -6012,9 +5981,9 @@ public abstract class ChoiceAdventures {
         "Highlands",
         "Ghostly Memories",
         // Option...
-        new Option("the Horror, spooky/cold res recommended", 1),
-        new Option("fight oil baron", 2),
-        new Option("lost overlook lodge", 3));
+        new ChoiceOption("the Horror, spooky/cold res recommended", 1),
+        new ChoiceOption("fight oil baron", 2),
+        new ChoiceOption("lost overlook lodge", 3));
 
     // Choice 1431 is Here There Be Giants
     new ChoiceAdventure(
@@ -6022,10 +5991,10 @@ public abstract class ChoiceAdventures {
         "Beanstalk",
         "Here There Be Giants",
         // Option...
-        new Option("complete trash quest, unlock HiTS", 1),
-        new Option("fight goth giant, acquire black candles", 2),
-        new Option("fight raver, restore hp/mp", 3),
-        new Option("complete quest w/ mohawk wig, gain ~500 meat", 4));
+        new ChoiceOption("complete trash quest, unlock HiTS", 1),
+        new ChoiceOption("fight goth giant, acquire black candles", 2),
+        new ChoiceOption("fight raver, restore hp/mp", 3),
+        new ChoiceOption("complete quest w/ mohawk wig, gain ~500 meat", 4));
 
     // Choice 1432 is Mob Maptality
     new ChoiceAdventure(
@@ -6033,9 +6002,9 @@ public abstract class ChoiceAdventures {
         "The Red Zeppelin's Mooring",
         "Mob Maptality",
         // Option...
-        new Option("creep protestors (more with sleaze damage/sleaze spell damage)", 1),
-        new Option("scare protestors (more with lynyrd gear)", 2),
-        new Option("set fire to protestors (more with Flamin' Whatshisname)", 3));
+        new ChoiceOption("creep protestors (more with sleaze damage/sleaze spell damage)", 1),
+        new ChoiceOption("scare protestors (more with lynyrd gear)", 2),
+        new ChoiceOption("set fire to protestors (more with Flamin' Whatshisname)", 3));
 
     // Choice 1433 is Hippy camp verge of war Sneaky Sneaky
     new ChoiceAdventure(
@@ -6043,9 +6012,9 @@ public abstract class ChoiceAdventures {
         "Island",
         "Sneaky Sneaky",
         // Option...
-        new Option("fight a war hippy drill sergeant", 1),
-        new Option("fight a war hippy space cadet", 2),
-        new Option("start the war", 3));
+        new ChoiceOption("fight a war hippy drill sergeant", 1),
+        new ChoiceOption("fight a war hippy space cadet", 2),
+        new ChoiceOption("start the war", 3));
 
     // Choice 1434 is frat camp verge of war Sneaky Sneaky
     new ChoiceAdventure(
@@ -6053,9 +6022,9 @@ public abstract class ChoiceAdventures {
         "Island",
         "Sneaky Sneaky",
         // Option...
-        new Option("fight a war pledge/acquire sake bombs", 1),
-        new Option("start the war", 2),
-        new Option("fight a frat warrior drill sergeant/acquire beer bombs", 3));
+        new ChoiceOption("fight a war pledge/acquire sake bombs", 1),
+        new ChoiceOption("start the war", 2),
+        new ChoiceOption("fight a frat warrior drill sergeant/acquire beer bombs", 3));
 
     // Choice 1436 is Billiards Room Options
     new ChoiceAdventure(
@@ -6063,9 +6032,9 @@ public abstract class ChoiceAdventures {
         "Manor1",
         "Billiards Room Options",
         // Option...
-        new Option("aquire pool cue", 1),
-        new Option("play pool with the ghost", 2),
-        new Option("fight a chalkdust wraith", 3));
+        new ChoiceOption("aquire pool cue", 1),
+        new ChoiceOption("play pool with the ghost", 2),
+        new ChoiceOption("fight a chalkdust wraith", 3));
 
     // Gift Fabrication Lab
     new ChoiceAdventure(
@@ -6073,23 +6042,25 @@ public abstract class ChoiceAdventures {
         "Crimbo21",
         "Site Alpha Toy Lab",
         // Option...
-        new Option("fleshy putty", "fleshy putty", "third ear", "festive egg sac"),
-        new Option(
+        new ChoiceOption("fleshy putty", "fleshy putty", "third ear", "festive egg sac"),
+        new ChoiceOption(
             "poisonsettia", "poisonsettia", "peppermint-scented socks", "the Crymbich Manuscript"),
-        new Option(
+        new ChoiceOption(
             "projectile chemistry set",
             "projectile chemistry set",
             "depleted Crimbonium football helmet",
             "synthetic rock"),
-        new Option(
+        new ChoiceOption(
             "&quot;caramel&quot; orange",
             "&quot;caramel&quot; orange",
             "self-repairing earmuffs",
             "carnivorous potted plant"),
-        new Option("universal biscuit", "universal biscuit", "yule hatchet", "potato alarm clock"),
-        new Option("lab-grown meat", "lab-grown meat", "golden fleece", "boxed gumball machine"),
-        new Option("cloning kit", "cloning kit", "electric pants", "can of mixed everything"),
-        new Option("return to Site Alpha"));
+        new ChoiceOption(
+            "universal biscuit", "universal biscuit", "yule hatchet", "potato alarm clock"),
+        new ChoiceOption(
+            "lab-grown meat", "lab-grown meat", "golden fleece", "boxed gumball machine"),
+        new ChoiceOption("cloning kit", "cloning kit", "electric pants", "can of mixed everything"),
+        new ChoiceOption("return to Site Alpha"));
 
     // Hello Knob My Old Friend
     new ChoiceAdventure(
@@ -6097,11 +6068,11 @@ public abstract class ChoiceAdventures {
         "Crimbo21",
         "Site Alpha Primary Lab",
         // Option...
-        new Option("Increase goo intensity", 1),
-        new Option("Decrease goo intensity", 2),
-        new Option("Trade grey goo ring for gooified matter", 3),
-        new Option("Do nothing", 4),
-        new Option("Grab the cheer core. Just do it!", 5));
+        new ChoiceOption("Increase goo intensity", 1),
+        new ChoiceOption("Decrease goo intensity", 2),
+        new ChoiceOption("Trade grey goo ring for gooified matter", 3),
+        new ChoiceOption("Do nothing", 4),
+        new ChoiceOption("Grab the cheer core. Just do it!", 5));
 
     // Poetic Justice
     new ChoiceAdventure(
@@ -6109,10 +6080,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("Moxie substats", 1),
-        new Option("Mysticality substats", 2),
-        new Option("Gain 5 adventures, get beaten up", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("Moxie substats", 1),
+        new ChoiceOption("Mysticality substats", 2),
+        new ChoiceOption("Gain 5 adventures, get beaten up", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Aunts not Ants
     new ChoiceAdventure(
@@ -6120,10 +6091,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("Moxie substats", 1),
-        new Option("Muscle substats", 2),
-        new Option("get Ashamed", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("Moxie substats", 1),
+        new ChoiceOption("Muscle substats", 2),
+        new ChoiceOption("get Ashamed", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Beware of Alligator
     new ChoiceAdventure(
@@ -6131,10 +6102,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("get Yapping Pal", 1),
-        new Option("Dad's brandy", 2, "Dad's brandy"),
-        new Option("1500 meat", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("get Yapping Pal", 1),
+        new ChoiceOption("Dad's brandy", 2, "Dad's brandy"),
+        new ChoiceOption("1500 meat", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Teacher's Pet
     new ChoiceAdventure(
@@ -6142,10 +6113,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("30 turns of Teacher's Pet", 1),
-        new Option("teacher's pen", 2, "teacher's pen"),
-        new Option("Muscle substats", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("30 turns of Teacher's Pet", 1),
+        new ChoiceOption("teacher's pen", 2, "teacher's pen"),
+        new ChoiceOption("Muscle substats", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Lost and Found
     new ChoiceAdventure(
@@ -6153,10 +6124,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("savings bond", 1, "savings bond"),
-        new Option("Muscle substats, 250 meat, get beaten up", 2),
-        new Option("Mysticality substats", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("savings bond", 1, "savings bond"),
+        new ChoiceOption("Muscle substats, 250 meat, get beaten up", 2),
+        new ChoiceOption("Mysticality substats", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Summer Days
     new ChoiceAdventure(
@@ -6164,10 +6135,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("trampled ticket stub", 1, "trampled ticket stub"),
-        new Option("fire-roasted lake trout", 2, "fire-roasted lake trout"),
-        new Option("Moxie substats", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("trampled ticket stub", 1, "trampled ticket stub"),
+        new ChoiceOption("fire-roasted lake trout", 2, "fire-roasted lake trout"),
+        new ChoiceOption("Moxie substats", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Bath Time
     new ChoiceAdventure(
@@ -6175,10 +6146,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("Muscle substats, gob of wet hair", 1, "gob of wet hair"),
-        new Option("get Wholesomely Resolved", 2),
-        new Option("get Kinda Damp", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("Muscle substats, gob of wet hair", 1, "gob of wet hair"),
+        new ChoiceOption("get Wholesomely Resolved", 2),
+        new ChoiceOption("get Kinda Damp", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Delicious Sprouts
     new ChoiceAdventure(
@@ -6186,10 +6157,10 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("Mysticality substats", 1),
-        new Option("guilty sprout", 2, "guilty sprout"),
-        new Option("Muscle substats", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("Mysticality substats", 1),
+        new ChoiceOption("guilty sprout", 2, "guilty sprout"),
+        new ChoiceOption("Muscle substats", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Hypnotic Master
     new ChoiceAdventure(
@@ -6197,40 +6168,40 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("mother's necklace", 1, "mother's necklace"),
-        new Option("Muscle substats", 2),
-        new Option("Two random effects", 3),
-        new Option("Do nothing", 4));
+        new ChoiceOption("mother's necklace", 1, "mother's necklace"),
+        new ChoiceOption("Muscle substats", 2),
+        new ChoiceOption("Two random effects", 3),
+        new ChoiceOption("Do nothing", 4));
 
     // Choose an Action During a Caboose Distraction
     new ChoiceAdventure(
         1486,
         "Crimbo22",
         "Crimbo Train (Caboose)",
-        new Option("acquire 6 Trainbot potions", 1),
-        new Option("+3 Elf Gratitude", 2),
-        new Option("acquire a ping-pong paddle then acquire 3-5 ping-pong balls", 3));
+        new ChoiceOption("acquire 6 Trainbot potions", 1),
+        new ChoiceOption("+3 Elf Gratitude", 2),
+        new ChoiceOption("acquire a ping-pong paddle then acquire 3-5 ping-pong balls", 3));
 
     // A Passenger Among Passengers
     new ChoiceAdventure(
-        1487, "Crimbo22", "Crimbo Train (Passenger Car)", new Option("+5 Elf Gratitude", 1));
+        1487, "Crimbo22", "Crimbo Train (Passenger Car)", new ChoiceOption("+5 Elf Gratitude", 1));
 
     // Pre-Dinner Activities
     new ChoiceAdventure(
         1488,
         "Crimbo22",
         "Crimbo Train (Dining Car)",
-        new Option("acquire 3 lost elf trunks", 1),
-        new Option("decrease Trainbot strength", 2));
+        new ChoiceOption("acquire 3 lost elf trunks", 1),
+        new ChoiceOption("decrease Trainbot strength", 2));
 
     // Slagging Off
     new ChoiceAdventure(
         1489,
         "Crimbo22",
         "Crimbo Train (Coal Car)",
-        new Option("shard -> crystal Crimbo goblet, or none", 1),
-        new Option("shard -> crystal Crimbo platter, or none", 2),
-        new Option("shard -> goblet or platter, or none", 3));
+        new ChoiceOption("shard -> crystal Crimbo goblet, or none", 1),
+        new ChoiceOption("shard -> crystal Crimbo platter, or none", 2),
+        new ChoiceOption("shard -> goblet or platter, or none", 3));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
@@ -7080,37 +7051,38 @@ public abstract class ChoiceAdventures {
   private static final AdventureResult TEMPORARY_BLINDNESS =
       EffectPool.get(EffectPool.TEMPORARY_BLINDNESS);
 
-  private static final Option FLICKERING_PIXEL = new Option("flickering pixel");
+  private static final ChoiceOption FLICKERING_PIXEL = new ChoiceOption("flickering pixel");
 
-  public static final Option[] dynamicChoiceOptions(final int choice) {
-    Option[] result;
+  public static final ChoiceOption[] dynamicChoiceOptions(final int choice) {
+    ChoiceOption[] result;
     switch (choice) {
       case 5:
         // Heart of Very, Very Dark Darkness
-        result = new Option[2];
+        result = new ChoiceOption[2];
 
         boolean rock = InventoryManager.getCount(ItemPool.INEXPLICABLY_GLOWING_ROCK) >= 1;
 
         result[0] =
-            new Option("You " + (rock ? "" : "DON'T ") + " have an inexplicably glowing rock");
+            new ChoiceOption(
+                "You " + (rock ? "" : "DON'T ") + " have an inexplicably glowing rock");
         result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 7:
         // How Depressing
-        result = new Option[2];
+        result = new ChoiceOption[2];
 
         boolean glove = KoLCharacter.hasEquipped(ItemPool.get(ItemPool.SPOOKY_GLOVE, 1));
 
-        result[0] = new Option("spooky glove " + (glove ? "" : "NOT ") + "equipped");
+        result[0] = new ChoiceOption("spooky glove " + (glove ? "" : "NOT ") + "equipped");
         result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 184:
         // That Explains All The Eyepatches
-        result = new Option[6];
+        result = new ChoiceOption[6];
 
         // The choices are based on character class.
         // Mus: combat, shot of rotgut (2948), drunkenness
@@ -7118,64 +7090,65 @@ public abstract class ChoiceAdventures {
         // Mox: combat, drunkenness, shot of rotgut (2948)
 
         result[0] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.isMysticalityClass()
                     ? "3 drunk and stats (varies by class)"
                     : "enter combat (varies by class)");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.isMoxieClass()
                     ? "3 drunk and stats (varies by class)"
                     : "shot of rotgut (varies by class)",
                 "shot of rotgut");
         result[2] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.isMuscleClass()
                     ? "3 drunk and stats (varies by class)"
                     : "shot of rotgut (varies by class)",
                 "shot of rotgut");
-        result[3] = new Option("always 3 drunk & stats");
-        result[4] = new Option("always shot of rotgut");
-        result[5] = new Option("combat (or rotgut if Myst class)");
+        result[3] = new ChoiceOption("always 3 drunk & stats");
+        result[4] = new ChoiceOption("always shot of rotgut");
+        result[5] = new ChoiceOption("combat (or rotgut if Myst class)");
         return result;
 
       case 185:
         // Yes, You're a Rock Starrr
-        result = new Option[3];
+        result = new ChoiceOption[3];
 
         int drunk = KoLCharacter.getInebriety();
 
         // 0 drunk: base booze, mixed booze, fight
         // More than 0 drunk: base booze, mixed booze, stats
 
-        result[0] = new Option("base booze");
-        result[1] = new Option("mixed booze");
-        result[2] = new Option(drunk == 0 ? "combat" : "stats");
+        result[0] = new ChoiceOption("base booze");
+        result[1] = new ChoiceOption("mixed booze");
+        result[2] = new ChoiceOption(drunk == 0 ? "combat" : "stats");
         return result;
 
       case 187:
         // Arrr You Man Enough?
 
-        result = new Option[2];
+        result = new ChoiceOption[2];
         float odds = BeerPongRequest.pirateInsultOdds() * 100.0f;
 
-        result[0] = new Option(KoLConstants.FLOAT_FORMAT.format(odds) + "% chance of winning");
-        result[1] = new Option(odds == 100.0f ? "Oh come on. Do it!" : "Try later");
+        result[0] =
+            new ChoiceOption(KoLConstants.FLOAT_FORMAT.format(odds) + "% chance of winning");
+        result[1] = new ChoiceOption(odds == 100.0f ? "Oh come on. Do it!" : "Try later");
         return result;
 
       case 188:
         // The Infiltrationist
-        result = new Option[3];
+        result = new ChoiceOption[3];
 
         // Attempt a frontal assault
         boolean ok1 = EquipmentManager.isWearingOutfit(OutfitPool.FRAT_OUTFIT);
-        result[0] = new Option("Frat Boy Ensemble (" + (ok1 ? "" : "NOT ") + "equipped)");
+        result[0] = new ChoiceOption("Frat Boy Ensemble (" + (ok1 ? "" : "NOT ") + "equipped)");
 
         // Go in through the side door
         boolean ok2a = KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MULLET_WIG, 1));
         boolean ok2b = InventoryManager.getCount(ItemPool.BRIEFCASE) >= 1;
         result[1] =
-            new Option(
+            new ChoiceOption(
                 "mullet wig ("
                     + (ok2a ? "" : "NOT ")
                     + "equipped) + briefcase ("
@@ -7185,7 +7158,7 @@ public abstract class ChoiceAdventures {
         boolean ok3a = KoLCharacter.hasEquipped(ItemPool.get(ItemPool.FRILLY_SKIRT, 1));
         int wings = InventoryManager.getCount(ItemPool.HOT_WING);
         result[2] =
-            new Option(
+            new ChoiceOption(
                 "frilly skirt ("
                     + (ok3a ? "" : "NOT ")
                     + "equipped) + 3 hot wings ("
@@ -7196,29 +7169,29 @@ public abstract class ChoiceAdventures {
 
       case 191:
         // Chatterboxing
-        result = new Option[4];
+        result = new ChoiceOption[4];
 
         int trinks = InventoryManager.getCount(ItemPool.VALUABLE_TRINKET);
-        result[0] = new Option("moxie substats");
+        result[0] = new ChoiceOption("moxie substats");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 trinks == 0
                     ? "lose hp (no valuable trinkets)"
                     : "use valuable trinket to banish (" + trinks + " in inventory)");
-        result[2] = new Option("muscle substats");
-        result[3] = new Option("mysticality substats");
+        result[2] = new ChoiceOption("muscle substats");
+        result[3] = new ChoiceOption("mysticality substats");
 
         return result;
 
       case 272:
         // Marketplace Entrance
-        result = new Option[2];
+        result = new ChoiceOption[2];
 
         int nickels = InventoryManager.getCount(ItemPool.HOBO_NICKEL);
         boolean binder = KoLCharacter.hasEquipped(ItemPool.get(ItemPool.HOBO_CODE_BINDER, 1));
 
         result[0] =
-            new Option(
+            new ChoiceOption(
                 nickels + " nickels, " + (binder ? "" : "NO ") + " hobo code binder equipped");
         result[1] = SKIP_ADVENTURE;
 
@@ -7226,45 +7199,45 @@ public abstract class ChoiceAdventures {
 
       case 298:
         // In the Shade
-        result = new Option[2];
+        result = new ChoiceOption[2];
 
         int seeds = InventoryManager.getCount(ItemPool.SEED_PACKET);
         int slime = InventoryManager.getCount(ItemPool.GREEN_SLIME);
 
-        result[0] = new Option(seeds + " seed packets, " + slime + " globs of green slime");
+        result[0] = new ChoiceOption(seeds + " seed packets, " + slime + " globs of green slime");
         result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 304:
         // A Vent Horizon
-        result = new Option[2];
+        result = new ChoiceOption[2];
 
         int summons = 3 - Preferences.getInteger("tempuraSummons");
 
-        result[0] = new Option(summons + " summons left today");
+        result[0] = new ChoiceOption(summons + " summons left today");
         result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 305:
         // There is Sauce at the Bottom of the Ocean
-        result = new Option[2];
+        result = new ChoiceOption[2];
 
         int globes = InventoryManager.getCount(ItemPool.MERKIN_PRESSUREGLOBE);
 
-        result[0] = new Option(globes + " Mer-kin pressureglobes");
+        result[0] = new ChoiceOption(globes + " Mer-kin pressureglobes");
         result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 309:
         // Barback
-        result = new Option[2];
+        result = new ChoiceOption[2];
 
         int seaodes = 3 - Preferences.getInteger("seaodesFound");
 
-        result[0] = new Option(seaodes + " more seodes available today");
+        result[0] = new ChoiceOption(seaodes + " more seodes available today");
         result[1] = SKIP_ADVENTURE;
 
         return result;
@@ -7287,7 +7260,7 @@ public abstract class ChoiceAdventures {
 
       case 442:
         // A Moment of Reflection
-        result = new Option[6];
+        result = new ChoiceOption[6];
         int count = 0;
         if (InventoryManager.getCount(ItemPool.BEAUTIFUL_SOUP) > 0) {
           ++count;
@@ -7304,18 +7277,19 @@ public abstract class ChoiceAdventures {
         if (InventoryManager.getCount(ItemPool.HUMPTY_DUMPLINGS) > 0) {
           ++count;
         }
-        result[0] = new Option("Seal Clubber/Pastamancer item, or yellow matter custard");
-        result[1] = new Option("Sauceror/Accordion Thief item, or delicious comfit?");
-        result[2] = new Option("Disco Bandit/Turtle Tamer item, or fight croqueteer");
+        result[0] = new ChoiceOption("Seal Clubber/Pastamancer item, or yellow matter custard");
+        result[1] = new ChoiceOption("Sauceror/Accordion Thief item, or delicious comfit?");
+        result[2] = new ChoiceOption("Disco Bandit/Turtle Tamer item, or fight croqueteer");
         result[3] =
-            new Option("you have " + count + "/5 of the items needed for an ittah bittah hookah");
-        result[4] = new Option("get a chess cookie");
+            new ChoiceOption(
+                "you have " + count + "/5 of the items needed for an ittah bittah hookah");
+        result[4] = new ChoiceOption("get a chess cookie");
         result[5] = SKIP_ADVENTURE;
         return result;
 
       case 502:
         // Arboreal Respite
-        result = new Option[3];
+        result = new ChoiceOption[3];
 
         // meet the vampire hunter, trade bar skins or gain a spooky sapling
         int stakes = InventoryManager.getCount(ItemPool.WOODEN_STAKES);
@@ -7327,7 +7301,7 @@ public abstract class ChoiceAdventures {
         int saplings = InventoryManager.getCount(ItemPool.SPOOKY_SAPLING);
 
         result[0] =
-            new Option(
+            new ChoiceOption(
                 "gain some meat, meet the vampire hunter "
                     + hunterAction
                     + ", sell bar skins ("
@@ -7343,7 +7317,7 @@ public abstract class ChoiceAdventures {
         String coinAction = (getCoin ? "gain quest coin" : "skip adventure");
 
         result[1] =
-            new Option(
+            new ChoiceOption(
                 "gain mosquito larva or spooky mushrooms, "
                     + coinAction
                     + ", get stats or fight a vampire");
@@ -7353,7 +7327,7 @@ public abstract class ChoiceAdventures {
         String mapAction = (haveCoin ? ", gain spooky temple map" : "");
 
         result[2] =
-            new Option(
+            new ChoiceOption(
                 "gain a starter item, gain Spooky-Gro fertilizer ("
                     + fertilizer
                     + ")"
@@ -7364,7 +7338,7 @@ public abstract class ChoiceAdventures {
 
       case 522:
         // Welcome to the Footlocker
-        result = new Option[2];
+        result = new ChoiceOption[2];
 
         boolean havePolearm =
             (InventoryManager.getCount(ItemPool.KNOB_GOBLIN_POLEARM) > 0
@@ -7378,18 +7352,18 @@ public abstract class ChoiceAdventures {
 
         result[0] =
             !havePolearm
-                ? new Option("knob goblin elite polearm", "knob goblin elite polearm")
+                ? new ChoiceOption("knob goblin elite polearm", "knob goblin elite polearm")
                 : !havePants
-                    ? new Option("knob goblin elite pants", "knob goblin elite pants")
+                    ? new ChoiceOption("knob goblin elite pants", "knob goblin elite pants")
                     : !haveHelm
-                        ? new Option("knob goblin elite helm", "knob goblin elite helm")
-                        : new Option("knob jelly donut", "knob jelly donut");
+                        ? new ChoiceOption("knob goblin elite helm", "knob goblin elite helm")
+                        : new ChoiceOption("knob jelly donut", "knob jelly donut");
         result[1] = SKIP_ADVENTURE;
         return result;
 
       case 579:
         // Such Great Heights
-        result = new Option[3];
+        result = new ChoiceOption[3];
 
         boolean haveNostril = (InventoryManager.getCount(ItemPool.NOSTRIL_OF_THE_SERPENT) > 0);
         boolean gainNostril =
@@ -7399,72 +7373,73 @@ public abstract class ChoiceAdventures {
         boolean templeAdvs =
             (Preferences.getInteger("lastTempleAdventures") == KoLCharacter.getAscensions());
 
-        result[0] = new Option("mysticality substats");
-        result[1] = (gainNostril ? new Option("gain the Nostril of the Serpent") : SKIP_ADVENTURE);
-        result[2] = (templeAdvs ? SKIP_ADVENTURE : new Option("gain 3 adventures"));
+        result[0] = new ChoiceOption("mysticality substats");
+        result[1] =
+            (gainNostril ? new ChoiceOption("gain the Nostril of the Serpent") : SKIP_ADVENTURE);
+        result[2] = (templeAdvs ? SKIP_ADVENTURE : new ChoiceOption("gain 3 adventures"));
         return result;
 
       case 580:
         // The Hidden Heart of the Hidden Temple
-        result = new Option[3];
+        result = new ChoiceOption[3];
 
         haveNostril = (InventoryManager.getCount(ItemPool.NOSTRIL_OF_THE_SERPENT) > 0);
         boolean buttonsUnconfused =
             (Preferences.getInteger("lastTempleButtonsUnlock") == KoLCharacter.getAscensions());
 
         if (ChoiceManager.lastResponseText.contains("door_stone.gif")) {
-          result[0] = new Option("muscle substats");
+          result[0] = new ChoiceOption("muscle substats");
           result[1] =
-              new Option(
+              new ChoiceOption(
                   buttonsUnconfused || haveNostril
                       ? "choose Hidden Heart adventure"
                       : "randomise Hidden Heart adventure");
-          result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
+          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_sun.gif")) {
-          result[0] = new Option("gain ancient calendar fragment");
+          result[0] = new ChoiceOption("gain ancient calendar fragment");
           result[1] =
-              new Option(
+              new ChoiceOption(
                   buttonsUnconfused || haveNostril
                       ? "choose Hidden Heart adventure"
                       : "randomise Hidden Heart adventure");
-          result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
+          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_gargoyle.gif")) {
-          result[0] = new Option("gain mana");
+          result[0] = new ChoiceOption("gain mana");
           result[1] =
-              new Option(
+              new ChoiceOption(
                   buttonsUnconfused || haveNostril
                       ? "choose Hidden Heart adventure"
                       : "randomise Hidden Heart adventure");
-          result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
+          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_pikachu.gif")) {
-          result[0] = new Option("unlock Hidden City");
+          result[0] = new ChoiceOption("unlock Hidden City");
           result[1] =
-              new Option(
+              new ChoiceOption(
                   buttonsUnconfused || haveNostril
                       ? "choose Hidden Heart adventure"
                       : "randomise Hidden Heart adventure");
-          result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
+          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
         }
 
         return result;
 
       case 581:
         // Such Great Depths
-        result = new Option[3];
+        result = new ChoiceOption[3];
 
         int fungus = InventoryManager.getCount(ItemPool.GLOWING_FUNGUS);
 
-        result[0] = new Option("gain a glowing fungus (" + fungus + ")");
+        result[0] = new ChoiceOption("gain a glowing fungus (" + fungus + ")");
         result[1] =
             Preferences.getBoolean("_templeHiddenPower")
                 ? SKIP_ADVENTURE
-                : new Option("5 advs of +15 mus/mys/mox");
-        result[2] = new Option("fight clan of cave bars");
+                : new ChoiceOption("5 advs of +15 mus/mys/mox");
+        result[2] = new ChoiceOption("fight clan of cave bars");
         return result;
 
       case 582:
         // Fitting In
-        result = new Option[3];
+        result = new ChoiceOption[3];
 
         // mysticality substats, gain the Nostril of the Serpent or gain 3 adventures
         haveNostril = (InventoryManager.getCount(ItemPool.NOSTRIL_OF_THE_SERPENT) > 0);
@@ -7478,26 +7453,27 @@ public abstract class ChoiceAdventures {
             (Preferences.getInteger("lastTempleAdventures") == KoLCharacter.getAscensions());
         String advAction = (templeAdvs ? "skip adventure" : "gain 3 adventures");
 
-        result[0] = new Option("mysticality substats, " + nostrilAction + " or " + advAction);
+        result[0] = new ChoiceOption("mysticality substats, " + nostrilAction + " or " + advAction);
 
         // Hidden Heart of the Hidden Temple
-        result[1] = new Option("Hidden Heart of the Hidden Temple");
+        result[1] = new ChoiceOption("Hidden Heart of the Hidden Temple");
 
         // gain glowing fungus, gain Hidden Power or fight a clan of cave bars
         String powerAction =
             (Preferences.getBoolean("_templeHiddenPower") ? "skip adventure" : "Hidden Power");
 
         result[2] =
-            new Option("gain a glowing fungus, " + powerAction + " or fight a clan of cave bars");
+            new ChoiceOption(
+                "gain a glowing fungus, " + powerAction + " or fight a clan of cave bars");
 
         return result;
 
       case 606:
         // Lost in the Great Overlook Lodge
-        result = new Option[6];
+        result = new ChoiceOption[6];
 
         result[0] =
-            new Option(
+            new ChoiceOption(
                 "need +4 stench resist, have "
                     + KoLCharacter.getElementalResistanceLevels(Element.STENCH));
 
@@ -7550,26 +7526,27 @@ public abstract class ChoiceAdventures {
           }
         }
         result[1] =
-            new Option(
+            new ChoiceOption(
                 "need +50% item drop, have "
                     + Math.round(
                         KoLCharacter.getItemDropPercentAdjustment()
                             + KoLCharacter.currentNumericModifier(Modifiers.FOODDROP)
                             - bonus)
                     + "%");
-        result[2] = new Option("need jar of oil", "jar of oil");
+        result[2] = new ChoiceOption("need jar of oil", "jar of oil");
         result[3] =
-            new Option("need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%");
+            new ChoiceOption(
+                "need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%");
         result[4] = null; // why is there a missing button 5?
-        result[5] = new Option("flee");
+        result[5] = new ChoiceOption("flee");
 
         return result;
 
       case 611:
         // The Horror... (A-Boo Peak)
-        result = new Option[2];
+        result = new ChoiceOption[2];
         result[0] = booPeakDamage();
-        result[1] = new Option("Flee");
+        result[1] = new ChoiceOption("Flee");
         return result;
 
       case 636:
@@ -7581,7 +7558,7 @@ public abstract class ChoiceAdventures {
 
       case 641:
         // Stupid Pipes. (Mystic's psychoses)
-        result = new Option[3];
+        result = new ChoiceOption[3];
         {
           StringBuilder buffer = new StringBuilder();
           int resistance = KoLCharacter.getElementalResistanceLevels(Element.HOT);
@@ -7593,7 +7570,7 @@ public abstract class ChoiceAdventures {
           buffer.append(hp);
           buffer.append(", current hot resistance = ");
           buffer.append(resistance);
-          result[0] = new Option(buffer.toString());
+          result[0] = new ChoiceOption(buffer.toString());
         }
         result[1] = FLICKERING_PIXEL;
         result[2] = SKIP_ADVENTURE;
@@ -7601,7 +7578,7 @@ public abstract class ChoiceAdventures {
 
       case 642:
         // You're Freaking Kidding Me (Mystic's psychoses)
-        result = new Option[3];
+        result = new ChoiceOption[3];
         {
           String buffer =
               "50 buffed Muscle/Mysticality/Moxie required, have "
@@ -7610,7 +7587,7 @@ public abstract class ChoiceAdventures {
                   + KoLCharacter.getAdjustedMysticality()
                   + "/"
                   + KoLCharacter.getAdjustedMoxie();
-          result[0] = new Option(buffer);
+          result[0] = new ChoiceOption(buffer);
         }
         result[1] = FLICKERING_PIXEL;
         result[2] = SKIP_ADVENTURE;
@@ -7618,10 +7595,10 @@ public abstract class ChoiceAdventures {
 
       case 644:
         // Snakes. (Mystic's psychoses)
-        result = new Option[3];
+        result = new ChoiceOption[3];
         {
           String buffer = "50 buffed Moxie required, have " + KoLCharacter.getAdjustedMoxie();
-          result[0] = new Option(buffer);
+          result[0] = new ChoiceOption(buffer);
         }
         result[1] = FLICKERING_PIXEL;
         result[2] = SKIP_ADVENTURE;
@@ -7629,7 +7606,7 @@ public abstract class ChoiceAdventures {
 
       case 645:
         // So... Many... Skulls... (Mystic's psychoses)
-        result = new Option[3];
+        result = new ChoiceOption[3];
         {
           StringBuilder buffer = new StringBuilder();
           int resistance = KoLCharacter.getElementalResistanceLevels(Element.SPOOKY);
@@ -7641,7 +7618,7 @@ public abstract class ChoiceAdventures {
           buffer.append(hp);
           buffer.append(", current spooky resistance = ");
           buffer.append(resistance);
-          result[0] = new Option(buffer.toString());
+          result[0] = new ChoiceOption(buffer.toString());
         }
         result[1] = FLICKERING_PIXEL;
         result[2] = SKIP_ADVENTURE;
@@ -7649,12 +7626,12 @@ public abstract class ChoiceAdventures {
 
       case 647:
         // A Stupid Dummy. Also, a Straw Man. (Mystic's psychoses)
-        result = new Option[3];
+        result = new ChoiceOption[3];
         {
           StringBuilder buffer = new StringBuilder();
           String current = String.valueOf(KoLCharacter.currentBonusDamage());
           buffer.append("100 weapon damage required");
-          result[0] = new Option(buffer.toString());
+          result[0] = new ChoiceOption(buffer.toString());
         }
         result[1] = FLICKERING_PIXEL;
         result[2] = SKIP_ADVENTURE;
@@ -7662,10 +7639,10 @@ public abstract class ChoiceAdventures {
 
       case 648:
         // Slings and Arrows (Mystic's psychoses)
-        result = new Option[3];
+        result = new ChoiceOption[3];
         {
           String buffer = "101 HP required, have " + KoLCharacter.getCurrentHP();
-          result[0] = new Option(buffer);
+          result[0] = new ChoiceOption(buffer);
         }
         result[1] = FLICKERING_PIXEL;
         result[2] = SKIP_ADVENTURE;
@@ -7673,10 +7650,10 @@ public abstract class ChoiceAdventures {
 
       case 650:
         // This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
-        result = new Option[3];
+        result = new ChoiceOption[3];
         {
           String buffer = "101 MP required, have " + KoLCharacter.getCurrentMP();
-          result[0] = new Option(buffer);
+          result[0] = new ChoiceOption(buffer);
         }
         result[1] = FLICKERING_PIXEL;
         result[2] = SKIP_ADVENTURE;
@@ -7684,11 +7661,11 @@ public abstract class ChoiceAdventures {
 
       case 651:
         // The Wall of Wailing (Mystic's psychoses)
-        result = new Option[3];
+        result = new ChoiceOption[3];
         {
           String buffer =
               "10 prismatic damage required, have " + KoLCharacter.currentPrismaticDamage();
-          result[0] = new Option(buffer);
+          result[0] = new ChoiceOption(buffer);
         }
         result[1] = FLICKERING_PIXEL;
         result[2] = SKIP_ADVENTURE;
@@ -7696,81 +7673,81 @@ public abstract class ChoiceAdventures {
 
       case 669:
         // The Fast and the Furry-ous
-        result = new Option[4];
+        result = new ChoiceOption[4];
         result[0] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.hasEquipped(ItemPool.get(ItemPool.TITANIUM_UMBRELLA))
                     ? "open Ground Floor (titanium umbrella equipped)"
                     : KoLCharacter.hasEquipped(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA))
                         ? "open Ground Floor (unbreakable umbrella equipped)"
                         : "Neckbeard Choice (titanium/unbreakable umbrella not equipped)");
-        result[1] = new Option("200 Moxie substats");
-        result[2] = new Option("");
-        result[3] = new Option("skip adventure and guarantees this adventure will reoccur");
+        result[1] = new ChoiceOption("200 Moxie substats");
+        result[2] = new ChoiceOption("");
+        result[3] = new ChoiceOption("skip adventure and guarantees this adventure will reoccur");
         return result;
 
       case 670:
         // You Don't Mess Around with Gym
-        result = new Option[5];
-        result[0] = new Option("massive dumbbell, then skip adventure");
-        result[1] = new Option("200 Muscle substats");
-        result[2] = new Option("pec oil, giant jar of protein powder, Squat-Thrust Magazine");
+        result = new ChoiceOption[5];
+        result[0] = new ChoiceOption("massive dumbbell, then skip adventure");
+        result[1] = new ChoiceOption("200 Muscle substats");
+        result[2] = new ChoiceOption("pec oil, giant jar of protein powder, Squat-Thrust Magazine");
         result[3] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.hasEquipped(ItemPool.get(ItemPool.EXTREME_AMULET, 1))
                     ? "open Ground Floor (amulet equipped)"
                     : "skip adventure (amulet not equipped)");
-        result[4] = new Option("skip adventure and guarantees this adventure will reoccur");
+        result[4] = new ChoiceOption("skip adventure and guarantees this adventure will reoccur");
         return result;
 
       case 678:
         // Yeah, You're for Me, Punk Rock Giant
-        result = new Option[4];
+        result = new ChoiceOption[4];
         result[0] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MOHAWK_WIG, 1))
                     ? "Finish quest (mohawk wig equipped)"
                     : "Fight Punk Rock Giant (mohawk wig not equipped)");
-        result[1] = new Option("500 meat");
-        result[2] = new Option("Steampunk Choice");
-        result[3] = new Option("Raver Choice");
+        result[1] = new ChoiceOption("500 meat");
+        result[2] = new ChoiceOption("Steampunk Choice");
+        result[3] = new ChoiceOption("Raver Choice");
         return result;
 
       case 692:
         // I Wanna Be a Door
-        result = new Option[9];
-        result[0] = new Option("suffer trap effects");
-        result[1] = new Option("unlock door with key, no turn spent");
-        result[2] = new Option("pick lock with lockpicks, no turn spent");
+        result = new ChoiceOption[9];
+        result[0] = new ChoiceOption("suffer trap effects");
+        result[1] = new ChoiceOption("unlock door with key, no turn spent");
+        result[2] = new ChoiceOption("pick lock with lockpicks, no turn spent");
         result[3] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.getAdjustedMuscle() >= 30
                     ? "bypass trap with muscle"
                     : "suffer trap effects");
         result[4] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.getAdjustedMysticality() >= 30
                     ? "bypass trap with mysticality"
                     : "suffer trap effects");
         result[5] =
-            new Option(
+            new ChoiceOption(
                 KoLCharacter.getAdjustedMoxie() >= 30
                     ? "bypass trap with moxie"
                     : "suffer trap effects");
-        result[6] = new Option("open door with card, no turn spent");
-        result[7] = new Option("leave, no turn spent");
+        result[6] = new ChoiceOption("open door with card, no turn spent");
+        result[7] = new ChoiceOption("leave, no turn spent");
         return result;
 
       case 696:
         // Stick a Fork In It
-        result = new Option[2];
+        result = new ChoiceOption[2];
         result[0] =
-            new Option(
+            new ChoiceOption(
                 Preferences.getBoolean("maraisDarkUnlock")
                     ? "Dark and Spooky Swamp already unlocked"
                     : "unlock Dark and Spooky Swamp");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 Preferences.getBoolean("maraisWildlifeUnlock")
                     ? "The Wildlife Sanctuarrrrrgh already unlocked"
                     : "unlock The Wildlife Sanctuarrrrrgh");
@@ -7778,14 +7755,14 @@ public abstract class ChoiceAdventures {
 
       case 697:
         // Sophie's Choice
-        result = new Option[2];
+        result = new ChoiceOption[2];
         result[0] =
-            new Option(
+            new ChoiceOption(
                 Preferences.getBoolean("maraisCorpseUnlock")
                     ? "The Corpse Bog already unlocked"
                     : "unlock The Corpse Bog");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 Preferences.getBoolean("maraisWizardUnlock")
                     ? "The Ruined Wizard Tower already unlocked"
                     : "unlock The Ruined Wizard Tower");
@@ -7793,14 +7770,14 @@ public abstract class ChoiceAdventures {
 
       case 698:
         // From Bad to Worst
-        result = new Option[2];
+        result = new ChoiceOption[2];
         result[0] =
-            new Option(
+            new ChoiceOption(
                 Preferences.getBoolean("maraisBeaverUnlock")
                     ? "Swamp Beaver Territory already unlocked"
                     : "unlock Swamp Beaver Territory");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 Preferences.getBoolean("maraisVillageUnlock")
                     ? "The Weird Swamp Village already unlocked"
                     : "unlock The Weird Swamp Village");
@@ -7808,13 +7785,15 @@ public abstract class ChoiceAdventures {
 
       case 700:
         // Delirium in the Cafeteria
-        result = new Option[9];
+        result = new ChoiceOption[9];
         result[0] =
-            new Option(KoLConstants.activeEffects.contains(JOCK_EFFECT) ? "Gain stats" : "Lose HP");
+            new ChoiceOption(
+                KoLConstants.activeEffects.contains(JOCK_EFFECT) ? "Gain stats" : "Lose HP");
         result[1] =
-            new Option(KoLConstants.activeEffects.contains(NERD_EFFECT) ? "Gain stats" : "Lose HP");
+            new ChoiceOption(
+                KoLConstants.activeEffects.contains(NERD_EFFECT) ? "Gain stats" : "Lose HP");
         result[2] =
-            new Option(
+            new ChoiceOption(
                 KoLConstants.activeEffects.contains(GREASER_EFFECT) ? "Gain stats" : "Lose HP");
         return result;
 
@@ -7822,7 +7801,7 @@ public abstract class ChoiceAdventures {
         {
           // The Cabin in the Dreadsylvanian Woods
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("dread tarragon");
@@ -7832,7 +7811,7 @@ public abstract class ChoiceAdventures {
             buffer.append(") -> bone flour");
           }
           buffer.append(", -stench");
-          result[0] = new Option(buffer.toString()); // The Kitchen
+          result[0] = new ChoiceOption(buffer.toString()); // The Kitchen
 
           buffer.setLength(0);
           buffer.append("Freddies");
@@ -7843,7 +7822,7 @@ public abstract class ChoiceAdventures {
           buffer.append(", wax banana (");
           buffer.append(InventoryManager.getCount(ItemPool.WAX_BANANA));
           buffer.append(") -> complicated lock impression");
-          result[1] = new Option(buffer.toString()); // The Cellar
+          result[1] = new ChoiceOption(buffer.toString()); // The Cellar
 
           buffer.setLength(0);
           ChoiceAdventures.lockSpoiler(buffer);
@@ -7854,62 +7833,62 @@ public abstract class ChoiceAdventures {
           buffer.append(", fewer werewolves");
           buffer.append(", fewer vampires");
           buffer.append(", +Moxie");
-          result[2] = new Option(buffer.toString()); // The Attic (locked)
+          result[2] = new ChoiceOption(buffer.toString()); // The Attic (locked)
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil1");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 722:
         // The Kitchen in the Woods
-        result = new Option[6];
-        result[0] = new Option("dread tarragon");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("dread tarragon");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 "old dry bone ("
                     + InventoryManager.getCount(ItemPool.OLD_DRY_BONE)
                     + ") -> bone flour");
-        result[2] = new Option("-stench");
-        result[5] = new Option("Return to The Cabin");
+        result[2] = new ChoiceOption("-stench");
+        result[5] = new ChoiceOption("Return to The Cabin");
         return result;
 
       case 723:
         // What Lies Beneath (the Cabin)
-        result = new Option[6];
-        result[0] = new Option("Freddies");
-        result[1] = new Option("Bored Stiff (+100 spooky damage)");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("Freddies");
+        result[1] = new ChoiceOption("Bored Stiff (+100 spooky damage)");
         result[2] =
-            new Option(
+            new ChoiceOption(
                 "replica key ("
                     + InventoryManager.getCount(ItemPool.REPLICA_KEY)
                     + ") -> Dreadsylvanian auditor's badge");
         result[3] =
-            new Option(
+            new ChoiceOption(
                 "wax banana ("
                     + InventoryManager.getCount(ItemPool.WAX_BANANA)
                     + ") -> complicated lock impression");
-        result[5] = new Option("Return to The Cabin");
+        result[5] = new ChoiceOption("Return to The Cabin");
         return result;
 
       case 724:
         // Where it's Attic
-        result = new Option[6];
+        result = new ChoiceOption[6];
         result[0] =
-            new Option(
+            new ChoiceOption(
                 "-spooky"
                     + (KoLCharacter.isAccordionThief() ? " + intricate music box parts" : ""));
-        result[1] = new Option("fewer werewolves");
-        result[2] = new Option("fewer vampires");
-        result[3] = new Option("+Moxie");
-        result[5] = new Option("Return to The Cabin");
+        result[1] = new ChoiceOption("fewer werewolves");
+        result[2] = new ChoiceOption("fewer vampires");
+        result[3] = new ChoiceOption("+Moxie");
+        result[5] = new ChoiceOption("Return to The Cabin");
         return result;
 
       case 725:
         {
           // Tallest Tree in the Forest
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           if (KoLCharacter.isMuscleClass()) {
@@ -7919,14 +7898,14 @@ public abstract class ChoiceAdventures {
           } else {
             buffer.append("unavailable (Muscle class only)");
           }
-          result[0] = new Option(buffer.toString()); // Climb tree (muscle only)
+          result[0] = new ChoiceOption(buffer.toString()); // Climb tree (muscle only)
 
           buffer.setLength(0);
           ChoiceAdventures.lockSpoiler(buffer);
           buffer.append("fewer ghosts");
           buffer.append(", Freddies");
           buffer.append(", +Muscle");
-          result[1] = new Option(buffer.toString()); // Fire Tower (locked)
+          result[1] = new ChoiceOption(buffer.toString()); // Fire Tower (locked)
 
           buffer.setLength(0);
           buffer.append("blood kiwi (from above)");
@@ -7935,45 +7914,45 @@ public abstract class ChoiceAdventures {
             buffer.append(", folder (owl)");
           }
 
-          result[2] = new Option(buffer.toString()); // Base of tree
+          result[2] = new ChoiceOption(buffer.toString()); // Base of tree
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil2");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 726:
         // Top of the Tree, Ma!
-        result = new Option[6];
-        result[0] = new Option("drop blood kiwi");
-        result[1] = new Option("-sleaze");
-        result[2] = new Option("moon-amber");
-        result[5] = new Option("Return to The Tallest Tree");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("drop blood kiwi");
+        result[1] = new ChoiceOption("-sleaze");
+        result[2] = new ChoiceOption("moon-amber");
+        result[5] = new ChoiceOption("Return to The Tallest Tree");
         return result;
 
       case 727:
         // All Along the Watchtower
-        result = new Option[6];
-        result[0] = new Option("fewer ghosts");
-        result[1] = new Option("Freddies");
-        result[2] = new Option("+Muscle");
-        result[5] = new Option("Return to The Tallest Tree");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer ghosts");
+        result[1] = new ChoiceOption("Freddies");
+        result[2] = new ChoiceOption("+Muscle");
+        result[5] = new ChoiceOption("Return to The Tallest Tree");
         return result;
 
       case 728:
         // Treebasing
-        result = new Option[6];
-        result[0] = new Option("blood kiwi (from above)");
-        result[1] = new Option("Dreadsylvanian seed pod");
-        result[2] = new Option("folder (owl)");
-        result[5] = new Option("Return to The Tallest Tree");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("blood kiwi (from above)");
+        result[1] = new ChoiceOption("Dreadsylvanian seed pod");
+        result[2] = new ChoiceOption("folder (owl)");
+        result[5] = new ChoiceOption("Return to The Tallest Tree");
         return result;
 
       case 729:
         {
           // Below the Roots
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("-hot");
@@ -7981,66 +7960,66 @@ public abstract class ChoiceAdventures {
           buffer.append(", old ball and chain (");
           buffer.append(InventoryManager.getCount(ItemPool.OLD_BALL_AND_CHAIN));
           buffer.append(") -> cool iron ingot");
-          result[0] = new Option(buffer.toString()); // Hot
+          result[0] = new ChoiceOption(buffer.toString()); // Hot
 
           buffer.setLength(0);
           buffer.append("-cold");
           buffer.append(", +Mysticality");
           buffer.append(", Nature's Bounty (+300 max HP)");
-          result[1] = new Option(buffer.toString()); // Cold
+          result[1] = new ChoiceOption(buffer.toString()); // Cold
 
           buffer.setLength(0);
           buffer.append("fewer bugbears");
           buffer.append(", Freddies");
-          result[2] = new Option(buffer.toString()); // Smelly
+          result[2] = new ChoiceOption(buffer.toString()); // Smelly
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil3");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 730:
         // Hot Coals
-        result = new Option[6];
-        result[0] = new Option("-hot");
-        result[1] = new Option("Dragged Through the Coals (+100 hot damage)");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-hot");
+        result[1] = new ChoiceOption("Dragged Through the Coals (+100 hot damage)");
         result[2] =
-            new Option(
+            new ChoiceOption(
                 "old ball and chain ("
                     + InventoryManager.getCount(ItemPool.OLD_BALL_AND_CHAIN)
                     + ") -> cool iron ingot");
-        result[5] = new Option("Return to The Burrows");
+        result[5] = new ChoiceOption("Return to The Burrows");
         return result;
 
       case 731:
         // The Heart of the Matter
-        result = new Option[6];
-        result[0] = new Option("-cold");
-        result[1] = new Option("+Mysticality");
-        result[2] = new Option("Nature's Bounty (+300 max HP)");
-        result[5] = new Option("Return to The Burrows");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-cold");
+        result[1] = new ChoiceOption("+Mysticality");
+        result[2] = new ChoiceOption("Nature's Bounty (+300 max HP)");
+        result[5] = new ChoiceOption("Return to The Burrows");
         return result;
 
       case 732:
         // Once Midden, Twice Shy
-        result = new Option[6];
-        result[0] = new Option("fewer bugbears");
-        result[1] = new Option("Freddies");
-        result[5] = new Option("Return to The Burrows");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer bugbears");
+        result[1] = new ChoiceOption("Freddies");
+        result[5] = new ChoiceOption("Return to The Burrows");
         return result;
 
       case 733:
         {
           // Dreadsylvanian Village Square
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           ChoiceAdventures.lockSpoiler(buffer);
           buffer.append("fewer ghosts");
           buffer.append(", ghost pencil");
           buffer.append(", +Mysticality");
-          result[0] = new Option(buffer.toString()); // Schoolhouse (locked)
+          result[0] = new ChoiceOption(buffer.toString()); // Schoolhouse (locked)
 
           buffer.setLength(0);
           buffer.append("-cold");
@@ -8052,7 +8031,7 @@ public abstract class ChoiceAdventures {
             buffer.append(InventoryManager.getCount(ItemPool.WARM_FUR));
             buffer.append(") -> cooling iron equipment");
           }
-          result[1] = new Option(buffer.toString()); // Blacksmith
+          result[1] = new ChoiceOption(buffer.toString()); // Blacksmith
 
           buffer.setLength(0);
           buffer.append("-spooky");
@@ -8066,43 +8045,43 @@ public abstract class ChoiceAdventures {
           buffer.append(item);
           buffer.append(" with help of clannie");
           buffer.append(" or help clannie gain an item");
-          result[2] = new Option(buffer.toString()); // Gallows
+          result[2] = new ChoiceOption(buffer.toString()); // Gallows
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil4");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 734:
         // Fright School
-        result = new Option[6];
-        result[0] = new Option("fewer ghosts");
-        result[1] = new Option("ghost pencil");
-        result[2] = new Option("+Mysticality");
-        result[5] = new Option("Return to The Village Square");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer ghosts");
+        result[1] = new ChoiceOption("ghost pencil");
+        result[2] = new ChoiceOption("+Mysticality");
+        result[5] = new ChoiceOption("Return to The Village Square");
         return result;
 
       case 735:
         // Smith, Black as Night
-        result = new Option[6];
-        result[0] = new Option("-cold");
-        result[1] = new Option("Freddies");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-cold");
+        result[1] = new ChoiceOption("Freddies");
         result[2] =
-            new Option(
+            new ChoiceOption(
                 "cool iron ingot ("
                     + InventoryManager.getCount(ItemPool.COOL_IRON_INGOT)
                     + ") + warm fur ("
                     + InventoryManager.getCount(ItemPool.WARM_FUR)
                     + ") -> cooling iron equipment");
-        result[5] = new Option("Return to The Village Square");
+        result[5] = new ChoiceOption("Return to The Village Square");
         return result;
 
       case 736:
         // Gallows
-        result = new Option[6];
-        result[0] = new Option("-spooky");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-spooky");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 "gain "
                     + (KoLCharacter.isMuscleClass()
                         ? "hangman's hood"
@@ -8112,26 +8091,26 @@ public abstract class ChoiceAdventures {
                                 ? "Dreadsylvanian clockwork key"
                                 : "nothing")
                     + " with help of clannie");
-        result[3] = new Option("help clannie gain an item");
-        result[5] = new Option("Return to The Village Square");
+        result[3] = new ChoiceOption("help clannie gain an item");
+        result[5] = new ChoiceOption("Return to The Village Square");
         return result;
 
       case 737:
         {
           // The Even More Dreadful Part of Town
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("-stench");
           buffer.append(", Sewer-Drenched (+100 stench damage)");
-          result[0] = new Option(buffer.toString()); // Sewers
+          result[0] = new ChoiceOption(buffer.toString()); // Sewers
 
           buffer.setLength(0);
           buffer.append("fewer skeletons");
           buffer.append(", -sleaze");
           buffer.append(", +Muscle");
-          result[1] = new Option(buffer.toString()); // Tenement
+          result[1] = new ChoiceOption(buffer.toString()); // Tenement
 
           buffer.setLength(0);
           if (KoLCharacter.isMoxieClass()) {
@@ -8153,68 +8132,68 @@ public abstract class ChoiceAdventures {
           } else {
             buffer.append("unavailable (Moxie class only)");
           }
-          result[2] = new Option(buffer.toString()); // Ticking Shack (moxie only)
+          result[2] = new ChoiceOption(buffer.toString()); // Ticking Shack (moxie only)
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil5");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 738:
         // A Dreadful Smell
-        result = new Option[6];
-        result[0] = new Option("-stench");
-        result[1] = new Option("Sewer-Drenched (+100 stench damage)");
-        result[5] = new Option("Return to Skid Row");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-stench");
+        result[1] = new ChoiceOption("Sewer-Drenched (+100 stench damage)");
+        result[5] = new ChoiceOption("Return to Skid Row");
         return result;
 
       case 739:
         // The Tinker's. Damn.
-        result = new Option[6];
-        result[0] = new Option("Freddies");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("Freddies");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 "lock impression ("
                     + InventoryManager.getCount(ItemPool.WAX_LOCK_IMPRESSION)
                     + ") + music box parts ("
                     + InventoryManager.getCount(ItemPool.INTRICATE_MUSIC_BOX_PARTS)
                     + ") -> replica key");
         result[2] =
-            new Option(
+            new ChoiceOption(
                 "moon-amber ("
                     + InventoryManager.getCount(ItemPool.MOON_AMBER)
                     + ") -> polished moon-amber");
         result[3] =
-            new Option(
+            new ChoiceOption(
                 "3 music box parts ("
                     + InventoryManager.getCount(ItemPool.INTRICATE_MUSIC_BOX_PARTS)
                     + ") + clockwork key ("
                     + InventoryManager.getCount(ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY)
                     + ") -> mechanical songbird");
-        result[4] = new Option("3 lengths of old fuse");
-        result[5] = new Option("Return to Skid Row");
+        result[4] = new ChoiceOption("3 lengths of old fuse");
+        result[5] = new ChoiceOption("Return to Skid Row");
         return result;
 
       case 740:
         // Eight, Nine, Tenement
-        result = new Option[6];
-        result[0] = new Option("fewer skeletons");
-        result[1] = new Option("-sleaze");
-        result[2] = new Option("+Muscle");
-        result[5] = new Option("Return to Skid Row");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer skeletons");
+        result[1] = new ChoiceOption("-sleaze");
+        result[2] = new ChoiceOption("+Muscle");
+        result[5] = new ChoiceOption("Return to Skid Row");
         return result;
 
       case 741:
         {
           // The Old Duke's Estate
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("fewer zombies");
           buffer.append(", Freddies");
           buffer.append(", Fifty Ways to Bereave Your Lover (+100 sleaze damage)");
-          result[0] = new Option(buffer.toString()); // Cemetery
+          result[0] = new ChoiceOption(buffer.toString()); // Cemetery
 
           buffer.setLength(0);
           buffer.append("-hot");
@@ -8230,7 +8209,7 @@ public abstract class ChoiceAdventures {
             buffer.append(") -> Dreadsylvanian shepherd's pie");
           }
           buffer.append(", +Moxie");
-          result[1] = new Option(buffer.toString()); // Servants' Quarters
+          result[1] = new ChoiceOption(buffer.toString()); // Servants' Quarters
 
           buffer.setLength(0);
           ChoiceAdventures.lockSpoiler(buffer);
@@ -8239,28 +8218,28 @@ public abstract class ChoiceAdventures {
           buffer.append(", 10 ghost thread (");
           buffer.append(InventoryManager.getCount(ItemPool.GHOST_THREAD));
           buffer.append(") -> ghost shawl");
-          result[2] = new Option(buffer.toString()); // Master Suite (locked)
+          result[2] = new ChoiceOption(buffer.toString()); // Master Suite (locked)
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil6");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 742:
         // The Plot Thickens
-        result = new Option[6];
-        result[0] = new Option("fewer zombies");
-        result[1] = new Option("Freddies");
-        result[2] = new Option("Fifty Ways to Bereave Your Lover (+100 sleaze damage)");
-        result[5] = new Option("Return to The Old Duke's Estate");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer zombies");
+        result[1] = new ChoiceOption("Freddies");
+        result[2] = new ChoiceOption("Fifty Ways to Bereave Your Lover (+100 sleaze damage)");
+        result[5] = new ChoiceOption("Return to The Old Duke's Estate");
         return result;
 
       case 743:
         // No Quarter
-        result = new Option[6];
-        result[0] = new Option("-hot");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-hot");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 "dread tarragon ("
                     + InventoryManager.getCount(ItemPool.DREAD_TARRAGON)
                     + ") + dreadful roast ("
@@ -8270,28 +8249,28 @@ public abstract class ChoiceAdventures {
                     + ") + stinking agaricus ("
                     + InventoryManager.getCount(ItemPool.STINKING_AGARICUS)
                     + ") -> Dreadsylvanian shepherd's pie");
-        result[2] = new Option("+Moxie");
-        result[5] = new Option("Return to The Old Duke's Estate");
+        result[2] = new ChoiceOption("+Moxie");
+        result[5] = new ChoiceOption("Return to The Old Duke's Estate");
         return result;
 
       case 744:
         // The Master Suite -- Sweet!
-        result = new Option[6];
-        result[0] = new Option("fewer werewolves");
-        result[1] = new Option("eau de mort");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer werewolves");
+        result[1] = new ChoiceOption("eau de mort");
         result[2] =
-            new Option(
+            new ChoiceOption(
                 "10 ghost thread ("
                     + InventoryManager.getCount(ItemPool.GHOST_THREAD)
                     + ") -> ghost shawl");
-        result[5] = new Option("Return to The Old Duke's Estate");
+        result[5] = new ChoiceOption("Return to The Old Duke's Estate");
         return result;
 
       case 745:
         {
           // This Hall is Really Great
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           ChoiceAdventures.lockSpoiler(buffer);
@@ -8303,12 +8282,12 @@ public abstract class ChoiceAdventures {
             buffer.append("(muddy skirt in inventory but not equipped) ");
           }
           buffer.append("+Moxie");
-          result[0] = new Option(buffer.toString()); // Ballroom (locked)
+          result[0] = new ChoiceOption(buffer.toString()); // Ballroom (locked)
 
           buffer.setLength(0);
           buffer.append("-cold");
           buffer.append(", Staying Frosty (+100 cold damage)");
-          result[1] = new Option(buffer.toString()); // Kitchen
+          result[1] = new ChoiceOption(buffer.toString()); // Kitchen
 
           buffer.setLength(0);
           buffer.append("dreadful roast");
@@ -8316,50 +8295,50 @@ public abstract class ChoiceAdventures {
           if (KoLCharacter.isMysticalityClass()) {
             buffer.append(", wax banana");
           }
-          result[2] = new Option(buffer.toString()); // Dining Room
+          result[2] = new ChoiceOption(buffer.toString()); // Dining Room
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil7");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 746:
         // The Belle of the Ballroom
-        result = new Option[6];
-        result[0] = new Option("fewer vampires");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer vampires");
         result[1] =
-            new Option(
+            new ChoiceOption(
                 (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MUDDY_SKIRT, 1))
                         ? "equipped muddy skirt -> weedy skirt and "
                         : InventoryManager.getCount(ItemPool.MUDDY_SKIRT) > 0
                             ? "(muddy skirt in inventory but not equipped) "
                             : "")
                     + "+Moxie");
-        result[5] = new Option("Return to The Great Hall");
+        result[5] = new ChoiceOption("Return to The Great Hall");
         return result;
 
       case 747:
         // Cold Storage
-        result = new Option[6];
-        result[0] = new Option("-cold");
-        result[1] = new Option("Staying Frosty (+100 cold damage)");
-        result[5] = new Option("Return to The Great Hall");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-cold");
+        result[1] = new ChoiceOption("Staying Frosty (+100 cold damage)");
+        result[5] = new ChoiceOption("Return to The Great Hall");
         return result;
 
       case 748:
         // Dining In (the Castle)
-        result = new Option[6];
-        result[0] = new Option("dreadful roast");
-        result[1] = new Option("-stench");
-        result[2] = new Option("wax banana");
-        result[5] = new Option("Return to The Great Hall");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("dreadful roast");
+        result[1] = new ChoiceOption("-stench");
+        result[2] = new ChoiceOption("wax banana");
+        result[5] = new ChoiceOption("Return to The Great Hall");
         return result;
 
       case 749:
         {
           // Tower Most Tall
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           ChoiceAdventures.lockSpoiler(buffer);
@@ -8373,7 +8352,7 @@ public abstract class ChoiceAdventures {
             buffer.append(InventoryManager.getCount(ItemPool.EAU_DE_MORT));
             buffer.append(") -> bloody kiwitini");
           }
-          result[0] = new Option(buffer.toString()); // Laboratory (locked)
+          result[0] = new ChoiceOption(buffer.toString()); // Laboratory (locked)
 
           buffer.setLength(0);
           if (KoLCharacter.isMysticalityClass()) {
@@ -8383,105 +8362,105 @@ public abstract class ChoiceAdventures {
           } else {
             buffer.append("unavailable (Mysticality class only)");
           }
-          result[1] = new Option(buffer.toString()); // Books (mysticality only)
+          result[1] = new ChoiceOption(buffer.toString()); // Books (mysticality only)
 
           buffer.setLength(0);
           buffer.append("-sleaze");
           buffer.append(", Freddies");
           buffer.append(", Magically Fingered (+150 max MP, 40-50 MP regen)");
-          result[2] = new Option(buffer.toString()); // Bedroom
+          result[2] = new ChoiceOption(buffer.toString()); // Bedroom
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil8");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 750:
         // Working in the Lab, Late One Night
-        result = new Option[6];
-        result[0] = new Option("fewer bugbears");
-        result[1] = new Option("fewer zombies");
-        result[2] = new Option("visit The Machine");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer bugbears");
+        result[1] = new ChoiceOption("fewer zombies");
+        result[2] = new ChoiceOption("visit The Machine");
         result[3] =
-            new Option(
+            new ChoiceOption(
                 "blood kiwi ("
                     + InventoryManager.getCount(ItemPool.BLOOD_KIWI)
                     + ") + eau de mort ("
                     + InventoryManager.getCount(ItemPool.EAU_DE_MORT)
                     + ") -> bloody kiwitini");
-        result[5] = new Option("Return to The Tower");
+        result[5] = new ChoiceOption("Return to The Tower");
         return result;
 
       case 751:
         // Among the Quaint and Curious Tomes.
-        result = new Option[6];
-        result[0] = new Option("fewer skeletons");
-        result[1] = new Option("+Mysticality");
-        result[2] = new Option("learn recipe for moon-amber necklace");
-        result[5] = new Option("Return to The Tower");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("fewer skeletons");
+        result[1] = new ChoiceOption("+Mysticality");
+        result[2] = new ChoiceOption("learn recipe for moon-amber necklace");
+        result[5] = new ChoiceOption("Return to The Tower");
         return result;
 
       case 752:
         // In The Boudoir
-        result = new Option[6];
-        result[0] = new Option("-sleaze");
-        result[1] = new Option("Freddies");
-        result[2] = new Option("Magically Fingered (+150 max MP, 40-50 MP regen)");
-        result[5] = new Option("Return to The Tower");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-sleaze");
+        result[1] = new ChoiceOption("Freddies");
+        result[2] = new ChoiceOption("Magically Fingered (+150 max MP, 40-50 MP regen)");
+        result[5] = new ChoiceOption("Return to The Tower");
         return result;
 
       case 753:
         {
           // The Dreadsylvanian Dungeon
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("-spooky");
           buffer.append(", +Muscle");
           buffer.append(", +MP");
-          result[0] = new Option(buffer.toString()); // Prison
+          result[0] = new ChoiceOption(buffer.toString()); // Prison
 
           buffer.setLength(0);
           buffer.append("-hot");
           buffer.append(", Freddies");
           buffer.append(", +Muscle/Mysticality/Moxie");
-          result[1] = new Option(buffer.toString()); // Boiler Room
+          result[1] = new ChoiceOption(buffer.toString()); // Boiler Room
 
           buffer.setLength(0);
           buffer.append("stinking agaricus");
           buffer.append(", Spore-wreathed (reduce enemy defense by 20%)");
-          result[2] = new Option(buffer.toString()); // Guard room
+          result[2] = new ChoiceOption(buffer.toString()); // Guard room
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil9");
-          result[5] = new Option("Leave this noncombat");
+          result[5] = new ChoiceOption("Leave this noncombat");
           return result;
         }
 
       case 754:
         // Live from Dungeon Prison
-        result = new Option[6];
-        result[0] = new Option("-spooky");
-        result[1] = new Option("+Muscle");
-        result[2] = new Option("+MP");
-        result[5] = new Option("Return to The Dungeons");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-spooky");
+        result[1] = new ChoiceOption("+Muscle");
+        result[2] = new ChoiceOption("+MP");
+        result[5] = new ChoiceOption("Return to The Dungeons");
         return result;
 
       case 755:
         // The Hot Bowels
-        result = new Option[6];
-        result[0] = new Option("-hot");
-        result[1] = new Option("Freddies");
-        result[2] = new Option("+Muscle/Mysticality/Moxie");
-        result[5] = new Option("Return to The Dungeons");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("-hot");
+        result[1] = new ChoiceOption("Freddies");
+        result[2] = new ChoiceOption("+Muscle/Mysticality/Moxie");
+        result[5] = new ChoiceOption("Return to The Dungeons");
         return result;
 
       case 756:
         // Among the Fungus
-        result = new Option[6];
-        result[0] = new Option("stinking agaricus");
-        result[1] = new Option("Spore-wreathed (reduce enemy defense by 20%)");
-        result[5] = new Option("Return to The Dungeons");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("stinking agaricus");
+        result[1] = new ChoiceOption("Spore-wreathed (reduce enemy defense by 20%)");
+        result[5] = new ChoiceOption("Return to The Dungeons");
         return result;
 
       case 758:
@@ -8516,9 +8495,9 @@ public abstract class ChoiceAdventures {
                       ? "bloody kiwitini in inventory"
                       : "First Blood Kiwi neither active nor available");
 
-          result = new Option[2];
-          result[0] = new Option(buffer.toString());
-          result[1] = new Option("Run away");
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(buffer.toString());
+          result[1] = new ChoiceOption("Run away");
           return result;
         }
 
@@ -8546,9 +8525,9 @@ public abstract class ChoiceAdventures {
                       ? "weedy skirt NOT equipped but in inventory"
                       : "weedy skirt neither equipped nor available");
 
-          result = new Option[2];
-          result[0] = new Option(buffer.toString());
-          result[1] = new Option("Run away");
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(buffer.toString());
+          result[1] = new ChoiceOption("Run away");
           return result;
         }
 
@@ -8576,9 +8555,9 @@ public abstract class ChoiceAdventures {
                       ? "Dreadsylvanian shepherd's pie in inventory"
                       : "Shepherd's Breath neither active nor available");
 
-          result = new Option[2];
-          result[0] = new Option(buffer.toString());
-          result[1] = new Option("Run away");
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(buffer.toString());
+          result[1] = new ChoiceOption("Run away");
           return result;
         }
 
@@ -8590,41 +8569,41 @@ public abstract class ChoiceAdventures {
           // school, correct this
           Preferences.setInteger("_kolhsAdventures", 40);
 
-          result = new Option[10];
+          result = new ChoiceOption[10];
           String buffer =
               "Get "
                   + (Preferences.getInteger("kolhsTotalSchoolSpirited") + 1) * 10
                   + " turns of School Spirited (+100% Meat drop, +50% Item drop)";
           result[0] =
-              new Option(
+              new ChoiceOption(
                   Preferences.getBoolean("_kolhsSchoolSpirited")
                       ? "Already got School Spirited today"
                       : buffer);
           result[1] =
-              new Option(
+              new ChoiceOption(
                   Preferences.getBoolean("_kolhsPoeticallyLicenced")
                       ? "Already got Poetically Licenced today"
                       : "50 turns of Poetically Licenced (+20% Myst, -20% Muscle, +2 Myst stats/fight, +10% Spell damage)");
           result[2] =
-              new Option(
+              new ChoiceOption(
                   InventoryManager.getCount(ItemPool.YEARBOOK_CAMERA) > 0
                           || KoLCharacter.hasEquipped(ItemPool.get(ItemPool.YEARBOOK_CAMERA, 1))
                       ? "Turn in yesterday's photo (if you have it)"
                       : "Get Yearbook Camera");
           result[3] =
-              new Option(
+              new ChoiceOption(
                   Preferences.getBoolean("_kolhsCutButNotDried")
                       ? "Already got Cut But Not Dried today"
                       : "50 turns of Cut But Not Dried (+20% Muscle, -20% Moxie, +2 Muscle stats/fight, +10% Weapon damage)");
           result[4] =
-              new Option(
+              new ChoiceOption(
                   Preferences.getBoolean("_kolhsIsskayLikeAnAshtray")
                       ? "Already got Isskay Like An Ashtray today"
                       : "50 turns of Isskay Like An Ashtray (+20% Moxie, -20% Myst, +2 Moxie stats/fight, +10% Pickpocket chance)");
-          result[5] = new Option("Make items");
-          result[6] = new Option("Make items");
-          result[7] = new Option("Make items");
-          result[9] = new Option("Leave");
+          result[5] = new ChoiceOption("Make items");
+          result[6] = new ChoiceOption("Make items");
+          result[7] = new ChoiceOption("Make items");
+          result[9] = new ChoiceOption("Leave");
           return result;
         }
 
@@ -8639,23 +8618,23 @@ public abstract class ChoiceAdventures {
           boolean pygmyLawyersRelocated =
               Preferences.getInteger("relocatePygmyLawyer") == KoLCharacter.getAscensions();
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
           result[0] =
-              new Option(
+              new ChoiceOption(
                   (hiddenApartmentProgress >= 7
                       ? "penthouse empty"
                       : hasThriceCursed
                           ? "Fight ancient protector spirit"
                           : "Need Thrice-Cursed to fight ancient protector spirit"));
           result[1] =
-              new Option(
+              new ChoiceOption(
                   (hasThriceCursed
                       ? "Increase Thrice-Cursed"
                       : hasTwiceCursed
                           ? "Get Thrice-Cursed"
                           : hasOnceCursed ? "Get Twice-Cursed" : "Get Once-Cursed"));
           result[2] =
-              new Option(
+              new ChoiceOption(
                   (pygmyLawyersRelocated
                       ? "Waste adventure"
                       : "Relocate pygmy witch lawyers to Hidden Park"));
@@ -8665,35 +8644,35 @@ public abstract class ChoiceAdventures {
 
       case 781:
         // Earthbound and Down
-        result = new Option[6];
-        result[0] = new Option("Unlock Hidden Apartment Building");
-        result[1] = new Option("Get stone triangle");
-        result[2] = new Option("Get Blessing of Bulbazinalli");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("Unlock Hidden Apartment Building");
+        result[1] = new ChoiceOption("Get stone triangle");
+        result[2] = new ChoiceOption("Get Blessing of Bulbazinalli");
         result[5] = SKIP_ADVENTURE;
         return result;
 
       case 783:
         // Water You Dune
-        result = new Option[6];
-        result[0] = new Option("Unlock Hidden Hospital");
-        result[1] = new Option("Get stone triangle");
-        result[2] = new Option("Get Blessing of Squirtlcthulli");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("Unlock Hidden Hospital");
+        result[1] = new ChoiceOption("Get stone triangle");
+        result[2] = new ChoiceOption("Get Blessing of Squirtlcthulli");
         result[5] = SKIP_ADVENTURE;
         return result;
 
       case 784:
         // You, M. D.
-        result = new Option[6];
-        result[0] = new Option("Fight ancient protector spirit");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("Fight ancient protector spirit");
         result[5] = SKIP_ADVENTURE;
         return result;
 
       case 785:
         // Air Apparent
-        result = new Option[6];
-        result[0] = new Option("Unlock Hidden Office Building");
-        result[1] = new Option("Get stone triangle");
-        result[2] = new Option("Get Blessing of Pikachutlotal");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("Unlock Hidden Office Building");
+        result[1] = new ChoiceOption("Get stone triangle");
+        result[2] = new ChoiceOption("Get Blessing of Pikachutlotal");
         result[5] = SKIP_ADVENTURE;
         return result;
 
@@ -8706,30 +8685,30 @@ public abstract class ChoiceAdventures {
           boolean hasMcCluskyFile = InventoryManager.getCount(MCCLUSKY_FILE) > 0;
           boolean hasBinderClip = InventoryManager.getCount(BINDER_CLIP) > 0;
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
           result[0] =
-              new Option(
+              new ChoiceOption(
                   (hiddenOfficeProgress >= 7
                       ? "office empty"
                       : hasMcCluskyFile || hasBossUnlock
                           ? "Fight ancient protector spirit"
                           : "Need McClusky File (complete) to fight ancient protector spirit"));
           result[1] =
-              new Option(
+              new ChoiceOption(
                   (hasBinderClip || hasMcCluskyFile || hasBossUnlock)
                       ? "Get random item"
                       : "Get boring binder clip");
-          result[2] = new Option("Fight pygmy witch accountant");
+          result[2] = new ChoiceOption("Fight pygmy witch accountant");
           result[5] = SKIP_ADVENTURE;
           return result;
         }
 
       case 787:
         // Fire when Ready
-        result = new Option[6];
-        result[0] = new Option("Unlock Hidden Bowling Alley");
-        result[1] = new Option("Get stone triangle");
-        result[2] = new Option("Get Blessing of Charcoatl");
+        result = new ChoiceOption[6];
+        result[0] = new ChoiceOption("Unlock Hidden Bowling Alley");
+        result[1] = new ChoiceOption("Get stone triangle");
+        result[2] = new ChoiceOption("Get Blessing of Charcoatl");
         result[5] = SKIP_ADVENTURE;
         return result;
 
@@ -8747,9 +8726,9 @@ public abstract class ChoiceAdventures {
           }
           buffer.append(" left");
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
           result[0] =
-              new Option(
+              new ChoiceOption(
                   (hiddenBowlingAlleyProgress > 6
                       ? "Get stats"
                       : hiddenBowlingAlleyProgress == 6
@@ -8765,10 +8744,10 @@ public abstract class ChoiceAdventures {
               Preferences.getInteger("relocatePygmyJanitor") == KoLCharacter.getAscensions();
 
           // Where Does The Lone Ranger Take His Garbagester?
-          result = new Option[6];
-          result[0] = new Option("Get random items");
+          result = new ChoiceOption[6];
+          result[0] = new ChoiceOption("Get random items");
           result[1] =
-              new Option(
+              new ChoiceOption(
                   pygmyJanitorsRelocated
                       ? "Waste adventure"
                       : "Relocate pygmy janitors to Hidden Park");
@@ -8782,10 +8761,10 @@ public abstract class ChoiceAdventures {
 
           int stoneTriangles = InventoryManager.getCount(ChoiceAdventures.STONE_TRIANGLE);
 
-          result = new Option[6];
+          result = new ChoiceOption[6];
           String buffer =
               "Need 4 stone triangles to fight Protector Spectre (" + stoneTriangles + ")";
-          result[0] = new Option(stoneTriangles == 4 ? "fight Protector Spectre" : buffer);
+          result[0] = new ChoiceOption(stoneTriangles == 4 ? "fight Protector Spectre" : buffer);
           result[5] = SKIP_ADVENTURE;
           return result;
         }
@@ -8793,20 +8772,20 @@ public abstract class ChoiceAdventures {
       case 801:
 
         // A Reanimated Conversation
-        result = new Option[7];
-        result[0] = new Option("skulls increase meat drops");
-        result[1] = new Option("arms deal extra damage");
-        result[2] = new Option("legs increase item drops");
-        result[3] = new Option("wings sometimes delevel at start of combat");
-        result[4] = new Option("weird parts sometimes block enemy attacks");
-        result[5] = new Option("get rid of all collected parts");
-        result[6] = new Option("no changes");
+        result = new ChoiceOption[7];
+        result[0] = new ChoiceOption("skulls increase meat drops");
+        result[1] = new ChoiceOption("arms deal extra damage");
+        result[2] = new ChoiceOption("legs increase item drops");
+        result[3] = new ChoiceOption("wings sometimes delevel at start of combat");
+        result[4] = new ChoiceOption("weird parts sometimes block enemy attacks");
+        result[5] = new ChoiceOption("get rid of all collected parts");
+        result[6] = new ChoiceOption("no changes");
         return result;
 
       case 918:
 
         // Yachtzee
-        result = new Option[3];
+        result = new ChoiceOption[3];
         // Is it 7 or more days since the last time you got the Ultimate Mind Destroyer?
         var date = DateTimeManager.getArizonaDateTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -8819,26 +8798,28 @@ public abstract class ChoiceAdventures {
                     .atZone(DateTimeManager.ARIZONA)
                     .plusDays(7);
             if (date.compareTo(compareDate) >= 0) {
-              result[0] = new Option("get Ultimate Mind Destroyer");
+              result[0] = new ChoiceOption("get Ultimate Mind Destroyer");
             } else {
-              result[0] = new Option("get cocktail ingredients");
+              result[0] = new ChoiceOption("get cocktail ingredients");
             }
           } catch (ParseException ex) {
-            result[0] = new Option("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
+            result[0] =
+                new ChoiceOption("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
             KoLmafia.updateDisplay("Unable to parse " + lastUMDDateString);
           }
         } else {
           // Change to "get Ultimate Mind Destroyer" after 12th August 2014
-          result[0] = new Option("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
+          result[0] =
+              new ChoiceOption("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
         }
-        result[1] = new Option("get 5k meat and random item");
-        result[2] = new Option("get Beach Bucks");
+        result[1] = new ChoiceOption("get 5k meat and random item");
+        result[2] = new ChoiceOption("get Beach Bucks");
         return result;
 
       case 988:
 
         // The Containment Unit
-        result = new Option[2];
+        result = new ChoiceOption[2];
         String containment = Preferences.getString("EVEDirections");
         if (containment.length() != 6) {
           return result;
@@ -8848,14 +8829,14 @@ public abstract class ChoiceAdventures {
           return result;
         }
         if (containment.charAt(progress) == 'L') {
-          result[0] = new Option("right way");
+          result[0] = new ChoiceOption("right way");
           result[1] = null;
         } else if (containment.charAt(progress) == 'R') {
           result[0] = null;
-          result[1] = new Option("right way");
+          result[1] = new ChoiceOption("right way");
         } else {
-          result[0] = new Option("unknown");
-          result[1] = new Option("unknown");
+          result[0] = new ChoiceOption("unknown");
+          result[1] = new ChoiceOption("unknown");
         }
         return result;
 
@@ -8867,17 +8848,17 @@ public abstract class ChoiceAdventures {
           Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
           int options = choices.size();
           if (options == 1) {
-            return new Option[0];
+            return new ChoiceOption[0];
           }
 
           int decision = ChoiceManager.getDecision(choice, responseText);
           if (decision == 0) {
-            return new Option[0];
+            return new ChoiceOption[0];
           }
 
-          result = new Option[options];
+          result = new ChoiceOption[options];
           for (int i = 0; i < options; ++i) {
-            result[i] = new Option((i == decision - 1) ? "right answer" : "wrong answer");
+            result[i] = new ChoiceOption((i == decision - 1) ? "right answer" : "wrong answer");
           }
 
           return result;
@@ -8886,7 +8867,7 @@ public abstract class ChoiceAdventures {
       case 1411:
         {
           // The Hall in the Hall
-          result = new Option[5];
+          result = new ChoiceOption[5];
           {
             boolean haveStaff = InventoryManager.getCount(ItemPool.DRIPPY_STAFF) > 0;
             int inebriety = KoLCharacter.getInebriety();
@@ -8898,9 +8879,9 @@ public abstract class ChoiceAdventures {
                     + " inebriety = "
                     + Integer.valueOf(totalPoolSkill)
                     + ")";
-            result[0] = new Option(buf);
+            result[0] = new ChoiceOption(buf);
           }
-          result[1] = new Option("Buy a drippy candy bar for 10,000 Meat or get Driplets");
+          result[1] = new ChoiceOption("Buy a drippy candy bar for 10,000 Meat or get Driplets");
           {
             String item =
                 KoLCharacter.hasSkill(SkillPool.DRIPPY_EYE_SPROUT)
@@ -8910,36 +8891,36 @@ public abstract class ChoiceAdventures {
                         : KoLCharacter.hasSkill(SkillPool.DRIPPY_EYE_BEETLE)
                             ? "a drippy grub"
                             : "nothing";
-            result[2] = new Option("Get " + item);
+            result[2] = new ChoiceOption("Get " + item);
           }
           {
             int steins = InventoryManager.getCount(ItemPool.DRIPPY_STEIN);
             result[3] =
-                new Option(
+                new ChoiceOption(
                     (steins > 0) ? "Trade a drippy stein for a drippy pilsner" : "Get nothing");
           }
-          result[4] = new Option("Get some Driplets");
+          result[4] = new ChoiceOption("Get some Driplets");
           return result;
         }
 
       case 1489:
         {
           // Slagging Off
-          result = new Option[3];
-          result[0] = new Option("Get a crystal Crimbo goblet", "crystal Crimbo goblet");
-          result[1] = new Option("Get a crystal Crimbo platter", "crystal Crimbo platter");
-          result[2] = new Option("Walk away in disappointment");
+          result = new ChoiceOption[3];
+          result[0] = new ChoiceOption("Get a crystal Crimbo goblet", "crystal Crimbo goblet");
+          result[1] = new ChoiceOption("Get a crystal Crimbo platter", "crystal Crimbo platter");
+          result[2] = new ChoiceOption("Walk away in disappointment");
           return result;
         }
     }
     return null;
   }
 
-  private static Option booPeakDamage() {
+  private static ChoiceOption booPeakDamage() {
     int booPeakLevel =
         ChoiceControl.findBooPeakLevel(
             ChoiceUtilities.findChoiceDecisionText(1, ChoiceManager.lastResponseText));
-    if (booPeakLevel < 1) return new Option("");
+    if (booPeakLevel < 1) return new ChoiceOption("");
 
     int damageTaken = 0;
     int diff = 0;
@@ -8997,15 +8978,15 @@ public abstract class ChoiceAdventures {
         || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.STENCHFORM))) {
       coldDamage *= 2;
     }
-    return new Option(
+    return new ChoiceOption(
         ((int) Math.ceil(spookyDamage))
             + " spooky damage, "
             + ((int) Math.ceil(coldDamage))
             + " cold damage");
   }
 
-  private static Option shortcutSpoiler(final String setting) {
-    return new Option(Preferences.getBoolean(setting) ? "shortcut KNOWN" : "learn shortcut");
+  private static ChoiceOption shortcutSpoiler(final String setting) {
+    return new ChoiceOption(Preferences.getBoolean(setting) ? "shortcut KNOWN" : "learn shortcut");
   }
 
   private static void lockSpoiler(StringBuilder buffer) {
@@ -9016,8 +8997,8 @@ public abstract class ChoiceAdventures {
     buffer.append(" key in inventory: ");
   }
 
-  public static final Option choiceSpoiler(
-      final int choice, final int decision, final Option[] spoilers) {
+  public static final ChoiceOption choiceSpoiler(
+      final int choice, final int decision, final ChoiceOption[] spoilers) {
     switch (choice) {
       case 105:
         // Having a Medicine Ball
@@ -9025,20 +9006,20 @@ public abstract class ChoiceAdventures {
           KoLCharacter.ensureUpdatedGuyMadeOfBees();
           boolean defeated = Preferences.getBoolean("guyMadeOfBeesDefeated");
           if (defeated) {
-            return new Option("guy made of bees: defeated");
+            return new ChoiceOption("guy made of bees: defeated");
           }
-          return new Option(
+          return new ChoiceOption(
               "guy made of bees: called " + Preferences.getString("guyMadeOfBeesCount") + " times");
         }
         break;
       case 182:
         if (decision == 4) {
-          return new Option("model airship");
+          return new ChoiceOption("model airship");
         }
         break;
       case 793:
         if (decision == 4) {
-          return new Option("gift shop");
+          return new ChoiceOption("gift shop");
         }
         break;
     }
@@ -9049,7 +9030,7 @@ public abstract class ChoiceAdventures {
 
     // Iterate through the spoilers and find the one corresponding to the decision
     for (int i = 0; i < spoilers.length; ++i) {
-      Option spoiler = spoilers[i];
+      ChoiceOption spoiler = spoilers[i];
       if (spoiler == null) {
         continue;
       }
@@ -9089,7 +9070,7 @@ public abstract class ChoiceAdventures {
     {"Surround Bubbles with Crayons", "+5 crew, -6-16 bubbles, -2 crayons"},
   };
 
-  private static Option[] oldManPsychosisSpoilers() {
+  private static ChoiceOption[] oldManPsychosisSpoilers() {
     Matcher matcher =
         ChoiceUtilities.DECISION_BUTTON_PATTERN.matcher(ChoiceManager.lastResponseText);
 
@@ -9111,13 +9092,13 @@ public abstract class ChoiceAdventures {
     // since the buttons are not actually randomized, they are consistent within the four choice
     // adventures that make up the 10 log entry non-combats.
     // Ah well.  Leavin' it here.
-    Option[] spoilers = new Option[4];
+    ChoiceOption[] spoilers = new ChoiceOption[4];
 
     for (int j = 0; j < spoilers.length; j++) {
       for (String[] s : OLD_MAN_PSYCHOSIS_SPOILERS) {
         if (s[0].equals(buttons[j][1])) {
           spoilers[Integer.parseInt(buttons[j][0]) - 1] =
-              new Option(s[1]); // button 1 text should be in index 0, 2 -> 1, etc.
+              new ChoiceOption(s[1]); // button 1 text should be in index 0, 2 -> 1, etc.
           break;
         }
       }

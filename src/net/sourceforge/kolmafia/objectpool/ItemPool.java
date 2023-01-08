@@ -3484,8 +3484,14 @@ public class ItemPool {
   public static final int GRUBBY_WOOL = 11091;
   public static final int ROCK_SEEDS = 11100;
   public static final int GROVELING_GRAVEL = 11101;
+  public static final int FRUITY_PEBBLE = 11102;
+  public static final int LODESTONE = 11103;
   public static final int MILESTONE = 11104;
+  public static final int BOLDER_BOULDER = 11105;
+  public static final int MOLEHILL_MOUNTAIN = 11106;
   public static final int WHETSTONE = 11107;
+  public static final int HARD_ROCK = 11108;
+  public static final int STRANGE_STALAGMITE = 11109;
 
   private ItemPool() {}
 

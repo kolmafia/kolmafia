@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HaciendaManager {
@@ -240,16 +239,16 @@ public class HaciendaManager {
     return REWARDS[location];
   }
 
-  private static Option LEAVE_BARRACKS = new Option("leave barracks");
+  private static ChoiceOption LEAVE_BARRACKS = new ChoiceOption("leave barracks");
 
-  public static Option[] getSpoilers(final int choice) {
-    Option[] result = new Option[4];
+  public static ChoiceOption[] getSpoilers(final int choice) {
+    ChoiceOption[] result = new ChoiceOption[4];
 
     switch (choice) {
       case 410 -> {
         // choice of hallways
-        result[0] = new Option(HaciendaManager.getWingSpoilers(0));
-        result[1] = new Option(HaciendaManager.getWingSpoilers(9));
+        result[0] = new ChoiceOption(HaciendaManager.getWingSpoilers(0));
+        result[1] = new ChoiceOption(HaciendaManager.getWingSpoilers(9));
         result[2] = LEAVE_BARRACKS;
       }
       case 411, 412 -> {
@@ -261,14 +260,14 @@ public class HaciendaManager {
                   + HaciendaManager.getSpoiler(choice * 9 + i * 3 - 3698)
                   + " / "
                   + HaciendaManager.getSpoiler(choice * 9 + i * 3 - 3697);
-          result[i] = new Option(buffer);
+          result[i] = new ChoiceOption(buffer);
         }
         result[3] = LEAVE_BARRACKS;
       }
       default -> {
         // choice of locations in rooms
         for (int i = 0; i < 3; i++) {
-          result[i] = new Option(HaciendaManager.getSpoiler(choice * 3 + i - 1239));
+          result[i] = new ChoiceOption(HaciendaManager.getSpoiler(choice * 3 + i - 1239));
         }
         result[3] = LEAVE_BARRACKS;
       }
