@@ -1950,6 +1950,7 @@ user	_legionJackhammerCrafting	0
 user	_licenseToChillUsed	false
 user	_llamaCharge	0
 user	_locketMonstersFought
+user	_lodestoneUsed	false
 user	_longConUsed	0
 user	_lookingGlass	false
 user	_lovebugsBeachBuck	0
@@ -1991,6 +1992,7 @@ user	_mimeArmyShotglassUsed	false
 user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
+user	_molehillMountainUsed	false
 user	_momFoodReceived	false
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
@@ -2172,6 +2174,7 @@ user	_stickerSummons	0
 user	_stinkyCheeseBanisherUsed	false
 user	_stinkyCheeseCount	0
 user	_stolenAccordions
+user	_strangeStalagmiteUsed	false
 user	_streamsCrossed	false
 user	_stressBallSqueezes	0
 user	_stuffedPocketwatchUsed	false
