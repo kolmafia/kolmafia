@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.TwoLevelEnumHashMap;
 
@@ -1847,6 +1846,10 @@ public class Modifiers {
     return Modifiers.getModifiers(ModifierType.EFFECT, id);
   }
 
+  private static final String getModifierString(final Lookup lookup) {
+    return Modifiers.modifierStringsByName.get(lookup.type, lookup.getKey());
+  }
+
   public static final Modifiers getModifiers(final ModifierType type, final int id) {
     return Modifiers.getModifiers(new Lookup(type, id));
   }
@@ -1867,7 +1870,7 @@ public class Modifiers {
     Modifiers modifiers = Modifiers.modifiersByName.get(type, key);
 
     if (modifiers == null) {
-      String modifierString = Modifiers.modifierStringsByName.get(type, key);
+      String modifierString = Modifiers.getModifierString(lookup);
 
       if (modifierString == null) {
         return null;
@@ -3728,9 +3731,7 @@ public class Modifiers {
         new TreeSet<>(
             Arrays.asList(Maximizer.maximizationCategories).subList(0, maximizationCount));
 
-    // Open the output file
-    PrintStream writer = LogStream.openStream(output, true);
-    writer.println(KoLConstants.EQUIPMENT_VERSION);
+    writer.println(KoLConstants.MODIFIERS_VERSION);
 
     // For each equipment category, write the map entries
     Modifiers.writeModifierCategory(writer, hats, ModifierType.ITEM, "Hats");
@@ -3779,7 +3780,10 @@ public class Modifiers {
     Modifiers.writeModifierCategory(writer, synergies, ModifierType.SYNERGY, "Synergies");
     writer.println();
     Modifiers.writeModifierCategory(
-        writer, mutexes, ModifierType.MUTEX_GENERIC, "Mutual exclusions");
+        writer, mutexes, ModifierType.MUTEX_I, "Mutually exclusive items");
+    writer.println();
+    Modifiers.writeModifierCategory(
+        writer, mutexes, ModifierType.MUTEX_I, "Mutually exclusive effects");
     writer.println();
     Modifiers.writeModifierCategory(
         writer, maximization, ModifierType.MAX_CAT, "Maximization categories");
@@ -3802,7 +3806,7 @@ public class Modifiers {
     writer.println();
 
     for (String name : set) {
-      String modifierString = Modifiers.modifierStringsByName.get(type, new IntOrString(name));
+      String modifierString = Modifiers.getModifierString(new Lookup(type, name));
       Modifiers.writeModifierItem(writer, type, name, modifierString);
     }
   }
