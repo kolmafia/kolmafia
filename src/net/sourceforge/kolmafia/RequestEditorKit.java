@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
@@ -1841,7 +1842,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     if (spoilers == null) {
       // Don't give up - there may be a choice even if there are no spoilers.
-      spoilers = new Spoilers(choice, "", new ChoiceAdventures.Option[0]);
+      spoilers = new Spoilers(choice, "", new ChoiceOption[0]);
     }
 
     int index1 = matcher.start();
@@ -1880,8 +1881,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       // Build spoiler text
       while (i > 0) {
         // Say what the choice will give you
-        ChoiceAdventures.Option spoiler =
-            ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
+        ChoiceOption spoiler = ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
 
         // If we have nothing to say about this option, don't say anything
         if (spoiler == null) {

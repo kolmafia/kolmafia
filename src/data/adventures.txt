@@ -524,7 +524,7 @@ PastEvents	adventure=508	DiffLevel: unknown Env: outdoor nowander	A Monorail Sta
 
 # Item-supplied adventuring zones
 
-Portal	adventure=164	DiffLevel: unknown Env: underground Stat: 365	El Vibrato Island
+Portal	adventure=164	DiffLevel: high Env: underground Stat: 365	El Vibrato Island
 
 Tunnel of L.O.V.E.	place=townwrong_tunnel	DiffLevel: none Env: indoor overdrunk	The Tunnel of L.O.V.E.
 Deep Machine Tunnels	adventure=458	DiffLevel: mid Env: underground Stat: 0	The Deep Machine Tunnels

@@ -5,7 +5,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 
 public abstract class LouvreManager {
@@ -273,10 +272,10 @@ public abstract class LouvreManager {
 
     // An array of choice spoilers is the third element
     int[] choices = LouvreManager.choiceTuple(choice);
-    Option[] options = new Option[3];
-    options[0] = new Option(LouvreManager.choiceName(choices[0]));
-    options[1] = new Option(LouvreManager.choiceName(choices[1]));
-    options[2] = new Option(LouvreManager.choiceName(choices[2]));
+    ChoiceOption[] options = new ChoiceOption[3];
+    options[0] = new ChoiceOption(LouvreManager.choiceName(choices[0]));
+    options[1] = new ChoiceOption(LouvreManager.choiceName(choices[1]));
+    options[2] = new ChoiceOption(LouvreManager.choiceName(choices[2]));
 
     return new Spoilers(choice, name, options);
   }
