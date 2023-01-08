@@ -1860,18 +1860,18 @@ public class Modifiers {
   }
 
   public static final Modifiers getModifiers(final Lookup lookup) {
-    ModifierType changeType = null;
+    ModifierType originalType = null;
     ModifierType type = lookup.type;
     IntOrString key = lookup.getKey();
     if (type == ModifierType.BJORN) {
-      changeType = type;
+      originalType = type;
       type = ModifierType.THRONE;
     }
 
     Modifiers modifiers = Modifiers.modifiersByName.get(type, key);
 
     if (modifiers == null) {
-      String modifierString = Modifiers.getModifierString(lookup);
+      String modifierString = Modifiers.getModifierString(new Lookup(type, key));
 
       if (modifierString == null) {
         return null;
@@ -1879,8 +1879,8 @@ public class Modifiers {
 
       modifiers = Modifiers.parseModifiers(lookup, modifierString);
 
-      if (changeType != null) {
-        modifiers.originalLookup = new Lookup(changeType, key);
+      if (originalType != null) {
+        modifiers.originalLookup = new Lookup(originalType, key);
       }
 
       modifiers.variable = modifiers.override(lookup);
@@ -1890,8 +1890,8 @@ public class Modifiers {
 
     if (modifiers.variable) {
       modifiers.override(lookup);
-      if (changeType != null) {
-        modifiers.originalLookup = new Lookup(changeType, key);
+      if (originalType != null) {
+        modifiers.originalLookup = new Lookup(originalType, key);
       }
     }
 
