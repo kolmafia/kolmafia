@@ -480,7 +480,7 @@ nega-mushroom wine	2	1	awesome	8-10	0	30-40	0	50 Double Negavision (+50% Item Dr
 Neuromancer	4	6	awesome	14-18	25-27	0	16-20
 New Zealand iced tea	2	4	awesome	6-8	20-30	0	0	20 New Zeal (+40 HP, +20 MP)
 Newark	1	3	awesome	4-6	10-20	10-20	10-20	40 Hobo Powering Up! (+10 Hobo Power)
-nice warm beer	1	1	awesome	0	0	0	0	Unspaded
+nice warm beer	1	1	awesome	0	0	0	0	Unspaded, BEER
 Nog-on-the-Cob	3	1	awesome	12	15-30	15-30	15-30	20 Sulfurous Sinuses (+3 Stench Resist, +20 Stench Dam, +40 Meat Drop)
 non-aged vinegar	2	4	awesome	6-7	5-10	5-10	5-10	40 Sour Grapes (+40% Item Drop)
 nothingtini	1	1	good	2-4	0	0	0	40 Nothing Happened (+20 Monster Level), MARTINI
