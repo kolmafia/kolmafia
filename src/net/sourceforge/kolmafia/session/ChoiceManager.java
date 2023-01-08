@@ -27,8 +27,8 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceSpoiler;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1967,7 +1967,7 @@ public abstract class ChoiceManager {
 
     // Find the options for the choice we've encountered
 
-    Option[] options = null;
+    ChoiceOption[] options = null;
 
     // See if this choice is controlled by user option
     if (options == null) {
@@ -1995,7 +1995,7 @@ public abstract class ChoiceManager {
 
     boolean items = false;
     for (int i = 0; i < options.length; ++i) {
-      Option opt = options[i];
+      ChoiceOption opt = options[i];
       AdventureResult[] item = opt.getItems();
       if (item.length == 0) {
         continue;
@@ -2015,7 +2015,7 @@ public abstract class ChoiceManager {
     }
 
     // Find the spoiler corresponding to the chosen decision
-    Option chosen = ChoiceAdventures.findOption(options, StringUtilities.parseInt(decision));
+    ChoiceOption chosen = ChoiceAdventures.findOption(options, StringUtilities.parseInt(decision));
 
     // If the player doesn't want to "complete the outfit", nothing to do
     if (chosen == null || !chosen.toString().equals("complete the outfit")) {
@@ -2024,7 +2024,7 @@ public abstract class ChoiceManager {
 
     // Pick an item that the player doesn't have yet
     for (int i = 0; i < options.length; ++i) {
-      Option opt = options[i];
+      ChoiceOption opt = options[i];
       AdventureResult[] item = opt.getItems();
       if (item.length == 0) {
         continue;
@@ -2132,7 +2132,7 @@ public abstract class ChoiceManager {
     // If we have spoilers for this choice, use that
     Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, null);
     if (spoilers != null) {
-      Option spoiler = ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
+      ChoiceOption spoiler = ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
       if (spoiler != null) {
         return spoiler.toString();
       }

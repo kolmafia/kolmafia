@@ -8,8 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 
 /** Utilities for extracting data from a choice.php response */
@@ -186,14 +186,14 @@ public class ChoiceUtilities {
       return rv;
     }
 
-    Option[] options = possibleDecisions.getOptions();
+    ChoiceOption[] options = possibleDecisions.getOptions();
     if (options == null) {
       return rv;
     }
 
     for (Map.Entry<Integer, String> entry : rv.entrySet()) {
       Integer key = entry.getKey();
-      Option option = ChoiceAdventures.findOption(options, key);
+      ChoiceOption option = ChoiceAdventures.findOption(options, key);
       if (option != null) {
         String text = entry.getValue() + " (" + option.toString() + ")";
         rv.put(key, text);

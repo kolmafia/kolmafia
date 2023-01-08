@@ -8,8 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonorailManager {
@@ -50,7 +50,7 @@ public class MonorailManager {
 
     // We'll have to imitate RequestEditorKit.addChoiceSpoilers( final String location, final
     // StringBuffer buffer )
-    List<Option> options = new ArrayList<>();
+    List<ChoiceOption> options = new ArrayList<>();
 
     Matcher matcher =
         Pattern.compile("name=choiceform\\d+(.*?)</form>", Pattern.DOTALL).matcher(buffer);
@@ -71,10 +71,10 @@ public class MonorailManager {
 
       if (lyleSpoilers.containsKey(buttonText)) {
         String[] thisOption = MonorailManager.lyleSpoilers.get(buttonText);
-        options.add(new Option(thisOption[0], choiceNumber, thisOption[1]));
+        options.add(new ChoiceOption(thisOption[0], choiceNumber, thisOption[1]));
       }
     }
 
-    return new Spoilers(choice, "On a Downtown Train", options.toArray(new Option[options.size()]));
+    return new Spoilers(choice, "On a Downtown Train", options.toArray(new ChoiceOption[options.size()]));
   }
 }
