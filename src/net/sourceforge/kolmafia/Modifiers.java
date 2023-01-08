@@ -3789,7 +3789,7 @@ public class Modifiers {
         writer, mutexes, ModifierType.MUTEX_I, "Mutually exclusive items");
     writer.println();
     Modifiers.writeModifierCategory(
-        writer, mutexes, ModifierType.MUTEX_I, "Mutually exclusive effects");
+        writer, mutexes, ModifierType.MUTEX_E, "Mutually exclusive effects");
     writer.println();
     Modifiers.writeModifierCategory(
         writer, maximization, ModifierType.MAX_CAT, "Maximization categories");
