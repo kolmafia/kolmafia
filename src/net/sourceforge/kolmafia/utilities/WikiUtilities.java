@@ -32,11 +32,12 @@ public class WikiUtilities {
 
     if (type != ANY_TYPE) {
       ModifierType modType =
-          type == ITEM_TYPE
-              ? ModifierType.ITEM
-              : type == EFFECT_TYPE
-                  ? ModifierType.EFFECT
-                  : type == SKILL_TYPE ? ModifierType.SKILL : ModifierType.NONE;
+          switch (type) {
+            case ITEM_TYPE -> ModifierType.ITEM;
+            case EFFECT_TYPE -> ModifierType.EFFECT;
+            case SKILL_TYPE -> ModifierType.SKILL;
+            default -> ModifierType.NONE;
+          };
 
       Modifiers mods = Modifiers.getModifiers(modType, name);
       if (mods != null) {
