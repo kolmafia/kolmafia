@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.TwoLevelEnumHashMap;
 
@@ -3563,24 +3564,29 @@ public class Modifiers {
   }
 
   public static void writeModifiers(final File output) {
+    // Open the output file
+    PrintStream writer = LogStream.openStream(output, true);
     RequestLogger.printLine("Writing data override: " + output);
+    writeModifiers(writer);
+  }
 
+  public static void writeModifiers(final PrintStream writer) {
     // One map per equipment category
-    Set<String> hats = new TreeSet<>();
-    Set<String> weapons = new TreeSet<>();
-    Set<String> offhands = new TreeSet<>();
-    Set<String> shirts = new TreeSet<>();
-    Set<String> pants = new TreeSet<>();
-    Set<String> accessories = new TreeSet<>();
-    Set<String> containers = new TreeSet<>();
-    Set<String> famitems = new TreeSet<>();
-    Set<String> sixguns = new TreeSet<>();
-    Set<String> bedazzlements = new TreeSet<>();
-    Set<String> cards = new TreeSet<>();
-    Set<String> folders = new TreeSet<>();
-    Set<String> freepulls = new TreeSet<>();
-    Set<String> potions = new TreeSet<>();
-    Set<String> wikiname = new TreeSet<>();
+    Set<String> hats = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> weapons = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> offhands = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> shirts = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> pants = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> accessories = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> containers = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> famitems = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> sixguns = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> bedazzlements = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> cards = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> folders = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> freepulls = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> potions = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+    Set<String> wikiname = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
     // Iterate over all items and assign item id to category
     for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
@@ -3814,7 +3820,7 @@ public class Modifiers {
   public static void writeModifierItem(
       final PrintStream writer, final ModifierType type, final String name, String modifierString) {
     if (modifierString == null) {
-      Modifiers.writeModifierComment(writer, type, name);
+      Modifiers.writeModifierComment(writer, name);
       return;
     }
 
@@ -3834,23 +3840,21 @@ public class Modifiers {
     return type.pascalCaseName() + "\t" + name + "\t" + modifiers;
   }
 
-  public static String modifierCommentString(
-      final ModifierType type, final String name, final String value) {
-    return "# " + (type == null ? "" : type.pascalCaseName() + " ") + name + ": " + value;
+  public static String modifierCommentString(final String name, final String value) {
+    return "# " + name + ": " + value;
   }
 
   public static void writeModifierComment(
-      final PrintStream writer, final ModifierType type, final String name, final String value) {
-    writer.println(Modifiers.modifierCommentString(type, name, value));
+      final PrintStream writer, final String name, final String value) {
+    writer.println(Modifiers.modifierCommentString(name, value));
   }
 
-  public static String modifierCommentString(final ModifierType type, final String name) {
-    return "# " + (type == null ? "" : type.pascalCaseName() + " ") + name;
+  public static String modifierCommentString(final String name) {
+    return "# " + name;
   }
 
-  public static void writeModifierComment(
-      final PrintStream writer, final ModifierType type, final String name) {
-    writer.println(Modifiers.modifierCommentString(type, name));
+  public static void writeModifierComment(final PrintStream writer, final String name) {
+    writer.println(Modifiers.modifierCommentString(name));
   }
 
   public static final void registerItem(
@@ -3893,14 +3897,14 @@ public class Modifiers {
       final ArrayList<String> unknown,
       final String known) {
     for (String value : unknown) {
-      String printMe = Modifiers.modifierCommentString(type, name, value);
+      String printMe = Modifiers.modifierCommentString(name, value);
       RequestLogger.printLine(printMe);
       RequestLogger.updateSessionLog(printMe);
     }
 
     if (known.isEmpty()) {
       if (unknown.size() == 0) {
-        String printMe = Modifiers.modifierCommentString(type, name);
+        String printMe = Modifiers.modifierCommentString(name);
         RequestLogger.printLine(printMe);
         RequestLogger.updateSessionLog(printMe);
       }

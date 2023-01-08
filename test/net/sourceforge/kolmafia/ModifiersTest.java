@@ -13,16 +13,23 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.closeTo;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -34,6 +41,7 @@ import net.sourceforge.kolmafia.request.LatteRequest.Latte;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -998,5 +1006,42 @@ public class ModifiersTest {
   })
   public void identifiesVariableModifiers(String skillName, boolean variable) {
     assertThat(Modifiers.getModifiers(ModifierType.SKILL, skillName).variable, equalTo(variable));
+  }
+
+  @Test
+  @Disabled("modifiers.txt would need to be modified")
+  public void writeModifiersSubsetOfModifiersTxt() throws IOException {
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    PrintStream writer = new PrintStream(ostream);
+
+    Modifiers.writeModifiers(writer);
+    writer.close();
+    List<String> writeModifiersLines = ostream.toString().lines().collect(Collectors.toList());
+
+    BufferedReader reader =
+        DataUtilities.getReader(KoLConstants.DATA_DIRECTORY, "modifiers.txt", true);
+
+    String line;
+    Iterator<String> writeModifiersIterator = writeModifiersLines.iterator();
+    String writeModifiersLine = writeModifiersIterator.next();
+    while ((line = reader.readLine()) != null) {
+      if (writeModifiersLine.startsWith("# ")
+          ? line.startsWith(writeModifiersLine)
+          : line.equals(writeModifiersLine)) {
+        writeModifiersLine =
+            writeModifiersIterator.hasNext() ? writeModifiersIterator.next() : null;
+      }
+    }
+
+    if (writeModifiersLine != null) {
+      int index = writeModifiersLines.indexOf(writeModifiersLine);
+      for (int i = Math.min(3, index); i >= 0; i--) {
+        System.out.println(writeModifiersLines.get(index - i));
+      }
+    }
+    assertThat(
+        "unmatched line: [" + writeModifiersLine + "]",
+        writeModifiersIterator.hasNext(),
+        is(false));
   }
 }

@@ -1210,7 +1210,7 @@ public class DebugDatabase {
       final ArrayList<String> unknown,
       final PrintStream report) {
     for (String s : unknown) {
-      Modifiers.writeModifierComment(report, null, name, s);
+      Modifiers.writeModifierComment(report, name, s);
     }
 
     if (known.size() == 0) {

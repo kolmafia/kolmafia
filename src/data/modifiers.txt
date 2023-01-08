@@ -149,8 +149,8 @@ Item	cool iron helmet	Damage Reduction: 20, Hot Resistance: +3, Familiar Effect:
 Item	cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
 Item	corrosive cowl	Spooky Damage: +30, Spooky Resistance: +4, Slime Hates It: +1, Familiar Effect: "0.5xPotato, 0.5xFairy"
 Item	Covers-Your-Head	Moxie: +250, Maximum HP: +100, Maximum MP: +100, Initiative: +50, Class: "Disco Bandit", Familiar Effect: "atk, 2xVolley"
-Item	crappy Mer-kin mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "hot atk, 1xBarrr"
 Item	cr&ecirc;epy mask	Mysticality: +2, Maximum MP: +5, Familiar Effect: "spooky atk, cap 5"
+Item	crappy Mer-kin mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "hot atk, 1xBarrr"
 Item	Crimbo hat	Spooky Resistance: +1, Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 Item	Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
 # Crown of Thrones: Put a Familiar In It!
@@ -192,10 +192,10 @@ Item	eelskin hat	Spell Damage Percent: +15, Familiar Effect: "atk"
 Item	eight-gallon hat	Muscle: +8, Mysticality: +8, Moxie: +8, Experience: +3
 Item	El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 25"
 Item	El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
+Item	Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Item	eldritch hat	Spooky Damage: +40, Spooky Spell Damage: +40, Spooky Resistance: +3
 # eldritch scanner: Helps with Science
 Item	eldritch scanner	Mysticality Limit: 100
-Item	Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Item	electrician's hardhat	Muscle Percent: +40, Weapon Damage: +40, HP Regen Min: 20, HP Regen Max: 40, Familiar Effect: "atk"
 Item	eleven-gallon hat	Muscle: +11, Mysticality: +11, Moxie: +11, Experience: +3
 Item	elf ploughshare	Maximum HP: +30, Maximum MP: +30
@@ -227,6 +227,7 @@ Item	fishin' hat	Fishing Skill: +5
 Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
 # flagstone fez: Unleash dark rituals on your unsuspecting foes
 Item	flagstone fez	Mysticality Percent: +20, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
+# flatusaur gasmask: Protects against flatusaurus emissions
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Familiar Effect: "atk, 1xVolley"
 Item	foolscap fool's cap	Moxie: +2, Mysticality: -2, Clowniness: 25, Familiar Effect: "3xVolley, cap 10"
@@ -325,9 +326,9 @@ Item	Lens of Violence	Item Drop: +15, Critical Hit Percent: +5, Weapon Damage Pe
 Item	lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 Item	linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
 Item	literal bucket hat	Water: +5
+Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 # loofah lumberjack's hat: Feels good on your head
 Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25
-Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
 Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
@@ -8554,20 +8555,24 @@ Synergy	musty moccasins/molten medallion	Item Drop: +10, Stench Resistance: +1, 
 Synergy	serpentine sword/snake shield	Monster Level: +10
 Synergy	stuffed carpenter/stuffed walrus	HP Regen Min: 5, HP Regen Max: 5, MP Regen Min: 5, MP Regen Max: 5
 
-# Mutual exclusions section of modifiers.txt
+# Mutually exclusive items section of modifiers.txt
 # These work much like synergies, but indicate that no two of the listed
 # equipment items or effects can coexist.  Each element must appear earlier
 # in this file, even if their modifiers are just "none"; the mutex itself
 # should also specify "none" since its modifiers aren't actually used.
 
 MutexI	V for Vivala mask/Juju Mojo Mask	none
+MutexI	shining halo/furry halo/frosty halo/time halo	none
+MutexI	work boots/fancy boots	none
+MutexI	booze drive button/candy drive button/food drive button	none
+
+# Mutually exclusive effects section of modifiers.txt
+# Same as above
+MutexE	Shrieking Weasel/Power, Man/Lucky Struck/Ministrations in the Dark/Superdrifting	none
 MutexE	Perceptive Pressure/Perspicacious Pressure/Pneumatic/Proficient Pressure/Puissant Pressure/Pulchritudinous Pressure	none
 MutexE	Purple Tongue/Green Tongue/Orange Tongue/Red Tongue/Blue Tongue/Black Tongue	none
 MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful Heart	none
-MutexI	shining halo/furry halo/frosty halo/time halo	none
-MutexE	Shrieking Weasel/Power, Man/Lucky Struck/Ministrations in the Dark/Superdrifting	none
-MutexI	work boots/fancy boots	none
-MutexI	booze drive button/candy drive button/food drive button	none
+
 # While the groups below are mutex, replacing one effect with another is easy enough that other effects should be suggested anyway
 # MutexE	Snarl of the Timberwolf/Scowl of the Auk/Stiff Upper Lip/Patient Smile/Arched Eyebrow of the Archmage/Wizard Squint/Icy Glare/Wry Smile/Disco Leer/Disco Smirk/Suspicious Gaze/Knowing Smile	none
 # MutexE	Cautious Prowl/Prideful Strut/Leisurely Amblin'	none
