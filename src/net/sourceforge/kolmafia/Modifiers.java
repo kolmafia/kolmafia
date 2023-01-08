@@ -2816,7 +2816,7 @@ public class Modifiers {
         if (famItem == EquipmentRequest.UNEQUIP) {
           this.addDouble(Modifiers.PANTSDROP, 50.0, ModifierType.FAMILIAR, "naked scarecrow");
           this.addDouble(
-              Modifiers.FAMILIAR_WEIGHT_CAP, 1, ModifierType.FAMILIAR, "naked " + "scarecrow");
+              Modifiers.FAMILIAR_WEIGHT_CAP, 1, ModifierType.FAMILIAR, "naked scarecrow");
         }
         break;
     }
