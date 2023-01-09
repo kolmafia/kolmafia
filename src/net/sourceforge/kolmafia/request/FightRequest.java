@@ -2286,33 +2286,33 @@ public class FightRequest extends GenericRequest {
             }
             break;
 
-            // Correct Crypt Evilness if encountering boss when we think we're at more than 25 evil
+            // Correct Crypt Evilness if encountering boss when we think we're at more than 13 evil
           case CONJOINED_ZMOMBIE:
-            if (Preferences.getInteger("cyrptAlcoveEvilness") > 25) {
+            if (Preferences.getInteger("cyrptAlcoveEvilness") > 13) {
               Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptAlcoveEvilness") + 25);
-              Preferences.setInteger("cyrptAlcoveEvilness", 25);
+                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptAlcoveEvilness") + 13);
+              Preferences.setInteger("cyrptAlcoveEvilness", 13);
             }
             break;
           case HUGE_GHUOL:
-            if (Preferences.getInteger("cyrptCrannyEvilness") > 25) {
+            if (Preferences.getInteger("cyrptCrannyEvilness") > 13) {
               Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptCrannyEvilness") + 25);
-              Preferences.setInteger("cyrptCrannyEvilness", 25);
+                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptCrannyEvilness") + 13);
+              Preferences.setInteger("cyrptCrannyEvilness", 13);
             }
             break;
           case GARGANTULIHC:
-            if (Preferences.getInteger("cyrptNicheEvilness") > 25) {
+            if (Preferences.getInteger("cyrptNicheEvilness") > 13) {
               Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNicheEvilness") + 25);
-              Preferences.setInteger("cyrptNicheEvilness", 25);
+                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNicheEvilness") + 13);
+              Preferences.setInteger("cyrptNicheEvilness", 13);
             }
             break;
           case GIANT_SKEELTON:
-            if (Preferences.getInteger("cyrptNookEvilness") > 25) {
+            if (Preferences.getInteger("cyrptNookEvilness") > 13) {
               Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNookEvilness") + 25);
-              Preferences.setInteger("cyrptNookEvilness", 25);
+                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNookEvilness") + 13);
+              Preferences.setInteger("cyrptNookEvilness", 13);
             }
             break;
 

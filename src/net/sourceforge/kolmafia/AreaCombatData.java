@@ -782,22 +782,22 @@ public class AreaCombatData {
       // Some areas have fixed non-combats, if we're tracking this, handle them here.
       switch (zone) {
         case "The Defiled Alcove":
-          if (Preferences.getInteger("cyrptAlcoveEvilness") <= 25) {
+          if (Preferences.getInteger("cyrptAlcoveEvilness") <= 13) {
             return 100;
           }
           break;
         case "The Defiled Cranny":
-          if (Preferences.getInteger("cyrptCrannyEvilness") <= 25) {
+          if (Preferences.getInteger("cyrptCrannyEvilness") <= 13) {
             return 100;
           }
           break;
         case "The Defiled Niche":
-          if (Preferences.getInteger("cyrptNicheEvilness") <= 25) {
+          if (Preferences.getInteger("cyrptNicheEvilness") <= 13) {
             return 100;
           }
           break;
         case "The Defiled Nook":
-          if (Preferences.getInteger("cyrptNookEvilness") <= 25) {
+          if (Preferences.getInteger("cyrptNookEvilness") <= 13) {
             return 100;
           }
           break;
@@ -1261,9 +1261,9 @@ public class AreaCombatData {
         {
           int evilness = Preferences.getInteger("cyrptAlcoveEvilness");
           if (monster.equals("conjoined zmombie")) {
-            return evilness > 0 && evilness <= 25 ? 1 : 0;
+            return evilness > 0 && evilness <= 13 ? 1 : 0;
           } else if (!monster.equals("modern zmobie")) {
-            return evilness > 25 ? 1 : 0;
+            return evilness > 13 ? 1 : 0;
           }
           break;
         }
@@ -1271,9 +1271,9 @@ public class AreaCombatData {
         {
           int evilness = Preferences.getInteger("cyrptCrannyEvilness");
           if (monster.equals("huge ghuol")) {
-            return evilness > 0 && evilness <= 25 ? 1 : 0;
+            return evilness > 0 && evilness <= 13 ? 1 : 0;
           } else if (monster.equals("gaunt ghuol") || monster.equals("gluttonous ghuol")) {
-            return evilness > 25 ? 1 : 0;
+            return evilness > 13 ? 1 : 0;
           }
           break;
         }
@@ -1281,18 +1281,18 @@ public class AreaCombatData {
         {
           int evilness = Preferences.getInteger("cyrptNicheEvilness");
           if (monster.equals("gargantulihc")) {
-            return evilness > 0 && evilness <= 25 ? 1 : 0;
+            return evilness > 0 && evilness <= 13 ? 1 : 0;
           } else {
-            return evilness > 25 ? 1 : 0;
+            return evilness > 13 ? 1 : 0;
           }
         }
       case "The Defiled Nook":
         {
           int evilness = Preferences.getInteger("cyrptNookEvilness");
           if (monster.equals("giant skeelton")) {
-            return evilness > 0 && evilness <= 25 ? 1 : 0;
+            return evilness > 0 && evilness <= 13 ? 1 : 0;
           } else {
-            return evilness > 25 ? 1 : 0;
+            return evilness > 13 ? 1 : 0;
           }
         }
       case "Haert of the Cyrpt":
@@ -1744,7 +1744,7 @@ public class AreaCombatData {
       // Appears every 8 turns in relevant zones
       return turns > 0 && (turns % 8) == 0 ? 100.0 : 0.0;
     }
-    if (monster.equals("modern zmobie") && Preferences.getInteger("cyrptAlcoveEvilness") > 25) {
+    if (monster.equals("modern zmobie") && Preferences.getInteger("cyrptAlcoveEvilness") > 13) {
       // Chance based on initiative
       double chance = 15 + KoLCharacter.getInitiativeAdjustment() / 10;
       return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
