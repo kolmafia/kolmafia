@@ -2704,17 +2704,22 @@ public class Modifiers {
     }
 
     effective = cappedWeight * this.get(Modifiers.FAIRY_WEIGHT);
-    if (effective == 0.0 && FamiliarDatabase.isFairyType(familiarId)) {
+    if (effective == 0.0 && FamiliarDatabase.isAnyFairyType(familiarId)) {
       effective = weight;
     }
     if (effective != 0.0) {
       double factor = this.get(Modifiers.FAIRY_EFFECTIVENESS);
       // The 0->1 factor for generic familiars conflicts with the JitB
       if (factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX) factor = 1.0;
-      this.add(
-          Modifiers.ITEMDROP,
-          factor * (Math.sqrt(55 * effective) + effective - 3),
-          "Familiar:" + race);
+
+      int modifier =
+          FamiliarDatabase.isBoozeFairyType(familiarId)
+              ? Modifiers.BOOZEDROP
+              : FamiliarDatabase.isFoodFairyType(familiarId)
+                  ? Modifiers.FOODDROP
+                  : Modifiers.ITEMDROP;
+
+      this.add(modifier, factor * (Math.sqrt(55 * effective) + effective - 3), "Familiar:" + race);
     }
 
     if (FamiliarDatabase.isUnderwaterType(familiarId)) {

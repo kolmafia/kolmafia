@@ -15,6 +15,7 @@ import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -997,5 +998,25 @@ public class ModifiersTest {
   })
   public void identifiesVariableModifiers(String skillName, boolean variable) {
     assertThat(Modifiers.getModifiers("Skill", skillName).variable, equalTo(variable));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    FamiliarPool.VAMPIRE_VINTNER + ", " + Modifiers.BOOZEDROP,
+    FamiliarPool.COOKBOOKBAT + ", " + Modifiers.FOODDROP,
+  })
+  public void otherFairies(final int familiar, final int mod) {
+    var cleanups = new Cleanups(withFamiliar(familiar));
+    try (cleanups) {
+      Modifiers familiarMods = new Modifiers();
+      var fam = KoLCharacter.getFamiliar();
+      fam.setExperience(400);
+      familiarMods.applyFamiliarModifiers(fam, EquipmentRequest.UNEQUIP);
+      KoLCharacter.recalculateAdjustments();
+
+      assertThat(fam.getModifiedWeight(), equalTo(20));
+      assertThat(familiarMods.get(Modifiers.ITEMDROP), is(0.0));
+      assertThat(familiarMods.get(mod), closeTo(67.62, 0.001));
+    }
   }
 }

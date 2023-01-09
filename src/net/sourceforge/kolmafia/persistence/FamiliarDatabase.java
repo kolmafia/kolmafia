@@ -48,6 +48,8 @@ public class FamiliarDatabase {
   private static final Set<Integer> sombreroById = new HashSet<>();
   private static final Set<Integer> meatDropById = new HashSet<>();
   private static final Set<Integer> fairyById = new HashSet<>();
+  private static final Set<Integer> boozeFairyById = new HashSet<>();
+  private static final Set<Integer> foodFairyById = new HashSet<>();
 
   private static final Set<Integer> combat0ById = new HashSet<>();
   private static final Set<Integer> combat1ById = new HashSet<>();
@@ -177,6 +179,8 @@ public class FamiliarDatabase {
     FamiliarDatabase.updateType(type, "stat0", id, volleyById);
     FamiliarDatabase.updateType(type, "stat1", id, sombreroById);
     FamiliarDatabase.updateType(type, "item0", id, fairyById);
+    FamiliarDatabase.updateType(type, "item1", id, boozeFairyById);
+    FamiliarDatabase.updateType(type, "item2", id, foodFairyById);
     FamiliarDatabase.updateType(type, "meat0", id, meatDropById);
 
     // The following are "combat" abilities
@@ -384,6 +388,18 @@ public class FamiliarDatabase {
 
   public static final boolean isFairyType(final Integer familiarId) {
     return FamiliarDatabase.fairyById.contains(familiarId);
+  }
+
+  public static final boolean isBoozeFairyType(final Integer familiarId) {
+    return FamiliarDatabase.boozeFairyById.contains(familiarId);
+  }
+
+  public static final boolean isFoodFairyType(final Integer familiarId) {
+    return FamiliarDatabase.foodFairyById.contains(familiarId);
+  }
+
+  public static final boolean isAnyFairyType(final int familiarId) {
+    return isFairyType(familiarId) || isBoozeFairyType(familiarId) || isFoodFairyType(familiarId);
   }
 
   public static final boolean isMeatDropType(final Integer familiarId) {
