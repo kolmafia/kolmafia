@@ -3480,10 +3480,24 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.MOJO_FILTER:
+        // This will always do nothing
+        if (count > 3) {
+          return;
+        }
+
+        // One and one and one is three, and three is the number
+        // of filters your mojo can handle in one day.
+        if (responseText.contains("three is the number of filters")) {
+          // If mojo filters are multi-used and the result would exceed 3, this message is
+          // displayed.
+          // We can adjust the pref to something more sensible when this happens unexpectedly.
+          var current = Preferences.getInteger("currentMojoFilters");
+          Preferences.setInteger("currentMojoFilters", Math.max(4 - count, current));
+          return;
+        }
 
         // You strain some of the toxins out of your mojo, and
         // discard the now-grodulated filter.
-
         if (!responseText.contains("now-grodulated")) {
           return;
         }
