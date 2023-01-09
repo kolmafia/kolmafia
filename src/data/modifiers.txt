@@ -1230,6 +1230,8 @@ Item	carob cannon	Moxie: +7, Adventures: +3, Stench Damage: +5
 Item	Carpathian longsword	Hot Damage: +20, Hot Spell Damage: +20, Monster Level: +10
 Item	carrot-on-a-stick	Moxie: +7, Candy Drop: +50
 Item	cast-iron legacy paddle	Muscle: +15, Weapon Damage: +10
+# ceramic celery grater: Deal 30 damage and cause bleeding
+Item	ceramic celery grater	Mysticality Percent: +20, Spell Critical Percent: +20
 Item	Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
 # charming flute: +20 Damage vs. Snakes
 Item	charming flute	Moxie: +8
@@ -2127,6 +2129,8 @@ Item	cardboard wine carrier	Booze Drop: +50, Lasts Until Rollover
 # carnivorous potted plant: Occasionally swallows your enemy whole
 Item	carnivorous potted plant	Monster Level: +25
 Item	catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
+# ceramic centurion shield: Bash a foe, dealing 30 damage and weakening them
+Item	ceramic centurion shield	Experience (Muscle): +3, Maximum HP: +40, HP Regen Min: 8, HP Regen Max: 16, Damage Reduction: 9
 Item	Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
 # chalk chalice: Weakens enemies who hit you
 Item	chalk chalice	Maximum MP: +15, Hot Spell Damage: +20
@@ -2826,6 +2830,11 @@ Item	Caveman Dan's favorite rock	Maximum HP: +60, Food Drop: +30, Experience (Mu
 Item	cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
 # cement shoes: Makes you sleep like the dead
 Item	cement shoes	Mysticality: +20, Moxie: +20
+# ceramic celsiturometer: Deal 60 Hot Damage to a foe and briefly stun them,
+# ceramic celsiturometer: but also make them very angry
+Item	ceramic celsiturometer	Experience (Mysticality): +3, Maximum MP: +30, MP Regen Min: 6, MP Regen Max: 12
+# ceramic cerecloth belt: Deal 30 Spooky Damage to a target and weaken them
+Item	ceramic cerecloth belt	Moxie Percent: +20, Initiative: +40, Never Fumble
 # ceramic cestus: Punch a foe, dealing 30 damage and briefly stunning them
 Item	ceramic cestus	Muscle Percent: +20, Familiar Weight: +5, Single Equip
 # chalk chain: Weakens enemies who hit you

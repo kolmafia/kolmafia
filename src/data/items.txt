@@ -11046,10 +11046,10 @@
 11018	Champagne Shimmy	129328508	collins.gif	drink	t	0
 11019	the Sot's parcel	113613102	oliver_package.gif	none	q	0
 11020	ceramic cestus	301130325	ceracestus.gif	accessory		0
-11021
-11022
-11023
-11024
+11021	ceramic centurion shield	726046874	cerashield.gif	offhand		0
+11022	ceramic celery grater	766973219	ceragrater.gif	weapon		0
+11023	ceramic celsiturometer	292239483	cerameter.gif	accessory		0
+11024	ceramic cerecloth belt	523770515	cerabelt.gif	accessory		0
 11025	ceramic cenobite's robe	935849680	cerarobe.gif	shirt		0
 11026
 11027
@@ -11135,3 +11135,4 @@
 11107	whet stone	689119937	rgwhetstone.gif	multiple	t,d	5
 11108	hard rock	878413969	rghardrock.gif	usable	t,d	25
 11109	strange stalagmite	720163663	rgstalagmite.gif	reusable	t,d	250
+11110	chocolate covered ping-pong ball	997920598	ccppball.gif	usable	t,d	20
