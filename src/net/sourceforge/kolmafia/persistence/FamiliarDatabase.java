@@ -181,9 +181,9 @@ public class FamiliarDatabase {
     FamiliarDatabase.updateType(type, "stat0", id, volleyById);
     FamiliarDatabase.updateType(type, "stat1", id, sombreroById);
     FamiliarDatabase.updateType(type, "item0", id, fairyById);
-    FamiliarDatabase.updateType(type, "item1", id, boozeFairyById);
-    FamiliarDatabase.updateType(type, "item2", id, candyFairyById);
-    FamiliarDatabase.updateType(type, "item3", id, foodFairyById);
+    FamiliarDatabase.updateType(type, "item1", id, foodFairyById);
+    FamiliarDatabase.updateType(type, "item2", id, boozeFairyById);
+    FamiliarDatabase.updateType(type, "item3", id, candyFairyById);
     FamiliarDatabase.updateType(type, "meat0", id, meatDropById);
 
     // The following are "combat" abilities
