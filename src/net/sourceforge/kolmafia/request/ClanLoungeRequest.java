@@ -77,8 +77,6 @@ public class ClanLoungeRequest extends GenericRequest {
 
   private static final Pattern STANCE_PATTERN = Pattern.compile("stance=(\\d*)");
   private static final Pattern WHICHDOG_PATTERN = Pattern.compile("whichdog=(-\\d*)");
-  private static final Pattern LUCKY_LINDY_PATTERN =
-      Pattern.compile("burp-speak the number <b>(\\d+)</b>.");
   private static final Pattern WHICH_SPEAKEASY_PATTERN = Pattern.compile("drink=(\\d+)");
   private static final Pattern TREE_PATTERN = Pattern.compile("Check back in (\\d+) day");
   private static final Pattern TREE_LEVEL_PATTERN = Pattern.compile("tree(\\d+)(?:nopressie|).gif");
@@ -327,6 +325,57 @@ public class ClanLoungeRequest extends GenericRequest {
   }
 
   // *** Speakeasy ***
+
+  /*
+   * Mechanics of the Clan Speakeasy:
+   *
+   * 1) It is in the Clan VIP Lounge
+   * 2) It provides up to 11 drinks.
+   *    three are always available
+   *    eight have to be unlocked
+   * 3) You can buy unlocked drinks for Meat
+   * 4) Drinks are immediately consumed upon purchase, providing
+   *    inebriety, adventures, stats, effects
+   * 5) You can drink up to three speakeasy drinks a day.
+   *    Duplicates are allowed.
+   *
+   * You need a Clan VIP lounge key to have access to the lounge.
+   *
+   * When you log in, if you have a key, we look at the Clan Lounge.
+   * Similarly, if you switch clans, we look at the clan lounge.
+   * Lastly, if you get a key into inventory, we look at the clan lounge.
+   *
+   * How this should work:
+   *
+   * Each speakeasy drink is a Consumable, complete with a Concoction.
+   * Therefore, they are added to ConcoctionDatabase.usableList when that is filled.
+   * Just like all usables, they are displayed only if they are available.
+   *
+   * Conclusions/implementation:
+   *
+   * 1) For a speakeasy drink to be visible:
+   * -  You need a Clan VIP lounge key
+   * -  You must be in a clan
+   * -  The clan must have a speakeasy
+   * -  The drink must be unlocked
+   * -  You must have enough Meat to buy it
+   * -  You must have drunk fewer than three speakeasy drinks today
+   * 2) This package needs to maintain a list of available drinks
+   * -  This will be cleared when you login or change clans
+   * -  This will be filled when we parse the Clan VIP lounge on login or clan switch
+   *    (This satisfies the first four checks)
+   * 3) A speakeasy concoction on the usables list has initial = 0 (never in inventory)
+   *    and creatable = 0 if the drink is on the available list. If it is on that list,
+   *    creatable can be 0, 1, 2, or 3, depending on available Meat and # of speakeasy
+   *    drinks consumed today.
+   *    (This satisfies the last two checks)
+   * 4) We need to track speakeasy drinks consumed - _speakeasyDrinksDrunk - and trigger
+   *    concoction.resetCalculations() for all speakeasy drinks.
+   *
+   * *** Current implementation adds or removes speakeasy drinks to the usables list.
+   * *** That is incorrect; the list should remain untouched and visibility of the drink
+   * *** determined by the ListCellRenderer
+   */
 
   private static final Set<SpeakeasyDrink> allSpeakeasyDrinks = new HashSet<>();
 
@@ -1815,7 +1864,18 @@ public class ClanLoungeRequest extends GenericRequest {
     }
     if (action.equals("speakeasydrink")) {
       // Do nothing if consumption of a speakeasy drink failed
+      //
       // Find failure messages and handle
+      //
+      // "<Madam>, this is a high-class establishment. I do believe you've
+      //  had enough. Come back after you've... slept it off, as they say."
+      // You've clearly had enough already.
+      // You don't drink, don't drink.
+      // We don't serve minors here, kid. Get lost.
+      // You can't afford that.
+      //
+      // How about detecting the success message? Which is what?
+      //
       if (responseText.contains("We don't serve minors here, kid")
           || responseText.contains("You can't afford that")) {
         return;
