@@ -15,7 +15,6 @@ import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -1000,25 +999,59 @@ public class ModifiersTest {
     assertThat(Modifiers.getModifiers("Skill", skillName).variable, equalTo(variable));
   }
 
-  @ParameterizedTest
-  @CsvSource({
-    FamiliarPool.VAMPIRE_VINTNER + ", " + Modifiers.BOOZEDROP + ", 1.5",
-    FamiliarPool.PEPPERMINT_RHINO + ", " + Modifiers.CANDYDROP + ", 1.0",
-    FamiliarPool.COOKBOOKBAT + ", " + Modifiers.FOODDROP + ", 1.5",
-  })
-  public void otherFairies(final int familiar, final int mod, final double effectiveness) {
-    var cleanups = new Cleanups(withFamiliar(familiar));
-    try (cleanups) {
+  @Nested
+  class FairyFamiliars {
+    private Double fairyFunction(final double effectiveWeight) {
+      return Math.max(Math.sqrt(55 * effectiveWeight) + effectiveWeight - 3, 0);
+    }
+
+    private Modifiers getFamiliarMods(final int weight) {
       Modifiers familiarMods = new Modifiers();
       var fam = KoLCharacter.getFamiliar();
-      fam.setExperience(400);
+      fam.setExperience(weight * weight);
       familiarMods.applyFamiliarModifiers(fam, EquipmentRequest.UNEQUIP);
       KoLCharacter.recalculateAdjustments();
+      return familiarMods;
+    }
 
-      assertThat(fam.getModifiedWeight(), is(20));
-      var effective = 20 * effectiveness;
-      var expected = Math.max(Math.sqrt(55 * effective) + effective - 3, 0);
-      assertThat(familiarMods.get(mod), closeTo(expected, 0.001));
+    @ParameterizedTest
+    @CsvSource({
+      FamiliarPool.BABY_GRAVY_FAIRY + ", 1.0",
+      FamiliarPool.JUMPSUITED_HOUND_DOG + ", 1.25",
+      FamiliarPool.WIZARD_ACTION_FIGURE + ", 0.3333"
+    })
+    public void simpleFairies(final int familiarId, final double effectiveness) {
+      var cleanups = new Cleanups(withFamiliar(familiarId));
+      try (cleanups) {
+        var weight = 20;
+        var familiarMods = getFamiliarMods(weight);
+        assertThat(
+            familiarMods.get(Modifiers.ITEMDROP),
+            closeTo(fairyFunction(weight * effectiveness), 0.001));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      FamiliarPool.VAMPIRE_VINTNER + ", " + Modifiers.BOOZEDROP + ", 1.5, 0.0",
+      FamiliarPool.PEPPERMINT_RHINO + ", " + Modifiers.CANDYDROP + ", 1.0, 1.0",
+      FamiliarPool.COOKBOOKBAT + ", " + Modifiers.FOODDROP + ", 1.5, 0.0",
+    })
+    public void otherFairies(
+        final int familiar,
+        final int mod,
+        final double otherFairyEffectiveness,
+        final double itemFairyEffectiveness) {
+      var cleanups = new Cleanups(withFamiliar(familiar));
+      try (cleanups) {
+        var weight = 20;
+        var familiarMods = getFamiliarMods(weight);
+        assertThat(
+            familiarMods.get(mod), closeTo(fairyFunction(weight * otherFairyEffectiveness), 0.001));
+        assertThat(
+            familiarMods.get(Modifiers.ITEMDROP),
+            closeTo(fairyFunction(weight * itemFairyEffectiveness), 0.001));
+      }
     }
   }
 }

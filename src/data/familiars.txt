@@ -7,7 +7,8 @@
 # stat1 - sombrero-like
 # item0 - Item Drop
 # item1 - Booze Drop
-# item2 - Food Drop
+# item2 - Candy Drop
+# item3 - Food Drop
 # meat0 - Meat Drop
 # combat0 - Physical Attack
 # combat1 - Elemental Attack

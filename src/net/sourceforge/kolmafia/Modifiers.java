@@ -456,7 +456,7 @@ public class Modifiers {
     new DoubleModifier("Volleyball", Pattern.compile("Volley(?:ball)?: " + EXPR)),
     new DoubleModifier("Sombrero", Pattern.compile("Somb(?:rero)?: " + EXPR)),
     new DoubleModifier("Leprechaun", Pattern.compile("Lep(?:rechaun)?: " + EXPR)),
-    new DoubleModifier("Fairy", Pattern.compile("Fairy: " + EXPR)),
+    new DoubleModifier("Fairy", Pattern.compile("(?:^|, )Fairy: " + EXPR)),
     new DoubleModifier("Meat Drop Penalty", Pattern.compile("Meat Drop Penalty: " + EXPR)),
     new DoubleModifier(
         "Hidden Familiar Weight", Pattern.compile("Familiar Weight \\(hidden\\): " + EXPR)),
