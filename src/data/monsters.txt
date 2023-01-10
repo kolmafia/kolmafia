@@ -2080,6 +2080,9 @@ traveling hobo	2251	olivers_hobo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: hobo
 goblin flapper	2252	olivers_gob.gif	Atk: 40 Def: 40 HP: 100 Init: 40 P: goblin EA: sleaze	drink chit (15)	imported taffy (20)	Charleston shoes (n0.2)
 undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init: 50 P: dude Article: an	government per-diem (20)	prohie's hat (n0.2)
 
+# Rock Garden (Jan 2023)
+Moleman	2267	moleman.gif	NOCOPY Scale: 15 Cap: ? Floor: ? Init: -10000 P: humanoid Article: a
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
