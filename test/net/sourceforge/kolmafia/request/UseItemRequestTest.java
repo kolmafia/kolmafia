@@ -286,6 +286,41 @@ class UseItemRequestTest {
     }
   }
 
+  @Nested
+  class MojoFilter {
+    @Test
+    void detectSuccessfulUse() {
+      var cleanups = new Cleanups(withSpleenUse(10), withProperty("currentMojoFilters", 1));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.MOJO_FILTER);
+        req.responseText = html("request/test_use_mojo_filter_success.html");
+        req.processResults();
+
+        assertThat("currentMojoFilters", isSetTo(2));
+        assertThat(KoLCharacter.getSpleenUse(), is(9));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "0, 1, 3", "0, 2, 2", "0, 3, 1", "1, 1, 3", "1, 2, 2", "1, 3, 1", "2, 1, 3", "2, 2, 2",
+      "2, 3, 2", "3, 1, 3", "3, 2, 3", "3, 3, 3"
+    })
+    void detectMaxMojoFilters(final int current, final int count, final int expected) {
+      var cleanups = new Cleanups(withSpleenUse(10), withProperty("currentMojoFilters", current));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.MOJO_FILTER, count);
+        req.responseText = html("request/test_use_mojo_filter_already_maxed.html");
+        req.processResults();
+
+        assertThat("currentMojoFilters", isSetTo(expected));
+        assertThat(KoLCharacter.getSpleenUse(), is(10));
+      }
+    }
+  }
+
   @Test
   void setsBigBookPreference() {
     var cleanups =
