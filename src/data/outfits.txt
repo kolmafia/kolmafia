@@ -170,6 +170,6 @@
 # Treats: Random booze from specific subset
 159	Guzzlr Uniform	guzzlrtat.gif	Guzzlr hat, Guzzlr shoes, Guzzlr pants
 160	Lathed Livery	lathetat.gif	hemlock helm, balsam barrel, purpleheart &quot;pants&quot;, wormwood wedding ring	fistful of wood shavings
-161	Trainbot Trappings	tbottat.gif	head-mounted Trainbot, leg-mounted Trainbots, shoulder-mounted Trainbot
-162	Ceramic Clothing	ceramtat.gif	ceramic cenobite's robe, ceramic cestus
+161	Trainbot Trappings	tbottat.gif	head-mounted Trainbot, leg-mounted Trainbots, shoulder-mounted Trainbot	chocolate covered ping-pong ball
+162	Ceramic Clothing	ceramtat.gif	ceramic celery grater, ceramic centurion shield, ceramic cenobite's robe, ceramic cestus, ceramic cerecloth belt, ceramic celsiturometer
 163	Chiffon Chiffinery	chiffontat.gif	chiffon chemise, chiffon chevrons

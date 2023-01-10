@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
@@ -2165,6 +2166,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("set_ccs", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("read_ccs", DataTypes.BUFFER_TYPE, params));
@@ -8287,6 +8291,20 @@ public abstract class RuntimeLibrary {
     byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
     String location = var2.toString();
     return DataFileCache.printBytes(location, bytes);
+  }
+
+  public static Value set_ccs(ScriptRuntime controller, final Value name) {
+    String ccsName = name.toString();
+    Optional<String> strategy =
+        CombatActionManager.getAvailableLookups().stream()
+            .filter(script -> script.equalsIgnoreCase(ccsName))
+            .findFirst();
+    if (strategy.isPresent()) {
+      CombatActionManager.loadStrategyLookup(strategy.get());
+      return DataTypes.TRUE_VALUE;
+    } else {
+      return DataTypes.FALSE_VALUE;
+    }
   }
 
   public static Value read_ccs(ScriptRuntime controller, final Value name) {
