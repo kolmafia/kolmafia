@@ -1002,10 +1002,11 @@ public class ModifiersTest {
 
   @ParameterizedTest
   @CsvSource({
-    FamiliarPool.VAMPIRE_VINTNER + ", " + Modifiers.BOOZEDROP,
-    FamiliarPool.COOKBOOKBAT + ", " + Modifiers.FOODDROP,
+    FamiliarPool.VAMPIRE_VINTNER + ", " + Modifiers.BOOZEDROP + ", 1.5",
+    FamiliarPool.PEPPERMINT_RHINO + ", " + Modifiers.CANDYDROP + ", 1.0",
+    FamiliarPool.COOKBOOKBAT + ", " + Modifiers.FOODDROP + ", 1.5",
   })
-  public void otherFairies(final int familiar, final int mod) {
+  public void otherFairies(final int familiar, final int mod, final double effectiveness) {
     var cleanups = new Cleanups(withFamiliar(familiar));
     try (cleanups) {
       Modifiers familiarMods = new Modifiers();
@@ -1014,9 +1015,10 @@ public class ModifiersTest {
       familiarMods.applyFamiliarModifiers(fam, EquipmentRequest.UNEQUIP);
       KoLCharacter.recalculateAdjustments();
 
-      assertThat(fam.getModifiedWeight(), equalTo(20));
-      assertThat(familiarMods.get(Modifiers.ITEMDROP), is(0.0));
-      assertThat(familiarMods.get(mod), closeTo(67.62, 0.001));
+      assertThat(fam.getModifiedWeight(), is(20));
+      var effective = 20 * effectiveness;
+      var expected = Math.max(Math.sqrt(55 * effective) + effective - 3, 0);
+      assertThat(familiarMods.get(mod), closeTo(expected, 0.001));
     }
   }
 }
