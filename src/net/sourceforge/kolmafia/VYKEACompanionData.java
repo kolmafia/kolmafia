@@ -132,14 +132,16 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     "level 5 lightning lamp",
   };
 
-  public static final int NONE = 0;
+  public enum VYKEACompanionType {
+    NONE,
 
-  public static final int BOOKSHELF = 1;
-  public static final int DRESSER = 2;
-  public static final int CEILING_FAN = 3;
-  public static final int COUCH = 4;
-  public static final int LAMP = 5;
-  public static final int DISHRACK = 6;
+    BOOKSHELF,
+    DRESSER,
+    CEILING_FAN,
+    COUCH,
+    LAMP,
+    DISHRACK
+  }
 
   public static final AdventureResult NO_RUNE = ItemPool.get("(none)", 1);
   public static final AdventureResult FRENZY_RUNE = ItemPool.get(ItemPool.VYKEA_FRENZY_RUNE, 1);
@@ -147,7 +149,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   public static final AdventureResult LIGHTNING_RUNE =
       ItemPool.get(ItemPool.VYKEA_LIGHTNING_RUNE, 1);
 
-  private final int type;
+  private final VYKEACompanionType type;
   private final int level;
   private final AdventureResult rune;
   private final String name;
@@ -185,18 +187,27 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   }
 
   public VYKEACompanionData() {
-    this(NONE, 0, NO_RUNE, "");
+    this(VYKEACompanionType.NONE, 0, NO_RUNE, "");
   }
 
   public VYKEACompanionData(
-      final int type, final int level, final AdventureResult rune, final String name) {
+      final VYKEACompanionType type,
+      final int level,
+      final AdventureResult rune,
+      final String name) {
     this.type = type;
     this.level = level;
     this.rune = rune;
     this.name = name == null ? "" : name;
 
     // Derived fields
-    this.image = (type < 1 || type > 6) ? "" : ("vykfurn" + type + ".gif");
+    this.image =
+        switch (type) {
+          case NONE -> "";
+          case BOOKSHELF, DRESSER, CEILING_FAN, COUCH, LAMP, DISHRACK -> "vykfurn"
+              + type.ordinal()
+              + ".gif";
+        };
     switch (this.type) {
       case BOOKSHELF -> {
         this.attackElement = Element.SPOOKY;
@@ -232,7 +243,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     this.stringForm = null;
   }
 
-  public int getType() {
+  public VYKEACompanionType getType() {
     return this.type;
   }
 
@@ -260,7 +271,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     return this.attackElement;
   }
 
-  public static String typeToString(final int type) {
+  public static String typeToString(final VYKEACompanionType type) {
     return switch (type) {
       case BOOKSHELF -> "bookshelf";
       case CEILING_FAN -> "ceiling fan";
@@ -276,16 +287,16 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     return VYKEACompanionData.typeToString(this.type);
   }
 
-  public static int stringToType(final String type) {
-    if (type == null) return NONE;
+  public static VYKEACompanionType stringToType(final String type) {
+    if (type == null) return VYKEACompanionType.NONE;
     return switch (type) {
-      case "bookshelf" -> BOOKSHELF;
-      case "ceiling fan" -> CEILING_FAN;
-      case "couch" -> COUCH;
-      case "dishrack" -> DISHRACK;
-      case "dresser" -> DRESSER;
-      case "lamp" -> LAMP;
-      default -> NONE;
+      case "bookshelf" -> VYKEACompanionType.BOOKSHELF;
+      case "ceiling fan" -> VYKEACompanionType.CEILING_FAN;
+      case "couch" -> VYKEACompanionType.COUCH;
+      case "dishrack" -> VYKEACompanionType.DISHRACK;
+      case "dresser" -> VYKEACompanionType.DRESSER;
+      case "lamp" -> VYKEACompanionType.LAMP;
+      default -> VYKEACompanionType.NONE;
     };
   }
 
@@ -329,7 +340,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
       String name = matcher.group(1);
       int level = StringUtilities.parseInt(matcher.group(2));
       String typeString = matcher.group(3);
-      int type = VYKEACompanionData.stringToType(typeString);
+      VYKEACompanionType type = VYKEACompanionData.stringToType(typeString);
       // Use last saved rune
       AdventureResult rune =
           VYKEACompanionData.stringToRune(Preferences.getString("_VYKEACompanionRune"));
@@ -342,12 +353,15 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   public static void settingsToVYKEACompanion() {
     String name = Preferences.getString("_VYKEACompanionName");
     int level = Preferences.getInteger("_VYKEACompanionLevel");
-    int type = VYKEACompanionData.stringToType(Preferences.getString("_VYKEACompanionType"));
+    VYKEACompanionType type =
+        VYKEACompanionData.stringToType(Preferences.getString("_VYKEACompanionType"));
     AdventureResult rune =
         VYKEACompanionData.stringToRune(Preferences.getString("_VYKEACompanionRune"));
 
     VYKEACompanionData companion =
-        type == NONE ? NO_COMPANION : new VYKEACompanionData(type, level, rune, name);
+        type == VYKEACompanionType.NONE
+            ? NO_COMPANION
+            : new VYKEACompanionData(type, level, rune, name);
     VYKEACompanionData.setVYKEACompanion(companion, false);
   }
 
@@ -385,7 +399,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
       String runeString = matcher.group(3);
       AdventureResult rune = VYKEACompanionData.stringToRune(runeString);
       String typeString = matcher.group(4);
-      int type = VYKEACompanionData.stringToType(typeString);
+      VYKEACompanionType type = VYKEACompanionData.stringToType(typeString);
 
       return new VYKEACompanionData(type, level, rune, name);
     }
@@ -546,7 +560,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
 
       String name = matcher.group(2);
       String typeString = matcher.group(1);
-      int type = VYKEACompanionData.stringToType(typeString);
+      VYKEACompanionType type = VYKEACompanionData.stringToType(typeString);
 
       // Set them into preferences
       Preferences.setString("_VYKEACompanionName", name);
@@ -577,7 +591,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     }
 
     if (this.type != o.type) {
-      return this.type - o.type;
+      return this.type.compareTo(o.type);
     }
 
     if (this.rune != o.rune) {
