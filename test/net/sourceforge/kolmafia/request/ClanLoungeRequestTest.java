@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withClan;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -11,6 +13,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -24,6 +27,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -33,6 +37,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class ClanLoungeRequestTest {
   private static final Cleanups CLEANUPS = new Cleanups();
@@ -160,14 +166,6 @@ public class ClanLoungeRequestTest {
      *    concoction.resetCalculations() for all speakeasy drinks.
      */
 
-    public static Cleanups withSpeakeasyReset() {
-      ClanLoungeRequest.resetSpeakeasy();
-      var cleanups = new Cleanups();
-      cleanups.add(withProperty("_speakeasyDrinksDrunk", 0));
-      cleanups.add(new Cleanups(ClanLoungeRequest::resetSpeakeasy));
-      return cleanups;
-    }
-
     private static final AdventureResult GLASS_OF_MILK = ItemPool.get(ItemPool.GLASS_OF_MILK, 1);
     private static final AdventureResult CUP_OF_TEA = ItemPool.get(ItemPool.CUP_OF_TEA, 1);
     private static final AdventureResult THERMOS_OF_WHISKEY =
@@ -224,7 +222,9 @@ public class ClanLoungeRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups = new Cleanups(withHttpClientBuilder(builder), withSpeakeasyReset());
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withClan(), withProperty("_speakeasyDrinksDrunk", 0));
 
       try (cleanups) {
         client.addResponse(200, html("request/test_clan_speakeasy.html"));
@@ -240,6 +240,7 @@ public class ClanLoungeRequestTest {
 
         // All Speakeasy "items" are on ClanLounge collection
         for (var drink : ALL_DRINKS) {
+          assertTrue(ClanLoungeRequest.availableSpeakeasyDrink(drink.getName()));
           assertTrue(ClanLoungeRequest.hasClanLoungeItem(drink));
         }
 
@@ -247,6 +248,78 @@ public class ClanLoungeRequestTest {
 
         assertThat(requests, hasSize(greaterThanOrEqualTo(1)));
         assertPostRequest(requests.get(0), "/clan_viplounge.php", "action=speakeasy&whichfloor=2");
+      }
+    }
+
+    @Test
+    void speakeasyDrinksCanBeUnavailable() {
+      var cleanups =
+          new Cleanups(withClan(), withMeat(10000), withProperty("_speakeasyDrinksDrunk", 0));
+
+      try (cleanups) {
+        Concoction luckyLindy = ConcoctionPool.get(LUCKY_LINDY);
+        Concoction beesKnees = ConcoctionPool.get(BEES_KNEES);
+
+        // Initially, no Speakeasy drinks are available
+        assertFalse(ClanLoungeRequest.availableSpeakeasyDrink(luckyLindy.getName()));
+        assertFalse(ClanLoungeRequest.availableSpeakeasyDrink(beesKnees.getName()));
+
+        // They are on usables list ...
+        var usables = ConcoctionDatabase.getUsables();
+        assertTrue(usables.contains(luckyLindy));
+        assertTrue(usables.contains(beesKnees));
+
+        // But they are not "available" - which means they are not
+        // visible in the item manager.
+        assertEquals(0, luckyLindy.getAvailable());
+        assertEquals(0, beesKnees.getAvailable());
+
+        // Add one of the drinks to the Speakeasy
+        ClanLoungeRequest.addSpeakeasyDrink(beesKnees.getName());
+
+        // It is now both available and visible.
+        assertTrue(ClanLoungeRequest.availableSpeakeasyDrink(beesKnees.getName()));
+        assertEquals(3, beesKnees.getAvailable());
+
+        // Note that visibility depends on both how many speakeasy
+        // drinks you have consumed today and how much Meat they cost.
+        // We will test those with different tests
+      }
+    }
+
+    @Test
+    void speakeasyDrinksCostMeatToBuy() {
+      var cleanups =
+          new Cleanups(withClan(), withMeat(1000), withProperty("_speakeasyDrinksDrunk", 0));
+
+      try (cleanups) {
+        Concoction luckyLindy = ConcoctionPool.get(LUCKY_LINDY);
+
+        // Add Lucky Lindy to the Speakeasy
+        ClanLoungeRequest.addSpeakeasyDrink(luckyLindy.getName());
+
+        // It costs 500 Meat, so two are available
+        assertTrue(ClanLoungeRequest.availableSpeakeasyDrink(luckyLindy.getName()));
+        assertEquals(2, luckyLindy.getAvailable());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 3", "1, 2", "2, 1", "3, 0"})
+    public void speakeasyDrinksAreLimited(int drunk, int available) {
+      var cleanups =
+          new Cleanups(withClan(), withMeat(10000), withProperty("_speakeasyDrinksDrunk", drunk));
+
+      try (cleanups) {
+        Concoction luckyLindy = ConcoctionPool.get(LUCKY_LINDY);
+
+        // Add Lucky Lindy to the Speakeasy
+        ClanLoungeRequest.addSpeakeasyDrink(luckyLindy.getName());
+
+        // It costs 500 Meat, we have plenty of Meat
+        // However, you can only drink three a day
+        assertTrue(ClanLoungeRequest.availableSpeakeasyDrink(luckyLindy.getName()));
+        assertEquals(available, luckyLindy.getAvailable());
       }
     }
   }

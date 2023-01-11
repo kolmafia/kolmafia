@@ -111,6 +111,16 @@ public abstract class ClanManager {
     KoLCharacter.setClan(false);
   }
 
+  // For testing
+  public static void setClan(int clanId, String name) {
+    // Drop all saved clan information
+    ClanManager.clearCache(true);
+
+    // Save new clan information
+    ClanManager.clanId = clanId;
+    ClanManager.clanName = clanName;
+  }
+
   private static void retrieveClanIdAndName() {
     if (ClanManager.clanId != 0) {
       return;

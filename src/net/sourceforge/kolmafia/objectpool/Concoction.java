@@ -776,10 +776,10 @@ public class Concoction implements Comparable<Concoction> {
     this.allocated = 0;
 
     if (this.speakeasy) {
-      this.initial =
-          Math.min(
-              Concoction.getAvailableMeat() / this.price,
-              3 - Preferences.getInteger("_speakeasyDrinksDrunk"));
+      boolean available = ClanLoungeRequest.availableSpeakeasyDrink(this.name);
+      int affordableNumber = Concoction.getAvailableMeat() / this.price;
+      int drinkableNumber = 3 - Preferences.getInteger("_speakeasyDrinksDrunk");
+      this.initial = available ? Math.min(affordableNumber, drinkableNumber) : 0;
       this.creatable = 0;
       this.total = this.initial;
       this.freeTotal = this.initial;
