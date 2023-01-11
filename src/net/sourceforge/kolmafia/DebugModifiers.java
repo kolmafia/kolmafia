@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 public class DebugModifiers extends Modifiers {
   private static HashMap<Integer, String> wanted, adjustments;
   private static String currentType;
-  private static String currentDesc;
+  private static String currentName;
   private static StringBuilder buffer;
 
   public static int setup(String parameters) {
@@ -26,17 +26,17 @@ public class DebugModifiers extends Modifiers {
       }
     }
     DebugModifiers.currentType = "type";
-    DebugModifiers.currentDesc = "source";
+    DebugModifiers.currentName = "source";
     DebugModifiers.buffer = new StringBuilder("<table border=2>");
     return DebugModifiers.wanted.size();
   }
 
   private static String getDesc() {
     return switch (DebugModifiers.currentType) {
-      case "Item" -> ItemDatabase.getItemDisplayName(DebugModifiers.currentDesc);
-      case "Effect" -> EffectDatabase.getEffectDisplayName(DebugModifiers.currentDesc);
-      case "Skill" -> SkillDatabase.getSkillDisplayName(DebugModifiers.currentDesc);
-      default -> DebugModifiers.currentDesc;
+      case "Item" -> ItemDatabase.getItemDisplayName(DebugModifiers.currentName);
+      case "Effect" -> EffectDatabase.getEffectDisplayName(DebugModifiers.currentName);
+      case "Skill" -> SkillDatabase.getSkillDisplayName(DebugModifiers.currentName);
+      default -> DebugModifiers.currentName;
     };
   }
 
@@ -55,35 +55,28 @@ public class DebugModifiers extends Modifiers {
   }
 
   @Override
-  public void add(final int index, final double mod, final String desc) {
+  protected void addDouble(
+      final int index, final double mod, final ModifierType type, final IntOrString key) {
     if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS || mod == 0.0) {
       return;
     }
 
-    super.add(index, mod, desc);
+    Lookup lookup = new Lookup(type, key);
 
-    Integer key = index;
-    if (!DebugModifiers.wanted.containsKey(key)) {
+    super.addDouble(index, mod, type, key);
+
+    if (!DebugModifiers.wanted.containsKey(index)) {
       return;
     }
 
-    String type;
-    String name;
-    int ind = desc.indexOf(":");
-    if (ind > 0) {
-      type = desc.substring(0, ind);
-      name = desc.replace(type + ":", "");
-    } else {
-      type = "";
-      name = desc;
-    }
-    if (!desc.equals(DebugModifiers.currentDesc) || DebugModifiers.adjustments.containsKey(key)) {
+    String name = lookup.getName();
+    if (!name.equals(DebugModifiers.currentName) || DebugModifiers.adjustments.containsKey(index)) {
       DebugModifiers.flushRow();
     }
-    DebugModifiers.currentType = type;
-    DebugModifiers.currentDesc = name;
+    DebugModifiers.currentType = type.wordsName();
+    DebugModifiers.currentName = name;
     DebugModifiers.adjustments.put(
-        key,
+        index,
         "<td>"
             + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(mod)
             + "</td><td>=&nbsp;"
@@ -106,24 +99,16 @@ public class DebugModifiers extends Modifiers {
       String modifier = DebugModifiers.wanted.get(key);
       DebugModifiers.buffer.append(modifier);
       ArrayList<Change> modChangers = new ArrayList<>();
-      for (String lookup : Modifiers.getAllModifiers()) {
-        String type;
-        String name;
-        int ind = lookup.indexOf(":");
-        if (ind > 0) {
-          type = lookup.substring(0, ind);
-          name = lookup.replace(type + ":", "");
-        } else {
-          type = "";
-          name = lookup;
-        }
-        Modifiers mods = Modifiers.getModifiers(type, name);
+      for (Lookup lookup : Modifiers.getAllModifiers()) {
+        Modifiers mods = Modifiers.getModifiers(lookup);
         if (mods == null) {
           continue;
         }
         double value = mods.get(key);
         if (value != 0.0) {
-          modChangers.add(new Change(type, name, value, mods.variable));
+          ModifierType type = lookup.type;
+          String name = lookup.getName();
+          modChangers.add(new Change(type.wordsName(), name, value, mods.variable));
         }
       }
       if (modChangers.size() > 0) {

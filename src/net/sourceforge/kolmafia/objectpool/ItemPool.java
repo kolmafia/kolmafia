@@ -2851,7 +2851,7 @@ public class ItemPool {
   public static final int FISHING_LINE = 9010;
   public static final int FISHING_HAT = 9011;
   public static final int TROUT_FISHING_IN_LOATHING = 9012;
-  public static final int ANTIQUE_TACKLE_BOX = 9015;
+  public static final int ANTIQUE_TACKLEBOX = 9015;
   public static final int VIRAL_VIDEO = 9017;
   public static final int MEME_GENERATOR = 9019;
   public static final int PLUS_ONE = 9020;
@@ -3084,6 +3084,7 @@ public class ItemPool {
   public static final int DONATED_BOOZE = 9662;
   public static final int DONATED_FOOD = 9663;
   public static final int DONATED_CANDY = 9664;
+  public static final int MIME_ARMY_INSIGNIA_INFANTRY = 9667;
   public static final int MIME_ARMY_INFILTRATION_GLOVE = 9675;
   public static final int MIME_SHOTGLASS = 9676;
   public static final int TOASTED_HALF_SANDWICH = 9681;

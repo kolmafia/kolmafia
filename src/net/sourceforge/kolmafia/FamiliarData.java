@@ -318,7 +318,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     int itemId = getItem().getItemId();
     if (itemId == ItemPool.MAYFLOWER_BOUQUET) {
       String modifierName = Modifiers.getModifierName(Modifiers.FAMILIAR_EXP);
-      double itemModifier = Modifiers.getNumericModifier("Item", itemId, modifierName);
+      double itemModifier = Modifiers.getNumericModifier(ModifierType.ITEM, itemId, modifierName);
 
       experienceModifier -= itemModifier;
 
@@ -1324,7 +1324,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.HAND:
         // Disembodied Hand can't equip Mainhand only items or Single Equip items
         if (!EquipmentDatabase.isMainhandOnly(itemId)
-            && !Modifiers.getBooleanModifier("Item", name, "Single Equip")) {
+            && !Modifiers.getBooleanModifier(ModifierType.ITEM, name, "Single Equip")) {
           return true;
         }
         break;

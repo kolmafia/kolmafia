@@ -128,14 +128,14 @@ public class ClanLoungeRequest extends GenericRequest {
 
   // *** Hot Dog Stand ***
 
-  record HotDogData(
+  public record HotDogData(
       String name, int id, int fullness, AdventureResult item, AdventureResult unlocker) {
     HotDogData(String name, int id, int fullness) {
       this(name, id, fullness, null, null);
     }
   }
 
-  static final HotDogData[] HOTDOG_DATA = {
+  public static final HotDogData[] HOTDOG_DATA = {
     new HotDogData("basic hot dog", -92, 1),
     new HotDogData(
         "savage macho dog",

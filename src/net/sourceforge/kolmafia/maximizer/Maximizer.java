@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -14,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -96,7 +98,7 @@ public class Maximizer {
     }
 
     Modifiers mods = Maximizer.best.calculate();
-    Modifiers.overrideModifier("Generated:_spec", mods);
+    Modifiers.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
     return !Maximizer.best.failed;
   }
@@ -195,11 +197,12 @@ public class Maximizer {
       return;
     }
 
-    for (String lookup : Modifiers.getAllModifiers()) {
-      // Include skills from absorbing items in Noobcore
-      if (KoLCharacter.inNoobcore() && lookup.startsWith("Skill:")) {
-        String name = lookup.substring(6);
-        int skillId = SkillDatabase.getSkillId(name);
+    // Include skills from absorbing items in Noobcore
+    if (KoLCharacter.inNoobcore()) {
+      for (Map.Entry<Modifiers.IntOrString, String> entry :
+          Modifiers.getAllModifiersOfType(ModifierType.SKILL)) {
+        if (!entry.getKey().isInt()) continue;
+        int skillId = entry.getKey().getIntValue();
         if (skillId < 23001 || skillId > 23125) {
           continue;
         }
@@ -211,7 +214,7 @@ public class Maximizer {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();
-        String mods = Modifiers.getModifierList("Skill", name).toString();
+        String mods = entry.getValue();
         spec.setCustom(mods);
         double delta = spec.getScore() - current;
         if (delta <= 0.0) {
@@ -237,10 +240,12 @@ public class Maximizer {
           count++;
         }
       }
+
       // Include enchantments from absorbing equipment in Noobcore
-      else if (KoLCharacter.inNoobcore() && lookup.startsWith("Item:")) {
-        String name = lookup.substring(5);
-        int itemId = ItemDatabase.getItemId(name);
+      for (Map.Entry<Modifiers.IntOrString, String> entry :
+          Modifiers.getAllModifiersOfType(ModifierType.ITEM)) {
+        if (!entry.getKey().isInt()) continue;
+        int itemId = entry.getKey().getIntValue();
         int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
         if (absorbsLeft < 1) {
           continue;
@@ -310,16 +315,19 @@ public class Maximizer {
         text = text + "]";
         Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
       }
+    }
 
-      if (lookup.startsWith("Horsery:")
-          && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+    if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+      for (Map.Entry<Modifiers.IntOrString, String> entry :
+          Modifiers.getAllModifiersOfType(ModifierType.HORSERY)) {
+        if (!entry.getKey().isString()) continue;
+        String name = entry.getKey().getStringValue();
         // Must be available in your current path
         if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
           continue;
         }
         String cmd, text;
         int price = 0;
-        String name = lookup.substring(8);
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setHorsery(name);
         double delta = spec.getScore() - current;
@@ -347,10 +355,11 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
-      if (lookup.startsWith("BoomBox:")
-          && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+      for (Map.Entry<Modifiers.IntOrString, String> entry :
+          Modifiers.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
+        if (!entry.getKey().isString()) continue;
+        String name = entry.getKey().getStringValue();
         String cmd, text;
-        String name = lookup.substring(8);
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setBoomBox(name);
         double delta = spec.getScore() - current;
@@ -379,12 +388,12 @@ public class Maximizer {
         }
         Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
       }
+    }
 
-      if (!lookup.startsWith("Effect:")) {
-        continue;
-      }
-      String name = lookup.substring(7);
-      int effectId = EffectDatabase.getEffectId(name);
+    for (Map.Entry<Modifiers.IntOrString, String> entry :
+        Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
+      if (!entry.getKey().isInt()) continue;
+      int effectId = entry.getKey().getIntValue();
       if (effectId == -1) {
         continue;
       }
@@ -393,7 +402,7 @@ public class Maximizer {
       boolean isSpecial = false;
       MaximizerSpeculation spec = new MaximizerSpeculation();
       AdventureResult effect = EffectPool.get(effectId);
-      name = effect.getName();
+      String name = effect.getName();
       boolean hasEffect = KoLConstants.activeEffects.contains(effect);
       Iterator<String> sources;
 
@@ -607,7 +616,7 @@ public class Maximizer {
                 && Preferences.getBoolean("_fancyHotDogEaten")) {
               continue;
             } else {
-              Modifiers effMod = Modifiers.getModifiers("Item", iName);
+              Modifiers effMod = Modifiers.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
                 duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
               }

@@ -50,7 +50,8 @@ public class ModifierExpressionTest {
       names = {"NONE", "SHADOW", "BADSPELLING"},
       mode = EnumSource.Mode.EXCLUDE)
   public void canReadElementalResistance(MonsterDatabase.Element element) {
-    Modifiers.overrideModifier("Generated:_userMods", element.toTitle() + " Resistance: +10");
+    Modifiers.overrideModifier(
+        ModifierType.GENERATED, "_userMods", element.toTitle() + " Resistance: +10");
     KoLCharacter.recalculateAdjustments();
     var exp = new ModifierExpression("res(" + element + ")", element.toTitle());
     assertEquals(10, exp.eval());
@@ -222,7 +223,9 @@ public class ModifierExpressionTest {
     final var cleanups = withDay(2008, Month.FEBRUARY, 17, 12, 0);
 
     try (cleanups) {
-      var exp = new ModifierExpression("event(Sneaky Pete's Day)", "Event: Sneaky Pete's day");
+      var exp =
+          new ModifierExpression(
+              "event(Sneaky Pete's Day)", ModifierType.EVENT, "Sneaky Pete's day");
       assertThat(exp.eval(), is(1.0));
     }
   }
@@ -232,7 +235,7 @@ public class ModifierExpressionTest {
     final var cleanups = withDay(2021, Month.DECEMBER, 3);
 
     try (cleanups) {
-      var exp = new ModifierExpression("event(December)", "Event: December");
+      var exp = new ModifierExpression("event(December)", ModifierType.EVENT, "December");
       assertThat(exp.eval(), is(1.0));
     }
   }
@@ -260,7 +263,7 @@ public class ModifierExpressionTest {
 
     try (cleanups) {
       assertThat(
-          Modifiers.getStringModifier("Effect", "Bow-Legged Swagger", "Modifiers"),
+          Modifiers.getStringModifier(ModifierType.EFFECT, "Bow-Legged Swagger", "Modifiers"),
           containsString("mod("));
       KoLCharacter.recalculateAdjustments();
 
@@ -353,7 +356,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectHoboPower() {
-    Modifiers.overrideModifier("Generated:_userMods", "Hobo Power: +21");
+    Modifiers.overrideModifier(ModifierType.GENERATED, "_userMods", "Hobo Power: +21");
     KoLCharacter.recalculateAdjustments();
 
     var exp = new ModifierExpression("H", "Hobo Power");
@@ -448,7 +451,7 @@ public class ModifierExpressionTest {
     var cleanups = withEffect("Bad Luck", 123);
 
     try (cleanups) {
-      var exp = new ModifierExpression("T", "Effect:Bad Luck");
+      var exp = new ModifierExpression("T", ModifierType.EFFECT, "Bad Luck");
       assertThat(exp.eval(), is(123.0));
     }
   }

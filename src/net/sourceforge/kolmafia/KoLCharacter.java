@@ -270,9 +270,9 @@ public abstract class KoLCharacter {
       };
 
   private static final PreferenceModifiers mummeryMods =
-      new PreferenceModifiers("_mummeryMods", "Mummery");
+      new PreferenceModifiers("_mummeryMods", ModifierType.MUMMERY);
   private static final PreferenceModifiers voteMods =
-      new PreferenceModifiers("_voteModifier", "Local Vote");
+      new PreferenceModifiers("_voteModifier", ModifierType.LOCAL_VOTE);
 
   // Status pane data which is rendered whenever
   // the user changes equipment, effects, and familiar
@@ -420,7 +420,8 @@ public abstract class KoLCharacter {
 
     RelayRequest.reset();
 
-    Modifiers.overrideModifier("Generated:_userMods", Preferences.getString("_userMods"));
+    Modifiers.overrideModifier(
+        ModifierType.GENERATED, "_userMods", Preferences.getString("_userMods"));
 
     // Things that don't need to be reset when you ascend
     if (newCharacter) {
@@ -4964,16 +4965,18 @@ public abstract class KoLCharacter {
             && (offhand == null || offhand == EquipmentRequest.UNEQUIP);
 
     // Area-specific adjustments
-    newModifiers.add(Modifiers.getModifiers("Loc", Modifiers.currentLocation));
-    newModifiers.add(Modifiers.getModifiers("Zone", Modifiers.currentZone));
+    newModifiers.add(Modifiers.getModifiers(ModifierType.LOC, Modifiers.currentLocation));
+    newModifiers.add(Modifiers.getModifiers(ModifierType.ZONE, Modifiers.currentZone));
 
     // Look at sign-specific adjustments
-    newModifiers.add(Modifiers.MONSTER_LEVEL, MCD, "MCD:MCD");
-    newModifiers.add(Modifiers.getModifiers("Sign", KoLCharacter.ascensionSign.getName()));
+    newModifiers.addDouble(
+        Modifiers.MONSTER_LEVEL, MCD, ModifierType.MCD, "Monster Control Device");
+    newModifiers.add(
+        Modifiers.getModifiers(ModifierType.SIGN, KoLCharacter.ascensionSign.getName()));
 
     // If we are out of ronin/hardcore, look at stat day adjustments
     if (KoLCharacter.canInteract() && !KoLmafia.statDay.equals("None")) {
-      newModifiers.add(Modifiers.getModifiers("StatDay", KoLmafia.statDay));
+      newModifiers.add(Modifiers.getModifiers(ModifierType.EVENT, KoLmafia.statDay));
     }
 
     // Certain outfits give benefits to the character
@@ -4982,7 +4985,7 @@ public abstract class KoLCharacter {
     SpecialOutfit outfit = EquipmentManager.currentOutfit(equipment);
     if (outfit != null) {
       newModifiers.setString(Modifiers.OUTFIT, outfit.getName());
-      newModifiers.add(Modifiers.getModifiers("Outfit", outfit.getName()));
+      newModifiers.add(Modifiers.getModifiers(ModifierType.OUTFIT, outfit.getName()));
       // El Vibrato Relics may have additional benefits based on
       // punchcards inserted into the helmet:
       if (outfit.getOutfitId() == OutfitPool.VIBRATO_RELICS
@@ -4994,34 +4997,42 @@ public abstract class KoLCharacter {
           if (level > 0)
             switch (i) {
               case 1:
-                newModifiers.add(Modifiers.WEAPON_DAMAGE, level * 20, "El Vibrato:ATTACK");
+                newModifiers.addDouble(
+                    Modifiers.WEAPON_DAMAGE, level * 20, ModifierType.EL_VIBRATO, "ATTACK");
                 break;
               case 2:
-                newModifiers.add(Modifiers.HP, level * 100, "El Vibrato:BUILD");
+                newModifiers.addDouble(Modifiers.HP, level * 100, ModifierType.EL_VIBRATO, "BUILD");
                 break;
               case 3:
-                newModifiers.add(Modifiers.MP, level * 100, "El Vibrato:BUFF");
+                newModifiers.addDouble(Modifiers.MP, level * 100, ModifierType.EL_VIBRATO, "BUFF");
                 break;
               case 4:
-                newModifiers.add(Modifiers.MONSTER_LEVEL, level * 10, "El Vibrato:MODIFY");
+                newModifiers.addDouble(
+                    Modifiers.MONSTER_LEVEL, level * 10, ModifierType.EL_VIBRATO, "MODIFY");
                 break;
               case 5:
-                newModifiers.add(Modifiers.HP_REGEN_MIN, level * 16, "El Vibrato:REPAIR");
-                newModifiers.add(Modifiers.HP_REGEN_MAX, level * 20, "El Vibrato:REPAIR");
+                newModifiers.addDouble(
+                    Modifiers.HP_REGEN_MIN, level * 16, ModifierType.EL_VIBRATO, "REPAIR");
+                newModifiers.addDouble(
+                    Modifiers.HP_REGEN_MAX, level * 20, ModifierType.EL_VIBRATO, "REPAIR");
                 break;
               case 6:
-                newModifiers.add(Modifiers.SPELL_DAMAGE_PCT, level * 10, "El Vibrato:TARGET");
+                newModifiers.addDouble(
+                    Modifiers.SPELL_DAMAGE_PCT, level * 10, ModifierType.EL_VIBRATO, "TARGET");
                 break;
               case 7:
-                newModifiers.add(Modifiers.INITIATIVE, level * 20, "El Vibrato:SELF");
+                newModifiers.addDouble(
+                    Modifiers.INITIATIVE, level * 20, ModifierType.EL_VIBRATO, "SELF");
                 break;
               case 8:
                 if (Modifiers.currentFamiliar.contains("megadrone")) {
-                  newModifiers.add(Modifiers.FAMILIAR_WEIGHT, level * 10, "El Vibrato:DRONE");
+                  newModifiers.addDouble(
+                      Modifiers.FAMILIAR_WEIGHT, level * 10, ModifierType.EL_VIBRATO, "DRONE");
                 }
                 break;
               case 9:
-                newModifiers.add(Modifiers.DAMAGE_REDUCTION, level * 3, "El Vibrato:WALL");
+                newModifiers.addDouble(
+                    Modifiers.DAMAGE_REDUCTION, level * 3, ModifierType.EL_VIBRATO, "WALL");
                 break;
             }
         }
@@ -5049,8 +5060,11 @@ public abstract class KoLCharacter {
     // Consider fake hands
     int fakeHands = EquipmentManager.getFakeHands();
     if (fakeHands > 0) {
-      newModifiers.add(
-          Modifiers.WEAPON_DAMAGE, -1 * fakeHands, "Hands:fake hand (" + fakeHands + ")");
+      newModifiers.addDouble(
+          Modifiers.WEAPON_DAMAGE,
+          -1 * fakeHands,
+          ModifierType.FAKE_HANDS,
+          "fake hand (" + fakeHands + ")");
     }
 
     int brimstoneMonsterLevel = 1 << newModifiers.getBitmap(Modifiers.BRIMSTONE);
@@ -5058,19 +5072,23 @@ public abstract class KoLCharacter {
     // one is worn, but this is confirmed to not be true now.
     // Also affects item/meat drop, but only one is needed
     if (brimstoneMonsterLevel > 1) {
-      newModifiers.add(Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, "Outfit:brimstone");
-      newModifiers.add(Modifiers.MEATDROP, brimstoneMonsterLevel, "Outfit:brimstone");
-      newModifiers.add(Modifiers.ITEMDROP, brimstoneMonsterLevel, "Outfit:brimstone");
+      newModifiers.addDouble(
+          Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, ModifierType.OUTFIT, "Brimstone");
+      newModifiers.addDouble(
+          Modifiers.MEATDROP, brimstoneMonsterLevel, ModifierType.OUTFIT, "Brimstone");
+      newModifiers.addDouble(
+          Modifiers.ITEMDROP, brimstoneMonsterLevel, ModifierType.OUTFIT, "Brimstone");
     }
 
     int cloathingLevel = 1 << newModifiers.getBitmap(Modifiers.CLOATHING);
     // Cloathing gives item/meat drop and all stats.
     if (cloathingLevel > 1) {
-      newModifiers.add(Modifiers.MOX_PCT, cloathingLevel, "Outfit:cloathing");
-      newModifiers.add(Modifiers.MUS_PCT, cloathingLevel, "Outfit:cloathing");
-      newModifiers.add(Modifiers.MYS_PCT, cloathingLevel, "Outfit:cloathing");
-      newModifiers.add(Modifiers.MEATDROP, cloathingLevel, "Outfit:cloathing");
-      newModifiers.add(Modifiers.ITEMDROP, cloathingLevel / 2, "Outfit:cloathing");
+      newModifiers.addDouble(Modifiers.MOX_PCT, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
+      newModifiers.addDouble(Modifiers.MUS_PCT, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
+      newModifiers.addDouble(Modifiers.MYS_PCT, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
+      newModifiers.addDouble(Modifiers.MEATDROP, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
+      newModifiers.addDouble(
+          Modifiers.ITEMDROP, cloathingLevel / 2, ModifierType.OUTFIT, "Cloathing");
     }
 
     // Add modifiers from Passive Skills
@@ -5104,19 +5122,21 @@ public abstract class KoLCharacter {
     }
 
     if (HolidayDatabase.getRonaldPhase() == 5) {
-      newModifiers.add(Modifiers.RESTING_MP_PCT, 100, "Moons:Ronald full");
+      newModifiers.addDouble(
+          Modifiers.RESTING_MP_PCT, 100, ModifierType.EVENT, "Moons (Ronald full)");
     }
 
     if (HolidayDatabase.getGrimacePhase() == 5) {
-      newModifiers.add(Modifiers.RESTING_HP_PCT, 100, "Moons:Grimace full");
+      newModifiers.addDouble(
+          Modifiers.RESTING_HP_PCT, 100, ModifierType.EVENT, "Moons (Grimace full)");
     }
 
     if (ChateauRequest.ceiling != null) {
-      newModifiers.add(Modifiers.getModifiers("Item", ChateauRequest.ceiling));
+      newModifiers.add(Modifiers.getModifiers(ModifierType.ITEM, ChateauRequest.ceiling));
     }
 
     for (String equip : ClanManager.getClanRumpus()) {
-      newModifiers.add(Modifiers.getModifiers("Rumpus", equip));
+      newModifiers.add(Modifiers.getModifiers(ModifierType.RUMPUS, equip));
     }
 
     // Add other oddball interactions
@@ -5131,7 +5151,7 @@ public abstract class KoLCharacter {
     if (ascensionClass == AscensionClass.PASTAMANCER) {
       PastaThrallData thrall = KoLCharacter.currentPastaThrall;
       if (thrall != PastaThrallData.NO_THRALL) {
-        newModifiers.add(Modifiers.getModifiers("Thrall", thrall.getType()));
+        newModifiers.add(Modifiers.getModifiers(ModifierType.THRALL, thrall.getType()));
       }
     }
 
@@ -5139,9 +5159,10 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.getAscensions() == Preferences.getInteger("lastQuartetAscension")) {
       switch (Preferences.getInteger("lastQuartetRequest")) {
-        case 1 -> newModifiers.add(Modifiers.MONSTER_LEVEL, 5, "Ballroom:quartet");
-        case 2 -> newModifiers.add(Modifiers.COMBAT_RATE, -5, "Ballroom:quartet");
-        case 3 -> newModifiers.add(Modifiers.ITEMDROP, 5, "Ballroom:quartet");
+        case 1 -> newModifiers.addDouble(Modifiers.MONSTER_LEVEL, 5, ModifierType.BALLROOM, "ML");
+        case 2 -> newModifiers.addDouble(
+            Modifiers.COMBAT_RATE, -5, ModifierType.BALLROOM, "Combat");
+        case 3 -> newModifiers.addDouble(Modifiers.ITEMDROP, 5, ModifierType.BALLROOM, "Item");
       }
     }
 
@@ -5150,34 +5171,36 @@ public abstract class KoLCharacter {
 
     // Add modifiers from inventory
     if (InventoryManager.getCount(ItemPool.FISHING_POLE) > 0) {
-      newModifiers.add(Modifiers.FISHING_SKILL, 20, "Inventory Item:fishin' pole");
+      newModifiers.addDouble(
+          Modifiers.FISHING_SKILL, 20, ModifierType.INVENTORY_ITEM, "fishin' pole");
     }
-    if (InventoryManager.getCount(ItemPool.ANTIQUE_TACKLE_BOX) > 0) {
-      newModifiers.add(Modifiers.FISHING_SKILL, 5, "Inventory Item:antique tacklebox");
+    if (InventoryManager.getCount(ItemPool.ANTIQUE_TACKLEBOX) > 0) {
+      newModifiers.addDouble(
+          Modifiers.FISHING_SKILL, 5, ModifierType.INVENTORY_ITEM, "antique tacklebox");
     }
 
     // Boombox, no check for having one so it can work with Maximizer "show things you don't have"
-    newModifiers.add(Modifiers.getModifiers("BoomBox", boomBox));
+    newModifiers.add(Modifiers.getModifiers(ModifierType.BOOM_BOX, boomBox));
 
     // Apply variable location modifiers
     newModifiers.applyAutumnatonModifiers();
     newModifiers.applyFloristModifiers();
 
     // Horsery
-    newModifiers.add(Modifiers.getModifiers("Horsery", horsery));
+    newModifiers.add(Modifiers.getModifiers(ModifierType.HORSERY, horsery));
 
     // Voting Booth
     newModifiers.add(voteMods.get());
 
     // Miscellaneous
 
-    newModifiers.add(Modifiers.getModifiers("Generated", "_userMods"));
-    Modifiers fightMods = Modifiers.getModifiers("Generated", "fightMods");
+    newModifiers.add(Modifiers.getModifiers(ModifierType.GENERATED, "_userMods"));
+    Modifiers fightMods = Modifiers.getModifiers(ModifierType.GENERATED, "fightMods");
     newModifiers.add(fightMods);
 
     // Temporary custom modifier
     if (custom != null) {
-      newModifiers.add(Modifiers.parseModifiers("Generated:custom", custom));
+      newModifiers.add(Modifiers.parseModifiers(ModifierType.GENERATED, "custom", custom));
     }
 
     // Store some modifiers as statics
@@ -5187,41 +5210,52 @@ public abstract class KoLCharacter {
     if (Modifiers.currentLocation.equals("The Slime Tube")) {
       int hatred = (int) newModifiers.get(Modifiers.SLIME_HATES_IT);
       if (hatred > 0) {
-        newModifiers.add(
+        newModifiers.addDouble(
             Modifiers.MONSTER_LEVEL,
             Math.min(1000, 15 * hatred * (hatred + 2)),
-            "Outfit:slime hatred");
+            ModifierType.OUTFIT,
+            "Slime Hatred");
       }
     }
 
     // Path specific modifiers
 
     // Add modifiers from Current Path
-    newModifiers.add(Modifiers.getModifiers("Path", KoLCharacter.ascensionPath.toString()));
+    newModifiers.add(
+        Modifiers.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
 
     // If Sneaky Pete, add Motorbike effects
 
     if (KoLCharacter.isSneakyPete()) {
       newModifiers.add(
-          Modifiers.getModifiers("Motorbike", Preferences.getString("peteMotorbikeTires")));
+          Modifiers.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeTires")));
       newModifiers.add(
-          Modifiers.getModifiers("Motorbike", Preferences.getString("peteMotorbikeGasTank")));
+          Modifiers.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeGasTank")));
       newModifiers.add(
-          Modifiers.getModifiers("Motorbike", Preferences.getString("peteMotorbikeHeadlight")));
+          Modifiers.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeHeadlight")));
       newModifiers.add(
-          Modifiers.getModifiers("Motorbike", Preferences.getString("peteMotorbikeCowling")));
+          Modifiers.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeCowling")));
       newModifiers.add(
-          Modifiers.getModifiers("Motorbike", Preferences.getString("peteMotorbikeMuffler")));
+          Modifiers.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeMuffler")));
       newModifiers.add(
-          Modifiers.getModifiers("Motorbike", Preferences.getString("peteMotorbikeSeat")));
+          Modifiers.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeSeat")));
     }
 
     // If in Nuclear Autumn, add Radiation Sickness
 
     if (KoLCharacter.inNuclearAutumn() && KoLCharacter.getRadSickness() > 0) {
-      newModifiers.add(Modifiers.MUS, -KoLCharacter.getRadSickness(), "Path:Rads");
-      newModifiers.add(Modifiers.MYS, -KoLCharacter.getRadSickness(), "Path:Rads");
-      newModifiers.add(Modifiers.MOX, -KoLCharacter.getRadSickness(), "Path:Rads");
+      newModifiers.addDouble(
+          Modifiers.MUS, -KoLCharacter.getRadSickness(), ModifierType.PATH, "Rads");
+      newModifiers.addDouble(
+          Modifiers.MYS, -KoLCharacter.getRadSickness(), ModifierType.PATH, "Rads");
+      newModifiers.addDouble(
+          Modifiers.MOX, -KoLCharacter.getRadSickness(), ModifierType.PATH, "Rads");
     }
 
     if (KoLCharacter.inAxecore() && KoLCharacter.currentInstrument != null) {
@@ -5238,17 +5272,18 @@ public abstract class KoLCharacter {
     }
 
     if (KoLCharacter.inNoobcore()) {
-      newModifiers.add(Modifiers.getModifiers("Generated", "Enchantments Absorbed"));
+      newModifiers.add(Modifiers.getModifiers(ModifierType.GENERATED, "Enchantments Absorbed"));
     }
 
     if (KoLCharacter.inDisguise() && KoLCharacter.getMask() != null) {
-      newModifiers.add(Modifiers.getModifiers("Mask", KoLCharacter.getMask()));
+      newModifiers.add(Modifiers.getModifiers(ModifierType.MASK, KoLCharacter.getMask()));
     }
 
     if (KoLCharacter.isVampyre()) {
       MonsterData ensorcelee = MonsterDatabase.findMonster(Preferences.getString("ensorcelee"));
       if (ensorcelee != null) {
-        newModifiers.add(Modifiers.getModifiers("Ensorcel", ensorcelee.getPhylum().toString()));
+        newModifiers.add(
+            Modifiers.getModifiers(ModifierType.ENSORCEL, ensorcelee.getPhylum().toString()));
       }
     }
 
@@ -5275,8 +5310,8 @@ public abstract class KoLCharacter {
       if (WL > 0) {
         WL += (int) KoLCharacter.currentModifiers.get(Modifiers.WATER_LEVEL);
         WL = WL < 1 ? 1 : Math.min(WL, 6);
-        newModifiers.add(
-            Modifiers.EXPERIENCE, (double) WL * 10 / 3.0f, "Water Level:Water Level*10/3");
+        newModifiers.addDouble(
+            Modifiers.EXPERIENCE, (double) WL * 10 / 3.0f, ModifierType.PATH, "Water Level*10/3");
       }
     }
 
@@ -5309,20 +5344,26 @@ public abstract class KoLCharacter {
               .toArray();
 
       if (all) {
-        newModifiers.add(Modifiers.MUS_EXPERIENCE + prime, 1 + statExp[prime], "Class:EXP");
+        newModifiers.addDouble(
+            Modifiers.MUS_EXPERIENCE + prime, 1 + statExp[prime], ModifierType.CLASS, "EXP");
       } else {
         // Adjust for prime stat
         // The base +1 Exp for mainstat IS tuned
-        newModifiers.add(
-            Modifiers.MUS_EXPERIENCE + prime, 1 + statExp[prime] / 2.0f, "Class:EXP/2");
-        newModifiers.add(
+        newModifiers.addDouble(
+            Modifiers.MUS_EXPERIENCE + prime,
+            1 + statExp[prime] / 2.0f,
+            ModifierType.CLASS,
+            "EXP/2");
+        newModifiers.addDouble(
             Modifiers.MUS_EXPERIENCE + ((prime + 1) % 3),
             statExp[(prime + 1) % 3] / 4.0f,
-            "Class:EXP/4");
-        newModifiers.add(
+            ModifierType.CLASS,
+            "EXP/4");
+        newModifiers.addDouble(
             Modifiers.MUS_EXPERIENCE + ((prime + 2) % 3),
             statExp[(prime + 2) % 3] / 4.0f,
-            "Class:EXP/4");
+            ModifierType.CLASS,
+            "EXP/4");
       }
     }
 
@@ -5340,25 +5381,28 @@ public abstract class KoLCharacter {
               Modifiers.STENCH_SPELL_DAMAGE,
               Modifiers.SPOOKY_SPELL_DAMAGE,
               Modifiers.SLEAZE_SPELL_DAMAGE)) {
-        newModifiers.add(
+        newModifiers.addDouble(
             modifier,
             newModifiers.getDoublerAccumulator(modifier),
-            "Effect:[" + EffectPool.BENDIN_HELL + "]");
+            ModifierType.EFFECT,
+            EffectPool.BENDIN_HELL);
       }
     }
     if (effects.contains(KoLCharacter.DIRTY_PEAR)) {
       for (int modifier : List.of(Modifiers.SLEAZE_DAMAGE, Modifiers.SLEAZE_SPELL_DAMAGE)) {
-        newModifiers.add(
+        newModifiers.addDouble(
             modifier,
             newModifiers.getDoublerAccumulator(modifier),
-            "Effect:[" + EffectPool.DIRTY_PEAR + "]");
+            ModifierType.EFFECT,
+            EffectPool.DIRTY_PEAR);
       }
     }
     if (effects.contains(KoLCharacter.BOWLEGGED_SWAGGER)) {
-      newModifiers.add(
+      newModifiers.addDouble(
           Modifiers.INITIATIVE,
           newModifiers.getDoublerAccumulator(Modifiers.INITIATIVE),
-          "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]");
+          ModifierType.EFFECT,
+          EffectPool.BOWLEGGED_SWAGGER);
       // Add "Physical Damage" here, when that is properly defined
     }
     if (equipment[EquipmentManager.SHIRT].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
@@ -5373,10 +5417,11 @@ public abstract class KoLCharacter {
               Modifiers.MUS_EXPERIENCE_PCT,
               Modifiers.MYS_EXPERIENCE_PCT,
               Modifiers.MOX_EXPERIENCE_PCT)) {
-        newModifiers.add(
+        newModifiers.addDouble(
             modifier,
             newModifiers.getDoublerAccumulator(modifier),
-            "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+            ModifierType.ITEM,
+            ItemPool.MAKESHIFT_GARBAGE_SHIRT);
       }
     }
 
@@ -5388,22 +5433,25 @@ public abstract class KoLCharacter {
             || equipment[EquipmentManager.FAMILIAR].getItemId() == ItemPool.BROKEN_CHAMPAGNE)
         && (Preferences.getInteger("garbageChampagneCharge") > 0
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
-      newModifiers.add(
+      newModifiers.addDouble(
           Modifiers.ITEMDROP,
           newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
-          "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+          ModifierType.ITEM,
+          ItemPool.BROKEN_CHAMPAGNE);
     }
     if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
-      newModifiers.add(
+      newModifiers.addDouble(
           Modifiers.ITEMDROP,
           newModifiers.getDoublerAccumulator(Modifiers.ITEMDROP),
-          "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
+          ModifierType.EFFECT,
+          EffectPool.STEELY_EYED_SQUINT);
       // Add in fightMods to double Otoscope, since it's not otherwise included in extras.
       if (fightMods != null) {
-        newModifiers.add(
+        newModifiers.addDouble(
             Modifiers.ITEMDROP,
             fightMods.get(Modifiers.ITEMDROP),
-            "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
+            ModifierType.ITEM,
+            EffectPool.STEELY_EYED_SQUINT);
       }
     }
 
@@ -5447,9 +5495,10 @@ public abstract class KoLCharacter {
       imod = Modifiers.getItemModifiersInFamiliarSlot(itemId);
 
       if (consume == ConsumptionType.WEAPON) {
-        newModifiers.add(
+        newModifiers.addDouble(
             Modifiers.WEAPON_DAMAGE,
             EquipmentDatabase.getPower(itemId) * 0.15f,
+            ModifierType.EQUIPMENT_POWER,
             "15% weapon power");
       }
     } else {
@@ -5460,7 +5509,7 @@ public abstract class KoLCharacter {
       if (speculation) {
         String intrinsic = imod.getString(Modifiers.INTRINSIC_EFFECT);
         if (intrinsic.length() > 0) {
-          newModifiers.add(Modifiers.getModifiers("Effect", intrinsic));
+          newModifiers.add(Modifiers.getModifiers(ModifierType.EFFECT, intrinsic));
         }
       }
 
@@ -5527,16 +5576,16 @@ public abstract class KoLCharacter {
         }
         case ItemPool.HATSEAT ->
         // Apply enthroned familiar
-        newModifiers.add(Modifiers.getModifiers("Throne", enthroned.getRace()));
+        newModifiers.add(Modifiers.getModifiers(ModifierType.THRONE, enthroned.getRace()));
         case ItemPool.BUDDY_BJORN ->
         // Apply bjorned familiar
-        newModifiers.add(Modifiers.getModifiers("Bjorn", bjorned.getRace()));
+        newModifiers.add(Modifiers.getModifiers(ModifierType.BJORN, bjorned.getRace()));
         case ItemPool.VAMPYRIC_CLOAKE -> newModifiers.applyVampyricCloakeModifiers();
         default -> {
           var modeable = Modeable.find(itemId);
           if (modeable != null) {
             newModifiers.add(
-                Modifiers.getModifiers(modeable.getModifier(), modeables.get(modeable)));
+                Modifiers.getModifiers(modeable.getModifierType(), modeables.get(modeable)));
           }
         }
       }
@@ -5550,29 +5599,35 @@ public abstract class KoLCharacter {
         }
         /*FALLTHRU*/
       case EquipmentManager.WEAPON:
-        newModifiers.add(
+        newModifiers.addDouble(
             Modifiers.WEAPON_DAMAGE,
             EquipmentDatabase.getPower(itemId) * 0.15f,
-            "Item:15% weapon power");
+            ModifierType.EQUIPMENT_POWER,
+            "15% weapon power");
         break;
 
       case EquipmentManager.HAT:
-        newModifiers.add(
+        newModifiers.addDouble(
             Modifiers.DAMAGE_ABSORPTION,
             taoFactor * EquipmentDatabase.getPower(itemId),
-            "Item:hat power");
+            ModifierType.EQUIPMENT_POWER,
+            "hat power");
         break;
 
       case EquipmentManager.PANTS:
-        newModifiers.add(
+        newModifiers.addDouble(
             Modifiers.DAMAGE_ABSORPTION,
             taoFactor * EquipmentDatabase.getPower(itemId),
-            "Item:pants power");
+            ModifierType.EQUIPMENT_POWER,
+            "pants power");
         break;
 
       case EquipmentManager.SHIRT:
-        newModifiers.add(
-            Modifiers.DAMAGE_ABSORPTION, EquipmentDatabase.getPower(itemId), "Item:shirt power");
+        newModifiers.addDouble(
+            Modifiers.DAMAGE_ABSORPTION,
+            EquipmentDatabase.getPower(itemId),
+            ModifierType.EQUIPMENT_POWER,
+            "shirt power");
         break;
     }
   }

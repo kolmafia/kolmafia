@@ -13,16 +13,23 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.closeTo;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -34,6 +41,7 @@ import net.sourceforge.kolmafia.request.LatteRequest.Latte;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -47,7 +55,7 @@ public class ModifiersTest {
     // Wide-reaching unit test for getModifiers
     var cleanup = withClass(AscensionClass.AVATAR_OF_JARLSBERG);
     try (cleanup) {
-      Modifiers mods = Modifiers.getModifiers("Item", "Patriot Shield");
+      Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, ItemPool.PATRIOT_SHIELD);
 
       // Always has
       assertEquals(3, mods.get(Modifiers.EXPERIENCE));
@@ -80,7 +88,7 @@ public class ModifiersTest {
     var dotw = DayOfWeek.of(date);
 
     try (cleanup) {
-      Modifiers mods = Modifiers.getModifiers("Item", "Tuesday's Ruby");
+      Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, "Tuesday's Ruby");
 
       assertThat(mods.get(Modifiers.MEATDROP), equalTo(dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0));
       assertThat(mods.get(Modifiers.MUS_PCT), equalTo(dotw == DayOfWeek.MONDAY ? 5.0 : 0.0));
@@ -106,7 +114,7 @@ public class ModifiersTest {
 
       int manualMask = 0;
       for (String piece : name.split("/")) {
-        Modifiers mods = Modifiers.getModifiers("Item", piece);
+        Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, piece);
         manualMask |= mods.getRawBitmap(Modifiers.SYNERGETIC);
       }
 
@@ -120,7 +128,7 @@ public class ModifiersTest {
     for (int i = 1; i <= 11; i++) {
       int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
       KoLCharacter.setStatPoints(0, 0, myst, (long) myst * myst, 0, 0);
-      Modifiers mods = Modifiers.getModifiers("Skill", "Intrinsic Spiciness");
+      Modifiers mods = Modifiers.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
       assertEquals(Math.min(i, 10), mods.get(Modifiers.SAUCE_SPELL_DAMAGE));
     }
   }
@@ -151,21 +159,21 @@ public class ModifiersTest {
   @Test
   public void correctlyCalculatesCappedCombatRate() {
     Modifiers mod = new Modifiers();
-    mod.add(Modifiers.COMBAT_RATE, 25, "Start");
-    mod.add(Modifiers.COMBAT_RATE, 7, "32");
+    mod.addDouble(Modifiers.COMBAT_RATE, 25, ModifierType.NONE, "");
+    mod.addDouble(Modifiers.COMBAT_RATE, 7, ModifierType.NONE, "");
     assertEquals(26, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, 9, "41");
+    mod.addDouble(Modifiers.COMBAT_RATE, 9, ModifierType.NONE, "");
     assertEquals(28, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, 9, "50");
+    mod.addDouble(Modifiers.COMBAT_RATE, 9, ModifierType.NONE, "");
     assertEquals(30, mod.get(Modifiers.COMBAT_RATE));
 
     mod = new Modifiers();
-    mod.add(Modifiers.COMBAT_RATE, -25, "Start");
-    mod.add(Modifiers.COMBAT_RATE, -7, "-32");
+    mod.addDouble(Modifiers.COMBAT_RATE, -25, ModifierType.NONE, "");
+    mod.addDouble(Modifiers.COMBAT_RATE, -7, ModifierType.NONE, "");
     assertEquals(-26, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, -9, "-41");
+    mod.addDouble(Modifiers.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-28, mod.get(Modifiers.COMBAT_RATE));
-    mod.add(Modifiers.COMBAT_RATE, -9, "-50");
+    mod.addDouble(Modifiers.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
   }
 
@@ -307,7 +315,7 @@ public class ModifiersTest {
       var cleanups =
           new Cleanups(
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -322,7 +330,7 @@ public class ModifiersTest {
           new Cleanups(
               withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
-              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -338,7 +346,7 @@ public class ModifiersTest {
               withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
               withEffect(EffectPool.STEELY_EYED_SQUINT),
-              withOverrideModifiers("Generated:fightMods", "Item Drop: +200"));
+              withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -911,7 +919,8 @@ public class ModifiersTest {
         assertEquals(expected, Preferences.getString("latteModifier"));
 
         // Modifiers set "override" modifiers for the latte mug
-        Modifiers latteModifiers = Modifiers.getModifiers("Item", "[" + ItemPool.LATTE_MUG + "]");
+        Modifiers latteModifiers =
+            Modifiers.getModifiers(ModifierType.ITEM, "[" + ItemPool.LATTE_MUG + "]");
         assertEquals(5, latteModifiers.get(Modifiers.FAMILIAR_WEIGHT));
         assertEquals(40, latteModifiers.get(Modifiers.MEATDROP));
         assertEquals(1, latteModifiers.get(Modifiers.MOX_EXPERIENCE));
@@ -942,7 +951,7 @@ public class ModifiersTest {
     @Test
     void canEvaluateExperienceModifiers() {
       String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
-      String lookup = "Local Vote";
+      Modifiers.Lookup lookup = new Modifiers.Lookup(ModifierType.LOCAL_VOTE, "");
 
       Modifiers mods = Modifiers.parseModifiers(lookup, setting);
       assertEquals(30, mods.get(Modifiers.MEATDROP));
@@ -996,13 +1005,49 @@ public class ModifiersTest {
     "Overdeveloped Sense of Self Preservation, false",
   })
   public void identifiesVariableModifiers(String skillName, boolean variable) {
-    assertThat(Modifiers.getModifiers("Skill", skillName).variable, equalTo(variable));
+    assertThat(Modifiers.getModifiers(ModifierType.SKILL, skillName).variable, equalTo(variable));
+  }
+
+  @Test
+  @Disabled("modifiers.txt would need to be modified")
+  public void writeModifiersSubsetOfModifiersTxt() throws IOException {
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    PrintStream writer = new PrintStream(ostream);
+
+    Modifiers.writeModifiers(writer);
+    writer.close();
+    List<String> writeModifiersLines = ostream.toString().lines().collect(Collectors.toList());
+
+    BufferedReader reader =
+        DataUtilities.getReader(KoLConstants.DATA_DIRECTORY, "modifiers.txt", true);
+
+    String line;
+    Iterator<String> writeModifiersIterator = writeModifiersLines.iterator();
+    String writeModifiersLine = writeModifiersIterator.next();
+    while ((line = reader.readLine()) != null) {
+      if (writeModifiersLine.startsWith("# ")
+          ? line.startsWith(writeModifiersLine)
+          : line.equals(writeModifiersLine)) {
+        writeModifiersLine =
+            writeModifiersIterator.hasNext() ? writeModifiersIterator.next() : null;
+      }
+    }
+
+    StringBuilder message = new StringBuilder();
+    if (writeModifiersLine != null) {
+      int index = writeModifiersLines.indexOf(writeModifiersLine);
+      for (int i = Math.min(3, index); i >= 0; i--) {
+        message.append("previous line: [" + writeModifiersLines.get(index - i) + "]\n");
+      }
+    }
+    message.append("unmatched line: [" + writeModifiersLine + "]");
+    assertThat(message.toString(), writeModifiersIterator.hasNext(), is(false));
   }
 
   @Nested
   class FairyFamiliars {
-    private Double fairyFunction(final double effectiveWeight) {
-      return Math.max(Math.sqrt(55 * effectiveWeight) + effectiveWeight - 3, 0);
+    private Double fairyFunction(final double weight) {
+      return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
     }
 
     private Modifiers getFamiliarMods(final int weight) {
@@ -1047,10 +1092,10 @@ public class ModifiersTest {
         var weight = 20;
         var familiarMods = getFamiliarMods(weight);
         assertThat(
-            familiarMods.get(mod), closeTo(fairyFunction(weight * otherFairyEffectiveness), 0.001));
+            familiarMods.get(mod), closeTo(fairyFunction(weight) * otherFairyEffectiveness, 0.001));
         assertThat(
             familiarMods.get(Modifiers.ITEMDROP),
-            closeTo(fairyFunction(weight * itemFairyEffectiveness), 0.001));
+            closeTo(fairyFunction(weight) * itemFairyEffectiveness, 0.001));
       }
     }
   }

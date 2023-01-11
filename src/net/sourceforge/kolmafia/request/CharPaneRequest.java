@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
@@ -1295,7 +1296,7 @@ public class CharPaneRequest extends GenericRequest {
         }
       }
     }
-    Modifiers.overrideModifier("Generated:Enchantments Absorbed", modList.toString());
+    Modifiers.overrideModifier(ModifierType.GENERATED, "Enchantments Absorbed", modList.toString());
   }
 
   private static final Pattern disguisePattern = Pattern.compile("masks/mask(\\d+).png");

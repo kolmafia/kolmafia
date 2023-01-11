@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierExpression;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -131,7 +132,7 @@ public class DailyLimitDatabase {
         String exprString = this.max.substring(1, this.max.length() - 1);
         var expr =
             new ModifierExpression(
-                exprString, "daily limit for " + this.getType() + " " + this.getName());
+                exprString, ModifierType.DAILY_LIMIT, this.getType() + ":" + this.getName());
         if (!expr.hasErrors()) {
           return (int) expr.eval();
         }

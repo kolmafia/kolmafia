@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.maximizer.Boost;
@@ -30,10 +31,13 @@ public class WikiUtilities {
     boolean checkOtherTables = true;
 
     if (type != ANY_TYPE) {
-      String modType =
-          type == ITEM_TYPE
-              ? "Item"
-              : type == EFFECT_TYPE ? "Effect" : type == SKILL_TYPE ? "Skill" : "None";
+      ModifierType modType =
+          switch (type) {
+            case ITEM_TYPE -> ModifierType.ITEM;
+            case EFFECT_TYPE -> ModifierType.EFFECT;
+            case SKILL_TYPE -> ModifierType.SKILL;
+            default -> ModifierType.NONE;
+          };
 
       Modifiers mods = Modifiers.getModifiers(modType, name);
       if (mods != null) {

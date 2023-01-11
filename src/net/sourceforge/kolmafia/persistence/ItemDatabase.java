@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -935,14 +936,14 @@ public class ItemDatabase {
     EquipmentDatabase.registerItemOutfit(itemId, text);
 
     // Skillbooks teach you a skill
-    String skillName = Modifiers.getStringModifier("Item", itemId, "Skill");
+    String skillName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Skill");
     if (!skillName.equals("") && SkillDatabase.getSkillId(skillName) == -1) {
       int skillId = DebugDatabase.parseSkillId(rawText);
       SkillDatabase.registerSkill(skillId, skillName);
     }
 
     // Potions grant an effect. Check for a new effect.
-    String effectName = Modifiers.getStringModifier("Item", itemId, "Effect");
+    String effectName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Effect");
     if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
       String effectDescid = DebugDatabase.parseEffectDescid(rawText);
       String command =
@@ -956,7 +957,7 @@ public class ItemDatabase {
     }
 
     // Equipment can have a Rollover Effect. Check for new effect.
-    effectName = Modifiers.getStringModifier("Item", itemId, "Rollover Effect");
+    effectName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Rollover Effect");
     if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
       String effectDescid = DebugDatabase.parseEffectDescid(rawText);
       EffectDatabase.registerEffect(effectName, effectDescid, null);
@@ -2124,7 +2125,8 @@ public class ItemDatabase {
     String iEnchantments =
         DebugDatabase.parseItemEnchantments(idesc, new ArrayList<>(), ConsumptionType.DRINK);
     String iname = DebugDatabase.parseName(idesc);
-    Modifiers imods = Modifiers.parseModifiers(iname, iEnchantments);
+    Modifiers imods =
+        Modifiers.parseModifiers(ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, iEnchantments);
 
     // Validate this by seeing what effect this wine grants.
     String effectName = imods.getString("Effect");
@@ -2159,7 +2161,7 @@ public class ItemDatabase {
 
     // Override the modifiers for the 1950 Vampire Vintner wine to include the
     // effect that drinking this one will provide.
-    Modifiers.overrideModifier(Modifiers.getLookupName("Item", "1950 Vampire Vintner wine"), imods);
+    Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, imods);
   }
 
   public static int parseYearbookCamera(final String desc) {

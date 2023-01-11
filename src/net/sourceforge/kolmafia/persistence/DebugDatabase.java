@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierExpression;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
@@ -1073,16 +1074,16 @@ public class DebugDatabase {
 
     // Compare to what is already registered, logging differences
     // and substituting expressions, as appropriate.
-    DebugDatabase.checkModifiers("Item", name, known, true, report);
+    DebugDatabase.checkModifiers(ModifierType.ITEM, name, known, true, report);
 
     // Print the modifiers in the format modifiers.txt expects.
     if (showAll || known.size() > 0 || unknown.size() > 0) {
-      DebugDatabase.logModifierDatum("Item", name, known, unknown, report);
+      DebugDatabase.logModifierDatum(ModifierType.ITEM, name, known, unknown, report);
     }
   }
 
   private static void checkModifiers(
-      final String type,
+      final ModifierType type,
       final String name,
       final ModifierList known,
       final boolean appendCurrent,
@@ -1094,7 +1095,7 @@ public class DebugDatabase {
     //   of parsed modifiers in the order they appear in modifiers.txt
 
     // Get the existing modifiers for the name
-    ModifierList existing = Modifiers.getModifierList(type, name);
+    ModifierList existing = Modifiers.getModifierList(new Modifiers.Lookup(type, name));
 
     // Look at each modifier in known
     for (Modifier modifier : known) {
@@ -1122,8 +1123,7 @@ public class DebugDatabase {
               expression = StringUtilities.singleStringReplace(expression, "R", "5");
             }
 
-            ModifierExpression expr =
-                new ModifierExpression(expression, Modifiers.getLookupName(type, name));
+            ModifierExpression expr = new ModifierExpression(expression, type, name);
             if (expr.hasErrors()) {
               report.println(expr.getExpressionErrors());
             } else {
@@ -1204,13 +1204,13 @@ public class DebugDatabase {
   }
 
   private static void logModifierDatum(
-      final String type,
+      final ModifierType type,
       final String name,
       final ModifierList known,
       final ArrayList<String> unknown,
       final PrintStream report) {
     for (String s : unknown) {
-      Modifiers.writeModifierComment(report, null, name, s);
+      Modifiers.writeModifierComment(report, name, s);
     }
 
     if (known.size() == 0) {
@@ -1699,10 +1699,10 @@ public class DebugDatabase {
 
     // Compare to what is already registered.
     // Log differences and substitute formulas, as appropriate.
-    DebugDatabase.checkModifiers("Outfit", name, known, false, report);
+    DebugDatabase.checkModifiers(ModifierType.OUTFIT, name, known, false, report);
 
     // Print the modifiers in the format modifiers.txt expects.
-    DebugDatabase.logModifierDatum("Outfit", name, known, unknown, report);
+    DebugDatabase.logModifierDatum(ModifierType.OUTFIT, name, known, unknown, report);
   }
 
   private static final Pattern OUTFIT_ENCHANTMENT_PATTERN =
@@ -1957,10 +1957,10 @@ public class DebugDatabase {
 
     // Compare to what is already registered.
     // Log differences and substitute formulas, as appropriate.
-    DebugDatabase.checkModifiers("Effect", name, known, true, report);
+    DebugDatabase.checkModifiers(ModifierType.EFFECT, name, known, true, report);
 
     // Print the modifiers in the format modifiers.txt expects.
-    DebugDatabase.logModifierDatum("Effect", name, known, unknown, report);
+    DebugDatabase.logModifierDatum(ModifierType.EFFECT, name, known, unknown, report);
   }
 
   // **********************************************************
@@ -2206,11 +2206,11 @@ public class DebugDatabase {
 
     // Compare to what is already registered.
     // Log differences and substitute formulas, as appropriate.
-    DebugDatabase.checkModifiers("Skill", name, known, true, report);
+    DebugDatabase.checkModifiers(ModifierType.SKILL, name, known, true, report);
 
     // Print the modifiers in the format modifiers.txt expects.
     if (known.size() > 0 || unknown.size() > 0) {
-      DebugDatabase.logModifierDatum("Skill", name, known, unknown, report);
+      DebugDatabase.logModifierDatum(ModifierType.SKILL, name, known, unknown, report);
     }
   }
 
@@ -2679,7 +2679,7 @@ public class DebugDatabase {
 
       // Potions grant an effect. Check for a new effect.
       String itemName = ItemDatabase.getItemDataName(id);
-      String effectName = Modifiers.getStringModifier("Item", itemId, "Effect");
+      String effectName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Effect");
       if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
         String rawText = DebugDatabase.rawItemDescriptionText(itemId);
         String effectDescid = DebugDatabase.parseEffectDescid(rawText);

@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.MonsterData;
@@ -7534,7 +7535,7 @@ public abstract class RuntimeLibrary {
     if (expr.content instanceof ModifierExpression) {
       e = (ModifierExpression) expr.content;
     } else {
-      e = new ModifierExpression(expr.toString(), "modifier_eval()");
+      e = new ModifierExpression(expr.toString(), ModifierType.GENERATED, "modifier_eval()");
       String errors = e.getExpressionErrors();
       if (errors != null) {
         throw controller.runtimeException(errors);
@@ -9028,26 +9029,27 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  private static String getModifierType(final Value arg) {
+  private static ModifierType getModifierType(final Value arg) {
     Type type = arg.getType();
     String name = arg.toString();
     int id = (int) arg.intValue();
     if (type.equals(DataTypes.ITEM_TYPE)) {
-      return "Item";
+      return ModifierType.ITEM;
     }
     if (type.equals(DataTypes.EFFECT_TYPE)) {
-      return "Effect";
+      return ModifierType.EFFECT;
     }
     if (type.equals(DataTypes.SKILL_TYPE)) {
-      return "Skill";
+      return ModifierType.SKILL;
     }
     if (type.equals(DataTypes.THRALL_TYPE)) {
-      return "Thrall";
+      return ModifierType.THRALL;
     }
     if (name.contains(":")) {
-      return name.substring(0, name.indexOf(":"));
+      ModifierType modifierType = ModifierType.fromString(name.substring(0, name.indexOf(":")));
+      if (modifierType != null) return modifierType;
     }
-    return "Item";
+    return ModifierType.ITEM;
   }
 
   private static String getModifierName(final Value arg) {
@@ -9071,7 +9073,7 @@ public abstract class RuntimeLibrary {
 
   public static Value numeric_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(Modifiers.getNumericModifier(type, name, mod));
@@ -9098,7 +9100,7 @@ public abstract class RuntimeLibrary {
 
   public static Value boolean_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return DataTypes.makeBooleanValue(Modifiers.getBooleanModifier(type, name, mod));
@@ -9111,7 +9113,7 @@ public abstract class RuntimeLibrary {
 
   public static Value string_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(Modifiers.getStringModifier(type, name, mod));
@@ -9119,7 +9121,7 @@ public abstract class RuntimeLibrary {
 
   public static Value effect_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(
@@ -9128,7 +9130,7 @@ public abstract class RuntimeLibrary {
 
   public static Value class_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(DataTypes.parseClassValue(Modifiers.getStringModifier(type, name, mod), true));
@@ -9136,7 +9138,7 @@ public abstract class RuntimeLibrary {
 
   public static Value skill_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(DataTypes.parseSkillValue(Modifiers.getStringModifier(type, name, mod), true));
@@ -9144,7 +9146,7 @@ public abstract class RuntimeLibrary {
 
   public static Value stat_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(DataTypes.parseStatValue(Modifiers.getStringModifier(type, name, mod), true));
@@ -9152,7 +9154,7 @@ public abstract class RuntimeLibrary {
 
   public static Value monster_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(

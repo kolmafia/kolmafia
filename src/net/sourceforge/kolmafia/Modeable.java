@@ -24,49 +24,49 @@ public enum Modeable {
       "backupcamera",
       "backupCameraMode",
       ItemPool.get(ItemPool.BACKUP_CAMERA),
-      "BackupCamera",
+      ModifierType.BACKUP_CAMERA,
       new BackupCameraCommand(),
       true),
   EDPIECE(
       "edpiece",
       "edPiece",
       ItemPool.get(ItemPool.CROWN_OF_ED),
-      "Edpiece",
+      ModifierType.EDPIECE,
       new EdPieceCommand(),
       false),
   PARKA(
       "parka",
       "parkaMode",
       ItemPool.get(ItemPool.JURASSIC_PARKA),
-      "JurassicParka",
+      ModifierType.JURASSIC_PARKA,
       new JurassicParkaCommand(),
       true),
   RETROCAPE(
       "retrocape",
       null,
       ItemPool.get(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE),
-      "RetroCape",
+      ModifierType.RETRO_CAPE,
       new RetroCapeCommand(),
       false),
   SNOWSUIT(
       "snowsuit",
       "snowsuit",
       ItemPool.get(ItemPool.SNOW_SUIT),
-      "Snowsuit",
+      ModifierType.SNOW_SUIT,
       new SnowsuitCommand(),
       false),
   UMBRELLA(
       "umbrella",
       "umbrellaState",
       ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
-      "UnbreakableUmbrella",
+      ModifierType.UNBREAKABLE_UMBRELLA,
       new UmbrellaCommand(),
       true);
 
   private final String command;
   private final String statePref;
   private final AdventureResult item;
-  private final String modifier;
+  private final ModifierType modifierType;
   private final ModeCommand commandInstance;
   private final boolean mustEquipAfterChange;
 
@@ -74,13 +74,13 @@ public enum Modeable {
       final String command,
       final String statePref,
       final AdventureResult item,
-      final String modifier,
+      final ModifierType modifierType,
       final ModeCommand commandInstance,
       final boolean mustEquipAfterChange) {
     this.command = command;
     this.statePref = statePref;
     this.item = item;
-    this.modifier = modifier;
+    this.modifierType = modifierType;
     this.commandInstance = commandInstance;
     this.mustEquipAfterChange = mustEquipAfterChange;
   }
@@ -129,8 +129,8 @@ public enum Modeable {
     return Preferences.getString(this.statePref);
   }
 
-  public String getModifier() {
-    return this.modifier;
+  public ModifierType getModifierType() {
+    return this.modifierType;
   }
 
   public boolean mustEquipAfterChange() {

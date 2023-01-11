@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -11,7 +12,7 @@ public class ModRefCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    Modifiers mods = Modifiers.getModifiers("Item", parameters);
+    Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, parameters);
     String colSpan = mods == null ? "2" : "3";
     StringBuilder buf =
         new StringBuilder(
