@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -920,5 +921,17 @@ public class StringUtilities {
 
   public static String capitalize(final String s) {
     return s.substring(0, 1).toUpperCase() + s.substring(1);
+  }
+
+  public static String upperSnakeToPascalCase(final String s) {
+    return Arrays.stream(s.split("_"))
+        .map(c -> capitalize(c.toLowerCase()))
+        .collect(Collectors.joining(""));
+  }
+
+  public static String upperSnakeToWords(final String s) {
+    return Arrays.stream(s.split("_"))
+        .map(c -> capitalize(c.toLowerCase()))
+        .collect(Collectors.joining(" "));
   }
 }

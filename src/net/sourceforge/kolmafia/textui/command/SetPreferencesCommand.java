@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
@@ -80,7 +81,7 @@ public class SetPreferencesCommand extends AbstractCommand {
     }
 
     if (name.equals("_userMods")) {
-      Modifiers.overrideModifier("Generated:_userMods", value);
+      Modifiers.overrideModifier(ModifierType.GENERATED, "_userMods", value);
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
     }

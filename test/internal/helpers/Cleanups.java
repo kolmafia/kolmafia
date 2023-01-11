@@ -43,6 +43,12 @@ public class Cleanups implements Closeable {
     cleanups.addAll(r);
   }
 
+  public void addCleanups(Collection<Cleanups> cs) {
+    for (var c : cs) {
+      this.add(c);
+    }
+  }
+
   public void run() {
     cleanups.sort(Comparator.comparingInt(OrderedRunnable::order));
     cleanups.forEach(c -> c.runnable.run());

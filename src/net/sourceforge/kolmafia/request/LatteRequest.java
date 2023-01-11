@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
@@ -695,7 +696,7 @@ public class LatteRequest extends GenericRequest {
 
     String value = modList.toString();
     Preferences.setString("latteModifier", value);
-    Modifiers.overrideModifier("Item:[" + ItemPool.LATTE_MUG + "]", value);
+    Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.LATTE_MUG, value);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }

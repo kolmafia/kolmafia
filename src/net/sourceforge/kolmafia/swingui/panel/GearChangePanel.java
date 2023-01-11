@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -164,9 +165,9 @@ public class GearChangePanel extends JPanel {
           true,
           taoFactor);
     } else if (value instanceof SpecialOutfit outfit) {
-      mods = Modifiers.getModifiers("Outfit", outfit.getName());
+      mods = Modifiers.getModifiers(ModifierType.OUTFIT, outfit.getName());
     } else if (value instanceof FamiliarData familiar && isCustomizablePanel) {
-      mods = Modifiers.getModifiers("Throne", familiar.getRace());
+      mods = Modifiers.getModifiers(ModifierType.THRONE, familiar.getRace());
     } else {
       return null;
     }
@@ -179,7 +180,7 @@ public class GearChangePanel extends JPanel {
     if (name.length() > 0) {
       Modifiers newMods = new Modifiers();
       newMods.add(mods);
-      newMods.add(Modifiers.getModifiers("Effect", name));
+      newMods.add(Modifiers.getModifiers(ModifierType.EFFECT, name));
       mods = newMods;
     }
 

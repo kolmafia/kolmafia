@@ -205,7 +205,7 @@ public class FloristRequest extends GenericRequest {
     return FloristRequest.haveFlorist;
   }
 
-  private static void setHaveFlorist(final boolean haveFlorist) {
+  public static void setHaveFlorist(final boolean haveFlorist) {
     FloristRequest.floristChecked = true;
     FloristRequest.haveFlorist = haveFlorist;
   }
@@ -283,7 +283,7 @@ public class FloristRequest extends GenericRequest {
     }
   }
 
-  private static void addPlant(final String location, final int plantId) {
+  public static void addPlant(final String location, final int plantId) {
     Florist plant = Florist.getFlower(plantId);
     if (plant.isTerritorial()) {
       FloristRequest.clearTerritorial(location);

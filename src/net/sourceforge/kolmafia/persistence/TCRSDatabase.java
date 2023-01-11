@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -590,7 +591,7 @@ public class TCRSDatabase {
     }
 
     // Set modifiers
-    Modifiers.updateItem(itemName, tcrs.modifiers);
+    Modifiers.updateItem(itemId, tcrs.modifiers);
 
     // *** Do this after modifiers are set so can log effect modifiers
     ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
@@ -601,7 +602,7 @@ public class TCRSDatabase {
     }
 
     // Add as effect source, if appropriate
-    String effectName = Modifiers.getStringModifier("Item", itemName, "Effect");
+    String effectName = Modifiers.getStringModifier(ModifierType.ITEM, itemName, "Effect");
     if (effectName != null && !effectName.equals("")) {
       addEffectSource(itemName, usage, effectName);
     }
@@ -691,10 +692,12 @@ public class TCRSDatabase {
     // Consumable attributes (like SAUCY, BEER, etc) are preserved
     ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
 
-    String effectName = Modifiers.getStringModifier("Item", itemName, "Effect");
+    String effectName = Modifiers.getStringModifier(ModifierType.ITEM, itemName, "Effect");
     if (effectName != null && !effectName.isEmpty()) {
-      int duration = (int) Modifiers.getNumericModifier("Item", itemName, "Effect Duration");
-      String effectModifiers = Modifiers.getStringModifier("Effect", effectName, "Modifiers");
+      int duration =
+          (int) Modifiers.getNumericModifier(ModifierType.ITEM, itemName, "Effect Duration");
+      String effectModifiers =
+          Modifiers.getStringModifier(ModifierType.EFFECT, effectName, "Modifiers");
       comment.add(duration + " " + effectName + " (" + effectModifiers + ")");
     }
 

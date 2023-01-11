@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -486,7 +487,7 @@ public abstract class GreyYouManager {
     private final int level;
 
     private String enchantments = "";
-    private String modsLookup = "";
+    private Modifiers.Lookup modsLookup = new Modifiers.Lookup(ModifierType.NONE, "");
 
     public GooSkill(
         final int skillId, final String monsterName, PassiveEffect passiveEffect, int level) {
@@ -516,10 +517,10 @@ public abstract class GreyYouManager {
 
       Modifiers mods = null;
       if (this.skillType == SkillDatabase.PASSIVE) {
-        mods = Modifiers.getModifiers("Skill", this.name);
+        mods = Modifiers.getModifiers(ModifierType.SKILL, this.name);
         if (mods != null) {
           this.enchantments = mods.getString("Modifiers");
-          this.modsLookup = mods.getName();
+          this.modsLookup = mods.getLookup();
         } else {
           // This would be a KoLmafia bug.
           String message =
@@ -531,7 +532,6 @@ public abstract class GreyYouManager {
       } else {
         this.mpCost = SkillDatabase.getMPConsumptionById(skillId);
         this.enchantments = effects;
-        this.modsLookup = "";
       }
 
       allGooSkills.put(skillId, this);

@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
@@ -326,7 +327,8 @@ public class TestCommand extends AbstractCommand {
       if (familiar == null || familiar == FamiliarData.NO_FAMILIAR) {
         return;
       }
-      double itemDrop = Modifiers.getNumericModifier("Familiar", familiar.getRace(), "Item Drop");
+      double itemDrop =
+          Modifiers.getNumericModifier(ModifierType.FAMILIAR, familiar.getRace(), "Item Drop");
       RequestLogger.printLine("Item Drop: " + itemDrop);
       return;
     }
@@ -795,7 +797,7 @@ public class TestCommand extends AbstractCommand {
         RequestLogger.printLine(name + " is a level " + level + " " + type + " wine.");
         RequestLogger.printLine("It grants 12 turns of the '" + effect + "' effect:");
         RequestLogger.printLine(
-            Modifiers.getStringModifier("Effect", effect, "Evaluated Modifiers"));
+            Modifiers.getStringModifier(ModifierType.EFFECT, effect, "Evaluated Modifiers"));
       } else {
         RequestLogger.printLine("You currently have no access to a 1950 Vampire Vintner wine");
       }

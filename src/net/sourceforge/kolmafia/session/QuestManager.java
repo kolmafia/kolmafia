@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -533,7 +534,7 @@ public class QuestManager {
     // time-twitching toolbelt is a free pull if the time tower is
     // available. Place it in correct storage list.
 
-    Modifiers.getModifiers("Item", "time-twitching toolbelt");
+    Modifiers.getModifiers(ModifierType.ITEM, "time-twitching toolbelt");
     AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
     List<AdventureResult> source = available ? KoLConstants.storage : KoLConstants.freepulls;
     List<AdventureResult> dest = available ? KoLConstants.freepulls : KoLConstants.storage;

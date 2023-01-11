@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -957,11 +958,11 @@ public class SpelunkyRequest extends GenericRequest {
     // Spelunky weapons can have bonus damage
 
     int bonusWeaponDamage =
-        (int) Modifiers.getNumericModifier("Item", weaponItemId, "Weapon Damage");
+        (int) Modifiers.getNumericModifier(ModifierType.ITEM, weaponItemId, "Weapon Damage");
     int bonusOffhandDamage =
-        (int) Modifiers.getNumericModifier("Item", offhandItemId, "Weapon Damage");
+        (int) Modifiers.getNumericModifier(ModifierType.ITEM, offhandItemId, "Weapon Damage");
     int bonusRangedDamage =
-        (int) Modifiers.getNumericModifier("Item", weaponItemId, "Ranged Damage");
+        (int) Modifiers.getNumericModifier(ModifierType.ITEM, weaponItemId, "Ranged Damage");
     int bonusDamage =
         bonusWeaponDamage + (stat == Stat.MOXIE ? bonusRangedDamage : 0) + bonusOffhandDamage;
 

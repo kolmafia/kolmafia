@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
@@ -20,7 +21,7 @@ public class SpeculateCommand extends AbstractCommand {
     Speculation spec = new Speculation();
     boolean quiet = spec.parse(parameters);
     Modifiers mods = spec.calculate();
-    Modifiers.overrideModifier("Generated:_spec", mods);
+    Modifiers.overrideModifier(ModifierType.GENERATED, "_spec", mods);
     if (quiet) {
       return;
     }

@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -3212,7 +3213,7 @@ public class ResultProcessor {
               DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), true);
           String mod =
               DebugDatabase.parseItemEnchantments(rawText, new ArrayList<>(), ConsumptionType.HAT);
-          Modifiers.overrideModifier("Item:[" + itemId + "]", mod);
+          Modifiers.overrideModifier(ModifierType.ITEM, itemId, mod);
           Preferences.setString("_noHatModifier", mod);
         }
         break;

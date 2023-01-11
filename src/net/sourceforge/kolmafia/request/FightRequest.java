@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
@@ -3303,7 +3304,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Cancel any combat modifiers
-    Modifiers.overrideRemoveModifier("Generated:fightMods");
+    Modifiers.overrideRemoveModifier(ModifierType.GENERATED, "fightMods");
 
     if (KoLCharacter.isSauceror()) {
       // Check for Soulsauce gain
@@ -8835,7 +8836,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void setFightModifiers(final String mods) {
-    Modifiers.overrideModifier("Generated:fightMods", mods);
+    Modifiers.overrideModifier(ModifierType.GENERATED, "fightMods", mods);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }

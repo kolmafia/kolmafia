@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -6006,17 +6007,17 @@ public class UseItemRequest extends GenericRequest {
   }
 
   private static String itemToClass(final int itemId) {
-    String className = Modifiers.getStringModifier("Item", itemId, "Class");
+    String className = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Class");
     return className.equals("") ? null : className;
   }
 
   private static String itemToSkill(final int itemId) {
-    String skillName = Modifiers.getStringModifier("Item", itemId, "Skill");
+    String skillName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Skill");
     return skillName.equals("") ? null : skillName;
   }
 
   private static String itemToRecipe(final int itemId) {
-    String recipeName = Modifiers.getStringModifier("Item", itemId, "Recipe");
+    String recipeName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Recipe");
     return recipeName.equals("") ? null : recipeName;
   }
 
