@@ -279,7 +279,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
   }
 
-  public static final AdventureResult pseudoItem(final String name) {
+  public static AdventureResult pseudoItem(final String name) {
     AdventureResult item = ItemFinder.getFirstMatchingItem(name, false);
     if (item != null) {
       return item;
@@ -289,22 +289,22 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return new AdventureResult(name, -1, 1, false);
   }
 
-  public static final AdventureResult tallyItem(final String name) {
+  public static AdventureResult tallyItem(final String name) {
     return AdventureResult.tallyItem(name, true);
   }
 
-  public static final AdventureResult tallyItem(final String name, final boolean setItemId) {
+  public static AdventureResult tallyItem(final String name, final boolean setItemId) {
     AdventureResult item = new AdventureResult(Priority.NONE, name);
     item.priority = Priority.ITEM;
     item.id = setItemId ? ItemDatabase.getItemId(name, 1, false) : -1;
     return item;
   }
 
-  public static final AdventureResult tallyItem(final String name, final int itemId) {
+  public static AdventureResult tallyItem(final String name, final int itemId) {
     return new AdventureResult(name, itemId, 1, false);
   }
 
-  public static final AdventureResult tallyItem(
+  public static AdventureResult tallyItem(
       final String name, final int count, final boolean setItemId) {
     AdventureResult item = AdventureResult.tallyItem(name, setItemId);
     item.count = count;
@@ -441,8 +441,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
           + ")";
       case ItemPool.JURASSIC_PARKA -> {
         var mode = Preferences.getString("parkaMode");
-        var result = mode.equals("") ? this.name : this.name + " (" + mode + " mode)";
-        yield result;
+        yield mode.equals("") ? this.name : this.name + " (" + mode + " mode)";
       }
       case ItemPool.BACKUP_CAMERA -> this.name
           + " ("
@@ -547,7 +546,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @return An <code>AdventureResult</code> with the appropriate data
    * @throws NumberFormatException The string was not a recognized <code>AdventureResult</code>
    */
-  public static final AdventureResult parseResult(final String s) {
+  public static AdventureResult parseResult(final String s) {
     // If this result has been screwed up with Rad Libs, can't do anything with it.
     if (s.startsWith("You &nbsp;")) {
       return null;
@@ -639,7 +638,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return AdventureResult.parseItem(s, false);
   }
 
-  public static final AdventureResult parseItem(final String s, final boolean pseudoAllowed) {
+  public static AdventureResult parseItem(final String s, final boolean pseudoAllowed) {
     StringTokenizer parsedItem = new StringTokenizer(s, "()");
 
     if (parsedItem.countTokens() == 0) {
@@ -750,14 +749,14 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         }
       } else {
         if (EffectDatabase.isSong(name)) {
-          name = "\u266B " + name;
+          name = "♫ " + name;
         }
 
         String skillName = UneffectRequest.effectToSkill(name);
         if (SkillDatabase.contains(skillName)) {
           int skillId = SkillDatabase.getSkillId(skillName);
           if (SkillDatabase.isExpression(skillId)) {
-            name = "\u263A " + name;
+            name = "☺ " + name;
           }
         }
       }
@@ -768,7 +767,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return count == 1
         ? name
         : count > Integer.MAX_VALUE / 2
-            ? name + " (\u221E)"
+            ? name + " (∞)"
             : count == PurchaseRequest.MAX_QUANTITY
                 ? name + " (unlimited)"
                 : name + " (" + KoLConstants.COMMA_FORMAT.format(count) + ")";
@@ -928,7 +927,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @param sourceList The tally accumulating <code>AdventureResult</code>s
    * @param result The result to add to the tally
    */
-  public static final void addResultToList(
+  public static void addResultToList(
       final List<AdventureResult> sourceList, final AdventureResult result) {
     int index = sourceList.indexOf(result);
 
@@ -1012,7 +1011,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     sourceList.set(index, sumResult);
   }
 
-  public static final void addOrRemoveResultToList(
+  public static void addOrRemoveResultToList(
       final List<AdventureResult> sourceList, final AdventureResult result) {
     int index = sourceList.indexOf(result);
 
@@ -1032,7 +1031,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     sourceList.set(index, sumResult);
   }
 
-  public static final void removeResultFromList(
+  public static void removeResultFromList(
       final List<AdventureResult> sourceList, final AdventureResult result) {
     int index = sourceList.indexOf(result);
     if (index != -1) {
@@ -1129,7 +1128,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return null;
   }
 
-  public static final String bangPotionName(final int itemId) {
+  public static String bangPotionName(final int itemId) {
     String itemName = ItemDatabase.getItemDataName(itemId);
 
     String effect = Preferences.getString("lastBangPotion" + itemId);
@@ -1140,7 +1139,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return itemName + " of " + effect;
   }
 
-  public static final String slimeVialName(final int itemId) {
+  public static String slimeVialName(final int itemId) {
     String itemName = ItemDatabase.getItemDataName(itemId);
 
     String effect = Preferences.getString("lastSlimeVial" + itemId);
@@ -1200,7 +1199,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this;
   }
 
-  public static final String punchCardName(final int itemId) {
+  public static String punchCardName(final int itemId) {
     for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
       if (punchcard.id() == itemId) {
         return punchcard.alias();
