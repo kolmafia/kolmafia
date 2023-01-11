@@ -182,7 +182,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     }
   }
 
-  public static final VYKEACompanionData currentCompanion() {
+  public static VYKEACompanionData currentCompanion() {
     return VYKEACompanionData.currentCompanion;
   }
 
@@ -421,20 +421,16 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     // 6 - don't build anything
     if (choice == 1120) {
       switch (decision) {
-        case 1:
+        case 1 ->
           // Start with 5 planks -> bookshelf, ceiling fan, dresser
           ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
-          break;
-        case 2:
+        case 2 ->
           // Start with 5 rails -> couch, dishrack, lamp
           ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
-          break;
-        case 6:
-          // Do nothing
+        default -> {
+          // Do nothing or invalid decision (presumably from URL manipulation).
           return;
-        default:
-          // Invalid decision, presumably from URL manipulation.
-          return;
+        }
       }
 
       // You've started construction and cannot abort from
@@ -534,21 +530,19 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     // 3 - Add 5 brackets
     if (choice == 1123) {
       switch (decision) {
-        case 1:
+        case 1 ->
           // Add 5 planks -> bookshelf, couch
           ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
-          break;
-        case 2:
+        case 2 ->
           // Add 5 rails -> dresser, lamp
           ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
-          break;
-        case 3:
+        case 3 ->
           // Add 5 brackets -> ceiling fan, dishrack
           ResultProcessor.processItem(ItemPool.VYKEA_BRACKET, -5);
-          break;
-        default:
+        default -> {
           // Invalid decision, presumably from URL manipulation.
           return;
+        }
       }
 
       // Parse companion name and type from the result text
