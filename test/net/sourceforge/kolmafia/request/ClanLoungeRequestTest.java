@@ -11,17 +11,21 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import org.junit.jupiter.api.AfterAll;
@@ -135,6 +139,35 @@ public class ClanLoungeRequestTest {
 
   @Nested
   class Speakeasy {
+    /*
+     * 1) For a speakeasy drink to be visible:
+     * -  You need a Clan VIP lounge key
+     * -  You must be in a clan
+     * -  The clan must have a speakeasy
+     * -  The drink must be unlocked
+     * -  You must have enough Meat to buy it
+     * -  You must have drunk fewer than three speakeasy drinks today
+     * 2) This package needs to maintain a list of available drinks
+     * -  This will be cleared when you login or change clans
+     * -  This will be filled when we parse the Clan VIP lounge on login or clan switch
+     *    (This satisfies the first four checks)
+     * 3) A speakeasy concoction on the usables list has initial = 0 (never in inventory)
+     *    and creatable = 0 if the drink isn't on the available list. If it is on that list,
+     *    creatable can be 0, 1, 2, or 3, depending on available Meat and # of speakeasy
+     *    drinks consumed today.
+     *    (This satisfies the last two checks)
+     * 4) We need to track speakeasy drinks consumed - _speakeasyDrinksDrunk - and trigger
+     *    concoction.resetCalculations() for all speakeasy drinks.
+     */
+
+    public static Cleanups withSpeakeasyReset() {
+      ClanLoungeRequest.resetSpeakeasy();
+      var cleanups = new Cleanups();
+      cleanups.add(withProperty("_speakeasyDrinksDrunk", 0));
+      cleanups.add(new Cleanups(ClanLoungeRequest::resetSpeakeasy));
+      return cleanups;
+    }
+
     private static final AdventureResult GLASS_OF_MILK = ItemPool.get(ItemPool.GLASS_OF_MILK, 1);
     private static final AdventureResult CUP_OF_TEA = ItemPool.get(ItemPool.CUP_OF_TEA, 1);
     private static final AdventureResult THERMOS_OF_WHISKEY =
@@ -148,7 +181,7 @@ public class ClanLoungeRequestTest {
     private static final AdventureResult FLIVVER = ItemPool.get(ItemPool.FLIVVER, 1);
     private static final AdventureResult SLOPPY_JALOPY = ItemPool.get(ItemPool.SLOPPY_JALOPY, 1);
 
-    private static final List<AdventureResult> ALL_SPEAKEASY_DRINKS =
+    private static final Collection<AdventureResult> ALL_DRINKS =
         List.of(
             GLASS_OF_MILK,
             CUP_OF_TEA,
@@ -162,13 +195,36 @@ public class ClanLoungeRequestTest {
             FLIVVER,
             SLOPPY_JALOPY);
 
+    // This loads ClanLoungeRequest and executes static initialization
+    private static final Collection<Concoction> ALL_CONCOCTIONS = ClanLoungeRequest.ALL_SPEAKEASY;
+
+    @Test
+    void allSpeakeasyDrinksRemainOnUsablesList() {
+      var usables = ConcoctionDatabase.getUsables();
+      var available = ClanLoungeRequest.availableSpeakeasyDrinks;
+
+      // Initial state after loading
+      for (var concoction : ALL_CONCOCTIONS) {
+        assertTrue(usables.contains(concoction));
+        assertFalse(available.contains(concoction));
+      }
+
+      // Reset Speakeasy, as if in a clan without one
+      ClanLoungeRequest.resetSpeakeasy();
+
+      // Initial state still valid
+      for (var concoction : ALL_CONCOCTIONS) {
+        assertTrue(usables.contains(concoction));
+        assertFalse(available.contains(concoction));
+      }
+    }
+
     @Test
     void canParseSpeakeasyDrinks() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withProperty("_speakeasyDrinksDrunk", 0));
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withSpeakeasyReset());
 
       try (cleanups) {
         client.addResponse(200, html("request/test_clan_speakeasy.html"));
@@ -176,9 +232,14 @@ public class ClanLoungeRequestTest {
         assertThat(ClanLoungeRequest.availableSpeakeasyDrinks, hasSize(0));
         var request = new ClanLoungeRequest(ClanLoungeRequest.SPEAKEASY);
         request.run();
-        assertThat(
-            ClanLoungeRequest.availableSpeakeasyDrinks, hasSize(ALL_SPEAKEASY_DRINKS.size()));
-        for (var drink : ALL_SPEAKEASY_DRINKS) {
+
+        // All Speakeasy concoctions are available
+        for (var concoction : ALL_CONCOCTIONS) {
+          assertTrue(ClanLoungeRequest.availableSpeakeasyDrinks.contains(concoction));
+        }
+
+        // All Speakeasy "items" are on ClanLounge collection
+        for (var drink : ALL_DRINKS) {
           assertTrue(ClanLoungeRequest.hasClanLoungeItem(drink));
         }
 

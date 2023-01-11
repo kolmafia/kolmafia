@@ -365,7 +365,7 @@ public class ClanLoungeRequest extends GenericRequest {
    * -  This will be filled when we parse the Clan VIP lounge on login or clan switch
    *    (This satisfies the first four checks)
    * 3) A speakeasy concoction on the usables list has initial = 0 (never in inventory)
-   *    and creatable = 0 if the drink is on the available list. If it is on that list,
+   *    and creatable = 0 if the drink isn't on the available list. If it is on that list,
    *    creatable can be 0, 1, 2, or 3, depending on available Meat and # of speakeasy
    *    drinks consumed today.
    *    (This satisfies the last two checks)
@@ -403,6 +403,7 @@ public class ClanLoungeRequest extends GenericRequest {
     private final int cost;
 
     // Derived fields
+    private final AdventureResult item;
     private final String canonicalName;
     private final Concoction concoction;
 
@@ -415,8 +416,9 @@ public class ClanLoungeRequest extends GenericRequest {
       // Derived fields
       this.canonicalName = StringUtilities.getCanonicalName(name);
 
-      int itemId = ItemDatabase.getItemId(name, 1, false);
-      Concoction concoction = ConcoctionPool.get(itemId, name);
+      this.item = ItemPool.get(ItemDatabase.getItemId(name, 1, false));
+
+      Concoction concoction = ConcoctionPool.get(this.item);
       concoction.speakeasy = true;
       concoction.price = cost;
       this.concoction = concoction;
@@ -443,6 +445,10 @@ public class ClanLoungeRequest extends GenericRequest {
 
     public int getCost() {
       return this.cost;
+    }
+
+    public AdventureResult getItem() {
+      return this.item;
     }
 
     public String getCanonicalName() {
@@ -478,21 +484,38 @@ public class ClanLoungeRequest extends GenericRequest {
     return drink == null ? -1 : drink.getCost();
   }
 
-  private static final Set<Concoction> ALL_SPEAKEASY =
+  public static final Set<Concoction> ALL_SPEAKEASY =
       allSpeakeasyDrinks.stream().map(SpeakeasyDrink::getConcoction).collect(Collectors.toSet());
   private static final String[] CANONICAL_SPEAKEASY_ARRAY =
       allSpeakeasyDrinks.stream().map(SpeakeasyDrink::getCanonicalName).toArray(String[]::new);
 
   public static final Set<Concoction> availableSpeakeasyDrinks = new HashSet<>();
 
+  public static boolean availableSpeakeasyDrink(final String itemName) {
+    SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
+    return drink == null ? false : availableSpeakeasyDrinks.contains(drink.getConcoction());
+  }
+
+  public static void addSpeakeasyDrink(final String itemName) {
+    SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
+    if (drink != null) {
+      Concoction concoction = drink.getConcoction();
+      if (!availableSpeakeasyDrinks.contains(concoction)) {
+        ClanManager.addToLounge(drink.getItem());
+        availableSpeakeasyDrinks.add(concoction);
+        concoction.resetCalculations();
+      }
+    }
+  }
+
   public static final void resetSpeakeasy() {
     // Remove all Speakeasy drinks from available drinks
     availableSpeakeasyDrinks.clear();
 
-    // *** Fix
-    // Remove all Speakeasy drinks from the usable list
-    ConcoctionDatabase.getUsables().removeAll(ClanLoungeRequest.ALL_SPEAKEASY);
-    ConcoctionDatabase.refreshConcoctions(false);
+    // Reset availability for all drinks
+    for (var concoction : ALL_SPEAKEASY) {
+      concoction.resetCalculations();
+    }
   }
 
   public static final boolean isSpeakeasyDrink(String name) {
@@ -1361,23 +1384,6 @@ public class ClanLoungeRequest extends GenericRequest {
     RequestLogger.printLine(buffer.toString());
   }
 
-  public static boolean availableSpeakeasyDrink(final String itemName) {
-    SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
-    return drink == null ? false : availableSpeakeasyDrinks.contains(drink.getConcoction());
-  }
-
-  public static void addSpeakeasyDrink(final String itemName) {
-    SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
-    if (drink != null) {
-      Concoction concoction = drink.getConcoction();
-      availableSpeakeasyDrinks.add(concoction);
-      if (!ConcoctionDatabase.getUsables().contains(concoction)) {
-        ConcoctionDatabase.getUsables().add(concoction);
-        concoction.resetCalculations();
-      }
-    }
-  }
-
   private static final Pattern SPEAKEASY_ROW_PATTERN =
       Pattern.compile("name=\"drink\" value=\"(\\d+)\"", Pattern.DOTALL);
 
@@ -1409,11 +1415,6 @@ public class ClanLoungeRequest extends GenericRequest {
           RequestLogger.printLine("Found speakeasy drink #" + id + " (" + name + ")");
         }
 
-        AdventureResult item = ItemPool.get(name, 1);
-        if (item != null) {
-          ClanManager.addToLounge(item);
-        }
-
         count++;
       }
     }
@@ -1421,9 +1422,6 @@ public class ClanLoungeRequest extends GenericRequest {
     if (verbose) {
       RequestLogger.printLine("Total speakeasy drinks found: " + count);
     }
-
-    // Refresh available concoctions with currently available speakeasy drinks
-    ConcoctionDatabase.refreshConcoctions();
   }
 
   public static void parseFloundry(final String responseText, final boolean verbose) {
