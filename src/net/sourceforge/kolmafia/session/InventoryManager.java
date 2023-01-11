@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -1621,7 +1622,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.NO_HAT + "]", mod);
+      Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.NO_HAT, mod);
       return;
     }
 
@@ -1632,7 +1633,7 @@ public abstract class InventoryManager {
     AdventureResult JICK_SWORD = ItemPool.get(ItemPool.JICK_SWORD, 1);
     String mod = Preferences.getString("jickSwordModifier");
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.JICK_SWORD + "]", mod);
+      Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.JICK_SWORD, mod);
       return;
     }
     if (!KoLCharacter.hasEquipped(JICK_SWORD, EquipmentManager.WEAPON)
@@ -1654,7 +1655,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.PANTOGRAM_PANTS + "]", mod);
+      Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.PANTOGRAM_PANTS, mod);
       return;
     }
 
@@ -1669,7 +1670,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.LATTE_MUG + "]", mod);
+      Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.LATTE_MUG, mod);
       return;
     }
 
@@ -1734,7 +1735,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.COAT_OF_PAINT + "]", mod);
+      Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.COAT_OF_PAINT, mod);
       return;
     }
 
@@ -1748,7 +1749,7 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Effect:[" + EffectPool.BUZZED_ON_DISTILLATE + "]", mod);
+      Modifiers.overrideModifier(ModifierType.EFFECT, EffectPool.BUZZED_ON_DISTILLATE, mod);
       return;
     }
 

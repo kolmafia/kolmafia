@@ -37,7 +37,7 @@ class PlaceRequestTest {
   void itShouldSetTheToolbeltAsAFreePullInTTT() {
     // setup environment for test...
     Preferences.setBoolean("timeTowerAvailable", false); // ttt not available.
-    Modifiers.getModifiers("Item", "time-twitching toolbelt");
+    Modifiers.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
     AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
 
     List<AdventureResult> storage = KoLConstants.storage;

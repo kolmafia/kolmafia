@@ -18,16 +18,29 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.CandyDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
@@ -662,7 +675,8 @@ public class ProxyRecordValue extends RecordValue {
      * @return The Skill granted
      */
     public Value get_skill() {
-      String skillName = Modifiers.getStringModifier("Item", (int) this.contentLong, "Skill");
+      String skillName =
+          Modifiers.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Skill");
       return skillName.equals("")
           ? DataTypes.SKILL_INIT
           : DataTypes.makeSkillValue(SkillDatabase.getSkillId(skillName), true);
@@ -674,7 +688,8 @@ public class ProxyRecordValue extends RecordValue {
      * @return The Recipe learned
      */
     public Value get_recipe() {
-      String recipeName = Modifiers.getStringModifier("Item", (int) this.contentLong, "Recipe");
+      String recipeName =
+          Modifiers.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Recipe");
       return recipeName.equals("") ? DataTypes.ITEM_INIT : DataTypes.makeItemValue(recipeName);
     }
   }

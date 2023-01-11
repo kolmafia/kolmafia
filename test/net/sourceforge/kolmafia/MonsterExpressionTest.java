@@ -54,7 +54,7 @@ public class MonsterExpressionTest {
 
   @Test
   public void canDetectMonsterLevel() {
-    Modifiers.overrideModifier("Generated:_userMods", "Monster Level: +9");
+    Modifiers.overrideModifier(ModifierType.GENERATED, "_userMods", "Monster Level: +9");
     KoLCharacter.recalculateAdjustments();
 
     var exp = new MonsterExpression("ML", "Monster Level");

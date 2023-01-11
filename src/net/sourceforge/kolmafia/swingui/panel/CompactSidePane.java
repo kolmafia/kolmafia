@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.listener.Listener;
@@ -396,7 +397,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         }
 
         int id = fam.getId();
-        Modifiers mods = Modifiers.getModifiers("Familiar", fam.getRace());
+        Modifiers mods = Modifiers.getModifiers(ModifierType.FAMILIAR, fam.getRace());
         boolean added = false;
 
         // Stat Gain

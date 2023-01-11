@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.ModifierExpression;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -295,12 +296,12 @@ public abstract class ConsequenceManager {
           mods =
               DebugDatabase.parseItemEnchantments(
                   match.replaceFirst(match.group(0)), new ArrayList<>(), equipType);
-          Modifiers.overrideModifier("Item:[" + itemId + "]", mods);
+          Modifiers.overrideModifier(ModifierType.ITEM, itemId, mods);
         }
         case "DESC_EFFECT" -> {
-          int itemId = EffectDatabase.getEffectId(this.getSpec());
+          int effectId = EffectDatabase.getEffectId(this.getSpec());
           mods = DebugDatabase.parseEffectEnchantments(match.replaceFirst(match.group(0)));
-          Modifiers.overrideModifier("Effect:[" + itemId + "]", mods);
+          Modifiers.overrideModifier(ModifierType.EFFECT, effectId, mods);
         }
       }
 
