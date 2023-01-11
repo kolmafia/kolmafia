@@ -1046,8 +1046,8 @@ public class ModifiersTest {
 
   @Nested
   class FairyFamiliars {
-    private Double fairyFunction(final double effectiveWeight) {
-      return Math.max(Math.sqrt(55 * effectiveWeight) + effectiveWeight - 3, 0);
+    private Double fairyFunction(final double weight) {
+      return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
     }
 
     private Modifiers getFamiliarMods(final int weight) {
@@ -1092,10 +1092,10 @@ public class ModifiersTest {
         var weight = 20;
         var familiarMods = getFamiliarMods(weight);
         assertThat(
-            familiarMods.get(mod), closeTo(fairyFunction(weight * otherFairyEffectiveness), 0.001));
+            familiarMods.get(mod), closeTo(fairyFunction(weight) * otherFairyEffectiveness, 0.001));
         assertThat(
             familiarMods.get(Modifiers.ITEMDROP),
-            closeTo(fairyFunction(weight * itemFairyEffectiveness), 0.001));
+            closeTo(fairyFunction(weight) * itemFairyEffectiveness, 0.001));
       }
     }
   }
