@@ -44,37 +44,37 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   private static final Pattern HAT_PATTERN =
       Pattern.compile(
-          "Hat</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=hat");
+          "Hat</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=hat");
   private static final Pattern WEAPON_PATTERN =
       Pattern.compile(
-          "Weapon</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=weapon");
+          "Weapon</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=weapon");
   private static final Pattern HOLSTER_PATTERN =
       Pattern.compile(
-          "Holstered</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?action=holster&holster=0");
+          "Holstered</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?action=holster&holster=0");
   private static final Pattern OFFHAND_PATTERN =
       Pattern.compile(
-          "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=offhand");
+          "Off-Hand</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=offhand");
   private static final Pattern CONTAINER_PATTERN =
       Pattern.compile(
-          "Back</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=container");
+          "Back</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=container");
   private static final Pattern SHIRT_PATTERN =
       Pattern.compile(
-          "Shirt</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=shirt");
+          "Shirt</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=shirt");
   private static final Pattern PANTS_PATTERN =
       Pattern.compile(
-          "Pants</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=pants");
+          "Pants</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=pants");
   private static final Pattern ACC1_PATTERN =
       Pattern.compile(
-          "Accessory</a>(?:&nbsp;1)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc1");
+          "Accessory</a>(?:&nbsp;1)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc1");
   private static final Pattern ACC2_PATTERN =
       Pattern.compile(
-          "Accessory</a>(?:&nbsp;2)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc2");
+          "Accessory</a>(?:&nbsp;2)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc2");
   private static final Pattern ACC3_PATTERN =
       Pattern.compile(
-          "Accessory</a>(?:&nbsp;3)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc3");
+          "Accessory</a>(?:&nbsp;3)?:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc3");
   private static final Pattern FAMILIARITEM_PATTERN =
       Pattern.compile(
-          "Familiar</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=familiarequip\"");
+          "Familiar</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=familiarequip\"");
   private static final Pattern OUTFITLIST_PATTERN =
       Pattern.compile("<select name=whichoutfit>.*?</select>");
   private static final Pattern STICKER_PATTERN =
@@ -99,19 +99,20 @@ public class EquipmentRequest extends PasswordHashRequest {
   private static final Pattern HOLSTER_URL_PATTERN = Pattern.compile("holster=(\\d+)");
 
   public static final AdventureResult UNEQUIP = ItemPool.get("(none)", 1);
-  public static final AdventureResult TRUSTY = ItemPool.get(ItemPool.TRUSTY, 1);
 
-  public static final int REFRESH = 0;
-  public static final int EQUIPMENT = 1;
+  public enum EquipmentRequestType {
+    REFRESH,
+    EQUIPMENT,
 
-  public static final int SAVE_OUTFIT = 2;
-  public static final int CHANGE_OUTFIT = 3;
+    SAVE_OUTFIT,
+    CHANGE_OUTFIT,
 
-  public static final int CHANGE_ITEM = 4;
-  public static final int REMOVE_ITEM = 5;
-  public static final int UNEQUIP_ALL = 6;
+    CHANGE_ITEM,
+    REMOVE_ITEM,
+    UNEQUIP_ALL,
 
-  public static final int BEDAZZLEMENTS = 7;
+    BEDAZZLEMENTS
+  }
 
   // Array indexed by equipment "slot" from KoLCharacter
   //
@@ -176,7 +177,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     "fakehand"
   };
 
-  private int requestType;
+  private EquipmentRequestType requestType;
   private int equipmentSlot;
   private AdventureResult changeItem;
   private int itemId;
@@ -187,7 +188,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   private static int customOutfitId = 0;
 
-  public EquipmentRequest(final int requestType) {
+  public EquipmentRequest(final EquipmentRequestType requestType) {
     super(EquipmentRequest.choosePage(requestType));
 
     this.requestType = requestType;
@@ -199,17 +200,17 @@ public class EquipmentRequest extends PasswordHashRequest {
     // of the inventory you want to request
 
     switch (requestType) {
-      case EquipmentRequest.EQUIPMENT:
+      case EQUIPMENT:
         this.addFormField("which", "2");
         break;
-      case EquipmentRequest.BEDAZZLEMENTS:
+      case BEDAZZLEMENTS:
         // no fields necessary
         break;
-      case EquipmentRequest.SAVE_OUTFIT:
+      case SAVE_OUTFIT:
         this.addFormField("ajax", "1");
         this.addFormField("which", "2");
         break;
-      case EquipmentRequest.UNEQUIP_ALL:
+      case UNEQUIP_ALL:
         this.addFormField("ajax", "1");
         this.addFormField("which", "2");
         this.addFormField("action", "unequipall");
@@ -217,16 +218,16 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
-  private static String choosePage(final int requestType) {
+  private static String choosePage(final EquipmentRequestType requestType) {
     return switch (requestType) {
-      case EquipmentRequest.BEDAZZLEMENTS -> "bedazzle.php";
-      case EquipmentRequest.SAVE_OUTFIT, EquipmentRequest.UNEQUIP_ALL -> "inv_equip.php";
+      case BEDAZZLEMENTS -> "bedazzle.php";
+      case SAVE_OUTFIT, UNEQUIP_ALL -> "inv_equip.php";
       default -> "inventory.php";
     };
   }
 
   public EquipmentRequest(final String changeName) {
-    this(EquipmentRequest.SAVE_OUTFIT);
+    this(EquipmentRequestType.SAVE_OUTFIT);
     this.addFormField("action", "customoutfit");
     this.addFormField("outfitname", changeName);
     this.addFormField("ajax", "1");
@@ -234,15 +235,10 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   public EquipmentRequest(final AdventureResult changeItem) {
-    this(changeItem, EquipmentRequest.chooseEquipmentSlot(changeItem.getItemId()), false);
+    this(changeItem, EquipmentRequest.chooseEquipmentSlot(changeItem.getItemId()));
   }
 
   public EquipmentRequest(final AdventureResult changeItem, final int equipmentSlot) {
-    this(changeItem, equipmentSlot, false);
-  }
-
-  public EquipmentRequest(
-      final AdventureResult changeItem, final int equipmentSlot, final boolean force) {
     super(EquipmentRequest.chooseEquipmentLocation(equipmentSlot));
 
     this.error = null;
@@ -254,7 +250,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       case EquipmentManager.STICKER1:
       case EquipmentManager.STICKER2:
       case EquipmentManager.STICKER3:
-        this.initializeStickerData(changeItem, equipmentSlot, force);
+        this.initializeStickerData(changeItem, equipmentSlot);
         break;
       case EquipmentManager.CARDSLEEVE:
         this.initializeCardSleeveData(changeItem);
@@ -274,7 +270,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         this.initializeSixgunData(changeItem, equipmentSlot);
         break;
       default:
-        this.initializeChangeData(changeItem, equipmentSlot, force);
+        this.initializeChangeData(changeItem, equipmentSlot);
     }
   }
 
@@ -288,7 +284,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         change == SpecialOutfit.PREVIOUS_OUTFIT ? "last" : String.valueOf(change.getOutfitId()));
     this.addFormField("ajax", "1");
 
-    this.requestType = EquipmentRequest.CHANGE_OUTFIT;
+    this.requestType = EquipmentRequestType.CHANGE_OUTFIT;
     this.outfit = change;
     this.error = null;
   }
@@ -331,14 +327,13 @@ public class EquipmentRequest extends PasswordHashRequest {
     return true;
   }
 
-  private void initializeChangeData(
-      final AdventureResult changeItem, final int equipmentSlot, final boolean force) {
+  private void initializeChangeData(final AdventureResult changeItem, final int equipmentSlot) {
     this.addFormField("which", "2");
     this.addFormField("ajax", "1");
     this.equipmentSlot = equipmentSlot;
 
     if (changeItem.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("action", "unequip");
       this.addFormField("type", EquipmentRequest.phpSlotNames[equipmentSlot]);
       return;
@@ -356,25 +351,24 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     // Make sure you can equip it in the requested slot
-    String action = this.getAction(force);
+    String action = this.getAction();
     if (action == null) {
       return;
     }
 
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = changeItem.getCount() == 1 ? changeItem : changeItem.getInstance(1);
 
     this.addFormField("action", action);
     this.addFormField("whichitem", String.valueOf(this.itemId));
   }
 
-  private void initializeStickerData(
-      final AdventureResult sticker, final int equipmentSlot, final boolean force) {
+  private void initializeStickerData(final AdventureResult sticker, final int equipmentSlot) {
     this.equipmentSlot = equipmentSlot;
     this.addFormField("slot", String.valueOf(equipmentSlot - EquipmentManager.STICKER1 + 1));
 
     if (sticker.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("action", "peel");
       return;
     }
@@ -392,7 +386,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     this.addFormField("sticker", String.valueOf(this.itemId));
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = sticker.getCount() == 1 ? sticker : sticker.getInstance(1);
 
     if (EquipmentManager.hasStickerWeapon()) {
@@ -408,7 +402,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("whichitem", String.valueOf(ItemPool.CARD_SLEEVE));
 
     if (card.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("removecard", "1");
       return;
     }
@@ -426,7 +420,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     this.addFormField("sleevecard", String.valueOf(this.itemId));
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = card.getCount() == 1 ? card : card.getInstance(1);
   }
 
@@ -435,7 +429,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("whichchoice", "774");
 
     if (folder.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("slot", String.valueOf(slot - EquipmentManager.FOLDER1));
       this.addFormField("option", "2");
       return;
@@ -461,7 +455,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = folder;
     this.addFormField("option", "1");
     this.addFormField("folder", String.valueOf(this.itemId - ItemPool.FOLDER_01 + 1));
@@ -500,7 +494,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = decoration;
     this.addFormField("whichitem", String.valueOf(this.itemId));
     this.addFormField("ajax", "1");
@@ -512,7 +506,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.equipmentSlot = slot;
 
     if (sixgun.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("which", "2h");
       this.addFormField("action", "holster");
       this.addFormField("holster", "0");
@@ -531,7 +525,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = sixgun;
 
     this.addFormField("which", "2");
@@ -540,91 +534,78 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("ajax", "1");
   }
 
-  private String getAction(final boolean force) {
+  private String getAction() {
     switch (this.equipmentSlot) {
-      case EquipmentManager.HAT:
+      case EquipmentManager.HAT -> {
         if (this.equipmentType == ConsumptionType.HAT) {
           return "equip";
         }
-        break;
-
-      case EquipmentManager.WEAPON:
+      }
+      case EquipmentManager.WEAPON -> {
         if (this.equipmentType == ConsumptionType.WEAPON) {
           return "equip";
         }
-        break;
-
-      case EquipmentManager.OFFHAND:
+      }
+      case EquipmentManager.OFFHAND -> {
         if (this.equipmentType == ConsumptionType.OFFHAND) {
           return "equip";
         }
-
         if (this.equipmentType == ConsumptionType.WEAPON
             && EquipmentDatabase.getHands(this.itemId) == 1) {
           return "dualwield";
         }
-        break;
-
-      case EquipmentManager.CONTAINER:
+      }
+      case EquipmentManager.CONTAINER -> {
         if (this.equipmentType == ConsumptionType.CONTAINER) {
           return "equip";
         }
-        break;
-
-      case EquipmentManager.SHIRT:
+      }
+      case EquipmentManager.SHIRT -> {
         if (this.equipmentType == ConsumptionType.SHIRT) {
           return "equip";
         }
-        break;
-
-      case EquipmentManager.PANTS:
+      }
+      case EquipmentManager.PANTS -> {
         if (this.equipmentType == ConsumptionType.PANTS) {
           return "equip";
         }
-        break;
-
-      case EquipmentManager.ACCESSORY1:
+      }
+      case EquipmentManager.ACCESSORY1 -> {
         if (this.equipmentType == ConsumptionType.ACCESSORY) {
           this.addFormField("slot", "1");
           return "equip";
         }
-        break;
-
-      case EquipmentManager.ACCESSORY2:
+      }
+      case EquipmentManager.ACCESSORY2 -> {
         if (this.equipmentType == ConsumptionType.ACCESSORY) {
           this.addFormField("slot", "2");
           return "equip";
         }
-        break;
-
-      case EquipmentManager.ACCESSORY3:
+      }
+      case EquipmentManager.ACCESSORY3 -> {
         if (this.equipmentType == ConsumptionType.ACCESSORY) {
           this.addFormField("slot", "3");
           return "equip";
         }
-        break;
-
-      case EquipmentManager.FAMILIAR:
+      }
+      case EquipmentManager.FAMILIAR -> {
         switch (this.equipmentType) {
-          case FAMILIAR_EQUIPMENT:
+          case FAMILIAR_EQUIPMENT -> {
             return "equip";
-
-          case HAT:
-          case WEAPON:
-          case OFFHAND:
-          case PANTS:
+          }
+          case HAT, WEAPON, OFFHAND, PANTS -> {
             return "hatrack";
+          }
         }
-        break;
-
-      case EquipmentManager.FAKEHAND:
+      }
+      case EquipmentManager.FAKEHAND -> {
         if (this.itemId == ItemPool.FAKE_HAND) {
           return "equip";
         }
-        break;
-
-      default:
+      }
+      default -> {
         return "equip";
+      }
     }
 
     this.error =
@@ -639,25 +620,23 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public static final int chooseEquipmentSlot(final int itemId) {
     switch (itemId) {
-      case ItemPool.SPELUNKY_SPRING_BOOTS:
-      case ItemPool.SPELUNKY_SPIKED_BOOTS:
+      case ItemPool.SPELUNKY_SPRING_BOOTS, ItemPool.SPELUNKY_SPIKED_BOOTS -> {
         // Spelunky only has one "accessory" slot
         return EquipmentManager.ACCESSORY1;
-      case ItemPool.WORK_BOOTS:
-      case ItemPool.FANCY_BOOTS:
-        {
-          // These are mutually exclusive. If you are wearing one and
-          // want to equip the other, choose the same accessory slot
-          int slot = KoLCharacter.equipmentSlot(ItemPool.get(ItemPool.WORK_BOOTS, 1));
-          if (slot != -1) {
-            return slot;
-          }
-          slot = KoLCharacter.equipmentSlot(ItemPool.get(ItemPool.FANCY_BOOTS, 1));
-          if (slot != -1) {
-            return slot;
-          }
-          return EquipmentRequest.availableAccessory();
+      }
+      case ItemPool.WORK_BOOTS, ItemPool.FANCY_BOOTS -> {
+        // These are mutually exclusive. If you are wearing one and
+        // want to equip the other, choose the same accessory slot
+        int slot = KoLCharacter.equipmentSlot(ItemPool.get(ItemPool.WORK_BOOTS, 1));
+        if (slot != -1) {
+          return slot;
         }
+        slot = KoLCharacter.equipmentSlot(ItemPool.get(ItemPool.FANCY_BOOTS, 1));
+        if (slot != -1) {
+          return slot;
+        }
+        return EquipmentRequest.availableAccessory();
+      }
     }
 
     ConsumptionType equipmentType = ItemDatabase.getConsumptionType(itemId);
@@ -731,10 +710,6 @@ public class EquipmentRequest extends PasswordHashRequest {
         EquipmentManager.FOLDER_SLOTS, KoLCharacter.inHighschool() ? 5 : 3);
   }
 
-  public String getOutfitName() {
-    return this.outfit == null ? null : this.outfit.toString();
-  }
-
   /**
    * Executes the <code>EquipmentRequest</code>. Note that at the current time, only the character's
    * currently equipped items and familiar item will be stored.
@@ -745,7 +720,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    if (this.requestType == EquipmentRequest.REFRESH) {
+    if (this.requestType == EquipmentRequestType.REFRESH) {
       InventoryManager.refresh();
       return;
     }
@@ -759,7 +734,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Outfit changes are a bit quirky, so they're handled
     // first for easy visibility.
 
-    if (this.requestType == EquipmentRequest.CHANGE_OUTFIT) {
+    if (this.requestType == EquipmentRequestType.CHANGE_OUTFIT) {
       // If this is a birthday suit outfit, then remove everything.
       if (this.outfit == SpecialOutfit.BIRTHDAY_SUIT) {
         // See if you are wearing anything.
@@ -777,7 +752,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         }
 
         // Tell KoL to unequip everything
-        (new EquipmentRequest(EquipmentRequest.UNEQUIP_ALL)).run();
+        (new EquipmentRequest(EquipmentRequestType.UNEQUIP_ALL)).run();
 
         return;
       } else if (this.outfit == SpecialOutfit.PREVIOUS_OUTFIT) {
@@ -809,7 +784,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       }
     }
 
-    if (this.requestType == EquipmentRequest.CHANGE_ITEM) {
+    if (this.requestType == EquipmentRequestType.CHANGE_ITEM) {
       // Do not submit a request if the item matches what you
       // want to equip on the character.
 
@@ -892,7 +867,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       }
     }
 
-    if (this.requestType == EquipmentRequest.REMOVE_ITEM
+    if (this.requestType == EquipmentRequestType.REMOVE_ITEM
         && equipmentSlot != EquipmentManager.FAKEHAND
         && EquipmentManager.getEquipment(this.equipmentSlot).equals(EquipmentRequest.UNEQUIP)) {
       return;
@@ -904,13 +879,11 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     switch (this.requestType) {
-      case EquipmentRequest.EQUIPMENT -> KoLmafia.updateDisplay("Retrieving equipment...");
-      case EquipmentRequest.BEDAZZLEMENTS -> KoLmafia.updateDisplay("Refreshing stickers...");
-      case EquipmentRequest.SAVE_OUTFIT -> KoLmafia.updateDisplay(
-          "Saving outfit: " + this.outfitName);
-      case EquipmentRequest.CHANGE_OUTFIT -> KoLmafia.updateDisplay(
-          "Putting on outfit: " + this.outfit);
-      case EquipmentRequest.CHANGE_ITEM -> KoLmafia.updateDisplay(
+      case EQUIPMENT -> KoLmafia.updateDisplay("Retrieving equipment...");
+      case BEDAZZLEMENTS -> KoLmafia.updateDisplay("Refreshing stickers...");
+      case SAVE_OUTFIT -> KoLmafia.updateDisplay("Saving outfit: " + this.outfitName);
+      case CHANGE_OUTFIT -> KoLmafia.updateDisplay("Putting on outfit: " + this.outfit);
+      case CHANGE_ITEM -> KoLmafia.updateDisplay(
           (this.equipmentSlot == EquipmentManager.WEAPON
                   ? "Wielding "
                   : this.equipmentSlot == EquipmentManager.OFFHAND
@@ -922,7 +895,7 @@ public class EquipmentRequest extends PasswordHashRequest {
                               : "Putting on ")
               + ItemDatabase.getItemName(this.itemId)
               + "...");
-      case EquipmentRequest.REMOVE_ITEM -> KoLmafia.updateDisplay(
+      case REMOVE_ITEM -> KoLmafia.updateDisplay(
           (this.equipmentSlot == EquipmentManager.CARDSLEEVE
                   ? "Sliding out "
                   : this.equipmentSlot == EquipmentManager.HOLSTER
@@ -932,7 +905,7 @@ public class EquipmentRequest extends PasswordHashRequest {
                   ? "fake hands"
                   : EquipmentManager.getEquipment(this.equipmentSlot).getName())
               + "...");
-      case EquipmentRequest.UNEQUIP_ALL -> KoLmafia.updateDisplay("Taking off everything...");
+      case UNEQUIP_ALL -> KoLmafia.updateDisplay("Taking off everything...");
     }
 
     // You can only change a card in the card sleeve while it is in inventory
@@ -957,22 +930,15 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     switch (this.requestType) {
-      case EquipmentRequest.REFRESH:
+      case REFRESH -> {
         return;
-
-      case EquipmentRequest.SAVE_OUTFIT:
+      }
+      case SAVE_OUTFIT -> {
         KoLmafia.updateDisplay("Outfit saved");
         return;
-
-      case EquipmentRequest.CHANGE_ITEM:
-      case EquipmentRequest.CHANGE_OUTFIT:
-      case EquipmentRequest.REMOVE_ITEM:
-        KoLmafia.updateDisplay("Equipment changed.");
-        break;
-
-      case EquipmentRequest.UNEQUIP_ALL:
-        KoLmafia.updateDisplay("Everything removed.");
-        break;
+      }
+      case CHANGE_ITEM, CHANGE_OUTFIT, REMOVE_ITEM -> KoLmafia.updateDisplay("Equipment changed.");
+      case UNEQUIP_ALL -> KoLmafia.updateDisplay("Everything removed.");
     }
   }
 
@@ -998,15 +964,14 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     switch (this.requestType) {
-      case EquipmentRequest.REFRESH:
+      case REFRESH -> {
         return;
-
-      case EquipmentRequest.EQUIPMENT:
+      }
+      case EQUIPMENT -> {
         EquipmentRequest.parseEquipment(urlString, responseText);
         return;
-
-      case EquipmentRequest.CHANGE_ITEM:
-      case EquipmentRequest.CHANGE_OUTFIT:
+      }
+      case CHANGE_ITEM, CHANGE_OUTFIT -> {
         String text = this.responseText == null ? "" : this.responseText;
         // What SHOULD we do if get a null responseText?
 
@@ -1043,7 +1008,6 @@ public class EquipmentRequest extends PasswordHashRequest {
             return;
           }
         }
-
         if (this.equipmentSlot == EquipmentManager.CARDSLEEVE) {
           EquipmentRequest.parseCardSleeve(responseText);
         } else if (this.getURLString().contains("ajax=1")) {
@@ -1054,12 +1018,9 @@ public class EquipmentRequest extends PasswordHashRequest {
           // This redirects to equipment.php?action=message
           EquipmentRequest.parseEquipment(urlString, responseText);
         }
-
         return;
-
-      case EquipmentRequest.SAVE_OUTFIT:
-      case EquipmentRequest.REMOVE_ITEM:
-      case EquipmentRequest.UNEQUIP_ALL:
+      }
+      case SAVE_OUTFIT, REMOVE_ITEM, UNEQUIP_ALL -> {
         if (this.equipmentSlot == EquipmentManager.CARDSLEEVE) {
           EquipmentRequest.parseCardSleeve(responseText);
         } else if (this.getURLString().contains("ajax=1")) {
@@ -1070,8 +1031,8 @@ public class EquipmentRequest extends PasswordHashRequest {
           // I.e., with a sixgun holstered.
           EquipmentManager.setEquipment(EquipmentManager.HOLSTER, EquipmentRequest.UNEQUIP);
         }
-
         return;
+      }
     }
   }
 
@@ -1120,7 +1081,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         || !ConcoctionDatabase.getKnownUses(newItem).isEmpty();
   }
 
-  public static final void parseBedazzlements(final String responseText) {
+  public static void parseBedazzlements(final String responseText) {
     Matcher matcher = EquipmentRequest.STICKER_PATTERN.matcher(responseText);
     for (int slot : EquipmentManager.STICKER_SLOTS) {
       if (!matcher.find()) {
@@ -1166,7 +1127,7 @@ public class EquipmentRequest extends PasswordHashRequest {
   private static final Pattern CONTAINS_PATTERN =
       Pattern.compile("Your card sleeve currently contains an <b>(.*?)</b>");
 
-  public static final void parseCardSleeve(final String responseText) {
+  public static void parseCardSleeve(final String responseText) {
     // Putting a card into an empty card sleeve
     //
     // You put the Alice's Army Sniper in the card sleeve.
@@ -1208,14 +1169,14 @@ public class EquipmentRequest extends PasswordHashRequest {
     EquipmentManager.setEquipment(EquipmentManager.CARDSLEEVE, newItem);
   }
 
-  public static final AdventureResult idToFolder(final String id) {
+  public static AdventureResult idToFolder(final String id) {
     int itemId = ItemPool.FOLDER_01 + StringUtilities.parseInt(id) - 1;
     return (itemId < ItemPool.FOLDER_01 || itemId > ItemPool.FOLDER_28)
         ? EquipmentRequest.UNEQUIP
         : ItemPool.get(itemId, 1);
   }
 
-  public static final void parseFolders(String responseText) {
+  public static void parseFolders(String responseText) {
     int startIndex = responseText.indexOf("Contents of your Folder Holder");
     int stopIndex = responseText.indexOf("Folders in your Inventory");
     if (startIndex == -1 || stopIndex == -1) {
@@ -1236,7 +1197,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
-  public static final void parseEquipment(final String location, final String responseText) {
+  public static void parseEquipment(final String location, final String responseText) {
     if (location.contains("onlyitem=")
         || location.contains("ajax=1")
         || location.contains("ftext=")) {
@@ -1360,7 +1321,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     FamiliarData.checkLockedItem(responseText);
 
     // If he's wearing a custom outfit, do additional processing
-    EquipmentRequest.wearCustomOutfit(location);
+    EquipmentRequest.wearCustomOutfit();
 
     // If you need to update your creatables list, do so at
     // the end of the processing.
@@ -1406,16 +1367,15 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
-  public static final boolean switchEquipment(
+  public static boolean switchEquipment(
       final AdventureResult[] oldEquipment, final AdventureResult[] newEquipment) {
     boolean refresh = false;
 
     if (!KoLmafia.isRefreshing()) {
       for (int i = 0; i < EquipmentManager.SLOTS; ++i) {
-        switch (i) {
-          case EquipmentManager.HOLSTER:
-            // No inventory swapping for holstered sixguns
-            continue;
+        if (i == EquipmentManager.HOLSTER) {
+          // No inventory swapping for holstered sixguns
+          continue;
         }
 
         AdventureResult oldItem = oldEquipment[i];
@@ -1473,8 +1433,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     return refresh;
   }
 
-  public static final boolean parseEquipmentChange(
-      final String location, final String responseText) {
+  public static boolean parseEquipmentChange(final String location, final String responseText) {
     Matcher matcher = GenericRequest.ACTION_PATTERN.matcher(location);
 
     // We have nothing special to do for simple visits.
@@ -1700,7 +1659,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
       // Trigger actions based on outfit name
 
-      EquipmentRequest.wearCustomOutfit(location);
+      EquipmentRequest.wearCustomOutfit();
 
       return true;
     }
@@ -1744,7 +1703,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       AdventureResult item = ItemPool.get(itemId);
       int slot = EquipmentManager.itemIdToEquipmentType(itemId);
       switch (slot) {
-        case EquipmentManager.ACCESSORY1:
+        case EquipmentManager.ACCESSORY1 -> {
           if (newEquipment[EquipmentManager.ACCESSORY3].equals(item)) {
             slot = EquipmentManager.ACCESSORY3;
           } else if (newEquipment[EquipmentManager.ACCESSORY2].equals(item)) {
@@ -1753,9 +1712,8 @@ public class EquipmentRequest extends PasswordHashRequest {
             // KoL error: accessory not found
             continue;
           }
-          break;
-
-        case EquipmentManager.WEAPON:
+        }
+        case EquipmentManager.WEAPON -> {
           if (newEquipment[EquipmentManager.OFFHAND].equals(item)) {
             // Heuristic: unequip duplicate
             // weapon from offhand slot first
@@ -1764,11 +1722,11 @@ public class EquipmentRequest extends PasswordHashRequest {
             // KoL error: weapon not found
             continue;
           }
-          break;
-        default:
+        }
+        default -> {
           // Everything else goes into an
           // unambiguous slot.
-          break;
+        }
       }
 
       newEquipment[slot] = EquipmentRequest.UNEQUIP;
@@ -1869,7 +1827,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
-  private static void wearCustomOutfit(final String urlString) {
+  private static void wearCustomOutfit() {
     int outfitId = EquipmentRequest.customOutfitId;
     EquipmentRequest.customOutfitId = 0;
 
@@ -1912,7 +1870,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
   }
 
-  public static final int slotNumber(final String name) {
+  public static int slotNumber(final String name) {
     for (int i = 0; i < EquipmentRequest.slotNames.length; ++i) {
       if (name.equalsIgnoreCase(EquipmentRequest.slotNames[i])) {
         return i;
@@ -1922,7 +1880,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     return EquipmentRequest.phpSlotNumber(name);
   }
 
-  public static final int phpSlotNumber(final String name) {
+  public static int phpSlotNumber(final String name) {
     for (int i = 0; i < EquipmentRequest.phpSlotNames.length; ++i) {
       if (name.equalsIgnoreCase(EquipmentRequest.phpSlotNames[i])) {
         return i;
@@ -1950,7 +1908,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     };
   }
 
-  public static final boolean registerRequest(final String urlString) {
+  public static boolean registerRequest(final String urlString) {
     if (urlString.startsWith("bedazzle.php")) {
       registerBedazzlement(urlString);
       return true;
@@ -2044,7 +2002,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   private static final Pattern SLEEVECARD_PATTERN = Pattern.compile("sleevecard=(\\d+)");
 
-  public static final boolean registerCardSleeve(final String urlString) {
+  public static boolean registerCardSleeve(final String urlString) {
     UseItemRequest.setLastItemUsed(EquipmentManager.CARD_SLEEVE);
     Matcher m = SLEEVECARD_PATTERN.matcher(urlString);
     String message =
@@ -2059,7 +2017,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     return true;
   }
 
-  public static final void registerBedazzlement(final String urlString) {
+  public static void registerBedazzlement(final String urlString) {
     if (urlString.contains("action=fold")) {
       RequestLogger.updateSessionLog("folded sticker weapon");
       return;
@@ -2094,7 +2052,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
-  public static final boolean registerHolster(final String urlString) {
+  public static boolean registerHolster(final String urlString) {
     Matcher m = HOLSTER_URL_PATTERN.matcher(urlString);
     int itemId = m.find() ? StringUtilities.parseInt(m.group(1)) : -1;
     String message =
@@ -2153,6 +2111,6 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     // Have to get it from the Equipment page of the Inventory
-    RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.EQUIPMENT));
+    RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
   }
 }

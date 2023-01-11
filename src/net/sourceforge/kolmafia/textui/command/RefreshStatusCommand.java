@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -34,10 +35,10 @@ public class RefreshStatusCommand extends AbstractCommand {
     } else if (parameters.equals("gear")
         || parameters.startsWith("equip")
         || parameters.equals("outfit")) {
-      RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.EQUIPMENT));
+      RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
       parameters = "equipment";
     } else if (parameters.startsWith("stick")) {
-      RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.BEDAZZLEMENTS));
+      RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.BEDAZZLEMENTS));
       parameters = "equipment";
     } else if (parameters.startsWith("inv")) {
       InventoryManager.refresh();

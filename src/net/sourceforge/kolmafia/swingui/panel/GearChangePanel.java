@@ -466,7 +466,7 @@ public class GearChangePanel extends JPanel {
 
     for (int i : EquipmentManager.ACCESSORY_SLOTS) {
       if (pieces[i] != null) {
-        RequestThread.postRequest(new EquipmentRequest(pieces[i], i, true));
+        RequestThread.postRequest(new EquipmentRequest(pieces[i], i));
         pieces[i] = null;
       }
     }
@@ -475,7 +475,7 @@ public class GearChangePanel extends JPanel {
 
     for (int i = 0; i < EquipmentManager.ACCESSORY1; ++i) {
       if (pieces[i] != null) {
-        RequestThread.postRequest(new EquipmentRequest(pieces[i], i, true));
+        RequestThread.postRequest(new EquipmentRequest(pieces[i], i));
         pieces[i] = null;
       }
     }
@@ -643,7 +643,7 @@ public class GearChangePanel extends JPanel {
     AdventureResult card =
         (AdventureResult) this.equipment[EquipmentManager.CARDSLEEVE].getSelectedItem();
     if (!EquipmentManager.getEquipment(EquipmentManager.CARDSLEEVE).equals(card)) {
-      RequestThread.postRequest(new EquipmentRequest(card, EquipmentManager.CARDSLEEVE, true));
+      RequestThread.postRequest(new EquipmentRequest(card, EquipmentManager.CARDSLEEVE));
     }
 
     // Stickers
@@ -658,7 +658,7 @@ public class GearChangePanel extends JPanel {
       AdventureResult sticker = stickers[i];
       int slot = EquipmentManager.STICKER1 + i;
       if (!EquipmentManager.getEquipment(slot).equals(sticker)) {
-        RequestThread.postRequest(new EquipmentRequest(sticker, slot, true));
+        RequestThread.postRequest(new EquipmentRequest(sticker, slot));
       }
     }
 
@@ -676,7 +676,7 @@ public class GearChangePanel extends JPanel {
       AdventureResult folder = folders[i];
       int slot = EquipmentManager.FOLDER1 + i;
       if (!EquipmentManager.getEquipment(slot).equals(folder)) {
-        RequestThread.postRequest(new EquipmentRequest(folder, slot, true));
+        RequestThread.postRequest(new EquipmentRequest(folder, slot));
       }
     }
 
@@ -691,7 +691,7 @@ public class GearChangePanel extends JPanel {
       AdventureResult decoration = bootDecorations[i];
       int slot = EquipmentManager.BOOTSKIN + i;
       if (!EquipmentManager.getEquipment(slot).equals(decoration)) {
-        RequestThread.postRequest(new EquipmentRequest(decoration, slot, true));
+        RequestThread.postRequest(new EquipmentRequest(decoration, slot));
       }
     }
 

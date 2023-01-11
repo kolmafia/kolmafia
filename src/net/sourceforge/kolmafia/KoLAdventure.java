@@ -2434,7 +2434,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (EquipmentManager.isWearingOutfit(OutfitPool.CLOACA_UNIFORM)
           || EquipmentManager.isWearingOutfit(OutfitPool.DYSPEPSI_UNIFORM)) {
         RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND, true));
+            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND));
       }
 
       return true;
