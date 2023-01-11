@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -26,7 +27,7 @@ public class CheckDataCommand extends AbstractCommand {
       // EquipmentRequest registers new items with
       // ItemDatabase when it looks at the closet or at
       // inventory.
-      RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.REFRESH));
+      RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.REFRESH));
 
       // The api registers new status effects
       ApiRequest.updateStatus();

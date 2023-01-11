@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
@@ -302,7 +303,7 @@ public class ClanManageFrame extends GenericFrame {
       this.setButtons(
           new ActionListener[] {
             new StorageListener(),
-            new RequestButton("refresh", new EquipmentRequest(EquipmentRequest.REFRESH))
+            new RequestButton("refresh", new EquipmentRequest(EquipmentRequestType.REFRESH))
           });
     }
 

@@ -99,19 +99,20 @@ public class EquipmentRequest extends PasswordHashRequest {
   private static final Pattern HOLSTER_URL_PATTERN = Pattern.compile("holster=(\\d+)");
 
   public static final AdventureResult UNEQUIP = ItemPool.get("(none)", 1);
-  public static final AdventureResult TRUSTY = ItemPool.get(ItemPool.TRUSTY, 1);
 
-  public static final int REFRESH = 0;
-  public static final int EQUIPMENT = 1;
+  public enum EquipmentRequestType {
+    REFRESH,
+    EQUIPMENT,
 
-  public static final int SAVE_OUTFIT = 2;
-  public static final int CHANGE_OUTFIT = 3;
+    SAVE_OUTFIT,
+    CHANGE_OUTFIT,
 
-  public static final int CHANGE_ITEM = 4;
-  public static final int REMOVE_ITEM = 5;
-  public static final int UNEQUIP_ALL = 6;
+    CHANGE_ITEM,
+    REMOVE_ITEM,
+    UNEQUIP_ALL,
 
-  public static final int BEDAZZLEMENTS = 7;
+    BEDAZZLEMENTS
+  }
 
   // Array indexed by equipment "slot" from KoLCharacter
   //
@@ -176,7 +177,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     "fakehand"
   };
 
-  private int requestType;
+  private EquipmentRequestType requestType;
   private int equipmentSlot;
   private AdventureResult changeItem;
   private int itemId;
@@ -187,7 +188,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   private static int customOutfitId = 0;
 
-  public EquipmentRequest(final int requestType) {
+  public EquipmentRequest(final EquipmentRequestType requestType) {
     super(EquipmentRequest.choosePage(requestType));
 
     this.requestType = requestType;
@@ -199,17 +200,17 @@ public class EquipmentRequest extends PasswordHashRequest {
     // of the inventory you want to request
 
     switch (requestType) {
-      case EquipmentRequest.EQUIPMENT:
+      case EQUIPMENT:
         this.addFormField("which", "2");
         break;
-      case EquipmentRequest.BEDAZZLEMENTS:
+      case BEDAZZLEMENTS:
         // no fields necessary
         break;
-      case EquipmentRequest.SAVE_OUTFIT:
+      case SAVE_OUTFIT:
         this.addFormField("ajax", "1");
         this.addFormField("which", "2");
         break;
-      case EquipmentRequest.UNEQUIP_ALL:
+      case UNEQUIP_ALL:
         this.addFormField("ajax", "1");
         this.addFormField("which", "2");
         this.addFormField("action", "unequipall");
@@ -217,16 +218,16 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
-  private static String choosePage(final int requestType) {
+  private static String choosePage(final EquipmentRequestType requestType) {
     return switch (requestType) {
-      case EquipmentRequest.BEDAZZLEMENTS -> "bedazzle.php";
-      case EquipmentRequest.SAVE_OUTFIT, EquipmentRequest.UNEQUIP_ALL -> "inv_equip.php";
+      case BEDAZZLEMENTS -> "bedazzle.php";
+      case SAVE_OUTFIT, UNEQUIP_ALL -> "inv_equip.php";
       default -> "inventory.php";
     };
   }
 
   public EquipmentRequest(final String changeName) {
-    this(EquipmentRequest.SAVE_OUTFIT);
+    this(EquipmentRequestType.SAVE_OUTFIT);
     this.addFormField("action", "customoutfit");
     this.addFormField("outfitname", changeName);
     this.addFormField("ajax", "1");
@@ -288,7 +289,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         change == SpecialOutfit.PREVIOUS_OUTFIT ? "last" : String.valueOf(change.getOutfitId()));
     this.addFormField("ajax", "1");
 
-    this.requestType = EquipmentRequest.CHANGE_OUTFIT;
+    this.requestType = EquipmentRequestType.CHANGE_OUTFIT;
     this.outfit = change;
     this.error = null;
   }
@@ -338,7 +339,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.equipmentSlot = equipmentSlot;
 
     if (changeItem.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("action", "unequip");
       this.addFormField("type", EquipmentRequest.phpSlotNames[equipmentSlot]);
       return;
@@ -361,7 +362,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = changeItem.getCount() == 1 ? changeItem : changeItem.getInstance(1);
 
     this.addFormField("action", action);
@@ -374,7 +375,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("slot", String.valueOf(equipmentSlot - EquipmentManager.STICKER1 + 1));
 
     if (sticker.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("action", "peel");
       return;
     }
@@ -392,7 +393,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     this.addFormField("sticker", String.valueOf(this.itemId));
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = sticker.getCount() == 1 ? sticker : sticker.getInstance(1);
 
     if (EquipmentManager.hasStickerWeapon()) {
@@ -408,7 +409,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("whichitem", String.valueOf(ItemPool.CARD_SLEEVE));
 
     if (card.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("removecard", "1");
       return;
     }
@@ -426,7 +427,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     this.addFormField("sleevecard", String.valueOf(this.itemId));
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = card.getCount() == 1 ? card : card.getInstance(1);
   }
 
@@ -435,7 +436,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.addFormField("whichchoice", "774");
 
     if (folder.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("slot", String.valueOf(slot - EquipmentManager.FOLDER1));
       this.addFormField("option", "2");
       return;
@@ -461,7 +462,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = folder;
     this.addFormField("option", "1");
     this.addFormField("folder", String.valueOf(this.itemId - ItemPool.FOLDER_01 + 1));
@@ -500,7 +501,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = decoration;
     this.addFormField("whichitem", String.valueOf(this.itemId));
     this.addFormField("ajax", "1");
@@ -512,7 +513,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.equipmentSlot = slot;
 
     if (sixgun.equals(EquipmentRequest.UNEQUIP)) {
-      this.requestType = EquipmentRequest.REMOVE_ITEM;
+      this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("which", "2h");
       this.addFormField("action", "holster");
       this.addFormField("holster", "0");
@@ -531,7 +532,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    this.requestType = EquipmentRequest.CHANGE_ITEM;
+    this.requestType = EquipmentRequestType.CHANGE_ITEM;
     this.changeItem = sixgun;
 
     this.addFormField("which", "2");
@@ -745,7 +746,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    if (this.requestType == EquipmentRequest.REFRESH) {
+    if (this.requestType == EquipmentRequestType.REFRESH) {
       InventoryManager.refresh();
       return;
     }
@@ -759,7 +760,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     // Outfit changes are a bit quirky, so they're handled
     // first for easy visibility.
 
-    if (this.requestType == EquipmentRequest.CHANGE_OUTFIT) {
+    if (this.requestType == EquipmentRequestType.CHANGE_OUTFIT) {
       // If this is a birthday suit outfit, then remove everything.
       if (this.outfit == SpecialOutfit.BIRTHDAY_SUIT) {
         // See if you are wearing anything.
@@ -777,7 +778,7 @@ public class EquipmentRequest extends PasswordHashRequest {
         }
 
         // Tell KoL to unequip everything
-        (new EquipmentRequest(EquipmentRequest.UNEQUIP_ALL)).run();
+        (new EquipmentRequest(EquipmentRequestType.UNEQUIP_ALL)).run();
 
         return;
       } else if (this.outfit == SpecialOutfit.PREVIOUS_OUTFIT) {
@@ -809,7 +810,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       }
     }
 
-    if (this.requestType == EquipmentRequest.CHANGE_ITEM) {
+    if (this.requestType == EquipmentRequestType.CHANGE_ITEM) {
       // Do not submit a request if the item matches what you
       // want to equip on the character.
 
@@ -892,7 +893,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       }
     }
 
-    if (this.requestType == EquipmentRequest.REMOVE_ITEM
+    if (this.requestType == EquipmentRequestType.REMOVE_ITEM
         && equipmentSlot != EquipmentManager.FAKEHAND
         && EquipmentManager.getEquipment(this.equipmentSlot).equals(EquipmentRequest.UNEQUIP)) {
       return;
@@ -904,13 +905,11 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     switch (this.requestType) {
-      case EquipmentRequest.EQUIPMENT -> KoLmafia.updateDisplay("Retrieving equipment...");
-      case EquipmentRequest.BEDAZZLEMENTS -> KoLmafia.updateDisplay("Refreshing stickers...");
-      case EquipmentRequest.SAVE_OUTFIT -> KoLmafia.updateDisplay(
-          "Saving outfit: " + this.outfitName);
-      case EquipmentRequest.CHANGE_OUTFIT -> KoLmafia.updateDisplay(
-          "Putting on outfit: " + this.outfit);
-      case EquipmentRequest.CHANGE_ITEM -> KoLmafia.updateDisplay(
+      case EQUIPMENT -> KoLmafia.updateDisplay("Retrieving equipment...");
+      case BEDAZZLEMENTS -> KoLmafia.updateDisplay("Refreshing stickers...");
+      case SAVE_OUTFIT -> KoLmafia.updateDisplay("Saving outfit: " + this.outfitName);
+      case CHANGE_OUTFIT -> KoLmafia.updateDisplay("Putting on outfit: " + this.outfit);
+      case CHANGE_ITEM -> KoLmafia.updateDisplay(
           (this.equipmentSlot == EquipmentManager.WEAPON
                   ? "Wielding "
                   : this.equipmentSlot == EquipmentManager.OFFHAND
@@ -922,7 +921,7 @@ public class EquipmentRequest extends PasswordHashRequest {
                               : "Putting on ")
               + ItemDatabase.getItemName(this.itemId)
               + "...");
-      case EquipmentRequest.REMOVE_ITEM -> KoLmafia.updateDisplay(
+      case REMOVE_ITEM -> KoLmafia.updateDisplay(
           (this.equipmentSlot == EquipmentManager.CARDSLEEVE
                   ? "Sliding out "
                   : this.equipmentSlot == EquipmentManager.HOLSTER
@@ -932,7 +931,7 @@ public class EquipmentRequest extends PasswordHashRequest {
                   ? "fake hands"
                   : EquipmentManager.getEquipment(this.equipmentSlot).getName())
               + "...");
-      case EquipmentRequest.UNEQUIP_ALL -> KoLmafia.updateDisplay("Taking off everything...");
+      case UNEQUIP_ALL -> KoLmafia.updateDisplay("Taking off everything...");
     }
 
     // You can only change a card in the card sleeve while it is in inventory
@@ -957,20 +956,20 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     switch (this.requestType) {
-      case EquipmentRequest.REFRESH:
+      case REFRESH:
         return;
 
-      case EquipmentRequest.SAVE_OUTFIT:
+      case SAVE_OUTFIT:
         KoLmafia.updateDisplay("Outfit saved");
         return;
 
-      case EquipmentRequest.CHANGE_ITEM:
-      case EquipmentRequest.CHANGE_OUTFIT:
-      case EquipmentRequest.REMOVE_ITEM:
+      case CHANGE_ITEM:
+      case CHANGE_OUTFIT:
+      case REMOVE_ITEM:
         KoLmafia.updateDisplay("Equipment changed.");
         break;
 
-      case EquipmentRequest.UNEQUIP_ALL:
+      case UNEQUIP_ALL:
         KoLmafia.updateDisplay("Everything removed.");
         break;
     }
@@ -998,15 +997,15 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     switch (this.requestType) {
-      case EquipmentRequest.REFRESH:
+      case REFRESH:
         return;
 
-      case EquipmentRequest.EQUIPMENT:
+      case EQUIPMENT:
         EquipmentRequest.parseEquipment(urlString, responseText);
         return;
 
-      case EquipmentRequest.CHANGE_ITEM:
-      case EquipmentRequest.CHANGE_OUTFIT:
+      case CHANGE_ITEM:
+      case CHANGE_OUTFIT:
         String text = this.responseText == null ? "" : this.responseText;
         // What SHOULD we do if get a null responseText?
 
@@ -1057,9 +1056,9 @@ public class EquipmentRequest extends PasswordHashRequest {
 
         return;
 
-      case EquipmentRequest.SAVE_OUTFIT:
-      case EquipmentRequest.REMOVE_ITEM:
-      case EquipmentRequest.UNEQUIP_ALL:
+      case SAVE_OUTFIT:
+      case REMOVE_ITEM:
+      case UNEQUIP_ALL:
         if (this.equipmentSlot == EquipmentManager.CARDSLEEVE) {
           EquipmentRequest.parseCardSleeve(responseText);
         } else if (this.getURLString().contains("ajax=1")) {
@@ -2153,6 +2152,6 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     // Have to get it from the Equipment page of the Inventory
-    RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.EQUIPMENT));
+    RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
   }
 }

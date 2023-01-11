@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
@@ -1564,7 +1565,7 @@ public class EquipmentManager {
       }
     }
     if (count != 0) { // we've lost count somewhere, refresh
-      RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.BEDAZZLEMENTS));
+      RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.BEDAZZLEMENTS));
     }
   }
 
