@@ -578,6 +578,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
     }
 
+    @Test
+    public void setCcs() {
+      String output = execute("set_ccs(\"default\");");
+      assertThat(output, endsWith("Returned: true\n"));
+      output = execute("set_ccs(\"fhghqwgads\");");
+      assertThat(output, endsWith("Returned: false\n"));
+    }
+
     private static void addNpcResults(int itemId) {
       List<PurchaseRequest> results =
           List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));

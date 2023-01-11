@@ -2,12 +2,14 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notANumber;
@@ -32,6 +34,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class AreaCombatDataTest {
   static final AreaCombatData SMUT_ORC_CAMP =
@@ -322,6 +326,207 @@ public class AreaCombatDataTest {
       var ml = AdventureDatabase.getAreaCombatData("The Hedge Maze").getAverageML();
 
       assertThat(ml, not(notANumber()));
+    }
+  }
+
+  @Nested
+  class Cyrpt {
+    @ParameterizedTest
+    @ValueSource(strings = {"Alcove", "Cranny", "Niche", "Nook"})
+    public void certainCombatChanceIfEvilNotMoreThanLimit(String subZone) {
+      String zone = "The Defiled " + subZone;
+      String property = "cyrpt" + subZone + "Evilness";
+      var cleanups = withProperty(property, 13);
+
+      try (cleanups) {
+        var data = AdventureDatabase.getAreaCombatData(zone);
+
+        assertThat(data.areaCombatPercent(), equalTo(100.0));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Alcove", "Cranny", "Niche", "Nook"})
+    public void givenCombatChanceIfEvilMoreThanLimit(String subZone) {
+      String zone = "The Defiled " + subZone;
+      String property = "cyrpt" + subZone + "Evilness";
+      var cleanups = withProperty(property, 14);
+
+      try (cleanups) {
+        var data = AdventureDatabase.getAreaCombatData(zone);
+
+        assertThat(data.areaCombatPercent(), equalTo(85.0));
+      }
+    }
+
+    @Nested
+    class Alcove {
+      @Test
+      public void onlyBossIfEvilNotMoreThanLimit() {
+        var cleanups = withProperty("cyrptAlcoveEvilness", 13);
+
+        try (cleanups) {
+          Map<MonsterData, Double> appearanceRates =
+              AdventureDatabase.getAreaCombatData("The Defiled Alcove").getMonsterData(true);
+
+          assertThat(
+              appearanceRates,
+              allOf(
+                  aMapWithSize(4),
+                  hasEntry(MonsterDatabase.findMonster("conjoined zmombie"), 100.0),
+                  hasEntry(MonsterDatabase.findMonster("corpulent zobmie"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("grave rober zmobie"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("modern zmobie"), 0.0)));
+        }
+      }
+
+      @Test
+      public void enemiesIfEvilMoreThanLimit() {
+        var cleanups = withProperty("cyrptAlcoveEvilness", 14);
+
+        try (cleanups) {
+          Map<MonsterData, Double> appearanceRates =
+              AdventureDatabase.getAreaCombatData("The Defiled Alcove").getMonsterData(true);
+
+          assertThat(
+              appearanceRates,
+              allOf(
+                  aMapWithSize(4),
+                  hasEntry(MonsterDatabase.findMonster("conjoined zmombie"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("corpulent zobmie"), 42.5 * 0.85),
+                  hasEntry(MonsterDatabase.findMonster("grave rober zmobie"), 42.5 * 0.85),
+                  hasEntry(MonsterDatabase.findMonster("modern zmobie"), 15.0)));
+        }
+      }
+    }
+
+    @Nested
+    class Cranny {
+      @Test
+      public void onlyBossIfEvilNotMoreThanLimit() {
+        var cleanups = withProperty("cyrptCrannyEvilness", 13);
+
+        try (cleanups) {
+          Map<MonsterData, Double> appearanceRates =
+              AdventureDatabase.getAreaCombatData("The Defiled Cranny").getMonsterData(true);
+
+          assertThat(
+              appearanceRates,
+              allOf(
+                  aMapWithSize(greaterThanOrEqualTo(3)),
+                  hasEntry(MonsterDatabase.findMonster("huge ghuol"), 100.0),
+                  hasEntry(MonsterDatabase.findMonster("gaunt ghuol"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("gluttonous ghuol"), 0.0)));
+        }
+      }
+
+      @Test
+      public void enemiesIfEvilMoreThanLimit() {
+        var cleanups = withProperty("cyrptCrannyEvilness", 14);
+
+        try (cleanups) {
+          Map<MonsterData, Double> appearanceRates =
+              AdventureDatabase.getAreaCombatData("The Defiled Cranny").getMonsterData(true);
+
+          assertThat(
+              appearanceRates,
+              allOf(
+                  aMapWithSize(greaterThanOrEqualTo(3)),
+                  hasEntry(MonsterDatabase.findMonster("huge ghuol"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("gaunt ghuol"), 50.0 * 0.85),
+                  hasEntry(MonsterDatabase.findMonster("gluttonous ghuol"), 50.0 * 0.85)));
+        }
+      }
+    }
+
+    @Nested
+    class Niche {
+      @Test
+      public void onlyBossIfEvilNotMoreThanLimit() {
+        var cleanups = withProperty("cyrptNicheEvilness", 13);
+
+        try (cleanups) {
+          Map<MonsterData, Double> appearanceRates =
+              AdventureDatabase.getAreaCombatData("The Defiled Niche").getMonsterData(true);
+
+          assertThat(
+              appearanceRates,
+              allOf(
+                  aMapWithSize(5),
+                  hasEntry(MonsterDatabase.findMonster("gargantulihc"), 100.0),
+                  hasEntry(MonsterDatabase.findMonster("basic lihc"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("dirty old lihc"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("senile lihc"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("slick lihc"), 0.0)));
+        }
+      }
+
+      @Test
+      public void enemiesIfEvilMoreThanLimit() {
+        var cleanups = withProperty("cyrptNicheEvilness", 14);
+
+        try (cleanups) {
+          Map<MonsterData, Double> appearanceRates =
+              AdventureDatabase.getAreaCombatData("The Defiled Niche").getMonsterData(true);
+
+          assertThat(
+              appearanceRates,
+              allOf(
+                  aMapWithSize(5),
+                  hasEntry(MonsterDatabase.findMonster("gargantulihc"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("basic lihc"), 25.0 * 0.85),
+                  hasEntry(MonsterDatabase.findMonster("dirty old lihc"), 25.0 * 0.85),
+                  hasEntry(MonsterDatabase.findMonster("senile lihc"), 25.0 * 0.85),
+                  hasEntry(MonsterDatabase.findMonster("slick lihc"), 25.0 * 0.85)));
+        }
+      }
+    }
+
+    @Nested
+    class Nook {
+      @Test
+      public void onlyBossIfEvilNotMoreThanLimit() {
+        var cleanups = withProperty("cyrptNookEvilness", 13);
+
+        try (cleanups) {
+          Map<MonsterData, Double> appearanceRates =
+              AdventureDatabase.getAreaCombatData("The Defiled Nook").getMonsterData(true);
+
+          assertThat(
+              appearanceRates,
+              allOf(
+                  aMapWithSize(4),
+                  hasEntry(MonsterDatabase.findMonster("giant skeelton"), 100.0),
+                  hasEntry(MonsterDatabase.findMonster("party skelteon"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("spiny skelelton"), 0.0),
+                  hasEntry(MonsterDatabase.findMonster("toothy sklelton"), 0.0)));
+        }
+      }
+
+      @Test
+      public void enemiesIfEvilMoreThanLimit() {
+        var cleanups = withProperty("cyrptNookEvilness", 14);
+
+        try (cleanups) {
+          Map<MonsterData, Double> appearanceRates =
+              AdventureDatabase.getAreaCombatData("The Defiled Nook").getMonsterData(true);
+
+          assertThat(
+              appearanceRates,
+              allOf(
+                  aMapWithSize(4),
+                  hasEntry(MonsterDatabase.findMonster("giant skeelton"), 0.0),
+                  hasEntry(
+                      equalTo(MonsterDatabase.findMonster("party skelteon")),
+                      closeTo(100f / 3 * 0.85, 0.001)),
+                  hasEntry(
+                      equalTo(MonsterDatabase.findMonster("spiny skelelton")),
+                      closeTo(100f / 3 * 0.85, 0.001)),
+                  hasEntry(
+                      equalTo(MonsterDatabase.findMonster("toothy sklelton")),
+                      closeTo(100f / 3 * 0.85, 0.001))));
+        }
+      }
     }
   }
 }

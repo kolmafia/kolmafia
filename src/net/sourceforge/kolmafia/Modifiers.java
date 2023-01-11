@@ -242,6 +242,9 @@ public class Modifiers {
   public static final int POTION_DROP = 142;
   public static final int SAUCE_SPELL_DAMAGE = 143;
   public static final int MONSTER_LEVEL_PERCENT = 144;
+  public static final int BOOZE_FAIRY_WEIGHT = 145;
+  public static final int CANDY_FAIRY_WEIGHT = 146;
+  public static final int FOOD_FAIRY_WEIGHT = 147;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final DoubleModifier[] doubleModifiers = {
@@ -459,7 +462,7 @@ public class Modifiers {
     new DoubleModifier("Volleyball", Pattern.compile("Volley(?:ball)?: " + EXPR)),
     new DoubleModifier("Sombrero", Pattern.compile("Somb(?:rero)?: " + EXPR)),
     new DoubleModifier("Leprechaun", Pattern.compile("Lep(?:rechaun)?: " + EXPR)),
-    new DoubleModifier("Fairy", Pattern.compile("Fairy: " + EXPR)),
+    new DoubleModifier("Fairy", Pattern.compile("(?:^|, )Fairy: " + EXPR)),
     new DoubleModifier("Meat Drop Penalty", Pattern.compile("Meat Drop Penalty: " + EXPR)),
     new DoubleModifier(
         "Hidden Familiar Weight", Pattern.compile("Familiar Weight \\(hidden\\): " + EXPR)),
@@ -753,6 +756,9 @@ public class Modifiers {
         "Monster Level Percent",
         Pattern.compile("([+-]\\d+)% Monster Level"),
         Pattern.compile("Monster Level Percent: " + EXPR)),
+    new DoubleModifier("Booze Fairy", Pattern.compile("Booze Fairy: " + EXPR)),
+    new DoubleModifier("Candy Fairy", Pattern.compile("Candy Fairy: " + EXPR)),
+    new DoubleModifier("Food Fairy", Pattern.compile("Food Fairy: " + EXPR)),
   };
 
   public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -2786,20 +2792,13 @@ public class Modifiers {
           race);
     }
 
-    effective = cappedWeight * this.get(Modifiers.FAIRY_WEIGHT);
-    if (effective == 0.0 && FamiliarDatabase.isFairyType(familiarId)) {
-      effective = weight;
-    }
-    if (effective != 0.0) {
-      double factor = this.get(Modifiers.FAIRY_EFFECTIVENESS);
-      // The 0->1 factor for generic familiars conflicts with the JitB
-      if (factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX) factor = 1.0;
-      this.addDouble(
-          Modifiers.ITEMDROP,
-          factor * (Math.sqrt(55 * effective) + effective - 3),
-          ModifierType.FAMILIAR,
-          race);
-    }
+    this.addFairyEffect(familiar, weight, cappedWeight, Modifiers.FAIRY_WEIGHT, Modifiers.ITEMDROP);
+    this.addFairyEffect(
+        familiar, weight, cappedWeight, Modifiers.BOOZE_FAIRY_WEIGHT, Modifiers.BOOZEDROP);
+    this.addFairyEffect(
+        familiar, weight, cappedWeight, Modifiers.CANDY_FAIRY_WEIGHT, Modifiers.CANDYDROP);
+    this.addFairyEffect(
+        familiar, weight, cappedWeight, Modifiers.FOOD_FAIRY_WEIGHT, Modifiers.FOODDROP);
 
     if (FamiliarDatabase.isUnderwaterType(familiarId)) {
       this.setBoolean(Modifiers.UNDERWATER_FAMILIAR, true);
@@ -2820,6 +2819,32 @@ public class Modifiers {
         }
         break;
     }
+  }
+
+  private void addFairyEffect(
+      final FamiliarData familiar,
+      final int weight,
+      final int cappedWeight,
+      final int fairyModifier,
+      final int modifier) {
+    var effective = cappedWeight * this.get(fairyModifier);
+
+    // If it has no explicit modifier but is the right familiar type, add effect regardless
+    if (effective == 0.0 && FamiliarDatabase.isFairyType(familiar.getId(), fairyModifier)) {
+      effective = weight;
+    }
+
+    if (effective == 0.0) return;
+
+    double factor = this.get(Modifiers.FAIRY_EFFECTIVENESS);
+    // The 0->1 factor for generic familiars conflicts with the JitB
+    if (factor == 0.0 && familiar.getId() != FamiliarPool.JACK_IN_THE_BOX) factor = 1.0;
+
+    this.addDouble(
+        modifier,
+        factor * (Math.sqrt(55 * effective) + effective - 3),
+        ModifierType.FAMILIAR,
+        familiar.getRace());
   }
 
   public static final String getFamiliarEffect(final String itemName) {
