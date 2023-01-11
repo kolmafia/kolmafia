@@ -42,9 +42,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     SUBSTAT_PRIORITY,
     FULLSTAT_PRIORITY,
     ITEM_PRIORITY,
-    // TODO: before this, both effect + bounty item were 6. Check if anything expected that
-    EFFECT_PRIORITY,
     BOUNTY_ITEM_PRIORITY,
+    EFFECT_PRIORITY,
 
     PSEUDO_ITEM_PRIORITY
   }
@@ -788,7 +787,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return this.name.toLowerCase();
     }
 
-    if (this.priority == Priority.BOUNTY_ITEM_PRIORITY) {
+    if (this.priority == Priority.BOUNTY_ITEM_PRIORITY || this.priority == EFFECT_PRIORITY) {
       return this.name.toLowerCase();
     }
 
