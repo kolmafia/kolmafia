@@ -40,7 +40,9 @@ import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -51,6 +53,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -636,7 +639,8 @@ public abstract class InventoryManager {
 
         int retrieveCount = Math.min(itemCount, missingCount);
         RequestThread.postRequest(
-            new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, item.getInstance(retrieveCount)));
+            new ClosetRequest(
+                ClosetRequestType.CLOSET_TO_INVENTORY, item.getInstance(retrieveCount)));
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -657,7 +661,7 @@ public abstract class InventoryManager {
         int retrieveCount = Math.min(itemCount, missingCount);
         RequestThread.postRequest(
             new StorageRequest(
-                StorageRequest.STORAGE_TO_INVENTORY, item.getInstance(retrieveCount)));
+                StorageRequestType.STORAGE_TO_INVENTORY, item.getInstance(retrieveCount)));
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -680,7 +684,7 @@ public abstract class InventoryManager {
         int retrieveCount = Math.min(itemCount, missingCount);
         RequestThread.postRequest(
             new StorageRequest(
-                StorageRequest.STORAGE_TO_INVENTORY, item.getInstance(retrieveCount)));
+                StorageRequestType.STORAGE_TO_INVENTORY, item.getInstance(retrieveCount)));
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -703,7 +707,8 @@ public abstract class InventoryManager {
         int retrieveCount =
             Math.min(itemCount, InventoryManager.getPurchaseCount(itemId, missingCount));
         RequestThread.postRequest(
-            new ClanStashRequest(item.getInstance(retrieveCount), ClanStashRequest.STASH_TO_ITEMS));
+            new ClanStashRequest(
+                item.getInstance(retrieveCount), ClanStashRequestType.STASH_TO_ITEMS));
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -892,7 +897,8 @@ public abstract class InventoryManager {
         int newbudget = ConcoctionDatabase.getPullsBudgeted() - pullCount;
 
         RequestThread.postRequest(
-            new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, item.getInstance(pullCount)));
+            new StorageRequest(
+                StorageRequestType.STORAGE_TO_INVENTORY, item.getInstance(pullCount)));
         ConcoctionDatabase.setPullsBudgeted(newbudget);
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 

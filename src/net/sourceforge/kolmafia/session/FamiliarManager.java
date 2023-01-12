@@ -12,10 +12,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 
 public abstract class FamiliarManager {
   public static void changeFamiliar(int famId) {
@@ -94,7 +96,7 @@ public abstract class FamiliarManager {
     if (storageItems.size() > 0) {
       RequestThread.postRequest(
           new StorageRequest(
-              StorageRequest.STORAGE_TO_INVENTORY,
+              StorageRequestType.STORAGE_TO_INVENTORY,
               storageItems.toArray(new AdventureResult[0]),
               true));
     }
@@ -118,7 +120,7 @@ public abstract class FamiliarManager {
       // *** items to the session tally
       RequestThread.postRequest(
           new ClosetRequest(
-              ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray(new AdventureResult[0])));
+              ClosetRequestType.CLOSET_TO_INVENTORY, closetItems.toArray(new AdventureResult[0])));
     }
 
     // Equip all familiars with equipment from inventory

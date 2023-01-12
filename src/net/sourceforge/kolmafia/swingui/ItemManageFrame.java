@@ -35,9 +35,11 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
@@ -296,7 +298,7 @@ public class ItemManageFrame extends GenericFrame {
         items[i] = current.getInstance(Math.min(icount, Math.max(0, 1 - ccount)));
       }
 
-      RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+      RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
     }
 
     @Override
@@ -320,7 +322,7 @@ public class ItemManageFrame extends GenericFrame {
         items[i] = current.getInstance(current.getCount(KoLConstants.inventory));
       }
 
-      RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+      RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
     }
 
     @Override
@@ -509,9 +511,10 @@ public class ItemManageFrame extends GenericFrame {
       }
 
       if (items.length == KoLConstants.storage.size()) {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.EMPTY_STORAGE));
+        RequestThread.postRequest(new StorageRequest(StorageRequestType.EMPTY_STORAGE));
       } else {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, items));
+        RequestThread.postRequest(
+            new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, items));
       }
 
       return items;
@@ -536,7 +539,7 @@ public class ItemManageFrame extends GenericFrame {
           }
         }
       } else {
-        RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+        RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
       }
     }
   }
@@ -565,7 +568,7 @@ public class ItemManageFrame extends GenericFrame {
         return null;
       }
 
-      RequestThread.postRequest(new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, items));
+      RequestThread.postRequest(new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, items));
       return items;
     }
 
@@ -581,7 +584,7 @@ public class ItemManageFrame extends GenericFrame {
         return;
       }
 
-      RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+      RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
     }
   }
 

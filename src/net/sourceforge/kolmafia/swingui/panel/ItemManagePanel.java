@@ -29,7 +29,9 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -502,7 +504,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       }
 
       if (this.retrieveFromClosetFirst) {
-        RequestThread.postRequest(new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, items));
+        RequestThread.postRequest(new ClosetRequest(ClosetRequestType.CLOSET_TO_INVENTORY, items));
       }
 
       return items;
@@ -586,7 +588,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       }
 
       if (!this.retrieveFromClosetFirst) {
-        RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+        RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
       }
     }
 
@@ -684,7 +686,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         return;
       }
 
-      RequestThread.postRequest(new ClanStashRequest(items, ClanStashRequest.ITEMS_TO_STASH));
+      RequestThread.postRequest(new ClanStashRequest(items, ClanStashRequestType.ITEMS_TO_STASH));
     }
 
     @Override

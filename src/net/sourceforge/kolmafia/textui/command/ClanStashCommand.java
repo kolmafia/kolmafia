@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.session.ClanManager;
 
 public class ClanStashCommand extends AbstractCommand {
@@ -16,13 +17,13 @@ public class ClanStashCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, String parameters) {
     List<AdventureResult> list = null;
-    int direction = ClanStashRequest.ITEMS_TO_STASH;
+    ClanStashRequestType direction = ClanStashRequestType.ITEMS_TO_STASH;
 
     int space = parameters.indexOf(" ");
     if (space != -1) {
       String command = parameters.substring(0, space);
       if (command.equals("take")) {
-        direction = ClanStashRequest.STASH_TO_ITEMS;
+        direction = ClanStashRequestType.STASH_TO_ITEMS;
         parameters = parameters.substring(4).trim();
         list = ClanManager.getStash();
       } else if (command.equals("put")) {

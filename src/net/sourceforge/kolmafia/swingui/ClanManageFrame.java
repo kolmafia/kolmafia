@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 import net.sourceforge.kolmafia.request.ClanBuffRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
@@ -315,7 +316,7 @@ public class ClanManageFrame extends GenericFrame {
           return;
         }
 
-        RequestThread.postRequest(new ClanStashRequest(items, ClanStashRequest.ITEMS_TO_STASH));
+        RequestThread.postRequest(new ClanStashRequest(items, ClanStashRequestType.ITEMS_TO_STASH));
       }
 
       @Override
@@ -387,7 +388,7 @@ public class ClanManageFrame extends GenericFrame {
           return;
         }
 
-        RequestThread.postRequest(new ClanStashRequest(items, ClanStashRequest.STASH_TO_ITEMS));
+        RequestThread.postRequest(new ClanStashRequest(items, ClanStashRequestType.STASH_TO_ITEMS));
       }
 
       @Override

@@ -120,8 +120,11 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
@@ -4367,7 +4370,7 @@ public abstract class RuntimeLibrary {
     if (controller.getBatched() != null) {
       RuntimeLibrary.batchCommand(controller, "closet", null, "empty");
     } else {
-      ClosetRequest request = new ClosetRequest(ClosetRequest.EMPTY_CLOSET);
+      ClosetRequest request = new ClosetRequest(ClosetRequestType.EMPTY_CLOSET);
       RequestThread.postRequest(request);
     }
     return RuntimeLibrary.continueValue();
@@ -4394,7 +4397,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       ClosetRequest request =
-          new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, ItemPool.get(itemId, count));
+          new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, ItemPool.get(itemId, count));
       RequestThread.postRequest(request);
     }
     return RuntimeLibrary.continueValue();
@@ -4416,7 +4419,7 @@ public abstract class RuntimeLibrary {
       String params = meat + " meat";
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
-      ClosetRequest request = new ClosetRequest(ClosetRequest.MEAT_TO_CLOSET, (int) meat);
+      ClosetRequest request = new ClosetRequest(ClosetRequestType.MEAT_TO_CLOSET, (int) meat);
       RequestThread.postRequest(request);
     }
     return RuntimeLibrary.continueValue();
@@ -4550,7 +4553,7 @@ public abstract class RuntimeLibrary {
     } else {
       AdventureResult[] items = new AdventureResult[1];
       items[0] = ItemPool.get(itemId, count);
-      ClanStashRequest request = new ClanStashRequest(items, ClanStashRequest.ITEMS_TO_STASH);
+      ClanStashRequest request = new ClanStashRequest(items, ClanStashRequestType.ITEMS_TO_STASH);
       RequestThread.postRequest(request);
     }
 
@@ -4606,7 +4609,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       ClosetRequest request =
-          new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, ItemPool.get(itemId, count));
+          new ClosetRequest(ClosetRequestType.CLOSET_TO_INVENTORY, ItemPool.get(itemId, count));
       RequestThread.postRequest(request);
     }
 
@@ -4629,7 +4632,7 @@ public abstract class RuntimeLibrary {
       String params = meat + " meat";
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
-      ClosetRequest request = new ClosetRequest(ClosetRequest.MEAT_TO_INVENTORY, (int) meat);
+      ClosetRequest request = new ClosetRequest(ClosetRequestType.MEAT_TO_INVENTORY, (int) meat);
       RequestThread.postRequest(request);
     }
 
@@ -4710,7 +4713,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, null, params);
     } else {
       StorageRequest request =
-          new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, ItemPool.get(itemId, count));
+          new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, ItemPool.get(itemId, count));
       RequestThread.postRequest(request);
     }
 
@@ -4768,7 +4771,7 @@ public abstract class RuntimeLibrary {
     } else {
       AdventureResult[] items = new AdventureResult[1];
       items[0] = ItemPool.get(itemId, count);
-      ClanStashRequest request = new ClanStashRequest(items, ClanStashRequest.STASH_TO_ITEMS);
+      ClanStashRequest request = new ClanStashRequest(items, ClanStashRequestType.STASH_TO_ITEMS);
       RequestThread.postRequest(request);
     }
 
