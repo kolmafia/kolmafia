@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -480,7 +481,7 @@ public abstract class GreyYouManager {
     private final int skillId;
 
     private final String name;
-    private final int skillType;
+    private final SkillType skillType;
     private final String skillTypeName;
     private final long mpCost;
     private final PassiveEffect passiveEffect;
@@ -516,7 +517,7 @@ public abstract class GreyYouManager {
       this.level = level;
 
       Modifiers mods = null;
-      if (this.skillType == SkillDatabase.PASSIVE) {
+      if (this.skillType == SkillType.PASSIVE) {
         mods = Modifiers.getModifiers(ModifierType.SKILL, this.name);
         if (mods != null) {
           this.enchantments = mods.getString("Modifiers");
@@ -550,7 +551,7 @@ public abstract class GreyYouManager {
       return this.name;
     }
 
-    public int getSkillType() {
+    public SkillType getSkillType() {
       return this.skillType;
     }
 
@@ -770,11 +771,11 @@ public abstract class GreyYouManager {
         throw new NullPointerException();
       }
 
-      int skillType1 = o1.getSkillType();
-      int skillType2 = o2.getSkillType();
+      SkillType skillType1 = o1.getSkillType();
+      SkillType skillType2 = o2.getSkillType();
 
       if (skillType1 == skillType2) {
-        if (skillType1 == SkillDatabase.PASSIVE) {
+        if (skillType1 == SkillType.PASSIVE) {
           PassiveEffect passiveEffect1 = o1.getPassiveEffect();
           PassiveEffect passiveEffect2 = o2.getPassiveEffect();
           if (passiveEffect1 != passiveEffect2) {
@@ -789,13 +790,13 @@ public abstract class GreyYouManager {
         return super.compare(o1, o2);
       }
 
-      return (skillType1 == SkillDatabase.COMBAT)
+      return (skillType1 == SkillType.COMBAT)
           ? -1
-          : (skillType2 == SkillDatabase.COMBAT)
+          : (skillType2 == SkillType.COMBAT)
               ? 1
-              : (skillType1 == SkillDatabase.SELF_ONLY)
+              : (skillType1 == SkillType.SELF_ONLY)
                   ? -1
-                  : (skillType2 == SkillDatabase.SELF_ONLY)
+                  : (skillType2 == SkillType.SELF_ONLY)
                       ? 1
                       :
                       // This should not happen

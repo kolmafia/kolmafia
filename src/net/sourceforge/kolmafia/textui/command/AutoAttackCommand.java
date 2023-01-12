@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -76,7 +77,7 @@ public class AutoAttackCommand extends AbstractCommand {
       if (Character.isDigit(attackName.charAt(0))) {
         skillId = StringUtilities.parseInt(attackName);
       } else {
-        List<UseSkillRequest> combatSkills = SkillDatabase.getSkillsByType(SkillDatabase.COMBAT);
+        List<UseSkillRequest> combatSkills = SkillDatabase.getSkillsByType(SkillType.COMBAT);
         String skillName = SkillDatabase.getSkillName(attackName, combatSkills);
 
         if (skillName != null) {
