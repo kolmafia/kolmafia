@@ -68,8 +68,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     CalendarFrame.selectedColumn = -1;
 
     try {
-      CalendarFrame.selectedDate =
-          Calendar.getInstance(KoLmafia.kolTimeZone, Locale.US);
+      CalendarFrame.selectedDate = Calendar.getInstance(KoLmafia.kolTimeZone, Locale.US);
     } catch (Exception e) {
       // This should not happen.  Therefore, print
       // a stack trace for debug purposes.
@@ -200,7 +199,12 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       artDirectory = "beefcake";
     }
 
-    displayHTML.append("<a href=\"").append(artistURL).append("\">").append(artistName).append("</a></b></td></tr>");
+    displayHTML
+        .append("<a href=\"")
+        .append(artistURL)
+        .append("\">")
+        .append(artistName)
+        .append("</a></b></td></tr>");
     displayHTML.append("<tr><td><img src=\"");
     displayHTML.append(KoLmafia.imageServerPath());
     displayHTML.append("otherimages/");
