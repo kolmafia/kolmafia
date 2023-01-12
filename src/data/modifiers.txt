@@ -10368,12 +10368,12 @@ Item	tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 Item	tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 Item	tonic o' Banderas	Effect: "Bandersnatched", Effect Duration: 20
 Item	too legit potion	Effect: "Hammertime", Effect Duration: 30
-Item	Trainbot circuitry	Effect: "Trainbot Circuitry", Effect Duration: 10
-Item	Trainbot linkages	Effect: "Trainbot Linkages", Effect Duration: 10
-Item	Trainbot optics	Effect: "Trainbot Optics", Effect Duration: 10
-Item	Trainbot plating	Effect: "Trainbot Plating", Effect Duration: 10
-Item	Trainbot servomotors	Effect: "Trainbot Servomotors", Effect Duration: 10
-Item	Trainbot tubing	Effect: "Trainbot Tubing", Effect Duration: 10
+Item	Trainbot circuitry	Effect: "Trainbot Circuitry", Effect Duration: 1
+Item	Trainbot linkages	Effect: "Trainbot Linkages", Effect Duration: 1
+Item	Trainbot optics	Effect: "Trainbot Optics", Effect Duration: 1
+Item	Trainbot plating	Effect: "Trainbot Plating", Effect Duration: 1
+Item	Trainbot servomotors	Effect: "Trainbot Servomotors", Effect Duration: 1
+Item	Trainbot tubing	Effect: "Trainbot Tubing", Effect Duration: 1
 Item	trampled ticket stub	Effect: "Feeling Sneaky", Effect Duration: 30
 Item	transporter transponder	Effect: "Transpondent", Effect Duration: 30
 Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
