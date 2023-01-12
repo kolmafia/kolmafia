@@ -373,7 +373,7 @@ public class ClanLoungeRequest extends GenericRequest {
    *    concoction.resetCalculations() for all speakeasy drinks.
    */
 
-THis was originally   private static final Set<SpeakeasyDrink> allSpeakeasyDrinks = new HashSet<>();
+  private static final Set<SpeakeasyDrink> allSpeakeasyDrinks = new HashSet<>();
 
   public static class SpeakeasyDrink {
     private static final Map<String, SpeakeasyDrink> nameToData = new HashMap<>();
