@@ -653,7 +653,7 @@ public class DataTypes {
       return returnDefault ? DataTypes.VYKEA_INIT : null;
     }
 
-    return new Value(DataTypes.VYKEA_TYPE, companion.getType(), name, companion);
+    return new Value(DataTypes.VYKEA_TYPE, companion.getType().ordinal(), name, companion);
   }
 
   public static Value parsePathValue(final int id, final boolean returnDefault) {
@@ -946,7 +946,8 @@ public class DataTypes {
     if (companion == null || companion == VYKEACompanionData.NO_COMPANION) {
       return returnDefault ? DataTypes.VYKEA_INIT : null;
     }
-    return new Value(DataTypes.VYKEA_TYPE, companion.getType(), companion.toString(), companion);
+    return new Value(
+        DataTypes.VYKEA_TYPE, companion.getType().ordinal(), companion.toString(), companion);
   }
 
   public static final Value makePathValue(final Path path) {
