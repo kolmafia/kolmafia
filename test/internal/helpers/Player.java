@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -710,7 +711,7 @@ public class Player {
    * @param level Level of companion
    * @return Reset to previous companion or no companion
    */
-  public static Cleanups withVykea(int companionTypeId, int level) {
+  public static Cleanups withVykea(VYKEACompanionType companionTypeId, int level) {
     var propertyCleanups =
         new Cleanups(
             withProperty("_VYKEACompanionName", "DÕZEQÍRHRU"),

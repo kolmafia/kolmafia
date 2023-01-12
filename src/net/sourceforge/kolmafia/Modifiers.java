@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
@@ -2949,13 +2950,11 @@ public class Modifiers {
   }
 
   public void applyCompanionModifiers(VYKEACompanionData companion) {
-    int type = companion.getType();
+    VYKEACompanionType type = companion.getType();
     int level = companion.getLevel();
     switch (type) {
-      case VYKEACompanionData.LAMP -> this.addDouble(
-          Modifiers.ITEMDROP, level * 10, ModifierType.VYKEA, "Lamp");
-      case VYKEACompanionData.COUCH -> this.addDouble(
-          Modifiers.MEATDROP, level * 10, ModifierType.VYKEA, "Couch");
+      case LAMP -> this.addDouble(Modifiers.ITEMDROP, level * 10, ModifierType.VYKEA, "Lamp");
+      case COUCH -> this.addDouble(Modifiers.MEATDROP, level * 10, ModifierType.VYKEA, "Couch");
     }
   }
 
