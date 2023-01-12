@@ -145,14 +145,14 @@ public class WikiUtilities {
     String name = null;
     WikiType type = WikiType.ANY;
 
-    if (item instanceof Boost) {
-      item = ((Boost) item).getItem();
-    } else if (item instanceof Entry) {
-      item = ((Entry<?, ?>) item).getValue();
+    if (item instanceof Boost b) {
+      item = b.getItem();
+    } else if (item instanceof Entry<?, ?> e) {
+      item = e.getValue();
     }
 
-    if (item instanceof MonsterData) {
-      name = ((MonsterData) item).getWikiName();
+    if (item instanceof MonsterData md) {
+      name = md.getWikiName();
       type = WikiType.MONSTER;
     } else if (item instanceof AdventureResult result) {
       name = result.getDataName();
@@ -161,26 +161,26 @@ public class WikiUtilities {
           result.isItem()
               ? WikiType.ITEM
               : result.isStatusEffect() ? WikiType.EFFECT : WikiType.ANY;
-    } else if (item instanceof UseSkillRequest) {
-      name = ((UseSkillRequest) item).getSkillName();
+    } else if (item instanceof UseSkillRequest usr) {
+      name = usr.getSkillName();
       type = WikiType.SKILL;
-    } else if (item instanceof Concoction) {
-      name = ((Concoction) item).getName();
+    } else if (item instanceof Concoction c) {
+      name = c.getName();
       type = WikiType.ITEM;
-    } else if (item instanceof QueuedConcoction) {
-      name = ((QueuedConcoction) item).getName();
+    } else if (item instanceof QueuedConcoction qc) {
+      name = qc.getName();
       type = WikiType.ITEM;
-    } else if (item instanceof CreateItemRequest) {
-      name = ((CreateItemRequest) item).getName();
+    } else if (item instanceof CreateItemRequest cir) {
+      name = cir.getName();
       type = WikiType.ITEM;
-    } else if (item instanceof PurchaseRequest) {
-      name = ((PurchaseRequest) item).getItem().getDataName();
+    } else if (item instanceof PurchaseRequest pr) {
+      name = pr.getItem().getDataName();
       type = WikiType.ITEM;
-    } else if (item instanceof SoldItem) {
-      name = ((SoldItem) item).getItemName();
+    } else if (item instanceof SoldItem si) {
+      name = si.getItemName();
       type = WikiType.ITEM;
-    } else if (item instanceof String) {
-      name = (String) item;
+    } else if (item instanceof String s) {
+      name = s;
     }
 
     if (name == null) {
