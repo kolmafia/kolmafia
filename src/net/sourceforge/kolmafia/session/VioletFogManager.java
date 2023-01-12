@@ -491,7 +491,7 @@ public abstract class VioletFogManager {
 
   private static String getWikiLink(int i) {
     var name = "Violet Fog" + (i == 0 ? "" : " (" + FogLocationNames[i] + ")");
-    return WikiUtilities.getWikiLocation(name, WikiType.ANY_TYPE, false);
+    return WikiUtilities.getWikiLocation(name, WikiType.ANY, false);
   }
 
   private static final String[] EDGE_COLORS = {

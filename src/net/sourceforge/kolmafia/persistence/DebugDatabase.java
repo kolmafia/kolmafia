@@ -78,7 +78,7 @@ public class DebugDatabase {
 
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
   private static String readWikiItemData(final String name, final HttpClient client) {
-    String url = WikiUtilities.getWikiLocation(name, WikiType.ITEM_TYPE, false);
+    String url = WikiUtilities.getWikiLocation(name, WikiType.ITEM, false);
     return DebugDatabase.readWikiData(url, client);
   }
 

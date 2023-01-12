@@ -21,11 +21,11 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 public class WikiUtilities {
 
   public enum WikiType {
-    ANY_TYPE,
-    ITEM_TYPE,
-    EFFECT_TYPE,
-    SKILL_TYPE,
-    MONSTER_TYPE
+    ANY,
+    ITEM,
+    EFFECT,
+    SKILL,
+    MONSTER
   }
 
   private WikiUtilities() {}
@@ -33,12 +33,12 @@ public class WikiUtilities {
   public static String getWikiLocation(String name, WikiType type, boolean dataPage) {
     boolean checkOtherTables = true;
 
-    if (type != WikiType.ANY_TYPE) {
+    if (type != WikiType.ANY) {
       ModifierType modType =
           switch (type) {
-            case ITEM_TYPE -> ModifierType.ITEM;
-            case EFFECT_TYPE -> ModifierType.EFFECT;
-            case SKILL_TYPE -> ModifierType.SKILL;
+            case ITEM -> ModifierType.ITEM;
+            case EFFECT -> ModifierType.EFFECT;
+            case SKILL -> ModifierType.SKILL;
             default -> ModifierType.NONE;
           };
 
@@ -84,13 +84,13 @@ public class WikiUtilities {
     boolean inSkillTable = SkillDatabase.contains(name);
     boolean inMonsterTable = MonsterDatabase.contains(name);
     switch (type) {
-      case ITEM_TYPE -> {
+      case ITEM -> {
         if (inEffectTable || inSkillTable || inMonsterTable) {
           return name + " (item)";
         }
         return name;
       }
-      case EFFECT_TYPE -> {
+      case EFFECT -> {
         if (name.equals("Souped Up")) {
           // also an adventure
           return name + " (effect)";
@@ -100,13 +100,13 @@ public class WikiUtilities {
         }
         return name;
       }
-      case SKILL_TYPE -> {
+      case SKILL -> {
         if (inItemTable || inEffectTable || inMonsterTable) {
           return name + " (skill)";
         }
         return name;
       }
-      case MONSTER_TYPE -> {
+      case MONSTER -> {
         switch (name) {
           case "ice porter":
           case "licorice snake":
@@ -143,7 +143,7 @@ public class WikiUtilities {
     }
 
     String name = null;
-    WikiType type = WikiType.ANY_TYPE;
+    WikiType type = WikiType.ANY;
 
     if (item instanceof Boost) {
       item = ((Boost) item).getItem();
@@ -153,32 +153,32 @@ public class WikiUtilities {
 
     if (item instanceof MonsterData) {
       name = ((MonsterData) item).getWikiName();
-      type = WikiType.MONSTER_TYPE;
+      type = WikiType.MONSTER;
     } else if (item instanceof AdventureResult result) {
       name = result.getDataName();
 
       type =
           result.isItem()
-              ? WikiType.ITEM_TYPE
-              : result.isStatusEffect() ? WikiType.EFFECT_TYPE : WikiType.ANY_TYPE;
+              ? WikiType.ITEM
+              : result.isStatusEffect() ? WikiType.EFFECT : WikiType.ANY;
     } else if (item instanceof UseSkillRequest) {
       name = ((UseSkillRequest) item).getSkillName();
-      type = WikiType.SKILL_TYPE;
+      type = WikiType.SKILL;
     } else if (item instanceof Concoction) {
       name = ((Concoction) item).getName();
-      type = WikiType.ITEM_TYPE;
+      type = WikiType.ITEM;
     } else if (item instanceof QueuedConcoction) {
       name = ((QueuedConcoction) item).getName();
-      type = WikiType.ITEM_TYPE;
+      type = WikiType.ITEM;
     } else if (item instanceof CreateItemRequest) {
       name = ((CreateItemRequest) item).getName();
-      type = WikiType.ITEM_TYPE;
+      type = WikiType.ITEM;
     } else if (item instanceof PurchaseRequest) {
       name = ((PurchaseRequest) item).getItem().getDataName();
-      type = WikiType.ITEM_TYPE;
+      type = WikiType.ITEM;
     } else if (item instanceof SoldItem) {
       name = ((SoldItem) item).getItemName();
-      type = WikiType.ITEM_TYPE;
+      type = WikiType.ITEM;
     } else if (item instanceof String) {
       name = (String) item;
     }

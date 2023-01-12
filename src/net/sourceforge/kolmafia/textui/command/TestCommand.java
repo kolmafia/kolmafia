@@ -815,10 +815,10 @@ public class TestCommand extends AbstractCommand {
       String typeName = split[1];
       WikiType type =
           switch (typeName.toLowerCase()) {
-            case "any" -> WikiType.ANY_TYPE;
-            case "item" -> WikiType.ITEM_TYPE;
-            case "effect" -> WikiType.EFFECT_TYPE;
-            case "skill" -> WikiType.SKILL_TYPE;
+            case "any" -> WikiType.ANY;
+            case "item" -> WikiType.ITEM;
+            case "effect" -> WikiType.EFFECT;
+            case "skill" -> WikiType.SKILL;
             default -> null;
           };
 
