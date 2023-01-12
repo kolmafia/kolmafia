@@ -9,6 +9,7 @@ import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
 import java.time.Month;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -534,7 +535,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsVykea() {
-    try (var cleanups = withVykea(VYKEACompanionData.COUCH, 5)) {
+    try (var cleanups = withVykea(VYKEACompanionType.COUCH, 5)) {
       evaluateDebugModifiers(Modifiers.MEATDROP);
       assertThat(output(), containsDebugRow("Vykea", "Couch", 50.0, 50.0));
     }
