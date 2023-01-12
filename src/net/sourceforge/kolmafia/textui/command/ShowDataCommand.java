@@ -353,7 +353,7 @@ public class ShowDataCommand extends AbstractCommand {
       filter = filter.toLowerCase();
 
       if (filter.startsWith("cast")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.CASTABLE);
+        List<UseSkillRequest> intersect = SkillDatabase.getCastableSkills();
         skillsList.retainAll(intersect);
         filter = "";
       }

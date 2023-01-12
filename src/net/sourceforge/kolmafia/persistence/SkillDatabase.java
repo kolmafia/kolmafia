@@ -21,10 +21,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkillDatabase {
   public enum SkillType {
-    // special cases for getSkillsByType & related methods
-    ALL("all", -3),
-    CASTABLE("castable", -2),
-
     // possible types in data/classskills.txt
     UNKNOWN("unknown", -1),
     PASSIVE("passive", 0),
@@ -1354,15 +1350,27 @@ public class SkillDatabase {
       final SkillType type, final boolean onlyKnown) {
     var searchTypes =
         switch (type) {
-          case ALL -> EnumSet.allOf(SkillType.class);
-          case CASTABLE -> EnumSet.of(
-              SUMMON, REMEDY, SELF_ONLY, BUFF, SONG, COMBAT_NONCOMBAT_REMEDY, EXPRESSION, WALK);
           case COMBAT -> EnumSet.of(COMBAT, COMBAT_NONCOMBAT_REMEDY, COMBAT_PASSIVE);
           case REMEDY -> EnumSet.of(REMEDY, COMBAT_NONCOMBAT_REMEDY);
           case PASSIVE -> EnumSet.of(PASSIVE, SkillType.COMBAT_PASSIVE);
           default -> EnumSet.of(type);
         };
     return getSkillsByType(searchTypes, onlyKnown);
+  }
+
+  public static final List<UseSkillRequest> getAllSkills() {
+    return getSkillsByType(EnumSet.allOf(SkillType.class), false);
+  }
+
+  public static final List<UseSkillRequest> getCastableSkills() {
+    return getCastableSkills(false);
+  }
+
+  public static final List<UseSkillRequest> getCastableSkills(final boolean onlyKnown) {
+    return getSkillsByType(
+        EnumSet.of(
+            SUMMON, REMEDY, SELF_ONLY, BUFF, SONG, COMBAT_NONCOMBAT_REMEDY, EXPRESSION, WALK),
+        onlyKnown);
   }
 
   public static final List<UseSkillRequest> getSkillsByType(
@@ -1549,7 +1557,7 @@ public class SkillDatabase {
    * Utility method used to retrieve the full name of a skill, given a substring representing it.
    */
   public static final String getSkillName(final String substring) {
-    return getSkillName(substring, getSkillsByType(SkillType.ALL));
+    return getSkillName(substring, getAllSkills());
   }
 
   /**
@@ -1557,7 +1565,7 @@ public class SkillDatabase {
    * representing it.
    */
   public static final String getUsableSkillName(final String substring) {
-    return getSkillName(substring, getSkillsByType(SkillType.CASTABLE));
+    return getSkillName(substring, getCastableSkills());
   }
 
   /**
@@ -1565,7 +1573,7 @@ public class SkillDatabase {
    * representing it.
    */
   public static final String getUsableKnownSkillName(final String substring) {
-    return getSkillName(substring, getSkillsByType(SkillType.CASTABLE, true));
+    return getSkillName(substring, getCastableSkills(true));
   }
 
   /**

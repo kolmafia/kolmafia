@@ -1015,7 +1015,7 @@ public class DataTypes {
       case TYPE_SKILL:
         {
           UseSkillRequest[] inputs =
-              SkillDatabase.getSkillsByType(SkillType.CASTABLE).toArray(new UseSkillRequest[0]);
+              SkillDatabase.getCastableSkills().toArray(new UseSkillRequest[0]);
           UseSkillRequest value = InputFieldUtilities.input(message, inputs);
           return value == null ? null : value.getSkillName();
         }
