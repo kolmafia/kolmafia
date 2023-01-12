@@ -3800,7 +3800,7 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+    Calendar timestamp = Calendar.getInstance(KoLmafia.kolTimeZone);
 
     for (int i = 0; i < dayCount; ++i) {
       String logContents =
@@ -3873,7 +3873,7 @@ public abstract class RuntimeLibrary {
   }
 
   private static Calendar getBaseTimeStamp(String base, int count) {
-    Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+    Calendar timestamp = Calendar.getInstance(KoLmafia.kolTimeZone);
     timestamp.clear();
     int year = Integer.parseInt(base.substring(0, 4));
     int mon = Integer.parseInt(base.substring(4, 6));

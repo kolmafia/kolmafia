@@ -33,8 +33,8 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
   static {
     // all dates are presented as if the day begins at rollover
 
-    CalendarFrame.SHORT_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT-0330"));
-    CalendarFrame.LONG_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT-0330"));
+    CalendarFrame.SHORT_FORMAT.setTimeZone(KoLmafia.kolTimeZone);
+    CalendarFrame.LONG_FORMAT.setTimeZone(KoLmafia.kolTimeZone);
   }
 
   // static final array of file names (not including .gif extension)
@@ -70,7 +70,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
 
     try {
       CalendarFrame.selectedDate =
-          Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"), Locale.US);
+          Calendar.getInstance(KoLmafia.kolTimeZone, Locale.US);
     } catch (Exception e) {
       // This should not happen.  Therefore, print
       // a stack trace for debug purposes.
@@ -413,7 +413,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       super(model);
       this.model = model;
 
-      this.dateCalculator = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"), Locale.US);
+      this.dateCalculator = Calendar.getInstance(KoLmafia.kolTimeZone, Locale.US);
       this.normalRenderer = new DefaultTableCellRenderer();
 
       this.todayRenderer = new DefaultTableCellRenderer();
