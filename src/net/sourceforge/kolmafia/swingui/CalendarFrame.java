@@ -10,7 +10,6 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -201,7 +200,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       artDirectory = "beefcake";
     }
 
-    displayHTML.append("<a href=\"" + artistURL + "\">" + artistName + "</a></b></td></tr>");
+    displayHTML.append("<a href=\"").append(artistURL).append("\">").append(artistName).append("</a></b></td></tr>");
     displayHTML.append("<tr><td><img src=\"");
     displayHTML.append(KoLmafia.imageServerPath());
     displayHTML.append("otherimages/");
@@ -390,7 +389,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     } else if (percentage < 0) {
       buffer.append(percentage);
       buffer.append('%');
-    } else if (percentage == 0) {
+    } else {
       buffer.append("no effect");
     }
   }

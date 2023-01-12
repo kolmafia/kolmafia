@@ -162,7 +162,7 @@ public abstract class KoLmafia {
   private static boolean allowDisplayUpdate = true;
 
   // All dates are presented as if the day began at rollover.
-  public static TimeZone kolTimeZone = TimeZone.getTimeZone("GMT-0330");
+  public static final TimeZone kolTimeZone = TimeZone.getTimeZone("GMT-0330");
 
   public static final int[] initialStats = new int[3];
 
