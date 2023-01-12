@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -812,16 +813,16 @@ public class TestCommand extends AbstractCommand {
       }
 
       String typeName = split[1];
-      int type =
-          typeName.equalsIgnoreCase("any")
-              ? WikiUtilities.ANY_TYPE
-              : typeName.equalsIgnoreCase("item")
-                  ? WikiUtilities.ITEM_TYPE
-                  : typeName.equalsIgnoreCase("effect")
-                      ? WikiUtilities.EFFECT_TYPE
-                      : typeName.equalsIgnoreCase("skill") ? WikiUtilities.SKILL_TYPE : -1;
+      WikiType type =
+          switch (typeName.toLowerCase()) {
+            case "any" -> WikiType.ANY_TYPE;
+            case "item" -> WikiType.ITEM_TYPE;
+            case "effect" -> WikiType.EFFECT_TYPE;
+            case "skill" -> WikiType.SKILL_TYPE;
+            default -> null;
+          };
 
-      if (type == -1) {
+      if (type == null) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "type must be any, item, effect, or skill");
         return;
       }

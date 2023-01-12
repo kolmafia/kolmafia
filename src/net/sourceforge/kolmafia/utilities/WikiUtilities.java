@@ -19,18 +19,21 @@ import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class WikiUtilities {
-  public static final int ANY_TYPE = 0;
-  public static final int ITEM_TYPE = 1;
-  public static final int EFFECT_TYPE = 2;
-  public static final int SKILL_TYPE = 3;
-  public static final int MONSTER_TYPE = 4;
+
+  public enum WikiType {
+    ANY_TYPE,
+    ITEM_TYPE,
+    EFFECT_TYPE,
+    SKILL_TYPE,
+    MONSTER_TYPE
+  }
 
   private WikiUtilities() {}
 
-  public static String getWikiLocation(String name, int type, boolean dataPage) {
+  public static String getWikiLocation(String name, WikiType type, boolean dataPage) {
     boolean checkOtherTables = true;
 
-    if (type != ANY_TYPE) {
+    if (type != WikiType.ANY_TYPE) {
       ModifierType modType =
           switch (type) {
             case ITEM_TYPE -> ModifierType.ITEM;
@@ -75,7 +78,7 @@ public class WikiUtilities {
     return "https://kol.coldfront.net/thekolwiki/index.php/" + name;
   }
 
-  private static String disambiguateTypes(int type, String name) {
+  private static String disambiguateTypes(WikiType type, String name) {
     boolean inItemTable = ItemDatabase.containsExactly(name);
     boolean inEffectTable = EffectDatabase.containsExactly(name);
     boolean inSkillTable = SkillDatabase.contains(name);
@@ -140,7 +143,7 @@ public class WikiUtilities {
     }
 
     String name = null;
-    int type = WikiUtilities.ANY_TYPE;
+    WikiType type = WikiType.ANY_TYPE;
 
     if (item instanceof Boost) {
       item = ((Boost) item).getItem();
@@ -150,32 +153,32 @@ public class WikiUtilities {
 
     if (item instanceof MonsterData) {
       name = ((MonsterData) item).getWikiName();
-      type = WikiUtilities.MONSTER_TYPE;
+      type = WikiType.MONSTER_TYPE;
     } else if (item instanceof AdventureResult result) {
       name = result.getDataName();
 
       type =
           result.isItem()
-              ? WikiUtilities.ITEM_TYPE
-              : result.isStatusEffect() ? WikiUtilities.EFFECT_TYPE : WikiUtilities.ANY_TYPE;
+              ? WikiType.ITEM_TYPE
+              : result.isStatusEffect() ? WikiType.EFFECT_TYPE : WikiType.ANY_TYPE;
     } else if (item instanceof UseSkillRequest) {
       name = ((UseSkillRequest) item).getSkillName();
-      type = WikiUtilities.SKILL_TYPE;
+      type = WikiType.SKILL_TYPE;
     } else if (item instanceof Concoction) {
       name = ((Concoction) item).getName();
-      type = WikiUtilities.ITEM_TYPE;
+      type = WikiType.ITEM_TYPE;
     } else if (item instanceof QueuedConcoction) {
       name = ((QueuedConcoction) item).getName();
-      type = WikiUtilities.ITEM_TYPE;
+      type = WikiType.ITEM_TYPE;
     } else if (item instanceof CreateItemRequest) {
       name = ((CreateItemRequest) item).getName();
-      type = WikiUtilities.ITEM_TYPE;
+      type = WikiType.ITEM_TYPE;
     } else if (item instanceof PurchaseRequest) {
       name = ((PurchaseRequest) item).getItem().getDataName();
-      type = WikiUtilities.ITEM_TYPE;
+      type = WikiType.ITEM_TYPE;
     } else if (item instanceof SoldItem) {
       name = ((SoldItem) item).getItemName();
-      type = WikiUtilities.ITEM_TYPE;
+      type = WikiType.ITEM_TYPE;
     } else if (item instanceof String) {
       name = (String) item;
     }
