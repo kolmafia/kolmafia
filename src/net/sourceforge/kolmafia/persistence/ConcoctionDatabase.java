@@ -556,7 +556,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.queuedFancyDog = true;
     }
 
-    if (c.speakeasy) {
+    if (c.speakeasy != null) {
       ConcoctionDatabase.queuedSpeakeasyDrink += quantity;
     }
 
@@ -697,7 +697,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.queuedFancyDog = false;
     }
 
-    if (qc.getConcoction().speakeasy) {
+    if (qc.getConcoction().speakeasy != null) {
       ConcoctionDatabase.queuedSpeakeasyDrink -= quantity;
     }
 
@@ -982,7 +982,7 @@ public class ConcoctionDatabase {
     }
 
     // If there's an actual item, it's not from a store
-    if (item != null && !c.speakeasy) {
+    if (item != null && c.speakeasy == null) {
       // If concoction is a normal item, use normal item acquisition methods.
       if (item.getItemId() > 0) {
         UseItemRequest request;
@@ -1241,7 +1241,7 @@ public class ConcoctionDatabase {
       // Initialize all the variables
       item.resetCalculations();
 
-      if (item.speakeasy) {
+      if (item.speakeasy != null) {
         // Has an item number, but can't appear in inventory
         continue;
       }

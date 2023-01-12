@@ -1,14 +1,12 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -373,24 +371,18 @@ public class ClanLoungeRequest extends GenericRequest {
    *    concoction.resetCalculations() for all speakeasy drinks.
    */
 
-  private static final Set<SpeakeasyDrink> allSpeakeasyDrinks = new HashSet<>();
-
-  public static class SpeakeasyDrink {
-    private static final Map<String, SpeakeasyDrink> nameToData = new HashMap<>();
-    private static final Map<String, String> canonicalNameToName = new HashMap<>();
-    private static final Map<Integer, SpeakeasyDrink> idToData = new HashMap<>();
-
-    public static SpeakeasyDrink findName(String name) {
-      return SpeakeasyDrink.nameToData.get(name);
-    }
-
-    public static String findCanonicalName(String canonicalName) {
-      return SpeakeasyDrink.canonicalNameToName.get(canonicalName);
-    }
-
-    public static SpeakeasyDrink findId(int id) {
-      return SpeakeasyDrink.idToData.get(id);
-    }
+  public static enum SpeakeasyDrink {
+    MILK(1, "glass of &quot;milk&quot;", 1, 250),
+    TEA(2, "cup of &quot;tea&quot;", 1, 250),
+    WHISKEY(3, "thermos of &quot;whiskey&quot;", 1, 250),
+    LUCKY_LINDY(4, "Lucky Lindy", 1, 500),
+    BEES_KNEES(5, "Bee's Knees", 2, 500),
+    SOCKDOLLAGER(6, "Sockdollager", 2, 500),
+    ISH_KABIBBLE(7, "Ish Kabibble", 2, 500),
+    HOT_SOCKS(8, "Hot Socks", 3, 5000),
+    PHONUS_BALONUS(9, "Phonus Balonus", 3, 10000),
+    FLIVVER(10, "Flivver", 2, 20000),
+    SLOPPY_JALOPY(11, "Sloppy Jalopy", 5, 100000);
 
     // Class fields
     private final String name;
@@ -403,9 +395,14 @@ public class ClanLoungeRequest extends GenericRequest {
     private final String canonicalName;
     private final Concoction concoction;
 
-    public SpeakeasyDrink(String name, int id, int inebriety, int cost) {
-      this.name = name;
+    // Lookups for SpeakeasyDrinks
+    private static final Map<String, SpeakeasyDrink> nameToData = new HashMap<>();
+    private static final Map<String, String> canonicalNameToName = new HashMap<>();
+    private static final Map<Integer, SpeakeasyDrink> idToData = new HashMap<>();
+
+    private SpeakeasyDrink(int id, String name, int inebriety, int cost) {
       this.id = id;
+      this.name = name;
       this.inebriety = inebriety;
       this.cost = cost;
 
@@ -415,16 +412,9 @@ public class ClanLoungeRequest extends GenericRequest {
       this.item = ItemPool.get(ItemDatabase.getItemId(name, 1, false));
 
       Concoction concoction = ConcoctionPool.get(this.item);
-      concoction.speakeasy = true;
+      concoction.speakeasy = this;
       concoction.price = cost;
       this.concoction = concoction;
-
-      // Lookups
-      SpeakeasyDrink.nameToData.put(name, this);
-      SpeakeasyDrink.canonicalNameToName.put(canonicalName, name);
-      SpeakeasyDrink.idToData.put(id, this);
-
-      ClanLoungeRequest.allSpeakeasyDrinks.add(this);
     }
 
     public String getName() {
@@ -454,25 +444,32 @@ public class ClanLoungeRequest extends GenericRequest {
     public Concoction getConcoction() {
       return this.concoction;
     }
+
+    public void populateMaps() {
+      SpeakeasyDrink.nameToData.put(this.name, this);
+      SpeakeasyDrink.canonicalNameToName.put(this.canonicalName, name);
+      SpeakeasyDrink.idToData.put(this.id, this);
+    }
+
+    public static SpeakeasyDrink findName(String name) {
+      return SpeakeasyDrink.nameToData.get(name);
+    }
+
+    public static String findCanonicalName(String canonicalName) {
+      return SpeakeasyDrink.canonicalNameToName.get(canonicalName);
+    }
+
+    public static SpeakeasyDrink findId(int id) {
+      return SpeakeasyDrink.idToData.get(id);
+    }
   }
+
+  public static final EnumSet<SpeakeasyDrink> ALL_SPEAKEASY = EnumSet.allOf(SpeakeasyDrink.class);
 
   static {
-    new SpeakeasyDrink("glass of &quot;milk&quot;", 1, 1, 250);
-    new SpeakeasyDrink("cup of &quot;tea&quot;", 2, 1, 250);
-    new SpeakeasyDrink("thermos of &quot;whiskey&quot;", 3, 1, 250);
-    new SpeakeasyDrink("Lucky Lindy", 4, 1, 500);
-    new SpeakeasyDrink("Bee's Knees", 5, 2, 500);
-    new SpeakeasyDrink("Sockdollager", 6, 2, 500);
-    new SpeakeasyDrink("Ish Kabibble", 7, 2, 500);
-    new SpeakeasyDrink("Hot Socks", 8, 3, 5000);
-    new SpeakeasyDrink("Phonus Balonus", 9, 3, 10000);
-    new SpeakeasyDrink("Flivver", 10, 2, 20000);
-    new SpeakeasyDrink("Sloppy Jalopy", 11, 5, 100000);
-  }
-
-  private static final String speakeasyIdToName(int id) {
-    SpeakeasyDrink drink = SpeakeasyDrink.findId(id);
-    return drink == null ? null : drink.getName();
+    for (var drink : ALL_SPEAKEASY) {
+      drink.populateMaps();
+    }
   }
 
   public static final Integer speakeasyNameToCost(final String name) {
@@ -480,27 +477,27 @@ public class ClanLoungeRequest extends GenericRequest {
     return drink == null ? -1 : drink.getCost();
   }
 
-  public static final Set<Concoction> ALL_SPEAKEASY =
-      allSpeakeasyDrinks.stream().map(SpeakeasyDrink::getConcoction).collect(Collectors.toSet());
   private static final String[] CANONICAL_SPEAKEASY_ARRAY =
-      allSpeakeasyDrinks.stream().map(SpeakeasyDrink::getCanonicalName).toArray(String[]::new);
+      ALL_SPEAKEASY.stream().map(SpeakeasyDrink::getCanonicalName).toArray(String[]::new);
 
-  public static final Set<Concoction> availableSpeakeasyDrinks = new HashSet<>();
+  private static final EnumSet<SpeakeasyDrink> availableSpeakeasyDrinks =
+      EnumSet.noneOf(SpeakeasyDrink.class);
+
+  public static boolean availableSpeakeasyDrink(final SpeakeasyDrink drink) {
+    return availableSpeakeasyDrinks.contains(drink);
+  }
 
   public static boolean availableSpeakeasyDrink(final String itemName) {
     SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
-    return drink == null ? false : availableSpeakeasyDrinks.contains(drink.getConcoction());
+    return drink == null ? false : availableSpeakeasyDrinks.contains(drink);
   }
 
   public static void addSpeakeasyDrink(final String itemName) {
     SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
-    if (drink != null) {
-      Concoction concoction = drink.getConcoction();
-      if (!availableSpeakeasyDrinks.contains(concoction)) {
-        ClanManager.addToLounge(drink.getItem());
-        availableSpeakeasyDrinks.add(concoction);
-        concoction.resetCalculations();
-      }
+    if (drink != null && !availableSpeakeasyDrinks.contains(drink)) {
+      availableSpeakeasyDrinks.add(drink);
+      ClanManager.addToLounge(drink.getItem());
+      drink.getConcoction().resetCalculations();
     }
   }
 
@@ -509,8 +506,8 @@ public class ClanLoungeRequest extends GenericRequest {
     availableSpeakeasyDrinks.clear();
 
     // Reset availability for all drinks
-    for (var concoction : ALL_SPEAKEASY) {
-      concoction.resetCalculations();
+    for (var drink : ALL_SPEAKEASY) {
+      drink.getConcoction().resetCalculations();
     }
   }
 
@@ -2081,12 +2078,11 @@ public class ClanLoungeRequest extends GenericRequest {
             if (!m.find()) {
               return false;
             }
-            String speakeasyDrink =
-                ClanLoungeRequest.speakeasyIdToName(StringUtilities.parseInt(m.group(0)));
-            if (speakeasyDrink == null) {
+            SpeakeasyDrink drink = SpeakeasyDrink.findId(StringUtilities.parseInt(m.group(0)));
+            if (drink == null) {
               return false;
             }
-            message = "drink 1 " + speakeasyDrink;
+            message = "drink 1 " + drink.getName();
             break;
           }
         default:

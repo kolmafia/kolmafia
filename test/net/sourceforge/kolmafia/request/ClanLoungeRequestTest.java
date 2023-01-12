@@ -21,8 +21,8 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Collection;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
 import net.sourceforge.kolmafia.session.ClanManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -179,41 +180,27 @@ public class ClanLoungeRequestTest {
     private static final AdventureResult FLIVVER = ItemPool.get(ItemPool.FLIVVER, 1);
     private static final AdventureResult SLOPPY_JALOPY = ItemPool.get(ItemPool.SLOPPY_JALOPY, 1);
 
-    private static final Collection<AdventureResult> ALL_DRINKS =
-        List.of(
-            GLASS_OF_MILK,
-            CUP_OF_TEA,
-            THERMOS_OF_WHISKEY,
-            LUCKY_LINDY,
-            BEES_KNEES,
-            SOCKDOLLAGER,
-            ISH_KABIBBLE,
-            HOT_SOCKS,
-            PHONUS_BALONUS,
-            FLIVVER,
-            SLOPPY_JALOPY);
-
     // This loads ClanLoungeRequest and executes static initialization
-    private static final Collection<Concoction> ALL_CONCOCTIONS = ClanLoungeRequest.ALL_SPEAKEASY;
+    private static final Set<SpeakeasyDrink> ALL_SPEAKEASY =
+        ClanLoungeRequest.ALL_SPEAKEASY.stream().collect(Collectors.toSet());
 
     @Test
     void allSpeakeasyDrinksRemainOnUsablesList() {
       var usables = ConcoctionDatabase.getUsables();
-      var available = ClanLoungeRequest.availableSpeakeasyDrinks;
 
       // Initial state after loading
-      for (var concoction : ALL_CONCOCTIONS) {
-        assertTrue(usables.contains(concoction));
-        assertFalse(available.contains(concoction));
+      for (var drink : ALL_SPEAKEASY) {
+        assertTrue(usables.contains(drink.getConcoction()));
+        assertFalse(ClanLoungeRequest.availableSpeakeasyDrink(drink));
       }
 
       // Reset Speakeasy, as if in a clan without one
       ClanLoungeRequest.resetSpeakeasy();
 
       // Initial state still valid
-      for (var concoction : ALL_CONCOCTIONS) {
-        assertTrue(usables.contains(concoction));
-        assertFalse(available.contains(concoction));
+      for (var drink : ALL_SPEAKEASY) {
+        assertTrue(usables.contains(drink.getConcoction()));
+        assertFalse(ClanLoungeRequest.availableSpeakeasyDrink(drink));
       }
     }
 
@@ -229,19 +216,14 @@ public class ClanLoungeRequestTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_clan_speakeasy.html"));
 
-        assertThat(ClanLoungeRequest.availableSpeakeasyDrinks, hasSize(0));
         var request = new ClanLoungeRequest(ClanLoungeRequest.SPEAKEASY);
         request.run();
 
         // All Speakeasy concoctions are available
-        for (var concoction : ALL_CONCOCTIONS) {
-          assertTrue(ClanLoungeRequest.availableSpeakeasyDrinks.contains(concoction));
-        }
-
         // All Speakeasy "items" are on ClanLounge collection
-        for (var drink : ALL_DRINKS) {
-          assertTrue(ClanLoungeRequest.availableSpeakeasyDrink(drink.getName()));
-          assertTrue(ClanLoungeRequest.hasClanLoungeItem(drink));
+        for (var drink : ClanLoungeRequest.ALL_SPEAKEASY) {
+          assertTrue(ClanLoungeRequest.availableSpeakeasyDrink(drink));
+          assertTrue(ClanLoungeRequest.hasClanLoungeItem(drink.getItem()));
         }
 
         var requests = client.getRequests();
