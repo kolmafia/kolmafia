@@ -418,6 +418,27 @@ public class Player {
   }
 
   /**
+   * Resets clan info to initial state
+   *
+   * @return Resets to initial state
+   */
+  public static Cleanups withClan() {
+    return withClan(0, "");
+  }
+
+  /**
+   * Sets Clan ID and name as desired (presumably because saved HTML has a specific clan name).
+   *
+   * @param clanId clan ID
+   * @param clanName clanName
+   * @return Resets to initial state
+   */
+  public static Cleanups withClan(final int clanId, final String clanName) {
+    ClanManager.setClan(clanId, clanName);
+    return new Cleanups(() -> ClanManager.clearCache(true));
+  }
+
+  /**
    * Restores Clan Furniture after cleanup
    *
    * @return Resets to previous state

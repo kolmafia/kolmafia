@@ -543,7 +543,8 @@ public class ListCellRendererFactory {
         }
       } else if (item.getPrice() > 0) {
         // The speakeasy doesn't give you a discount.
-        int price = item.speakeasy ? item.getPrice() : CafeRequest.discountedPrice(item.getPrice());
+        int price =
+            item.speakeasy != null ? item.getPrice() : CafeRequest.discountedPrice(item.getPrice());
         stringForm.append(price);
         stringForm.append(" meat");
         return false;

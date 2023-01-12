@@ -690,7 +690,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         return false;
       }
 
-      if (creation.speakeasy
+      if (creation.speakeasy != null
           && !StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan speakeasy")) {
         return false;
       }
@@ -736,7 +736,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       if (KoLCharacter.isJarlsberg()
           && (type == ConcoctionType.FOOD || type == ConcoctionType.BOOZE)) {
         // No VIP items for Jarlsberg
-        if (creation.hotdog || creation.speakeasy) {
+        if (creation.hotdog || creation.speakeasy != null) {
           return false;
         }
         if (creation.getMixingMethod() != CraftingType.JARLS
@@ -747,7 +747,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       }
 
       if (KoLCharacter.inHighschool() && type == ConcoctionType.BOOZE) {
-        if (creation.speakeasy) {
+        if (creation.speakeasy != null) {
           return false;
         }
         String notes = ConsumablesDatabase.getNotes(name);
@@ -810,7 +810,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       }
 
       if (KoLCharacter.getLimitMode().limitClan()) {
-        if (creation.hotdog || creation.speakeasy) {
+        if (creation.hotdog || creation.speakeasy != null) {
           return false;
         }
       }
@@ -820,7 +820,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         return false;
       }
 
-      if (creation.speakeasy
+      if (creation.speakeasy != null
           && (ConcoctionDatabase.queuedSpeakeasyDrink
                   + Preferences.getInteger("_speakeasyDrinksDrunk")
               >= 3)) {
