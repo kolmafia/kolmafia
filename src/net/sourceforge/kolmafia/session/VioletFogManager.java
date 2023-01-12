@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
 
 public abstract class VioletFogManager {
 
@@ -490,7 +491,7 @@ public abstract class VioletFogManager {
 
   private static String getWikiLink(int i) {
     var name = "Violet Fog" + (i == 0 ? "" : " (" + FogLocationNames[i] + ")");
-    return WikiUtilities.getWikiLocation(name, WikiUtilities.ANY_TYPE, false);
+    return WikiUtilities.getWikiLocation(name, WikiType.ANY, false);
   }
 
   private static final String[] EDGE_COLORS = {
