@@ -623,7 +623,7 @@ public class MonsterData extends AdventureResult {
   private String[] randomModifiers;
 
   public MonsterData(String name, int id, String[] images, String attributeString) {
-    super(AdventureResult.MONSTER_PRIORITY, name);
+    super(Priority.MONSTER, name);
 
     Map<Attribute, Object> attributes = attributeStringToMap(name, attributeString);
     EnumSet<EncounterType> type = attributeMapToEncounterTypes(attributes);
@@ -732,7 +732,7 @@ public class MonsterData extends AdventureResult {
   }
 
   public MonsterData(final MonsterData monster) {
-    super(AdventureResult.MONSTER_PRIORITY, monster.getName());
+    super(Priority.MONSTER, monster.getName());
 
     this.id = monster.id;
     this.health = monster.health;

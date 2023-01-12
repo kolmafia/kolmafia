@@ -25,23 +25,25 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   public static final String[] STAT_NAMES = {"muscle", "mysticality", "moxie"};
 
-  protected int priority;
+  protected Priority priority;
   protected int id;
   protected String name;
   protected int count;
 
-  private static final int NO_PRIORITY = 0;
-  private static final int ADV_PRIORITY = 1;
-  private static final int MEAT_PRIORITY = 2;
-  protected static final int SUBSTAT_PRIORITY = 3;
-  protected static final int FULLSTAT_PRIORITY = 4;
-  private static final int ITEM_PRIORITY = 5;
-  private static final int EFFECT_PRIORITY = 6;
-  private static final int BOUNTY_ITEM_PRIORITY = 6;
+  public enum Priority {
+    MONSTER,
 
-  public static final int PSEUDO_ITEM_PRIORITY = 99;
+    NONE,
+    ADV,
+    MEAT,
+    SUBSTAT,
+    FULLSTAT,
+    ITEM,
+    BOUNTY_ITEM,
+    EFFECT,
 
-  protected static final int MONSTER_PRIORITY = -1;
+    PSEUDO_ITEM
+  }
 
   public static final String ADV = "Adv";
   public static final String ARENA_ML = "Arena flyer ML";
@@ -131,36 +133,36 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public AdventureResult(final String name, final int count, final boolean isStatusEffect) {
-    this(isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY, name, count);
+    this(isStatusEffect ? Priority.EFFECT : Priority.ITEM, name, count);
   }
 
-  public AdventureResult(final int subType, final String name) {
+  public AdventureResult(final Priority subType, final String name) {
     this(subType, name, 1);
   }
 
-  public AdventureResult(final int subType, final String name, final int count) {
+  public AdventureResult(final Priority subType, final String name, final int count) {
     this.name = name;
     this.count = count;
     this.priority = subType;
     this.id = -1;
 
-    if (this.priority == AdventureResult.EFFECT_PRIORITY) {
+    if (this.priority == Priority.EFFECT) {
       // This will also set this.id as appropriate
       this.normalizeEffectName();
-    } else if (this.priority == AdventureResult.ITEM_PRIORITY) {
+    } else if (this.priority == Priority.ITEM) {
       // This will also set this.id as appropriate
       this.normalizeItemName();
-    } else if (this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY) {
+    } else if (this.priority == Priority.PSEUDO_ITEM) {
       // Detach substring from larger text
       this.name = name;
-      this.priority = AdventureResult.ITEM_PRIORITY;
+      this.priority = Priority.ITEM;
     } else {
       // Detach substring from larger text
       this.name = name;
     }
   }
 
-  protected static int choosePriority(final String name) {
+  protected static Priority choosePriority(final String name) {
     if (name.equals(AdventureResult.ADV)
         || name.equals(AdventureResult.CHOICE)
         || name.equals(AdventureResult.AUTOSTOP)
@@ -170,10 +172,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         || name.equals(AdventureResult.TOME)
         || name.equals(AdventureResult.EXTRUDE)
         || name.equals(AdventureResult.FREE_CRAFT)) {
-      return AdventureResult.ADV_PRIORITY;
+      return Priority.ADV;
     }
     if (name.equals(AdventureResult.MEAT) || name.equals(AdventureResult.MEAT_SPENT)) {
-      return AdventureResult.MEAT_PRIORITY;
+      return Priority.MEAT;
     }
     if (name.equals(AdventureResult.HP)
         || name.equals(AdventureResult.MP)
@@ -182,35 +184,35 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         || name.equals(AdventureResult.PVP)
         || name.equals(AdventureResult.ENERGY)
         || name.equals(AdventureResult.SCRAP)) {
-      return AdventureResult.NO_PRIORITY;
+      return Priority.NONE;
     }
     if (name.equals(AdventureResult.SUBSTATS)) {
-      return AdventureResult.SUBSTAT_PRIORITY;
+      return Priority.SUBSTAT;
     }
     if (name.equals(AdventureResult.FULLSTATS)) {
-      return AdventureResult.FULLSTAT_PRIORITY;
+      return Priority.FULLSTAT;
     }
     if (name.equals(AdventureResult.FLOUNDRY)) {
-      return AdventureResult.PSEUDO_ITEM_PRIORITY;
+      return Priority.PSEUDO_ITEM;
     }
     if (BountyDatabase.getType(name) != null) {
-      return AdventureResult.BOUNTY_ITEM_PRIORITY;
+      return Priority.BOUNTY_ITEM;
     }
     if (EffectDatabase.contains(name)) {
-      return AdventureResult.EFFECT_PRIORITY;
+      return Priority.EFFECT;
     }
-    return AdventureResult.ITEM_PRIORITY;
+    return Priority.ITEM;
   }
 
   public AdventureResult(final int id, final int count, final boolean isStatusEffect) {
     if (isStatusEffect) {
       String name = EffectDatabase.getEffectName(id);
       this.name = name != null ? name : "(unknown effect " + id + ")";
-      this.priority = AdventureResult.EFFECT_PRIORITY;
+      this.priority = Priority.EFFECT;
     } else {
       String name = ItemDatabase.getItemDataName(id);
       this.name = name != null ? name : "(unknown item " + id + ")";
-      this.priority = AdventureResult.ITEM_PRIORITY;
+      this.priority = Priority.ITEM;
     }
     this.id = id;
     this.count = count;
@@ -221,8 +223,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     this.name = name;
     this.id = id;
     this.count = count;
-    this.priority =
-        isStatusEffect ? AdventureResult.EFFECT_PRIORITY : AdventureResult.ITEM_PRIORITY;
+    this.priority = isStatusEffect ? Priority.EFFECT : Priority.ITEM;
   }
 
   // Need this to retain instance-specific methods
@@ -232,7 +233,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public void normalizeEffectName() {
-    this.priority = AdventureResult.EFFECT_PRIORITY;
+    this.priority = Priority.EFFECT;
 
     if (this.name == null) {
       this.name = "(unknown effect)";
@@ -252,7 +253,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public void normalizeItemName() {
-    this.priority = AdventureResult.ITEM_PRIORITY;
+    this.priority = Priority.ITEM;
 
     if (this.name == null) {
       this.name = "(unknown item " + this.id + ")";
@@ -278,7 +279,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
   }
 
-  public static final AdventureResult pseudoItem(final String name) {
+  public static AdventureResult pseudoItem(final String name) {
     AdventureResult item = ItemFinder.getFirstMatchingItem(name, false);
     if (item != null) {
       return item;
@@ -288,22 +289,22 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return new AdventureResult(name, -1, 1, false);
   }
 
-  public static final AdventureResult tallyItem(final String name) {
+  public static AdventureResult tallyItem(final String name) {
     return AdventureResult.tallyItem(name, true);
   }
 
-  public static final AdventureResult tallyItem(final String name, final boolean setItemId) {
-    AdventureResult item = new AdventureResult(AdventureResult.NO_PRIORITY, name);
-    item.priority = AdventureResult.ITEM_PRIORITY;
+  public static AdventureResult tallyItem(final String name, final boolean setItemId) {
+    AdventureResult item = new AdventureResult(Priority.NONE, name);
+    item.priority = Priority.ITEM;
     item.id = setItemId ? ItemDatabase.getItemId(name, 1, false) : -1;
     return item;
   }
 
-  public static final AdventureResult tallyItem(final String name, final int itemId) {
+  public static AdventureResult tallyItem(final String name, final int itemId) {
     return new AdventureResult(name, itemId, 1, false);
   }
 
-  public static final AdventureResult tallyItem(
+  public static AdventureResult tallyItem(
       final String name, final int count, final boolean setItemId) {
     AdventureResult item = AdventureResult.tallyItem(name, setItemId);
     item.count = count;
@@ -316,7 +317,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @return <code>true</code> if this result represents a status effect
    */
   public boolean isStatusEffect() {
-    return this.priority == AdventureResult.EFFECT_PRIORITY;
+    return this.priority == Priority.EFFECT;
   }
 
   /**
@@ -353,16 +354,16 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @return <code>true</code> if this result represents an item
    */
   public boolean isItem() {
-    return this.priority == AdventureResult.ITEM_PRIORITY;
+    return this.priority == Priority.ITEM;
   }
 
   @SuppressWarnings("unused")
   public boolean isBountyItem() {
-    return this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY;
+    return this.priority == Priority.BOUNTY_ITEM;
   }
 
   public boolean isMeat() {
-    return this.priority == AdventureResult.MEAT_PRIORITY;
+    return this.priority == Priority.MEAT;
   }
 
   public boolean isHP() {
@@ -382,7 +383,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public boolean isMonster() {
-    return this.priority == AdventureResult.MONSTER_PRIORITY;
+    return this.priority == Priority.MONSTER;
   }
 
   /**
@@ -440,8 +441,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
           + ")";
       case ItemPool.JURASSIC_PARKA -> {
         var mode = Preferences.getString("parkaMode");
-        var result = mode.equals("") ? this.name : this.name + " (" + mode + " mode)";
-        yield result;
+        yield mode.equals("") ? this.name : this.name + " (" + mode + " mode)";
       }
       case ItemPool.BACKUP_CAMERA -> this.name
           + " ("
@@ -452,9 +452,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public String getDisambiguatedName() {
-    if ((this.priority == AdventureResult.ITEM_PRIORITY
-            && ItemDatabase.getItemIds(this.name, 1, false).length > 1)
-        || (this.priority == AdventureResult.EFFECT_PRIORITY
+    if ((this.priority == Priority.ITEM && ItemDatabase.getItemIds(this.name, 1, false).length > 1)
+        || (this.priority == Priority.EFFECT
             && EffectDatabase.getEffectIds(this.name, false).length > 1)) {
       return "[" + this.id + "]" + this.name;
     }
@@ -477,7 +476,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   public String getPluralName(final int count) {
     return count == 1
         ? this.getName()
-        : this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY
+        : this.priority == Priority.BOUNTY_ITEM
             ? BountyDatabase.getPlural(this.getName())
             : this.id == -1 ? this.getName() + "s" : ItemDatabase.getPluralName(this.id);
   }
@@ -493,14 +492,14 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @return The item Id associated with this item
    */
   public int getItemId() {
-    if (this.priority == AdventureResult.ITEM_PRIORITY) {
+    if (this.priority == Priority.ITEM) {
       return this.id;
     }
     return -1;
   }
 
   public int getEffectId() {
-    if (this.priority == AdventureResult.EFFECT_PRIORITY) {
+    if (this.priority == Priority.EFFECT) {
       return this.id;
     }
     return -1;
@@ -547,7 +546,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @return An <code>AdventureResult</code> with the appropriate data
    * @throws NumberFormatException The string was not a recognized <code>AdventureResult</code>
    */
-  public static final AdventureResult parseResult(final String s) {
+  public static AdventureResult parseResult(final String s) {
     // If this result has been screwed up with Rad Libs, can't do anything with it.
     if (s.startsWith("You &nbsp;")) {
       return null;
@@ -639,7 +638,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return AdventureResult.parseItem(s, false);
   }
 
-  public static final AdventureResult parseItem(final String s, final boolean pseudoAllowed) {
+  public static AdventureResult parseItem(final String s, final boolean pseudoAllowed) {
     StringTokenizer parsedItem = new StringTokenizer(s, "()");
 
     if (parsedItem.countTokens() == 0) {
@@ -664,8 +663,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
 
     // Hand craft an item Adventure Result, regardless of the name
-    AdventureResult item = new AdventureResult(AdventureResult.NO_PRIORITY, name);
-    item.priority = AdventureResult.ITEM_PRIORITY;
+    AdventureResult item = new AdventureResult(Priority.NONE, name);
+    item.priority = Priority.ITEM;
     item.id = ItemDatabase.getItemId(name, 1, false);
     item.count = count;
     if (item.id > 0) { // normalize name
@@ -688,7 +687,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return "(Unrecognized result)";
     }
 
-    if (this.priority == AdventureResult.MONSTER_PRIORITY) {
+    if (this.priority == Priority.MONSTER) {
       return this.name;
     }
 
@@ -742,7 +741,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
     String name = this.getName();
 
-    if (this.priority == AdventureResult.EFFECT_PRIORITY) {
+    if (this.priority == Priority.EFFECT) {
       if (name.equals("On the Trail")) {
         String monster = Preferences.getString("olfactedMonster");
         if (!monster.isEmpty()) {
@@ -750,14 +749,14 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         }
       } else {
         if (EffectDatabase.isSong(name)) {
-          name = "\u266B " + name;
+          name = "♫ " + name;
         }
 
         String skillName = UneffectRequest.effectToSkill(name);
         if (SkillDatabase.contains(skillName)) {
           int skillId = SkillDatabase.getSkillId(skillName);
           if (SkillDatabase.isExpression(skillId)) {
-            name = "\u263A " + name;
+            name = "☺ " + name;
           }
         }
       }
@@ -768,7 +767,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return count == 1
         ? name
         : count > Integer.MAX_VALUE / 2
-            ? name + " (\u221E)"
+            ? name + " (∞)"
             : count == PurchaseRequest.MAX_QUANTITY
                 ? name + " (unlimited)"
                 : name + " (" + KoLConstants.COMMA_FORMAT.format(count) + ")";
@@ -779,16 +778,15 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return "";
     }
 
-    if (this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY) {
+    if (this.priority == Priority.PSEUDO_ITEM) {
       return this.name.toLowerCase();
     }
 
-    if (this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY) {
+    if (this.priority == Priority.BOUNTY_ITEM || this.priority == Priority.EFFECT) {
       return this.name.toLowerCase();
     }
 
-    if (this.priority == AdventureResult.SUBSTAT_PRIORITY
-        || this.priority == AdventureResult.FULLSTAT_PRIORITY) {
+    if (this.priority == Priority.SUBSTAT || this.priority == Priority.FULLSTAT) {
       return "substats";
     }
 
@@ -898,7 +896,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
 
     if (this.priority != o.priority) {
-      return this.priority - o.priority;
+      return this.priority.compareTo(o.priority);
     }
 
     if (this.name == null) {
@@ -909,7 +907,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return -1;
     }
 
-    if (this.priority == EFFECT_PRIORITY) {
+    if (this.priority == Priority.EFFECT) {
       // Status effects have IDs and durations.  Sort by
       // duration, or by name, if durations are equal.
       int countComparison = this.getCount() - o.getCount();
@@ -929,7 +927,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @param sourceList The tally accumulating <code>AdventureResult</code>s
    * @param result The result to add to the tally
    */
-  public static final void addResultToList(
+  public static void addResultToList(
       final List<AdventureResult> sourceList, final AdventureResult result) {
     int index = sourceList.indexOf(result);
 
@@ -1013,7 +1011,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     sourceList.set(index, sumResult);
   }
 
-  public static final void addOrRemoveResultToList(
+  public static void addOrRemoveResultToList(
       final List<AdventureResult> sourceList, final AdventureResult result) {
     int index = sourceList.indexOf(result);
 
@@ -1033,7 +1031,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     sourceList.set(index, sumResult);
   }
 
-  public static final void removeResultFromList(
+  public static void removeResultFromList(
       final List<AdventureResult> sourceList, final AdventureResult result) {
     int index = sourceList.indexOf(result);
     if (index != -1) {
@@ -1072,8 +1070,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         item = this.clone();
       } catch (CloneNotSupportedException e) {
         // This should not happen. Hope for the best.
-        item = new AdventureResult(AdventureResult.NO_PRIORITY, this.name);
-        item.priority = AdventureResult.ITEM_PRIORITY;
+        item = new AdventureResult(Priority.NONE, this.name);
+        item.priority = Priority.ITEM;
         item.id = this.id;
       }
 
@@ -1087,8 +1085,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         effect = this.clone();
       } catch (CloneNotSupportedException e) {
         // This should not happen. Hope for the best.
-        effect = new AdventureResult(AdventureResult.NO_PRIORITY, this.name);
-        effect.priority = AdventureResult.EFFECT_PRIORITY;
+        effect = new AdventureResult(Priority.NONE, this.name);
+        effect.priority = Priority.EFFECT;
         effect.id = this.id;
       }
 
@@ -1130,7 +1128,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return null;
   }
 
-  public static final String bangPotionName(final int itemId) {
+  public static String bangPotionName(final int itemId) {
     String itemName = ItemDatabase.getItemDataName(itemId);
 
     String effect = Preferences.getString("lastBangPotion" + itemId);
@@ -1141,7 +1139,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return itemName + " of " + effect;
   }
 
-  public static final String slimeVialName(final int itemId) {
+  public static String slimeVialName(final int itemId) {
     String itemName = ItemDatabase.getItemDataName(itemId);
 
     String effect = Preferences.getString("lastSlimeVial" + itemId);
@@ -1201,7 +1199,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this;
   }
 
-  public static final String punchCardName(final int itemId) {
+  public static String punchCardName(final int itemId) {
     for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
       if (punchcard.id() == itemId) {
         return punchcard.alias();
@@ -1221,7 +1219,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       this(AdventureResult.choosePriority(name), name, counts);
     }
 
-    protected AdventureMultiResult(final int subType, final String name, final int[] counts) {
+    protected AdventureMultiResult(final Priority subType, final String name, final int[] counts) {
       super(subType, name, counts[0]);
       this.counts = counts;
     }
@@ -1233,7 +1231,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
      */
     @Override
     public boolean isMuscleGain() {
-      return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[0] != 0;
+      return this.priority == Priority.SUBSTAT && this.counts[0] != 0;
     }
 
     /**
@@ -1243,7 +1241,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
      */
     @Override
     public boolean isMysticalityGain() {
-      return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[1] != 0;
+      return this.priority == Priority.SUBSTAT && this.counts[1] != 0;
     }
 
     /**
@@ -1253,7 +1251,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
      */
     @Override
     public boolean isMoxieGain() {
-      return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[2] != 0;
+      return this.priority == Priority.SUBSTAT && this.counts[2] != 0;
     }
 
     /**
@@ -1368,7 +1366,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
     @Override
     public AdventureResult getInstance(final int[] quantity) {
-      if (this.priority == AdventureResult.SUBSTAT_PRIORITY) {
+      if (this.priority == Priority.SUBSTAT) {
         return new AdventureMultiResult(AdventureResult.SUBSTATS, quantity);
       }
 
@@ -1436,7 +1434,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     private final boolean negated;
 
     public WildcardResult(String name, int count, String match, boolean negated) {
-      super(AdventureResult.ITEM_PRIORITY, name, count);
+      super(Priority.ITEM, name, count);
 
       this.match = match;
       this.matches = match.split("\\s*[|/]\\s*");
