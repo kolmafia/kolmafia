@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BarrelShrineRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -74,7 +75,7 @@ public class Concoction implements Comparable<Concoction> {
   public boolean special;
   public boolean hotdog;
   public boolean fancydog;
-  public boolean speakeasy;
+  public SpeakeasyDrink speakeasy;
   public boolean steelOrgan;
 
   private Consumable consumable;
@@ -775,11 +776,11 @@ public class Concoction implements Comparable<Concoction> {
 
     this.allocated = 0;
 
-    if (this.speakeasy) {
-      this.initial =
-          Math.min(
-              Concoction.getAvailableMeat() / this.price,
-              3 - Preferences.getInteger("_speakeasyDrinksDrunk"));
+    if (this.speakeasy != null) {
+      boolean available = ClanLoungeRequest.availableSpeakeasyDrink(this.speakeasy);
+      int affordableNumber = Concoction.getAvailableMeat() / this.price;
+      int drinkableNumber = 3 - Preferences.getInteger("_speakeasyDrinksDrunk");
+      this.initial = available ? Math.min(affordableNumber, drinkableNumber) : 0;
       this.creatable = 0;
       this.total = this.initial;
       this.freeTotal = this.initial;
@@ -867,7 +868,7 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void calculate2() {
-    if (this.speakeasy) {
+    if (this.speakeasy != null) {
       return;
     }
 
@@ -932,7 +933,7 @@ public class Concoction implements Comparable<Concoction> {
   // Like calculate2, but just calculates turn-free creations.
 
   public void calculate3() {
-    if (this.speakeasy) {
+    if (this.speakeasy != null) {
       return;
     }
 
