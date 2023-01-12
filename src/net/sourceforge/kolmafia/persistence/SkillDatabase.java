@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
@@ -1021,7 +1023,7 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is a summon
    */
   public static final boolean isSummon(final int skillId) {
-    return SkillDatabase.isType(skillId, SkillType.SUMMON);
+    return SkillDatabase.isType(skillId, SUMMON);
   }
 
   /** Utility method used to determine if the given skill is of the appropriate type. */
@@ -1350,6 +1352,21 @@ public class SkillDatabase {
 
   public static final List<UseSkillRequest> getSkillsByType(
       final SkillType type, final boolean onlyKnown) {
+    var searchTypes =
+        switch (type) {
+          case ALL -> EnumSet.allOf(SkillType.class);
+          case CASTABLE -> EnumSet.of(
+              SUMMON, REMEDY, SELF_ONLY, BUFF, SONG, COMBAT_NONCOMBAT_REMEDY, EXPRESSION, WALK);
+          case COMBAT -> EnumSet.of(COMBAT, COMBAT_NONCOMBAT_REMEDY, COMBAT_PASSIVE);
+          case REMEDY -> EnumSet.of(REMEDY, COMBAT_NONCOMBAT_REMEDY);
+          case PASSIVE -> EnumSet.of(PASSIVE, SkillType.COMBAT_PASSIVE);
+          default -> EnumSet.of(type);
+        };
+    return getSkillsByType(searchTypes, onlyKnown);
+  }
+
+  public static final List<UseSkillRequest> getSkillsByType(
+      final EnumSet<SkillType> types, final boolean onlyKnown) {
     Integer[] keys = new Integer[SkillDatabase.skillTypeById.size()];
     SkillDatabase.skillTypeById.keySet().toArray(keys);
 
@@ -1359,34 +1376,7 @@ public class SkillDatabase {
       SkillType skillType = SkillDatabase.skillTypeById.get(skillId);
       if (skillType == null) continue;
 
-      boolean shouldAdd =
-          switch (type) {
-            case ALL -> true;
-            case CASTABLE -> switch (skillType) {
-              case SUMMON,
-                  REMEDY,
-                  SELF_ONLY,
-                  BUFF,
-                  SONG,
-                  COMBAT_NONCOMBAT_REMEDY,
-                  EXPRESSION,
-                  WALK -> true;
-              default -> false;
-            };
-            case COMBAT -> switch (skillType) {
-              case COMBAT, COMBAT_NONCOMBAT_REMEDY, COMBAT_PASSIVE -> true;
-              default -> false;
-            };
-            case REMEDY -> switch (skillType) {
-              case REMEDY, COMBAT_NONCOMBAT_REMEDY -> true;
-              default -> false;
-            };
-            case PASSIVE -> switch (skillType) {
-              case PASSIVE, COMBAT_PASSIVE -> true;
-              default -> false;
-            };
-            default -> skillType == type;
-          };
+      boolean shouldAdd = types.contains(skillType);
 
       if (!shouldAdd || onlyKnown && !KoLCharacter.hasSkill(skillId)) {
         continue;
