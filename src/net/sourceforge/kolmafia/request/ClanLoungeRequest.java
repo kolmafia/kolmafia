@@ -371,13 +371,9 @@ public class ClanLoungeRequest extends GenericRequest {
    *    (This satisfies the last two checks)
    * 4) We need to track speakeasy drinks consumed - _speakeasyDrinksDrunk - and trigger
    *    concoction.resetCalculations() for all speakeasy drinks.
-   *
-   * *** Current implementation adds or removes speakeasy drinks to the usables list.
-   * *** That is incorrect; the list should remain untouched and visibility of the drink
-   * *** determined by the ListCellRenderer
    */
 
-  private static final Set<SpeakeasyDrink> allSpeakeasyDrinks = new HashSet<>();
+THis was originally   private static final Set<SpeakeasyDrink> allSpeakeasyDrinks = new HashSet<>();
 
   public static class SpeakeasyDrink {
     private static final Map<String, SpeakeasyDrink> nameToData = new HashMap<>();
