@@ -209,9 +209,7 @@ public class ClanLoungeRequestTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder), withClan(), withProperty("_speakeasyDrinksDrunk", 0));
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withClan());
 
       try (cleanups) {
         client.addResponse(200, html("request/test_clan_speakeasy.html"));
@@ -230,6 +228,45 @@ public class ClanLoungeRequestTest {
 
         assertThat(requests, hasSize(greaterThanOrEqualTo(1)));
         assertPostRequest(requests.get(0), "/clan_viplounge.php", "action=speakeasy&whichfloor=2");
+      }
+    }
+
+    @Test
+    void speakeasyDrinksCanBeDetectedinClanItemList() {
+      var cleanups = new Cleanups(withClan());
+
+      try (cleanups) {
+        // Add the Clan Speakeasy itself to the lounge
+        AdventureResult speakeasy = ItemPool.get(ItemPool.CLAN_SPEAKEASY);
+        ClanManager.addToLounge(speakeasy);
+        assertTrue(ClanLoungeRequest.hasClanLoungeItem(speakeasy));
+
+        // Add a Lucky Lindy to the Clan Speakeasy as via parsing the lounge
+        SpeakeasyDrink drink = SpeakeasyDrink.findName("Lucky Lindy");
+        ClanLoungeRequest.addSpeakeasyDrink(drink.getName());
+
+        // It is available and appears as a lounge item
+        assertTrue(ClanLoungeRequest.availableSpeakeasyDrink(drink));
+        assertTrue(ClanLoungeRequest.hasClanLoungeItem(drink.getItem()));
+
+        // Reset the Speakeasy in the Clan Lounge
+        ClanLoungeRequest.resetSpeakeasy();
+
+        // The Speakeasy still appears as a lounge item
+        assertTrue(ClanLoungeRequest.hasClanLoungeItem(speakeasy));
+
+        // As do existing drinks
+        assertTrue(ClanLoungeRequest.hasClanLoungeItem(drink.getItem()));
+
+        // However, drinks are not actually available
+        assertFalse(ClanLoungeRequest.availableSpeakeasyDrink(drink));
+
+        // Given the item, add drink to available list
+        assertTrue(ClanLoungeRequest.maybeAddSpeakeasyDrink(drink.getItem()));
+        assertTrue(ClanLoungeRequest.availableSpeakeasyDrink(drink));
+
+        // The lounge itself can't be added as a Speakeasy drink
+        assertFalse(ClanLoungeRequest.maybeAddSpeakeasyDrink(speakeasy));
       }
     }
 

@@ -763,7 +763,12 @@ public class Player {
   public static Cleanups withEffect(final int effectId, final int turns) {
     var effect = EffectPool.get(effectId, turns);
     KoLConstants.activeEffects.add(effect);
-    return new Cleanups(() -> KoLConstants.activeEffects.remove(effect));
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLConstants.activeEffects.remove(effect);
+          KoLCharacter.recalculateAdjustments();
+        });
   }
 
   /**
