@@ -1588,7 +1588,6 @@ public class FamiliarTrainingFrame extends GenericFrame {
       if (this.familiar.getId() == FamiliarPool.CHAMELEON
           || this.leadNecklace
               && this.ratHeadBalloon
-              && this.petSweater
               && this.pumpkinBucket
               && this.flowerBouquet
               && this.boxFireworks
