@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -443,9 +444,9 @@ public class DataTypes {
       return DataTypes.SKILL_INIT;
     }
 
-    int type = SkillDatabase.skillTypeNameToType(typeName);
+    SkillType type = SkillDatabase.skillTypeNameToType(typeName);
 
-    if (type == -1) {
+    if (type == SkillType.UNKNOWN) {
       return DataTypes.SKILL_INIT;
     }
 
@@ -1014,7 +1015,7 @@ public class DataTypes {
       case TYPE_SKILL:
         {
           UseSkillRequest[] inputs =
-              SkillDatabase.getSkillsByType(SkillDatabase.CASTABLE).toArray(new UseSkillRequest[0]);
+              SkillDatabase.getCastableSkills().toArray(new UseSkillRequest[0]);
           UseSkillRequest value = InputFieldUtilities.input(message, inputs);
           return value == null ? null : value.getSkillName();
         }

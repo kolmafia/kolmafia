@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -352,49 +353,49 @@ public class ShowDataCommand extends AbstractCommand {
       filter = filter.toLowerCase();
 
       if (filter.startsWith("cast")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.CASTABLE);
+        List<UseSkillRequest> intersect = SkillDatabase.getCastableSkills();
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("pass")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.PASSIVE);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.PASSIVE);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("self")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.SELF_ONLY);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.SELF_ONLY);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("buff")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.BUFF);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.BUFF);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("combat")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.COMBAT);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.COMBAT);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("song")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.SONG);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.SONG);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("expression")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.EXPRESSION);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.EXPRESSION);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("walk")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.WALK);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.WALK);
         skillsList.retainAll(intersect);
         filter = "";
       }

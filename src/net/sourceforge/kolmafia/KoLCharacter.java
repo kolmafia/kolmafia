@@ -3826,7 +3826,7 @@ public abstract class KoLCharacter {
     PreferenceListenerRegistry.firePreferenceChanged("(skill)");
 
     switch (SkillDatabase.getSkillType(skillId)) {
-      case SkillDatabase.PASSIVE -> {
+      case PASSIVE -> {
         switch (skillId) {
           case SkillPool.FLAVOUR_OF_MAGIC:
             // Flavour of Magic gives you access to five other
@@ -3898,52 +3898,51 @@ public abstract class KoLCharacter {
             break;
         }
       }
-      case SkillDatabase.SUMMON -> {
+      case SUMMON -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.summoningSkills.add(skill);
         LockableListFactory.sort(KoLConstants.summoningSkills);
       }
-      case SkillDatabase.REMEDY -> {
+      case REMEDY -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.remedySkills.add(skill);
         LockableListFactory.sort(KoLConstants.remedySkills);
       }
-      case SkillDatabase.SELF_ONLY -> {
+      case SELF_ONLY -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.selfOnlySkills.add(skill);
         LockableListFactory.sort(KoLConstants.selfOnlySkills);
       }
-      case SkillDatabase.BUFF -> {
+      case BUFF -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.buffSkills.add(skill);
         LockableListFactory.sort(KoLConstants.buffSkills);
       }
-      case SkillDatabase.SONG -> {
+      case SONG -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.songSkills.add(skill);
         LockableListFactory.sort(KoLConstants.songSkills);
       }
-      case SkillDatabase.COMBAT -> KoLCharacter.addCombatSkill(skill.getSkillName());
-      case SkillDatabase.COMBAT_NONCOMBAT_REMEDY -> {
+      case COMBAT, COMBAT_PASSIVE -> KoLCharacter.addCombatSkill(skill.getSkillName());
+      case COMBAT_NONCOMBAT_REMEDY -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.remedySkills.add(skill);
         LockableListFactory.sort(KoLConstants.remedySkills);
         KoLCharacter.addCombatSkill(skill.getSkillName());
       }
-      case SkillDatabase.COMBAT_PASSIVE -> KoLCharacter.addCombatSkill(skill.getSkillName());
-      case SkillDatabase.EXPRESSION -> {
+      case EXPRESSION -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.expressionSkills.add(skill);
         LockableListFactory.sort(KoLConstants.expressionSkills);
       }
-      case SkillDatabase.WALK -> {
+      case WALK -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.walkSkills.add(skill);
