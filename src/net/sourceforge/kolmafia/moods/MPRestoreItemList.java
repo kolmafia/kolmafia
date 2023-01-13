@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -300,11 +301,11 @@ public abstract class MPRestoreItemList {
 
         RequestThread.postRequest(
             new ClanStashRequest(
-                new AdventureResult[] {EXPRESS_CARD}, ClanStashRequest.STASH_TO_ITEMS));
+                new AdventureResult[] {EXPRESS_CARD}, ClanStashRequestType.STASH_TO_ITEMS));
         RequestThread.postRequest(UseItemRequest.getInstance(EXPRESS_CARD));
         RequestThread.postRequest(
             new ClanStashRequest(
-                new AdventureResult[] {EXPRESS_CARD}, ClanStashRequest.ITEMS_TO_STASH));
+                new AdventureResult[] {EXPRESS_CARD}, ClanStashRequestType.ITEMS_TO_STASH));
         return;
       }
 

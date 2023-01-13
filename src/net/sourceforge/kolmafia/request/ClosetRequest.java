@@ -21,20 +21,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ClosetRequest extends TransferItemRequest {
-  private int moveType;
+  private ClosetRequestType moveType;
 
-  public static final int REFRESH = 0;
-  public static final int INVENTORY_TO_CLOSET = 1;
-  public static final int CLOSET_TO_INVENTORY = 2;
-  public static final int MEAT_TO_CLOSET = 3;
-  public static final int MEAT_TO_INVENTORY = 4;
-  public static final int EMPTY_CLOSET = 5;
+  public enum ClosetRequestType {
+    REFRESH,
+    INVENTORY_TO_CLOSET,
+    CLOSET_TO_INVENTORY,
+    MEAT_TO_CLOSET,
+    MEAT_TO_INVENTORY,
+    EMPTY_CLOSET
+  }
 
   public static void refresh() {
     // To refresh closet, we get Meat from any page
     // and items from api.php
 
-    RequestThread.postRequest(new ClosetRequest(REFRESH));
+    RequestThread.postRequest(new ClosetRequest(ClosetRequestType.REFRESH));
     ApiRequest.updateCloset();
   }
 
@@ -76,23 +78,23 @@ public class ClosetRequest extends TransferItemRequest {
 
   public ClosetRequest() {
     super("closet.php");
-    this.moveType = REFRESH;
+    this.moveType = ClosetRequestType.REFRESH;
   }
 
-  public ClosetRequest(final int moveType) {
+  public ClosetRequest(final ClosetRequestType moveType) {
     this(moveType, new AdventureResult[0]);
     this.moveType = moveType;
   }
 
-  public ClosetRequest(final int moveType, final long amount) {
+  public ClosetRequest(final ClosetRequestType moveType, final long amount) {
     this(moveType, new AdventureLongCountResult(AdventureResult.MEAT, amount));
   }
 
-  public ClosetRequest(final int moveType, final AdventureResult attachment) {
+  public ClosetRequest(final ClosetRequestType moveType, final AdventureResult attachment) {
     this(moveType, new AdventureResult[] {attachment});
   }
 
-  public ClosetRequest(final int moveType, final AdventureResult[] attachments) {
+  public ClosetRequest(final ClosetRequestType moveType, final AdventureResult[] attachments) {
     super(ClosetRequest.pickURL(moveType), attachments);
     this.moveType = moveType;
 
@@ -138,7 +140,7 @@ public class ClosetRequest extends TransferItemRequest {
     }
   }
 
-  private static String pickURL(final int moveType) {
+  private static String pickURL(final ClosetRequestType moveType) {
     return switch (moveType) {
       case INVENTORY_TO_CLOSET, CLOSET_TO_INVENTORY -> "inventory.php";
       default -> "closet.php";
@@ -150,7 +152,7 @@ public class ClosetRequest extends TransferItemRequest {
     return true;
   }
 
-  public int getMoveType() {
+  public ClosetRequestType getMoveType() {
     return this.moveType;
   }
 
@@ -188,7 +190,8 @@ public class ClosetRequest extends TransferItemRequest {
 
   @Override
   public boolean forceGETMethod() {
-    return this.moveType == INVENTORY_TO_CLOSET || this.moveType == CLOSET_TO_INVENTORY;
+    return this.moveType == ClosetRequestType.INVENTORY_TO_CLOSET
+        || this.moveType == ClosetRequestType.CLOSET_TO_INVENTORY;
   }
 
   @Override
@@ -210,7 +213,7 @@ public class ClosetRequest extends TransferItemRequest {
   @Override
   public void processResults() {
     switch (this.moveType) {
-      case ClosetRequest.REFRESH -> {
+      case REFRESH -> {
         ClosetRequest.parseCloset(this.getURLString(), this.responseText);
         return;
       }

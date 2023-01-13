@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -29,7 +30,7 @@ public class CafeRequest extends GenericRequest {
   private static final AdventureResult LARP = ItemPool.get(ItemPool.LARP_MEMBERSHIP_CARD, 1);
   private static final GenericRequest LARP_REQUEST =
       new StorageRequest(
-          StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] {CafeRequest.LARP});
+          StorageRequestType.STORAGE_TO_INVENTORY, new AdventureResult[] {CafeRequest.LARP});
 
   protected String name = "";
   protected String itemName = null;

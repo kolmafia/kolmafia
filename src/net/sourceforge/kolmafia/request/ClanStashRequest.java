@@ -25,16 +25,18 @@ public class ClanStashRequest extends TransferItemRequest {
       Pattern.compile(
           "<option value=([\\d]+) descid=([\\d]+)>(.*?)( \\(([\\d,]+)\\))?( \\(-[\\d,]*\\))?</option>");
 
-  private final int moveType;
+  private final ClanStashRequestType moveType;
 
-  public static final int REFRESH_ONLY = 0;
-  public static final int ITEMS_TO_STASH = 1;
-  public static final int MEAT_TO_STASH = 2;
-  public static final int STASH_TO_ITEMS = 3;
+  public enum ClanStashRequestType {
+    REFRESH_ONLY,
+    ITEMS_TO_STASH,
+    MEAT_TO_STASH,
+    STASH_TO_ITEMS
+  }
 
   public ClanStashRequest() {
     super("clan_stash.php");
-    this.moveType = ClanStashRequest.REFRESH_ONLY;
+    this.moveType = ClanStashRequestType.REFRESH_ONLY;
     this.destination = new ArrayList<>();
   }
 
@@ -47,11 +49,11 @@ public class ClanStashRequest extends TransferItemRequest {
     super("clan_stash.php", new AdventureLongCountResult(AdventureResult.MEAT, amount));
     this.addFormField("action", "contribute");
 
-    this.moveType = ClanStashRequest.MEAT_TO_STASH;
+    this.moveType = ClanStashRequestType.MEAT_TO_STASH;
     this.destination = new ArrayList<>();
   }
 
-  public ClanStashRequest(AdventureResult attachment, final int moveType) {
+  public ClanStashRequest(AdventureResult attachment, final ClanStashRequestType moveType) {
     this(new AdventureResult[] {attachment}, moveType);
   }
 
@@ -60,11 +62,12 @@ public class ClanStashRequest extends TransferItemRequest {
    *
    * @param attachments The list of attachments involved in the request
    */
-  public ClanStashRequest(final AdventureResult[] attachments, final int moveType) {
+  public ClanStashRequest(
+      final AdventureResult[] attachments, final ClanStashRequestType moveType) {
     super("clan_stash.php", attachments);
     this.moveType = moveType;
 
-    if (moveType == ClanStashRequest.ITEMS_TO_STASH) {
+    if (moveType == ClanStashRequestType.ITEMS_TO_STASH) {
       this.addFormField("action", "addgoodies");
       this.source = KoLConstants.inventory;
       this.destination = ClanManager.getStash();
@@ -78,22 +81,22 @@ public class ClanStashRequest extends TransferItemRequest {
 
   @Override
   protected boolean retryOnTimeout() {
-    return this.moveType == ClanStashRequest.REFRESH_ONLY;
+    return this.moveType == ClanStashRequestType.REFRESH_ONLY;
   }
 
   @Override
   public boolean sendEmpty() {
-    return this.moveType == ClanStashRequest.REFRESH_ONLY;
+    return this.moveType == ClanStashRequestType.REFRESH_ONLY;
   }
 
   @Override
   public String getItemField() {
-    return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "item" : "whichitem";
+    return this.moveType == ClanStashRequestType.ITEMS_TO_STASH ? "item" : "whichitem";
   }
 
   @Override
   public String getQuantityField() {
-    return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "qty" : "quantity";
+    return this.moveType == ClanStashRequestType.ITEMS_TO_STASH ? "qty" : "quantity";
   }
 
   @Override
@@ -101,7 +104,7 @@ public class ClanStashRequest extends TransferItemRequest {
     return "howmuch";
   }
 
-  public int getMoveType() {
+  public ClanStashRequestType getMoveType() {
     return this.moveType;
   }
 
@@ -119,7 +122,7 @@ public class ClanStashRequest extends TransferItemRequest {
 
   @Override
   public int getCapacity() {
-    return this.moveType == ClanStashRequest.STASH_TO_ITEMS ? 1 : 11;
+    return this.moveType == ClanStashRequestType.STASH_TO_ITEMS ? 1 : 11;
   }
 
   @Override
@@ -309,9 +312,9 @@ public class ClanStashRequest extends TransferItemRequest {
   @Override
   public String getStatusMessage() {
     return switch (this.moveType) {
-      case ClanStashRequest.ITEMS_TO_STASH -> "Dropping items into stash";
-      case ClanStashRequest.STASH_TO_ITEMS -> "Pulling items from stash";
-      case ClanStashRequest.MEAT_TO_STASH -> "Donating meat to stash";
+      case ITEMS_TO_STASH -> "Dropping items into stash";
+      case STASH_TO_ITEMS -> "Pulling items from stash";
+      case MEAT_TO_STASH -> "Donating meat to stash";
       default -> "Refreshing stash contents";
     };
   }

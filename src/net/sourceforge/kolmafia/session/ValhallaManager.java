@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -279,7 +280,8 @@ public class ValhallaManager {
       }
 
       if (item.getCount(KoLConstants.freepulls) > 0) {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, item));
+        RequestThread.postRequest(
+            new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, item));
       }
     }
   }
