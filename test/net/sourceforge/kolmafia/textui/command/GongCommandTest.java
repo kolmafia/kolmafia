@@ -24,6 +24,7 @@ import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -69,7 +70,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withLimitMode(LimitMode.NONE),
               withPasswordHash("gong"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
@@ -138,7 +139,7 @@ public class GongCommandTest extends AbstractCommandTestBase {
               withProperty("welcomeBackAdv", snarfblat),
               withPasswordHash("gong"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         client.addResponse(302, Map.of("location", List.of("choice.php")), "");
         client.addResponse(200, html("request/test_leave_reincarnation.html"));

@@ -50,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1403,7 +1404,7 @@ public class KoLAdventureValidationTest {
               withLimitMode(LimitMode.ASTRAL),
               withPasswordHash("astral"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_visit_astral_travel_agent.html"));
@@ -1441,7 +1442,7 @@ public class KoLAdventureValidationTest {
               withLimitMode(LimitMode.NONE),
               withPasswordHash("astral"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         client.addResponse(200, html("request/test_use_astral_mushroom.html"));
         client.addResponse(200, ""); // api.php
@@ -1522,7 +1523,7 @@ public class KoLAdventureValidationTest {
               withLimitMode(LimitMode.NONE),
               withPasswordHash("mole"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_use_llama_lama_gong.html"));
@@ -3544,7 +3545,7 @@ public class KoLAdventureValidationTest {
               withHttpClientBuilder(builder),
               withPasswordHash("friars"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withQuestProgress(Quest.FRIAR, QuestDatabase.STARTED),
               withItem(ItemPool.DODECAGRAM),
               withItem(ItemPool.CANDLES),

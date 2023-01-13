@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
@@ -56,7 +57,7 @@ public class JuneCleaverManagerTest {
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("june"),
               // No need to look at vinyl boots
-              withGender(KoLCharacter.FEMALE));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
