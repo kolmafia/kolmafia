@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -35,7 +36,7 @@ public class StorageCommand extends AbstractCommand {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "You cannot pull everything while your pulls are limited.");
       } else {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.EMPTY_STORAGE));
+        RequestThread.postRequest(new StorageRequest(StorageRequestType.EMPTY_STORAGE));
       }
       return;
     }
@@ -137,7 +138,7 @@ public class StorageCommand extends AbstractCommand {
       if (item.getName().equals(AdventureResult.MEAT)) {
         if (!inHardcore) {
           RequestThread.postRequest(
-              new StorageRequest(StorageRequest.PULL_MEAT_FROM_STORAGE, item.getCount()));
+              new StorageRequest(StorageRequestType.PULL_MEAT_FROM_STORAGE, item.getCount()));
         }
 
         items[i] = null;
@@ -186,7 +187,8 @@ public class StorageCommand extends AbstractCommand {
     // Submit a StorageRequest if there is at least one item to pull.
     for (AdventureResult attachment : items) {
       if (attachment != null) {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, items));
+        RequestThread.postRequest(
+            new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, items));
         break;
       }
     }

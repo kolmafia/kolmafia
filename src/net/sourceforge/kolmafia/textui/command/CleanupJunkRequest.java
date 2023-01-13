@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -61,7 +62,7 @@ public class CleanupJunkRequest extends AbstractCommand {
     if (closetList.size() > 0) {
       RequestThread.postRequest(
           new ClosetRequest(
-              ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray(new AdventureResult[0])));
+              ClosetRequestType.INVENTORY_TO_CLOSET, closetList.toArray(new AdventureResult[0])));
     }
 
     do {

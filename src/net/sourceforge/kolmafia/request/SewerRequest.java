@@ -15,6 +15,8 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -293,10 +295,10 @@ public class SewerRequest extends CreateItemRequest {
       final List<AdventureResult> destination) {
     TransferItemRequest request =
         (destination == KoLConstants.closet)
-            ? new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, transfers)
+            ? new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, transfers)
             : (source == KoLConstants.storage)
-                ? new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, transfers)
-                : new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, transfers);
+                ? new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, transfers)
+                : new ClosetRequest(ClosetRequestType.CLOSET_TO_INVENTORY, transfers);
 
     RequestThread.postRequest(request);
   }

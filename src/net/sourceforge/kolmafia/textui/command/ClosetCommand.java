@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 
 public class ClosetCommand extends AbstractCommand {
   public ClosetCommand() {
@@ -36,7 +37,7 @@ public class ClosetCommand extends AbstractCommand {
     }
 
     if (parameters.equals("empty")) {
-      RequestThread.postRequest(new ClosetRequest(ClosetRequest.EMPTY_CLOSET));
+      RequestThread.postRequest(new ClosetRequest(ClosetRequestType.EMPTY_CLOSET));
       return;
     }
 
@@ -67,7 +68,8 @@ public class ClosetCommand extends AbstractCommand {
       long meatCount =
           meat.stream().map(AdventureResult::getLongCount).mapToLong(Long::longValue).sum();
       if (meatCount > 0) {
-        int moveType = isTake ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET;
+        ClosetRequestType moveType =
+            isTake ? ClosetRequestType.MEAT_TO_INVENTORY : ClosetRequestType.MEAT_TO_CLOSET;
         RequestThread.postRequest(new ClosetRequest(moveType, meatCount));
       }
     }
@@ -76,7 +78,8 @@ public class ClosetCommand extends AbstractCommand {
       return;
     }
 
-    int moveType = isTake ? ClosetRequest.CLOSET_TO_INVENTORY : ClosetRequest.INVENTORY_TO_CLOSET;
+    ClosetRequestType moveType =
+        isTake ? ClosetRequestType.CLOSET_TO_INVENTORY : ClosetRequestType.INVENTORY_TO_CLOSET;
     RequestThread.postRequest(new ClosetRequest(moveType, itemList));
 
     // update "Hatter" daily deed

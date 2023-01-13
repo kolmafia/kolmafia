@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -580,10 +581,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class MrStorePanel extends CoinmasterPanel {
     private static final StorageRequest PULL_MR_A_REQUEST =
         new StorageRequest(
-            StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] {MrStoreRequest.MR_A});
+            StorageRequestType.STORAGE_TO_INVENTORY, new AdventureResult[] {MrStoreRequest.MR_A});
     private static final StorageRequest PULL_UNCLE_B_REQUEST =
         new StorageRequest(
-            StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] {MrStoreRequest.UNCLE_B});
+            StorageRequestType.STORAGE_TO_INVENTORY,
+            new AdventureResult[] {MrStoreRequest.UNCLE_B});
 
     private final JButton pullA = new InvocationButton("pull Mr. A", this, "pullA");
     private final JButton pullB = new InvocationButton("pull Uncle B", this, "pullB");

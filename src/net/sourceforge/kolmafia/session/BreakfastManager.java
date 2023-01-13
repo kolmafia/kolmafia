@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -39,6 +40,7 @@ import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
@@ -287,7 +289,7 @@ public class BreakfastManager {
     if (useStorage && storageItems.size() > 0) {
       RequestThread.postRequest(
           new StorageRequest(
-              StorageRequest.STORAGE_TO_INVENTORY,
+              StorageRequestType.STORAGE_TO_INVENTORY,
               storageItems.toArray(new AdventureResult[0]),
               false));
     }
@@ -296,7 +298,7 @@ public class BreakfastManager {
     if (useCloset && closetItems.size() > 0) {
       RequestThread.postRequest(
           new ClosetRequest(
-              ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray(new AdventureResult[0])));
+              ClosetRequestType.CLOSET_TO_INVENTORY, closetItems.toArray(new AdventureResult[0])));
     }
 
     // Use the toys!

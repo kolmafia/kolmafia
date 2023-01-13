@@ -41,11 +41,13 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -2451,8 +2453,9 @@ public class DebugDatabase {
         // Move a single one to inventory and then to the closet
         AdventureResult toTransfer = item.getInstance(1);
         RequestThread.postRequest(
-            new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, toTransfer));
-        RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, toTransfer));
+            new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, toTransfer));
+        RequestThread.postRequest(
+            new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, toTransfer));
       }
       items.add(item);
     }

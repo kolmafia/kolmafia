@@ -8,8 +8,10 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -57,11 +59,11 @@ public class MeatTransferPanel extends LabeledPanel {
   private GenericRequest getRequest(final long amount) {
     return switch (transferType) {
       case MeatTransferPanel.MEAT_TO_CLOSET -> new ClosetRequest(
-          ClosetRequest.MEAT_TO_CLOSET, amount);
+          ClosetRequestType.MEAT_TO_CLOSET, amount);
       case MeatTransferPanel.MEAT_TO_INVENTORY -> new ClosetRequest(
-          ClosetRequest.MEAT_TO_INVENTORY, amount);
+          ClosetRequestType.MEAT_TO_INVENTORY, amount);
       case MeatTransferPanel.PULL_MEAT_FROM_STORAGE -> new StorageRequest(
-          StorageRequest.PULL_MEAT_FROM_STORAGE, amount);
+          StorageRequestType.PULL_MEAT_FROM_STORAGE, amount);
       default -> null;
     };
   }

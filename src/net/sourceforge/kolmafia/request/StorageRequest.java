@@ -31,7 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class StorageRequest extends TransferItemRequest {
-  private int moveType;
+  private StorageRequestType moveType;
   private boolean bulkTransfer;
 
   public static final Set<Integer> roninStoragePulls = new HashSet<>();
@@ -100,22 +100,24 @@ public class StorageRequest extends TransferItemRequest {
     return set.contains(itemId);
   }
 
-  public static final int REFRESH = 0;
-  public static final int EMPTY_STORAGE = 1;
-  public static final int STORAGE_TO_INVENTORY = 2;
-  public static final int PULL_MEAT_FROM_STORAGE = 3;
+  public enum StorageRequestType {
+    REFRESH,
+    EMPTY_STORAGE,
+    STORAGE_TO_INVENTORY,
+    PULL_MEAT_FROM_STORAGE
+  }
 
   public static void refresh() {
     // To refresh storage, we get Meat and pulls from the main page
     // and items from api.php
 
-    RequestThread.postRequest(new StorageRequest(REFRESH));
+    RequestThread.postRequest(new StorageRequest(StorageRequestType.REFRESH));
     ApiRequest.updateStorage();
     StorageRequest.updateSettings();
   }
 
   public static void emptyStorage() {
-    RequestThread.postRequest(new StorageRequest(EMPTY_STORAGE));
+    RequestThread.postRequest(new StorageRequest(StorageRequestType.EMPTY_STORAGE));
   }
 
   public static final void parseStorage(final JSONObject JSON) {
@@ -174,28 +176,30 @@ public class StorageRequest extends TransferItemRequest {
 
   public StorageRequest() {
     super("storage.php");
-    this.moveType = StorageRequest.REFRESH;
+    this.moveType = StorageRequestType.REFRESH;
   }
 
-  public StorageRequest(final int moveType) {
+  public StorageRequest(final StorageRequestType moveType) {
     this(moveType, new AdventureResult[0]);
     this.moveType = moveType;
   }
 
-  public StorageRequest(final int moveType, final long amount) {
+  public StorageRequest(final StorageRequestType moveType, final long amount) {
     this(moveType, new AdventureLongCountResult(AdventureResult.MEAT, amount));
   }
 
-  public StorageRequest(final int moveType, final AdventureResult attachment) {
+  public StorageRequest(final StorageRequestType moveType, final AdventureResult attachment) {
     this(moveType, new AdventureResult[] {attachment});
   }
 
-  public StorageRequest(final int moveType, final AdventureResult[] attachments) {
+  public StorageRequest(final StorageRequestType moveType, final AdventureResult[] attachments) {
     this(moveType, attachments, false);
   }
 
   public StorageRequest(
-      final int moveType, final AdventureResult[] attachments, final boolean bulkTransfer) {
+      final StorageRequestType moveType,
+      final AdventureResult[] attachments,
+      final boolean bulkTransfer) {
     super("storage.php", attachments);
     this.moveType = moveType;
     this.bulkTransfer = bulkTransfer;
@@ -223,10 +227,10 @@ public class StorageRequest extends TransferItemRequest {
 
   @Override
   protected boolean retryOnTimeout() {
-    return this.moveType == StorageRequest.REFRESH;
+    return this.moveType == StorageRequestType.REFRESH;
   }
 
-  public int getMoveType() {
+  public StorageRequestType getMoveType() {
     return this.moveType;
   }
 
@@ -266,7 +270,7 @@ public class StorageRequest extends TransferItemRequest {
 
   @Override
   public boolean forceGETMethod() {
-    return this.moveType == STORAGE_TO_INVENTORY;
+    return this.moveType == StorageRequestType.STORAGE_TO_INVENTORY;
   }
 
   @Override
@@ -449,7 +453,7 @@ public class StorageRequest extends TransferItemRequest {
   @Override
   public void processResults() {
     switch (this.moveType) {
-      case StorageRequest.REFRESH -> {
+      case REFRESH -> {
         StorageRequest.parseStorage(this.getURLString(), this.responseText);
         return;
       }
