@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -77,7 +78,7 @@ public class DebugDatabase {
 
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
   private static String readWikiItemData(final String name, final HttpClient client) {
-    String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE, false);
+    String url = WikiUtilities.getWikiLocation(name, WikiType.ITEM, false);
     return DebugDatabase.readWikiData(url, client);
   }
 

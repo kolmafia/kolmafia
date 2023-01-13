@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
@@ -18,24 +20,53 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkillDatabase {
-  public static final int ALL = -2;
-  public static final int CASTABLE = -1;
-  public static final int PASSIVE = 0;
-  public static final int SUMMON = 1;
-  public static final int REMEDY = 2;
-  public static final int SELF_ONLY = 3;
-  public static final int BUFF = 4;
-  public static final int COMBAT = 5;
-  public static final int SONG = 6;
-  public static final int COMBAT_NONCOMBAT_REMEDY = 7;
-  public static final int COMBAT_PASSIVE = 8;
-  public static final int EXPRESSION = 9;
-  public static final int WALK = 10;
+  public enum SkillType {
+    // possible types in data/classskills.txt
+    UNKNOWN("unknown", -1),
+    PASSIVE("passive", 0),
+    SUMMON("summon", 1),
+    REMEDY("remedy", 2),
+    SELF_ONLY("self-only", 3),
+    BUFF("buff", 4),
+    COMBAT("combat", 5),
+    SONG("song", 6),
+    COMBAT_NONCOMBAT_REMEDY("combat/noncombat remedy", 7),
+    COMBAT_PASSIVE("combat/passive", 8),
+    EXPRESSION("expression", 9),
+    WALK("walk", 10);
+
+    public final String name;
+    public final int number;
+    private static final Map<String, SkillType> skillTypeByName = new HashMap<>();
+    private static final Map<Integer, SkillType> skillTypeByNumber = new HashMap<>();
+
+    SkillType(String name, int number) {
+      this.name = name;
+      this.number = number;
+    }
+
+    public static SkillType byName(String name) {
+      var lookup = skillTypeByName.get(name);
+      if (lookup != null) return lookup;
+      var search = Arrays.stream(SkillType.values()).filter(x -> x.name.equals(name)).findAny();
+      search.ifPresent(x -> skillTypeByName.put(name, x));
+      return search.orElse(SkillType.UNKNOWN);
+    }
+
+    public static SkillType byNumber(int number) {
+      var lookup = skillTypeByNumber.get(number);
+      if (lookup != null) return lookup;
+      var search = Arrays.stream(SkillType.values()).filter(x -> x.number == number).findAny();
+      search.ifPresent(x -> skillTypeByNumber.put(number, x));
+      return search.orElse(SkillType.UNKNOWN);
+    }
+  }
+
   private static final Map<Integer, String> nameById = new TreeMap<>();
   private static final Map<String, int[]> skillIdSetByName = new TreeMap<>();
   private static final Map<Integer, String> imageById = new TreeMap<>();
   private static final Map<Integer, Long> mpConsumptionById = new HashMap<>();
-  private static final Map<Integer, Integer> skillTypeById = new TreeMap<>();
+  private static final Map<Integer, SkillType> skillTypeById = new TreeMap<>();
   private static final Map<Integer, Integer> durationById = new HashMap<>();
   private static final Map<Integer, Integer> levelById = new HashMap<>();
   private static final Map<String, List<String>> skillsByCategory = new HashMap<>();
@@ -107,52 +138,8 @@ public class SkillDatabase {
 
   private SkillDatabase() {}
 
-  public static final String skillTypeToTypeName(final int type) {
-    return type == PASSIVE
-        ? "passive"
-        : type == SUMMON
-            ? "summon"
-            : type == REMEDY
-                ? "remedy"
-                : type == SELF_ONLY
-                    ? "self-only"
-                    : type == BUFF
-                        ? "buff"
-                        : type == COMBAT
-                            ? "combat"
-                            : type == SONG
-                                ? "song"
-                                : type == COMBAT_NONCOMBAT_REMEDY
-                                    ? "combat/noncombat remedy"
-                                    : type == COMBAT_PASSIVE
-                                        ? "combat/passive"
-                                        : type == EXPRESSION
-                                            ? "expression"
-                                            : type == WALK ? "walk" : "unknown";
-  }
-
-  public static final int skillTypeNameToType(final String typeName) {
-    return typeName.equals("passive")
-        ? SkillDatabase.PASSIVE
-        : typeName.equals("summon")
-            ? SkillDatabase.SUMMON
-            : typeName.equals("remedy")
-                ? SkillDatabase.REMEDY
-                : typeName.equals("self-only")
-                    ? SkillDatabase.SELF_ONLY
-                    : typeName.equals("buff")
-                        ? SkillDatabase.BUFF
-                        : typeName.equals("combat")
-                            ? SkillDatabase.COMBAT
-                            : typeName.equals("song")
-                                ? SkillDatabase.SONG
-                                : typeName.equals("combat/noncombat remedy")
-                                    ? SkillDatabase.COMBAT_NONCOMBAT_REMEDY
-                                    : typeName.equals("combat/passive")
-                                        ? SkillDatabase.COMBAT_PASSIVE
-                                        : typeName.equals("expression")
-                                            ? SkillDatabase.EXPRESSION
-                                            : typeName.equals("walk") ? SkillDatabase.WALK : -1;
+  public static final SkillType skillTypeNameToType(final String typeName) {
+    return SkillType.byName(typeName);
   }
 
   public static void reset() {
@@ -173,7 +160,7 @@ public class SkillDatabase {
         Integer skillId = Integer.valueOf(data[0]);
         String name = data[1];
         String image = data[2];
-        Integer type = Integer.valueOf(data[3]);
+        SkillType type = SkillType.byNumber(Integer.parseInt(data[3]));
         Long mp = Long.valueOf(data[4]);
         Integer duration = Integer.valueOf(data[5]);
         Integer level = (data.length > 6) ? Integer.valueOf(data[6]) : null;
@@ -215,7 +202,7 @@ public class SkillDatabase {
       final Integer skillId,
       final String name,
       final String image,
-      final Integer skillType,
+      final SkillType skillType,
       final Long mpConsumption,
       final Integer duration,
       final Integer level) {
@@ -386,7 +373,7 @@ public class SkillDatabase {
     return -1;
   }
 
-  public static final int getSkillId(final String skillName, final int type) {
+  public static final int getSkillId(final String skillName, final SkillType type) {
     if (skillName == null) {
       return -1;
     }
@@ -517,18 +504,17 @@ public class SkillDatabase {
    * @param skillId The Id of the skill to lookup
    * @return The type of the corresponding skill
    */
-  public static final int getSkillType(final int skillId) {
-    Integer skillType = SkillDatabase.skillTypeById.get(skillId);
-    return skillType == null ? -1 : skillType.intValue();
+  public static final SkillType getSkillType(final int skillId) {
+    SkillType skillType = SkillDatabase.skillTypeById.get(skillId);
+    return skillType == null ? SkillType.UNKNOWN : skillType;
   }
 
   public static final String getSkillTypeName(final int skillId) {
-    Integer skillType = SkillDatabase.skillTypeById.get(skillId);
+    SkillType skillType = SkillDatabase.skillTypeById.get(skillId);
     if (skillType == null) {
-      return "unknown";
+      return SkillType.UNKNOWN.name;
     }
-    String typeName = SkillDatabase.skillTypeToTypeName(skillType.intValue());
-    return typeName;
+    return skillType.name;
   }
 
   public static final String getSkillCategory(final int skillId) {
@@ -629,7 +615,7 @@ public class SkillDatabase {
           : Math.max(1 + KoLCharacter.getManaCostAdjustment(), 1);
     }
 
-    if (SkillDatabase.getSkillType(skillId) == SkillDatabase.PASSIVE) {
+    if (SkillDatabase.getSkillType(skillId) == SkillType.PASSIVE) {
       return 0;
     }
 
@@ -853,14 +839,14 @@ public class SkillDatabase {
 
     int actualDuration = duration.intValue();
 
-    int type = SkillDatabase.getSkillType(skillId);
+    SkillType type = SkillDatabase.getSkillType(skillId);
 
-    if (type == SkillDatabase.SONG) {
+    if (type == SkillType.SONG) {
       int multiplier = KoLCharacter.hasSkill(SkillPool.GOOD_SINGING_VOICE) ? 2 : 1;
       return actualDuration * multiplier;
     }
 
-    if (type != SkillDatabase.BUFF) {
+    if (type != SkillType.BUFF) {
       switch (skillId) {
         case SkillPool.SPIRIT_BOON:
           return KoLCharacter.getBlessingLevel() * 5;
@@ -938,15 +924,12 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is a normal skill
    */
   public static final boolean isNormal(final int skillId) {
-    Integer skillType = SkillDatabase.skillTypeById.get(skillId);
+    SkillType skillType = SkillDatabase.skillTypeById.get(skillId);
     if (skillType == null) return false;
-    int type = skillType.intValue();
-    return type == SUMMON
-        || type == REMEDY
-        || type == SELF_ONLY
-        || type == SONG
-        || type == COMBAT_NONCOMBAT_REMEDY
-        || type == EXPRESSION;
+    return switch (skillType) {
+      case SUMMON, REMEDY, SELF_ONLY, SONG, COMBAT_NONCOMBAT_REMEDY, EXPRESSION -> true;
+      default -> false;
+    };
   }
 
   /**
@@ -957,8 +940,8 @@ public class SkillDatabase {
   public static final boolean isPassive(final int skillId) {
     // Shake it off is a passive as well as a non-combat heal
     // Vampyre skills all have a passive (-hp) effect
-    return SkillDatabase.isType(skillId, SkillDatabase.PASSIVE)
-        || SkillDatabase.isType(skillId, SkillDatabase.COMBAT_PASSIVE)
+    return SkillDatabase.isType(skillId, SkillType.PASSIVE)
+        || SkillDatabase.isType(skillId, SkillType.COMBAT_PASSIVE)
         || SkillDatabase.isVampyreSkill(skillId);
   }
 
@@ -968,7 +951,7 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill can target other players
    */
   public static final boolean isBuff(final int skillId) {
-    return SkillDatabase.isType(skillId, SkillDatabase.BUFF);
+    return SkillDatabase.isType(skillId, SkillType.BUFF);
   }
 
   public static final boolean isTurtleTamerBuff(final int skillId) {
@@ -989,9 +972,9 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill can be used in combat
    */
   public static final boolean isCombat(final int skillId) {
-    return SkillDatabase.isType(skillId, SkillDatabase.COMBAT)
-        || SkillDatabase.isType(skillId, SkillDatabase.COMBAT_NONCOMBAT_REMEDY)
-        || SkillDatabase.isType(skillId, SkillDatabase.COMBAT_PASSIVE);
+    return SkillDatabase.isType(
+        skillId,
+        EnumSet.of(SkillType.COMBAT, SkillType.COMBAT_NONCOMBAT_REMEDY, SkillType.COMBAT_PASSIVE));
   }
 
   /**
@@ -1000,8 +983,7 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill can be used out of combat
    */
   public static final boolean isNonCombat(final int skillId) {
-    return !SkillDatabase.isType(skillId, SkillDatabase.COMBAT)
-        && !SkillDatabase.isType(skillId, SkillDatabase.COMBAT_PASSIVE);
+    return !SkillDatabase.isType(skillId, EnumSet.of(SkillType.COMBAT, SkillType.COMBAT_PASSIVE));
   }
 
   /**
@@ -1010,7 +992,7 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is a song
    */
   public static final boolean isSong(final int skillId) {
-    return SkillDatabase.isType(skillId, SkillDatabase.SONG);
+    return SkillDatabase.isType(skillId, SkillType.SONG);
   }
 
   /**
@@ -1019,7 +1001,7 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is an expression
    */
   public static final boolean isExpression(final int skillId) {
-    return SkillDatabase.isType(skillId, SkillDatabase.EXPRESSION);
+    return SkillDatabase.isType(skillId, SkillType.EXPRESSION);
   }
 
   /**
@@ -1028,7 +1010,7 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is a walk
    */
   public static final boolean isWalk(final int skillId) {
-    return SkillDatabase.isType(skillId, SkillDatabase.WALK);
+    return SkillDatabase.isType(skillId, SkillType.WALK);
   }
 
   /**
@@ -1037,13 +1019,21 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is a summon
    */
   public static final boolean isSummon(final int skillId) {
-    return SkillDatabase.isType(skillId, SkillDatabase.SUMMON);
+    return SkillDatabase.isType(skillId, SUMMON);
   }
 
   /** Utility method used to determine if the given skill is of the appropriate type. */
-  private static boolean isType(final int skillId, final int type) {
-    Integer skillType = SkillDatabase.skillTypeById.get(skillId);
-    return skillType != null && skillType.intValue() == type;
+  private static boolean isType(final int skillId, final SkillType type) {
+    SkillType skillType = SkillDatabase.skillTypeById.get(skillId);
+    return skillType == type;
+  }
+
+  private static boolean isType(final int skillId, final EnumSet<SkillType> types) {
+    SkillType skillType = SkillDatabase.skillTypeById.get(skillId);
+    for (var type : types) {
+      if (skillType == type) return true;
+    }
+    return false;
   }
 
   public static final boolean isSoulsauceSkill(final int skillId) {
@@ -1352,48 +1342,49 @@ public class SkillDatabase {
   }
 
   /** Returns all skills in the database of the given type. */
-  public static final List<UseSkillRequest> getSkillsByType(final int type) {
+  public static final List<UseSkillRequest> getSkillsByType(final SkillType type) {
     return SkillDatabase.getSkillsByType(type, false);
   }
 
   public static final List<UseSkillRequest> getSkillsByType(
-      final int type, final boolean onlyKnown) {
+      final SkillType type, final boolean onlyKnown) {
+    var searchTypes =
+        switch (type) {
+          case COMBAT -> EnumSet.of(COMBAT, COMBAT_NONCOMBAT_REMEDY, COMBAT_PASSIVE);
+          case REMEDY -> EnumSet.of(REMEDY, COMBAT_NONCOMBAT_REMEDY);
+          case PASSIVE -> EnumSet.of(PASSIVE, SkillType.COMBAT_PASSIVE);
+          default -> EnumSet.of(type);
+        };
+    return getSkillsByType(searchTypes, onlyKnown);
+  }
+
+  public static final List<UseSkillRequest> getAllSkills() {
+    return getSkillsByType(EnumSet.allOf(SkillType.class), false);
+  }
+
+  public static final List<UseSkillRequest> getCastableSkills() {
+    return getCastableSkills(false);
+  }
+
+  public static final List<UseSkillRequest> getCastableSkills(final boolean onlyKnown) {
+    return getSkillsByType(
+        EnumSet.of(
+            SUMMON, REMEDY, SELF_ONLY, BUFF, SONG, COMBAT_NONCOMBAT_REMEDY, EXPRESSION, WALK),
+        onlyKnown);
+  }
+
+  public static final List<UseSkillRequest> getSkillsByType(
+      final EnumSet<SkillType> types, final boolean onlyKnown) {
     Integer[] keys = new Integer[SkillDatabase.skillTypeById.size()];
     SkillDatabase.skillTypeById.keySet().toArray(keys);
 
     ArrayList<UseSkillRequest> list = new ArrayList<>();
 
     for (Integer skillId : keys) {
-      Integer value = SkillDatabase.skillTypeById.get(skillId);
-      if (value == null) continue;
+      SkillType skillType = SkillDatabase.skillTypeById.get(skillId);
+      if (skillType == null) continue;
 
-      int skillType = value.intValue();
-
-      boolean shouldAdd;
-      if (type == SkillDatabase.ALL) {
-        shouldAdd = true;
-      } else if (type == SkillDatabase.CASTABLE) {
-        shouldAdd =
-            skillType == SUMMON
-                || skillType == REMEDY
-                || skillType == SELF_ONLY
-                || skillType == BUFF
-                || skillType == SONG
-                || skillType == COMBAT_NONCOMBAT_REMEDY
-                || skillType == EXPRESSION
-                || skillType == WALK;
-      } else if (type == SkillDatabase.COMBAT) {
-        shouldAdd =
-            skillType == COMBAT
-                || skillType == COMBAT_NONCOMBAT_REMEDY
-                || skillType == COMBAT_PASSIVE;
-      } else if (type == SkillDatabase.REMEDY) {
-        shouldAdd = skillType == REMEDY || skillType == COMBAT_NONCOMBAT_REMEDY;
-      } else if (type == SkillDatabase.PASSIVE) {
-        shouldAdd = skillType == PASSIVE || skillType == COMBAT_PASSIVE;
-      } else {
-        shouldAdd = skillType == type;
-      }
+      boolean shouldAdd = types.contains(skillType);
 
       if (!shouldAdd || onlyKnown && !KoLCharacter.hasSkill(skillId)) {
         continue;
@@ -1566,7 +1557,7 @@ public class SkillDatabase {
    * Utility method used to retrieve the full name of a skill, given a substring representing it.
    */
   public static final String getSkillName(final String substring) {
-    return getSkillName(substring, getSkillsByType(ALL));
+    return getSkillName(substring, getAllSkills());
   }
 
   /**
@@ -1574,7 +1565,7 @@ public class SkillDatabase {
    * representing it.
    */
   public static final String getUsableSkillName(final String substring) {
-    return getSkillName(substring, getSkillsByType(CASTABLE));
+    return getSkillName(substring, getCastableSkills());
   }
 
   /**
@@ -1582,7 +1573,7 @@ public class SkillDatabase {
    * representing it.
    */
   public static final String getUsableKnownSkillName(final String substring) {
-    return getSkillName(substring, getSkillsByType(CASTABLE, true));
+    return getSkillName(substring, getCastableSkills(true));
   }
 
   /**
@@ -1590,7 +1581,7 @@ public class SkillDatabase {
    * it.
    */
   public static final UseSkillRequest getCombatSkill(final String substring) {
-    return getSkill(substring, getSkillsByType(COMBAT));
+    return getSkill(substring, getSkillsByType(SkillType.COMBAT));
   }
 
   /** Utility method used to retrieve the maximum daily casts of a skill. Returns -1 if no limit. */
@@ -1617,7 +1608,7 @@ public class SkillDatabase {
       final int skillId,
       final String skillName,
       final String image,
-      final int type,
+      final SkillType type,
       final long mp,
       final int duration,
       final int level) {
@@ -1629,7 +1620,7 @@ public class SkillDatabase {
     buffer.append("\t");
     buffer.append(image);
     buffer.append("\t");
-    buffer.append(type);
+    buffer.append(type.number);
     buffer.append("\t");
     buffer.append(mp);
     buffer.append("\t");
@@ -1667,10 +1658,12 @@ public class SkillDatabase {
     String image = DebugDatabase.parseImage(text);
 
     String typeString = DebugDatabase.parseSkillType(text);
-    int type =
+    SkillType type =
         typeString.equals("Passive")
-            ? 0
-            : typeString.equals("Noncombat") ? 3 : typeString.equals("Combat") ? 5 : -1;
+            ? SkillType.PASSIVE
+            : typeString.equals("Noncombat")
+                ? SkillType.SELF_ONLY
+                : typeString.equals("Combat") ? SkillType.COMBAT : SkillType.UNKNOWN;
     long mp = DebugDatabase.parseSkillMPCost(text);
     int duration = DebugDatabase.parseSkillEffectDuration(text);
     int level = 0;
@@ -1689,7 +1682,7 @@ public class SkillDatabase {
     RequestLogger.updateSessionLog(printMe);
 
     // Passive skills have modifiers
-    if (type == 0) {
+    if (type == SkillType.PASSIVE) {
       // Let modifiers database do what it wishes with this skill
       Modifiers.registerSkill(skillName, text);
     }

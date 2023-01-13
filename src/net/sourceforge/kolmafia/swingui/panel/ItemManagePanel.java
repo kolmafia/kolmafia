@@ -314,7 +314,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         Concoction concoction = (Concoction) items[i];
         itemName = concoction.getName();
         itemCount = concoction.getAvailable();
-        if (concoction.speakeasy) {
+        if (concoction.speakeasy != null) {
           itemCount -= ConcoctionDatabase.queuedSpeakeasyDrink;
         }
         // Only queue one S'more at at time

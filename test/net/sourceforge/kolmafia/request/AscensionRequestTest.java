@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -14,6 +15,7 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.Month;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -128,6 +130,7 @@ public class AscensionRequestTest {
     // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
     var cleanups =
         new Cleanups(
+            withDay(2023, Month.JANUARY, 2),
             withProperty("lastBreakfast", -1),
             withProperty("bankedKarma", 150),
             new Cleanups(() -> CharPaneRequest.setInValhalla(false)),
@@ -163,6 +166,7 @@ public class AscensionRequestTest {
     // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
     var cleanups =
         new Cleanups(
+            withDay(2023, Month.JANUARY, 2),
             withProperty("lastBreakfast", -1),
             withProperty("bankedKarma", 150),
             new Cleanups(() -> CharPaneRequest.setInValhalla(false)),

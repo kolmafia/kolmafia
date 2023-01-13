@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
@@ -112,8 +111,6 @@ public class InventoryManagerTest {
         assertThat("crimboTrainingSkill", isSetTo(7));
 
         var requests = builder.client.getRequests();
-        printRequests(requests);
-
         assertThat(requests, hasSize(1));
         assertPostRequest(requests.get(0), "/desc_item.php", "whichitem=990145553");
       }
@@ -135,7 +132,6 @@ public class InventoryManagerTest {
         InventoryManager.checkCrimboTrainingManual();
 
         var requests = builder.client.getRequests();
-        printRequests(requests);
 
         assertThat(requests, hasSize(0));
       }

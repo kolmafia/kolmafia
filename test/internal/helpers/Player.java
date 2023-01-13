@@ -418,6 +418,27 @@ public class Player {
   }
 
   /**
+   * Resets clan info to initial state
+   *
+   * @return Resets to initial state
+   */
+  public static Cleanups withClan() {
+    return withClan(0, "");
+  }
+
+  /**
+   * Sets Clan ID and name as desired (presumably because saved HTML has a specific clan name).
+   *
+   * @param clanId clan ID
+   * @param clanName clanName
+   * @return Resets to initial state
+   */
+  public static Cleanups withClan(final int clanId, final String clanName) {
+    ClanManager.setClan(clanId, clanName);
+    return new Cleanups(() -> ClanManager.clearCache(true));
+  }
+
+  /**
    * Restores Clan Furniture after cleanup
    *
    * @return Resets to previous state
@@ -742,7 +763,12 @@ public class Player {
   public static Cleanups withEffect(final int effectId, final int turns) {
     var effect = EffectPool.get(effectId, turns);
     KoLConstants.activeEffects.add(effect);
-    return new Cleanups(() -> KoLConstants.activeEffects.remove(effect));
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLConstants.activeEffects.remove(effect);
+          KoLCharacter.recalculateAdjustments();
+        });
   }
 
   /**

@@ -7486,6 +7486,7 @@ public abstract class ChoiceAdventures {
         // Check for familiars
         if (!KoLCharacter.getFamiliar().equals(FamiliarData.NO_FAMILIAR)) {
           bonus = Modifiers.getNumericModifier(KoLCharacter.getFamiliar(), "Item Drop");
+          bonus += Modifiers.getNumericModifier(KoLCharacter.getFamiliar(), "Food Drop");
         }
         // Check for Clancy
         else if (KoLCharacter.getCurrentInstrument() != null

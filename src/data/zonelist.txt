@@ -173,7 +173,6 @@ Override	Unsorted	Discoveries
 
 Events	Events	Events
 Twitch	Town	Time-Twitching Tower
-Crimbo22	Holiday	Christmas 2022
 
 # The following zones are all retired Events or Holidays
 
@@ -199,5 +198,6 @@ Crimbo18	Removed	Christmas 2018
 Crimbo19	Removed	Christmas 2019
 Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 Crimbo21	Removed	Christmas 2021
+Crimbo22	Removed	Christmas 2022
 
 Obsolete	Removed	Retired zones

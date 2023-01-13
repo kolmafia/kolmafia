@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,8 +75,6 @@ public class ClanLoungeRequest extends GenericRequest {
 
   private static final Pattern STANCE_PATTERN = Pattern.compile("stance=(\\d*)");
   private static final Pattern WHICHDOG_PATTERN = Pattern.compile("whichdog=(-\\d*)");
-  private static final Pattern LUCKY_LINDY_PATTERN =
-      Pattern.compile("burp-speak the number <b>(\\d+)</b>.");
   private static final Pattern WHICH_SPEAKEASY_PATTERN = Pattern.compile("drink=(\\d+)");
   private static final Pattern TREE_PATTERN = Pattern.compile("Check back in (\\d+) day");
   private static final Pattern TREE_LEVEL_PATTERN = Pattern.compile("tree(\\d+)(?:nopressie|).gif");
@@ -125,6 +124,8 @@ public class ClanLoungeRequest extends GenericRequest {
         new SwimmingOption("sprints", "noncombat", SPRINTS),
       };
 
+  // *** Hot Dog Stand ***
+
   public record HotDogData(
       String name, int id, int fullness, AdventureResult item, AdventureResult unlocker) {
     HotDogData(String name, int id, int fullness) {
@@ -132,105 +133,86 @@ public class ClanLoungeRequest extends GenericRequest {
     }
   }
 
-  public static final HotDogData[] HOTDOG_DATA =
-      new HotDogData[] {
-        new HotDogData("basic hot dog", -92, 1),
-        new HotDogData(
-            "savage macho dog",
-            -93,
-            2,
-            ItemPool.get(ItemPool.FURRY_FUR, 10),
-            ItemPool.get(ItemPool.VICIOUS_SPIKED_COLLAR, 1)),
-        new HotDogData(
-            "one with everything",
-            -94,
-            2,
-            ItemPool.get(ItemPool.CRANBERRIES, 10),
-            ItemPool.get(ItemPool.ANCIENT_HOT_DOG_WRAPPER, 1)),
-        new HotDogData(
-            "sly dog",
-            -95,
-            2,
-            ItemPool.get(ItemPool.SKELETON_BONE, 10),
-            ItemPool.get(ItemPool.DEBONAIR_DEBONER, 1)),
-        new HotDogData(
-            "devil dog",
-            -96,
-            3,
-            ItemPool.get(ItemPool.HOT_WAD, 25),
-            ItemPool.get(ItemPool.CHICLE_DE_SALCHICA, 1)),
-        new HotDogData(
-            "chilly dog",
-            -97,
-            3,
-            ItemPool.get(ItemPool.COLD_WAD, 25),
-            ItemPool.get(ItemPool.JAR_OF_FROSTIGKRAUT, 1)),
-        new HotDogData(
-            "ghost dog",
-            -98,
-            3,
-            ItemPool.get(ItemPool.SPOOKY_WAD, 25),
-            ItemPool.get(ItemPool.GNAWED_UP_DOG_BONE, 1)),
-        new HotDogData(
-            "junkyard dog",
-            -99,
-            3,
-            ItemPool.get(ItemPool.STENCH_WAD, 25),
-            ItemPool.get(ItemPool.GREY_GUANON, 1)),
-        new HotDogData(
-            "wet dog",
-            -100,
-            3,
-            ItemPool.get(ItemPool.SLEAZE_WAD, 25),
-            ItemPool.get(ItemPool.ENGORGED_SAUSAGES_AND_YOU, 1)),
-        new HotDogData(
-            "optimal dog",
-            -102,
-            1,
-            ItemPool.get(ItemPool.SCRAP_OF_PAPER, 25),
-            ItemPool.get(ItemPool.OPTIMAL_SPREADSHEET, 1)),
-        new HotDogData(
-            "sleeping dog",
-            -101,
-            2,
-            ItemPool.get(ItemPool.GAUZE_HAMMOCK, 10),
-            ItemPool.get(ItemPool.DREAM_OF_A_DOG, 1)),
-        new HotDogData(
-            "video games hot dog",
-            -103,
-            3,
-            ItemPool.get(ItemPool.GAMEPRO_MAGAZINE, 3),
-            ItemPool.get(ItemPool.DEFECTIVE_TOKEN, 1)),
-      };
-
-  record SpeakeasyData(String name, int id, int inebriety, int cost) {}
-
-  static final SpeakeasyData[] SPEAKEASY_DATA =
-      new SpeakeasyData[] {
-        new SpeakeasyData("glass of &quot;milk&quot;", 1, 1, 250),
-        new SpeakeasyData("cup of &quot;tea&quot;", 2, 1, 250),
-        new SpeakeasyData("thermos of &quot;whiskey&quot;", 3, 1, 250),
-        new SpeakeasyData("Lucky Lindy", 4, 1, 500),
-        new SpeakeasyData("Bee's Knees", 5, 2, 500),
-        new SpeakeasyData("Sockdollager", 6, 2, 500),
-        new SpeakeasyData("Ish Kabibble", 7, 2, 500),
-        new SpeakeasyData("Hot Socks", 8, 3, 5000),
-        new SpeakeasyData("Phonus Balonus", 9, 3, 10000),
-        new SpeakeasyData("Flivver", 10, 2, 20000),
-        new SpeakeasyData("Sloppy Jalopy", 11, 5, 100000),
-      };
+  public static final HotDogData[] HOTDOG_DATA = {
+    new HotDogData("basic hot dog", -92, 1),
+    new HotDogData(
+        "savage macho dog",
+        -93,
+        2,
+        ItemPool.get(ItemPool.FURRY_FUR, 10),
+        ItemPool.get(ItemPool.VICIOUS_SPIKED_COLLAR, 1)),
+    new HotDogData(
+        "one with everything",
+        -94,
+        2,
+        ItemPool.get(ItemPool.CRANBERRIES, 10),
+        ItemPool.get(ItemPool.ANCIENT_HOT_DOG_WRAPPER, 1)),
+    new HotDogData(
+        "sly dog",
+        -95,
+        2,
+        ItemPool.get(ItemPool.SKELETON_BONE, 10),
+        ItemPool.get(ItemPool.DEBONAIR_DEBONER, 1)),
+    new HotDogData(
+        "devil dog",
+        -96,
+        3,
+        ItemPool.get(ItemPool.HOT_WAD, 25),
+        ItemPool.get(ItemPool.CHICLE_DE_SALCHICA, 1)),
+    new HotDogData(
+        "chilly dog",
+        -97,
+        3,
+        ItemPool.get(ItemPool.COLD_WAD, 25),
+        ItemPool.get(ItemPool.JAR_OF_FROSTIGKRAUT, 1)),
+    new HotDogData(
+        "ghost dog",
+        -98,
+        3,
+        ItemPool.get(ItemPool.SPOOKY_WAD, 25),
+        ItemPool.get(ItemPool.GNAWED_UP_DOG_BONE, 1)),
+    new HotDogData(
+        "junkyard dog",
+        -99,
+        3,
+        ItemPool.get(ItemPool.STENCH_WAD, 25),
+        ItemPool.get(ItemPool.GREY_GUANON, 1)),
+    new HotDogData(
+        "wet dog",
+        -100,
+        3,
+        ItemPool.get(ItemPool.SLEAZE_WAD, 25),
+        ItemPool.get(ItemPool.ENGORGED_SAUSAGES_AND_YOU, 1)),
+    new HotDogData(
+        "optimal dog",
+        -102,
+        1,
+        ItemPool.get(ItemPool.SCRAP_OF_PAPER, 25),
+        ItemPool.get(ItemPool.OPTIMAL_SPREADSHEET, 1)),
+    new HotDogData(
+        "sleeping dog",
+        -101,
+        2,
+        ItemPool.get(ItemPool.GAUZE_HAMMOCK, 10),
+        ItemPool.get(ItemPool.DREAM_OF_A_DOG, 1)),
+    new HotDogData(
+        "video games hot dog",
+        -103,
+        3,
+        ItemPool.get(ItemPool.GAMEPRO_MAGAZINE, 3),
+        ItemPool.get(ItemPool.DEFECTIVE_TOKEN, 1)),
+  };
 
   record FloundryData(String fish, AdventureResult item) {}
 
-  static final FloundryData[] FLOUNDRY_DATA =
-      new FloundryData[] {
-        new FloundryData("carp", ItemPool.get(ItemPool.CARPE, 1)),
-        new FloundryData("cod", ItemPool.get(ItemPool.CODPIECE, 1)),
-        new FloundryData("trout", ItemPool.get(ItemPool.TROUTSERS, 1)),
-        new FloundryData("bass", ItemPool.get(ItemPool.BASS_CLARINET, 1)),
-        new FloundryData("hatchetfish", ItemPool.get(ItemPool.FISH_HATCHET, 1)),
-        new FloundryData("tuna", ItemPool.get(ItemPool.TUNAC, 1)),
-      };
+  static final FloundryData[] FLOUNDRY_DATA = {
+    new FloundryData("carp", ItemPool.get(ItemPool.CARPE, 1)),
+    new FloundryData("cod", ItemPool.get(ItemPool.CODPIECE, 1)),
+    new FloundryData("trout", ItemPool.get(ItemPool.TROUTSERS, 1)),
+    new FloundryData("bass", ItemPool.get(ItemPool.BASS_CLARINET, 1)),
+    new FloundryData("hatchetfish", ItemPool.get(ItemPool.FISH_HATCHET, 1)),
+    new FloundryData("tuna", ItemPool.get(ItemPool.TUNAC, 1)),
+  };
 
   public static void setClanLoungeItem(final int itemId, int count) {
     ClanLoungeRequest.setClanLoungeItem(ItemPool.get(itemId, count));
@@ -340,94 +322,211 @@ public class ClanLoungeRequest extends GenericRequest {
     return ClanLoungeRequest.HOTDOG_NAMES.indexOf(name) > 0;
   }
 
-  public static final int speakeasyIdToIndex(int id) {
-    for (int i = 0; i < SPEAKEASY_DATA.length; ++i) {
-      if (id == ClanLoungeRequest.SPEAKEASY_DATA[i].id) {
-        return i;
-      }
+  // *** Speakeasy ***
+
+  /*
+   * Mechanics of the Clan Speakeasy:
+   *
+   * 1) It is in the Clan VIP Lounge
+   * 2) It provides up to 11 drinks.
+   *    three are always available
+   *    eight have to be unlocked
+   * 3) You can buy unlocked drinks for Meat
+   * 4) Drinks are immediately consumed upon purchase, providing
+   *    inebriety, adventures, stats, effects
+   * 5) You can drink up to three speakeasy drinks a day.
+   *    Duplicates are allowed.
+   *
+   * You need a Clan VIP lounge key to have access to the lounge.
+   *
+   * When you log in, if you have a key, we look at the Clan Lounge.
+   * Similarly, if you switch clans, we look at the clan lounge.
+   * Lastly, if you get a key into inventory, we look at the clan lounge.
+   *
+   * How this should work:
+   *
+   * Each speakeasy drink is a Consumable, complete with a Concoction.
+   * Therefore, they are added to ConcoctionDatabase.usableList when that is filled.
+   * Just like all usables, they are displayed only if they are available.
+   *
+   * Conclusions/implementation:
+   *
+   * 1) For a speakeasy drink to be visible:
+   * -  You need a Clan VIP lounge key
+   * -  You must be in a clan
+   * -  The clan must have a speakeasy
+   * -  The drink must be unlocked
+   * -  You must have enough Meat to buy it
+   * -  You must have drunk fewer than three speakeasy drinks today
+   * 2) This package needs to maintain a list of available drinks
+   * -  This will be cleared when you login or change clans
+   * -  This will be filled when we parse the Clan VIP lounge on login or clan switch
+   *    (This satisfies the first four checks)
+   * 3) A speakeasy concoction on the usables list has initial = 0 (never in inventory)
+   *    and creatable = 0 if the drink isn't on the available list. If it is on that list,
+   *    creatable can be 0, 1, 2, or 3, depending on available Meat and # of speakeasy
+   *    drinks consumed today.
+   *    (This satisfies the last two checks)
+   * 4) We need to track speakeasy drinks consumed - _speakeasyDrinksDrunk - and trigger
+   *    concoction.resetCalculations() for all speakeasy drinks.
+   */
+
+  public static enum SpeakeasyDrink {
+    MILK(1, "glass of &quot;milk&quot;", 1, 250),
+    TEA(2, "cup of &quot;tea&quot;", 1, 250),
+    WHISKEY(3, "thermos of &quot;whiskey&quot;", 1, 250),
+    LUCKY_LINDY(4, "Lucky Lindy", 1, 500),
+    BEES_KNEES(5, "Bee's Knees", 2, 500),
+    SOCKDOLLAGER(6, "Sockdollager", 2, 500),
+    ISH_KABIBBLE(7, "Ish Kabibble", 2, 500),
+    HOT_SOCKS(8, "Hot Socks", 3, 5000),
+    PHONUS_BALONUS(9, "Phonus Balonus", 3, 10000),
+    FLIVVER(10, "Flivver", 2, 20000),
+    SLOPPY_JALOPY(11, "Sloppy Jalopy", 5, 100000);
+
+    // Class fields
+    private final String name;
+    private final int id;
+    private final int inebriety;
+    private final int cost;
+
+    // Derived fields
+    private final AdventureResult item;
+    private final String canonicalName;
+    private final Concoction concoction;
+
+    // Lookups for SpeakeasyDrinks
+    private static final Map<String, SpeakeasyDrink> nameToData = new HashMap<>();
+    private static final Map<String, String> canonicalNameToName = new HashMap<>();
+    private static final Map<Integer, SpeakeasyDrink> idToData = new HashMap<>();
+
+    private SpeakeasyDrink(int id, String name, int inebriety, int cost) {
+      this.id = id;
+      this.name = name;
+      this.inebriety = inebriety;
+      this.cost = cost;
+
+      // Derived fields
+      this.canonicalName = StringUtilities.getCanonicalName(name);
+
+      this.item = ItemPool.get(ItemDatabase.getItemId(name, 1, false));
+
+      Concoction concoction = ConcoctionPool.get(this.item);
+      concoction.speakeasy = this;
+      concoction.price = cost;
+      this.concoction = concoction;
     }
-    return -1;
+
+    public String getName() {
+      return this.name;
+    }
+
+    public int getId() {
+      return this.id;
+    }
+
+    public int getInebriety() {
+      return this.inebriety;
+    }
+
+    public int getCost() {
+      return this.cost;
+    }
+
+    public AdventureResult getItem() {
+      return this.item;
+    }
+
+    public String getCanonicalName() {
+      return this.canonicalName;
+    }
+
+    public Concoction getConcoction() {
+      return this.concoction;
+    }
+
+    public void populateMaps() {
+      SpeakeasyDrink.nameToData.put(this.name, this);
+      SpeakeasyDrink.canonicalNameToName.put(this.canonicalName, name);
+      SpeakeasyDrink.idToData.put(this.id, this);
+    }
+
+    public static SpeakeasyDrink findName(String name) {
+      return SpeakeasyDrink.nameToData.get(name);
+    }
+
+    public static String findCanonicalName(String canonicalName) {
+      return SpeakeasyDrink.canonicalNameToName.get(canonicalName);
+    }
+
+    public static SpeakeasyDrink findId(int id) {
+      return SpeakeasyDrink.idToData.get(id);
+    }
   }
 
-  public static final String speakeasyIdToName(int id) {
-    int index = ClanLoungeRequest.speakeasyIdToIndex(id);
-    return index < 0 ? null : ClanLoungeRequest.SPEAKEASY_DATA[index].name;
-  }
+  public static final EnumSet<SpeakeasyDrink> ALL_SPEAKEASY = EnumSet.allOf(SpeakeasyDrink.class);
 
-  public static final String speakeasyIndexToName(int index) {
-    return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
-        ? null
-        : ClanLoungeRequest.SPEAKEASY_DATA[index].name;
-  }
-
-  public static final Integer speakeasyIndexToId(int index) {
-    return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
-        ? -1
-        : ClanLoungeRequest.SPEAKEASY_DATA[index].id;
-  }
-
-  public static final Integer speakeasyIndexToInebriety(int index) {
-    return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
-        ? -1
-        : ClanLoungeRequest.SPEAKEASY_DATA[index].inebriety;
-  }
-
-  public static final Integer speakeasyIndexToCost(int index) {
-    return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
-        ? -1
-        : ClanLoungeRequest.SPEAKEASY_DATA[index].cost;
-  }
-
-  public static final Integer speakeasyNameToInebriety(final String name) {
-    int index = ClanLoungeRequest.speakeasyNameToIndex(name);
-    return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
-        ? -1
-        : ClanLoungeRequest.SPEAKEASY_DATA[index].inebriety;
+  static {
+    for (var drink : ALL_SPEAKEASY) {
+      drink.populateMaps();
+    }
   }
 
   public static final Integer speakeasyNameToCost(final String name) {
-    int index = ClanLoungeRequest.speakeasyNameToIndex(name);
-    return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
-        ? -1
-        : ClanLoungeRequest.SPEAKEASY_DATA[index].cost;
+    SpeakeasyDrink drink = SpeakeasyDrink.findName(name);
+    return drink == null ? -1 : drink.getCost();
   }
 
-  public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<>();
   private static final String[] CANONICAL_SPEAKEASY_ARRAY =
-      new String[ClanLoungeRequest.SPEAKEASY_DATA.length];
+      ALL_SPEAKEASY.stream().map(SpeakeasyDrink::getCanonicalName).toArray(String[]::new);
 
-  static {
-    for (int i = 0; i < SPEAKEASY_DATA.length; ++i) {
-      String itemName = SPEAKEASY_DATA[i].name;
-      int itemId = ItemDatabase.getItemId(itemName, 1, false);
-      Concoction concoction = ConcoctionPool.get(itemId, itemName);
-      concoction.speakeasy = true;
-      concoction.price = ClanLoungeRequest.speakeasyNameToCost(itemName);
-      ClanLoungeRequest.ALL_SPEAKEASY.add(concoction);
-      ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY[i] = StringUtilities.getCanonicalName(itemName);
+  private static final EnumSet<SpeakeasyDrink> availableSpeakeasyDrinks =
+      EnumSet.noneOf(SpeakeasyDrink.class);
+
+  public static boolean availableSpeakeasyDrink(final SpeakeasyDrink drink) {
+    return availableSpeakeasyDrinks.contains(drink);
+  }
+
+  public static boolean availableSpeakeasyDrink(final String itemName) {
+    SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
+    return drink == null ? false : availableSpeakeasyDrinks.contains(drink);
+  }
+
+  public static void addSpeakeasyDrink(final String itemName) {
+    // Called when parsing Speakeasy in lounge
+    SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
+    if (drink != null && !availableSpeakeasyDrinks.contains(drink)) {
+      availableSpeakeasyDrinks.add(drink);
+      ClanManager.addToLounge(drink.getItem());
+      drink.getConcoction().resetCalculations();
     }
   }
 
   public static final void resetSpeakeasy() {
-    // Remove all Speakeasy drinks from the usable list
-    ConcoctionDatabase.getUsables().removeAll(ClanLoungeRequest.ALL_SPEAKEASY);
-    ConcoctionDatabase.refreshConcoctions(false);
+    // Remove all Speakeasy drinks from available drinks
+    availableSpeakeasyDrinks.clear();
+
+    // Reset availability for all drinks
+    for (var drink : ALL_SPEAKEASY) {
+      drink.getConcoction().resetCalculations();
+    }
   }
 
-  private static int speakeasyNameToIndex(final String name) {
-    if (name == null) {
-      return -1;
+  public static boolean maybeAddSpeakeasyDrink(final AdventureResult item) {
+    // Called when examining lounge items after switching clans.
+    // resetSpeakeasy has already been called.
+    SpeakeasyDrink drink = SpeakeasyDrink.findName(item.getName());
+    if (drink != null) {
+      availableSpeakeasyDrinks.add(drink);
+      drink.getConcoction().resetCalculations();
+      // But clan items are intact from previous visit.
+      return true;
     }
-    for (int i = 0; i < SPEAKEASY_DATA.length; ++i) {
-      if (name.equalsIgnoreCase(ClanLoungeRequest.SPEAKEASY_DATA[i].name)) {
-        return i;
-      }
-    }
-    return -1;
+    return false;
   }
 
   public static final boolean isSpeakeasyDrink(String name) {
-    return speakeasyNameToIndex(name) != -1;
+    return SpeakeasyDrink.findName(name) != null;
   }
 
   public static final String findSpeakeasyDrink(String searchString) {
@@ -438,15 +537,10 @@ public class ClanLoungeRequest extends GenericRequest {
       return null;
     }
 
-    String name = matchingNames.get(0);
-    for (int index = 0; index < ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY.length; ++index) {
-      if (name.equals(ClanLoungeRequest.CANONICAL_SPEAKEASY_ARRAY[index])) {
-        return ClanLoungeRequest.speakeasyIndexToName(index);
-      }
-    }
-
-    return null;
+    return SpeakeasyDrink.findCanonicalName(matchingNames.get(0));
   }
+
+  // *** Floundry ***
 
   public static final ArrayList<Concoction> ALL_FLOUNDRY = new ArrayList<>();
 
@@ -645,8 +739,8 @@ public class ClanLoungeRequest extends GenericRequest {
   }
 
   public static final ClanLoungeRequest buySpeakeasyDrinkRequest(final String name) {
-    int index = ClanLoungeRequest.speakeasyNameToIndex(name);
-    if (index < 0) {
+    SpeakeasyDrink drink = SpeakeasyDrink.findName(name);
+    if (drink == null) {
       return null;
     }
 
@@ -655,8 +749,7 @@ public class ClanLoungeRequest extends GenericRequest {
       return null;
     }
 
-    ClanLoungeRequest request =
-        new ClanLoungeRequest(SPEAKEASY, ClanLoungeRequest.speakeasyIndexToId(index));
+    ClanLoungeRequest request = new ClanLoungeRequest(SPEAKEASY, drink.getId());
     return request;
   }
 
@@ -1298,28 +1391,6 @@ public class ClanLoungeRequest extends GenericRequest {
     RequestLogger.printLine(buffer.toString());
   }
 
-  public static boolean availableSpeakeasyDrink(final String itemName) {
-    int index = ClanLoungeRequest.speakeasyNameToIndex(itemName);
-    if (index < 0) {
-      return false;
-    }
-    Concoction item = ClanLoungeRequest.ALL_SPEAKEASY.get(index);
-    return ConcoctionDatabase.getUsables().contains(item);
-  }
-
-  public static Concoction addSpeakeasyDrink(final String itemName) {
-    int index = ClanLoungeRequest.speakeasyNameToIndex(itemName);
-    if (index < 0) {
-      return null;
-    }
-    Concoction item = ClanLoungeRequest.ALL_SPEAKEASY.get(index);
-    if (ConcoctionDatabase.getUsables().contains(item)) {
-      return null;
-    }
-    item.resetCalculations();
-    return item;
-  }
-
   private static final Pattern SPEAKEASY_ROW_PATTERN =
       Pattern.compile("name=\"drink\" value=\"(\\d+)\"", Pattern.DOTALL);
 
@@ -1338,47 +1409,26 @@ public class ClanLoungeRequest extends GenericRequest {
       Preferences.setInteger("_speakeasyDrinksDrunk", 3);
     }
 
-    // Make a list of all currently available speakeasy drinks
-    ArrayList<Concoction> available = new ArrayList<>();
-
     Matcher speakeasyMatcher = SPEAKEASY_ROW_PATTERN.matcher(responseText);
+    int count = 0;
     while (speakeasyMatcher.find()) {
-      int speakeasyId = StringUtilities.parseInt(speakeasyMatcher.group(1));
-      int drinkIndex = ClanLoungeRequest.speakeasyIdToIndex(speakeasyId);
-      if (drinkIndex >= 0 && drinkIndex < 12) {
-        String drinkName = ClanLoungeRequest.speakeasyIndexToName(drinkIndex);
-        Concoction speakeasyDrink = ClanLoungeRequest.addSpeakeasyDrink(drinkName);
+      int id = StringUtilities.parseInt(speakeasyMatcher.group(1));
+      SpeakeasyDrink drink = SpeakeasyDrink.findId(id);
+      if (drink != null) {
+        String name = drink.getName();
+        ClanLoungeRequest.addSpeakeasyDrink(name);
+
         if (verbose) {
-          RequestLogger.printLine(
-              "Found speakeasy drink #"
-                  + speakeasyId
-                  + " ("
-                  + drinkName
-                  + ") "
-                  + (speakeasyDrink == null ? "NO" : "and")
-                  + " concoction.");
+          RequestLogger.printLine("Found speakeasy drink #" + id + " (" + name + ")");
         }
-        if (speakeasyDrink != null) {
-          available.add(speakeasyDrink);
-          AdventureResult drink = ItemPool.get(drinkName, 1);
-          if (drink != null) {
-            ClanManager.addToLounge(drink);
-          }
-        }
+
+        count++;
       }
     }
 
     if (verbose) {
-      RequestLogger.printLine("Total speakeasy drinks found: " + available.size());
+      RequestLogger.printLine("Total speakeasy drinks found: " + count);
     }
-
-    // Add speakeasy drinks en masse to the usables list
-    if (available.size() > 0) {
-      ConcoctionDatabase.getUsables().addAll(available);
-    }
-
-    // Refresh available concoctions with currently available speakeasy drinks
-    ConcoctionDatabase.refreshConcoctions();
   }
 
   public static void parseFloundry(final String responseText, final boolean verbose) {
@@ -1819,7 +1869,18 @@ public class ClanLoungeRequest extends GenericRequest {
     }
     if (action.equals("speakeasydrink")) {
       // Do nothing if consumption of a speakeasy drink failed
+      //
       // Find failure messages and handle
+      //
+      // "<Madam>, this is a high-class establishment. I do believe you've
+      //  had enough. Come back after you've... slept it off, as they say."
+      // You've clearly had enough already.
+      // You don't drink, don't drink.
+      // We don't serve minors here, kid. Get lost.
+      // You can't afford that.
+      //
+      // How about detecting the success message? Which is what?
+      //
       if (responseText.contains("We don't serve minors here, kid")
           || responseText.contains("You can't afford that")) {
         return;
@@ -1831,8 +1892,8 @@ public class ClanLoungeRequest extends GenericRequest {
       if (!m.find()) {
         return;
       }
-      int index = ClanLoungeRequest.speakeasyIdToIndex(StringUtilities.parseInt(m.group(1)));
-      if (index >= 0) {
+      SpeakeasyDrink drink = SpeakeasyDrink.findId(StringUtilities.parseInt(m.group(1)));
+      if (drink != null) {
         Preferences.increment("_speakeasyDrinksDrunk", 1);
       }
 
@@ -2031,12 +2092,11 @@ public class ClanLoungeRequest extends GenericRequest {
             if (!m.find()) {
               return false;
             }
-            String speakeasyDrink =
-                ClanLoungeRequest.speakeasyIdToName(StringUtilities.parseInt(m.group(0)));
-            if (speakeasyDrink == null) {
+            SpeakeasyDrink drink = SpeakeasyDrink.findId(StringUtilities.parseInt(m.group(0)));
+            if (drink == null) {
               return false;
             }
-            message = "drink 1 " + speakeasyDrink;
+            message = "drink 1 " + drink.getName();
             break;
           }
         default:
