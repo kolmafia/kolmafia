@@ -493,6 +493,7 @@ public class ClanLoungeRequest extends GenericRequest {
   }
 
   public static void addSpeakeasyDrink(final String itemName) {
+    // Called when parsing Speakeasy in lounge
     SpeakeasyDrink drink = SpeakeasyDrink.findName(itemName);
     if (drink != null && !availableSpeakeasyDrinks.contains(drink)) {
       availableSpeakeasyDrinks.add(drink);
@@ -509,6 +510,19 @@ public class ClanLoungeRequest extends GenericRequest {
     for (var drink : ALL_SPEAKEASY) {
       drink.getConcoction().resetCalculations();
     }
+  }
+
+  public static boolean maybeAddSpeakeasyDrink(final AdventureResult item) {
+    // Called when examining lounge items after switching clans.
+    // resetSpeakeasy has already been called.
+    SpeakeasyDrink drink = SpeakeasyDrink.findName(item.getName());
+    if (drink != null) {
+      availableSpeakeasyDrinks.add(drink);
+      drink.getConcoction().resetCalculations();
+      // But clan items are intact from previous visit.
+      return true;
+    }
+    return false;
   }
 
   public static final boolean isSpeakeasyDrink(String name) {

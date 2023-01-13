@@ -321,6 +321,7 @@ public class EffectPool {
   public static final int METEOR_SHOWERED = 2317;
   public static final int SILENT_HUNTING = 2336;
   public static final int NEARLY_SILENT_HUNTING = 2337;
+  public static final int THERES_NO_N_IN_LOVE = 2367;
   public static final int TAINTED_LOVE_POTION = 2374;
   public static final int SHARK_TOOTH_GRIN = 2413;
   public static final int BOILING_DETERMINATION = 2414;
