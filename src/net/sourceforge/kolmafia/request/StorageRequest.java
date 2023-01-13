@@ -1,9 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import static net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType.EMPTY_STORAGE;
-import static net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType.REFRESH;
-import static net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType.STORAGE_TO_INVENTORY;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -115,13 +111,13 @@ public class StorageRequest extends TransferItemRequest {
     // To refresh storage, we get Meat and pulls from the main page
     // and items from api.php
 
-    RequestThread.postRequest(new StorageRequest(REFRESH));
+    RequestThread.postRequest(new StorageRequest(StorageRequestType.REFRESH));
     ApiRequest.updateStorage();
     StorageRequest.updateSettings();
   }
 
   public static void emptyStorage() {
-    RequestThread.postRequest(new StorageRequest(EMPTY_STORAGE));
+    RequestThread.postRequest(new StorageRequest(StorageRequestType.EMPTY_STORAGE));
   }
 
   public static final void parseStorage(final JSONObject JSON) {
@@ -274,7 +270,7 @@ public class StorageRequest extends TransferItemRequest {
 
   @Override
   public boolean forceGETMethod() {
-    return this.moveType == STORAGE_TO_INVENTORY;
+    return this.moveType == StorageRequestType.STORAGE_TO_INVENTORY;
   }
 
   @Override

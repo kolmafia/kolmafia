@@ -1,9 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import static net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType.CLOSET_TO_INVENTORY;
-import static net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType.INVENTORY_TO_CLOSET;
-import static net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType.REFRESH;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -40,7 +36,7 @@ public class ClosetRequest extends TransferItemRequest {
     // To refresh closet, we get Meat from any page
     // and items from api.php
 
-    RequestThread.postRequest(new ClosetRequest(REFRESH));
+    RequestThread.postRequest(new ClosetRequest(ClosetRequestType.REFRESH));
     ApiRequest.updateCloset();
   }
 
@@ -82,7 +78,7 @@ public class ClosetRequest extends TransferItemRequest {
 
   public ClosetRequest() {
     super("closet.php");
-    this.moveType = REFRESH;
+    this.moveType = ClosetRequestType.REFRESH;
   }
 
   public ClosetRequest(final ClosetRequestType moveType) {
@@ -194,7 +190,8 @@ public class ClosetRequest extends TransferItemRequest {
 
   @Override
   public boolean forceGETMethod() {
-    return this.moveType == INVENTORY_TO_CLOSET || this.moveType == CLOSET_TO_INVENTORY;
+    return this.moveType == ClosetRequestType.INVENTORY_TO_CLOSET
+        || this.moveType == ClosetRequestType.CLOSET_TO_INVENTORY;
   }
 
   @Override
