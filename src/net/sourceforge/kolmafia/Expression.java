@@ -404,7 +404,7 @@ public class Expression {
                 : Math.max(1, this.effect.getCount(KoLConstants.activeEffects));
         case 'U' -> v = KoLCharacter.getTelescopeUpgrades();
         case 'W' -> v = Modifiers.currentWeight;
-        case 'X' -> v = KoLCharacter.getGender();
+        case 'X' -> v = KoLCharacter.getGender().modifierValue;
         case 'Y' -> v = KoLCharacter.getFury();
         default -> {
           if (inst > '\u00FF') {

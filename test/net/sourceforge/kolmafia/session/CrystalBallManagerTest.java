@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -397,7 +398,7 @@ public class CrystalBallManagerTest {
                         "request/test_adventure_crystal_ball_invalidates_properly_choice_result.html"))),
             withProperty(
                 "crystalBallPredictions", "291:The Hidden Office Building:pygmy headhunter"),
-            withGender(1),
+            withGender(Gender.FEMALE),
             withCurrentRun(0));
 
     try (cleanups) {
@@ -446,7 +447,7 @@ public class CrystalBallManagerTest {
                     html(
                         "request/test_adventure_crystal_ball_handles_noncombat_api_afteradventure.json"))),
             withProperty("crystalBallPredictions", "522:The Middle Chamber:tomb rat"),
-            withGender(1),
+            withGender(Gender.FEMALE),
             withCurrentRun(0));
 
     try (cleanups) {

@@ -1018,6 +1018,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     if (!InventoryManager.hasItem(FamiliarData.PUMPKIN_BUCKET)
         && !InventoryManager.hasItem(FamiliarData.FLOWER_BOUQUET)
         && !InventoryManager.hasItem(FamiliarData.FIREWORKS)
+        && !InventoryManager.hasItem(FamiliarData.PET_SWEATER)
         && !InventoryManager.hasItem(FamiliarData.SUGAR_SHIELD)
         && status.familiarItemWeight != 0
         && !InventoryManager.hasItem(status.familiarItem)
@@ -1254,6 +1255,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     boolean pumpkinBucket;
     boolean flowerBouquet;
     boolean boxFireworks;
+    boolean petSweater;
     boolean sugarShield;
     boolean doppelganger;
 
@@ -1378,6 +1380,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.pumpkinBucket = false;
       this.flowerBouquet = false;
       this.boxFireworks = false;
+      this.petSweater = false;
       this.sugarShield = false;
       this.doppelganger = false;
 
@@ -1427,6 +1430,11 @@ public class FamiliarTrainingFrame extends GenericFrame {
         if (itemId == FamiliarData.FIREWORKS.getItemId()) {
           this.boxFireworks = true;
           this.item = FamiliarData.FIREWORKS;
+        }
+
+        if (itemId == FamiliarData.PET_SWEATER.getItemId()) {
+          this.petSweater = true;
+          this.item = FamiliarData.PET_SWEATER;
         }
 
         if (itemId == FamiliarData.SUGAR_SHIELD.getItemId()) {
@@ -1529,6 +1537,10 @@ public class FamiliarTrainingFrame extends GenericFrame {
         this.boxFireworks |= FamiliarData.FIREWORKS.getCount(inventory) > 0;
       }
 
+      // If current familiar is not wearing an astral pet sweater
+      // search inventory
+      this.petSweater |= FamiliarData.PET_SWEATER.getCount(inventory) > 0;
+
       // If current familiar is not wearing a sugar shield,
       // search inventory
       this.sugarShield |= FamiliarData.SUGAR_SHIELD.getCount(inventory) > 0;
@@ -1579,6 +1591,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
               && this.pumpkinBucket
               && this.flowerBouquet
               && this.boxFireworks
+              && this.petSweater
               && this.sugarShield
               && this.bathysphere
               && this.dasBoot) {
@@ -1603,6 +1616,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
         this.flowerBouquet |= item.getItemId() == FamiliarData.FLOWER_BOUQUET.getItemId();
         this.doppelganger |= item.getItemId() == FamiliarData.DOPPELGANGER.getItemId();
         this.boxFireworks |= item.getItemId() == FamiliarData.FIREWORKS.getItemId();
+        this.petSweater |= item.getItemId() == FamiliarData.PET_SWEATER.getItemId();
         this.sugarShield |= item.getItemId() == FamiliarData.SUGAR_SHIELD.getItemId();
       }
     }
@@ -1697,6 +1711,11 @@ public class FamiliarTrainingFrame extends GenericFrame {
       // If familiar specific item adds weight, calculate
       if (this.specWeight != 0) {
         this.getAccessoryWeights(weight + this.specWeight);
+      }
+
+      // If we have an astral pet sweater, use it
+      if (this.petSweater) {
+        this.getAccessoryWeights(weight + 10);
       }
 
       // If we have a sugar shield, use it
@@ -1940,6 +1959,9 @@ public class FamiliarTrainingFrame extends GenericFrame {
       if (this.boxFireworks) {
         this.getAccessoryGearSets(weight, FamiliarData.FIREWORKS, hat);
       }
+      if (this.petSweater) {
+        this.getAccessoryGearSets(weight, FamiliarData.PET_SWEATER, hat);
+      }
       if (this.sugarShield) {
         this.getAccessoryGearSets(weight, FamiliarData.SUGAR_SHIELD, hat);
       }
@@ -2106,6 +2128,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
       if (item == FamiliarData.DOPPELGANGER) {
       } else if (item == this.specItem) {
         weight += this.specWeight;
+      } else if (item == FamiliarData.PET_SWEATER) {
+        weight += 10;
       } else if (item == FamiliarData.SUGAR_SHIELD) {
         weight += 10;
       } else if (item == FamiliarData.PUMPKIN_BUCKET) {
@@ -2313,6 +2337,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
         weight += 5;
       } else if (this.boxFireworks) {
         weight += 5;
+      } else if (this.petSweater) {
+        weight += 10;
       } else if (this.sugarShield) {
         weight += 10;
       } else if (this.specWeight > 3) {
@@ -2441,6 +2467,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
         text.append(" " + FamiliarData.FLOWER_BOUQUET.getName() + " (+5)");
       } else if (this.item == FamiliarData.FIREWORKS) {
         text.append(" " + FamiliarData.FIREWORKS.getName() + " (+5)");
+      } else if (this.item == FamiliarData.PET_SWEATER) {
+        text.append(" " + FamiliarData.PET_SWEATER.getName() + " (+10)");
       } else if (this.item == FamiliarData.SUGAR_SHIELD) {
         text.append(" " + FamiliarData.SUGAR_SHIELD.getName() + " (+10)");
       } else if (this.item == FamiliarData.LEAD_NECKLACE) {
@@ -2491,6 +2519,9 @@ public class FamiliarTrainingFrame extends GenericFrame {
         }
         if (this.specItem != null) {
           text.append(" " + this.specItem.getName() + " (+" + this.specWeight + ")");
+        }
+        if (this.petSweater) {
+          text.append(" astral pet sweater (+10)");
         }
         if (this.sugarShield) {
           text.append(" sugar shield (+10)");

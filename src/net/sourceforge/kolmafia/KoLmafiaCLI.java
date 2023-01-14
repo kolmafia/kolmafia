@@ -20,7 +20,7 @@ import net.sourceforge.kolmafia.textui.command.*;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.PrefixMap;
+import net.sourceforge.kolmafia.utilities.PrefixMap.KeyType;
 
 public class KoLmafiaCLI {
   public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI(System.in);
@@ -290,7 +290,7 @@ public class KoLmafiaCLI {
         command = trimmed;
         trimmed = "";
       } else if (AbstractCommand.lookup.get(lcommand) != null
-          && AbstractCommand.lookup.getKeyType(lcommand) == PrefixMap.EXACT_KEY) {
+          && AbstractCommand.lookup.getKeyType(lcommand) == KeyType.EXACT_KEY) {
         // Multiword command
         command = lcommand;
         trimmed = "";

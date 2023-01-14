@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1244,9 +1245,9 @@ public class AreaCombatData {
       }
       case "The F'c'le" -> {
         if (monster.equals("clingy pirate (female)")) {
-          return KoLCharacter.getGender() == KoLCharacter.MALE ? 1 : 0;
+          return KoLCharacter.getGender() == Gender.MALE ? 1 : 0;
         } else if (monster.equals("clingy pirate (male)")) {
-          return KoLCharacter.getGender() == KoLCharacter.FEMALE ? 1 : 0;
+          return KoLCharacter.getGender() == Gender.FEMALE ? 1 : 0;
         }
       }
       case "Summoning Chamber" -> {

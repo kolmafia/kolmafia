@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -297,7 +298,7 @@ public class VolcanoMazeManagerTest {
               // Avoid a "health warning" from RelayRequest
               withHP(500, 500, 500),
               // Avoid looking at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
               withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
@@ -402,7 +403,7 @@ public class VolcanoMazeManagerTest {
               // Avoid a "health warning" from RelayRequest
               withHP(500, 500, 500),
               // Avoid looking at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
               withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
