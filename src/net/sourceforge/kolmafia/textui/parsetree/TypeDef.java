@@ -1,13 +1,13 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import org.eclipse.lsp4j.Location;
 
 public class TypeDef extends Type {
   private final Type base;
 
   public TypeDef(final String name, final Type base, final Location location) {
-    super(name, DataTypes.TYPE_TYPEDEF, location);
+    super(name, TypeSpec.TYPEDEF, location);
     this.primitive = base.isPrimitive();
     this.base = base;
   }

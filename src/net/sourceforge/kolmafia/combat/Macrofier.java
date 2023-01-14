@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.LimitMode;
-import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -136,7 +136,7 @@ public class Macrofier {
         return "abort";
       }
 
-      if (returnValue == null || returnValue.getType().equals(DataTypes.TYPE_VOID)) {
+      if (returnValue == null || returnValue.getType().equals(TypeSpec.VOID)) {
         String message = "Macro override \"" + macroOverride + "\" returned void.";
         RequestLogger.printLine(message);
         RequestLogger.updateSessionLog(message);

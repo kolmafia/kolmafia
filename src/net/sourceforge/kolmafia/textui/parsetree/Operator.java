@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
@@ -152,8 +153,8 @@ public class Operator extends Command {
   }
 
   public boolean validCoercion(Type lhs, Type rhs) {
-    int ltype = lhs.getBaseType().getType();
-    int rtype = rhs.getBaseType().getType();
+    TypeSpec ltype = lhs.getBaseType().getType();
+    TypeSpec rtype = rhs.getBaseType().getType();
 
     if (lhs.isBad() || rhs.isBad()) {
       // BadNode's are only generated through errors, which
@@ -162,13 +163,13 @@ public class Operator extends Command {
     }
 
     if (this.isInteger()) {
-      return (ltype == DataTypes.TYPE_INT && rtype == DataTypes.TYPE_INT);
+      return (ltype == TypeSpec.INT && rtype == TypeSpec.INT);
     }
     if (this.isBoolean()) {
-      return ltype == rtype && (ltype == DataTypes.TYPE_BOOLEAN);
+      return ltype == rtype && (ltype == TypeSpec.BOOLEAN);
     }
     if (this.isLogical()) {
-      return ltype == rtype && (ltype == DataTypes.TYPE_INT || ltype == DataTypes.TYPE_BOOLEAN);
+      return ltype == rtype && (ltype == TypeSpec.INT || ltype == TypeSpec.BOOLEAN);
     }
     return Operator.validCoercion(lhs, rhs, this.toString());
   }
@@ -203,7 +204,7 @@ public class Operator extends Command {
     // and the correct index type on the right.
 
     if (oper.equals("contains")) {
-      return lhs.getType() == DataTypes.TYPE_AGGREGATE
+      return lhs.getType() == TypeSpec.AGGREGATE
           && validCoercion(((AggregateType) lhs).getIndexType().getBaseType(), rhs, "==");
     }
 
@@ -218,31 +219,31 @@ public class Operator extends Command {
 
     // Noncoercible strings only accept strings
     if (lhs.equals(DataTypes.STRICT_STRING_TYPE)) {
-      return rhs.equals(DataTypes.TYPE_STRING) || rhs.equals(DataTypes.TYPE_BUFFER);
+      return rhs.equals(TypeSpec.STRING) || rhs.equals(TypeSpec.BUFFER);
     }
 
     // Anything coerces to a string
-    if (lhs.equals(DataTypes.TYPE_STRING)) {
+    if (lhs.equals(TypeSpec.STRING)) {
       return true;
     }
 
     // Anything coerces to a string for concatenation
-    if (oper.equals("+") && rhs.equals(DataTypes.TYPE_STRING)) {
+    if (oper.equals("+") && rhs.equals(TypeSpec.STRING)) {
       return true;
     }
 
     // Int coerces to float
-    if ((lhs.equals(DataTypes.TYPE_INT) && rhs.equals(DataTypes.TYPE_FLOAT))
-        || (lhs.equals(DataTypes.TYPE_FLOAT) && rhs.equals(DataTypes.TYPE_INT))) {
+    if ((lhs.equals(TypeSpec.INT) && rhs.equals(TypeSpec.FLOAT))
+        || (lhs.equals(TypeSpec.FLOAT) && rhs.equals(TypeSpec.INT))) {
       return true;
     }
 
-    if ((lhs.equals(DataTypes.TYPE_PATH) && rhs.equals(DataTypes.TYPE_INT))
-        || (lhs.equals(DataTypes.TYPE_INT) && rhs.equals(DataTypes.TYPE_PATH))) {
+    if ((lhs.equals(TypeSpec.PATH) && rhs.equals(TypeSpec.INT))
+        || (lhs.equals(TypeSpec.INT) && rhs.equals(TypeSpec.PATH))) {
       return true;
     }
 
-    if (lhs.equals(DataTypes.TYPE_PATH) && rhs.equals(DataTypes.TYPE_STRING)) {
+    if (lhs.equals(TypeSpec.PATH) && rhs.equals(TypeSpec.STRING)) {
       return true;
     }
 
@@ -298,7 +299,7 @@ public class Operator extends Command {
 
     // If either value is a float, coerce to float
 
-    else if (ltype.equals(DataTypes.TYPE_FLOAT) || rtype.equals(DataTypes.TYPE_FLOAT)) {
+    else if (ltype.equals(TypeSpec.FLOAT) || rtype.equals(TypeSpec.FLOAT)) {
       double rfloat = rightValue.toFloatValue().floatValue();
       if ((this.operator.equals("/") || this.operator.equals("%")) && rfloat == 0.0) {
         throw interpreter.runtimeException("Division by zero", this.fileName, this.lineNumber);
@@ -343,7 +344,7 @@ public class Operator extends Command {
                   ? lint ^ rint
                   : this.operator.equals("|") ? lint | rint : 0;
       result =
-          ltype.equals(DataTypes.TYPE_BOOLEAN)
+          ltype.equals(TypeSpec.BOOLEAN)
               ? DataTypes.makeBooleanValue(val != 0)
               : DataTypes.makeIntValue(val);
     }
@@ -438,14 +439,14 @@ public class Operator extends Command {
       case "~":
         long val = leftValue.intValue();
         result =
-            leftValue.getType().equals(DataTypes.TYPE_BOOLEAN)
+            leftValue.getType().equals(TypeSpec.BOOLEAN)
                 ? DataTypes.makeBooleanValue(val == 0)
                 : DataTypes.makeIntValue(~val);
         break;
       case "-":
-        if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+        if (lhs.getType().equals(TypeSpec.INT)) {
           result = DataTypes.makeIntValue(0 - leftValue.intValue());
-        } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+        } else if (lhs.getType().equals(TypeSpec.FLOAT)) {
           result = DataTypes.makeFloatValue(0.0 - leftValue.floatValue());
         } else {
           throw interpreter.runtimeException(
@@ -456,9 +457,9 @@ public class Operator extends Command {
         break;
       case Parser.PRE_INCREMENT:
       case Parser.POST_INCREMENT:
-        if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+        if (lhs.getType().equals(TypeSpec.INT)) {
           result = DataTypes.makeIntValue(leftValue.intValue() + 1);
-        } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+        } else if (lhs.getType().equals(TypeSpec.FLOAT)) {
           result = DataTypes.makeFloatValue(leftValue.floatValue() + 1.0);
         } else {
           throw interpreter.runtimeException(
@@ -469,9 +470,9 @@ public class Operator extends Command {
         break;
       case Parser.PRE_DECREMENT:
       case Parser.POST_DECREMENT:
-        if (lhs.getType().equals(DataTypes.TYPE_INT)) {
+        if (lhs.getType().equals(TypeSpec.INT)) {
           result = DataTypes.makeIntValue(leftValue.intValue() - 1);
-        } else if (lhs.getType().equals(DataTypes.TYPE_FLOAT)) {
+        } else if (lhs.getType().equals(TypeSpec.FLOAT)) {
           result = DataTypes.makeFloatValue(leftValue.floatValue() - 1.0);
         } else {
           throw interpreter.runtimeException(

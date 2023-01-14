@@ -40,68 +40,69 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DataTypes {
-  public static final int TYPE_ANY = 0;
-  public static final int TYPE_VOID = 1;
-  public static final int TYPE_BOOLEAN = 2;
-  public static final int TYPE_INT = 3;
-  public static final int TYPE_FLOAT = 4;
-  public static final int TYPE_STRING = 5;
-  public static final int TYPE_BUFFER = 6;
-  public static final int TYPE_MATCHER = 7;
+  public enum TypeSpec {
+    ANY,
+    VOID,
+    BOOLEAN,
+    INT,
+    FLOAT,
+    STRING,
+    BUFFER,
+    MATCHER,
 
-  public static final int TYPE_ITEM = 100;
-  public static final int TYPE_LOCATION = 101;
-  public static final int TYPE_CLASS = 102;
-  public static final int TYPE_STAT = 103;
-  public static final int TYPE_SKILL = 104;
-  public static final int TYPE_EFFECT = 105;
-  public static final int TYPE_FAMILIAR = 106;
-  public static final int TYPE_SLOT = 107;
-  public static final int TYPE_MONSTER = 108;
-  public static final int TYPE_ELEMENT = 109;
-  public static final int TYPE_COINMASTER = 110;
-  public static final int TYPE_PHYLUM = 111;
-  public static final int TYPE_THRALL = 112;
-  public static final int TYPE_BOUNTY = 113;
-  public static final int TYPE_SERVANT = 114;
-  public static final int TYPE_VYKEA = 115;
-  public static final int TYPE_PATH = 116;
+    ITEM,
+    LOCATION,
+    CLASS,
+    STAT,
+    SKILL,
+    EFFECT,
+    FAMILIAR,
+    SLOT,
+    MONSTER,
+    ELEMENT,
+    COINMASTER,
+    PHYLUM,
+    THRALL,
+    BOUNTY,
+    SERVANT,
+    VYKEA,
+    PATH,
 
-  public static final int TYPE_STRICT_STRING = 1000;
-  public static final int TYPE_AGGREGATE = 1001;
-  public static final int TYPE_RECORD = 1002;
-  public static final int TYPE_TYPEDEF = 1003;
+    STRICT_STRING,
+    AGGREGATE,
+    RECORD,
+    TYPEDEF,
+  }
 
-  public static final Type ANY_TYPE = new Type(null, DataTypes.TYPE_ANY);
-  public static final Type VOID_TYPE = new Type("void", DataTypes.TYPE_VOID);
-  public static final Type BOOLEAN_TYPE = new Type("boolean", DataTypes.TYPE_BOOLEAN);
-  public static final Type INT_TYPE = new Type("int", DataTypes.TYPE_INT);
-  public static final Type FLOAT_TYPE = new Type("float", DataTypes.TYPE_FLOAT);
-  public static final Type STRING_TYPE = new Type("string", DataTypes.TYPE_STRING);
-  public static final Type BUFFER_TYPE = new Type("buffer", DataTypes.TYPE_BUFFER);
-  public static final Type MATCHER_TYPE = new Type("matcher", DataTypes.TYPE_MATCHER);
+  public static final Type ANY_TYPE = new Type(null, TypeSpec.ANY);
+  public static final Type VOID_TYPE = new Type("void", TypeSpec.VOID);
+  public static final Type BOOLEAN_TYPE = new Type("boolean", TypeSpec.BOOLEAN);
+  public static final Type INT_TYPE = new Type("int", TypeSpec.INT);
+  public static final Type FLOAT_TYPE = new Type("float", TypeSpec.FLOAT);
+  public static final Type STRING_TYPE = new Type("string", TypeSpec.STRING);
+  public static final Type BUFFER_TYPE = new Type("buffer", TypeSpec.BUFFER);
+  public static final Type MATCHER_TYPE = new Type("matcher", TypeSpec.MATCHER);
 
-  public static final Type ITEM_TYPE = new Type("item", DataTypes.TYPE_ITEM);
-  public static final Type LOCATION_TYPE = new Type("location", DataTypes.TYPE_LOCATION);
-  public static final Type CLASS_TYPE = new Type("class", DataTypes.TYPE_CLASS);
-  public static final Type STAT_TYPE = new Type("stat", DataTypes.TYPE_STAT);
-  public static final Type SKILL_TYPE = new Type("skill", DataTypes.TYPE_SKILL);
-  public static final Type EFFECT_TYPE = new Type("effect", DataTypes.TYPE_EFFECT);
-  public static final Type FAMILIAR_TYPE = new Type("familiar", DataTypes.TYPE_FAMILIAR);
-  public static final Type SLOT_TYPE = new Type("slot", DataTypes.TYPE_SLOT);
-  public static final Type MONSTER_TYPE = new Type("monster", DataTypes.TYPE_MONSTER);
-  public static final Type ELEMENT_TYPE = new Type("element", DataTypes.TYPE_ELEMENT);
-  public static final Type COINMASTER_TYPE = new Type("coinmaster", DataTypes.TYPE_COINMASTER);
-  public static final Type PHYLUM_TYPE = new Type("phylum", DataTypes.TYPE_PHYLUM);
-  public static final Type BOUNTY_TYPE = new Type("bounty", DataTypes.TYPE_BOUNTY);
-  public static final Type THRALL_TYPE = new Type("thrall", DataTypes.TYPE_THRALL);
-  public static final Type SERVANT_TYPE = new Type("servant", DataTypes.TYPE_SERVANT);
-  public static final Type VYKEA_TYPE = new Type("vykea", DataTypes.TYPE_VYKEA);
-  public static final Type PATH_TYPE = new Type("path", DataTypes.TYPE_PATH);
+  public static final Type ITEM_TYPE = new Type("item", TypeSpec.ITEM);
+  public static final Type LOCATION_TYPE = new Type("location", TypeSpec.LOCATION);
+  public static final Type CLASS_TYPE = new Type("class", TypeSpec.CLASS);
+  public static final Type STAT_TYPE = new Type("stat", TypeSpec.STAT);
+  public static final Type SKILL_TYPE = new Type("skill", TypeSpec.SKILL);
+  public static final Type EFFECT_TYPE = new Type("effect", TypeSpec.EFFECT);
+  public static final Type FAMILIAR_TYPE = new Type("familiar", TypeSpec.FAMILIAR);
+  public static final Type SLOT_TYPE = new Type("slot", TypeSpec.SLOT);
+  public static final Type MONSTER_TYPE = new Type("monster", TypeSpec.MONSTER);
+  public static final Type ELEMENT_TYPE = new Type("element", TypeSpec.ELEMENT);
+  public static final Type COINMASTER_TYPE = new Type("coinmaster", TypeSpec.COINMASTER);
+  public static final Type PHYLUM_TYPE = new Type("phylum", TypeSpec.PHYLUM);
+  public static final Type BOUNTY_TYPE = new Type("bounty", TypeSpec.BOUNTY);
+  public static final Type THRALL_TYPE = new Type("thrall", TypeSpec.THRALL);
+  public static final Type SERVANT_TYPE = new Type("servant", TypeSpec.SERVANT);
+  public static final Type VYKEA_TYPE = new Type("vykea", TypeSpec.VYKEA);
+  public static final Type PATH_TYPE = new Type("path", TypeSpec.PATH);
 
-  public static final Type STRICT_STRING_TYPE =
-      new Type("strict_string", DataTypes.TYPE_STRICT_STRING);
-  public static final Type AGGREGATE_TYPE = new Type("aggregate", DataTypes.TYPE_AGGREGATE);
+  public static final Type STRICT_STRING_TYPE = new Type("strict_string", TypeSpec.STRICT_STRING);
+  public static final Type AGGREGATE_TYPE = new Type("aggregate", TypeSpec.AGGREGATE);
 
   // Map from ITEM -> INT
   public static final AggregateType ITEM_TO_INT_TYPE =
@@ -1000,10 +1001,10 @@ public class DataTypes {
 
   private static String promptForValue(final Type type, final String message, final String name) {
     switch (type.getType()) {
-      case TYPE_BOOLEAN:
+      case BOOLEAN:
         return InputFieldUtilities.input(message, DataTypes.BOOLEANS);
 
-      case TYPE_LOCATION:
+      case LOCATION:
         {
           LockableListModel<KoLAdventure> inputs = AdventureDatabase.getAsLockableListModel();
           KoLAdventure initial =
@@ -1012,7 +1013,7 @@ public class DataTypes {
           return value == null ? null : value.getAdventureName();
         }
 
-      case TYPE_SKILL:
+      case SKILL:
         {
           UseSkillRequest[] inputs =
               SkillDatabase.getCastableSkills().toArray(new UseSkillRequest[0]);
@@ -1020,7 +1021,7 @@ public class DataTypes {
           return value == null ? null : value.getSkillName();
         }
 
-      case TYPE_FAMILIAR:
+      case FAMILIAR:
         {
           FamiliarData[] inputs = KoLCharacter.usableFamiliars().toArray(new FamiliarData[0]);
           FamiliarData initial = KoLCharacter.getFamiliar();
@@ -1028,42 +1029,42 @@ public class DataTypes {
           return value == null ? null : value.getRace();
         }
 
-      case TYPE_SLOT:
+      case SLOT:
         return InputFieldUtilities.input(message, EquipmentRequest.slotNames);
 
-      case TYPE_ELEMENT:
+      case ELEMENT:
         return InputFieldUtilities.input(message, MonsterDatabase.ELEMENT_ARRAY);
 
-      case TYPE_COINMASTER:
+      case COINMASTER:
         return InputFieldUtilities.input(message, CoinmasterRegistry.MASTERS);
 
-      case TYPE_PHYLUM:
+      case PHYLUM:
         return InputFieldUtilities.input(message, MonsterDatabase.PHYLUM_ARRAY);
 
-      case TYPE_THRALL:
+      case THRALL:
         return InputFieldUtilities.input(message, PastaThrallData.THRALL_ARRAY);
 
-      case TYPE_SERVANT:
+      case SERVANT:
         return InputFieldUtilities.input(message, EdServantData.SERVANT_ARRAY);
 
-      case TYPE_VYKEA:
+      case VYKEA:
         return InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
 
-      case TYPE_PATH:
+      case PATH:
         return InputFieldUtilities.input(message, Path.values()).toString();
 
-      case TYPE_CLASS:
+      case CLASS:
         return InputFieldUtilities.input(message, AscensionClass.values()).toString();
 
-      case TYPE_STAT:
+      case STAT:
         return InputFieldUtilities.input(message, DataTypes.STAT_ARRAY);
 
-      case TYPE_INT:
-      case TYPE_FLOAT:
-      case TYPE_STRING:
-      case TYPE_ITEM:
-      case TYPE_EFFECT:
-      case TYPE_MONSTER:
+      case INT:
+      case FLOAT:
+      case STRING:
+      case ITEM:
+      case EFFECT:
+      case MONSTER:
         return InputFieldUtilities.input(message);
 
       default:
