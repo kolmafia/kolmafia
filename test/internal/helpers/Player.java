@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -977,10 +978,10 @@ public class Player {
    * @param gender Required gender
    * @return Resets gender to unknown
    */
-  public static Cleanups withGender(final int gender) {
+  public static Cleanups withGender(final Gender gender) {
     KoLCharacter.setGender(gender);
     KoLCharacter.recalculateAdjustments();
-    return new Cleanups(() -> KoLCharacter.setGender(0));
+    return new Cleanups(() -> KoLCharacter.setGender(Gender.UNKNOWN));
   }
 
   /**

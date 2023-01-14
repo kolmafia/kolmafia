@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -289,7 +290,7 @@ public class OceanManagerTest {
               withProperty("oceanAction", "continue"),
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("choice"),
-              withGender(1));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         // adventure.php?snarfblat=159
         builder.client.addResponse(
@@ -330,7 +331,7 @@ public class OceanManagerTest {
               withProperty("oceanAction", "continue"),
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("choice"),
-              withGender(1));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -386,7 +387,7 @@ public class OceanManagerTest {
               withProperty("oceanAction", "continue"),
               // Needed when automating AdventureRequest -> CHOICE_HANDLER
               withPasswordHash("choice"),
-              withGender(1));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         builder.client.addResponse(
             302, Map.of("location", List.of("choice.php?forceoption=0")), "");

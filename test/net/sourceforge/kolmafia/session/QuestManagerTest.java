@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1652,7 +1653,7 @@ public class QuestManagerTest {
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED),
                 withProperty("dampOldBootPurchased", false),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_buy_damp_old_boot.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -1785,7 +1786,7 @@ public class QuestManagerTest {
                 withItem(WRIGGLING_FLYTRAP_PELLET),
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_started_2.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -1902,7 +1903,7 @@ public class QuestManagerTest {
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
                 withProperty("bigBrotherRescued", false),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -2037,7 +2038,7 @@ public class QuestManagerTest {
                 withHttpClientBuilder(builder),
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -2333,7 +2334,7 @@ public class QuestManagerTest {
                 withItem(SAND_DOLLAR.getInstance(2887)),
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_12.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -2447,7 +2448,7 @@ public class QuestManagerTest {
                 withItem(MERKIN_TRAILMAP),
                 withProperty("intenseCurrents", false),
                 withPasswordHash("MERKIN"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_intense_currents_1.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -3069,7 +3070,7 @@ public class QuestManagerTest {
           new Cleanups(
               withItem(ItemPool.FORGED_ID_DOCUMENTS),
               withItem(ItemPool.MACGUFFIN_DIARY),
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withQuestProgress(Quest.BLACK, "step2"),
               withProperty("autoQuest", true),
               withQuestProgress(Quest.MACGUFFIN, QuestDatabase.STARTED),

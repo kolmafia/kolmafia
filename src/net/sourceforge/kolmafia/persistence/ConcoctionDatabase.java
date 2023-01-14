@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
@@ -1539,7 +1540,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.clear();
     int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
 
-    if (KoLCharacter.getGender() == KoLCharacter.MALE) {
+    if (KoLCharacter.getGender() == Gender.MALE) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.MALE);
     } else {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.FEMALE);
