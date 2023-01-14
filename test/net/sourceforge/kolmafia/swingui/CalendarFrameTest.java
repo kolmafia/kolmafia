@@ -4,10 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
-
-import javax.swing.JRootPane;
 import java.awt.Component;
+import javax.swing.JRootPane;
+import org.junit.jupiter.api.Test;
 
 class CalendarFrameTest {
 

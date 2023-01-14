@@ -77,7 +77,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
   // for testing
   public CalendarFrame(Calendar calendarToUse) {
     super("Farmer's Almanac");
-       buildCalendarFrame(calendarToUse);
+    buildCalendarFrame(calendarToUse);
   }
 
   private void buildCalendarFrame(Calendar calendarToUse) {
