@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 
 public class RecordValue extends CompositeValue {
   public RecordValue(final RecordType type) {
@@ -66,13 +66,13 @@ public class RecordValue extends CompositeValue {
 
     if (array[index].getType().equals(val.getType())) {
       array[index] = val;
-    } else if (array[index].getType().equals(DataTypes.TYPE_STRING)) {
+    } else if (array[index].getType().equals(TypeSpec.STRING)) {
       array[index] = val.toStringValue();
-    } else if (array[index].getType().equals(DataTypes.TYPE_INT)
-        && val.getType().equals(DataTypes.TYPE_FLOAT)) {
+    } else if (array[index].getType().equals(TypeSpec.INT)
+        && val.getType().equals(TypeSpec.FLOAT)) {
       array[index] = val.toIntValue();
-    } else if (array[index].getType().equals(DataTypes.TYPE_FLOAT)
-        && val.getType().equals(DataTypes.TYPE_INT)) {
+    } else if (array[index].getType().equals(TypeSpec.FLOAT)
+        && val.getType().equals(TypeSpec.INT)) {
       array[index] = val.toFloatValue();
     } else {
       throw interpreter.runtimeException(
