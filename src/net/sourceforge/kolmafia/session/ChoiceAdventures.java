@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -7535,7 +7536,7 @@ public abstract class ChoiceAdventures {
                 "need +50% item drop, have "
                     + Math.round(
                         KoLCharacter.getItemDropPercentAdjustment()
-                            + KoLCharacter.currentNumericModifier(Modifiers.FOODDROP)
+                            + KoLCharacter.currentNumericModifier(DoubleModifier.FOODDROP)
                             - bonus)
                     + "%");
         result[2] = new ChoiceOption("need jar of oil", "jar of oil");

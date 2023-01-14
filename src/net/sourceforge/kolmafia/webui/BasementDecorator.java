@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -487,11 +488,11 @@ public class BasementDecorator {
         return 0;
       }
 
-      if (BasementRequest.getActualStatNeeded() == Modifiers.HP) {
+      if (BasementRequest.getActualStatNeeded() == DoubleModifier.HP) {
         return StatBooster.boostMaxHP(m);
       }
 
-      if (BasementRequest.getActualStatNeeded() == Modifiers.MP) {
+      if (BasementRequest.getActualStatNeeded() == DoubleModifier.MP) {
         return StatBooster.boostMaxMP(m);
       }
 
@@ -503,17 +504,17 @@ public class BasementDecorator {
       return (int) Math.ceil(boost);
     }
 
-    public static double getEqualizedStat(final int mod) {
+    public static double getEqualizedStat(final DoubleModifier mod) {
       double currentStat = 0.0;
 
       switch (mod) {
-        case Modifiers.MUS_PCT:
+        case MUS_PCT:
           currentStat = KoLCharacter.getBaseMuscle();
           break;
-        case Modifiers.MYS_PCT:
+        case MYS_PCT:
           currentStat = KoLCharacter.getBaseMysticality();
           break;
-        case Modifiers.MOX_PCT:
+        case MOX_PCT:
           currentStat = KoLCharacter.getBaseMoxie();
           break;
         default:
@@ -536,15 +537,15 @@ public class BasementDecorator {
     }
 
     public static int boostMaxHP(final Modifiers m) {
-      double addedMuscleFixed = m.get(Modifiers.MUS);
-      double addedMusclePercent = m.get(Modifiers.MUS_PCT);
-      int addedHealthFixed = (int) m.get(Modifiers.HP);
+      double addedMuscleFixed = m.get(DoubleModifier.MUS);
+      double addedMusclePercent = m.get(DoubleModifier.MUS_PCT);
+      int addedHealthFixed = (int) m.get(DoubleModifier.HP);
 
       if (addedMuscleFixed == 0.0 && addedMusclePercent == 0.0 && addedHealthFixed == 0) {
         return 0;
       }
 
-      double muscleBase = StatBooster.getEqualizedStat(Modifiers.MUS_PCT);
+      double muscleBase = StatBooster.getEqualizedStat(DoubleModifier.MUS_PCT);
       double muscleBonus = addedMuscleFixed + Math.floor(addedMusclePercent * muscleBase / 100.0);
       double muscleMultiplicator = 1.0;
 
@@ -568,20 +569,20 @@ public class BasementDecorator {
     }
 
     public static int boostMaxMP(final Modifiers m) {
-      int statModifier;
-      int statPercentModifier;
+      DoubleModifier statModifier;
+      DoubleModifier statPercentModifier;
 
       if (StatBooster.moxieControlsMP) {
-        statModifier = Modifiers.MOX;
-        statPercentModifier = Modifiers.MOX_PCT;
+        statModifier = DoubleModifier.MOX;
+        statPercentModifier = DoubleModifier.MOX_PCT;
       } else {
-        statModifier = Modifiers.MYS;
-        statPercentModifier = Modifiers.MYS_PCT;
+        statModifier = DoubleModifier.MYS;
+        statPercentModifier = DoubleModifier.MYS_PCT;
       }
 
       double addedStatFixed = m.get(statModifier);
       double addedStatPercent = m.get(statPercentModifier);
-      int addedManaFixed = (int) m.get(Modifiers.MP);
+      int addedManaFixed = (int) m.get(DoubleModifier.MP);
 
       if (addedStatFixed == 0.0 && addedStatPercent == 0.0 && addedManaFixed == 0.0) {
         return 0;

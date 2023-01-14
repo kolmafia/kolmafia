@@ -204,9 +204,12 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     this.image =
         switch (type) {
           case NONE -> "";
-          case BOOKSHELF, DRESSER, CEILING_FAN, COUCH, LAMP, DISHRACK -> "vykfurn"
-              + type.ordinal()
-              + ".gif";
+          case BOOKSHELF -> "vykfurn1.gif";
+          case DRESSER -> "vykfurn2.gif";
+          case CEILING_FAN -> "vykfurn3.gif";
+          case COUCH -> "vykfurn4.gif";
+          case LAMP -> "vykfurn5.gif";
+          case DISHRACK -> "vykfurn6.gif";
         };
     switch (this.type) {
       case BOOKSHELF -> {

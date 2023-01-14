@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -498,9 +499,9 @@ public class CharPaneRequest extends GenericRequest {
     boolean mus_equalize = mods.getString(Modifiers.EQUALIZE_MUSCLE).length() != 0;
     boolean mys_equalize = mods.getString(Modifiers.EQUALIZE_MYST).length() != 0;
     boolean mox_equalize = mods.getString(Modifiers.EQUALIZE_MOXIE).length() != 0;
-    boolean mus_limit = (int) mods.get(Modifiers.MUS_LIMIT) != 0;
-    boolean mys_limit = (int) mods.get(Modifiers.MYS_LIMIT) != 0;
-    boolean mox_limit = (int) mods.get(Modifiers.MOX_LIMIT) != 0;
+    boolean mus_limit = (int) mods.get(DoubleModifier.MUS_LIMIT) != 0;
+    boolean mys_limit = (int) mods.get(DoubleModifier.MYS_LIMIT) != 0;
+    boolean mox_limit = (int) mods.get(DoubleModifier.MOX_LIMIT) != 0;
 
     boolean checkMus = !equalize && !mus_equalize && !mus_limit;
     boolean checkMys = !equalize && !mys_equalize && !mys_limit;

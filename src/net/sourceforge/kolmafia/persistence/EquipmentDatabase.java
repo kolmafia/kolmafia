@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -74,23 +75,23 @@ public class EquipmentDatabase {
   public static final int MASK_ELEMENT = 0x7F000;
   public static final int MALUS_UPGRADE = 0x100000;
 
-  public static final int[] IMPLICATIONS = {
-    Modifiers.COLD_RESISTANCE, ELEM_HOT | ELEM_SPOOKY,
-    Modifiers.HOT_RESISTANCE, ELEM_STENCH | ELEM_SLEAZE,
-    Modifiers.SLEAZE_RESISTANCE, ELEM_COLD | ELEM_SPOOKY,
-    Modifiers.SPOOKY_RESISTANCE, ELEM_HOT | ELEM_STENCH,
-    Modifiers.STENCH_RESISTANCE, ELEM_COLD | ELEM_SLEAZE,
-    Modifiers.COLD_DAMAGE, ELEM_COLD,
-    Modifiers.HOT_DAMAGE, ELEM_HOT,
-    Modifiers.SLEAZE_DAMAGE, ELEM_SLEAZE,
-    Modifiers.SPOOKY_DAMAGE, ELEM_SPOOKY,
-    Modifiers.STENCH_DAMAGE, ELEM_STENCH,
-    Modifiers.COLD_SPELL_DAMAGE, ELEM_COLD,
-    Modifiers.HOT_SPELL_DAMAGE, ELEM_HOT,
-    Modifiers.SLEAZE_SPELL_DAMAGE, ELEM_SLEAZE,
-    Modifiers.SPOOKY_SPELL_DAMAGE, ELEM_SPOOKY,
-    Modifiers.STENCH_SPELL_DAMAGE, ELEM_STENCH,
-  };
+  public static final Map<DoubleModifier, Integer> IMPLICATIONS =
+      Map.ofEntries(
+          Map.entry(DoubleModifier.COLD_RESISTANCE, ELEM_HOT | ELEM_SPOOKY),
+          Map.entry(DoubleModifier.HOT_RESISTANCE, ELEM_STENCH | ELEM_SLEAZE),
+          Map.entry(DoubleModifier.SLEAZE_RESISTANCE, ELEM_COLD | ELEM_SPOOKY),
+          Map.entry(DoubleModifier.SPOOKY_RESISTANCE, ELEM_HOT | ELEM_STENCH),
+          Map.entry(DoubleModifier.STENCH_RESISTANCE, ELEM_COLD | ELEM_SLEAZE),
+          Map.entry(DoubleModifier.COLD_DAMAGE, ELEM_COLD),
+          Map.entry(DoubleModifier.HOT_DAMAGE, ELEM_HOT),
+          Map.entry(DoubleModifier.SLEAZE_DAMAGE, ELEM_SLEAZE),
+          Map.entry(DoubleModifier.SPOOKY_DAMAGE, ELEM_SPOOKY),
+          Map.entry(DoubleModifier.STENCH_DAMAGE, ELEM_STENCH),
+          Map.entry(DoubleModifier.COLD_SPELL_DAMAGE, ELEM_COLD),
+          Map.entry(DoubleModifier.HOT_SPELL_DAMAGE, ELEM_HOT),
+          Map.entry(DoubleModifier.SLEAZE_SPELL_DAMAGE, ELEM_SLEAZE),
+          Map.entry(DoubleModifier.SPOOKY_SPELL_DAMAGE, ELEM_SPOOKY),
+          Map.entry(DoubleModifier.STENCH_SPELL_DAMAGE, ELEM_STENCH));
 
   public static boolean newEquipment = false;
 
@@ -763,9 +764,9 @@ public class EquipmentDatabase {
       // items will have to be explicitly listed in pulverize.txt.
       pulver |= EquipmentDatabase.ELEM_TWINKLY;
     } else {
-      for (int i = 0; i < IMPLICATIONS.length; i += 2) {
-        if (mods.get(IMPLICATIONS[i]) > 0.0f) {
-          pulver |= IMPLICATIONS[i + 1];
+      for (var implication : IMPLICATIONS.entrySet()) {
+        if (mods.get(implication.getKey()) > 0.0f) {
+          pulver |= implication.getValue();
         }
       }
     }

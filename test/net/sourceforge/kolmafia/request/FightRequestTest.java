@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1314,7 +1315,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
         var fightMods = Modifiers.getModifiers(ModifierType.GENERATED, "fightMods");
-        assertThat(fightMods.get(Modifiers.ITEMDROP), equalTo(100.0));
+        assertThat(fightMods.get(DoubleModifier.ITEMDROP), equalTo(100.0));
       }
     }
 
@@ -1328,7 +1329,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
         var fightMods = Modifiers.getModifiers(ModifierType.GENERATED, "fightMods");
-        assertThat(fightMods.get(Modifiers.MEATDROP), equalTo(100.0));
+        assertThat(fightMods.get(DoubleModifier.MEATDROP), equalTo(100.0));
       }
     }
   }
