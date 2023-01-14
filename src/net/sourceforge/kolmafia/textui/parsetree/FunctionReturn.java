@@ -75,15 +75,15 @@ public class FunctionReturn extends Command {
       return result;
     }
 
-    if (this.expectedType.equals(TypeSpec.TYPE_STRING)) {
+    if (this.expectedType.equals(TypeSpec.STRING)) {
       return result.toStringValue();
     }
 
-    if (this.expectedType.equals(TypeSpec.TYPE_FLOAT)) {
+    if (this.expectedType.equals(TypeSpec.FLOAT)) {
       return result.toFloatValue();
     }
 
-    if (this.expectedType.equals(TypeSpec.TYPE_INT)) {
+    if (this.expectedType.equals(TypeSpec.INT)) {
       return result.toIntValue();
     }
 
@@ -99,7 +99,7 @@ public class FunctionReturn extends Command {
   public void print(final PrintStream stream, final int indent) {
     AshRuntime.indentLine(stream, indent);
     stream.println("<RETURN " + this.getType() + ">");
-    if (!this.getType().equals(TypeSpec.TYPE_VOID)) {
+    if (!this.getType().equals(TypeSpec.VOID)) {
       this.returnValue.print(stream, indent + 1);
     }
   }

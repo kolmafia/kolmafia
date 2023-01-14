@@ -573,7 +573,7 @@ public class Parser {
       }
 
       // If this is a new record definition, enter it
-      if (t.getType() == TypeSpec.TYPE_RECORD && this.currentToken().equals(";")) {
+      if (t.getType() == TypeSpec.RECORD && this.currentToken().equals(";")) {
         this.readToken(); // read ;
         continue;
       }
@@ -920,7 +920,7 @@ public class Parser {
         this.parseBlockOrSingleCommand(functionType, paramList, parentScope, false, false, false);
 
     result.setScope(scope);
-    if (!scope.assertBarrier() && !functionType.equals(TypeSpec.TYPE_VOID)) {
+    if (!scope.assertBarrier() && !functionType.equals(TypeSpec.VOID)) {
       functionErrors.submitError(this.error(functionLocation, "Missing return value"));
     }
 
@@ -1042,7 +1042,7 @@ public class Parser {
   }
 
   private Evaluable autoCoerceValue(final Type ltype, final Evaluable rhs, final BasicScope scope) {
-    // TypeSpec.TYPE_ANY has no name
+    // TypeSpec.ANY has no name
     if (ltype == null || ltype.getName() == null) {
       return rhs;
     }
@@ -1666,7 +1666,7 @@ public class Parser {
     }
 
     if (this.currentToken().equals(";")) {
-      if (expectedType != null && !expectedType.equals(TypeSpec.TYPE_VOID)) {
+      if (expectedType != null && !expectedType.equals(TypeSpec.VOID)) {
         returnErrors.submitError(
             this.error(returnStartToken, "Return needs " + expectedType + " value"));
       }
@@ -1674,7 +1674,7 @@ public class Parser {
       return new FunctionReturn(this.makeLocation(returnStartToken), null, DataTypes.VOID_TYPE);
     }
 
-    if (expectedType != null && expectedType.equals(TypeSpec.TYPE_VOID)) {
+    if (expectedType != null && expectedType.equals(TypeSpec.VOID)) {
       returnErrors.submitError(
           this.error(this.currentToken(), "Cannot return a value from a void function"));
     }
@@ -1686,7 +1686,7 @@ public class Parser {
     } else {
       Location errorLocation = this.makeLocation(this.currentToken());
 
-      if (expectedType != null && !expectedType.equals(TypeSpec.TYPE_VOID)) {
+      if (expectedType != null && !expectedType.equals(TypeSpec.VOID)) {
         returnErrors.submitSyntaxError(this.error(errorLocation, "Expression expected"));
       }
 
@@ -3464,7 +3464,7 @@ public class Parser {
     }
 
     TypeSpec ltype = lhs.getType().getType();
-    if (ltype != TypeSpec.TYPE_INT && ltype != TypeSpec.TYPE_FLOAT && !lhs.getType().isBad()) {
+    if (ltype != TypeSpec.INT && ltype != TypeSpec.FLOAT && !lhs.getType().isBad()) {
       preIncDecErrors.submitError(
           this.error(lhs.getLocation(), operStr + " requires a numeric variable reference"));
     }
@@ -3489,7 +3489,7 @@ public class Parser {
     String operStr = operToken.equals("++") ? Parser.POST_INCREMENT : Parser.POST_DECREMENT;
 
     TypeSpec ltype = lhs.getType().getType();
-    if (ltype != TypeSpec.TYPE_INT && ltype != TypeSpec.TYPE_FLOAT && !lhs.getType().isBad()) {
+    if (ltype != TypeSpec.INT && ltype != TypeSpec.FLOAT && !lhs.getType().isBad()) {
       postIncDecErrors.submitError(
           this.error(lhs.getLocation(), operStr + " requires a numeric variable reference"));
     }
@@ -3684,13 +3684,12 @@ public class Parser {
         Type ltype = lhs.getType();
         Type rtype = rhs.getType();
 
-        if (oper.equals("+")
-            && (ltype.equals(TypeSpec.TYPE_STRING) || rtype.equals(TypeSpec.TYPE_STRING))) {
+        if (oper.equals("+") && (ltype.equals(TypeSpec.STRING) || rtype.equals(TypeSpec.STRING))) {
           // String concatenation
-          if (!ltype.equals(TypeSpec.TYPE_STRING)) {
+          if (!ltype.equals(TypeSpec.STRING)) {
             lhs = this.autoCoerceValue(DataTypes.STRING_TYPE, lhs, scope);
           }
-          if (!rtype.equals(TypeSpec.TYPE_STRING)) {
+          if (!rtype.equals(TypeSpec.STRING)) {
             rhs = this.autoCoerceValue(DataTypes.STRING_TYPE, rhs, scope);
           }
           if (lhs instanceof Concatenate) {
@@ -3702,7 +3701,7 @@ public class Parser {
           Location operationLocation = Parser.mergeLocations(lhs.getLocation(), rhs.getLocation());
 
           var lhsCoerceType =
-              (oper.equals("contains") && ltype.equals(TypeSpec.TYPE_AGGREGATE))
+              (oper.equals("contains") && ltype.equals(TypeSpec.AGGREGATE))
                   ? ((AggregateType) ltype).getIndexType().getBaseType()
                   : ltype;
 

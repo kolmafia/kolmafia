@@ -47,11 +47,11 @@ public class MapValue extends AggregateValue {
 
     if (baseType.equals(valType)) {
       map.put(key, val);
-    } else if (baseType.equals(TypeSpec.TYPE_STRING)) {
+    } else if (baseType.equals(TypeSpec.STRING)) {
       map.put(key, val.toStringValue());
-    } else if (baseType.equals(TypeSpec.TYPE_INT) && valType.equals(TypeSpec.TYPE_FLOAT)) {
+    } else if (baseType.equals(TypeSpec.INT) && valType.equals(TypeSpec.FLOAT)) {
       map.put(key, val.toIntValue());
-    } else if (baseType.equals(TypeSpec.TYPE_FLOAT) && valType.equals(TypeSpec.TYPE_INT)) {
+    } else if (baseType.equals(TypeSpec.FLOAT) && valType.equals(TypeSpec.INT)) {
       map.put(key, val.toFloatValue());
     } else {
       throw interpreter.runtimeException(

@@ -19,7 +19,7 @@ public class RecordType extends CompositeType {
       final String[] fieldNames,
       final Type[] fieldTypes,
       final Location location) {
-    super(name, TypeSpec.TYPE_RECORD, location);
+    super(name, TypeSpec.RECORD, location);
 
     this.fieldNames = fieldNames;
     this.fieldTypes = fieldTypes;
@@ -41,7 +41,7 @@ public class RecordType extends CompositeType {
       final Type[] fieldTypes,
       final Value[] fieldIndices,
       final Location location) {
-    super(name, TypeSpec.TYPE_RECORD, location);
+    super(name, TypeSpec.RECORD, location);
 
     this.fieldNames = fieldNames;
     this.fieldTypes = fieldTypes;
@@ -102,7 +102,7 @@ public class RecordType extends CompositeType {
   public Value getKey(final Value key) {
     Type type = key.getType();
 
-    if (type.equals(TypeSpec.TYPE_INT)) {
+    if (type.equals(TypeSpec.INT)) {
       int index = (int) key.intValue();
       if (index < 0 || index >= this.fieldNames.length) {
         return null;
@@ -110,7 +110,7 @@ public class RecordType extends CompositeType {
       return this.fieldIndices[index];
     }
 
-    if (type.equals(TypeSpec.TYPE_STRING)) {
+    if (type.equals(TypeSpec.STRING)) {
       String str = key.toString();
       for (int index = 0; index < this.fieldNames.length; ++index) {
         if (this.fieldNames[index].equals(str)) {
@@ -126,7 +126,7 @@ public class RecordType extends CompositeType {
   public int indexOf(final Value key) {
     Type type = key.getType();
 
-    if (type.equals(TypeSpec.TYPE_INT)) {
+    if (type.equals(TypeSpec.INT)) {
       int index = (int) key.intValue();
       if (index < 0 || index >= this.fieldNames.length) {
         return -1;
@@ -134,7 +134,7 @@ public class RecordType extends CompositeType {
       return index;
     }
 
-    if (type.equals(TypeSpec.TYPE_STRING)) {
+    if (type.equals(TypeSpec.STRING)) {
       for (int index = 0; index < this.fieldNames.length; ++index) {
         if (key == this.fieldIndices[index]) {
           return index;

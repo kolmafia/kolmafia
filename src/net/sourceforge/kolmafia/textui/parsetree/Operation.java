@@ -37,7 +37,7 @@ public class Operation extends Expression {
 
     // String concatenation always yields a string
     if (this.oper.equals("+")
-        && (leftType.equals(TypeSpec.TYPE_STRING) || rightType.equals(TypeSpec.TYPE_STRING))) {
+        && (leftType.equals(TypeSpec.STRING) || rightType.equals(TypeSpec.STRING))) {
       return DataTypes.STRING_TYPE;
     }
 
@@ -58,7 +58,7 @@ public class Operation extends Expression {
     }
 
     // Coerce int to float
-    if (leftType.equals(TypeSpec.TYPE_FLOAT)) {
+    if (leftType.equals(TypeSpec.FLOAT)) {
       return DataTypes.FLOAT_TYPE;
     }
 

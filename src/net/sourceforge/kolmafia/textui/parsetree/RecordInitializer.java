@@ -53,13 +53,13 @@ public class RecordInitializer extends TypeInitializer {
       // Perform type coercion, just as an Assignment does
       Type fieldType = types[fieldCount];
       Value coercedValue =
-          fieldType.equals(TypeSpec.TYPE_STRING)
+          fieldType.equals(TypeSpec.STRING)
               ? value.toStringValue()
-              : fieldType.equals(TypeSpec.TYPE_INT)
+              : fieldType.equals(TypeSpec.INT)
                   ? value.toIntValue()
-                  : fieldType.equals(TypeSpec.TYPE_FLOAT)
+                  : fieldType.equals(TypeSpec.FLOAT)
                       ? value.toFloatValue()
-                      : fieldType.equals(TypeSpec.TYPE_BOOLEAN) ? value.toBooleanValue() : value;
+                      : fieldType.equals(TypeSpec.BOOLEAN) ? value.toBooleanValue() : value;
 
       if (ScriptRuntime.isTracing()) {
         interpreter.trace("[" + interpreter.getState() + "] <- " + coercedValue.toQuotedString());

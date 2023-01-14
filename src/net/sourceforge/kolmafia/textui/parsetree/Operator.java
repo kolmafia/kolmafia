@@ -163,13 +163,13 @@ public class Operator extends Command {
     }
 
     if (this.isInteger()) {
-      return (ltype == TypeSpec.TYPE_INT && rtype == TypeSpec.TYPE_INT);
+      return (ltype == TypeSpec.INT && rtype == TypeSpec.INT);
     }
     if (this.isBoolean()) {
-      return ltype == rtype && (ltype == TypeSpec.TYPE_BOOLEAN);
+      return ltype == rtype && (ltype == TypeSpec.BOOLEAN);
     }
     if (this.isLogical()) {
-      return ltype == rtype && (ltype == TypeSpec.TYPE_INT || ltype == TypeSpec.TYPE_BOOLEAN);
+      return ltype == rtype && (ltype == TypeSpec.INT || ltype == TypeSpec.BOOLEAN);
     }
     return Operator.validCoercion(lhs, rhs, this.toString());
   }
@@ -204,7 +204,7 @@ public class Operator extends Command {
     // and the correct index type on the right.
 
     if (oper.equals("contains")) {
-      return lhs.getType() == TypeSpec.TYPE_AGGREGATE
+      return lhs.getType() == TypeSpec.AGGREGATE
           && validCoercion(((AggregateType) lhs).getIndexType().getBaseType(), rhs, "==");
     }
 
@@ -219,31 +219,31 @@ public class Operator extends Command {
 
     // Noncoercible strings only accept strings
     if (lhs.equals(DataTypes.STRICT_STRING_TYPE)) {
-      return rhs.equals(TypeSpec.TYPE_STRING) || rhs.equals(TypeSpec.TYPE_BUFFER);
+      return rhs.equals(TypeSpec.STRING) || rhs.equals(TypeSpec.BUFFER);
     }
 
     // Anything coerces to a string
-    if (lhs.equals(TypeSpec.TYPE_STRING)) {
+    if (lhs.equals(TypeSpec.STRING)) {
       return true;
     }
 
     // Anything coerces to a string for concatenation
-    if (oper.equals("+") && rhs.equals(TypeSpec.TYPE_STRING)) {
+    if (oper.equals("+") && rhs.equals(TypeSpec.STRING)) {
       return true;
     }
 
     // Int coerces to float
-    if ((lhs.equals(TypeSpec.TYPE_INT) && rhs.equals(TypeSpec.TYPE_FLOAT))
-        || (lhs.equals(TypeSpec.TYPE_FLOAT) && rhs.equals(TypeSpec.TYPE_INT))) {
+    if ((lhs.equals(TypeSpec.INT) && rhs.equals(TypeSpec.FLOAT))
+        || (lhs.equals(TypeSpec.FLOAT) && rhs.equals(TypeSpec.INT))) {
       return true;
     }
 
-    if ((lhs.equals(TypeSpec.TYPE_PATH) && rhs.equals(TypeSpec.TYPE_INT))
-        || (lhs.equals(TypeSpec.TYPE_INT) && rhs.equals(TypeSpec.TYPE_PATH))) {
+    if ((lhs.equals(TypeSpec.PATH) && rhs.equals(TypeSpec.INT))
+        || (lhs.equals(TypeSpec.INT) && rhs.equals(TypeSpec.PATH))) {
       return true;
     }
 
-    if (lhs.equals(TypeSpec.TYPE_PATH) && rhs.equals(TypeSpec.TYPE_STRING)) {
+    if (lhs.equals(TypeSpec.PATH) && rhs.equals(TypeSpec.STRING)) {
       return true;
     }
 
@@ -299,7 +299,7 @@ public class Operator extends Command {
 
     // If either value is a float, coerce to float
 
-    else if (ltype.equals(TypeSpec.TYPE_FLOAT) || rtype.equals(TypeSpec.TYPE_FLOAT)) {
+    else if (ltype.equals(TypeSpec.FLOAT) || rtype.equals(TypeSpec.FLOAT)) {
       double rfloat = rightValue.toFloatValue().floatValue();
       if ((this.operator.equals("/") || this.operator.equals("%")) && rfloat == 0.0) {
         throw interpreter.runtimeException("Division by zero", this.fileName, this.lineNumber);
@@ -344,7 +344,7 @@ public class Operator extends Command {
                   ? lint ^ rint
                   : this.operator.equals("|") ? lint | rint : 0;
       result =
-          ltype.equals(TypeSpec.TYPE_BOOLEAN)
+          ltype.equals(TypeSpec.BOOLEAN)
               ? DataTypes.makeBooleanValue(val != 0)
               : DataTypes.makeIntValue(val);
     }
@@ -439,14 +439,14 @@ public class Operator extends Command {
       case "~":
         long val = leftValue.intValue();
         result =
-            leftValue.getType().equals(TypeSpec.TYPE_BOOLEAN)
+            leftValue.getType().equals(TypeSpec.BOOLEAN)
                 ? DataTypes.makeBooleanValue(val == 0)
                 : DataTypes.makeIntValue(~val);
         break;
       case "-":
-        if (lhs.getType().equals(TypeSpec.TYPE_INT)) {
+        if (lhs.getType().equals(TypeSpec.INT)) {
           result = DataTypes.makeIntValue(0 - leftValue.intValue());
-        } else if (lhs.getType().equals(TypeSpec.TYPE_FLOAT)) {
+        } else if (lhs.getType().equals(TypeSpec.FLOAT)) {
           result = DataTypes.makeFloatValue(0.0 - leftValue.floatValue());
         } else {
           throw interpreter.runtimeException(
@@ -457,9 +457,9 @@ public class Operator extends Command {
         break;
       case Parser.PRE_INCREMENT:
       case Parser.POST_INCREMENT:
-        if (lhs.getType().equals(TypeSpec.TYPE_INT)) {
+        if (lhs.getType().equals(TypeSpec.INT)) {
           result = DataTypes.makeIntValue(leftValue.intValue() + 1);
-        } else if (lhs.getType().equals(TypeSpec.TYPE_FLOAT)) {
+        } else if (lhs.getType().equals(TypeSpec.FLOAT)) {
           result = DataTypes.makeFloatValue(leftValue.floatValue() + 1.0);
         } else {
           throw interpreter.runtimeException(
@@ -470,9 +470,9 @@ public class Operator extends Command {
         break;
       case Parser.PRE_DECREMENT:
       case Parser.POST_DECREMENT:
-        if (lhs.getType().equals(TypeSpec.TYPE_INT)) {
+        if (lhs.getType().equals(TypeSpec.INT)) {
           result = DataTypes.makeIntValue(leftValue.intValue() - 1);
-        } else if (lhs.getType().equals(TypeSpec.TYPE_FLOAT)) {
+        } else if (lhs.getType().equals(TypeSpec.FLOAT)) {
           result = DataTypes.makeFloatValue(leftValue.floatValue() - 1.0);
         } else {
           throw interpreter.runtimeException(

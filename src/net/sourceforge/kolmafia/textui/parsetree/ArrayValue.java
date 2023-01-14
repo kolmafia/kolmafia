@@ -61,11 +61,11 @@ public class ArrayValue extends AggregateValue {
 
     if (baseType.equals(valType)) {
       array[index] = val;
-    } else if (baseType.equals(TypeSpec.TYPE_STRING)) {
+    } else if (baseType.equals(TypeSpec.STRING)) {
       array[index] = val.toStringValue();
-    } else if (baseType.equals(TypeSpec.TYPE_INT) && valType.equals(TypeSpec.TYPE_FLOAT)) {
+    } else if (baseType.equals(TypeSpec.INT) && valType.equals(TypeSpec.FLOAT)) {
       array[index] = val.toIntValue();
-    } else if (baseType.equals(TypeSpec.TYPE_FLOAT) && valType.equals(TypeSpec.TYPE_INT)) {
+    } else if (baseType.equals(TypeSpec.FLOAT) && valType.equals(TypeSpec.INT)) {
       array[index] = val.toFloatValue();
     } else {
       throw interpreter.runtimeException(

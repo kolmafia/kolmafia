@@ -3372,7 +3372,7 @@ public abstract class RuntimeLibrary {
   public static Value to_string(ScriptRuntime controller, Value val, Value fmt) {
     try {
       Object arg;
-      if (val.getType().equals(TypeSpec.TYPE_FLOAT)) {
+      if (val.getType().equals(TypeSpec.FLOAT)) {
         arg = val.floatValue();
       } else {
         arg = val.intValue();
@@ -3389,7 +3389,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_int(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_STRING)) {
+    if (value.getType().equals(TypeSpec.STRING)) {
       String string = value.toString();
       try {
         return new Value(StringUtilities.parseLongInternal1(string, true));
@@ -3422,7 +3422,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_float(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_STRING)) {
+    if (value.getType().equals(TypeSpec.STRING)) {
       String string = value.toString();
       try {
         return new Value(StringUtilities.parseFloat(string));
@@ -3439,7 +3439,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_item(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeItemValue((int) value.intValue(), true);
     }
 
@@ -3490,11 +3490,11 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_skill(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeSkillValue((int) value.intValue(), true);
     }
 
-    if (value.getType().equals(TypeSpec.TYPE_EFFECT)) {
+    if (value.getType().equals(TypeSpec.EFFECT)) {
       return DataTypes.parseSkillValue(UneffectRequest.effectToSkill(value.toString()), true);
     }
 
@@ -3517,11 +3517,11 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_effect(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeEffectValue((int) value.intValue(), true);
     }
 
-    if (value.getType().equals(TypeSpec.TYPE_SKILL)) {
+    if (value.getType().equals(TypeSpec.SKILL)) {
       return DataTypes.parseEffectValue(UneffectRequest.skillToEffect(value.toString()), true);
     }
 
@@ -3533,7 +3533,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_location(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.parseLocationValue((int) value.intValue(), true);
     } else {
       return DataTypes.parseLocationValue(value.toString(), true);
@@ -3541,7 +3541,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_familiar(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeFamiliarValue((int) value.intValue(), true);
     }
 
@@ -3549,7 +3549,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_monster(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeMonsterValue((int) value.intValue(), true);
     }
 
@@ -3566,7 +3566,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_slot(ScriptRuntime controller, final Value item) {
-    if (!item.getType().equals(TypeSpec.TYPE_ITEM)) {
+    if (!item.getType().equals(TypeSpec.ITEM)) {
       return DataTypes.parseSlotValue(item.toString(), true);
     }
     return switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
@@ -3603,7 +3603,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_thrall(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeThrallValue((int) value.intValue(), true);
     }
 
@@ -3611,7 +3611,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_servant(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeServantValue((int) value.intValue(), true);
     }
 
@@ -3623,7 +3623,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_path(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(TypeSpec.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.parsePathValue((int) value.intValue(), true);
     }
 
@@ -4107,7 +4107,7 @@ public abstract class RuntimeLibrary {
 
   public static Value buy(
       ScriptRuntime controller, final Value arg1, final Value arg2, final Value arg3) {
-    if (arg1.getType().equals(TypeSpec.TYPE_COINMASTER)) {
+    if (arg1.getType().equals(TypeSpec.COINMASTER)) {
       return RuntimeLibrary.coinmaster_buy(controller, arg1, arg2, arg3);
     }
 
@@ -6270,9 +6270,9 @@ public abstract class RuntimeLibrary {
   public static Value set_auto_attack(ScriptRuntime controller, Value attackValue) {
     Type type = attackValue.getType();
     String arg =
-        type.equals(TypeSpec.TYPE_STRING)
+        type.equals(TypeSpec.STRING)
             ? attackValue.toString()
-            : type.equals(TypeSpec.TYPE_INT) ? String.valueOf(attackValue.intValue()) : "none";
+            : type.equals(TypeSpec.INT) ? String.valueOf(attackValue.intValue()) : "none";
 
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("autoattack", arg);
 
@@ -6315,7 +6315,7 @@ public abstract class RuntimeLibrary {
 
   public static Value run_choice(
       ScriptRuntime controller, final Value decision, final Value extra) {
-    if (extra.getType().equals(TypeSpec.TYPE_BOOLEAN)) {
+    if (extra.getType().equals(TypeSpec.BOOLEAN)) {
       // if extra is a boolean, it specifies whether to automate fights
       return run_choice(controller, decision, extra, DataTypes.STRING_INIT);
     }
@@ -8571,7 +8571,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value elemental_resistance(ScriptRuntime controller, final Value arg) {
-    if (arg.getType().equals(TypeSpec.TYPE_ELEMENT)) {
+    if (arg.getType().equals(TypeSpec.ELEMENT)) {
       String elementName = arg.toString();
       Element elem = Element.fromString(elementName);
       return new Value(KoLCharacter.getElementalResistance(elem));
@@ -8715,7 +8715,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value jump_chance(ScriptRuntime controller, final Value arg) {
-    if (arg.getType().equals(TypeSpec.TYPE_MONSTER)) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
       MonsterData monster = (MonsterData) arg.rawValue();
       if (monster == null) {
         return DataTypes.ZERO_VALUE;
@@ -8723,7 +8723,7 @@ public abstract class RuntimeLibrary {
       return new Value(monster.getJumpChance());
     }
 
-    if (arg.getType().equals(TypeSpec.TYPE_LOCATION)) {
+    if (arg.getType().equals(TypeSpec.LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
       return new Value(data.getJumpChance());
@@ -8734,7 +8734,7 @@ public abstract class RuntimeLibrary {
   public static Value jump_chance(ScriptRuntime controller, final Value arg, final Value init) {
     int initiative = (int) init.intValue();
 
-    if (arg.getType().equals(TypeSpec.TYPE_MONSTER)) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
       MonsterData monster = (MonsterData) arg.rawValue();
       if (monster == null) {
         return DataTypes.ZERO_VALUE;
@@ -8742,7 +8742,7 @@ public abstract class RuntimeLibrary {
       return new Value(monster.getJumpChance(initiative));
     }
 
-    if (arg.getType().equals(TypeSpec.TYPE_LOCATION)) {
+    if (arg.getType().equals(TypeSpec.LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
       if (data == null) {
@@ -8757,7 +8757,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value init, final Value ml) {
     int initiative = (int) init.intValue();
     int monsterLevel = (int) ml.intValue();
-    if (arg.getType().equals(TypeSpec.TYPE_MONSTER)) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
       MonsterData monster = (MonsterData) arg.rawValue();
       if (monster == null) {
         return DataTypes.ZERO_VALUE;
@@ -8765,7 +8765,7 @@ public abstract class RuntimeLibrary {
       return new Value(monster.getJumpChance(initiative, monsterLevel));
     }
 
-    if (arg.getType().equals(TypeSpec.TYPE_LOCATION)) {
+    if (arg.getType().equals(TypeSpec.LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
       if (data == null) {
@@ -9222,7 +9222,7 @@ public abstract class RuntimeLibrary {
     Type type = thing.getType();
     boolean result;
 
-    if (type.equals(TypeSpec.TYPE_STRING)) {
+    if (type.equals(TypeSpec.STRING)) {
 
       result =
           TrendyRequest.isTrendy(RestrictedItemType.ITEMS, key)
@@ -9231,11 +9231,11 @@ public abstract class RuntimeLibrary {
               && TrendyRequest.isTrendy(RestrictedItemType.FAMILIARS, key)
               && TrendyRequest.isTrendy(RestrictedItemType.SKILLS, key)
               && TrendyRequest.isTrendy(RestrictedItemType.CLAN_ITEMS, key);
-    } else if (type.equals(TypeSpec.TYPE_ITEM)) {
+    } else if (type.equals(TypeSpec.ITEM)) {
       result = TrendyRequest.isTrendy(RestrictedItemType.ITEMS, key);
-    } else if (type.equals(TypeSpec.TYPE_FAMILIAR)) {
+    } else if (type.equals(TypeSpec.FAMILIAR)) {
       result = TrendyRequest.isTrendy(RestrictedItemType.FAMILIARS, key);
-    } else if (type.equals(TypeSpec.TYPE_SKILL)) {
+    } else if (type.equals(TypeSpec.SKILL)) {
       if (SkillDatabase.isBookshelfSkill(key)) {
         int itemId = SkillDatabase.skillToBook(key);
         key = ItemDatabase.getItemName(itemId);
@@ -9256,18 +9256,18 @@ public abstract class RuntimeLibrary {
     Type type = thing.getType();
     boolean result;
 
-    if (type.equals(TypeSpec.TYPE_STRING)) {
+    if (type.equals(TypeSpec.STRING)) {
       result =
           StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key)
               && StandardRequest.isNotRestricted(RestrictedItemType.BOOKSHELF_BOOKS, key)
               && StandardRequest.isNotRestricted(RestrictedItemType.SKILLS, key)
               && StandardRequest.isNotRestricted(RestrictedItemType.FAMILIARS, key)
               && StandardRequest.isNotRestricted(RestrictedItemType.CLAN_ITEMS, key);
-    } else if (type.equals(TypeSpec.TYPE_ITEM)) {
+    } else if (type.equals(TypeSpec.ITEM)) {
       result = StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key);
-    } else if (type.equals(TypeSpec.TYPE_FAMILIAR)) {
+    } else if (type.equals(TypeSpec.FAMILIAR)) {
       result = StandardRequest.isNotRestricted(RestrictedItemType.FAMILIARS, key);
-    } else if (type.equals(TypeSpec.TYPE_SKILL)) {
+    } else if (type.equals(TypeSpec.SKILL)) {
       if (SkillDatabase.isBookshelfSkill(key)) {
         int itemId = SkillDatabase.skillToBook(key);
         key = ItemDatabase.getItemName(itemId);
@@ -9442,7 +9442,7 @@ public abstract class RuntimeLibrary {
     Type type1 = arg1.getType();
 
     // sweet_synthesis( effect, flags )
-    if (type1.equals(TypeSpec.TYPE_EFFECT)) {
+    if (type1.equals(TypeSpec.EFFECT)) {
       int effectId = (int) arg1.intValue();
       int flags = (int) arg2.intValue() | CandyDatabase.defaultFlags();
       return RuntimeLibrary.synthesize_effect(controller, 1, effectId, flags);
@@ -9451,7 +9451,7 @@ public abstract class RuntimeLibrary {
     Type type2 = arg2.getType();
 
     // sweet_synthesis( count, effect )
-    if (type2.equals(TypeSpec.TYPE_EFFECT)) {
+    if (type2.equals(TypeSpec.EFFECT)) {
       int count = (int) arg1.intValue();
       int effectId = (int) arg2.intValue();
       int flags = CandyDatabase.defaultFlags();
@@ -9476,7 +9476,7 @@ public abstract class RuntimeLibrary {
     Type type2 = arg2.getType();
 
     // sweet_synthesis( count, effect, flags )
-    if (type2.equals(TypeSpec.TYPE_EFFECT)) {
+    if (type2.equals(TypeSpec.EFFECT)) {
       int count = (int) arg1.intValue();
       int effectId = (int) arg2.intValue();
       int flags = (int) arg3.intValue() | CandyDatabase.defaultFlags();
@@ -9685,7 +9685,7 @@ public abstract class RuntimeLibrary {
   public static Value pick_pocket(ScriptRuntime controller, final Value arg) {
     Type type = arg.getType();
     Pocket pocket =
-        type.equals(TypeSpec.TYPE_INT)
+        type.equals(TypeSpec.INT)
             ? PocketDatabase.pocketByNumber((int) arg.intValue())
             : PocketDatabase.firstUnpickedPocket(
                 RuntimeLibrary.sortedPockets(type, arg.toString()));
@@ -9701,22 +9701,22 @@ public abstract class RuntimeLibrary {
   }
 
   private static List<Pocket> sortedPockets(Type type, String name) {
-    if (type.equals(TypeSpec.TYPE_EFFECT)) {
+    if (type.equals(TypeSpec.EFFECT)) {
       Set<OneResultPocket> pockets = PocketDatabase.effectPockets.get(name);
       if (pockets != null) {
         return PocketDatabase.sortResults(name, pockets);
       }
-    } else if (type.equals(TypeSpec.TYPE_ITEM)) {
+    } else if (type.equals(TypeSpec.ITEM)) {
       Set<OneResultPocket> pockets = PocketDatabase.itemPockets.get(name);
       if (pockets != null) {
         return PocketDatabase.sortResults(name, pockets);
       }
-    } else if (type.equals(TypeSpec.TYPE_MONSTER)) {
+    } else if (type.equals(TypeSpec.MONSTER)) {
       MonsterPocket pocket = PocketDatabase.monsterPockets.get(name.toLowerCase());
       if (pocket != null) {
         return Collections.singletonList(pocket);
       }
-    } else if (type.equals(TypeSpec.TYPE_STAT)) {
+    } else if (type.equals(TypeSpec.STAT)) {
       name = name.toLowerCase();
       Set<StatsPocket> pockets = PocketDatabase.statsPockets.get(name);
       if (pockets != null) {

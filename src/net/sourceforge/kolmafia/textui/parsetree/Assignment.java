@@ -73,13 +73,13 @@ public class Assignment extends Evaluable {
     }
 
     Value newValue;
-    if (this.lhs.getType().equals(TypeSpec.TYPE_STRING)) {
+    if (this.lhs.getType().equals(TypeSpec.STRING)) {
       newValue = this.lhs.setValue(interpreter, value.toStringValue(), oper);
-    } else if (this.lhs.getType().equals(TypeSpec.TYPE_INT)) {
+    } else if (this.lhs.getType().equals(TypeSpec.INT)) {
       newValue = this.lhs.setValue(interpreter, value.toIntValue(), oper);
-    } else if (this.lhs.getType().equals(TypeSpec.TYPE_FLOAT)) {
+    } else if (this.lhs.getType().equals(TypeSpec.FLOAT)) {
       newValue = this.lhs.setValue(interpreter, value.toFloatValue(), oper);
-    } else if (this.lhs.getType().equals(TypeSpec.TYPE_BOOLEAN)) {
+    } else if (this.lhs.getType().equals(TypeSpec.BOOLEAN)) {
       newValue = this.lhs.setValue(interpreter, value.toBooleanValue(), oper);
     } else {
       newValue = this.lhs.setValue(interpreter, value);

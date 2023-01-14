@@ -7,7 +7,7 @@ public class TypeDef extends Type {
   private final Type base;
 
   public TypeDef(final String name, final Type base, final Location location) {
-    super(name, TypeSpec.TYPE_TYPEDEF, location);
+    super(name, TypeSpec.TYPEDEF, location);
     this.primitive = base.isPrimitive();
     this.base = base;
   }

@@ -136,7 +136,7 @@ public class Macrofier {
         return "abort";
       }
 
-      if (returnValue == null || returnValue.getType().equals(TypeSpec.TYPE_VOID)) {
+      if (returnValue == null || returnValue.getType().equals(TypeSpec.VOID)) {
         String message = "Macro override \"" + macroOverride + "\" returned void.";
         RequestLogger.printLine(message);
         RequestLogger.updateSessionLog(message);

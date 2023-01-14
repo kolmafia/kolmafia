@@ -126,72 +126,64 @@ public class Type extends Symbol {
 
   public boolean isStringLike() {
     return switch (this.getType()) {
-      case TYPE_STRING,
-          TYPE_BUFFER,
-          TYPE_LOCATION,
-          TYPE_STAT,
-          TYPE_MONSTER,
-          TYPE_ELEMENT,
-          TYPE_COINMASTER,
-          TYPE_PHYLUM,
-          TYPE_BOUNTY -> true;
+      case STRING, BUFFER, LOCATION, STAT, MONSTER, ELEMENT, COINMASTER, PHYLUM, BOUNTY -> true;
       default -> false;
     };
   }
 
   public Value initialValue() {
     return switch (this.type) {
-      case TYPE_VOID -> DataTypes.VOID_VALUE;
-      case TYPE_BOOLEAN -> DataTypes.BOOLEAN_INIT;
-      case TYPE_INT -> DataTypes.INT_INIT;
-      case TYPE_FLOAT -> DataTypes.FLOAT_INIT;
-      case TYPE_STRING -> DataTypes.STRING_INIT;
-      case TYPE_BUFFER -> new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
-      case TYPE_MATCHER -> new Value(DataTypes.MATCHER_TYPE, "", Pattern.compile("").matcher(""));
-      case TYPE_ITEM -> DataTypes.ITEM_INIT;
-      case TYPE_LOCATION -> DataTypes.LOCATION_INIT;
-      case TYPE_CLASS -> DataTypes.CLASS_INIT;
-      case TYPE_STAT -> DataTypes.STAT_INIT;
-      case TYPE_SKILL -> DataTypes.SKILL_INIT;
-      case TYPE_EFFECT -> DataTypes.EFFECT_INIT;
-      case TYPE_FAMILIAR -> DataTypes.FAMILIAR_INIT;
-      case TYPE_SLOT -> DataTypes.SLOT_INIT;
-      case TYPE_MONSTER -> DataTypes.MONSTER_INIT;
-      case TYPE_ELEMENT -> DataTypes.ELEMENT_INIT;
-      case TYPE_COINMASTER -> DataTypes.COINMASTER_INIT;
-      case TYPE_PHYLUM -> DataTypes.PHYLUM_INIT;
-      case TYPE_BOUNTY -> DataTypes.BOUNTY_INIT;
-      case TYPE_THRALL -> DataTypes.THRALL_INIT;
-      case TYPE_SERVANT -> DataTypes.SERVANT_INIT;
-      case TYPE_VYKEA -> DataTypes.VYKEA_INIT;
-      case TYPE_PATH -> DataTypes.PATH_INIT;
+      case VOID -> DataTypes.VOID_VALUE;
+      case BOOLEAN -> DataTypes.BOOLEAN_INIT;
+      case INT -> DataTypes.INT_INIT;
+      case FLOAT -> DataTypes.FLOAT_INIT;
+      case STRING -> DataTypes.STRING_INIT;
+      case BUFFER -> new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
+      case MATCHER -> new Value(DataTypes.MATCHER_TYPE, "", Pattern.compile("").matcher(""));
+      case ITEM -> DataTypes.ITEM_INIT;
+      case LOCATION -> DataTypes.LOCATION_INIT;
+      case CLASS -> DataTypes.CLASS_INIT;
+      case STAT -> DataTypes.STAT_INIT;
+      case SKILL -> DataTypes.SKILL_INIT;
+      case EFFECT -> DataTypes.EFFECT_INIT;
+      case FAMILIAR -> DataTypes.FAMILIAR_INIT;
+      case SLOT -> DataTypes.SLOT_INIT;
+      case MONSTER -> DataTypes.MONSTER_INIT;
+      case ELEMENT -> DataTypes.ELEMENT_INIT;
+      case COINMASTER -> DataTypes.COINMASTER_INIT;
+      case PHYLUM -> DataTypes.PHYLUM_INIT;
+      case BOUNTY -> DataTypes.BOUNTY_INIT;
+      case THRALL -> DataTypes.THRALL_INIT;
+      case SERVANT -> DataTypes.SERVANT_INIT;
+      case VYKEA -> DataTypes.VYKEA_INIT;
+      case PATH -> DataTypes.PATH_INIT;
       default -> null;
     };
   }
 
   public Value parseValue(final String name, final boolean returnDefault) {
     return switch (this.type) {
-      case TYPE_BOOLEAN -> DataTypes.parseBooleanValue(name, returnDefault);
-      case TYPE_INT -> DataTypes.parseIntValue(name, returnDefault);
-      case TYPE_FLOAT -> DataTypes.parseFloatValue(name, returnDefault);
-      case TYPE_STRING -> DataTypes.parseStringValue(name);
-      case TYPE_ITEM -> DataTypes.parseItemValue(name, returnDefault);
-      case TYPE_LOCATION -> DataTypes.parseLocationValue(name, returnDefault);
-      case TYPE_CLASS -> DataTypes.parseClassValue(name, returnDefault);
-      case TYPE_STAT -> DataTypes.parseStatValue(name, returnDefault);
-      case TYPE_SKILL -> DataTypes.parseSkillValue(name, returnDefault);
-      case TYPE_EFFECT -> DataTypes.parseEffectValue(name, returnDefault);
-      case TYPE_FAMILIAR -> DataTypes.parseFamiliarValue(name, returnDefault);
-      case TYPE_SLOT -> DataTypes.parseSlotValue(name, returnDefault);
-      case TYPE_MONSTER -> DataTypes.parseMonsterValue(name, returnDefault);
-      case TYPE_ELEMENT -> DataTypes.parseElementValue(name, returnDefault);
-      case TYPE_COINMASTER -> DataTypes.parseCoinmasterValue(name, returnDefault);
-      case TYPE_PHYLUM -> DataTypes.parsePhylumValue(name, returnDefault);
-      case TYPE_BOUNTY -> DataTypes.parseBountyValue(name, returnDefault);
-      case TYPE_THRALL -> DataTypes.parseThrallValue(name, returnDefault);
-      case TYPE_SERVANT -> DataTypes.parseServantValue(name, returnDefault);
-      case TYPE_VYKEA -> DataTypes.parseVykeaValue(name, returnDefault);
-      case TYPE_PATH -> DataTypes.parsePathValue(name, returnDefault);
+      case BOOLEAN -> DataTypes.parseBooleanValue(name, returnDefault);
+      case INT -> DataTypes.parseIntValue(name, returnDefault);
+      case FLOAT -> DataTypes.parseFloatValue(name, returnDefault);
+      case STRING -> DataTypes.parseStringValue(name);
+      case ITEM -> DataTypes.parseItemValue(name, returnDefault);
+      case LOCATION -> DataTypes.parseLocationValue(name, returnDefault);
+      case CLASS -> DataTypes.parseClassValue(name, returnDefault);
+      case STAT -> DataTypes.parseStatValue(name, returnDefault);
+      case SKILL -> DataTypes.parseSkillValue(name, returnDefault);
+      case EFFECT -> DataTypes.parseEffectValue(name, returnDefault);
+      case FAMILIAR -> DataTypes.parseFamiliarValue(name, returnDefault);
+      case SLOT -> DataTypes.parseSlotValue(name, returnDefault);
+      case MONSTER -> DataTypes.parseMonsterValue(name, returnDefault);
+      case ELEMENT -> DataTypes.parseElementValue(name, returnDefault);
+      case COINMASTER -> DataTypes.parseCoinmasterValue(name, returnDefault);
+      case PHYLUM -> DataTypes.parsePhylumValue(name, returnDefault);
+      case BOUNTY -> DataTypes.parseBountyValue(name, returnDefault);
+      case THRALL -> DataTypes.parseThrallValue(name, returnDefault);
+      case SERVANT -> DataTypes.parseServantValue(name, returnDefault);
+      case VYKEA -> DataTypes.parseVykeaValue(name, returnDefault);
+      case PATH -> DataTypes.parsePathValue(name, returnDefault);
       default -> null;
     };
   }
@@ -199,35 +191,35 @@ public class Type extends Symbol {
   public Value makeValue(final Integer idval, final boolean returnDefault) {
     int id = idval;
     return switch (this.type) {
-      case TYPE_BOOLEAN -> DataTypes.makeBooleanValue(id);
-      case TYPE_INT -> DataTypes.makeIntValue(id);
-      case TYPE_FLOAT -> DataTypes.makeFloatValue(id);
-      case TYPE_STRING -> new Value(String.valueOf(id));
-      case TYPE_ITEM -> DataTypes.makeItemValue(id, returnDefault);
-      case TYPE_SKILL -> DataTypes.makeSkillValue(id, returnDefault);
-      case TYPE_EFFECT -> DataTypes.makeEffectValue(id, returnDefault);
-      case TYPE_FAMILIAR -> DataTypes.makeFamiliarValue(id, returnDefault);
-      case TYPE_MONSTER -> DataTypes.makeMonsterValue(id, returnDefault);
-      case TYPE_THRALL -> DataTypes.makeThrallValue(id, returnDefault);
-      case TYPE_SERVANT -> DataTypes.makeServantValue(id, returnDefault);
-      case TYPE_LOCATION -> DataTypes.parseLocationValue(id, returnDefault);
-      case TYPE_SLOT -> DataTypes.makeSlotValue(id, returnDefault);
-      case TYPE_PATH -> DataTypes.makePathValue(id, returnDefault);
-      case TYPE_CLASS -> DataTypes.makeClassValue(id, returnDefault);
+      case BOOLEAN -> DataTypes.makeBooleanValue(id);
+      case INT -> DataTypes.makeIntValue(id);
+      case FLOAT -> DataTypes.makeFloatValue(id);
+      case STRING -> new Value(String.valueOf(id));
+      case ITEM -> DataTypes.makeItemValue(id, returnDefault);
+      case SKILL -> DataTypes.makeSkillValue(id, returnDefault);
+      case EFFECT -> DataTypes.makeEffectValue(id, returnDefault);
+      case FAMILIAR -> DataTypes.makeFamiliarValue(id, returnDefault);
+      case MONSTER -> DataTypes.makeMonsterValue(id, returnDefault);
+      case THRALL -> DataTypes.makeThrallValue(id, returnDefault);
+      case SERVANT -> DataTypes.makeServantValue(id, returnDefault);
+      case LOCATION -> DataTypes.parseLocationValue(id, returnDefault);
+      case SLOT -> DataTypes.makeSlotValue(id, returnDefault);
+      case PATH -> DataTypes.makePathValue(id, returnDefault);
+      case CLASS -> DataTypes.makeClassValue(id, returnDefault);
         // The following don't have an integer -> object mapping
-      case TYPE_STAT -> DataTypes.STAT_INIT;
-      case TYPE_ELEMENT -> DataTypes.ELEMENT_INIT;
-      case TYPE_COINMASTER -> DataTypes.COINMASTER_INIT;
-      case TYPE_PHYLUM -> DataTypes.PHYLUM_INIT;
-      case TYPE_BOUNTY -> DataTypes.BOUNTY_INIT;
-      case TYPE_VYKEA -> DataTypes.VYKEA_INIT;
+      case STAT -> DataTypes.STAT_INIT;
+      case ELEMENT -> DataTypes.ELEMENT_INIT;
+      case COINMASTER -> DataTypes.COINMASTER_INIT;
+      case PHYLUM -> DataTypes.PHYLUM_INIT;
+      case BOUNTY -> DataTypes.BOUNTY_INIT;
+      case VYKEA -> DataTypes.VYKEA_INIT;
       default -> null;
     };
   }
 
   public List<String> getAmbiguousNames(String s1, Value value, boolean quote) {
     switch (this.type) {
-      case TYPE_ITEM, TYPE_EFFECT, TYPE_MONSTER, TYPE_SKILL -> {
+      case ITEM, EFFECT, MONSTER, SKILL -> {
         String s2 = value.toString();
         if (s1.equalsIgnoreCase(s2)) {
           return null;
@@ -249,23 +241,21 @@ public class Type extends Symbol {
         ArrayList<String> names = new ArrayList<>();
         int currentId = (int) value.contentLong;
         String name =
-            this.type == TypeSpec.TYPE_ITEM
+            this.type == TypeSpec.ITEM
                 ? ItemDatabase.getItemName(currentId)
-                : this.type == TypeSpec.TYPE_EFFECT
+                : this.type == TypeSpec.EFFECT
                     ? EffectDatabase.getEffectName(currentId)
-                    : this.type == TypeSpec.TYPE_MONSTER
+                    : this.type == TypeSpec.MONSTER
                         ? MonsterDatabase.getMonsterName(currentId)
-                        : this.type == TypeSpec.TYPE_SKILL
-                            ? SkillDatabase.getSkillName(currentId)
-                            : "";
+                        : this.type == TypeSpec.SKILL ? SkillDatabase.getSkillName(currentId) : "";
         int[] ids =
-            this.type == TypeSpec.TYPE_ITEM
+            this.type == TypeSpec.ITEM
                 ? ItemDatabase.getItemIds(name, 1, false)
-                : this.type == TypeSpec.TYPE_EFFECT
+                : this.type == TypeSpec.EFFECT
                     ? EffectDatabase.getEffectIds(name, false)
-                    : this.type == TypeSpec.TYPE_MONSTER
+                    : this.type == TypeSpec.MONSTER
                         ? MonsterDatabase.getMonsterIds(name, false)
-                        : this.type == TypeSpec.TYPE_SKILL
+                        : this.type == TypeSpec.SKILL
                             ? SkillDatabase.getSkillIds(name, false)
                             : null;
 
@@ -301,43 +291,43 @@ public class Type extends Symbol {
     if (object instanceof Integer) {
       int integer = (Integer) object;
       return switch (this.type) {
-        case TYPE_BOOLEAN -> DataTypes.makeBooleanValue(integer);
-        case TYPE_CLASS -> DataTypes.makeClassValue(integer, returnDefault);
-        case TYPE_INT -> DataTypes.makeIntValue(integer);
-        case TYPE_FLOAT -> DataTypes.makeFloatValue(integer);
-        case TYPE_STRING -> new Value(DataTypes.STRING_TYPE, String.valueOf(integer));
-        case TYPE_ITEM -> DataTypes.makeItemValue(integer, returnDefault);
-        case TYPE_SKILL -> DataTypes.makeSkillValue(integer, returnDefault);
-        case TYPE_EFFECT -> DataTypes.makeEffectValue(integer, returnDefault);
-        case TYPE_FAMILIAR -> DataTypes.makeFamiliarValue(integer, returnDefault);
-        case TYPE_MONSTER -> DataTypes.makeMonsterValue(integer, returnDefault);
-        case TYPE_THRALL -> DataTypes.makeThrallValue(integer, returnDefault);
-        case TYPE_SERVANT -> DataTypes.makeServantValue(integer, returnDefault);
+        case BOOLEAN -> DataTypes.makeBooleanValue(integer);
+        case CLASS -> DataTypes.makeClassValue(integer, returnDefault);
+        case INT -> DataTypes.makeIntValue(integer);
+        case FLOAT -> DataTypes.makeFloatValue(integer);
+        case STRING -> new Value(DataTypes.STRING_TYPE, String.valueOf(integer));
+        case ITEM -> DataTypes.makeItemValue(integer, returnDefault);
+        case SKILL -> DataTypes.makeSkillValue(integer, returnDefault);
+        case EFFECT -> DataTypes.makeEffectValue(integer, returnDefault);
+        case FAMILIAR -> DataTypes.makeFamiliarValue(integer, returnDefault);
+        case MONSTER -> DataTypes.makeMonsterValue(integer, returnDefault);
+        case THRALL -> DataTypes.makeThrallValue(integer, returnDefault);
+        case SERVANT -> DataTypes.makeServantValue(integer, returnDefault);
         default -> null;
       };
     }
     if (object instanceof MonsterData monster) {
       return switch (this.type) {
-        case TYPE_INT -> DataTypes.makeIntValue(monster.getId());
-        case TYPE_STRING -> new Value(DataTypes.STRING_TYPE, monster.getName());
-        case TYPE_MONSTER -> DataTypes.makeMonsterValue(monster);
+        case INT -> DataTypes.makeIntValue(monster.getId());
+        case STRING -> new Value(DataTypes.STRING_TYPE, monster.getName());
+        case MONSTER -> DataTypes.makeMonsterValue(monster);
         default -> null;
       };
     }
     if (object instanceof AscensionClass ascensionClass) {
       return switch (this.type) {
-        case TYPE_INT -> DataTypes.makeIntValue(ascensionClass.getId());
-        case TYPE_STRING -> new Value(DataTypes.STRING_TYPE, ascensionClass.getName());
-        case TYPE_CLASS -> DataTypes.makeClassValue(ascensionClass, returnDefault);
-        case TYPE_PATH -> DataTypes.makePathValue(ascensionClass.getPath());
+        case INT -> DataTypes.makeIntValue(ascensionClass.getId());
+        case STRING -> new Value(DataTypes.STRING_TYPE, ascensionClass.getName());
+        case CLASS -> DataTypes.makeClassValue(ascensionClass, returnDefault);
+        case PATH -> DataTypes.makePathValue(ascensionClass.getPath());
         default -> null;
       };
     }
     if (object instanceof Path path) {
       return switch (this.type) {
-        case TYPE_INT -> DataTypes.makeIntValue(path.getId());
-        case TYPE_STRING -> new Value(DataTypes.STRING_TYPE, path.getName());
-        case TYPE_PATH -> DataTypes.makePathValue(path);
+        case INT -> DataTypes.makeIntValue(path.getId());
+        case STRING -> new Value(DataTypes.STRING_TYPE, path.getName());
+        case PATH -> DataTypes.makePathValue(path);
         default -> null;
       };
     }
@@ -349,10 +339,10 @@ public class Type extends Symbol {
 
     List<Value> list = new ArrayList<>();
     switch (this.type) {
-      case TYPE_BOOLEAN:
+      case BOOLEAN:
         this.addValues(list, DataTypes.BOOLEANS);
         break;
-      case TYPE_ITEM:
+      case ITEM:
         int limit = ItemDatabase.maxItemId();
         for (int i = 1; i <= limit; ++i) {
           if (i != 13 && ItemDatabase.getItemDataName(i) != null) {
@@ -360,52 +350,52 @@ public class Type extends Symbol {
           }
         }
         break;
-      case TYPE_LOCATION:
+      case LOCATION:
         this.addValues(list, AdventureDatabase.getAsLockableListModel());
         break;
-      case TYPE_CLASS:
+      case CLASS:
         this.addValues(list, AscensionClass.allClasses());
         break;
-      case TYPE_STAT:
+      case STAT:
         this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);
         break;
-      case TYPE_SKILL:
+      case SKILL:
         this.addValues(list, SkillDatabase.entrySet());
         break;
-      case TYPE_EFFECT:
+      case EFFECT:
         this.addValues(list, EffectDatabase.entrySet());
         break;
-      case TYPE_FAMILIAR:
+      case FAMILIAR:
         this.addValues(list, FamiliarDatabase.entrySet());
         break;
-      case TYPE_SLOT:
+      case SLOT:
         this.addValues(list, EquipmentRequest.slotNames);
         break;
-      case TYPE_MONSTER:
+      case MONSTER:
         this.addValues(list, MonsterDatabase.valueSet());
         break;
-      case TYPE_ELEMENT:
+      case ELEMENT:
         this.addValues(list, MonsterDatabase.ELEMENT_ARRAY, 1, -1);
         break;
-      case TYPE_COINMASTER:
+      case COINMASTER:
         this.addValues(list, CoinmasterRegistry.MASTERS);
         break;
-      case TYPE_PHYLUM:
+      case PHYLUM:
         this.addValues(list, MonsterDatabase.PHYLUM_ARRAY, 1, -1);
         break;
-      case TYPE_BOUNTY:
+      case BOUNTY:
         this.addValues(list, BountyDatabase.entrySet());
         break;
-      case TYPE_THRALL:
+      case THRALL:
         this.addValues(list, PastaThrallData.THRALL_ARRAY);
         break;
-      case TYPE_SERVANT:
+      case SERVANT:
         this.addValues(list, EdServantData.SERVANT_ARRAY);
         break;
-      case TYPE_VYKEA:
+      case VYKEA:
         this.addValues(list, VYKEACompanionData.VYKEA);
         break;
-      case TYPE_PATH:
+      case PATH:
         this.addValues(list, Path.allPaths());
         break;
       default:
@@ -484,7 +474,7 @@ public class Type extends Symbol {
 
   public static class BadType extends Type implements BadNode {
     public BadType(final String name, final Location location) {
-      super(name, TypeSpec.TYPE_ANY, location);
+      super(name, TypeSpec.ANY, location);
     }
   }
 }

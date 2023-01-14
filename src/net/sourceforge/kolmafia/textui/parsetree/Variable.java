@@ -80,16 +80,16 @@ public class Variable extends Symbol {
         || this.getBaseType().equals(targetValue.getType())) {
       this.content = targetValue;
       this.expression = null;
-    } else if (this.getBaseType().equals(TypeSpec.TYPE_STRICT_STRING)
-        || this.getBaseType().equals(TypeSpec.TYPE_STRING)) {
+    } else if (this.getBaseType().equals(TypeSpec.STRICT_STRING)
+        || this.getBaseType().equals(TypeSpec.STRING)) {
       this.content = targetValue.toStringValue();
       this.expression = null;
-    } else if (this.getBaseType().equals(TypeSpec.TYPE_INT)
-        && targetValue.getType().equals(TypeSpec.TYPE_FLOAT)) {
+    } else if (this.getBaseType().equals(TypeSpec.INT)
+        && targetValue.getType().equals(TypeSpec.FLOAT)) {
       this.content = targetValue.toIntValue();
       this.expression = null;
-    } else if (this.getBaseType().equals(TypeSpec.TYPE_FLOAT)
-        && targetValue.getType().equals(TypeSpec.TYPE_INT)) {
+    } else if (this.getBaseType().equals(TypeSpec.FLOAT)
+        && targetValue.getType().equals(TypeSpec.INT)) {
       this.content = targetValue.toFloatValue();
       this.expression = null;
     } else {
