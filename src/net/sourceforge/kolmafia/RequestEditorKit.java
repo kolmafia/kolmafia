@@ -2169,14 +2169,14 @@ public class RequestEditorKit extends HTMLEditorKit {
     int crannyEvil = Preferences.getInteger("cyrptCrannyEvilness");
     int alcoveEvil = Preferences.getInteger("cyrptAlcoveEvilness");
 
-    String nookColor = nookEvil > 25 ? "000000" : "FF0000";
-    String nookHint = nookEvil > 25 ? "Item Drop" : "<b>BOSS</b>";
-    String nicheColor = nicheEvil > 25 ? "000000" : "FF0000";
-    String nicheHint = nicheEvil > 25 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
-    String crannyColor = crannyEvil > 25 ? "000000" : "FF0000";
-    String crannyHint = crannyEvil > 25 ? "ML & Noncombat" : "<b>BOSS</b>";
-    String alcoveColor = alcoveEvil > 25 ? "000000" : "FF0000";
-    String alcoveHint = alcoveEvil > 25 ? "Initiative" : "<b>BOSS</b>";
+    String nookColor = nookEvil > 13 ? "000000" : "FF0000";
+    String nookHint = nookEvil > 13 ? "Item Drop" : "<b>BOSS</b>";
+    String nicheColor = nicheEvil > 13 ? "000000" : "FF0000";
+    String nicheHint = nicheEvil > 13 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
+    String crannyColor = crannyEvil > 13 ? "000000" : "FF0000";
+    String crannyHint = crannyEvil > 13 ? "ML & Noncombat" : "<b>BOSS</b>";
+    String alcoveColor = alcoveEvil > 13 ? "000000" : "FF0000";
+    String alcoveHint = alcoveEvil > 13 ? "Initiative" : "<b>BOSS</b>";
 
     StringBuilder evilometer = new StringBuilder();
 

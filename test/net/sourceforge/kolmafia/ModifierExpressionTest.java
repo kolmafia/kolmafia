@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -485,7 +486,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectGender() {
-    KoLCharacter.setGender(KoLCharacter.MALE);
+    KoLCharacter.setGender(Gender.MALE);
     var exp = new ModifierExpression("X", "Gender");
     assertThat(exp.eval(), is(-1.0));
   }

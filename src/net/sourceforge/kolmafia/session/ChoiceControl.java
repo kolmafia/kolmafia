@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -4634,7 +4635,7 @@ public abstract class ChoiceControl {
           Preferences.increment("sexChanges", 1);
           Preferences.setBoolean("_sexChanged", true);
           KoLCharacter.setGender(
-              text.contains("in more ways than one") ? KoLCharacter.FEMALE : KoLCharacter.MALE);
+              text.contains("in more ways than one") ? Gender.FEMALE : Gender.MALE);
           ConcoctionDatabase.setRefreshNeeded(false);
         }
         break;
