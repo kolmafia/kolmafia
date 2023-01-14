@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Component;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
-import java.util.TimeZone;
 import javax.swing.JRootPane;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +27,12 @@ class CalendarFrameTest {
   @Test
   public void itShouldCalculateExpectedDataForKnownTime() {
     Calendar useTime = new GregorianCalendar();
-    useTime.set(2010, Calendar.SEPTEMBER,1);
+    useTime.set(2010, Calendar.SEPTEMBER, 1);
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();
-    String testFrameTab = testFrame.tabs.toString();
+    assertEquals(2, testFrame.tabs.getTabCount());
+    Component aTab = testFrame.tabs.getComponentAt(0);
+    // assertEquals("KoL One-a-Day", aTab.getName());
   }
 }
