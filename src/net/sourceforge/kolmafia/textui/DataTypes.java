@@ -40,68 +40,70 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DataTypes {
-  public static final int TYPE_ANY = 0;
-  public static final int TYPE_VOID = 1;
-  public static final int TYPE_BOOLEAN = 2;
-  public static final int TYPE_INT = 3;
-  public static final int TYPE_FLOAT = 4;
-  public static final int TYPE_STRING = 5;
-  public static final int TYPE_BUFFER = 6;
-  public static final int TYPE_MATCHER = 7;
+  public enum TypeSpec {
+    TYPE_ANY,
+    TYPE_VOID,
+    TYPE_BOOLEAN,
+    TYPE_INT,
+    TYPE_FLOAT,
+    TYPE_STRING,
+    TYPE_BUFFER,
+    TYPE_MATCHER,
 
-  public static final int TYPE_ITEM = 100;
-  public static final int TYPE_LOCATION = 101;
-  public static final int TYPE_CLASS = 102;
-  public static final int TYPE_STAT = 103;
-  public static final int TYPE_SKILL = 104;
-  public static final int TYPE_EFFECT = 105;
-  public static final int TYPE_FAMILIAR = 106;
-  public static final int TYPE_SLOT = 107;
-  public static final int TYPE_MONSTER = 108;
-  public static final int TYPE_ELEMENT = 109;
-  public static final int TYPE_COINMASTER = 110;
-  public static final int TYPE_PHYLUM = 111;
-  public static final int TYPE_THRALL = 112;
-  public static final int TYPE_BOUNTY = 113;
-  public static final int TYPE_SERVANT = 114;
-  public static final int TYPE_VYKEA = 115;
-  public static final int TYPE_PATH = 116;
+    TYPE_ITEM,
+    TYPE_LOCATION,
+    TYPE_CLASS,
+    TYPE_STAT,
+    TYPE_SKILL,
+    TYPE_EFFECT,
+    TYPE_FAMILIAR,
+    TYPE_SLOT,
+    TYPE_MONSTER,
+    TYPE_ELEMENT,
+    TYPE_COINMASTER,
+    TYPE_PHYLUM,
+    TYPE_THRALL,
+    TYPE_BOUNTY,
+    TYPE_SERVANT,
+    TYPE_VYKEA,
+    TYPE_PATH,
 
-  public static final int TYPE_STRICT_STRING = 1000;
-  public static final int TYPE_AGGREGATE = 1001;
-  public static final int TYPE_RECORD = 1002;
-  public static final int TYPE_TYPEDEF = 1003;
+    TYPE_STRICT_STRING,
+    TYPE_AGGREGATE,
+    TYPE_RECORD,
+    TYPE_TYPEDEF,
+  }
 
-  public static final Type ANY_TYPE = new Type(null, DataTypes.TYPE_ANY);
-  public static final Type VOID_TYPE = new Type("void", DataTypes.TYPE_VOID);
-  public static final Type BOOLEAN_TYPE = new Type("boolean", DataTypes.TYPE_BOOLEAN);
-  public static final Type INT_TYPE = new Type("int", DataTypes.TYPE_INT);
-  public static final Type FLOAT_TYPE = new Type("float", DataTypes.TYPE_FLOAT);
-  public static final Type STRING_TYPE = new Type("string", DataTypes.TYPE_STRING);
-  public static final Type BUFFER_TYPE = new Type("buffer", DataTypes.TYPE_BUFFER);
-  public static final Type MATCHER_TYPE = new Type("matcher", DataTypes.TYPE_MATCHER);
+  public static final Type ANY_TYPE = new Type(null, TypeSpec.TYPE_ANY);
+  public static final Type VOID_TYPE = new Type("void", TypeSpec.TYPE_VOID);
+  public static final Type BOOLEAN_TYPE = new Type("boolean", TypeSpec.TYPE_BOOLEAN);
+  public static final Type INT_TYPE = new Type("int", TypeSpec.TYPE_INT);
+  public static final Type FLOAT_TYPE = new Type("float", TypeSpec.TYPE_FLOAT);
+  public static final Type STRING_TYPE = new Type("string", TypeSpec.TYPE_STRING);
+  public static final Type BUFFER_TYPE = new Type("buffer", TypeSpec.TYPE_BUFFER);
+  public static final Type MATCHER_TYPE = new Type("matcher", TypeSpec.TYPE_MATCHER);
 
-  public static final Type ITEM_TYPE = new Type("item", DataTypes.TYPE_ITEM);
-  public static final Type LOCATION_TYPE = new Type("location", DataTypes.TYPE_LOCATION);
-  public static final Type CLASS_TYPE = new Type("class", DataTypes.TYPE_CLASS);
-  public static final Type STAT_TYPE = new Type("stat", DataTypes.TYPE_STAT);
-  public static final Type SKILL_TYPE = new Type("skill", DataTypes.TYPE_SKILL);
-  public static final Type EFFECT_TYPE = new Type("effect", DataTypes.TYPE_EFFECT);
-  public static final Type FAMILIAR_TYPE = new Type("familiar", DataTypes.TYPE_FAMILIAR);
-  public static final Type SLOT_TYPE = new Type("slot", DataTypes.TYPE_SLOT);
-  public static final Type MONSTER_TYPE = new Type("monster", DataTypes.TYPE_MONSTER);
-  public static final Type ELEMENT_TYPE = new Type("element", DataTypes.TYPE_ELEMENT);
-  public static final Type COINMASTER_TYPE = new Type("coinmaster", DataTypes.TYPE_COINMASTER);
-  public static final Type PHYLUM_TYPE = new Type("phylum", DataTypes.TYPE_PHYLUM);
-  public static final Type BOUNTY_TYPE = new Type("bounty", DataTypes.TYPE_BOUNTY);
-  public static final Type THRALL_TYPE = new Type("thrall", DataTypes.TYPE_THRALL);
-  public static final Type SERVANT_TYPE = new Type("servant", DataTypes.TYPE_SERVANT);
-  public static final Type VYKEA_TYPE = new Type("vykea", DataTypes.TYPE_VYKEA);
-  public static final Type PATH_TYPE = new Type("path", DataTypes.TYPE_PATH);
+  public static final Type ITEM_TYPE = new Type("item", TypeSpec.TYPE_ITEM);
+  public static final Type LOCATION_TYPE = new Type("location", TypeSpec.TYPE_LOCATION);
+  public static final Type CLASS_TYPE = new Type("class", TypeSpec.TYPE_CLASS);
+  public static final Type STAT_TYPE = new Type("stat", TypeSpec.TYPE_STAT);
+  public static final Type SKILL_TYPE = new Type("skill", TypeSpec.TYPE_SKILL);
+  public static final Type EFFECT_TYPE = new Type("effect", TypeSpec.TYPE_EFFECT);
+  public static final Type FAMILIAR_TYPE = new Type("familiar", TypeSpec.TYPE_FAMILIAR);
+  public static final Type SLOT_TYPE = new Type("slot", TypeSpec.TYPE_SLOT);
+  public static final Type MONSTER_TYPE = new Type("monster", TypeSpec.TYPE_MONSTER);
+  public static final Type ELEMENT_TYPE = new Type("element", TypeSpec.TYPE_ELEMENT);
+  public static final Type COINMASTER_TYPE = new Type("coinmaster", TypeSpec.TYPE_COINMASTER);
+  public static final Type PHYLUM_TYPE = new Type("phylum", TypeSpec.TYPE_PHYLUM);
+  public static final Type BOUNTY_TYPE = new Type("bounty", TypeSpec.TYPE_BOUNTY);
+  public static final Type THRALL_TYPE = new Type("thrall", TypeSpec.TYPE_THRALL);
+  public static final Type SERVANT_TYPE = new Type("servant", TypeSpec.TYPE_SERVANT);
+  public static final Type VYKEA_TYPE = new Type("vykea", TypeSpec.TYPE_VYKEA);
+  public static final Type PATH_TYPE = new Type("path", TypeSpec.TYPE_PATH);
 
   public static final Type STRICT_STRING_TYPE =
-      new Type("strict_string", DataTypes.TYPE_STRICT_STRING);
-  public static final Type AGGREGATE_TYPE = new Type("aggregate", DataTypes.TYPE_AGGREGATE);
+      new Type("strict_string", TypeSpec.TYPE_STRICT_STRING);
+  public static final Type AGGREGATE_TYPE = new Type("aggregate", TypeSpec.TYPE_AGGREGATE);
 
   // Map from ITEM -> INT
   public static final AggregateType ITEM_TO_INT_TYPE =

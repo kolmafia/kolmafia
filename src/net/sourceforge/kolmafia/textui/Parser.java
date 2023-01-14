@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Line.Token;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayLiteral;
@@ -572,7 +573,7 @@ public class Parser {
       }
 
       // If this is a new record definition, enter it
-      if (t.getType() == DataTypes.TYPE_RECORD && this.currentToken().equals(";")) {
+      if (t.getType() == TypeSpec.TYPE_RECORD && this.currentToken().equals(";")) {
         this.readToken(); // read ;
         continue;
       }
@@ -919,7 +920,7 @@ public class Parser {
         this.parseBlockOrSingleCommand(functionType, paramList, parentScope, false, false, false);
 
     result.setScope(scope);
-    if (!scope.assertBarrier() && !functionType.equals(DataTypes.TYPE_VOID)) {
+    if (!scope.assertBarrier() && !functionType.equals(TypeSpec.TYPE_VOID)) {
       functionErrors.submitError(this.error(functionLocation, "Missing return value"));
     }
 
@@ -1041,7 +1042,7 @@ public class Parser {
   }
 
   private Evaluable autoCoerceValue(final Type ltype, final Evaluable rhs, final BasicScope scope) {
-    // DataTypes.TYPE_ANY has no name
+    // TypeSpec.TYPE_ANY has no name
     if (ltype == null || ltype.getName() == null) {
       return rhs;
     }
@@ -1665,7 +1666,7 @@ public class Parser {
     }
 
     if (this.currentToken().equals(";")) {
-      if (expectedType != null && !expectedType.equals(DataTypes.TYPE_VOID)) {
+      if (expectedType != null && !expectedType.equals(TypeSpec.TYPE_VOID)) {
         returnErrors.submitError(
             this.error(returnStartToken, "Return needs " + expectedType + " value"));
       }
@@ -1673,7 +1674,7 @@ public class Parser {
       return new FunctionReturn(this.makeLocation(returnStartToken), null, DataTypes.VOID_TYPE);
     }
 
-    if (expectedType != null && expectedType.equals(DataTypes.TYPE_VOID)) {
+    if (expectedType != null && expectedType.equals(TypeSpec.TYPE_VOID)) {
       returnErrors.submitError(
           this.error(this.currentToken(), "Cannot return a value from a void function"));
     }
@@ -1685,7 +1686,7 @@ public class Parser {
     } else {
       Location errorLocation = this.makeLocation(this.currentToken());
 
-      if (expectedType != null && !expectedType.equals(DataTypes.TYPE_VOID)) {
+      if (expectedType != null && !expectedType.equals(TypeSpec.TYPE_VOID)) {
         returnErrors.submitSyntaxError(this.error(errorLocation, "Expression expected"));
       }
 
@@ -3462,8 +3463,8 @@ public class Parser {
       lhs = badVariableReference(errorLocation);
     }
 
-    int ltype = lhs.getType().getType();
-    if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT && !lhs.getType().isBad()) {
+    TypeSpec ltype = lhs.getType().getType();
+    if (ltype != TypeSpec.TYPE_INT && ltype != TypeSpec.TYPE_FLOAT && !lhs.getType().isBad()) {
       preIncDecErrors.submitError(
           this.error(lhs.getLocation(), operStr + " requires a numeric variable reference"));
     }
@@ -3487,8 +3488,8 @@ public class Parser {
     Token operToken = this.currentToken();
     String operStr = operToken.equals("++") ? Parser.POST_INCREMENT : Parser.POST_DECREMENT;
 
-    int ltype = lhs.getType().getType();
-    if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT && !lhs.getType().isBad()) {
+    TypeSpec ltype = lhs.getType().getType();
+    if (ltype != TypeSpec.TYPE_INT && ltype != TypeSpec.TYPE_FLOAT && !lhs.getType().isBad()) {
       postIncDecErrors.submitError(
           this.error(lhs.getLocation(), operStr + " requires a numeric variable reference"));
     }
@@ -3684,12 +3685,12 @@ public class Parser {
         Type rtype = rhs.getType();
 
         if (oper.equals("+")
-            && (ltype.equals(DataTypes.TYPE_STRING) || rtype.equals(DataTypes.TYPE_STRING))) {
+            && (ltype.equals(TypeSpec.TYPE_STRING) || rtype.equals(TypeSpec.TYPE_STRING))) {
           // String concatenation
-          if (!ltype.equals(DataTypes.TYPE_STRING)) {
+          if (!ltype.equals(TypeSpec.TYPE_STRING)) {
             lhs = this.autoCoerceValue(DataTypes.STRING_TYPE, lhs, scope);
           }
-          if (!rtype.equals(DataTypes.TYPE_STRING)) {
+          if (!rtype.equals(TypeSpec.TYPE_STRING)) {
             rhs = this.autoCoerceValue(DataTypes.STRING_TYPE, rhs, scope);
           }
           if (lhs instanceof Concatenate) {
@@ -3701,7 +3702,7 @@ public class Parser {
           Location operationLocation = Parser.mergeLocations(lhs.getLocation(), rhs.getLocation());
 
           var lhsCoerceType =
-              (oper.equals("contains") && ltype.equals(DataTypes.TYPE_AGGREGATE))
+              (oper.equals("contains") && ltype.equals(TypeSpec.TYPE_AGGREGATE))
                   ? ((AggregateType) ltype).getIndexType().getBaseType()
                   : ltype;
 

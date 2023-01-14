@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class RecordInitializer extends TypeInitializer {
@@ -52,13 +53,13 @@ public class RecordInitializer extends TypeInitializer {
       // Perform type coercion, just as an Assignment does
       Type fieldType = types[fieldCount];
       Value coercedValue =
-          fieldType.equals(DataTypes.TYPE_STRING)
+          fieldType.equals(TypeSpec.TYPE_STRING)
               ? value.toStringValue()
-              : fieldType.equals(DataTypes.TYPE_INT)
+              : fieldType.equals(TypeSpec.TYPE_INT)
                   ? value.toIntValue()
-                  : fieldType.equals(DataTypes.TYPE_FLOAT)
+                  : fieldType.equals(TypeSpec.TYPE_FLOAT)
                       ? value.toFloatValue()
-                      : fieldType.equals(DataTypes.TYPE_BOOLEAN) ? value.toBooleanValue() : value;
+                      : fieldType.equals(TypeSpec.TYPE_BOOLEAN) ? value.toBooleanValue() : value;
 
       if (ScriptRuntime.isTracing()) {
         interpreter.trace("[" + interpreter.getState() + "] <- " + coercedValue.toQuotedString());
