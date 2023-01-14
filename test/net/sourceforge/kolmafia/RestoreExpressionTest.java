@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -76,7 +77,7 @@ public class RestoreExpressionTest {
     "turtle totem, 0",
   })
   public void canDetectEquip(String item, double expected) {
-    var cleanups = withEquipped(EquipmentManager.WEAPON, "seal-clubbing club");
+    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
 
     try (cleanups) {
       var exp = new RestoreExpression("equipped(" + item + ")", "Detect equip");

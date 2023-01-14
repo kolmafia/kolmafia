@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -237,7 +238,7 @@ class UseSkillRequestTest {
 
     @Test
     void doNotEquipDesignerSweatpantsForSkillIfAlreadyWearing() {
-      var cleanups = new Cleanups(withEquipped(EquipmentManager.PANTS, "designer sweatpants"));
+      var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {

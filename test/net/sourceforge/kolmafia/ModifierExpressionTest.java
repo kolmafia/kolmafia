@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -99,7 +100,7 @@ public class ModifierExpressionTest {
     "turtle totem, 0",
   })
   public void canDetectEquip(String item, String expected) {
-    var cleanups = withEquipped(EquipmentManager.WEAPON, "seal-clubbing club");
+    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
 
     try (cleanups) {
       var exp = new ModifierExpression("equipped(" + item + ")", "Detect equip");
@@ -113,7 +114,7 @@ public class ModifierExpressionTest {
     "totem, 0",
   })
   public void canDetectMainhandClass(String itemType, String expected) {
-    var cleanups = withEquipped(EquipmentManager.WEAPON, "seal-clubbing club");
+    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
 
     try (cleanups) {
       KoLCharacter.recalculateAdjustments();

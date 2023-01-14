@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class StickersCommand extends AbstractCommand {
   public StickersCommand() {
@@ -11,14 +12,15 @@ public class StickersCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     String[] stickers = parameters.split("\\s*,\\s*");
-    for (int i = 0; i < 3; ++i) {
-      if (EquipmentManager.getEquipment(EquipmentManager.STICKER1 + i) == EquipmentRequest.UNEQUIP
-          && i < stickers.length) {
-        String item = stickers[i].toLowerCase();
-        if (item.indexOf("stick") == -1) {
+    int i = 0;
+    for (var slot : EquipmentManager.STICKER_SLOTS) {
+      if (EquipmentManager.getEquipment(slot) == EquipmentRequest.UNEQUIP) {
+        if (i >= stickers.length) break;
+        String item = stickers[i++].toLowerCase();
+        if (!item.contains("stick")) {
           item = item + " sticker";
         }
-        EquipCommand.equip("st" + (i + 1) + " " + item);
+        EquipCommand.equip(slot.phpName + " " + item);
       }
     }
   }

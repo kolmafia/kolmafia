@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -1998,7 +1999,7 @@ public class ConcoctionDatabase {
         CraftingType.COINMASTER, "You have not selected the option to trade with coin masters.");
 
     if (InventoryManager.getCount(ItemPool.SAUSAGE_O_MATIC) > 0
-        || KoLCharacter.hasEquipped(ItemPool.SAUSAGE_O_MATIC, EquipmentManager.OFFHAND)) {
+        || KoLCharacter.hasEquipped(ItemPool.SAUSAGE_O_MATIC, Slot.OFFHAND)) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SAUSAGE_O_MATIC);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SAUSAGE_O_MATIC, 0);
       ConcoctionDatabase.CREATION_COST.put(

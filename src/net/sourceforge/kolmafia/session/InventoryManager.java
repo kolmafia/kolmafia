@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -238,8 +239,8 @@ public abstract class InventoryManager {
 
   public static final int getEquippedCount(final AdventureResult item) {
     int count = 0;
-    for (int i = 0; i <= EquipmentManager.FAMILIAR; ++i) {
-      AdventureResult equipment = EquipmentManager.getEquipment(i);
+    for (var slot : EquipmentManager.SLOTS) {
+      AdventureResult equipment = EquipmentManager.getEquipment(slot);
       if (equipment != null && equipment.getItemId() == item.getItemId()) {
         ++count;
       }
@@ -604,15 +605,15 @@ public abstract class InventoryManager {
     }
 
     if (!isRestricted && ItemDatabase.isEquipment(itemId) && useEquipped) {
-      for (int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i) {
+      for (var i : EquipmentManager.SLOTS) {
         // If you are dual-wielding the target item,
         // remove the one in the offhand slot first
         // since taking from the weapon slot will drop
         // the offhand weapon.
-        int slot =
-            i == EquipmentManager.WEAPON
-                ? EquipmentManager.OFFHAND
-                : i == EquipmentManager.OFFHAND ? EquipmentManager.WEAPON : i;
+        Slot slot =
+            i == Slot.WEAPON
+                ? Slot.OFFHAND
+                : i == Slot.OFFHAND ? Slot.WEAPON : i;
 
         if (EquipmentManager.getEquipment(slot).equals(item)) {
           if (sim) {
@@ -1566,7 +1567,7 @@ public abstract class InventoryManager {
   public static final void checkCrownOfThrones() {
     // If we are wearing the Crown of Thrones, we've already seen
     // which familiar is riding in it
-    if (KoLCharacter.hasEquipped(InventoryManager.CROWN_OF_THRONES, EquipmentManager.HAT)) {
+    if (KoLCharacter.hasEquipped(InventoryManager.CROWN_OF_THRONES, Slot.HAT)) {
       return;
     }
 
@@ -1591,7 +1592,7 @@ public abstract class InventoryManager {
   public static final void checkBuddyBjorn() {
     // If we are wearing the Bjorn Buddy, we've already seen
     // which familiar is riding in it
-    if (KoLCharacter.hasEquipped(InventoryManager.BUDDY_BJORN, EquipmentManager.CONTAINER)) {
+    if (KoLCharacter.hasEquipped(InventoryManager.BUDDY_BJORN, Slot.CONTAINER)) {
       return;
     }
 
@@ -1626,7 +1627,7 @@ public abstract class InventoryManager {
   public static void checkNoHat() {
     AdventureResult NO_HAT = ItemPool.get(ItemPool.NO_HAT, 1);
     String mod = Preferences.getString("_noHatModifier");
-    if (!KoLCharacter.hasEquipped(NO_HAT, EquipmentManager.HAT)
+    if (!KoLCharacter.hasEquipped(NO_HAT, Slot.HAT)
         && !KoLConstants.inventory.contains(NO_HAT)) {
       return;
     }
@@ -1645,7 +1646,7 @@ public abstract class InventoryManager {
       ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.JICK_SWORD, mod);
       return;
     }
-    if (!KoLCharacter.hasEquipped(JICK_SWORD, EquipmentManager.WEAPON)
+    if (!KoLCharacter.hasEquipped(JICK_SWORD, Slot.WEAPON)
         && !KoLConstants.inventory.contains(JICK_SWORD)) {
       // There are other places it could be, but it only needs to be
       // checked once ever, and if the sword isn't being used then
@@ -1659,7 +1660,7 @@ public abstract class InventoryManager {
   public static void checkPantogram() {
     AdventureResult PANTOGRAM_PANTS = ItemPool.get(ItemPool.PANTOGRAM_PANTS, 1);
     String mod = Preferences.getString("_pantogramModifier");
-    if (!KoLCharacter.hasEquipped(PANTOGRAM_PANTS, EquipmentManager.PANTS)
+    if (!KoLCharacter.hasEquipped(PANTOGRAM_PANTS, Slot.PANTS)
         && !KoLConstants.inventory.contains(PANTOGRAM_PANTS)) {
       return;
     }
@@ -1674,7 +1675,7 @@ public abstract class InventoryManager {
   public static void checkLatte() {
     AdventureResult LATTE_MUG = ItemPool.get(ItemPool.LATTE_MUG, 1);
     String mod = Preferences.getString("latteModifier");
-    if (!KoLCharacter.hasEquipped(LATTE_MUG, EquipmentManager.OFFHAND)
+    if (!KoLCharacter.hasEquipped(LATTE_MUG, Slot.OFFHAND)
         && !KoLConstants.inventory.contains(LATTE_MUG)) {
       return;
     }

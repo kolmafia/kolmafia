@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager.VolcanoMap;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -302,7 +303,7 @@ public class VolcanoMazeManagerTest {
               withGender(Gender.FEMALE),
               // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
-              withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
+              withEquipped(Slot.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
       try (cleanups) {
         client.addResponse(200, html("request/test_volcano_intro.html"));
         client.addResponse(200, html("request/test_volcano_start.html"));
@@ -407,7 +408,7 @@ public class VolcanoMazeManagerTest {
               withGender(Gender.FEMALE),
               // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
-              withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
+              withEquipped(Slot.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
       try (cleanups) {
         client.addResponse(200, html("request/test_volcano_intro.html"));
         client.addResponse(200, html("request/test_volcano_start.html"));

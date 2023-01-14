@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
@@ -374,9 +375,9 @@ public abstract class EncounterManager {
 
     if (encounterType.isAutostop()) {
       // Don't autostop if you have teleportisis
-      if (KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY1)
-          || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY2)
-          || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY3)
+      if (KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, Slot.ACCESSORY1)
+          || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, Slot.ACCESSORY2)
+          || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, Slot.ACCESSORY3)
           || KoLConstants.activeEffects.contains(TELEPORTITIS)
           || KoLConstants.activeEffects.contains(FEELING_LOST)) {
         return;

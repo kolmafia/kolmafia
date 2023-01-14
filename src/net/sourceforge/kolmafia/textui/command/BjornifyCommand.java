@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BjornifyCommand extends AbstractCommand {
@@ -84,7 +85,7 @@ public class BjornifyCommand extends AbstractCommand {
         RequestThread.postRequest(FamiliarRequest.enthroneRequest(FamiliarData.NO_FAMILIAR));
       }
 
-      RequestThread.postRequest(new EquipmentRequest(BUDDY_BJORN, EquipmentManager.CONTAINER));
+      RequestThread.postRequest(new EquipmentRequest(BUDDY_BJORN, Slot.CONTAINER));
 
       if (KoLmafia.permitsContinue() && !KoLCharacter.getBjorned().equals(change)) {
         RequestThread.postRequest(FamiliarRequest.bjornifyRequest(change));

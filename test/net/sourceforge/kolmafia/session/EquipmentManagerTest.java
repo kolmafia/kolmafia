@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ public class EquipmentManagerTest {
   public void thatUnbreakableUmbrellaIsRecognized(String style) {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"),
+            withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
             withProperty("umbrellaState", style));
 
     try (cleanups) {
@@ -71,7 +72,7 @@ public class EquipmentManagerTest {
   public void thatJurassicParkaIsRecognized(String mode) {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.SHIRT, "Jurassic Parka"),
+            withEquipped(Slot.SHIRT, "Jurassic Parka"),
             withProperty("parkaMode", mode));
 
     try (cleanups) {
@@ -91,7 +92,7 @@ public class EquipmentManagerTest {
   public void thatBackupCameraIsRecognized(String mode) {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.ACCESSORY1, "backup camera"),
+            withEquipped(Slot.ACCESSORY1, "backup camera"),
             withProperty("backupCameraMode", mode));
 
     try (cleanups) {
@@ -106,7 +107,7 @@ public class EquipmentManagerTest {
 
     var cleanup =
         new Cleanups(
-            withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+            withEquipped(Slot.PANTS, "designer sweatpants"),
             withProperty("sweat", 100));
 
     try (cleanup) {
@@ -118,12 +119,12 @@ public class EquipmentManagerTest {
   public void unequippingDesignerSweatpantsRemovesCombatSkills() {
     var cleanup =
         new Cleanups(
-            withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+            withEquipped(Slot.PANTS, "designer sweatpants"),
             withProperty("sweat", 100));
 
     try (cleanup) {
       assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));
-      EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.PANTS, EquipmentRequest.UNEQUIP);
       assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(false));
     }
   }
@@ -138,28 +139,28 @@ public class EquipmentManagerTest {
 
       EquipmentManager.parseStatus(JSON);
 
-      assertItem(EquipmentManager.HAT, "Daylight Shavings Helmet");
-      assertItem(EquipmentManager.CONTAINER, "vampyric cloake");
-      assertItem(EquipmentManager.SHIRT, "Sneaky Pete's leather jacket");
-      assertItem(EquipmentManager.WEAPON, "cursed pirate cutlass");
-      assertItem(EquipmentManager.OFFHAND, "June cleaver");
-      assertItem(EquipmentManager.PANTS, "purpleheart \"pants\"");
-      assertItem(EquipmentManager.ACCESSORY1, "fudgecycle");
-      assertItem(EquipmentManager.ACCESSORY2, "Treads of Loathing");
-      assertItem(EquipmentManager.ACCESSORY3, "Counterclockwise Watch");
-      assertItem(EquipmentManager.FAMILIAR, "li'l unicorn costume");
+      assertItem(Slot.HAT, "Daylight Shavings Helmet");
+      assertItem(Slot.CONTAINER, "vampyric cloake");
+      assertItem(Slot.SHIRT, "Sneaky Pete's leather jacket");
+      assertItem(Slot.WEAPON, "cursed pirate cutlass");
+      assertItem(Slot.OFFHAND, "June cleaver");
+      assertItem(Slot.PANTS, "purpleheart \"pants\"");
+      assertItem(Slot.ACCESSORY1, "fudgecycle");
+      assertItem(Slot.ACCESSORY2, "Treads of Loathing");
+      assertItem(Slot.ACCESSORY3, "Counterclockwise Watch");
+      assertItem(Slot.FAMILIAR, "li'l unicorn costume");
 
-      assertItem(EquipmentManager.CARDSLEEVE, "Alice's Army Coward");
+      assertItem(Slot.CARDSLEEVE, "Alice's Army Coward");
 
-      assertItem(EquipmentManager.STICKER1, "scratch 'n' sniff UPC sticker");
-      assertItemUnequip(EquipmentManager.STICKER2);
-      assertItemUnequip(EquipmentManager.STICKER3);
+      assertItem(Slot.STICKER1, "scratch 'n' sniff UPC sticker");
+      assertItemUnequip(Slot.STICKER2);
+      assertItemUnequip(Slot.STICKER3);
 
-      assertItem(EquipmentManager.FOLDER1, "folder (heavy metal)");
-      assertItem(EquipmentManager.FOLDER2, "folder (tranquil landscape)");
-      assertItem(EquipmentManager.FOLDER3, "folder (owl)");
-      assertItemUnequip(EquipmentManager.FOLDER4);
-      assertItemUnequip(EquipmentManager.FOLDER5);
+      assertItem(Slot.FOLDER1, "folder (heavy metal)");
+      assertItem(Slot.FOLDER2, "folder (tranquil landscape)");
+      assertItem(Slot.FOLDER3, "folder (owl)");
+      assertItemUnequip(Slot.FOLDER4);
+      assertItemUnequip(Slot.FOLDER5);
     }
   }
 }

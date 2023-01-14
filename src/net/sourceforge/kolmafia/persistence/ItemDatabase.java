@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2268,7 +2269,7 @@ public class ItemDatabase {
 
     // If the cape is not equipped, that is correct
     if (!KoLCharacter.hasEquipped(
-        ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, EquipmentManager.CONTAINER)) {
+        ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, Slot.CONTAINER)) {
       return;
     }
 

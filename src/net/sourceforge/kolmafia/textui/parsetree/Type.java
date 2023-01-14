@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
@@ -369,7 +370,7 @@ public class Type extends Symbol {
         this.addValues(list, FamiliarDatabase.entrySet());
         break;
       case SLOT:
-        this.addValues(list, EquipmentRequest.slotNames);
+        this.addValues(list, Slot.NAMES);
         break;
       case MONSTER:
         this.addValues(list, MonsterDatabase.valueSet());

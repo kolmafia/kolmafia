@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -171,7 +172,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return false;
     }
 
-    var trousers = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+    var trousers = EquipmentManager.getEquipment(Slot.PANTS);
 
     if (trousers == null) {
       return false;
@@ -312,7 +313,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     if (!usingTrousers(this.npcStoreId)) {
       var trousers = getEquippableTrousers(this.npcStoreId);
       if (trousers != null) {
-        (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
+        (new EquipmentRequest(trousers, Slot.PANTS)).run();
       }
     }
 

@@ -137,6 +137,7 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
@@ -5514,8 +5515,8 @@ public abstract class RuntimeLibrary {
     AdventureResult item = ItemPool.get((int) arg.intValue(), 0);
     int runningTotal = 0;
 
-    for (int i = 0; i <= EquipmentManager.FAMILIAR; ++i) {
-      if (EquipmentManager.getEquipment(i).equals(item)) {
+    for (var slot : EquipmentManager.SLOTS) {
+      if (EquipmentManager.getEquipment(slot).equals(item)) {
         ++runningTotal;
       }
     }
@@ -6681,7 +6682,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value equipped_item(ScriptRuntime controller, final Value slot) {
-    return DataTypes.makeItemValue(EquipmentManager.getEquipment((int) slot.intValue()));
+    return DataTypes.makeItemValue(EquipmentManager.getEquipment(
+      Slot.byOrdinal((int) slot.intValue())));
   }
 
   public static Value have_equipped(ScriptRuntime controller, final Value item) {

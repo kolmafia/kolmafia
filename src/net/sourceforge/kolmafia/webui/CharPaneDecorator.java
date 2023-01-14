@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -484,7 +485,7 @@ public class CharPaneDecorator {
         buffer.append("/");
         AdventureResult dormouse = ItemPool.get(ItemPool.MINIATURE_DORMOUSE, 1);
         buffer.append(
-            EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(dormouse)
+            EquipmentManager.getEquipment(Slot.FAMILIAR).equals(dormouse)
                 ? "12"
                 : "15");
         buffer.append(" charges");
@@ -677,7 +678,7 @@ public class CharPaneDecorator {
         buffer.append("/");
         int lectures = (int) Math.ceil(Math.sqrt(familiar.getModifiedWeight()));
         AdventureResult chip = ItemPool.get(ItemPool.POCKET_PROFESSOR_MEMORY_CHIP, 1);
-        if (EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(chip)) {
+        if (EquipmentManager.getEquipment(Slot.FAMILIAR).equals(chip)) {
           lectures += 2;
         }
         buffer.append(lectures);
@@ -700,7 +701,7 @@ public class CharPaneDecorator {
           double spitPerTurn = 10 / 3.0;
           AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
           boolean wearingHelmet =
-              EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(helmet);
+              EquipmentManager.getEquipment(Slot.FAMILIAR).equals(helmet);
 
           if (wearingHelmet) {
             spitPerTurn += 1;
@@ -743,7 +744,7 @@ public class CharPaneDecorator {
   private static int gothKidChargesNeeded() {
     int fights = Preferences.getInteger("_gothKidFights");
     AdventureResult mannequin = ItemPool.get(ItemPool.LITTLE_MANNEQUIN, 1);
-    if (EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(mannequin)) {
+    if (EquipmentManager.getEquipment(Slot.FAMILIAR).equals(mannequin)) {
       return (int) (Math.pow(fights, 2) - fights + 10) / 2;
     } else {
       int[] goth = {7, 7, 8, 11, 15, 20, 27, 35, 44, 55, 67, 80, 95, 111, 128};

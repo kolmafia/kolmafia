@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
@@ -1297,10 +1298,10 @@ public class GenericRequest implements Runnable {
         if (KoLConstants.inventory.contains(comedyItem)) {
           // Unequip any 2-handed weapon before equipping an offhand
           if (offhand) {
-            AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
+            AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
             int hands = EquipmentDatabase.getHands(weapon.getItemId());
             if (hands > 1) {
-              new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON).run();
+              new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.WEAPON).run();
             }
           }
 

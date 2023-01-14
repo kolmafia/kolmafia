@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -304,7 +305,7 @@ public class FamiliarDataTest {
         assertEquals(feasted, current.getFeasted());
         // Image can change, so current image is in KoLCharacter
         assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
-        assertEquals(EquipmentManager.getEquipment(EquipmentManager.FAMILIAR), current.getItem());
+        assertEquals(EquipmentManager.getEquipment(Slot.FAMILIAR), current.getItem());
         // Modified Weight
         assertEquals(famLevel, current.getModifiedWeight());
       }
@@ -334,7 +335,7 @@ public class FamiliarDataTest {
               withClass(AscensionClass.ACCORDION_THIEF),
               withStats(basemuscle, basemysticality, basemoxie),
               withSkill("Amphibian Sympathy"),
-              withEquipped(EquipmentManager.HAT, "Daylight Shavings Helmet"));
+              withEquipped(Slot.HAT, "Daylight Shavings Helmet"));
 
       try (cleanups) {
         ApiRequest.parseStatus(JSON);
@@ -373,7 +374,7 @@ public class FamiliarDataTest {
       Cleanups cleanups =
           new Cleanups(
               withPath(Path.NONE),
-              withEquipped(EquipmentManager.HAT, "Daylight Shavings Helmet"),
+              withEquipped(Slot.HAT, "Daylight Shavings Helmet"),
               withSkill("Amphibian Sympathy"),
               withEffect("Cute Vision"),
               withEffect("Empathy"),

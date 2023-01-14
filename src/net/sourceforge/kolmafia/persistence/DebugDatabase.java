@@ -2423,7 +2423,7 @@ public class DebugDatabase {
   }
 
   private static void conditionallyAddItems(
-      Collection<AdventureResult> items, List<AdventureResult> location, boolean force) {
+      Collection<AdventureResult> items, Collection<AdventureResult> location, boolean force) {
     // If checking display case, retrieve if necessary
     if (location == KoLConstants.collection) {
       if (!KoLCharacter.hasDisplayCase()) {
@@ -2467,7 +2467,7 @@ public class DebugDatabase {
 
     DebugDatabase.conditionallyAddItems(items, KoLConstants.inventory, force);
     DebugDatabase.conditionallyAddItems(items, KoLConstants.closet, force);
-    DebugDatabase.conditionallyAddItems(items, EquipmentManager.allEquipmentAsList(), force);
+    DebugDatabase.conditionallyAddItems(items, EquipmentManager.allEquipmentAsCollection(), force);
     DebugDatabase.conditionallyAddItems(items, KoLConstants.collection, force);
     // Storage must be at the end since we will pull things iff they
     // are not present in a more accessible place

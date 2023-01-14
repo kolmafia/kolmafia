@@ -181,8 +181,8 @@ public abstract class ConditionalStatement extends AbstractCommand {
     }
 
     if (left.equals("stickers")) {
-      return Arrays.stream(EquipmentManager.STICKER_SLOTS)
-          .mapToObj(EquipmentManager::getEquipment)
+      return EquipmentManager.STICKER_SLOTS.stream()
+          .map(EquipmentManager::getEquipment)
           .filter(Predicate.not(EquipmentRequest.UNEQUIP::equals))
           .count();
     }

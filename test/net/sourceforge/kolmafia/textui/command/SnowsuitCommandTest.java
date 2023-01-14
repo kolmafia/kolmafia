@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -62,7 +63,7 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
         new Cleanups(
             withEquippableItem("Snow Suit"),
             withFamiliar(FamiliarPool.CRAB),
-            withUnequipped(EquipmentManager.FAMILIAR),
+            withUnequipped(Slot.FAMILIAR),
             withProperty("snowsuit", "smirk"));
 
     try (cleanups) {
@@ -82,7 +83,7 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
         new Cleanups(
             withEquippableItem("Snow Suit"),
             withFamiliar(FamiliarPool.CRAB),
-            withEquipped(EquipmentManager.FAMILIAR, "Snow Suit"),
+            withEquipped(Slot.FAMILIAR, "Snow Suit"),
             withProperty("snowsuit", "goatee"));
 
     try (cleanups) {
@@ -106,7 +107,7 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
         new Cleanups(
             withEquippableItem("Snow Suit"),
             withFamiliar(FamiliarPool.CRAB),
-            withEquipped(EquipmentManager.FAMILIAR, "Snow Suit"),
+            withEquipped(Slot.FAMILIAR, "Snow Suit"),
             withProperty("snowsuit", ""));
 
     try (cleanups) {

@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -95,7 +96,7 @@ public class CargoCultistShortsRequest extends GenericRequest {
     }
 
     // If you can't get a pair of cargo cultist shorts, punt
-    if (!KoLCharacter.hasEquipped(ItemPool.CARGO_CULTIST_SHORTS, EquipmentManager.PANTS)
+    if (!KoLCharacter.hasEquipped(ItemPool.CARGO_CULTIST_SHORTS, Slot.PANTS)
         && !InventoryManager.retrieveItem(ItemPool.CARGO_CULTIST_SHORTS, 1, true)) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "You don't have a pair of Cargo Cultist Shorts available");

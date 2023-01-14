@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class RubeeRequest extends CoinMasterRequest {
   public static final String master = "FantasyRealm Rubee&trade; Store";
@@ -79,7 +80,7 @@ public class RubeeRequest extends CoinMasterRequest {
     if (!KoLCharacter.hasEquipped(ItemPool.FANTASY_REALM_GEM)) {
       EquipmentRequest request =
           new EquipmentRequest(
-              ItemPool.get(ItemPool.FANTASY_REALM_GEM), EquipmentManager.ACCESSORY3);
+              ItemPool.get(ItemPool.FANTASY_REALM_GEM), Slot.ACCESSORY3);
       RequestThread.postRequest(request);
     }
   }

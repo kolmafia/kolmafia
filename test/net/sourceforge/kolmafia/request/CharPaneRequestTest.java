@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -86,7 +87,7 @@ class CharPaneRequestTest {
     void parseSweatiness(String responseHtml, int expectedValue) {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+              withEquipped(Slot.PANTS, "designer sweatpants"),
               withProperty("sweat", 0));
 
       try (cleanups) {
@@ -100,7 +101,7 @@ class CharPaneRequestTest {
     void recogniseNoSweatinessDisplayedMeansZeroIfPantsEquipped() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+              withEquipped(Slot.PANTS, "designer sweatpants"),
               withProperty("sweat", 11));
 
       try (cleanups) {

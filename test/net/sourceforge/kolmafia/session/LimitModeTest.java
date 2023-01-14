@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -123,7 +124,7 @@ class LimitModeTest {
   class Slot {
     @Test
     void nothingLimitedNormally() {
-      assertThat(LimitMode.NONE.limitSlot(EquipmentManager.HAT), is(false));
+      assertThat(LimitMode.NONE.limitSlot(EquipmentManager.Slot.HAT), is(false));
     }
 
     @ParameterizedTest
@@ -131,13 +132,13 @@ class LimitModeTest {
         value = LimitMode.class,
         names = {"BATMAN", "ED"})
     void someCantWearAnything(final LimitMode lm) {
-      assertThat(lm.limitSlot(EquipmentManager.HAT), is(true));
+      assertThat(lm.limitSlot(EquipmentManager.Slot.HAT), is(true));
     }
 
     @Test
     void spelunkersCanWearSomeThings() {
-      assertThat(LimitMode.SPELUNKY.limitSlot(EquipmentManager.ACCESSORY1), is(false));
-      assertThat(LimitMode.SPELUNKY.limitSlot(EquipmentManager.ACCESSORY2), is(true));
+      assertThat(LimitMode.SPELUNKY.limitSlot(EquipmentManager.Slot.ACCESSORY1), is(false));
+      assertThat(LimitMode.SPELUNKY.limitSlot(EquipmentManager.Slot.ACCESSORY2), is(true));
     }
   }
 

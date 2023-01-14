@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class RetroCapeCommand extends AbstractCommand implements ModeCommand {
@@ -73,10 +74,10 @@ public class RetroCapeCommand extends AbstractCommand implements ModeCommand {
       }
     }
 
-    if (EquipmentManager.getEquipment(EquipmentManager.CONTAINER).getItemId()
+    if (EquipmentManager.getEquipment(Slot.CONTAINER).getItemId()
         != ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE) {
       AdventureResult retroCape = ItemPool.get(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE);
-      RequestThread.postRequest(new EquipmentRequest(retroCape, EquipmentManager.CONTAINER));
+      RequestThread.postRequest(new EquipmentRequest(retroCape, Slot.CONTAINER));
     }
 
     KoLmafia.updateDisplay("Reconfiguring retro cape");

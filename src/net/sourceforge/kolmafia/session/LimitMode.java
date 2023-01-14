@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public enum LimitMode {
   UNKNOWN("unknown"),
@@ -119,15 +120,15 @@ public enum LimitMode {
     };
   }
 
-  public boolean limitSlot(final int slot) {
+  public boolean limitSlot(final Slot slot) {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY -> switch (slot) {
-        case EquipmentManager.HAT,
-            EquipmentManager.WEAPON,
-            EquipmentManager.OFFHAND,
-            EquipmentManager.CONTAINER,
-            EquipmentManager.ACCESSORY1 -> false;
+        case HAT,
+          WEAPON,
+          OFFHAND,
+          CONTAINER,
+          ACCESSORY1 -> false;
         default -> true;
       };
       case ED, BATMAN -> true;

@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -531,7 +532,7 @@ public class ValhallaDecorator {
     }
 
     folderHolderBuffer.append("Folder Holder: ");
-    for (int slot : EquipmentManager.FOLDER_SLOTS_AFTERCORE) {
+    for (var slot : EquipmentManager.FOLDER_SLOTS_AFTERCORE) {
       AdventureResult folder = EquipmentManager.getEquipment(slot);
       if (folder != null) {
         String name = folder.getName();
@@ -653,8 +654,8 @@ public class ValhallaDecorator {
 
     StringBuilder cowboyBootsBuffer = new StringBuilder();
 
-    AdventureResult skin = EquipmentManager.getEquipment(EquipmentManager.BOOTSKIN);
-    AdventureResult spurs = EquipmentManager.getEquipment(EquipmentManager.BOOTSPUR);
+    AdventureResult skin = EquipmentManager.getEquipment(Slot.BOOTSKIN);
+    AdventureResult spurs = EquipmentManager.getEquipment(Slot.BOOTSPUR);
 
     cowboyBootsBuffer
         .append("<nobr>Cowboy Boot skin: ")

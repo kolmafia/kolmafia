@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class UnequipCommand extends AbstractCommand {
   public UnequipCommand() {
@@ -16,19 +17,14 @@ public class UnequipCommand extends AbstractCommand {
   public void run(final String cmd, String parameters) {
     // Look for name of slot
     String command = parameters.split(" ")[0];
-    int slot = EquipmentRequest.slotNumber(command);
+    Slot slot = EquipmentRequest.slotNumber(command);
 
-    if (slot != -1) {
+    if (slot != Slot.NONE) {
       RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
       return;
     }
 
     parameters = parameters.toLowerCase();
-
-    if (parameters.equals("none")) {
-      // unequip nothing = do nothing
-      return;
-    }
 
     // Allow player to remove all of his fake hands
     if (parameters.equals("fake hand")) {
@@ -36,7 +32,7 @@ public class UnequipCommand extends AbstractCommand {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You're not wearing any fake hands");
       } else {
         RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.FAKEHAND));
+            new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.FAKEHAND));
       }
 
       return;
@@ -45,11 +41,18 @@ public class UnequipCommand extends AbstractCommand {
     // The following loop removes all items with the
     // specified name.
 
-    for (int i = 0; i <= EquipmentManager.STICKER3; ++i) {
-      AdventureResult item = EquipmentManager.getEquipment(i);
-      if (item != null && item.getName().toLowerCase().indexOf(parameters) != -1) {
-        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, i));
-      }
+    for (var s : EquipmentManager.SLOTS) {
+      unequip(s, parameters);
+    }
+    for (var s : EquipmentManager.STICKER_SLOTS) {
+      unequip(s, parameters);
+    }
+  }
+
+  private void unequip(Slot slot, String name) {
+    AdventureResult item = EquipmentManager.getEquipment(slot);
+    if (item != null && item.getName().toLowerCase().contains(name)) {
+      RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
     }
   }
 }

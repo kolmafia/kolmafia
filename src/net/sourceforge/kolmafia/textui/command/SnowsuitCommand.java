@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
@@ -100,10 +101,10 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    if (EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).getItemId()
+    if (EquipmentManager.getEquipment(Slot.FAMILIAR).getItemId()
         != ItemPool.SNOW_SUIT) {
       AdventureResult snowsuit = ItemPool.get(ItemPool.SNOW_SUIT);
-      RequestThread.postRequest(new EquipmentRequest(snowsuit, EquipmentManager.FAMILIAR));
+      RequestThread.postRequest(new EquipmentRequest(snowsuit, Slot.FAMILIAR));
     }
 
     if (parameters.equalsIgnoreCase(currentDecoration)) {

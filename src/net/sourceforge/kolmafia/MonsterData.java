@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1757,7 +1758,7 @@ public class MonsterData extends AdventureResult {
   public double getExperience() {
     int xpMultiplier = 1;
     if (KoLCharacter.hasEquipped(
-            ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), EquipmentManager.SHIRT)
+            ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), Slot.SHIRT)
         && Preferences.getInteger("garbageShirtCharge") > 0) {
       xpMultiplier = 2;
     }

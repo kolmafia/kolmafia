@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class QuestManager {
@@ -2503,7 +2504,7 @@ public class QuestManager {
         break;
       case "GNG-3-R":
         if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO))
-            == EquipmentManager.NONE) {
+            == Slot.NONE) {
           // Remove it from equipment if it is equipped, otherwise remove it from inventory
           ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERSERVO, -1));
         }

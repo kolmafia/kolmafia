@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1675,7 +1676,7 @@ public class ResultProcessor {
               RequestThread.postRequest(
                   new EquipmentRequest(
                       ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1),
-                      EquipmentManager.ACCESSORY3));
+                      Slot.ACCESSORY3));
             }
             RequestThread.postRequest(
                 UseItemRequest.getInstance(ItemPool.MORTAR_DISSOLVING_RECIPE));

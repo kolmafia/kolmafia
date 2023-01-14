@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.hasSize;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +42,7 @@ class ModeableTest {
   @Test
   void getSlot() {
     var modeable = Modeable.BACKUPCAMERA;
-    assertThat(modeable.getSlot(), equalTo(EquipmentManager.ACCESSORY1));
+    assertThat(modeable.getSlot(), equalTo(Slot.ACCESSORY1));
   }
 
   @Test
@@ -129,7 +130,7 @@ class ModeableTest {
 
   @Test
   void getBooleanMapWithCustomSupplier() {
-    var map = Modeable.getBooleanMap(m -> m.getSlot() == EquipmentManager.HAT);
+    var map = Modeable.getBooleanMap(m -> m.getSlot() == Slot.HAT);
     assertThat(map, hasEntry(equalTo(Modeable.EDPIECE), equalTo(true)));
     assertThat(map.values().stream().filter(v -> v).collect(Collectors.toSet()), hasSize(1));
   }

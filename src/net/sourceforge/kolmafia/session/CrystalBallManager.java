@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public final class CrystalBallManager {
   private static final Pattern[] CRYSTAL_BALL_PATTERNS = {
@@ -195,7 +196,7 @@ public final class CrystalBallManager {
 
   // EncounterManager methods
   private static boolean isEquipped() {
-    return KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR);
+    return KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR);
   }
 
   public static boolean isCrystalBallZone(final String zone) {
@@ -222,7 +223,7 @@ public final class CrystalBallManager {
 
   public static boolean own() {
     AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
-    return (KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR)
+    return (KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR)
         || KoLConstants.inventory.contains(ORB));
   }
 

@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -37,19 +38,19 @@ public class Maximizer {
     return net.sourceforge.kolmafia.maximizer.Maximizer.boosts;
   }
 
-  public static Optional<AdventureResult> getSlot(int slot) {
+  public static Optional<AdventureResult> getSlot(Slot slot) {
     var boost =
         getBoosts().stream().filter(Boost::isEquipment).filter(b -> b.getSlot() == slot).findAny();
     return boost.map(Boost::getItem);
   }
 
-  public static void recommendedSlotIs(int slot, String item) {
+  public static void recommendedSlotIs(Slot slot, String item) {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(equipment.isPresent(), "Expected " + item + " to be recommended, but it was not");
     assertEquals(AdventureResult.tallyItem(StringUtilities.getEntityEncode(item)), equipment.get());
   }
 
-  public static void recommendedSlotIsUnchanged(int slot) {
+  public static void recommendedSlotIsUnchanged(Slot slot) {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(
         equipment.isEmpty(),

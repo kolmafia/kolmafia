@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -53,11 +54,11 @@ public class InventoryManagerTest {
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withEquipped(EquipmentManager.OFFHAND, "hobo code binder"));
+            withEquipped(Slot.OFFHAND, "hobo code binder"));
 
     try (cleanups) {
       // The offhand item is equipped as desired
-      assertEquals(HOBO_CODE_BINDER, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+      assertEquals(HOBO_CODE_BINDER, EquipmentManager.getEquipment(Slot.OFFHAND));
 
       // InventoryManager says it is not in inventory, but can be placed there
       assertEquals(0, InventoryManager.getCount(HOBO_CODE_BINDER));
@@ -65,7 +66,7 @@ public class InventoryManagerTest {
 
       // Checkpoint our current equipment
       Checkpoint checkpoint = new Checkpoint();
-      assertEquals(HOBO_CODE_BINDER, checkpoint.get(EquipmentManager.OFFHAND));
+      assertEquals(HOBO_CODE_BINDER, checkpoint.get(Slot.OFFHAND));
 
       // Tell the InventoryManager to "retrieve" the item into inventory
       builder.client.addResponse(200, html("request/test_unequip_offhand.html"));
@@ -73,7 +74,7 @@ public class InventoryManagerTest {
 
       // It is now in inventory and not equipped
       assertEquals(1, InventoryManager.getCount(HOBO_CODE_BINDER));
-      assertEquals(UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+      assertEquals(UNEQUIP, EquipmentManager.getEquipment(Slot.OFFHAND));
 
       var requests = builder.client.getRequests();
       assertThat(requests, hasSize(2));
@@ -95,7 +96,7 @@ public class InventoryManagerTest {
 
       // It is now equipped and not in inventory
       assertEquals(0, InventoryManager.getCount(HOBO_CODE_BINDER));
-      assertEquals(HOBO_CODE_BINDER, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+      assertEquals(HOBO_CODE_BINDER, EquipmentManager.getEquipment(Slot.OFFHAND));
     }
   }
 

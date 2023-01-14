@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -495,7 +496,7 @@ public abstract class MoodManager {
     // Special case: if the character has a turtling rod equipped,
     // assume the Eau de Tortue is a possibility
 
-    if (KoLCharacter.hasEquipped(MoodManager.TURTLING_ROD, EquipmentManager.OFFHAND)
+    if (KoLCharacter.hasEquipped(MoodManager.TURTLING_ROD, Slot.OFFHAND)
         && !KoLConstants.activeEffects.contains(MoodManager.EAU_DE_TORTUE)) {
       missing.add(MoodManager.EAU_DE_TORTUE);
     }

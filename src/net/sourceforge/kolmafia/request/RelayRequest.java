@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -1110,7 +1111,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If you are equipped with the correct weapon, nothing to warn about
-    if (KoLCharacter.hasEquipped(weapon.getItemId(), EquipmentManager.WEAPON)) {
+    if (KoLCharacter.hasEquipped(weapon.getItemId(), Slot.WEAPON)) {
       return false;
     }
 
@@ -1600,10 +1601,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they have a machete equipped, no problem
-    if (KoLCharacter.hasEquipped(ItemPool.PAPIER_MACHETE, EquipmentManager.WEAPON)
-        || KoLCharacter.hasEquipped(ItemPool.MUCULENT_MACHETE, EquipmentManager.WEAPON)
-        || KoLCharacter.hasEquipped(ItemPool.MACHETITO, EquipmentManager.WEAPON)
-        || KoLCharacter.hasEquipped(ItemPool.ANTIQUE_MACHETE, EquipmentManager.WEAPON)) {
+    if (KoLCharacter.hasEquipped(ItemPool.PAPIER_MACHETE, Slot.WEAPON)
+        || KoLCharacter.hasEquipped(ItemPool.MUCULENT_MACHETE, Slot.WEAPON)
+        || KoLCharacter.hasEquipped(ItemPool.MACHETITO, Slot.WEAPON)
+        || KoLCharacter.hasEquipped(ItemPool.ANTIQUE_MACHETE, Slot.WEAPON)) {
       return false;
     }
 
@@ -1672,7 +1673,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they are already wearing the Wig, no problem
-    if (KoLCharacter.hasEquipped(ItemPool.MOHAWK_WIG, EquipmentManager.HAT)) {
+    if (KoLCharacter.hasEquipped(ItemPool.MOHAWK_WIG, Slot.HAT)) {
       return false;
     }
 
@@ -1853,7 +1854,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     // If they don't have Staff of Ed (as Ed), Staff of Fats or Pool Cue equipped, but do have them,
     // present the best as an option
-    if (!KoLCharacter.hasEquipped(ItemPool.STAFF_OF_FATS, EquipmentManager.WEAPON)
+    if (!KoLCharacter.hasEquipped(ItemPool.STAFF_OF_FATS, Slot.WEAPON)
         && InventoryManager.hasItem(ItemPool.STAFF_OF_FATS)) {
       image2 = "poolcuef.gif";
       action2 =
@@ -1862,7 +1863,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "&pwd="
               + GenericRequest.passwordHash
               + "&ajax=1');void(0);\"";
-    } else if (!KoLCharacter.hasEquipped(ItemPool.ED_STAFF, EquipmentManager.WEAPON)
+    } else if (!KoLCharacter.hasEquipped(ItemPool.ED_STAFF, Slot.WEAPON)
         && InventoryManager.hasItem(ItemPool.ED_STAFF)) {
       image2 = "staffofed.gif";
       action2 =
@@ -1871,7 +1872,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "&pwd="
               + GenericRequest.passwordHash
               + "&ajax=1');void(0);\"";
-    } else if (!KoLCharacter.hasEquipped(ItemPool.ED_FATS_STAFF, EquipmentManager.WEAPON)
+    } else if (!KoLCharacter.hasEquipped(ItemPool.ED_FATS_STAFF, Slot.WEAPON)
         && InventoryManager.hasItem(ItemPool.ED_FATS_STAFF)) {
       image2 = "poolcuef.gif";
       action2 =
@@ -1880,7 +1881,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "&pwd="
               + GenericRequest.passwordHash
               + "&ajax=1');void(0);\"";
-    } else if (!KoLCharacter.hasEquipped(ItemPool.POOL_CUE, EquipmentManager.WEAPON)
+    } else if (!KoLCharacter.hasEquipped(ItemPool.POOL_CUE, Slot.WEAPON)
         && InventoryManager.hasItem(ItemPool.POOL_CUE)) {
       image2 = "poolcue.gif";
       action2 =
@@ -2093,7 +2094,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they are already wielding the fulminate, no problem
-    if (KoLCharacter.hasEquipped(ItemPool.UNSTABLE_FULMINATE, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.UNSTABLE_FULMINATE, Slot.OFFHAND)) {
       return false;
     }
 
@@ -2268,8 +2269,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If your hands are empty, there's nothing to warn about
-    if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).equals(EquipmentRequest.UNEQUIP)
-        && EquipmentManager.getEquipment(EquipmentManager.OFFHAND)
+    if (EquipmentManager.getEquipment(Slot.WEAPON).equals(EquipmentRequest.UNEQUIP)
+        && EquipmentManager.getEquipment(Slot.OFFHAND)
             .equals(EquipmentRequest.UNEQUIP)) {
       return false;
     }
@@ -2711,11 +2712,11 @@ public class RelayRequest extends PasswordHashRequest {
 
     int power =
         EquipmentDatabase.getPower(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+            EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     if (power <= 50
         || power >= 150
-        || EquipmentManager.getEquipment(EquipmentManager.HAT) == EquipmentRequest.UNEQUIP
-        || EquipmentManager.getEquipment(EquipmentManager.PANTS) == EquipmentRequest.UNEQUIP) {
+        || EquipmentManager.getEquipment(Slot.HAT) == EquipmentRequest.UNEQUIP
+        || EquipmentManager.getEquipment(Slot.PANTS) == EquipmentRequest.UNEQUIP) {
       this.sendGeneralWarning(
           "ggtoken.gif",
           "You might not be properly equipped to play this game.<br>Click the token if you'd like to continue anyway.",
@@ -2795,8 +2796,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)
-        || KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.FAMILIAR)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, Slot.OFFHAND)
+        || KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, Slot.FAMILIAR)) {
       return false;
     }
 

@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.PottedTeaTreeRequest.PottedTea;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager.Hat;
@@ -3274,7 +3275,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.modifiers.add(null);
 
       // build hat options here
-      List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
+      List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(Slot.HAT);
       FamiliarData current = KoLCharacter.getFamiliar();
 
       if (current.getItem() != null && EquipmentDatabase.isHat(current.getItem())) {

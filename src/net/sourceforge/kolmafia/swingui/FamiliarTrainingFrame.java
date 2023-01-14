@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
@@ -1345,13 +1346,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     private void checkCurrentEquipment() {
       this.checkCurrentEquipment(
-          EquipmentManager.getEquipment(EquipmentManager.WEAPON),
-          EquipmentManager.getEquipment(EquipmentManager.OFFHAND),
-          EquipmentManager.getEquipment(EquipmentManager.HAT),
-          EquipmentManager.getEquipment(EquipmentManager.FAMILIAR),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3));
+          EquipmentManager.getEquipment(Slot.WEAPON),
+          EquipmentManager.getEquipment(Slot.OFFHAND),
+          EquipmentManager.getEquipment(Slot.HAT),
+          EquipmentManager.getEquipment(Slot.FAMILIAR),
+          EquipmentManager.getEquipment(Slot.ACCESSORY1),
+          EquipmentManager.getEquipment(Slot.ACCESSORY2),
+          EquipmentManager.getEquipment(Slot.ACCESSORY3));
     }
 
     private void checkCurrentEquipment(
@@ -1799,7 +1800,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       if (this.doppelganger) {
         RequestThread.postRequest(
-            new EquipmentRequest(FamiliarData.DOPPELGANGER, EquipmentManager.FAMILIAR));
+            new EquipmentRequest(FamiliarData.DOPPELGANGER, Slot.FAMILIAR));
       }
 
       // If we are already suitably equipped, stop now
@@ -1860,17 +1861,17 @@ public class FamiliarTrainingFrame extends GenericFrame {
      */
 
     public void changeGear(final GearSet current, final GearSet next) {
-      this.swapItem(current.weapon, next.weapon, EquipmentManager.WEAPON);
-      this.swapItem(current.offhand, next.offhand, EquipmentManager.OFFHAND);
-      this.swapItem(current.hat, next.hat, EquipmentManager.HAT);
-      this.swapItem(current.item, next.item, EquipmentManager.FAMILIAR);
-      this.swapItem(current.acc1, next.acc1, EquipmentManager.ACCESSORY1);
-      this.swapItem(current.acc2, next.acc2, EquipmentManager.ACCESSORY2);
-      this.swapItem(current.acc3, next.acc3, EquipmentManager.ACCESSORY3);
+      this.swapItem(current.weapon, next.weapon, Slot.WEAPON);
+      this.swapItem(current.offhand, next.offhand, Slot.OFFHAND);
+      this.swapItem(current.hat, next.hat, Slot.HAT);
+      this.swapItem(current.item, next.item, Slot.FAMILIAR);
+      this.swapItem(current.acc1, next.acc1, Slot.ACCESSORY1);
+      this.swapItem(current.acc2, next.acc2, Slot.ACCESSORY2);
+      this.swapItem(current.acc3, next.acc3, Slot.ACCESSORY3);
     }
 
     private void swapItem(
-        final AdventureResult current, final AdventureResult next, final int slot) {
+        final AdventureResult current, final AdventureResult next, final Slot slot) {
       // Nothing to do if already wearing this item
       if (current == next) {
         return;
@@ -1892,15 +1893,15 @@ public class FamiliarTrainingFrame extends GenericFrame {
       }
     }
 
-    private void setItem(final int slot, final AdventureResult item) {
+    private void setItem(final Slot slot, final AdventureResult item) {
       switch (slot) {
-        case EquipmentManager.WEAPON -> this.weapon = item;
-        case EquipmentManager.OFFHAND -> this.offhand = item;
-        case EquipmentManager.HAT -> this.hat = item;
-        case EquipmentManager.FAMILIAR -> this.item = item;
-        case EquipmentManager.ACCESSORY1 -> this.acc[0] = item;
-        case EquipmentManager.ACCESSORY2 -> this.acc[1] = item;
-        case EquipmentManager.ACCESSORY3 -> this.acc[2] = item;
+        case WEAPON -> this.weapon = item;
+        case OFFHAND -> this.offhand = item;
+        case HAT -> this.hat = item;
+        case FAMILIAR -> this.item = item;
+        case ACCESSORY1 -> this.acc[0] = item;
+        case ACCESSORY2 -> this.acc[1] = item;
+        case ACCESSORY3 -> this.acc[2] = item;
       }
     }
 

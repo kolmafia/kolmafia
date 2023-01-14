@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarCommand extends AbstractCommand {
@@ -132,7 +133,7 @@ public class FamiliarCommand extends AbstractCommand {
       // If we want the new familiar to be naked, unequip the familiar item
       if (KoLmafia.permitsContinue() && unequip) {
         RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR));
+            new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.FAMILIAR));
       }
     }
   }

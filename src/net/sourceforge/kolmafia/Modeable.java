@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
@@ -105,7 +106,7 @@ public enum Modeable {
     return this.item.getItemId();
   }
 
-  public int getSlot() {
+  public Slot getSlot() {
     return EquipmentManager.consumeFilterToEquipmentType(
         ItemDatabase.getConsumptionType(this.item.getItemId()));
   }

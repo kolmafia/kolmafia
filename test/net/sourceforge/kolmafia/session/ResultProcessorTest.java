@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ public class ResultProcessorTest {
     @Test
     public void obtainOysterEggAppropriately() {
       HolidayDatabase.guessPhaseStep();
-      EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
+      EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
       // This was an Oyster Egg Day.
       final var cleanups = withDay(2022, Month.JANUARY, 29, 12, 0);
       try (cleanups) {
@@ -62,7 +63,7 @@ public class ResultProcessorTest {
 
     @Test
     public void obtainOysterEggOnWrongDay() {
-      EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
+      EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
       // This was not an Oyster Egg Day.
       final var cleanups = withDay(2022, Month.JANUARY, 30, 12, 0);
       try (cleanups) {

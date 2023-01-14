@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -523,13 +524,13 @@ public class DataTypes {
       return DataTypes.SLOT_INIT;
     }
 
-    int num = EquipmentRequest.slotNumber(name);
-    if (num == -1) {
+    Slot num = EquipmentRequest.slotNumber(name);
+    if (num == Slot.NONE) {
       return returnDefault ? DataTypes.SLOT_INIT : null;
     }
 
-    name = EquipmentRequest.slotNames[num];
-    return new Value(DataTypes.SLOT_TYPE, num, name);
+    name = num.name;
+    return new Value(DataTypes.SLOT_TYPE, num.ordinal(), name);
   }
 
   public static final Value parseMonsterValue(final String name, final boolean returnDefault) {
@@ -888,7 +889,7 @@ public class DataTypes {
   }
 
   public static final Value makeSlotValue(final int num, final boolean returnDefault) {
-    String name = EquipmentRequest.slotNames[num];
+    String name = Slot.byOrdinal(num).name;
     if (name == null) {
       return returnDefault ? DataTypes.SLOT_INIT : null;
     }
@@ -1030,7 +1031,7 @@ public class DataTypes {
         }
 
       case SLOT:
-        return InputFieldUtilities.input(message, EquipmentRequest.slotNames);
+        return InputFieldUtilities.input(message, Slot.NAMES);
 
       case ELEMENT:
         return InputFieldUtilities.input(message, MonsterDatabase.ELEMENT_ARRAY);

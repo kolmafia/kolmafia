@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EnthroneCommand extends AbstractCommand {
@@ -84,7 +85,7 @@ public class EnthroneCommand extends AbstractCommand {
         RequestThread.postRequest(FamiliarRequest.bjornifyRequest(FamiliarData.NO_FAMILIAR));
       }
 
-      RequestThread.postRequest(new EquipmentRequest(HATSEAT, EquipmentManager.HAT));
+      RequestThread.postRequest(new EquipmentRequest(HATSEAT, Slot.HAT));
 
       if (KoLmafia.permitsContinue() && !KoLCharacter.getEnthroned().equals(change)) {
         RequestThread.postRequest(FamiliarRequest.enthroneRequest(change));

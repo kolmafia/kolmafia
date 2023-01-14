@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class GuildUnlockManager {
   private GuildUnlockManager() {}
@@ -80,7 +81,7 @@ public class GuildUnlockManager {
         locationName = "Sleazy Back Alley";
         snarfblat = AdventurePool.SLEAZY_BACK_ALLEY;
         choice = "542";
-        item = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+        item = EquipmentManager.getEquipment(Slot.PANTS);
         if (item == EquipmentRequest.UNEQUIP) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Put on some pants and try again.");
           return;

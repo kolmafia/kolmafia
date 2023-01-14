@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BeerPongRequest extends GenericRequest {
@@ -92,7 +93,7 @@ public class BeerPongRequest extends GenericRequest {
   }
 
   public static final int findPirateInsult(String insult) {
-    if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId()
+    if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId()
         == ItemPool.SWORD_PREPOSITIONS) {
       insult = StringUtilities.lookupPrepositions(insult);
     }
@@ -106,7 +107,7 @@ public class BeerPongRequest extends GenericRequest {
   }
 
   public static final int findPirateRetort(String insult) {
-    if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId()
+    if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId()
         == ItemPool.SWORD_PREPOSITIONS) {
       insult = StringUtilities.lookupPrepositions(insult);
     }

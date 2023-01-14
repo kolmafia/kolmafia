@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2442,7 +2443,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (EquipmentManager.isWearingOutfit(OutfitPool.CLOACA_UNIFORM)
           || EquipmentManager.isWearingOutfit(OutfitPool.DYSPEPSI_UNIFORM)) {
         RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND));
+            new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.OFFHAND));
       }
 
       return true;

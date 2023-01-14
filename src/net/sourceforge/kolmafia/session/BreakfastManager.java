@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class BreakfastManager {
   private static final AdventureResult[] toys =
@@ -304,14 +305,14 @@ public class BreakfastManager {
     // Use the toys!
     for (UseItemRequest request : requests) {
       AdventureResult toy = request.getItemUsed();
-      int slot = KoLCharacter.equipmentSlot(toy);
+      Slot slot = KoLCharacter.equipmentSlot(toy);
 
       RequestThread.postRequest(request);
       BreakfastManager.ignoreErrors();
 
       // If the toy is equipment, we had it equipped, and
       // "using" it unequipped it, re-equip it
-      if (slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped(toy, slot)) {
+      if (slot != Slot.NONE && !KoLCharacter.hasEquipped(toy, slot)) {
         RequestThread.postRequest(new EquipmentRequest(toy, slot));
         BreakfastManager.ignoreErrors();
       }
