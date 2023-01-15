@@ -8,6 +8,10 @@ import java.awt.Component;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JRootPane;
+import javax.swing.text.Document;
+import javax.swing.text.html.HTMLDocument;
+
+import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.Test;
 
 class CalendarFrameTest {
@@ -33,6 +37,11 @@ class CalendarFrameTest {
     testFrame.updateTabs();
     assertEquals(2, testFrame.tabs.getTabCount());
     Component aTab = testFrame.tabs.getComponentAt(0);
-    // assertEquals("KoL One-a-Day", aTab.getName());
+    assertTrue(aTab instanceof RequestPane);
+    RequestPane rPane = (RequestPane) aTab;
+    Document document = rPane.getDocument();
+    assertTrue(document instanceof HTMLDocument);
+    HTMLDocument hDoc = (HTMLDocument) document;
+    String x = hDoc.toString();
   }
 }
