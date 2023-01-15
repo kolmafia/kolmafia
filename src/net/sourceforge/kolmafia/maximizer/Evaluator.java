@@ -632,41 +632,47 @@ public class Evaluator {
 
     // Make sure indirect sources have at least a little weight;
     final double fudgeExp = this.weight.get(DoubleModifier.EXPERIENCE) * 0.0001f;
-    this.weight.add(DoubleModifier.MONSTER_LEVEL, fudgeExp);
-    this.weight.add(DoubleModifier.MONSTER_LEVEL_PERCENT, fudgeExp);
-    this.weight.add(DoubleModifier.MUS_EXPERIENCE, fudgeExp);
-    this.weight.add(DoubleModifier.MYS_EXPERIENCE, fudgeExp);
-    this.weight.add(DoubleModifier.MOX_EXPERIENCE, fudgeExp);
-    this.weight.add(DoubleModifier.MUS_EXPERIENCE_PCT, fudgeExp);
-    this.weight.add(DoubleModifier.MYS_EXPERIENCE_PCT, fudgeExp);
-    this.weight.add(DoubleModifier.MOX_EXPERIENCE_PCT, fudgeExp);
-    this.weight.add(DoubleModifier.VOLLEYBALL_WEIGHT, fudgeExp);
-    this.weight.add(DoubleModifier.SOMBRERO_WEIGHT, fudgeExp);
-    this.weight.add(DoubleModifier.VOLLEYBALL_EFFECTIVENESS, fudgeExp);
-    this.weight.add(DoubleModifier.SOMBRERO_EFFECTIVENESS, fudgeExp);
-    this.weight.add(DoubleModifier.SOMBRERO_BONUS, fudgeExp);
+    if (fudgeExp > 0) {
+      this.weight.add(DoubleModifier.MONSTER_LEVEL, fudgeExp);
+      this.weight.add(DoubleModifier.MONSTER_LEVEL_PERCENT, fudgeExp);
+      this.weight.add(DoubleModifier.MUS_EXPERIENCE, fudgeExp);
+      this.weight.add(DoubleModifier.MYS_EXPERIENCE, fudgeExp);
+      this.weight.add(DoubleModifier.MOX_EXPERIENCE, fudgeExp);
+      this.weight.add(DoubleModifier.MUS_EXPERIENCE_PCT, fudgeExp);
+      this.weight.add(DoubleModifier.MYS_EXPERIENCE_PCT, fudgeExp);
+      this.weight.add(DoubleModifier.MOX_EXPERIENCE_PCT, fudgeExp);
+      this.weight.add(DoubleModifier.VOLLEYBALL_WEIGHT, fudgeExp);
+      this.weight.add(DoubleModifier.SOMBRERO_WEIGHT, fudgeExp);
+      this.weight.add(DoubleModifier.VOLLEYBALL_EFFECTIVENESS, fudgeExp);
+      this.weight.add(DoubleModifier.SOMBRERO_EFFECTIVENESS, fudgeExp);
+      this.weight.add(DoubleModifier.SOMBRERO_BONUS, fudgeExp);
+    }
 
     final double fudgeItem = this.weight.get(DoubleModifier.ITEMDROP) * 0.0001f;
-    this.weight.add(DoubleModifier.FOODDROP, fudgeItem);
-    this.weight.add(DoubleModifier.BOOZEDROP, fudgeItem);
-    this.weight.add(DoubleModifier.HATDROP, fudgeItem);
-    this.weight.add(DoubleModifier.WEAPONDROP, fudgeItem);
-    this.weight.add(DoubleModifier.OFFHANDDROP, fudgeItem);
-    this.weight.add(DoubleModifier.SHIRTDROP, fudgeItem);
-    this.weight.add(DoubleModifier.PANTSDROP, fudgeItem);
-    this.weight.add(DoubleModifier.ACCESSORYDROP, fudgeItem);
-    this.weight.add(DoubleModifier.CANDYDROP, fudgeItem);
-    this.weight.add(DoubleModifier.GEARDROP, fudgeItem);
-    this.weight.add(DoubleModifier.FAIRY_WEIGHT, fudgeItem);
-    this.weight.add(DoubleModifier.FAIRY_EFFECTIVENESS, fudgeItem);
-    this.weight.add(DoubleModifier.SPORADIC_ITEMDROP, fudgeItem);
-    this.weight.add(DoubleModifier.PICKPOCKET_CHANCE, fudgeItem);
+    if (fudgeItem > 0) {
+      this.weight.add(DoubleModifier.FOODDROP, fudgeItem);
+      this.weight.add(DoubleModifier.BOOZEDROP, fudgeItem);
+      this.weight.add(DoubleModifier.HATDROP, fudgeItem);
+      this.weight.add(DoubleModifier.WEAPONDROP, fudgeItem);
+      this.weight.add(DoubleModifier.OFFHANDDROP, fudgeItem);
+      this.weight.add(DoubleModifier.SHIRTDROP, fudgeItem);
+      this.weight.add(DoubleModifier.PANTSDROP, fudgeItem);
+      this.weight.add(DoubleModifier.ACCESSORYDROP, fudgeItem);
+      this.weight.add(DoubleModifier.CANDYDROP, fudgeItem);
+      this.weight.add(DoubleModifier.GEARDROP, fudgeItem);
+      this.weight.add(DoubleModifier.FAIRY_WEIGHT, fudgeItem);
+      this.weight.add(DoubleModifier.FAIRY_EFFECTIVENESS, fudgeItem);
+      this.weight.add(DoubleModifier.SPORADIC_ITEMDROP, fudgeItem);
+      this.weight.add(DoubleModifier.PICKPOCKET_CHANCE, fudgeItem);
+    }
 
     final double fudgeMeat = this.weight.get(DoubleModifier.MEATDROP) * 0.0001f;
-    this.weight.add(DoubleModifier.LEPRECHAUN_WEIGHT, fudgeMeat);
-    this.weight.add(DoubleModifier.LEPRECHAUN_EFFECTIVENESS, fudgeMeat);
-    this.weight.add(DoubleModifier.SPORADIC_MEATDROP, fudgeMeat);
-    this.weight.add(DoubleModifier.MEAT_BONUS, fudgeMeat);
+    if (fudgeMeat > 0) {
+      this.weight.add(DoubleModifier.LEPRECHAUN_WEIGHT, fudgeMeat);
+      this.weight.add(DoubleModifier.LEPRECHAUN_EFFECTIVENESS, fudgeMeat);
+      this.weight.add(DoubleModifier.SPORADIC_MEATDROP, fudgeMeat);
+      this.weight.add(DoubleModifier.MEAT_BONUS, fudgeMeat);
+    }
   }
 
   private AdventureResult pickPlumberTool(int primeIndex, boolean have) {
