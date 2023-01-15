@@ -89,12 +89,13 @@ class CalendarFrameTest {
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();
+    testFrame.updateDailyPage(1);
     assertEquals(2, testFrame.tabs.getTabCount());
     Component aTab = testFrame.tabs.getComponentAt(0);
     String x = getDataFromTab(aTab);
     assertEquals(expectedKOLDay, x);
     aTab = testFrame.tabs.getComponentAt(1);
     x = getDataFromTab(aTab);
-    assertEquals(expectedKOLDay, x);
+    assertEquals(expectedEvents, x);
   }
 }

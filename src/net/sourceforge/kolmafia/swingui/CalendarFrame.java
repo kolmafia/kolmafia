@@ -175,6 +175,11 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
    * should be called after all recalculation attempts.
    */
   private static void updateDailyPage() {
+    updateDailyPage(KoLConstants.RNG.nextInt(2));
+  }
+
+  // visible for testing
+  public static void updateDailyPage(int rngVal) {
     if (KoLConstants.DAILY_FORMAT.format(CalendarFrame.selectedDate.getTime()).equals("20051027")) {
       CalendarFrame.dailyDisplay.setText("<center><h1>White Wednesday</h1></center>");
       return;
@@ -195,7 +200,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     String artistName;
     String artDirectory;
 
-    if (KoLConstants.RNG.nextInt(2) == 1) {
+    if (rngVal == 1) {
       artistURL = "http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html";
       artistName = "SpaceMonkey";
       artDirectory = "bikini";
