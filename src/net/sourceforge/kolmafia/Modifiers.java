@@ -1010,7 +1010,7 @@ public class Modifiers {
         if (Modifiers.doubledBySquintChampagne.contains(type)) {
           this.doublerAccumulators.add(mod, value);
         }
-        this.doubles.set(mod, value);
+        this.doubles.add(mod, value);
         break;
       case INITIATIVE:
       case HOT_DAMAGE:

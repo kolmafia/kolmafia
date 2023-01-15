@@ -23,7 +23,7 @@ public class DoubleModifierCollection {
   }
 
   public double add(final DoubleModifier mod, final double value) {
-    return this.doubles.compute(mod, (k, v) -> v == null ? value : v + value);
+    return this.doubles.merge(mod, value, Double::sum);
   }
 
   public void forEach(BiConsumer<? super DoubleModifier, ? super Double> action) {
