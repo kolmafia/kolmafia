@@ -12,8 +12,6 @@ import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.CampgroundRequest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,12 +25,6 @@ public class GardenCommandTest extends AbstractCommandTestBase {
   public void initializeState() {
     HttpClientWrapper.setupFakeClient();
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
-  }
-
-  @BeforeAll
-  public static void beforeAll() {
-    // there is a leak somewhere that makes every test return "you have 0 peppermint sprouts"
-    CampgroundRequest.reset();
   }
 
   @Test
