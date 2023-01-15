@@ -11058,7 +11058,7 @@
 11030
 11031	chiffon chemise	682610694	chifchemise.gif	shirt		0
 11032
-11033
+11033	chiffon chaps	614635306	chifchaps.gif	pants		0
 11034
 11035
 11036	chocomotive	925688122	chocomotoive.gif	food	t,d	10

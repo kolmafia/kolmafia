@@ -616,6 +616,8 @@ Item	cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percen
 Item	Cargo Cultist Shorts	Muscle: +6, Mysticality: +6, Moxie: +6, Monster Level: +6, Initiative: +66, Food Drop: +66, Maximum HP Percent: +66, Maximum MP Percent: +66
 Item	Cerebral Culottes	Mysticality: +10, Familiar Effect: "3xBarrr, 1xGhoul, cap 22"
 Item	chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
+# chiffon chaps: Deals Spooky Damage each round
+Item	chiffon chaps	Experience (Moxie): +2, Hot Damage: +10, Hot Spell Damage: +10
 # chalk chinos: Weakens enemies who hit you
 Item	chalk chinos	Experience (Mysticality): +2, Initiative: +20
 Item	cheerful pajama pants	Cold Resistance: +2, Moxie: -15
