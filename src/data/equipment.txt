@@ -59,6 +59,7 @@ Cerebral Cloche	90	Mox: 30
 chalk chapeau	50	none
 cheerful antler hat	50	none
 chef's hat	30	none
+chiffon chapeau	50	none
 chrome helmet turtle	120	Mox: 45
 clingfilm cap	150	Mox: 60
 Cloaca-Cola helmet	30	none

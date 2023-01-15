@@ -136,6 +136,8 @@ Item	Cerebral Cloche	Maximum HP: +15, Familiar Effect: "1.5xLep, cap 22"
 Item	chalk chapeau	PvP Fights: +3, HP Regen Min: 3, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 6
 Item	cheerful antler hat	Cold Resistance: +2, Moxie: -15
 Item	chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1, Familiar Effect: "atk, 3xLep, cap 7"
+# chiffon chapeau: Deals Cold Damage each round
+Item	chiffon chapeau	Experience (Muscle): +2, Spooky Damage: +10, Spooky Spell Damage: +10
 Item	chrome helmet turtle	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "cold atk, 1xFairy, cap 30"
 Item	clingfilm cap	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xVolley, cap 37"
 Item	Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
