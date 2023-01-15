@@ -59,6 +59,7 @@ Cerebral Cloche	90	Mox: 30
 chalk chapeau	50	none
 cheerful antler hat	50	none
 chef's hat	30	none
+chiffon chapeau	50	none
 chrome helmet turtle	120	Mox: 45
 clingfilm cap	150	Mox: 60
 Cloaca-Cola helmet	30	none
@@ -481,6 +482,7 @@ chain-mail monokini	30	none
 chalk chinos	50	none
 cheerful pajama pants	50	none
 Chester's cutoffs	200	Mox: 200
+chiffon chaps	50	none
 clingfilm trousers	150	Mox: 60
 Cloaca-Cola fatigues	30	none
 clockwork pants	80	Mox: 25
@@ -2413,7 +2415,7 @@ cheap sunglasses	80	Mys: 20
 Chester's Aquarius medallion	200	Mys: 200
 Chester's moustache	200	Mox: 200
 Chester's sunglasses	200	Mox: 200
-chiffon chevrons	0	none
+chiffon chevrons	50	none
 chintzy accordion pin	120	Mox: 45
 chintzy disco ball pendant	120	Mox: 45
 chintzy noodle ring	120	Mys: 45
