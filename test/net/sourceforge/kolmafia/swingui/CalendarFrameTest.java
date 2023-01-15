@@ -5,16 +5,42 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Component;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JRootPane;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLWriter;
 
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.Test;
 
 class CalendarFrameTest {
+
+  private String writeDocumentToString(HTMLDocument htmlDocument) {
+    StringWriter sw = new StringWriter();
+    HTMLWriter w =
+            new HTMLWriter(
+                    sw,
+                    htmlDocument,
+                    0,
+                    10000) {
+              {
+                setLineLength(999_999);
+              }
+            };
+    try {
+      w.write();
+      return sw.toString();
+    } catch (IOException | BadLocationException e) {
+      e.printStackTrace();
+      return "";
+    }
+  }
 
   @Test
   public void calendarFrameShouldHaveBasicFunctionality() {
@@ -30,6 +56,7 @@ class CalendarFrameTest {
 
   @Test
   public void itShouldCalculateExpectedDataForKnownTime() {
+    String expectedKOLDay = "drawn by SpaceMonkeySeptember 1, 2010Boozember 2Ronald: waxing crescentGrimace: new moonStats: 3 days until Mysticism.Grue: bloodlustyBlood: +38%Baio: +20%Jekyllin: +7 stats, 25% items";
     Calendar useTime = new GregorianCalendar();
     useTime.set(2010, Calendar.SEPTEMBER, 1);
     CalendarFrame testFrame = new CalendarFrame(useTime);
@@ -42,6 +69,8 @@ class CalendarFrameTest {
     Document document = rPane.getDocument();
     assertTrue(document instanceof HTMLDocument);
     HTMLDocument hDoc = (HTMLDocument) document;
-    String x = hDoc.toString();
+    String x = writeDocumentToString(hDoc);
+    x = StringUtilities.stripHtml(x);
+    assertEquals(expectedKOLDay, x);
   }
 }
