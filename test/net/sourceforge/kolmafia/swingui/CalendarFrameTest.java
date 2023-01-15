@@ -46,7 +46,6 @@ class CalendarFrameTest {
     String x = writeDocumentToString(hDoc);
     x = StringUtilities.stripHtml(x);
     return x;
-
   }
 
   @Test
