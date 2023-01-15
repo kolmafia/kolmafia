@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -41,6 +43,14 @@ public class CampgroundRequestTest {
     @AfterEach
     public void afterEach() {
       CampgroundRequest.reset();
+    }
+
+    @Test
+    void canDetectNoGarden() {
+      String html = html("request/test_campground_no_garden.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      assertThat(CampgroundRequest.getCrop(), nullValue());
+      assertThat(CampgroundRequest.getCrops(), empty());
     }
 
     @Test
