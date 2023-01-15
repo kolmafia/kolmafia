@@ -5549,7 +5549,7 @@ public abstract class KoLCharacter {
         // Remove MOST Numeric Modifiers from Items in Noobcore
         // and in G Lover if they don't contain G's
         Modifiers iModCopy = new Modifiers(imod);
-        for (var mod : DoubleModifier.values()) {
+        for (var mod : Modifiers.DOUBLE_MODIFIERS) {
           switch (mod) {
             case SLIME_HATES_IT:
             case SURGEONOSITY:

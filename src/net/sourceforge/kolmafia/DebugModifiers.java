@@ -20,7 +20,7 @@ public class DebugModifiers extends Modifiers {
   public static int setup(String parameters) {
     DebugModifiers.wanted = new EnumMap<>(DoubleModifier.class);
     DebugModifiers.adjustments = new EnumMap<>(DoubleModifier.class);
-    for (var mod : DoubleModifier.values()) {
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       String name = Modifiers.getModifierName(mod);
       if (name.toLowerCase().contains(parameters)) {
         DebugModifiers.wanted.put(mod, "<td colspan=3>" + name + "</td>");

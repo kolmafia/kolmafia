@@ -4,7 +4,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
@@ -18,7 +17,7 @@ public class ModRefCommand extends AbstractCommand {
     StringBuilder buf =
         new StringBuilder(
             "<table border=2>" + "<tr><td colspan=" + colSpan + ">NUMERIC MODIFIERS</td></tr>");
-    for (var mod : DoubleModifier.values()) {
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       String modName = Modifiers.getModifierName(mod);
       buf.append("<tr><td>");
       buf.append(modName);

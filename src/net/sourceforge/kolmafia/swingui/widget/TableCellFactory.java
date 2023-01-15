@@ -7,7 +7,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -426,7 +425,7 @@ public class TableCellFactory {
     buff.append(modifiersWidth);
     buff.append(">");
 
-    for (var mod : DoubleModifier.values()) {
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       double val = mods.get(mod);
       if (val == 0.0) continue;
       name = Modifiers.getModifierName(mod);

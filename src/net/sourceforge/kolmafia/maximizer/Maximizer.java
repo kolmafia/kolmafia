@@ -270,7 +270,7 @@ public class Maximizer {
         }
         // Only take numeric modifiers, and not Surgeonosity, from Items in Noobcore
         StringBuilder mods = new StringBuilder();
-        for (var mod : DoubleModifier.values()) {
+        for (var mod : Modifiers.DOUBLE_MODIFIERS) {
           switch (mod) {
             case SURGEONOSITY:
               continue;

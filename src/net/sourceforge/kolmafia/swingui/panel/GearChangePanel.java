@@ -39,7 +39,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -189,7 +188,7 @@ public class GearChangePanel extends JPanel {
     buff.append(width);
     buff.append(">");
 
-    for (var mod : DoubleModifier.values()) {
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       double val = mods.get(mod);
       if (val == 0.0f) continue;
       name = Modifiers.getModifierName(mod);

@@ -103,8 +103,11 @@ public class Modifiers {
 
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
+  public static final EnumSet<DoubleModifier> DOUBLE_MODIFIERS =
+      EnumSet.allOf(DoubleModifier.class);
+
   static {
-    for (var modifier : DoubleModifier.values()) {
+    for (var modifier : Modifiers.DOUBLE_MODIFIERS) {
       modifierTypesByName.put(modifier.getName(), modifier);
       String tag = modifier.getTag();
       modifierTypesByName.put(tag, modifier);
@@ -924,7 +927,7 @@ public class Modifiers {
     boolean changed = false;
     this.originalLookup = mods.originalLookup;
 
-    for (var mod : DoubleModifier.values()) {
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       changed |= this.setDouble(mod, mods.doubles.get(mod));
     }
 
@@ -1250,7 +1253,7 @@ public class Modifiers {
 
     newMods.originalLookup = lookup;
 
-    for (var mod : DoubleModifier.values()) {
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;

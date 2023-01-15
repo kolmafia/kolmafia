@@ -7,7 +7,6 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 
 public class SpeculateCommand extends AbstractCommand {
   public SpeculateCommand() {
@@ -39,7 +38,7 @@ public class SpeculateCommand extends AbstractCommand {
     buf.append(attribs);
     buf.append(">");
     int len = buf.length();
-    for (var mod : DoubleModifier.values()) {
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       String modName = Modifiers.getModifierName(mod);
       doNumeric(modName, mods, buf);
     }
