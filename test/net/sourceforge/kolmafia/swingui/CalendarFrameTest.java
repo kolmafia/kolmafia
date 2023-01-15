@@ -14,7 +14,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
-
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.Test;
@@ -24,15 +23,11 @@ class CalendarFrameTest {
   private String writeDocumentToString(HTMLDocument htmlDocument) {
     StringWriter sw = new StringWriter();
     HTMLWriter w =
-            new HTMLWriter(
-                    sw,
-                    htmlDocument,
-                    0,
-                    10000) {
-              {
-                setLineLength(999_999);
-              }
-            };
+        new HTMLWriter(sw, htmlDocument, 0, 10000) {
+          {
+            setLineLength(999_999);
+          }
+        };
     try {
       w.write();
       return sw.toString();
@@ -56,7 +51,8 @@ class CalendarFrameTest {
 
   @Test
   public void itShouldCalculateExpectedDataForKnownTime() {
-    String expectedKOLDay = "drawn by SpaceMonkeySeptember 1, 2010Boozember 2Ronald: waxing crescentGrimace: new moonStats: 3 days until Mysticism.Grue: bloodlustyBlood: +38%Baio: +20%Jekyllin: +7 stats, 25% items";
+    String expectedKOLDay =
+        "drawn by SpaceMonkeySeptember 1, 2010Boozember 2Ronald: waxing crescentGrimace: new moonStats: 3 days until Mysticism.Grue: bloodlustyBlood: +38%Baio: +20%Jekyllin: +7 stats, 25% items";
     Calendar useTime = new GregorianCalendar();
     useTime.set(2010, Calendar.SEPTEMBER, 1);
     CalendarFrame testFrame = new CalendarFrame(useTime);
