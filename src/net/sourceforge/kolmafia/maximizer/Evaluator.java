@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -51,7 +52,7 @@ public class Evaluator {
   public boolean failed;
   boolean exceeded;
   private Evaluator tiebreaker;
-  private final Map<DoubleModifier, Double> weight = new EnumMap<>(DoubleModifier.class);
+  private final DoubleModifierCollection weight = new DoubleModifierCollection();
   private Map<DoubleModifier, Double> min;
   private Map<DoubleModifier, Double> max;
   private double totalMin, totalMax;
@@ -530,29 +531,29 @@ public class Evaluator {
       // Match keyword with multiple modifiers
       if (index == null) {
         if (keyword.equals("all resistance")) {
-          this.weight.put(DoubleModifier.COLD_RESISTANCE, weight);
-          this.weight.put(DoubleModifier.HOT_RESISTANCE, weight);
-          this.weight.put(DoubleModifier.SLEAZE_RESISTANCE, weight);
-          this.weight.put(DoubleModifier.SPOOKY_RESISTANCE, weight);
-          this.weight.put(DoubleModifier.STENCH_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.COLD_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.HOT_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.SLEAZE_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.SPOOKY_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.STENCH_RESISTANCE, weight);
           continue;
         }
         if (keyword.equals("elemental damage")) {
-          this.weight.put(DoubleModifier.COLD_DAMAGE, weight);
-          this.weight.put(DoubleModifier.HOT_DAMAGE, weight);
-          this.weight.put(DoubleModifier.SLEAZE_DAMAGE, weight);
-          this.weight.put(DoubleModifier.SPOOKY_DAMAGE, weight);
-          this.weight.put(DoubleModifier.STENCH_DAMAGE, weight);
+          this.weight.set(DoubleModifier.COLD_DAMAGE, weight);
+          this.weight.set(DoubleModifier.HOT_DAMAGE, weight);
+          this.weight.set(DoubleModifier.SLEAZE_DAMAGE, weight);
+          this.weight.set(DoubleModifier.SPOOKY_DAMAGE, weight);
+          this.weight.set(DoubleModifier.STENCH_DAMAGE, weight);
           continue;
         }
         if (keyword.equals("hp regen")) {
-          this.weight.put(DoubleModifier.HP_REGEN_MIN, weight / 2);
-          this.weight.put(DoubleModifier.HP_REGEN_MAX, weight / 2);
+          this.weight.set(DoubleModifier.HP_REGEN_MIN, weight / 2);
+          this.weight.set(DoubleModifier.HP_REGEN_MAX, weight / 2);
           continue;
         }
         if (keyword.equals("mp regen")) {
-          this.weight.put(DoubleModifier.MP_REGEN_MIN, weight / 2);
-          this.weight.put(DoubleModifier.MP_REGEN_MAX, weight / 2);
+          this.weight.set(DoubleModifier.MP_REGEN_MIN, weight / 2);
+          this.weight.set(DoubleModifier.MP_REGEN_MAX, weight / 2);
           continue;
         }
       }
@@ -582,7 +583,7 @@ public class Evaluator {
         } else if (keyword.startsWith("com")) {
           index = DoubleModifier.COMBAT_RATE;
           if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
-            this.weight.put(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
+            this.weight.set(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
           }
         } else if (keyword.startsWith("item")) {
           index = DoubleModifier.ITEMDROP;
@@ -615,7 +616,7 @@ public class Evaluator {
         // modifier, add them to the "uniques" list.
         String modifierName = Modifiers.getModifierName(index);
         this.addUniqueItems(modifierName);
-        this.weight.put(index, weight);
+        this.weight.set(index, weight);
         continue;
       }
 
@@ -631,48 +632,42 @@ public class Evaluator {
     this.beeosity = Math.max(Math.max(this.beeosity, equipBeeosity), outfitBeeosity);
 
     // Make sure indirect sources have at least a little weight;
-    double fudgeExp = this.weight.getOrDefault(DoubleModifier.EXPERIENCE, 0.0) * 0.0001f;
-    BiFunction<DoubleModifier, Double, Double> addFudgeExp =
-        (k, v) -> v == null ? fudgeExp : v + fudgeExp;
-    this.weight.compute(DoubleModifier.MONSTER_LEVEL, addFudgeExp);
-    this.weight.compute(DoubleModifier.MONSTER_LEVEL_PERCENT, addFudgeExp);
-    this.weight.compute(DoubleModifier.MUS_EXPERIENCE, addFudgeExp);
-    this.weight.compute(DoubleModifier.MYS_EXPERIENCE, addFudgeExp);
-    this.weight.compute(DoubleModifier.MOX_EXPERIENCE, addFudgeExp);
-    this.weight.compute(DoubleModifier.MUS_EXPERIENCE_PCT, addFudgeExp);
-    this.weight.compute(DoubleModifier.MYS_EXPERIENCE_PCT, addFudgeExp);
-    this.weight.compute(DoubleModifier.MOX_EXPERIENCE_PCT, addFudgeExp);
-    this.weight.compute(DoubleModifier.VOLLEYBALL_WEIGHT, addFudgeExp);
-    this.weight.compute(DoubleModifier.SOMBRERO_WEIGHT, addFudgeExp);
-    this.weight.compute(DoubleModifier.VOLLEYBALL_EFFECTIVENESS, addFudgeExp);
-    this.weight.compute(DoubleModifier.SOMBRERO_EFFECTIVENESS, addFudgeExp);
-    this.weight.compute(DoubleModifier.SOMBRERO_BONUS, addFudgeExp);
+    final double fudgeExp = this.weight.get(DoubleModifier.EXPERIENCE) * 0.0001f;
+    this.weight.add(DoubleModifier.MONSTER_LEVEL, fudgeExp);
+    this.weight.add(DoubleModifier.MONSTER_LEVEL_PERCENT, fudgeExp);
+    this.weight.add(DoubleModifier.MUS_EXPERIENCE, fudgeExp);
+    this.weight.add(DoubleModifier.MYS_EXPERIENCE, fudgeExp);
+    this.weight.add(DoubleModifier.MOX_EXPERIENCE, fudgeExp);
+    this.weight.add(DoubleModifier.MUS_EXPERIENCE_PCT, fudgeExp);
+    this.weight.add(DoubleModifier.MYS_EXPERIENCE_PCT, fudgeExp);
+    this.weight.add(DoubleModifier.MOX_EXPERIENCE_PCT, fudgeExp);
+    this.weight.add(DoubleModifier.VOLLEYBALL_WEIGHT, fudgeExp);
+    this.weight.add(DoubleModifier.SOMBRERO_WEIGHT, fudgeExp);
+    this.weight.add(DoubleModifier.VOLLEYBALL_EFFECTIVENESS, fudgeExp);
+    this.weight.add(DoubleModifier.SOMBRERO_EFFECTIVENESS, fudgeExp);
+    this.weight.add(DoubleModifier.SOMBRERO_BONUS, fudgeExp);
 
-    double fudgeItem = this.weight.getOrDefault(DoubleModifier.ITEMDROP, 0.0) * 0.0001f;
-    BiFunction<DoubleModifier, Double, Double> addFudgeItem =
-        (k, v) -> v == null ? fudgeItem : v + fudgeItem;
-    this.weight.compute(DoubleModifier.FOODDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.BOOZEDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.HATDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.WEAPONDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.OFFHANDDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.SHIRTDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.PANTSDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.ACCESSORYDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.CANDYDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.GEARDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.FAIRY_WEIGHT, addFudgeItem);
-    this.weight.compute(DoubleModifier.FAIRY_EFFECTIVENESS, addFudgeItem);
-    this.weight.compute(DoubleModifier.SPORADIC_ITEMDROP, addFudgeItem);
-    this.weight.compute(DoubleModifier.PICKPOCKET_CHANCE, addFudgeItem);
+    final double fudgeItem = this.weight.get(DoubleModifier.ITEMDROP) * 0.0001f;
+    this.weight.add(DoubleModifier.FOODDROP, fudgeItem);
+    this.weight.add(DoubleModifier.BOOZEDROP, fudgeItem);
+    this.weight.add(DoubleModifier.HATDROP, fudgeItem);
+    this.weight.add(DoubleModifier.WEAPONDROP, fudgeItem);
+    this.weight.add(DoubleModifier.OFFHANDDROP, fudgeItem);
+    this.weight.add(DoubleModifier.SHIRTDROP, fudgeItem);
+    this.weight.add(DoubleModifier.PANTSDROP, fudgeItem);
+    this.weight.add(DoubleModifier.ACCESSORYDROP, fudgeItem);
+    this.weight.add(DoubleModifier.CANDYDROP, fudgeItem);
+    this.weight.add(DoubleModifier.GEARDROP, fudgeItem);
+    this.weight.add(DoubleModifier.FAIRY_WEIGHT, fudgeItem);
+    this.weight.add(DoubleModifier.FAIRY_EFFECTIVENESS, fudgeItem);
+    this.weight.add(DoubleModifier.SPORADIC_ITEMDROP, fudgeItem);
+    this.weight.add(DoubleModifier.PICKPOCKET_CHANCE, fudgeItem);
 
-    double fudgeMeat = this.weight.getOrDefault(DoubleModifier.MEATDROP, 0.0) * 0.0001f;
-    BiFunction<DoubleModifier, Double, Double> addFudgeMeat =
-        (k, v) -> v == null ? fudgeMeat : v + fudgeMeat;
-    this.weight.compute(DoubleModifier.LEPRECHAUN_WEIGHT, addFudgeMeat);
-    this.weight.compute(DoubleModifier.LEPRECHAUN_EFFECTIVENESS, addFudgeMeat);
-    this.weight.compute(DoubleModifier.SPORADIC_MEATDROP, addFudgeMeat);
-    this.weight.compute(DoubleModifier.MEAT_BONUS, addFudgeMeat);
+    final double fudgeMeat = this.weight.get(DoubleModifier.MEATDROP) * 0.0001f;
+    this.weight.add(DoubleModifier.LEPRECHAUN_WEIGHT, fudgeMeat);
+    this.weight.add(DoubleModifier.LEPRECHAUN_EFFECTIVENESS, fudgeMeat);
+    this.weight.add(DoubleModifier.SPORADIC_MEATDROP, fudgeMeat);
+    this.weight.add(DoubleModifier.MEAT_BONUS, fudgeMeat);
   }
 
   private AdventureResult pickPlumberTool(int primeIndex, boolean have) {
@@ -718,7 +713,7 @@ public class Evaluator {
 
     double score = 0.0;
     for (var mod : DoubleModifier.values()) {
-      double weight = this.weight.getOrDefault(mod, 0.0);
+      double weight = this.weight.get(mod);
       double min = this.min.get(mod);
       if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) continue;
       double val = mods.get(mod);
@@ -1270,7 +1265,7 @@ public class Evaluator {
               }
             }
             if (id == ItemPool.BROKEN_CHAMPAGNE
-                && this.weight.getOrDefault(DoubleModifier.ITEMDROP, 0.0) > 0
+                && this.weight.get(DoubleModifier.ITEMDROP) > 0
                 && (Preferences.getInteger("garbageChampagneCharge") > 0
                     || !Preferences.getBoolean("_garbageItemChanged"))) {
               // This is always going to be worth including if useful
@@ -1309,10 +1304,10 @@ public class Evaluator {
             break;
           case EquipmentManager.SHIRT:
             if (id == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                && (this.weight.getOrDefault(DoubleModifier.EXPERIENCE, 0.0) > 0
-                    || this.weight.getOrDefault(DoubleModifier.MUS_EXPERIENCE, 0.0) > 0
-                    || this.weight.getOrDefault(DoubleModifier.MYS_EXPERIENCE, 0.0) > 0
-                    || this.weight.getOrDefault(DoubleModifier.MOX_EXPERIENCE, 0.0) > 0)
+                && (this.weight.get(DoubleModifier.EXPERIENCE) > 0
+                    || this.weight.get(DoubleModifier.MUS_EXPERIENCE) > 0
+                    || this.weight.get(DoubleModifier.MYS_EXPERIENCE) > 0
+                    || this.weight.get(DoubleModifier.MOX_EXPERIENCE) > 0)
                 && Preferences.getInteger("garbageShirtCharge") > 0) {
               // This is always going to be worth including if useful
               item.requiredFlag = true;

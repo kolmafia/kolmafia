@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -3425,33 +3426,6 @@ public class Modifiers {
     public Indexed(DoubleModifier index, T value) {
       this.index = index;
       this.value = value;
-    }
-  }
-
-  private static class DoubleModifierCollection {
-    private final Map<DoubleModifier, Double> doubles = new EnumMap<>(DoubleModifier.class);
-
-    public void reset() {
-      this.doubles.clear();
-    }
-
-    public double get(final DoubleModifier mod) {
-      return this.doubles.getOrDefault(mod, 0.0);
-    }
-
-    public boolean set(final DoubleModifier mod, final double value) {
-      Double oldValue = value == 0.0 ? this.doubles.remove(mod) : this.doubles.put(mod, value);
-
-      // TODO: does anything use this return value, or can we save ourselves a check?
-      return oldValue == null || oldValue != value;
-    }
-
-    public double add(final DoubleModifier mod, final double value) {
-      return this.doubles.compute(mod, (k, v) -> v == null ? value : v + value);
-    }
-
-    public void forEach(BiConsumer<? super DoubleModifier, ? super Double> action) {
-      this.doubles.forEach(action);
     }
   }
 }
