@@ -65,31 +65,32 @@ class CalendarFrameTest {
     String expectedKOLDay =
         "drawn by SpaceMonkeySeptember 1, 2010Boozember 2Ronald: waxing crescentGrimace: new moonStats: 3 days until Mysticism.Grue: bloodlustyBlood: +38%Baio: +20%Jekyllin: +7 stats, 25% items";
     String expectedEvents =
-        "September 1, 2010\n"
-            + "Boozember 2\n"
-            + " \n"
-            + "Muscle Day: 7 days\n"
-            + "Mysticality Day: 3 days\n"
-            + "Moxie Day: 14 days\n"
-            + " \n"
-            + "Feast of Boris:  5 days\n"
-            + "Yuletide:  10 days\n"
-            + "Festival of Jarlsberg:  15 days\n"
-            + "Valentine's Day:  26 days\n"
-            + "St. Sneaky Pete's Day:  33 days\n"
-            + "Oyster Egg Day:  40 days\n"
-            + "El Dia De Los Muertos Borrachos:  48 days\n"
-            + "Generic Summer Holiday:  57 days\n"
-            + "Halloween:  60 days\n"
-            + "Dependence Day:  66 days\n"
-            + "Arrrbor Day:  74 days\n"
-            + "Labór Day:  84 days";
+        """
+                    September 1, 2010
+                    Boozember 2
+                     
+                    Muscle Day: 7 days
+                    Mysticality Day: 3 days
+                    Moxie Day: 14 days
+                     
+                    Feast of Boris:  5 days
+                    Yuletide:  10 days
+                    Festival of Jarlsberg:  15 days
+                    Valentine's Day:  26 days
+                    St. Sneaky Pete's Day:  33 days
+                    Oyster Egg Day:  40 days
+                    El Dia De Los Muertos Borrachos:  48 days
+                    Generic Summer Holiday:  57 days
+                    Halloween:  60 days
+                    Dependence Day:  66 days
+                    Arrrbor Day:  74 days
+                    Labór Day:  84 days""";
     Calendar useTime = new GregorianCalendar();
     useTime.set(2010, Calendar.SEPTEMBER, 1);
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();
-    testFrame.updateDailyPage(1);
+    CalendarFrame.updateDailyPage(1);
     assertEquals(2, testFrame.tabs.getTabCount());
     Component aTab = testFrame.tabs.getComponentAt(0);
     String x = getDataFromTab(aTab);
