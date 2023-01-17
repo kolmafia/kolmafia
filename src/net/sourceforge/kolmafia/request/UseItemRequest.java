@@ -3631,23 +3631,6 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
-      case ItemPool.WHETSTONE:
-
-        // You run the when stone up and down your tongue several times.
-        // You feel your appetite sharpen. You swallow the whet stone
-        // for good measure.
-
-        if (!responseText.contains("feel your appetite sharpen")) {
-          return;
-        }
-
-        Preferences.increment("whetstonesUsed", count);
-        KoLCharacter.updateStatus();
-        ConcoctionDatabase.getUsables().sort();
-        ConcoctionDatabase.queuedFood.touch();
-
-        break;
-
       case ItemPool.NEWBIESPORT_TENT:
       case ItemPool.BARSKIN_TENT:
       case ItemPool.COTTAGE:
@@ -6454,6 +6437,10 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.MUNCHIES_PILL:
         Preferences.increment("munchiesPillsUsed", count);
+        break;
+
+      case ItemPool.WHETSTONE:
+        Preferences.increment("whetstonesUsed", count);
         break;
 
       case ItemPool.DRINK_ME_POTION:
