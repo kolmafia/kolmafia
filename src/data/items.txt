@@ -11133,6 +11133,6 @@
 11105	bolder boulder	697310877	rgboulder.gif	usable	t,d	25
 11106	molehill mountain	671315172	rgmountain.gif	reusable	t,d	250
 11107	whet stone	689119937	rgwhetstone.gif	multiple	t,d	5
-11108	hard rock	878413969	rghardrock.gif	usable	t,d	25
+11108	hard rock	878413969	rghardrock.gif	multiple	t,d	25
 11109	strange stalagmite	720163663	rgstalagmite.gif	reusable	t,d	250
 11110	chocolate covered ping-pong ball	997920598	ccppball.gif	usable	t,d	20

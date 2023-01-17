@@ -6439,6 +6439,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.increment("munchiesPillsUsed", count);
         break;
 
+      case ItemPool.WHETSTONE:
+        Preferences.increment("whetstonesUsed", count);
+        break;
+
       case ItemPool.DRINK_ME_POTION:
         Preferences.increment("pendingMapReflections", count);
         break;
