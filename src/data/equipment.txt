@@ -1041,6 +1041,7 @@ cheap plastic kazoo	50	Mox: 10	1-handed kazoo
 cheer extractor	40	Mus: 0	1-handed club
 Chelonian Morningstar	90	Mus: 15	1-handed flail
 Chester's bag of candy	200	Mox: 200	2-handed bag
+chiffon chakram	50	Mox: 0	1-handed 
 chisel	10	Mus: 0	1-handed knife
 chocolate cow bone	100	Mus: 35	1-handed club
 chopsticks	75	Mys: 23	1-handed utensil

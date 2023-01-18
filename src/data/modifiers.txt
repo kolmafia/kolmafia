@@ -1246,6 +1246,8 @@ Item	cheap plastic kazoo	Monster Level: +10
 # cheer extractor: Extract 1 additional crystalline cheer from mimes in the Silent Night
 Item	Chelonian Morningstar	Muscle: +11, Never Fumble, Class: "Turtle Tamer"
 Item	Chester's bag of candy	Sleaze Damage: +30, Moxie Percent: +10, Class: "Disco Bandit"
+# chiffon chakram: Deals damage each round
+Item	chiffon chakram	Moxie: +10, Stench Damage: +10, Stench Spell Damage: +10
 # chisel
 # chocolate cow bone: Candilicious Smacks!
 Item	chocolate cow bone	Candy Drop: +30
