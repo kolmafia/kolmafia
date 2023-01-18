@@ -158,11 +158,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     int shotglass = 0;
-    if (inebriety == 1
-        && !ConcoctionDatabase.queuedMimeShotglass
-        && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
-        && !Preferences.getBoolean("_mimeArmyShotglassUsed")
-        && itemId > 0) {
+    if (!ConcoctionDatabase.queuedMimeShotglass && DrinkItemRequest.shotglassApplies(itemName)) {
       shotglass = 1;
     }
 
@@ -397,13 +393,18 @@ public class DrinkItemRequest extends UseItemRequest {
     return DrinkItemRequest.allowBoozeConsumption(itemName, count);
   }
 
+  private static final boolean shotglassApplies(String itemName) {
+    int inebriety = ConsumablesDatabase.getInebriety(itemName);
+    return inebriety == 1
+        && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
+        && !Preferences.getBoolean("_mimeArmyShotglassUsed")
+        && ItemDatabase.getItemId(itemName) > 0;
+  }
+
   public static final boolean allowBoozeConsumption(String itemName, int count) {
     int inebriety = ConsumablesDatabase.getInebriety(itemName);
     int mimeShotglass = 0;
-    if (inebriety == 1
-        && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
-        && !Preferences.getBoolean("_mimeArmyShotglassUsed")
-        && ItemDatabase.getItemId(itemName) > 0) {
+    if (DrinkItemRequest.shotglassApplies(itemName)) {
       mimeShotglass = 1;
     }
     int inebrietyBonus = inebriety * count;
