@@ -161,7 +161,8 @@ public class DrinkItemRequest extends UseItemRequest {
     if (inebriety == 1
         && !ConcoctionDatabase.queuedMimeShotglass
         && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
-        && !Preferences.getBoolean("_mimeArmyShotglassUsed")) {
+        && !Preferences.getBoolean("_mimeArmyShotglassUsed")
+        && itemId > 0) {
       shotglass = 1;
     }
 
@@ -401,7 +402,8 @@ public class DrinkItemRequest extends UseItemRequest {
     int mimeShotglass = 0;
     if (inebriety == 1
         && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
-        && !Preferences.getBoolean("_mimeArmyShotglassUsed")) {
+        && !Preferences.getBoolean("_mimeArmyShotglassUsed")
+        && ItemDatabase.getItemId(itemName) > 0) {
       mimeShotglass = 1;
     }
     int inebrietyBonus = inebriety * count;

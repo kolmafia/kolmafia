@@ -52,7 +52,7 @@ public class StillSuitRequest extends CreateItemRequest {
       return false;
     }
 
-    return true;
+    return DrinkItemRequest.allowBoozeConsumption("stillsuit distillate", 1);
   }
 
   public static boolean isDistillate(final String name) {
