@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -412,7 +413,7 @@ public class TableCellFactory {
     if (mods == null) {
       return null;
     }
-    String name = mods.getString(Modifiers.INTRINSIC_EFFECT);
+    String name = mods.getString(StringModifier.INTRINSIC_EFFECT);
     if (name.length() > 0) {
       Modifiers newMods = new Modifiers();
       newMods.add(mods);

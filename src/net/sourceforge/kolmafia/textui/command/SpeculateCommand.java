@@ -63,8 +63,8 @@ public class SpeculateCommand extends AbstractCommand {
       buf.append(now);
       buf.append("</td></tr>");
     }
-    for (int i = 0; i < Modifiers.STRING_MODIFIERS; i++) {
-      String mod = Modifiers.getStringModifierName(i);
+    for (var modifier : Modifiers.STRING_MODIFIERS) {
+      String mod = Modifiers.getStringModifierName(modifier);
       String was = KoLCharacter.currentStringModifier(mod);
       String now = mods.getString(mod);
       if (now.equals(was)) {

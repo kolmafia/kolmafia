@@ -62,8 +62,8 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">STRING MODIFIERS</td></tr>");
-    for (int i = 0; i < Modifiers.STRING_MODIFIERS; i++) {
-      String mod = Modifiers.getStringModifierName(i);
+    for (var modifier : Modifiers.STRING_MODIFIERS) {
+      String mod = Modifiers.getStringModifierName(modifier);
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");
