@@ -379,6 +379,7 @@ public class ListCellRendererFactory {
 
       switch (item.getItemId()) {
         case ItemPool.MUNCHIES_PILL -> stringForm.append("+1-3 adv from next food");
+        case ItemPool.WHETSTONE -> stringForm.append("+1 adv from next food");
         case ItemPool.SUSHI_DOILY -> stringForm.append(
             "+3 adv from next sushi (automatically used from inventory)");
         case ItemPool.GRAINS_OF_SALT -> stringForm.append(

@@ -88,6 +88,7 @@ public class Concoction implements Comparable<Concoction> {
       Set.of(
           ItemPool.QUANTUM_TACO,
           ItemPool.MUNCHIES_PILL,
+          ItemPool.WHETSTONE,
           ItemPool.MAGICAL_SAUSAGE,
           ItemPool.MAYONEX,
           ItemPool.MAYODIOL,
@@ -199,7 +200,7 @@ public class Concoction implements Comparable<Concoction> {
       return switch (ItemDatabase.getConsumptionType(itemId)) {
         case FOOD_HELPER -> ConcoctionType.FOOD;
         case DRINK_HELPER -> ConcoctionType.BOOZE;
-        case USE -> forceFood.contains(itemId)
+        case USE, USE_MULTIPLE -> forceFood.contains(itemId)
             ? ConcoctionType.FOOD
             : forceBooze.contains(itemId) ? ConcoctionType.BOOZE : ConcoctionType.NONE;
         case POTION, AVATAR_POTION -> ConcoctionType.POTION;

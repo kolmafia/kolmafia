@@ -1535,6 +1535,7 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
+user	whetstonesUsed	0
 user	wildfireBarrelCaulked	false
 user	wildfireDusted	false
 user	wildfireFracked	false
