@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.command.UseItemCommand;
@@ -754,13 +755,13 @@ public class EffectDatabase {
 
     int level =
         switch (effectId) {
-          case EffectPool.WINE_FORTIFIED -> (int) emods.get(Modifiers.WEAPON_DAMAGE) / 3;
-          case EffectPool.WINE_HOT -> (int) emods.get(Modifiers.HOT_DAMAGE) / 3;
-          case EffectPool.WINE_COLD -> (int) emods.get(Modifiers.COLD_DAMAGE) / 3;
-          case EffectPool.WINE_DARK -> (int) emods.get(Modifiers.SPOOKY_DAMAGE) / 4;
-          case EffectPool.WINE_BEFOULED -> (int) emods.get(Modifiers.STENCH_DAMAGE) / 3;
-          case EffectPool.WINE_FRISKY -> (int) emods.get(Modifiers.SLEAZE_DAMAGE) / 3;
-          case EffectPool.WINE_FRIENDLY -> (int) emods.get(Modifiers.FAMILIAR_DAMAGE) / 3;
+          case EffectPool.WINE_FORTIFIED -> (int) emods.get(DoubleModifier.WEAPON_DAMAGE) / 3;
+          case EffectPool.WINE_HOT -> (int) emods.get(DoubleModifier.HOT_DAMAGE) / 3;
+          case EffectPool.WINE_COLD -> (int) emods.get(DoubleModifier.COLD_DAMAGE) / 3;
+          case EffectPool.WINE_DARK -> (int) emods.get(DoubleModifier.SPOOKY_DAMAGE) / 4;
+          case EffectPool.WINE_BEFOULED -> (int) emods.get(DoubleModifier.STENCH_DAMAGE) / 3;
+          case EffectPool.WINE_FRISKY -> (int) emods.get(DoubleModifier.SLEAZE_DAMAGE) / 3;
+          case EffectPool.WINE_FRIENDLY -> (int) emods.get(DoubleModifier.FAMILIAR_DAMAGE) / 3;
           default -> -1;
         };
 

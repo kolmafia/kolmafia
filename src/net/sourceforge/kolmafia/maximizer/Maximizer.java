@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -269,16 +270,16 @@ public class Maximizer {
         }
         // Only take numeric modifiers, and not Surgeonosity, from Items in Noobcore
         StringBuilder mods = new StringBuilder();
-        for (int j = 0; j < Modifiers.DOUBLE_MODIFIERS; ++j) {
-          switch (j) {
-            case Modifiers.SURGEONOSITY:
+        for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+          switch (mod) {
+            case SURGEONOSITY:
               continue;
           }
-          if (itemMods.get(j) != 0.0) {
+          if (itemMods.get(mod) != 0.0) {
             if (mods.length() > 0) {
               mods.append(", ");
             }
-            mods.append(Modifiers.getModifierName(j) + ": " + itemMods.get(j));
+            mods.append(Modifiers.getModifierName(mod) + ": " + itemMods.get(mod));
           }
         }
         if (mods.length() == 0) {
@@ -583,7 +584,7 @@ public class Maximizer {
 
             Modifiers effMod = Modifiers.getItemModifiers(item.getItemId());
             if (effMod != null) {
-              duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
+              duration = (int) effMod.get(DoubleModifier.EFFECT_DURATION);
             }
           }
           // Hot Dogs don't have items
@@ -618,7 +619,7 @@ public class Maximizer {
             } else {
               Modifiers effMod = Modifiers.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
-                duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
+                duration = (int) effMod.get(DoubleModifier.EFFECT_DURATION);
               }
               usesRemaining = 1;
             }

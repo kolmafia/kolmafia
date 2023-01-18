@@ -38,9 +38,9 @@ public class SpeculateCommand extends AbstractCommand {
     buf.append(attribs);
     buf.append(">");
     int len = buf.length();
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; i++) {
-      String mod = Modifiers.getModifierName(i);
-      doNumeric(mod, mods, buf);
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+      String modName = Modifiers.getModifierName(mod);
+      doNumeric(modName, mods, buf);
     }
     for (int i = 0; i < Modifiers.DERIVED_MODIFIERS; i++) {
       String mod = Modifiers.getDerivedModifierName(i);

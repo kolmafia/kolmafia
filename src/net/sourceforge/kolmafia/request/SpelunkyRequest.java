@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -997,7 +998,7 @@ public class SpelunkyRequest extends GenericRequest {
     int monsterStatDamage = Math.max(monsterAttack - moxie, 0);
 
     // Some Spelunky items provide Damage Reduction
-    int dr = (int) KoLCharacter.currentNumericModifier(Modifiers.DAMAGE_REDUCTION);
+    int dr = (int) KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION);
 
     int monsterDamageMin = Math.max(monsterStatDamage + monsterAttack / 5 - dr, 1);
     int monsterDamageMax = Math.max(monsterStatDamage + monsterAttack / 4 - dr, 1);

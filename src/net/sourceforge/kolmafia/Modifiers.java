@@ -21,7 +21,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,6 +34,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -70,6 +70,7 @@ public class Modifiers {
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
+  private static final Map<String, DoubleModifier> modifierTypesByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
@@ -98,689 +99,18 @@ public class Modifiers {
       Pattern.compile("cap ([\\d.]+)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 = "Familiar Weight Cap: $1 ";
 
-  public static final int FAMILIAR_WEIGHT = 0;
-  public static final int MONSTER_LEVEL = 1;
-  public static final int COMBAT_RATE = 2;
-  public static final int INITIATIVE = 3;
-  public static final int EXPERIENCE = 4;
-  public static final int ITEMDROP = 5;
-  public static final int MEATDROP = 6;
-  public static final int DAMAGE_ABSORPTION = 7;
-  public static final int DAMAGE_REDUCTION = 8;
-  public static final int COLD_RESISTANCE = 9;
-  public static final int HOT_RESISTANCE = 10;
-  public static final int SLEAZE_RESISTANCE = 11;
-  public static final int SPOOKY_RESISTANCE = 12;
-  public static final int STENCH_RESISTANCE = 13;
-  public static final int MANA_COST = 14;
-  public static final int MOX = 15;
-  public static final int MOX_PCT = 16;
-  public static final int MUS = 17;
-  public static final int MUS_PCT = 18;
-  public static final int MYS = 19;
-  public static final int MYS_PCT = 20;
-  public static final int HP = 21;
-  public static final int HP_PCT = 22;
-  public static final int MP = 23;
-  public static final int MP_PCT = 24;
-  public static final int WEAPON_DAMAGE = 25;
-  public static final int RANGED_DAMAGE = 26;
-  public static final int SPELL_DAMAGE = 27;
-  public static final int SPELL_DAMAGE_PCT = 28;
-  public static final int COLD_DAMAGE = 29;
-  public static final int HOT_DAMAGE = 30;
-  public static final int SLEAZE_DAMAGE = 31;
-  public static final int SPOOKY_DAMAGE = 32;
-  public static final int STENCH_DAMAGE = 33;
-  public static final int COLD_SPELL_DAMAGE = 34;
-  public static final int HOT_SPELL_DAMAGE = 35;
-  public static final int SLEAZE_SPELL_DAMAGE = 36;
-  public static final int SPOOKY_SPELL_DAMAGE = 37;
-  public static final int STENCH_SPELL_DAMAGE = 38;
-  public static final int UNDERWATER_COMBAT_RATE = 39;
-  public static final int FUMBLE = 40;
-  public static final int HP_REGEN_MIN = 41;
-  public static final int HP_REGEN_MAX = 42;
-  public static final int MP_REGEN_MIN = 43;
-  public static final int MP_REGEN_MAX = 44;
-  public static final int ADVENTURES = 45;
-  public static final int FAMILIAR_WEIGHT_PCT = 46;
-  public static final int WEAPON_DAMAGE_PCT = 47;
-  public static final int RANGED_DAMAGE_PCT = 48;
-  public static final int STACKABLE_MANA_COST = 49;
-  public static final int HOBO_POWER = 50;
-  public static final int BASE_RESTING_HP = 51;
-  public static final int RESTING_HP_PCT = 52;
-  public static final int BONUS_RESTING_HP = 53;
-  public static final int BASE_RESTING_MP = 54;
-  public static final int RESTING_MP_PCT = 55;
-  public static final int BONUS_RESTING_MP = 56;
-  public static final int CRITICAL_PCT = 57;
-  public static final int PVP_FIGHTS = 58;
-  public static final int VOLLEYBALL_WEIGHT = 59;
-  public static final int SOMBRERO_WEIGHT = 60;
-  public static final int LEPRECHAUN_WEIGHT = 61;
-  public static final int FAIRY_WEIGHT = 62;
-  public static final int MEATDROP_PENALTY = 63;
-  public static final int HIDDEN_FAMILIAR_WEIGHT = 64;
-  public static final int ITEMDROP_PENALTY = 65;
-  public static final int INITIATIVE_PENALTY = 66;
-  public static final int FOODDROP = 67;
-  public static final int BOOZEDROP = 68;
-  public static final int HATDROP = 69;
-  public static final int WEAPONDROP = 70;
-  public static final int OFFHANDDROP = 71;
-  public static final int SHIRTDROP = 72;
-  public static final int PANTSDROP = 73;
-  public static final int ACCESSORYDROP = 74;
-  public static final int VOLLEYBALL_EFFECTIVENESS = 75;
-  public static final int SOMBRERO_EFFECTIVENESS = 76;
-  public static final int LEPRECHAUN_EFFECTIVENESS = 77;
-  public static final int FAIRY_EFFECTIVENESS = 78;
-  public static final int FAMILIAR_WEIGHT_CAP = 79;
-  public static final int SLIME_RESISTANCE = 80;
-  public static final int SLIME_HATES_IT = 81;
-  public static final int SPELL_CRITICAL_PCT = 82;
-  public static final int MUS_EXPERIENCE = 83;
-  public static final int MYS_EXPERIENCE = 84;
-  public static final int MOX_EXPERIENCE = 85;
-  public static final int EFFECT_DURATION = 86;
-  public static final int CANDYDROP = 87;
-  public static final int DB_COMBAT_DAMAGE = 88;
-  public static final int SOMBRERO_BONUS = 89;
-  public static final int FAMILIAR_EXP = 90;
-  public static final int SPORADIC_MEATDROP = 91;
-  public static final int SPORADIC_ITEMDROP = 92;
-  public static final int MEAT_BONUS = 93;
-  public static final int PICKPOCKET_CHANCE = 94;
-  public static final int COMBAT_MANA_COST = 95;
-  public static final int MUS_EXPERIENCE_PCT = 96;
-  public static final int MYS_EXPERIENCE_PCT = 97;
-  public static final int MOX_EXPERIENCE_PCT = 98;
-  public static final int MINSTREL_LEVEL = 99;
-  public static final int MUS_LIMIT = 100;
-  public static final int MYS_LIMIT = 101;
-  public static final int MOX_LIMIT = 102;
-  public static final int SONG_DURATION = 103;
-  public static final int PRISMATIC_DAMAGE = 104;
-  public static final int SMITHSNESS = 105;
-  public static final int SUPERCOLD_RESISTANCE = 106;
-  public static final int REDUCE_ENEMY_DEFENSE = 107;
-  public static final int POOL_SKILL = 108;
-  public static final int SURGEONOSITY = 109;
-  public static final int FAMILIAR_DAMAGE = 110;
-  public static final int GEARDROP = 111;
-  public static final int MAXIMUM_HOOCH = 112;
-  public static final int WATER_LEVEL = 113;
-  public static final int CRIMBOT_POWER = 114;
-  public static final int FAMILIAR_TUNING_MUSCLE = 115;
-  public static final int FAMILIAR_TUNING_MYSTICALITY = 116;
-  public static final int FAMILIAR_TUNING_MOXIE = 117;
-  public static final int RANDOM_MONSTER_MODIFIERS = 118;
-  public static final int LUCK = 119;
-  public static final int OTHELLO_SKILL = 120;
-  public static final int DISCO_STYLE = 121;
-  public static final int ROLLOVER_EFFECT_DURATION = 122;
-  public static final int SIXGUN_DAMAGE = 123;
-  public static final int FISHING_SKILL = 124;
-  public static final int ADDITIONAL_SONG = 125;
-  public static final int SPRINKLES = 126;
-  public static final int ABSORB_ADV = 127;
-  public static final int ABSORB_STAT = 128;
-  public static final int RUBEE_DROP = 129;
-  public static final int KRUEGERAND_DROP = 130;
-  public static final int WARBEAR_ARMOR_PENETRATION = 131;
-  public static final int CLOWNINESS = 132;
-  public static final int PP = 133;
-  public static final int PLUMBER_POWER = 134;
-  public static final int DRIPPY_DAMAGE = 135;
-  public static final int DRIPPY_RESISTANCE = 136;
-  public static final int ENERGY = 137;
-  public static final int SCRAP = 138;
-  public static final int FAMILIAR_ACTION_BONUS = 139;
-  public static final int WATER = 140;
-  public static final int SPLEEN_DROP = 141;
-  public static final int POTION_DROP = 142;
-  public static final int SAUCE_SPELL_DAMAGE = 143;
-  public static final int MONSTER_LEVEL_PERCENT = 144;
-  public static final int FOOD_FAIRY_WEIGHT = 145;
-  public static final int BOOZE_FAIRY_WEIGHT = 146;
-  public static final int CANDY_FAIRY_WEIGHT = 147;
-  public static final int FOOD_FAIRY_EFFECTIVENESS = 148;
-  public static final int BOOZE_FAIRY_EFFECTIVENESS = 149;
-  public static final int CANDY_FAIRY_EFFECTIVENESS = 150;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
-
-  private static final DoubleModifier[] doubleModifiers = {
-    new DoubleModifier(
-        "Familiar Weight",
-        Pattern.compile("([+-]\\d+) (to )?Familiar Weight"),
-        Pattern.compile("Familiar Weight: " + EXPR)),
-    new DoubleModifier(
-        "Monster Level",
-        new Pattern[] {
-          Pattern.compile("([+-]\\d+) to Monster Level"),
-          Pattern.compile("Monster Level ([+-]\\d+)"),
-        },
-        Pattern.compile("Monster Level: " + EXPR)),
-    new DoubleModifier("Combat Rate", Pattern.compile("Combat Rate: " + EXPR)),
-    new DoubleModifier(
-        "Initiative",
-        new Pattern[] {
-          Pattern.compile("Combat Initiative ([+-]\\d+)%"),
-          Pattern.compile("([+-]\\d+)% Combat Initiative"),
-        },
-        Pattern.compile("Initiative: " + EXPR)),
-    new DoubleModifier(
-        "Experience",
-        Pattern.compile("([+-]\\d+) Stat.*Per Fight"),
-        Pattern.compile("Experience: " + EXPR)),
-    new DoubleModifier(
-        "Item Drop",
-        Pattern.compile("([+-]\\d+)% Item Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Item Drop: " + EXPR)),
-    new DoubleModifier(
-        "Meat Drop",
-        Pattern.compile("([+-]\\d+)% Meat from Monsters"),
-        Pattern.compile("Meat Drop: " + EXPR)),
-    new DoubleModifier(
-        "Damage Absorption",
-        Pattern.compile("Damage Absorption ([+-]\\d+)"),
-        Pattern.compile("Damage Absorption: " + EXPR)),
-    new DoubleModifier(
-        "Damage Reduction",
-        Pattern.compile("Damage Reduction: ([+-]?\\d+)"),
-        Pattern.compile("Damage Reduction: " + EXPR)),
-    new DoubleModifier("Cold Resistance", Pattern.compile("Cold Resistance: " + EXPR)),
-    new DoubleModifier("Hot Resistance", Pattern.compile("Hot Resistance: " + EXPR)),
-    new DoubleModifier("Sleaze Resistance", Pattern.compile("Sleaze Resistance: " + EXPR)),
-    new DoubleModifier("Spooky Resistance", Pattern.compile("Spooky Resistance: " + EXPR)),
-    new DoubleModifier("Stench Resistance", Pattern.compile("Stench Resistance: " + EXPR)),
-    new DoubleModifier(
-        "Mana Cost",
-        Pattern.compile("([+-]\\d+) MP to use Skills$"),
-        Pattern.compile("Mana Cost: " + EXPR)),
-    new DoubleModifier(
-        "Moxie",
-        new Pattern[] {
-          Pattern.compile("Moxie ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Moxie$"),
-        },
-        Pattern.compile("Moxie: " + EXPR)),
-    new DoubleModifier(
-        "Moxie Percent",
-        new Pattern[] {
-          Pattern.compile("Moxie ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Moxie"),
-        },
-        Pattern.compile("Moxie Percent: " + EXPR)),
-    new DoubleModifier(
-        "Muscle",
-        new Pattern[] {
-          Pattern.compile("Muscle ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Muscle$"),
-        },
-        Pattern.compile("Muscle: " + EXPR)),
-    new DoubleModifier(
-        "Muscle Percent",
-        new Pattern[] {
-          Pattern.compile("Muscle ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Muscle"),
-        },
-        Pattern.compile("Muscle Percent: " + EXPR)),
-    new DoubleModifier(
-        "Mysticality",
-        new Pattern[] {
-          Pattern.compile("Mysticality ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Mysticality$"),
-        },
-        Pattern.compile("Mysticality: " + EXPR)),
-    new DoubleModifier(
-        "Mysticality Percent",
-        new Pattern[] {
-          Pattern.compile("Mysticality ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Mysticality"),
-        },
-        Pattern.compile("Mysticality Percent: " + EXPR)),
-    new DoubleModifier(
-        "Maximum HP",
-        Pattern.compile("Maximum HP ([+-]\\d+)$"),
-        Pattern.compile("Maximum HP: " + EXPR)),
-    new DoubleModifier(
-        "Maximum HP Percent",
-        Pattern.compile("Maximum HP ([+-]\\d+)%"),
-        Pattern.compile("Maximum HP Percent: " + EXPR)),
-    new DoubleModifier(
-        "Maximum MP",
-        Pattern.compile("Maximum MP ([+-]\\d+)$"),
-        Pattern.compile("Maximum MP: " + EXPR)),
-    new DoubleModifier(
-        "Maximum MP Percent",
-        Pattern.compile("Maximum MP ([+-]\\d+)%"),
-        Pattern.compile("Maximum MP Percent: " + EXPR)),
-    new DoubleModifier(
-        "Weapon Damage",
-        new Pattern[] {
-          Pattern.compile("Weapon Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Weapon Damage"),
-        },
-        Pattern.compile("Weapon Damage: " + EXPR)),
-    new DoubleModifier(
-        "Ranged Damage",
-        new Pattern[] {
-          Pattern.compile("Ranged Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Ranged Damage"),
-        },
-        Pattern.compile("Ranged Damage: " + EXPR)),
-    new DoubleModifier(
-        "Spell Damage",
-        new Pattern[] {
-          Pattern.compile("Spell Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Spell Damage"),
-        },
-        Pattern.compile("(?:^|, )Spell Damage: " + EXPR)),
-    new DoubleModifier(
-        "Spell Damage Percent",
-        new Pattern[] {
-          Pattern.compile("Spell Damage ([+-][\\d.]+)%"),
-          Pattern.compile("([+-][\\d.]+)% Spell Damage"),
-        },
-        Pattern.compile("Spell Damage Percent: " + EXPR)),
-    new DoubleModifier(
-        "Cold Damage",
-        Pattern.compile("^([+-]\\d+) <font color=blue>Cold Damage<"),
-        Pattern.compile("Cold Damage: " + EXPR)),
-    new DoubleModifier(
-        "Hot Damage",
-        Pattern.compile("^([+-]\\d+) <font color=red>Hot Damage<"),
-        Pattern.compile("Hot Damage: " + EXPR)),
-    new DoubleModifier(
-        "Sleaze Damage",
-        Pattern.compile("^([+-]\\d+) <font color=blueviolet>Sleaze Damage<"),
-        Pattern.compile("Sleaze Damage: " + EXPR)),
-    new DoubleModifier(
-        "Spooky Damage",
-        Pattern.compile("^([+-]\\d+) <font color=gray>Spooky Damage<"),
-        Pattern.compile("Spooky Damage: " + EXPR)),
-    new DoubleModifier(
-        "Stench Damage",
-        Pattern.compile("^([+-]\\d+) <font color=green>Stench Damage<"),
-        Pattern.compile("Stench Damage: " + EXPR)),
-    new DoubleModifier(
-        "Cold Spell Damage",
-        Pattern.compile("^([+-]\\d+) (Damage )?to <font color=blue>Cold Spells</font>"),
-        Pattern.compile("Cold Spell Damage: " + EXPR)),
-    new DoubleModifier(
-        "Hot Spell Damage",
-        Pattern.compile("^([+-]\\d+) (Damage )?to (<font color=red>)?Hot Spells(</font>)?"),
-        Pattern.compile("Hot Spell Damage: " + EXPR)),
-    new DoubleModifier(
-        "Sleaze Spell Damage",
-        Pattern.compile("^([+-]\\d+) (Damage )?to <font color=blueviolet>Sleaze Spells</font>"),
-        Pattern.compile("Sleaze Spell Damage: " + EXPR)),
-    new DoubleModifier(
-        "Spooky Spell Damage",
-        Pattern.compile("^([+-]\\d+) (Damage )?to <font color=gray>Spooky Spells</font>"),
-        Pattern.compile("Spooky Spell Damage: " + EXPR)),
-    new DoubleModifier(
-        "Stench Spell Damage",
-        Pattern.compile("^([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>"),
-        Pattern.compile("Stench Spell Damage: " + EXPR)),
-    new DoubleModifier(
-        "Underwater Combat Rate", Pattern.compile("Combat Rate \\(Underwater\\): " + EXPR)),
-    new DoubleModifier(
-        "Fumble", Pattern.compile("(\\d+)x chance of Fumble"), Pattern.compile("Fumble: " + EXPR)),
-    new DoubleModifier("HP Regen Min", Pattern.compile("HP Regen Min: " + EXPR)),
-    new DoubleModifier("HP Regen Max", Pattern.compile("HP Regen Max: " + EXPR)),
-    new DoubleModifier("MP Regen Min", Pattern.compile("MP Regen Min: " + EXPR)),
-    new DoubleModifier("MP Regen Max", Pattern.compile("MP Regen Max: " + EXPR)),
-    new DoubleModifier(
-        "Adventures",
-        Pattern.compile("([+-]\\d+) Adventure\\(s\\) per day( when equipped)?"),
-        Pattern.compile("Adventures: " + EXPR)),
-    new DoubleModifier(
-        "Familiar Weight Percent",
-        Pattern.compile("([+-]\\d+)% Familiar Weight"),
-        Pattern.compile("Familiar Weight Percent: " + EXPR)),
-    new DoubleModifier(
-        "Weapon Damage Percent",
-        Pattern.compile("Weapon Damage ([+-]\\d+)%"),
-        Pattern.compile("Weapon Damage Percent: " + EXPR)),
-    new DoubleModifier(
-        "Ranged Damage Percent",
-        Pattern.compile("Ranged Damage ([+-]\\d+)%"),
-        Pattern.compile("Ranged Damage Percent: " + EXPR)),
-    new DoubleModifier(
-        "Stackable Mana Cost",
-        Pattern.compile("([+-]\\d+) MP to use Skills$"),
-        Pattern.compile("Mana Cost \\(stackable\\): " + EXPR)),
-    new DoubleModifier(
-        "Hobo Power",
-        Pattern.compile("([+-]\\d+) Hobo Power"),
-        Pattern.compile("Hobo Power: " + EXPR)),
-    new DoubleModifier("Base Resting HP", Pattern.compile("Base Resting HP: " + EXPR)),
-    new DoubleModifier("Resting HP Percent", Pattern.compile("Resting HP Percent: " + EXPR)),
-    new DoubleModifier("Bonus Resting HP", Pattern.compile("Bonus Resting HP: " + EXPR)),
-    new DoubleModifier("Base Resting MP", Pattern.compile("Base Resting MP: " + EXPR)),
-    new DoubleModifier("Resting MP Percent", Pattern.compile("Resting MP Percent: " + EXPR)),
-    new DoubleModifier("Bonus Resting MP", Pattern.compile("Bonus Resting MP: " + EXPR)),
-    new DoubleModifier(
-        "Critical Hit Percent",
-        Pattern.compile("([+-]\\d+)% [Cc]hance of Critical Hit"),
-        Pattern.compile("Critical Hit Percent: " + EXPR)),
-    new DoubleModifier(
-        "PvP Fights",
-        Pattern.compile("([+-]\\d+) PvP [Ff]ight\\(s\\) per day( when equipped)?"),
-        Pattern.compile("PvP Fights: " + EXPR)),
-    new DoubleModifier("Volleyball", Pattern.compile("Volley(?:ball)?: " + EXPR)),
-    new DoubleModifier("Sombrero", Pattern.compile("Somb(?:rero)?: " + EXPR)),
-    new DoubleModifier("Leprechaun", Pattern.compile("Lep(?:rechaun)?: " + EXPR)),
-    new DoubleModifier("Fairy", Pattern.compile("(?:^|, )Fairy: " + EXPR)),
-    new DoubleModifier("Meat Drop Penalty", Pattern.compile("Meat Drop Penalty: " + EXPR)),
-    new DoubleModifier(
-        "Hidden Familiar Weight", Pattern.compile("Familiar Weight \\(hidden\\): " + EXPR)),
-    new DoubleModifier("Item Drop Penalty", Pattern.compile("Item Drop Penalty: " + EXPR)),
-    new DoubleModifier("Initiative Penalty", Pattern.compile("Initiative Penalty: " + EXPR)),
-    new DoubleModifier(
-        "Food Drop",
-        Pattern.compile("([+-]\\d+)% Food Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Food Drop: " + EXPR)),
-    new DoubleModifier(
-        "Booze Drop",
-        Pattern.compile("([+-]\\d+)% Booze Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Booze Drop: " + EXPR)),
-    new DoubleModifier(
-        "Hat Drop",
-        Pattern.compile("([+-]\\d+)% Hat(?:/Pants)? Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Hat Drop: " + EXPR)),
-    new DoubleModifier(
-        "Weapon Drop",
-        Pattern.compile("([+-]\\d+)% Weapon Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Weapon Drop: " + EXPR)),
-    new DoubleModifier(
-        "Offhand Drop",
-        Pattern.compile("([+-]\\d+)% Off-[Hh]and Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Offhand Drop: " + EXPR)),
-    new DoubleModifier(
-        "Shirt Drop",
-        Pattern.compile("([+-]\\d+)% Shirt Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Shirt Drop: " + EXPR)),
-    new DoubleModifier(
-        "Pants Drop",
-        Pattern.compile("([+-]\\d+)% (?:Hat/)?Pants Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Pants Drop: " + EXPR)),
-    new DoubleModifier(
-        "Accessory Drop",
-        Pattern.compile("([+-]\\d+)% Accessory Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Accessory Drop: " + EXPR)),
-    new DoubleModifier(
-        "Volleyball Effectiveness", Pattern.compile("Volleyball Effectiveness: " + EXPR)),
-    new DoubleModifier(
-        "Sombrero Effectiveness", Pattern.compile("Sombrero Effectiveness: " + EXPR)),
-    new DoubleModifier(
-        "Leprechaun Effectiveness", Pattern.compile("Leprechaun Effectiveness: " + EXPR)),
-    new DoubleModifier("Fairy Effectiveness", Pattern.compile("Fairy Effectiveness: " + EXPR)),
-    new DoubleModifier("Familiar Weight Cap", Pattern.compile("Familiar Weight Cap: " + EXPR)),
-    new DoubleModifier("Slime Resistance", Pattern.compile("Slime Resistance: " + EXPR)),
-    new DoubleModifier(
-        "Slime Hates It",
-        Pattern.compile("Slime( Really)? Hates (It|You)"),
-        Pattern.compile("Slime Hates It: " + EXPR)),
-    new DoubleModifier(
-        "Spell Critical Percent",
-        Pattern.compile("([+-]\\d+)% [cC]hance of Spell Critical Hit"),
-        Pattern.compile("Spell Critical Percent: " + EXPR)),
-    new DoubleModifier(
-        "Muscle Experience",
-        Pattern.compile("([+-]\\d+) Muscle Stat.*Per Fight"),
-        Pattern.compile("Experience \\(Muscle\\): " + EXPR),
-        "Experience (Muscle)"),
-    new DoubleModifier(
-        "Mysticality Experience",
-        Pattern.compile("([+-]\\d+) Mysticality Stat.*Per Fight"),
-        Pattern.compile("Experience \\(Mysticality\\): " + EXPR),
-        "Experience (Mysticality)"),
-    new DoubleModifier(
-        "Moxie Experience",
-        Pattern.compile("([+-]\\d+) Moxie Stat.*Per Fight"),
-        Pattern.compile("Experience \\(Moxie\\): " + EXPR),
-        "Experience (Moxie)"),
-    new DoubleModifier("Effect Duration", Pattern.compile("(?:^|, )Effect Duration: " + EXPR)),
-    new DoubleModifier(
-        "Candy Drop",
-        Pattern.compile("([+-]\\d+)% Candy Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Candy Drop: " + EXPR)),
-    new DoubleModifier(
-        "DB Combat Damage",
-        new Pattern[] {
-          Pattern.compile("([+-]\\d+) damage to Disco Bandit Combat Skills"),
-          Pattern.compile("([+-]\\d+) Disco Bandit Skill Damage"),
-        },
-        Pattern.compile("DB Combat Damage: " + EXPR)),
-    new DoubleModifier(
-        "Sombrero Bonus",
-        Pattern.compile("([+-]\\d+) lbs?\\. of Sombrero"),
-        Pattern.compile("Sombrero Bonus: " + EXPR)),
-    new DoubleModifier(
-        "Familiar Experience",
-        Pattern.compile("([+-]\\d+) Familiar Experience"),
-        Pattern.compile("Experience \\(familiar\\): " + EXPR),
-        "Experience (familiar)"),
-    new DoubleModifier(
-        "Sporadic Meat Drop",
-        Pattern.compile("Meat Drop \\(sporadic\\): " + EXPR),
-        "Meat Drop (sporadic)"),
-    new DoubleModifier(
-        "Sporadic Item Drop",
-        Pattern.compile("Item Drop \\(sporadic\\): " + EXPR),
-        "Item Drop (sporadic)"),
-    new DoubleModifier("Meat Bonus", Pattern.compile("Meat Bonus: " + EXPR)),
-    new DoubleModifier(
-        "Pickpocket Chance",
-        Pattern.compile("([+-]\\d+)% Pickpocket Chance"),
-        Pattern.compile("Pickpocket Chance: " + EXPR)),
-    new DoubleModifier(
-        "Combat Mana Cost",
-        Pattern.compile("([+-]\\d+) MP to use Skills \\(in-combat only\\)"),
-        Pattern.compile("Mana Cost \\(combat\\): " + EXPR),
-        "Mana Cost (combat)"),
-    new DoubleModifier(
-        "Muscle Experience Percent",
-        Pattern.compile("([+-]\\d+)% to all Muscle Gains"),
-        Pattern.compile("Experience Percent \\(Muscle\\): " + EXPR),
-        "Experience Percent (Muscle)"),
-    new DoubleModifier(
-        "Mysticality Experience Percent",
-        Pattern.compile("([+-]\\d+)% to all Mysticality Gains"),
-        Pattern.compile("Experience Percent \\(Mysticality\\): " + EXPR),
-        "Experience Percent (Mysticality)"),
-    new DoubleModifier(
-        "Moxie Experience Percent",
-        Pattern.compile("([+-]\\d+)% to all Moxie Gains"),
-        Pattern.compile("Experience Percent \\(Moxie\\): " + EXPR),
-        "Experience Percent (Moxie)"),
-    new DoubleModifier(
-        "Minstrel Level",
-        new Pattern[] {
-          Pattern.compile("([+-]\\d+) to Minstrel Level"),
-          Pattern.compile("Minstrel Level ([+-]\\d+)"),
-        },
-        Pattern.compile("Minstrel Level: " + EXPR)),
-    new DoubleModifier(
-        "Muscle Limit",
-        Pattern.compile("Base Muscle Limited to (\\d+)"),
-        Pattern.compile("Muscle Limit: " + EXPR)),
-    new DoubleModifier(
-        "Mysticality Limit",
-        Pattern.compile("Base Mysticality Limited to (\\d+)"),
-        Pattern.compile("Mysticality Limit: " + EXPR)),
-    new DoubleModifier(
-        "Moxie Limit",
-        Pattern.compile("Base Moxie Limited to (\\d+)"),
-        Pattern.compile("Moxie Limit: " + EXPR)),
-    new DoubleModifier(
-        "Song Duration",
-        Pattern.compile("Song Duration: ([+-]\\d+) Adventures"),
-        Pattern.compile("Song Duration: " + EXPR)),
-    new DoubleModifier("Prismatic Damage", null),
-    new DoubleModifier(
-        "Smithsness",
-        Pattern.compile("([+-]\\d+) Smithsness"),
-        Pattern.compile("Smithsness: " + EXPR)),
-    new DoubleModifier("Supercold Resistance", Pattern.compile("Supercold Resistance: " + EXPR)),
-    new DoubleModifier(
-        "Reduce Enemy Defense",
-        Pattern.compile("Reduce enemy defense by (\\d+)%"),
-        Pattern.compile("Reduce Enemy Defense: " + EXPR)),
-    new DoubleModifier(
-        "Pool Skill",
-        Pattern.compile("([+-]\\d+) Pool Skill"),
-        Pattern.compile("Pool Skill: " + EXPR)),
-    new DoubleModifier(
-        "Surgeonosity",
-        new Pattern[] {
-          Pattern.compile("Makes you look like a doctor"),
-          Pattern.compile("Makes you look like a gross doctor"),
-        },
-        Pattern.compile("Surgeonosity: (\\+?\\d+)")),
-    new DoubleModifier(
-        "Familiar Damage",
-        new Pattern[] {
-          Pattern.compile("([+-]\\d+) to Familiar Damage"),
-          Pattern.compile("Familiar Damage ([+-]\\d+)"),
-        },
-        Pattern.compile("Familiar Damage: " + EXPR)),
-    new DoubleModifier(
-        "Gear Drop",
-        Pattern.compile("([+-]\\d+)% Gear Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Gear Drop: " + EXPR)),
-    new DoubleModifier(
-        "Maximum Hooch",
-        Pattern.compile("([+-]\\d+) Maximum Hooch"),
-        Pattern.compile("Maximum Hooch: " + EXPR)),
-    new DoubleModifier("Water Level", Pattern.compile("Water Level: " + EXPR)),
-    new DoubleModifier(
-        "Crimbot Outfit Power",
-        Pattern.compile("([+-]\\d+) Crimbot Outfit Power"),
-        Pattern.compile("Crimbot Outfit Power: " + EXPR)),
-    new DoubleModifier(
-        "Familiar Tuning Muscle",
-        Pattern.compile("Familiar Tuning \\(Muscle\\): " + EXPR),
-        "Familiar Tuning (Muscle)"),
-    new DoubleModifier(
-        "Familiar Tuning Mysticality",
-        Pattern.compile("Familiar Tuning \\(Mysticality\\): " + EXPR),
-        "Familiar Tuning (Mysticality)"),
-    new DoubleModifier(
-        "Familiar Tuning Moxie",
-        Pattern.compile("Familiar Tuning \\(Moxie\\): " + EXPR),
-        "Familiar Tuning (Moxie)"),
-    new DoubleModifier(
-        "Random Monster Modifiers",
-        Pattern.compile("([+-]\\d+) Random Monster Modifier"),
-        Pattern.compile("Random Monster Modifiers: " + EXPR)),
-    new DoubleModifier(
-        "Luck", Pattern.compile("([+-]\\d+) Luck"), Pattern.compile("Luck: " + EXPR)),
-    new DoubleModifier(
-        "Othello Skill",
-        Pattern.compile("([+-]\\d+) Othello Skill"),
-        Pattern.compile("Othello Skill: " + EXPR)),
-    new DoubleModifier(
-        "Disco Style",
-        Pattern.compile("([+-]\\d+) Disco Style"),
-        Pattern.compile("Disco Style: " + EXPR)),
-    new DoubleModifier(
-        "Rollover Effect Duration",
-        Pattern.compile("Grants (\\d+) Adventures of <b>.*?</b> at Rollover"),
-        Pattern.compile("Rollover Effect Duration: " + EXPR)),
-    new DoubleModifier("Sixgun Damage", Pattern.compile("Sixgun Damage: " + EXPR)),
-    new DoubleModifier(
-        "Fishing Skill",
-        Pattern.compile("([+-]\\d+) Fishing Skill"),
-        Pattern.compile("Fishing Skill: " + EXPR)),
-    new DoubleModifier(
-        "Additional Song",
-        Pattern.compile("Keep (\\d+) additional song in your head"),
-        Pattern.compile("Additional Song: " + EXPR)),
-    new DoubleModifier(
-        "Sprinkle Drop",
-        Pattern.compile("([+-]\\d+)% Sprinkles from Monsters"),
-        Pattern.compile("Sprinkle Drop: " + EXPR)),
-    new DoubleModifier(
-        "Absorb Adventures",
-        Pattern.compile("([+-]\\d+) Adventures when you absorb an item"),
-        Pattern.compile("Absorb Adventures: " + EXPR)),
-    new DoubleModifier(
-        "Absorb Stats",
-        Pattern.compile("([+-]\\d+) Stats when you absorb an item"),
-        Pattern.compile("Absorb Stats: " + EXPR)),
-    new DoubleModifier(
-        "Rubee Drop",
-        Pattern.compile("FantasyRealm enemies will drop (\\d+) extra Rubee"),
-        Pattern.compile("Rubee Drop: " + EXPR)),
-    new DoubleModifier(
-        "Kruegerand Drop",
-        Pattern.compile("Lets you find (\\d+)% more Kruegerands"),
-        Pattern.compile("Kruegerand Drop: " + EXPR)),
-    new DoubleModifier(
-        "WarBear Armor Penetration",
-        Pattern.compile("([+-]\\d+) WarBear Armor Penetration"),
-        Pattern.compile("WarBear Armor Penetration: " + EXPR)),
-    new DoubleModifier(
-        "Clowniness",
-        Pattern.compile("Makes you look (\\d+)% clowny"),
-        Pattern.compile("Clowniness: " + EXPR)),
-    new DoubleModifier(
-        "Maximum PP",
-        Pattern.compile("([+-]\\d+) Max(imum)? Power Point"),
-        Pattern.compile("Maximum PP: " + EXPR)),
-    new DoubleModifier("Plumber Power", Pattern.compile("Plumber Power: " + EXPR)),
-    new DoubleModifier(
-        "Drippy Damage",
-        new Pattern[] {
-          Pattern.compile("([+-]\\d+) Damage vs. creatures of The Drip"),
-          Pattern.compile("([+-]\\d+) Damage against Drip creatures"),
-        },
-        Pattern.compile("Drippy Damage: " + EXPR)),
-    new DoubleModifier("Drippy Resistance", Pattern.compile("Drippy Resistance: " + EXPR)),
-    new DoubleModifier("Energy", Pattern.compile("Energy: " + EXPR)),
-    new DoubleModifier("Scrap", Pattern.compile("Scrap: " + EXPR)),
-    new DoubleModifier("Familiar Action Bonus", Pattern.compile("Familiar Action Bonus: " + EXPR)),
-    new DoubleModifier(
-        "Water",
-        Pattern.compile("Collect (\\d+) water per adventure"),
-        Pattern.compile("Water: " + EXPR)),
-    new DoubleModifier(
-        "Spleen Drop",
-        Pattern.compile("([+-]\\d+)% Spleen Item Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Spleen Drop: " + EXPR)),
-    new DoubleModifier(
-        "Potion Drop",
-        Pattern.compile("([+-]\\d+)% Potion Drops? [Ff]rom Monsters$"),
-        Pattern.compile("Potion Drop: " + EXPR)),
-    new DoubleModifier(
-        "Sauce Spell Damage",
-        new Pattern[] {
-          Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
-          Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
-        },
-        Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)),
-    new DoubleModifier(
-        "Monster Level Percent",
-        Pattern.compile("([+-]\\d+)% Monster Level"),
-        Pattern.compile("Monster Level Percent: " + EXPR)),
-    new DoubleModifier("Food Fairy", Pattern.compile("Food Fairy: " + EXPR)),
-    new DoubleModifier("Booze Fairy", Pattern.compile("Booze Fairy: " + EXPR)),
-    new DoubleModifier("Candy Fairy", Pattern.compile("Candy Fairy: " + EXPR)),
-    new DoubleModifier(
-        "Food Fairy Effectiveness", Pattern.compile("Food Fairy Effectiveness: " + EXPR)),
-    new DoubleModifier(
-        "Booze Fairy Effectiveness", Pattern.compile("Booze Fairy Effectiveness: " + EXPR)),
-    new DoubleModifier(
-        "Candy Fairy Effectiveness", Pattern.compile("Candy Fairy Effectiveness: " + EXPR)),
-  };
-
-  public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
 
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
+  public static final EnumSet<DoubleModifier> DOUBLE_MODIFIERS =
+      EnumSet.allOf(DoubleModifier.class);
+
   static {
-    for (int i = 0; i < DOUBLE_MODIFIERS; ++i) {
-      DoubleModifier modifier = Modifiers.doubleModifiers[i];
-      modifierIndicesByName.put(modifier.getName(), i);
+    for (var modifier : Modifiers.DOUBLE_MODIFIERS) {
+      modifierTypesByName.put(modifier.getName(), modifier);
       String tag = modifier.getTag();
-      modifierIndicesByName.put(tag, i);
+      modifierTypesByName.put(tag, modifier);
       numericModifiers.add(tag);
     }
   }
@@ -815,7 +145,7 @@ public class Modifiers {
 
     for (int i = 0; i < BITMAP_MODIFIERS; ++i) {
       BitmapModifier modifier = Modifiers.bitmapModifiers[i];
-      int index = DOUBLE_MODIFIERS + i;
+      int index = i;
       modifierIndicesByName.put(modifier.getName(), index);
       modifierIndicesByName.put(modifier.getTag(), index);
     }
@@ -923,7 +253,7 @@ public class Modifiers {
     }
     for (int i = 0; i < BOOLEAN_MODIFIERS; ++i) {
       BooleanModifier modifier = Modifiers.booleanModifiers[i];
-      int index = DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i;
+      int index = BITMAP_MODIFIERS + i;
       modifierIndicesByName.put(modifier.getName(), index);
       modifierIndicesByName.put(modifier.getTag(), index);
     }
@@ -1006,7 +336,7 @@ public class Modifiers {
   static {
     for (int i = 0; i < STRING_MODIFIERS; ++i) {
       StringModifier modifier = Modifiers.stringModifiers[i];
-      int index = DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i;
+      int index = BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i;
       modifierIndicesByName.put(modifier.getName(), index);
       modifierIndicesByName.put(modifier.getTag(), index);
     }
@@ -1067,31 +397,31 @@ public class Modifiers {
       mox = mys;
     }
 
-    int mus_limit = (int) this.get(Modifiers.MUS_LIMIT);
+    int mus_limit = (int) this.get(DoubleModifier.MUS_LIMIT);
     if (mus_limit > 0 && mus > mus_limit) {
       mus = mus_limit;
     }
-    int mys_limit = (int) this.get(Modifiers.MYS_LIMIT);
+    int mys_limit = (int) this.get(DoubleModifier.MYS_LIMIT);
     if (mys_limit > 0 && mys > mys_limit) {
       mys = mys_limit;
     }
-    int mox_limit = (int) this.get(Modifiers.MOX_LIMIT);
+    int mox_limit = (int) this.get(DoubleModifier.MOX_LIMIT);
     if (mox_limit > 0 && mox > mox_limit) {
       mox = mox_limit;
     }
 
     rv[Modifiers.BUFFED_MUS] =
         mus
-            + (int) this.get(Modifiers.MUS)
-            + (int) Math.ceil(this.get(Modifiers.MUS_PCT) * mus / 100.0);
+            + (int) this.get(DoubleModifier.MUS)
+            + (int) Math.ceil(this.get(DoubleModifier.MUS_PCT) * mus / 100.0);
     rv[Modifiers.BUFFED_MYS] =
         mys
-            + (int) this.get(Modifiers.MYS)
-            + (int) Math.ceil(this.get(Modifiers.MYS_PCT) * mys / 100.0);
+            + (int) this.get(DoubleModifier.MYS)
+            + (int) Math.ceil(this.get(DoubleModifier.MYS_PCT) * mys / 100.0);
     rv[Modifiers.BUFFED_MOX] =
         mox
-            + (int) this.get(Modifiers.MOX)
-            + (int) Math.ceil(this.get(Modifiers.MOX_PCT) * mox / 100.0);
+            + (int) this.get(DoubleModifier.MOX)
+            + (int) Math.ceil(this.get(DoubleModifier.MOX_PCT) * mox / 100.0);
 
     String mus_buffed_floor = this.getString(Modifiers.FLOOR_BUFFED_MUSCLE);
     if (mus_buffed_floor.startsWith("Mys")) {
@@ -1129,23 +459,23 @@ public class Modifiers {
     int buffedHP;
     if (KoLCharacter.isVampyre()) {
       hpbase = KoLCharacter.getBaseMuscle();
-      hp = hpbase + (int) this.get(Modifiers.HP);
+      hp = hpbase + (int) this.get(DoubleModifier.HP);
       buffedHP = Math.max(hp, mus);
     } else if (KoLCharacter.inRobocore()) {
       hpbase = 30;
-      hp = hpbase + (int) this.get(Modifiers.HP);
+      hp = hpbase + (int) this.get(DoubleModifier.HP);
       buffedHP = hp;
     } else if (KoLCharacter.isGreyGoo()) {
       hpbase =
           (int) KoLCharacter.getBaseMaxHP()
-              - (int) KoLCharacter.currentNumericModifier(Modifiers.HP);
-      hp = hpbase + (int) this.get(Modifiers.HP);
+              - (int) KoLCharacter.currentNumericModifier(DoubleModifier.HP);
+      hp = hpbase + (int) this.get(DoubleModifier.HP);
       buffedHP = hp;
     } else {
       hpbase = rv[Modifiers.BUFFED_MUS] + 3;
       double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
-      double hpPercent = this.get(Modifiers.HP_PCT);
-      hp = (int) Math.ceil(hpbase * (C + hpPercent / 100.0)) + (int) this.get(Modifiers.HP);
+      double hpPercent = this.get(DoubleModifier.HP_PCT);
+      hp = (int) Math.ceil(hpbase * (C + hpPercent / 100.0)) + (int) this.get(DoubleModifier.HP);
       buffedHP = Math.max(hp, mus);
     }
     rv[Modifiers.BUFFED_HP] = buffedHP;
@@ -1156,8 +486,8 @@ public class Modifiers {
     if (KoLCharacter.isGreyGoo()) {
       mpbase =
           (int) KoLCharacter.getBaseMaxMP()
-              - (int) KoLCharacter.currentNumericModifier(Modifiers.MP);
-      mp = mpbase + (int) this.get(Modifiers.MP);
+              - (int) KoLCharacter.currentNumericModifier(DoubleModifier.MP);
+      mp = mpbase + (int) this.get(DoubleModifier.MP);
       buffedMP = mp;
     } else {
       mpbase = rv[Modifiers.BUFFED_MYS];
@@ -1167,8 +497,8 @@ public class Modifiers {
         mpbase = rv[Modifiers.BUFFED_MOX];
       }
       double C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
-      double mpPercent = this.get(Modifiers.MP_PCT);
-      mp = (int) Math.ceil(mpbase * (C + mpPercent / 100.0)) + (int) this.get(Modifiers.MP);
+      double mpPercent = this.get(DoubleModifier.MP_PCT);
+      mp = (int) Math.ceil(mpbase * (C + mpPercent / 100.0)) + (int) this.get(DoubleModifier.MP);
       buffedMP = Math.max(mp, mys);
     }
     rv[Modifiers.BUFFED_MP] = buffedMP;
@@ -1233,8 +563,8 @@ public class Modifiers {
     Modifiers.modifiersByName.remove(lookup.type, lookup.getKey());
   }
 
-  public static final String getModifierName(final int index) {
-    return Modifiers.doubleModifiers[index].getName();
+  public static final String getModifierName(final DoubleModifier modifier) {
+    return modifier.getName();
   }
 
   public static final String getBitmapModifierName(final int index) {
@@ -1253,59 +583,44 @@ public class Modifiers {
     return Modifiers.derivedModifiers[index].getName();
   }
 
-  private static final String COLD =
-      Modifiers.doubleModifiers[Modifiers.COLD_RESISTANCE].getTag() + ": ";
-  private static final String HOT =
-      Modifiers.doubleModifiers[Modifiers.HOT_RESISTANCE].getTag() + ": ";
-  private static final String SLEAZE =
-      Modifiers.doubleModifiers[Modifiers.SLEAZE_RESISTANCE].getTag() + ": ";
-  private static final String SPOOKY =
-      Modifiers.doubleModifiers[Modifiers.SPOOKY_RESISTANCE].getTag() + ": ";
-  private static final String STENCH =
-      Modifiers.doubleModifiers[Modifiers.STENCH_RESISTANCE].getTag() + ": ";
-  private static final String SLIME =
-      Modifiers.doubleModifiers[Modifiers.SLIME_RESISTANCE].getTag() + ": ";
-  private static final String SUPERCOLD =
-      Modifiers.doubleModifiers[Modifiers.SUPERCOLD_RESISTANCE].getTag() + ": ";
+  private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
+  private static final String HOT = DoubleModifier.HOT_RESISTANCE.getTag() + ": ";
+  private static final String SLEAZE = DoubleModifier.SLEAZE_RESISTANCE.getTag() + ": ";
+  private static final String SPOOKY = DoubleModifier.SPOOKY_RESISTANCE.getTag() + ": ";
+  private static final String STENCH = DoubleModifier.STENCH_RESISTANCE.getTag() + ": ";
+  private static final String SLIME = DoubleModifier.SLIME_RESISTANCE.getTag() + ": ";
+  private static final String SUPERCOLD = DoubleModifier.SUPERCOLD_RESISTANCE.getTag() + ": ";
 
-  private static final String MOXIE = Modifiers.doubleModifiers[Modifiers.MOX].getTag() + ": ";
-  private static final String MUSCLE = Modifiers.doubleModifiers[Modifiers.MUS].getTag() + ": ";
-  private static final String MYSTICALITY =
-      Modifiers.doubleModifiers[Modifiers.MYS].getTag() + ": ";
+  private static final String MOXIE = DoubleModifier.MOX.getTag() + ": ";
+  private static final String MUSCLE = DoubleModifier.MUS.getTag() + ": ";
+  private static final String MYSTICALITY = DoubleModifier.MYS.getTag() + ": ";
 
-  private static final String MOXIE_PCT =
-      Modifiers.doubleModifiers[Modifiers.MOX_PCT].getTag() + ": ";
-  private static final String MUSCLE_PCT =
-      Modifiers.doubleModifiers[Modifiers.MUS_PCT].getTag() + ": ";
-  private static final String MYSTICALITY_PCT =
-      Modifiers.doubleModifiers[Modifiers.MYS_PCT].getTag() + ": ";
+  private static final String MOXIE_PCT = DoubleModifier.MOX_PCT.getTag() + ": ";
+  private static final String MUSCLE_PCT = DoubleModifier.MUS_PCT.getTag() + ": ";
+  private static final String MYSTICALITY_PCT = DoubleModifier.MYS_PCT.getTag() + ": ";
 
-  private static final String HP_TAG = Modifiers.doubleModifiers[Modifiers.HP].getTag() + ": ";
-  private static final String MP_TAG = Modifiers.doubleModifiers[Modifiers.MP].getTag() + ": ";
+  private static final String HP_TAG = DoubleModifier.HP.getTag() + ": ";
+  private static final String MP_TAG = DoubleModifier.MP.getTag() + ": ";
 
-  private static final String HP_REGEN_MIN_TAG =
-      Modifiers.doubleModifiers[Modifiers.HP_REGEN_MIN].getTag() + ": ";
-  private static final String HP_REGEN_MAX_TAG =
-      Modifiers.doubleModifiers[Modifiers.HP_REGEN_MAX].getTag() + ": ";
-  private static final String MP_REGEN_MIN_TAG =
-      Modifiers.doubleModifiers[Modifiers.MP_REGEN_MIN].getTag() + ": ";
-  private static final String MP_REGEN_MAX_TAG =
-      Modifiers.doubleModifiers[Modifiers.MP_REGEN_MAX].getTag() + ": ";
+  private static final String HP_REGEN_MIN_TAG = DoubleModifier.HP_REGEN_MIN.getTag() + ": ";
+  private static final String HP_REGEN_MAX_TAG = DoubleModifier.HP_REGEN_MAX.getTag() + ": ";
+  private static final String MP_REGEN_MIN_TAG = DoubleModifier.MP_REGEN_MIN.getTag() + ": ";
+  private static final String MP_REGEN_MAX_TAG = DoubleModifier.MP_REGEN_MAX.getTag() + ": ";
 
-  public static int elementalResistance(final Element element) {
+  public static DoubleModifier elementalResistance(final Element element) {
     return switch (element) {
-      case COLD -> Modifiers.COLD_RESISTANCE;
-      case HOT -> Modifiers.HOT_RESISTANCE;
-      case SLEAZE -> Modifiers.SLEAZE_RESISTANCE;
-      case SPOOKY -> Modifiers.SPOOKY_RESISTANCE;
-      case STENCH -> Modifiers.STENCH_RESISTANCE;
-      case SLIME -> Modifiers.SLIME_RESISTANCE;
-      case SUPERCOLD -> Modifiers.SUPERCOLD_RESISTANCE;
-      default -> -1;
+      case COLD -> DoubleModifier.COLD_RESISTANCE;
+      case HOT -> DoubleModifier.HOT_RESISTANCE;
+      case SLEAZE -> DoubleModifier.SLEAZE_RESISTANCE;
+      case SPOOKY -> DoubleModifier.SPOOKY_RESISTANCE;
+      case STENCH -> DoubleModifier.STENCH_RESISTANCE;
+      case SLIME -> DoubleModifier.SLIME_RESISTANCE;
+      case SUPERCOLD -> DoubleModifier.SUPERCOLD_RESISTANCE;
+      default -> null;
     };
   }
 
-  public static List<AdventureResult> getPotentialChanges(final int index) {
+  public static List<AdventureResult> getPotentialChanges(final DoubleModifier modifier) {
     ArrayList<AdventureResult> available = new ArrayList<>();
 
     for (Entry<IntOrString, String> entry : Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
@@ -1319,7 +634,7 @@ public class Modifiers {
       }
 
       Modifiers currentTest = Modifiers.getEffectModifiers(effectId);
-      double value = currentTest.get(index);
+      double value = currentTest.get(modifier);
 
       if (value == 0.0) {
         continue;
@@ -1348,8 +663,10 @@ public class Modifiers {
     return -1;
   }
 
-  public static final int findName(String name) {
-    return Modifiers.findName(Modifiers.doubleModifiers, name);
+  public static final DoubleModifier findName(String name) {
+    // TODO: does this need to be caseless? Can it not use modifierTypesByName,
+    // which is case-sensitive and includes tags?
+    return DoubleModifier.byCaselessName(name);
   }
 
   public static final int findBooleanName(String name) {
@@ -1359,12 +676,12 @@ public class Modifiers {
   private Lookup originalLookup;
   // Assume modifiers are variable until proven otherwise.
   public boolean variable = true;
-  private DoubleModifierCollection doubles = new DoubleModifierCollection();
+  private final DoubleModifierCollection doubles = new DoubleModifierCollection();
   private final int[] bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
   private final String[] strings = new String[Modifiers.STRING_MODIFIERS];
   private ArrayList<Indexed<ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
-  private final double[] doublerAccumulators = new double[Modifiers.DOUBLE_MODIFIERS];
+  private final DoubleModifierCollection doublerAccumulators = new DoubleModifierCollection();
 
   public Modifiers() {
     Arrays.fill(this.strings, "");
@@ -1398,18 +715,18 @@ public class Modifiers {
   }
 
   private double derivePrismaticDamage() {
-    double damage = this.doubles.get(Modifiers.COLD_DAMAGE);
-    damage = Math.min(damage, this.doubles.get(Modifiers.HOT_DAMAGE));
-    damage = Math.min(damage, this.doubles.get(Modifiers.SLEAZE_DAMAGE));
-    damage = Math.min(damage, this.doubles.get(Modifiers.SPOOKY_DAMAGE));
-    damage = Math.min(damage, this.doubles.get(Modifiers.STENCH_DAMAGE));
-    this.setDouble(Modifiers.PRISMATIC_DAMAGE, damage);
+    double damage = this.doubles.get(DoubleModifier.COLD_DAMAGE);
+    damage = Math.min(damage, this.doubles.get(DoubleModifier.HOT_DAMAGE));
+    damage = Math.min(damage, this.doubles.get(DoubleModifier.SLEAZE_DAMAGE));
+    damage = Math.min(damage, this.doubles.get(DoubleModifier.SPOOKY_DAMAGE));
+    damage = Math.min(damage, this.doubles.get(DoubleModifier.STENCH_DAMAGE));
+    this.setDouble(DoubleModifier.PRISMATIC_DAMAGE, damage);
     return damage;
   }
 
   private double cappedCombatRate() {
     // Combat Rate has diminishing returns beyond + or - 25%
-    double rate = this.doubles.get(Modifiers.COMBAT_RATE);
+    double rate = this.doubles.get(DoubleModifier.COMBAT_RATE);
     if (rate > 25.0) {
       double extra = rate - 25.0;
       return 25.0 + Math.floor(extra / 5.0);
@@ -1421,19 +738,19 @@ public class Modifiers {
     return rate;
   }
 
-  public double get(final int index) {
-    if (index == Modifiers.PRISMATIC_DAMAGE) {
+  public double get(final DoubleModifier modifier) {
+    if (modifier == DoubleModifier.PRISMATIC_DAMAGE) {
       return this.derivePrismaticDamage();
     }
-    if (index == Modifiers.COMBAT_RATE) {
+    if (modifier == DoubleModifier.COMBAT_RATE) {
       return this.cappedCombatRate();
     }
 
-    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
+    if (modifier == null) {
       return 0.0;
     }
 
-    return this.doubles.get(index);
+    return this.doubles.get(modifier);
   }
 
   public double get(final String name) {
@@ -1444,16 +761,16 @@ public class Modifiers {
       return this.cappedCombatRate();
     }
 
-    int index = Modifiers.findName(name);
-    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
-      index = Modifiers.findName(Modifiers.derivedModifiers, name);
+    DoubleModifier modifier = Modifiers.findName(name);
+    if (modifier == null) {
+      int index = Modifiers.findName(Modifiers.derivedModifiers, name);
       if (index < 0 || index >= Modifiers.DERIVED_MODIFIERS) {
         return this.getBitmap(name);
       }
       return this.predict()[index];
     }
 
-    return this.doubles.get(index);
+    return this.doubles.get(modifier);
   }
 
   public int getRawBitmap(final int index) {
@@ -1534,30 +851,30 @@ public class Modifiers {
     return this.strings[index];
   }
 
-  public double getDoublerAccumulator(final int index) {
-    if (index < 0 || index >= this.doublerAccumulators.length) {
+  public double getDoublerAccumulator(final DoubleModifier modifier) {
+    if (modifier == null) {
       return -9999.0;
     }
-    return this.doublerAccumulators[index];
+    return this.doublerAccumulators.get(modifier);
   }
 
   public double getDoublerAccumulator(final String name) {
     // doublerAccumulators uses the same indexes as doubles, so the same lookup will work
-    int index = findName(name);
-    if (index < 0 || index >= this.doublerAccumulators.length) {
+    DoubleModifier modifier = findName(name);
+    if (modifier == null) {
       // For now, make it obvious that something went wrong
       return -9999.0;
     }
 
-    return this.doublerAccumulators[index];
+    return this.doublerAccumulators.get(modifier);
   }
 
-  public boolean setDouble(final int index, final double mod) {
-    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS) {
+  public boolean setDouble(final DoubleModifier mod, final double value) {
+    if (mod == null) {
       return false;
     }
 
-    return this.doubles.set(index, mod);
+    return this.doubles.set(mod, value);
   }
 
   public boolean setBitmap(final int index, final int mod) {
@@ -1610,8 +927,8 @@ public class Modifiers {
     boolean changed = false;
     this.originalLookup = mods.originalLookup;
 
-    for (int index = 0; index < Modifiers.DOUBLE_MODIFIERS; ++index) {
-      changed |= this.setDouble(index, mods.doubles.get(index));
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+      changed |= this.setDouble(mod, mods.doubles.get(mod));
     }
 
     int[] copyBitmaps = mods.bitmaps;
@@ -1648,48 +965,53 @@ public class Modifiers {
           ModifierType.THRONE,
           ModifierType.UNBREAKABLE_UMBRELLA);
 
-  public void addDouble(final int index, final double mod, final ModifierType type, final int key) {
-    addDouble(index, mod, type, new IntOrString(key));
+  public void addDouble(
+      final DoubleModifier mod, final double value, final ModifierType type, final int key) {
+    addDouble(mod, value, type, new IntOrString(key));
   }
 
   public void addDouble(
-      final int index, final double mod, final ModifierType type, final String key) {
-    addDouble(index, mod, type, new IntOrString(key));
+      final DoubleModifier mod, final double value, final ModifierType type, final String key) {
+    addDouble(mod, value, type, new IntOrString(key));
   }
 
-  public void addDouble(final int index, final double mod, final Lookup lookup) {
-    addDouble(index, mod, lookup.type, lookup.getKey());
+  public void addDouble(final DoubleModifier mod, final double value, final Lookup lookup) {
+    addDouble(mod, value, lookup.type, lookup.getKey());
   }
 
   protected void addDouble(
-      final int index, final double mod, final ModifierType type, final IntOrString key) {
-    switch (index) {
+      final DoubleModifier mod,
+      final double value,
+      final ModifierType type,
+      final IntOrString key) {
+    switch (mod) {
       case MANA_COST:
         // Total Mana Cost reduction cannot exceed 3
-        if (this.doubles.add(index, mod) < -3) {
-          this.doubles.set(index, -3);
+        if (this.doubles.add(mod, value) < -3) {
+          this.doubles.set(mod, -3);
         }
         break;
       case FAMILIAR_WEIGHT_PCT:
+        // TODO: this seems extremely fragile. Also, as the mod is negative is this right?
         // The three current sources of -wt% do not stack
-        if (this.doubles.get(index) > mod) {
-          this.doubles.set(index, mod);
+        if (this.doubles.get(mod) > value) {
+          this.doubles.set(mod, value);
         }
         break;
       case MUS_LIMIT:
       case MYS_LIMIT:
       case MOX_LIMIT:
         // Only the lowest limiter applies
-        double current = this.doubles.get(index);
-        if ((current == 0.0 || current > mod) && mod > 0.0) {
-          this.doubles.set(index, mod);
+        double current = this.doubles.get(mod);
+        if ((current == 0.0 || current > value) && value > 0.0) {
+          this.doubles.set(mod, value);
         }
         break;
       case ITEMDROP:
         if (Modifiers.doubledBySquintChampagne.contains(type)) {
-          this.doublerAccumulators[index] += mod;
+          this.doublerAccumulators.add(mod, value);
         }
-        this.doubles.add(index, mod);
+        this.doubles.add(mod, value);
         break;
       case INITIATIVE:
       case HOT_DAMAGE:
@@ -1712,14 +1034,14 @@ public class Modifiers {
         // doublerAccumulators acts as an accumulator for modifiers that are possibly doubled by
         // doublers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty Pear.
         // TODO: Figure out which ones aren't doubled and exclude them. BoomBox?
-        this.doublerAccumulators[index] += mod;
-        this.doubles.add(index, mod);
+        this.doublerAccumulators.add(mod, value);
+        this.doubles.add(mod, value);
         break;
       case FAMILIAR_ACTION_BONUS:
-        this.doubles.set(index, Math.min(100, this.get(index) + mod));
+        this.doubles.set(mod, Math.min(100, this.get(mod) + value));
         break;
       default:
-        this.doubles.add(index, mod);
+        this.doubles.add(mod, value);
         break;
     }
   }
@@ -1750,7 +1072,7 @@ public class Modifiers {
 
     mods.doubles.forEach(
         (i, addition) -> {
-          if (i != Modifiers.ADVENTURES
+          if (i != DoubleModifier.ADVENTURES
               || (mods.bitmaps[0] & this.bitmaps[0] & (1 << Modifiers.NONSTACKABLE_WATCH)) == 0) {
             this.addDouble(i, addition, lookup);
           }
@@ -1802,15 +1124,15 @@ public class Modifiers {
       return false;
     }
 
+    DoubleModifier modifier = modifierTypesByName.get(mod.getName());
+    if (modifier != null) {
+      return this.setDouble(modifier, Double.parseDouble(mod.getValue()));
+    }
     Integer index = modifierIndicesByName.get(mod.getName());
     if (index == null) {
       return false;
     }
-    if (index < DOUBLE_MODIFIERS) {
-      return this.setDouble(index, Double.parseDouble(mod.getValue()));
-    }
 
-    index -= DOUBLE_MODIFIERS;
     if (index < BITMAP_MODIFIERS) {
       return this.setBitmap(index, Integer.parseInt(mod.getValue()));
     }
@@ -1840,7 +1162,7 @@ public class Modifiers {
   public static final Modifiers getItemModifiersInFamiliarSlot(final int id) {
     Modifiers mods = new Modifiers(getItemModifiers(id));
 
-    mods.setDouble(Modifiers.SLIME_HATES_IT, 0.0f);
+    mods.setDouble(DoubleModifier.SLIME_HATES_IT, 0.0f);
     mods.setBitmap(Modifiers.BRIMSTONE, 0);
     mods.setBitmap(Modifiers.CLOATHING, 0);
     mods.setBitmap(Modifiers.SYNERGETIC, 0);
@@ -1931,8 +1253,8 @@ public class Modifiers {
 
     newMods.originalLookup = lookup;
 
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
-      Pattern pattern = Modifiers.doubleModifiers[i].getTagPattern();
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+      Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -1943,13 +1265,13 @@ public class Modifiers {
       }
 
       if (matcher.group(1) != null) {
-        newMods.setDouble(i, Double.parseDouble(matcher.group(1)));
+        newMods.setDouble(mod, Double.parseDouble(matcher.group(1)));
       } else {
         if (newMods.expressions == null) {
           newMods.expressions = new ArrayList<>();
         }
         newMods.expressions.add(
-            new Indexed<>(i, ModifierExpression.getInstance(matcher.group(2), lookup)));
+            new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
       }
     }
 
@@ -2337,15 +1659,15 @@ public class Modifiers {
         // Set modifiers depending on what KoL day of the week it is
         var dotw = DateTimeManager.getArizonaDateTime().getDayOfWeek();
 
-        this.setDouble(Modifiers.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
-        this.setDouble(Modifiers.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
-        this.setDouble(Modifiers.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
-        this.setDouble(Modifiers.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
-        this.setDouble(Modifiers.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
-        this.setDouble(Modifiers.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
-        this.setDouble(Modifiers.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
-        this.setDouble(Modifiers.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
-        this.setDouble(Modifiers.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
+        this.setDouble(DoubleModifier.MEATDROP, dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0);
+        this.setDouble(DoubleModifier.MUS_PCT, dotw == DayOfWeek.MONDAY ? 5.0 : 0.0);
+        this.setDouble(DoubleModifier.MP_REGEN_MIN, dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0);
+        this.setDouble(DoubleModifier.MP_REGEN_MAX, dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0);
+        this.setDouble(DoubleModifier.MYS_PCT, dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0);
+        this.setDouble(DoubleModifier.ITEMDROP, dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0);
+        this.setDouble(DoubleModifier.MOX_PCT, dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0);
+        this.setDouble(DoubleModifier.HP_REGEN_MIN, dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0);
+        this.setDouble(DoubleModifier.HP_REGEN_MAX, dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0);
         return true;
       }
       case ItemPool.PANTSGIVING -> {
@@ -2354,52 +1676,52 @@ public class Modifiers {
       }
       case ItemPool.PATRIOT_SHIELD -> {
         // Muscle classes
-        this.setDouble(Modifiers.HP_REGEN_MIN, 0.0);
-        this.setDouble(Modifiers.HP_REGEN_MAX, 0.0);
+        this.setDouble(DoubleModifier.HP_REGEN_MIN, 0.0);
+        this.setDouble(DoubleModifier.HP_REGEN_MAX, 0.0);
         // Seal clubber
-        this.setDouble(Modifiers.WEAPON_DAMAGE, 0.0);
-        this.setDouble(Modifiers.DAMAGE_REDUCTION, 0.0);
+        this.setDouble(DoubleModifier.WEAPON_DAMAGE, 0.0);
+        this.setDouble(DoubleModifier.DAMAGE_REDUCTION, 0.0);
         // Turtle Tamer
-        this.setDouble(Modifiers.FAMILIAR_WEIGHT, 0.0);
+        this.setDouble(DoubleModifier.FAMILIAR_WEIGHT, 0.0);
         // Disco Bandit
-        this.setDouble(Modifiers.RANGED_DAMAGE, 0.0);
+        this.setDouble(DoubleModifier.RANGED_DAMAGE, 0.0);
         // Accordion Thief
         this.setBoolean(Modifiers.FOUR_SONGS, false);
         // Mysticality classes
-        this.setDouble(Modifiers.MP_REGEN_MIN, 0.0);
-        this.setDouble(Modifiers.MP_REGEN_MAX, 0.0);
+        this.setDouble(DoubleModifier.MP_REGEN_MIN, 0.0);
+        this.setDouble(DoubleModifier.MP_REGEN_MAX, 0.0);
         // Pastamancer
-        this.setDouble(Modifiers.COMBAT_MANA_COST, 0.0);
+        this.setDouble(DoubleModifier.COMBAT_MANA_COST, 0.0);
         // Sauceror
-        this.setDouble(Modifiers.SPELL_DAMAGE, 0.0);
+        this.setDouble(DoubleModifier.SPELL_DAMAGE, 0.0);
 
         // Set modifiers depending on Character class
         AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
         if (ascensionClass != null) {
           switch (ascensionClass) {
             case SEAL_CLUBBER, ZOMBIE_MASTER, ED, COWPUNCHER, BEANSLINGER, SNAKE_OILER -> {
-              this.setDouble(Modifiers.HP_REGEN_MIN, 10.0);
-              this.setDouble(Modifiers.HP_REGEN_MAX, 12.0);
-              this.setDouble(Modifiers.WEAPON_DAMAGE, 15.0);
-              this.setDouble(Modifiers.DAMAGE_REDUCTION, 1.0);
+              this.setDouble(DoubleModifier.HP_REGEN_MIN, 10.0);
+              this.setDouble(DoubleModifier.HP_REGEN_MAX, 12.0);
+              this.setDouble(DoubleModifier.WEAPON_DAMAGE, 15.0);
+              this.setDouble(DoubleModifier.DAMAGE_REDUCTION, 1.0);
             }
             case TURTLE_TAMER -> {
-              this.setDouble(Modifiers.HP_REGEN_MIN, 10.0);
-              this.setDouble(Modifiers.HP_REGEN_MAX, 12.0);
-              this.setDouble(Modifiers.FAMILIAR_WEIGHT, 5.0);
+              this.setDouble(DoubleModifier.HP_REGEN_MIN, 10.0);
+              this.setDouble(DoubleModifier.HP_REGEN_MAX, 12.0);
+              this.setDouble(DoubleModifier.FAMILIAR_WEIGHT, 5.0);
             }
             case DISCO_BANDIT, AVATAR_OF_SNEAKY_PETE -> this.setDouble(
-                Modifiers.RANGED_DAMAGE, 20.0);
+                DoubleModifier.RANGED_DAMAGE, 20.0);
             case ACCORDION_THIEF -> this.setBoolean(Modifiers.FOUR_SONGS, true);
             case PASTAMANCER -> {
-              this.setDouble(Modifiers.MP_REGEN_MIN, 5.0);
-              this.setDouble(Modifiers.MP_REGEN_MAX, 6.0);
-              this.setDouble(Modifiers.COMBAT_MANA_COST, -3.0);
+              this.setDouble(DoubleModifier.MP_REGEN_MIN, 5.0);
+              this.setDouble(DoubleModifier.MP_REGEN_MAX, 6.0);
+              this.setDouble(DoubleModifier.COMBAT_MANA_COST, -3.0);
             }
             case SAUCEROR, AVATAR_OF_JARLSBERG -> {
-              this.setDouble(Modifiers.MP_REGEN_MIN, 5.0);
-              this.setDouble(Modifiers.MP_REGEN_MAX, 6.0);
-              this.setDouble(Modifiers.SPELL_DAMAGE, 20.0);
+              this.setDouble(DoubleModifier.MP_REGEN_MIN, 5.0);
+              this.setDouble(DoubleModifier.MP_REGEN_MAX, 6.0);
+              this.setDouble(DoubleModifier.SPELL_DAMAGE, 20.0);
             }
           }
         }
@@ -2526,10 +1848,10 @@ public class Modifiers {
       tempMods.add(Modifiers.getItemModifiers(itemId));
 
       // Apply weight modifiers right now
-      weight += (int) tempMods.get(Modifiers.FAMILIAR_WEIGHT);
-      weight += (int) tempMods.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
+      weight += (int) tempMods.get(DoubleModifier.FAMILIAR_WEIGHT);
+      weight += (int) tempMods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
       weight += (fam.getFeasted() ? 10 : 0);
-      double percent = tempMods.get(Modifiers.FAMILIAR_WEIGHT_PCT) / 100.0;
+      double percent = tempMods.get(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
       if (percent != 0.0) {
         weight = (int) Math.floor(weight + weight * percent);
       }
@@ -2651,7 +1973,7 @@ public class Modifiers {
     if (questLocation.equals("")) return;
 
     if (Modifiers.currentLocation.equals(questLocation)) {
-      this.addDouble(Modifiers.EXPERIENCE, 1, ModifierType.AUTUMNATON, "");
+      this.addDouble(DoubleModifier.EXPERIENCE, 1, ModifierType.AUTUMNATON, "");
     }
   }
 
@@ -2688,11 +2010,11 @@ public class Modifiers {
       weight = Math.max(weight, 20);
     }
 
-    weight += (int) this.get(Modifiers.FAMILIAR_WEIGHT);
-    weight += (int) this.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
+    weight += (int) this.get(DoubleModifier.FAMILIAR_WEIGHT);
+    weight += (int) this.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
     weight += (familiar.getFeasted() ? 10 : 0);
 
-    double percent = this.get(Modifiers.FAMILIAR_WEIGHT_PCT) / 100.0;
+    double percent = this.get(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
     if (percent != 0.0) {
       weight = (int) Math.floor(weight + weight * percent);
     }
@@ -2724,63 +2046,90 @@ public class Modifiers {
       this.add(Modifiers.getModifiers(ModifierType.FAM_EQ, famItem.getName()));
     }
 
-    int cap = (int) this.get(Modifiers.FAMILIAR_WEIGHT_CAP);
+    int cap = (int) this.get(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
 
-    double effective = cappedWeight * this.get(Modifiers.VOLLEYBALL_WEIGHT);
+    double effective = cappedWeight * this.get(DoubleModifier.VOLLEYBALL_WEIGHT);
     if (effective == 0.0 && FamiliarDatabase.isVolleyType(familiarId)) {
       effective = weight;
     }
     if (effective != 0.0) {
-      double factor = this.get(Modifiers.VOLLEYBALL_EFFECTIVENESS);
+      double factor = this.get(DoubleModifier.VOLLEYBALL_EFFECTIVENESS);
       // The 0->1 factor for generic familiars conflicts with the JitB
       if (factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX) factor = 1.0;
       factor = factor * (2 + effective / 5);
       double tuning;
-      if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MUSCLE)) > 0) {
+      if ((tuning = this.get(DoubleModifier.FAMILIAR_TUNING_MUSCLE)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
         this.addDouble(
-            Modifiers.MUS_EXPERIENCE, factor * mainstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
+            DoubleModifier.MUS_EXPERIENCE,
+            factor * mainstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
         this.addDouble(
-            Modifiers.MYS_EXPERIENCE, factor * offstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
+            DoubleModifier.MYS_EXPERIENCE,
+            factor * offstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
         this.addDouble(
-            Modifiers.MOX_EXPERIENCE, factor * offstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
-      } else if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MYSTICALITY)) > 0) {
+            DoubleModifier.MOX_EXPERIENCE,
+            factor * offstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
+      } else if ((tuning = this.get(DoubleModifier.FAMILIAR_TUNING_MYSTICALITY)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
         this.addDouble(
-            Modifiers.MUS_EXPERIENCE, factor * offstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
+            DoubleModifier.MUS_EXPERIENCE,
+            factor * offstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
         this.addDouble(
-            Modifiers.MYS_EXPERIENCE, factor * mainstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
+            DoubleModifier.MYS_EXPERIENCE,
+            factor * mainstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
         this.addDouble(
-            Modifiers.MOX_EXPERIENCE, factor * offstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
-      } else if ((tuning = this.get(Modifiers.FAMILIAR_TUNING_MOXIE)) > 0) {
+            DoubleModifier.MOX_EXPERIENCE,
+            factor * offstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
+      } else if ((tuning = this.get(DoubleModifier.FAMILIAR_TUNING_MOXIE)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
         this.addDouble(
-            Modifiers.MUS_EXPERIENCE, factor * offstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
+            DoubleModifier.MUS_EXPERIENCE,
+            factor * offstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
         this.addDouble(
-            Modifiers.MYS_EXPERIENCE, factor * offstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
+            DoubleModifier.MYS_EXPERIENCE,
+            factor * offstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
         this.addDouble(
-            Modifiers.MOX_EXPERIENCE, factor * mainstatFactor, ModifierType.TUNED_VOLLEYBALL, race);
+            DoubleModifier.MOX_EXPERIENCE,
+            factor * mainstatFactor,
+            ModifierType.TUNED_VOLLEYBALL,
+            race);
       } else {
-        this.addDouble(Modifiers.EXPERIENCE, factor, ModifierType.VOLLEYBALL, race);
+        this.addDouble(DoubleModifier.EXPERIENCE, factor, ModifierType.VOLLEYBALL, race);
       }
     }
 
-    effective = cappedWeight * this.get(Modifiers.SOMBRERO_WEIGHT);
+    effective = cappedWeight * this.get(DoubleModifier.SOMBRERO_WEIGHT);
     if (effective == 0.0 && FamiliarDatabase.isSombreroType(familiarId)) {
       effective = weight;
     }
-    effective += this.get(Modifiers.SOMBRERO_BONUS);
+    effective += this.get(DoubleModifier.SOMBRERO_BONUS);
     if (effective != 0.0) {
-      double factor = this.get(Modifiers.SOMBRERO_EFFECTIVENESS);
+      double factor = this.get(DoubleModifier.SOMBRERO_EFFECTIVENESS);
       if (factor == 0.0) factor = 1.0;
       // currentML is always >= 4, so we don't need to check for negatives
       int maxStats = 230;
       this.addDouble(
-          Modifiers.EXPERIENCE,
+          DoubleModifier.EXPERIENCE,
           Math.min(
               Math.max(factor * (Modifiers.currentML / 4) * (0.1 + 0.005 * effective), 1),
               maxStats),
@@ -2788,15 +2137,15 @@ public class Modifiers {
           race);
     }
 
-    effective = cappedWeight * this.get(Modifiers.LEPRECHAUN_WEIGHT);
+    effective = cappedWeight * this.get(DoubleModifier.LEPRECHAUN_WEIGHT);
     if (effective == 0.0 && FamiliarDatabase.isMeatDropType(familiarId)) {
       effective = weight;
     }
     if (effective != 0.0) {
-      double factor = this.get(Modifiers.LEPRECHAUN_EFFECTIVENESS);
+      double factor = this.get(DoubleModifier.LEPRECHAUN_EFFECTIVENESS);
       if (factor == 0.0) factor = 1.0;
       this.addDouble(
-          Modifiers.MEATDROP,
+          DoubleModifier.MEATDROP,
           factor * (Math.sqrt(220 * effective) + 2 * effective - 6),
           ModifierType.FAMILIAR,
           race);
@@ -2806,30 +2155,30 @@ public class Modifiers {
         familiar,
         weight,
         cappedWeight,
-        Modifiers.FAIRY_WEIGHT,
-        Modifiers.FAIRY_EFFECTIVENESS,
-        Modifiers.ITEMDROP);
+        DoubleModifier.FAIRY_WEIGHT,
+        DoubleModifier.FAIRY_EFFECTIVENESS,
+        DoubleModifier.ITEMDROP);
     this.addFairyEffect(
         familiar,
         weight,
         cappedWeight,
-        Modifiers.FOOD_FAIRY_WEIGHT,
-        Modifiers.FOOD_FAIRY_EFFECTIVENESS,
-        Modifiers.FOODDROP);
+        DoubleModifier.FOOD_FAIRY_WEIGHT,
+        DoubleModifier.FOOD_FAIRY_EFFECTIVENESS,
+        DoubleModifier.FOODDROP);
     this.addFairyEffect(
         familiar,
         weight,
         cappedWeight,
-        Modifiers.BOOZE_FAIRY_WEIGHT,
-        Modifiers.BOOZE_FAIRY_EFFECTIVENESS,
-        Modifiers.BOOZEDROP);
+        DoubleModifier.BOOZE_FAIRY_WEIGHT,
+        DoubleModifier.BOOZE_FAIRY_EFFECTIVENESS,
+        DoubleModifier.BOOZEDROP);
     this.addFairyEffect(
         familiar,
         weight,
         cappedWeight,
-        Modifiers.CANDY_FAIRY_WEIGHT,
-        Modifiers.CANDY_FAIRY_EFFECTIVENESS,
-        Modifiers.CANDYDROP);
+        DoubleModifier.CANDY_FAIRY_WEIGHT,
+        DoubleModifier.CANDY_FAIRY_EFFECTIVENESS,
+        DoubleModifier.CANDYDROP);
 
     if (FamiliarDatabase.isUnderwaterType(familiarId)) {
       this.setBoolean(Modifiers.UNDERWATER_FAMILIAR, true);
@@ -2838,15 +2187,16 @@ public class Modifiers {
     switch (familiarId) {
       case FamiliarPool.HATRACK:
         if (famItem == EquipmentRequest.UNEQUIP) {
-          this.addDouble(Modifiers.HATDROP, 50.0, ModifierType.FAMILIAR, "naked hatrack");
-          this.addDouble(Modifiers.FAMILIAR_WEIGHT_CAP, 1, ModifierType.FAMILIAR, "naked hatrack");
+          this.addDouble(DoubleModifier.HATDROP, 50.0, ModifierType.FAMILIAR, "naked hatrack");
+          this.addDouble(
+              DoubleModifier.FAMILIAR_WEIGHT_CAP, 1, ModifierType.FAMILIAR, "naked hatrack");
         }
         break;
       case FamiliarPool.SCARECROW:
         if (famItem == EquipmentRequest.UNEQUIP) {
-          this.addDouble(Modifiers.PANTSDROP, 50.0, ModifierType.FAMILIAR, "naked scarecrow");
+          this.addDouble(DoubleModifier.PANTSDROP, 50.0, ModifierType.FAMILIAR, "naked scarecrow");
           this.addDouble(
-              Modifiers.FAMILIAR_WEIGHT_CAP, 1, ModifierType.FAMILIAR, "naked scarecrow");
+              DoubleModifier.FAMILIAR_WEIGHT_CAP, 1, ModifierType.FAMILIAR, "naked scarecrow");
         }
         break;
     }
@@ -2856,9 +2206,9 @@ public class Modifiers {
       final FamiliarData familiar,
       final int weight,
       final int cappedWeight,
-      final int fairyModifier,
-      final int effectivenessModifier,
-      final int modifier) {
+      final DoubleModifier fairyModifier,
+      final DoubleModifier effectivenessModifier,
+      final DoubleModifier modifier) {
     var effective = cappedWeight * this.get(fairyModifier);
 
     // If it has no explicit modifier but is the right familiar type, add effect regardless
@@ -2888,22 +2238,22 @@ public class Modifiers {
     Lookup lookup = new Lookup(ModifierType.CLANCY, instrumentName);
     Modifiers imods = Modifiers.getModifiers(lookup);
 
-    double effective = imods.get(Modifiers.VOLLEYBALL_WEIGHT);
+    double effective = imods.get(DoubleModifier.VOLLEYBALL_WEIGHT);
     if (effective != 0.0) {
       double factor = 2 + effective / 5;
-      this.addDouble(Modifiers.EXPERIENCE, factor, lookup);
+      this.addDouble(DoubleModifier.EXPERIENCE, factor, lookup);
     }
 
-    effective = imods.get(Modifiers.FAIRY_WEIGHT);
+    effective = imods.get(DoubleModifier.FAIRY_WEIGHT);
     if (effective != 0.0) {
       double factor = Math.sqrt(55 * effective) + effective - 3;
-      this.addDouble(Modifiers.ITEMDROP, factor, lookup);
+      this.addDouble(DoubleModifier.ITEMDROP, factor, lookup);
     }
 
-    this.addDouble(Modifiers.HP_REGEN_MIN, imods.get(Modifiers.HP_REGEN_MIN), lookup);
-    this.addDouble(Modifiers.HP_REGEN_MAX, imods.get(Modifiers.HP_REGEN_MAX), lookup);
-    this.addDouble(Modifiers.MP_REGEN_MIN, imods.get(Modifiers.MP_REGEN_MIN), lookup);
-    this.addDouble(Modifiers.MP_REGEN_MAX, imods.get(Modifiers.MP_REGEN_MAX), lookup);
+    this.addDouble(DoubleModifier.HP_REGEN_MIN, imods.get(DoubleModifier.HP_REGEN_MIN), lookup);
+    this.addDouble(DoubleModifier.HP_REGEN_MAX, imods.get(DoubleModifier.HP_REGEN_MAX), lookup);
+    this.addDouble(DoubleModifier.MP_REGEN_MIN, imods.get(DoubleModifier.MP_REGEN_MIN), lookup);
+    this.addDouble(DoubleModifier.MP_REGEN_MAX, imods.get(DoubleModifier.MP_REGEN_MAX), lookup);
   }
 
   public void applyCompanionModifiers(Companion companion) {
@@ -2914,13 +2264,13 @@ public class Modifiers {
 
     switch (companion) {
       case EGGMAN -> this.addDouble(
-          Modifiers.ITEMDROP, 50 * multiplier, ModifierType.COMPANION, "Eggman");
+          DoubleModifier.ITEMDROP, 50 * multiplier, ModifierType.COMPANION, "Eggman");
       case RADISH -> this.addDouble(
-          Modifiers.INITIATIVE, 50 * multiplier, ModifierType.COMPANION, "Radish Horse");
+          DoubleModifier.INITIATIVE, 50 * multiplier, ModifierType.COMPANION, "Radish Horse");
       case HIPPO -> this.addDouble(
-          Modifiers.EXPERIENCE, 3 * multiplier, ModifierType.COMPANION, "Hippotatomous");
+          DoubleModifier.EXPERIENCE, 3 * multiplier, ModifierType.COMPANION, "Hippotatomous");
       case CREAM -> this.addDouble(
-          Modifiers.MONSTER_LEVEL, 20 * multiplier, ModifierType.COMPANION, "Cream Puff");
+          DoubleModifier.MONSTER_LEVEL, 20 * multiplier, ModifierType.COMPANION, "Cream Puff");
     }
   }
 
@@ -2931,20 +2281,23 @@ public class Modifiers {
       case 1: // Cat
         if (servant.getLevel() >= 7) {
           this.addDouble(
-              Modifiers.ITEMDROP, Math.sqrt(55 * level) + level - 3, ModifierType.SERVANT, "Cat");
+              DoubleModifier.ITEMDROP,
+              Math.sqrt(55 * level) + level - 3,
+              ModifierType.SERVANT,
+              "Cat");
         }
         break;
 
       case 3: // Maid
         this.addDouble(
-            Modifiers.MEATDROP,
+            DoubleModifier.MEATDROP,
             Math.sqrt(220 * level) + 2 * level - 6,
             ModifierType.SERVANT,
             "Maid");
         break;
 
       case 5: // Scribe
-        this.addDouble(Modifiers.EXPERIENCE, 2 + level / 5, ModifierType.SERVANT, "Scribe");
+        this.addDouble(DoubleModifier.EXPERIENCE, 2 + level / 5, ModifierType.SERVANT, "Scribe");
         break;
     }
   }
@@ -2953,8 +2306,9 @@ public class Modifiers {
     VYKEACompanionType type = companion.getType();
     int level = companion.getLevel();
     switch (type) {
-      case LAMP -> this.addDouble(Modifiers.ITEMDROP, level * 10, ModifierType.VYKEA, "Lamp");
-      case COUCH -> this.addDouble(Modifiers.MEATDROP, level * 10, ModifierType.VYKEA, "Couch");
+      case LAMP -> this.addDouble(DoubleModifier.ITEMDROP, level * 10, ModifierType.VYKEA, "Lamp");
+      case COUCH -> this.addDouble(
+          DoubleModifier.MEATDROP, level * 10, ModifierType.VYKEA, "Couch");
     }
   }
 
@@ -2966,18 +2320,18 @@ public class Modifiers {
       Modifiers ensorcelMods = Modifiers.getModifiers(ModifierType.ENSORCEL, phylum);
       if (ensorcelMods != null) {
         this.addDouble(
-            Modifiers.MEATDROP,
-            ensorcelMods.get(Modifiers.MEATDROP) * 0.25,
+            DoubleModifier.MEATDROP,
+            ensorcelMods.get(DoubleModifier.MEATDROP) * 0.25,
             ModifierType.ITEM,
             ItemPool.VAMPYRIC_CLOAKE);
         this.addDouble(
-            Modifiers.ITEMDROP,
-            ensorcelMods.get(Modifiers.ITEMDROP) * 0.25,
+            DoubleModifier.ITEMDROP,
+            ensorcelMods.get(DoubleModifier.ITEMDROP) * 0.25,
             ModifierType.ITEM,
             ItemPool.VAMPYRIC_CLOAKE);
         this.addDouble(
-            Modifiers.CANDYDROP,
-            ensorcelMods.get(Modifiers.CANDYDROP) * 0.25,
+            DoubleModifier.CANDYDROP,
+            ensorcelMods.get(DoubleModifier.CANDYDROP) * 0.25,
             ModifierType.ITEM,
             ItemPool.VAMPYRIC_CLOAKE);
       }
@@ -3012,7 +2366,7 @@ public class Modifiers {
       dr += StringUtilities.parseInt(matcher.group(2));
     }
 
-    return Modifiers.doubleModifiers[Modifiers.DAMAGE_REDUCTION].getTag() + ": " + dr;
+    return DoubleModifier.DAMAGE_REDUCTION.getTag() + ": " + dr;
   }
 
   private static final Pattern SINGLE_PATTERN =
@@ -3104,9 +2458,7 @@ public class Modifiers {
   public static final String parseEffectDuration(final String text) {
     Matcher matcher = Modifiers.EFFECT_DURATION_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.doubleModifiers[Modifiers.EFFECT_DURATION].getTag()
-          + ": "
-          + matcher.group(1);
+      return DoubleModifier.EFFECT_DURATION.getTag() + ": " + matcher.group(1);
     }
 
     return null;
@@ -3118,7 +2470,7 @@ public class Modifiers {
   public static final String parseSongDuration(final String text) {
     Matcher matcher = Modifiers.SONG_DURATION_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.doubleModifiers[Modifiers.SONG_DURATION].getTag() + ": " + matcher.group(1);
+      return DoubleModifier.SONG_DURATION.getTag() + ": " + matcher.group(1);
     }
 
     return null;
@@ -3154,7 +2506,7 @@ public class Modifiers {
 
     // Search the double modifiers first
 
-    result = Modifiers.parseModifier(Modifiers.doubleModifiers, enchantment, false);
+    result = DoubleModifier.parseModifier(enchantment);
     if (result != null) {
       return result;
     }
@@ -3220,7 +2572,7 @@ public class Modifiers {
     if (matcher.find()) {
       String tag =
           !enchantment.contains("Underwater only")
-              ? Modifiers.doubleModifiers[Modifiers.COMBAT_RATE].getTag()
+              ? DoubleModifier.COMBAT_RATE.getTag()
               : "Combat Rate (Underwater)";
       String level = matcher.group(1);
       String rate = COMBAT_RATE_DESCRIPTIONS.getOrDefault(level, "+0");
@@ -3242,7 +2594,7 @@ public class Modifiers {
     }
 
     if (enchantment.contains("Your familiar will always act in combat")) {
-      return Modifiers.doubleModifiers[Modifiers.FAMILIAR_ACTION_BONUS].getTag() + ": +100";
+      return DoubleModifier.FAMILIAR_ACTION_BONUS.getTag() + ": +100";
     }
 
     return null;
@@ -3250,10 +2602,6 @@ public class Modifiers {
 
   public static final String parseStringModifier(final String enchantment) {
     return Modifiers.parseModifier(Modifiers.stringModifiers, enchantment, true);
-  }
-
-  public static final String parseDoubleModifier(final String enchantment) {
-    return Modifiers.parseModifier(Modifiers.doubleModifiers, enchantment, false);
   }
 
   private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> String parseModifier(
@@ -3274,20 +2622,10 @@ public class Modifiers {
         }
 
         if (matcher.groupCount() == 0) {
-          String tag = tableRow.getTag();
-          // Kludge for Sureonosity, which always gives +1
-          if (tag.equals("Surgeonosity")) {
-            return (tag + ": +1");
-          }
-          return tag;
+          return tableRow.getTag();
         }
 
         String tag = tableRow.getTag();
-
-        // Kludge for Slime (Really) Hates it
-        if (tag.equals("Slime Hates It")) {
-          return matcher.group(1) == null ? "Slime Hates It: +1" : "Slime Hates It: +2";
-        }
 
         String value = matcher.group(1);
 
@@ -3424,7 +2762,7 @@ public class Modifiers {
         for (Modifier modifier : list) {
           String mod = modifier.toString();
 
-          if (Modifiers.findModifier(Modifiers.doubleModifiers, mod)) {
+          if (DoubleModifier.byTagPattern(mod) != null) {
             continue;
           }
           if (Modifiers.findModifier(Modifiers.bitmapModifiers, mod)) {
@@ -3436,7 +2774,7 @@ public class Modifiers {
           if (Modifiers.findModifier(Modifiers.stringModifiers, mod)) {
             continue;
           }
-          if (type.equals("FamEq")) {
+          if (type == ModifierType.FAM_EQ) {
             continue; // these may contain freeform text
           }
           RequestLogger.printLine(
@@ -4083,81 +3421,12 @@ public class Modifiers {
   }
 
   private static class Indexed<T> {
-    public int index;
+    public DoubleModifier index;
     public T value;
 
-    public Indexed(int index, T value) {
+    public Indexed(DoubleModifier index, T value) {
       this.index = index;
       this.value = value;
-    }
-  }
-
-  private static class DoubleModifierCollection {
-    public static final int SPARSE_DOUBLES_MAX_SIZE = 32;
-
-    // If only a few values are set in doubles, we instead store all modifiers in a sparse TreeMap.
-    // When that map gets bigger than SPARSE_DOUBLES_MAX_SIZE, we copy it over to the dense array.
-    // We track whether this is dense or not by whether sparseDoubles is null.
-    private final double[] doubles = new double[Modifiers.DOUBLE_MODIFIERS];
-    private TreeMap<Integer, Double> sparseDoubles = new TreeMap<>();
-
-    public void reset() {
-      Arrays.fill(this.doubles, 0.0);
-      this.sparseDoubles = new TreeMap<>();
-    }
-
-    public void densify() {
-      // When reset, this.doubles is set to all 0s, so all we have to do is copy all the sparse
-      // values over.
-      if (this.sparseDoubles == null) return;
-      for (Entry<Integer, Double> entry : this.sparseDoubles.entrySet()) {
-        this.doubles[entry.getKey()] = entry.getValue();
-      }
-      this.sparseDoubles = null;
-    }
-
-    public double get(final int index) {
-      return this.sparseDoubles != null
-          ? this.sparseDoubles.getOrDefault(index, 0.0)
-          : this.doubles[index];
-    }
-
-    public boolean set(final int index, final double mod) {
-      if (this.sparseDoubles != null) {
-        Double oldValue =
-            mod == 0.0 ? this.sparseDoubles.remove(index) : this.sparseDoubles.put(index, mod);
-
-        if (this.sparseDoubles.size() >= DoubleModifierCollection.SPARSE_DOUBLES_MAX_SIZE) {
-          this.densify();
-        }
-
-        return oldValue == null || oldValue != mod;
-      } else {
-        if (this.doubles[index] != mod) {
-          this.doubles[index] = mod;
-          return true;
-        }
-      }
-      return false;
-    }
-
-    public double add(final int index, final double mod) {
-      // Anything being accumulated onto should be dense.
-      this.densify();
-      return this.doubles[index] += mod;
-    }
-
-    public void forEach(BiConsumer<? super Integer, ? super Double> action) {
-      if (this.sparseDoubles != null) {
-        this.sparseDoubles.forEach(action);
-      } else {
-        for (int i = 0; i < this.doubles.length; ++i) {
-          double value = this.doubles[i];
-          if (value != 0.0) {
-            action.accept(i, value);
-          }
-        }
-      }
     }
   }
 }
