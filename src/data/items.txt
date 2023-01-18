@@ -11057,8 +11057,8 @@
 11029	chiffon chapeau	900963107	chifhat.gif	hat		0
 11030
 11031	chiffon chemise	682610694	chifchemise.gif	shirt		0
-11032
-11033	chiffon chaps	614635306	chifchaps.gif	pants		0
+11032	chiffon chakram	919226181	chifchakram.gif	weapon		0
+11033	chiffon chaps	614635306	chifchaps.gif	pants		0	pairs of chiffon chaps
 11034
 11035
 11036	chocomotive	925688122	chocomotoive.gif	food	t,d	10
@@ -11126,7 +11126,7 @@
 11098	grubby woolball	209701660	gwoolball.gif	none, combat	d	20
 11099	Rock Garden Guide	284291398	rockgardenbook.gif	usable	t	0
 11100	packet of rock seeds	463194562	rockgardenseeds.gif	usable		0
-11101	groveling gravel	324849068	rggravel.gif	none, combat	t,d	5
+11101	groveling gravel	324849068	rggravel.gif	none, combat	t,d	5	handfuls of groveling gravel
 11102	fruity pebble	363064873	rgpebble.gif	spleen, usable	t,d	25
 11103	lodestone	615109905	rglodestone.gif	reusable	t,d	250
 11104	milestone	351352694	rgmilestone.gif	usable	t,d	5
